@@ -51,7 +51,6 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -160,6 +159,7 @@ public class AlgebraProcessor {
 	 * Processes the given casCell, i.e. compute its output depending on its
 	 * input. Note that this may create an additional twin GeoElement.
 	 * @param casCell cas cell
+	 * @param isLastRow whether this cell is in last row -- allows us to skip recompuattion of the whole CAS
 	 * @throws MyError e.g. on syntax error
 	 */
 	final public void processCasCell(GeoCasCell casCell,boolean isLastRow) throws MyError {
@@ -231,68 +231,6 @@ public class AlgebraProcessor {
 				cons.updateCasCells();
 		}
 		
-	}
-	
-	
-	/**
-	 * decides if the ExperssionNode leaf could become a plotable function or not
-	 * eg. leaf = x^2+1 -> functionable f(x) = x^2+1
-	 * leaf = (a,1) -> not functionable f(x) != (a,1)
-	 * @param node node to be decided
-	 * @return if leaf not able to become a function
-	 */
-	public boolean isNotFunctionAble(ExpressionNode node){
-		ExpressionNode n = node;
-		boolean result = false;
-		// command is leaf: process command
-		if (n.isLeaf()) {
-			result = result | isNotFunctionAbleEV(n.getLeft());
-			return result;
-		}
-		result = result | isNotFunctionAble(n.getLeftTree());
-		result = result | isNotFunctionAble(n.getRightTree());
-		return result;
-	}
-	
-	/**
-	 * decides if the ExperssionValue leaf could become a plotable function or not
-	 * eg. leaf = x^2 -> functionable f(x) = x^2
-	 * leaf = (a,1) -> not functionable f(x) != (a,1)
-	 * @param leaf node to be decided
-	 * @return if leaf not able to become a function
-	 */
-	public boolean isNotFunctionAbleEV(ExpressionValue leaf){
-		boolean result = false;
-		if (leaf instanceof Command)
-			result = result | true;
-		if (leaf instanceof Equation) 
-			result = result | true;
-		if (leaf instanceof Function) 
-			result = result | true;
-		if (leaf instanceof FunctionNVar) 
-			result = result | true;
-		if (leaf.isBooleanValue())
-			result = result | true;
-		if (leaf.isNumberValue())
-			result = result | false;
-		if (leaf.isVectorValue())
-			result = result | true;
-		if (leaf.isVector3DValue())
-			result = result | true;
-		if (leaf.isTextValue())
-			result = result | true;
-		if (leaf instanceof GeoDummyVariable)
-			result = result | !((GeoDummyVariable)leaf).getVarName().equals("x");
-		if (leaf instanceof MyList)
-			result = result | true;
-			//MyList myList = (MyList) leaf;
-			//for(int i=0; i<myList.size(); i++)
-			//	result = result | isNotFunctionAbleEV(myList.getItem(i));
-		if (leaf instanceof Function) 
-			result = result | !((Function)leaf).isFunctionVariable("x");
-		if (leaf instanceof FunctionNVar) 
-			result = result | true;
-		return result;
 	}
 
 	/**

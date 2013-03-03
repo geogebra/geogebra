@@ -42,7 +42,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 		} else {
 			// output set: casCell was loaded from XML
 			// only create twinGeo
-			casCell.updateTwinGeo();
+			casCell.updateTwinGeo(false);
 		}
              
         // initialize algorithm dependencies

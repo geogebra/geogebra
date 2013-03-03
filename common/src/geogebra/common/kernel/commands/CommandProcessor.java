@@ -46,6 +46,7 @@ public abstract class CommandProcessor {
 
 	/** application */
 	protected App app;
+	/** localization */
 	protected Localization loc;
 	/** kernel */
 	protected Kernel kernelA;
@@ -303,7 +304,14 @@ public abstract class CommandProcessor {
 	}
 
 	private StringBuilder sb;
-	
+	/**
+	 * Creates wrong argument error
+	 * 
+	 * @param app1 application
+	 * @param cmd command name
+	 * @param arg faulty argument
+	 * @return wrong argument error
+	 */
 	protected final MyError argErr(App app1, String cmd,
 			ExpressionValue arg){
 		return argErr(app1.getLocalization(),cmd,arg);

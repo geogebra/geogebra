@@ -442,7 +442,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
-				computeOutput(false);
+				computeOutput(false,false);
 				update();
 			}
 		}
@@ -1292,15 +1292,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Updates the given GeoElement using the given casExpression.
 	 */
-	public void updateTwinGeo() {
+	public void updateTwinGeo(boolean allowFunction) {
 		ignoreTwinGeoUpdate = true;
 
 		if (firstComputeOutput && twinGeo == null) {
 			// create twin geo
-			createTwinGeo();
+			createTwinGeo(allowFunction);
 		} else {
 			// input did not change: just do a simple update
-			simpleUpdateTwinGeo();
+			simpleUpdateTwinGeo(allowFunction);
 		}
 
 		ignoreTwinGeoUpdate = false;
@@ -1309,7 +1309,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Creates a twinGeo using the current output
 	 */
-	private void createTwinGeo() {
+	private void createTwinGeo(boolean allowFunction) {
 		if (isError())
 			return;
 		if (!isAssignmentVariableDefined())
@@ -1338,7 +1338,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 		arbconst.reset();
 		outputVE.traverse(repl);
-		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
+		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
 		}
@@ -1369,7 +1369,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * Sets twinGeo using current output
 	 */
-	private void simpleUpdateTwinGeo() {
+	private void simpleUpdateTwinGeo(boolean allowFunction) {
 		if (twinGeo == null) {
 			return;
 		} else if (isError()) {
@@ -1378,7 +1378,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// silent evaluation of output in GeoGebra
-		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE);
+		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		if (lastOutputEvaluationGeo != null
 				&& !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try{
@@ -1415,7 +1415,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param ve
 	 * @return result GeoElement or null
 	 */
-	private GeoElement silentEvalInGeoGebra(final ValidExpression ve) {
+	private GeoElement silentEvalInGeoGebra(final ValidExpression ve,boolean allowFunction) {
 		if (!nativeOutput && outputVE.isExpressionNode()
 				&& ((ExpressionNode) outputVE).getLeft() instanceof GeoElement) {
 			GeoElement ret = (GeoElement) ((ExpressionNode) outputVE).getLeft();
@@ -1437,7 +1437,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					.doProcessValidExpression(ve);
 			
 			if (ggbEval != null) {
-				if((ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
+				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
 					return null;
 				return ggbEval[0];
 			}
@@ -1462,7 +1462,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			//input VE is noll sometimes, ie if Solve is used on a=b+c,b
 			if(getEvalVE()==null)
 				return;
-			computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED);
+			computeOutput(getEvalVE().getAssignmentType()!=AssignmentType.DELAYED,false);
 		}
 	}
 
@@ -1476,12 +1476,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param doTwinGeoUpdate
 	 *            whether twin geo should be updated or not
 	 */
-	private void computeOutput(final boolean doTwinGeoUpdate) {
+	private void computeOutput(final boolean doTwinGeoUpdate, final boolean allowFunction) {
 		// check for circular definition before we do anything
 		if (isCircularDefinition) {
 			setError("CircularDefinition");
 			if (doTwinGeoUpdate) {
-				updateTwinGeo();
+				updateTwinGeo(allowFunction);
 			}
 			return;
 		}
@@ -1557,7 +1557,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// set Output
-		finalizeComputation(success, result, ce, doTwinGeoUpdate);
+		finalizeComputation(success, result, ce, doTwinGeoUpdate,allowFunction);
 	}
 	/**
 	 * Wraps an expression in PointList command and copies the assignment
@@ -1575,7 +1575,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	private void finalizeComputation(final boolean success,
 			final String result, final CASException ce,
-			final boolean doTwinGeoUpdate) {
+			final boolean doTwinGeoUpdate,boolean allowFunction) {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
 				// no prefix, no postfix: just evaluation
@@ -1601,7 +1601,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// update twinGeo
 		
 		if (doTwinGeoUpdate) {
-			updateTwinGeo();
+			updateTwinGeo(allowFunction);
 		}
 
 		if (outputVE != null && (!doTwinGeoUpdate || twinGeo == null)) {
@@ -2132,30 +2132,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 
-		boolean isFunctionAble;
-		if (outputVE.isExpressionNode()) {
-			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAble(
-					(ExpressionNode) outputVE);
-		} else {
-			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAbleEV(
-					outputVE);
-		}
-		// if output is just one number -> do not make a function, make a
-		// constant
-		if (outputVE.isConstant()) {
-			if ((((ExpressionNode) outputVE).getLeft()).isConstant()) {
-				isFunctionAble = false;
-			}
-		}
-
-		if (isFunctionAble) {
-			setInputVE(new Function(getInputVE().wrap()));
-			
-			((Function) getInputVE()).initFunctionVars();
-		}
-
 		this.firstComputeOutput = true;
-		this.computeOutput(true);
+		this.computeOutput(true,true);
 		if (twinGeo != null  && !dependsOnDummy(twinGeo))
 			twinGeo.setLabel(null);
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
@@ -2170,7 +2148,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			setInput(getEvalVE()
 						.toAssignmentString(StringTemplate.numericDefault));
 			
-			computeOutput(false);
+			computeOutput(false,false);
 			this.update();
 			clearStrings();
 			
@@ -2184,7 +2162,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			evalComment = oldEvalComment;
 			evalVE = oldEvalVE;
 			setInputVE(oldInputVE);
-			this.computeOutput(true);
+			this.computeOutput(true,false);
 			return false;
 		}
 		return true;
