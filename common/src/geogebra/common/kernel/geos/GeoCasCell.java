@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -1420,8 +1421,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement ret = (GeoElement) ((ExpressionNode) outputVE).getLeft();
 			return ret;
 		}
-		FunctionVariable fv = new FunctionVariable(kernel);
+		boolean wasFunction = outputVE instanceof FunctionNVar;
+		FunctionVariable fv = new FunctionVariable(kernel,"x");
 		ve.wrap().replaceVariables("x", fv);
+		FunctionVariable fvY = new FunctionVariable(kernel,"y");
+		ve.wrap().replaceVariables("y", fvY);
 		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
@@ -1431,7 +1435,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// evaluate in GeoGebra
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
 					.doProcessValidExpression(ve);
+			
 			if (ggbEval != null) {
+				if((ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
+					return null;
 				return ggbEval[0];
 			}
 			return null;
