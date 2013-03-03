@@ -1420,6 +1420,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement ret = (GeoElement) ((ExpressionNode) outputVE).getLeft();
 			return ret;
 		}
+		FunctionVariable fv = new FunctionVariable(kernel);
+		ve.wrap().replaceVariables("x", fv);
 		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
@@ -1590,6 +1592,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// update twinGeo
+		
 		if (doTwinGeoUpdate) {
 			updateTwinGeo();
 		}
