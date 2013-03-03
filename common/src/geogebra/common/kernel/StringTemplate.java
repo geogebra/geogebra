@@ -509,6 +509,38 @@ public class StringTemplate {
 		sb.append(label);
 		return sb.toString();
 	}
+	
+	/**
+	 * @return copy of this, with string type set to StringType.MATHML
+	 */
+	public StringTemplate deriveMathMLTemplate() {
+
+		if (stringType.equals(StringType.MATHML)) {
+			return this;
+		}
+		
+		StringTemplate ret = this.copy();
+		
+		ret.setType(StringType.MATHML);
+		
+		return ret;
+	}
+		
+	/**
+	 * @return copy of this, with string type set to StringType.LATEX
+	 */
+	public StringTemplate deriveLaTeXTemplate() {
+		
+		if (stringType.equals(StringType.LATEX)) {
+			return this;
+		}
+		
+		StringTemplate ret = this.copy();
+		
+		ret.setType(StringType.LATEX);
+		
+		return ret;
+	}
 		
 	
 	
