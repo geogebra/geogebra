@@ -20,6 +20,10 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.StringUtil;
 
+/**
+ * Algo for TableText[matrix], TableText[matrix,args]
+ *
+ */
 public class AlgoTableText extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -30,11 +34,10 @@ public class AlgoTableText extends AlgoElement {
 
 	private StringBuffer sb = new StringBuffer();
 
-	private int VERTICAL = 0;
-	private int HORIZONTAL = 1;
+	private enum Alignment { VERTICAL,HORIZONTAL}
 
 	// style variables
-	private int alignment;
+	private Alignment alignment;
 	private boolean verticalLines, horizontalLines;
 	private String justification, openBracket, closeBracket, openString,
 			closeString;
@@ -42,7 +45,9 @@ public class AlgoTableText extends AlgoElement {
 	private int rows;
 
 	// getters for style variables (used by EuclidianStyleBar)
-	public int getAlignment() {
+	
+	
+	public Alignment getAlignment() {
 		return alignment;
 	}
 
@@ -66,11 +71,21 @@ public class AlgoTableText extends AlgoElement {
 		return closeString;
 	}
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param geoList input matrix
+	 * @param args table formating, see parseArgs()
+	 */
 	public AlgoTableText(Construction cons, String label, GeoList geoList, GeoText args) {
 		this(cons, geoList, args);
 		text.setLabel(label);
 	}
-
+	/**
+	 * @param cons construction
+	 * @param geoList input matrix
+	 * @param args table formating, see parseArgs()
+	 */
 	AlgoTableText(Construction cons, GeoList geoList, GeoText args) {
 		super(cons);
 		this.geoList = geoList;
@@ -107,16 +122,19 @@ public class AlgoTableText extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getResult() {
 		return text;
 	}
 
 	private void parseArgs() {
 
-		int columns = geoList.size();
+		int tableColumns = geoList.size();
 
 		// set defaults
-		alignment = HORIZONTAL;
+		alignment = Alignment.HORIZONTAL;
 		verticalLines = false;
 		horizontalLines = false;
 		justification = "l";
@@ -127,7 +145,7 @@ public class AlgoTableText extends AlgoElement {
 		if (args != null) {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1)
-				alignment = VERTICAL; // vertical table
+				alignment = Alignment.VERTICAL; // vertical table
 			if (optionsStr.indexOf("|") > -1 && optionsStr.indexOf("||") == -1)
 				verticalLines = true;
 			if (optionsStr.indexOf("_") > -1)
@@ -170,13 +188,13 @@ public class AlgoTableText extends AlgoElement {
 				closeString = "}";
 			}
 
-		} else if (geoList.get(columns - 1).isGeoText()) {
+		} else if (geoList.get(tableColumns - 1).isGeoText()) {
 
 			// support for older files before the fix
-			GeoText options = (GeoText) geoList.get(columns - 1);
+			GeoText options = (GeoText) geoList.get(tableColumns - 1);
 			String optionsStr = options.getTextString();
 			if (optionsStr.indexOf("h") > -1)
-				alignment = HORIZONTAL; // horizontal table
+				alignment = Alignment.HORIZONTAL; // horizontal table
 			if (optionsStr.indexOf("c") > -1)
 				justification = "c";
 			else if (optionsStr.indexOf("r") > -1)
@@ -242,32 +260,27 @@ public class AlgoTableText extends AlgoElement {
 
 		sb.setLength(0);
 
-		//switch (app.getFormulaRenderingType()) {
-		//case MATHML:
+		text.setMathML(app.isHTML5Applet());
+		text.setLaTeX(true, false);
+		
 		if (app.isHTML5Applet()) {
-			mathml();
-			text.setMathML(true);
-		//	break;
-		//case LATEX:
+			mathml();			
 		} else {
 			latex();
-			text.setMathML(false);
-		//	break;
 		}
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
-		text.setLaTeX(true, false);
 	}
 
 	private void mathml() {
-		if (alignment == VERTICAL) {
+		if (alignment == Alignment.VERTICAL) {
 
 
 			sb.append("<matrix>");
 			for (int r = 0; r < rows; r++) {
 				sb.append("<matrixrow>");
 				for (int c = 0; c < columns; c++) {
-					addCellMathML(c, r, StringTemplate.mathmlTemplate);
+					addCellMathML(c, r, text.getStringTemplate());
 				}
 				sb.append("</matrixrow>"); 
 			}
@@ -281,7 +294,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				sb.append("<matrixrow>");
 				for (int r = 0; r < rows; r++) {
-					addCellMathML(c, r, StringTemplate.mathmlTemplate);
+					addCellMathML(c, r, text.getStringTemplate());
 				}
 				sb.append("</matrixrow>");
 			}
@@ -298,7 +311,7 @@ public class AlgoTableText extends AlgoElement {
 		sb.append(openBracket);
 		sb.append("\\begin{array}{");
 
-		if (alignment == VERTICAL) {
+		if (alignment == Alignment.VERTICAL) {
 
 			for (int c = 0; c < columns; c++) {
 				if (verticalLines)
@@ -315,7 +328,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
 					boolean finalCell = (c == columns - 1);
-					addCellLaTeX(c, r, finalCell, StringTemplate.latexTemplate);
+					addCellLaTeX(c, r, finalCell, text.getStringTemplate());
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines)
@@ -341,7 +354,7 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
 					boolean finalCell = (r == rows - 1);
-					addCellLaTeX(c, r, finalCell, StringTemplate.latexTemplate);
+					addCellLaTeX(c, r, finalCell, text.getStringTemplate());
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines) {
