@@ -861,7 +861,7 @@ __GGB__keysVar.sl.command = {
     "Take_SyntaxCAS": "[ <seznam>, <za\u010detna pozicija>, <kon\u010dna pozicija> ]",
     "Tangent": "Tangenta",
     "Tangent_Syntax": "[ <to\u010dka>, <sto\u017enica> ]\n[ <to\u010dka>, <funkcija> ]\n[ <to\u010dka>, <krivulja> ]\n[ <vrednost x>, <funkcija> ]\n[ <vzporednica>, <sto\u017enica> ]\n[ <vzporedna daljiica>, <sto\u017enica> ]",
-    "TaylorSeries": "TaylorjevaVrsta",
+    "TaylorSeries": "TaylorjevPolinom",
     "TaylorSeries_Syntax": "[ <funkcija>, <vrednost x>, <stopnja> ]",
     "TaylorSeries_SyntaxCAS": "[ <izraz>, <vrednost x>, <stopnja> ]\n[ <izraz>, <spremenljivka>, <vrednost spremenljivke>, <red> ]",
     "Tetrahedron": "Tetraeder",
