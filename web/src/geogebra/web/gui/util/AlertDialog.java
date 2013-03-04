@@ -36,12 +36,12 @@ public class AlertDialog extends DialogBox {
 		ok.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				AlertDialog thisDialog = (AlertDialog) event.getSource();
-				thisDialog.hide();
+				INSTANCE.hide();
 			}
 		});
 		container.add(textPanel);
 		container.add(buttonPanel);
+		addStyleName("GeoGebraFileChooser");
 	}
 	
 	public static AlertDialog get(String text) {
