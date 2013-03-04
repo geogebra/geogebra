@@ -286,6 +286,7 @@ public class MyGoogleApis {
 					AlertDialog.get("your token expired - please log in again").show();
 					GeoGebraMenubarW.loginToGoogle.getScheduledCommand().execute();
 					checker.cancel();
+					return;
 				}
 				AnimationScheduler.get().requestAnimationFrame(this);
 			}
