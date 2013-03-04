@@ -5521,6 +5521,15 @@ public class ExpressionNode extends ValidExpression implements
 	public ExpressionNode derivative(FunctionVariable fv) {
 		switch (operation) {
 		
+		// for eg (x < x1) * (a1 x² + b1 x + c1)
+		// we need to return 0 for derivative of (x < x1)
+		// so that the product rule gives the correct answer
+		case LESS:
+		case LESS_EQUAL:
+		case GREATER:
+		case GREATER_EQUAL:
+		case NOT:
+			
 		case XCOORD:
 		case YCOORD:
 		case ZCOORD:
