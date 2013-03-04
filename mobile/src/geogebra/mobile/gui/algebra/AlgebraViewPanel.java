@@ -23,7 +23,7 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
 
 public class AlgebraViewPanel extends LayoutPanel
 {
-	protected AlgebraScrollPanel scrollPanel;
+	protected ScrollPanel scrollPanel;
 	protected AlgebraViewM algebraView;
 	HeaderImageButton button = new HeaderImageButton();
 
@@ -76,7 +76,7 @@ public class AlgebraViewPanel extends LayoutPanel
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
 
-		this.scrollPanel = new AlgebraScrollPanel(this.algebraView);
+		this.scrollPanel = new ScrollPanel(this.algebraView);
 		this.scrollPanel.addStyleName("algebraScrollPanel");
 		add(this.scrollPanel);
 
