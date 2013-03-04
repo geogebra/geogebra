@@ -10,14 +10,14 @@ import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, DoubleClickHandler {
+public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler {
 
 	private App app;
 	VerticalPanel p;
@@ -32,7 +32,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	public GoogleDriveFileChooser(final App app) {
 		this.app = app;
 		GoogleDriveFileChooser.INSTANCE = this;
-		add(p = new VerticalPanel());
+		setWidget(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
 		filesPanel.addStyleName("filesPanel");
 		ScrollPanel filesContainer = new ScrollPanel();
@@ -68,6 +68,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	String currentFileName = null;
 	String currentDescription;
 	String currentTitle;
+	String currentId;
 	
 	private void initAClickHandler() {
 	   filenameClick = new ClickHandler() {
@@ -89,6 +90,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 		 currentFileName = a.getElement().getAttribute("data-param-downloadurl");
 		 currentTitle = a.getElement().getAttribute("data-param-title");
 		 currentDescription = a.getElement().getAttribute("data-param-description");
+		 currentId = a.getElement().getAttribute("data-param-id");
     }
 
 	@Override
@@ -140,10 +142,11 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 			  retrievePageOfFiles(initialRequest, []);
 			}
 			retrieveAllFiles(function(resp) {
-				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()()
+				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
+				$wnd.console.log(resp);
 				resp.forEach(function(value, index, array) {
 					if (value.mimeType === "application/vnd.geogebra.file") {
-						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description);
+						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description, value.id);
 						//$wnd.console.log(value);
 					}
 				});
@@ -153,14 +156,14 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 	public void onClick(ClickEvent event) {
 	    if (currentFileName != null) {
 	    	clearFilesPanel();
-	    	MyGoogleApis.loadFromGoogleFile(currentFileName, currentDescription, currentTitle);
+	    	MyGoogleApis.loadFromGoogleFile(currentFileName, currentDescription, currentTitle, currentId);
 	    	//TODO: process descriptors here!
 	    }
     }
 	
 	ClickHandler filenameClick;
 	
-	private void createLink(String fileName, String owner, String downloadLink, String title, String description) {
+	private void createLink(String fileName, String owner, String downloadLink, String title, String description, String id) {
 		Anchor a = new Anchor();
 		a.addStyleName("ggbfilelink");
 		a.setTitle(owner);
@@ -170,6 +173,7 @@ public class GoogleDriveFileChooser extends PopupPanel implements ClickHandler, 
 		a.getElement().setAttribute("data-param-downloadurl", downloadLink);
 		a.getElement().setAttribute("data-param-title", title);
 		a.getElement().setAttribute("data-param-description", description);
+		a.getElement().setAttribute("data-param-id", id);
 		filesPanel.add(a);
 	}
 

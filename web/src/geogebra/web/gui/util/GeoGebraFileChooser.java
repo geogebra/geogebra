@@ -32,11 +32,12 @@ public class GeoGebraFileChooser extends PopupPanel {
 	Button cancel;
 	Anchor download;
 	Button uploadToGGT;
-	GeoGebraFileChooser _this = this;
+	static public GeoGebraFileChooser INSTANCE = null;
 	private int type;
 
 	public GeoGebraFileChooser(final App app) {
 	    super();
+	    INSTANCE = this;
 	    this.app = app;
 	    add(p = new VerticalPanel());
 	    
@@ -91,8 +92,9 @@ public class GeoGebraFileChooser extends PopupPanel {
 					download.setEnabled(false);
 					uploadToGGT.setEnabled(false);
 					String saveName = fileName.getText();
-					if (saveName.substring(-4) != ".ggb") saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
-					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(saveName, description.getText(), _this);
+					//wont save if . exist in filename 
+					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
+					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(saveName, description.getText());
 					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
