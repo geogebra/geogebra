@@ -556,7 +556,15 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 	public boolean isInRegion(GeoPointND P) {
 
-		Coords coords = P.getCoordsInD(3);
+		return isInRegion(P.getCoordsInD(3));
+	}
+	
+	/**
+	 * 
+	 * @param coords coords
+	 * @return true if these coords lies on region
+	 */
+	public boolean isInRegion(Coords coords){
 		// calc tP.S.P
 		return Kernel.isZero(coords.transposeCopy()
 				.mul(getSymetricMatrix().mul(coords)).get(1, 1));

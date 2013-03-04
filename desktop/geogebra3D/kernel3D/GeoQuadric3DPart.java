@@ -126,6 +126,25 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		return parameters;
 
 	}
+	
+	@Override
+	public boolean isInRegion(Coords coords){
+		
+		//check first if coords is in unlimited quadric
+		if (!super.isInRegion(coords)){
+			return false;
+		}
+		
+		//check if coords respect limits
+		Coords parameters = super.getNormalProjectionParameters(coords);
+		if (parameters.getY() < getMinParameter(1))
+			return false;		
+		if (parameters.getY() > getMaxParameter(1))
+			return false;
+		
+		//all ok
+		return true;
+	}
 
 	// ////////////////////////
 	// AREA

@@ -112,18 +112,11 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     
     /**
      * 
-     * @param cons
-     * @param A 
-     * @param B 
+     * @param cons construction
      */
-    AlgoIntersectConics3D(Construction cons, GeoConicND A, GeoConicND B) {
+    AlgoIntersectConics3D(Construction cons) {
         super(cons);
-        this.A = A;
-        this.B = B;                
         
-
-        P  = new GeoPoint3D[4];
-        D  = new GeoPoint3D[4];
         
         //helper algo
         l2d = new GeoLine(cons);
@@ -131,12 +124,32 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
         B2d = new GeoConic(cons);
         algo2d = new AlgoIntersectConics(cons);
         points2d = new GeoPoint[4];
-               
+    }
+        
+
+    /**
+     * 
+     * @param cons construction
+     * @param A first conic
+     * @param B second conic
+     */
+    AlgoIntersectConics3D(Construction cons, GeoConicND A, GeoConicND B) {
+    	
+    	this(cons);
+
+    	P  = new GeoPoint3D[4];
+    	D  = new GeoPoint3D[4];
+
         for (int i=0; i < 4; i++) {
             P[i] = new GeoPoint3D(cons); 
             D[i] = new GeoPoint3D(cons);    
             points2d[i] = new GeoPoint(cons);   
         }
+        
+        
+        this.A = A;
+        this.B = B;                
+
         
         setInputOutput(); // for AlgoElement
         
@@ -198,6 +211,16 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
 	@Override
 	public void compute() {
+		intersectConics3D(A, B, P);
+	}
+		
+	/**
+	 * calc intersection points between A, B
+	 * @param A first conic
+	 * @param B second conic
+	 * @param P intersection points
+	 */
+	public final void intersectConics3D(GeoConicND A, GeoConicND B, GeoPoint3D[] P){
 		
 		CoordSys csA = A.getCoordSys();
 		CoordSys csB = B.getCoordSys();
@@ -213,9 +236,9 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			//Application.debug(points2d[0]+"\n"+points2d[1]);
 			
 			P[0].setCoords(csA.getPoint(points2d[0].x, points2d[0].y), false);
-			checkIsOnB(P[0]);
+			checkIsOnConic(B, P[0]);
 			P[1].setCoords(csA.getPoint(points2d[1].x, points2d[1].y), false);
-			checkIsOnB(P[1]);
+			checkIsOnConic(B, P[1]);
 			
 			if (!P[0].isDefined() && P[1].isDefined()){
 				P[0].setCoords(P[1].getCoords(), false);
@@ -236,9 +259,9 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		}else{//line parallel to conic coord sys
 			Coords op = csA.getNormalProjection(csB.getOrigin())[1];
 			if (!Kernel.isZero(op.getZ())){//coord sys strictly parallel
-				setPointsUndefined(); //TODO infinite points ?
+				setPointsUndefined(P); //TODO infinite points ?
 			}else{//coord sys included
-				setPointsUndefined();
+				setPointsUndefined(P);
 				
 				CoordMatrix BtoA = 
 					REDUCE_DIM.mul(
@@ -263,7 +286,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 				
 	}
 	
-	private void checkIsOnB(GeoPoint3D p){
+	private static void checkIsOnConic(GeoConicND B, GeoPoint3D p){
 		if (!p.isDefined())
 			return;
 		
@@ -277,7 +300,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	
 	
 	
-	private void setPointsUndefined(){
+	private static void setPointsUndefined(GeoPoint3D[] P){
         for (int i=0; i < 4; i++) 
             P[i].setUndefined();                  
         

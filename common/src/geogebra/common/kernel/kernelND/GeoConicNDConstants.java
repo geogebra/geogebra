@@ -25,6 +25,18 @@ public interface GeoConicNDConstants extends GeoQuadricNDConstants{
 	public static final int CONIC_PARABOLA = QUADRIC_PARABOLOID;
 	/** line type */
 	public static final int CONIC_LINE = QUADRIC_LINE;
+	
+	////////////////////////
+	// FOR GEO CONIC PART
+	
+	
+	/** conic arc */
+	public static final int CONIC_PART_ARC = 1;
+	/** conic sector */
+	public static final int CONIC_PART_SECTOR = 2;
+	/** conic arcs and  */
+	public static final int CONIC_PART_ARCS = 3;
+
 
 
 }

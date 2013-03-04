@@ -406,6 +406,9 @@ public interface Manager3DInterface {
 	public GeoConicND Intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric);
 
+	public GeoConicND IntersectQuadricLimited(String[] labels, GeoPlaneND plane,
+			GeoQuadricND quadric);
+
 	public GeoConicND Intersect(GeoPlaneND plane, GeoQuadricND quadric);
 
 	// //////////////////////////////////////////////

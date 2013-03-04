@@ -2137,7 +2137,7 @@ public class Kernel {
 		// Application.printStacktrace(""+silentMode);
 
 	}
-
+	
 	/**
 	 * Sets whether unknown variables should be resolved as GeoDummyVariable
 	 * objects.

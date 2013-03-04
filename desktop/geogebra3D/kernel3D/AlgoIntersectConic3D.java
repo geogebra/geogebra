@@ -59,25 +59,35 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
      * @param cons
      * @param c
      */
-    AlgoIntersectConic3D(Construction cons, GeoElement firstGeo, GeoConicND c) {
-        super(cons);
-        
-        
-        this.firstGeo = firstGeo;
-        this.c = c;      
-        
-
-        P  = new GeoPoint3D[2];
-        D  = new GeoPoint3D[2];
-        
+    AlgoIntersectConic3D(Construction cons) {
+ 
+    	super(cons);
+       
         //helper algo
         g2d = new GeoLine(cons);
         points2d = new GeoPoint[2];
+        for (int i=0; i < 2; i++) {  
+            points2d[i] = new GeoPoint(cons);   
+        }
+
+        
+        
+    }
+
+    AlgoIntersectConic3D(Construction cons, GeoElement firstGeo, GeoConicND c) {
+
+    	this(cons);
+         
+        this.firstGeo = firstGeo;
+        this.c = c;      
+        
+        P  = new GeoPoint3D[2];
+        D  = new GeoPoint3D[2];
+ 
                
         for (int i=0; i < 2; i++) {
             P[i] = new GeoPoint3D(cons);                  
-            D[i] = new GeoPoint3D(cons);    
-            points2d[i] = new GeoPoint(cons);   
+            D[i] = new GeoPoint3D(cons); 
         }
         
         setInputOutput(); // for AlgoElement
@@ -148,6 +158,17 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
 	@Override
 	public void compute() {
+		
+		intersect(c,P);
+		
+	}
+	
+	/**
+	 * calc intersection points with the conic
+	 * @param c conic
+	 * @param P points
+	 */
+	protected final void intersect(GeoConicND c, GeoPoint3D[] P){
 		
 		CoordSys cs = c.getCoordSys();
 		Coords o = getFirstGeoStartInhomCoords();
@@ -230,4 +251,13 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
      */
     protected GeoElement getFirtGeo() { return firstGeo; }
     
+    /*
+     * 
+     * @param i index (0 or 1)
+     * @return i-th 2D point last computed
+     *
+    public GeoPoint getPoint2D(int i){
+    	return points2d[i];
+    }
+    */
 }

@@ -49,6 +49,7 @@ import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConic3D;
+import geogebra3D.kernel3D.GeoConic3DPart;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoLine3D;
@@ -558,6 +559,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				
 			case CONICPART:					
 				d = new DrawConicPart3D(this, (GeoConicPart) geo);
+				break;	
+
+			case CONIC3DPART:					
+				d = new DrawConic3DPart3D(this, (GeoConic3DPart) geo);
 				break;	
 
 			case AXIS:	

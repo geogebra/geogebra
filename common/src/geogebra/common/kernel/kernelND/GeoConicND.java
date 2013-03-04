@@ -286,7 +286,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		 * @param P a point
 		 * @param pp path parameter of the point
 		 */
-	protected void pointChanged(Coords P, PathParameter pp) {
+	public void pointChanged(Coords P, PathParameter pp) {
 		
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; //for parabola and hyperbola
@@ -606,6 +606,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	}
 
 	/**
+	 * check if compatible types
 	 * @param P point
 	 * @param pp path parameter
 	 */
@@ -619,6 +620,15 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			return;
 		}
 		
+		pathChangedWithoutCheck(P, pp);
+	}
+	
+	/**
+	 * @param P point
+	 * @param pp path parameter
+	 */
+	public void pathChangedWithoutCheck(Coords P, PathParameter pp) {
+	
 		switch (type) {
 			case CONIC_EMPTY:
 				P.setX(Double.NaN);

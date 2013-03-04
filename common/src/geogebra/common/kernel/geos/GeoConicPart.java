@@ -48,10 +48,6 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValue {
 
-	/** conic arc */
-	public static final int CONIC_PART_ARC = 1;
-	/** conic sector */
-	public static final int CONIC_PART_SECTOR = 2;
 
 	// parameters (e.g. angles) for arc
 	private double paramStart, paramEnd, paramExtent;
@@ -477,7 +473,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 	}
 
 	@Override
-	protected void pointChanged(Coords P, PathParameter pp) {
+	public void pointChanged(Coords P, PathParameter pp) {
 
 		pp.setPathType(type);
 

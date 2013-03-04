@@ -807,24 +807,32 @@ public class Manager3D implements Manager3DInterface {
 			AlgoIntersectPlanePolygonalRegion algo = new AlgoIntersectPlanePolygonalRegion(
 					cons, labels, (GeoPlane3D) plane, (GeoPolygon) s);
 			return algo.getOutput();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public GeoConic3D Intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric) {
 
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
-				label, (GeoPlane3D) plane, (GeoQuadric3D) quadric);
+				label, (GeoPlane3D) plane, quadric);
+
+		return algo.getConic();
+	}
+	
+	public GeoConicND IntersectQuadricLimited(String[] labels, GeoPlaneND plane,
+			GeoQuadricND quadric){
+		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(cons,
+				labels, (GeoPlane3D) plane, quadric);
 
 		return algo.getConic();
 	}
 
+
 	public GeoConic3D Intersect(GeoPlaneND plane, GeoQuadricND quadric) {
 
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
-				(GeoPlane3D) plane, (GeoQuadric3D) quadric);
+				(GeoPlane3D) plane, quadric);
 
 		return algo.getConic();
 	}
@@ -987,7 +995,7 @@ public class Manager3D implements Manager3DInterface {
 	/**
 	 * intersect conics
 	 */
-	private AlgoIntersectConics3D getIntersectionAlgorithm(GeoConicND A,
+	public AlgoIntersectConics3D getIntersectionAlgorithm(GeoConicND A,
 			GeoConicND B) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher().findExistingIntersectionAlgorithm(A,
 				B);

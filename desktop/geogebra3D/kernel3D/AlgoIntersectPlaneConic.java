@@ -29,18 +29,27 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 		super(cons, (GeoElement) plane, c);
 	}
 	
+	
+	public AlgoIntersectPlaneConic(Construction cons) {		
+		super(cons);
+	}
+
 	private Coords[] intersection;
 
 	@Override
 	public void compute() {
 		
+		intersect((GeoCoordSys2D) getFirtGeo(), c, P);
+		
+	}
+
+	public final void intersect(GeoCoordSys2D plane, GeoConicND c, GeoPoint3D[] P){
 		//calc intersection line of the plane and the plane including the conic
 		intersection = CoordMatrixUtil.intersectPlanes(
-    			((GeoCoordSys2D) getFirtGeo()).getCoordSys().getMatrixOrthonormal(),
-    			c.getCoordSys().getMatrixOrthonormal());
-		
-		super.compute();
-		
+				plane.getCoordSys().getMatrixOrthonormal(),
+				c.getCoordSys().getMatrixOrthonormal());
+
+		super.intersect(c, P);
 	}
 	
 
