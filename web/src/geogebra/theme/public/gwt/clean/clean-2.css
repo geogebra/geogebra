@@ -1470,7 +1470,8 @@ Paddings for menuitems.
 }
 
 
-/*========= ToolBar ===========*/
+/*=========== ToolBar =============*/
+
 .undoPanel {
 	position:absolute;
 	right:0px;
@@ -1503,7 +1504,7 @@ body[dir=rtl] .undoPanel {
 }
 
 [isSelected=true] .toolbar_icon{
-	border: 2px solid blue;
+	border: 2px solid #000099;
 }
 
 [isSelected=false] .toolbar_icon{
@@ -1531,6 +1532,7 @@ body[dir=rtl] .undoPanel {
 
 .toolbar_menuitem img{
 	vertical-align: middle;
+	border: 1px solid lightgray;
 }
 
 .toolbar_menuitem_label{
@@ -1538,6 +1540,7 @@ body[dir=rtl] .undoPanel {
 	vertical-align: middle;
 	margin-left: 5px;
 	margin-right: 5px;
+	font-size:80%;
 }
 
 .toolbarPanel{
