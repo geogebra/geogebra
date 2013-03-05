@@ -1296,13 +1296,14 @@ var MathCommand = P(MathElement, function(_, _super) {
   _.textTemplate = [''];
   _.text = function() {
     var i = 0;
+    var thisMathCommand = this;
     return this.foldChildren(this.textTemplate[i], function(text, child) {
       i += 1;
       var child_text = child.text();
-      if (text && this.textTemplate[i] === '('
+      if (text && thisMathCommand.textTemplate[i] === '('
           && child_text[0] === '(' && child_text.slice(-1) === ')')
-        return text + child_text.slice(1, -1) + this.textTemplate[i];
-      return text + child.text() + (this.textTemplate[i] || '');
+        return text + child_text.slice(1, -1) + thisMathCommand.textTemplate[i];
+      return text + child.text() + (thisMathCommand.textTemplate[i] || '');
     });
   };
 });
@@ -2165,7 +2166,7 @@ LatexCmds._ = bind(SupSub, '_', 'sub', '_');
 
 LatexCmds.superscript =
 LatexCmds.supscript =
-LatexCmds['^'] = bind(SupSub, '^', 'sup', '**');
+LatexCmds['^'] = bind(SupSub, '^', 'sup', '^');
 
 var Fraction =
 LatexCmds.frac =
@@ -3427,7 +3428,7 @@ var TextBlock = P(Node, function(_, _super) {
 
   _.textContents = function() {
     return this.foldChildren('', function(text, child) {
-      return text + child.text;
+      return text + child.text2;
     });
   };
   _.text = function() { return '"' + this.textContents() + '"'; };
