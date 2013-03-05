@@ -72,8 +72,10 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	}
 
 		conic.setLabel(conicLabel);
+		/*
 		GeoElement.setLabels(bottomLabels, bottomP);
 		GeoElement.setLabels(topLabels, topP);
+		*/
 		    	
  
  
@@ -116,7 +118,8 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 			output[3+i] = topP[i];
 		}
 		
-    	setInputOutput(new GeoElement[] {plane,quadric}, output);
+    	//setInputOutput(new GeoElement[] {plane,quadric}, output);
+		super.end();
     }
     
    
