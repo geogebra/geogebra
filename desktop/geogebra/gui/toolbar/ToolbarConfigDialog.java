@@ -113,7 +113,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		final JButton btCancel = new JButton();
 		btPanel.add(Box.createRigidArea(new Dimension(5,0)));
 		btPanel.add(btCancel);		
-		btCancel.setText(app.getPlain("Cancel"));	
+		btCancel.setText(app.getMenu("Close"));	
 		
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
