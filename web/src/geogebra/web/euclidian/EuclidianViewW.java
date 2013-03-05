@@ -154,7 +154,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		g2p.setCoordinateSpaceWidth(width);
 		g2p.setCoordinateSpaceHeight(height);
 		try {
-			app.syncAppletPanelSize(width, height);
+			app.syncAppletPanelSize(width, height, evNo);
 
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
