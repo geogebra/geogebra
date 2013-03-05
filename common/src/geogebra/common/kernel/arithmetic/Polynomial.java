@@ -596,7 +596,6 @@ public class Polynomial extends ValidExpression implements Serializable
 	}
 
 	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -611,6 +610,11 @@ public class Polynomial extends ValidExpression implements Serializable
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		throw new MyError(kernel.getApplication().getLocalization(), "derivative called on Polynomial");
+	}
+
+	@Override
+	public ExpressionValue integral(FunctionVariable fv) {
+		throw new MyError(kernel.getApplication().getLocalization(), "integral called on Polynomial");
 	}
 
 } // end of class Polynomial
