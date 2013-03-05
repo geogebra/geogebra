@@ -116,6 +116,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		kernel = geo.getKernel();
 		app = (AppWeb)kernel.getApplication();
 		av = app.getAlgebraView();
+		selection = app.getSelectionManager();
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);

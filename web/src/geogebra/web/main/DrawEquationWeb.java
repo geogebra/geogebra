@@ -417,6 +417,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 	public static void endEditingEquationMathQuill(RadioButtonTreeItem rbti,
 	        String latex) {
+		//App.debug("endEditingEquationMathQuill: "+latex);
 		rbti.stopEditing(latex);
 	}
 
