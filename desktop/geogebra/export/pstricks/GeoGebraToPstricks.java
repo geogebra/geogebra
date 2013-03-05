@@ -178,13 +178,13 @@ public class GeoGebraToPstricks extends GeoGebraExport {
         if (format==GeoGebraToPstricks.FORMAT_BEAMER){
  	    	code.append("\\end{frame}\n");
  		}
-        code.append("\\end{document}");		
-		
+        code.append("\\end{document}");	
 		frame.write(code);
 
 	}	
 
-    @Override
+    
+	@Override
 	protected void drawLocus(GeoLocus g){
     	ArrayList<MyPoint> ll=g.getPoints();
     	Iterator<MyPoint> it=ll.iterator();
@@ -405,8 +405,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	codeFilledObject.append("\\pscustom");
     	codeFilledObject.append(LineOptionCode(geo,true));
     	codeFilledObject.append("{\\psplot{");
+    	if (a.substring(a.length()-1).equals(""+Unicode.Infinity)){
+    		a=format(xmin);
+    	}
     	codeFilledObject.append(a);
     	codeFilledObject.append("}{");
+    	if (b.substring(b.length()-1).equals(""+Unicode.Infinity)){
+    		b=format(xmax);
+    	}
     	codeFilledObject.append(b);
     	codeFilledObject.append("}{");
     	codeFilledObject.append(value);
@@ -827,11 +833,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawText(GeoText geo){
 		boolean isLatex=geo.isLaTeX();
 		String st=geo.getTextString();
-		// try to replace euro symbol
-		if (st.indexOf("\u20ac")!=-1) {
-			st=st.replaceAll("\\u20ac", "\\\\euro{}");
-			if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
-		}
 		GColorD geocolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int style=geo.getFontStyle();
 		int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
@@ -1002,6 +1003,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	
 	@Override
 	protected void drawFunction(GeoFunction geo){
+		// line contains the row that define function
+		StringBuilder line=new StringBuilder();
 		Function f=geo.getFunction();
 		if (null==f) return;
 		String value=f.toValueString(getStringTemplate());
@@ -1020,26 +1023,56 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			xrangemax=maxDefinedValue(geo,xrangemin,b);
 //			Application.debug("xrangemax "+xrangemax);
 			startBeamer(code);
-			code.append("\\psplot");
-			code.append(LineOptionCode(geo,true));
-			int index=code.lastIndexOf("]");
-			if (index==code.length()-1){
-				code.deleteCharAt(index);
-				code.append(",plotpoints=200]{");
+			line.append("\\psplot");
+			//loc contains style, size etc.
+			//is used in the case of non latex function, to assign lines style
+			String loc=LineOptionCode(geo,true);
+			int index=loc.lastIndexOf("]");
+			if (index!=-1 && index==loc.length()-1){
+				loc=loc.substring(0,loc.length()-1);
+				loc+=",plotpoints=200]{";
 			}
-			else code.append("[plotpoints=200]{");
-			code.append(xrangemin);
-			code.append("}{");
-			code.append(xrangemax);
-			code.append("}{");
-			code.append(value);
-			code.append("}\n");
+			else loc+="[plotpoints=200]{";
+			line.append(loc);
+			line.append(xrangemin);
+			line.append("}{");
+			line.append(xrangemax);
+			line.append("}{");
+			line.append(value);
+			line.append("}\n");
 			xrangemax+=PRECISION_XRANGE_FUNCTION;
-			a=xrangemax;
+			a=xrangemax;			
+			String s = line.toString();
+			//if is'n latex function draws the function as a set of lines
+			if (!isLatexFunction(s)) {
+				loc=loc.replace(",plotpoints=200]{","]");
+				loc=loc.replace("[plotpoints=200]{", "");
+				StringBuilder lineBuilder = new StringBuilder();
+				double y = geo.evaluate(xrangemin);
+				double yprec = y;
+				double step=(xrangemax - xrangemin) / 200;
+				double xprec = xrangemin - step;
+				double x = xprec;
+				for (; x <= xrangemax; x +=step ) {
+					y = geo.evaluate(x);
+					lineBuilder.append("\\psline"+loc+"(" + xprec + "," + yprec + ")("
+							+ x + "," + y + ")\n");
+					yprec = y;
+					xprec = x;
+				}
+				s = lineBuilder.toString();
+				code.append(s);
+			} else {
+				code.append(line);
+			}
 			endBeamer(code);
 		}
 	}
 
+	private boolean isLatexFunction(String s) {
+		//used if there are other non-latex
+		return !s.contains("erf(");
+	}
 	/**
 	 *  We have to rewrite the function
 	 *  - kill spaces
@@ -2015,11 +2048,27 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 	*/
 	private void addText(String st,boolean isLatex,int style,GColorD geocolor){
-		if (isLatex)code.append("$");
+		if (isLatex){ 
+			code.append("$");
+			//if infinity used in latex expression
+			if (st.indexOf('\u221E')!=-1) {
+				st=st.replaceAll("\\u221E", "\\\\infty");
+			}
+		}
 		// Replace all backslash symbol with \textbackslash
 		else {
 			st=st.replaceAll("\\\\", "\\\\textbackslash ");
+			if (st.indexOf("\u20ac")!=-1) {
+				st=st.replaceAll("\\u20ac", "\\\\euro");
+				if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
+			}
+			//if infinity used as normal text
+			if (st.indexOf('\u221E')!=-1) {
+				st=st.replaceAll("\\u221E", "\\$\\\\infty\\$");
+			}
+			
 		}
+		
 		switch(style){
 			case 1:
 				if (isLatex) code.append("\\mathbf{");
