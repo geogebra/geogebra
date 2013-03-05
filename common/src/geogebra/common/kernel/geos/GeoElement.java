@@ -6873,4 +6873,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		return null;
 	}
 
+	/**
+	 * @return whether it's a matrix. Overridden in GeoList
+	 */
+	public boolean isMatrix() {
+		return false;
+	}
+
 }

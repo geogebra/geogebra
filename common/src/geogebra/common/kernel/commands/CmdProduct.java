@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoProduct;
+import geogebra.common.kernel.algos.AlgoProductMatrices;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -22,7 +23,7 @@ public class CmdProduct extends CommandProcessor{
 		super(kernel);
 	}
 
-	
+
 
 	@Override
 	public GeoElement[] process(geogebra.common.kernel.arithmetic.Command c)
@@ -30,7 +31,7 @@ public class CmdProduct extends CommandProcessor{
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		
+
 		// needed for Sum[]
 		if (arg.length == 0) {
 			throw argNumErr(app, c.getName(), n);
@@ -40,13 +41,19 @@ public class CmdProduct extends CommandProcessor{
 		GeoList list = (GeoList)arg[0];
 		switch (n) {
 		case 1:
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
-				{
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
+			if (list.get(0).isMatrix()) {
+				AlgoProductMatrices algo = new AlgoProductMatrices(cons, c.getLabel(), list);
 
-					GeoElement[] ret = { algo.getResult() };
-					return ret;
-				}
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+			if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+			{
+				AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			// Product[<List of Numbers>, <Number>]
@@ -54,7 +61,7 @@ public class CmdProduct extends CommandProcessor{
 
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					
+
 					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoNumeric)arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
@@ -66,7 +73,7 @@ public class CmdProduct extends CommandProcessor{
 			else if (arg[1].isGeoList()){
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
-					
+
 					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoList)arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
@@ -75,12 +82,12 @@ public class CmdProduct extends CommandProcessor{
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			throw argErr(app, c.getName(), arg[1]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
 
-	}
+}
 
 

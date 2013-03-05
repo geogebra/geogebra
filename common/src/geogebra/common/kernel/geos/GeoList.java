@@ -47,6 +47,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
+//import geogebra.common.kernel.arithmetic.MyList;
 
 /**
  * List of GeoElements
@@ -1223,6 +1224,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	/**
 	 * @return true iff this list is in the form { {1,2}, {3,4}, {5,6} } etc
 	 */
+	@Override
 	public boolean isMatrix() {
 
 		if (!getElementType().equals(GeoClass.LIST) || (size() == 0)) {
