@@ -2514,6 +2514,7 @@ __GGB__keysVar.et.plain = {
     "Thickness": "Joone j\xe4medus",
     "TickDistance": "Kaugus",
     "TimeBetweenFrames": "Raamide piires",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Pealkiri",
     "TitleExportPgf": "GeoGebra PGF-vormingusse eksportimine",
     "TitleExportPstricks": "GeoGebra PSTricks-vormingusse eksportimine",

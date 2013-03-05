@@ -2514,6 +2514,7 @@ __GGB__keysVar.ji.plain = {
     "Thickness": "\u05d3\u05d9\u05e7 \u05e4\u05bf\u05d5\u05e0\u05e2\u05dd \u05e9\u05d8\u05e8\u05d9\u05da",
     "TickDistance": "\u05e9\u05e4\u05bc\u05d0\u05b7\u05df",
     "TimeBetweenFrames": "\u05e6\u05f2\u05b7\u05d8 \u05e6\u05d5\u05d5\u05d9\u05e9\u05df \u05d9\u05e2\u05d3\u05df \u05d1\u05d9\u05dc\u05d3",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u05d8\u05d9\u05d8\u05dc",
     "TitleExportPgf": "\u05e2\u05e7\u05e1\u05e4\u05bc\u05d0\u05b8\u05e8\u05d8 \u05e4\u05bf\u05d5\u05df GeoGebra \u05e6\u05d5 PGF",
     "TitleExportPstricks": "\u05e2\u05e7\u05e1\u05e4\u05bc\u05d0\u05b8\u05e8\u05d8 \u05e4\u05bf\u05d5\u05df GeoGebra \u05e6\u05d5 PSTricks",

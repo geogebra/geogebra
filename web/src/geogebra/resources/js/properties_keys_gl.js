@@ -2514,6 +2514,7 @@ __GGB__keysVar.gl.plain = {
     "Thickness": "Grosor de li\xf1a",
     "TickDistance": "Distancia",
     "TimeBetweenFrames": "Tempo entre cadros",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "T\xedtulo",
     "TitleExportPgf": "Exportar GeoGebra a PGF",
     "TitleExportPstricks": "Exportar GeoGebra a PSTricks",

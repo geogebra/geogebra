@@ -2514,6 +2514,7 @@ __GGB__keysVar.sl.plain = {
     "Thickness": "Debelina \u010drte",
     "TickDistance": "Razdalja",
     "TimeBetweenFrames": "\u010cas med sli\u010dicama",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Naslov",
     "TitleExportPgf": "Izvoz GeoGebra okna v PGF",
     "TitleExportPstricks": "Izvoz iz Geogebre v PSTriks",

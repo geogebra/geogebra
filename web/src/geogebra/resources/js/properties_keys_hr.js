@@ -2514,6 +2514,7 @@ __GGB__keysVar.hr.plain = {
     "Thickness": "Debljina crte",
     "TickDistance": "Razmak",
     "TimeBetweenFrames": "Vremenski razmak izme\u0111u slika",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Naslov",
     "TitleExportPgf": "GeoGebra u PGF izvoz",
     "TitleExportPstricks": "GeoGebra u PSTricks izvoz",

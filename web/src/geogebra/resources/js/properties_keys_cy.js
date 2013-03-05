@@ -2514,6 +2514,7 @@ __GGB__keysVar.cy.plain = {
     "Thickness": "Trwch y llinell",
     "TickDistance": "Pellter",
     "TimeBetweenFrames": "Amser Rhwng Fframiau",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Teitl",
     "TitleExportPgf": "GeoGebra i Allforyn PGF",
     "TitleExportPstricks": "Allfudo GeoGebra i PSTricks",

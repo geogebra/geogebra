@@ -2514,6 +2514,7 @@ __GGB__keysVar.pt_PT.plain = {
     "Thickness": "Espessura da Reta",
     "TickDistance": "Dist\xe2ncia entre Marcas",
     "TimeBetweenFrames": "Tempo entre Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "T\xedtulo",
     "TitleExportPgf": "Exportar GeoGebra para PGF",
     "TitleExportPstricks": "Exportar GeoGebra para PSTricks",

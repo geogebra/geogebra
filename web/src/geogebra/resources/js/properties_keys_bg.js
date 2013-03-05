@@ -2514,6 +2514,7 @@ __GGB__keysVar.bg.plain = {
     "Thickness": "\u0414\u0435\u0431\u0435\u043b\u0438\u043d\u0430 \u043d\u0430 \u043b\u0438\u043d\u0438\u044f\u0442\u0430",
     "TickDistance": "\u0420\u0430\u0437\u0441\u0442\u043e\u044f\u043d\u0438\u0435",
     "TimeBetweenFrames": "Time between Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u0417\u0430\u0433\u043b\u0430\u0432\u0438\u0435",
     "TitleExportPgf": "GeoGebra to PGF Export",
     "TitleExportPstricks": "GeoGebra to PSTricks Export",

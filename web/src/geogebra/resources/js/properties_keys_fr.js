@@ -2514,6 +2514,7 @@ __GGB__keysVar.fr.plain = {
     "Thickness": "\xc9paisseur du trait",
     "TickDistance": "Distance",
     "TimeBetweenFrames": "Temps entre les vues",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titre",
     "TitleExportPgf": "Export GeoGebra vers PGF/TikZ",
     "TitleExportPstricks": "Export GeoGebra vers PSTricks",

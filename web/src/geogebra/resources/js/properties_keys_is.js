@@ -2514,6 +2514,7 @@ __GGB__keysVar.is.plain = {
     "Thickness": "\xdeykkt l\xednu",
     "TickDistance": "Fjarl\xe6g\xf0",
     "TimeBetweenFrames": "T\xedmi milli ramma",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titill",
     "TitleExportPgf": "GeoGebra \xed PGF \xfattak",
     "TitleExportPstricks": "GeoGebra yfir \xed PSTricks Export",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.ms.plain = {
     "Thickness": "Ketebalan Garis",
     "TickDistance": "Jarak",
     "TimeBetweenFrames": "Masa antara Kerangka",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Tajuk",
     "TitleExportPgf": "Eksport GeoGebra ke PGF",
     "TitleExportPstricks": "Eksport GeoGebra ke PSTricks",

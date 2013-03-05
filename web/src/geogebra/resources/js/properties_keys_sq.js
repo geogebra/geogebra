@@ -2514,6 +2514,7 @@ __GGB__keysVar.sq.plain = {
     "Thickness": "Trashesi Drejteze",
     "TickDistance": "Distanca",
     "TimeBetweenFrames": "Koha midis Kornizave",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titull",
     "TitleExportPgf": "Eksport nga GjeoGjebra ne PGF",
     "TitleExportPstricks": "Eksport nga GjeoGjebra ne truke PS",

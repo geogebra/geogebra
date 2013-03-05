@@ -2514,6 +2514,7 @@ __GGB__keysVar.bs.plain = {
     "Thickness": "Debljina linije",
     "TickDistance": "Razmak",
     "TimeBetweenFrames": "Vrijeme izme\u0111u slika",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Naslov",
     "TitleExportPgf": "Prenos GeoGebra kao PGF",
     "TitleExportPstricks": "Prenos GeoGebra kao PSTriks",

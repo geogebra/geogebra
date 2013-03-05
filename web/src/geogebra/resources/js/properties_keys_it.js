@@ -2514,6 +2514,7 @@ __GGB__keysVar.it.plain = {
     "Thickness": "Spessore linea",
     "TickDistance": "Distanza",
     "TimeBetweenFrames": "Ritardo tra fotogrammi",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titolo",
     "TitleExportPgf": "Esportazione da GeoGebra a PGF",
     "TitleExportPstricks": "Esportazione da GeoGebra a PSTricks",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.sk.plain = {
     "Thickness": "Hr\xfabka \u010diary",
     "TickDistance": "Vzdialenos\u0165",
     "TimeBetweenFrames": "\u010cas medzi sn\xedmkami",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "N\xe1zov",
     "TitleExportPgf": "GeoGebra -> PGF Export",
     "TitleExportPstricks": "GeoGebra do PSTricks Export",

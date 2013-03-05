@@ -2514,6 +2514,7 @@ __GGB__keysVar.ro.plain = {
     "Thickness": "Linie ingro\u0219at\u0103",
     "TickDistance": "Distan\u021ba",
     "TimeBetweenFrames": "Time between Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titlu",
     "TitleExportPgf": "GeoGebra la PGF export",
     "TitleExportPstricks": "Geogebra la PSTricks export",

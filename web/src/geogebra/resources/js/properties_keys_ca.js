@@ -2514,6 +2514,7 @@ __GGB__keysVar.ca.plain = {
     "Thickness": "Gruix de l\xednia",
     "TickDistance": "Dist\xe0ncia",
     "TimeBetweenFrames": "Temps entre els fotogrames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "T\xedtol",
     "TitleExportPgf": "Exporta a PGF",
     "TitleExportPstricks": "Exporta GeoGebra a PSTricks",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.da.plain = {
     "Thickness": "Linje tykkelse",
     "TickDistance": "Afstand",
     "TimeBetweenFrames": "Tid mellem rammer",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titel",
     "TitleExportPgf": "GeoGebra til PGF export",
     "TitleExportPstricks": "GeoGebra til PSTricks Export",

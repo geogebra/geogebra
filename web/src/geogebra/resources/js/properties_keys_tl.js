@@ -2514,6 +2514,7 @@ __GGB__keysVar.tl.plain = {
     "Thickness": "Kapal ng Linya",
     "TickDistance": "Layo",
     "TimeBetweenFrames": "Oras sa pagitan ng mga Frame",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Pamagat",
     "TitleExportPgf": "GeoGebra papuntang PGF Export",
     "TitleExportPstricks": "GeoGebra papuntang PSTricks Export",

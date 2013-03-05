@@ -2514,6 +2514,7 @@ __GGB__keysVar.eu.plain = {
     "Thickness": "Lerroaren Lodiera",
     "TickDistance": "Distantzia",
     "TimeBetweenFrames": "Fotogramen arteko Denbora-tartea",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titulua",
     "TitleExportPgf": "Esportatu GeoGebra PGF-ra",
     "TitleExportPstricks": "Esportatu GeoGebra PSTricks-era",

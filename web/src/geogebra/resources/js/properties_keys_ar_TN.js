@@ -2514,6 +2514,7 @@ __GGB__keysVar.ar_TN.plain = {
     "Thickness": "\u0633\u0645\u0643 \u0627\u0644\u062e\u0637",
     "TickDistance": "\u0628\u064f\u0639\u062f",
     "TimeBetweenFrames": "\u0627\u0644\u0632\u0645\u0646 \u0628\u064a\u0646 \u0627\u0644\u0645\u0634\u0647\u062f\u064a\u0646",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u0627\u0644\u0639\u0646\u0648\u0627\u0646",
     "TitleExportPgf": "\u062a\u0635\u062f\u064a\u0631 PGF",
     "TitleExportPstricks": "PSTricks \u0627\u0644\u062a\u0635\u062f\u064a\u0631 \u0646\u062d\u0648",

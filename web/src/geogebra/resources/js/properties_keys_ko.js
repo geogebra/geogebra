@@ -2514,6 +2514,7 @@ __GGB__keysVar.ko.plain = {
     "Thickness": "\uc120 \uad75\uae30",
     "TickDistance": "\ub208\uae08\uac04\uaca9",
     "TimeBetweenFrames": "\ud504\ub808\uc784 \ub2f9 \uc2dc\uac04",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\uc81c\ubaa9",
     "TitleExportPgf": "\uc9c0\uc624\uc9c0\ube0c\ub77c\ub97c PGF\ub85c \ub0b4\ubcf4\ub0b4\uae30",
     "TitleExportPstricks": "\uc9c0\uc624\uc9c0\ube0c\ub77c\ub97c PSTricks\ub85c \ub0b4\ubcf4\ub0b4\uae30",

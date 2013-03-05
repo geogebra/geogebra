@@ -2514,6 +2514,7 @@ __GGB__keysVar.no_NN.plain = {
     "Thickness": "Linjebreidde",
     "TickDistance": "Avstand",
     "TimeBetweenFrames": "Tid mellom bilda",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Tittel",
     "TitleExportPgf": "Eksporter GeoGebra til PGF",
     "TitleExportPstricks": "Eksporter GeoGebra til PSTricks (LaTeX-grafikk)",

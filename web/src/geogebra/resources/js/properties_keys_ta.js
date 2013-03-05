@@ -2514,6 +2514,7 @@ __GGB__keysVar.ta.plain = {
     "Thickness": "\u0b95\u0bcb\u0b9f\u0bcd\u0b9f\u0bbf\u0ba9\u0bcd \u0b95\u0ba9\u0bae\u0bcd",
     "TickDistance": "\u0ba4\u0bc2\u0bb0\u0bae\u0bcd",
     "TimeBetweenFrames": "Time between Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u0ba4\u0bb2\u0bc8\u0baa\u0bcd\u0baa\u0bc1",
     "TitleExportPgf": "GeoGebra \u0bb5\u0bc8 PGF \u0b95\u0bcd\u0b95\u0bc1 \u0b8f\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0ba4\u0bbf \u0b9a\u0bc6\u0baf\u0bcd",
     "TitleExportPstricks": "GeoGebra to PSTricks export",

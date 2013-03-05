@@ -2514,6 +2514,7 @@ __GGB__keysVar.zh.plain = {
     "Thickness": "Line Thickness",
     "TickDistance": "Distance",
     "TimeBetweenFrames": "Time between Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Title",
     "TitleExportPgf": "GeoGebra to PGF Export",
     "TitleExportPstricks": "GeoGebra to PSTricks Export",

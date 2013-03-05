@@ -2514,6 +2514,7 @@ __GGB__keysVar.vi.plain = {
     "Thickness": "\u0110\u1ed9 d\xe0y \u0111\u01b0\u1eddng th\u1eb3ng",
     "TickDistance": "T\u1ec9 l\u1ec7 kho\u1ea3ng c\xe1ch",
     "TimeBetweenFrames": "Th\u1eddi gian gi\u1eefa c\xe1c khung",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Ti\xeau \u0111\u1ec1",
     "TitleExportPgf": "Xu\u1ea5t b\u1ea3n sang d\u1ea1ng Pgf",
     "TitleExportPstricks": "Xu\u1ea5t b\u1ea3n t\u1eadp tin sang d\u1ea1ng PS",

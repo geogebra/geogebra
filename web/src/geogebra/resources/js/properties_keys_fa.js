@@ -2514,6 +2514,7 @@ __GGB__keysVar.fa.plain = {
     "Thickness": "\u0636\u062e\u0627\u0645\u062a \u062e\u0637",
     "TickDistance": "\u0641\u0627\u0635\u0644\u0647",
     "TimeBetweenFrames": "\u0632\u0645\u0627\u0646 \u0628\u06cc\u0646 \u0641\u0631\u06cc\u0645\u200c\u0647\u0627",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u0639\u0646\u0648\u0627\u0646",
     "TitleExportPgf": "\u062e\u0631\u0648\u062c\u06cc PGF",
     "TitleExportPstricks": "\u062e\u0631\u0648\u062c\u06cc \u062c\u0626\u0648\u062c\u0628\u0631\u0627 \u0628\u0647 PSTricks",

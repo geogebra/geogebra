@@ -2514,6 +2514,7 @@ __GGB__keysVar.iw.plain = {
     "Thickness": "\u05e2\u05d5\u05d1\u05d9 \u05e7\u05d5",
     "TickDistance": "\u05de\u05e8\u05d7\u05e7",
     "TimeBetweenFrames": "\u05d6\u05de\u05df \u05d1\u05d9\u05df \u05de\u05e1\u05d2\u05e8\u05d5\u05ea",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u05db\u05d5\u05ea\u05e8\u05ea",
     "TitleExportPgf": "\u05d9\u05e6\u05d5\u05d0 \u05de\u05beGeoGebra \u05dc\u05bePGF",
     "TitleExportPstricks": "\u05d9\u05e6\u05d5\u05d0 \u05de\u05beGeoGebra \u05dc\u05bePSTricks",

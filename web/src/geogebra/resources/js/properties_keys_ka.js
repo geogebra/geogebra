@@ -2514,6 +2514,7 @@ __GGB__keysVar.ka.plain = {
     "Thickness": "\u10ec\u10e0\u10e4\u10d8\u10e1 \u10e1\u10d8\u10e1\u10e5\u10d4",
     "TickDistance": "\u10db\u10d0\u10dc\u10eb\u10d8\u10da\u10d8",
     "TimeBetweenFrames": "Time between Frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u10e1\u10d0\u10d7\u10d0\u10e3\u10e0\u10d8",
     "TitleExportPgf": "GeoGebra-\u10e1 \u10e4\u10d0\u10d8\u10da\u10d8\u10e1 PGF-\u10e8\u10d8 \u10d4\u10e5\u10e1\u10de\u10dd\u10e0\u10e2\u10d8",
     "TitleExportPstricks": "GeoGebra \u10e4\u10d0\u10d8\u10da\u10d8\u10e1 PSTricks-\u10e8\u10d8 \u10d4\u10e5\u10e1\u10de\u10dd\u10e0\u10e2\u10d8",

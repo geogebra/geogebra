@@ -2514,6 +2514,7 @@ __GGB__keysVar.lt.plain = {
     "Thickness": "Ties\u0117s storis",
     "TickDistance": "Atstumas",
     "TimeBetweenFrames": "I\u0161laikymas tarp skaidri\u0173",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Pavadinimas",
     "TitleExportPgf": "GeoGebra \u012f PGF",
     "TitleExportPstricks": "GeoGebra \u012f PSTricks",

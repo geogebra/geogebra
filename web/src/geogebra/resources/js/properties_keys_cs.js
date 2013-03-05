@@ -2514,6 +2514,7 @@ __GGB__keysVar.cs.plain = {
     "Thickness": "Tlou\u0161\u0165ka \u010d\xe1ry",
     "TickDistance": "Vzd\xe1lenost",
     "TimeBetweenFrames": "\u010cas mezi sn\xedmky",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "N\xe1zev",
     "TitleExportPgf": "Export z GeoGebry do",
     "TitleExportPstricks": "Export z GeoGebry do PSTricks",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.hu.plain = {
     "Thickness": "Vonal vastags\xe1g",
     "TickDistance": "T\xe1vols\xe1g",
     "TimeBetweenFrames": "K\xe9pek k\xf6vet\xe9si ideje",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "C\xedm",
     "TitleExportPgf": "GeoGebra PGF-k\xe9nt export\xe1l\xe1sa",
     "TitleExportPstricks": "GeoGebra PSTricks-k\xe9nt export\xe1l\xe1sa",

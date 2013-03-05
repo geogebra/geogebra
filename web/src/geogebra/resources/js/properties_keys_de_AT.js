@@ -2514,6 +2514,7 @@ __GGB__keysVar.de_AT.plain = {
     "Thickness": "Linienst\xe4rke",
     "TickDistance": "Abstand",
     "TimeBetweenFrames": "Pause zwischen Einzelbildern",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titel",
     "TitleExportPgf": "GeoGebra nach PGF Export",
     "TitleExportPstricks": "GeoGebra nach PSTricks Export",

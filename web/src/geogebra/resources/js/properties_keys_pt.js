@@ -2514,6 +2514,7 @@ __GGB__keysVar.pt.plain = {
     "Thickness": "Espessura da Linha",
     "TickDistance": "Dist\xe2ncia",
     "TimeBetweenFrames": "Tempo entre Quadros",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "T\xedtulo",
     "TitleExportPgf": "Exportar para PGF",
     "TitleExportPstricks": "Exportar para PSTricks",

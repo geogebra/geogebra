@@ -2514,6 +2514,7 @@ __GGB__keysVar.fi.plain = {
     "Thickness": "Viivan paksuus",
     "TickDistance": "Et\xe4isyys",
     "TimeBetweenFrames": "Kuvien v\xe4linen aika",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Otsikko",
     "TitleExportPgf": "Vie GeoGebrasta PGF:ksi",
     "TitleExportPstricks": "Vie GeoGebrasta PTSrickiksi",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Thickness": "\u7dda\u5bec",
     "TickDistance": "\u9593\u8ddd",
     "TimeBetweenFrames": "\u5f71\u683c\u901f\u7387",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "\u6a19\u984c",
     "TitleExportPgf": "\u532f\u51fa PGF",
     "TitleExportPstricks": "\u532f\u51fa PSTricks \u6a94",

@@ -2514,6 +2514,7 @@ __GGB__keysVar.tr.plain = {
     "Thickness": "Do\u011fru kal\u0131nl\u0131\u011f\u0131",
     "TickDistance": "Uzakl\u0131k",
     "TimeBetweenFrames": "\xc7er\xe7eveler aras\u0131ndaki zaman",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Ba\u015fl\u0131k",
     "TitleExportPgf": "CeoCebirden PGF'e Aktar\u0131m",
     "TitleExportPstricks": "GeoGebradan PSTricks'e aktar\u0131m",

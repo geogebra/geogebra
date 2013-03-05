@@ -2514,6 +2514,7 @@ __GGB__keysVar.pl.plain = {
     "Thickness": "Grubo\u015b\u0107 prostej",
     "TickDistance": "Odleg\u0142o\u015b\u0107",
     "TimeBetweenFrames": "Czas mi\u0119dzy ramkami",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Tytu\u0142",
     "TitleExportPgf": "Eksport GeoGebry do PGF",
     "TitleExportPstricks": "Eksport Geogebry do PSTricks",

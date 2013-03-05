@@ -2514,6 +2514,7 @@ __GGB__keysVar.in.plain = {
     "Thickness": "Ketebalan Garis",
     "TickDistance": "Jarak",
     "TimeBetweenFrames": "Waktu diantara frame",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Judul",
     "TitleExportPgf": "Ekspor GeoGebra ke PGF",
     "TitleExportPstricks": "Ekspor GeoGebra ke PSTricks",

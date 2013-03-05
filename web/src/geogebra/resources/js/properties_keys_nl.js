@@ -2514,6 +2514,7 @@ __GGB__keysVar.nl.plain = {
     "Thickness": "Lijndikte",
     "TickDistance": "Afstand",
     "TimeBetweenFrames": "Tijd tussen frames",
+    "TimeExpired": "Your session has expired, please log in again",
     "Title": "Titel",
     "TitleExportPgf": "GeoGebra naar PGF Export",
     "TitleExportPstricks": "GeoGebra naar PSTricks omzetting",
