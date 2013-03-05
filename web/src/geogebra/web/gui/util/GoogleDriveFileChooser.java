@@ -2,7 +2,7 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.web.css.GuiResources;
-import geogebra.web.helper.MyGoogleApis;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,13 +25,11 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	Button open;
 	private Button cancel;
 	private VerticalPanel filesPanel;
-	public static GoogleDriveFileChooser INSTANCE = null;
 	
 	
 
 	public GoogleDriveFileChooser(final App app) {
 		this.app = app;
-		GoogleDriveFileChooser.INSTANCE = this;
 		setWidget(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
 		filesPanel.addStyleName("filesPanel");
@@ -96,7 +94,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	@Override
     public void show(){
 	    super.show();
-	    if (MyGoogleApis.loggedIn && MyGoogleApis.driveLoaded) {
+	    if (((AppW) app).getMyGoogleApis().loggedIn && ((AppW) app).getMyGoogleApis().driveLoaded) {
 			initFileNameItems();
 		} else {
 			showEmtpyMessage();
@@ -143,11 +141,9 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 			}
 			retrieveAllFiles(function(resp) {
 				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
-				$wnd.console.log(resp);
 				resp.forEach(function(value, index, array) {
 					if (value.mimeType === "application/vnd.geogebra.file") {
 						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description, value.id);
-						//$wnd.console.log(value);
 					}
 				});
 			});
@@ -156,7 +152,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	public void onClick(ClickEvent event) {
 	    if (currentFileName != null) {
 	    	clearFilesPanel();
-	    	MyGoogleApis.loadFromGoogleFile(currentFileName, currentDescription, currentTitle, currentId);
+	    	((AppW) app).getMyGoogleApis().loadFromGoogleFile(currentFileName, currentDescription, currentTitle, currentId);
 	    	//TODO: process descriptors here!
 	    }
     }

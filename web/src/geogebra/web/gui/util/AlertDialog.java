@@ -1,5 +1,7 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.main.App;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -23,20 +25,22 @@ public class AlertDialog extends DialogBox {
 	private VerticalPanel container;
 	private Label msg;
 	private Button ok;
-	public static AlertDialog INSTANCE = null;
+	private App app;
 	
-	protected AlertDialog() {
+	public AlertDialog(App app) {
+		this.app = app;
 		setWidget(container = new VerticalPanel());
 		HorizontalPanel textPanel = new HorizontalPanel();
 		textPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		textPanel.add(msg = new Label(""));
 		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.add(ok = new Button("Ok"));
+		buttonPanel.add(ok = new Button(app.getMenu("Ok")));
 		buttonPanel.addStyleName("buttonPanel");
+		final AlertDialog _this = this;
 		ok.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				INSTANCE.hide();
+				_this.hide();
 			}
 		});
 		container.add(textPanel);
@@ -44,13 +48,13 @@ public class AlertDialog extends DialogBox {
 		addStyleName("GeoGebraFileChooser");
 	}
 	
-	public static AlertDialog get(String text) {
-		if (INSTANCE == null) {
-			INSTANCE = new AlertDialog();
-		}
-		INSTANCE.msg.setText(text);
-		INSTANCE.center();
-		return INSTANCE;		
+	/**
+	 * @param text text
+	 * @return sets the text of the dialog
+	 */
+	public AlertDialog get(String text) {
+		msg.setText(text);
+		return this;		
 	}
 
 }

@@ -2,16 +2,9 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
-import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.helper.GoogleApiCallback;
-import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.AppW;
-import geogebra.web.util.JSON;
 
-import com.google.api.gwt.oauth2.client.AuthRequest;
-import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -78,22 +71,12 @@ public class GeoGebraMenubarW extends MenuBar {
 			Command c = null;
 			String menuHtml = "";
 			/*reserve for later, when we will have client side Oauth*/
-			if (MyGoogleApis.signedInToGoogle()) {
+			if (((AppW) app).getMyGoogleApis().signedInToGoogle()) {
 				c = createCommandForSignedIn();
-				//will be handled by callback
-				createMenuHtmlForSignedIn();
 			} else {
 				c = createCommandForNotSignedIn();
 				menuHtml = createMenuHtmlForNotSignedIn();
 			}
-			/*String email = ((AppW)app).getNativeEmailSet();
-			if (email.equals("")) {
-				c = createLoginCommand();
-				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("Login"));
-			} else {
-				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email);
-				c = createLogOutCommand();
-			}*/
 			
 	        loginToGoogle = addItem(menuHtml,true,c);
 	        loginToGoogle.addStyleName("logintogoogle");
@@ -131,38 +114,13 @@ public class GeoGebraMenubarW extends MenuBar {
 			else return "";
 		}-*/;
 
-		private void createMenuHtmlForSignedIn() {
-	        AuthRequest r = MyGoogleApis.createNewAuthRequest();
-	        Web.AUTH.login(r, new Callback<String, Throwable>() {
-
-				public void onFailure(Throwable reason) {
-					App.error("Request failed" + " " + reason.getMessage());
-                }
-
-				public void onSuccess(String token) {
-					MyGoogleApis.executeApi(GeoGebraConstants.API_USERINFO + token,new GoogleApiCallback() {
-						
-						public void success(String responseText) {
-							JavaScriptObject answer = JSON.parse(responseText);
-							loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), JSON.get(answer,"email")));
-							loginToGoogle.setScheduledCommand(createCommandForSignedIn());
-						}
-						
-						public void failure(String failureText) {
-							App.error(failureText);
-							
-						}
-                       });
-                }
-			});
-	        
-        }
+		
 
 		static Command createCommandForNotSignedIn() {
 	        return new Command() {
 				
 				public void execute() {
-					MyGoogleApis.loginToGoogle();
+					((AppW) app).getMyGoogleApis().loginToGoogle();
 				}
 			};
         }
@@ -172,7 +130,7 @@ public class GeoGebraMenubarW extends MenuBar {
 				
 				public void execute() {
 					//Web.AUTH.clearAllTokens();
-					MyGoogleApis.clearAllTokens();
+					((AppW) app).getMyGoogleApis().clearAllTokens();
 					loginToGoogle.setHTML(createMenuHtmlForNotSignedIn());
 					loginToGoogle.setScheduledCommand(createCommandForNotSignedIn());
 					fileMenu.refreshIfLoggedIntoGoogle(false);

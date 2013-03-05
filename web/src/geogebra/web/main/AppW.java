@@ -51,6 +51,7 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
+import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.DynamicScriptElement;
@@ -133,6 +134,7 @@ public class AppW extends AppWeb {
 	private boolean showGrid = false;
 
 	boolean menuKeysLoaded = false;
+	private MyGoogleApis myGoogleApis;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -199,6 +201,7 @@ public class AppW extends AppWeb {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		this.loc = new LocalizationW();
+		this.myGoogleApis = new MyGoogleApis(this);
 		createAppSplash();
 		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
@@ -889,7 +892,7 @@ public class AppW extends AppWeb {
 	/**
 	 * static because it gets from server side, either "" or the set filename
 	 */
-	public static String currentFileId = null;
+	public String currentFileId = null;
 
 	
 	public void refreshCurrentFileDescriptors(String fName, String desc,
@@ -911,9 +914,9 @@ public class AppW extends AppWeb {
 		return driveBase64description;
 	}
 
-	private static native void setCurrentFileId() /*-{
+	private native void setCurrentFileId() /*-{
 		if ($wnd.GGW_appengine) {
-			@geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+			this.@geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
 		}
 	}-*/;
 
@@ -2210,6 +2213,10 @@ public class AppW extends AppWeb {
 	@Override
 	public void createNewWindow() {
 		// TODO implement it ?
+	}
+	
+	public MyGoogleApis getMyGoogleApis() {
+		return this.myGoogleApis;
 	}
 
 }

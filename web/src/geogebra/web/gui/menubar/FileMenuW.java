@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -72,7 +71,7 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-		if (MyGoogleApis.signedInToGoogle()){
+		if (((AppW) app).getMyGoogleApis().signedInToGoogle()){
 			openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true,getOpenFromGoogleDriveCommand());
 		}
 		else

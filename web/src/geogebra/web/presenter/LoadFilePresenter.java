@@ -3,7 +3,6 @@ package geogebra.web.presenter;
 import geogebra.common.main.GeoGebraPreferences;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
-import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
 
@@ -34,7 +33,7 @@ public class LoadFilePresenter extends BasePresenter {
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
 		} else if (!"".equals((fileId = getGoogleFileId()))) {
-			 MyGoogleApis.getFileFromGoogleDrive(fileId,this);
+			((AppW) app).getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
 			AppW.console("no base64content, possibly App loaded?");
