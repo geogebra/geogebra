@@ -43,21 +43,22 @@ public class EuclidianViewM extends EuclidianViewWeb
 	// set in setCanvas
 	private Canvas canvas;
 
-	protected Hits hits; 
+	protected Hits hits;
 
-	private static int SELECTION_DIAMETER_MIN = 25; // taken from geogebra.common.euclidian.draw.DrawPoint
-	
-	// accepting range for hitting a point is multiplied with this factor 
+	private static int SELECTION_DIAMETER_MIN = 25; // taken from
+																									// geogebra.common.euclidian.draw.DrawPoint
+
+	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
-	private int selectionFactor = 3; 
-	
+	private int selectionFactor = 3;
+
 	public EuclidianViewM(MobileController ec)
 	{
 		super(ec, new Settings().getEuclidian(1));
 
 		this.setAllowShowMouseCoords(false);
-		
-		this.hits = new Hits(); 
+
+		this.hits = new Hits();
 	}
 
 	/**
@@ -67,7 +68,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	 *          : a new Canvas
 	 * 
 	 */
-	public void initCanvas(Canvas c,LayoutPanel p)
+	public void initCanvas(Canvas c, LayoutPanel p)
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
@@ -92,10 +93,11 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void repaint()
 	{
-		if (getEuclidianController().isCollectingRepaints()){
-    		getEuclidianController().setCollectedRepaints(true);
-    		return;
-    	}
+		if (getEuclidianController().isCollectingRepaints())
+		{
+			getEuclidianController().setCollectedRepaints(true);
+			return;
+		}
 
 		doRepaint();
 	}
@@ -104,11 +106,13 @@ public class EuclidianViewM extends EuclidianViewWeb
 	 * adds a GeoElement to this view; prevent redraw
 	 */
 	@Override
-	public void add(GeoElement geo) {
+	public void add(GeoElement geo)
+	{
 
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
-		if (!isVisibleInThisView(geo)) {
+		if (!isVisibleInThisView(geo))
+		{
 			return;
 			// END G.Sturr
 		}
@@ -116,39 +120,44 @@ public class EuclidianViewM extends EuclidianViewWeb
 		// check if there is already a drawable for geo
 		DrawableND d = getDrawable(geo);
 
-		if (d != null) {
+		if (d != null)
+		{
 			return;
 		}
 
 		d = createDrawable(geo);
-		if (d != null) {
+		if (d != null)
+		{
 			addToDrawableLists((Drawable) d);
 		}
 
 	}
-	
+
 	/**
 	 * this version also adds points that are very close to the hit point
 	 */
 	@Override
-	public void setHits(GPoint p){
-		super.setHits(p); 
-		this.hits = super.getHits(); 
-		
-		if(this.hits.size() == 0){			
-			GRectangleW rect = new GRectangleW(); 
-			int size = EuclidianViewM.SELECTION_DIAMETER_MIN * this.selectionFactor;  
-			rect.setBounds(p.x - (size/2), p.y - (size/2), size, size); 
-			this.setHits(rect); 
-			this.hits = super.getHits(); 
+	public void setHits(GPoint p)
+	{
+		super.setHits(p);
+		this.hits = super.getHits();
+
+		if (this.hits.size() == 0)
+		{
+			GRectangleW rect = new GRectangleW();
+			int size = EuclidianViewM.SELECTION_DIAMETER_MIN * this.selectionFactor;
+			rect.setBounds(p.x - (size / 2), p.y - (size / 2), size, size);
+			this.setHits(rect);
+			this.hits = super.getHits();
 		}
 	}
-	
+
 	@Override
-	public Hits getHits(){		
-		return this.hits;		
+	public Hits getHits()
+	{
+		return this.hits;
 	}
-	
+
 	@Override
 	public boolean hitAnimationButton(AbstractEvent event)
 	{
@@ -236,7 +245,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		this.g2p.setCoordinateSpaceHeight(height);
 
 		this.canvas.setSize(width + "px", height + "px");
-		
+
 		setRealWorldBounds();
 	}
 
@@ -245,7 +254,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	{
 		return false;
 	}
-
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize)
@@ -260,9 +268,10 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void add(GBox box)
 	{
-		/*TODO panel.add(
-	    		GBoxW.getImpl((GBoxW) box),
-	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());*/
+		/*
+		 * TODO panel.add( GBoxW.getImpl((GBoxW) box), (int)box.getBounds().getX(),
+		 * (int)box.getBounds().getY());
+		 */
 	}
 
 	@Override
@@ -281,25 +290,27 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	@Override
-  protected void drawResetIcon(GGraphics2D g)
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
-	
-	public Canvas getCanvas(){
+	protected void drawResetIcon(GGraphics2D g)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public Canvas getCanvas()
+	{
 		return this.canvas;
 	}
 
 	@Override
-	protected void doRepaint2() {
+	protected void doRepaint2()
+	{
 		if (getAxesColor() == null)
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
 		}
-		((DrawEquationWeb)this.app.getDrawEquation()).clearLaTeXes(this);    	
+		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
-		
+
 	}
 
 }

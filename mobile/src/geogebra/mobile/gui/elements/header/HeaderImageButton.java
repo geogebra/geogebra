@@ -11,8 +11,8 @@ public class HeaderImageButton extends HeaderButton
 	@Override
 	public void setText(String text)
 	{
-		String html = "<img src=\""+text +"\" style=\"height: 100%;margin-right: 5px;\">"; 		
-		this.getElement().setInnerHTML(html); 
+		String html = "<img src=\"" + text + "\" style=\"height: 100%;margin-right: 5px;\">";
+		this.getElement().setInnerHTML(html);
 	}
 
 }

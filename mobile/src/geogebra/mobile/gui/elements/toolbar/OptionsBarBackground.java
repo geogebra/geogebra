@@ -19,17 +19,15 @@ public class OptionsBarBackground extends ButtonBar
 	private final AnimationHelper animationHelper;
 
 	/**
-	 * Initialize the {@link OptionsBar optionsBar} with the specific menu
-	 * entries and add an {@link AnimationHelper}.
+	 * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
+	 * and add an {@link AnimationHelper}.
 	 * 
 	 * @param menuEntries
-	 *            the ToolBarCommands that will be shown
+	 *          the ToolBarCommands that will be shown
 	 * @param ancestor
-	 *            the OptionsClickedListener (f.e. a ToolBarButton) that was
-	 *            clicked
+	 *          the OptionsClickedListener (f.e. a ToolBarButton) that was clicked
 	 */
-	public OptionsBarBackground(ToolBarCommand[] menuEntries,
-			OptionsClickedListener ancestor)
+	public OptionsBarBackground(ToolBarCommand[] menuEntries, OptionsClickedListener ancestor)
 	{
 		this.addStyleDependentName("toolBarOptionsBackground");
 		this.optionsBar = new OptionsBar(menuEntries, ancestor);

@@ -1,9 +1,8 @@
 package geogebra.mobile.gui;
 
-import geogebra.mobile.ClientFactory;
+import geogebra.mobile.MobileEntryPoint;
 import geogebra.mobile.gui.elements.ggt.HorizontalMaterialPanel;
 import geogebra.mobile.gui.elements.ggt.VerticalMaterialPanel;
-import geogebra.mobile.place.TabletGuiPlace;
 import geogebra.mobile.utils.ggtapi.GeoGebraTubeAPI;
 import geogebra.mobile.utils.ggtapi.JSONparserGGT;
 import geogebra.mobile.utils.ggtapi.Material;
@@ -24,8 +23,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.MGWTSettings;
-import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.MSearchBox;
 
 /**
@@ -49,15 +46,6 @@ public class TubeSearchUI extends VerticalPanel
 	{
 		this.setWidth(Window.getClientWidth() + "px");
 		this.setHeight(Window.getClientHeight() + "px");
-
-		// set viewport and other settings for mobile
-		MGWT.applySettings(MGWTSettings.getAppSetting());
-
-		// this will create a link element at the end of head
-		MGWTStyle.getTheme().getMGWTClientBundle().getMainCss().ensureInjected();
-
-		// append your own css as last thing in the head
-		MGWTStyle.injectStyleSheet("TubeSearchUI.css");
 
 		this.searchBox = new MSearchBox();
 		this.featuredMaterials = new HorizontalMaterialPanel();
@@ -129,7 +117,7 @@ public class TubeSearchUI extends VerticalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				ClientFactory.getPlaceController().goTo(new TabletGuiPlace("TubeSearchUI"));
+				MobileEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());
 
@@ -139,10 +127,5 @@ public class TubeSearchUI extends VerticalPanel
 		this.add(this.backButton);
 		setCellVerticalAlignment(this.backButton, HasVerticalAlignment.ALIGN_BOTTOM);
 
-	}
-
-	public void setPresenter(Presenter listener)
-	{
-		this.listener = listener;
 	}
 }

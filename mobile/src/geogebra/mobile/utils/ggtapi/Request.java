@@ -105,7 +105,7 @@ class Request
 			current.put("-name", new JSONString(this.fields[i].toString()));
 			this.fieldJSON.set(i, current);
 		}
-		
+
 		this.fieldsJSON.put("field", this.fieldJSON);
 
 		for (int i = 0; i < this.filters.length; i++)

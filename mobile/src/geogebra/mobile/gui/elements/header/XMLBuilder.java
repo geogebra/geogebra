@@ -11,8 +11,7 @@ public class XMLBuilder extends MyXMLio
 
 	private DocHandler handler, ggbDocHandler;
 	private XmlParser xmlParser;
-	
-	
+
 	public XMLBuilder(Construction cons)
 	{
 		this.cons = cons;
@@ -23,12 +22,13 @@ public class XMLBuilder extends MyXMLio
 		this.handler = getGGBHandler();
 	}
 
-	private DocHandler getGGBHandler() {
-		if (this.ggbDocHandler == null)	
+	private DocHandler getGGBHandler()
+	{
+		if (this.ggbDocHandler == null)
 			this.ggbDocHandler = this.kernel.newMyXMLHandler(this.cons);
 		return this.ggbDocHandler;
 	}
-	
+
 	@Override
 	public StringBuilder getUndoXML(Construction construction)
 	{
@@ -37,7 +37,7 @@ public class XMLBuilder extends MyXMLio
 	}
 
 	@Override
-  public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception
+	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception
 	{
 		doParseXML(xml, clearConstruction, isGgtFile);
 
@@ -97,10 +97,10 @@ public class XMLBuilder extends MyXMLio
 	}
 
 	@Override
-  public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile, boolean settingsBatch) throws Exception
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
+	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile, boolean settingsBatch) throws Exception
+	{
+		// TODO Auto-generated method stub
+
+	}
 
 }

@@ -20,16 +20,16 @@ public class JSONparserGGT
 		List<Material> result = new ArrayList<Material>();
 
 		JSONArray materialsArray = null;
-		
+
 		if (response != null)
 		{
 			JSONObject responseObject = JSONParser.parseStrict(response).isObject();
-			
-			if(responseObject.containsKey("responses"))
+
+			if (responseObject.containsKey("responses"))
 			{
 				JSONObject materialsObject = responseObject.get("responses").isObject().get("response").isObject();
-				
-				if(materialsObject.containsKey(("item")))
+
+				if (materialsObject.containsKey(("item")))
 				{
 					materialsArray = materialsObject.get("item").isArray();
 				}
@@ -38,11 +38,11 @@ public class JSONparserGGT
 					// List is empty
 				}
 			}
-			else if(responseObject.containsKey("error"))
+			else if (responseObject.containsKey("error"))
 			{
 				// Show error
 			}
-			
+
 		}
 		else
 		{

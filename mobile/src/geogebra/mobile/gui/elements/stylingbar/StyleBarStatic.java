@@ -13,21 +13,25 @@ import java.util.List;
 public class StyleBarStatic
 {
 	/**
-	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList, EuclidianViewInterfaceCommon)
+	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList,
+	 *      EuclidianViewInterfaceCommon)
 	 */
-	public static void showAxes(EuclidianViewInterfaceCommon view){
+	public static void showAxes(EuclidianViewInterfaceCommon view)
+	{
 		view.setShowAxes(!(view.getShowXaxis() || view.getShowYaxis()), false);
-		view.repaint(); 
+		view.repaint();
 	}
-	
+
 	/**
-	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList, EuclidianViewInterfaceCommon)
+	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList,
+	 *      EuclidianViewInterfaceCommon)
 	 */
-	public static void showGrid(EuclidianViewInterfaceCommon view){
-		view.showGrid(!view.getShowGrid()); 
-		view.repaint(); 
+	public static void showGrid(EuclidianViewInterfaceCommon view)
+	{
+		view.showGrid(!view.getShowGrid());
+		view.repaint();
 	}
-	
+
 	/**
 	 * only repaint once (not once per geo); does not change LineSize
 	 * 

@@ -2,13 +2,13 @@ package geogebra.mobile.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.mobile.MobileApp;
+import geogebra.mobile.MobileEntryPoint;
 import geogebra.mobile.gui.CommonResources;
 import geogebra.mobile.gui.Presenter;
 import geogebra.mobile.gui.TabletGUI;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.OpenCallback;
 import geogebra.mobile.gui.elements.header.OpenSaveDialog.SaveCallback;
 import geogebra.mobile.model.GuiModel;
-import geogebra.mobile.place.TubeSearchPlace;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -64,8 +64,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				guiModel.closeOptions(); 
-				TabletHeaderPanelLeft.this.listener.goTo(new TubeSearchPlace("TabletGui"));
+				guiModel.closeOptions();
+				
+				MobileEntryPoint.showTubeSearchUI();
 			}
 		}, ClickEvent.getType());
 
@@ -96,7 +97,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				guiModel.closeOptions();
 				kernel.clearConstruction(true);
-				kernel.initUndoInfo(); 
+				kernel.initUndoInfo();
 				kernel.notifyRepaint();
 				changeTitle("New File");
 			}

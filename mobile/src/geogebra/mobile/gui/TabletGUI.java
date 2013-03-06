@@ -1,8 +1,6 @@
 package geogebra.mobile.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.mobile.ClientFactory;
-import geogebra.mobile.activity.TabletGuiActivity;
 import geogebra.mobile.controller.MobileController;
 import geogebra.mobile.gui.algebra.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.header.TabletHeaderPanel;
@@ -13,9 +11,6 @@ import geogebra.mobile.gui.elements.toolbar.ToolBar;
 import geogebra.mobile.gui.euclidian.EuclidianViewPanel;
 import geogebra.mobile.model.MobileModel;
 
-import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -27,7 +22,7 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
  * Coordinates the GUI of the tablet.
  * 
  */
-public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, AcceptsOneWidget, Presenter
+public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI
 {
 	EuclidianViewPanel euclidianViewPanel;
 	LayoutPanel evAVpanel;
@@ -37,8 +32,6 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	AlgebraViewPanel algebraViewPanel;
 	ToolBar toolBar;
 	StylingBar stylingBar;
-
-	private TabletGuiActivity tabletGuiActivity;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -64,7 +57,7 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 				// TODO update whatever is shown right now, not necessarily the
 				// euclidianViewPanel,
 				// this is just a temporary workaround
-				TabletGUI.this.euclidianViewPanel.getEuclidianView().updateSize(); 
+				TabletGUI.this.euclidianViewPanel.getEuclidianView().updateSize();
 				TabletGUI.this.euclidianViewPanel.repaint();
 			}
 		});
@@ -102,16 +95,12 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		// Initialize GUI Elements
 		this.headerPanel = new TabletHeaderPanel();
 		this.leftHeader = new TabletHeaderPanelLeft(this, kernel, mobileModel.getGuiModel());
-		
-		if(this.tabletGuiActivity != null){
-			this.leftHeader.setPresenter(this.tabletGuiActivity); 
-		}
-		
+
 		this.rightHeader = new TabletHeaderPanelRight(kernel);
 		this.toolBar = new ToolBar();
 		this.algebraViewPanel = new AlgebraViewPanel();
 
-		MobileController ec = new MobileController(mobileModel,kernel.getApplication());
+		MobileController ec = new MobileController(mobileModel, kernel.getApplication());
 		ec.setKernel(kernel);
 		this.evAVpanel = new LayoutPanel();
 		this.evAVpanel.getElement().setClassName("evAVpanel");
@@ -124,15 +113,15 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 		this.algebraViewPanel.initAlgebraView(ec, kernel);
 		this.toolBar.makeTabletToolBar(mobileModel);
 		this.evAVpanel.add(this.euclidianViewPanel);
-		
+
 		this.add(this.evAVpanel);
 		this.add(this.headerPanel);
 		this.add(this.leftHeader);
 		this.add(this.rightHeader);
 		this.add(this.stylingBar);
-		
-		this.evAVpanel.add(this.algebraViewPanel); 
-		
+
+		this.evAVpanel.add(this.algebraViewPanel);
+
 		this.add(this.toolBar);
 	}
 
@@ -140,29 +129,4 @@ public class TabletGUI extends LayoutPanel implements GeoGebraMobileGUI, Accepts
 	{
 		return this.headerPanel;
 	}
-
-	@Override
-	public void setWidget(IsWidget w)
-	{
-		add(w.asWidget());
-	}
-
-	/**
-	 * Navigate to a new Place in the browser
-	 */
-	@Override
-  public void goTo(Place place)
-	{
-		ClientFactory.getPlaceController().goTo(place);
-	}
-
-	public void setPresenter(TabletGuiActivity tabletGuiActivity)
-  {
-	  if(this.leftHeader != null){
-	  	this.leftHeader.setPresenter(tabletGuiActivity); 
-	  }
-	  this.tabletGuiActivity = tabletGuiActivity; 
-  }
-
-	
 }

@@ -8,15 +8,16 @@ import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
 
 /**
  * Adapter class with empty methods for {@link TouchHandler}.
+ * 
  * @author Matthias Meisinger
- *
+ * 
  */
 public class TouchAdapter implements TouchHandler
 {
 
 	@Override
 	public void onTouchStart(TouchStartEvent event)
-	{		
+	{
 	}
 
 	@Override

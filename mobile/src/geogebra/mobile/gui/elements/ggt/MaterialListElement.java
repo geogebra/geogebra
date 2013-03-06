@@ -34,7 +34,7 @@ public class MaterialListElement extends HorizontalPanel
 
 	public MaterialListElement(Material m)
 	{
-		// TODO set infos alignment 
+		// TODO set infos alignment
 		this.image = new SimplePanel();
 		this.infos = new VerticalPanel();
 		this.infos.setSpacing(5);
@@ -107,7 +107,7 @@ public class MaterialListElement extends HorizontalPanel
 		}, ClickEvent.getType());
 
 		this.add(this.links);
-	
+
 		this.addDomHandler(new ClickHandler()
 		{
 			@Override

@@ -12,19 +12,20 @@ public class Marble extends SimplePanel
 	 */
 	public void setImage(String text)
 	{
-		String html = "<img src=\""+text +"\" style=\"height: 19px;margin-right: 5px;\">"; 		
-		this.getElement().setInnerHTML(html); 
+		String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
+		this.getElement().setInnerHTML(html);
 	}
 
-	public void setchecked(boolean value){
-		if(value)
+	public void setchecked(boolean value)
+	{
+		if (value)
 		{
 			setImage(CommonResources.INSTANCE.algebra_shown().getSafeUri().asString());
 		}
-		else 
+		else
 		{
 			setImage(CommonResources.INSTANCE.algebra_hidden().getSafeUri().asString());
 		}
 	}
-	
+
 }

@@ -8,12 +8,9 @@ package geogebra.mobile.utils;
  */
 public class Swipeables
 {
-	private static ToolBarCommand[] allowedCommands = new ToolBarCommand[] {
-			ToolBarCommand.LineThroughTwoPoints,
-			ToolBarCommand.SegmentBetweenTwoPoints,
-			ToolBarCommand.VectorBetweenTwoPoints,
-			ToolBarCommand.RayThroughTwoPoints,
-			ToolBarCommand.CircleWithCenterThroughPoint };
+	private static ToolBarCommand[] allowedCommands = new ToolBarCommand[] { ToolBarCommand.LineThroughTwoPoints,
+	    ToolBarCommand.SegmentBetweenTwoPoints, ToolBarCommand.VectorBetweenTwoPoints, ToolBarCommand.RayThroughTwoPoints,
+	    ToolBarCommand.CircleWithCenterThroughPoint };
 
 	private Swipeables()
 	{

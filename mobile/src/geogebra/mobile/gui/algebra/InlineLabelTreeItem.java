@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  * (shortened as handlers are not required)
  */
 
-public class InlineLabelTreeItem extends InlineLabel 
+public class InlineLabelTreeItem extends InlineLabel
 {
 
 	TreeItem par;
@@ -33,9 +33,12 @@ public class InlineLabelTreeItem extends InlineLabel
 
 	/**
 	 * 
-	 * @param app Application
-	 * @param parent TreeItem
-	 * @param strlab String
+	 * @param app
+	 *          Application
+	 * @param parent
+	 *          TreeItem
+	 * @param strlab
+	 *          String
 	 */
 	public InlineLabelTreeItem(App app, TreeItem parent, String strlab)
 	{

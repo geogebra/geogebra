@@ -35,8 +35,8 @@ public class Colors extends VerticalPanel
 
 	private void addColorButton(final GColor color)
 	{
-		RoundPanel button = new RoundPanel(); 
-		
+		RoundPanel button = new RoundPanel();
+
 		button.addStyleName("colorChoiceButton");
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 
@@ -53,8 +53,8 @@ public class Colors extends VerticalPanel
 				{
 					Colors.this.mobileModel.lastSelected().updateRepaint();
 				}
-				
-				Colors.this.mobileModel.storeOnClose();  
+
+				Colors.this.mobileModel.storeOnClose();
 			}
 		}, ClickEvent.getType());
 

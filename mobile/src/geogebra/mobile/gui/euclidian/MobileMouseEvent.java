@@ -7,16 +7,16 @@ import geogebra.common.euclidian.event.AbstractEvent;
  * Base implementation of AbstractEvent.
  * 
  * @author Thomas Krismayer
- *
+ * 
  */
 public class MobileMouseEvent extends AbstractEvent
 {
 
-	private GPoint point = new GPoint(0,0); 
+	private GPoint point = new GPoint(0, 0);
 
 	public MobileMouseEvent(int x, int y)
 	{
-		this.point = new GPoint(x, y); 
+		this.point = new GPoint(x, y);
 	}
 
 	@Override

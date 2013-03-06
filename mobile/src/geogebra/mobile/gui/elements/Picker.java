@@ -68,9 +68,9 @@ public class Picker
 		}, ClickEvent.getType());
 		verticalPanel.add(this.ok);
 
-		RoundPanel p = new RoundPanel(); 
-		p.add(verticalPanel); 		
-		
+		RoundPanel p = new RoundPanel();
+		p.add(verticalPanel);
+
 		this.popinDialog.add(p);
 		this.popinDialog.center();
 	}

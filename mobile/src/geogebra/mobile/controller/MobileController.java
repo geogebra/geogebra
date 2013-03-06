@@ -34,7 +34,7 @@ public class MobileController extends EuclidianController
 	private GPoint origin;
 	private boolean clicked = false;
 
-	public MobileController(MobileModel mobileModel,App app)
+	public MobileController(MobileModel mobileModel, App app)
 	{
 		super(app);
 		this.model = mobileModel;
@@ -84,7 +84,7 @@ public class MobileController extends EuclidianController
 		{
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-			
+
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
@@ -99,15 +99,16 @@ public class MobileController extends EuclidianController
 		{
 			handleEvent(x, y);
 		}
-		
-		if(this.model.getCommand().equals(ToolBarCommand.Move_Mobile) && this.view.getHits().size() > 0){
-			this.kernel.storeUndoInfo(); 
+
+		if (this.model.getCommand().equals(ToolBarCommand.Move_Mobile) && this.view.getHits().size() > 0)
+		{
+			this.kernel.storeUndoInfo();
 		}
 	}
 
 	public void onPinch(int x, int y, double scaleFactor)
 	{
-		super.mouseLoc = new GPoint(x, y);		
+		super.mouseLoc = new GPoint(x, y);
 		super.zoomInOut(true, scaleFactor < 1);
 	}
 
@@ -118,13 +119,14 @@ public class MobileController extends EuclidianController
 
 	private void handleEvent(int x, int y)
 	{
-		this.model.getGuiModel().closeOptions(); // make sure undo-information is stored first
-		
+		this.model.getGuiModel().closeOptions(); // make sure undo-information is
+																						 // stored first
+
 		ToolBarCommand cmd = this.model.getCommand();
-		
+
 		super.mouseLoc = new GPoint(x, y);
 		this.mode = this.model.getCommand().getMode();
-		
+
 		calcRWcoords();
 
 		if (cmd == ToolBarCommand.Move_Mobile)
@@ -260,17 +262,20 @@ public class MobileController extends EuclidianController
 		setStartPointLocation(this.xRW, this.yRW);
 		this.startLoc = this.mouseLoc;
 
-		//remove Polygons, add their points instead
-		ArrayList<GeoElement> polygons = this.model.getAll(Test.GEOPOLYGON); 
-		for(GeoElement geo : polygons){
-			for(GeoPointND p : ((GeoPolygon) geo).getPoints()){
-				if(p instanceof GeoElement){
-					this.model.select((GeoElement)p); 
+		// remove Polygons, add their points instead
+		ArrayList<GeoElement> polygons = this.model.getAll(Test.GEOPOLYGON);
+		for (GeoElement geo : polygons)
+		{
+			for (GeoPointND p : ((GeoPolygon) geo).getPoints())
+			{
+				if (p instanceof GeoElement)
+				{
+					this.model.select((GeoElement) p);
 				}
 			}
-			this.model.deselect(geo); 
+			this.model.deselect(geo);
 		}
-		
+
 		// move all selected geos
 		GeoElement.moveObjects(removeParentsOfView(this.model.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 

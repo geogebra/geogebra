@@ -65,7 +65,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		this.previouslyChecked = ge.isEuclidianVisible();
 
 		this.marble.setchecked(this.previouslyChecked);
-		
+
 		this.marble.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -75,7 +75,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 				AlgebraViewTreeItem.this.geo.update();
 				AlgebraViewTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
 				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
-				
+
 				AlgebraViewTreeItem.this.marble.setchecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
 			}
 		}, ClickEvent.getType());
@@ -126,7 +126,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 			String latexStr = this.geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 			if ((latexStr != null) && this.geo.isLaTeXDrawableGeo() && (this.geo.isGeoList() ? !((GeoList) this.geo).isMatrix() : true))
 			{
-				latexStr =  DrawEquationWeb.inputLatexCosmetics(latexStr);
+				latexStr = DrawEquationWeb.inputLatexCosmetics(latexStr);
 				this.seMayLatex = se;
 				DrawEquationWeb.drawEquationAlgebraView(this.seMayLatex, latexStr, this.geo.getAlgebraColor(), GColor.white);
 				this.LaTeX = true;
@@ -248,8 +248,6 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		// stopEditingSimple(tb.getText());
 		// }
 	}
-
-	
 
 	public void startEditing()
 	{

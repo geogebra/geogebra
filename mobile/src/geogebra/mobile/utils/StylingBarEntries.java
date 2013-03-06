@@ -8,11 +8,10 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 public enum StylingBarEntries
 {
-	Point(GColor.blue, new SVGResource[] { CommonResources.INSTANCE.label() }), 
-	DependentPoints(GColor.darkGray,
-	    new SVGResource[] { CommonResources.INSTANCE.label() }),
-	Line(GColor.black, new SVGResource[] { CommonResources.INSTANCE.properties_defaults() }),
-	Polygon(new GColorW(153, 51, 0), new SVGResource[] {CommonResources.INSTANCE.properties_defaults()});
+	Point(GColor.blue, new SVGResource[] { CommonResources.INSTANCE.label() }), DependentPoints(GColor.darkGray,
+	    new SVGResource[] { CommonResources.INSTANCE.label() }), Line(GColor.black,
+	    new SVGResource[] { CommonResources.INSTANCE.properties_defaults() }), Polygon(new GColorW(153, 51, 0),
+	    new SVGResource[] { CommonResources.INSTANCE.properties_defaults() });
 
 	GColor defaultColor;
 	SVGResource[] entry;

@@ -12,21 +12,20 @@ public interface CommonResources extends ClientBundle
 
 	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
 
-	//Dialogs
-	
+	// Dialogs
+
 	@Source("icons/svg/button_ok.svg")
 	@Validated(validated = false)
 	SVGResource dialog_ok();
-	
+
 	@Source("icons/svg/button_cancel.svg")
 	@Validated(validated = false)
 	SVGResource dialog_cancel();
-	
+
 	@Source("icons/svg/button_trashcan.svg")
 	@Validated(validated = false)
 	SVGResource dialog_trash();
-	
-	
+
 	// Header
 
 	@Source("icons/svg/document-new.svg")
@@ -44,7 +43,7 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/geogebra_tube.svg")
 	@Validated(validated = false)
 	SVGResource geogebra_tube();
-	
+
 	@Source("icons/svg/menu_edit_undo.svg")
 	@Validated(validated = false)
 	SVGResource undo();
@@ -53,24 +52,24 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource redo();
 
-	//AlgebraView 
-	
+	// AlgebraView
+
 	@Source("icons/svg/algebra_hidden.svg")
 	@Validated(validated = false)
 	SVGResource algebra_hidden();
-	
+
 	@Source("icons/svg/algebra_shown.svg")
 	@Validated(validated = false)
 	SVGResource algebra_shown();
-	
+
 	@Source("icons/svg/algebra_tree_close.svg")
 	@Validated(validated = false)
 	SVGResource algebra_close();
-	
+
 	@Source("icons/svg/algebra_tree_open.svg")
 	@Validated(validated = false)
 	SVGResource algebra_open();
-	
+
 	// ColorBar
 	@Source("backgroundImage/colorBar.png")
 	ImageResource colorBarBackground();
@@ -442,7 +441,7 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/geogebra_tube.svg")
 	@Validated(validated = false)
 	SVGResource logoGeoGebraTube();
-	
+
 	@Source("icons/png32x32/geogebra-logo.png")
 	ImageResource logo();
 

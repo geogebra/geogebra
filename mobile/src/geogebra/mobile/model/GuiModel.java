@@ -61,11 +61,11 @@ public class GuiModel
 	{
 		closeOptions();
 		setActive(tbb);
-		
-		if(this.mobileModel != null)
+
+		if (this.mobileModel != null)
 		{
-			this.mobileModel.resetSelection(); 
-			this.mobileModel.repaint(); 
+			this.mobileModel.resetSelection();
+			this.mobileModel.repaint();
 		}
 	}
 
@@ -128,9 +128,10 @@ public class GuiModel
 		{
 			RootPanel.get().remove(this.option);
 			this.styleBarOptionShown = OptionType.Non;
-			
-			if(this.mobileModel != null){
-				this.mobileModel.optionsClosed(); 
+
+			if (this.mobileModel != null)
+			{
+				this.mobileModel.optionsClosed();
 			}
 		}
 	}

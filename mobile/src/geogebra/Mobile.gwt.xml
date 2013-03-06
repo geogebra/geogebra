@@ -77,8 +77,8 @@
         name="user.agent"
         value="safari" />
 
-    <!-- Compile only one locale -->
-    <!-- <set-property name="locale" value="en"/> -->
+    <!-- Compile only one permutation -->
+<collapse-all-properties />
 
 
     <!-- Compile only for one OS; values: iphone, retina (for iPhone 4 and 4S), ipad, desktop, android, android_tablet, blackberry -->

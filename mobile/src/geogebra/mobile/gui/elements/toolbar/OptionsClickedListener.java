@@ -4,8 +4,9 @@ import geogebra.mobile.utils.ToolBarCommand;
 
 /**
  * Interface for geogebra.mobile.gui.elements.toolbar.OptionsClickedListener.
- * @author Thomas Krismayer 
- *
+ * 
+ * @author Thomas Krismayer
+ * 
  */
 public interface OptionsClickedListener
 {

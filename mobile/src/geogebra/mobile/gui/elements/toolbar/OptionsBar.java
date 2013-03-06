@@ -15,6 +15,7 @@ public class OptionsBar extends ButtonBar
 
 	/**
 	 * Initializes the OptionsBar.
+	 * 
 	 * @param entries
 	 *          : the buttons in the submenu
 	 * @param ancestor

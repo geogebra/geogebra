@@ -55,9 +55,10 @@ public class MobileApp extends AppWeb
 	private XMLBuilder mobileXML;
 	private LocalizationW loc;
 
-	// accepting range for hitting Geos (except for Points) is multiplied with this factor 
+	// accepting range for hitting Geos (except for Points) is multiplied with
+	// this factor
 	// (for Points see EuclidianView)
-	private int selectionFactor = 3; 
+	private int selectionFactor = 3;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -71,10 +72,10 @@ public class MobileApp extends AppWeb
 	{
 		super.initing = true;
 
-		setLabelDragsEnabled(false); 
-		
+		setLabelDragsEnabled(false);
+
 		initFactories();
-		
+
 		this.loc = new LocalizationW();
 
 		this.fontManager = new FontManagerW();
@@ -82,14 +83,14 @@ public class MobileApp extends AppWeb
 		this.settings = new Settings();
 
 		setFontSize(12);
-		
-		this.capturingThreshold *= this.selectionFactor; 
+
+		this.capturingThreshold *= this.selectionFactor;
 	}
 
 	// not needed yet, because we use xml-Strings
-//	private static native void setCurrentFileId() /*-{
-//  	@geogebra.mobile.MobileApp::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-//  }-*/;
+	// private static native void setCurrentFileId() /*-{
+	// @geogebra.mobile.MobileApp::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+	// }-*/;
 
 	/**
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
@@ -97,22 +98,21 @@ public class MobileApp extends AppWeb
 	 */
 	public void start()
 	{
-		initKernel(); 
-		
+		initKernel();
+
 		this.mobileGUI.initComponents(this.kernel);
 		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
-		
-		hasFullPermissions = true; 
+
+		hasFullPermissions = true;
 		setUndoActive(true);
-		
+
 		super.initing = false;
 	}
-	
-	public GeoGebraMobileGUI getMobileGui(){
-		return this.mobileGUI; 
-	}
 
-	
+	public GeoGebraMobileGUI getMobileGui()
+	{
+		return this.mobileGUI;
+	}
 
 	@Override
 	protected FontManager getFontManager()
@@ -130,7 +130,6 @@ public class MobileApp extends AppWeb
 		return null;
 	}
 
-
 	@Override
 	public boolean isApplet()
 	{
@@ -141,7 +140,8 @@ public class MobileApp extends AppWeb
 	@Override
 	public void storeUndoInfo()
 	{
-		if (isUndoActive()) {
+		if (isUndoActive())
+		{
 			this.kernel.storeUndoInfo();
 		}
 	}
@@ -233,7 +233,6 @@ public class MobileApp extends AppWeb
 
 		return null;
 	}
-
 
 	@Override
 	public void showRelation(GeoElement geoElement, GeoElement geoElement2)
@@ -346,13 +345,14 @@ public class MobileApp extends AppWeb
 	}
 
 	@Override
-	public geogebra.common.plugin.GgbAPI getGgbApi() {
-		//not needed yet, because now we use xml-strings
-//		if (ggbapi == null) {
-//			ggbapi = new geogebra.mobile.gui.elements.header.GgbAPI(this);
-//		}
-//
-//		return ggbapi;
+	public geogebra.common.plugin.GgbAPI getGgbApi()
+	{
+		// not needed yet, because now we use xml-strings
+		// if (ggbapi == null) {
+		// ggbapi = new geogebra.mobile.gui.elements.header.GgbAPI(this);
+		// }
+		//
+		// return ggbapi;
 		return null;
 	}
 
@@ -504,8 +504,6 @@ public class MobileApp extends AppWeb
 		return null;
 	}
 
-
-
 	@Override
 	public GuiManager getGuiManager()
 	{
@@ -565,16 +563,19 @@ public class MobileApp extends AppWeb
 	{
 		return null;
 	}
-	
-	//needed, to save xml-Strings(constructions)
-	public XMLBuilder getXMLBuilder() {
-		if (this.mobileXML == null) { 
-			this.mobileXML = createXMLBuilder(this.kernel.getConstruction()); 
-		} 
-		return this.mobileXML; 
+
+	// needed, to save xml-Strings(constructions)
+	public XMLBuilder getXMLBuilder()
+	{
+		if (this.mobileXML == null)
+		{
+			this.mobileXML = createXMLBuilder(this.kernel.getConstruction());
+		}
+		return this.mobileXML;
 	}
 
-	public static XMLBuilder createXMLBuilder(Construction cons) {
+	public static XMLBuilder createXMLBuilder(Construction cons)
+	{
 		return new XMLBuilder(cons);
 	}
 
@@ -582,46 +583,51 @@ public class MobileApp extends AppWeb
 	public String getXML()
 	{
 		return getXMLBuilder().getFullXML();
-	}	
-	
+	}
+
 	@Override
 	public ScriptManager getScriptManager()
 	{
-		//TODO
-		if (this.scriptManager == null) {
+		// TODO
+		if (this.scriptManager == null)
+		{
 			this.scriptManager = new ScriptManagerM(this);
 		}
 		return this.scriptManager;
 	}
 
 	@Override
-	public geogebra.common.io.MyXMLio getXMLio() {
-//		if (this.myXMLio == null) { 
-//			this.myXMLio = createXMLio(this.kernel.getConstruction()); 
-//		} 
-//		return this.myXMLio; 
+	public geogebra.common.io.MyXMLio getXMLio()
+	{
+		// if (this.myXMLio == null) {
+		// this.myXMLio = createXMLio(this.kernel.getConstruction());
+		// }
+		// return this.myXMLio;
 		return null;
 	}
 
 	@Override
-	public geogebra.common.io.MyXMLio createXMLio(Construction cons) {
+	public geogebra.common.io.MyXMLio createXMLio(Construction cons)
+	{
 		return new MyXMLio(cons.getKernel(), cons);
 	}
 
 	@Override
-  public void createNewWindow()
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
+	public void createNewWindow()
+	{
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-	public Localization getLocalization() {
+	public Localization getLocalization()
+	{
 		return this.loc;
 	}
 
 	@Override
-	public Canvas getCanvas() {
+	public Canvas getCanvas()
+	{
 		return ((EuclidianViewM) getActiveEuclidianView()).getCanvas();
 	}
 

@@ -29,9 +29,9 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView
 {
 
-	protected final App app; 
+	protected final App app;
 	protected final Localization loc;
-	
+
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
 
@@ -77,7 +77,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 
 		this.app = ctr.getApplication();
 		this.loc = this.app.getLocalization();
-//		algCtrl.setView(this);
+		// algCtrl.setView(this);
 		this.controller = ctr;
 		// this is the default value
 		this.treeMode = SortMode.TYPE;
@@ -249,9 +249,10 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		if (geo.isLabelSet() && geo.showInAlgebraView() && geo.isSetAlgebraVisible())
 		{
 			// don't add auxiliary objects if the tree is categorized by type
-			// if (!getTreeMode().equals(SortMode.DEPENDENCY) && geo.isAuxiliaryObject())
+			// if (!getTreeMode().equals(SortMode.DEPENDENCY) &&
+			// geo.isAuxiliaryObject())
 			// {
-			//	return;
+			// return;
 			// }
 
 			TreeItem parent, node;
@@ -785,26 +786,29 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	}
 
 	@Override
-  public void setTreeMode(int mode)
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
+	public void setTreeMode(int mode)
+	{
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-	public GeoElement getLastSelectedGeo() {
+	public GeoElement getLastSelectedGeo()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setLastSelectedGeo(GeoElement geo) {
+	public void setLastSelectedGeo(GeoElement geo)
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public boolean isRenderLaTeX() {
+	public boolean isRenderLaTeX()
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
