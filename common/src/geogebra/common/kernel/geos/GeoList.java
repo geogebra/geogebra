@@ -41,7 +41,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -765,7 +764,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = geoList.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				sbBuildValueString.append(Localization.unicodeComma);
+				sbBuildValueString.append(loc.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 

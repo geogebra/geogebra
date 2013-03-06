@@ -1053,7 +1053,7 @@ public class Kernel {
 //App.printStacktrace(x+"");
 		String ret = formatRaw(x, tpl);
 
-		if (Localization.unicodeZero != '0') {
+		if (app.getLocalization().unicodeZero != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
 
@@ -1094,11 +1094,11 @@ public class Kernel {
 
 			char c = RTL ? num.charAt(num.length() -(negative?0:1) - i) : num.charAt(i);
 			if (c == '.') {
-				c = Localization.unicodeDecimalPoint;
+				c = getLocalization().unicodeDecimalPoint;
 			} else if ((c >= '0') && (c <= '9')) {
 
 				// convert to eg Arabic Numeral
-				c += Localization.unicodeZero - '0'; 
+				c += app.getLocalization().unicodeZero - '0'; 
 			}
 
 			formatSB.append(c);
@@ -1120,7 +1120,7 @@ public class Kernel {
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
-		if (Localization.unicodeZero != '0') {
+		if (app.getLocalization().unicodeZero != '0') {
 
 			String num = formatPiERaw(x, numF, tpl);
 

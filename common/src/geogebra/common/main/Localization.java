@@ -51,11 +51,11 @@ public abstract class Localization {
 		}
 		
 		/** decimal point (different in eg Arabic) */
-		public static char unicodeDecimalPoint = '.';
+		public char unicodeDecimalPoint = '.';
 		/** comma (different in Arabic) */
-		public static char unicodeComma = ','; // \u060c for Arabic comma
+		public char unicodeComma = ','; // \u060c for Arabic comma
 		/** zero (different in eg Arabic) */
-		public static char unicodeZero = '0';
+		public char unicodeZero = '0';
 		
 	
 	/**
@@ -779,14 +779,14 @@ public abstract class Localization {
 			if (isUsingLocalizedDigits()) {
 				if (lang.startsWith("ar")) { // Arabic
 					unicodeZero = '\u0660'; // Arabic-Indic digit 0
-					unicodeDecimalPoint = '\u066b'; // Arabic-Indic decimal point
+					unicodeDecimalPoint = Unicode.ArabicComma; // Arabic-Indic decimal point
 					unicodeComma = '\u060c'; // Arabic comma
 					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
 					// separator
 				} else if (lang.startsWith("fa")) { // Persian
 					unicodeZero = '\u06f0'; // Persian digit 0 (Extended
 					// Arabic-Indic)
-					unicodeDecimalPoint = '\u066b'; // Arabic comma
+					unicodeDecimalPoint = Unicode.ArabicComma; // Arabic comma
 					unicodeComma = '\u060c'; // Arabic-Indic decimal point
 					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
 					// separators

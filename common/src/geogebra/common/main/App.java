@@ -530,16 +530,16 @@ public abstract class App implements UpdateSelection{
 
 		String key = StringUtil.toLowerCase(command);
 		
-			String ret = translateCommandTable==null? key : translateCommandTable.get(key);
-			if(ret!=null)
+		String ret = translateCommandTable==null? key : translateCommandTable.get(key);
+		if(ret!=null)
 				return ret;
 			// if that fails check internal commands
-			for (Commands c : Commands.values()) {
-				if (StringUtil.toLowerCase(c.name()).equals(key)) {
-					return Commands.englishToInternal(c).name();
-				}
+		for (Commands c : Commands.values()) {
+			if (StringUtil.toLowerCase(c.name()).equals(key)) {
+				return Commands.englishToInternal(c).name();
 			}
-			return null;
+		}
+		return null;
 		
 	}
 

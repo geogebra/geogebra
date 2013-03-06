@@ -58,7 +58,6 @@ import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
-import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1169,7 +1168,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			break;
 
 		default:
-			separator = Character.toString(Localization.unicodeComma);
+			separator = Character.toString(kernel.getLocalization().unicodeComma);
 		}
 
 		sbBuildValueString.append(separator);
@@ -1220,7 +1219,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				break;
 
 			default:
-				sbBuildValueString.append(Localization.unicodeComma);
+				sbBuildValueString.append(kernel.getLocalization().unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));

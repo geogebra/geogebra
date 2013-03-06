@@ -1588,7 +1588,7 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	final private String operationToString(String leftStr, String rightStr,
 			boolean valueForm, StringTemplate tpl) {
-
+		Localization loc = app.getLocalization();
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
@@ -2125,7 +2125,7 @@ public class ExpressionNode extends ValidExpression implements
 				// check for 0 at right
 				if (valueForm
 						&& rightStr
-								.equals(Localization.unicodeZero + "")) {
+								.equals(loc.unicodeZero + "")) {
 					break;
 				}
 
@@ -2214,9 +2214,9 @@ public class ExpressionNode extends ValidExpression implements
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
 				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (Localization.unicodeZero + 1))) || ((rightStr
+						.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
 						.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (Localization.unicodeZero + 1)))))
+						.charAt(1) == (loc.unicodeZero + 1)))))
 						|| rightStr.equals(Unicode.degree)) {
 
 					boolean rtl = app.getLocalization().isRightToLeftDigits(tpl);
