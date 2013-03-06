@@ -40,7 +40,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
-import geogebra.common.kernel.algos.AlgoPointInRegionFree;
+import geogebra.common.kernel.algos.AlgoPointInRegion;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
@@ -4306,7 +4306,7 @@ public abstract class EuclidianController {
 		if (text!=null){
 			if (object.isRegion()){
 				kernel.setSilentMode(true);
-				AlgoPointInRegionFree algo = new AlgoPointInRegionFree(kernel.getConstruction(), (Region) object, 
+				AlgoPointInRegion algo = new AlgoPointInRegion(kernel.getConstruction(), null, (Region) object, 
 						view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y)); 
 				kernel.setSilentMode(false);
 				try {

@@ -784,25 +784,6 @@ public class AlgoDispatcher {
 		return p;
 	}
 	
-	/** Point in region with cartesian coordinates (x,y), and region parameters */
-	final public GeoPoint PointIn(String label, Region region, NumberValue param1, NumberValue param2) {
-
-		AlgoPointInRegion algo = new AlgoPointInRegion(cons, label, region, param1, param2);
-		GeoPoint p = algo.getP();
-
-
-		return p;
-	}
-
-	/** "Free" Point in region with cartesian coordinates (x,y), and region parameters */
-	final public GeoPoint FreePointIn(String label, Region region, NumberValue param1, NumberValue param2) {
-
-		AlgoPointInRegionFree algo = new AlgoPointInRegionFree(cons, label, region, param1, param2);
-		GeoPoint p = algo.getP();
-
-
-		return p;
-	}
 
 
 

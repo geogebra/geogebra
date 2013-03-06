@@ -15,9 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -32,9 +30,7 @@ public class AlgoPointInRegion extends AlgoElement {
 
 	protected Region region; // input
 	protected GeoPoint P; // output   
-    
-	protected NumberValue param1, param2;
-    
+
     public AlgoPointInRegion(
             Construction cons,
             Region region){
@@ -64,30 +60,6 @@ public class AlgoPointInRegion extends AlgoElement {
     	P.setLabel(label);
     }
 
-    public AlgoPointInRegion(
-        Construction cons,
-        String label,
-        Region region,
-        NumberValue param1,
-        NumberValue param2) {
-        
-
-    	this(cons,region);
-        
-        P = new GeoPoint(cons, region);
-
-        this.param1 = param1;
-        this.param2 = param2;
-        
-         
-        
-
-        setInputOutput(); // for AlgoElement
-
-        
-        compute();
-        P.setLabel(label);
-    }
     
     
 
@@ -104,17 +76,11 @@ public class AlgoPointInRegion extends AlgoElement {
     // for AlgoElement
     @Override
 	protected void setInputOutput() {
-    	if(param1 == null){
-    		input = new GeoElement[1];
-    		input[0] = region.toGeoElement();
-    	}else{
-    		input = new GeoElement[3];
-            input[0] = region.toGeoElement();
-            input[1] = param1.toGeoElement();
-            input[2] = param2.toGeoElement();
-    	}
+    	
+    	input = new GeoElement[1];
+    	input[0] = region.toGeoElement();
 
-        setOutputLength(1);
+    	setOutputLength(1);
         setOutput(0,P);
         setDependencies(); // done by AlgoElement
     }
@@ -135,14 +101,7 @@ public class AlgoPointInRegion extends AlgoElement {
 
     @Override
 	public void compute() {
-    	
-    	if(param1 != null){
-    		RegionParameters rp = P.getRegionParameters();
-    		rp.setIsOnPath(false);
-    		rp.setT1(param1.getDouble());
-    		rp.setT2(param2.getDouble());
-     	}
-    	
+     	
     	if (region.isDefined()) {	    	
 	        region.regionChanged(P);
 	        P.updateCoords();
