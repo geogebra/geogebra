@@ -117,7 +117,7 @@ public class AppW extends AppWeb {
 	private SoundManagerW soundManager;
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
 
-	private geogebra.common.plugin.GgbAPI ggbapi;
+	
 	private HashMap<String, String> currentFile = null;
 	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 
@@ -1937,13 +1937,7 @@ public class AppW extends AppWeb {
 		return null;
 	}
 
-	@Override
-	public geogebra.common.plugin.GgbAPI getGgbApi() {
-		if (ggbapi == null) {
-			ggbapi = new geogebra.web.main.GgbAPI(this);
-		}
-		return ggbapi;
-	}
+	
 
 	private void initCommandConstants() {
 		//

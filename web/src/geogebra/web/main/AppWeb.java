@@ -15,6 +15,7 @@ public abstract class AppWeb extends App {
 	private DrawEquationWeb drawEquation;
 	private SoundManager soundManager;
 	private NormalizerMinimal normalizerMinimal;
+	private GgbAPI ggbapi;
 	
 	@Override
 	public final DrawEquationInterface getDrawEquation() {
@@ -31,6 +32,14 @@ public abstract class AppWeb extends App {
 			soundManager = new SoundManagerW(this);
 		}
 		return soundManager;
+	}
+	
+	@Override
+	public geogebra.common.plugin.GgbAPI getGgbApi() {
+		if (ggbapi == null) {
+			ggbapi = new geogebra.web.main.GgbAPI(this);
+		}
+		return ggbapi;
 	}
 	
 	public abstract Canvas getCanvas();

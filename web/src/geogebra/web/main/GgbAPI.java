@@ -35,7 +35,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }
 
     public Context2d getContext2D() {
-	    return ((AppW)app).getCanvas().getContext2d();
+	    return ((AppWeb)app).getCanvas().getContext2d();
     }
 
 	
