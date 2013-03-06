@@ -46,6 +46,7 @@ public class AlertDialog extends DialogBox {
 		container.add(textPanel);
 		container.add(buttonPanel);
 		addStyleName("GeoGebraFileChooser");
+		center();
 	}
 	
 	/**
