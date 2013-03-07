@@ -7543,16 +7543,6 @@ public abstract class EuclidianController {
 		return geoBool.isCheckboxFixed() || (app.isHTML5Applet() && !App.isFullAppGui());
 	}
 
-	/**
-	 * Dragging a fixed object should run its scripts (eg GeoButton!)
-	 * 
-	 * Also for iPads etc
-	 * HTML5: don't allow dragging unless we have a GUI
-	 */
-	private boolean cantBeDragged(GeoElement geo) {
-		return geo.isFixed() || (app.isHTML5Applet() && !App.isFullAppGui());
-	}
-
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (view.getSelectionRectangle() == null) {
 			view.setSelectionRectangle(geogebra.common.factories.AwtFactory.prototype.newRectangle(0,0));
