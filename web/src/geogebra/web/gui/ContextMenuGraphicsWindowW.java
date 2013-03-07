@@ -192,7 +192,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 				
 				public void execute() {
 					zoom(zoomFactors[index]);
-					wrappedPopup.hide();
 				}
 	          });
 	          menu.addItem(mi);

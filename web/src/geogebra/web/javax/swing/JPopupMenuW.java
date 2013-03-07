@@ -4,6 +4,8 @@ import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -73,15 +75,37 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 		popupMenu.addSeparator();
 	}
 	
+	private void addHideCommandFor(MenuItem item){
+		MenuBar submenu = item.getSubMenu();
+		if (submenu==null){
+			final ScheduledCommand oldCmd = item.getScheduledCommand();
+			ScheduledCommand cmd = new ScheduledCommand(){
+				public void execute() {
+					oldCmd.execute();
+					popupPanel.hide();
+	            }
+			};
+			item.setScheduledCommand(cmd);
+		} else {
+//			CloseHandler<PopupPanel> closehandler = new CloseHandler<PopupPanel>(){
+//				public void onClose(CloseEvent<PopupPanel> event) {
+//	                App.debug("popuppanel closed");
+//                }
+//			}; 
+//			submenu.addCloseHandler(closehandler);
+//			submenu.addHandler(closehandler, CloseEvent.getType());			
+			
+			submenu.addHandler(new ClickHandler(){
+				public void onClick(ClickEvent event) {
+	                App.debug("onclick happened");
+	                popupPanel.hide();
+                }
+			}, ClickEvent.getType());
+		}		
+	}
+	
 	public void addItem(final MenuItem item) {
-		final ScheduledCommand oldCmd = item.getScheduledCommand();
-		ScheduledCommand cmd = new ScheduledCommand(){
-			public void execute() {
-				oldCmd.execute();
-				popupPanel.hide();
-            }
-		};
-		item.setScheduledCommand(cmd);
+		addHideCommandFor(item);
 	    popupMenu.addItem(item);
 	    popupMenuSize++;
     }
