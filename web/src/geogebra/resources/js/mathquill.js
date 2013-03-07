@@ -2033,8 +2033,9 @@ var OverSomething = P(MathCommand, function(_, _super) {
 });
 
 //notation above
-LatexCmds.overrightarrow =
-LatexCmds.vec = bind(OverSomething, '\\vec', '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>');
+var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
+LatexCmds.overrightarrow = bind(OverSomething, '\\overrightarrow', vecHTML);
+LatexCmds.vec = bind(OverSomething, '\\vec', vecHTML);
 
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
