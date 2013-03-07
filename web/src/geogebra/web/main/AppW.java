@@ -84,6 +84,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -188,6 +189,7 @@ public class AppW extends AppWeb {
 		initCoreObjects(undoActive, this);
 
 		mySplitLayoutPanel.attachApp(this);
+		removeDefaultContextMenu(mySplitLayoutPanel.getElement());
 	}
 
 	/********************************************************
@@ -227,7 +229,7 @@ public class AppW extends AppWeb {
 
 		// initing = true;
 
-		removeDefaultContextMenu();
+		removeDefaultContextMenu(null);
 	}
 
 	/*************************************************
@@ -1539,15 +1541,15 @@ public class AppW extends AppWeb {
 			$wnd.ggbOnInit(arg);
 	}-*/;
 
-	public static native void removeDefaultContextMenu() /*-{
-		//var canvaselement = $doc.querySelectorAll("canvas");
+	public static native void removeDefaultContextMenu(Element element) /*-{
+		var el = (element!=null)? element : $doc;
 
 		if ($doc.addEventListener) {
-			$doc.addEventListener('contextmenu', function(e) {
+			el.addEventListener('contextmenu', function(e) {
 				e.preventDefault();
 			}, false);
 		} else {
-			$doc.attachEvent('oncontextmenu', function() {
+			el.attachEvent('oncontextmenu', function() {
 				window.event.returnValue = false;
 			});
 		}
