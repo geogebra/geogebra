@@ -123,17 +123,22 @@ public class GeoGebraAppFrame extends ResizeComposite {
 				}
 				
 				public void onResponseReceived(Request request, Response response) {
+					AppW.geoIPCountryName = "";
+					AppW.geoIPLanguage = "";
 					if (200 == response.getStatusCode()) {
 						JavaScriptObject geoIpInfos = JSON.parse(response.getText());
 						AppW.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
-						String acceptLanguage = (JSON.get(geoIpInfos,"acceptLanguage") != null) ? JSON.get(geoIpInfos,"acceptLanguage") : "" ;
-						AppW.geoIPLanguage = JSON.get(geoIpInfos, "acceptLanguage").substring(0, acceptLanguage.indexOf(","));
-						init();
-					} else {
-						AppW.geoIPCountryName = "";
-						AppW.geoIPLanguage = "";
-						init();
-					}
+						String languages = JSON.get(geoIpInfos,"acceptLanguage");
+						if(languages!=null){
+							if(languages.contains(",")){
+								AppW.geoIPLanguage = languages.substring(0, languages.indexOf(","));	
+							}else{
+								AppW.geoIPLanguage = languages;
+							}
+						}
+					}						
+					init();
+					
 				}
 			});
 		} catch (Exception e) {
