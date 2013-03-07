@@ -7434,7 +7434,7 @@ public abstract class EuclidianController {
 			movedGeoBoolean = (GeoBoolean) movedGeoElement;
 	
 			// if fixed checkbox dragged, behave as if it's been clicked
-			// important for electronic whiteboards
+			// important for electronic whiteboards / tablets
 			if (isCheckboxFixed(movedGeoBoolean)) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 				selection.removeSelectedGeo(movedGeoBoolean); // make sure doesn't get
@@ -7464,21 +7464,23 @@ public abstract class EuclidianController {
 	
 		// button
 		else if (movedGeoElement instanceof Furniture && ((Furniture)movedGeoElement).isFurniture()) {
+
 			movedGeoButton = (Furniture) movedGeoElement;
 			// move checkbox
 			moveMode = MOVE_BUTTON;
 			startLoc = mouseLoc;
 			oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
 			oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
-	
+
 			// part of snap to grid code
 			setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
 					- view.toRealWorldCoordY(oldLoc.y));
 			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
 			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
-	
+
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
+
 		}
 	
 		// image
@@ -7530,7 +7532,8 @@ public abstract class EuclidianController {
 		startPoint.setLocation(x, y);
 		
 	}
-	/*
+	
+	/**
 	 * Dragging a fixed checkbox should change its state (important for EWB etc)
 	 * 
 	 * Also for iPads etc
@@ -7538,6 +7541,16 @@ public abstract class EuclidianController {
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
 		return geoBool.isCheckboxFixed() || (app.isHTML5Applet() && !App.isFullAppGui());
+	}
+
+	/**
+	 * Dragging a fixed object should run its scripts (eg GeoButton!)
+	 * 
+	 * Also for iPads etc
+	 * HTML5: don't allow dragging unless we have a GUI
+	 */
+	private boolean cantBeDragged(GeoElement geo) {
+		return geo.isFixed() || (app.isHTML5Applet() && !App.isFullAppGui());
 	}
 
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
@@ -7876,6 +7889,25 @@ public abstract class EuclidianController {
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
 			}
+		}
+		
+		Hits th = viewHits.getTopHits();
+		// make sure dragging a fixed eg button triggers the scripts
+		// important for tablets, IWBs
+		if (geo == null && th.size() > 0) {
+			
+			geo = th.get(0);
+			
+			if (geo.isFixed()) {
+				// make sure that Input Boxes lose focus (and so update) before running scripts
+				view.requestFocusInWindow();
+
+				app.runScripts(geo, (String)null);
+				moveMode = MOVE_NONE;
+				resetMovedGeoPoint();
+				return;
+	
+			} 			
 		}
 	
 		if ((geo != null) && !geo.isFixed()) {
