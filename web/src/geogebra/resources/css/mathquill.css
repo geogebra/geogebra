@@ -308,6 +308,22 @@
 .mathquill-rendered-math td.empty {
   background-color: transparent;
 }
+.mathquill-rendered-math td.hackedmq,
+.mathquill-rendered-math td.hackedmq:first-child,
+.mathquill-rendered-math td.hackedmq:last-child {
+	padding: 0px;
+	text-align: center;
+}
+.mathquill-rendered-math td.hackedmq span.down {
+	position: relative;
+	bottom: -5px;
+	top: 5px;
+}
+.mathquill-rendered-math td.hackedmq span.up {
+	position: relative;
+	bottom: 4px;
+	top: -4px;
+}	
 .mathquill-eqnarray {
   display: block;
 }
