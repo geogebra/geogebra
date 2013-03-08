@@ -72,7 +72,8 @@ TRANSLATORS
       Maha Ahmed (Egypt), Kamal Dkhissi (Morocco), Rana Issa (Spain)
   * Armenian: Gagik Aghekyan (Armenia)
   * Basque: Gonzalo Elcano Vizcay, Aitzol Lasa, Ander Mariezkurrena (Spain)
-  * Bosnian: Maja Hrbat (Bosnia and Herzegovina)
+  * Bosnian: Maja Hrbat, Jelena Arnaut, Mirko Capara,
+      Vesna Miletic (Bosnia and Herzegovina)
   * Bulgarian: Hristo Stoyanov Hristov, Magdalena Petkova (Bulgaria)
   * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
       Carlos Gimenez, Antoni Goma, Jorge Sanchez,
@@ -141,7 +142,8 @@ TRANSLATORS
   * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
   * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe, Moni Ungvari (Romania)
   * Russian: Anatoly Scherbakov, Beatrice Versichel, Bugaevsky Vladimir (Russia)
-  * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia)
+  * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia), Jelena Arnaut, Mirko Capara,
+      Vesna Miletic (Bosnia and Herzegovina)
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
   * Spanish: Liliana Saidon (Argentina)
