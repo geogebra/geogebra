@@ -4305,12 +4305,16 @@ public abstract class EuclidianController {
 		GeoText text = createDynamicText(type, object, value);
 		if (text!=null){
 			if (object.isRegion()){
-				kernel.setSilentMode(true);
-				AlgoPointInRegion algo = new AlgoPointInRegion(kernel.getConstruction(), null, (Region) object, 
+				AlgoPointInRegion algo = new AlgoPointInRegion(kernel.getConstruction(), 
+						removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)), 
+						(Region) object, 
 						view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y)); 
-				kernel.setSilentMode(false);
+				GeoPoint P = algo.getP();
+				P.setAuxiliaryObject(true);
+				P.setEuclidianVisible(false);
+				P.updateRepaint();
 				try {
-					text.setStartPoint(algo.getP());
+					text.setStartPoint(P);
 				} catch (Exception e) {
 					e.printStackTrace();
 					return null;
