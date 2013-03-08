@@ -791,10 +791,11 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				textPreviewer.updatePreviewText(editGeo,
 						editor.buildGeoGebraString(isLaTeX), isLaTeX);
 
-				if (isLaTeX && inputPanel.getText().length() == 0) {
-					insertString("$  $");
-					setRelativeCaretPosition(-2);
-				}
+				// use of $ deprecated (doesn't work in HTML5)
+				//if (isLaTeX && inputPanel.getText().length() == 0) {
+				//	insertString("$  $");
+				//	setRelativeCaretPosition(-2);
+				//}
 				
 				editOccurred = true;
 
