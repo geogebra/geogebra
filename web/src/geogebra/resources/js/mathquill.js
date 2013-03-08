@@ -1405,7 +1405,8 @@ var MathBlock = P(MathElement, function(_) {
   };
   _.write = function(cursor, ch, replacedFragment) {
     var cmd;
-    if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
+    //if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
+    if (ch.match(/^[a-zA-Z]$/)) //GeoGebra probably doesn't want florin
       cmd = Variable(ch);
     else if (cmd = CharCmds[ch] || LatexCmds[ch])
       cmd = cmd(ch);
@@ -2662,7 +2663,7 @@ LatexCmds.editable = P(RootMathCommand, function(_, _super) {
  * Symbols and Special Characters
  *********************************/
 
-LatexCmds.f = bind(Symbol, 'f', '<var class="florin">&fnof;</var><span style="display:inline-block;width:0">&nbsp;</span>');
+//LatexCmds.f = bind(Symbol, 'f', '<var class="florin">&fnof;</var><span style="display:inline-block;width:0">&nbsp;</span>');
 
 var Variable = P(Symbol, function(_, _super) {
   _.init = function(ch, html) {
@@ -3002,31 +3003,36 @@ LatexCmds['∫'] = LatexCmds['int'] = LatexCmds.integral = bind(BigSymbol,'\\int
 
 
 //the canonical sets of numbers
-LatexCmds.N = LatexCmds.naturals = LatexCmds.Naturals =
+//LatexCmds.N =
+LatexCmds.naturals = LatexCmds.Naturals =
   bind(VanillaSymbol,'\\mathbb{N}','&#8469;');
 
-LatexCmds.P =
+//LatexCmds.P =
 LatexCmds.primes = LatexCmds.Primes =
 LatexCmds.projective = LatexCmds.Projective =
 LatexCmds.probability = LatexCmds.Probability =
   bind(VanillaSymbol,'\\mathbb{P}','&#8473;');
 
-LatexCmds.Z = LatexCmds.integers = LatexCmds.Integers =
+//LatexCmds.Z =
+LatexCmds.integers = LatexCmds.Integers =
   bind(VanillaSymbol,'\\mathbb{Z}','&#8484;');
 
-LatexCmds.Q = LatexCmds.rationals = LatexCmds.Rationals =
+//LatexCmds.Q =
+LatexCmds.rationals = LatexCmds.Rationals =
   bind(VanillaSymbol,'\\mathbb{Q}','&#8474;');
 
-LatexCmds.R = LatexCmds.reals = LatexCmds.Reals =
+//LatexCmds.R =
+LatexCmds.reals = LatexCmds.Reals =
   bind(VanillaSymbol,'\\mathbb{R}','&#8477;');
 
-LatexCmds.C =
+//LatexCmds.C =
 LatexCmds.complex = LatexCmds.Complex =
 LatexCmds.complexes = LatexCmds.Complexes =
 LatexCmds.complexplane = LatexCmds.Complexplane = LatexCmds.ComplexPlane =
   bind(VanillaSymbol,'\\mathbb{C}','&#8450;');
 
-LatexCmds.H = LatexCmds.Hamiltonian = LatexCmds.quaternions = LatexCmds.Quaternions =
+//LatexCmds.H =
+LatexCmds.Hamiltonian = LatexCmds.quaternions = LatexCmds.Quaternions =
   bind(VanillaSymbol,'\\mathbb{H}','&#8461;');
 
 //spacing
@@ -3233,7 +3239,7 @@ LatexCmds.and = LatexCmds.land = LatexCmds.wedge =
 
 LatexCmds.or = LatexCmds.lor = LatexCmds.vee = bind(VanillaSymbol,'\\vee ','&or;');
 
-LatexCmds.o = LatexCmds.O =
+//LatexCmds.o = LatexCmds.O =
 LatexCmds.empty = LatexCmds.emptyset =
 LatexCmds.oslash = LatexCmds.Oslash =
 LatexCmds.nothing = LatexCmds.varnothing =
