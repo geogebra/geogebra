@@ -316,13 +316,13 @@
 }
 .mathquill-rendered-math td.hackedmq span.down {
 	position: relative;
-	bottom: -5px;
-	top: 5px;
+	bottom: -4px;
+	top: 4px;
 }
 .mathquill-rendered-math td.hackedmq span.up {
 	position: relative;
-	bottom: 4px;
-	top: -4px;
+	bottom: 3px;
+	top: -3px;
 }	
 .mathquill-eqnarray {
   display: block;
