@@ -5208,6 +5208,19 @@ public class ExpressionNode extends ValidExpression implements
 
 	/**
 	 * @param d
+	 *            value to add
+	 * @return result of add
+	 */
+	public ExpressionNode plusR(double d) {
+		if (d == 0) {
+			return this;
+		}
+		return new ExpressionNode(kernel, new MyDouble(
+				kernel, d), Operation.PLUS, this);
+	}
+
+	/**
+	 * @param d
 	 *            value to multiply
 	 * @return result of multiply
 	 */

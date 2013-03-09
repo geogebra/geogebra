@@ -12,10 +12,12 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.cas;
 
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -71,7 +73,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
         this.list = list;
                
         text = new GeoText(cons);
+        
+        text.setFormulaType(app.getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
+		
 		text.setIsTextCommand(true); // stop editing as text
 		
         setInputOutput();
@@ -118,7 +123,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	public void compute() {   	
     	
     	// make sure answer is formatted as eg \sqrt not sqrt
-    	StringTemplate tpl = StringTemplate.get(app.getPreferredFormulaRenderingType());
+    	StringTemplate tpl = text.getStringTemplate();
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
@@ -247,15 +252,19 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 		
 		if (denom == 1) { // integer
-			sb.append(kernel.format(numer,tpl));				
+			DrawEquation.appendNumber(sb, tpl, kernel.format(numer,tpl));
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
-			sb.append( numer < 0 ? "-"+Unicode.Infinity : ""+Unicode.Infinity);				
+			if (numer < 0){
+				DrawEquation.appendMinusInfinity(sb, tpl);
+			} else {
+				DrawEquation.appendInfinity(sb, tpl);
+			}
 		} else {
-	    	sb.append("{\\frac{");
+			DrawEquation.appendFractionStart(sb, tpl);
 	    	sb.append(kernel.format(numer,tpl));
-	    	sb.append("}{");
+	    	DrawEquation.appendFractionMiddle(sb, tpl);
 	    	sb.append(kernel.format(denom,tpl));
-	    	sb.append("}}");
+	    	DrawEquation.appendFractionEnd(sb, tpl);
 	    	
 		}
     }
@@ -475,14 +484,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		
 	}
 
-	private void appendUndefined(StringBuilder sb1, double num1) {
+	private void appendUndefined(StringBuilder sb1, StringTemplate tpl, double num1) {
 		
     	//sb1.append("\\text{");
     	//sb1.append(app.getPlain("Undefined"));
     	//sb1.append("}");
 		
 		// eg SurdText[1.23456789012345] returns 1.23456789012345
-		sb1.append(kernel.format(num1, StringTemplate.maxPrecision));
+		DrawEquation.appendNumber(sb1, tpl, kernel.format(num1, StringTemplate.maxPrecision));
 	}
 	
 	/**
@@ -507,7 +516,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (coeffs[0] == 0 && coeffs[1] ==0) {
 
 			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0 ) {
-				appendUndefined(sb, num1);
+				appendUndefined(sb, tpl, num1);
 			} else if (coeffs[2] == 0) {
 				//coeffs[1]: denominator;  coeffs[2]: numerator
 				int denom = coeffs[3];
@@ -525,7 +534,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				int c = 2*coeffs[2];
 
 				if (b2 <= 0) { //should not happen!
-					appendUndefined(sb, num1);
+					appendUndefined(sb, tpl, num1);
 					return;
 				}
 				
@@ -569,32 +578,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					c=c/gcd;
 				}
 				
-				//when fraction is needed
-				if (c!=1) sb.append("\\frac{");
+				ExpressionNode en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
 				
-				if (a!=0) sb.append(kernel.format(a,tpl));
-				
-				//when the radical is surd
-				if (b2!=0) {
-					if (positive) {
-						if (a!=0) sb.append("+");
-					} else {
-						sb.append("-");
-					}
-					
-					if (b1!=1)
-						sb.append(kernel.format(b1,tpl));
-					sb.append("\\sqrt{");
-					sb.append(kernel.format(b2,tpl));
-					sb.append("}");
+				if (positive) {
+					en = en.plusR(a);
+				} else {
+					en = en.subtractR(a);
 				}
 				
-				//when fraction is needed
-				if (c!=1) {
-					sb.append("}{");
-					sb.append(kernel.format(c,tpl));
-			    	sb.append("}");
-				}
+				en = en.divide(c);
+				
+				sb.append(en.toString(tpl));
+				
 			}
 		} else if (coeffs[0] ==0){
 			sb.append("Root of a cubic equation: ");
@@ -605,6 +600,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			sb.append(kernel.format(coeffs[3], tpl));
 			sb.append("x + ");
 			sb.append(kernel.format(coeffs[4], tpl));
+			
+			// TODO: what to do in MathML? 
+			App.debug(sb.toString());
 		} else {
 			sb.append("Root of a quartic equation: ");
 			sb.append(kernel.format(coeffs[0], tpl));
@@ -616,6 +614,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			sb.append(kernel.format(coeffs[3], tpl));
 			sb.append("x + ");
 			sb.append(kernel.format(coeffs[4], tpl));
+
+			// TODO: what to do in MathML? 
+			App.debug(sb.toString());
 		}
 		
 
@@ -631,7 +632,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
     protected void PSLQappendQuadratic(StringBuilder sb, double num1,StringTemplate tpl) {
     	
     	if (Kernel.isZero(num1)) {
-    		sb.append('0');
+    		DrawEquation.appendNumber(sb, tpl, "0");
     		return;
     	}
     	
@@ -639,7 +640,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		int[] coeffs = PSLQ(numPowers, 1E-10, 10);
 		
     	if (coeffs == null) {
-    		appendUndefined(sb, num1);
+    		appendUndefined(sb, tpl, num1);
     		return;
     	}
     	
@@ -658,7 +659,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				|| Math.abs(coeffs[2]) > 465 
 				) {
 			//App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
-			appendUndefined(sb, num1);
+			appendUndefined(sb, tpl, num1);
 		} else if (coeffs[0] == 0) {
 			//coeffs[1]: denominator;  coeffs[2]: numerator
 			int denom = coeffs[1];
@@ -676,7 +677,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			int c = 2*coeffs[0];
 
 			if (b2 <= 0) { //should not happen!
-				appendUndefined(sb, num1);
+				appendUndefined(sb, tpl, num1);
 				return;
 			}
 			
@@ -720,32 +721,17 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				c=c/gcd;
 			}
 			
-			//when fraction is needed
-			if (c!=1) sb.append("\\frac{");
+			ExpressionNode en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
 			
-			if (a!=0) sb.append(kernel.format(a,tpl));
-			
-			//when the radical is surd
-			if (b2!=0) {
-				if (positive) {
-					if (a!=0) sb.append("+");
-				} else {
-					sb.append("-");
-				}
-				
-				if (b1!=1)
-					sb.append(kernel.format(b1,tpl));
-				sb.append("\\sqrt{");
-				sb.append(kernel.format(b2,tpl));
-				sb.append("}");
+			if (positive) {
+				en = en.plusR(a);
+			} else {
+				en = en.subtractR(a);
 			}
 			
-			//when fraction is needed
-			if (c!=1) {
-				sb.append("}{");
-				sb.append(kernel.format(c,tpl));
-		    	sb.append("}");
-			}
+			en = en.divide(c);
+			
+			sb.append(en.toString(tpl));
 		}
 
     }

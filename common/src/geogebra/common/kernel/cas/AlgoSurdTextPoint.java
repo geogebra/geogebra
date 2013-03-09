@@ -14,7 +14,6 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -49,7 +48,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
         this.p = p;
         sbp=new StringBuilder(50);       
         text = new GeoText(cons);
-		text.setLaTeX(true, false);
+        
+        // coords in MathML not supported (have to use vectors/matrices)
+        text.setFormulaType(StringType.LATEX);
+        //text.setFormulaType(app.getPreferredFormulaRenderingType());
+
+        text.setLaTeX(true, false);
+		
 		text.setIsTextCommand(true); // stop editing as text
 		try {
 			text.setStartPoint(p, 0);
@@ -82,17 +87,15 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
         return text;
     }
     
-	private final StringTemplate tpl = StringTemplate.printDecimals(StringType.GEOGEBRA, 15, false);
-
     @Override
 	public final void compute() {
 		if (input[0].isDefined()) {
 			
 			sbp.setLength(0);
 			sbp.append(" \\left( ");
-			PSLQappendQuadratic(sbp, p.inhomX,tpl);
+			PSLQappendQuadratic(sbp, p.inhomX, text.getStringTemplate());
 			sbp.append(" , ");
-			PSLQappendQuadratic(sbp, p.inhomY,tpl);
+			PSLQappendQuadratic(sbp, p.inhomY, text.getStringTemplate());
 			sbp.append(" \\right) ");
 			
 			text.setTextString(sbp.toString());
