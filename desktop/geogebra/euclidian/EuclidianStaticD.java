@@ -7,7 +7,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
-import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
@@ -110,7 +110,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 				yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
 						.get(currentElement))).intValue()) / 2;
 
-				DrawEquationInterface de = app.getDrawEquation();
+				DrawEquation de = app.getDrawEquation();
 				// draw the equation and save the x offset
 				xOffset += de.drawEquation(app, geo, g2, xLabel
 						+ xOffset, (yLabel + height) + yOffset, elements[i],

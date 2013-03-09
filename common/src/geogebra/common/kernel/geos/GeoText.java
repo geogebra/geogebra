@@ -709,8 +709,15 @@ public class GeoText extends GeoElement implements Locateable,
 	 */
 	public void setMathML(boolean b) {
 		isMathML = b;
-		updateTemplate();
 	}
+	
+	/**
+	 * @param st currently just LaTeX supported in desktop, LaTeX and MathML in web project
+	 */
+	public void setFormulaType(StringType st) {
+		isMathML = st.equals(StringType.MATHML);		
+	}
+
 
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;

@@ -260,7 +260,7 @@ public class AlgoTableText extends AlgoElement {
 
 		sb.setLength(0);
 
-		text.setMathML(app.isHTML5Applet());
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 		
 		if (app.isHTML5Applet()) {

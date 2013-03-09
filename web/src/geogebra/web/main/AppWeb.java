@@ -1,6 +1,6 @@
 package geogebra.web.main;
 
-import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
@@ -18,7 +18,7 @@ public abstract class AppWeb extends App {
 	private GgbAPI ggbapi;
 	
 	@Override
-	public final DrawEquationInterface getDrawEquation() {
+	public final DrawEquation getDrawEquation() {
 		if (drawEquation == null) {
 			drawEquation = new DrawEquationWeb();
 		}
@@ -45,8 +45,8 @@ public abstract class AppWeb extends App {
 	public abstract Canvas getCanvas();
 	
 	@Override
-	public final StringType getFormulaRenderingType() {
-		return StringType.LATEX;
+	public final StringType getPreferredFormulaRenderingType() {
+		return StringType.MATHML;
 	}
 	
 	@Override

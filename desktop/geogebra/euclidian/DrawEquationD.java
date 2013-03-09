@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -31,7 +31,7 @@ import org.scilab.forge.jlatexmath.WebStartAlphabetRegistration;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
 
-public class DrawEquationD implements DrawEquationInterface {
+public class DrawEquationD extends DrawEquation {
 	private final JLabel	jl								= new JLabel();
 	boolean					drawEquationJLaTeXMathFirstCall	= true;
 	private Object			initJLaTeXMath;

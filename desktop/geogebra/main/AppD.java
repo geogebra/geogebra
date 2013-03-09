@@ -4696,7 +4696,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public StringType getFormulaRenderingType() {
+	public StringType getPreferredFormulaRenderingType() {
 		return StringType.LATEX;
 	}
 

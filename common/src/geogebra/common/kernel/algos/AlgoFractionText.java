@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -19,7 +20,6 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.util.Unicode;
 
 
 public class AlgoFractionText extends AlgoElement {
@@ -42,6 +42,9 @@ public class AlgoFractionText extends AlgoElement {
                
         text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
+		
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setLaTeX(true, false);
 		
         setInputOutput();
         compute();
@@ -68,35 +71,19 @@ public class AlgoFractionText extends AlgoElement {
 
     @Override
 	public void compute() {
-    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+    	//StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+    	StringTemplate tpl = text.getStringTemplate();
 		if (input[0].isDefined()) {
 			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
 			
-			switch (app.getFormulaRenderingType()) {
-			case MATHML:
-				if (frac[1] == 1) { // integer
-					sb.setLength(0);
-					sb.append("<cn>");
-					sb.append(kernel.format(frac[0],tpl));				
-					sb.append("</cn>");
-					text.setTextString(sb.toString());
-				} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
-			    	if (frac[0] < 0) {
-			    		text.setTextString("<apply><minus/><infinity/></apply>");		
-			    	} else {
-			    		text.setTextString("<infinity/>");
-			    	}
-				} else {
-					sb.setLength(0);
-			    	sb.append("<apply><divide/><cn>");
-			    	// checkDecimalFraction() needed for eg FractionText[20.0764]
-			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0]),tpl));
-			    	sb.append("</cn><cn>");
-			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1]),tpl));
-			    	sb.append("</cn></apply>");
-			    	
-			    	text.setTextString(sb.toString());
-				}
+			sb.setLength(0);
+			appendFormula(sb, frac, tpl, kernel);
+			
+
+				
+		    	text.setTextString(sb.toString());
+
+		    	/*
 		    	break;
 			case LATEX:
 				sb.setLength(0);
@@ -104,12 +91,13 @@ public class AlgoFractionText extends AlgoElement {
 		    	text.setTextString(sb.toString());
 		    	break;
 				
-			}
+			}*/
 	    	text.setLaTeX(true,false);
 			
 
-		} else
+		} else {
 			text.setTextString(loc.getPlain("Undefined"));
+		}
 	}
   
     /*	Algorithm To Convert A Decimal To A Fraction
@@ -194,26 +182,22 @@ public class AlgoFractionText extends AlgoElement {
 		return true;
 	}
 	
-	public static void appendLaTeX(StringBuilder sb, double[] num, StringTemplate tpl, Kernel kernel) {
-		if (num[1] == 1) { // integer
-	    	sb.append(kernel.format(num[0],tpl));				
-		} else if (num[1] == 0) { // 1 / 0 or -1 / 0
-
-			if (num[0] < 0) {
-				sb.append('-');
-			}
-			sb.append(Unicode.Infinity);
-
+	public static void appendFormula(StringBuilder sb, double[] frac, StringTemplate tpl, Kernel kernel) {
+		if (frac[1] == 1) { // integer
+			DrawEquation.appendNumber(sb, tpl, kernel.format(frac[0],tpl));
+		} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
+	    	if (frac[0] < 0) {
+	    		DrawEquation.appendMinusInfinity(sb, tpl);
+	    	} else {
+	    		DrawEquation.appendInfinity(sb, tpl);
+	    	}
 		} else {
-	    	sb.append("\\frac{");
-	    	// checkDecimalFraction() needed for eg FractionText[20.0764]
-	    	sb.append(kernel.format(Kernel.checkDecimalFraction(num[0]),tpl));
-	    	sb.append("}{");
-	    	sb.append(kernel.format(Kernel.checkDecimalFraction(num[1]),tpl));
-	    	sb.append("}");
-	    	
+			DrawEquation.appendFractionStart(sb, tpl);
+	    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0]),tpl));
+			DrawEquation.appendFractionMiddle(sb, tpl);
+	    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1]),tpl));
+			DrawEquation.appendFractionEnd(sb, tpl);	    	
 		}
-		
 	}
 
 	// TODO Consider locusequability

@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -48,12 +49,9 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = showName;
 		text = new GeoText(cons);
 		
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 		
-		if (app.isHTML5Applet() && !geo.isGeoText()) {
-			text.setMathML(true);
-		}
-
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -70,6 +68,9 @@ public class AlgoLaTeX extends AlgoElement {
 		this.substituteVars = null;
 		this.showName = null;
 		text = new GeoText(cons);
+
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
 		setInputOutput(); // for AlgoElement
@@ -115,16 +116,13 @@ public class AlgoLaTeX extends AlgoElement {
     @Override
 	public final void compute() {  
     	
+    	// whether to use a formula renderer
     	boolean useLaTeX = true;
-		
-    	text.setLaTeX(true, false);
     	
-		if (app.isHTML5Applet() && !geo.isGeoText()) {
-			text.setMathML(true);
-		}
-
+    	// LaTeX or MathML
+    	StringType formulaRendererType = app.getPreferredFormulaRenderingType();
 		
-		if (!geo.isDefined() 
+ 		if (!geo.isDefined() 
 				|| (substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
     		text.setTextString("");		
@@ -140,40 +138,40 @@ public class AlgoLaTeX extends AlgoElement {
     		
      		StringTemplate tpl = text.getStringTemplate().deriveReal();
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
-    		if(show){
-    			if(geo.isGeoCasCell()){
+    		if (show){
+    			if (geo.isGeoCasCell()){
     				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
-    			}else{
+    				formulaRendererType = StringType.LATEX;
+    			} else {
     				text.setTextString(geo.getLaTeXAlgebraDescription(substitute,tpl));
     			}
-    			if(text.getTextString() == null){
+    			if (text.getTextString() == null){
     				String desc = geo.getAlgebraDescription(text.getStringTemplate());
     				if(geo.hasIndexLabel())
     					desc = GeoElement.indicesToHTML(desc, true);
     				text.setTextString(desc);
     				useLaTeX = false;
     			}
-    		}else{
+    		} else {
     			if (geo.isGeoText()) {
     				// needed for eg Text commands eg FormulaText[Text[
     				text.setTextString(((GeoText)geo).getTextString());
-    			}else if(geo.isGeoCasCell()){
+    				formulaRendererType = StringType.LATEX;
+    			} else if (geo.isGeoCasCell()){
     				text.setTextString(((GeoCasCell)geo).getOutput(StringTemplate.numericLatex));	
-    			}else {
+    				formulaRendererType = StringType.LATEX;
+    			} else {
     				text.setTextString(geo.getFormulaString(tpl, substitute ));   
     			}
     		}
 
-    		
+
 		}	
+ 		
+ 		text.setFormulaType(formulaRendererType);
     	
     	text.setLaTeX(useLaTeX, false);
 
-    	/*
-    	int tempCASPrintForm = kernel.getCASPrintForm();
-    	kernel.setCASPrintForm(StringType.LATEX);
-    	text.setTextString(geo.getCommandDescription());	    	
-    	kernel.setCASPrintForm(tempCASPrintForm);*/
     }         
     
 	@Override

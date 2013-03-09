@@ -6,7 +6,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GImage;
 import geogebra.common.cas.singularws.SingularWebService;
-import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -1758,7 +1758,7 @@ public abstract class App implements UpdateSelection{
 
 	}
 
-	public abstract DrawEquationInterface getDrawEquation();
+	public abstract DrawEquation getDrawEquation();
 
 	/**
 	 * 
@@ -2525,9 +2525,13 @@ public abstract class App implements UpdateSelection{
 	 * eg StringType.LATEX for desktop (JLaTeXMath) StringType.MATHML for web
 	 * (canvasmath)
 	 * 
-	 * @return string type ffor fomulas (LATEX, MATHML)
+	 * eg AlgoFraction can output to LaTeX or MathML
+	 * so can FormulaText[sin(x/2)]
+	 * but for text, eg FormulaText["\frac{a}{b}"], FormulaText always needs a LaTeX renderer 
+	 * 
+	 * @return string type for fomulas (LATEX, MATHML)
 	 */
-	public abstract StringType getFormulaRenderingType();
+	public abstract StringType getPreferredFormulaRenderingType();
 
 	public void doAfterRedefine(GeoElement geo) {
 		if (getGuiManager() != null) {

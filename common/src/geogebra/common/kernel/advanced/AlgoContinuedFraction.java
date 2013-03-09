@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.util.Unicode;
 
 public class AlgoContinuedFraction extends AlgoElement {
 
@@ -47,6 +48,10 @@ public class AlgoContinuedFraction extends AlgoElement {
 		this.level = level;
 		this.shorthand = shorthand;
 		text = new GeoText(cons);
+		
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setLaTeX(true, false);
+		
 		text.setIsTextCommand(true); // stop editing as text
 
 		setInputOutput();
@@ -83,7 +88,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+		StringTemplate tpl = text.getStringTemplate();
 		if (num.isDefined() && (level == null || level.isDefined())) {
 			int maxSteps = level == null ? 0 : (int) level.getDouble();
 			int steps = DecimalToFraction(num.getDouble(),
@@ -93,7 +98,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 				return;
 			}
 
-			switch (app.getFormulaRenderingType()) {
+			switch (tpl.getStringType()) {
 			case MATHML:
 				if (steps == 1) { // integer
 					sb.setLength(0);
@@ -103,10 +108,13 @@ public class AlgoContinuedFraction extends AlgoElement {
 					text.setTextString(sb.toString());
 				} else {
 					sb.setLength(0);
+					
+					sb.append("<apply><plus/>");
+					
 					for (int i = 0; i < steps - 1; i++) {
 						sb.append("<cn>");
 						sb.append(denominators[i]);
-						sb.append("</cn><plus/><cn>1</cn><apply><divide/>");
+						sb.append("</cn><apply><divide/><cn>1</cn><apply><plus/>");
 					}
 					// checkDecimalFraction() needed for eg
 					// FractionText[20.0764]
@@ -114,9 +122,15 @@ public class AlgoContinuedFraction extends AlgoElement {
 					sb.append("<cn>");
 					sb.append(kernel.format(Kernel
 							.checkDecimalFraction(denominators[steps - 1]), tpl));
+					sb.append("</cn><ci>");
+					sb.append(Unicode.ellipsis);
+					sb.append("</ci>");
 					for (int i = 0; i < steps - 1; i++) {
-						sb.append("</cn></apply>");
+						sb.append("</apply></apply>");
 					}
+					sb.append("</apply>");
+					
+					App.debug(sb.toString());
 					text.setTextString(sb.toString());
 				}
 				break;
@@ -142,8 +156,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 							sb.append(",");
 						}
 						sb.append(kernel.format(denominators[steps-1], tpl));
-						if(dotsNeeded)
+						if (dotsNeeded) {
 							sb.append(",\\ldots");
+						}
 						sb.append(']');
 						text.setTextString(sb.toString());
 					}
@@ -153,8 +168,10 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 			text.setLaTeX(true, false);
 
-		} else
+		} else {
+			text.setLaTeX(false, false);
 			text.setTextString(loc.getPlain("Undefined"));
+		}
 	}
 
 	private void appendLongLatex(int steps,StringTemplate tpl) {
@@ -172,14 +189,15 @@ public class AlgoContinuedFraction extends AlgoElement {
 			sb.append("+\\frac{1}{");
 		}
 		sb.append(kernel.format(denominators[steps - 1], tpl));
-		if(dotsNeeded)
+		if (dotsNeeded) {
 			sb.append("+\\cdots");
+		}
 		// checkDecimalFraction() needed for eg
 		// FractionText[20.0764]
 		for (int i = 0; i < steps - 1; i++) {
 			sb.append("}");
 		}
-		App.debug(sb.toString());
+		//App.debug(sb.toString());
 		text.setTextString(sb.toString());
 		
 	}

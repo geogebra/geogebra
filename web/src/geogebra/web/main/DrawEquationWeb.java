@@ -5,7 +5,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
-import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
@@ -28,7 +28,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 
-public class DrawEquationWeb implements DrawEquationInterface {
+public class DrawEquationWeb extends DrawEquation {
 
 	static boolean scriptloaded = false;
 

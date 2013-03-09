@@ -118,7 +118,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	public void compute() {   	
     	
     	// make sure answer is formatted as eg \sqrt not sqrt
-    	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+    	StringTemplate tpl = StringTemplate.get(app.getPreferredFormulaRenderingType());
 		if (input[0].isDefined()) {
 			
 			sb.setLength(0);
