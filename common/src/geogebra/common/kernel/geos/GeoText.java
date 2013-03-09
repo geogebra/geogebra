@@ -709,6 +709,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 */
 	public void setMathML(boolean b) {
 		isMathML = b;
+		updateTemplate();
 	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {

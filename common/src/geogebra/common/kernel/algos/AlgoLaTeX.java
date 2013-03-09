@@ -47,6 +47,13 @@ public class AlgoLaTeX extends AlgoElement {
 		this.substituteVars = substituteVars;
 		this.showName = showName;
 		text = new GeoText(cons);
+		
+		text.setLaTeX(true, false);
+		
+		if (app.isHTML5Applet() && !geo.isGeoText()) {
+			text.setMathML(true);
+		}
+
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -110,7 +117,14 @@ public class AlgoLaTeX extends AlgoElement {
     	
     	boolean useLaTeX = true;
 		
-    	if (!geo.isDefined() 
+    	text.setLaTeX(true, false);
+    	
+		if (app.isHTML5Applet() && !geo.isGeoText()) {
+			text.setMathML(true);
+		}
+
+		
+		if (!geo.isDefined() 
 				|| (substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
     		text.setTextString("");		
@@ -124,9 +138,7 @@ public class AlgoLaTeX extends AlgoElement {
     			show = false;
     		}
     		
-    		text.setLaTeX(true, false);
-    		
-    		StringTemplate tpl = text.getStringTemplate().deriveReal();
+     		StringTemplate tpl = text.getStringTemplate().deriveReal();
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
     		if(show){
     			if(geo.isGeoCasCell()){
@@ -156,7 +168,7 @@ public class AlgoLaTeX extends AlgoElement {
 		}	
     	
     	text.setLaTeX(useLaTeX, false);
-    	
+
     	/*
     	int tempCASPrintForm = kernel.getCASPrintForm();
     	kernel.setCASPrintForm(StringType.LATEX);
