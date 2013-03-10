@@ -103,23 +103,29 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
 	public void updateMenubarSelection() {
-		if (GGWMenuBar.getMenubar() != null) {
-			GGWMenuBar.getMenubar().updateSelection();
+		if (app.getObjectPool().getGgwMenubar() != null) {
+			app.getObjectPool().getGgwMenubar().getMenubar().updateSelection();
 		}
 
 	}
 
 	@Override
 	public void updateMenubar() {
-		GeoGebraMenubarW menuBar = GGWMenuBar.getMenubar();
-		if (menuBar != null)
-			menuBar.updateMenubar();
+		GGWMenuBar ggwMenuBar = app.getObjectPool().getGgwMenubar();
+		if (ggwMenuBar != null) {
+			GeoGebraMenubarW menuBar = app.getObjectPool().getGgwMenubar().getMenubar();
+			if (menuBar != null) {
+				menuBar.updateMenubar();
+			}
+		}
+		
 	}
 
 	@Override
 	public void updateActions() {
-		if (GGWMenuBar.getMenubar() != null) {
-			GGWMenuBar.getMenubar().updateSelection();
+		GGWMenuBar ggwMenuBar = app.getObjectPool().getGgwMenubar();
+		if (ggwMenuBar != null) {
+			ggwMenuBar.getMenubar().updateSelection();
 		}
 	}
 
@@ -921,9 +927,9 @@ public class GuiManagerW extends GuiManager {
 			GGWToolBar.getToolBar().buildGui();
 		}
 
-		if (GGWMenuBar.getMenubar() != null) {
-			GGWMenuBar.removeMenus();
-			GGWMenuBar.init(app);
+		if (app.getObjectPool().getGgwMenubar().getMenubar() != null) {
+			app.getObjectPool().getGgwMenubar().removeMenus();
+			app.getObjectPool().getGgwMenubar().init(app);
 		}
 
 		if (algebraView != null) {

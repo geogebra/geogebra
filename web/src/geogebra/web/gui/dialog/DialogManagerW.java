@@ -16,7 +16,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.OptionType;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
@@ -207,7 +206,7 @@ public class DialogManagerW extends DialogManager {
 	   } else {
 		   googleFileDescriptors.setFileName(driveBase64FileName);
 		   googleFileDescriptors.setDescription(driveBase64description);
-		   MenuItem lg = GeoGebraMenubarW.loginToGoogle;
+		   MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginToGoogle();
 		   final int top = lg.getElement().getOffsetTop();
 		   final int left = lg.getElement().getOffsetLeft();
 		   googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {

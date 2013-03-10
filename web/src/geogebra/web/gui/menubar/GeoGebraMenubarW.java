@@ -21,16 +21,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class GeoGebraMenubarW extends MenuBar {
 	
 	
-		private static AppW app;
-		private static FileMenuW fileMenu;
+		private AppW app;
+		private FileMenuW fileMenu;
 		private EditMenuW editMenu;
 		private HelpMenuW helpMenu;
 		private OptionsMenuW optionsMenu;
-
-		/**
-		 * public static to add relative position for the descriptions.
-		 */
-		public static MenuItem loginToGoogle;
+		private  MenuItem loginToGoogle;
 		private MenuItem linktoggb;
 
 		/**
@@ -71,11 +67,11 @@ public class GeoGebraMenubarW extends MenuBar {
 			Command c = null;
 			String menuHtml = "";
 			/*reserve for later, when we will have client side Oauth*/
-			if (((AppW) app).getMyGoogleApis().signedInToGoogle()) {
+			if (((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle()) {
 				c = createCommandForSignedIn();
 			} else {
 				c = createCommandForNotSignedIn();
-				menuHtml = createMenuHtmlForNotSignedIn();
+				menuHtml = createMenuHtmlForNotSignedIn(app);
 			}
 			
 	        loginToGoogle = addItem(menuHtml,true,c);
@@ -102,7 +98,7 @@ public class GeoGebraMenubarW extends MenuBar {
 			};
         }
 
-		static String createMenuHtmlForNotSignedIn() {
+		static String createMenuHtmlForNotSignedIn(App app) {
 	        return getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString()
 	        		, app.getMenu("Login"));
         }
@@ -116,24 +112,24 @@ public class GeoGebraMenubarW extends MenuBar {
 
 		
 
-		static Command createCommandForNotSignedIn() {
+		Command createCommandForNotSignedIn() {
 	        return new Command() {
 				
 				public void execute() {
-					((AppW) app).getMyGoogleApis().loginToGoogle();
+					((AppW) app).getObjectPool().getMyGoogleApis().loginToGoogle();
 				}
 			};
         }
 
-		static Command createCommandForSignedIn() {
+		Command createCommandForSignedIn() {
 	        return new Command() {
 				
 				public void execute() {
 					//Web.AUTH.clearAllTokens();
-					((AppW) app).getMyGoogleApis().clearAllTokens();
-					loginToGoogle.setHTML(createMenuHtmlForNotSignedIn());
+					((AppW) app).getObjectPool().getMyGoogleApis().clearAllTokens();
+					loginToGoogle.setHTML(createMenuHtmlForNotSignedIn(app));
 					loginToGoogle.setScheduledCommand(createCommandForNotSignedIn());
-					fileMenu.refreshIfLoggedIntoGoogle(false);
+					fileMenu.getOpenMenu().refreshIfLoggedIntoGoogle(false);
 				}
 			};
         }
@@ -226,15 +222,19 @@ public class GeoGebraMenubarW extends MenuBar {
 	        }
         }
 		
-		public static void setLoggedIntoGoogle(String email, String name) {
+		public void setLoggedIntoGoogle(String email, String name) {
 			loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email));
 			loginToGoogle.setScheduledCommand(createCommandForSignedIn());
 			loginToGoogle.setTitle(name);
-			fileMenu.refreshIfLoggedIntoGoogle(true);
+			fileMenu.getOpenMenu().refreshIfLoggedIntoGoogle(true);
 		}
 		
-		public static void setLoggedOutFromGoogle() {
+		public void setLoggedOutFromGoogle() {
 			loginToGoogle.setScheduledCommand(createCommandForNotSignedIn());
 		}
+
+		public MenuItem getLoginToGoogle() {
+	        return loginToGoogle;
+        }
 		
 }

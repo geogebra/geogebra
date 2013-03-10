@@ -33,7 +33,7 @@ public class LoadFilePresenter extends BasePresenter {
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
 		} else if (!"".equals((fileId = getGoogleFileId()))) {
-			((AppW) app).getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
+			((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
 			AppW.console("no base64content, possibly App loaded?");

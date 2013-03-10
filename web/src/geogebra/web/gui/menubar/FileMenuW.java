@@ -1,19 +1,15 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 public class FileMenuW extends MenuBar {
 	
 	private App app;
-	private MenuItem openFromGoogleDrive;
+	private OpenMenuW openMenu;
 	
 	public FileMenuW(App app) {
 	    super(true);
@@ -40,21 +36,9 @@ public class FileMenuW extends MenuBar {
 			}
 		});
 
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open")), true, new Command() {
-			
-			public void execute() {
-	    		GgbFileInputDialog dialog = new GgbFileInputDialog((AppW) app, null);
-	    		dialog.setVisible(true);
-			}
-				
-		});
-	    
-		// this is enabled always
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
-	    	public void execute() {
-	    		app.getGuiManager().openURL();
-	    	}
-	    });
+	    openMenu = new OpenMenuW(app);
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open")),true, openMenu);
+	   
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
 		
@@ -71,41 +55,14 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-		if (((AppW) app).getMyGoogleApis().signedInToGoogle()){
-			openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true,getOpenFromGoogleDriveCommand());
-		}
-		else
-			openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true,new Command() {
-				public void execute() {
-					//do nothing
-				}
-			});
+		
 
 	}
+
+	public OpenMenuW getOpenMenu() {
+	   return openMenu;
+    }
 	
-	private Command getOpenFromGoogleDriveCommand() {
-		return new Command() {
-			
-			public void execute() {
-				//Window.open("https://drive.google.com/?tab=co&authuser=0#search/.ggb", "_blank", "");
-				((GuiManagerW) app.getGuiManager()).openFromGoogleDrive();
-			}
-		};
-	}
 	
-	public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
-		if (loggedIn) {
-			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
-			openFromGoogleDrive.setScheduledCommand(getOpenFromGoogleDriveCommand());
-		} else {
-			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtmlGrayout(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
-			openFromGoogleDrive.setScheduledCommand(new Command() {
-				
-				public void execute() {
-					//do nothing
-				}
-			});
-		}
-	}
 
 }

@@ -3,7 +3,6 @@ package geogebra.web.helper;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
@@ -196,6 +195,12 @@ public class MyGoogleApis {
 	       );
 	}-*/;
 	
+	private void loggedIntoGoogleSuccessFull(String email, String name) {
+		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().setLoggedIntoGoogle(email, name);
+		loggedIn = true;
+		initGoogleTokenChecking();
+	}
+	
 	private native void setUserEmailAfterLogin() /*-{
 		var _this = this;
 		$wnd.gapi.client.load('oauth2', 'v2', function() {
@@ -203,9 +208,7 @@ public class MyGoogleApis {
 					request.execute(
 						function(resp) {
 							if (resp.email) {
-								@geogebra.web.gui.menubar.GeoGebraMenubarW::setLoggedIntoGoogle(Ljava/lang/String;Ljava/lang/String;)(resp.name, resp.email);
-								_this.@geogebra.web.helper.MyGoogleApis::loggedIn = true;
-								_this.@geogebra.web.helper.MyGoogleApis::initGoogleTokenChecking()();
+								_this.@geogebra.web.helper.MyGoogleApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;Ljava/lang/String;)(resp.name, resp.email);
 							}
 						}
 					)
@@ -264,7 +267,7 @@ public class MyGoogleApis {
 				long current = new Date().getTime();
 				if (current > tokenExpiresAt) {
 					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
-					GeoGebraMenubarW.loginToGoogle.getScheduledCommand().execute();
+					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginToGoogle().getScheduledCommand().execute();
 					checker.cancel();
 					return;
 				}

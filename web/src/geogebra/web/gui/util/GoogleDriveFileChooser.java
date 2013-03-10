@@ -94,7 +94,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	@Override
     public void show(){
 	    super.show();
-	    if (((AppW) app).getMyGoogleApis().loggedIn && ((AppW) app).getMyGoogleApis().driveLoaded) {
+	    if (((AppW) app).getObjectPool().getMyGoogleApis().loggedIn && ((AppW) app).getObjectPool().getMyGoogleApis().driveLoaded) {
 			initFileNameItems();
 		} else {
 			showEmtpyMessage();
@@ -152,7 +152,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	public void onClick(ClickEvent event) {
 	    if (currentFileName != null) {
 	    	clearFilesPanel();
-	    	((AppW) app).getMyGoogleApis().loadFromGoogleFile(currentFileName, currentDescription, currentTitle, currentId);
+	    	((AppW) app).getObjectPool().getMyGoogleApis().loadFromGoogleFile(currentFileName, currentDescription, currentTitle, currentId);
 	    	//TODO: process descriptors here!
 	    }
     }

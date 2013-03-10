@@ -166,6 +166,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
 		ggwMenuBar.init(app);
+		app.getObjectPool().setGgwMenubar(ggwMenuBar);
 		
 		//Debugging purposes
 		AppW.displaySupportedLocales();

@@ -52,6 +52,7 @@ import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
+import geogebra.web.helper.ObjectPool;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.DynamicScriptElement;
@@ -135,7 +136,7 @@ public class AppW extends AppWeb {
 	private boolean showGrid = false;
 
 	boolean menuKeysLoaded = false;
-	private MyGoogleApis myGoogleApis;
+	private ObjectPool objectPool;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -204,7 +205,8 @@ public class AppW extends AppWeb {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		this.loc = new LocalizationW();
-		this.myGoogleApis = new MyGoogleApis(this);
+		this.objectPool = new ObjectPool();
+		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
@@ -1658,8 +1660,9 @@ public class AppW extends AppWeb {
 
 	public void attachMenubar() {
 		GGWMenuBar menubar = new GGWMenuBar();
-		GGWMenuBar.init(this);
+		menubar.init(this);
 		frame.add(menubar);
+		objectPool.setGgwMenubar(menubar);
 	}
 
 	public void attachToolbar() {
@@ -2216,8 +2219,8 @@ public class AppW extends AppWeb {
 		// TODO implement it ?
 	}
 	
-	public MyGoogleApis getMyGoogleApis() {
-		return this.myGoogleApis;
+	public ObjectPool getObjectPool() {
+		return this.objectPool;
 	}
 
 }

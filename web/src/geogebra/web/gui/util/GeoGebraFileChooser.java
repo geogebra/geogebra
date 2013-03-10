@@ -91,14 +91,14 @@ public class GeoGebraFileChooser extends PopupPanel {
 					String saveName = fileName.getText();
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
-					JavaScriptObject callback = ((AppW) app).getMyGoogleApis().getPutFileCallback(saveName, description.getText());
+					JavaScriptObject callback = ((AppW) app).getObjectPool().getMyGoogleApis().getPutFileCallback(saveName, description.getText());
 					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}
 				
 		});
-	    save.setEnabled(((AppW) app).getMyGoogleApis().signedInToGoogle());
+	    save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
@@ -118,7 +118,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				save.setEnabled(((AppW) app).getMyGoogleApis().signedInToGoogle());
+				save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
@@ -151,7 +151,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
-		save.setEnabled(((AppW) app).getMyGoogleApis().signedInToGoogle());
+		save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
 	    super.show();
 	}
 	
