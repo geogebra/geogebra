@@ -157,6 +157,7 @@ public class AppW extends AppWeb {
 	public AppW(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
 		this.articleElement = ae;
 		this.frame = gf;
+		this.objectPool = new ObjectPool();
 		this.loc = new LocalizationW();
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
