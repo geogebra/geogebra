@@ -152,7 +152,7 @@ TRANSLATORS
   * Tajik: Yusuf Balkas (Tajikistan)
   * Thai: Alongkot Maiduang, Donny Passary (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
-  * Ukrainian: Valentyna Pikalova (Ukraine)
+  * Ukrainian: Valentyna Pikalova, Valera Rakuta (Ukraine)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
