@@ -64,7 +64,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		super(euclidiancontroller, settings);
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
-		evNo = 1;
+		this.evNo = evNo;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
 
