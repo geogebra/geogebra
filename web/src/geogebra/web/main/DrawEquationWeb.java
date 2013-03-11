@@ -9,6 +9,7 @@ import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
@@ -207,7 +208,7 @@ public class DrawEquationWeb extends DrawEquation {
 			// assume that the script is loaded; it is part of resources
 			// so we will probably get width and height OK, no need to update again
 			JsArrayInteger jai = drawEquationCanvasMath(
-				((AppWeb) app1).getCanvas().getContext2d(), latexString, x, y,
+				((GGraphics2DW)g2).getCanvas().getContext2d(), latexString, x, y,
 				(fgColor == null) ? null : GColor.getColorString(fgColor),
 				(bgColor == null) ? null : GColor.getColorString(bgColor));
 			return new geogebra.web.awt.GDimensionW(jai.get(0), jai.get(1));
@@ -500,10 +501,7 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		if (bg) {
-			var bgStyle = {
-				color: bg
-			};
-			box = $wnd.cvm.box.Frame.instanciate(bgStyle, box);
+			box = $wnd.cvm.box.Frame.instanciate({ background: bg }, box);
 		}
 
 		var height = box.ascent - box.descent;
