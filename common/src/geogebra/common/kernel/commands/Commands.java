@@ -246,7 +246,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	ToComplex(TABLE_GEOGEBRA),
    	ToExponential(TABLE_ENGLISH),
    	ToPolar(TABLE_GEOGEBRA),
-   	ToPoint(TABLE_ENGLISH),
+   	ToPoint(TABLE_GEOGEBRA),
    	TrigExpand(TABLE_FUNCTION),
    	TrigSimplify(TABLE_FUNCTION),
    	TrigCombine(TABLE_FUNCTION),
