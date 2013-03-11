@@ -115,16 +115,6 @@ public class AlgebraProcessor {
 		parser = kernel.getParser();
 	}
 
-	
-
-	/**
-	 * @return set of all public commands (i.e. no compatibility commands)
-	 */
-	public Set<String> getPublicCommandSet() {
-		return cmdDispatcher.getPublicCommandSet();
-	}
-
-
 	/**
 	 * Returns the localized name of a command subset. Indices are defined in
 	 * CommandDispatcher.

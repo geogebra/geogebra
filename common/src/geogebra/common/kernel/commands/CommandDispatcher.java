@@ -22,7 +22,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Runs commands and handles string to command processor conversion.
@@ -119,20 +118,6 @@ public class CommandDispatcher {
 		this.kernel = kernel2;
 		cons = kernel2.getConstruction();
 		app = kernel2.getApplication();
-	}
-
-	/**
-	 * Returns a set with all command names available in the GeoGebra input
-	 * field.
-	 * 
-	 * @return Set of all command names
-	 */
-	public Set<String> getPublicCommandSet() {
-		if (cmdTable == null) {
-			initCmdTable();
-		}
-
-		return cmdTable.keySet();
 	}
 
 	/**
