@@ -6,9 +6,9 @@ import geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.MyError;
 
 /**
@@ -43,7 +43,7 @@ public class CmdSector extends CommandProcessor {
 				AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
 						cons, c.getLabel(),
 						(GeoConic) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], GeoConicPart.CONIC_PART_SECTOR);
+						(NumberValue) arg[2], GeoConicNDConstants.CONIC_PART_SECTOR);
 
 				GeoElement[] ret = { algo.getConicPart() };
 				return ret;
@@ -53,7 +53,7 @@ public class CmdSector extends CommandProcessor {
 				
 				AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
 						c.getLabel(), (GeoConic) arg[0],
-						(GeoPoint) arg[1], (GeoPoint) arg[2], GeoConicPart.CONIC_PART_SECTOR);
+						(GeoPoint) arg[1], (GeoPoint) arg[2], GeoConicNDConstants.CONIC_PART_SECTOR);
 
 				GeoElement[] ret = { algo.getConicPart() };
 				return ret;
