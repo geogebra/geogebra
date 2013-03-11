@@ -1,0 +1,14 @@
+The defaultbase64web.img is generated on-the-fly on server side
+by the following PHP script:
+
+http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=XXXXXXXX
+
+where XXXXXXXX is the creation date of the default.img file. Please see
+the kickstart.xml files in both the desktop and web projects for details.
+(The kickstart.xml file in the web project should download the appropriate
+base64 encoded image automatically.)
+
+Another option to create the defaultbase64web.img file is to use the
+base64 utility from Unix:
+
+$ base64 -w0 ../../../../../desktop/default.img > defaultbase64web.img

@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-jarsExcludedFromWebInfLib=/home/cur/workspace/mobile/lib/gwtphonegap-1.8.1.0.jar|/home/cur/workspace/mobile/lib/lib-gwt-svg-0.5.6.jar|/home/cur/workspace/mobile/lib/mgwt-1.1.2.jar|/home/cur/workspace/mobile/lib/simple-xml-2.6.9/jar/simple-xml-2.6.9.jar
+jarsExcludedFromWebInfLib=/home/cur/workspace/mobile/lib/gwtphonegap-1.8.1.0.jar|/home/cur/workspace/mobile/lib/lib-gwt-svg-0.5.6.jar|/home/cur/workspace/mobile/lib/mgwt-1.1.2.jar|/home/cur/workspace/mobile/lib/simple-xml-2.6.9/jar/simple-xml-2.6.9.jar|C\:/workspace/mobile/lib/mgwt-1.1.2.jar|C\:/workspace/mobile/lib/lib-gwt-svg-0.5.6.jar|C\:/workspace/mobile/lib/gwtphonegap-1.8.1.0.jar
 warSrcDir=war
 warSrcDirIsOutput=true

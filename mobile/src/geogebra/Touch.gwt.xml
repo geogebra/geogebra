@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="touch" >
+
+    <source path="touch" />
+
+    <!-- Inherit the core Web Toolkit stuff. -->
+
+    <inherits name="com.google.gwt.user.User" />
+
+    <inherits name="com.google.gwt.http.HTTP" />
+
+    <inherits name="com.google.gwt.json.JSON" />
+
+    <inherits name="com.google.gwt.i18n.I18N" />
+
+    <inherits name="com.google.gwt.resources.Resources" />
+
+    <inherits name="com.google.gwt.logging.Logging" />
+
+    <!-- Other module inherits -->
+
+    <inherits name="com.googlecode.mgwt.MGWT" />
+
+    <inherits name="org.vectomatic.libgwtsvg" />
+
+    <!-- Inherits Web Hopefully it inherits everything that is in it, and even Common -->
+
+    <inherits name="geogebra.Common" />
+
+    <inherits name="geogebra.Web" />
+
+    <!-- GWT SuperDevMode -->
+
+    <add-linker name="xsiframe" />
+
+    <set-configuration-property
+        name="devModeRedirectEnabled"
+        value="true" />
+
+    <!-- Logging -->
+
+    <set-property
+        name="gwt.logging.enabled"
+        value="FALSE" />
+
+    <set-property
+        name="gwt.logging.logLevel"
+        value="INFO" />
+
+    <set-property
+        name="gwt.logging.consoleHandler"
+        value="ENABLED" />
+
+    <set-property
+        name="gwt.logging.developmentModeHandler"
+        value="ENABLED" />
+
+    <set-property
+        name="gwt.logging.firebugHandler"
+        value="ENABLED" />
+
+    <set-property
+        name="gwt.logging.popupHandler"
+        value="ENABLED" />
+
+    <set-property
+        name="gwt.logging.systemHandler"
+        value="ENABLED" />
+
+    <!-- Specify the app entry point class. -->
+
+    <entry-point class="geogebra.touch.TouchEntryPoint" />
+
+    <!-- Compile only for Safari (Webkit: Chrome and Safari) and ie9 -->
+
+    <set-property
+        name="user.agent"
+        value="safari" />
+
+    <!-- Compile only one permutation -->
+<collapse-all-properties />
+
+
+    <!-- Compile only for one OS; values: iphone, retina (for iPhone 4 and 4S), ipad, desktop, android, android_tablet, blackberry -->
+
+    <set-property
+        name="mgwt.os"
+        value="ipad" />
+
+    <set-configuration-property
+        name="mgwt.css"
+        value="pretty" />
+
+</module>
