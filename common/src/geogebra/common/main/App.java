@@ -351,12 +351,10 @@ public abstract class App implements UpdateSelection{
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
-			translateCommandTable.put(StringUtil.toLowerCase(cmd), cmd);
+			putInTranslateCommandTable(Commands.valueOf(cmd));
 			try {
 				String local = getLocalization().getCommand(cmd);
 				if (local != null) {
-					translateCommandTable.put(StringUtil.toLowerCase(local),
-							cmd);
 					commandDictCAS.addEntry(local);
 					subCommandDict[CommandsConstants.TABLE_CAS].addEntry(local);
 				} else {
@@ -368,7 +366,6 @@ public abstract class App implements UpdateSelection{
 				subCommandDict[CommandsConstants.TABLE_CAS].addEntry(cmd);
 			}
 		}
-
 	}
 
 	/**
@@ -447,9 +444,6 @@ public abstract class App implements UpdateSelection{
 
 		translateCommandTable.clear();
 
-		Set<String> publicCommandNames = kernel.getAlgebraProcessor()
-				.getPublicCommandSet();
-
 		// =====================================
 		// init sub command dictionaries
 
@@ -468,13 +462,11 @@ public abstract class App implements UpdateSelection{
 			String internal = comm.name();
 			if (!tableVisible(comm.getTable())) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
-					translateCommandTable.put(StringUtil.toLowerCase(internal),
-							Commands.englishToInternal(comm).name());
+					putInTranslateCommandTable(comm);
 				}
 				continue;
 			}
-			translateCommandTable.put(StringUtil.toLowerCase(internal),
-					internal);
+			putInTranslateCommandTable(comm);
 			// App.debug(internal);
 			String local = getLocalization().getCommand(internal);
 
@@ -485,11 +477,7 @@ public abstract class App implements UpdateSelection{
 				translateCommandTable.put(StringUtil.toLowerCase(local),
 						internal);
 
-				// only add public commands to the command dictionary
-				if (publicCommandNames.contains(internal)) {
-					commandDict.addEntry(local);
-				}
-
+				commandDict.addEntry(local);
 				// add public commands to the sub-command dictionaries
 				subCommandDict[comm.getTable()].addEntry(local);
 
@@ -503,6 +491,24 @@ public abstract class App implements UpdateSelection{
 		}
 		addMacroCommands();
 		getLocalization().setCommandChanged(false);
+	}
+
+	private void putInTranslateCommandTable(Commands comm) {
+			String internal = comm.name();
+			//Check that we don't overwrite local with English
+			if(!translateCommandTable.containsKey(StringUtil.toLowerCase(internal))){
+				translateCommandTable.put(StringUtil.toLowerCase(internal),
+						Commands.englishToInternal(comm).name());
+				App.debug(StringUtil.toLowerCase(internal));
+			}
+			String s = getLocalization().getCommand(internal);
+			if(s!=null){
+				translateCommandTable.put(StringUtil.toLowerCase(s),
+						Commands.englishToInternal(comm).name());
+				App.debug(StringUtil.toLowerCase(s));
+			}
+		
+		
 	}
 
 	/**
@@ -649,19 +655,20 @@ public abstract class App implements UpdateSelection{
 	 * differs from translateCommand somehow and either document it or remove
 	 * this method
 	 * 
-	 * @param s
+	 * @param cmd
 	 *            localized command name
 	 * @return internal command name
 	 */
 	final public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		String s;
+		String cmdLower = StringUtil.toLowerCase(cmd);
 		for (Commands c:Commands.values()) {
 			s = Commands.englishToInternal(c).name();
 			
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
-				if (getLocalization().getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
+				if (StringUtil.toLowerCase(getLocalization().getCommand(s)).equals(cmdLower)) {
 					return s;
 				}
 			
