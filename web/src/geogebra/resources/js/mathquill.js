@@ -2027,16 +2027,17 @@ LatexCmds.violet = bind(Style, '\\violet', 'span', 'style="color:#7F00FF"');
 LatexCmds.brown = bind(Style, '\\brown', 'span', 'style="color:#993300"');
 LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
 
-var OverSomething = P(MathCommand, function(_, _super) {
+var SomethingHTML = P(MathCommand, function(_, _super) {
   _.init = function(ctrlSeq, HTML) {
    _super.init.call(this, ctrlSeq, HTML);
   };
 });
 
-//notation above
+// MathQuill hacks by GeoGebra
 var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
-LatexCmds.overrightarrow = bind(OverSomething, '\\overrightarrow', vecHTML);
-LatexCmds.vec = bind(OverSomething, '\\vec', vecHTML);
+LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
+LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
+LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
 
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
