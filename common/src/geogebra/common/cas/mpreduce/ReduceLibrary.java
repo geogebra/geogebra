@@ -337,8 +337,6 @@ public class ReduceLibrary {
 				+ "    <<if roundedon='false then off rounded,numval; 1>>"
 				+ "  end;");
 
-		eval(" Degree := pi/180;");
-
 		eval(" procedure myfoldif(op,arg1);" + " begin scalar ret;"
 				+ "     arg1:=mattolistoflists(arg1);"
 				+ "     ret:=if depth(arg1)>1 then '? else part(arg1,1);"
