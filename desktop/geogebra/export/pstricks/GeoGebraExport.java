@@ -337,8 +337,8 @@ public abstract class GeoGebraExport  {
 			} else if (g.isGeoConicPart()) {
 				GeoConicPart geo = (GeoConicPart) g;
 				drawGeoConicPart(geo);
-				if (geo.getConicPartType() == GeoConicPart.CONIC_PART_ARC
-						|| geo.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR)
+				if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC
+						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR)
 					drawLabel(g, null);
 			} else if (g.isGeoConic()) {
 				if (isSinglePointConic(g)) {

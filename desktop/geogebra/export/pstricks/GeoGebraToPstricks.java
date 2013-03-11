@@ -913,12 +913,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double ty=af.getTranslateY();
 		startBeamer(code);
 //Sector command: \pscustom[options]{\parametricplot{startAngle}{endAngle}{x+r*cos(t),y+r*sin(t)}\lineto(x,y)\closepath}
-			if (geo.getConicPartType()==GeoConicPart.CONIC_PART_SECTOR){
+			if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){
 				code.append("\\pscustom");
 				code.append(LineOptionCode(geo,true));
 				code.append("{\\parametricplot{");
 			}
-			else if (geo.getConicPartType()==GeoConicPart.CONIC_PART_ARC){
+			else if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_ARC){
 				code.append("\\parametricplot");
 				code.append(LineOptionCode(geo,true));
 				code.append("{");
@@ -956,7 +956,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("+");
 			code.append(format(ty));
 			code.append("}");
-			if (geo.getConicPartType()==GeoConicPart.CONIC_PART_SECTOR){				
+			if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){				
 				code.append("\\lineto(");
 				code.append(format(tx));
 				code.append(",");

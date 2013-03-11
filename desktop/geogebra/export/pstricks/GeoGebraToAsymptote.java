@@ -1021,7 +1021,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         // Fill if: SECTOR and fill type not set to FILL_NONE
         if(m11 == 1 && m22 == 1 && m12 == 0 && m21 == 0) {
-            if (geo.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR 
+            if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
                     && fillType != ExportFrame.FILL_NONE)               
                 startTransparentFill(tempsb);
             else
@@ -1073,7 +1073,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             tempsb.append(format(ty));
             tempsb.append(");} ");
             
-            if (geo.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR 
+            if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
                     && fillType != ExportFrame.FILL_NONE)               
                 startTransparentFill(tempsb);
             else
@@ -1086,7 +1086,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             tempsb.append(format(endAngle));
             tempsb.append(")");
         }
-        if (geo.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR){              
+        if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR){              
             tempsb.append("--");
             addPoint(format(tx),format(ty),tempsb);
             tempsb.append("--cycle");
@@ -1098,7 +1098,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         else
             endDraw(geo,tempsb);
     
-        if (geo.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR 
+        if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
                 && fillType != ExportFrame.FILL_NONE)               
             codeFilledObject.append(tempsb);
         else

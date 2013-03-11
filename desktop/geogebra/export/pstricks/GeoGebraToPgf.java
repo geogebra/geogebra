@@ -1138,7 +1138,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		} else {
 			code.append("]");
 		}
-		if (geo.getConicPartType()==GeoConicPart.CONIC_PART_SECTOR){
+		if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){
 			code.append(" (0,0) -- ");
 			StringBuilder sb1=new StringBuilder();
 			sb1.append(format(r1));
@@ -1169,7 +1169,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("})");
 			code.append(" -- cycle ;\n");
 		} 
-		else if (geo.getConicPartType()==GeoConicPart.CONIC_PART_ARC){
+		else if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_ARC){
 			StringBuilder sb1=new StringBuilder();
 			sb1.append(format(r1));
 			sb1.append("*cos(\\t r)");

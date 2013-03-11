@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -373,7 +374,7 @@ public class ConstructionDefaults {
 
 		// conic sector
 		GeoConicPart conicSector = new GeoConicPart(cons,
-				GeoConicPart.CONIC_PART_SECTOR);
+				GeoConicNDConstants.CONIC_PART_SECTOR);
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
 		conicSector.setObjColor(colPolygon);
@@ -564,7 +565,7 @@ public class ConstructionDefaults {
 
 		case CONICPART:
 			GeoConicPart conicPart = (GeoConicPart) geo;
-			if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR) {
+			if (conicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 				type = DEFAULT_CONIC_SECTOR;
 			} else {
 				type = DEFAULT_CONIC;
