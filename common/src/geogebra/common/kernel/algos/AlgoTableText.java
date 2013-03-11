@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -92,6 +93,10 @@ public class AlgoTableText extends AlgoElement {
 		this.args = args;
 
 		text = new GeoText(cons);
+		
+		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setLaTeX(true, false);
+
 		text.setIsTextCommand(true); // stop editing as text
 
 		setInputOutput();
@@ -260,21 +265,18 @@ public class AlgoTableText extends AlgoElement {
 
 		sb.setLength(0);
 
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
-		text.setLaTeX(true, false);
+		StringTemplate tpl = text.getStringTemplate();
 		
-		if (app.isHTML5Applet()) {
-			mathml(text.getStringTemplate());			
+		if (tpl.getStringType().equals(StringType.MATHML)) {
+			mathml(tpl);			
 		} else {
-			latex(text.getStringTemplate());
+			latex(tpl);
 		}
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
 	}
 
 	private void mathml(StringTemplate tpl) {
-		
-		tpl = tpl.deriveMathMLTemplate();
 		
 		if (alignment == Alignment.VERTICAL) {
 
@@ -307,8 +309,6 @@ public class AlgoTableText extends AlgoElement {
 	}
 
 	private void latex(StringTemplate tpl) {
-		
-		tpl = tpl.deriveLaTeXTemplate();
 		
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
