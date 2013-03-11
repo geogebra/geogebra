@@ -623,11 +623,11 @@ public class DrawAngle extends Drawable implements Previewable {
 		// init the conic for preview
 		Construction cons = previewTempPoints[0].getConstruction();
 
-		AlgoAnglePoints algo = new AlgoAnglePoints(cons, previewTempPoints[0],
+		AlgoAnglePoints algoPreview = new AlgoAnglePoints(cons, previewTempPoints[0],
 				previewTempPoints[1], previewTempPoints[2]);
-		cons.removeFromConstructionList(algo);
+		cons.removeFromConstructionList(algoPreview);
 
-		geo = algo.getAngle();
+		geo = algoPreview.getAngle();
 		angle = (GeoAngle) geo;
 		geo.setEuclidianVisible(true);
 		init();
@@ -664,11 +664,17 @@ public class DrawAngle extends Drawable implements Previewable {
 		//do nothing
 	}
 
+	/**
+	 * @param vertexScreen RW vertex coordinates
+	 */
 	public void toScreenCoords(double[] vertexScreen) {
 		view.toScreenCoords(vertexScreen);
 		
 	}
 
+	/**
+	 * @param d maximal radius
+	 */
 	public void setMaxRadius(double d) {
 		this.maxRadius = d;
 		

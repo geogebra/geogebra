@@ -72,7 +72,9 @@ public class DrawParametricCurve extends Drawable {
 	 /** follow along top of screen*/
 	 RESET_XMAX ,
 	 /** follow along right side of screen*/
-	 RESET_YMAX, CORNER ,
+	 RESET_YMAX, 
+	 /** go to corner (for cartesian curves) */
+	 CORNER ,
 	}
 	// low quality settings
 	// // maximum and minimum distance between two plot points in pixels

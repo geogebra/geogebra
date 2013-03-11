@@ -88,7 +88,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		// center = conicPart.getTranslationVector();
 		halfAxes = initConicPart.getHalfAxes();
 		// arc or sector?
-		closure = initConicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR ? GArc2D.PIE
+		closure = initConicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR ? GArc2D.PIE
 				: GArc2D.OPEN;
 	}
 
@@ -329,8 +329,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			arcMode = previewMode == EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS ? GeoConicPart.CONIC_PART_ARC
-					: GeoConicPart.CONIC_PART_SECTOR;
+			arcMode = previewMode == EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS ? GeoConicNDConstants.CONIC_PART_ARC
+					: GeoConicNDConstants.CONIC_PART_SECTOR;
 			AlgoConicPartCircle algo = new AlgoConicPartCircle(cons,
 					previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], arcMode);
@@ -340,8 +340,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS ? GeoConicPart.CONIC_PART_ARC
-					: GeoConicPart.CONIC_PART_SECTOR;
+			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS ? GeoConicNDConstants.CONIC_PART_ARC
+					: GeoConicNDConstants.CONIC_PART_SECTOR;
 			AlgoConicPartCircumcircle algo2 = new AlgoConicPartCircumcircle(
 					cons, previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], arcMode);

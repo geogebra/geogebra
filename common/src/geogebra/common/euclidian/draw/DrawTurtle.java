@@ -35,10 +35,10 @@ import java.util.ArrayList;
  * @author G.Sturr adapted from DrawPolyLine
  */
 public class DrawTurtle extends Drawable {
-
+	/** turtle */
 	protected GeoTurtle turtle;
 	private boolean isVisible, labelVisible;
-
+	/** list of paths */
 	protected ArrayList<PartialPath> pathList;
 	
 	private GRectangle boundRect;
@@ -315,7 +315,7 @@ public class DrawTurtle extends Drawable {
 	private static GEllipse2DDouble ellipse = AwtFactory.prototype.newEllipse2DDouble();
 	private static GBasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
 	private static GBasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
-	private static GGeneralPath path = AwtFactory.prototype.newGeneralPath();
+	private static GGeneralPath gPath = AwtFactory.prototype.newGeneralPath();
 
 	/**
 	 * Draw turtle shapes.
@@ -327,7 +327,7 @@ public class DrawTurtle extends Drawable {
 
 		int r = 8; // turtle radius
 		float x, y;
-		path.reset();
+		gPath.reset();
 
 		switch (shapeNumber) {
 
@@ -340,23 +340,23 @@ public class DrawTurtle extends Drawable {
 			g2.setStroke(stroke2);
 			x = (float) (1.3 * r * Math.cos(Math.PI / 6));
 			y = (float) (1.3 * r * Math.sin(Math.PI / 6));
-			path.moveTo(0, 0);
-			path.lineTo(-x, y);
-			path.moveTo(0, 0);
-			path.lineTo(-x, -y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(-x, y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(-x, -y);
 			g2.setColor(GColor.black);
-			g2.draw(path);
+			g2.draw(gPath);
 
 			// front legs
 			g2.setStroke(stroke2);
 			x = (float) (1.2 * r * Math.cos(Math.PI / 4));
 			y = (float) (1.2 * r * Math.sin(Math.PI / 4));
-			path.moveTo(0, 0);
-			path.lineTo(x, y);
-			path.moveTo(0, 0);
-			path.lineTo(x, -y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(x, y);
+			gPath.moveTo(0, 0);
+			gPath.lineTo(x, -y);
 			g2.setColor(GColor.black);
-			g2.draw(path);
+			g2.draw(gPath);
 
 			g2.setStroke(stroke1);
 
@@ -397,12 +397,12 @@ public class DrawTurtle extends Drawable {
 			// triangle
 			x = (float) (r * Math.cos(2*Math.PI / 3));
 			y = (float) (r * Math.sin(2*Math.PI / 3));
-			path.moveTo(r, 0);
-			path.lineTo(x, y);
-			path.lineTo(x, -y);
-			path.lineTo(r, 0);
+			gPath.moveTo(r, 0);
+			gPath.lineTo(x, y);
+			gPath.lineTo(x, -y);
+			gPath.lineTo(r, 0);
 			g2.setColor(penColor);
-			g2.fill(path);
+			g2.fill(gPath);
 
 			break;
 
