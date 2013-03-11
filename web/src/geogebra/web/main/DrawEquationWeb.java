@@ -206,9 +206,10 @@ public class DrawEquationWeb extends DrawEquation {
 		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
 			// assume that the script is loaded; it is part of resources
 			// so we will probably get width and height OK, no need to update again
-			// colors are OK too (tested), maybe they're part of the MathML string
 			JsArrayInteger jai = drawEquationCanvasMath(
-				((AppWeb) app1).getCanvas().getContext2d(), latexString, x, y);
+				((AppWeb) app1).getCanvas().getContext2d(), latexString, x, y,
+				(fgColor == null) ? null : GColor.getColorString(fgColor),
+				(bgColor == null) ? null : GColor.getColorString(bgColor));
 			return new geogebra.web.awt.GDimensionW(jai.get(0), jai.get(1));
 		}
 
@@ -469,7 +470,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	public static native JsArrayInteger drawEquationCanvasMath(
-			Context2d ctx, String mathmlStr, int x, int y) /*-{
+			Context2d ctx, String mathmlStr, int x, int y, String fg, String bg) /*-{
 
 		// Gabor's code a bit simplified
 
@@ -493,10 +494,22 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var expression = mathML2Expr(mathmlStr);
 		var box = getBox(expression);
+
+		if (fg) {
+			box = $wnd.cvm.box.ColorBox.instanciate(fg, box);
+		}
+
+		if (bg) {
+			var bgStyle = {
+				color: bg
+			};
+			box = $wnd.cvm.box.Frame.instanciate(bgStyle, box);
+		}
+
 		var height = box.ascent - box.descent;
 
 		box.drawOnCanvas(ctx, x, y + box.ascent);
- 
+
 		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ]; 
 	}-*/; 
 }
