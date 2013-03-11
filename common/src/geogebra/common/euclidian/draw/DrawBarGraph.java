@@ -11,6 +11,8 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
+import java.util.ArrayList;
+
 /**
  * Drawable representation of a bar graph
  * 
@@ -38,8 +40,8 @@ public class DrawBarGraph extends Drawable {
 	private GeoNumeric sum;
 	private AlgoBarChart algo;
 
-	private GeoPoint[] pts;
-	private DrawPoint[] drawPoints;
+	private ArrayList<GeoPoint> pts;
+	private ArrayList<DrawPoint> drawPoints;
 
 	/*************************************************
 	 * @param view
@@ -78,7 +80,9 @@ public class DrawBarGraph extends Drawable {
 		drawType = algo.getDrawType();
 
 		if (algo.hasPoints()) {
-			createPts();
+			pts = new ArrayList<GeoPoint>();
+			drawPoints = new ArrayList<DrawPoint>();
+			updatePointLists();
 		}
 	}
 
@@ -134,8 +138,8 @@ public class DrawBarGraph extends Drawable {
 
 			// point
 			if (algo.hasPoints()) {
-				for (int i = 0; i < drawPoints.length; i++) {
-					drawPoints[i].draw(g2);
+				for (int i = 0; i < drawPoints.size(); i++) {
+					drawPoints.get(i).draw(g2);
 				}
 			}
 		}
@@ -191,6 +195,10 @@ public class DrawBarGraph extends Drawable {
 		double width = algo.getWidth();
 		int N = algo.getIntervals();
 
+		if (algo.hasPoints()) {
+			updatePointLists();
+		}
+
 		drawType = algo.getDrawType();
 		pointType = algo.getPointType();
 		int pointStyle;
@@ -206,14 +214,14 @@ public class DrawBarGraph extends Drawable {
 			for (int i = 0; i < N; i++) {
 				coords[0] = xVal[i];
 				coords[1] = yVal[i];
-				pts[i].setCoords(coords[0], coords[1], 1.0);
-				pts[i].setObjColor(geo.getObjectColor());
-				pts[i].setPointSize(2 + (geo.lineThickness + 1) / 3);
-				pts[i].setPointStyle(pointStyle);
+				pts.get(i).setCoords(coords[0], coords[1], 1.0);
+				pts.get(i).setObjColor(geo.getObjectColor());
+				pts.get(i).setPointSize(2 + (geo.lineThickness + 1) / 3);
+				pts.get(i).setPointStyle(pointStyle);
 				if (pointType == POINT_RIGHT) {
-					pts[i].setEuclidianVisible(false);
+					pts.get(i).setEuclidianVisible(false);
 				}
-				drawPoints[i].update();
+				drawPoints.get(i).update();
 			}
 
 			if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
@@ -230,14 +238,15 @@ public class DrawBarGraph extends Drawable {
 				for (int i = 0; i < N - 1; i++) {
 					coords[0] = xVal[i + 1];
 					coords[1] = yVal[i];
-					pts[N + i].setCoords(coords[0], coords[1], 1.0);
-					pts[N + i].setObjColor(geo.getObjectColor());
-					pts[N + i].setPointSize(2 + (geo.lineThickness + 1) / 3);
-					pts[N + i].setPointStyle(pointStyle);
+					pts.get(N + i).setCoords(coords[0], coords[1], 1.0);
+					pts.get(N + i).setObjColor(geo.getObjectColor());
+					pts.get(N + i)
+							.setPointSize(2 + (geo.lineThickness + 1) / 3);
+					pts.get(N + i).setPointStyle(pointStyle);
 					if (pointType == POINT_LEFT) {
-						pts[N + i].setEuclidianVisible(false);
+						pts.get(N + i).setEuclidianVisible(false);
 					}
-					drawPoints[N + i].update();
+					drawPoints.get(N + i).update();
 				}
 			}
 
@@ -407,25 +416,41 @@ public class DrawBarGraph extends Drawable {
 
 	}
 
-	private void createPts() {
+	private void updatePointLists() {
 
+		// find the number of points to draw
+		int n;
 		if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
 				|| drawType == DRAW_STEP_GRAPH_JUMP) {
-			pts = new GeoPoint[2 * algo.getIntervals() - 1];
+			n = 2 * algo.getIntervals() - 1;
 		} else {
-			pts = new GeoPoint[algo.getIntervals()];
-		}
-		drawPoints = new DrawPoint[pts.length];
-
-		for (int i = 0; i < pts.length; i++) {
-			pts[i] = new GeoPoint(view.getKernel().getConstruction());
-			pts[i].setLabelVisible(false);
-
-			drawPoints[i] = new DrawPoint(view, pts[i]);
-			drawPoints[i].setGeoElement(pts[i]);
-
+			n = algo.getIntervals();
 		}
 
+		// adjust the lists
+		if (n > pts.size()) {
+			// add 
+			for (int i = pts.size(); i < n; i++) {
+				addPt();
+			}
+		} else if (n < pts.size()) {
+			// remove 
+			for (int i = n; n < pts.size(); i++) {
+				pts.remove(i);
+				drawPoints.remove(i);
+			}
+		}
+	}
+
+	private void addPt() {
+
+		GeoPoint p = new GeoPoint(view.getKernel().getConstruction());
+		p.setLabelVisible(false);
+		DrawPoint d = new DrawPoint(view, p);
+		d.setGeoElement(p);
+
+		pts.add(p);
+		drawPoints.add(d);
 	}
 
 }
