@@ -2856,6 +2856,19 @@ public class GeoGebraCasIntegrationTest {
 	public void Vectors_MatrixTimesVector_3() {
 		t("(a,b)*{{1,2},{3,4}}","(a+3*b,2*a+4*b)");
 	}
+	@Test
+	public void ExponentialLimits(){
+		t("Limit[3^n,Infinity]","Infinity");
+		t("Limit[pi^n,Infinity]","Infinity");
+		t("Limit[pi^n/sqrt(2),Infinity]","Infinity");
+		t("Limit[pi^n*sqrt(2),Infinity]","Infinity");
+		t("Limit[sqrt(2)*pi^n/exp(1),Infinity]","Infinity");
+		t("Limit[3^n,-Infinity]","0");
+		t("Limit[pi^n,-Infinity]","0");
+		t("Limit[pi^n/sqrt(2),-Infinity]","0");
+		t("Limit[pi^n*sqrt(2),-Infinity]","0");
+		t("Limit[sqrt(2)*pi^n/exp(1),-Infinity]","0");
+	}
 	
 	
 	/* Ticket */

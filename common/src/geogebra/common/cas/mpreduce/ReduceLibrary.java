@@ -103,30 +103,30 @@ public class ReduceLibrary {
 		String xJustAbove0="mynumberp(~x)='true and mycompare(~x,0)>0 and mycompare(~x,1)<0";
 		App.debug(eval("let { limit(~x^~n,~n,infinity) => infinity when "+xBig+","
 				+" limit(-~x^~n,~n,infinity) => -infinity when "+xBig+","
-				+ "	limit(~a*~x^~n,~n,infinity) => sign(a)*infinity when "+xBig+" and mynumberp(~a) and not (a=0),"
-				+ "	limit(~x^~n/~b,~n,infinity) => sign(b)*infinity when "+xBig+" and mynumberp(~b) and not (b=0) and not (b=infinity) and not (b=-infinity),"
-				+ "	limit(~a*~x^~n/~b,~n,infinity) => sign(a)*sign(b)*infinity when "+xBig+" and mynumberp(~a) and mynumberp(~b) and not (a*b=0)  and not (b=infinity) and not (b=-infinity),"
+				+ "	limit(~a*~x^~n,~n,infinity) => sign(a)*infinity when "+xBig+" and (mynumberp(a)='true) and not (a=0),"
+				+ "	limit(~x^~n/~b,~n,infinity) => sign(b)*infinity when "+xBig+" and (mynumberp(b)='true) and not (b=0) and not (b=infinity) and not (b=-infinity),"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => sign(a)*sign(b)*infinity when "+xBig+" and (mynumberp(~a)='true) and (mynumberp(~b)='true) and not (a*b=0)  and not (b=infinity) and not (b=-infinity),"
 
 				+ "	limit(~x^~n,~n,infinity) => 0 when "+xNear0+","
 				+ "	limit(-~x^~n,~n,infinity) => 0 when "+xNear0+","
-				+ "	limit(~a*~x^~n,~n,infinity) => 0 when "+xNear0+" and numberp(~a) and not(~a=infinity or ~a=-infinity),"
-				+ "	limit(~x^~n/~b,~n,infinity) => 0 when "+xNear0+" and numberp(~b) and not(~b=0),"
-				+ "	limit(~a*~x^~n/~b,~n,infinity) => 0 when "+xNear0+" and numberp(~a) and numberp(~b) and not(~a=infinity or ~a=-infinity) and not(~b=0),"
+				+ "	limit(~a*~x^~n,~n,infinity) => 0 when "+xNear0+" and (mynumberp(a)='true) and not(~a=infinity or ~a=-infinity),"
+				+ "	limit(~x^~n/~b,~n,infinity) => 0 when "+xNear0+" and (mynumberp(b)='true) and not(~b=0),"
+				+ "	limit(~a*~x^~n/~b,~n,infinity) => 0 when "+xNear0+" and (mnumberp(a)='true) and numberp(~b) and not(~a=infinity or ~a=-infinity) and not(~b=0),"
 
 				+ "	limit(~x^~n,~n,-infinity) => 0 when "+xFarFrom0+","
 				+ "	limit(-~x^~n,~n,-infinity) => 0 when "+xFarFrom0+","
-				+ "	limit(~a*~x^~n,~n,-infinity) => 0 when "+xFarFrom0+" and numberp(~a) and not(~a=infinity or ~a=-infinity),"
-				+ "	limit(~x^~n/~b,~n,-infinity) => 0 when "+xFarFrom0+" and numberp(~b) and not(~b=0),"
-				+ "	limit(~a*~x^~n/~b,~n,-infinity) => 0 when "+xFarFrom0+" and numberp(~a) and numberp(~b) and not(~a=infinity or ~a=-infinity) and not(~b=0),"
+				+ "	limit(~a*~x^~n,~n,-infinity) => 0 when "+xFarFrom0+" and (mynumberp(a)='true) and not(a=infinity or a=-infinity),"
+				+ "	limit(~x^~n/~b,~n,-infinity) => 0 when "+xFarFrom0+" and (mynumberp(b)='true) and not(b=0),"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => 0 when "+xFarFrom0+" and (mynumberp(a)) and (mynumberp(b)) and not(a=infinity or a=-infinity) and not(b=0),"
 
 				+ "	limit(~x^~n,~n,-infinity) => infinity when "+xJustAbove0+","
 				+ "	limit(-~x^~n,~n,-infinity) => -infinity when "+xJustAbove0+","
-				+ "	limit(~a*~x^~n,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~a) and ~a>0,"
-				+ "	limit(~a*~x^~n,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~a) and ~a<0,"
-				+ "	limit(~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~b) and ~b>0,"
-				+ "	limit(~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~b) and ~b<0,"
-				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
-				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and numberp(~a) and numberp(~b) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}"));
+				+ "	limit(~a*~x^~n,~n,-infinity) => infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (a>0),"
+				+ "	limit(~a*~x^~n,~n,-infinity) => -infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (a<0),"
+				+ "	limit(~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and (mynumberp(b)='true) and (b>0),"
+				+ "	limit(~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and (mynumberp(b)='true) and (b<0),"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (mynumberp(b)='true) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
+				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (mynumberp(b)='true) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}"));
 		
 		eval("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
 		eval("let {atan(sin(~x)/cos(~x))=>x, " + "acos(1/sqrt(2)) => pi/4,"
