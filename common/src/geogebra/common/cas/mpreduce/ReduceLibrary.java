@@ -210,9 +210,9 @@ public class ReduceLibrary {
 				"mydeg(~a*~b,~c)=>mydeg(a,c)+mydeg(b,c),"+
 				"mydeg(~a/~b,~c)=>mydeg(a,c) when freeof(b,c),"+
 				"mydeg(~c,~c)=>1," +
-				"mydeg(~a,allvars)=>1 when arglength(a)=-1,"+
 				"mydeg(~a,~c)=>0 when freeof(a,c) and not (c=allvars),"+
-				"mydeg(~a,~c)=>0 when mynumberp(a)='true,"+
+				"mydeg(~a,~c)=>0 when mynumberp(a)='true or (a=i),"+
+				"mydeg(~a,allvars)=>1 when arglength(a)=-1,"+
 				"mydeg(~a^~b,~c)=>mydeg(a,c)*b});"));
 		eval("procedure computedeg(p,var); begin scalar d; d:=mydeg(p,var); " +
 				"return if freeof(d,mydeg) then d else ?;end;");
