@@ -4537,23 +4537,28 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
-		// TODO the settings should *always* be stored in the
-		// ConstructionProtoclSettings object
+
+		ConstructionProtocolSettings cpSettings = getSettings()
+				.getConstructionProtocol();
+		cpSettings.setShowPlayButton(playButton);
+		cpSettings.setPlayDelay(playDelay);
+		cpSettings.setShowConsProtButton(showProtButton);
+
+		if (constProtocolNavigation != null) {
+			constProtocolNavigation.setConsProtButtonVisible(showProtButton);
+			constProtocolNavigation.setPlayDelay(playDelay);
+			constProtocolNavigation.setPlayButtonVisible(playButton);
+		}
+
+		setShowConstructionProtocolNavigation(show);
+
 		if (getGuiManager() != null) {
-			setShowConstructionProtocolNavigation(show);
 
 			if (show) {
 				getGuiManager().setShowConstructionProtocolNavigation(show,
 						playButton, playDelay, showProtButton);
 			}
-		} else {
-			ConstructionProtocolSettings cpSettings = getSettings()
-					.getConstructionProtocol();
-			cpSettings.setShowPlayButton(playButton);
-			cpSettings.setPlayDelay(playDelay);
-			cpSettings.setShowConstructionProtocol(showProtButton);
-			setShowConstructionProtocolNavigation(show);
-		}
+		} 
 
 	}
 

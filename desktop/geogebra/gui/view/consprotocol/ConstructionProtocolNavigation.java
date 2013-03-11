@@ -361,7 +361,7 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
 		setPlayButtonVisible(cps.showPlayButton());
 		setPlayDelay(cps.getPlayDelay());
-		setConsProtButtonVisible(cps.showConstructionProtocol());
+		setConsProtButtonVisible(cps.showConsProtButton());
 		update();
 		
 	}	
