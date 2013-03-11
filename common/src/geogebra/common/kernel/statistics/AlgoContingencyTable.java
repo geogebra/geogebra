@@ -295,8 +295,8 @@ public class AlgoContingencyTable extends AlgoElement {
 		expected = new double[rowValues.length][colValues.length];
 		chiCont = new double[rowValues.length][colValues.length];
 
-		for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-			for (int colIndex = 0; colIndex < colCount; colIndex++) {
+		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
+			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
 				expected[rowIndex][colIndex] = 1.0 * rowSum[rowIndex]
 						* colSum[colIndex] / totalSum;
 				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex] - expected[rowIndex][colIndex]);
