@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
+import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 
 import java.util.HashSet;
@@ -788,6 +789,15 @@ public class GeoGebraCasIntegrationTest {
 	public void Degree_4() {
 		t("Degree[x^4 y^3 + 2 x^2 y^3, y]", "3");
 	}
+	@Test
+	public void Degree_Total(){
+		t("Degree[7 x^5 + x y + 3 y + 2 x ]","5");
+		t("Degree[pi]","0");
+		t("Degree[i]","1");
+		t("Degree[e]","1");
+		t("Degree["+Unicode.IMAGINARY+"]","0");
+		t("Degree[exp(1)]","0");
+	}
 
 	
 	/* Delete */
@@ -1416,6 +1426,10 @@ public class GeoGebraCasIntegrationTest {
 				"2 * sqrt(2) * a", "2 * a * sqrt(2)");
 	}
 	
+	@Test
+	public void Intersect(){
+		t("Intersect[m_1 x + b_1 , m_2 x +b_2 ]","{((-b_1 + b_2) / (m_1 - m_2), (-b_1 * m_2 + b_2 * m_1) / (m_1 - m_2))}");
+	}
 
 	/* Invert */
 
