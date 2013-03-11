@@ -3,6 +3,7 @@ package geogebra.common.cas.mpreduce;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.cas.mpreduce.ReducePackage.SpecFnInspecting;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
@@ -175,6 +176,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
 		String plainResult = getPlainResult(casInput,keepInput);
 		
+		if(inputExpression.inspect(SpecFnInspecting.INSTANCE))
+			ReducePackage.SPECFN.load(this);
 		
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
@@ -359,7 +362,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		App.debug("Loading packages...");
 
 		String[] packages = { "rsolve", "numeric", "linalg", "reset", "trigsimp",
-				"polydiv", "myvector", "specfn"};
+				"polydiv", "myvector"};
 		for (String p : packages) {
 			mpreduce1.evaluate("load_package " + p + ";");
 			App.debug("Reduce package " + p + " loaded"+System.currentTimeMillis());
