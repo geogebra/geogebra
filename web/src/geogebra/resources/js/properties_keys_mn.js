@@ -865,7 +865,7 @@ __GGB__keysVar.mn.command = {
     "TaylorSeries_Syntax": "[ <\u0424\u0443\u043d\u043a\u0446>, <x-\u0443\u0442\u0433\u0430>, <\u0422\u043e\u043e\u043d\u0443\u0443\u0434\u044b\u043d \u044d\u0440\u044d\u043c\u0431\u044d> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable-Value>, <Order Number> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "\u0422\u0435\u043a\u0441\u0442",
     "Text_Syntax": "[ <\u041e\u0431\u044a\u0435\u043a\u0442> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <Boolean for Substitution of Variables> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0426\u044d\u0433> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0426\u044d\u0433>, <Boolean for Substitution of Variables> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0426\u044d\u0433> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0426\u044d\u0433>, <Boolean for Substitution of Variables>, <LaTeX \u0442\u043e\u043c\u044a\u0451\u043e> ]",
     "TextToUnicode": "\u0422\u0435\u043a\u0441\u0442\u0438\u0439\u0433\u042e\u043d\u0438\u043a\u043e\u0434\u0411\u043e\u043b\u0433\u043e",

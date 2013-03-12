@@ -1099,7 +1099,7 @@ __GGB__keysVar.fr.menu = {
     "Axes": "Axes",
     "Back": "En arri\xe8re",
     "BackgroundColor": "Couleur Arri\xe8re-Plan",
-    "BarChart": "Histogramme",
+    "BarChart": "Barres",
     "BasicLineTools": "Lignes",
     "Beta_short": "\u03b2",
     "BetweenGroups": "Entre groupes",

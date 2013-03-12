@@ -865,7 +865,7 @@ __GGB__keysVar.mr.command = {
     "TaylorSeries_Syntax": "[ <\u092b\u0932>, <x-\u0915\u093f\u0902\u092e\u0924>, <\u0915\u094b\u091f\u0940 \u0915\u094d\u0930\u092e\u093e\u0902\u0915> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable-Value>, <Order Number> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "\u092e\u091c\u0915\u0942\u0930",
     "Text_Syntax": "[ <\u0918\u091f\u0915> ]\n[ <\u0918\u091f\u0915>, <\u091a\u0932\u093e\u0902\u091a\u094d\u092f\u093e \u092c\u0926\u0932\u0940\u0938\u093e\u0920\u0940 \u092c\u0941\u0932\u0940\u092f> ]\n[ <\u0918\u091f\u0915>, <\u092c\u093f\u0902\u0926\u0942> ]\n[ <\u0918\u091f\u0915>, <\u092c\u093f\u0902\u0926\u0942> ]\n[ <\u0918\u091f\u0915>, <\u092c\u093f\u0902\u0926\u0942>, <\u091a\u0932\u093e\u0902\u091a\u094d\u092f\u093e \u092c\u0926\u0932\u0940\u0938\u093e\u0920\u0940 \u092c\u0941\u0932\u0940\u092f> ]\n[ <\u0918\u091f\u0915>, <\u092c\u093f\u0902\u0926\u0942>, <\u091a\u0932\u093e\u0902\u091a\u094d\u092f\u093e \u092c\u0926\u0932\u0940\u0938\u093e\u0920\u0940 \u092c\u0941\u0932\u0940\u092f>, <LaTeX \u0938\u0942\u0924\u094d\u0930> ]",
     "TextToUnicode": "\u092e\u091c\u0915\u0942\u0930\u092f\u0941\u0928\u0940\u0915\u094b\u0921",

@@ -865,7 +865,7 @@ __GGB__keysVar.ta.command = {
     "TaylorSeries_Syntax": "[ <Function>, <x-Value>, <Order Number> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable-Value>, <Order Number> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "\u0b89\u0bb0\u0bc8",
     "Text_Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]",
     "TextToUnicode": "\u0b92\u0bb0\u0bc1\u0b99\u0bcd\u0b95\u0bc1\u0b95\u0bc1\u0bb1\u0bbf\u0b95\u0bcd\u0b95\u0bbe\u0ba9\u0b89\u0bb0\u0bc8\u0bb5\u0b9f\u0bbf\u0bb5\u0bae\u0bcd",

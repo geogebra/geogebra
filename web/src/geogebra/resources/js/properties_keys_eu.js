@@ -865,7 +865,7 @@ __GGB__keysVar.eu.command = {
     "TaylorSeries_Syntax": "[ <Funtzioa>, <x-ren Balioa>, <Maila (zenbakia)> ]",
     "TaylorSeries_SyntaxCAS": "[ <Adierazpena>, <x-ren Balioa>, <Maila (zenbakia)> ]\n[ <Adierazpena>, <Aldagaia>, <Aldagaiaren Balioa>, <Maila (zenbakia)> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Testua",
     "Text_Syntax": "[ <Objektua> ]\n[ <Objektua>, <Aldagaiak Ordezkatzeko Boolearra> ]\n[ <Objektua>, <Puntua> ]\n[ <Objektua>, <Puntua>, <Aldagaiak Ordezkatzeko Boolearra> ]\n[ <Objektua>, <Puntua>, <Aldagaiak Ordezkatzeko Boolearra>, <LaTeX Formularako Boolearra> ]",
     "TextToUnicode": "TestuaUnicodera",

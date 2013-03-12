@@ -865,7 +865,7 @@ __GGB__keysVar.fi.command = {
     "TaylorSeries_Syntax": "[ <Funktio>, <X:n arvo>, <J\xe4rjestysluku> ]",
     "TaylorSeries_SyntaxCAS": "[ <Lauseke>, <x-Arvo>, <Aste> ]\n[ <Lauseke>, <Muuttuja>, <Muuttuja-Arvo>, <Aste> ]",
     "Tetrahedron": "Tetraedri",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Teksti",
     "Text_Syntax": "[ <Objekti> ]\n[ <Objekti>, <Looginen arvo muuttujien korvaamiseen> ]\n[ <Objekti>, <Piste> ]\n[ <Objekti>, <Piste>, <Looginen arvo muuttujien korvaamiseen> ]",
     "TextToUnicode": "UnicodeTekstist\xe4",

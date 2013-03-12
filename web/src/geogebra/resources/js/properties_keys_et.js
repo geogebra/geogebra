@@ -865,7 +865,7 @@ __GGB__keysVar.et.command = {
     "TaylorSeries_Syntax": "[ <Funktsioon>, <x-i v\xe4\xe4rtus>, <Arv> ]",
     "TaylorSeries_SyntaxCAS": "[ <Avaldis>, <x-Value>, <J\xe4rjenumber> ]\n[ <Avaldis>, <Muutuja>, <Muutuja v\xe4\xe4rtus>, <J\xe4rjenumber> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Tekst",
     "Text_Syntax": "[ <Objekt> ]\n[ <Objekt>, <T\xf5ev\xe4\xe4rtus muutujate asendamiseks> ]\n[ <Objekt>, <Punkt> ]\n[ <Objekt>, <Punkt>, <T\xf5ev\xe4\xe4rtus muutujate asendamiseks> ]\n[ <Objekt>, <Punkt>, <T\xf5ev\xe4\xe4rtus muutujate asendamiseks>, <T\xf5ev\xe4\xe4rtus LaTeX valemi jaoks> ]",
     "TextToUnicode": "TekstiUnicode",

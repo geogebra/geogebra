@@ -865,7 +865,7 @@ __GGB__keysVar.pl.command = {
     "TaylorSeries_Syntax": "[ <Funkcja>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]",
     "TaylorSeries_SyntaxCAS": "[ <Wyra\u017cenie>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]\n[ <Wyra\u017cenie>, <Zmienna>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Tekst",
     "Text_Syntax": "[ <Obiekt> ]\n[ <Obiekt>, <Czy Podstawia\u0107 za Zmienne> ]\n[ <Obiekt> ], <Punkt> ]\n[ <Obiekt>, <Punkt>, <Czy Podstawia\u0107 za Zmienne> ]\n[ <Obiekt>, <Punkt>, <Czy Podstawia\u0107 za Zmienne>, <Czy formu\u0142a LaTeX> ]",
     "TextToUnicode": "TekstNaUnikod",

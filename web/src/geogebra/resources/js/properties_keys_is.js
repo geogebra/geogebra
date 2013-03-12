@@ -865,7 +865,7 @@ __GGB__keysVar.is.command = {
     "TaylorSeries_Syntax": "[ <Fall>, <x-gildi>, <Stig> ]",
     "TaylorSeries_SyntaxCAS": "[ <St\xe6\xf0a>, <x-gildi>, <Stig> ]\n[ <St\xe6\xf0a>, <Breyta>, <Gildi breytu>, <Stig> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Texti",
     "Text_Syntax": "[ <Hlutur> ]\n[ <Hlutur>, <gildi Boole breytu> ]\n[ <Hlutur>, <Punktur> ]\n[ <Hlutur>, <Punktur>, <gildi Boole breytu> ]\n[ <Hlutur>, <Punktur>, <gildi Boole breytu>, <Boole gildi fyrir Latex form\xfalu> ]",
     "TextToUnicode": "TextiUnicode",

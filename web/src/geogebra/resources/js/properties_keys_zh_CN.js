@@ -1405,7 +1405,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Intersect": "\u4ea4\u70b9",
     "Intersect_Help": "\u9009\u62e9\u4e24\u4e2a\u76f8\u4ea4\u7684\u5bf9\u8c61, \u6216\u76f4\u63a5\u7528\u9f20\u6807\u70b9\u51fb\u76f8\u4ea4\u5904",
     "IntersectionCurve": "\u4ea4\u7ebf",
-    "IntersectionCurve_Help": "\u9009\u62e9\u4e24\u4e2a\u9762, \u751f\u6210\u5b83\u4eec\u7684\u4ea4\u7ebf",
+    "IntersectionCurve_Help": "\u9009\u62e9\u4e24\u4e2a\u66f2\u9762, \u751f\u6210\u5b83\u4eec\u7684\u4ea4\u7ebf",
     "Interval": "\u533a\u95f4",
     "IntervalProb": "\u9650\u5236\u4e24\u7aef",
     "IntervalType": "\u533a\u95f4\u7c7b\u578b",

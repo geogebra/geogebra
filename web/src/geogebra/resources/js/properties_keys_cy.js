@@ -865,7 +865,7 @@ __GGB__keysVar.cy.command = {
     "TaylorSeries_Syntax": "[ <Ffwythiant>, <gwerth-x>, <Rhif trefn> ]",
     "TaylorSeries_SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable-Value>, <Order Number> ]",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron_Syntax": "[ <Point>, <Pointt> ]\n[ <Point>, <Point>, <Direction> ]",
+    "Tetrahedron_Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "Testun",
     "Text_Syntax": "[ <Gwrthrych> ]\n[ <Gwrthrych>, <Boole i amnewid newidynnau> ]\n[ <Gwrthrych>, < Pwynt> ]\n[ <Gwrthrych>, <Pwynt>, <Boole i amnewid newidynnau> ]",
     "TextToUnicode": "TestunIUnicode",
