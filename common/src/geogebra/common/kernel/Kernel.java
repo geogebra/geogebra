@@ -1964,21 +1964,6 @@ public class Kernel {
 	}
 
 	/**
-	 * Sets the working epsilon precision according to the given print
-	 * precision. After this method epsilon will always be less or equal
-	 * STANDARD_PRECISION.
-	 * 
-	 * @param printPrecision
-	 */
-	private static void setEpsilonForPrintPrecision(double printPrecision) {
-		if (printPrecision < STANDARD_PRECISION) {
-			setEpsilon(printPrecision);
-		} else {
-			setEpsilon(STANDARD_PRECISION);
-		}
-	}
-
-	/**
 	 * Returns the epsilon value for kernel arithmetics
 	 * @return the current value
 	 */
@@ -2031,8 +2016,6 @@ public class Kernel {
 			ROUND_HALF_UP_FACTOR = figures < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
 					: 1;
 
-			setEpsilonForPrintPrecision(MAX_PRECISION);
-
 		}
 	}
 
@@ -2043,7 +2026,6 @@ public class Kernel {
 			ROUND_HALF_UP_FACTOR = decimals < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
 					: 1;
 
-			setEpsilonForPrintPrecision(Math.pow(10, -decimals));
 		}
 	}
 
