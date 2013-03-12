@@ -218,8 +218,7 @@ public class Kernel {
 	public static final double EPSILON = STANDARD_PRECISION;
 
 	// rounding hack, see format()
-	private static final double ROUND_HALF_UP_FACTOR_DEFAULT = 1.0 + 1E-15;
-	private double ROUND_HALF_UP_FACTOR = ROUND_HALF_UP_FACTOR_DEFAULT;
+	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
 
 	// private String stringTemplate.getPi(); // for pi
 
@@ -1989,9 +1988,6 @@ public class Kernel {
 			useSignificantFigures = true;
 			sf.setSigDigits(figures);
 			sf.setMaxWidth(16); // for scientific notation
-			ROUND_HALF_UP_FACTOR = figures < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
-					: 1;
-
 		}
 	}
 
@@ -1999,9 +1995,6 @@ public class Kernel {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
 			nf = FormatFactory.prototype.getNumberFormat(decimals);
-			ROUND_HALF_UP_FACTOR = decimals < 15 ? ROUND_HALF_UP_FACTOR_DEFAULT
-					: 1;
-
 		}
 	}
 
