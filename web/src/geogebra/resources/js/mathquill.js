@@ -3270,108 +3270,66 @@ var NonItalicizedFunction = P(Symbol, function(_, _super) {
 
 // GeoGebra+MathQuill
 LatexCmds.erf =
-LatexCmds.Erf =
-LatexCmds.psi =
+// stops \psi working LatexCmds.psi =
 LatexCmds.polygamma =
 LatexCmds.ln =
 LatexCmds.log =
-LatexCmds.Ln =
-LatexCmds.ld =
 LatexCmds.log2 =
-LatexCmds.lg =
 LatexCmds.log10 =
-LatexCmds.beta =
-LatexCmds.Beta =
+// stops \beta working LatexCmds.beta =
 LatexCmds.betaRegularized =
-LatexCmds.ibeta =
-LatexCmds.gamma =
-LatexCmds.igamma =
-LatexCmds.Gamma =
+// stops \gamma working LatexCmds.gamma =
+// stops \Gamma working LatexCmds.Gamma =
 LatexCmds.gammaRegularized =
 LatexCmds.cosIntegral =
-LatexCmds.CosIntegral =
 LatexCmds.sinIntegral =
-LatexCmds.SinIntegral =
 LatexCmds.expIntegral =
-LatexCmds.ExpIntegral =
-LatexCmds.gGbInTeGrAl =
-LatexCmds.gGbSuBsTiTuTiOn =
 LatexCmds.arbint =
 LatexCmds.arbconst =
 LatexCmds.arbcomplex =
 LatexCmds.cbrt =
 LatexCmds.Cbrt =
 LatexCmds.abs =
-LatexCmds.Abs =
 LatexCmds.sgn =
-LatexCmds.sign =
-LatexCmds.Sign =
 LatexCmds.floor =
-LatexCmds.Floor =
 LatexCmds.ceil =
-LatexCmds.Ceil =
 LatexCmds.round =
-LatexCmds.Round =
 LatexCmds.conjugate =
-LatexCmds.Conjugate =
 LatexCmds.arg =
-LatexCmds.Arg =
 LatexCmds.random =
 LatexCmds.exp =
-LatexCmds.Exp =
 LatexCmds.x =
 LatexCmds.y =
-//...
 LatexCmds.ln =
 LatexCmds.lg =
-LatexCmds.log =
-LatexCmds.span =
-LatexCmds.proj =
-LatexCmds.det =
-LatexCmds.dim =
-LatexCmds.min =
-LatexCmds.max =
-LatexCmds.mod =
-LatexCmds.lcm =
-LatexCmds.gcd =
-LatexCmds.gcf =
-LatexCmds.hcf =
-LatexCmds.lim = NonItalicizedFunction;
+LatexCmds.log = NonItalicizedFunction;
 
 (function() {
   var trigs = {
-    sin: 1, cos: 1, tan: 1,
-    Sin: 1, Cos: 1, Tan: 1};
+    sin: 1, cos: 1, tan: 1
+    // capital/arc/ar forms not needed, GeoGebra won't serialise to them
+    // although it can parse them
+    //,Sin: 1, Cos: 1, Tan: 1
+    };
   for (var trig in trigs) {
     LatexCmds[trig] =
-    LatexCmds['arc'+trig] =
-    LatexCmds['Arc'+trig] =
     LatexCmds['a'+trig] =
-    LatexCmds['A'+trig] =
-    LatexCmds['ar'+trig] =
     LatexCmds[trig+'h'] =
-    LatexCmds['arc'+trig+'h'] =
-    LatexCmds['Arc'+trig+'h'] =
-    LatexCmds['a'+trig+'h'] =
-    LatexCmds['A'+trig+'h'] =
-    LatexCmds['ar'+trig+'h'] = NonItalicizedFunction;
+    LatexCmds['a'+trig+'h'] = NonItalicizedFunction;
   }
   trigs = {
-	sec: 1, cosec: 1, csc: 1,
-	Sec: 1, Cosec: 1, Csc: 1,
-	cotan: 1, cot: 1, ctg: 1,
-	Cotan: 1, Cot: 1, Ctg: 1};
+	sec: 1, cosec: 1, csc: 1
+	//,Sec: 1, Cosec: 1, Csc: 1,
+	,cotan: 1, cot: 1, ctg: 1
+	//,Cotan: 1, Cot: 1, Ctg: 1
+	};
   for (var trig in trigs) {
     LatexCmds[trig] =
     LatexCmds[trig+'h'] = NonItalicizedFunction;
   }
-  trigs = { tan2: 1, Tan2: 1 };
+  trigs = { tan2: 1 };
   for (var trig in trigs) {
-    LatexCmds['a'+trig] =
-    LatexCmds['A'+trig] =
-    LatexCmds['ar'+trig] =
-    LatexCmds['Arc'+trig] =
-    LatexCmds['arc'+trig] = NonItalicizedFunction;
+    LatexCmds['a'+trig] = NonItalicizedFunction;
   }
   /*var trig = ['sin', 'cos', 'tan', 'sec', 'cosec', 'csc', 'cotan', 'cot'];
   for (var i in trig) {
