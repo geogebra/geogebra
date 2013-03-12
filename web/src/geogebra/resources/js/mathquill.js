@@ -3251,7 +3251,7 @@ LatexCmds.cup = LatexCmds.union = bind(BinaryOperator,'\\cup ','&cup;');
 LatexCmds.cap = LatexCmds.intersect = LatexCmds.intersection =
   bind(BinaryOperator,'\\cap ','&cap;');
 
-LatexCmds.deg = LatexCmds.degree = bind(VanillaSymbol,'^\\circ ','&deg;');
+// \deg is actually a latex function LatexCmds.deg = LatexCmds.degree = bind(VanillaSymbol,'^\\circ ','&deg;');
 
 LatexCmds.ang = LatexCmds.angle = bind(VanillaSymbol,'\\angle ','&ang;');
 
@@ -3268,53 +3268,64 @@ var NonItalicizedFunction = P(Symbol, function(_, _super) {
   };
 });
 
-// GeoGebra+MathQuill
-LatexCmds.erf =
-// stops \psi working LatexCmds.psi =
-LatexCmds.polygamma =
+// Proper LaTeX functions
+// http://amath.colorado.edu/documentation/LaTeX/Symbols.pdf
+LatexCmds.arccos =
+LatexCmds.arcsin =
+LatexCmds.arctan =
+LatexCmds.arg =
+LatexCmds.cos =
+LatexCmds.cosh =
+LatexCmds.cot =
+LatexCmds.coth =
+LatexCmds.csc =
+LatexCmds.deg =
+LatexCmds.det =
+LatexCmds.dim =
+LatexCmds.exp =
+LatexCmds.gcd =
+LatexCmds.hom =
+LatexCmds.inf =
+LatexCmds.ker =
+LatexCmds.lg =
+LatexCmds.lim =
 LatexCmds.ln =
 LatexCmds.log =
-LatexCmds.log2 =
-LatexCmds.log10 =
-// stops \beta working LatexCmds.beta =
-LatexCmds.betaRegularized =
-// stops \gamma working LatexCmds.gamma =
-// stops \Gamma working LatexCmds.Gamma =
-LatexCmds.gammaRegularized =
-LatexCmds.cosIntegral =
-LatexCmds.sinIntegral =
-LatexCmds.expIntegral =
-LatexCmds.arbint =
-LatexCmds.arbconst =
-LatexCmds.arbcomplex =
-LatexCmds.cbrt =
-LatexCmds.Cbrt =
-LatexCmds.abs =
+LatexCmds.max =
+LatexCmds.min =
+LatexCmds.sec =
+LatexCmds.sin =
+LatexCmds.sinh =
+LatexCmds.sup =
+LatexCmds.tan =
+LatexCmds.tanh =
+
+// special GeoGebra functions
 LatexCmds.sgn =
-LatexCmds.floor =
-LatexCmds.ceil =
 LatexCmds.round =
-LatexCmds.conjugate =
-LatexCmds.arg =
-LatexCmds.random =
-LatexCmds.exp =
-LatexCmds.x =
-LatexCmds.y =
-LatexCmds.ln =
-LatexCmds.lg =
-LatexCmds.log = NonItalicizedFunction;
+LatexCmds.erf =
+LatexCmds.Ci =
+LatexCmds.Si =
+LatexCmds.Ei =
+LatexCmds.real =
+LatexCmds.imaginary =
+LatexCmds.round =
+LatexCmds.fractionalPart = NonItalicizedFunction;
 
 (function() {
   var trigs = {
     sin: 1, cos: 1, tan: 1
-    // capital/arc/ar forms not needed, GeoGebra won't serialise to them
+    // capital/ar forms not needed, GeoGebra won't serialise to them
+    // and users don't need them
     // although it can parse them
     //,Sin: 1, Cos: 1, Tan: 1
     };
   for (var trig in trigs) {
     LatexCmds[trig] =
     LatexCmds['a'+trig] =
+    LatexCmds['arc'+trig] =
     LatexCmds[trig+'h'] =
+    LatexCmds['arc'+trig+'h'] =
     LatexCmds['a'+trig+'h'] = NonItalicizedFunction;
   }
   trigs = {
@@ -3327,10 +3338,7 @@ LatexCmds.log = NonItalicizedFunction;
     LatexCmds[trig] =
     LatexCmds[trig+'h'] = NonItalicizedFunction;
   }
-  trigs = { tan2: 1 };
-  for (var trig in trigs) {
-    LatexCmds['a'+trig] = NonItalicizedFunction;
-  }
+
   /*var trig = ['sin', 'cos', 'tan', 'sec', 'cosec', 'csc', 'cotan', 'cot'];
   for (var i in trig) {
     LatexCmds[trig[i]] =

@@ -2827,17 +2827,17 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ARCCOS:
-			trig(leftStr,sb,"<arccos/>","\\operatorname{acos}","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",
+			trig(leftStr,sb,"<arccos/>","\\arccos","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
-			trig(leftStr,sb,"<arcsin/>","\\operatorname{asin}","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",
+			trig(leftStr,sb,"<arcsin/>","\\arcsin","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
-			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",
+			trig(leftStr,sb,"<arctan/>","\\arctan","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
@@ -2891,28 +2891,28 @@ public class ExpressionNode extends ValidExpression implements
 		break;
 
 		case ACOSH:
-			trig(leftStr,sb,"<arccosh/>","\\operatorname{acosh}","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
+			trig(leftStr,sb,"<arccosh/>","\\acosh","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ASINH:
-			trig(leftStr,sb,"<arcsinh/>","\\operatorname{asinh}","ArcSinh(","ASINH(","asinh","asinh","arsinh",
+			trig(leftStr,sb,"<arcsinh/>","\\asinh","ArcSinh(","ASINH(","asinh","asinh","arsinh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);			
 			break;
 
 		case ATANH:
-			trig(leftStr,sb,"<arctanh/>","\\operatorname{atanh}","ArcTanh(","ATANH(","atanh","atanh","artanh",
+			trig(leftStr,sb,"<arctanh/>","\\atanh","ArcTanh(","ATANH(","atanh","atanh","artanh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case REAL:
-			trig(leftStr,sb,"<real/>","\\operatorname{real}","","","myreal","real","real",
+			trig(leftStr,sb,"<real/>","\\real","","","myreal","real","real",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case IMAGINARY:
-			trig(leftStr,sb,"<imaginary/>","\\operatorname{imaginary}","","","imaginary","imaginary","imaginary",
+			trig(leftStr,sb,"<imaginary/>","\\imaginary","","","imaginary","imaginary","imaginary",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case FRACTIONAL_PART:
-			trig(leftStr,sb,"<todo/>","\\operatorname{fractionalPart}","","","fractionalPart","fractionalPart","fractionalPart",
+			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 		break;
 		case ZETA:
@@ -2936,7 +2936,7 @@ public class ExpressionNode extends ValidExpression implements
 		case CI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\operatorname{Ci} \\left( ");
+				sb.append("\\Ci \\left( ");
 				break;
 
 				
@@ -2956,7 +2956,7 @@ public class ExpressionNode extends ValidExpression implements
 		case SI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\operatorname{Si} \\left( ");
+				sb.append("\\Si \\left( ");
 				break;
 				
 			case LIBRE_OFFICE:
@@ -2976,7 +2976,7 @@ public class ExpressionNode extends ValidExpression implements
 		case EI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\operatorname{Ei} \\left( ");
+				sb.append("\\Ei \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("func Ei left (");
@@ -3226,7 +3226,7 @@ public class ExpressionNode extends ValidExpression implements
 		case PSI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\digamma");
+				sb.append("\\psi");
 				sb.append(leftBracket(stringType));
 				sb.append(leftStr);
 				sb.append(rightBracket(stringType));
@@ -3477,7 +3477,7 @@ public class ExpressionNode extends ValidExpression implements
 		case SGN:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\mathrm{sgn}(");
+				sb.append("\\sgn(");
 				break;
 
 			case MATH_PIPER:
@@ -3572,9 +3572,17 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
-				sb.append("\\left\\lfloor ");
+				if (!app.isHTML5Applet()) {
+					// MathQuill doesn't support this
+					sb.append("\\left");
+				}
+				sb.append("\\lfloor ");
 				sb.append(leftStr);
-				sb.append("\\right\\rfloor ");
+				if (!app.isHTML5Applet()) {
+					// MathQuill doesn't support this
+					sb.append("\\right");
+				}
+				sb.append("\\rfloor ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append(" left lfloor ");
@@ -3604,9 +3612,17 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
-				sb.append("\\left\\lceil ");
+				if (!app.isHTML5Applet()) {
+					// MathQuill doesn't support this
+					sb.append("\\left");
+				}
+				sb.append("\\lceil ");
 				sb.append(leftStr);
-				sb.append("\\right\\rceil ");
+				if (!app.isHTML5Applet()) {
+					// MathQuill doesn't support this
+					sb.append("\\right");
+				}
+				sb.append("\\rceil ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("left lceil ");
@@ -3640,7 +3656,7 @@ public class ExpressionNode extends ValidExpression implements
 		case ROUND:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\mathrm{round} \\left( ");
+				sb.append("\\round \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -3846,7 +3862,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("\\mathrm{x} \\left( ");
+					sb.append(" x \\left( ");
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 					break;
@@ -3890,7 +3906,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("\\mathrm{y} \\left( ");
+					sb.append(" y \\left( ");
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
@@ -3930,7 +3946,7 @@ public class ExpressionNode extends ValidExpression implements
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("\\mathrm{z} \\left( ");
+					sb.append(" z \\left( ");
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
@@ -4515,7 +4531,7 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("\\operatorname{");
 					sb.append(app.getFunction(key));
 					sb.append("}");
-				}else{
+				} else {
 					sb.append(latex);
 				}
 				sb.append(" \\left( ");

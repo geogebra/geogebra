@@ -70,9 +70,23 @@ public class DrawEquationD extends DrawEquation {
 				
 				StringBuilder initJLM = new StringBuilder();
 				
+				// used in ExpressionNode
+				// (for serializing GeoGebra expressions to LaTeX)
 				initJLM.append("\\DeclareMathOperator{\\sech}{sech} ");
 				initJLM.append("\\DeclareMathOperator{\\csch}{csch} ");
 				initJLM.append("\\DeclareMathOperator{\\erf}{erf} ");
+				initJLM.append("\\DeclareMathOperator{\\sgn}{sgn} ");
+				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
+				initJLM.append("\\DeclareMathOperator{\\Ci}{Ci} ");
+				initJLM.append("\\DeclareMathOperator{\\Si}{Si} ");
+				initJLM.append("\\DeclareMathOperator{\\Ei}{Ei} ");
+				initJLM.append("\\DeclareMathOperator{\\acosh}{acosh} ");
+				initJLM.append("\\DeclareMathOperator{\\asinh}{asinh} ");
+				initJLM.append("\\DeclareMathOperator{\\atanh}{atanh} ");
+				initJLM.append("\\DeclareMathOperator{\\real}{real} ");
+				initJLM.append("\\DeclareMathOperator{\\imaginary}{imaginary} ");
+				initJLM.append("\\DeclareMathOperator{\\fractionalPart}{fractionalPart} ");
+				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
 				initJLM.append("\\newcommand{\\space}[0]{\\ } ");
 				
 				HashMap<String, geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants.getGeoGebraColors();
