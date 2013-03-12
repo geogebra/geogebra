@@ -79,7 +79,7 @@ $GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GWTDIR/validation-api-1.0.0.GA.jar:\
 $GGDIR/touch/war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar:\
 $GGDIR/touch/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:\
-$GGDIR/touch/war/WEB-INF/lib/mgwt-1.1.1.jar:\
+$GGDIR/touch/war/WEB-INF/lib/mgwt-1.1.2.jar:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GGDIR/web/lib/gwt-oauth2-0.2-alpha.jar:\
 $GGDIR/web/war/WEB-INF/lib/commons-logging-1.1.1.jar:\
@@ -185,7 +185,7 @@ while [ $# -gt 0 ]; do
    echo
    echo "Examples:"
    echo " ./build -X /usr/local/bin/xml -s PRETTY -u safari -i /tmp/ggw -- -draftCompile"
-   echo " ./build -M --heap 2048m -- -draftCompile"
+   echo " ./build -T --heap 2048m -- -draftCompile"
    exit 0
    ;;
 
@@ -319,19 +319,6 @@ for i in $THIRDPARTYJARS; do
 # 6/4. Running javac for the web
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
-
-# 6/5. Running javac for the touch
- if [ "$PROJECT" = "touch" ]; then
- # This is a temporarily hack to support precompiling annotation related source files
- # for GWT/MVP. See https://groups.google.com/forum/?fromgroups=#!topic/google-web-toolkit/4CCeDlfhFSs
- # for more details. TODO: Find a better a way to do this.
- cd $GGDIR/touch/src/geogebra/touch/place
- javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TabletGuiPlace.java
- javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TubeSearchPlace.java
- cd ../mvp
- javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar:$GGDIR/touch/src AppPlaceHistoryMapper.java
- cd $WEBDIR
- fi
 
 # 7. Preparing specific compilation
 PROJECT_UPCASE=`echo $PROJECT | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}'`
