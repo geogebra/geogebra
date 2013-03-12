@@ -571,7 +571,8 @@ public class ReduceLibrary {
 				+ "    if sub(solution,den(eq))=0 then bool!!:=0;"
 				+ "    exp!!:=sub(solution,num(eq)); "		// first calculate the substitution because
 				+ "    on expandlogs;"						// expandlogs can destroy our expression
-				+ "    if exp!! neq 0 then bool!!:=0; "		// example: on expandlogs; log((-2)^2)-log(4); yields - 2*log(2) + 2*log(-2);
+				+ "    if (exp!! neq 0) and " +// example: on expandlogs; log((-2)^2)-log(4); yields - 2*log(2) + 2*log(-2);
+				"(not lisp(!*rounded)) then bool!!:=0; " //ignore if rounding is on		
 				+ "    off expandlogs;>>;"
 				+ "  if bool!! then ret!!:=(solution).ret!!;>>;"
 				+ "return reverse ret!!;" + "end;");
