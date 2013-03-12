@@ -165,7 +165,7 @@ public class AlgebraProcessor {
 
 		AlgoElement algoParent = casCell.getParentAlgorithm();
 		boolean prevFree = algoParent == null;
-		boolean nowFree = casCell.getGeoElementVariables() == null;
+		boolean nowFree = !casCell.hasVariablesOrCommands();
 		boolean needsRedefinition = false;
 		//If we change dependencies of CAS cells, we need to update construction
 		//to make sure the CAS cells are painted in right order (#232)

@@ -2703,7 +2703,7 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			// create necessary algorithm and twinGeo
-			boolean independentCell = geoCasCell.getGeoElementVariables() == null;
+			boolean independentCell = !geoCasCell.hasVariablesOrCommands();
 			if (independentCell) {
 				// free cell, e.g. m := 7 creates twinGeo m = 7
 				cons.addToConstructionList(geoCasCell, true);

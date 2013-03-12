@@ -24,4 +24,12 @@ public interface Inspecting {
 		}
 		
 	}
+	
+	public enum CommandFinder implements Inspecting{
+		/** singleton instance */
+		INSTANCE;
+		public boolean check(ExpressionValue v) {
+			return v instanceof Command;
+		}
+	}
 }

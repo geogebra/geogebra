@@ -64,8 +64,12 @@ public class AlgoDependentCasCell extends AlgoElement {
 		// input
 		// m := c + 3 has input variable c
 		TreeSet<GeoElement> geoVars = casCell.getGeoElementVariables();
-		GeoElement [] geos = new GeoElement[geoVars.size()];
-		input = geoVars.toArray(geos);	
+		if(geoVars==null){
+			input = new GeoElement[0];
+		}else{
+			GeoElement [] geos = new GeoElement[geoVars.size()];
+			input = geoVars.toArray(geos);
+		}
 
 	}
 	

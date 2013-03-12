@@ -16,6 +16,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -2263,6 +2264,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		evalCmdLocal.append(":");
 		return evalCmdLocal.toString();
+	}
+	/**
+	 * @return whether this cell depends on variables or was created using a command
+	 */
+	public boolean hasVariablesOrCommands() {
+		if(getGeoElementVariables() != null)
+			return true;
+		return inputVE!=null && inputVE.inspect(CommandFinder.INSTANCE);
 	}
 
 }
