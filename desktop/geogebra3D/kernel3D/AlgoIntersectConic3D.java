@@ -192,7 +192,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 				setPointsUndefined(); //TODO infinite points ?
 			}else{//line included
 				g2d.setCoords(dp.getY(), -dp.getX(), -dp.getY()*op.getX() +dp.getX()*op.getY());
-				AlgoIntersectLineConic.intersectLineConic(g2d, c, points2d);
+				AlgoIntersectLineConic.intersectLineConic(g2d, c, points2d,Kernel.STANDARD_PRECISION);
 				//Application.debug(points2d[0]+"\n"+points2d[1]);
 				P[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
 				checkIsOnFirstGeo(P[0]);

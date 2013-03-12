@@ -357,7 +357,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     		return false;				    	
     		    
     	// intersect the two circles
-        intersectConicsWithEqualSubmatrixS(A, B, Q);  
+        intersectConicsWithEqualSubmatrixS(A, B, Q, Kernel.STANDARD_PRECISION);  
                           
 	    // pointOnConic should be first intersection point
         // Note: if the first intersection point was already set when a file
@@ -631,18 +631,17 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	
         // input is already degenerate
         if (conic1.isLineConic()) {
-            intersectWithDegenerate(conic2, conic1, points);
+            intersectWithDegenerate(conic2, conic1, points,Kernel.STANDARD_PRECISION);
             ok = testPoints(conic1, conic2, points, Kernel.MIN_PRECISION);
         }
         else if (conic2.isLineConic()) {
-            intersectWithDegenerate(conic1, conic2, points);
+            intersectWithDegenerate(conic1, conic2, points,Kernel.STANDARD_PRECISION);
             ok = testPoints(conic1, conic2, points, Kernel.MIN_PRECISION);
         }
         
         // STANDARD PROCEDURE
         double epsilon = Kernel.STANDARD_PRECISION;
         while (!ok && epsilon <= Kernel.MIN_PRECISION) { 
-            Kernel.setEpsilon(epsilon);                        
             
             // find intersection points conics through intersection points
         	ok = calcIntersectionPoints(conic1, conic2, points, epsilon);  
@@ -650,7 +649,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
             // try it with lower precision     
             epsilon *= 10.0;                        
         }            
-        Kernel.resetPrecision();
         
         // did not find intersections
         if (!ok) {
@@ -693,15 +691,15 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
      * points.
      */
     final static private void intersectWithDegenerate(GeoConic conic, GeoConic degConic,
-                                               GeoPoint [] points) {
+                                               GeoPoint [] points, double eps) {
         if (degConic.isDefined()) {
             switch (degConic.getType()) {
                 case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
                 case GeoConicNDConstants.CONIC_PARALLEL_LINES:                                    
-                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points);
+                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points,eps);
                     points[2].setCoords(points[0]);
                     points[3].setCoords(points[1]);
-                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[1], conic, points);
+                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[1], conic, points,eps);
                     return;
 
 				case GeoConicNDConstants.CONIC_EMPTY: 
@@ -712,7 +710,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 					//Application.debug("degConic: " + degConic);
 					
                 case GeoConicNDConstants.CONIC_DOUBLE_LINE:                    
-                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points);
+                    AlgoIntersectLineConic.intersectLineConic(degConic.lines[0], conic, points,eps);
                     points[2].setUndefined();
                     points[3].setUndefined();
                     return;
@@ -796,7 +794,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         		return true;
         		*/
         	        	
-        	return intersectConicsWithEqualSubmatrixS(A, B, points);        	        	
+        	return intersectConicsWithEqualSubmatrixS(A, B, points,eps);        	        	
         }
               
         
@@ -850,7 +848,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
       //                  + eqn[1] + " x + "  + eqn[0] );
         
        // solve cubic equation and sort solutions       
-       int solnr = eqnSolver.solveCubic(eqn, sol);
+       int solnr = eqnSolver.solveCubic(eqn, sol,eps);
        if (solnr > -1)
     	   Arrays.sort(sol, 0, solnr);       
 
@@ -878,12 +876,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		   degConic.setDegenerateMatrixFromArray(flatDeg);
 			   	
 		    // try first conic
-        	intersectWithDegenerate(A, degConic, points);
+        	intersectWithDegenerate(A, degConic, points, eps);
         	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
         		return true;
         	
         	// try second conic
-        	intersectWithDegenerate(B, degConic, points);
+        	intersectWithDegenerate(B, degConic, points, eps);
         	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
         		return true;			   		   		   	               	
 	   }
@@ -904,7 +902,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         eqn[2] = temp;                        
             
         // solve cubic equation and sort solutions        
-        solnr = eqnSolver.solveCubic(eqn, sol); 
+        solnr = eqnSolver.solveCubic(eqn, sol, eps); 
         if (solnr > -1)
         	Arrays.sort(sol, 0, solnr);
         
@@ -921,12 +919,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		   //Application.debug("degenerate found (2): " + degConic.getTypeString());				   				   			   
 		   
 		    // try first conic
-        	intersectWithDegenerate(A, degConic, points);
+        	intersectWithDegenerate(A, degConic, points, eps);
         	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
         		return true;
         	
         	// try second conic
-        	intersectWithDegenerate(B, degConic, points);
+        	intersectWithDegenerate(B, degConic, points, eps);
         	if (testPoints(A, B, points, Kernel.MIN_PRECISION))
         		return true;			   	               
  	   }
@@ -954,7 +952,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 	    double [][] res = new double[4][2];
 	    
 	    // Solving system of equations 
-	    solnr = sysSolver.solveSystemOfQuadraticEquations(param1, param2, res);
+	    solnr = sysSolver.solveSystemOfQuadraticEquations(param1, param2, res, eps);
 	    
 	    if (solnr == -1) {
 	    	return false;
@@ -980,7 +978,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
      * @param points resulting intersection points
      * @return true if points were found
      */
-    private boolean intersectConicsWithEqualSubmatrixS(GeoConic c1, GeoConic c2, GeoPoint [] points) {    	
+    private boolean intersectConicsWithEqualSubmatrixS(GeoConic c1, GeoConic c2, GeoPoint [] points,double eps) {    	
 	    if (tempLine == null) {			
 			tempLine = new GeoLine(cons);			
 		}
@@ -992,12 +990,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 				c1.matrix[2] - c2.matrix[2]);
 		        	        	        	
 		// try first conic
-		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points);        	
+		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points,eps);        	
 		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
 			return true;
 		
 		// try second conic
-		AlgoIntersectLineConic.intersectLineConic(tempLine, c2, points);
+		AlgoIntersectLineConic.intersectLineConic(tempLine, c2, points,eps);
 		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
 			return true; 
 		

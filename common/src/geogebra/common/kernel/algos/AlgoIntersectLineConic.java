@@ -591,15 +591,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		if (c.isDefined() && g.isDefined()) {
 			double epsilon = Kernel.STANDARD_PRECISION;
 			while (epsilon <= Kernel.MIN_PRECISION) {
-				ret = intersectLineConic(g, c, sol);
+				ret = intersectLineConic(g, c, sol, epsilon);
 				ok = testPoints(g, c, sol, Kernel.MIN_PRECISION);
 				if (ok) {
 					break;
 				}
 				epsilon *= 10.0;
-				Kernel.setEpsilon(epsilon);
 			}
-			Kernel.resetPrecision();
 		}
 
 		// intersection failed
@@ -615,7 +613,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 
 	// do the actual computations
 	public final static int intersectLineConic(GeoLine g, GeoConicND c,
-			GeoPoint[] sol) {
+			GeoPoint[] sol, double eps) {
 		double[] A = c.matrix;
 
 		// get arbitrary point of line
@@ -648,14 +646,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// estimate err for delta; also avoid this too be too large
 		double delta = Math.min(Kernel.MIN_PRECISION,
 				Math.max(1, Math.abs(2 * d) + Math.abs(u) + Math.abs(w))
-						* Kernel.EPSILON);
+						* eps);
 
 		// Erzeugende, Asymptote oder Treffgerade
-		if (Kernel.isZero(u)) {
+		if (Kernel.isZero(u,eps)) {
 			// Erzeugende oder Asymptote
-			if (Kernel.isZero(d)) {
+			if (Kernel.isZero(d,eps)) {
 				// Erzeugende
-				if (Kernel.isZero(w)) {
+				if (Kernel.isZero(w,eps)) {
 					sol[0].setUndefined();
 					sol[1].setUndefined();
 					return INTERSECTION_PRODUCING_LINE;

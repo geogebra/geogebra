@@ -232,7 +232,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			Coords op = csA.getNormalProjection(intersection[0])[1];
 			Coords dp = csA.getNormalProjection(intersection[1])[1];		
 			l2d.setCoords(dp.getY(), -dp.getX(), -dp.getY()*op.getX() +dp.getX()*op.getY());
-			AlgoIntersectLineConic.intersectLineConic(l2d, A, points2d);
+			AlgoIntersectLineConic.intersectLineConic(l2d, A, points2d,Kernel.STANDARD_PRECISION);
 			//Application.debug(points2d[0]+"\n"+points2d[1]);
 			
 			P[0].setCoords(csA.getPoint(points2d[0].x, points2d[0].y), false);

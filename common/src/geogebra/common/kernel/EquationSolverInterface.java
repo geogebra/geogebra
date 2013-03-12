@@ -11,7 +11,7 @@ public interface EquationSolverInterface {
 	 * @param roots roots
 	 * @return number of roots
 	 */
-	int solveCubic(double[] eqn, double[] roots);
+	int solveCubic(double[] eqn, double[] roots,double eps);
 
 	/**
 	 * Solves the quadratic whose coefficients are in the <code>eqn</code> array
@@ -33,14 +33,14 @@ public interface EquationSolverInterface {
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant.
 	 */
-	int solveQuadratic(double[] equation, double[] roots);
+	int solveQuadratic(double[] equation, double[] roots, double eps);
 
 	/**
 	 * * @param equation coefficients
 	 * @param roots roots
 	 * @return number of roots
 	 */
-	int solveQuartic(double[] equation, double[] roots);
+	int solveQuartic(double[] equation, double[] roots, double eps);
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for degrees >
 	 * 3. The roots are polished and only distinct roots are returned.

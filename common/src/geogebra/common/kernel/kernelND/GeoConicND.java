@@ -511,7 +511,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 
 					double[] eqn = { abspy, -p+px, 0, -p/2 };
 					double[] roots = {0, 0, 0};
-					cons.getKernel().getEquationSolver().solveCubic(eqn,roots);
+					cons.getKernel().getEquationSolver().solveCubic(eqn, roots, Kernel.STANDARD_PRECISION);
 					if(roots[0]>0) {
 						pp.setT(roots[0]);
 					} else if (roots[1]>0) {
@@ -562,7 +562,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			double hc_2 = ha*ha + hb*hb;
 			eqn = new double[]{bpy*bpy, -2*bpy*hc_2, bpy*bpy+hc_2*hc_2-ha*ha*abspx*abspx, -2*bpy*hc_2, hc_2*hc_2 };
 		}
-			cons.getKernel().getEquationSolver().solveQuartic(eqn,roots);
+			cons.getKernel().getEquationSolver().solveQuartic(eqn,roots,Kernel.STANDARD_PRECISION);
 			return roots;
 		}
 
@@ -2354,7 +2354,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			eigenval[0] = detS;
 			eigenval[1] = - (matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
-			cons.getKernel().getEquationSolver().solveQuadratic(eigenval, eigenval);
+			cons.getKernel().getEquationSolver().solveQuadratic(eigenval, eigenval,Kernel.STANDARD_PRECISION);
 	
 			// set first eigenvector
 			eigenvecX = -matrix[3];

@@ -67,7 +67,7 @@ public class EquationSolver implements EquationSolverInterface {
 			break;
 
 		case 2:
-			realRoots = solveQuadratic(roots, roots);
+			realRoots = solveQuadratic(roots, roots, Kernel.STANDARD_PRECISION);
 			if (multiple && realRoots == 1) {
 				realRoots = 2;
 				roots[1] = roots[0];
@@ -75,7 +75,7 @@ public class EquationSolver implements EquationSolverInterface {
 			break;
 
 		case 3:
-			realRoots = solveCubic(roots, roots);
+			realRoots = solveCubic(roots, roots, Kernel.STANDARD_PRECISION);
 			break;
 
 		default:
@@ -131,25 +131,25 @@ public class EquationSolver implements EquationSolverInterface {
 	 *         constant
 	 */
 	final public int solveQuadratic(double eqn[]) {
-		return solveQuadratic(eqn, eqn);
+		return solveQuadratic(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
 	
-	final public int solveQuadratic(double eqn[], double res[]) {
+	final public int solveQuadratic(double eqn[], double res[],double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
 		double c = eqn[0];
 		int roots = 0;
-		if (Math.abs(a) < Kernel.EPSILON) {
+		if (Math.abs(a) < eps) {
 			// The quadratic parabola has degenerated to a line.
-			if (Math.abs(b) < Kernel.EPSILON)
+			if (Math.abs(b) < eps)
 				// The line has degenerated to a constant.
 				return -1;
 			res[roots++] = -c / b;
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
 			double d = b * b - 4.0 * a * c;
-			if (Math.abs(d) < Kernel.EPSILON)
+			if (Math.abs(d) < eps)
 				res[roots++] = -b / (2.0 * a);
 			else {
 				if (d < 0.0)
@@ -249,7 +249,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * @return the number of roots, or -1 if the equation is a constant.
 	 */
 	final public int solveCubic(double eqn[]) {
-		return solveCubic(eqn, eqn);
+		return solveCubic(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
 	/*
@@ -259,13 +259,13 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
-	final public int solveCubic(double eqn[], double res[]) {
+	final public int solveCubic(double eqn[], double res[],double eps) {
 
 		int roots = 0;
 		double d = eqn[3];
-		if (Math.abs(d) < Kernel.EPSILON) {
+		if (Math.abs(d) < eps) {
 			// The cubic has degenerated to quadratic (or line or ...).
-			return solveQuadratic(eqn, res);
+			return solveQuadratic(eqn, res, eps);
 		}
 		double a = eqn[2] / d;
 		double b = eqn[1] / d;
@@ -711,10 +711,10 @@ public class EquationSolver implements EquationSolverInterface {
 	 * http://www.network-theory.co.uk/download/gslextras/Quartic/
 	 */
 
-	public int solveQuartic(double eqn[], double res[]) {
+	public int solveQuartic(double eqn[], double res[], double eps) {
 
 		if (Math.abs(eqn[4]) < 0)
-			return solveCubic(eqn, res);
+			return solveCubic(eqn, res,  Kernel.STANDARD_PRECISION);
 
 		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4], d = eqn[0]
 				/ eqn[4];
@@ -770,7 +770,7 @@ public class EquationSolver implements EquationSolverInterface {
 			res2[2] = 1.0;
 			res2[1] = a;
 			res2[0] = b;
-			int n = solveQuadratic(res2, res2);
+			int n = solveQuadratic(res2, res2, eps);
 			res[roots++] = res2[0];
 			res[roots++] = res2[1];
 			// if (gsl_poly_solve_quadratic(1.0,a,b,x2,x3)==0) {

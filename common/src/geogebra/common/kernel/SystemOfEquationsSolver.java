@@ -44,11 +44,12 @@ public class SystemOfEquationsSolver {
 	 * @param eqn1 coefficients in first equation
 	 * @param eqn2 coefficients in second equation
 	 * @param res array to store result
+	 * @param eps precision
 	 * 
 	 * @return Number of real roots or -1 if equations are equal or coefficients are invalid
 	 * 
 	 */
-	final public int solveSystemOfQuadraticEquations(double eqn1[], double eqn2[], double [][] res){
+	final public int solveSystemOfQuadraticEquations(double eqn1[], double eqn2[], double [][] res, double eps){
 		
 		ArrayList<Double> xs = new ArrayList<Double>();
         ArrayList<Double> ys = new ArrayList<Double>();
@@ -94,7 +95,7 @@ public class SystemOfEquationsSolver {
         
         // finding candidates for y
         
-        int solnr = eqnSolver.solveQuartic(quarticParams, quarticRoots); 
+        int solnr = eqnSolver.solveQuartic(quarticParams, quarticRoots,eps); 
         Arrays.sort(quarticRoots, 0, solnr);
         
         for(int i=0; i<solnr; i++)
@@ -108,7 +109,7 @@ public class SystemOfEquationsSolver {
         	double [] quadraticRoots = new double[3];
         	
         	// finding candidates for x
-            int solnr2 = eqnSolver.solveQuadratic(quadraticParams, quadraticRoots); 
+            int solnr2 = eqnSolver.solveQuadratic(quadraticParams, quadraticRoots, eps); 
             Arrays.sort(quadraticRoots, 0, solnr2);
             
             for(int j=0; j<solnr2; j++)

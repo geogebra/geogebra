@@ -265,7 +265,7 @@ public class Relation {
 		} else {
 			// intersect line and conic
 			GeoPoint[] points = { new GeoPoint(cons), new GeoPoint(cons) };
-			type = AlgoIntersectLineConic.intersectLineConic(g, c, points);
+			type = AlgoIntersectLineConic.intersectLineConic(g, c, points, Kernel.STANDARD_PRECISION);
 			str = lineConicString(g, c, type);
 		}
 		return str;

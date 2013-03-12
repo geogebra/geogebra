@@ -112,7 +112,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 				          {- A[5] * A[5] + A[1] * A[2],
 						2 * (A[1] * A[4] - A[3] * A[5]),
 						 A[0] * A[1] - A[3] * A[3]}
-					,res);
+					,res,Kernel.STANDARD_PRECISION);
 			}
 			
 			AlgoRoots algo = null;

@@ -215,7 +215,7 @@ public class Kernel {
  	private final static double AXES_PRECISION = 1E-14; 
  	
  	/** current working precision */
-	public static double EPSILON = STANDARD_PRECISION;
+	public static final double EPSILON = STANDARD_PRECISION;
 
 	// rounding hack, see format()
 	private static final double ROUND_HALF_UP_FACTOR_DEFAULT = 1.0 + 1E-15;
@@ -1954,33 +1954,11 @@ public class Kernel {
 	}
 
 	/**
-	 * Sets the epsilon value for kernel arithmetics
-	 * @param epsilon Between -epsilon and +epsilon the numbers are considered zero
-	 */
-	final public static void setEpsilon(double epsilon) {
-		EPSILON = epsilon;
-
-		if (EPSILON > MIN_PRECISION) {
-			EPSILON = MIN_PRECISION;
-		} else if (EPSILON < MAX_PRECISION) {
-			EPSILON = MAX_PRECISION;
-		}
-
-	}
-
-	/**
 	 * Returns the epsilon value for kernel arithmetics
 	 * @return the current value
 	 */
 	final public static double getEpsilon() {
 		return EPSILON;
-	}
-
-	/**
-	 * Resets the kernel precision to STANDARD_PRECISION 
-	 */
-	final public static void resetPrecision() {
-		setEpsilon(STANDARD_PRECISION);
 	}
 
 
