@@ -437,7 +437,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// translation found:
 		// replace %0, %1, etc. in translation by command arguments
 		else {
-			translation = translation.replaceAll("%@",Kernel.TMP_VARIABLE_PREFIX);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
