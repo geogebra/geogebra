@@ -212,6 +212,9 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 			}				
 		});
 		
+		btOpenWindow.setVisible(showConsProtButton); 
+	 	playPanel.setVisible(showPlayButton);
+		
 		// add panels together to center
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));		
 		add(leftPanel);

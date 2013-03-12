@@ -2907,7 +2907,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (getGuiManager() != null) {
 			getGuiManager().setShowConstructionProtocolNavigation(flag);
-			updateMenubar();
 			showConstProtNavigationNeedsUpdate = false;
 		} else {
 			showConstProtNavigationNeedsUpdate = true;
@@ -2919,7 +2918,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		setShowConstructionProtocolNavigation(!showConsProtNavigation());
 		setUnsaved();
 		updateCenterPanel(true);
-		updateMenubar();
 
 		if (getGuiManager() != null)
 			((GuiManagerD) getGuiManager())

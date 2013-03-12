@@ -30,7 +30,6 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
-import geogebra.util.Util;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -187,12 +186,12 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		table.addKeyListener(keyListener);
 
 		// navigation bar
-		protNavBar = new ConstructionProtocolNavigation(app);
+		protNavBar = app.getConstructionProtocolNavigation();
 		protNavBar.register(this);
-		protNavBar.setPlayButtonVisible(false);
-		protNavBar.setConsProtButtonVisible(false);
-		add(protNavBar, BorderLayout.SOUTH);
-		Util.addKeyListenerToAll(protNavBar, keyListener);
+		//protNavBar.setPlayButtonVisible(false);
+		//protNavBar.setConsProtButtonVisible(false);
+		//add(protNavBar, BorderLayout.SOUTH);
+		//Util.addKeyListenerToAll(protNavBar, keyListener);
 		
 		
 		initGUI();
