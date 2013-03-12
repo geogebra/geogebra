@@ -1,5 +1,7 @@
 package geogebra.common.cas.mpreduce;
 
+import geogebra.common.kernel.Kernel;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -336,17 +338,17 @@ public class Ggb2MPReduce {
 				"<< begin scalar equations!!; equations!!:=(%0); if arglength(equations!!)>-1 and part(equations!!,0)=\\'list then equations!!:=mkdepthone(equations!!); return flattenlist(mysolve(aeval(equations!!),%1)) end >>");
 		p("SolveODE.1",
 				"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!)$" +
+				"tmpret:=odesolve(sub(list("+Kernel.TMP_VARIABLE_PREFIX+"y'=df(y!!,x!!),"+Kernel.TMP_VARIABLE_PREFIX+"y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!)$" +
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
 		p("SolveODE.2",
 				"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,mkconditions(x!!,y!!,%1))$" +
+				"tmpret:=odesolve(sub(list("+Kernel.TMP_VARIABLE_PREFIX+"y'=df(y!!,x!!),"+Kernel.TMP_VARIABLE_PREFIX+"y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,mkconditions(x!!,y!!,%1))$" +
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
 		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
 				"if myvecp(%2) or islist(%2)=1 then "
 				+		"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-						"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,append(mkconditions(x!!,y!!,%1),mkconditions(x!!,df(y!!,x!!),%2)))$" +
+						"tmpret:=odesolve(sub(list("+Kernel.TMP_VARIABLE_PREFIX+"y'=df(y!!,x!!),"+Kernel.TMP_VARIABLE_PREFIX+"y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!,append(mkconditions(x!!,y!!,%1),mkconditions(x!!,df(y!!,x!!),%2)))$" +
 						" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>"+
 				" else <<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend @1,@2; if freeof(tmpeqn,=) then tmpeqn:=df(@1,@2)=tmpeqn; " +
 				"tmpret:=odesolve(sub(list(@1'=df(@1,@2),@1''=df(@1,@2,2)),tmpeqn),@1,@2)$" +

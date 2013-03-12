@@ -329,7 +329,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
-			translation = translation.replaceAll("%@", Kernel.TMP_VARIABLE_PREFIX);
 			sbCASCommand.setLength(0);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
