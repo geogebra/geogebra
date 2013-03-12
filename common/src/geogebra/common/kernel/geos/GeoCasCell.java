@@ -250,19 +250,17 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// boolean oldLineBreaks = kernel.isInsertLineBreaks();
 				// kernel.setInsertLineBreaks(true);
 				StringBuilder sb = new StringBuilder("\\mathbf{");
-				
-				
-				// create LaTeX string				
-				if (nativeOutput || (twinGeo==null || !(outputVE.unwrap() instanceof GeoElement))) {
+				// create LaTeX string
+				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
 					sb.append(outputVE
 							.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex
 									: StringTemplate.latexTemplate));
 				} else {
-					GeoElement geo = outputVE.unwrap() instanceof GeoElement ?  (GeoElement)outputVE.unwrap()
-							 : twinGeo;	
+					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
+							.getLeft());
 					if (isAssignmentVariableDefined()) {
-						//sb.append(StringTemplate.latexTemplate.printVariableName(getAssignmentVariable()));
 						sb.append(geo.getAssignmentLHS(StringTemplate.latexTemplate));
+
 						switch (outputVE.getAssignmentType()) {
 						case DEFAULT:
 							sb.append(outputVE.getAssignmentOperator().trim());
@@ -1317,14 +1315,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return;
 		if (!isAssignmentVariableDefined())
 			return;
-		if ((getInputVE() instanceof Function)
+		if (isNative() && (getInputVE() instanceof Function)
 				&& (outputVE instanceof ExpressionNode)) {
 			String[] labels = outputVE.getLabels();
 			outputVE = new Function((ExpressionNode) outputVE,
 					((Function) getInputVE()).getFunctionVariable());
 			outputVE.setLabels(labels);
 			outputVE.setAssignmentType(getInputVE().getAssignmentType());
-		} else if ((getInputVE() instanceof FunctionNVar)
+		} else if (isNative() && (getInputVE() instanceof FunctionNVar)
 				&& (outputVE instanceof ExpressionNode)) {
 			String[] labels = outputVE.getLabels();
 			outputVE = new FunctionNVar((ExpressionNode) outputVE,
@@ -1606,7 +1604,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// update twinGeo
 		
 		if (doTwinGeoUpdate) {
-			App.debug(assignmentVar);
 			updateTwinGeo(allowFunction);
 		}
 
