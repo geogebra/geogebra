@@ -103,8 +103,9 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		double bd=az*cz*Math.sqrt((dx*bz-bx*dz)*(dx*bz-bx*dz)+(dy*bz-by*dz)*(dy*bz-by*dz));
 		double cd=az*bz*Math.sqrt((dx*cz-cx*dz)*(dx*cz-cx*dz)+(dy*cz-cy*dz)*(dy*cz-cy*dz));
 		
-		double precision = Kernel.getEpsilon();
-		Kernel.setMinPrecision();
+		// TODO: Kernel.setMinPrecision() will be removed soon
+		//double precision = Kernel.getEpsilon();
+		//Kernel.setMinPrecision();
 		
 		if (Kernel.isZero((ab*cd+bc*ad-ac*bd)/(az*bz*cz*dz)) 
 				|| Kernel.isZero((ab*cd+ac*bd-bc*ad)/(az*bz*cz*dz)) 
@@ -114,7 +115,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			outputBoolean.setValue(false);
 		}
 		
-		Kernel.setEpsilon(precision);
+		//Kernel.setEpsilon(precision);
 		
 		/*
 		
