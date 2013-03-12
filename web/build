@@ -1,5 +1,5 @@
 #!/bin/sh
-# Compiles GeoGebraWeb (or the mobile version) via command line.
+# Compiles GeoGebraWeb (or the touch version) via command line.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 # Make sure that you run this script from its directory.
 
@@ -57,10 +57,10 @@ $GGDIR/common/test-classes:\
 $GGDIR/common/war/WEB-INF/classes
 fi
 
-if [ "$PROJECT" = "mobile" ]; then
+if [ "$PROJECT" = "touch" ]; then
 CLASSPATH=\
-$GGDIR/mobile/src:\
-$GGDIR/mobile/resources:\
+$GGDIR/touch/src:\
+$GGDIR/touch/resources:\
 $GGDIR/common/src:\
 $GGDIR/common/war/WEB-INF/lib:\
 $GGDIR/common/src/geogebra/jre:\
@@ -69,17 +69,17 @@ $GGDIR/common/src/geogebra/jung:\
 $GGDIR/common/src/geogebra/jts:\
 $GGDIR/common/resources:\
 $GGDIR/web/src:\
-$GGDIR/mobile/test-classes:\
-$GGDIR/mobile/war/WEB-INF/classes:\
+$GGDIR/touch/test-classes:\
+$GGDIR/touch/war/WEB-INF/classes:\
 $GGDIR/common/test-classes:\
 $GGDIR/common/war/WEB-INF/classes:\
 $GWTDIR/gwt-user.jar:\
 $GWTDIR/gwt-dev.jar:\
 $GWTDIR/validation-api-1.0.0.GA-sources.jar:\
 $GWTDIR/validation-api-1.0.0.GA.jar:\
-$GGDIR/mobile/war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar:\
-$GGDIR/mobile/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:\
-$GGDIR/mobile/war/WEB-INF/lib/mgwt-1.1.1.jar:\
+$GGDIR/touch/war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar:\
+$GGDIR/touch/war/WEB-INF/lib/lib-gwt-svg-0.5.6.jar:\
+$GGDIR/touch/war/WEB-INF/lib/mgwt-1.1.1.jar:\
 $GGDIR/web/war/WEB-INF/classes:\
 $GGDIR/web/lib/gwt-oauth2-0.2-alpha.jar:\
 $GGDIR/web/war/WEB-INF/lib/commons-logging-1.1.1.jar:\
@@ -146,6 +146,7 @@ JAVAC_CLEANUP=""
 GWT_UC_CLEANUP=0
 PROJECT=web
 HEAPSIZE=2048m
+NOCACHE=1
 
 # To detect compilation problems it is important
 # to know which signal was sent by the compiler.
@@ -175,8 +176,9 @@ while [ $# -gt 0 ]; do
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
-   echo "  -M                  Compile the mobile version"
+   echo "  -T                  Compile the touch version"
    echo "  --heap [size]       Use size of heap memory for GWT compilation ($HEAPSIZE)"
+   echo "  -nn                 Do not rewrite nocache filenames"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
@@ -215,6 +217,10 @@ while [ $# -gt 0 ]; do
    GWT_UC_CLEANUP=1
    ;;
 
+  -nn)
+   NOCACHE=0
+   ;;
+
   -s)
    shift
    STYLE="$1"
@@ -230,8 +236,8 @@ while [ $# -gt 0 ]; do
    HEAPSIZE="$1"
    ;;
 
-  -M)
-   PROJECT=mobile
+  -T)
+   PROJECT=touch
    ;;
 
   -v | --verbose)
@@ -314,16 +320,16 @@ for i in $THIRDPARTYJARS; do
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
 
-# 6/5. Running javac for the mobile
- if [ "$PROJECT" = "mobile" ]; then
+# 6/5. Running javac for the touch
+ if [ "$PROJECT" = "touch" ]; then
  # This is a temporarily hack to support precompiling annotation related source files
  # for GWT/MVP. See https://groups.google.com/forum/?fromgroups=#!topic/google-web-toolkit/4CCeDlfhFSs
  # for more details. TODO: Find a better a way to do this.
- cd $GGDIR/mobile/src/geogebra/mobile/place
+ cd $GGDIR/touch/src/geogebra/touch/place
  javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TabletGuiPlace.java
  javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar TubeSearchPlace.java
  cd ../mvp
- javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar:$GGDIR/mobile/src AppPlaceHistoryMapper.java
+ javac -cp $GWTDIR/gwt-dev.jar:$GWTDIR/gwt-servlet.jar:$GGDIR/touch/src AppPlaceHistoryMapper.java
  cd $WEBDIR
  fi
 
@@ -356,19 +362,19 @@ java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
 
 # 8/3. Add a version number
 cd $WEBDIR
-if [ "$PROJECT" = "mobile" ]; then
+if [ "$PROJECT" = "touch" ]; then
  VERSION=`./myversion`
  REVISION=`./myrevision`
  # We'll change the content of the <div id="version"...> tag to the current version.
  # We have to canonize the output since the <script...></script> text would be
  # changed to <script.../> which is not working in some browsers.
  # (See an explanation at http://stackoverflow.com/questions/69913/why-dont-self-closing-script-tags-work.)
- UIVERSION=`cat $GGDIR/$PROJECT/war/Mobile.html | $XML sel -t -v '/html/body/div[@id="version"]'`
+ UIVERSION=`cat $GGDIR/$PROJECT/war/Touch.html | $XML sel -t -v '/html/body/div[@id="version"]'`
  DATE=`date "+%Y-%m-%d %H:%M"`
- cat $GGDIR/$PROJECT/war/Mobile.html | \
+ cat $GGDIR/$PROJECT/war/Touch.html | \
    $XML ed -O -u '/html/body/div[@id="version"]' -v "$UIVERSION ($DATE) kernel $VERSION r$REVISION" > \
-   $GGDIR/$PROJECT/war/Mobile-b.html
- $XML c14n --exc-with-comments $GGDIR/$PROJECT/war/Mobile-b.html > $GGDIR/$PROJECT/war/Mobile.html
+   $GGDIR/$PROJECT/war/Touch-b.html
+ $XML c14n --exc-with-comments $GGDIR/$PROJECT/war/Touch-b.html > $GGDIR/$PROJECT/war/Touch.html
  fi
 
 # 9. Done!
@@ -379,8 +385,8 @@ example () {
   echo "file:///$INSTALLDIR/ggbWebTools.html"
   echo "file:///$INSTALLDIR/app.html"
   fi
- if [ "$PROJECT" = "mobile" ]; then
-  echo "file:///$INSTALLDIR/Mobile.html"
+ if [ "$PROJECT" = "touch" ]; then
+  echo "file:///$INSTALLDIR/Touch.html"
   fi
 }
 
