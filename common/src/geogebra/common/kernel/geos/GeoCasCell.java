@@ -1291,6 +1291,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	/**
 	 * Updates the given GeoElement using the given casExpression.
+	 * @param allowFunction whether we can use eg x as function (false: x is just a dummy)
 	 */
 	public void updateTwinGeo(boolean allowFunction) {
 		ignoreTwinGeoUpdate = true;
