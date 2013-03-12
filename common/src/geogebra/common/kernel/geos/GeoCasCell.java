@@ -250,17 +250,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// boolean oldLineBreaks = kernel.isInsertLineBreaks();
 				// kernel.setInsertLineBreaks(true);
 				StringBuilder sb = new StringBuilder("\\mathbf{");
-				// create LaTeX string
-				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
+				
+				
+				// create LaTeX string				
+				if (nativeOutput || (twinGeo==null || !(outputVE.unwrap() instanceof GeoElement))) {
 					sb.append(outputVE
 							.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex
 									: StringTemplate.latexTemplate));
 				} else {
-					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
-							.getLeft());
+					GeoElement geo = outputVE.unwrap() instanceof GeoElement ?  (GeoElement)outputVE.unwrap()
+							 : twinGeo;	
 					if (isAssignmentVariableDefined()) {
-						sb.append(StringTemplate.latexTemplate.printVariableName(getAssignmentVariable()));
-
+						//sb.append(StringTemplate.latexTemplate.printVariableName(getAssignmentVariable()));
+						sb.append(geo.getAssignmentLHS(StringTemplate.latexTemplate));
 						switch (outputVE.getAssignmentType()) {
 						case DEFAULT:
 							sb.append(outputVE.getAssignmentOperator().trim());
@@ -1604,6 +1606,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// update twinGeo
 		
 		if (doTwinGeoUpdate) {
+			App.debug(assignmentVar);
 			updateTwinGeo(allowFunction);
 		}
 
