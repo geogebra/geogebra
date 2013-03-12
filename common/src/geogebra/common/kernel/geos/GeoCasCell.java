@@ -1507,6 +1507,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 						null, StringTemplate.numericNoLocal);
 				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
 					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericDefault);					
+				}else if(evalVE.isKeepInputUsed()){
+					result = evalVE.wrap().toString(StringTemplate.numericDefault);
 				}
 				success = result != null;
 			} catch (CASException e) {
