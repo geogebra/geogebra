@@ -63,13 +63,13 @@ public class GlobalKeyDispatcherW extends
 		if (handleGeneralKeys(event)) {
 			return true;
 		}
-		
+
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		if (handleSelectedGeosKeys(event, app.getSelectionManager().getSelectedGeos())) {
-			return true;
-		}
-		
+		//if (handleSelectedGeosKeys(event, app.getSelectionManager().getSelectedGeos())) {
+		//	return true;
+		//}
+
 		return false;
     }
 
@@ -105,6 +105,17 @@ public class GlobalKeyDispatcherW extends
 		//AbstractApplication.debug("onkeydown");
 	    event.preventDefault();
 	    event.stopPropagation();
+
+		// SELECTED GEOS:
+		// handle function keys, arrow keys, +/- keys for selected geos, etc.
+		handleSelectedGeosKeys(
+			KeyCodes.translateGWTcode(
+				event.getNativeKeyCode()),
+			app.getSelectionManager().getSelectedGeos(),
+			event.isShiftKeyDown(),
+			event.isControlKeyDown(),
+			event.isAltKeyDown(),
+			false);
     }
 
 	@Override
