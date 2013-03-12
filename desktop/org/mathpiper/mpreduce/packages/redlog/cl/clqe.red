@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: clqe.red 1818 2012-11-05 12:35:41Z thomas-sturm $
+% $Id: clqe.red 1842 2012-11-19 12:31:57Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann and T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(cl_qe_rcsid!* cl_qe_copyright!*);
-   cl_qe_rcsid!* := "$Id: clqe.red 1818 2012-11-05 12:35:41Z thomas-sturm $";
+   cl_qe_rcsid!* := "$Id: clqe.red 1842 2012-11-19 12:31:57Z thomas-sturm $";
    cl_qe_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -968,21 +968,34 @@ procedure cl_qeatal(f,v,theo,ans);
    % Returns an ALP.
    cl_qeatal1(f,v,theo,T,ans);
 
+switch rlataltheo;
+on1 'rlataltheo;
+
 procedure cl_qeatal1(f,v,theo,flg,ans);
-   % Quantifier elimination atomic formula list. [f] is aformula; [v] is
-   % avariable; [theo] is the current theory, [flg] and [ans] are
-   % Boolean. Returns an ALP. If [flg] is non-[nil] [f] has to be
-   % considered negated.
+   % Quantifier elimination atomic formula list. [f] is aformula; [v] is a
+   % variable; [theo] is the current theory, [flg] and [ans] are Boolean.
+   % Returns an ALP. If [flg] is non-[nil] [f] has to be considered negated.
    begin scalar op,w,ww;
       op := rl_op f;
       w := if rl_tvalp op then
 	 {nil . nil}
       else if op eq 'not then
       	 {cl_qeatal1(rl_arg1 f,v,theo,not flg,ans)}
-      else if rl_junctp op then
+      else if op eq 'and then <<
+	 if !*rlataltheo then
+	    for each subf in rl_argn f do
+	       if cl_atfp subf and not memq(v, rl_varlat subf) then
+	       	  theo := lto_insert(subf, theo);
       	 for each subf in rl_argn f collect
       	    cl_qeatal1(subf,v,theo,flg,ans)
-      else if op eq 'impl then
+      >> else if op eq 'or then <<
+	 if !*rlataltheo then
+	    for each subf in rl_argn f do
+	       if cl_atfp subf and not memq(v, rl_varlat subf) then
+	       	  theo := lto_insert(rl_negateat subf, theo);
+      	 for each subf in rl_argn f collect
+      	    cl_qeatal1(subf,v,theo,flg,ans)
+      >> else if op eq 'impl then
       	 {cl_qeatal1(rl_arg2l f,v,theo,not flg,ans),
 	    cl_qeatal1(rl_arg2r f,v,theo,flg,ans)}
       else if op eq 'repl then
@@ -1143,6 +1156,8 @@ procedure cl_trygauss(f,vl,theo,ans,bvl);
       return car w . union(cdr w,theo)
    end;
 
+switch rlgaussdebug;
+
 procedure cl_trygauss1(f,vl,theo,ans,bvl);
    % Try deep Gauss elimination. [f] is a quantifier-free formula; [vl] is
    % the current existential variable block; [theo] is a list of
@@ -1167,7 +1182,10 @@ procedure cl_trygauss1(f,vl,theo,ans,bvl);
  	 return 'failed;
       if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
 	 ioto_prin2 caar csol;
-      return (ev . cadr csol) . cddr csol;
+      if !*rlgaussdebug then
+	 ioto_tprin2t {"DEBUG: cl_trygauss1 eliminates ", ev,
+ 	    " with verbose output ", caar csol};
+      return (ev . cadr csol) . cddr csol
    end;
 
 procedure cl_trygaussvar(f,v,theo,ans,bvl);
@@ -1185,8 +1203,15 @@ procedure cl_trygaussvar(f,v,theo,ans,bvl);
 	 '(failed . nil)
    >>;
 
+switch rlgausstheo;
+on1 'rlgausstheo;
+
 procedure cl_gaussand(fl,v,theo,ans,bvl);
    begin scalar w, curr;
+      if !*rlgausstheo then
+      	 for each subf in fl do
+	    if cl_atfp subf and not memq(v,rl_varlat subf) then
+	       theo := lto_insert(subf, theo);
       curr := cl_trygaussvar(car fl,v,theo,ans,bvl);
       fl := cdr fl;
       while fl and not(rl_bestgaussp curr) do <<
@@ -1199,6 +1224,10 @@ procedure cl_gaussand(fl,v,theo,ans,bvl);
 
 procedure cl_gaussor(fl,v,theo,ans,bvl);
    begin scalar w,curr;
+      if !*rlgausstheo then
+      	 for each subf in fl do
+	    if cl_atfp subf and not memq(v,rl_varlat subf) then
+	       theo := lto_insert(rl_negateat subf, theo);
       curr := cl_trygaussvar(car fl,v,theo,ans,bvl);
       fl := cdr fl;
       while fl and (car curr neq 'failed) do <<

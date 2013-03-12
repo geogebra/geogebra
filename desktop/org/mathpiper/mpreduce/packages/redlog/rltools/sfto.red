@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: sfto.red 1401 2011-09-14 07:58:02Z thomas-sturm $
+% $Id: sfto.red 1841 2012-11-19 12:27:53Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(sfto_rcsid!* sfto_copyright!*);
-   sfto_rcsid!* := "$Id: sfto.red 1401 2011-09-14 07:58:02Z thomas-sturm $";
+   sfto_rcsid!* := "$Id: sfto.red 1841 2012-11-19 12:27:53Z thomas-sturm $";
    sfto_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -810,6 +810,18 @@ procedure sfto_kernelp(u);
       w := if atom car u then get(car u,'klist) else exlist!*;
       return atsoc(u,w)
    end;
+
+procedure sfto_varp(f);
+   % [f] is an SF. Returns extended Boolean. Returns [k] if $[f] = 1*[k]^1+nil$,
+   % return [nil] else.
+   if not domainp f and null red f and eqn(lc f,1) and eqn(ldeg f,1) then
+      mvar f;
+
+procedure sfto_varIsNumP(f);
+   % [f] is an SF. Returns extended Boolean. Returns [k] if $[f] = d1*[k]^1+d2$
+   % for domain elements [d1], [d2], return [nil] else.
+   if not domainp f and domainp lc f and domainp red f and eqn(ldeg f,1) then
+      mvar f;
 
 endmodule;  % [sfto]
 

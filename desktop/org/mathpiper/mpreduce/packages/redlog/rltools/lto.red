@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: lto.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: lto.red 1848 2012-11-20 13:49:02Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(lto_rcsid!* lto_copyright!*);
-   lto_rcsid!* := "$Id: lto.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+   lto_rcsid!* := "$Id: lto.red 1848 2012-11-20 13:49:02Z mkosta $";
    lto_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -469,6 +469,9 @@ procedure lto_hdelete1(item,hl,keyl);
 	 cdr w := lto_hdelete1(item,cdr w,cdr keyl);
       return hl
    end;
+
+procedure lto_subsetq(s1, s2);
+   not s1 or car s1 memq s2 and lto_subset(cdr s1, s2);
 
 endmodule;  % [lto]
 

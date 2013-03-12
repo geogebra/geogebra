@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfdecdeg.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: ofsfdecdeg.red 1839 2012-11-19 12:19:26Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_decdeg_rcsid!* ofsf_decdeg_copyright!*);
    ofsf_decdeg_rcsid!* :=
-      "$Id: ofsfdecdeg.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: ofsfdecdeg.red 1839 2012-11-19 12:19:26Z thomas-sturm $";
    ofsf_decdeg_copyright!* :=
       "(c) 1995-2009 A. Dolzmann T. Sturm, 2010-2011 T. Sturm"
 >>;
@@ -91,20 +91,21 @@ procedure ofsf_decdeg1(f,vl);
    % [vl] [f]$ equivalent to $\exists [vl] (\phi \land \bigwedge_{(v .
    % d) \in [vl']}(v \geq 0))$, where [vl'] is the subset of pairs in
    % [vl] with even $d$.
-   begin scalar dvl; integer n;
+   begin scalar posp, dvl; integer n;
       if vl eq 'fvarl then
 	 vl := cl_fvarl1 f;
       for each v in vl do <<
-	 n := ofsf_decdeg2(f,v);
-	 if n>1 then <<
-	    f := ofsf_decdeg3(f,v,n);
+	 posp := ofsf_posvarp(f,v);
+	 n := ofsf_decdeg2(f,v,posp);
+	 if n > 1 then <<
+	    f := ofsf_decdeg3(f,v,n,posp);
 	    dvl := (v . n) . dvl
 	 >>
       >>;
       return f . dvl
    end;
 
-procedure ofsf_decdeg2(f,v);
+procedure ofsf_decdeg2(f,v,posp);
    % Decrement degree subroutine. [f] is a formula; [v] is a variable.
    % Returns an INTEGER $n$. The degree of [v] in [f] can be decremented
    % using the replacement $[v]^n=v$, provided that [v] is quantified
@@ -117,7 +118,7 @@ procedure ofsf_decdeg2(f,v);
       atl := cl_atl1 f;
       while atl and not eqn(dgcd,1) do <<
 	 a := pop atl;
-	 w := ofsf_ignshift(a,v);
+	 w := ofsf_ignshift(a,v,posp);
 	 if w eq 'odd and null oddp then
 	    % We have found $R(c*v^k,0)$ with odd $k$ and $R$ an
 	    % ordering relation for the first time.
@@ -177,13 +178,14 @@ procedure ofsf_transform(v, f, vl, an, theo, ans, bvl);
    % $a$ is either [nil] or a pair $([v] . d)$. If $a$ is not [nil] then the
    % degree $d'$ of [v] in [f] is reduced to $d'/d$. If $a$ is nil then
    % $[f]=\phi$.
-   begin scalar dgcd, v_shift, w;
-      dgcd := ofsf_decdeg2(f,v);
+   begin scalar posp, dgcd, v_shift, w;
+      posp := ofsf_posvarp(f,v);
+      dgcd := ofsf_decdeg2(f,v,posp);
       if dgcd = 1 then
 	 return nil;
       if !*rlverbose and !*rlqevb and (not !*rlqedfs or !*rlqevbold) then
  	 ioto_prin2 {"(",v,"^",dgcd,")"};
-      f := ofsf_decdeg3(f,v,dgcd);
+      f := ofsf_decdeg3(f,v,dgcd,posp);
       if evenp dgcd then
 	 f := rl_mkn('and, {ofsf_0mk2('geq, numr simp v), f});
       if ans then <<
@@ -197,28 +199,28 @@ procedure ofsf_transform(v, f, vl, an, theo, ans, bvl);
       return {f, vl, an, theo, ans, bvl}
    end;
 
-procedure ofsf_ignshift(at,v);
+procedure ofsf_ignshift(at,v,posp);
    % Orderd field standard form ignore shift. [at] is an atomic
    % formula; [v] is a variable. Returns [nil], ['ignore], or ['odd].
    begin scalar w;
       w := sfto_reorder(ofsf_arg2l at,v);
       if not domainp w and null red w and mvar w eq v then
-	 if !*rlpos or ofsf_op at memq '(equal neq) or evenp ldeg w then
+	 if !*rlpos or posp or ofsf_op at memq '(equal neq) or evenp ldeg w then
 	    return 'ignore
 	 else
 	    return 'odd
    end;
 
-procedure ofsf_decdeg3(f,v,n);
+procedure ofsf_decdeg3(f,v,n,posp);
    % Ordered field standard form decrement degree. [f] is a formula;
    % [v] is a variable; [n] is an integer. Returns a formula.
-   cl_apply2ats1(f,'ofsf_decdegat,{v,n});
+   cl_apply2ats1(f,'ofsf_decdegat,{v,n,posp});
 
-procedure ofsf_decdegat(atf,v,n);
+procedure ofsf_decdegat(atf,v,n,posp);
    % Ordered field standard form decrement degree atomic formula. [f]
    % is an atomic formula; [v] is a variable; [n] is an integer. Returns
    % an atomic formula.
-   if ofsf_ignshift(atf,v) then
+   if ofsf_ignshift(atf,v,posp) then
       atf
    else
       ofsf_0mk2(ofsf_op atf,sfto_decdegf(ofsf_arg2l atf,v,n));

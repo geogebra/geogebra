@@ -1956,7 +1956,7 @@ testint(log x/sqrt(a*x+b),x);
 
 (2*(sqrt(a*x + b)*log(x) - 2*sqrt(a*x + b)
 
-     + 2*sqrt(b)*log( - sqrt(a*x + b) - sqrt(b)) - sqrt(b)*log(x)))/a
+     - 2*sqrt(b)*log(sqrt(a*x + b) - sqrt(b)) + sqrt(b)*log(x)))/a
 
 u:=sqrt(a+b*x);
 
@@ -2020,16 +2020,16 @@ testint(x**2*u,x);
 testint(u/x,x);
 
 
-2*sqrt(a + b*x) - sqrt(a)*log( - sqrt(a + b*x) - sqrt(a))
+2*sqrt(a + b*x) + sqrt(a)*log(sqrt(a + b*x) - sqrt(a))
 
- + sqrt(a)*log( - sqrt(a + b*x) + sqrt(a))
+ - sqrt(a)*log(sqrt(a + b*x) + sqrt(a))
 
 testint(u/x**2,x);
 
 
-( - 2*sqrt(a + b*x)*a - sqrt(a)*log( - sqrt(a + b*x) - sqrt(a))*b*x
+( - 2*sqrt(a + b*x)*a + sqrt(a)*log(sqrt(a + b*x) - sqrt(a))*b*x
 
-  + sqrt(a)*log( - sqrt(a + b*x) + sqrt(a))*b*x)/(2*a*x)
+  - sqrt(a)*log(sqrt(a + b*x) + sqrt(a))*b*x)/(2*a*x)
 
 testint(1/u,x);
 
@@ -2058,17 +2058,17 @@ testint(x**2/u,x);
 testint(1/(x*u),x);
 
 
- sqrt(a)*( - log( - sqrt(a + b*x) - sqrt(a)) + log( - sqrt(a + b*x) + sqrt(a)))
---------------------------------------------------------------------------------
-                                       a
+ sqrt(a)*(log(sqrt(a + b*x) - sqrt(a)) - log(sqrt(a + b*x) + sqrt(a)))
+-----------------------------------------------------------------------
+                                   a
 
 testint(1/(x**2*u),x);
 
 
-( - 2*sqrt(a + b*x)*a + sqrt(a)*log( - sqrt(a + b*x) - sqrt(a))*b*x
+( - 2*sqrt(a + b*x)*a - sqrt(a)*log(sqrt(a + b*x) - sqrt(a))*b*x
 
-                                                     2
-  - sqrt(a)*log( - sqrt(a + b*x) + sqrt(a))*b*x)/(2*a *x)
+                                                  2
+  + sqrt(a)*log(sqrt(a + b*x) + sqrt(a))*b*x)/(2*a *x)
 
 testint(u**p,x);
 
@@ -4312,6 +4312,7 @@ symbolic summarize!-integral!-test();
 Number of integrals tested: 281
 
 
+
 Number of incorrect integrals: 0
 
 Number of unevaluated integrals: 16
@@ -4399,8 +4400,3 @@ erf(a + x)
 
 end;
 
-Tested on x86_64-unknown-ubuntu11.10 CSL
-Time (counter 1): 1140 ms  plus GC time: 10 ms
-1: real 1.60
-user 1.24
-sys 0.04

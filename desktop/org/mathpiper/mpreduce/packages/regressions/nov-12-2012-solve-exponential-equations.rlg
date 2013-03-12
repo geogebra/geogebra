@@ -1,0 +1,26 @@
+%
+% test exponential equations
+%  (implemented via solvetab)
+
+solve(13^(x+1)-2*13^x=(1/5)*5^x,x);
+
+
+    2*arbint(1)*i*pi + log(55)
+{x=----------------------------}
+                 5
+            log(----)
+                 13
+
+
+solve(7^(2x-5)* 5^x = 9^(x+1),x);
+
+
+    2*arbint(2)*i*pi + log(151263)
+{x=--------------------------------}
+                   245
+              log(-----)
+                    9
+
+
+end;
+

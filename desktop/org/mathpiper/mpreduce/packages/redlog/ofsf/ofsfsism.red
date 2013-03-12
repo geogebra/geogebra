@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfsism.red 1813 2012-11-02 13:14:39Z thomas-sturm $
+% $Id: ofsfsism.red 1843 2012-11-19 12:33:40Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_sism_rcsid!* ofsf_sism_copyright!*);
    ofsf_sism_rcsid!* :=
-      "$Id: ofsfsism.red 1813 2012-11-02 13:14:39Z thomas-sturm $";
+      "$Id: ofsfsism.red 1843 2012-11-19 12:33:40Z thomas-sturm $";
    ofsf_sism_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -114,7 +114,19 @@ procedure ofsf_smupdknowl(op,atl,knowl,n);
       return knowl
    end;
 
+switch rlsippatl, rlsippsubst, rlsippsignchk;
+on1 'rlsippatl;
+on1 'rlsippsubst;
+on1 'rlsippsignchk;
+
+
 procedure ofsf_smmkatl(op,oldknowl,newknowl,n);
+   if !*rlsippatl then
+      ofsf_sippatl(op,ofsf_smmkatl1(op,oldknowl,newknowl,n),newknowl)
+   else
+      ofsf_smmkatl1(op,oldknowl,newknowl,n);
+
+procedure ofsf_smmkatl1(op,oldknowl,newknowl,n);
    % Ordered field standard form make atomic formula list. [op] is one
    % of [and], [or]; [oldknowl] and [newknowl] are IRL's; [n] is an
    % integer. Returns a list of atomic formulas. Depends on switch
@@ -206,6 +218,229 @@ procedure ofsf_smmkat!-or2(odb,ne,parasq);
 	 if !*rlsipo then
 	    return ofsf_entry2at('or,ofsf_anegrel w . cdr ne,parasq)
       >>
+   end;
+
+procedure ofsf_sippatl(op,atl,newknowl);
+   begin scalar gtrue, gfalse, gequal, subal, zvl, posvl, negvl, geqvl, leqvl,
+   	 neqvl, at, natl;
+      gtrue := cl_cflip('true, op eq 'and);
+      gfalse := cl_cflip('false, op eq 'and);
+      gequal := ofsf_clnegrel('equal, op eq 'and);
+      {subal, zvl, posvl, negvl, geqvl, leqvl, neqvl} :=
+ 	 ofsf_exploitKnowl newknowl;
+      while atl do <<
+	 at := pop atl;
+	 if !*rlsippsubst and not ofsf_vareqnp(gequal, at) then <<
+	    at := ofsf_sippsubst(at, subal);
+	    at := ofsf_simplat1(at,op) where !*rlsiatadv=nil
+	 >>;
+	 if not rl_tvalp at then
+	    if !*rlsippsignchk and not sfto_varIsNumP ofsf_arg2l at then
+	       at := ofsf_sippsignchk(at, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+	 if at eq gfalse then <<
+	    natl := gfalse;
+	    atl := nil
+	 >> else if at neq gtrue then
+	    natl := lto_insert(at, natl)
+      >>;
+      return natl
+   end;
+
+procedure ofsf_vareqnp(gequal, at);
+   ofsf_op at eq gequal and sfto_varIsNumP ofsf_arg2l at;
+
+procedure ofsf_sippsignchk(at, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+   begin scalar op, sign;
+      op := ofsf_op at;
+      sign := ofsf_sippsignchkf(
+	 ofsf_arg2l at, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+      if op eq sign then
+	 return 'true;
+      if op eq 'equal then
+	 return if sign memq '(neq lessp greaterp) then 'false else at;
+      if op eq 'greaterp then
+	 return if sign memq '(equal lessp leq) then 'false else at;
+      if op eq 'lessp then
+	 return if sign memq '(equal greaterp geq) then 'false else at;
+      if op eq 'geq then
+	 return if sign memq '(equal greaterp) then
+	    'true
+	 else if sign eq 'lessp then
+	    'false
+	 else
+	    at;
+      if op eq 'leq then
+	 return if sign memq '(equal lessp) then
+	    'true
+	 else if sign eq 'greaterp then
+	    'false
+	 else
+	    at;
+      if op eq 'neq then
+	 return if sign memq '(lessp greaterp) then
+	    'true
+	 else if sign eq 'equal then
+	    'false
+	 else
+	    at;
+      return at
+   end;
+
+procedure ofsf_sippsignchkf(f, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+   begin scalar slc, sred, slt, slm;
+      if domainp f then
+	 return ofsf_updSignDom f;
+      slt := ofsf_updSignVar(mvar f, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+      if slt eq 'unknown then
+	 return 'unknown;
+      slc := ofsf_sippsignchkf(lc f, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+      if slc eq 'unknown then
+	 return 'unknown;
+      sred := ofsf_sippsignchkf(red f, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+      if sred eq 'unknown then
+	 return 'unknown;
+      slt := ofsf_updSignPow(slt, ldeg f);
+      slm := ofsf_updSignMult(slc, slt);
+      if slm eq 'unknown then
+	 return 'unknown;
+      return ofsf_updSignAdd(slm, sred)
+   end;
+
+procedure ofsf_updSignDom(d);
+   if null d then
+      'equal
+   else if d > 0 then
+      'greaterp
+   else if d < 0 then
+      'lessp
+   else
+      rederr {"something wrong in ofsf_updSignDom:", d};
+
+procedure ofsf_updSignVar(v, zvl, posvl, negvl, geqvl, leqvl, neqvl);
+   if v memq zvl then
+      'equal
+   else if v memq posvl then
+      'greaterp
+   else if v memq negvl then
+      'lessp
+   else if v memq geqvl then
+      'geq
+   else if v memq leqvl then
+      'leq
+   else if v memq neqvl then
+      'neq
+   else
+      'unknown;
+
+procedure ofsf_updSignPow(sign, deg);
+   if sign memq '(equal greaterp geq neq) then
+      sign
+   else if sign memq '(lessp leq) then
+      ofsf_canegrel(sign, not evenp deg)
+   else
+      'unknown;
+
+smacro procedure ofsf_prEq(a1,a2,b1,b2);
+   a1 eq b1 and a2 eq b2 or a1 eq b2 and a2 eq b1;
+
+procedure ofsf_updSignAdd(old,new);
+   % rels := {'equal, 'leq, 'geq, 'lessp, 'greaterp, 'neq};
+   % for each r1 in rels do for each r2 in rels do
+   %    ioto_tprin2t {r1," + ",r2," = ",ofsf_updSignAdd(r1,r2)};
+   if not old or old eq 'equal then
+      new
+   else if new eq 'equal then
+      old
+   else if old eq new and old neq 'neq then
+      old
+   else if ofsf_prEq(old, new, 'leq, 'lessp) then
+      'lessp
+   else if ofsf_prEq(old, new, 'geq, 'greaterp) then
+      'greaterp
+   else
+      'unknown;
+
+procedure ofsf_updSignMult(old,new);
+   % rels := {'equal, 'leq, 'geq, 'lessp, 'greaterp, 'neq};
+   % for each r1 in rels do for each r2 in rels do
+   %    ioto_tprin2t {r1," * ",r2," = ",ofsf_updSignMult(r1,r2)};
+   if not old or old eq 'greaterp then
+      new
+   else if new eq 'greaterp then
+      old
+   else if old eq 'lessp then
+      ofsf_anegrel new
+   else if new eq 'lessp then
+      ofsf_anegrel old
+   else if old eq 'geq and new eq 'geq or old eq 'leq and new eq 'leq then
+      'geq
+   else if old eq 'leq and new eq 'geq or old eq 'geq and new eq 'leq then
+      'leq
+   else if old eq 'equal or new eq 'equal then
+      'equal
+   else if old eq 'neq and new eq 'neq then
+      'neq
+   else
+      'unknown;
+
+procedure ofsf_exploitKnowl(knowl);
+   begin
+      scalar subal, zvl, posvl, negvl, geqvl, leqvl, neqvl, v, rel, a;
+      integer n;
+      for each ir in knowl do
+	 if (v := sfto_varp car ir) then
+	    for each le in cdr ir do <<
+	       rel . a := cdr le;
+	       a := negsq a;
+	       n := numr a or 0;
+	       if rel eq 'equal then
+		  if !*rlsippsubst then
+		     subal := (v . a) . subal
+		  else
+	       	     (if n > 0 then
+ 		     	posvl := lto_insertq(v, posvl)
+		     else if n < 0 then
+			negvl := lto_insertq(v, negvl)
+		     else if eqn(n,0) then
+ 		     	zvl := lto_insertq(v, zvl))
+	       else if rel eq 'greaterp then
+		  (if n >= 0 then
+		     posvl := lto_insertq(v, posvl))
+	       else if rel eq 'geq then
+ 		  (if n > 0 then
+		     posvl := lto_insertq(v, posvl)
+		  else if eqn(n,0) then
+		     geqvl := lto_insertq(v, geqvl))
+	       else if rel eq 'lessp then
+		  (if n <= 0 then
+		     negvl := lto_insertq(v, negvl))
+	       else if rel eq 'leq then
+ 		  (if n < 0 then
+		     negvl := lto_insertq(v, negvl)
+		  else if eqn(n,0) then
+		     leqvl := lto_insertq(v, leqvl))
+	       else if rel eq 'neq then
+ 		  (if eqn(n,0) then
+		     neqvl := lto_insertq(v, neqvl))
+      	    >>;
+      return {subal, zvl, posvl, negvl, geqvl, leqvl, neqvl}
+   end;
+
+procedure ofsf_sippsubst(f,al);
+   if al then ofsf_sippsubst1(f,al) else f;
+
+procedure ofsf_sippsubst1(f,al);
+   ofsf_0mk2(rl_op f, numr ofsf_siatsubf(ofsf_arg2l f,al));
+
+procedure ofsf_siatsubf(f,al);
+   begin scalar nred, nlc, w;
+      if domainp f then
+      	 return !*f2q f;
+      nred := ofsf_siatsubf(red f,al);
+      nlc := ofsf_siatsubf(lc f,al);
+      if (w := atsoc(mvar f, al)) then
+      	 return addsq(multsq(nlc,exptsq(cdr w,ldeg f)),nred);
+      return addsq(multsq(nlc,ofsf_pow2q(mvar f,ldeg f)),nred)
    end;
 
 procedure ofsf_smdbgetrel(abssq,db);

@@ -144,13 +144,12 @@ rlqe ex(x,a*x**2+b*x+c>0);
 ---- (ex x) [BFS: depth 0]
 -- left: 1
 [1e(12)] [DEL:0/1]
-+++ Final simplification ... 12 -> 10
++++ Final simplification ... 12 -> 9
 
-                                          3
-a > 0 or (b <> 0 and a = 0 and 2*a*b*c - b  > 0)
+a > 0 or (b < 0 and a = 0) or (a = 0 and (b > 0 or (c > 0 and b = 0)))
 
-                                                                    2
- or (a = 0 and (b > 0 or (c > 0 and b = 0))) or (a < 0 and 4*a*c - b  < 0)
+                        2
+ or (a < 0 and 4*a*c - b  < 0)
 
 on rlqedfs;
 
@@ -160,13 +159,12 @@ rlqe ex(x,a*x**2+b*x+c>0);
 ++++ Entering cl_qe
 ---- (ex x) [DFS DYN]
 [1:1] [DEL:0/1]
-+++ Final simplification ... 12 -> 10
++++ Final simplification ... 12 -> 9
 
-                                          3
-a > 0 or (b <> 0 and a = 0 and 2*a*b*c - b  > 0)
+a > 0 or (b < 0 and a = 0) or (a = 0 and (b > 0 or (c > 0 and b = 0)))
 
-                                                                    2
- or (a = 0 and (b > 0 or (c > 0 and b = 0))) or (a < 0 and 4*a*c - b  < 0)
+                        2
+ or (a < 0 and 4*a*c - b  < 0)
 
 on rlqeheu;
 
@@ -222,18 +220,17 @@ sol := rlqe ex(x,a*x**2+b*x+c>0);
 ---- (ex x) [BFS: depth 0]
 -- left: 1
 [1e(12)] [DEL:0/1]
-+++ Final simplification ... 12 -> 10
++++ Final simplification ... 12 -> 9
 
-                                                 3
-sol := a > 0 or (b <> 0 and a = 0 and 2*a*b*c - b  > 0)
+sol := a > 0 or (b < 0 and a = 0) or (a = 0 and (b > 0 or (c > 0 and b = 0)))
 
-                                                                    2
- or (a = 0 and (b > 0 or (c > 0 and b = 0))) or (a < 0 and 4*a*c - b  < 0)
+                        2
+ or (a < 0 and 4*a*c - b  < 0)
 
 rlatnum sol;
 
 
-10
+9
 
 
 rlatl sol;
@@ -243,7 +240,7 @@ rlatl sol;
 
  b = 0,
 
- b <> 0,
+ b < 0,
 
  b > 0,
 
@@ -254,10 +251,7 @@ rlatl sol;
  a > 0,
 
           2
- 4*a*c - b  < 0,
-
-            3
- 2*a*b*c - b  > 0}
+ 4*a*c - b  < 0}
 
 rlatml sol;
 
@@ -266,7 +260,7 @@ rlatml sol;
 
  {b = 0,1},
 
- {b <> 0,1},
+ {b < 0,1},
 
  {b > 0,1},
 
@@ -277,34 +271,19 @@ rlatml sol;
  {a > 0,1},
 
            2
- {4*a*c - b  < 0,1},
-
-             3
- {2*a*b*c - b  > 0,1}}
+ {4*a*c - b  < 0,1}}
 
 rlterml sol;
 
 
-             2
-{b*(2*a*c - b ),
-
           2
- 4*a*c - b ,
-
- a,
-
- b,
-
- c}
+{4*a*c - b ,a,b,c}
 
 rltermml sol;
 
 
-              2
-{{b*(2*a*c - b ),1},
-
            2
- {4*a*c - b ,1},
+{{4*a*c - b ,1},
 
  {a,4},
 
@@ -316,16 +295,7 @@ rlifacl sol;
 
 
           2
-{4*a*c - b ,
-
-          2
- 2*a*c - b ,
-
- a,
-
- b,
-
- c}
+{4*a*c - b ,a,b,c}
 
 rlifacml sol;
 
@@ -333,12 +303,9 @@ rlifacml sol;
            2
 {{4*a*c - b ,1},
 
-           2
- {2*a*c - b ,1},
-
  {a,4},
 
- {b,4},
+ {b,3},
 
  {c,1}}
 
@@ -346,86 +313,57 @@ rlifacml sol;
 rlstruct(sol,v);
 
 
-{v3 > 0 or (v4 <> 0 and v3 = 0 and v1 > 0)
+{v2 > 0 or (v3 < 0 and v2 = 0) or (v2 = 0 and (v3 > 0 or (v4 > 0 and v3 = 0)))
 
-  or (v3 = 0 and (v4 > 0 or (v5 > 0 and v4 = 0))) or (v3 < 0 and v2 < 0),
-
-                  3
- {v1 = 2*a*b*c - b ,
+  or (v2 < 0 and v1 < 0),
 
                 2
-  v2 = 4*a*c - b ,
-
-  v3 = a,
-
-  v4 = b,
-
-  v5 = c}}
+ {v1 = 4*a*c - b ,v2 = a,v3 = b,v4 = c}}
 
 rlifstruct(sol,v);
 
 
-{v3 > 0 or (v4 <> 0 and v3 = 0 and v2*v4 > 0)
+{v2 > 0 or (v3 < 0 and v2 = 0) or (v2 = 0 and (v3 > 0 or (v4 > 0 and v3 = 0)))
 
-  or (v3 = 0 and (v4 > 0 or (v5 > 0 and v4 = 0))) or (v3 < 0 and v1 < 0),
-
-                2
- {v1 = 4*a*c - b ,
+  or (v2 < 0 and v1 < 0),
 
                 2
-  v2 = 2*a*c - b ,
-
-  v3 = a,
-
-  v4 = b,
-
-  v5 = c}}
+ {v1 = 4*a*c - b ,v2 = a,v3 = b,v4 = c}}
 
 
 rlitab sol;
 
-10 = 100%
-[9: 20] [8: 16] [7: 9] [6: 9] [5: 9] [4: 15] [3: 15] [2: 15] [1: 18] 
-Success: 10 -> 9
+9 = 100%
+[8: 12] [7: 6] [6: 6] [5: 6] [4: 9] [3: 9] [2: 9] [1: 24] 
+Success: 9 -> 6
 0 = 100%
 No success, returning the original formula
-5 = 100%
-[5: 9] [4: 5] [3: 5] [2: 5] [1: 7] 
+2 = 100%
+[2: 2] [1: 2] 
 No success, returning the original formula
 1 = 100%
 [1: 1] 
 No success, returning the original formula
 
-a > 0
-
-                                                                    3
- or (a = 0 and (b > 0 or (c > 0 and b = 0) or (b < 0 and 2*a*b*c - b  > 0)))
-
-                        2
- or (a < 0 and 4*a*c - b  < 0)
+                                                             2
+a > 0 or (a = 0 and (c > 0 or b < 0)) or (a < 0 and 4*a*c - b  < 0)
 
 rlatnum ws;
 
 
-9
+6
 
 rlgsn sol;
 
 [DNF] 
-global: 1; impl: 1; no neq: 3; glob-prod-al: 0.
-[GP] [1] 
-[3] [2] [1] 
-
-                                                                         3
-a > 0 or (c > 0 and b = 0 and a = 0) or (b <> 0 and a = 0 and 2*a*b*c - b  > 0)
-
-                                             2
- or (b > 0 and a = 0) or (a < 0 and 4*a*c - b  < 0)
+global: 3; impl: 0; no neq: 0; glob-prod-al: 0.
+[GP] 
+c > 0 or b <> 0 or a > 0
 
 rlatnum ws;
 
 
-11
+3
 
 
 off rlverbose;
@@ -557,14 +495,8 @@ sol := x2 = 0 and x1 + 1 <> 0 and 2*x1 + 1 <> 0 and 3*x1 + 2 <> 0
                   2                 2                 2
  and (x1 = 0 or x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0)
 
-        2                 2                 2
- and (x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0)
-
                   2                 2                 2
- and (x1 = 0 or x1  + x1 > 0 or 2*x1  + x1 < 0 or 3*x1  + 5*x1 + 2 < 0) and (
-
-  2                 2                 2                        2
-x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0 or 3*x1  + 5*x1 + 2 < 0)
+ and (x1 = 0 or x1  + x1 > 0 or 2*x1  + x1 < 0 or 3*x1  + 5*x1 + 2 < 0)
 
                    2                               2
  and (x1 >= 0 or x1  + x1 < 0) and (x1 >= 0 or 3*x1  + 2*x1 < 0)
@@ -575,27 +507,12 @@ x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0 or 3*x1  + 5*x1 + 2 < 0)
 rltab(sol,{x1>0,x1<0,x1=0});
 
 
-(x1 = 0 and (x2 = 0
-
-        2                 2                 2                         2
- and (x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0) and (x1  + x1 > 0
-
-        2                 2                        2
- or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0 or 3*x1  + 5*x1 + 2 < 0))) or (
-
-x1 < 0 and (x2 = 0 and x1 + 1 <> 0 and 2*x1 + 1 <> 0 and 3*x1 + 2 <> 0
+(x2 = 0 and x1 < 0 and x1 + 1 <> 0 and 2*x1 + 1 <> 0 and 3*x1 + 2 <> 0
 
        2                  2                  2
- and x1  + x1 < 0 and 2*x1  + x1 < 0 and 3*x1  + 2*x1 < 0)) or (x1 > 0 and (
+ and x1  + x1 < 0 and 2*x1  + x1 < 0 and 3*x1  + 2*x1 < 0)
 
-              2                 2                 2
-x2 = 0 and (x1  + x1 > 0 or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0)
-
-        2                 2                 2                        2
- and (x1  + x1 > 0 or 2*x1  + x1 < 0 or 3*x1  + 5*x1 + 2 < 0) and (x1  + x1 > 0
-
-        2                 2                        2
- or 2*x1  + x1 < 0 or 2*x1  + 3*x1 + 1 >= 0 or 3*x1  + 5*x1 + 2 < 0)))
+ or (x2 = 0 and x1 >= 0)
 
 
 % Part on psopfn / cleanupfn
@@ -628,8 +545,10 @@ cox6 := ex({u,v},x=u*v and y=u**2 and z=v**2)$
 rlcad cox6;
 
 
-                       2
-z >= 0 and y >= 0 and x  - y*z = 0
+                      2
+(z > 0 and y > 0 and x  - y*z = 0) or (z = 0 and y > 0 and x = 0)
+
+ or (z >= 0 and y = 0 and x = 0)
 
 
 % Algebraically closed fields standard form:
@@ -932,5 +851,3 @@ b = 0 or m <> 0
 
 end;
 
-Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
-Time (counter 1): 1000 ms  plus GC time: 60 ms

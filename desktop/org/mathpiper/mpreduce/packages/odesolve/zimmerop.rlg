@@ -1,13 +1,3 @@
-REDUCE Development Version, Wed Sep 13 20:40:41 2000 ...
-
-
-
-
-
-
-
-ODESolve 1.065
-
 % -*- REDUCE -*-
 % The Postel/Zimmermann (11/4/96) ODE test examples.
 % Equation names from Postel/Zimmermann.
@@ -365,11 +355,11 @@ odesolve(y(x) = 2x*df(y(x),x) - a*df(y(x),x)^3, y(x), x);
 odesolve(y(x) = 2x*df(y(x),x) - a*df(y(x),x)^3, y(x), x, implicit);
 
 
-                3  2                   2    2                        2
-{64*arbconst(43) *a  + 128*arbconst(43) *a*x  - 144*arbconst(43)*y(x) *a*x
+                   3  2                   2    2                        2
+{ - 64*arbconst(43) *a  - 128*arbconst(43) *a*x  + 144*arbconst(43)*y(x) *a*x
 
                      4          4            2  3
-  + 64*arbconst(43)*x  + 27*y(x) *a - 16*y(x) *x =0}
+  - 64*arbconst(43)*x  - 27*y(x) *a + 16*y(x) *x =0}
 
 % root_of quartic is VERY slow if explicit option used!
 
@@ -390,11 +380,11 @@ odesolve(y(x) = 2x*df(y(x),x) - df(y(x),x)^2, y(x), x);
 odesolve(y(x) = 2x*df(y(x),x) - df(y(x),x)^2, y(x), x, implicit);
 
 
-                  2                                             3         3
-{ - 9*arbconst(45)  + 18*arbconst(45)*y(x)*x - 12*arbconst(45)*x  - 4*y(x)
+               2                                             3         3
+{9*arbconst(45)  - 18*arbconst(45)*y(x)*x + 12*arbconst(45)*x  + 4*y(x)
 
           2  2
-  + 3*y(x) *x =0}
+  - 3*y(x) *x =0}
 
 
 % (28) Riccati 1
@@ -873,8 +863,4 @@ odesolve-system({------------------------------------------------------------,
 
 
 end;
-
-
-
-Time for test: 20457 ms, plus GC time: 1387 ms
 

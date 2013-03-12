@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfmisc.red 1812 2012-11-02 13:13:13Z thomas-sturm $
+% $Id: ofsfmisc.red 1839 2012-11-19 12:19:26Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_misc_rcsid!* ofsf_misc_copyright!*);
    ofsf_misc_rcsid!* :=
-      "$Id: ofsfmisc.red 1812 2012-11-02 13:13:13Z thomas-sturm $";
+      "$Id: ofsfmisc.red 1839 2012-11-19 12:19:26Z thomas-sturm $";
    ofsf_misc_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -259,6 +259,36 @@ procedure ofsf_multsurep!-neq(at,atl);
 	 >>
       >>;
       return a eq 'found
+   end;
+
+procedure ofsf_posvarp(f,v);
+   % Positive variable predicate. [f] is a quanitfier-free formula, [v] is a
+   % variable. Returns extended Boolean. Returns ['greaterp] (['geq]) if [f]
+   % states that [v] is positive (non-negative), returns [nil] else.
+   begin scalar op, argl, a, res;
+      op := rl_op f;
+      if op eq 'and then <<
+	 argl := rl_argn f;
+	 while not res and argl do <<
+	    a := pop argl;
+	    if not rl_cxp f then
+	       res := ofsf_posvarpat(a,v);
+	 >>;
+	 return res
+      >>;
+      return ofsf_posvarpat(f,v)
+   end;
+
+procedure ofsf_posvarpat(a,v);
+   % Positive variable predicate atomic formula. [a] is an atomic formula, [v]
+   % is a variable. Returns extended Boolean. Returns ['greaterp] (['geq]) if
+   % [a] states that [v] is positive (non-negative), returns [nil] else.
+   begin scalar op;
+      op := rl_op a;
+      if not memq(op,'(greaterp geq)) then
+	 return nil;
+      if sfto_varp ofsf_arg2l a eq v then
+	 return op
    end;
 
 procedure ofsf_posprep(f,resfnchkp);

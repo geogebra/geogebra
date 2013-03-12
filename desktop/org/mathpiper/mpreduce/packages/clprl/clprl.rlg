@@ -148,8 +148,7 @@ z - 5 = 0
 clp(py, false :- pyth(9,y,z));
 
 
-                                              2    2
-z - 15 = 0 and y - 12 = 0 and y - z <= 0 and y  - z  + 81 = 0
+z - 15 = 0 and y - 12 = 0
 
 clp(py, false :- pyth(x,y,9));
 
@@ -281,7 +280,7 @@ z - 3 = 0
 clp(mi, false :- min(x,y,3));
 
 
-(x - 3 = 0 and x - y <= 0) or (y - 3 = 0 and x - y >= 0)
+(y - 3 >= 0 and x - 3 = 0) or (y - 3 = 0 and x - 3 >= 0)
 
 
 
@@ -339,5 +338,3 @@ false
 
 end;
 
-Tested on x86_64-mac_10.7_lion-darwin11.4.0 CSL
-Time (counter 1): 1860 ms  plus GC time: 60 ms

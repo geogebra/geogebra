@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsf.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: ofsf.red 1848 2012-11-20 13:49:02Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_rcsid!* ofsf_copyright!*);
    ofsf_rcsid!* :=
-      "$Id: ofsf.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: ofsf.red 1848 2012-11-20 13:49:02Z mkosta $";
    ofsf_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -42,7 +42,7 @@ module ofsf;
 
 create!-package('(ofsf ofsfsiat ofsfsism ofsfbnf ofsfqe ofsfopt ofsfgs
    ofsfmisc ofsfcad ofsfcadproj ofsfanuex ofsfxopt ofsfdet ofsftfc ofsfhqe
-   ofsfdecdeg),
+   ofsfdecdeg ofsfexfr),
    nil);
 
 load!-package 'redlog;

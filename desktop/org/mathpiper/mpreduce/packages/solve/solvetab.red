@@ -118,6 +118,19 @@ for all a,b,x let
    sol(acos a - acos b, x) = a-b,
    sol(acos a + acos b, x) = a-b;
 
+% Exponential equations
+let {
+   sol(~~b*~a^~x-~~d*~c^(~f*~x),~x) => b/d-(c^f/a)^x
+      when a freeof x and b freeof x and c freeof x
+         and d freeof x and f freeof x,
+   sol(~~b*~a^~x-~~d*~c^~x,~x) => b/d-(c/a)^x
+      when a freeof x and b freeof x and c freeof x and d freeof x,
+   sol(~~b*~a^~x-~~d*~c^~x*~g,~x) => b/d*(a/c)^x-g
+      when a freeof x and b freeof x and c freeof x and d freeof x,
+   sol(~~b*~a^~x-~c^~x*~g,~x) => b*(a/c)^x-g
+      when a freeof x and b freeof x and c freeof x
+};
+
 solve_trig_rules := {sin(~x + ~y) => sin x * cos y + cos x * sin y,
                      sin(~x - ~y) => sin x * cos y - cos x * sin y,
                      cos(~x + ~y) => cos x * cos y - sin x * sin y,

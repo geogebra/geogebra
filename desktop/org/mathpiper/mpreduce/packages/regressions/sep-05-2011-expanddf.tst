@@ -210,7 +210,10 @@ df(h(u1),v1);
 
 on expanddf;
 
+df(u1,v1);
+
 df(h(u1),v1);
+
 
 df(f(g(u),h(u)),u);
 

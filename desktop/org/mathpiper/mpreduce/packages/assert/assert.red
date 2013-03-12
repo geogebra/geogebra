@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: assert.red 1427 2011-09-26 07:30:35Z thomas-sturm $
+% $Id: assert.red 1855 2012-11-26 13:09:21Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2010 Thomas Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(assert_rcsid!* assert_copyright!*);
-   assert_rcsid!* := "$Id: assert.red 1427 2011-09-26 07:30:35Z thomas-sturm $";
+   assert_rcsid!* := "$Id: assert.red 1855 2012-11-26 13:09:21Z thomas-sturm $";
    assert_copyright!* := "(c) 2010 T. Sturm"
 >>;
 
@@ -378,6 +378,24 @@ procedure assert_uninstall_all();
       assert_uninstall assert_functionl!*;
 
 put('assert_uninstall_all,'stat,'endstat);
+
+symbolic procedure formassert(u,vars,mode);
+   if !*assert then
+      assert_assert(cadr u,vars,mode);
+
+put('assert, 'formfn, 'formassert);
+
+procedure assert_assert(u, vars, mode);
+   if mode eq 'symbolic then
+      {'cond,
+ 	 {{'not, {'eval, u}},
+ 	    {'progn,
+ 	       {'backtrace},
+	       {'cond,
+ 	       	  {'!*assertbreak,
+ 	       	     {'rederr, {'list, "failed assertion", mkquote u}}},
+	       	  {t,
+ 	       	     {'lprim, {'list, "failed assertion", mkquote u}}}}}}};
 
 endmodule;  % assert
 

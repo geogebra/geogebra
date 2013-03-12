@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfxopt.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: ofsfxopt.red 1833 2012-11-13 12:42:18Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1998-2009 Andreas Dolzmann
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_xopt_rcsid!* ofsf_xopt_copyright!*);
    ofsf_xopt_rcsid!* :=
-      "$Id: ofsfxopt.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: ofsfxopt.red 1833 2012-11-13 12:42:18Z thomas-sturm $";
    ofsf_xopt_copyright!* := "Copyright (c) 1998-2009 A. Dolzmann"
 >>;
 
@@ -321,18 +321,13 @@ procedure ofsf_xopt!-elim(co);
 	 if !*rlverbose then
 	    n := n+1;
 	 % -- Get from container --
-	 w := ofsf_xopt!-co!-get co;
-      	 ce := car w;
-	 co := cdr w;
+	 ce . co := ofsf_xopt!-co!-get co;
 	 if !*rlverbose then
 	    ioto_prin2 {"[",n,"/",ofsf_xopt!-nodes!*};
 	 % -- Eliminate --
 	 cel := ofsf_xopt!-qevar(ce,theo);
 	 % Update container ans resl
-	 w := ofsf_xopt!-updco(cel,co,resl,theo);
-	 co := car w;
-	 resl := cadr w;
-	 theo := caddr w;
+	 {co, resl, theo} := ofsf_xopt!-updco(cel,co,resl,theo);
 	 % -- Finish --
 	 if !*rlverbose then
 	    ioto_prin2 "] ";
@@ -730,10 +725,11 @@ procedure ofsf_xopt!-updco(cel,co,resl,theo);
 	    co := nil;
 	    cel := nil
 	 >> else if null ofsf_xopt!-ce!-vl ce then <<
-	    w := ofsf_xopt!-resinherit(ce,resl,co,theo);
-	    resl := car w;
-	    co := cadr w;
-	    theo := caddr w
+	    {resl, co, theo} := ofsf_xopt!-resinherit(ce,resl,co,theo);
+	    if theo eq 'inctheo then <<
+	       co := nil;
+	       cel := nil
+	    >>
 	 >> else if rl_op f eq 'or then
 	    for each ff in rl_argn f do <<
 	       co := ofsf_xopt!-ccoput(co,
@@ -768,6 +764,8 @@ procedure ofsf_xopt!-resinherit(ce,resl,co,theo);  % TODO: Splitting OR's???
       theo := cl_simpl(rl_smkn('and,cl_nnfnot f . theo),nil,-1);
       if cl_atfp theo then
 	 theo := {theo}
+      else if theo eq 'false then
+	 return {ce . resl,co,'inctheo}
       else if rl_op theo neq 'and then
 	 rederr {"ofsf_xopt!-resinherit: Unexpected operator",rl_op theo}
       else

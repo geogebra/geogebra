@@ -542,12 +542,19 @@ on expanddf;
 
 
 
+df(u1,v1);
+
+
+df(a2,v1)*df(u1,a2) + df(b1,v1)*df(u1,b1)
+
+
 df(h(u1),v1);
 
 
 *** Possible inconsistent dependencies in h(u1) 
 
 df(h(u1),v1)
+
 
 
 df(f(g(u),h(u)),u);

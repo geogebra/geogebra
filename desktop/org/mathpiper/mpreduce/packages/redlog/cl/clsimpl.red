@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: clsimpl.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: clsimpl.red 1843 2012-11-19 12:33:40Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(cl_simpl_rcsid!* cl_simpl_copyright!*);
    cl_simpl_rcsid!* :=
-      "$Id: clsimpl.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: clsimpl.red 1843 2012-11-19 12:33:40Z thomas-sturm $";
    cl_simpl_copyright!* := "(c) 1995-2009 A. Dolzmann, T. Sturm, 2010 T. Sturm"
 >>;
 
@@ -136,7 +136,7 @@ procedure cl_simpl1(f,knowl,n,sop);
 	 newknowl := rl_smupdknowl('and,{w},rl_smcpknowl knowl,n);
 	 if newknowl eq 'false then return 'false;
 	 w := rl_smmkatl('and,knowl,newknowl,n);
-	 return rl_smkn('and,w)
+	 return if w eq 'false then 'false else rl_smkn('and,w)
       >>;
       if w then return w;
       rederr {"cl_simpl1(): unknown operator",op}
@@ -300,8 +300,7 @@ procedure cl_smsimpl!-junct1(op,atl,col,knowl,newknowl,n,break);
    % formulas.
    begin scalar a,w,wop,argl,sicol,natl;
       while col do <<
-	 a := car col;
-	 col := cdr col;
+	 a := pop col;
 	 w := cl_simpl1(a,newknowl,n-1,op);
 	 wop := rl_op w;
 	 if wop eq break then <<
@@ -347,6 +346,8 @@ procedure cl_smsimpl!-junct2(op,sicol,knowl,newknowl,n,break);
    % formulas.
    begin scalar atl,w;
       atl := rl_smmkatl(op,knowl,newknowl,n);
+      if atl eq break then
+	 return {break};
       if !*rlsichk then <<
       	 w := sicol;
 	 sicol := nil;
@@ -672,6 +673,8 @@ procedure cl_siaddatl(atl,c);
       if w eq 'false then
  	 return 'false;
       w := rl_smmkatl('and,nil,w,1);
+      if w eq 'false then
+ 	 return 'false;
       if !*rlsiso then w := sort(w,'rl_ordatp);
       return rl_smkn('and,w)
    end;

@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasf.red 1275 2011-08-16 14:47:01Z thomas-sturm $
+% $Id: pasf.red 1850 2012-11-20 14:37:43Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -30,7 +30,7 @@
 
 lisp <<
    fluid '(pasf_rcsid!* pasf_copyright!*);
-   pasf_rcsid!* := "$Id: pasf.red 1275 2011-08-16 14:47:01Z thomas-sturm $";
+   pasf_rcsid!* := "$Id: pasf.red 1850 2012-11-20 14:37:43Z mkosta $";
    pasf_copyright!* :=
       "(c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm"
 >>;
@@ -60,6 +60,9 @@ flag('(equal neq leq geq lessp greaterp),'spaced);
 
 % QE-Switches
 
+% QE call to dnf from the procedure pasf_qeexblock
+switch rlpasfdnfqeexblock;
+off1 'rlpasfdnfqeexblock;
 % QE call to DNF on the input formula's matrix
 switch rlpasfdnffirst;
 off1 'rlpasfdnffirst;

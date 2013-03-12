@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: pasfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: pasfqe.red 1850 2012-11-20 14:37:43Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(pasf_qe_rcsid!* pasf_qe_copyright!*);
    pasf_qe_rcsid!* :=
-      "$Id: pasfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: pasfqe.red 1850 2012-11-20 14:37:43Z mkosta $";
    pasf_qe_copyright!* :=
       "(c) 2002-2009 A. Dolzmann, A. Seidl, T. Sturm, 2010 T. Sturm"
 >>;
@@ -260,6 +260,8 @@ procedure pasf_qeexblock(varl,psi,dpth,vlv,theo,answ,p);
       >>;
       cvl := varl;
       co := co_new();
+      if !*rlpasfdnfqeexblock then
+      	 psi := pasf_dnf psi;
       if rl_op psi eq 'or then
 	 for each x in rl_argn psi do
 	    co := co_save(co,{ce_mk(cvl,x,answ)})

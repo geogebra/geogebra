@@ -196,16 +196,12 @@ lpdofactorizex(r,-1<x1<1 and -1<x2<1,q,p);
 sol1 := lpdofactorizex(r,-1<x1<1 and -1<x2<1,q,partial(x1)+a()*partial(x2),1);
 
 
-                                               3*x1
-sol1 := {{true,{partial(x1) + 1,partial(x1) + ------*partial(x2)}}}
-                                                2
+sol1 := {{true,{partial(x1) + 1,partial(x1) + (2*x1)*partial(x2)}}}
 
 r - first second first sol1 * second second first sol1;
 
 
-  - x1                              - x1 + 1
--------*partial(x1)*partial(x2) + -----------*partial(x2)
-   2                                   2
+ - x1*partial(x1)*partial(x2) - x1*partial(x2)
 
 
 sol2 := lpdofactorizex(r,-2<x1<2 and -2<x2<2,q,partial(x1)+a()*partial(x2),1);

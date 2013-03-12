@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rlami.red 1713 2012-06-22 07:42:38Z thomas-sturm $
+% $Id: rlami.red 1851 2012-11-20 15:08:12Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(rl_ami_rcsid!* rl_ami_copyright!*);
    rl_ami_rcsid!* :=
-      "$Id: rlami.red 1713 2012-06-22 07:42:38Z thomas-sturm $";
+      "$Id: rlami.red 1851 2012-11-20 15:08:12Z mkosta $";
    rl_ami_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -627,6 +627,18 @@ procedure rl_a2s!-atl(l);
 	    typerr(x,"atomic formula");
       	 w
       >>
+   end;
+
+procedure rl_a2s!-stringl(l);
+   % Algebraic to symbolic string list.
+   begin scalar w,!*rlsimpl;
+      l := reval l;
+      if not eqcar(l,'list) then
+ 	 typerr(l,"list");
+      for each x in cdr l do
+	 if not stringp x then
+	    typerr(x,"string");
+      return cdr l
    end;
 
 procedure rl_a2s!-fl(l);

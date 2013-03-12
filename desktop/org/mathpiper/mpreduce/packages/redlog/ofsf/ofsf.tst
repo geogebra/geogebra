@@ -98,9 +98,7 @@ k43*k64**2 + 2*k43*k64*k65 + k43*k65**2 + k64**2*k65 + k64*k65**2 = 0)
 and ((((( - k21 < 0 and - k46 < 0) and - k64 < 0) and - k34 < 0) and -
 k43 < 0) and - k56 < 0) and - k65 < 0)))$
 
-on rlqevarseltry,rlsifaco,rlqeprecise;
 rlqe rlex gatermann;
-off rlqevarseltry,rlsifaco,rlqeprecise;
 
 % Positive qe:
 % Examples from
@@ -715,6 +713,9 @@ dong := {
   X259+2*X261+2*X262+2*X263+3*X268+3*X269+3*X270+3*X271+3*X272+3*X273+X229=1,
      X259+X261+X262+X263+X268+X269+X270+X271+X272+X273+X229=1};
 sol := rlopt(dong,0);
+
+% Test case for an ofsf_xopt bug discovered by Eddy Westbrook.
+rlqe ex(y,(y=x or y=-x) and y>=0);
 
 % Substitution
 sub(first second sol,for each atf in dong mkand atf);

@@ -183,7 +183,6 @@
  (gcref         "gcref"                 test                 csl psl)
  (turtle        "plot"                                       csl psl)
  (profile       "profile"                                    csl psl)
- (myvector		"myvector"                                   csl psl)
 )
 
 % End of configuration data

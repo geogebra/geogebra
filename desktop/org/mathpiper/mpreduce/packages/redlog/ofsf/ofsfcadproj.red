@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfcadproj.red 272 2009-04-24 11:50:16Z thomas-sturm $
+% $Id: ofsfcadproj.red 1840 2012-11-19 12:26:04Z thomas-sturm $
 % ----------------------------------------------------------------------
 % Copyright (c) 2000-2009 A. Dolzmann, L. Gilch, A. Seidl, and T. Sturm
 % ----------------------------------------------------------------------
@@ -26,12 +26,12 @@
 % THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 % (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 % OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-% 
+%
 
 lisp <<
    fluid '(ofsf_cadproj_rcsid!* ofsf_cadproj_copyright!*);
    ofsf_cadproj_rcsid!* :=
-      "$Id: ofsfcadproj.red 272 2009-04-24 11:50:16Z thomas-sturm $";
+      "$Id: ofsfcadproj.red 1840 2012-11-19 12:26:04Z thomas-sturm $";
    ofsf_cadproj_copyright!* :=
       "(c) 2000-2009 A. Dolzmann, L. Gilch, A. Seidl, T. Sturm"
 >>;
@@ -78,25 +78,25 @@ symbolic operator rlcadvbl;
 procedure rlcadvbl(phi);
    'list . for each l in ofsf_cadvbl rl_simp phi collect 'list . l;
 
-procedure ofsf_cadvbl(phi); 
+procedure ofsf_cadvbl(phi);
    % Variable-block-list. Checks if [phi] is a prenex. Returns a list of
-   % lists [[xr..][..xk]..[xk..x1]] of IDs. 
+   % lists [[xr..][..xk]..[xk..x1]] of IDs.
    <<
-      if not cl_prenexp phi then 
+      if not cl_prenexp phi then
       	 rederr "formula is not prenex, please use rlpnf beforehand";
       ofsf_cadvbl1(phi)
    >>;
 
 procedure ofsf_cadvbl1(phi);
    % Variable-block-list. [phi] is a prenex fof. Returns a list of
-   % lists [[xr..][..xk]..[xk..x1]] of IDs. 
+   % lists [[xr..][..xk]..[xk..x1]] of IDs.
    begin scalar tmp,fvarl,ql,cq,cll,cl,a;
       tmp := ofsf_mkvarl phi; % ((xr,...,x_1).((x_r.Q_r),...,(x_k+1.Q_k+1)))
       fvarl := car tmp; % ((xr,...,x_1)
       ql := cdr tmp;
       if ql then <<
       	 cq := cdar ql; % current quantifier
-      	 while ql do << 
+      	 while ql do <<
 	    a := car ql;
 	    ql := cdr ql;
 	    fvarl := cdr fvarl;
@@ -111,7 +111,7 @@ procedure ofsf_cadvbl1(phi);
       >>;
       cll := fvarl . cll;
       cll := reversip cll;
-      return cll 
+      return cll
 end;
 
 procedure ofsf_gcadporder(phi);
@@ -265,7 +265,7 @@ procedure ofsf_cadporder3(tl,cl,lvarl,theo,rate,betterp);
    % all variables in the original input formula in the given input
    % order starting with [cl]. $v$ is the best variables in [cl] for
    % the next projection step and $T$ is the result of this projection
-   % step. 
+   % step.
    begin scalar pset,xopt,psetopt,optrating,theoopt,rating,j,psetpr;
       j := length lvarl;
       for each x in cl do <<
@@ -306,7 +306,7 @@ procedure ofsf_cadporder!-project(tl,x,lvarl,j,theo);
       setkorder oldorder;
       return pset
    end;
-      
+
 procedure ofsf_cadporder!-project1(tl,x,lvarl,j,theo);
    begin scalar ffj,ffi,pset,w;
       ffj := ffi := nil;
@@ -340,7 +340,7 @@ procedure ofsf_cadprojection1(cd);
       aa := getv(caddata_ff cd,r); % input formula polynomials
       ff := mkvect r; % here go the projection factors
       hh := mkvect r; % here go the tagged projection factors
-      jj := mkvect r; % here go the projection polynomials      
+      jj := mkvect r; % here go the projection polynomials
       ffid := mkvect(r); % here go the id's of the projection polynomials
       % hack: generic cad: new projection
       if !*rlqegen then <<
@@ -369,12 +369,12 @@ procedure ofsf_cadprojection1(cd);
 	 else
 	    ioto_tprin2 {"+ #P=",length pp};
       return ; % caddata changed, nothing to return
-   end; 
+   end;
 
 procedure ofsf_ffji(j,l);
    % Make an identifier of the form Fj_l.
-   intern compress lto_nconcn {explode 'ff, explode j,explode '_, explode l};
-	 
+   intern compress lto_nconcn {explode 'ff, explode j,explode '!_, explode l};
+
 procedure ofsf_level(f,varl); %%% candidate for sfto
    % Level of a polynomial wrt to the variable list. Returns 0, if $f$
    % is constant, the position of f's main variable in varl,
@@ -386,7 +386,7 @@ procedure ofsf_level(f,varl); %%% candidate for sfto
    else if mvar f eq car varl then
       1
    else 1+ofsf_level(f,cdr varl);
-      
+
 procedure ofsf_mapdistribute(fl,ff,varl);
    for each f in fl do ofsf_distribute(f,ff,varl);
 
@@ -471,7 +471,7 @@ procedure sf_tdeg1(f,xl);
       0
    else if null xl then
       0
-   else 
+   else
       max(sf_tdeg1(sf_lc(f,car xl),cdr xl)+sf_deg(f,car xl),
 	 sf_tdeg1(sf_red(f,car xl),xl));
 
@@ -527,7 +527,7 @@ procedure sf_discriminant(f,x);
    quotf(resultant(f,numr difff(f,x),x),lc f);
 
 symbolic operator rlres;
-procedure rlres(f,g,x); 
+procedure rlres(f,g,x);
    begin scalar oldorder,w;
       oldorder := setkorder {x};
       w := prepf resultant(numr simp f,numr simp g,x);
@@ -542,7 +542,7 @@ procedure sf_foldgcd(fl);
 %% procedure sf_coeffs(f,x);
 %%    % Coefficients. f is a not null SF. Returns a not dense list of
 %%    % coefficients.
-%%    if not null f then      
+%%    if not null f then
 %%       if domainp f or mvar f neq x then {f} else lc f . sf_coeffs(red f,x);
 
 procedure sf_densecoeffs(f,x);
@@ -657,7 +657,7 @@ procedure sf_regularize(fl,yl);
    % Regularize. [fl] is a LIST(SF), [yl] is a LIST(ID). Returns a
    % LIST(SF).
    car sf_regularize1(fl,yl);
-   
+
 symbolic operator rlregularize1;
 procedure rlregularize1(fl,yl);
    {'list, 'list . for each f in car w collect prepf f, 'list . cdr w}
@@ -765,7 +765,7 @@ procedure sf_rorders(fl,yl);
       >>;
       % remove illegal orders
       ords := for each p in ords join if cdr p >= 0 then {p};
-      % sort by cost and length. 
+      % sort by cost and length.
       ords := sort(ords,'ofsf_rordp);
       return for each p in ords collect car p
    end;
@@ -800,8 +800,8 @@ procedure sf_nom(f);
       1
    else
       sf_nom lc f + sf_nom red f;
-       
-   
+
+
 %%% --- To be included into lto --- %%%
 
 procedure lto_select(fn,l);
@@ -825,12 +825,12 @@ procedure lto_remove1(fn,l,xarl);
    % length([xarl])+1 arguments , [l] and [xarl] are LIST. Returns a
    % LIST.
    for each a in l join if not apply(fn,a . xarl) then {a};
-   
+
 procedure sf_rmconst(fl);
    % Remove constant. [fl] is a list of SF.
 %   lto_select('(lambda (f) not domainp f),fl);
    for each f in fl join if not domainp f then {f};
-   
+
 %%% --- Access via canonical notation --- %%%
 
 %%% --- Advanced programming techniques --- %%%
@@ -844,18 +844,18 @@ procedure foldr(fn,e,l);
 
 procedure foldr1(fn,l);
    % Fold right with non-trivial list. Arguments as in foldr, exept l
-   % is not nil. Return value as in foldr. 
+   % is not nil. Return value as in foldr.
    % foldr1(function(lambda a,b;a+b),{1,2,3,4});
    if null cdr l then car l else apply(fn,{car l,foldr1(fn,cdr l)});
 
 % MAP. Caveat: map(l,fn) applies fn to each cdr of l, which is
 % unusual. mapc(l,fn) is what is usually known as map: fn is applied
-% to each element of l. Example: mapc({1,2,3,4},function(print)); 
+% to each element of l. Example: mapc({1,2,3,4},function(print));
 % Why does this not work: mapc({1,2,3,4},function(lambda x;x+1));
 
 procedure mymap(fn,l);
    % map. [fn] in a function of type $a->b$, [l] is a list of type
-   % $a$. Returns a list of type $b$. 
+   % $a$. Returns a list of type $b$.
    % Example: mymap(function(lambda n;n+1),{1,2,3,4});
    for each a in l collect apply(fn,{a});
 
@@ -890,7 +890,7 @@ procedure mtx_froml(lst,n);
 procedure mtx_tol(mtx);
    % Matrix to list (destructive).
    for each l in mtx join l;
-   
+
 procedure mtx_nol(mtx);
    % Number of lines. [mtx] is a MTX. Returns an INT.
    length mtx;
@@ -900,7 +900,7 @@ procedure mtx_noc(mtx);
    if null mtx then 0 else length car mtx;
 
 procedure mtx_get(mtx,l,c);
-   % Get matrix entry. 
+   % Get matrix entry.
    nth(nth(mtx,l),c);
 
 procedure mtx_put(mtx,l,c,a);
@@ -941,13 +941,13 @@ procedure mtx_sylvester(f,g,x);
       if m+n eq 0 then return mtx_0(0,0) else syl:= mtx_0(m+n,m+n);
       cf := sf_coeffs(f,x);
       cg := sf_coeffs(g,x);
-      for l := 1 : n do 
+      for l := 1 : n do
 	 for c := l : l+m do
   	    mtx_put(syl,l,c,nth(cf,1+(c-l)));
-      for l := n+1 : m+n do 
+      for l := n+1 : m+n do
 	 for c := l-n : (l-n)+n do
   	    mtx_put(syl,l,c,nth(cg,1+(c-(l-n))));
-      return syl; 
+      return syl;
    end;
 
 procedure mtx_det(mtx); ofsf_det mtx;
@@ -957,7 +957,7 @@ procedure mtx_resultant(f,g,x);
       0
    else if sf_deg(f,x)+sf_deg(g,x) eq 0 then
       1
-   else 
+   else
       mtx_det mtx_sylvester(f,g,x);
 
 procedure mtx_mmji(f,g,x,j,i);
@@ -1084,12 +1084,12 @@ procedure tgunion1(te,ste);
       tag_(tag_object te,union(tag_taglist te,tag_taglist car ste)) . cdr ste
    else
       car ste . tgunion1(te,cdr ste);
-	 
+
 procedure tglist2set(lte);
    % List to set for tagged expressions. [lte] is LIST(TAG). Returns
    % SET(TAG) s.t. no object occurs twice.
    tgunion(lte,{});
-      
+
 %%% --- Projection set and phase --- %%%
 
 procedure rlprojamat2(fn,afl,l);
@@ -1417,7 +1417,7 @@ procedure ofsf_projcoho(aa,x);
 procedure ofsf_defpdel(l);
    % Definite predicate deletion. [l] is a list of SFs. Returns a list
    % of SFs. Delete all elements from [l] for which surep can verify
-   % definiteness. 
+   % definiteness.
       for each f in l join
 	 if not ofsf_surep(ofsf_0mk2('neq,f),nil) then
 	    {f}
@@ -1447,7 +1447,7 @@ procedure ofsf_projcohogen(aa,x,theo);
       % S2
       ss2_theo := ofsf_projhoss2gen(bb,x,theo);
       ss2 := list2set car ss2_theo;
-      theo := cdr ss2_theo;      
+      theo := cdr ss2_theo;
       return lto_select('notdomainp,union(union(ll,ss1),ss2)) . theo
       %return lto_select(function(lambda p;notdomainp car p),
 %	 pairunion(pairunion(ll . nil,ss1_theo),ss2_theo))
@@ -1581,7 +1581,7 @@ procedure rlprojcobb(afl,x); rlprojamat(function(ofsf_projcobb),afl,x);
 
 procedure ofsf_projcobb(aa,x);
    % Collins' projection set of redukta R (straightforward version).
-   % [aa] is a list of SF, x is an identifier. Returns a set of SF. 
+   % [aa] is a list of SF, x is an identifier. Returns a set of SF.
    % Note that the output is compliant with ofsf_projcoss1v3.
    for each f in aa join ofsf_projcobb1(f,x);
 
@@ -1641,7 +1641,7 @@ procedure ofsf_projcobb1v3(f,varl);
    % descending;
    begin scalar rr2,rr2p;
       rr2 := ofsf_projcobb1v2(f,nth(varl,length varl));
-      if null rr2 then return rr2;      
+      if null rr2 then return rr2;
       repeat <<
 	 rr2p := car rr2 . rr2p;
 	 rr2 := cdr rr2;
@@ -1743,7 +1743,7 @@ procedure ofsf_projcobbv2gen1(f,x,theo);
       >> until finished;
       return reversip redl . theo;
    end;
-   
+
 procedure ofsf_cadvalassp(bvl,sf);
    % Ordered field standard form valid assumption. [bvl] is a list of
    % variables; [sf] is a standard form. Returns [T] if an assumption
@@ -1752,7 +1752,7 @@ procedure ofsf_cadvalassp(bvl,sf);
 
 symbolic operator rlprojcoll;
 procedure rlprojcoll(afl,x); rlprojamat(function(ofsf_projcoll),afl,x);
-      
+
 procedure ofsf_projcoll(bb,x);
    % Collins' projection set of leading coefficients L(B). [bb] is a
    % list of SF, [x] is an identifier. Returns a list of SF.
@@ -1766,7 +1766,7 @@ procedure ofsf_projcoll(bb,x);
 
 symbolic operator rlprojmcll;
 procedure rlprojmcll(afl,x); rlprojamat(function(ofsf_projmcll),afl,x);
-      
+
 procedure ofsf_projmcll(aa,x);
    % McCallum's projection set of leading coefficients L(A). [aa] is a
    % list of SF, [x] is an identifier. Returns a list of SF.
@@ -1792,7 +1792,7 @@ procedure sf_fromcdl(cdl,k);
       red f := sf_fromcdl(cdr cdl,k);
       return f
    end;
-      
+
 procedure sf_pscs(a,b,x);
    % All pscs. . Returns a list of SF.
    for k := 0 : min(sf_deg(a,x),sf_deg(b,x))-1 collect sf_psc(a,b,x,k);
@@ -1802,10 +1802,10 @@ procedure sf_pscsgen(a,b,x,theo);
    % SF and a theory.
    begin scalar k,pscl,finished;
       if not !*rlpscsgen then return sf_pscs(a,b,x) . theo;
-      k := 0; 
-      if k>min(sf_deg(a,x),sf_deg(b,x))-1 then return nil . theo; 
+      k := 0;
+      if k>min(sf_deg(a,x),sf_deg(b,x))-1 then return nil . theo;
       repeat <<
-	 pscl := sf_psc(a,b,x,k) . pscl; k := k+1;	 
+	 pscl := sf_psc(a,b,x,k) . pscl; k := k+1;
 	 if k>min(sf_deg(a,x),sf_deg(b,x))-1 then <<
 	    if ofsf_cadverbosep() then ioto_prin2 "(end)"
 	 >> else if ofsf_surep(ofsf_0mk2('neq,car pscl),theo) then <<

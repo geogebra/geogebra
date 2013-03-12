@@ -1,13 +1,3 @@
-REDUCE Development Version, Wed Sep 13 20:40:41 2000 ...
-
-
-
-
-
-
-
-ODESolve 1.065
-
 % Test and demonstration of the ODESolve extension interface
 
 % F.J.Wright@Maths.QMW.ac.uk, Time-stamp: <17 July 2000>
@@ -162,8 +152,4 @@ symbolic(ODESolve_Before_Lin_Hook := nil);
 
 
 end;
-
-
-
-Time for test: 690 ms, plus GC time: 109 ms
 

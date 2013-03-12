@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: rlsched.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: rlsched.red 1851 2012-11-20 15:08:12Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 Andreas Dolzmann and Thomas Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(rl_sched_rcsid!* rl_sched_copyright!*);
    rl_sched_rcsid!* :=
-      "$Id: rlsched.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: rlsched.red 1851 2012-11-20 15:08:12Z mkosta $";
    rl_sched_copyright!* := "Copyright (c) 1995-2009 A. Dolzmann and T. Sturm"
 >>;
 
@@ -252,9 +252,9 @@ sl_alias('unsfy,'unstraightify);
 
 rl_mkserv('dfgprint,'(rl_simp),'(reval),'(nil),'aeval,t);
 
-rl_mkserv('smt2Print,'(rl_simp),'(reval),'(nil),'aeval,t);
+rl_mkserv('smt2Print,'(rl_simp),'(reval rl_a2s!-stringl),'(nil (list)),'aeval,t);
 
-rl_mkserv('smt2Read,'(dummy),nil,nil,nil,nil);
+rl_mkserv('smt2Read,'(rl_a2s!-string),nil,nil,'rl_mk!*fof,t);
 
 % Black box scheduler.
 

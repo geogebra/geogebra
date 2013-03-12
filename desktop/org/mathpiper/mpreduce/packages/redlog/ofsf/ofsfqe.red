@@ -1,5 +1,5 @@
 % ----------------------------------------------------------------------
-% $Id: ofsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $
+% $Id: ofsfqe.red 1847 2012-11-20 13:44:44Z mkosta $
 % ----------------------------------------------------------------------
 % Copyright (c) 1995-2009 A. Dolzmann, T. Sturm, 2010-2011 T. Sturm
 % ----------------------------------------------------------------------
@@ -31,7 +31,7 @@
 lisp <<
    fluid '(ofsf_qe_rcsid!* ofsf_qe_copyright!*);
    ofsf_qe_rcsid!* :=
-      "$Id: ofsfqe.red 1815 2012-11-02 13:20:27Z thomas-sturm $";
+      "$Id: ofsfqe.red 1847 2012-11-20 13:44:44Z mkosta $";
    ofsf_qe_copyright!* := "(c) 1995-2009 A. Dolzmann T. Sturm, 2010-2011 T. Sturm"
 >>;
 
@@ -464,6 +464,7 @@ procedure ofsf_qesubqat(atf,v,u);
    end;
 
 procedure ofsf_subf(f,v,u);
+   % [f] is an SF; [v] is a kernel; [u] is an SQ. Returns an SQ.
    begin scalar nred;
       if domainp f then
       	 return !*f2q f;
@@ -923,7 +924,7 @@ procedure ofsf_tlltag(r,m,theo);
    % theory. Returns a tag.
    if r eq 'equal or r eq 'neq then
       ofsf_mktag1 r
-   else if ofsf_surep(ofsf_0mk2('geq,m),theo) then
+   else if ofsf_surep(ofsf_0mk2('geq,m),theo) or (!*rlpos and sfto_varp m) then
       ofsf_mktag1 r
    else if ofsf_surep(ofsf_0mk2('leq,m),theo) then
       ofsf_mktag1 ofsf_anegrel r
@@ -1536,6 +1537,8 @@ procedure ofsf_mkgtagq(eset,theo);
    begin scalar a;
       if null cdr eset and caar eset eq 'ofsf_qesubcq then
  	 return 'quaq;
+      if atsoc('ofsf_qesubcq,eset) then
+	 return 'lin;
       a := atsoc('ofsf_qesubcr2,eset) or atsoc('ofsf_qesubcr1,eset);
       % We know [a neq nil].
       if null cadr cadr cadr a then  % $b$ of the first root expression.
