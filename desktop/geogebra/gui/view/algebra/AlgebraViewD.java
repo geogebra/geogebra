@@ -43,6 +43,7 @@ import java.util.HashMap;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
@@ -405,6 +406,8 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 
 		kernel.notifyAddAll(this);
 		setLabels();
+		// shake the tree so it looks good after the change
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 
 	/**
