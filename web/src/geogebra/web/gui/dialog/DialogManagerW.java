@@ -206,7 +206,7 @@ public class DialogManagerW extends DialogManager {
 	   } else {
 		   googleFileDescriptors.setFileName(driveBase64FileName);
 		   googleFileDescriptors.setDescription(driveBase64description);
-		   MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginToGoogle();
+		   MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginMenu().getLoginToGoogle();
 		   final int top = lg.getElement().getOffsetTop();
 		   final int left = lg.getElement().getOffsetLeft();
 		   googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {

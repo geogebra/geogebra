@@ -52,6 +52,7 @@ import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
+import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
@@ -208,6 +209,7 @@ public class AppW extends AppWeb {
 		this.loc = new LocalizationW();
 		this.objectPool = new ObjectPool();
 		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
+		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();

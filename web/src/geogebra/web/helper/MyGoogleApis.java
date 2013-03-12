@@ -196,7 +196,7 @@ public class MyGoogleApis {
 	}-*/;
 	
 	private void loggedIntoGoogleSuccessFull(String email, String name) {
-		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().setLoggedIntoGoogle(email, name);
+		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginMenu().setLoggedIntoGoogle(email, name);
 		loggedIn = true;
 		initGoogleTokenChecking();
 	}
@@ -267,7 +267,7 @@ public class MyGoogleApis {
 				long current = new Date().getTime();
 				if (current > tokenExpiresAt) {
 					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
-					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginToGoogle().getScheduledCommand().execute();
+					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginMenu().getLoginToGoogle().getScheduledCommand().execute();
 					checker.cancel();
 					return;
 				}

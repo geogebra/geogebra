@@ -14,7 +14,7 @@ public class OpenMenuW extends MenuBar {
 	/**
 	 * Application instance
 	 */
-	App app;
+	private App app;
 	private MenuItem openFromGoogleDrive;
 
 	/**

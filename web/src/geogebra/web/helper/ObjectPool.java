@@ -6,6 +6,7 @@ public class ObjectPool {
 	
 	private MyGoogleApis myGoogleApis;
 	private GGWMenuBar ggwMenubar;
+	private MySkyDriveApis mySkyDriveApis;
 	
 	public ObjectPool() {
 		
@@ -26,6 +27,14 @@ public class ObjectPool {
 	public void setGgwMenubar(GGWMenuBar ggwMenubar) {
 	    this.ggwMenubar = ggwMenubar;
     }
+
+	public void setMySkyDriveApis(MySkyDriveApis mySkyDriveApis) {
+	    this.mySkyDriveApis = mySkyDriveApis;
+    }
+	
+	public MySkyDriveApis getMySkyDriveApis() {
+		return this.mySkyDriveApis;
+	}
 	
 	
 
