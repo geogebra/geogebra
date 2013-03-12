@@ -1986,20 +1986,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				* z, z);
 	}
 
-	/**
-	 * Randomizes coordinates
-	 */
-	public void randomizeForErrorEstimation() {
-		setCoords(x + (Math.random() * 2 - 1) * Kernel.EPSILON_SQRT * z,// TODO:
-																		// record
-																		// the
-																		// error
-																		// of
-																		// the
-																		// point
-				y + (Math.random() * 2 - 1) * Kernel.EPSILON_SQRT * z, z);
-	}
-
 	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);

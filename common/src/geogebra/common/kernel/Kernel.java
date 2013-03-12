@@ -216,8 +216,6 @@ public class Kernel {
  	
  	/** current working precision */
 	public static double EPSILON = STANDARD_PRECISION;
-	/** square root of current precision */
-	public static double EPSILON_SQRT = STANDARD_PRECISION_SQRT;
 
 	// rounding hack, see format()
 	private static final double ROUND_HALF_UP_FACTOR_DEFAULT = 1.0 + 1E-15;

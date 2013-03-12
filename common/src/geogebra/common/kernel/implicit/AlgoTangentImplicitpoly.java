@@ -172,9 +172,9 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 			//So |dF/dx|<= |dF1/dx * err(x) + dF1/dy * err(y)| <= Max(dF1/dx / dF/dx, dF1/dy / dF/dy) * EPSILON
 			//A convenient necessary condition of this is  (dF/dx)^2 <= |dF1/dx| * EPSILON.
 			//Not very reasonably, now we use (dF/dx)^2 <= EPSILON only, to avoid evaluation of dF1/dx 
-			//TODO: have a more reasonable choice
-			if(Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT)
-					&& Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.EPSILON_SQRT))
+			//TODO: have a more reasonable choice; also we use standard precision rather than working precision (might not be a problem)
+			if(Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.STANDARD_PRECISION_SQRT)
+					&& Kernel.isEqual(0, this.p.evalDiffXPolyAt(ip[i].inhomX, ip[i].inhomY), Kernel.STANDARD_PRECISION_SQRT))
 				continue;
 			
 			tangents.adjustOutputSize(n+1);
