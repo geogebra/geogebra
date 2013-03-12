@@ -4902,7 +4902,9 @@ public class ExpressionNode extends ValidExpression implements
 	private static boolean isConstantDouble(ExpressionValue ev, double v) {
 		ExpressionValue base = ev.unwrap();
 		return base instanceof MyDouble && base.isConstant()
-				&& Kernel.isEqual(v, ((MyDouble) base).getDouble());
+				// don't use Kernel.isEqual() to check == 0 
+				// as can lose leading coefficient of polynomial		
+				&& v == ((MyDouble) base).getDouble();
 	}
 
 	/**
@@ -5225,7 +5227,9 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (Kernel.isZero(d)) {
+		if (d == 0) {
+			// don't use Kernel.isZero() to check == 0 
+			// as can lose leading coefficient of polynomial		
 			return new ExpressionNode(kernel, 0);
 		} else if (Kernel.isEqual(1,  d)) {
 			return this;
@@ -5240,7 +5244,9 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiplyR(double d) {
-		if (Kernel.isZero(d)) {
+		if (d == 0) {
+			// don't use Kernel.isZero() to check == 0 
+			// as can lose leading coefficient of polynomial		
 			return new ExpressionNode(kernel, 0);
 		} else if (Kernel.isEqual(1,  d)) {
 			return this;
@@ -5353,10 +5359,14 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return result of division
 	 */
 	public ExpressionNode divide(double d) {
-		if (Kernel.isEqual(1,  d)) {
+		if (d == 1) {
+			// don't use Kernel.isEqual() to check == 1
+			// as can lose leading coefficient of polynomial		
 			return this;
 		}
-		if (Kernel.isEqual(-1,  d)) {
+		if (d == -1) {
+			// don't use Kernel.isEqual() to check == -1
+			// as can lose leading coefficient of polynomial		
 			return this.multiplyR(-1);
 		}
 		
