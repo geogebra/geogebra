@@ -499,13 +499,11 @@ public abstract class App implements UpdateSelection{
 			if(!translateCommandTable.containsKey(StringUtil.toLowerCase(internal))){
 				translateCommandTable.put(StringUtil.toLowerCase(internal),
 						Commands.englishToInternal(comm).name());
-				App.debug(StringUtil.toLowerCase(internal));
 			}
 			String s = getLocalization().getCommand(internal);
 			if(s!=null){
 				translateCommandTable.put(StringUtil.toLowerCase(s),
 						Commands.englishToInternal(comm).name());
-				App.debug(StringUtil.toLowerCase(s));
 			}
 		
 		
