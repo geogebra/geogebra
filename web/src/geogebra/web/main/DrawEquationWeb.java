@@ -204,13 +204,25 @@ public class DrawEquationWeb extends DrawEquation {
 	        int x, int y, String latexString, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache) {
 
+		boolean shouldPaintBackground = true;
+
+		if (bgColor == null)
+			shouldPaintBackground = false;
+		else if (geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
+			(app1.getEuclidianView1().getBackgroundCommon() == bgColor))
+			shouldPaintBackground = false;
+		else if (geo.isVisibleInView(App.VIEW_EUCLIDIAN2) &&
+				(app1.getEuclidianView2() != null) &&
+				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
+			shouldPaintBackground = false;
+
 		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
 			// assume that the script is loaded; it is part of resources
 			// so we will probably get width and height OK, no need to update again
 			JsArrayInteger jai = drawEquationCanvasMath(
 				((GGraphics2DW)g2).getCanvas().getContext2d(), latexString, x, y,
 				(fgColor == null) ? null : GColor.getColorString(fgColor),
-				(bgColor == null) ? null : GColor.getColorString(bgColor));
+				!shouldPaintBackground ? null : GColor.getColorString(bgColor));
 			return new geogebra.web.awt.GDimensionW(jai.get(0), jai.get(1));
 		}
 
@@ -247,7 +259,8 @@ public class DrawEquationWeb extends DrawEquation {
 		// canvas,
 		// it is better if this is transparent, because the grid should be shown
 		// just like in the Java version
-		// ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+		if (shouldPaintBackground)
+			ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
 
 		if (fgColor != null)
 			ih.getStyle().setColor(GColor.getColorString(fgColor));
