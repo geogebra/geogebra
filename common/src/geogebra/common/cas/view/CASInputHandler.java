@@ -692,6 +692,7 @@ public class CASInputHandler {
 	}
 	
 	/**
+	 * @param cell cell whose state should be displayed in the barble
 	 * @param renderer renderer of the cell
 	 */
 	public static void handleMarble(GeoCasCell cell, MarbleRenderer renderer) {
