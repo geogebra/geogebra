@@ -107,9 +107,9 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		//double precision = Kernel.getEpsilon();
 		//Kernel.setMinPrecision();
 		
-		if (Kernel.isZero((ab*cd+bc*ad-ac*bd)/(az*bz*cz*dz)) 
-				|| Kernel.isZero((ab*cd+ac*bd-bc*ad)/(az*bz*cz*dz)) 
-				|| Kernel.isZero((bc*ad+ac*bd-ab*cd)/(az*bz*cz*dz))){
+		if (Kernel.isZero((ab*cd+bc*ad-ac*bd)/(az*bz*cz*dz),Kernel.MIN_PRECISION) 
+				|| Kernel.isZero((ab*cd+ac*bd-bc*ad)/(az*bz*cz*dz),Kernel.MIN_PRECISION) 
+				|| Kernel.isZero((bc*ad+ac*bd-ab*cd)/(az*bz*cz*dz),Kernel.MIN_PRECISION)){
 			outputBoolean.setValue(true);
 		} else {
 			outputBoolean.setValue(false);

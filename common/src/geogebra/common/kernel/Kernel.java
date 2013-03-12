@@ -1592,6 +1592,11 @@ public class Kernel {
 		return (-EPSILON < x) && (x < EPSILON);
 	}
 
+	/** is abs(x) < epsilon ? */
+	final public static boolean isZero(double x,double eps) {
+		return (-eps < x) && (x < eps);
+	}
+	
 	/**
 	 * @param a array of numbers
 	 * @return whether all given numbers are zero within current precision 
@@ -1969,13 +1974,6 @@ public class Kernel {
 	 */
 	final public static double getEpsilon() {
 		return EPSILON;
-	}
-
-	/**
-	 * Sets the kernel precision to MIN_PRECISION
-	 */
-	final public static void setMinPrecision() {
-		setEpsilon(MIN_PRECISION);
 	}
 
 	/**

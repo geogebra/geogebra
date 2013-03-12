@@ -528,9 +528,7 @@ public class AlgoLocus extends AlgoElement {
 			// AND if the direction of moving along the path
 			// is positive like in the beginning
 			if (pathMover.hasPositiveOrientation()) {
-				Kernel.setMinPrecision();
-				boolean equal = QstartPos.isEqual(Qcopy);
-				Kernel.resetPrecision();
+				boolean equal = QstartPos.isEqual(Qcopy,Kernel.MIN_PRECISION);
 				if (equal) {
 					break;
 				}

@@ -780,6 +780,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElement geo) {
+		return isEqual(geo,Kernel.STANDARD_PRECISION);
+	}
+	
+	final public boolean isEqual(GeoElement geo,double eps) {
 
 		if (!geo.isGeoPoint())
 			return false;
