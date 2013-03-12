@@ -5,10 +5,10 @@ import geogebra.common.kernel.algos.AlgoAngleConic;
 import geogebra.common.kernel.algos.AlgoAngleNumeric;
 import geogebra.common.kernel.algos.AlgoAngleVector;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -154,7 +154,7 @@ public class CmdAngle extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isNumberValue()))) {
 				return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
-						(GeoPoint) arg[1], (NumberValue) arg[2], true);
+						(GeoPoint) arg[1], (GeoNumberValue) arg[2], true);
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}

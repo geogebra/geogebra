@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -1266,13 +1267,13 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
-			NumberValue phi, GeoPointND center, GeoDirectionND orientation) {
+			GeoNumberValue phi, GeoPointND center, GeoDirectionND orientation) {
 		Transform t = new TransformRotate3D(cons, phi, center, orientation);
 		return t.transform((GeoElement) geoRot, label);
 	}
 
 	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
-			NumberValue phi, GeoLineND line) {
+			GeoNumberValue phi, GeoLineND line) {
 		Transform t = new TransformRotate3D(cons, phi, line);
 		return t.transform((GeoElement) geoRot, label);
 	}

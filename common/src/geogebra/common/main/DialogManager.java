@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -101,7 +102,7 @@ public abstract class DialogManager {
 	}
 
 	public static void doAngleFixed(Kernel kernel, GeoSegment[] segments,
-			GeoPoint[] points, GeoElement[] selGeo2s, NumberValue num, boolean clockWise) {
+			GeoPoint[] points, GeoElement[] selGeo2s, GeoNumberValue num, boolean clockWise) {
 		//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
 		//geogebra.gui.AngleInputDialog dialog = (geogebra.gui.AngleInputDialog) ob[1];
 		//String angleText = getText();
@@ -247,7 +248,7 @@ public abstract class DialogManager {
 		if (success) {
 			// GeoElement circle = kernel.Circle(null, geoPoint1,
 			// ((NumberInputHandler)inputHandler).getNum());
-			NumberValue num = (NumberValue) result[0];
+			GeoNumberValue num = (GeoNumberValue) result[0];
 			// geogebra.gui.AngleInputDialog dialog =
 			// (geogebra.gui.AngleInputDialog) ob[1];
 
@@ -329,7 +330,7 @@ public abstract class DialogManager {
 
 	}
 	
-	protected NumberValue getNumber(Kernel kernel, String message, String def) {
+	protected GeoNumberValue getNumber(Kernel kernel, String message, String def) {
 		
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -337,7 +338,7 @@ public abstract class DialogManager {
 		
 		String str = prompt(message, def);
 
-		NumberValue result = kernel.getAlgebraProcessor().evaluateToNumeric(str, true);
+		GeoNumberValue result = kernel.getAlgebraProcessor().evaluateToNumeric(str, true);
 
 		cons.setSuppressLabelCreation(oldVal);
 		

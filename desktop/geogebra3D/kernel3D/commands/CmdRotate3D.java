@@ -2,9 +2,9 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdRotate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -47,7 +47,7 @@ public class CmdRotate3D extends CmdRotate{
 				GeoPoint3D center = new GeoPoint3D(cons);
 				center.setCoords(0, 0, 0, 1);
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
-						(GeoPointND) arg[0], (NumberValue) arg[1], center, (GeoDirectionND) kernelA.getXOYPlane());
+						(GeoPointND) arg[0], (GeoNumberValue) arg[1], center, (GeoDirectionND) kernelA.getXOYPlane());
 			}
 		
 			
@@ -63,7 +63,7 @@ public class CmdRotate3D extends CmdRotate{
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
-						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) kernelA.getXOYPlane());
+						(GeoPointND) arg[0], (GeoNumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) kernelA.getXOYPlane());
 
 
 			}
@@ -73,7 +73,7 @@ public class CmdRotate3D extends CmdRotate{
 					&& (ok[2] = (arg[2] instanceof GeoLineND))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
-						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoLineND) arg[2]);
+						(GeoPointND) arg[0], (GeoNumberValue) arg[1], (GeoLineND) arg[2]);
 
 
 			}
@@ -93,7 +93,7 @@ public class CmdRotate3D extends CmdRotate{
 					&& (ok[2] = (arg[2].isGeoPoint())) && (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
-						(GeoPointND) arg[0], (NumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) arg[3]);
+						(GeoPointND) arg[0], (GeoNumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) arg[3]);
 			}
 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));

@@ -58,6 +58,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoScriptAction;
@@ -723,15 +724,15 @@ public class AlgebraProcessor {
 	 * @param suppressErrors false to show error messages (only stacktrace otherwise)
 	 * @return resulting number
 	 */
-	public NumberValue evaluateToNumeric(String str, boolean suppressErrors) {
+	public GeoNumberValue evaluateToNumeric(String str, boolean suppressErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		NumberValue num = null;
+		GeoNumberValue num = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElement[] temp = processValidExpression(ve);
-			num = (NumberValue) temp[0];
+			num = (GeoNumberValue) temp[0];
 		} catch (CircularDefinitionException e) {
 			App.debug("CircularDefinition");
 			if (!suppressErrors)

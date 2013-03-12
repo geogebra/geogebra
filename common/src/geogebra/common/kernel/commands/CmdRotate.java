@@ -4,8 +4,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -63,7 +63,7 @@ public class CmdRotate extends CommandProcessor {
 	final protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
 
 		if ((ok[0] = true) && (ok[1] = (arg[1].isNumberValue()))) {
-			NumberValue phi = (NumberValue) arg[1];
+			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
 			return Rotate(c.getLabel(), arg[0], phi);
 		}
@@ -85,7 +85,7 @@ public class CmdRotate extends CommandProcessor {
 		if ((ok[0] = true) && (ok[1] = (arg[1].isNumberValue()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 
-			NumberValue phi = (NumberValue) arg[1];
+			GeoNumberValue phi = (GeoNumberValue) arg[1];
 			GeoPoint Q = (GeoPoint) arg[2];
 
 			return getAlgoDispatcher().Rotate(c.getLabel(), arg[0], phi, Q);
@@ -100,7 +100,7 @@ public class CmdRotate extends CommandProcessor {
 	 * rotate geoRot by angle phi around (0,0)
 	 */
 	final private GeoElement[] Rotate(String label, GeoElement geoRot,
-			NumberValue phi) {
+			GeoNumberValue phi) {
 		Transform t = new TransformRotate(cons, phi);
 		return t.transform(geoRot, label);
 	}

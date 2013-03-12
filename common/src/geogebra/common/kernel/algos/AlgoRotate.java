@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Rotateable;
 
@@ -45,7 +46,7 @@ public class AlgoRotate extends AlgoTransformation {
      * Creates new generic rotation algo
      */
     AlgoRotate(Construction cons, String label,
-            GeoElement A, NumberValue angle) {
+            GeoElement A, GeoNumberValue angle) {
     	this(cons, A, angle);
     	outGeo.setLabel(label);
     }
@@ -53,7 +54,7 @@ public class AlgoRotate extends AlgoTransformation {
     /**
      * Creates new unlabeled rotation algo
      */
-    public AlgoRotate(Construction cons, GeoElement A, NumberValue angle) {
+    public AlgoRotate(Construction cons, GeoElement A, GeoNumberValue angle) {
         super(cons);        
         this.angle = angle;
 

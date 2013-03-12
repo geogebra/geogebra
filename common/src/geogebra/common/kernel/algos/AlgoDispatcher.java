@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
@@ -393,7 +394,7 @@ public class AlgoDispatcher {
 	 * orientation). The labels[0] is for the angle, labels[1] for the new point
 	 */
 	final public GeoElement[] Angle(String[] labels, GeoPoint B, GeoPoint A,
-			NumberValue alpha, boolean posOrientation) {
+			GeoNumberValue alpha, boolean posOrientation) {
 		// this is actually a macro
 		String pointLabel = null, angleLabel = null;
 		if (labels != null) {
@@ -428,7 +429,7 @@ public class AlgoDispatcher {
 	 * rotate geoRot by angle phi around Q
 	 */
 	final public GeoElement[] Rotate(String label, GeoElement geoRot,
-			NumberValue phi, GeoPoint Q) {
+			GeoNumberValue phi, GeoPoint Q) {
 		Transform t = new TransformRotate(cons, phi, Q);
 		return t.transform(geoRot, label);
 	}

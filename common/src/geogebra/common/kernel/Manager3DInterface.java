@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
@@ -603,7 +604,7 @@ public interface Manager3DInterface {
 	 * @return geo rotated
 	 */
 	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
-			NumberValue phi, GeoPointND Q, GeoDirectionND orientation);
+			GeoNumberValue phi, GeoPointND Q, GeoDirectionND orientation);
 	
 	/**
 	 * rotate about line
@@ -614,7 +615,7 @@ public interface Manager3DInterface {
 	 * @return geo rotated
 	 */
 	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
-			NumberValue phi, GeoLineND line);
+			GeoNumberValue phi, GeoLineND line);
 	
 	
 	/**

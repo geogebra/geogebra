@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
@@ -282,7 +283,7 @@ public class Relation {
 		int type = a.getConicPartType();
 		if (type == b.getConicPartType()) {
 			sb.append("\n");
-			if (type == GeoConicPart.CONIC_PART_ARC) {
+			if (type == GeoConicNDConstants.CONIC_PART_ARC) {
 				if (Kernel.isEqual(((NumberValue) a).getDouble(),
 						((NumberValue) b).getDouble()))
 					sb.append(getPlainNumerical("AhasTheSameLengthAsB",
