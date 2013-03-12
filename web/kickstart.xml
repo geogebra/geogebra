@@ -92,7 +92,7 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get
-	    src="http://dev.geogebra.org/download/lib/web/gwt-2.5.0.zip"
+	    src="http://dev.geogebra.org/download/lib/web/gwt-2.5.1-rc1.zip"
 	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
 	<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 	</unzip>
