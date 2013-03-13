@@ -1586,9 +1586,6 @@ public class Kernel {
 
 	/** is abs(x) < epsilon ? */
 	final public static boolean isZero(double x) {
-		if ((-STANDARD_PRECISION < x) && (x < STANDARD_PRECISION) && x!=0) {
-			App.printStacktrace("");
-		}
 		return (-STANDARD_PRECISION < x) && (x < STANDARD_PRECISION);
 	}
 
