@@ -1270,6 +1270,7 @@ td.datePickerMonth {
  
  .geogebraweb {
 	display:inline-block;
+	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
   }
 
  .geogebraweb .jsloaded {
