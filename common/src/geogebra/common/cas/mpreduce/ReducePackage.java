@@ -52,8 +52,9 @@ public enum ReducePackage {
 		}
 
 	}
-
+	/** Checks for special funcions (beta, gamma, zeta) **/
 	public enum SpecFnInspecting implements Inspecting {
+		/** Singleton instance*/
 		INSTANCE;
 		public boolean check(ExpressionValue v) {
 			if (v == null || !v.isExpressionNode())
