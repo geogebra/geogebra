@@ -495,9 +495,9 @@ public class AlgebraViewM extends AlgebraViewWeb
 	}
 
 	@Override
-	public void repaintView()
+	public void doRepaint()
 	{
-
+		this.app.getTimerSystem().viewRepainting(this);
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++)
@@ -519,6 +519,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 				}
 			}
 		}
+		this.app.getTimerSystem().viewRepainted(this);
 	}
 
 	/**

@@ -844,10 +844,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		}
 	}
 
-	public void repaintView() {
-		repaint();
-	}
-
 	/**
 	 * renames an element and sorts list
 	 */
@@ -1385,15 +1381,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		repaint();
 	}
 
-	public void repaint() {
-
-		// no need to repaint that which is not showing
-		// (but take care of repainting if it appears!)
-		if (!isShowing())
-			return;
-
-		app.getTimerSystem().viewRepaint(this);
-    }
+	
 
 	public boolean isShowing() {
 		return isVisible() && isAttached();

@@ -34,6 +34,7 @@ import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
+import geogebra.web.main.ViewManager;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -635,6 +636,12 @@ public class TouchApp extends AppWeb
 	public void showMessage(String error) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ViewManager getViewManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

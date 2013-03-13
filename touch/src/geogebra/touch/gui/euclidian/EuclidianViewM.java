@@ -18,6 +18,7 @@ import geogebra.touch.controller.TouchController;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.main.AppWeb;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
@@ -88,18 +89,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 		initView(true);
 		attachView();
 
-	}
-
-	@Override
-	public void repaint()
-	{
-		if (getEuclidianController().isCollectingRepaints())
-		{
-			getEuclidianController().setCollectedRepaints(true);
-			return;
-		}
-
-		doRepaint();
 	}
 
 	/**
@@ -304,13 +293,15 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void doRepaint2()
 	{
+		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
 		if (getAxesColor() == null)
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
 		}
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
-
+		getEuclidianController().setCollectedRepaints(false);
+		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
 	}
 
 	@Override

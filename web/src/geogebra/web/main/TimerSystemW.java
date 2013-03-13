@@ -42,10 +42,10 @@ public class TimerSystemW {
 	public TimerSystemW(AppWeb app) {
 		application = app;
 		euclidianView1 = application.getEuclidianView1();
-		if (application.getGuiManager().hasAlgebraView())
+		if (application.getViewManager().hasAlgebraView())
 			algebraView = (AlgebraViewWeb) application.getAlgebraView();
-		if (application.getGuiManager().hasSpreadsheetView())
-			spreadsheetView = (SpreadsheetViewW) application.getGuiManager().getSpreadsheetView();
+		if (application.getViewManager().hasSpreadsheetView())
+			spreadsheetView = (SpreadsheetViewW) application.getViewManager().getSpreadsheetView();
 	}
 
 	// one timer for more views, use the minimum FPS of the views for timing
@@ -150,7 +150,7 @@ public class TimerSystemW {
 				if (view == algebraView)
 					algebraRepaint();
 			} else if (view.getViewID() == App.VIEW_SPREADSHEET) {
-				spreadsheetView = (SpreadsheetViewW) application.getGuiManager().getSpreadsheetView();
+				spreadsheetView = (SpreadsheetViewW) application.getViewManager().getSpreadsheetView();
 				if (view == spreadsheetView)
 					spreadsheetRepaint();
 			}

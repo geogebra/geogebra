@@ -196,23 +196,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		return (EuclidianControllerW)euclidianController;
     }
 
-	/**
-	 * repaintView just calls this method
-	 */
-    public void repaint() {
-
-    	if (getEuclidianController().isCollectingRepaints()){
-    		getEuclidianController().setCollectedRepaints(true);
-    		return;
-    	}
-
-    	//TODO: enable this code if this view can be detached
-    	//if (!isShowing())
-    	//	return;
-
-    	app.getTimerSystem().viewRepaint(this);
-    }
-
     
     @Override
     public void doRepaint2() {

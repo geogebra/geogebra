@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
+import geogebra.web.main.AppWeb;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -223,6 +224,23 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 
 		setAntialiasing(g2d);
 	}
+	
+	/**
+	 * repaintView just calls this method
+	 */
+    public final void repaint() {
+
+    	if (getEuclidianController().isCollectingRepaints()){
+    		getEuclidianController().setCollectedRepaints(true);
+    		return;
+    	}
+
+    	//TODO: enable this code if this view can be detached
+    	//if (!isShowing())
+    	//	return;
+
+    	((AppWeb)app).getTimerSystem().viewRepaint(this);
+    }
 	
 
 }

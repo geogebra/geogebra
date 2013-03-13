@@ -2223,4 +2223,9 @@ public class AppW extends AppWeb {
 		return this.objectPool;
 	}
 
+	@Override
+    public ViewManager getViewManager() {
+	    return getGuiManager();
+    }
+
 }

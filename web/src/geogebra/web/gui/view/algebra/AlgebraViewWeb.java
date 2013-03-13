@@ -20,9 +20,21 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView, SetLabel
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 	}
-	public void doRepaint() {
-	    // TODO Auto-generated method stub
-	    
+	
+	public abstract void doRepaint();
+	
+	public final void repaint() {
+
+		// no need to repaint that which is not showing
+		// (but take care of repainting if it appears!)
+		if (!isShowing())
+			return;
+
+		app.getTimerSystem().viewRepaint(this);
     }
+	
+	public final void repaintView() {
+		repaint();
+	}
 
 }

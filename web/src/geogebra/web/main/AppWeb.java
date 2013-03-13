@@ -102,6 +102,7 @@ public abstract class AppWeb extends App {
 	}
 
 	public abstract void showMessage(String error);
-
+	
+	public abstract ViewManager getViewManager();
 		
 }

@@ -39,6 +39,7 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
+import geogebra.web.main.ViewManager;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -51,7 +52,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-public class GuiManagerW extends GuiManager {
+public class GuiManagerW extends GuiManager implements ViewManager {
 
 	/**
 	 * container for the Popup that only one exist for a given type
