@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.sound.SoundManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -87,6 +88,20 @@ public abstract class AppWeb extends App {
 	protected GlobalKeyDispatcherW newGlobalKeyDispatcher() {
 		return new GlobalKeyDispatcherW(this);
 	}
+	
+	@Override
+	public EuclidianViewWeb getEuclidianView1() {
+		return (EuclidianViewWeb) euclidianView;
+	}
+	private TimerSystemW timers;
+	public TimerSystemW getTimerSystem() {
+		if (timers == null) {
+			timers = new TimerSystemW(this);
+		}
+		return timers;
+	}
+
+	public abstract void showMessage(String error);
 
 		
 }

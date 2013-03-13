@@ -14,7 +14,6 @@ package geogebra.web.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.SelectionManager;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -39,9 +38,9 @@ public class InlineLabelTreeItem extends InlineLabel
 	TreeItem par;
 	SelectionManager selection;
 
-	public InlineLabelTreeItem(AppW app, TreeItem parent, String strlab) {
+	public InlineLabelTreeItem(SelectionManager selection, TreeItem parent, String strlab) {
 		super(strlab);
-		this.selection = app.getSelectionManager();
+		this.selection = selection;
 		par = parent;
 		addClickHandler(this);
 		addMouseOverHandler(this);

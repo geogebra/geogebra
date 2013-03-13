@@ -2,7 +2,7 @@ package geogebra.web.gui.dialog.options;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.main.AppW;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
@@ -17,7 +17,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW 
 	    
     }
 
-	public void setView(EuclidianViewW euclidianView1) {
+	public void setView(EuclidianViewWeb euclidianView1) {
 	    // TODO Auto-generated method stub
 	    
     }

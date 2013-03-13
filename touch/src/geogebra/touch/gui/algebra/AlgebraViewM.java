@@ -2,14 +2,12 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
+import geogebra.web.gui.view.algebra.AlgebraViewWeb;
+import geogebra.web.main.AppWeb;
 
 import java.util.HashMap;
 
@@ -17,7 +15,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 /**
@@ -26,11 +23,8 @@ import com.google.gwt.user.client.ui.TreeItem;
  * Taken from the web-project.
  * 
  */
-public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraView
+public class AlgebraViewM extends AlgebraViewWeb
 {
-
-	protected final App app;
-	protected final Localization loc;
 
 	// store all pairs of GeoElement -> node in the Tree
 	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
@@ -73,10 +67,7 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 	 */
 	public AlgebraViewM(EuclidianController ctr)
 	{
-		super();
-
-		this.app = ctr.getApplication();
-		this.loc = this.app.getLocalization();
+		super((AppWeb)ctr.getApplication());
 		// algCtrl.setView(this);
 		this.controller = ctr;
 		// this is the default value
@@ -209,14 +200,14 @@ public class AlgebraViewM extends Tree implements LayerView, SetLabels, AlgebraV
 		switch (getTreeMode())
 		{
 		case DEPENDENCY:
-			setUserObject(this.indNode, this.app.getPlain("FreeObjects"));
-			setUserObject(this.depNode, this.app.getPlain("DependentObjects"));
+			setUserObject(this.indNode, this.loc.getPlain("FreeObjects"));
+			setUserObject(this.depNode, this.loc.getPlain("DependentObjects"));
 			break;
 		case TYPE:
 			for (String key : this.typeNodesMap.keySet())
 			{
 				node = this.typeNodesMap.get(key);
-				setUserObject(node, this.app.getPlain(key));
+				setUserObject(node, this.loc.getPlain(key));
 			}
 			break;
 		case LAYER:

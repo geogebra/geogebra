@@ -302,7 +302,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	@Override
-	protected void doRepaint2()
+	public void doRepaint2()
 	{
 		if (getAxesColor() == null)
 		{
@@ -311,6 +311,12 @@ public class EuclidianViewM extends EuclidianViewWeb
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
 
+	}
+
+	@Override
+	public void synCanvasSize() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

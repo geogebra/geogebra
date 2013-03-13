@@ -3,10 +3,12 @@ package geogebra.web.euclidian;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
@@ -17,6 +19,7 @@ import com.google.gwt.canvas.client.Canvas;
 public abstract class EuclidianViewWeb extends EuclidianView {
 	public geogebra.web.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
+	public geogebra.web.awt.GGraphics2DW g4copy = null;
 	private geogebra.common.awt.GColor backgroundColor = GColor.white;
 	
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
@@ -92,7 +95,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
      * This doRepaint method should be used instead of repaintView in cases
      * when the repaint should be done immediately
      */
-	protected abstract void doRepaint2();
+	public abstract void doRepaint2();
 	
 	/**
 	 * Gets the coordinate space width of the &lt;canvas&gt;.
@@ -143,5 +146,83 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	  			g2p.getCanvas().isAttached() &&
 	  			g2p.getCanvas().isVisible();
     }
+
+	public abstract void synCanvasSize();
+	
+	public String getExportImageDataUrl(double scale, boolean transparency) {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+
+		Canvas c4 = Canvas.createIfSupported();
+		c4.setCoordinateSpaceWidth(width);
+		c4.setCoordinateSpaceHeight(height);
+		c4.setWidth(width+"px");
+		c4.setHeight(height+"px");
+		g4copy = new geogebra.web.awt.GGraphics2DW(c4);
+		this.app.exporting = true;
+		exportPaintPre(g4copy, scale, transparency);
+		drawObjects(g4copy);
+		this.app.exporting = false;
+		return g4copy.getCanvas().toDataUrl();
+	}
+	
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
+			boolean transparency) {
+		g2d.scale(scale, scale);
+
+		// clipping on selection rectangle
+		if (getSelectionRectangle() != null) {
+			GRectangle rect = getSelectionRectangle();
+			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
+			g2d.translate(-rect.getX(), -rect.getY());
+			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
+		} else {
+			// use points Export_1 and Export_2 to define corner
+			try {
+				// Construction cons = kernel.getConstruction();
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+				double[] xy1 = new double[2];
+				double[] xy2 = new double[2];
+				export1.getInhomCoords(xy1);
+				export2.getInhomCoords(xy2);
+				double x1 = xy1[0];
+				double x2 = xy2[0];
+				double y1 = xy1[1];
+				double y2 = xy2[1];
+				x1 = (x1 / getInvXscale()) + getxZero();
+				y1 = getyZero() - (y1 / getInvYscale());
+				x2 = (x2 / getInvXscale()) + getxZero();
+				y2 = getyZero() - (y2 / getInvYscale());
+				int x = (int) Math.min(x1, x2);
+				int y = (int) Math.min(y1, y2);
+				int exportWidth = (int) Math.abs(x1 - x2) + 2;
+				int exportHeight = (int) Math.abs(y1 - y2) + 2;
+
+				g2d.setClip(0, 0, exportWidth, exportHeight);
+				g2d.translate(-x, -y);
+			} catch (Exception e) {
+				// or take full euclidian view
+				g2d.setClip(0, 0, getWidth(), getHeight());
+			}
+		}
+
+		// DRAWING
+		if (isTracing() || hasBackgroundImages()) {
+			// draw background image to get the traces
+			if (bgImage == null) {
+				drawBackgroundWithImages(g2d, transparency);
+			} else {
+				paintBackground(g2d);
+			}
+		} else {
+			// just clear the background if transparency is disabled (clear =
+			// draw background color)
+			drawBackground(g2d, !transparency);
+		}
+
+		setAntialiasing(g2d);
+	}
+	
 
 }

@@ -39,7 +39,6 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
-import geogebra.web.main.TimerSystemW;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -69,7 +68,7 @@ public class GuiManagerW extends GuiManager {
 	private EuclidianViewW euclidianView2;
 	private Map<Integer,String> customToolbarDefinitions = new TreeMap<Integer,String>();
 
-	private TimerSystemW timers;
+	
 	private final AppW app;
 	private AbsolutePanel main;
 
@@ -1030,12 +1029,7 @@ public class GuiManagerW extends GuiManager {
 			algebraView.getXML(sb, asPreference);
 	}
 
-	public TimerSystemW getTimerSystem() {
-		if (timers == null) {
-			timers = new TimerSystemW(app);
-		}
-		return timers;
-	}
+
 
 	private int toolbarID = App.VIEW_EUCLIDIAN;
 

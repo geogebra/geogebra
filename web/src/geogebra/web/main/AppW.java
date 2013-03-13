@@ -558,10 +558,7 @@ public class AppW extends AppWeb {
 		return false;
 	}
 
-	@Override
-	public EuclidianViewW getEuclidianView1() {
-		return (EuclidianViewW) euclidianView;
-	}
+	
 
 	@Override
 	public EuclidianViewW getEuclidianView2() {

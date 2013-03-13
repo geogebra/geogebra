@@ -631,4 +631,10 @@ public class TouchApp extends AppWeb
 		return ((EuclidianViewM) getActiveEuclidianView()).getCanvas();
 	}
 
+	@Override
+	public void showMessage(String error) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

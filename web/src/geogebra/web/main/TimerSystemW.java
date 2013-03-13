@@ -2,13 +2,14 @@ package geogebra.web.main;
 
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.view.algebra.AlgebraViewW;
+import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import java.util.Date;
 
 import com.google.gwt.user.client.Timer;
+//import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 public class TimerSystemW {
 
@@ -16,35 +17,35 @@ public class TimerSystemW {
 	public static int algebraMillis = 334; // = 3 FPS
 	public static int spreadsheetMillis = 334; // = 3 FPS
 
-	AppW application;
+	AppWeb application;
 
 	// in the final implementation, these wouldn't be static
-	private static boolean euclidian1Timed = false;
-	private static boolean algebraTimed = false;
-	private static boolean spreadsheetTimed = false;
+	static boolean euclidian1Timed = false;
+	static boolean algebraTimed = false;
+	static boolean spreadsheetTimed = false;
 
 	// in the final implementation, these wouldn't be static
 	private static Date euclidian1Latest = null;//new Date();
-	private static Date algebraLatest = null;//new Date();
-	private static Date spreadsheetLatest = null;//new Date();
+	static Date algebraLatest = null;//new Date();
+	static Date spreadsheetLatest = null;//new Date();
 	private long euclidian1Sum = 0;
-	private long algebraSum = 0;
-	private long spreadsheetSum = 0;
+	long algebraSum = 0;
+	long spreadsheetSum = 0;
 
 	int nextbigview = 0;// 0 = algebra, 1 = spreadsheet
 	long nextrepainttime = 0;// for its repainting length, EV's will repaint
 
-	private EuclidianViewW euclidianView1 = null;
-	private AlgebraViewW algebraView = null;
-	private SpreadsheetViewW spreadsheetView = null;
+	EuclidianViewWeb euclidianView1 = null;
+	AlgebraViewWeb algebraView = null;
+	SpreadsheetViewW spreadsheetView = null;
 
-	public TimerSystemW(AppW app) {
+	public TimerSystemW(AppWeb app) {
 		application = app;
 		euclidianView1 = application.getEuclidianView1();
 		if (application.getGuiManager().hasAlgebraView())
-			algebraView = (AlgebraViewW)application.getAlgebraView();
+			algebraView = (AlgebraViewWeb) application.getAlgebraView();
 		if (application.getGuiManager().hasSpreadsheetView())
-			spreadsheetView = application.getGuiManager().getSpreadsheetView();
+			spreadsheetView = (SpreadsheetViewW) application.getGuiManager().getSpreadsheetView();
 	}
 
 	// one timer for more views, use the minimum FPS of the views for timing
@@ -143,13 +144,13 @@ public class TimerSystemW {
 				if (view == euclidianView1)
 					euclidianRepaint();
 			} else if (view.getViewID() == App.VIEW_EUCLIDIAN2) {
-				;//TODO
+				//TODO
 			} else if (view.getViewID() == App.VIEW_ALGEBRA) {
-				algebraView = (AlgebraViewW)application.getAlgebraView();
+				algebraView = (AlgebraViewWeb)application.getAlgebraView();
 				if (view == algebraView)
 					algebraRepaint();
 			} else if (view.getViewID() == App.VIEW_SPREADSHEET) {
-				spreadsheetView = application.getGuiManager().getSpreadsheetView();
+				spreadsheetView = (SpreadsheetViewW) application.getGuiManager().getSpreadsheetView();
 				if (view == spreadsheetView)
 					spreadsheetRepaint();
 			}

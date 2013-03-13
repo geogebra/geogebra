@@ -13,15 +13,11 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraController;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -35,7 +31,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -44,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 
-public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
+public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,9 +47,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	 */
 	//public static final int MODE_VIEW = 2;
 
-	protected AppW app; // parent appame
-	final Localization loc;
-	private Kernel kernel;
+	
 
 	//private MyRenderer renderer;
 	//private MyDefaultTreeCellEditor editor;
@@ -123,13 +116,9 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	/** Creates new AlgebraView */
 	public AlgebraViewW(AlgebraController algCtrl) {
 
-		super();
+		super((AppW)algCtrl.getApplication());
 
-		App.debug("creating Algebra View");
-
-		app = (AppW)algCtrl.getApplication();
-		 loc = app.getLocalization();
-		kernel = algCtrl.getKernel();
+		App.debug("creating Algebra View");		
 		algCtrl.setView(this);
 		this.algebraController = algCtrl;
 		// this is the default value
@@ -1185,10 +1174,6 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		return App.VIEW_ALGEBRA;
 	}
 
-	public AppW getApplication() {
-		return app;
-	}
-
 	public int[] getGridColwidths() {
 		return new int[] { getElement().getOffsetWidth() };
 	}
@@ -1361,7 +1346,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 				(com.google.gwt.user.client.Element)
 				ti.getElement().getFirstChildElement(), "display", "inline-block");
 		} else {
-			ti.setWidget(new InlineLabelTreeItem(app, ti, ob.toString()));
+			ti.setWidget(new InlineLabelTreeItem(app.getSelectionManager(), ti, ob.toString()));
 		}
 	}
 
@@ -1407,7 +1392,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		if (!isShowing())
 			return;
 
-		app.getGuiManager().getTimerSystem().viewRepaint(this);
+		app.getTimerSystem().viewRepaint(this);
     }
 
 	public boolean isShowing() {
@@ -1420,7 +1405,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	 */
 	public void doRepaint() {
 
-		app.getGuiManager().getTimerSystem().viewRepainting(this);
+		app.getTimerSystem().viewRepainting(this);
 
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
@@ -1442,7 +1427,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			}
 		}
 
-		app.getGuiManager().getTimerSystem().viewRepainted(this);
+		app.getTimerSystem().viewRepainted(this);
 	}
 
 	/**
