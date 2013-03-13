@@ -268,7 +268,11 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		} else if (paint instanceof GTexturePaintW) {
 			currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 			CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
-			context.setFillStyle(ptr);
+			if(ptr!=null){
+				context.setFillStyle(ptr);
+			}else{
+				setPaint(GColor.white);
+			}
 		} else {
 			App.error("unknown paint type");
 		}
