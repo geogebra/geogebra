@@ -2331,15 +2331,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		GeoPoint [] maxParArray = new GeoPoint[this.size()];
 		GeoPoint [] minParStatic = new GeoPoint[this.size()];
 		GeoPoint [] maxParStatic = new GeoPoint[this.size()];
-		directionInfoArray = new boolean[this.size()];
-		directionInfoOrdering = new int[this.size()];
-		shouldUseAlgoLocusList = true;
 
 		// if there is no locus using this, the answer is not important
 		if (!locusCalledAlgoLocusList && !locusCalling)
 			return true;
-		locusCalledAlgoLocusList = true;
 
+		directionInfoArray = new boolean[this.size()];
+		directionInfoOrdering = new int[this.size()];
+		shouldUseAlgoLocusList = true;
+		locusCalledAlgoLocusList = true;
 
 		int i = 0;
 		for (; i < this.size(); i++)
