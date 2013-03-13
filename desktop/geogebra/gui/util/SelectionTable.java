@@ -72,7 +72,7 @@ public class SelectionTable extends JTable {
 
 	private Dimension iconSize;
 
-	private int mode;
+	private geogebra.common.gui.util.SelectionTable mode;
 
 	private Color fgColor, bgColor;
 	private float alpha;
@@ -115,7 +115,7 @@ public class SelectionTable extends JTable {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTable(AppD app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
+	public SelectionTable(AppD app, Object[] data, int rows, int columns, Dimension iconSize, geogebra.common.gui.util.SelectionTable mode){
 
 		this.app = app;	
 		this.mode = mode;
@@ -355,12 +355,12 @@ public class SelectionTable extends JTable {
 
 		switch (mode){
 
-		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
+		case MODE_IMAGE:
 			icon = GeoGebraIcon.createFileImageIcon( app, (String)value, alpha, iconSize);
 			break;
 
-		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
-		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+		case MODE_ICON:
+		case MODE_LATEX:
 			icon = (ImageIcon) value;
 			break;
 

@@ -1461,7 +1461,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			return x*x/scaleX/scaleX+y*y/scaleY/scaleY;
 		}
 		
-		private void startPath(int width, int height, double x, double y,GeoLocus loc) {
+		private void startPath(int width, int height, double x, double y,GeoLocus loc1) {
 			int w = width;
 			int h = height;
 			double sx=x;
@@ -1497,9 +1497,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (firstDirPoints!=null){
 							MyPoint firstPoint=firstDirPoints.get(0);
 							firstPoint.lineTo=false;
-							loc.getPoints().addAll(firstDirPoints);
+							loc1.getPoints().addAll(firstDirPoints);
 						}
-						loc.insertPoint(x, y, true);
+						loc1.insertPoint(x, y, true);
 						return;
 					}
 				}
@@ -1662,7 +1662,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (firstDirPoints!=null){
 							firstDirPoints.add(new MyPoint(sx,sy,true));
 						}else{
-							loc.insertPoint(sx, sy, true);
+							loc1.insertPoint(sx, sy, true);
 						}
 					}
 				}
@@ -1674,7 +1674,7 @@ Dilateable, Transformable, EuclidianViewCE {
 					lastGradY=Double.POSITIVE_INFINITY;
 
 					/* we reached end for the first time and now save the points into the locus */
-					ArrayList<MyPoint> pointList=loc.getPoints();
+					ArrayList<MyPoint> pointList=loc1.getPoints();
 					if (firstDirPoints.size()>0){
 						MyPoint lastPoint=firstDirPoints.get(firstDirPoints.size()-1);
 						lastPoint.lineTo=false;

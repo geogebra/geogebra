@@ -37,7 +37,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	
 	private static final int CLICK_DOWN_ARROW_WIDTH = 20;
 	
-	private int mode;
+	private geogebra.common.gui.util.SelectionTable mode;
 	private Object[] data;	
 	private AppD app;
 	private PopupMenuButton thisButton;
@@ -108,7 +108,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param app
 	 */
 	public PopupMenuButton(AppD app){
-		this( app, null, -1, -1, null, -1,  false,  false);
+		this( app, null, -1, -1, null, geogebra.common.gui.util.SelectionTable.UNKNOWN,  false,  false);
 	}
 
 	
@@ -120,7 +120,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(AppD app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
+	public PopupMenuButton(AppD app, Object[] data, int rows, int columns, Dimension iconSize, geogebra.common.gui.util.SelectionTable mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 
@@ -136,8 +136,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasSlider
 	 */
 	public PopupMenuButton(AppD app, Object[] data, int rows, int columns, Dimension iconSize, 
-			int mode, final boolean hasTable, boolean hasSlider){
-		super(); 
+			geogebra.common.gui.util.SelectionTable mode, final boolean hasTable, boolean hasSlider){
+		super();
 		this.app = app;
 		this.hasTable = hasTable;		
 		this.mode = mode;
@@ -461,7 +461,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		if(hasTable){
 			switch (mode){
 
-			case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
+			case MODE_TEXT:
 				// Strings are converted to icons. We don't use setText so that the button size can be controlled
 				// regardless of the layout manager.
 
@@ -470,8 +470,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 				break;
 
-			case geogebra.common.gui.util.SelectionTable.MODE_ICON:
-			case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+			case MODE_ICON:
+			case MODE_LATEX:
 				icon  = (ImageIcon) myTable.getSelectedValue();
 				break;
 

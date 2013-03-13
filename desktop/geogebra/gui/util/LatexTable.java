@@ -24,10 +24,10 @@ public class LatexTable extends SelectionTable implements MenuElement{
 	private String[] latexArray;
 	private PopupMenuButton popupButton;
 	private int caretPosition = 0;
-	private int mode;
+	private geogebra.common.gui.util.SelectionTable mode;
 
 	public LatexTable(AppD app, TextInputDialog textInputDialog, PopupMenuButton popupButton, 
-			String[] latexArray, int rows, int columns, int mode ){
+			String[] latexArray, int rows, int columns, geogebra.common.gui.util.SelectionTable mode ){
 
 		super(app, latexArray, rows,columns, new Dimension(24,24), mode);
 		this.inputDialog = textInputDialog;

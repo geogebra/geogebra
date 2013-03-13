@@ -23,7 +23,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int sliderValue;	
 	private int rollOverRow = -1;
 	private int rollOverColumn = -1;
-	private int mode;
+	private geogebra.common.gui.util.SelectionTable mode;
 	private int numRows, numColumns, rowHeight, columnWidth;
 	private GDimensionW iconSize;
 	private AppW app;
@@ -35,7 +35,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	}
 	
 	public SelectionTable(AppW app, Object[] data, Integer rows,
-            Integer columns, GDimensionW iconSize, Integer mode) {
+            Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode) {
 		super();
 		this.app = app;	
 		this.mode = mode;
@@ -267,11 +267,11 @@ public class SelectionTable extends Grid implements ClickHandler {
 		int width = 0;
 		int height = 0;
 		switch (mode) {
-		case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
+		case MODE_TEXT:
 			w = new Anchor((String)object);
 			break;
-		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
-		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE: //fall through
+		case MODE_ICON:
+		case MODE_IMAGE: //fall through
 			w = Canvas.createIfSupported();
 			width = ((ImageData)object).getWidth();
 			height = ((ImageData)object).getHeight();
@@ -282,7 +282,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 			ctx = ((Canvas) w).getContext2d();
 			ctx.putImageData((ImageData) object,0, 0);
 			break;
-		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+		case MODE_LATEX:
 			App.debug("SelectionTable mode latex");
 			break;
 	  	}
@@ -331,12 +331,12 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 		switch (mode){
 
-		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
+		case MODE_IMAGE:
 			icon = GeoGebraIcon.createFileImageIcon( app, (String)value, alpha, iconSize);
 			break;
 
-		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
-		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+		case MODE_ICON:
+		case MODE_LATEX:
 			icon = (ImageData) value;
 			break;
 

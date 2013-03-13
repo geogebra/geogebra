@@ -481,7 +481,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		
 		// ========================================
 		// delete-drag square size
-		btnDeleteSize=new PopupMenuButton(app, null, 0, 0, iconDimension, 0, false, true){
+		btnDeleteSize=new PopupMenuButton(app, null, 0, 0, iconDimension, geogebra.common.gui.util.SelectionTable.UNKNOWN, false, true){
 
 			private static final long serialVersionUID = 1L;
 

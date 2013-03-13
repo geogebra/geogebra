@@ -24,7 +24,7 @@ public interface Inspecting {
 		}
 		
 	}
-	
+	/** Checks presence of Commands */
 	public enum CommandFinder implements Inspecting{
 		/** singleton instance */
 		INSTANCE;

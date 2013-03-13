@@ -176,7 +176,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		//========================================
 		// clipping button
-		btnClipping = new PopupMenuButton(app, null, -1, -1, new Dimension(18, 18), -geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true){
+		btnClipping = new PopupMenuButton(app, null, -1, -1, new Dimension(18, 18), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true){
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void update(Object[] geos) {
