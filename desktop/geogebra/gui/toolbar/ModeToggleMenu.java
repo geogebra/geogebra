@@ -389,7 +389,7 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	public void mouseClicked(MouseEvent e) {
 		if (!menu.isPopupShowing() && e.getClickCount()==2) {
 			menu.setPopupVisible(true);
-		}
+		} 
 	}
 
 	 int defaultInitialDelay;
@@ -407,15 +407,18 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		if (!menu.isPopupShowing() && popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
 			this.getModel().setArmed(false);
-		} else {
+		} 
+		
+		else {
 			// Display the menu after a specific amount of time as well, start
-			// a timer for this. The mouseReleased method stops this timer,
-			// which ensures that the menu is not displayed if the user stopped
-			// to press this button.
+			// a timer for this. actionPerformed method stops this timer,
+			// which ensures that the menu is displayed after user released the mouse
 			if (showMenuTimer == null) {
 				showMenuTimer = new Timer(1000, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						menu.setPopupVisible(true);
+						showMenuTimer.stop();
+						
 					}
 				});
 				showMenuTimer.setRepeats(false);
@@ -441,17 +444,9 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
 	}
 
+	
 	public void mouseReleased(MouseEvent e) {
-		if (menu.isPopupShowing() && !popupTriangleClicked(e.getX(), e.getY())) {
-			menu.setPopupVisible(false);
-		}
-
-		// Stop the timer to show the menu if the user released his mouse. In
-		// case
-		// the timer already executed his action this has no effect anyway.
-		if (showMenuTimer != null && showMenuTimer.isRunning()) {
-			showMenuTimer.stop();
-		}
+		
 	}
 
 	@Override
