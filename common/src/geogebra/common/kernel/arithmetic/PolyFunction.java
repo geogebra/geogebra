@@ -208,17 +208,18 @@ public class PolyFunction implements RealRootDerivFunction {
 			return new Function(en, fv);
 		} else if (degree == 1) {
 			// linear
-			ExpressionNode en = fvEn.multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[1]))).plus(coeffs[0]);
+			ExpressionNode en = fvEn.multiply(coeffs[1]).plus(coeffs[0]);
 			return new Function(en, fv);
 		}
 
-		ExpressionNode en = fvEn.power((degree)).multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[degree])));
+		ExpressionNode en = fvEn.power((degree)).multiply(coeffs[degree]);
 
 		if (degree > 2) {
 			for (int i = degree - 1 ; i > 1 ; i--) {
 				
-				if (!Kernel.isZero(coeffs[i])) {
-					ExpressionNode term = new ExpressionNode(kernel, fv, Operation.POWER, new MyDouble(kernel, i)).multiply(new ExpressionNode(kernel, coeffs[i]));
+				// don't use !Kernel.isZero() as we don't want to lose eg leading term
+				if (coeffs[i] != 0) {
+					ExpressionNode term = new ExpressionNode(kernel, fv, Operation.POWER, new MyDouble(kernel, i)).multiply(coeffs[i]);
 					en = en.plus(term);
 				}
 			}
@@ -226,12 +227,12 @@ public class PolyFunction implements RealRootDerivFunction {
 		
 		// linear coefficient
 		if (!Kernel.isZero(coeffs[1])) {
-			en = en.plus(fvEn.multiply(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[1]))));
+			en = en.plus(fvEn.multiply(coeffs[1]));
 		}
 		
 		// constant term
 		if (!Kernel.isZero(coeffs[0])) {
-			en = en.plus(new ExpressionNode(kernel, new MyDouble(kernel, coeffs[0])));
+			en = en.plus(coeffs[0]);
 		}
 
 		return new Function(en, fv);
