@@ -2333,8 +2333,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		GeoPoint [] maxParStatic = new GeoPoint[this.size()];
 
 		// if there is no locus using this, the answer is not important
-		if (!locusCalledAlgoLocusList && !locusCalling)
+		if (!locusCalledAlgoLocusList && !locusCalling) {
+			directionInfoArray = null;
+			directionInfoOrdering = null;
 			return true;
+		}
 
 		directionInfoArray = new boolean[this.size()];
 		directionInfoOrdering = new int[this.size()];
