@@ -298,32 +298,60 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public boolean isPinnable() {
 		return false;
 	}
+	/**
+	 * @return whther this button has fixed size (otherwise depends on text)
+	 */
 	public boolean isFixedSize() {
 		return fixedSize;
 	}
+	/**
+	 * @param fixedSize whether this button should have fixed size
+	 */
 	public void setFixedSize(boolean fixedSize) {
 		this.fixedSize = fixedSize;
-		if(observer!=null)
-		observer.notifySizeChanged();
+		if(observer!=null){
+			observer.notifySizeChanged();
+		}
 	}
+	/**
+	 * @return width in pixels (if it's fixed)
+	 */
 	public int getWidth() {
 		return width;
 	}
+	/**
+	 * @param width width in pixels (used for fixed size buttons)
+	 */
 	public void setWidth(int width) {
 		this.width = width;
-		if(observer!=null)
-		observer.notifySizeChanged();
+		if(observer!=null){
+			observer.notifySizeChanged();
+		}
 	}
+	/**
+	 * 
+	 * @return height in pixels (if it's fixed)
+	 */
 	public int getHeight() {
 		return height;
 	}
+	/**
+	 * @param height height in pixels (used for fixed size buttons)
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	/**
+	 * @param observer object watching size of this button
+	 */
 	public void setObserver(Observer observer) {
 		this.observer = observer;
 	}
+	/** Object watching size of a button */
 	public interface Observer{
+		/**
+		 * This method is called when size is changed
+		 */
 		public void notifySizeChanged();
 	}
 

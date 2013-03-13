@@ -783,6 +783,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		return isEqual(geo,Kernel.STANDARD_PRECISION);
 	}
 	
+	/**
+	 * Checks whether geo is a point and whether it's same as this with given precision
+	 * @param geo element
+	 * @param eps precision
+	 * @return whether the two points are equal with given precision
+	 */
 	final public boolean isEqual(GeoElement geo,double eps) {
 
 		if (!geo.isGeoPoint())

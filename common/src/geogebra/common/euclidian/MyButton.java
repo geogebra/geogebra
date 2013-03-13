@@ -81,7 +81,6 @@ public class MyButton implements Observer{
 				imgGap = 4;
 		}	
 		GTextLayout t = null;
-		int txtStart=0;
 		// get dimensions
 		if (hasText) {
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
@@ -353,10 +352,16 @@ public class MyButton implements Observer{
 		return draggedOrContext;
 	}
 
+	/**
+	 * @return whether the button has fixed size
+	 */
 	public boolean isFixedSize() {
 		return geoButton.isFixedSize();
 	}
 
+	/**
+	 * @param fixedSize change the button to have fixed size
+	 */
 	public void setFixedSize(boolean fixedSize) {
 		geoButton.setFixedSize(fixedSize);
 	}

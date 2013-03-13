@@ -4450,7 +4450,7 @@ public abstract class EuclidianController {
 			// check if arc
 			if (conic.isGeoConicPart()) {
 				GeoConicPart conicPart = (GeoConicPart) conic;
-				if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_ARC) {
+				if (conicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC) {
 					clearSelections();
 					return null;
 				}
