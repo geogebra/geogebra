@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
@@ -3411,6 +3412,8 @@ public class MyXMLHandler implements DocHandler {
 		String distance = attrs.get("hatchDistance");
 		if (angle != null) {
 			geo.setHatchingDistance(Integer.parseInt(distance));
+			//Old files don't store fillType, just fillDistance. New files override this below.
+			geo.setFillType(FillType.HATCH);
 		}
 		
 		String fillType = attrs.get("fillType");
