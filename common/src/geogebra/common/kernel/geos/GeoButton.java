@@ -12,6 +12,8 @@
 
 package geogebra.common.kernel.geos;
 
+
+
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
@@ -24,12 +26,20 @@ import geogebra.common.util.StringUtil;
  * 
  * @author Michael
  */
-public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture {			
+public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture{			
 
 	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
 
 	private boolean serifFont = false;
+	
+	private boolean fixedSize=false;
+	
+	private int width=40;
+	private int height=30;
+	
+	private Observer observer;
+	
 	
 	/**
 	 * Creates new button
@@ -260,7 +270,9 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 			sb.append(StringUtil.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 			sb.append("\"/>\n");
 		}
-
+		if (isFixedSize()){
+			sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height + "\" />\n");
+		}
 	}
 	
 	@Override
@@ -286,6 +298,33 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public boolean isPinnable() {
 		return false;
 	}
-
+	public boolean isFixedSize() {
+		return fixedSize;
+	}
+	public void setFixedSize(boolean fixedSize) {
+		this.fixedSize = fixedSize;
+		if(observer!=null)
+		observer.notifySizeChanged();
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+		if(observer!=null)
+		observer.notifySizeChanged();
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public void setObserver(Observer observer) {
+		this.observer = observer;
+	}
+	public interface Observer{
+		public void notifySizeChanged();
+	}
 
 }

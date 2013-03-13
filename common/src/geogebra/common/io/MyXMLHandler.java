@@ -3111,6 +3111,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("decimals".equals(eName)) {
 				ok = handleTextDecimals(attrs);
 				break;
+			} else if ("dimensions".equals(eName)){
+				ok = handleDimensions(attrs);
+				break;
 			}
 
 		case 'e':
@@ -3278,6 +3281,25 @@ public class MyXMLHandler implements DocHandler {
 		if (!ok) {
 			System.err.println("error in <element>: " + eName);
 		}
+	}
+
+	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
+		String width=attrs.get("width");
+		String height=attrs.get("height");
+		if (width != null && height != null){
+			if (width.matches("\\d{2,3}") && height.matches("\\d{2,3}")){
+				if (geo.isGeoButton()){
+					GeoButton button=(GeoButton)geo;
+					button.setWidth(Integer.parseInt(width));
+					button.setHeight(Integer.parseInt(height));
+					button.setFixedSize(true);
+					return true;
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	private static char firstChar(String eName) {

@@ -1588,6 +1588,9 @@ public class Kernel {
 
 	/** is abs(x) < epsilon ? */
 	final public static boolean isZero(double x) {
+		if ((-EPSILON < x) && (x < EPSILON) && x!=0) {
+			App.printStacktrace("");
+		}
 		return (-EPSILON < x) && (x < EPSILON);
 	}
 
