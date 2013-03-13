@@ -186,9 +186,9 @@ public class EquationSolver implements EquationSolverInterface {
 		double c = real[0];
 		int roots = 0;
 
-		if (Math.abs(a) < Kernel.EPSILON) {
+		if (Math.abs(a) < Kernel.STANDARD_PRECISION) {
 			// The quadratic parabola has degenerated to a line.
-			if (Math.abs(b) < Kernel.EPSILON)
+			if (Math.abs(b) < Kernel.STANDARD_PRECISION)
 				// The line has degenerated to a constant.
 				return -1;
 			complex[roots] = 0;
@@ -196,7 +196,7 @@ public class EquationSolver implements EquationSolverInterface {
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
 			double d = b * b - 4.0 * a * c;
-			if (Math.abs(d) < Kernel.EPSILON) {
+			if (Math.abs(d) < Kernel.STANDARD_PRECISION) {
 				complex[roots] = 0;
 				real[roots++] = -b / (2.0 * a);
 			} else {
@@ -282,17 +282,17 @@ public class EquationSolver implements EquationSolverInterface {
 
 		double CR2 = 729 * r * r; // D(CR2) = 729*2rD(r) ( |1458r(3aa-9b) -
 									// 8748q*2a| + |-9a*1458r -8748q*3| +
-									// |27*1458r| )*kernel.EPSILON
+									// |27*1458r| )*kernel.STANDARD_PRECISION
 		double CQ3 = 2916 * q * q * q; // D(CQ3) = 2916*3qD(q) (D(root) ~
 										// D(2sqrt(Q))= -1/sqrt(Q) D(Q),
 										// |D(root)| |2a+3|/sqrt(9q)
-										// *kernel.EPSILON
+										// *kernel.STANDARD_PRECISION
 
 		// Application.debug("Q = "+Q+" R = "+R+" Q3 = "+Q3+" R2 = "+R2+" CR2 = "+CR2+" CQ3 = "+CQ3);
 
 		// Application.debug(Math.abs(CR2 - CQ3)+"");
 
-		if (Math.abs(R) < Kernel.EPSILON && Math.abs(Q) < Kernel.EPSILON) // if
+		if (Math.abs(R) < Kernel.STANDARD_PRECISION && Math.abs(Q) < Kernel.STANDARD_PRECISION) // if
 																			// (R
 																			// ==
 																			// 0
@@ -310,13 +310,13 @@ public class EquationSolver implements EquationSolverInterface {
 		// significant digits
 		// important for eg y=(ax-b)^2(cx-d)
 		// |D(CR2-CQ3)|< (|r(aa-3b) - 4qa| + |-3ar -6q| + |9r|)*13122*sqrt(q) /
-		// |2a+3| *kernel.EPSILON
+		// |2a+3| *kernel.STANDARD_PRECISION
 		// for simplicity, it (may be) about 10* max(CR2,CR3)/|2a+3| *
-		// kernel.EPSILON
-		// else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * kernel.EPSILON)
+		// kernel.STANDARD_PRECISION
+		// else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * kernel.STANDARD_PRECISION)
 		// // else if (CR2 == CQ3)
 		else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * 10
-				/ Math.max(1, Math.abs(2 * a + 3)) * Kernel.EPSILON) // else if
+				/ Math.max(1, Math.abs(2 * a + 3)) * Kernel.STANDARD_PRECISION) // else if
 																		// (CR2
 																		// ==
 																		// CQ3)
@@ -325,7 +325,7 @@ public class EquationSolver implements EquationSolverInterface {
 			// for exact computation with integers
 
 			// Due to finite precision some double roots may be missed, and
-			// considered to be a pair of complex roots z = x +/- kernel.EPSILON
+			// considered to be a pair of complex roots z = x +/- kernel.STANDARD_PRECISION
 			// i
 			// close to the real axis.
 

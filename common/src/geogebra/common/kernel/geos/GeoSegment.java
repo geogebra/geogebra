@@ -631,7 +631,7 @@ final public String toValueString(StringTemplate tpl) {
     	if (checkOnFullLine) {
     		if (segEnd.sub(segStart).crossProduct(
     				point.sub(segStart)).equalsForKernel(
-    						new Coords(0,0,0), Kernel.EPSILON))
+    						new Coords(0,0,0), Kernel.STANDARD_PRECISION))
     			return false;
     	}
     	

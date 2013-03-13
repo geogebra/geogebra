@@ -214,8 +214,6 @@ public class Kernel {
 	/** maximum axes can zoom to */ 
  	private final static double AXES_PRECISION = 1E-14; 
  	
- 	/** current working precision */
-	public static final double EPSILON = STANDARD_PRECISION;
 
 	// rounding hack, see format()
 	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
@@ -1588,10 +1586,10 @@ public class Kernel {
 
 	/** is abs(x) < epsilon ? */
 	final public static boolean isZero(double x) {
-		if ((-EPSILON < x) && (x < EPSILON) && x!=0) {
+		if ((-STANDARD_PRECISION < x) && (x < STANDARD_PRECISION) && x!=0) {
 			App.printStacktrace("");
 		}
-		return (-EPSILON < x) && (x < EPSILON);
+		return (-STANDARD_PRECISION < x) && (x < STANDARD_PRECISION);
 	}
 
 	/** is abs(x) < epsilon ? */
@@ -1632,7 +1630,7 @@ public class Kernel {
 		if (x == y) {
 			return true;
 		}
-		return ((x - EPSILON) <= y) && (y <= (x + EPSILON));
+		return ((x - STANDARD_PRECISION) <= y) && (y <= (x + STANDARD_PRECISION));
 	}
 
 	final public static boolean isEqual(double x, double y, double eps) {
@@ -1646,7 +1644,7 @@ public class Kernel {
 	 * Returns whether x is greater than y
 	 */
 	final public static boolean isGreater(double x, double y) {
-		return x > (y + EPSILON);
+		return x > (y + STANDARD_PRECISION);
 	}
 
 	/**
@@ -1664,11 +1662,11 @@ public class Kernel {
 	 * Returns whether x is greater than or equal to y
 	 */
 	final public static boolean isGreaterEqual(double x, double y) {
-		return (x + EPSILON) > y;
+		return (x + STANDARD_PRECISION) > y;
 	}
 
 	final public static double convertToAngleValue(double val) {
-		if ((val > EPSILON) && (val < PI_2)) {
+		if ((val > STANDARD_PRECISION) && (val < PI_2)) {
 			return val;
 		}
 
@@ -1726,7 +1724,7 @@ public class Kernel {
 	 */
 	final public static double checkInteger(double x) {
 		double roundVal = Math.round(x);
-		if (Math.abs(x - roundVal) < EPSILON) {
+		if (Math.abs(x - roundVal) < STANDARD_PRECISION) {
 			return roundVal;
 		}
 		return x;
@@ -1954,15 +1952,6 @@ public class Kernel {
 	public boolean isZvarAllowed() {
 		return true;
 	}
-
-	/**
-	 * Returns the epsilon value for kernel arithmetics
-	 * @return the current value
-	 */
-	final public static double getEpsilon() {
-		return EPSILON;
-	}
-
 
 	/**
 	 * @param str string, possibly containing CAS prefix several times

@@ -237,7 +237,7 @@ public class MyMath2 {
 
 			return new Complex (-h.getReal(),Math.signum(a2)*(Kernel.PI_HALF + h.getImaginary()));
 		}
-		if (t < Math.sqrt(Kernel.EPSILON)) {
+		if (t < Math.sqrt(Kernel.STANDARD_PRECISION)) {
 			sumc = 0.0;
 			sums = t;
 		} else {
@@ -257,7 +257,7 @@ public class MyMath2 {
 					sumc = sum;
 					sum = sums;
 				}
-				if (err < Kernel.EPSILON)
+				if (err < Kernel.STANDARD_PRECISION)
 					break;
 				odd = !odd;
 			}

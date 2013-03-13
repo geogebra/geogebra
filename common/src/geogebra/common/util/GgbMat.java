@@ -118,7 +118,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 	public void inverseImmediate() {
 
 		try {
-			DecompositionSolver d = new LUDecompositionImpl(this,Kernel.EPSILON).getSolver();
+			DecompositionSolver d = new LUDecompositionImpl(this,Kernel.STANDARD_PRECISION).getSolver();
 			RealMatrix ret = d.getInverse();
 			data = ret.getData();
 			// m = ret.m;
@@ -133,7 +133,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 	 * @return determinat
 	 */
 	public double determinant(){
-		return new LUDecompositionImpl(this, Kernel.EPSILON).getDeterminant();
+		return new LUDecompositionImpl(this, Kernel.STANDARD_PRECISION).getDeterminant();
 	}
 
 	/**

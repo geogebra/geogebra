@@ -324,9 +324,9 @@ public class CoordSys {
 	public void makeEquationVector() {
 		equationVector.set(getVx().crossProduct(getVy()), 1);
 		equationVector.set(4, 0);
-		if (equationVector.getX() < Kernel.EPSILON
-				&& equationVector.getY() < Kernel.EPSILON
-				&& equationVector.getZ() < Kernel.EPSILON)
+		if (equationVector.getX() < Kernel.STANDARD_PRECISION
+				&& equationVector.getY() < Kernel.STANDARD_PRECISION
+				&& equationVector.getZ() < Kernel.STANDARD_PRECISION)
 			equationVector = equationVector.mul(-1);
 
 		double d = equationVector.dotproduct(getOrigin());

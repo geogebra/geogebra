@@ -1145,7 +1145,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			for (int x=0;x<=degX;x++){
 				int y=d-x;
 				if (y>=0&&y<coeff[x].length){
-					if (Math.abs(coeff[x][y])>Kernel.EPSILON){
+					if (Math.abs(coeff[x][y])>Kernel.STANDARD_PRECISION){
 						deg=d;
 						d=0;
 						break;
@@ -1268,9 +1268,9 @@ Dilateable, Transformable, EuclidianViewCE {
 		 * @return 0 if |x| &lt EPS, sgn(x) otherwise
 		 */
 		public int epsSignum(double x){
-			if (x>Kernel.EPSILON)
+			if (x>Kernel.STANDARD_PRECISION)
 				return 1;
-			if (x<-Kernel.EPSILON)
+			if (x<-Kernel.STANDARD_PRECISION)
 				return -1;
 			return 0;
 		}

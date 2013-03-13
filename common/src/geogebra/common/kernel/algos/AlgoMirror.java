@@ -275,7 +275,7 @@ public class AlgoMirror extends AlgoTransformation {
 					arc.getPointParam(0.5),
 					transformedPoint);			
 			compute();			
-			if(!((GeoRay)a).isOnPath(transformedPoint, Kernel.EPSILON))
+			if(!((GeoRay)a).isOnPath(transformedPoint, Kernel.STANDARD_PRECISION))
 				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
 			
 			setTransformedObject(a,b);
@@ -302,7 +302,7 @@ public class AlgoMirror extends AlgoTransformation {
 			arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, true);				
 			transformedPoint.removePath();
 			transformedPoint.setCoords(mirrorConic.getTranslationVector());
-			if(arc.isOnPath(transformedPoint, Kernel.EPSILON))
+			if(arc.isOnPath(transformedPoint, Kernel.STANDARD_PRECISION))
 				arc.setParameters(d*Kernel.PI_2, e*Kernel.PI_2, false);
 			setTransformedObject(a,b);
 		}

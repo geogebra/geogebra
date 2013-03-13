@@ -203,7 +203,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
     			
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
     				tOld_m++;
     			} else {
     				continue;
@@ -260,7 +260,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     		int tOld_m = 0;
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
     				tOld_m++;
     			} else {
     				continue;

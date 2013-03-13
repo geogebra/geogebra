@@ -4705,7 +4705,7 @@ public class ExpressionNode extends ValidExpression implements
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1.isNumberValue() && ev2.isNumberValue()) {
 			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
-					((NumberValue) ev2).getDouble(), Kernel.EPSILON);
+					((NumberValue) ev2).getDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
 			return ((TextValue) ev1).toValueString(
 					StringTemplate.defaultTemplate).equals(

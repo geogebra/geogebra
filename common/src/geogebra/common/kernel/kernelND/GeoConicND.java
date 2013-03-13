@@ -127,7 +127,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	protected double[] mu = new double[2];
 	private GeoVec2D c = new GeoVec2D(kernel);	
 	/** error DetS*/
-	public double errDetS = Kernel.EPSILON;
+	public double errDetS = Kernel.STANDARD_PRECISION;
 	
 	
 	
@@ -290,7 +290,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; //for parabola and hyperbola
-		double tolerance = Kernel.EPSILON; //required precision (robustness not proven)
+		double tolerance = Kernel.STANDARD_PRECISION; //required precision (robustness not proven)
 		
 		pp.setPathType(type);
 			
@@ -374,9 +374,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 
 				//special case handling from:
 				//http://cdserv1.wbut.ac.in/81-8147-617-4/Linux/MagicSoftware/WildMagic2/Documentation/DistancePointToEllipse2.pdf
-				if (abspx<Kernel.EPSILON) {
+				if (abspx<Kernel.STANDARD_PRECISION) {
 				//	pp.setT(Math.asin(Math.max(-1,-hb*abspy/hc_2)));
-					if (abspy<Kernel.EPSILON){
+					if (abspy<Kernel.STANDARD_PRECISION){
 						if (hb<ha){
 							pp.setT(Math.PI/2);
 						}else{
@@ -393,7 +393,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 							}
 						}
 					}
-				} else if (abspy<Kernel.EPSILON) {
+				} else if (abspy<Kernel.STANDARD_PRECISION) {
 //					pp.setT(Math.acos(Math.min(1,ha*abspx/hc_2)));
 					if (ha<hb){
 						pp.setT(0);
@@ -458,7 +458,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				hc_2 = ha*ha + hb*hb;
 				double s;
 
-				if (abspy<Kernel.EPSILON) {
+				if (abspy<Kernel.STANDARD_PRECISION) {
 					s=MyMath.acosh(Math.max(1,ha*abspx/hc_2));
 				} else {	
 					//To solve (1+u^2)*(-(b^2+a^2)*u +b*py)^2 - a^2*px^2, where u=sinh(t)
@@ -1835,7 +1835,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		GeoPoint C,
 		double a) {
 			
-		if (B.isInfinite() || C.isInfinite() || a < -Kernel.getEpsilon()) {
+		if (B.isInfinite() || C.isInfinite() || a < -Kernel.STANDARD_PRECISION) {
 			defined = false;
 			return;
 		}
@@ -2327,9 +2327,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		/*double eps;
 		
 		if (maxAbs > 1) {
-			eps = kernel.getEpsilon() * maxAbs * maxAbs;
+			eps = kernel.getSTANDARD_PRECISION() * maxAbs * maxAbs;
 		} else {
-			eps = kernel.getEpsilon() * maxAbs * maxAbs; //TODO: Also need to care for small coeff 
+			eps = kernel.getSTANDARD_PRECISION() * maxAbs * maxAbs; //TODO: Also need to care for small coeff 
 		}*/
 		return Kernel.isEqual(matrix[0]*matrix[1], matrix[3]*matrix[3], this.errDetS);				
 	}

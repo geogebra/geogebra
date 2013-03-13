@@ -138,8 +138,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			nrRealRoots=getRoots(roots,eqnSolver);
 		
 		for (int i=0; i<nrRealRoots; ++i) {
-			if (Kernel.isGreater(roots[i], max, Kernel.getEpsilon()) || 
-					Kernel.isGreater(min, roots[i], Kernel.getEpsilon()))
+			if (Kernel.isGreater(roots[i], max, Kernel.STANDARD_PRECISION) || 
+					Kernel.isGreater(min, roots[i], Kernel.STANDARD_PRECISION))
 				roots[i] = Double.NaN;
 		}
 		makePoints(roots,nrRealRoots);

@@ -205,7 +205,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 			--orgSize;
 		
 		int newSize = orgSize;
-		double EPS2 = Kernel.EPSILON;  //TODO: have a better guess of the error
+		double EPS2 = Kernel.STANDARD_PRECISION;  //TODO: have a better guess of the error
 		
 		for (int i = 0; i<tangentPoints.length; ++i) {
 			if (tangentPoints[i].getIncidenceList()!=null

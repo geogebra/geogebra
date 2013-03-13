@@ -1905,7 +1905,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		// check if this is currently on geo
 		if (geo.isGeoPoint() && this.isEqual(geo) || geo.isPath()
-				&& ((Path) geo).isOnPath(this, Kernel.EPSILON)) {
+				&& ((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION)) {
 
 			incident = true;
 
@@ -1946,7 +1946,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 					if (!this.isEqual(geo))
 						incident = false;
 				} else if (geo.isPath()) {
-					if (!((Path) geo).isOnPath(this, Kernel.EPSILON))
+					if (!((Path) geo).isOnPath(this, Kernel.STANDARD_PRECISION))
 						incident = false;
 				} else {
 					incident = false;

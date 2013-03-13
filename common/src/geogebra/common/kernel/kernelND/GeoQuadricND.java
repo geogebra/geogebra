@@ -286,7 +286,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 			matrix[i] = -coords[i-(matrixDim-dimension)];
 		
 
-		if (r > Kernel.getEpsilon()) { // radius not zero 
+		if (r > Kernel.STANDARD_PRECISION) { // radius not zero 
 			if (type != QUADRIC_SPHERE) {
 				type = QUADRIC_SPHERE;
 				linearEccentricity = 0.0d;

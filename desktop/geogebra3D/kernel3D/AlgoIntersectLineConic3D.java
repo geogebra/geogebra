@@ -108,7 +108,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 
 	@Override
 	protected boolean getFirstGeoRespectLimitedPath(Coords p) {
-		return getLine().respectLimitedPath(p, Kernel.EPSILON);
+		return getLine().respectLimitedPath(p, Kernel.STANDARD_PRECISION);
 	}
 
 	@Override

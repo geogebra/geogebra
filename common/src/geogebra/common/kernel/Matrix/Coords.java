@@ -914,7 +914,7 @@ public class Coords extends CoordMatrix {
 
 	
 	/**
-	 * Return true if this==v for Kernel.EPSILON precision (ie each coordinates are
+	 * Return true if this==v for Kernel.STANDARD_PRECISION precision (ie each coordinates are
 	 * not different more than precision).
 	 * 
 	 * @param v
@@ -922,7 +922,7 @@ public class Coords extends CoordMatrix {
 	 * @return true if the vectors are equal
 	 */
 	public boolean isEqual(Coords v) {
-		return equalsForKernel(v, Kernel.EPSILON);
+		return equalsForKernel(v, Kernel.STANDARD_PRECISION);
 	}
 
 	/**
@@ -934,7 +934,7 @@ public class Coords extends CoordMatrix {
 	public boolean isZero() {
 		int len = getLength();
 		for (int i = 0; i < len; i++)
-			if (!Kernel.isEqual(val[i], 0, Kernel.EPSILON))
+			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION))
 				return false;
 		return true;
 	}

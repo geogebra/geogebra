@@ -157,8 +157,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 			if (Kernel.isZero(coords.getLast())) {
 				Coords segStart = seg.getPointInD(2, 0);
 				Coords segEnd = seg.getPointInD(2, 1);
-				if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON)
-						&& ((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)) {
+				if (((GeoLine) g).isOnPath(segStart, Kernel.STANDARD_PRECISION)
+						&& ((GeoLine) g).isOnPath(segEnd, Kernel.STANDARD_PRECISION)) {
 					newCoords.put(((GeoLine) g).getPossibleParameter(segStart),
 							segStart);
 					newCoords.put(((GeoLine) g).getPossibleParameter(segEnd),
@@ -252,7 +252,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
     			
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
     				tOld_m++;
     			} else {
     				continue;
@@ -316,7 +316,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
     		int tOld_m = 0;
     		for (int i = 0; i<p.getPointsLength(); i++) {
     			GeoSegmentND currSeg = p.getSegments()[i];
-    			if (currSeg.isOnPath(coordsOld, Kernel.EPSILON)) {
+    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
     				tOld_m++;
     			} else {
     				continue;

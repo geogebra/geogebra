@@ -866,8 +866,8 @@ public class GeoConicPart extends GeoConic implements LimitedPath, GeoNumberValu
 				arg += Kernel.PI_2;
 			// Application.debug(arg+" <? "+paramExtent);
 
-			return ((arg >= -Kernel.EPSILON) && (arg <= paramExtent
-					+ Kernel.EPSILON));
+			return ((arg >= -Kernel.STANDARD_PRECISION) && (arg <= paramExtent
+					+ Kernel.STANDARD_PRECISION));
 		}
 
 		// for arc, check if is inside the arc : cross product with limit

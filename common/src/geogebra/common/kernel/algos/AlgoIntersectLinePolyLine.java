@@ -147,12 +147,12 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
     		Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
     		
     		if (Kernel.isZero(coords.getLast())){
-    			if (((GeoLine) g).isOnPath(segStart, Kernel.EPSILON) &&
-    					((GeoLine) g).isOnPath(segEnd, Kernel.EPSILON)	) {
+    			if (((GeoLine) g).isOnPath(segStart, Kernel.STANDARD_PRECISION) &&
+    					((GeoLine) g).isOnPath(segEnd, Kernel.STANDARD_PRECISION)	) {
     				newCoords.put(((GeoLine) g).getPossibleParameter(segStart), segStart);
     				newCoords.put(((GeoLine) g).getPossibleParameter(segEnd), segEnd);
     			}
-    		} else if ( GeoSegment.checkOnPath(segStart,segEnd,coords,false,Kernel.EPSILON) ) {
+    		} else if ( GeoSegment.checkOnPath(segStart,segEnd,coords,false,Kernel.STANDARD_PRECISION) ) {
        			double t = ((GeoLine) g).getPossibleParameter(coords);
     			//Application.debug("parameter("+i+") : "+t);
        			if (t>=min && t<=max)

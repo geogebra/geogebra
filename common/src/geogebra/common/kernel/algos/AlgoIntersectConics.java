@@ -421,7 +421,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 						p.getIncidenceList().contains(B)) {
 					
 					//TODO: a potential temporary fix for #94.
-    				if (A.isOnPath(p, Kernel.EPSILON) && B.isOnPath(p, Kernel.EPSILON))
+    				if (A.isOnPath(p, Kernel.STANDARD_PRECISION) && B.isOnPath(p, Kernel.STANDARD_PRECISION))
     					pointOnConic = p;
     				
 					

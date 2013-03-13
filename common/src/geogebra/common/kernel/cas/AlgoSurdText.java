@@ -511,7 +511,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 		
 		getKernel();
-		int[] coeffs = PSLQ(numPowers,Kernel.getEpsilon(),10);
+		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
 		if (coeffs[0] == 0 && coeffs[1] ==0) {
 
@@ -1958,7 +1958,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			
 			getKernel();
 			getKernel();
-			err = Math.min(Kernel.MAX_PRECISION, Kernel.getEpsilon());
+			err = Math.min(Kernel.MAX_PRECISION, Kernel.STANDARD_PRECISION);
 			coeffBound = 100;
 			formalSolution = new StringBuilder();
 			formalSolution.setLength(0);
