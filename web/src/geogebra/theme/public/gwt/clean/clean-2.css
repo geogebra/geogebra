@@ -1338,9 +1338,14 @@ body[dir=rtl] .linktoggbtube {
     left : 20px;
 }
 
-.logintogoogle {
+.logoutfromgoogle {
 	position:absolute;
 	right : 44px;
+}
+
+.logoutfromskydrive {
+	position: absolute;
+	right: 88px; 
 }
 
 body[dir=rtl] .logintogoogle {

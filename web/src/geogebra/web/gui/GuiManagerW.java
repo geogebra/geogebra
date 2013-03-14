@@ -1060,4 +1060,9 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		        .getDialogManager()).getGoogleDriveFileChooser();
 		fileChooser.show();
     }
+
+	public void openFromSkyDrive() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

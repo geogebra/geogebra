@@ -1,6 +1,8 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.GgbAPI;
 
@@ -11,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -27,11 +30,15 @@ public class GeoGebraFileChooser extends PopupPanel {
 	VerticalPanel p;
 	TextBox fileName;
 	TextArea description;
-	Button save;
+	Button saveToGoogleDrive;
 	Button cancel;
 	Anchor download;
 	Button uploadToGGT;
 	private int type;
+	private ClickHandler saveToGoogleDriveH;
+	private ClickHandler loginToGoogleH;
+	private HandlerRegistration saveToGoogleDriveR = null;
+	private HandlerRegistration loginToGoogleR = null;
 
 	public GeoGebraFileChooser(final App app) {
 	    super();
@@ -64,7 +71,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
-	    buttonPanel.add(save = new Button(app.getMenu("SaveToGoogleDrive")));
+	    buttonPanel.add(saveToGoogleDrive = new Button(app.getMenu("SaveToGoogleDrive")));
 	    buttonPanel.add(download);
 	    buttonPanel.add(uploadToGGT = new Button(app.getMenu("UploadGeoGebraTube")));
 	    p.add(buttonPanel);
@@ -78,11 +85,11 @@ public class GeoGebraFileChooser extends PopupPanel {
 			}
 		});
 	    
-	    save.addClickHandler(new ClickHandler() {
+	    saveToGoogleDriveH = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
 				if (fileName.getText() != "") {
-					save.setEnabled(false);
+					saveToGoogleDrive.setEnabled(false);
 					cancel.setEnabled(false);
 					fileName.setEnabled(false);
 					description.setEnabled(false);
@@ -97,8 +104,21 @@ public class GeoGebraFileChooser extends PopupPanel {
 				}
 			}
 				
-		});
-	    save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
+		};
+		
+		final GeoGebraFileChooser t = this;
+		
+		loginToGoogleH = new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				((AppW) app).getObjectPool().getMyGoogleApis().setCaller("save");
+				((AppW) app).getObjectPool().getMyGoogleApis().loginToGoogle();
+				
+				
+			}
+		};
+	    
+	    loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
@@ -118,7 +138,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
-				save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
+				saveToGoogleDrive.setEnabled(true);
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
@@ -150,8 +170,8 @@ public class GeoGebraFileChooser extends PopupPanel {
     public void show(){
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
+		refreshIfLoggedIntoGoogle(((AppW) app).getObjectPool().getMyGoogleApis().loggedIn);
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
-		save.setEnabled(((AppW) app).getObjectPool().getMyGoogleApis().signedInToGoogle());
 	    super.show();
 	}
 	
@@ -171,6 +191,29 @@ public class GeoGebraFileChooser extends PopupPanel {
 	public void setDescription(String ds) {
 		description.setText(ds);
 	}
+
+
+	public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
+		if (loggedIn) {
+			if (loginToGoogleR != null) {
+				loginToGoogleR.removeHandler();
+			}
+			saveToGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("SaveToGoogleDrive")));
+			saveToGoogleDriveR = saveToGoogleDrive.addClickHandler(saveToGoogleDriveH);
+		} else {
+			if (saveToGoogleDriveR != null) {
+				saveToGoogleDriveR.removeHandler();
+			}
+			saveToGoogleDrive.setHTML(app.getMenu("SaveToGoogleDrive"));
+			loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
+		}
+    }
+
+
+	public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 

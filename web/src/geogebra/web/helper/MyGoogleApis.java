@@ -1,6 +1,7 @@
 package geogebra.web.helper;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.DynamicScriptElement;
@@ -30,6 +31,9 @@ public class MyGoogleApis {
 	public boolean driveLoaded = false;
 	private App app;
 	protected boolean googleApiLoaded;
+	private String loggedInUser;
+	private String loggedInEmail;
+	private String callBack = null;
 
 	/**
 	 * @param app Application
@@ -195,12 +199,30 @@ public class MyGoogleApis {
 	       );
 	}-*/;
 	
-	private void loggedIntoGoogleSuccessFull(String email, String name) {
-		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginMenu().setLoggedIntoGoogle(email, name);
+	private void loggedIntoGoogleSuccessFull(String email, String name) {	
 		loggedIn = true;
+		loggedInUser = name;
+		loggedInEmail = email;
 		initGoogleTokenChecking();
+		refreshLoggedInGui(true);
+		if (callBack != null) {
+			callCallback();
+		}
 	}
 	
+	private void callCallback() {
+		if (callBack.equalsIgnoreCase("open")) {
+			((GuiManagerW) app.getGuiManager()).openFromGoogleDrive();
+		} else if (callBack.equalsIgnoreCase("save")) {
+			
+		}
+	}
+	
+	private void refreshLoggedInGui(boolean loggedIn) {
+			((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(loggedIn);
+    		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().refreshIfLoggedIntoGoogle(loggedIn);
+    		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoGoogle(loggedIn);
+	}
 	private native void setUserEmailAfterLogin() /*-{
 		var _this = this;
 		$wnd.gapi.client.load('oauth2', 'v2', function() {
@@ -267,7 +289,7 @@ public class MyGoogleApis {
 				long current = new Date().getTime();
 				if (current > tokenExpiresAt) {
 					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
-					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLoginMenu().getLoginToGoogle().getScheduledCommand().execute();
+					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLogOutFromGoogle().getScheduledCommand().execute();
 					checker.cancel();
 					return;
 				}
@@ -280,6 +302,23 @@ public class MyGoogleApis {
 	private void setExpiresAt(String expires_in) {
 		long current = new Date().getTime();
 		tokenExpiresAt = current + (Integer.parseInt(expires_in) * 1000);
+	}
+	
+	public String getLoggedInUser() {
+		return loggedInUser;
+	}
+	
+	public String getLoggedInEmail() {
+		return loggedInEmail;
+	}
+
+	public void logout() {
+		clearAllTokens();
+	    refreshLoggedInGui(false);
+    }
+	
+	public void setCaller(String caller) {
+		callBack = caller;
 	}
 	
 
