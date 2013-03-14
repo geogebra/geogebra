@@ -254,33 +254,27 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 //		}
 	}
 
-	
 	@Override
     public void setPaint(GPaint paint) {
-		if(paint  instanceof GColor){
-			context.setFillStyle(GColor.getColorString((GColor)paint));	
-			context.setStrokeStyle(GColor.getColorString((GColor)paint));
-			currentPaint = new geogebra.web.awt.GColorW((geogebra.web.awt.GColorW)paint);
-		}
-		else if(paint instanceof GGradientPaintW){
+		if (paint instanceof GColor) {
+			setColor((GColor)paint);
+		} else if (paint instanceof GGradientPaintW) {
 			context.setFillStyle(((GGradientPaintW)paint).getGradient(context));
 			currentPaint = new GGradientPaintW((GGradientPaintW)paint);
 		} else if (paint instanceof GTexturePaintW) {
-			try{//TODO find out how to avoid the try-catch; currently fails randomly in Firefox + maybe other browsers
+			try {//TODO find out how to avoid the try-catch; currently fails randomly in Firefox + maybe other browsers
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
 				currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 				CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 				context.setFillStyle(ptr);
-			}catch(Throwable e){
+			} catch(Throwable e) {
 				App.error(e.getMessage());
 			}
 		} else {
 			App.error("unknown paint type");
 		}
-
 	}
 
-	
 	@Override
     public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
