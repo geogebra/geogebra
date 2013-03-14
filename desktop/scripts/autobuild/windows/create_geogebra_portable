@@ -82,7 +82,7 @@ cp $WINDOWS_ZIP_FINAL $TARGET_DIR
 # 3. Copying to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Windows" \
-  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_ZIP_FINAL
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,OpSys-Windows,Type-Archive $WINDOWS_ZIP_FINAL
  fi
 
 # 4. Cleanup:
@@ -98,5 +98,5 @@ rm -f *.msi
 WINDOWS_MSI=`ls -1 --color=no *.msi` # assuming 1 file exists here, FIXME
 $SVNDIR/geogebra/desktop/scripts/autobuild/gcallow $MYVER && if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
   $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING installer for Windows (for automated install)" \
-   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_MSI
+   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,OpSys-Windows,Type-Package $WINDOWS_MSI
  fi

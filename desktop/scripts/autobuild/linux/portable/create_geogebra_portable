@@ -61,7 +61,7 @@ for i in GeoGebra-Linux-*-Portable*.tar.gz; do
   echo $i | grep x86_64 && EXTRA=" (64 bit)"
   # TEMPORARILY DISABLED
   # $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
-  #  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $i
+  #  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,,OpSys-Linux,Type-Archive $i
   fi
  done
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<project default="bundle">
+
+<target name="bundle">
+    <!-- Import the AppBundlerTaks from ant lib directory -->
+    <taskdef name="bundleapp" 
+           classname="com.oracle.appbundler.AppBundlerTask"/>
+
+    <bundleapp outputdirectory="."
+        name="GeoGebra"
+        displayname="GeoGebra"
+        identifier="geogebra.GeoGebra"
+        shortversion="SHORTVERSION"
+        icon="Contents/Resources/geogebra.icns"
+        mainclassname="geogebra.GeoGebra"
+        copyright="2013 International GeoGebra Institute."
+        
+        applicationCategory="public.app-category.developer-tools">
+
+        <!-- The directory where your OpenJDK runtime is. -->
+        <runtime dir="/Library/Java/JavaVirtualMachines/jdkJDKVERSION.jdk/Contents/Home"/>
+
+        <!-- The bundleapp task doesn't support classpathref so all 
+            the run classpath entries must be stated here too.
+        -->
+        <classpath file="geogebra.jar"/>
+              
+        <!-- Workaround since the icon parameter for bundleapp 
+             doesn't work. (It's not a bug in AppBundler but 
+             in the JavaAppLauncher, see Known Problems).
+        -->
+        <option value="-Xdock:icon=Contents/Resources/${bundle.icon}"/>
+
+        <!-- OSX specific options, optional -->
+        <option value="-Dapple.laf.useScreenMenuBar=true"/>
+        <option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
+        <option value="-Dcom.apple.macos.useScreenMenuBar=true"/>
+        <option value="-Dcom.apple.mrj.application.apple.menu.about.name=GeoGebra"/>
+        <option value="-Dcom.apple.smallTabs=true"/>
+
+        <option value="-Xmx1024M"/>
+    </bundleapp>
+</target>
+
+</project>

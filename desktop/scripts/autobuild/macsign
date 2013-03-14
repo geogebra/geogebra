@@ -1,14 +1,61 @@
 #!/bin/sh
-# Copy this script to the Mac OS X signer machine
-# and put autobuild.conf also there.
+# This script signs a GeoGebra.app archive.
+# It creates two .zip files: one with bundled Java ("GeoGebra-MacOS-Installer-withJava-4-2-23-0.zip")
+# and another version which does not have Java bundled ("GeoGebra-MacOS-Installer-4-2-23-0.zip").
+# This second version should be used for older Mac machines (which do not have support for Java 7).
 
+# Requires Mac OS X 10.7+ (tested on 10.8, not working on 10.6).
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# Copy this script to the Mac OS X signer machine
+# and put autobuild.conf and build.xml also there.
+
+# 0. Setting variables:
 . `dirname $0`/autobuild.conf
 cd $MACSIGN_DIR
 MACOSX_ZIP_FINAL=$1
+# Exploding version number ("GeoGebra-MacOS-Installer-4-2-23-0.zip"):
+VERSION=`echo $MACOSX_ZIP_FINAL | cut -d- -f4-7 | cut -d. -f1 | tr - .`
+# Remember to set JDKVERSION in autobuild.conf!
+
+# 1. "withJava" section
+
+# Unzipping unsigned archive:
+rm -fR GeoGebra.app GeoGebra.app-unsigned
+unzip -o $MACOSX_ZIP_FINAL
+mv GeoGebra.app GeoGebra.app-unsigned
+
+# Substituting variables into build.xml
+cat build.xml \
+ | sed s/SHORTVERSION/$VERSION/g \
+ | sed s/JDKVERSION/$JDKVERSION/g > GeoGebra.app-unsigned/build.xml
+
+# Calling ant:
+cd GeoGebra.app-unsigned
+ant
+
+# Moving the signed GeoGebra.app folder back to ..:
+mv GeoGebra.app ..
+
+# Copying the *.jar and *.txt files into the prospective signed folder:
+cp -a Contents/Resources/Java ../GeoGebra.app/Contents
+cp Contents/Resources/*.txt ../GeoGebra.app/Contents/Resources
+
+# Signing:
+cd ..
+security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain
+codesign -v -f -s "$MACSIGN_DEVID" GeoGebra.app
+
+# Creating signed archive:
+VERSION=`echo $VERSION | tr . -`
+zip -r GeoGebra-MacOS-Installer-withJava-$VERSION.zip GeoGebra.app
+
+# 2. "without Java" section
 
 rm -fR GeoGebra.app
-unzip -o $MACOSX_ZIP_FINAL
+mv GeoGebra.app-unsigned GeoGebra.app
 security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain
 codesign -v -f -s "$MACSIGN_DEVID" GeoGebra.app
 rm $MACOSX_ZIP_FINAL
 zip -r $MACOSX_ZIP_FINAL GeoGebra.app
+

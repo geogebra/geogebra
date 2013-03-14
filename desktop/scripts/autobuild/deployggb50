@@ -126,7 +126,7 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  # Copying to Google Code:
  WINDOWS_INSTALLER_EXE=GeoGebra-Windows-Installer-`echo $MYVER | tr . -`.exe
  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER installer for Windows" \
-  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_INSTALLER_EXE
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,OpSys-Windows,Type-Installer $WINDOWS_INSTALLER_EXE
 
  # Creating and deploying Windows portable as well:
  cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows
@@ -145,6 +145,7 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
  # Make sure to put autobuild.conf on the MACSIGN server (and also the macsign script).
  # Put passphraseless authorized_keys2 to VMHOST and MACSIGN, and also
  # an identification file to here and VMHOST as well.
+ MACOSX_ZIP_FINAL_WITHJAVA=GeoGebra-MacOS-Installer-withJava-`echo $MYVER | tr . -`.zip
  VMHOST_LOGIN=$VMHOST_USER@$VMHOST_SERVER
  MACSIGN_LOGIN=$MACSIGN_USER@$MACSIGN_SERVER
  echo Copying the unsigned file to the VMHOST...
@@ -155,16 +156,20 @@ if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
   scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACOSX_ZIP_FINAL $MACSIGN_LOGIN:$MACSIGN_DIR/.
   echo Signing...
   ssh -n -p $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN $MACSIGN_DIR/macsign $MACOSX_ZIP_FINAL
-  echo Copying back the signed file to the VMHOST...
+  echo Copying back the signed files to the VMHOST...
   scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL .
+  scp -P $MACSIGN_PORT -i $MACSIGN_KEY $MACSIGN_LOGIN:$MACSIGN_DIR/$MACOSX_ZIP_FINAL_WITHJAVA .
  "
  echo Copying back the signed file from the VMHOST...
  scp -P $VMHOST_PORT -i $VMHOST_KEY $VMHOST_LOGIN:$MACOSX_ZIP_FINAL .
+ scp -P $VMHOST_PORT -i $VMHOST_KEY $VMHOST_LOGIN:$MACOSX_ZIP_FINAL_WITHJAVA .
  # It's a craze, indeed!
 
  echo Copying to Google Code...
- $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX" \
-  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $MACOSX_ZIP_FINAL
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX <= 10.7.2" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,OpSys-OSX,Type-Archive $MACOSX_ZIP_FINAL
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $MYVER for Mac OSX >= 10.7.3" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,OpSys-OSX,Type-Archive $MACOSX_ZIP_FINAL_WITHJAVA
  fi
 
 # 9/1. rsync-www on demand:

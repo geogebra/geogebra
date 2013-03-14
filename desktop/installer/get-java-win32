@@ -14,6 +14,7 @@ mkdir -p $DIR
 test -r $EXE || \
  wget -O $EXE http://javadl.sun.com/webapps/download/AutoDL?BundleId=$BundleId
 test -d $DIR/$JREDIR || {
+ export WINEPREFIX=$HOME/.wine4java # needed to preserve WiX related Wine install 
  if [ "$WINEPREFIX" = "" ]; then
   WINEPREFIX=$HOME/.wine
   fi
