@@ -192,7 +192,7 @@ public class DrawEquationWeb extends DrawEquation {
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
 		drawEquationMathQuill(ih, eqstring, parentElement, true,
-		        el == eqstring.length());
+		        el == eqstring.length(), true);
 
 		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 
@@ -241,6 +241,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 		String eqstringid = eqstring + "@" + geo.getID();
 
+		boolean visible =
+				(((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
+
 		SpanElement ih = equations.get(eqstringid);
 		equationAges.put(eqstringid, 0);
 		if (ih == null) {
@@ -248,9 +251,10 @@ public class DrawEquationWeb extends DrawEquation {
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
-			drawEquationMathQuill(ih, eqstring, ((AppWeb) app1).getCanvas()
-			        .getCanvasElement().getParentElement(), true,
-			        el == eqstring.length());
+
+			drawEquationMathQuill(ih, eqstring,
+					((AppWeb)app1).getCanvas().getCanvasElement().getParentElement(),
+					true, el == eqstring.length(), visible);
 
 			equations.put(eqstringid, ih);
 
@@ -258,9 +262,15 @@ public class DrawEquationWeb extends DrawEquation {
 			app1.getKernel().setUpdateAgain(true);
 		} else {
 			ih.getStyle().setDisplay(Style.Display.INLINE);
+			if (visible)
+				ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
+			// otherwise do not set it invisible, just leave everything as it is
 		}
-		ih.getStyle().setLeft(x, Style.Unit.PX);
-		ih.getStyle().setTop(y, Style.Unit.PX);
+		if (visible) {
+			// if it's not visible, leave at its previous place to prevent lag
+			ih.getStyle().setLeft(x, Style.Unit.PX);
+			ih.getStyle().setTop(y, Style.Unit.PX);
+		}
 
 		// as the background is usually (or always) the background of the
 		// canvas,
@@ -294,7 +304,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the beginning
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt,
-	        Element parentElement, boolean addOverlay, boolean noEqnArray) /*-{
+	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -332,6 +342,10 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecond = $doc.createElement("span");
 		elsecond.innerHTML = htmlt;
 		el.appendChild(elsecond);
+
+		if (!visible) {
+			el.style.visibility = "hidden";
+		}
 
 		parentElement.appendChild(el);
 

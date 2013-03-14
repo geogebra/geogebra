@@ -39,7 +39,7 @@ public class CASTableCellW extends VerticalPanel {
 				int el = eqstring.length();
 				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
 				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring
-				        , outputLabel.getElement(),false, el == eqstring.length());
+				        , outputLabel.getElement(),false, el == eqstring.length(), true);
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {
 				if(casCell.isError()){
