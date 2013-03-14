@@ -3420,13 +3420,16 @@ public class MyXMLHandler implements DocHandler {
 		if (fillType != null) {
 			geo.setFillType(GeoElement.FillType.values()[Integer.parseInt(fillType)]);
 		}
-		
+		String fillSymbol= attrs.get("fillSymbol");
+		if (fillSymbol != null){
+			geo.setFillSymbol(fillSymbol);
+		}
 		String filename = attrs.get("image");
 		if (filename != null) {
 			geo.setFillImage(filename);
 			geo.setFillType(GeoElement.FillType.IMAGE);
 		}
-
+		
 		alpha = attrs.get("alpha");
 		if (alpha != null && (!geo.isGeoList() || ggbFileFormat > 3.19)) // ignore
 																			// alpha

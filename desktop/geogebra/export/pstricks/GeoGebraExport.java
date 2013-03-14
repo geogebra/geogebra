@@ -1,7 +1,11 @@
 package geogebra.export.pstricks;
 
+import geogebra.awt.GGraphics2DD;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawAngle;
+import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawLine;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Construction;
@@ -19,6 +23,9 @@ import geogebra.common.kernel.algos.AlgoSumRectangle;
 import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import geogebra.common.kernel.algos.AlgoSumUpper;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.IneqTree;
+import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -44,10 +51,16 @@ import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.export.epsgraphics.ColorMode;
+import geogebra.export.epsgraphics.EpsGraphics;
 import geogebra.main.AppD;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.StringTokenizer;
+
 
 /*
  import org.mozilla.javascript.Context;
@@ -290,8 +303,12 @@ public abstract class GeoGebraExport  {
 				drawImplicitPoly((GeoImplicitPoly) g);
 			}
 			// To draw Inequalities
-			else if (g.getTypeString().equals("FunctionNvar")) {
-				drawGeoInequalities((GeoFunctionNVar) g);
+			else if (g.getTypeString().equals("Inequality")) {
+				if(g.isGeoFunctionBoolean()){
+					drawGeoInequalities(null,g);
+				}else{
+					drawGeoInequalities((GeoFunctionNVar) g,null);
+				}
 			}
 
 			else if (g.isGeoNumeric()) {
@@ -701,12 +718,50 @@ public abstract class GeoGebraExport  {
 	abstract protected void drawPolyLine(GeoPolyLine geo);
 
 	/**
-	 * Export inequalities as PSTricks or PGF
+	 * Export inequalities as PSTricks or PGF or Asymptote
 	 * 
-	 * @param g
+	 * @param geo
 	 *            The inequality function
+	 * @param e 
+	 * 			  If is inequality with one variable eg. x>3
 	 */
-	abstract protected void drawGeoInequalities(GeoFunctionNVar g);
+	
+	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElement e){
+		FunctionalNVar ef = null;
+		if (geo == null) {
+			ef = (FunctionalNVar) e;
+		} else {
+			ef = geo;
+		}
+		DrawInequality drawable = new DrawInequality(euclidianView, ef);
+		MyGraphics g = null;
+		IneqTree tree = ef.getFunction().getIneqs();
+		try {
+			if (tree.getLeft() != null) {
+				for (int i = 0; i < tree.getLeft().getSize(); i++) {
+					g = createGraphics(ef, tree.getLeft().get(i), euclidianView);
+					drawable.draw(g);
+				}
+			}
+			if (tree.getRight() != null) {
+				for (int i = 0; i < tree.getLeft().getSize(); i++) {
+					g = createGraphics(ef, tree.getRight().get(i),
+							euclidianView);
+					drawable.draw(g);
+				}
+			}
+			if (tree.getIneq() != null) {
+				g = createGraphics(ef, tree.getIneq(), euclidianView);
+				drawable.draw(g);
+			}
+			//Only for syntax. Never throws
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	//Create the appropriate instance of MyGraphics of various implementations (pstricks,pgf,asymptote)
+	abstract protected MyGraphics createGraphics(FunctionalNVar ef, Inequality inequality,
+			EuclidianViewND euclidianView2) throws IOException;
 
 	/**
 	 * @return the xmin
@@ -1228,4 +1283,96 @@ public abstract class GeoGebraExport  {
 	protected StringTemplate getStringTemplate(){
     	return StringTemplate.get(StringType.PSTRICKS);
     }
+	protected StringBuilder drawNoLatexFunction(GeoFunction geo, double xrangemax, double xrangemin, int point,String template){
+		StringBuilder lineBuilder = new StringBuilder();
+		double y = geo.evaluate(xrangemin);
+		if (Math.abs(y) < 0.001)
+			y = 0;
+		double yprec = y;
+		double step = (xrangemax - xrangemin) / point;
+		double xprec = xrangemin - step;
+		double x = xprec;
+		for (; x <= xrangemax; x += step) {
+			y = geo.evaluate(x);
+			if (Math.abs(yprec - y) < (ymax - ymin)) {
+				if (Math.abs(y) < 0.001)
+					y = 0;
+				lineBuilder.append(String.format(template,xprec,yprec,x,y));				
+			}
+			yprec = y;
+			xprec = x;
+		}
+		return lineBuilder;
+	}
+
+	protected boolean isLatexFunction(String s) {
+		// used if there are other non-latex
+		return !s.toLowerCase().contains("erf(")
+				&& !s.toLowerCase().contains("gamma(")
+				&& !s.toLowerCase().contains("gammaRegularized(")
+				&& !s.toLowerCase().contains("cbrt(")
+				&& !s.toLowerCase().contains("csc(")
+				&& !s.toLowerCase().contains("csch(")
+				&& !s.toLowerCase().contains("sec(")
+				&& !s.toLowerCase().contains("cot(")
+				&& !s.toLowerCase().contains("coth(")
+				&& !s.toLowerCase().contains("sech(");
+	}
+	protected  void initializeSymbols(Properties symbols){			
+			try {
+				symbols.load(GeoGebraExport.class.getResourceAsStream("unicodetex"));
+			} catch (IOException e) {
+				//FileMenu catch this
+			}
+	}
+	
+	
+	//To avoid duplicate inequalities drawing algorithms  replacing  Graphics.  
+	//In the three implementations (pstricks, pgf, asymptote) print the appropriate commands
+	abstract class MyGraphics extends GGraphics2DD{
+
+		protected double []ds;
+		protected Inequality ineq;
+		protected EuclidianView view;
+		protected FunctionalNVar geo;
+		
+		public MyGraphics(FunctionalNVar geo, Inequality ineq, EuclidianViewND euclidianView) throws IOException {
+			super(new MyGraphics2D(null,System.out,0,0,0,0, ColorMode.COLOR_RGB));
+			view=euclidianView;
+			this.geo=geo;
+			this.ds=geo.getKernel().getViewBoundsForGeo((GeoElement)geo);
+			this.ineq=ineq;
+		}
+		@Override
+		public abstract void fill(GShape s);
+	}
+	
+	protected void addTextPackage(){
+		StringBuilder packages=new StringBuilder();
+		if (codePreamble.indexOf("amssymb")==-1){
+			packages.append("amssymb,");
+		}
+		if (codePreamble.indexOf("fancyhdr")==-1){
+			packages.append("fancyhdr,");
+		}
+		if (codePreamble.indexOf("txfonts")==-1){
+			packages.append("txfonts,");
+		}
+		if (codePreamble.indexOf("pxfonts")==-1){
+			packages.append("pxfonts,");
+		}
+		if (packages.length()!=0){
+			packages.delete(packages.length()-1, packages.length());
+			codePreamble.append("\\usepackage{"+packages.toString()+"}\n");
+		}
+	}
+	// Created just for the constructor of MyGraphics.EpsGraphics used to avoid
+	// having all methods of Graphics2D. None of his methods is used
+	class MyGraphics2D extends EpsGraphics {
+
+		public MyGraphics2D(String title, OutputStream outputStream, int minX,
+				int minY, int maxX, int maxY, ColorMode colorMode) throws IOException{
+			super(title, outputStream, minX, minY, maxX, maxY, colorMode);	
+		}
+	}
 }

@@ -4,14 +4,17 @@ import geogebra.common.awt.GAlphaComposite;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
+
 
 /**
  * Handles hatching of fillable geos
@@ -19,7 +22,6 @@ import geogebra.common.kernel.geos.GeoElement.FillType;
 public class HatchingHandler {
 
 	private GBufferedImage bufferedImage = null;
-
 	/**
 	 * Prototype decides what implementation will be used for static methods
 	 */
@@ -39,7 +41,7 @@ public class HatchingHandler {
 			GBasicStroke objStroke,
 			GColor color,
 			GColor bgColor, float backgroundTransparency,
-			double hatchDist, double angleDegrees, FillType fillType) {
+			double hatchDist, double angleDegrees, FillType fillType, String symbol) {
 		// round to nearest 5 degrees
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 
@@ -68,36 +70,15 @@ public class HatchingHandler {
 
 		}
 		
-		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3, yInt * 3,
-				GBufferedImage.TYPE_INT_ARGB);
-		
-		GGraphics2D g2d = bufferedImage.createGraphics();
-
-		// enable anti-aliasing
-		g2d.setAntialiasing();
-
-		// enable transparency
-		g2d.setTransparent();
-
-		// paint background transparent
-		if (bgColor == null) {
-			g2d.setColor(AwtFactory.prototype.newColor(255, 255, 255,
-					(int) (backgroundTransparency * 255f)));
-		} else {
-			g2d.setColor(bgColor);
-		}
-
-		g2d.fillRect(0, 0, xInt * 3, yInt * 3);
-
-		g2d.setColor(color);
-
-		g2d.setStroke(objStroke);
+		GGraphics2D g2d = createImage(objStroke, color, bgColor,
+				backgroundTransparency, xInt, yInt);
 
 		int startX = xInt;
 		int startY = yInt;
 		int height = yInt;
 		int width = xInt;
 				
+		
 		switch (fillType) {
 		
 		case HATCH:
@@ -129,13 +110,27 @@ public class HatchingHandler {
 		case BRICK:
 			if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)
 				||	Kernel.isEqual(Math.PI/2 , angle, 10E-8)) {
-				startY = startX = xInt / 2;
-				height = width *= 2;
+				startY = startX =xInt / 2;
+				height = width*=2;
 			}
 			drawBricks(angle, xInt, yInt, g2d);
 			break;
 		case DOTTED:
 			drawDotted(dist, g2d);
+			break;
+		case SYMBOLS:		
+			g2d.setFont(g2d.getFont().deriveFont(GFont.PLAIN, (int)dist * 2));
+			GTextLayout t = geogebra.common.factories.AwtFactory.prototype
+					.newTextLayout(symbol, g2d.getFont(),
+							g2d.getFontRenderContext());
+			g2d = createImage(objStroke, color, bgColor,
+					backgroundTransparency, (Math.round(t.getAscent() + t.getDescent())/3), (Math.round(t.getAscent() + t.getDescent()) / 3));
+			g2d.setFont(g2d.getFont().deriveFont(GFont.PLAIN, 24));
+			g2d.drawString(symbol, 0 ,Math.round(t.getAscent()));
+			startY =0;
+			startX =0;
+			width = (int)t.getAscent() + (int)t.getDescent() - 1;
+			height =(int)t.getAscent() + (int)t.getDescent() - 1;		
 			break;
 		}
 
@@ -145,7 +140,35 @@ public class HatchingHandler {
 		// use the middle square of our 3 x 3 grid to fill with			
 		g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(startX,
 				startY, width, height), rect));
+	}
+
+	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
+			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
+		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3, yInt * 3,
+				GBufferedImage.TYPE_INT_ARGB);
 		
+		
+		GGraphics2D g2d = bufferedImage.createGraphics();
+
+		// enable anti-aliasing
+		g2d.setAntialiasing();
+
+		// enable transparency
+		g2d.setTransparent();
+
+		// paint background transparent
+		if (bgColor == null) {
+			g2d.setColor(AwtFactory.prototype.newColor(255, 255, 255,
+					(int) (backgroundTransparency * 255f)));
+		} else {
+			g2d.setColor(bgColor);
+		}
+
+		g2d.fillRect(0, 0, xInt * 3, yInt * 3);
+		g2d.setColor(color);
+
+		g2d.setStroke(objStroke);
+		return g2d;
 	}
 
 	/**

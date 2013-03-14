@@ -8,6 +8,8 @@ the Free Software Foundation.
 
 package geogebra.export.pstricks;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Kernel;
@@ -25,7 +27,8 @@ import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -33,7 +36,6 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -46,12 +48,14 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
 import java.awt.Font;
@@ -105,6 +109,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      // usepackage_amssymb = false, usepackage_amsmath = false, usepackage_mathrsfs = false;
     private Set<String> usepackage, importpackage;
     
+    private boolean fillInequality=false;
     /**
      * @param app
      */
@@ -1176,57 +1181,71 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             b = Math.min(b,geo.getIntervalMax());
         }
         double xrangemax = a, xrangemin = a;
-        while (xrangemax < b){
-            xrangemin = firstDefinedValue(geo,a,b);
-//          Application.debug("xrangemin "+xrangemin);
-            if (xrangemin == b) break;
-            xrangemax = maxDefinedValue(geo,xrangemin,b);
-//          Application.debug("xrangemax "+xrangemax);
+		while (xrangemax < b) {
+			xrangemin = firstDefinedValue(geo, a, b);
+			// Application.debug("xrangemin "+xrangemin);
+			if (xrangemin == b)
+				break;
+			xrangemax = maxDefinedValue(geo, xrangemin, b);
+			// Application.debug("xrangemax "+xrangemax);
 
-            int indexFunc = -1;
-            String tempFunctionCount = "f"+Integer.toString(functionCount+1);
-            String returnCode = "(real x){return " + value + ";} ";
-            // search for previous occurrences of function
-            if(compact) {
-                indexFunc = codeFilledObject.indexOf(returnCode);
-                if(indexFunc != -1) {
-                    // retrieve name of previously used function
-                    int indexFuncStart = codeFilledObject.lastIndexOf(" ",indexFunc);
-                    tempFunctionCount = codeFilledObject.substring(indexFuncStart+1,indexFunc);
-                }
-                else if(code.indexOf(returnCode) != -1) {
-                    indexFunc = code.indexOf(returnCode);
-                    int indexFuncStart = code.lastIndexOf(" ",indexFunc);
-                    tempFunctionCount = code.substring(indexFuncStart+1,indexFunc); 
-                    indexFunc = code.indexOf(returnCode);
-                }
-            } // write function
-            if(indexFunc == -1){ 
-                functionCount++;
-                if(!compact)
-                    code.append("\n");
-                code.append("real ");
-                code.append(tempFunctionCount);
-                packSpace(code,"(real x)");
-                code.append("{return ");
-                code.append(value);
-                code.append(";} ");     
-            }
-            
-            startDraw();
-            code.append("graph(");
-            code.append(tempFunctionCount);
-            code.append(",");
-            // add/subtract 0.01 to prevent 1/x, log(x) undefined behavior
-            code.append(format(xrangemin+0.01));
-            code.append(",");
-            code.append(format(xrangemax-0.01));
-            code.append(")");
-            //? recycled code of sorts? 
-            xrangemax += PRECISION_XRANGE_FUNCTION;
-            a = xrangemax; 
-            endDraw(geo);
-        }
+			int indexFunc = -1;
+			String tempFunctionCount = null;
+			String returnCode = null;
+			if (!isLatexFunction(value)) {
+				StringBuilder sb=new StringBuilder();
+				ColorCode(geo.getObjectColor(), sb);
+				String template = "draw( (%f,%f) -- (%f,%f),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
+				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
+						xrangemin, 400, template);
+				code.append(lineBuilder.toString() + ";\n");
+			} else {
+				tempFunctionCount = "f" + Integer.toString(functionCount + 1);
+				returnCode = "(real x){return " + value + ";} ";
+				// search for previous occurrences of function
+				if (compact) {
+					indexFunc = codeFilledObject.indexOf(returnCode);
+					if (indexFunc != -1) {
+						// retrieve name of previously used function
+						int indexFuncStart = codeFilledObject.lastIndexOf(" ",
+								indexFunc);
+						tempFunctionCount = codeFilledObject.substring(
+								indexFuncStart + 1, indexFunc);
+					} else if (code.indexOf(returnCode) != -1) {
+						indexFunc = code.indexOf(returnCode);
+						int indexFuncStart = code.lastIndexOf(" ", indexFunc);
+						tempFunctionCount = code.substring(indexFuncStart + 1,
+								indexFunc);
+						indexFunc = code.indexOf(returnCode);
+					}
+				} // write function
+				if (indexFunc == -1) {
+					functionCount++;
+					if (!compact)
+						code.append("\n");
+					code.append("real ");
+					code.append(tempFunctionCount);
+					packSpace(code, "(real x)");
+					code.append("{return ");
+					code.append(value);
+					code.append(";} ");
+				}
+				startDraw();
+
+				code.append("graph(");
+				code.append(tempFunctionCount);
+				code.append(",");
+				// add/subtract 0.01 to prevent 1/x, log(x) undefined behavior
+				code.append(format(xrangemin + 0.01));
+				code.append(",");
+				code.append(format(xrangemax - 0.01));
+				code.append(")");
+				// ? recycled code of sorts?
+				xrangemax += PRECISION_XRANGE_FUNCTION;
+				a = xrangemax;
+				endDraw(geo);
+			}
+		}
     }
   
     private static void renameFunc(StringBuilder sb, String nameFunc, String nameNew){
@@ -1388,12 +1407,17 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 double r1 = geo.getHalfAxes()[0];
                 double r2 = geo.getHalfAxes()[1];
                 double angle = Math.toDegrees(Math.atan2(eigenvecY,eigenvecX));
-                
                 // use scale operator to draw ellipse
                 if(compactcse5)
-                    code.append("D(shift(");
+                	if (fillInequality)
+                		code.append("filldraw(shift(");
+                	else
+                		code.append("D(shift(");
                 else
-                    code.append("draw(shift(");
+                	if (fillInequality)
+                		code.append("filldraw(shift(");
+                	else
+                		code.append("draw(shift(");
                 addPoint(format(x1),format(y1),code);
                 code.append(")*rotate(");
                 code.append(format(angle));
@@ -1402,6 +1426,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 code.append(")*yscale(");
                 code.append(format(r2));
                 code.append(")*unitcircle");
+                if(fillInequality){
+                	code.append(",pattern(\"hatch\"),border);\n");
+                }
                 endDraw(geo);
             break;
             
@@ -1914,65 +1941,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    @Override
-    protected void drawGeoInequalities(GeoFunctionNVar geo) { // TODO
-        importpackage.add("graph");
-        
-        FunctionNVar function = geo.getFunction();
-        int ineqCount = function.getIneqs().getSize();
-        codeFilledObject.append("/* Inequalities: " + ineqCount + " */");
-        
-        /*     
-        // take line g here, not geo this object may be used for conics too
-        boolean isVisible = geo.isEuclidianVisible();
-        if (!isVisible)
-            return;
-        boolean labelVisible = geo.isLabelVisible();
-        
-        int ineqCount = function.getIneqs().size();
-            
-        for (int i = 0; i < ineqCount; i++) {
-            Inequality ineq = function.getIneqs().get(i);           
-            if(drawables.size() <= i || !matchBorder(ineq.getBorder(),i)){
-                Drawable draw;
-                switch (ineq.getType()){
-                    case Inequality.INEQUALITY_PARAMETRIC_Y: 
-                        draw = new DrawParametricInequality(ineq, view, geo);
-                        break;
-                    case Inequality.INEQUALITY_PARAMETRIC_X: 
-                        draw = new DrawParametricInequality(ineq, view, geo);
-                        break;
-                    case Inequality.INEQUALITY_1VAR_X: 
-                        draw = new DrawInequality1Var(ineq, view, geo, false);
-                        break;
-                    case Inequality.INEQUALITY_1VAR_Y: 
-                        draw = new DrawInequality1Var(ineq, view, geo, true);
-                        break;  
-                    case Inequality.INEQUALITY_CONIC: 
-                        draw = new DrawConic(view, ineq.getConicBorder());                  
-                        ineq.getConicBorder().setInverseFill(geo.isInverseFill() ^ ineq.isAboveBorder());   
-                        break;  
-                    case Inequality.INEQUALITY_IMPLICIT: 
-                        draw = new DrawImplicitPoly(view, ineq.getImpBorder());
-                        break;
-                    default: draw = null;
-                }
-            
-                draw.setGeoElement((GeoElement)function);
-                draw.update();
-                if(drawables.size() <= i)
-                    drawables.add(draw);
-                else
-                    drawables.set(i,draw);
-            }
-            else {
-                if(ineq.getType() == Inequality.INEQUALITY_CONIC) {                 
-                    ineq.getConicBorder().setInverseFill(geo.isInverseFill() ^ ineq.isAboveBorder());
-                }
-                drawables.get(i).update();
-            }
-    */  
-    }
+    
     
     @Override
     protected void drawPolyLine(GeoPolyLine geo) {
@@ -3071,6 +3040,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * @param sb code to attach to.
      */
     protected void endDraw(GeoElement geo, StringBuilder sb){
+    	if(fillInequality) return;
         if(LineOptionCode(geo,true) != null) {
             packSpaceAfter(sb, ",");
             sb.append(LineOptionCode(geo,true));
@@ -3409,4 +3379,123 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     protected StringTemplate getStringTemplate(){
     	// Asymptote doesn't understand E notation ie 3E-10 
     	return StringTemplate.fullFigures(StringType.PSTRICKS);    }
+    
+    class MyGraphicsAs extends GeoGebraExport.MyGraphics {
+
+		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq,
+				EuclidianViewND euclidianView) throws IOException {
+			super(geo, ineq, euclidianView);
+		}
+
+		@Override
+		public void fill(GShape s) {			
+			importpackage.add("patterns");
+			GColor c = ((GeoElement) geo).getObjectColor();
+			int lineType=((GeoElement) geo).getLineType();
+			((GeoElement) geo).setLineType(ineq.getBorder().lineType);
+			code.append("\npen border="+penStyle((GeoElement) geo));
+			ColorCode(c, code);
+			((GeoElement) geo).setLineType(lineType);
+			code.append(";\npen fillstyle="+penStyle((GeoElement) geo));
+			ColorCode(c, code);
+			code.append(";\nadd(\"hatch\",hatch(2mm,NW,fillstyle));\n");			
+			switch (ineq.getType()) {
+			case INEQUALITY_CONIC:
+				GeoConicND conic = ineq.getConicBorder();
+				if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
+						|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE){
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic).setObjColor(((GeoElement) geo)
+						.getObjectColor());
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic).setAlphaValue(((GeoElement) geo)
+						.getAlphaValue());
+				conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
+				((GeoElement) conic).setHatchingAngle((int)((GeoElement) geo)
+						.getHatchingAngle());
+				((GeoElement) conic).setHatchingDistance(((GeoElement) geo)
+						.getHatchingDistance());
+				((GeoElement) conic).setFillType(((GeoElement) geo)
+						.getFillType());
+				fillInequality=true;
+				drawGeoConic((GeoConic)conic);
+				fillInequality=false;
+				break;
+				}
+			case INEQUALITY_PARAMETRIC_Y:
+			case INEQUALITY_PARAMETRIC_X:
+			case INEQUALITY_1VAR_X:
+			case INEQUALITY_1VAR_Y:
+			case INEQUALITY_LINEAR:
+				double[] coords = new double[2];
+				double zeroY = ds[5] * ds[3];
+				double zeroX = ds[4] * (-ds[0]);
+				GPathIterator path = s.getPathIterator(null);
+				code.append("filldraw(");
+				double precX = Integer.MAX_VALUE;
+				double precY = Integer.MAX_VALUE;
+				boolean newpol = false;
+				while (!path.isDone()) {
+					path.currentSegment(coords);
+					newpol = false;
+					if (coords[0] == precX && coords[1] == precY) {
+						code.append("cycle,pattern(\"hatch\"),border);\n");
+						code.append("filldraw(");
+						newpol = true;
+					} else {
+						newpol = false;
+						code.append("(");
+						code.append(format((coords[0] - zeroX) / ds[4]));
+						code.append(",");
+						code.append(format(-(coords[1] - zeroY) / ds[5]));
+						code.append(")--");
+					}
+					precX = coords[0];
+					precY = coords[1];
+					path.next();
+				}
+				int i=code.lastIndexOf(")");
+				code.delete(i+1, code.length());
+				code.append(";\n");
+				break;
+			}
+		}
+
+    }	
+		
+	private String penStyle(GeoElement geo) {
+		StringBuilder sb = new StringBuilder();
+		switch (geo.getLineType()) {
+		case EuclidianStyleConstants.DEFAULT_LINE_TYPE:
+			sb.append("solid+");
+			break;
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
+			sb.append("longdashed+");
+			break;
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
+			sb.append("dashed+");
+			break;
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
+			sb.append("dashdotted+");
+			break;
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
+			sb.append("Dotted+");
+			break;
+		}
+		return sb.toString();
+	}
+	@Override
+	protected MyGraphics createGraphics(FunctionalNVar ef,
+			Inequality inequality, EuclidianViewND euclidianView2) throws IOException{
+		return new MyGraphicsAs(ef, inequality, euclidianView2);
+	}
+	protected boolean isLatexFunction(String s) {
+		// used if there are other non-latex
+		return  !s.toLowerCase().contains("csc(")
+				&& !s.toLowerCase().contains("csch(")
+				&& !s.toLowerCase().contains("sec(")
+				&& !s.toLowerCase().contains("cot(")
+				&& !s.toLowerCase().contains("coth(")
+				&& !s.toLowerCase().contains("sech(");
+	}
 }

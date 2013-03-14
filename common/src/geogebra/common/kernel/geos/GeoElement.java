@@ -242,6 +242,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected int hatchingDistance = 10;
 	private boolean inverseFill = false;
 
+	private String fillSymbol=null;
 	// =================================
 	// G.Sturr new fill options
 	/** substitute for imageFileName and image - Arpad Fekete;
@@ -283,9 +284,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		 */
 		BRICK (6,true),
 		/**
+		 * Unicode symbols fill
+		 */
+		SYMBOLS (7,true),		
+		/**
 		 * Image background
 		 */
-		IMAGE (7,false);
+		IMAGE (8,false);
+		
+		
 		
 		private int value;
 		private boolean hatch;
@@ -4893,6 +4900,11 @@ public abstract class GeoElement extends ConstructionElement implements
 				sb.append(" image=\"");
 				sb.append(graphicsadapter.getImageFileName());
 				sb.append('\"');
+			} 
+			if (fillType == FillType.SYMBOLS){
+				sb.append(" fillSymbol=\"");
+				sb.append(fillSymbol);
+				sb.append('\"');
 			}
 			if (inverseFill) {
 				sb.append(" inverseFill=\"true\"");
@@ -6319,7 +6331,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if current fill style is hatch
 	 */
 	public boolean isHatchingEnabled() {
-		return fillType.isHatch();
+		return fillType.isHatch();		
 	}
 
 	/**
@@ -6879,5 +6891,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isMatrix() {
 		return false;
 	}
-
+	
+	public String getFillSymbol(){
+		return fillSymbol;
+	}
+	
+	public void setFillSymbol(String symbol){
+		fillSymbol=symbol;
+	}
 }

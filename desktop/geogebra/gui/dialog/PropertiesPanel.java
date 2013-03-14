@@ -75,8 +75,10 @@ import geogebra.gui.properties.UpdateablePropertiesPanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
+import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanelD;
+import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
@@ -97,6 +99,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -116,6 +120,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -127,6 +132,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListCellRenderer;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -4453,7 +4460,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	 * @author Markus Hohenwarter
 	 */
 	private class TextOptionsPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel, FocusListener{
+			SetLabels, UpdateFonts, UpdateablePropertiesPanel,FocusListener{
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 
@@ -4465,7 +4472,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private boolean secondLineVisible = false;
 		private boolean justDisplayFontSize = true;
 		private TextEditPanel editPanel;
-
+		private String [] fontSizes = app.getLocalization().getFontSizeStrings();
 		public TextOptionsPanel() {
 			// font: serif, sans serif
 			String[] fonts = { "Sans Serif", "Serif" };
@@ -4474,9 +4481,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// font size
 			// TODO require font phrases F.S.
-			cbSize = new JComboBox(new String[] { app.getPlain("ExtraSmall"),
-					app.getPlain("Small"), app.getPlain("Medium"),
-					app.getPlain("Large"), app.getPlain("ExtraLarge") });
+			cbSize = new JComboBox(fontSizes);
 			cbSize.addActionListener(this);
 			cbFont.addFocusListener(this);
 			// toggle buttons for bold and italic
@@ -4608,7 +4613,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// set value to first text's size and style
 			TextProperties geo0 = (TextProperties) geos[0];
-
+			
 			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0
 					.getFontSizeMultiplier())); // font
 			// size
@@ -4807,7 +4812,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void focusGained(FocusEvent arg0) {
-			TextProperties geo0 = (TextProperties) geos[0];
+			TextProperties geo0 = (TextProperties) geos[0];			
 			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0
 					.getFontSizeMultiplier()));
 		}
@@ -5111,17 +5116,33 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel transparencyPanel, hatchFillPanel, imagePanel,
 				anglePanel, distancePanel;
 		private JLabel lblFillType;
+		private JLabel lblSelectedSymbol;
+		private JLabel lblMsgSelected;
 		private JButton btnOpenFile;
 
 		private PopupMenuButton btnImage;
 		private JLabel lblFillInverse;
+		private JLabel lblSymbols;
 		private boolean hasGeoButton = false;
 		private ArrayList<String> imgFileNameList;
+		private PopupMenuButton btInsertUnicode;
+		private FillType fillType;
 
 		public FillingPanel() {
-
+			
+			//For filling whit unicode char
+			btInsertUnicode=new PopupMenuButton(app);
+			buildInsertUnicodeButton();
+			btInsertUnicode.setVisible(false);
+			lblMsgSelected=new JLabel(loc.getPlain("Symbol selected: "));
+			lblMsgSelected.setVisible(false);
 			fillingPanel = this;
-
+			lblSymbols = new JLabel(app.getPlain("Symbols") + ":");
+			lblSymbols.setVisible(false);
+			lblSelectedSymbol=new JLabel();
+			lblSelectedSymbol.setFont(new Font(Font.SANS_SERIF,Font.PLAIN, 24));
+			
+			
 			// JLabel sizeLabel = new JLabel(app.getPlain("Filling") + ":");
 			fillingSlider = new JSlider(0, 100);
 			fillingSlider.setMajorTickSpacing(25);
@@ -5189,7 +5210,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// panel for the fill type combobox
 			cbFillType = new JComboBox();
+			
 			JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			JPanel syPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			lblFillType = new JLabel(app.getPlain("Filling") + ":");
 			cbFillInverse = new JCheckBox();
 			lblFillInverse = new JLabel(app.getPlain("InverseFilling"));
@@ -5197,7 +5220,17 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			cbPanel.add(cbFillType);
 			cbPanel.add(cbFillInverse);
 			cbPanel.add(lblFillInverse);
-
+			syPanel.add(lblSymbols);
+			syPanel.add(btInsertUnicode);
+			syPanel.add(lblMsgSelected);
+			lblSelectedSymbol.setAlignmentX(CENTER_ALIGNMENT);
+			lblSelectedSymbol.setAlignmentY(CENTER_ALIGNMENT);
+			lblSelectedSymbol.setVisible(false);
+			syPanel.add(lblSelectedSymbol);
+			JPanel panel = new JPanel();
+			panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+			panel.add(cbPanel);
+			panel.add(syPanel);
 			// panels to hold sliders
 			transparencyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			transparencyPanel.add(fillingSlider);
@@ -5224,7 +5257,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// put all the sub panels together
 
 			this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			this.add(cbPanel);
+			this.add(panel);
 			this.add(transparencyPanel);
 			this.add(hatchFillPanel);
 			this.add(imagePanel);
@@ -5270,7 +5303,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			cbFillType.addItem(app.getMenu("Filling.Dotted")); // index 4
 			cbFillType.addItem(app.getMenu("Filling.Honeycomb"));//index 5
 			cbFillType.addItem(app.getMenu("Filling.Brick"));//index 6
-			cbFillType.addItem(app.getMenu("Filling.Image")); // index 7
+			cbFillType.addItem(app.getMenu("Filling.Symbols"));//index 7
+			cbFillType.addItem(app.getMenu("Filling.Image")); // index 8
 
 			cbFillType.setSelectedIndex(selectedIndex);
 			cbFillType.addActionListener(this);
@@ -5344,6 +5378,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				imagePanel.setVisible(false);
 				break;
 			case HATCH:
+				distanceSlider.setMinimum(5);
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
@@ -5353,6 +5388,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				break;
 			case CROSSHATCHED:
 			case CHESSBOARD:
+				distanceSlider.setMinimum(5);
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
@@ -5362,15 +5398,25 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				angleSlider.setMinorTickSpacing(45);
 				break;	
 			case BRICK:
+				distanceSlider.setMinimum(5);
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
 				anglePanel.setVisible(true);
 				angleSlider.setMaximum(180);
 				angleSlider.setMinorTickSpacing(45);
+				break;			
+			case SYMBOLS:
+				distanceSlider.setMinimum(10);
+				transparencyPanel.setVisible(false);
+				hatchFillPanel.setVisible(true);
+				imagePanel.setVisible(false);
+				// for dotted angle is useless
+				anglePanel.setVisible(false);
 				break;
 			case HONEYCOMB:
 			case DOTTED:
+				distanceSlider.setMinimum(5);
 				transparencyPanel.setVisible(false);
 				hatchFillPanel.setVisible(true);
 				imagePanel.setVisible(false);
@@ -5400,7 +5446,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// check geos
 			if (!checkGeos(geos))
 				return null;
-
+			
+			btInsertUnicode.removeActionListener(this);
+			btInsertUnicode.addActionListener(this);
 			cbFillType.removeActionListener(this);
 			// set selected fill type to first geo's fill type
 			cbFillType.setSelectedIndex(((GeoElement) geos[0]).getFillType().ordinal());
@@ -5500,11 +5548,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			GeoElement geo;
-
+			
 			// handle change in fill type
 			if (source == cbFillType) {
-
-				FillType fillType = FillType.values()[cbFillType.getSelectedIndex()];
+				fillType = FillType.values()[cbFillType.getSelectedIndex()];
 				// set selected image to first geo image
 				if (fillType == FillType.IMAGE
 						&& ((GeoElement) geos[0]).getFillImage() != null) {
@@ -5514,11 +5561,22 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				} else {
 					btnImage.setSelectedIndex(-1);
 				}
-
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					geo.setFillType(fillType);
-					geo.updateRepaint();
+				if (fillType==fillType.SYMBOLS){
+					btInsertUnicode.setVisible(true);
+					lblSymbols.setVisible(true);
+					lblSelectedSymbol.setVisible(true);
+					lblMsgSelected.setVisible(true);
+				}else{
+					lblSymbols.setVisible(false);
+					btInsertUnicode.setVisible(false);
+					lblMsgSelected.setVisible(false);
+					lblSelectedSymbol.setVisible(false);
+					lblSelectedSymbol.setText("");
+					for (int i = 0; i < geos.length; i++) {
+						geo = (GeoElement) geos[i];
+						geo.setFillType(fillType);
+						geo.updateRepaint();
+					}
 				}
 				fillingPanel.updateFillTypePanel(fillType);
 
@@ -5557,6 +5615,16 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 						geo.updateRepaint();
 					}
 			}
+			else if(source==btInsertUnicode){
+				for (int i = 0; i < geos.length; i++) {
+					geo = (GeoElement) geos[i];
+					geo.setFillType(fillType);
+					if (!lblSelectedSymbol.getText().equals("")){
+						geo.setFillSymbol(lblSelectedSymbol.getText());
+					}
+					geo.updateRepaint();
+				}
+			}
 		}
 
 		public void updateFonts() {
@@ -5577,8 +5645,118 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void updateVisualStyle(GeoElement geo) {
 			// TODO Auto-generated method stub
 			
-		}
+		}	
+		private void buildInsertUnicodeButton() {
 
+			if (btInsertUnicode != null)
+				btInsertUnicode.removeAllMenuItems();
+
+			btInsertUnicode.setKeepVisible(false);
+			btInsertUnicode.setStandardButton(true);
+			btInsertUnicode.setFixedIcon(GeoGebraIcon.createDownTriangleIcon(10));
+
+			JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
+			
+			String []funcy=new String[16];
+			for(int i=0;i<16;i++){
+				funcy[i]=""+(char)(0x2660+i);
+			}
+			btInsertUnicode.addPopupMenuItem(createMenuItem(
+					funcy, -1, 4));
+
+			funcy=new String[12];
+			for(int i=0;i<12;i++){
+				funcy[i]=""+(char)(0x2654+i);
+			}
+			btInsertUnicode.addPopupMenuItem(createMenuItem(
+					funcy, -1, 4));
+			funcy=new String[26];
+			
+			funcy[0]=""+(char)(0x2725);
+			funcy[1]=""+(char)(0x2726);
+			funcy[2]=""+(char)(0x2727);
+			for(int i=0;i<funcy.length-3;i++){
+				funcy[i+3]=""+(char)(0x2729+i);
+			}
+			btInsertUnicode.addPopupMenuItem(createMenuItem(
+					funcy, -1, 4));
+			
+			funcy=new String[8];
+			for(int i=0;i<funcy.length;i++){
+				funcy[i]=""+(char)(0x2b12+i);
+			}
+			btInsertUnicode.addPopupMenuItem(createMenuItem(
+					funcy, -1, 4));
+			app.setComponentOrientation(menu);
+
+		}
+		private JMenu createMenuItem(String[] table, int rows, int columns) {
+			JMenu menu = new JMenu(table[0] + " " + table[1] + " " + table[2]
+					+ "  ");
+			menu.add(new LatexTableFill(app, this, btInsertUnicode, table, rows,
+					columns, geogebra.common.gui.util.SelectionTable.MODE_TEXT));
+			return menu;
+		}
+		class LatexTableFill extends SelectionTable implements MenuElement{
+
+
+			private Object[] latexArray;
+			private PopupMenuButton popupButton;
+			private geogebra.common.gui.util.SelectionTable mode;
+			FillingPanel panel;
+			
+			public LatexTableFill(AppD app,FillingPanel panel,PopupMenuButton popupButton,Object[] data, int rows, int columns,
+					geogebra.common.gui.util.SelectionTable mode) {
+				super(app, data, rows, columns, new Dimension(24,24), mode);
+				this.panel=panel;
+				this.latexArray = data;
+				this.popupButton = popupButton;
+				this.mode = mode;
+				setHorizontalAlignment(SwingConstants.CENTER);
+				setSelectedIndex(0);
+				//	this.setUseColorSwatchBorder(true);
+				this.setShowGrid(true);
+				this.setGridColor(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				this.setBorder(BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
+				//this.setBorder(BorderFactory.createEmptyBorder());
+				this.setShowSelection(false);
+			}
+
+			public Component getComponent() {
+				return this;
+			}
+
+			public MenuElement[] getSubElements() {
+				return new MenuElement[0];
+			}
+
+			public void menuSelectionChanged(boolean arg0) {
+			}
+
+			public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1, MenuSelectionManager arg2) {
+			}
+
+			public void processMouseEvent(MouseEvent arg0, MenuElement[] arg1, MenuSelectionManager arg2) {
+
+				if(this.getSelectedIndex() >= latexArray.length) return;
+
+				if (arg0.getID()==MouseEvent.MOUSE_RELEASED){
+
+					// get the selected string
+					String s=(String)latexArray[this.getSelectedIndex()];
+					// if LaTeX string, adjust the string to include selected text within braces
+						
+					if(s!=null){
+						lblSelectedSymbol.setText(s);
+					}
+					// now insert the string
+					//inputDialog.insertString(sb.toString(), inputDialog.isLaTeX());
+
+					// notify the popup button
+					popupButton.handlePopupActionEvent();
+				}	
+			}
+		}
 	}
 
 	/**
@@ -7396,7 +7574,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
             String s=tf.getText();
             if (!s.matches("\\d{2,3}")) 
             	return false;
-            if (Integer.parseInt(s) < 24 || Integer.parseInt(s) > 500)
+            if (Integer.parseInt(s) < 24 || Integer.parseInt(s)>500)
             	return false;
             return true;
       }

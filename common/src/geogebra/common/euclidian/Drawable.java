@@ -504,7 +504,8 @@ public abstract class Drawable extends DrawableND {
 					geo.getBackgroundColor(),
 					geo.getAlphaValue(), geo.getHatchingDistance(),
 					geo.getHatchingAngle(),
-					geo.getFillType());
+					geo.getFillType(),
+					geo.getFillSymbol());
 			if (usePureStroke)
 				EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
 			else

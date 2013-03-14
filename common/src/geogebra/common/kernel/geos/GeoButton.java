@@ -223,6 +223,9 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
+		if(observer!=null){
+			observer.notifySizeChanged();
+		}
 	}
 
 	public int getPrintDecimals() {

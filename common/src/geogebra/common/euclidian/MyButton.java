@@ -105,7 +105,7 @@ public class MyButton implements Observer{
 		// For italic is added an inclination of approximately
 		// 15 degrees
 		double add=0;
-		if(font.isItalic()){
+		if(((TextProperties)geoButton).getFontStyle()>=2){
 			add=(Math.sin(0.26) * t.getDescent()/2);
 			//Adaptation for the combination Serif+ italic made ​​by trial
 			if (((TextProperties)geoButton).isSerifFont()){
