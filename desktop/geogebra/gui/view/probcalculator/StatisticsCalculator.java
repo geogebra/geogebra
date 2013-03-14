@@ -448,22 +448,22 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
-			lblHypParameter.setText(app.getMenu("HypothesizedMean.short"));
+			lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = ");
 			break;
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
-			lblHypParameter.setText(app.getMenu("DifferenceOfMeans.short"));
+			lblHypParameter.setText(app.getMenu("DifferenceOfMeans.short")+ " = ");
 			break;
 
 		case ZPROP_TEST:
 			lblHypParameter
-					.setText(app.getMenu("HypothesizedProportion.short"));
+					.setText(app.getMenu("HypothesizedProportion.short")+ " = ");
 			break;
 
 		case ZPROP2_TEST:
 			lblHypParameter.setText(app
-					.getMenu("DifferenceOfProportions.short"));
+					.getMenu("DifferenceOfProportions.short")+ " = ");
 			break;
 
 		default:
