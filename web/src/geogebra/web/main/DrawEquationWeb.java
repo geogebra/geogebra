@@ -270,21 +270,20 @@ public class DrawEquationWeb extends DrawEquation {
 			// if it's not visible, leave at its previous place to prevent lag
 			ih.getStyle().setLeft(x, Style.Unit.PX);
 			ih.getStyle().setTop(y, Style.Unit.PX);
+
+			// as the background is usually (or always) the background of the
+			// canvas,
+			// it is better if this is transparent, because the grid should be shown
+			// just like in the Java version
+			if (shouldPaintBackground)
+				ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+
+			if (fgColor != null)
+				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
-
-		// as the background is usually (or always) the background of the
-		// canvas,
-		// it is better if this is transparent, because the grid should be shown
-		// just like in the Java version
-		if (shouldPaintBackground)
-			ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
-
-		if (fgColor != null)
-			ih.getStyle().setColor(GColor.getColorString(fgColor));
 
 		return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(),
 		        ih.getOffsetHeight());
-
 	}
 
 	/**
