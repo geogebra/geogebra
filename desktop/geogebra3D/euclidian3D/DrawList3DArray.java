@@ -24,14 +24,16 @@ public class DrawList3DArray extends DrawListArray {
 	}
 	
 
-    protected void update(DrawableND d){
+    @Override
+	protected void update(DrawableND d){
 		d.setWaitForUpdate();
 		if (d.createdByDrawList())
 			d.setCreatedByDrawListVisible(true);
     }
 	
 	
-    protected DrawableND createDrawableND(GeoElement listElement){
+    @Override
+	protected DrawableND createDrawableND(GeoElement listElement){
     	//Application.debug(listElement.toString());
     	DrawableND d = super.createDrawableND(listElement);
     	((EuclidianView3D) view).addToDrawable3DLists((Drawable3D) d);

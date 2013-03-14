@@ -46,7 +46,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
-//import geogebra.common.kernel.arithmetic.MyList;
 
 /**
  * List of GeoElements
@@ -491,9 +490,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	 * @param flag true to make this list defined
 	 */
 	public void setDefined(final boolean flag) {
+
 		isDefined = flag;
 
 		if (!isDefined) {
+			
 			final int size = geoList.size();
 			for (int i = 0; i < size; i++) {
 				final GeoElement geo = geoList.get(i);
@@ -501,6 +502,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 					geo.setUndefined();
 				}
 			}
+			
+			//set also cached geos to undefined (for lists of lists)
+			for (int i = size; i < cacheList.size(); i++) {
+				final GeoElement geo = cacheList.get(i);
+				if (!geo.isLabelSet()) {
+					geo.setUndefined();
+				}
+			}
+		
 		}
 	}
 

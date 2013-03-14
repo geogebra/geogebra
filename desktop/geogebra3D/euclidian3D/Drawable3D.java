@@ -443,11 +443,18 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return the visibility
 	 */
 	protected boolean isVisible(){
-		if (createdByDrawList())
-			return isCreatedByDrawListVisible() && ((Drawable3D) getDrawListCreator()).isVisible();
+		
+		boolean visible;
+		
+		if (createdByDrawList()){
+			visible = isCreatedByDrawListVisible() && ((Drawable3D) getDrawListCreator()).isVisible();
+		}else{
+			visible = true;
+		}
 		
 
-		return (getGeoElement().hasDrawable3D() 
+		return visible && 
+				(getGeoElement().hasDrawable3D() 
 				&& getGeoElement().isEuclidianVisible() 
 				&& getGeoElement().isDefined());  
 	

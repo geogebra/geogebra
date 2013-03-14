@@ -172,7 +172,7 @@ public class DrawList3D extends Drawable3D {
     	
     	// remove end of list
     	for (int i=drawables.size()-1; i >= drawablePos; i--) {      		 
-    		view3D.remove(drawables.get(i).getGeoElement());
+    		//view3D.remove(drawables.get(i).getGeoElement());
     		DrawableND d = drawables.remove(i);
     		if (d.createdByDrawList()) //sets the drawable to not visible
     			d.setCreatedByDrawListVisible(false);
@@ -186,10 +186,10 @@ public class DrawList3D extends Drawable3D {
 		
 	}
 	
-	//no label for 3D lists
+	
 	@Override
 	protected void updateLabel(){
-		
+		//no label for 3D lists
 	}
 
 	
@@ -201,9 +201,23 @@ public class DrawList3D extends Drawable3D {
 	
 	@Override
 	public void setWaitForUpdateVisualStyle(){
+		
 		super.setWaitForUpdateVisualStyle();
+		for (DrawableND d : drawables){
+			d.setWaitForUpdateVisualStyle();
+		}
 		
 		//also update for e.g. line width
 		setWaitForUpdate();
 	}
+	
+	@Override
+	public void setWaitForUpdate(){
+		
+		super.setWaitForUpdate();
+		for (DrawableND d : drawables){
+			d.setWaitForUpdate();
+		}
+	}
+	
 }

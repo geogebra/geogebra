@@ -85,6 +85,15 @@ public abstract class DrawableND {
 	}
 	
 	/**
+	 * says that the drawable has to be updated for visual style
+	 */
+	public void setWaitForUpdateVisualStyle(){
+		
+		setWaitForUpdate();
+
+	}
+	
+	/**
 	 * update it immediately
 	 */
 	public abstract void update();
