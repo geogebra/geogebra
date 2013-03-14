@@ -101,7 +101,7 @@ public interface GeoGebraConstants {
 	 (http://code.google.com/apis/console). */
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
-	public static final String SYDRIVE_REDIRECT_URI = "http://geogebra.org/";
+	public static final String SYDRIVE_REDIRECT_URI = "http://www.geogebra.org/web/test50/app.html";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
