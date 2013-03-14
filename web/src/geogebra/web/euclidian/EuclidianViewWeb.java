@@ -9,6 +9,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
@@ -16,6 +17,7 @@ import geogebra.web.main.AppWeb;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style;
 
 public abstract class EuclidianViewWeb extends EuclidianView {
 	public geogebra.web.awt.GGraphics2DW g2p = null;
@@ -148,8 +150,6 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 	  			g2p.getCanvas().isVisible();
     }
 
-	public abstract void synCanvasSize();
-	
 	public String getExportImageDataUrl(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -241,6 +241,24 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 
     	((AppWeb)app).getTimerSystem().viewRepaint(this);
     }
+    
+    public void setCoordinateSpaceSize(int width, int height) {
+		g2p.setCoordinateSpaceWidth(width);
+		g2p.setCoordinateSpaceHeight(height);
+		try {
+			((AppWeb)app).syncAppletPanelSize(width, height, evNo);
+
+			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
+			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
+			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
+		} catch (Exception exc) {
+			App.debug("Problem with the parent element of the canvas");
+		}
+	}
+
+	public void synCanvasSize() {
+		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
+	}
 	
 
 }

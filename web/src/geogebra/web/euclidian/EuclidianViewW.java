@@ -23,7 +23,6 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -148,23 +147,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	
 	/* Code for dashed lines removed in r23713*/
 
-	public void setCoordinateSpaceSize(int width, int height) {
-		g2p.setCoordinateSpaceWidth(width);
-		g2p.setCoordinateSpaceHeight(height);
-		try {
-			app.syncAppletPanelSize(width, height, evNo);
-
-			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
-			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
-			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
-		} catch (Exception exc) {
-			App.debug("Problem with the parent element of the canvas");
-		}
-	}
-
-	public void synCanvasSize() {
-		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-	}
+	
 	
 	/**
 	 * Gets pixel width of the &lt;canvas&gt;.

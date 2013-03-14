@@ -104,5 +104,10 @@ public abstract class AppWeb extends App {
 	public abstract void showMessage(String error);
 	
 	public abstract ViewManager getViewManager();
+
+	public void syncAppletPanelSize(int width, int height, int evNo) {
+	    // TODO Auto-generated method stub
+	    
+    }
 		
 }
