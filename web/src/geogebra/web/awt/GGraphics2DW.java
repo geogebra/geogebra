@@ -266,12 +266,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			context.setFillStyle(((GGradientPaintW)paint).getGradient(context));
 			currentPaint = new GGradientPaintW((GGradientPaintW)paint);
 		} else if (paint instanceof GTexturePaintW) {
-			currentPaint = new GTexturePaintW((GTexturePaintW)paint);
-			CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
-			if(ptr!=null){
+			try{//TODO find out how to avoid the try-catch; currently fails randomly in Firefox + maybe other browsers
+				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
+				currentPaint = new GTexturePaintW((GTexturePaintW)paint);
+				CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 				context.setFillStyle(ptr);
-			}else{
-				setPaint(GColor.white);
+			}catch(Throwable e){
+				App.error(e.getMessage());
 			}
 		} else {
 			App.error("unknown paint type");
