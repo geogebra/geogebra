@@ -859,6 +859,9 @@ public class TouchModel
 		return this.selectedElements.size() >= 3 && hits.indexOf(this.selectedElements.get(0)) != -1;
 	}
 
+	public boolean wasCantorolClicked(){
+		return controlClicked;
+	}
 	public boolean controlClicked()
 	{
 		boolean ret = this.controlClicked;

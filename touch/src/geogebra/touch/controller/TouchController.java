@@ -81,6 +81,7 @@ public class TouchController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
+		boolean wasControlClicked = model.wasCantorolClicked();
 		if (this.clicked && (this.clicked = this.model.controlClicked()) && this.model.getCommand() == ToolBarCommand.Move_Mobile)
 		{
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
@@ -90,7 +91,7 @@ public class TouchController extends EuclidianController
 			this.origin = new GPoint(x, y);
 			App.debug("touch move");
 		}else{
-			App.debug("touch move ignored");
+			App.debug("touch move ignored:"+clicked+","+wasControlClicked+","+this.model.getCommand());
 		}
 	}
 
