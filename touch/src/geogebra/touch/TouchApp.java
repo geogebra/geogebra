@@ -26,6 +26,7 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.elements.header.XMLBuilder;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
@@ -35,6 +36,7 @@ import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
+import geogebra.web.util.GeoGebraLogger;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -86,6 +88,10 @@ public class TouchApp extends AppWeb
 		setFontSize(12);
 
 		this.capturingThreshold *= this.selectionFactor;
+		
+		logger = new GeoGebraLogger();
+		logger.setLogDestination(LogDestination.CONSOLES);
+		logger.setLogLevel("DEBUG");
 	}
 
 	// not needed yet, because we use xml-Strings
