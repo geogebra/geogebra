@@ -415,7 +415,9 @@ public class Ggb2MPReduce {
 				" else" +
 				"   part(list(r!!,phi!!),0):=polartopoint!\u00a7 end >>");
 		p("ToPoint.1",
-				"<< begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then listtomyvect input!! else myvect(repart(input!!),impart(input!!)) end >>");
+				"<< begin scalar input!!; input!!:=(%0); " +
+				" return if arglength(input!!)>-1 and part(input!!,0)=\\'list then (if (length(input!!)>1) and (length(input!!)<4) then listtomyvect input!! else myvect(?,\\'?))" +
+				" else myvect(repart(input!!),impart(input!!)) end >>");
 		p("Transpose.1", "tp(<<listofliststomat(%0)>>)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		p("TrigExpand.1",
