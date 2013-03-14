@@ -2,12 +2,15 @@ package geogebra.web.awt;
 
 import geogebra.common.main.App;
 
-public class GFontW extends geogebra.common.awt.GFont{
-	public static final int PLAIN = 0;
+public class GFontW extends geogebra.common.awt.GFont {
 	public static final int BOLD = 1;
-	private String fontStyle = "normal";
-	private String fontVariant = "normal";
-	private String fontWeight = "normal";
+	public static final int ITALIC = 2;
+	public static final String NORMAL_STR = "normal";
+	public static final String BOLD_STR = "bold";
+	public static final String ITALIC_STR = "italic";
+	private String fontStyle = NORMAL_STR;
+	private String fontVariant = NORMAL_STR;
+	private String fontWeight = NORMAL_STR;
 	private String fontSize = "12";
 	private String lineHeight = "12";
 	private String fontFamily = "sans-serif";
@@ -23,7 +26,6 @@ public class GFontW extends geogebra.common.awt.GFont{
 
 	public GFontW(String fontStyle) {
 		this.setFontStyle(fontStyle);			
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setFontStyle(String fontStyle) {
@@ -94,27 +96,29 @@ public class GFontW extends geogebra.common.awt.GFont{
 
 	public void setFontStyle(int fontStyle) {
 		switch (fontStyle) {
-		case 0:
-			setFontStyle("normal");
+		case BOLD:
+			setFontWeight(BOLD_STR);
+			setFontStyle(NORMAL_STR);
 			break;
-		case 1:
-			setFontWeight("bold");
+		case ITALIC:
+			setFontWeight(NORMAL_STR);
+			setFontStyle(ITALIC_STR);
 			break;
-		case 2:
-			setFontStyle("italic");
-			break;
-		case 3:
-			setFontWeight("bold");
-			setFontStyle("italic");
+		case (BOLD+ITALIC):
+			setFontWeight(BOLD_STR);
+			setFontStyle(ITALIC_STR);
 			break;
 		default:
-			setFontStyle("normal");
-			setFontWeight("normal");
+			setFontStyle(NORMAL_STR);
+			setFontWeight(NORMAL_STR);
 		}
 	}
 
+	/**
+	 * @param fontSize font size
+	 */
 	public void setFontSize(int fontSize) {
-		this.fontSize = ""+fontSize; 
+		this.fontSize = "" + fontSize; 
 	}
 	
 	@Override
@@ -124,17 +128,17 @@ public class GFontW extends geogebra.common.awt.GFont{
 	
 	@Override
     public boolean isItalic() {
-		return fontStyle.equals("italic");
+		return fontStyle.equals(ITALIC_STR);
 	}
 	
 	@Override
     public boolean isBold() {
-		return fontWeight.equals("bold");
+		return fontWeight.equals(BOLD_STR);
 	}
 
 	@Override
     public int getStyle() {
-	    return (isBold()?1:0)+(isItalic()?2:0);
+	    return (isBold() ? BOLD : 0) + (isItalic() ? ITALIC : 0);
     }
 
 	@Override
