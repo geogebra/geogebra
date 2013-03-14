@@ -1,5 +1,6 @@
 package geogebra.touch.gui.euclidian;
 
+import geogebra.common.main.App;
 import geogebra.touch.controller.TouchController;
 
 import com.google.gwt.dom.client.Touch;
@@ -29,6 +30,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
 	{
+		App.debug("Touches"+event.getTouches().length());
 		if (event.getTouches().length() == 1)
 		{
 			event.preventDefault();
