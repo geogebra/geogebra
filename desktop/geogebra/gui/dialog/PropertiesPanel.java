@@ -5140,7 +5140,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			lblSymbols = new JLabel(app.getPlain("Symbols") + ":");
 			lblSymbols.setVisible(false);
 			lblSelectedSymbol=new JLabel();
-			lblSelectedSymbol.setFont(new Font(Font.SANS_SERIF,Font.PLAIN, 24));
+			lblSelectedSymbol.setFont(new Font("SansSerif", Font.PLAIN, 24));
 			
 			
 			// JLabel sizeLabel = new JLabel(app.getPlain("Filling") + ":");
