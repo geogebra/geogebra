@@ -304,10 +304,4 @@ public class EuclidianViewM extends EuclidianViewWeb
 		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
 	}
 
-	@Override
-	public void synCanvasSize() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
