@@ -76,6 +76,7 @@ public class TouchController extends EuclidianController
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
 		handleEvent(x, y);
+		App.debug("touch start");
 	}
 
 	public void onTouchMove(int x, int y)
@@ -87,6 +88,9 @@ public class TouchController extends EuclidianController
 
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
+			App.debug("touch move");
+		}else{
+			App.debug("touch move ignored");
 		}
 	}
 
@@ -96,8 +100,11 @@ public class TouchController extends EuclidianController
 
 		if (Swipeables.isSwipeable(this.model.getCommand()) && this.model.getNumberOf(Test.GEOPOINT) == 1
 		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
-		{
+		{			
 			handleEvent(x, y);
+			App.debug("touch end");
+		}else{
+			App.debug("touch end ignored");
 		}
 
 		if (this.model.getCommand().equals(ToolBarCommand.Move_Mobile) && this.view.getHits().size() > 0)
