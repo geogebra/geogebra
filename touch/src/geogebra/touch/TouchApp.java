@@ -640,8 +640,7 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public ViewManager getViewManager() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ViewManagerM();
 	}
 
 }
