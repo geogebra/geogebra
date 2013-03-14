@@ -2672,24 +2672,27 @@ var Variable = P(Symbol, function(_, _super) {
   }
   _.text = function() {
     var text = this.ctrlSeq;
-    if (this[L] && !(this[L] instanceof Variable)
-        && !(this[L].ctrlSeq === ' ')
+	if (this[L] && !(this[L] instanceof Variable)
+		&& !(this[L].ctrlSeq === ' ')
+		&& !(this[L].ctrlSeq === '(')
+		&& !(this[L].ctrlSeq === '\\left(')
         && !(this[L] instanceof BinaryOperator))
       text = '*' + text;
 
     // skip spaces
     var nex = this;
     while ((nex[R]) && (nex[R].ctrlSeq === ' '))
-	nex = nex[R];
+	  nex = nex[R];
 
     if (nex[R] && !(nex[R] instanceof BinaryOperator)
         && !(nex.jQ.hasClass('un-italicized'))
         && !(nex[R].ctrlSeq === '(')
         && !(nex[R].ctrlSeq === '\\left(')
+        && !(nex[R].ctrlSeq === ')')
+        && !(nex[R].ctrlSeq === '\\right)')
         && !(nex[R].ctrlSeq === '^'))
-      text += '*';
-
-    return text;
+	  text += '*';
+	return text;
   };
 });
 
