@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
-Translateable{
+Translateable, MatrixTransformable{
 	
 	protected CoordSys coordsys;
 	
@@ -542,5 +543,32 @@ Translateable{
 		
 	}
     
+	/////////////////////////////
+	// MATRIX TRANSFORMABLE
+	/////////////////////////////
+	
+	@Override
+	public boolean isMatrixTransformable() {
+		return true;
+	}
+	
+	public void matrixTransform(double p, double q, double r, double s) {
+
+	}
+	
+	public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+
+		matrixTransform(new CoordMatrix4x4(
+				a00, a01, a02, 
+				a10, a11, a12, 
+				a20, a21, a22));
+
+	}
+	
+	public void matrixTransform(CoordMatrix4x4 matrix){
+		getCoordSys().matrixTransform(matrix);
+	}
+
 	
 }

@@ -509,5 +509,11 @@ public class CoordSys {
 	public void translateDrawingMatrix() {
 		drawingMatrix.setOrigin(getOrigin());
 	}
+	
+	public void matrixTransform(CoordMatrix4x4 m){
+		matrixOrthonormal = m.mul(matrixOrthonormal);
+		setOrigin(matrixOrthonormal.getOrigin());
+		setVx(matrixOrthonormal.getVx());		
+	}
 
 }
