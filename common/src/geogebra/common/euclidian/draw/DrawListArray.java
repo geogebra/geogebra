@@ -91,7 +91,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 			if (d != null)
 				d.setCreatedByDrawList(drawList);
 		}else{
-			d.update();
+			update(d);
 		}
 		return d;
 	}
