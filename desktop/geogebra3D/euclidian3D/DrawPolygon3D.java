@@ -109,8 +109,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		//super.updateForItSelf();
 		
-		
-		
 		//creates the polygon
 		GeoPolygon polygon = (GeoPolygon) getGeoElement();
 		int pointLength = polygon.getPointsLength();
@@ -136,14 +134,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		setGeometryIndex(index);
 				
 		for(int i=0;i<pointLength;i++){
-			//v = polygon.getPoint3D(i);
 			v = polygon.getPoint3D(i);
 			renderer.addToPolygon(v.get(1),v.get(2),v.get(3));
-			/*
-			Coords vInhom=v.getInhomCoordsInSameDimension();			
-			renderer.addToPolygon(vInhom.get(1),vInhom.get(2),vInhom.get(3));
-			Application.debug("v["+i+"]=\n"+v+"\ninhom=\n"+vInhom);
-			*/
+			//App.debug("v["+i+"]="+v.get(1)+","+v.get(2)+","+v.get(3));
+			
 		}
 		
 		renderer.endPolygon();

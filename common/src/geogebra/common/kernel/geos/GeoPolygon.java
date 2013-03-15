@@ -487,13 +487,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	public GeoElement copy() {
 		return new GeoNumeric(cons, getArea());
 	}
+	
+
+	/**
+	 * need to say if it's an internal copy to get the correct vertices coords
+	 */
+	protected boolean isCopyInternal;
+	
+
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoPolygon ret = newGeoPolygon(cons1);
 		ret.points = copyPoints(cons1);
 		ret.set(this);
-
+		ret.isCopyInternal = true;
+		
 		return ret;
 	}
 
@@ -1538,8 +1547,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
-		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).matrixTransform(a00, a01, a10, a11);
+		for (int i = 0; i < getPointsLength(); i++)
+			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a10, a11);
 		this.calcArea();
 	}
 
@@ -1600,9 +1609,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).matrixTransform(a00, a01, a02, a10, a11,
+		
+		for (int i = 0; i < getPointsLength(); i++){
+			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
+		}
+		
 	}
 
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {

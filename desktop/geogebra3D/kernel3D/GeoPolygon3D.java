@@ -159,9 +159,14 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 */
 	@Override
 	public Coords getPoint3D(int i) {
+		
+		if (isCopyInternal){
+			return getPointND(i).getInhomCoordsInD(3);
+		}
+		
 		Coords v = super.getPoint3D(i);
-		// return coordSys.getPoint(getPointX(i), getPointY(i));
 		return coordSys.getPoint(v.getX(), v.getY());
+		
 	}
 
 	/**
@@ -531,6 +536,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	protected GeoPolygon newGeoPolygon(Construction cons) {
 		return new GeoPolygon3D(cons, null);
 	}
+	
 
 	@Override
 	protected GeoPointND[] copyPoints(Construction cons) {
