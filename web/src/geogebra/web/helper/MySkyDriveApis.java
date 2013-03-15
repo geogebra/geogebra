@@ -1,18 +1,27 @@
 package geogebra.web.helper;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.main.AppW;
 
+import java.util.Date;
+
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.dom.client.Document;
 
 public class MySkyDriveApis {
 	
 	private App app;
 	boolean skyDriveApiLoaded = false;
+	private long tokenExpiresAt;
 	boolean signedIn = false;
 	private String callBack = null;
+	private boolean loggedIn;
+	private String loggedInUser;
 	
 	public MySkyDriveApis(App app) {
 		this.app = app;
@@ -63,7 +72,8 @@ public class MySkyDriveApis {
 			
 			var session = $wnd.WL.getSession();
 			if (session) {
-			    $wnd.console.log("You are already signed in!");
+			  	this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
+			  	this.@geogebra.web.helper.MyGoogleApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
 			} else {
 			    $wnd.WL.login({ scope: "wl.signin wl.basic wl.skydrive" });
 			}
@@ -71,7 +81,8 @@ public class MySkyDriveApis {
 			function onLogin() {
 			    var session = $wnd.WL.getSession();
 			    if (session) {
-			        $wnd.console.log("You are signed in!");
+			    _this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
+			  	_this.@geogebra.web.helper.MyGoogleApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
 			    }
 			}
 			 
@@ -83,5 +94,63 @@ public class MySkyDriveApis {
 			}
 	    }
 	}-*/;
+	
+	public native void setUserEmailAfterLogin() /*-{
+		var _this = this;
+		$.WL.api({ path: "/me", method: "GET" }).then(
+        function (response) {
+            _this.@geogebra.web.helper.MySkyDriveApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;)(response.name);
+        },
+        function (response) {
+            $wnd.console.log("API call failed: " + JSON.stringify(response.error).replace(/,/g, "\n"));
+        }
+    	);
+    
+    
+	}-*/;
+	
+	public void loggedIntoGoogleSuccessFull(String name) {
+		loggedIn = true;
+		loggedInUser = name;
+		initSkyDriveTokenChecking();
+		refreshLoggedInGui(true);
+		if (callBack != null) {
+			callCallback();
+		}
+	}
+	
+	private AnimationHandle checker;
+	
+	private void initSkyDriveTokenChecking() {
+		final MySkyDriveApis _this = this;
+		checker = AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			
+			public void execute(double timestamp) {
+				long current = new Date().getTime();
+				if (current > tokenExpiresAt) {
+					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
+					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLogOutFromSkyDrive().getScheduledCommand().execute();
+					checker.cancel();
+					return;
+				}
+				AnimationScheduler.get().requestAnimationFrame(this);
+			}
+		});
+	}
+	
+	private void callCallback() {
+		if (callBack.equalsIgnoreCase("open")) {
+			((GuiManagerW) app.getGuiManager()).openFromSkyDrive();
+		}
+	}
+	
+	private void setExpiresAt(String expires_in) {
+		long current = new Date().getTime();
+		tokenExpiresAt = current + (Integer.parseInt(expires_in) * 1000);
+	}
+
+	public String getLoggedInUser() {
+	    return loggedInUser;
+    }
 
 }

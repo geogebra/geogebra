@@ -213,8 +213,6 @@ public class MyGoogleApis {
 	private void callCallback() {
 		if (callBack.equalsIgnoreCase("open")) {
 			((GuiManagerW) app.getGuiManager()).openFromGoogleDrive();
-		} else if (callBack.equalsIgnoreCase("save")) {
-			
 		}
 	}
 	

@@ -202,6 +202,10 @@ public class GeoGebraMenubarW extends MenuBar {
 		public MenuItem getLogOutFromGoogle() {
 			return logOutFromGoogle;
 		}
+		
+		public MenuItem getLogOutFromSkyDrive() {
+			return logOutFromSkyDrive;
+		}
 
 		public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
 			logOutFromGoogle.setVisible(true);
@@ -210,8 +214,8 @@ public class GeoGebraMenubarW extends MenuBar {
         }
 
 		public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
-	        // TODO Auto-generated method stub
-	        
+	        logOutFromSkyDrive.setVisible(true);
+	        logOutFromSkyDrive.setTitle(app.getObjectPool().getMySkyDriveApis().getLoggedInUser());
         }
 		
 }
