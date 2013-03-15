@@ -1407,6 +1407,7 @@ Paddings for menuitems.
 
 .StyleBarPanel, .TitleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
+	border-bottom: 1px solid lightgray;
 }
 
 .StyleBarToggleButton {
@@ -1425,8 +1426,6 @@ Paddings for menuitems.
 
 
 .ApplicationPanel {
-	border-top:1px solid lightgray;
-    border-bottom:1px solid lightgray;
 }
 
 
