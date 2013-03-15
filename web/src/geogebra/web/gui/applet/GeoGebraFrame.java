@@ -133,7 +133,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			dpBorder = "#000000";
 		}
 
-		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
 		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		ae.getStyle().setBorderColor(dpBorder);
 		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
@@ -145,7 +145,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = "#9999ff";
 
-		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
 		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		ae.getStyle().setBorderColor(dpBorder);
 		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
