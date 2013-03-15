@@ -567,7 +567,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		} else {
 			fileChooser.setDescription("");
 		}
-		fileChooser.show();
+		fileChooser.center();
 		return true;
 	}
 

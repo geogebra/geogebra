@@ -16,6 +16,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GeoGebraFileChooser extends PopupPanel {
+public class GeoGebraFileChooser extends DialogBox {
 	
 	App app;
 	VerticalPanel p;
@@ -146,7 +147,6 @@ public class GeoGebraFileChooser extends PopupPanel {
 				uploadToGGT.setEnabled(true);
 			}
 		});
-	    center();
 	    
 	    //ggb file creating, and if ready, enabling of download-button.
 	    setFilename("geogebra.ggb");
@@ -197,12 +197,14 @@ public class GeoGebraFileChooser extends PopupPanel {
 		if (loggedIn) {
 			if (loginToGoogleR != null) {
 				loginToGoogleR.removeHandler();
+				loginToGoogleR = null;
 			}
 			saveToGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("SaveToGoogleDrive")));
 			saveToGoogleDriveR = saveToGoogleDrive.addClickHandler(saveToGoogleDriveH);
 		} else {
 			if (saveToGoogleDriveR != null) {
 				saveToGoogleDriveR.removeHandler();
+				loginToGoogleR = null;
 			}
 			saveToGoogleDrive.setHTML(app.getMenu("SaveToGoogleDrive"));
 			loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
