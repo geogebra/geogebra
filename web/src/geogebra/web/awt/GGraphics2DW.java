@@ -262,12 +262,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			context.setFillStyle(((GGradientPaintW)paint).getGradient(context));
 			currentPaint = new GGradientPaintW((GGradientPaintW)paint);
 		} else if (paint instanceof GTexturePaintW) {
-			try {//TODO find out how to avoid the try-catch; currently fails randomly in Firefox + maybe other browsers
+			try {//bug in Firefox
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
+				//NS_ERROR_NOT_AVAILABLE: Component is not available
+				//https://bugzilla.mozilla.org/show_bug.cgi?id=574330
 				currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 				CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 				context.setFillStyle(ptr);
-			} catch(Throwable e) {
+			} catch (Throwable e) {
 				App.error(e.getMessage());
 			}
 		} else {
