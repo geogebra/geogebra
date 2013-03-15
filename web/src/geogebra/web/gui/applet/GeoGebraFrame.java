@@ -129,14 +129,17 @@ public class GeoGebraFrame extends VerticalPanel {
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder == null || dpBorder.length() != 7 ||
 			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
+			// FIXME: This check is incomplete, do a complete check.
 			dpBorder = "#000000";
-			ae.getStyle().setBorderWidth(1, Style.Unit.PX);
-			ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-			ae.getStyle().setBorderColor(dpBorder);
-			gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-			gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-			gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 		}
+
+		ae.getStyle().setBorderWidth(1, Style.Unit.PX);
+		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderColor(dpBorder);
+		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
+		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+
 	}
 
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
