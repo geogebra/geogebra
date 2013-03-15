@@ -5,7 +5,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -70,7 +69,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		// sets the drawing matrix
 		matrix.set(getCoords(), 1);
 
-		setDrawingMatrix(new CoordMatrix4x4(matrix));
 
 	}
 
@@ -87,7 +85,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			matrix.set(4, 2, 1.0);
 		}
 
-		setDrawingMatrix(new CoordMatrix4x4(matrix));
 		labelPosition = matrix.getOrigin().add(matrix.getVx().mul(0.5));
 	}
 

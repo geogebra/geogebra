@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -113,16 +112,6 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return drawable3D;
 	}
 
-	public CoordMatrix4x4 getDrawingMatrix() {
-		if (coordSys != null)
-			return coordSys.getMatrixOrthonormal();
-		else
-			return null;
-	}
-
-	public void setDrawingMatrix(CoordMatrix4x4 matrix) {
-		// coordSys.setDrawingMatrix(matrix);
-	}
 
 	@Override
 	public Coords getLabelPosition() {

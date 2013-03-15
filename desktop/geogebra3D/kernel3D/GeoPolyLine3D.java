@@ -374,22 +374,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return drawable3D;
 	}
 
-	public CoordMatrix4x4 getDrawingMatrix() {
-
-		// Application.debug("coordSys="+coordSys);
-		/*
-		 * if (coordSys!=null) return coordSys.getDrawingMatrix(); else return
-		 * null;
-		 */
-		// return new GgbMatrix4x4(coordSys.getMatrix());
-		// return coordSys.getMatrixOrthonormal();
-		return null; // TODO
-	}
-
-	public void setDrawingMatrix(CoordMatrix4x4 matrix) {
-		// coordSys.setDrawingMatrix(matrix);
-
-	}
 
 	public boolean hasGeoElement2D() {
 		// TODO Auto-generated method stub

@@ -95,6 +95,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 			labels[0] = name;
 		}
 		
+		
 		if (labels==null || labels.length <= 1 || isOldFileVersion())
 			polyhedron.initLabels(labels);
 		else{
@@ -320,12 +321,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	public Commands getClassName() {
 		return name;
 	}
-
-	// TODO Consider locusequability
 	
-    
-  
-    
+	
 	
 	
 }

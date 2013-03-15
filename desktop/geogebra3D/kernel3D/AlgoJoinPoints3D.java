@@ -257,6 +257,14 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
 
         return sb.toString();
     }   
+    
+    /**
+     * 
+     * @return parent polygon/polyhedron (if exists)
+     */
+    public GeoElement getPoly(){
+    	return poly;
+    }
 
 	// TODO Consider locusequability
 

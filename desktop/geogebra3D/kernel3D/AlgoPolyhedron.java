@@ -2,10 +2,13 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
 
 /**
  * @author ggb3D
@@ -198,5 +201,63 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 			((GeoElement) segment).getXML(sb);
 		
 	}
+	
+	
+	
+	
+
+
+	@Override
+	public void removeOutputExcept(GeoElement keepGeo) {
+		for (int i = 0; i < super.getOutputLength(); i++) {
+			GeoElement geo = super.getOutput(i);
+			if (geo != keepGeo) {
+				if (geo.isGeoPoint()) {
+					removePoint(geo);
+				} else {
+					geo.doRemove();
+				}
+			}
+		}
+	}
+
+
+	private void removePoint(GeoElement oldPoint) {
+
+		// remove dependent algorithms (e.g. segments) from update sets of
+		// objects further up (e.g. polygon) the tree
+		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
+		for (int k = 0; k < algoList.size(); k++) {
+			AlgoElement algo = algoList.get(k);
+			for (int j = 0; j < input.length; j++)
+				input[j].removeFromUpdateSets(algo);
+		}
+
+		// remove old point
+		oldPoint.setParentAlgorithm(null);
+
+		// remove dependent segment algorithm that are part of this polygon
+		// to make sure we don't remove the polygon as well
+		GeoPolyhedron poly = getPolyhedron();
+		for (int k = 0; k < algoList.size(); k++) {
+			AlgoElement algo = algoList.get(k);
+			// make sure we don't remove the polygon as well
+			if (algo instanceof AlgoJoinPoints3D
+					&& ((AlgoJoinPoints3D) algo).getPoly() == poly) {
+				continue;
+			}else if(algo instanceof AlgoPolygon3D
+					&& ((AlgoPolygon3D) algo).getPolyhedron() == poly) {
+				continue;
+			}
+			algo.remove();
+
+		}
+
+		algoList.clear();
+		// remove point
+		oldPoint.doRemove();
+
+	}
+	
 	
 }

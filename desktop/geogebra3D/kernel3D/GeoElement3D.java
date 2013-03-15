@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.Test3D;
@@ -128,8 +127,6 @@ import geogebra3D.euclidian3D.Drawable3D;
 public abstract class GeoElement3D extends GeoElement implements
 		GeoElement3DInterface {
 
-	/** matrix used as orientation by the {@link Drawable3D} */
-	private CoordMatrix4x4 m_drawingMatrix = null;
 	
 
 	
@@ -159,20 +156,11 @@ public abstract class GeoElement3D extends GeoElement implements
 		return true;
 	}
 	
-	/** returns a 4x4 matrix for drawing the {@link Drawable3D} 
-	 * @return the drawing matrix*/
-	public CoordMatrix4x4 getDrawingMatrix(){
-		return m_drawingMatrix;
-	}
 	
 	@Override
 	abstract public Coords getLabelPosition();
 	
-	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
-	 * @param a_drawingMatrix the drawing matrix*/
-	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix){
-		this.m_drawingMatrix = a_drawingMatrix;
-	}		
+	
 	
 	// link to 2D GeoElement
     /**

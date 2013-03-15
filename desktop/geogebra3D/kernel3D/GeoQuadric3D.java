@@ -456,10 +456,6 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// GEOELEMENT3D INTERFACE
 	// /////////////////////////////////////////
 
-	public CoordMatrix4x4 getDrawingMatrix() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public GeoElement getGeoElement2D() {
 		// TODO Auto-generated method stub
@@ -481,12 +477,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	public void setDrawingMatrix(CoordMatrix4x4 aDrawingMatrix) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	public void setGeoElement2D(GeoElement geo) {
 		// TODO Auto-generated method stub
 

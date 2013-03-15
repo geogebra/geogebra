@@ -57,6 +57,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.view.algebra.AlgebraViewD;
+import geogebra3D.euclidian3D.Drawable3D;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -103,6 +104,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public GeoPoint3D(Construction c) {
 		super(c, 4);
+		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setUndefined();
 	}
 
@@ -112,6 +114,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public GeoPoint3D(Construction c, String label, double x, double y,
 			double z, double w) {
 		super(c, x, y, z, w); // GeoVec4D constructor
+		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setLabel(label);
 		setCartesian3D();
 
@@ -123,6 +126,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public GeoPoint3D(Construction c, Path path) {
 		super(c, 4);
+		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setPath(path);
 	}
@@ -142,6 +146,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public GeoPoint3D(Construction c, Region region) {
 		super(c, 4);
+		setDrawingMatrix(CoordMatrix4x4.Identity());
 		setCartesian3D();
 		setRegion(region);
 	}
@@ -690,6 +695,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public GeoPoint3D(GeoPointND point) {
 		super(((GeoElement) point).getConstruction());
+		setDrawingMatrix(CoordMatrix4x4.Identity());
 		set((GeoElement) point);
 	}
 
@@ -1371,6 +1377,22 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 		
 	}
+	
+
+	/** matrix used as orientation by the {@link Drawable3D} */
+	private CoordMatrix4x4 m_drawingMatrix = null;
+
+	/** returns a 4x4 matrix for drawing the {@link Drawable3D} 
+	 * @return the drawing matrix*/
+	public CoordMatrix4x4 getDrawingMatrix(){
+		return m_drawingMatrix;
+	}
+	
+	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
+	 * @param a_drawingMatrix the drawing matrix*/
+	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix){
+		this.m_drawingMatrix = a_drawingMatrix;
+	}	
 
 
 }

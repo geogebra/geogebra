@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.Function;
@@ -141,9 +140,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return drawable3D;
 	}
 
-	public CoordMatrix4x4 getDrawingMatrix() {
-		return CoordMatrix4x4.Identity();
-	}
 
 	public GeoElement getGeoElement2D() {
 		return null;
@@ -166,10 +162,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	public void setDrawable3D(Drawable3D d) {
 
 		drawable3D = d;
-
-	}
-
-	public void setDrawingMatrix(CoordMatrix4x4 aDrawingMatrix) {
 
 	}
 

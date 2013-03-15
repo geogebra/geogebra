@@ -375,11 +375,6 @@ Translateable, MatrixTransformable{
 	}
 	
 	
-	@Override
-	public CoordMatrix4x4 getDrawingMatrix(){
-		return getCoordSys().getMatrixOrthonormal();
-	}
-
 	
 
 	@Override

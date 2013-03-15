@@ -20,7 +20,6 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -49,7 +48,6 @@ public abstract class GeoVec extends GeoElement3D {
 		this(c);
 		m_length = n;
 		v = new Coords(n);
-		setDrawingMatrix(CoordMatrix4x4.Identity());
 	}
 
 	/** Creates new GeoVec with coordinates coords[] and label */

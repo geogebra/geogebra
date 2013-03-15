@@ -1,9 +1,7 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra3D.euclidian3D.Drawable3D;
 
 /**
  * GeoElement3D's common interface, used for special cases 
@@ -15,15 +13,6 @@ import geogebra3D.euclidian3D.Drawable3D;
  *
  */
 public interface GeoElement3DInterface {
-	
-	/** returns a 4x4 matrix for drawing the {@link Drawable3D} 
-	 * @return the drawing matrix*/
-	public CoordMatrix4x4 getDrawingMatrix();
-	
-	
-	/** sets the 4x4 matrix for drawing the {@link Drawable3D} 
-	 * @param a_drawingMatrix the drawing matrix*/
-	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix);
 	
 	
 	// link to 2D GeoElement

@@ -5,7 +5,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -363,21 +362,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		return drawable3D;
 	}
 
-	public CoordMatrix4x4 getDrawingMatrix() {
-
-		// Application.debug("coordSys="+coordSys);
-		/*
-		 * if (coordSys!=null) return coordSys.getDrawingMatrix(); else return
-		 * null;
-		 */
-		// return new GgbMatrix4x4(coordSys.getMatrix());
-		return coordSys.getMatrixOrthonormal();
-	}
-
-	public void setDrawingMatrix(CoordMatrix4x4 matrix) {
-		// coordSys.setDrawingMatrix(matrix);
-
-	}
 
 	/**
 	 * set the alpha value to alpha for openGL
