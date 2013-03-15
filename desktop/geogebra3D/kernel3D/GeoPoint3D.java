@@ -1201,6 +1201,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		setCoords(x1, y1, z1, getW());
 
 	}
+	
+	@Override
+	public boolean isMatrixTransformable() {
+		return true;
+	}
 
 	public int getDimension() {
 		return 3;
