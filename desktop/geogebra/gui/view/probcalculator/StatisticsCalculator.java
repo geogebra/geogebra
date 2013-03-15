@@ -269,8 +269,15 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		case ZPROP_TEST:
 		case ZPROP2_TEST:
 
-			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-					Box.createHorizontalStrut(5), lblHypParameter, fldNullHyp));
+			if (app.getLocalization().isRightToLeftReadingOrder()) {
+				// eg 1.1 = mu
+				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
+					Box.createHorizontalStrut(5), fldNullHyp, lblHypParameter));
+			} else {
+				// eg mu = 1.1
+				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
+						Box.createHorizontalStrut(5), lblHypParameter, fldNullHyp ));				
+			}
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
 					btnLeft, btnRight, btnTwo));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
