@@ -1535,7 +1535,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		hatchWarning = true;
 		codePreamble.append(" \n\n%<<<<<<<WARNING>>>>>>>\n");
 		codePreamble
-				.append("% PGF/Tikz doesn't support very well hatch filling\n");
+				.append("% PGF/Tikz doesn't support hatch filling very well\n");
 		codePreamble.append("% Use PStricks for a perfect hatching export\n\n");
 	}
 
