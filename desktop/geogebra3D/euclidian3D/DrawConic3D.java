@@ -243,8 +243,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
-				//surface.disc(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0));
-				//break;
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
 				break;
@@ -259,6 +257,16 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		
 		
 		return true;
+	}
+	
+	/**
+	 * update surface drawing for ellipse case
+	 * @param surface surface plotter
+	 */
+	protected void updateEllipse(PlotterSurface surface){
+		GeoConicND conic = (GeoConicND) getGeoElement();
+		surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
+
 	}
 	
 	

@@ -425,6 +425,8 @@ public class PlotterSurface {
     		manager.vertex(center.add(m));
     	} 
     	
+    			
+    	
     	manager.endGeometry();
     	
 	}
