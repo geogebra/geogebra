@@ -251,7 +251,7 @@ public class TimerSystemW {
 		if (view == null)
 			return;
 
-		if (view == euclidianView1) {
+		if (view == euclidianView1 && euclidian1Latest!=null) {
 			euclidian1Sum = new Date().getTime() - euclidian1Latest.getTime();
 			nextrepainttime -= euclidian1Sum;
 		} else if (view == algebraView)
