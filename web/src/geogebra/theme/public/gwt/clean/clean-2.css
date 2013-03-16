@@ -1330,7 +1330,7 @@ td.datePickerMonth {
 .linktoggbtube {
 	position:absolute;
 	right:20px;
-	top:10px;
+	top:7px;
 }
 
 body[dir=rtl] .linktoggbtube {
@@ -1340,12 +1340,12 @@ body[dir=rtl] .linktoggbtube {
 
 .logoutfromgoogle {
 	position:absolute;
-	right : 44px;
+	right : 40px;
 }
 
 .logoutfromskydrive {
 	position: absolute;
-	right: 88px; 
+	right: 70px; 
 }
 
 body[dir=rtl] .logintogoogle {
