@@ -88,7 +88,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		updateFonts();
 		initView(true);
 		attachView();
-
+		doRepaint();
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
-		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
+		((AppWeb)this.app).getTimerSystem().viewRepainted(this);
 	}
 
 }
