@@ -5304,7 +5304,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			cbFillType.addItem(app.getMenu("Filling.Dotted")); // index 4
 			cbFillType.addItem(app.getMenu("Filling.Honeycomb"));//index 5
 			cbFillType.addItem(app.getMenu("Filling.Brick"));//index 6
-			cbFillType.addItem(app.getMenu("Filling.Symbols"));//index 7
+			cbFillType.addItem(app.getMenu("Filling.Symbol"));//index 7
 			cbFillType.addItem(app.getMenu("Filling.Image")); // index 8
 
 			cbFillType.setSelectedIndex(selectedIndex);
