@@ -259,7 +259,7 @@ public class GeoGebraFileChooser extends DialogBox {
 				loginToSkyDriveR = null;
 			}
 			saveToSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("SaveToSkyDrive")));
-			saveToSkyDriveR = saveToGoogleDrive.addClickHandler(saveToSkyDriveH);
+			saveToSkyDriveR = saveToSkyDrive.addClickHandler(saveToSkyDriveH);
 		} else {
 			if (saveToSkyDriveR != null) {
 				saveToSkyDriveR.removeHandler();
