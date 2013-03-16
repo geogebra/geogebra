@@ -87,7 +87,7 @@ public class MySkyDriveApis {
 			var session = $wnd.WL.getSession();
 			if (session) {
 			  	this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
-			  	this.@geogebra.web.helper.MyGoogleApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
+			  	this.@geogebra.web.helper.MySkyDriveApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
 			} else {
 			    $wnd.WL.login({ scope: "wl.signin wl.basic wl.skydrive" });
 			}
@@ -96,7 +96,7 @@ public class MySkyDriveApis {
 			    var session = $wnd.WL.getSession();
 			    if (session) {
 			    _this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
-			  	_this.@geogebra.web.helper.MyGoogleApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
+			  	_this.@geogebra.web.helper.MySkyDriveApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
 			    }
 			}
 			 
