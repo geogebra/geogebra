@@ -14,6 +14,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
+import geogebra.common.main.App;
 
 
 /**
@@ -41,7 +42,7 @@ public class HatchingHandler {
 			GBasicStroke objStroke,
 			GColor color,
 			GColor bgColor, float backgroundTransparency,
-			double hatchDist, double angleDegrees, FillType fillType, String symbol) {
+			double hatchDist, double angleDegrees, FillType fillType, String symbol, App app) {
 		// round to nearest 5 degrees
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 
@@ -119,13 +120,13 @@ public class HatchingHandler {
 			drawDotted(dist, g2d);
 			break;
 		case SYMBOLS:		
-			g2d.setFont(g2d.getFont().deriveFont(GFont.PLAIN, (int)dist * 2));
+			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, (int)dist * 2));
 			GTextLayout t = geogebra.common.factories.AwtFactory.prototype
 					.newTextLayout(symbol, g2d.getFont(),
 							g2d.getFontRenderContext());
 			g2d = createImage(objStroke, color, bgColor,
 					backgroundTransparency, (Math.round(t.getAscent() + t.getDescent())/3), (Math.round(t.getAscent() + t.getDescent()) / 3));
-			g2d.setFont(g2d.getFont().deriveFont(GFont.PLAIN, 24));
+			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24));			
 			g2d.drawString(symbol, 0 ,Math.round(t.getAscent()));
 			startY =0;
 			startX =0;

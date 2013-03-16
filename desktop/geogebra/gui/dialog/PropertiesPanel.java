@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.awt.GFontD;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -5131,15 +5132,15 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public FillingPanel() {
 			
 			//For filling whit unicode char
-			btInsertUnicode=new PopupMenuButton(app);
+			btInsertUnicode = new PopupMenuButton(app);
 			buildInsertUnicodeButton();
 			btInsertUnicode.setVisible(false);
-			lblMsgSelected=new JLabel(loc.getPlain("Symbol selected: "));
+			lblMsgSelected = new JLabel(loc.getPlain("CurrentSymbol") + ":");
 			lblMsgSelected.setVisible(false);
 			fillingPanel = this;
-			lblSymbols = new JLabel(app.getPlain("Symbols") + ":");
+			lblSymbols = new JLabel(app.getPlain("Symbol") + ":");
 			lblSymbols.setVisible(false);
-			lblSelectedSymbol=new JLabel();
+			lblSelectedSymbol = new JLabel();
 			lblSelectedSymbol.setFont(new Font("SansSerif", Font.PLAIN, 24));
 			
 			
@@ -5658,32 +5659,32 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
 			
 			String []funcy=new String[16];
-			for(int i=0;i<16;i++){
-				funcy[i]=""+(char)(0x2660+i);
+			for(int i=0; i < 16 ; i++){
+				funcy[i]="" + (char)(0x2660+i);
 			}
 			btInsertUnicode.addPopupMenuItem(createMenuItem(
 					funcy, -1, 4));
 
 			funcy=new String[12];
-			for(int i=0;i<12;i++){
-				funcy[i]=""+(char)(0x2654+i);
+			for(int i = 0 ; i  < 12 ; i++) {
+				funcy[i]="" + (char)(0x2654+i);
 			}
 			btInsertUnicode.addPopupMenuItem(createMenuItem(
 					funcy, -1, 4));
-			funcy=new String[26];
+			funcy = new String[26];
 			
-			funcy[0]=""+(char)(0x2725);
-			funcy[1]=""+(char)(0x2726);
-			funcy[2]=""+(char)(0x2727);
-			for(int i=0;i<funcy.length-3;i++){
+			funcy[0]="" + (char)(0x2725);
+			funcy[1]="" + (char)(0x2726);
+			funcy[2]="" + (char)(0x2727);
+			for(int i = 0 ; i < funcy.length - 3 ; i++) {
 				funcy[i+3]=""+(char)(0x2729+i);
 			}
 			btInsertUnicode.addPopupMenuItem(createMenuItem(
 					funcy, -1, 4));
 			
 			funcy=new String[8];
-			for(int i=0;i<funcy.length;i++){
-				funcy[i]=""+(char)(0x2b12+i);
+			for(int i=0 ; i < funcy.length ; i++) {
+				funcy[i]="" + (char)(0x2b12+i);
 			}
 			btInsertUnicode.addPopupMenuItem(createMenuItem(
 					funcy, -1, 4));
@@ -5691,10 +5692,21 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 		private JMenu createMenuItem(String[] table, int rows, int columns) {
-			JMenu menu = new JMenu(table[0] + " " + table[1] + " " + table[2]
-					+ "  ");
+			
+			StringBuilder sb = new StringBuilder(7);
+			sb.append(table[0]);
+			sb.append(' ');
+			sb.append(table[1]);
+			sb.append(' ');
+			sb.append(table[2]);
+			sb.append("  ");
+			
+			JMenu menu = new JMenu(sb.toString());
 			menu.add(new LatexTableFill(app, this, btInsertUnicode, table, rows,
 					columns, geogebra.common.gui.util.SelectionTable.MODE_TEXT));
+			
+			menu.setFont(GFontD.getAwtFont(app.getFontCanDisplay(sb.toString())));
+			
 			return menu;
 		}
 		class LatexTableFill extends SelectionTable implements MenuElement{
@@ -5746,8 +5758,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 					String s=(String)latexArray[this.getSelectedIndex()];
 					// if LaTeX string, adjust the string to include selected text within braces
 						
-					if(s!=null){
+					if (s != null){
 						lblSelectedSymbol.setText(s);
+						lblSelectedSymbol.setFont(GFontD.getAwtFont(app.getFontCanDisplay(s)));
 					}
 					// now insert the string
 					//inputDialog.insertString(sb.toString(), inputDialog.isLaTeX());
