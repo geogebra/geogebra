@@ -20,6 +20,7 @@ import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
+import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -245,6 +246,16 @@ public class DialogManagerW extends DialogManager {
 		    }
 		    return googleFileChooser;
 	 }
+	
+	SkyDriveFileChooser skyDriveFileChooser = null;
+	
+	public SkyDriveFileChooser getSkyDriveFileChooser() {
+		 if (skyDriveFileChooser == null) {
+		    	skyDriveFileChooser = new SkyDriveFileChooser(app);
+		    }
+		    return skyDriveFileChooser;
+	 }
+	
 	
 	public boolean isGoogleDriveChooserNull() {
 		return (null == googleFileChooser);

@@ -32,14 +32,19 @@ public class GeoGebraFileChooser extends DialogBox {
 	TextBox fileName;
 	TextArea description;
 	Button saveToGoogleDrive;
+	Button saveToSkyDrive;
 	Button cancel;
 	Anchor download;
 	Button uploadToGGT;
 	private int type;
 	private ClickHandler saveToGoogleDriveH;
+	private ClickHandler saveToSkyDriveH;
 	private ClickHandler loginToGoogleH;
+	private ClickHandler loginToSkyDriveH;
 	private HandlerRegistration saveToGoogleDriveR = null;
+	private HandlerRegistration saveToSkyDriveR = null;
 	private HandlerRegistration loginToGoogleR = null;
+	private HandlerRegistration loginToSkyDriveR = null;
 
 	public GeoGebraFileChooser(final App app) {
 	    super();
@@ -73,6 +78,7 @@ public class GeoGebraFileChooser extends DialogBox {
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
 	    buttonPanel.add(saveToGoogleDrive = new Button(app.getMenu("SaveToGoogleDrive")));
+	    buttonPanel.add(saveToSkyDrive = new Button(app.getMenu("SaveToSkyDrive")));
 	    buttonPanel.add(download);
 	    buttonPanel.add(uploadToGGT = new Button(app.getMenu("UploadGeoGebraTube")));
 	    p.add(buttonPanel);
@@ -107,6 +113,27 @@ public class GeoGebraFileChooser extends DialogBox {
 				
 		};
 		
+		saveToSkyDriveH = new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				if (fileName.getText() != "") {
+					saveToSkyDrive.setEnabled(false);
+					cancel.setEnabled(false);
+					fileName.setEnabled(false);
+					description.setEnabled(false);
+					download.setEnabled(false);
+					uploadToGGT.setEnabled(false);
+					String saveName = fileName.getText();
+					//wont save if . exist in filename 
+					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
+					JavaScriptObject callback = ((AppW) app).getObjectPool().getMySkyDriveApis().getPutFileCallback(saveName, description.getText());
+					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
+					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
+				}
+			}
+				
+		};
+		
 		final GeoGebraFileChooser t = this;
 		
 		loginToGoogleH = new ClickHandler() {
@@ -118,8 +145,19 @@ public class GeoGebraFileChooser extends DialogBox {
 				
 			}
 		};
+		
+		loginToSkyDriveH = new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				((AppW) app).getObjectPool().getMySkyDriveApis().setCaller("save");
+				((AppW) app).getObjectPool().getMySkyDriveApis().loginToSkyDrive();
+				
+				
+			}
+		};
 	    
 	    loginToGoogleR = saveToGoogleDrive.addClickHandler(loginToGoogleH);
+	    loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
 	    
 	    download.addClickHandler(new ClickHandler() {			
 			public void onClick(ClickEvent event) {
@@ -140,6 +178,7 @@ public class GeoGebraFileChooser extends DialogBox {
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
 				saveToGoogleDrive.setEnabled(true);
+				saveToSkyDrive.setEnabled(true);
 				cancel.setEnabled(true);
 				fileName.setEnabled(true);
 				description.setEnabled(true);
@@ -170,7 +209,8 @@ public class GeoGebraFileChooser extends DialogBox {
     public void show(){
 		// It creates new ggb file all time for download, all time when the
 		// dialog opens.
-		refreshIfLoggedIntoGoogle(((AppW) app).getObjectPool().getMyGoogleApis().loggedIn);
+		refreshIfLoggedIntoGoogle(((AppW) app).getObjectPool().getMyGoogleApis().isLoggedIn());
+		refreshIfLoggedIntoSkyDrive(((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn());
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
 	}
@@ -213,8 +253,21 @@ public class GeoGebraFileChooser extends DialogBox {
 
 
 	public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
-	    // TODO Auto-generated method stub
-	    
+		if (loggedIn) {
+			if (loginToSkyDriveR != null) {
+				loginToSkyDriveR.removeHandler();
+				loginToSkyDriveR = null;
+			}
+			saveToSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("SaveToSkyDrive")));
+			saveToSkyDriveR = saveToGoogleDrive.addClickHandler(saveToSkyDriveH);
+		} else {
+			if (saveToSkyDriveR != null) {
+				saveToSkyDriveR.removeHandler();
+				loginToSkyDriveR = null;
+			}
+			saveToSkyDrive.setHTML(app.getMenu("SaveToSkyDrive"));
+			loginToSkyDriveR = saveToSkyDrive.addClickHandler(loginToSkyDriveH);
+		}
     }
 	
 	

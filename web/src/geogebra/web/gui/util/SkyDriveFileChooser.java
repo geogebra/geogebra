@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler {
+public class SkyDriveFileChooser extends DialogBox implements ClickHandler, DoubleClickHandler {
 
 	private App app;
 	VerticalPanel p;
@@ -27,8 +27,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 	private VerticalPanel filesPanel;
 	
 	
-
-	public GoogleDriveFileChooser(final App app) {
+	public SkyDriveFileChooser(final App app) {
 		this.app = app;
 		setWidget(p = new VerticalPanel());
 		filesPanel = new VerticalPanel();
@@ -120,33 +119,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 
 	private native void initFileNameItems() /*-{
 		var fileChooser = this;
-		fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::clearFilesPanel()();
-		function retrieveAllFiles(callback) {
-			  var retrievePageOfFiles = function(request, result) {
-			    request.execute(function(resp) {
-			      result = result.concat(resp.items);
-			      var nextPageToken = resp.nextPageToken;
-			      if (nextPageToken) {
-			        request = $wnd.gapi.client.drive.files.list({
-			          'pageToken': nextPageToken
-			        });
-			        retrievePageOfFiles(request, result);
-			      } else {
-			        callback(result);
-			      }
-			    });
-			  }
-			  var initialRequest = $wnd.gapi.client.drive.files.list();
-			  retrievePageOfFiles(initialRequest, []);
-			}
-			retrieveAllFiles(function(resp) {
-				fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::removeSpinner()();
-				resp.forEach(function(value, index, array) {
-					if (value.mimeType === "application/vnd.geogebra.file") {
-						fileChooser.@geogebra.web.gui.util.GoogleDriveFileChooser::createLink(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(value.originalFilename,value.lastModifyingUserName,value.downloadUrl, value.title, value.description, value.id);
-					}
-				});
-			});
+		
     }-*/;
 
 	public void onClick(ClickEvent event) {

@@ -27,7 +27,9 @@ public class MyGoogleApis {
 	private boolean firstLogin = true;
 	private long tokenExpiresAt;
 	
-	public boolean loggedIn = false;
+	private boolean loggedIn = false;
+	
+
 	public boolean driveLoaded = false;
 	private App app;
 	protected boolean googleApiLoaded;
@@ -317,6 +319,14 @@ public class MyGoogleApis {
 	
 	public void setCaller(String caller) {
 		callBack = caller;
+	}
+	
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 	
 

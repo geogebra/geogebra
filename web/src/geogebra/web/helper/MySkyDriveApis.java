@@ -11,6 +11,7 @@ import java.util.Date;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 
 public class MySkyDriveApis {
@@ -52,6 +53,19 @@ public class MySkyDriveApis {
 		clearAllTokens();
 	    refreshLoggedInGui(false);
     }
+	
+	public native JavaScriptObject getPutFileCallback(String fileName, String description) /*-{
+    var _this = this;
+    return function(base64) {
+    	var fName = fileName;
+    	var ds = description;
+    	_this.@geogebra.web.helper.MySkyDriveApis::saveFileToSkyDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
+    };
+	}-*/;
+	
+	private void saveFileToSkyDrive(String fileName, String description, String base64) {
+		
+	}
 	
 	private void refreshLoggedInGui(boolean loggedIn) {
 		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoSkyDrive(loggedIn);
@@ -97,7 +111,7 @@ public class MySkyDriveApis {
 	
 	public native void setUserEmailAfterLogin() /*-{
 		var _this = this;
-		$.WL.api({ path: "/me", method: "GET" }).then(
+		$wnd.WL.api({ path: "/me", method: "GET" }).then(
         function (response) {
             _this.@geogebra.web.helper.MySkyDriveApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;)(response.name);
         },
@@ -110,7 +124,7 @@ public class MySkyDriveApis {
 	}-*/;
 	
 	public void loggedIntoGoogleSuccessFull(String name) {
-		loggedIn = true;
+		setLoggedIn(true);
 		loggedInUser = name;
 		initSkyDriveTokenChecking();
 		refreshLoggedInGui(true);
@@ -151,6 +165,14 @@ public class MySkyDriveApis {
 
 	public String getLoggedInUser() {
 	    return loggedInUser;
+    }
+
+	public boolean isLoggedIn() {
+	    return loggedIn;
+    }
+
+	public void setLoggedIn(boolean loggedIn) {
+	    this.loggedIn = loggedIn;
     }
 
 }
