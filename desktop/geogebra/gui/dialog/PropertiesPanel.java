@@ -5604,7 +5604,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					geo.setFillType(fillType);
-					if (!lblSelectedSymbol.getText().isEmpty()) {
+					if (!"".equals(lblSelectedSymbol.getText())) {
 						geo.setFillSymbol(lblSelectedSymbol.getText());
 					}
 					geo.updateRepaint();
