@@ -1,5 +1,7 @@
 package geogebra.export.pstricks;
 
+import geogebra.main.AppD;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +17,8 @@ public class PgfFrame extends ExportFrame{
 	private JCheckBox forceGnuplot;
 	public PgfFrame(final GeoGebraToPgf ggb2pgf){
 		super(ggb2pgf,"GeneratePgf");
+		fileExtension=AppD.FILE_EXT_TEX;
+		fileExtensionMsg="TeX ";
 		initGui();
 	}
 	protected void initGui(){

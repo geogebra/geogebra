@@ -35,6 +35,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -2262,11 +2263,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         int axisStyle    = euclidianView.getAxesLineStyle();
         int[] tickStyle  = euclidianView.getAxesTickStyles();
         geogebra.common.awt.GColor axisColor  = euclidianView.getAxesColor();
-        boolean axisBold =  (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD) 
-                         || (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_FULL_BOLD);
-        boolean axisArrow = (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD) 
-                         || (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-        
+        boolean axisBold =  (axisStyle & 2) == EuclidianStyleConstants.AXES_BOLD;
+               
         String lx = "", ly = "";    // axis labels
         if(label[0] != null)
             lx = "$"+StringUtil.toLaTeXString(label[0], true)+"$";
@@ -2438,12 +2436,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 }
                 // n=2, Step=Dx, Size=2, size=1, NoZero
                 packSpaceBetween(codeBeginPic, "n", "=", "2,", "Step", "=", Dx + ",", "Size", "=", "2,", "size", "=", "1");
-                if(yAxis)
-                    packSpaceBetween(codeBeginPic, ",", "NoZero");
                 codeBeginPic.append(")");
             }
-            if(axisArrow)
-                packSpaceBetween(codeBeginPic, ",", "Arrows(6)");
             packSpaceBetween(codeBeginPic, ",", "above", "=", "true); ");
         }
         if(xAxis && yAxis && !compact)
@@ -2497,18 +2491,40 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 }
                 // n=2, Step=Dy, Size=2, size=1, NoZero
                 packSpaceBetween(codeBeginPic, "n", "=", "2,", "Step", "=", Dy + ",", "Size", "=", "2,", "size", "=", "1");
-                if(xAxis)
-                    packSpaceBetween(codeBeginPic, ",", "NoZero");
                 codeBeginPic.append(")");
             }
-            if(axisArrow)
-                packSpaceBetween(codeBeginPic, ",", "Arrows(6)");
             packSpaceBetween(codeBeginPic, ",", "above", "=", "true); ");
         }
         if((xAxis || yAxis) && !compact)  // documentation
             codeBeginPic.append("/* draws axes; NoZero hides '0' label */ ");
+       drawArrows(axisStyle,axisBold);
     }
-    // Returns point style code with size dotsize. Includes comma.
+    private void drawArrows(int axisStyle, boolean axisBold) {
+    	boolean axisLeftArrow=(axisStyle & 4) == EuclidianStyleConstants.AXES_LEFT_ARROW;
+        boolean axisRightArrow=(axisStyle & 1) == EuclidianStyleConstants.AXES_RIGHT_ARROW;
+        String arrow=null;
+        String pt="6";
+        if(axisBold){
+        	pt="9";
+        }
+        if(axisRightArrow && axisLeftArrow){
+        	arrow="Arrows("+pt+"),";
+       	 	codeBeginPic.insert(codeBeginPic.indexOf("above")-1, arrow);   
+       	 	codeBeginPic.insert(codeBeginPic.lastIndexOf("above")-1, arrow);
+        }else{
+        	if(axisRightArrow){
+        	 arrow="EndArrow("+pt+"),";
+        	 codeBeginPic.insert(codeBeginPic.indexOf("above")-1, arrow);   
+        	 codeBeginPic.insert(codeBeginPic.lastIndexOf("above")-1, arrow);   
+        	}
+        	if(axisLeftArrow){
+        	 arrow="BeginArrow("+pt+"),";
+        	 codeBeginPic.insert(codeBeginPic.indexOf("above")-1, arrow);   
+        	 codeBeginPic.insert(codeBeginPic.lastIndexOf("above")-1, arrow);
+        	}
+        }
+	}
+	// Returns point style code with size dotsize. Includes comma.
     private void PointOptionCode(GeoPoint geo, StringBuilder sb, double dotsize){
         geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
         int dotstyle   = geo.getPointStyle();
@@ -3398,7 +3414,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			((GeoElement) geo).setLineType(lineType);
 			code.append(";\npen fillstyle="+penStyle((GeoElement) geo));
 			ColorCode(c, code);
-			code.append(";\nadd(\"hatch\",hatch(2mm,NW,fillstyle));\n");			
+			if (((GeoElement) geo).getFillType()!=FillType.STANDARD){
+				code.append(";\nadd(\"hatch\",hatch(2mm,NW,fillstyle));\n");
+			}else{
+				code.append(";\nadd(\"hatch\",hatch(0.5mm,NW,fillstyle));\n");
+			}
 			switch (ineq.getType()) {
 			case INEQUALITY_CONIC:
 				GeoConicND conic = ineq.getConicBorder();
@@ -3434,16 +3454,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				code.append("filldraw(");
 				double precX = Integer.MAX_VALUE;
 				double precY = Integer.MAX_VALUE;
-				boolean newpol = false;
 				while (!path.isDone()) {
 					path.currentSegment(coords);
-					newpol = false;
+
 					if (coords[0] == precX && coords[1] == precY) {
 						code.append("cycle,pattern(\"hatch\"),border);\n");
 						code.append("filldraw(");
-						newpol = true;
+
 					} else {
-						newpol = false;
 						code.append("(");
 						code.append(format((coords[0] - zeroX) / ds[4]));
 						code.append(",");

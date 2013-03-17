@@ -204,6 +204,13 @@ public class Unicode {
 				|| (c == Superscript_1) || (c == Superscript_2)
 				|| (c == Superscript_3);
 	}
-
-
+	
+	public static String [] getSetOfSymbols(int symbolsStartValue,int symbolsNumber){
+		String []symbols=new String[symbolsNumber];
+		for(int i=0;i<symbolsNumber;i++){
+			symbols[i]=""+(char)(symbolsStartValue+i);
+		}
+		return symbols;
+	}
+	
 }

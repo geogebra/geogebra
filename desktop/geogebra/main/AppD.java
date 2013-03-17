@@ -263,7 +263,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	public static final String FILE_EXT_HTM = "htm";
 	/** extension of TeX files */
 	public static final String FILE_EXT_TEX = "tex";
-
+	/** extension of Asymptote files */
+	public static final String FILE_EXT_ASY = "asy";
 	// ==============================================================
 	// RESOURCE fields
 	// ==============================================================

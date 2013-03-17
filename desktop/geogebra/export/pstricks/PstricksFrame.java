@@ -1,5 +1,7 @@
 package geogebra.export.pstricks;
 
+import geogebra.main.AppD;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,6 +19,8 @@ public class PstricksFrame extends ExportFrame{
 	public PstricksFrame(final GeoGebraToPstricks ggb2pst){
 		super(ggb2pst,"GeneratePstricks");
 		initGui();
+		fileExtension=AppD.FILE_EXT_TEX;
+		fileExtensionMsg="TeX ";
 	}
 	protected void initGui(){
 		comboFormat=new JComboBox(format);

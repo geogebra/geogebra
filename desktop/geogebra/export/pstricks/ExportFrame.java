@@ -59,6 +59,8 @@ abstract public class ExportFrame extends JFrame{
 	protected File currentFile=null;
 	private GeoGebraExport ggb;
 	ListenKey listenKey;
+	protected String fileExtension=AppD.FILE_EXT_TEX;
+	protected String fileExtensionMsg="TeX ";
 	//definition of the behaviour of the textValues corresponding
 	//to xmin, xmax, ymin and ymax.
 	//Explaination for xs:
@@ -149,11 +151,12 @@ abstract public class ExportFrame extends JFrame{
 		textarea=new JTextArea();
 		buttonSave=new JButton(app.getMenu("SaveAs"));
 		buttonSave.addActionListener(new ActionListener(){
+
 			public void actionPerformed(ActionEvent e){
         		currentFile =
 		            ((GuiManagerD)app.getGuiManager()).showSaveDialog(
-		                AppD.FILE_EXT_TEX, currentFile,
-		                "TeX " + app.getMenu("Files"), true, false);
+		                fileExtension, currentFile,
+		                fileExtensionMsg + app.getMenu("Files"), true, false);
 		        if (currentFile == null)
 		            return;
 				try{

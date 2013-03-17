@@ -58,11 +58,10 @@ public class MyButton implements Observer{
 	 *            graphics
 	 */
 	public void paintComponent(geogebra.common.awt.GGraphics2D g) {
-		
-		// Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
 
 		view.setAntialiasing(g);		
-	
+		
+		font = font.deriveFont(geoButton.getFontStyle(), (int)(geoButton.getFontSizeMultiplier() * 12));
 		g.setFont(font);
 		
 		boolean hasText = getCaption().length() > 0;
@@ -102,24 +101,28 @@ public class MyButton implements Observer{
 		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap + 2 * margin),
 				minSize);
 		
-		// For italic is added an inclination of approximately
-		// 15 degrees
-		double add=0;
-		if(((TextProperties)geoButton).getFontStyle()>=2){
-			add=(Math.sin(0.26) * t.getDescent()/2);
-			//Adaptation for the combination Serif+ italic made ​​by trial
-			if (((TextProperties)geoButton).isSerifFont()){
-				add = -add * 4;
-			}
-		}
+				
 		//Additional offset for image if button has fixed size		
 		int imgStart=0;
 		
 		//Initial offset for subimage if button has fixed size
 		int startX=0;
 		int startY=0;
-		
+		double add = 0;
 		if (!geoButton.isFixedSize()) {
+			//Some combinations of style, serif / sans and letters
+			//overflow from the drawing if the text is extra large
+			if(geoButton.getFontStyle() >= 2 ){
+				add=Math.sin(0.50) * t.getDescent();
+				currentWidth+=(int)add;
+			} 
+			if(geoButton.isSerifFont()){
+				currentWidth+=currentWidth/10;
+			}		
+			if(geoButton.isSerifFont() && geoButton.getFontStyle() >= 2){
+				add=-add;
+				currentWidth+=currentWidth/4;
+			}
 			geoButton.setWidth(currentWidth);
 			geoButton.setHeight(currentHeight);
 		} else {
@@ -169,13 +172,13 @@ public class MyButton implements Observer{
 		// background color
 
 		g.setPaint(p);
-		g.fillRoundRect(x, y, geoButton.getWidth(), geoButton.getHeight(), arcSize, arcSize);
+		g.fillRoundRect(x, y, geoButton.getWidth()+(int)add, geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
 		g.setPaint(oldPaint);
 		g.setColor(geogebra.common.awt.GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
-		g.drawRoundRect(x, y, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
+		g.drawRoundRect(x, y, getWidth()+(int)add - 1, getHeight() - 1, arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
@@ -189,7 +192,7 @@ public class MyButton implements Observer{
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance()+add )/ 2);
+			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance()+add) / 2);
 			int yPos = (int) (y + margin + imgHeight + imgGap + t.getAscent() + imgStart);
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);

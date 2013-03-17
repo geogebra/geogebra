@@ -1,5 +1,7 @@
 package geogebra.export.pstricks;
 
+import geogebra.main.AppD;
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,7 +25,10 @@ public class AsymptoteFrame extends ExportFrame {
      */
     public AsymptoteFrame(final GeoGebraToAsymptote ggb2asy) {
         super(ggb2asy, ggb2asy.app.getMenu("GenerateCode"));
+        fileExtension=AppD.FILE_EXT_ASY;
+        fileExtensionMsg="Asymptote ";
         initGui();
+        
     }
 
     /**
