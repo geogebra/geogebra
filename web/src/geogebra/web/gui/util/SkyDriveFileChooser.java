@@ -48,6 +48,7 @@ public class SkyDriveFileChooser {
     	);
 		}
 		openFromSkyDrive();
+		$wnd.console.log("showfilechooser called");
     }-*/;
 
 	
