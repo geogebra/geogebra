@@ -17,6 +17,7 @@ public class SkyDriveFileChooser {
 	
 
     public void show(){
+    	App.debug("show called");
 	    if (((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn() && ((AppW) app).getObjectPool().getMySkyDriveApis().isLoaded()) {
 	    	showFileChooser();
 		}
@@ -44,8 +45,7 @@ public class SkyDriveFileChooser {
         },
         function(errorResponse) {
             @geogebra.common.main.App::debug(Ljava/lang/String;)($wnd.JSON.stringify(errorResponse));
-        }
-    	);
+        	});
 		}
 		openFromSkyDrive();
 		$wnd.console.log("showfilechooser called");
