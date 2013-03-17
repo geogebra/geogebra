@@ -16,9 +16,9 @@ public class SkyDriveFileChooser {
 	
 	
 
-    public void show(){
-    	App.debug("show called");
+    public void show(){  	
 	    if (((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn() && ((AppW) app).getObjectPool().getMySkyDriveApis().isLoaded()) {
+	    	App.debug("show called inside");
 	    	showFileChooser();
 		}
 	}
