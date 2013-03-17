@@ -17,7 +17,7 @@ public class SkyDriveFileChooser {
 	
 
     public void show(){
-	    if (((AppW) app).getObjectPool().getMyGoogleApis().isLoggedIn() && ((AppW) app).getObjectPool().getMyGoogleApis().driveLoaded) {
+	    if (((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn() && ((AppW) app).getObjectPool().getMySkyDriveApis().isLoaded()) {
 	    	showFileChooser();
 		}
 	}

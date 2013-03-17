@@ -174,5 +174,9 @@ public class MySkyDriveApis {
 	public void setLoggedIn(boolean loggedIn) {
 	    this.loggedIn = loggedIn;
     }
+	
+	public boolean isLoaded() {
+		return skyDriveApiLoaded;
+	}
 
 }
