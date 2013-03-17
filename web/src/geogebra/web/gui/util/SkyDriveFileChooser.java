@@ -18,7 +18,6 @@ public class SkyDriveFileChooser {
 
     public void show(){  	
 	    if (((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn() && ((AppW) app).getObjectPool().getMySkyDriveApis().isLoaded()) {
-	    	App.debug("show called inside");
 	    	showFileChooser();
 		}
 	}
@@ -32,7 +31,7 @@ public class SkyDriveFileChooser {
 	private native void showFileChooser() /*-{
 	  	var _this = this;
 	  	function openFromSkyDrive() {
-    		$.wnd.WL.fileDialog({
+    		$wnd.WL.fileDialog({
         		mode: 'open',
         		select: 'single'
     		}).then(
@@ -41,14 +40,13 @@ public class SkyDriveFileChooser {
             		for (var i = 0; i < files.length; i++) {
                 	var file = files[i];
                 	_this.@geogebra.web.gui.util.SkyDriveFileChooser::processFile(Lcom/google/gwt/core/client/JavaScriptObject;)(file);
-            }
-        },
-        function(errorResponse) {
-            @geogebra.common.main.App::debug(Ljava/lang/String;)($wnd.JSON.stringify(errorResponse));
+            	}
+        	},
+        	function(errorResponse) {
+            	@geogebra.common.main.App::debug(Ljava/lang/String;)($wnd.JSON.stringify(errorResponse));
         	});
 		}
 		openFromSkyDrive();
-		$wnd.console.log("showfilechooser called");
     }-*/;
 
 	
