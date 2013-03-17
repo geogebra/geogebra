@@ -28,19 +28,34 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	SpreadsheetViewW sview;
 
 	public SpreadsheetDockPanelW(App app) {
-		super(0, null, null, true, 0);
-		initWidget(toplevel = new SimpleLayoutPanel());
-		ancestor = new VerticalPanelSmart();
-		ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
-		toplevel.add(ancestor);
+		super(
+				App.VIEW_SPREADSHEET, 		// view id
+				"Spreadsheet", 						// view title phrase
+				null,				// toolbar string
+				true,								// style bar?
+				3, 									// menu order
+				'S'									// menu shortcut
+			);
+		
+		//initWidget(toplevel = new SimpleLayoutPanel());
+		//ancestor = new VerticalPanelSmart();
+		//ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
+		//toplevel.add(ancestor);
+		
 		application = app;
 	}
 
 	protected Widget loadComponent() {
-		return toplevel;
+		
+		sview = ((AppW)application).getGuiManager().getSpreadsheetView();
+					
+		return sview;
 	}
 
 	protected Widget loadStyleBar() {
+		if (sstylebar == null) {
+			sstylebar = new SpreadsheetStyleBarPanel();
+		}
 		return sstylebar;
 	}
 
@@ -51,13 +66,22 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 			if (sview != null) {
 				// If this is resized, we may know its width and height
+				/*
 				int width = this.getOffsetWidth();//this is 400, OK
 				int height = this.getOffsetHeight();
 
 				if (application.getGuiManager().hasSpreadsheetView())
 					height -= (((SpreadsheetViewW)application.getGuiManager().
 						getSpreadsheetView()).getSpreadsheetStyleBar()).getOffsetHeight();
-
+				 */
+				
+				int width = this.getComponentInteriorWidth();
+				int height = this.getComponentInteriorHeight();
+				
+				if(width <0 || height < 0){
+					return;
+				}
+				
 				sview.getScrollPanel().setWidth(width+"px");
 				sview.getScrollPanel().setHeight(height+"px");
 
@@ -71,9 +95,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
     }
 
 	public void attachApp(App app) {
-	   this.application = app;
-	   sstylebar.attachApp(app);
-	   onResize();
+		super.attachApp(app);
+		this.application = app;
 	}
 
 	public SpreadsheetViewW getSpreadsheet() {

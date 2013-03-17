@@ -177,6 +177,11 @@ public abstract class App implements UpdateSelection{
 	protected boolean showToolBarHelp = false;
 	
 	/**
+	 * Toolbar position 
+	 */
+	protected int toolbarPosition;
+	
+	/**
 	 * Whether input help toggle button should be visible
 	 */
 	protected boolean showInputHelpToggle = true;
@@ -1888,6 +1893,14 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 
+	public int getToolbarPosition() {
+		return toolbarPosition;
+	}
+	
+	public void setToolbarPosition(int position, boolean update) {
+		// needs to be overridden
+	}
+	
 	/**
 	 * init the kernel (used for 3D)
 	 */

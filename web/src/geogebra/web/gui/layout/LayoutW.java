@@ -10,11 +10,15 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.Widget;
+
 public class LayoutW extends Layout implements SettingListener {
 	
 	private boolean isInitialized = false;
 	
 	private AppW app;
+
+	private DockManagerW dockManager;
 	
 	/**
 	 * instantiates layout for Web
@@ -25,9 +29,34 @@ public class LayoutW extends Layout implements SettingListener {
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}
 
-	public void settingsChanged(AbstractSettings settings) {
-		// TODO Auto-generated method stub
+	/**
+	 * Initialize the layout component.
+	 * 
+	 * @param app
+	 */
+	public void initialize(App app) {
+		if(isInitialized)
+			return;
+		
+		isInitialized = true;
+		
+		this.app = (AppW) app;
+		this.settings = app.getSettings().getLayout();
+		this.settings.addListener(this);
+		this.dockManager = new DockManagerW(this);
+    }
 
+		
+	/**
+	 * Add a new dock panel to the list of known panels.
+	 * 
+	 * Attention: This method has to be called as early as possible in the application
+	 * life cycle (e.g. before loading a file, before constructing the ViewMenu). 
+	 * 
+	 * @param dockPanel
+	 */
+	public void registerPanel(DockPanelW dockPanel) {
+		dockManager.registerPanel(dockPanel);
 	}
 	
 	/*Many of this not implemented yet, later we can make it togehter*/
@@ -61,32 +90,123 @@ public class LayoutW extends Layout implements SettingListener {
 				app.getGuiManager().setToolBarDefinition(App.VIEW_EUCLIDIAN,perspective.getToolbarDefinition());
 				
 				app.setShowToolBarNoUpdate(perspective.getShowToolBar());
-				//AGapp.setShowAlgebraInput(perspective.getShowInputPanel(), false);
-				//AGapp.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
+				app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
+				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 				
 				// change the dock panel layout
-				//AGdockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
+				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 				
 				if(!app.isIniting()) {
 					app.updateToolBar();
 					app.updateMenubar();
-					//AGapp.updateContentPane();
+					//app.updateContentPane();
 				}
 	   
     }
 
-	public void initialize(App app) {
-		if(isInitialized)
-			return;
+	
+	/**
+	 * Apply a new perspective using its id. 
+	 * 
+	 * This is a wrapper for #applyPerspective(Perspective) to simplify the loading of default
+	 * perspectives by name. 
+	 * 
+	 * @param id The ID of the perspective. For default perspectives the hard-coded ID is used, ie
+	 * 			 the translation key, for all other perspectives the ID chosen by the user is
+	 * 			 used.
+	 * @throws IllegalArgumentException If no perspective with the given name could be found.
+	 */
+	public void applyPerspective(String id) throws IllegalArgumentException {
+		Perspective perspective = getPerspective(id);
 		
-		isInitialized = true;
-		
-		this.app = (AppW) app;
-		this.settings = app.getSettings().getLayout();
-		this.settings.addListener(this);
-		//this.dockManager = new DockManager(this);
-    }
+		if(perspective != null) {
+			applyPerspective(perspective);
+		} else {
+			throw new IllegalArgumentException("Could not find perspective with the given name.");
+		}		
+	}
+	
+	
+	/**
+	 * Get all current perspectives as array.
+	 * 
+	 * @return all current perspectives as array.
+	 */
+	public Perspective[] getPerspectives() {
+		Perspective[] array = new Perspective[perspectives.size()];
+		return perspectives.toArray(array);
+	}
 
+	/**
+	 * @param index
+	 * @return perspective at given index
+	 */
+	public Perspective getPerspective(int index) {
+		if(index >= perspectives.size())
+			throw new IndexOutOfBoundsException();
+		
+		return perspectives.get(index);
+	}
+	
+	/**
+	 * @param id name of the perspective
+	 * @return perspective with 'id' as name or null 
+	 */
+	public Perspective getPerspective(String id) {
+		for(int i = 0; i < defaultPerspectives.length; ++i) {
+			if(id.equals(defaultPerspectives[i].getId())) {
+				return defaultPerspectives[i];
+			}
+		}
+		
+		for(Perspective perspective : perspectives) {
+			if(id.equals(perspective.getId())) {
+				return perspective;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Add a new perspective to the list of available perspectives.
+	 * 
+	 * @param perspective
+	 */
+	public void addPerspective(Perspective perspective) {
+		perspectives.add(perspective);
+	}
+	
+	/**
+	 * Remove a perspective identified by the object.
+	 * 
+	 * @param perspective
+	 */
+	public void removePerspective(Perspective perspective) {
+		if(perspectives.contains(perspective)) {
+			perspectives.remove(perspective);
+		}
+	}
+	
+	/**
+	 * Remove a perspective identified by the index.
+	 * 
+	 * @param index
+	 */
+	public void removePerspective(int index) {
+		if(index >= 0 && index < perspectives.size()) {
+			perspectives.remove(index);
+		} else {
+			App.debug("Invalid perspective index: " + index);
+		}
+	}
+	
+	
+	public void settingsChanged(AbstractSettings settings) {
+		// TODO Auto-generated method stub
+
+	}
+	
 	@Override
     public void getXml(StringBuilder sb, boolean asPreference) {
 		App.debug("unimplemented");
@@ -98,9 +218,24 @@ public class LayoutW extends Layout implements SettingListener {
 	    return false;
     }
 
-	@Override
-    public void applyPerspective(String string) {
-		App.debug("unimplemented");
+	
+
+	public AppW getApplication() {
+	    return app;
     }
+	
+	/**
+	 * @return The management class for the docking behavior.
+	 */
+	public DockManagerW getDockManager() {
+		return dockManager;
+	}
+
+	public Widget getRootComponent() {
+		if(dockManager == null) {
+			return null;
+		}		
+		return dockManager.getRoot();
+	}
 
 }

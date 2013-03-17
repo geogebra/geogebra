@@ -6,6 +6,8 @@ import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -21,23 +23,42 @@ public class EuclidianDockPanelW extends DockPanelW {
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
+	
+	EuclidianDockPanelW thisPanel;
 
 	public EuclidianDockPanelW(boolean stylebar) {
-		super(0, null, null, stylebar, 0);
-	
-		buildGUI();
+		super(
+				App.VIEW_EUCLIDIAN,	// view id 
+				"DrawingPad", 				// view title
+				null,						// toolbar string
+				stylebar,					// style bar?
+				5,							// menu order
+				'1' // ctrl-shift-1
+			);
+		
+		//TODO: temporary fix to make applets work until
+		// dockpanels works for applets
+		
+		if(stylebar){
+			component = loadComponent();
+			thisPanel = this;
+		}else{
+			loadComponent();
+			buildGUI();
+		}
 	}
 
+	
 	@Override
-    protected Widget loadComponent() {
-		if( euclidianpanel == null){
-		euclidianpanel = new EuclidianPanel(this);
-		eview1 = Canvas.createIfSupported();
-		eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
-		eview1.getElement().getStyle().setZIndex(0);
-		euclidianpanel.add(eview1);
-		}		
-				
+	protected Widget loadComponent() {
+		if (euclidianpanel == null) {
+			euclidianpanel = new EuclidianPanel(this);
+			eview1 = Canvas.createIfSupported();
+			eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+			eview1.getElement().getStyle().setZIndex(0);
+			euclidianpanel.add(eview1);
+		}
+
 		return euclidianpanel;
 	}
 	
@@ -51,22 +72,33 @@ public class EuclidianDockPanelW extends DockPanelW {
 		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
 			this.dockPanel = dockPanel;
 		}
-		
-		public void onResize() {
 
-			if (app != null){
-				int h = dockPanel.getComponentInteriorHeight();
-				int w = dockPanel.getComponentInteriorWidth();
-				if(h != oldHeight || w != oldWidth){
-				app.ggwGraphicsViewDimChanged(
-						dockPanel.getComponentInteriorWidth(), dockPanel.getComponentInteriorHeight());
-				oldHeight = h;
-				oldWidth = w;
-				}
+		public void onResize() {
+		
+			if (app != null) {
+
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+					public void execute() {
+
+						int h = dockPanel.getComponentInteriorHeight();
+						int w = dockPanel.getComponentInteriorWidth();
+
+						// TODO handle this better?
+						// exit if new size cannot be determined
+						if (h < 0 || w < 0) {
+							return;
+						}
+						if (h != oldHeight || w != oldWidth) {
+							app.ggwGraphicsViewDimChanged(w, h);
+							oldHeight = h;
+							oldWidth = w;
+						}
+					}
+				});
+
 			}
 		}
 	}
-	
 	
 	@Override
 	protected Widget loadStyleBar() {
@@ -120,8 +152,7 @@ public class EuclidianDockPanelW extends DockPanelW {
 
 	public void attachApp(App app) {
 		super.attachApp(app);
-		//if (espanel != null)
-			//espanel.attachApp(app);
+		
 	}
 
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {

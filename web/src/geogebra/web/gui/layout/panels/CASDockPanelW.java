@@ -25,15 +25,26 @@ public class CASDockPanelW extends DockPanelW {
 	CASViewW sview;
 
 	public CASDockPanelW(App app) {
-		super(0, null, null, true, 0);
-		initWidget(toplevel = new SimpleLayoutPanel());
-		ancestor = new VerticalPanelSmart();
-		toplevel.add(ancestor);
+		super(
+				App.VIEW_CAS, 	// view id
+				"CAS", 					// view title phrase 
+				null,	// toolbar string
+				true,					// style bar?
+				4,						// menu order
+				'K' // ctrl-shift-K
+			);
+			
+		
+		//initWidget(toplevel = new SimpleLayoutPanel());
+		//ancestor = new VerticalPanelSmart();
+		//toplevel.add(ancestor);
+		
 		application = app;
 	}
 
 	protected Widget loadComponent() {
-		return toplevel;
+		sview = (CASViewW) ((AppW)application).getGuiManager().getCasView();	
+		return sview.getComponent();
 	}
 
 	
@@ -41,6 +52,7 @@ public class CASDockPanelW extends DockPanelW {
 	public void onResize() {
 		super.onResize();
 		if (sview != null) {
+			/*
 			// If this is resized, we may know its width and height
 			int width = this.getOffsetWidth();//this is 400, OK
 			int height = this.getOffsetHeight();
@@ -48,7 +60,16 @@ public class CASDockPanelW extends DockPanelW {
 			if (application.getGuiManager().hasSpreadsheetView())
 				height -= (((CASViewW)application.getGuiManager().
 					getSpreadsheetView()).getCASStyleBar()).getOffsetHeight();
-
+			 */
+			
+			int width = this.getComponentInteriorWidth();
+			int height = this.getComponentInteriorHeight();
+			
+			if(width <0 || height < 0){
+				return;
+			}
+			
+			
 			sview.getComponent().setWidth(width+"px");
 			sview.getComponent().setHeight(height+"px");			
 			//TODO: Focus panel
@@ -57,8 +78,7 @@ public class CASDockPanelW extends DockPanelW {
     }
 
 	public void attachApp(App app) {
-	   this.application = app;
-	   onResize();
+	   super.attachApp(app);
 	}
 
 	public CASViewW getCAS() {

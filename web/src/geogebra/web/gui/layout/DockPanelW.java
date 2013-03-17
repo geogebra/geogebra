@@ -5,18 +5,22 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.gui.toolbar.Toolbar;
 //import geogebra.gui.toolbar.ToolbarContainer;
@@ -40,11 +44,12 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Florian Sonner
  */
-public abstract class DockPanelW extends ResizeComposite implements
-		geogebra.common.gui.layout.DockPanel, DockComponent {
+public abstract    class DockPanelW extends ResizeComposite implements
+		geogebra.common.gui.layout.DockPanel, DockComponent, MouseDownHandler {
 	private static final long serialVersionUID = 1L;
 
-	//protected DockManager dockManager;
+	protected DockManagerW dockManager;
+	
 	protected AppW app;
 
 	/**
@@ -55,7 +60,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * The title of this dock panel.
 	 */
-	private String title;
+	private String title = " no title";
 
 	/**
 	 * If this panel is visible.
@@ -311,6 +316,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
 		this.isAlone = false;
+		
+		//buildGUI();
+		
 		//this.setMinimumSize(new Dimension(100, 100));
 		//setLayout(new BorderLayout());
 	}
@@ -405,10 +413,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * 
 	 * @param dockManager
 	 */
-	/*public void register(DockManager dockManager) {
+	public void register(DockManagerW dockManager) {
 		this.dockManager = dockManager;
 		this.app = dockManager.getLayout().getApplication();
 
+		buildGUI();
+		
+		
+		/*
 		// create buttons for the panels
 		createButtons();
 
@@ -485,7 +497,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		updatePanel();
 
 		add(metaPanel, BorderLayout.NORTH);
-	}*/
+		
+		*/
+	}
 
 	
 	MyDockLayoutPanel dockPanel;
@@ -493,6 +507,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	PushButton toglStyleBtn2;
 	AbsolutePanel titleBarPanel;
+
+	private VerticalPanel componentPanel;
 	
 	public int getHeight(){
 	return dockPanel.getOffsetHeight();	
@@ -504,11 +520,26 @@ public abstract class DockPanelW extends ResizeComposite implements
 	
 	public void buildGUI(){
 		
+		//TODO temporary guard against repeated call 
+		// while creating DockPanel based GUI (problem with early init of EV)
+		if(dockPanel != null){
+			return;
+		}
+		
+		
+		dockPanel = new MyDockLayoutPanel(Style.Unit.PX);
+		initWidget(dockPanel);
+		
+		componentPanel = new VerticalPanel();
+		
 		styleBarPanel = new AbsolutePanel();	
 		styleBarPanel.setStyleName("StyleBarPanel");
 		
 		titleBarPanel = new AbsolutePanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
+		titleBarPanel.addStyleName("cursor_drag");
+
+		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
 		
 		Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
 		toglStyleBtn = new PushButton(img);
@@ -534,10 +565,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		
 		styleBarPanel.add(toglStyleBtn, 2, 0);
 		titleBarPanel.add(toglStyleBtn2, 2, 0);
-		
-		dockPanel = new MyDockLayoutPanel(Style.Unit.PX);
-		initWidget(dockPanel);
-		
+			
 		setLayout();
 	}
 	
@@ -558,9 +586,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 			}
 		}
 
-		dockPanel.add(loadComponent());
-		dockPanel.forceLayout();
-		dockPanel.onResize();
+		if(component != null){
+			dockPanel.add(component);
+		}else{
+			dockPanel.add(componentPanel);
+		}
+		
+		onResize();
 
 	}
 	
@@ -578,11 +610,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 		return 0;
 	}	
+
 	public void attachApp(App app) {
 		this.app = (AppW) app;
-		if(hasStyleBar){
+		if (component == null) {
+			component = loadComponent();
+		}
+		if (hasStyleBar) {
 			styleBarPanel.add(loadStyleBar(), 24, 0);
 		}
+		setLayout();
 	}
 	
 	/**
@@ -764,8 +801,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Update all elements in the title bar.
 	 */
-	/*public void updateTitleBar() {
+	public void updateTitleBar() {
 
+		/*
 		// The view is in the main window
 		if (frame == null) {
 			closeButton.setVisible(!isMaximized());
@@ -784,15 +822,18 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleLabel.setVisible(false);
 
 		}
+		*/
 
+		/*
 		if (isMaximized()) {
 			maximizeButton.setIcon(app.getImageIcon("view-unmaximize.png"));
 		} else {
 			maximizeButton.setIcon(app.getImageIcon("view-maximize.png"));
 		}
-
+*/
+		
 		updateLabels();
-	}*/
+	}
 
 	/**
 	 * A panel is 'alone' if no other panel is visible in the main frame. In
@@ -837,28 +878,30 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	/**
 	 * Update the panel.
-	 *//*TODO
+	 */
 	public void updatePanel() {
 
+		attachApp(app);
+		
 		// load content if panel was hidden till now
 		if (component == null && isVisible()) {
 			component = loadComponent();
-			add(component, BorderLayout.CENTER);
+	//		add(component, BorderLayout.CENTER);
 
 			if (isStyleBarVisible()) {
-				setStyleBar();
+	//			setStyleBar();
 			}
 
 			// load toolbar if this panel has one
 			if (hasToolbar()) {
-				toolbar = new Toolbar(app, this);
+	//			toolbar = new Toolbar(app, this);
 
 				if (isOpenInFrame()) {
-					toolbarContainer = new ToolbarContainer(app, false);
-					toolbarContainer.addToolbar(toolbar);
-					toolbarContainer.buildGui();
-					toolbarContainer.setActiveToolbar(getViewId());
-					toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
+	//				toolbarContainer = new ToolbarContainer(app, false);
+	//				toolbarContainer.addToolbar(toolbar);
+	//				toolbarContainer.buildGui();
+	//				toolbarContainer.setActiveToolbar(getViewId());
+	//				toolbarPanel.add(toolbarContainer, BorderLayout.CENTER);
 				}
 			}
 
@@ -872,30 +915,30 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (isVisible()) {
 
 			if (isStyleBarVisible()) {
-				setStyleBar();
+		//		setStyleBar();
 			}
 
 			// display toolbar panel if the dock panel is open in a frame
 			if (hasToolbar()) {
-				toolbarPanel.setVisible(frame != null);
+		//		toolbarPanel.setVisible(frame != null);
 			}
 		}
 
 		// if this is the last dock panel don't display the title bar, otherwise
 		// take the user's configuration into consideration
 
-		titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
-				&& !(isAlone && !isMaximized()) && !app.isApplet()
-				&& (!isOpenInFrame()));
+	//	titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
+	//			&& !(isAlone && !isMaximized()) && !app.isApplet()
+	//			&& (!isOpenInFrame()));
 
 		// update stylebar visibility
-		setShowStyleBar(isStyleBarVisible());
-		updateStyleBarVisibility();
+	//	setShowStyleBar(isStyleBarVisible());
+	//	updateStyleBarVisibility();
 
 		// update the title bar if necessary
-		updateTitleBarIfNecessary();
+	//	updateTitleBarIfNecessary();
 
-	}*/
+	}
 
 	/**
 	 * 
@@ -914,11 +957,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Update the toolbar of this dock panel if it's open in its own toolbar
 	 * container.
 	 */
-	/*public void updateToolbar() {
+	public void updateToolbar() {
 		if (isVisible() && isOpenInFrame() && hasToolbar()) {
-			toolbarContainer.updateToolbarPanel();
+		//	toolbarContainer.updateToolbarPanel();
 		}
-	}*/
+	}
 
 	/**
 	 * Change the toolbar mode for panels open in a separate frame.
@@ -934,22 +977,23 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Update the toolbar GUI.
 	 */
-	/*public void buildToolbarGui() {
-		if (toolbarContainer != null) {
-			toolbarContainer.buildGui();
-			toolbarContainer.updateHelpText();
+	public void buildToolbarGui() {
+	//	if (toolbarContainer != null) {
+		//	toolbarContainer.buildGui();
+		//	toolbarContainer.updateHelpText();
 
-			if (isVisible() && isOpenInFrame()) {
-				frame.validate();
-			}
-		}
-	}*/
+		//	if (isVisible() && isOpenInFrame()) {
+		//		frame.validate();
+		//	}
+		//}
+	}
 
 	/**
 	 * Update all labels of this DockPanel. Called while initializing and if the
 	 * language was changed.
 	 */
-	/*public void updateLabels() {
+	public void updateLabels() {
+		/*
 		closeButton.setToolTipText(app.getMenuTooltip("Close"));
 		windowButton.setToolTipText(app.getPlainTooltip("ViewOpenExtraWindow"));
 		unwindowButton.setToolTipText(app
@@ -966,18 +1010,19 @@ public abstract class DockPanelW extends ResizeComposite implements
 		} else {
 			updateTitle();
 		}
-	}*/
+		*/
+	}
 
 	/**
 	 * Update fonts.
 	 */
-	/*public void updateFonts() {
+	public void updateFonts() {
 		if (hasFocus && dockManager.hasFullFocusSystem()) {
-			titleLabel.setFont(app.getBoldFont());
+			//titleLabel.setFont(app.getBoldFont());
 		} else {
-			titleLabel.setFont(app.getPlainFont());
+			//titleLabel.setFont(app.getPlainFont());
 		}
-	}*/
+	}
 
 	/**
 	 * Update the title of the frame. This is necessary if the language changed
@@ -1165,34 +1210,34 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return The parent DockSplitPane or null.
 	 */
-	/*public DockSplitPane getParentSplitPane() {
+	public DockSplitPaneW getParentSplitPane() {
 		if (isOpenInFrame())
 			return null;
 
-		Container parent = getParent();
+		Widget parent = getParent();
 
-		if (parent == null || !(parent instanceof DockSplitPane))
+		if (parent == null || !(parent instanceof DockSplitPaneW))
 			return null;
-		else
-			return (DockSplitPane) parent;
-	}*/
+		
+		return (DockSplitPaneW) parent;
+	}
 
 	/**
 	 * @return The embedded def string for this DockPanel.
-	 *//*TODO
+	 */
 	public String calculateEmbeddedDef() {
 		StringBuilder def = new StringBuilder();
 
 		Widget current = this;
 		Widget parent = this.getParent();
-		DockSplitPane parentDSP;
+		DockSplitPaneW parentDSP;
 
-		while (parent instanceof DockSplitPane) {
+		while (parent instanceof DockSplitPaneW) {
 			int defType = -1;
 
-			parentDSP = (DockSplitPane) parent;
+			parentDSP = (DockSplitPaneW) parent;
 
-			if (parentDSP.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+			if (parentDSP.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
 				if (current == parentDSP.getLeftComponent()) // left
 					defType = 3;
 				else
@@ -1216,8 +1261,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 			parent = current.getParent();
 		}
 
-		return def.reverse().toString();
-	}*/
+		
+		// gwt does not support reverse() ??
+		//return def.reverse().toString();
+			
+		String s = new String();
+		for (int i = def.length()-1; i >=0; i--){
+			s += def.charAt(i);
+		}
+		return s;
+	}
 
 	/**
 	 * @return The XML container which stores all relevant information for this
@@ -1686,5 +1739,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public abstract void showView(boolean b);
+
+
+	public void onMouseDown(MouseDownEvent event) {
+		if(event.getRelativeX(this.toglStyleBtn2.getElement()) > 20){
+			dockManager.drag(this);	    
+		}
+    }
+	
 
 }

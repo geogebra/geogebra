@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.app.MySplitLayoutPanel;
+import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -39,6 +39,11 @@ public class ViewMenuW extends MenuBar {
 		        .getSafeUri().asString(), app.getPlain("Algebra")), true,
 		        new Command() {
 			        public void execute() {
+			        	int viewId = App.VIEW_ALGEBRA;
+			        	((GuiManagerW)app.getGuiManager()).setShowView(
+								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+						
+			        	/*
 				        MySplitLayoutPanel mp = (MySplitLayoutPanel) app
 				                .getAppFrame().getGGWSplitLayoutPanel();
 				        if (mp.getGGWViewWrapper() != null) {
@@ -60,6 +65,7 @@ public class ViewMenuW extends MenuBar {
 					        mp.onResize();
 					        mp.forceLayout();
 				        }
+				        */
 			        }
 		        });
 
@@ -67,20 +73,35 @@ public class ViewMenuW extends MenuBar {
 		        .getSafeUri().asString(), app.getPlain("Spreadsheet")), true,
 		        new Command() {
 			        public void execute() {
+			        	int viewId = App.VIEW_SPREADSHEET;
+			        	
+			        	((GuiManagerW)app.getGuiManager()).setShowView(
+								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+						
+			        	/*
 				        MySplitLayoutPanel mp = (MySplitLayoutPanel) app
 				                .getAppFrame().getGGWSplitLayoutPanel();
 				        mp.createSpreadsheet();
 				        mp.showView(mp.getGGWSpreadsheetView());
+				        */
 			        }
 		        });
+		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getPlain("CAS")), true,
 		        new Command() {
 			        public void execute() {
+			        	
+			        	int viewId = App.VIEW_CAS;
+			        	((GuiManagerW)app.getGuiManager()).setShowView(
+								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+						
+			        	/*
 				        MySplitLayoutPanel mp = (MySplitLayoutPanel) app
 				                .getAppFrame().getGGWSplitLayoutPanel();
 				        mp.createCAS();
 				        mp.showView(mp.getGGWCASView());
+				        */
 			        }
 		        });
 

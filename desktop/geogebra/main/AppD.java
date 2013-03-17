@@ -306,8 +306,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	private boolean showDockBar = true;
 	private boolean isDockBarEast = true;
 	
-	private int toolbarPosition = SwingConstants.NORTH;
-
 	protected boolean showAlgebraView = true;
 
 	protected boolean showConsProtNavigation = false;
@@ -532,6 +530,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		// for a better approach see [22746] --- but it would break file loading at the moment
 		initializeSingularWSD();
 
+		toolbarPosition = SwingConstants.NORTH;
+		
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI
@@ -2849,16 +2849,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		return showAlgebraInput;
 	}
 
+	@Override
 	public void setToolbarPosition(int position, boolean update) {
 		toolbarPosition = position;
 		if (update) {
 			updateApplicationLayout();
 			updateMenubar();
 		}
-	}
-
-	public int getToolbarPosition() {
-		return toolbarPosition;
 	}
 
 	public boolean showToolBarTop() {

@@ -1,40 +1,33 @@
-package geogebra.gui.layout;
+package geogebra.web.gui.layout;
 
-import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
-import geogebra.euclidian.EuclidianViewJPanel;
-import geogebra.gui.GuiManagerD;
-import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.main.AppD;
+import geogebra.web.awt.GRectangleW;
+import geogebra.web.main.AppW;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.event.AWTEventListener;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Class responsible to manage the whole docking area of the window.
  * 
  * @author Florian Sonner
  */
-public class DockManager implements AWTEventListener, SetLabels {
-	private AppD app;
-	private LayoutD layout;
+public class DockManagerW implements  SetLabels {
+	private AppW app;
+	private LayoutW layout;
 	
 	/**
 	 * False if the application is running in unsigned mode. We can only listen to 
@@ -45,27 +38,27 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * The glass panel used for drag'n'drop.
 	 */
-	private DockGlassPane glassPane;	
+	private DockGlassPaneW glassPane;	
 	
 	/**
 	 * The root split pane.
 	 */
-	private DockSplitPane rootPane;
+	private DockSplitPaneW rootPane;
 	
 	/**
 	 * The dock panel which has the focus at the moment.
 	 */
-	private DockPanel focusedDockPanel;
+	private DockPanelW focusedDockPanel;
 	
 	/**
 	 * The euclidian dock panel which had the focus the last.
 	 */
-	private EuclidianDockPanelAbstract focusedEuclidianDockPanel;
+	//private EuclidianDockPanelAbstract focusedEuclidianDockPanel;
 	
 	/**
 	 * A list with all registered dock panels.
 	 */
-	private ArrayList<DockPanel> dockPanels;
+	private ArrayList<DockPanelW> dockPanels;
 	
 	/**
 	 * List of DockPanelListeners, informed when some dockpanel is shown.
@@ -77,25 +70,26 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * @param layout
 	 */
-	public DockManager(LayoutD layout) {
+	public DockManagerW(LayoutW layout) {
 		this.layout = layout;
 		this.app = layout.getApplication();
 		
-		dockPanels = new ArrayList<DockPanel>();
+		dockPanels = new ArrayList<DockPanelW>();
 		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
-		glassPane = new DockGlassPane(this);
+		glassPane = app.getAppFrame().getGlassPane();
+		glassPane.attach(this);
 		
-		if(!app.isApplet()) {
-			app.setGlassPane(glassPane);
-		}
+		//if(!app.isApplet()) {
+		//	app.setGlassPane(glassPane);
+		//}
 		
 		// register focus changes
-		try {
-			Toolkit.getDefaultToolkit().addAWTEventListener(this , AWTEvent.MOUSE_EVENT_MASK);
-			hasFullFocusSystem = true;
-		} catch(Exception e) {
-			hasFullFocusSystem = false;
-		}
+	//	try {
+	//		Toolkit.getDefaultToolkit().addAWTEventListener(this , AWTEvent.MOUSE_EVENT_MASK);
+	//		hasFullFocusSystem = true;
+	//	} catch(Exception e) {
+	//		hasFullFocusSystem = false;
+	//	}
 	}
 	
 	/**
@@ -103,7 +97,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param dockPanel
 	 */
-	public void registerPanel(DockPanel dockPanel) {
+	public void registerPanel(DockPanelW dockPanel) {
 		dockPanels.add(dockPanel);
 		dockPanel.register(this);
 	}
@@ -126,9 +120,10 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @see LayoutD#applyPerspective(geogebra.io.layout.Perspective)
 	 */
 	public void applyPerspective(DockSplitPaneData[] spData, DockPanelData[] dpData) {		
+		
 		if(dockPanels != null) {			
 			// hide existing external windows
-			for(DockPanel panel : dockPanels) {
+			for(DockPanelW panel : dockPanels) {
 				if(panel.isOpenInFrame() && panel.isVisible()) {
 					hide(panel);
 				}
@@ -138,13 +133,12 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			// copy dock panel info settings
 			for(int i = 0; i < dpData.length; ++i) {
-				DockPanel panel = getPanel(dpData[i]);
-				
+				DockPanelW panel = getPanel(dpData[i]);
 				if(panel == null) {
 					// TODO insert error panel
 				}else{
 					panel.setToolbarString(dpData[i].getToolbarString());
-					panel.setFrameBounds(geogebra.awt.GRectangleD.getAWTRectangle(dpData[i].getFrameBounds()));
+					panel.setFrameBounds((GRectangleW) dpData[i].getFrameBounds());
 					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 					panel.setShowStyleBar(dpData[i].showStyleBar());
@@ -161,11 +155,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 		if(spData.length > 0) {
-			DockSplitPane[] splitPanes = new DockSplitPane[spData.length];
+			DockSplitPaneW[] splitPanes = new DockSplitPaneW[spData.length];
 			
 			// construct the split panes
 			for(int i = 0; i < spData.length; ++i) {
-				splitPanes[i] = new DockSplitPane(spData[i].getOrientation());
+				splitPanes[i] = new DockSplitPaneW(spData[i].getOrientation());
 			}
 			
 			// cascade the split panes
@@ -173,7 +167,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			// loop through every but the first split pane
 			for(int i = 1; i < spData.length; ++i) {
-				DockSplitPane currentParent = rootPane;
+				DockSplitPaneW currentParent = rootPane;
 				
 				// a similar system as it's used to determine the position of the dock panels (see comment in DockManager::show())
 				// 0: turn left/up, 1: turn right/down
@@ -183,9 +177,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 				// of the current split pane and therefore ignored here
 				for(int j = 0; j < directions.length - 1; ++j) {
 					if(directions[j].equals("0")) {
-						currentParent = (DockSplitPane)currentParent.getLeftComponent();
+						currentParent = (DockSplitPaneW)currentParent.getLeftComponent();
 					} else {
-						currentParent = (DockSplitPane)currentParent.getRightComponent();
+						currentParent = (DockSplitPaneW)currentParent.getRightComponent();
 					}
 				}
 				
@@ -199,13 +193,13 @@ public class DockManager implements AWTEventListener, SetLabels {
 
 			// now insert the dock panels
 			for(int i = 0; i < dpData.length; ++i) {
-				DockPanel panel = getPanel(dpData[i].getViewId());
-				
+				DockPanelW panel = getPanel(dpData[i].getViewId());
 				// skip panels which will not be drawn in the main window
 				if(!dpData[i].isVisible()
 						// eg run "no 3D" with 3D View open in saved settings
-						|| panel == null)
+						|| panel == null){
 					continue;
+				}
 				
 				// attach view to kernel (being attached multiple times is ignored)
 				app.getGuiManager().attachView(panel.getViewId());
@@ -215,7 +209,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					continue;
 				}
 				
-				DockSplitPane currentParent = rootPane;
+				DockSplitPaneW currentParent = rootPane;
 				String[] directions = dpData[i].getEmbeddedDef().split(",");
 				
 				/* 
@@ -227,9 +221,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 				 */
 				for(int j = 0; j < directions.length - 1; ++j) {
 					if(directions[j].equals("0") || directions[j].equals("3")) {
-						currentParent = (DockSplitPane)currentParent.getLeftComponent();
+						currentParent = (DockSplitPaneW)currentParent.getLeftComponent();
 					} else {
-						currentParent = (DockSplitPane)currentParent.getRightComponent();
+						currentParent = (DockSplitPaneW)currentParent.getRightComponent();
 					}
 				}
 				if(currentParent==null){
@@ -237,29 +231,40 @@ public class DockManager implements AWTEventListener, SetLabels {
 					
 				}
 				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
-					currentParent.setLeftComponentCheckEmpty(panel);
+					currentParent.setLeftComponentCheckEmpty((Widget) panel);
 				} else {
-					currentParent.setRightComponentCheckEmpty(panel);
+					currentParent.setRightComponentCheckEmpty((Widget) panel);
 				}
 				
 				panel.updatePanel();
 				
 				// move toolbar to main container
-				if(panel.hasToolbar()) {
-					ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
-					mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
-				}
+			//	if(panel.hasToolbar()) {
+			//		ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
+			//		mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
+			//	}
 			}
 			
 			//recursive update resize weights for giving new space to euclidian views
 			updateSplitPanesResizeWeight();
 			
-			int windowWidth = app.getPreferredSize().width;
-			int windowHeight = app.getPreferredSize().height;
+			//int windowWidth = app.getPreferredSize().width;
+			//int windowHeight = app.getPreferredSize().height;
+			
+			int windowWidth;
+			int windowHeight;
+
+			if (app.isApplet()) {
+				windowWidth = app.getDataParamWidth();
+				windowHeight = app.getDataParamHeight();
+			} else {
+				windowWidth = app.getAppFrame().getOffsetWidth();
+				windowHeight = app.getAppFrame().getOffsetWidth();
+			}
 			
 			// set the dividers of the split panes
 			for(int i = 0; i < spData.length; ++i) {
-				if(spData[i].getOrientation() == JSplitPane.VERTICAL_SPLIT)
+				if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT)
 					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowHeight));
 				else 
 					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowWidth));
@@ -270,13 +275,14 @@ public class DockManager implements AWTEventListener, SetLabels {
 			markAlonePanel();
 			
 			// is focused dock panel not visible anymore => choose another one
-			if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
-				for(DockPanel panel : dockPanels) {
-					if(panel.isVisible() && !panel.isInFrame()) {
-						setFocusedPanel(panel);
-					}
-				}
-			}
+		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
+		//		for(DockPanelW panel : dockPanels) {
+				//	if(panel.isVisible() && !panel.isInFrame()) {
+				//		setFocusedPanel(panel);
+				//	}
+		//		}
+		//	}
+			
 		}
 		
 		// update all labels at once
@@ -296,7 +302,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param panel
 	 */
-	public void drag(DockPanel panel) {
+	public void drag(DockPanelW panel) {
 		// Do not allow docking in case this is the last view
 		if(panel.getParentSplitPane() == rootPane) {
 			if(rootPane.getOpposite(panel) == null) {
@@ -314,10 +320,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param dndState
 	 */
 	public void drop(DnDState dndState) {
-		DockPanel source = dndState.getSource();		
-		DockSplitPane sourceParent = source.getParentSplitPane();
-		DockPanel target = dndState.getTarget();
-		Component opposite = sourceParent.getOpposite(source);
+	
+		DockPanelW source = dndState.getSource();		
+		DockSplitPaneW sourceParent = source.getParentSplitPane();
+		DockPanelW target = dndState.getTarget();
+		Widget opposite = sourceParent.getOpposite(source);
 		
 		// No action required
 		if(target == null || target == source && !dndState.isRegionOut()) {
@@ -330,16 +337,16 @@ public class DockManager implements AWTEventListener, SetLabels {
 		source.setVisible(true);
 		
 		// Add the source panel at the new position
-		DockSplitPane newSplitPane = new DockSplitPane();
+		DockSplitPaneW newSplitPane = new DockSplitPaneW();
 		int dndRegion = dndState.getRegion();
 		
 		// Determine the orientation of the new split pane
 		if(dndRegion == DnDState.LEFT || dndRegion == DnDState.LEFT_OUT ||
 			dndRegion == DnDState.RIGHT || dndRegion == DnDState.RIGHT_OUT)
 		{
-			newSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+			newSplitPane.setOrientation(DockSplitPaneW.HORIZONTAL_SPLIT);
 		} else {
-			newSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			newSplitPane.setOrientation(DockSplitPaneW.VERTICAL_SPLIT);
 		}
 		
 		if(dndState.isRegionOut() && (target.getParent() == sourceParent || target == source)) {
@@ -350,12 +357,12 @@ public class DockManager implements AWTEventListener, SetLabels {
 		boolean updatedRootPane = false;
 		
 		if(dndState.isRegionOut()) {
-			DockSplitPane targetParent = target.getParentSplitPane();
+			DockSplitPaneW targetParent = target.getParentSplitPane();
 			
 			if(targetParent == rootPane) {
 				rootPane = newSplitPane;
 			} else {
-				((DockSplitPane)targetParent.getParent()).replaceComponent(targetParent, newSplitPane);
+				((DockSplitPaneW)targetParent.getParent()).replaceComponent(targetParent, newSplitPane);
 			}
 			
 			if(dndRegion == DnDState.LEFT_OUT || dndRegion == DnDState.TOP_OUT) {
@@ -368,15 +375,15 @@ public class DockManager implements AWTEventListener, SetLabels {
 		} else {
 			if(source == target) {
 				if(opposite instanceof DockPanel) {
-					if(((DockPanel) opposite).getParentSplitPane().getOpposite(opposite) == null)
+					if(((DockPanelW) opposite).getParentSplitPane().getOpposite(opposite) == null)
 						rootPane = newSplitPane;
 					else
-						((DockPanel) opposite).getParentSplitPane().replaceComponent(opposite, newSplitPane);
+						((DockPanelW) opposite).getParentSplitPane().replaceComponent(opposite, newSplitPane);
 				} else {
 					if(opposite == rootPane)
 						rootPane = newSplitPane;
 					else
-						((DockSplitPane)opposite.getParent()).replaceComponent(opposite, newSplitPane);
+						((DockSplitPaneW)opposite.getParent()).replaceComponent(opposite, newSplitPane);
 				}
 				
 				if(dndRegion == DnDState.LEFT || dndRegion == DnDState.TOP) {
@@ -387,7 +394,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					newSplitPane.setLeftComponent(opposite);
 				}
 			} else if(target.getParentSplitPane().getOpposite(target) == null && target.getParentSplitPane() == rootPane) {
-				rootPane.removeAll();
+				rootPane.clear();
 				
 				if(dndRegion == DnDState.LEFT || dndRegion == DnDState.TOP) { 
 					rootPane.setLeftComponent(source);
@@ -412,6 +419,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 		app.updateCenterPanel(true);
+		//updatePanels();
+		
+		
 		
 		double dividerLocation = 0;
 		
@@ -423,22 +433,23 @@ public class DockManager implements AWTEventListener, SetLabels {
 			dividerLocation = 0.6;
 		}
 		
+		
 		if(updatedRootPane) {
-			rootPane.setDividerLocation(dividerLocation);
+			setDividerLocation(rootPane, dividerLocation);
 		} else {
-			newSplitPane.setDividerLocation(dividerLocation);
+			setDividerLocation(newSplitPane,dividerLocation);
 		}
 
-		updatePanels();
+		
 		
 		//update new space dispatching
 		updateSplitPanesResizeWeight();
 		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
-			ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
-			mainContainer.addToolbar(source.getToolbar());
-			mainContainer.updateToolbarPanel();
+			//ToolbarContainer mainContainer = ((GuiManagerW) app.getGuiManager()).getToolbarPanel();
+		//	mainContainer.addToolbar(source.getToolbar());
+		//	mainContainer.updateToolbarPanel();
 		}
 
 		// has to be called *after* the toolbar was added to the container
@@ -450,7 +461,26 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// Manually dispatch a resize event as the size of the 
 		// euclidian view isn't updated all the time.
 		// TODO What does the resize do which will update the component ?!
-		app.repaintEuclidianViews(rootPane);
+		//app.repaintEuclidianViews(rootPane);
+		rootPane.onResize();
+		
+	 }
+	
+	private void setDividerLocation(DockSplitPaneW splitPane,
+	        double dividerLocation) {
+		final double dividerLoc = dividerLocation;
+		final DockSplitPaneW sp = splitPane;
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			public void execute() {
+				sp.setDividerLocation(dividerLoc);
+			}
+		});
+		
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			public void execute() {
+				app.getAppFrame().onResize();
+			}
+		});
 	}
 	
 	/**
@@ -497,7 +527,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param panel 
 	 */
-	public void show(DockPanel panel) {
+	public void show(DockPanelW panel) {
 		
 		panel.setVisible(true);
 		panel.setHidden(false);
@@ -509,7 +539,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		app.getGuiManager().attachView(panel.getViewId());
 		
 		if(panel.isOpenInFrame()) {
-			panel.createFrame();
+			//panel.createFrame();
 		} else {
 			// Transform the definition into an array of integers
 			String[] def = panel.getEmbeddedDef().split(",");
@@ -530,42 +560,43 @@ public class DockManager implements AWTEventListener, SetLabels {
 			if(locations.length == 0) 
 				locations = new int[] { 3 };
 			
-			DockSplitPane currentPane = rootPane;
+			DockSplitPaneW currentPane = rootPane;
 			int secondLastPos = -1;
 			
 			// Get the location of our new DockPanel (ignore last entry)
 			for(int i = 0; i < locations.length - 1; ++i) {			
 				// The orientation of the current pane does not match the stored orientation, skip this
-				if(currentPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT && (locations[i] == 0 || locations[i] == 2)) {
+				if(currentPane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT && (locations[i] == 0 || locations[i] == 2)) {
 					continue;
-				} else if(currentPane.getOrientation() == JSplitPane.VERTICAL_SPLIT && (locations[i] == 1 || locations[i] == 3)) {
+				} else if(currentPane.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT && (locations[i] == 1 || locations[i] == 3)) {
 					continue;
 				}
 				
-				Component component;
+				Widget component;
 				
 				if(locations[i] == 0 || locations[i] == 3)
 					component = currentPane.getLeftComponent();
 				else
 					component = currentPane.getRightComponent();
 				
-				if(!(component instanceof DockSplitPane)) {
+				if(!(component instanceof DockSplitPaneW)) {
 					secondLastPos = locations[i];
 					break;
 				} else {
-					currentPane = (DockSplitPane)component;
+					currentPane = (DockSplitPaneW)component;
 				}
 			}
 	
 			int size = panel.getEmbeddedSize();
 			int lastPos = locations[locations.length - 1];
 			
-			DockSplitPane newSplitPane = new DockSplitPane();
+			DockSplitPaneW newSplitPane = new DockSplitPaneW();
+			
 			
 			if(lastPos == 0 || lastPos == 2) {
-				newSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+				newSplitPane.setOrientation(DockSplitPaneW.VERTICAL_SPLIT);
 			} else {
-				newSplitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+				newSplitPane.setOrientation(DockSplitPaneW.HORIZONTAL_SPLIT);
 			}
 			
 			// the size (height / width depending upon lastPos) of the parent element,
@@ -573,20 +604,25 @@ public class DockManager implements AWTEventListener, SetLabels {
 			// their opposite element
 			
 			// the component opposite to the current component
-			Component opposite;
+			Widget opposite;
+			
+			//====================
+			// TODO temporary fix:
+			newSplitPane.setDividerLocation(size);
+			
 			
 			if(secondLastPos == -1) {
 				opposite = rootPane;
 				rootPane = newSplitPane;
-				
+
 				// in root pane, the opposite may be null
 				if(lastPos == 0 || lastPos == 3) {
-					if(((DockSplitPane)opposite).getLeftComponent() == null) {
-						opposite = ((DockSplitPane)opposite).getRightComponent();
+					if(((DockSplitPaneW)opposite).getLeftComponent() == null) {
+						opposite = ((DockSplitPaneW)opposite).getRightComponent();
 					}
 				} else {
-					if(((DockSplitPane)opposite).getRightComponent() == null) {
-						opposite = ((DockSplitPane)opposite).getLeftComponent();
+					if(((DockSplitPaneW)opposite).getRightComponent() == null) {
+						opposite = ((DockSplitPaneW)opposite).getLeftComponent();
 					}
 				}
 			} else {
@@ -595,7 +631,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				} else {
 					opposite = currentPane.getRightComponent();
 				}
-				
+
 				// in root pane, the opposite may be null
 				if(opposite == null) {
 					opposite = currentPane.getOpposite(opposite);
@@ -606,21 +642,21 @@ public class DockManager implements AWTEventListener, SetLabels {
 					currentPane.replaceComponent(opposite, newSplitPane);
 				}
 			}
-			
 
-			
-			//Application.debug("\n"+((DockComponent) opposite).toString(""));
+
+
+			//App.debug("\n"+((DockComponent) opposite).toString("opposite"));
 			//save divider locations to prevent not visible views
 			if (opposite != null) {
 				((DockComponent) opposite).saveDividerLocation();
 			}
 			
 			if(lastPos == 0 || lastPos == 3) {
-				newSplitPane.setLeftComponent(panel);
+				newSplitPane.setLeftComponent((Widget) panel);
 				newSplitPane.setRightComponent(opposite);
 			} else {
 				newSplitPane.setLeftComponent(opposite);
-				newSplitPane.setRightComponent(panel);
+				newSplitPane.setRightComponent((Widget) panel);
 			}
 			
 			if(!app.isIniting())
@@ -628,27 +664,31 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			//check new split pane size regarding orientation
 			int newSplitPaneSize;
-			if(newSplitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-				newSplitPaneSize=newSplitPane.getWidth();
+			if(newSplitPane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+				newSplitPaneSize=newSplitPane.getOffsetWidth();
 			} else {
-				newSplitPaneSize=newSplitPane.getHeight();
+				newSplitPaneSize=newSplitPane.getOffsetHeight();
 			}
 			//check if panel size is not too large
 			if (size+DockComponent.MIN_SIZE>newSplitPaneSize)
 				size = newSplitPaneSize/2;
 			//set the divider location
+			
+			//----------------
+			// TODO turned this off for now ... need to fix for web
+			//---------------
 			if(lastPos == 0 || lastPos == 3) {
-				newSplitPane.setDividerLocation(size);
+			//	newSplitPane.setDividerLocation(size);
 			} else {
-				newSplitPane.setDividerLocation(newSplitPaneSize - size);
+			//	newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
 			
 
-			//AbstractApplication.debug("\nnewSplitPaneSize = "+newSplitPaneSize+"\nsize = "+size);
-			//Application.debug("\n======\n"+((DockComponent) opposite).toString(""));
+			//App.debug("\nnewSplitPaneSize = "+newSplitPaneSize+"\nsize = "+size);
+			//App.debug("\n======\n"+((DockComponent) opposite).toString(""));
 			//re dispatch divider locations to prevent not visible views
 			if (opposite != null) {
-				((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
+				//((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
 			}
 		}
 		
@@ -661,9 +701,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
 		if(!panel.isOpenInFrame() && panel.hasToolbar()) {
-			ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
-			mainContainer.addToolbar(panel.getToolbar());
-			mainContainer.updateToolbarPanel();
+		//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
+		//	mainContainer.addToolbar(panel.getToolbar());
+		//	mainContainer.updateToolbarPanel();
 		}
 
 		// has to be called *after* the toolbar was added to the container
@@ -693,7 +733,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param panel
 	 * @return true if succeeded to hide the panel
 	 */
-	public boolean hide(DockPanel panel) {
+	public boolean hide(DockPanelW panel) {
 		return hide(panel, true);
 	}
 
@@ -711,9 +751,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param panel dock panel
 	 * @param isPermanent says if the close is permanent
 	 */
-	public void closePanel(DockPanel panel, boolean isPermanent){
+	public void closePanel(DockPanelW panel, boolean isPermanent){
 		if (hide(panel, isPermanent)){
-			getLayout().getApplication().updateMenubar();
+			app.updateMenubar();
 
 			if(getFocusedPanel() == panel) {
 				setFocusedPanel(null);
@@ -738,7 +778,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param isPermanent If this change is permanent.
 	 * @return true if it succeeded to hide the panel
 	 */
-	public boolean hide(DockPanel panel, boolean isPermanent) {
+	public boolean hide(DockPanelW panel, boolean isPermanent) {
 		if(!panel.isVisible()) {
 			// some views (especially CAS) will close so slowly that the user is able
 			// to issue another "close" call, therefore we quit quietly
@@ -759,43 +799,45 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 		if(panel.isOpenInFrame()) {
-			panel.removeFrame();
+			// TODO: deal with remove
+		//	panel.removeFrame();
 			panel.setOpenInFrame(true); // open in frame the next time
 		} else {
-			DockSplitPane parent = panel.getParentSplitPane();
+			DockSplitPaneW parent = panel.getParentSplitPane();
 			
 			// Save settings
-			if(parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-				panel.setEmbeddedSize(panel.getWidth());
+			if(parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+				panel.setEmbeddedSize(panel.getOffsetWidth());
 			} else {
-				panel.setEmbeddedSize(panel.getHeight());
+				panel.setEmbeddedSize(panel.getOffsetHeight());
 			}
 			
 			panel.setEmbeddedDef(panel.calculateEmbeddedDef());
 			panel.setOpenInFrame(false);
 			
-			Component opposite = parent.getOpposite(panel);
+			Widget opposite = parent.getOpposite(panel);
 
 			//save divider location and size (if DockSplitPane)
-			if (opposite!=null)
+			if (opposite!=null){
 				((DockComponent) opposite).saveDividerLocation();
+			}
 			int orientation = parent.getOrientation();
 			int size = 0;
-			if (orientation==JSplitPane.VERTICAL_SPLIT)
-				size = parent.getHeight();
+			if (orientation==DockSplitPaneW.VERTICAL_SPLIT)
+				size = parent.getOffsetHeight();
 			else
-				size = parent.getWidth();
+				size = parent.getOffsetWidth();
 
 
 			if(parent == rootPane) {
-				if(opposite instanceof DockSplitPane) {
-					rootPane = (DockSplitPane) opposite;
+				if(opposite instanceof DockSplitPaneW) {
+					rootPane = (DockSplitPaneW) opposite;
 				} else {
-					parent.replaceComponent(panel, null);
+					parent.replaceComponent((Widget) panel, null);
 				}
 				app.updateCenterPanel(true);
 			} else {
-				DockSplitPane grandParent = (DockSplitPane)parent.getParent();
+				DockSplitPaneW grandParent = (DockSplitPaneW)parent.getParent();
 				int dividerLoc = grandParent.getDividerLocation();
 				grandParent.replaceComponent(parent, opposite);
 				grandParent.setDividerLocation(dividerLoc);
@@ -805,16 +847,17 @@ public class DockManager implements AWTEventListener, SetLabels {
 			if (opposite!=null)
 				((DockComponent) opposite).updateDividerLocation(size,orientation);
 			
-			if(isPermanent) {
-				app.validateComponent();
-			}
+		// TODO: resize here?	
+		//	if(isPermanent) {
+		//		app.validateComponent();
+		//	}
 			
 			markAlonePanel();
 
 			if(panel.hasToolbar()) {
-				ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
-				mainContainer.removeToolbar(panel.getToolbar());
-				mainContainer.updateToolbarPanel();
+			//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
+			//	mainContainer.removeToolbar(panel.getToolbar());
+			//	mainContainer.updateToolbarPanel();
 			}
 			
 			app.updateToolBar();
@@ -835,6 +878,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 *      mouse listener was called, therefore new objects may be created in the wrong
 	 *      euclidian view as the focus was not changed at the time of object creation. 
 	 */
+	/*
 	public void eventDispatched(AWTEvent event) {
 		// we also get notified about other mouse events, but we want to ignore them
 		if(event.getID() != MouseEvent.MOUSE_CLICKED) {
@@ -860,6 +904,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			setFocusedPanel(dp, updatePropertiesView);
 		}
 	}
+	*/
 	
 	
 	/**
@@ -868,7 +913,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param panel panel
 	 */
 	public void setFocusedPanel(DockPanel panel) {
-		setFocusedPanel(panel, true);
+	//	setFocusedPanel(panel, true);
 	}
 	
 	/**
@@ -876,7 +921,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param panel panel
 	 * @param updatePropertiesView update the properties view
-	 */
+	 *//*/
 	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
 		if(focusedDockPanel == panel) {
 			return;
@@ -934,10 +979,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 	}
+	*/
 	
 	/**
 	 * Changes the focused panel to the dock panel with ID viewId. 
-	 * Uses {@link DockManager#setFocusedPanel(DockPanel)} internally 
+	 * Uses {@link DockManagerW#setFocusedPanel(DockPanel)} internally 
 	 * but adds some validation checks. 
 	 * 
 	 * @param viewId 
@@ -945,7 +991,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 			not exist or is invisible at the moment  
 	 */
 	public boolean setFocusedPanel(int viewId) {
-		DockPanel dockPanel = getPanel(viewId);
+		DockPanelW dockPanel = getPanel(viewId);
 		
 		if(dockPanel != null && dockPanel.isVisible()) {
 			setFocusedPanel(dockPanel);
@@ -978,9 +1024,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * @return The dock euclidian panel which had focus the last.
 	 */
-	public EuclidianDockPanelAbstract getFocusedEuclidianPanel() {
-		return focusedEuclidianDockPanel;
-	}	
+	//public EuclidianDockPanelAbstract getFocusedEuclidianPanel() {
+	//	return focusedEuclidianDockPanel;
+	//}	
 	
 	/**
 	 * Moves the focus between visible panels. Just the register order is taken
@@ -997,14 +1043,14 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// to follow the DRY principle we'll use a single iterator for both
 		// forward and backward iteration
-		Iterator<DockPanel> it = getForwardBackwardIterator(forward);
+		Iterator<DockPanelW> it = getForwardBackwardIterator(forward);
 		
 		// if the focused dock panel was found already
 		boolean foundFocused = false;
 		boolean changedFocus = false;
 		
 		while(it.hasNext()) {
-			DockPanel panel = it.next();
+			DockPanelW panel = it.next();
 			
 			// all we do for now on just takes visible dock panels
 			// into consideration
@@ -1037,7 +1083,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			
 			while(it.hasNext()) {
-				DockPanel panel = it.next();
+				DockPanelW panel = it.next();
 				
 				if(panel.isVisible()) {
 					// quit if we reached the focused panel until we found another
@@ -1062,21 +1108,21 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 */
 	private void markAlonePanel() {
 		// determine if such a panel exists
-		DockPanel singlePanel = null;
+		DockPanelW singlePanel = null;
 		
 		if(rootPane.getRightComponent() == null) {
-			Component leftComponent = rootPane.getLeftComponent();
+			Widget leftComponent = rootPane.getLeftComponent();
 			
 			if(leftComponent != null && leftComponent instanceof DockPanel) {
-				singlePanel = (DockPanel)leftComponent;
+				singlePanel = (DockPanelW)leftComponent;
 			}
 		}
 		
 		if(rootPane.getLeftComponent() == null) {
-			Component rightComponent = rootPane.getRightComponent();
+			Widget rightComponent = rootPane.getRightComponent();
 			
 			if(rightComponent != null && rightComponent instanceof DockPanel) {
-				singlePanel = (DockPanel)rightComponent;
+				singlePanel = (DockPanelW)rightComponent;
 			}
 		}
 		
@@ -1090,7 +1136,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Remove marks from any panel, that it might be alone.
 	 */
 	private void unmarkAlonePanels() {
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			if(panel.isAlone()) {
 				panel.setAlone(false);
 			}
@@ -1104,20 +1150,20 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param forward	If the returned iterator should return forward or backward
 	 * @return 			The iterator
 	 */
-	private Iterator<DockPanel> getForwardBackwardIterator(boolean forward) {
+	private Iterator<DockPanelW> getForwardBackwardIterator(boolean forward) {
 		if(forward) {	
 			return dockPanels.iterator();
 		} else {
-			final ListIterator<DockPanel> original = dockPanels.listIterator(dockPanels.size());
+			final ListIterator<DockPanelW> original = dockPanels.listIterator(dockPanels.size());
 			
 			// we create our own iterator which iterates through our list in
 			// reversed order
-			return new Iterator<DockPanel>() {
+			return new Iterator<DockPanelW>() {
 				public void remove() {
 					original.remove();
 				}
 				
-				public DockPanel next() {
+				public DockPanelW next() {
 					return original.previous();
 				}
 				
@@ -1132,11 +1178,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Update the labels of all DockPanels.
 	 */
 	public void setLabels() {
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.updateLabels();
 		}
 		
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.buildToolbarGui();
 		}
 	}
@@ -1145,9 +1191,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Update the glass pane
 	 */
 	public void updateGlassPane() {
-		if(!app.isApplet() && glassPane.getParent() != null) {
-			app.setGlassPane(glassPane);
-		}
+	//	if(!app.isApplet() && glassPane.getParent() != null) {
+	//		app.setGlassPane(glassPane);
+	//	}
 	}
 	
 	/**
@@ -1156,7 +1202,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 */
 	public void updateTitles() {
 		for(DockPanel panel : dockPanels) {
-			panel.updateTitle();
+			//panel.updateTitle();
 		}
 	}
 	
@@ -1168,7 +1214,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @see #setLabels()
 	 */
 	public void updatePanels() {
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.updatePanel();
 		}
 	}
@@ -1177,7 +1223,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Update the toolbars of all dock panels.
 	 */
 	public void updateToolbars() {
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.updateToolbar();
 		}
 	}
@@ -1188,8 +1234,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param mode
 	 */
 	public void setToolbarMode(int mode) {
-		for(DockPanel panel : dockPanels) {
-			panel.setToolbarMode(mode);
+		for(DockPanelW panel : dockPanels) {
+		//	panel.setToolbarMode(mode);
 		}
 	}
 	
@@ -1197,11 +1243,11 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * Update the fonts in all dock panels.
 	 */
 	public void updateFonts() {
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.updateFonts();
 		}
 		
-		for(DockPanel panel : dockPanels) {
+		for(DockPanelW panel : dockPanels) {
 			panel.buildToolbarGui();
 		}
 	}
@@ -1217,22 +1263,22 @@ public class DockManager implements AWTEventListener, SetLabels {
 		scale(scaleX, scaleY, rootPane);
 	}
 	
-	private void scale(float scaleX, float scaleY, DockSplitPane splitPane) {
-		splitPane.setDividerLocation((int)(splitPane.getDividerLocation() * (splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT ? scaleX : scaleY)));
+	private void scale(float scaleX, float scaleY, DockSplitPaneW splitPane) {
+		splitPane.setDividerLocation((int)(splitPane.getDividerLocation() * (splitPane.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT ? scaleX : scaleY)));
 		
-		if(splitPane.getLeftComponent() != null && splitPane.getLeftComponent() instanceof DockSplitPane) {
-			scale(scaleX, scaleY, (DockSplitPane)splitPane.getLeftComponent());
+		if(splitPane.getLeftComponent() != null && splitPane.getLeftComponent() instanceof DockSplitPaneW) {
+			scale(scaleX, scaleY, (DockSplitPaneW)splitPane.getLeftComponent());
 		}
 		
-		if(splitPane.getRightComponent() != null && splitPane.getRightComponent() instanceof DockSplitPane) {
-			scale(scaleX, scaleY, (DockSplitPane)splitPane.getRightComponent());
+		if(splitPane.getRightComponent() != null && splitPane.getRightComponent() instanceof DockSplitPaneW) {
+			scale(scaleX, scaleY, (DockSplitPaneW)splitPane.getRightComponent());
 		}
 	}
 	
 	/**
 	 * @return GeoGebraLayout instance
 	 */
-	public LayoutD getLayout() {
+	public LayoutW getLayout() {
 		return layout;
 	}
 	
@@ -1240,9 +1286,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @return The glass pane which is used to draw the preview rectangle if the user dragged
 	 * a DockPanel.
 	 */
-	public DockGlassPane getGlassPane() {
-		return glassPane;
-	}
+	//public DockGlassPane getGlassPane() {
+	//	return glassPane;
+	// }
 	
 	/**
 	 * 
@@ -1250,21 +1296,22 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param plane plane when for euclidian view for plane
 	 * @return a DockPanel
 	 */
-	public DockPanel getPanel(DockPanelData dpData)
+	public DockPanelW getPanel(DockPanelData dpData)
 	{
 		if (dpData.getPlane()==null) //standard case
 			return getPanel(dpData.getViewId());
 		
 		//euclidian view for plane case	
-		DockPanel panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
-		if (panel==null){
-			App.error("panel==null");
-			return null;
-		}
+		//DockPanelW panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		//if (panel==null){
+		//	App.error("panel==null");
+		//	return null;
+		//}
 		
 		//set the view id of the dock panel data for apply perspective
-		dpData.setViewId(panel.getViewId());
-		return panel;
+		//dpData.setViewId(panel.getViewId());
+		//return panel;
+		return null;
 		
 	}
 	
@@ -1276,10 +1323,10 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param viewId
 	 * @return The panel associated to the viewId
 	 */
-	public DockPanel getPanel(int viewId)
+	public DockPanelW getPanel(int viewId)
 	{
-		DockPanel panel = null;
-		for(DockPanel dockPanel : dockPanels) {
+		DockPanelW panel = null;
+		for(DockPanelW dockPanel : dockPanels) {
 			if(dockPanel.getViewId() == viewId) {
 				panel = dockPanel;
 				break;
@@ -1296,15 +1343,15 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * @return All dock panels
 	 */
-	public DockPanel[] getPanels() {
-		return (DockPanel[])dockPanels.toArray(new DockPanel[0]);
+	public DockPanelW[] getPanels() {
+		return (DockPanelW[])dockPanels.toArray(new DockPanelW[0]);
 	}
 	
 	/**
 	 * @return The root split pane which contains all other elements like DockPanels or
 	 * DockSplitPanes.
 	 */
-	public DockSplitPane getRoot() {
+	public DockSplitPaneW getRoot() {
 		return rootPane;
 	}
 	
@@ -1322,18 +1369,18 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param pane
 	 * @return
 	 */
-	private String getDebugTree(int depth, DockSplitPane pane) {
+	private String getDebugTree(int depth, DockSplitPaneW pane) {
 		StringBuilder strBuffer = new StringBuilder();
 		
-		Component leftComponent = pane.getLeftComponent();
-		Component rightComponent = pane.getRightComponent();
+		Widget leftComponent = pane.getLeftComponent();
+		Widget rightComponent = pane.getRightComponent();
 		
 		strBuffer.append(strRepeat("-", depth) + "[left]");
 		
 		if(leftComponent == null)
 			strBuffer.append("null" + "\n");
-		else if(leftComponent instanceof DockSplitPane)
-			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPane)leftComponent));
+		else if(leftComponent instanceof DockSplitPaneW)
+			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)leftComponent));
 		else
 			strBuffer.append(leftComponent.toString() + "\n");
 		
@@ -1341,8 +1388,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		if(rightComponent == null)
 			strBuffer.append("null" + "\n");
-		else if(rightComponent instanceof DockSplitPane)
-			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPane)rightComponent));
+		else if(rightComponent instanceof DockSplitPaneW)
+			strBuffer.append("\n" + getDebugTree(depth+1, (DockSplitPaneW)rightComponent));
 		else
 			strBuffer.append(rightComponent.toString() + "\n");
 		
@@ -1411,7 +1458,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param dp
 	 *            the dock panel to maximize
 	 */
-	public void maximize(DockPanel dp) {
+	public void maximize(DockPanelW dp) {
+		/*
 		restorePerspective = layout.createPerspective("tmp");
 		for (int i = 0; i < getPanels().length; i++) {
 			if (getPanels()[i] != dp) {
@@ -1421,6 +1469,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		isMaximized = true;
 		//app.updateCenterPanel(true);
 		app.updateMenubar();
+		*/
 	}
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){

@@ -8,6 +8,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
+import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -26,14 +27,12 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
@@ -44,8 +43,8 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
  */
 public class GeoGebraAppFrame extends ResizeComposite {
 
-	interface Binder extends UiBinder<DockLayoutPanel, GeoGebraAppFrame> { }
-	private static final Binder binder = GWT.create(Binder.class);
+	//interface Binder extends UiBinder<DockLayoutPanel, GeoGebraAppFrame> { }
+	//private static final Binder binder = GWT.create(Binder.class);
 	
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
@@ -63,13 +62,23 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	MySplitLayoutPanel ggwSplitLayoutPanel;
 	
 	DockLayoutPanel outer = null;
-
+	GGWFrameLayoutPanel frameLayout;
 	AppW app;
 	
 	public GeoGebraAppFrame() {
-		initWidget(outer = binder.createAndBindUi(this));
-		boolean showCAS = "true".equals(RootPanel.getBodyElement().getAttribute("data-param-showCAS"));
-		outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel(true, true, false, !showCAS, showCAS));
+		
+		frameLayout = new GGWFrameLayoutPanel();		
+		initWidget(frameLayout);
+		
+		//ggwSplitLayoutPanel = frameLayout.getSPLayout();
+		ggwCommandLine = frameLayout.getCommandLine();
+		ggwMenuBar = frameLayout.getMenuBar();
+		ggwToolBar = frameLayout.getToolBar();
+		
+		
+		//initWidget(outer = binder.createAndBindUi(this));
+		//boolean showCAS = "true".equals(RootPanel.getBodyElement().getAttribute("data-param-showCAS"));
+		//outer.add(ggwSplitLayoutPanel = new MySplitLayoutPanel(true, true, false, !showCAS, showCAS));
 		
 	    // Get rid of scrollbars, and clear out the window's built-in margin,
 	    // because we want to take advantage of the entire client area.
@@ -158,12 +167,20 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
-		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
-		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
+		//cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
+		//ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
+		
+		cw = Window.getClientWidth(); 
+		ch = Window.getClientHeight() ;
+		
 		app = createApplication(article,this);
 		setCloseMessage(app);
+		
 //		((AppW)app).initializeLanguage();
-		ggwSplitLayoutPanel.attachApp(app);
+				
+		frameLayout.setLayout(app);
+		
+		//ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
 		ggwMenuBar.init(app);
 		app.getObjectPool().setGgwMenubar(ggwMenuBar);
@@ -243,7 +260,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	 * Return the canvas in UiBinder of EuclidianView1.ui.xml
 	 */
 	public Canvas getEuclidianView1Canvas() {
-		return ggwSplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
+		
+		return frameLayout.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
+		//return ggwSplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper().getCanvas();
 	}
 	
 	/**
@@ -252,7 +271,10 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	 * EuclidianViewPanel for wrapping textfields
 	 */
 	public EuclidianDockPanelW getEuclidianView1Panel() {
-		return ggwSplitLayoutPanel.getGGWGraphicsView()	.getEuclidianView1Wrapper();
+		
+		//return ggwSplitLayoutPanel.getGGWGraphicsView().getEuclidianView1Wrapper();	
+		return frameLayout.getGGWGraphicsView().getEuclidianView1Wrapper();
+		
 	}
 	
 	public SplitLayoutPanel getGGWSplitLayoutPanel() {
@@ -267,4 +289,12 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	    return ggwToolBar;
     }
 
+
+	public void setFrameLayout(){
+		frameLayout.setLayout(app);
+	}
+	
+	public DockGlassPaneW getGlassPane(){
+		return frameLayout.getGlassPane();
+	}
 }

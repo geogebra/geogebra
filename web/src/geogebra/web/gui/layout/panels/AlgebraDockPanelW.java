@@ -18,13 +18,20 @@ public class AlgebraDockPanelW extends DockPanelW {
 	AlgebraViewW aview = null;
 
 	public AlgebraDockPanelW() {
-		super(0, null, null, false, 0);
-		initWidget(algebrap = new ScrollPanel());//temporarily
-		algebrap.setSize("100%", "100%");
-		algebrap.setAlwaysShowScrollBars(false);
+		super(
+				App.VIEW_ALGEBRA,	// view id 
+				"AlgebraWindow", 			// view title phrase
+				null,						// toolbar string
+				true,						// style bar?
+				2, 							// menu order
+				'A'							// menu shortcut
+			);		
 	}
 
 	protected Widget loadComponent() {
+		algebrap = new ScrollPanel();//temporarily
+		algebrap.setSize("100%", "100%");
+		algebrap.setAlwaysShowScrollBars(false);
 		return algebrap;
 	}
 
@@ -57,6 +64,7 @@ public class AlgebraDockPanelW extends DockPanelW {
     }
 
 	public void attachApp(App app) {
+		super.attachApp(app);
 		if (application != app) {
 			application = app;
 			setAlgebraView((AlgebraViewW)application.getAlgebraView());

@@ -29,7 +29,10 @@ import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
 import geogebra.web.gui.layout.LayoutW;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
+import geogebra.web.gui.layout.panels.CASDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
@@ -47,8 +50,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -280,21 +281,47 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		setShowView(flag, viewId, true);
 	}
 
+	
 	@Override
-	public void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
+		if (flag) {
+			if (!showView(viewId))
+				layout.getDockManager().show(viewId);
 
+			if (viewId == App.VIEW_SPREADSHEET) {
+				getSpreadsheetView().requestFocus();
+			}
+		} else {
+			if (showView(viewId))
+				layout.getDockManager().hide(viewId, isPermanent);
+
+			if (viewId == App.VIEW_SPREADSHEET) {
+				(app).getActiveEuclidianView().requestFocus();
+			}
+		}
+		
+		//toolbarPanel.validate();
+		//toolbarPanel.updateHelpText();
 	}
-
+	
 	@Override
 	public boolean showView(int viewId) {
+		/*
 		Element e = Document.get().getElementById("View_" + viewId);
 		if (e != null) {
 			return !(e.getStyle().getDisplay().equals("none") || e.getStyle()
 			        .getVisibility().equals("hidden"));
 		}
 		return false;
+		*/
+		
+		try {
+			return layout.getDockManager().getPanel(viewId).isVisible();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 
 	@Override
@@ -373,10 +400,56 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	public void initialize() {
 		initAlgebraController(); // ? needed for keyboard input in EuclidianView
 								 // in Desktop
-
 		layout.initialize(app);
-		// do nothing yet
-		// TODO Auto-generated method stub
+		initLayoutPanels();		
+	}
+
+	
+	/**
+	 * Register panels for the layout manager.
+	 */
+	protected void initLayoutPanels() {
+		
+		// register euclidian view
+		// this is done earlier
+		layout.registerPanel(app.getEuclidianViewpanel());
+
+		// register spreadsheet view
+		layout.registerPanel(new SpreadsheetDockPanelW(app));
+
+		// register algebra view
+		layout.registerPanel(new AlgebraDockPanelW());
+
+		// register CAS view
+		if (GeoGebraConstants.CAS_VIEW_ENABLED)
+			layout.registerPanel(new CASDockPanelW(app));
+
+		// register EuclidianView2
+		//layout.registerPanel(newEuclidian2DockPanel());
+
+		// register ConstructionProtocol view
+	//	layout.registerPanel(new ConstructionProtocolDockPanel(app));
+
+		// register ProbabilityCalculator view
+	//	layout.registerPanel(new ProbabilityCalculatorDockPanel(app));
+
+		// register Properties view
+	//	propertiesDockPanel = new PropertiesDockPanel(app);
+	//	layout.registerPanel(propertiesDockPanel);
+
+		// register data analysis view
+	//	layout.registerPanel(new DataAnalysisViewDockPanel(app));
+		
+		if (!app.isApplet()) {
+			// register python view
+		//	layout.registerPanel(new PythonDockPanel(app));
+		}
+		
+		/*
+		if (!app.isWebstart() || app.is3D()) {
+			// register Assignment view
+			layout.registerPanel(new AssignmentDockPanel(app));
+		}*/
 
 	}
 

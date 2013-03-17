@@ -321,8 +321,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
-		setRepaintAll();
-		repaint();
+		//TODO: these calls hang the spreadsheet dock panel 
+		// update, why?
+		//setRepaintAll();
+		//repaint();
 	}
 
 	/**

@@ -100,10 +100,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AppW extends AppWeb {
 
@@ -226,9 +228,9 @@ public class AppW extends AppWeb {
 
 		initCommonObjects();
 
-		this.canvas = appFrame.getEuclidianView1Canvas();
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
-		this.mySplitLayoutPanel = (MySplitLayoutPanel)appFrame.getGGWSplitLayoutPanel();
+		this.canvas = euclidianViewPanel.getCanvas();
+		//this.mySplitLayoutPanel = (MySplitLayoutPanel)appFrame.getGGWSplitLayoutPanel();
 
 		initCoreObjects(undoActive, this);
 
@@ -1634,6 +1636,30 @@ public class AppW extends AppWeb {
 		}
 	}
 
+	
+	
+	public static Widget getRootComponent(AppW app) {
+		return app.getGuiManager().getLayout().getRootComponent();
+	}
+	
+	public void updateCenterPanel(boolean updateUI) {
+		LayoutPanel centerPanel = null;
+		
+		if (isUsingFullGui()) {
+			appFrame.setFrameLayout();
+		} else {
+			//TODO: handle applets?
+			//centerPanel.add(this.getEuclidianViewpanel());
+		}
+
+		appFrame.onResize();
+		
+		if (updateUI) {
+			//SwingUtilities.updateComponentTreeUI(centerPanel);
+		}
+	}
+
+	
 	public void buildApplicationPanel() {
 		if (showMenuBar) {
 			attachMenubar();
