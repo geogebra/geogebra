@@ -1431,7 +1431,7 @@ __GGB__keysVar.no_NN.menu = {
     "Labeling_automatic": "Automatisk",
     "Labeling_off": "Ikkje p\xe5 nye objekt",
     "Labeling_on": "P\xe5 alle objekt",
-    "Labeling_pointsOnly": "Berre nye punkt",
+    "Labeling_pointsOnly": "Berre p\xe5 nye punkt",
     "Labeling_propertiesDefault": "Bruk standardeigenskapar",
     "Labels": "Vis eller skjul namn",
     "Landscape": "Liggande",
