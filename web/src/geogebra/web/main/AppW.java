@@ -2265,5 +2265,9 @@ public class AppW extends AppWeb {
     public ViewManager getViewManager() {
 	    return getGuiManager();
     }
+	
+	public static native void debug(JavaScriptObject j) /*-{
+		$wnd.console.log(j);
+	}-*/;
 
 }

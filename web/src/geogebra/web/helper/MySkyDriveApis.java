@@ -71,7 +71,7 @@ public class MySkyDriveApis {
 		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoSkyDrive(loggedIn);
 		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().refreshIfLoggedIntoSkyDrive(loggedIn);
 		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoSkyDrive(loggedIn);
-}
+	}
 
 	public void setCaller(String caller) {
 		callBack = caller;
@@ -113,7 +113,7 @@ public class MySkyDriveApis {
 		var _this = this;
 		$wnd.WL.api({ path: "/me", method: "GET" }).then(
         function (response) {
-            _this.@geogebra.web.helper.MySkyDriveApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;)(response.name);
+            _this.@geogebra.web.helper.MySkyDriveApis::loggedIntoSkyDriveSuccessFull(Ljava/lang/String;)(response.name);
         },
         function (response) {
             $wnd.console.log("API call failed: " + JSON.stringify(response.error).replace(/,/g, "\n"));
@@ -123,7 +123,7 @@ public class MySkyDriveApis {
     
 	}-*/;
 	
-	public void loggedIntoGoogleSuccessFull(String name) {
+	public void loggedIntoSkyDriveSuccessFull(String name) {
 		setLoggedIn(true);
 		loggedInUser = name;
 		initSkyDriveTokenChecking();

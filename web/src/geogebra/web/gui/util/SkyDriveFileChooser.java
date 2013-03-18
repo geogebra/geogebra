@@ -23,7 +23,7 @@ public class SkyDriveFileChooser {
 	}
     
     private void processFile(JavaScriptObject fileDescriptors) {
-		App.debug(fileDescriptors);
+		AppW.debug(fileDescriptors);
 	}
 
 
