@@ -40,6 +40,7 @@ public class ScriptManagerD extends ScriptManager {
 		//evalScript("ggbOnInit();");
 	}
 	
+	@Override
 	public void ggbOnInit() {
 		
 		try {
@@ -59,6 +60,7 @@ public class ScriptManagerD extends ScriptManager {
 	}
 	
 	
+	@Override
 	public synchronized void initJavaScript() {
 		
 		if (app.isApplet()) {
@@ -66,6 +68,7 @@ public class ScriptManagerD extends ScriptManager {
 		}
 	}
 	
+	@Override
 	public void callJavaScript(String jsFunction, Object [] args) {		
 		
 		if (app.isApplet() && app.useBrowserForJavaScript()) {

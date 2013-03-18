@@ -340,9 +340,7 @@ public abstract class ScriptManager implements EventListener{
 		unregisterObjectListener(clickListenerMap, objName);
 	}
 	
-	public void ggbOnInit() {
-		app.callAppletJavaScript("ggbOnInit", null);
-	}
+	public abstract void ggbOnInit();
 
 	public synchronized void initJavaScript() {
 	}
