@@ -244,7 +244,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
 			case GeoConicNDConstants.CONIC_ELLIPSE:
-				surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
+				updateEllipse(surface);
 				break;
 			default:
 				break;

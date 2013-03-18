@@ -171,6 +171,27 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+	/**
+	 * draw a quadrilateral
+	 * @param p1 point 1
+	 * @param p2 point 2
+	 * @param p3 point 3
+	 * @param p4 point 4
+	 */
+	public void drawQuad(Coords p1, Coords p2, Coords p3, Coords p4){
+		manager.startGeometry(Manager.QUAD_STRIP);
+		
+		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
+		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);	
+		manager.texture(uT, vT);
+		
+		manager.vertex(p1);
+		manager.vertex(p2);
+		manager.vertex(p4);
+		manager.vertex(p3);
+		manager.endGeometry();
+	}
+	
 	/** 
 	 * draw part of the surface
 	 */
@@ -398,23 +419,51 @@ public class PlotterSurface {
 	 * @param extent 
 	 */
 	public void ellipsePart(Coords center, Coords v1, Coords v2, double a, double b, double start, double extent){
+
+		ellipsePart(center, v1, v2, a, b, start, extent, true);
+
+	}
+	
+	/**
+	 * @param center
+	 * @param v1
+	 * @param v2
+	 * @param a
+	 * @param b
+	 * @param start
+	 * @param extent
+	 * @param fromEllipseCenter says if the surface is drawn from center of the ellipse
+	 */
+	public void ellipsePart(Coords center, Coords v1, Coords v2, double a, double b, double start, double extent, boolean fromEllipseCenter){
 		manager.startGeometry(Manager.TRIANGLE_FAN);
 		
 		int longitude = 60;
 		
 		Coords m;
+    	float u, v;
 		
     	float dt = (float) 1/longitude;
     	float da = (float) (extent *dt) ; 
     	
     	manager.texture(0, 0);
     	manager.normal(v1.crossProduct(v2));
-    	manager.vertex(center);  
     	
-    	float u, v;
     	u = (float) Math.cos (start); 
 		v = (float) Math.sin (start);
 		m = v1.mul(a*u).add(v2.mul(b*v));
+    	
+
+		//center of the triangle fan
+		if (fromEllipseCenter){ // center of the ellipse
+			manager.vertex(center); 
+		}else{ // mid point of the ellipse start and end
+			u = (float) Math.cos (start+extent); 
+			v = (float) Math.sin (start+extent);
+			manager.vertex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
+		} 
+    	
+    	
+    	//first point
 		manager.vertex(center.add(m));  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 

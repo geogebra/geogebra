@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.kernel3D.GeoConic3DPart;
@@ -15,16 +14,6 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	
 	
 	
-	
-	@Override
-	protected double getStart(){
-		return ((GeoConic3DPart) getGeoElement()).getParameterStart(0);
-	}
-	
-	@Override
-	protected double getExtent(){
-		return ((GeoConic3DPart) getGeoElement()).getParameterExtent(0);
-	}	
 	
 	protected double getStart(int i){
 		return ((GeoConic3DPart) getGeoElement()).getParameterStart(i);
@@ -45,8 +34,8 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	protected void updateEllipse(PlotterBrush brush){
 		
 		
-		double start0 = getStart();
-		double extent0 = getExtent();
+		double start0 = getStart(0);
+		double extent0 = getExtent(0);
 		double start1 = getStart(1);
 		double extent1 = getExtent(1);
 		
@@ -92,8 +81,37 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	@Override
 	protected void updateEllipse(PlotterSurface surface){
 		
-		GeoConicND conic = (GeoConicND) getGeoElement();
-		surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
+		double start0 = getStart(0);
+		double extent0 = getExtent(0);
+		double start1 = getStart(1);
+		double extent1 = getExtent(1);
+		
+		
+		if(!Double.isNaN(start0)){ // there is at least one hole
+			
+			GeoConic3DPart conic = (GeoConic3DPart) getGeoElement();
+			Coords m = conic.getMidpoint3D();
+			Coords ev0 = conic.getEigenvec3D(0); 
+			Coords ev1 = conic.getEigenvec3D(1);
+			double r0 = conic.getHalfAxis(0);
+			double r1 = conic.getHalfAxis(1);
+			
+			surface.ellipsePart(m, ev0, ev1, r0, r1, start0, extent0, false);
+
+			
+			if(!Double.isNaN(start1)){ // there is two holes
+				surface.ellipsePart(m, ev0, ev1, r0, r1, start1, extent1, false);
+				surface.drawQuad(
+						ellipsePoint(m, ev0, ev1, r0, r1, start0), 
+						ellipsePoint(m, ev0, ev1, r0, r1, start0+extent0), 
+						ellipsePoint(m, ev0, ev1, r0, r1, start1), 
+						ellipsePoint(m, ev0, ev1, r0, r1, start1+extent1) 
+						);
+			}
+			
+		}else{ // no hole
+			super.updateEllipse(surface);
+		}
 
 	}
 
