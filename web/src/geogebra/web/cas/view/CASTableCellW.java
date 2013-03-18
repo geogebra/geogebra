@@ -1,5 +1,6 @@
 package geogebra.web.cas.view;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -12,12 +13,21 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Graphical representation of CAS cells in Web 
+ * @author Zbynek Konecny
+ *
+ */
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
 	private Label inputPanel;
 	private HorizontalPanel outputPanel;
 	private String textBeforeEdit;
 	private AutoCompleteTextFieldW textField;
+	/**
+	 * Creates new graphical representation of CAS cell
+	 * @param casCell cas cell value
+	 */
 	public CASTableCellW(GeoCasCell casCell) {
 		this.casCell = casCell;
 		inputPanel = new Label();
@@ -40,6 +50,7 @@ public class CASTableCellW extends VerticalPanel {
 				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
 				DrawEquationWeb.drawEquationMathQuill(outputSpan, eqstring
 				        , outputLabel.getElement(),false, el == eqstring.length(), true);
+				outputSpan.getStyle().setColor(GColor.getColorString(casCell.getAlgebraColor()));
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {
 				if(casCell.isError()){
@@ -62,6 +73,9 @@ public class CASTableCellW extends VerticalPanel {
 
 	}
 	
+	/**
+	 * @param editor field for editing
+	 */
 	public void startEditing(AutoCompleteTextFieldW editor){
 		clear();
 		add(editor);
@@ -72,6 +86,9 @@ public class CASTableCellW extends VerticalPanel {
 		editor.requestFocus();
 	}
 	
+	/**
+	 * Remove editor and show input normally, update the CAS cell input
+	 */
 	public void stopEditing(){
 		if(!textBeforeEdit.equals(textField.getText())){
 			casCell.setInput(textField.getText());
@@ -81,14 +98,18 @@ public class CASTableCellW extends VerticalPanel {
 		add(inputPanel);
 		add(outputPanel);
 	}
-	
+	/**
+	 * Remove editor and show input normally
+	 */
 	public void cancelEditing(){
 		clear();		
 		add(inputPanel);
 		add(outputPanel);
 	}
 	
-	
+	/**
+	 * @return cas cell represented by this object
+	 */
 	public GeoCasCell getCASCell(){
 		return casCell;
 	}
