@@ -6735,6 +6735,8 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseMoved(AbstractEvent event) {
+		long l= System.currentTimeMillis();
+		App.debug("Move started");
 		
 		if (textfieldHasFocus) {
 			return;
@@ -6743,7 +6745,7 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		
 		processMouseMoved(event);
-		//event.release(e.getID()); //does it necessary?
+		App.debug("Move ended"+(l-System.currentTimeMillis()));
 		
 	}
 	
@@ -7919,6 +7921,8 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
+		long l = System.currentTimeMillis();
+		App.debug("Drag started");
 		if (textfieldHasFocus && moveMode != MOVE_BUTTON) {
 			return;
 		}
@@ -8167,7 +8171,7 @@ public abstract class EuclidianController {
 					view.toRealWorldCoordX(mouseLoc.x),
 					view.toRealWorldCoordY(mouseLoc.y));
 		}
-	
+		App.debug("meantime1"+(l-System.currentTimeMillis()));
 		/*
 		 * Conintuity handling
 		 * 
@@ -8213,8 +8217,9 @@ public abstract class EuclidianController {
 				updatePastePreviewPosition();
 			}
 		}
-	
+		App.debug("meantime 2"+(l-System.currentTimeMillis()));
 		handleMouseDragged(true, event);
+		App.debug("DragEnded"+(l-System.currentTimeMillis()));
 	}
 	
 	/**
