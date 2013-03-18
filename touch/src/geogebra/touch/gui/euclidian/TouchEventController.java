@@ -70,6 +70,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 
 				if (newDistance / this.oldDistance > 1.1 || newDistance / this.oldDistance < 0.9)
 				{
+					App.debug("Zooming ... "+oldDistance+":"+newDistance);
 					this.mc.onPinch(centerX, centerY, newDistance / this.oldDistance);
 					this.oldDistance = newDistance;
 				}
