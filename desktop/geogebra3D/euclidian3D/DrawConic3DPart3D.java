@@ -122,7 +122,7 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	
 
 	@Override
-	protected double[] getParallelLinesMinMax(int i){
+	protected double[] getLineMinMax(int i){
 		return new double[] {getStart(i),getEnd(i)};
 	}
 	

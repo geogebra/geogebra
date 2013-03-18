@@ -202,9 +202,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 				d = conic.getDirection3D(0);
 				m = conic.getMidpoint3D();
-				minmax = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						m, d, true);
+				minmax = getLineMinMax(0);
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;
 			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
@@ -263,7 +261,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param i index for the line
 	 * @return min, max parameters on the i-th line
 	 */
-	protected double[] getParallelLinesMinMax(int i){
+	protected double[] getLineMinMax(int i){
 
 		return getView3D().getRenderer().getIntervalInFrustum(
 				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
@@ -279,13 +277,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 		m = conic.getOrigin3D(0);
 		d = conic.getDirection3D(0);
-		minmax = getParallelLinesMinMax(0);
+		minmax = getLineMinMax(0);
 		points[0] = m.add(d.mul(minmax[0]));
 		points[1] = m.add(d.mul(minmax[1]));
 		
 		m = conic.getOrigin3D(1);
 		d = conic.getDirection3D(1);
-		minmax = getParallelLinesMinMax(1);
+		minmax = getLineMinMax(1);
 		points[3] = m.add(d.mul(minmax[0]));
 		points[2] = m.add(d.mul(minmax[1]));				
 

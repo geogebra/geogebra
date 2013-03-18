@@ -136,11 +136,17 @@ public class GeoConic3DPart extends GeoConic3D {
 			paramStart[1] = PathNormalizer.infFunction(segEnd1-2);
 			paramEnd[1] = PathNormalizer.infFunction(segEnd2-2);			
 			
-			break;		
+			break;	
+			
+		case CONIC_DOUBLE_LINE:
+			paramStart[0] = segStart1;
+			paramEnd[0] = segStart2;
+			
+			break;
 			
 		}
 		
-		//App.debug(paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+		//App.debug(getType()+"-"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
 	}
 	
 	/**
