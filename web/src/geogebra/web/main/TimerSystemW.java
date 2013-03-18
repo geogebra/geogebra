@@ -45,7 +45,7 @@ public class TimerSystemW {
 		if (application.getViewManager().hasAlgebraView())
 			algebraView = (AlgebraViewWeb) application.getAlgebraView();
 		if (application.getViewManager().hasSpreadsheetView())
-			spreadsheetView = (SpreadsheetViewW) application.getViewManager().getSpreadsheetView();
+			spreadsheetView = application.getViewManager().getSpreadsheetView();
 	}
 
 	// one timer for more views, use the minimum FPS of the views for timing
@@ -150,7 +150,7 @@ public class TimerSystemW {
 				if (view == algebraView)
 					algebraRepaint();
 			} else if (view.getViewID() == App.VIEW_SPREADSHEET) {
-				spreadsheetView = (SpreadsheetViewW) application.getViewManager().getSpreadsheetView();
+				spreadsheetView = application.getViewManager().getSpreadsheetView();
 				if (view == spreadsheetView)
 					spreadsheetRepaint();
 			}
