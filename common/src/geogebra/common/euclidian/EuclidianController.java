@@ -1162,11 +1162,14 @@ public abstract class EuclidianController {
 	}
 
 	public void clearJustCreatedGeos() {
+		boolean needsUpdate = justCreatedGeos.size() > 0;
 		justCreatedGeos.clear();
-		app.updateStyleBars();
-	
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {
-			app.getGuiManager().updateMenubarSelection();
+		if(needsUpdate){
+			app.updateStyleBars();
+		
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				app.getGuiManager().updateMenubarSelection();
+			}
 		}
 	}
 
