@@ -2237,6 +2237,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return information about eval command for display in the cell
 	 */
 	public String getCommandAndComment() {
+		if(!this.showOutput())
+			return "";
 		StringBuilder evalCmdLocal = new StringBuilder();
 		if(pointList){
 			evalCmdLocal.append(loc.getCommand("PointList"));
@@ -2250,7 +2252,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			evalCmdLocal.append(loc.getCommand(evalCmd));
 		}
 
-		if (input.startsWith(evalCmdLocal.toString())) {
+		if (input.startsWith(evalCmdLocal.toString()) || 
+				(localizedInput!=null && localizedInput.startsWith(evalCmdLocal.toString()))) {
 			// don't show command if it is already at beginning of input
 			return Unicode.CAS_OUTPUT_PREFIX;
 		}
