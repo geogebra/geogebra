@@ -6738,8 +6738,6 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseMoved(AbstractEvent event) {
-		long l= System.currentTimeMillis();
-		
 		if (textfieldHasFocus) {
 			return;
 		}
