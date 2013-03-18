@@ -6739,7 +6739,6 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseMoved(AbstractEvent event) {
 		long l= System.currentTimeMillis();
-		App.debug("Move started");
 		
 		if (textfieldHasFocus) {
 			return;
@@ -6748,7 +6747,6 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		
 		processMouseMoved(event);
-		App.debug("Move ended"+(l-System.currentTimeMillis()));
 		
 	}
 	
@@ -7937,10 +7935,8 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 			return;
 		}
-		App.debug("meantimeA"+(l-System.currentTimeMillis()));
 
 		clearJustCreatedGeos();
-		App.debug("meantimeB"+(l-System.currentTimeMillis()));
 		if (!draggingOccured) {
 	
 			draggingOccured = true;
@@ -8103,18 +8099,15 @@ public abstract class EuclidianController {
 
 			
 		}
-		App.debug("meantimeC"+(l-System.currentTimeMillis()));
 		lastMouseLoc = mouseLoc;
 		setMouseLocation(event);
 		transformCoords();
-		App.debug("meantimeD"+(l-System.currentTimeMillis()));
 		// ggb3D - only for 3D view
 		if (moveMode == MOVE_ROTATE_VIEW) {
 			if (processRotate3DView()) {
 				return;
 			}
 		}
-		App.debug("meantimeE"+(l-System.currentTimeMillis()));
 		if (app.isRightClick(event)) {
 			// if there's no hit, or if first hit is not moveable, do 3D view
 			// rotation
@@ -8133,7 +8126,6 @@ public abstract class EuclidianController {
 				}
 			}
 		}
-		App.debug("meantimeF"+(l-System.currentTimeMillis()));
 		// dragging eg a fixed point shouldn't start the selection rectangle
 		if (view.getHits().isEmpty()) {
 			
@@ -8168,14 +8160,12 @@ public abstract class EuclidianController {
 				return;
 			}
 		}
-		App.debug("meantimeG"+(l-System.currentTimeMillis()));
 		// update previewable
 		if (view.getPreviewDrawable() != null) {
 			view.getPreviewDrawable().updateMousePos(
 					view.toRealWorldCoordX(mouseLoc.x),
 					view.toRealWorldCoordY(mouseLoc.y));
 		}
-		App.debug("meantimeZ"+(l-System.currentTimeMillis()));
 		/*
 		 * Conintuity handling
 		 * 
