@@ -1064,6 +1064,17 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				singlePoint = new GeoPoint(cons);
 			singlePoint.setCoords(co.singlePoint);
 		}
+		if (co.startPoints != null) {
+			if (startPoints == null) {
+				startPoints = new GeoPoint[2];
+				for (int i=0; i < 2; i++) {
+					startPoints[i] = new GeoPoint(cons);
+				}
+			}
+			for (int i=0; i < 2; i++) {
+				startPoints[i].set((GeoElement) co.startPoints[i]);
+			}
+		}
 		defined = co.defined;	
 		
 		super.set(geo);
@@ -2738,7 +2749,8 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			lines[i].setStartPoint(null);
 			lines[i].getPointOnLine(startPoints[i]);
 			lines[i].setStartPoint(startPoints[i]);
-		}		
+		}	
+		
 	}
 
 	final private void parabola() {

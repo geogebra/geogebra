@@ -92,8 +92,6 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 	@Override
 	protected void end(){
 		
-		//compute conic
-		super.compute();
 		
 		//algo for intersect points with bottom and top
 		boolean oldSilentMode = kernel.isSilentMode();

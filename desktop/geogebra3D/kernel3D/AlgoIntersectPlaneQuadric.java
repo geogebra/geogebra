@@ -78,6 +78,8 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
   
     	//end
     	end();
+    	
+    	compute();
  
     }
     

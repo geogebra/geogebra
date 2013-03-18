@@ -2348,7 +2348,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		else if ((selCS2D() >= 1) &&  (selQuadric() >= 1)) { //plane-quadric
 
-
 			GeoElement plane = (GeoElement) getSelectedCS2D()[0];
 			GeoQuadric3D quad = getSelectedQuadric()[0];
 			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, quad)};
