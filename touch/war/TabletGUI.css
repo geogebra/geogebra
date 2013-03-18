@@ -234,3 +234,7 @@ div.mgwt-BarButton-active {
 	width: 1000px;
 	height: 1000px;
 }
+
+html{
+	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+}
