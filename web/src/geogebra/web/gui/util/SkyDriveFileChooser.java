@@ -2,6 +2,7 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
+import geogebra.web.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -23,7 +24,10 @@ public class SkyDriveFileChooser {
 	}
     
     private void processFile(JavaScriptObject fileDescriptors) {
-		AppW.debug(fileDescriptors);
+		String id = JSON.get(fileDescriptors, "id");
+		String name = JSON.get(fileDescriptors, "name");
+		String source = JSON.get(fileDescriptors, "source");
+		((AppW) app).getObjectPool().getMySkyDriveApis().loadFromSkyDrive(id, name, source);
 	}
 
 

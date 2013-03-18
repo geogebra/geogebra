@@ -13,6 +13,8 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.xhr.client.ReadyStateChangeHandler;
+import com.google.gwt.xhr.client.XMLHttpRequest;
 
 public class MySkyDriveApis {
 	
@@ -178,5 +180,20 @@ public class MySkyDriveApis {
 	public boolean isLoaded() {
 		return skyDriveApiLoaded;
 	}
+
+	public void loadFromSkyDrive(String id, String name, String source) {
+	    XMLHttpRequest xhr = XMLHttpRequest.create();
+	    xhr.open("GET", source);
+	    xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
+			
+			public void onReadyStateChange(XMLHttpRequest xhr) {
+				if (xhr.getReadyState() == 4 && xhr.getStatus() == 200) {
+					AppW.debug(xhr.getResponseText());
+				}
+				
+			}
+		});
+	    xhr.send();
+    }
 
 }
