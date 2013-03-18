@@ -2402,30 +2402,25 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//add intersection to tempArrayList
 			} */
 		else if (A.isGeoPlane() && B instanceof GeoQuadric3D) {
-			//add intersection to tempArrayList
-			boolean oldSilentMode = getKernel().isSilentMode();
-			getKernel().setSilentMode(true);//tells the kernel not to record the algo
-			GeoElement[] ret = {kernel.getManager3D().Intersect((GeoPlaneND) A, (GeoQuadric3D) B)};
-			getKernel().setSilentMode(oldSilentMode);
-			Drawable3D d = new DrawConic3D(view3D, (GeoConicND) ret[0]);
-			processIntersectionCurve(A, B, ret[0], d);
-			intersectable = true;
-			
+			intersectable = createIntersectionCurvePlaneQuadric(A, B);
 		} else if (B.isGeoPlane() && A instanceof GeoQuadric3D) {
-			//add intersection to tempArrayList
-			boolean oldSilentMode = getKernel().isSilentMode();
-			getKernel().setSilentMode(true);//tells the kernel not to record the algo
-			GeoElement[] ret = {kernel.getManager3D().Intersect((GeoPlaneND) B, (GeoQuadric3D) A)};
-			getKernel().setSilentMode(oldSilentMode);
-			Drawable3D d = new DrawConic3D(view3D, (GeoConicND) ret[0]);
-			processIntersectionCurve(A, B, ret[0], d);
-			intersectable = true;
-			
+			intersectable = createIntersectionCurvePlaneQuadric(B, A);
 		}
 
 		return intersectable;
 		
 		
+	}
+	
+	private boolean createIntersectionCurvePlaneQuadric(GeoElement A, GeoElement B) {
+		//add intersection to tempArrayList
+		boolean oldSilentMode = getKernel().isSilentMode();
+		getKernel().setSilentMode(true);//tells the kernel not to record the algo
+		GeoElement[] ret = {kernel.getManager3D().Intersect((GeoPlaneND) A, (GeoQuadric3D) B)};
+		getKernel().setSilentMode(oldSilentMode);
+		Drawable3D d = new DrawConic3D(view3D, (GeoConicND) ret[0]);
+		processIntersectionCurve(A, B, ret[0], d);
+		return true;
 	}
 	
 	private void processIntersectionCurve(GeoElement A, GeoElement B, GeoElement intersection, Drawable3D d){

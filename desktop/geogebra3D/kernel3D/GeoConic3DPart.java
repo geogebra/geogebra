@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.plugin.GeoClass;
 
@@ -68,10 +69,11 @@ public class GeoConic3DPart extends GeoConic3D {
 	private IndexedParameter[] parametersArray = new IndexedParameter[4];
 	
 	/**
-	 * set parameters for "hole" regarding the index
-	 * @param startParam start parameter
-	 * @param endParam end parameter
-	 * @param index index
+	 * set parameters for "segments holes" regarding the index
+	 * @param segStart1 first hole start
+	 * @param segEnd1 first hole end
+	 * @param segStart2 second hole start
+	 * @param segEnd2 second hole end
 	 */
 	final public void setParameters(double segStart1, double segEnd1, double segStart2, double segEnd2) {
 
@@ -126,9 +128,19 @@ public class GeoConic3DPart extends GeoConic3D {
 			if (paramExtent[1] < 0)
 				paramExtent[1] += Kernel.PI_2;
 			
+			break;
 			
+		case CONIC_PARALLEL_LINES:			
+			paramStart[0] = PathNormalizer.infFunction(segStart1);
+			paramEnd[0] = PathNormalizer.infFunction(segStart2);
+			paramStart[1] = PathNormalizer.infFunction(segEnd1-2);
+			paramEnd[1] = PathNormalizer.infFunction(segEnd2-2);			
+			
+			break;		
 			
 		}
+		
+		//App.debug(paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
 	}
 	
 	/**
@@ -169,5 +181,6 @@ public class GeoConic3DPart extends GeoConic3D {
 		return CONIC_PART_ARC;
 	}
 
+	
 
 }

@@ -23,6 +23,10 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		return ((GeoConic3DPart) getGeoElement()).getParameterExtent(i);
 	}
 	
+	protected double getEnd(int i){
+		return ((GeoConic3DPart) getGeoElement()).getParameterEnd(i);
+	}
+	
 
 	@Override
 	protected void updateCircle(PlotterBrush brush){
@@ -115,4 +119,20 @@ public class DrawConic3DPart3D extends DrawConic3D {
 
 	}
 
+	
+
+	@Override
+	protected double[] getParallelLinesMinMax(int i){
+		return new double[] {getStart(i),getEnd(i)};
+	}
+	
+	@Override
+	protected void updateParallelLines(PlotterBrush brush){			
+
+		super.updateParallelLines(brush);
+		
+		brush.segment(points[1], points[2]);
+		brush.segment(points[3], points[0]);
+		
+	}
 }

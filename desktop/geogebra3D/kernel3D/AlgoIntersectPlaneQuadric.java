@@ -71,18 +71,16 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
     	this.plane = plane;
     	this.quadric = quadric;
-    	
-    	if (quadric instanceof GeoQuadric3DLimited){
-    		conic = new GeoConic3DPart(cons);
-    	}else{
-    		conic = new GeoConic3D(cons);
-    	}
+
+    	conic = newConic(cons);
+
     	conic.setIsIntersection(true); //should be called before setDependencies (in setInputOutput)
   
     	//end
     	end();
  
     }
+    
     
     /**
      * end of contructor for this algo

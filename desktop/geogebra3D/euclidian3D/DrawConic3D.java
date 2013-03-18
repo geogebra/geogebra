@@ -36,6 +36,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	
 
+	@Override
 	protected void updateColors(){
 		updateAlpha();
 		setColorsOutlined();
@@ -45,6 +46,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		
 		GeoConicND conic = (GeoConicND) getGeoElement();
@@ -74,6 +76,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 
 	// method used only if surface is not transparent
+	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
 		
 		if(!isVisible()){
@@ -98,14 +101,20 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 
-	private double acosh(double x){
+	private static double acosh(double x){
 		if (x<=1)
 			return 0;
-		else
-			return Math.log(x+Math.sqrt(x*x-1));
+		return Math.log(x+Math.sqrt(x*x-1));
 	}
 	
 
+	/* used for update */
+	private Coords m, d;
+	protected Coords[] points = new Coords[4];
+	private double[] minmax;
+	private GeoConicND conic;
+
+	@Override
 	protected boolean updateForItSelf(){
 
 		//update alpha value
@@ -113,7 +122,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	
 		Renderer renderer = getView3D().getRenderer();
 		
-		GeoConicND conic = (GeoConicND) getGeoElement();
+		conic = (GeoConicND) getGeoElement();
 		
 		
 		// outline
@@ -143,11 +152,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			double tMax;
 			
 
-			Coords m;
-			Coords d;
 			Coords ev1, ev2;
 			double e1, e2;
-			double[] minmax;
+			
 			
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
@@ -216,19 +223,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				m = conic.getOrigin3D(0);
-				d = conic.getDirection3D(0);
-				minmax = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(d), true);
-				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
-
-				m = conic.getOrigin3D(1);
-				d = conic.getDirection3D(1);
-				minmax = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(d), true);
-				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
+				updateParallelLines(brush);
 				break;
 			default:
 				break;
@@ -246,6 +241,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				updateEllipse(surface);
 				break;
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				updateParallelLines(surface);
+				break;
 			default:
 				break;
 			
@@ -259,6 +257,51 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		return true;
 	}
 	
+	
+	/**
+	 * 
+	 * @param i index for the line
+	 * @return min, max parameters on the i-th line
+	 */
+	protected double[] getParallelLinesMinMax(int i){
+
+		return getView3D().getRenderer().getIntervalInFrustum(
+				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+				getView3D().getToScreenMatrix().mul(m), 
+				getView3D().getToScreenMatrix().mul(d), true);
+	}
+	
+	/**
+	 * update outline for parallel lines
+	 * @param brush brush plotter
+	 */
+	protected void updateParallelLines(PlotterBrush brush){
+
+		m = conic.getOrigin3D(0);
+		d = conic.getDirection3D(0);
+		minmax = getParallelLinesMinMax(0);
+		points[0] = m.add(d.mul(minmax[0]));
+		points[1] = m.add(d.mul(minmax[1]));
+		
+		m = conic.getOrigin3D(1);
+		d = conic.getDirection3D(1);
+		minmax = getParallelLinesMinMax(1);
+		points[3] = m.add(d.mul(minmax[0]));
+		points[2] = m.add(d.mul(minmax[1]));				
+
+		brush.segment(points[0], points[1]);
+		brush.segment(points[2], points[3]);
+		
+	}
+	
+	/**
+	 * update surface drawing for parallele lines case
+	 * @param surface surface plotter
+	 */
+	protected void updateParallelLines(PlotterSurface surface){
+		surface.drawQuad(points[0], points[1], points[2], points[3]);
+	}
+
 	/**
 	 * update surface drawing for ellipse case
 	 * @param surface surface plotter
@@ -294,6 +337,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 	}
 
+	@Override
 	protected void updateForView(){
 		if (getView3D().viewChanged())
 			switch(((GeoConicND) getGeoElement()).getType()){
@@ -317,12 +361,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	
 	
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_1D;
 	}
 	
 	
 	
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		super.addToDrawable3DLists(lists);
 		if (((GeoConicND) getGeoElement()).isEndOfQuadric())
@@ -331,7 +377,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	super.removeFromDrawable3DLists(lists);
 		if (((GeoConicND) getGeoElement()).isEndOfQuadric())
 	    	removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
@@ -346,6 +393,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	switch(((GeoConicND) getGeoElement()).getType()){
     	case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			//Application.debug(getGeoElement().getLayer());
 			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
@@ -356,7 +404,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     }
     
 
-    public void drawTransp(Renderer renderer){
+    @Override
+	public void drawTransp(Renderer renderer){
     	if(!isVisible()){
     		return;
     	}
@@ -376,6 +425,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     
 
 
+	@Override
 	public void drawHiding(Renderer renderer){
 		if(!isVisible())
 			return;

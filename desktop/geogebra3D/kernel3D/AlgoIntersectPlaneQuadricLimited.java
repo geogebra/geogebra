@@ -23,6 +23,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 
@@ -143,53 +144,65 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	// set part points
     	double[] bottomParameters = setPartPoints(algoBottom, ql.getBottom(), bottomP);
     	double[] topParameters = setPartPoints(algoTop, ql.getTop(), topP);
-    	
-    	//if some parameters are NaN, force to be in topParameters
-    	if (Double.isNaN(bottomParameters[0])){
-       		bottomParameters[0] = topParameters[0];
-       		bottomParameters[1] = topParameters[1];
-       	    topParameters[0] = Double.NaN;
-    	}
-    	
-    	//if topParameters are NaN, and not bottomParameters,
-    	//set twice the "middle" parameter for topParameters to check the order
-    	//App.debug(topParameters[0]+","+bottomParameters[0]);
-    	if (Double.isNaN(topParameters[0]) && !Double.isNaN(bottomParameters[0])){
-    		//calc "midpoint" on conic
-    		double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
-    		PathParameter pp = new PathParameter(midParameter);
-    		Coords P = new Coords(3);
-    		conic.pathChangedWithoutCheck(P, pp);
-    		P = conic.getPoint(P.getX(), P.getY());
-    		//check if "midpoint" is on quadric side
-    		//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
-    		if(ql.getSide().isInRegion(P)){
-     			//set "midpoint"
-    			topParameters[0] = midParameter;
-    		}else{
-       			//set symetric "midpoint"
-    			topParameters[0] = midParameter+Math.PI;
-    			if (midParameter<0){
-    				topParameters[0] = midParameter+Math.PI;
-    			}else{
-    				topParameters[0] = midParameter-Math.PI;
-    			}
 
+    	switch (conic.getType()) {
+    	case GeoConicNDConstants.CONIC_CIRCLE:
+    	case GeoConicNDConstants.CONIC_ELLIPSE:
+    		//if some parameters are NaN, force to be in topParameters
+    		if (Double.isNaN(bottomParameters[0])){
+    			bottomParameters[0] = topParameters[0];
+    			bottomParameters[1] = topParameters[1];
+    			topParameters[0] = Double.NaN;
     		}
-    		topParameters[1]=topParameters[0];
+
+    		//if topParameters are NaN, and not bottomParameters,
+    		//set twice the "middle" parameter for topParameters to check the order
+    		//App.debug(topParameters[0]+","+bottomParameters[0]);
+    		if (Double.isNaN(topParameters[0]) && !Double.isNaN(bottomParameters[0])){
+    			//calc "midpoint" on conic
+    			double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
+    			PathParameter pp = new PathParameter(midParameter);
+    			Coords P = new Coords(3);
+    			conic.pathChangedWithoutCheck(P, pp);
+    			P = conic.getPoint(P.getX(), P.getY());
+    			//check if "midpoint" is on quadric side
+    			//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
+    			if(ql.getSide().isInRegion(P)){
+    				//set "midpoint"
+    				topParameters[0] = midParameter;
+    			}else{
+    				//set symetric "midpoint"
+    				topParameters[0] = midParameter+Math.PI;
+    				if (midParameter<0){
+    					topParameters[0] = midParameter+Math.PI;
+    				}else{
+    					topParameters[0] = midParameter-Math.PI;
+    				}
+
+    			}
+    			topParameters[1]=topParameters[0];
+    		}
+    		break;
     	}
-    	
-    	
+
     	
     	// set parameters to conic
     	GeoConic3DPart cp = (GeoConic3DPart) conic;
     	
     	/*
-    	App.debug(bottomParameters[0]+","+
+      	App.debug(bottomParameters[0]+","+
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-      			*/
+    	 */
+
+    	/*
+    	App.debug(PathNormalizer.infFunction(bottomParameters[0])+","+
+    			PathNormalizer.infFunction(topParameters[0])+","+
+    			PathNormalizer.infFunction(bottomParameters[1]-2)+","+
+    			PathNormalizer.infFunction(topParameters[1]-2));
+    			*/
+
         
       	cp.setParameters(
       			bottomParameters[0], 
