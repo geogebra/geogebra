@@ -59,7 +59,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	/**
 	 * container for the Popup that only one exist for a given type
 	 */
-	public static AttachedToDOM currentPopup;
+	public AttachedToDOM currentPopup;
 
 	private DialogManagerW dialogManager;
 
@@ -1142,5 +1142,13 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		SkyDriveFileChooser fileChooser = ((DialogManagerW) app
 		        .getDialogManager()).getSkyDriveFileChooser();
 		fileChooser.show();
+    }
+
+	public void removePopup() {
+		if (currentPopup != null) {
+			currentPopup.removeFromDOM();
+			currentPopup = null;
+		}
+	    
     }
 }

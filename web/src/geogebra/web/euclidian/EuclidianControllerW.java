@@ -203,16 +203,15 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int ey = ((EuclidianViewW)view).getAbsoluteTop();
 		int eWidth = ((EuclidianViewW)view).getWidth();
 		int eHeight = ((EuclidianViewW)view).getHeight();
-		if (GuiManagerW.currentPopup != null && ((x < ex || x > ex + eWidth) ||
-				(y < ey ||y > ey + eHeight))) {
-			GuiManagerW.currentPopup.removeFromDOM();
-			GuiManagerW.currentPopup = null;
-		}
+		if ((x < ex || x > ex + eWidth) ||
+				(y < ey ||y > ey + eHeight))
+				((GuiManagerW)app.getGuiManager()).removePopup();
 		
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
 	}
+
 
 	public void onMouseMove(MouseMoveEvent event) {
 		event.preventDefault();
@@ -230,10 +229,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		event.preventDefault();	
 		
 		//hide dialogs if they are open
-		if (GuiManagerW.currentPopup != null) {
-			GuiManagerW.currentPopup.removeFromDOM();
-			GuiManagerW.currentPopup = null;
-		}
+		((GuiManagerW)app.getGuiManager()).removePopup();
 
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
