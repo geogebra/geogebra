@@ -7920,8 +7920,6 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
-		long l = System.currentTimeMillis();
-		App.debug("Drag started");
 		if (textfieldHasFocus && moveMode != MOVE_BUTTON) {
 			return;
 		}
@@ -8210,7 +8208,6 @@ public abstract class EuclidianController {
 			}
 		}
 		handleMouseDragged(true, event);
-		App.debug("DragEnded"+(l-System.currentTimeMillis()));
 	}
 	
 	/**
