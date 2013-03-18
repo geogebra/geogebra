@@ -6,7 +6,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.helper.ImageWrapper;
-import geogebra.web.io.MyXMLio;
+import geogebra.web.io.MyXMLioW;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class ImageManager extends AbstractImageManager {
 	};
 
 	private String construction;
-	private MyXMLio myXMLio;
+	private MyXMLioW myXMLio;
 	private AppW app = null;
 
 	public void addExternalImage(String fileName, String src) {
@@ -119,7 +119,7 @@ public class ImageManager extends AbstractImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, MyXMLio myXMLio, AppW app) {
+	public void triggerImageLoading(String construction, MyXMLioW myXMLio, AppW app) {
 		this.construction = construction;
 		this.myXMLio = myXMLio;	
 		this.app = app;

@@ -1,7 +1,7 @@
 package geogebra.gui.util;
 
 import geogebra.common.main.App;
-import geogebra.io.MyXMLio;
+import geogebra.io.MyXMLioD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -399,7 +399,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 					String fileName = file.getName();
 					
 					if(fileName.endsWith(".ggb")) {
-						tmpImage = MyXMLio.getPreviewImage(file); // load preview from zip
+						tmpImage = MyXMLioD.getPreviewImage(file); // load preview from zip
 						
 						StringBuilder fileInfo = new StringBuilder();
 						

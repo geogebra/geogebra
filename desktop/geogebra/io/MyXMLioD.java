@@ -57,7 +57,7 @@ import javax.imageio.ImageIO;
  * 
  * @author Markus Hohenwarter
  */
-public class MyXMLio extends geogebra.common.io.MyXMLio{
+public class MyXMLioD extends geogebra.common.io.MyXMLio{
 
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
@@ -66,7 +66,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	private QDParser xmlParser;
 
 
-	public MyXMLio(Kernel kernel, Construction cons) {
+	public MyXMLioD(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;	
 		app = kernel.getApplication();

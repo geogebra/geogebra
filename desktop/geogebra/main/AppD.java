@@ -75,7 +75,7 @@ import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
-import geogebra.io.MyXMLio;
+import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
@@ -510,7 +510,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		boolean ggtloading = isLoadingTool(args);
 
 		// init xml io for construction loading
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+		myXMLio = new MyXMLioD(kernel, kernel.getConstruction());
 
 		// init default preferences if necessary
 		if (!isApplet) {
@@ -595,6 +595,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			setCASVersionString(getPlain("CASInitializing"));
 
 		}
+		
+		//GiacD giac = new GiacD();
+		//App.debug(giac.evalCAS("factor(x^4-1)"));
+		
 	}
 
 	// **************************************************************************
@@ -1972,7 +1976,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// write and reload image to make sure we can save it
 			// without problems
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			((MyXMLio) myXMLio).writeImageToStream(os, fileName, img);
+			((MyXMLioD) myXMLio).writeImageToStream(os, fileName, img);
 			os.flush();
 			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 
@@ -3391,7 +3395,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
-			((MyXMLio) myXMLio).readZipFromString(zipFile);
+			((MyXMLioD) myXMLio).readZipFromString(zipFile);
 
 			kernel.initUndoInfo();
 			isSaved = true;
@@ -3451,7 +3455,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			resetUniqueId();
 
 			BufferedInputStream bis = new BufferedInputStream(is);
-			((MyXMLio) myXMLio).readZipFromInputStream(bis, isMacroFile);
+			((MyXMLioD) myXMLio).readZipFromInputStream(bis, isMacroFile);
 			is.close();
 			bis.close();
 
@@ -3482,7 +3486,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean saveGeoGebraFile(File file) {
 		try {
 			setWaitCursor();
-			((MyXMLio) myXMLio).writeGeoGebraFile(file);
+			((MyXMLioD) myXMLio).writeGeoGebraFile(file);
 			isSaved = true;
 			setDefaultCursor();
 			return true;
@@ -3502,7 +3506,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
 		try {
 			setWaitCursor();
-			((MyXMLio) myXMLio).writeMacroFile(file, macros);
+			((MyXMLioD) myXMLio).writeMacroFile(file, macros);
 			setDefaultCursor();
 			return true;
 		} catch (Exception e) {
@@ -3539,7 +3543,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			((MyXMLio) myXMLio).writeMacroStream(os, kernel.getAllMacros());
+			((MyXMLioD) myXMLio).writeMacroStream(os, kernel.getAllMacros());
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {
@@ -3557,7 +3561,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (byteArray != null) {
 				ByteArrayInputStream is = new ByteArrayInputStream(byteArray);
-				((MyXMLio) myXMLio).readZipFromInputStream(is, true);
+				((MyXMLioD) myXMLio).readZipFromInputStream(is, true);
 				is.close();
 			}
 		} catch (Exception e) {
@@ -3566,13 +3570,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	final public MyXMLio getXMLio() {
-		return (MyXMLio) myXMLio;
+	final public MyXMLioD getXMLio() {
+		return (MyXMLioD) myXMLio;
 	}
 
 	@Override
-	public MyXMLio createXMLio(Construction cons) {
-		return new MyXMLio(cons.getKernel(), cons);
+	public MyXMLioD createXMLio(Construction cons) {
+		return new MyXMLioD(cons.getKernel(), cons);
 	}
 
 	public boolean isSaved() {

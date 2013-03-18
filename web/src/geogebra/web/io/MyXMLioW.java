@@ -5,12 +5,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 
-public class MyXMLio extends geogebra.common.io.MyXMLio {
+public class MyXMLioW extends geogebra.common.io.MyXMLio {
 
 	private DocHandler handler, ggbDocHandler;
 	private XmlParser xmlParser;
 
-	public MyXMLio(Kernel kernel, Construction cons) {
+	public MyXMLioW(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;	
 		app = kernel.getApplication();

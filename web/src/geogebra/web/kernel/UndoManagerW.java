@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
-import geogebra.web.io.MyXMLio;
+import geogebra.web.io.MyXMLioW;
 
 import com.google.gwt.storage.client.Storage;
 

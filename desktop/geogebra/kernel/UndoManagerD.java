@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
-import geogebra.io.MyXMLio;
+import geogebra.io.MyXMLioD;
 import geogebra.main.AppD;
 
 import java.io.File;
@@ -169,7 +169,7 @@ public class UndoManagerD extends UndoManager {
 
 		// create file
 		FileOutputStream fos = new FileOutputStream(tempFile);
-		MyXMLio.writeZipped(fos, undoXML);
+		MyXMLioD.writeZipped(fos, undoXML);
 		fos.close();
 
 		return tempFile;
@@ -190,7 +190,7 @@ public class UndoManagerD extends UndoManager {
 
 			// load undo info
 			((AppD)app).getScriptManager().disableListeners();
-			((geogebra.io.MyXMLio)construction.getXMLio()).readZipFromMemory(is);
+			((geogebra.io.MyXMLioD)construction.getXMLio()).readZipFromMemory(is);
 			((AppD)app).getScriptManager().enableListeners();
 
 			is.close();
@@ -212,7 +212,7 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
-		((geogebra.io.MyXMLio)construction.getXMLio()).processXMLString(strXML, true, false, false);
+		((geogebra.io.MyXMLioD)construction.getXMLio()).processXMLString(strXML, true, false, false);
 		construction.setFileLoading(false);
 	}
 	

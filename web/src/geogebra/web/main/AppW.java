@@ -10,6 +10,7 @@ import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
@@ -58,7 +59,7 @@ import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.io.ConstructionException;
-import geogebra.web.io.MyXMLio;
+import geogebra.web.io.MyXMLioW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
@@ -313,7 +314,7 @@ public class AppW extends AppWeb {
 		// init settings
 		settings = new Settings();
 
-		myXMLio = new MyXMLio(kernel, kernel.getConstruction());
+		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
 		setFontSize(12);
@@ -1015,8 +1016,9 @@ public class AppW extends AppWeb {
 		        .clone();
 
 		// Handling of construction and macro file
-		String construction = archive.remove("geogebra.xml");
-		String macros = archive.remove("geogebra_macro.xml");
+		String construction = archive.remove(MyXMLio.XML_FILE);
+		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
+		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
 		if (construction == null) {
@@ -1030,6 +1032,14 @@ public class AppW extends AppWeb {
 			// //DataUtil.utf8Decode(macros);
 			myXMLio.processXMLString(macros, true, true);
 		}
+		
+		// Library JavaScript (optional)
+		if (libraryJS == null) { //TODO: && !isGGTfile)
+			kernel.resetLibraryJavaScript();
+		} else {
+			kernel.setLibraryJavaScript(libraryJS);
+		}
+
 
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
@@ -1053,8 +1063,10 @@ public class AppW extends AppWeb {
 			/* DataUtil.utf8Decode( */construction/*
 												 * )/*DataUtil.utf8Decode
 												 * (construction)
-												 */, (MyXMLio) myXMLio, this);
+												 */, (MyXMLioW) myXMLio, this);
 			setCurrentFile(archiveContent);
+			
+
 		}
 	}
 
@@ -1926,7 +1938,7 @@ public class AppW extends AppWeb {
 		// }
 	}
 
-	private MyXMLio xmlio;
+	private MyXMLioW xmlio;
 
 	@Override
 	public boolean loadXML(String xml) throws Exception {
@@ -1935,7 +1947,7 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-	public MyXMLio getXMLio() {
+	public MyXMLioW getXMLio() {
 		if (xmlio == null) {
 			xmlio = createXMLio(kernel.getConstruction());
 		}
@@ -1943,8 +1955,8 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-	public MyXMLio createXMLio(Construction cons) {
-		return new MyXMLio(cons.getKernel(), cons);
+	public MyXMLioW createXMLio(Construction cons) {
+		return new MyXMLioW(cons.getKernel(), cons);
 	}
 
 	// ============================================
