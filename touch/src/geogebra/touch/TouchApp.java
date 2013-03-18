@@ -30,7 +30,8 @@ import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.elements.header.XMLBuilder;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
-import geogebra.web.io.MyXMLio;
+
+import geogebra.web.io.MyXMLioW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
@@ -616,7 +617,7 @@ public class TouchApp extends AppWeb
 	@Override
 	public geogebra.common.io.MyXMLio createXMLio(Construction cons)
 	{
-		return new MyXMLio(cons.getKernel(), cons);
+		return new MyXMLioW(cons.getKernel(), cons);
 	}
 
 	@Override

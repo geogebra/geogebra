@@ -18,4 +18,11 @@ public class ScriptManagerM extends ScriptManager
 		this.app.callAppletJavaScript(jsFunction, args);
 	}
 
+	@Override
+  public void ggbOnInit()
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
+
 }
