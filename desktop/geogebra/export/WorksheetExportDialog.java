@@ -1744,7 +1744,7 @@ public class WorksheetExportDialog extends JDialog {
 	final static String[] showToolBar = {"showToolBar", "data-param-showToolBar"};
 	final static String[] showToolBarHelp = {"showToolBarHelp", null};
 	final static String[] showAlgebraInput = {"showAlgebraInput", "data-param-showAlgebraInput"};
-	final static String[] useBrowserForJS = {"useBrowserForJS", "enableLabelDrags"};
+	final static String[] useBrowserForJS = {"useBrowserForJS", "data-param-useBrowserForJS"};
 	final static String[] allowRescaling = {"allowRescaling", null};
 	final static String[] java_arguments = {"java_arguments", null};
 	final static String[] cache_archive = {"cache_archive", null};
