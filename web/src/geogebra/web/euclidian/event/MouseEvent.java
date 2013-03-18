@@ -2,6 +2,7 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.main.App;
 
 import java.util.LinkedList;
 
@@ -113,7 +114,7 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public int getClickCount() {
-		if (event.getType() == "doubleclick") {
+		if (event.getType() == "dblclick") {
 			return 2;
 		}
 		return 1;

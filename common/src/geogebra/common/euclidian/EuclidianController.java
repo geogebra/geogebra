@@ -6863,7 +6863,7 @@ public abstract class EuclidianController {
 
 		
 		// double-click on object selects MODE_MOVE and opens redefine dialog
-		if (event.getClickCount() == 2 || event.isAltDown()) {
+		if (event.getClickCount() == 2) {
 			if (app.isApplet() || app.isControlDown(event)) {
 				return;
 			}
