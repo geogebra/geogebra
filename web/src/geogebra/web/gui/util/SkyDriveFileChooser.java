@@ -27,6 +27,7 @@ public class SkyDriveFileChooser {
 		String id = JSON.get(fileDescriptors, "id");
 		String name = JSON.get(fileDescriptors, "name");
 		String source = JSON.get(fileDescriptors, "source");
+		AppW.debug(fileDescriptors);
 		((AppW) app).getObjectPool().getMySkyDriveApis().loadFromSkyDrive(id, name, source);
 	}
 
