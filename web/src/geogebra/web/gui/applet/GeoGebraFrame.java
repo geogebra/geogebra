@@ -253,7 +253,7 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if(!app.getUseFullGui()){
+		if (app == null || !app.getUseFullGui()){
 			return;
 		}
 		final int eventType = DOM.eventGetType(event);
