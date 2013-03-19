@@ -55,6 +55,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		if (event.getTouches().length() == 1)
 		{
 			// proceed normally
+			this.mc.ensureClicked();
 			this.mc.onTouchMove(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
 		}
 		else if (event.getTouches().length() == 2)
