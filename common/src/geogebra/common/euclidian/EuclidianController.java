@@ -9669,6 +9669,19 @@ public abstract class EuclidianController {
 	}
 
 	public void zoomInOut(boolean altPressed, boolean minusPressed) {
+		double factor = minusPressed ? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
+
+		// accelerated zoom
+		if (altPressed) {
+			factor *= minusPressed ? 2d / 3d : 1.5;
+		}
+
+		zoomInOut(factor);
+
+	}
+	
+	public void zoomInOut(double factor) {
 		boolean allowZoom = !app.isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
@@ -9683,14 +9696,6 @@ public abstract class EuclidianController {
 		} else {
 			px = view.getWidth() / 2;
 			py = view.getHeight() / 2;
-		}
-
-		double factor = minusPressed ? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-
-		// accelerated zoom
-		if (altPressed) {
-			factor *= minusPressed ? 2d / 3d : 1.5;
 		}
 
 		// make zooming a little bit smoother by having some steps

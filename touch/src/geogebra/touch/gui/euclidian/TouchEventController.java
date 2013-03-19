@@ -21,6 +21,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 {
 	private TouchController mc;
 	private double oldDistance;
+	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public TouchEventController(TouchController mc)
 	{
@@ -43,7 +44,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	}
 
 	private static double distance(Touch t1, Touch t2) {
-		return Math.pow(t1.getPageX() - t2.getPageX(), 2) + Math.pow(t1.getPageY() - t2.getPageY(), 2);
+		return Math.sqrt(Math.pow(t1.getPageX() - t2.getPageX(), 2) + Math.pow(t1.getPageY() - t2.getPageY(), 2));
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			{
 				newDistance = distance(first,second);
 
-				if (newDistance / this.oldDistance > 1.1 || newDistance / this.oldDistance < 0.9)
+				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM)
 				{
 					App.debug("Zooming ... "+oldDistance+":"+newDistance);
 					this.mc.onPinch(centerX, centerY, newDistance / this.oldDistance);
