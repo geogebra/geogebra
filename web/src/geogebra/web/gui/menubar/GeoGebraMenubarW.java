@@ -43,8 +43,10 @@ public class GeoGebraMenubarW extends MenuBar {
 
 	private void init() {
 
-		createFileMenu();
-
+		if (!app.menubarRestricted()) {
+			createFileMenu();
+		}
+		
 		createEditMenu();
 
 		createViewMenu();
@@ -57,10 +59,11 @@ public class GeoGebraMenubarW extends MenuBar {
 		// Creation of Help Menu
 		createHelpMenu();
 		
-		createLogOutFromGoogle();
+		if (!app.menubarRestricted()) {
+			createLogOutFromGoogle();
+			createLogOutFromSkyDrive();
+		}
 		
-		createLogOutFromSkyDrive();
-
 		createLinkToGGBT();
 		
 	}

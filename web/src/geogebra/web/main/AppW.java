@@ -130,8 +130,8 @@ public class AppW extends AppWeb {
 	private ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
 
-	private GeoGebraFrame frame;
-	private GeoGebraAppFrame appFrame;
+	private GeoGebraFrame  frame = null;
+	private GeoGebraAppFrame appFrame = null;
 	private MySplitLayoutPanel mySplitLayoutPanel = null;
 	private EuclidianDockPanelW euclidianViewPanel;
 	private Canvas canvas;
@@ -2269,5 +2269,9 @@ public class AppW extends AppWeb {
 	public static native void debug(JavaScriptObject j) /*-{
 		$wnd.console.log(j);
 	}-*/;
+	
+	public boolean menubarRestricted() {
+		return frame != null;
+	}
 
 }
