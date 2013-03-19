@@ -10,5 +10,7 @@ public enum CasType {
 	/** Maxima */
 	MAXIMA,
 	/** MPReduce */
-	MPREDUCE
+	MPREDUCE,
+	/** giac */
+	GIAC
 }

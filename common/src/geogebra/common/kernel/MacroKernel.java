@@ -15,7 +15,6 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MaxSizeHashMap;
 
@@ -182,17 +181,6 @@ public class MacroKernel extends Kernel {
 	@Override
 	public synchronized boolean isGeoGebraCASready() {
 		return parentKernel.isGeoGebraCASready();
-	}
-
-	/**
-	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
-	 * 
-	 * @param casID
-	 *            CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
-	 */
-	@Override
-	public void setDefaultCAS(CasType casID) {
-		parentKernel.setDefaultCAS(DEFAULT_CAS);
 	}
 
 	/**

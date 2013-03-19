@@ -1,6 +1,5 @@
 package geogebra.common.cas;
 
-import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
@@ -35,8 +34,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
-	private CASmpreduce casMPReduce;
-	private CasType currentCAS = CasType.NO_CAS;
 
 	/**
 	 * Creates new CAS interface
@@ -76,20 +73,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			setCurrentCAS(Kernel.DEFAULT_CAS);
 	}
 
-	public StringType getCurrentCASstringType() {
-		switch (currentCAS) {
-		case MAXIMA:
-			return StringType.MAXIMA;
-
-		case MPREDUCE:
-			return StringType.MPREDUCE;
-
-		default:
-		case MATHPIPER:
-			return StringType.MATH_PIPER;
-		}
-	}
-
 	/**
 	 * Sets the currently used CAS for evaluateGeoGebraCAS().
 	 * 
@@ -99,15 +82,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public synchronized void setCurrentCAS(final CasType CAS) {
 		try {
 			switch (CAS) {
-			/*
-			 * case MAXIMA: cas = getMaxima(); ((CASmaxima) cas).initialize();
-			 * currentCAS = CAS; break;
-			 */
+			case GIAC:
+				
+				cas = getGiac();
+				app.getSettings().getCasSettings().addListener(cas);				
+				break;
 
 			default:
 				cas = getMPReduce();
 				app.getSettings().getCasSettings().addListener(cas);
-				currentCAS = CAS;
 				break;
 			/*
 			 * case MATHPIPER: cas = getMathPiper(); currentCAS = CAS; break;
@@ -133,12 +116,25 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * @return MPReduce
 	 */
-	public synchronized CASmpreduce getMPReduce() {
-		if (casMPReduce == null)
-			casMPReduce = app.getCASFactory()
+	private synchronized CASGenericInterface getMPReduce() {
+		if (cas == null) {
+			cas = app.getCASFactory()
 					.newMPReduce(casParser, new CasParserToolsImpl('e'),
 							app.getKernel());
-		return casMPReduce;
+		}
+		return cas;
+	}
+
+	/**
+	 * @return MPReduce
+	 */
+	private synchronized CASGenericInterface getGiac() {
+		if (cas == null) {
+			cas = app.getCASFactory()
+					.newGiac(casParser, new CasParserToolsImpl('e'),
+							app.getKernel());
+		}
+		return cas;
 	}
 
 	/**
@@ -235,7 +231,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluateMPReduce(String exp) throws CASException {
-		return getMPReduce().evaluateMPReduce(exp);
+		return getMPReduce().evaluateCAS(exp);
 	}
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
@@ -533,9 +529,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
-	public CasType getCurrentCASType() {
-		return currentCAS;
-	}
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
 		getCurrentCAS().evaluateGeoGebraCASAsync(c);

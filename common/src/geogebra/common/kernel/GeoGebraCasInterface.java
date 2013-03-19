@@ -2,7 +2,6 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.CasType;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public interface GeoGebraCasInterface {
-
-	public StringType getCurrentCASstringType();
 
 	public String evaluateRaw(String geoStr) throws Throwable;
 
@@ -40,8 +37,6 @@ public interface GeoGebraCasInterface {
 	public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, final boolean symbolic,
 			StringTemplate tpl);
-
-	public CasType getCurrentCASType();
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 

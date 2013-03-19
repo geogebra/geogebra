@@ -96,7 +96,7 @@ public class CASmpreduceD extends CASmpreduce {
 	 * @throws CASException if CAS fails
 	 */
 	@Override
-	public final String evaluateMPReduce(String input) throws CASException {
+	public final String evaluateCAS(String input) throws CASException {
 		try {
 			String exp = casParser.replaceIndices(input);
 			String ret = evaluateRaw(exp);

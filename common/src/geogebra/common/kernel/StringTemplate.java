@@ -85,6 +85,19 @@ public class StringTemplate {
 	}
 	
 	/**
+	 * giac string type, do not internationalize digits
+	 */
+	public static final StringTemplate giacTemplate = new StringTemplate();
+	static {
+		giacTemplate.internationalizeDigits = false;
+		giacTemplate.usePrefix = false;
+		giacTemplate.forceNF = true;
+		giacTemplate.localizeCmds = false;
+		giacTemplate.setType(StringType.MAXIMA);
+		giacTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
+	}
+	
+	/**
 	 * XML string type, do not internationalize digits
 	 */
 	public static final StringTemplate xmlTemplate = new StringTemplate(){

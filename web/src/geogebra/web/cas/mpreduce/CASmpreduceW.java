@@ -124,7 +124,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	}
 
 	@Override
-	public String evaluateMPReduce(String exp) {
+	public String evaluateCAS(String exp) {
 		try {
 			String processedExp = casParser.replaceIndices(exp);
 			String ret = evaluateRaw(processedExp);

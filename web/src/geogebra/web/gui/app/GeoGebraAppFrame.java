@@ -5,6 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.cas.GeoGebraCAS;
+import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
@@ -212,8 +213,13 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	
 	private void loadCAS(){
 		App.debug("loadCAS started");
-		CASmpreduceW casMPReduce = (CASmpreduceW) ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getMPReduce();
-		CASmpreduceW.getStaticInterpreter(casMPReduce);		
+		CASGenericInterface cas = ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getCurrentCAS();
+		
+		if (cas instanceof CASmpreduceW) {
+			CASmpreduceW.getStaticInterpreter((CASmpreduceW)cas);
+		} else {
+			// giac
+		}
 	}
 	
 	/**

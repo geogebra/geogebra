@@ -49,7 +49,7 @@ public class CASViewW extends CASView {
 		
 		
 		getCAS().initCurrentCAS();
-		getCAS().getMPReduce().reset();
+		getCAS().getCurrentCAS().reset();
 				
 	}
 	public void repaintView() {

@@ -135,6 +135,7 @@ public class Web implements EntryPoint {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
+		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
 		Web.webWorkerSupported = checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());

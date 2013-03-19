@@ -762,28 +762,10 @@ public class Kernel {
 	/** 
 	 * Default CAS type
 	 */
-	public static CasType DEFAULT_CAS = CasType.MPREDUCE; // default
-	/**
-	 * @return current CAS type
-	 */
-	final public CasType getCurrentCAS() {
-		return getGeoGebraCAS().getCurrentCASType();
-	}
+	//final public static CasType DEFAULT_CAS = CasType.GIAC; 
+	final public static CasType DEFAULT_CAS = CasType.MPREDUCE; 
 
-	/**
-	 * Sets currently used underlying CAS, e.g. MPReduce or Maxima.
-	 * 
-	 * @param casID
-	 *            CasType.MPREDUCE or CAS_MPREDUCE.CAS_Maxima
-	 */
-	public void setDefaultCAS(CasType casID) {
-		DEFAULT_CAS = casID;
-		if (ggbCAS != null) {
-			ggbCAS.setCurrentCAS(DEFAULT_CAS);
-		}
-	}
-
-	final private static char sign(double x) { // TODO make private
+	final private static char sign(double x) { 
 		if (x > 0) {
 			return '+';
 		}

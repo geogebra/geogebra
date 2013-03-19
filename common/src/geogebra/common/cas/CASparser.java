@@ -12,11 +12,13 @@
 
 package geogebra.common.cas;
 
+import geogebra.common.cas.giac.Ggb2giac;
 import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.CASParserInterface;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -52,7 +54,7 @@ public class CASparser implements CASParserInterface{
 	 * @param parser parser
 	 * @param pf parser functions
 	 */
-	public CASparser(Parser parser,ParserFunctions pf) {	
+	public CASparser(Parser parser, ParserFunctions pf) {	
 		this.parser = parser;
 		this.parserFunctions = pf;
 	}
@@ -375,8 +377,20 @@ public class CASparser implements CASParserInterface{
 	 * 
 	 */
 	synchronized Map<String,String> getTranslationRessourceBundle() {
-		if (rbCasTranslations == null){
-			rbCasTranslations = Ggb2MPReduce.getMap();
+		if (rbCasTranslations == null) {
+
+			switch (Kernel.DEFAULT_CAS) {
+
+			case GIAC:
+				rbCasTranslations = Ggb2giac.getMap();
+				break;
+
+			case MPREDUCE:
+			default:
+				rbCasTranslations = Ggb2MPReduce.getMap();
+				break;
+
+			}
 		}
 		return rbCasTranslations;
 	}

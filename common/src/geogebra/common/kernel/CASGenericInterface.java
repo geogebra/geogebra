@@ -89,4 +89,6 @@ public interface CASGenericInterface extends SettingListener {
 
 	void loadGroebner();
 
+	String evaluateCAS(String exp);
+
 }

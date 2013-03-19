@@ -75,7 +75,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 *            MPREduce command
 	 * @return value returned from CAS
 	 */
-	public abstract String evaluateMPReduce(String exp);
+	public abstract String evaluateCAS(String exp);
 
 	final public String evaluateRaw(final String input) throws Throwable {
 		
@@ -207,7 +207,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		String result = plainResult;
 		if (keepInput) {
 			// when keepinput was treated in MPReduce, it is now > 1
-			String keepinputVal = evaluateMPReduce("keepinput!!;");
+			String keepinputVal = evaluateCAS("keepinput!!;");
 			boolean keepInputUsed = !"1".equals(keepinputVal);
 			if (!keepInputUsed) {
 				//return directly, we don't want another toGeoGebraString,
@@ -284,7 +284,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		sb.append(">>");
 
 		// evaluate in MPReduce
-		String plainResult = evaluateMPReduce(sb.toString());
+		String plainResult = evaluateCAS(sb.toString());
 		return plainResult;
 	}
 

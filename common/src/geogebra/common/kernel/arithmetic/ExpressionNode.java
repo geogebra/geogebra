@@ -2449,9 +2449,6 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(" }");
 				break;
 				
-			case JASYMCA:
-			case MATH_PIPER:
-			case MAXIMA:
 			case MPREDUCE:
 				sb.append("mydivision(");
 				sb.append(leftStr);
@@ -2460,6 +2457,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(')');
 				break;
 
+			case JASYMCA:
+			case MATH_PIPER:
+			case MAXIMA:
 			default:
 				// check for 1 in denominator
 				if (isEqualString(right, 1, !valueForm)) {
