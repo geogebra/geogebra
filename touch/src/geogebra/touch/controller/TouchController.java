@@ -293,8 +293,4 @@ public class TouchController extends EuclidianController
 		}
 	}
 
-	public void ensureClicked() {
-		this.clicked = true;
-	}
-
 }
