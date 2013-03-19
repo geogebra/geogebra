@@ -1,13 +1,18 @@
 package geogebra.factories;
 
 import geogebra.common.factories.Factory;
+import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.gui.dialog.InputDialogD;
+import geogebra.main.AppD;
 
 public class FactoryD extends Factory{
 
@@ -32,6 +37,15 @@ public class FactoryD extends Factory{
 	@Override
 	public InfoBar newInfoBar(App app) {
 		return new geogebra.gui.infobar.InfoBarD(app);
+	}
+
+	@Override
+	public InputDialog newInputDialog(App app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			GeoElement geo) {
+	    return new InputDialogD((AppD)app, message, title,
+	    		initString, autoComplete, handler, geo);
+
 	}
 
 	

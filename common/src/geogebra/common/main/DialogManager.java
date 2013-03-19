@@ -14,7 +14,11 @@ package geogebra.common.main;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.factories.Factory;
+import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
+import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -71,21 +75,13 @@ public abstract class DialogManager {
 		} */
 
 		String str = geo.getRedefineString(false, true);
-		
-		String inputValue = prompt(app.getPlain("Redefine") +" "+geo.getNameDescription(), str);
 
-		if (inputValue == null || inputValue.equals(this.oldString)) return;
-		try {
-			GeoElement newGeo = app.getKernel().getAlgebraProcessor().changeGeoElement(
-					geo, inputValue, true, true);
-			app.getKernel().clearJustCreatedGeosInViews();
-			app.doAfterRedefine(newGeo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return;
-			
+		InputHandler handler = new RedefineInputHandler(app, geo, str);
+	
+		InputDialog inputDialog = Factory.getPrototype().newInputDialog(app,
+				geo.getNameDescription(), app.getPlain("Redefine"), str, true,
+				handler, geo);
+
 
 	}
 

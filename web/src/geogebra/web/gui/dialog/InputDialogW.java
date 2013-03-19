@@ -84,6 +84,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		centerOnScreen();
 
 	}
+	
+	public InputDialogW(AppW app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			GeoElement geo){
+		this(app, message, title, initString, autoComplete, handler, false,
+				false, geo);
+	}
 
 	private void centerOnScreen() {
 		wrappedPopup.center();
@@ -140,9 +147,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		if (showApply) {
 			btPanel.add(btApply);
 		}
-		if (showProperties) {
-			btPanel.add(btProperties);
-		}
+//		if (showProperties) {
+//			btPanel.add(btProperties);
+//		}
 
 		setLabels();
 

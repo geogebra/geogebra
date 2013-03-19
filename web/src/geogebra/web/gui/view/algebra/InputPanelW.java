@@ -77,8 +77,8 @@ public class InputPanelW extends HorizontalPanel {
 //		if (keyListener != null)
 //			textComponent.addKeyListener(keyListener);
 //
-//		if (initText != null)
-//			textComponent.setText(initText);
+		if (initText != null)
+			textComponent.setText(initText);
 //
 //		// create the GUI
 //
