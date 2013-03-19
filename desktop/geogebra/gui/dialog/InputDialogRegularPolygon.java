@@ -14,7 +14,7 @@ public class InputDialogRegularPolygon extends InputDialogD {
 
 	public InputDialogRegularPolygon(AppD app, String title,
 			InputHandler handler, GeoPoint point1, GeoPoint point2) {
-		super(app, app.getPlain("Points"), title, "4", false, handler);
+		super(app, app.getPlain("Points"), title, "4", false, handler, true);
 
 		geoPoint1 = point1;
 		geoPoint2 = point2;

@@ -82,7 +82,20 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		this(app, message, title, initString, autoComplete, handler, false,
 				false, null);
 	}
-
+	/**
+	 * @param app
+	 * @param message
+	 * @param title
+	 * @param initString
+	 * @param autoComplete
+	 * @param handler
+	 * @param selectInitText
+	 */
+	public InputDialogD(AppD app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,boolean selectInitText) {
+		this(app, message, title, initString, autoComplete, handler, false,
+				selectInitText, null);
+	}
 	
 	/**
 	 * Creates a non-modal standard input dialog.
