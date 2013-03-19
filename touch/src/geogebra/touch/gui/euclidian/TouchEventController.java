@@ -20,7 +20,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
     MouseMoveHandler, MouseWheelHandler
 {
 	private TouchController mc;
-	private int oldDistance;
+	private double oldDistance;
 
 	public TouchEventController(TouchController mc)
 	{
@@ -38,9 +38,12 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		}
 		else if (event.getTouches().length() == 2)
 		{
-			this.oldDistance = (int) (Math.pow((event.getTouches().get(0).getPageX() - event.getTouches().get(1).getPageX()), 2) + Math.pow((event
-			    .getTouches().get(0).getPageY() - event.getTouches().get(1).getPageY()), 2));
+			this.oldDistance = distance(event.getTouches().get(0),event.getTouches().get(1));
 		}
+	}
+
+	private static double distance(Touch t1, Touch t2) {
+		return Math.pow(t1.getPageX() - t2.getPageX(), 2) + Math.pow(t1.getPageY() - t2.getPageY(), 2);
 	}
 
 	@Override
@@ -56,7 +59,8 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		else if (event.getTouches().length() == 2)
 		{
 			Touch first, second;
-			int centerX, centerY, newDistance;
+			int centerX, centerY;
+			double newDistance;
 
 			first = event.getTouches().get(0);
 			second = event.getTouches().get(1);
@@ -66,7 +70,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 
 			if (this.oldDistance > 0)
 			{
-				newDistance = (int) (Math.pow((first.getPageX() - second.getPageX()), 2) + Math.pow((first.getPageY() - second.getPageY()), 2));
+				newDistance = distance(first,second);
 
 				if (newDistance / this.oldDistance > 1.1 || newDistance / this.oldDistance < 0.9)
 				{
