@@ -613,6 +613,8 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 				String fileName = null;
 				if (getFileChooser().getSelectedFile() != null) {
 					fileName = getFileChooser().getSelectedFile().getName();
+				}else {
+					fileName = ((GuiManagerD)app.getGuiManager()).getLastFileNameOfSaveDialog();
 				}
 
 				// fileName = getFileName(fileName);

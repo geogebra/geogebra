@@ -150,6 +150,17 @@ public class GuiManagerD extends GuiManager {
 
 	private DataAnalysisViewD dataView;
 	
+	private String lastFilenameOfSaveDialog; 
+	
+	/**
+	 * Returns last filename that was used in save dialog (may be for .png, .ggb, ...)
+	 * See #665
+	 * @return last filename including extension
+	 */
+	public String getLastFileNameOfSaveDialog(){
+		return lastFilenameOfSaveDialog;
+	}
+	
 	public static DataFlavor urlFlavor, uriListFlavor;
 	static {
 		try {
@@ -172,7 +183,7 @@ public class GuiManagerD extends GuiManager {
 
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
-
+		lastFilenameOfSaveDialog = null;
 		dialogManagerFactory = new DialogManagerD.Factory();
 	}
 
@@ -1848,6 +1859,7 @@ public class GuiManagerD extends GuiManager {
 				// add file extension
 				file = addExtension(file, fileExtension);
 				fileChooser.setSelectedFile(file);
+				lastFilenameOfSaveDialog = file.getName();
 
 				if (promptOverwrite && file.exists()) {
 					// ask overwrite question
@@ -1891,9 +1903,8 @@ public class GuiManagerD extends GuiManager {
 			return null;
 		if (AppD.getExtension(file).equals(fileExtension))
 			return file;
-		else
-			return new File(file.getParentFile(), // path
-					file.getName() + '.' + fileExtension); // filename
+		return new File(file.getParentFile(), // path
+				file.getName() + '.' + fileExtension); // filename
 	}
 
 	public static File removeExtension(File file) {
@@ -1904,9 +1915,8 @@ public class GuiManagerD extends GuiManager {
 
 		if (dotPos <= 0)
 			return file;
-		else
-			return new File(file.getParentFile(), // path
-					fileName.substring(0, dotPos));
+		return new File(file.getParentFile(), // path
+				fileName.substring(0, dotPos));
 	}
 
 	@Override
@@ -2299,8 +2309,7 @@ public class GuiManagerD extends GuiManager {
 	public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null && toolbarPanel != null)
 			return getGeneralToolbar().getDefaultToolbarString();
-		else
-			return strCustomToolbarDefinition;
+		return strCustomToolbarDefinition;
 	}
 
 	public void removeFromToolbarDefinition(int mode) {
