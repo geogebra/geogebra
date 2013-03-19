@@ -323,8 +323,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		//TODO: these calls hang the spreadsheet dock panel 
 		// update, why?
-		//setRepaintAll();
-		//repaint();
+		setRepaintAll();
+		repaint();
 	}
 
 	/**
