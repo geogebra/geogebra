@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -134,10 +135,12 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     
     @Override
 	public void compute(){
-
+    	
     	super.compute();
+
     	
     	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
+
     	
     	// set part points
     	double[] bottomParameters = setPartPoints(algoBottom, ql.getBottom(), bottomP);
@@ -156,29 +159,42 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     		//if topParameters are NaN, and not bottomParameters,
     		//set twice the "middle" parameter for topParameters to check the order
     		//App.debug(topParameters[0]+","+bottomParameters[0]);
-    		if (Double.isNaN(topParameters[0]) && !Double.isNaN(bottomParameters[0])){
-    			//calc "midpoint" on conic
-    			double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
-    			PathParameter pp = new PathParameter(midParameter);
-    			Coords P = new Coords(3);
-    			conic.pathChangedWithoutCheck(P, pp);
-    			P = conic.getPoint(P.getX(), P.getY());
-    			//check if "midpoint" is on quadric side
-    			//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
-    			if(ql.getSide().isInRegion(P)){
-    				//set "midpoint"
-    				topParameters[0] = midParameter;
-    			}else{
-    				//set symetric "midpoint"
-    				topParameters[0] = midParameter+Math.PI;
-    				if (midParameter<0){
-    					topParameters[0] = midParameter+Math.PI;
+    		if (Double.isNaN(topParameters[0])){
+    			if(!Double.isNaN(bottomParameters[0])){
+    				//calc "midpoint" on conic
+    				double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
+    				PathParameter pp = new PathParameter(midParameter);
+    				Coords P = new Coords(3);
+    				conic.pathChangedWithoutCheck(P, pp);
+    				P = conic.getPoint(P.getX(), P.getY());
+    				//check if "midpoint" is on quadric side
+    				//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
+    				if(ql.getSide().isInRegion(P)){
+    					//set "midpoint"
+    					topParameters[0] = midParameter;
     				}else{
-    					topParameters[0] = midParameter-Math.PI;
-    				}
+    					//set symetric "midpoint"
+    					topParameters[0] = midParameter+Math.PI;
+    					if (midParameter<0){
+    						topParameters[0] = midParameter+Math.PI;
+    					}else{
+    						topParameters[0] = midParameter-Math.PI;
+    					}
 
+    				}
+    				topParameters[1]=topParameters[0];
+    				
+    			}else{ //no intersection : check if the plane is not totally outside the quadric
+    				//App.debug("\nmidpoint=\n"+ql.getMidpoint3D()+"\nev3=\n"+ql.getEigenvec3D(2));
+    				//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
+    				double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
+    				//App.debug("parameter="+parameter);
+    				//check if paramter is between quadric min and max
+    				if (Kernel.isGreater(ql.getMin(), parameter) || Kernel.isGreater(parameter, ql.getMax())){
+    					conic.setUndefined();
+    					return;
+    				}
     			}
-    			topParameters[1]=topParameters[0];
     		}
     		break;
     	}
@@ -215,6 +231,15 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 
     private double[] setPartPoints(AlgoIntersectPlaneConic algo, GeoConicND c, GeoPoint3D[] points){
 
+    	//check if c is point or undefined
+    	if (c==null
+    			|| !c.isDefined()
+    			|| c.getType()==GeoConicNDConstants.CONIC_EMPTY 
+    			|| c.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT 
+    			){
+    		return new double[] {Double.NaN, Double.NaN};
+    	}
+    	
     	//calc points
     	algo.intersect(plane, c, points);
     	
