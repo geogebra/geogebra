@@ -378,7 +378,7 @@ office@geogebra.org
 			scripts/**,
 			**/*.tmp,
 				    tutor/**,
-					meta-inf/**"		
+					META-INF/**"		
 		/>
 
 	</target>
@@ -390,7 +390,7 @@ office@geogebra.org
 			geogebra/export/pstricks/unicodetex,
 					org/freehep/**, 
 			geogebra/common/export/**,
-					meta-inf/services/**"
+					META-INF/services/**"
 			excludes="**/*.java,
 			**/*.html" 
 		/>
