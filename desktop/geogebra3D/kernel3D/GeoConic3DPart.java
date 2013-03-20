@@ -144,10 +144,50 @@ public class GeoConic3DPart extends GeoConic3D {
 			
 			break;
 			
+		case CONIC_HYPERBOLA:
+
+			paramStart[0] = Double.NaN;
+			paramEnd[0] = Double.NaN;
+			paramStart[1] = Double.NaN;
+			paramEnd[1] = Double.NaN;
+			
+			setInfParameter(paramStart, segStart1);
+			setInfParameter(paramStart, segStart2);
+			setInfParameter(paramEnd, segEnd1);
+			setInfParameter(paramEnd, segEnd2);
+
+			for (int i=0; i<2; i++){
+				if (paramStart[i]>paramEnd[i]){
+					double tmp = paramStart[i];
+					paramStart[i] = paramEnd[i];
+					paramEnd[i] = tmp;
+				}
+			}
+
+			break;
+			
 		}
 		
-		//App.debug(getType()+"-"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+		//App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
 	}
+	
+	/**
+	 * set the value to the correct branch, converted from [-1,1] (or [1,3]) to -inf, +inf
+	 * @param param
+	 * @param value
+	 */
+	private static void setInfParameter(double[] param, double value){
+		if (Double.isNaN(value)){
+			return;
+		}
+		
+		if (value<1){
+			param[0] = PathNormalizer.infFunction(value);
+		}else{
+			param[1] = PathNormalizer.infFunction(value-2);
+		}
+	}
+	
 	
 	/**
 	 * @param index index of the hole

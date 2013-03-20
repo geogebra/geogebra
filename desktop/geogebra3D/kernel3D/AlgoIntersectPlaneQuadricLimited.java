@@ -141,7 +141,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	
     	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
 
-    	
+    	 
     	// set part points
     	double[] bottomParameters = setPartPoints(algoBottom, ql.getBottom(), bottomP);
     	double[] topParameters = setPartPoints(algoTop, ql.getTop(), topP);
@@ -197,6 +197,15 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     			}
     		}
     		break;
+    		
+    	case GeoConicNDConstants.CONIC_HYPERBOLA:
+
+    		//no intersection with ends of the quadric : hyperbola is completely outside
+    		if (Double.isNaN(bottomParameters[0]) && Double.isNaN(topParameters[0])){
+    			conic.setUndefined();
+    		}
+    		
+    		break;
     	}
 
     	
@@ -208,7 +217,8 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-    	 */
+      			*/
+    	 
 
     	/*
     	App.debug(PathNormalizer.infFunction(bottomParameters[0])+","+

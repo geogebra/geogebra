@@ -109,10 +109,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 
 	/* used for update */
-	private Coords m, d;
+	protected Coords m;
+	private Coords d;
 	protected Coords[] points = new Coords[4];
 	private double[] minmax;
 	private GeoConicND conic;
+	protected Coords ev1, ev2;
+	protected double e1, e2;
 
 	@Override
 	protected boolean updateForItSelf(){
@@ -152,8 +155,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			double tMax;
 			
 
-			Coords ev1, ev2;
-			double e1, e2;
 			
 			
 			switch(conic.getType()){
@@ -170,21 +171,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				ev2 = conic.getEigenvec3D(1);
 				e1 = conic.getHalfAxis(0);
 				e2 = conic.getHalfAxis(1);
-				minmax = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(e2))), true);				
-				double[] minmax2 = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(-e2))), true);
-
-				tMax=acosh(minmax2[1])*1.1; //extends a little
-				brush.quarterHyperbola(m, ev1, ev2.mul(-1), e1, e2,tMax);
-				tMax=acosh(minmax[1])*1.1;
-				brush.quarterHyperbola(m, ev1, ev2, e1, e2,tMax);
-				tMax=acosh(-minmax[0])*1.1;
-				brush.quarterHyperbola(m, ev1.mul(-1), ev2.mul(-1), e1, e2,tMax);
-				tMax=acosh(-minmax2[0])*1.1;
-				brush.quarterHyperbola(m, ev1.mul(-1), ev2, e1, e2,tMax);
+				
+				updateHyperbola(brush);
+				
 				break;
 			case GeoConicNDConstants.CONIC_PARABOLA:
 				m = conic.getMidpoint3D();
@@ -269,6 +258,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				getView3D().getToScreenMatrix().mul(d), true);
 	}
 	
+	
+	
 	/**
 	 * update outline for parallel lines
 	 * @param brush brush plotter
@@ -299,6 +290,38 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	protected void updateParallelLines(PlotterSurface surface){
 		surface.drawQuad(points[0], points[1], points[2], points[3]);
 	}
+	
+	
+	
+	
+	
+	/**
+	 * update outline drawing of hyperbola
+	 * @param brush brush plotter
+	 */
+	protected void updateHyperbola(PlotterBrush brush){
+		
+		minmax = getView3D().getRenderer().getIntervalInFrustum(
+				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(e2))), true);				
+		double[] minmax2 = getView3D().getRenderer().getIntervalInFrustum(
+				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(-e2))), true);
+
+		double tMax=acosh(minmax2[1])*1.1; //extends a little
+		brush.quarterHyperbola(m, ev1, ev2.mul(-1), e1, e2,tMax);
+		tMax=acosh(minmax[1])*1.1;
+		brush.quarterHyperbola(m, ev1, ev2, e1, e2,tMax);
+		tMax=acosh(-minmax[0])*1.1;
+		brush.quarterHyperbola(m, ev1.mul(-1), ev2.mul(-1), e1, e2,tMax);
+		tMax=acosh(-minmax2[0])*1.1;
+		brush.quarterHyperbola(m, ev1.mul(-1), ev2, e1, e2,tMax);
+		
+	}
+	
+	
+	
+	
 
 	/**
 	 * update surface drawing for ellipse case
