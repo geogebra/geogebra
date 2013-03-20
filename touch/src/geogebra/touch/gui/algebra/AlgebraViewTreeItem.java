@@ -9,6 +9,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.CommonResources;
+import geogebra.web.gui.view.algebra.Marble;
+import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
@@ -30,7 +33,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * @see geogebra.web.gui.view.algebra.RadioButtonTreeItem
  * 
  */
-public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler, MouseDownHandler
+public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler, MouseDownHandler, GeoContainer
 {
 
 	GeoElement geo;
@@ -61,10 +64,11 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		this.marble = new Marble();
+		this.marble = new Marble(CommonResources.INSTANCE.algebra_shown().getSafeUri(),
+				CommonResources.INSTANCE.algebra_hidden().getSafeUri(),this);
 		this.previouslyChecked = ge.isEuclidianVisible();
 
-		this.marble.setchecked(this.previouslyChecked);
+		this.marble.setChecked(this.previouslyChecked);
 
 		this.marble.addDomHandler(new ClickHandler()
 		{
@@ -76,7 +80,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 				AlgebraViewTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
 				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
 
-				AlgebraViewTreeItem.this.marble.setchecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
+				AlgebraViewTreeItem.this.marble.setChecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
 			}
 		}, ClickEvent.getType());
 		add(this.marble);
@@ -146,7 +150,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 	public void update()
 	{
-		this.marble.setchecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
+		this.marble.setChecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
 
 		// check for new LaTeX
 		boolean newLaTeX = false;
@@ -340,6 +344,11 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		Hits hits = new Hits();
 		hits.add(this.geo);
 		((TouchController) this.controller).handleEvent(hits);
+	}
+
+	@Override
+	public GeoElement getGeo() {
+		return geo;
 	}
 
 }

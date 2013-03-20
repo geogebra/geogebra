@@ -24,13 +24,14 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -50,10 +51,10 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -64,7 +65,7 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 
 public class RadioButtonTreeItem extends HorizontalPanel
-	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler {
+	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, GeoContainer {
 
 	GeoElement geo;
 	Kernel kernel;
@@ -79,11 +80,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	SpanElement seMayLatex;
 	SpanElement seNoLatex;
 
-	RadioButtonHandy radio;
+	Marble radio;
 	InlineHTML ihtml;
 	TextBox tb;
 
-	private class RadioButtonHandy extends RadioButton {
+	/*private class RadioButtonHandy extends RadioButton {
 		public RadioButtonHandy() {
 			super(DOM.createUniqueId());
 		}
@@ -108,7 +109,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			}
 		}
-	}
+	}*/
 
 	public RadioButtonTreeItem(GeoElement ge) {
 		super();
@@ -118,10 +119,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
 
-		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		radio = new RadioButtonHandy();
+		radio = new Marble(AppResources.INSTANCE.shown().getSafeUri()
+		        , AppResources.INSTANCE.hidden().getSafeUri(),this);
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(previouslyChecked = ge.isEuclidianVisible());
 		add(radio);
@@ -495,4 +497,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//	se.setTitle("");
 		//}
 	}
+
+	public GeoElement getGeo() {
+	    return geo;
+    }
 }
