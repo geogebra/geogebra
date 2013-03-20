@@ -2538,6 +2538,21 @@ public abstract class GeoElement extends ConstructionElement implements
 				i++;
 				ch = caption.charAt(i);
 				switch (ch) {
+				case 'c':
+					// (text value) of next cell to the right
+					String cText = "";
+					if (label != null) {
+						GPoint p = GeoElementSpreadsheet.spreadsheetIndices(label);
+						if (p.x > -1 && p.y > -1) {
+							String labelR1 = GeoElementSpreadsheet.getSpreadsheetCellName(p.x + 1, p.y);
+							GeoElement geoR1 = kernel.lookupLabel(labelR1);
+							if (geoR1 != null) {
+								cText = geoR1.toValueString(tpl);
+							}
+						}
+					}
+					captionSB.append(cText);
+					break;
 				case 'v':
 					captionSB.append(toValueString(tpl));
 					break;
@@ -2585,6 +2600,12 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else {
 				captionSB.append(ch);
 			}
+		}
+		
+		if (captionSB.length() == 0) {
+			// can't return empty string
+			// eg if %c used when not a spreadsheet cell
+			return getLabel(tpl);
 		}
 
 		return loc.translationFix(captionSB.toString());
