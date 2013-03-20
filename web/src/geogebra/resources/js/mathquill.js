@@ -3315,6 +3315,19 @@ LatexCmds.imaginary =
 LatexCmds.round =
 LatexCmds.fractionalPart = NonItalicizedFunction;
 
+var AutoCmds = {
+// GeoGebra+MathQuill
+sqrt: 1,
+Sqrt: 1,
+nthroot: 2,
+nroot: 2,
+// MathQuill
+//sum: 1,
+pi: 1
+//theta: 1,
+//int: 1
+}, MAX_AUTOCMD_LEN = 7;
+
 (function() {
   var trigs = {
     sin: 1, cos: 1, tan: 1
