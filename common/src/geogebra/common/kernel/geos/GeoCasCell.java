@@ -777,7 +777,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 				GeoElement em = it.next();
 				if (ve.getKernel().lookupLabel(
 						em.toString(StringTemplate.defaultTemplate)) == null)
-					return em.toString(StringTemplate.defaultTemplate);
+					if(em instanceof VarString){
+						return ((VarString)em).getVarString(StringTemplate.defaultTemplate);
+					}
 			}
 		}
 		return null;
