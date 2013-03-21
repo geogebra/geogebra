@@ -200,11 +200,17 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     		
     	case GeoConicNDConstants.CONIC_HYPERBOLA:
 
-    		//no intersection with ends of the quadric : hyperbola is completely outside
-    		if (Double.isNaN(bottomParameters[0]) && Double.isNaN(topParameters[0])){
-    			conic.setUndefined();
-    		}
     		
+    		if (Double.isNaN(bottomParameters[0])){
+    			if (Double.isNaN(topParameters[0])){ //no intersection with ends of the quadric : hyperbola is completely outside
+    				conic.setUndefined();
+    			}else if (Kernel.isEqual(topParameters[0], topParameters[1])){ // single point
+     				conic.setSinglePoint(topP[0]);
+    			}
+    		}else if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){ // single point
+ 				conic.setSinglePoint(bottomP[0]);
+			}
+    			
     		break;
     	}
 
@@ -213,11 +219,12 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	GeoConic3DPart cp = (GeoConic3DPart) conic;
     	
     	/*
-      	App.debug(bottomParameters[0]+","+
+      	App.error(bottomParameters[0]+","+
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
       			*/
+      			
     	 
 
     	/*

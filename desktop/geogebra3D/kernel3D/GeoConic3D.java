@@ -161,6 +161,8 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	public Coords getMidpoint3D() {
 		return coordSys.getPoint(super.getMidpoint2D());
 	}
+	
+
 
 	@Override
 	public Coords getDirection3D(int i) {
@@ -252,6 +254,28 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	@Override
 	public void setSphereND(GeoPointND M, GeoPointND P) {
 		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * set the conic as single point equal to m
+	 * @param m point
+	 */
+	public void setSinglePoint(GeoPointND m){
+
+		//coordSys.setSimpleCoordSysWithOrigin(m.getInhomCoordsInD(3));
+
+		// set midpoint as projection of m on the current coord sys
+		setMidpoint(coordSys.getNormalProjection(m.getInhomCoordsInD(3))[1].get());
+
+		for (int i=0;i<matrix.length;i++)
+			matrix[i] = 0;
+
+		for (int i=0;i<3;i++)
+			matrix[i] = 1.0d;
+
+		singlePoint();
+
 
 	}
 

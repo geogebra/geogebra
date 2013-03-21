@@ -176,6 +176,7 @@ public class CoordSys {
 		return coords.projectPlaneThruV(this.getMatrixOrthonormal(),
 				willingDirection);
 	}
+	
 
 	public Coords[] getProjectionThruVIfPossible(Coords coords,
 			Coords willingDirection) {
@@ -495,6 +496,24 @@ public class CoordSys {
 	/** returns drawing matrix */
 	public CoordMatrix4x4 getDrawingMatrix() {
 		return drawingMatrix;
+	}
+	
+	
+	/**
+	 * set simple coord sys with m for origin
+	 * @param m origin point
+	 */
+	public void setSimpleCoordSysWithOrigin(Coords m){
+		setOrigin(m);
+		setVx(Coords.VX);
+		setVy(Coords.VY);
+		setVz(Coords.VZ);
+		
+		matrixOrthonormal = CoordMatrix4x4.Identity();
+		matrixOrthonormal.setOrigin(m);
+		
+		drawingMatrix = CoordMatrix4x4.Identity();
+		drawingMatrix.setOrigin(m);
 	}
 
 	// ///////////////////////////
