@@ -90,9 +90,9 @@ public class TouchApp extends AppWeb
 
 		this.capturingThreshold *= this.selectionFactor;
 		
-		logger = new GeoGebraLogger();
+		/*logger = new GeoGebraLogger();
 		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel("DEBUG");
+		logger.setLogLevel("DEBUG");*/
 	}
 
 	// not needed yet, because we use xml-Strings

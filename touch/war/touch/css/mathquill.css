@@ -86,6 +86,7 @@
   line-height: 1;
   display: -moz-inline-box;
   display: inline-block;
+  white-space: nowrap;
 }
 .mathquill-rendered-math .non-leaf,
 .mathquill-rendered-math .scaled {
@@ -107,7 +108,7 @@
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  white-space: pre-wrap;
+  white-space: pre;
 }
 .mathquill-rendered-math .empty {
   background: #ccc;
@@ -308,6 +309,22 @@
 .mathquill-rendered-math td.empty {
   background-color: transparent;
 }
+.mathquill-rendered-math td.hackedmq,
+.mathquill-rendered-math td.hackedmq:first-child,
+.mathquill-rendered-math td.hackedmq:last-child {
+	padding: 0px;
+	text-align: center;
+}
+.mathquill-rendered-math td.hackedmq span.down {
+	position: relative;
+	bottom: -4px;
+	top: 4px;
+}
+.mathquill-rendered-math td.hackedmq span.up {
+	position: relative;
+	bottom: 3px;
+	top: -3px;
+}	
 .mathquill-eqnarray {
   display: block;
 }

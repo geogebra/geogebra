@@ -1267,6 +1267,7 @@ td.datePickerMonth {
 
 .geogebraweb {
 	display:inline-block;
+	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
   }
 
  .geogebraweb .jsloaded {
@@ -1329,7 +1330,7 @@ td.datePickerMonth {
 .linktoggbtube {
 	position:absolute;
 	right:20px;
-	top:10px;
+	top:7px;
 }
 
 body[dir=rtl] .linktoggbtube {
@@ -1337,9 +1338,14 @@ body[dir=rtl] .linktoggbtube {
     left : 20px;
 }
 
-.logintogoogle {
+.logoutfromgoogle {
 	position:absolute;
-	right : 44px;
+	right : 40px;
+}
+
+.logoutfromskydrive {
+	position: absolute;
+	right: 70px; 
 }
 
 body[dir=rtl] .logintogoogle {
@@ -1395,14 +1401,30 @@ Paddings for menuitems.
 	margin: auto 0;
 }
 
-.TitleBarPanel {
-	height: 13;
-}
+
 
 .StyleBarPanel, .TitleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
 	border-bottom: 1px solid lightgray;
 }
+
+.TitleBarPanel {
+	height: 13;
+}
+
+.DockGlassPane, .TitleBarPanel {
+	cursor: pointer;
+	cursor: hand;
+	-moz-user-focus: ignore;
+	-moz-user-input: disabled;
+	-moz-user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 
 .StyleBarToggleButton {
 	margin:0;
@@ -1420,9 +1442,8 @@ Paddings for menuitems.
 
 
 .ApplicationPanel {
-	border-top:1px solid lightgray;
-    border-bottom:1px solid lightgray;
 }
+
 
 
 /* ========== AlgebraInput ============ */
@@ -1691,4 +1712,5 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	width:100%;
 	border-collapse:collapse;
 }
+
 

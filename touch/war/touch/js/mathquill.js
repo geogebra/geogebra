@@ -1405,7 +1405,8 @@ var MathBlock = P(MathElement, function(_) {
   };
   _.write = function(cursor, ch, replacedFragment) {
     var cmd;
-    if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
+    //if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
+    if (ch.match(/^[a-zA-Z]$/)) //GeoGebra probably doesn't want florin
       cmd = Variable(ch);
     else if (cmd = CharCmds[ch] || LatexCmds[ch])
       cmd = cmd(ch);
@@ -1993,38 +1994,50 @@ LatexCmds.underline = bind(Style, '\\underline', 'span', 'class="non-leaf underl
 LatexCmds.overline = LatexCmds.bar = bind(Style, '\\overline', 'span', 'class="non-leaf overline"');
 
 // colors
-LatexCmds.lightviolet = bind(Style, '\\lightviolet', '<span style="color:#E0B0FF"></span>');
-LatexCmds.lightyellow = bind(Style, '\\lightyellow', '<span style="color:#FFFACD"></span>');
-LatexCmds.lightgreen = bind(Style, '\\lightgreen', '<span style="color:#D0F0C0"></span>');
-LatexCmds.lightorange = bind(Style, '\\lightorange', '<span style="color:#FFEFD5"></span>');
-LatexCmds.yellow = bind(Style, '\\yellow', '<span style="color:#FFFF00"></span>');
-LatexCmds.darkblue = bind(Style, '\\darkblue', '<span style="color:#1C39BB"></span>');
-LatexCmds.lightpurple = bind(Style, '\\lightpurple', '<span style="color:#CCCCFF"></span>');
-LatexCmds.lightblue = bind(Style, '\\lightblue', '<span style="color:#7D7DFF"></span>');
-LatexCmds.maroon = bind(Style, '\\maroon', '<span style="color:#800000"></span>');
-LatexCmds.lightgray = bind(Style, '\\lightgray', '<span style="color:#A0A0A0"></span>');
-LatexCmds.pink = bind(Style, '\\pink', '<span style="color:#FFC0CB"></span>');
-LatexCmds.gold = bind(Style, '\\gold', '<span style="color:#FFD700"></span>');
-LatexCmds.black = bind(Style, '\\black', '<span style="color:#000000"></span>');
-LatexCmds.orange = bind(Style, '\\orange', '<span style="color:#FF7F00"></span>');
-LatexCmds.indigo = bind(Style, '\\indigo', '<span style="color:#4B0082"></span>');
-LatexCmds.purple = bind(Style, '\\purple', '<span style="color:#800080"></span>');
-LatexCmds.darkgray = bind(Style, '\\darkgray', '<span style="color:#202020"></span>');
-LatexCmds.green = bind(Style, '\\green', '<span style="color:#00FF00"></span>');
-LatexCmds.silver = bind(Style, '\\silver', '<span style="color:#404040"></span>');
-LatexCmds.white = bind(Style, '\\white', '<span style="color:#FFFFFF"></span>');
-LatexCmds.lime = bind(Style, '\\lime', '<span style="color:#BFFF00"></span>');
-LatexCmds.gray = bind(Style, '\\gray', '<span style="color:#808080"></span>');
-LatexCmds.darkgreen = bind(Style, '\\darkgreen', '<span style="color:#006400"></span>');
-LatexCmds.magenta = bind(Style, '\\magenta', '<span style="color:#FF00FF"></span>');
-LatexCmds.cyan = bind(Style, '\\cyan', '<span style="color:#00FFFF"></span>');
-LatexCmds.red = bind(Style, '\\red', '<span style="color:#FF0000"></span>');
-LatexCmds.crimson = bind(Style, '\\crimson', '<span style="color:#DC143C"></span>');
-LatexCmds.turquoise = bind(Style, '\\turquoise', '<span style="color:#AFEEEE"></span>');
-LatexCmds.blue = bind(Style, '\\blue', '<span style="color:#0000FF"></span>');
-LatexCmds.violet = bind(Style, '\\violet', '<span style="color:#7F00FF"></span>');
-LatexCmds.brown = bind(Style, '\\brown', '<span style="color:#993300"></span>');
-LatexCmds.aqua = bind(Style, '\\aqua', '<span style="color:#BCD4E6"></span>');
+LatexCmds.lightviolet = bind(Style, '\\lightviolet', 'span', 'style="color:#E0B0FF"');
+LatexCmds.lightyellow = bind(Style, '\\lightyellow', 'span', 'style="color:#FFFACD"');
+LatexCmds.lightgreen = bind(Style, '\\lightgreen', 'span', 'style="color:#D0F0C0"');
+LatexCmds.lightorange = bind(Style, '\\lightorange', 'span', 'style="color:#FFEFD5"');
+LatexCmds.yellow = bind(Style, '\\yellow', 'span', 'style="color:#FFFF00"');
+LatexCmds.darkblue = bind(Style, '\\darkblue', 'span', 'style="color:#1C39BB"');
+LatexCmds.lightpurple = bind(Style, '\\lightpurple', 'span', 'style="color:#CCCCFF"');
+LatexCmds.lightblue = bind(Style, '\\lightblue', 'span', 'style="color:#7D7DFF"');
+LatexCmds.maroon = bind(Style, '\\maroon', 'span', 'style="color:#800000"');
+LatexCmds.lightgray = bind(Style, '\\lightgray', 'span', 'style="color:#A0A0A0"');
+LatexCmds.pink = bind(Style, '\\pink', 'span', 'style="color:#FFC0CB"');
+LatexCmds.gold = bind(Style, '\\gold', 'span', 'style="color:#FFD700"');
+LatexCmds.black = bind(Style, '\\black', 'span', 'style="color:#000000"');
+LatexCmds.orange = bind(Style, '\\orange', 'span', 'style="color:#FF7F00"');
+LatexCmds.indigo = bind(Style, '\\indigo', 'span', 'style="color:#4B0082"');
+LatexCmds.purple = bind(Style, '\\purple', 'span', 'style="color:#800080"');
+LatexCmds.darkgray = bind(Style, '\\darkgray', 'span', 'style="color:#202020"');
+LatexCmds.green = bind(Style, '\\green', 'span', 'style="color:#00FF00"');
+LatexCmds.silver = bind(Style, '\\silver', 'span', 'style="color:#404040"');
+LatexCmds.white = bind(Style, '\\white', 'span', 'style="color:#FFFFFF"');
+LatexCmds.lime = bind(Style, '\\lime', 'span', 'style="color:#BFFF00"');
+LatexCmds.gray = bind(Style, '\\gray', 'span', 'style="color:#808080"');
+LatexCmds.darkgreen = bind(Style, '\\darkgreen', 'span', 'style="color:#006400"');
+LatexCmds.magenta = bind(Style, '\\magenta', 'span', 'style="color:#FF00FF"');
+LatexCmds.cyan = bind(Style, '\\cyan', 'span', 'style="color:#00FFFF"');
+LatexCmds.red = bind(Style, '\\red', 'span', 'style="color:#FF0000"');
+LatexCmds.crimson = bind(Style, '\\crimson', 'span', 'style="color:#DC143C"');
+LatexCmds.turquoise = bind(Style, '\\turquoise', 'span', 'style="color:#AFEEEE"');
+LatexCmds.blue = bind(Style, '\\blue', 'span', 'style="color:#0000FF"');
+LatexCmds.violet = bind(Style, '\\violet', 'span', 'style="color:#7F00FF"');
+LatexCmds.brown = bind(Style, '\\brown', 'span', 'style="color:#993300"');
+LatexCmds.aqua = bind(Style, '\\aqua', 'span', 'style="color:#BCD4E6"');
+
+var SomethingHTML = P(MathCommand, function(_, _super) {
+  _.init = function(ctrlSeq, HTML) {
+   _super.init.call(this, ctrlSeq, HTML);
+  };
+});
+
+// MathQuill hacks by GeoGebra
+var vecHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
+LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
+LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
+LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
 
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
@@ -2651,7 +2664,7 @@ LatexCmds.editable = P(RootMathCommand, function(_, _super) {
  * Symbols and Special Characters
  *********************************/
 
-LatexCmds.f = bind(Symbol, 'f', '<var class="florin">&fnof;</var><span style="display:inline-block;width:0">&nbsp;</span>');
+//LatexCmds.f = bind(Symbol, 'f', '<var class="florin">&fnof;</var><span style="display:inline-block;width:0">&nbsp;</span>');
 
 var Variable = P(Symbol, function(_, _super) {
   _.init = function(ch, html) {
@@ -2659,24 +2672,27 @@ var Variable = P(Symbol, function(_, _super) {
   }
   _.text = function() {
     var text = this.ctrlSeq;
-    if (this[L] && !(this[L] instanceof Variable)
-        && !(this[L].ctrlSeq === ' ')
+	if (this[L] && !(this[L] instanceof Variable)
+		&& !(this[L].ctrlSeq === ' ')
+		&& !(this[L].ctrlSeq === '(')
+		&& !(this[L].ctrlSeq === '\\left(')
         && !(this[L] instanceof BinaryOperator))
       text = '*' + text;
 
     // skip spaces
     var nex = this;
     while ((nex[R]) && (nex[R].ctrlSeq === ' '))
-	nex = nex[R];
+	  nex = nex[R];
 
     if (nex[R] && !(nex[R] instanceof BinaryOperator)
         && !(nex.jQ.hasClass('un-italicized'))
         && !(nex[R].ctrlSeq === '(')
         && !(nex[R].ctrlSeq === '\\left(')
+        && !(nex[R].ctrlSeq === ')')
+        && !(nex[R].ctrlSeq === '\\right)')
         && !(nex[R].ctrlSeq === '^'))
-      text += '*';
-
-    return text;
+	  text += '*';
+	return text;
   };
 });
 
@@ -2991,31 +3007,36 @@ LatexCmds['∫'] = LatexCmds['int'] = LatexCmds.integral = bind(BigSymbol,'\\int
 
 
 //the canonical sets of numbers
-LatexCmds.N = LatexCmds.naturals = LatexCmds.Naturals =
+//LatexCmds.N =
+LatexCmds.naturals = LatexCmds.Naturals =
   bind(VanillaSymbol,'\\mathbb{N}','&#8469;');
 
-LatexCmds.P =
+//LatexCmds.P =
 LatexCmds.primes = LatexCmds.Primes =
 LatexCmds.projective = LatexCmds.Projective =
 LatexCmds.probability = LatexCmds.Probability =
   bind(VanillaSymbol,'\\mathbb{P}','&#8473;');
 
-LatexCmds.Z = LatexCmds.integers = LatexCmds.Integers =
+//LatexCmds.Z =
+LatexCmds.integers = LatexCmds.Integers =
   bind(VanillaSymbol,'\\mathbb{Z}','&#8484;');
 
-LatexCmds.Q = LatexCmds.rationals = LatexCmds.Rationals =
+//LatexCmds.Q =
+LatexCmds.rationals = LatexCmds.Rationals =
   bind(VanillaSymbol,'\\mathbb{Q}','&#8474;');
 
-LatexCmds.R = LatexCmds.reals = LatexCmds.Reals =
+//LatexCmds.R =
+LatexCmds.reals = LatexCmds.Reals =
   bind(VanillaSymbol,'\\mathbb{R}','&#8477;');
 
-LatexCmds.C =
+//LatexCmds.C =
 LatexCmds.complex = LatexCmds.Complex =
 LatexCmds.complexes = LatexCmds.Complexes =
 LatexCmds.complexplane = LatexCmds.Complexplane = LatexCmds.ComplexPlane =
   bind(VanillaSymbol,'\\mathbb{C}','&#8450;');
 
-LatexCmds.H = LatexCmds.Hamiltonian = LatexCmds.quaternions = LatexCmds.Quaternions =
+//LatexCmds.H =
+LatexCmds.Hamiltonian = LatexCmds.quaternions = LatexCmds.Quaternions =
   bind(VanillaSymbol,'\\mathbb{H}','&#8461;');
 
 //spacing
@@ -3222,7 +3243,7 @@ LatexCmds.and = LatexCmds.land = LatexCmds.wedge =
 
 LatexCmds.or = LatexCmds.lor = LatexCmds.vee = bind(VanillaSymbol,'\\vee ','&or;');
 
-LatexCmds.o = LatexCmds.O =
+//LatexCmds.o = LatexCmds.O =
 LatexCmds.empty = LatexCmds.emptyset =
 LatexCmds.oslash = LatexCmds.Oslash =
 LatexCmds.nothing = LatexCmds.varnothing =
@@ -3233,7 +3254,7 @@ LatexCmds.cup = LatexCmds.union = bind(BinaryOperator,'\\cup ','&cup;');
 LatexCmds.cap = LatexCmds.intersect = LatexCmds.intersection =
   bind(BinaryOperator,'\\cap ','&cap;');
 
-LatexCmds.deg = LatexCmds.degree = bind(VanillaSymbol,'^\\circ ','&deg;');
+// \deg is actually a latex function LatexCmds.deg = LatexCmds.degree = bind(VanillaSymbol,'^\\circ ','&deg;');
 
 LatexCmds.ang = LatexCmds.angle = bind(VanillaSymbol,'\\angle ','&ang;');
 
@@ -3250,111 +3271,90 @@ var NonItalicizedFunction = P(Symbol, function(_, _super) {
   };
 });
 
-// GeoGebra+MathQuill
-LatexCmds.erf =
-LatexCmds.Erf =
-LatexCmds.psi =
-LatexCmds.polygamma =
-LatexCmds.ln =
-LatexCmds.log =
-LatexCmds.Ln =
-LatexCmds.ld =
-LatexCmds.log2 =
-LatexCmds.lg =
-LatexCmds.log10 =
-LatexCmds.beta =
-LatexCmds.Beta =
-LatexCmds.betaRegularized =
-LatexCmds.ibeta =
-LatexCmds.gamma =
-LatexCmds.igamma =
-LatexCmds.Gamma =
-LatexCmds.gammaRegularized =
-LatexCmds.cosIntegral =
-LatexCmds.CosIntegral =
-LatexCmds.sinIntegral =
-LatexCmds.SinIntegral =
-LatexCmds.expIntegral =
-LatexCmds.ExpIntegral =
-LatexCmds.gGbInTeGrAl =
-LatexCmds.gGbSuBsTiTuTiOn =
-LatexCmds.arbint =
-LatexCmds.arbconst =
-LatexCmds.arbcomplex =
-LatexCmds.cbrt =
-LatexCmds.Cbrt =
-LatexCmds.abs =
-LatexCmds.Abs =
-LatexCmds.sgn =
-LatexCmds.sign =
-LatexCmds.Sign =
-LatexCmds.floor =
-LatexCmds.Floor =
-LatexCmds.ceil =
-LatexCmds.Ceil =
-LatexCmds.round =
-LatexCmds.Round =
-LatexCmds.conjugate =
-LatexCmds.Conjugate =
+// Proper LaTeX functions
+// http://amath.colorado.edu/documentation/LaTeX/Symbols.pdf
+LatexCmds.arccos =
+LatexCmds.arcsin =
+LatexCmds.arctan =
 LatexCmds.arg =
-LatexCmds.Arg =
-LatexCmds.random =
-LatexCmds.exp =
-LatexCmds.Exp =
-LatexCmds.x =
-LatexCmds.y =
-//...
-LatexCmds.ln =
-LatexCmds.lg =
-LatexCmds.log =
-LatexCmds.span =
-LatexCmds.proj =
+LatexCmds.cos =
+LatexCmds.cosh =
+LatexCmds.cot =
+LatexCmds.coth =
+LatexCmds.csc =
+LatexCmds.deg =
 LatexCmds.det =
 LatexCmds.dim =
-LatexCmds.min =
-LatexCmds.max =
-LatexCmds.mod =
-LatexCmds.lcm =
+LatexCmds.exp =
 LatexCmds.gcd =
-LatexCmds.gcf =
-LatexCmds.hcf =
-LatexCmds.lim = NonItalicizedFunction;
+LatexCmds.hom =
+LatexCmds.inf =
+LatexCmds.ker =
+LatexCmds.lg =
+LatexCmds.lim =
+LatexCmds.ln =
+LatexCmds.log =
+LatexCmds.max =
+LatexCmds.min =
+LatexCmds.sec =
+LatexCmds.sin =
+LatexCmds.sinh =
+LatexCmds.sup =
+LatexCmds.tan =
+LatexCmds.tanh =
+
+// special GeoGebra functions
+LatexCmds.sgn =
+LatexCmds.round =
+LatexCmds.erf =
+LatexCmds.Ci =
+LatexCmds.Si =
+LatexCmds.Ei =
+LatexCmds.real =
+LatexCmds.imaginary =
+LatexCmds.round =
+LatexCmds.fractionalPart = NonItalicizedFunction;
+
+var AutoCmds = {
+// GeoGebra+MathQuill
+sqrt: 1,
+Sqrt: 1,
+nthroot: 2,
+nroot: 2,
+// MathQuill
+//sum: 1,
+pi: 1
+//theta: 1,
+//int: 1
+}, MAX_AUTOCMD_LEN = 7;
 
 (function() {
   var trigs = {
-    sin: 1, cos: 1, tan: 1,
-    Sin: 1, Cos: 1, Tan: 1};
+    sin: 1, cos: 1, tan: 1
+    // capital/ar forms not needed, GeoGebra won't serialise to them
+    // and users don't need them
+    // although it can parse them
+    //,Sin: 1, Cos: 1, Tan: 1
+    };
   for (var trig in trigs) {
     LatexCmds[trig] =
-    LatexCmds['arc'+trig] =
-    LatexCmds['Arc'+trig] =
     LatexCmds['a'+trig] =
-    LatexCmds['A'+trig] =
-    LatexCmds['ar'+trig] =
+    LatexCmds['arc'+trig] =
     LatexCmds[trig+'h'] =
     LatexCmds['arc'+trig+'h'] =
-    LatexCmds['Arc'+trig+'h'] =
-    LatexCmds['a'+trig+'h'] =
-    LatexCmds['A'+trig+'h'] =
-    LatexCmds['ar'+trig+'h'] = NonItalicizedFunction;
+    LatexCmds['a'+trig+'h'] = NonItalicizedFunction;
   }
   trigs = {
-	sec: 1, cosec: 1, csc: 1,
-	Sec: 1, Cosec: 1, Csc: 1,
-	cotan: 1, cot: 1, ctg: 1,
-	Cotan: 1, Cot: 1, Ctg: 1};
+	sec: 1, cosec: 1, csc: 1
+	//,Sec: 1, Cosec: 1, Csc: 1,
+	,cotan: 1, cot: 1, ctg: 1
+	//,Cotan: 1, Cot: 1, Ctg: 1
+	};
   for (var trig in trigs) {
     LatexCmds[trig] =
     LatexCmds[trig+'h'] = NonItalicizedFunction;
   }
-  trigs = { tan2: 1, Tan2: 1 };
-  for (var trig in trigs) {
-    LatexCmds['a'+trig] =
-    LatexCmds['A'+trig] =
-    LatexCmds['ar'+trig] =
-    LatexCmds['Arc'+trig] =
-    LatexCmds['arc'+trig] = NonItalicizedFunction;
-  }
+
   /*var trig = ['sin', 'cos', 'tan', 'sec', 'cosec', 'csc', 'cotan', 'cot'];
   for (var i in trig) {
     LatexCmds[trig[i]] =
