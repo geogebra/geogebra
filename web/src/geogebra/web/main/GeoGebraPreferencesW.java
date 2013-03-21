@@ -57,8 +57,10 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		String xml = app.getPreferencesXML();
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
-		stockStore.setItem(XML_USER_PREFERENCES, xml);
-       	String xmlDef = app.getKernel().getConstruction().getConstructionDefaults().getCDXML();
-       	stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+		if(stockStore!=null){
+			stockStore.setItem(XML_USER_PREFERENCES, xml);
+	       	String xmlDef = app.getKernel().getConstruction().getConstructionDefaults().getCDXML();
+	       	stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+		}
 	}
 }
