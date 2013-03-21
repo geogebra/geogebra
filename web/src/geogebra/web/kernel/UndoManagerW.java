@@ -4,16 +4,33 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
-import geogebra.web.io.MyXMLioW;
 
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 
 public class UndoManagerW extends UndoManager {
 
 	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo";
 	private static long nextKeyNum = 1;
 
-	Storage storage = Storage.getSessionStorageIfSupported();
+	static Storage storage;
+
+	static {
+		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {
+
+			double ieVersion = Integer.parseInt(Window.Navigator.getAppVersion().toLowerCase().split("msie")[1]);
+
+			// disable Storage on IE9
+			// "not enough storage available to complete this operation"
+			if (ieVersion >= 10) {
+				App.debug("initializing Session Storage");
+				storage = Storage.getSessionStorageIfSupported();
+			} else {
+				App.debug("Session Storage not enabled");
+			}
+
+		}
+	}
 
 	protected class AppStateWeb implements AppState{
 		private String key;
