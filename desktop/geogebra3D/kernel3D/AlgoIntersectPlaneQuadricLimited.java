@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
-import geogebra.common.main.App;
 
 
 
@@ -220,11 +219,12 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	// set parameters to conic
     	GeoConic3DPart cp = (GeoConic3DPart) conic;
     	
-    	
+    	/*
       	App.error(bottomParameters[0]+","+
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
+      			*/
       			
       			
       	//App.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);

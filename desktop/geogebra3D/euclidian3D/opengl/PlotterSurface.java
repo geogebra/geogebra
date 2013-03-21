@@ -179,6 +179,7 @@ public class PlotterSurface {
 	 * @param p4 point 4
 	 */
 	public void drawQuad(Coords p1, Coords p2, Coords p3, Coords p4){
+		
 		manager.startGeometry(Manager.QUAD_STRIP);
 		
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);

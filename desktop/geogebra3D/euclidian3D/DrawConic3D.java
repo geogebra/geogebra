@@ -215,8 +215,10 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				updateEllipse(surface);
 				break;
 			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				updateIntersectingLines(surface);
+				break;
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateLines(surface);
+				updateParallelLines(surface);
 				break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
 				updateHyperbola(surface);
@@ -275,11 +277,20 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	}
 	
 	/**
-	 * update surface drawing for parallele lines case
+	 * update surface drawing for parallel lines case
 	 * @param surface surface plotter
 	 */
-	protected void updateLines(PlotterSurface surface){
+	protected void updateParallelLines(PlotterSurface surface){
 		surface.drawQuad(points[0], points[1], points[2], points[3]);
+	}
+	
+	/**
+	 * update surface drawing for intersecting lines case
+	 * @param surface surface plotter
+	 */	
+	protected void updateIntersectingLines(PlotterSurface surface){
+		surface.drawTriangle(points[0], points[2], conic.getMidpoint3D());
+		surface.drawTriangle(points[1], points[3], conic.getMidpoint3D());
 	}
 	
 	

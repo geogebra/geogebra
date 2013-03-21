@@ -4,7 +4,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.TreeSet;
@@ -184,7 +183,7 @@ public class GeoConic3DPart extends GeoConic3D {
 			
 		}
 		
-		App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+		//App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
 	}
 	
 	
