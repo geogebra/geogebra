@@ -127,9 +127,9 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	}
 	
 	@Override
-	protected void updateParallelLines(PlotterBrush brush){			
+	protected void updateLines(PlotterBrush brush){			
 
-		super.updateParallelLines(brush);
+		super.updateLines(brush);
 		
 		brush.segment(points[1], points[2]);
 		brush.segment(points[3], points[0]);

@@ -911,6 +911,24 @@ public class Coords extends CoordMatrix {
 
 		return true;
 	}
+	
+	/**
+	 * Return true if this==v for the precision given (ie each coordinates are
+	 * not different more than precision).
+	 * 
+	 * @param v
+	 *            vector compared with
+	 * @return true if the vectors are equal
+	 */
+	public boolean equalsForKernel(Coords v) {
+		int len = getLength();
+		for (int i = 0; i < len; i++)
+			if (!Kernel.isEqual(val[i], v.val[i]))
+				return false;
+
+		return true;
+	}
+
 
 	
 	/**

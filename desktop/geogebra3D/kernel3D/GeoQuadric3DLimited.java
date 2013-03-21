@@ -83,8 +83,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 	public GeoQuadric3DLimited(GeoQuadric3DLimited quadric) {
 		this(quadric.getConstruction());
 		this.bottom = new GeoConic3D(quadric.getConstruction());
-		if (quadric.top != null)
-			this.top = new GeoConic3D(quadric.getConstruction());
+		this.top = new GeoConic3D(quadric.getConstruction());
 		this.side = new GeoQuadric3DPart(quadric.getConstruction());
 		set(quadric);
 	}
@@ -128,7 +127,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 		if (labels.length < 3) {
 			bottom.setLabel(null);
-			if (top != null)
+			if (!silentTop)
 				top.setLabel(null);
 			side.setLabel(null);
 			return;
@@ -161,14 +160,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		setLabel(labels[0]);
 
 		if (labels.length < 3) {
-			if (top != null)
+			if (!silentTop)
 				top.setLabel(null);
 			side.setLabel(null);
 			return;
-		} else {
-			top.setLabel(labels[1]);
-			side.setLabel(labels[2]);
 		}
+		// else
+		top.setLabel(labels[1]);
+		side.setLabel(labels[2]);
 
 	}
 
@@ -283,7 +282,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		if (bottom == null)
 			return;
 		bottom.setObjColor(color);
-		if (top != null)
+		if (!silentTop)
 			top.setObjColor(color);
 		side.setObjColor(color);
 
@@ -300,7 +299,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		
 		super.setEuclidianVisible(visible);
 		bottom.setEuclidianVisible(visible);
-		if (top != null)
+		if (!silentTop)
 			top.setEuclidianVisible(visible);
 		side.setEuclidianVisible(visible);
 
@@ -321,7 +320,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		bottom.setLineType(type);
 		bottom.update();
 
-		if (top != null){
+		if (!silentTop){
 			top.setLineType(type);
 			top.update();
 		}
@@ -338,7 +337,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		bottom.setLineTypeHidden(type);
 		bottom.update();
 
-		if (top != null){
+		if (!silentTop){
 			top.setLineTypeHidden(type);
 			top.update();
 		}
@@ -353,7 +352,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		bottom.setLineThickness(th);
 		bottom.update();
 		
-		if (top != null){
+		if (!silentTop){
 			top.setLineThickness(th);
 			top.update();
 		}
@@ -369,7 +368,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 		bottom.setAlphaValue(alpha);
 		bottom.updateVisualStyle();
-		if (top != null) {
+		if (!silentTop) {
 			top.setAlphaValue(alpha);
 			top.updateVisualStyle();
 		}
@@ -412,8 +411,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 			volume = quadric.volume;
 
 			bottom.set(quadric.bottom);
-			if (quadric.top != null)
-				top.set(quadric.top);
+			top.set(quadric.top);
+			silentTop = quadric.silentTop;
 			side.set(quadric.side);
 
 			// TODO merge with GeoQuadric3D
@@ -530,6 +529,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 	@Override
 	public boolean isNumberValue() {
 		return true;
+	}
+	
+	private boolean silentTop = false;
+
+	/**
+	 * set top as silent part (not in construction)
+	 */
+	public void setSilentTop() {
+		
+		silentTop = true;
+		
 	}
 
 }

@@ -20,12 +20,14 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.main.App;
 
 
 
@@ -218,12 +220,14 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	// set parameters to conic
     	GeoConic3DPart cp = (GeoConic3DPart) conic;
     	
-    	/*
+    	
       	App.error(bottomParameters[0]+","+
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-      			*/
+      			
+      			
+      	//App.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);
       			
     	 
 
@@ -249,10 +253,11 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     private double[] setPartPoints(AlgoIntersectPlaneConic algo, GeoConicND c, GeoPoint3D[] points){
 
     	//check if c is point or undefined
-    	if (c==null
-    			|| !c.isDefined()
+    	if (//c==null
+    			//|| 
+    			!c.isDefined()
     			|| c.getType()==GeoConicNDConstants.CONIC_EMPTY 
-    			|| c.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT 
+    			//|| c.getType()==GeoConicNDConstants.CONIC_SINGLE_POINT 
     			){
     		return new double[] {Double.NaN, Double.NaN};
     	}
@@ -266,13 +271,27 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     		return new double[] {Double.NaN, Double.NaN};
     	}
     	
-    	//get parameters to limit the conic
-    	PathParameter pp = new PathParameter();
+    	
+    	Coords c0 = points[0].getCoordsInD2(conic.getCoordSys());
+    	Coords c1 = points[1].getCoordsInD2(conic.getCoordSys());
+    	
     	double[] ret = new double[2];
-    	conic.pointChanged(points[0].getCoordsInD2(conic.getCoordSys()),pp);
-    	ret[0] = pp.getT();
-    	conic.pointChanged(points[1].getCoordsInD2(conic.getCoordSys()),pp);
-    	ret[1] = pp.getT();
+
+    	if (c0.equalsForKernel(c1) && conic.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES){
+    		//force compute parameter for the two liness
+    		PathParameter pp = new PathParameter();   		
+    		conic.lines[0].doPointChanged(c0,pp);
+    		ret[0] = PathNormalizer.inverseInfFunction(pp.getT());
+    		conic.lines[1].doPointChanged(c1,pp);
+    		ret[1] = PathNormalizer.inverseInfFunction(pp.getT())+2;
+    	}else{
+    		//get parameters to limit the conic
+    		PathParameter pp = new PathParameter();
+    		conic.pointChanged(c0,pp);
+    		ret[0] = pp.getT();
+    		conic.pointChanged(c1,pp);
+    		ret[1] = pp.getT();
+    	}
     	
     	return ret;
     	

@@ -32,10 +32,11 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPo
 	
 	@Override
 	protected void createEnds(){
+		getQuadric().setSilentTop();
 		AlgoQuadricEnds algo2 = new AlgoQuadricEnds(cons, getQuadric());
 		cons.removeFromConstructionList(algo2);
 		bottom = algo2.getSection1();
-		top = null;
+		top = algo2.getSection2();
 
 	}
 	

@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.TreeSet;
@@ -70,12 +71,12 @@ public class GeoConic3DPart extends GeoConic3D {
 	
 	/**
 	 * set parameters for "segments holes" regarding the index
-	 * @param segStart1 first hole start
-	 * @param segEnd1 first hole end
-	 * @param segStart2 second hole start
-	 * @param segEnd2 second hole end
+	 * @param bottom0 first parameter for bottom
+	 * @param bottom1 second parameter for bottom
+	 * @param top0 first parameter for top
+	 * @param top1 second parameter for top
 	 */
-	final public void setParameters(double segStart1, double segEnd1, double segStart2, double segEnd2) {
+	final public void setParameters(double bottom0, double bottom1, double top0, double top1) {
 
 		// handle conic types
 		switch (type) {
@@ -83,10 +84,10 @@ public class GeoConic3DPart extends GeoConic3D {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			
 			parametersTree.clear();
-			parametersTree.add(new IndexedParameter(segStart1, 1));
-			parametersTree.add(new IndexedParameter(segEnd1, 1));
-			parametersTree.add(new IndexedParameter(segStart2, 2));
-			parametersTree.add(new IndexedParameter(segEnd2, 2));
+			parametersTree.add(new IndexedParameter(bottom0, 1));
+			parametersTree.add(new IndexedParameter(bottom1, 1));
+			parametersTree.add(new IndexedParameter(top0, 2));
+			parametersTree.add(new IndexedParameter(top1, 2));
 			parametersTree.toArray(parametersArray);
 			
 			double start1, end1, start2, end2;
@@ -130,17 +131,37 @@ public class GeoConic3DPart extends GeoConic3D {
 			
 			break;
 			
-		case CONIC_PARALLEL_LINES:			
-			paramStart[0] = PathNormalizer.infFunction(segStart1);
-			paramEnd[0] = PathNormalizer.infFunction(segStart2);
-			paramStart[1] = PathNormalizer.infFunction(segEnd1-2);
-			paramEnd[1] = PathNormalizer.infFunction(segEnd2-2);			
+		case CONIC_INTERSECTING_LINES:
+		case CONIC_PARALLEL_LINES:	
+			
+			if (bottom0 < bottom1){
+				start1 = bottom0;
+				start2 = bottom1;
+			}else{
+				start1 = bottom1;
+				start2 = bottom0;				
+			}
+			
+			if (top0 < top1){
+				end1 = top0;
+				end2 = top1;
+			}else{
+				end1 = top1;
+				end2 = top0;				
+			}
+			
+			paramStart[0] = PathNormalizer.infFunction(start1);
+			paramEnd[0] = PathNormalizer.infFunction(end1);
+			
+			paramStart[1] = PathNormalizer.infFunction(start2-2);
+			paramEnd[1] = PathNormalizer.infFunction(end2-2);
+			
 			
 			break;	
 			
 		case CONIC_DOUBLE_LINE:
-			paramStart[0] = segStart1;
-			paramEnd[0] = segStart2;
+			paramStart[0] = bottom0;
+			paramEnd[0] = top0;
 			
 			break;
 			
@@ -151,24 +172,37 @@ public class GeoConic3DPart extends GeoConic3D {
 			paramStart[1] = Double.NaN;
 			paramEnd[1] = Double.NaN;
 			
-			setInfParameter(paramStart, segStart1);
-			setInfParameter(paramStart, segStart2);
-			setInfParameter(paramEnd, segEnd1);
-			setInfParameter(paramEnd, segEnd2);
+			setInfParameter(paramStart, bottom0);
+			setInfParameter(paramStart, top0);
+			setInfParameter(paramEnd, bottom1);
+			setInfParameter(paramEnd, top1);
 
-			for (int i=0; i<2; i++){
-				if (paramStart[i]>paramEnd[i]){
-					double tmp = paramStart[i];
-					paramStart[i] = paramEnd[i];
-					paramEnd[i] = tmp;
-				}
-			}
+			sortParameters();
+			
 
 			break;
 			
 		}
 		
-		//App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+		App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+	}
+	
+	
+	private void sortParameters(){
+		for (int i=0; i<2; i++){
+			if (Kernel.isZero(paramStart[i])){
+				paramStart[i] = 0;
+			}
+			if (Kernel.isZero(paramEnd[i])){
+				paramEnd[i] = 0;
+			}
+			//if (Math.abs(paramStart[i])>Math.abs(paramEnd[i])){
+			if (paramStart[i]>paramEnd[i]){
+				double tmp = paramStart[i];
+				paramStart[i] = paramEnd[i];
+				paramEnd[i] = tmp;
+			}
+		}
 	}
 	
 	/**
@@ -188,6 +222,7 @@ public class GeoConic3DPart extends GeoConic3D {
 		}
 	}
 	
+
 	
 	/**
 	 * @param index index of the hole
