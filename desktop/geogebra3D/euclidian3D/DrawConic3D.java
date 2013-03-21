@@ -231,6 +231,10 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 				updateParallelLines(surface);
 				break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				updateHyperbola(surface);
+				break;
+				
 			default:
 				break;
 			
@@ -301,25 +305,34 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 */
 	protected void updateHyperbola(PlotterBrush brush){
 		
-		minmax = getView3D().getRenderer().getIntervalInFrustum(
+		double[] minmax1 = getView3D().getRenderer().getIntervalInFrustum(
 				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
 				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(e2))), true);				
 		double[] minmax2 = getView3D().getRenderer().getIntervalInFrustum(
 				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
 				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1.mul(e1).add(ev2.mul(-e2))), true);
 
-		double tMax=acosh(minmax2[1])*1.1; //extends a little
-		brush.quarterHyperbola(m, ev1, ev2.mul(-1), e1, e2,tMax);
-		tMax=acosh(minmax[1])*1.1;
-		brush.quarterHyperbola(m, ev1, ev2, e1, e2,tMax);
-		tMax=acosh(-minmax[0])*1.1;
-		brush.quarterHyperbola(m, ev1.mul(-1), ev2.mul(-1), e1, e2,tMax);
-		tMax=acosh(-minmax2[0])*1.1;
-		brush.quarterHyperbola(m, ev1.mul(-1), ev2, e1, e2,tMax);
+		minmax = new double[4];
+		minmax[0] = -acosh(minmax2[1])*1.1;
+		minmax[1] = acosh(minmax1[1])*1.1; 
+		minmax[2] = -acosh(-minmax1[0])*1.1;
+		minmax[3] = acosh(-minmax2[0])*1.1;
 		
+		brush.hyperbolaBranch(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
+		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
+
 	}
 	
 	
+	
+	/**
+	 * update surface drawing for hypebola case
+	 * @param surface surface plotter
+	 */
+	protected void updateHyperbola(PlotterSurface surface){
+		surface.hyperbolaPart(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
+		surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
+	}
 	
 	
 
@@ -415,6 +428,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			//Application.debug(getGeoElement().getLayer());
 			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());

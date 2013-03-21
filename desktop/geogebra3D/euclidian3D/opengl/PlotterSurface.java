@@ -480,6 +480,66 @@ public class PlotterSurface {
     	
 	}
 	
+	
+
+	/**
+	 * draws the inside of the hyperobola part
+	 * @param center center
+	 * @param v1 1st eigenvector
+	 * @param v2 2nd eigenvector
+	 * @param a  1st eigenvalue
+	 * @param b  2nd eigenvalue
+	 * @param tMin t min
+	 * @param tMax t max
+	 */
+	public void hyperbolaPart(Coords center, Coords v1, Coords v2, double a, double b,
+			double tMin, double tMax){
+
+
+		manager.startGeometry(Manager.TRIANGLE_FAN);
+		
+		manager.texture(0, 0);
+    	manager.normal(v1.crossProduct(v2));
+		
+    	
+
+		int longitude = 120;
+
+		Coords m;
+
+		float dt = (float) (tMax-tMin)/longitude;
+
+		float u, v;
+		
+		// first point on the branch
+		u = (float) Math.cosh ( tMin ); 
+		v = (float) Math.sinh ( tMin );  
+		m = v1.mul(a*u).add(v2.mul(b*v));
+		
+		// center of the fan is midpoint of branch ends
+		u = (float) Math.cosh (tMax); 
+		v = (float) Math.sinh (tMax);
+		manager.vertex(center.add((m.add(v1.mul(a*u).add(v2.mul(b*v)))).mul(0.5)));  
+		
+		
+		//first point
+		manager.vertex(center.add(m));  	
+
+		for( int i = 1; i <= longitude  ; i++ ) { 
+			u = (float) Math.cosh ( tMin + i * dt ); 
+			v = (float) Math.sinh ( tMin + i * dt ); 
+			
+			m = v1.mul(a*u).add(v2.mul(b*v));
+			manager.vertex(center.add(m));
+		} 
+
+
+
+		manager.endGeometry();
+		
+
+	}
+	
 	private Coords calcNormal(float x, float y, float z){
 		double[] n = new double[3];
 		Coords v0 = new Coords(x,y,z,0);

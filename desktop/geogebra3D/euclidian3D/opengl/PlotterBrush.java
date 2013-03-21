@@ -453,17 +453,19 @@ public class PlotterBrush {
 	
 	
 	
+		
 	/** draws quarter of an hyperbola
-	 * @param center
+	 * @param center center
 	 * @param v1 1st eigenvector
 	 * @param v2 2nd eigenvector
 	 * @param a  1st eigenvalue
 	 * @param b  2nd eigenvalue
+	 * @param tMin t min
 	 * @param tMax t max
 	 */
-	public void quarterHyperbola(Coords center, Coords v1, Coords v2, double a, double b,
-		double tMax){
-		
+	public void hyperbolaBranch(Coords center, Coords v1, Coords v2, double a, double b,
+				double tMin, double tMax){
+				
 		
 		//foci
 		double f = Math.sqrt(a*a+b*b);
@@ -475,17 +477,17 @@ public class PlotterBrush {
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f/(TEXTURE_AFFINE_FACTOR*scale)); //midpoint is middle of an empty dash
 		
-		int longitude = 60;
+		int longitude = 120;
 		
 		Coords m,mold,vn1;
 		Coords vn2 = v1.crossProduct(v2);
 		
 		
-    	float dt = (float) (tMax)/longitude;
+    	float dt = (float) (tMax-tMin)/longitude;
     	
     	float u, v;
- 		u = (float) 1; 
-		v = (float) 0; 
+    	u = (float) Math.cosh ( tMin ); 
+		v = (float) Math.sinh ( tMin );  
 		
 
 		
@@ -494,8 +496,8 @@ public class PlotterBrush {
 		down(center.add(m),vn1,vn2);  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
-    		u = (float) Math.cosh ( i * dt ); 
-    		v = (float) Math.sinh ( i * dt ); 
+    		u = (float) Math.cosh ( tMin + i * dt ); 
+    		v = (float) Math.sinh ( tMin + i * dt ); 
     		
        		mold=m;
        		m = v1.mul(a*u).add(v2.mul(b*v));

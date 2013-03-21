@@ -139,14 +139,12 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	
 	@Override
 	protected void updateHyperbola(PlotterBrush brush){
-
 		
 		// first branch
 		double start = getStart(0);
 		if (!Double.isNaN(start)){
-			brush.quarterHyperbola(m, ev1, ev2.mul(-1), e1, e2, -start);
 			double end = getEnd(0);
-			brush.quarterHyperbola(m, ev1, ev2, e1, e2, end);
+			brush.hyperbolaBranch(m, ev1, ev2, e1, e2, start, end);
 			brush.segment(m.add(ev1.mul(e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))), 
 					m.add(ev1.mul(e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
 		}
@@ -154,11 +152,27 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		// second branch
 		start = getStart(1);
 		if (!Double.isNaN(start)){
-			brush.quarterHyperbola(m, ev1.mul(-1), ev2.mul(-1), e1, e2, -start);
 			double end = getEnd(1);
-			brush.quarterHyperbola(m, ev1.mul(-1), ev2, e1, e2, end);
+			brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, start, end);
 			brush.segment(m.add(ev1.mul(-e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))), 
 					m.add(ev1.mul(-e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
+		}
+		
+	}
+	
+	@Override
+	protected void updateHyperbola(PlotterSurface surface){
+		
+		// first branch
+		double start = getStart(0);
+		if (!Double.isNaN(start)){
+			surface.hyperbolaPart(m, ev1, ev2, e1, e2, start,  getEnd(0));
+		}
+		
+		// second branch
+		start = getStart(1);
+		if (!Double.isNaN(start)){
+			surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, start,  getEnd(1));
 		}
 		
 	}
