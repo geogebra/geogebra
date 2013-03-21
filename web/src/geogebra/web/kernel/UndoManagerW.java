@@ -18,11 +18,9 @@ public class UndoManagerW extends UndoManager {
 	static {
 		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {
 
-			double ieVersion = Integer.parseInt(Window.Navigator.getAppVersion().toLowerCase().split("msie")[1]);
-
 			// disable Storage on IE9
 			// "not enough storage available to complete this operation"
-			if (ieVersion >= 10) {
+			if (ieVersion() >= 10) {
 				App.debug("initializing Session Storage");
 				storage = Storage.getSessionStorageIfSupported();
 			} else {
@@ -52,6 +50,15 @@ public class UndoManagerW extends UndoManager {
 	public UndoManagerW(Construction cons) {
 	    super(cons);
     }
+	
+	/**
+	 * return Internet Explorer version (or 999 for other browsers)
+	 */
+	private native static int ieVersion() /*-{
+		var a = $wnd.navigator.appVersion;
+		return a.indexOf('MSIE')+1?parseFloat(a.split('MSIE')[1]):999;
+	}-*/;
+
 
 	@Override
 	public void processXML(String xml) throws Exception {
