@@ -7939,85 +7939,8 @@ public abstract class EuclidianController {
 	
 			if ((mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR)
 					&& (selGeos() == 0)) {
-				view.setHits(mouseLoc);
-	
-				Hits hits = view.getHits().getTopHits();
-	
-				GeoElement topHit = hits.get(0);
-	
-				if (topHit.isGeoVector()) {
-	
-					if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
-						AlgoVector algo = (AlgoVector) topHit
-								.getParentAlgorithm();
-						GeoPoint p = algo.getInputPoints().get(0);
-						GeoPoint q = algo.getInputPoints().get(1);
-						checkZooming(); 
-						
-						GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
-						vec.setEuclidianVisible(false);
-						vec.setAuxiliaryObject(true);
-						GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
-						GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
-						AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
-								(GeoPointND) pp[0], (GeoPointND) qq[0]);
-						transformCoordsOffset[0] = xRW;
-						transformCoordsOffset[1] = yRW;
-	
-						// make sure vector looks the same when translated
-						pp[0].setEuclidianVisible(p.isEuclidianVisible());
-						qq[0].update();
-						qq[0].setEuclidianVisible(q.isEuclidianVisible());
-						qq[0].update();
-						newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
-	
-						app.setMode(EuclidianConstants.MODE_MOVE);
-						movedGeoVector = vec;
-						moveMode = MOVE_VECTOR_NO_GRID;
-						return;
-					}
-					movedGeoPoint = new GeoPoint(kernel.getConstruction(),
-							null, 0, 0, 0);
-					AlgoTranslate algoTP = new AlgoTranslate(
-							kernel.getConstruction(), null,
-							(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
-					GeoPoint p = (GeoPoint) algoTP.getGeoElements()[0];
-
-					AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
-							movedGeoPoint, p);
-					
-					// make sure vector looks the same when translated
-					((GeoPoint) movedGeoPoint).setEuclidianVisible(false);
-					((GeoPoint) movedGeoPoint).update();
-					p.setEuclidianVisible(false);
-					p.update();
-					newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
-					
-					moveMode = MOVE_POINT;
-				}
-	
-				if (topHit.isTranslateable() || topHit instanceof GeoPoly) {
-					GeoVector vec;
-					if (topHit instanceof GeoPoly) {
-						// for polygons, we need a labelled vector so that all
-						// the vertices move together
-						vec = getAlgoDispatcher().Vector(null, 0, 0);
-						vec.setEuclidianVisible(false);
-						vec.setAuxiliaryObject(true);
-					} else {
-						vec = getAlgoDispatcher().Vector(0, 0);
-					}
-					getAlgoDispatcher().Translate(null, hits.get(0), vec);
-					transformCoordsOffset[0] = xRW;
-					transformCoordsOffset[1] = yRW;
-	
-					app.setMode(EuclidianConstants.MODE_MOVE,ModeSetter.TOOLBAR);
-					movedGeoVector = vec;
-					moveMode = MOVE_VECTOR_NO_GRID;
-					return;
-				}
-			}
-	
+				translateHitsByVector();
+			}	
 			// Michael Borcherds 2007-10-07 allow right mouse button to drag
 			// points
 			// mathieu : also if it's mode point, we can drag the point
@@ -8210,6 +8133,86 @@ public abstract class EuclidianController {
 		handleMouseDragged(true, event);
 	}
 	
+	private void translateHitsByVector() {
+		view.setHits(mouseLoc);
+		
+		Hits hits = view.getHits().getTopHits();
+
+		GeoElement topHit = hits.get(0);
+
+		if (topHit.isGeoVector()) {
+
+			if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
+				AlgoVector algo = (AlgoVector) topHit
+						.getParentAlgorithm();
+				GeoPoint p = algo.getInputPoints().get(0);
+				GeoPoint q = algo.getInputPoints().get(1);
+				checkZooming(); 
+				
+				GeoVector vec = getAlgoDispatcher().Vector(null, 0, 0);
+				vec.setEuclidianVisible(false);
+				vec.setAuxiliaryObject(true);
+				GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
+				GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
+				AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+						(GeoPointND) pp[0], (GeoPointND) qq[0]);
+				transformCoordsOffset[0] = xRW;
+				transformCoordsOffset[1] = yRW;
+
+				// make sure vector looks the same when translated
+				pp[0].setEuclidianVisible(p.isEuclidianVisible());
+				qq[0].update();
+				qq[0].setEuclidianVisible(q.isEuclidianVisible());
+				qq[0].update();
+				newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+
+				app.setMode(EuclidianConstants.MODE_MOVE);
+				movedGeoVector = vec;
+				moveMode = MOVE_VECTOR_NO_GRID;
+				return;
+			}
+			movedGeoPoint = new GeoPoint(kernel.getConstruction(),
+					null, 0, 0, 0);
+			AlgoTranslate algoTP = new AlgoTranslate(
+					kernel.getConstruction(), null,
+					(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
+			GeoPoint p = (GeoPoint) algoTP.getGeoElements()[0];
+
+			AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
+					movedGeoPoint, p);
+			
+			// make sure vector looks the same when translated
+			((GeoPoint) movedGeoPoint).setEuclidianVisible(false);
+			((GeoPoint) movedGeoPoint).update();
+			p.setEuclidianVisible(false);
+			p.update();
+			newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
+			
+			moveMode = MOVE_POINT;
+		}
+
+		if (topHit.isTranslateable() || topHit instanceof GeoPoly) {
+			GeoVector vec;
+			if (topHit instanceof GeoPoly) {
+				// for polygons, we need a labelled vector so that all
+				// the vertices move together
+				vec = getAlgoDispatcher().Vector(null, 0, 0);
+				vec.setEuclidianVisible(false);
+				vec.setAuxiliaryObject(true);
+			} else {
+				vec = getAlgoDispatcher().Vector(0, 0);
+			}
+			getAlgoDispatcher().Translate(null, hits.get(0), vec);
+			transformCoordsOffset[0] = xRW;
+			transformCoordsOffset[1] = yRW;
+
+			app.setMode(EuclidianConstants.MODE_MOVE,ModeSetter.TOOLBAR);
+			movedGeoVector = vec;
+			moveMode = MOVE_VECTOR_NO_GRID;
+			return;
+		}
+	}
+
 	/**
 	 * Handles MouseEvents which should drag-delete.
 	 * Will delete all objects except for PenStrokes inside

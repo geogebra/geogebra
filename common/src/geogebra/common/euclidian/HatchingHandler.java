@@ -37,6 +37,8 @@ public class HatchingHandler {
 	 * @param hatchDist distance between hatches
 	 * @param angleDegrees hatching angle in degrees
 	 * @param fillType type of pattern
+	 * @param symbol for symbol filling
+	 * @param app needed to determine right font 
 	 */
 	final protected void setHatching(geogebra.common.awt.GGraphics2D g3,
 			GBasicStroke objStroke,
