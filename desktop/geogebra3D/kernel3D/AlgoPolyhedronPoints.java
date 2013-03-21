@@ -323,9 +323,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * 
 	 * @return height value (for pyramid/prism)
 	 */
-	public double getHeightValue(){
+	final public double getHeightValue(){
 		if(height!=null){
-			return height.getDouble();
+			return Math.abs(height.getDouble());
 		}
 
 		return getTopPoint().getInhomCoordsInD(3).distPlane(getBottomPoints()[0].getInhomCoordsInD(3),getBottom().getDirectionInD3());
