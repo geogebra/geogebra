@@ -203,7 +203,16 @@ public class AlgoLocus extends AlgoElement {
 		}
 
 		// add moving point on line
-		locusConsOrigElements.add(movingPoint);
+		// locusConsOrigElements.add(movingPoint);
+
+		// instead, add the moving point by adding incidences of it to the path
+		// at the same time (see buildLocusMacroConstruction)
+		// note: this will add the parent algo of the moving point, which is AlgoPointOnPath...
+
+		// In theory, this is not harmful as locusConsOrigElements is just used in AlgoLocus,
+		// and macroCons.updateConstruction is only called one time, after resetMacroConstruction
+		Macro.addDependentElement(movingPoint, locusConsOrigElements,
+				usedAlgoIds);
 
 		// add locus creating point and its algorithm to locusConsOrigElements
 		Macro.addDependentElement(locusPoint, locusConsOrigElements,
@@ -304,6 +313,11 @@ public class AlgoLocus extends AlgoElement {
 			Pcopy = (GeoPoint) macroKernel.lookupLabel(movingPoint.getLabelSimple());
 			Pcopy.setFixed(false);
 			Pcopy.setPath(movingPoint.getPath());
+
+			// alternative way to add the incidence of the path to Pcopy
+			// see init()
+			//Pcopy.addIncidence((GeoElement)path);
+			//AlgoIntersectLineConic.resetPossibleSpecialCase();//not implemented
 
 			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
