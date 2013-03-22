@@ -716,7 +716,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (fun != null && isDefined()) {
 			return fun.toLaTeXString(symbolic, tpl);
 		}
-		return app.getPlain("Undefined");
+		return " \\text{" + app.getPlain("Undefined") + "} ";
 	}
 
 	/**
@@ -1980,13 +1980,13 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 
 		/*
-		 * we don't want to deal with list bracess in here since
+		 * we don't want to deal with list braces in here since
 		 * GeoList.toOutputValueString() takes care of it
 		 */
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret))
-				ret = app.getPlain("Undefined");
+				ret = " \\text{"+app.getPlain("Undefined") + "} ";
 			else if ((Unicode.Infinity + "").equals(ret))
 				ret = "\\infty";
 			else if ((Unicode.MinusInfinity + "").equals(ret))

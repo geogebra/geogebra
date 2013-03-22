@@ -330,7 +330,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined())
 			return fun.toLaTeXString(symbolic,tpl);
-		return app.getPlain("Undefined");
+		return " \\text{" + app.getPlain("Undefined") + "} ";
 	}
 	
 	@Override
