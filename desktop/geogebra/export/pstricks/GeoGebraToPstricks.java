@@ -281,29 +281,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		endBeamer(codeFilledObject);
 	}
 
-	@Override
-	protected void drawHistogram(GeoNumeric geo) {
-		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
-				.getParentAlgorithm();
-		double[] y = algo.getValues();
-		double[] x = algo.getLeftBorder();
-		startBeamer(codeFilledObject);
-		for (int i = 0; i < x.length - 1; i++) {
-			codeFilledObject.append("\\psframe");
-			codeFilledObject.append(LineOptionCode(geo, true));
-			codeFilledObject.append("(");
-			codeFilledObject.append(format(x[i]));
-			codeFilledObject.append(",0)(");
-			codeFilledObject.append(format(x[i + 1]));
-			codeFilledObject.append(",");
-			codeFilledObject.append(format(y[i]));
-			codeFilledObject.append(")\n");
-			if (i != x.length - 2 && isBeamer)
-				codeFilledObject.append("  ");
-		}
-		endBeamer(codeFilledObject);
-	}
-
+	
 	@Override
 	protected void drawSumTrapezoidal(GeoNumeric geo) {
 		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
@@ -2370,5 +2348,30 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected MyGraphics createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianViewND euclidianView2) throws IOException{
 		return new MyGraphicsPs(ef, inequality, euclidianView2);
+	}
+
+	@Override
+	protected void drawHistogramOrBarChartBox(double[] y,
+			double[] x, int length, double width, GeoNumeric g) {
+		startBeamer(codeFilledObject);
+		for (int i = 0; i < length; i++) {
+			codeFilledObject.append("\\psframe");
+			codeFilledObject.append(LineOptionCode(g, true));
+			codeFilledObject.append("(");
+			codeFilledObject.append(format(x[i]));
+			codeFilledObject.append(",0)(");
+			if (x.length==length){
+				codeFilledObject.append(format(x[i]+width));
+			}else{
+				codeFilledObject.append(format(x[i + 1]));
+			}
+			codeFilledObject.append(",");
+			codeFilledObject.append(format(y[i]));
+			codeFilledObject.append(")\n");
+			if (i != x.length - 2 && isBeamer)
+				codeFilledObject.append("  ");
+		}
+		endBeamer(codeFilledObject);
+		
 	}
 }

@@ -355,24 +355,27 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endTransparentFill(geo, codeFilledObject);
     }
 
+    
+	
     @Override
-	protected void drawHistogram(GeoNumeric geo){
-        AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums)geo.getParentAlgorithm();
-        double[] y = algo.getValues();
-        double[] x = algo.getLeftBorder();
-
-        for (int i=0; i<x.length-1; i++){
-            startTransparentFill(codeFilledObject);
-            codeFilledObject.append("box((");
-            codeFilledObject.append(format(x[i]));
-            codeFilledObject.append(",0),(");
-            codeFilledObject.append(format(x[i+1]));
-            codeFilledObject.append(",");
-            codeFilledObject.append(format(y[i]));
-            codeFilledObject.append("))");
-            endTransparentFill(geo,codeFilledObject);
-        }       
-    }
+	protected void drawHistogramOrBarChartBox(double[] y,
+			double[] x, int length,double width,GeoNumeric g) {
+		for (int i = 0; i < length; i++) {
+			startTransparentFill(codeFilledObject);
+			codeFilledObject.append("box((");
+			codeFilledObject.append(format(x[i]));
+			codeFilledObject.append(",0),(");
+			if (x.length == length) {
+				codeFilledObject.append(format(x[i] + width));
+			} else {
+				codeFilledObject.append(format(x[i + 1]));
+			}
+			codeFilledObject.append(",");
+			codeFilledObject.append(format(y[i]));
+			codeFilledObject.append("))");
+			endTransparentFill(g,codeFilledObject);
+		}
+	}
     
     @Override
 	protected void drawSumTrapezoidal(GeoNumeric geo){

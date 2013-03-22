@@ -321,25 +321,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(codeFilledObject);
 	}
 
-	@Override
-	protected void drawHistogram(GeoNumeric geo) {
-		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
-				.getParentAlgorithm();
-		double[] y = algo.getValues();
-		double[] x = algo.getLeftBorder();
-		startBeamer(codeFilledObject);
-		for (int i = 0; i < x.length - 1; i++) {
-			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(geo, true);
-			if (s.length() != 0)
-				codeFilledObject.append("[" + s + "] ");
-			writePoint(x[i], 0, codeFilledObject);
-			codeFilledObject.append(" rectangle ");
-			writePoint(x[i + 1], y[i], codeFilledObject);
-			codeFilledObject.append(";\n");
-		}
-		endBeamer(codeFilledObject);
-	}
+	
 
 	@Override
 	protected void drawSumTrapezoidal(GeoNumeric geo) {
@@ -2961,6 +2943,28 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			Inequality inequality, EuclidianViewND euclidianView2)
 			throws IOException {
 		return new MyGraphicsPgf(ef, inequality, euclidianView2);
+	}
+
+	@Override
+	protected void drawHistogramOrBarChartBox(double[] y,
+			double[] x, int length, double width, GeoNumeric g) {
+		startBeamer(codeFilledObject);
+		for (int i = 0; i < length; i++) {
+			codeFilledObject.append("\\draw");
+			String s = LineOptionCode(g, true);
+			if (s.length() != 0)
+				codeFilledObject.append("[" + s + "] ");
+			writePoint(x[i], 0, codeFilledObject);
+			codeFilledObject.append(" rectangle ");
+			if (x.length==length){
+				writePoint(x[i]+width, y[i], codeFilledObject);
+			}else{
+				writePoint(x[i + 1], y[i], codeFilledObject);
+			}
+			codeFilledObject.append(";\n");
+		}
+		endBeamer(codeFilledObject);
+		
 	}
 
 }

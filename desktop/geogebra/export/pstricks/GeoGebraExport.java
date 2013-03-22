@@ -61,13 +61,12 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-
 /*
  import org.mozilla.javascript.Context;
  import org.mozilla.javascript.Scriptable;
  import org.mozilla.javascript.ScriptableObject;
  */
-public abstract class GeoGebraExport  {
+public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
 	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
@@ -94,8 +93,8 @@ public abstract class GeoGebraExport  {
 	public AppD getApp() {
 		return app;
 	}
-	
-	protected String format(double d){
+
+	protected String format(double d) {
 		return kernel.format(d, getStringTemplate());
 	}
 
@@ -167,7 +166,8 @@ public abstract class GeoGebraExport  {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		geogebra.common.awt.GRectangle rect = this.euclidianView.getSelectionRectangle();
+		geogebra.common.awt.GRectangle rect = this.euclidianView
+				.getSelectionRectangle();
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
 			xmax = euclidianView.toRealWorldCoordX(rect.getMaxX());
@@ -304,10 +304,10 @@ public abstract class GeoGebraExport  {
 			}
 			// To draw Inequalities
 			else if (g.getTypeString().equals("Inequality")) {
-				if(g.isGeoFunctionBoolean()){
-					drawGeoInequalities(null,g);
-				}else{
-					drawGeoInequalities((GeoFunctionNVar) g,null);
+				if (g.isGeoFunctionBoolean()) {
+					drawGeoInequalities(null, g);
+				} else {
+					drawGeoInequalities((GeoFunctionNVar) g, null);
 				}
 			}
 
@@ -336,16 +336,18 @@ public abstract class GeoGebraExport  {
 
 					// Histogram
 					else if (algo instanceof AlgoHistogram)
-						drawHistogram((GeoNumeric) g);
-					// Bar Chart
-					else if (algo instanceof AlgoBarChart)
-						drawHistogram((GeoNumeric) g);
+						drawBarChartOrHistogram((GeoNumeric) g);
 					// Lower or Upper Sum, Left Sum or Rectangle Sum
 					else if (algo instanceof AlgoSumUpper
 							|| algo instanceof AlgoSumLower
 							|| algo instanceof AlgoSumLeft
 							|| algo instanceof AlgoSumRectangle)
 						drawSumUpperLower((GeoNumeric) g);
+					drawLabel(g, null);
+				}
+				// Bar Chart
+				else if (algo instanceof AlgoBarChart) {
+					drawBarChartOrHistogram((GeoNumeric) g);
 					drawLabel(g, null);
 				}
 			} else if (g.isGeoVector()) {
@@ -408,6 +410,23 @@ public abstract class GeoGebraExport  {
 			} else if (g.isGeoLocus()) {
 				drawLocus((GeoLocus) g);
 			}
+		}
+
+	}
+
+	protected void drawBarChartOrHistogram(GeoNumeric g) {
+
+		if (g.getParentAlgorithm() instanceof AlgoFunctionAreaSums) {
+			AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) g
+					.getParentAlgorithm();
+			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
+					algo.getValues().length - 1, 0, g);
+		} else {
+			AlgoBarChart algo = null;
+			if (g.getParentAlgorithm() instanceof AlgoBarChart)
+				algo = (AlgoBarChart) g.getParentAlgorithm();
+			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
+					algo.getValues().length, algo.getWidth(), g);
 		}
 
 	}
@@ -548,15 +567,6 @@ public abstract class GeoGebraExport  {
 	 */
 
 	abstract protected void drawBoxPlot(GeoNumeric geo);
-
-	/**
-	 * Export as PSTricks or PGF/TikZ Objects created by command: Histogram[{0,
-	 * 1, 2, 3, 4, 5}, {2, 6, 8, 3, 1}]
-	 * 
-	 * @param geo
-	 *            The histogram to export
-	 */
-	abstract protected void drawHistogram(GeoNumeric geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ GeoAngle objects angle[A,B,C]
@@ -707,7 +717,8 @@ public abstract class GeoGebraExport  {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void ColorCode(geogebra.common.awt.GColor color, StringBuilder sb);
+	abstract protected void ColorCode(geogebra.common.awt.GColor color,
+			StringBuilder sb);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ PolyLine objects polyline[A,B,C,D,E]
@@ -718,15 +729,32 @@ public abstract class GeoGebraExport  {
 	abstract protected void drawPolyLine(GeoPolyLine geo);
 
 	/**
+	 * Export as PSTricks or PGF/TikZ BarChart or Histogram
+	 * 
+	 * @param values
+	 *            Values of Histogram or BarChart
+	 * @param leftBorder
+	 * @param length
+	 *            Length of data. Along with leftBorder length allows you to
+	 *            choose between Histogram or BarChart
+	 * @param width
+	 *            Used if is a BarChart
+	 * @param g
+	 *            For visual style
+	 */
+	protected abstract void drawHistogramOrBarChartBox(double[] values,
+			double[] leftBorder, int length, double width, GeoNumeric g);
+
+	/**
 	 * Export inequalities as PSTricks or PGF or Asymptote
 	 * 
 	 * @param geo
 	 *            The inequality function
-	 * @param e 
-	 * 			  If is inequality with one variable eg. x>3
+	 * @param e
+	 *            If is inequality with one variable eg. x>3
 	 */
-	
-	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElement e){
+
+	protected void drawGeoInequalities(GeoFunctionNVar geo, GeoElement e) {
 		FunctionalNVar ef = null;
 		if (geo == null) {
 			ef = (FunctionalNVar) e;
@@ -754,14 +782,17 @@ public abstract class GeoGebraExport  {
 				g = createGraphics(ef, tree.getIneq(), euclidianView);
 				drawable.draw(g);
 			}
-			//Only for syntax. Never throws
+			// Only for syntax. Never throws
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
-	//Create the appropriate instance of MyGraphics of various implementations (pstricks,pgf,asymptote)
-	abstract protected MyGraphics createGraphics(FunctionalNVar ef, Inequality inequality,
-			EuclidianViewND euclidianView2) throws IOException;
+
+	// Create the appropriate instance of MyGraphics of various implementations
+	// (pstricks,pgf,asymptote)
+	abstract protected MyGraphics createGraphics(FunctionalNVar ef,
+			Inequality inequality, EuclidianViewND euclidianView2)
+			throws IOException;
 
 	/**
 	 * @return the xmin
@@ -1279,11 +1310,13 @@ public abstract class GeoGebraExport  {
 		}
 		return new String(sb);
 	}
-	
-	protected StringTemplate getStringTemplate(){
-    	return StringTemplate.get(StringType.PSTRICKS);
-    }
-	protected StringBuilder drawNoLatexFunction(GeoFunction geo, double xrangemax, double xrangemin, int point,String template){
+
+	protected StringTemplate getStringTemplate() {
+		return StringTemplate.get(StringType.PSTRICKS);
+	}
+
+	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
+			double xrangemax, double xrangemin, int point, String template) {
 		StringBuilder lineBuilder = new StringBuilder();
 		double y = geo.evaluate(xrangemin);
 		if (Math.abs(y) < 0.001)
@@ -1297,7 +1330,7 @@ public abstract class GeoGebraExport  {
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (Math.abs(y) < 0.001)
 					y = 0;
-				lineBuilder.append(String.format(template,xprec,yprec,x,y));				
+				lineBuilder.append(String.format(template, xprec, yprec, x, y));
 			}
 			yprec = y;
 			xprec = x;
@@ -1318,61 +1351,67 @@ public abstract class GeoGebraExport  {
 				&& !s.toLowerCase().contains("coth(")
 				&& !s.toLowerCase().contains("sech(");
 	}
-	protected  void initializeSymbols(Properties symbols){			
-			try {
-				symbols.load(GeoGebraExport.class.getResourceAsStream("unicodetex"));
-			} catch (IOException e) {
-				//FileMenu catch this
-			}
-	}
-	
-	
-	//To avoid duplicate inequalities drawing algorithms  replacing  Graphics.  
-	//In the three implementations (pstricks, pgf, asymptote) print the appropriate commands
-	abstract class MyGraphics extends GGraphics2DD{
 
-		protected double []ds;
+	protected void initializeSymbols(Properties symbols) {
+		try {
+			symbols.load(GeoGebraExport.class.getResourceAsStream("unicodetex"));
+		} catch (IOException e) {
+			// FileMenu catch this
+		}
+	}
+
+	// To avoid duplicate inequalities drawing algorithms replacing Graphics.
+	// In the three implementations (pstricks, pgf, asymptote) print the
+	// appropriate commands
+	abstract class MyGraphics extends GGraphics2DD {
+
+		protected double[] ds;
 		protected Inequality ineq;
 		protected EuclidianView view;
 		protected FunctionalNVar geo;
-		
-		public MyGraphics(FunctionalNVar geo, Inequality ineq, EuclidianViewND euclidianView) throws IOException {
-			super(new MyGraphics2D(null,System.out,0,0,0,0, ColorMode.COLOR_RGB));
-			view=euclidianView;
-			this.geo=geo;
-			this.ds=geo.getKernel().getViewBoundsForGeo((GeoElement)geo);
-			this.ineq=ineq;
+
+		public MyGraphics(FunctionalNVar geo, Inequality ineq,
+				EuclidianViewND euclidianView) throws IOException {
+			super(new MyGraphics2D(null, System.out, 0, 0, 0, 0,
+					ColorMode.COLOR_RGB));
+			view = euclidianView;
+			this.geo = geo;
+			this.ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
+			this.ineq = ineq;
 		}
+
 		@Override
 		public abstract void fill(GShape s);
 	}
-	
-	protected void addTextPackage(){
-		StringBuilder packages=new StringBuilder();
-		if (codePreamble.indexOf("amssymb")==-1){
+
+	protected void addTextPackage() {
+		StringBuilder packages = new StringBuilder();
+		if (codePreamble.indexOf("amssymb") == -1) {
 			packages.append("amssymb,");
 		}
-		if (codePreamble.indexOf("fancyhdr")==-1){
+		if (codePreamble.indexOf("fancyhdr") == -1) {
 			packages.append("fancyhdr,");
 		}
-		if (codePreamble.indexOf("txfonts")==-1){
+		if (codePreamble.indexOf("txfonts") == -1) {
 			packages.append("txfonts,");
 		}
-		if (codePreamble.indexOf("pxfonts")==-1){
+		if (codePreamble.indexOf("pxfonts") == -1) {
 			packages.append("pxfonts,");
 		}
-		if (packages.length()!=0){
-			packages.delete(packages.length()-1, packages.length());
-			codePreamble.append("\\usepackage{"+packages.toString()+"}\n");
+		if (packages.length() != 0) {
+			packages.delete(packages.length() - 1, packages.length());
+			codePreamble.append("\\usepackage{" + packages.toString() + "}\n");
 		}
 	}
+
 	// Created just for the constructor of MyGraphics.EpsGraphics used to avoid
 	// having all methods of Graphics2D. None of his methods is used
 	class MyGraphics2D extends EpsGraphics {
 
 		public MyGraphics2D(String title, OutputStream outputStream, int minX,
-				int minY, int maxX, int maxY, ColorMode colorMode) throws IOException{
-			super(title, outputStream, minX, minY, maxX, maxY, colorMode);	
+				int minY, int maxX, int maxY, ColorMode colorMode)
+				throws IOException {
+			super(title, outputStream, minX, minY, maxX, maxY, colorMode);
 		}
 	}
 }
