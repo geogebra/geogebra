@@ -6,59 +6,40 @@ import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
 
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Window;
 
 public class UndoManagerW extends UndoManager {
 
 	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo";
 	private static long nextKeyNum = 1;
 
-	static Storage storage;
-
-	static {
-		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {
-
-			// disable Storage on IE9
-			// "not enough storage available to complete this operation"
-			if (ieVersion() >= 10) {
-				App.debug("initializing Session Storage");
-				storage = Storage.getSessionStorageIfSupported();
-			} else {
-				App.debug("Session Storage not enabled");
-			}
-
-		}
-	}
+	/**
+	 * can be null (eg IE9 running locally)
+	 */
+	Storage storage = Storage.getSessionStorageIfSupported();
 
 	protected class AppStateWeb implements AppState{
 		private String key;
 		AppStateWeb(String xmls){
-			if (storage != null)
+			if (storage != null) {
 				storage.setItem(key = TEMP_STORAGE_PREFIX+nextKeyNum++, xmls);
+			}
 		}
 		public String getXML(){
-			if (storage == null)
+			if (storage == null) {
 				return null;
+			}
 			return storage.getItem(key);
 		}
 		public void delete() {
-			if (storage != null)
+			if (storage != null) {
 				storage.removeItem(key);
+			}
 		}
 	}
 
 	public UndoManagerW(Construction cons) {
 	    super(cons);
     }
-	
-	/**
-	 * return Internet Explorer version (or 999 for other browsers)
-	 */
-	private native static int ieVersion() /*-{
-		var a = $wnd.navigator.appVersion;
-		return a.indexOf('MSIE')+1?parseFloat(a.split('MSIE')[1]):999;
-	}-*/;
-
 
 	@Override
 	public void processXML(String xml) throws Exception {
