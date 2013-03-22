@@ -2673,14 +2673,23 @@ var Variable = P(Symbol, function(_, _super) {
   _.createBefore = function(cursor) {
 	//want the longest possible autocommand, so assemble longest series of letters (Variables) first
 	var ctrlSeq = this.ctrlSeq;
+
+	// only join characters which are entered now;
+	// so that it should still be possible to enter e.g. "sin" as three variables
+	// if we enter "in" and go to the start and enter "s"...
 	for (var i = 0, prev = cursor[L]; i < MAX_AUTOCMD_LEN - 1 && prev && prev instanceof Variable; i += 1, prev = prev[L])
 		ctrlSeq = prev.ctrlSeq + ctrlSeq;
 	//then test if there's an autocommand here, starting with the longest possible and slicing
 	while (ctrlSeq.length) {
-		if (AutoCmds.hasOwnProperty(ctrlSeq)) {
+		if (AutoCmds.hasOwnProperty(ctrlSeq) || UnItalicizedCmds.hasOwnProperty(ctrlSeq)) {
 			for (var i = 1; i < ctrlSeq.length; i += 1) cursor.backspace();
 			var command = LatexCmds[ctrlSeq](ctrlSeq);
 			command.createBefore(cursor);
+			if (!AutoCmds.hasOwnProperty(ctrlSeq)) {
+				// TODO: what about two-parameter functions?
+				var command2 = LatexCmds["lparen"]();
+				command2.createBefore(cursor);
+			}
 			return;
 		}
 		ctrlSeq = ctrlSeq.slice(1);
@@ -3288,51 +3297,55 @@ var NonItalicizedFunction = P(Symbol, function(_, _super) {
   };
 });
 
+//backslashless commands, words where adjacent letters (Variables)
+//that form them automatically are turned into commands
+var UnItalicizedCmds = {
+
 // Proper LaTeX functions
 // http://amath.colorado.edu/documentation/LaTeX/Symbols.pdf
-LatexCmds.arccos =
-LatexCmds.arcsin =
-LatexCmds.arctan =
-LatexCmds.arg =
-LatexCmds.cos =
-LatexCmds.cosh =
-LatexCmds.cot =
-LatexCmds.coth =
-LatexCmds.csc =
-LatexCmds.deg =
-LatexCmds.det =
-LatexCmds.dim =
-LatexCmds.exp =
-LatexCmds.gcd =
-LatexCmds.hom =
-LatexCmds.inf =
-LatexCmds.ker =
-LatexCmds.lg =
-LatexCmds.lim =
-LatexCmds.ln =
-LatexCmds.log =
-LatexCmds.max =
-LatexCmds.min =
-LatexCmds.sec =
-LatexCmds.sin =
-LatexCmds.sinh =
-LatexCmds.sup =
-LatexCmds.tan =
-LatexCmds.tanh =
+
+arccos : 1, // numbers "1" don't mean anything, currently
+arcsin : 1,
+arctan : 1,
+arg : 1,
+cos : 1,
+cosh : 1,
+cot : 1,
+coth : 1,
+csc : 1,
+deg : 1,
+det : 1,
+dim : 1,
+exp : 1,
+gcd : 1,
+hom : 1,
+inf : 1,
+ker : 1,
+lg : 1,
+lim : 1,
+ln : 1,
+log : 1,
+max : 1,
+min : 1,
+sec : 1,
+sin : 1,
+sinh : 1,
+sup : 1,
+tan : 1,
+tanh : 1,
 
 // special GeoGebra functions
-LatexCmds.sgn =
-LatexCmds.round =
-LatexCmds.erf =
-LatexCmds.Ci =
-LatexCmds.Si =
-LatexCmds.Ei =
-LatexCmds.real =
-LatexCmds.imaginary =
-LatexCmds.round =
-LatexCmds.fractionalPart = NonItalicizedFunction;
-
-var AutoCmds = {
+sgn : 1,
+round : 1,
+erf : 1,
+Ci : 1,
+Si : 1,
+Ei : 1,
+real : 1,
+imaginary : 1,
+round : 1,
+fractionalPart : 1
+}, AutoCmds = {
 // GeoGebra+MathQuill
 sqrt: 1,
 Sqrt: 1,
@@ -3343,7 +3356,7 @@ nroot: 2,
 pi: 1
 //theta: 1,
 //int: 1
-}, MAX_AUTOCMD_LEN = 7;
+}, MAX_AUTOCMD_LEN = 16;
 
 (function() {
   var trigs = {
@@ -3354,12 +3367,12 @@ pi: 1
     //,Sin: 1, Cos: 1, Tan: 1
     };
   for (var trig in trigs) {
-    LatexCmds[trig] =
-    LatexCmds['a'+trig] =
-    LatexCmds['arc'+trig] =
-    LatexCmds[trig+'h'] =
-    LatexCmds['arc'+trig+'h'] =
-    LatexCmds['a'+trig+'h'] = NonItalicizedFunction;
+	UnItalicizedCmds[trig] =
+	UnItalicizedCmds['a'+trig] =
+	UnItalicizedCmds['arc'+trig] =
+	UnItalicizedCmds[trig+'h'] =
+	UnItalicizedCmds['arc'+trig+'h'] =
+	UnItalicizedCmds['a'+trig+'h'] = 1;
   }
   trigs = {
 	sec: 1, cosec: 1, csc: 1
@@ -3368,8 +3381,8 @@ pi: 1
 	//,Cotan: 1, Cot: 1, Ctg: 1
 	};
   for (var trig in trigs) {
-    LatexCmds[trig] =
-    LatexCmds[trig+'h'] = NonItalicizedFunction;
+	UnItalicizedCmds[trig] =
+	UnItalicizedCmds[trig+'h'] = 1;
   }
 
   /*var trig = ['sin', 'cos', 'tan', 'sec', 'cosec', 'csc', 'cotan', 'cot'];
@@ -3380,6 +3393,9 @@ pi: 1
     LatexCmds['a'+trig[i]+'h'] = LatexCmds['arc'+trig[i]+'h'] =
       NonItalicizedFunction;
   }*/
+
+  for (var fn in UnItalicizedCmds)
+    LatexCmds[fn] = NonItalicizedFunction;
 }());
 
 /*************************************************
