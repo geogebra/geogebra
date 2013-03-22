@@ -2670,6 +2670,23 @@ var Variable = P(Symbol, function(_, _super) {
   _.init = function(ch, html) {
     _super.init.call(this, ch, '<var>'+(html || ch)+'</var>');
   }
+  _.createBefore = function(cursor) {
+	//want the longest possible autocommand, so assemble longest series of letters (Variables) first
+	var ctrlSeq = this.ctrlSeq;
+	for (var i = 0, prev = cursor[L]; i < MAX_AUTOCMD_LEN - 1 && prev && prev instanceof Variable; i += 1, prev = prev[L])
+		ctrlSeq = prev.ctrlSeq + ctrlSeq;
+	//then test if there's an autocommand here, starting with the longest possible and slicing
+	while (ctrlSeq.length) {
+		if (AutoCmds.hasOwnProperty(ctrlSeq)) {
+			for (var i = 1; i < ctrlSeq.length; i += 1) cursor.backspace();
+			var command = LatexCmds[ctrlSeq](ctrlSeq);
+			command.createBefore(cursor);
+			return;
+		}
+		ctrlSeq = ctrlSeq.slice(1);
+	}
+	_super.createBefore.call(this, cursor);
+  };
   _.text = function() {
     var text = this.ctrlSeq;
 	if (this[L] && !(this[L] instanceof Variable)
