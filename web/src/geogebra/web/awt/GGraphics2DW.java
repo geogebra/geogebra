@@ -800,8 +800,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		  // Because of this, our algorithm needs to understand if the x-coord and
 		  // y-coord should be getting smaller or larger and properly cap the values
 		  // based on (x,y).
-		  var lt = function (a, b) { return a <= b; };
-		  var gt = function (a, b) { return a >= b; };
+		  
+		  // make sure we don't get an infinite loop drawing eg
+		  //  y = -7.85046229341888E-17x
+		  var EPSILON = 0.00000001;
+		  
+		  var lt = function (a, b) { return a <= b + EPSILON; };
+		  var gt = function (a, b) { return a >= b - EPSILON; };
 		  var capmin = function (a, b) { return $wnd.Math.min(a, b); };
 		  var capmax = function (a, b) { return $wnd.Math.max(a, b); };
 		
