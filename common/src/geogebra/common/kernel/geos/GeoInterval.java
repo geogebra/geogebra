@@ -176,7 +176,7 @@ public class GeoInterval extends GeoFunction {
 		if (isDefined()) {
 			return fun.toLaTeXString(symbolic,tpl);
 		}
-		return app.getPlain("Undefined");
+		return " \\text{" + app.getPlain("Undefined") + "} ";
 	}
 
 	@Override

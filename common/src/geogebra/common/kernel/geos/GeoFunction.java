@@ -725,7 +725,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public final void getXML(StringBuilder sbxml) {
 
-		// an indpendent function needs to add
+		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
 		if (isIndependent() && getDefaultGeoType() < 0) {

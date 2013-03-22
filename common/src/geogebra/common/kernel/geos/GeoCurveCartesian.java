@@ -583,7 +583,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			}
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return " \\text{" + app.getPlain("Undefined") + "} ";
 	}
 
 	/*

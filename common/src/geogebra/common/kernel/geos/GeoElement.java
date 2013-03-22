@@ -4424,7 +4424,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isDefined() && !isInfinite()) {
 				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
-				strLaTeX = app.getPlain("Undefined");
+				strLaTeX = " \\text{" + app.getPlain("Undefined") + "} ";
+
 			}
 		}
 
@@ -4460,8 +4461,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			// we need to keep the string simple (no \mbox) so that
 			// isLatexNeeded may return true
 			sb.append(label);
-			sb.append("\\,");
+			sb.append("\\, \\text{");
 			sb.append(app.getPlain("Undefined"));
+			sb.append("} ");
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) & !geo.isGeoText()) {
@@ -6009,7 +6011,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
-				ret = app.getPlain("Undefined");
+				ret = " \\text{" + app.getPlain("Undefined") + "} ";
 			} else if ((Unicode.Infinity + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MinusInfinity + "").equals(ret)) {
