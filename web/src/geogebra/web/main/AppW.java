@@ -237,7 +237,7 @@ public class AppW extends AppWeb {
 
 		// initing = true;
 
-		removeDefaultContextMenu(null);
+		removeDefaultContextMenu();
 	}
 
 	/*************************************************
@@ -1557,20 +1557,64 @@ public class AppW extends AppWeb {
 			$wnd.ggbOnInit(arg);
 	}-*/;
 
-	public static native void removeDefaultContextMenu(Element element) /*-{
-		var el = (element!=null)? element : $doc;
+	
+	public static int getAbsoluteLeft(Element element){
+		return element.getAbsoluteLeft();
+	}
 
+	public static int getAbsoluteRight(Element element){
+		return element.getAbsoluteRight();
+	}
+
+	public static int getAbsoluteTop(Element element){
+		return element.getAbsoluteTop();
+	}
+
+	public static int getAbsoluteBottom(Element element){
+		return element.getAbsoluteBottom();
+	}
+	
+	public static native void removeDefaultContextMenu(Element element) /*-{
+		
+		function eventOnElement(e){
+			
+			x1 = @geogebra.web.main.AppW::getAbsoluteLeft(Lcom/google/gwt/dom/client/Element;)(element);
+			x2 = @geogebra.web.main.AppW::getAbsoluteRight(Lcom/google/gwt/dom/client/Element;)(element);
+			y1 = @geogebra.web.main.AppW::getAbsoluteTop(Lcom/google/gwt/dom/client/Element;)(element);
+			y2 = @geogebra.web.main.AppW::getAbsoluteBottom(Lcom/google/gwt/dom/client/Element;)(element);
+		
+			if((e.pageX < x1) || (e.pageX > x2) ||
+				(e.pageY < y1) || (e.pageY > y2)){
+					return false;
+				}
+			return true;
+		}
+		
 		if ($doc.addEventListener) {
-			el.addEventListener('contextmenu', function(e) {
-				e.preventDefault();
+			$doc.addEventListener('contextmenu', function(e) {
+				if (eventOnElement(e)) e.preventDefault();
 			}, false);
 		} else {
-			el.attachEvent('oncontextmenu', function() {
-				window.event.returnValue = false;
+			$doc.attachEvent('oncontextmenu', function() {
+				if (eventOnElement(e)) window.event.returnValue = false;
 			});
 		}
 	}-*/;
 
+	public static native void removeDefaultContextMenu() /*-{
+	
+	if ($doc.addEventListener) {
+		$doc.addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+		}, false);
+	} else {
+		$doc.attachEvent('oncontextmenu', function() {
+			window.event.returnValue = false;
+		});
+	}
+}-*/;
+
+	
 	public native String getNativeEmailSet() /*-{
 		if ($wnd.GGW_appengine) {
 			return $wnd.GGW_appengine.USER_EMAIL;
