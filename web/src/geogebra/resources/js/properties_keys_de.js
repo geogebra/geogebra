@@ -353,7 +353,7 @@ __GGB__keysVar.de.command = {
     "HideLayer_Syntax": "[ <Zahl> ]",
     "Histogram": "Histogramm",
     "Histogram_Syntax": "[ <Liste von Klassenbereichen>, <Liste von Balkenh\xf6hen> ]\n[ <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]\n[ <Wahrheitswert kumulativ>, <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]",
-    "HistogramRight": "HistrogrammRechts",
+    "HistogramRight": "HistogrammRechts",
     "HistogramRight_Syntax": "[ <Liste von Klassenbereichen>, <Liste von Balkenh\xf6hen> ]\n[ <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]\n[ <Wahrheitswert kumulativ>, <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]",
     "Hull": "H\xfclle",
     "Hull_Syntax": "[ <Liste von Punkten>, <Prozentsatz> ]",
