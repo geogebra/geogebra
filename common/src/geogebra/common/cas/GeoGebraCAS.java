@@ -537,7 +537,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public String evaluateGeoGebraCAS(ValidExpression evalVE,
 			MyArbitraryConstant arbconst) {
 		return evaluateGeoGebraCAS(evalVE, arbconst,
-				StringTemplate.numericDefault);
+				StringTemplate.numericNoLocal);
 	}
 
 	/**

@@ -1509,9 +1509,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE,
 						null, StringTemplate.numericNoLocal);
 				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
-					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericDefault);					
+					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericNoLocal);					
 				}else if(evalVE.isKeepInputUsed()){
-					result = evalVE.wrap().toString(StringTemplate.numericDefault);
+					result = evalVE.wrap().toString(StringTemplate.numericNoLocal);
 				}
 				success = result != null;
 			} catch (CASException e) {
@@ -1540,7 +1540,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (geos != null) {
 					success = true;
 					result = geos[0]
-							.toValueString(StringTemplate.numericDefault);
+							.toValueString(StringTemplate.numericNoLocal);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					if (parentAlgo != null) {
 						parentAlgo.remove();

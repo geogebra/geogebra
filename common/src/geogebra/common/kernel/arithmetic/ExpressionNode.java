@@ -2248,8 +2248,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				boolean nounary = true;
 
-				// vector * (matrix * vector) needs brackets
-				if (left.isListValue() && right.isVectorValue()) {
+				// vector * (matrix * vector) needs brackets; always use brackets for internal templates
+				if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
 					sb.append(leftBracket(stringType));
 				}
 
@@ -2406,8 +2406,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightBracket(stringType));
 				}
 				
-				// vector * (matrix * vector) needs brackets
-				if (left.isListValue() && right.isVectorValue()) {
+				// vector * (matrix * vector) needs brackets; always use brackets for internal templates
+				if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
 					sb.append(rightBracket(stringType));
 				}
 

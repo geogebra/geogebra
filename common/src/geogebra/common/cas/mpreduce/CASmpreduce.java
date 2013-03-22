@@ -193,7 +193,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		if (casInput instanceof FunctionNVar) {
 			// delayed function definition f(x)::= Derivative[x^2] should return Derivative[x^2]
 			if (casInput.getAssignmentType() == AssignmentType.DELAYED){
-				return casInput.toString(StringTemplate.numericDefault);
+				return casInput.toString(StringTemplate.numericNoLocal);
 			}
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
