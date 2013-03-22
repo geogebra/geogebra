@@ -53,7 +53,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class ExpressionNode extends ValidExpression implements
-		ExpressionNodeConstants, ReplaceChildrenByValues {
+ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	private App app;
 	private Kernel kernel;
@@ -216,10 +216,10 @@ public class ExpressionNode extends ValidExpression implements
 		right = r;
 		if (right != null) {
 			right.setInTree(true); // needed for list operations eg k=2 then k
-									// {1,2}
+			// {1,2}
 		}
 		leaf = operation == Operation.NO_OPERATION; // right is a dummy MyDouble
-													// by
+		// by
 		// default
 	}
 
@@ -605,8 +605,8 @@ public class ExpressionNode extends ValidExpression implements
 				// GeoFunctionNVar
 				// MyList list=((ListValue)right).getMyList();
 			} else if (right instanceof MyList) { // to get polynomial
-													// vars in
-													// GeoFunctionNVar
+				// vars in
+				// GeoFunctionNVar
 				MyList list = (MyList) right;
 				for (int i = 0; i < list.size(); i++) {
 					ExpressionValue elem = list.getListElement(i);
@@ -831,7 +831,7 @@ public class ExpressionNode extends ValidExpression implements
 		// left tree
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left)
-					.replaceXYZnodes(xVar, yVar, zVar, undecided);
+			.replaceXYZnodes(xVar, yVar, zVar, undecided);
 		}
 		// right tree
 		if ((right != null) && right.isExpressionNode()) {
@@ -908,7 +908,7 @@ public class ExpressionNode extends ValidExpression implements
 			right = right.traverse(t);
 		return ev;
 	}
-	
+
 	@Override
 	public boolean inspect(Inspecting t){
 		return t.check(this) || left.inspect(t) || (right!=null && right.inspect(t));
@@ -1090,7 +1090,7 @@ public class ExpressionNode extends ValidExpression implements
 			right = null;
 			return;
 		}
-		
+
 		// transfer left subtree
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).makePolynomialTree(equ);
@@ -1358,11 +1358,11 @@ public class ExpressionNode extends ValidExpression implements
 			// STANDARD case: no leaf
 			else {
 				// expression node
-				
+
 				// we could group the factors of all possible numerators here.
 				//we won't do that. http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
 				//numerGroup();
-				
+
 				String leftStr = null, rightStr = null;
 				if (symbolic && left.isGeoElement()) {
 					leftStr = ((GeoElement) left).getLabel(tpl);
@@ -1393,7 +1393,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		return ret;
 	}
-	
+
 	/**
 	 * @return a representation of all classes present in the tree
 	 */
@@ -1415,9 +1415,9 @@ public class ExpressionNode extends ValidExpression implements
 		return ((operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
 				|| operation.equals(Operation.MULTIPLY) || operation.equals(Operation.MINUS)
 				|| operation.equals(Operation.PLUS) || operation.equals(Operation.POWER))
-		&& (ev instanceof GeoSegment || ev instanceof GeoPolygon || ev instanceof GeoNumeric));
+				&& (ev instanceof GeoSegment || ev instanceof GeoPolygon || ev instanceof GeoNumeric));
 	}
-	
+
 	/**
 	 * @param prefix
 	 * @return a representation of all classes present in the tree
@@ -1612,11 +1612,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\neg ");
 					break;
-					
+
 				case LIBRE_OFFICE:
 					sb.append("neg ");
 					break;
-					
+
 				case MATH_PIPER:
 					sb.append("Not ");
 					break;
@@ -1653,7 +1653,7 @@ public class ExpressionNode extends ValidExpression implements
 				case LIBRE_OFFICE:
 					sb.append("or");
 					break;
-				
+
 				case MATH_PIPER:
 					sb.append("Or");
 					break;
@@ -1682,23 +1682,23 @@ public class ExpressionNode extends ValidExpression implements
 				if(right.isExpressionNode()){
 					sb.append(getLeftTree().printCASstring(!valueForm, tpl));
 					switch(((ExpressionNode)right).getOperation()){
-						case LESS:appendLessSign(sb,stringType);break;
-						case LESS_EQUAL:appendLeqSign(sb,stringType);break;
-						case GREATER:appendGreaterSign(sb,stringType);break;
-						case EQUAL_BOOLEAN:appendEqualSign(sb,stringType);break;
-						case NOT_EQUAL:appendNotEqualSign(sb,stringType);break;
-						case GREATER_EQUAL:appendGeqSign(sb,stringType);break;
-						case IS_SUBSET_OF:appendSubsetSign(sb,stringType);break;
-						case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,stringType);break;
-						case PARALLEL:appendParallelSign(sb,stringType);break;
-						case PERPENDICULAR:appendPerpSign(sb,stringType);break;
-						default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
+					case LESS:appendLessSign(sb,stringType);break;
+					case LESS_EQUAL:appendLeqSign(sb,stringType);break;
+					case GREATER:appendGreaterSign(sb,stringType);break;
+					case EQUAL_BOOLEAN:appendEqualSign(sb,stringType);break;
+					case NOT_EQUAL:appendNotEqualSign(sb,stringType);break;
+					case GREATER_EQUAL:appendGeqSign(sb,stringType);break;
+					case IS_SUBSET_OF:appendSubsetSign(sb,stringType);break;
+					case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,stringType);break;
+					case PARALLEL:appendParallelSign(sb,stringType);break;
+					case PERPENDICULAR:appendPerpSign(sb,stringType);break;
+					default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
 					}
 					sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, tpl));
 					break;
 				}
 			}
-			
+
 		case AND:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
@@ -1719,7 +1719,7 @@ public class ExpressionNode extends ValidExpression implements
 				case LIBRE_OFFICE:
 					sb.append("and");
 					break;
-					
+
 				case MATH_PIPER:
 					sb.append("And");
 					break;
@@ -1736,7 +1736,7 @@ public class ExpressionNode extends ValidExpression implements
 				append(sb, rightStr, right, operation, stringType);
 			}
 			break;
-			
+
 		case IMPLICATION:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<implies/>", leftStr, rightStr);
@@ -1765,7 +1765,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(' ');
 
 				if (stringType != StringType.MPREDUCE)
-				append(sb, rightStr, right, operation, stringType);
+					append(sb, rightStr, right, operation, stringType);
 			}
 			break;
 
@@ -2064,11 +2064,11 @@ public class ExpressionNode extends ValidExpression implements
 						sb.append(rightStr.substring(1));
 					} else if (rightStr
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
-																				// convert
-																				// +
-																				// -
-																				// to
-																				// -
+						// convert
+						// +
+						// -
+						// to
+						// -
 						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
@@ -2125,14 +2125,14 @@ public class ExpressionNode extends ValidExpression implements
 				// check for 0 at right
 				if (valueForm
 						&& rightStr
-								.equals(loc.unicodeZero + "")) {
+						.equals(loc.unicodeZero + "")) {
 					break;
 				}
 
 				if (right.isLeaf()
 						|| (opID(right) >= Operation.MULTIPLY.ordinal())) { // not
-																			// +,
-																			// -
+					// +,
+					// -
 
 					if (rightStr.charAt(0) == '-') { // convert - - to +
 						if (stringType.equals(StringType.LATEX)
@@ -2144,11 +2144,11 @@ public class ExpressionNode extends ValidExpression implements
 						sb.append(rightStr.substring(1));
 					} else if (rightStr
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
-																				// convert
-																				// -
-																				// -
-																				// to
-																				// +
+						// convert
+						// -
+						// -
+						// to
+						// +
 						if (stringType.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
@@ -2215,9 +2215,9 @@ public class ExpressionNode extends ValidExpression implements
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
 				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
 						.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
-						.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (loc.unicodeZero + 1)))))
-						|| rightStr.equals(Unicode.degree)) {
+								.charAt(0) == Unicode.degreeChar) && (rightStr
+										.charAt(1) == (loc.unicodeZero + 1)))))
+										|| rightStr.equals(Unicode.degree)) {
 
 					boolean rtl = app.getLocalization().isRightToLeftDigits(tpl);
 
@@ -2248,11 +2248,16 @@ public class ExpressionNode extends ValidExpression implements
 
 				boolean nounary = true;
 
+				// vector * (matrix * vector) needs brackets
+				if (left.isListValue() && right.isVectorValue()) {
+					sb.append(leftBracket(stringType));
+				}
+
 				// left wing
 				if (left.isLeaf()
 						|| (opID(left) >= Operation.MULTIPLY.ordinal())) { // not
-																			// +,
-																			// -
+					// +,
+					// -
 					if (isEqualString(left, -1, !valueForm)) { // unary minus
 						nounary = false;
 						sb.append('-');
@@ -2279,8 +2284,8 @@ public class ExpressionNode extends ValidExpression implements
 				int opIDright = opID(right);
 				if (right.isLeaf()
 						|| (opIDright >= Operation.MULTIPLY.ordinal())) { // not
-																			// +,
-																			// -
+					// +,
+					// -
 					boolean showMultiplicationSign = false;
 					boolean multiplicationSpaceNeeded = true;
 					if (nounary) {
@@ -2293,19 +2298,19 @@ public class ExpressionNode extends ValidExpression implements
 						case MAXIMA:
 							showMultiplicationSign = true;
 							break;
-							
+
 						case LIBRE_OFFICE:
 						case LATEX:
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
 							// digit-fraction, e.g. 3 * \frac{5}{2}
 							char lastLeft = leftStr
-									.charAt(leftStr.length() - 1);
+							.charAt(leftStr.length() - 1);
 							char firstRight = rightStr.charAt(0);
 							showMultiplicationSign =
-							// left is digit or ends with }, e.g. exponent,
-							// fraction
-							(StringUtil.isDigit(lastLeft) || (lastLeft == '}'))
+									// left is digit or ends with }, e.g. exponent,
+									// fraction
+									(StringUtil.isDigit(lastLeft) || (lastLeft == '}'))
 									&&
 									// right is digit or fraction
 									(StringUtil.isDigit(firstRight) || rightStr
@@ -2321,8 +2326,8 @@ public class ExpressionNode extends ValidExpression implements
 							showMultiplicationSign = Character
 									.isDigit(lastLeft)
 									&& (StringUtil.isDigit(firstRight)
-									// 3*E23AB can't be written 3E23AB
-									|| (rightStr.charAt(0) == 'E'));
+											// 3*E23AB can't be written 3E23AB
+											|| (rightStr.charAt(0) == 'E'));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {
@@ -2359,12 +2364,12 @@ public class ExpressionNode extends ValidExpression implements
 					// show parentheses around these cases
 					if (((rtlMinus = rightStr
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) || (rightStr
-							.charAt(0) == '-')) // 2 (-5) or -(-5)
-							|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
+									.charAt(0) == '-')) // 2 (-5) or -(-5)
+									|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
 									.ordinal() // -(x * a) or -(x / a)
-							))
-							|| (showMultiplicationSign && stringType
-									.equals(StringType.GEOGEBRA))) // 3 (5)
+											))
+											|| (showMultiplicationSign && stringType
+													.equals(StringType.GEOGEBRA))) // 3 (5)
 					{
 						if (rtlMinus) {
 							sb.append(Unicode.RightToLeftMark);
@@ -2400,6 +2405,12 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(rightStr);
 					sb.append(rightBracket(stringType));
 				}
+				
+				// vector * (matrix * vector) needs brackets
+				if (left.isListValue() && right.isVectorValue()) {
+					sb.append(rightBracket(stringType));
+				}
+
 				break;
 
 			case MPREDUCE:
@@ -2416,6 +2427,8 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(")");
 					break;
 				}
+
+
 			}
 			break;
 
@@ -2448,7 +2461,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(rightStr);
 				sb.append(" }");
 				break;
-				
+
 			case MPREDUCE:
 				sb.append("mydivision(");
 				sb.append(leftStr);
@@ -2474,9 +2487,9 @@ public class ExpressionNode extends ValidExpression implements
 
 				// right wing
 				append(sb, rightStr, right, Operation.POWER, stringType); // not
-																			// +,
-																			// -,
-																			// *,
+				// +,
+				// -,
+				// *,
 				// /
 			}
 			break;
@@ -2536,9 +2549,9 @@ public class ExpressionNode extends ValidExpression implements
 							sb.append(rightStr);
 							sb.append("}");
 							sb.append(leftStr.substring(spaceIndex + 1)); // everything
-																			// except
-																			// the
-																			// "\\sin "
+							// except
+							// the
+							// "\\sin "
 
 							finished = true;
 
@@ -2578,12 +2591,12 @@ public class ExpressionNode extends ValidExpression implements
 						break;
 					}
 					// else fall through
-				
+
 				case JASYMCA:
 				case MATH_PIPER:
 				case MAXIMA:
-				
-					
+
+
 				case LIBRE_OFFICE:
 				default:
 
@@ -2639,7 +2652,7 @@ public class ExpressionNode extends ValidExpression implements
 				case GEOGEBRA_XML:
 				case MATH_PIPER:
 				case MAXIMA:
-				
+
 					sb.append('^');
 					sb.append('(');
 					sb.append(rightStr);
@@ -2649,7 +2662,7 @@ public class ExpressionNode extends ValidExpression implements
 				default:
 					if (right.isLeaf()
 							|| ((opID(right) > Operation.POWER.ordinal()) && (opID(right) != Operation.EXP
-									.ordinal()))) { // not
+							.ordinal()))) { // not
 						// +,
 						// -,
 						// *,
@@ -2768,8 +2781,8 @@ public class ExpressionNode extends ValidExpression implements
 				if (((leftStr.charAt(0) != '-') && // no unary
 						left.isLeaf())
 						|| (opID(left) > Operation.POWER.ordinal())) { // not +,
-																		// -, *,
-																		// /, ^
+					// -, *,
+					// /, ^
 					sb.append(leftStr);
 				} else {
 					sb.append(leftBracket(stringType));
@@ -2803,7 +2816,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		case SEC:
 			trig(leftStr,sb,"<sec/>","\\sec","Sec(","SEC(","sec","sec","sec",
-						stringType,tpl.isPrintLocalizedCommandNames(),true);
+					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case COT:
@@ -2888,7 +2901,7 @@ public class ExpressionNode extends ValidExpression implements
 		case TANH:
 			trig(leftStr,sb,"<tanh/>","\\tanh","Tanh(","TANH(","tanh","tanh","tanh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
-		break;
+			break;
 
 		case ACOSH:
 			trig(leftStr,sb,"<arccosh/>","\\acosh","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
@@ -2902,25 +2915,25 @@ public class ExpressionNode extends ValidExpression implements
 		case ATANH:
 			trig(leftStr,sb,"<arctanh/>","\\atanh","ArcTanh(","ATANH(","atanh","atanh","artanh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
-		break;
+			break;
 		case REAL:
 			trig(leftStr,sb,"<real/>","\\real","","","myreal","real","real",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
-		break;
+			break;
 		case IMAGINARY:
 			trig(leftStr,sb,"<imaginary/>","\\imaginary","","","imaginary","imaginary","imaginary",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
-		break;
+			break;
 		case FRACTIONAL_PART:
 			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
-		break;
+			break;
 		case ZETA:
 			switch (stringType) {
 			case LATEX:
 				sb.append("\\zeta\\left( ");
 				break;
-				
+
 			case LIBRE_OFFICE:
 				sb.append("func zeta left (");
 				break;
@@ -2939,11 +2952,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("\\Ci \\left( ");
 				break;
 
-				
+
 			case LIBRE_OFFICE:
 				sb.append("func Ci left (");
 				break;
-				
+
 			case MPREDUCE:
 				appendReduceFunction(sb, "ci");
 				break;
@@ -2958,11 +2971,11 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\Si \\left( ");
 				break;
-				
+
 			case LIBRE_OFFICE:
 				sb.append("func Si left (");
 				break;
-				
+
 			case MPREDUCE:
 				appendReduceFunction(sb, "si");
 				break;
@@ -2981,7 +2994,7 @@ public class ExpressionNode extends ValidExpression implements
 			case LIBRE_OFFICE:
 				sb.append("func Ei left (");
 				break;
-				
+
 			case MPREDUCE:
 				appendReduceFunction(sb, "ei");
 				break;
@@ -3209,7 +3222,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case MAXIMA:
@@ -3236,7 +3249,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-				
+
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case MAXIMA:
@@ -3352,7 +3365,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			
+
 			case GEOGEBRA:
 				sb.append(app.getFunction("nroot"));
 				sb.append("(");
@@ -3370,7 +3383,7 @@ public class ExpressionNode extends ValidExpression implements
 				break;	
 			}
 			break;
-	
+
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
@@ -3661,7 +3674,7 @@ public class ExpressionNode extends ValidExpression implements
 
 			case LIBRE_OFFICE:
 				sb.append("func round left (");
-				
+
 			case MATH_PIPER:
 				sb.append("Round(");
 				break;
@@ -3691,7 +3704,7 @@ public class ExpressionNode extends ValidExpression implements
 			case MPREDUCE:
 				appendReduceFunction(sb, "gamma");
 				break;
-				
+
 			default:
 				sb.append("gamma(");
 			}
@@ -3736,7 +3749,7 @@ public class ExpressionNode extends ValidExpression implements
 
 			case LIBRE_OFFICE:
 				sb.append("func gammaRegularized left (");
-				
+
 			case MAXIMA:
 				sb.append("gamma_incomplete_regularized(");
 				break;
@@ -3811,7 +3824,7 @@ public class ExpressionNode extends ValidExpression implements
 
 			case LIBRE_OFFICE:
 				sb.append("func betaRegularized left (");
-				
+
 			case MAXIMA:
 				sb.append("beta_incomplete_regularized(");
 				break;
@@ -3978,7 +3991,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		case FUNCTION:
 			if (stringType == StringType.MPREDUCE
-					&& right instanceof ListValue) {
+			&& right instanceof ListValue) {
 				sb.append("applyfunction(" + leftStr + "," + rightStr + ")");
 				break;
 			}
@@ -3987,7 +4000,7 @@ public class ExpressionNode extends ValidExpression implements
 				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
 					if (stringType.equals(StringType.LIBRE_OFFICE))
-							sb.append("func ");
+						sb.append("func ");
 					sb.append(geo.getLabel(tpl));
 					sb.append(leftBracket(stringType));
 					sb.append(rightStr);
@@ -4033,7 +4046,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			break;
 
-		// TODO: put back into case FUNCTION_NVAR:, see #1115
+			// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			sb.append(app.getLocalization().getCommand("Element"));
 			sb.append('[');
@@ -4306,8 +4319,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("]");
 			}
 			break;
-			
-			
+
+
 		default:
 			sb.append("unhandled operation " + operation);
 		}
@@ -4330,7 +4343,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strPERPENDICULAR);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendParallelSign(StringBuilder sb, StringType stringType) {
@@ -4349,7 +4362,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strPARALLEL);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendGeqSign(StringBuilder sb, StringType stringType) {
@@ -4370,7 +4383,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strGREATER_EQUAL);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendLeqSign(StringBuilder sb, StringType stringType) {
@@ -4392,7 +4405,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strLESS_EQUAL);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendGreaterSign(StringBuilder sb, StringType stringType) {
@@ -4402,7 +4415,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else {
 			sb.append(" > ");
 		}
-		
+
 	}
 
 	private void appendLessSign(StringBuilder sb, StringType stringType) {
@@ -4412,7 +4425,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else {
 			sb.append(" < ");
 		}
-		
+
 	}
 
 	private void appendStrictSubsetSign(StringBuilder sb, StringType stringType) {
@@ -4449,7 +4462,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strIS_SUBSET_OF);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendNotEqualSign(StringBuilder sb, StringType stringType) {
@@ -4472,7 +4485,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strNOT_EQUAL);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private void appendEqualSign(StringBuilder sb, StringType STRING_TYPE) {
@@ -4495,7 +4508,7 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(strEQUAL_BOOLEAN);
 		}
 		sb.append(' ');
-		
+
 	}
 
 	private String degFix(String string) {
@@ -4513,7 +4526,7 @@ public class ExpressionNode extends ValidExpression implements
 		sb.append(',');
 		sb.append(rightStr);
 		sb.append(')');
-		
+
 	}
 
 	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
@@ -4539,7 +4552,7 @@ public class ExpressionNode extends ValidExpression implements
 			case LIBRE_OFFICE:
 				if(!libreOffice.equals(app.getFunction(key))){
 					sb.append("func ");
-					
+
 				}
 				sb.append(app.getFunction(key));
 				sb.append(" left( ");
@@ -4570,9 +4583,9 @@ public class ExpressionNode extends ValidExpression implements
 			}
 			sb.append(rightBracket(STRING_TYPE));
 		}
-		
+
 	}
-	
+
 	private void appendReduceFunction(StringBuilder sb, String string) {
 		if (left instanceof ListValue) {
 			sb.append("applyfunction(");
@@ -4709,7 +4722,7 @@ public class ExpressionNode extends ValidExpression implements
 		} else if (ev1.isTextValue() && ev2.isTextValue()) {
 			return ((TextValue) ev1).toValueString(
 					StringTemplate.defaultTemplate).equals(
-					((TextValue) ev2)
+							((TextValue) ev2)
 							.toValueString(StringTemplate.defaultTemplate));
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
 			return ((VectorValue) ev1).getVector().isEqual(
@@ -4784,7 +4797,7 @@ public class ExpressionNode extends ValidExpression implements
 
 	private static String leftBracket(StringType type) {
 		//return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
-		
+
 		if (type.equals(StringType.LATEX))
 			return " \\left( ";
 		else if (type.equals(StringType.LIBRE_OFFICE))
@@ -4795,7 +4808,7 @@ public class ExpressionNode extends ValidExpression implements
 
 	private static String rightBracket(StringType type) {
 		//return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
-		
+
 		if (type.equals(StringType.LATEX))
 			return " \\right)";
 		else if (type.equals(StringType.LIBRE_OFFICE))
@@ -4808,10 +4821,10 @@ public class ExpressionNode extends ValidExpression implements
 		switch (type) {
 		case LATEX:
 			return " \\cdot ";
-		
+
 		case LIBRE_OFFICE:
 			return " cdot ";
-			
+
 		case GEOGEBRA:
 			return " "; // space for multiplication
 
@@ -4954,7 +4967,7 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, this, Operation.LESS, new MyDouble(
 				kernel, d));
 	}
-	
+
 	/**
 	 * @param d
 	 *            value to compare
@@ -5385,7 +5398,7 @@ public class ExpressionNode extends ValidExpression implements
 			// as can lose leading coefficient of polynomial		
 			return this.multiplyR(-1);
 		}
-		
+
 		return new ExpressionNode(kernel, this, Operation.DIVIDE, new MyDouble(
 				kernel, d));
 	}
@@ -5468,17 +5481,17 @@ public class ExpressionNode extends ValidExpression implements
 						if(rightLeaf.getLeft().isConstant())
 							c = rightLeaf.getLeft().evaluateNum().getDouble();
 						if(c<0){
-							
+
 							setRight(new ExpressionNode(kernel,getLeft().wrap().power(-c),
 									getOperation(),getRight() 
 									));
 							setOperation(Operation.DIVIDE);
 							setLeft(new MyDouble(kernel,1.0));
-								
+
 						}
 						else 	
-						setLeft(new ExpressionNode(kernel, getLeft(),
-								Operation.POWER, rightLeaf.getLeft()));
+							setLeft(new ExpressionNode(kernel, getLeft(),
+									Operation.POWER, rightLeaf.getLeft()));
 					}
 				}
 
@@ -5536,19 +5549,19 @@ public class ExpressionNode extends ValidExpression implements
 		tempFun.initFunction();
 		return new GeoFunction(kernel.getConstruction(), tempFun);
 	}
-	
+
 	@Override
 	public ExpressionValue unwrap(){
 		if(isLeaf())
 			return getLeft();
 		return this;
 	}
-	
+
 	@Override
 	public ExpressionNode wrap(){
 		return this;
 	}
-	
+
 	@Override
 	public boolean hasCoords() {
 		if (isLeaf() )
@@ -5559,7 +5572,7 @@ public class ExpressionNode extends ValidExpression implements
 	@Override
 	public ExpressionNode derivative(FunctionVariable fv) {
 		switch (operation) {
-		
+
 		// for eg (x < x1) * (a1 x² + b1 x + c1)
 		// we need to return 0 for derivative of (x < x1)
 		// so that the product rule gives the correct answer
@@ -5568,24 +5581,24 @@ public class ExpressionNode extends ValidExpression implements
 		case GREATER:
 		case GREATER_EQUAL:
 		case NOT:
-			
+
 		case XCOORD:
 		case YCOORD:
 		case ZCOORD:
 			return new ExpressionNode(kernel, 0d);
-			
+
 		case POWER:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				if (Kernel.isZero(right.evaluateNum().getDouble())) {
 					return wrap(new MyDouble(kernel, 0d));
 				}
-				
+
 				return wrap(left).power(wrap(right).subtract(1)).multiply(left.derivative(fv)).multiply(right);
 			}
-			
-			
+
+
 			return wrap(left).power(right).multiply(wrap(right.derivative(fv)).multiply(wrap(left).ln()).plus(wrap(right).multiply(left.derivative(fv)).divide(left)));
-			
+
 		case NO_OPERATION:
 			return wrap(left.derivative(fv));
 		case DIVIDE:			
@@ -5629,14 +5642,14 @@ public class ExpressionNode extends ValidExpression implements
 			return new ExpressionNode(kernel, left, Operation.CSCH, null).multiply(new ExpressionNode(kernel, left, Operation.COTH, null)).multiply((left).derivative(fv)).multiply(-1);
 		case COTH:			
 			return new ExpressionNode(kernel, left, Operation.CSCH, null).square().multiply((left).derivative(fv)).multiply(-1);
-			
+
 		case ARCSIN:
 			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1).sqrt());
 		case ARCCOS:
 			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1).sqrt()).multiply(-1);
 		case ARCTAN:
 			return wrap(left.derivative(fv)).divide(wrap(left).square().plus(1));
-		
+
 		case ASINH:
 			return wrap(left.derivative(fv)).divide(wrap(left).square().plus(1).sqrt());
 		case ACOSH:
@@ -5644,79 +5657,79 @@ public class ExpressionNode extends ValidExpression implements
 			return wrap(left.derivative(fv)).divide(wrap(left).plus(1).sqrt().multiply(wrap(left).subtract(1).sqrt()));
 		case ATANH:
 			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1));
-			
+
 		case ABS:
 			return wrap(left.derivative(fv)).multiply(left).divide(wrap(left).abs());
-			
+
 		case SGN:
 			// 0/x
 			return wrap(new MyDouble(kernel, 0)).divide(fv);
-				
+
 		case EXP:
 			return wrap(left.derivative(fv)).multiply(wrap(left).exp());
-				
+
 		case SI:
 			return wrap(left.derivative(fv)).multiply(wrap(left).sin().divide(left));
-				
+
 		case CI:
 			return wrap(left.derivative(fv)).multiply(wrap(left).cos().divide(left));
-				
+
 		case EI:
 			return wrap(left.derivative(fv)).multiply(wrap(left).exp().divide(left));
-				
+
 		case ERF:
 			return wrap(left.derivative(fv)).multiply(wrap(2)).divide(wrap(left).square().exp().multiply(wrap(Math.PI).sqrt()));
-				
+
 		case PSI:
 			return wrap(left.derivative(fv)).multiply(wrap(left).polygamma(1));
-				
+
 		case POLYGAMMA:
 			if (left.isNumberValue() && !left.contains(fv)) {
 				double n = ((NumberValue) left).getDouble();
 				return wrap(right.derivative(fv)).multiply(wrap(right).polygamma(n + 1));
 			}
-				
+
 			// TODO: general method (not possible?)
 			break;
-			
+
 		case IF_ELSE:
 			MyNumberPair np = (MyNumberPair) left;
-						
+
 			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
-			
+
 			return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.derivative(fv));
-			
+
 		case IF:
-			
+
 			return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
-			
+
 		case LOG:
 			// base e (ln)
 			return wrap(left.derivative(fv)).divide(left);
-				
+
 		case LOG10:
 			return wrap(left.derivative(fv)).divide(left).divide(Math.log(10));
-				
+
 		case LOG2:
 			return wrap(left.derivative(fv)).divide(left).divide(Math.log(2));
-				
+
 		case LOGB:
 			if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right.derivative(fv)).divide(right).divide(Math.log(((NumberValue) left).getDouble()));
 			}
-			
+
 			// TODO: general method
 			break;
-			
-			
+
+
 		case NROOT:			
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left.derivative(fv)).multiply(wrap(left).nroot(right)).divide(wrap(left).multiply(right));
 			}
-			
+
 			// TODO general method
 			break;
-				
+
 		case SQRT:
 		case SQRT_SHORT:
 			return wrap(left.derivative(fv)).multiply(wrap(left).power(-0.5)).divide(2);
@@ -5725,15 +5738,15 @@ public class ExpressionNode extends ValidExpression implements
 			//return wrap(left.derivative(fv)).multiply(wrap(left).power(-2d/3d)).divide(3);
 			// correct domain
 			return wrap(left.derivative(fv)).divide(wrap(left).square().cbrt()).divide(3);
-		
+
 		}
 
 		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
-		
+
 		// undefined
 		return wrap(Double.NaN);
 	}
-	
+
 	@Override
 	public ExpressionNode integral(FunctionVariable fv) {
 		switch (operation) {
@@ -5801,27 +5814,27 @@ public class ExpressionNode extends ValidExpression implements
 			}
 
 			break;
-			
+
 		case NO_OPERATION:
 			return wrap(left.integral(fv));
 		case DIVIDE:		
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left.integral(fv)).divide(right);
 			}
-			
+
 			if (left.isNumberValue()  && !left.contains(fv) && right == fv) {
 				// eg 4/x
 				return new ExpressionNode(kernel, fv, Operation.LOG, null).multiply(left);
 			}
 			break;
-			
+
 		case MULTIPLY:			
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left.integral(fv)).multiplyR(right);
 			} else if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right.integral(fv)).multiplyR(left);
 			}
-			
+
 			// can't do by parts without simplification (use Polynomial?)
 			break;
 
@@ -5835,60 +5848,60 @@ public class ExpressionNode extends ValidExpression implements
 			return linearIntegral(1, Operation.SIN, fv);
 		case TAN:			
 			double coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sec().abs().ln().divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sec().abs().ln().multiply(coeff);	
 			}
-			
+
 			break;
-			
+
 		case SEC:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sec().plus(wrap(left).tan()).abs().ln().divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sec().plus(wrap(left).tan()).abs().ln().multiply(coeff);	
 			}
-			
+
 			break;
 		case CSC:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln().divide(-coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln().multiply(-coeff);	
 			}
-			
+
 			break;
 		case COT:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sin().abs().ln().divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sin().abs().ln().multiply(coeff);	
 			}
-			
+
 			break;
 		case SINH:			
 			return linearIntegral(1, Operation.COSH, fv);
@@ -5896,74 +5909,74 @@ public class ExpressionNode extends ValidExpression implements
 			return linearIntegral(1, Operation.SINH, fv);
 		case TANH:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosh().abs().ln().divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosh().abs().ln().multiply(coeff);	
 			}
-			
+
 			break;
 		case SECH:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).exp().atan().divide(coeff/2);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).exp().atan().multiply(2 * coeff);	
 			}
-			
+
 			break;
 		case CSCH:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln().divide(-coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln().multiply(-coeff);	
 			}
-			
+
 			break;
 		case COTH:			
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sinh().abs().ln().divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sinh().abs().ln().multiply(coeff);	
 			}
-			
+
 			break;
-			
+
 		case EXP:
 			return linearIntegral(1, Operation.EXP, fv);
 
 		case ARCSIN:
 		case ARCCOS:
 		case ARCTAN:
-		
+
 		case ASINH:
 		case ACOSH:
 		case ATANH:
 		case ABS:
 		case SGN:
-				
+
 		case SI:
 		case CI:
 		case EI:
@@ -5971,119 +5984,119 @@ public class ExpressionNode extends ValidExpression implements
 		case PSI:
 		case POLYGAMMA:
 		case LOGB:
-			
+
 			break;
 
 		case IF_ELSE:
 			MyNumberPair np = (MyNumberPair) left;
-						
+
 			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
-			
+
 			return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.integral(fv));
-			
+
 		case IF:
-			
+
 			return new ExpressionNode(kernel, left, Operation.IF, right.integral(fv));
-			
+
 		case LOG:
 			// base e (ln)
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).divide(coeff);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff);
 			}
-			
+
 			break;
-				
+
 		case LOG10:
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).divide(wrap(10).ln().multiply(coeff));
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff).divide(wrap(10).ln());
 			}
-			
+
 			break;
-				
+
 		case LOG2:
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).divide(wrap(2).ln().multiply(coeff));
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff).divide(wrap(2).ln());
 			}
-			
+
 			break;
-				
-				
-			
+
+
+
 		case NROOT:			
 			if (right.isNumberValue() && !right.contains(fv)) {
 				coeff = getLinearCoefficient(fv, left);
-				
+
 				if (!Double.isNaN(coeff)) {
 					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateNum().getDouble() + 1) * coeff);
 				}
-				
+
 				coeff = getLinearCoefficientDiv(fv, left);
-				
+
 				if (!Double.isNaN(coeff)) {
 					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateNum().getDouble() + 1) / coeff);
 				}
 			}
-			
+
 			break;
-				
+
 		case SQRT:
 		case SQRT_SHORT:
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sqrt().multiply(left).divide(coeff * 3d / 2d);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).sqrt().multiply(left).multiply(coeff * 2d / 3d);
 			}
-			
+
 			break;
 		case CBRT:
 			coeff = getLinearCoefficient(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cbrt().multiply(left).divide(coeff * 4d / 3d);
 			}
-			
+
 			coeff = getLinearCoefficientDiv(fv, left);
-			
+
 			if (!Double.isNaN(coeff)) {
 				return wrap(left).cbrt().multiply(left).multiply(coeff * 3d / 4d);
 			}
-			
+
 			break;
-		
+
 		}
 
 		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
-		
+
 		// undefined
 		return wrap(Double.NaN);
 	}
@@ -6101,19 +6114,19 @@ public class ExpressionNode extends ValidExpression implements
 		if (left == fv) {
 			return new ExpressionNode(kernel, left, op, null).multiplyR(i);				
 		}
-		
+
 		double coeff = getLinearCoefficient(fv, left);
-		
+
 		if (!Double.isNaN(coeff)) {
 			return new ExpressionNode(kernel, left, op, null).multiplyR(i).divide(coeff);		
 		}
-		
+
 		coeff = getLinearCoefficientDiv(fv, left);
-		
+
 		if (!Double.isNaN(coeff)) {
 			return new ExpressionNode(kernel, left, op, null).multiply(coeff).multiplyR(i);		
 		}
-		
+
 		App.debug("not linear integral");
 		return wrap(Double.NaN);
 	}
@@ -6125,20 +6138,20 @@ public class ExpressionNode extends ValidExpression implements
 	 * returns Double.NaN if it's not in the correct form
 	 */
 	private static double getLinearCoefficient(FunctionVariable fv, ExpressionValue ev2) {
-		
+
 		// just x
 		if (ev2 == fv) {
 			return 1;
 		}
-		
+
 		ExpressionValue ev = ev2;
 		double factor = 1;
 		Operation op;
-		
+
 		// 3x+1 or 1+3x or 3x-1 or 1-3x
 		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
 			ExpressionNode en = (ExpressionNode) ev;
-			
+
 			if (en.left.isNumberValue() && !en.left.contains(fv)) {
 				//strip off the "+1" etc
 				ev = en.right;
@@ -6149,12 +6162,12 @@ public class ExpressionNode extends ValidExpression implements
 				factor = 1;
 			}
 		}
-		
+
 		// x+2 or 2-x
 		if (ev == fv) {
 			return factor;
 		}		
-		
+
 		// 3*x or x*3
 		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation().equals(Operation.MULTIPLY) ) {
 			ExpressionNode en = (ExpressionNode) ev;
@@ -6166,7 +6179,7 @@ public class ExpressionNode extends ValidExpression implements
 				//return wrap(en.left).multiply(factor);
 			}
 		}
-		
+
 		// not (simple) linear
 		return Double.NaN;
 	}
@@ -6182,11 +6195,11 @@ public class ExpressionNode extends ValidExpression implements
 		ExpressionValue ev = ev2;
 		double factor = 1;
 		Operation op;
-		
+
 		// x/3+1 or 1+x/3 or x/3-1 or 1-x/3
 		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
 			ExpressionNode en = (ExpressionNode) ev;
-			
+
 			if (en.left.isNumberValue() && !en.left.contains(fv)) {
 				//strip off the "+1" etc
 				ev = en.right;
@@ -6205,7 +6218,7 @@ public class ExpressionNode extends ValidExpression implements
 				return ((NumberValue) en.right).getDouble() * factor;
 			}
 		}
-		
+
 		// not (simple) linear
 		return Double.NaN;
 	}
@@ -6215,14 +6228,14 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	private static ExpressionNode wrap(ExpressionValue ev) {
-		
+
 		if (ev.isExpressionNode()) {
 			return (ExpressionNode) ev;
 		}
-		
+
 		return new ExpressionNode(ev.getKernel(), ev, Operation.NO_OPERATION, null);
 	}
-	
+
 	/**
 	 * @return whether the top-level operation is IF / IF_ELSE
 	 */
