@@ -75,7 +75,7 @@
 
     <set-property
         name="user.agent"
-        value="ie9" />
+        value="safari,ie9,gecko1_8" />
 
     <!-- Compile only one permutation -->
 <collapse-all-properties />
