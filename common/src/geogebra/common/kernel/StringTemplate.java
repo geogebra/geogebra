@@ -12,10 +12,11 @@ import geogebra.common.util.Unicode;
  */
 public class StringTemplate {
 	
+	private final String name;
 	/**
 	 * Default template, but do not localize commands
 	 */
-	public static final StringTemplate noLocalDefault = new StringTemplate();
+	public static final StringTemplate noLocalDefault = new StringTemplate("nonLocalDefault");
 	static{
 		noLocalDefault.localizeCmds = false;
 	}
@@ -24,7 +25,7 @@ public class StringTemplate {
 	 * Template which prints numbers with maximal precision and adds prefix to 
 	 * variables (ggbtmpvar)
 	 */
-	public static final StringTemplate prefixedDefault = new StringTemplate(){
+	public static final StringTemplate prefixedDefault = new StringTemplate("prefixedDefault"){
 		@Override
 		public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2){
 			return false;
@@ -40,9 +41,12 @@ public class StringTemplate {
 	/**
 	 * GeoGebra string type, internationalize digits
 	 */
-	public static final StringTemplate defaultTemplate = new StringTemplate();
+	public static final StringTemplate defaultTemplate = new StringTemplate("defaultTempplate");
 	
-	public static final StringTemplate realTemplate = new StringTemplate();
+	/**
+	 * Template which prints original construction's labels
+	 */
+	public static final StringTemplate realTemplate = new StringTemplate("realTemplate");
 	static {
 		realTemplate.useRealLabels = true;
 	}
@@ -50,7 +54,7 @@ public class StringTemplate {
 	/**
 	 * LaTeX string type, do not internationalize digits
 	 */
-	public static final StringTemplate latexTemplate = new StringTemplate();
+	public static final StringTemplate latexTemplate = new StringTemplate("latexTemplate");
 	static {
 		latexTemplate.setType(StringType.LATEX);
 	}
@@ -58,7 +62,7 @@ public class StringTemplate {
 	/**
 	 * MathML string type, do not internationalize digits
 	 */
-	public static final StringTemplate mathmlTemplate = new StringTemplate();
+	public static final StringTemplate mathmlTemplate = new StringTemplate("mathmlTemplate");
 	static {
 		mathmlTemplate.setType(StringType.MATHML);
 	}
@@ -66,7 +70,7 @@ public class StringTemplate {
 	/**
 	 * LibreOffice string type, do not internationalize digits
 	 */
-	public static final StringTemplate libreofficeTemplate = new StringTemplate();
+	public static final StringTemplate libreofficeTemplate = new StringTemplate("libreOfficeTemplate");
 	static {
 		libreofficeTemplate.setType(StringType.LIBRE_OFFICE);
 	}
@@ -74,7 +78,7 @@ public class StringTemplate {
 	/**
 	 * MPReduce string type, do not internationalize digits
 	 */
-	public static final StringTemplate casTemplate = new StringTemplate();
+	public static final StringTemplate casTemplate = new StringTemplate("casTemplate");
 	static {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.usePrefix = false;
@@ -87,7 +91,7 @@ public class StringTemplate {
 	/**
 	 * giac string type, do not internationalize digits
 	 */
-	public static final StringTemplate giacTemplate = new StringTemplate();
+	public static final StringTemplate giacTemplate = new StringTemplate("giacTemplate");
 	static {
 		giacTemplate.internationalizeDigits = false;
 		giacTemplate.usePrefix = false;
@@ -100,7 +104,7 @@ public class StringTemplate {
 	/**
 	 * XML string type, do not internationalize digits
 	 */
-	public static final StringTemplate xmlTemplate = new StringTemplate(){
+	public static final StringTemplate xmlTemplate = new StringTemplate("xmlTemplate"){
 		@Override
 		public int getCoordStyle(int coordStyle) {
 			return Kernel.COORD_STYLE_DEFAULT;
@@ -116,7 +120,7 @@ public class StringTemplate {
 	/**
 	 * for input bar; same as default, but increases precision to MIN_EDITING_PRINT_PRECISION
 	 */
-	public static StringTemplate editTemplate = new StringTemplate();
+	public static StringTemplate editTemplate = new StringTemplate("editTemplate");
 	static {
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
@@ -126,7 +130,7 @@ public class StringTemplate {
 	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel settings,
 	 * string type is XML
 	 */
-	public static final StringTemplate regression = new StringTemplate();
+	public static final StringTemplate regression = new StringTemplate("regression");
 	static {
 		regression.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(6,20,false);
 		regression.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(6);
@@ -136,7 +140,7 @@ public class StringTemplate {
 	/**
 	 * OGP string type
 	 */
-	public static final StringTemplate ogpTemplate = new StringTemplate();
+	public static final StringTemplate ogpTemplate = new StringTemplate("ogpTemplate");
 	static {
 		ogpTemplate.forceSF=false;
 		ogpTemplate.internationalizeDigits = false;
@@ -147,7 +151,7 @@ public class StringTemplate {
 	/**
 	 * Default template, just increases precision to max
 	 */
-	public static final StringTemplate maxPrecision = new StringTemplate();
+	public static final StringTemplate maxPrecision = new StringTemplate("maxPrecision");
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 		maxPrecision.allowMoreDigits = true;
@@ -157,7 +161,7 @@ public class StringTemplate {
 	 * Default template, just allow bigger precision for Numeric command
 	 */
 
-	public static final StringTemplate numericDefault = new StringTemplate();
+	public static final StringTemplate numericDefault = new StringTemplate("numericDefault");
 	static{
 		numericDefault.allowMoreDigits = true;
 	}
@@ -166,7 +170,7 @@ public class StringTemplate {
 	 * Not localized template, allow bigger precision for Numeric command
 	 */
 
-	public static final StringTemplate numericNoLocal = new StringTemplate();
+	public static final StringTemplate numericNoLocal = new StringTemplate("numericNoLocal");
 	static{
 		numericNoLocal.allowMoreDigits = true;
 		numericNoLocal.localizeCmds = false;
@@ -175,14 +179,14 @@ public class StringTemplate {
 	/**
 	 * Default LaTeX template, just allow bigger precision for Numeric command
 	 */
-	public static final StringTemplate numericLatex = new StringTemplate();
+	public static final StringTemplate numericLatex = new StringTemplate("numericLatex");
 	static{
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
 		numericLatex.useRealLabels = true;
 	}
 	/** Generic template for CAS tests */
-	public static final StringTemplate testTemplate = new StringTemplate();
+	public static final StringTemplate testTemplate = new StringTemplate("testTemplate");
 	static {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
@@ -190,7 +194,7 @@ public class StringTemplate {
 		testTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/** Template for CAS tests involving Numeric command*/
-	public static final StringTemplate testNumeric = new StringTemplate();
+	public static final StringTemplate testNumeric = new StringTemplate("testNumeric");
 	static {
 		testNumeric.internationalizeDigits = false;
 		testNumeric.setType(StringType.GEOGEBRA_XML);
@@ -213,11 +217,13 @@ public class StringTemplate {
 	private boolean usePrefix;
 	/**
 	 * Creates default string template
+	 * @param name name for debugging
 	 */
-	protected StringTemplate(){
+	protected StringTemplate(String name){
 		internationalizeDigits = true;
 		localizeCmds = true;
 		setType(StringType.GEOGEBRA);
+		this.name = name;
 	}
 	/**
 	 * Returns string type of resulting text
@@ -251,7 +257,7 @@ public class StringTemplate {
 		if(t==null||t.equals(StringType.GEOGEBRA)){
 			return defaultTemplate; 
 		}
-		StringTemplate tpl = new StringTemplate();
+		StringTemplate tpl = new StringTemplate("TemplateFor:"+t);
 		tpl.setType(t);
 		return tpl;
 	}
@@ -319,7 +325,7 @@ public class StringTemplate {
 	 * @return template
 	 */
 	public static StringTemplate printDecimals(StringType type, int decimals,boolean allowMore) {
-		StringTemplate tpl = new StringTemplate();
+		StringTemplate tpl = new StringTemplate("TemplateFor:"+type+",Decimals:"+decimals+","+allowMore);
 		tpl.forceNF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
@@ -334,7 +340,7 @@ public class StringTemplate {
 	 * @return template with given parameters
 	 */
 	public static StringTemplate printFigures(StringType type, int decimals,boolean allowMore) {
-		StringTemplate tpl = new StringTemplate();
+		StringTemplate tpl = new StringTemplate("TemplateFor:"+type+",Figures:"+decimals+","+allowMore);
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
@@ -349,7 +355,7 @@ public class StringTemplate {
 	 * @return template with given parameters 
 	 */ 
 	public static StringTemplate fullFigures(StringType type) { 
-		StringTemplate tpl = new StringTemplate(); 
+		StringTemplate tpl = new StringTemplate("FullFiguresFor:"+type); 
 		tpl.forceSF = true; 
 		tpl.allowMoreDigits = true; 
 		tpl.setType(type); 
@@ -367,7 +373,7 @@ public class StringTemplate {
 	 * @return template with given parameters
 	 */
 	public static StringTemplate printScientific(StringType type, int decimals,boolean allowMore) {
-		StringTemplate tpl = new StringTemplate();
+		StringTemplate tpl = new StringTemplate("TemplateForScientific:"+type+",Decimals:"+decimals+","+allowMore);
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
@@ -447,17 +453,24 @@ public class StringTemplate {
 		int digits = getNF(nf2).getMaximumFractionDigits();
 		return digits <=16 ? precisions[digits] : Math.pow(10, -digits);
 	}
+	/**
+	 * Objects in macros have two different labels.
+	 * @return whether label within original (true) or current (false) construction should be used
+	 */
 	public boolean isUseRealLabels() {
 		return useRealLabels;
 	}
-	
+
+	/**
+	 * @return copy of this  template that prints real labels
+	 */
 	public StringTemplate deriveReal() {
 		StringTemplate copy = copy();
 		copy.useRealLabels = true;
 		return copy;
 	}
 	private StringTemplate copy() {
-		StringTemplate result = new StringTemplate();
+		StringTemplate result = new StringTemplate("CopyOf:"+name);
 		result.stringType = stringType;
 		result.nf = nf;
 		result.sf = sf;
@@ -471,6 +484,11 @@ public class StringTemplate {
 		result.forceSF = forceSF;
 		
 		return result;
+	}
+	
+	@Override
+	public String toString(){
+		return name;
 	}
 	
 	/**
