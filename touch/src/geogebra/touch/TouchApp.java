@@ -10,6 +10,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -30,14 +31,13 @@ import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.elements.header.XMLBuilder;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
-
+import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.web.io.MyXMLioW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
-import geogebra.web.util.GeoGebraLogger;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -90,9 +90,9 @@ public class TouchApp extends AppWeb
 
 		this.capturingThreshold *= this.selectionFactor;
 		
-		/*logger = new GeoGebraLogger();
+		logger = new GeoGebraLoggerM(mobileGUI);
 		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel("DEBUG");*/
+		logger.setLogLevel("DEBUG");
 	}
 
 	// not needed yet, because we use xml-Strings

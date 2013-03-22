@@ -39,7 +39,7 @@ public class TouchEntryPoint implements EntryPoint
 			{
 				RootPanel.get().add(TouchEntryPoint.appWidget);
 				
-				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);				
 
 				app.start();
 				TouchEntryPoint.showTabletGUI();

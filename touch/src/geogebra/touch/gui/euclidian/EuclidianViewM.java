@@ -13,6 +13,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.Settings;
 import geogebra.touch.controller.TouchController;
 import geogebra.web.awt.GGraphics2DW;
@@ -298,10 +299,12 @@ public class EuclidianViewM extends EuclidianViewWeb
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
 		}
+		long l = System.currentTimeMillis();
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb)this.app).getTimerSystem().viewRepainted(this);
+		App.debug("Repaint took:"+(System.currentTimeMillis()-l));
 	}
 
 }

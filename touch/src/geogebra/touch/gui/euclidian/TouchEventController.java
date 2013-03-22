@@ -31,7 +31,6 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
 	{
-		App.debug("Touches"+event.getTouches().length());
 		if (event.getTouches().length() == 1)
 		{
 			event.preventDefault();
@@ -75,7 +74,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 
 				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM)
 				{
-					App.debug("Zooming ... "+oldDistance+":"+newDistance);
+					//App.debug("Zooming ... "+oldDistance+":"+newDistance);
 					this.mc.onPinch(centerX, centerY, newDistance / this.oldDistance);
 					this.oldDistance = newDistance;
 				}

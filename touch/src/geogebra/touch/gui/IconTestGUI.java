@@ -7,6 +7,7 @@ import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -54,6 +55,11 @@ public class IconTestGUI implements GeoGebraTouchGUI
 	@Override
 	public void initComponents(Kernel kernel)
 	{
+	}
+
+	@Override
+	public Element getElement() {
+		return this.rootPanel.getElement();
 	}
 
 }
