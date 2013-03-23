@@ -2966,6 +2966,10 @@ public class GuiManagerD extends GuiManager {
 		} else {
 			fileName = new String[1];
 			fileName[0] = getImageFromFile(); // opens file chooser dialog
+			
+			if (fileName[0] == null) {
+				return false;
+			}
 		}
 
 		boolean ret;
