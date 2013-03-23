@@ -168,7 +168,6 @@
 }
 .mathquill-rendered-math sup,
 .mathquill-rendered-math sub {
-  position: relative;
   font-size: 90%;
 }
 .mathquill-rendered-math sup .binary-operator,
