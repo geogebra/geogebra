@@ -287,9 +287,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					inputField.addToHistory(input);
 					inputField.setText(null);  							  			   
 								  
-				} else app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab
+				} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
+					app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 
+				}
 				inputField.setIsSuggestionJustHappened(false);
-    }
+	}
 
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
