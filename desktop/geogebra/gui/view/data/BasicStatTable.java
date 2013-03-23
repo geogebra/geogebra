@@ -360,7 +360,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		switch (stat) {
 
 		case LENGTH:
-			return new AlgoListLength(cons, freqList);
+			return new AlgoSum(cons, freqList);
 		case MEAN:
 			return new AlgoMean(cons, dataList, freqList);
 		case SD:
@@ -395,7 +395,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		switch (stat) {
 
 		case LENGTH:
-			return new AlgoListLength(cons, freqList);
+			return new AlgoSum(cons, freqList);
 		case MEAN:
 			return new AlgoMean(cons, classList, freqList);
 		case SD:
