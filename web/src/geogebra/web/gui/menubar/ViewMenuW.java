@@ -36,7 +36,7 @@ public class ViewMenuW extends MenuBar {
 		clearItems();
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
-		        .getSafeUri().asString(), app.getPlain("Algebra")), true,
+		        .getSafeUri().asString(), app.getPlain("AlgebraWindow")), true,
 		        new Command() {
 			        public void execute() {
 			        	int viewId = App.VIEW_ALGEBRA;
