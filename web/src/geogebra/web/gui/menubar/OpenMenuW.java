@@ -96,11 +96,11 @@ public class OpenMenuW extends MenuBar {
 		if (loggedIn) {
 			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
 			openFromGoogleDrive.setScheduledCommand(getOpenFromGoogleDriveCommand());
-			openFromGoogleDrive.setTitle("You are logged into Google Drive");
+			openFromGoogleDrive.setTitle(app.getMenu("LoggedIntoGoogleDrive"));
 		} else {
 			openFromGoogleDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")));
 			openFromGoogleDrive.setScheduledCommand(getLoginToGoogleCommand());
-			openFromGoogleDrive.setTitle("Click here to log into Google Drive");
+			openFromGoogleDrive.setTitle(app.getMenu("LogIntoGoogleDrive"));
 		}
 	}
 
@@ -108,11 +108,11 @@ public class OpenMenuW extends MenuBar {
 		if (loggedIn) {
 			openFromSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")));
 			openFromSkyDrive.setScheduledCommand(getOpenFromSkyDriveCommand());
-			openFromSkyDrive.setTitle("You are logged into SkyDrive");
+			openFromSkyDrive.setTitle(app.getMenu("LoggedIntoSkyDrive"));
 		} else {
 			openFromSkyDrive.setHTML(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")));
 			openFromSkyDrive.setScheduledCommand(getLoginToSkyDriveCommand());
-			openFromSkyDrive.setTitle("Click here to log into SkyDrive");
+			openFromSkyDrive.setTitle(app.getMenu("LogIntoSkyDrive"));
 		}
     }
 }
