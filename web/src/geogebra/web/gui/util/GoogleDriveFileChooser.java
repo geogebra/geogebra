@@ -38,7 +38,7 @@ public class GoogleDriveFileChooser extends DialogBox implements ClickHandler, D
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
 	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
-	    buttonPanel.add(open = new Button(app.getMenu("Open")));
+	    buttonPanel.add(open = new Button(app.getPlain("Open")));
 	    buttonPanel.add(open);
 	    filesContainer.add(filesPanel);
 	    p.add(filesContainer);

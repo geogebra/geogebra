@@ -37,7 +37,7 @@ public class FileMenuW extends MenuBar {
 		});
 
 	    openMenu = new OpenMenuW(app);
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open")),true, openMenu);
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open")),true, openMenu);
 	   
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {

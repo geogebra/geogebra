@@ -32,7 +32,7 @@ public class OpenMenuW extends MenuBar {
 
 	private void initActions() {
 		
-		 addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Open")), true, new Command() {
+		 addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getPlain("Open")), true, new Command() {
 				
 				public void execute() {
 		    		GgbFileInputDialog dialog = new GgbFileInputDialog((AppW) app, null);
