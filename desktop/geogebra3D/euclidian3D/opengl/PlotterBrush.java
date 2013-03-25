@@ -510,46 +510,39 @@ public class PlotterBrush {
 	}
 
 	
-	/** draws a parabola
-	 * @param center
+	/** draws a parabola, and save ends coords in p1, p2 (if not null)
+	 * @param center center
 	 * @param v1 1st eigenvector
 	 * @param v2 2nd eigenvector
 	 * @param p eigenvalue
 	 * @param tMin t min
 	 * @param tMax t max
+	 * @param p1 to store start point
+	 * @param p2 to store end point
 	 */
 	public void parabola(Coords center, Coords v1, Coords v2, double p,
-			double tMin, double tMax){
-		
+			double tMin, double tMax, Coords p1, Coords p2){
 		
 		//focus
 		Coords f1 = v1.mul(p/2);
 
 		Coords vn2 = v1.crossProduct(v2);
-		
-		parabola(center, v1, v2.mul(-1), vn2.mul(-1), f1, p, -tMin);
-		parabola(center, v1, v2, vn2, f1, p, tMax);
-		
-     	
-	}
 
-	private void parabola(Coords center, Coords v1,Coords v2, Coords vn2, Coords f1, double p, double tMax){
-
-		int longitude = 60;
+		int longitude = 120;
 
 		//dash
 		length=1;
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
-		setCurvePos(0.75f/(TEXTURE_AFFINE_FACTOR*scale)); //midpoint is middle of an empty dash
+		setCurvePos(0.75f/(TEXTURE_AFFINE_FACTOR*scale)); 
 
 		Coords m,vn1,mold;
 
 
-		float dt = (float) (tMax)/longitude;
+		float dt = (float) (tMax-tMin)/longitude;
 
 		float u, v; 
 		double t;
-		t=0;
+		t=tMin;
 		u = (float) ( p*t*t/2 ); 
 		v = (float) ( p*t); 
 
@@ -557,11 +550,17 @@ public class PlotterBrush {
 
 		m = v1.mul(u).add(v2.mul(v));
 		vn1 = (m.sub(f1).normalized()).sub(v1).normalized(); //bissector
-		down(center.add(m),vn1,vn2);  	
+		if (p1!=null){
+			p1.set(center.add(m));
+			down(p1,vn1,vn2);  	
+		}else{
+			down(center.add(m),vn1,vn2); 
+		}
+		
 
 		for( int i = 1; i <= longitude  ; i++ ) { 
 
-			t= i * dt;
+			t= tMin + i * dt;
 			u = (float) ( p*t*t/2 ); 
 			v = (float) ( p*t);     		
 
@@ -572,6 +571,10 @@ public class PlotterBrush {
 			vn1 = (m.sub(f1).normalized()).sub(v1).normalized(); //bissector
 			moveTo(center.add(m),vn1,vn2);
 		} 
+		
+		if (p2!=null){
+			p2.set(center.add(m));
+		}
 
 	}
 

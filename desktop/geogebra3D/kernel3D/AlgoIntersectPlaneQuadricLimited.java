@@ -200,6 +200,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     		break;
     		
     	case GeoConicNDConstants.CONIC_HYPERBOLA:
+    	case GeoConicNDConstants.CONIC_PARABOLA:
 
     		
     		if (Double.isNaN(bottomParameters[0])){

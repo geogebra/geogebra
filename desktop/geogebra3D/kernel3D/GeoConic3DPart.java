@@ -176,11 +176,16 @@ public class GeoConic3DPart extends GeoConic3D {
 			setInfParameter(paramEnd, bottom1);
 			setInfParameter(paramEnd, top1);
 
-			sortParameters();
-			
+			sortParameters();		
 
 			break;
-			
+
+		case CONIC_PARABOLA:
+			paramStart[0] = bottom0;
+			paramEnd[0] = bottom1;
+
+			break;
+
 		}
 		
 		//App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);

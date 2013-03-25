@@ -541,6 +541,68 @@ public class PlotterSurface {
 
 	}
 	
+	
+	/** fill a parabola
+	 * @param center center
+	 * @param v1 1st eigenvector
+	 * @param v2 2nd eigenvector
+	 * @param p eigenvalue
+	 * @param tMin t min
+	 * @param tMax t max
+	 */
+	public void parabola(Coords center, Coords v1, Coords v2, double p,
+			double tMin, double tMax){
+
+
+		manager.startGeometry(Manager.TRIANGLE_FAN);
+		
+		manager.texture(0, 0);
+    	manager.normal(v1.crossProduct(v2));
+		
+    	
+
+		int longitude = 120;
+
+		Coords m;
+
+		float dt = (float) (tMax-tMin)/longitude;
+
+		float u, v;
+		double t;
+		
+		// first point
+		t=tMin;
+		u = (float) ( p*t*t/2 ); 
+		v = (float) ( p*t); 
+		m = v1.mul(u).add(v2.mul(v));
+		
+		// center of the fan is midpoint of branch ends
+		t=tMax;
+		u = (float) ( p*t*t/2 ); 
+		v = (float) ( p*t); 
+		manager.vertex(center.add((m.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));  
+		
+		
+		//first point
+		manager.vertex(center.add(m));  	
+
+		for( int i = 1; i <= longitude  ; i++ ) { 
+			t = tMin + i * dt ;
+			u = (float) ( p*t*t/2 ); 
+			v = (float) ( p*t); 
+
+			m = v1.mul(u).add(v2.mul(v));
+			manager.vertex(center.add(m));
+		} 
+
+
+
+		manager.endGeometry();		
+
+	}
+	
+	
+	
 	private Coords calcNormal(float x, float y, float z){
 		double[] n = new double[3];
 		Coords v0 = new Coords(x,y,z,0);

@@ -34,6 +34,21 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		updateEllipse(brush);
 	}
 	
+	
+	
+	@Override
+	protected boolean updateForItSelf(){
+		if (points[0] == null){
+			for (int i = 0; i < 4 ; i++){
+				points[i] = new Coords(4);
+			}
+		}
+		
+
+		return super.updateForItSelf();
+	}
+	
+	
 	@Override
 	protected void updateEllipse(PlotterBrush brush){
 		
@@ -145,6 +160,7 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		if (!Double.isNaN(start)){
 			double end = getEnd(0);
 			brush.hyperbolaBranch(m, ev1, ev2, e1, e2, start, end);
+			brush.setAffineTexture(0.5f,  0.25f);
 			brush.segment(m.add(ev1.mul(e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))), 
 					m.add(ev1.mul(e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
 		}
@@ -154,6 +170,7 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		if (!Double.isNaN(start)){
 			double end = getEnd(1);
 			brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, start, end);
+			brush.setAffineTexture(0.5f,  0.25f);
 			brush.segment(m.add(ev1.mul(-e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))), 
 					m.add(ev1.mul(-e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
 		}
@@ -182,5 +199,17 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	protected void updateIntersectingLines(PlotterSurface surface){
 		updateParallelLines(surface);
 	}
+	
+	
+	@Override
+	protected double[] getParabolaMinMax(){
+		return new double[] {getStart(0), getEnd(0)};
+	}
 
+	@Override
+	protected void updateParabola(PlotterBrush brush){
+		super.updateParabola(brush);
+		brush.setAffineTexture(0.5f,  0.25f);
+		brush.segment(points[0], points[1]);
+	}
 }

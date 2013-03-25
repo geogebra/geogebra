@@ -152,11 +152,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 
 			brush.setAffineTexture(0f,0f);
-			double tMax;
-			
-
-			
-			
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
 				updateCircle(brush);
@@ -179,14 +174,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				m = conic.getMidpoint3D();
 				ev1 = conic.getEigenvec3D(0);
 				ev2 = conic.getEigenvec3D(1);
-				double p = conic.p;
-				minmax = getView3D().getRenderer().getIntervalInFrustum(
-						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-						getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1), true);	
-				tMax=Math.sqrt(2*minmax[1]/p);
-				//Application.debug("max="+minmax[1]+", tMax="+tMax);
-				//tMax=4;
-				brush.parabola(m, ev1, ev2, p,-2*tMax,2*tMax);
+				
+				updateParabola(brush);
+				
 				break;
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 				d = conic.getDirection3D(0);
@@ -222,6 +212,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
 				updateHyperbola(surface);
+				break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				updateParabola(surface);
 				break;
 				
 			default:
@@ -320,7 +313,36 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
 
 	}
+
 	
+	/**
+	 * update outline drawing of hyperbola
+	 * @param brush brush plotter
+	 */
+	protected void updateParabola(PlotterBrush brush){
+		minmax = getParabolaMinMax();
+		brush.parabola(m, ev1, ev2, conic.p, minmax[0], minmax[1], points[0], points[1]);
+	}
+	
+	/**
+	 * update surface drawing for hypebola case
+	 * @param surface surface plotter
+	 */
+	protected void updateParabola(PlotterSurface surface){
+		surface.parabola(m, ev1, ev2, conic.p, minmax[0], minmax[1]);
+	}
+	
+	/**
+	 * 
+	 * @return min/max for parabola
+	 */
+	protected double[] getParabolaMinMax(){
+		minmax = getView3D().getRenderer().getIntervalInFrustum(
+				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+				getView3D().getToScreenMatrix().mul(m), getView3D().getToScreenMatrix().mul(ev1), true);	
+		double tMax=2*Math.sqrt(2*minmax[1]/conic.p);
+		return new double[] {-tMax, tMax};
+	}
 	
 	
 	/**
@@ -428,6 +450,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		case GeoConicNDConstants.CONIC_PARABOLA:
 			//Application.debug(getGeoElement().getLayer());
 			renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
     		renderer.getGeometryManager().draw(getSurfaceIndex());
