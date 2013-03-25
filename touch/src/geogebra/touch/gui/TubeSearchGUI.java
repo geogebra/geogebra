@@ -7,6 +7,7 @@ import geogebra.touch.utils.ggtapi.GeoGebraTubeAPI;
 import geogebra.touch.utils.ggtapi.JSONparserGGT;
 import geogebra.touch.utils.ggtapi.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -93,7 +94,29 @@ public class TubeSearchGUI extends VerticalPanel
 				});
 			}
 		});
+		this.featuredMaterials.setMaterials(new ArrayList<Material>());
+		
 
+		this.backButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TouchEntryPoint.showTabletGUI();
+			}
+		}, ClickEvent.getType());
+
+		this.add(this.searchBox);
+		this.add(this.featuredMaterials);
+		this.add(this.resultsArea);
+		this.add(this.backButton);
+		setCellVerticalAlignment(this.backButton, HasVerticalAlignment.ALIGN_BOTTOM);
+
+	}
+	/**
+	 * Loads the featured materials
+	 */
+	public void loadFeatured() {
 		GeoGebraTubeAPI.getInstance().getFeaturedMaterials(new RequestCallback()
 		{
 			@Override
@@ -111,21 +134,6 @@ public class TubeSearchGUI extends VerticalPanel
 
 			}
 		});
-
-		this.backButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				TouchEntryPoint.showTabletGUI();
-			}
-		}, ClickEvent.getType());
-
-		this.add(this.searchBox);
-		this.add(this.featuredMaterials);
-		this.add(this.resultsArea);
-		this.add(this.backButton);
-		setCellVerticalAlignment(this.backButton, HasVerticalAlignment.ALIGN_BOTTOM);
-
+		
 	}
 }
