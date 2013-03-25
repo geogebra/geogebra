@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.MissingResourceException;
 
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class LocalizationW extends Localization {
 
@@ -370,6 +371,12 @@ public class LocalizationW extends Localization {
 		
 		updateLanguageFlags(lang);
 	    
+		//For styling on Firefox. (Mainly for rtl-languages.)
+		if (rightToLeftReadingOrder) {
+			RootPanel.getBodyElement().setAttribute("dir", "rtl");
+		} else {
+			RootPanel.getBodyElement().setAttribute("dir", "ltr");
+		}
     }
 	
 	@Override
