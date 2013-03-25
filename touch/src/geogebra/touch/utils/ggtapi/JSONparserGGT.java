@@ -1,5 +1,7 @@
 package geogebra.touch.utils.ggtapi;
 
+import geogebra.common.main.App;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,13 @@ public class JSONparserGGT
 
 		if (response != null)
 		{
-			JSONObject responseObject = JSONParser.parseStrict(response).isObject();
-
+			JSONObject  responseObject = new JSONObject();
+			try{
+				responseObject = JSONParser.parseStrict(response).isObject();
+			}catch(Throwable t){
+				App.debug(t.getMessage());
+				App.debug("'"+response+"'");
+			}
 			if (responseObject.containsKey("responses"))
 			{
 				JSONObject materialsObject = responseObject.get("responses").isObject().get("response").isObject();
