@@ -9,6 +9,7 @@ public interface EquationSolverInterface {
 	/**
 	 * @param eqn coefficients
 	 * @param roots roots
+	 * @param eps precision
 	 * @return number of roots
 	 */
 	int solveCubic(double[] eqn, double[] roots,double eps);
@@ -29,6 +30,7 @@ public interface EquationSolverInterface {
 	 * no zeroes.
 	 * @param equation coefficients
 	 * @param roots roots
+	 * @param eps precision
 	 * 
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant.
@@ -36,8 +38,9 @@ public interface EquationSolverInterface {
 	int solveQuadratic(double[] equation, double[] roots, double eps);
 
 	/**
-	 * * @param equation coefficients
+	 * @param equation coefficients
 	 * @param roots roots
+	 * @param eps precision
 	 * @return number of roots
 	 */
 	int solveQuartic(double[] equation, double[] roots, double eps);
