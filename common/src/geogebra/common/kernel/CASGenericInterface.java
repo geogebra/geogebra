@@ -72,8 +72,15 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
 
+	/**
+	 * Appends list start marker to the builder (eg {)
+	 * @param sbCASCommand string builder
+	 */
 	void appendListStart(StringBuilder sbCASCommand);
-
+	/**
+	 * Appends list start marker to the builder (eg })
+	 * @param sbCASCommand string builder
+	 */
 	void appendListEnd(StringBuilder sbCASCommand);
 	
 	/**
@@ -85,10 +92,21 @@ public interface CASGenericInterface extends SettingListener {
 	public ExpressionValue evaluateToExpression(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst);
 
+	/**
+	 * Load all packages for  given command
+	 * @param string command signature (Command.NumberOfArguments)
+	 */
 	void loadPackagesFor(String string);
 
+	/**
+	 * Load packages for Groebner computations
+	 */
 	void loadGroebner();
 
+	/**
+	 * @param exp input
+	 * @return output
+	 */
 	String evaluateCAS(String exp);
 
 }

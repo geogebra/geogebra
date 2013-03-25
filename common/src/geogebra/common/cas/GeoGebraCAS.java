@@ -73,12 +73,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			setCurrentCAS(Kernel.DEFAULT_CAS);
 	}
 
-	/**
-	 * Sets the currently used CAS for evaluateGeoGebraCAS().
-	 * 
-	 * @param CAS
-	 *            use CAS_MATHPIPER or CAS_MAXIMA
-	 */
+	
 	public synchronized void setCurrentCAS(final CasType CAS) {
 		try {
 			switch (CAS) {
@@ -126,7 +121,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * @return MPReduce
+	 * @return Giac
 	 */
 	private synchronized CASGenericInterface getGiac() {
 		if (cas == null) {
@@ -137,16 +132,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return cas;
 	}
 
-	/**
-	 * Evaluates a valid expression and returns the resulting String in GeoGebra
-	 * notation.
-	 * 
-	 * @param casInput
-	 *            Input in GeoGebraCAS syntax
-	 * @return evaluation result
-	 * @throws CASException
-	 *             if there is a timeout or the expression cannot be evaluated
-	 */
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
@@ -186,15 +171,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return result;
 	}
 
-	/**
-	 * Evaluates an expression in GeoGebraCAS syntax.
-	 * 
-	 * @param exp
-	 *            expression to be evaluated
-	 * @return result string in GeoGebra syntax (null possible)
-	 * @throws CASException
-	 *             if there is a timeout or the expression cannot be evaluated
-	 */
+	
 	final public String evaluateGeoGebraCAS(String exp,
 			MyArbitraryConstant arbconst) throws CASException {
 		try {
@@ -209,14 +186,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			throw new CASException(t);
 		}
 	}
-
-	/**
-	 * Evaluates an expression in the syntax of the currently active CAS
-	 * 
-	 * @return result string (null possible)
-	 * @throws Throwable
-	 *             if there is a timeout or the expression cannot be evaluated
-	 */
 	final public String evaluateRaw(String exp) throws Throwable {
 		return getCurrentCAS().evaluateRaw(exp);
 	}
@@ -240,13 +209,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
 	private StringBuilder sbPolyCoeffs = new StringBuilder();
 
-	/**
-	 * Expands the given MPreduce expression and tries to get its polynomial
-	 * coefficients. The coefficients are returned in ascending order. If exp is
-	 * not a polynomial, null is returned.
-	 * 
-	 * example: getPolynomialCoeffs("3*a*x^2 + b"); returns ["b", "0", "3*a"]
-	 */
 	final public String[] getPolynomialCoeffs(final String polyExpr,
 			final String variable) {
 		getPolynomialCoeffsSB.setLength(0);
@@ -304,12 +266,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return ev.toValueString(tpl);
 	}
 
-	/**
-	 * Returns the CAS command for the currently set CAS using the given key and
-	 * command arguments. For example, getCASCommand("Expand.1", {"3*(a+b)"})
-	 * returns "ExpandBrackets( 3*(a+b) )" when MathPiper is the currently used
-	 * CAS.
-	 */
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl) {
@@ -473,13 +429,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
-	/**
-	 * Returns whether the given command is available in the underlying CAS.
-	 * 
-	 * @param cmd
-	 *            command with name and number of arguments
-	 * @return whether command is available
-	 */
 	final public boolean isCommandAvailable(final Command cmd) {
 		StringBuilder sbCASCommand = new StringBuilder();
 		sbCASCommand.append(cmd.getName());
@@ -497,16 +446,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return false;
 	}
 
-	/**
-	 * Returns true if the two input expressions are structurally equal. For
-	 * example "2 + 2/3" is structurally equal to "2 + (2/3)" but unequal to
-	 * "(2 + 2)/3"
-	 * 
-	 * @param inputVE
-	 *            includes internal command names
-	 * @param localizedInput
-	 *            includes localized command names
-	 */
 	public boolean isStructurallyEqual(final ValidExpression inputVE,
 			final String localizedInput) {
 		try {
@@ -540,12 +479,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				StringTemplate.numericNoLocal);
 	}
 
-	/**
-	 * Returns the internal names of all the commands available in the current
-	 * CAS.
-	 * 
-	 * @return A Set of all internal CAS commands.
-	 */
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<String>();
 		for (String signature : casParser.getTranslationRessourceBundle()

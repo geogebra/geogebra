@@ -24,8 +24,8 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	//private GeoPoint P;	
 	private double px, py;
 	private RealRootFunction funX, funY;
-	private double mint;
-	private double maxt;
+	//private double mint;
+	//private double maxt;
 
 	/**
 	 * Creates a function for evaluating squared distance of (px,py)
@@ -35,8 +35,8 @@ public class ParametricCurveDistanceFunction implements RealRootFunction {
 	public ParametricCurveDistanceFunction(ParametricCurve curve) {		
 		funX = curve.getRealRootFunctionX();
 		funY = curve.getRealRootFunctionY();
-		this.mint = curve.getMinParameter(); 
-		this.maxt = curve.getMaxParameter();
+		//this.mint = curve.getMinParameter(); 
+		//this.maxt = curve.getMaxParameter();
 	}
 
 	/**
