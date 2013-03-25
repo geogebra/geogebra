@@ -1,17 +1,17 @@
 {
   "name": "GeoGebra",
   "description": "GeoGebra is free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
-  "version" : "4.1.75.3",
+  "version" : "4.2.0.0",
   "manifest_version": 2,
   "container" : "GOOGLE_DRIVE",
   "api_console_project_id" : "656990710877",
   "app": {
     "urls": [
-      "http://geogebraweb.appspot.com/",
-      "http://www.geogebraweb.appspot.com/"
+      "http://geogebraweb.appspot.com/app.html",
+      "http://www.geogebraweb.appspot.com/app.html"
     ],
     "launch": {
-      "web_url": "http://geogebraweb.appspot.com/"
+      "web_url": "http://geogebraweb.appspot.com/app.html"
     }
   },
   "icons": { 
