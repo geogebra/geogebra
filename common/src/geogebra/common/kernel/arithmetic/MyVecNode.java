@@ -152,7 +152,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 			sb.append("}");
 			break;
 
-		case MAXIMA:
+		case GIAC:
 			coords = getCoords();
 			sb.append("[");
 			sb.append(coords[0]);

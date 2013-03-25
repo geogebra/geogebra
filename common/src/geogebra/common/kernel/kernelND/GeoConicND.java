@@ -1412,7 +1412,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				break;
 				
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 			case MPREDUCE:	
 				squared = "^2";
 				myVars = varsCAS;

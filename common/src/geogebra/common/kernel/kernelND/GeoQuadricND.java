@@ -453,7 +453,7 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 				break;
 				
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 			case MPREDUCE:
 				squared = "^2";
 				break;

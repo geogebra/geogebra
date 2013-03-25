@@ -12,7 +12,7 @@ public interface ExpressionNodeConstants {
 		/**default*/
 		GEOGEBRA,
 		/** maxima*/
-		MAXIMA,
+		GIAC,
 		/** mathpiper */
 		MATH_PIPER,
 		/** LaTeX */

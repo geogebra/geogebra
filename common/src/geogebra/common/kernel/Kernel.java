@@ -939,14 +939,14 @@ public class Kernel {
 			// number formatting for CAS
 		case MATH_PIPER:
 		case JASYMCA:
-		case MAXIMA:
+		case GIAC:
 		case MPREDUCE:
 			if (Double.isNaN(x)) {
 				return "?";
 			} else if (Double.isInfinite(x)) {
 				if (casPrintForm.equals(StringType.MPREDUCE)) {
 					return (x < 0) ? "-infinity" : "infinity";
-				} else if (casPrintForm.equals(StringType.MAXIMA)) {
+				} else if (casPrintForm.equals(StringType.GIAC)) {
 					return (x < 0) ? "-inf" : "inf";
 				} else {
 					return Double.toString(x); // "Infinity" or "-Infinity"
@@ -1481,7 +1481,7 @@ public class Kernel {
 		String numberStr = format(x, tpl);
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
-		case MAXIMA:
+		case GIAC:
 		case MPREDUCE:
 			return numberStr + "*";
 

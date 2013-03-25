@@ -1119,7 +1119,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			sbBuildValueString.append("}");
 			return sbBuildValueString;
 
-		case MAXIMA:
+		case GIAC:
 			sbBuildValueString.append("[");
 			sbBuildValueString.append(getInhomX());
 			sbBuildValueString.append(", ");

@@ -441,7 +441,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sbBuildValueString.append("}");
 			return sbBuildValueString;
 
-		case MAXIMA:
+		case GIAC:
 			sbBuildValueString.append("[");
 			sbBuildValueString.append(getInhomVec().getX());
 			sbBuildValueString.append(", ");

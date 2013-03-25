@@ -658,12 +658,7 @@ public class MyList extends ValidExpression implements ListValue,
 	public String toString(StringTemplate tpl) {
 
 		StringBuilder sb = new StringBuilder();
-		if (tpl.hasType(StringType.MAXIMA)) {
-			if (isMatrix())
-				sb.append("matrix(");
-			else
-				sb.append("[");
-		} else if (tpl.hasType(StringType.MPREDUCE)) {
+		if (tpl.hasType(StringType.MPREDUCE)) {
 				sb.append("listofliststomat(list(");
 		} else if (tpl.hasType(StringType.LATEX)) {
 			sb.append("\\{");
@@ -684,15 +679,10 @@ public class MyList extends ValidExpression implements ListValue,
 			sb.append(exp.toString(tpl));
 		}
 
-		if (tpl.hasType(StringType.MAXIMA)) {
-			if (isMatrix())
-				sb.append(")");
-			else
-				sb.append("]");
-		} else if (tpl.hasType(StringType.MPREDUCE)) {
+		if (tpl.hasType(StringType.MPREDUCE)) {
 			sb.append(')');
 			sb.append(')');
-		}else if (tpl.hasType(StringType.LATEX)) {
+		} else if (tpl.hasType(StringType.LATEX)) {
 			sb.append("\\}");
 		} else
 			sb.append("}");

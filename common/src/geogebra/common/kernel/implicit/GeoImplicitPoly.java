@@ -341,7 +341,7 @@ Dilateable, Transformable, EuclidianViewCE {
 			}else if ((tpl.getStringType().equals(StringType.JASYMCA))||
 						(tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
 						(tpl.getStringType().equals(StringType.MATH_PIPER))||
-						(tpl.getStringType().equals(StringType.MAXIMA))||
+						(tpl.getStringType().equals(StringType.GIAC))||
 						(tpl.getStringType().equals(StringType.MPREDUCE))){
 				sb.append('^');
 				sb.append(exp);

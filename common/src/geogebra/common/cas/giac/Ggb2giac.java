@@ -33,8 +33,11 @@ public class Ggb2giac {
 		p("CFactor.1","cfactor(%0)");
 		p("CFactor.2","cfactor(%0,%1)");
 		p("ChiSquared.2", "chisquare(%0,%1)");
+		
+		// TODO: ggbtmpvarx
 		p("Coefficients.1",
-				"coeffs(%0)");
+				"coeffs(%0,ggbtmpvarx)");
+		
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
 				"canonical_form(%0)");
@@ -56,8 +59,9 @@ public class Ggb2giac {
 		p("Degree.2", "degree(%0,%1)");
 		p("Delete.1", "");
 		p("Denominator.1", "denom(%0)");
+		// TODO: diff(t^2) gives 0 not 2*t
 		p("Derivative.1",
-				"diff(%0)");
+				"diff(%0, ggbtmpvarx)");
 		p("Derivative.2", 
 				"diff(%0,%1)");
 		p("Derivative.3", 
@@ -73,16 +77,27 @@ public class Ggb2giac {
 		p("DivisorsSum.1",
 				"todo");
 		p("Dot.2", "dot(%0,%1)");
-		p("Element.2", "%0[%1]");
+		// GeoGebra indexes lists from 1, giac from 0
+		p("Element.2", "%0[%1-1]");
+		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
-				"%0[%1,%2]");
+				"%0[%1 - 1,%2 - 1]");
 		p("Expand.1",
 				"expand(%0)");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
+		
+		// factor over rationals
 		p("Factor.1",
-				"factor(%0)");
+				"collect(%0)");
+		// TODO: %1
 		p("Factor.2",
-				"todo");
+				"collect(%0)");
+
+		// factor over irrationals
+		// might not need with_sqrt() as we're using collect() for Factor.1
+		//p("RFactor.1","with_sqrt(1);factor(%0);with_sqrt(0);");
+		
+		// TODO: returns {x-1,1,x+1,1} rather than {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				"factors(%0)");
 		p("FDistribution.3",
@@ -120,13 +135,17 @@ public class Ggb2giac {
 		
 		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
 		p("ImplicitDerivative.1", "-df(%0,x)/df(%0,y)");
-		p("Integral.1",
-				"integrate(%0)");
-		p("Integral.2",
-				"integrate(%0,%1)");
 		
+		// TODO: arbconst(1) always goes to c_1
+		p("Integral.1",
+				"integrate(%0,ggbtmpvarx,arbconst(1))");
+		// TODO: arbconst(1) always goes to c_1
+		p("Integral.2",
+				"integrate(%0,%1,arbconst(1))");
+		
+		// TODO: deal with ggmtmpvarx
 		p("Integral.3",
-				"integrate(%0,%1,%2)");
+				"integrate(%0,ggmtmpvarx,%1,%2)");
 		
 		p("Integral.4",
 				"integrate(%0,%1,%2,%3)");
@@ -254,7 +273,7 @@ public class Ggb2giac {
 		p("Root.1",
 				"solve(%1)");
 		p("ReducedRowEchelonForm.1",
-				"rref(%1)");
+				"rref(%0)");
 		p("Sample.2",
 				"seq(rand(1,%0),j,1,%1)");
 		p("Sample.3",
@@ -273,6 +292,9 @@ public class Ggb2giac {
 		p("Shuffle.1", "randperm(%0)");
 		p("Simplify.1", "simplify(%0)");
 		// p("SimplifyFull.1","trigsimp(%0, combine)");
+		
+		// solve({x+y-1,x-y-3},{x,y}) -> list[{2,-1}]
+		
 		p("Solutions.1",
 				"solve(%0)");
 		p("Solutions.2",

@@ -203,7 +203,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	private String toString(boolean symbolic, boolean LaTeX,StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
-		case MAXIMA:
+		case GIAC:
 		case MPREDUCE:
 			// MathPiper command syntax
 			return (kernel.getGeoGebraCAS())

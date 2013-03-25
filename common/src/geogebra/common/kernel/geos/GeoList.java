@@ -1901,13 +1901,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
-		if ((!casPrinttype.equals(StringType.MAXIMA) && !casPrinttype
+		if ((!casPrinttype.equals(StringType.GIAC) && !casPrinttype
 				.equals(StringType.MPREDUCE)) || !isMatrix()) {
 			return super.getCASString(tpl, symbolic);
 		}
 
 		final StringBuilder sb = new StringBuilder();
-		if (casPrinttype.equals(StringType.MAXIMA)) {
+		if (casPrinttype.equals(StringType.GIAC)) {
 			sb.append("matrix(");
 			for (int i = 0; i < size(); i++) {
 				final GeoList geo = (GeoList) get(i);

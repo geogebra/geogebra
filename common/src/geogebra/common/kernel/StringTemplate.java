@@ -97,7 +97,7 @@ public class StringTemplate {
 		giacTemplate.usePrefix = false;
 		giacTemplate.forceNF = true;
 		giacTemplate.localizeCmds = false;
-		giacTemplate.setType(StringType.MAXIMA);
+		giacTemplate.setType(StringType.GIAC);
 		giacTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
 	}
 	
@@ -270,7 +270,7 @@ public class StringTemplate {
 			casPrintFormPI = "Pi";
 			break;
 
-		case MAXIMA:
+		case GIAC:
 			casPrintFormPI = "%pi";
 			break;
 
@@ -518,7 +518,7 @@ public class StringTemplate {
 	final private static String printVariableName(final StringType printForm, final String label) {
 		switch (printForm) {
 		case MPREDUCE:
-		case MAXIMA:
+		case GIAC:
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
 			// see http://www.geogebra.org/trac/ticket/1051

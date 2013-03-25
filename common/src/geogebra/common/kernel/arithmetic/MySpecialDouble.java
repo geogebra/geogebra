@@ -164,7 +164,7 @@ public class MySpecialDouble extends MyDouble {
 			}
 			break;
 
-		case MAXIMA:
+		case GIAC:
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.piChar:

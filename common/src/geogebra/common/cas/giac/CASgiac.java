@@ -21,9 +21,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
-import geogebra.common.util.StringUtil;
-
-import java.util.StringTokenizer;
 
 /**
  * Platform (Java / GWT) independent part of giac CAS
@@ -78,11 +75,14 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public String evaluateRaw(final String input) throws Throwable {
 		
+		StringBuilder sb = new StringBuilder();
+
 		String exp = input;
+		
+		/*
 		// we need to escape any upper case letters and non-ascii codepoints
 		// with '!'
 		StringTokenizer tokenizer = new StringTokenizer(exp, "(),;[] ", true);
-		StringBuilder sb = new StringBuilder();
 		while (tokenizer.hasMoreElements()) {
 			String t = tokenizer.nextToken();
 			if (casParser.getParserFunctions().isReserved(t))
@@ -115,6 +115,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 		}
 		exp = sb.toString();
+		
+		*/
+		
+		
 		App.debug("giac eval: " + exp);
 		if (!initialized) {
 			App.showAnnouncement("giac loaded"); // for the web
@@ -155,8 +159,27 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 		}
 
-		result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
+		//result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
+		result = sb.toString();
+		
+		if (result.startsWith("list[")) {
+			App.debug("giac: removing list[...] from "+result);
+			result = "{" + result.substring(5, result.length()-1) + "}";
+		}
+		
+		if (result.startsWith("poly1[")) {
+			App.debug("giac: removing poly1[...] from "+result);
+			result = "{" + result.substring(6, result.length()-1) + "}";
+		}
+		
+		if (result.startsWith("\"")) {
+			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
+			// assume error
+			App.debug("message from giac (assuming error) "+result);
+			result = "?";
+		}
+		
 		// TODO: remove
 		App.debug("CASgiac.evaluateRaw: result: " + result);
 		return result;

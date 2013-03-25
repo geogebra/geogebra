@@ -1859,7 +1859,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		switch (tpl.getStringType()) {
 		// send output to underlying CAS
 		case MPREDUCE:
-		case MAXIMA:
+		case GIAC:
 			sb.append(" (");
 			sb.append(outputVE == null ? "?" : outputVE.toString(tpl));
 			sb.append(") ");

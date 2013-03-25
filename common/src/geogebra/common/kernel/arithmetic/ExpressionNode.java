@@ -2001,7 +2001,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case JASYMCA:
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(") + (");
@@ -2097,7 +2097,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case JASYMCA:
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(") - (");
@@ -2242,7 +2242,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case JASYMCA:
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 			case LATEX:
 			case LIBRE_OFFICE:
 
@@ -2295,7 +2295,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						case GEOGEBRA_XML:
 						case JASYMCA:
 						case MATH_PIPER:
-						case MAXIMA:
+						case GIAC:
 							showMultiplicationSign = true;
 							break;
 
@@ -2392,7 +2392,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						case GEOGEBRA_XML:
 						case JASYMCA:
 						case MATH_PIPER:
-						case MAXIMA:
+						case GIAC:
 							sb.append(multiplicationSign(stringType));
 							break;
 
@@ -2472,7 +2472,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case JASYMCA:
 			case MATH_PIPER:
-			case MAXIMA:
+			case GIAC:
 			default:
 				// check for 1 in denominator
 				if (isEqualString(right, 1, !valueForm)) {
@@ -2594,7 +2594,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				case JASYMCA:
 				case MATH_PIPER:
-				case MAXIMA:
+				case GIAC:
 
 
 				case LIBRE_OFFICE:
@@ -2651,7 +2651,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case JASYMCA:
 				case GEOGEBRA_XML:
 				case MATH_PIPER:
-				case MAXIMA:
+				case GIAC:
 
 					sb.append('^');
 					sb.append('(');
@@ -3059,7 +3059,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case JASYMCA:
 			case GEOGEBRA_XML:
-			case MAXIMA:
+			case GIAC:
 				sb.append("exp(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3102,7 +3102,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case MPREDUCE:
 					appendReduceFunction(sb, "log");
 					break;
-				case MAXIMA:
+				case GIAC:
 				case JASYMCA:
 				case GEOGEBRA_XML:
 					sb.append("log(");
@@ -3141,7 +3141,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(rightBracket(stringType));
 				break;
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 				// user defined function
 				sb.append("logB(");
@@ -3192,7 +3192,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 			case MPREDUCE:
 			default:
@@ -3225,7 +3225,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case LIBRE_OFFICE:
 				sb.append("func ");
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 			default:
 				sb.append("erf(");
@@ -3252,7 +3252,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case LIBRE_OFFICE:
 				sb.append("func ");
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 			default:
 				sb.append("psi(");
@@ -3284,7 +3284,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 			case PGF:
 				sb.append("log10("); // user-defined function in Maxima
@@ -3322,7 +3322,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(")");
 				break;
-			case MAXIMA:
+			case GIAC:
 			case MATH_PIPER:
 				sb.append("log2("); // user-defined function in Maxima
 				sb.append(leftStr);
@@ -3500,7 +3500,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				appendReduceFunction(sb, "sign");
 				break;
 			case JASYMCA:
-			case MAXIMA:
+			case GIAC:
 				sb.append("sign(");
 				break;
 
@@ -3560,7 +3560,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(")");
 				break;
-			case MAXIMA:
+			case GIAC:
 				sb.append("carg(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3652,7 +3652,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-			case MAXIMA:
+			case GIAC:
 			case PSTRICKS:
 				sb.append("ceiling(");
 				sb.append(leftStr);
@@ -3720,7 +3720,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
 				break;
-			case MAXIMA:
+			case GIAC:
 				sb.append("gamma_incomplete(");
 				break;
 
@@ -3750,7 +3750,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("func gammaRegularized left (");
 
-			case MAXIMA:
+			case GIAC:
 				sb.append("gamma_incomplete_regularized(");
 				break;
 
@@ -3800,7 +3800,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%BETA left(");
 				break;	
 
-			case MAXIMA:
+			case GIAC:
 				sb.append("beta_incomplete(");
 				break;
 
@@ -3825,7 +3825,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("func betaRegularized left (");
 
-			case MAXIMA:
+			case GIAC:
 				sb.append("beta_incomplete_regularized(");
 				break;
 
@@ -3884,7 +3884,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case MAXIMA:
+				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
@@ -3928,7 +3928,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case MAXIMA:
+				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
@@ -3968,7 +3968,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case MAXIMA:
+				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
