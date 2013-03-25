@@ -197,7 +197,7 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	
 	@Override
 	protected void updateIntersectingLines(PlotterSurface surface){
-		updateParallelLines(surface);
+		surface.drawTriangle(points[0], points[1], points[3]);
 	}
 	
 	

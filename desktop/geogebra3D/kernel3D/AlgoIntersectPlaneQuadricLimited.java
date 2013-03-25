@@ -146,10 +146,27 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	// set part points
     	double[] bottomParameters = setPartPoints(algoBottom, ql.getBottom(), bottomP);
     	double[] topParameters = setPartPoints(algoTop, ql.getTop(), topP);
+    	
+    	/*
+      	App.debug(bottomParameters[0]+","+
+      			bottomParameters[1]+","+
+      			topParameters[0]+","+
+      			topParameters[1]);
+      			*/
 
     	switch (conic.getType()) {
     	case GeoConicNDConstants.CONIC_CIRCLE:
     	case GeoConicNDConstants.CONIC_ELLIPSE:
+    		
+    		//if parameters are equal, no hole
+    		if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){
+    			bottomParameters[0] = Double.NaN;
+    		}   	
+    		
+    		if (Kernel.isEqual(topParameters[0], topParameters[1])){
+    			topParameters[0] = Double.NaN;
+    		}   		
+    		
     		//if some parameters are NaN, force to be in topParameters
     		if (Double.isNaN(bottomParameters[0])){
     			bottomParameters[0] = topParameters[0];
@@ -225,7 +242,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-      			*/
+      		*/	
       			
       			
       	//App.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);

@@ -181,9 +181,14 @@ public class GeoConic3DPart extends GeoConic3D {
 			break;
 
 		case CONIC_PARABOLA:
-			paramStart[0] = bottom0;
-			paramEnd[0] = bottom1;
-
+			if (bottom0 < bottom1){
+				paramStart[0] = bottom0;
+				paramEnd[0] = bottom1;
+			}else{
+				paramStart[0] = bottom1;
+				paramEnd[0] = bottom0;				
+			}
+			
 			break;
 
 		}
