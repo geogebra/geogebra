@@ -1,5 +1,7 @@
 #!/bin/sh
-# Creates the geogebra.crx file
+# Creates the geogebra.crx file and also geogebra.zip for uploading to Chrome Web Store.
+# We don't use the CRX file, however, since we do not host GeoGebraWeb on our own,
+# but use the official Chrome Web Store instead.
 # @author Gabor Ancsin <gabor@geogebra.org>
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
@@ -33,11 +35,11 @@ CHROMEDIR=`cd $MYDIR; pwd`
 WEBDIR=`cd $CHROMEDIR/../../web; pwd`
 VERSION=`cat $VERSIONFILE`
 
-
-#not needed now because we are a hosted app cd $WEBDIR
-#./build -u safari -c -nl # -c: cleanup first, -nl: no languages (later should be removed)
-#cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
-#cp $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
+# 2/1. Compilation and file preparation
+cd $WEBDIR
+./build -u safari -c -cg
+cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
+cp $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
 cd $CHROMEDIR
 cat $APPNAME/manifest.json.template | sed s/VERSION/$VERSION/g > \
  $APPNAME/manifest.json
