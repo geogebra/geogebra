@@ -1697,6 +1697,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	final public void setMatrix(double[] matrix) {
 		for (int i = 0; i < 6; i++) {
 			this.matrix[i] = matrix[i];
+			//App.debug("matrix["+i+"]="+matrix[i]);
 		}
 		classifyConic();
 	}	
@@ -2297,10 +2298,12 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	/**
 	 * @param degenerate true to allow classification as degenerate
 	 */
-	public void classifyConic(boolean degenerate) {		
+	public void classifyConic(boolean degenerate) {	
+		
 		defined = degenerate || checkDefined();		
 		if (!defined)
 			return;
+		
 
 		// det of S lets us distinguish between
 		// parabolic and midpoint conics
@@ -2365,7 +2368,10 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			eigenval[0] = detS;
 			eigenval[1] = - (matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
-			cons.getKernel().getEquationSolver().solveQuadratic(eigenval, eigenval,Kernel.STANDARD_PRECISION);
+			int nRoots = cons.getKernel().getEquationSolver().solveQuadratic(eigenval, eigenval,Kernel.STANDARD_PRECISION);
+			if (nRoots == 1){
+				eigenval[1] = eigenval[0];
+			}
 	
 			// set first eigenvector
 			eigenvecX = -matrix[3];
