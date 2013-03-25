@@ -40,14 +40,14 @@ public class Ggb2giac {
 		
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
-				"canonical_form(%0)");
+				"canonical\\_form(%0,ggbtmpvarx)");
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2",
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"covariance(%0)");
 		p("Cross.2", "cross(%0,%1)");
-		p("ComplexRoot.1", "csolve(%0)");
+		p("ComplexRoot.1", "csolve(%0, ggbtmpvarx)");
 		p("CSolutions.1", "csolve(%0)");
 		p("CSolutions.2",
 				"csolve(%0,%1)");
@@ -55,7 +55,7 @@ public class Ggb2giac {
 				"csolve(%0)");
 		p("CSolve.2", "csolve(%0,%1)");
 		p("Degree.1",
-				"degree(%0)");
+				"degree(%0,ggbtmpvarx)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Delete.1", "");
 		p("Denominator.1", "denom(%0)");
@@ -71,11 +71,11 @@ public class Ggb2giac {
 		p("Div.2", "iquo(%0,%1)");
 		p("Division.2", "iquorem(%0,%1)");
 		p("Divisors.1",
-				"idivisors(%0)");
+				"dim(idivis(%0))");
 		p("DivisorsList.1",
-				"idivisors(%0)");
+				"idivis(%0)");
 		p("DivisorsSum.1",
-				"todo");
+				"sum(idivis(%0))");
 		p("Dot.2", "dot(%0,%1)");
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.2", "%0[%1-1]");
@@ -103,19 +103,19 @@ public class Ggb2giac {
 		p("FDistribution.3",
 				"fisher(%0,%1,%2)");
 		p("Flatten.1", "todo");
-		p("First.1", "todo");
+		p("First.1", "{%0[0]}");
 		p("First.2",
 				"todo");
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"exponential_regression(%0)");
+				"exponential\\_regression(%0)");
 		p("FitLog.1",
-				"logarithmic_regression(%0)");
+				"logarithmic\\_regression(%0)");
 		p("FitPoly.2",
-				"polynomial_regression(%0,%1)");
+				"polynomial\\_regression(%0,%1)");
 		p("FitPow.1",
-				"power_regression(%0)");
+				"power\\_regression(%0)");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1))");
 		p("GCD.2",
@@ -134,7 +134,7 @@ public class Ggb2giac {
 		p("If.3", "when(%0,%1,%2)");
 		
 		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
-		p("ImplicitDerivative.1", "-df(%0,x)/df(%0,y)");
+		p("ImplicitDerivative.1", "-df(%0,ggbtmpvarx)/df(%0,ggbtmpvary)");
 		
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.1",
@@ -143,9 +143,9 @@ public class Ggb2giac {
 		p("Integral.2",
 				"integrate(%0,%1,arbconst(1))");
 		
-		// TODO: deal with ggmtmpvarx
+		// TODO: deal with ggbtmpvarx
 		p("Integral.3",
-				"integrate(%0,ggmtmpvarx,%1,%2)");
+				"integrate(%0,ggbtmpvarx,%1,%2)");
 		
 		p("Integral.4",
 				"integrate(%0,%1,%2,%3)");
@@ -170,7 +170,7 @@ public class Ggb2giac {
 		p("Line.2","equation(line(%0,%1))");
 		// p("IsBound.1","if << symbolic; p!!:=isbound!!('%0); algebraic; p!!>>=1 then 'true else 'false");
 		p("Last.1",
-				"tail(%0)");
+				"{%0[dim(%0)-1]}");
 		p("Last.2",
 				"todo()");
 		p("LCM.1",
@@ -187,15 +187,15 @@ public class Ggb2giac {
 				"arclen(%0,%1,%2)");
 		p("Length.4", "arclen(%0,%1,%2,%3)");
 		p("Limit.2",
-				"limit(%0,%1)");
+				"limit(%0,ggbtmpvarx,%1)");
 		p("Limit.3",
 				"limit(%0,%1,%2)");
 		p("LimitAbove.2",
-				"limit(%0,%1,1)");
+				"limit(%0,ggbtmpvarx,%1,1)");
 		p("LimitAbove.3", 
 				"limit(%0,%1,%2,1)");
 		p("LimitBelow.2",
-				"limit(%0,%1,-1)");
+				"limit(%0,ggbtmpvarx,%1,-1)");
 		p("LimitBelow.3", "limit(%0,%1,%2,-1)");
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
@@ -205,25 +205,27 @@ public class Ggb2giac {
 				"median(%0)");
 		p("Min.N", "min(%)");
 		p("Midpoint.2", "midpoint(%0,%1)");
-		p("Mod.2", "irem(%0,%1)");
+		p("Mod.2", "(%0)%(%1)");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3",
 				"romberg(%0,%1,%2)");
 		p("NIntegral.4",
 				"romberg(%0,%1,%2,%3)");
 		p("Normal.3",
-				"normald_cdf(%0,%1,%2)");
+				"normald\\_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"normald_cdf(%0,%1,%2,%3)");
+				"normald\\_cdf(%0,%1,%2,%3)");
 		p("nPr.2", "perm(%0,%1)");
+		// first element of list, wrapped back in list
 		p("NSolve.1",
-				"fsolve(%0)");
+				"{ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]}");
 		p("NSolve.2",
-				"fsolve(%0,%1)");
+				"{left(%1)=fsolve(%0,%1)}");
+		// first element of list, wrapped back in list
 		p("NSolutions.1",
-				"todo");
+				"{fsolve(%0,ggbtmpvarx)[0]}");
 		p("NSolutions.2",
-				"todo");
+				"{fsolve(%0,%1)}");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
 				"todo");
@@ -239,7 +241,7 @@ public class Ggb2giac {
 				"if %3=true then ibeta(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
-				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,myfloor(%1)) " +
+				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,floor(%1)) " +
 				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0) fi");
 		p("PreviousPrime.1",
 				"prevprime(%0)");
@@ -255,7 +257,7 @@ public class Ggb2giac {
 		p("Random.2", "rand(%0,%1)");
 		p("RandomBinomial.2",
 				"todo");
-		p("RandomElement.1", "rand(1,%0)");
+		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1",
 				"todo");
 		p("RandomNormal.2",
@@ -271,7 +273,7 @@ public class Ggb2giac {
 		p("RightSide.2",
 				"todo");
 		p("Root.1",
-				"solve(%1)");
+				"solve(%0,ggbtmpvarx)");
 		p("ReducedRowEchelonForm.1",
 				"rref(%0)");
 		p("Sample.2",

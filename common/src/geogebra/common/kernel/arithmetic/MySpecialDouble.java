@@ -168,11 +168,11 @@ public class MySpecialDouble extends MyDouble {
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.piChar:
-				return "%pi";
+				return "pi";
 			case Unicode.degreeChar:
-				return "%pi/180";
+				return "pi/180";
 			case Unicode.eulerChar:
-				return "%e";
+				return "e";
 			}
 			break;
 
