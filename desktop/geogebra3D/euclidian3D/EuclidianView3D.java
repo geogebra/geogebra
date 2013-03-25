@@ -1165,7 +1165,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	public void rename(GeoElement geo) {
-		// TODO Raccord de méthode auto-généré		
+		// TODO auto-generated		
 	}
 
 	@Override
