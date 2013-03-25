@@ -7,7 +7,10 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -22,6 +25,7 @@ import geogebra.touch.gui.elements.Picker;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,11 +48,13 @@ public class TouchModel
 	private boolean storeOnClose = false;
 	private ToolBarCommand command;
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
-
+	private CmdIntersect cmdIntersect; 
+	
 	public TouchModel(Kernel k)
 	{
 		this.kernel = k;
 		this.guiModel = new GuiModel(this);
+		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
 
 	public GuiModel getGuiModel()
@@ -366,7 +372,7 @@ public class TouchModel
 		return alpha;
 	}
 
-	public void handleEvent(Hits hits, Point point)
+	public void handleEvent(Hits hits, Point point, Point2D pointRW)
 	{
 		this.guiModel.closeOptions();
 
@@ -380,6 +386,8 @@ public class TouchModel
 		}
 		this.changeColorAllowed = false;
 
+		boolean singlePointForIntersection = false; 
+		
 		switch (this.command)
 		{
 		// commands that only draw one point
@@ -485,8 +493,22 @@ public class TouchModel
 
 		// commands that need any two objects
 		case IntersectTwoObjects:
-			// TODO
-			// intersect(hits);
+			// polygon needs to be the last element of the array
+			Test[] classes = new Test[]{Test.GEOLINE, Test.GEOCURVECARTESIAN, Test.GEOPOLYLINE, Test.GEOCONIC, Test.GEOFUNCTION, Test.GEOIMPLICITPOLY, Test.GEOPOLYGON}; 
+			
+			boolean success = selectOutOf(hits, classes); 
+			
+			if(success && hits.size() >= 2){ // try to select another element
+				// to prevent problems when selecting the sides of the polygon
+				hits.removePolygons(); 
+				hits.remove(this.selectedElements.get(this.selectedElements.size() - 1)); 
+				if(selectOutOf(hits, classes)){
+					singlePointForIntersection = true; 
+				}
+			}
+			
+			draw = getTotalNumber() >= 2; 
+			
 			break;
 
 		// commands that need tree points
@@ -641,6 +663,26 @@ public class TouchModel
 					newElements.add(this.kernel.getAlgoDispatcher().LineBisector(null, (GeoPoint) getElement(Test.GEOPOINT),
 					    (GeoPoint) getElement(Test.GEOPOINT, 1)));
 				}
+				break;
+			case IntersectTwoObjects: 
+				Command c = new Command(this.kernel, null, draw);  
+				
+				c.addArgument(new ExpressionNode(this.kernel, this.selectedElements.get(this.selectedElements.size() - 1))); 
+				c.addArgument(new ExpressionNode(this.kernel, this.selectedElements.get(this.selectedElements.size() - 2))); 
+				
+				if(singlePointForIntersection && pointRW != null){
+					GeoPoint p = new GeoPoint(this.kernel.getConstruction(), pointRW.getX(), pointRW.getY(), 1);
+					c.addArgument(new ExpressionNode(this.kernel, p)); 					
+				}
+				
+				try{
+					this.cmdIntersect.process(c);
+				}catch(MyError e){
+					// in case there is a problem (f.e. intersecting is not implemented for these object types), 
+					// continue selecting geos 
+					draw = false; 
+				}
+				 
 				break;
 			case Parabola:
 				newElements.add(this.kernel.getAlgoDispatcher().Parabola(null, (GeoPoint) getElement(Test.GEOPOINT), (GeoLine) getElement(Test.GEOLINE)));
@@ -829,16 +871,19 @@ public class TouchModel
 			default:
 			}
 
-			resetSelection();
-
-			for (GeoElement geo : newElements)
+			if(draw) // set to false, if the command could not be finished
 			{
-				select(geo);
+				resetSelection();
+	
+				for (GeoElement geo : newElements)
+				{
+					select(geo);
+				}
+	
+				this.guiModel.appendStyle(newElements);
+	
+				this.commandFinished = true;
 			}
-
-			this.guiModel.appendStyle(newElements);
-
-			this.commandFinished = true;
 		}
 
 		this.kernel.setNotifyRepaintActive(true); // includes a repaint
@@ -860,7 +905,7 @@ public class TouchModel
 	}
 
 	public boolean wasCantorolClicked(){
-		return controlClicked;
+		return this.controlClicked;
 	}
 	public boolean controlClicked()
 	{

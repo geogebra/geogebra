@@ -348,7 +348,7 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 
 	@Override
 	public GeoElement getGeo() {
-		return geo;
+		return this.geo;
 	}
 
 }

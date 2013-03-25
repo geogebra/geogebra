@@ -14,8 +14,7 @@ public enum ToolBarMenu
 	// TODO: add menu items when implemented
 
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] { ToolBarCommand.NewPoint, ToolBarCommand.PointOnObject, ToolBarCommand.AttachDetachPoint,
-	    // TODO: ToolBarCommand.IntersectTwoObjects,
-	    ToolBarCommand.MidpointOrCenter, ToolBarCommand.ComplexNumbers }),
+	    ToolBarCommand.IntersectTwoObjects, ToolBarCommand.MidpointOrCenter, ToolBarCommand.ComplexNumbers }),
 
 	Line(ToolBarCommand.LineThroughTwoPoints,
 	    new ToolBarCommand[] { ToolBarCommand.LineThroughTwoPoints, ToolBarCommand.SegmentBetweenTwoPoints, ToolBarCommand.RayThroughTwoPoints,

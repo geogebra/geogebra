@@ -19,6 +19,7 @@ import geogebra.touch.utils.Swipeables;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -46,9 +47,6 @@ public class TouchController extends EuclidianController
 		this.view = euclidianView;
 	}
 
-	/**
-	 * sets kernel AND app (kernel.getApplication)
-	 */
 	@Override
 	public void setKernel(Kernel k)
 	{
@@ -117,7 +115,7 @@ public class TouchController extends EuclidianController
 
 	public void handleEvent(Hits hits)
 	{
-		this.model.handleEvent(hits, null);
+		this.model.handleEvent(hits, null, null);
 	}
 
 	private void handleEvent(int x, int y)
@@ -148,7 +146,7 @@ public class TouchController extends EuclidianController
 		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
 
-		this.model.handleEvent(hits, new Point(x, y));
+		this.model.handleEvent(hits, new Point(x, y), new Point2D.Double(this.xRW, this.yRW));
 	}
 
 	/**
