@@ -162,17 +162,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		//result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		result = sb.toString();
-		
-		if (result.startsWith("list[")) {
-			App.debug("giac: removing list[...] from "+result);
-			result = "{" + result.substring(5, result.length()-1) + "}";
-		}
-		
-		if (result.startsWith("poly1[")) {
-			App.debug("giac: removing poly1[...] from "+result);
-			result = "{" + result.substring(6, result.length()-1) + "}";
-		}
-		
+			
 		if (result.startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 			// assume error
