@@ -1,0 +1,17 @@
+#!/bin/sh
+# Creates the hosted geogebra.zip for uploading to Chrome Web Store.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# 1. Settings
+APPNAME=geogebra
+VERSIONFILE=../../desktop/build/unpacked/version.txt
+
+VERSION=`cat $VERSIONFILE`
+
+# 2/1. Compilation and file preparation
+cat $APPNAME/manifest.json.template | sed s/VERSION/$VERSION/g > \
+ $APPNAME/manifest.json
+
+# 3. Packaging
+rm -f $APPNAME.zip
+zip -qr -9 -X $APPNAME-$VERSION.zip $APPNAME --exclude $APPNAME/*.template --exclude $APPNAME/svnignore.txt
