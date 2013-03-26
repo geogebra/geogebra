@@ -243,7 +243,9 @@ public class Ggb2MPReduce {
 		p("Normal.3",
 				"<<on pri; off rationalize; (1/2)*(1+erf((%2-%0)/sqrt(2)/%1)) >>");
 		p("Normal.4",
-				"<<on pri; off rationalize; if %3='false then (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2))) else (1/2)*(1+erf((%2-%0)/sqrt(2)/%1)>>");
+				"<<on pri; off rationalize; " +
+				" if %3=\\'false then (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2)))" +
+				" else (1/2)*(1+erf((%2-%0)/sqrt(2)/%1))>>");
 		p("nPr.2", "factorial(%0)/factorial(%0-%1)");
 		p("NSolve.1",
 				"<<begin scalar input!!; input!!:=(%0); on rounded, numval, roundall$ return mynumsolve(input!!,mymainvars(input!!, length(mkdepthone(list(input!!))))) end>>");
