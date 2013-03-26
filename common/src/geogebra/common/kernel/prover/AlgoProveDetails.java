@@ -166,7 +166,13 @@ public class AlgoProveDetails extends AlgoElement {
 					for (int i = 0; i < ndgc.getGeos().length; ++i) {
 						if (i > 0)
 							s += ',';
-						s += ndgc.getGeos()[i].getLabelSimple();
+						// There can be a case when the underlying prover sends such objects which cannot be
+						// understood by GeoGebra. In this case we use the "Objects" word.
+						GeoElement geo = ndgc.getGeos()[i]; 
+						if (geo != null)
+							s += ndgc.getGeos()[i].getLabelSimple();
+						else
+							s += loc.getPlain("Objects");
 					}
 					s += "]";
 					ndgConditionText.setTextString(s);

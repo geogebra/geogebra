@@ -1139,15 +1139,25 @@ public class Construction {
 		StringTemplate tpl = StringTemplate.ogpTemplate;
 		ConstructionElement ce;
 		int size = ceList.size();
+		int noProveCommands = 0;
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
 			if (ce instanceof AlgoProve || ce instanceof AlgoProveDetails) {
 				// Don't put all Prove/ProveDetails commands into the XML,
-				// only the current one.
+				// only one, and it should be "Prove". This is an ugly hack
+				// since we don't know the exact parent of "statement" ---
+				// which can be several Prove or ProveDetails commands.
 				// Not really sure if this could be done a bit more elegant...
-				AlgoElement ceAlgo = ce.getGeoElements()[0].getParentAlgorithm().getInput()[0].getParentAlgorithm();
-				if (ceAlgo.getCommandDescription(tpl).equals(statementAlgo.getCommandDescription(tpl))) {
-					ce.getXML_OGP(sb);
+				if (noProveCommands == 0) {
+					AlgoElement ceAlgo = ce.getGeoElements()[0].getParentAlgorithm().getInput()[0]
+							.getParentAlgorithm();
+					if (ceAlgo.getCommandDescription(tpl).equals(statementAlgo.getCommandDescription(tpl))) {
+						StringBuilder proveCommand = new StringBuilder();
+						ce.getXML_OGP(proveCommand);
+						proveCommand.toString().replaceFirst("ProveDetails", "Prove");
+						sb.append(proveCommand);
+						noProveCommands++;
+					}
 				}
 			} else
 				ce.getXML_OGP(sb);
