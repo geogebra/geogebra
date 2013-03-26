@@ -82,6 +82,8 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public int getSelectedRow() {
+		if(selectedRows.length<1)
+			return -1;
 		return selectedRows[0];
 	}
 
@@ -101,6 +103,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	public void startEditingRow(int n) {
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
+
 		if (w == editing)
 			return;
 		setSelectedRows(n,n);
