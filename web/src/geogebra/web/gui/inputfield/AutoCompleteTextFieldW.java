@@ -368,6 +368,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		  }
 	  
 	  public void startAutoCompletion() {
+		  	if(dict == null) //TODO should not get there
+		  		return;
 		    resetCompletions();
 		    completionsPopup.showCompletions();
 		  }
