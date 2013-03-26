@@ -125,6 +125,10 @@ public class Web implements EntryPoint {
 		// but GWT.getModuleBaseForStaticFiles is supported afterwards.
 		// String.replace(CharSequence, CharSequence) should replace all occurences in theory
 		// mathquillcss.replace("url(web/font/Symbola", "url("+GWT.getModuleBaseURL()+"font/Symbola");
+		App.debug("MathQuill initialization");
+		App.debug("moduleBaseForStaticFiles = " + GWT.getModuleBaseForStaticFiles());
+		App.debug("moduleBaseURL = " + GWT.getModuleBaseURL());
+		App.debug("hostPageBaseURL = " + GWT.getHostPageBaseURL());
 		mathquillcss.replace("url(web/font/Symbola", "url("+GWT.getModuleBaseForStaticFiles()+"font/Symbola");
 		// This code has been changed automatically by the build script, but we
 		// use GWT 2.5 right now, so that part of the script is no longer needed.
