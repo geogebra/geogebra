@@ -50,9 +50,16 @@ public class AppResourcesConverter {
 			getTmpCanvas().setCoordinateSpaceHeight(h);
 			c.clearRect(0, 0, w, h);
 			c.drawImage(ImageElement.as(i.getElement()), 0, 0);
-			converted[index] = c.getImageData(0, 0, w, h);
-			waitingForConvert--;
-			checkIfCanCallCallback();
+			//for some reason the size is 0 in dev mode sometimes (win8 + IE10)
+			if(w * h>0){
+				converted[index] = c.getImageData(0, 0, w, h);
+				
+				waitingForConvert--;
+				checkIfCanCallCallback();
+			}else{
+				System.out.println(i.getUrl());
+			
+			}
 		}
 	   });
 	   i.setVisible(false);
