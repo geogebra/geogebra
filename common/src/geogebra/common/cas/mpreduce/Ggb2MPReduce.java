@@ -75,7 +75,6 @@ public class Ggb2MPReduce {
 		p("Degree.1",
 				"computedeg(%0,allvars)");
 		p("Degree.2", "computedeg(%0,%1)");
-		p("Delete.1", "");
 		p("Denominator.1", "den(%0)");
 		p("Derivative.1",
 				"<< begin scalar input!!, result!!; input!!:=(%0);let solverules; on combineexpt; result!!:=df(input!!,mymainvar(input!!)); clearrules solverules; return result!! end>>");
