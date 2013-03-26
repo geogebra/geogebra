@@ -90,7 +90,7 @@ public class TouchController extends EuclidianController
 			if(l<this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
 				waitingX = x;
 				waitingY = y;
-				App.debug(l-this.lastMoveEvent);
+				EuclidianViewM.moveEventsIgnored++;
 				return;
 			}
 			this.lastMoveEvent = l;
@@ -99,7 +99,6 @@ public class TouchController extends EuclidianController
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 			EuclidianViewM.dragTime+=System.currentTimeMillis()-l;
-			App.debug("Drag:"+EuclidianViewM.drags+" x "+(EuclidianViewM.dragTime/EuclidianViewM.drags)+" = "+EuclidianViewM.dragTime);
 			
 		}
 		

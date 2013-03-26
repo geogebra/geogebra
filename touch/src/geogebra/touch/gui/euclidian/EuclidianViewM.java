@@ -50,6 +50,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from
 																									// geogebra.common.euclidian.draw.DrawPoint
+	public static int moveEventsIgnored;
 
 	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
@@ -75,7 +76,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	{
 		this.canvas = c;
 		this.g2p = new GGraphics2DW(this.canvas);
-		TouchEventController touchController = new TouchEventController((TouchController) EuclidianViewM.this.getEuclidianController());
+		TouchEventController touchController = new TouchEventController((TouchController) this.getEuclidianController());
 
 		p.addDomHandler(touchController, TouchStartEvent.getType());
 		p.addDomHandler(touchController, TouchEndEvent.getType());
@@ -136,7 +137,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		if (this.hits.size() == 0)
 		{
 			GRectangleW rect = new GRectangleW();
-			int size = EuclidianViewM.SELECTION_DIAMETER_MIN * this.selectionFactor;
+			int size = SELECTION_DIAMETER_MIN * this.selectionFactor;
 			rect.setBounds(p.x - (size / 2), p.y - (size / 2), size, size);
 			this.setHits(rect);
 			this.hits = super.getHits();
@@ -307,7 +308,15 @@ public class EuclidianViewM extends EuclidianViewWeb
 		((AppWeb)this.app).getTimerSystem().viewRepainted(this);
 		repaints++;
 		repaintTime+=(System.currentTimeMillis()-l);
-		App.debug("Repaint:"+repaints+" x "+(repaintTime/repaints)+" = "+repaintTime);
+		if(repaints%100 == 0){
+			App.debug("Repaint:"+repaints+" x "+(repaintTime/repaints)+" = "+repaintTime);
+			App.debug("Drag:"+drags+" x "+(dragTime/drags)+" = "+dragTime+","+moveEventsIgnored+" ignored");
+			repaints=0;
+			drags=0;
+			repaintTime=0;
+			dragTime=0;
+			moveEventsIgnored=0;
+		}
 	}
 
 }
