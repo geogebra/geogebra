@@ -30,8 +30,8 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"binomial(%0,%1,%2)");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
-		p("CFactor.1","cfactor(%0)");
-		p("CFactor.2","cfactor(%0,%1)");
+		p("CFactor.1","collect(%0,i)");
+		p("CFactor.2","collect(%0,i)");
 		p("ChiSquared.2", "chisquare(%0,%1)");
 		
 		// TODO: ggbtmpvarx
@@ -57,7 +57,6 @@ public class Ggb2giac {
 		p("Degree.1",
 				"degree(%0,ggbtmpvarx)");
 		p("Degree.2", "degree(%0,%1)");
-		p("Delete.1", "");
 		p("Denominator.1", "denom(%0)");
 		// TODO: diff(t^2) gives 0 not 2*t
 		p("Derivative.1",
@@ -214,7 +213,7 @@ public class Ggb2giac {
 		p("Normal.3",
 				"normald\\_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"normald\\_cdf(%0,%1,%2,%3)");
+				"if %3=true then normald\\_cdf(%0,%1,%2) else (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
 		// first element of list, wrapped back in list
 		p("NSolve.1",
@@ -279,7 +278,7 @@ public class Ggb2giac {
 		p("Sample.2",
 				"seq(rand(1,%0),j,1,%1)");
 		p("Sample.3",
-				"todo");
+				"if %3=true then seq(rand(1,%0),j,1,%1) else todo fi");
 		p("SampleVariance.1",
 				"todo");
 		p("SampleSD.1",
@@ -298,11 +297,11 @@ public class Ggb2giac {
 		// solve({x+y-1,x-y-3},{x,y}) -> list[{2,-1}]
 		
 		p("Solutions.1",
-				"solve(%0)");
+				"solve(%0,ggbtmpvarx)");
 		p("Solutions.2",
 				"solve(%0,%1)");
 		p("Solve.1",
-				"solve(%0)");
+				"solve(%0,ggbtmpvarx)");
 		p("Solve.2",
 				"solve(%0,%1)");
 		p("SolveODE.1",
@@ -314,7 +313,7 @@ public class Ggb2giac {
 				"odesolve(%0,%1,%2)");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"odesolve(%0,%1,%2,%3,%4)");
-		// p("Substitute.3","if hold!!=0 then sub(%1=(%2),%0) else sub(%1=(%2),!*hold(%0))");
+		p("Substitute.2","todo");
 		p("Substitute.3",
 				"subst(%0,%1,%2))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
@@ -327,7 +326,7 @@ public class Ggb2giac {
 		p("Take.3",
 				"todo");
 		p("TaylorSeries.3",
-				"series(%0,%1,%2)");
+				"series(%0,ggbtmpvarx,%1,%2)");
 		p("TaylorSeries.4",
 				"series(%0,%1,%2,%3)");
 		p("TDistribution.2",
@@ -345,17 +344,17 @@ public class Ggb2giac {
 		p("TrigExpand.1",
 				"trigexpand(%0)");
 		p("TrigExpand.2",
-				"??");
+				"trigexpand(%0)");
 		p("TrigExpand.3",
-				"??");
+				"trigexpand(%0)");
 		p("TrigExpand.4",
-				"??");
+				"trigexpand(%0)");
 		p("TrigSimplify.1",
 				"simplify(%0)");
 		p("TrigCombine.1",
 				"tcollect(%0)");
 		p("TrigCombine.2",
-				"??");
+				"tcollect(%0)");
 		p("Unique.1", "set[op(%0)]");
 		p("UnitOrthogonalVector.1",
 				"todo");
