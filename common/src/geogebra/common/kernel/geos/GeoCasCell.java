@@ -2160,6 +2160,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			
 		} else {
 			App.debug("Fail" + oldEvalComment);
+			if (twinGeo != null && twinGeo.getLabelSimple() != null)
+				twinGeo.doRemove();
 			// plot failed, undo assignment
 			assignmentVar = oldAssignmentVar;
 			outputVE.setAssignmentType(oldOVEAssignmentType);
