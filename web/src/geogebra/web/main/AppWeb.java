@@ -4,6 +4,7 @@ import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
+import geogebra.common.main.CasType;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.web.euclidian.EuclidianViewWeb;
@@ -109,5 +110,11 @@ public abstract class AppWeb extends App {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+
+	@Override
+	public CasType getCASType() {
+		return CasType.GIAC;
+	}
 		
 }

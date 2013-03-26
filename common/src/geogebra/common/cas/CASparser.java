@@ -18,7 +18,6 @@ import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.CASParserInterface;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -379,7 +378,7 @@ public class CASparser implements CASParserInterface{
 	synchronized Map<String,String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null) {
 
-			switch (Kernel.DEFAULT_CAS) {
+			switch (parser.getKernel().getCASType()) {
 
 			case GIAC:
 				rbCasTranslations = Ggb2giac.getMap();

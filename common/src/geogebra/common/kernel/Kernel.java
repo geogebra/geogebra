@@ -759,11 +759,14 @@ public class Kernel {
 	public boolean getLoadingMode() {
 		return loadingMode;
 	}
+
 	/** 
-	 * Default CAS type
+	 * CAS type
+	 * @return type eg GIAC, MPREDUCE
 	 */
-	//final public static CasType DEFAULT_CAS = CasType.GIAC; 
-	final public static CasType DEFAULT_CAS = CasType.MPREDUCE; 
+	public CasType getCASType() {
+		return app.getCASType();
+	}
 
 	final private static char sign(double x) { 
 		if (x > 0) {

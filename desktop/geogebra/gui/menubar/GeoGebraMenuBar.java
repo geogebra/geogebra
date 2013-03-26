@@ -1,7 +1,6 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.GuiManagerD;
@@ -435,12 +434,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(app.getPlain("ApplicationName"));
 		sb.append(" ");
 		sb.append(app.getVersionString());
-		switch (Kernel.DEFAULT_CAS) {
-		case MAXIMA:
-			sb.append('m');
-			break;
-			// default: do nothing
-		}
+
 		if (app.getApplet() != null) sb.append(" Applet");
 		else if (AppD.isWebstartDebug()) sb.append(" Debug");
 		else if (AppD.isWebstart()) sb.append(" Webstart");		

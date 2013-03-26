@@ -69,8 +69,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * Initializes underlying CAS
 	 */
 	public synchronized void initCurrentCAS() {
-		if (cas == null)
-			setCurrentCAS(Kernel.DEFAULT_CAS);
+		if (cas == null) {
+			setCurrentCAS(app.getCASType());
+		}
 	}
 
 	

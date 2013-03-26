@@ -3113,4 +3113,9 @@ public abstract class App implements UpdateSelection{
 		}
 		return selection;
 	}
+	/** 
+	 * CAS type
+	 * @return type eg GIAC, MPREDUCE
+	 */
+	public abstract CasType getCASType();
 }

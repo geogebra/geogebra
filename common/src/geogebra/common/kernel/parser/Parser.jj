@@ -88,7 +88,11 @@ public class Parser implements ParserInterface{
          this.kernel = kernel;
          app = kernel.getApplication();
          loc = app.getLocalization();
-    }   
+    }
+
+    public Kernel getKernel()     {
+      return kernel;
+    }
     
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {

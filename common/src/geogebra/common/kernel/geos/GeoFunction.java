@@ -1635,14 +1635,14 @@ public class GeoFunction extends GeoElement implements VarString,
 			sb.setLength(0);
 
 		sb.append("Solve(");
-		if (Kernel.DEFAULT_CAS == CasType.GIAC) {
+		if (kernel.getCASType() == CasType.GIAC) {
 			//Solve(1/(1/x)) "works" in Reduce but not in Giac
 			sb.append("Simplify(");
 		}
 		sb.append("1/(");
 		sb.append(funVarStr[0]); // function expression with "ggbtmpvarx" as
 									// function variable
-		if (Kernel.DEFAULT_CAS == CasType.GIAC) {
+		if (kernel.getCASType() == CasType.GIAC) {
 			sb.append(')');
 		}
 		sb.append(")=0");

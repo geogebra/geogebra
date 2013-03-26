@@ -43,6 +43,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
+import geogebra.common.main.CasType;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
@@ -5082,6 +5083,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public LocalizationD getLocalization() {
 		return loc;
+	}
+
+	@Override
+	public CasType getCASType() {
+		return CasType.MPREDUCE;
 	}
 
 
