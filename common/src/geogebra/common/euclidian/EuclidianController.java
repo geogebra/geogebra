@@ -9700,17 +9700,24 @@ public abstract class EuclidianController {
 			px = view.getWidth() / 2;
 			py = view.getHeight() / 2;
 		}
-
+		int steps = (int) Math.ceil((factor - 1)/ getZoomIncrementPerStep()); 
 		// make zooming a little bit smoother by having some steps
 		view.setAnimatedCoordSystem(
 		// px + dx * factor,
 		// py + dy * factor,
-				px, py, factor, view.getXscale() * factor, 4, false);
+				px, py, factor, view.getXscale() * factor, steps, false);
 		// view.yscale * factor);
 		app.setUnsaved();
 
 	}
-
+	
+	/**
+	 * @return how big difference in zoom can be done in one step. eg. 0.05 means that for 1.1x zoom 
+	 * we need 2 steps, for 1.5x zoom we need 10. 
+	 */
+	protected double getZoomIncrementPerStep() {
+		return 0.05;
+	}
 	public App getApplication() {
 		return app;
 	}
