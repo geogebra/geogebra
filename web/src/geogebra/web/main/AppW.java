@@ -181,6 +181,7 @@ public class AppW extends AppWeb {
 		App.debug("moduleBaseForStaticFiles = " + GWT.getModuleBaseForStaticFiles());
 		App.debug("moduleBaseURL = " + GWT.getModuleBaseURL());
 		App.debug("hostPageBaseURL = " + GWT.getHostPageBaseURL());
+		App.debug("mathquillCss = " + GuiResources.INSTANCE.mathquillCss().getText());
 
 		initCommonObjects();
 
