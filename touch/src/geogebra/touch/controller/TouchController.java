@@ -123,7 +123,7 @@ public class TouchController extends EuclidianController
 	public void onPinch(int x, int y, double scaleFactor)
 	{
 		super.mouseLoc = new GPoint(x, y);
-		super.zoomInOut(scaleFactor);
+		super.zoomInOut(scaleFactor,scaleFactor<EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR?1:2);
 	}
 
 	public void handleEvent(Hits hits)

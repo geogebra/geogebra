@@ -9680,11 +9680,11 @@ public abstract class EuclidianController {
 			factor *= minusPressed ? 2d / 3d : 1.5;
 		}
 
-		zoomInOut(factor);
+		zoomInOut(factor,4);
 
 	}
 	
-	public void zoomInOut(double factor) {
+	public void zoomInOut(double factor, int steps) {
 		boolean allowZoom = !app.isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
@@ -9700,7 +9700,6 @@ public abstract class EuclidianController {
 			px = view.getWidth() / 2;
 			py = view.getHeight() / 2;
 		}
-		int steps = (int) Math.ceil((factor - 1)/ getZoomIncrementPerStep()); 
 		// make zooming a little bit smoother by having some steps
 		view.setAnimatedCoordSystem(
 		// px + dx * factor,
@@ -9710,14 +9709,7 @@ public abstract class EuclidianController {
 		app.setUnsaved();
 
 	}
-	
-	/**
-	 * @return how big difference in zoom can be done in one step. eg. 0.05 means that for 1.1x zoom 
-	 * we need 2 steps, for 1.5x zoom we need 10. 
-	 */
-	protected double getZoomIncrementPerStep() {
-		return 0.05;
-	}
+
 	public App getApplication() {
 		return app;
 	}
