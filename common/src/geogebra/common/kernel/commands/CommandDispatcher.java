@@ -489,7 +489,10 @@ public class CommandDispatcher {
 			case PointIn:
 			case Line:
 			case Ray:
+				
+			case AngleBisector:
 			case AngularBisector:
+				
 			case Segment:
 			case Slope:
 			case Angle:

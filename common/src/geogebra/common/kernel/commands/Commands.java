@@ -38,7 +38,7 @@ public enum Commands implements CommandsConstants, GetCommand{
   	//=================================================================
   	// Geometry
 	//=============================================================
-   	Line(TABLE_GEOMETRY), Ray(TABLE_GEOMETRY), AngularBisector(TABLE_GEOMETRY), OrthogonalLine(TABLE_GEOMETRY),
+   	Line(TABLE_GEOMETRY), Ray(TABLE_GEOMETRY), AngularBisector(TABLE_GEOMETRY), AngleBisector(TABLE_GEOMETRY), OrthogonalLine(TABLE_GEOMETRY),
    	Tangent(TABLE_GEOMETRY), Segment(TABLE_GEOMETRY), Slope(TABLE_GEOMETRY), Angle(TABLE_GEOMETRY),
    	Direction(TABLE_GEOMETRY), Point(TABLE_GEOMETRY), Midpoint(TABLE_GEOMETRY), LineBisector(TABLE_GEOMETRY),
    	Intersect(TABLE_GEOMETRY), IntersectPath(TABLE_GEOMETRY), IntersectRegion(TABLE_GEOMETRY), Distance(TABLE_GEOMETRY), Length(TABLE_GEOMETRY),
@@ -262,6 +262,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	
    	public static Commands englishToInternal(Commands comm) {
 		switch(comm){
+			case AngleBisector: return AngularBisector;
 			case Reflect: return Mirror;
 			case Curve: return CurveCartesian;
 			case FormulaText: return LaTeX;

@@ -63,8 +63,11 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLine(kernel);
 		case Ray:
 			return new CmdRay(kernel);
+			
+		case AngleBisector:
 		case AngularBisector:
 			return new CmdAngularBisector(kernel);
+			
 		case Segment:
 			return new CmdSegment(kernel);
 		case Slope:
