@@ -53,10 +53,11 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 	public void onMouseMove(MouseMoveEvent event) {
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		CASTableW table = view.getConsoleTable();
-		if(p.getX()!=CASTableW.COL_CAS_HEADER || startSelectRow<0)
+		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER || startSelectRow < 0) {
 			return;
-		if(event.isShiftKeyDown()){
-			table.addSelectedRows(startSelectRow,p.getY());
+		}
+		if (event.isShiftKeyDown()) {
+			table.addSelectedRows(startSelectRow, p.getY());
 		}
 		event.stopPropagation();
 	    
@@ -65,13 +66,14 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 	public void onMouseUp(MouseUpEvent event) {
 		GPoint p = view.getConsoleTable().getPointForEvent(event);
 		CASTableW table = view.getConsoleTable();
-		if(p.getX()!=CASTableW.COL_CAS_HEADER || startSelectRow<0)
+		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER || startSelectRow < 0) {
 			return;
+		}
 		table.cancelEditing();
-		if(event.isControlKeyDown()){
-			table.addSelectedRows(startSelectRow,p.getY());
-		}else{
-			table.setSelectedRows(startSelectRow,p.getY());
+		if (event.isControlKeyDown()){
+			table.addSelectedRows(startSelectRow, p.getY());
+		} else {
+			table.setSelectedRows(startSelectRow, p.getY());
 		}
 		event.stopPropagation();
 	    
@@ -80,16 +82,16 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
 	public void onMouseDown(MouseDownEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint p = table.getPointForEvent(event);
-		if(p.getX()!=CASTableW.COL_CAS_HEADER){
+		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER) {
 			this.startSelectRow = -1;
 			return;
 		}
-		if(!event.isShiftKeyDown()){
+		if (!event.isShiftKeyDown()) {
 			this.startSelectRow = p.getY();
-		}else if(event.isControlKeyDown()){
-			table.addSelectedRows(startSelectRow,p.getY());
-		}else{
-			table.setSelectedRows(startSelectRow,p.getY());
+		} else if (event.isControlKeyDown()) {
+			table.addSelectedRows(startSelectRow, p.getY());
+		} else {
+			table.setSelectedRows(startSelectRow, p.getY());
 		}
 	    event.stopPropagation();
     }
