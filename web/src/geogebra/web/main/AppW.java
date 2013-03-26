@@ -177,6 +177,11 @@ public class AppW extends AppWeb {
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
+
+		App.debug("moduleBaseForStaticFiles = " + GWT.getModuleBaseForStaticFiles());
+		App.debug("moduleBaseURL = " + GWT.getModuleBaseURL());
+		App.debug("hostPageBaseURL = " + GWT.getHostPageBaseURL());
+
 		initCommonObjects();
 
 		mySplitLayoutPanel = new MySplitLayoutPanel(false, false, false, false,
