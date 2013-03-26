@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.Swipeables;
@@ -34,6 +35,9 @@ public class TouchController extends EuclidianController
 	private TouchModel model;
 	private GPoint origin;
 	private boolean clicked = false;
+	private static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
+	private int waitingX,waitingY;
+	private long lastMoveEvent;
 
 	public TouchController(TouchModel touchModel, App app)
 	{
@@ -81,12 +85,22 @@ public class TouchController extends EuclidianController
 		
 		if (this.clicked && (this.clicked = this.model.controlClicked()) && this.model.getCommand() == ToolBarCommand.Move_Mobile)
 		{	
-			long l = System.currentTimeMillis();	
+			EuclidianViewM.drags++;
+			long l = System.currentTimeMillis();
+			if(l<this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
+				waitingX = x;
+				waitingY = y;
+				App.debug(l-this.lastMoveEvent);
+				return;
+			}
+			this.lastMoveEvent = l;
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
-			App.debug("Drag took:"+(System.currentTimeMillis()-l));
+			EuclidianViewM.dragTime+=System.currentTimeMillis()-l;
+			App.debug("Drag:"+EuclidianViewM.drags+" x "+(EuclidianViewM.dragTime/EuclidianViewM.drags)+" = "+EuclidianViewM.dragTime);
+			
 		}
 		
 	}

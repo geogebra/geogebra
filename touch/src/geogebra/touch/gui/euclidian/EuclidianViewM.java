@@ -44,6 +44,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 {
 	// set in setCanvas
 	private Canvas canvas;
+	public static int repaints,repaintTime,drags,dragTime;
 
 	protected Hits hits;
 
@@ -293,7 +294,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 
 	@Override
 	public void doRepaint2()
-	{
+	{	
 		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
 		if (getAxesColor() == null)
 		{
@@ -304,7 +305,9 @@ public class EuclidianViewM extends EuclidianViewWeb
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb)this.app).getTimerSystem().viewRepainted(this);
-		App.debug("Repaint took:"+(System.currentTimeMillis()-l));
+		repaints++;
+		repaintTime+=(System.currentTimeMillis()-l);
+		App.debug("Repaint:"+repaints+" x "+(repaintTime/repaints)+" = "+repaintTime);
 	}
 
 }
