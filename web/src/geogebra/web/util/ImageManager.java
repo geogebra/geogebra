@@ -68,6 +68,7 @@ public class ImageManager extends AbstractImageManager {
 				} else {
 					app.afterLoadAppFile();
 				}
+				imagesLoaded=0;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
