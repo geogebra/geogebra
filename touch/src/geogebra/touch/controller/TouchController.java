@@ -23,6 +23,8 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Timer;
+
 /**
  * Receives the events from the canvas and sends the orders to the kernel.
  * 
@@ -36,8 +38,18 @@ public class TouchController extends EuclidianController
 	private GPoint origin;
 	private boolean clicked = false;
 	private static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
-	private int waitingX,waitingY;
+	int waitingX;
+	int waitingY;
 	private long lastMoveEvent;
+	
+	private Timer repaintTimer = new Timer() {
+		@Override
+		public void run() {
+			touchMoveIfWaiting();
+		}
+
+		
+	};
 
 	public TouchController(TouchModel touchModel, App app)
 	{
@@ -86,26 +98,44 @@ public class TouchController extends EuclidianController
 		if (this.clicked && (this.clicked = this.model.controlClicked()) && this.model.getCommand() == ToolBarCommand.Move_Mobile)
 		{	
 			EuclidianViewM.drags++;
-			long l = System.currentTimeMillis();
-			if(l<this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
-				waitingX = x;
-				waitingY = y;
+			long time = System.currentTimeMillis();
+			if(time < this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
+				this.waitingX = x;
+				this.waitingY = y;
 				EuclidianViewM.moveEventsIgnored++;
+				this.repaintTimer.schedule(DELAY_BETWEEN_MOVE_EVENTS);
 				return;
 			}
-			this.lastMoveEvent = l;
-			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-			wrapMouseDragged(mEvent);
-			this.origin = new GPoint(x, y);
-			EuclidianViewM.dragTime+=System.currentTimeMillis()-l;
+			this.waitingX =-1;
+			this.waitingY =-1;
+			touchMoveNow(x, y, time);
 			
+		}
+		
+	}
+
+	private void touchMoveNow(int x, int y,long l) {
+		this.lastMoveEvent = l;
+		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
+		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+		wrapMouseDragged(mEvent);
+		this.origin = new GPoint(x, y);
+		EuclidianViewM.dragTime+=System.currentTimeMillis()-l;		
+	}
+	
+	void touchMoveIfWaiting() {
+		if(this.waitingX > 0){
+			touchMoveNow(this.waitingX, this.waitingY, System.currentTimeMillis());
 		}
 		
 	}
 
 	public void onTouchEnd(int x, int y)
 	{
+		if(this.waitingX > 0){
+			touchMoveNow(this.waitingX,this.waitingY,System.currentTimeMillis());
+		}
+		
 		this.clicked = false;
 
 		if (Swipeables.isSwipeable(this.model.getCommand()) && this.model.getNumberOf(Test.GEOPOINT) == 1
