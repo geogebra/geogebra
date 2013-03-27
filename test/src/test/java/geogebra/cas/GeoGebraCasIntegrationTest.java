@@ -3030,6 +3030,9 @@ public class GeoGebraCasIntegrationTest {
 		t("Factor[h(x)]","(x - 2) * x","x * (x - 2)");
 		t("Solve[h(x)=0,x]","{x = 2, x = 0}","{x = 0, x = 2}");
 		t("S:=Intersect[f(x),g(x)]","{(0, 2), (2, 3)}");
+		t("Delete[f]","true");
+		t("Delete[g]","true");
+		t("Delete[h]","true");
 	}	
 
 	@Test
