@@ -784,18 +784,16 @@ public class Kernel {
 		return notifyConstructionProtocolViewAboutAddRemoveActive;
 	}
 
-	private double[] temp;// = new double[6];
 
-	@SuppressWarnings("cast")
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	public final StringBuilder buildImplicitEquation(double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
 			char op, StringTemplate tpl) {
 
 		sbBuildImplicitEquation.setLength(0);
-		sbBuildImplicitEquation.append((CharSequence) buildImplicitVarPart(
+		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation,
 				numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN,
-				tpl).toString());
+				tpl);
 
 		if (tpl.hasType(StringType.MATH_PIPER) && (op == '=')) {
 			sbBuildImplicitEquation.append(" == ");
@@ -1239,8 +1237,8 @@ public class Kernel {
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
-		sbBuildLHS.append(buildImplicitVarPart(numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN, tpl));
+		double[] temp = buildImplicitVarPart(sbBuildLHS,numbers, vars,
+				KEEP_LEADING_SIGN, CANCEL_DOWN, tpl);
 
 		// add constant coeff
 		double coeff = temp[vars.length];
@@ -1283,11 +1281,11 @@ public class Kernel {
 	}
 
 	// lhs of implicit equation without constant coeff
-	final private StringBuilder buildImplicitVarPart(double[] numbers,
+	final private double[] buildImplicitVarPart(StringBuilder sbBuildImplicitVarPart, double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
 			StringTemplate tpl) {
 
-		temp = new double[numbers.length];
+		double[] temp = new double[numbers.length];
 
 		int leadingNonZero = -1;
 		sbBuildImplicitVarPart.setLength(0);
@@ -1314,7 +1312,7 @@ public class Kernel {
 		// no left hand side
 		if (leadingNonZero == -1) {
 			sbBuildImplicitVarPart.append("0");
-			return sbBuildImplicitVarPart;
+			return temp;
 		}
 
 		// don't change leading coefficient
@@ -1353,10 +1351,10 @@ public class Kernel {
 				sbBuildImplicitVarPart.append(vars[i]);
 			}
 		}
-		return sbBuildImplicitVarPart;
+		return temp;
 	}
 
-	private final StringBuilder sbBuildImplicitVarPart = new StringBuilder(80);
+	//private final StringBuilder sbBuildImplicitVarPart = new StringBuilder(80);
 
 	/**
 	 * form: y^2 = f(x) (coeff of y = 0)
