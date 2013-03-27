@@ -180,7 +180,8 @@ public enum Commands implements CommandsConstants, GetCommand{
    	ParseToFunction(TABLE_SCRIPTING), StartAnimation(TABLE_SCRIPTING), Delete(TABLE_SCRIPTING), Slider(TABLE_SCRIPTING),
    	Checkbox(TABLE_SCRIPTING), Textfield(TABLE_SCRIPTING), Button(TABLE_SCRIPTING), Execute(TABLE_SCRIPTING),
    	GetTime(TABLE_SCRIPTING), ShowLabel(TABLE_SCRIPTING), SetAxesRatio(TABLE_SCRIPTING), SetVisibleInView(TABLE_SCRIPTING),
-   	ShowAxes(TABLE_SCRIPTING), ShowGrid(TABLE_SCRIPTING),AttachCopyToView(TABLE_SCRIPTING),
+   	ShowAxes(TABLE_SCRIPTING), ShowGrid(TABLE_SCRIPTING),AttachCopyToView(TABLE_SCRIPTING),RunClickScript(TABLE_SCRIPTING),
+   	RunUpdateScript(TABLE_SCRIPTING),
    	
 	//=============================================================	
   	// discrete math

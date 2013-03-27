@@ -95,6 +95,7 @@ public class NoExceptionsTest {
 		t("bf1: x>3");
 		t("ptxt=\"n1+n2\"");
 		t("turtle1=Turtle[]");
+		t("object=(1,1)");
 	}
 	public static int syntaxes;
 	@Before
@@ -2451,6 +2452,14 @@ public class NoExceptionsTest {
 		t("NIntegral[x^2,-1,1]");
 	}
 	
+	@Test
+	public void cmdRunClickScript(){
+		t("RunClickScript[object]");
+	}
+	@Test
+	public void cmdRunUpdateScript(){
+		t("RunUpdateScript[object]");
+	}
 	@Test
 	public void cmdToPoint(){
 		t("ToPoint[(1,1)]");

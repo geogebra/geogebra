@@ -344,6 +344,8 @@ public class CommandDispatcher {
 			case TurtleBack:
 			case TurtleLeft:
 			case TurtleRight:
+			case RunClickScript:
+			case RunUpdateScript:
 				return getScriptingDispatcher().dispatch(command,kernel);
 	
 				
@@ -408,7 +410,6 @@ public class CommandDispatcher {
 			case Determinant:
 			case Identity:
 			case Centroid:
-			
 			case MajorAxis:
 			case FirstAxis:
 			

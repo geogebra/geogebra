@@ -14,6 +14,8 @@ import geogebra.common.kernel.scripting.CmdPlaySound;
 import geogebra.common.kernel.scripting.CmdRelation;
 import geogebra.common.kernel.scripting.CmdRename;
 import geogebra.common.kernel.scripting.CmdRigidPolygon;
+import geogebra.common.kernel.scripting.CmdRunClickScript;
+import geogebra.common.kernel.scripting.CmdRunUpdateScript;
 import geogebra.common.kernel.scripting.CmdSelectObjects;
 import geogebra.common.kernel.scripting.CmdSetActiveView;
 import geogebra.common.kernel.scripting.CmdSetAxesRatio;
@@ -168,7 +170,11 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 					case TurtleLeft:
 						return new CmdTurtleLeft(kernel);
 					case TurtleRight:
-						return new CmdTurtleRight(kernel);		
+						return new CmdTurtleRight(kernel);	
+					case RunClickScript:
+						return new CmdRunClickScript(kernel);
+					case RunUpdateScript:
+						return new CmdRunUpdateScript(kernel);
 		}
 		return null;
 	}
