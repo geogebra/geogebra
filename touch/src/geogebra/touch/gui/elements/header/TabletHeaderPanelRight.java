@@ -9,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-
 /**
  * ButtonBar for the buttons on the right side of the HeaderPanel.
  * 
@@ -18,16 +17,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class TabletHeaderPanelRight extends HorizontalPanel
 {
-
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
 	public TabletHeaderPanelRight(final Kernel kernel)
 	{
-		this.addStyleName("rightHeader");
-
 		HeaderImageButton[] button = new HeaderImageButton[2];
 		button[0] = new HeaderImageButton();
+
 		SVGResource icon = CommonResources.INSTANCE.undo();
 		button[0].setText(icon.getSafeUri().asString());
 
@@ -57,7 +54,5 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		{
 			this.add(button[i]);
 		}
-
 	}
-
 }

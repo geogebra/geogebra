@@ -32,7 +32,7 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.logical.shared.ResizeEvent;
 
 /**
  * 
@@ -41,39 +41,38 @@ import com.google.gwt.user.client.Window;
  */
 public class EuclidianViewM extends EuclidianViewWeb
 {
-	// set in setCanvas
 	private Canvas canvas;
-	public static int repaints,repaintTime,drags,dragTime;
+	public static int repaints, repaintTime, drags, dragTime;
 
 	protected Hits hits;
 
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from
-																									// geogebra.common.euclidian.draw.DrawPoint
+	                                                // geogebra.common.euclidian.draw.DrawPoint
 	public static int moveEventsIgnored;
 
 	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
 	private int selectionFactor = 3;
 
-	public EuclidianViewM(TouchController ec)
+	public EuclidianViewM(EuclidianViewPanel euclidianViewPanel, TouchController ec)
 	{
 		super(ec, new Settings().getEuclidian(1));
+
+		ec.setView(this);
 
 		this.setAllowShowMouseCoords(false);
 
 		this.hits = new Hits();
+		init(euclidianViewPanel);
 	}
 
 	/**
 	 * This method has to be called before using g2p.
 	 * 
-	 * @param c
-	 *          : a new Canvas
-	 * 
 	 */
-	public void initCanvas(Canvas c, EuclidianViewPanel euclidianViewPanel)
+	private void init(EuclidianViewPanel euclidianViewPanel)
 	{
-		this.canvas = c;
+		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
 		TouchEventController touchController = new TouchEventController((TouchController) this.getEuclidianController());
 
@@ -227,16 +226,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void updateSize()
 	{
-		Window.enableScrolling(false);
-
-		int width = Window.getClientWidth();
-		int height = Window.getClientHeight();
-
-		this.g2p.setCoordinateSpaceWidth(width);
-		this.g2p.setCoordinateSpaceHeight(height);
-
-		this.canvas.setSize(width + "px", height + "px");
-
 		setRealWorldBounds();
 	}
 
@@ -294,8 +283,8 @@ public class EuclidianViewM extends EuclidianViewWeb
 
 	@Override
 	public void doRepaint2()
-	{	
-		((AppWeb)this.app).getTimerSystem().viewRepainting(this);
+	{
+		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
 		if (getAxesColor() == null)
 		{
 			setAxesColor(geogebra.common.awt.GColor.black);
@@ -304,18 +293,33 @@ public class EuclidianViewM extends EuclidianViewWeb
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
-		((AppWeb)this.app).getTimerSystem().viewRepainted(this);
+		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
 		repaints++;
-		repaintTime+=(System.currentTimeMillis()-l);
-		if(repaints%100 == 0){
-			App.debug("Repaint:"+repaints+" x "+(repaintTime/repaints)+" = "+repaintTime);
-			App.debug("Drag:"+drags+" x "+(dragTime/drags)+" = "+dragTime+","+moveEventsIgnored+" ignored");
-			repaints=0;
-			drags=0;
-			repaintTime=0;
-			dragTime=0;
-			moveEventsIgnored=0;
+		repaintTime += (System.currentTimeMillis() - l);
+		if (repaints % 100 == 0)
+		{
+			App.debug("Repaint:" + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
+			App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
+			repaints = 0;
+			drags = 0;
+			repaintTime = 0;
+			dragTime = 0;
+			moveEventsIgnored = 0;
 		}
 	}
 
+	public void onResize(ResizeEvent event)
+	{
+		setPixelSize(event.getWidth(), event.getHeight());
+	}
+
+	public void setPixelSize(int width, int height)
+	{
+		this.g2p.setCoordinateSpaceWidth(width);
+		this.g2p.setCoordinateSpaceHeight(height);
+
+		this.canvas.setPixelSize(width, height);
+		updateSize();
+		doRepaint2();
+	}
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -26,7 +27,7 @@ public class ToolBar extends HorizontalPanel
 
 	protected List<ToolBarButton> tools;
 	private HorizontalPanel toolPanel, inputButtonPanel;
-	
+
 	protected InputDialog input;
 
 	public ToolBar(final TouchModel touchModel)
@@ -34,7 +35,7 @@ public class ToolBar extends HorizontalPanel
 		this.setWidth(Window.getClientWidth() + "px");
 		this.toolPanel = new HorizontalPanel();
 		this.inputButtonPanel = new HorizontalPanel();
-		
+
 		makeTabletToolBar(touchModel);
 	}
 
@@ -105,5 +106,10 @@ public class ToolBar extends HorizontalPanel
 		this.add(this.inputButtonPanel);
 
 		touchModel.getGuiModel().setActive(this.tools.get(0));
+	}
+
+	public void onResize(ResizeEvent event)
+	{
+		this.setWidth(event.getWidth() + "px");
 	}
 }

@@ -11,15 +11,15 @@ import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.DeckLayoutPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class TouchEntryPoint implements EntryPoint
 {
-	static DeckPanel appWidget = new DeckPanel();
+	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static TubeSearchGUI tubeSearchGUI = new TubeSearchGUI();
 
@@ -40,8 +40,8 @@ public class TouchEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{
-				TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
-				RootPanel.get().add(TouchEntryPoint.appWidget);
+//				TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
+				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 
@@ -55,7 +55,7 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onResize(ResizeEvent event)
 					{
-						TouchEntryPoint.appWidget.setPixelSize(event.getWidth(), event.getHeight());
+//						TouchEntryPoint.appWidget.setPixelSize(event.getWidth(), event.getHeight());
 					}
 				});
 			}

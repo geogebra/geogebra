@@ -8,9 +8,11 @@ import geogebra.touch.model.GuiModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
@@ -21,21 +23,20 @@ public class TabletHeaderPanel extends HorizontalPanel
 	private TabletHeaderPanelLeft leftHeader;
 	private Button title;
 	private TabletHeaderPanelRight rightHeader;
-	
+
 	protected InputDialog dialog;
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, Kernel kernel, GuiModel guiModel)
 	{
 		this.setWidth(Window.getClientWidth() + "px");
-		
+
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, kernel, guiModel);
-		
+
 		// TODO get text from some I18n list
 		this.title = new Button("GeoGebraTouch");
-		
+
 		this.rightHeader = new TabletHeaderPanelRight(kernel);
-		
-		
+
 		this.title.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -44,7 +45,6 @@ public class TabletHeaderPanel extends HorizontalPanel
 				event.preventDefault();
 				TabletHeaderPanel.this.dialog = new InputDialog("Title", TabletHeaderPanel.this.getElement().getInnerText(), new InputCallback()
 				{
-
 					@Override
 					public void onOk()
 					{
@@ -64,10 +64,15 @@ public class TabletHeaderPanel extends HorizontalPanel
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_JUSTIFY);
+
+		this.title.setPixelSize(Window.getClientWidth() - 396, 61);
+		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.title);
+		
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
+
+
 	}
 
 	/**
@@ -78,5 +83,11 @@ public class TabletHeaderPanel extends HorizontalPanel
 	public void setTitle(String title)
 	{
 		this.title.setText(title);
+	}
+
+	public void onResize(ResizeEvent event)
+	{
+		this.setWidth(event.getWidth() + "px");
+		this.title.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
 	}
 }

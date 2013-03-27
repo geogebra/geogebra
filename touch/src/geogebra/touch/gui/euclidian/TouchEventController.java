@@ -11,8 +11,11 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.MouseWheelHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
 public class TouchEventController implements TouchStartHandler, TouchMoveHandler, TouchEndHandler, MouseDownHandler, MouseUpHandler,
@@ -28,32 +31,33 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	}
 
 	@Override
-	public void onTouchStart(com.google.gwt.event.dom.client.TouchStartEvent event)
+	public void onTouchStart(TouchStartEvent event)
 	{
 		if (event.getTouches().length() == 1)
 		{
 			event.preventDefault();
-			this.mc.onTouchStart(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
+			this.mc.onTouchStart(event.getTouches().get(0).getClientX(), event.getTouches().get(0).getClientY());
 		}
 		else if (event.getTouches().length() == 2)
 		{
-			this.oldDistance = distance(event.getTouches().get(0),event.getTouches().get(1));
+			this.oldDistance = distance(event.getTouches().get(0), event.getTouches().get(1));
 		}
 	}
 
-	private static double distance(Touch t1, Touch t2) {
-		return Math.sqrt(Math.pow(t1.getPageX() - t2.getPageX(), 2) + Math.pow(t1.getPageY() - t2.getPageY(), 2));
+	private static double distance(Touch t1, Touch t2)
+	{
+		return Math.sqrt(Math.pow(t1.getClientX() - t2.getClientX(), 2) + Math.pow(t1.getClientY() - t2.getClientY(), 2));
 	}
 
 	@Override
-	public void onTouchMove(com.google.gwt.event.dom.client.TouchMoveEvent event)
+	public void onTouchMove(TouchMoveEvent event)
 	{
 		event.preventDefault();
 
 		if (event.getTouches().length() == 1)
 		{
 			// proceed normally
-			this.mc.onTouchMove(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
+			this.mc.onTouchMove(event.getTouches().get(0).getClientX(), event.getTouches().get(0).getClientY());
 		}
 		else if (event.getTouches().length() == 2)
 		{
@@ -64,16 +68,16 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			first = event.getTouches().get(0);
 			second = event.getTouches().get(1);
 
-			centerX = (first.getPageX() + second.getPageX()) / 2;
-			centerY = (first.getPageY() + second.getPageY()) / 2;
+			centerX = (first.getClientX() + second.getClientX()) / 2;
+			centerY = (first.getClientY() + second.getClientY()) / 2;
 
 			if (this.oldDistance > 0)
 			{
-				newDistance = distance(first,second);
+				newDistance = distance(first, second);
 
 				if (Math.abs(newDistance - this.oldDistance) > MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM)
 				{
-					//App.debug("Zooming ... "+oldDistance+":"+newDistance);
+					// App.debug("Zooming ... "+oldDistance+":"+newDistance);
 					this.mc.onPinch(centerX, centerY, newDistance / this.oldDistance);
 					this.oldDistance = newDistance;
 				}
@@ -82,10 +86,10 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	}
 
 	@Override
-	public void onTouchEnd(com.google.gwt.event.dom.client.TouchEndEvent event)
+	public void onTouchEnd(TouchEndEvent event)
 	{
 		event.preventDefault();
-		this.mc.onTouchEnd(event.getChangedTouches().get(0).getPageX(), event.getChangedTouches().get(0).getPageY());
+		this.mc.onTouchEnd(event.getChangedTouches().get(0).getClientX(), event.getChangedTouches().get(0).getClientY());
 
 	}
 
@@ -94,20 +98,20 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onMouseDown(MouseDownEvent event)
 	{
 		event.preventDefault();
-		this.mc.onTouchStart(event.getClientX(), event.getClientY());
+		this.mc.onTouchStart(event.getX(), event.getY());
 	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
-		this.mc.onTouchMove(event.getClientX(), event.getClientY());
+		this.mc.onTouchMove(event.getX(), event.getY());
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
 		event.preventDefault();
-		this.mc.onTouchEnd(event.getClientX(), event.getClientY());
+		this.mc.onTouchEnd(event.getX(), event.getY());
 	}
 
 	@Override
@@ -115,7 +119,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	{
 		int scale = event.getDeltaY();
 
-		this.mc.onPinch(event.getClientX(), event.getClientY(), scale);
+		this.mc.onPinch(event.getX(), event.getY(), scale);
 	}
 
 }

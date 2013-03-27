@@ -1,5 +1,7 @@
 package geogebra.touch.gui;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -20,12 +22,12 @@ import geogebra.touch.model.TouchModel;
 public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 {
 	private TabletHeaderPanel headerPanel;
-	private AbsolutePanel contentPanel;
+	AbsolutePanel contentPanel;
 	private ToolBar toolBar;
 
-	private EuclidianViewPanel euclidianViewPanel;
+	EuclidianViewPanel euclidianViewPanel;
 	private AlgebraViewPanel algebraViewPanel;
-	private StylingBar stylingBar;
+	StylingBar stylingBar;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -35,7 +37,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	{
 		// required to start the kernel
 		this.euclidianViewPanel = new EuclidianViewPanel();
-
 
 	}
 
@@ -58,12 +59,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.setHeaderWidget(this.headerPanel);
 
 		this.contentPanel = new AbsolutePanel();
-		this.contentPanel.getElement().setClassName("contentPanel");
 
 		TouchController ec = new TouchController(touchModel, kernel.getApplication());
 		ec.setKernel(kernel);
 
 		this.euclidianViewPanel.initEuclidianView(ec);
+		this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 		touchModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());
 
 		this.stylingBar = new StylingBar(touchModel, this.euclidianViewPanel.getEuclidianView());
@@ -74,14 +75,35 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.contentPanel.add(this.euclidianViewPanel);
 		this.contentPanel.add(this.algebraViewPanel);
 		this.contentPanel.add(this.stylingBar);
-		this.setContentWidget(this.contentPanel);
-		
-		this.contentPanel.setWidgetPosition(this.euclidianViewPanel, -1, -1);
+
+		this.contentPanel.setWidgetPosition(this.euclidianViewPanel, 0, 0);
 		this.contentPanel.setWidgetPosition(this.algebraViewPanel, 0, 10);
 		this.contentPanel.setWidgetPosition(this.stylingBar, Window.getClientWidth() - 60, 10);
+		this.setContentWidget(this.contentPanel);
 
 		this.toolBar = new ToolBar(touchModel);
 		this.setFooterWidget(this.toolBar);
+
+		Window.addResizeHandler(new ResizeHandler()
+		{
+			@Override
+			public void onResize(ResizeEvent event)
+			{
+				TabletGUI.this.onResize(event);
+			}
+		});
+	}
+
+	protected void onResize(ResizeEvent event)
+	{
+		this.headerPanel.onResize(event);
+
+		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
+		this.euclidianViewPanel.setPixelSize(event.getWidth(), event.getHeight() - 122);
+
+		this.contentPanel.setWidgetPosition(TabletGUI.this.stylingBar, Window.getClientWidth() - 60, 10);
+
+		this.toolBar.onResize(event);
 	}
 
 	@Override

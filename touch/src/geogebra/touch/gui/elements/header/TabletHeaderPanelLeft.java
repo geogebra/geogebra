@@ -37,8 +37,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.app = (TouchApp) kernel.getApplication();
 		this.tabletGUI = tabletGUI;
 
-		this.addStyleName("leftHeader");
-
 		HeaderImageButton[] left = new HeaderImageButton[4];
 
 		SVGResource icon = CommonResources.INSTANCE.document_new();
