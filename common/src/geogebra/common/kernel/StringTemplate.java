@@ -190,7 +190,7 @@ public class StringTemplate {
 	static {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
-		testTemplate.localizeCmds = false;
+		//testTemplate.localizeCmds = false;
 		testTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 	/** Template for CAS tests involving Numeric command*/
@@ -198,7 +198,7 @@ public class StringTemplate {
 	static {
 		testNumeric.internationalizeDigits = false;
 		testNumeric.setType(StringType.GEOGEBRA_XML);
-		testNumeric.localizeCmds = false;
+		//testNumeric.localizeCmds = false;
 		testNumeric.allowMoreDigits = true;
 		testNumeric.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
