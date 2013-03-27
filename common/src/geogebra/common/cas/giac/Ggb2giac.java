@@ -115,7 +115,7 @@ public class Ggb2giac {
 		p("FitLog.1",
 				"[[ggbans:=logarithmic\\_regression(%0)],(ggbans[0])*ln(ggbtmpvarx)+ggbans[1]][1]");
 		p("FitPoly.2",
-				"polynomial\\_regression(%0,%1)");
+				"normal(horner(polynomial\\_regression(%0,%1),ggbtmpvarx))");
 		p("FitPow.1",
 				"[[ggbans:=power\\_regression(%0)],(ggbans[1])*ggbtmpvarx^(ggbans[0])][1]");
 
