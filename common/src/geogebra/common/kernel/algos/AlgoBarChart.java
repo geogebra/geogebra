@@ -880,6 +880,11 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		double ySum = 0;
 		double x = 0;
+		if(list2.size()<N){
+				sum.setUndefined();
+				return;
+		}
+
 		for (int i = 0; i < N; i++) {
 			if (list1.get(i).isGeoNumeric()) {
 				x = list1.get(i).evaluateNum().getDouble();
