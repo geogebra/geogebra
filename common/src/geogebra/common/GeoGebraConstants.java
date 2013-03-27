@@ -102,6 +102,7 @@ public interface GeoGebraConstants {
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
 	public static final String SYDRIVE_REDIRECT_URI = "http://www.geogebra.org/web/test50/web/html/windowslive.html";
+	public static final String SKYDRIVE_PROXY_URL =	"html/skydriveproxy.php";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.

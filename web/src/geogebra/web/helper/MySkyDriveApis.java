@@ -1,9 +1,12 @@
 package geogebra.web.helper;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.DynamicScriptElement;
+import geogebra.web.html5.FormData;
+import geogebra.web.html5.XHR2;
 import geogebra.web.main.AppW;
 
 import java.util.Date;
@@ -11,6 +14,7 @@ import java.util.Date;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.xhr.client.ReadyStateChangeHandler;
@@ -182,18 +186,19 @@ public class MySkyDriveApis {
 	}
 
 	public void loadFromSkyDrive(String id, String name, String source) {
-	    XMLHttpRequest xhr = XMLHttpRequest.create();
-	    xhr.open("GET", source);
-	    xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
+		XHR2 xhr = (XHR2) XHR2.create();
+		xhr.open("POST", GWT.getModuleBaseURL() + GeoGebraConstants.SKYDRIVE_PROXY_URL);
+		xhr.setOnReadyStateChange(new ReadyStateChangeHandler() {
 			
 			public void onReadyStateChange(XMLHttpRequest xhr) {
-				if (xhr.getReadyState() == 4 && xhr.getStatus() == 200) {
-					AppW.debug(xhr.getResponseText());
+				if (xhr.getReadyState() == xhr.DONE && xhr.getStatus() == 200) {
+					App.debug(xhr.getResponseText());
 				}
-				
 			}
 		});
-	    xhr.send();
-    }
+		FormData fd = FormData.create();
+		fd.append("source", source);
+		xhr.send(fd);
+    };
 
 }

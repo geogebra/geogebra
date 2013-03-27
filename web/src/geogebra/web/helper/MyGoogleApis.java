@@ -229,8 +229,10 @@ public class MyGoogleApis {
           			var request = $wnd.gapi.client.oauth2.userinfo.get();
 					request.execute(
 						function(resp) {
+							var name;
 							if (resp.email) {
-								_this.@geogebra.web.helper.MyGoogleApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;Ljava/lang/String;)(resp.name, resp.email);
+								name = resp.name === undefined ? "" : resp.name;
+								_this.@geogebra.web.helper.MyGoogleApis::loggedIntoGoogleSuccessFull(Ljava/lang/String;Ljava/lang/String;)(name, resp.email);
 							}
 						}
 					)
