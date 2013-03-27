@@ -41,6 +41,7 @@ import geogebra.web.main.ViewManager;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Extends from class {@link App}.
@@ -89,10 +90,11 @@ public class TouchApp extends AppWeb
 		setFontSize(12);
 
 		this.capturingThreshold *= this.selectionFactor;
-		
-		logger = new GeoGebraLoggerM(mobileGUI);
-		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel("DEBUG");
+		if("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging"))){
+			logger = new GeoGebraLoggerM(mobileGUI);
+			logger.setLogDestination(LogDestination.CONSOLES);
+			logger.setLogLevel("DEBUG");
+		}
 	}
 
 	// not needed yet, because we use xml-Strings
