@@ -233,9 +233,10 @@ public class Ggb2giac {
 		p("OrthogonalVector.1",
 				"[[0,-1],[1,0]]*(%0)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
+		// with_sqrt(0) to factor over rationals
 		p("PartialFractions.1",
-				"partfrac(%0)");
-		p("PartialFractions.2", "partfrac(%0,%1)");
+				"with\\_sqrt(0);partfrac(%0)");
+		p("PartialFractions.2", "with\\_sqrt(0);partfrac(%0,%1)");
 		p("Pascal.4",
 				"if %3=true then ibeta(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
