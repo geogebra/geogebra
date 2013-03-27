@@ -2357,6 +2357,62 @@ public class Kernel {
 		return yscale;
 	}
 
+	public double getXmax(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			return xmax2;
+		} else if (ev1 && !ev2) {
+			return xmax;
+		}
+		return getXmax();
+	}
+
+	public double getXmin(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			return xmin2;
+		} else if (ev1 && !ev2) {
+			return xmin;
+		}
+		return getXmin();
+	}
+
+	public double getXscale(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			// xscale = pixel per unit
+			// higher xscale means more pixels per unit, i.e. higher precision
+			return xscale2;
+		} else if (ev1 && !ev2) {
+			return xscale;
+		}
+		return getXscale();
+	}
+
+	public double getYmax(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			return ymax2;
+		} else if (ev1 && !ev2) {
+			return ymax;
+		}
+		return getYmax();
+	}
+
+	public double getYmin(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			return ymin2;
+		} else if (ev1 && !ev2) {
+			return ymin;
+		}
+		return getYmin();
+	}
+
+	public double getYscale(boolean ev1, boolean ev2) {
+		if (ev2 && !ev1) {
+			return yscale2;
+		} else if (ev1 && !ev2) {
+			return yscale;
+		}
+		return getYscale(); 
+	}
+
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
 			ggbCAS = new GeoGebraCAS(this);
