@@ -256,7 +256,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	/**
 	 * set the conic as single point equal to m
 	 * @param m point

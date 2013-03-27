@@ -26,6 +26,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 
@@ -158,57 +159,58 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	case GeoConicNDConstants.CONIC_CIRCLE:
     	case GeoConicNDConstants.CONIC_ELLIPSE:
     		
-    		//if parameters are equal, no hole
-    		if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){
-    			bottomParameters[0] = Double.NaN;
-    		}   	
-    		
-    		if (Kernel.isEqual(topParameters[0], topParameters[1])){
-    			topParameters[0] = Double.NaN;
-    		}   		
-    		
-    		//if some parameters are NaN, force to be in topParameters
+     		//if some parameters are NaN, force to be in topParameters
     		if (Double.isNaN(bottomParameters[0])){
     			bottomParameters[0] = topParameters[0];
     			bottomParameters[1] = topParameters[1];
+    			bottomP[0] = topP[0];
     			topParameters[0] = Double.NaN;
     		}
+    		
+    		// check if top parameters are equal : then no hole for top
+    		if (Kernel.isEqual(topParameters[0], topParameters[1])){
+    			topParameters[0] = Double.NaN;
+    		} 
+
 
     		//if topParameters are NaN, and not bottomParameters,
     		//set twice the "middle" parameter for topParameters to check the order
     		//App.debug(topParameters[0]+","+bottomParameters[0]);
     		if (Double.isNaN(topParameters[0])){
     			if(!Double.isNaN(bottomParameters[0])){
-    				//calc "midpoint" on conic
-    				double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
-    				PathParameter pp = new PathParameter(midParameter);
-    				Coords P = new Coords(3);
-    				conic.pathChangedWithoutCheck(P, pp);
-    				P = conic.getPoint(P.getX(), P.getY());
-    				//check if "midpoint" is on quadric side
-    				//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
-    				if(ql.getSide().isInRegion(P)){
-    					//set "midpoint"
-    					topParameters[0] = midParameter;
-    				}else{
-    					//set symetric "midpoint"
-    					topParameters[0] = midParameter+Math.PI;
-    					if (midParameter<0){
-    						topParameters[0] = midParameter+Math.PI;
-    					}else{
-    						topParameters[0] = midParameter-Math.PI;
-    					}
+    				//if parameters are equal, no hole
+    	    		if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){  	    			
+        				if (planeOutsideAxis()){ // just single point
+        					setSinglePoint(bottomP[0],bottomP[1]);
+        				}else{ // no hole
+        					bottomParameters[0] = Double.NaN;
+        				}
+    	    		}else{  
+    	    			//calc "midpoint" on conic
+    	    			double midParameter = (bottomParameters[0] + bottomParameters[1])/2;
+    	    			PathParameter pp = new PathParameter(midParameter);
+    	    			Coords P = new Coords(3);
+    	    			conic.pathChangedWithoutCheck(P, pp);
+    	    			P = conic.getPoint(P.getX(), P.getY());
+    	    			//check if "midpoint" is on quadric side
+    	    			//App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
+    	    			if(ql.getSide().isInRegion(P)){
+    	    				//set "midpoint"
+    	    				topParameters[0] = midParameter;
+    	    			}else{
+    	    				//set symetric "midpoint"
+    	    				topParameters[0] = midParameter+Math.PI;
+    	    				if (midParameter<0){
+    	    					topParameters[0] = midParameter+Math.PI;
+    	    				}else{
+    	    					topParameters[0] = midParameter-Math.PI;
+    	    				}
 
-    				}
-    				topParameters[1]=topParameters[0];
-    				
+    	    			}
+    	    			topParameters[1]=topParameters[0];
+    	    		}
     			}else{ //no intersection : check if the plane is not totally outside the quadric
-    				//App.debug("\nmidpoint=\n"+ql.getMidpoint3D()+"\nev3=\n"+ql.getEigenvec3D(2));
-    				//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
-    				double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
-    				//App.debug("parameter="+parameter);
-    				//check if paramter is between quadric min and max
-    				if (Kernel.isGreater(ql.getMin(), parameter) || Kernel.isGreater(parameter, ql.getMax())){
+    				if (planeOutsideAxis()){
     					conic.setUndefined();
     					return;
     				}
@@ -224,10 +226,10 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     			if (Double.isNaN(topParameters[0])){ //no intersection with ends of the quadric : hyperbola is completely outside
     				conic.setUndefined();
     			}else if (Kernel.isEqual(topParameters[0], topParameters[1])){ // single point
-     				conic.setSinglePoint(topP[0]);
+     				setSinglePoint(topP[0],topP[1]);
     			}
     		}else if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){ // single point
- 				conic.setSinglePoint(bottomP[0]);
+ 				setSinglePoint(bottomP[0],bottomP[1]);
 			}
     			
     		break;
@@ -267,6 +269,30 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	
     }
 
+    
+    private boolean planeOutsideAxis(){
+    	
+    	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
+    	
+		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
+		double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
+			//check if parameter is between quadric min and max
+		return Kernel.isGreater(ql.getMin(), parameter) || Kernel.isGreater(parameter, ql.getMax());
+
+    }
+    
+    /**
+     * set conic as single point at p1 location if p1 is define, else at p2 location
+     * @param p1 first point
+     * @param p2 second point
+     */
+    private void setSinglePoint(GeoPointND p1, GeoPointND p2){
+    	if (p1.isDefined()){
+    		conic.setSinglePoint(p1);
+    	}else{
+    		conic.setSinglePoint(p2);
+    	}
+    }
 
     private double[] setPartPoints(AlgoIntersectPlaneConic algo, GeoConicND c, GeoPoint3D[] points){
 
