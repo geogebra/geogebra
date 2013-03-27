@@ -28,11 +28,11 @@ public class Ggb2giac {
 		p("Binomial.2",
 				"binomial(%0,%1)");
 		p("BinomialDist.4",
-				"binomial(%0,%1,%2)");
+				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
 		p("CFactor.1","collect(%0,i)");
 		p("CFactor.2","collect(%0,i)");
-		p("ChiSquared.2", "chisquare(%0,%1)");
+		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
 		
 		// TODO: ggbtmpvarx
 		p("Coefficients.1",
@@ -46,7 +46,7 @@ public class Ggb2giac {
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"covariance(%0)");
-		p("Cross.2", "cross(%0,%1)");
+		p("Cross.2", "cross([%0],[%1])");
 		p("ComplexRoot.1", "csolve(%0, ggbtmpvarx)");
 		p("CSolutions.1", "csolve(%0)");
 		p("CSolutions.2",
@@ -67,15 +67,17 @@ public class Ggb2giac {
 				"diff(%0,%1,%2)");
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "dim(%0)");
-		p("Div.2", "iquo(%0,%1)");
-		p("Division.2", "iquorem(%0,%1)");
+		p("Div.2",
+				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquo(%0,%1) else quo(%0,%1) fi");
+		p("Division.2",
+				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquorem(%0,%1) else quorem(%0,%1) fi");
 		p("Divisors.1",
 				"dim(idivis(%0))");
 		p("DivisorsList.1",
 				"idivis(%0)");
 		p("DivisorsSum.1",
 				"sum(idivis(%0))");
-		p("Dot.2", "dot(%0,%1)");
+		p("Dot.2", "dot([%0],[%1])");
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.2", "%0[%1-1]");
 		// GeoGebra indexes lists from 1, giac from 0
@@ -96,25 +98,26 @@ public class Ggb2giac {
 		// might not need with_sqrt() as we're using collect() for Factor.1
 		//p("RFactor.1","with_sqrt(1);factor(%0);with_sqrt(0);");
 		
-		// TODO: returns {x-1,1,x+1,1} rather than {{x-1,1},{x+1,1}}
+		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
-				"factors(%0)");
+				//"factors(%0)");
+				"[[ggbans:=factors(%0)],matrix(dim(ggbans),2,ggbans)][1]");
 		p("FDistribution.3",
-				"fisher(%0,%1,%2)");
-		p("Flatten.1", "todo");
+				"fisher\\_cdf(%0,%1,%2)");
+		p("Flatten.1", "flatten(%0)");
 		p("First.1", "{%0[0]}");
 		p("First.2",
 				"todo");
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"exponential\\_regression(%0)");
+				"[[ggbans:=exponential\\_regression(%0)],(ggbans[1])*exp(ln(ggbans[0])*ggbtmpvarx)][1]");
 		p("FitLog.1",
-				"logarithmic\\_regression(%0)");
+				"[[ggbans:=logarithmic\\_regression(%0)],(ggbans[0])*ln(ggbtmpvarx)+ggbans[1]][1]");
 		p("FitPoly.2",
 				"polynomial\\_regression(%0,%1)");
 		p("FitPow.1",
-				"power\\_regression(%0)");
+				"[[ggbans:=power\\_regression(%0)],(ggbans[1])*ggbtmpvarx^(ggbans[0])][1]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1))");
 		p("GCD.2",
@@ -149,15 +152,15 @@ public class Ggb2giac {
 		p("Integral.4",
 				"integrate(%0,%1,%2,%3)");
 		p("IntegralBetween.4",
-				"romberg(%0,%1,%2,%3)");
+				"int(%0-(%1),ggbtmpvarx,%2,%3)");
 		p("IntegralBetween.5",
-				"romberg(%0,%1,%2,%3,%4)");
+				"romberg(%0-(%1),%2,%3,%4)");
 		p("Intersect.2",
 				"%0 intersect %1");
 		p("Iteration.3",
-				"for()");
+				"(unapply(%0,ggbtmpvarx)@@%2)(%1)");
 		p("IterationList.3",
-				"for()");
+				"apply(unapply(%0,ggbtmpvarx)@@%2,%1)");
 		p("PointList.1",
 				"coordinates(%0)");
 		p("RootList.1",
