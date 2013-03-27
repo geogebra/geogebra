@@ -187,8 +187,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdAngularBisector() {
-		t("AngleBisector[ l1, l2 ]");
-		t("AngleBisector[ Pt1,Pt2,Pt3 ]");
+		t("anbisA=AngleBisector[ l1, l2 ]");
+		t("anbisB=AngleBisector[ Pt1,Pt2,Pt3 ]");
 	}
 
 	@Test
