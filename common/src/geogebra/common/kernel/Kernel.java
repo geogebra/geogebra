@@ -4404,6 +4404,6 @@ public class Kernel {
 	}
 	
 	public boolean useCASforIntegrals() {
-		return !app.isHTML5Applet();
+		return true;
 	}
 }
