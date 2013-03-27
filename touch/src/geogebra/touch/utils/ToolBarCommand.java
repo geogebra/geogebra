@@ -123,7 +123,7 @@ public enum ToolBarCommand
 	 */
 	public String getIconUrlAsString()
 	{
-		return "url(" + this.icon.getSafeUri().asString() + ")";
+		return this.icon.getSafeUri().asString();
 	}
 
 	/**

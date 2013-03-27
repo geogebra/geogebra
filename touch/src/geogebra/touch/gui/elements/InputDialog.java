@@ -9,17 +9,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBox;
-import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.dialog.Dialog;
-import com.googlecode.mgwt.ui.client.dialog.DialogPanel;
-import com.googlecode.mgwt.ui.client.dialog.HasTitleText;
-import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
-import com.googlecode.mgwt.ui.client.theme.base.DialogCss;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
+
 
 /**
  * A dialog with an InputBar, OK-Button and CANCLE-Button.
@@ -27,7 +21,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
  * @see com.googlecode.mgwt.ui.client.dialog.ConfirmDialog ConfirmDialog
  * 
  */
-public class InputDialog implements HasText, HasTitleText, Dialog
+public class InputDialog extends DialogBox
 {
 	/**
 	 * The callback used when buttons are taped.
@@ -45,10 +39,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		public void onCancel();
 	}
 
-	PopinDialog popinDialog;
-	private DialogPanel dialogPanel;
 	private TextBox textInput;
-	private DialogCss css;
 	private FlowPanel buttonContainer;
 	InputCallback callback;
 
@@ -70,13 +61,10 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	public InputDialog(String title, String text, InputCallback callback)
 	{
 		this.callback = callback;
-		this.css = MGWTStyle.getTheme().getMGWTClientBundle().getDialogCss();
-		this.popinDialog = new PopinDialog(this.css);
-		setCloseOnBackgroundClick();
 
 		initDialogPanel();
 		addTextBox(text);
-		setTitleText(title);
+		this.setTitle(title);
 
 		this.textInput.addKeyUpHandler(new KeyUpHandler()
 		{
@@ -86,7 +74,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER)
 				{
 					InputDialog.this.callback.onOk();
-					InputDialog.this.close();
+					InputDialog.this.hide();
 				}
 			}
 		});
@@ -104,7 +92,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 		this.textInput = new TextBox();
 		this.textInput.addStyleName("inputtext");
 		setText(text);
-		this.dialogPanel.getContent().add(this.textInput);
+		this.add(this.textInput);
 	}
 
 	/**
@@ -112,9 +100,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	 */
 	private void initDialogPanel()
 	{
-		this.dialogPanel = new DialogPanel();
-		this.dialogPanel.addStyleName("inputdialog");
-		this.popinDialog.add(this.dialogPanel);
+		this.addStyleName("inputdialog");
 	}
 
 	/**
@@ -122,19 +108,7 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	 */
 	private void addButtonContainer()
 	{
-		this.buttonContainer = new FlowPanel();
-		this.buttonContainer.addStyleName(this.css.footer());
-
-		this.dialogPanel.showOkButton(false); // don't show the default buttons from
-		this.dialogPanel.showCancelButton(false); // Daniel Kurka
-
-		this.buttonContainer.add(new ButtonBarSpacer());
-		addOkButton();
-		this.buttonContainer.add(new ButtonBarSpacer());
-		addCancelButton();
-		this.buttonContainer.add(new ButtonBarSpacer());
-
-		this.dialogPanel.getContent().add(this.buttonContainer);
+		// TODO add the buttons
 	}
 
 	/**
@@ -152,7 +126,6 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				InputDialog.this.popinDialog.hide();
 				if (InputDialog.this.callback != null)
 				{
 					InputDialog.this.callback.onOk();
@@ -177,22 +150,12 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				InputDialog.this.popinDialog.hide();
 				if (InputDialog.this.callback != null)
 					InputDialog.this.callback.onCancel();
 			}
 
 		}, ClickEvent.getType());
 		this.buttonContainer.add(cancelButton);
-	}
-
-	/**
-	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#setTitleText(java.lang.String)
-	 */
-	@Override
-	public void setTitleText(String title)
-	{
-		this.dialogPanel.getDialogTitle().setHTML(title);
 	}
 
 	/**
@@ -205,49 +168,11 @@ public class InputDialog implements HasText, HasTitleText, Dialog
 	}
 
 	/**
-	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#getTitleText()
-	 */
-	@Override
-	public String getTitleText()
-	{
-		return this.dialogPanel.getDialogTitle().getHTML();
-	}
-
-	/**
 	 * @see com.google.gwt.user.client.ui.HasText#getText()
 	 */
 	@Override
 	public String getText()
 	{
 		return this.textInput.getText();
-	}
-
-	/**
-	 * Shows the dialog.
-	 * 
-	 * @see com.googlecode.mgwt.ui.client.dialog.Dialog#show()
-	 */
-	@Override
-	public void show()
-	{
-		this.popinDialog.center();
-	}
-
-	/**
-	 * Closes the dialog
-	 * 
-	 * @see com.googlecode.mgwt.ui.client.dialog.AnimatableDialogBase#hide()
-	 */
-	public void close()
-	{
-		this.popinDialog.hide();
-	}
-
-	/**
-	 * @see com.googlecode.mgwt.ui.client.dialog.AnimatableDialogBase#setHideOnBackgroundClick(boolean)
-	 */
-	private void setCloseOnBackgroundClick()
-	{
-		this.popinDialog.setHideOnBackgroundClick(true);
 	}
 }

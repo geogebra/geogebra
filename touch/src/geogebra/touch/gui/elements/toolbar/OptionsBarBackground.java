@@ -1,10 +1,7 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import geogebra.touch.utils.ToolBarCommand;
-
-import com.googlecode.mgwt.mvp.client.Animation;
-import com.googlecode.mgwt.ui.client.animation.AnimationHelper;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 /**
  * Each {@link ToolBarButton ToolBarButton} has its own options.
@@ -12,11 +9,9 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  * @author Thomas Krismayer
  * @see ButtonBar
  */
-public class OptionsBarBackground extends ButtonBar
+public class OptionsBarBackground extends HorizontalPanel
 {
-
 	private OptionsBar optionsBar;
-	private final AnimationHelper animationHelper;
 
 	/**
 	 * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
@@ -31,14 +26,10 @@ public class OptionsBarBackground extends ButtonBar
 	{
 		this.addStyleDependentName("toolBarOptionsBackground");
 		this.optionsBar = new OptionsBar(menuEntries, ancestor);
-
-		this.animationHelper = new AnimationHelper();
-		add(this.animationHelper);
 	}
 
 	public void show()
 	{
-		this.animationHelper.goTo(this.optionsBar, Animation.SLIDE_UP);
+		this.optionsBar.setVisible(true);
 	}
-
 }

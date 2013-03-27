@@ -8,6 +8,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -16,7 +19,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class TouchEntryPoint implements EntryPoint
 {
-  static DeckPanel appWidget = new DeckPanel();
+	static DeckPanel appWidget = new DeckPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static TubeSearchGUI tubeSearchGUI = new TubeSearchGUI();
 
@@ -37,13 +40,24 @@ public class TouchEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{
+				TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 				RootPanel.get().add(TouchEntryPoint.appWidget);
-				
-				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);				
+
+				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 
 				app.start();
 				tubeSearchGUI.loadFeatured();
 				TouchEntryPoint.showTabletGUI();
+
+				Window.addResizeHandler(new ResizeHandler()
+				{
+
+					@Override
+					public void onResize(ResizeEvent event)
+					{
+						TouchEntryPoint.appWidget.setPixelSize(event.getWidth(), event.getHeight());
+					}
+				});
 			}
 
 			@Override
@@ -56,12 +70,12 @@ public class TouchEntryPoint implements EntryPoint
 	}
 
 	public static void showTabletGUI()
-  {		
-			TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
-			TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
-			TouchEntryPoint.appWidget.showWidget(0);
-  }
-	
+	{
+		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
+		TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
+		TouchEntryPoint.appWidget.showWidget(0);
+	}
+
 	public static void showTubeSearchUI()
 	{
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);

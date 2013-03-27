@@ -2,22 +2,20 @@ package geogebra.touch.gui.elements;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 public class Picker
 {
-	PopinDialog popinDialog = new PopinDialog();
+	DialogBox popinDialog = new DialogBox();
 	Button labelButton;
 	Button ok;
 	int edges = 3;
 
 	public Picker()
 	{
-		this.popinDialog.setHideOnBackgroundClick(true);
-
 		VerticalPanel verticalPanel = new VerticalPanel();
 
 		Button[] b = new Button[3];
@@ -68,7 +66,7 @@ public class Picker
 		}, ClickEvent.getType());
 		verticalPanel.add(this.ok);
 
-		RoundPanel p = new RoundPanel();
+		LayoutPanel p = new LayoutPanel();
 		p.add(verticalPanel);
 
 		this.popinDialog.add(p);

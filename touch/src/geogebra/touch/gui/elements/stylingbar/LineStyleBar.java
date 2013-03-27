@@ -1,17 +1,17 @@
 package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.touch.model.TouchModel;
+import geogebra.web.gui.util.Slider;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.MSlider;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
-public class LineStyleBar extends RoundPanel
+public class LineStyleBar extends LayoutPanel
 {
 
 	public LineStyleBar(final TouchModel touchModel)
@@ -37,8 +37,8 @@ public class LineStyleBar extends RoundPanel
 			add(lineStyle[i]);
 		}
 
-		MSlider slider = new MSlider();
-		slider.setMax(10);
+		Slider slider = new Slider();
+	
 		if (touchModel.lastSelected() != null)
 		{
 			slider.setValue(Integer.valueOf(touchModel.lastSelected().getLineThickness() - 2));

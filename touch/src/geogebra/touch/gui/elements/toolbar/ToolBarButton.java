@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.toolbar;
 
 import java.util.Arrays;
 
-import geogebra.touch.gui.elements.ToolButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;

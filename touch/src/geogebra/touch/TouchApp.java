@@ -90,6 +90,7 @@ public class TouchApp extends AppWeb
 		setFontSize(12);
 
 		this.capturingThreshold *= this.selectionFactor;
+		
 		if("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging"))){
 			logger = new GeoGebraLoggerM(mobileGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);

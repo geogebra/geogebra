@@ -3,13 +3,15 @@ package geogebra.touch.gui.euclidian;
 import geogebra.touch.controller.TouchController;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
+
 
 /**
  * Extends from {@link LayoutPanel}. Holds the instances of the canvas and the
  * euclidianView.
  */
-public class EuclidianViewPanel extends LayoutPanel
+public class EuclidianViewPanel extends AbsolutePanel
 {
 	private Canvas canvas;
 	private EuclidianViewM euclidianView;

@@ -7,8 +7,8 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 /**
  * A {@link VerticalPanel} which contains the different color-choices.
@@ -35,9 +35,8 @@ public class Colors extends VerticalPanel
 
 	private void addColorButton(final GColor color)
 	{
-		RoundPanel button = new RoundPanel();
+		PushButton button = new PushButton();
 
-		button.addStyleName("colorChoiceButton");
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 
 		button.addDomHandler(new ClickHandler()

@@ -10,8 +10,8 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 /**
  * Contains the {@link ColorBar}.
@@ -23,12 +23,10 @@ public class ColorBarBackground extends VerticalPanel
 
 	public ColorBarBackground(StylingBar stylingBar, final TouchModel touchModel)
 	{
-		this.addStyleName("colorBarBackground");
 		this.colorBar = new ColorBar(stylingBar, touchModel);
 		this.add(this.colorBar);
 
-		RoundPanel sliderPanel = new RoundPanel();
-		sliderPanel.addStyleName("colorSliderPanel");
+		LayoutPanel sliderPanel = new LayoutPanel();
 
 		Slider slider = new Slider();
 		slider.setMinimum(0);

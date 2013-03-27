@@ -1,6 +1,4 @@
-package geogebra.touch.gui.elements.header;
-
-import java.util.Iterator;
+package geogebra.touch.gui.elements;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -14,29 +12,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.mgwt.dom.client.event.touch.TouchCancelEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchHandler;
-import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
-import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.dialog.Dialog;
-import com.googlecode.mgwt.ui.client.dialog.DialogPanel;
-import com.googlecode.mgwt.ui.client.dialog.HasTitleText;
-import com.googlecode.mgwt.ui.client.dialog.PopinDialog;
-import com.googlecode.mgwt.ui.client.theme.base.DialogCss;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.MListBox;
-import com.googlecode.mgwt.ui.client.widget.ProgressIndicator;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 
-public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
+public class OpenSaveDialog extends PopupPanel
 {
 	/**
 	 * The callback used when buttons are taped.
@@ -69,10 +52,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		public void onCancel();
 	}
 
-	PopinDialog popinDialog;
-	DialogPanel dialogPanel;
-	private DialogCss css;
-	FlowPanel buttonContainer;
+	HorizontalPanel buttonContainer;
 
 	OpenCallback openCallback;
 	SaveCallback saveCallback;
@@ -80,20 +60,19 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 
 	Storage stockStore;
 	private String fileName;
-	MListBox list;
+	ListBox list;
 	TextBox textInput;
-	ProgressIndicator pIndicator;
 
 	public OpenSaveDialog(String fileName, OpenCallback openCallback)
 	{
-		super();
+		this.setGlassEnabled(true);
 
 		this.isOpenDialog = true;
 		this.openCallback = openCallback;
 		this.fileName = fileName;
 
 		initDialog();
-		setTitleText("Open");
+		setTitle("Open");
 	}
 
 	/**
@@ -112,17 +91,12 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		this.fileName = fileName;
 
 		initDialog();
-		setTitleText("Save");
+		setTitle("Save");
 	}
 
 	private void initDialog()
 	{
-		this.css = MGWTStyle.getTheme().getMGWTClientBundle().getDialogCss();
-		this.popinDialog = new PopinDialog(this.css);
 		this.stockStore = Storage.getLocalStorageIfSupported();
-		setCloseOnBackgroundClick();
-
-		initDialogPanel();
 
 		addProgressIndicator();
 		addTextBox(this.fileName);
@@ -160,9 +134,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 
 	private void addProgressIndicator()
 	{
-		this.pIndicator = new ProgressIndicator();
-		this.pIndicator.setVisible(false);
-		this.dialogPanel.getContent().add(this.pIndicator);
+		// TODO add progress indicator
 	}
 
 	/**
@@ -175,7 +147,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		this.textInput = new TextBox();
 		this.textInput.addStyleName("savetextinput");
 		setText(text);
-		this.dialogPanel.getContent().add(this.textInput);
+		this.add(this.textInput);
 	}
 
 	/**
@@ -183,7 +155,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	 */
 	private void addFileChooser()
 	{
-		this.list = new MListBox();
+		this.list = new ListBox();
 		this.list.getElement().setAttribute("style", "height: 35px");
 		this.list.addStyleName("openSaveListBox");
 		this.list.addItem("(None)");
@@ -196,7 +168,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 				{
 					this.list.addItem(this.stockStore.key(i));
 				}
-				this.dialogPanel.getContent().add(this.list);
+				this.add(this.list);
 
 				if (isFileSaved())
 				{
@@ -209,7 +181,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 			}
 			else
 			{
-				this.dialogPanel.getContent().add(new Label("No files found"));
+				this.add(new Label("No files found"));
 			}
 		}
 		catch (Exception e)
@@ -230,26 +202,13 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	}
 
 	/**
-	 * Initializes the dialogPanel and adds it to the popinDialog.
-	 */
-	private void initDialogPanel()
-	{
-		this.dialogPanel = new DialogPanel();
-		this.dialogPanel.addStyleName("opendialog");
-		this.popinDialog.add(this.dialogPanel);
-	}
-
-	/**
 	 * Adds all the buttons to the dialog. Horizontal alignment. Disables default
 	 * buttons from Daniel Kurka.
 	 */
 	private void addButtonContainer()
 	{
-		this.dialogPanel.showCancelButton(false); // don't show the default buttons
-		this.dialogPanel.showOkButton(false); // from Daniel Kurka
 
-		this.buttonContainer = new FlowPanel();
-		this.buttonContainer.addStyleName(this.css.footer());
+		this.buttonContainer = new HorizontalPanel();
 
 		if (this.isOpenDialog)
 		{
@@ -275,7 +234,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 				addDeleteButton();
 			}
 		}
-		this.dialogPanel.getContent().add(this.buttonContainer);
+		this.add(this.buttonContainer);
 	}
 
 	/**
@@ -288,33 +247,15 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		String html = "<img src=\"" + icon.getSafeUri().asString() + "\" style=\"height:32px; width:32px; margin:auto;\">";
 		deleteButton.getElement().setInnerHTML(html);
 
-		deleteButton.addTouchHandler(new TouchHandler()
+		deleteButton.addClickHandler(new ClickHandler()
 		{
 			@Override
-			public void onTouchStart(TouchStartEvent event)
+			public void onClick(ClickEvent event)
 			{
 				OpenSaveDialog.this.stockStore.removeItem(getText());
-			}
-
-			@Override
-			public void onTouchMove(TouchMoveEvent event)
-			{
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTouchEnd(TouchEndEvent event)
-			{
 				OpenSaveDialog.this.close();
 			}
-
-			@Override
-			public void onTouchCanceled(TouchCancelEvent event)
-			{
-				// TODO Auto-generated method stub
-			}
 		});
-		this.buttonContainer.add(new ButtonBarSpacer());
 		this.buttonContainer.add(deleteButton);
 	}
 
@@ -328,50 +269,13 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		String html = "<img src=\"" + icon.getSafeUri().asString() + "\" style=\"height:32px; width:32px; margin:auto;\">";
 		openButton.getElement().setInnerHTML(html);
 
-		openButton.addTouchHandler(new TouchHandler()
+		openButton.addClickHandler(new ClickHandler()
 		{
-
 			@Override
-			public void onTouchStart(TouchStartEvent event)
+			public void onClick(ClickEvent event)
 			{
-				OpenSaveDialog.this.pIndicator.setVisible(true);
-				OpenSaveDialog.this.pIndicator.getElement().setAttribute("style", "margin:auto;");
-
-				OpenSaveDialog.this.setChosenFile();
-				OpenSaveDialog.this.setFileName();
-
-				OpenSaveDialog.this.dialogPanel.getContent().remove(OpenSaveDialog.this.list);
-				OpenSaveDialog.this.dialogPanel.getContent().remove(OpenSaveDialog.this.textInput);
-				OpenSaveDialog.this.buttonContainer.getWidget(3).setVisible(false); // enable
-				                                                                    // delete-button
+				// TODO open file
 			}
-
-			@Override
-			public void onTouchMove(TouchMoveEvent event)
-			{
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTouchEnd(TouchEndEvent event)
-			{
-				if (OpenSaveDialog.this.openCallback != null && !getText().equals("(None)"))
-				{
-					OpenSaveDialog.this.openCallback.onOpen();
-					OpenSaveDialog.this.close();
-				}
-				else if (OpenSaveDialog.this.openCallback != null)
-				{
-					OpenSaveDialog.this.openCallback.onCancel();
-				}
-			}
-
-			@Override
-			public void onTouchCanceled(TouchCancelEvent event)
-			{
-				// TODO Auto-generated method stub
-			}
-
 		});
 		this.buttonContainer.add(openButton);
 	}
@@ -390,7 +294,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				OpenSaveDialog.this.popinDialog.hide();
+				OpenSaveDialog.this.hide();
 
 				if (OpenSaveDialog.this.saveCallback != null && !getText().equals("(None)"))
 				{
@@ -421,7 +325,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				OpenSaveDialog.this.popinDialog.hide();
+				OpenSaveDialog.this.hide();
 				if (OpenSaveDialog.this.openCallback != null)
 					OpenSaveDialog.this.openCallback.onCancel();
 			}
@@ -439,7 +343,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	@Override
 	public void show()
 	{
-		this.popinDialog.center();
+		this.center();
 	}
 
 	/**
@@ -449,15 +353,7 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	 */
 	public void close()
 	{
-		this.popinDialog.hide();
-	}
-
-	/**
-	 * @see com.googlecode.mgwt.ui.client.dialog.AnimatableDialogBase#setHideOnBackgroundClick(boolean)
-	 */
-	private void setCloseOnBackgroundClick()
-	{
-		this.popinDialog.setHideOnBackgroundClick(true);
+		this.hide();
 	}
 
 	private String chosenFile;
@@ -491,16 +387,9 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		return this.nameOfFile;
 	}
 
-	@Override
-	public String getTitleText()
-	{
-		return this.dialogPanel.getDialogTitle().getHTML();
-	}
-
 	/**
 	 * Returns the text of the text-input.
 	 */
-	@Override
 	public String getText()
 	{
 		return this.textInput.getText();
@@ -509,19 +398,9 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 	/**
 	 * @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String)
 	 */
-	@Override
 	public void setText(String text)
 	{
 		this.textInput.setText(text);
-	}
-
-	/**
-	 * @see com.googlecode.mgwt.ui.client.dialog.HasTitleText#setTitleText(java.lang.String)
-	 */
-	@Override
-	public void setTitleText(String title)
-	{
-		this.dialogPanel.getDialogTitle().setHTML(title);
 	}
 
 	/**
@@ -567,30 +446,5 @@ public class OpenSaveDialog implements HasText, HasTitleText, Dialog, HasWidgets
 		{
 			this.stockStore.setItem(getText(), ggbXML);
 		}
-	}
-
-	@Override
-	public void add(Widget w)
-	{
-		this.popinDialog.add(w);
-	}
-
-	@Override
-	public void clear()
-	{
-		this.popinDialog.clear();
-	}
-
-	@Override
-	public Iterator<Widget> iterator()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean remove(Widget w)
-	{
-		return this.popinDialog.remove(w);
 	}
 }

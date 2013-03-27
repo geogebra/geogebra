@@ -4,61 +4,33 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.CommonResources;
-import geogebra.touch.gui.elements.header.HeaderImageButton;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.dom.client.recognizer.swipe.SwipeEndHandler;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Extends from {@link LayoutPanel}. Holds the instances of the
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends LayoutPanel
+public class AlgebraViewPanel extends VerticalPanel
 {
-	protected ScrollPanel scrollPanel;
-	protected AlgebraViewM algebraView;
-	HeaderImageButton button = new HeaderImageButton();
-
-	boolean small = false;
+	private ScrollPanel scrollPanel;
+	private AlgebraViewM algebraView;
+	private Button button;
 
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
 	 */
-	public AlgebraViewPanel()
+	public AlgebraViewPanel(TouchController controller, Kernel kernel)
 	{
-		this.addStyleName("algebraview");
-	}
-
-	/**
-	 * Extends the {@link AlgebraViewPanel}.
-	 */
-	protected void extend()
-	{
-		AlgebraViewPanel.this.removeStyleName("algebraView-notExtended");
-		this.scrollPanel.setVisible(true);
-		this.small = false;
-
-		SVGResource icon = CommonResources.INSTANCE.algebra_close();
-		this.button.setText(icon.getSafeUri().asString());
-	}
-
-	protected void minimize()
-	{
-		this.addStyleName("algebraView-notExtended");
-		this.small = true;
-		this.scrollPanel.setVisible(false);
-
-		SVGResource icon = CommonResources.INSTANCE.algebra_open();
-		this.button.setText(icon.getSafeUri().asString());
+		this.initAlgebraView(controller, kernel);
 	}
 
 	/**
@@ -71,35 +43,56 @@ public class AlgebraViewPanel extends LayoutPanel
 	 * @param kernel
 	 *          Kernel
 	 */
-	public void initAlgebraView(TouchController controller, Kernel kernel)
+	private void initAlgebraView(TouchController controller, Kernel kernel)
 	{
+		this.scrollPanel = new ScrollPanel();
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
 
-		this.scrollPanel = new ScrollPanel(this.algebraView);
-		this.scrollPanel.addStyleName("algebraScrollPanel");
-		add(this.scrollPanel);
-
-		SVGResource icon = CommonResources.INSTANCE.algebra_close();
-		this.button.addStyleName("algebraButton");
-		this.button.setText(icon.getSafeUri().asString());
+		this.button = new Button();
 		this.button.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				if (AlgebraViewPanel.this.small)
-				{
-					extend();
-				}
-				else
-				{
-					minimize();
-				}
+				toggle();
 			}
 		}, ClickEvent.getType());
 
 		this.add(this.button);
+
+		this.scrollPanel.add(this.algebraView);
+		this.add(this.scrollPanel);
+
+		this.extend();
 	}
 
+	/**
+	 * Extends the {@link AlgebraViewPanel}.
+	 */
+	protected void extend()
+	{
+		SVGResource icon = CommonResources.INSTANCE.algebra_close();
+		this.button.getElement().setInnerHTML("<img src=\"" + icon.getSafeUri().asString() + "\" style=\"width: 20px; height: 20px;\">");
+		this.scrollPanel.setVisible(true);
+	}
+
+	protected void minimize()
+	{
+		SVGResource icon = CommonResources.INSTANCE.algebra_open();
+		this.button.getElement().setInnerHTML("<img src=\"" + icon.getSafeUri().asString() + "\" style=\"width: 20px; height: 20px;\">");
+		this.scrollPanel.setVisible(false);
+	}
+
+	protected void toggle()
+	{
+		if (this.scrollPanel.isVisible())
+		{
+			minimize();
+		}
+		else
+		{
+			extend();
+		}
+	}
 }

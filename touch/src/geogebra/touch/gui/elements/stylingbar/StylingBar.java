@@ -17,7 +17,6 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
 
 /**
  * The StylingBar includes the standard buttons (grid, axes, point capturing)
@@ -27,33 +26,34 @@ import com.googlecode.mgwt.ui.client.widget.RoundPanel;
  * @author Thomas Krismayer
  * 
  */
-public class StylingBar extends RoundPanel
+public class StylingBar extends VerticalPanel
 {
-	private VerticalPanel base = new VerticalPanel();
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
-	EuclidianViewM euclidianView;
-	final GuiModel guiModel;
-	TouchModel touchModel;
 	StylingBarButton[] button;
+	private StylingBarButton colorButton;
+
 	boolean[] active;
-	StylingBarButton colorButton;
-	LineStyleBar lineStyleBar;
+
+	EuclidianViewM euclidianView;
+	TouchModel touchModel;
+	final GuiModel guiModel;
 
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
 	 * 
-	 * @param guiModel
+	 * @param TouchModel
+	 *          touchModel
+	 * @param EuclidianViewM
+	 *          view
 	 */
 	public StylingBar(TouchModel touchModel, EuclidianViewM view)
 	{
 		this.euclidianView = view;
+		this.touchModel = touchModel;
+		this.guiModel = touchModel.getGuiModel();
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
-
-		this.addStyleName("stylingbar");
-		this.guiModel = touchModel.getGuiModel();
-		this.touchModel = touchModel;
 
 		createStandardButtons();
 		createOptionalButtons();
@@ -88,30 +88,11 @@ public class StylingBar extends RoundPanel
 			}
 		}, ClickEvent.getType());
 
-		// this.button[2] = createStyleBarButton("pointCapture",
-		// CommonResources.INSTANCE.point_capturing(), 2);
-		// this.button[2].addDomHandler(new ClickHandler(){
-		// @Override
-		// public void onClick(ClickEvent event)
-		// {
-		// int mode = StylingBar.this.euclidianView.getPointCapturingMode();
-		//
-		// if (mode == 3 || mode == 0)
-		// mode = 3 - mode; // swap 0 and 3
-		// StylingBar.this.euclidianView.setPointCapturing(mode);
-		// }
-		// }, ClickEvent.getType());
-
-		// set button showAxes and pointCapture to (default) active
-		this.button[0].addStyleDependentName("active");
-		// this.button[2].addStyleDependentName("active");
-
 		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)
 		{
-			this.base.add(this.button[i]);
+			this.add(this.button[i]);
 		}
-		add(this.base);
 	}
 
 	/**
@@ -119,7 +100,6 @@ public class StylingBar extends RoundPanel
 	 */
 	private void createOptionalButtons()
 	{
-
 		// optional buttons
 		this.option = new StylingBarButton[2];
 		this.option[0] = new StylingBarButton(CommonResources.INSTANCE.label(), new ClickHandler()
@@ -175,14 +155,13 @@ public class StylingBar extends RoundPanel
 			{
 				StylingBar.this.guiModel.closeOptions();
 				StylingBar.this.guiModel.processSource(process);
+
 				if (StylingBar.this.active[number])
 				{
-					StylingBar.this.button[number].removeStyleDependentName("active");
 					StylingBar.this.active[number] = false;
 				}
 				else
 				{
-					StylingBar.this.button[number].addStyleDependentName("active");
 					StylingBar.this.active[number] = true;
 				}
 			}
@@ -238,14 +217,16 @@ public class StylingBar extends RoundPanel
 
 		for (StylingBarButton b : this.tempButtons)
 		{
-			this.base.remove(b);
+			this.remove(b);
 		}
 
-		this.base.add(this.colorButton);
+		this.add(this.colorButton);
+
 		this.tempButtons = commands;
+
 		for (StylingBarButton b : this.tempButtons)
 		{
-			this.base.add(b);
+			this.add(b);
 		}
 	}
 
@@ -286,16 +267,17 @@ public class StylingBar extends RoundPanel
 	@Override
 	public void clear()
 	{
-		this.base.remove(this.colorButton);
+		this.remove(this.colorButton);
+
 		for (StylingBarButton b : this.tempButtons)
 		{
-			this.base.remove(b);
+			this.remove(b);
 		}
 		this.tempButtons = new StylingBarButton[0];
 	}
 
 	public void updateColor(String color)
-	{
+	{	
 		this.colorButton.getElement().getStyle().setBackgroundColor(color);
 	}
 }

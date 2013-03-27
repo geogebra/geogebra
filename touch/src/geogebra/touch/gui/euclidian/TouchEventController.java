@@ -1,6 +1,5 @@
 package geogebra.touch.gui.euclidian;
 
-import geogebra.common.main.App;
 import geogebra.touch.controller.TouchController;
 
 import com.google.gwt.dom.client.Touch;

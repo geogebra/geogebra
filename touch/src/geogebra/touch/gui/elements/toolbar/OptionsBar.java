@@ -2,7 +2,8 @@ package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.touch.utils.ToolBarCommand;
 
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+
 
 /**
  * The base of the submenu.
@@ -11,7 +12,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  * @see ButtonBar
  * 
  */
-public class OptionsBar extends ButtonBar
+public class OptionsBar extends HorizontalPanel
 {
 
 	/**

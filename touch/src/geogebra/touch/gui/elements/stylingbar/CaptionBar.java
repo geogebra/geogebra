@@ -5,10 +5,10 @@ import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.googlecode.mgwt.ui.client.widget.Button;
-import com.googlecode.mgwt.ui.client.widget.RoundPanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.LayoutPanel;
 
-public class CaptionBar extends RoundPanel
+public class CaptionBar extends LayoutPanel
 {
 
 	public CaptionBar(final TouchModel touchModel)

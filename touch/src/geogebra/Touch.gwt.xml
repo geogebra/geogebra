@@ -19,8 +19,6 @@
 
     <!-- Other module inherits -->
 
-    <inherits name="com.googlecode.mgwt.MGWT" />
-
     <inherits name="org.vectomatic.libgwtsvg" />
 
     <!-- Inherits Web Hopefully it inherits everything that is in it, and even Common -->
@@ -79,16 +77,4 @@
 
     <!-- Compile only one permutation -->
 <collapse-all-properties />
-
-
-    <!-- Compile only for one OS; values: iphone, retina (for iPhone 4 and 4S), ipad, desktop, android, android_tablet, blackberry -->
-
-    <set-property
-        name="mgwt.os"
-        value="ipad" />
-
-    <set-configuration-property
-        name="mgwt.css"
-        value="pretty" />
-
 </module>

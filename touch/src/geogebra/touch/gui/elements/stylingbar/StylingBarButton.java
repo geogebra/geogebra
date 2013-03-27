@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.stylingbar;
 
-import geogebra.touch.gui.elements.ToolButton;
+import geogebra.touch.gui.elements.toolbar.ToolButton;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 

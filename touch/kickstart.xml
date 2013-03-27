@@ -20,12 +20,11 @@ your workstation.
 
 <project default="touch-developer">
 
-	<property name="mgwt.jar" value="mgwt-1.1.2.jar" />
 	<property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
 	<property name="lib-gwt-svg.jar" value="lib-gwt-svg-0.5.6.jar" />
 	<property name="gwt-sdk.zip" value="gwt-2.5.1.zip" />
 
-	<target name="touch-developer" depends="gwt-sdk, mgwt, gwtphonegap, lib-gwt-svg" description="For Eclipse developers: to create touch builds">
+	<target name="touch-developer" depends="gwt-sdk, gwtphonegap, lib-gwt-svg" description="For Eclipse developers: to create touch builds">
 	</target>
 
 	<target name="gwt-sdk">
@@ -34,14 +33,6 @@ your workstation.
 		<get src="http://dev.geogebra.org/download/lib/web/${gwt-sdk.zip}" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
 		<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 		</unzip>
-	</target>
-
-	<target name="mgwt">
-		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/touch/${mgwt.jar}" dest="lib/${mgwt.jar}" />
-		<copy todir="war/WEB-INF/lib">
-			<fileset dir="lib" includes="${mgwt.jar}" />
-		</copy>
 	</target>
 
 	<target name="gwtphonegap">

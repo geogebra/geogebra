@@ -3,15 +3,13 @@ package geogebra.touch.gui.elements.stylingbar;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+
 import geogebra.common.awt.GColor;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.model.TouchModel;
 import geogebra.web.awt.GColorW;
-
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
-import com.googlecode.mgwt.ui.client.widget.event.scroll.ScrollMoveEvent;
-import com.googlecode.mgwt.ui.client.widget.event.scroll.ScrollStartEvent;
 
 /**
  * A {@link LyoutPanel} with a {@link ScrollPanel}.
@@ -43,48 +41,12 @@ public class ColorBar extends LayoutPanel
 
 	private void initEndlessColorWheel()
 	{
-		this.scrollPanel.addScrollStartHandler(new ScrollStartEvent.Handler()
-		{
-			@Override
-			public void onScrollStart(ScrollStartEvent event)
-			{
-				if (ColorBar.this.scrollPanel.getMaxScrollY() >= ColorBar.this.scrollPanel.getY() - 20)
-				{
-					changeListOrder(-20, 7); // shift = 7; because 7 visible colors
-				}
-			}
-		});
-
-		this.scrollPanel.addScrollMoveHandler(new ScrollMoveEvent.Handler()
-		{
-			@Override
-			public void onScrollMove(ScrollMoveEvent event)
-			{
-				if (ColorBar.this.scrollPanel.getMaxScrollY() >= ColorBar.this.scrollPanel.getY() - 20)
-				{
-					changeListOrder(0, 7); // shift = 7; because 7 visible colors
-				}
-				else if (ColorBar.this.scrollPanel.getY() > 3)
-				{
-					changeListOrder(-333, 5); // shift = 5; because 5 visible colors
-				}
-			}
-		});
+		//TODO make colorwheel endless
+		
 		this.getElement().getStyle().setBackgroundImage("url(" + CommonResources.INSTANCE.colorBarBackground().getSafeUri().asString() + ")");
 	}
 
-	void changeListOrder(int scrollPosition, int shift)
-	{
-		List<GColor> list = new ArrayList<GColor>();
-		for (int i = 0; i < ColorBar.this.listOfColors.size(); i++)
-		{
-			list.add(ColorBar.this.listOfColors.get((i + shift) % this.listOfColors.size()));
-		}
-		ColorBar.this.listOfColors = list;
-		ColorBar.this.colors.drawColorChoice(ColorBar.this.listOfColors);
-		ColorBar.this.scrollPanel.refresh();
-		ColorBar.this.scrollPanel.scrollTo(0, scrollPosition);
-	}
+	
 
 	private void initColors()
 	{

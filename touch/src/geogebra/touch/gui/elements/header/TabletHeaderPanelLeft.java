@@ -4,10 +4,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
-import geogebra.touch.gui.Presenter;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.header.OpenSaveDialog.OpenCallback;
-import geogebra.touch.gui.elements.header.OpenSaveDialog.SaveCallback;
+import geogebra.touch.gui.elements.OpenSaveDialog;
+import geogebra.touch.gui.elements.OpenSaveDialog.OpenCallback;
+import geogebra.touch.gui.elements.OpenSaveDialog.SaveCallback;
 import geogebra.touch.model.GuiModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
@@ -15,7 +15,6 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 
 /**
  * ButtonBar for the buttons on the left side of the HeaderPanel.
@@ -29,8 +28,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	TabletGUI tabletGUI;
 	OpenSaveDialog saveDialog;
 	OpenSaveDialog openDialog;
-
-	Presenter listener;
 
 	/**
 	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
@@ -88,7 +85,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initNewButton(final Kernel kernel, final GuiModel guiModel, HeaderButton[] left)
+	private void initNewButton(final Kernel kernel, final GuiModel guiModel, HeaderImageButton[] left)
 	{
 		left[0].addDomHandler(new ClickHandler()
 		{
@@ -112,7 +109,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initOpenButton(HeaderButton[] left)
+	private void initOpenButton(HeaderImageButton[] left)
 	{
 		left[1].addDomHandler(new ClickHandler()
 		{
@@ -164,7 +161,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initSaveButton(HeaderButton[] left)
+	private void initSaveButton(HeaderImageButton[] left)
 	{
 		left[2].addDomHandler(new ClickHandler()
 		{
@@ -214,11 +211,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 */
 	void changeTitle(String title)
 	{
-		this.tabletGUI.getTabletHeaderPanel().changeTitle(title);
-	}
-
-	public void setPresenter(Presenter listener)
-	{
-		this.listener = listener;
+		this.tabletGUI.getTabletHeaderPanel().setTitle(title);
 	}
 }

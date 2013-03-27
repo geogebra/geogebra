@@ -11,7 +11,9 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * @see ButtonBar
@@ -19,15 +21,21 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
  * @author Matthias Meisinger
  * 
  */
-public class ToolBar extends ButtonBar
+public class ToolBar extends HorizontalPanel
 {
 
 	protected List<ToolBarButton> tools;
+	private HorizontalPanel toolPanel, inputButtonPanel;
+	
 	protected InputDialog input;
 
-	public ToolBar()
+	public ToolBar(final TouchModel touchModel)
 	{
-		this.addStyleDependentName("toolbar");
+		this.setWidth(Window.getClientWidth() + "px");
+		this.toolPanel = new HorizontalPanel();
+		this.inputButtonPanel = new HorizontalPanel();
+		
+		makeTabletToolBar(touchModel);
 	}
 
 	/**
@@ -41,7 +49,7 @@ public class ToolBar extends ButtonBar
 	 * @param touchModel
 	 *          TouchModel responsible for handling the events
 	 */
-	public void makeTabletToolBar(final TouchModel touchModel)
+	private void makeTabletToolBar(final TouchModel touchModel)
 	{
 		this.tools = new ArrayList<ToolBarButton>();
 
@@ -61,7 +69,7 @@ public class ToolBar extends ButtonBar
 
 		// inputBar
 		ToolBarButton inputBarButton = new ToolBarButton(CommonResources.INSTANCE.show_input_bar(), touchModel.getGuiModel());
-		inputBarButton.addStyleDependentName("tool-rightButton");
+
 		inputBarButton.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -78,7 +86,7 @@ public class ToolBar extends ButtonBar
 					@Override
 					public void onCancel()
 					{
-						ToolBar.this.input.close();
+						ToolBar.this.input.hide();
 					}
 				});
 
@@ -86,12 +94,15 @@ public class ToolBar extends ButtonBar
 			}
 		}, ClickEvent.getType());
 
-		this.tools.add(inputBarButton);
-
 		for (ToolBarButton b : this.tools)
 		{
-			this.add(b);
+			this.toolPanel.add(b);
 		}
+
+		this.add(this.toolPanel);
+		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		this.inputButtonPanel.add(inputBarButton);
+		this.add(this.inputButtonPanel);
 
 		touchModel.getGuiModel().setActive(this.tools.get(0));
 	}
