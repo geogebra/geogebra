@@ -7879,7 +7879,7 @@ public abstract class EuclidianController {
 			geo = chooseGeo(hits, false);
 			
 			if (!selGeos.contains(geo)) {
-				selection.clearSelectedGeos(false); //repaint done next step
+				selection.clearSelectedGeos(geo == null); //repaint done next step
 				selection.addSelectedGeo(geo,true,true);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
