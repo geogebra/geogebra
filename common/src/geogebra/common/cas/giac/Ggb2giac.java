@@ -68,9 +68,9 @@ public class Ggb2giac {
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "dim(%0)");
 		p("Div.2",
-				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquo(%0,%1) else quo(%0,%1) fi");
+				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquo(%0,%1) else quo(%0,%1,ggbtmpvarx) fi");
 		p("Division.2",
-				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquorem(%0,%1) else quorem(%0,%1) fi");
+				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquorem(%0,%1) else quorem(%0,%1,ggbtmpvarx) fi");
 		p("Divisors.1",
 				"dim(idivis(%0))");
 		p("DivisorsList.1",
