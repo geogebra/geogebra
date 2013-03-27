@@ -154,10 +154,20 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			brush.setAffineTexture(0f,0f);
 			switch(conic.getType()){
 			case GeoConicNDConstants.CONIC_CIRCLE:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				e1 = conic.getHalfAxis(0);
+				e2 = e1;
 				updateCircle(brush);
 				//Application.debug(m.toString()+"\n2D:\n"+conic.getMidpoint2D().toString());
 				break;
 			case GeoConicNDConstants.CONIC_ELLIPSE:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				e1 = conic.getHalfAxis(0);
+				e2 = conic.getHalfAxis(1);
 				updateEllipse(brush);
 				break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -361,9 +371,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	 * @param surface surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface){
-		GeoConicND conic = (GeoConicND) getGeoElement();
-		surface.ellipsePart(conic.getMidpoint3D(), conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),getStart(),getExtent());
-
+		surface.ellipsePart(m, ev1, ev2, e1, e2, getStart(),getExtent());
 	}
 	
 	
@@ -376,18 +384,22 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	}
 	
 	
+	/**
+	 * draws outline for circle
+	 * @param brush brush plotter
+	 */
 	protected void updateCircle(PlotterBrush brush){
 		
-		GeoConicND conic = (GeoConicND) getGeoElement();
-		Coords m = conic.getMidpoint3D();
-		brush.circle(m, conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0));
+		brush.circle(m, ev1, ev2, e1);
 
 	}
 	
+	/**
+	 * draws outline for ellipse
+	 * @param brush brush plotter
+	 */
 	protected void updateEllipse(PlotterBrush brush){
-		GeoConicND conic = (GeoConicND) getGeoElement();
-		Coords m = conic.getMidpoint3D();
-		brush.arcEllipse(m, conic.getEigenvec3D(0), conic.getEigenvec3D(1), conic.getHalfAxis(0), conic.getHalfAxis(1),0,2*Math.PI);
+		brush.arcEllipse(m, ev1, ev2, e1, e2, 0,2*Math.PI);
 
 	}
 

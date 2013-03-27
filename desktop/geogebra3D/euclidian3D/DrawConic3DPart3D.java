@@ -61,28 +61,21 @@ public class DrawConic3DPart3D extends DrawConic3D {
 		
 		if(!Double.isNaN(start0)){ // there is at least one hole
 			
-			GeoConic3DPart conic = (GeoConic3DPart) getGeoElement();
-			Coords m = conic.getMidpoint3D();
-			Coords ev0 = conic.getEigenvec3D(0); 
-			Coords ev1 = conic.getEigenvec3D(1);
-			double r0 = conic.getHalfAxis(0);
-			double r1 = conic.getHalfAxis(1);
-			
-			brush.arcEllipse(m, ev0, ev1, r0, r1,start0,extent0);
+			brush.arcEllipse(m, ev1, ev2, e1, e2,start0,extent0);
 			
 			
 			if(!Double.isNaN(start1)){ // there is two holes
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev0, ev1, r0, r1, start0+extent0),
-						ellipsePoint(m, ev0, ev1, r0, r1, start1));
-				brush.arcEllipse(m, ev0, ev1, r0, r1,start1,extent1);
+				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
+						ellipsePoint(m, ev1, ev2, e1, e2, start1));
+				brush.arcEllipse(m, ev1, ev2, e1, e2,start1,extent1);
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev0, ev1, r0, r1, start1+extent1),
-						ellipsePoint(m, ev0, ev1, r0, r1, start0));
+				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start1+extent1),
+						ellipsePoint(m, ev1, ev2, e1, e2, start0));
 			}else{
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev0, ev1, r0, r1, start0+extent0),
-						ellipsePoint(m, ev0, ev1, r0, r1, start0));
+				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
+						ellipsePoint(m, ev1, ev2, e1, e2, start0));
 			}
 			
 		}else{ // no hole
