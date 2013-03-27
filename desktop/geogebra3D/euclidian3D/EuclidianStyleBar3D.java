@@ -289,6 +289,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnViewYZ.setToolTipText(app.getPlainTooltip("stylebar.ViewYZ"));
 		btnClipping.setToolTipText(app.getPlainTooltip("stylebar.Clipping"));
 		btnViewProjection.setToolTipText(app.getPlainTooltip("stylebar.ViewProjection"));
+		btnViewProjection.setToolTipArray(
+				new String[] {
+						app.getPlainTooltip("stylebar.ParallelProjection"),
+						app.getPlainTooltip("stylebar.PerspectiveProjection"),
+						app.getPlainTooltip("stylebar.AnaglyphProjection"),
+						app.getPlainTooltip("stylebar.ObliqueProjection")
+				});
+		
 		//btnViewProjection.setSelectedIndex(((EuclidianView3D) ev).getProjection());
 	}
 	
