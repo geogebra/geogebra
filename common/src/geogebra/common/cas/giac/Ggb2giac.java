@@ -101,7 +101,7 @@ public class Ggb2giac {
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[ggbans:=factors(%0)],matrix(dim(ggbans),2,ggbans)][1]");
+				"[[ggbans:=factors(%0)],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
 				"fisher\\_cdf(%0,%1,%2)");
 		p("Flatten.1", "flatten(%0)");
