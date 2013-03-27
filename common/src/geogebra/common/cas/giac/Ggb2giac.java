@@ -207,7 +207,8 @@ public class Ggb2giac {
 				"median(%0)");
 		p("Min.N", "min(%)");
 		p("Midpoint.2", "midpoint(%0,%1)");
-		p("Mod.2", "(%0)%(%1)");
+		p("Mod.2",
+				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3",
 				"romberg(%0,%1,%2)");
