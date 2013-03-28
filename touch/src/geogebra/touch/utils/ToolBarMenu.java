@@ -48,7 +48,9 @@ public enum ToolBarMenu
 	    }),
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] { ToolBarCommand.ReflectObjectAboutLine,
-	    ToolBarCommand.ReflectObjectAboutPoint, ToolBarCommand.ReflectObjectAboutCircle, ToolBarCommand.TranslateObjectByVector }),
+	    ToolBarCommand.ReflectObjectAboutPoint, ToolBarCommand.ReflectObjectAboutCircle, 
+	    //TODO: ToolBarCommand.RotateObjectByAngle, 
+	    ToolBarCommand.TranslateObjectByVector }),
 
 	// TODO:
 	// SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
@@ -67,7 +69,7 @@ public enum ToolBarMenu
 
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] { ToolBarCommand.Move_Mobile,
 	    // TODO: ToolBarCommand.Select,
-	    ToolBarCommand.DeleteObject });
+		ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject });
 
 	ToolBarCommand[] entry;
 	ToolBarCommand command;

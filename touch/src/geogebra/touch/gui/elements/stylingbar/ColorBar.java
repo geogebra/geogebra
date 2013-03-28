@@ -1,15 +1,14 @@
 package geogebra.touch.gui.elements.stylingbar;
 
+import geogebra.common.awt.GColor;
+import geogebra.touch.model.TouchModel;
+import geogebra.web.awt.GColorW;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-
-import geogebra.common.awt.GColor;
-import geogebra.touch.gui.CommonResources;
-import geogebra.touch.model.TouchModel;
-import geogebra.web.awt.GColorW;
 
 /**
  * A {@link LyoutPanel} with a {@link ScrollPanel}.
@@ -42,11 +41,7 @@ public class ColorBar extends LayoutPanel
 	private void initEndlessColorWheel()
 	{
 		//TODO make colorwheel endless
-		
-		this.getElement().getStyle().setBackgroundImage("url(" + CommonResources.INSTANCE.colorBarBackground().getSafeUri().asString() + ")");
-	}
-
-	
+	}	
 
 	private void initColors()
 	{

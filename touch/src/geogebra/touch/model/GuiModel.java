@@ -134,11 +134,14 @@ public class GuiModel
 				this.touchModel.optionsClosed();
 			}
 		}
+		
+		// activeButton looses style otherwise
+		this.activeButton.addStyleDependentName("active");
 	}
 
 	public void setActive(ToolBarButton toolBarButton)
 	{
-		if (this.activeButton != null)
+		if (this.activeButton != null && this.activeButton != toolBarButton)
 		{
 			this.activeButton.removeStyleDependentName("active");
 		}
@@ -205,10 +208,8 @@ public class GuiModel
 		}
 		if (this.captionMode != -1)
 		{
-			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1 /*
-																															 * anything other
-																															 * than 0
-																															 */, this.captionMode);
+			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1 , this.captionMode); 
+			// second argument (-1):  anything other than 0
 		}
 	}
 

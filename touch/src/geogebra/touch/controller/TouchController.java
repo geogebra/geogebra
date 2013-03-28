@@ -8,7 +8,9 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -67,6 +69,7 @@ public class TouchController extends EuclidianController
 	public void setKernel(Kernel k)
 	{
 		this.kernel = k;
+		this.tempNum = new MyDouble(this.kernel);
 	}
 
 	@Override
@@ -90,13 +93,27 @@ public class TouchController extends EuclidianController
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
 		handleEvent(x, y);
+		
+		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
+				&& this.model.getTotalNumber() >= 2)
+		{
+			this.rotationCenter = (GeoPoint) this.model
+					.getElement(Test.GEOPOINT);
+			this.rotGeoElement = this.model.lastSelected();
+			this.moveMode = EuclidianController.MOVE_ROTATE;
+			this.rotationLastAngle = Math.atan2(this.yRW - this.rotationCenter.inhomY, this.xRW
+					- this.rotationCenter.inhomX);
+		}
 	}
 
 	public void onTouchMove(int x, int y)
 	{
-		
-		if (this.clicked && (this.clicked = this.model.controlClicked()) && this.model.getCommand() == ToolBarCommand.Move_Mobile)
-		{	
+
+		if (this.clicked
+				&& (this.clicked = this.model.controlClicked())
+				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
+						.getCommand() == ToolBarCommand.RotateAroundPoint))
+		{
 			EuclidianViewM.drags++;
 			long time = System.currentTimeMillis();
 			if(time < this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
@@ -106,12 +123,21 @@ public class TouchController extends EuclidianController
 				this.repaintTimer.schedule(DELAY_BETWEEN_MOVE_EVENTS);
 				return;
 			}
+			
+			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
+			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+
+			
+			wrapMouseDragged(mEvent);
+
+			this.origin = new GPoint(x, y);
+			
 			this.waitingX =-1;
 			this.waitingY =-1;
 			touchMoveNow(x, y, time);
 			
 		}
-		
+
 	}
 
 	private void touchMoveNow(int x, int y,long l) {
@@ -138,16 +164,25 @@ public class TouchController extends EuclidianController
 		
 		this.clicked = false;
 
-		if (Swipeables.isSwipeable(this.model.getCommand()) && this.model.getNumberOf(Test.GEOPOINT) == 1
-		    && (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10))
-		{			
+		if (Swipeables.isSwipeable(this.model.getCommand())
+				&& this.model.getNumberOf(Test.GEOPOINT) == 1
+				&& (Math.abs(this.origin.getX() - x) > 10 || Math
+						.abs(this.origin.getY() - y) > 10))
+		{
 			handleEvent(x, y);
 		}
 
-		if (this.model.getCommand().equals(ToolBarCommand.Move_Mobile) && this.view.getHits().size() > 0)
+		if (this.model.getCommand().equals(ToolBarCommand.Move_Mobile)
+				&& this.view.getHits().size() > 0)
 		{
 			this.kernel.storeUndoInfo();
 		}
+		
+		if (this.model.getCommand().equals(ToolBarCommand.RotateAroundPoint) && Math.abs(this.rotationLastAngle) > 0.001)
+		{
+			this.kernel.storeUndoInfo(); 
+		}
+			
 	}
 
 	public void onPinch(int x, int y, double scaleFactor)
@@ -163,8 +198,9 @@ public class TouchController extends EuclidianController
 
 	private void handleEvent(int x, int y)
 	{
-		this.model.getGuiModel().closeOptions(); // make sure undo-information is
-																						 // stored first
+		this.model.getGuiModel().closeOptions(); // make sure undo-information
+													// is
+													// stored first
 
 		ToolBarCommand cmd = this.model.getCommand();
 
@@ -189,17 +225,20 @@ public class TouchController extends EuclidianController
 		this.view.setHits(this.mouseLoc);
 		Hits hits = this.view.getHits();
 
-		this.model.handleEvent(hits, new Point(x, y), new Point2D.Double(this.xRW, this.yRW));
+		this.model.handleEvent(hits, new Point(x, y), new Point2D.Double(
+				this.xRW, this.yRW));
 	}
 
 	/**
 	 * prevent redraw
 	 */
 	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible,
-	    boolean doSingleHighlighting, boolean complex)
+	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
+			boolean inRegionPossible, boolean intersectPossible,
+			boolean doSingleHighlighting, boolean complex)
 	{
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible, intersectPossible, false, complex);
+		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
+				intersectPossible, false, complex);
 	}
 
 	/**
@@ -249,8 +288,7 @@ public class TouchController extends EuclidianController
 		if (drag)
 		{
 			moveableList = viewHits.getMoveableHits(this.view);
-		}
-		else
+		} else
 		{
 			moveableList = viewHits;
 		}
@@ -260,12 +298,12 @@ public class TouchController extends EuclidianController
 		ArrayList<GeoElement> selGeos = this.model.getSelectedGeos();
 
 		// if object was chosen before, take it now!
-		if ((selGeos.size() == 1) && !hits.isEmpty() && hits.contains(selGeos.get(0)))
+		if ((selGeos.size() == 1) && !hits.isEmpty()
+				&& hits.contains(selGeos.get(0)))
 		{
 			// object was chosen before: take it
 			geo = selGeos.get(0);
-		}
-		else
+		} else
 		{
 			// choose out of hits
 			geo = chooseGeo(hits, false);
@@ -280,8 +318,7 @@ public class TouchController extends EuclidianController
 		if ((geo != null) && !geo.isFixed())
 		{
 			this.moveModeSelectionHandled = true;
-		}
-		else
+		} else
 		{
 			// no geo clicked at
 			this.moveMode = MOVE_NONE;
@@ -321,7 +358,9 @@ public class TouchController extends EuclidianController
 		}
 
 		// move all selected geos
-		GeoElement.moveObjects(removeParentsOfView(this.model.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
+		GeoElement.moveObjects(
+				removeParentsOfView(this.model.getSelectedGeos()),
+				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
 		if (repaint)
 		{

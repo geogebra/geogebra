@@ -70,10 +70,6 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource algebra_open();
 
-	// ColorBar
-	@Source("backgroundImage/colorBar.png")
-	ImageResource colorBarBackground();
-
 	// StylingBar
 
 	@Source("icons/svg/stylingbar_graphicsview_show_or_hide_the_axes.svg")
