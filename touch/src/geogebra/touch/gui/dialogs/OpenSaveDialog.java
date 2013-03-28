@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements;
+package geogebra.touch.gui.dialogs;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 

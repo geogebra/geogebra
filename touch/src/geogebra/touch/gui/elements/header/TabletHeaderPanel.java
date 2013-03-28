@@ -2,18 +2,21 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.InputDialog;
-import geogebra.touch.gui.elements.InputDialog.InputCallback;
+import geogebra.touch.gui.dialogs.InputDialog;
+import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.model.GuiModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Extends from {@link HeaderPanel}.
@@ -21,10 +24,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public class TabletHeaderPanel extends HorizontalPanel
 {
 	private TabletHeaderPanelLeft leftHeader;
-	private Button title;
+	Button title;
 	private TabletHeaderPanelRight rightHeader;
 
-	protected InputDialog dialog;
+	protected InputDialog dialog = new InputDialog(DialogType.Title);
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, Kernel kernel, GuiModel guiModel)
 	{
@@ -43,24 +46,21 @@ public class TabletHeaderPanel extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanel.this.dialog = new InputDialog("Title", TabletHeaderPanel.this.getElement().getInnerText(), new InputCallback()
-				{
-					@Override
-					public void onOk()
-					{
-						setTitle(TabletHeaderPanel.this.dialog.getText());
-					}
 
-					@Override
-					public void onCancel()
-					{
-						TabletHeaderPanel.this.dialog.hide();
-					}
-				});
-
+				TabletHeaderPanel.this.dialog.setText(TabletHeaderPanel.this.title.getText());
 				TabletHeaderPanel.this.dialog.show();
 			}
 		}, ClickEvent.getType());
+
+		this.dialog.addCloseHandler(new CloseHandler<PopupPanel>()
+		{
+
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event)
+			{
+				TabletHeaderPanel.this.title.setText(TabletHeaderPanel.this.dialog.getInput());
+			}
+		});
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
@@ -68,10 +68,9 @@ public class TabletHeaderPanel extends HorizontalPanel
 		this.title.setPixelSize(Window.getClientWidth() - 396, 61);
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.title);
-		
+
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
-
 
 	}
 

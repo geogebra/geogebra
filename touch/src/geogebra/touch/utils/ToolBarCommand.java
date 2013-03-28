@@ -192,16 +192,6 @@ public enum ToolBarCommand
 	}
 
 	/**
-	 * The url used to link the resource
-	 * 
-	 * @return "url(" + this.icon.getSafeUri().asString() + ")";
-	 */
-	public String getIconUrlAsString()
-	{
-		return this.icon.getSafeUri().asString();
-	}
-
-	/**
 	 * 
 	 * @return the Mode from {@link EuclidianConstants} of this ToolBarCommand
 	 */
@@ -215,4 +205,9 @@ public enum ToolBarCommand
 	{
 		return this.entries;
 	}
+
+	public SVGResource getIcon()
+  {
+	  return this.icon;
+  }
 }

@@ -2,8 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.gui.CommonResources;
-
-import org.vectomatic.dom.svg.ui.SVGResource;
+import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -22,12 +21,9 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	 */
 	public TabletHeaderPanelRight(final Kernel kernel)
 	{
-		HeaderImageButton[] button = new HeaderImageButton[2];
-		button[0] = new HeaderImageButton();
+		StandardImageButton[] button = new StandardImageButton[2];
 
-		SVGResource icon = CommonResources.INSTANCE.undo();
-		button[0].setText(icon.getSafeUri().asString());
-
+		button[0] = new StandardImageButton(CommonResources.INSTANCE.undo());
 		button[0].addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -37,10 +33,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			}
 		}, ClickEvent.getType());
 
-		icon = CommonResources.INSTANCE.redo();
-		button[1] = new HeaderImageButton();
-		button[1].setText(icon.getSafeUri().asString());
-
+		button[1] = new StandardImageButton(CommonResources.INSTANCE.redo());
 		button[1].addDomHandler(new ClickHandler()
 		{
 			@Override

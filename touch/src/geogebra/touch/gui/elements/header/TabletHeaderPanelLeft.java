@@ -5,12 +5,11 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.OpenSaveDialog;
-import geogebra.touch.gui.elements.OpenSaveDialog.OpenCallback;
-import geogebra.touch.gui.elements.OpenSaveDialog.SaveCallback;
+import geogebra.touch.gui.dialogs.OpenSaveDialog;
+import geogebra.touch.gui.dialogs.OpenSaveDialog.OpenCallback;
+import geogebra.touch.gui.dialogs.OpenSaveDialog.SaveCallback;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
-
-import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -37,23 +36,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.app = (TouchApp) kernel.getApplication();
 		this.tabletGUI = tabletGUI;
 
-		HeaderImageButton[] left = new HeaderImageButton[4];
+		StandardImageButton[] left = new StandardImageButton[4];
 
-		SVGResource icon = CommonResources.INSTANCE.document_new();
-		left[0] = new HeaderImageButton();
-		left[0].setText(icon.getSafeUri().asString());
-
-		icon = CommonResources.INSTANCE.document_open();
-		left[1] = new HeaderImageButton();
-		left[1].setText(icon.getSafeUri().asString());
-
-		icon = CommonResources.INSTANCE.document_save();
-		left[2] = new HeaderImageButton();
-		left[2].setText(icon.getSafeUri().asString());
-
-		icon = CommonResources.INSTANCE.geogebra_tube();
-		left[3] = new HeaderImageButton();
-		left[3].setText(icon.getSafeUri().asString());
+		left[0] = new StandardImageButton(CommonResources.INSTANCE.document_new());
+		left[1] = new StandardImageButton(CommonResources.INSTANCE.document_open());
+		left[2] = new StandardImageButton(CommonResources.INSTANCE.document_save());
+		
+		left[3] = new StandardImageButton(CommonResources.INSTANCE.geogebra_tube());
 		left[3].addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -83,7 +72,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initNewButton(final Kernel kernel, final GuiModel guiModel, HeaderImageButton[] left)
+	private void initNewButton(final Kernel kernel, final GuiModel guiModel, StandardImageButton[] left)
 	{
 		left[0].addDomHandler(new ClickHandler()
 		{
@@ -107,7 +96,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initOpenButton(HeaderImageButton[] left)
+	private void initOpenButton(StandardImageButton[] left)
 	{
 		left[1].addDomHandler(new ClickHandler()
 		{
@@ -159,7 +148,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * @param left
 	 *          the buttons on the left side of the headerPanel
 	 */
-	private void initSaveButton(HeaderImageButton[] left)
+	private void initSaveButton(StandardImageButton[] left)
 	{
 		left[2].addDomHandler(new ClickHandler()
 		{

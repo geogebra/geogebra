@@ -1,33 +1,23 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import geogebra.touch.gui.elements.header.HeaderImageButton;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.utils.ToolBarCommand;
-
-import org.vectomatic.dom.svg.ui.SVGResource;
 
 /**
  * A Button for the {@link ToolBar}, allowing an SVG graphic to be set as
  * background <br>
- * css-styling: {@code -webkit-background-size: 100%;} <br>
- * for the correct size of the SVG
  * 
- * @see ButtonBarButtonBase
  * @author Matthias Meisinger
  * 
  */
-public class ToolButton extends HeaderImageButton
+public class ToolButton extends StandardImageButton
 {
 	private ToolBarCommand cmd;
 
 	public ToolButton(ToolBarCommand cmd)
 	{
+		super(cmd.getIcon());
 		this.cmd = cmd;
-		super.setText(cmd.getIconUrlAsString());
-	}
-
-	public ToolButton(SVGResource icon)
-	{
-		super.setText(icon.getSafeUri().asString());
 	}
 
 	public ToolBarCommand getCmd()
@@ -37,7 +27,7 @@ public class ToolButton extends HeaderImageButton
 
 	public void setCmd(ToolBarCommand cmd)
 	{
+		super.setIcon(cmd.getIcon());
 		this.cmd = cmd;
-		super.setText(cmd.getIconUrlAsString());
 	}
 }

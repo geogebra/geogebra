@@ -1,7 +1,5 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import java.util.Arrays;
-
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -24,7 +22,6 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	protected ToolBarCommand[] menuEntries;
 	protected GuiModel model;
-	private SVGResource svg;
 
 	/**
 	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
@@ -63,49 +60,9 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	public ToolBarButton(SVGResource svgResource, GuiModel guiModel)
 	{
-		super(svgResource);
+		super(guiModel.getCommand());
+		super.setIcon(svgResource);
 		this.model = guiModel;
-		this.svg = svgResource;
-	}
-
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(this.menuEntries);
-		result = prime * result + ((this.model == null) ? 0 : this.model.hashCode());
-		result = prime * result + ((this.svg == null) ? 0 : this.svg.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ToolBarButton other = (ToolBarButton) obj;
-		if (!Arrays.equals(this.menuEntries, other.menuEntries))
-			return false;
-		if (this.model == null)
-		{
-			if (other.model != null)
-				return false;
-		}
-		else if (!this.model.equals(other.model))
-			return false;
-		if (this.svg == null)
-		{
-			if (other.svg != null)
-				return false;
-		}
-		else if (!this.svg.equals(other.svg))
-			return false;
-		return true;
 	}
 
 	@Override
