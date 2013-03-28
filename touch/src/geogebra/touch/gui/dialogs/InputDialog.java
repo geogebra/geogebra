@@ -16,8 +16,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * A dialog with an InputBar, OK-Button and CANCEL-Button.
+ * A dialog with a TextBox, OK-Button and CANCEL-Button. on OK the content of
+ * the TextBox is available through getInput() on CANCEL the result stays the
+ * same as before
  * 
+ * set the content of the TextBox via setText(..)
  */
 public class InputDialog extends PopupPanel
 {
@@ -33,7 +36,7 @@ public class InputDialog extends PopupPanel
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 
-	String input;
+	private String text, input;
 
 	public InputDialog(DialogType type)
 	{
@@ -81,20 +84,6 @@ public class InputDialog extends PopupPanel
 		this.dialogPanel.add(this.buttonContainer);
 	}
 
-	private void addOKButton()
-	{
-		this.okButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				InputDialog.this.onOK();
-			}
-		}, ClickEvent.getType());
-
-		this.buttonContainer.add(this.okButton);
-	}
-
 	private void addCancelButton()
 	{
 		this.cancelButton.addDomHandler(new ClickHandler()
@@ -110,15 +99,29 @@ public class InputDialog extends PopupPanel
 		this.buttonContainer.add(this.cancelButton);
 	}
 
-	protected void onOK()
+	private void addOKButton()
 	{
-		this.input = this.textBox.getText();
-		this.hide();
+		this.okButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				InputDialog.this.onOK();
+			}
+		}, ClickEvent.getType());
+
+		this.buttonContainer.add(this.okButton);
 	}
 
 	protected void onCancel()
 	{
-		this.textBox.setText("");
+		this.input = this.text;
+		this.hide();
+	}
+
+	protected void onOK()
+	{
+		this.input = this.textBox.getText();
 		this.hide();
 	}
 
@@ -127,7 +130,16 @@ public class InputDialog extends PopupPanel
 	{
 		super.show();
 		super.center();
+		this.textBox.setText(this.text);
+		this.input = this.text;
 		this.textBox.setFocus(true);
+	}
+
+	@Override
+	public void hide()
+	{
+		super.hide();
+		this.text = "";
 	}
 
 	public String getInput()
@@ -137,7 +149,6 @@ public class InputDialog extends PopupPanel
 
 	public void setText(String text)
 	{
-		this.input = text;
-		this.textBox.setText(this.input);
+		this.text = text;
 	}
 }
