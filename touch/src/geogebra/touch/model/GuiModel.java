@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Organizes the visibility of the additional {@link OptionsBarBackground
+ * Organizes the visibility of the additional {@link OptionsBar
  * toolBar} according to the {@link ToolBarButton active button}.
  * 
  * @author Thomas Krismayer

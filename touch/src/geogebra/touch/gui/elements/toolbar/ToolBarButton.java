@@ -74,11 +74,10 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	protected void showOptions()
 	{
-		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
-		this.model.showOption(options, OptionType.ToolBar);
 		if (this.menuEntries.length != 0)
 		{
-			options.show();
+			OptionsBar options = new OptionsBar(this.menuEntries, this, this.getOffsetHeight());
+			this.model.showOption(options, OptionType.ToolBar);
 		}
 		this.model.setActive(this);
 	}

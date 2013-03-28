@@ -1,11 +1,14 @@
 package geogebra.touch.gui;
 
+import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
@@ -29,6 +32,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	private AlgebraViewPanel algebraViewPanel;
 	StylingBar stylingBar;
 
+	public static final int FOOTER_BORDER_WIDTH = 1; 
+	
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
@@ -83,6 +88,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.toolBar = new ToolBar(touchModel);
 		this.setFooterWidget(this.toolBar);
+		this.getFooterWidget().getElement().getStyle().setBorderWidth(FOOTER_BORDER_WIDTH, Unit.PX); 
+		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString()); 
+		this.getFooterWidget().getElement().getStyle().setBorderStyle(BorderStyle.SOLID);  
+		
 
 		Window.addResizeHandler(new ResizeHandler()
 		{

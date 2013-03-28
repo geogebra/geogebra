@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.PushButton;
 public class StandardImageButton extends PushButton
 {
 	private SVGResource icon;
+	public static final int HEIGHT = 48; 
 
 	public StandardImageButton(SVGResource icon)
 	{
@@ -21,7 +22,7 @@ public class StandardImageButton extends PushButton
 	public void setIcon(SVGResource icon)
 	{
 		this.icon = icon;
-		String html = "<img src=\"" + this.icon.getSafeUri().asString() + "\" style=\"width: 48px; height: 48px;\">";
+		String html = "<img src=\"" + this.icon.getSafeUri().asString() + "\" style=\"width: "+ HEIGHT +"px; height: "+ HEIGHT +"px;\">";
 		this.getElement().setInnerHTML(html);
 
 	}
