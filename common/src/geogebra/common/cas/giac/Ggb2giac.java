@@ -31,7 +31,7 @@ public class Ggb2giac {
 				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
 		p("CFactor.1","collect(%0,i)");
-		p("CFactor.2","collect(%0,i)");
+		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
 		
 		// TODO: ggbtmpvarx
@@ -40,14 +40,14 @@ public class Ggb2giac {
 		
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
-				"canonical\\_form(%0,ggbtmpvarx)");
+				"canonical\\_form(%0)");
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2",
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"covariance(%0)");
-		p("Cross.2", "cross([%0],[%1])");
-		p("ComplexRoot.1", "csolve(%0, ggbtmpvarx)");
+		p("Cross.2", "cross(%0,%1)");
+		p("ComplexRoot.1", "cZeros(%0, ggbtmpvarx)");
 		p("CSolutions.1", "csolve(%0)");
 		p("CSolutions.2",
 				"csolve(%0,%1)");
@@ -90,9 +90,8 @@ public class Ggb2giac {
 		// factor over rationals
 		p("Factor.1",
 				"collect(%0)");
-		// TODO: %1
 		p("Factor.2",
-				"collect(%0)");
+				"collect(%0,%1)");
 
 		// factor over irrationals
 		// might not need with_sqrt() as we're using collect() for Factor.1
@@ -107,7 +106,7 @@ public class Ggb2giac {
 		p("Flatten.1", "flatten(%0)");
 		p("First.1", "{%0[0]}");
 		p("First.2",
-				"todo");
+				"%0[0..%1-1]");
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
@@ -135,8 +134,8 @@ public class Ggb2giac {
 		p("If.2", "when(%0,%1,undef)");
 		p("If.3", "when(%0,%1,%2)");
 		
-		p("ImplicitDerivative.3", "-df(%0,%2)/df(%0,%1)");
-		p("ImplicitDerivative.1", "-df(%0,ggbtmpvarx)/df(%0,ggbtmpvary)");
+		p("ImplicitDerivative.3", "-diff(%0,%2)/diff(%0,%1)");
+		p("ImplicitDerivative.1", "-diff(%0,ggbtmpvarx)/diff(%0,ggbtmpvary)");
 		
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.1",
@@ -154,40 +153,38 @@ public class Ggb2giac {
 		p("IntegralBetween.4",
 				"int(%0-(%1),ggbtmpvarx,%2,%3)");
 		p("IntegralBetween.5",
-				"romberg(%0-(%1),%2,%3,%4)");
+				"int(%0-(%1),%2,%3,%4)");
 		p("Intersect.2",
 				"%0 intersect %1");
 		p("Iteration.3",
 				"(unapply(%0,ggbtmpvarx)@@%2)(%1)");
 		p("IterationList.3",
-				"apply(unapply(%0,ggbtmpvarx)@@%2,%1)");
+				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=f(l[k-1]); od; l; end],ggbans(unapply(%0,ggbtmpvarx),%1,%2)][1]");
 		p("PointList.1",
 				"coordinates(%0)");
 		p("RootList.1",
-				"rootlist(mattolistoflists(%0))");
+				"apply(x->convert([x,0],25),%0)");
 		p("Invert.1", "inv(%0)");
 		p("IsPrime.1", "isprime(%0)");
-		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
-		p("Join.N","todo");
+		p("Join.N","flatten(%n)");
 		p("Line.2","equation(line(%0,%1))");
-		// p("IsBound.1","if << symbolic; p!!:=isbound!!('%0); algebraic; p!!>>=1 then 'true else 'false");
 		p("Last.1",
 				"{%0[dim(%0)-1]}");
 		p("Last.2",
-				"todo()");
+				"%0[size(%0)-%1,size(%0)-1]");
 		p("LCM.1",
 				"lcm(%0)");
 		p("LCM.2",
 				"lcm(%0,%1)");
 		p("LeftSide.1",
-				"left(%0)");
+				"when(type(%0)==DOM_LIST,map(%0,left),left(%0))");
 		p("LeftSide.2",
-				"todo");
+				"left(%0[%1+1])");
 		p("Length.1",
 				"size(%0)");
 		p("Length.3",
-				"arclen(%0,%1,%2)");
-		p("Length.4", "arclen(%0,%1,%2,%3)");
+				"arcLen(%0,ggbtmpvarx,%1,%2)");
+		p("Length.4", "arcLen(%0,%1,%2,%3)");
 		p("Limit.2",
 				"limit(%0,ggbtmpvarx,%1)");
 		p("Limit.3",
@@ -207,6 +204,8 @@ public class Ggb2giac {
 				"median(%0)");
 		p("Min.N", "min(%)");
 		p("Midpoint.2", "midpoint(%0,%1)");
+		p("MixedNumber.1",
+				"propfrac(exact(%0))");
 		p("Mod.2",
 				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
 		p("NextPrime.1", "nextprime(%0)");
@@ -225,15 +224,17 @@ public class Ggb2giac {
 		p("NSolve.2",
 				"{left(%1)=fsolve(%0,%1)}");
 		// first element of list, wrapped back in list
+		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
+		// it will try a few random starting points.
 		p("NSolutions.1",
 				"{fsolve(%0,ggbtmpvarx)[0]}");
 		p("NSolutions.2",
 				"{fsolve(%0,%1)}");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
-				"todo");
+				"evalf(%0)");
 		p("Numeric.2",
-				"todo");
+				"evalf(%0,%1)");
 		p("OrthogonalVector.1",
 				"[[0,-1],[1,0]]*(%0)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
@@ -251,14 +252,14 @@ public class Ggb2giac {
 				"prevprime(%0)");
 		p("PrimeFactors.1",
 				"ifactors(%0)");
+		// normal() makes sure answer is expanded
+		// TODO: do we want this, or do it in a more general way
 		p("Product.1",
-				"product(%0)");
-		p("Product.4", "product(%0,%1,%2,%3)");
+				"normal(product(%0))");
+		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
-		p("MixedNumber.1",
-				"todo");
-		p("Random.2", "rand(%0,%1)");
+		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
 				"todo");
 		p("RandomElement.1", "rand(1,%0)[0]");
@@ -270,18 +271,20 @@ public class Ggb2giac {
 				"randpoly(%0,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%0,%1,%2..%3)");
+		//p("Rationalize.1", "exact(evalf(%0))");
+		//p("Rationalize.1", "normal(exact(%0))");
 		p("Rationalize.1", "exact(%0)");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
-				"right(%0)");
+				"when(type(%0)==DOM_LIST,map(%0,right),right(%0))");
 		p("RightSide.2",
-				"todo");
+				"right(%0[%1-1]) ");
 		p("Root.1",
-				"solve(%0,ggbtmpvarx)");
+				"zeros(%0,ggbtmpvarx)");
 		p("ReducedRowEchelonForm.1",
 				"rref(%0)");
 		p("Sample.2",
-				"seq(rand(1,%0),j,1,%1)");
+				"flatten(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
 				"if %3=true then seq(rand(1,%0),j,1,%1) else todo fi");
 		p("SampleVariance.1",
