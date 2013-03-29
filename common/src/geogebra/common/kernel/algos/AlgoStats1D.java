@@ -152,7 +152,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 		// Product[{1, 2, 3}, {2, 4, 8}]
 		
 		int truncate;
-		int size = geoList.size();
+		double size = geoList.size();
 
 		if (Truncate != null) {
 			truncate = (int) Truncate.getDouble();
@@ -252,7 +252,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 			}
 
-			size = (int) sumFreq;
+			size = sumFreq;
 		}
 
 		mu = sumVal / size;
