@@ -47,12 +47,12 @@ public class Ggb2giac {
 		p("Covariance.1",
 				"covariance(%0)");
 		p("Cross.2", "cross(%0,%1)");
-		p("ComplexRoot.1", "cZeros(%0, ggbtmpvarx)");
-		p("CSolutions.1", "csolve(%0)");
+		p("ComplexRoot.1", "cZeros(%0,ggbtmpvarx)");
+		p("CSolutions.1", "cZeros(%0,ggbtmpvarx)");
 		p("CSolutions.2",
-				"csolve(%0,%1)");
+				"cZeros(%0,%1)");
 		p("CSolve.1",
-				"csolve(%0)");
+				"csolve(%0,ggbtmpvarx)");
 		p("CSolve.2", "csolve(%0,%1)");
 		p("Degree.1",
 				"degree(%0,ggbtmpvarx)");
@@ -177,7 +177,7 @@ public class Ggb2giac {
 		p("LCM.2",
 				"lcm(%0,%1)");
 		p("LeftSide.1",
-				"when(type(%0)==DOM_LIST,map(%0,left),left(%0))");
+				"when(type(%0)==DOM\\_LIST,map(%0,left),left(%0))");
 		p("LeftSide.2",
 				"left(%0[%1+1])");
 		p("Length.1",
@@ -273,10 +273,10 @@ public class Ggb2giac {
 				"randpoly(%0,%1,%2..%3)");
 		//p("Rationalize.1", "exact(evalf(%0))");
 		//p("Rationalize.1", "normal(exact(%0))");
-		p("Rationalize.1", "exact(%0)");
+		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
-				"when(type(%0)==DOM_LIST,map(%0,right),right(%0))");
+				"when(type(%0)==DOM\\_LIST,map(%0,right),right(%0))");
 		p("RightSide.2",
 				"right(%0[%1-1]) ");
 		p("Root.1",
@@ -288,9 +288,11 @@ public class Ggb2giac {
 		p("Sample.3",
 				"if %3=true then seq(rand(1,%0),j,1,%1) else todo fi");
 		p("SampleVariance.1",
-				"todo");
+				"variance(%0)*size(%0)/(size(%0)-1)");
+				// less parsing (for long lists), but doesn't work...
+				//"[ggbans:=%0;ggbanssize:=size(ggbans);ggbans:=variance(ggbans)*ggbanssize/(ggbanssize-1)][0]");
 		p("SampleSD.1",
-				"todo");
+				"stddevp(%0)");
 		p("Sequence.1", "seq(j,j,1,%0)");
 		p("Sequence.4",
 				"seq(%0,%1,%2,%3)");
@@ -305,9 +307,9 @@ public class Ggb2giac {
 		// solve({x+y-1,x-y-3},{x,y}) -> list[{2,-1}]
 		
 		p("Solutions.1",
-				"solve(%0,ggbtmpvarx)");
+				"zeros(%0,ggbtmpvarx)");
 		p("Solutions.2",
-				"solve(%0,%1)");
+				"zeros(%0,%1)");
 		p("Solve.1",
 				"solve(%0,ggbtmpvarx)");
 		p("Solve.2",
@@ -334,17 +336,17 @@ public class Ggb2giac {
 		p("Take.3",
 				"todo");
 		p("TaylorSeries.3",
-				"series(%0,ggbtmpvarx,%1,%2)");
+				"convert(series(%0,ggbtmpvarx,%1,%2),polynom)");
 		p("TaylorSeries.4",
-				"series(%0,%1,%2,%3)");
+				"convert(series(%0,%1,%2,%3),polynom)");
 		p("TDistribution.2",
-				"student(%0,%1)");
+				"student\\_cdf(%0,%1)");
 		p("ToComplex.1",
 				"%0[0]+i*%0[1]");
 		p("ToExponential.1",
-				"trig2exp(%0)");
+				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"exp2trig(%0)");
+				"polar\\_coordinates(%0)");
 		p("ToPoint.1",
 				"todo");
 		p("Transpose.1", "transpose(%0)");
@@ -363,7 +365,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("TrigCombine.2",
 				"tcollect(%0)");
-		p("Unique.1", "set[op(%0)]");
+		p("Unique.1", "[op(set[op(%0)])]");
 		p("UnitOrthogonalVector.1",
 				"todo");
 		p("UnitVector.1",
