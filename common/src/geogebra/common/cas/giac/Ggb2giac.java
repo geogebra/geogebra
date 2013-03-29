@@ -171,7 +171,7 @@ public class Ggb2giac {
 		p("Last.1",
 				"{%0[dim(%0)-1]}");
 		p("Last.2",
-				"%0[size(%0)-%1,size(%0)-1]");
+				"%0[size(%0)-%1..size(%0)-1]");
 		p("LCM.1",
 				"lcm(%0)");
 		p("LCM.2",
@@ -179,7 +179,7 @@ public class Ggb2giac {
 		p("LeftSide.1",
 				"when(type(%0)==DOM\\_LIST,map(%0,left),left(%0))");
 		p("LeftSide.2",
-				"left(%0[%1+1])");
+				"left(%0[%1-1])");
 		p("Length.1",
 				"size(%0)");
 		p("Length.3",
