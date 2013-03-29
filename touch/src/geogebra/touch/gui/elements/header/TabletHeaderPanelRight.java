@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
-import geogebra.common.kernel.Kernel;
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 
@@ -19,7 +19,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
-	public TabletHeaderPanelRight(final Kernel kernel)
+	public TabletHeaderPanelRight(final TouchApp app)
 	{
 		StandardImageButton[] button = new StandardImageButton[2];
 
@@ -29,7 +29,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				kernel.undo();
+				app.getKernel().undo();
 			}
 		}, ClickEvent.getType());
 
@@ -39,7 +39,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				kernel.redo();
+				app.getKernel().redo();
 			}
 		}, ClickEvent.getType());
 

@@ -5,15 +5,20 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.dialogs.OpenSaveDialog;
-import geogebra.touch.gui.dialogs.OpenSaveDialog.OpenCallback;
-import geogebra.touch.gui.dialogs.OpenSaveDialog.SaveCallback;
+import geogebra.touch.gui.dialogs.FileDialog;
+import geogebra.touch.gui.dialogs.InputDialog;
+import geogebra.touch.gui.dialogs.InputDialog.DialogType;
+import geogebra.touch.gui.dialogs.OpenFileDialog;
+import geogebra.touch.gui.dialogs.SaveFileDialog;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * ButtonBar for the buttons on the left side of the HeaderPanel.
@@ -23,172 +28,116 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class TabletHeaderPanelLeft extends HorizontalPanel
 {
+	Kernel kernel;
 	TouchApp app;
+	GuiModel guiModel;
 	TabletGUI tabletGUI;
-	OpenSaveDialog saveDialog;
-	OpenSaveDialog openDialog;
+
+	InputDialog dialog;
+	FileDialog openDialog, saveDialog;
+
+	private StandardImageButton newButton = new StandardImageButton(CommonResources.INSTANCE.document_new());
+	private StandardImageButton openButton = new StandardImageButton(CommonResources.INSTANCE.document_open());
+	private StandardImageButton saveButton = new StandardImageButton(CommonResources.INSTANCE.document_save());
+	private StandardImageButton ggtButton = new StandardImageButton(CommonResources.INSTANCE.geogebra_tube());
 
 	/**
-	 * Generates the {@link HeaderButton buttons} for the left HeaderPanel.
+	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(TabletGUI tabletGUI, final Kernel kernel, final GuiModel guiModel)
+	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, final GuiModel guiModel)
 	{
-		this.app = (TouchApp) kernel.getApplication();
+		this.app = app;
+		this.kernel = app.getKernel();
+
 		this.tabletGUI = tabletGUI;
+		this.guiModel = guiModel;
 
-		StandardImageButton[] left = new StandardImageButton[4];
+		this.dialog = new InputDialog(DialogType.Title);
 
-		left[0] = new StandardImageButton(CommonResources.INSTANCE.document_new());
-		left[1] = new StandardImageButton(CommonResources.INSTANCE.document_open());
-		left[2] = new StandardImageButton(CommonResources.INSTANCE.document_save());
-		
-		left[3] = new StandardImageButton(CommonResources.INSTANCE.geogebra_tube());
-		left[3].addDomHandler(new ClickHandler()
+		this.openDialog = new OpenFileDialog(this.app);
+		this.saveDialog = new SaveFileDialog(this.app);
+
+		initNewButton();
+		initOpenButton();
+		initSaveButton();
+		initGGTButton();
+
+		this.add(this.newButton);
+		this.add(this.openButton);
+		this.add(this.saveButton);
+		this.add(this.ggtButton);
+	}
+
+	private void initNewButton()
+	{
+		this.newButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				guiModel.closeOptions();
-				
-				TouchEntryPoint.showTubeSearchUI();
+				TabletHeaderPanelLeft.this.dialog.show();
 			}
 		}, ClickEvent.getType());
 
-		for (int i = 0; i < left.length; i++)
+		this.dialog.addCloseHandler(new CloseHandler<PopupPanel>()
 		{
-			this.add(left[i]);
-		}
 
-		initNewButton(kernel, guiModel, left);
-		initOpenButton(left);
-		initSaveButton(left);
-	}
-
-	/**
-	 * Opens a new file and sets the title to "New File".
-	 * 
-	 * @param kernel
-	 * @param guiModel
-	 * @param left
-	 *          the buttons on the left side of the headerPanel
-	 */
-	private void initNewButton(final Kernel kernel, final GuiModel guiModel, StandardImageButton[] left)
-	{
-		left[0].addDomHandler(new ClickHandler()
-		{
 			@Override
-			public void onClick(ClickEvent event)
+			public void onClose(CloseEvent<PopupPanel> event)
 			{
-				guiModel.closeOptions();
-				kernel.clearConstruction(true);
-				kernel.initUndoInfo();
-				kernel.notifyRepaint();
-				changeTitle("New File");
+				String result = TabletHeaderPanelLeft.this.dialog.getInput();
+
+				if (!result.isEmpty())
+				{
+					TabletHeaderPanelLeft.this.guiModel.closeOptions();
+					TabletHeaderPanelLeft.this.kernel.clearConstruction(true);
+					TabletHeaderPanelLeft.this.kernel.initUndoInfo();
+					TabletHeaderPanelLeft.this.kernel.notifyRepaint();
+
+					TabletHeaderPanelLeft.this.app.setConstructionTitle(result);
+				}
 			}
-		}, ClickEvent.getType());
+		});
 	}
 
-	/**
-	 * By clicking the {@link HeaderButton OPEN-button}, a dialog opens. OPEN - it
-	 * opens the selected file and changes the title of the headerPanel. CANCEL -
-	 * nothing happens.
-	 * 
-	 * @param left
-	 *          the buttons on the left side of the headerPanel
-	 */
-	private void initOpenButton(StandardImageButton[] left)
+	private void initOpenButton()
 	{
-		left[1].addDomHandler(new ClickHandler()
+		this.openButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.openDialog = new OpenSaveDialog(getFileName(), new OpenCallback()
-				{
-					@Override
-					public void onOpen()
-					{
-						String xml = TabletHeaderPanelLeft.this.openDialog.getChosenFile();
-						String fileName = TabletHeaderPanelLeft.this.openDialog.getFileName();
-
-						try
-						{
-							TabletHeaderPanelLeft.this.app.loadXML(xml);
-						}
-						catch (Exception e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						if (!fileName.equals(getFileName()))
-						{
-							changeTitle(fileName);
-						}
-					}
-
-					@Override
-					public void onCancel()
-					{
-						TabletHeaderPanelLeft.this.openDialog.close();
-					}
-				});
-
 				TabletHeaderPanelLeft.this.openDialog.show();
 			}
 		}, ClickEvent.getType());
 	}
 
-	/**
-	 * By clicking the {@link HeaderButton SAVE-button}, a dialog opens. SAVE - it
-	 * saves the construction and changes the title of the headerPanel. CANCEL -
-	 * nothing happens.
-	 * 
-	 * @param left
-	 *          the buttons on the left side of the headerPanel
-	 */
-	private void initSaveButton(StandardImageButton[] left)
+	private void initSaveButton()
 	{
-		left[2].addDomHandler(new ClickHandler()
+		this.saveButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.saveDialog = new OpenSaveDialog(getFileName(), new SaveCallback()
-				{
-					@Override
-					public void onSave()
-					{
-						TabletHeaderPanelLeft.this.saveDialog.save(TabletHeaderPanelLeft.this.app.getXML());
-
-						if (!TabletHeaderPanelLeft.this.saveDialog.getText().equals(getFileName()))
-						{
-							changeTitle(TabletHeaderPanelLeft.this.saveDialog.getText());
-						}
-					}
-
-					@Override
-					public void onCancel()
-					{
-						TabletHeaderPanelLeft.this.saveDialog.close();
-					}
-				});
-
 				TabletHeaderPanelLeft.this.saveDialog.show();
 			}
 		}, ClickEvent.getType());
 	}
 
-	/**
-	 * 
-	 * @return fileName the title defined in the {@link TabletHeaderPanel
-	 *         tabletHeader}
-	 */
-	String getFileName()
+	private void initGGTButton()
 	{
-		return this.tabletGUI.getTabletHeaderPanel().getTitle();
+		this.ggtButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TabletHeaderPanelLeft.this.guiModel.closeOptions();
+
+				TouchEntryPoint.showTubeSearchUI();
+			}
+		}, ClickEvent.getType());
 	}
 
 	/**
@@ -196,8 +145,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 * 
 	 * @param title
 	 */
-	void changeTitle(String title)
+	@Override
+	public void setTitle(String title)
 	{
+		// FIXME ugly, implement observer pattern!
 		this.tabletGUI.getTabletHeaderPanel().setTitle(title);
 	}
 }

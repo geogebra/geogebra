@@ -16,11 +16,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * A dialog with a TextBox, OK-Button and CANCEL-Button. on OK the content of
- * the TextBox is available through getInput() on CANCEL the result stays the
- * same as before
+ * A dialog with an InputBar, OK-Button and CANCEL-Button.
  * 
- * set the content of the TextBox via setText(..)
  */
 public class InputDialog extends PopupPanel
 {
@@ -42,6 +39,7 @@ public class InputDialog extends PopupPanel
 	{
 		// hide when clicked outside and set modal
 		super(true, true);
+		this.setGlassEnabled(true);
 		this.title = new Label(type.toString());
 
 		init();
@@ -84,6 +82,20 @@ public class InputDialog extends PopupPanel
 		this.dialogPanel.add(this.buttonContainer);
 	}
 
+	private void addOKButton()
+	{
+		this.okButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				InputDialog.this.onOK();
+			}
+		}, ClickEvent.getType());
+
+		this.buttonContainer.add(this.okButton);
+	}
+
 	private void addCancelButton()
 	{
 		this.cancelButton.addDomHandler(new ClickHandler()
@@ -99,29 +111,15 @@ public class InputDialog extends PopupPanel
 		this.buttonContainer.add(this.cancelButton);
 	}
 
-	private void addOKButton()
+	protected void onOK()
 	{
-		this.okButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				InputDialog.this.onOK();
-			}
-		}, ClickEvent.getType());
-
-		this.buttonContainer.add(this.okButton);
+		this.input = this.textBox.getText();
+		this.hide();
 	}
 
 	protected void onCancel()
 	{
 		this.input = this.text;
-		this.hide();
-	}
-
-	protected void onOK()
-	{
-		this.input = this.textBox.getText();
 		this.hide();
 	}
 
@@ -142,6 +140,12 @@ public class InputDialog extends PopupPanel
 		this.text = "";
 	}
 
+	/**
+	 * Get the users input.
+	 * 
+	 * @return the new input if the users action was positive - the old input set
+	 *         by setText, if the users action was negative
+	 */
 	public String getInput()
 	{
 		return this.input;

@@ -17,6 +17,7 @@ import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.TouchApp;
 
 /**
  * Coordinates the GUI of the tablet.
@@ -32,8 +33,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	private AlgebraViewPanel algebraViewPanel;
 	StylingBar stylingBar;
 
-	public static final int FOOTER_BORDER_WIDTH = 1; 
-	
+	public static final int FOOTER_BORDER_WIDTH = 1;
+
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
 	 * the head, appends the css file and initializes the GUI elements.
@@ -60,7 +61,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		TouchModel touchModel = new TouchModel(kernel);
 
 		// Initialize GUI Elements
-		this.headerPanel = new TabletHeaderPanel(this, kernel, touchModel.getGuiModel());
+		this.headerPanel = new TabletHeaderPanel(this, (TouchApp) kernel.getApplication(), touchModel.getGuiModel());
 		this.setHeaderWidget(this.headerPanel);
 
 		this.contentPanel = new AbsolutePanel();
@@ -88,10 +89,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.toolBar = new ToolBar(touchModel);
 		this.setFooterWidget(this.toolBar);
-		this.getFooterWidget().getElement().getStyle().setBorderWidth(FOOTER_BORDER_WIDTH, Unit.PX); 
-		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString()); 
-		this.getFooterWidget().getElement().getStyle().setBorderStyle(BorderStyle.SOLID);  
-		
+		this.getFooterWidget().getElement().getStyle().setBorderWidth(FOOTER_BORDER_WIDTH, Unit.PX);
+		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString());
+		this.getFooterWidget().getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
 		Window.addResizeHandler(new ResizeHandler()
 		{

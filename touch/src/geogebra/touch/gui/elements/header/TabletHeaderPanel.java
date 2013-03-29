@@ -1,10 +1,11 @@
 package geogebra.touch.gui.elements.header;
 
-import geogebra.common.kernel.Kernel;
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.model.GuiModel;
+import geogebra.touch.utils.TitleChangedListener;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,30 +25,40 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class TabletHeaderPanel extends HorizontalPanel
 {
 	private TabletHeaderPanelLeft leftHeader;
-	Button title;
+	Button titleButton;
 	private TabletHeaderPanelRight rightHeader;
 
 	protected InputDialog dialog = new InputDialog(DialogType.Title);
+	TouchApp app;
 
-	public TabletHeaderPanel(TabletGUI tabletGUI, Kernel kernel, GuiModel guiModel)
+	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, GuiModel guiModel)
 	{
 		this.setWidth(Window.getClientWidth() + "px");
 
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, kernel, guiModel);
+		this.app = app;
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
 
-		// TODO get text from some I18n list
-		this.title = new Button("GeoGebraTouch");
+		this.titleButton = new Button(app.getConstructionTitle());
 
-		this.rightHeader = new TabletHeaderPanelRight(kernel);
+		app.addTitleChangedListener(new TitleChangedListener()
+		{
+			@Override
+			public void onTitleChange(String title)
+			{
+				TabletHeaderPanel.this.titleButton.setText(title);
+			}
+		});
 
-		this.title.addDomHandler(new ClickHandler()
+		this.rightHeader = new TabletHeaderPanelRight(app);
+
+		this.titleButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
 
-				TabletHeaderPanel.this.dialog.setText(TabletHeaderPanel.this.title.getText());
+				TabletHeaderPanel.this.dialog.setText(TabletHeaderPanel.this.titleButton.getText());
 				TabletHeaderPanel.this.dialog.show();
 			}
 		}, ClickEvent.getType());
@@ -58,35 +69,25 @@ public class TabletHeaderPanel extends HorizontalPanel
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event)
 			{
-				TabletHeaderPanel.this.title.setText(TabletHeaderPanel.this.dialog.getInput());
+				TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.dialog.getInput());
 			}
 		});
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 
-		this.title.setPixelSize(Window.getClientWidth() - 396, 61);
+		this.titleButton.setPixelSize(Window.getClientWidth() - 396, 61);
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.add(this.title);
+		this.add(this.titleButton);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
 
 	}
 
-	/**
-	 * Sets the title of this worksheet and shows at the center of the
-	 * headerpanel.
-	 */
-	@Override
-	public void setTitle(String title)
-	{
-		this.title.setText(title);
-	}
-
 	public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
-		this.title.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
+		this.titleButton.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
 	}
 }

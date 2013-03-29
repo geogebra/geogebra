@@ -1,5 +1,8 @@
 package geogebra.touch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
@@ -32,6 +35,7 @@ import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.elements.header.XMLBuilder;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
+import geogebra.touch.utils.TitleChangedListener;
 import geogebra.web.io.MyXMLioW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
@@ -51,6 +55,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class TouchApp extends AppWeb
 {
+	private List<TitleChangedListener> titleListeners;
+
 	private GeoGebraTouchGUI mobileGUI;
 	private FontManagerW fontManager;
 	/**
@@ -75,6 +81,8 @@ public class TouchApp extends AppWeb
 	 */
 	public TouchApp(GeoGebraTouchGUI mobileGUI)
 	{
+		this.titleListeners = new ArrayList<TitleChangedListener>();
+
 		super.initing = true;
 
 		setLabelDragsEnabled(false);
@@ -90,8 +98,9 @@ public class TouchApp extends AppWeb
 		setFontSize(12);
 
 		this.capturingThreshold *= this.selectionFactor;
-		
-		if("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging"))){
+
+		if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
+		{
 			logger = new GeoGebraLoggerM(mobileGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
@@ -118,6 +127,7 @@ public class TouchApp extends AppWeb
 		setUndoActive(true);
 
 		super.initing = false;
+		setConstructionTitle("GeoGebraTouch");
 	}
 
 	public GeoGebraTouchGUI getMobileGui()
@@ -643,14 +653,54 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void showMessage(String error) {
+	public void showMessage(String error)
+	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public ViewManager getViewManager() {
+	public ViewManager getViewManager()
+	{
 		return new ViewManagerM();
 	}
 
+	/**
+	 * Set the current constructions title and notify all TitleChangedListener
+	 * 
+	 * @param title
+	 *          the new title of the current construction
+	 */
+	public void setConstructionTitle(String title)
+	{
+		this.kernel.getConstruction().setTitle(title);
+		fireTitleChangedEvent(title);
+	}
+
+	/**
+	 * Get the current constructions title
+	 * 
+	 */
+	public String getConstructionTitle()
+	{
+		return this.kernel.getConstruction().getTitle();
+	}
+
+	public void addTitleChangedListener(TitleChangedListener t)
+	{
+		this.titleListeners.add(t);
+	}
+
+	public void removeTitleChangedListener(TitleChangedListener t)
+	{
+		this.titleListeners.remove(t);
+	}
+
+	protected void fireTitleChangedEvent(String title)
+	{
+		for (TitleChangedListener t : this.titleListeners)
+		{
+			t.onTitleChange(title);
+		}
+	}
 }
