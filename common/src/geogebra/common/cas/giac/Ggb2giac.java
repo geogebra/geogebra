@@ -279,8 +279,11 @@ public class Ggb2giac {
 				"when(type(%0)==DOM\\_LIST,map(%0,right),right(%0))");
 		p("RightSide.2",
 				"right(%0[%1-1]) ");
+		
+		// Root.1 and Solve.1 should be the same
 		p("Root.1",
-				"zeros(%0,ggbtmpvarx)");
+				"solve(%0,ggbtmpvarx)");
+		
 		p("ReducedRowEchelonForm.1",
 				"rref(%0)");
 		p("Sample.2",
@@ -310,8 +313,11 @@ public class Ggb2giac {
 				"zeros(%0,ggbtmpvarx)");
 		p("Solutions.2",
 				"zeros(%0,%1)");
+		
+		// Root.1 and Solve.1 should be the same
 		p("Solve.1",
 				"solve(%0,ggbtmpvarx)");
+		
 		p("Solve.2",
 				"solve(%0,%1)");
 		p("SolveODE.1",
