@@ -580,27 +580,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		
 		//setWaitForUpdate();
 
-		/*
-		App.debug(getView3D().getEuclidianController().previewFromResultedGeo);
-		if (getView3D().getEuclidianController().previewFromResultedGeo) { 
-			if (getView3D().previewLine!=null)
-				getView3D().previewLine.setEuclidianVisible(false);
-	
-			GeoElement geo = getView3D().getEuclidianController().resultedGeo;
-			//Application.debug(geo);
-			if (geo!=null && geo.isGeoConic() && !getView3D().getEuclidianController().hideIntersection) {
-		
-				((GeoConic3D) getGeoElement()).set(geo);
-				getGeoElement().setEuclidianVisible(true);
-				setWaitForUpdate();
-			} else {
-				getGeoElement().setEuclidianVisible(false);
-				setWaitForUpdate();
-			}
-		} else {
-			getGeoElement().setEuclidianVisible(false);
-		}
-		*/
 		
 	}
 

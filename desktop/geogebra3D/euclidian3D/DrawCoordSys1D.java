@@ -196,28 +196,13 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 
 
 	public void updatePreview() {
-		
-		/*
-		if (getView3D().getEuclidianController().previewFromResultedGeo) { 
-			getView3D().previewConic.setEuclidianVisible(false);
-
-			GeoElement geo = getView3D().getEuclidianController().resultedGeo;
-			if (geo!=null && geo.isGeoLine() && !getView3D().getEuclidianController().hideIntersection) {
-				
-				((GeoCoordSys1D) getGeoElement()).set(geo);
-				getGeoElement().setEuclidianVisible(true);
-				//setWaitForUpdate();
-			} else {
-				getGeoElement().setEuclidianVisible(false);
-				//setWaitForUpdate();
-			}
-
-		 */
 
 		if (selectedPoints == null){ //when intersection curve
 			setWaitForUpdate();
+			return;
+		} 
 
-		} else if (selectedPoints.size()==2){
+		if (selectedPoints.size()==2){
 			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
 			GeoPointND secondPoint = (GeoPointND) selectedPoints.get(1);
 			((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(firstPoint.getInhomCoordsInD(3), secondPoint.getInhomCoordsInD(3));
