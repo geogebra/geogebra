@@ -197,6 +197,7 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 
 	public void updatePreview() {
 		
+		/*
 		if (getView3D().getEuclidianController().previewFromResultedGeo) { 
 			getView3D().previewConic.setEuclidianVisible(false);
 
@@ -210,18 +211,12 @@ public abstract class DrawCoordSys1D extends Drawable3DCurves implements Preview
 				getGeoElement().setEuclidianVisible(false);
 				//setWaitForUpdate();
 			}
-			
-			
-			
-			/*if(geo!=null && geo.isGeoLine() &&
-					!getView3D().getEuclidianController().hideIntersection) {
-				getGeoElement().setLineThickness(2);
-				setWaitForUpdate();
-			} else {
-				getGeoElement().setLineThickness(0);
-				setWaitForUpdate();
-			}*/
-			
+
+		 */
+
+		if (selectedPoints == null){ //when intersection curve
+			setWaitForUpdate();
+
 		} else if (selectedPoints.size()==2){
 			GeoPointND firstPoint = (GeoPointND) selectedPoints.get(0);
 			GeoPointND secondPoint = (GeoPointND) selectedPoints.get(1);

@@ -106,7 +106,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				GeoElement[] ret =
 					{
 						kernelA.getManager3D().IntersectQuadricLimited(
-								c.getLabels(),
+								c.getLabel(),
 								(GeoPlaneND) arg[0],
 								(GeoQuadric3DLimited) arg[1])};
 				return ret;
@@ -114,7 +114,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				GeoElement[] ret =
 					{
 						kernelA.getManager3D().IntersectQuadricLimited(
-								c.getLabels(),
+								c.getLabel(),
 								(GeoPlaneND) arg[1],
 								(GeoQuadric3DLimited) arg[0])};
 				return ret;

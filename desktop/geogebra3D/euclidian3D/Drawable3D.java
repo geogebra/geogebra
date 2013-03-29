@@ -547,12 +547,13 @@ public abstract class Drawable3D extends DrawableND {
 		else
 			ret = this;
 
-		if (!getGeoElement().isPickable() && verifyIsPickable)
-			return null;
-			
-		
-		if(!isVisible())
-			return null;	
+		//check pickablity only if needed
+		if (verifyIsPickable){
+			if (!getGeoElement().isPickable())
+				return null;
+			if(!isVisible())
+				return null;
+		}
 		
 		drawGeometry(renderer);
 

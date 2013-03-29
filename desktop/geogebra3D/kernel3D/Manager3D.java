@@ -821,10 +821,18 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getConic();
 	}
 	
-	public GeoConicND IntersectQuadricLimited(String[] labels, GeoPlaneND plane,
+	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
 			GeoQuadricND quadric){
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(cons,
-				labels, (GeoPlane3D) plane, quadric);
+				label, (GeoPlane3D) plane, quadric);
+
+		return algo.getConic();
+	}
+
+	public GeoConicND IntersectQuadricLimited(GeoPlaneND plane,
+			GeoQuadricND quadric){
+		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadricLimited(cons,
+				(GeoPlane3D) plane, quadric);
 
 		return algo.getConic();
 	}

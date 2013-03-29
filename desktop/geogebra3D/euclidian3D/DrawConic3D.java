@@ -3,13 +3,11 @@ package geogebra3D.euclidian3D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoConic3D;
 
 /**
  * @author ggb3D
@@ -579,6 +577,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
 
 	public void updatePreview() {
+		
+		//setWaitForUpdate();
+
+		/*
+		App.debug(getView3D().getEuclidianController().previewFromResultedGeo);
 		if (getView3D().getEuclidianController().previewFromResultedGeo) { 
 			if (getView3D().previewLine!=null)
 				getView3D().previewLine.setEuclidianVisible(false);
@@ -594,18 +597,11 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				getGeoElement().setEuclidianVisible(false);
 				setWaitForUpdate();
 			}
-			/*getGeoElement().setEuclidianVisible(true);
-			if(geo!=null && geo.isGeoConic() &&
-					!getView3D().getEuclidianController().hideIntersection) {
-				getGeoElement().setLineThickness(2);
-				setWaitForUpdate();
-			} else {
-				getGeoElement().setLineThickness(0);
-				setWaitForUpdate();
-			}*/
 		} else {
 			getGeoElement().setEuclidianVisible(false);
 		}
+		*/
+		
 	}
 
 

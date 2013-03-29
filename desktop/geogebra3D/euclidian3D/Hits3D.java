@@ -107,6 +107,7 @@ public class Hits3D extends Hits {
 	}
 	
 	
+	
 	@Override
 	public void init(){
 		super.init();
@@ -154,7 +155,7 @@ public class Hits3D extends Hits {
 		for (int i=0;i<Drawable3D.DRAW_PICK_ORDER_MAX;i++)
 			hitSetSet.add(hitSet[i]);		
 
-		
+		//top hits
 		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter.hasNext();) {
 			Drawable3D d = iter.next();
 			topHits.add(d.getGeoElement());
@@ -197,7 +198,6 @@ public class Hits3D extends Hits {
 		else
 			Application.debug(toString()+"\n first label : "+getLabelHit().getLabel());
 		*/
-		
 	}
 	
 	
@@ -206,6 +206,7 @@ public class Hits3D extends Hits {
 	 * @return all drawables, in pick order
 	 */
 	public ArrayList<Drawable3D> getDrawables(){
+
 		return drawables3D;
 	}
 	

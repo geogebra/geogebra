@@ -2174,8 +2174,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	public void setPreview(Previewable previewDrawable) {
 		
-		if (this.previewDrawable!=null)
+		//App.debug(previewDrawable);
+		
+		if (this.previewDrawable!=null){
 			this.previewDrawable.disposePreview();
+		}
 		
 		if (previewDrawable!=null){
 			if (((Drawable3D) previewDrawable).getGeoElement()!=null)

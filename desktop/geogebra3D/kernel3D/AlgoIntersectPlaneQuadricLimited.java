@@ -44,18 +44,31 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 	private AlgoIntersectPlaneConic algoBottom, algoTop;
 
 	private GeoPoint3D[] bottomP, topP;
-
-    /** Creates new AlgoIntersectLinePlane 
+	
+	   /** Creates new AlgoIntersectLinePlane 
      * @param cons the construction
-     * @param label name of point
      * @param plane plane
      * @param quadric quadric
      */    
-    AlgoIntersectPlaneQuadricLimited(Construction cons, String[] labels, GeoPlane3D plane, GeoQuadricND quadric) {
+    AlgoIntersectPlaneQuadricLimited(Construction cons, GeoPlane3D plane, GeoQuadricND quadric) {
 
     	super(cons, plane, quadric);
+
+    }
+
+    /** Creates new AlgoIntersectLinePlane 
+     * @param cons the construction
+     * @param label name of conic
+     * @param plane plane
+     * @param quadric quadric
+     */    
+    AlgoIntersectPlaneQuadricLimited(Construction cons, String label, GeoPlane3D plane, GeoQuadricND quadric) {
+
+    	this(cons, plane, quadric);
     	
+    	conic.setLabel(label);
     	
+    	/*
     	//labels 	
     	String conicLabel = null;
     	String[] bottomLabels = null;
@@ -76,7 +89,6 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	}
 
 		conic.setLabel(conicLabel);
-		/*
 		GeoElement.setLabels(bottomLabels, bottomP);
 		GeoElement.setLabels(topLabels, topP);
 		*/

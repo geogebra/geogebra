@@ -27,6 +27,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.util.StringUtil;
@@ -37,11 +38,14 @@ import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
+import geogebra3D.kernel3D.GeoConic3DPart;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.GeoPolygon3D;
 import geogebra3D.kernel3D.GeoQuadric3D;
+import geogebra3D.kernel3D.GeoQuadric3DLimited;
+import geogebra3D.kernel3D.GeoQuadric3DPart;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -1579,6 +1583,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		hideIntersection = false;
 		previewFromResultedGeo = false;
 		
+		//App.debug(mode);
+		
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
@@ -1763,6 +1769,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			changedKernel = intersectionCurve(hits); 
+			if (changedKernel){ // remove current intersection curve
+				intersectionCurveList.remove(resultedIntersectionCurve);
+				view3D.setPreview(null);
+			}
 			break;
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			changedKernel = (threePoints(hits,mode) != null);
@@ -2350,8 +2360,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 			GeoElement plane = (GeoElement) getSelectedCS2D()[0];
 			GeoQuadric3D quad = getSelectedQuadric()[0];
+			if (quad instanceof GeoQuadric3DPart){
+				GeoElement[] ret = {kernel.getManager3D().IntersectQuadricLimited( null, (GeoPlaneND) plane, 
+						(GeoQuadric3DLimited) ((GeoQuadric3DPart) quad).getMeta())};
+				return ret[0].isDefined();
+			}
+			//else
 			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, quad)};
-			return ret[0].isDefined();
+			return ret[0].isDefined();			
+			
 		}
 
 
@@ -2415,20 +2432,34 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		//add intersection to tempArrayList
 		boolean oldSilentMode = getKernel().isSilentMode();
 		getKernel().setSilentMode(true);//tells the kernel not to record the algo
-		GeoElement[] ret = {kernel.getManager3D().Intersect((GeoPlaneND) A, (GeoQuadric3D) B)};
+		GeoElement ret;
+		Drawable3D d;
+		GeoQuadricND quad;
+		if (B instanceof GeoQuadric3DPart){
+			quad = (GeoQuadric3DLimited) ((GeoQuadric3DPart) B).getMeta();
+			ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A, quad);
+			d = new DrawConic3DPart3D(view3D, (GeoConic3DPart) ret);
+		}else{
+			quad = (GeoQuadric3D) B;
+			ret = kernel.getManager3D().Intersect((GeoPlaneND) A, quad);
+			d = new DrawConic3D(view3D, (GeoConicND) ret);
+		}
 		getKernel().setSilentMode(oldSilentMode);
-		Drawable3D d = new DrawConic3D(view3D, (GeoConicND) ret[0]);
-		processIntersectionCurve(A, B, ret[0], d);
+		processIntersectionCurve(A, B, ret, d);
 		return true;
 	}
 	
 	private void processIntersectionCurve(GeoElement A, GeoElement B, GeoElement intersection, Drawable3D d){
 		intersection.setLineThickness(3);
+		intersection.setIsPickable(false);
+		intersection.setObjColor(new geogebra.awt.GColorD(Color.YELLOW));
 		intersectionCurveList.add(new IntersectionCurve(A,B,intersection,true,d));
 	}
 	
 	
 	
+	
+	private IntersectionCurve resultedIntersectionCurve;
 	
 	private void decideIntersection(Hits hits) {
 		
@@ -2436,41 +2467,51 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			resultedGeo = null;
 			
 			//find the nearest intersection curve (if exists)
-			float z = Float.POSITIVE_INFINITY;
+			float zMin = Float.POSITIVE_INFINITY;
 			for (IntersectionCurve intersectionCurve : intersectionCurveList){
 				Drawable3D d = intersectionCurve.drawable;
-				if (d.zPickMax<z){
+				//App.debug(d+"\nz="+d.zPickMax);
+				if (d.zPickMin<zMin){
 					resultedGeo=d.getGeoElement();
-					z=d.zPickMax;
+					resultedIntersectionCurve = intersectionCurve;
+					zMin=d.zPickMin;
 				}
 			}
 			
-			//Application.debug(resultedGeo+"\nz="+z);
+			//App.debug(resultedGeo+"\nz="+zMin);
 			
 			if (resultedGeo == null) {
 				hideIntersection = true;
 				view3D.setPreview(null);
+				goodHits=null;
 				return;
 			}
 			
 			//check if the intersection curve is visible
 			int i = 0;
 			boolean checking = true;
-			ArrayList<Drawable3D> existingDrawables = ((Hits3D) hits).getDrawables();
-			//while(checking && i<hits.size()){
-			while(checking && i<existingDrawables.size()){
+			while(checking && i<hits.size()){
+			//while(checking && i<existingDrawables.size()){
+			
+				/*
 				Drawable3D d = existingDrawables.get(i);
 				GeoElement geo = d.getGeoElement();
-				//Application.debug("hits("+i+"): "+geo+"\nzmin="+d.zPickMin+"\nzmax="+d.zPickMax);
-				if (d.zPickMin>z){
-					//all next drawables are behing the intersection curve
-					checking=false;
-				}else if(d.zPickMin+0.01<z //check if existing geo is really over the curve, with 0.01 tolerance (TODO check correct value)
-						&& (!geo.isRegion() || geo.getAlphaValue() > 0.5f)){
-					//only non-region or non-transparent surfaces can hide the curve
-					checking=false;
-					resultedGeo = null;
-					//Application.debug("=== d.zPickMin<z: "+geo+"\nz-d.zPickMin="+(z-d.zPickMin));
+				*/
+				GeoElement geo = hits.get(i);
+				Drawable3D d = (Drawable3D) view3D.getDrawableND(geo);
+				//App.debug("\nhits("+i+"): "+geo+"\nd="+d);
+				if (d != null){
+					//App.debug("\nzmin="+d.zPickMin+"\nzmax="+d.zPickMax);
+					if (d.zPickMin>zMin){
+						//all next drawables are behind the intersection curve
+						checking=false;
+					}else if(d.zPickMin+0.01<zMin //check if existing geo is really over the curve, with 0.01 tolerance (TODO check correct value)
+							&& (!geo.isRegion() || geo.getAlphaValue() > 0.5f)){
+						//only non-region or non-transparent surfaces can hide the curve
+						checking=false;
+						resultedGeo = null;
+						//Application.debug("=== d.zPickMin<z: "+geo+"\nz-d.zPickMin="+(z-d.zPickMin));
+					}
 				}
 				i++;
 			}
@@ -2482,8 +2523,16 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				return;
 			}
 			
+			/*
 			GeoElement A = resultedGeo.getParentAlgorithm().getInput()[0];
 			GeoElement B = resultedGeo.getParentAlgorithm().getInput()[1];
+			*/
+			
+			GeoElement A = resultedIntersectionCurve.geo1;
+			GeoElement B = resultedIntersectionCurve.geo2;
+			
+			
+			//App.debug(hits+"\nA="+A+"\nB="+B);
 			
 			//Application.debug(hits);
 			//for (int j=0; j<hits.size(); ++j) {
@@ -2509,9 +2558,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			if (hits.size()<2 //check first if there are at least 2 geos 
 					||
 					(
-							!(hits.get(0)==A && hits.get(1)==B)
+							!(hits.get(0)==resultedIntersectionCurve.geo1 && hits.get(1)==resultedIntersectionCurve.geo2)
 							&&
-							!(hits.get(0)==B && hits.get(1)==A)
+							!(hits.get(0)==resultedIntersectionCurve.geo2 && hits.get(1)==resultedIntersectionCurve.geo1)
 							)
 					) {
 				goodHits.add(hits.get(0));
@@ -2525,6 +2574,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			goodHits.add(A);
 			goodHits.add(B);
 			
+			view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
+			//resultedGeo.setIsPickable(false);
+			
+			/*
 			if (resultedGeo.isGeoLine()) {
 				view3D.previewLine.set(resultedGeo);
 				view3D.setPreview(view3D.previewDrawLine3D);
@@ -2534,6 +2587,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			} else { //this shouldn't happen
 				AppD.debug("this shouldn't happen");
 			}
+			*/
 
 		}
 
