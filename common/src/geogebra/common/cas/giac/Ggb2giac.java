@@ -288,9 +288,9 @@ public class Ggb2giac {
 		p("Sample.3",
 				"if %3=true then seq(rand(1,%0),j,1,%1) else todo fi");
 		p("SampleVariance.1",
-				"variance(%0)*size(%0)/(size(%0)-1)");
+				//"variance(%0)*size(%0)/(size(%0)-1)");
 				// less parsing (for long lists), but doesn't work...
-				//"[ggbans:=%0;ggbanssize:=size(ggbans);ggbans:=variance(ggbans)*ggbanssize/(ggbanssize-1)][0]");
+				" [[ggbans:=%0],variance(ggbans)*size(ggbans)/(size(ggbans)-1)][1]");
 		p("SampleSD.1",
 				"stddevp(%0)");
 		p("Sequence.1", "seq(j,j,1,%0)");
@@ -333,8 +333,9 @@ public class Ggb2giac {
 				"sum(%0,%1,%2,%3)");
 		p("Tangent.2",
 				"tangent(%0,%1)");
+		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
-				"todo");
+				"%0[%1-1..%2-1]");
 		p("TaylorSeries.3",
 				"convert(series(%0,ggbtmpvarx,%1,%2),polynom)");
 		p("TaylorSeries.4",
