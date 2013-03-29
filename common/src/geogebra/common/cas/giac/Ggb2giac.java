@@ -166,7 +166,7 @@ public class Ggb2giac {
 				"apply(x->convert([x,0],25),%0)");
 		p("Invert.1", "inv(%0)");
 		p("IsPrime.1", "isprime(%0)");
-		p("Join.N","flatten(%n)");
+		p("Join.N","flatten(%)");
 		p("Line.2","equation(line(%0,%1))");
 		p("Last.1",
 				"{%0[dim(%0)-1]}");
