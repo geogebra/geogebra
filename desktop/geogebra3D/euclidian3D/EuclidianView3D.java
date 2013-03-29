@@ -48,11 +48,9 @@ import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
-import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoConic3DPart;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoElement3D;
-import geogebra3D.kernel3D.GeoLine3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPlane3DConstant;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -202,10 +200,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D, cursorOnXOYPlane;
 	//private boolean cursorOnXOYPlaneVisible;
-	public DrawLine3D previewDrawLine3D;
-	public DrawConic3D previewDrawConic3D;
-	public GeoLine3D previewLine;
-	public GeoConic3D previewConic;
 	private GeoElement[] cursor3DIntersectionOf = new GeoElement[2]; 
 	
 	//cursor
@@ -1862,34 +1856,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@SuppressWarnings("rawtypes")
 	public Previewable createPreviewLine(ArrayList selectedPoints){
 
-		previewDrawLine3D = new DrawLine3D(this, selectedPoints);
-		return previewDrawLine3D;
+		return new DrawLine3D(this, selectedPoints);
 		
 	}
 
-	public Previewable createPreviewLine(){
-		if (previewDrawLine3D==null) {
-			previewLine = new GeoLine3D(getKernel().getConstruction());
-			previewLine.setObjColor(new geogebra.awt.GColorD(Color.YELLOW));
-			previewLine.setIsPickable(false);
-			previewDrawLine3D = new DrawLine3D(this, previewLine);
-		}
-		return previewDrawLine3D;
-		
-	}
 	
 
 	
-	public Previewable createPreviewConic(){
-		if (previewDrawConic3D==null) {
-			previewConic = new GeoConic3D(getKernel().getConstruction());
-			previewConic.setObjColor(new geogebra.awt.GColorD(Color.YELLOW));
-			previewConic.setIsPickable(false);
-			previewDrawConic3D = new DrawConic3D(this, previewConic);
-		}
-		return previewDrawConic3D;
-		
-	}
 	
 	@Override
 	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints){

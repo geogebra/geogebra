@@ -1581,7 +1581,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		//maybe set previously by MODE_INTERSECTION_CURVE
 		hideIntersection = false;
-		previewFromResultedGeo = false;
 		
 		//App.debug(mode);
 		
@@ -1605,17 +1604,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 			
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two points
-			previewFromResultedGeo = true;
-
-			view3D.createPreviewConic();
-			view3D.createPreviewLine();
-			/*
-			if (tempArrayList4!=null) {
-				for (int i=0; i<tempArrayList4.size(); ++i){
-					((GeoElement)tempArrayList4.get(i)[2]).remove();
-				}
-				tempArrayList4.clear();
-			}*/
 			break;
 			
 		default:
@@ -2523,15 +2511,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				return;
 			}
 			
-			/*
-			GeoElement A = resultedGeo.getParentAlgorithm().getInput()[0];
-			GeoElement B = resultedGeo.getParentAlgorithm().getInput()[1];
-			*/
-			
-			GeoElement A = resultedIntersectionCurve.geo1;
-			GeoElement B = resultedIntersectionCurve.geo2;
-			
-			
+		
 			//App.debug(hits+"\nA="+A+"\nB="+B);
 			
 			//Application.debug(hits);
@@ -2571,24 +2551,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//else, we show the intersection, and add A,B to highligtedgeos
 			hideIntersection = false;
 			
-			goodHits.add(A);
-			goodHits.add(B);
+			goodHits.add(resultedIntersectionCurve.geo1);
+			goodHits.add(resultedIntersectionCurve.geo2);
 			
 			view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
 			//resultedGeo.setIsPickable(false);
 			
-			/*
-			if (resultedGeo.isGeoLine()) {
-				view3D.previewLine.set(resultedGeo);
-				view3D.setPreview(view3D.previewDrawLine3D);
-			} else if (resultedGeo.isGeoConic()) {
-				view3D.previewConic.set(resultedGeo);
-				view3D.setPreview(view3D.previewDrawConic3D);
-			} else { //this shouldn't happen
-				AppD.debug("this shouldn't happen");
-			}
-			*/
-
+			
 		}
 
 

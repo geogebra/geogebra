@@ -257,8 +257,6 @@ public abstract class EuclidianController {
 
 	public boolean hideIntersection = false;
 
-	public boolean previewFromResultedGeo = false;
-
 	public GeoElement resultedGeo;
 
 	protected boolean temporaryMode = false;
