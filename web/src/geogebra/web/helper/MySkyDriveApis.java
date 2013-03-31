@@ -4,7 +4,6 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.html5.FormData;
 import geogebra.web.html5.XHR2;
 import geogebra.web.main.AppW;
@@ -36,15 +35,14 @@ public class MySkyDriveApis {
 	}
 
 	private void goForSkyDriveApi() {
-		DynamicScriptElement script = (DynamicScriptElement) Document.get().createScriptElement();
-		script.setSrc("//js.live.net/v5.0/wl.js");
-		script.addLoadHandler(new ScriptLoadCallback() {
-			
+		
+		ScriptNameSpace nameSpace = (ScriptNameSpace)	Document.get().createIFrameElement();
+		nameSpace.renameNameSpace(GeoGebraConstants.SKYDRIVE_API_URL, "WL", "WindowsLive", new ScriptLoadCallback() {	
 			public void onLoad() {
 				skyDriveApiLoaded  = true;
 			}
 		});
-		Document.get().getBody().appendChild(script);
+		Document.get().getBody().appendChild(nameSpace);
     }
 
 	public boolean signedInToSkyDrive() {
@@ -52,7 +50,7 @@ public class MySkyDriveApis {
     }
 	
 	public native void clearAllTokens() /*-{
-		$wnd.WL.logout();
+		$wnd.WindowsLive.logout();
 	}-*/;
 
 	public void logout() {
@@ -86,20 +84,20 @@ public class MySkyDriveApis {
 	public native void loginToSkyDrive() /*-{
 	    var _this = this;
 	    if (this.@geogebra.web.helper.MySkyDriveApis::skyDriveApiLoaded) {
-	    	$wnd.WL.init({ client_id: @geogebra.common.GeoGebraConstants::SKYDRIVE_CLIENT_ID, redirect_uri: @geogebra.common.GeoGebraConstants::SYDRIVE_REDIRECT_URI });
-			$wnd.WL.Event.subscribe("auth.login", onLogin);
-			$wnd.WL.Event.subscribe("auth.sessionChange", onSessionChange);
+	    	$wnd.WindowsLive.init({ client_id: @geogebra.common.GeoGebraConstants::SKYDRIVE_CLIENT_ID, redirect_uri: @geogebra.common.GeoGebraConstants::SKYDRIVE_REDIRECT_URI });
+			$wnd.WindowsLive.Event.subscribe("auth.login", onLogin);
+			$wnd.WindowsLive.Event.subscribe("auth.sessionChange", onSessionChange);
 			
-			var session = $wnd.WL.getSession();
+			var session = $wnd.WindowsLive.getSession();
 			if (session) {
 			  	this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
 			  	this.@geogebra.web.helper.MySkyDriveApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
 			} else {
-			    $wnd.WL.login({ scope: "wl.signin wl.basic wl.skydrive" });
+			    $wnd.WindowsLive.login({ scope: "wl.signin wl.basic wl.skydrive" });
 			}
 			
 			function onLogin() {
-			    var session = $wnd.WL.getSession();
+			    var session = $wnd.WindowsLive.getSession();
 			    if (session) {
 			    _this.@geogebra.web.helper.MySkyDriveApis::setUserEmailAfterLogin()();
 			  	_this.@geogebra.web.helper.MySkyDriveApis::setExpiresAt(Ljava/lang/String;)(session.expires_in);
@@ -107,7 +105,7 @@ public class MySkyDriveApis {
 			}
 			 
 			function onSessionChange() {
-			    var session = $wnd.WL.getSession();
+			    var session = $wnd.WindowsLive.getSession();
 			    if (session) {
 			        $wnd.console.log("Your session has changed.");
 			    }
@@ -117,7 +115,7 @@ public class MySkyDriveApis {
 	
 	public native void setUserEmailAfterLogin() /*-{
 		var _this = this;
-		$wnd.WL.api({ path: "/me", method: "GET" }).then(
+		$wnd.WindowsLive.api({ path: "/me", method: "GET" }).then(
         function (response) {
             _this.@geogebra.web.helper.MySkyDriveApis::loggedIntoSkyDriveSuccessFull(Ljava/lang/String;)(response.name);
         },

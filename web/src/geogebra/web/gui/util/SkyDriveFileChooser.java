@@ -36,7 +36,7 @@ public class SkyDriveFileChooser {
 	private native void showFileChooser() /*-{
 	  	var _this = this;
 	  	function openFromSkyDrive() {
-    		$wnd.WL.fileDialog({
+    		$wnd.WindowsLive.fileDialog({
         		mode: 'open',
         		select: 'single'
     		}).then(
