@@ -1460,6 +1460,8 @@ __GGB__keysVar.is.menu = {
     "Locus": "Leg",
     "Locus_Help": "Velji\xf0 legpunkt, svo punkt \xe1 hlut e\xf0a rennistiku",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Innskr\xe1ning",

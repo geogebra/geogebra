@@ -1460,6 +1460,8 @@ __GGB__keysVar.es.menu = {
     "Locus": "Lugar Geom\xe9trico",
     "Locus_Help": "Punto del lugar geom\xe9trico y luego, punto en objeto o deslizador",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Un clic aqu\xed conecta con Google Drive",
+    "LogIntoSkyDrive": "Un clic aqu\xed conecta a SkyDrive",
     "LoggedIntoGoogleDrive": "Se verifica conexi\xf3n a Google Drive",
     "LoggedIntoSkyDrive": "Se verifica conexi\xf3n a SkyDrive",
     "Login": "Conexi\xf3n",
@@ -1945,7 +1947,7 @@ __GGB__keysVar.es.menu = {
     "ZoomIn_Help": "Clic en Vista Gr\xe1fica acerca-zoom (Rueda de Mouse o Rat\xf3n)",
     "ZoomOut": "Zoom de Alejamiento",
     "ZoomOut_Help": "Clic en Vista Gr\xe1fica aleja-zoom (Rueda de Rat\xf3n o Mouse)",
-    "off": "Desactiva",
+    "off": "Inactiva",
     "on": "Activa",
 }
 

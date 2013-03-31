@@ -1460,6 +1460,8 @@ __GGB__keysVar.vi.menu = {
     "Locus": "Qu\u1ef9 t\xedch",
     "Locus_Help": "Ch\u1ecdn \u0111i\u1ec3m c\u1ea7n t\u1ea1o qu\u1ef9 t\xedch, sau \u0111\xf3 ch\u1ecdn 1 \u0111i\u1ec3m n\u1eb1m tr\xean \u0111\u01b0\u1eddng th\u1eb3ng",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "\u0110\u0103ng nh\u1eadp",

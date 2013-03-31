@@ -1460,6 +1460,8 @@ __GGB__keysVar.pt.menu = {
     "Locus": "Lugar Geom\xe9trico",
     "Locus_Help": "Selecione o ponto do lugar geom\xe9trico e, depois, o ponto sobre o objeto ou o controle deslizante",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Login",

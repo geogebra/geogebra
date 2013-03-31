@@ -1460,6 +1460,8 @@ __GGB__keysVar.sq.menu = {
     "Locus": "Pozicion",
     "Locus_Help": "Zgjidh piken per Pozicion, pastaj pike ne objekt",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Hyre ne",

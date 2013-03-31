@@ -1460,6 +1460,8 @@ __GGB__keysVar.ru.menu = {
     "Locus": "\u041b\u043e\u043a\u0443\u0441",
     "Locus_Help": "\u0423\u043a\u0430\u0436\u0438\u0442\u0435 \u0442\u043e\u0447\u043a\u0443 \u0433\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u043c\u0435\u0441\u0442\u0430 \u0438 \u0442\u043e\u0447\u043a\u0443, \u043e\u0442 \u043a\u043e\u0442\u043e\u0440\u043e\u0439 \u043e\u043d\u0430 \u0437\u0430\u0432\u0438\u0441\u0438\u0442",
     "Log": "\u041b\u043e\u0433\u0430\u0440\u0438\u0444\u043c\u0438\u0447\u0435\u0441\u043a\u0430\u044f",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "\u0412\u0445\u043e\u0434",

@@ -1460,6 +1460,8 @@ __GGB__keysVar.ja.menu = {
     "Locus": "\u8ecc\u8de1",
     "Locus_Help": "\u307e\u305a\u8ecc\u8de1\u3001\u6b21\u306b\u76f4\u7dda\u4e0a\u306e\u70b9\u3092\u9078\u629e",
     "Log": "\u5bfe\u6570",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "\u30ed\u30b0\u30a4\u30f3",

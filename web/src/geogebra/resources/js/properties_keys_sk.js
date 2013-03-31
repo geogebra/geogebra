@@ -1460,6 +1460,8 @@ __GGB__keysVar.sk.menu = {
     "Locus": "Mno\u017eina bodov",
     "Locus_Help": "Vyzna\u010d bod mno\u017einy, potom bod na objekte, ktor\xfd mno\u017einu ur\u010duje!",
     "Log": "Logaritmick\xe9",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Prihl\xe1senie",

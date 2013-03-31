@@ -1460,6 +1460,8 @@ __GGB__keysVar.hr.menu = {
     "Locus": "Lokus",
     "Locus_Help": "Odaberite to\u010dku lokusa, zatim to\u010dku na objektu ili kliza\u010d",
     "Log": "Logaritamska",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Prijava",

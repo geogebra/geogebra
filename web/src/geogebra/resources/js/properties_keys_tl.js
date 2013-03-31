@@ -1460,6 +1460,8 @@ __GGB__keysVar.tl.menu = {
     "Locus": "Locus",
     "Locus_Help": "Pumili ng locus point, pagkatapos pumili ng point sa object o slider",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Maglog-in",

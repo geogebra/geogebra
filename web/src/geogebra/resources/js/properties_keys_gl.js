@@ -1460,6 +1460,8 @@ __GGB__keysVar.gl.menu = {
     "Locus": "Lugar xeom\xe9trico",
     "Locus_Help": "Escoller o punto orixe, despois un punto do obxecto",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Conexi\xf3n (login)",

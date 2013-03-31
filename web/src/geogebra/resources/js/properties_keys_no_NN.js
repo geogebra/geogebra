@@ -1460,6 +1460,8 @@ __GGB__keysVar.no_NN.menu = {
     "Locus": "Geometrisk stad",
     "Locus_Help": "Vel f\xf8rst geometrisk stad, s\xe5 punkt p\xe5 objektet",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Innlogging",

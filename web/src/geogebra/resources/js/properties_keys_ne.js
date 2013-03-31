@@ -1460,6 +1460,8 @@ __GGB__keysVar.ne.menu = {
     "Locus": "\u092c\u093f\u0928\u094d\u0926\u0941\u092a\u0925",
     "Locus_Help": "\u092c\u093f\u0928\u094d\u0926\u0941\u092a\u0925 \u0905\u0928\u093f \u0935\u0938\u094d\u0924\u0941\u0915\u094b \u092c\u093f\u0928\u094d\u0926\u0941 \u091b\u093e\u0928\u094d\u0928\u0941\u0939\u094b\u0938",
     "Log": "\u0932\u0917",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "\u0932\u0917\u093f\u0928",

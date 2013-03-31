@@ -1460,6 +1460,8 @@ __GGB__keysVar.eu.menu = {
     "Locus": "Leku geometrikoa",
     "Locus_Help": "Leku geometrikoaren puntua, ondoren puntua objektuan",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Saioa Hasi",

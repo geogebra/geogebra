@@ -1460,6 +1460,8 @@ __GGB__keysVar.lt.menu = {
     "Locus": "Hodografas",
     "Locus_Help": "Pasirinkite hodografo ta\u0161k\u0105, tuomet objekto ta\u0161k\u0105",
     "Log": "Log",
+    "LogIntoGoogleDrive": "Click here to log into Google Drive",
+    "LogIntoSkyDrive": "Click here to log into SkyDrive",
     "LoggedIntoGoogleDrive": "You are logged into Google Drive",
     "LoggedIntoSkyDrive": "You are logged into SkyDrive",
     "Login": "Prisijungti",

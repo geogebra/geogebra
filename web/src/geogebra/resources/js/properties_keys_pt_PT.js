@@ -1460,6 +1460,8 @@ __GGB__keysVar.pt_PT.menu = {
     "Locus": "Lugar Geom\xe9trico",
     "Locus_Help": "Selecione o ponto do lugar geom\xe9trico, em seguida selecione o objeto ou o seletor",
     "Log": "Logar\xedtmico",
+    "LogIntoGoogleDrive": "Clique aqui para fazer login no Google Drive",
+    "LogIntoSkyDrive": "Clique aqui para fazer login no SkyDrive",
     "LoggedIntoGoogleDrive": "Est\xe1 registado no Google Drive",
     "LoggedIntoSkyDrive": "Est\xe1 registado no SkyDrive",
     "Login": "Login",
