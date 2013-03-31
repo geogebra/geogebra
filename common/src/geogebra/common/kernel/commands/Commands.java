@@ -153,7 +153,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	ApplyMatrix(TABLE_VECTOR), UnitVector(TABLE_VECTOR), Vector(TABLE_VECTOR), UnitOrthogonalVector(TABLE_VECTOR),
    	OrthogonalVector(TABLE_VECTOR), Invert(TABLE_VECTOR), Transpose(TABLE_VECTOR), ReducedRowEchelonForm(TABLE_VECTOR),
    	Determinant(TABLE_VECTOR), Identity(TABLE_VECTOR),Dimension(TABLE_VECTOR),
-   	MatrixRank(TABLE_VECTOR),
+   	MatrixRank(TABLE_VECTOR), MatrixPlot(TABLE_VECTOR),
    	
 	//=============================================================
 	// transformations

@@ -39,7 +39,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	// private String imageFileName = ""; // image file
 	private GeoPoint[] corners; // corners of the image
 	// private BufferedImage image;
-	private int pixelWidth, pixelHeight;
+	protected int pixelWidth;
+	protected int pixelHeight;
 	private boolean inBackground, defined;
 	private boolean hasAbsoluteLocation;
 	private boolean interpolate = true;

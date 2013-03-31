@@ -408,6 +408,7 @@ public class CommandDispatcher {
 			case Transpose:
 			case ReducedRowEchelonForm:
 			case Determinant:
+			case MatrixPlot:
 			case Identity:
 			case Centroid:
 			case MajorAxis:
