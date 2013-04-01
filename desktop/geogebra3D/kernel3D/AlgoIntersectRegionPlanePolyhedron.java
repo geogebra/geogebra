@@ -47,6 +47,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	private OutputHandler<GeoPoint3D> outputPoints;
 	protected OutputHandler<GeoSegment3D> outputSegments; // output
 	
+	private boolean hasLabels = false;
+	
 
 	
 	/**
@@ -229,6 +231,41 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	 * common constructor
 	 * 
 	 * @param c
+	 * @param plane plane
+	 * @param p polyhedron
+	 */
+	public AlgoIntersectRegionPlanePolyhedron(Construction c,
+			GeoPlane3D plane, GeoPolyhedron p) {
+		
+		this(c, plane, p, false);
+	}
+
+	
+	private AlgoIntersectRegionPlanePolyhedron(Construction c,
+			GeoPlane3D plane, GeoPolyhedron p, boolean hasLabels) {
+
+
+		super(c);
+
+
+		this.hasLabels = hasLabels;
+
+
+
+		setFirstInput(plane);
+		setSecondInput(p);
+
+		createOutput();
+
+
+		setInputOutput(); // for AlgoElement
+	}
+
+
+	/**
+	 * common constructor
+	 * 
+	 * @param c
 	 * @param labels
 	 * @param plane plane
 	 * @param p polyhedron
@@ -237,77 +274,67 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	public AlgoIntersectRegionPlanePolyhedron(Construction c, String[] labels,
 			GeoPlane3D plane, GeoPolyhedron p, int[] outputSizes) {
 
-
-
-			super(c);
-			
-
-			setFirstInput(plane);
-			setSecondInput(p);
-
-			createOutput();
-
-			
-			setInputOutput(); // for AlgoElement
-
-			// set labels
-			if (labels==null){
-				outputPolygons.setLabels(null);
-				outputPoints.setLabels(null);
-				outputSegments.setLabels(null);
-			}else{
-				int labelsLength = labels.length;
-				if (labelsLength > 1) {
-					//App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
-					if (outputSizes != null){
-						//set output sizes
-						outputPolygons.adjustOutputSize(outputSizes[0], false);
-						outputPoints.adjustOutputSize(outputSizes[1], false);
-						outputSegments.adjustOutputSize(outputSizes[2], false);
-						
-						
-						
-						//set labels
-						int i1 = 0;
-						int i2 = 0;
-					
-						while (i1 < outputSizes[0]){
-							outputPolygons.getElement(i1).setLabel(labels[i2]);
-							i1++;
-							i2++;
-						}
-						
-						i1 = 0;
-						while (i1 < outputSizes[1]){
-							outputPoints.getElement(i1).setLabel(labels[i2]);
-							i1++;
-							i2++;
-						}
-						
-						i1 = 0;
-						while (i1 < outputSizes[2]){
-							outputSegments.getElement(i1).setLabel(labels[i2]);
-							i1++;
-							i2++;
-						}
-						
-						
-						
-					}else{
-						//set default
-						outputPolygons.setLabels(null);
-						outputSegments.setLabels(null);
-						outputPoints.setLabels(null);
-					}
-				} else if (labelsLength == 1) {
-					outputPolygons.setIndexLabels(labels[0]);
-				} 
-			}
-			
-			
-			update();
+		this(c, plane, p, true);
 
 		
+		// set labels
+		if (labels==null){
+			outputPolygons.setLabels(null);
+			outputPoints.setLabels(null);
+			outputSegments.setLabels(null);
+		}else{
+			int labelsLength = labels.length;
+			if (labelsLength > 1) {
+				//App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+				if (outputSizes != null){
+					//set output sizes
+					outputPolygons.adjustOutputSize(outputSizes[0], false);
+					outputPoints.adjustOutputSize(outputSizes[1], false);
+					outputSegments.adjustOutputSize(outputSizes[2], false);
+
+
+
+					//set labels
+					int i1 = 0;
+					int i2 = 0;
+
+					while (i1 < outputSizes[0]){
+						outputPolygons.getElement(i1).setLabel(labels[i2]);
+						i1++;
+						i2++;
+					}
+
+					i1 = 0;
+					while (i1 < outputSizes[1]){
+						outputPoints.getElement(i1).setLabel(labels[i2]);
+						i1++;
+						i2++;
+					}
+
+					i1 = 0;
+					while (i1 < outputSizes[2]){
+						outputSegments.getElement(i1).setLabel(labels[i2]);
+						i1++;
+						i2++;
+					}
+
+
+
+				}else{
+					//set default
+					outputPolygons.setLabels(null);
+					outputSegments.setLabels(null);
+					outputPoints.setLabels(null);
+				}
+			} else if (labelsLength == 1) {
+				outputPolygons.setIndexLabels(labels[0]);
+			} 
+		}
+
+
+		update();
+
+
 
 	}
 
@@ -730,6 +757,11 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		}
 	}
 	
+	private void updateLabels(@SuppressWarnings("rawtypes") OutputHandler outputHandler){
+		if (hasLabels)
+			outputHandler.updateLabels();
+	}
+	
 	@Override
 	public void compute() {
 		
@@ -805,7 +837,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			
 			//set output points
 			outputPoints.adjustOutputSize(verticesList.cumulateSize + polyhedronVertices.size(),false);
-			outputPoints.updateLabels();
+			updateLabels(outputPoints);
 			int segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList){
 				int length = vertices.size();
@@ -818,7 +850,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			
 			//adjust output polygons size
 			outputPolygons.adjustOutputSize(verticesList.size() + polyhedronVertices.size(), false);
-			outputPolygons.updateLabels();
+			updateLabels(outputPolygons);
 			
 			//get points list
 			GeoPoint3D[] points = new GeoPoint3D[verticesList.cumulateSize];
@@ -826,7 +858,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			
 			//set output segments and polygons
 			outputSegments.adjustOutputSize(verticesList.cumulateSize + polyhedronVertices.size(),false);
-			outputSegments.updateLabels();
+			updateLabels(outputSegments);
 			int pointIndex = 0;
 			int polygonIndex = 0;
 			segmentIndex = 0;
@@ -894,6 +926,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 						p.setViewFlags(getFirstInput().getViewSet());
 						p.setNotFixedPointsLength(true);
 						p.setOrthoNormalRegionCS();
+						if (hasLabels){
+							p.setInitLabelsCalled(true);
+						}
 						return p;
 					}
 				});

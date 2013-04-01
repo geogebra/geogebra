@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra3D.kernel3D.GeoPolygon3D;
@@ -53,28 +54,70 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	
 	//drawing
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
 		renderer.setLayer(getGeoElement().getLayer()); //+0f for z-fighting with planes
-		renderer.drawPolygon(getGeometryIndex());		
+		renderer.getGeometryManager().draw(getGeometryIndex());	
 		renderer.setLayer(0);
 
 	}
 	
+	
+	@Override
+	public void drawOutline(Renderer renderer) {
+		
+		if(!isVisible())
+			return;	
+		
+		
+		setLight(renderer);
+			
+		setHighlightingColor();
+		
+		//App.debug("geo:"+getGeoElement()+", lineType="+getGeoElement().getLineTypeHidden());
+		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
+		drawGeometry(renderer);
+		
+		
+
+	}
+	
+
+	
+	@Override
 	public void drawGeometryPicked(Renderer renderer){
-		drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 	}
+	@Override
 	public void drawGeometryHiding(Renderer renderer) {
-		drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 	}
 	
 	
-	public void drawGeometryHidden(Renderer renderer){}
+	@Override
+	public void drawGeometryHidden(Renderer renderer){
+		drawGeometry(renderer);
+	}
+	
+	@Override
+	protected void drawGeometryForPicking(Renderer renderer){
+		drawSurfaceGeometry(renderer);
+		drawGeometry(renderer);
+	}
+	
+
+	@Override
+	protected void drawSurfaceGeometry(Renderer renderer){
+
+		renderer.setLayer(getGeoElement().getLayer()); //+0f to avoid z-fighting with planes
+		renderer.getGeometryManager().draw(getSurfaceIndex());
+		renderer.setLayer(0);
+
+	}
 	
 	
-	
-	
-	
+	@Override
 	public int getPickOrder(){
 		/*
 		Application.debug(alpha<1);
@@ -90,21 +133,30 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	
 
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface())
 			addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED);
 		else
 			addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
+		
+		
+		// TODO : only if polygon has to draw its outline
+		addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface())
     		removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED); 
     	else
     		removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
-    }
+
+    	removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
+}
 	
 	
+	@Override
 	protected boolean updateForItSelf(){
 		
 		//super.updateForItSelf();
@@ -114,34 +166,61 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		int pointLength = polygon.getPointsLength();
 		
 		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon
-			setGeometryIndex(-1);
+			setSurfaceIndex(-1);
 			return true;
 		}
 		
 		
 		Renderer renderer = getView3D().getRenderer();
+		
+		Coords[] vertices = new Coords[pointLength];
+		for(int i=0;i<pointLength;i++){
+			vertices[i] = polygon.getPoint3D(i);
+		}
+		
+		
+
+		// outline
+		if(!polygon.wasInitLabelsCalled()){ // no labels for segments
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+			brush.start(8);
+			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+			for(int i=0;i<pointLength-1;i++){
+				brush.setAffineTexture(0.5f,  0.25f);
+				brush.segment(vertices[i],vertices[i+1]);
+			}
+			brush.setAffineTexture(0.5f,  0.25f);
+			brush.segment(vertices[pointLength-1],vertices[0]);
+			setGeometryIndex(brush.end());
+		}
+		
+		
+		
+		
+		// surface
+		
 		Coords v = polygon.getMainDirection();
 		int index = renderer.startPolygon((float) v.get(1),(float) v.get(2),(float) v.get(3));
 		
-		
-		
 		// if index==0, no polygon have been created
 		if (index==0){
-			setGeometryIndex(-1);
+			setSurfaceIndex(-1);
 			return true;
 		}
 		
-		setGeometryIndex(index);
-				
+		
+		setSurfaceIndex(index);				
 		for(int i=0;i<pointLength;i++){
-			v = polygon.getPoint3D(i);
+			v = vertices[i];
 			renderer.addToPolygon(v.get(1),v.get(2),v.get(3));
 			//App.debug("v["+i+"]="+v.get(1)+","+v.get(2)+","+v.get(3));
 			
-		}
-		
+		}		
 		renderer.endPolygon();
-				
+			
+		
+		
+		
 		return true;
 		
 	}
@@ -220,6 +299,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		if (freezePreview)
 			return;
+		
+		
+		// intersection curve
+		if (segmentsPoints == null){
+			//App.debug(this);
+			setWaitForUpdate();
+			return;
+		}
 		
 
 		int index =0;
@@ -301,12 +388,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 	}
 	
+	@Override
 	public void disposePreview() {
 		super.disposePreview();
 		
 		// dispose segments
-		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();)
-			s.next().disposePreview();
+		if (segments != null){
+			for (DrawSegment3D s : segments){
+				s.disposePreview();
+			}
+		}
 
 		
 	}

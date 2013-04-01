@@ -124,19 +124,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return false;
 	}
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
+	
+	@Override
+	protected void drawSurfaceGeometry(Renderer renderer){
+		drawGeometry(renderer);
+	}
 
+	@Override
 	void drawGeometryHiding(Renderer renderer) {
 		drawGeometry(renderer);
 	}
 
+	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void drawGeometryPicked(Renderer renderer) {
 		// TODO Auto-generated method stub
 
@@ -197,6 +206,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return false;
 	}
 
+	@Override
 	protected void updateForView() {
 		if(updateCullingBox()){
 			mesh = new SurfaceMesh2(surface, cullingBox, activeDomain);
@@ -208,19 +218,23 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 	}
 
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_2D;
 	}
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
 
+	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
 	
 	
+	@Override
 	protected void updateColors(){
 		super.updateColors();
 	}

@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 
@@ -71,31 +70,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	
 	
 	
-	@Override
-	public void drawHidden(Renderer renderer){
-		
-		
-		if(!isVisible())
-			return;
-		
-		
-		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE)
-			return;
-		
-		setLight(renderer);
 
-		setHighlightingColor();
-		
-		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN)
-			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
-		else
-			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
-		
-		drawGeometryHidden(renderer);		
-		
-
-
-	} 
 	
 	
 	

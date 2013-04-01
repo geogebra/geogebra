@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -506,8 +507,30 @@ public abstract class Drawable3D extends DrawableND {
 	 * sets the matrix, the pencil and draw the geometry for hidden parts
 	 * @param renderer the 3D renderer where to draw
 	 */	
-	abstract public void drawHidden(Renderer renderer); 
-	
+	public void drawHidden(Renderer renderer){
+		
+		
+		if(!isVisible())
+			return;
+		
+		
+		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE)
+			return;
+		
+		setLight(renderer);
+
+		setHighlightingColor();
+		
+		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN)
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
+		else
+			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
+		
+		drawGeometryHidden(renderer);		
+		
+
+
+	} 	
 	
 	/**
 	 * sets the matrix, the pencil and draw the geometry for transparent parts
@@ -555,10 +578,12 @@ public abstract class Drawable3D extends DrawableND {
 				return null;
 		}
 		
-		drawGeometry(renderer);
+		drawGeometryForPicking(renderer);
 
 		return ret;
 	}
+	
+	
 	
 	
 	/**

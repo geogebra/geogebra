@@ -61,6 +61,10 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
 
+	@Override
+	protected void drawSurfaceGeometry(Renderer renderer){
+		drawGeometry(renderer);
+	}
 
 	void drawGeometryHiding(Renderer renderer) {
 		drawGeometry(renderer);

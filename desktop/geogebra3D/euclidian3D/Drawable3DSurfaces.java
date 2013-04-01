@@ -49,12 +49,13 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 			return;
 		
 		//renderer.setMatrix(getMatrix());
-		drawGeometryHiding(renderer);
+		//drawGeometryHiding(renderer);
+		drawSurfaceGeometry(renderer);
 		
 	}
 	
 	
-	
+	protected abstract void drawSurfaceGeometry(Renderer renderer);
 
 	
 
@@ -71,11 +72,13 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		
 		setLight(renderer);
 
-		setHighlightingColor();
+		//setHighlightingColor();
+    	setSurfaceHighlightingColor();
 			
 		
 		//renderer.setMatrix(getMatrix());
-		drawGeometry(renderer);
+		//drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 		
 		
 	}
@@ -98,21 +101,23 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 			return;
 		
 		setLight(renderer);
-		setHighlightingColor();
-		drawGeometry(renderer);
+
+		//setHighlightingColor();
+    	setSurfaceHighlightingColor();
+    	
+    	//drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 		
 	}
 	
-	@Override
-	public void drawHidden(Renderer renderer){} 	
 	
-	
+
 	@Override
 	protected void updateColors(){
-		//update alpha value
 		updateAlpha();
-		super.updateColors();
+		setColorsOutlined();
 	}
+	
 	
 	/*
 	protected boolean updateForItSelf(){

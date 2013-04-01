@@ -19,7 +19,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -1839,10 +1838,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_CONIFY:
 		case EuclidianConstants.MODE_AREA:
 		case EuclidianConstants.MODE_VOLUME:
+		//case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			//String s = hits.toString();
 			hits.removeAllPolygonsButOne();
 			//s+="\nAprès:\n"+hits.toString();
 			//Application.debug(s);
+			break;
+		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			break;
 		default:
 			super.switchModeForRemovePolygons(hits);
@@ -2268,6 +2270,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			}
 
 
+			//App.debug(hits);
+			
 			for (int i = 0; i<hits.size(); ++i) {
 				for (int j=i+1; j<hits.size(); ++j) {
 					this.createIntersectionCurve(hits.get(i), hits.get(j));
@@ -2336,10 +2340,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 						cs2Ds[0], cs2Ds[1]);
 				return ret[0].isDefined();	
 			} else if (foundP && foundNp) {
-				GeoElement[] ret = getKernel().getManager3D().IntersectionSegment(new String[] {null}, 
-						(GeoPlane3D) cs2Ds[npIndex], (GeoSurfaceFinite) cs2Ds[pIndex]);
-
-				return (ret==null || ret[0]==null);
+				GeoElement[] ret;
+				GeoPlane3D A = (GeoPlane3D) cs2Ds[npIndex];
+				GeoPolygon B = (GeoPolygon) cs2Ds[pIndex];
+				if (B.hasMeta()){
+					ret = getKernel().getManager3D().IntersectRegion(new String[] {null}, A, B.getMeta(), null);
+				}else{
+					ret = getKernel().getManager3D().IntersectionSegment(new String[] {null}, A, B);
+				}				
+				return ret[0].isDefined();
 			}
 		}
 
@@ -2398,15 +2407,16 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			Drawable3D d = new DrawLine3D(view3D, (GeoLineND) ret[0]);
 			processIntersectionCurve(A, B, ret[0], d);
 			intersectable = true;
+
+		// plane - polyhedron
+		} else if (A.isGeoPlane() && B.isGeoPolygon()) {
+			createIntersectionCurvePlanePolyhedron(A, (GeoPolygon) B);
+		} else if (B.isGeoPlane() && A.isGeoPolygon()) {
+			createIntersectionCurvePlanePolyhedron(B, (GeoPolygon) A);
 			
-		} /* TODO plane/polygon preview
-		else if (A.isGeoPlane() && B.isGeoPolygon()) {
-			//add intersection to tempArrayList
-			} else if (B.isGeoPlane() && A.isGeoPolygon()) {
-			//add intersection to tempArrayList
-			} */
-		else if (A.isGeoPlane() && B instanceof GeoQuadric3D) {
-			intersectable = createIntersectionCurvePlaneQuadric(A, B);
+		// plane-quadric
+		} else if (A.isGeoPlane() && B instanceof GeoQuadric3D) {
+				intersectable = createIntersectionCurvePlaneQuadric(A, B);
 		} else if (B.isGeoPlane() && A instanceof GeoQuadric3D) {
 			intersectable = createIntersectionCurvePlaneQuadric(B, A);
 		}
@@ -2414,6 +2424,29 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return intersectable;
 		
 		
+	}
+	
+	private boolean createIntersectionCurvePlanePolyhedron(GeoElement A, GeoPolygon B) {
+		//add intersection to tempArrayList
+		
+		//App.debug("\nA:"+A+"\nB:"+B);
+		
+		//check first if B is from polyhedron
+		if (!B.hasMeta()){
+			return false;
+		}
+		
+		boolean oldSilentMode = getKernel().isSilentMode();
+		getKernel().setSilentMode(true);//tells the kernel not to record the algo
+		
+		GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, B.getMeta());
+		Drawable3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) ret[0]);
+
+		getKernel().setSilentMode(oldSilentMode);
+		processIntersectionCurve(A, B, ret[0], d);
+		
+		//App.debug("\n"+A+"\n"+B+"\n"+ret[0]);
+		return true;
 	}
 	
 	private boolean createIntersectionCurvePlaneQuadric(GeoElement A, GeoElement B) {
@@ -2458,7 +2491,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			float zMin = Float.POSITIVE_INFINITY;
 			for (IntersectionCurve intersectionCurve : intersectionCurveList){
 				Drawable3D d = intersectionCurve.drawable;
-				//App.debug(d+"\nz="+d.zPickMax);
+				//App.debug(d+"\nz="+d.zPickMax+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
 				if (d.zPickMin<zMin){
 					resultedGeo=d.getGeoElement();
 					resultedIntersectionCurve = intersectionCurve;
@@ -2466,7 +2499,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				}
 			}
 			
-			//App.debug(resultedGeo+"\nz="+zMin);
+			/*
+			App.debug("\n"+resultedGeo+"\nz="+zMin);
+			if (resultedIntersectionCurve != null)
+				App.debug("\ngeo1:"+resultedIntersectionCurve.geo1+"\ngeo2:"+resultedIntersectionCurve.geo2);
+			*/
 			
 			if (resultedGeo == null) {
 				hideIntersection = true;
@@ -2504,12 +2541,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				i++;
 			}
 			
-			
 			if (resultedGeo == null) {
 				hideIntersection = true;
 				view3D.setPreview(null);
 				return;
 			}
+			
+
+			//App.debug("resultedGeo:"+resultedGeo);
 			
 		
 			//App.debug(hits+"\nA="+A+"\nB="+B);
@@ -2547,6 +2586,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				hideIntersection = true;
 				return;
 			}
+			
 		
 			//else, we show the intersection, and add A,B to highligtedgeos
 			hideIntersection = false;

@@ -36,6 +36,11 @@ implements Previewable {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 		renderer.setLayer(0);
 	}
+	
+	@Override
+	protected void drawSurfaceGeometry(Renderer renderer){
+		drawGeometry(renderer);
+	}
 
 	void drawGeometryHiding(Renderer renderer) {
 		drawGeometry(renderer);

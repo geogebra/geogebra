@@ -622,5 +622,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		super.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 		updateCoordSys();
 	}
+	
+	/**
+	 * set that init label has been called (or not)
+	 * @param flag flag
+	 */
+	public void setInitLabelsCalled(boolean flag){
+		initLabelsCalled = flag;
+	}
 
 }

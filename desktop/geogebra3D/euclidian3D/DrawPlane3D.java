@@ -61,6 +61,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 	}
 	
+	@Override
+	protected void drawSurfaceGeometry(Renderer renderer){
+		drawGeometry(renderer);
+	}
+	
 	private void drawPlate(Renderer renderer){
 		renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for z-fighting with planes
 		renderer.getGeometryManager().draw(getGeometryIndex());	
@@ -88,12 +93,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	public void drawGeometryPicked(Renderer renderer){}
 	
 
-	@Override
-	public void drawHidden(Renderer renderer){
-		//renderer.setMatrix(getMatrix());
-		//setHighlightingColor(1f);
-		drawGeometryHidden(renderer);
-	}
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer){ 
