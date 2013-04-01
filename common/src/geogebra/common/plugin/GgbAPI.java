@@ -98,10 +98,32 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	}
 	
 	/**
-	 * Evaluates the given string as if it was entered into GeoGebra's input
-	 * text field.
+	 * Evaluates the given string as if it was entered into GeoGebra's CAS
+	 * View (but it won't create any objects etc in GeoGebra)
+	 * @param cmdString input to CAS
+	 * @return output from CAS
 	 */
-	public synchronized boolean evalCommand(String cmdString) {
+	public synchronized String evalCommandCAS(String cmdString) {
+		
+		// default (undefined)
+		String ret = "?";
+		
+		try {
+			ret = kernel.evaluateGeoGebraCAS(cmdString, null);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		return ret;
+
+	}
+	
+	
+	/**
+		 * Evaluates the given string as if it was entered into GeoGebra's input
+		 * text field.
+		 */
+		public synchronized boolean evalCommand(String cmdString) {
 
 		// Application.debug("evalCommand called..."+cmdString);
 		GeoElement[] result;

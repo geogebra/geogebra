@@ -56,6 +56,8 @@ public interface JavaScriptAPI {
 	 */
 	public boolean evalCommand(String cmdString);
 
+	public String evalCommandCAS(String cmdString);
+
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's 
 	 * input text field. 	 

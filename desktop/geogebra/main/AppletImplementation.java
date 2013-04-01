@@ -678,6 +678,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return evalCommand(cmdString, true);
 	}
 
+	public synchronized String evalCommandCAS(final String cmdString) {
+		return ggbApi.evalCommandCAS(cmdString);
+	}
+
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
