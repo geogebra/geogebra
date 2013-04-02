@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
+import geogebra.common.awt.GColor;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
@@ -7,6 +8,8 @@ import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.TitleChangedListener;
 
+import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -35,6 +38,13 @@ public class TabletHeaderPanel extends HorizontalPanel
 	{
 		this.setWidth(Window.getClientWidth() + "px");
 
+		this.getElement().getStyle()
+				.setBackgroundColor(TabletGUI.getBackgroundColor().toString());
+		this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
+		this.getElement().getStyle()
+				.setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+		
 		this.app = app;
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
 
@@ -80,6 +90,10 @@ public class TabletHeaderPanel extends HorizontalPanel
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.titleButton);
 
+		this.titleButton.getElement().getStyle().setBackgroundImage("none"); 
+		this.titleButton.getElement().getStyle().setBorderStyle(BorderStyle.NONE); 
+		this.titleButton.getElement().getStyle().setFontSize(35, Unit.PX); 	
+		
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
 

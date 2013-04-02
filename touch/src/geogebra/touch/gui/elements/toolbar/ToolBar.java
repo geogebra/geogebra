@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -44,7 +45,7 @@ public class ToolBar extends HorizontalPanel
 		this.toolPanel = new HorizontalPanel();
 		this.inputButtonPanel = new HorizontalPanel();
 		
-		this.getElement().getStyle().setBackgroundColor(GColor.LIGHT_GRAY.toString()); 
+		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString()); 
 
 		makeTabletToolBar(touchModel);
 	}

@@ -34,6 +34,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	StylingBar stylingBar;
 
 	public static final int FOOTER_BORDER_WIDTH = 1;
+	
+	public static GColor getBackgroundColor() {
+		return GColor.LIGHT_GRAY; 
+	}
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
