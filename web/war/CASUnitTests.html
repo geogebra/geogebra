@@ -4,6 +4,57 @@
 <title>GeoGebra dynamic worksheet</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="__giac.js"></script>
+<script>
+
+var giacInput = "problem recording input to giac";
+var giacOutput = "problem recording output from giac";
+var logStore = "";
+
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
+
+var customLog = 
+{
+ oriLog : '',
+ Log : function() 
+ {
+   // create string to display
+   var displaystring = '';
+   for(var i = 0, len = arguments.length; i < len; i++)
+   {
+     displaystring += arguments[i];
+     if( i + 1 != len) displaystring += ', ';
+   }
+   //alert(displaystring);
+   
+   if (displaystring.startsWith("js giac  input:")) {
+		giacInput = displaystring;
+   } else if (displaystring.startsWith("js giac output:")) {
+		giacOutput = displaystring;
+   } else {
+		logStore+="<br/>"+displaystring;
+   }
+   
+   //customLog.oriLog(arguments);
+ }
+}
+
+
+
+window.onload = function()
+{
+ if(console != null)
+ { 
+   customLog.oriLog = console.log;   
+   console.log = customLog.Log;
+ }
+
+ console.log('test 1', 'test 2');
+}
+</script>
 </head>
 <body>
 
@@ -28,17 +79,21 @@
 <div id="table">
 </table>
 </div>
-<div id="output">
-</div>
+
     <script>
         var article = document.querySelector(".geogebraweb");
         GGW_ext.webReady("render", article);
 		
+		var green = "#00FF00";
+		var blue = "#0000FF";
+		var red = "#FF0000";
+		var magenta = "#FF00FF";
+
 		function ggbOnInit() {
 		
 		var table = '<table border="1">';
 		
-		for (var i = 1 ; i <= 231 ; i++) {
+		for (var i = 1 ; i <= Object.keys(__giac).length ; i++) {
 		
 			//console.clear();
 		
@@ -56,31 +111,32 @@
 				notes="";
 			}
 			
-			while (expectedResult.indexOf(" ") > -1) {
-				expectedResult = expectedResult.replace(" ","");
-			}
+			//while (expectedResult.indexOf(" ") > -1) {
+			//	expectedResult = expectedResult.replace(" ","");
+			//}
 			
 			while (result.indexOf(" ") > -1) {
 				result = result.replace(" ","");
 			}
 			
 			// <p style="background-color:#FFFF00">
-			var color = "#00FF00"; // green
+			var color = correct(result, expectedResult);
 			
-			if (result != expectedResult) {
-				color = "#FF0000"; // red
-			} else {
-			
+			var fontsize = 12;
+			if (result.length > 50 || expectedResult.length > 50) {
+				fontsize = 6;
 			}
-			
-			document.getElementById('output').innerHTML+=cmd+" "+expectedResult+" "+result+"<br/>";
 			
 			table += "<tr>";
 			table += "<td>" + cmd + "</td>";
-			table += '<td><p style="background-color:'+color+'">' + result + '</p></td>';
-			table += "<td>" + expectedResult + "</td>";
-			table += "<td>" + notes + "</td>";
+			table += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
+			table += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
+			table += "<td>" + notes + "<br/>" + giacInput + "<br/>" + giacOutput + "</td>";
 			table += "</tr>";
+			
+			giacInput = "problem recording input to giac";
+			giacOutput = "problem recording output from giac";
+			logStore="";
 			
 		}
 		
@@ -89,5 +145,31 @@
 		document.getElementById('table').innerHTML = table;
 		
 		}
+		
+		function correct(result, expectedResult) {
+		
+			if (expectedResult == "RANDOM") {
+				return magenta;
+			}
+		
+			expectedResult = expectedResult.split(" OR ");
+
+				for (var i = 0 ; i < expectedResult.length ; i++) {
+					while (expectedResult[i].indexOf(" ") > -1) {
+						expectedResult[i] = expectedResult[i].replace(" ","");
+					}
+					
+					if (result == expectedResult[i]) {
+						return green;
+					}
+										
+				}
+				
+				// no match
+				return red;
+			}
+
+		
+		
     </script>
 </html>
