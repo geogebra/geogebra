@@ -203,7 +203,7 @@ public class Ggb2giac {
 		p("Median.1",
 				"median(%0)");
 		p("Min.N", "min(%)");
-		p("Midpoint.2", "midpoint(%0,%1)");
+		p("Midpoint.2", "(op(coordinates(midpoint(%0,%1))))");
 		p("MixedNumber.1",
 				"propfrac(exact(%0))");
 		p("Mod.2",
@@ -236,7 +236,7 @@ public class Ggb2giac {
 		p("Numeric.2",
 				"evalf(%0,%1)");
 		p("OrthogonalVector.1",
-				"[[0,-1],[1,0]]*(%0)");
+				"(op([[0,-1],[1,0]]*(%0)))");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
 		// with_sqrt(0) to factor over rationals
 		p("PartialFractions.1",
@@ -268,9 +268,9 @@ public class Ggb2giac {
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
-				"randpoly(%0,%1,%2)");
+				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
-				"randpoly(%0,%1,%2..%3)");
+				"randpoly(%1,%0,%2..%3)");
 		//p("Rationalize.1", "exact(evalf(%0))");
 		//p("Rationalize.1", "normal(exact(%0))");
 		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
@@ -316,10 +316,10 @@ public class Ggb2giac {
 		
 		// Root.1 and Solve.1 should be the same
 		p("Solve.1",
-				"solve(%0,ggbtmpvarx)");
+				"[op(solve(%0,ggbtmpvarx))]");
 		
 		p("Solve.2",
-				"solve(%0,%1)");
+				"[op(solve(%0,%1))]");
 		p("SolveODE.1",
 				"odesolve(%0)");
 		p("SolveODE.2",
@@ -338,7 +338,7 @@ public class Ggb2giac {
 		p("Sum.4",
 				"sum(%0,%1,%2,%3)");
 		p("Tangent.2",
-				"tangent(%0,%1)");
+				"ggbtmpvary=subst(diff(%1,ggbtmpvarx),ggbtmpvarx=%0)*(ggbtmpvarx-%0)+subst(%1,ggbtmpvarx=%0)");
 		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
 				"%0[%1-1..%2-1]");
@@ -355,7 +355,7 @@ public class Ggb2giac {
 		p("ToPolar.1",
 				"polar\\_coordinates(%0)");
 		p("ToPoint.1",
-				"todo");
+				"(op(coordinates(%1)))");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		p("TrigExpand.1",
@@ -374,7 +374,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("UnitOrthogonalVector.1",
-				"todo");
+				"(op(unitV([-%0[1],%0[0]])))");
 		p("UnitVector.1",
 				"normalize(%0)");
 		p("Variance.1",
