@@ -106,7 +106,7 @@ public abstract class FileDialog extends PopupPanel
 	/**
 	 * Populates the fileList with available files
 	 */
-	private void populateFileList()
+	protected void populateFileList()
 	{
 		this.fileList.clear();
 
@@ -166,9 +166,10 @@ public abstract class FileDialog extends PopupPanel
 
 	protected abstract void onCancel();
 
-	private void onDelete()
+	protected void onDelete()
 	{
 		this.stockStore.removeItem(this.fileList.getItemText(this.fileList.getSelectedIndex()));
+		populateFileList();
 	}
 
 	@Override
@@ -176,6 +177,7 @@ public abstract class FileDialog extends PopupPanel
 	{
 		super.show();
 		super.center();
+		this.populateFileList();
 		this.textBox.setFocus(true);
 	}
 }
