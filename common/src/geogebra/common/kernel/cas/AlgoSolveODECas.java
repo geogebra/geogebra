@@ -114,8 +114,8 @@ public class AlgoSolveODECas extends AlgoElement implements UsesCAS {
 		String functionOut;
 		boolean ok=false;
 		try {
-			//TODO put cacheing back
-			functionOut = kernel.evaluateGeoGebraCAS(casString,arbconst);
+			//TODO put caching back
+			functionOut = kernel.evaluateGeoGebraCAS(casString, arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElement[]res = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(functionOut,

@@ -2079,13 +2079,24 @@ public class Kernel {
 	}
 
 	/**
+	 * @param casString String to evaluate
+	 * @param arbconst arbitrary constant
+	 * @return  result string (null possible)
+	 * @throws Throwable
+	 */
+	public String evaluateGeoGebraCAS(String casString,
+			MyArbitraryConstant arbconst) throws Throwable {
+		return evaluateGeoGebraCAS(casString, arbconst, StringTemplate.numericNoLocal);
+	}
+
+	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
 	 * 
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	final public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant arbconst) throws Throwable {
-		return evaluateGeoGebraCAS(exp, false,arbconst);
+	final public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
+		return evaluateGeoGebraCAS(exp, false, arbconst, tpl);
 	}
 
 	/**
@@ -2097,7 +2108,7 @@ public class Kernel {
 	 * @throws Throwable
 	 */
 	final public String evaluateCachedGeoGebraCAS(String exp,MyArbitraryConstant  arbconst) throws Throwable {
-		return evaluateGeoGebraCAS(exp, true,arbconst);
+		return evaluateGeoGebraCAS(exp, true, arbconst, StringTemplate.numericNoLocal);
 	}
 
 	/**
@@ -2109,7 +2120,7 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	private String evaluateGeoGebraCAS(String exp, boolean useCaching,MyArbitraryConstant arbconst)
+	private String evaluateGeoGebraCAS(String exp, boolean useCaching, MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws Throwable {
 		String result = null;
 		if (useCaching && hasCasCache()) {
@@ -2121,7 +2132,7 @@ public class Kernel {
 		}
 
 		// evaluate in GeoGebraCAS
-		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp,arbconst);
+		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp, arbconst, tpl);
 
 		if (useCaching) {
 			getCasCache().put(exp, result);
@@ -4460,4 +4471,5 @@ public class Kernel {
 	public boolean useCASforIntegrals() {
 		return true;
 	}
+
 }

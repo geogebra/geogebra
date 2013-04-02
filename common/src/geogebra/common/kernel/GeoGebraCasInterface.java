@@ -26,20 +26,6 @@ public interface GeoGebraCasInterface {
 	 * @return current CAS instance
 	 */
 	public CASGenericInterface getCurrentCAS();
-	/**
-	 * Evaluates a valid expression and returns the resulting String in GeoGebra
-	 * notation.
-	 * 
-	 * @param evalVE
-	 *            Input expression
-	 * @param tpl
-	 *            String template for result
-	 * @return evaluation result
-	 * @throws CASException
-	 *             if there is a timeout or the expression cannot be evaluated
-	 */
-	public String evaluateGeoGebraCAS(ValidExpression evalVE,
-			MyArbitraryConstant tpl);
 
 	/**
 	 * @return CAS parser
@@ -90,11 +76,12 @@ public interface GeoGebraCasInterface {
 	 * @param exp
 	 *            expression to be evaluated
 	 * @param arbConst arbitrary constant handler
+	 * @param tpl string template
 	 * @return result string in GeoGebra syntax (null possible)
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst)
+	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst, StringTemplate tpl)
 			throws CASException;
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra

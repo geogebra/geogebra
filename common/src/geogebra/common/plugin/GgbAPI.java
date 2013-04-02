@@ -109,7 +109,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		String ret = "?";
 		
 		try {
-			ret = kernel.evaluateGeoGebraCAS(cmdString, null);
+			ret = kernel.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -184,7 +184,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		GeoGebraCasInterface ggbcas = kernel.getGeoGebraCAS();
 		try {
 			//TODO -- allow  to parametrize this
-			ret = ggbcas.evaluateGeoGebraCAS(cmdString,null);
+			ret = ggbcas.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault);
 		} catch (Throwable t) {
 			App.debug(t.toString());
 		}// try-catch
