@@ -224,15 +224,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		
 		String result = plainResult;
+		
 		if (keepInput) {
-			// when keepinput was treated in MPReduce, it is now > 1
-			String keepinputVal = evaluateCAS("keepinput!!;");
-			boolean keepInputUsed = !"1".equals(keepinputVal);
-			if (!keepInputUsed) {
-				//return directly, we don't want another toGeoGebraString,
-				//because of e and i
-				return casParser.toGeoGebraString(casInput, tpl);
-			}
+			// assume keepinput was not treated in CAS
+			return casParser.toGeoGebraString(casInput, tpl);
 		}
 		
 		// standard case
