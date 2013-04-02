@@ -145,12 +145,27 @@ public abstract class Prover {
 	 * Constructor for the package.
 	 */
 	public Prover() {
-		 proverAutoOrder = new ArrayList<ProverEngine>();
-		 // Order for the AUTO prover:
-		 proverAutoOrder.add(ProverEngine.RECIOS_PROVER);
-		 proverAutoOrder.add(ProverEngine.BOTANAS_PROVER);
-		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
-		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
+		 proveAutoOrder = new ArrayList<ProverEngine>();
+		 // Order of Prove[] for the AUTO prover:
+		 // Recio is the fastest.
+		 proveAutoOrder.add(ProverEngine.RECIOS_PROVER);
+		 // Botana's prover is also fast for general problems.
+		 proveAutoOrder.add(ProverEngine.BOTANAS_PROVER);
+		 // Wu may be a bit slower.
+		 proveAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
+		 // Area method is not polished yet.
+		 proveAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
+		 
+		 // Order of ProveDetails[] for the AUTO prover:
+		 proveDetailsAutoOrder = new ArrayList<ProverEngine>();
+		 // Wu's method does the best job.
+		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
+		 // Current version of Botana's presumes some good looking conditions, so maybe useful. 
+		 proveDetailsAutoOrder.add(ProverEngine.BOTANAS_PROVER);
+		 // Recio may a few NDGs for the denominator polynomial. 
+		 proveDetailsAutoOrder.add(ProverEngine.RECIOS_PROVER);
+		 // Area method seems to return {true} always, not useful.
+		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 	}
 
 	/**
@@ -194,7 +209,8 @@ public abstract class Prover {
 		ndgConditions.add(ndgc);
 	}
 	
-	private List<ProverEngine> proverAutoOrder;
+	private List<ProverEngine> proveAutoOrder;
+	private List<ProverEngine> proveDetailsAutoOrder;
 	private boolean useAlternativeBotana;
 
 		
@@ -231,7 +247,11 @@ public abstract class Prover {
 		
 		// Step 4: AUTO prover
 		App.debug("Using " + engine);
-		Iterator<ProverEngine> it = proverAutoOrder.iterator();
+		Iterator<ProverEngine> it;
+		if (isReturnExtraNDGs())
+			it = proveDetailsAutoOrder.iterator();
+		else
+			it = proveAutoOrder.iterator();
 		result = ProofResult.UNKNOWN;
 		while (result == ProofResult.UNKNOWN && it.hasNext()) {
 			ProverEngine pe = it.next();
