@@ -140,9 +140,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		else
 			addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 		
+		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
+			addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
+		}
 		
-		// TODO : only if polygon has to draw its outline
-		addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
 	}
     
     @Override
@@ -152,7 +153,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
     	else
     		removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
+
+		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
+			removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
+		}
+
     }
     
 	
