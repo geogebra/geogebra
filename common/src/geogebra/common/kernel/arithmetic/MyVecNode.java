@@ -154,11 +154,11 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 
 		case GIAC:
 			coords = getCoords();
-			sb.append("[");
+			sb.append("(");
 			sb.append(coords[0]);
-			sb.append(", ");
+			sb.append(',');
 			sb.append(coords[1]);
-			sb.append("]");
+			sb.append(")");
 			break;
 
 		case MPREDUCE:

@@ -442,11 +442,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			return sbBuildValueString;
 
 		case GIAC:
-			sbBuildValueString.append("[");
+			sbBuildValueString.append("(");
 			sbBuildValueString.append(getInhomVec().getX());
-			sbBuildValueString.append(", ");
+			sbBuildValueString.append(',');
 			sbBuildValueString.append(getInhomVec().getY());
-			sbBuildValueString.append("]");
+			sbBuildValueString.append(")");
 			return sbBuildValueString;
 
 		case MPREDUCE:
