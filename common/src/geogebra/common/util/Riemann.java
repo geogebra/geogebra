@@ -24,7 +24,7 @@ import geogebra.common.kernel.Kernel;
 
 /**
  *  This class provides the Riemann zeta function &#950;(<i>s</i>) for any
- *  comlex number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>.
+ *  complex number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>.
  *  In this version, the absolute  approximation error is about 1E-6 for <i>s</i>
  *  with relatively small absolute value, |<i>s</i>| smaller than 50.
  *  On the real line, the accuracy should be in that range even for much greater
