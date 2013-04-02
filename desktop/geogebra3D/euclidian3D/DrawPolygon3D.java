@@ -178,13 +178,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		for(int i=0;i<pointLength;i++){
 			vertices[i] = polygon.getPoint3D(i);
 		}
-		
-		
+
+
 
 		// outline
-		updateOutline(renderer, vertices);
-		
-		
+		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
+			updateOutline(renderer, vertices);
+		}
+
+
 		
 		
 		// surface
@@ -217,19 +219,18 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	
 	
 	private void updateOutline(Renderer renderer, Coords[] vertices){
-		// outline
-		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
-			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-			brush.start(8);
-			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
-			for(int i=0;i<vertices.length-1;i++){
-				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(vertices[i],vertices[i+1]);
-			}
+
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+		brush.start(8);
+		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+		for(int i=0;i<vertices.length-1;i++){
 			brush.setAffineTexture(0.5f,  0.25f);
-			brush.segment(vertices[vertices.length-1],vertices[0]);
-			setGeometryIndex(brush.end());
+			brush.segment(vertices[i],vertices[i+1]);
 		}
+		brush.setAffineTexture(0.5f,  0.25f);
+		brush.segment(vertices[vertices.length-1],vertices[0]);
+		setGeometryIndex(brush.end());
+
 	}
 	
 
@@ -238,19 +239,21 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		if (getView3D().viewChangedByZoom()){
 			
-			GeoPolygon polygon = (GeoPolygon) getGeoElement();
-			int pointLength = polygon.getPointsLength();
-			Renderer renderer = getView3D().getRenderer();
+			if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
 
-			Coords[] vertices = new Coords[pointLength];
-			for(int i=0;i<pointLength;i++){
-				vertices[i] = polygon.getPoint3D(i);
+				GeoPolygon polygon = (GeoPolygon) getGeoElement();
+				int pointLength = polygon.getPointsLength();
+				Renderer renderer = getView3D().getRenderer();
+
+				Coords[] vertices = new Coords[pointLength];
+				for(int i=0;i<pointLength;i++){
+					vertices[i] = polygon.getPoint3D(i);
+				}
+
+
+				// outline
+				updateOutline(renderer, vertices);
 			}
-
-
-			// outline
-			updateOutline(renderer, vertices);
-			
 		}
 	}
 	
