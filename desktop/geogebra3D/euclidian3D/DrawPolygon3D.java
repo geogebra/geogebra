@@ -153,7 +153,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
     		removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 
     	removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
-}
+    }
+    
 	
 	
 	@Override
@@ -181,18 +182,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 
 		// outline
-		if(!polygon.wasInitLabelsCalled()){ // no labels for segments
-			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
-			brush.start(8);
-			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
-			for(int i=0;i<pointLength-1;i++){
-				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(vertices[i],vertices[i+1]);
-			}
-			brush.setAffineTexture(0.5f,  0.25f);
-			brush.segment(vertices[pointLength-1],vertices[0]);
-			setGeometryIndex(brush.end());
-		}
+		updateOutline(renderer, vertices);
 		
 		
 		
@@ -225,8 +215,44 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 	}
 	
-
 	
+	private void updateOutline(Renderer renderer, Coords[] vertices){
+		// outline
+		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+			brush.start(8);
+			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());
+			for(int i=0;i<vertices.length-1;i++){
+				brush.setAffineTexture(0.5f,  0.25f);
+				brush.segment(vertices[i],vertices[i+1]);
+			}
+			brush.setAffineTexture(0.5f,  0.25f);
+			brush.segment(vertices[vertices.length-1],vertices[0]);
+			setGeometryIndex(brush.end());
+		}
+	}
+	
+
+	@Override
+	protected void updateForView(){
+
+		if (getView3D().viewChangedByZoom()){
+			
+			GeoPolygon polygon = (GeoPolygon) getGeoElement();
+			int pointLength = polygon.getPointsLength();
+			Renderer renderer = getView3D().getRenderer();
+
+			Coords[] vertices = new Coords[pointLength];
+			for(int i=0;i<pointLength;i++){
+				vertices[i] = polygon.getPoint3D(i);
+			}
+
+
+			// outline
+			updateOutline(renderer, vertices);
+			
+		}
+	}
 	
 	
 	////////////////////////////////
