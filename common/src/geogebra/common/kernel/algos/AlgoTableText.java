@@ -270,7 +270,10 @@ public class AlgoTableText extends AlgoElement {
 		if (tpl.getStringType().equals(StringType.MATHML)) {
 			mathml(tpl);			
 		} else {
-			latex(tpl);
+			if (app.isHTML5Applet())
+				latexMQ(tpl);
+			else
+				latex(tpl);
 		}
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
@@ -376,6 +379,59 @@ public class AlgoTableText extends AlgoElement {
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('}');
 		}
+
+	private void latexMQ(StringTemplate tpl) {
+		// surround in { } to make eg this work:
+		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
+		sb.append('{');
+
+		//sb.append(openBracket);
+		sb.append("\\ggbtable{");
+
+		if (alignment == Alignment.VERTICAL) {
+
+			for (int r = 0; r < rows; r++) {
+				if (horizontalLines)
+					sb.append("\\ggbtrl{");
+				else
+					sb.append("\\ggbtr{");
+				for (int c = 0; c < columns; c++) {
+					if (verticalLines)
+						sb.append("\\ggbtdl{");
+					else
+						sb.append("\\ggbtd{");
+					addCellLaTeX(c, r, false, tpl);
+					sb.append("}");
+				}
+				sb.append("}");
+			}
+
+		} else { // alignment == HORIZONTAL
+
+			for (int c = 0; c < columns; c++) {
+				if (horizontalLines)
+					sb.append("\\ggbtrl{");
+				else
+					sb.append("\\ggbtr{");
+				for (int r = 0; r < rows; r++) {
+					if (verticalLines)
+						sb.append("\\ggbtdl{");
+					else
+						sb.append("\\ggbtd{");
+					addCellLaTeX(c, r, false, tpl);
+					sb.append("}");
+				}
+				sb.append("}");
+			}
+		}
+
+		sb.append("}");
+		//sb.append(closeBracket);
+
+		// surround in { } to make eg this work:
+		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
+		sb.append('}');
+	}
 
 	private void addCellLaTeX(int c, int r, boolean finalCell,StringTemplate tpl) {
 		if (geoLists[c].size() > r) { // check list has an element at this
