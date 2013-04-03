@@ -232,4 +232,5 @@ __giac = {
 231: { cmd:"Element[{1,2,3},6]" , result:"?"},
 232: { cmd:"Limit[x/x,0]" , result:"1"},
 232: { cmd:"0/0" , result:"?"},
+233: { cmd:"10^0" , result:"1"},
 }
