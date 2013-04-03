@@ -14,6 +14,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -2381,8 +2382,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		for (int i=0; i<intersectionCurveList.size(); ++i) {
 			IntersectionCurve intersection = intersectionCurveList.get(i);
-			if ( intersection.geo1==A && intersection.geo2==B
-					|| intersection.geo1==B && intersection.geo2==A) {
+			if ( intersection.geo1==getMetaIfExists(A) && intersection.geo2==getMetaIfExists(B)
+					|| intersection.geo1==getMetaIfExists(B) && intersection.geo2==getMetaIfExists(A)) {
 				intersection.hitted = true;
 				intersection.drawable.setWaitForUpdate();
 				return true;
@@ -2443,7 +2444,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		Drawable3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) ret[0]);
 
 		getKernel().setSilentMode(oldSilentMode);
-		processIntersectionCurve(A, B, ret[0], d);
+		processIntersectionCurve(A, B.getMeta(), ret[0], d);
 		
 		//App.debug("\n"+A+"\n"+B+"\n"+ret[0]);
 		return true;
@@ -2466,7 +2467,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			d = new DrawConic3D(view3D, (GeoConicND) ret);
 		}
 		getKernel().setSilentMode(oldSilentMode);
-		processIntersectionCurve(A, B, ret, d);
+		processIntersectionCurve(A, quad, ret, d);
 		return true;
 	}
 	
@@ -2482,6 +2483,16 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private IntersectionCurve resultedIntersectionCurve;
 	
+	private static GeoElement getMetaIfExists(GeoElement geo){
+		if (geo instanceof FromMeta){
+			if (geo.hasMeta()){
+				return ((FromMeta) geo).getMeta();
+			}
+		}
+		
+		return geo;
+	}
+	
 	private void decideIntersection(Hits hits) {
 		
 		
@@ -2489,6 +2500,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 			//find the nearest intersection curve (if exists)
 			float zMin = Float.POSITIVE_INFINITY;
+			//App.error(""+intersectionCurveList.size());
 			for (IntersectionCurve intersectionCurve : intersectionCurveList){
 				Drawable3D d = intersectionCurve.drawable;
 				//App.debug(d+"\nz="+d.zPickMax+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
@@ -2499,8 +2511,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				}
 			}
 			
+			
+			//App.debug("\n"+resultedGeo+"\nz="+zMin+"\n\n");
 			/*
-			App.debug("\n"+resultedGeo+"\nz="+zMin);
 			if (resultedIntersectionCurve != null)
 				App.debug("\ngeo1:"+resultedIntersectionCurve.geo1+"\ngeo2:"+resultedIntersectionCurve.geo2);
 			*/
@@ -2577,9 +2590,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			if (hits.size()<2 //check first if there are at least 2 geos 
 					||
 					(
-							!(hits.get(0)==resultedIntersectionCurve.geo1 && hits.get(1)==resultedIntersectionCurve.geo2)
+							!(getMetaIfExists(hits.get(0))==resultedIntersectionCurve.geo1 && getMetaIfExists(hits.get(1))==resultedIntersectionCurve.geo2)
 							&&
-							!(hits.get(0)==resultedIntersectionCurve.geo2 && hits.get(1)==resultedIntersectionCurve.geo1)
+							!(getMetaIfExists(hits.get(0))==resultedIntersectionCurve.geo2 && getMetaIfExists(hits.get(1))==resultedIntersectionCurve.geo1)
 							)
 					) {
 				goodHits.add(hits.get(0));
@@ -2591,8 +2604,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//else, we show the intersection, and add A,B to highligtedgeos
 			hideIntersection = false;
 			
-			goodHits.add(resultedIntersectionCurve.geo1);
-			goodHits.add(resultedIntersectionCurve.geo2);
+			goodHits.add(hits.get(0));
+			goodHits.add(hits.get(1));
 			
 			view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
 			//resultedGeo.setIsPickable(false);
