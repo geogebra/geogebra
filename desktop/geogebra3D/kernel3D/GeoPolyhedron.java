@@ -331,6 +331,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 	public void addPolygonLinked(GeoPolygon polygon) {
 		polygonsLinked.add(polygon);
 		addSegmentsLinked(polygon);
+		polygon.addMeta(this);
 		
 		
 	}
@@ -1051,6 +1052,10 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 	@Override
 	public void remove() {
+		
+		for (GeoPolygon polygon : polygonsLinked){
+			polygon.removeMeta(this);
+		}
 
 		// prevent from removing this when redefine a prism (see
 		// AlgoJoinPoints3D and AlgoPolygon)

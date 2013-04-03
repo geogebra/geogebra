@@ -2344,8 +2344,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoElement[] ret;
 				GeoPlane3D A = (GeoPlane3D) cs2Ds[npIndex];
 				GeoPolygon B = (GeoPolygon) cs2Ds[pIndex];
-				if (B.hasMeta()){
-					ret = getKernel().getManager3D().IntersectRegion(new String[] {null}, A, B.getMeta(), null);
+				if (B.getMetasLength() == 1){
+					ret = getKernel().getManager3D().IntersectRegion(new String[] {null}, A, B.getMetas()[0], null);
 				}else{
 					ret = getKernel().getManager3D().IntersectionSegment(new String[] {null}, A, B);
 				}				
@@ -2360,7 +2360,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			GeoQuadric3D quad = getSelectedQuadric()[0];
 			if (quad instanceof GeoQuadric3DPart){
 				GeoElement[] ret = {kernel.getManager3D().IntersectQuadricLimited( null, (GeoPlaneND) plane, 
-						(GeoQuadric3DLimited) ((GeoQuadric3DPart) quad).getMeta())};
+						(GeoQuadric3DLimited) ((GeoQuadric3DPart) quad).getMetas()[0])};
 				return ret[0].isDefined();
 			}
 			//else
@@ -2382,8 +2382,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		for (int i=0; i<intersectionCurveList.size(); ++i) {
 			IntersectionCurve intersection = intersectionCurveList.get(i);
-			if ( intersection.geo1==getMetaIfExists(A) && intersection.geo2==getMetaIfExists(B)
-					|| intersection.geo1==getMetaIfExists(B) && intersection.geo2==getMetaIfExists(A)) {
+			if ( intersection.geo1==getMetaIfJustOne(A) && intersection.geo2==getMetaIfJustOne(B)
+					|| intersection.geo1==getMetaIfJustOne(B) && intersection.geo2==getMetaIfJustOne(A)) {
 				intersection.hitted = true;
 				intersection.drawable.setWaitForUpdate();
 				return true;
@@ -2432,19 +2432,21 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		//App.debug("\nA:"+A+"\nB:"+B);
 		
-		//check first if B is from polyhedron
-		if (!B.hasMeta()){
+		//check first if B is linked to polyhedron
+		if (B.getMetasLength() != 1){
 			return false;
 		}
 		
 		boolean oldSilentMode = getKernel().isSilentMode();
 		getKernel().setSilentMode(true);//tells the kernel not to record the algo
 		
-		GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, B.getMeta());
+		GeoElement polyhedron = B.getMetas()[0];
+		
+		GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, polyhedron);
 		Drawable3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) ret[0]);
 
 		getKernel().setSilentMode(oldSilentMode);
-		processIntersectionCurve(A, B.getMeta(), ret[0], d);
+		processIntersectionCurve(A, polyhedron, ret[0], d);
 		
 		//App.debug("\n"+A+"\n"+B+"\n"+ret[0]);
 		return true;
@@ -2458,7 +2460,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		Drawable3D d;
 		GeoQuadricND quad;
 		if (B instanceof GeoQuadric3DPart){
-			quad = (GeoQuadric3DLimited) ((GeoQuadric3DPart) B).getMeta();
+			quad = (GeoQuadric3DLimited) ((GeoQuadric3DPart) B).getMetas()[0];
 			ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A, quad);
 			d = new DrawConic3DPart3D(view3D, (GeoConic3DPart) ret);
 		}else{
@@ -2483,10 +2485,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private IntersectionCurve resultedIntersectionCurve;
 	
-	private static GeoElement getMetaIfExists(GeoElement geo){
+	private static GeoElement getMetaIfJustOne(GeoElement geo){
 		if (geo instanceof FromMeta){
-			if (geo.hasMeta()){
-				return ((FromMeta) geo).getMeta();
+			if (geo.getMetasLength() == 1){
+				return ((FromMeta) geo).getMetas()[0];
 			}
 		}
 		
@@ -2590,9 +2592,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			if (hits.size()<2 //check first if there are at least 2 geos 
 					||
 					(
-							!(getMetaIfExists(hits.get(0))==resultedIntersectionCurve.geo1 && getMetaIfExists(hits.get(1))==resultedIntersectionCurve.geo2)
+							!(getMetaIfJustOne(hits.get(0))==resultedIntersectionCurve.geo1 && getMetaIfJustOne(hits.get(1))==resultedIntersectionCurve.geo2)
 							&&
-							!(getMetaIfExists(hits.get(0))==resultedIntersectionCurve.geo2 && getMetaIfExists(hits.get(1))==resultedIntersectionCurve.geo1)
+							!(getMetaIfJustOne(hits.get(0))==resultedIntersectionCurve.geo2 && getMetaIfJustOne(hits.get(1))==resultedIntersectionCurve.geo1)
 							)
 					) {
 				goodHits.add(hits.get(0));

@@ -44,6 +44,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Polygon through given points
@@ -1631,7 +1632,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		int counter = 0;
 		String str;
 		String name;
-		if (hasMeta())
+		if (getMetasLength() == 1)
 			name = loc.getPlainLabel("face"); // Name.face
 		else
 			name = loc.getPlainLabel("polygon"); // Name.polygon
@@ -1672,24 +1673,44 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 	
 	
-
-	private GeoElement meta = null;
-	
 	@Override
-	public boolean hasMeta() {
-		return meta!=null;
+	public int getMetasLength(){
+		if (metas == null){
+			return 0;
+		}
+		
+		return metas.size();
 	}
 	
-	public GeoElement getMeta(){
-		return meta;
+	public GeoElement[] getMetas(){
+		GeoElement[] ret = new GeoElement[metas.size()];
+		metas.toArray(ret);
+		return ret;
 	}
-
+	
+	private TreeSet<GeoElement> metas;
+	
 	/**
-	 * @param polyhedron polyhedron creating this polygon
+	 * add the polyhedron has meta geo for this (e.g. parent polyhedron, or linked polyhedron)
+	 * @param polyhedron polyhedron
 	 */
-	public void setFromMeta(GeoElement polyhedron) {
-		meta = polyhedron;
+	public void addMeta(GeoElement polyhedron){
+		if (metas == null){
+			metas = new TreeSet<GeoElement>();
+		}
+
+		metas.add(polyhedron);
 	}
+	
+	/**
+	 * remove polyhedron as meta for this
+	 * @param polyhedron polyhedron
+	 */
+	public void removeMeta(GeoElement polyhedron){
+		metas.remove(polyhedron);
+	}
+	
+	
 	
 	
 	@Override

@@ -196,12 +196,16 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	private GeoElement meta = null;
 
 	@Override
-	public boolean hasMeta() {
-		return meta!=null;
+	public int getMetasLength(){
+		if (meta==null){
+			return 0;
+		}
+			
+		return 1;
 	}
 	
-	public GeoElement getMeta(){
-		return meta;
+	public GeoElement[] getMetas(){
+		return new GeoElement[] {meta};
 	}
 
 	/**

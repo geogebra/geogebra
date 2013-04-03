@@ -92,11 +92,12 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 			if (geo!=geoSelected){//don't add selected geo
 				addGeo(geo);
 			}
-			
-			if (geo.hasMeta()){
-				GeoElement meta = ((FromMeta) geo).getMeta();
-				if (!metas.contains(meta)){
-					addGeo(meta);
+
+			if (geo.getMetasLength() > 0){
+				for (GeoElement meta : ((FromMeta) geo).getMetas()){
+					if (!metas.contains(meta)){
+						addGeo(meta);
+					}
 				}
 			}
 		}

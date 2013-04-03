@@ -765,8 +765,9 @@ public class Hits extends ArrayList<GeoElement> {
 		
 		for (GeoElement geo : this){
 			//first check if is segment/polygon/quadric side from a geo that has finite volume
-			if (geo.hasMeta()){
-				addFiniteVolume(result, ((FromMeta) geo).getMeta());
+			if (geo.getMetasLength() > 0){
+				for (GeoElement meta : ((FromMeta) geo).getMetas())
+					addFiniteVolume(result, meta);
 			//check if the geo has finite volume
 			}else{
 				addFiniteVolume(result, geo);

@@ -76,12 +76,15 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 				addGeo(geo1);
 			}
 			
-			if (geo1.hasMeta()){
-				GeoElement meta = ((FromMeta) geo1).getMeta();
-				if (!metas.contains(meta)){
-					addGeo(meta);
+			
+			if (geo1.getMetasLength() > 0){
+				for (GeoElement meta : ((FromMeta) geo1).getMetas()){
+					if (!metas.contains(meta)){
+						addGeo(meta);
+					}
 				}
 			}
+
 		}
 	}
 	

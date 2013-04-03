@@ -668,14 +668,18 @@ final public String toValueString(StringTemplate tpl) {
 	private GeoElement meta = null;
 	
 	@Override
-	public boolean hasMeta() {
-		return meta!=null;
+	public int getMetasLength(){
+		if (meta==null){
+			return 0;
+		}
+			
+		return 1;
 	}
 	
-	public GeoElement getMeta(){
-		return meta;
+	public GeoElement[] getMetas(){
+		return new GeoElement[] {meta};
 	}
-
+	
 	/**
 	 * @param poly polygon or polyhedron creating this segment
 	 */
