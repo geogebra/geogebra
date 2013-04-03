@@ -100,7 +100,7 @@ window.onload = function()
 			var cmd = __giac[i]["cmd"];
 			var expectedResult = __giac[i]["result"];
 			var notes = __giac[i]["notes"];
-			var result = window.ggbApplet.evalCommandCAS(cmd);
+			var result = window.ggbApplet.evalGeoGebraCAS(cmd);
 			
 			if (expectedResult === undefined) {
 				expectedResult="RESULT MISSING";
@@ -124,14 +124,21 @@ window.onload = function()
 			
 			var fontsize = 12;
 			if (result.length > 50 || expectedResult.length > 50) {
-				fontsize = 6;
+				//fontsize = 6;
 			}
+
+
+			result = splitIfTooLong(result);
+			expectedResult = splitIfTooLong(expectedResult);
 			
+			// comment out for more debugging
+			logStore = "";
+					
 			table += "<tr>";
 			table += "<td>" + cmd + "</td>";
 			table += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
 			table += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
-			table += "<td>" + notes + "<br/>" + giacInput + "<br/>" + giacOutput + "</td>";
+			table += "<td>" + notes + "<br/>" + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
 			table += "</tr>";
 			
 			giacInput = "problem recording input to giac";
@@ -146,13 +153,34 @@ window.onload = function()
 		
 		}
 		
+		function splitIfTooLong(result) {
+		
+			if (result.length > 50) {
+				var newStr = "";
+				
+				for (var i = 0 ; i < result.length; i+=50) {
+				
+					start = i;
+					end = i + 50;
+					if (end > result.length) end = result.length;
+					newStr += result.substring(start, end) + "<br/>";
+				}
+				
+				result = newStr;
+
+			}
+			
+			return result;
+
+		}
+		
 		function correct(result, expectedResult) {
 		
 			if (expectedResult == "RANDOM") {
 				return magenta;
 			}
 		
-			expectedResult = expectedResult.split(" OR ");
+			expectedResult = expectedResult.split("|OR|");
 
 				for (var i = 0 ; i < expectedResult.length ; i++) {
 					while (expectedResult[i].indexOf(" ") > -1) {
