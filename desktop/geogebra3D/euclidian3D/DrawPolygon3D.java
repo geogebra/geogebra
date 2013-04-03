@@ -160,6 +160,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
     }
     
+    
 	
 	
 	@Override
@@ -187,7 +188,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 
 		// outline
-		if(!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()){ // no labels for segments
+		if(!polygon.wasInitLabelsCalled()){ // no labels for segments
 			updateOutline(renderer, vertices);
 		}
 
