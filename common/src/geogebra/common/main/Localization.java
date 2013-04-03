@@ -15,6 +15,14 @@ public abstract class Localization {
 	/** used when a secondary language is being used for tooltips. */
 	protected boolean tooltipFlag = false;
 	private String[] fontSizeStrings = null;
+	
+	// Giac works to 13 sig digits (for "double" calculations)
+	private int maxFigures = 15;
+
+	public Localization(int maxFigures) {
+		
+		this.maxFigures = maxFigures;
+	}
 
 	/**
 	 * @return localized strings describing font sizes (very small, smaall, ...)
@@ -665,7 +673,7 @@ public abstract class Localization {
 					getPlain("ASignificantFigures", "3"),
 					getPlain("ASignificantFigures", "5"),
 					getPlain("ASignificantFigures", "10"),
-					getPlain("ASignificantFigures", "15") };
+					getPlain("ASignificantFigures", maxFigures+"") };
 
 			// zero is singular in eg French
 			if (!isZeroPlural(getLanguage())) {

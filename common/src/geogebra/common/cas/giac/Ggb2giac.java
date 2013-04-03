@@ -28,7 +28,7 @@ public class Ggb2giac {
 		p("Binomial.2",
 				"binomial(%0,%1)");
 		p("BinomialDist.4",
-				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
+				"if %3=true then binomial\\_cdf(%0,exact(%1),%2) else binomial(%0,exact(%1),%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
 		p("CFactor.1","cfactor(%0)");
 		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
@@ -243,10 +243,10 @@ public class Ggb2giac {
 				"partfrac(%0)");
 		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
-				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
+				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(exact(%1)))^(%2)*(exact(%1))^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
-				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,floor(%1)) " +
+				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,floor(%1)-1) " +
 				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0) fi");
 		p("PreviousPrime.1",
 				"prevprime(%0)");
@@ -302,7 +302,7 @@ public class Ggb2giac {
 		p("Sequence.5",
 				"seq(%0,%1,%2,%3,%4)");	
 		p("SD.1",
-				"stddev(%0)");
+				"normal(stddev(%0))");
 		p("Shuffle.1", "randperm(%0)");
 		p("Simplify.1", "simplify(%0)");
 		// p("SimplifyFull.1","trigsimp(%0, combine)");
@@ -334,9 +334,9 @@ public class Ggb2giac {
 				"subst(%0,%1,%2))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 		p("Sum.1",
-				"sum(%0)");
+				"normal(sum(%0))");
 		p("Sum.4",
-				"sum(%0,%1,%2,%3)");
+				"normal(sum(%0,%1,%2,%3))");
 		p("Tangent.2",
 				"ggbtmpvary=subst(diff(%1,ggbtmpvarx),ggbtmpvarx=%0)*(ggbtmpvarx-%0)+subst(%1,ggbtmpvarx=%0)");
 		// GeoGebra counts elements from 1, giac from 0

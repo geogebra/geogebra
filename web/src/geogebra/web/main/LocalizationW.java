@@ -14,6 +14,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class LocalizationW extends Localization {
 
+	public LocalizationW() {
+	    super(13);
+    }
+
 	/** eg "en_GB", "es"
 	// remains null until we're sure keys are loaded*/
 	String language = "en";
