@@ -90,10 +90,7 @@ public class DrawList3D extends Drawable3D {
 	@Override
 	public Drawable3D drawForPicking(Renderer renderer) {
 		
-		if (createdByDrawList())//if it is part of a DrawList3D, the list is picked
-			return (Drawable3D) getDrawListCreator();
-		
-		return this;
+		return getDrawablePicked();
 		
 	}
 
