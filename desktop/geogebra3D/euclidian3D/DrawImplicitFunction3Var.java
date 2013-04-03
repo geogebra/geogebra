@@ -57,6 +57,7 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		}
 	}
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
@@ -66,20 +67,29 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		drawGeometry(renderer);
 	}
 
+	@Override
 	void drawGeometryHiding(Renderer renderer) {
 		drawGeometry(renderer);
 	}
 
+	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void drawGeometryPicked(Renderer renderer) {
 		// TODO Auto-generated method stub
 
 	}
 	
+	@Override
+	public void drawOutline(Renderer renderer) {
+		// no outline
+	}
+	
+	@Override
 	protected boolean updateForItSelf(){
 		Renderer renderer = getView3D().getRenderer();
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
@@ -103,21 +113,25 @@ public class DrawImplicitFunction3Var extends Drawable3DSurfaces {
 		return ret;
 	}
 	
+	@Override
 	protected void updateForView(){
 		
 	}
 
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_2D;
 	}
 	
 
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
     }
     

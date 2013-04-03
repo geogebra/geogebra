@@ -84,8 +84,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 	
 	
-	@Override
-	public void drawOutline(Renderer renderer) {}
 	
 	
 	@Override

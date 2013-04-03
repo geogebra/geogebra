@@ -31,6 +31,7 @@ implements Previewable {
 		
 	}
 	
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		renderer.setLayer(getGeoElement().getLayer());
 		renderer.getGeometryManager().draw(getGeometryIndex());
@@ -42,15 +43,18 @@ implements Previewable {
 		drawGeometry(renderer);
 	}
 
+	@Override
 	void drawGeometryHiding(Renderer renderer) {
-		drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 	}
 
+	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void drawGeometryPicked(Renderer renderer) {
 		// TODO Auto-generated method stub
 
@@ -58,6 +62,11 @@ implements Previewable {
 	
 	
 	
+	@Override
+	public void drawOutline(Renderer renderer) {
+		// no outline
+	}
+
 	
 	
 	
@@ -65,7 +74,7 @@ implements Previewable {
 	
 	
 	
-	
+	@Override
 	protected boolean updateForItSelf(){
 		
 		
@@ -170,6 +179,7 @@ implements Previewable {
 	
 	
 	
+	@Override
 	protected void updateForView(){
 
 		switch(((GeoQuadric3D) getGeoElement()).getType()){
@@ -190,6 +200,7 @@ implements Previewable {
 	
 
 
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_2D;
 	}
@@ -198,6 +209,7 @@ implements Previewable {
 	
 
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		switch(((GeoQuadric3D) getGeoElement()).getType()){
 		case GeoQuadric3D.QUADRIC_SPHERE:
@@ -210,7 +222,8 @@ implements Previewable {
 		}
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	switch(((GeoQuadric3D) getGeoElement()).getType()){
 		case GeoQuadric3D.QUADRIC_SPHERE:
 		case GeoQuadric3D.QUADRIC_CONE:

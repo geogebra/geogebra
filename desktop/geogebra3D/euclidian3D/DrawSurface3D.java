@@ -136,7 +136,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	void drawGeometryHiding(Renderer renderer) {
-		drawGeometry(renderer);
+		drawSurfaceGeometry(renderer);
 	}
 
 	@Override
@@ -149,6 +149,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void drawGeometryPicked(Renderer renderer) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void drawOutline(Renderer renderer) {
+		// no outline
 	}
 
 	@Override
