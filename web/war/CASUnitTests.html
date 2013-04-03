@@ -88,6 +88,7 @@ window.onload = function()
 		var blue = "#0000FF";
 		var red = "#FF0000";
 		var magenta = "#FF00FF";
+		var yellow = "#FFFF00";
 
 		function ggbOnInit() {
 		
@@ -138,7 +139,7 @@ window.onload = function()
 			table += "<td>" + cmd + "</td>";
 			table += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
 			table += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
-			table += "<td>" + notes + "<br/>" + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
+			table += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
 			table += "</tr>";
 			
 			giacInput = "problem recording input to giac";
