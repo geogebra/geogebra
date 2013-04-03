@@ -30,7 +30,7 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
-		p("CFactor.1","collect(%0,i)");
+		p("CFactor.1","cfactor(%0)");
 		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
 		
@@ -203,7 +203,7 @@ public class Ggb2giac {
 		p("Median.1",
 				"median(%0)");
 		p("Min.N", "min(%)");
-		p("Midpoint.2", "(op(coordinates(midpoint(%0,%1))))");
+		p("Midpoint.2", "convert(op(coordinates(midpoint(%0,%1))),25)");
 		p("MixedNumber.1",
 				"propfrac(exact(%0))");
 		p("Mod.2",
@@ -236,14 +236,14 @@ public class Ggb2giac {
 		p("Numeric.2",
 				"evalf(%0,%1)");
 		p("OrthogonalVector.1",
-				"(op([[0,-1],[1,0]]*(%0)))");
+				"convert(op([[0,-1],[1,0]]*(%0)),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
 		// with_sqrt(0) to factor over rationals
 		p("PartialFractions.1",
-				"with\\_sqrt(0);partfrac(%0)");
-		p("PartialFractions.2", "with\\_sqrt(0);partfrac(%0,%1)");
+				"partfrac(%0)");
+		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
-				"if %3=true then ibeta(%0,1+floor(%2),%1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
+				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
 				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,floor(%1)) " +
@@ -270,7 +270,7 @@ public class Ggb2giac {
 		p("RandomPolynomial.3",
 				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
-				"randpoly(%1,%0,%2..%3)");
+				"randpoly(%1,%0,%2,%3)");
 		//p("Rationalize.1", "exact(evalf(%0))");
 		//p("Rationalize.1", "normal(exact(%0))");
 		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
@@ -293,9 +293,9 @@ public class Ggb2giac {
 		p("SampleVariance.1",
 				//"variance(%0)*size(%0)/(size(%0)-1)");
 				// less parsing (for long lists), but doesn't work...
-				" [[ggbans:=%0],variance(ggbans)*size(ggbans)/(size(ggbans)-1)][1]");
+				" [[ggbans:=%0],normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))][1]");
 		p("SampleSD.1",
-				"stddevp(%0)");
+				"normal(stddevp(%0))");
 		p("Sequence.1", "seq(j,j,1,%0)");
 		p("Sequence.4",
 				"seq(%0,%1,%2,%3)");
@@ -374,7 +374,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("UnitOrthogonalVector.1",
-				"(op(unitV([-%0[1],%0[0]])))");
+				"convert(op(unitV([-%0[1],%0[0]])),25)");
 		p("UnitVector.1",
 				"normalize(%0)");
 		p("Variance.1",
