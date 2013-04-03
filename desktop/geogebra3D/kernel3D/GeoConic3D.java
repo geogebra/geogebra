@@ -268,14 +268,41 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		// set midpoint as projection of m on the current coord sys
 		setMidpoint(coordSys.getNormalProjection(m.getInhomCoordsInD(3))[1].get());
 
+		setSinglePointMatrix();
+
+		singlePoint();
+
+
+	}
+	
+	private void setSinglePointMatrix(){
 		for (int i=0;i<matrix.length;i++)
 			matrix[i] = 0;
 
 		for (int i=0;i<3;i++)
 			matrix[i] = 1.0d;
+	}
+	
+	
+	/**
+	 * set this to sigle point at m location
+	 * @param m point
+	 */
+	public void setSinglePoint(Coords m){
+		
+		if (coordSys == null){
+			coordSys = new CoordSys(2);
+		}
+		coordSys.resetCoordSys();
+		coordSys.addPoint(m);
+		coordSys.completeCoordSys2D();
+		coordSys.makeOrthoMatrix(false, false);
+		
+		setMidpoint(new double[] {0,0});
+		
+		setSinglePointMatrix();
 
 		singlePoint();
-
 
 	}
 

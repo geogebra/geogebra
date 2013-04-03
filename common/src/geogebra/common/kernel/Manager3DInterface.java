@@ -407,6 +407,8 @@ public interface Manager3DInterface {
 	 */
 	public GeoConicND Intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric);
+	
+	
 
 	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
 			GeoQuadricND quadric);
@@ -417,6 +419,20 @@ public interface Manager3DInterface {
 	
 
 	public GeoConicND Intersect(GeoPlaneND plane, GeoQuadricND quadric);
+	
+	
+	
+	/**
+	 * Calculate the intersection of two quadrics, if it's a conic
+	 * 
+	 * @param labels
+	 *           
+	 * @param quadric1
+	 * @param quadric2
+	 * @return conic intersection
+	 */
+	public GeoElement[] IntersectAsCircle(String[] labels, GeoQuadricND quadric1,
+			GeoQuadricND quadric2);
 
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)

@@ -861,6 +861,16 @@ public class Manager3D implements Manager3DInterface {
 
 		return algo.getConic();
 	}
+	
+	
+	public GeoElement[] IntersectAsCircle(String[] labels, GeoQuadricND quadric1,
+			GeoQuadricND quadric2){
+
+		AlgoIntersectQuadricsAsCircle algo = new AlgoIntersectQuadricsAsCircle(cons,
+				labels, quadric1, quadric2);
+
+		return algo.getOutput();
+	}
 
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)
