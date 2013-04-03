@@ -24,7 +24,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
-import geogebra.common.kernel.kernelND.GeoSegmentND;
 
 
 
@@ -169,13 +168,6 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     }   
     
 
-	protected void setStyle(GeoSegmentND segment) {
-		//TODO:  set styles in somewhere else
-		
-		//segment.setObjColor(Color.orange);
-	}
-
-	// TODO Consider locusequability
 
  
 
