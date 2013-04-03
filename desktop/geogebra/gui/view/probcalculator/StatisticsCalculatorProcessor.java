@@ -160,7 +160,7 @@ public class StatisticsCalculatorProcessor {
 			n.setValue(sc.n);
 			proportion.setValue(sc.getProportion());
 			n2.setValue(sc.n2);
-			proportion.setValue(sc.getProportion2());
+			proportion2.setValue(sc.getProportion2());
 
 			break;
 		}
@@ -182,6 +182,7 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
+			sc.se = sc.sd / Math.sqrt(sc.n);
 
 			break;
 
@@ -192,6 +193,7 @@ public class StatisticsCalculatorProcessor {
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.me = ((AlgoZMeanEstimate) algo).getME();
+			sc.se = sc.sd / Math.sqrt(sc.n);
 
 			break;
 
@@ -201,7 +203,8 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
+			sc.se = sc.sd / Math.sqrt(sc.n);
+			sc.df = n.getDouble() - 1;
 			break;
 
 		case TMEAN_CI:
@@ -211,7 +214,8 @@ public class StatisticsCalculatorProcessor {
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.me = ((AlgoTMeanEstimate) algo).getME();
-
+			sc.se = sc.sd / Math.sqrt(sc.n);
+			sc.df = n.getDouble() - 1;
 			break;
 
 		case ZMEAN2_TEST:
@@ -220,7 +224,7 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
+			sc.se = ((AlgoZMean2Test) algo).getSE();
 			break;
 
 		case ZMEAN2_CI:
@@ -230,6 +234,7 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
+			sc.se = ((AlgoZMean2Estimate) algo).getSE();
 
 			break;
 
@@ -240,7 +245,7 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
+			setT2Stats();
 			break;
 
 		case TMEAN2_CI:
@@ -250,7 +255,7 @@ public class StatisticsCalculatorProcessor {
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
+			setT2Stats();
 			break;
 
 		case ZPROP_TEST:
@@ -308,6 +313,33 @@ public class StatisticsCalculatorProcessor {
 
 		}
 
+	}
+
+	/**
+	 * Computes and sets the standard error and degree of freedom for two sample
+	 * T procedures
+	 */
+	private void setT2Stats() {
+
+		double N1 = n.getDouble();
+		double N2 = n2.getDouble();
+		double SD1 = sd.getDouble();
+		double SD2 = sd2.getDouble();
+
+		if (pooled.getBoolean()) {
+			double df = N1 + N2 - 2;
+			double pooledVariance = (1 / N1 + 1 / N2)
+					* ((N1 - 1) * SD1 * SD1 + (N2 - 1) * SD2 * SD2) / df;
+			sc.se = Math.sqrt(pooledVariance);
+			sc.df = df;
+		} else {
+			double V1 = SD1 * SD1 / N1;
+			double V2 = SD2 * SD2 / N2;
+			sc.se = Math.sqrt(V1 + V2);
+			sc.df = ((V1 + V2) * (V1 + V2))
+					/ ((V1 * V1) / (N1 - 1) + (V2 * V2) / (N2 - 1));
+
+		}
 	}
 
 	/**
@@ -414,7 +446,7 @@ public class StatisticsCalculatorProcessor {
 					* (sc.observed[i][0] - sc.expected[i][0])
 					/ sc.expected[i][0];
 			sc.testStat += sc.diff[i][0];
-			//System.out.println(i + ", " + 0 + "diff: " + sc.diff[i][0]);
+			// System.out.println(i + ", " + 0 + "diff: " + sc.diff[i][0]);
 		}
 
 		// degree of freedom

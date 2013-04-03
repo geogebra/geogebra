@@ -178,7 +178,7 @@ public class AlgoZMeanTest extends AlgoElement {
 			if (testStatistic < 0) { 
 				P = 2 * P; 
 			} 
-			else if (testStatistic > 0) { 
+			else { 
 				P = 2 * ( 1 - P);
 			}
 		}

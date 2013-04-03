@@ -102,7 +102,7 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_TEST:
 
 			String[][] tTestTable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) }, { strDF, format(sc.df)},
 					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(tTestTable, true));
@@ -114,7 +114,8 @@ public class StatisticsCalculatorHTML {
 			String[][] zCITable = {
 					{ strMean, format(sc.mean) },
 					{ strSigma, format(sc.sd) },
-					{ strSE, format(sc.se) },{ strN, format(sc.n)},
+					{ strSE, format(sc.se) },
+					{ strN, format(sc.n)},
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval(sc.mean, sc.me) } };
@@ -126,7 +127,7 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_CI:
 
 			String[][] tCITable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) }, { strDF, format(sc.df)},
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval(sc.mean, sc.me) } };
@@ -171,7 +172,7 @@ public class StatisticsCalculatorHTML {
 					{ strMean, format(sc.mean), format(sc.mean2) },
 					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strT, format(sc.testStat) },
+					{ strSE, format(sc.se) }, { strDF, format(sc.df)},{ strT, format(sc.testStat) },
 					{ strP, format(sc.P) } };
 
 			sb.append(htmlTable(tTest2SampleTable, true));
@@ -185,7 +186,7 @@ public class StatisticsCalculatorHTML {
 					{ strMean, format(sc.mean), format(sc.mean2) },
 					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
+					{ strSE, format(sc.se) },{ strDF, format(sc.df)}, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) }, { strPooled, isPooled() } };
 

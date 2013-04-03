@@ -36,7 +36,10 @@ public class AlgoZMean2Test extends AlgoElement {
 	private GeoText tail;
 	private GeoList list, list2;
 	private GeoList  result;     // output   
+	private double se;
 	
+	
+
 	/**
 	 * @param cons
 	 * @param label
@@ -144,6 +147,13 @@ public class AlgoZMean2Test extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
+	
+	/**
+	 * @return standard error
+	 */
+	public double getSE() {
+		return se;
+	}
 
 	@Override
 	public final void compute() {
@@ -178,7 +188,7 @@ public class AlgoZMean2Test extends AlgoElement {
 			n2 = list2.size();
 		}
 		
-		double se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
+		se = Math.sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2);
 		double testStatistic = (mean1 - mean2) / se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
@@ -196,7 +206,7 @@ public class AlgoZMean2Test extends AlgoElement {
 			if (testStatistic < 0) { 
 				P = 2 * P; 
 			} 
-			else if (testStatistic > 0) { 
+			else { 
 				P = 2 * ( 1 - P);
 			}
 		}
