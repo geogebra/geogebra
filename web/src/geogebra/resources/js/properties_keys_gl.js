@@ -354,7 +354,7 @@ __GGB__keysVar.gl.command = {
     "Histogram": "Histograma",
     "Histogram_Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]\n[ <Acumula (booleana)>,  <Lista de l\xedmites de clase>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade> (opcional)> ]",
     "HistogramRight": "HistogramaDereita",
-    "HistogramRight_Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]\n[ <Acumula (booleana)>,  <Lista de l\xedmites de clase>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade> (opcional)> ]",
+    "HistogramRight_Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]\n[ <Acumula (booleana)>,  <Lista de l\xedmites de clase>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]",
     "Hull": "Peche",
     "Hull_Syntax": "[ <Lista de puntos>, <Tanto por un> ]",
     "HyperGeometric": "Distribuci\xf3nHiperXeom\xe9trica",

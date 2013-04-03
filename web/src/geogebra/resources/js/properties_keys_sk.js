@@ -354,7 +354,7 @@ __GGB__keysVar.sk.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <Zoznam tried hran\xedc>, <Zoznam v\xfd\u0161ok> ]\n[ <Zoznam tried hran\xedc>, <Zoznam nespracova\xfdch d\xe1t>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)> ]\n[ <Logicky kumulat\xedvne>, <Zoznam hran\xedc tried>, <Zoznam surov\xfdch \xfadajov>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)> ]",
     "HistogramRight": "HistogramPrav\xe1",
-    "HistogramRight_Syntax": "[ <Zoznam tried hran\xedc>, <Zoznam v\xfd\u0161ok> ]\n[ <Zoznam tried hran\xedc>, <Zoznam nespracova\xfdch d\xe1t>, <Pou\u017e hustotu>, <Faktor hustoty> (opcion\xe1lne) ]\n[ <Logicky kumulat\xedvne>, <Zoznam hran\xedc tried>, <Zoznam surov\xfdch \xfadajov>, <Pou\u017e hustotu>, <Faktor hustoty> (opcion\xe1lne) ]",
+    "HistogramRight_Syntax": "[ <Zoznam tried hran\xedc>, <Zoznam v\xfd\u0161ok> ]\n[ <Zoznam tried hran\xedc>, <Zoznam nespracova\xfdch d\xe1t>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)>  ]\n[ <Logicky kumulat\xedvne>, <Zoznam hran\xedc tried>, <Zoznam surov\xfdch \xfadajov>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne) > ]",
     "Hull": "Obal",
     "Hull_Syntax": "[ <Zoznam bodov>, <Percento> ]",
     "HyperGeometric": "Hipergeometrick\xe9Rozdelenie",

@@ -354,7 +354,7 @@ __GGB__keysVar.hr.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <lista granica razreda>, <lista visina> ]\n[ <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]\n[ <kumulacija - logi\u010dka vrijednost>, <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]",
     "HistogramRight": "HistogramDesni",
-    "HistogramRight_Syntax": "[ <lista granica razreda>, <lista visina> ]\n[ <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]\n[ <kumulacija - logi\u010dka vrijednost>, <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]",
+    "HistogramRight_Syntax": "[ <lista granica razreda>, <lista visina> ]\n[ <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e (opcionalno)>  ]\n[ <kumulacija - logi\u010dka vrijednost>, <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e (opcionalno)> ]",
     "Hull": "Ljuska",
     "Hull_Syntax": "[ <lista to\u010daka>, <postotak> ]",
     "HyperGeometric": "HipergeometrijskaRazdioba",

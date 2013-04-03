@@ -526,7 +526,7 @@ __GGB__keysVar.hu.command = {
     "NSolutions": "NumerikusMegold\xe1s",
     "NSolutions_SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3=Kezd\u0151\xe9rt\xe9k> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
     "NSolve": "NumerikusanMegold",
-    "NSolve_SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3=kezd\u0151\xe9rt\xe9k> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
+    "NSolve_SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3 = kezd\u0151\xe9rt\xe9k> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
     "Name": "N\xe9v",
     "Name_Syntax": "[ <Alakzat> ]",
     "NextPrime": "K\xf6vetkez\u0151Pr\xedm",

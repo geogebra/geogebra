@@ -354,7 +354,7 @@ __GGB__keysVar.fi.command = {
     "Histogram": "Histogrammi",
     "Histogram_Syntax": "[ <Luokkarajalista>, <Korkeuksien Lista> ]\n[ <Luokkarajalista>, <Data Lista>, <Tiheys>, <TiheydenSkaalaustekij\xe4> (valinnainen) ]\n[ <Totuusarvo: kertym\xe4/ei>, <Luokkarajat Lista>, <Data Lista>, <Tiheys>, <Tiheyden Skaalaustekij\xe4> (optional) ]",
     "HistogramRight": "HistogrammiOikea",
-    "HistogramRight_Syntax": "[ <Luokkarajojen lista>, <Korkeuksien lista> ]\n[ <Luokkarajojen lista>, <DataLista>, <Tiheys>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]\n[ <Totuusarvo: kertym\xe4/ei>, <LuokkarajatLista>, <DataLista>, <Tiheys>, <Tiheyden skaalaustekij\xe4> (valinnainen) ]",
+    "HistogramRight_Syntax": "[ <Luokkarajojen lista>, <Korkeuksien lista> ]\n[ <Luokkarajojen lista>, <DataLista>, <Tiheys>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]\n[ <Totuusarvo: kertym\xe4/ei>, <LuokkarajatLista>, <DataLista>, <Tiheys>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]",
     "Hull": "Verho",
     "Hull_Syntax": "[ <Lista Pisteit\xe4>, <Prosenttiosuus> ]",
     "HyperGeometric": "HyperGeometrinen",

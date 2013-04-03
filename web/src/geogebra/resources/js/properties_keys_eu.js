@@ -354,7 +354,7 @@ __GGB__keysVar.eu.command = {
     "Histogram": "Histograma",
     "Histogram_Syntax": "[ <Klase-Muturren Zerrenda>, <Altueren Zerrenda> ]\n[ <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]\n[ <Metatu Boolearra>, <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]",
     "HistogramRight": "HistogramaEskuina",
-    "HistogramRight_Syntax": "[ <Klase-Muturren Zerrenda>, <Altueren Zerrenda> ]\n[ <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]\n[ <Metatu Boolearra>, <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]",
+    "HistogramRight_Syntax": "[ <Klase-Muturren Zerrenda>, <Altueren Zerrenda> ]\n[ <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea (aukerakoa)>  ]\n[ <Metatu Boolearra>, <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea (aukerakoa)> ]",
     "Hull": "Inguratzailea",
     "Hull_Syntax": "[ <Puntuen Zerrenda>, <Ehunekoa> ]",
     "HyperGeometric": "HiperGeometrikoa",

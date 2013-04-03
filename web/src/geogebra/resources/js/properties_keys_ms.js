@@ -354,7 +354,7 @@ __GGB__keysVar.ms.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <Senarai Sempadan Kelas>, <Senarai Ketinggian> ]\n[ <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan>atan> ( beropsyen) ]\n[ <Longgokan Boolean>, <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan> ( beropsyen) ]",
     "HistogramRight": "KananHistogram",
-    "HistogramRight_Syntax": "[ <Senarai Sempadan Kelas>, <Senarai Ketinggian> ]\n[ <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan> ( beropsyen) ]\n[ <Longgokan Boolean>, <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan> ( beropsyen) ]",
+    "HistogramRight_Syntax": "[ <Senarai Sempadan Kelas>, <Senarai Ketinggian> ]\n[ <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan (beropsyen)>  ]\n[ <Longgokan Boolean>, <Senarai Sempadan Kelas>, <Senarai Data Mentah>, <Guna Ketumpatan>, <Faktor Skala Ketumpatan (beropsyen)>  ]",
     "Hull": "Hul",
     "Hull_Syntax": "[ <Senarai Titik>, <Peratusan> ]",
     "HyperGeometric": "HiperGeometrik",

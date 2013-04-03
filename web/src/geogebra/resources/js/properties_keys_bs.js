@@ -354,7 +354,7 @@ __GGB__keysVar.bs.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <Lista vrijednosti granica klase>, <Lista visina> ]\n[ <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a faktor omjera(neobavezno)> ]\n[ <Kumulativna Boolean-logi\u010dka vrijednost>, <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a faktor omjera(neobavezno)> ]",
     "HistogramRight": "HistogramDesni",
-    "HistogramRight_Syntax": "[ <Lista vrijednosti granica klase>, <Lista visina> ]\n[ <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a Faktor omjera(neobavezno)> ]\n[ <Kumulativna Boolean-logi\u010dka vrijednost>, <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a faktor omjera(neobavezno)> ]",
+    "HistogramRight_Syntax": "[ <Lista vrijednosti granica klase>, <Lista visina> ]\n[ <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a Faktor omjera (neobavezno)> ]\n[ <Kumulativna Boolean-logi\u010dka vrijednost>, <Lista vrijednosti granica klase>, <Lista ulaznih podataka>, <Gusto\u0107a>, <Gusto\u0107a faktor omjera (neobavezno)> ]",
     "Hull": "Okolina",
     "Hull_Syntax": "[ <Lista ta\u010daka>, <Procent> ]",
     "HyperGeometric": "HiperGeometrijskaDist",

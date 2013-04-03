@@ -526,7 +526,7 @@ __GGB__keysVar.fr.command = {
     "NSolutions": "NSolutions",
     "NSolutions_SyntaxCAS": "[ <\xc9quation> ]\n[ <\xc9quation>, <Variable> ]\n[ <\xc9quation>, <Variable = valeur d\xe9part> ]\n[ <Liste \xc9quations>, <Liste Variables> ]",
     "NSolve": "NR\xe9soudre",
-    "NSolve_SyntaxCAS": "[ <\xc9quation> ]\n[ <\xc9quation>, <Variable> ]\n[ <\xc9quation>, <Variable=valeur d\xe9part> ]\n[ <Liste \xc9quations>, <Liste Variables> ]",
+    "NSolve_SyntaxCAS": "[ <\xc9quation> ]\n[ <\xc9quation>, <Variable> ]\n[ <\xc9quation>, <Variable = valeur d\xe9part> ]\n[ <Liste \xc9quations>, <Liste Variables> ]",
     "Name": "Nom",
     "Name_Syntax": "[ <Objet> ]",
     "NextPrime": "PremierSuivant",

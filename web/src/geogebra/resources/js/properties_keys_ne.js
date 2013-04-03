@@ -830,7 +830,7 @@ __GGB__keysVar.ne.command = {
     "StemPlot": "\u0938\u094d\u091f\u093f\u092e\u092a\u094d\u0932\u091f",
     "StemPlot_Syntax": "[ <\u0938\u0941\u091a\u0940> ]\n[ <\u0938\u0941\u091a\u0940>, <\u0938\u092e\u093e\u092f\u094b\u091c\u0928 -1|0|1> ]",
     "StepGraph": "StepGraph",
-    "StepGraph_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]\n[ <List of Points>, <Boolean Join>, <Point style> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join>, <Point style> ]",
+    "StepGraph_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]\n[ <List of Points>, <Boolean Join>, <Point Style> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Join>, <Point Style> ]",
     "StickGraph": "StickGraph",
     "StickGraph_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Boolean Horizontal> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]\n[ <List of x-coordinates>, <List of y-coordinates>, <Boolean Horizontal> ]",
     "Stretch": "\u0924\u0928\u094d\u0915\u093e\u0909\u0928\u0941",

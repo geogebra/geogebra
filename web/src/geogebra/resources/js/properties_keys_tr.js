@@ -354,7 +354,7 @@ __GGB__keysVar.tr.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <S\u0131n\u0131f S\u0131n\u0131rlar\u0131 Listesi>, <Y\xfckseklikler Listesi> ]\n[ <S\u0131n\u0131f S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi> ]",
     "HistogramRight": "HistogramSa\u011fda",
-    "HistogramRight_Syntax": "[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Y\xfckseklikler Listesi> ]\n[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc> (opsiyonel) ]\n[ <Mant\u0131ksal- Y\u0131\u011f\u0131lma>, <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc> (opsiyonel) ]",
+    "HistogramRight_Syntax": "[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Y\xfckseklikler Listesi> ]\n[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc (opsiyonel)> ]\n[ <Mant\u0131ksal- Y\u0131\u011f\u0131lma>, <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc (opsiyonel)> ]",
     "Hull": "Zarf",
     "Hull_Syntax": "[ <Noktalar Listesi>, <Y\xfczdesi> ]",
     "HyperGeometric": "HiperGeometri",

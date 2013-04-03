@@ -354,7 +354,7 @@ __GGB__keysVar.is.command = {
     "Histogram": "Stu\xf0larit",
     "Histogram_Syntax": "[ <Listi af flokkam\xf6rkum>, <Listi af h\xe6\xf0at\xf6lum> ]\n[ <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]\n[ <Dreififall>, <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]",
     "HistogramRight": "Stu\xf0laritH\xe6gri",
-    "HistogramRight_Syntax": "[ <Listi af flokkam\xf6rkum>, <Listi af h\xe6\xf0at\xf6lum> ]\n[ <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]\n[ <Dreififall>, <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]",
+    "HistogramRight_Syntax": "[ <Listi af flokkam\xf6rkum>, <Listi af h\xe6\xf0at\xf6lum> ]\n[ <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i (valkv\xe6tt)> ]\n[ <Dreififall>, <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i (valkv\xe6tt)>  ]",
     "Hull": "Hj\xfapur",
     "Hull_Syntax": "[ <Listi af punktum>, <Pr\xf3sent> ]",
     "HyperGeometric": "HyperGeometric",

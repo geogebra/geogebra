@@ -354,7 +354,7 @@ __GGB__keysVar.pl.command = {
     "Histogram": "Histogram",
     "Histogram_Syntax": "[ <Lista Granic Klas>, <Lista Wysoko\u015bci> ]\n[ <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]\n[ <Czy Skumulowany> <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]",
     "HistogramRight": "HistogramPrawy",
-    "HistogramRight_Syntax": "[ <Lista Granic Klas>, <Lista Wysoko\u015bci> ]\n[ <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]\n[ <Czy Skumulowany> <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]",
+    "HistogramRight_Syntax": "[ <Lista Granic Klas>, <Lista Wysoko\u015bci> ]\n[ <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci (opcjonalne)>  ]\n[ <Czy Skumulowany> <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci (opcjonalne)> ]",
     "Hull": "Pow\u0142oka",
     "Hull_Syntax": "[ <Lista Punkt\xf3w>, <Procent> ]",
     "HyperGeometric": "Rozk\u0142adHiperGeometryczny",
