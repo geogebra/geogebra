@@ -1347,7 +1347,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	Drawable3D d = intersectionCurve.drawable;
         	d.zPickMax=Float.POSITIVE_INFINITY;
         	d.zPickMin=Float.POSITIVE_INFINITY; 
-        	pick(d,false);
+        	pick(d,true);
         }
         
         
@@ -1364,14 +1364,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     public void pick(Drawable3D d){  
-    	 pick(d,true);
+    	 pick(d,false);
     }
     
-    public void pick(Drawable3D d, boolean verifyIsPickable){  
+    public void pick(Drawable3D d, boolean intersection){  
     	//Application.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
     	//Application.debug("1");
     	gl.glLoadName(pickingLoop);//Application.debug("2");
-    	Drawable3D ret = d.drawForPicking(this,verifyIsPickable);	//Application.debug("3");
+    	Drawable3D ret = d.drawForPicking(this,intersection);	//Application.debug("3");
     	if (ret!=null){
     		drawHits[pickingLoop] = ret;//Application.debug("4");
     		pickingLoop++;//Application.debug("5");

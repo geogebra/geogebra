@@ -559,20 +559,28 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * draw for picking, and verify (or not) if pickable
 	 * @param renderer
-	 * @param verifyIsPickable
+	 * @param intersection says if it's for intersection (in this case, no check for pickable/visible)
 	 * @return this, or the DrawList that created it, or null if not pickable/visible
 	 */
-	public Drawable3D drawForPicking(Renderer renderer, boolean verifyIsPickable) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection) {
 		
-		//check pickablity only if needed
-		if (verifyIsPickable){
+		
+		if (intersection){ // used for intersection tool
+			
+			drawGeometryForPickingIntersection(renderer);
+			
+		}else{ // check pickability only if needed		
+
 			if (!getGeoElement().isPickable())
 				return null;
 			if(!isVisible())
 				return null;
+			
+			drawGeometryForPicking(renderer);
+			
 		}
 		
-		drawGeometryForPicking(renderer);
+		
 
 		return getDrawablePicked();
 	}
@@ -599,7 +607,17 @@ public abstract class Drawable3D extends DrawableND {
 	protected void drawGeometryForPicking(Renderer renderer){
 		drawGeometry(renderer);
 	}
+
 	
+	
+	/**
+	 * draws the geometry for picking an intersection
+	 * @param renderer renderer
+	 */
+	protected void drawGeometryForPickingIntersection(Renderer renderer){
+		drawGeometryForPicking(renderer);
+	}
+
 	
 	/** draws the label (if any)
      * @param renderer 3D renderer

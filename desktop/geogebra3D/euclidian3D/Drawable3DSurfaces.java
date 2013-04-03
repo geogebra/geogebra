@@ -88,6 +88,11 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	public void drawOutline(Renderer renderer) {}
 	
 	
+	@Override
+	protected void drawGeometryForPickingIntersection(Renderer renderer){
+		drawOutline(renderer);
+	}
+	
 	// method used only if surface is not transparent
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
