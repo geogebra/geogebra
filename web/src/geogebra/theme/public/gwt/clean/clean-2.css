@@ -1418,10 +1418,13 @@ Paddings for menuitems.
 	-moz-user-focus: ignore;
 	-moz-user-input: disabled;
 	-moz-user-select: none;
+	
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
+	-moz-user-select: none;
 	-ms-user-select: none;
+	-o-user-select: none;
 	user-select: none;
 }
 
@@ -1444,8 +1447,16 @@ Paddings for menuitems.
 .ApplicationPanel {
 }
 
+.SpreadsheetCell{
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+	overflow: hidden;
+	padding: 2px 4px;
+}
 
-
+.SpreadsheetEditorCell {
+	
+}
 /* ========== AlgebraInput ============ */
 
 .AlgebraInput {

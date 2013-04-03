@@ -6,12 +6,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellFormat;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
@@ -267,6 +262,54 @@ public class MyCellRendererW {
 		return retwidget;
 	}
 
+	
+	public void updateTableCell(Grid table, Object value,int row, int column) {
+
+	
+		// Get the cell geo, exit if null
+		// ==================================================
+		if (value != null) {
+			geo = (GeoElement) value;
+		} else {
+			table.setText(row, column, " ");
+			return;
+		}
+
+		// Set text according to algebra style
+		// ===============================================
+		String text = "";
+		if (geo.isIndependent()) {
+			text = geo.toValueString(StringTemplate.defaultTemplate);
+		} else {
+			switch (kernel.getAlgebraStyle()) {
+			case Kernel.ALGEBRA_STYLE_VALUE:
+				text = geo.toValueString(StringTemplate.defaultTemplate);
+				break;
+
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				text = geo.getDefinitionDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement
+				//		.convertIndicesToHTML(geo
+				//				.getDefinitionDescription(StringTemplate.defaultTemplate));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_COMMAND:
+				text = geo.getCommandDescription(StringTemplate.defaultTemplate);
+
+				// Label accepts text, not HTML!
+				//text = GeoElement.convertIndicesToHTML(geo
+				//		.getCommandDescription(StringTemplate.defaultTemplate));
+				break;
+
+			}
+		}
+		
+		table.setText(row, column, text);
+	}
+	
+	
 	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 

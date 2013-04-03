@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.App;
+import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		public void valueChange();
 	}
 
+	private MyTableW table;
+	
 	ChangeListener listener = null;
 
 	// try with one-dimension ArrayList to represent two dimensions
@@ -53,7 +55,11 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	public ArrayList<Object> getDefaultTableModel() {
 		return defaultTableModel;
 	}
-
+	
+	public void attachMyTable(MyTableW table){
+		this.table = table;
+	}
+		
 	@Override
 	public int getRowCount() {
 		return rowNum;
@@ -121,6 +127,11 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		defaultTableModel.set(row*colNum+column, value);
 		if (listener != null)
 			listener.valueChange();
+			
+		if(table != null){
+			table.updateTableCell(value, row+1, column+1);
+		}
+		
 	}
 
 	public boolean hasFocus() {

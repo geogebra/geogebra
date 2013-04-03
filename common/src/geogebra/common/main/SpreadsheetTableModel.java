@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
-	private App app;
+	protected App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;
 	

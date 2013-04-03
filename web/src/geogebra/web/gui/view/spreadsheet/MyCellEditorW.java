@@ -27,6 +27,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	protected Kernel kernel;
 	protected AppW app;
+	protected SpreadsheetViewW view;
+	
 	protected GeoElement value;
 	protected MyTableW table;
 	private AutoCompleteTextFieldW textField;
@@ -48,6 +50,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	private boolean enableAutoComplete = false;
 
+	private SpreadsheetCellEditorKeyListener keyListener;
+
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
 	}
@@ -57,16 +61,20 @@ public class MyCellEditorW implements BaseCellEditor {
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditorW(Kernel kernel) {
+	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view) {
 
 		//TODO//super(new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false));
 
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
-		SpreadsheetCellEditorKeyListener sl = new SpreadsheetCellEditorKeyListener(false);
-		textField = new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false, sl);
+		this.view = view;
+		keyListener = new SpreadsheetCellEditorKeyListener(false);
+		textField = new AutoCompleteTextFieldW(0, (AppW) kernel.getApplication(), false, keyListener);
 		textField.setAutoComplete(enableAutoComplete);
-
+	//	textField.getElement().getStyle().setWidth(100, Style.Unit.PCT);
+		textField.setStyleName("SpreadsheetEditorCell");
+		view.getEditorPanel().add(textField);
+		
 		//?//textField.addFocusListener(this);
 
 		/*DocumentListener documentListener = new DocumentListener() {
@@ -317,6 +325,18 @@ public class MyCellEditorW implements BaseCellEditor {
 	// Key and Focus Listeners
 	// =======================================================
 
+	public void sendKeyPressEvent(KeyPressEvent e){
+		textField.getTextField().setFocus(true);
+		keyListener.onKeyPress(e);
+	}
+	
+	public void sendKeyDownEvent(KeyDownEvent e){
+		textField.getTextField().setFocus(true);
+		keyListener.onKeyDown(e);
+	}
+	
+	
+	
 	// keep track of when <tab> was first pressed
 	// so we can return to that column when <enter> pressed
 	public static int tabReturnCol = -1;

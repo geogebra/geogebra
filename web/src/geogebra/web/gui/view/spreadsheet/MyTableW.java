@@ -33,6 +33,9 @@ import java.util.HashSet;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.TextAlign;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 //import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -199,6 +202,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	// .getPredefinedCursor(Cursor.HAND_CURSOR);
 	// protected Cursor grabbingCursor, grabCursor;
 
+	MyTable table;
+	
 	/*******************************************************************
 	 * Construct table
 	 */
@@ -210,8 +215,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		app = (AppW) view.getApplication();
 		kernel = app.getKernel();
+		this.table = this;
 		this.tableModel = tableModel;
 		this.view = view;
+		((SpreadsheetTableModelW)tableModel).attachMyTable(this);
 
 		// grabCursor = createCursor(app.getImageIcon("cursor_grab.gif")
 		// .getImage(), true);
@@ -245,9 +252,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		}
 
 		// set visual appearance
-		setBorderWidth(1);
+		//setBorderWidth(1); 
 		getElement().getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		getElement().getStyle().setTextAlign(TextAlign.RIGHT);
+		getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
 		// TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
 		// TODO//setSelectionForeground(Color.BLACK);
 
@@ -256,7 +265,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		        (CellFormat) this.getCellFormatHandler());
 
 		//:NEXT:Grid.setCellFormatter
-		editor = new MyCellEditorW(kernel);
+		editor = new MyCellEditorW(kernel, view);
 		//setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -318,7 +327,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		setCellSpacing(0);
 		getElement().getStyle().setTableLayout(Style.TableLayout.FIXED);
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
-
 		getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		//TODO: these calls hang the spreadsheet dock panel 
@@ -1052,8 +1060,12 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			return new GPoint(0, 0);
 		}
 
-		Widget wt = getWidget(row, column);
-		if (min) {
+		int y = this.getAbsoluteTop();
+		int x = this.getAbsoluteLeft();
+			
+		Element wt = this.getCellFormatter().getElement(row, column);
+		//Widget wt = getWidget(row, column);
+		if (min) {		
 			return new GPoint(wt.getAbsoluteLeft(), wt.getAbsoluteTop());
 		}
 		return new GPoint(wt.getAbsoluteLeft() + wt.getOffsetWidth(),
@@ -1335,13 +1347,19 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// do this now, and do it later in renderCells - memorized row and col
 			AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
 				((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
-			w.getTextField().setHeight((minimumRowHeight-minusRowHeight)+"px");
+			w.getTextField().setHeight((minimumRowHeight-minusRowHeight - 2)+"px");
 			w.getTextField().setWidth((preferredColumnWidth-minusColumnWidth)+"px");
-			setWidget(row, col, w);
+			
+			int width = getCellFormatter().getElement(editRow, editColumn).getOffsetWidth();
+			//w.getTextField().setWidth(width-4 + "px");
+			//w.setWidth(width-4+"px");
+			//	setWidget(row, col, w);	
+			
+			//int width = preferredColumnWidth-minusColumnWidth;
+			//w.getTextField().getElement().setPropertyString("minWidth", width + "px");
+			view.positionEditorPanel(true, row, col);
+			
 			w.requestFocus();
-			getCellFormatter().getElement(row, col).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-			getCellFormatter().getElement(row, col).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-			getCellFormatter().getElement(row, col).getStyle().setBorderWidth(LINE_THICKNESS2, Style.Unit.PX);
 			view.positionBlueDot(false, 0, 0);
 			return true;
 		}
@@ -1446,26 +1464,26 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public void finishEditing() {
 		isEditing = false;
-
+		view.positionEditorPanel(false, 0, 0);
 		// do this here instead of for every widget in renderCells
-		Object gva = tableModel.getValueAt(editRow - 1, editColumn - 1);
-		Widget prob = defaultTableCellRenderer.getTableCellRendererWidget(
-		        this, gva, false, false, editRow - 1, editColumn - 1);
-	 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
-	 	getCellFormatter().getElement(editRow, editColumn).getStyle().setBackgroundColor(GColor.WHITE.toString());
-		setWidget(editRow, editColumn, prob);
-		getCellFormatter().getElement(editRow, editColumn).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-		getCellFormatter().getElement(editRow, editColumn).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 
 		editRow = -1;
 		editColumn = -1;
-
 		view.requestFocus();
 
-		setRepaintAll();//TODO: don't call renderCells, just change the edited cell
-		repaint();
+		//setRepaintAll();//TODO: don't call renderCells, just change the edited cell
+		//repaint();
 	}
 
+	public void sendEditorKeyPressEvent(KeyPressEvent e){
+		editor.sendKeyPressEvent(e);
+	}
+	
+	public void sendEditorKeyDownEvent(KeyDownEvent e){
+		editor.sendKeyDownEvent(e);
+	}
+	
+	
 	/*
 	 * public void focusGained(FocusEvent e) { if
 	 * (AppD.isVirtualKeyboardActive())
@@ -2052,140 +2070,185 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// TODO: implementation needed
 	}
 
+
 	public void renderCells() {
 
-		Widget prob = null;
-		Object gva = null;
+		Object gva;
 
 		if (getColumnCount() != tableModel.getColumnCount() + 1) {
 			updateColumnCount();
-			if (getColumnCount() != tableModel.getColumnCount() + 1)
-				resizeColumns(tableModel.getColumnCount() + 1);
-			renderCellsFirstTime = true;
 		}
 
 		if (getRowCount() != tableModel.getRowCount() + 1) {
 			resizeRows(tableModel.getRowCount() + 1);
-			renderCellsFirstTime = true;
 		}
 
 		int colCount = getColumnCount();
 		int rowCount = getRowCount();
+
 		for (int i = colCount - 1; i >= 0; i--) {
-			for (int j = rowCount - 1;  j >= 0; j--) {
+			for (int j = rowCount - 1; j >= 0; j--) {				
+				getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
 				if (i == 0) {
 					if (j == 0) {
-						if (renderCellsFirstTime) {
-							prob = rowHeaderRenderer.getListCellRendererWidget("",
-									j, false, false);
-							prob.getElement()
-								.getStyle()
+						// upper-left corner cell
+						getCellFormatter()
+						        .getElement(j, i)
+						        .getStyle()
 						        .setBackgroundColor(
-						                MyTableW.BACKGROUND_COLOR_HEADER
-						                        .toString());
-							//getCellFormatter().getElement(j, i).addClassName(
-							//"geogebraweb-th-corner");
-							setWidget(j, i, prob);
-							getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-							getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-						} else {
-							rowHeaderRenderer.changeListCellRendererWidget(getWidget(j,i), "", j, false, false);
-						}
-					} else if (renderCellsFirstTime) {
-						gva = rowHeaderModel.getElementAt(j - 1);
-						prob = rowHeaderRenderer.getListCellRendererWidget(gva,
-						        j, false, false);
-						//getCellFormatter().getElement(j, i).addClassName(
-						//        "geogebraweb-th-rows");
-						setWidget(j, i, prob);
-						getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-						getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-					} else {
-						gva = rowHeaderModel.getElementAt(j - 1);
-						prob = rowHeaderRenderer.changeListCellRendererWidget(getWidget(j,i), gva,
-						        j, false, false);
-					}
-				} else if (j == 0) {
-					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
-					if (renderCellsFirstTime) {
-						prob = columnHeaderRenderer.getTableCellRendererWidget(
-					        this, gva, false, false, j - 1, i - 1);
-						//getCellFormatter().getElement(j, i).addClassName(
-					    //    "geogebraweb-th-columns");
-						setWidget(j, i, prob);
-						getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-						getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-					} else {
-						columnHeaderRenderer.changeTableCellRendererWidget(getWidget(j,i),
-						        this, gva, false, false, j - 1, i - 1);
-					}
-				} else if (renderCellsFirstTime) {
-					gva = tableModel.getValueAt(j - 1, i - 1);
-					prob = defaultTableCellRenderer.getTableCellRendererWidget(
-					        this, gva, false, false, j - 1, i - 1);
+						                BACKGROUND_COLOR_HEADER.toString());
+						setText(j, i, " ");
 
-					// just a workaround for now to show something:
-				 	prob.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
-				 	getCellFormatter().getElement(j, i).getStyle().setBackgroundColor(GColor.WHITE.toString());
-					setWidget(j, i, prob);
-					getCellFormatter().getElement(j, i).getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
-					getCellFormatter().getElement(j, i).getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+					} else {
+						// row header cells
+						getCellFormatter().getElement(j, i).getStyle()
+						        .setTextAlign(TextAlign.CENTER);
+
+						gva = rowHeaderModel.getElementAt(j - 1);
+						String text = (gva == null) ? "" : gva.toString();
+						setText(j, i, text);
+					}
+
+				} else if (j == 0) {
+					// column header cells
+					getCellFormatter().getElement(j, i).getStyle()
+					        .setTextAlign(TextAlign.CENTER);
+
+					gva = GeoElementSpreadsheet.getSpreadsheetColumnName(i - 1);
+					String text = (gva == null) ? "" : gva.toString();
+					setText(j, i, text);
+
 				} else {
-					gva = tableModel.getValueAt(j - 1, i - 1);
-					prob = defaultTableCellRenderer.changeTableCellRendererWidget(getWidget(j,i),
-					        this, gva, false, false, j - 1, i - 1);
+					// format table cells
+					// defaultTableCellRenderer.updateTableCell(this, gva, j -
+					// 1, i - 1);
 				}
 			}
 		}
-		renderCellsFirstTime = false;
+	}
+	
+	public void updateTableCell(Object value,int row, int column) {
+		defaultTableCellRenderer.updateTableCell(this, value, row, column);
 	}
 
+		
 	public void renderSelection() {
 
 		// TODO implement other features from the old paint method
 
+
+		// draw dragging frame
+
+		GPoint point1 = new GPoint(0,0); 
+		GPoint point2 = new GPoint(0,0);
+
+		if (dragingToRow != -1 && dragingToColumn != -1) {
+
+			// -|1|-
+			// 2|-|3
+			// -|4|-
+			if (dragingToColumn < minSelectionColumn) { // 2
+				point1 = getPixel(dragingToColumn, minSelectionRow, true);
+				point2 = getPixel(minSelectionColumn - 1,
+						maxSelectionRow, false);
+
+			} else if (dragingToRow > maxSelectionRow) { // 4
+				point1 = getPixel(minSelectionColumn,
+						maxSelectionRow + 1, true);
+				point2 = getPixel(maxSelectionColumn, dragingToRow,
+						false);
+
+			} else if (dragingToRow < minSelectionRow) { // 1
+				point1 = getPixel(minSelectionColumn, dragingToRow, true);
+				point2 = getPixel(maxSelectionColumn,
+						minSelectionRow - 1, false);
+
+			} else if (dragingToColumn > maxSelectionColumn) { // 3
+				point1 = getPixel(maxSelectionColumn + 1,
+						minSelectionRow, true);
+				point2 = getPixel(dragingToColumn, maxSelectionRow,
+						false);
+			}
+
+			view.updateDragFrame(true, point1, point2);
+
+		}else{
+
+			view.updateDragFrame(false, point1, point2);
+		}
+
+
+		// selection rectangle
+
+		GPoint min = this.getMinSelectionPixel();
+		GPoint max = this.getMaxSelectionPixel();
+
+		if (minSelectionRow != -1 && maxSelectionRow != -1
+				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+			view.updateSelectionFrame(true, min, max);
+
+			if (isEditing()) {
+				if (view != null)
+					view.positionBlueDot(false, 0, 0);
+			} else {
+			//	Element wt1 = getCellFormatter().getElement(0,0);
+			//	Element wt2 = getCellFormatter().getElement(maxSelectionRow, maxSelectionColumn);
+			//	int px = wt2.getAbsoluteLeft() - wt1.getAbsoluteLeft() + wt2.getOffsetWidth() - DOT_SIZE/2;
+			//	int py = wt2.getAbsoluteTop() - wt1.getAbsoluteTop() + wt2.getOffsetHeight() - DOT_SIZE/2;
+			//	if (view != null)
+				//	view.positionBlueDot(true, px, py);
+				view.positionBlueDot(true, 0, 0);
+
+			}
+		}
+		else {
+			if (view != null){
+				view.positionBlueDot(false, 0, 0);
+				view.updateSelectionFrame(false, min, max);
+			}
+		}
+
+
 		GPoint cellPoint = new GPoint();
 		GColor bgColor;
 		Element operate = null;
+
+		// column header
 		for (int i = getColumnCount() - 1; i >= 1; i--) {
-			if (getWidget(0, i) != null)
-				operate = getWidget(0, i).getElement();
-			else
-				operate = getCellFormatter().getElement(0, i);
+			operate = getCellFormatter().getElement(0, i);
 
 			if (i >= minSelectionColumn && i <= maxSelectionColumn && selectionType != MyTable.ROW_SELECT)
 				operate.getStyle().setBackgroundColor(
-					MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+						MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
 			else
 				operate.getStyle().setBackgroundColor(
-					MyTableW.BACKGROUND_COLOR_HEADER.toString());
+						MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		}
+
+		// row heaader
 		for (int j = getRowCount() - 1; j >= 1; j--) {
-			if (getWidget(j, 0) != null)
-				operate = getWidget(j, 0).getElement();
-			else
-				operate = getCellFormatter().getElement(j, 0);
+
+			operate = getCellFormatter().getElement(j, 0);
 
 			if (j >= minSelectionRow && j <= maxSelectionRow && selectionType != MyTable.COLUMN_SELECT)
 				operate.getStyle().setBackgroundColor(
-					MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
+						MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
 			else
 				operate.getStyle().setBackgroundColor(
-					MyTableW.BACKGROUND_COLOR_HEADER.toString());
+						MyTableW.BACKGROUND_COLOR_HEADER.toString());
 		}
 
+		// cells
 		int colCount = tableModel.getHighestUsedColumn() + 2;
 		int rowCount = tableModel.getHighestUsedRow() + 2;
 		for (int i = colCount - 1; i >= 1; i--) {
 			for (int j = rowCount - 1; j >= 1; j--) {
 
-				if (getWidget(j, i) != null)
-					operate = getWidget(j, i).getElement();
-				else
-					operate = getCellFormatter().getElement(j, i);
+				operate = getCellFormatter().getElement(j, i);
 
 				cellPoint.setLocation(i - 1, j - 1);
 				bgColor = (GColor)formatHandler.getCellFormat(cellPoint, CellFormat.FORMAT_BGCOLOR);
+				
 				GeoElement geo = null;
 				if (tableModel.getValueAt(j-1, i-1) instanceof GeoElement)
 					geo = (GeoElement)tableModel.getValueAt(j - 1, i - 1);
@@ -2206,294 +2269,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				else
 					operate.getStyle().setBackgroundColor(GColor.WHITE.toString());
 			}
-		}
-
-		if (minSelectionRowOld != -1 && maxSelectionRowOld != -1
-		        && minSelectionColumnOld != -1 && maxSelectionColumnOld != -1) {
-
-			// At first, the program should delete any previous selection
-			// created by this method
-
-			if (dragingToRowOld != -1 && dragingToColumnOld != -1) {
-				if (dragingToColumnOld < minSelectionColumnOld) { // 2
-					for (int i = dragingToColumnOld; i <= minSelectionColumnOld; i++) {
-						getCellFormatter()
-						        .getElement(minSelectionRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-						getCellFormatter()
-						        .getElement(maxSelectionRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-					for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
-						getCellFormatter()
-						        .getElement(i, dragingToColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-				}
-				else if (dragingToRowOld > maxSelectionRowOld) { // 4
-					for (int i = maxSelectionRowOld; i <= dragingToRowOld; i++) {
-						getCellFormatter()
-						        .getElement(i, minSelectionColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-						getCellFormatter()
-						        .getElement(i, maxSelectionColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-					for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
-						getCellFormatter()
-						        .getElement(dragingToRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-				}
-				else if (dragingToRowOld < minSelectionRowOld) { // 1
-					for (int i = dragingToRowOld; i <= minSelectionRowOld; i++) {
-						getCellFormatter()
-						        .getElement(i, minSelectionColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-						getCellFormatter()
-						        .getElement(i, maxSelectionColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-					for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
-						getCellFormatter()
-						        .getElement(dragingToRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-				} else if (dragingToColumnOld > maxSelectionColumnOld) { // 3
-					for (int i = maxSelectionColumnOld; i <= dragingToColumnOld; i++) {
-						getCellFormatter()
-						        .getElement(minSelectionRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-						getCellFormatter()
-						        .getElement(maxSelectionRowOld, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-					for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
-						getCellFormatter()
-						        .getElement(i, dragingToColumnOld)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                TABLE_GRID_COLOR.toString()+" solid 1px");
-					}
-				}
-			}
-
-			for (int i = minSelectionRowOld; i <= maxSelectionRowOld; i++) {
-				getCellFormatter().getElement(i, minSelectionColumnOld)
-				        .getStyle().setProperty("borderLeft", TABLE_GRID_COLOR.toString()+" solid 1px");
-				getCellFormatter().getElement(i, maxSelectionColumnOld)
-				        .getStyle().setProperty("borderRight", TABLE_GRID_COLOR.toString()+" solid 1px");
-			}
-			for (int i = minSelectionColumnOld; i <= maxSelectionColumnOld; i++) {
-				getCellFormatter().getElement(minSelectionRowOld, i).getStyle()
-				        .setProperty("borderTop", TABLE_GRID_COLOR.toString()+" solid 1px");
-				getCellFormatter().getElement(maxSelectionRowOld, i)
-				        .getStyle().setProperty("borderBottom", TABLE_GRID_COLOR.toString()+" solid 1px");
-			}
-		}
-
-		minSelectionRowOld = minSelectionRow;
-		maxSelectionRowOld = maxSelectionRow;
-		minSelectionColumnOld = minSelectionColumn;
-		maxSelectionColumnOld = maxSelectionColumn;
-		dragingToRowOld = dragingToRow;
-		dragingToColumnOld = dragingToColumn;
-
-		if (minSelectionRow != -1 && maxSelectionRow != -1
-		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {
-		
-			if (dragingToRow != -1 && dragingToColumn != -1) {
-				if (dragingToColumn < minSelectionColumn) { // 2
-					for (int i = dragingToColumn; i <= minSelectionColumn; i++) {
-						getCellFormatter()
-						        .getElement(minSelectionRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-						getCellFormatter()
-						        .getElement(maxSelectionRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-					for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
-						getCellFormatter()
-						        .getElement(i, dragingToColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-				}
-				else if (dragingToRow > maxSelectionRow) { // 4
-					for (int i = maxSelectionRow; i <= dragingToRow; i++) {
-						getCellFormatter()
-						        .getElement(i, minSelectionColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-						getCellFormatter()
-						        .getElement(i, maxSelectionColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-					for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
-						getCellFormatter()
-						        .getElement(dragingToRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-				}
-				else if (dragingToRow < minSelectionRow) { // 1
-					for (int i = dragingToRow; i <= minSelectionRow; i++) {
-						getCellFormatter()
-						        .getElement(i, minSelectionColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderLeft",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-						getCellFormatter()
-						        .getElement(i, maxSelectionColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-					for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
-						getCellFormatter()
-						        .getElement(dragingToRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-				} else if (dragingToColumn > maxSelectionColumn) { // 3
-					for (int i = maxSelectionColumn; i <= dragingToColumn; i++) {
-						getCellFormatter()
-						        .getElement(minSelectionRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderTop",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-						getCellFormatter()
-						        .getElement(maxSelectionRow, i)
-						        .getStyle()
-						        .setProperty(
-						                "borderBottom",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-					for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
-						getCellFormatter()
-						        .getElement(i, dragingToColumn)
-						        .getStyle()
-						        .setProperty(
-						                "borderRight",
-						                GColor.GRAY.toString() + " solid "
-						                        + LINE_THICKNESS2 + "px");
-					}
-				}
-			}
-	
-
-			for (int i = minSelectionRow; i <= maxSelectionRow; i++) {
-				getCellFormatter()
-				        .getElement(i, minSelectionColumn)
-				        .getStyle()
-				        .setProperty(
-				                "borderLeft",
-				                selectionRectangleColor.toString() + " solid "
-				                        + LINE_THICKNESS2 + "px");
-				getCellFormatter()
-				        .getElement(i, maxSelectionColumn)
-				        .getStyle()
-				        .setProperty(
-				                "borderRight",
-				                selectionRectangleColor.toString() + " solid "
-				                        + LINE_THICKNESS2 + "px");
-			}
-			for (int i = minSelectionColumn; i <= maxSelectionColumn; i++) {
-				getCellFormatter()
-				        .getElement(minSelectionRow, i)
-				        .getStyle()
-				        .setProperty(
-				                "borderTop",
-				                selectionRectangleColor.toString() + " solid "
-				                        + LINE_THICKNESS2 + "px");
-				getCellFormatter()
-				        .getElement(maxSelectionRow, i)
-				        .getStyle()
-				        .setProperty(
-				                "borderBottom",
-				                selectionRectangleColor.toString() + " solid "
-				                        + LINE_THICKNESS2 + "px");
-			}
-
-			if (isEditing()) {
-				if (view != null)
-					view.positionBlueDot(false, 0, 0);
-			} else {
-				Element wt1 = getCellFormatter().getElement(0,0);
-				Element wt2 = getCellFormatter().getElement(maxSelectionRow, maxSelectionColumn);
-				int px = wt2.getAbsoluteLeft() - wt1.getAbsoluteLeft() + wt2.getOffsetWidth() - DOT_SIZE/2;
-				int py = wt2.getAbsoluteTop() - wt1.getAbsoluteTop() + wt2.getOffsetHeight() - DOT_SIZE/2;
-				if (view != null)
-					view.positionBlueDot(true, px, py);
-			}
-		} else {
-			if (view != null)
-				view.positionBlueDot(false, 0, 0);
 		}
 
 		// After rendering the LaTeX image for a geo, update the row height

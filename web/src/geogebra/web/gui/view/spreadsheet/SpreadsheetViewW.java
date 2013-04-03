@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
@@ -66,7 +67,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 	// fields for split panel, fileBrowser and stylebar
 	//private JScrollPane spreadsheet;
-	private FocusPanel spreadsheet;
+	protected FocusPanel spreadsheetWrapper;
 	//private FileBrowserPanel fileBrowser;
 	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBarW styleBar;
@@ -93,6 +94,16 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	//private SpreadsheetViewDnD dndHandler;
 
 	private boolean repaintScheduled = false;// to repaint less often, make it quicker
+
+	// special panels for editing and selection
+	private SimplePanel selectionFrame;
+	private SimplePanel dragFrame;
+	private SimplePanel blueDot;
+	private SimplePanel editorPanel;
+	
+	// panel that conatines the spreadsheet table and headers
+	private AbsolutePanel spreadsheet;
+	
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -129,7 +140,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		setBorder(BorderFactory.createEmptyBorder());
 		addFocusListener(this);*/
 
-		add(spreadsheet);
+		add(spreadsheetWrapper);
 
 		updateFonts();
 		attachView();
@@ -145,10 +156,38 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 	private void buildSpreadsheet() {
 
+		editorPanel = new SimplePanel();
+		editorPanel.getElement().getStyle().setZIndex(6);
+		editorPanel.setVisible(false);
+	
+
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModelW) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);
 
+		selectionFrame = new SimplePanel();
+		selectionFrame.getElement().getStyle().setZIndex(6);
+		selectionFrame.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		selectionFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
+		selectionFrame.getElement().getStyle().setBorderColor(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
+		selectionFrame.setVisible(false);
+		
+		dragFrame = new SimplePanel();
+		dragFrame.getElement().getStyle().setZIndex(5);
+		dragFrame.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		dragFrame.getElement().getStyle().setBorderWidth(2, Style.Unit.PX);
+		dragFrame.getElement().getStyle().setBorderColor(GColor.GRAY.toString());
+		dragFrame.setVisible(false);
+	
+		
+		blueDot = new SimplePanel();
+		blueDot.getElement().getStyle().setZIndex(7);
+		blueDot.getElement().getStyle().setWidth(MyTableW.DOT_SIZE, Style.Unit.PX);
+		blueDot.getElement().getStyle().setHeight(MyTableW.DOT_SIZE, Style.Unit.PX);
+		blueDot.getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
+		blueDot.setVisible(false);
+		blueDot.setStyleName("cursor_default");
+		
 		bluedot = Canvas.createIfSupported();
 		if (bluedot != null) {
 			bluedot.setCoordinateSpaceHeight(MyTableW.DOT_SIZE);
@@ -166,16 +205,23 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		forTheBlueDot.add(table);
 		forTheBlueDot.add(bluedot);
 
-		spreadsheet = new FocusPanel(forTheBlueDot);
+		spreadsheet = new AbsolutePanel();
+		spreadsheet.add(table);
+		spreadsheet.add(selectionFrame);
+		spreadsheet.add(dragFrame);
+		spreadsheet.add(blueDot);
+		spreadsheet.add(editorPanel);
+		
+		spreadsheetWrapper = new FocusPanel(spreadsheet);
 		SpreadsheetKeyListenerW sskl = new SpreadsheetKeyListenerW(app, table);
-		spreadsheet.addKeyDownHandler(sskl);
-		spreadsheet.addKeyPressHandler(sskl);
+		spreadsheetWrapper.addKeyDownHandler(sskl);
+		spreadsheetWrapper.addKeyPressHandler(sskl);
 		SpreadsheetMouseListenerW ml = new SpreadsheetMouseListenerW(app, table);
-		spreadsheet.addDomHandler(ml, MouseDownEvent.getType());
-		spreadsheet.addDomHandler(ml, MouseUpEvent.getType());
-		spreadsheet.addDomHandler(ml, MouseMoveEvent.getType());
-		spreadsheet.addDomHandler(ml, ClickEvent.getType());
-		spreadsheet.addDomHandler(ml, DoubleClickEvent.getType());
+		spreadsheetWrapper.addDomHandler(ml, MouseDownEvent.getType());
+		spreadsheetWrapper.addDomHandler(ml, MouseUpEvent.getType());
+		spreadsheetWrapper.addDomHandler(ml, MouseMoveEvent.getType());
+		spreadsheetWrapper.addDomHandler(ml, ClickEvent.getType());
+		spreadsheetWrapper.addDomHandler(ml, DoubleClickEvent.getType());
 
 		this.addScrollHandler(new ScrollHandler() {
 			public void onScroll(ScrollEvent se) {
@@ -186,7 +232,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 			}
 		});
 
-		spreadsheet.addFocusHandler(new FocusHandler() {
+		spreadsheetWrapper.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent fe) {
 				verticalScrollPosition = getVerticalScrollPosition();
 				horizontalScrollPosition = getHorizontalScrollPosition();
@@ -239,19 +285,104 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 */
 	}
 
-	public void positionBlueDot(boolean visible, int left, int top) {
-
-		if (bluedot == null)
-			return;
-
-		if (visible) {
-			bluedot.getElement().getStyle().setDisplay(Style.Display.BLOCK);
-			((AbsolutePanel)spreadsheet.getWidget()).setWidgetPosition(bluedot, left, top);
-		} else {
-			bluedot.getElement().getStyle().setDisplay(Style.Display.NONE);
-		}
+	public SimplePanel getEditorPanel() {
+		return editorPanel;
 	}
 
+	public void positionEditorPanel(boolean visible, int row, int column) {
+
+		if (editorPanel == null)
+			return;
+
+		editorPanel.setVisible(visible);
+		if (visible) {
+			
+			GPoint p = table.getPixel(column, row, true);
+			
+			int ssTop = spreadsheet.getAbsoluteTop();
+			int ssLeft = spreadsheet.getAbsoluteLeft();
+						
+			spreadsheet.setWidgetPosition(editorPanel, p.x - ssLeft+1, 
+					p.y - ssTop+1);
+			editorPanel.setVisible(true);
+			editorPanel.setWidth("20px");
+		} 
+		
+	}
+	
+	
+	public void positionBlueDot(boolean visible, int left, int top) {
+
+		if (blueDot == null)
+			return;
+
+		blueDot.setVisible(visible);
+		if (visible) {
+			//bluedot.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+			//spreadsheet.setWidgetPosition(blueDot, left, top);
+		} 
+		
+	}
+
+	public void updateSelectionFrame(boolean visible, GPoint corner1, GPoint corner2){
+		
+		if(selectionFrame == null || corner1 == null || corner2 == null){
+			return;
+		}
+		//App.debug("selectionFrame visible: " + visible + " c1.x: " + corner1.x 		
+		//		+ "  c1.y: " + corner1.y + "  c2.x: " + corner2.x + "  c2.y: " + corner2.y );
+		
+		int borderWidth = 2;
+		
+		// forced hide/show needed to make Chrome redraw
+		selectionFrame.setVisible(false);
+		selectionFrame.setTitle(" ");
+		if(visible){
+			int x1 = Math.min(corner1.x, corner2.x);
+			int x2 = Math.max(corner1.x, corner2.x);
+			int y1 = Math.min(corner1.y, corner2.y);
+			int y2 = Math.max(corner1.y, corner2.y);
+			int h = y2 - y1 - 2*borderWidth - 1;
+			int w = x2 - x1 - 2*borderWidth - 1;
+			
+			int ssTop = spreadsheet.getAbsoluteTop();
+			int ssLeft = spreadsheet.getAbsoluteLeft();
+						
+			selectionFrame.setWidth(w + "px");
+			selectionFrame.setHeight(h + "px");	
+			
+			spreadsheet.setWidgetPosition(selectionFrame, x1 - ssLeft, 
+					y1 - ssTop);
+		
+			spreadsheet.setWidgetPosition(blueDot, x2 - ssLeft -  MyTableW.DOT_SIZE/2 - 1, 
+					y2 - ssTop - MyTableW.DOT_SIZE/2 - 1);	
+			selectionFrame.setVisible(true);
+		} 
+		
+	}
+	
+	public void updateDragFrame(boolean visible, GPoint corner1, GPoint corner2){
+		if(dragFrame == null){
+			return;
+		}
+		int borderWidth = 2;
+		dragFrame.setVisible(visible);
+		if(visible){
+			int x1 = Math.min(corner1.x, corner2.x);
+			int x2 = Math.max(corner1.x, corner2.x);
+			int y1 = Math.min(corner1.y, corner2.y);
+			int y2 = Math.max(corner1.y, corner2.y);
+			int h = y2 - y1 - 2*borderWidth - 1;
+			int w = x2 - x1 - 2*borderWidth - 1;
+			
+			spreadsheet.setWidgetPosition(dragFrame, x1 - spreadsheet.getAbsoluteLeft(), 
+					y1 - spreadsheet.getAbsoluteTop());
+			dragFrame.setWidth(w + "px");
+			dragFrame.setHeight(h + "px");	
+		}
+	}
+	
+	
 	// ===============================================================
 	// Corners
 	// ===============================================================
@@ -362,12 +493,12 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 					true));
 		*/
 
-		scheduleRepaint();
+		//scheduleRepaint();
 	}
 
 	public void remove(GeoElement geo) {
 		// Application.debug(new Date() + " REMOVE: " + geo);
-		table.setRepaintAll();
+		//table.setRepaintAll();
 
 		if (app.getTraceManager().isTraceGeo(geo)) {
 			app.getTraceManager().removeSpreadsheetTraceGeo(geo);
@@ -383,7 +514,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		case LIST:
 			table.oneClickEditMap.remove(geo);
 		}
-		scheduleRepaint();
+		//scheduleRepaint();
 	}
 
 	public void rename(GeoElement geo) {
@@ -461,7 +592,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 	public void update(GeoElement geo) {
 
-		table.setRepaintAll();
+		//table.setRepaintAll();
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
@@ -1343,7 +1474,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
-				spreadsheet.setFocus(true);
+				spreadsheetWrapper.setFocus(true);
 			}
 		});
 	}
@@ -1475,7 +1606,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	}
 
 	public FocusPanel getFocusPanel() {
-		return spreadsheet;
+		return spreadsheetWrapper;
 	}
 
 	public ScrollPanel getScrollPanel() {

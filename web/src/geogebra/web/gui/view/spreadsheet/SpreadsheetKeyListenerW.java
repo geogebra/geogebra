@@ -43,6 +43,12 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 		// cancel as this may prevent the keyPress in some browsers
 		// hopefully it is enough to preventDefault in onKeyPress
 		//e.preventDefault();
+		
+		// pass the event on to the cell editor if editing
+		if(table.isEditing){
+			table.sendEditorKeyDownEvent(e);
+			return;
+		}
 
 		int keyCode = e.getNativeKeyCode();//.getKeyCode();
 		//Application.debug(keyCode+"");
@@ -567,6 +573,12 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 		// make sure e.g. SHIFT+ doesn't trigger default browser action
 		e.stopPropagation();
 		e.preventDefault();
+		
+		// pass the event on to the cell editor if editing
+		if(table.isEditing){
+			table.sendEditorKeyPressEvent(e);
+			return;
+		}
 
 		// check if this is OK according to keyCode too (right key)
 		if (keyDownSomething) {

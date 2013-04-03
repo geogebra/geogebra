@@ -8,6 +8,8 @@ import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -26,6 +28,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	VerticalPanelSmart ancestor;
 	SpreadsheetStyleBarPanel sstylebar;
 	SpreadsheetViewW sview;
+	
+	protected SpreadsheetDockPanelW dockPanel;
 
 	public SpreadsheetDockPanelW(App app) {
 		super(
@@ -43,6 +47,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		//toplevel.add(ancestor);
 		
 		application = app;
+		this.dockPanel = this;
 	}
 
 	protected Widget loadComponent() {
@@ -61,38 +66,52 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	public void onResize() {
 		super.onResize();
-		//App.debug("Resized");
-		if (application != null) {
+		// App.debug("Resized");
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			public void execute() {
 
-			if (sview != null) {
-				// If this is resized, we may know its width and height
-				/*
-				int width = this.getOffsetWidth();//this is 400, OK
-				int height = this.getOffsetHeight();
+				if (application != null) {
 
-				if (application.getGuiManager().hasSpreadsheetView())
-					height -= (((SpreadsheetViewW)application.getGuiManager().
-						getSpreadsheetView()).getSpreadsheetStyleBar()).getOffsetHeight();
-				 */
-				
-				int width = this.getComponentInteriorWidth();
-				int height = this.getComponentInteriorHeight();
-				
-				if(width <0 || height < 0){
-					return;
+					if (sview != null) {
+						// If this is resized, we may know its width and height
+						/*
+						 * int width = this.getOffsetWidth();//this is 400, OK
+						 * int height = this.getOffsetHeight();
+						 * 
+						 * if (application.getGuiManager().hasSpreadsheetView())
+						 * height -=
+						 * (((SpreadsheetViewW)application.getGuiManager().
+						 * getSpreadsheetView
+						 * ()).getSpreadsheetStyleBar()).getOffsetHeight();
+						 */
+
+						int width = dockPanel.getComponentInteriorWidth();
+						int height = dockPanel.getComponentInteriorHeight();
+
+						if (width < 0 || height < 0) {
+							return;
+						}
+
+						sview.getScrollPanel().setWidth(width + "px");
+						sview.getScrollPanel().setHeight(height + "px");
+
+						int width2 = ((MyTableW) sview.getSpreadsheetTable())
+						        .getOffsetWidth();
+						int height2 = ((MyTableW) sview.getSpreadsheetTable())
+						        .getOffsetWidth();
+
+						sview.getFocusPanel().setWidth(width2 + "px");
+						sview.getFocusPanel().setHeight(height2 + "px");
+
+						// ((MyTableW)sview.getSpreadsheetTable()).setRepaintAll();
+						// sview.repaint();
+					}
 				}
-				
-				sview.getScrollPanel().setWidth(width+"px");
-				sview.getScrollPanel().setHeight(height+"px");
 
-				int width2 = ((MyTableW)sview.getSpreadsheetTable()).getOffsetWidth();
-				int height2 = ((MyTableW)sview.getSpreadsheetTable()).getOffsetWidth();
-
-				sview.getFocusPanel().setWidth(width2+"px");
-				sview.getFocusPanel().setHeight(height2+"px");
 			}
-		}
-    }
+		});
+
+	}
 
 	public void attachApp(App app) {
 		super.attachApp(app);

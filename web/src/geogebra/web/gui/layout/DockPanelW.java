@@ -937,7 +937,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		// update the title bar if necessary
 	//	updateTitleBarIfNecessary();
-
+		
+		onResize();
 	}
 
 	/**
