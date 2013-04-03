@@ -99,9 +99,8 @@ public class AlgoFrequencyTable extends AlgoElement {
 
 	public AlgoFrequencyTable(Construction cons, GeoNumeric chart) {
 		super(cons);
-
+		
 		AlgoElement algo = chart.getParentAlgorithm();
-		cons.removeFromConstructionList(algo);
 
 		if (algo instanceof AlgoHistogram) {
 			type = inputType.HISTOGRAM;
