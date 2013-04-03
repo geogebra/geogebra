@@ -203,7 +203,7 @@ public class Ggb2giac {
 		p("Median.1",
 				"median(%0)");
 		p("Min.N", "min(%)");
-		p("Midpoint.2", "convert(op(coordinates(midpoint(%0,%1))),25)");
+		p("Midpoint.2", "convert(coordinates(midpoint(%0,%1)),25)");
 		p("MixedNumber.1",
 				"propfrac(exact(%0))");
 		p("Mod.2",
@@ -236,7 +236,7 @@ public class Ggb2giac {
 		p("Numeric.2",
 				"evalf(%0,%1)");
 		p("OrthogonalVector.1",
-				"convert(op([[0,-1],[1,0]]*(%0)),25)");
+				"convert([[0,-1],[1,0]]*(%0),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
 		// with_sqrt(0) to factor over rationals
 		p("PartialFractions.1",
@@ -355,7 +355,7 @@ public class Ggb2giac {
 		p("ToPolar.1",
 				"polar\\_coordinates(%0)");
 		p("ToPoint.1",
-				"(op(coordinates(%1)))");
+				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		p("TrigExpand.1",
@@ -374,7 +374,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("UnitOrthogonalVector.1",
-				"convert(op(unitV([-%0[1],%0[0]])),25)");
+				"convert(unitV([-%0[1],%0[0]]),25)");
 		p("UnitVector.1",
 				"normalize(%0)");
 		p("Variance.1",
