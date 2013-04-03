@@ -432,6 +432,10 @@ public class EuclidianStyleBarStatic {
 			ev.repaint();
 		}
 		
+		else {
+			return false;
+		}
+		
 		return true;
 	}
 		
