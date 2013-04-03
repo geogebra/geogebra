@@ -13,7 +13,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView, SetLabel
 
 	protected final AppWeb app; // parent appame
 	protected final Localization loc;
-	protected Kernel kernel;
+	protected final Kernel kernel;
 	
 	public AlgebraViewWeb(AppWeb app){
 		this.app = app;

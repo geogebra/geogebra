@@ -86,8 +86,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	private PopupMenuButton btnLabelStyle;
 
-	private PopupMenuButton btnPointCapture;
-	
 	private PopupMenuButton btnDeleteSize;
 
 	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowGrid,
@@ -154,12 +152,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 	public int getMode() {
 		return mode;
-	}
-
-	public void updateButtonPointCapture(int mode) {
-		if (mode == 3 || mode == 0)
-			mode = 3 - mode; // swap 0 and 3
-		btnPointCapture.setSelectedIndex(mode);
 	}
 
 	public void setMode(int mode) {
@@ -345,7 +337,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	protected void setActionCommands(){
 		setActionCommand(btnShowAxes, "showAxes");
 		setActionCommand(btnShowGrid, "showGrid");
-		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
 	/**
@@ -361,7 +352,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
-		addBtnPointCapture();
 
 		// add color and style buttons
 		if(btnColor.isVisible() || btnTextColor.isVisible()) {
@@ -416,10 +406,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		add(btnShowGrid);
 	}
 	
-	protected void addBtnPointCapture() {
-		add(btnPointCapture);
-	}
-
 	protected MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen, btnShowGrid,
 				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
@@ -430,8 +416,8 @@ public class EuclidianStyleBarW extends StyleBarW
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 		        btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
-		        btnTableTextBracket, btnLabelStyle, btnDeleteSize,
-		        btnPointCapture };
+		        btnTableTextBracket, btnLabelStyle, btnDeleteSize
+		         };
 	}
 
 	// =====================================================
@@ -838,33 +824,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 				app.getMenu("off") };
-
-		btnPointCapture = new PopupMenuButton((AppW) app, strPointCapturing, -1, 1,
-				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
-
-			}
-
-			@Override
-			public ImageData getButtonIcon() {
-				return this.getIcon();
-			}
-
-		};
-		//it is not needed, must be an Image preloaded like others.
-		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet();
-		btnPointCapture.setIconSize(new GDimensionW(ptCaptureIcon.getWidth(),
-				iconHeight));
-		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
-		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture);
-		btnPointCapture.addActionListener(this);
-		btnPointCapture.setKeepVisible(false);
 		
 		
 		// =====================================================
@@ -1380,10 +1339,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	public void updateAllButtons() {
 	
 	}
-
-	public int getPointCaptureSelectedIndex() {
-	    return btnPointCapture.getSelectedIndex();
-    }
 	
 	private void setActionCommand(Widget widget, String actionCommand){
 		widget.getElement().setAttribute("actionCommand", actionCommand);

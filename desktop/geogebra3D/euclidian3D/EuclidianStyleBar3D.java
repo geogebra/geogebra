@@ -55,9 +55,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 	
 	@Override
-	protected void addBtnPointCapture(){}
-	
-	@Override
 	protected void addBtnRotateView(){
 		
 		//addSeparator();
@@ -87,44 +84,44 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			((App3D) app).togglePlane();
 		}else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()){//if slider is showing, start rotation
-				((EuclidianView3D) ev).setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);
+				getView().setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);
 			}else{//if button has been clicked, toggle rotation
-				if (((EuclidianView3D) ev).isRotAnimatedContinue()){
-					((EuclidianView3D) ev).stopRotAnimation();
+				if (getView().isRotAnimatedContinue()){
+					getView().stopRotAnimation();
 					btnRotateView.setSelected(false);
 				}else{
-					((EuclidianView3D) ev).setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);
+					getView().setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);
 					btnRotateView.setSelected(true);
 				}
 			}
 		}else if (source.equals(btnClipping)) {
 			if (btnClipping.getMySlider().isShowing()){
-				((EuclidianView3D) ev).setClippingReduction(btnClipping.getSliderValue());
+				getView().setClippingReduction(btnClipping.getSliderValue());
 			}else{
-				((EuclidianView3D) ev).toggleShowAndUseClippingCube();
+				getView().toggleShowAndUseClippingCube();
 			}
 		}else if (source.equals(btnViewDefault)) {
-			((EuclidianView3D) ev).setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
+			getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
 		}else if (source.equals(btnViewXY)) {
-			((EuclidianView3D) ev).setRotAnimation(-90,90,true);
+			getView().setRotAnimation(-90,90,true);
 		}else if (source.equals(btnViewXZ)) {
-			((EuclidianView3D) ev).setRotAnimation(-90,0,true);
+			getView().setRotAnimation(-90,0,true);
 		}else if (source.equals(btnViewYZ)) {
-			((EuclidianView3D) ev).setRotAnimation(0,0,true);
+			getView().setRotAnimation(0,0,true);
 		}else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
 			switch(si){
 			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-				((EuclidianView3D) ev).setProjectionOrthographic();
+				getView().setProjectionOrthographic();
 				break;
 			case EuclidianView3D.PROJECTION_PERSPECTIVE:
-				((EuclidianView3D) ev).setProjectionPerspective();
+				getView().setProjectionPerspective();
 				break;
 			case EuclidianView3D.PROJECTION_ANAGLYPH:
-				((EuclidianView3D) ev).setAnaglyph();
+				getView().setAnaglyph();
 				break;
 			case EuclidianView3D.PROJECTION_CAV:
-				((EuclidianView3D) ev).setCav();
+				getView().setCav();
 				break;
 			}
 		}else
@@ -192,7 +189,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		//btnRotateView.getMySlider().setPaintLabels(true);
 		btnClipping.getMySlider().setPaintTrack(true);
 		btnClipping.getMySlider().setSnapToTicks(true);
-		btnClipping.setSliderValue(((EuclidianView3D) ev).getClippingReduction());
+		btnClipping.setSliderValue(getView().getClippingReduction());
 		btnClipping.addActionListener(this);
 		
 		
@@ -267,7 +264,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		private static final long serialVersionUID = 1L;
 		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons){
 			super(app, projectionIcons, 1, projectionIcons.length, new Dimension(16, 16), geogebra.common.gui.util.SelectionTable.MODE_ICON, true, false);
-			setIcon(projectionIcons[((EuclidianView3D) ev).getProjection()]);
+			setIcon(projectionIcons[getView().getProjection()]);
 		}
 		
 
@@ -297,7 +294,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 						app.getPlainTooltip("stylebar.ObliqueProjection")
 				});
 		
-		//btnViewProjection.setSelectedIndex(((EuclidianView3D) ev).getProjection());
+		//btnViewProjection.setSelectedIndex(getView().getProjection());
 	}
 	
 	@Override
@@ -309,7 +306,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		super.updateGUI();
 		
 		btnShowPlane.removeActionListener(this);
-		btnShowPlane.setSelected(((EuclidianView3D) ev).getShowPlane());
+		btnShowPlane.setSelected(getView().getShowPlane());
 		btnShowPlane.addActionListener(this);
 
 		
@@ -335,12 +332,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnViewYZ.addActionListener(this);
 		
 		btnClipping.removeActionListener(this);
-		btnClipping.setSelected(((EuclidianView3D) ev).showClippingCube());
-		btnClipping.setSliderValue(((EuclidianView3D) ev).getClippingReduction());
+		btnClipping.setSelected(getView().showClippingCube());
+		btnClipping.setSliderValue(getView().getClippingReduction());
 		btnClipping.addActionListener(this);
 
 		btnViewProjection.removeActionListener(this);
-		btnViewProjection.setSelectedIndex(((EuclidianView3D) ev).getProjection());
+		btnViewProjection.setSelectedIndex(getView().getProjection());
 		btnViewProjection.addActionListener(this);
 		
 	}
@@ -373,6 +370,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		ret[index]=btnViewXZ;index++;
 		ret[index]=btnViewYZ;
 		return ret;
+	}
+	
+	public EuclidianView3D getView(){
+		return (EuclidianView3D) ev;
 	}
 
 }

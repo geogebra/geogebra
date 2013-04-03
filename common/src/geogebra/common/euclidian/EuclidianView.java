@@ -3627,9 +3627,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 *            settings
 	 */
 	protected void synchronizeMenuBarAndEuclidianStyleBar(EuclidianSettings evs) {
-		if (styleBar != null) {
-			getStyleBar().updateButtonPointCapture(evs.getPointCapturingMode());
-		}
 		if (getApplication().getGuiManager() != null) {
 			getApplication().getGuiManager().updateMenubar();
 		}

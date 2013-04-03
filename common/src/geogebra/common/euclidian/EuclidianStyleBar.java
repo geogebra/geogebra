@@ -9,12 +9,6 @@ import geogebra.common.kernel.geos.GeoElement;
 public interface EuclidianStyleBar {
 
 	/**
-	 * Update capture button
-	 * @param mode euclidian view mode
-	 */
-	public void updateButtonPointCapture(int mode);
-
-	/**
 	 * @param mode euclidian view mode
 	 */
 	void setMode(int mode);
@@ -39,10 +33,5 @@ public interface EuclidianStyleBar {
 	 * @param geo geo
 	 */
 	public void updateVisualStyle(GeoElement geo);
-
-	/**
-	 * @return index of selected point capturing mode
-	 */
-	int getPointCaptureSelectedIndex();
 
 }
