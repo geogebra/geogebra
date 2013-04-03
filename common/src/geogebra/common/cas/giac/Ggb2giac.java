@@ -246,7 +246,7 @@ public class Ggb2giac {
 				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(exact(%1)))^(%2)*(exact(%1))^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
-				"exp(-(%0))*sum ((%0)^k/factorial(floor(k)),k,0,floor(%1)-1) " +
+				"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
 				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0) fi");
 		p("PreviousPrime.1",
 				"prevprime(%0)");
