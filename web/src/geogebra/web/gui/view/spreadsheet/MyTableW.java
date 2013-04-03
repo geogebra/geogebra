@@ -2088,7 +2088,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {				
-				getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
+				
+				// TODO: why doesn't this work in win8 chrome?
+				//getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
+				
+				getCellFormatter().getElement(j, i).getStyle().setOverflow(Style.Overflow.HIDDEN);
+				getCellFormatter().getElement(j, i).getStyle().setPaddingLeft(4, Style.Unit.PX);
+				getCellFormatter().getElement(j, i).getStyle().setPaddingRight(4, Style.Unit.PX);
+				getCellFormatter().getElement(j, i).getStyle().setPaddingTop(2, Style.Unit.PX);
+				getCellFormatter().getElement(j, i).getStyle().setPaddingBottom(2, Style.Unit.PX);
+				getCellFormatter().getElement(j, i).getStyle().setProperty("borderRight","1px solid gray");
+				getCellFormatter().getElement(j, i).getStyle().setProperty("borderBottom","1px solid gray");
+				
 				if (i == 0) {
 					if (j == 0) {
 						// upper-left corner cell
