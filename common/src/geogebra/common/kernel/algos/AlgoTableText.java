@@ -94,7 +94,7 @@ public class AlgoTableText extends AlgoElement {
 
 		text = new GeoText(cons);
 		
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -270,10 +270,11 @@ public class AlgoTableText extends AlgoElement {
 		if (tpl.getStringType().equals(StringType.MATHML)) {
 			mathml(tpl);			
 		} else {
-			if (app.isHTML5Applet())
+			if (app.isHTML5Applet()) {
 				latexMQ(tpl);
-			else
+			} else {
 				latex(tpl);
+			}
 		}
 		// Application.debug(sb.toString());
 		text.setTextString(sb.toString());
@@ -400,7 +401,7 @@ public class AlgoTableText extends AlgoElement {
 						sb.append("\\ggbtdl{");
 					else
 						sb.append("\\ggbtd{");
-					addCellLaTeX(c, r, false, tpl);
+					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");
 				}
 				sb.append("}");
@@ -418,7 +419,7 @@ public class AlgoTableText extends AlgoElement {
 						sb.append("\\ggbtdl{");
 					else
 						sb.append("\\ggbtd{");
-					addCellLaTeX(c, r, false, tpl);
+					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");
 				}
 				sb.append("}");
