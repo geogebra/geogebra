@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements.header;
+package geogebra.touch.utils;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.MyXMLio;
