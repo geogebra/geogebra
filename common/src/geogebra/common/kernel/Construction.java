@@ -1154,8 +1154,7 @@ public class Construction {
 					if (ceAlgo.getCommandDescription(tpl).equals(statementAlgo.getCommandDescription(tpl))) {
 						StringBuilder proveCommand = new StringBuilder();
 						ce.getXML_OGP(proveCommand);
-						proveCommand.toString().replaceFirst("ProveDetails", "Prove");
-						sb.append(proveCommand);
+						sb.append(proveCommand.toString().replaceFirst("ProveDetails", "Prove"));
 						noProveCommands++;
 					}
 				}
