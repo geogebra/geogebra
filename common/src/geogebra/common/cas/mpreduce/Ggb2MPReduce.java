@@ -465,6 +465,12 @@ public class Ggb2MPReduce {
 				packageMap.put("SolveODE."+i, ReducePackage.ODESOLVE);
 			packageMap.put("TaylorSeries.4", ReducePackage.TAYLOR);
 			packageMap.put("TaylorSeries.5", ReducePackage.TAYLOR);
+			packageMap.put("Normal.3", ReducePackage.SPECFN);
+			packageMap.put("Normal.4", ReducePackage.SPECFN);
+			packageMap.put("Pascal.4", ReducePackage.SPECFN);
+			packageMap.put("TDistribution.2", ReducePackage.SPECFN);
+			packageMap.put("ChiSquared.2", ReducePackage.SPECFN);
+			packageMap.put("Gamma.3", ReducePackage.SPECFN);
 		}
 		return packageMap;
 	}

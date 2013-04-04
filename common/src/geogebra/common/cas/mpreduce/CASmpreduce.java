@@ -174,11 +174,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
-		String plainResult = getPlainResult(casInput,keepInput);
-		
 		if(inputExpression.inspect(SpecFnInspecting.INSTANCE))
 			ReducePackage.SPECFN.load(this);
 		
+		String plainResult = getPlainResult(casInput,keepInput);
+				
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
 			if (cmd != null && cmd.getName().equals("KeepInput")) {
