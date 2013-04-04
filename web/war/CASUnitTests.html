@@ -77,7 +77,8 @@ window.onload = function()
     <article class="geogebraweb" data-param-width="80" data-param-height="55" data-param-enableLabelDrags="false" data-param-enableShiftDragZoom="false"  data-param-showLogging="true" style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64="UEsDBBQACAAIAAqeYzgAAAAAAAAAAAAAAAAMAAAAZ2VvZ2VicmEueG1szVbLbts6EF23X0FoX4ekJMsCrBRGuinQxyJtFt0UlETbvJFEl6QcyV/f4UOOaydFb29R3BWlmeFw5pwzlJavh7ZBe660kF0RkRmOEO8qWYtuU0S9Wb9aRK+vXy43XG54qRhaS9UyU0QxRFp7L65fvljqrXxArHEhd4I/FJFRPY8Q6wfRCKbGj+U/vDK6iNas0dbhY992u95MwVVbvxN6er1yeXeNMG/EXtRcoUZWRUSTeWSf7rgyomJNESUYat5KJQ6yM9bwuH0NFoS0OHBoLbG25ZWreMn7qhG1YJ2t1p0EQQg9iNpsi2ie2JRcbLZQTYqpz1ZJqerbURveouELVxKqSfEsW8QxxSTHSb6A2sbgWeBZGqd4QXGaZCnNI6ShXCgkTmd5nGeYxjGOSZbFsOdZlzuY72+5McCIRmzgesJro0R9BHQnRWdu2M70ylEXB9OtGW1m6EfZdlbdpuHBRnz2cnMjG6mQsu2kkDaspV9djD32GIVdDHYR2PttKUc/yamLcGvpVxfViM6fHdogUw8ET8cIjawBkltJTZ02rORAbIT6Tph30wvwf39sxcV/6NsSpHwqgWNK8odSLq/OtLO856rjjVdIBzT1stdob5XouXF11LwSLbx6RwCEWTY+QwHeWvON4vxUbA4s58P+7Okse5SGkioDcwtlG1uynTcDk2CfamasxUq94S2HOTDjDiywT1TH9qvoOL3STegZPI84gvtJAVCS2WnebRlYZoFHt/u9rE9rt90CAq5eGKGdDQ8KXIuB1xeIlYqze6fhC9ejkMwWGOu4BoJAsr7FcByML+/20JNUGqEBh9ttxL5QdJgsAymiV840kmA6hAeXCIpWYkCrKX41Ra0obCRz9xiHrKtkekhPAOHfOl+v9uLSO5DDGojwgvIMXXDlmj9ysfotrqaR9mzNnyPr43qtuUEDdAZDO0Jfyd+h0ulc24MdjmNYDyf4n4xCgK9iynANE+gD/EVnL3CXPTlHtZJty7oadayFzZ9g6sDu0BT2+4MYtugiRuxAeAR7MznMV+Jd5iv1iUO6C7qsKh/ZgG2/P1skjR1fya/O1i8hTGcko5QuErxYkCzOaOKpzmZkTgh8v2iSkjSfE4c/zeFjFNM0x3lCclvR87OXnM/emd5FCx/ySpif6/0MQPq/A/AJoCx+T+F6sPa/gOCP2r4BI1dn0r7UdAj7qZp/vHxOEv9bQuaJY8QupV/+ICM4XBr4v14a8TmwV6dfWPfjGH6Br78DUEsHCC2mYgCuAwAANAsAAFBLAQIUABQACAAIAAqeYzgtpmIArgMAADQLAAAMAAAAAAAAAAAAAAAAAAAAAABnZW9nZWJyYS54bWxQSwUGAAAAAAEAAQA6AAAA6AMAAAAA"></article>
 <div id="table">
-</table>
+</div>
+<div id="table2">
 </div>
 
     <script>
@@ -93,6 +94,7 @@ window.onload = function()
 		function ggbOnInit() {
 		
 		var table = '<table border="1">';
+		var table2 = '<table border="1">';
 		
 		for (var i = 1 ; i <= Object.keys(__giac).length ; i++) {
 		
@@ -102,6 +104,10 @@ window.onload = function()
 			var expectedResult = __giac[i]["result"];
 			var notes = __giac[i]["notes"];
 			var result = window.ggbApplet.evalGeoGebraCAS(cmd);
+			
+			if (result === "") {
+				result = "GEOGEBRA ERROR";
+			}
 			
 			if (expectedResult === undefined) {
 				expectedResult="RESULT MISSING";
@@ -135,12 +141,18 @@ window.onload = function()
 			// comment out for more debugging
 			logStore = "";
 					
-			table += "<tr>";
-			table += "<td>" + cmd + "</td>";
-			table += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
-			table += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
-			table += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
-			table += "</tr>";
+			var addToTable = "<tr>";
+			addToTable += "<td>" + cmd + "</td>";
+			addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
+			addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
+			addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
+			addToTable += "</tr>";
+			
+			if (color == red) {
+				table += addToTable;
+			} else {
+				table2 += addToTable;
+			}
 			
 			giacInput = "problem recording input to giac";
 			giacOutput = "problem recording output from giac";
@@ -149,8 +161,10 @@ window.onload = function()
 		}
 		
 		table += "</table>";
-		
 		document.getElementById('table').innerHTML = table;
+		
+		table2 += "</table>";
+		document.getElementById('table2').innerHTML = table2;
 		
 		}
 		
