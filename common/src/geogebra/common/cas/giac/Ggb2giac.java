@@ -261,10 +261,10 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
-				"todo");
+				"binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1",
-				"todo");
+				"poisson_icdf(%1,rand(0,1))");
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
