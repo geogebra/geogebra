@@ -31,7 +31,7 @@ public class Ggb2giac {
 				"if %3=true then binomial\\_cdf(%0,exact(%1),%2) else binomial(%0,exact(%1),%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
 		p("CFactor.1","cfactor(%0)");
-		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
+		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
 		
 		// TODO: ggbtmpvarx
@@ -261,10 +261,10 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
-				"binomial_icdf(%0,%1,rand(0,1))");
+				"binomial\\_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1",
-		  "poisson_icdf(%0,rand(0,1))"); // could also make the product of rand(0,1) until less than exp(-%0)
+		  "poisson\\_icdf(%0,rand(0,1))"); // could also make the product of rand(0,1) until less than exp(-%0)
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
