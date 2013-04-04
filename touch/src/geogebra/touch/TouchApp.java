@@ -127,6 +127,7 @@ public class TouchApp extends AppWeb
 		setUndoActive(true);
 
 		super.initing = false;
+		getScriptManager();
 		setConstructionTitle("GeoGebraTouch");
 	}
 
@@ -366,18 +367,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public geogebra.common.plugin.GgbAPI getGgbApi()
-	{
-		// not needed yet, because now we use xml-strings
-		// if (ggbapi == null) {
-		// ggbapi = new geogebra.touch.gui.elements.header.GgbAPI(this);
-		// }
-		//
-		// return ggbapi;
-		return null;
-	}
-
-	@Override
 	public boolean showAlgebraInput()
 	{
 
@@ -604,17 +593,6 @@ public class TouchApp extends AppWeb
 	public String getXML()
 	{
 		return getXMLBuilder().getFullXML();
-	}
-
-	@Override
-	public ScriptManager getScriptManager()
-	{
-		// TODO
-		if (this.scriptManager == null)
-		{
-			this.scriptManager = new ScriptManagerM(this);
-		}
-		return this.scriptManager;
 	}
 
 	@Override

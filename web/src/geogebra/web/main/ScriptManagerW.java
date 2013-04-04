@@ -1,21 +1,20 @@
 package geogebra.web.main;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
 import geogebra.common.plugin.ScriptManager;
 
 public class ScriptManagerW extends ScriptManager {
 
-	public String ggbApplet = "ggbApplet";
+	public String ggbApplet = AppWeb.DEFAULT_APPLET_ID;
 
-	public ScriptManagerW(App app) {
+	public ScriptManagerW(AppWeb app) {
 		super(app);
 
 	    // this should contain alphanumeric characters only,
 	    // but it is not checked otherwise
-	    ggbApplet = ((AppW)app).getArticleElement().getDataParamId();
+	    ggbApplet = app.getDataParamId();
 
-	    initAppletFunctions((geogebra.web.main.GgbAPI)(app.getGgbApi()));
+	    initAppletFunctions(app.getGgbApi());
     }
 
 	@Override
@@ -23,11 +22,11 @@ public class ScriptManagerW extends ScriptManager {
 		
 		if (app.useBrowserForJavaScript()) {
 		
-			String param = ((AppW)app).getArticleElement().getDataParamId();
+			String param = ((AppWeb)app).getDataParamId();
 			if (param == null || "".equals(param)) {
-				AppW.ggbOnInit();
+				AppWeb.ggbOnInit();
 			} else {
-				AppW.ggbOnInit(param);
+				AppWeb.ggbOnInit(param);
 			}
 		
 		} else {

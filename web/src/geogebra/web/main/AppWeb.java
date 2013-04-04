@@ -5,6 +5,7 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
+import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.web.euclidian.EuclidianViewWeb;
@@ -14,6 +15,7 @@ import com.google.gwt.canvas.client.Canvas;
 
 public abstract class AppWeb extends App {
 	
+	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 	private SoundManager soundManager;
 	private NormalizerMinimal normalizerMinimal;
@@ -37,7 +39,7 @@ public abstract class AppWeb extends App {
 	}
 	
 	@Override
-	public geogebra.common.plugin.GgbAPI getGgbApi() {
+	public geogebra.web.main.GgbAPI getGgbApi() {
 		if (ggbapi == null) {
 			ggbapi = new geogebra.web.main.GgbAPI(this);
 		}
@@ -110,11 +112,67 @@ public abstract class AppWeb extends App {
 	    // TODO Auto-generated method stub
 	    
     }
-	
+	@Override
+	public ScriptManager getScriptManager() {
+		if (scriptManager == null) {
+			scriptManager = new ScriptManagerW(this);
+		}
+		return scriptManager;
+	}
 
 	@Override
 	public CasType getCASType() {
 		return CasType.GIAC;
 	}
+	
+	// ================================================
+		// NATIVE JS
+		// ================================================
+
+		
+
+		public native void evalScriptNative(String script) /*-{
+			$wnd.eval(script);
+		}-*/;
+
+		public native void callNativeJavaScript(String funcname) /*-{
+			if ($wnd[funcname]) {
+				$wnd[funcname]();
+			}
+		}-*/;
+
+		public native void callNativeJavaScript(String funcname, String arg) /*-{
+			if ($wnd[funcname]) {
+				$wnd[funcname](arg);
+			}
+		}-*/;
+
+		public static native void ggbOnInit() /*-{
+			if (typeof $wnd.ggbOnInit === 'function')
+				$wnd.ggbOnInit();
+		}-*/;
+
+		public static native void ggbOnInit(String arg) /*-{
+			if (typeof $wnd.ggbOnInit === 'function')
+				$wnd.ggbOnInit(arg);
+		}-*/;
+		
+		@Override
+		public void callAppletJavaScript(String fun, Object[] args) {
+			if (args == null || args.length == 0) {
+				callNativeJavaScript(fun);
+			} else if (args.length == 1) {
+				App.debug("calling function: " + fun + "(" + args[0].toString()
+				        + ")");
+				callNativeJavaScript(fun, args[0].toString());
+			} else {
+				debug("callAppletJavaScript() not supported for more than 1 argument");
+			}
+
+		}
+
+		public String getDataParamId() {
+	        return DEFAULT_APPLET_ID;
+        }
 		
 }

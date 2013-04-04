@@ -1,5 +1,7 @@
 package geogebra.web.html5;
 
+import geogebra.web.main.AppWeb;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,12 +48,12 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return the data-param-id article attribute as String if set else "ggbApplet"
+	 * @return the data-param-id article attribute as String if set else AppWeb.DEFAULT_APPLET_ID
 	 */
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
 		if ((ret == "") || !ret.matches("[A-Za-z0-9]+"))
-			return "ggbApplet";
+			return AppWeb.DEFAULT_APPLET_ID;
 		return ret;
 	}
 

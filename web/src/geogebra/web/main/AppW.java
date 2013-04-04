@@ -27,7 +27,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
@@ -1508,17 +1507,13 @@ public class AppW extends AppWeb {
 	public long freeMemory() {
 		return 0;
 	}
-
-	// ================================================
-	// NATIVE JS
-	// ================================================
-
+	
 	@Override
 	public void evalJavaScript(App app, String script, String arg) {
 
 		// TODO: maybe use sandbox?
 
-		String ggbApplet = getArticleElement().getDataParamId();
+		String ggbApplet = getDataParamId();
 		script = "ggbApplet = document." + ggbApplet + ";" + script;
 
 		// script = "ggbApplet = document.ggbApplet;"+script;
@@ -1530,32 +1525,6 @@ public class AppW extends AppWeb {
 
 		evalScriptNative(script);
 	}
-
-	public native void evalScriptNative(String script) /*-{
-		$wnd.eval(script);
-	}-*/;
-
-	public native void callNativeJavaScript(String funcname) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname]();
-		}
-	}-*/;
-
-	public native void callNativeJavaScript(String funcname, String arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
-		}
-	}-*/;
-
-	public static native void ggbOnInit() /*-{
-		if (typeof $wnd.ggbOnInit === 'function')
-			$wnd.ggbOnInit();
-	}-*/;
-
-	public static native void ggbOnInit(String arg) /*-{
-		if (typeof $wnd.ggbOnInit === 'function')
-			$wnd.ggbOnInit(arg);
-	}-*/;
 
 	
 	public static int getAbsoluteLeft(Element element){
@@ -2030,28 +1999,6 @@ public class AppW extends AppWeb {
 		//
 	}
 
-	@Override
-	public ScriptManager getScriptManager() {
-		if (scriptManager == null) {
-			scriptManager = new ScriptManagerW(this);
-		}
-		return scriptManager;
-	}
-
-	@Override
-	public void callAppletJavaScript(String fun, Object[] args) {
-		if (args == null || args.length == 0) {
-			callNativeJavaScript(fun);
-		} else if (args.length == 1) {
-			App.debug("calling function: " + fun + "(" + args[0].toString()
-			        + ")");
-			callNativeJavaScript(fun, args[0].toString());
-		} else {
-			debug("callAppletJavaScript() not supported for more than 1 argument");
-		}
-
-	}
-
 	// =======================================
 	// KEYBOARD
 	// =======================================
@@ -2316,6 +2263,11 @@ public class AppW extends AppWeb {
 	
 	public boolean menubarRestricted() {
 		return frame != null;
+	}
+	
+	public String getDataParamId(){
+		return getArticleElement().getDataParamId();
+	
 	}
 
 }
