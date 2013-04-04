@@ -108,7 +108,6 @@ public class TouchController extends EuclidianController
 
 	public void onTouchMove(int x, int y)
 	{
-
 		if (this.clicked
 				&& (this.clicked = this.model.controlClicked())
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
@@ -137,7 +136,6 @@ public class TouchController extends EuclidianController
 			touchMoveNow(x, y, time);
 			
 		}
-
 	}
 
 	private void touchMoveNow(int x, int y,long l) {
@@ -153,7 +151,6 @@ public class TouchController extends EuclidianController
 		if(this.waitingX > 0){
 			touchMoveNow(this.waitingX, this.waitingY, System.currentTimeMillis());
 		}
-		
 	}
 
 	public void onTouchEnd(int x, int y)
@@ -182,7 +179,6 @@ public class TouchController extends EuclidianController
 		{
 			this.kernel.storeUndoInfo(); 
 		}
-			
 	}
 
 	public void onPinch(int x, int y, double scaleFactor)

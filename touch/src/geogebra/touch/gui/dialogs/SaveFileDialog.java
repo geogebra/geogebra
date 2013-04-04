@@ -8,8 +8,6 @@ public class SaveFileDialog extends FileDialog
 	public SaveFileDialog(TouchApp app)
 	{
 		super(app);
-		// FIXME title not shown!
-		super.textBox.setText(app.getConstructionTitle());
 	}
 
 	@Override
@@ -36,9 +34,17 @@ public class SaveFileDialog extends FileDialog
 			return;
 		}
 
-		if (this.textBox.getText() != "")
+		if (!this.textBox.getText().isEmpty())
 		{
 			this.stockStore.setItem(this.textBox.getText(), xml);
+			super.app.setConstructionTitle(super.textBox.getText());
 		}
+	}
+	
+	@Override
+	public void show()
+	{
+		this.textBox.setText(super.app.getConstructionTitle());
+		super.show();
 	}
 }

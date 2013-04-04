@@ -12,15 +12,19 @@ public class OpenFileDialog extends FileDialog
 	@Override
 	protected void onOK()
 	{
-		String fileAsXML = super.stockStore.getItem(super.fileList.getItemText(super.fileList.getSelectedIndex()));
-		try
+		String fileAsXML = super.stockStore.getItem(super.textBox.getText());
+		if (fileAsXML != null)
 		{
-			super.app.loadXML(fileAsXML);
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try
+			{
+				super.app.loadXML(fileAsXML);
+				super.app.setConstructionTitle(super.textBox.getText());
+			}
+			catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		hide();
 	}
@@ -29,5 +33,13 @@ public class OpenFileDialog extends FileDialog
 	protected void onCancel()
 	{
 		hide();
+	}
+	
+	//to remove the last input in the textBox, maybe there's a better solution
+	@Override
+	public void show()
+	{
+		super.textBox.setText("");
+		super.show();
 	}
 }

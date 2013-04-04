@@ -4,6 +4,8 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -67,6 +69,17 @@ public abstract class FileDialog extends PopupPanel
 		});
 
 		this.fileList = new ListBox();
+		this.fileList.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				if (FileDialog.this.fileList.getSelectedIndex() != -1)
+				{
+					String selectedText = FileDialog.this.fileList.getItemText(FileDialog.this.fileList.getSelectedIndex());
+					FileDialog.this.textBox.setText(selectedText);
+				}
+			}
+		});
 
 		this.buttonContainer = new HorizontalPanel();
 		this.buttonContainer.setWidth("100%");
@@ -168,7 +181,7 @@ public abstract class FileDialog extends PopupPanel
 
 	protected void onDelete()
 	{
-		this.stockStore.removeItem(this.fileList.getItemText(this.fileList.getSelectedIndex()));
+		this.stockStore.removeItem(this.textBox.getText());
 		populateFileList();
 	}
 
