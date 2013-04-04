@@ -477,4 +477,17 @@ public interface AppResources extends ClientBundleWithLookup {
 	
 	@Source("geogebra/web/gui/images/skydrive_icon_16.png")
 	ImageResource skydrive_icon_16();
+	
+	@Source("geogebra/web/gui/images/social-facebook.png")
+	ImageResource social_facebook();
+	
+	@Source("geogebra/web/gui/images/social-google.png")
+	ImageResource social_google();
+	
+	@Source("geogebra/web/gui/images/social-openid.png")
+	ImageResource social_openid();
+	
+	@Source("geogebra/web/gui/images/social-twitter.png")
+	ImageResource social_twitter();
+	
 }

@@ -73,7 +73,6 @@ public class MySkyDriveApis {
 	
 	private void refreshLoggedInGui(boolean loggedIn) {
 		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoSkyDrive(loggedIn);
-		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().refreshIfLoggedIntoSkyDrive(loggedIn);
 		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoSkyDrive(loggedIn);
 	}
 
@@ -147,7 +146,6 @@ public class MySkyDriveApis {
 				long current = new Date().getTime();
 				if (current > tokenExpiresAt) {
 					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
-					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLogOutFromSkyDrive().getScheduledCommand().execute();
 					checker.cancel();
 					return;
 				}

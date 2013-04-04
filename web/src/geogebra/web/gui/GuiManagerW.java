@@ -37,6 +37,7 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
+import geogebra.web.gui.util.SignInDialog;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -1150,5 +1151,11 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			currentPopup = null;
 		}
 	    
+    }
+
+	public void signIn() {
+	    SignInDialog signIn = ((DialogManagerW) app
+		        .getDialogManager()).getSignInDialog();
+	    signIn.center();
     }
 }

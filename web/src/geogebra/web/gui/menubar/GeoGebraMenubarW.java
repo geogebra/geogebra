@@ -1,9 +1,11 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -25,8 +27,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		private EditMenuW editMenu;
 		private HelpMenuW helpMenu;
 		private OptionsMenuW optionsMenu;
-		private  MenuItem logOutFromGoogle;
-		private MenuItem logOutFromSkyDrive;
+		private MenuItem signIn;
 		private MenuItem linktoggb;
 
 		/**
@@ -60,45 +61,30 @@ public class GeoGebraMenubarW extends MenuBar {
 		createHelpMenu();
 		
 		if (!app.menubarRestricted()) {
-			createLogOutFromGoogle();
-			createLogOutFromSkyDrive();
+			createSignIn();
 		}
 		
 		createLinkToGGBT();
 		
 	}
 
-	private void createLogOutFromSkyDrive() {
-		logOutFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.skydrive_icon_16().getSafeUri().asString(),""), true, getLogOutFromSkyDriveCommand());
-		logOutFromSkyDrive.addStyleName("logoutfromskydrive");
-		logOutFromSkyDrive.setVisible(false);
+	
+	
+	private void createSignIn() {
+	   signIn = addItem(app.getMenu("signIn"), getSignInCommand());
+	   signIn.addStyleName("signIn");
     }
 
-	private Command getLogOutFromGoogleDriveCommand() {
-		return new Command() {
+	private ScheduledCommand getSignInCommand() {
+	 
+	    return new ScheduledCommand() {
 			
 			public void execute() {
-				((AppW) app).getObjectPool().getMyGoogleApis().logout();
-				logOutFromGoogle.setVisible(false);
+				((GuiManagerW) app.getGuiManager()).signIn();
 			}
 		};
-	}
-	
-	private Command getLogOutFromSkyDriveCommand() {
-		return new Command() {
-			public void execute() {
-				((AppW) app).getObjectPool().getMySkyDriveApis().logout();
-				logOutFromSkyDrive.setVisible(false);
-			}
-		};
-	}
+    }
 
-	private void createLogOutFromGoogle() {
-		logOutFromGoogle = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(),""), true, getLogOutFromGoogleDriveCommand());
-		logOutFromGoogle.addStyleName("logoutfromgoogle");
-		logOutFromGoogle.setVisible(false);
-	}
-	
 	private native String getNativeEmailSet() /*-{
 		if($wnd.GGW_appengine){
 			return $wnd.GGW_appengine.USER_EMAIL;
@@ -202,23 +188,8 @@ public class GeoGebraMenubarW extends MenuBar {
 			return fileMenu;
 		}
 		
-		public MenuItem getLogOutFromGoogle() {
-			return logOutFromGoogle;
+		public MenuItem getSignIn() {
+			return signIn;
 		}
-		
-		public MenuItem getLogOutFromSkyDrive() {
-			return logOutFromSkyDrive;
-		}
-
-		public void refreshIfLoggedIntoGoogle(boolean loggedIn) {
-			logOutFromGoogle.setVisible(true);
-			logOutFromGoogle.setTitle(app.getObjectPool().getMyGoogleApis().getLoggedInEmail() + " : " + app.getObjectPool().getMyGoogleApis().getLoggedInUser());     
-	        
-        }
-
-		public void refreshIfLoggedIntoSkyDrive(boolean loggedIn) {
-	        logOutFromSkyDrive.setVisible(true);
-	        logOutFromSkyDrive.setTitle(app.getObjectPool().getMySkyDriveApis().getLoggedInUser());
-        }
 		
 }

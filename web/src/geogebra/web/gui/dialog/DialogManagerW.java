@@ -20,6 +20,7 @@ import geogebra.web.gui.util.AlertDialog;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
+import geogebra.web.gui.util.SignInDialog;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.main.AppW;
 
@@ -207,7 +208,7 @@ public class DialogManagerW extends DialogManager {
 	   } else {
 		   googleFileDescriptors.setFileName(driveBase64FileName);
 		   googleFileDescriptors.setDescription(driveBase64description);
-		   MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLogOutFromGoogle();
+		   MenuItem lg = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getSignIn();
 		   final int top = lg.getElement().getOffsetTop();
 		   final int left = lg.getElement().getOffsetLeft();
 		   googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {
@@ -271,4 +272,13 @@ public class DialogManagerW extends DialogManager {
 		return alertDialog;
 		
 	}
+	
+	SignInDialog signInDialog = null;
+
+	public SignInDialog getSignInDialog() {
+	    if (signInDialog == null) {
+	    	signInDialog = new SignInDialog(app);
+	    }
+	    return signInDialog;
+    }
 	}

@@ -220,7 +220,6 @@ public class MyGoogleApis {
 	
 	private void refreshLoggedInGui(boolean loggedIn) {
 			((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getFileMenu().getOpenMenu().refreshIfLoggedIntoGoogle(loggedIn);
-    		((AppW) app).getObjectPool().getGgwMenubar().getMenubar().refreshIfLoggedIntoGoogle(loggedIn);
     		((DialogManagerW) app.getDialogManager()).getFileChooser().refreshIfLoggedIntoGoogle(loggedIn);
 	}
 	private native void setUserEmailAfterLogin() /*-{
@@ -291,7 +290,6 @@ public class MyGoogleApis {
 				long current = new Date().getTime();
 				if (current > tokenExpiresAt) {
 					((DialogManagerW) _this.app.getDialogManager()).getAlertDialog().get(app.getLocalization().getMenu("TimeExpired")).show();
-					((AppW) app).getObjectPool().getGgwMenubar().getMenubar().getLogOutFromGoogle().getScheduledCommand().execute();
 					checker.cancel();
 					return;
 				}

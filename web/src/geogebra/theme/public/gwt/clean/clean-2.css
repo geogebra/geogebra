@@ -1338,23 +1338,15 @@ body[dir=rtl] .linktoggbtube {
     left : 20px;
 }
 
-.logoutfromgoogle {
+.signIn {
 	position:absolute;
-	right : 40px;
+	right: 50px;
 }
 
-.logoutfromskydrive {
-	position: absolute;
-	right: 70px; 
-}
-
-body[dir=rtl] .logintogoogle {
-    right : auto;
-    left : 44px;
-}
-
-.logintogoogle img {
-	vertical-align:bottom;
+body[dir=rtl] .signIn {
+	position:absolute;
+	right: auto;
+	left: 50px;
 }
 
 
@@ -1723,5 +1715,28 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	width:100%;
 	border-collapse:collapse;
 }
+
+/*=========== SignInDialog =============*/
+
+
+.loginspanel input[type=text], .loginspanel input[type=password] {
+	width:200px;
+	font-size:12px;
+	margin:0;
+	padding:5px;
+}
+
+.loginbutton {
+    min-width: 200px;
+    display: block;
+    font-size:12px;
+    text-align:left;
+    font-weight:bold;
+}
+
+.loginbutton img {
+    margin-right:10px;
+}
+
 
 
