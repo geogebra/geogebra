@@ -125,32 +125,49 @@ public class GeoGebraFrame extends VerticalPanel {
 		return dataParamHeight;
 	}
 
+	private static void setBorder(ArticleElement ae, GeoGebraFrame gf, String dpBorder, int px) {
+		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
+		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderColor(dpBorder);
+		gf.getStyleElement().getStyle().setBorderWidth(px, Style.Unit.PX);
+		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+	}
+	
+	/**
+	 * Sets the border around the canvas to the data-param-bordercolor property
+	 * or leaves it invisible if "none" was set.
+	 * @param ae article element
+	 * @param gf frame
+	 */
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrame gf) {
 		String dpBorder = ae.getDataParamBorder();
+		if (dpBorder != null && dpBorder.equals("none")) {
+			setBorder(ae, gf, "#ffffff", 0);
+			return;
+		}
+		
 		if (dpBorder == null || dpBorder.length() != 7 ||
 			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
 			// FIXME: This check is incomplete, do a complete check.
 			dpBorder = "#000000";
 		}
-
-		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		ae.getStyle().setBorderColor(dpBorder);
-		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
-
+		setBorder(ae, gf, dpBorder, 1);
 	}
 
+	/**
+	 * Sets the border around the canvas to be highlighted. At the moment we use
+	 * "#9999ff" for this purpose.
+	 * @param ae article element
+	 * @param gf frame
+	 */
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrame gf) {
-		String dpBorder = "#9999ff";
-
-		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		ae.getStyle().setBorderColor(dpBorder);
-		gf.getStyleElement().getStyle().setBorderWidth(1, Style.Unit.PX);
-		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+		String dpBorder = ae.getDataParamBorder();
+		if (dpBorder != null && dpBorder.equals("none")) {
+			setBorder(ae, gf, "#FFFFFF", 0);
+			return;
+		}
+		setBorder(ae, gf, "#9999ff", 1);
 	}
 	
 	public void runAsyncAfterSplash(final GeoGebraFrame inst, final ArticleElement articleElement) {
