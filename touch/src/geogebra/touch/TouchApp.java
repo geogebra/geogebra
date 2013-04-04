@@ -57,13 +57,13 @@ public class TouchApp extends AppWeb
 {
 	private List<TitleChangedListener> titleListeners;
 
-	private GeoGebraTouchGUI mobileGUI;
+	private GeoGebraTouchGUI touchGUI;
 	private FontManagerW fontManager;
 	/**
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	private XMLBuilder mobileXML;
+	private XMLBuilder touchXML;
 	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
@@ -74,12 +74,12 @@ public class TouchApp extends AppWeb
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * 
-	 * @param mobileGUI
+	 * @param touchGUI
 	 *          graphic user interface
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
-	public TouchApp(GeoGebraTouchGUI mobileGUI)
+	public TouchApp(GeoGebraTouchGUI touchGUI)
 	{
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
@@ -92,7 +92,7 @@ public class TouchApp extends AppWeb
 		this.loc = new LocalizationW();
 
 		this.fontManager = new FontManagerW();
-		this.mobileGUI = mobileGUI;
+		this.touchGUI = touchGUI;
 		this.settings = new Settings();
 
 		setFontSize(12);
@@ -101,7 +101,7 @@ public class TouchApp extends AppWeb
 
 		if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
 		{
-			logger = new GeoGebraLoggerM(mobileGUI);
+			logger = new GeoGebraLoggerM(touchGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
@@ -120,8 +120,8 @@ public class TouchApp extends AppWeb
 	{
 		initKernel();
 
-		this.mobileGUI.initComponents(this.kernel);
-		super.euclidianView = this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
+		this.touchGUI.initComponents(this.kernel);
+		super.euclidianView = this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 
 		hasFullPermissions = true;
 		setUndoActive(true);
@@ -130,9 +130,9 @@ public class TouchApp extends AppWeb
 		setConstructionTitle("GeoGebraTouch");
 	}
 
-	public GeoGebraTouchGUI getMobileGui()
+	public GeoGebraTouchGUI getTouchGui()
 	{
-		return this.mobileGUI;
+		return this.touchGUI;
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class TouchApp extends AppWeb
 	public EuclidianViewInterfaceCommon getActiveEuclidianView()
 	{
 		// TODO
-		return this.mobileGUI.getEuclidianViewPanel().getEuclidianView();
+		return this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 	}
 
 	@Override
@@ -489,8 +489,8 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean loadXML(String xml) throws Exception
 	{
-		this.mobileXML = createXMLBuilder(this.kernel.getConstruction());
-		this.mobileXML.processXMLString(xml, true, false);
+		this.touchXML = createXMLBuilder(this.kernel.getConstruction());
+		this.touchXML.processXMLString(xml, true, false);
 		return true;
 	}
 
@@ -588,11 +588,11 @@ public class TouchApp extends AppWeb
 	// needed, to save xml-Strings(constructions)
 	public XMLBuilder getXMLBuilder()
 	{
-		if (this.mobileXML == null)
+		if (this.touchXML == null)
 		{
-			this.mobileXML = createXMLBuilder(this.kernel.getConstruction());
+			this.touchXML = createXMLBuilder(this.kernel.getConstruction());
 		}
-		return this.mobileXML;
+		return this.touchXML;
 	}
 
 	public static XMLBuilder createXMLBuilder(Construction cons)
