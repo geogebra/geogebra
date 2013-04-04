@@ -264,7 +264,7 @@ public class Ggb2giac {
 				"binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1",
-				"poisson_icdf(%1,rand(0,1))");
+		  "poisson_icdf(%0,rand(0,1))"); // could also make the product of rand(0,1) until less than exp(-%0)
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
