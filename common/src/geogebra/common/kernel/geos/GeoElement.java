@@ -1919,7 +1919,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	@Override
 	public boolean isIndependent() {
-		return (algoParent == null);
+		return (algoParent == null) && (this.getCorrespondingCasCell()==null || !this.getCorrespondingCasCell().hasVariablesOrCommands());
 	}
 
 	/**

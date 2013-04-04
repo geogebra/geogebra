@@ -1944,10 +1944,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 					return true;
 				}
 		}
-		if (geo.isIndependent()) {
+		
+		AlgoElement algo = geo.getParentAlgorithm();
+		if (algo == null || geo.getParentAlgorithm() == null) {
 			return false;
 		}
-		AlgoElement algo = geo.getParentAlgorithm();
+		
 		for (int i = 0; i < algo.getInput().length; i++)
 			if (dependsOnDummy(algo.getInput()[i])) {
 				return true;

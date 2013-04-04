@@ -290,8 +290,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean showInEuclidianView() {
 		return isDrawable()
 				&& isDefined()
-				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()))
-				&& (this.getCorrespondingCasCell()==null || !this.getCorrespondingCasCell().hasVariablesOrCommands());
+				&& (intervalMin == null || intervalMax == null || (isIntervalMinActive() && isIntervalMaxActive()));
 	}
 
 	@Override
