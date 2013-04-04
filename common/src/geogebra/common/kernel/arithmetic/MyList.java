@@ -611,25 +611,40 @@ public class MyList extends ValidExpression implements ListValue,
 			// return "\\emptyset";
 			return "\\{\\}";
 		} else if (isMatrix()) {
-			
-			toLaTeXString.append("\\left(\\begin{array}{");
-			for (int i = 0; i < matrixCols ; i++) {
-				toLaTeXString.append("l");
-			}
-			toLaTeXString.append("}");
-
-			for (int i = 0; i < size(); i++) {
-				ListValue singleValue = (ListValue) getListElement(i)
-						.evaluate(StringTemplate.defaultTemplate);
-				toLaTeXString.append(singleValue.getListElement(0)
-						.toLaTeXString(symbolic,tpl));
-				for (int j = 1; j < singleValue.size(); j++) {
-					toLaTeXString.append("&");
-					toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
+			if (kernel.getApplication().isHTML5Applet()) {
+				toLaTeXString.append("\\left(\\ggbtable{");
+				for (int i = 0; i < size(); i++) {
+					ListValue singleValue = (ListValue) getListElement(i)
+							.evaluate(StringTemplate.defaultTemplate);
+					toLaTeXString.append("\\ggbtr{");
+					for (int j = 0; j < singleValue.size(); j++) {
+						toLaTeXString.append("\\ggbtd{");
+						toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
+						toLaTeXString.append("}");
+					}
+					toLaTeXString.append("}");
 				}
-				toLaTeXString.append("\\\\");
+				toLaTeXString.append("}\\right)");
+			} else {
+				toLaTeXString.append("\\left(\\begin{array}{");
+				for (int i = 0; i < matrixCols ; i++) {
+					toLaTeXString.append("l");
+				}
+				toLaTeXString.append("}");
+
+				for (int i = 0; i < size(); i++) {
+					ListValue singleValue = (ListValue) getListElement(i)
+							.evaluate(StringTemplate.defaultTemplate);
+					toLaTeXString.append(singleValue.getListElement(0)
+							.toLaTeXString(symbolic,tpl));
+					for (int j = 1; j < singleValue.size(); j++) {
+						toLaTeXString.append("&");
+						toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
+					}
+					toLaTeXString.append("\\\\");
+				}
+				toLaTeXString.append("\\end{array}\\right)");
 			}
-			toLaTeXString.append("\\end{array}\\right)");
 		} else {
 			toLaTeXString.append(" \\left\\{ ");
 

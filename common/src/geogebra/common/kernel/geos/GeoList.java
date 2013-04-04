@@ -1473,6 +1473,23 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			final int cols = ((GeoList) get(0)).size();
 
 			final StringBuilder sb = new StringBuilder();
+
+			if (app.isHTML5Applet()) {
+				sb.append("\\left(\\ggbtable{");
+				for (int i = 0; i < size(); i++) {
+					final GeoList geo = (GeoList) get(i);
+					sb.append("\\ggbtr{");
+					for (int j = 0; j < geo.size(); j++) {
+						sb.append("\\ggbtd{");
+						sb.append(geo.get(j).toLaTeXString(symbolic, tpl));
+						sb.append("}");
+					}
+					sb.append("}");
+				}
+				sb.append("}\\right)");
+				return sb.toString();
+			}
+
 			sb.append("\\left(\\begin{array}{");
 			// eg rr
 			for (int i = 0; i < cols; i++) {
