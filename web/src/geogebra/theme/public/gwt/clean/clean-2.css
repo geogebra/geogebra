@@ -1271,7 +1271,7 @@ td.datePickerMonth {
   }
 
  .geogebraweb .jsloaded {
- 	border:0px solid black; /* let's try to remove the black border */
+ 	border:1px solid transparent; /* let's try to remove the black border */
  	position:relative;
   }
   
