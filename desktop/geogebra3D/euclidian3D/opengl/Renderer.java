@@ -782,10 +782,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * 
      */
     public void setColor(Coords color){
+    	
     	gl.glColor4f((float) color.getX(),
     			(float) color.getY(),
     			(float) color.getZ(),
-    			(float) color.getW());   	
+    			(float) color.getW());  
+    				
     }
       
     //arrows
@@ -1537,29 +1539,29 @@ public class Renderer extends RendererJogl implements GLEventListener {
         float diffuse=1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
         float[] lightPosition = {-1.0f, 1f, 1.0f, 0.0f};
-        float specular = 0f;
-        float[] lightSpecular = {specular, specular, specular, 1f};
-       
+        
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, lightAmbient, 0);
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, lightPosition, 0);
+        
+        /*
+        float specular = 1f;
+        float[] lightSpecular = {specular, specular, specular, 1f};
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_SPECULAR, lightSpecular, 0);
+        */
         //gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_SHININESS, lightDiffuse, 0);
  
          
+        
         //LIGHT_HIGHLIGHTED
-        ambiant = 1f;
-        //lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
-        diffuse=0f;//1f-ambiant;
-        //lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};  
-        specular = 1f;
-        lightSpecular = new float[] {specular, specular, specular, 1f};
+        ambiant = 0.5f;
+        diffuse=1f-ambiant;
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, lightAmbient, 0);
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, lightPosition, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_SPECULAR, lightSpecular, 0);
                
         enableLight(LIGHT_STANDARD);             
+        
         
         //material
         /*
@@ -1571,8 +1573,22 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         gl.glColorMaterial(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_AMBIENT_AND_DIFFUSE);
         //gl.glColorMaterial(GLlocal.GL_FRONT, GLlocal.GL_AMBIENT_AND_DIFFUSE);
+        //gl.glColorMaterial(GLlocal.GL_BACK, GLlocal.GL_AMBIENT);
         gl.glEnable(GLlocal.GL_COLOR_MATERIAL);
-      
+        
+        /*
+        //specular 
+        FloatBuffer matSpecular = FloatBuffer.allocate(4);
+        matSpecular.put(1f);
+        matSpecular.put(0f);
+        matSpecular.put(0f);
+        matSpecular.put(1f);
+        gl.glMaterialfv(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_SPECULAR, matSpecular);
+        gl.glMateriali(GLlocal.GL_FRONT_AND_BACK, GLlocal.GL_SHININESS, 16);
+         */
+        
+        
+        gl.glEnable(GLlocal.GL_LIGHT0);
         gl.glShadeModel(GLlocal.GL_SMOOTH);
         gl.glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
         gl.glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
