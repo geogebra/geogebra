@@ -34,6 +34,7 @@ import java.util.HashSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
+import com.google.gwt.dom.client.Style.WhiteSpace;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Grid;
@@ -2092,6 +2093,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				// TODO: why doesn't this work in win8 chrome?
 				//getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
 				
+				getCellFormatter().getElement(j, i).getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
 				getCellFormatter().getElement(j, i).getStyle().setOverflow(Style.Overflow.HIDDEN);
 				getCellFormatter().getElement(j, i).getStyle().setPaddingLeft(4, Style.Unit.PX);
 				getCellFormatter().getElement(j, i).getStyle().setPaddingRight(4, Style.Unit.PX);
