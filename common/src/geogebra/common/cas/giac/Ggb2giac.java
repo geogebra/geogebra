@@ -36,7 +36,7 @@ public class Ggb2giac {
 		
 		// TODO: ggbtmpvarx
 		p("Coefficients.1",
-				"coeffs(%0,ggbtmpvarx)");
+				"coeffs(%0)");
 		
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
@@ -129,7 +129,8 @@ public class Ggb2giac {
 		p("Groebner.3",
 				"groebner(%0,%1,%2)");
 		p("HyperGeometric.5",
-				"todo");
+				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) " +
+				"else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) fi][4]");
 		p("Identity.1", "identity(round(%0))");
 		p("If.2", "when(%0,%1,undef)");
 		p("If.3", "when(%0,%1,%2)");
@@ -139,14 +140,14 @@ public class Ggb2giac {
 		
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.1",
-				"integrate(%0,ggbtmpvarx,arbconst(1))");
+				"integrate(%0)");
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.2",
-				"integrate(%0,%1,arbconst(1))");
+				"integrate(%0,%1)");
 		
 		// TODO: deal with ggbtmpvarx
 		p("Integral.3",
-				"integrate(%0,ggbtmpvarx,%1,%2)");
+				"integrate(%0,%1,%2)");
 		
 		p("Integral.4",
 				"integrate(%0,%1,%2,%3)");
@@ -183,7 +184,7 @@ public class Ggb2giac {
 		p("Length.1",
 				"size(%0)");
 		p("Length.3",
-				"arcLen(%0,ggbtmpvarx,%1,%2)");
+				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 		p("Limit.2",
 				"limit(%0,ggbtmpvarx,%1)");
