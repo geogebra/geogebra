@@ -193,6 +193,214 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+	
+	/**
+	 * 
+	 * @param radius radius of the sphere
+	 * @param viewScale view scale
+	 * @return longitude length needed to render the sphere
+	 */
+	public int calcSphereLongitudesNeeded(double radius, double viewScale){
+		
+		int longitude=8;
+		double size=radius*viewScale;
+		//App.error(""+size);
+		while(longitude*longitude<=16*size){//find the correct longitude size 
+			longitude*=2;
+		}
+		
+		//App.debug("longitude="+longitude);
+		return longitude;
+	}
+	
+	
+	/**
+	 * draw a sphere with center and radius.
+	 * view scaling is used to know how many triangles are needed
+	 * @param center center of the sphere
+	 * @param radius radius of the sphere
+	 * @param viewScale view scaling
+	 * @return calculated longitude
+	 */
+	public int drawSphere(Coords center, double radius, double viewScale){
+		
+		int longitude = calcSphereLongitudesNeeded(radius, viewScale);
+		
+		drawSphere(center, radius, longitude);
+		
+		return longitude;
+	}
+	
+	
+	/**
+	 * draw a sphere with center and radius.
+	 * view scaling is used to know how many triangles are needed
+	 * @param center center of the sphere
+	 * @param radius radius of the sphere
+	 * @param longitude longitude length for rendering
+	 */
+	public void drawSphere(Coords center, double radius, int longitude){
+		
+		manager.startGeometry(Manager.TRIANGLES);
+		
+		//set texture to (0,0)
+		manager.texture(0,0);
+		
+		int latitude=longitude/4;
+		
+		Coords[] n = new Coords[longitude];
+		Coords n1, n2, n1b, n2b;
+		
+		double[] cosSinV = new double[2]; 
+		
+		//equator
+		cosSinV[0] = 1; // cos(0)
+		cosSinV[1] = 0; // sin(0)
+		double lastCos = 1;
+		for (int ui=0; ui<longitude; ui++){			
+			n[ui]=sphericalCoords(ui,longitude,cosSinV);
+		}
+		
+		//shift for longitude
+		int shift = 1;
+		
+		boolean jumpNeeded = false;
+
+		for (int vi=1; vi<latitude; vi++){		
+			
+			cosSin(vi, latitude, cosSinV);
+
+			// check if parallel is small enough to make jumps
+			if (2*cosSinV[0] < lastCos){
+				lastCos = lastCos / 2;
+				jumpNeeded = true;
+			}else{
+				jumpNeeded = false;
+			}
+						
+			
+			//first values 
+			n2 = n[longitude - shift];
+			if (jumpNeeded){
+				n2b = sphericalCoords(longitude , longitude, cosSinV);
+			}else{
+				n2b = sphericalCoords(longitude - shift, longitude, cosSinV);
+			}
+
+			//first : no jump
+			boolean jump = false;
+
+			
+			for (int ui=0; ui<longitude; ui += shift){
+			
+				//last latitude values
+				n1 = n2;
+				n2 = n[ui];
+				
+				
+				//new latitude values and draw triangles
+				n1b = n2b;
+				if (jumpNeeded){
+					if (jump){ //draw edge triangle and center triangle
+						n2b = sphericalCoords(ui+shift, longitude, cosSinV);
+
+						//top triangles
+						drawNCr(n1,center,radius);
+						drawNCr(n2,center,radius);
+						drawNCr(n1b,center,radius);
+
+						drawNCr(n1b,center,radius);
+						drawNCr(n2,center,radius);
+						drawNCr(n2b,center,radius);
+
+						//bottom triangles
+						drawNCrm(n1,center,radius);
+						drawNCrm(n1b,center,radius);
+						drawNCrm(n2,center,radius);
+
+						drawNCrm(n1b,center,radius);
+						drawNCrm(n2b,center,radius);
+						drawNCrm(n2,center,radius);
+
+
+					}else{ // draw edge triangle
+						n2b = sphericalCoords(ui, longitude, cosSinV);
+
+						//top triangles
+						drawNCr(n1,center,radius);
+						drawNCr(n2,center,radius);
+						drawNCr(n1b,center,radius);
+
+						//bottom triangles
+						drawNCrm(n1,center,radius);
+						drawNCrm(n1b,center,radius);
+						drawNCrm(n2,center,radius);
+
+					}
+				}else{ // no jump :  draw two triangles
+					n2b = sphericalCoords(ui, longitude, cosSinV);
+
+					//top triangles
+					drawNCr(n1,center,radius);
+					drawNCr(n2,center,radius);
+					drawNCr(n1b,center,radius);
+					
+					drawNCr(n2,center,radius);
+					drawNCr(n2b,center,radius);
+					drawNCr(n1b,center,radius);
+					
+					//bottom triangles
+					drawNCrm(n1,center,radius);
+					drawNCrm(n1b,center,radius);
+					drawNCrm(n2,center,radius);
+					
+					drawNCrm(n2,center,radius);
+					drawNCrm(n1b,center,radius);
+					drawNCrm(n2b,center,radius);
+					
+				}
+				
+				
+				n[ui] = n2b;
+				
+				if (jumpNeeded){
+					jump = !jump;
+				}
+	
+			}
+			
+			// if just jumps done, next shift is twice
+			if(jumpNeeded){
+				shift = shift * 2 ;
+			}
+			
+			
+		}
+		
+		//pole
+		n2 = n[longitude - shift];
+		for (int ui=0; ui<longitude; ui += shift){
+			n1 = n2;
+			n2 = n[ui];
+			
+			//top triangles
+			drawNCr(n1,center,radius);
+			drawNCr(n2,center,radius);
+			drawNCr(Coords.VZ,center,radius);
+			
+			//bottom triangles
+			drawNCrm(n1,center,radius);
+			drawNCrm(Coords.VZ,center,radius);
+			drawNCrm(n2,center,radius);
+			
+		}
+		
+		manager.endGeometry();
+		
+	}
+	
+	
+	
 	/** 
 	 * draw part of the surface
 	 */
@@ -266,6 +474,24 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+	private static void cosSin(int vi, int latitude, double[] ret){
+		double v = ((double) vi/latitude)*Math.PI/2;
+		ret[0] = Math.cos(v);
+		ret[1] = Math.sin(v);	
+	}
+	
+	private static Coords sphericalCoords(int ui, int longitude, double[] cosSinV){
+		
+		double u = ((double) ui/longitude)*2*Math.PI;
+		
+		return new Coords(				
+				Math.cos(u)*cosSinV[0],
+				Math.sin(u)*cosSinV[0],
+				cosSinV[1],0);
+			
+	}
+	
+	
 	private static Coords sphericalCoords(int ui, int vi, int longitude, int latitude){
 		
 		double u = ((double) ui/longitude)*2*Math.PI;
@@ -277,6 +503,7 @@ public class PlotterSurface {
 				Math.sin(v),0);
 			
 	}
+	
 	
 	/** 
 	 * draw part of the surface
@@ -648,6 +875,26 @@ public class PlotterSurface {
 		float u = uMin+ui*du;
 		float v = vMin+vi*dv;			
 		drawNV(functional2Var.evaluateNormal(u, v),functional2Var.evaluatePoint(u, v));
+	}
+
+	/**
+	 * draws normal and point at center + normal * radius
+	 * @param normal
+	 * @param center
+	 * @param radius
+	 */
+	private void drawNCr(Coords normal, Coords center, double radius){
+		drawNV(normal, center.add(normal.mul(radius)));
+	}
+
+	/**
+	 * draws normal and point at center - normal * radius
+	 * @param normal
+	 * @param center
+	 * @param radius
+	 */
+	private void drawNCrm(Coords normal, Coords center, double radius){
+		drawNCr(normal.mul(-1), center, radius);
 	}
 	
 	private void drawNV(Coords normal, Coords point){

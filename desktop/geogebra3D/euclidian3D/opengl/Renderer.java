@@ -675,7 +675,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	gl.glDepthMask(false);
     	gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);gl.glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
-        gl.glEnable(GLlocal.GL_LIGHTING);
+        
+    	gl.glLineWidth(5f);
+    	
+    	gl.glEnable(GLlocal.GL_LIGHTING);
         gl.glDisable(GLlocal.GL_LIGHT0);
         gl.glDisable(GLlocal.GL_CULL_FACE);
         gl.glDisable(GLlocal.GL_BLEND);

@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoQuadric3D;
@@ -71,45 +72,30 @@ implements Previewable {
 	
 	
 	
+	private int longitude = 0;
 	
 	
 	
 	@Override
 	protected boolean updateForItSelf(){
 		
-		
-		//super.updateForItSelf();
-		
-		
 		Renderer renderer = getView3D().getRenderer();
-		
-		
-
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
-		Coords o;
-		Coords v;
-							
-		double[] minmax;
-		float min, max;
-		float fade;// = (float) (50/getView3D().getScale());
-		
-			
 		PlotterSurface surface;
 		
 		switch(quadric.getType()){
-		case GeoQuadric3D.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			surface = renderer.getGeometryManager().getSurface();
-			surface.start(quadric);
-			surface.setU((float) quadric.getMinParameter(0), (float) quadric.getMaxParameter(0));surface.setNbU(60); 
-			surface.setV((float) quadric.getMinParameter(1), (float) quadric.getMaxParameter(1));surface.setNbV(30);
-			surface.draw();
-			setGeometryIndex(surface.end());
-			
+			surface.start();
+			longitude = surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), getView3D().getScale());
+			setGeometryIndex(surface.end());			
 			break;
 			
-		case GeoQuadric3D.QUADRIC_CONE:
-		case GeoQuadric3D.QUADRIC_CYLINDER:
-						
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+			double[] minmax;
+			float min, max;
+			
 			minmax = getMinMax();
 			
 			
@@ -159,12 +145,12 @@ implements Previewable {
 		float fade = (max-min)/10f;
 
 		switch(((GeoQuadric3D) getGeoElement()).getType()){
-		case GeoQuadric3D.QUADRIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			surface.setV(min,max);surface.setNbV(3);
 			surface.setVFading(fade, fade);
 			break;
 
-		case GeoQuadric3D.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CONE:
 			if (min*max<0){
 				surface.setV(min,0);surface.setNbV(2);surface.setVFading(fade, 0);surface.draw();
 				surface.setV(0,max);surface.setNbV(2);surface.setVFading(0, fade);surface.draw();
@@ -181,14 +167,34 @@ implements Previewable {
 	
 	@Override
 	protected void updateForView(){
+		
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		
+		switch(quadric.getType()){
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+			if (getView3D().viewChangedByZoom()){
+				Renderer renderer = getView3D().getRenderer();		
+				PlotterSurface surface;
 
-		switch(((GeoQuadric3D) getGeoElement()).getType()){
-		case GeoQuadric3D.QUADRIC_CONE:
-		case GeoQuadric3D.QUADRIC_CYLINDER:
+				surface = renderer.getGeometryManager().getSurface();
+				
+				// check if longitude length changes
+				int l = surface.calcSphereLongitudesNeeded(quadric.getHalfAxis(0), getView3D().getScale());
+				if (l != longitude){
+					//App.debug(l+","+longitude);
+					longitude = l;
+					surface.start();
+					surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), longitude);
+					setGeometryIndex(surface.end());
+				}
+							
+			}
+			break;
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			updateForItSelf();
 			break;
 		}
-		//no update for sphere : TODO if zoom (nb of vertices)
 	}
 	
 	
@@ -212,9 +218,9 @@ implements Previewable {
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		switch(((GeoQuadric3D) getGeoElement()).getType()){
-		case GeoQuadric3D.QUADRIC_SPHERE:
-		case GeoQuadric3D.QUADRIC_CONE:
-		case GeoQuadric3D.QUADRIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			addToDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
 			break;
 		default:
@@ -225,9 +231,9 @@ implements Previewable {
     @Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	switch(((GeoQuadric3D) getGeoElement()).getType()){
-		case GeoQuadric3D.QUADRIC_SPHERE:
-		case GeoQuadric3D.QUADRIC_CONE:
-		case GeoQuadric3D.QUADRIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			removeFromDrawable3DLists(lists,DRAW_TYPE_CLOSED_SURFACES_CURVED);
 			break;
 		default:
