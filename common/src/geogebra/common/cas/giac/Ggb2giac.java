@@ -187,7 +187,7 @@ public class Ggb2giac {
 				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 		p("Limit.2",
-				"limit(%0,ggbtmpvarx,%1)");
+				"limit(%0,%1)");
 		p("Limit.3",
 				"limit(%0,%1,%2)");
 		p("LimitAbove.2",
