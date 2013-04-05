@@ -214,7 +214,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		gl.glDisable(GLlocal.GL_CULL_FACE);
 		drawable3DLists.drawTransp(this);
-		//drawList3D.drawTranspClosed(this);
+		drawable3DLists.drawTranspClosedNotCurved(this);
 		
 		//TODO fix it
 		//gl.glDisable(GLlocal.GL_TEXTURE_2D);
@@ -226,14 +226,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		gl.glEnable(GLlocal.GL_CULL_FACE);
 		gl.glCullFace(GLlocal.GL_FRONT); 
-		drawable3DLists.drawTranspClosed(this);//draws inside parts  
+		drawable3DLists.drawTranspClosedCurved(this);//draws inside parts  
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
 			disableClipPlanesIfNeeded();
 		}
 		gl.glCullFace(GLlocal.GL_BACK); 
-		drawable3DLists.drawTranspClosed(this);//draws outside parts 	
+		drawable3DLists.drawTranspClosedCurved(this);//draws outside parts 	
 		if (drawable3DLists.containsClippedSurfaces()){
 			enableClipPlanesIfNeeded();
 			drawable3DLists.drawTranspClipped(this); //clipped surfaces back-faces
@@ -705,7 +705,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glEnable(GLlocal.GL_ALPHA_TEST);
         
     	drawable3DLists.drawTransp(this);
-    	drawable3DLists.drawTranspClosed(this);
+    	drawable3DLists.drawTranspClosedNotCurved(this);
+    	drawable3DLists.drawTranspClosedCurved(this);
     	if (drawable3DLists.containsClippedSurfaces()){
     		enableClipPlanesIfNeeded();
     		drawable3DLists.drawTranspClipped(this); 

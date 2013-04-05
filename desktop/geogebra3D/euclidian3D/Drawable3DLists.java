@@ -294,14 +294,25 @@ public class Drawable3DLists {
 	 * draw transparent closed surfaces
 	 * @param renderer
 	 */
-	public void drawTranspClosed(Renderer renderer){
+	public void drawTranspClosedNotCurved(Renderer renderer){
 
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) 
 			d.next().drawTransp(renderer);	
+		
+	}
+	
+	/**
+	 * draw transparent closed surfaces
+	 * @param renderer
+	 */
+	public void drawTranspClosedCurved(Renderer renderer){
+
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED].iterator(); d.hasNext();) 
 			d.next().drawTransp(renderer);	
 		
 	}
+	
+	
 	
 	/**
 	 * draw transparent clipped surfaces
