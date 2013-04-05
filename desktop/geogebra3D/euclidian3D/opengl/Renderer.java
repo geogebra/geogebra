@@ -222,6 +222,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		gl.glDisable(GLlocal.GL_LIGHT0);
 		gl.glEnable(GLlocal.GL_LIGHT1);
+		//gl.glEnable(GLlocal.GL_LIGHT2);
 		
 		gl.glEnable(GLlocal.GL_CULL_FACE);
 		gl.glCullFace(GLlocal.GL_FRONT); 
@@ -239,6 +240,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
 			disableClipPlanesIfNeeded();
 		}
 		
+
+		//gl.glDisable(GLlocal.GL_LIGHT2);
 		gl.glDisable(GLlocal.GL_LIGHT1);
 		gl.glEnable(GLlocal.GL_LIGHT0);
 
@@ -257,7 +260,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
 		gl.glDisable(GLlocal.GL_LIGHT0);
 		gl.glEnable(GLlocal.GL_LIGHT1);
-       
+		//gl.glEnable(GLlocal.GL_LIGHT2);
 		
 		//TODO improve this !
 		gl.glEnable(GLlocal.GL_CULL_FACE);
@@ -276,6 +279,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
 			disableClipPlanesIfNeeded();
 		}
 		
+
+		//gl.glDisable(GLlocal.GL_LIGHT2);
 		gl.glDisable(GLlocal.GL_LIGHT1);
 		gl.glEnable(GLlocal.GL_LIGHT0);
 	}
@@ -1469,10 +1474,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }  
     
     private float[] light0Position = {1f, 0f, 1f, 0f};
+    //private float[] light2Position = {-1f, 0f, -1f, 0f};
     
     private void setLightPosition(){
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, light0Position, 0);
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, light0Position, 0);
+        //gl.glLightfv(GLlocal.GL_LIGHT2, GLlocal.GL_POSITION, light2Position, 0);
     }
     
     //////////////////////////////////
@@ -1554,11 +1561,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
         lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
         float diffuse=1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
-        float[] lightPosition = {-1.0f, 1f, 1.0f, 0.0f};
+        //float[] lightPosition = {-1.0f, 1f, 1.0f, 0.0f};
         
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_AMBIENT, lightAmbient, 0);
         gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, lightPosition, 0);
+        //gl.glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, lightPosition, 0);
         
         /*
         float specular = 1f;
@@ -1570,15 +1577,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
          
         
         //GL_LIGHT1
-        ambiant = 0.2f;
+        ambiant = 0.4f;
         lightAmbient = new float[] {ambiant, ambiant, ambiant, 1.0f};
-        diffuse=1f-ambiant;
+        diffuse=0.7f;//1f-ambiant;
         lightDiffuse = new float[] {diffuse, diffuse, diffuse, 1.0f};
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_AMBIENT, lightAmbient, 0);
         gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_DIFFUSE, lightDiffuse, 0);
-        gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, lightPosition, 0);
-               
-        enableLight(LIGHT_STANDARD);             
+        //gl.glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, lightPosition, 0);
+                
         
         
         //material
@@ -1607,6 +1613,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         
         gl.glEnable(GLlocal.GL_LIGHT0);
+        
         gl.glShadeModel(GLlocal.GL_SMOOTH);
         gl.glLightModeli(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
         gl.glLightModelf(GLlocal.GL_LIGHT_MODEL_TWO_SIDE,GLlocal.GL_TRUE);
