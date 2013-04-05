@@ -52,10 +52,36 @@ public abstract class MyXMLio {
 	protected Kernel kernel;
 	/** construction */
 	protected Construction cons;
-	/** returns construction XML for undo step
-	 * @param construction construction
+	/** Returns XML representation of all settings and construction needed for
+	 * undo.
+	 * @param c construction
 	 * @return construction XML for undo step*/
-	public abstract StringBuilder getUndoXML(Construction construction);
+	public final static synchronized StringBuilder getUndoXML(Construction c) {
+		App consApp = c.getApplication();
+
+		StringBuilder sb = new StringBuilder();
+		addXMLHeader(sb);
+		addGeoGebraHeader(sb, false, consApp.getUniqueId());
+
+		// save euclidianView settings
+		consApp.getEuclidianViewXML(sb,false);
+		
+		
+		// save kernel settings
+		c.getKernel().getKernelXML(sb, false);
+
+		// save construction
+		c.getConstructionXML(sb);
+		
+		// save ProbabilityCalculator settings
+		if (consApp.isUsingFullGui() && consApp.getGuiManager().hasProbabilityCalculator()){
+			consApp.getGuiManager().getProbabilityCalculatorXML(sb);
+		}
+
+		sb.append("</geogebra>");
+
+		return sb;
+	}
 
 	/**
 	 * @param xml XML string

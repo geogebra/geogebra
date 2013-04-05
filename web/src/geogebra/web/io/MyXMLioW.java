@@ -3,7 +3,6 @@ package geogebra.web.io;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
 
 public class MyXMLioW extends geogebra.common.io.MyXMLio {
 
@@ -73,49 +72,6 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 			}
 
 		}
-	}
-
-	/**
-	 * Returns XML representation of all settings and construction needed for
-	 * undo.
-	 */
-	@Override
-    public synchronized StringBuilder getUndoXML(Construction c) {
-		App app = c.getApplication();
-
-		StringBuilder sb = new StringBuilder();
-		addXMLHeader(sb);
-		addGeoGebraHeader(sb, false, app.getUniqueId());
-		//sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
-		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
-
-		// save euclidianView settings
-		app.getEuclidianViewXML(sb,false);
-		
-		// save kernel settings
-		c.getKernel().getKernelXML(sb, false);
-
-		// save construction
-		c.getConstructionXML(sb);
-
-		// save cas session
-		//AGif (app.hasFullGui() && app.getGuiManager().hasCasView()) {
-		//AG	app.getGuiManager().getCasView().getSessionXML(sb);
-		//AG}
-		
-		// save spreadsheetView settings
-		//AGapp.getGuiManager().getSpreadsheetViewXML(sb);
-		
-
-		sb.append("</geogebra>");
-
-		/*
-		 * Application.debug("*******************");
-		 * Application.debug(sb.toString());
-		 * Application.debug("*******************");
-		 */
-
-		return sb;
 	}
 
 }

@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
@@ -9,6 +10,7 @@ import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.io.MyXMLioW;
 import geogebra.web.sound.SoundManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -174,5 +176,26 @@ public abstract class AppWeb extends App {
 		public String getDataParamId() {
 	        return DEFAULT_APPLET_ID;
         }
+		
+		private MyXMLioW xmlio;
+
+		@Override
+		public boolean loadXML(String xml) throws Exception {
+			getXMLio().processXMLString(xml, true, false);
+			return true;
+		}
+
+		@Override
+		public MyXMLioW getXMLio() {
+			if (xmlio == null) {
+				xmlio = createXMLio(kernel.getConstruction());
+			}
+			return xmlio;
+		}
+
+		@Override
+		public MyXMLioW createXMLio(Construction cons) {
+			return new MyXMLioW(cons.getKernel(), cons);
+		}
 		
 }

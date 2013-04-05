@@ -35,7 +35,6 @@ import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
-import geogebra.touch.utils.XMLBuilder;
 import geogebra.web.io.MyXMLioW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
@@ -63,7 +62,7 @@ public class TouchApp extends AppWeb
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	private XMLBuilder touchXML;
+	private MyXMLio touchXML;
 	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
@@ -476,14 +475,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public boolean loadXML(String xml) throws Exception
-	{
-		this.touchXML = createXMLBuilder(this.kernel.getConstruction());
-		this.touchXML.processXMLString(xml, true, false);
-		return true;
-	}
-
-	@Override
 	public void exportToLMS(boolean b)
 	{
 	}
@@ -572,43 +563,6 @@ public class TouchApp extends AppWeb
 	public Factory getFactory()
 	{
 		return null;
-	}
-
-	// needed, to save xml-Strings(constructions)
-	public XMLBuilder getXMLBuilder()
-	{
-		if (this.touchXML == null)
-		{
-			this.touchXML = createXMLBuilder(this.kernel.getConstruction());
-		}
-		return this.touchXML;
-	}
-
-	public static XMLBuilder createXMLBuilder(Construction cons)
-	{
-		return new XMLBuilder(cons);
-	}
-
-	@Override
-	public String getXML()
-	{
-		return getXMLBuilder().getFullXML();
-	}
-
-	@Override
-	public geogebra.common.io.MyXMLio getXMLio()
-	{
-		// if (this.myXMLio == null) {
-		// this.myXMLio = createXMLio(this.kernel.getConstruction());
-		// }
-		// return this.myXMLio;
-		return null;
-	}
-
-	@Override
-	public geogebra.common.io.MyXMLio createXMLio(Construction cons)
-	{
-		return new MyXMLioW(cons.getKernel(), cons);
 	}
 
 	@Override

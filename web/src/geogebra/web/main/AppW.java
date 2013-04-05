@@ -1951,26 +1951,7 @@ public class AppW extends AppWeb {
 		// }
 	}
 
-	private MyXMLioW xmlio;
-
-	@Override
-	public boolean loadXML(String xml) throws Exception {
-		myXMLio.processXMLString(xml, true, false);
-		return true;
-	}
-
-	@Override
-	public MyXMLioW getXMLio() {
-		if (xmlio == null) {
-			xmlio = createXMLio(kernel.getConstruction());
-		}
-		return xmlio;
-	}
-
-	@Override
-	public MyXMLioW createXMLio(Construction cons) {
-		return new MyXMLioW(cons.getKernel(), cons);
-	}
+	
 
 	// ============================================
 	// SCRIPTS
@@ -1991,12 +1972,6 @@ public class AppW extends AppWeb {
 	public PythonBridge getPythonBridge() {
 		// not available in web
 		return null;
-	}
-
-	
-
-	private void initCommandConstants() {
-		//
 	}
 
 	// =======================================
