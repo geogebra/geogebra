@@ -1517,7 +1517,7 @@ public abstract class App implements UpdateSelection{
 	 * @return full xml for GUI and construction
 	 */
 	public String getXML() {
-		return myXMLio.getFullXML();
+		return getXMLio().getFullXML();
 	}
 
 	public abstract void showError(String string, String str);
