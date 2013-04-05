@@ -12,6 +12,7 @@ PROVERS="Auto Recio Botana AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenG
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
+PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
 
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
@@ -75,6 +76,17 @@ for i in `find -name '*.ggb' | sort`; do
  BESTPROVER=""
  WORSTPROVER=""
 
+ if [ "$PROVEDETAILS" = 1 ]; then
+  TMPDIR=tempdir
+  mkdir -p $TMPDIR
+  unzip $i -d $TMPDIR >/dev/null 2>&1
+  sed -i s/Prove/ProveDetails/ $TMPDIR/geogebra.xml
+  i=$i-ProveDetails
+  rm -f $i
+  zip -j -r $i $TMPDIR >/dev/null 2>&1
+  rm -fR $TMPDIR
+  fi
+
  for j in $PROVERS; do
   cd $MYDIR; cd $RUNDIR
   ENGINE=`echo $j | cut -f1 -d_`
@@ -82,6 +94,7 @@ for i in `find -name '*.ggb' | sort`; do
   if [ $ENGINE = OpenGeoProver ]; then
    METHOD=`echo $j | cut -f2 -d_`
    fi
+
   # Testing:
   timeout $TIMEOUT ./run \
    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:$SINGULARWSREMOTEURL \
@@ -95,7 +108,7 @@ for i in `find -name '*.ggb' | sort`; do
    TIME=timeout
   else
    # Regression out file used to show the wrong result (the stored value in the file is shown):
-   RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\)= \(.*\)/\2/'`
+   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
    # But now it's OK, thanks to Markus and Simon in [17470].
    #RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
@@ -108,7 +121,8 @@ for i in `find -name '*.ggb' | sort`; do
    fi # No timeout
   echo -n "$RESULT;$TIME;"
   RESULTCLASS=" class=\"o6\""
-  if [ "$RESULT" != "$DIRNAME" ]; then
+  DIRNAMELENGTH=${#DIRNAME}
+  if [ "${RESULT:0:$DIRNAMELENGTH}" != "$DIRNAME" ]; then
    if [ "$RESULT" = "undefined" ]; then
     RESULTCLASS=" class=\"undefined\""
    else
