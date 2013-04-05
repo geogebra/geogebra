@@ -1718,12 +1718,66 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /*=========== SignInDialog =============*/
 
+.ggtLoginPanel {
+	background-color: #d3def6;
+}
+
+.headerLabel {
+	background-color: #92c1f0;
+	padding:5px;
+	font-weight:bold;
+	text-align:center;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	font-size:16px;
+}
+
+.loginspanel .gwt-Label {
+	font-size: 12px;
+	font-style:italic;
+	font-weight:bold;
+	padding:3px;
+}
+
+.loginspanel {
+	border-collapse:collapse;
+}
+
+.loginspanel tr td:first-child {
+	border-right:2px solid  #92c1f0;
+	overflow:auto;
+}
 
 .loginspanel input[type=text], .loginspanel input[type=password] {
 	width:200px;
 	font-size:12px;
-	margin:0;
+	margin:0 5px 0 5px;
 	padding:5px;
+}
+
+.loginspanel tr td:first-child .gwt-Button {
+	float:right;
+}
+
+.loginspanel .anchorsContainer {
+	padding:5px;
+	border-radius:5px;
+	background-color: rgba(146,193,240,.5);
+	overflow:auto;
+	
+}
+
+.loginspanel .anchorsContainer a {
+	display:inline-block;
+	margin: 0, 5px 0 5px;
+	padding: 2px;
+	border-radius:2px;
+	font-size:12px;
+	float:right;
+}
+
+.loginspanel .anchorsContainer a:hover {
+	background-color:#92c1f0;
 }
 
 .loginbutton {
@@ -1738,5 +1792,16 @@ body[dir=rtl] .GeoGebraMenuBar table{
     margin-right:10px;
 }
 
+.signInDialog .buttonPanel {
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	background-color: #92c1f0;
+	padding:5px;
+	overflow: auto;
+}
 
+.signInDialog .buttonPanel .gwt-Button {
+	float:right;
+	margin-right:20px;
+}
 

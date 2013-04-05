@@ -10,12 +10,10 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author gabor
@@ -42,13 +40,17 @@ public class SignInDialog extends DialogBox {
 	public SignInDialog(App app) {
 		super();
 		this.app = app;
-		VerticalPanel container = new VerticalPanel();
+		FlowPanel container = new FlowPanel();
+		container.addStyleName("signInDialog");
 		
-		HorizontalPanel ggtLoginPanel = new HorizontalPanel();
-		ggtLoginPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		FlowPanel ggtLoginPanel = new FlowPanel();
+		ggtLoginPanel.addStyleName("ggtLoginPanel");
+		
+		FlowPanel ggtLoginHeader = new FlowPanel();
+		ggtLoginHeader.addStyleName("headerLabel");
 		Label ggtLogin = new Label(app.getMenu("LogIntoGeoGebraTube"));
-		ggtLoginPanel.add(ggtLogin);
-		container.add(ggtLoginPanel);
+		ggtLoginHeader.add(ggtLogin);
+		ggtLoginPanel.add(ggtLoginHeader);
 		
 		FlexTable logins = new FlexTable();
 		logins.addStyleName("loginspanel");
@@ -67,19 +69,27 @@ public class SignInDialog extends DialogBox {
 		logins.getFlexCellFormatter().setColSpan(2, 0, 2);
 		logins.setWidget(2, 0, forumPassword);
 		
+		FlowPanel anchorsContainer = new FlowPanel();
+		anchorsContainer.addStyleName("anchorsContainer");
+		
 		Anchor forgotPassword = new Anchor(app.getMenu("forgottenPassword"));
 		forgotPassword.setHref(GeoGebraConstants.GGT_FORGOT_PWD_URL);
 		forgotPassword.setTarget("_blank");
-		logins.getFlexCellFormatter().setColSpan(3, 0, 2);
-		logins.setWidget(3, 0, forgotPassword);
-		
-		submitButton = new Button(app.getMenu("submit"));
-		logins.setWidget(4, 0, submitButton);
+		anchorsContainer.add(forgotPassword);
 		
 		Anchor register = new Anchor(app.getMenu("register"));
 		register.setHref(GeoGebraConstants.GGT_REGISTER_URL);
 		register.setTarget("_blank");
-		logins.setWidget(4, 1, register);
+		anchorsContainer.add(register);
+		
+		logins.getFlexCellFormatter().setColSpan(3, 0, 2);
+		logins.setWidget(3, 0, anchorsContainer);
+		
+		submitButton = new Button(app.getMenu("submit"));
+		logins.getFlexCellFormatter().setColSpan(4, 0, 2);
+		logins.setWidget(4, 0, submitButton);
+		
+		
 		
 		Label otherWebSites = new Label(app.getMenu("UsingOtherWebSites"));
 		logins.getFlexCellFormatter().setColSpan(0, 2, 2);
@@ -97,11 +107,11 @@ public class SignInDialog extends DialogBox {
 		openidLogin = new Button("<span class=\"loginbutton\"><img src=\"" + AppResources.INSTANCE.social_openid().getSafeUri().asString() + "\"/>" + app.getMenu("LoginToOpenId") + "</span>");
 		logins.setWidget(2, 3, openidLogin);		
 		
-		container.add(logins);
+		ggtLoginPanel.add(logins);
+		container.add(ggtLoginPanel);
 		
-		
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("buttonPanel");
 		final SignInDialog t = this;
 		buttonPanel.add(cancel = new Button(app.getMenu("cancel"), new ClickHandler() {
 			
