@@ -697,12 +697,19 @@ public abstract class Drawable3D extends DrawableND {
 		*/
 		
 		
-		//check if one is transparent and the other not
-		if ( (!this.isTransparent()) && (d.isTransparent()) )
-			return -1;
-		if ( (this.isTransparent()) && (!d.isTransparent()) )
-			return 1;
-		
+		//check if one is transparent and the other not -- ONLY FOR DIFFERENT PICK ORDERS
+		if ( (!this.isTransparent()) && (d.isTransparent()) ){
+			//return -1;
+			if (checkPickOrder && this.getPickOrder()<d.getPickOrder()){
+				return -1;
+			}
+		}else if ( (this.isTransparent()) && (!d.isTransparent()) ){
+			//return 1;
+			if (checkPickOrder && this.getPickOrder()>d.getPickOrder()){
+				return 1;
+			}
+		}
+
 
 		//check if one is selected and not the other 
 		// -- ONLY when same pickorder to avoid last created geo to get the focus
