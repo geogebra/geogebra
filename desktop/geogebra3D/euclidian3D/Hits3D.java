@@ -158,7 +158,9 @@ public class Hits3D extends Hits {
 		//top hits
 		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter.hasNext();) {
 			Drawable3D d = iter.next();
-			topHits.add(d.getGeoElement());
+			GeoElement geo = d.getGeoElement();
+			if(!topHits.contains(geo))
+				topHits.add(d.getGeoElement());
 		}
 		
 		
