@@ -40,17 +40,9 @@ public class GeoCanvasImage extends GeoImage {
 	 *            construction
 	 */
 	public GeoCanvasImage(Construction c) {
-		super(c);
-
-		pixelWidth = 200;
-		pixelHeight = 100;
-
-		this.setBackgroundColor(GColor.blue);
-		createImage(objStroke, getAlgebraColor(), this.getBackgroundColor(),
-				alphaValue, pixelWidth, pixelHeight);
-
+		this(c,200,100);
 	}
-
+	
 	/**
 	 * Creates new labeled image
 	 * 
@@ -63,7 +55,26 @@ public class GeoCanvasImage extends GeoImage {
 		this(c);
 		setLabel(label);
 	}
+	/**
+	 * Create new image with indicated size
+	 * @param c
+	 * 			construction
+	 * @param width 
+	 * 			width of image
+	 * @param height
+	 * 			height of image
+	 */
+	public GeoCanvasImage(Construction c, int width, int height) {
+		super(c);
 
+		pixelWidth = width;
+		pixelHeight = height;
+
+		this.setBackgroundColor(GColor.blue);
+		createImage(objStroke, getAlgebraColor(), this.getBackgroundColor(),
+				alphaValue, pixelWidth, pixelHeight);
+
+	}
 	/**
 	 * Copy constructor
 	 * 
@@ -149,13 +160,18 @@ public class GeoCanvasImage extends GeoImage {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public boolean isIndependent(){
+		return true;
+	}
 
 	/**
 	 * returns all class-specific xml tags for getXML
 	 */
 
 	/*
-	 * @Override protected void getXMLtags(StringBuilder sb) {
+	 * @Override protected void 
 	 * 
 	 * // name of image file sb.append("\t<file name=\""); // Michael Borcherds
 	 * 2007-12-10 this line restored (not needed now MD5 // code put in the

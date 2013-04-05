@@ -346,6 +346,7 @@ public class CommandDispatcher {
 			case TurtleRight:
 			case RunClickScript:
 			case RunUpdateScript:
+			case DensityPlot:
 				return getScriptingDispatcher().dispatch(command,kernel);
 	
 				

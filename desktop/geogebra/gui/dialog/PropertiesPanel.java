@@ -24,6 +24,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDensityPlot;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
@@ -34,6 +35,7 @@ import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
@@ -2302,10 +2304,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		private JCheckBox checkbox;
-
+		private DensityPlotPanel density;
 		public CheckBoxInterpolateImage() {
 			super(new FlowLayout(FlowLayout.LEFT));
-
 			checkbox = new JCheckBox();
 			checkbox.addItemListener(this);
 			add(checkbox);
@@ -2319,7 +2320,29 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			this.geos = geos;
 			if (!checkGeos(geos))
 				return null;
-
+			if (((GeoElement) geos[0]) instanceof GeoCanvasImage) {
+				if (((GeoCanvasImage) geos[0]).getParentAlgorithm() instanceof AlgoDensityPlot) {
+					checkbox.setVisible(false);
+					if (density != null) {
+						remove(density);
+					}
+					density = new DensityPlotPanel(this,app);
+					add(density);
+					density.setAlgo((AlgoDensityPlot)((GeoCanvasImage) geos[0])
+							.getParentAlgorithm());
+					density.update();
+				} else {
+					checkbox.setVisible(true);
+					if (density != null) {
+						remove(density);
+					}
+				}
+			} else {
+				checkbox.setVisible(true);
+				if (density != null) {
+					remove(density);
+				}
+			}
 			checkbox.removeItemListener(this);
 
 			// check if properties have same values
@@ -3341,6 +3364,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			labelLocation[0].setIcon(app.getImageIcon("corner1.png"));
 			labelLocation[1].setIcon(app.getImageIcon("corner2.png"));
 			labelLocation[2].setIcon(app.getImageIcon("corner4.png"));
+			
 
 		}
 

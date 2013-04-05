@@ -2561,6 +2561,12 @@ public class NoExceptionsTest {
 		t("UpdateConstruction[n2]");
 
 	}
-	
+	@Test
+	public void cmdDensityPlot() {
+		t("DensityPlot[sin(x)*sin(y)]");
+		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1]");
+		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,1]");
+		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,2,0,0,true,false]");
+	}
 	
 }
