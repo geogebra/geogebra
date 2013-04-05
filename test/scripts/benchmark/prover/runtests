@@ -14,6 +14,11 @@ GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
 
+if [ "$PROVEDETAILS" = 1 ]; then
+ # Remove some incorrectly working provers.
+ PROVERS="Auto Recio Botana OpenGeoProver_Wu"
+ fi
+
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
