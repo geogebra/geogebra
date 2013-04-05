@@ -138,8 +138,10 @@ window.onload = function()
 			result = splitIfTooLong(result);
 			expectedResult = splitIfTooLong(expectedResult);
 			
-			// comment out for more debugging
-			logStore = "";
+			if (logStore.indexOf("Cannot enlarge memory arrays") == -1 && logStore.indexOf("geogebra.common.kernel.CASException") == -1) {
+				// comment out for more debugging
+				logStore = "";
+			}
 					
 			var addToTable = "<tr>";
 			addToTable += "<td>" + cmd + "</td>";
