@@ -1718,6 +1718,47 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /*=========== SignInDialog =============*/
 
+
+
+.signInDialog .Caption, .signInDialog .signInDialogContainer, .signInDialog .dialogMiddleLeft,
+.signInDialog .dialogMiddleRight, .signInDialog .dialogBottomCenter,
+.signInDialog .dialogTopLeft, .signInDialog .dialogTopRight,
+.signInDialog .dialogBottomLeft, .signInDialog .dialogBottomRight {
+	background: #d3def6;
+}
+
+.signInDialog .Caption {
+	border-bottom:1px solid transparent;
+}
+
+.signInDialog .dialogTopLeft {
+	border-top-left-radius: 5px;
+}
+
+.signInDialog .dialogTopRight {
+	border-top-right-radius: 5px;
+}
+
+.signInDialog .dialogBottomLeft {
+	border-bottom-left-radius: 5px;
+}
+
+.signInDialog .dialogBottomRight {
+	border-bottom-right-radius: 5px;
+}
+
+.signInDialog .dialogMiddleCenter {
+	padding:0;
+}
+
+.signInDialog .gwt-Button {
+	background:rgba(255,255,255,.6);
+}
+
+.signInDialog .gwt-Button:hover {
+	background:rgba(255,255,255,1);
+}
+
 .ggtLoginPanel {
 	background-color: #d3def6;
 }
@@ -1727,9 +1768,8 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	padding:5px;
 	font-weight:bold;
 	text-align:center;
-	border-top-left-radius:5px;
-	border-top-right-radius:5px;
 	font-size:16px;
+	border-radius:5px;
 }
 
 .loginspanel .gwt-Label {
@@ -1792,15 +1832,14 @@ body[dir=rtl] .GeoGebraMenuBar table{
     margin-right:10px;
 }
 
-.signInDialog .buttonPanel {
-	border-bottom-left-radius:5px;
-	border-bottom-right-radius:5px;
+.signInDialogContainer .buttonPanel {
 	background-color: #92c1f0;
 	padding:5px;
 	overflow: auto;
+	border-radius: 5px;
 }
 
-.signInDialog .buttonPanel .gwt-Button {
+.signInDialogContainer .buttonPanel .gwt-Button {
 	float:right;
 	margin-right:20px;
 }

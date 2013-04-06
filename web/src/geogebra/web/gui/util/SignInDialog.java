@@ -40,8 +40,10 @@ public class SignInDialog extends DialogBox {
 	public SignInDialog(App app) {
 		super();
 		this.app = app;
+		
+		addStyleName("signInDialog");
 		FlowPanel container = new FlowPanel();
-		container.addStyleName("signInDialog");
+		container.addStyleName("signInDialogContainer");
 		
 		FlowPanel ggtLoginPanel = new FlowPanel();
 		ggtLoginPanel.addStyleName("ggtLoginPanel");
