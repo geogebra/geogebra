@@ -16,7 +16,6 @@ import geogebra.web.main.AppW;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -184,27 +183,13 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		blueDot.getElement().getStyle().setZIndex(7);
 		blueDot.getElement().getStyle().setWidth(MyTableW.DOT_SIZE, Style.Unit.PX);
 		blueDot.getElement().getStyle().setHeight(MyTableW.DOT_SIZE, Style.Unit.PX);
+		blueDot.getElement().getStyle().setProperty("borderTop", "1px solid white");
+		blueDot.getElement().getStyle().setProperty("borderLeft", "1px solid white");
 		blueDot.getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
 		blueDot.setVisible(false);
 		blueDot.setStyleName("cursor_default");
 		
-		bluedot = Canvas.createIfSupported();
-		if (bluedot != null) {
-			bluedot.setCoordinateSpaceHeight(MyTableW.DOT_SIZE);
-			bluedot.setCoordinateSpaceWidth(MyTableW.DOT_SIZE);
-			bluedot.setWidth(MyTableW.DOT_SIZE+"px");
-			bluedot.setHeight(MyTableW.DOT_SIZE+"px");
-			Context2d c2d = bluedot.getContext2d();
-			c2d.setFillStyle(MyTableW.SELECTED_RECTANGLE_COLOR.toString());
-			c2d.fillRect(0, 0, MyTableW.DOT_SIZE, MyTableW.DOT_SIZE);
-			c2d.fill();
-			bluedot.getElement().getStyle().setDisplay(Style.Display.NONE);
-		}
-
-		AbsolutePanel forTheBlueDot = new AbsolutePanel();
-		forTheBlueDot.add(table);
-		forTheBlueDot.add(bluedot);
-
+		
 		spreadsheet = new AbsolutePanel();
 		spreadsheet.add(table);
 		spreadsheet.add(selectionFrame);

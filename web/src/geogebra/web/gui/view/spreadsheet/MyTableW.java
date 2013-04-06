@@ -34,7 +34,6 @@ import java.util.HashSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.dom.client.Style.WhiteSpace;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Grid;
@@ -48,7 +47,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public static final int MAX_CELL_EDIT_STRING_LENGTH = 10;
 
-	public static final int DOT_SIZE = 7;
+	public static final int DOT_SIZE = 6;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
 	public static final GColor SELECTED_BACKGROUND_COLOR = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
@@ -256,6 +255,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		//setBorderWidth(1); 
 		getElement().getStyle().setBorderColor(TABLE_GRID_COLOR.toString());
 		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		getElement().getStyle().setBorderWidth(1,Style.Unit.PX);
 		getElement().getStyle().setTextAlign(TextAlign.RIGHT);
 		getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
 		// TODO//setSelectionBackground(SELECTED_BACKGROUND_COLOR);
@@ -2090,9 +2090,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		for (int i = colCount - 1; i >= 0; i--) {
 			for (int j = rowCount - 1; j >= 0; j--) {				
 				
+				
 				// TODO: why doesn't this work in win8 chrome?
 				//getCellFormatter().setStyleName(j, i, "SpreadsheetCell");
-				
+			/*	
 				getCellFormatter().getElement(j, i).getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
 				getCellFormatter().getElement(j, i).getStyle().setOverflow(Style.Overflow.HIDDEN);
 				getCellFormatter().getElement(j, i).getStyle().setPaddingLeft(4, Style.Unit.PX);
@@ -2101,7 +2102,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 				getCellFormatter().getElement(j, i).getStyle().setPaddingBottom(2, Style.Unit.PX);
 				getCellFormatter().getElement(j, i).getStyle().setProperty("borderRight","1px solid gray");
 				getCellFormatter().getElement(j, i).getStyle().setProperty("borderBottom","1px solid gray");
-				
+				*/
 				if (i == 0) {
 					if (j == 0) {
 						// upper-left corner cell

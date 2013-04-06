@@ -1394,7 +1394,6 @@ Paddings for menuitems.
 }
 
 
-
 .StyleBarPanel, .TitleBarPanel {
 	background: url("images/hborder.png") repeat-x 0px -27px;
 	border-bottom: 1px solid lightgray;
@@ -1439,11 +1438,16 @@ Paddings for menuitems.
 .ApplicationPanel {
 }
 
-.SpreadsheetCell{
+.SpreadsheetEditorCell {
+	
+}
+
+.geogebraweb-table-spreadsheet td{
 	border-right: 1px solid gray;
 	border-bottom: 1px solid gray;
 	overflow: hidden;
 	padding: 2px 4px;
+	white-space: nowrap;
 }
 
 .SpreadsheetEditorCell {
