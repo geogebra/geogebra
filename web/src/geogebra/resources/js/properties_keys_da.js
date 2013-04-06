@@ -1279,7 +1279,7 @@ __GGB__keysVar.da.menu = {
     "Distribution_Shape": "Form",
     "Distribution_StudentT": "Student",
     "Distribution_Weibull": "Weibull",
-    "DoYouWantToSaveYourChanges": "Vil du gemme dine forandringer?",
+    "DoYouWantToSaveYourChanges": "Vil du gemme dine \xe6ndringer?",
     "DontDeleteTool": "Slet ikke v\xe6rkt\xf8j",
     "DontOverwrite": "Overskriv ikke",
     "DontSave": "Undlad at gemme",
