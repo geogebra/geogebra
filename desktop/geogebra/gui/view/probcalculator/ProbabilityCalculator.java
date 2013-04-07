@@ -691,8 +691,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 					algoBarChart = new AlgoBarChart(cons, discreteValueList,
 							discreteProbList, zeroWidth);
 				} else {
+					NumberValue oneWidth = new GeoNumeric(cons, 1);
 					algoBarChart = new AlgoBarChart(cons, discreteValueList,
-							discreteProbList);
+							discreteProbList, oneWidth);
 				}
 				cons.removeFromConstructionList(algoBarChart);
 				discreteGraph = algoBarChart.getGeoElements()[0];
@@ -782,8 +783,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 					barChart = new AlgoBarChart(cons, intervalValueList,
 							intervalProbList, zeroWidth2);
 				} else {
+					NumberValue oneWidth2 = new GeoNumeric(cons, 1);
 					barChart = new AlgoBarChart(cons, intervalValueList,
-							intervalProbList);
+							intervalProbList, oneWidth2);
 				}
 				discreteIntervalGraph = barChart.getGeoElements()[0];
 				cons.removeFromConstructionList(barChart);
