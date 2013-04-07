@@ -57,6 +57,8 @@ public interface JavaScriptAPI {
 	public boolean evalCommand(String cmdString);
 
 	public String evalCommandCAS(String cmdString);
+	
+	public String evalGeoGebraCAS(String cmdString);
 
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's 
