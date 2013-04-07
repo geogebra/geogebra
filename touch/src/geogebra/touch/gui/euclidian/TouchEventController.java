@@ -117,9 +117,13 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onMouseWheel(MouseWheelEvent event)
 	{
-		int scale = event.getDeltaY();
-
-		this.mc.onPinch(event.getX(), event.getY(), scale);
+		if (event.getDeltaY() > 0)
+		{
+			this.mc.onPinch(event.getX(), event.getY(), 0.9);
+		}
+		else
+		{
+			this.mc.onPinch(event.getX(), event.getY(), 1.1);
+		}
 	}
-
 }
