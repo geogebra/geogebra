@@ -296,20 +296,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 	}
 	
 	
-	public void positionBlueDot(boolean visible, int left, int top) {
-
-		if (blueDot == null)
-			return;
-
-		blueDot.setVisible(visible);
-		if (visible) {
-			//bluedot.getElement().getStyle().setDisplay(Style.Display.BLOCK);
-			//spreadsheet.setWidgetPosition(blueDot, left, top);
-		} 
-		
-	}
-
-	public void updateSelectionFrame(boolean visible, GPoint corner1, GPoint corner2){
+	public void updateSelectionFrame(boolean visible, boolean showDragHandle, GPoint corner1, GPoint corner2){
 		
 		if(selectionFrame == null || corner1 == null || corner2 == null){
 			return;
@@ -319,9 +306,9 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		
 		int borderWidth = 2;
 		
-		// forced hide/show needed to make Chrome redraw
+		// forcing a hide/show is needed to make Chrome redraw
 		selectionFrame.setVisible(false);
-		selectionFrame.setTitle(" ");
+		
 		if(visible){
 			int x1 = Math.min(corner1.x, corner2.x);
 			int x2 = Math.max(corner1.x, corner2.x);
@@ -339,8 +326,12 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 			spreadsheet.setWidgetPosition(selectionFrame, x1 - ssLeft, 
 					y1 - ssTop);
 		
+			blueDot.setVisible(showDragHandle);
+			if(showDragHandle){
 			spreadsheet.setWidgetPosition(blueDot, x2 - ssLeft -  MyTableW.DOT_SIZE/2 - 1, 
-					y2 - ssTop - MyTableW.DOT_SIZE/2 - 1);	
+					y2 - ssTop - MyTableW.DOT_SIZE/2 - 1);
+			}
+			
 			selectionFrame.setVisible(true);
 		} 
 		
@@ -352,6 +343,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		}
 		int borderWidth = 2;
 		dragFrame.setVisible(visible);
+		
 		if(visible){
 			int x1 = Math.min(corner1.x, corner2.x);
 			int x2 = Math.max(corner1.x, corner2.x);

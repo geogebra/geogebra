@@ -1361,7 +1361,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			view.positionEditorPanel(true, row, col);
 			
 			w.requestFocus();
-			view.positionBlueDot(false, 0, 0);
+			renderSelection();
 			return true;
 		}
 		getCellEditor(row, col).cancelCellEditing();
@@ -1465,16 +1465,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public void finishEditing() {
 		isEditing = false;
+		
+		// hide the editor
 		view.positionEditorPanel(false, 0, 0);
-		// do this here instead of for every widget in renderCells
-
 		editRow = -1;
 		editColumn = -1;
+		
 		view.requestFocus();
-
+		
 		//setRepaintAll();//TODO: don't call renderCells, just change the edited cell
-		//repaint();
+		repaint();
 	}
+
 
 	public void sendEditorKeyPressEvent(KeyPressEvent e){
 		editor.sendKeyPressEvent(e);
@@ -2197,28 +2199,13 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		GPoint min = this.getMinSelectionPixel();
 		GPoint max = this.getMaxSelectionPixel();
 
-		if (minSelectionRow != -1 && maxSelectionRow != -1
-				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
-			view.updateSelectionFrame(true, min, max);
-
-			if (isEditing()) {
-				if (view != null)
-					view.positionBlueDot(false, 0, 0);
-			} else {
-			//	Element wt1 = getCellFormatter().getElement(0,0);
-			//	Element wt2 = getCellFormatter().getElement(maxSelectionRow, maxSelectionColumn);
-			//	int px = wt2.getAbsoluteLeft() - wt1.getAbsoluteLeft() + wt2.getOffsetWidth() - DOT_SIZE/2;
-			//	int py = wt2.getAbsoluteTop() - wt1.getAbsoluteTop() + wt2.getOffsetHeight() - DOT_SIZE/2;
-			//	if (view != null)
-				//	view.positionBlueDot(true, px, py);
-				view.positionBlueDot(true, 0, 0);
-
+		if (view != null){
+			if (minSelectionRow != -1 && maxSelectionRow != -1
+					&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+				view.updateSelectionFrame(true, !isEditing(), min, max);
 			}
-		}
-		else {
-			if (view != null){
-				view.positionBlueDot(false, 0, 0);
-				view.updateSelectionFrame(false, min, max);
+			else {	
+				view.updateSelectionFrame(false, false, min, max);
 			}
 		}
 
