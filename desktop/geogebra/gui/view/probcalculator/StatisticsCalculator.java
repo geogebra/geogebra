@@ -534,6 +534,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_CI));
+		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN2_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_CI));
 

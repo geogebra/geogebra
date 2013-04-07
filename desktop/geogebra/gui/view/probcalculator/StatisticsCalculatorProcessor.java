@@ -233,7 +233,7 @@ public class StatisticsCalculatorProcessor {
 					level);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
-			setTestResults(result[0]);
+			setIntervalResults(result[0]);
 			sc.se = ((AlgoZMean2Estimate) algo).getSE();
 
 			break;
@@ -254,7 +254,7 @@ public class StatisticsCalculatorProcessor {
 					level, pooled);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
-			setTestResults(result[0]);
+			setIntervalResults(result[0]);
 			setT2Stats();
 			break;
 
