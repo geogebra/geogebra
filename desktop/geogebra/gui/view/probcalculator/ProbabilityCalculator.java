@@ -2471,7 +2471,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 							+ ","
 							+ discreteProbListCopy
 									.getLabel(StringTemplate.maxPrecision)
-							+ ",0.1]";
+							+ ",0]";
 				} else if (graphType == GRAPH_BAR) {
 					expr = "BarChart["
 							+ discreteValueListCopy
@@ -2479,7 +2479,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 							+ ","
 							+ discreteProbListCopy
 									.getLabel(StringTemplate.maxPrecision)
-							+ "]";
+							+ ",1]";
 				} else if (graphType == GRAPH_STEP) {
 					// TODO: polyline
 				}
@@ -2507,10 +2507,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 				if (graphType == GRAPH_LINE)
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
-							+ intervalProbList.getLabel(tpl) + ",0.1]";
+							+ intervalProbList.getLabel(tpl) + ",0]";
 				else
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
-							+ intervalProbList.getLabel(tpl) + "]";
+							+ intervalProbList.getLabel(tpl) + ",1]";
 
 				GeoElement discreteIntervalGraphCopy = createGeoFromString(
 						expr, false);
