@@ -674,4 +674,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public double getListValue(String objName, int index) {
 		return getAppletImplementation().getListValue(objName, index); 
 	}
+
+	public synchronized String evalGeoGebraCAS(final String cmdString) {
+		return getAppletImplementation().evalGeoGebraCAS(cmdString);
+	}
+
 }
