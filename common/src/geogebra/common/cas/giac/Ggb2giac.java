@@ -290,7 +290,7 @@ public class Ggb2giac {
 		p("Sample.2",
 				"flatten(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
-				"if %3=true then seq(rand(1,%0),j,1,%1) else todo fi");
+				"if %2=true then seq(rand(1,%0),j,1,%1) else (randperm(%0)+[1$%0])[0..%1-1] fi");
 		p("SampleVariance.1",
 				//"variance(%0)*size(%0)/(size(%0)-1)");
 				// less parsing (for long lists), but doesn't work...
@@ -381,8 +381,8 @@ public class Ggb2giac {
 		p("Variance.1",
 				"variance(%0)");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
-		p("Zipf.4",
-				"if %3=true then harmonic(%2,%1)/harmonic(%0,%1) else 1/((%2)^%1*harmonic(%0,%1)) fi;");
+		p("Zipf.4", // %1=exponent
+				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi;");
 		return commandMap;
 	}	
 
