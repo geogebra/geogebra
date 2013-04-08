@@ -386,7 +386,7 @@ public abstract class AppWeb extends App implements SetLabels{
 				// Process Construction
 				// construction =
 				// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
-				myXMLio.processXMLString(construction, true, false);
+				getXMLio().processXMLString(construction, true, false);
 				setCurrentFile(archiveContent);
 				afterLoadFileAppOrNot();
 			} else {
@@ -395,7 +395,7 @@ public abstract class AppWeb extends App implements SetLabels{
 				/* DataUtil.utf8Decode( */construction/*
 													 * )/*DataUtil.utf8Decode
 													 * (construction)
-													 */, (MyXMLioW) myXMLio, this);
+													 */, getXMLio(), this);
 				setCurrentFile(archiveContent);
 				
 
