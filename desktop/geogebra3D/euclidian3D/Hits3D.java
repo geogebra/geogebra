@@ -35,7 +35,7 @@ public class Hits3D extends Hits {
 
 		public void add(Drawable3D d, float zMin, float zMax) {
 
-			/*
+			
 			//if already contained and not nearer, do nothing
 			if (contains(d)){
 				if(d.zPickMin < zMin){
@@ -51,13 +51,9 @@ public class Hits3D extends Hits {
 			d.zPickMax = zMax;
 
 			super.add(d);
-			*/
-
-
-			super.add(d);
 			
-			//d.zPickMin = zMin;
-			//d.zPickMax = zMax;
+
+
 
 
 		}
@@ -187,9 +183,7 @@ public class Hits3D extends Hits {
 		//top hits
 		for (Iterator<Drawable3D> iter = hitSetSet.first().iterator(); iter.hasNext();) {
 			Drawable3D d = iter.next();
-			GeoElement geo = d.getGeoElement();
-			if(!topHits.contains(geo))
-				topHits.add(d.getGeoElement());
+			topHits.add(d.getGeoElement());
 		}
 		
 		

@@ -1265,13 +1265,15 @@ public class Renderer extends RendererJogl implements GLEventListener {
           for (int j = 0; j < names; j++){ 
         	  num = selectBuffer.get(ptr);
 
-        	  if (hits3D!=null){
-        		  hits3D.addDrawable3D(drawHits[num],num>=labelLoop, zMin, zMax);
+        	  if (hits3D==null){ // just update z min/max values for the drawable
+            	  drawHits[num].zPickMin = zMin;
+            	  drawHits[num].zPickMax = zMax;        		  
+        	  }else{ // if for hits array, some checks are done
+         		  hits3D.addDrawable3D(drawHits[num],num>=labelLoop, zMin, zMax);
         		  //App.debug(i+": " + drawHits[num].getGeoElement());
         	  }
-        	  drawHits[num].zPickMin = zMin;
-        	  drawHits[num].zPickMax = zMax;
-        	  
+      		  
+       	  
         	  //Application.debug(drawHits[num]+"\nzMin="+zMin+", zMax="+zMax);
         	  ptr++;
           }         
