@@ -120,8 +120,11 @@ public class TubeSearchGUI extends VerticalPanel
 		this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
 		this.resultsArea.setWidth(event.getWidth() + "px");
-		this.resultsArea.setHeight(Window.getClientHeight() - this.searchBar.getOffsetHeight() - this.featuredMaterials.getOffsetHeight()
-		    - this.backButton.getOffsetHeight() + "px");
+		int newHeight = Window.getClientHeight() - this.searchBar.getOffsetHeight() - this.featuredMaterials.getOffsetHeight()
+			    - this.backButton.getOffsetHeight();
+		if(newHeight > 0){
+			this.resultsArea.setHeight(newHeight + "px");
+		}
 	}
 
 	/**
