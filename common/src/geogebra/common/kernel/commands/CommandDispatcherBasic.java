@@ -84,18 +84,27 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDistance(kernel);
 		case Radius:
 			return new CmdRadius(kernel);
-		case CircleArc:
-			return new CmdCircleArc(kernel);
 		case Arc:
 			return new CmdArc(kernel);
 		case Sector:
 			return new CmdSector(kernel);
+
+		case CircleArc:
+		case CircularArc:
+				return new CmdCircleArc(kernel);
+
 		case CircleSector:
+		case CircularSector:
 			return new CmdCircleSector(kernel);
+		
 		case CircumcircleSector:
+		case CircumcircularSector:
 			return new CmdCircumcircleSector(kernel);
+
 		case CircumcircleArc:
+		case CircumcircularArc:
 			return new CmdCircumcircleArc(kernel);
+
 		case Polygon:
 			return new CmdPolygon(kernel);
 		case Area:

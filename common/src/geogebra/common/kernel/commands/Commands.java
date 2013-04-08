@@ -42,8 +42,9 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Tangent(TABLE_GEOMETRY), Segment(TABLE_GEOMETRY), Slope(TABLE_GEOMETRY), Angle(TABLE_GEOMETRY),
    	Direction(TABLE_GEOMETRY), Point(TABLE_GEOMETRY), Midpoint(TABLE_GEOMETRY), LineBisector(TABLE_GEOMETRY),
    	Intersect(TABLE_GEOMETRY), IntersectPath(TABLE_GEOMETRY), IntersectRegion(TABLE_GEOMETRY), Distance(TABLE_GEOMETRY), Length(TABLE_GEOMETRY),
-   	Radius(TABLE_GEOMETRY), CircleArc(TABLE_GEOMETRY), Arc(TABLE_GEOMETRY), Sector(TABLE_GEOMETRY),
-   	CircleSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), CircumcircleArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
+   	Radius(TABLE_GEOMETRY), CircleArc(TABLE_GEOMETRY), CircularArc(TABLE_GEOMETRY), Arc(TABLE_GEOMETRY), Sector(TABLE_GEOMETRY),
+   	CircleSector(TABLE_GEOMETRY), CircularSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), CircumcircularSector(TABLE_GEOMETRY),
+   	CircumcircleArc(TABLE_GEOMETRY), CircumcircularArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
    	RigidPolygon(TABLE_GEOMETRY), Area(TABLE_GEOMETRY), Circumference(TABLE_GEOMETRY),
    	Perimeter(TABLE_GEOMETRY), Locus(TABLE_GEOMETRY), Centroid(TABLE_GEOMETRY), TriangleCenter(TABLE_GEOMETRY), Barycenter(TABLE_GEOMETRY), Trilinear(TABLE_GEOMETRY), Cubic(TABLE_GEOMETRY), 
    	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
@@ -264,6 +265,10 @@ public enum Commands implements CommandsConstants, GetCommand{
    	
    	public static Commands englishToInternal(Commands comm) {
 		switch(comm){
+			case CircularArc: return CircleArc;
+			case CircularSector: return CircleSector;
+			case CircumcircularArc: return CircumcircleArc;
+			case CircumcircularSector: return CircumcircleSector;
 			case AngleBisector: return AngularBisector;
 			case Reflect: return Mirror;
 			case Curve: return CurveCartesian;

@@ -504,12 +504,18 @@ public class CommandDispatcher {
 			case Intersect:
 			case Distance:
 			case Radius:
-			case CircleArc:
 			case Arc:
 			case Sector:
+
+			case CircleArc:
+			case CircularArc:
 			case CircleSector:
+			case CircularSector:
 			case CircumcircleSector:
+			case CircumcircularSector:
 			case CircumcircleArc:
+			case CircumcircularArc:
+			
 			case Polygon:
 			case Area:
 			case Circumference:
