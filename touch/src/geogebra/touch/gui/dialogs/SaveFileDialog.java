@@ -14,6 +14,7 @@ public class SaveFileDialog extends FileDialog
 	protected void onOK()
 	{
 		save(super.app.getXML());
+		setDownloadName();
 		hide();
 	}
 
@@ -29,14 +30,14 @@ public class SaveFileDialog extends FileDialog
 	 */
 	private void save(String xml)
 	{
-		if (this.stockStore == null)
+		if (super.stockStore == null)
 		{
 			return;
 		}
 
-		if (!this.textBox.getText().isEmpty())
+		if (!super.textBox.getText().isEmpty())
 		{
-			this.stockStore.setItem(this.textBox.getText(), xml);
+			super.stockStore.setItem(super.textBox.getText(), xml);
 			super.app.setConstructionTitle(super.textBox.getText());
 		}
 	}
@@ -44,7 +45,13 @@ public class SaveFileDialog extends FileDialog
 	@Override
 	public void show()
 	{
-		this.textBox.setText(super.app.getConstructionTitle());
+		super.app.getGgbApiT().getGGB(true, super.okButton.getElement());
+		super.textBox.setText(super.app.getConstructionTitle());
 		super.show();
+	}
+	
+	private void setDownloadName()
+	{
+	    super.okButton.getElement().setAttribute("download", super.textBox.getText()+".ggb");
 	}
 }

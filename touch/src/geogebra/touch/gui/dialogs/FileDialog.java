@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -40,7 +41,8 @@ public abstract class FileDialog extends PopupPanel
 
 	private HorizontalPanel buttonContainer;
 
-	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
+//	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
+	protected Anchor okButton = new Anchor();
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton deleteButton = new StandardImageButton(CommonResources.INSTANCE.dialog_trash());
 
@@ -158,12 +160,17 @@ public abstract class FileDialog extends PopupPanel
 			{
 				FileDialog.this.onCancel();
 			}
-
 		}, ClickEvent.getType());
 	}
 
 	private void initOKButton()
 	{
+		String html = "<img src=\"" + CommonResources.INSTANCE.dialog_ok().getSafeUri().asString() + "\" style=\"height:48px; width:48px; margin:auto;\">";
+		this.okButton.getElement().setInnerHTML(html);
+		this.okButton.getElement().setAttribute("style", "display:block;");
+		this.okButton.setStyleName("gwt-PushButton");
+		this.okButton.addStyleName("gwt-PushButton-up");
+		
 		this.okButton.addDomHandler(new ClickHandler()
 		{
 

@@ -35,11 +35,10 @@ public class OpenFileDialog extends FileDialog
 		hide();
 	}
 	
-	//to remove the last input in the textBox, maybe there's a better solution
 	@Override
 	public void show()
 	{
-		super.textBox.setText("");
+		super.textBox.setText(""); 	//to remove the last input in the textBox, maybe there's a better solution
 		super.show();
 	}
 }

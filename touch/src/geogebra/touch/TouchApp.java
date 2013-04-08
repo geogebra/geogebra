@@ -33,10 +33,13 @@ import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
+import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
+
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
+
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
 
@@ -60,6 +63,7 @@ public class TouchApp extends AppWeb
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
+	private GgbAPITouch ggbapi;
 	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
@@ -102,11 +106,6 @@ public class TouchApp extends AppWeb
 			logger.setLogLevel("DEBUG");
 		}
 	}
-
-	// not needed yet, because we use xml-Strings
-	// private static native void setCurrentFileId() /*-{
-	// @geogebra.touch.TouchApp::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-	// }-*/;
 
 	/**
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
@@ -362,10 +361,19 @@ public class TouchApp extends AppWeb
 
 	}
 
+	public GgbAPITouch getGgbApiT()
+	{
+		//FIXME - use getGgbApi (changes in web necessary)
+		if (this.ggbapi == null)
+		{
+			this.ggbapi = new GgbAPITouch(this);
+		}
+		return this.ggbapi;
+	}
+
 	@Override
 	public boolean showAlgebraInput()
 	{
-
 		return false;
 	}
 
