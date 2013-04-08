@@ -40,7 +40,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPI ggbapi;
 	private final LocalizationW loc;
-	protected ImageManager imageManager;
+	private ImageManager imageManager;
 	private HashMap<String, String> currentFile = null;
 	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	
@@ -336,7 +336,7 @@ public abstract class AppWeb extends App implements SetLabels{
 
 			((DrawEquationWeb) getDrawEquation())
 			        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
-			imageManager.reset();
+			getImageManager().reset();
 			if (useFullAppGui)
 				GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
 			else
@@ -382,7 +382,7 @@ public abstract class AppWeb extends App implements SetLabels{
 					maybeProcessImage(entry.getKey(), entry.getValue());
 				}
 			}
-			if (!imageManager.hasImages()) {
+			if (!getImageManager().hasImages()) {
 				// Process Construction
 				// construction =
 				// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
@@ -391,7 +391,7 @@ public abstract class AppWeb extends App implements SetLabels{
 				afterLoadFileAppOrNot();
 			} else {
 				// on images do nothing here: wait for callback when images loaded.
-				imageManager.triggerImageLoading(
+				getImageManager().triggerImageLoading(
 				/* DataUtil.utf8Decode( */construction/*
 													 * )/*DataUtil.utf8Decode
 													 * (construction)
@@ -496,7 +496,16 @@ public abstract class AppWeb extends App implements SetLabels{
 		}
 		
 		public void addExternalImage(String filename, String src) {
-			imageManager.addExternalImage(filename, src);
+			getImageManager().addExternalImage(filename, src);
+		}
+		
+		@Override
+		public ImageManager getImageManager() {
+			return imageManager;
+		}
+		
+		protected void initImageManager() {
+			imageManager = new ImageManager();
 		}
 		
 }

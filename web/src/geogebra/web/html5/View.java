@@ -101,8 +101,10 @@ public class View {
 		}
 
 		try {
+			System.out.println("trying");
 			app.loadGgbFile(archiveContent);
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			App.debug(ex.getMessage());
 			return;
 		}
@@ -136,7 +138,7 @@ public class View {
 	
 	private void putIntoArciveContent(String key, String value) {
 		archiveContent.put(key, value);
-		//Application.console(key+" : "+value);
+		System.out.println(archiveContent.size() +","+ zippedLength);
 		if (archiveContent.size() == zippedLength) {
 			maybeLoadFile();
 		}

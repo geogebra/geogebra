@@ -26,7 +26,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -388,11 +387,6 @@ public class AppW extends AppWeb {
 
 	public GeoGebraFrame getGeoGebraFrame() {
 		return frame;
-	}
-
-	@Override
-	public AbstractImageManager getImageManager() {
-		return imageManager;
 	}
 
 	@Override
@@ -1569,9 +1563,7 @@ public class AppW extends AppWeb {
 		return dataUrl;
 	}
 
-	protected void initImageManager() {
-		imageManager = new ImageManager();
-	}
+	
 
 	@Override
 	public GBufferedImage getExternalImageAdapter(String fileName) {
@@ -1583,7 +1575,7 @@ public class AppW extends AppWeb {
 
 	public ImageElement getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		ImageElement imgE = imageManager.getInternalImage(GuiResources.INSTANCE
+		ImageElement imgE = getImageManager().getInternalImage(GuiResources.INSTANCE
 		        .viewRefresh());
 		attachNativeLoadHandler(imgE);
 		return imgE;
@@ -1591,12 +1583,12 @@ public class AppW extends AppWeb {
 
 	public ImageElement getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResources.INSTANCE.navPlay());
+		return getImageManager().getInternalImage(GuiResources.INSTANCE.navPlay());
 	}
 
 	public ImageElement getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResources.INSTANCE.navPause());
+		return getImageManager().getInternalImage(GuiResources.INSTANCE.navPause());
 	}
 
 	// ============================================

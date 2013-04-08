@@ -25,18 +25,15 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
-
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
-
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
 
@@ -105,6 +102,8 @@ public class TouchApp extends AppWeb
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
+		
+		initImageManager();
 	}
 
 	/**
@@ -218,13 +217,6 @@ public class TouchApp extends AppWeb
 	{
 
 		return false;
-	}
-
-	@Override
-	public AbstractImageManager getImageManager()
-	{
-
-		return null;
 	}
 
 	@Override
