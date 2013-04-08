@@ -290,7 +290,7 @@ public class Ggb2giac {
 		p("Sample.2",
 				"flatten(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
-				"if %2=true then seq(rand(1,%0),j,1,%1) else (randperm(%0)+[1$%0])[0..%1-1] fi");
+				"if %2=true then seq(rand(1,%0),j,1,%1) else rand(%1,%0) fi");
 		p("SampleVariance.1",
 				//"variance(%0)*size(%0)/(size(%0)-1)");
 				// less parsing (for long lists), but doesn't work...
