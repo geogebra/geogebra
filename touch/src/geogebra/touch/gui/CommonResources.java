@@ -5,7 +5,6 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
 
 public interface CommonResources extends ClientBundle
 {
@@ -438,7 +437,8 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource logoGeoGebraTube();
 
-	@Source("icons/png32x32/geogebra-logo.png")
-	ImageResource logo();
-
+	// GeoGebraTube View
+	@Source("icons/svg/view_zoom.svg")
+	@Validated(validated = false)
+	SVGResource search();
 }
