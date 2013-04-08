@@ -162,11 +162,14 @@ public class ParserFunctions {
 		put(1, "Erf", Operation.ERF);
 
 		put(1, "psi", Operation.PSI);
+		// for Giac
 		put(1, "Psi", Operation.PSI);
 
 		put(2, "polygamma", Operation.POLYGAMMA);
 		put(2, "polyGamma", Operation.POLYGAMMA);
 		put(2, "PolyGamma", Operation.POLYGAMMA);
+		// for Giac
+		put(2, "Psi", Operation.POLYGAMMA);
 
 		put(1, "exp", Operation.EXP);
 		put(1, "Exp", Operation.EXP);

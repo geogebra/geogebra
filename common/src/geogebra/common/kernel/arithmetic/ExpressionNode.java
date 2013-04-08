@@ -3202,6 +3202,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 
 			case GIAC:
+				appendReduceFunction(sb, "Psi");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
+				break;
 			case MATH_PIPER:
 			case MPREDUCE:
 			default:
@@ -3825,7 +3831,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;	
 
 			case GIAC:
-				sb.append("beta_incomplete(");
+				sb.append("beta(");
 				break;
 
 			default:
@@ -3850,7 +3856,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func betaRegularized left (");
 
 			case GIAC:
-				sb.append("beta_incomplete_regularized(");
+				sb.append("betaRegularized(");
 				break;
 
 			case MPREDUCE:
