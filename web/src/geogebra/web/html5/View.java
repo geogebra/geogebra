@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWeb;
 
 import java.util.HashMap;
 
@@ -16,7 +17,7 @@ public class View extends Widget {
 	private HashMap<String, String> archiveContent;
 	
 	private Element container;
-	private AppW app;
+	private AppWeb app;
 	
 	public View(Element container, AppW app) {
 		this.app = app;
@@ -104,7 +105,7 @@ public class View extends Widget {
 		try {
 			app.loadGgbFile(archiveContent);
 		} catch (Exception ex) {
-			AppW.debug(ex.getMessage());
+			App.debug(ex.getMessage());
 			return;
 		}
 		archiveContent = null;
@@ -123,7 +124,7 @@ public class View extends Widget {
 	    maybeLoadFile();
     }
 
-	public AppW getApplication() {
+	public AppWeb getApplication() {
 	    return app;
     }
 

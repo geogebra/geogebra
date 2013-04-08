@@ -2,26 +2,52 @@ package geogebra.web.main;
 
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
+import geogebra.common.gui.SetLabels;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
+import geogebra.common.main.Localization;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.helper.ScriptLoadCallback;
+import geogebra.web.html5.DynamicScriptElement;
+import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLioW;
 import geogebra.web.sound.SoundManagerW;
+import geogebra.web.util.ImageManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 
-public abstract class AppWeb extends App {
+public abstract class AppWeb extends App implements SetLabels{
 	
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 	private SoundManager soundManager;
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPI ggbapi;
+	private final LocalizationW loc;
+	protected ImageManager imageManager;
+	private HashMap<String, String> currentFile = null;
+	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
+	
+	protected AppWeb(){
+		loc = new LocalizationW();
+	}
 	
 	@Override
 	public final DrawEquation getDrawEquation() {
@@ -196,6 +222,282 @@ public abstract class AppWeb extends App {
 		@Override
 		public MyXMLioW createXMLio(Construction cons) {
 			return new MyXMLioW(cons.getKernel(), cons);
+		}
+		
+		public void setLanguage(final String lang) {
+
+			if (lang != null && lang.equals(loc.getLanguage())) {
+				setLabels();
+				return;
+			}
+
+			if (lang == null || "".equals(lang)) {
+
+				App.error("language being set to empty string");
+				setLanguage("en");
+				return;
+			}
+
+			App.debug("setting language to:" + lang);
+
+			// load keys (into a JavaScript <script> tag)
+			DynamicScriptElement script = (DynamicScriptElement) Document.get()
+			        .createScriptElement();
+			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
+			        + ".js");
+			script.addLoadHandler(new ScriptLoadCallback() {
+
+				public void onLoad() {
+					// force reload
+					resetCommandDictionary();
+
+					loc.setLanguage(lang);
+
+					// make sure digits are updated in all numbers
+					getKernel().updateConstruction();
+					setUnsaved();
+
+					// update display & Input Bar Dictionary etc
+					setLabels();
+
+					// inputField.setDictionary(getCommandDictionary());
+
+				}
+
+				
+			});
+			Document.get().getBody().appendChild(script);
+		}
+		
+		protected abstract void resetCommandDictionary();
+
+		public void setLanguage(String language, String country) {
+
+			if (language == null || "".equals(language)) {
+				App.warn("error calling setLanguage(), setting to English (US): "
+				        + language + "_" + country);
+				setLanguage("en");
+				return;
+			}
+
+			if (country == null || "".equals(country)) {
+				setLanguage(language);
+			}
+			this.
+
+			setLanguage(language + "_" + country);
+		}
+		
+		@Override
+		public Localization getLocalization() {
+			return loc;
+		}
+		
+		/**
+		 * This method checks if the command is stored in the command properties
+		 * file as a key or a value.
+		 * 
+		 * @param command
+		 *            : a value that should be in the command properties files (part
+		 *            of Internationalization)
+		 * @return the value "command" after verifying its existence.
+		 */
+		@Override
+		final public String getReverseCommand(String command) {
+
+			if (loc.getLanguage() == null) {
+				// keys not loaded yet
+				return command;
+			}
+
+			return super.getReverseCommand(command);
+		}
+		
+		public String getEnglishCommand(String pageName) {
+			loc.initCommand();
+			// String ret = commandConstants
+			// .getString(crossReferencingPropertiesKeys(pageName));
+			// if (ret != null)
+			// return ret;
+			return pageName;
+		}
+
+		public abstract void appSplashCanNowHide();
+
+		public abstract String getLanguageFromCookie();
+
+		public abstract void showLoadingAnimation(boolean b);
+		
+		public void loadGgbFile(HashMap<String, String> archiveContent)
+		        throws Exception {
+			loadFile(archiveContent);
+		}
+
+		public void loadGgbFileAgain(String dataUrl) {
+
+			((DrawEquationWeb) getDrawEquation())
+			        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+			imageManager.reset();
+			if (useFullAppGui)
+				GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
+			else
+				GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
+		}
+		
+		private void loadFile(HashMap<String, String> archiveContent)
+		        throws Exception {
+
+			beforeLoadFile();
+
+			HashMap<String, String> archive = (HashMap<String, String>) archiveContent
+			        .clone();
+
+			// Handling of construction and macro file
+			String construction = archive.remove(MyXMLio.XML_FILE);
+			String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
+			String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
+
+			// Construction (required)
+			if (construction == null) {
+				throw new ConstructionException(
+				        "File is corrupt: No GeoGebra data found");
+			}
+
+			// Macros (optional)
+			if (macros != null) {
+				// macros = DataUtil.utf8Decode(macros);
+				// //DataUtil.utf8Decode(macros);
+				myXMLio.processXMLString(macros, true, true);
+			}
+			
+			// Library JavaScript (optional)
+			if (libraryJS == null) { //TODO: && !isGGTfile)
+				kernel.resetLibraryJavaScript();
+			} else {
+				kernel.setLibraryJavaScript(libraryJS);
+			}
+
+
+			if (archive.entrySet() != null) {
+				for (Entry<String, String> entry : archive.entrySet()) {
+					maybeProcessImage(entry.getKey(), entry.getValue());
+				}
+			}
+			if (!imageManager.hasImages()) {
+				// Process Construction
+				// construction =
+				// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
+				myXMLio.processXMLString(construction, true, false);
+				setCurrentFile(archiveContent);
+				afterLoadFileAppOrNot();
+			} else {
+				// on images do nothing here: wait for callback when images loaded.
+				imageManager.triggerImageLoading(
+				/* DataUtil.utf8Decode( */construction/*
+													 * )/*DataUtil.utf8Decode
+													 * (construction)
+													 */, (MyXMLioW) myXMLio, this);
+				setCurrentFile(archiveContent);
+				
+
+			}
+		}
+		
+		public abstract void afterLoadFileAppOrNot();
+
+		public void beforeLoadFile() {
+			startCollectingRepaints();
+			getEuclidianView1().setReIniting(true);
+		}
+		
+		public void setCurrentFile(HashMap<String, String> file) {
+			if (currentFile == file) {
+				return;
+			}
+
+			currentFile = file;
+			if (currentFile != null) {
+				addToFileList(currentFile);
+			}
+
+			// if (!isIniting() && isUsingFullGui()) {
+			// updateTitle();
+			// getGuiManager().updateMenuWindow();
+			// }
+		}
+
+		public static void addToFileList(Map<String, String> file) {
+			if (file == null) {
+				return;
+			}
+			// add or move fileName to front of list
+			fileList.remove(file);
+			fileList.addFirst(file);
+		}
+
+		public static Map<String, String> getFromFileList(int i) {
+			if (fileList.size() > i) {
+				return fileList.get(i);
+			}
+			return null;
+		}
+
+		public static int getFileListSize() {
+			return fileList.size();
+		}
+		
+		public Map<String, String> getCurrentFile() {
+			return currentFile;
+		}
+		
+		@Override
+		public void reset() {
+			if (currentFile != null) {
+				try {
+					loadGgbFile(currentFile);
+				} catch (Exception e) {
+					clearConstruction();
+				}
+			} else {
+				clearConstruction();
+			}
+		}
+		
+		private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
+		static {
+			IMAGE_EXTENSIONS.add("bmp");
+			IMAGE_EXTENSIONS.add("gif");
+			IMAGE_EXTENSIONS.add("jpg");
+			IMAGE_EXTENSIONS.add("jpeg");
+			IMAGE_EXTENSIONS.add("png");
+		}
+
+		private void maybeProcessImage(String filename, String binaryContent) {
+			String fn = filename.toLowerCase();
+			if (fn.equals("geogebra_thumbnail.png")) {
+				return; // Ignore thumbnail
+			}
+
+			int index = fn.lastIndexOf('.');
+			if (index == -1) {
+				return; // Ignore files without extension
+			}
+
+			String ext = fn.substring(index + 1).toLowerCase();
+			if (!IMAGE_EXTENSIONS.contains(ext)) {
+				return; // Ignore non image files
+			}
+
+			// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
+			if (filename != null && filename.length() != 0
+			        && filename.charAt(0) == '/')
+				addExternalImage(filename.substring(1), binaryContent);
+			else
+				addExternalImage(filename, binaryContent);
+		}
+		
+		public void addExternalImage(String filename, String src) {
+			imageManager.addExternalImage(filename, src);
 		}
 		
 }

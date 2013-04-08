@@ -536,12 +536,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public String getReverseCommand(String command)
-	{
-		return null;
-	}
-
-	@Override
 	public DialogManager getDialogManager()
 	{
 		return null;
@@ -634,5 +628,44 @@ public class TouchApp extends AppWeb
 		{
 			t.onTitleChange(title);
 		}
+	}
+
+	@Override
+	public void setLabels() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void resetCommandDictionary() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void appSplashCanNowHide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getLanguageFromCookie() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void showLoadingAnimation(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterLoadFileAppOrNot() {
+		//TODO: check what else we need to reset
+		this.kernel.initUndoInfo();
+
+		getEuclidianView1().synCanvasSize();
+		
 	}
 }

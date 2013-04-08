@@ -71,7 +71,7 @@ public class LanguageCommand implements Command {
 			setCookies(LOCALE_PARAMETER, localeCode);
 		}
 	
-		String oldLang = AppW.getLanguageFromCookie();
+		String oldLang = app.getLanguageFromCookie();
 		//TODO: change "en" for the default language
 		//if there is no cookie yet, it starts with the default language
 		if (oldLang==null) oldLang="en";

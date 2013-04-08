@@ -118,7 +118,7 @@ public class MyGoogleApis {
 					String mimeType = JSON.get(data, "mimeType");
 					String description = JSON.get(data, "description");
 					loadFilePresenter.process(content);
-					loadFilePresenter.getApplication().refreshCurrentFileDescriptors(title, description, content);
+					((AppW)loadFilePresenter.getApplication()).refreshCurrentFileDescriptors(title, description, content);
 				}
 				
 				public void onError(Request request, Throwable exception) {
@@ -245,7 +245,7 @@ public class MyGoogleApis {
 	
 	private void processGoogleDriveFileContent(String base64, String description, String title, String id) {
 		GeoGebraAppFrame.fileLoader.process(base64);
-		GeoGebraAppFrame.fileLoader.getApplication().refreshCurrentFileDescriptors(title, description, base64);
+		((AppW)GeoGebraAppFrame.fileLoader.getApplication()).refreshCurrentFileDescriptors(title, description, base64);
 		((AppW)app).currentFileId = id;
 	}
 

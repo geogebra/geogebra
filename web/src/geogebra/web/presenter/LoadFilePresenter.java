@@ -5,6 +5,7 @@ import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWeb;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.storage.client.Storage;
@@ -24,7 +25,7 @@ public class LoadFilePresenter extends BasePresenter {
 		String base64String;
 		String fileId;
 		
-		AppW app = view.getApplication();
+		AppWeb app = view.getApplication();
 		
 		if (isReloadDataInStorage()){
 			//do nothing here - everything done in isReloadDataInStorage() function 
@@ -138,7 +139,7 @@ public class LoadFilePresenter extends BasePresenter {
 		getView().processFileName(url);
 	}
 	
-	public AppW getApplication() {
+	public AppWeb getApplication() {
 		return getView().getApplication();
 	}
 	

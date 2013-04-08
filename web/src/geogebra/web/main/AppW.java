@@ -10,7 +10,6 @@ import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
@@ -23,7 +22,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
@@ -54,10 +52,7 @@ import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
-import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.ArticleElement;
-import geogebra.web.html5.DynamicScriptElement;
-import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLioW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
@@ -72,20 +67,15 @@ import geogebra.web.util.MyDictionary;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.MissingResourceException;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -112,19 +102,17 @@ public class AppW extends AppWeb {
 	public final static String syntaxStr = "_Syntax";
 	public static String geoIPCountryName;
 	public static String geoIPLanguage;
-	private final LocalizationW loc;
+	
 	private HashMap<String, String> englishCommands = null;
 
 	private FontManagerW fontManager;
-	protected ImageManager imageManager;
 	private SpreadsheetTableModelW tableModel;
 	private GuiManagerW guiManager;
 	private SoundManagerW soundManager;
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
 
 	
-	private HashMap<String, String> currentFile = null;
-	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
+	
 
 	private ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
@@ -161,7 +149,6 @@ public class AppW extends AppWeb {
 		this.articleElement = ae;
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
-		this.loc = new LocalizationW();
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
 		this.useFullGui = ae.getDataParamGui();
@@ -208,7 +195,6 @@ public class AppW extends AppWeb {
 	        boolean undoActive) {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
-		this.loc = new LocalizationW();
 		this.objectPool = new ObjectPool();
 		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
@@ -499,10 +485,7 @@ public class AppW extends AppWeb {
 		return Factory.getPrototype();
 	}
 
-	@Override
-	public Localization getLocalization() {
-		return loc;
-	}
+	
 
 	// ========================================================
 	// Undo/Redo
@@ -725,71 +708,13 @@ public class AppW extends AppWeb {
 		return localeName.substring(0, 2);
 	}
 
-	public static String getLanguageFromCookie() {
+	public String getLanguageFromCookie() {
 		return Cookies.getCookie("GGWlang");
 	}
 
-	public void setLanguage(final String lang) {
+	
 
-		if (lang != null && lang.equals(loc.getLanguage())) {
-			setLabels();
-			return;
-		}
-
-		if (lang == null || "".equals(lang)) {
-
-			App.error("language being set to empty string");
-			setLanguage("en");
-			return;
-		}
-
-		App.debug("setting language to:" + lang);
-
-		// load keys (into a JavaScript <script> tag)
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-		        .createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
-		        + ".js");
-		script.addLoadHandler(new ScriptLoadCallback() {
-
-			public void onLoad() {
-				// force reload
-				commandDictionary = null;
-
-				loc.setLanguage(lang);
-
-				// make sure digits are updated in all numbers
-				getKernel().updateConstruction();
-				setUnsaved();
-
-				// update display & Input Bar Dictionary etc
-				setLabels();
-
-				// inputField.setDictionary(getCommandDictionary());
-
-			}
-		});
-		Document.get().getBody().appendChild(script);
-	}
-
-	public void setLanguage(String language, String country) {
-
-		if (language == null || "".equals(language)) {
-			App.warn("error calling setLanguage(), setting to English (US): "
-			        + language + "_" + country);
-			setLanguage("en");
-			return;
-		}
-
-		if (country == null || "".equals(country)) {
-			setLanguage(language);
-		}
-		this.
-
-		setLanguage(language + "_" + country);
-	}
-
-	void setLabels() {
+	public void setLabels() {
 		if (initing) {
 			return;
 		}
@@ -837,37 +762,17 @@ public class AppW extends AppWeb {
 				// commandDictionary =
 				// Dictionary.getDictionary("__GGB__dictionary_"+language);
 				commandDictionary = MyDictionary.getDictionary("command",
-				        loc.getLanguage());
+				        getLocalization().getLanguage());
 			} catch (MissingResourceException e) {
 				// commandDictionary =
 				// Dictionary.getDictionary("__GGB__dictionary_en");
 				commandDictionary = MyDictionary.getDictionary("command", "en");
-				App.error("Missing Dictionary " + loc.getLanguage());
+				App.error("Missing Dictionary " + getLocalization().getLanguage());
 			}
 		}
 
 		return commandDictionary;
 
-	}
-
-	/**
-	 * This method checks if the command is stored in the command properties
-	 * file as a key or a value.
-	 * 
-	 * @param command
-	 *            : a value that should be in the command properties files (part
-	 *            of Internationalization)
-	 * @return the value "command" after verifying its existence.
-	 */
-	@Override
-	final public String getReverseCommand(String command) {
-
-		if (loc.getLanguage() == null) {
-			// keys not loaded yet
-			return command;
-		}
-
-		return super.getReverseCommand(command);
 	}
 
 	@Override
@@ -877,15 +782,6 @@ public class AppW extends AppWeb {
 		AppW.debug("GeoIPCountry: " + AppW.geoIPCountryName);
 		AppW.debug("GeoIPLanguage: " + AppW.geoIPLanguage);
 		return AppW.geoIPCountryName;
-	}
-
-	public String getEnglishCommand(String pageName) {
-		loc.initCommand();
-		// String ret = commandConstants
-		// .getString(crossReferencingPropertiesKeys(pageName));
-		// if (ret != null)
-		// return ret;
-		return pageName;
 	}
 
 	// ========================================================
@@ -928,45 +824,7 @@ public class AppW extends AppWeb {
 		}
 	}-*/;
 
-	public Map<String, String> getCurrentFile() {
-		return currentFile;
-	}
-
-	public void setCurrentFile(HashMap<String, String> file) {
-		if (currentFile == file) {
-			return;
-		}
-
-		currentFile = file;
-		if (currentFile != null) {
-			addToFileList(currentFile);
-		}
-
-		// if (!isIniting() && isUsingFullGui()) {
-		// updateTitle();
-		// getGuiManager().updateMenuWindow();
-		// }
-	}
-
-	public static void addToFileList(Map<String, String> file) {
-		if (file == null) {
-			return;
-		}
-		// add or move fileName to front of list
-		fileList.remove(file);
-		fileList.addFirst(file);
-	}
-
-	public static Map<String, String> getFromFileList(int i) {
-		if (fileList.size() > i) {
-			return fileList.get(i);
-		}
-		return null;
-	}
-
-	public static int getFileListSize() {
-		return fileList.size();
-	}
+	
 
 	@Override
 	public void fileNew() {
@@ -1006,68 +864,7 @@ public class AppW extends AppWeb {
 
 	}
 	
-	private void loadFile(HashMap<String, String> archiveContent)
-	        throws Exception {
-
-		beforeLoadFile();
-
-		HashMap<String, String> archive = (HashMap<String, String>) archiveContent
-		        .clone();
-
-		// Handling of construction and macro file
-		String construction = archive.remove(MyXMLio.XML_FILE);
-		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
-
-		// Construction (required)
-		if (construction == null) {
-			throw new ConstructionException(
-			        "File is corrupt: No GeoGebra data found");
-		}
-
-		// Macros (optional)
-		if (macros != null) {
-			// macros = DataUtil.utf8Decode(macros);
-			// //DataUtil.utf8Decode(macros);
-			myXMLio.processXMLString(macros, true, true);
-		}
-		
-		// Library JavaScript (optional)
-		if (libraryJS == null) { //TODO: && !isGGTfile)
-			kernel.resetLibraryJavaScript();
-		} else {
-			kernel.setLibraryJavaScript(libraryJS);
-		}
-
-
-		if (archive.entrySet() != null) {
-			for (Entry<String, String> entry : archive.entrySet()) {
-				maybeProcessImage(entry.getKey(), entry.getValue());
-			}
-		}
-		if (!imageManager.hasImages()) {
-			// Process Construction
-			// construction =
-			// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
-			myXMLio.processXMLString(construction, true, false);
-			setCurrentFile(archiveContent);
-			if (!useFullAppGui) {
-				afterLoadFile();
-			} else {
-				afterLoadAppFile();
-			}
-		} else {
-			// on images do nothing here: wait for callback when images loaded.
-			imageManager.triggerImageLoading(
-			/* DataUtil.utf8Decode( */construction/*
-												 * )/*DataUtil.utf8Decode
-												 * (construction)
-												 */, (MyXMLioW) myXMLio, this);
-			setCurrentFile(archiveContent);
-			
-
-		}
-	}
+	
 
 	/**
 	 * Opens the image file
@@ -1310,40 +1107,11 @@ public class AppW extends AppWeb {
 		setDefaultCursor();
 	}
 
-	public void loadGgbFile(HashMap<String, String> archiveContent)
-	        throws Exception {
-		loadFile(archiveContent);
-	}
+	
 
-	public void loadGgbFileAgain(String dataUrl) {
+	
 
-		((DrawEquationWeb) getDrawEquation())
-		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
-		imageManager.reset();
-		if (useFullAppGui)
-			GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
-		else
-			GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
-	}
-
-	public void beforeLoadFile() {
-		startCollectingRepaints();
-		getEuclidianView1().setReIniting(true);
-	}
-
-	public void afterLoadFile() {
-		kernel.initUndoInfo();
-
-		getEuclidianView1().synCanvasSize();
-		getEuclidianView1().doRepaint2();
-		stopCollectingRepaints();
-
-		frame.splash.canNowHide();
-		getEuclidianView1().requestFocusInWindow();
-
-		if (needsSpreadsheetTableModel())
-			getSpreadsheetTableModel(); // ensure create one if not already done
-	}
+	
 
 	/**
 	 * Does some refining after file loaded in the App. Also note, that only one
@@ -1352,13 +1120,7 @@ public class AppW extends AppWeb {
 	 * as it needed to be fixed after all.
 	 */
 	public void afterLoadAppFile() {
-		kernel.initUndoInfo();
-		getEuclidianView1().synCanvasSize();
-		splashDialog.canNowHide();
-		getEuclidianView1().doRepaint2();
-		stopCollectingRepaints();
-		// Well, it may cause freeze if we attach this too early
-		attachViews();
+		
 	}
 
 	public void appSplashCanNowHide() {
@@ -1385,19 +1147,6 @@ public class AppW extends AppWeb {
 			}
 		}
 
-	}
-
-	@Override
-	public void reset() {
-		if (currentFile != null) {
-			try {
-				loadGgbFile(currentFile);
-			} catch (Exception e) {
-				clearConstruction();
-			}
-		} else {
-			clearConstruction();
-		}
 	}
 
 	@Override
@@ -1813,38 +1562,7 @@ public class AppW extends AppWeb {
 	// IMAGES
 	// ============================================
 
-	private static final ArrayList<String> IMAGE_EXTENSIONS = new ArrayList<String>();
-	static {
-		IMAGE_EXTENSIONS.add("bmp");
-		IMAGE_EXTENSIONS.add("gif");
-		IMAGE_EXTENSIONS.add("jpg");
-		IMAGE_EXTENSIONS.add("jpeg");
-		IMAGE_EXTENSIONS.add("png");
-	}
-
-	private void maybeProcessImage(String filename, String binaryContent) {
-		String fn = filename.toLowerCase();
-		if (fn.equals("geogebra_thumbnail.png")) {
-			return; // Ignore thumbnail
-		}
-
-		int index = fn.lastIndexOf('.');
-		if (index == -1) {
-			return; // Ignore files without extension
-		}
-
-		String ext = fn.substring(index + 1).toLowerCase();
-		if (!IMAGE_EXTENSIONS.contains(ext)) {
-			return; // Ignore non image files
-		}
-
-		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		if (filename != null && filename.length() != 0
-		        && filename.charAt(0) == '/')
-			addExternalImage(filename.substring(1), binaryContent);
-		else
-			addExternalImage(filename, binaryContent);
-	}
+	
 
 	private String createImageSrc(String ext, String base64) {
 		String dataUrl = "data:image/" + ext + ";base64," + base64;
@@ -1853,10 +1571,6 @@ public class AppW extends AppWeb {
 
 	protected void initImageManager() {
 		imageManager = new ImageManager();
-	}
-
-	public void addExternalImage(String filename, String src) {
-		imageManager.addExternalImage(filename, src);
 	}
 
 	@Override
@@ -2244,5 +1958,35 @@ public class AppW extends AppWeb {
 		return getArticleElement().getDataParamId();
 	
 	}
+
+	@Override
+    protected void resetCommandDictionary() {
+	    this.commandDictionary = null;
+	    
+    }
+
+	@Override
+    public void afterLoadFileAppOrNot() {
+		kernel.initUndoInfo();
+
+		getEuclidianView1().synCanvasSize();
+		if (!useFullAppGui) {
+
+			getEuclidianView1().doRepaint2();
+			stopCollectingRepaints();
+
+			frame.splash.canNowHide();
+			getEuclidianView1().requestFocusInWindow();
+
+			if (needsSpreadsheetTableModel())
+				getSpreadsheetTableModel();
+		} else {
+			splashDialog.canNowHide();
+			getEuclidianView1().doRepaint2();
+			stopCollectingRepaints();
+			// Well, it may cause freeze if we attach this too early
+			attachViews();
+		}	    
+    }
 
 }
