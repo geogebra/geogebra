@@ -506,7 +506,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		point3D.updateCoords();
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		view3D.updateMatrixForCursor3D();
-		view3D.getCursor3D().setMoveMode(point3D.getMoveMode());
+		GeoPoint3D cursor = view3D.getCursor3D(); 
+		cursor.setRegion(null);
+		cursor.setPath(null);
+		cursor.setMoveMode(point3D.getMoveMode());
 		if (mode==EuclidianConstants.MODE_POINT || mode==EuclidianConstants.MODE_POINT_ON_OBJECT)
 			freePointJustCreated = true;
 		return point3D;

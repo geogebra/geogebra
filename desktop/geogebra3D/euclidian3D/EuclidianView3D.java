@@ -2432,7 +2432,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		if (app.getShiftDown()) //do nothing
 			return;
 		
-		//Application.printStacktrace("setHitCursor");
+		//App.printStacktrace("setHitCursor");
 		cursor = CURSOR_HIT;
 	}
 	
