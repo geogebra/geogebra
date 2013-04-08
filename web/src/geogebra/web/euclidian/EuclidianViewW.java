@@ -5,7 +5,6 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
@@ -21,7 +20,6 @@ import geogebra.web.main.DrawEquationWeb;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -445,36 +443,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		g2p.setHeight(canvasHeight);
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
     }
-
-	public String getCanvasBase64WithTypeString() {
-
-		// TODO: make this more perfect, like in Desktop
-
-		double ratio = g2p.getCoordinateSpaceWidth();
-		ratio /= g2p.getCoordinateSpaceHeight() * 1.0;
-		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
-		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
-		if (ratio < 1)
-			thx *= ratio;
-		else if (ratio > 1)
-			thy /= ratio;
-
-		Canvas canv = Canvas.createIfSupported();
-		canv.setCoordinateSpaceHeight((int)thy);
-		canv.setCoordinateSpaceWidth((int)thx);
-		canv.setWidth((int)thx+"px");
-		canv.setHeight((int)thy+"px");
-		Context2d c2 = canv.getContext2d();
-
-		//g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
-		c2.drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
-		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
-
-		return canv.toDataUrl();
-	}
-
-
-
 
 	@Override
     protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,

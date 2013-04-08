@@ -6,7 +6,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.View;
 import geogebra.web.kernel.gawt.BufferedImage;
@@ -186,7 +186,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		// write construction thumbnails
     	if (includeThumbnail)
     		addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-    			((EuclidianViewW)app.getEuclidianView1()).getCanvasBase64WithTypeString());
+    			((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString());
 
 
     	if (!macroXml.equals("")) {
