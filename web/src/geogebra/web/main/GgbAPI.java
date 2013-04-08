@@ -19,6 +19,7 @@ import java.util.TreeSet;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -134,7 +135,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	
     	JavaScriptObject callback = getDummyCallback();
     	
-    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback,GWT.getModuleName());
     	return "wait for callback";
     }
     
@@ -152,7 +153,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	createArchiveContent(includeThumbnail);
     	
     	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
-    	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback);
+    	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback,GWT.getModuleName());
 
     }
     
@@ -160,13 +161,13 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		createArchiveContent(includeThumbnail);
 		
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), includeThumbnail, callback);
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), includeThumbnail, callback,GWT.getModuleName());
     }
 
     public void getBase64(JavaScriptObject callback) {
     	createArchiveContent(true);
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), false, callback);
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), false, callback,GWT.getModuleName());
 
     }
 
@@ -231,9 +232,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }-*/;
 
 	public native void getGGBZipJs(JavaScriptObject arch,
-            boolean includeThumbnail, JavaScriptObject clb) /*-{
+            boolean includeThumbnail, JavaScriptObject clb,String module) /*-{
 
-		$wnd.zip.workerScriptsPath = "web/js/zipjs/";
+		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -342,9 +343,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     
 	private native void getNativeBase64ZipJs(JavaScriptObject arch,
-            boolean includeThumbnail, JavaScriptObject clb) /*-{
+            boolean includeThumbnail, JavaScriptObject clb,String module) /*-{
 
-		$wnd.zip.workerScriptsPath = "web/js/zipjs/";
+		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
