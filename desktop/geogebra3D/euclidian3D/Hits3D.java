@@ -32,6 +32,35 @@ public class Hits3D extends Hits {
 		public TreeSetOfDrawable3D(drawableComparator drawableComparator) {
 			super(drawableComparator);
 		}
+
+		public void add(Drawable3D d, float zMin, float zMax) {
+
+			/*
+			//if already contained and not nearer, do nothing
+			if (contains(d)){
+				if(d.zPickMin < zMin){
+					return;
+				}
+				
+				//will re-add it at the correct z values
+				remove(d);
+			}
+			
+				
+			d.zPickMin = zMin;
+			d.zPickMax = zMax;
+
+			super.add(d);
+			*/
+
+
+			super.add(d);
+			
+			//d.zPickMin = zMin;
+			//d.zPickMax = zMax;
+
+
+		}
 	}
 	
 	/** set of hits by picking order */
@@ -128,18 +157,18 @@ public class Hits3D extends Hits {
 	/** insert a drawable in the hitSet, called by EuclidianRenderer3D 
 	 * @param d the drawable
 	 * @param isLabel says if it's the label that is picked*/
-	public void addDrawable3D(Drawable3D d, boolean isLabel){
+	public void addDrawable3D(Drawable3D d, boolean isLabel, float zMin, float zMax){
 		
 		//Application.debug("isLabel = "+isLabel);
 		
 		if (isLabel && !d.getGeoElement().isGeoText())
-			hitsLabels.add(d);
+			hitsLabels.add(d, zMin, zMax);
 		//else{
 		
 		if(d.getPickOrder()<Drawable3D.DRAW_PICK_ORDER_MAX)
-			hitSet[d.getPickOrder()].add(d);
+			hitSet[d.getPickOrder()].add(d, zMin, zMax);
 		else
-			hitsOthers.add(d);	
+			hitsOthers.add(d, zMin, zMax);	
 		
 		
 		

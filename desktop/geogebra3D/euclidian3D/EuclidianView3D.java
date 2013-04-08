@@ -1706,14 +1706,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
-	/** add a drawable to the current hits
-	 * (used when a new object is created)
-	 * @param d drawable to add
-	 */
-	public void addToHits3D(Drawable3D d){
-		hits.addDrawable3D(d, false);
-		hits.sort();
-	}
 	
 	
 

@@ -1248,6 +1248,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
         float zMax, zMin;
         int num;
         
+
+        //App.error("");
+        
         for (int i = 0; i < hits ; i++) { 
         	     
           names = selectBuffer.get(ptr);  
@@ -1262,8 +1265,10 @@ public class Renderer extends RendererJogl implements GLEventListener {
           for (int j = 0; j < names; j++){ 
         	  num = selectBuffer.get(ptr);
 
-        	  if (hits3D!=null)
-        		  hits3D.addDrawable3D(drawHits[num],num>=labelLoop);
+        	  if (hits3D!=null){
+        		  hits3D.addDrawable3D(drawHits[num],num>=labelLoop, zMin, zMax);
+        		  //App.debug(i+": " + drawHits[num].getGeoElement());
+        	  }
         	  drawHits[num].zPickMin = zMin;
         	  drawHits[num].zPickMax = zMax;
         	  
