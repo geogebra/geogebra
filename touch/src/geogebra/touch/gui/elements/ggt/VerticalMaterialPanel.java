@@ -4,29 +4,18 @@ import geogebra.touch.utils.ggtapi.Material;
 
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
-public class VerticalMaterialPanel implements IsWidget
+public class VerticalMaterialPanel extends ScrollPanel
 {
-	private LayoutPanel layoutPanel;
-	ScrollPanel scrollPanel;
 	private FlexTable contentPanel;
 
 	public VerticalMaterialPanel()
 	{
-		this.layoutPanel = new LayoutPanel();
-		this.scrollPanel = new ScrollPanel();
 		this.contentPanel = new FlexTable();
 
-		this.layoutPanel.setSize(Window.getClientWidth() + "px", "400px");
-
-		this.scrollPanel.setWidget(this.contentPanel);
-		this.layoutPanel.add(this.scrollPanel);
+		this.setWidget(this.contentPanel);
 	}
 
 	public void setMaterials(List<Material> materials)
@@ -43,8 +32,15 @@ public class VerticalMaterialPanel implements IsWidget
 	}
 
 	@Override
-	public Widget asWidget()
+	public int getOffsetHeight()
 	{
-		return this.layoutPanel;
+		return MaterialListElement.PANEL_HEIGHT;
+	}
+
+	@Override
+	public void setWidth(String width)
+	{
+		super.setWidth(width);
+		this.contentPanel.setWidth(width);
 	}
 }

@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
 /**
  * GUI Element showing a Material as search Result
  * 
@@ -25,7 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class MaterialListElement extends HorizontalPanel
 {
-	private static final String PANEL_HEIGHT = "100px";
+	public static final int PANEL_HEIGHT = 100;
 
 	private SimplePanel image, likeIcon;
 	private VerticalPanel infos, links;
@@ -46,7 +45,7 @@ public class MaterialListElement extends HorizontalPanel
 		// TODO Change to icon
 		this.open = new Button("OPEN");
 
-		this.setHeight(PANEL_HEIGHT);
+		this.setHeight(PANEL_HEIGHT + "px");
 		this.setWidth(Window.getClientWidth() - 100 + "px");
 
 		this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.InfoBackground);

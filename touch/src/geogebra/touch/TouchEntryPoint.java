@@ -47,7 +47,6 @@ public class TouchEntryPoint implements EntryPoint
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 
 				app.start();
-				tubeSearchGUI.loadFeatured();
 				TouchEntryPoint.showTabletGUI();
 
 				Window.addResizeHandler(new ResizeHandler()

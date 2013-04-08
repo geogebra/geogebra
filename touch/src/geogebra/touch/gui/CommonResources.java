@@ -441,4 +441,8 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/view_zoom.svg")
 	@Validated(validated = false)
 	SVGResource search();
+
+	@Source("icons/svg/arrow_go_previous_gray.svg")
+	@Validated(validated = false)
+	SVGResource back();
 }
