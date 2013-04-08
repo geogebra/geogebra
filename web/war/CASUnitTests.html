@@ -80,6 +80,8 @@ window.onload = function()
 </div>
 <div id="table2">
 </div>
+<div id="table3">
+</div>
 
     <script>
         var article = document.querySelector(".geogebraweb");
@@ -90,13 +92,15 @@ window.onload = function()
 		var red = "#FF0000";
 		var magenta = "#FF00FF";
 		var yellow = "#FFFF00";
+		var orange = "#FFAF00";
 
 		function ggbOnInit() {
 		
 		var table = '<table border="1">';
 		var table2 = '<table border="1">';
+		var table3 = '<table border="1">';
 		
-		for (var i = 230 ; i <= Object.keys(__giac).length ; i++) {
+		for (var i = 1 ; i <= Object.keys(__giac).length ; i++) {
 		
 			//console.clear();
 		
@@ -152,8 +156,10 @@ window.onload = function()
 			
 			if (color == red) {
 				table += addToTable;
-			} else {
+			} else if (color == orange) {
 				table2 += addToTable;
+			} else {
+				table3 += addToTable;
 			}
 			
 			giacInput = "problem recording input to giac";
@@ -167,6 +173,9 @@ window.onload = function()
 		
 		table2 += "</table>";
 		document.getElementById('table2').innerHTML = table2;
+		
+		table3 += "</table>";
+		document.getElementById('table3').innerHTML = table3;
 		
 		}
 		
@@ -209,10 +218,15 @@ window.onload = function()
 					}
 										
 				}
+
+				if (result.startsWith("GEOGEBRA")) {
+					return orange;
+				}
 				
 				// no match
 				return red;
 			}
+
 
 		
 		
