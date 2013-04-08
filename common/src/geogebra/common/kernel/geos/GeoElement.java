@@ -4804,6 +4804,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				sb.append("\t<auxiliary val=\"");
 				sb.append("true");
 				sb.append("\"/>\n");
+			} else if (getMetasLength() > 0){ //force save "not auxiliary" for e.g. segments created by polygon algo
+				sb.append("\t<auxiliary val=\"");
+				sb.append("false");
+				sb.append("\"/>\n");				
 			}
 		} else { // needed for eg GeoTexts (in Algebra View but Auxilliary by
 					// default from ggb 4.0)
