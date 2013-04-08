@@ -71,8 +71,8 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		super.createButtons();
 		
 		// ========================================
-		// show grid button
-		btnOrientation = new MyToggleButton(app.getImageIcon("stylebar_orientation.gif"),
+		// button
+		btnOrientation = new MyToggleButton(app.getImageIcon("view_default.gif"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
