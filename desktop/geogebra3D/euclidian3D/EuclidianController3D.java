@@ -1547,7 +1547,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		if (mouseMoved){
 			
-			//Application.debug("\n"+view3D.getHits3D());
+			//App.debug("\n"+view3D.getHits3D());
 			
 			
 			/*

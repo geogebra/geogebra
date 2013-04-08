@@ -152,10 +152,10 @@ public class Hits3D extends Hits {
 	
 	/** insert a drawable in the hitSet, called by EuclidianRenderer3D 
 	 * @param d the drawable
-	 * @param isLabel says if it's the label that is picked*/
+	 * @param isLabel says if it's the label that is picked
+	 * @param zMin z minimum for picking
+	 * @param zMax z maximum for picking*/
 	public void addDrawable3D(Drawable3D d, boolean isLabel, float zMin, float zMax){
-		
-		//Application.debug("isLabel = "+isLabel);
 		
 		if (isLabel && !d.getGeoElement().isGeoText())
 			hitsLabels.add(d, zMin, zMax);
@@ -277,12 +277,14 @@ public class Hits3D extends Hits {
 		
 		if (hitsLabels.isEmpty())
 			return null;
-		else{
-			GeoElement labelGeo = hitsLabels.first().getGeoElement();
-			
+		
+		//App.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst hit:"+drawables3D.get(0).zPickMin);
+		GeoElement labelGeo = hitsLabels.first().getGeoElement();
+		//check if the label hit is the first geo hitted
+		if (labelGeo == topHits.get(0))
 			return labelGeo;
-			
-		}
+		// else label is not hitted
+		return null;
 	}
 	
 	
