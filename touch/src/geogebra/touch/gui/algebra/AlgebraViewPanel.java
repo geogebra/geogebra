@@ -1,14 +1,19 @@
 package geogebra.touch.gui.algebra;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.TabletGUI;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -27,13 +32,7 @@ public class AlgebraViewPanel extends VerticalPanel
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
-	 */
-	public AlgebraViewPanel(TouchController controller, Kernel kernel)
-	{
-		this.initAlgebraView(controller, kernel);
-	}
-
-	/**
+	 * 
 	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM algebraView}
 	 * to it. Attaches the {@link AlgebraViewM algebraView} to the {@link Kernel
 	 * kernel}.
@@ -43,12 +42,20 @@ public class AlgebraViewPanel extends VerticalPanel
 	 * @param kernel
 	 *          Kernel
 	 */
-	private void initAlgebraView(TouchController controller, Kernel kernel)
+	public AlgebraViewPanel(TouchController controller, Kernel kernel)
 	{
 		this.scrollPanel = new ScrollPanel();
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
 
+		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
+		this.scrollPanel.getElement().getStyle().setWidth(Window.getClientWidth() / 4, Unit.PX); 
+		this.scrollPanel.getElement().getStyle().setHeight(Window.getClientHeight() * 3 / 4, Unit.PX); 
+		this.scrollPanel.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
+		this.scrollPanel.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+		this.scrollPanel.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+		
+		
 		this.button = new Button();
 		this.button.addDomHandler(new ClickHandler()
 		{
@@ -59,12 +66,12 @@ public class AlgebraViewPanel extends VerticalPanel
 			}
 		}, ClickEvent.getType());
 
-		this.add(this.button);
+//		this.add(this.button);
 
 		this.scrollPanel.add(this.algebraView);
 		this.add(this.scrollPanel);
 
-		this.extend();
+//		this.extend();
 	}
 
 	/**
@@ -94,5 +101,10 @@ public class AlgebraViewPanel extends VerticalPanel
 		{
 			extend();
 		}
+	}
+
+	public AlgebraView getAlgebraView()
+	{
+		return this.algebraView;
 	}
 }

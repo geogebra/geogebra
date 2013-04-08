@@ -771,37 +771,34 @@ public class AlgebraViewM extends AlgebraViewWeb
 		return false;
 	}
 
+	/**
+	 * TODO: should return false if the panel is not extended! 
+	 */
 	@Override
 	public boolean isShowing()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public void setTreeMode(int mode)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public GeoElement getLastSelectedGeo()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setLastSelectedGeo(GeoElement geo)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public boolean isRenderLaTeX()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

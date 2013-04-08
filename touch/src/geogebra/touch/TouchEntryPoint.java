@@ -7,6 +7,7 @@ import geogebra.touch.gui.TubeSearchGUI;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -58,6 +59,9 @@ public class TouchEntryPoint implements EntryPoint
 //						TouchEntryPoint.appWidget.setPixelSize(event.getWidth(), event.getHeight());
 					}
 				});
+				
+				tabletGUI.getContentWidget().getElement().getStyle().setOverflow(Overflow.VISIBLE); 
+				
 			}
 
 			@Override

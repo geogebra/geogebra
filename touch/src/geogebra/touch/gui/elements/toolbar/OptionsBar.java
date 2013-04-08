@@ -58,8 +58,8 @@ public class OptionsBar extends HorizontalPanel
 		this.getElement().getStyle().setLeft(0, Unit.PX);
 		this.getElement()
 				.getStyle()
-				.setTop(Window.getClientHeight() - 2 * offset
-						- TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+				.setTop(Window.getClientHeight() - 2 * (offset
+						+ TabletGUI.FOOTER_BORDER_WIDTH), Unit.PX);
 
 	}
 

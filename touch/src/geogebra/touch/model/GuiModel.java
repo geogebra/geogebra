@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
+import geogebra.touch.gui.elements.toolbar.OptionsBar;
 import geogebra.touch.gui.elements.toolbar.ToolBarButton;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -143,10 +144,11 @@ public class GuiModel
 	{
 		if (this.activeButton != null && this.activeButton != toolBarButton)
 		{
-			this.activeButton.removeStyleDependentName("active");
+			// transparent
+			this.activeButton.getElement().getStyle().setBorderColor("rgba(0,0,0,0)");	
 		}
 		this.activeButton = toolBarButton;
-		this.activeButton.addStyleDependentName("active");
+		this.activeButton.getElement().getStyle().setBorderColor(GColor.BLUE.toString());
 
 		if (this.touchModel != null)
 		{

@@ -1,6 +1,5 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import geogebra.common.awt.GColor;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
@@ -117,8 +116,4 @@ public class ToolBar extends HorizontalPanel
 		model.getGuiModel().setActive(this.tools.get(0));
 	}
 
-	public void onResize(ResizeEvent event)
-	{
-		this.setWidth(event.getWidth() + "px");
-	}
 }

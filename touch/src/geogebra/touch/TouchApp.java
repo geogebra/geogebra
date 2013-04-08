@@ -1,8 +1,5 @@
 package geogebra.touch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
@@ -42,6 +39,9 @@ import geogebra.web.main.FontManagerW;
 
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -140,10 +140,6 @@ public class TouchApp extends AppWeb
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
 	{
-		// MobileEuclidianController ec = new MobileEuclidianController();
-		// ec.setKernel(this.kernel);
-		// return new EuclidianViewM(ec, showAxes1, showGrid1,
-		// getSettings().getEuclidian(1));
 		return null;
 	}
 
@@ -166,14 +162,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean isUsingFullGui()
 	{
-
 		return false;
 	}
 
 	@Override
 	public boolean showView(int view)
 	{
-
 		return false;
 	}
 
@@ -197,17 +191,18 @@ public class TouchApp extends AppWeb
 		return 0;
 	}
 
+	/**
+	 * required for repaint
+	 */
 	@Override
 	public AlgebraView getAlgebraView()
 	{
-		// TODO: will not be used!
-		return null;
+		return this.touchGUI.getAlgebraViewPanel() == null ? null : this.touchGUI.getAlgebraViewPanel().getAlgebraView();
 	}
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView()
 	{
-		// TODO
 		return this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 	}
 
@@ -311,7 +306,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public GFont getPlainFontCommon()
 	{
-		// TODO
 		return new geogebra.web.awt.GFontW("normal");
 	}
 
@@ -325,7 +319,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public UndoManager getUndoManager(Construction cons)
 	{
-		// TODO
 		return new UndoManagerW(cons);
 	}
 
@@ -339,7 +332,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter()
 	{
-		// TODO
 		return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
 	}
 
@@ -430,14 +422,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean isHTML5Applet()
 	{
-		// TODO
 		return true;
 	}
 
 	@Override
 	public String getLocaleStr()
 	{
-		// TODO
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
 		App.debug("Current Locale: " + localeName);
 
@@ -513,14 +503,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public GuiManager getGuiManager()
 	{
-		// TODO
 		return null;
 	}
 
 	@Override
 	public EuclidianView createEuclidianView()
 	{
-		// TODO
 		if (this.euclidianView == null)
 		{
 			// initEuclidianViews();
@@ -567,8 +555,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public void createNewWindow()
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -586,8 +572,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public void showMessage(String error)
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -637,32 +621,23 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public void setLabels() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void resetCommandDictionary() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void appSplashCanNowHide() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public String getLanguageFromCookie() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void showLoadingAnimation(boolean b) {
-		// TODO Auto-generated method stub
-		
+	public void showLoadingAnimation(boolean b) {		
 	}
 
 	@Override
