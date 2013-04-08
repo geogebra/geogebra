@@ -2274,7 +2274,7 @@ __GGB__keysVar.fr.plain = {
     "IntegralOfAfromBtoC": "Int\xe9grale de %0, de %1 \xe0 %2",
     "Interpolate": "Dessiner par interpolation",
     "IntersectingLines": "Hyperbole d\xe9g\xe9n\xe9r\xe9e",
-    "IntersectionCurveOfAB": "Intersection des courbes %0, %1",
+    "IntersectionCurveOfAB": "Courbe d'intersection de %0 et %1",
     "IntersectionLineOfAB": "Droite d'intersection de %0 et %1",
     "IntersectionOfAandB": "Intersection de %0 et %1",
     "IntersectionPointOfAB": "Point d'intersection de %0 et %1",

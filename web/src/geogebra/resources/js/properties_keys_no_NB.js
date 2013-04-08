@@ -1659,7 +1659,7 @@ __GGB__keysVar.no_NB.menu = {
     "RightAngleStyle": "Type markering av rett vinkel",
     "RightClassRule": "< x \u2264",
     "RightProb": "H\xf8yresidig",
-    "RigidPolygon": "Fast mangekant",
+    "RigidPolygon": "Definert mangekant",
     "RigidPolygon_Help": "Velg alle hj\xf8rnene og klikk p\xe5 det f\xf8rste hj\xf8rnet igjen (eller bare klikk p\xe5 en mangekant for \xe5 lage en fast kopi)",
     "RootsAndFractions": "R\xf8tter og br\xf8ker",
     "RotateByAngle": "Roter objekt om punkt med fast vinkel",
