@@ -74,7 +74,10 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * @return length
 	 */
 	public double getLength() {
-		return getUnit();
+		if (isDefined())
+			return getUnit();
+		
+		return Double.NaN;
 	}
 
 
