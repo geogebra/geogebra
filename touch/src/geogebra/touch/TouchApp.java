@@ -27,7 +27,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
@@ -35,7 +34,6 @@ import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
-import geogebra.web.io.MyXMLioW;
 import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
@@ -62,7 +60,6 @@ public class TouchApp extends AppWeb
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	private MyXMLio touchXML;
 	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
