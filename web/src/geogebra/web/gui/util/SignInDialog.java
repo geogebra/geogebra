@@ -98,7 +98,7 @@ public class SignInDialog extends DialogBox {
 		logins.getFlexCellFormatter().setColSpan(3, 0, 2);
 		logins.setWidget(3, 0, anchorsContainer);
 		
-		submitButton = new Button(app.getMenu("submit"));
+		submitButton = new Button(app.getMenu("SignIn"));
 		logins.getFlexCellFormatter().setColSpan(4, 0, 2);
 		logins.setWidget(4, 0, submitButton);
 		
