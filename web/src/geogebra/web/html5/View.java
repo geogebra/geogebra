@@ -10,9 +10,8 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
 
-public class View extends Widget {
+public class View {
 	
 	private HashMap<String, String> archiveContent;
 	

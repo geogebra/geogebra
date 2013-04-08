@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.kernel.gawt.BufferedImage;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	
     public void setBase64(String base64) {
-	    // TODO Auto-generated method stub
+	    GeoGebraAppFrame.fileLoader.process(base64);
 	    
     }
 

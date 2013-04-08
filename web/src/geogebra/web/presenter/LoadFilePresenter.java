@@ -10,14 +10,25 @@ import geogebra.web.main.AppWeb;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.storage.client.Storage;
 
-public class LoadFilePresenter extends BasePresenter {
+public class LoadFilePresenter{
 	
 
 	public LoadFilePresenter() {
 		
 	}
 	
-	@Override
+	private View view;
+
+
+	public View getView() {
+	    return view;
+    }
+
+	public void setView(View view) {
+	    this.view = view;
+    }
+	
+	
     public void onPageLoad() {
 		
 		View view = getView();
@@ -123,12 +134,10 @@ public class LoadFilePresenter extends BasePresenter {
 	}
 	
 
-	@Override
     public void onWorksheetConstructionFailed(String errorMessage) {
 		getView().showError(errorMessage);
 	}
 	
-	@Override
     public void onWorksheetReady() {
 		getView().hide();
 	}
