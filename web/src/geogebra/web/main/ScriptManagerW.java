@@ -69,7 +69,7 @@ public class ScriptManagerW extends ScriptManager {
 		}
 		
 		$wnd[ggbApplet].setBase64 = function(base64string) {
-			return ggbAPI.@geogebra.web.main.GgbAPI::setBase64(Ljava/lang/String;)(callback);
+			return ggbAPI.@geogebra.web.main.GgbAPI::setBase64(Ljava/lang/String;)(base64string);
 		}
 
 		$wnd[ggbApplet].getContext2D = function() {
