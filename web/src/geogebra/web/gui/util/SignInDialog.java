@@ -45,6 +45,17 @@ public class SignInDialog extends DialogBox {
 		FlowPanel container = new FlowPanel();
 		container.addStyleName("signInDialogContainer");
 		
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("headerPanel");
+		final SignInDialog t = this;
+		buttonPanel.add(cancel = new Button(app.getMenu("X"), new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				t.hide();
+			}
+		}));
+		container.add(buttonPanel);
+		
 		FlowPanel ggtLoginPanel = new FlowPanel();
 		ggtLoginPanel.addStyleName("ggtLoginPanel");
 		
@@ -112,16 +123,7 @@ public class SignInDialog extends DialogBox {
 		ggtLoginPanel.add(logins);
 		container.add(ggtLoginPanel);
 		
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("buttonPanel");
-		final SignInDialog t = this;
-		buttonPanel.add(cancel = new Button(app.getMenu("cancel"), new ClickHandler() {
-			
-			public void onClick(ClickEvent event) {
-				t.hide();
-			}
-		}));
-		container.add(buttonPanel);
+		
 		
 		
 		
