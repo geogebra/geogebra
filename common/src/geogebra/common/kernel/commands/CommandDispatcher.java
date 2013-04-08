@@ -538,7 +538,8 @@ public class CommandDispatcher {
 			case Center:
 			case Element:
 			case Sequence:
-
+			case ContourPlot:
+				
 			case Reflect:
 			case Mirror:
 			

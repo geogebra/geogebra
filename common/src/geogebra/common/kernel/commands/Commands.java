@@ -80,7 +80,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
    	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION), NSolveODE(TABLE_FUNCTION),
-
+   	ContourPlot(TABLE_FUNCTION),
 	//=============================================================
 	// conics
 	//=============================================================
@@ -251,7 +251,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	ToPoint(TABLE_GEOGEBRA),
    	TrigExpand(TABLE_FUNCTION),
    	TrigSimplify(TABLE_FUNCTION),
-   	TrigCombine(TABLE_FUNCTION),
+   	TrigCombine(TABLE_FUNCTION)
    	;
 	
    	private int table;
