@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.html5.View;
 import geogebra.web.kernel.gawt.BufferedImage;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
@@ -41,6 +43,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	
     public void setBase64(String base64) {
+    	if(GeoGebraAppFrame.fileLoader.getView()==null){
+    		View view = new View(RootPanel.getBodyElement(), (AppWeb) app);
+    		GeoGebraAppFrame.fileLoader.setView(view);
+    	}
 	    GeoGebraAppFrame.fileLoader.process(base64);
 	    
     }

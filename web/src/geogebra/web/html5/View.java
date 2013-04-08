@@ -3,7 +3,6 @@ package geogebra.web.html5;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.main.AppW;
 import geogebra.web.main.AppWeb;
 
 import java.util.HashMap;
@@ -18,7 +17,7 @@ public class View {
 	private Element container;
 	private AppWeb app;
 	
-	public View(Element container, AppW app) {
+	public View(Element container, AppWeb app) {
 		this.app = app;
 		this.container = container;
     }
