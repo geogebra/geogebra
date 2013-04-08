@@ -5,25 +5,24 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.CommonResources;
-import geogebra.touch.gui.TabletGUI;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Extends from {@link LayoutPanel}. Holds the instances of the
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends VerticalPanel
+public class AlgebraViewPanel extends DecoratorPanel
 {
 	private ScrollPanel scrollPanel;
 	private AlgebraViewM algebraView;
@@ -51,10 +50,8 @@ public class AlgebraViewPanel extends VerticalPanel
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 		this.scrollPanel.getElement().getStyle().setWidth(Window.getClientWidth() / 4, Unit.PX); 
 		this.scrollPanel.getElement().getStyle().setHeight(Window.getClientHeight() * 3 / 4, Unit.PX); 
-		this.scrollPanel.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
-		this.scrollPanel.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
-		this.scrollPanel.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
-		
+
+		this.algebraView.getElement().getStyle().setHeight(Window.getClientHeight() * 3 / 4, Unit.PX); 
 		
 		this.button = new Button();
 		this.button.addDomHandler(new ClickHandler()
