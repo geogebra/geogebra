@@ -30,7 +30,7 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"if %3=true then binomial\\_cdf(%0,exact(%1),%2) else binomial(%0,exact(%1),%2) fi");
 		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
-		p("CFactor.1","cfactor(%0)");
+		p("CFactor.1","[with\\_sqrt(0),[ggbans:=cfactor(%0)],with\\_sqrt(1),ggbans][3]");
 		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
 		
@@ -89,9 +89,9 @@ public class Ggb2giac {
 		
 		// factor over rationals
 		p("Factor.1",
-				"collect(%0)");
+				"[with\\_sqrt(0),[ggbans:=factor(%0)],with\\_sqrt(1),ggbans][3]");
 		p("Factor.2",
-				"collect(%0,%1)");
+				"[with\\_sqrt(0),[ggbans:=factor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 
 		// factor over irrationals
 		// might not need with_sqrt() as we're using collect() for Factor.1
@@ -156,7 +156,7 @@ public class Ggb2giac {
 		p("IntegralBetween.5",
 				"int(%0-(%1),%2,%3,%4)");
 		p("Intersect.2",
-				"%0 intersect %1");
+				"inter(%0,%1)");
 		p("Iteration.3",
 				"(unapply(%0,ggbtmpvarx)@@%2)(%1)");
 		p("IterationList.3",
@@ -322,15 +322,15 @@ public class Ggb2giac {
 		p("Solve.2",
 				"[op(solve(%0,%1))]");
 		p("SolveODE.1",
-				"odesolve(%0)");
+				"desolve(%0)");
 		p("SolveODE.2",
-				"odesolve(%0,%1)");
+				"desolve(%0,%1)");
 		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
-				"odesolve(%0,%1,%2)");
+				"desolve(%0,%1,%2)");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
-				"odesolve(%0,%1,%2,%3,%4)");
-		p("Substitute.2","todo");
+				"desolve(%0,%1,%2,%3,%4)");
+		p("Substitute.2","subst(%0,%1)");
 		p("Substitute.3",
 				"subst(%0,%1,%2))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
@@ -382,7 +382,7 @@ public class Ggb2giac {
 				"variance(%0)");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4",
-				"todo");
+				"if %3=true then harmonic(%2,%1)/harmonic(%0,%1) else 1/((%2)^%1*harmonic(%0,%1)) fi;");
 		return commandMap;
 	}	
 
