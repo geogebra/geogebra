@@ -4465,7 +4465,7 @@ public class Kernel {
 	}
 
 	public boolean useCASforDerivatives() {
-		return false;
+		return true;
 	}
 	
 	public boolean useCASforIntegrals() {

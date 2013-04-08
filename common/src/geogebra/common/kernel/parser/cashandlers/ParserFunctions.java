@@ -162,6 +162,7 @@ public class ParserFunctions {
 		put(1, "Erf", Operation.ERF);
 
 		put(1, "psi", Operation.PSI);
+		put(1, "Psi", Operation.PSI);
 
 		put(2, "polygamma", Operation.POLYGAMMA);
 		put(2, "polyGamma", Operation.POLYGAMMA);

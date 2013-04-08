@@ -2957,6 +2957,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func Ci left (");
 				break;
 
+			case GIAC:
+				appendReduceFunction(sb, "Ci");
+				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "ci");
 				break;
@@ -2976,6 +2979,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func Si left (");
 				break;
 
+			case GIAC:
+				appendReduceFunction(sb, "Si");
+				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "si");
 				break;
@@ -2995,6 +3001,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func Ei left (");
 				break;
 
+			case GIAC:
+				appendReduceFunction(sb, "Ei");
+				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "ei");
 				break;
@@ -3141,7 +3150,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(rightBracket(stringType));
 				break;
-			case GIAC:
 			case MATH_PIPER:
 				// user defined function
 				sb.append("logB(");
@@ -3159,6 +3167,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
+			case GIAC:
 			case PSTRICKS:
 			case PGF:
 				// ln(x)/ln(b)
@@ -3250,9 +3259,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
+			case GIAC:
+				appendReduceFunction(sb, "Psi");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+
 			case LIBRE_OFFICE:
 				sb.append("func ");
-			case GIAC:
 			case MATH_PIPER:
 			default:
 				sb.append("psi(");
@@ -3323,8 +3337,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 				break;
 			case GIAC:
+				sb.append("log("); 
+				sb.append(leftStr);
+				sb.append(")/log(2)");
+				break;
 			case MATH_PIPER:
-				sb.append("log2("); // user-defined function in Maxima
+				sb.append("log2(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3446,6 +3464,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				break;
 
+			case GIAC:
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(")^(1/3)");
+				break;
 			default:
 				sb.append("cbrt(");
 				sb.append(leftStr);
@@ -3698,6 +3721,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
 				break;
+			case GIAC:
 			case MATH_PIPER:
 				sb.append("Gamma(");
 				break;
@@ -3721,7 +3745,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-				sb.append("gamma_incomplete(");
+				sb.append("Gamma(");
 				break;
 
 			case MPREDUCE:

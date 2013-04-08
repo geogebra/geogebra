@@ -21,6 +21,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	private static boolean asyncstarted = false;
 	private Kernel kernel;
 	private Interpretable mpreduce;
+	private boolean specialFunctionsInitialized;
 	
 	/**
 	 * Creates new CAS
@@ -50,7 +51,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		//} catch (TimeoutException toe) {
 		//	throw new Error(toe.getMessage());
 		} catch (Throwable e) {
-			App.debug("evaluateMPReduce: " + e.getMessage());
+			App.debug("evaluateGiac: " + e.getMessage());
 			return "?";
 		}
 	}
@@ -61,11 +62,21 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	 * @see geogebra.common.kernel.cas.CASGenericInterface#initCAS()
 	 */
 	public void initCAS() {
-		App.debug("initCAS() called");
+		// not called?
 	}
 	
 	public synchronized String evaluate(String s) {
 
+		if (!specialFunctionsInitialized) {
+			nativeEvaluateRaw("sech(x):=1/cosh(x);"+
+					"csch(x):=1/sinh(x);"+
+					"coth(x):=1/tanh(x);"+
+					// http://wiki.geogebra.org/en/FractionalPart_Function
+					"fractionalPart(x):=sgn(x)(abs(x)-floor(abs(x)));");
+
+			specialFunctionsInitialized = true;
+		}
+		
 		App.debug("giac  input:"+s);
 		String ret = nativeEvaluateRaw(s);
 		App.debug("giac output:"+ret);
@@ -82,8 +93,8 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}-*/;
 
 	public void initialize() {
-	    // just needed for Desktop
-    }
+		// not called?
+	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 	    // TODO Auto-generated method stub
