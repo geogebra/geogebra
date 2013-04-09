@@ -1596,25 +1596,6 @@ public class AppW extends AppWeb {
 	// ============================================
 
 	@Override
-	public void setXML(String xml, boolean clearAll) {
-		if (clearAll) {
-			setCurrentFile(null);
-		}
-
-		try {
-			// make sure objects are displayed in the correct View
-			setActiveView(App.VIEW_EUCLIDIAN);
-			myXMLio.processXMLString(xml, clearAll, false);
-		} catch (MyError err) {
-			err.printStackTrace();
-			showError(err);
-		} catch (Exception e) {
-			e.printStackTrace();
-			showError("LoadFileFailed");
-		}
-	}
-
-	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		// save the dimensions of the current window
 		sb.append("\t<window width=\"");

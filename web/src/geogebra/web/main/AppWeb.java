@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.Localization;
+import geogebra.common.main.MyError;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
@@ -506,6 +507,25 @@ public abstract class AppWeb extends App implements SetLabels{
 		
 		protected void initImageManager() {
 			imageManager = new ImageManager();
+		}
+		
+		@Override
+		public final void setXML(String xml, boolean clearAll) {
+			if (clearAll) {
+				setCurrentFile(null);
+			}
+
+			try {
+				// make sure objects are displayed in the correct View
+				setActiveView(App.VIEW_EUCLIDIAN);
+				getXMLio().processXMLString(xml, clearAll, false);
+			} catch (MyError err) {
+				err.printStackTrace();
+				showError(err);
+			} catch (Exception e) {
+				e.printStackTrace();
+				showError("LoadFileFailed");
+			}
 		}
 		
 }

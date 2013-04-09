@@ -339,12 +339,6 @@ public class TouchApp extends AppWeb
 
 	}
 
-	@Override
-	public void setXML(String string, boolean b)
-	{
-
-	}
-
 	public GgbAPITouch getGgbApiT()
 	{
 		//FIXME - use getGgbApi (changes in web necessary)
