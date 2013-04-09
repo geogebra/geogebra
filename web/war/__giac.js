@@ -262,7 +262,7 @@ __giac = {
 259: { cmd:"Derivative[gamma(x)]", result:"gamma(x) psi(x)|OR|psi(x) gamma(x)" },
 260: { cmd:"Numeric[gamma(4.4,5.5),13]", result:"7.499004442917" },
 261: { cmd:"Numeric[gammaRegularized(4.4,5.5),13]", result:"0.7398312046423" },
-262: { cmd:"Derivative[beta(2,x)]", result:"(-2 x - 1) / (x⁴ + 2x³ + x²)" },
+262: { cmd:"Derivative[beta(2,x)]", result:"(-2 x - 1) / (x⁴ + 2x³ + x²)", notes:"check correct answer, not sure Reduce is correct" },
 263: { cmd:"Numeric[beta(0.4,0.5,0.6),13]", result:"2.286805894437611" },
 264: { cmd:"Numeric[betaRegularized(0.4,0.5,0.6)]", result:"0.621567675796455" },
 265: { cmd:"Derivative[polyGamma(1,x)]", result:"polygamma(2, x)" },
@@ -288,4 +288,11 @@ __giac = {
 285: { cmd:"Derivative[NotARealFunction(x))]", result:"NotARealFunction'" },
 286: { cmd:"Derivative[f(x) g(x)]", result:"f' g + g' f" },
 287: { cmd:"Derivative[f(x) + g(x)]", result:"f' + g'" },
+288: { cmd:"Derivative[beta(x,2)]", result:"(-2 x - 1) / (x⁴ + 2x³ + x²)", notes:"check correct answer, not sure Reduce is correct" },
+289: { cmd:"Numeric[beta(2,3),13]", result:"0.08333333333333" },
+290: { cmd:"Numeric[beta(2,3),13]", result:"0.08333333333333" },
+291: { cmd:"Numeric[beta(2,3,0.5),13]", result:"0.05729166666667" },
+292: { cmd:"Numeric[betaRegularized(2,3,0.5),13]", result:"0.6875" },
+293: { cmd:"Numeric[zeta(2.3),13]", result:"1.432417799315" },
+
 }
