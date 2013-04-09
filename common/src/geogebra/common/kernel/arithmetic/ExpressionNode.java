@@ -4168,8 +4168,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
-			if(tpl.hasType(StringType.MPREDUCE)){
+			if (tpl.hasType(StringType.MPREDUCE)){
 				sb.append("df(");
+				sb.append(leftStr);
+				break;
+			} else if (tpl.hasType(StringType.GIAC)){
+				sb.append("diff(");
 				sb.append(leftStr);
 				break;
 			}
