@@ -3797,6 +3797,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
+			
+			if (stringType == StringType.GIAC) {
+				sb.append(",1");
+			}
+			
 			sb.append(rightBracket(stringType));
 			break;
 
