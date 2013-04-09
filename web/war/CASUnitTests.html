@@ -107,11 +107,13 @@ window.onload = function()
 			var cmd = __giac[i]["cmd"];
 			var expectedResult = __giac[i]["result"];
 			var notes = __giac[i]["notes"];
-			var result = window.ggbApplet.evalGeoGebraCAS(cmd);
+			var resultO = window.ggbApplet.evalGeoGebraCAS(cmd);
 			
-			if (result === "") {
-				result = "GEOGEBRA ERROR";
+			if (resultO === "") {
+				resultO = "GEOGEBRA ERROR";
 			}
+			
+			var result = resultO;
 			
 			if (expectedResult === undefined) {
 				expectedResult="RESULT MISSING";
@@ -149,7 +151,7 @@ window.onload = function()
 					
 			var addToTable = "<tr>";
 			addToTable += "<td>" + cmd + "</td>";
-			addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + result + '</span></p></td>';
+			addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO + '</span></p></td>';
 			addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
 			addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
 			addToTable += "</tr>";
