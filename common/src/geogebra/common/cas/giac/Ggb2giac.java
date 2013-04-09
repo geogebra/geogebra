@@ -327,9 +327,11 @@ public class Ggb2giac {
 				"desolve(%0,%1)");
 		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
-				"desolve(%0,%1,%2)");
+				"desolve(%0,%2,%1)");
+		p("SolveODE.4",
+				"desolve(%0,%2,%1,%3)");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
-				"desolve(%0,%1,%2,%3,%4)");
+				"desolve(%0,%2,%1,%3,%4)");
 		p("Substitute.2","subst(%0,%1)");
 		p("Substitute.3",
 				"subst(%0,%1,%2))");
