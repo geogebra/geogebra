@@ -4744,7 +4744,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	public boolean isListValue() {
-		return evaluate(StringTemplate.defaultTemplate).isListValue();
+		// temporary fix for ggbApplet.evalCommandCAS("Factor[x^2-1]")
+		try {
+			return evaluate(StringTemplate.defaultTemplate).isListValue();
+		} catch (MyError e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean isPolynomialInstance() {
