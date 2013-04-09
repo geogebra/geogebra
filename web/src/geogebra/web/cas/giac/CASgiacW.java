@@ -70,9 +70,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		if (!specialFunctionsInitialized) {
 			nativeEvaluateRaw("sech(x):=1/cosh(x);"+
 					"csch(x):=1/sinh(x);"+
-					"coth(x):=1/tanh(x);"+
-					// http://wiki.geogebra.org/en/FractionalPart_Function
-					"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));");
+					"coth(x):=1/tanh(x);");
 
 			specialFunctionsInitialized = true;
 		}

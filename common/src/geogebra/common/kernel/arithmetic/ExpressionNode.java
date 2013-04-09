@@ -2925,7 +2925,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case FRACTIONAL_PART:
-			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart",
+			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ZETA:
@@ -2936,6 +2936,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case LIBRE_OFFICE:
 				sb.append("func zeta left (");
+				break;
+			case GIAC:
+				sb.append("Zeta(");
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "zeta");
@@ -3751,7 +3754,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-				sb.append("Gamma(");
+				sb.append("lower\\_incomplete\\_gamma(");
 				break;
 
 			case MPREDUCE:
@@ -3781,7 +3784,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func gammaRegularized left (");
 
 			case GIAC:
-				sb.append("gamma_incomplete_regularized(");
+				sb.append("lower\\_incomplete\\_gamma(");
 				break;
 
 
@@ -3805,6 +3808,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("%BETA left(");
 				break;
+			case GIAC:
 			case MATH_PIPER:
 				sb.append("Beta(");
 				break;
@@ -3831,7 +3835,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;	
 
 			case GIAC:
-				sb.append("beta(");
+				sb.append("Beta(");
 				break;
 
 			default:
@@ -3856,7 +3860,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func betaRegularized left (");
 
 			case GIAC:
-				sb.append("betaRegularized(");
+				sb.append("Beta(");
 				break;
 
 			case MPREDUCE:
@@ -3872,6 +3876,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
+			
+			if (stringType == StringType.GIAC) {
+				sb.append(",1");
+			}
+			
 			sb.append(rightBracket(stringType));
 			break;
 
@@ -4558,10 +4567,24 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		sb.append(')');
 
 	}
-
+	
 	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
 			String mathPiper, String psTricks, String mpReduce, String key,
 			String libreOffice,
+			StringType STRING_TYPE, boolean localized,boolean needDegrees) {
+
+		// send "key" for Giac
+		trig(leftStr, sb, mathml, latex,
+				mathPiper,  psTricks,  mpReduce, key,
+				libreOffice, key,
+				STRING_TYPE, localized, needDegrees);
+
+
+	}
+
+	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
+			String mathPiper, String psTricks, String mpReduce, String key,
+			String libreOffice, String giac,
 			StringType STRING_TYPE, boolean localized,boolean needDegrees) {
 		if (STRING_TYPE.equals(StringType.MATHML)) {
 			mathml(sb, mathml, leftStr, null);
@@ -4589,6 +4612,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case MATH_PIPER:
 				sb.append(mathPiper);
+				break;
+
+			case GIAC:
+				sb.append(giac);
+				sb.append('(');
 				break;
 
 			case PSTRICKS:
