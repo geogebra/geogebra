@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.StringTemplate;
@@ -108,7 +107,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
 		boolean doInternalPaste = cellBufferStr != null
-				&& transferString.equals(cellBufferStr);
+				&& transferString.equals(cellBufferStr.toString());
 
 		if (doInternalPaste && cellBufferGeo != null) {
 			App.debug(3);
