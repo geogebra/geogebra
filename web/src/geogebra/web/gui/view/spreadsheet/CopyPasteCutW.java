@@ -89,7 +89,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 	public boolean paste(int column1, int row1, int column2, int row2,
 			String contents) {
 
-		App.debug(1);
 		boolean succ = false;
 		boolean isCSV = false;
 		String transferString = null;
@@ -98,7 +97,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 		transferString = contents;//DataImport.convertTransferableToString(contents);
 		if (transferString == null)
 			return false;
-		App.debug(2);
 
 		// isCSV = DataImport.hasHTMLFlavor(contents);
 		// System.out.println("transfer string: " + transferString);
@@ -110,14 +108,12 @@ public class CopyPasteCutW extends CopyPasteCut {
 				&& transferString.equals(cellBufferStr.toString());
 
 		if (doInternalPaste && cellBufferGeo != null) {
-			App.debug(3);
 
 			// use the internal field cellBufferGeo to paste geo copies
 			// with relative cell references
 			succ = pasteInternalMultiple(column1, row1, column2, row2);
 
 		} else {
-			App.debug(4);
 			/* TODO?: We still do not do external paste in the Web version
 
 			// use the transferString data to create and paste new geos
