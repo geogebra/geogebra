@@ -38,6 +38,7 @@ import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
+import geogebra3D.kernel3D.GeoConic3D;
 import geogebra3D.kernel3D.GeoConic3DPart;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
@@ -2370,7 +2371,14 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, quad)};
 			return ret[0].isDefined();			
 			
-		}
+		
+		// quadric-quadric : intersection circles
+		} else if (selQuadric() >= 2) {			
+			GeoQuadric3D[] quads = getSelectedQuadric();
+			GeoElement[] ret = kernel.getManager3D().IntersectAsCircle( null, quads[0], quads[1]);
+			return ret[0].isDefined();	
+		} 
+
 
 
 
@@ -2423,7 +2431,19 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				intersectable = createIntersectionCurvePlaneQuadric(A, B);
 		} else if (B.isGeoPlane() && A instanceof GeoQuadric3D) {
 			intersectable = createIntersectionCurvePlaneQuadric(B, A);
-		}
+		
+
+		// quadric-quadric : intersection circles
+		} else if (A instanceof GeoQuadricND && B instanceof GeoQuadricND) {
+			//add intersection to tempArrayList
+			boolean oldSilentMode = getKernel().isSilentMode();
+			getKernel().setSilentMode(true);//tells the kernel not to record the algo
+			GeoElement ret = kernel.getManager3D().IntersectAsCircle((GeoQuadricND) A, (GeoQuadricND) B)[0];
+			Drawable3D d = new DrawConic3D(view3D, (GeoConic3D) ret);
+			getKernel().setSilentMode(oldSilentMode);
+			processIntersectionCurve(A, B, ret, d);
+			intersectable = true;
+		} 
 
 		return intersectable;
 		

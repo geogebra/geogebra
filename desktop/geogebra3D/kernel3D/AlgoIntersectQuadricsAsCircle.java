@@ -83,7 +83,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
   
     	setInputOutput(new GeoElement[] {quadric1,quadric2}, new GeoElement[] {circle});
     	
-    	//compute();
+    	compute();
  
     }
     

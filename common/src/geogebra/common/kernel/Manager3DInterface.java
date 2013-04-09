@@ -434,6 +434,16 @@ public interface Manager3DInterface {
 	public GeoElement[] IntersectAsCircle(String[] labels, GeoQuadricND quadric1,
 			GeoQuadricND quadric2);
 
+	/**
+	 * Calculate the intersection of two quadrics, if it's a conic
+	 * 
+	 * @param quadric1
+	 * @param quadric2
+	 * @return conic intersection
+	 */
+	public GeoElement[] IntersectAsCircle(GeoQuadricND quadric1,
+			GeoQuadricND quadric2);
+
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)
 
