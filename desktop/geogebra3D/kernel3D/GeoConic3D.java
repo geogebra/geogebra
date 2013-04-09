@@ -290,9 +290,6 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	 */
 	public void setSinglePoint(Coords m){
 		
-		if (coordSys == null){
-			coordSys = new CoordSys(2);
-		}
 		coordSys.resetCoordSys();
 		coordSys.addPoint(m);
 		coordSys.completeCoordSys2D();

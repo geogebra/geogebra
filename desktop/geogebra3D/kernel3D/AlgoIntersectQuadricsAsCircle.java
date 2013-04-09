@@ -21,7 +21,6 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
@@ -78,6 +77,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
     	this.quadric2 = quadric2;
 
     	circle = new GeoConic3D(cons);
+    	circle.setCoordSys(new CoordSys(2));
 
     	circle.setIsIntersection(true); //should be called before setDependencies (in setInputOutput)
   
@@ -169,13 +169,13 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
         		double x = (d+(r1*r1-r2*r2)/d)/2;
         		Coords o = o1.add(v.mul(x));
         		
-        		CoordMatrix4x4 m = new CoordMatrix4x4(o, v, CoordMatrix4x4.VZ);
-        		CoordSys coordSys = new CoordSys(2);
+        		Coords[] vs = v.completeOrthonormal();  	
+        		CoordSys coordSys = circle.getCoordSys();
+        		coordSys.resetCoordSys();
         		coordSys.addPoint(o);
-        		coordSys.addVector(m.getVx());
-        		coordSys.addVector(m.getVy());
+        		coordSys.addVector(vs[0]);
+        		coordSys.addVector(vs[1]);
         		coordSys.makeOrthoMatrix(false, false);
-        		circle.setCoordSys(coordSys);
         		circle.setSphereND(new Coords(0,0), Math.sqrt(r1*r1-x*x));
         		return;
         		
