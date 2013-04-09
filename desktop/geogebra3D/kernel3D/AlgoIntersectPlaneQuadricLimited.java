@@ -251,12 +251,13 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     	// set parameters to conic
     	GeoConic3DPart cp = (GeoConic3DPart) conic;
     	
+    	
     	/*
       	App.error(bottomParameters[0]+","+
       			bottomParameters[1]+","+
       			topParameters[0]+","+
       			topParameters[1]);
-      		*/	
+      		*/
       			
       			
       	//App.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);
@@ -289,7 +290,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		//calc parameter (on quadric axis) of the intersection point between plane and quadrix axis
 		double parameter = -(ql.getMidpoint3D().projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), ql.getEigenvec3D(2))[1]).getZ();
 			//check if parameter is between quadric min and max
-		return Kernel.isGreater(ql.getMin(), parameter) || Kernel.isGreater(parameter, ql.getMax());
+		return Kernel.isGreater(ql.getBottomParameter(), parameter) || Kernel.isGreater(parameter, ql.getTopParameter());
 
     }
     

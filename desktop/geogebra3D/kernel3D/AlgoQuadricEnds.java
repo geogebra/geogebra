@@ -84,8 +84,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     	
     	CoordMatrix qm = quadric.getSymetricMatrix();
     	CoordMatrix pm = new CoordMatrix(4,3);
-    	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getMin()));//point.getInhomCoordsInD(3);
-    	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getMax()));//pointThrough.getInhomCoordsInD(3);
+    	Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getBottomParameter()));//point.getInhomCoordsInD(3);
+    	Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(quadric.getTopParameter()));//pointThrough.getInhomCoordsInD(3);
     	pm.setOrigin(o1);
     	Coords[] v = o2.sub(o1).completeOrthonormal();  	
     	pm.setVx(v[0]);

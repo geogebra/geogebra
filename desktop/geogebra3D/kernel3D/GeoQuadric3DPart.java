@@ -50,8 +50,13 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	 * @param max
 	 */
 	public void setLimits(double min, double max) {
-		this.min = min;
-		this.max = max;
+		if (min<max){
+			this.min = min;
+			this.max = max;
+		}else{
+			this.min = max;
+			this.max = min;			
+		}
 	}
 
 	@Override
@@ -59,16 +64,16 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 
 		if (index == 1)
 			return min;
-		else
-			return super.getMinParameter(index);
+		
+		return super.getMinParameter(index);
 	}
 
 	@Override
 	public double getMaxParameter(int index) {
 		if (index == 1)
 			return max;
-		else
-			return super.getMaxParameter(index);
+		
+		return super.getMaxParameter(index);
 	}
 
 	public void set(Coords origin, Coords direction, double r) {
@@ -158,7 +163,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			area = 2 * getHalfAxis(0) * Math.PI * Math.abs(max - min);
+			area = 2 * getHalfAxis(0) * Math.PI * (max - min);
 			break;
 		}
 	}

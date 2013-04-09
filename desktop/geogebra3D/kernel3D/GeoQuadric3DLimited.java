@@ -31,7 +31,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 	//private GeoPointND bottomPoint, topPoint;
 
-	private double min, max;
+	private double bottomParameter, topParameter;
 
 	/*
 	 * constructor
@@ -171,12 +171,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 	}
 
-	public double getMin() {
-		return min;
+	public double getBottomParameter() {
+		return bottomParameter;
 	}
 
-	public double getMax() {
-		return max;
+	public double getTopParameter() {
+		return topParameter;
 	}
 
 	// TODO merge in GeoQuadricND
@@ -184,17 +184,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 	 * @param origin
 	 * @param direction
 	 * @param r
-	 * @param min
-	 * @param max
+	 * @param bottomParameter
+	 * @param topParameter
 	 * 
 	 */
 	public void setCylinder(Coords origin, Coords direction, double r,
-			double min, double max) {
+			double bottomParameter,
+			double topParameter) {
 
-		// limites
-		this.min = min;
-		this.max = max;
-
+		// limits
+		setLimits(bottomParameter, topParameter);
+		
 		// set center
 		setMidpoint(origin.get());
 
@@ -223,14 +223,26 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		setType(QUADRIC_CYLINDER);
 
 	}
+	
+	/**
+	 * sets the bottom and top values for limits
+	 * 
+	 * @param bottomParameter
+	 * @param topParameter
+	 */
+	public void setLimits(double bottomParameter, double topParameter) {
 
-	public void setCone(Coords origin, Coords direction, double r, double min,
-			double max) {
+			this.bottomParameter = bottomParameter;
+			this.topParameter = topParameter;
 
-		// limites
-		this.min = min;
-		this.max = max;
+	}
 
+	public void setCone(Coords origin, Coords direction, double r, double bottomParameter,
+			double topParameter) {
+
+		// limits
+		setLimits(bottomParameter, topParameter);
+		
 		// set center
 		setMidpoint(origin.get());
 
@@ -406,8 +418,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		if (geo instanceof GeoQuadric3DLimited) {
 			GeoQuadric3DLimited quadric = (GeoQuadric3DLimited) geo;
 
-			min = quadric.min;
-			max = quadric.max;
+			bottomParameter = quadric.bottomParameter;
+			topParameter = quadric.topParameter;
 			volume = quadric.volume;
 
 			bottom.set(quadric.bottom);
@@ -462,10 +474,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(max - min);
+			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(topParameter - bottomParameter);
 			break;
 		case QUADRIC_CONE:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(max - min)
+			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(topParameter - bottomParameter)
 					/ 3;
 			break;
 		// default:
