@@ -111,7 +111,8 @@ public class View {
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
 		App.debug("file loaded");
-		if (!((DialogManagerW) app.getDialogManager()).isGoogleDriveChooserNull()) {
+		//This is used also by touch where dialog manager is null
+		if (app.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) app.getDialogManager()).isGoogleDriveChooserNull()) {
 			((DialogManagerW) app.getDialogManager()).getGoogleDriveFileChooser().hide();
 		}
 		
