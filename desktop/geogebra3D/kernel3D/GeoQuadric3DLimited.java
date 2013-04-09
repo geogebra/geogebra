@@ -462,10 +462,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * (max - min);
+			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(max - min);
 			break;
 		case QUADRIC_CONE:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * (max - min)
+			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(max - min)
 					/ 3;
 			break;
 		// default:

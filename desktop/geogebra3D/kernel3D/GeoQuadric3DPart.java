@@ -158,7 +158,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			area = 2 * getHalfAxis(0) * Math.PI * (max - min);
+			area = 2 * getHalfAxis(0) * Math.PI * Math.abs(max - min);
 			break;
 		}
 	}
