@@ -1811,7 +1811,7 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 .loginspanel tr td:first-child {
 	border-right:1px solid  #5a5d5e;
-	overflow:auto;
+	overflow:hidden;
 }
 
 .loginspanel input[type=text], .loginspanel input[type=password] {
