@@ -17,7 +17,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.GeoPolyhedron;
 import geogebra3D.kernel3D.GeoQuadric3D;
+import geogebra3D.kernel3D.GeoQuadric3DLimited;
 
 
 /**
@@ -182,8 +184,10 @@ public  GeoElement[] process(Command c) throws MyError {
 
         		}
         		
+        		
+        		
         		//TODO remove this if conflicting another case
-           		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoPlaneND)){
+           		if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoPlaneND)){
         			GeoElement[] ret =
         			{
         					kernelA.getManager3D().IntersectPlanes(
@@ -192,7 +196,28 @@ public  GeoElement[] process(Command c) throws MyError {
         							(GeoCoordSys2D) arg[1])};
         			return ret;
         		}
-           		else if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
+        		
+        		
+    			//intersection plane/limited quadric (has to be done before plane/quadric)
+    			if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadric3DLimited)){
+    				GeoElement[] ret =
+    					{
+    						kernelA.getManager3D().IntersectQuadricLimited(
+    								c.getLabel(),
+    								(GeoPlaneND) arg[0],
+    								(GeoQuadric3DLimited) arg[1])};
+    				return ret;
+    			}else if ((arg[0] instanceof GeoQuadric3DLimited) && (arg[1] instanceof GeoPlaneND)){
+    				GeoElement[] ret =
+    					{
+    						kernelA.getManager3D().IntersectQuadricLimited(
+    								c.getLabel(),
+    								(GeoPlaneND) arg[1],
+    								(GeoQuadric3DLimited) arg[0])};
+    				return ret;
+    			}
+        		
+           		if ((arg[0] instanceof GeoPlaneND) && (arg[1] instanceof GeoQuadricND)){
         			GeoElement[] ret =
         			{
         					kernelA.getManager3D().Intersect(
@@ -210,7 +235,38 @@ public  GeoElement[] process(Command c) throws MyError {
         							(GeoQuadric3D) arg[0])};
         			return ret;
         		}
-        		
+
+
+           		// between 2 quadrics
+           		if ((ok[0] = (arg[0] instanceof GeoQuadricND))
+           				&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
+           			GeoElement[] ret =
+           					kernelA.getManager3D().IntersectAsCircle(
+           							c.getLabels(),
+           							(GeoQuadricND) arg[0],
+           							(GeoQuadricND) arg[1]); 
+           			return ret;
+           		} 
+
+           		// Plane - Polyhedron
+           		if (
+           				(ok[0] = (arg[0] .isGeoPlane()))
+           				&& (ok[1] = (arg[1] instanceof GeoPolyhedron)))
+           			return kernelA.getManager3D().IntersectRegion(
+           					c.getLabels(),
+           					(GeoPlane3D) arg[0],
+           					(GeoPolyhedron) arg[1], 
+           					c.getOutputSizes());
+           		else if (
+           				(ok[1] = (arg[1] .isGeoPlane()))
+           				&& (ok[0] = (arg[0] instanceof GeoPolyhedron)))
+           			return kernelA.getManager3D().IntersectRegion(
+           					c.getLabels(),
+           					(GeoPlane3D) arg[1],
+           					(GeoPolyhedron) arg[0],
+           					c.getOutputSizes());
+
+
         		
 
         	}

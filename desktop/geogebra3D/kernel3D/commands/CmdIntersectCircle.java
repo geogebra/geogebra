@@ -24,7 +24,7 @@ public class CmdIntersectCircle extends CommandProcessor {
 		case 2 :
 			arg = resArgs(c);
 
-			// Line - Polygon(as region) in 2D/3D
+			// between 2 quadrics
 			if ((ok[0] = (arg[0] instanceof GeoQuadricND))
 					&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
 				GeoElement[] ret =
