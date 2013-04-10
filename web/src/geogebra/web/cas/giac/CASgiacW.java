@@ -80,6 +80,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		
 		App.debug("giac  input:"+s);
 		String ret = nativeEvaluateRaw(s);
+		ret = ret.replaceAll("lower_incomplete_gamma", "lowerincompletegamma");
 		App.debug("giac output:"+ret);
 		
 		return ret;

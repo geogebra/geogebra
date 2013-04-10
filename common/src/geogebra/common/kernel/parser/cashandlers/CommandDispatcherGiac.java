@@ -1,5 +1,6 @@
 package geogebra.common.kernel.parser.cashandlers;
 
+import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -8,6 +9,7 @@ import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -26,6 +28,7 @@ public class CommandDispatcherGiac {
 	public enum commands {
 		/** gamma regularized */
 		lower_incomplete_gamma(Operation.GAMMA_INCOMPLETE_REGULARIZED),
+		lowerincompletegamma(Operation.GAMMA_INCOMPLETE_REGULARIZED),
 
 		/** derivative*/
 		diff(Operation.DERIVATIVE),
@@ -65,8 +68,8 @@ public class CommandDispatcherGiac {
 	 *         list as needed by the Parser. Returns null when nothing was done.
 	 * 
 	 * @param cmdName
-	 *            name of the MPReduce command to process, see
-	 *            CommandDispatcherMPReduce.commands
+	 *            name of the Giac command to process, see
+	 *            CommandDispatcherGiac.commands
 	 * @param args
 	 *            list of command arguments
 	 */
@@ -75,13 +78,10 @@ public class CommandDispatcherGiac {
 		try {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
-			//TODO -- template is not important for arb*, but is this correct for df?
+			//TODO -- template is not important for arb*, but is this correct for diff?
 			StringTemplate tpl = StringTemplate.casTemplate;
 
-			if("int".equals(cmdName)){
-				ret = new ExpressionNode(kernel,args.getItem(0),Operation.INTEGRAL,args.getItem(1));
-			}
-			else switch (commands.valueOf(cmdName)) {
+			switch (commands.valueOf(cmdName)) {
 			//Sum[sin(sin(a)),a,b,c]
 			case Psi:
 				if (args.getLength() == 1) {
@@ -106,10 +106,19 @@ public class CommandDispatcherGiac {
 			case fPart:
 			case Gamma:	
 				
-				ret = new ExpressionNode(kernel,
-						args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
+				if (args.getLength() != 1) {
+				
+					// eg Derivative[zeta(x)] -> Zeta(1,x) which GeoGebra doesn't support
+					ret = new ExpressionNode(kernel, Double.NaN);
+				} else {
+				
+					ret = new ExpressionNode(kernel,
+							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
+				}
 				break;
-			case lower_incomplete_gamma:	
+			case lower_incomplete_gamma:
+				// seems to need it without the "_"s - do they get stripped somewhere?
+			case lowerincompletegamma:	
 				if (args.getLength() == 2) {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.GAMMA_INCOMPLETE,
@@ -120,7 +129,6 @@ public class CommandDispatcherGiac {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.GAMMA_INCOMPLETE_REGULARIZED,
 							args.getItem(1));
-					break;
 				}
 				break;
 
@@ -128,24 +136,27 @@ public class CommandDispatcherGiac {
 				switch (args.getLength()) {
 
 				default:
-					throw new Exception("Giac: bad number of args for beta"+args.getLength());
+					throw new CASException("Giac: bad number of args for beta"+args.getLength());
 				case 2:
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA,
 							args.getItem(1));
+					
+					break;
 
 				case 3:
 					MyNumberPair np = new MyNumberPair(kernel,args.getItem(2), args.getItem(3));
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA_INCOMPLETE, np);
 
+					break;
 
 				case 4:
 					// 4th argument is dummy to flag "regularized"
 					np = new MyNumberPair(kernel,args.getItem(2), args.getItem(3));
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA_INCOMPLETE_REGULARIZED, np);
-
+					break;
 
 				}
 				break;
@@ -175,12 +186,9 @@ public class CommandDispatcherGiac {
 			}
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
-		} catch (IllegalArgumentException e) {
-			// No enum const for cmdName
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err
-			.println("CommandDispatcherGiac: error when processing command: "
+			App.error("CommandDispatcherGiac: error when processing command: "
 					+ cmdName + ", " + args);
 		}
 
