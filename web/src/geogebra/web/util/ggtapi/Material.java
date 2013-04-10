@@ -1,4 +1,4 @@
-package geogebra.touch.utils.ggtapi;
+package geogebra.web.util.ggtapi;
 
 import java.util.Date;
 
@@ -225,7 +225,6 @@ public class Material implements Comparable<Material>
 		this.likes = likes;
 	}
 
-	@Override
 	public int compareTo(Material another)
 	{
 		if (another == null)

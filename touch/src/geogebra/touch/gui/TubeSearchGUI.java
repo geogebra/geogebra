@@ -6,9 +6,9 @@ import geogebra.touch.gui.elements.ggt.HorizontalMaterialPanel;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
-import geogebra.touch.utils.ggtapi.GeoGebraTubeAPI;
-import geogebra.touch.utils.ggtapi.JSONparserGGT;
-import geogebra.touch.utils.ggtapi.Material;
+import geogebra.web.util.ggtapi.GeoGebraTubeAPI;
+import geogebra.web.util.ggtapi.JSONparserGGT;
+import geogebra.web.util.ggtapi.Material;
 
 import java.util.ArrayList;
 import java.util.List;

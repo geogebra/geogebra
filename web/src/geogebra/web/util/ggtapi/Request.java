@@ -1,4 +1,4 @@
-package geogebra.touch.utils.ggtapi;
+package geogebra.web.util.ggtapi;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;

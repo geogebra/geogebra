@@ -1,4 +1,4 @@
-package geogebra.touch.utils.ggtapi;
+package geogebra.web.util.ggtapi;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
