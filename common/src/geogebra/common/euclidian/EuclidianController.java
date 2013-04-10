@@ -40,7 +40,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMidpoint;
-import geogebra.common.kernel.algos.AlgoPointInRegion;
 import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
@@ -1092,45 +1091,45 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex) {
-		return createNewPoint(forPreviewable, path,
+		return createNewPoint(null, forPreviewable, path,
 				Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
 
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex) {
-		return createNewPoint(forPreviewable, region,
+		return createNewPoint(null, forPreviewable, region,
 				Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), 0, complex, true);
 	}
 
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,
+	protected GeoPointND createNewPoint2D(String label, boolean forPreviewable, Path path, double x,
 			double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable); 
 		
-				return getAlgoDispatcher().Point(null, path, x, y, !forPreviewable, complex, coords2D);
+				return getAlgoDispatcher().Point(label, path, x, y, !forPreviewable, complex, coords2D);
 			}
 
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
+	final protected GeoPointND createNewPoint2D(String label, boolean forPreviewable, Region region, double x,
 			double y, boolean complex, boolean coords2D) {
 		checkZooming(forPreviewable); 
 		
-				GeoPointND ret = getAlgoDispatcher().PointIn(null, region, x, y, !forPreviewable, complex, coords2D);
+				GeoPointND ret = getAlgoDispatcher().PointIn(label, region, x, y, !forPreviewable, complex, coords2D);
 				return ret;
 			}
 
-	public GeoPointND createNewPoint(boolean forPreviewable, Region region, double x,
+	final public GeoPointND createNewPoint(String label, boolean forPreviewable, Region region, double x,
 			double y, double z, boolean complex, boolean coords2D) {
 			
 				if (region.toGeoElement().isGeoElement3D()) {
 					checkZooming(forPreviewable); 
 					
-					GeoPointND point = kernel.getManager3D().Point3DIn(null, region,
+					GeoPointND point = kernel.getManager3D().Point3DIn(label, region,
 							new Coords(x, y, z, 1), !forPreviewable, coords2D);
 					
 
 					return point;
 				}
-				return createNewPoint2D(forPreviewable, region, x, y, complex, coords2D);
+				return createNewPoint2D(label, forPreviewable, region, x, y, complex, coords2D);
 			}
 
 
@@ -1145,10 +1144,10 @@ public abstract class EuclidianController {
 	 * @param coords2D
 	 * @return new point for the path
 	 */
-	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
+	public GeoPointND createNewPoint(String label, boolean forPreviewable, Path path, double x,
 			double y, double z, boolean complex, boolean coords2D) {
 		
-		return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
+		return createNewPoint2D(label, forPreviewable, path, x, y, complex, coords2D);
 	}
 
 	public void setKernel(Kernel kernel) {
@@ -4292,26 +4291,52 @@ public abstract class EuclidianController {
 	
 	
 
-	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElement value) {
-		return createDynamicText(type, object, value, mouseLoc);
+	
+	protected GeoPointND getPointForDynamicText(Region object){
+
+		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, 
+				object, 
+				view.toRealWorldCoordX(mouseLoc.x), view.toRealWorldCoordY(mouseLoc.y), 0, 
+				false, false); 
 	}
 	
+	protected GeoPointND getPointForDynamicText(Path object){
+
+		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, 
+				object, 
+				view.toRealWorldCoordX(mouseLoc.x), view.toRealWorldCoordY(mouseLoc.y), 0, 
+				false, false); 
+	}
+	
+	protected GeoPointND getPointForDynamicText(){
+
+		return null; 
+	}
+	
+
 	
 	/**
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
-	protected GeoText createDynamicText(String type, GeoElement object, GeoElement value, GPoint loc) {
+	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElement value) {
 		
 		GeoText text = createDynamicText(type, object, value);
 		if (text!=null){
+			GeoPointND P = null;
 			if (object.isRegion()){
-				AlgoPointInRegion algo = new AlgoPointInRegion(kernel.getConstruction(), 
-						removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)), 
-						(Region) object, 
-						view.toRealWorldCoordX(loc.x), view.toRealWorldCoordY(loc.y)); 
-				GeoPoint P = algo.getP();
-				P.setAuxiliaryObject(true);
+				P = getPointForDynamicText((Region) object);
+			}else if (object.isPath()){
+				P = getPointForDynamicText((Path) object);
+			}else{
+				P = getPointForDynamicText();
+			}
+			
+
+			if (P!=null){
+				((GeoElement) P).setAuxiliaryObject(true);
 				P.setEuclidianVisible(false);
 				P.updateRepaint();
 				try {
@@ -4321,15 +4346,20 @@ public abstract class EuclidianController {
 					return null;
 				}
 			}else{
-				text.setAbsoluteScreenLocActive(true);
-				text.setAbsoluteScreenLoc(loc.x, loc.y);
+				setNoPointLoc(text);
 			}
+			
 			text.setBackgroundColor(GColor.WHITE);
 			text.updateRepaint();	
 		}
 		
 		return text;
 		
+	}
+	
+	protected void setNoPointLoc(GeoText text){
+		text.setAbsoluteScreenLocActive(true);
+		text.setAbsoluteScreenLoc(mouseLoc.x, mouseLoc.y);
 	}
 	
 	/**

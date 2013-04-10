@@ -62,13 +62,13 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
-		return createNewPoint(forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex, false);
+		return createNewPoint(null, forPreviewable, path, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 	
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region, boolean complex){
 		Coords coords = getCoordsFromView(xRW,yRW);
-		return createNewPoint(forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex, false);
+		return createNewPoint(null, forPreviewable, region, coords.getX(), coords.getY(), coords.getZ(), complex, false);
 	}
 
 	@Override

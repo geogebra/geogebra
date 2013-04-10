@@ -174,7 +174,7 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	
 	
 	@Override
-	public GeoPointND createNewPoint(boolean forPreviewable, Path path, double x,
+	public GeoPointND createNewPoint(String label, boolean forPreviewable, Path path, double x,
 			double y, double z, boolean complex, boolean coords2D) {
 
 		//check if the path is 3D geo or contains a 3D geo
@@ -182,14 +182,14 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 		if (geo.isGeoElement3D() || (geo.isGeoList() && ((GeoList) geo).containsGeoElement3D())) {
 			checkZooming(forPreviewable); 
 
-			GeoPointND point = kernel.getManager3D().Point3D(null, path, x, y, z,
+			GeoPointND point = kernel.getManager3D().Point3D(label, path, x, y, z,
 					!forPreviewable, coords2D);
 
 			return point;
 		}
 		
 		//else use 2D 
-		return createNewPoint2D(forPreviewable, path, x, y, complex, coords2D);
+		return createNewPoint2D(label, forPreviewable, path, x, y, complex, coords2D);
 	}
 
 	

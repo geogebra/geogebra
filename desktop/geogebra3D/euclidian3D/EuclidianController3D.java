@@ -2,7 +2,6 @@ package geogebra3D.euclidian3D;
 
 
 
-import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
@@ -11,6 +10,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -517,20 +517,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 	
 
-	@Override
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,
-			double y, boolean complex, boolean coord2D) {
-		GeoPointND point = super.createNewPoint2D(forPreviewable, path, x, y, complex, false);
-		return point;
-	}
-
-	@Override
-	protected GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
-			double y, boolean complex, boolean coords2D) {
-		GeoPointND point = super.createNewPoint2D(forPreviewable, region, x, y, complex, coords2D);
-		return point;
-	}
-
 	
 	/**
 	 * return a copy of the preview point if one
@@ -578,7 +564,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					
 				}else{
 					Coords coords = point.getCoordsInD(2);
-					return createNewPoint2D(false, path, coords.getX(), coords.getY(), false, false); 
+					return createNewPoint2D(null, false, path, coords.getX(), coords.getY(), false, false); 
 				}
 	
 			}else
@@ -604,7 +590,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					ret = point3D;
 				}else{
 					Coords coords = point.getCoordsInD(2);
-					return createNewPoint2D(false, region, coords.getX(), coords.getY(), false, false); 
+					return createNewPoint2D(null, false, region, coords.getX(), coords.getY(), false, false); 
 				}
 			}else
 				return null;
@@ -3187,25 +3173,53 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	@Override
-	protected GeoText createDynamicTextForMouseLoc(String type, GeoElement object, GeoElement value) {
-		GeoText text = createDynamicText(type, object, value);
+	protected GeoPointND getPointForDynamicText(Region object){
 		
-		if (text!=null){
-			try {
-				GeoPoint3D p = new GeoPoint3D(kernel.getConstruction());
-				p.setCoords(view3D.getCursor3D().getCoords());
-				text.setStartPoint(p);
-			} catch (CircularDefinitionException e) {
-				e.printStackTrace();
-			}
-			text.setBackgroundColor(GColor.WHITE);
-			text.updateRepaint();
-		}
-		
-		return text;
+		Coords coords = view3D.getCursor3D().getCoords();
+
+		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, 
+				object, 
+				coords.getX(), coords.getY(), coords.getZ(), 
+				false, false); 
 	}
 	
+	@Override
+	protected GeoPointND getPointForDynamicText(Path object){
+
+		Coords coords = view3D.getCursor3D().getCoords();
+		
+		return createNewPoint(removeUnderscores(l10n.getPlain("Point")+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, 
+				object, 
+				coords.getX(), coords.getY(), coords.getZ(), 
+				false, false); 
+	}
 	
+	@Override
+	protected GeoPointND getPointForDynamicText(){
+
+		GeoPoint3D cursor = view3D.getCursor3D();
+		
+		if (cursor.hasRegion())
+			return getPointForDynamicText(cursor.getRegion());
+		
+		if (cursor.hasPath())
+			return getPointForDynamicText(cursor.getPath());
+		
+		return super.getPointForDynamicText();
+	}
+	
+	@Override
+	protected void setNoPointLoc(GeoText text){
+		try {
+			GeoPoint3D p = new GeoPoint3D(kernel.getConstruction());
+			p.setCoords(view3D.getCursor3D().getCoords());
+			text.setStartPoint(p);
+		} catch (CircularDefinitionException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * update all drawables now
