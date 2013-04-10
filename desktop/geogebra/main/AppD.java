@@ -2305,11 +2305,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		getLocalization().updateLanguageFlags(locale.getLanguage());
 
 	}
-
 	
-
-	
-
 	/**
 	 * @return current locale
 	 */
@@ -2317,35 +2313,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc.getLocale();
 	}
 
-	// **************************************************************************
-	// PROPERTIES
-	// **************************************************************************
-
 	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
 	private boolean showConstProtNavigationNeedsUpdate = false;
-
-	
 
 	final public String getEnglishCommand(String key) {
 
