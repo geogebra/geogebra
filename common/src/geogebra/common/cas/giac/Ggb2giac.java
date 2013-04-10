@@ -162,7 +162,7 @@ public class Ggb2giac {
 		p("IterationList.3",
 				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=f(l[k-1]); od; l; end],ggbans(unapply(%0,ggbtmpvarx),%1,%2)][1]");
 		p("PointList.1",
-				"coordinates(%0)");
+				"flatten(coordinates(%0))");
 		p("RootList.1",
 				"apply(x->convert([x,0],25),%0)");
 		p("Invert.1", "inv(%0)");
