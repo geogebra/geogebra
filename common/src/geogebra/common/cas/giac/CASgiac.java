@@ -162,20 +162,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		//result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		result = sb.toString();
-		
-		// TODO: remove
-		// for Unique[] command 
-		if (result.startsWith("set[")) {
-			App.debug("giac: removing set[...] from "+result);
-			result = "{" + result.substring(4, result.length() - 1) + "}";
-		}
-		
-		// eg PartialFractions has with_sqrt(0):; at start
-		if (result.startsWith("0,")) {
-			App.debug("giac: removing '0,' from "+result);
-			result = result.substring(2, result.length());
-		}
-		
+			
 		if (result.startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 			// assume error
