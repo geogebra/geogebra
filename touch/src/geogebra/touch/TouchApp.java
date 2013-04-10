@@ -628,10 +628,10 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public void afterLoadFileAppOrNot() {
+		App.debug("After file load ...");
 		//TODO: check what else we need to reset
 		this.kernel.initUndoInfo();
-
 		getEuclidianView1().synCanvasSize();
-		
+		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 	}
 }
