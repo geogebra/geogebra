@@ -2925,7 +2925,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case FRACTIONAL_PART:
-			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
+			//trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
+			// Giac: problem with fPart, use custom definition instead, see CASgiacW
+			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fractionalPart",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ZETA:
