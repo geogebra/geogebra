@@ -67,6 +67,8 @@
   <!-- For login to Google -->
   <inherits name="com.google.api.gwt.oauth2.OAuth2" />
   
+    <inherits name="com.google.gwt.json.JSON" />
+  
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="resources" />
