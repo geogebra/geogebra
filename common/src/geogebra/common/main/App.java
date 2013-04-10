@@ -1486,7 +1486,7 @@ public abstract class App implements UpdateSelection{
 	 */
 	public String getMacroXML() {
 		ArrayList<Macro> macros = kernel.getAllMacros();
-		return myXMLio.getFullMacroXML(macros);
+		return getXMLio().getFullMacroXML(macros);
 	}
 
 	/**
@@ -1498,7 +1498,7 @@ public abstract class App implements UpdateSelection{
 		ArrayList<Macro> macros = kernel.getAllMacros();
 		if (macros.isEmpty())
 			return "";
-		return myXMLio.getFullMacroXML(macros);
+		return getXMLio().getFullMacroXML(macros);
 	}
 
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
@@ -2938,7 +2938,7 @@ public abstract class App implements UpdateSelection{
 	 * @return preferences XML
 	 */
 	public String getPreferencesXML() {
-		return myXMLio.getPreferencesXML();
+		return getXMLio().getPreferencesXML();
 	}
 
 	/**

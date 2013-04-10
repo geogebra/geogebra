@@ -367,7 +367,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			if (macros != null) {
 				// macros = DataUtil.utf8Decode(macros);
 				// //DataUtil.utf8Decode(macros);
-				myXMLio.processXMLString(macros, true, true);
+				getXMLio().processXMLString(macros, true, true);
 			}
 			
 			// Library JavaScript (optional)

@@ -1300,7 +1300,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		File regressionFile = new File(regressionFileName);
 		FileWriter regressionFileWriter = new FileWriter(regressionFile);
 		kernel.updateConstruction();
-		regressionFileWriter.append(myXMLio.getConstructionRegressionOut());
+		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
 		regressionFileWriter.close();
 		System.exit(0);
 	}
@@ -1315,7 +1315,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean addMacroXML(String xml) {
 		boolean ok = true;
 		try {
-			myXMLio.processXMLString("<geogebra format=\""
+			getXMLio().processXMLString("<geogebra format=\""
 					+ GeoGebraConstants.XML_FILE_FORMAT + "\">" + xml
 					+ "</geogebra>", false, true);
 		} catch (MyError err) {
@@ -1977,7 +1977,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// write and reload image to make sure we can save it
 			// without problems
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			((MyXMLioD) myXMLio).writeImageToStream(os, fileName, img);
+			getXMLio().writeImageToStream(os, fileName, img);
 			os.flush();
 			ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
 
@@ -3396,7 +3396,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
-			((MyXMLioD) myXMLio).readZipFromString(zipFile);
+			getXMLio().readZipFromString(zipFile);
 
 			kernel.initUndoInfo();
 			isSaved = true;
@@ -3424,7 +3424,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			// make sure objects are displayed in the correct View
 			setActiveView(App.VIEW_EUCLIDIAN);
 
-			myXMLio.processXMLString(xml, true, false);
+			getXMLio().processXMLString(xml, true, false);
 
 			kernel.initUndoInfo();
 			isSaved = true;
@@ -3456,7 +3456,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			resetUniqueId();
 
 			BufferedInputStream bis = new BufferedInputStream(is);
-			((MyXMLioD) myXMLio).readZipFromInputStream(bis, isMacroFile);
+			getXMLio().readZipFromInputStream(bis, isMacroFile);
 			is.close();
 			bis.close();
 
@@ -3544,7 +3544,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			((MyXMLioD) myXMLio).writeMacroStream(os, kernel.getAllMacros());
+			getXMLio().writeMacroStream(os, kernel.getAllMacros());
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {
@@ -3562,7 +3562,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (byteArray != null) {
 				ByteArrayInputStream is = new ByteArrayInputStream(byteArray);
-				((MyXMLioD) myXMLio).readZipFromInputStream(is, true);
+				getXMLio().readZipFromInputStream(is, true);
 				is.close();
 			}
 		} catch (Exception e) {
@@ -5089,6 +5089,4 @@ public class AppD extends App implements KeyEventDispatcher {
 	public CasType getCASType() {
 		return CasType.MPREDUCE;
 	}
-
-
 }
