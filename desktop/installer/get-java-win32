@@ -24,4 +24,5 @@ test -d $DIR/$JREDIR || {
  rm -f $JAVADIR
  cd jre/win32
  ln -s $BundleId/$JREDIR jre
+ find jre -name '*jfx*' | xargs rm -f
  }
