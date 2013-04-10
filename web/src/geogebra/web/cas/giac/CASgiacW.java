@@ -80,7 +80,6 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		
 		App.debug("giac  input:"+s);
 		String ret = nativeEvaluateRaw(s);
-		ret = ret.replaceAll("lower_incomplete_gamma", "lowerincompletegamma");
 		App.debug("giac output:"+ret);
 		
 		return ret;
@@ -89,7 +88,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	private native String nativeEvaluateRaw(String s) /*-{
 		$wnd.console.log("js giac  input:"+s);
 		caseval = $wnd.Module.cwrap('_ZN4giac7casevalEPKc', 'string', ['string']);  
-		var ret = caseval(s);
+		var ret = caseval(s).replace(/lower_incomplete_gamma/g,'lowerincompletegamma');
 		$wnd.console.log("js giac output:"+ret);
 		return ret
 	}-*/;
