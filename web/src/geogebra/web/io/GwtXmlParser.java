@@ -2,7 +2,10 @@ package geogebra.web.io;
 
 
 import geogebra.common.io.DocHandler;
+import geogebra.common.io.QDParser;
+import geogebra.common.main.App;
 
+import java.io.StringReader;
 import java.util.LinkedHashMap;
 
 import com.google.gwt.xml.client.Attr;
@@ -12,23 +15,26 @@ import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-import com.google.gwt.xml.client.impl.DOMParseException;
 
 public class GwtXmlParser implements XmlParser {
 	
 	public void parse(DocHandler docHandler, String xml) throws Exception {
-		Document doc = parseXml(xml);
-		docHandler.startDocument();
-		recursiveElementWalk(docHandler, doc.getDocumentElement());
-		docHandler.endDocument();
-	}
-	
-	private Document parseXml(String xml) throws Exception {
-		try {
-			return XMLParser.parse(xml);
-		} catch (DOMParseException ex) {
-			throw new ConstructionException(ex);
+		Document doc = null;
+		try{
+			doc = XMLParser.parse(xml);
+			docHandler.startDocument();
+			recursiveElementWalk(docHandler, doc.getDocumentElement());
+			docHandler.endDocument();
+		}catch(Exception e){
+			//In Win8 app the parser may fail
+			App.debug("Native parser failed"+e.getCause());
+			try{
+				new QDParser().parse(docHandler, new StringReader(xml));
+			}catch(Exception e2){
+				throw new ConstructionException(e);	
+			}
 		}
+		
 	}
 
 	private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
