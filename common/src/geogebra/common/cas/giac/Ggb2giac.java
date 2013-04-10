@@ -322,16 +322,16 @@ public class Ggb2giac {
 		p("Solve.2",
 				"[op(solve(%0,%1))]");
 		p("SolveODE.1",
-				"desolve(%0)");
+				"map(desolve(%0),x->ggbtmpvary=x)");
 		p("SolveODE.2",
-				"desolve(%0,%1)");
+				"map(desolve(%0,%1),x->ggbtmpvary=x)");
 		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
-				"desolve(%0,%2,%1)");
+				"map(desolve(%0,%2,%1),x->%1=x)");
 		p("SolveODE.4",
-				"desolve(%0,%2,%1,%3)");
+				"map(desolve(%0,%2,%1,%3),x->%1=x))");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
-				"desolve(%0,%2,%1,%3,%4)");
+				"map(desolve(%0,%2,%1,%3,%4),x->%1=x)");
 		p("Substitute.2","subst(%0,%1)");
 		p("Substitute.3",
 				"subst(%0,%1,%2))");
