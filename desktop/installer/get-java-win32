@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set this manually when there is a new Java version available.
-BundleId=74781
+BundleId=75259 # (1.7.0-17) 74781 (1.7.0-15)
 JREDIR=jre7
 
 DIR=jre/win32/$BundleId
@@ -24,5 +24,5 @@ test -d $DIR/$JREDIR || {
  rm -f $JAVADIR
  cd jre/win32
  ln -s $BundleId/$JREDIR jre
- find jre -name '*jfx*' | xargs rm -f
+ find -L jre -name '*jfx*' | xargs rm -f
  }
