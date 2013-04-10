@@ -128,6 +128,31 @@ public class ReduceLibrary {
 				+ "	limit(~a*~x^~n/~b,~n,-infinity) => infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (mynumberp(b)='true) and ((~a>0 and ~b>0) or (~a<0 and ~b<0)),"
 				+ "	limit(~a*~x^~n/~b,~n,-infinity) => -infinity when "+xJustAbove0+" and (mynumberp(a)='true) and (mynumberp(b)='true) and ((~a<0 and ~b>0) or (~a>0 and ~b<0))}"));
 		
+		eval("let { limit!+(ifelsefun(sgreater(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!+(ifelsefun(sgreater(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sgreaterequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!+(ifelsefun(sgreaterequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sless(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sless(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!+(ifelsefun(slessequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!+(ifelsefun(slessequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sgreater(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!-(ifelsefun(sgreater(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sgreaterequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!-(ifelsefun(sgreaterequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sgless(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sgless(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!-(ifelsefun(sglessequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sglessequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(expfalse,var,x),"
+				+ " limit!-(ifelsefun(sequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!-(ifelsefun(sequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(expfalse,var,x),"
+				+ " limit!+(ifelsefun(sunequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!+(ifelsefun(sunequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!+(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sunequal(~x,~var),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x),"
+				+ " limit!-(ifelsefun(sunequal(~var,~x),~exptrue,~expfalse),~var,~x) => limit!-(exptrue,var,x)};");
+		
 		eval("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
 		eval("let {atan(sin(~x)/cos(~x))=>x, " + "acos(1/sqrt(2)) => pi/4,"
 				+ "factorial(~n) => gamma(n+1)};");
@@ -1176,6 +1201,7 @@ public class ReduceLibrary {
 
 		eval("procedure myint(exp, var, from, upto);"
 				+ "begin scalar upper, lower;"
+				//+ "on combinelogs, combineexpt;"
 				+ "antiderivative:=int(exp, var);"
 				+ "if upto=Infinity or upto=-Infinity then upper:=limit(antiderivative,var,upto) else upper:=sub(var=upto,antiderivative);"
 				+ "if from=Infinity or from=-Infinity then lower:=limit(antiderivative,var,from) else lower:=sub(var=from,antiderivative);"
