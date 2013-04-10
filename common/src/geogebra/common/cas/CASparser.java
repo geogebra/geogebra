@@ -179,6 +179,20 @@ public class CASparser implements CASParserInterface{
 	}
 	
 	/**
+	 * Tries to convert the given Giac string to GeoGebra syntax.
+	 * @param exp MPReduce output
+	 * @return parsed expression
+	 * @throws CASException if parsing goes wrong
+	 */
+	public ValidExpression parseGiac(String exp) throws CASException {
+		try {
+			return parser.parseGiac(exp);
+		} catch (Throwable t) {
+			throw new CASException(t);
+		}		
+	}
+	
+	/**
 	 * Final automata can be in three states
 	 * * NORMAL -- no index being read
 	 * * UNDERSCORE -- last character was _

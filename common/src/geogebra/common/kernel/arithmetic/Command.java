@@ -465,4 +465,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return outputSizes;
 	}
 
+	public int getLength() {
+		return getArgumentNumber();
+	}
+
 }

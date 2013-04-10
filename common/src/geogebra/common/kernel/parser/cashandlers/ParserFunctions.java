@@ -162,14 +162,10 @@ public class ParserFunctions {
 		put(1, "Erf", Operation.ERF);
 
 		put(1, "psi", Operation.PSI);
-		// for Giac
-		put(1, "Psi", Operation.PSI);
 
 		put(2, "polygamma", Operation.POLYGAMMA);
 		put(2, "polyGamma", Operation.POLYGAMMA);
 		put(2, "PolyGamma", Operation.POLYGAMMA);
-		// for Giac
-		//put(2, "Psi", Operation.POLYGAMMA);
 
 		put(1, "exp", Operation.EXP);
 		put(1, "Exp", Operation.EXP);
@@ -199,8 +195,6 @@ public class ParserFunctions {
 
 		put(3, "betaRegularized", Operation.BETA_INCOMPLETE_REGULARIZED);
 		put(3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED);
-		// for GIAC, ignore 4th argument
-		put(4, "Beta", Operation.BETA_INCOMPLETE_REGULARIZED);
 
 		put(1, "gamma", Operation.GAMMA);
 		put(1, "Gamma", Operation.GAMMA);
@@ -275,8 +269,6 @@ public class ParserFunctions {
 		put(1, "fractionalpart", Operation.FRACTIONAL_PART);
 		put(1, "fractionalPart", Operation.FRACTIONAL_PART);
 		put(1, "FractionalPart", Operation.FRACTIONAL_PART);
-		// for GIAC
-		put(1, "fPart", Operation.FRACTIONAL_PART);
 
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 		RESERVED_FUNCTION_NAMES.add("freehand");

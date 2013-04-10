@@ -3205,10 +3205,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 
 			case GIAC:
+				// *******************
+				// arguments swapped
+				// swapped back in CommandDispatcherGiac
+				// *******************
 				appendReduceFunction(sb, "Psi");
-				sb.append(leftStr);
-				sb.append(',');
 				sb.append(rightStr);
+				sb.append(',');
+				sb.append(leftStr);
 				sb.append(')');
 				break;
 			case MATH_PIPER:

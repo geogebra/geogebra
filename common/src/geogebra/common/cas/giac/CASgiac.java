@@ -245,7 +245,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if ("".equals(result)) {
 			return null;
 		}
-		return replaceRoots(casParser.parseMPReduce(result),arbconst);
+		return replaceRoots(casParser.parseGiac(result),arbconst);
 
 	}
 
@@ -323,7 +323,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	final public synchronized String toGeoGebraString(String mpreduceString,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
-		ExpressionValue ve = replaceRoots(casParser.parseMPReduce(mpreduceString),arbconst);
+		ExpressionValue ve = replaceRoots(casParser.parseGiac(mpreduceString),arbconst);
 		//replace rational exponents by roots or vice versa
 
 		

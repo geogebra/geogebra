@@ -1092,4 +1092,8 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.get(i);
 	}
 
+	public int getLength() {
+		return listElements.size();
+	}
+
 }

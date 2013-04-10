@@ -65,6 +65,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
+import geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
@@ -81,6 +82,7 @@ public class Parser implements ParserInterface{
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
+	private boolean GiacParsing = false;
 	private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
     
     public Parser(Kernel kernel, Construction cons) {
@@ -103,6 +105,7 @@ public class Parser implements ParserInterface{
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;
     	MPReduceParsing = false;
+    	GiacParsing = false;
     	undecided.clear();
     }
 
@@ -135,6 +138,16 @@ public class Parser implements ParserInterface{
         ExternalCASParsing = true;
         MPReduceParsing = true;                     
         return buildMPReduceExpression();     
+    }
+    
+    /**
+     * Parses a Giac String and returns a ValidExpression Object     
+     */
+    public ValidExpression parseGiac(String parseString) throws ParseException {           
+        myReInit( parseString ); 
+        ExternalCASParsing = true;
+        GiacParsing = true;                     
+        return buildGiacExpression();     
     }
     
     /**
@@ -622,6 +635,27 @@ private ValidExpression buildMPReduceExpression() :
 }
 
 /**
+ * convert Giac String to GeoGebra string
+ */
+private ValidExpression buildGiacExpression() : 
+{
+    ValidExpression ve;
+    ExpressionNode lhs, rhs;
+    Token l = new Token();
+    Vector labels = new Vector();
+} 
+{         
+    (     
+		// try to parse Giac string as standard GeoGebra expression 
+    	ve = buildCASExpression()     	     	   
+	)                     
+    ( <EOL> | <EOF> )     
+    {       	                         
+        return ve;
+    }    
+}
+
+/**
  * convert Maxima String to GeoGebra string
  */
 ValidExpression buildMaximaExpression() : 
@@ -689,7 +723,12 @@ ValidExpression command():
 	    { if(MPReduceParsing)
 	    {
 	      ExpressionNode res = CommandDispatcherMPReduce.processCommand(cmdName,c);
-	      if(res!=null)
+	      if (res != null)
+	      	return res;
+	    } else if (GiacParsing)
+	    {
+	      ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c);
+	      if (res != null)
 	      	return res;
 	    }
 	    return c; }
@@ -1437,6 +1476,7 @@ ExpressionValue enpower():
       	if (MPReduceParsing)
       	{      	 
 	        // MPReduce: left associative: a^b^c = (a^b)^c
+	        // (Giac doesn't need this)
 			for (int i=0; i< exponentList.size(); i++)
 			{
 				ExpressionValue exponent = exponentList.get(i);
@@ -1445,7 +1485,7 @@ ExpressionValue enpower():
 		}
 		else
 		{
-      		// GeoGebra: right associative: a^b^c = a^(b^c)
+      		// GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
       		int size = exponentList.size();
       		ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
       		for (int i=size-2; i >= 0; i--)
@@ -1993,8 +2033,16 @@ ExpressionNode numberFunction():
 			if (MPReduceParsing)  {
 			  	// check for special MPReduce functions, e.g. df, arbconst, etc.
 				en = CommandDispatcherMPReduce.processCommand(funcName, myList);
-				if (en != null)
+				if (en != null)				{  
 					return en;
+				}
+		    } else if (GiacParsing)  {
+			  	// check for special Giac functions, e.g. diff, Psi etc.
+				en = CommandDispatcherGiac.processCommand(funcName, myList);
+				if (en != null)
+				{  
+					return en;
+				}
 		    }
 
 			boolean forceCommand = c.image.charAt(c.image.length()-1)=='[';

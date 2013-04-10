@@ -12,4 +12,11 @@ public interface GetItem extends ExpressionValue{
 	 * @return argument of command / item of list at given position
 	 */
 	public ExpressionValue getItem(int i);
+	
+	/**
+	 * needed to distinguish eg lower_incomplete_gamma with 2 or 3 args
+	 * 
+	 * @return length
+	 */
+	public int getLength();
 }
