@@ -2079,7 +2079,7 @@ __GGB__keysVar.no_NN.plain = {
     "Clipboard_iframe": "Utklippstavle: <iframe>",
     "CloseApplicationLoseUnsavedData": "No er du i ferd med \xe5 lukke GeoGebra-applikasjonen, og \xe5 miste alle ulagra data.",
     "Color": "Farge",
-    "ColorfulConstructionProtocol": "Fargar i konstruksjonsprotokollen",
+    "ColorfulConstructionProtocol": "Fargar i konstruksjonsforklaringa",
     "ColumnPercent": "Kolonne %",
     "Command": "Kommando",
     "CommonTangentOfCirclesAandB": "Felles tangent til sirklane %0 og %1",
