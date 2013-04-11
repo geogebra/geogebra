@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /***
- * IMPORTANT: Every time this file is changed, a robot will automatically
+ * IMPORTANT: Every time this file is changed a robot will automatically
  * create a new version of giac.js and modify kickstart.xml for the web.
  */
 
