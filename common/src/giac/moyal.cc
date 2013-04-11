@@ -109,7 +109,7 @@ namespace giac {
     return l*Gamma(s,context0);
   }
 
-  gen incomplete_beta(int a,int b,double p,bool regularize){ // regularize=true by default
+  gen incomplete_beta(double a,double b,double p,bool regularize){ // regularize=true by default
     // I_p(a,b)=1/B(a,b)*int(t^(a-1)*(1-t)^(b-1),t=0..p)
     // =p^a*(1-p)^(b-1)/B(a,b)*continued fraction expansion
     // 1/(1+e2/(1+e3/(1+...)))
@@ -178,8 +178,14 @@ namespace giac {
       return symbolic(at_Beta,args);
     vecteur v=*args._VECTptr;
     int s=v.size();
-    if ( (s==3 || s==4) && is_integral(v[0]) && is_integral(v[1]) && v[0].type==_INT_ && v[1].type==_INT_ && v[2].type==_DOUBLE_ ){
-      return incomplete_beta(v[0].val,v[1].val,v[2]._DOUBLE_val, s==4 && !is_zero(v[3]) );
+    if (s>2 && (v[0].type==_DOUBLE_ || v[1].type==_DOUBLE_ || v[2].type==_DOUBLE_)){
+      gen tmp=evalf_double(v,1,contextptr);
+      if (tmp.type==_VECT)
+	v=*tmp._VECTptr;
+      s=v.size();
+    }
+    if ( (s==3 || s==4) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ && v[2].type==_DOUBLE_ ){
+      return incomplete_beta(v[0]._DOUBLE_val,v[1]._DOUBLE_val,v[2]._DOUBLE_val, s==4 && !is_zero(v[3]) );
     }
     if (s!=2)
       return symbolic(at_Beta,args);
@@ -199,7 +205,7 @@ namespace giac {
       return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
     return symbolic(at_lower_incomplete_gamma,args);
   }
-  static const char _lower_incomplete_gamma_s []="lower_incomplete_gamma";
+  static const char _lower_incomplete_gamma_s []="igamma"; // "lower_incomplete_gamma"
   static define_unary_function_eval (__lower_incomplete_gamma,&_lower_incomplete_gamma,_lower_incomplete_gamma_s);
   define_unary_function_ptr5( at_lower_incomplete_gamma ,alias_at_lower_incomplete_gamma,&__lower_incomplete_gamma,0,true);
 

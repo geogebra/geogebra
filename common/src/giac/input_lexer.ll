@@ -512,7 +512,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ".+"                    index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 "&"                     index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 "√"                     index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
-  /* "∡" angle */
+"∡"                     index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
 "²"                     index_status(yyextra)=0; (*yylval)=2; return T_SQ;
 "³"                     index_status(yyextra)=0; (*yylval)=3; return T_SQ;
 "⁴"                     index_status(yyextra)=0; (*yylval)=4; return T_SQ;
@@ -547,7 +547,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_divide"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 "%"                     index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){ (*yylval)=gen(at_PERCENT); return T_UNARY_OP_38; } if (xcas_mode(yyextra)==3) { (*yylval)=gen(at_pourcent); return T_FACTORIAL; } if (xcas_mode(yyextra)==1) { (*yylval)=symbolic(at_ans,vecteur(0)); return T_NUMBER; }  if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD;
 "%%"                     index_status(yyextra)=0; if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_iquorem,2); return T_MOD;} (*yylval)=symbolic(at_ans,-2); return T_NUMBER; 
-\xe2\x88\xa1             index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
+  /* \xe2\x88\xa1             index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD; */
 "%%%"                     if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_quorem,2); return T_MOD;} index_status(yyextra)=0; (*yylval)=symbolic(at_ans,-3); return T_NUMBER; 
 "'%'"                  index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 "mod"                   index_status(yyextra)=0; if (xcas_mode(yyextra)==3) { (*yylval)=gen(at_irem,2); return T_UNARY_OP; } else { if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD; }

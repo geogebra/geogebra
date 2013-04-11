@@ -2034,6 +2034,8 @@ namespace giac {
 	  e=subst(e,*it,tmprem,false,contextptr);
 	  return integrate_id_rem(e,gen_x,remains_to_integrate,contextptr);
 	}
+	if (is_undef(fu) || is_inf(fu))
+	  continue;
 	if (is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr)){
 	  e=linear_integrate(fx,gen_x,tmprem,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,*it,contextptr)*df;

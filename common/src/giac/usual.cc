@@ -2629,7 +2629,7 @@ namespace giac {
 #endif
       }
       gen aa(a),error;
-      if (strcmp(b._IDNTptr->id_name,string_pi)==0 || strcmp(b._IDNTptr->id_name,string_infinity)==0)
+      if (strcmp(b._IDNTptr->id_name,string_pi)==0 || strcmp(b._IDNTptr->id_name,string_infinity)==0 || strcmp(b._IDNTptr->id_name,string_undef)==0)
 	return gensizeerr(b.print(contextptr)+": reserved word");
       if (a==b)
 	return _purge(b,contextptr);
@@ -3932,7 +3932,10 @@ namespace giac {
 
   static void warn_implicit(const gen & a,const gen &b,GIAC_CONTEXT){
 #ifndef GIAC_HAS_STO_38
-    *logptr(contextptr) << gettext("Warning : using implicit multiplication for (") << a.print(contextptr) << ")(" << b.print(contextptr) << ')' << endl;
+    if (contains(lidnt(b),i__IDNT_e))
+      *logptr(contextptr) << gettext("Implicit multiplication does not work with complex numbers.")<<endl;
+    else
+      *logptr(contextptr) << gettext("Warning : using implicit multiplication for (") << a.print(contextptr) << ")(" << b.print(contextptr) << ')' << endl;
 #endif
   }
   gen check_symb_of(const gen& a,const gen & b0,GIAC_CONTEXT){
@@ -5965,9 +5968,10 @@ namespace giac {
       if (z.type==_DOUBLE_)
 	s=evalf_double(s,1,contextptr);
       if (s.type==_DOUBLE_ && z.type==_DOUBLE_){
-	if (calc_mode(contextptr)==1)
+	/* if (calc_mode(contextptr)==1)
 	  return lower_incomplete_gamma(s._DOUBLE_val,z._DOUBLE_val,false);
 	else
+	*/
 	  return Gamma(s,contextptr)-lower_incomplete_gamma(s._DOUBLE_val,z._DOUBLE_val,false);
       }
     }

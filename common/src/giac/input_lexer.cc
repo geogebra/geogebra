@@ -361,8 +361,8 @@ struct yy_trans_info
 static yyconst flex_int16_t yy_accept[1170] =
     {   0,
         0,    0,   23,   23,    0,    0,    0,    0,    0,    0,
-      386,  384,    1,    2,  172,    3,  382,  135,  213,  180,
-       31,   87,   88,  199,  174,   85,  194,  202,  208,  359,
+      386,  384,    1,    2,  172,    3,  382,  135,  214,  180,
+       31,   87,   88,  200,  174,   85,  195,  203,  209,  359,
       359,   34,   32,   83,  133,   84,   29,  147,  380,  380,
       380,  260,  380,  380,  380,  380,   42,  380,  380,  380,
       380,  380,  380,  380,  380,  380,  380,  380,  380,   89,
@@ -372,13 +372,13 @@ static yyconst flex_int16_t yy_accept[1170] =
       380,  380,  380,  380,  384,   23,   25,   24,  385,  383,
 
       385,   15,    6,    5,  385,   18,   17,   19,    1,  120,
-        0,    0,    0,    0,    0,    0,    0,    0,  136,  214,
+        0,    0,    0,    0,    0,    0,    0,    0,  136,  215,
       381,   91,   92,    0,   44,   43,  381,  107,  108,  153,
-      203,  204,    0,    0,    0,    0,    0,    0,    0,    0,
+      204,  205,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,  223,  201,  175,  176,
-       86,  177,  116,  178,  115,  205,  179,  196,  168,  210,
-      378,  224,   22,    0,  209,  377,  359,    0,    0,    0,
+        0,    0,    0,    0,    0,    0,  223,  202,  175,  176,
+       86,  177,  116,  178,  115,  206,  179,  197,  168,  211,
+      378,  224,   22,    0,  210,  377,  359,    0,    0,    0,
         0,    0,    0,   36,   35,  139,    0,    0,    0,  113,
       127,  122,  145,  117,  144,  131,  114,  146,  148,  380,
 
@@ -395,12 +395,12 @@ static yyconst flex_int16_t yy_accept[1170] =
 
       380,  380,  380,  380,  380,  380,  380,  380,  380,  380,
       380,  380,  380,  380,  380,  380,  380,  380,  159,   33,
-      182,  183,  380,   58,   39,   37,   47,  380,  380,  380,
+      183,  184,  380,   58,   39,   37,   47,  380,  380,  380,
       380,  380,  380,    0,   23,   24,   24,   26,    0,  383,
        15,    4,   14,    7,    8,   12,   13,    9,   11,   10,
        18,    0,    0,  369,  370,  368,  372,  371,  373,  216,
        99,  100,   93,   94,  109,  110,  381,   97,   98,   45,
-        0,  137,  217,    0,  206,  192,  197,    0,  211,    0,
+        0,  137,  217,    0,  207,  193,  198,    0,  212,    0,
       128,    0,    0,  134,    0,  130,    0,  151,    0,  225,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
 
@@ -420,9 +420,9 @@ static yyconst flex_int16_t yy_accept[1170] =
       218,  292,  380,  290,  380,  380,  380,  380,  380,  380,
       380,  380,  380,  222,  380,  380,  380,  380,  380,  380,
       380,  380,  380,  380,  380,  380,  380,  380,  380,  380,
-      380,  380,  380,  380,  380,  380,  164,  380,   41,  191,
-      184,  185,  186,  187,  188,  189,  262,  354,  195,  181,
-       52,  215,  355,  357,  356,  358,  200,  143,  142,  190,
+      380,  380,  380,  380,  380,  380,  164,  380,   41,  192,
+      185,  186,  187,  188,  189,  190,  262,  354,  196,  181,
+       52,  182,  355,  357,  356,  358,  201,  143,  142,  191,
         7,    8,    0,    0,    0,    0,    0,  101,  102,   95,
        96,  111,  112,  121,  155,  170,  140,  125,  123,  118,
 
@@ -449,7 +449,7 @@ static yyconst flex_int16_t yy_accept[1170] =
       380,  380,  305,  344,  330,  380,  380,  380,  380,  352,
 
       380,  332,  325,  341,    0,    0,    0,    0,    0,    0,
-        0,  129,    0,  207,  193,    0,    0,    0,    0,    0,
+        0,  129,    0,  208,  194,    0,    0,    0,    0,    0,
         0,  380,  380,  380,  380,  380,  380,  380,  380,  380,
       380,  380,    0,    0,    0,  380,  263,  265,  264,  380,
       380,  380,  380,  380,  380,  380,  380,  380,  380,  380,
@@ -468,7 +468,7 @@ static yyconst flex_int16_t yy_accept[1170] =
       380,   72,   75,  380,  380,  380,  380,  307,  380,  380,
       310,  380,  380,  380,  319,  380,  380,  380,  380,  380,
       380,   81,   82,    0,  288,    0,  320,  362,  380,  380,
-      380,  228,  230,  380,  331,  380,  141,  212,    0,    0,
+      380,  228,  230,  380,  331,  380,  141,  213,    0,    0,
 
         0,  138,    0,    0,  380,  380,  380,  246,  249,  252,
        76,  380,  380,    0,  242,  380,  380,  298,   78,   71,
@@ -479,7 +479,7 @@ static yyconst flex_int16_t yy_accept[1170] =
       380,  380,  275,  380,  269,  380,  283,   51,  380,   59,
       380,   55,  380,  380,  245,  306,  311,  380,  380,  380,
       304,  380,  380,    0,    0,    0,  350,  232,  353,    0,
-      198,  380,  380,  380,  253,  380,  380,  380,   74,   56,
+      199,  380,  380,  380,  253,  380,  380,  380,   74,   56,
 
       380,   79,  380,   65,  380,  380,  380,  380,    0,  366,
         0,  285,  380,  380,  380,  380,  380,  380,  301,  380,
@@ -2773,178 +2773,178 @@ YY_RULE_SETUP
 #line 514 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 	YY_BREAK
-/* "∡" angle */
 case 182:
+YY_RULE_SETUP
+#line 515 "input_lexer.ll"
+index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
+	YY_BREAK
+case 183:
 YY_RULE_SETUP
 #line 516 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=2; return T_SQ;
 	YY_BREAK
-case 183:
+case 184:
 YY_RULE_SETUP
 #line 517 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=3; return T_SQ;
 	YY_BREAK
-case 184:
+case 185:
 YY_RULE_SETUP
 #line 518 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=4; return T_SQ;
 	YY_BREAK
-case 185:
+case 186:
 YY_RULE_SETUP
 #line 519 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=5; return T_SQ;
 	YY_BREAK
-case 186:
+case 187:
 YY_RULE_SETUP
 #line 520 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=6; return T_SQ;
 	YY_BREAK
-case 187:
+case 188:
 YY_RULE_SETUP
 #line 521 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=7; return T_SQ;
 	YY_BREAK
-case 188:
+case 189:
 YY_RULE_SETUP
 #line 522 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=8; return T_SQ;
 	YY_BREAK
-case 189:
+case 190:
 YY_RULE_SETUP
 #line 523 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=9; return T_SQ;
 	YY_BREAK
-case 190:
+case 191:
 YY_RULE_SETUP
 #line 524 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
 	YY_BREAK
-case 191:
+case 192:
 YY_RULE_SETUP
 #line 525 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
 	YY_BREAK
 /* "','"                   index_status(yyextra)=0; (*yylval)=gen(at_makevector,2); return T_QUOTED_BINARY; commented because of f('a','b') */
-case 192:
+case 193:
 YY_RULE_SETUP
 #line 527 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 193:
+case 194:
 YY_RULE_SETUP
 #line 528 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 194:
+case 195:
 YY_RULE_SETUP
 #line 529 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
 	YY_BREAK
-case 195:
+case 196:
 YY_RULE_SETUP
 #line 530 "input_lexer.ll"
 index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { cerr << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
 	YY_BREAK
-case 196:
+case 197:
 YY_RULE_SETUP
 #line 531 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_MOINS;
 	YY_BREAK
-case 197:
+case 198:
 YY_RULE_SETUP
 #line 532 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 198:
+case 199:
 YY_RULE_SETUP
 #line 533 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 199:
+case 200:
 YY_RULE_SETUP
 #line 534 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;
 	YY_BREAK
-case 200:
+case 201:
 YY_RULE_SETUP
 #line 535 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 	YY_BREAK
-case 201:
+case 202:
 YY_RULE_SETUP
 #line 536 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_FOIS;
 	YY_BREAK
-case 202:
+case 203:
 YY_RULE_SETUP
 #line 537 "input_lexer.ll"
 index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_prod,2); return T_FOIS;}
 	YY_BREAK
-case 203:
+case 204:
 YY_RULE_SETUP
 #line 538 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ampersand_times,2); return T_FOIS;
 	YY_BREAK
-case 204:
+case 205:
 YY_RULE_SETUP
 #line 539 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_quote_pow,2); return T_POW;
 	YY_BREAK
-case 205:
+case 206:
 YY_RULE_SETUP
 #line 540 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointprod,2); return T_FOIS;
 	YY_BREAK
-case 206:
+case 207:
 YY_RULE_SETUP
 #line 541 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 207:
+case 208:
 YY_RULE_SETUP
 #line 542 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 208:
+case 209:
 YY_RULE_SETUP
 #line 543 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
 	YY_BREAK
-case 209:
+case 210:
 YY_RULE_SETUP
 #line 544 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
 	YY_BREAK
-case 210:
+case 211:
 YY_RULE_SETUP
 #line 545 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 	YY_BREAK
-case 211:
+case 212:
 YY_RULE_SETUP
 #line 546 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 212:
+case 213:
 YY_RULE_SETUP
 #line 547 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 	YY_BREAK
-case 213:
+case 214:
 YY_RULE_SETUP
 #line 548 "input_lexer.ll"
 index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){ (*yylval)=gen(at_PERCENT); return T_UNARY_OP_38; } if (xcas_mode(yyextra)==3) { (*yylval)=gen(at_pourcent); return T_FACTORIAL; } if (xcas_mode(yyextra)==1) { (*yylval)=symbolic(at_ans,vecteur(0)); return T_NUMBER; }  if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD;
 	YY_BREAK
-case 214:
+case 215:
 YY_RULE_SETUP
 #line 549 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_iquorem,2); return T_MOD;} (*yylval)=symbolic(at_ans,-2); return T_NUMBER; 
 	YY_BREAK
-case 215:
-YY_RULE_SETUP
-#line 550 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
-	YY_BREAK
+/* \xe2\x88\xa1             index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD; */
 case 216:
 YY_RULE_SETUP
 #line 551 "input_lexer.ll"

@@ -24,7 +24,7 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   class gen;
-  gen incomplete_beta(int a,int b,double p,bool regularize=true);
+  gen incomplete_beta(double a,double b,double p,bool regularize=true);
   gen lower_incomplete_gamma(double s,double z,bool regularize=true); // lower incomplete
 
 

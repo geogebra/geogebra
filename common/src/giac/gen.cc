@@ -2669,6 +2669,11 @@ namespace giac {
 	 return *this; */
       return new_ref_symbolic(symbolic(at_conj,*this));
     case _SYMB:
+      if (_SYMBptr->sommet==at_polar_complex && _SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
+	vecteur v=*_SYMBptr->feuille._VECTptr;
+	v[1]=-v[1];
+	return symbolic(at_polar_complex,gen(v,_SEQ__VECT));
+      }
       if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet))
 	return new_ref_symbolic(symbolic(_SYMBptr->sommet,_SYMBptr->feuille.conj(contextptr)));
       else
@@ -2751,6 +2756,13 @@ namespace giac {
       reim(f,r,i,contextptr);
       r=-r;
       i=-i;
+      return;
+    }
+    if (u==at_polar_complex && f.type==_VECT && f._VECTptr->size()==2){
+      i=f._VECTptr->back();
+      f=f._VECTptr->front();
+      r=f*cos(i,contextptr);
+      i=f*sin(i,contextptr);
       return;
     }
     if (u==at_division){
@@ -9212,8 +9224,10 @@ namespace giac {
 	      gen & args = w[i]._SYMBptr->feuille;
 	      if (args.type!=_VECT || args._VECTptr->empty())
 		continue;
-	      if (contains(args._VECTptr->front(),i__IDNT_e))
+	      if (contains(args._VECTptr->front(),i__IDNT_e)){
+		*logptr(contextptr) << gettext("Warning, i is usually sqrt(-1), I'm using a symbolic variable instead but you should check your input") << endl;
 		return res;
+	      }
 	    }
 	    w=lop(v,at_local);
 	    vs=w.size();
@@ -9221,8 +9235,10 @@ namespace giac {
 	      gen & args = w[i]._SYMBptr->feuille;
 	      if (args.type!=_VECT || args._VECTptr->empty())
 		continue;
-	      if (contains(args._VECTptr->front(),i__IDNT_e))
+	      if (contains(args._VECTptr->front(),i__IDNT_e)){
+		*logptr(contextptr) << gettext("Warning, i is usually sqrt(-1), I'm using a symbolic variable instead but you should check your input") << endl;
 		return res;
+	      }
 	    }
 	    v=lop(v,at_sto);
 	    vs=v.size();
@@ -9790,7 +9806,7 @@ namespace giac {
     case _SEQ__VECT:
       break;
     case _SET__VECT:
-      if (xcas_mode(contextptr)>0){
+      if (xcas_mode(contextptr)>0 || calc_mode(contextptr)==1){
 	if (tex)
 	  s+="\\{";
 	else
@@ -9865,7 +9881,7 @@ namespace giac {
     case _SEQ__VECT:
       return s;
     case _SET__VECT:
-      if (xcas_mode(contextptr)>0){
+      if (xcas_mode(contextptr)>0 || calc_mode(contextptr)==1){
 	if (tex)
 	  return "\\}";
 	else

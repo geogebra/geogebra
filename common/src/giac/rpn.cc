@@ -1835,7 +1835,7 @@ namespace giac {
   }
   static const char _POLYCOEF_s[]="POLYCOEF";
   static define_unary_function_eval (__POLYCOEF,&giac::_POLYCOEFF,_POLYCOEF_s);
-  define_unary_function_ptr5( at_POLYCOEF ,alias_at_POLYCOEF,&__POLYCOEF,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_POLYCOEF ,alias_at_POLYCOEF,&__POLYCOEF,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _horner(const gen & args,GIAC_CONTEXT);
   gen _POLYEVAL(const gen & args,GIAC_CONTEXT){
@@ -3914,9 +3914,9 @@ namespace giac {
     if (g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr(contextptr);
+#ifdef GIAC_HAS_STO_38
     gen angle=evalf(g._VECTptr->back(),1,contextptr);
     gen res= evalf(g._VECTptr->front(),1,contextptr);
-#ifdef GIAC_HAS_STO_38
     if (angle.type==_FLOAT_ && res.type==_FLOAT_)
       {
 	HP_Real a, r, s, c;
@@ -3931,17 +3931,23 @@ namespace giac {
       res=res*exp(cst_i*angle,contextptr);
     }
 #else
+    gen angle=g._VECTptr->back();
+    gen res= g._VECTptr->front();
     res=res*(cos(angle,contextptr)+cst_i*sin(angle,contextptr));
 #endif
-    int * ptr = complex_display_ptr(res);
-    if (ptr)
-      *ptr=1;
-    return res;
+    if (res.type==_CPLX){
+      int * ptr = complex_display_ptr(res);
+      if (ptr)
+	*ptr=1;
+      return res;
+    }
+    else
+      return symbolic(at_polar_complex,g);
   }
 #ifdef BCD
   static const char _polar_complex_s[]="\xe2\x88\xa1";
 #else
-  static const char _polar_complex_s[]=" polar_complex ";
+  static const char _polar_complex_s[]="∡"; // " polar_complex ";
 #endif
   static define_unary_function_eval4 (__polar_complex,&giac::_polar_complex,_polar_complex_s,&printsommetasoperator,&texprintsommetasoperator); 
   define_unary_function_ptr5( at_polar_complex ,alias_at_polar_complex,&__polar_complex,0,T_MOD);  

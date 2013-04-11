@@ -500,7 +500,7 @@ namespace giac {
     for (;it!=itend;++it){
       res.push_back(eval(subst(solution_generale,parameters,*it,false,contextptr),eval_level(contextptr),contextptr));
     }
-    if (res.size()==1)
+    if (res.size()==1) 
       return res.front();
     return res;
   }
@@ -591,7 +591,11 @@ namespace giac {
       return y;
     gen save_vx=vx_var;
     vx_var=x;
-    f=quotesubst(remove_equal(eval(f,eval_level(contextptr),contextptr)),yof,y,contextptr);
+    int save=calc_mode(contextptr);
+    calc_mode(0,contextptr);
+    f=remove_equal(eval(f,eval_level(contextptr),contextptr));
+    calc_mode(save,contextptr);
+    f=quotesubst(f,yof,y,contextptr);
     vx_var=save_vx;
     // Here f= f(derive(y,x),y) for a 1st order equation
     int n=diffeq_order(f,y);
@@ -783,6 +787,11 @@ namespace giac {
     }
     return unable_to_solve_diffeq();
   }
+  gen ggbputinlist(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT || calc_mode(contextptr)!=1)
+      return g;
+    return makevecteur(g);
+  }
   // "unary" version
   gen _desolve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -800,6 +809,8 @@ namespace giac {
     }
     vecteur v=*args._VECTptr;
     int s=v.size();
+    if (s==3 && v[1].type==_VECT && v[2].type==_VECT)
+      swapgen(v[1],v[2]);
     if (s==2 && v[1].type==_VECT && v[1]._VECTptr->size()==2){
       gen a=v[1]._VECTptr->front();
       gen b=v[1]._VECTptr->back();
@@ -810,15 +821,15 @@ namespace giac {
     if (s==2){
       if ( (v[1].type==_SYMB && v[1]._SYMBptr->sommet==at_of && v[1]._SYMBptr->feuille.type==_VECT &&v [1]._SYMBptr->feuille._VECTptr->size()==2 ) )
 	return desolve(v[0],(*v[1]._SYMBptr->feuille._VECTptr)[1],(*v[1]._SYMBptr->feuille._VECTptr)[0],ordre,parameters,contextptr);
-      return desolve( v[0],vx_var,v[1],ordre,parameters,contextptr);
+      return ggbputinlist(desolve( v[0],vx_var,v[1],ordre,parameters,contextptr),contextptr);
     }
     if (s==4)
-      return desolve_with_conditions(makevecteur(v[0],v[3]),v[1],v[2],contextptr);
+      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3]),v[1],v[2],contextptr),contextptr);
     if (s==5)
-      return desolve_with_conditions(makevecteur(v[0],v[3],v[4]),v[1],v[2],contextptr);
+      return ggbputinlist(desolve_with_conditions(makevecteur(v[0],v[3],v[4]),v[1],v[2],contextptr),contextptr);
     if (s!=3)
       return gensizeerr(contextptr);
-    return desolve( v[0],v[1],v[2],ordre,parameters,contextptr);    
+    return ggbputinlist(desolve( v[0],v[1],v[2],ordre,parameters,contextptr),contextptr);    
   }
   static const char _desolve_s []="desolve";
   static define_unary_function_eval (__desolve,&_desolve,_desolve_s);

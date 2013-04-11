@@ -356,7 +356,8 @@ namespace giac {
       if (m!=plus_inf && sign(sol-m,contextptr)==1)
 	continue;
       sol=evalf(sol,eval_level(contextptr),contextptr);
-      if (sol.type==_CPLX && !(isolate_mode &1) && !is_zero(im(sol,contextptr)))
+      if (!(isolate_mode &1) && ( (sol.type==_CPLX && !is_zero(im(sol,contextptr)))
+				  || has_i(sol)))
 	continue;
       if (sol.type!=_DOUBLE_){ // check for trig solutions
 	newv.push_back(*it);

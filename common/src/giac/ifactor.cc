@@ -3288,7 +3288,9 @@ namespace giac {
     gen res=inpollardsieve(a,k,do_pollard,contextptr);
 #if defined( GIAC_HAS_STO_38) || defined(EMCC)
     debug_infolevel=debug_infolevel_;
+#ifdef GIAC_HAS_STO_38
     Calc->Terminal.MakeUnvisible();
+#endif
 #endif
     return res;
   }
