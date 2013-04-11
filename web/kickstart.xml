@@ -125,6 +125,8 @@ your workstation.
 	</target>
 
 	<target name="giac">
+	<!-- Please don't change the giac version number here. It is automatically changed by a robot
+	    every time Ggb2giac.java is changed. -->
 	<get
 	    src="http://dev.geogebra.org/download/lib/web/giac-20130411.js"
 	    dest="lib/giac.js"/>
