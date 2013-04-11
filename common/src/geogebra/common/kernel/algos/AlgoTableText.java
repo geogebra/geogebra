@@ -386,8 +386,8 @@ public class AlgoTableText extends AlgoElement {
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
 		sb.append('{');
 
-		//sb.append(openBracket);
-		sb.append("\\ggbtable{");
+		sb.append(openBracket);
+		sb.append(" \\ggbtable{ ");
 
 		if (alignment == Alignment.VERTICAL) {
 
@@ -426,8 +426,8 @@ public class AlgoTableText extends AlgoElement {
 			}
 		}
 
-		sb.append("}");
-		//sb.append(closeBracket);
+		sb.append("} ");
+		sb.append(closeBracket);
 
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
