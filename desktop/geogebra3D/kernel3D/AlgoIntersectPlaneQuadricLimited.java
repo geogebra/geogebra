@@ -99,7 +99,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     
     @Override
 	protected GeoConic3D newConic(Construction cons){
-    	return new GeoConic3DPart(cons);
+    	return new GeoConicSection(cons);
     }
     
 
@@ -249,7 +249,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 
     	
     	// set parameters to conic
-    	GeoConic3DPart cp = (GeoConic3DPart) conic;
+    	GeoConicSection cp = (GeoConicSection) conic;
     	
     	
     	/*

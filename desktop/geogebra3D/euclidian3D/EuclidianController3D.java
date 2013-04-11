@@ -39,7 +39,7 @@ import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
 import geogebra3D.kernel3D.GeoConic3D;
-import geogebra3D.kernel3D.GeoConic3DPart;
+import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -2471,7 +2471,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		if (B instanceof GeoQuadric3DPart){
 			quad = (GeoQuadric3DLimited) ((GeoQuadric3DPart) B).getMetas()[0];
 			ret = kernel.getManager3D().IntersectQuadricLimited((GeoPlaneND) A, quad);
-			d = new DrawConic3DPart3D(view3D, (GeoConic3DPart) ret);
+			d = new DrawConicSection3D(view3D, (GeoConicSection) ret);
 		}else{
 			quad = (GeoQuadric3D) B;
 			ret = kernel.getManager3D().Intersect((GeoPlaneND) A, quad);

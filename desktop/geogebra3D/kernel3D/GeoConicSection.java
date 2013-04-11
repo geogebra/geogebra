@@ -9,18 +9,18 @@ import geogebra.common.plugin.GeoClass;
 import java.util.TreeSet;
 
 /**
- * Partial conic for intersection of (limited) cylinders and cones
+ * Partial conic for section of (limited) cylinders and cones
  * @author mathieu
  *
  */
-public class GeoConic3DPart extends GeoConic3D {
+public class GeoConicSection extends GeoConic3D {
 	
 	private double[] paramStart, paramEnd, paramExtent;
 
 	/**
 	 * @param c construction
 	 */
-	public GeoConic3DPart(Construction c) {
+	public GeoConicSection(Construction c) {
 		super(c);
 		
 		paramStart = new double[2];

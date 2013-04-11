@@ -3,11 +3,11 @@ package geogebra3D.euclidian3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
-import geogebra3D.kernel3D.GeoConic3DPart;
+import geogebra3D.kernel3D.GeoConicSection;
 
-public class DrawConic3DPart3D extends DrawConic3D {
+public class DrawConicSection3D extends DrawConic3D {
 
-	public DrawConic3DPart3D(EuclidianView3D view3d, GeoConic3DPart conic) {
+	public DrawConicSection3D(EuclidianView3D view3d, GeoConicSection conic) {
 		super(view3d, conic);
 	}
 	
@@ -16,15 +16,15 @@ public class DrawConic3DPart3D extends DrawConic3D {
 	
 	
 	protected double getStart(int i){
-		return ((GeoConic3DPart) getGeoElement()).getParameterStart(i);
+		return ((GeoConicSection) getGeoElement()).getParameterStart(i);
 	}
 	
 	protected double getExtent(int i){
-		return ((GeoConic3DPart) getGeoElement()).getParameterExtent(i);
+		return ((GeoConicSection) getGeoElement()).getParameterExtent(i);
 	}
 	
 	protected double getEnd(int i){
-		return ((GeoConic3DPart) getGeoElement()).getParameterEnd(i);
+		return ((GeoConicSection) getGeoElement()).getParameterEnd(i);
 	}
 	
 
