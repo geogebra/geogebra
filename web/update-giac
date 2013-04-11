@@ -48,7 +48,7 @@ make || exit 3
 
 # 4. Copying giac.js to the correct place
 NAME=giac-`date +%Y%m%d`.js
-mv ggbgiac.js $NAME
+mv giacggb.js $NAME
 scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY $NAME $DEV_SERVER_LOGIN:$DOWNLOADDIR/../lib/web || exit 4
 
 # 5. Changing kickstart.xml
