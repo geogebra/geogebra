@@ -4,6 +4,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /***
+ * IMPORTANT: Every time this file is changed, a robot will automatically
+ * create a new version of giac.js and modify kickstart.xml for the web.
+ */
+
+/***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ]
  * is translated to factor( 2*(x+3) ) ###
  */
