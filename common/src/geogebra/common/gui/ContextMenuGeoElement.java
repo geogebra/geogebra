@@ -46,7 +46,7 @@ public abstract class ContextMenuGeoElement {
 	 */
 	protected String getDescription(GeoElement geo) {
 		String title = geo.getLongDescriptionHTML(false, true);
-		if (title.length() > 80)
+		if (title.length() > 80 || title.contains("random"))
 			title = geo.getNameDescriptionHTML(false, true);
 		return title;
 	}
