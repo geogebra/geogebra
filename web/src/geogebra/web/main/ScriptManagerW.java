@@ -3,10 +3,16 @@ package geogebra.web.main;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.plugin.ScriptManager;
 
+/**
+ * Provides JavaScript scripting for objects and initializes the public API.
+ */
 public class ScriptManagerW extends ScriptManager {
 
 	public String ggbApplet = AppWeb.DEFAULT_APPLET_ID;
 
+	/**
+	 * @param app application
+	 */
 	public ScriptManagerW(AppWeb app) {
 		super(app);
 
@@ -374,6 +380,18 @@ public class ScriptManagerW extends ScriptManager {
 
 		$wnd[ggbApplet].unregisterObjectUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.web.main.GgbAPI::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
+		};
+		
+		$wnd[ggbApplet].undo = function() {
+				ggbAPI.@geogebra.web.main.GgbAPI::undo()();
+		};
+		
+		$wnd[ggbApplet].redo = function() {
+				ggbAPI.@geogebra.web.main.GgbAPI::redo()();
+		};
+		
+		$wnd[ggbApplet].newConstruction = function(){ 
+				ggbAPI.@geogebra.web.main.GgbAPI::newConstruction()();
 		};
 		
 		$doc[ggbApplet] = $wnd[ggbApplet];

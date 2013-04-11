@@ -1076,6 +1076,27 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	public void removeUserAwarenessListener( UserAwarenessListener listener ){
 		this.kernel.removeUserAwarenessListener(listener);
 	}
+	
+    /**
+     * Cast undo
+     */
+    public void undo(){
+    	app.getKernel().undo();
+    }
+    
+    /**
+     * Cast redo
+     */
+    public void redo(){
+    	app.getKernel().redo();
+    }
+    
+    /**
+     * Deletes all construction elements
+     */
+    public void newConstruction(){
+    	app.clearConstruction();
+    }
 
 
 }
