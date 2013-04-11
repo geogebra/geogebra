@@ -329,7 +329,7 @@ public class Ggb2giac {
 		p("SolveODE.3",
 				"map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))");
 		p("SolveODE.4",
-				"map(desolve(%0,%2,%1,%3),x->%1=x))");
+				"map(desolve(%0,%2,%1,%3),x->%1=x)");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"map(desolve(%0,%2,%1,%3,%4),x->%1=x)");
 		p("Substitute.2","subst(%0,%1)");
