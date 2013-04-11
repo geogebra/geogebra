@@ -1,0 +1,161 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>
+    Webxcas
+  </title>
+    <style>
+      .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+      canvas.emscripten { border: 1px solid black; }
+      textarea.emscripten { font-family: monospace; width: 80%; }
+      div.emscripten { text-align: center; }
+    </style>
+</head>
+<body>
+  <canvas id='canvas' width=1 height=1></canvas>
+  Webxcas est un système de calcul formel en javascript (traduit à partir de
+  <a href="http://www-fourier.ujf-grenoble.fr/~parisse/giac/emgiac.tgz">Giac/Xcas</a> 
+  par emscripten). Il n'a pas besoin de serveur, il s'exécute localement
+  (avec le moteur javascript de votre navigateur qui doit être récent, par
+  exemple Firefox 19 ou Chrome) à partir du code compressé du CAS (1.5M) qui est téléchargé
+  une fois puis décompressé. Le prix à payer pour cette simplicité
+  est la vitesse, le code est au moins 10 fois plus lent, souvent 100, que
+  le même code natif, si vous devez exécuter un calcul un peu compliqué,
+  installez
+  <a href="http://www-fourier.ujf-grenoble.fr/~parisse/giac_fr.html">Xcas</a>!
+  <br>
+  <b>Exemples d'entrées:</b> <br>
+  <tt> factor(x^4-1); cfactor(x^2+1); normal((x+1)^4)
+    <br> solve(x^2-3*x+2=0); csolve(x^2=2*i); solve([x+y=1,x-y=3],[x,y])
+    <br> simplify(sin(3x)/sin(x)); gcd(x^4-1,x^3-1)
+    <br> f(x):=sin(x^2):; f(sqrt(pi)); f'(2); f'(y) 
+    <br> int(1/(x^4-1)); int(1/(x^4+1)^4,x,0,+infinity)
+    <br> limit(sin(x)/x,x=0); series(sin(x),x=0,5);
+    <br> A:=[[1,2],[3,4]]; inv(A); det(A-x*idn(A)); A[0,0]; rref(A); eigenvalues(A); eigenvectors(A);
+  </tt>
+  <br>
+  Plus de <a href="http://www-fourier.ujf-grenoble.fr/~parisse/giac/doc/fr/cascmd_fr">documentation</a> (attention il faut saisir les
+commandes en anglais).
+  <br>
+  Giac/Xcas (c) B. Parisse, R. De Graeve, Institut Fourier, Université de Grenoble I, sous licence GPL 3.
+  <hr>
+  <form onsubmit="setTimeout(function() {     
+		  caseval = Module.cwrap('_ZN4giac7casevalEPKc', 'string', ['string']);    
+		  Module.print(entree.value+'\n  '+caseval(entree.value));}); 
+		  return false">
+    Input: <input type="text" name="entree" value="factor(x^4-1)">
+    <input type="submit" value="Go!">
+  </form>
+
+    <hr/>
+    <div class="emscripten" id="status">Chargement...</div>
+    <div class="emscripten">
+      <progress value="0" max="100" id="progress" hidden=1></progress>  
+    </div>
+    <hr/>
+    <textarea class="emscripten" id="output" rows="8"></textarea>
+    <!--- <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas> --->
+    <hr/>
+
+    <hr>
+
+  <script type='text/javascript'>
+      // connect to canvas
+      var Module = {
+        preRun: [],
+        postRun: [],
+        print: (function() {
+          var element = document.getElementById('output');
+          element.value = ''; // clear browser cache
+          return function(text) {
+            // These replacements are necessary if you render to raw HTML
+            //text = text.replace(/&/g, "&amp;");
+            //text = text.replace(/</g, "&lt;");
+            //text = text.replace(/>/g, "&gt;");
+            //text = text.replace('\n', '<br>', 'g');
+            element.value += text + "\n";
+            element.scrollTop = 99999; // focus on bottom
+          };
+        })(),
+        printErr: function(text) {
+          if (0) { // XXX disabled for safety typeof dump == 'function') {
+            dump(text + '\n'); // fast, straight to the real console
+          } else {
+            console.log(text);
+          }
+        },
+        // canvas: document.getElementById('canvas'),
+        setStatus: function(text) {
+          if (Module.setStatus.interval) clearInterval(Module.setStatus.interval);
+          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          var statusElement = document.getElementById('status');
+          var progressElement = document.getElementById('progress');
+          if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            progressElement.hidden = false;
+          } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            progressElement.hidden = true;
+          }
+          statusElement.innerHTML = text;
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+    </script>      
+
+  <script type='text/javascript'>
+
+    
+    var decompressWorker = new Worker('decompress.js');
+    var decompressCallbacks = [];
+    var decompressions = 0;
+    Module["decompress"] = function(data, callback) {
+    var id = decompressCallbacks.length;
+    decompressCallbacks.push(callback);
+    decompressWorker.postMessage({ data: data, id: id });
+    if (Module['setStatus']) {
+    decompressions++;
+    Module['setStatus']('Decompression...');
+    }
+    };
+    decompressWorker.onmessage = function(event) {
+    decompressCallbacks[event.data.id](event.data.data);
+    decompressCallbacks[event.data.id] = null;
+    if (Module['setStatus']) {
+    decompressions--;
+    if (decompressions == 0) {
+    Module['setStatus']('');
+    }
+    }
+    };
+    var compiledCodeXHR = new XMLHttpRequest();
+    compiledCodeXHR.open('GET', 'giac.js.compress', true);
+    compiledCodeXHR.responseType = 'arraybuffer';
+    compiledCodeXHR.onload = function() {
+    var arrayBuffer = compiledCodeXHR.response;
+    if (!arrayBuffer) throw('Loading compressed code failed.');
+    var byteArray = new Uint8Array(arrayBuffer);
+    Module.decompress(byteArray, function(decompressed) {
+    var source = Array.prototype.slice.apply(decompressed).map(function(x) { return String.fromCharCode(x) }).join(''); // createObjectURL instead?
+    var scriptTag = document.createElement('script');
+    scriptTag.setAttribute('type', 'text/javascript');
+    scriptTag.innerHTML = source;
+    document.body.appendChild(scriptTag);
+    });
+    };
+    compiledCodeXHR.send(null);
+    
+  </script>
+
+</body>
+</html>
+
