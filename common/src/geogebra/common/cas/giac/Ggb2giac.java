@@ -391,6 +391,6 @@ public class Ggb2giac {
 		p("Zipf.4", // %1=exponent
 				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi");
 		return commandMap;
-	}	
+	}
 
 }
