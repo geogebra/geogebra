@@ -23,6 +23,8 @@ import geogebra.common.io.QDParser;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.algos.AlgoBarChart;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
@@ -507,6 +509,21 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				BufferedImage img = geogebra.awt.GBufferedImageD.getAwtBufferedImage(geo.getFillImage());
 				if (img != null)
 					writeImageToZip(zip, filePath + fileName, img);
+			}
+			//Save images used in single bars
+			AlgoElement algo = geo.getParentAlgorithm();
+			if (algo instanceof AlgoBarChart) {
+				int num = ((AlgoBarChart) algo).getIntervals();
+				int k;
+				for (int i = 0; i < num; i++) {
+					k=i+1;
+					if (geo.getTag("barImage" + k) != null) {
+						geo.setImageFileName(geo.getTag("barImage" + k));
+						BufferedImage img = geogebra.awt.GBufferedImageD
+								.getAwtBufferedImage(geo.getFillImage());
+						writeImageToZip(zip, geo.getTag("barImage" + k), img);
+					}
+				}
 			}
 		}
 	}

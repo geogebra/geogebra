@@ -784,6 +784,7 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleEvSize(evSet, attrs);
 				break;
 			}
+			break;
 		case 'v':
 			if ("viewNumber".equals(eName)) {
 				/*
@@ -810,6 +811,14 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	
+	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
+		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))){
+			geo.addTag(attrs.get("key"), attrs.get("value"));
+			return true;
+		}
+		return false;
+	}
+
 	private void startEuclidianViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		
@@ -3260,6 +3269,12 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			} else if ("tooltipMode".equals(eName)) {
 				ok = handleTooltipMode(attrs);
+				break;
+			} else if("tag".equals(eName)){
+				ok = handleExtraTag(attrs);
+				break;
+			} else if ("tags".equals(eName)){
+				ok=true;
 				break;
 			}
 

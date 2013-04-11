@@ -1,11 +1,14 @@
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
@@ -36,10 +39,12 @@ public class DrawBarGraph extends Drawable {
 
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
-	private GeneralPathClipped gp;
+	/*
+	 * Use an array  to  customize  bars
+	 */
+	private GeneralPathClipped []gp;
 	private GeoNumeric sum;
 	private AlgoBarChart algo;
-
 	private ArrayList<GeoPoint> pts;
 	private ArrayList<DrawPoint> drawPoints;
 
@@ -94,17 +99,38 @@ public class DrawBarGraph extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return gp.getBounds();
+		GRectangle rect=geogebra.common.factories.AwtFactory.prototype.newRectangle(
+				(int)(algo.getLeftBorder()[0]),(int)algo.getFreqMax(),
+				(int)(algo.getLeftBorder().length*algo.getWidth()),(int)algo.getFreqMax());
+		return rect;
 	}
 
 	@Override
 	public void draw(geogebra.common.awt.GGraphics2D g2) {
+		//Save fill, color and alfa of object 
+		GColor color = geo.getSelColor();
+		FillType fillType=geo.getFillType();
+		int hatchingDistance=geo.getHatchingDistance();
+		String symbol=geo.getFillSymbol();
+		double hatchingAngle=geo.getHatchingAngle();
+		String fileName=geo.getImageFileName();
+		float alpha=geo.getAlphaValue();
+		int k;
 		if (isVisible) {
 			try {
 				if (geo.doHighlighting()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
-					g2.draw(gp);
+					for(int i=0;i<gp.length;i++){
+						k=i+1;
+						if (geo.getTag("barColor"+k) != null) {
+							String []rgb=geo.getTag("barColor"+k).split("_");
+							g2.setPaint(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
+									, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3])));
+						}
+						g2.draw(gp[i]);
+						g2.setPaint(color);
+					}
 				}
 			} catch (Exception e) {
 				App.debug(e.getMessage());
@@ -112,8 +138,47 @@ public class DrawBarGraph extends Drawable {
 
 			try {
 				if (algo.getDrawType() != DRAW_STEP_GRAPH_CONTINUOUS) {
-					fill(g2, gp, false); // fill using default/hatching/image as
+					/*
+					 * Use tags for draw if there are
+					 */
+					for (int i=0;i<gp.length;i++) {
+						k=i+1;
+						if (geo.getTag("barColor"+k)!=null) {
+							String []rgb=geo.getTag("barColor"+k).split("_");
+							geo.setObjColor(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
+									, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3])));
+							geo.setAlphaValue(Float.parseFloat(rgb[3]));
+						}
+						if (geo.getTag("barAlpha"+k)!=null) {
+							geo.setAlphaValue(Float.parseFloat(geo.getTag("barAlpha"+k)));
+						}
+						if (geo.getTag("barFillType"+k)!=null) {
+							geo.setFillType(FillType.values()[Integer.parseInt((geo.getTag("barFillType"+k)))]);
+						}
+						if (geo.getTag("barSymbol"+k)!=null) {
+							geo.setFillSymbol(geo.getTag("barSymbol"+k));
+						} 
+						if (geo.getTag("barImage"+k)!=null) {
+							geo.setImageFileName(geo.getTag("barImage"+k));
+						}
+						if (geo.getTag("barHatchDistance"+k)!=null) {
+							geo.setHatchingDistance(Integer.parseInt((geo.getTag("barHatchDistance"+k))));
+						}
+						if (geo.getTag("barHatchAngle"+k)!=null) {
+							geo.setHatchingAngle(Integer.parseInt((geo.getTag("barHatchAngle"+k))));
+						}
+						
+						fill(g2, gp[i], false); // fill using default/hatching/image as
 											// appropriate
+						//Restore values
+						geo.setObjColor(color);
+						geo.setFillType(fillType);
+						geo.setHatchingAngle((int)hatchingAngle);
+						geo.setHatchingDistance(hatchingDistance);
+						geo.setFillSymbol(symbol);
+						geo.setImageFileName(fileName);
+						geo.setAlphaValue(alpha);
+					}
 				}
 
 			} catch (Exception e) {
@@ -124,12 +189,20 @@ public class DrawBarGraph extends Drawable {
 				if (geo.lineThickness > 0) {
 					g2.setPaint(sum.getObjectColor());
 					g2.setStroke(objStroke);
-					g2.draw(gp);
+					for(int i=0;i<gp.length;i++) {
+						k=i+1;
+						if (geo.getTag("barColor"+k)!=null) {
+							String []rgb=geo.getTag("barColor"+k).split("_");
+							g2.setPaint(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
+									, Float.parseFloat(rgb[2])));
+						}
+						g2.draw(gp[i]);
+						g2.setPaint(color);
+					}
 				}
 			} catch (Exception e) {
 				App.debug(e.getMessage());
 			}
-
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
 				g2.setPaint(geo.getLabelColor());
@@ -152,13 +225,26 @@ public class DrawBarGraph extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
+		if (gp != null){
+			for(int i=0;i<gp.length;i++){
+				if ((gp[i].contains(x, y) || gp[i].intersects(x - 3, y - 3, 6, 6))){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return gp != null && gp.intersects(rect);
+		if (gp != null ){
+			for(int i=0;i<gp.length;i++){
+				if (gp[i].intersects(rect)){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -183,11 +269,13 @@ public class DrawBarGraph extends Drawable {
 			init();
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(sum);
-
-		if (gp == null)
-			gp = new GeneralPathClipped(view);
+			
 		// init gp
-		gp.reset();
+		gp = new GeneralPathClipped[algo.getIntervals()];
+		for (int i = 0; i < gp.length; i++) {
+			gp[i] = new GeneralPathClipped(view);
+			gp[i].reset();
+		}
 
 		double[] xVal = algo.getLeftBorder();
 		double[] yVal = algo.getValues();
@@ -263,12 +351,12 @@ public class DrawBarGraph extends Drawable {
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
-					gp.moveTo(coords[0], coords[1]);
+					gp[i].moveTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 				}
 
 			} else {
@@ -276,27 +364,27 @@ public class DrawBarGraph extends Drawable {
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
-					gp.moveTo(coords[0], coords[1]);
+					gp[i].moveTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i] + width;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i] + width;
 					coords[1] = 0;
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = 0;
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 				}
 			}
 
@@ -309,12 +397,12 @@ public class DrawBarGraph extends Drawable {
 					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.moveTo(coords[0], coords[1]);
+					gp[i].moveTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 				}
 
 			} else {
@@ -322,27 +410,27 @@ public class DrawBarGraph extends Drawable {
 					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.moveTo(coords[0], coords[1]);
+					gp[i].moveTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = xVal[i];
 					coords[1] = yVal[i] + width;
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = 0;
 					coords[1] = yVal[i] + width;
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 
 					coords[0] = 0;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
-					gp.lineTo(coords[0], coords[1]);
+					gp[i].lineTo(coords[0], coords[1]);
 				}
 			}
 			break;
@@ -355,26 +443,26 @@ public class DrawBarGraph extends Drawable {
 				coords[0] = xVal[i] + halfWidth;
 				coords[1] = yVal[i];
 				view.toScreenCoords(coords);
-				gp.moveTo(coords[0], coords[1]);
+				gp[i].moveTo(coords[0], coords[1]);
 
 				// across
 				coords[0] = xVal[i + 1] + halfWidth;
 				coords[1] = yVal[i];
 				view.toScreenCoords(coords);
-				gp.lineTo(coords[0], coords[1]);
+				gp[i].lineTo(coords[0], coords[1]);
 
 				// up
 				coords[0] = xVal[i + 1] + halfWidth;
 				coords[1] = yVal[i + 1];
 				view.toScreenCoords(coords);
-				gp.lineTo(coords[0], coords[1]);
+				gp[i].lineTo(coords[0], coords[1]);
 			}
 
 			// up to last point
 			coords[0] = xVal[N - 1] + halfWidth;
 			coords[1] = yVal[N - 1];
 			view.toScreenCoords(coords);
-			gp.lineTo(coords[0], coords[1]);
+			gp[gp.length-1].lineTo(coords[0], coords[1]);
 
 			break;
 
@@ -386,13 +474,13 @@ public class DrawBarGraph extends Drawable {
 				coords[0] = xVal[i] + halfWidth;
 				coords[1] = yVal[i];
 				view.toScreenCoords(coords);
-				gp.moveTo(coords[0], coords[1]);
+				gp[i].moveTo(coords[0], coords[1]);
 
 				// across
 				coords[0] = xVal[i + 1] + halfWidth;
 				coords[1] = yVal[i];
 				view.toScreenCoords(coords);
-				gp.lineTo(coords[0], coords[1]);
+				gp[i].lineTo(coords[0], coords[1]);
 
 			}
 
@@ -400,12 +488,15 @@ public class DrawBarGraph extends Drawable {
 		}
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
-			isVisible = false;
-			// don't return here to make sure that getBounds() works for
-			// off screen points too
+		isVisible = false;
+		// don't return here to make sure that getBounds() works for
+		// off screen points too
+		for (int i=0;i<gp.length;i++){
+			if (gp[i].intersects(0, 0, view.getWidth(), view.getHeight())) {				
+				isVisible=true;
+				break;
+			}
 		}
-
 		// TODO: improve label position
 		if (labelVisible) {
 			xLabel = (int) coords[0];

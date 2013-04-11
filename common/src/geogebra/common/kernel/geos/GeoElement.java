@@ -78,9 +78,11 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -98,6 +100,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	/** 
+	 * Tags are an extra piece of information that can be associated with a geoelement.
+	 */
+	protected Map<String,String> tags = new HashMap<String,String>();
+	
 	/**
 	 * Column headings for spreadsheet trace
 	 */
@@ -4723,7 +4730,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		getXMLtags(sb);
 		getCaptionXML(sb);
-
+		getExtraTagsXML(sb);
 		getElementCloseTagXML(sb);
 
 		
@@ -5085,6 +5092,18 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (kernel.getSaveScriptsToXML()) {
 			getScriptTags(sb);
 		}
+	}
+
+	private void getExtraTagsXML(StringBuilder sb) {
+		if (tags.isEmpty()){
+			return;
+		}
+		sb.append("\t<tags>\n");
+		Set<String> keys=tags.keySet();
+		for (String key: keys){
+			sb.append("\t\t<tag key=\""+key+"\" value=\""+tags.get(key)+"\" />\n");
+		}
+		sb.append("\t</tags>\n");
 	}
 
 	/**
@@ -6933,5 +6952,19 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	public void setFillSymbol(String symbol){
 		fillSymbol=symbol;
+	}
+	
+	// Handle tags
+	
+	public void addTag(String key,String value){
+		tags.put(key, value);
+	}
+	
+	public String getTag(String key){
+		return tags.get(key);
+	}
+	
+	public void removeTag(String key){
+		tags.remove(key);
 	}
 }
