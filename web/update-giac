@@ -53,5 +53,5 @@ scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY $NAME $DEV_SERVER_LOGIN:$DOWNLOADDIR/
 
 # 5. Changing kickstart.xml
 cd ../../..
-sed -i s/giac-latest\.js/$NAME/g kickstart.xml || exit 5
+sed -i s/giac-[0-9]*\.js/$NAME/g kickstart.xml || exit 5
 svn commit -m "Changing giac to the latest version" || exit 5
