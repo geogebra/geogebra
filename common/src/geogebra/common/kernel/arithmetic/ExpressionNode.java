@@ -3760,7 +3760,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-				sb.append("lower\\_incomplete\\_gamma(");
+				sb.append("igamma(");
 				break;
 
 			case MPREDUCE:
@@ -3790,7 +3790,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func gammaRegularized left (");
 
 			case GIAC:
-				sb.append("lower\\_incomplete\\_gamma(");
+				sb.append("igamma(");
 				break;
 
 

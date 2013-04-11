@@ -27,9 +27,7 @@ public class CommandDispatcherGiac {
 	 */
 	public enum commands {
 		/** gamma regularized */
-		lower_incomplete_gamma(Operation.GAMMA_INCOMPLETE_REGULARIZED),
-		lowerincompletegamma(Operation.GAMMA_INCOMPLETE_REGULARIZED),
-
+		igamma(Operation.NO_OPERATION),
 		/** derivative*/
 		diff(Operation.DERIVATIVE),
 		/** psi */
@@ -43,7 +41,7 @@ public class CommandDispatcherGiac {
 		/** Reimann-Zeta function */
 		Zeta(Operation.ZETA),
 		/** Beta function */
-		Beta(Operation.GAMMA),
+		Beta(Operation.NO_OPERATION),
 		/** Gamma function */
 		Gamma(Operation.GAMMA),
 		/** fractional part */
@@ -116,9 +114,7 @@ public class CommandDispatcherGiac {
 							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
 				}
 				break;
-			case lower_incomplete_gamma:
-				// seems to need it without the "_"s - do they get stripped somewhere?
-			case lowerincompletegamma:	
+			case igamma:	
 				if (args.getLength() == 2) {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.GAMMA_INCOMPLETE,

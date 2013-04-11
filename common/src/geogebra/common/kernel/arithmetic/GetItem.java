@@ -14,7 +14,7 @@ public interface GetItem extends ExpressionValue{
 	public ExpressionValue getItem(int i);
 	
 	/**
-	 * needed to distinguish eg lower_incomplete_gamma with 2 or 3 args
+	 * needed to distinguish eg igamma with 2 or 3 args
 	 * 
 	 * @return length
 	 */

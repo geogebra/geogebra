@@ -118,7 +118,7 @@ public class Ggb2giac {
 		p("FitPow.1",
 				"[[ggbans:=power\\_regression(%0)],(ggbans[1])*ggbtmpvarx^(ggbans[0])][1]");
 
-		p("Gamma.3", "lower\\_incomplete\\_gamma((%0),(%2)/(%1),1)");
+		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
 				"gcd(%0,%1)");
 		p("GCD.1",
