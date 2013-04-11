@@ -1,21 +1,21 @@
 #!/bin/sh
 # Gets the latest Giac and updates it on the dev server and in kickstart.xml.
 
-TGZ=http://www-fourier.ujf-grenoble.fr/~parisse/giac/emgiac.tgz
-
 # 0. Setting defaults
+TGZ=http://www-fourier.ujf-grenoble.fr/~parisse/giac/emgiac.tgz
 EMSCRIPTEN=~/emscripten-master
 export JAVA_HEAP_SPACE=3072m
 test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
 
 # 1. Downloading
 FILENAME=`basename $TGZ`
-wget -O lib/$FILENAME $TGZ
+mkdir -p lib
+wget -O lib/$FILENAME $TGZ || exit 1
 cd lib
 WORKDIR=`tar tzf $FILENAME | head -1 | cut -f1 -d/`
 
 # 2. Untarring:
-tar xzf $FILENAME
+tar xzf $FILENAME || exit 2
 cd $WORKDIR
 
 # 3. Compiling
@@ -24,14 +24,14 @@ cd giac
 cat Makefile | grep -v shared > Makefile.new
 mv Makefile.new Makefile
 make clean
-make
+make || exit 3
 
 # 4. Copying giac.js to the correct place
 NAME=giac-`date +%Y%m%d`.js
 mv ggbgiac.js $NAME
-scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY $NAME $DEV_SERVER_LOGIN:$DOWNLOADDIR/../lib/web
+scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY $NAME $DEV_SERVER_LOGIN:$DOWNLOADDIR/../lib/web || exit 4
 
 # 5. Changing kickstart.xml
 cd ../../..
-sed -i s/giac-latest\.js/$NAME/g kickstart.xml
-svn commit -m "Changing giac to the latest version"
+sed -i s/giac-latest\.js/$NAME/g kickstart.xml || exit 5
+svn commit -m "Changing giac to the latest version" || exit 5
