@@ -126,7 +126,7 @@ your workstation.
 
 	<target name="giac">
 	<get
-	    src="http://dev.geogebra.org/download/lib/web/giac-latest.js"
+	    src="http://dev.geogebra.org/download/lib/web/giac-20130411.js"
 	    dest="lib/giac.js"/>
 	<copy todir="src/geogebra/resources/js">
 	 <fileset dir="lib" includes="giac.js" />
