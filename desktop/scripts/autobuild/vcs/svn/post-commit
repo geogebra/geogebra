@@ -4,8 +4,8 @@ REPOS="$1"
 REV="$2"
 
 DIR=/tmp/post-commit/
-NOTIFY=$DIR/Ggb2giac.java.update
+NOTIFY=$DIR/giac.update
 
 mkdir -p $DIR
-svnlook changed $REPOS -r $REV | grep "Ggb2giac\.java" && date > $NOTIFY
+svnlook changed $REPOS -r $REV | grep "common/src/giac" && date > $NOTIFY
 chmod -R g+w $DIR

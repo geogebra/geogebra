@@ -2,7 +2,7 @@
 # Runs update-giac when /tmp/post-commit/Ggb2giac.java.update exists. Then it removes that file.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-NOTIFY=/tmp/post-commit/Ggb2giac.java.update
+NOTIFY=/tmp/post-commit/giac.update
 test -r $NOTIFY && {
  cd `dirname $0`
  ./update-giac || {

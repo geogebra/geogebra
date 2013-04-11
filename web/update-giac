@@ -21,28 +21,18 @@
 #    config file created. Change the llvm configuration to use the directory
 #    ~/llvm/bin.
 
-# 0. Setting defaults
-TGZ=http://www-fourier.ujf-grenoble.fr/~parisse/giac/emgiac.tgz
+# 1. Setting defaults
 EMSCRIPTEN=~/emscripten-master
 export JAVA_HEAP_SPACE=3072m
 test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
+WORKDIR=../common/src/giac
+WEBDIR=`pwd`
 
-# 1. Downloading
-FILENAME=`basename $TGZ`
-mkdir -p lib
-wget -O lib/$FILENAME $TGZ || exit 1
-cd lib
-WORKDIR=`tar tzf $FILENAME | head -1 | cut -f1 -d/`
-
-# 2. Untarring:
-tar xzf $FILENAME || exit 2
+# 2. CD'ing to giac directory
 cd $WORKDIR
 
 # 3. Compiling
 export PATH=$PATH:$EMSCRIPTEN
-cd giac
-cat Makefile | grep -v shared | grep -v lzma > Makefile.new
-mv Makefile.new Makefile
 make clean
 make || exit 3
 
@@ -52,6 +42,6 @@ mv giacggb.js $NAME
 scp -P $DEV_SERVER_PORT -i $DEV_SERVER_KEY $NAME $DEV_SERVER_LOGIN:$DOWNLOADDIR/../lib/web || exit 4
 
 # 5. Changing kickstart.xml
-cd ../../..
+cd $WEBDIR
 sed -i s/giac-[0-9]*\.js/$NAME/g kickstart.xml || exit 5
-svn commit -m "Changing giac to the latest version" || exit 5
+svn commit -m "Changing giac.js to the latest version in web/kickstart.xml" || exit 5
