@@ -1940,6 +1940,9 @@ public class AppW extends AppWeb {
 
 	@Override
     public void afterLoadFileAppOrNot() {
+
+		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
+
 		kernel.initUndoInfo();
 
 		getEuclidianView1().synCanvasSize();

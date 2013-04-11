@@ -108,8 +108,9 @@ public class View {
 		}
 		archiveContent = null;
 
-		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-		
+		// app.getScriptManager().ggbOnInit(); //this line is moved from here too,
+												// it should load after the images are loaded
+
 		App.debug("file loaded");
 		//This is used also by touch where dialog manager is null
 		if (app.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) app.getDialogManager()).isGoogleDriveChooserNull()) {
