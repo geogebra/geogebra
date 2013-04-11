@@ -6,5 +6,6 @@ REV="$2"
 DIR=/tmp/post-commit/
 NOTIFY=$DIR/Ggb2giac.java.update
 
+mkdir -p $DIR
 svnlook changed $REPOS -r $REV | grep "Ggb2giac\.java" && date > $NOTIFY
 chmod -R g+w $DIR
