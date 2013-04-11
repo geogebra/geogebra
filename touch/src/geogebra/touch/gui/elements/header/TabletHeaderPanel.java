@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.awt.GColor;
 import geogebra.touch.TouchApp;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 /**
  * Extends from {@link HeaderPanel}.
  */
-public class TabletHeaderPanel extends HorizontalPanel
+public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 {
 	private TabletHeaderPanelLeft leftHeader;
 	Button titleButton;

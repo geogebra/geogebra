@@ -299,7 +299,9 @@ public class EuclidianViewM extends EuclidianViewWeb
 		if (repaints % 100 == 0)
 		{
 			App.debug("Repaint:" + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
-			App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
+			if(drags > 0){
+				App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
+			}
 			repaints = 0;
 			drags = 0;
 			repaintTime = 0;

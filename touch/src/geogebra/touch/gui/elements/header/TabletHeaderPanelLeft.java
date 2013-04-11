@@ -46,7 +46,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 */
 	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, final GuiModel guiModel)
 	{
-		this.app = app;
+		//this.app = app;
 		this.kernel = app.getKernel();
 
 		this.tabletGUI = tabletGUI;
@@ -149,6 +149,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	public void setTitle(String title)
 	{
 		// FIXME ugly, implement observer pattern!
-		this.tabletGUI.getTabletHeaderPanel().setTitle(title);
+		this.tabletGUI.getLAF().setTitle(title);
 	}
 }
