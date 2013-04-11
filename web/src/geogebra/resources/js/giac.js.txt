@@ -1,2 +1,2 @@
 giac.js is created by kickstart.xml at the moment.
-Please don't add giac.js to the SVN repository since it is maintaned automatically by a robot.
+Please don't add giac.js to the SVN repository since it is maintained automatically by a robot.
