@@ -37,6 +37,7 @@ import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -347,25 +348,27 @@ final public class DrawConic extends Drawable implements Previewable {
 		setShape(conic.evaluate(conic.b.getX() + 1, 0) < 0 ? null : AwtFactory.prototype.newArea(
 				view.getBoundingPath()));
 		shape = null;
-		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
-			isVisible = false;
-			return;
-		}
 
 		if (firstPoint) {
 			firstPoint = false;
 			point = conic.getSinglePoint();
 			if (point == null)
 				point = new GeoPoint(conic.getConstruction());
-			point.setCoords(conic.b.getX(), conic.b.getY(), 1.0d);
 			drawPoint = new DrawPoint(view, point, isPreview);
 			drawPoint.setGeoElement(conic);
 			// drawPoint.font = view.fontConic;
 		}
+		
+	
+		Coords coords = conic.getMidpoint3D(); // view transformation will be done in DrawPoint
+		point.setCoords(coords.getX(), coords.getY(), 1.0d);
+
+		
 		point.copyLabel(conic);
 		point.setObjColor(conic.getObjectColor());
 		point.setLabelColor(conic.getLabelColor());
 		point.setPointSize(conic.lineThickness);
+
 
 		drawPoint.update();
 	}
@@ -375,11 +378,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 */
 	final private void updateLines() {
 		shape = null;
-		if (conic.isGeoElement3D()) {// TODO implement for 3D conics
-			isVisible = false;
-			return;
-		}
-
+		
 		if (firstLines) {
 			firstLines = false;
 			lines = conic.getLines();
@@ -391,9 +390,23 @@ final public class DrawConic extends Drawable implements Previewable {
 			// drawLines[0].font = view.fontConic;
 			// drawLines[1].font = view.fontConic;
 		}
+		
+		CoordMatrix m = null;
+		if (view.getMatrix()==null){
+			if (conic.isGeoElement3D()){
+				m = conic.getCoordSys().getMatrixOrthonormal().inverse();	
+			}
+		}else{
+			if (conic.isGeoElement3D()){
+				m = conic.getCoordSys().getMatrixOrthonormal().inverse().mul(view.getMatrix());	
+			}else{
+				m = view.getMatrix();
+			}
+		}
+		
 		for (int i = 0; i < 2; i++) {
 			drawLines[i].forceLineType(conic.lineType);
-			drawLines[i].update();
+			drawLines[i].update(m);
 		}
 
 		if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES

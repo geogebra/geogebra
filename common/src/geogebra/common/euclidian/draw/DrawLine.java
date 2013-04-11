@@ -26,6 +26,7 @@ import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -143,16 +144,26 @@ public class DrawLine extends Drawable implements Previewable {
 		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
 		updatePreview();
 	}
-
+    
 	@Override
 	public void update() {  
+		update(view.getMatrix());
+	}
+
+
+	/**
+	 * update the drawable with a view matrix
+	 * @param matrix view matrix
+	 */
+	public void update(CoordMatrix matrix) {  
 		//	take line g here, not geo this object may be used for conics too
         isVisible = geo.isEuclidianVisible(); 
         if (isVisible) {
 			labelVisible = geo.isLabelVisible();
 			updateStrokes(g);
 			
-			Coords equation = g.getCartesianEquationVector(view.getMatrix());
+			Coords equation = g.getCartesianEquationVector(matrix);
+			
 			if (equation==null){
 				isVisible = false;
 				return;
