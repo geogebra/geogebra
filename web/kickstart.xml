@@ -119,9 +119,18 @@ your workstation.
 	<get
 	    src="http://dev.geogebra.org/download/lib/web/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"
 	    dest="lib/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"/>
-	<copy todir="war/WEB-INF/lib">	
+	<copy todir="war/WEB-INF/lib">
 	 <fileset dir="lib" includes="google-api-services*.jar" />
 	</copy>
 	</target>
-	
+
+	<target name="giac">
+	<get
+	    src="http://dev.geogebra.org/download/lib/web/giac-latest.js"
+	    dest="lib/giac.js"/>
+	<copy todir="src/geogebra/resources/js">
+	 <fileset dir="lib" includes="giac.js" />
+	</copy>
+	</target>
+
 </project>
