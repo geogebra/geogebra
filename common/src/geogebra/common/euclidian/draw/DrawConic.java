@@ -64,7 +64,7 @@ import java.util.ArrayList;
  * 
  * @author Markus
  */
-final public class DrawConic extends Drawable implements Previewable {
+public class DrawConic extends Drawable implements Previewable {
 
 	// plotpoints per quadrant for hyperbola
 	private static final int PLOT_POINTS = 32;

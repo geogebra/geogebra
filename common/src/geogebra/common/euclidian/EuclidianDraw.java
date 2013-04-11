@@ -6,6 +6,7 @@ import geogebra.common.euclidian.draw.DrawBoxPlot;
 import geogebra.common.euclidian.draw.DrawButton;
 import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawConicPart;
+import geogebra.common.euclidian.draw.DrawConicSection;
 import geogebra.common.euclidian.draw.DrawImage;
 import geogebra.common.euclidian.draw.DrawImplicitPoly;
 import geogebra.common.euclidian.draw.DrawInequality;
@@ -217,6 +218,10 @@ public class EuclidianDraw {
 		case CONIC:
 		case CONIC3D:
 			d = new DrawConic(ev, (GeoConicND) geo);
+			break;
+			
+		case CONICSECTION:
+			d = new DrawConicSection(ev, (GeoConicND) geo);
 			break;
 
 		case IMPLICIT_POLY:

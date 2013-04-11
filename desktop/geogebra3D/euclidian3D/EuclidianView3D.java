@@ -555,7 +555,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				d = new DrawConicPart3D(this, (GeoConicPart) geo);
 				break;	
 
-			case CONIC3DPART:					
+			case CONICSECTION:					
 				d = new DrawConicSection3D(this, (GeoConicSection) geo);
 				break;	
 

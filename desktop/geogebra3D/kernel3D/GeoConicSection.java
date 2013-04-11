@@ -259,18 +259,9 @@ public class GeoConicSection extends GeoConic3D {
 	
 	@Override
 	public GeoClass getGeoClassType() {
-		return GeoClass.CONIC3DPART;
+		return GeoClass.CONICSECTION;
 	}
 	
-	/**
-	 * Sector or arc
-	 * 
-	 * @return CONIC_PART_ARCS
-	 */
-	final public int getConicPartType() {
-		return CONIC_PART_ARC;
-	}
-
 	
 
 }
