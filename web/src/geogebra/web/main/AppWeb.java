@@ -78,7 +78,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	
 	@Override
 	public final StringType getPreferredFormulaRenderingType() {
-		return StringType.MATHML;
+		return StringType.LATEX;
 	}
 	
 	@Override
