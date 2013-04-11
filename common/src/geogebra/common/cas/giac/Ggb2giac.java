@@ -327,7 +327,7 @@ public class Ggb2giac {
 				"map(desolve(%0,%1),x->ggbtmpvary=x)");
 		//@ is a hack: only use the value if it does not contain () to avoid (1,2)' in CAS
 		p("SolveODE.3",
-				"map(desolve(%0,%2,%1),x->%1=x)");
+				"map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))");
 		p("SolveODE.4",
 				"map(desolve(%0,%2,%1,%3),x->%1=x))");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
