@@ -1,0 +1,13 @@
+#!/bin/sh
+# Runs update-giac when /tmp/Ggb2giac.java.update exists. Then it removes that file.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+NOTIFY=/tmp/Ggb2giac.java.update
+test -r $NOTIFY && {
+ cd `dirname $0`
+ ./update-giac || {
+  # TODO: Tell the developers that something has gone wrong with auto-compilation
+  exit 1
+  }
+ rm -f $NOTIFY
+ }
