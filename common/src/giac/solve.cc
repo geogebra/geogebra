@@ -848,8 +848,13 @@ namespace giac {
       gen two_a=r2sym(plus_two*w.front(),lv,contextptr);
       gen minus_b=r2sym(-w[1],lv,contextptr);
       gen delta=r2sym(w[1]*w[1]-gen(4)*w.front()*w.back(),lv,contextptr);
+#ifdef NO_STDEXCEPT
+      if (!complexmode && lidnt(evalf(makevecteur(two_a,minus_b,delta),1,contextptr)).empty() && is_positive(-delta,contextptr))
+	return;      
+#else
       if (!complexmode && is_positive(-delta,contextptr))
 	return;
+#endif
       newv.push_back(rdiv(minus_b+sqrt(delta,contextptr),two_a,contextptr));
       newv.push_back(rdiv(minus_b-sqrt(delta,contextptr),two_a,contextptr));
     }
