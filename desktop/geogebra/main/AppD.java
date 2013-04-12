@@ -2780,7 +2780,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return frame;
 	}
 
-	@Override
 	public Component getMainComponent() {
 		return mainComp;
 	}

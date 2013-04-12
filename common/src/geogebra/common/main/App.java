@@ -3094,11 +3094,11 @@ public abstract class App implements UpdateSelection{
 		return getLocalization().getMenu(key);
 	}
 	
-	public String getPlain(String key){
+	public final String getPlain(String key){
 		return getLocalization().getPlain(key);
 	}
 	
-	public String getPlainTooltip(String key){
+	public final String getPlainTooltip(String key){
 		return getLocalization().getPlainTooltip(key);
 	}
 

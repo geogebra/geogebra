@@ -1095,8 +1095,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
      * Deletes all construction elements
      */
     public void newConstruction(){
-    	app.clearConstruction();
-    	kernel.notifyRepaint();
+    	app.fileNew();
     }
 
 

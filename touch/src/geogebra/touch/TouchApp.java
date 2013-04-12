@@ -336,12 +336,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void callAppletJavaScript(String string, Object[] args)
-	{
-
-	}
-
-	@Override
 	public void updateMenubar()
 	{
 
@@ -360,20 +354,7 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void reset()
-	{
-
-	}
-
-	@Override
 	public PythonBridge getPythonBridge()
-	{
-
-		return null;
-	}
-
-	@Override
-	public String getPlainTooltip(String string)
 	{
 
 		return null;
