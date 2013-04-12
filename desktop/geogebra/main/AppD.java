@@ -2911,22 +2911,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	private boolean dontShowDockBarPopup = false;
-
 	private void hideDockBarPopup() {
 		if (getDockBar() != null)
 			getDockBar().hidePopup();
-		else
-			// prevent next automatic popup
-			dontShowDockBarPopup = true;
-
-	}
-
-	public void showDockBarPopup() {
-		if (dontShowDockBarPopup)
-			dontShowDockBarPopup = false;
-		else
-			getDockBar().showPopup();
 	}
 
 	public DockBarInterface getDockBar() {
