@@ -1443,6 +1443,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
 					return null;
+				
 				return ggbEval[0];
 			}
 			return null;
@@ -2152,7 +2153,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			 * We use EvalVE here as it's more transparent to push the command to the input
 			 */
 			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
-			getEvalVE().setLabel(assignmentVar);		
+			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));		
 			setInput(getEvalVE()
 						.toAssignmentString(StringTemplate.numericDefault));
 			
