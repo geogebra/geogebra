@@ -54,9 +54,28 @@ public abstract class AppWeb extends App implements SetLabels{
 	private ImageManager imageManager;
 	private HashMap<String, String> currentFile = null;
 	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
-	
+	// random id to identify ggb files
+	// eg so that GeoGebraTube can notice it's a version of the same file
+	private String uniqueId = null;// FIXME: generate new UUID: +
+	                               // UUID.randomUUID();
+
 	protected AppWeb(){
 		loc = new LocalizationW();
+	}
+	
+	@Override
+	public final String getUniqueId() {
+		return uniqueId;
+	}
+
+	@Override
+	public final void setUniqueId(String uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	@Override
+	public final void resetUniqueId() {
+		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
 	}
 	
 	@Override
@@ -589,4 +608,44 @@ public abstract class AppWeb extends App implements SetLabels{
 		public final CASFactory getCASFactory() {
 			return CASFactory.getPrototype();
 		}
+		
+		@Override
+		public void fileNew() {
+
+			// clear all
+			// triggers the "do you want to save" dialog
+			// so must be called first
+			if (!clearConstruction()) {
+				return;
+			}
+
+			clearInputBar();
+
+			// reset spreadsheet columns, reset trace columns
+			if (isUsingFullGui()) {
+				// getGuiManager().resetSpreadsheet();
+			}
+
+			getEuclidianView1().resetXYMinMaxObjects();
+			if (hasEuclidianView2EitherShowingOrNot()) {
+				getEuclidianView2().resetXYMinMaxObjects();
+			}
+
+			resetUniqueId();
+
+			resetStorageInfo();
+
+		}
+		
+					
+
+		protected void clearInputBar() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		protected void resetStorageInfo() {
+	        // TODO Auto-generated method stub
+	        
+        }
 }

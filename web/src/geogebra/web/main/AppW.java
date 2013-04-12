@@ -53,7 +53,6 @@ import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.kernel.KernelW;
 import geogebra.web.sound.SoundManagerW;
 import geogebra.web.util.GeoGebraLogger;
-import geogebra.web.util.ImageManager;
 import geogebra.web.util.MyDictionary;
 
 import java.util.ArrayList;
@@ -356,26 +355,6 @@ public class AppW extends AppWeb {
 		return super.getVersionString() + "-HTML5";
 	}
 
-	// random id to identify ggb files
-	// eg so that GeoGebraTube can notice it's a version of the same file
-	private String uniqueId = null;// FIXME: generate new UUID: +
-	                               // UUID.randomUUID();
-
-	@Override
-	public String getUniqueId() {
-		return uniqueId;
-	}
-
-	@Override
-	public void setUniqueId(String uniqueId) {
-		this.uniqueId = uniqueId;
-	}
-
-	@Override
-	public void resetUniqueId() {
-		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
-	}
-
 	public ArticleElement getArticleElement() {
 		return articleElement;
 	}
@@ -410,7 +389,8 @@ public class AppW extends AppWeb {
 
 
 
-	public Canvas getCanvas() {
+	@Override
+    public Canvas getCanvas() {
 		return canvas;
 	}
 
@@ -673,7 +653,8 @@ public class AppW extends AppWeb {
 		return localeName.substring(0, 2);
 	}
 
-	public String getLanguageFromCookie() {
+	@Override
+    public String getLanguageFromCookie() {
 		return Cookies.getCookie("GGWlang");
 	}
 
@@ -744,8 +725,8 @@ public class AppW extends AppWeb {
 	public String getCountryFromGeoIP() {
 		// warn("unimplemented");
 
-		AppW.debug("GeoIPCountry: " + AppW.geoIPCountryName);
-		AppW.debug("GeoIPLanguage: " + AppW.geoIPLanguage);
+		App.debug("GeoIPCountry: " + AppW.geoIPCountryName);
+		App.debug("GeoIPLanguage: " + AppW.geoIPLanguage);
 		return AppW.geoIPCountryName;
 	}
 
@@ -791,34 +772,10 @@ public class AppW extends AppWeb {
 
 	
 
+	
+	
 	@Override
-	public void fileNew() {
-
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
-
-		// clear input bar
-		if (isUsingFullGui() && showAlgebraInput()) {
-			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
-			ai.clear();
-		}
-
-		// reset spreadsheet columns, reset trace columns
-		if (isUsingFullGui()) {
-			// getGuiManager().resetSpreadsheet();
-		}
-
-		getEuclidianView1().resetXYMinMaxObjects();
-		if (hasEuclidianView2EitherShowingOrNot()) {
-			getEuclidianView2().resetXYMinMaxObjects();
-		}
-
-		resetUniqueId();
-
+    protected void resetStorageInfo(){
 		driveBase64FileName = null;
 		driveBase64description = null;
 		driveBase64Content = null;
@@ -826,7 +783,13 @@ public class AppW extends AppWeb {
 		((DialogManagerW) getDialogManager())
 		        .refreshAndShowCurrentFileDescriptors(driveBase64FileName,
 		                driveBase64description);
-
+	}
+	
+	protected void clearInputBar(){
+		if (isUsingFullGui() && showAlgebraInput()) {
+			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
+			ai.clear();
+		}
 	}
 	
 	
@@ -1035,10 +998,10 @@ public class AppW extends AppWeb {
 
 		Construction cons = getKernel().getConstruction();
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
-		((ImageManager) getImageManager()).addExternalImage(imgFileName,
+		getImageManager().addExternalImage(imgFileName,
 		        fileStr);
 		GeoImage geoImage = new GeoImage(cons);
-		((ImageManager) getImageManager()).triggerSingleImageLoading(
+		getImageManager().triggerSingleImageLoading(
 		        imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
 
@@ -1088,7 +1051,8 @@ public class AppW extends AppWeb {
 		
 	}
 
-	public void appSplashCanNowHide() {
+	@Override
+    public void appSplashCanNowHide() {
 		if (splashDialog != null) {
 			splashDialog.canNowHide();
 			attachViews();
@@ -1172,7 +1136,8 @@ public class AppW extends AppWeb {
 		showErrorDialog(getLocalization().getError(key) + ":\n" + error);
 	}
 
-	public void showMessage(final String message) {
+	@Override
+    public void showMessage(final String message) {
 		App.printStacktrace("showMessage: " + message);
 		GOptionPaneW.INSTANCE.showConfirmDialog(null, message,
 		        getPlain("ApplicationName") + " - " + getMenu("Info"),
@@ -1427,7 +1392,8 @@ public class AppW extends AppWeb {
 		// mySplitLayoutPanel.forceLayout();
 	}
 
-	public void syncAppletPanelSize(int width, int height, int evno) {
+	@Override
+    public void syncAppletPanelSize(int width, int height, int evno) {
 		if (!isFullAppGui()) {
 			if (evno == 1) {
 				// this should follow the resizing of the EuclidianView
@@ -1692,7 +1658,7 @@ public class AppW extends AppWeb {
 	public void uploadToGeoGebraTube() {
 		showURLinBrowserWaiterFixedDelay();
 		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		((GgbAPI) getGgbApi()).getBase64(true,
+		getGgbApi().getBase64(true,
 		        getUploadToGeoGebraTubeCallback(ggbtube));
 	}
 
@@ -1725,7 +1691,8 @@ public class AppW extends AppWeb {
 		return null;
 	}
 
-	public void showLoadingAnimation(boolean go) {
+	@Override
+    public void showLoadingAnimation(boolean go) {
 		// showSplashImageOnCanvas();
 
 	}
@@ -1870,7 +1837,8 @@ public class AppW extends AppWeb {
 		return frame != null;
 	}
 	
-	public String getDataParamId(){
+	@Override
+    public String getDataParamId(){
 		return getArticleElement().getDataParamId();
 	
 	}

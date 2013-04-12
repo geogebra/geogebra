@@ -250,25 +250,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public String getUniqueId()
-	{
-
-		return null;
-	}
-
-	@Override
-	public void setUniqueId(String uniqueId)
-	{
-
-	}
-
-	@Override
-	public void resetUniqueId()
-	{
-
-	}
-
-	@Override
 	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
 	{
 
