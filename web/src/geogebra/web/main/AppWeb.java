@@ -5,8 +5,13 @@ import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLio;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.Localization;
@@ -21,6 +26,8 @@ import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLioW;
+import geogebra.web.kernel.AnimationManagerW;
+import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.sound.SoundManagerW;
 import geogebra.web.util.ImageManager;
 
@@ -555,6 +562,26 @@ public abstract class AppWeb extends App implements SetLabels{
 			if (im == null)
 				return null;
 			return new geogebra.web.awt.GBufferedImageW(im);
+		}
+		
+		@Override
+		public final AnimationManager newAnimationManager(Kernel kernel2) {
+			return new AnimationManagerW(kernel2);
+		}
+		
+		@Override
+		public final UndoManager getUndoManager(Construction cons) {
+			return new UndoManagerW(cons);
+		}
+
+		@Override
+		public final GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
+			return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
+		}
+		
+		@Override
+		public final void runScripts(GeoElement geo1, String string) {
+			geo1.runClickScripts(string);
 		}
 		
 }

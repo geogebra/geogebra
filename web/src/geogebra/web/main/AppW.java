@@ -10,12 +10,9 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.javax.swing.GOptionPane;
-import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
@@ -54,9 +51,7 @@ import geogebra.web.io.MyXMLioW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
-import geogebra.web.kernel.AnimationManagerW;
 import geogebra.web.kernel.KernelW;
-import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.sound.SoundManagerW;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
@@ -414,20 +409,7 @@ public class AppW extends AppWeb {
 		return guiManager;
 	}
 
-	@Override
-	public UndoManager getUndoManager(Construction cons) {
-		return new UndoManagerW(cons);
-	}
 
-	@Override
-	public AnimationManager newAnimationManager(Kernel kernel2) {
-		return new AnimationManagerW(kernel2);
-	}
-
-	@Override
-	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-		return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
-	}
 
 	public Canvas getCanvas() {
 		return canvas;
@@ -1621,11 +1603,6 @@ public class AppW extends AppWeb {
 	// ============================================
 	// SCRIPTS
 	// ============================================
-
-	@Override
-	public void runScripts(GeoElement geo1, String string) {
-		geo1.runClickScripts(string);
-	}
 
 	@Override
 	public void evalPythonScript(App app, String string, String arg) {

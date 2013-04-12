@@ -302,25 +302,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public UndoManager getUndoManager(Construction cons)
-	{
-		return new UndoManagerW(cons);
-	}
-
-	@Override
-	public AnimationManager newAnimationManager(geogebra.common.kernel.Kernel kernel2)
-	{
-
-		return null;
-	}
-
-	@Override
-	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter()
-	{
-		return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
-	}
-
-	@Override
 	public void setWaitCursor()
 	{
 
@@ -458,11 +439,6 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
-	{
-	}
-
-	@Override
-	public void runScripts(GeoElement geo1, String string)
 	{
 	}
 
