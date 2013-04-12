@@ -9547,13 +9547,19 @@ namespace giac {
   }
   gen cross(const gen & a,const gen & b,GIAC_CONTEXT){
     gen g1=remove_at_pnt(a);
+    if (a.type==_VECT && a.subtype==_GGB__VECT)
+      g1=a;
     gen g2=remove_at_pnt(b);
+    if (b.type==_VECT && b.subtype==_GGB__VECT)
+      g2=b;
     if (is_undef(g1) || g1.type!=_VECT || is_undef(g2) || g2.type!=_VECT)
       return gensizeerr(gettext("cross"));
     if (g1.subtype==_VECTOR__VECT)
       return cross(vector2vecteur(*g1._VECTptr),g2,contextptr);
     if (g2.subtype==_VECTOR__VECT)
       return cross(g1,vector2vecteur(*g2._VECTptr),contextptr);
+    if (g1._VECTptr->size()==2 && g2._VECTptr->size()==2 && calc_mode(contextptr)==1)
+      return g1._VECTptr->front()*g2._VECTptr->back()-g1._VECTptr->back()*g2._VECTptr->front();
     return cross(*g1._VECTptr,*g2._VECTptr,contextptr);
   }
   /*

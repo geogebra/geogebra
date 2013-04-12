@@ -4726,7 +4726,7 @@ namespace giac {
       if (a._SYMBptr->sommet==at_unit)
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(-a._SYMBptr->feuille._VECTptr->front(),a._SYMBptr->feuille._VECTptr->back())));
       if (a._SYMBptr->sommet==at_plus)
-	return new_ref_symbolic(symbolic(at_plus,negvecteur(*a._SYMBptr->feuille._VECTptr)));
+	return new_ref_symbolic(symbolic(at_plus,gen(negvecteur(*a._SYMBptr->feuille._VECTptr),_SEQ__VECT)));
       if (a._SYMBptr->sommet==at_interval && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
 	return new_ref_symbolic(symbolic(at_interval,gen(makenewvecteur(-a._SYMBptr->feuille._VECTptr->back(),-a._SYMBptr->feuille._VECTptr->front()),_SEQ__VECT)));
       }
@@ -5011,7 +5011,11 @@ namespace giac {
 	return multgen_poly(*a._VECTptr,*b._VECTptr);
       if ( (a.subtype==_LIST__VECT) || (b.subtype==_LIST__VECT) )
 	return matrix_apply(a,b,contextptr,operator_times);
-      return ckmultmatvecteur(*a._VECTptr,*b._VECTptr);
+      { gen res=ckmultmatvecteur(*a._VECTptr,*b._VECTptr);
+	if (res.type==_VECT)
+	  res.subtype=b.subtype;
+	return res;
+      }
     case _POLY__POLY:
       return mulpoly(a,b);
     case _FRAC__FRAC:
