@@ -27,9 +27,7 @@ import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.gui.FileDropTargetListener;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.DialogManagerD;
-import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.Util;
@@ -345,7 +343,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 * @return the new window
 	 */
 	public static synchronized GeoGebraFrame createNewWindow(
-			CommandLineArguments args, Macro macro, GeoGebraFrame wnd) {
+			final CommandLineArguments args, Macro macro, GeoGebraFrame wnd) {
 		// set Application's size, position and font size
 
 		final AppD app = wnd.createApplication(args, wnd);
@@ -354,13 +352,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			app.openMacro(macro);
 		// app.getApplicationGUImanager().setMenubar(new
 		// geogebra.gui.menubar.GeoGebraMenuBar(app));
-		((GuiManagerD)app.getGuiManager()).initMenubar();
+		app.getGuiManager().initMenubar();
 
 		// init GUI
 		wnd.app = app;
 		wnd.getContentPane().add(app.buildApplicationPanel());
 		dropTargetListener = new geogebra.gui.FileDropTargetListener(app);
-		wnd.setGlassPane(((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager()
+		wnd.setGlassPane(app.getGuiManager().getLayout().getDockManager()
 				.getGlassPane());
 		wnd.setDropTarget(new DropTarget(wnd, dropTargetListener));
 		wnd.addWindowFocusListener(wnd);
@@ -371,20 +369,20 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			if (args.containsArg("showAlgebraWindow")) {
 				boolean showAlgebraWindow = args.getBooleanValue(
 						"showAlgebraWindow", true);
-				((GuiManagerD)app.getGuiManager()).setShowView(showAlgebraWindow,
+				app.getGuiManager().setShowView(showAlgebraWindow,
 						App.VIEW_ALGEBRA);
 			}
 
 			else if (args.containsArg("showSpreadsheet")) {
 				boolean showSpreadsheet = args.getBooleanValue(
 						"showSpreadsheet", true);
-				((GuiManagerD)app.getGuiManager()).setShowView(showSpreadsheet,
+				app.getGuiManager().setShowView(showSpreadsheet,
 						App.VIEW_SPREADSHEET);
 			}
 
 			else if (args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
-				((GuiManagerD)app.getGuiManager()).setShowView(showCAS,
+				app.getGuiManager().setShowView(showCAS,
 						App.VIEW_CAS);
 			}
 		}
@@ -415,12 +413,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		checkCommandLineExport(app);
 		
 		// open the sidebar popup once the GUI has initialized
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				if(app.isShowDockBar())
-				app.getDockBar().showPopup();
-			}
-		});
+		if(args.getNoOfFiles()==0){
+			java.awt.EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					if(app.isShowDockBar())
+					app.getDockBar().showPopup();
+				}
+			});
+		}
 
 		for (NewInstanceListener l:instanceListener){
 			l.newInstance(wnd);
@@ -445,7 +445,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		public void run() {
 
 			// init file chooser
-			((DialogManagerD) ((GuiManagerD)this.app.getGuiManager()).getDialogManager()).initFileChooser();
+			((DialogManagerD) this.app.getGuiManager().getDialogManager()).initFileChooser();
 						
 			// init CAS
 			// avoid hanging animation,
@@ -559,7 +559,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						GeoGebraPreferencesD.getPref().savePreference(
 								GeoGebraPreferencesD.VERSION_LAST_CHECK, nowLS);
 						if (returnVal == 1) {
-							((GuiManagerD)app.getGuiManager())
+							app.getGuiManager()
 									.showURLinBrowser(INSTALLERS_URL);
 						}
 					}
