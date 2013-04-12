@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.stylingbar;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.touch.gui.CommonResources;
@@ -16,6 +17,7 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -26,12 +28,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Thomas Krismayer
  * 
  */
-public class StylingBar extends VerticalPanel
+public class StylingBar extends DecoratorPanel
 {
 	private StylingBarButton[] tempButtons = new StylingBarButton[0];
 	private StylingBarButton[] option;
 	StylingBarButton[] button;
 	private StylingBarButton colorButton;
+	private VerticalPanel content; 
 
 	boolean[] active;
 
@@ -49,10 +52,15 @@ public class StylingBar extends VerticalPanel
 	 */
 	public StylingBar(TouchModel touchModel, EuclidianViewM view)
 	{
+				
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
 
+		this.content = new VerticalPanel(); 
+		this.add(this.content); 
+		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
+		
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
 		createStandardButtons();
@@ -91,7 +99,7 @@ public class StylingBar extends VerticalPanel
 		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)
 		{
-			this.add(this.button[i]);
+			this.content.add(this.button[i]);
 		}
 	}
 
@@ -187,9 +195,8 @@ public class StylingBar extends VerticalPanel
 				}
 				else
 				{
-					StylingBar.this.guiModel.closeOptions();
 					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
-					StylingBar.this.guiModel.showOption(colorBar, OptionType.Color);
+					StylingBar.this.guiModel.showOption(colorBar, OptionType.Color); //includes closeOptions()
 				}
 			}
 		});
@@ -217,16 +224,16 @@ public class StylingBar extends VerticalPanel
 
 		for (StylingBarButton b : this.tempButtons)
 		{
-			this.remove(b);
+			this.content.remove(b);
 		}
 
-		this.add(this.colorButton);
+		this.content.add(this.colorButton);
 
 		this.tempButtons = commands;
 
 		for (StylingBarButton b : this.tempButtons)
 		{
-			this.add(b);
+			this.content.add(b);
 		}
 	}
 

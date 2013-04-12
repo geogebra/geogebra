@@ -103,6 +103,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
-		this.titleButton.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
+		this.titleButton.setPixelSize(Window.getClientWidth() - 396, 61);
+//		this.titleButton.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
 	}
 }
