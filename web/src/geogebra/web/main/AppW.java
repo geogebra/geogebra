@@ -288,7 +288,7 @@ public class AppW extends AppWeb {
 	 */
 	void initCoreObjects(final boolean undoActive, final App this_app) {
 
-		kernel = new KernelW(this);
+		kernel = new KernelW(this_app);
 
 		// init settings
 		settings = new Settings();
