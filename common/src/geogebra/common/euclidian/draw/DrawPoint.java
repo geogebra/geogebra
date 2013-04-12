@@ -148,7 +148,7 @@ public final class DrawPoint extends Drawable {
 			diameter = 2 * pointSize;
 			HIGHLIGHT_OFFSET = pointSize / 2 + 1;
 			// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET + 1;
+			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 
 			selDiameter = hightlightDiameter;
 
@@ -161,13 +161,8 @@ public final class DrawPoint extends Drawable {
 
 		double xUL = (coords[0] - pointSize);
 		double yUL = (coords[1] - pointSize);
-
-		// Math.round to make sure that highlight circles drawn symmetrically
-		// (eg after zoom when points aren't on pixel boundaries)
-		if (!view.getApplication().isExporting() && pointSize > 2) {
-			xUL = Math.round(xUL);
-			yUL = Math.round(yUL);
-		}
+		
+		
 
 		// Florian Sonner 2008-07-17
 		int pointStyle = P.getPointStyle();
@@ -375,6 +370,8 @@ public final class DrawPoint extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.fill(circleHighlight);
+				g2.setStroke(borderStroke);
+				g2.draw(circleHighlight);
 			}
 
 			// option "show trimmed intersecting lines"
