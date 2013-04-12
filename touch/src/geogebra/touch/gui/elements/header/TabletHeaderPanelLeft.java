@@ -46,7 +46,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	 */
 	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, final GuiModel guiModel)
 	{
-		//this.app = app;
+		this.app = app;
 		this.kernel = app.getKernel();
 
 		this.tabletGUI = tabletGUI;
