@@ -18,8 +18,8 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class ImageManager extends AbstractImageManager {
 	
-	private static HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
-	private static HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
+	private HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
+	private HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
 
 	public void reset() {
 		externalImageTable = new HashMap<String, ImageElement>();
@@ -71,7 +71,7 @@ public class ImageManager extends AbstractImageManager {
 		}
     }
 
-	public static ImageElement getExternalImage(String fileName) {
+	public ImageElement getExternalImage(String fileName) {
 		return externalImageTable.get(fileName);
 	}
 

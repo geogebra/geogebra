@@ -1,7 +1,6 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -1550,16 +1549,6 @@ public class AppW extends AppWeb {
 	private String createImageSrc(String ext, String base64) {
 		String dataUrl = "data:image/" + ext + ";base64," + base64;
 		return dataUrl;
-	}
-
-	
-
-	@Override
-	public GBufferedImage getExternalImageAdapter(String fileName) {
-		ImageElement im = ImageManager.getExternalImage(fileName);
-		if (im == null)
-			return null;
-		return new geogebra.web.awt.GBufferedImageW(im);
 	}
 
 	public ImageElement getRefreshViewImage() {

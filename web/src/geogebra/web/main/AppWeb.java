@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.SetLabels;
@@ -32,6 +33,7 @@ import java.util.Map.Entry;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ImageElement;
 
 public abstract class AppWeb extends App implements SetLabels{
 	
@@ -546,5 +548,13 @@ public abstract class AppWeb extends App implements SetLabels{
 		}
 
 		public abstract void tubeSearch(String query);
+		
+		@Override
+		public final GBufferedImage getExternalImageAdapter(String fileName) {
+			ImageElement im = getImageManager().getExternalImage(fileName);
+			if (im == null)
+				return null;
+			return new geogebra.web.awt.GBufferedImageW(im);
+		}
 		
 }

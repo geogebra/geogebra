@@ -232,13 +232,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public GBufferedImage getExternalImageAdapter(String filename)
-	{
-
-		return null;
-	}
-
-	@Override
 	public void showRelation(GeoElement geoElement, GeoElement geoElement2)
 	{
 
