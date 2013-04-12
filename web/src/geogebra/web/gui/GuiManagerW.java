@@ -405,15 +405,17 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		initLayoutPanels();		
 	}
 
-	
 	/**
 	 * Register panels for the layout manager.
 	 */
 	protected void initLayoutPanels() {
-		
+
 		// register euclidian view
 		// this is done earlier
-		layout.registerPanel(app.getEuclidianViewpanel());
+		if (app.getEuclidianViewpanel() != null)
+			layout.registerPanel(app.getEuclidianViewpanel());
+		else // in applet mode, the EV dock panels are created here
+			layout.registerPanel(new EuclidianDockPanelW(false));
 
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(app));

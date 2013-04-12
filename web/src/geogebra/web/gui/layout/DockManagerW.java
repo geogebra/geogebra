@@ -76,8 +76,11 @@ public class DockManagerW implements  SetLabels {
 		
 		dockPanels = new ArrayList<DockPanelW>();
 		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
-		glassPane = app.getAppFrame().getGlassPane();
-		glassPane.attach(this);
+		
+		if (App.isFullAppGui()) {
+			glassPane = app.getAppFrame().getGlassPane();
+			glassPane.attach(this);
+		}
 		
 		//if(!app.isApplet()) {
 		//	app.setGlassPane(glassPane);
@@ -254,7 +257,7 @@ public class DockManagerW implements  SetLabels {
 			int windowWidth;
 			int windowHeight;
 
-			if (app.isApplet()) {
+			if (app.isApplet() || !App.isFullAppGui()) {
 				windowWidth = app.getDataParamWidth();
 				windowHeight = app.getDataParamHeight();
 			} else {
@@ -309,8 +312,9 @@ public class DockManagerW implements  SetLabels {
 				return;
 			}
 		}
-		
-		glassPane.startDrag(new DnDState(panel));
+
+		if (App.isFullAppGui())
+			glassPane.startDrag(new DnDState(panel));
 	}
 	
 	/**
