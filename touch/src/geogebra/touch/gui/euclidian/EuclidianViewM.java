@@ -14,6 +14,7 @@ import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.touch.controller.TouchController;
 import geogebra.web.awt.GGraphics2DW;
@@ -64,6 +65,12 @@ public class EuclidianViewM extends EuclidianViewWeb
 
 		this.hits = new Hits();
 		init(euclidianViewPanel);
+		//make sure we listen to the changes of settings, eg if file is loaded
+		if ((this.evNo == 1) || (this.evNo == 2)) {
+			EuclidianSettings es = this.app.getSettings().getEuclidian(this.evNo);
+			settingsChanged(es);
+			es.addListener(this);
+		}
 	}
 
 	/**
