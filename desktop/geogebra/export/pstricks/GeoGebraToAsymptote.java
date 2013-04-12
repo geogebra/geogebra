@@ -111,6 +111,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     private Set<String> usepackage, importpackage;
     
     private boolean fillInequality=false;
+
     /**
      * @param app
      */
@@ -361,6 +362,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawHistogramOrBarChartBox(double[] y,
 			double[] x, int length,double width,GeoNumeric g) {
 		for (int i = 0; i < length; i++) {
+			barNumber=i+1;
 			startTransparentFill(codeFilledObject);
 			codeFilledObject.append("box((");
 			codeFilledObject.append(format(x[i]));
@@ -2579,10 +2581,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // Line style code; does not include comma.
     private String LineOptionCode(GeoElement geo,boolean transparency){
         StringBuilder sb = new StringBuilder(); 
-        geogebra.common.awt.GColor linecolor = geo.getObjectColor();
         int linethickness = geo.getLineThickness();
         int linestyle = geo.getLineType();
-
+        
+        Info info = new Info (geo);
+        
         boolean noPlus = true;
         if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS){
             // first parameter
@@ -2597,13 +2600,13 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             else noPlus = false;
             LinestyleCode(linestyle,sb);
         }
-        if (!linecolor.equals(GColor.BLACK)){
+        if (!info.getLinecolor().equals(GColor.BLACK)){
             if (!noPlus) 
                 packSpace(sb,"+");
             else noPlus = false;
-            ColorCode(linecolor,sb);
+            ColorCode(info.getLinecolor(),sb);
         }
-        if (transparency && geo.isFillable() && geo.getAlphaValue() > 0.0f){
+        if (transparency && geo.isFillable() && info.getAlpha()> 0.0f){
             /* TODO: write opacity code?
             if (!noPlus) 
                 packSpace("+",sb);
@@ -3086,26 +3089,28 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * @param sb StringBuilder to which code added.
      */
     protected void endTransparentFill(GeoElement geo, StringBuilder sb){
-        // transparent fill options
+        
+    	Info info = new Info(geo);
+    	// transparent fill options
         if(fillType == ExportFrame.FILL_OPAQUE) {
             packSpaceAfter(sb, ",");
-            if(geo.getAlphaValue() >= 0.9) 
-                ColorCode(geo.getObjectColor(),sb);
+            if(info.getAlpha() >= 0.9) 
+                ColorCode(info.getLinecolor(),sb);
             else
                 sb.append("invisible");
         }
         // use opacity(alpha value) pen
         else if(fillType == ExportFrame.FILL_OPACITY_PEN) {
             packSpaceAfter(sb, ",");
-            ColorCode(geo.getObjectColor(),sb);
+            ColorCode(info.getLinecolor(),sb);
             packSpace(sb,"+");
             sb.append("opacity(");
-            sb.append(geo.getAlphaValue());
+            sb.append(info.getAlpha());
             sb.append(")");
         }
         else if(fillType == ExportFrame.FILL_LAYER) {
             packSpaceAfter(sb, ",");
-            ColorLightCode(geo.getObjectColor(),geo.getAlphaValue(),sb);        
+            ColorLightCode(info.getLinecolor(),info.getAlpha(),sb);        
         }
         if(LineOptionCode(geo,true) != null) {
             packSpaceAfter(sb, ",");

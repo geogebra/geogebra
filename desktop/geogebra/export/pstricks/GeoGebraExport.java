@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.awt.GColorD;
 import geogebra.awt.GGraphics2DD;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
@@ -8,6 +9,7 @@ import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawLine;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -32,6 +34,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -81,7 +84,8 @@ public abstract class GeoGebraExport {
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;
 	protected boolean isBeamer = false;
-
+	protected int barNumber;
+	
 	public GeoGebraExport(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -1413,5 +1417,66 @@ public abstract class GeoGebraExport {
 				throws IOException {
 			super(title, outputStream, minX, minY, maxX, maxY, colorMode);
 		}
+	}
+	
+	protected class Info {
+		
+		private float alpha;
+		private int y;
+		private double angle;
+		private FillType fillType;
+		private GColorD linecolor;
+
+	    Info(GeoElement geo){	
+	    	
+	    	alpha=geo.getAlphaValue();
+    		y=geo.getHatchingDistance();
+    		angle=geo.getHatchingAngle();
+    		fillType = geo.getFillType();
+    		linecolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+    		
+    		String []rgb=null;
+    		
+    		if (geo.getParentAlgorithm() instanceof AlgoBarChart){
+	    		if (geo.getTag("barColor" + barNumber )!=null){
+	    			rgb=geo.getTag("barColor" + barNumber ).split("_");
+	    			linecolor= (GColorD) AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
+							, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3]));
+	    		}
+	    		if (geo.getTag("barHatchDistance" + barNumber )!=null){
+	    			y=Integer.parseInt((geo.getTag("barHatchDistance" + barNumber)));
+	    		}
+	    		if (geo.getTag("barHatchAngle" + barNumber )!=null){
+	    			angle=Integer.parseInt((geo.getTag("barHatchAngle" + barNumber )));
+	    		}
+	    		if (geo.getTag("barFillType" + barNumber )!=null){
+	    			fillType=FillType.values()[Integer.parseInt((geo.getTag("barFillType" + barNumber )))];
+	    		}
+	    		if (geo.getTag("barAlpha" + barNumber )!=null && rgb!=null){	    			
+					alpha=Float.parseFloat(rgb[3]);
+	    		}
+	    	} 
+		}
+				
+		public float getAlpha() {
+			return alpha;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public double getAngle() {
+			return angle;
+		}
+
+		public FillType getFillType() {
+			return fillType;
+		}
+		
+		public GColorD getLinecolor() {
+			return linecolor;
+		}
+		
 	}
 }

@@ -75,8 +75,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	private int functionIdentifier = 0;
 	private boolean forceGnuplot = false;
 	private boolean gnuplotWarning = false;
-	private boolean hatchWarning = false;
-	
+	private boolean hatchWarning = false;	
 	
 	public GeoGebraToPgf(AppD app) {
 		super(app);
@@ -2572,10 +2571,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	private String LineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
-		GColor linecolor = geo.getObjectColor();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
-
+		
+		Info info = new Info(geo);
+		
 		boolean coma = false;
 		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
 			// coma needed
@@ -2592,31 +2592,29 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				coma = true;
 			LinestyleCode(linestyle, sb);
 		}
-		if (!linecolor.equals(GColor.BLACK)) {
+		if (!info.getLinecolor().equals(GColor.BLACK)) {
 			if (coma)
 				sb.append(",");
 			else
 				coma = true;
 			if (transparency && geo.isFillable()
-					&& geo.getFillType() == FillType.IMAGE)
+					&& info.getFillType() == FillType.IMAGE)
 				sb.append("pattern ");
 			sb.append("color=");
-			ColorCode(linecolor, sb);
+			ColorCode(info.getLinecolor(), sb);
 		}
 		if (transparency && geo.isFillable()) {
-
-			FillType fillType = geo.getFillType();
-			switch (fillType) {
+			switch (info.getFillType()) {
 			case STANDARD:
-				if (geo.getAlphaValue() > 0.0f) {
+				if (info.getAlpha() > 0.0f) {
 					if (coma)
 						sb.append(",");
 					else
 						coma = true;
 					sb.append("fill=");
-					ColorCode(linecolor, sb);
+					ColorCode(info.getLinecolor(), sb);
 					sb.append(",fill opacity=");
-					sb.append(geo.getAlphaValue());
+					sb.append(info.getAlpha());
 				}
 				break;
 			case SYMBOLS:
@@ -2632,7 +2630,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				else
 					coma = true;
 				sb.append("fill=");
-				ColorCode(linecolor, sb);
+				ColorCode(info.getLinecolor(), sb);
 				sb.append(",pattern=");
 				if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 					if (codePreamble.indexOf("usetikzlibrary{patterns}") == -1)
@@ -2641,8 +2639,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					if (codePreamble.indexOf("usetikzlibrary[patterns]") == -1)
 						codePreamble.append("\\usetikzlibrary[patterns]\n");
 				}
-				double angle = geo.getHatchingAngle();
-				if (fillType == fillType.DOTTED) {
+				double angle = info.getAngle();
+				if (info.getFillType() == FillType.DOTTED) {
 					sb.append("dots");
 				} else {
 					if (angle < 20)
@@ -2657,7 +2655,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 						sb.append("horizontal lines");
 				}
 				sb.append(",pattern color=");
-				ColorCode(linecolor, sb);
+				ColorCode(info.getLinecolor(), sb);
 				break;
 			}
 		}
@@ -2950,6 +2948,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double[] x, int length, double width, GeoNumeric g) {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < length; i++) {
+			barNumber=i+1;
 			codeFilledObject.append("\\draw");
 			String s = LineOptionCode(g, true);
 			if (s.length() != 0)
@@ -2966,5 +2965,4 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(codeFilledObject);
 		
 	}
-
 }

@@ -1909,10 +1909,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	private String LineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
-		GColorD linecolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+		
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
-
+		
+		Info info = new Info(geo);
+		
 		boolean coma = false;
 		boolean bracket = false;
 		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
@@ -1934,7 +1936,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			bracket = true;
 			LinestyleCode(linestyle, sb);
 		}
-		if (!linecolor.equals(GColor.BLACK)) {
+		if (!info.getLinecolor().equals(GColor.BLACK)) {
 			if (coma)
 				sb.append(",");
 			else
@@ -1943,15 +1945,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				sb.append("[");
 			bracket = true;
 			sb.append("linecolor=");
-			ColorCode(linecolor, sb);
+			ColorCode(info.getLinecolor(), sb);
 		}
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
 			String style = ",fillstyle=hlines,hatchangle=";
-			FillType id = geo.getFillType();
-			switch (id) {
+			switch (info.getFillType()) {
 			case STANDARD:
-				if (geo.getAlphaValue() > 0.0f) {
+				if (info.getAlpha() > 0.0f) {
 					if (coma)
 						sb.append(",");
 					else
@@ -1960,9 +1961,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 						sb.append("[");
 					bracket = true;
 					sb.append("fillcolor=");
-					ColorCode(linecolor, sb);
+					ColorCode(info.getLinecolor(), sb);
 					sb.append(",fillstyle=solid,opacity=");
-					sb.append(geo.getAlphaValue());
+					sb.append(info.getAlpha());
 				}
 				break;
 			case SYMBOLS:
@@ -1981,14 +1982,13 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					sb.append("[");
 				bracket = true;
 				sb.append("hatchcolor=");
-				ColorCode(linecolor, sb);
+				ColorCode(info.getLinecolor(), sb);
 				sb.append(style);
-				sb.append(geo.getHatchingAngle());
+				sb.append(info.getAngle());
 				sb.append(",hatchsep=");
 				// double x0=euclidianView.toRealWorldCoordX(0);
 				double y0 = euclidianView.toRealWorldCoordY(0);
-				double y = euclidianView.toRealWorldCoordY(geo
-						.getHatchingDistance());
+				double y = euclidianView.toRealWorldCoordY(info.getY());
 				sb.append(format(Math.abs((y - y0))));
 				break;
 			}
@@ -2355,6 +2355,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			double[] x, int length, double width, GeoNumeric g) {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < length; i++) {
+			barNumber=i+1;
 			codeFilledObject.append("\\psframe");
 			codeFilledObject.append(LineOptionCode(g, true));
 			codeFilledObject.append("(");
