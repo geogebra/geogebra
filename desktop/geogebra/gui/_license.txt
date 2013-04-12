@@ -94,7 +94,8 @@ TRANSLATORS
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
       Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre-Andersen (Estonia)
-  * Filipino: Guillermo Bautista, Jr., Jose Abelardo Torio, Erlina Ronda (The Philippines)
+  * Filipino: Guillermo Bautista, Jr., Jose Abelardo Torio,
+      Erlina Ronda (The Philippines)
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
       Teemu Hinkula, Tero Pirinen, Vadim Gurkalov, Aleksi Matsi,
       Jani Hannula (Finland)
@@ -132,7 +133,8 @@ TRANSLATORS
   * Mongolian: O Otgonnaran, Batnasan Davaa (Mongolia)
   * Nepali: Bhesh Raj Mainali, Keshab Prasad (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
-  * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi, Amir MirSaeed (Iran)
+  * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi,
+      Amir MirSaeed (Iran)
   * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
       Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil,
       Przemyslaw Kajetanowicz (Poland)
@@ -141,15 +143,18 @@ TRANSLATORS
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
     Alana Souza de Oliveira (Brazil)
   * Portuguese (Portugal): Jorge Geraldes, Antonio Ribeiro (Portugal)
-  * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe, Moni Ungvari (Romania)
-  * Russian: Anatoly Scherbakov, Beatrice Versichel, Bugaevsky Vladimir (Russia)
-  * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia), Jelena Arnaut, Mirko Capara,
-      Vesna Miletic (Bosnia and Herzegovina)
+  * Romanian: Alexandra Fortis, Casian Colcher, Valerian Antohe,
+      Moni Ungvari (Romania)
+  * Russian: Anatoly Scherbakov, Beatrice Versichel,
+      Bugaevsky Vladimir (Russia)
+  * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia), Jelena Arnaut,
+      Mirko Capara, Vesna Miletic (Bosnia and Herzegovina)
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
   * Spanish: Liliana Saidon (Argentina)
   * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
-  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah, Vasuraj Dhamodharan
+  * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah,
+      Vasuraj Dhamodharan
   * Tajik: Yusuf Balkas (Tajikistan)
   * Thai: Alongkot Maiduang, Donny Passary (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
@@ -160,144 +165,123 @@ TRANSLATORS
       Gwyn Jones, Sera Roberts (Wales)
   * Yiddish: Eliezer Niborski (France, Israel)
 
-SUPPORTING PARTNERS
-  * Google, Inc.
-    2012: Support of 7 student programmers as part of GSoC 2012
-    2011-2012: Support for developing the web platform
-    2011: Support of 7 student programmers as part of GSoC 2011
-    2010: Support of 5 student programmers as part of GSoC 2010
-  * City Council Linz
-    2011-2012: Support for Austrian developer group in Linz, Austria
-  * Upper Austrian Government
-    2010-2012: Support for Austrian developer group in Linz, Austria
-  * Google Summer of Code 2011
-  * FSF.hu Foundation, Hungary
-    2012: Support for Hungarian translator group, Hungary
-    2010: Support for Hungarian developer group in Szeged, Hungary
-  * Google Summer of Code 2010
-  * Austrian Ministry of Education
-    2009-2010: GeoGebraCAS - symbolic algebra for Austrian Schools
-  * University of Luxembourg et al.,
-      co-funded by the EU programme eContentplus
-    2007-2010: Interoperable Interactive Geometry for Europe (Intergeo)
-  * University of Luxembourg
-    2007-2009: GeoGebra for Primary School
-  * Department of Mathematical Sciences, Florida Atlantic University
-      Prof. Heinz-Otto Peitgen and
-      Prof. Richard Voss, NSF MSP project SMGEM
-    2007-2009: support of software development
-      with students Cong Liu, Amy Varkey, and Quan Yuan
-    2006-2009: support of workshops and presentations
-      throughout the USA
-  * Faculty LSHASE, University of Luxembourg
-    2010-: hosting the GeoGebra website
-    2005-2009: providing the multi-platform software
-      deployment solution
-  * Austrian Ministry of Education
-    2006-2007: GeoGebra for Austrian Schools
-  * Austrian Academy of Sciences
-    2004-2006: DOC scholarship for Markus Hohenwarter
-  * Department of Mathematics, University of Salzburg
-    2002-2009: hosting the GeoGebra website
 
 
 
                                 LICENSE
 
-1) GeoGebra Source Code License:
-   GNU General Public License v3 or later
+             GeoGebra Non-Commercial License Agreement
 
-2) GeoGebra Language Files and Documentation License:
-   Creative Commons Attribution-Share Alike 3.0 or later
+The International GeoGebra Institute is a non-profit organization
+registered in Austria and having its office in Linz, Austria ("we",
+"our" or "us"). We develop and support the GeoGebra dynamic mathematics
+software application, including its source code, installers, web
+applications and services, language files and associated documentation
+("GeoGebra" or "the Software"). We operate GeoGebra (and publish its
+related resources) through our websites located at
+http://www.geogebra.org/ and http://www.geogebratube.org.
 
-3) GeoGebra Installers and Web Services including GeoGebraTube:
-   Free for Non-Commercial Use
+The terms of this License form a binding agreement between you, an
+individual user or non-commercial organization ("you" or "your"), and us
+regarding your non-commercial use of GeoGebra. By downloading, accessing
+or otherwise using GeoGebra you indicate your agreement to be bound by
+these License terms.
 
-Note for Non-commercial Users (e.g. students, teachers, schools)
-  You may use GeoGebra and GeoGebraTube free of charge
-  at home and in school under the conditions explained below.
+PLEASE NOTE THAT THIS LICENSE IS INTENDED FOR NON-COMMERCIAL USE OF
+GEOGEBRA ONLY. IF YOU INTEND TO USE GEOGEBRA FOR A COMMERCIAL PURPOSE,
+PLEASE CONTACT office@geogebra.org TO ARRANGE A COLLABORATION AGREEMENT
+WITH US BASED ON OUR COMMERCIAL LICENSE TERMS.
 
-Note for Organizations and for Commercial Users
-  (e.g. publishers, online schools, non-profit organizations)
-  If you would like to use GeoGebra applets, installers, web services
-  (including GeoGebraTube) or documentation for commercial purposes
-  (e.g. books, online courses), you can do so by setting up a 
-  collaboration agreement with our non-profit organization.
-  Please write to office@geogebra.org for details and we will help
-  you to find a good solution for your specific project.
+If you would like to help with developing GeoGebra please find all
+details on how to get involved (including GeoGebra's source code) via
+this link: http://dev.geogebra.org.
 
-------------------------------------------------------------------------
+                   Non-commercial License Terms
 
-1) GeoGebra Source Code License
+This License incorporates (by reference) additional license terms
+published by the Free Software Foundation and the Creative Commons
+Corporation. In the event of any conflict between those additional terms
+and the terms of this License, the latter shall prevail.
 
-   GeoGebra's source code is subject to the GNU General Public License
-   (see http://www.gnu.org/licenses/):
+The GeoGebra installers and web services (including the various
+materials and resources available at http://www.geogebratube.org) are
+licensed to you (on a limited, non-exclusive, personal, non-transferable
+and royalty-free license) under which you are free to use, copy,
+distribute, modify and transmit the GeoGebra installers and web services
+PROVIDED THAT you only do so for non-commercial purposes (without
+charging a fee to any third party) and PROVIDED THAT you attribute the
+work to us by (at least) mentioning our name, including an appropriate
+copyright notice and providing a link to our website located at
+http://www.geogebra.org.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
+The GeoGebra source code is licensed to you under the terms of the GNU
+General Public License (version 3 or later) as published by the Free
+Software Foundation, the current text of which can be found via this
+link: http://www.gnu.org/licenses/gpl.html ("GPL"). Attribution (as
+required by the GPL) should take the form of (at least) a mention of our
+name, an appropriate copyright notice and a link to our website located
+at http://www.geogebra.org.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-   GNU General Public License for more details.
+The GeoGebra language files (including all user interface "translation"
+files in the GeoGebra application and applets) and all GeoGebra
+documentation (including "GeoGebra Help", "GeoGebra Quickstart" and all
+other documentation files found on the GeoGebra webservers) are licensed
+to you under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike licence (version 3.0 or later), the
+current text of which can be found via this link:
+http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode. Attribution
+(as required by that Creative Commons license) should take the form of
+(at least) a mention of our name, an appropriate copyright notice and a
+link to our website located at http://www.geogebra.org.
 
-   If you would like to help with programming, please find all details
-   on how to get involved including GeoGebra's source code on
-   http://dev.geogebra.org
+The Software (and all related materials and resources) are licensed to
+you WITHOUT ANY WARRANTY and on an AS IS basis including without
+limitation the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. We accept no liability for your use of the Software
+(save to the extent such liability cannot be excluded as a matter of
+law).
 
-------------------------------------------------------------------------
+The Software (and all related materials and resources) are licensed to
+you without any offer or promise of support or future development by the
+International GeoGebra Institute or any third party. Please note that
+support services are available under the terms of our Collaboration
+Agreement – please contact office@geogebra.org for more information.
 
-2) GeoGebra Language Files and Documentation License
+You may install GeoGebra on multiple devices in multiple locations
+PROVIDED THAT you always use the Software for non-commercial purposes
+and otherwise in accordance with these License terms.
 
-   All GeoGebra language files and documentation files
-   are subject to the following Creative Commons Attribution -
-   Share Alike License; either version 3.0 of the License,
-   or (at your option) any later version 
-   (see http://creativecommons.org/licenses/by-sa/3.0/):
+The copyright and other intellectual property rights (including any
+trade marks) of whatever nature (arising anywhere in the world) in the
+GeoGebra software (and all related resources) are and will remain our
+property (or in the case of third party materials (including software
+libraries) which we have the right of use, the property of the third
+party licensor), and we reserve the right to grant licenses to use the
+GeoGebra software (and all related resources) to third parties.
 
-   You are free to copy, distribute, transmit, and adapt GeoGebra
-   language files and documentation under the following conditions:
-     * Attribution. You must attribute the work
-       (i.e. by linking to http://www.geogebra.org/)
-     * Share Alike. If you alter, transform, or build upon this work,
-       you may distribute the resulting work only under the same,
-       similar or a compatible license.
+An "appropriate copyright notice" for the purposes of this License shall
+take the following form:
+Copyright (C) International GeoGebra Institute, 2013
 
-   GeoGebra file types that are subject to the abovementioned license:
-     * GeoGebra language files are ...
-         the user interface language files ("translations") for
-         all languages used by the GeoGebra application and applets.
-         They are part of every official GeoGebra binary distribution.
-     * GeoGebra documentation files are ...
-         all "GeoGebra Help", "GeoGebra Quickstart" and other
-         documentation files found on the GeoGebra webservers.
+This License is personal to you and you must not assign it to a third
+party or permit any third party to benefit from it without our prior
+written consent.
 
-------------------------------------------------------------------------
+You will notify us immediately if you become aware of any unauthorised
+use of the whole or any part of the GeoGebra software (and all related
+resources).
 
-3) GeoGebra Installers and GeoGebra Web Services including GeoGebraTube
+If any of the provisions of this License (including the additional terms
+incorporated by reference) are held to be invalid or unenforceable under
+any applicable statute or rule of law, it is to that extent to be deemed
+omitted from the License. Such an omission will not affect the validity
+of the remaining provisions of the License, which will remain in full
+force and effect.
 
-   You are free to copy, distribute, and transmit GeoGebra installers
-   and GeoGebra Web Services including GeoGebraTube under the following
-   conditions:
-     * Attribution. You must attribute the work
-       (i.e. by linking to our website and mentioning GeoGebra)
-     * Non-commercial. You may not use GeoGebra installers or
-       web services for commercial purposes unless you have
-       explicit permission from office@geogebra.org
+This License shall be governed by and interpreted in accordance with
+Austrian law.
 
-   GeoGebra Installers are ...
-     official installation packages that let you install the GeoGebra
-     software, materials and/or documentation files on your operating
-     system (e.g. Windows, Mac OS, Chrome, Android, iOS, etc.)
-     including GeoGebra WebStart.
-
-   GeoGebra Web Services including GeoGebraTube are ...
-     all GeoGebra pages, materials, embed codes, web APIs and other
-     web services provided via the websites http://www.geogebra.org,
-     http://www.geogebratube.org, http://geogebraweb.appspot.com
-     and any of their subdomains.
+These License terms were last updated in April 2013.
 
 ------------------------------------------------------------------------
 Libraries used by GeoGebra:
