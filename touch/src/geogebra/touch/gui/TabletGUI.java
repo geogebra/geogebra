@@ -1,5 +1,18 @@
 package geogebra.touch.gui;
 
+import geogebra.common.awt.GColor;
+import geogebra.common.kernel.Kernel;
+import geogebra.touch.TouchApp;
+import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.algebra.AlgebraViewPanel;
+import geogebra.touch.gui.elements.stylingbar.StylingBar;
+import geogebra.touch.gui.elements.toolbar.ToolBar;
+import geogebra.touch.gui.euclidian.EuclidianViewPanel;
+import geogebra.touch.gui.laf.DefaultLAF;
+import geogebra.touch.gui.laf.LookAndFeel;
+import geogebra.touch.gui.laf.WindowsStoreLAF;
+import geogebra.touch.model.TouchModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,24 +21,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import geogebra.common.awt.GColor;
-import geogebra.common.kernel.Kernel;
-import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.algebra.AlgebraViewPanel;
-import geogebra.touch.gui.elements.header.TabletHeaderPanel;
-import geogebra.touch.gui.elements.stylingbar.StylingBar;
-import geogebra.touch.gui.elements.toolbar.ToolBar;
-import geogebra.touch.gui.euclidian.EuclidianViewPanel;
-import geogebra.touch.gui.laf.DefaultLAF;
-import geogebra.touch.gui.laf.LookAndFeel;
-import geogebra.touch.gui.laf.WindowsStoreLAF;
-import geogebra.touch.model.TouchModel;
-import geogebra.touch.TouchApp;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
  * Coordinates the GUI of the tablet.
@@ -33,7 +31,7 @@ import geogebra.touch.TouchApp;
  */
 public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 {
-	AbsolutePanel contentPanel;
+	SplitLayoutPanel contentPanel;
 	private ToolBar toolBar;
 
 	EuclidianViewPanel euclidianViewPanel;
@@ -43,13 +41,15 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 
 	public static final int FOOTER_BORDER_WIDTH = 1;
-	
-	public void addResizeListener(ResizeListener rl){
+
+	public void addResizeListener(ResizeListener rl)
+	{
 		this.resizeListeners.add(rl);
 	}
-	
-	public static GColor getBackgroundColor() {
-		return GColor.LIGHT_GRAY; 
+
+	public static GColor getBackgroundColor()
+	{
+		return GColor.LIGHT_GRAY;
 	}
 
 	/**
@@ -60,12 +60,14 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	{
 		// required to start the kernel
 		this.euclidianViewPanel = new EuclidianViewPanel();
-		if("win".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
+		if ("win".equals(RootPanel.getBodyElement().getAttribute("data-param-laf")))
+		{
 			this.laf = new WindowsStoreLAF();
-		}else{
+		}
+		else
+		{
 			this.laf = new DefaultLAF();
 		}
-			
 
 	}
 
@@ -84,9 +86,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		TouchModel touchModel = new TouchModel(kernel);
 
 		// Initialize GUI Elements
-		this.laf.buildHeader(this,(TouchApp)kernel.getApplication(),touchModel.getGuiModel());
+		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), touchModel.getGuiModel());
 
-		this.contentPanel = new AbsolutePanel();
+		this.contentPanel = new SplitLayoutPanel();
 
 		TouchController ec = new TouchController(touchModel, kernel.getApplication());
 		ec.setKernel(kernel);
@@ -100,13 +102,15 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
 
-		this.contentPanel.add(this.euclidianViewPanel);
-		this.contentPanel.add(this.algebraViewPanel);
-		this.contentPanel.add(this.stylingBar);
+		this.contentPanel.addWest(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
+		this.contentPanel.addEast(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
 
-		this.contentPanel.setWidgetPosition(this.euclidianViewPanel, 0, 0);
-		this.contentPanel.setWidgetPosition(this.algebraViewPanel, 0, 10);
-		this.contentPanel.setWidgetPosition(this.stylingBar, Window.getClientWidth() - 60, 10);
+		this.euclidianViewPanel.add(this.stylingBar);
+		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, Window.getClientWidth() - 60, 10);
+
+		this.contentPanel.setWidgetMinSize(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
+		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
+
 		this.setContentWidget(this.contentPanel);
 
 		this.toolBar = new ToolBar(touchModel);
@@ -127,14 +131,15 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	protected void onResize(ResizeEvent event)
 	{
-		for(ResizeListener res:this.resizeListeners){
+		for (ResizeListener res : this.resizeListeners)
+		{
 			res.onResize(event);
 		}
 
 		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
-		this.euclidianViewPanel.setPixelSize(event.getWidth(), event.getHeight() - laf.getPanelsHeight());
+		this.euclidianViewPanel.setPixelSize(event.getWidth(), event.getHeight() - this.laf.getPanelsHeight());
 
-		this.contentPanel.setWidgetPosition(TabletGUI.this.stylingBar, Window.getClientWidth() - 60, 10);
+		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, Window.getClientWidth() - 60, 10);
 
 		this.toolBar.setWidth(event.getWidth() + "px");
 	}
