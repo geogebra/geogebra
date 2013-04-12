@@ -1048,9 +1048,15 @@ namespace giac {
       singu[i]=ratnormal(singu[i]);
     for (unsigned i=0;i<veq_not_singu.size();++i)
       veq_not_singu[i]=ratnormal(veq_not_singu[i]);
+    // Check if trig equations have introduced infinitely many solutions depending on add. param.
+    vecteur eid=lidnt(e),eids=eid;
+    lidnt(evalf(veq_not_singu,1,contextptr),eids);
     gen singuf=evalf(singu,1,contextptr), veq_not_singuf=evalf(veq_not_singu,1,contextptr);
-    if (singuf.type!=_VECT || veq_not_singuf.type!=_VECT || !is_numericv(*singuf._VECTptr) || !is_numericv(*veq_not_singuf._VECTptr))
-      return vecteur(1,gensizeerr(gettext("Unable to find numeric values solving equation. For trigonometric equations this may be solved using assumptions, e.g. assume(x>-pi && x<pi)")));
+    if (singuf.type!=_VECT || veq_not_singuf.type!=_VECT || !is_numericv(*singuf._VECTptr) || !is_numericv(*veq_not_singuf._VECTptr)){
+      if (eids.size()>eid.size())
+	return vecteur(1,gensizeerr(gettext("Unable to find numeric values solving equation. For trigonometric equations this may be solved using assumptions, e.g. assume(x>-pi && x<pi)")));
+      *logptr(contextptr) << gettext("Warning! Solving parametric inequation requires assumption on parameters otherwise solutions may be missed. The solutions of the equation are ") << veq_not_singu << endl;
+    }
     veq=mergevecteur(veq_not_singu,singu);
     vecteur range,excluded_not_singu(find_excluded(x,contextptr));
     vecteur excluded=mergevecteur(excluded_not_singu,singu);

@@ -3586,6 +3586,7 @@ namespace giac {
     gen g(args);
     if (!is_integral(g))
       return gensizeerr(contextptr);
+    /*
     if (calc_mode(contextptr)==1){ // ggb returns factors repeted instead of multiplicites
       vecteur res;
       gen in=ifactors(g,0,contextptr);
@@ -3600,6 +3601,7 @@ namespace giac {
 	return res;
       }
     }
+    */
     return ifactors(g,0,contextptr);
   }
   static const char _ifactors_s []="ifactors";
