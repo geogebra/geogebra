@@ -94,7 +94,7 @@ public class Ggb2giac {
 		
 		// factor over rationals
 		p("Factor.1",
-				"[with\\_sqrt(0),[ggbans:=factor(%0)],with\\_sqrt(1),ggbans][3]");
+				"[with\\_sqrt(0),[if type(%0)==DOM\\_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0); fi],with\\_sqrt(1),ggbans][3]");
 		p("Factor.2",
 				"[with\\_sqrt(0),[ggbans:=factor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 
@@ -105,7 +105,7 @@ public class Ggb2giac {
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[ggbans:=factors(%0)],matrix(dim(ggbans)/2,2,ggbans)][1]");
+				"[[if type(%0)==DOM\\_INT then ggbans:=ifactors(%0); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
 				"fisher\\_cdf(%0,%1,%2)");
 		p("Flatten.1", "flatten(%0)");
