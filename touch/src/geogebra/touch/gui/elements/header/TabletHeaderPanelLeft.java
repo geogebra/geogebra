@@ -90,10 +90,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				if (!result.isEmpty())
 				{
 					TabletHeaderPanelLeft.this.guiModel.closeOptions();
-					TabletHeaderPanelLeft.this.kernel.clearConstruction(true);
-					TabletHeaderPanelLeft.this.kernel.initUndoInfo();
-					TabletHeaderPanelLeft.this.kernel.notifyRepaint();
-
+					TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
 					TabletHeaderPanelLeft.this.app.setConstructionTitle(result);
 				}
 			}

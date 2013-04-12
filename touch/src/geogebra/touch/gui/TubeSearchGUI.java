@@ -53,29 +53,11 @@ public class TubeSearchGUI extends VerticalPanel
 			@Override
 			public void onSearch(String query)
 			{
-				GeoGebraTubeAPI.getInstance().search(query, new RequestCallback()
-				{
-					@Override
-					public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
-					{
-						List<Material> materialList = JSONparserGGT.parseResponse(response.getText());
-
-						if (materialList != null)
-						{
-							TubeSearchGUI.this.resultsArea.setMaterials(materialList);
-						}
-					}
-
-					@Override
-					public void onError(com.google.gwt.http.client.Request request, Throwable exception)
-					{
-						// TODO Handle error!
-						exception.printStackTrace();
-					}
-				});
+				displaySearchResults(query);
 			}
 		});
 
+		
 		this.featuredMaterials = new HorizontalMaterialPanel();
 		this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 		this.featuredMaterials.setMaterials(new ArrayList<Material>());
@@ -109,6 +91,29 @@ public class TubeSearchGUI extends VerticalPanel
 			public void onResize(ResizeEvent event)
 			{
 				TubeSearchGUI.this.onResize(event);
+			}
+		});
+	}
+	
+	public void displaySearchResults(String query){
+		GeoGebraTubeAPI.getInstance().search(query, new RequestCallback()
+		{
+			@Override
+			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
+			{
+				List<Material> materialList = JSONparserGGT.parseResponse(response.getText());
+
+				if (materialList != null)
+				{
+					TubeSearchGUI.this.resultsArea.setMaterials(materialList);
+				}
+			}
+
+			@Override
+			public void onError(com.google.gwt.http.client.Request request, Throwable exception)
+			{
+				// TODO Handle error!
+				exception.printStackTrace();
 			}
 		});
 	}

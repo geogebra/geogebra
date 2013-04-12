@@ -1096,6 +1096,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
      */
     public void newConstruction(){
     	app.clearConstruction();
+    	kernel.notifyRepaint();
     }
 
 

@@ -443,13 +443,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public boolean clearConstruction()
-	{
-		return false;
-
-	}
-
-	@Override
 	public void fileNew()
 	{
 
@@ -633,5 +626,12 @@ public class TouchApp extends AppWeb
 		this.kernel.initUndoInfo();
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
+	}
+
+	@Override
+	public void tubeSearch(String query) {
+		TouchEntryPoint.showTubeSearchUI();
+		TouchEntryPoint.tubeSearchGUI.displaySearchResults(query);
+		
 	}
 }

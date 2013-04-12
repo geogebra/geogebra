@@ -1143,22 +1143,7 @@ public class AppW extends AppWeb {
 
 	}
 
-	@Override
-	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
-		kernel.clearConstruction(true);
-
-		kernel.initUndoInfo();
-		setCurrentFile(null);
-		setMoveMode();
-
-		((DrawEquationWeb) getDrawEquation())
-		        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
-		return true;
-
-		// }
-		// return false;
-	}
+	
 
 	// ================================================
 	// ERROR HANDLING
@@ -1963,6 +1948,12 @@ public class AppW extends AppWeb {
 			// Well, it may cause freeze if we attach this too early
 			attachViews();
 		}	    
+    }
+
+	@Override
+    public void tubeSearch(String phrase) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }

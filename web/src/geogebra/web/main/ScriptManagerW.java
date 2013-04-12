@@ -394,6 +394,14 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.web.main.GgbAPI::newConstruction()();
 		};
 		
+		$wnd[ggbApplet].debug = function(str){ 
+				ggbAPI.@geogebra.web.main.GgbAPI::debug(Ljava/lang/String;)(str);
+		};
+		
+		$wnd[ggbApplet].tubeSearch = function(str){ 
+				ggbAPI.@geogebra.web.main.GgbAPI::tubeSearch(Ljava/lang/String;)(str);
+		};
+		
 		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)
@@ -404,9 +412,7 @@ public class ScriptManagerW extends ScriptManager {
 		// boolean isIndependent(String objName)
 		// boolean isMoveable(String objName)
 		// String getBase64()
-		// void setBase64(String)
 		// void openFile(String strURL)
-		// String evalMathPiper(String string) // evalGeoGebraCAS(String string)
 		// String getIPAddress()
 		// String getHostname()
 		// void debug(String string)

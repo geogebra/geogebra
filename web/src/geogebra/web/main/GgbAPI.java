@@ -109,6 +109,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	    // TODO Auto-generated method stub
 	    
     }
+    
+    public void tubeSearch(String phrase){
+    	((AppWeb)app).tubeSearch(phrase);
+    }
 
 
     public void clearImage(String label) {
