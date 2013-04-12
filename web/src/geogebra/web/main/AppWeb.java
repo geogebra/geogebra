@@ -13,7 +13,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.NormalizerMinimal;
-import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -539,7 +538,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			setMoveMode();
 
 			((DrawEquationWeb) getDrawEquation())
-			        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+			        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
 			return true;
 
 			// }
