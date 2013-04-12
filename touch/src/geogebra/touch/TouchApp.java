@@ -443,12 +443,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	protected Object getMainComponent()
-	{
-		return null;
-	}
-
-	@Override
 	public GuiManager getGuiManager()
 	{
 		return null;
@@ -484,12 +478,6 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel()
-	{
-		return null;
-	}
-
-	@Override
-	public CASFactory getCASFactory()
 	{
 		return null;
 	}

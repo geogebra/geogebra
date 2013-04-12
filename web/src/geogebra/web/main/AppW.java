@@ -5,7 +5,6 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -444,17 +443,6 @@ public class AppW extends AppWeb {
 			dialogManager = new DialogManagerW(this);
 		}
 		return dialogManager;
-	}
-
-	@Override
-	protected Object getMainComponent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CASFactory getCASFactory() {
-		return CASFactory.getPrototype();
 	}
 
 	@Override

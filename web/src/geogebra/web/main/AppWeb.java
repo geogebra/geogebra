@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.euclidian.DrawEquation;
+import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLio;
@@ -584,4 +585,8 @@ public abstract class AppWeb extends App implements SetLabels{
 			geo1.runClickScripts(string);
 		}
 		
+		@Override
+		public final CASFactory getCASFactory() {
+			return CASFactory.getPrototype();
+		}
 }

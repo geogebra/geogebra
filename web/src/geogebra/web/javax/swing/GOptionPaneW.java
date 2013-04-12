@@ -15,7 +15,7 @@ public class GOptionPaneW implements GOptionPane{
 
 	public static GOptionPane INSTANCE = new GOptionPaneW();
 
-	public int showConfirmDialog(Object parentComponent, String message,
+	public int showConfirmDialog(App app, String message,
             String title, int optionType, int messageType) {
 		
 //		if (!(parentComponent instanceof Widget)){

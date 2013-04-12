@@ -2966,14 +2966,14 @@ public abstract class App implements UpdateSelection{
 
 	public void showRelation(GeoElement a, GeoElement b) {
 		GOptionPane optionPane = getFactory().newGOptionPane();
-		optionPane.showConfirmDialog(getMainComponent(),
+		optionPane.showConfirmDialog(this,
 				new Relation(kernel).relation(a, b),
 				getPlain("ApplicationName") + " - " + getLocalization().getCommand("Relation"),
 				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE);
 
 	}
 
-	protected abstract Object getMainComponent();
+	//protected abstract Object getMainComponent();
 
 	private GeoElement geoForCopyStyle;
 	private OptionsMenu optionsMenu;

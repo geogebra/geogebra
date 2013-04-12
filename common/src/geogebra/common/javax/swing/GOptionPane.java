@@ -1,5 +1,7 @@
 package geogebra.common.javax.swing;
 
+import geogebra.common.main.App;
+
 public interface GOptionPane {
 
     //
@@ -34,7 +36,7 @@ public interface GOptionPane {
 //    public static final int   PLAIN_MESSAGE = -1;
 
 	
-	public abstract int showConfirmDialog(Object parentComponent,
+	public abstract int showConfirmDialog(App app,
 			String message, String title, int optionType, int messageType);
 
 }
