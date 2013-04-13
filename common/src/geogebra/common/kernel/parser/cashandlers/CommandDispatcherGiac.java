@@ -46,6 +46,14 @@ public class CommandDispatcherGiac {
 		Gamma(Operation.GAMMA),
 		/** fractional part */
 		fPart(Operation.FRACTIONAL_PART),
+		/** fractional part */
+		conj(Operation.CONJUGATE),
+		/** imaginary part */
+		im(Operation.IMAGINARY),
+		/** real part */
+		re(Operation.REAL),
+		/** surd(a,b)=bth root of a */
+		surd(Operation.NROOT),
 
 
 		;
@@ -103,6 +111,9 @@ public class CommandDispatcherGiac {
 			case Zeta:
 			case fPart:
 			case Gamma:	
+			case conj:
+			case re:
+			case im:
 				
 				if (args.getLength() != 1) {
 				
@@ -127,12 +138,21 @@ public class CommandDispatcherGiac {
 							args.getItem(1));
 				}
 				break;
+			case surd:	
+				if (args.getLength() == 2) {
+					ret = new ExpressionNode(kernel,
+							args.getItem(0),Operation.NROOT,
+							args.getItem(1));
+				} else { 
+					throw new CASException("Giac: bad number of args for surd:"+args.getLength());
+				}
+				break;
 
 			case Beta:	
 				switch (args.getLength()) {
 
 				default:
-					throw new CASException("Giac: bad number of args for beta"+args.getLength());
+					throw new CASException("Giac: bad number of args for beta:"+args.getLength());
 				case 2:
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA,

@@ -30,11 +30,12 @@ public class Ggb2giac {
 	public static Map<String,String> getMap() {
 		p("Append.2",
 				"append(%0,%1)");
+		// simplify() to make sure Binomial[n,1] gives n
 		p("Binomial.2",
-				"binomial(%0,%1)");
+				"simplify(binomial(%0,%1))");
 		p("BinomialDist.4",
 				"if %3=true then binomial\\_cdf(%0,exact(%1),%2) else binomial(%0,exact(%1),%2) fi");
-		p("Cauchy.3", "1/2+1/pi*atan(((%2)-(%1))/(%0))");
+		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 		p("CFactor.1","[with\\_sqrt(0),[ggbans:=cfactor(%0)],with\\_sqrt(1),ggbans][3]");
 		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
@@ -46,7 +47,7 @@ public class Ggb2giac {
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
 				"canonical\\_form(%0)");
-		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
+		p("CommonDenominator.2", "lcm(denom(exact(%0)),denom(exact(%1)))");
 		p("Covariance.2",
 				"covariance(%0,%1)");
 		p("Covariance.1",

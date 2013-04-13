@@ -2582,6 +2582,33 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(')');
 					break;
+
+				case GIAC:
+
+					if (right.isExpressionNode() && ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
+						ExpressionNode enR = (ExpressionNode) right;
+
+						sb.append("simplify(surd(");
+						sb.append(leftStr);
+						sb.append(',');
+						sb.append(enR.right.toString(tpl));
+						sb.append(")");
+						sb.append("^(");
+						sb.append(enR.left.toString(tpl));
+						sb.append("))");
+
+					} else {
+						sb.append("(");
+						sb.append(rightStr);
+						sb.append(")^(");
+						sb.append("(");
+						sb.append(leftStr);
+						sb.append(")");
+					}
+
+					break;
+				
+				
 				case LATEX:
 
 					// checks if the basis is leaf and if so
@@ -2591,12 +2618,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						break;
 					}
 					// else fall through
-
 				case JASYMCA:
 				case MATH_PIPER:
-				case GIAC:
-
-
 				case LIBRE_OFFICE:
 				default:
 
@@ -2653,10 +2676,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case MATH_PIPER:
 				case GIAC:
 
-					sb.append('^');
-					sb.append('(');
-					sb.append(rightStr);
-					sb.append(')');
+					// rightStr already done
 					break;
 
 				default:
@@ -2917,11 +2937,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case REAL:
-			trig(leftStr,sb,"<real/>","\\real","","","myreal","real","real",
+			trig(leftStr,sb,"<real/>","\\real","","","myreal","real","real","re",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case IMAGINARY:
-			trig(leftStr,sb,"<imaginary/>","\\imaginary","","","imaginary","imaginary","imaginary",
+			trig(leftStr,sb,"<imaginary/>","\\imaginary","","","imaginary","imaginary","imaginary","im",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case FRACTIONAL_PART:
@@ -3407,6 +3427,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(')');
 				break;
+			case GIAC:
+				sb.append("simplify(surd(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append("))");
+				break;
 			default: //MAXIMA, MPREDUCE, PSTRICKS, ...
 				sb.append("(");
 				sb.append(leftStr);
@@ -3480,9 +3507,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				sb.append("(");
+				sb.append("simplify(surd(");
 				sb.append(leftStr);
-				sb.append(")^(1/3)");
+				sb.append(",3))");
 				break;
 			default:
 				sb.append("cbrt(");
@@ -3573,6 +3600,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "conjugate");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+			case GIAC:
+				sb.append("conj(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
