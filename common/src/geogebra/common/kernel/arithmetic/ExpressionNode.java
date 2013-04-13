@@ -2668,16 +2668,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					}
 					sb.append('}');
 					break;
-
+				// rightStr already done in Giac and Reduce
 				case MPREDUCE:
-					break;
+				case GIAC:
+					break;	
 				case JASYMCA:
 				case GEOGEBRA_XML:
 				case MATH_PIPER:
-				case GIAC:
+					sb.append('^'); 
+					sb.append('('); 
+					sb.append(rightStr); 
+					sb.append(')'); 
 
-					// rightStr already done
-					break;
 
 				default:
 					if (right.isLeaf()
