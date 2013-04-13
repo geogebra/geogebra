@@ -2679,6 +2679,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append('('); 
 					sb.append(rightStr); 
 					sb.append(')'); 
+					break;
 
 
 				default:
