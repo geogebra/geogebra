@@ -2599,10 +2599,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 					} else {
 						sb.append("(");
-						sb.append(rightStr);
+						sb.append(leftStr);
 						sb.append(")^(");
 						sb.append("(");
-						sb.append(leftStr);
+						sb.append(rightStr);
 						sb.append(")");
 					}
 
