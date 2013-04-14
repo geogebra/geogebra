@@ -100,37 +100,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	/**
-	 * adds a GeoElement to this view; prevent redraw
-	 */
-	@Override
-	public void add(GeoElement geo)
-	{
-
-		// G.Sturr 2010-6-30
-		// filter out any geo not marked for this view
-		if (!isVisibleInThisView(geo))
-		{
-			return;
-			// END G.Sturr
-		}
-
-		// check if there is already a drawable for geo
-		DrawableND d = getDrawable(geo);
-
-		if (d != null)
-		{
-			return;
-		}
-
-		d = createDrawable(geo);
-		if (d != null)
-		{
-			addToDrawableLists((Drawable) d);
-		}
-
-	}
-
-	/**
 	 * this version also adds points that are very close to the hit point
 	 */
 	@Override
