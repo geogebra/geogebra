@@ -64,6 +64,7 @@ namespace giac {
   static define_unary_function_eval4 (__moyal,&_moyal,_moyal_s,0,&texprintasmoyal);
   define_unary_function_ptr5( at_moyal ,alias_at_moyal,&__moyal,0,true);
 
+  // should be fixed if z is large
   gen lower_incomplete_gamma(double s,double z,bool regularize){ // regularize=true by default
     // gamma(s,z) = int(t^s*e^(-t),t=0..z)
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
