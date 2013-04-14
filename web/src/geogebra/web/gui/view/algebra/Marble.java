@@ -26,7 +26,7 @@ public class Marble extends SimplePanel
 			public void onClick(ClickEvent event)
 			{
 				gc.getGeo().setEuclidianVisible(!gc.getGeo().isSetEuclidianVisible());
-				gc.getGeo().update();
+				gc.getGeo().updateVisualStyle();
 				gc.getGeo().getKernel().getApplication().storeUndoInfo();
 				gc.getGeo().getKernel().notifyRepaint();
 

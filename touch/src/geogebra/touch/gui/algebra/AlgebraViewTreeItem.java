@@ -69,20 +69,6 @@ public class AlgebraViewTreeItem extends HorizontalPanel implements ClickHandler
 		this.previouslyChecked = ge.isEuclidianVisible();
 
 		this.marble.setChecked(this.previouslyChecked);
-
-		this.marble.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				AlgebraViewTreeItem.this.geo.setEuclidianVisible(!AlgebraViewTreeItem.this.geo.isSetEuclidianVisible());
-				AlgebraViewTreeItem.this.geo.update();
-				AlgebraViewTreeItem.this.geo.getKernel().getApplication().storeUndoInfo();
-				AlgebraViewTreeItem.this.geo.getKernel().notifyRepaint();
-
-				AlgebraViewTreeItem.this.marble.setChecked(AlgebraViewTreeItem.this.geo.isEuclidianVisible());
-			}
-		}, ClickEvent.getType());
 		add(this.marble);
 
 		SpanElement se = DOM.createSpan().cast();
