@@ -35,6 +35,7 @@ namespace giac {
   bool is_quadratic_wrt(const gen & e,const gen &x,gen & a,gen & b,gen & c,GIAC_CONTEXT);
   gen linear_apply(const gen & e,const gen & x,gen & remains, GIAC_CONTEXT, gen (* f)(const gen &,const gen &,gen &,const context *));
   gen lnabs(const gen & x,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_surd ;
   gen surd(const gen & c,int n,GIAC_CONTEXT);
   gen _surd(const gen & args,GIAC_CONTEXT);
   gen invexptoexpneg(const gen& g,GIAC_CONTEXT);
