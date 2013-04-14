@@ -122,9 +122,10 @@ namespace giac {
       return 1;
     // add here test for returning 1 if b>>a
     if (p>a/double(a+b)){
+      gen tmp=incomplete_beta(b,a,1-p,true);
       if (regularize)
-	return 1-incomplete_beta(b,a,1-p,regularize);
-      return Beta(a,b,context0)*(1-incomplete_beta(b,a,1-p,true));
+	return 1-tmp;
+      return Beta(a,b,context0)*(1-tmp);
     }
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // P0=1, P1=a1, Q0=1, Q1=b1
@@ -152,8 +153,8 @@ namespace giac {
 	return r;
 #else
 	if (regularize)
-	  res = res/a*std::exp(a*std::log(p)+(b-1)*std::log(1-p)+lngamma(a+b)-lngamma(a)-lngamma(b));
-	return res;
+	  return res/a*std::exp(a*std::log(p)+(b-1)*std::log(1-p)+lngamma(a+b)-lngamma(a)-lngamma(b));
+	return res/a*std::exp(a*std::log(p)+(b-1)*std::log(1-p));
 #endif
       }	
       Pm2=Pm1; Pm1=Pm;
