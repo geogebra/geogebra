@@ -1400,14 +1400,14 @@ public class AppW extends AppWeb {
 				int widthDiff = width - euclidianViewPanel.getOffsetWidth();
 				euclidianViewPanel.setPixelSize(width, height);//provided there is no style bar
 				if (mySplitLayoutPanel != null)
-					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff-2, height);
+					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
 			} else if (evno == 2) {// or the EuclidianView 2
 				EuclidianDockPanelW ew = (EuclidianDockPanelW)
 					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
 				int widthDiff = width - ew.getOffsetWidth();
 				ew.setPixelSize(width, height);
 				if (mySplitLayoutPanel != null)
-					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff-2, height);
+					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
 			}
 		}
 	}
