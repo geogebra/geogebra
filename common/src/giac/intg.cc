@@ -324,8 +324,13 @@ namespace giac {
     gen a=args._VECTptr->front(),b=args._VECTptr->back(),c;
     if (is_zero(b))
       return undef;
-    if (!has_evalf(a,c,1,contextptr))
+    if (!has_evalf(a,c,1,contextptr)){
+#ifdef GIAC_HAS_STO_38
       return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
+#else
+      return symbolic(at_surd,gen(makevecteur(a,b),_SEQ__VECT));
+#endif
+    }
     c=_floor(b,contextptr);
     if (c.type==_FLOAT_)
       c=get_int(c._FLOAT_val);

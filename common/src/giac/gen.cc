@@ -2674,7 +2674,7 @@ namespace giac {
 	v[1]=-v[1];
 	return symbolic(at_polar_complex,gen(v,_SEQ__VECT));
       }
-      if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet))
+      if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet) || _SYMBptr->sommet==at_surd)
 	return new_ref_symbolic(symbolic(_SYMBptr->sommet,_SYMBptr->feuille.conj(contextptr)));
       else
 	return new_ref_symbolic(symbolic(at_conj,*this));
@@ -2800,6 +2800,13 @@ namespace giac {
       r=ra*rb-ia*ib;
       i=ra*ib+rb*ia;
       return;
+    }
+    if (u==at_surd && is_integer(f._VECTptr->back())){
+      reim(f._VECTptr->front(),r,i,contextptr);
+      if (is_zero(i,contextptr)){
+	r=_surd(makesequence(r,f._VECTptr->back()),contextptr);
+	return;
+      }
     }
     if (u==at_pow){
       gen e=f._VECTptr->front(),expo=f._VECTptr->back();
@@ -7819,18 +7826,21 @@ namespace giac {
     for (;it!=itend;++it){
       vecteur & vtmp(*it->_VECTptr);
       gen & tmp = vtmp.back();
+      gen coeff=eval(vtmp.front(),1,context0);
+      if (is_zero(coeff))
+	continue;
       if (tmp.is_symb_of_sommet(at_prod) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==1){
-	res.push_back(vtmp.front()*tmp._SYMBptr->feuille._VECTptr->front());
+	res.push_back(coeff*tmp._SYMBptr->feuille._VECTptr->front());
 	continue;
       }
-      if (vtmp.front().is_symb_of_sommet(at_neg)){
-	res.push_back(-(vtmp.front()._SYMBptr->feuille*tmp));
+      if (coeff.is_symb_of_sommet(at_neg)){
+	res.push_back(-(coeff._SYMBptr->feuille*tmp));
 	continue;
       }
-      if ( (vtmp.front().type==_FRAC || is_integer(vtmp.front())) && is_positive(-vtmp.front(),context0))
-	res.push_back(-((-vtmp.front())*tmp));
+      if ( (coeff.type==_FRAC || is_integer(coeff)) && is_positive(-coeff,context0))
+	res.push_back(-((-coeff)*tmp));
       else
-	res.push_back(vtmp.front()*tmp);
+	res.push_back(coeff*tmp);
     }
     int s=res.size();
     if (!s)
