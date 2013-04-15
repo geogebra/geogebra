@@ -106,7 +106,7 @@ public class Ggb2giac {
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[if type(%0)==DOM\\_INT then ggbans:=ifactors(%0); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
+				"[[if type(%0)==DOM\\_INT then calc\\_mode(0); ggbans:=ifactors(%0); calc\\_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
 				"fisher\\_cdf(%0,%1,%2)");
 		p("Flatten.1", "flatten(%0)");
@@ -360,7 +360,7 @@ public class Ggb2giac {
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"polar\\_coordinates(%0)");
+				"[[ggbans:=polar\\_coordinates(%0)],ggbans[0]∡ggbans[1]][1]");
 		p("ToPoint.1",
 				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
