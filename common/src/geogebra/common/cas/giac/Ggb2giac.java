@@ -51,7 +51,7 @@ public class Ggb2giac {
 		p("Covariance.2",
 				"covariance(%0,%1)");
 		p("Covariance.1",
-				"covariance(%0)");
+				"normal(covariance(%0))");
 		p("Cross.2", "cross(%0,%1)");
 		p("ComplexRoot.1", "cZeros(%0,ggbtmpvarx)");
 		p("CSolutions.1", "cZeros(%0,ggbtmpvarx)");
@@ -298,8 +298,6 @@ public class Ggb2giac {
 		p("Sample.3",
 				"if %2=true then flatten(seq(rand(1,%0),j,1,%1)) else rand(%1,%0) fi");
 		p("SampleVariance.1",
-				//"variance(%0)*size(%0)/(size(%0)-1)");
-				// less parsing (for long lists), but doesn't work...
 				" [[ggbans:=%0],normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))][1]");
 		p("SampleSD.1",
 				"normal(stddevp(%0))");
@@ -338,9 +336,9 @@ public class Ggb2giac {
 				"map(desolve(%0,%2,%1,%3),x->%1=x)[0]");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0]");
-		p("Substitute.2","subst(%0,%1)");
+		p("Substitute.2","normal(subst(%0,%1))");
 		p("Substitute.3",
-				"subst(%0,%1,%2))");
+				"normal(subst(%0,%1,%2)))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 		p("Sum.1",
 				"normal(sum(%0))");
@@ -387,7 +385,7 @@ public class Ggb2giac {
 		p("UnitVector.1",
 				"normalize(%0)");
 		p("Variance.1",
-				"variance(%0)");
+				"normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
 				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi");
