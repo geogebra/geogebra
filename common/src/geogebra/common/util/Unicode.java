@@ -3,6 +3,9 @@ package geogebra.common.util;
 
 public class Unicode {
 
+	// used by Giac for polar separator instead of ;
+	// eg (2;3)
+	final public static char angle = '\u2221';
 	final public static char minus = '\u2212';
 	final public static char LESS_EQUAL = '\u2264';
 	final public static char GREATER_EQUAL = '\u2265';
