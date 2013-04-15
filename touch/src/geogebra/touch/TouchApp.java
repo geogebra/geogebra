@@ -381,7 +381,9 @@ public class TouchApp extends AppWeb
 	@Override
 	public void fileNew()
 	{
-
+		this.kernel.clearConstruction(true);
+		this.kernel.initUndoInfo();
+		this.kernel.notifyRepaint();
 	}
 
 	@Override
