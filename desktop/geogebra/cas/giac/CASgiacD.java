@@ -14,6 +14,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	public CASgiacD(CASparser casParser, CasParserTools t) {
 		super(casParser);
+		
+		App.setCASVersionString("GIAC");
 	}
 
 	static {

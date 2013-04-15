@@ -23,6 +23,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.common.main.CasType;
 import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
@@ -451,7 +452,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			// avoid hanging animation,
 			// see http://www.geogebra.org/trac/ticket/1565
 			// this.app.getKernel().getGeoGebraCAS();
-			geogebra.cas.mpreduce.CASmpreduceD.getStaticInterpreter();
+			if (app.getCASType() == CasType.MPREDUCE) {
+				geogebra.cas.mpreduce.CASmpreduceD.getStaticInterpreter();
+			}
 
 			// init singularWS
 			// No, we cannot do it here at the moment since it will break file loading containing Singular,
