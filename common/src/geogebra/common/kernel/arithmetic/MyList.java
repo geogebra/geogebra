@@ -609,7 +609,9 @@ public class MyList extends ValidExpression implements ListValue,
 		if (size() == 0) {
 			// in schools the emptyset symbol is typically not used, see #
 			// return "\\emptyset";
-			return "\\{\\}";
+			
+			// changed from "\\{ \\}" as MathQuill doesn't render that correctly
+			return "\\left\\{ \\right\\}";
 		} else if (isMatrix()) {
 			if (kernel.getApplication().isHTML5Applet()) {
 				toLaTeXString.append("\\left(\\ggbtable{");
