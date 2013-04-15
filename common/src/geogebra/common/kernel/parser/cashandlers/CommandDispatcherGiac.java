@@ -54,7 +54,41 @@ public class CommandDispatcherGiac {
 		re(Operation.REAL),
 		/** surd(a,b)=bth root of a */
 		surd(Operation.NROOT),
+		/** sqrt */
+		sqrt(Operation.SQRT),
 
+		/** sine */
+		sin(Operation.SIN),
+		/** cosine */
+		cos(Operation.COS),
+		/** tan */
+		tan(Operation.TAN),
+		/** asin */
+		asin(Operation.ARCSIN),
+		/** acos */
+		acos(Operation.ARCCOS),
+		/** atan */
+		atan(Operation.ARCTAN),
+
+		/** hyperbolic sine */
+		sinh(Operation.SINH),
+		/** hyperbolic cos */
+		cosh(Operation.COSH),
+		/** hyperbolic tan */
+		tanh(Operation.TANH),
+
+		
+		/** sec */
+		sec(Operation.SEC),
+		/** cosec */
+		csc(Operation.CSC),
+		/** cot */
+		cot(Operation.COT),
+
+		/** ln */
+		ln(Operation.LOG),
+		/** exp */
+		exp(Operation.EXP),
 
 		;
 		private Operation op;
@@ -114,6 +148,21 @@ public class CommandDispatcherGiac {
 			case conj:
 			case re:
 			case im:
+			case sin:
+			case cos:
+			case tan:
+			case asin:
+			case acos:
+			case atan:
+			case sinh:
+			case cosh:
+			case tanh:
+			case sec:
+			case csc:
+			case cot:
+			case ln:
+			case exp:
+
 				
 				if (args.getLength() != 1) {
 				
