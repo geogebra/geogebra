@@ -15,6 +15,7 @@ public class GeoGebraTubeAPI
 	public static final int STANDARD_RESULT_QUANTITY = 10;
 
 	private static final String url = "http://geogebratube.org/api/json.php";
+	//private static final String secure_test_url = "https://test.geogebratube.org:8084/api/json.php";
 	private static GeoGebraTubeAPI instance;
 
 	private RequestBuilder requestBuilder;
@@ -22,6 +23,7 @@ public class GeoGebraTubeAPI
 	private GeoGebraTubeAPI()
 	{
 		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+		//this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class GeoGebraTubeAPI
 	 */
 	public void search(String query, RequestCallback callback)
 	{
-		performRequest(new Request(query).toJSONString(), callback);
+		performRequest(new MaterialRequest(query).toJSONString(), callback);
 	}
 
 	/**
@@ -45,7 +47,7 @@ public class GeoGebraTubeAPI
 	 */
 	public void getFeaturedMaterials(RequestCallback callback)
 	{
-		performRequest(new Request().toJSONString(), callback);
+		performRequest(new MaterialRequest().toJSONString(), callback);
 	}
 
 	// /**
@@ -67,7 +69,11 @@ public class GeoGebraTubeAPI
 	public void getItem(String ID, RequestCallback callback)
 	{
 		// TODO add ID fetching of a specific material!
-		performRequest(new Request().toJSONString(), callback);
+		performRequest(new MaterialRequest().toJSONString(), callback);
+	}
+	
+	public void logIn(String userName, String password, RequestCallback callback) {
+		performRequest(new LoginRequest(userName, password).toJSONString(), callback);
 	}
 
 	// /**
