@@ -264,9 +264,9 @@ SKIP : {
   | "\n"
 }
 
-TOKEN : {
-    < EOL: ";" >
-}
+//TOKEN : {
+//    < EOL: ";" >
+//}
 
 /* OPERATORS */
 TOKEN :  {   
@@ -525,7 +525,7 @@ ValidExpression buildValidExpression() :
 	 	 LOOKAHEAD(2147483647)    
 	 	 	ve = polarvector_special()  
     )                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {                      
         if (labels.size() > 0) ve.addLabel(labels);  // command with ouput labels
         else if (ve.labelCount() == 0) ve.addLabel(l.image);  // standard case                         
@@ -570,7 +570,7 @@ ValidExpression buildCASExpression() :
     	LOOKAHEAD(2147483647)
     	ve = expressionnode()     	     	     
 	)                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {   
     	// remember label      
     	if (l.image != null)
@@ -608,7 +608,7 @@ ValidExpression buildMathPiperExpression() :
 		// try to parse MathPiper string as standard GeoGebra expression 
     	ve = buildCASExpression()     	     	   
 	)                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {       	                         
         return ve;
     }    
@@ -629,7 +629,7 @@ private ValidExpression buildMPReduceExpression() :
 		// try to parse MPReduce string as standard GeoGebra expression 
     	ve = buildCASExpression()     	     	   
 	)                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {       	                         
         return ve;
     }    
@@ -650,7 +650,7 @@ private ValidExpression buildGiacExpression() :
 		// try to parse Giac string as standard GeoGebra expression 
     	ve = buildCASExpression()     	     	   
 	)                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {       	                         
         return ve;
     }    
@@ -670,7 +670,7 @@ ValidExpression buildMaximaExpression() :
     	// try to parse Maxima string as standard GeoGebra expression 
     	ve = buildCASExpression() 
 	)                     
-    ( <EOL> | <EOF> )     
+    ( <POLAR_SEPARATOR> | <EOF> )     
     {       	                         
         return ve;
     }    
@@ -2256,7 +2256,7 @@ ExpressionNode polarvector_special():
 }
 {   
     // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  r = expression() ";" phi = expression() ")" )
+    (   l = <FUNCTION_LABEL>  r = expression() <POLAR_SEPARATOR>  phi = expression() ")" )
         {         
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);
