@@ -76,7 +76,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 			title = app.getPlain("Selection");
 		}
 		setTitle(title);        
-
+    }
+	
+	public void addOtherItems(){
 		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addPointItems();
 			addLineItems();
@@ -97,7 +99,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		if (wrappedPopup.getComponentCount()  > 2)
 			wrappedPopup.addSeparator();
 		addForAllItems();
-    }
+	}
 
 	private void addForAllItems() {
 		// SHOW, HIDE
@@ -518,9 +520,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		wrappedPopup.show(c, x, y);
 	}
 
-	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
-	    initPopup((AppW) this.app, geos);
-    }
+//	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
+//	    initPopup((AppW) this.app, geos);
+//		addOtherItems();
+//    }
 
 	public void removeFromDOM() {
 	    getWrappedPopup().removeFromParent();

@@ -50,6 +50,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		//return if just one geo, or if first geos more than one
 		if (geos.size()<2 || selectedGeos.size()>1) {
 			justOneGeo = false;
+			addOtherItems();
 			return;
 		}
 
@@ -58,7 +59,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		//section to choose a geo
 		//addSeparator();
 		addSelectAnotherMenu();
-		
+		addOtherItems();
 		
 		this.loc = invokerLocation;
 		this.selectedGeos = selectedGeos;
@@ -132,6 +133,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addSelectAnotherMenu() {
 	    selectAnotherMenu = new MenuBar(true);
 	    MenuItem selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"), selectAnotherMenu);
+	    selectAnotherMenuItem.addStyleName("mi_no_image");
 	    wrappedPopup.addItem(selectAnotherMenuItem);
     }
 }
