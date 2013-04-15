@@ -129,7 +129,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		GeoAction chooser = new GeoAction(geo);
 		JMenuItem mi = selectAnotherMenu.add(chooser);    
 		mi.setBackground(bgColor);  
-		mi.setText(getDescription(geo));			
+		mi.setText(getDescription(geo, true));			
 		mi.addMouseListener(new MyMouseAdapter(geo));
 	
 		//prevent to add meta twice

@@ -71,7 +71,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		String title;
 
 		if (geos.size() == 1) {
-			title = getDescription(geo);
+			title = getDescription(geo, false);
 		} else {
 			title = app.getPlain("Selection");
 		}

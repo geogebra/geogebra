@@ -44,10 +44,10 @@ public abstract class ContextMenuGeoElement {
 	 * @param geo geo
 	 * @return description
 	 */
-	protected String getDescription(GeoElement geo) {
-		String title = geo.getLongDescriptionHTML(false, true);
+	protected String getDescription(GeoElement geo, boolean addHTMLtag) {
+		String title = geo.getLongDescriptionHTML(false, addHTMLtag);
 		if (title.length() > 80)
-			title = geo.getNameDescriptionHTML(false, true);
+			title = geo.getNameDescriptionHTML(false, addHTMLtag);
 		return title;
 	}
 

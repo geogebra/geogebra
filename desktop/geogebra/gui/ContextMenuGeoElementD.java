@@ -85,7 +85,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		String title;
 
 		if (geos.size() == 1) {
-			title = getDescription(geo);
+			title = getDescription(geo,true);
 		} else {
 			title = app.getPlain("Selection");
 		}

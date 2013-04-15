@@ -105,7 +105,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 	private void addGeo(GeoElement geo) {
 	    GeoAction chooser = new GeoAction(geo);
-	    MenuItem mi = new MenuItem(getDescription(geo), true, chooser);
+	    MenuItem mi = new MenuItem(getDescription(geo, false), true, chooser);
 	    DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
 	    DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
 	    
