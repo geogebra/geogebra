@@ -48,7 +48,7 @@ codesign -v -f -s "$MACSIGN_DEVID" GeoGebra.app
 
 # Creating signed archive:
 VERSION=`echo $VERSION | tr . -`
-zip -r GeoGebra-MacOS-Installer-withJava-$VERSION.zip GeoGebra.app
+zip -r -9 GeoGebra-MacOS-Installer-withJava-$VERSION.zip GeoGebra.app
 
 # 2. "without Java" section
 
@@ -57,5 +57,5 @@ mv GeoGebra.app-unsigned GeoGebra.app
 security unlock -p $MACSIGN_PASSWORD /Users/$MACSIGN_USER/Library/Keychains/login.keychain
 codesign -v -f -s "$MACSIGN_DEVID" GeoGebra.app
 rm $MACOSX_ZIP_FINAL
-zip -r $MACOSX_ZIP_FINAL GeoGebra.app
+zip -r -9 $MACOSX_ZIP_FINAL GeoGebra.app
 

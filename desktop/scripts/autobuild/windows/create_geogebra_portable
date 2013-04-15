@@ -70,7 +70,7 @@ rm -f jogl1-*.jar *-linux-*.jar *mac*.jar *64*.jar geogebra-map.txt
 
 cd ..
 rm -f "$DIRNAME.zip" # deleting if a previous version already exists
-zip -r "$DIRNAME.zip" "$DIRNAME" >> /dev/null
+zip -r -9 "$DIRNAME.zip" "$DIRNAME" >> /dev/null
 chmod g+w "$DIRNAME.zip"
 # GeoGebra 3.9.209.0.zip -> GeoGebra-Windows-Portable-3-9-209-0.zip
 WINDOWS_ZIP_FINAL=GeoGebra-Windows-Portable-`echo $VERSION_STRING | tr . -`.zip
