@@ -409,6 +409,7 @@ TOKEN: {
 |	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
+|   < POLAR_SEPARATOR: ( "\u2221" | ";" ) > // separator used by Giac instead of ;
 |  	< SQRT_SHORT: "\u221a" > 
 | 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) ("("|"[") >
 | 	< FUNCTION_POWER_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) (< POWERN > )("("|"[") >
@@ -2216,7 +2217,7 @@ VectorValue polarvector():
 }
 {   
     (  
-      ( "(" r = expression() ";"  phi = expression() ")" )
+     ( "(" r = expression() <POLAR_SEPARATOR> phi = expression() ")" )
     |
       ( <MP_POLARTOPOINT> r = expression() <COMMA> phi = expression() ")" )
     )   
