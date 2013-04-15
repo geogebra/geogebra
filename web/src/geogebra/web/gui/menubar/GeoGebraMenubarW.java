@@ -156,6 +156,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		 */
 		public static String getMenuBarHtmlGrayout(String url,String text) {		
 			//TODO: Resize images for this real size, if it is good.
+			text = text.replace("\"", "'");
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
 					"<span style=\"color:gray;\">"+text+"</span>";
 		}
