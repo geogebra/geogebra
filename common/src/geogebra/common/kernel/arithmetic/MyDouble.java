@@ -20,7 +20,6 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -163,10 +162,23 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			double angleVal = Kernel.convertToAngleValue(val);
 			return kernel.formatAngle(angleVal,tpl).toString();
 		}
-		if(!tpl.hasType(StringType.MPREDUCE))
-			return kernel.format(val,tpl);
-		return kernel.format(val,tpl).replace("E", "e");
+
+		String ret = kernel.format(val, tpl);
+
+		switch (tpl.getStringType()) {
+		case MPREDUCE:
+			return ret.replace("E", "e");
+		case GIAC:
+			// convert eg 0.125 to exact(0.125) so that Giac does an exact calculation with it
+			if (ret.indexOf(".") > -1 && ret.length() < 6) {
+				return "exact(" + ret + ")";
+			}
+			// else fall through
+		default:
+			return ret;
+		}
 	}
+
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
