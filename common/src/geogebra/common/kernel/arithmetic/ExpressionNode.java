@@ -4464,6 +4464,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 		case LIBRE_OFFICE:
 		case MATH_PIPER:
+		case MPREDUCE:
+		case GIAC:
 			sb.append(">=");
 			break;
 
@@ -4486,6 +4488,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LIBRE_OFFICE:
 		case MATH_PIPER:
 		case MPREDUCE:
+		case GIAC:
 			sb.append("<=");
 			break;
 
