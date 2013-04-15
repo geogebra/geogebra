@@ -10342,7 +10342,7 @@ namespace giac {
     invpd=minv(pd,contextptr);
     mmult(invpd,*argsf._VECTptr,v);
     gen tv=_trn(v,contextptr);
-    return gen(makevecteur(p,tv,svl),_SEQ__VECT); // M=p*diag(svl)*trn(tv)
+    return gen(makevecteur(p,svl,tv),_SEQ__VECT); // M=p*diag(svl)*trn(tv)
   }
   static const char _svd_s []="svd";
   static define_unary_function_eval (__svd,&giac::_svd,_svd_s);

@@ -549,17 +549,21 @@ namespace giac {
       return;
     }
     gen xvar(lv.front());
-    if (xvar!=x){ // xvar must be a unary function of x
+    if (xvar!=x){ // xvar must be a unary function of x, except for a few special cases
       if (xvar.type!=_SYMB){
 	v=vecteur(1,gentypeerr(contextptr));
 	return;
       }
       if (xvar._SYMBptr->sommet!=at_piecewise && xvar._SYMBptr->feuille.type==_VECT){
+	if ((xvar._SYMBptr->sommet==at_NTHROOT && xvar._SYMBptr->feuille.type==_VECT && xvar._SYMBptr->feuille._VECTptr->size()==2 && is_integer(xvar._SYMBptr->feuille._VECTptr->front())))
+	  ;
+	else {
 #ifndef NO_STDEXCEPT
-	throw(std::runtime_error("Unable to isolate "+string(x.print(contextptr))+" in "+xvar.print(contextptr)));
+	  throw(std::runtime_error("Unable to isolate "+string(x.print(contextptr))+" in "+xvar.print(contextptr)));
 #endif
-	v=vecteur(1,undeferr(gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+xvar.print(contextptr)));
-	return;
+	  v=vecteur(1,undeferr(gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+xvar.print(contextptr)));
+	  return;
+	}
       }
       if (xvar._SYMBptr->sommet==at_sign){
 	gen new_e=subst(e,xvar,1,false,contextptr);
@@ -577,6 +581,8 @@ namespace giac {
       int pos=equalposcomp(solve_fcns_tab,xvar._SYMBptr->sommet);
       if (xvar._SYMBptr->sommet==at_piecewise)
 	pos=-1;
+      if (xvar._SYMBptr->sommet==at_NTHROOT)
+	pos=-2;
       if (!pos){
 #ifndef NO_STDEXCEPT
 	throw(std::runtime_error(string(gettext("Unable to isolate function "))+xvar._SYMBptr->sommet.ptr()->print(contextptr)));
@@ -591,6 +597,10 @@ namespace giac {
       vecteur new_v=solve(new_e,localt,isolate_mode,contextptr);
       const_iterateur it=new_v.begin(),itend=new_v.end();
       for (;it!=itend;++it){
+	if (pos==-2){
+	  set_merge(v,vecteur(1,pow(*it,xvar._SYMBptr->feuille[0],contextptr)));
+	  continue;
+	}
 	if (pos==-1){
 	  // solve piecewise()==*it
 	  set_merge(v,solve_piecewise(xvar._SYMBptr->feuille,*it,x,isolate_mode,contextptr));
