@@ -1,8 +1,10 @@
 #!/bin/sh
 
 # Set this manually when there is a new Java version available.
-BundleId=75259 # (1.7.0-17) 74781 (1.7.0-15)
-JREDIR=jre7
+# BundleId=75259 # (1.7.0-17) 74781 (1.7.0-15)
+# JREDIR=jre7
+BundleId=75085 # 1.6.0-43
+JREDIR=jre6
 
 DIR=jre/win32/$BundleId
 EXE=$DIR/install-java.exe
