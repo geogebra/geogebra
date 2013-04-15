@@ -325,11 +325,7 @@ namespace giac {
     if (is_zero(b))
       return undef;
     if (!has_evalf(a,c,1,contextptr)){
-#ifdef GIAC_HAS_STO_38
       return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
-#else
-      return symbolic(at_surd,gen(makevecteur(a,b),_SEQ__VECT));
-#endif
     }
     c=_floor(b,contextptr);
     if (c.type==_FLOAT_)
@@ -3385,7 +3381,7 @@ namespace giac {
       for (;!ctrl_c && is_greater(debut,fin,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
-#ifdef GIAC_HAS_STO_38
+#ifdef RTOS_THREADX
 	tmp=evalf(tmp,1,contextptr);
 #endif
 	res.push_back(tmp);
@@ -3397,7 +3393,7 @@ namespace giac {
       for (;!ctrl_c && is_greater(fin,debut,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
-#ifdef GIAC_HAS_STO_38
+#ifdef RTOS_THREADX
 	tmp=evalf(tmp,1,contextptr);
 #endif
 	res.push_back(tmp);

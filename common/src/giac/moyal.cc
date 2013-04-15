@@ -66,6 +66,8 @@ namespace giac {
 
   // should be fixed if z is large
   gen lower_incomplete_gamma(double s,double z,bool regularize){ // regularize=true by default
+    if (z>0 && -z+s*std::log(z)-lngamma(s+1)<-37)
+      return regularize?1:std::exp(lngamma(s));
     // gamma(s,z) = int(t^s*e^(-t),t=0..z)
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // here a1=1, a2=-s*z, a3=z, then a_{2m}=a_{2m-2}-z and a_{2m+1}=a_{2m-1}+z
@@ -98,6 +100,9 @@ namespace giac {
       }	
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
+      // normalize
+      Pm=1/std::sqrt(Pm1*Pm1+Qm1*Qm1);
+      Pm2 *= Pm; Qm2 *= Pm; Pm1 *= Pm; Qm1 *= Pm;
     }
     return undef; //error
   }

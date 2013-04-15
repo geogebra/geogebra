@@ -2516,6 +2516,8 @@ namespace giac {
   define_unary_function_ptr5( at_LSQ ,alias_at_LSQ,&__LSQ,0,T_UNARY_OP_38);
   
   static string printasNTHROOT(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
+    if (feuille.type==_VECT && feuille._VECTptr->size()==2 && abs_calc_mode(contextptr)!=38)
+      return "surd("+feuille[1].print(contextptr)+","+feuille[0].print(contextptr)+")";
     // return '('+(printsommetasoperator(feuille," NTHROOT ",contextptr))+')';
     return printsommetasoperator(feuille," NTHROOT ",contextptr);
   }

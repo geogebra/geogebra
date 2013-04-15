@@ -1425,7 +1425,7 @@ namespace giac {
     //on separe les variables du numerateur
     vecteur vb0(*b0._VECTptr);
     if ((vb0.size()==1)&& (vb0[0]==0))
-      return string2gen("ce n'est probablement pas une somme de riemann",false);
+      return string2gen(gettext("Probably not a Riemann sum"),false);
     var[0]=da;
     //var=[da,[n,x]]
     gen b1=_split(var,contextptr);
@@ -1433,7 +1433,7 @@ namespace giac {
     //on separe les variables du denominateur
     vecteur vb1(*b1._VECTptr);
     if ((vb1.size()==1)&& (vb1[0]==0)) 
-      return string2gen("ce n'est probablement pas une somme de riemann",false);
+      return string2gen(gettext("Probably not a Riemann sum"),false);
     gen an=vb0[0]/vb1[0];
     gen ax=vb0[1]/vb1[1];
     gen tmp=_integrate(makevecteur(ax,x,0,1),contextptr);
@@ -1444,9 +1444,9 @@ namespace giac {
     //return _limit(makevecteur(tmp*an,v2[0],plus_inf));
     //tmp ne doit pas etre infini qd tmp2 est nul et reciproquement
     if (is_inf(tmp)&& is_zero(tmp2))
-      return string2gen("ce n'est probablement pas une somme de riemann",false);
+      return string2gen(gettext("Probably not a Riemann sum"),false);
     if (is_zero(tmp)&& is_inf(tmp2))
-      return string2gen("ce n'est probablement pas une somme de riemann",false);
+      return string2gen(gettext("Probably not a Riemann sum"),false);
     return recursive_normal(tmp*_series(makevecteur(an,v2[0],plus_inf),contextptr),contextptr);
   }
   static const char _sum_riemann_s[]="sum_riemann";

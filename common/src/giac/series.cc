@@ -848,6 +848,7 @@ namespace giac {
       if (!ppow(temp,m/2,ordre,res,contextptr))
 	return false;
     }
+    ptruncate(res,ordre,contextptr);
     return true;
   }
   

@@ -10215,7 +10215,8 @@ namespace giac {
     if (!ckmatrix(args))
       return symbolic(at_svd,args);
     // if (!is_zero(im(args,contextptr),contextptr)) return gensizeerr(gettext("Complex entry!"));
-    if (method>=0 && is_fully_numeric(evalf_double(args,1,contextptr))){
+    gen argsf=args;
+    if (method>=0 && is_fully_numeric( (argsf=evalf_double(args,1,contextptr)) )){
 #ifdef HAVE_LIBLAPACK
       if (!CAN_USE_LAPACK
 	  || dgeqrf_ == NULL
@@ -10314,11 +10315,11 @@ namespace giac {
     }    
     // non numeric code
     matrice mtm,p,d,pd,invpd,v;
-    gen tmg=_trn(args,contextptr); // mtran(*args._VECTptr,tm);
+    gen tmg=_trn(argsf,contextptr); // mtran(*args._VECTptr,tm);
     if (!ckmatrix(tmg))
       return gensizeerr(contextptr);
     const matrice & tm=*tmg._VECTptr;
-    mmult(*args._VECTptr,tm,mtm);
+    mmult(*argsf._VECTptr,tm,mtm);
     if (!egv(mtm,p,d,contextptr,true,false,false))
       return gensizeerr(contextptr);
     // should reorder eigenvalue (decreasing order)
@@ -10339,7 +10340,7 @@ namespace giac {
     // now m*tran(m)=p*d*tran(p)
     mmult(p,d,pd);
     invpd=minv(pd,contextptr);
-    mmult(invpd,*args._VECTptr,v);
+    mmult(invpd,*argsf._VECTptr,v);
     gen tv=_trn(v,contextptr);
     return gen(makevecteur(p,tv,svl),_SEQ__VECT); // M=p*diag(svl)*trn(tv)
   }
