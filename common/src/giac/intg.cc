@@ -2730,7 +2730,8 @@ namespace giac {
     return cur_line;
   }
   gen ggb_var(const gen & f){
-    vecteur l=lidnt(f);
+    vecteur l=lidnt(makevecteur(cst_pi,unsigned_inf,undef,f));
+    l=vecteur(l.begin()+3,l.end());
     if (l.empty() || equalposcomp(l,vx_var))
       return vx_var;
     const_iterateur it=l.begin(),itend=l.end();

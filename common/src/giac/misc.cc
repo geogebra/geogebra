@@ -477,7 +477,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,x;
     if (args.type!=_VECT){
-      x=vx_var;
+      if (calc_mode(contextptr)==1)
+	x=ggb_var(p);
+      else
+	x=vx_var;
       p=args;
     }
     else {
@@ -2574,7 +2577,7 @@ static define_unary_function_eval (__logarithmic_regression,&_logarithmic_regres
 
   gen _power_regression(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    gen res= function_regression(g,at_ln,at_ln,contextptr);
+    gen res= function_regression(evalf(g,1,contextptr),at_ln,at_ln,contextptr);
     if (res.type==_VECT && res._VECTptr->size()==2){
       vecteur v(*res._VECTptr);
       v[1]=exp(v[1],contextptr);
