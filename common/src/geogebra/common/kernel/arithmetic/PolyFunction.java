@@ -208,11 +208,11 @@ public class PolyFunction implements RealRootDerivFunction {
 			return new Function(en, fv);
 		} else if (degree == 1) {
 			// linear
-			ExpressionNode en = fvEn.multiply(coeffs[1]).plus(coeffs[0]);
+			ExpressionNode en = fvEn.multiplyR(coeffs[1]).plus(coeffs[0]);
 			return new Function(en, fv);
 		}
 
-		ExpressionNode en = fvEn.power((degree)).multiply(coeffs[degree]);
+		ExpressionNode en = fvEn.power((degree)).multiplyR(coeffs[degree]);
 
 		if (degree > 2) {
 			for (int i = degree - 1 ; i > 1 ; i--) {
@@ -227,7 +227,7 @@ public class PolyFunction implements RealRootDerivFunction {
 		
 		// linear coefficient
 		if (!Kernel.isZero(coeffs[1])) {
-			en = en.plus(fvEn.multiply(coeffs[1]));
+			en = en.plus(fvEn.multiplyR(coeffs[1]));
 		}
 		
 		// constant term
