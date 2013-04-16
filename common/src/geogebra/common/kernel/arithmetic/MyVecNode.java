@@ -140,24 +140,21 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		double[] coords;
 		
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
-			coords = getCoords();
 			sb.append("{");
-			sb.append(coords[0]);
+			sb.append(x.toString(tpl));
 			sb.append(", ");
-			sb.append(coords[1]);
+			sb.append(y.toString(tpl));
 			sb.append("}");
 			break;
 
 		case GIAC:
-			coords = getCoords();
 			sb.append("(");
-			sb.append(coords[0]);
+			sb.append(x.toString(tpl));
 			sb.append(',');
-			sb.append(coords[1]);
+			sb.append(y.toString(tpl));
 			sb.append(")");
 			break;
 
