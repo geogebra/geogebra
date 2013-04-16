@@ -100,6 +100,12 @@ public class Ggb2MPReduce {
 				"<<clear tmp!!; off factor, rat, combinelogs, allfac$ on pri, expandlogs, rational$ tmp!!:=expandfractions(%0); off factor, combinelogs$on expandlogs$  " +
 				"if arglength(tmp!!)>-1 and part(tmp!!,0)=\\'ggbplus then part(tmp!!,0):=+ else tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
+		
+		// used in regular mode
+		// Giac doesn't auto-simplify
+		// dummy implementation for Reduce
+		p("Evaluate.1", "%0");
+
 		p("Factor.1",
 				"<<begin scalar factorlist!!, tmpexp!!, tofactor; on combineexpt; off combinelogs$ " +
 				"tofactor:=(%0)$ if tofactor=0 then return 0 else if numberp(den(tofactor)) then <<factorlist!!:=factorize(tofactor); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>>" +

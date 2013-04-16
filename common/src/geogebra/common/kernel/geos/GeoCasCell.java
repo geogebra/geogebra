@@ -1502,6 +1502,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
+				
+				// wrap in Evaluate if it's an expression rather than a command
+				// needed for Giac (for simplifying x+x to 2x)
+				evalVE = wrapEvaluate(evalVE);
+				
 				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
 				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
@@ -1572,12 +1577,25 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return point list command
 	 */
 	private ValidExpression wrapPointList(ValidExpression arg) {
-		Command c= new Command(kernel,"PointList",false);
+		Command c= new Command(kernel, "PointList", false);
 		c.addArgument(arg.wrap());
 		ExpressionNode expr = c.wrap();
 		expr.setAssignmentType(arg.getAssignmentType());
 		expr.setLabel(arg.getLabel());
 		return expr;
+	}
+
+	private ValidExpression wrapEvaluate(ValidExpression arg) {
+		if (arg.unwrap().isExpressionNode()) {
+			Command c= new Command(kernel, "Evaluate", false);
+			c.addArgument((ExpressionNode) arg.unwrap());
+			ExpressionNode expr = c.wrap();
+			expr.setAssignmentType(arg.getAssignmentType());
+			expr.setLabel(arg.getLabel());
+			return expr;
+		}
+		
+		return arg;
 	}
 
 	private void finalizeComputation(final boolean success,
