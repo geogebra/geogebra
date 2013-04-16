@@ -224,6 +224,22 @@ namespace giac {
 	  return exponent*dbase*s/v[1];
 	return dexponent*ln(base,contextptr)*s+exponent*dbase*s/v[1];
       }
+      if (vs==3 && s.sommet==at_Beta){
+	gen v0=v[0],v1=v[1],v2=v[2]; 
+	if (!is_zero(derive(v0,i,contextptr)) || !is_zero(derive(v1,i,contextptr)) )
+	  return gensizeerr("diff of incomplete beta with respect to non constant 1st or 2nd arg not implemented");
+	// diff/v2(int_0^v2 t^(v0-1)*(1-t)^(v1-1) dt)
+	gen tmp=pow(v2,v0-1,contextptr)*pow(1-v2,v1-1,contextptr)*derive(v2,i,contextptr);
+	return tmp;
+      }
+      if (vs==2 && (s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
+	gen v0=v[0],v1=v[1]; 
+	if (!is_zero(derive(v0,i,contextptr)))
+	  return gensizeerr("diff of lower incomplete gamma with respect to non constant 1st arg not implemented");
+	// diff(int_0^v1 exp(-t)*t^(v0-1) dt)
+	gen tmp1=exp(-v1,contextptr)*pow(v1,v0-1,contextptr)*derive(v1,i,contextptr);
+	return (s.sommet==at_Gamma)?-tmp1:tmp1;
+      }
     }
     // now look at other operators, first onearg operator
     if (s.sommet.ptr()->D){

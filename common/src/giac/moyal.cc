@@ -194,6 +194,13 @@ namespace giac {
     if ( (s==3 || s==4) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ && v[2].type==_DOUBLE_ ){
       return incomplete_beta(v[0]._DOUBLE_val,v[1]._DOUBLE_val,v[2]._DOUBLE_val, s==4 && !is_zero(v[3]) );
     }
+    if (s<2 || s>4)
+      return gendimerr(contextptr);
+    if (s==4){
+      if (is_zero(v[3]))
+	return symbolic(at_Beta,makesequence(v[0],v[1],v[2]));
+      return symbolic(at_Beta,makesequence(v[0],v[1],v[2]))/Beta(v[0],v[1],contextptr);
+    }
     if (s!=2)
       return symbolic(at_Beta,args);
     return Beta(v[0],v[1],contextptr);
@@ -210,6 +217,13 @@ namespace giac {
     int s=v.size();
     if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ )
       return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
+    if (s<2 || s>3)
+      return gendimerr(contextptr);
+    if (s==3){
+      if (is_zero(v[2]))
+	return symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]));
+      return symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]))/Gamma(v[0],contextptr);
+    }
     return symbolic(at_lower_incomplete_gamma,args);
   }
   static const char _lower_incomplete_gamma_s []="igamma"; // "lower_incomplete_gamma"
@@ -224,7 +238,14 @@ namespace giac {
     int s=v.size();
     if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ )
       return upper_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
-    return symbolic(at_upper_incomplete_gamma,args);
+    if (s<2 || s>3)
+      return gendimerr(contextptr);
+    if (s==3){
+      if (is_zero(v[2]))
+	return Gamma(v[0],contextptr)-symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]));
+      return 1-symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]))/Gamma(v[0],contextptr);
+    }
+    return Gamma(v[0],contextptr)-symbolic(at_upper_incomplete_gamma,args);
   }
   static const char _upper_incomplete_gamma_s []="upper_incomplete_gamma";
   static define_unary_function_eval (__upper_incomplete_gamma,&_upper_incomplete_gamma,_upper_incomplete_gamma_s);
@@ -1149,6 +1170,9 @@ namespace giac {
   define_unary_function_ptr5( at_UTPF ,alias_at_UTPF,&__UTPF,0,true);
 
   gen snedecor_cdf(const gen & ndof,const gen & ddof,const gen & x,GIAC_CONTEXT){
+    gen gndf(ndof),gddf(ddof),gx(x);
+    if (!is_integral(gndf) || !is_integral(gddf) || gx.type!=_DOUBLE_)
+      return symbolic(at_snedecor_cdf,makesequence(ndof,ddof,x));
     return 1-UTPF(ndof,ddof,x,contextptr);
   }
   gen _snedecor_cdf(const gen & g,GIAC_CONTEXT){
