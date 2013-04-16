@@ -64,8 +64,8 @@ namespace giac {
   static define_unary_function_eval4 (__moyal,&_moyal,_moyal_s,0,&texprintasmoyal);
   define_unary_function_ptr5( at_moyal ,alias_at_moyal,&__moyal,0,true);
 
-  // should be fixed if z is large
   gen lower_incomplete_gamma(double s,double z,bool regularize){ // regularize=true by default
+    // should be fixed if z is large using upper_incomplete_gamma asymptotics
     if (z>0 && -z+s*std::log(z)-lngamma(s+1)<-37)
       return regularize?1:std::exp(lngamma(s));
     // gamma(s,z) = int(t^s*e^(-t),t=0..z)
