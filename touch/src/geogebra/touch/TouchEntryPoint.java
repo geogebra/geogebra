@@ -59,7 +59,8 @@ public class TouchEntryPoint implements EntryPoint
 					}
 				});
 				
-				tabletGUI.getContentWidget().getElement().getStyle().setOverflow(Overflow.VISIBLE); 
+				tabletGUI.getContentWidget().getElement().getStyle().setOverflow(Overflow.VISIBLE);
+				app.getScriptManager().ggbOnInit();
 				
 			}
 
