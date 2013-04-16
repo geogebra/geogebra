@@ -1,7 +1,6 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
 
@@ -58,6 +57,7 @@ class FileMenu extends BaseMenu {
 	/**
 	 * Initialize all items.
 	 */
+	@Override
 	public void initItems()
 	{
 		if (!initialized) {
@@ -212,7 +212,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				((GuiManagerD)app.getGuiManager()).save();
+				app.getGuiManager().save();
 			}
 		};
 
@@ -221,7 +221,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				((GuiManagerD)app.getGuiManager()).saveAs();
+				app.getGuiManager().saveAs();
 			}
 		};
 
@@ -284,7 +284,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				((GuiManagerD)app.getGuiManager()).openFile();
+				app.getGuiManager().openFile();
 			}
 		};
 
@@ -293,7 +293,7 @@ class FileMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				((GuiManagerD)app.getGuiManager()).openURL();
+				app.getGuiManager().openURL();
 			}
 		};
 
@@ -343,7 +343,7 @@ class FileMenu extends BaseMenu {
 							app.setWaitCursor();
 							try {
 								
-								((GuiManagerD)app.getGuiManager()).showGraphicExport();
+								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
 								App
