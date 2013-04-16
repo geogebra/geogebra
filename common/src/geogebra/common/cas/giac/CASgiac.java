@@ -2,11 +2,9 @@ package geogebra.common.cas.giac;
 
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
-import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
@@ -31,14 +29,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	
 	/** CAS parser */
 	public CASparser casParser;
-	/** variable ordering, e.g. for Integral[a*b] */
-	protected static StringBuilder varOrder = new StringBuilder(
-			"ggbtmpvarx, ggbtmpvary, ggbtmpvarz, ggbtmpvara, "
-					+ "ggbtmpvarb, ggbtmpvarc, ggbtmpvard, ggbtmpvare, ggbtmpvarf, "
-					+ "ggbtmpvarg, ggbtmpvarh, ggbtmpvari, ggbtmpvarj, ggbtmpvark, "
-					+ "ggbtmpvarl, ggbtmpvarm, ggbtmpvarn, ggbtmpvaro, ggbtmpvarp, "
-					+ "ggbtmpvarq, ggbtmpvarr, ggbtmpvars, ggbtmpvart, ggbtmpvaru, "
-					+ "ggbtmpvarv, ggbtmpvarw");
+
 	private static boolean initialized = false;
 	
 	/**
@@ -48,16 +39,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		return initialized;
 	}
 
-	/**
-	 * We escape any upper-letter words so Reduce doesn't switch them to /
-	 * lower-letter, / however the following function-names should not be
-	 * escaped / (note: all functions here must be in lowercase!)
-	 */
-
-	private static Evaluate mpreduce;
 
 	/**
-	 * Creates new MPReduce CAS
+	 * Creates new Giac CAS
 	 * 
 	 * @param casParser
 	 *            parser
@@ -68,7 +52,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * @param exp
-	 *            MPREduce command
+	 *            Giac command
 	 * @return value returned from CAS
 	 */
 	public abstract String evaluateCAS(String exp);
@@ -126,6 +110,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
+		
+		/*
 		sb.setLength(0);
 		for (String s : result.split("\n")) {
 			s = s.trim();
@@ -162,6 +148,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		//result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		result = sb.toString();
+		*/
 			
 		if (result.startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
@@ -264,11 +251,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		
 
-		// convert parsed input to MPReduce string
-		String mpreduceInput = casParser.translateToCAS(casInput,
+		// convert parsed input to Giac string
+		String giacInput = casParser.translateToCAS(casInput,
 				StringTemplate.giacTemplate, this);
 		
-		App.error(casInput+"\n\n"+mpreduceInput );
+		App.error(casInput+"\n\n"+giacInput );
 
 		/*
 		// tell MPReduce whether it should use the keep input flag,
@@ -287,17 +274,17 @@ public abstract class CASgiac implements CASGenericInterface {
 		sb.append(mpreduceInput);
 		sb.append(">>");*/
 
-		// evaluate in MPReduce
-		String plainResult = evaluateCAS(mpreduceInput);
+		// evaluate in Giac
+		String plainResult = evaluateCAS(giacInput);
 		return plainResult;
 	}
 
 	/**
-	 * Tries to parse a given MPReduce string and returns a String in GeoGebra
+	 * Tries to parse a given Giac string and returns a String in GeoGebra
 	 * syntax.
 	 * 
-	 * @param mpreduceString
-	 *            String in MPReduce syntax
+	 * @param giacString
+	 *            String in Giac syntax
 	 * @param arbconst
 	 *            arbitrary constant handler
 	 * @param tpl
@@ -307,10 +294,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
 	 */
-	final public synchronized String toGeoGebraString(String mpreduceString,
+	final public synchronized String toGeoGebraString(String giacString,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
-		ExpressionValue ve = replaceRoots(casParser.parseGiac(mpreduceString),arbconst);
+		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst);
 		//replace rational exponents by roots or vice versa
 
 		
@@ -334,103 +321,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * @return MPReduce evaluator
 	 */
 	public synchronized void reset() {
-
-	}
-
-	/**
-	 * Loads all packages and initializes all the functions which do not depend
-	 * on the current kernel.
-	 * 
-	 * @param mpreduce1
-	 *            MPReduce evaluator
-	 * @throws Throwable
-	 *             from evaluator when some of the initial commands fails
-	 */
-	protected static final void initStaticMyMPReduceFunctions(Evaluate mpreduce1)
-			throws Throwable {
-		App.showAnnouncement("CASInitializing"+"desktop giac"); // for the desktop
-		initialized = true;
-		App.debug("Loading packages...");
-
-		String[] packages = { "rsolve", "numeric", "linalg", "reset", "trigsimp",
-				"polydiv", "myvector"};
-		for (String p : packages) {
-			mpreduce1.evaluate("load_package " + p + ";");
-			App.debug("Reduce package " + p + " loaded"+System.currentTimeMillis());
-		}
-
-	
-		App.debug("Initial procedures in Reduce have been defined");
-		App.hideAnnouncement();
-		
-	}
-
-	/**
-	 * Integral[sin(pi*x)/(pi*x),0,Infinity] Initializes function which depend
-	 * on the current kernel.
-	 * 
-	 * @param mpreduce1
-	 *            MPReduceevaluator
-	 * @throws Throwable
-	 *             from evaluator if some of the initialization commands fails
-	 */
-	protected final synchronized static void initDependentMyMPReduceFunctions(
-			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
-
-		if (CASgiac.mpreduce != mpreduce1) {
-			initStaticMyMPReduceFunctions(mpreduce1); // SLOW in web
-		}
-		CASgiac.mpreduce = mpreduce1;
-
-		// user variable ordering
-		String variableOrdering = "l%x, %x, l%y, %y, l%z, %z, l%a, %a, "
-				+ "l%b, %b, l%c, %c, l%d, %d, l%e, %e, l%f, %f, "
-				+ "l%g, %g, l%h, %h, l%i, %i, l%j, %j, l%k, %k, "
-				+ "l%l, %l, l%m, %m, l%n, %n, l%o, %o, l%p, %p, "
-				+ "l%q, %q, l%r, %r, l%s, %s, l%t, %t, l%u, %u, "
-				+ "l%v, %v, l%w, %w";
-		// make sure to use current kernel's variable prefix
-		variableOrdering = variableOrdering.replace("%", Kernel.TMP_VARIABLE_PREFIX);
-		if (varOrder.length() > 0 && variableOrdering.length() > 0) {
-			varOrder.append(',');
-		}
-		varOrder.append(variableOrdering);
-		mpreduce1.evaluate("varorder!!:= list(" + varOrder + ");");
-		//mpreduce1.evaluate("order varorder!!;");
-		mpreduce1.evaluate("korder varorder!!;");
-
-		// access functions for elements of a vector
-		String xyzCoordFunctions = "procedure ggbcasvarx(a); first(a);"
-				+ "procedure ggbcasvary(a); second(a);"
-				+ "procedure ggbcasvarz(a); third(a);";
-		// make sure to use current kernel's variable prefix
-		xyzCoordFunctions = xyzCoordFunctions.replace("ggbcasvar", Kernel.TMP_VARIABLE_PREFIX);
-		mpreduce1.evaluate(xyzCoordFunctions);	
-	}
-
-	/**
-	 * Returns the ordering number of a ggbtmpvar
-	 * 
-	 * @param ggbtmpvar
-	 *            The ggbtmpvar of which the ordering number is needed
-	 * @return The ordering number if the given ggbtmpvar
-	 * @throws IllegalArgumentException
-	 *             if the given {@link String} is not a valid ggbtmpvar
-	 */
-	public static int getVarOrderingNumber(String ggbtmpvar)
-			throws IllegalArgumentException {
-		String varOrderNoWhitespaces = varOrder.toString().replaceAll(" ", "");
-		String[] vars = varOrderNoWhitespaces.split(",");
-		for (int i = 0; i < vars.length; i++) {
-			if (ggbtmpvar.equals(vars[i])) {
-				return i;
-			}
-		}
-		throw new IllegalArgumentException("The given argument \"" + ggbtmpvar
-				+ "\" is not a valid ggbtmpvar.");
+		// TODO
 	}
 
 	/**
@@ -463,14 +356,14 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * @param exp
 	 *            parsed CAS output
 	 * @param result2
-	 *            output as string (for cacheing)
+	 *            output as string (for caching)
 	 * @param exception
 	 *            exception which stopped the computation (null if there wasn't
 	 *            one)
 	 * @param c
 	 *            command that called the CAS asynchronously
 	 * @param input
-	 *            input string (for cacheing)
+	 *            input string (for caching)
 	 */
 	public void CASAsyncFinished(ValidExpression exp, String result2,
 			Throwable exception, AsynchronousCommand c, String input) {
