@@ -210,7 +210,7 @@ public class CommandDispatcherGiac {
 					break;
 
 				case 3:
-					MyNumberPair np = new MyNumberPair(kernel,args.getItem(2), args.getItem(3));
+					MyNumberPair np = new MyNumberPair(kernel,args.getItem(1), args.getItem(2));
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA_INCOMPLETE, np);
 
@@ -218,7 +218,7 @@ public class CommandDispatcherGiac {
 
 				case 4:
 					// 4th argument is dummy to flag "regularized"
-					np = new MyNumberPair(kernel,args.getItem(2), args.getItem(3));
+					np = new MyNumberPair(kernel,args.getItem(1), args.getItem(2));
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA_INCOMPLETE_REGULARIZED, np);
 					break;
