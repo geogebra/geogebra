@@ -91,6 +91,11 @@ public class Ggb2giac {
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
 				"%0[%1 - 1,%2 - 1]");
+		
+		// used in regular mode
+		// Giac doesn't auto-simplify
+		p("Evaluate.1", "collect(%0)");
+		
 		p("Expand.1",
 				"expand(%0)");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
@@ -110,7 +115,10 @@ public class Ggb2giac {
 				//"factors(%0)");
 				"[[if type(%0)==DOM\\_INT then calc\\_mode(0); ggbans:=ifactors(%0); calc\\_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
+				// numerical, (up to) 13 significant digits
 				"fisher\\_cdf(%0,%1,%2)");
+				// alternative for exact answers
+				// "Beta(exact(%0)/2,exact(%1)/2,exact(%0)*exact(%2)/(exact(%0)*exact(%2)+exact(%1)),1)");
 		p("Flatten.1", "flatten(%0)");
 		p("First.1", "{%0[0]}");
 		p("First.2",
@@ -356,7 +364,10 @@ public class Ggb2giac {
 		p("TaylorSeries.4",
 				"convert(series(%0,%1,%2,%3),polynom)");
 		p("TDistribution.2",
+				// numerical, (up to) 13 significant digits
 				"student\\_cdf(%0,%1)");
+				// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
+				// "1/2 + (Beta(exact(%0) / 2, 1/2, 1, 1) - Beta(exact(%0) / 2, 1/2, exact(%0) / (exact(%0) + exact((%1)^2) ) ,1) )* sign(exact(%1)) / 2");
 		p("ToComplex.1",
 				"%0[0]+i*%0[1]");
 		p("ToExponential.1",
