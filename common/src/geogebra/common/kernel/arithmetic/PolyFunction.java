@@ -219,7 +219,7 @@ public class PolyFunction implements RealRootDerivFunction {
 				
 				// don't use !Kernel.isZero() as we don't want to lose eg leading term
 				if (coeffs[i] != 0) {
-					ExpressionNode term = new ExpressionNode(kernel, fv, Operation.POWER, new MyDouble(kernel, i)).multiply(coeffs[i]);
+					ExpressionNode term = new ExpressionNode(kernel, fv, Operation.POWER, new MyDouble(kernel, i)).multiplyR(coeffs[i]);
 					en = en.plus(term);
 				}
 			}
