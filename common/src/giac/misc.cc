@@ -477,11 +477,11 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,x;
     if (args.type!=_VECT){
+      p=args;
       if (calc_mode(contextptr)==1)
 	x=ggb_var(p);
       else
 	x=vx_var;
-      p=args;
     }
     else {
       vecteur & v=*args._VECTptr;

@@ -410,6 +410,8 @@ namespace giac {
 	  return e._SYMBptr->feuille;
       }
     }
+    if (e.type==_FRAC && e._FRACptr->num==1)
+      return -ln(e._FRACptr->den,contextptr);
     gen a,b;
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,ln(b,contextptr)),_SEQ__VECT));
@@ -5497,8 +5499,8 @@ namespace giac {
       gen res=a._VECTptr->front().evalf(1,contextptr);
       if (res.type==_REAL || res.type==_CPLX)
 	res=accurate_evalf(res,digits2bits(a._VECTptr->back().val));
-      set_decimal_digits(save_decimal_digits,contextptr);
-      if (ndigits<14 && calc_mode(contextptr)==1 && (res.type==_DOUBLE_ || res.type==_CPLX)){
+#if 0
+      if (ndigits<=14 && calc_mode(contextptr)==1 && (res.type==_DOUBLE_ || res.type==_CPLX)){
 	int decal=0;
 	decal=int(std::floor(std::log10(abs(res,contextptr)._DOUBLE_val)));
 	res=res*pow(10,ndigits-decal-1,contextptr);
@@ -5506,10 +5508,15 @@ namespace giac {
 	res=evalf(res,1,contextptr)*pow(10,decal+1-ndigits,contextptr);
       }
       else {
-	if (ndigits<14 && !is_undef(res)){
+	if (ndigits<=14 && !is_undef(res)){
 	  res=_round(gen(makevecteur(res,ndigits),_SEQ__VECT),contextptr);
 	}
       }
+#else
+      if (ndigits<=14 && !is_undef(res))
+	res=gen(res.print(),contextptr);
+#endif
+      set_decimal_digits(save_decimal_digits,contextptr);
       return res;
     }
     return a.evalf(1,contextptr);

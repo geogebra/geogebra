@@ -879,7 +879,12 @@ namespace giac {
     vecteur v(*g_orig._VECTptr);
     int s=v.size();
     gen P(v[0]),x(vx_var),a,b;
-    if (s==3){ a=v[1]; b=v[2]; } else { x=v[1]; a=v[2]; b=v[3]; }
+    if (s==3){ a=v[1]; b=v[2]; } 
+    else { 
+      x=v[1]; a=v[2]; b=v[3]; 
+      if (P.type==_VECT)
+	*logptr(contextptr) << gettext("Warning: variable name ignored: ") << x << endl;
+    }
     gen ai=im(a,contextptr);
     gen bi=im(b,contextptr);
     if (!is_zero(ai) || !is_zero(bi)){

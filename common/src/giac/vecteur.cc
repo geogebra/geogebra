@@ -9576,8 +9576,8 @@ namespace giac {
     if (ckmatrix(args._VECTptr->front()) || ckmatrix(args._VECTptr->back()))
       return gensizeerr(contextptr);
     gen res=cross(args._VECTptr->front(),args._VECTptr->back(),contextptr);
-    /* if (calc_mode(contextptr)==1 && res.type==_VECT)
-       res.subtype=_GGB__VECT; */
+    if (res.type==_VECT)
+      res.subtype=args._VECTptr->front().subtype;
     return res;
   }
   static const char _cross_s []="cross";

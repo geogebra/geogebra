@@ -1050,7 +1050,7 @@ namespace giac {
 	e.is_symb_of_sommet(at_inferieur_egal))
       return vecteur(1,gensizeerr(gettext("Inequation inside inequation not implemented ")+e.print()));
     if (is_zero(ratnormal(derive(e,x,contextptr))))
-      return vecteur(1,gensizeerr(gettext("Inequation is constant with respect to ")+string(x.print(contextptr))));
+      *logptr(contextptr) <<gettext("Inequation is constant with respect to ")+string(x.print(contextptr)) << endl;
     vecteur veq_not_singu,veq,singu;
     singu=find_singularities(e,x,2,contextptr);
     veq_not_singu=solve(e,x,2,contextptr);

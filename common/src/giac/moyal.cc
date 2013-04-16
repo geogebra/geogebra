@@ -343,7 +343,7 @@ namespace giac {
   // proba that X<x for X following a normal distrib of mean mean and dev dev
   // arg = vector [mean,dev,x] or x alone (mean=0, dev=1)
   static gen normal_cdf(const gen & g,GIAC_CONTEXT){
-    return rdiv(erf(plus_sqrt2_2*g,contextptr)+plus_one,2,contextptr);
+    return rdiv(erf(ratnormal(plus_sqrt2_2*g),contextptr)+plus_one,2,contextptr);
   }
   gen _normal_cdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

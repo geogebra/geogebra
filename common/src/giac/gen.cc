@@ -1965,7 +1965,7 @@ namespace giac {
 
   gen m_pi(int nbits){
 #ifdef HAVE_LIBMPFR
-    if (nbits>52){
+    if (nbits>48){
 #ifdef HAVE_LIBPTHREAD
       int locked=pthread_mutex_lock(&mpfr_mutex);
 #else // HAVE_LIBPTHREAD
