@@ -14,16 +14,16 @@ public class GeoGebraTubeAPI
 {
 	public static final int STANDARD_RESULT_QUANTITY = 10;
 
-	private static final String url = "http://geogebratube.org/api/json.php";
-	//private static final String secure_test_url = "https://test.geogebratube.org:8084/api/json.php";
+	//private static final String url = "http://geogebratube.org/api/json.php";
+	private static final String secure_test_url = "https://test.geogebratube.org:8084/api/json.php";
 	private static GeoGebraTubeAPI instance;
 
 	private RequestBuilder requestBuilder;
 
 	private GeoGebraTubeAPI()
 	{
-		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
-		//this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
+		//this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
 	}
 
 	/**
@@ -72,6 +72,13 @@ public class GeoGebraTubeAPI
 		performRequest(new MaterialRequest().toJSONString(), callback);
 	}
 	
+	/**
+	 * Logs in an user to GeoGebraTube
+	 * 
+	 * @param userName
+	 * @param password
+	 * @param callback
+	 */
 	public void logIn(String userName, String password, RequestCallback callback) {
 		performRequest(new LoginRequest(userName, password).toJSONString(), callback);
 	}
