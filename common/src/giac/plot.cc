@@ -1464,7 +1464,27 @@ namespace giac {
       vecteur res;
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
       for (;it!=itend;++it)
-	res.push_back(bit_and(*it,mask));
+	res.push_back(bit_or(*it,mask));
+      return res;
+    }
+    return a;
+  }
+
+  static gen bit_or(const gen & a,const vecteur & v){
+    if (a.type==_INT_)
+      return bit_or(v,a.val);
+    if (a.type==_VECT){
+      vecteur res;
+      const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end(),jt=v.begin(),jtend=v.end();
+      for (;it!=itend && jt!=jtend;++it,++jt){
+	if (jt->type==_INT_)
+	  res.push_back(bit_or(*it,jt->val));
+	else
+	  res.push_back(*it);
+      }
+      for (;it!=itend;++it){
+	res.push_back(*it);
+      }
       return res;
     }
     return a;
@@ -1537,6 +1557,8 @@ namespace giac {
       case _COLOR:
 	if (opt2.type==_INT_)
 	  attributs[0]=bit_or(bit_and(attributs[0],0xcfff0000),opt2.val);
+	if (opt2.type==_VECT)
+	  attributs[0]=bit_or(bit_and(attributs[0],0xcfff0000),*opt2._VECTptr);
 	break;
       case _STYLE:
 	if (opt2==at_point)

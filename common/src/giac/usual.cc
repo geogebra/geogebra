@@ -5514,7 +5514,7 @@ namespace giac {
       }
 #else
       if (ndigits<=14 && !is_undef(res))
-	res=gen(res.print(),contextptr);
+	res=gen(res.print(contextptr),contextptr);
 #endif
       set_decimal_digits(save_decimal_digits,contextptr);
       return res;

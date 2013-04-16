@@ -64,7 +64,7 @@ public class Ggb2giac {
 				"csolve(%0,ggbtmpvarx)");
 		p("CSolve.2", "csolve(%0,%1)");
 		p("Degree.1",
-				"degree(%0,ggbtmpvarx)");
+				"degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Denominator.1", "denom(%0)");
 		// TODO: diff(t^2) gives 0 not 2*t
