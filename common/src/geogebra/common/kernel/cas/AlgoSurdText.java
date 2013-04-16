@@ -578,12 +578,20 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					c=c/gcd;
 				}
 				
-				ExpressionNode en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
+				ExpressionNode en;
 				
-				if (positive) {
-					en = en.plusR(a);
+				if (Kernel.isZero(b1)) {
+					// eg SurdText[0.33]
+					// eg SurdText[0.235]
+					en = new ExpressionNode(kernel, a);
 				} else {
-					en = en.subtractR(a);
+					en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
+				
+					if (positive) {
+						en = en.plusR(a);
+					} else {
+						en = en.subtractR(a);
+					}
 				}
 				
 				en = en.divide(c);
@@ -721,14 +729,20 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				c=c/gcd;
 			}
 			
-			ExpressionNode en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
-			
-			if (positive) {
-				en = en.plusR(a);
+			ExpressionNode en;
+			if (Kernel.isZero(b1)) {
+				// eg SurdText[0.33]
+				// eg SurdText[0.235]
+				en = new ExpressionNode(kernel, a);
 			} else {
-				en = en.subtractR(a);
-			}
+				en = (new ExpressionNode(kernel, b2)).sqrt().multiplyR(b1);
 			
+				if (positive) {
+					en = en.plusR(a);
+				} else {
+					en = en.subtractR(a);
+				}
+			}			
 			en = en.divide(c);
 			
 			sb.append(en.toString(tpl));
