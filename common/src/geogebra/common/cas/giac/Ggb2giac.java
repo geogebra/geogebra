@@ -95,7 +95,7 @@ public class Ggb2giac {
 		
 		// used in regular mode
 		// Giac doesn't auto-simplify
-		p("Evaluate.1", "collect(%0)");
+		p("Evaluate.1", "normal(%0)");
 		//p("Evaluate.1", "%0");
 		
 		p("Expand.1",
