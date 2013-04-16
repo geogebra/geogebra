@@ -40,8 +40,9 @@ public class Ggb2giac {
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 		p("CFactor.1","[with\\_sqrt(0),[ggbans:=cfactor(%0)],with\\_sqrt(1),ggbans][3]");
 		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
-		p("ChiSquared.2", "chisquare\\_cdf(%0,%1)");
-		
+		p("ChiSquared.2", 
+				//"chisquare\\_cdf(%0,%1)");
+				"igamma(exact(%0)/2,exact(%1)/2,1)");
 		// TODO: ggbtmpvarx
 		p("Coefficients.1",
 				"coeffs(%0)");
@@ -249,7 +250,8 @@ public class Ggb2giac {
 				"{fsolve(%0,%1)}");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
-				"evalf(%0)");
+				// normal() so that Numeric(x + x/2) works
+				"evalf(normal(%0))");
 		p("Numeric.2",
 				"evalf(%0,%1)");
 		p("OrthogonalVector.1",
