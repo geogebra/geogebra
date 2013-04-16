@@ -30,6 +30,8 @@ public class CommandDispatcherGiac {
 		igamma(Operation.NO_OPERATION),
 		/** derivative*/
 		diff(Operation.DERIVATIVE),
+		/** derivative*/
+		integral(Operation.INTEGRAL),
 		/** psi */
 		Psi(Operation.PSI),
 		/** sine integral */
@@ -241,6 +243,10 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
+			case integral:
+				// eg Integral[exp(x^3)]
+				ret = new ExpressionNode(kernel, Double.NaN);
+				break;
 			case diff:
 				// e.g. diff(f(var),var) from Giac becomes f'(var)
 				// see http://www.geogebra.org/trac/ticket/1420
