@@ -1035,22 +1035,6 @@ public class AppW extends AppWeb {
 		setDefaultCursor();
 	}
 
-	
-
-	
-
-	
-
-	/**
-	 * Does some refining after file loaded in the App. Also note, that only one
-	 * euclidianview is used now, later it must be retought. We save the
-	 * original widht, height of the canvas, and restore it after file loading,
-	 * as it needed to be fixed after all.
-	 */
-	public void afterLoadAppFile() {
-		
-	}
-
 	@Override
     public void appSplashCanNowHide() {
 		if (splashDialog != null) {
