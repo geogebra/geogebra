@@ -95,7 +95,8 @@ public class Ggb2giac {
 		
 		// used in regular mode
 		// Giac doesn't auto-simplify
-		p("Evaluate.1", "collect(%0)");
+		//p("Evaluate.1", "collect(%0)");
+		p("Evaluate.1", "%0");
 		
 		p("Expand.1",
 				"expand(%0)");
@@ -127,13 +128,13 @@ public class Ggb2giac {
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"[[ggbans:=exponential\\_regression(%0)],(ggbans[1])*exp(ln(ggbans[0])*ggbtmpvarx)][1]");
+				"[[ggbans:=exponential\\_regression(%0)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][1]");
 		p("FitLog.1",
-				"[[ggbans:=logarithmic\\_regression(%0)],(ggbans[0])*ln(ggbtmpvarx)+ggbans[1]][1]");
+				"[[ggbans:=logarithmic\\_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][1]");
 		p("FitPoly.2",
-				"normal(horner(polynomial\\_regression(%0,%1),ggbtmpvarx))");
+				"normal(evalf(horner(polynomial\\_regression(%0,%1),ggbtmpvarx)))");
 		p("FitPow.1",
-				"[[ggbans:=power\\_regression(%0)],(ggbans[1])*ggbtmpvarx^(ggbans[0])][1]");
+				"[[ggbans:=power\\_regression(%0)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][1]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
@@ -253,7 +254,8 @@ public class Ggb2giac {
 				// normal() so that Numeric(x + x/2) works
 				"evalf(normal(%0))");
 		p("Numeric.2",
-				"evalf(%0,%1)");
+				// normal() so that Numeric(x + x/3,3) works
+				"evalf(normal(%0),%1)");
 		p("OrthogonalVector.1",
 				"convert([[0,-1],[1,0]]*(%0),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
@@ -375,7 +377,7 @@ public class Ggb2giac {
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"[[ggbans:=polar\\_coordinates(%0)],convert([ggbans[0]" + Unicode.angle + "ggbans[1]],25)][1]");
+				"[[ggbans:=polar\\_coordinates(%0)],[ggbans[0]" + Unicode.angle + "ggbans[1]]][1]");
 		p("ToPoint.1",
 				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
