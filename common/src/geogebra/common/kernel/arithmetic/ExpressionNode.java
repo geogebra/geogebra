@@ -5434,7 +5434,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	public ExpressionNode subtractR(double d) {
 		if (d == 0) {
-			return this;
+			return new ExpressionNode(kernel, new MyDouble(kernel, -1),
+					Operation.MULTIPLY, this);
 		}
 		return new ExpressionNode(kernel, new MyDouble(kernel, d),
 				Operation.MINUS, this);
