@@ -189,9 +189,24 @@ public class CommandDispatcherGiac {
 				break;
 			case surd:	
 				if (args.getLength() == 2) {
-					ret = new ExpressionNode(kernel,
-							args.getItem(0),Operation.NROOT,
-							args.getItem(1));
+					
+					ExpressionValue arg1 = args.getItem(1);
+					double arg1Num = arg1.evaluateNum().getDouble();
+					
+					if (arg1Num == 3) {
+						ret = new ExpressionNode(kernel,
+								args.getItem(0),Operation.CBRT,
+								null);
+					} else if (arg1Num == 2) {
+						ret = new ExpressionNode(kernel,
+								args.getItem(0),Operation.SQRT,
+								null);
+					} else {
+					
+						ret = new ExpressionNode(kernel,
+								args.getItem(0),Operation.NROOT,
+								arg1);
+					}
 				} else { 
 					throw new CASException("Giac: bad number of args for surd:"+args.getLength());
 				}
