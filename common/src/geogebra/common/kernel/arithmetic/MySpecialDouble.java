@@ -129,12 +129,26 @@ public class MySpecialDouble extends MyDouble {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if(setFromOutside)
+		if (setFromOutside) {
 			return super.toString(tpl);
+		}
 		if (!isLetterConstant) {
 			//serializing to CAS -- simply print input
-			if(tpl.hasType(StringType.MPREDUCE))
+			if (tpl.hasType(StringType.MPREDUCE)) {
 				return originalString.replace("E", "e");
+			}
+			
+			if (tpl.hasType(StringType.GIAC)) {
+				
+				if (originalString.indexOf(".") > -1) {
+					// wrap in exact() to convert to fraction (avoid rounding)
+					return "exact(" + originalString + ")";
+				}
+				
+				// don't wrap in exact()
+				return originalString;
+			}
+			
 			//if we are printing result of numeric and user didn't force us to use significant digits
 			//print the original string
 			if (keepOriginalString || (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))

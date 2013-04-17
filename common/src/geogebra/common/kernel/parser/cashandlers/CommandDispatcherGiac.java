@@ -32,6 +32,8 @@ public class CommandDispatcherGiac {
 		diff(Operation.DERIVATIVE),
 		/** derivative*/
 		integrate(Operation.INTEGRAL),
+		/** exact (convert to fraction)*/
+		exact(Operation.NO_OPERATION),
 		/** psi */
 		Psi(Operation.PSI),
 		/** sine integral */
@@ -124,7 +126,11 @@ public class CommandDispatcherGiac {
 			StringTemplate tpl = StringTemplate.casTemplate;
 
 			switch (commands.valueOf(cmdName)) {
-			//Sum[sin(sin(a)),a,b,c]
+
+			case exact:
+				// just return argument
+				ret = new ExpressionNode(kernel, args.getItem(0));
+				break;
 			case Psi:
 				if (args.getLength() == 1) {
 					// Psi(x) -> psi(x)

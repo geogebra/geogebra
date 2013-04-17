@@ -170,9 +170,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			return ret.replace("E", "e");
 		case GIAC:
 			// convert eg 0.125 to exact(0.125) so that Giac does an exact calculation with it
-			if (ret.indexOf(".") > -1 && ret.length() < 6) {
-				return "exact(" + ret + ")";
-			}
+			//if (ret.indexOf(".") > -1 && ret.length() < 6) {
+			//	return "exact(" + ret + ")";
+			//}
 			// else fall through
 		default:
 			return ret;
