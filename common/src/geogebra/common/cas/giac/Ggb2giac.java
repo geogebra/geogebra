@@ -100,7 +100,7 @@ public class Ggb2giac {
 		//p("Evaluate.1", "%0");
 		
 		p("Expand.1",
-				"expand(%0)");
+				"normal(simplify(%0))");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		
 		// factor over rationals
