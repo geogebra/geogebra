@@ -7,7 +7,7 @@
 	<mouse reverseWheel="true"/>
 	<font  size="12"/>
 	<menuFont size="-1"/>
-	<tooltipSettings language="" timeout=""/>
+	<tooltipSettings language="" timeout="0"/>
 	<graphicsSettings javaLatexFonts="false"/>
 </gui>
 <euclidianView>
