@@ -1262,7 +1262,7 @@ namespace giac {
     if (l1<0 || l1>=s || l2<0 || l2>=s)
       return gendimerr(contextptr);
     vecteur w=*v[0]._VECTptr;
-    w[l2]=w[l1-shift]+w[l2];
+    w[l2]=w[l1]+w[l2];
     return w;
   }
   static const char _rowAdd_s[]="rowAdd";

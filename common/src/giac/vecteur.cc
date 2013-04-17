@@ -2133,7 +2133,7 @@ namespace giac {
 	else {
 #ifndef USE_GMP_REPLACEMENTS
 	  if (it->type==_ZINT && a.type==_ZINT && it->ref_count()==1){
-	    mpz_gcd(tmpz,*it->_ZINTptr,*a._ZINTptr);
+	    my_mpz_gcd(tmpz,*it->_ZINTptr,*a._ZINTptr);
 	    if (mpz_cmp_ui(tmpz,1)==0)
 	      *it=fraction(*it,a);
 	    else {

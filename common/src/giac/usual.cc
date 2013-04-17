@@ -847,7 +847,7 @@ namespace giac {
       ++it;
       m=it->val;
       if (m%d)
-	simpl = simpl*f;
+	simpl = simpl*pow(f,m%d,contextptr);
       for (k=0;k<m/d;++k)
 	doubl = doubl*f;
     }
@@ -5435,8 +5435,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (ckmatrix(args))
       return apply(args._VECTptr->front(),args._VECTptr->back(),perm);
-    if ( (args.type!=_VECT) || (args._VECTptr->size()!=2) || (args._VECTptr->front().type!=_INT_) || (args._VECTptr->back().type!=_INT_) )
+    if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
       return gentypeerr(contextptr);
+    if ( (args._VECTptr->front().type!=_INT_) || (args._VECTptr->back().type!=_INT_) )
+      return _factorial(args._VECTptr->front(),contextptr)/_factorial(args._VECTptr->front()-args._VECTptr->back(),contextptr);
     if (args._VECTptr->front().val<args._VECTptr->back().val)
       return zero;
     if (args._VECTptr->front().val<0)

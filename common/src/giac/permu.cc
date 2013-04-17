@@ -624,7 +624,10 @@ namespace giac {
     if (args.type!=_VECT) 
       return gensizeerr(contextptr);
     vecteur v(*args._VECTptr);
-    return signature(vecteur_2_vector_int(v,contextptr));
+    vector<int> p;
+    if (!is_permu(v,p,contextptr))
+      return gensizeerr(contextptr);
+    return signature(p);
   }
 
   static const char _signature_s[]="signature";

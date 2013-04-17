@@ -2986,7 +2986,7 @@ namespace giac {
 	if (c==POLLARD_GCD) {
 	  // g=gcd(abs(p,context0),n); 
 	  mpz_abs(q,p);
-	  mpz_gcd(g,q,*n._ZINTptr);
+	  my_mpz_gcd(g,q,*n._ZINTptr);
 	  if (mpz_cmp_si(g,1)==0) {
 	    mpz_set(y,x); // y=x;
 	    mpz_set(y1,x1); // y1=x1;
@@ -3075,7 +3075,7 @@ namespace giac {
 #endif
 	// g=gcd(abs(p,context0),n);  // ok
 	mpz_abs(q,p);
-	mpz_gcd(g,q,*n._ZINTptr);
+	my_mpz_gcd(g,q,*n._ZINTptr);
       }
       if (mpz_cmp_si(g,1)==0) {
 	mpz_set(x1,x); // x1=x;

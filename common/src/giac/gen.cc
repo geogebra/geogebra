@@ -7136,8 +7136,12 @@ namespace giac {
     if (this->type!=_VECT)
       return gentypeerr(gettext("Gen [int]"));
     if (unsigned(i)>=_VECTptr->size()){
-      i=i+(xcas_mode(contextptr)!=0);
-      return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(_VECTptr->size())+", syntax compatibility mode "+print_program_syntax(xcas_mode(contextptr))+"\n");
+      i=i+(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(_VECTptr->size())
+#ifndef GIAC_HAS_STO_38
+		       +", syntax compatibility mode "+print_program_syntax(xcas_mode(contextptr))
+#endif
+		       +"\n");
     }
     return (*(this->_VECTptr))[i];
   }
@@ -7984,6 +7988,27 @@ namespace giac {
     return absint(a);
   }
 
+#ifdef EMCC
+  void my_mpz_gcd(mpz_t &z,const mpz_t & A,const mpz_t & B){
+    mpz_t a,b;
+    mpz_init_set(a,A);
+    mpz_init_set(b,B);
+    while (mpz_cmp_si(b,0)){
+      mpz_cdiv_r(z,a,b);
+      mpz_swap(a,b);
+      mpz_swap(b,z);
+    }
+    mpz_set(z,a);
+    mpz_abs(z,z);
+    mpz_clear(a);
+    mpz_clear(b);
+  }
+#else
+  void my_mpz_gcd(mpz_t &z,const mpz_t & a,const mpz_t & b){
+    mpz_gcd(z,a,b);
+  }
+#endif
+
   int simplify(int & a,int & b){
     int d=gcd(a,b);
     a=a/d;
@@ -8239,7 +8264,7 @@ namespace giac {
 	return abs(a,context0);
 #endif
       res = new ref_mpz_t;
-      mpz_gcd(res->z,*a._ZINTptr,*b._ZINTptr);
+      my_mpz_gcd(res->z,*a._ZINTptr,*b._ZINTptr);
       return(res);
     case _INT___CPLX: case _ZINT__CPLX:
     case _CPLX__INT_: case _CPLX__ZINT:
@@ -8701,7 +8726,7 @@ namespace giac {
     gen num(d1);
     gen den(u1);
     mpz_set(q,*m._ZINTptr);
-    mpz_gcd(r,q,u1);
+    my_mpz_gcd(r,q,u1);
     bool ok=mpz_cmp_ui(r,1)==0;
     if (!ok){
       cerr << "Bad reconstruction " << a_orig << " " << modulo << " " << gen(r) << endl;

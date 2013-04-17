@@ -80,6 +80,7 @@ namespace giac {
 #undef HAVE_LIBMPFR
 #endif
 
+  void my_mpz_gcd(mpz_t &z,const mpz_t & A,const mpz_t & B);
 
   class gen ; 
   // errors
