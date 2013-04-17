@@ -3,7 +3,7 @@
 <gui>
 	<window width="800" height="600" />
 	<settings ignoreDocument="false" showTitleBar="true" />
-	<labelingStyle  val="3"/>
+	<labelingStyle  val="0"/>
 	<mouse reverseWheel="true"/>
 	<font  size="12"/>
 	<menuFont size="-1"/>
