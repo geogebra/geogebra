@@ -31,7 +31,7 @@ public class CommandDispatcherGiac {
 		/** derivative*/
 		diff(Operation.DERIVATIVE),
 		/** derivative*/
-		integral(Operation.INTEGRAL),
+		integrate(Operation.INTEGRAL),
 		/** psi */
 		Psi(Operation.PSI),
 		/** sine integral */
@@ -243,7 +243,7 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
-			case integral:
+			case integrate:
 				// eg Integral[exp(x^3)]
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
