@@ -663,8 +663,9 @@ namespace giac {
   gen poisson_icdf(const gen & m_orig,const gen & t_orig,GIAC_CONTEXT){
     gen t=evalf_double(t_orig,1,contextptr);
     gen m=evalf_double(m_orig,1,contextptr);
-    if (t.type!=_DOUBLE_ || t._DOUBLE_val<0 || t._DOUBLE_val>1
-	|| m.type!=_DOUBLE_ )
+    if (t.type!=_DOUBLE_ || t._DOUBLE_val<0 || t._DOUBLE_val>1)
+      return gensizeerr();
+    if (m.type!=_DOUBLE_ )
       return symbolic(at_poisson_icdf,makesequence(m,t));
     if (t._DOUBLE_val==0)
       return zero;
@@ -1171,8 +1172,12 @@ namespace giac {
 
   gen snedecor_cdf(const gen & ndof,const gen & ddof,const gen & x,GIAC_CONTEXT){
     gen gndf(ndof),gddf(ddof),gx(x);
-    if (!is_integral(gndf) || !is_integral(gddf) || gx.type!=_DOUBLE_)
-      return symbolic(at_snedecor_cdf,makesequence(ndof,ddof,x));
+    if (!is_integral(gndf) || !is_integral(gddf) || gx.type!=_DOUBLE_){
+      if (calc_mode(contextptr)==1)
+	return symbolic(at_Beta,makesequence(ndof/2,ddof/2,ndof*x/(ndof*x+ddof),1));
+      else
+	return symbolic(at_snedecor_cdf,makesequence(ndof,ddof,x));
+    }
     return 1-UTPF(ndof,ddof,x,contextptr);
   }
   gen _snedecor_cdf(const gen & g,GIAC_CONTEXT){
