@@ -107,7 +107,7 @@ window.onload = function()
 			var cmd = __giac[i]["cmd"];
 			var expectedResult = __giac[i]["result"];
 			var notes = __giac[i]["notes"];
-			var resultO = window.ggbApplet.evalGeoGebraCAS(cmd);
+			var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
 			
 			if (resultO === "") {
 				resultO = "GEOGEBRA ERROR";
