@@ -107,9 +107,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.contentPanel.addWest(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
 		this.contentPanel.addEast(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
 		this.contentPanel.setHeight("100%"); 
+		this.euclidianViewPanel.setPixelSize((int) (Window.getClientWidth() * 0.8) , Window.getClientHeight()- this.laf.getPanelsHeight());
 
 		this.euclidianViewPanel.add(this.stylingBar);
-		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, Window.getClientWidth() - 60, 10);
+		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, (int)this.contentPanel.getWidgetSize(this.euclidianViewPanel).doubleValue() - 60, 10);
 
 		this.contentPanel.setWidgetMinSize(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
 		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
@@ -140,9 +141,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		}
 
 		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
-		this.euclidianViewPanel.setPixelSize(event.getWidth(), event.getHeight() - this.laf.getPanelsHeight());
-
-		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, Window.getClientWidth() - 60, 10);
+		this.contentPanel.onResize();
+		int euclidianWidth = event.getWidth()-(int)this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
+		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, euclidianWidth);
+		this.euclidianViewPanel.setPixelSize(euclidianWidth,
+				event.getHeight() - this.laf.getPanelsHeight());
+		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, euclidianWidth - 60, 10);
 
 		this.toolBar.setWidth(event.getWidth() + "px");
 		
