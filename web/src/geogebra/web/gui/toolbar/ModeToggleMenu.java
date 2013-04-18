@@ -148,13 +148,14 @@ public class ModeToggleMenu extends MenuBar{
 			tbutton.getElement().setAttribute("mode", actionText);
 			//tbutton.setHTML(getImagePanelHtml(mode));
 			tbutton.getElement().appendChild(tbutton.getCanvas(mode).getElement());
-			tbutton.getElement().appendChild(tbutton.getCanvasForRedTriangle().getElement());
 			
 			this.getElement().setAttribute("mode", actionText);
 //			this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
 			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
 			//tbutton.setText(app.getToolName(mode));
+		} else if (size == 2){
+			tbutton.getElement().appendChild(tbutton.getCanvasForRedTriangle().getElement());
 		}
 	}
 	

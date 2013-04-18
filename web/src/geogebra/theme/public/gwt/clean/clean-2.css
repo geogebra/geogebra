@@ -1545,9 +1545,10 @@ body[dir=rtl] .undoPanel {
 }
 
 .gwt-MenuBar-horizontal  .toolbar_item{
-	padding: 5px 1px;
+	padding: 8px 1px;
 	width: 40px;
 	text-align:center;
+	vertical-align: top;
 }
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
