@@ -2067,6 +2067,8 @@ namespace giac {
       if (!is_squarematrix(args))
 	return gensizeerr(contextptr);
       gen invargs=inv(args,contextptr);
+      if (is_undef(invargs))
+	return undef;
       return _colNorm(args,contextptr)*_colNorm(invargs,contextptr);
       // return _colNorm(args,contextptr)*_rowNorm(args,contextptr)/abs(_det(args,contextptr),contextptr);
     }

@@ -2841,7 +2841,7 @@ namespace giac {
 	  v=empile.back();
 	  if (v.type==_VECT){
 	    vecteur vv=*v._VECTptr;
-	    if (itend->val>=0&&itend->val<vv.size()) // additional check
+	    if (itend->val>=0&&itend->val<int(vv.size())) // additional check
 	      vv[itend->val]=a;
 	    v=gen(vv,v.subtype);
 	  }
@@ -2858,7 +2858,7 @@ namespace giac {
 		  v=symbolic(v._SYMBptr->sommet,a);
 		else {
 		  vecteur vv=*v._SYMBptr->feuille._VECTptr;
-		  if (itend->val>0&&itend->val<=vv.size()) // additional check
+		  if (itend->val>0&&itend->val<=int(vv.size())) // additional check
 		    vv[itend->val-1]=a;
 		  v=symbolic(v._SYMBptr->sommet,gen(vv,v._SYMBptr->feuille.subtype));
 		}
@@ -2877,7 +2877,7 @@ namespace giac {
 	    oldv=empile.back();
 	    if (oldv.type==_VECT){
 	      vecteur vv=*oldv._VECTptr;
-	      if (itend->val>=0&&itend->val<vv.size()) // additional check
+	      if (itend->val>=0&&itend->val<int(vv.size())) // additional check
 		vv[itend->val]=v;
 	      v=gen(vv,oldv.subtype);
 	    }
@@ -2887,7 +2887,7 @@ namespace giac {
 		  v=symbolic(oldv._SYMBptr->sommet,v);
 		else {
 		  vecteur vv=*oldv._SYMBptr->feuille._VECTptr;
-		  if (itend->val>0 && itend->val<=vv.size()) // additional check
+		  if (itend->val>0 && itend->val<=int(vv.size())) // additional check
 		    vv[itend->val-1]=v;
 		  v=symbolic(oldv._SYMBptr->sommet,gen(vv,oldv._SYMBptr->feuille.subtype));
 		}
@@ -4745,6 +4745,8 @@ namespace giac {
   gen quorem(const gen & a,const gen & b){
     if ((a.type!=_VECT) || (b.type!=_VECT))
       return symb_quorem(a,b);
+    if (b._VECTptr->empty())
+      return gensizeerr(gettext("Division by 0"));
     vecteur q,r;
     environment * env=new environment;
     DivRem(*a._VECTptr,*b._VECTptr,env,q,r,true);

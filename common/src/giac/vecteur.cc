@@ -4509,7 +4509,7 @@ namespace giac {
 	// specialization for double
 	double ddet;
 	vector<int> maxrankcols;
-	doublerref(N,pivots,permutation,maxrankcols,ddet,l,lmax,c,cmax,fullreduction,dont_swap_below,rref_or_det_or_lu);
+	doublerref(N,pivots,permutation,maxrankcols,ddet,l,lmax,c,cmax,fullreduction,dont_swap_below,rref_or_det_or_lu,epsilon(contextptr));
 	if (rref_or_det_or_lu!=1){
 	  std_matrix<gen> RES;
 	  std_matrix_giac_double2std_matrix_gen(N,RES);
@@ -5408,7 +5408,7 @@ namespace giac {
   // rref_or_det_or_lu = 0 for rref, 1 for det, 2 for lu, 
   // 3 for lu without permutation
   // fullreduction=0 or 1, use 2 if the right part of a is idn
-  void doublerref(matrix_double & N,vecteur & pivots,vector<int> & permutation,vector<int> & maxrankcols,double & idet,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int rref_or_det_or_lu){
+  void doublerref(matrix_double & N,vecteur & pivots,vector<int> & permutation,vector<int> & maxrankcols,double & idet,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,int rref_or_det_or_lu,double eps){
     if (debug_infolevel)
       cerr << clock() << " doublerref begin " << l << endl;
     bool use_cstart=!c;
@@ -5433,8 +5433,11 @@ namespace giac {
     bool noswap=true;
     for (int i=0;i<lmax;++i)
       permutation.push_back(i);
+    double epspivot=(eps<1e-13)?1e-13:eps;
     for (;(l<lmax) && (c<cmax);){
       pivot=N[l][c];
+      if (std::abs(pivot)<epspivot)
+	pivot=N[l][c]=0;
       if (rref_or_det_or_lu==3 && !pivot){
 	idet=0;
 	return;
@@ -5449,6 +5452,8 @@ namespace giac {
       if (l<dont_swap_below){ 
 	for (int ctemp=c+1;ctemp<cmax;++ctemp){
 	  temp=N[l][ctemp];
+	  if (std::abs(temp)<epspivot)
+	    temp=N[l][ctemp]=0;
 	  if (std::abs(temp)>std::abs(pivot)){
 	    pivot=temp;
 	    pivotcol=ctemp;
@@ -5458,6 +5463,8 @@ namespace giac {
       else {      // scan N current column for the best pivot available
 	for (int ltemp=l+1;ltemp<lmax;++ltemp){
 	  temp=N[ltemp][c];
+	  if (std::abs(temp)<epspivot)
+	    temp=N[ltemp][c]=0;
 	  if (debug_infolevel>1)
 	    print_debug_info(temp);
 	  if (std::abs(temp)>std::abs(pivot)){
@@ -5467,6 +5474,7 @@ namespace giac {
 	}
       }
       if (pivot){
+	epspivot=std::abs(eps*pivot);
 	maxrankcols.push_back(c);
 	if (l!=pivotline){
 	  swap(N[l],N[pivotline]);

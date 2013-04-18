@@ -1331,8 +1331,8 @@ namespace giac {
     if (is_greater(0,n,contextptr) || is_greater(n,1e7,contextptr))
       return gendimerr(contextptr);
     gen res=1;
-    for (unsigned k=2;k<=n.val;++k){
-      res += 1/pow(gen(int(k)),e,contextptr);
+    for (int k=2;k<=n.val;++k){
+      res += 1/pow(gen(k),e,contextptr);
     }
     return res;
   }
