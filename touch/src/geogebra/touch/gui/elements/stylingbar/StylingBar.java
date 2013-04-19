@@ -285,6 +285,7 @@ public class StylingBar extends DecoratorPanel
 
 	public void updateColor(String color)
 	{	
+		this.colorButton.getElement().getStyle().setBackgroundImage("initial"); //needed to set a backgroundColor
 		this.colorButton.getElement().getStyle().setBackgroundColor(color);
 	}
 }
