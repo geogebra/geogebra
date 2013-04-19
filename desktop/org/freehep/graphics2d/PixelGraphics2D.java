@@ -98,7 +98,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
             Class clazz = Class.forName("sun.awt.X11GraphicsEnvironment");
             displayX11 = true;
             Method method = clazz.getMethod("isDisplayLocal", null);
-            Boolean result = (Boolean) method.invoke(null, null);
+            Boolean result = (Boolean) method.invoke(null,null);
             displayLocal = result.booleanValue();
         } catch (ClassNotFoundException e) {
             // Windows case...
@@ -113,6 +113,12 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
             // ignored
         } catch (SecurityException e) {
             // ignored
+        } catch (NullPointerException e){
+        	// method.invoke throws ExceptionInInitializerError on Ubuntu 12.10.
+        	// Seems to be a bug in the initialization of a static variable inside
+        	// the method isDisplayLocal. See
+        	// http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/sun/awt/X11GraphicsEnvironment.java#X11GraphicsEnvironment.isDisplayLocal() 
+        	// Also oracle jdk 1.7 
         }
     }
 
