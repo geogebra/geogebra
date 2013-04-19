@@ -165,6 +165,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location) {
 		currentPopup = new ContextMenuGeoElementW(app, geos, location);
+		((ContextMenuGeoElementW)currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
