@@ -1820,6 +1820,16 @@ namespace giac {
   gen _solve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int isolate_mode=int(complex_mode(contextptr)) | int(int(all_trig_sol(contextptr)) << 1);
+    if (calc_mode(contextptr)==1){
+      if (args.type==_VECT && args.subtype!=_SEQ__VECT){
+	vecteur w(1,cst_pi);
+	lidnt(args,w);
+	w.erase(w.begin());
+	return _solve(makesequence(args,w),contextptr);
+      }
+      if (args.type!=_VECT)
+	return _solve(makesequence(args,ggb_var(args)),contextptr);
+    }
     vecteur v(solvepreprocess(args,complex_mode(contextptr),contextptr));
     int s=v.size();
     if (s==2 && v[1].is_symb_of_sommet(at_equal))

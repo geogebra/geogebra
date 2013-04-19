@@ -1802,7 +1802,7 @@ namespace giac {
     }
     return _sum(args,contextptr);
   }
-  static const char _HPSUM_s[]="Σ";
+  static const char _HPSUM_s[]="∑"; // "Σ";
   static define_unary_function_eval_quoted (__HPSUM,&giac::_HPSUM,_HPSUM_s);
   define_unary_function_ptr5( at_HPSUM ,alias_at_HPSUM,&__HPSUM,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
 

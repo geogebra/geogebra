@@ -5348,6 +5348,8 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	return "HPDIFF";
       if (!strcmp(ch,"Σ"))
 	return "HPSUM";
+      if (!strcmp(ch,"∑"))
+	return "HPSUM";
       string res;
       for (;*ch;++ch){
         if (*ch=='%')

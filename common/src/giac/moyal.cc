@@ -636,6 +636,18 @@ namespace giac {
     gen fx=_floor(x,contextptr);
     if (fx.type!=_INT_ || fx.val<0)
       return gensizeerr(contextptr);
+    if (n.type==_INT_){
+      long_double N=n.val;
+      long_double res=0,prod=1;
+      for (int i=0;i<=fx.val;){
+	res += prod;
+	prod *= N;
+	++i;
+	prod /= long_double(i);
+      }
+      res *= std::exp(-N);
+      return double(res);
+    }
     gen res=0;
     for (int i=0;i<=fx.val;++i){
       res +=poisson(n,i,contextptr);

@@ -98,7 +98,7 @@ namespace giac {
 	return v.front();
       if (v.empty())
 	return zero;
-      return _plus(v,contextptr); // symbolic(at_plus,v);
+      return _plus(gen(v,_SEQ__VECT),contextptr); // symbolic(at_plus,v);
     }
     if (s.sommet==at_prod){
       if (s.feuille.type!=_VECT)
@@ -130,7 +130,7 @@ namespace giac {
 	return v.front();
       if (v.empty())
 	return zero;
-      return symbolic(at_plus,v);
+      return symbolic(at_plus,gen(v,_SEQ__VECT));
     }
     if (s.sommet==at_neg)
       return -derive(s.feuille,i,contextptr);
@@ -202,7 +202,7 @@ namespace giac {
 	  if (is_undef(tmp))
 	    return tmp;
 	}
-	return symbolic(s.sommet,v);
+	return symbolic(s.sommet,gen(v,s.feuille.subtype));
       }
       if (s.sommet==at_piecewise){
 	for (int j=0;j<vs/2;++j){
@@ -213,7 +213,7 @@ namespace giac {
 	  gen & tmp=v[vs-1];
 	  tmp=derive(tmp,i,contextptr); // v[vs-1]=derive(v[vs-1],i,contextptr);
 	}
-	return symbolic(s.sommet,v);
+	return symbolic(s.sommet,gen(v,s.feuille.subtype));
       }
       if (vs==2 && s.sommet==at_NTHROOT){
 	gen base = v[1],exponent=inv(v[0],contextptr);
@@ -262,7 +262,7 @@ namespace giac {
 	return v.front();
       if (v.empty())
 	return zero;
-      return symbolic(at_plus,v);
+      return symbolic(at_plus,gen(v,_SEQ__VECT));
     }
     // integrate
     if (s.sommet==at_integrate){

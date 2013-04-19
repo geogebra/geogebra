@@ -9181,7 +9181,7 @@ namespace giac {
 		  /* fullreduction */1,egv_found,true,1,0,
 		       contextptr))
 	      return false;
-	    if (sym)
+	    if (sym )
 	      char_m=gramschmidt(char_m,false,contextptr);
 	    char_m_copy.clear();
 	    // extract non-0 lines starting from line number egv_found
@@ -10471,6 +10471,8 @@ namespace giac {
     if (!s)
       return v;
     vecteur sc(1,dotvecteur(*conj(v[0],contextptr)._VECTptr,*v[0]._VECTptr));
+    if (is_zero(sc.back()))
+      return v;
     vecteur rcol0(s);
     rcol0[0]=1;
     r.push_back(rcol0);

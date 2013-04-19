@@ -1164,6 +1164,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	return "HPDIFF";
       if (!strcmp(ch,"Σ"))
 	return "HPSUM";
+      if (!strcmp(ch,"∑"))
+	return "HPSUM";
       string res;
       for (;*ch;++ch){
         if (*ch=='%')
