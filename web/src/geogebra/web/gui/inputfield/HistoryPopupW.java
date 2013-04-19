@@ -32,7 +32,6 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHand
     }
 
 	public void showPopup() {
-		highlighted = 0;
 		ArrayList<String> list = textField.getHistory();
 		if (list.isEmpty()) {
 			return;
@@ -47,8 +46,9 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHand
         }
 		show();
 		setPopupPosition(textField.getAbsoluteLeft(), textField.getAbsoluteTop()-getOffsetHeight());
-		historyList.getWidget(historyList.getWidgetCount()-1).getElement().focus();
-		
+		int lastItem = historyList.getWidgetCount()-1;
+		historyList.getWidget(lastItem).getElement().focus();
+		highlighted = lastItem;
     }
 
 	public boolean isDownPopup() {
