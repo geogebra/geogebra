@@ -165,6 +165,15 @@ public class GeoCanvasImage extends GeoImage {
 	public boolean isIndependent(){
 		return true;
 	}
+	
+	/*
+	 * Since objects of this class are always created by commands 
+	 * you must override the method to prevent the XML result 
+	 * duplicates the object definition.
+	 */
+	@Override
+	public void getXML(StringBuilder sb) {
+	}
 
 	/**
 	 * returns all class-specific xml tags for getXML
