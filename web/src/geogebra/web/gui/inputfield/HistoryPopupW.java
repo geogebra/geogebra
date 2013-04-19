@@ -47,7 +47,7 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHand
         }
 		show();
 		setPopupPosition(textField.getAbsoluteLeft(), textField.getAbsoluteTop()-getOffsetHeight());
-		historyList.getWidget(0).getElement().focus();
+		historyList.getWidget(historyList.getWidgetCount()-1).getElement().focus();
 		
     }
 
