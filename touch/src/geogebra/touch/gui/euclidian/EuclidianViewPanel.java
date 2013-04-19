@@ -5,6 +5,7 @@ import geogebra.touch.controller.TouchController;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Extends from {@link LayoutPanel}. Holds the instances of the canvas and the
@@ -20,10 +21,11 @@ public class EuclidianViewPanel extends AbsolutePanel
 	 * 
 	 * @param ec
 	 *          MobileEuclidianController
+	 * @param widget 
 	 */
-	public void initEuclidianView(TouchController ec)
+	public void initEuclidianView(TouchController ec, Widget widget)
 	{
-		this.euclidianView = new EuclidianViewM(this, ec);
+		this.euclidianView = new EuclidianViewM(this, ec, widget);
 		this.add(this.euclidianView.getCanvas());
 	}
 

@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.ui.Widget;
 
 public class TouchEventController implements TouchStartHandler, TouchMoveHandler, TouchEndHandler, MouseDownHandler, MouseUpHandler,
     MouseMoveHandler, MouseWheelHandler
@@ -24,10 +25,12 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	private TouchController mc;
 	private double oldDistance;
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
+	private Widget offsetWidget;
 
-	public TouchEventController(TouchController mc)
+	public TouchEventController(TouchController mc, Widget w)
 	{
 		this.mc = mc;
+		this.offsetWidget = w;
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		if (event.getTouches().length() == 1)
 		{
 			event.preventDefault();
-			this.mc.onTouchStart(event.getTouches().get(0).getClientX(), event.getTouches().get(0).getClientY());
+			this.mc.onTouchStart(event.getTouches().get(0).getClientX(), convertHeight(event.getTouches().get(0).getClientY()));
 		}
 		else if (event.getTouches().length() == 2)
 		{
@@ -125,5 +128,10 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		{
 			this.mc.onPinch(event.getX(), event.getY(), 1.1);
 		}
+	}
+
+	private int convertHeight(int y)
+	{
+		return this.offsetWidget == null ? y : y - this.offsetWidget.getOffsetHeight();
 	}
 }
