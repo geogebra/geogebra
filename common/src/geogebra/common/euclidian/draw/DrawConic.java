@@ -45,7 +45,6 @@ import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -986,7 +985,7 @@ public class DrawConic extends Drawable implements Previewable {
 			g2.setStroke(objStroke);
 			g2.setColor(geo.getObjectColor());
 			g2.draw(shape);
-			if (labelVisible && geo instanceof GeoConic) {
+			if (labelVisible) {
 				g2.setFont(view.getFontConic());
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);

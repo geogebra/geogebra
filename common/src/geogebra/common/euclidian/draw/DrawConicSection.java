@@ -129,10 +129,10 @@ public class DrawConicSection extends DrawConic {
 		}
 
 		// label position
-		/*
 		if (labelVisible) {
-			double midAngle = conic.getParameterStart()
-					+ conic.getParameterExtent() / 2.0;
+			double midAngle = start0
+					+ start1 / 2.0;
+			double[] coords = new double[2];
 			coords[0] = halfAxes[0] * Math.cos(midAngle);
 			coords[1] = halfAxes[1] * Math.sin(midAngle);
 			transform.transform(coords, 0, coords, 0, 1);
@@ -143,6 +143,6 @@ public class DrawConicSection extends DrawConic {
 			yLabel = (int) (coords[1]) - 6;
 			addLabelOffset();
 		}
-		*/
+		
 	}
 }
