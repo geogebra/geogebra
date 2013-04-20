@@ -9,6 +9,8 @@ public abstract class GGeneralPath implements geogebra.common.awt.GShape {
 
 	public abstract void lineTo(float f, float g);
 
+	public abstract void append(GShape s, boolean connect);
+	
 	public abstract void closePath();
 
 	public abstract GShape createTransformedShape(GAffineTransform affineTransform);

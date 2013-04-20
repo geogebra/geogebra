@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.TreeSet;
@@ -13,7 +14,7 @@ import java.util.TreeSet;
  * @author mathieu
  *
  */
-public class GeoConicSection extends GeoConic3D {
+public class GeoConicSection extends GeoConic3D implements GeoConicSectionInterface{
 	
 	private double[] paramStart, paramEnd, paramExtent;
 

@@ -76,9 +76,10 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	public static final double HUGE_RADIUS = 1E12;
 
-	private GeoConicND conic;
+	protected GeoConicND conic;
 
-	private boolean isVisible, labelVisible;
+	protected boolean isVisible;
+	protected boolean labelVisible;
 	private int type;
 
 	private double[] labelCoords = new double[2];
@@ -102,12 +103,12 @@ public class DrawConic extends Drawable implements Previewable {
 	private double mx, my, radius, yradius, angSt, angEnd;
 
 	// for ellipse, hyperbola, parabola
-	private GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
-	private GShape shape;
+	protected GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
+	protected GShape shape;
 
 	// CONIC_ELLIPSE
 	private boolean firstEllipse = true;
-	private double[] halfAxes;
+	protected double[] halfAxes;
 	private GEllipse2DDouble ellipse;
 
 	// CONIC_PARABOLA
@@ -674,7 +675,7 @@ public class DrawConic extends Drawable implements Previewable {
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
-	final private void updateEllipse() {
+	protected void updateEllipse() {
 		setShape(null);
 		// check for huge pixel radius
 		double xRadius = halfAxes[0] * view.getXscale();

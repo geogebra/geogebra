@@ -6,6 +6,8 @@ package geogebra.common.awt;
 public abstract class GArc2D implements GRectangularShape{
 	/** open type (just the arc)*/
 	public final static int OPEN = 0;
+	/** chord type (include line connecting ends)*/
+	public final static int CHORD = 1;
 	/** pie type (include lines connecting with center + the area)*/
 	public final static int PIE = 2;
 

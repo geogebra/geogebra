@@ -5,6 +5,7 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 import geogebra.main.AppD;
 
 
@@ -50,6 +51,16 @@ public class GGeneralPathD extends geogebra.common.awt.GGeneralPath implements g
     public synchronized void closePath() {
     	impl.closePath();
     }
+	
+	@Override
+    public synchronized void append(GShape s, boolean connect) {
+		if(!(s instanceof GShapeD))
+			return;
+		impl.append(((GShapeD)s).getAwtShape(),connect);
+
+    }
+	
+	
 
 	public boolean intersects(int i, int j, int k, int l) {
 		return impl.intersects(i,j,k,l);
