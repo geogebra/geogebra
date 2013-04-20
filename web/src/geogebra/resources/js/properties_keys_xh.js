@@ -801,7 +801,7 @@ __GGB__keysVar.xh.command = {
     "SigmaXY_Syntax": "[ <List of Points> ]\n[ <List of x-coordinates>, <List of y-coordinates> ]",
     "SigmaYY": "uSigmaYY",
     "SigmaYY_Syntax": "[ <List of Points> ]",
-    "Simplify": "Simplifaya",
+    "Simplify": "Nciphisa",
     "Simplify_Syntax": "[ <Function> ]\n[ <Text> ]",
     "Simplify_SyntaxCAS": "[ <Function> ]",
     "Slider": "iSlider",
