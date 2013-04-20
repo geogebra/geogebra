@@ -187,8 +187,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				
 				break;
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				m = conic.getOrigin3D(0);
 				d = conic.getDirection3D(0);
-				m = conic.getMidpoint3D();
 				minmax = getLineMinMax(0);
 				brush.segment(m.add(d.mul(minmax[0])), m.add(d.mul(minmax[1])));
 				break;

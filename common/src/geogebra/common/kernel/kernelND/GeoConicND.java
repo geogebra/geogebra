@@ -2655,8 +2655,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		lines[1].y = lines[0].y;
 		lines[1].z = lines[0].z;
 		
+		setStartPointsForDoubleLine();
 		//setStartPointsForLines();
-		//Application.debug("double line : " + lines[0]);
+		//App.debug("\ndouble line : " + lines[0]+"\nstart point : "+startPoints[0]);
 	}
 	
 	/**
@@ -2757,6 +2758,24 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			lines[i].setStartPoint(startPoints[i]);
 		}	
 		
+	}
+	
+	private void setStartPointsForDoubleLine() {
+		// make sure we have a start point to compute line parameter	
+		if (startPoints == null) {
+			startPoints = new GeoPoint[2];
+			for (int i=0; i < 2; i++) {
+				startPoints[i] = new GeoPoint(cons);
+			}
+		}
+
+		// update start points	
+		lines[0].setStartPoint(null);
+		lines[0].getPointOnLine(startPoints[0]);
+		lines[0].setStartPoint(startPoints[0]);
+		
+		lines[1].setStartPoint(startPoints[0]);
+
 	}
 
 	final private void parabola() {

@@ -210,8 +210,8 @@ public class DrawConicSection extends DrawConic {
 	@Override
 	protected void updateDoubleLine() {
 
+		Coords m = conic.getOrigin3D(0);
 		Coords d = conic.getDirection3D(0);
-		Coords m = conic.getMidpoint3D();
 
 		Coords A = view.getCoordsForView(m.add(d.mul(getStart(0))));
 		Coords B = view.getCoordsForView(m.add(d.mul(getEnd(0))));
