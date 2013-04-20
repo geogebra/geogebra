@@ -5,6 +5,7 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 
 public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
         GShapeW {
@@ -106,6 +107,11 @@ public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
 	@Override
     public void closePath() {
 		impl.closePath();
+	}
+	
+	@Override
+	public void append(GShape s, boolean connect){
+		impl.append(((GShapeW) s).getGawtShape(), connect);
 	}
 
 	
