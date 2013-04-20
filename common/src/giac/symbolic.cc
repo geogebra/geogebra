@@ -427,7 +427,7 @@ namespace giac {
       }
       i=-i;
     }
-#ifdef BESTA_OS
+#if 0 //def BESTA_OS
     // BP: please comment why the code below does not work for besta
     assert(0);
 #else

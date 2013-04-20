@@ -683,9 +683,21 @@ namespace giac {
       return zero;
     if (t._DOUBLE_val==1)
       return plus_inf;
-    if (m._DOUBLE_val>100)
-      return gensizeerr(gettext("Overflow"));
+#if 1
+    long_double M=m._DOUBLE_val;
     int k=0;
+    long_double T=t._DOUBLE_val*std::exp(M),B=0,prod=1;
+    for (;;){
+      B += prod;
+      if (B>=T)
+	return k;
+      ++k;
+      prod *= M;
+      prod /= k;
+    }
+#else
+    if (m._DOUBLE_val>300)
+      return gensizeerr(gettext("Overflow"));
     gen b;
     for (;;++k){
       b=b+poisson(m,k,contextptr);
@@ -693,6 +705,7 @@ namespace giac {
 	return k;
     }
     return t;
+#endif
   }
   gen _poisson_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

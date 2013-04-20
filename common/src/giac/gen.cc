@@ -9103,7 +9103,7 @@ namespace giac {
     // val = 0;
     if (!*s)
       return res;
-    int base=(abs_calc_mode(contextptr)==38)?10:0;
+    int base=(abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)?10:0;
     if (s[0]=='#' || s[0]=='0') {
       if (s[1]=='x' || s[1]=='X'){
 	s[0]='0';
