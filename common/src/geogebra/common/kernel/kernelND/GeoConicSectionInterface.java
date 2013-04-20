@@ -20,6 +20,11 @@ public interface GeoConicSectionInterface {
 	 */
 	public double getParameterExtent(int index);
 	
+	/**
+	 * @param index index of the hole
+	 * @return end parameter
+	 */
+	public double getParameterEnd(int index);
 	
 	
 }

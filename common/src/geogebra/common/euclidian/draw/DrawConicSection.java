@@ -2,10 +2,13 @@ package geogebra.common.euclidian.draw;
 
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 
@@ -18,7 +21,7 @@ import geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 public class DrawConicSection extends DrawConic {
 	
 	private GArc2D arc;
-
+	private GLine2D line;
 
 	/**
 	 * constructor
@@ -32,7 +35,7 @@ public class DrawConicSection extends DrawConic {
 	/**
 	 * 
 	 * @param i index
-	 * @return i-th start paremeter for the section
+	 * @return i-th start parameter for the section
 	 */
 	protected double getStart(int i){
 		return ((GeoConicSectionInterface) getGeoElement()).getParameterStart(i);
@@ -41,12 +44,24 @@ public class DrawConicSection extends DrawConic {
 	/**
 	 * 
 	 * @param i index
-	 * @return i-th extent paremeter for the section
+	 * @return i-th extent parameter for the section
 	 */
 	protected double getExtent(int i){
 		return ((GeoConicSectionInterface) getGeoElement()).getParameterExtent(i);
 	}
 	
+
+	/**
+	 * 
+	 * @param i index
+	 * @return i-th end parameter for the section
+	 */
+	protected double getEnd(int i){
+		return ((GeoConicSectionInterface) getGeoElement()).getParameterEnd(i);
+	}
+	
+	
+	@Override
 	protected void updateEllipse() {
 		
 		Double start0 = getStart(0);
@@ -144,5 +159,102 @@ public class DrawConicSection extends DrawConic {
 			addLabelOffset();
 		}
 		
+	}
+	
+	@Override
+	protected void updateLines() {
+		
+		Coords[] points = new Coords[4];
+
+		Coords m = conic.getOrigin3D(0);
+		Coords d = conic.getDirection3D(0);
+
+		points[0] = view.getCoordsForView(m.add(d.mul(getStart(0))));
+		points[1] = view.getCoordsForView(m.add(d.mul(getEnd(0))));
+		
+		m = conic.getOrigin3D(1);
+		d = conic.getDirection3D(1);
+
+		points[3] = view.getCoordsForView(m.add(d.mul(getStart(1))));
+		points[2] = view.getCoordsForView(m.add(d.mul(getEnd(1))));
+		
+		
+		
+		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
+		
+		boolean firstPoint = true;
+
+		for (int i=0; i<4; i++){
+			if (Kernel.isZero(points[i].getZ())){
+				if (firstPoint){
+					path.moveTo((float) points[i].getX(), (float) points[i].getY());
+					firstPoint = false;
+				}else{
+					path.lineTo((float) points[i].getX(), (float) points[i].getY());
+				}
+			}
+		}
+		
+		if(!firstPoint){//close path only if at least one point
+			path.closePath();
+		}
+		
+
+		// transform to screen coords
+		transform.setTransform(view.getCoordTransform());
+		shape = transform.createTransformedShape(path);
+	}
+	
+	
+	
+	@Override
+	protected void updateDoubleLine() {
+
+		Coords d = conic.getDirection3D(0);
+		Coords m = conic.getMidpoint3D();
+
+		Coords A = view.getCoordsForView(m.add(d.mul(getStart(0))));
+		Coords B = view.getCoordsForView(m.add(d.mul(getEnd(0))));
+		
+
+		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())){
+			if (line == null)
+				line = AwtFactory.prototype.newLine2D();
+			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
+		}else{
+			isVisible = false;
+			return;
+		}
+
+		// transform to screen coords
+		transform.setTransform(view.getCoordTransform());
+		shape = transform.createTransformedShape(line);
+	}
+	
+	@Override
+	protected void drawLines(geogebra.common.awt.GGraphics2D g2){
+
+		fill(g2, shape, false);
+		if (geo.doHighlighting()) {
+			g2.setStroke(selStroke);
+			g2.setColor(geo.getSelColor());
+			g2.draw(shape);
+		}
+		
+		g2.setStroke(objStroke);
+		g2.setColor(geo.getObjectColor());
+		g2.draw(shape);
+		
+		if (labelVisible) {
+			g2.setFont(view.getFontConic());
+			g2.setColor(geo.getLabelColor());
+			drawLabel(g2);
+		}
+	}
+	
+	@Override
+	public boolean hitLines(int hitX, int hitY) {
+		//TODO ?
+		return false;
 	}
 }

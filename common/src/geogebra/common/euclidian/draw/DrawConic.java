@@ -256,8 +256,11 @@ public class DrawConic extends Drawable implements Previewable {
 			updateSinglePoint();
 			break;
 
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			updateDoubleLine();
+			break;
+
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 		case GeoConicNDConstants.CONIC_LINE:
 			updateLines();
@@ -372,11 +375,18 @@ public class DrawConic extends Drawable implements Previewable {
 
 		drawPoint.update();
 	}
+	
+	/**
+	 * Updates the double line and shape so that positive part is colored
+	 */
+	protected void updateDoubleLine() {
+		updateLines();
+	}
 
 	/**
 	 * Updates the lines and shape so that positive part is colored
 	 */
-	final private void updateLines() {
+	protected void updateLines() {
 		shape = null;
 		
 		if (firstLines) {
@@ -952,12 +962,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			drawLines[0].draw(g2);
-			drawLines[1].draw(g2);
-			if (conic.isInverseFill()) {
-				fill(g2, getShape(), false);
-			} else
-				fill(g2, shape, false);
+			drawLines(g2);
 			break;
 
 		case GeoConicNDConstants.CONIC_LINE:
@@ -1030,6 +1035,19 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 			break;
 		}
+	}
+	
+	/**
+	 * draw lines
+	 * @param g2 graphic context
+	 */
+	protected void drawLines(geogebra.common.awt.GGraphics2D g2){
+		drawLines[0].draw(g2);
+		drawLines[1].draw(g2);
+		if (conic.isInverseFill()) {
+			fill(g2, getShape(), false);
+		} else
+			fill(g2, shape, false);
 	}
 
 	/**
@@ -1123,7 +1141,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			isOnBoundary = drawLines[0].hit(hitX, hitY) || drawLines[1].hit(hitX, hitY);
+			isOnBoundary = hitLines(hitX, hitY);
 			break;
 		case GeoConicNDConstants.CONIC_LINE:
 			isOnBoundary = drawLines[0].hit(hitX, hitY);
@@ -1164,6 +1182,17 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		conic.setLastHitType(HitType.NONE);
 		return false;
+	}
+	
+	
+	/**
+	 * Says if the coords hit lines
+	 * @param hitX x coord for hit
+	 * @param hitY y coord for hit
+	 * @return true if lines are hitted
+	 */
+	public boolean hitLines(int hitX, int hitY) {
+		return drawLines[0].hit(hitX, hitY) || drawLines[1].hit(hitX, hitY);
 	}
 
 	@Override
