@@ -36,13 +36,13 @@ public class Ggb2giac {
 		p("Binomial.2",
 				"simplify(binomial(%0,%1))");
 		p("BinomialDist.4",
-				"if %3=true then binomial\\_cdf(%0,exact(%1),%2) else binomial(%0,exact(%1),%2) fi");
+				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 		p("CFactor.1","[with\\_sqrt(0),[ggbans:=cfactor(%0)],with\\_sqrt(1),ggbans][3]");
 		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", 
 				//"chisquare\\_cdf(%0,%1)");
-				"igamma(exact(%0)/2,exact(%1)/2,1)");
+				"igamma(%0/2,%1/2,1)");
 		// TODO: ggbtmpvarx
 		p("Coefficients.1",
 				"coeffs(%0)");
@@ -50,7 +50,7 @@ public class Ggb2giac {
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
 				"canonical\\_form(%0)");
-		p("CommonDenominator.2", "lcm(denom(exact(%0)),denom(exact(%1)))");
+		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2",
 				"covariance(%0,%1)");
 		p("Covariance.1",
@@ -118,10 +118,9 @@ public class Ggb2giac {
 				//"factors(%0)");
 				"[[if type(%0)==DOM\\_INT then calc\\_mode(0); ggbans:=ifactors(%0); calc\\_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
-				// numerical, (up to) 13 significant digits
 				"fisher\\_cdf(%0,%1,%2)");
 				// alternative for exact answers
-				// "Beta(exact(%0)/2,exact(%1)/2,exact(%0)*exact(%2)/(exact(%0)*exact(%2)+exact(%1)),1)");
+				// "Beta(exact(%0)/2,%1/2,%0*%2/(%0*%2+%1),1)");
 		p("Flatten.1", "flatten(%0)");
 		p("First.1", "{%0[0]}");
 		p("First.2",
@@ -225,7 +224,7 @@ public class Ggb2giac {
 		p("Min.N", "min(%)");
 		p("Midpoint.2", "convert(coordinates(midpoint(%0,%1)),25)");
 		p("MixedNumber.1",
-				"propfrac(exact(%0))");
+				"propfrac(%0)");
 		p("Mod.2",
 				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
 		p("NextPrime.1", "nextprime(%0)");
@@ -265,7 +264,7 @@ public class Ggb2giac {
 				"partfrac(%0)");
 		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
-				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(exact(%1)))^(%2)*(exact(%1))^(%0)*binomial(%0+%2-1,%0-1) fi");
+				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
 				"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
@@ -293,9 +292,7 @@ public class Ggb2giac {
 				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
-		//p("Rationalize.1", "exact(evalf(%0))");
-		//p("Rationalize.1", "normal(exact(%0))");
-		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
+		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(%0) fi");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
 				"when(type(%0)==DOM\\_LIST,map(%0,right),right(%0))");
@@ -368,10 +365,9 @@ public class Ggb2giac {
 		p("TaylorSeries.4",
 				"convert(series(%0,%1,%2,%3),polynom)");
 		p("TDistribution.2",
-				// numerical, (up to) 13 significant digits
 				"student\\_cdf(%0,%1)");
 				// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
-				// "1/2 + (Beta(exact(%0) / 2, 1/2, 1, 1) - Beta(exact(%0) / 2, 1/2, exact(%0) / (exact(%0) + exact((%1)^2) ) ,1) )* sign(exact(%1)) / 2");
+				// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
 				"%0[0]+i*%0[1]");
 		p("ToExponential.1",
