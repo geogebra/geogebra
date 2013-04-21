@@ -3,8 +3,11 @@ package geogebra.common.euclidian.draw;
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -22,6 +25,8 @@ public class DrawConicSection extends DrawConic {
 	
 	private GArc2D arc;
 	private GLine2D line;
+	
+	private GeneralPathClipped hyp;
 
 	/**
 	 * constructor
@@ -272,4 +277,92 @@ public class DrawConicSection extends DrawConic {
 		parabola.closePath();
 	}
 	
+	private boolean drawLeft;
+	
+	@Override
+	protected void updateHyperbolaResetPaths(){
+
+		if (firstHyperbola) {
+			firstHyperbola = false;
+			points = PLOT_POINTS;
+			hyp = new GeneralPathClipped(view); 
+		} else {
+			hyp.reset();
+		}
+	}
+	
+	@Override
+	protected void updateHyperbolaX0(){
+		
+		double end = getEnd(0);
+		if (Double.isNaN(end)){
+			x0 = a*Math.cosh(getEnd(1));
+			drawLeft = false;
+		}else{
+			x0 = a*Math.cosh(end);
+			drawLeft = true;
+		}
+	}
+
+	@Override
+	protected void updateHyperbolaAddPoint(int index, double x, double y){
+		if (drawLeft){
+			hyp.addPoint(index, x, y);
+		}else{
+			hyp.addPoint(index, -x, y);
+		}
+
+	}
+	
+	@Override
+	protected void updateHyperboalSetTransformToPaths(){
+		
+		hyp.transform(transform);
+	}
+	
+	
+	@Override
+	protected void updateHyperbolaClosePaths(){
+
+		hyp.closePath();
+	}
+	
+	@Override
+	protected void updateHyperbolaSetShape(){
+		shape = hyp;
+	}
+
+	@Override
+	protected void drawHyperbola(geogebra.common.awt.GGraphics2D g2){
+
+		fill(g2, shape, true);
+
+		if (geo.doHighlighting()) {
+			g2.setStroke(selStroke);
+			g2.setColor(geo.getSelColor());
+			EuclidianStatic.drawWithValueStrokePure(shape, g2);
+		}
+
+		g2.setStroke(objStroke);
+		g2.setColor(geo.getObjectColor());
+		EuclidianStatic.drawWithValueStrokePure(shape, g2);
+
+		if (labelVisible) {
+			g2.setFont(view.getFontConic());
+			g2.setColor(geo.getLabelColor());
+			drawLabel(g2);
+		}
+	}
+
+	@Override
+	protected boolean checkHyperbolaOnScreen(GRectangle viewRect){
+		//TODO ?
+		return true;
+	}
+	
+	@Override
+	public boolean hitHyperbola(int hitX, int hitY) {
+		//TODO ?
+		return false;
+	}
 }

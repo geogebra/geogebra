@@ -66,7 +66,7 @@ import java.util.ArrayList;
 public class DrawConic extends Drawable implements Previewable {
 
 	// plotpoints per quadrant for hyperbola
-	private static final int PLOT_POINTS = 32;
+	protected static final int PLOT_POINTS = 32;
 	/** maximum number of plot points */
 	public static final int MAX_PLOT_POINTS = 300;
 	/**
@@ -119,10 +119,16 @@ public class DrawConic extends Drawable implements Previewable {
 	private double[] parpoints = new double[8];
 
 	// CONIC_HYPERBOLA
-	private boolean firstHyperbola = true;
-	private double a, b, tsq, step, t, denom;
+	protected boolean firstHyperbola = true;
+	protected double a;
+	private double b;
+	private double tsq;
+	private double step;
+	private double t;
+	private double denom;
 	private double x, y;
-	private int index0, index1, n, points;
+	private int index0, index1, n;
+	protected int points;
 	private GeneralPathClipped hypLeft, hypRight;
 	private boolean hypLeftOnScreen, hypRightOnScreen;
 
@@ -312,12 +318,7 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			// hyperbola wings on screen?
-			hypLeftOnScreen = hypLeft.intersects(AwtFactory.prototype.newRectangle(viewRect));
-			hypRightOnScreen = hypRight.intersects(AwtFactory.prototype.newRectangle(viewRect));
-			if (!hypLeftOnScreen && !hypRightOnScreen) {
-				isVisible = false;
-			}
+			isVisible = checkHyperbolaOnScreen(viewRect);
 			break;
 		}
 
@@ -341,6 +342,21 @@ public class DrawConic extends Drawable implements Previewable {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
+	}
+	
+	/**
+	 * check hyperbola intersects the screen
+	 * @param viewRect view rectangle
+	 * @return if hyperbola intersects the screen
+	 */
+	protected boolean checkHyperbolaOnScreen(GRectangle viewRect){
+		// hyperbola wings on screen?
+		hypLeftOnScreen = hypLeft.intersects(AwtFactory.prototype.newRectangle(viewRect));
+		hypRightOnScreen = hypRight.intersects(AwtFactory.prototype.newRectangle(viewRect));
+		if (!hypLeftOnScreen && !hypRightOnScreen) {
+			return false;
+		}
+		return true;
 	}
 
 	final private void updateSinglePoint() {
@@ -759,30 +775,14 @@ public class DrawConic extends Drawable implements Previewable {
 			}
 		}
 
-		if (firstHyperbola) {
-			firstHyperbola = false;
-			points = PLOT_POINTS;
-			hypRight = new GeneralPathClipped(view); // right wing
-			hypLeft = new GeneralPathClipped(view); // left wing
-
-		} else {
-			hypRight.reset();
-			hypLeft.reset();
-		}
+		updateHyperbolaResetPaths();
 
 		a = halfAxes[0];
 		b = halfAxes[1];
+		
+		updateHyperbolaX0();
 
-		// draw hyperbola wing from x=a to x=x0
-		// the drawn hyperbola must be larger than the screen
-		// get max distance from midpoint to screen edge
-		x0 = Math.max(
-				Math.max(Math.abs(midpoint.getX() - view.getXmin()),
-						Math.abs(midpoint.getX() - view.getXmax())),
-				Math.max(Math.abs(midpoint.getY() - view.getYmin()),
-						Math.abs(midpoint.getY() - view.getYmax())));
-		// ensure that rotated hyperbola is fully on screen:
-		x0 *= 1.5;
+		
 
 		// init step width
 		if (x0 <= a) { // hyperbola is not visible on screen
@@ -805,8 +805,11 @@ public class DrawConic extends Drawable implements Previewable {
 		// build Polyline of parametric hyperbola
 		// hyp(t) = 1/(1-t^2) {a(1+t^2), 2bt}, 0 <= t < 1
 		// this represents the first quadrant's wing of a hypberola
+		/*
 		hypRight.addPoint(points - 1, a, 0);
 		hypLeft.addPoint(points - 1, -a, 0);
+		*/
+		updateHyperbolaAddPoint(points - 1, a, 0);
 
 		t = step;
 		int i = 1;
@@ -819,6 +822,13 @@ public class DrawConic extends Drawable implements Previewable {
 			x = (a * (1.0 + tsq) / denom);
 			y = (2.0 * b * t / denom);
 
+
+			// first and second quadrants
+			updateHyperbolaAddPoint(index0, x, y);
+			// third and fourth quadrants
+			updateHyperbolaAddPoint(index1, x, -y);
+			
+			/*
 			// first quadrant
 			hypRight.addPoint(index0, x, y);
 			// second quadrant
@@ -827,12 +837,89 @@ public class DrawConic extends Drawable implements Previewable {
 			hypLeft.addPoint(index1, -x, -y);
 			// fourth quadrant
 			hypRight.addPoint(index1, x, -y);
+			*/
 
 			index0++;
 			index1--;
 			i++;
 			t = i * step;
 		}
+
+		updateHyperbolaClosePaths();
+
+		// set transform for Graphics2D
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
+
+		updateHyperboalSetTransformToPaths();
+
+		// set label coords
+		labelCoords[0] = 2.0 * a;
+		// point on curve: y = b * sqrt(3) minus 20 pixels
+		labelCoords[1] = b * 1.7 - 20.0 / view.getYscale();
+		transform.transform(labelCoords, 0, labelCoords, 0, 1);
+		xLabel = (int) labelCoords[0];
+		yLabel = (int) labelCoords[1];
+		
+		updateHyperbolaSetShape();
+	}
+	
+
+	/**
+	 * reset paths for hyperbola
+	 */
+	protected void updateHyperbolaResetPaths(){
+
+		if (firstHyperbola) {
+			firstHyperbola = false;
+			points = PLOT_POINTS;
+			hypRight = new GeneralPathClipped(view); // right wing
+			hypLeft = new GeneralPathClipped(view); // left wing
+		} else {
+			hypRight.reset();
+			hypLeft.reset();
+		}
+	}
+	
+	/**
+	 * updates hyperbola x maximum value
+	 */
+	protected void updateHyperbolaX0(){
+		// draw hyperbola wing from x=a to x=x0
+		// the drawn hyperbola must be larger than the screen
+		// get max distance from midpoint to screen edge
+		x0 = Math.max(
+				Math.max(Math.abs(midpoint.getX() - view.getXmin()),
+						Math.abs(midpoint.getX() - view.getXmax())),
+						Math.max(Math.abs(midpoint.getY() - view.getYmin()),
+								Math.abs(midpoint.getY() - view.getYmax())));
+		// ensure that rotated hyperbola is fully on screen:
+		x0 *= 1.5;
+	}
+	
+	/**
+	 * add point to paths for hyperbola
+	 * @param index index for the point
+	 * @param x x coord
+	 * @param y y coord
+	 */
+	protected void updateHyperbolaAddPoint(int index, double x, double y){
+		hypRight.addPoint(index, x, y);
+		hypLeft.addPoint(index, -x, y);
+
+	}
+	
+	/** build general paths of hyperbola wings and transform them */
+	protected void updateHyperboalSetTransformToPaths(){
+		
+		hypLeft.transform(transform);
+		hypRight.transform(transform);
+	}
+	
+	/**
+	 * close hyperbola branchs
+	 */
+	protected void updateHyperbolaClosePaths(){
 
 		// we have drawn the hyperbola from x=a to x=x0
 		// ensure correct filling by adding points at (2*x0, y)
@@ -842,22 +929,12 @@ public class DrawConic extends Drawable implements Previewable {
 			hypLeft.lineTo(-Float.MAX_VALUE, y);
 			hypLeft.lineTo(-Float.MAX_VALUE, -y);
 		}
-
-		// set transform for Graphics2D
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform(conic, M, ev));
-
-		// build general paths of hyperbola wings and transform them
-		hypLeft.transform(transform);
-		hypRight.transform(transform);
-
-		// set label coords
-		labelCoords[0] = 2.0 * a;
-		// point on curve: y = b * sqrt(3) minus 20 pixels
-		labelCoords[1] = b * 1.7 - 20.0 / view.getYscale();
-		transform.transform(labelCoords, 0, labelCoords, 0, 1);
-		xLabel = (int) labelCoords[0];
-		yLabel = (int) labelCoords[1];
+	}
+	
+	/**
+	 * set shape for hyperbola
+	 */
+	protected void updateHyperbolaSetShape(){
 		setShape(AwtFactory.prototype.newArea(hypLeft));
 		//geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
 		super.getShape().add(AwtFactory.prototype.newArea(hypRight));
@@ -1013,41 +1090,7 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			if (conic.isInverseFill()) {
-				geogebra.common.awt.GArea a1 = AwtFactory.prototype.newArea(hypLeft);
-				geogebra.common.awt.GArea a2 = AwtFactory.prototype.newArea(hypRight);
-				geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
-				complement.subtract(a1);
-				complement.subtract(a2);
-				fill(g2, complement, false);
-			} else {
-				if (hypLeftOnScreen)
-					fill(g2, hypLeft, true);
-				if (hypRightOnScreen)
-					fill(g2, hypRight, true);
-			}
-
-			if (geo.doHighlighting()) {
-				g2.setStroke(selStroke);
-				g2.setColor(geo.getSelColor());
-
-				if (hypLeftOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
-				if (hypRightOnScreen)
-					EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
-			}
-			g2.setStroke(objStroke);
-			g2.setColor(geo.getObjectColor());
-			if (hypLeftOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
-			if (hypRightOnScreen)
-				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
-
-			if (labelVisible) {
-				g2.setFont(view.getFontConic());
-				g2.setColor(geo.getLabelColor());
-				drawLabel(g2);
-			}
+			drawHyperbola(g2);
 			break;
 		}
 	}
@@ -1063,6 +1106,48 @@ public class DrawConic extends Drawable implements Previewable {
 			fill(g2, getShape(), false);
 		} else
 			fill(g2, shape, false);
+	}
+	
+	/**
+	 * draw hyperbola
+	 * @param g2 graphic context
+	 */
+	protected void drawHyperbola(geogebra.common.awt.GGraphics2D g2){
+		if (conic.isInverseFill()) {
+			geogebra.common.awt.GArea a1 = AwtFactory.prototype.newArea(hypLeft);
+			geogebra.common.awt.GArea a2 = AwtFactory.prototype.newArea(hypRight);
+			geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+			complement.subtract(a1);
+			complement.subtract(a2);
+			fill(g2, complement, false);
+		} else {
+			if (hypLeftOnScreen)
+				fill(g2, hypLeft, true);
+			if (hypRightOnScreen)
+				fill(g2, hypRight, true);
+		}
+
+		if (geo.doHighlighting()) {
+			g2.setStroke(selStroke);
+			g2.setColor(geo.getSelColor());
+
+			if (hypLeftOnScreen)
+				EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
+			if (hypRightOnScreen)
+				EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
+		}
+		g2.setStroke(objStroke);
+		g2.setColor(geo.getObjectColor());
+		if (hypLeftOnScreen)
+			EuclidianStatic.drawWithValueStrokePure(hypLeft, g2);
+		if (hypRightOnScreen)
+			EuclidianStatic.drawWithValueStrokePure(hypRight, g2);
+
+		if (labelVisible) {
+			g2.setFont(view.getFontConic());
+			g2.setColor(geo.getLabelColor());
+			drawLabel(g2);
+		}
 	}
 
 	/**
@@ -1171,14 +1256,7 @@ public class DrawConic extends Drawable implements Previewable {
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(hypLeft);
-				strokedShape2 = objStroke.createStrokedShape(hypRight);
-			}
-			isOnBoundary = strokedShape.intersects(hitX - hitThreshold, hitY
-					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
-					|| strokedShape2.intersects(hitX - hitThreshold, hitY
-							- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			isOnBoundary = hitHyperbola(hitX, hitY);
 			break;
 		}
 
@@ -1209,6 +1287,26 @@ public class DrawConic extends Drawable implements Previewable {
 	public boolean hitLines(int hitX, int hitY) {
 		return drawLines[0].hit(hitX, hitY) || drawLines[1].hit(hitX, hitY);
 	}
+
+	/**
+	 * Says if the coords hit hyperbola
+	 * @param hitX x coord for hit
+	 * @param hitY y coord for hit
+	 * @return true if lines are hitted
+	 */
+	public boolean hitHyperbola(int hitX, int hitY) {
+		if (strokedShape == null) {
+			strokedShape = objStroke.createStrokedShape(hypLeft);
+			strokedShape2 = objStroke.createStrokedShape(hypRight);
+		}
+		return strokedShape.intersects(hitX - hitThreshold, hitY
+				- hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
+				|| strokedShape2.intersects(hitX - hitThreshold, hitY
+						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+
+	}
+
+
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
