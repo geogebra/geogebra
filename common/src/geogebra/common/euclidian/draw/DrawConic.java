@@ -112,10 +112,10 @@ public class DrawConic extends Drawable implements Previewable {
 
 	// CONIC_PARABOLA
 	private boolean firstParabola = true;
-	private double x0, y0;
+	protected double x0, y0;
 	private double k2;
 	private GeoVec2D vertex;
-	private GGeneralPath parabola;
+	protected GGeneralPath parabola;
 	private double[] parpoints = new double[8];
 
 	// CONIC_HYPERBOLA
@@ -888,7 +888,45 @@ public class DrawConic extends Drawable implements Previewable {
 			firstParabola = false;
 			parabola = AwtFactory.prototype.newGeneralPath();
 		}
-		// calc control points coords of parabola y^2 = 2 p x
+		
+		updateParabolaX0Y0();
+
+		// set transform
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
+
+		// setCurve(P0, P1, P2)
+		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);
+		// shape = transform.createTransformedShape(parabola);
+		parpoints[0] = x0;
+		parpoints[1] = y0;
+		
+		parpoints[2] = -x0/3;
+		parpoints[3] = y0/3;
+		
+		parpoints[4] = -x0/3;
+		parpoints[5] = -y0/3;
+		
+		parpoints[6] = x0;
+		parpoints[7] = -y0;
+		transform.transform(parpoints, 0, parpoints, 0, 4);
+		
+		updateParabolaPath();
+		
+		shape = parabola;
+
+		// set label coords
+		labelCoords[0] = 2 * conic.p;
+		// y = 2p minus 20 pixels
+		labelCoords[1] = labelCoords[0] - 20.0 / view.getYscale();
+		transform.transform(labelCoords, 0, labelCoords, 0, 1);
+		xLabel = (int) labelCoords[0];
+		yLabel = (int) labelCoords[1];
+	}
+
+	/** calc control points coords of parabola y^2 = 2 p x */
+	protected void updateParabolaX0Y0(){
+		
 		x0 = Math.max(Math.abs(vertex.getX() - view.getXmin()),
 				Math.abs(vertex.getX() - view.getXmax()));
 		x0 = Math.max(x0, Math.abs(vertex.getY() - view.getYmin()));
@@ -913,40 +951,17 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		x0 = k2 / 2 * conic.p; // x = k*p
 		y0 = i * conic.p; // y = sqrt(2k p^2) = i p
-
-		// set transform
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getTransform(conic, M, ev));
-
-		// setCurve(P0, P1, P2)
-		// parabola.setCurve(x0, y0, -x0, 0.0, x0, -y0);
-		// shape = transform.createTransformedShape(parabola);
-		parpoints[0] = x0;
-		parpoints[1] = y0;
-		
-		parpoints[2] = -x0/3;
-		parpoints[3] = y0/3;
-		
-		parpoints[4] = -x0/3;
-		parpoints[5] = -y0/3;
-		
-		parpoints[6] = x0;
-		parpoints[7] = -y0;
-		transform.transform(parpoints, 0, parpoints, 0, 4);
+	}
+	
+	/**
+	 * create path for parabola
+	 */
+	protected void updateParabolaPath(){
 		parabola.reset();
 		parabola.moveTo((float)parpoints[0], (float)parpoints[1]);
 		parabola.curveTo(
 			(float)parpoints[2], (float)parpoints[3], (float)parpoints[4],
 			(float)parpoints[5], (float)parpoints[6], (float)parpoints[7]);
-		shape = parabola;
-
-		// set label coords
-		labelCoords[0] = 2 * conic.p;
-		// y = 2p minus 20 pixels
-		labelCoords[1] = labelCoords[0] - 20.0 / view.getYscale();
-		transform.transform(labelCoords, 0, labelCoords, 0, 1);
-		xLabel = (int) labelCoords[0];
-		yLabel = (int) labelCoords[1];
 	}
 
 	@Override
