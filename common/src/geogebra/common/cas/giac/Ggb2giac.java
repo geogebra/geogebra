@@ -292,7 +292,7 @@ public class Ggb2giac {
 				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
-		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(%0) fi");
+		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
 				"when(type(%0)==DOM\\_LIST,map(%0,right),right(%0))");
