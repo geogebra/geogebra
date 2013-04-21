@@ -170,10 +170,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			return ret.replace("E", "e");
 		case GIAC:
 			// convert eg 0.125 to exact(0.125) so that Giac does an exact calculation with it
-			//if (ret.indexOf(".") > -1 && ret.length() < 6) {
-			//	return "exact(" + ret + ")";
-			//}
-			// else fall through
+			// numbers entered in the CAS View are handled by MySpecialDoule
+			// this code is just used when accessing a GeoGebra object
+			// eg Input Bar: f(x)=x^-0.5
+			//     CAS View: Integral[f,1,Infinity]
+			
+			// Note: exact(0.3333333333333) gives 1/3
+			return "exact(" + ret + ")";
+
 		default:
 			return ret;
 		}
