@@ -1457,28 +1457,28 @@ namespace giac {
     return a;
   }
 
-  static gen bit_or(const gen & a,unsigned mask){
+  static gen bit_ori(const gen & a,unsigned mask){
     if (a.type==_INT_)
       return int(unsigned(a.val) | mask);
     if (a.type==_VECT){
       vecteur res;
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
       for (;it!=itend;++it)
-	res.push_back(bit_or(*it,mask));
+	res.push_back(bit_ori(*it,mask));
       return res;
     }
     return a;
   }
 
-  static gen bit_or(const gen & a,const vecteur & v){
+  static gen bit_orv(const gen & a,const vecteur & v){
     if (a.type==_INT_)
-      return bit_or(v,a.val);
+      return bit_ori(v,a.val);
     if (a.type==_VECT){
       vecteur res;
       const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end(),jt=v.begin(),jtend=v.end();
       for (;it!=itend && jt!=jtend;++it,++jt){
 	if (jt->type==_INT_)
-	  res.push_back(bit_or(*it,jt->val));
+	  res.push_back(bit_ori(*it,jt->val));
 	else
 	  res.push_back(*it);
       }
@@ -1556,17 +1556,17 @@ namespace giac {
       switch (opt1.val){
       case _COLOR:
 	if (opt2.type==_INT_)
-	  attributs[0]=bit_or(bit_and(attributs[0],0xcfff0000),opt2.val);
+	  attributs[0]=bit_ori(bit_and(attributs[0],0xcfff0000),opt2.val);
 	if (opt2.type==_VECT)
-	  attributs[0]=bit_or(bit_and(attributs[0],0xcfff0000),*opt2._VECTptr);
+	  attributs[0]=bit_orv(bit_and(attributs[0],0xcfff0000),*opt2._VECTptr);
 	break;
       case _STYLE:
 	if (opt2==at_point)
-	  attributs[0]=bit_or(bit_and(attributs[0],0xfe3fffff),_DASHDOT_LINE);
+	  attributs[0]=bit_ori(bit_and(attributs[0],0xfe3fffff),_DASHDOT_LINE);
 	break;
       case _THICKNESS:
 	attributs[0]=bit_and(attributs[0], 0xfff8ffff);
-	attributs[0]=bit_or(attributs[0],_LINE_WIDTH_2*(bit_and(opt2,0x7).val-1));
+	attributs[0]=bit_ori(attributs[0],_LINE_WIDTH_2*(bit_and(opt2,0x7).val-1));
 	break;
       case _LEGEND:
 	if (attributs.size()>1)

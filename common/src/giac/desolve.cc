@@ -550,7 +550,12 @@ namespace giac {
 
   void ggb_varxy(const gen & f_orig,gen & vx,gen & vy,GIAC_CONTEXT){
     vecteur lv=lidnt(f_orig);
-    gen xv=vx_var,yv=y__IDNT_e;
+    vx=vx_var;
+    vy=y__IDNT_e;
+    if (calc_mode(contextptr)==1){
+      vx=gen("ggbtmpvarx",contextptr);
+      vy=gen("ggbtmpvary",contextptr);
+    }
     for (unsigned i=0;i<lv.size();++i){
       string s=lv[i].print(contextptr);
       char c=s[s.size()-1];
