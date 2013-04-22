@@ -4644,7 +4644,27 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			switch (STRING_TYPE) {
 			case LATEX:
 				if (app.isHTML5Applet()) {
-					sb.append("\\" + app.getFunction(key));
+					
+					String translatedKey = app.getFunction(key);
+
+					/*
+					 * no point doing this at the moment, no visible difference
+					 * 
+					// supported operators in MathQuill
+					if ("arccos arcsin arctan cos cosh cot coth csc  exp lg ln log sec sin sinh tan tanh".indexOf(translatedKey) > -1) {
+						sb.append(" \\");						
+						sb.append(translatedKey);						
+					} else {
+						sb.append(" ");
+						sb.append(translatedKey);
+						sb.append(" ");						
+					} */
+					
+					sb.append(" ");
+					sb.append(translatedKey);
+					sb.append(" ");						
+					
+					
 				} else if(localized) {
 					sb.append("\\operatorname{");
 					sb.append(app.getFunction(key));
