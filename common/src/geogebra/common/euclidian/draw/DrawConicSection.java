@@ -148,21 +148,12 @@ public class DrawConicSection extends DrawConic {
 					view.getWidth() + 2, view.getHeight() + 2));
 		}
 
-		// label position
-		if (labelVisible) {
-			double midAngle = start0
-					+ start1 / 2.0;
-			double[] coords = new double[2];
-			coords[0] = halfAxes[0] * Math.cos(midAngle);
-			coords[1] = halfAxes[1] * Math.sin(midAngle);
-			transform.transform(coords, 0, coords, 0, 1);
-
-			labelDesc = geo.getLabelDescription();
-
-			xLabel = (int) (coords[0]) + 6;
-			yLabel = (int) (coords[1]) - 6;
-			addLabelOffset();
-		}
+		// set label coords
+		labelCoords[0] = halfAxes[0] * Math.cos(start0);
+		labelCoords[1] = halfAxes[1] * Math.sin(start0);
+		transform.transform(labelCoords, 0, labelCoords, 0, 1);
+		xLabel = (int) labelCoords[0];
+		yLabel = (int) labelCoords[1];
 		
 	}
 	
