@@ -317,10 +317,7 @@ public class Ggb2giac {
 		p("SD.1",
 				"normal(stddev(%0))");
 		p("Shuffle.1", "randperm(%0)");
-		p("Simplify.1", "simplify(%0)");
-		// p("SimplifyFull.1","trigsimp(%0, combine)");
-		
-		// solve({x+y-1,x-y-3},{x,y}) -> list[{2,-1}]
+		p("Simplify.1", "tlin(simplify(%0))");
 		
 		p("Solutions.1",
 				"zeros(%0,ggbtmpvarx)");
@@ -387,7 +384,7 @@ public class Ggb2giac {
 		p("TrigExpand.4",
 				"trigexpand(%0)");
 		p("TrigSimplify.1",
-				"simplify(%0)");
+				"tlin(%0)");
 		p("TrigCombine.1",
 				"tcollect(%0)");
 		p("TrigCombine.2",
