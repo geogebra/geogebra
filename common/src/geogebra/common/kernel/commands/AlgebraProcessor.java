@@ -1298,6 +1298,9 @@ public class AlgebraProcessor {
 			// consider algebraic degree of equation
 			// check not equation of eg plane
 			switch (equ.degree()) {
+			//pi = 3 is not an equation, #1391
+			case 0:
+				throw new MyError(app.getLocalization(),"InvalidEquation");
 			// linear equation -> LINE
 			case 1:
 				return processLine(equ);
