@@ -2211,7 +2211,7 @@ __GGB__keysVar.pt.plain = {
     "Function_cosh": "cosh",
     "Function_cot": "cotg",
     "Function_coth": "cotgh",
-    "Function_csc": "cossec",
+    "Function_csc": "cosec",
     "Function_csch": "cossech",
     "Function_fractionalPart": "ParteFracion\xe1ria",
     "Function_freehand": "m\xe3olivre",
