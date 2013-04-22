@@ -387,7 +387,7 @@ public abstract class EuclidianController {
 
 	protected Hits handleAddSelectedArrayList = new Hits();
 
-	public boolean textfieldHasFocus = false;
+	private boolean textfieldHasFocus = false;
 
 	private MyButton pressedButton;
 	
@@ -3140,7 +3140,7 @@ public abstract class EuclidianController {
 	 * to avoid properties view to show graphics properties
 	 */
 	public boolean checkBoxOrTextfieldOrButtonJustHitted(){
-		return checkBoxOrButtonJustHitted || textfieldHasFocus;
+		return checkBoxOrButtonJustHitted || isTextfieldHasFocus();
 	}
 	
 	protected abstract void initToolTipManager();
@@ -3151,7 +3151,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void wrapMouseEntered() {
-		if (textfieldHasFocus) {
+		if (isTextfieldHasFocus()) {
 			return;
 		}
 	
@@ -6766,7 +6766,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseMoved(AbstractEvent event) {
-		if (textfieldHasFocus) {
+		if (isTextfieldHasFocus()) {
 			return;
 		}
 		
@@ -6779,7 +6779,7 @@ public abstract class EuclidianController {
 	protected abstract void resetToolTipManager();
 
 	protected void wrapMouseExited(AbstractEvent event) {
-		if (textfieldHasFocus) {
+		if (isTextfieldHasFocus()) {
 			return;
 		}
 
@@ -7948,7 +7948,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
-		if (textfieldHasFocus && moveMode != MOVE_BUTTON) {
+		if (isTextfieldHasFocus() && moveMode != MOVE_BUTTON) {
 			return;
 		}
 		if(pressedButton!=null){
@@ -9020,7 +9020,7 @@ public abstract class EuclidianController {
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
 	
-		if (textfieldHasFocus) {
+		if (isTextfieldHasFocus()) {
 			return;
 		}
 	
@@ -9336,7 +9336,7 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseWheelMoved(AbstractEvent event) {
 		
-		if (textfieldHasFocus) {
+		if (isTextfieldHasFocus()) {
 			return;
 		}
 	
@@ -9832,6 +9832,9 @@ public abstract class EuclidianController {
 	
 	protected void setAppSelectedGeos(ArrayList<GeoElement> geos,boolean b){
 		selection.setSelectedGeos(geos,b);
+	}
+	public boolean isTextfieldHasFocus() {
+		return textfieldHasFocus;
 	}
 	
 }
