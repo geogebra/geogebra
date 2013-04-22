@@ -1547,7 +1547,7 @@ namespace giac {
       }
       if (opt1.type==_DOUBLE_)
 	opt1=gen(int(opt1._DOUBLE_val));
-      if (opt2.type==_DOUBLE_)
+      if (opt2.type==_DOUBLE_ && opt1.val!=_LEGEND)
 	opt2=gen(int(opt2._DOUBLE_val));
       if ( opt1.type!=_INT_ || opt1.subtype==0)
 	continue;

@@ -1148,6 +1148,13 @@ namespace giac {
   static void clean(gen & e,const identificateur & x,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return;
+    if (lvarx(e,x).size()>1){
+      gen es=simplify(e,contextptr);
+      if (lvarx(es,x).size()==1){
+	e=es;
+	return;
+      }
+    }
     if (e._SYMBptr->sommet==at_inv || (e._SYMBptr->sommet==at_pow && ck_is_positive(-e._SYMBptr->feuille._VECTptr->back(),contextptr))){
       gen ef=e._SYMBptr->feuille;
       if (e._SYMBptr->sommet==at_pow)

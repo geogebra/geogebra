@@ -4562,7 +4562,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       m=mtran(m);
       ms=m.size();
       g=_sum(m,contextptr);
-      if (g!=vecteur(ms,1))
+      if (!is_zero(g-vecteur(ms,1)))
 	*logptr(contextptr) << gettext("Warning: not a graph matrix!") << endl;
     }
     // first make points, 

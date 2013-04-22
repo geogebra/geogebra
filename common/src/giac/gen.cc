@@ -1806,7 +1806,7 @@ namespace giac {
 	}
 #else // rtos
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
-	if (contextptr){
+	if (contextptr && thread_param_ptr(contextptr)->stackaddr){
 	  // cerr << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
 	  if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+65536){
 	    if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+8192){
@@ -1817,19 +1817,20 @@ namespace giac {
 	    evaled=nr_eval(*this,level,contextptr);
 	    return true;
 	  }
-	}
-#else // pthread
-	debug_struct * dbgptr=debug_ptr(contextptr);
-	if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL){
-	  if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL+10){
-	    gensizeerr(gettext("Too many recursions)"),evaled);
-	    return true;
-	  }
-	  *logptr(contextptr) << gettext("Running non recursive evaluator") << endl;
-	  evaled=nr_eval(*this,level,contextptr);
-	  return true;
-	}
+	} else
 #endif // pthread
+	  {
+	    debug_struct * dbgptr=debug_ptr(contextptr);
+	    if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL){
+	      if ( int(dbgptr->sst_at_stack.size()) >= MAX_RECURSION_LEVEL+10){
+		gensizeerr(gettext("Too many recursions)"),evaled);
+		return true;
+	      }
+	      *logptr(contextptr) << gettext("Running non recursive evaluator") << endl;
+	      evaled=nr_eval(*this,level,contextptr);
+	      return true;
+	    }
+	  }
 #endif // rtos
 	if (_SYMBptr->sommet==at_of || _SYMBptr->sommet==at_local || is_ifte || _SYMBptr->sommet==at_bloc){
 	  elevel=level;

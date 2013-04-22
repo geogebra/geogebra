@@ -64,10 +64,54 @@ namespace giac {
   static define_unary_function_eval4 (__moyal,&_moyal,_moyal_s,0,&texprintasmoyal);
   define_unary_function_ptr5( at_moyal ,alias_at_moyal,&__moyal,0,true);
 
+  double upper_incomplete_gammad(double s,double z,bool regularize){
+    // used for z>=s && z>=10
+    // int_z^inf t^(s-1) exp(-t) dt
+    // Continued fraction expansion: a1/(b1+a2/(b2+...)))
+    // a1=1, a2=1-s, a3=1, a_{m+2}=a_m+1
+    // b1=z, b2=1, b_odd=z, b_{even}=1
+    // P0=0, P1=a1, Q0=1, Q1=b1
+    // j>=2: Pj=bj*Pj-1+aj*Pj-2, Qj=bj*Qj-1+aj*Qj-2
+    long_double Pm2=0,Pm1=1,Pm,Qm2=1,Qm1=z,Qm,a2m1=1,a2m=1-s,b2m1=z,b2m=1,pmqm;
+    for (long_double m=1;m<100;++m){
+      // even term
+      Pm=b2m*Pm1+a2m*Pm2;
+      Qm=b2m*Qm1+a2m*Qm2;
+      Pm2=Pm1; Pm1=Pm;
+      Qm2=Qm1; Qm1=Qm;
+      a2m++;
+      // odd term
+      Pm=b2m1*Pm1+a2m1*Pm2;
+      Qm=b2m1*Qm1+a2m1*Qm2;
+      Pm2=Pm1; Pm1=Pm;
+      Qm2=Qm1; Qm1=Qm;
+      a2m1++;
+      pmqm=Pm/Qm;
+      if (std::abs(Pm2/Qm2-pmqm)<1e-16){
+	long_double coeff=s*std::log(z)-z;
+	if (regularize)
+	  coeff -= lngamma(z);
+	return pmqm*std::exp(coeff);
+      }
+    } 
+    // alt a1=1, a2=s-1, a3=2*(s-2), a_{m+1}=m*(s-m)
+    // b1=1+z-s, b_{m+1}=2+b_{m}
+    return -1;
+  }
+
   gen lower_incomplete_gamma(double s,double z,bool regularize){ // regularize=true by default
     // should be fixed if z is large using upper_incomplete_gamma asymptotics
     if (z>0 && -z+s*std::log(z)-lngamma(s+1)<-37)
       return regularize?1:std::exp(lngamma(s));
+    if (z>=s){
+      double res=upper_incomplete_gammad(s,z,regularize);
+      if (res>=0){
+	if (regularize)
+	  return 1-res;
+	else
+	  return Gamma(s,context0)-res;
+      }
+    }
     // gamma(s,z) = int(t^s*e^(-t),t=0..z)
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // here a1=1, a2=-s*z, a3=z, then a_{2m}=a_{2m-2}-z and a_{2m+1}=a_{2m-1}+z
@@ -574,7 +618,7 @@ namespace giac {
       return n;
     if (n.type!=_INT_ || p.type!=_DOUBLE_ || x.type!=_DOUBLE_ || x._DOUBLE_val<0 || x._DOUBLE_val>1 )
       return symbolic(at_binomial_icdf,makesequence(n,p,x));
-    gen last=pow(1-p,n,contextptr);
+    gen last=pow(1-p0,n,contextptr);
     gen b=last;
     int k=1;
     if (last.type==_FLOAT_)
@@ -592,11 +636,21 @@ namespace giac {
       }
       return n;
     }
+#if 1
+    gen tmp=p0/(1-p0);
+    for (;k<=n.val;++k){
+      if (!ck_is_strictly_greater(x_orig,b,contextptr))
+	return k-1;
+      last = last * ((n.val-k+1)*tmp)/k;
+      b += last;
+    }
+#else
     for (;k<=n.val;++k){
       if (!ck_is_strictly_greater(x,b,contextptr))
 	return k-1;
       b=b+binomial(n,k,p,contextptr);
     }
+#endif
     return n;
   }
   gen _binomial_icdf(const gen & g,GIAC_CONTEXT){
@@ -684,6 +738,8 @@ namespace giac {
     if (t._DOUBLE_val==1)
       return plus_inf;
 #if 1
+    if (m._DOUBLE_val>=710)
+      return gensizeerr(gettext("Overflow"));
     long_double M=m._DOUBLE_val;
     int k=0;
     long_double T=t._DOUBLE_val*std::exp(M),B=0,prod=1;

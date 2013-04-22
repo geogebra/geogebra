@@ -2688,7 +2688,10 @@ namespace giac {
 	  return (old_line[i]+cur_line[i+1])/2;
 	old_line=cur_line;
       }
+      if (calc_mode(contextptr)==1)
+	return undef;
       *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last computed line of approximations") << endl;
+      cur_line=makevecteur(old_line.back(),cur_line.back());
       return cur_line;
       return rombergo(f,x,a,b,nmax,contextptr);
     }
@@ -2726,7 +2729,10 @@ namespace giac {
 	return (old_line[i]+cur_line[i+1])/2;
       old_line=cur_line;
     }
+    if (calc_mode(contextptr)==1)
+      return undef;
     *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last computed line of approximations") << endl;
+    cur_line=makevecteur(old_line.back(),cur_line.back());
     return cur_line;
   }
   gen ggb_var(const gen & f){

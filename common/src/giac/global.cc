@@ -812,10 +812,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   thread_param::thread_param(): _kill_thread(false), thread_eval_status(-1), v(6)
-#ifdef HAVE_LIBPTRHEAD
-			      ,eval_thread(0)
+#ifdef HAVE_LIBPTHREAD
+			      ,eval_thread(0),stackaddr(0)
 #endif
- {}
+  { 
+  }
 
   thread_param * & context0_thread_param_ptr(){
     static thread_param * ans=new thread_param();
@@ -3217,6 +3218,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       (*v)[5]=g;
     } catch (std::runtime_error & e){
     }
+    ptr->stackaddr=0;
     thread_eval_status(0,contextptr);
     pthread_exit(0);
   }
