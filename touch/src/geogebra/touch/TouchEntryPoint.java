@@ -3,6 +3,7 @@ package geogebra.touch;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.TubeSearchGUI;
+import geogebra.web.helper.JavaScriptInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -32,6 +33,7 @@ public class TouchEntryPoint implements EntryPoint
 		// insert mathquill css
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText();
 		StyleInjector.inject(mathquillcss);
+		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
 	}
 
 	private static void loadMobileAsync()

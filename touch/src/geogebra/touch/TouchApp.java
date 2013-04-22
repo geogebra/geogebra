@@ -25,6 +25,7 @@ import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
+import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
@@ -80,6 +81,8 @@ public class TouchApp extends AppWeb
 		initFactories();
 
 		this.loc = new LocalizationW();
+		
+		infobar = new InfoBarW(this);
 
 		this.fontManager = new FontManagerW();
 		this.touchGUI = touchGUI;

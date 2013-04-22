@@ -237,8 +237,6 @@ public class AppW extends AppWeb {
 
 	private void initCommonObjects() {
 		initFactories();
-		geogebra.common.factories.CASFactory
-		        .setPrototype(new geogebra.web.factories.CASFactoryW());
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactoryW();
 		geogebra.common.factories.Factory
 		        .setPrototype(new geogebra.web.factories.FactoryW());
