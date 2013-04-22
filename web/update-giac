@@ -28,8 +28,10 @@ test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for
 WORKDIR=../common/src/giac
 WEBDIR=`pwd`
 
-# 2. CD'ing to giac directory
+# 2. CD'ing to giac directory and obtaining the latest version
 cd $WORKDIR
+svn update --accept theirs-full --force
+
 
 # 3. Compiling
 export PATH=$PATH:$EMSCRIPTEN
