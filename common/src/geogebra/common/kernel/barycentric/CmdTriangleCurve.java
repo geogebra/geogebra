@@ -2,6 +2,7 @@ package geogebra.common.kernel.barycentric;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +45,11 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.addLocalVariable("A", ta);
 			cons.addLocalVariable("B", tb);
 			cons.addLocalVariable("C", tc);
-			arg[3] = resArg(c,3);
+			if(!(c.getArgument(3).unwrap() instanceof Equation)){
+				throw argErr(app, c.getName(), getBadArg(ok,arg));	
+			}
+			//need to allow constants as A+B=C does not include x
+			arg[3] = kernelA.getAlgebraProcessor().processEquation((Equation)c.getArgument(3).unwrap(),true)[0];
 
 			if ((ok[0] = arg[0].isGeoPoint()) &&
 					(ok[1] = arg[1].isGeoPoint()) &&

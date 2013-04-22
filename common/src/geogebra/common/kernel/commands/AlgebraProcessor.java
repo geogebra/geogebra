@@ -1275,12 +1275,16 @@ public class AlgebraProcessor {
 		return f;
 	}
 	
+	public final GeoElement[] processEquation(Equation equ) throws MyError {
+		return processEquation(equ, false);
+	}
+	
 	/**
 	 * @param equ equation
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError e.g. for invalid operation
 	 */
-	public GeoElement[] processEquation(Equation equ) throws MyError {
+	public final GeoElement[] processEquation(Equation equ, boolean allowConstant) throws MyError {
 		// AbstractApplication.debug("EQUATION: " + equ);
 		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
 		// equ.getNormalForm());
@@ -1298,9 +1302,6 @@ public class AlgebraProcessor {
 			// consider algebraic degree of equation
 			// check not equation of eg plane
 			switch (equ.degree()) {
-			//pi = 3 is not an equation, #1391
-			case 0:
-				throw new MyError(app.getLocalization(),"InvalidEquation");
 			// linear equation -> LINE
 			case 1:
 				return processLine(equ);
@@ -1308,7 +1309,12 @@ public class AlgebraProcessor {
 				// quadratic equation -> CONIC
 			case 2:
 				return processConic(equ);
-
+			//pi = 3 is not an equation, #1391
+			case 0:
+				if(!allowConstant){
+					throw new MyError(app.getLocalization(),"InvalidEquation");
+				}
+			//if constants are allowed, build implicit poly	
 			default:
 				// test for "y= <rhs>" here as well
 				if (equ.getLHS().toString(StringTemplate.defaultTemplate).trim().equals("y")) {
