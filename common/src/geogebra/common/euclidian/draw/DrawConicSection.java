@@ -353,6 +353,16 @@ public class DrawConicSection extends DrawConic {
 			drawLabel(g2);
 		}
 	}
+	
+	@Override
+	protected void updateHyperbolaLabelCoords(){
+		if (drawLeft){
+			labelCoords[0] = a;
+		}else{
+			labelCoords[0] = -a;
+		}
+		labelCoords[1] = 0;
+	}
 
 	@Override
 	protected boolean checkHyperbolaOnScreen(GRectangle viewRect){

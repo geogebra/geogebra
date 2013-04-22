@@ -448,10 +448,6 @@ public class GeoConic extends GeoConicND implements Traceable,
 		return true;
 	}
 
-	@Override
-	public Coords getLabelPosition() {
-		return new Coords(0, 0, 0, 1);
-	}
 
 	@Override
 	public Coords getDirection3D(int i) {

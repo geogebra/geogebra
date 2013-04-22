@@ -81,7 +81,7 @@ public class DrawConic extends Drawable implements Previewable {
 	protected boolean labelVisible;
 	private int type;
 
-	private double[] labelCoords = new double[2];
+	protected double[] labelCoords = new double[2];
 
 	// CONIC_SINGLE_POINT
 	private boolean firstPoint = true;
@@ -853,15 +853,20 @@ public class DrawConic extends Drawable implements Previewable {
 
 		updateHyperboalSetTransformToPaths();
 
-		// set label coords
+		updateHyperbolaLabelCoords();
+		transform.transform(labelCoords, 0, labelCoords, 0, 1);
+		xLabel = (int) labelCoords[0];
+		yLabel = (int) labelCoords[1];	
+		
+		updateHyperbolaSetShape();
+	}
+	
+	/** set label coords */
+	protected void updateHyperbolaLabelCoords(){
+
 		labelCoords[0] = 2.0 * a;
 		// point on curve: y = b * sqrt(3) minus 20 pixels
 		labelCoords[1] = b * 1.7 - 20.0 / view.getYscale();
-		transform.transform(labelCoords, 0, labelCoords, 0, 1);
-		xLabel = (int) labelCoords[0];
-		yLabel = (int) labelCoords[1];
-		
-		updateHyperbolaSetShape();
 	}
 	
 

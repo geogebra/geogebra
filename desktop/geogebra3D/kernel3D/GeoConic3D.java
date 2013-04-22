@@ -113,11 +113,6 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	}
 
 
-	@Override
-	public Coords getLabelPosition() {
-		return new Coords(4); // TODO
-	}
-
 	// ///////////////////////////////////////
 	// link with GeoElement2D
 

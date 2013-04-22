@@ -3551,4 +3551,20 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		return "Conic";                       
 	}
 	
+	private Coords labelPosition;
+	private PathParameter labelParameter;
+
+	@Override
+	public Coords getLabelPosition() {
+		if (labelPosition == null){
+			labelPosition = new Coords(0,0,1);
+			labelParameter = new PathParameter(0);
+		}
+
+		pathChangedWithoutCheck(labelPosition, labelParameter);
+		
+		
+		return getCoordSys().getPoint(labelPosition);
+	}
+	
 }
