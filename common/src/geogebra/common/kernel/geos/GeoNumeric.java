@@ -26,6 +26,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -464,6 +465,13 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		
+		// see MyDouble.toString()
+		if (tpl.getStringType() == StringType.GIAC) {
+			return "exact(" + kernel.format(value, tpl) + ")";
+			
+		}
+		
 		return kernel.format(value, tpl);
 	}
 
