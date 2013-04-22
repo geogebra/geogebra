@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
@@ -30,11 +31,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class StylingBar extends DecoratorPanel
 {
-	private StylingBarButton[] tempButtons = new StylingBarButton[0];
-	private StylingBarButton[] option;
-	StylingBarButton[] button;
-	private StylingBarButton colorButton;
-	private VerticalPanel content; 
+	private VerticalPanel contentPanel;
+
+	private StandardImageButton[] tempButtons = new StandardImageButton[0];
+	StandardImageButton[] option;
+	StandardImageButton[] button;
+	StandardImageButton colorButton;
 
 	boolean[] active;
 
@@ -52,19 +54,20 @@ public class StylingBar extends DecoratorPanel
 	 */
 	public StylingBar(TouchModel touchModel, EuclidianViewM view)
 	{
-				
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
 
-		this.content = new VerticalPanel(); 
-		this.add(this.content); 
+		this.contentPanel = new VerticalPanel();
+
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
-		
+
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
 		createStandardButtons();
 		createOptionalButtons();
+
+		this.setWidget(this.contentPanel);
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class StylingBar extends DecoratorPanel
 	 */
 	private void createStandardButtons()
 	{
-		this.button = new StylingBarButton[2];
+		this.button = new StandardImageButton[2];
 		this.active = new boolean[] { true, false, true };
 
 		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
@@ -99,7 +102,7 @@ public class StylingBar extends DecoratorPanel
 		// add the standardButtons to the verticalPanel
 		for (int i = 0; i < this.button.length; i++)
 		{
-			this.content.add(this.button[i]);
+			this.contentPanel.add(this.button[i]);
 		}
 	}
 
@@ -109,8 +112,9 @@ public class StylingBar extends DecoratorPanel
 	private void createOptionalButtons()
 	{
 		// optional buttons
-		this.option = new StylingBarButton[2];
-		this.option[0] = new StylingBarButton(CommonResources.INSTANCE.label(), new ClickHandler()
+		this.option = new StandardImageButton[2];
+		this.option[0] = new StandardImageButton(CommonResources.INSTANCE.label());
+		this.option[0].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -122,12 +126,14 @@ public class StylingBar extends DecoratorPanel
 				else
 				{
 					StylingBar.this.guiModel.closeOptions();
-					StylingBar.this.guiModel.showOption(new CaptionBar(StylingBar.this.touchModel), OptionType.CaptionStyle);
+					StylingBar.this.guiModel.showOption(new CaptionBar(StylingBar.this.touchModel), OptionType.CaptionStyle, StylingBar.this.option[0]);
 				}
 			}
-		});
+		}, ClickEvent.getType());
 
-		this.option[1] = new StylingBarButton(CommonResources.INSTANCE.properties_defaults(), new ClickHandler()
+		this.option[1] = new StandardImageButton(CommonResources.INSTANCE.properties_defaults());
+
+		this.option[1].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -139,12 +145,30 @@ public class StylingBar extends DecoratorPanel
 				else
 				{
 					StylingBar.this.guiModel.closeOptions();
-					StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel), OptionType.LineStyle);
+					StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel), OptionType.LineStyle, StylingBar.this.option[1]);
 				}
 			}
-		});
+		}, ClickEvent.getType());
 
-		this.colorButton = createColorBarButton();
+		this.colorButton = new StandardImageButton(CommonResources.INSTANCE.colour());
+		this.colorButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				event.preventDefault();
+				if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
+				{
+					StylingBar.this.guiModel.closeOptions();
+				}
+				else
+				{
+					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
+					StylingBar.this.guiModel.showOption(colorBar, OptionType.Color, StylingBar.this.colorButton); // includes
+					// closeOptions()
+				}
+			}
+		}, ClickEvent.getType());
 	}
 
 	/**
@@ -154,9 +178,10 @@ public class StylingBar extends DecoratorPanel
 	 * @param number
 	 * @return a new StylingBarButton with an ClickHandler
 	 */
-	private StylingBarButton createStyleBarButton(final String process, SVGResource svg, final int number)
+	private StandardImageButton createStyleBarButton(final String process, SVGResource svg, final int number)
 	{
-		return new StylingBarButton(svg, new ClickHandler()
+		StandardImageButton newButton = new StandardImageButton(svg);
+		newButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -173,33 +198,9 @@ public class StylingBar extends DecoratorPanel
 					StylingBar.this.active[number] = true;
 				}
 			}
-		});
-	}
+		}, ClickEvent.getType());
 
-	/**
-	 * Initializes the colorButton with an ClickHandler to open and close the
-	 * color-choice-wheel.
-	 * 
-	 * @return
-	 */
-	private StylingBarButton createColorBarButton()
-	{
-		return new StylingBarButton(CommonResources.INSTANCE.colour(), new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
-				{
-					StylingBar.this.guiModel.closeOptions();
-				}
-				else
-				{
-					ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
-					StylingBar.this.guiModel.showOption(colorBar, OptionType.Color); //includes closeOptions()
-				}
-			}
-		});
+		return newButton;
 	}
 
 	/**
@@ -209,7 +210,7 @@ public class StylingBar extends DecoratorPanel
 	 *          the ColorButton will be added; in case of null no further Button
 	 *          will be added at all
 	 */
-	public void rebuild(StylingBarButton[] commands)
+	public void rebuild(StandardImageButton[] commands)
 	{
 		if (commands == null)
 		{
@@ -222,27 +223,27 @@ public class StylingBar extends DecoratorPanel
 			return;
 		}
 
-		for (StylingBarButton b : this.tempButtons)
+		for (StandardImageButton b : this.tempButtons)
 		{
-			this.content.remove(b);
+			this.contentPanel.remove(b);
 		}
 
-		this.content.add(this.colorButton);
+		this.contentPanel.add(this.colorButton);
 
 		this.tempButtons = commands;
 
-		for (StylingBarButton b : this.tempButtons)
+		for (StandardImageButton b : this.tempButtons)
 		{
-			this.content.add(b);
+			this.contentPanel.add(b);
 		}
 	}
 
 	public void rebuild(SVGResource[] resource)
 	{
-		ArrayList<StylingBarButton> buttons = new ArrayList<StylingBarButton>();
+		ArrayList<StandardImageButton> buttons = new ArrayList<StandardImageButton>();
 		for (SVGResource svg : resource)
 		{
-			for (StylingBarButton b : this.option)
+			for (StandardImageButton b : this.option)
 			{
 				if (svg.equals(b.getIcon()))
 				{
@@ -250,7 +251,7 @@ public class StylingBar extends DecoratorPanel
 				}
 			}
 		}
-		rebuild(buttons.toArray(new StylingBarButton[buttons.size()]));
+		rebuild(buttons.toArray(new StandardImageButton[buttons.size()]));
 	}
 
 	/**
@@ -276,16 +277,16 @@ public class StylingBar extends DecoratorPanel
 	{
 		this.remove(this.colorButton);
 
-		for (StylingBarButton b : this.tempButtons)
+		for (StandardImageButton b : this.tempButtons)
 		{
 			this.remove(b);
 		}
-		this.tempButtons = new StylingBarButton[0];
+		this.tempButtons = new StandardImageButton[0];
 	}
 
 	public void updateColor(String color)
-	{	
-		this.colorButton.getElement().getStyle().setBackgroundImage("initial"); //needed to set a backgroundColor
+	{
+		this.colorButton.getElement().getStyle().setBackgroundImage("initial");
 		this.colorButton.getElement().getStyle().setBackgroundColor(color);
 	}
 }

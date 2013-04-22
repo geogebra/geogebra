@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Test;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.OptionsBar;
@@ -17,12 +18,11 @@ import java.util.ArrayList;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
- * Organizes the visibility of the additional {@link OptionsBar
- * toolBar} according to the {@link ToolBarButton active button}.
+ * Organizes the visibility of the additional {@link OptionsBar toolBar}
+ * according to the {@link ToolBarButton active button}.
  * 
  * @author Thomas Krismayer
  * 
@@ -34,7 +34,7 @@ public class GuiModel
 	private ToolBarButton activeButton;
 	private StylingBar stylingBar;
 	private EuclidianView euclidianView;
-	private Widget option;
+	private PopupPanel option;
 
 	private OptionType styleBarOptionShown = OptionType.Non;
 
@@ -127,7 +127,7 @@ public class GuiModel
 	{
 		if (this.option != null)
 		{
-			RootPanel.get().remove(this.option);
+			this.option.hide();
 			this.styleBarOptionShown = OptionType.Non;
 
 			if (this.touchModel != null)
@@ -135,7 +135,7 @@ public class GuiModel
 				this.touchModel.optionsClosed();
 			}
 		}
-		
+
 		// activeButton looses style otherwise
 		this.activeButton.addStyleDependentName("active");
 	}
@@ -145,7 +145,7 @@ public class GuiModel
 		if (this.activeButton != null && this.activeButton != toolBarButton)
 		{
 			// transparent
-			this.activeButton.getElement().getStyle().setBorderColor("rgba(0,0,0,0)");	
+			this.activeButton.getElement().getStyle().setBorderColor("rgba(0,0,0,0)");
 		}
 		this.activeButton = toolBarButton;
 		this.activeButton.getElement().getStyle().setBorderColor(GColor.BLUE.toString());
@@ -158,11 +158,11 @@ public class GuiModel
 		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries());
 	}
 
-	public void showOption(Widget newOption, OptionType type)
+	public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent)
 	{
 		closeOptions();
 		this.option = newOption;
-		RootPanel.get().add(newOption);
+		newOption.showRelativeTo(parent);
 		this.styleBarOptionShown = type;
 	}
 
@@ -210,8 +210,8 @@ public class GuiModel
 		}
 		if (this.captionMode != -1)
 		{
-			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1 , this.captionMode); 
-			// second argument (-1):  anything other than 0
+			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1, this.captionMode);
+			// second argument (-1): anything other than 0
 		}
 	}
 

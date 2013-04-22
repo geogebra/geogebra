@@ -10,31 +10,35 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Contains the {@link ColorBar}.
  */
-public class ColorBarBackground extends VerticalPanel
+public class ColorBarBackground extends PopupPanel
 {
 	// private final AnimationHelper animationHelper;
+	private VerticalPanel contentPanel;
 	private ColorBar colorBar;
+	private Slider slider;
 
+	// FIXME create the popup beforehand, hide or show the slider depending on
+	// criteria
 	public ColorBarBackground(StylingBar stylingBar, final TouchModel touchModel)
 	{
+		this.contentPanel = new VerticalPanel();
+		
 		this.colorBar = new ColorBar(stylingBar, touchModel);
-		this.add(this.colorBar);
+		this.contentPanel.add(this.colorBar);
 
-		LayoutPanel sliderPanel = new LayoutPanel();
+		this.slider = new Slider();
+		this.slider.setMinimum(0);
+		this.slider.setMaximum(10);
+		this.slider.setValue(Integer.valueOf((int) (touchModel.getLastAlpha() * 10)));
+		this.slider.setWidth("100%");
 
-		Slider slider = new Slider();
-		slider.setMinimum(0);
-		slider.setMaximum(10);
-		slider.setValue(Integer.valueOf((int) (touchModel.getLastAlpha() * 10)));
-		slider.setWidth("100%");
-
-		slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
+		this.slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
 		{
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event)
@@ -61,12 +65,12 @@ public class ColorBarBackground extends VerticalPanel
 		// add slider only if there is at least one fillable element
 		if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStylingBarEntries() == StylingBarEntries.Polygon)
 		{
-			sliderPanel.add(slider);
-			this.add(sliderPanel);
+			this.contentPanel.add(this.slider);
 		}
 
 		// TODO implement animationHelper
 		// this.animationHelper = new AnimationHelper();
 		// add(this.animationHelper);
+		this.setWidget(this.contentPanel);
 	}
 }

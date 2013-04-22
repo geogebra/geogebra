@@ -100,7 +100,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 	}
 
-	public void onResize(ResizeEvent event)
+	@Override
+  public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
 		this.titleButton.setPixelSize(Window.getClientWidth() - 396, 61);

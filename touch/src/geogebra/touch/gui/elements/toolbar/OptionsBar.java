@@ -5,10 +5,9 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.utils.ToolBarCommand;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Each {@link ToolBarButton ToolBarButton} has its own options.
@@ -16,30 +15,27 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author Thomas Krismayer
  * @see ButtonBar
  */
-public class OptionsBar extends HorizontalPanel
+public class OptionsBar extends PopupPanel
 {
+	private HorizontalPanel contentPanel;
 	private HorizontalPanel optionsBar;
 
 	/**
-	 * Initialize the {@link OptionsBar optionsBar} with the specific menu
-	 * entries and add an {@link AnimationHelper}.
+	 * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
+	 * and add an {@link AnimationHelper}.
 	 * 
 	 * @param menuEntries
-	 *            the ToolBarCommands that will be shown
+	 *          the ToolBarCommands that will be shown
 	 * @param ancestor
-	 *            the OptionsClickedListener (f.e. a ToolBarButton) that was
-	 *            clicked
+	 *          the OptionsClickedListener (f.e. a ToolBarButton) that was clicked
 	 */
-	public OptionsBar(ToolBarCommand[] menuEntries,
-			OptionsClickedListener ancestor, int offset)
+	public OptionsBar(ToolBarCommand[] menuEntries, OptionsClickedListener ancestor)
 	{
-		this.setWidth(Window.getClientWidth() + "px");
+		this.contentPanel = new HorizontalPanel();
 
-		this.getElement().getStyle()
-				.setBackgroundColor(TabletGUI.getBackgroundColor().toString());
+		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());
 		this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
-		this.getElement().getStyle()
-				.setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+		this.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
 		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
 		this.optionsBar = new HorizontalPanel();
@@ -52,15 +48,7 @@ public class OptionsBar extends HorizontalPanel
 			this.optionsBar.add(options[i]);
 		}
 
-		this.add(this.optionsBar);
-
-		this.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		this.getElement().getStyle().setLeft(0, Unit.PX);
-		this.getElement()
-				.getStyle()
-				.setTop(Window.getClientHeight() - 2 * (offset
-						+ TabletGUI.FOOTER_BORDER_WIDTH), Unit.PX);
-
+		this.contentPanel.add(this.optionsBar);
+		this.setWidget(this.contentPanel);
 	}
-
 }

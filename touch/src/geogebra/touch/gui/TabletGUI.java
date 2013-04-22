@@ -31,6 +31,9 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
  */
 public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 {
+	public static final float ALGEBRA_VIEW_WIDTH_FRACTION = 0.2f;
+	public static final int FOOTER_BORDER_WIDTH = 1;
+
 	SplitLayoutPanel contentPanel;
 	private ToolBar toolBar;
 
@@ -41,8 +44,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 
 	private TouchModel touchModel;
-
-	public static final int FOOTER_BORDER_WIDTH = 1;
 
 	public void addResizeListener(ResizeListener rl)
 	{
@@ -104,16 +105,17 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
 
-		this.contentPanel.addEast(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
-		this.contentPanel.addWest(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
+		this.contentPanel.addEast(this.algebraViewPanel, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
+		this.contentPanel.addWest(this.euclidianViewPanel, (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)));
 		this.contentPanel.setHeight("100%");
-		this.euclidianViewPanel.setPixelSize((int) (Window.getClientWidth() * 0.8) , Window.getClientHeight()- this.laf.getPanelsHeight());
+		this.euclidianViewPanel.setPixelSize((int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)),
+		    Window.getClientHeight() - this.laf.getPanelsHeight());
 
 		this.euclidianViewPanel.add(this.stylingBar);
-		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, (int)this.contentPanel.getWidgetSize(this.euclidianViewPanel).doubleValue() - 60, 10);
+		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, 0, 10);
 
-		this.contentPanel.setWidgetMinSize(this.algebraViewPanel, (int) (Window.getClientWidth() * 0.2));
-		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, (int) (Window.getClientWidth() * 0.8));
+		this.contentPanel.setWidgetMinSize(this.algebraViewPanel, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
+		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)));
 
 		this.setContentWidget(this.contentPanel);
 
@@ -142,11 +144,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
 		this.contentPanel.onResize();
-		int euclidianWidth = event.getWidth()-(int)this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
+		int euclidianWidth = event.getWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
 		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, euclidianWidth);
-		this.euclidianViewPanel.setPixelSize(euclidianWidth,
-				event.getHeight() - this.laf.getPanelsHeight());
-		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, euclidianWidth - 60, 10);
+		this.euclidianViewPanel.setPixelSize(euclidianWidth, event.getHeight() - this.laf.getPanelsHeight());
+		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, (int) (euclidianWidth - this.contentPanel.getWidgetSize(this.stylingBar)
+		    .doubleValue()), 10);
 
 		this.toolBar.setWidth(event.getWidth() + "px");
 

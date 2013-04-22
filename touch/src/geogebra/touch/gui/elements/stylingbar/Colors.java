@@ -36,6 +36,8 @@ public class Colors extends VerticalPanel
 	private void addColorButton(final GColor color)
 	{
 		PushButton button = new PushButton();
+		button.setPixelSize(128, 64);
+		button.getElement().getStyle().setBackgroundImage("initial");
 
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 

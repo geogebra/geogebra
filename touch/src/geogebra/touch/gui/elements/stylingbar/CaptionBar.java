@@ -7,12 +7,16 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
-public class CaptionBar extends LayoutPanel
+public class CaptionBar extends PopupPanel
 {
+
+	private LayoutPanel contentPanel;
 
 	public CaptionBar(final TouchModel touchModel)
 	{
+		this.contentPanel = new LayoutPanel();
 		this.addStyleName("StyleBarOptions");
 
 		Button[] button = new Button[4];
@@ -33,7 +37,9 @@ public class CaptionBar extends LayoutPanel
 					touchModel.setCaptionMode(index);
 				}
 			}, ClickEvent.getType());
-			add(button[i]);
+			this.contentPanel.add(button[i]);
+
+			this.setWidget(this.contentPanel);
 		}
 
 		button[0].setText("_");

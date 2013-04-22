@@ -9,11 +9,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * A {@link LyoutPanel} with a {@link ScrollPanel}.
  */
-public class ColorBar extends LayoutPanel
+public class ColorBar extends VerticalPanel
 {
 	ScrollPanel scrollPanel;
 	protected Colors colors;
@@ -26,22 +27,29 @@ public class ColorBar extends LayoutPanel
 	public ColorBar(StylingBar stylingBar, TouchModel touchModel)
 	{
 		this.addStyleName("colorBar");
+
 		this.scrollPanel = new ScrollPanel();
 		this.scrollPanel.addStyleName("colorScrollPanel");
+		
+		//TODO get button height to show
+		this.scrollPanel.setHeight("128px");
+
 		this.listOfColors = new ArrayList<GColor>();
 		initColors();
 		this.colors = new Colors(stylingBar, touchModel);
 		this.colors.drawColorChoice(this.listOfColors);
+
 		this.scrollPanel.add(this.colors);
-		this.add(this.scrollPanel);
-		this.setVisible(true);
+
 		initEndlessColorWheel();
+
+		this.add(this.scrollPanel);
 	}
 
 	private void initEndlessColorWheel()
 	{
-		//TODO make colorwheel endless
-	}	
+		// TODO make colorwheel endless
+	}
 
 	private void initColors()
 	{

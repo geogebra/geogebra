@@ -8,15 +8,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 
-public class LineStyleBar extends LayoutPanel
+public class LineStyleBar extends PopupPanel
 {
+	private FlowPanel contentPanel;
 
 	public LineStyleBar(final TouchModel touchModel)
 	{
 		this.addStyleName("StyleBarOptions");
+		this.contentPanel = new FlowPanel();
 
 		Button[] lineStyle = new Button[5];
 
@@ -34,11 +36,11 @@ public class LineStyleBar extends LayoutPanel
 					touchModel.storeOnClose();
 				}
 			}, ClickEvent.getType());
-			add(lineStyle[i]);
+			this.contentPanel.add(lineStyle[i]);
 		}
 
 		Slider slider = new Slider();
-	
+
 		if (touchModel.lastSelected() != null)
 		{
 			slider.setValue(Integer.valueOf(touchModel.lastSelected().getLineThickness() - 2));
@@ -54,9 +56,9 @@ public class LineStyleBar extends LayoutPanel
 				touchModel.storeOnClose();
 			}
 		});
-		add(slider);
+		this.contentPanel.add(slider);
 
-		RootPanel.get().add(this);
+		this.setWidget(this.contentPanel);
 	}
 
 }
