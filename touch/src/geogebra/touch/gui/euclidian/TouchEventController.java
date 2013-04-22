@@ -38,7 +38,10 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	{
 		if (event.getTouches().length() == 1)
 		{
-			event.preventDefault();
+			//ensure textfiled loses focus
+			if(!this.mc.isTextfieldHasFocus()){
+				event.preventDefault();
+			}
 			this.mc.onTouchStart(event.getTouches().get(0).getClientX(), convertHeight(event.getTouches().get(0).getClientY()));
 		}
 		else if (event.getTouches().length() == 2)
@@ -100,7 +103,10 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onMouseDown(MouseDownEvent event)
 	{
-		event.preventDefault();
+		//ensure textfields lose focus
+		if(!this.mc.isTextfieldHasFocus()){
+			event.preventDefault();
+		}
 		this.mc.onTouchStart(event.getX(), event.getY());
 	}
 

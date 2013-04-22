@@ -17,6 +17,7 @@ import geogebra.touch.controller.TouchController;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.euclidian.EuclidianViewWeb;
+import geogebra.web.javax.swing.GBoxW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.DrawEquationWeb;
 
@@ -44,6 +45,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	public static int repaints, repaintTime, drags, dragTime;
 
 	protected Hits hits;
+	private EuclidianViewPanel panel;
 
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from
 	                                                // geogebra.common.euclidian.draw.DrawPoint
@@ -77,6 +79,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	 */
 	private void init(EuclidianViewPanel euclidianViewPanel, Widget widget)
 	{
+		this.panel = euclidianViewPanel;
 		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
 		TouchEventController touchController = new TouchEventController((TouchController) this.getEuclidianController(), widget);
@@ -222,15 +225,16 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public void add(GBox box)
 	{
-		/*
-		 * TODO panel.add( GBoxW.getImpl((GBoxW) box), (int)box.getBounds().getX(),
-		 * (int)box.getBounds().getY());
-		 */
+		
+		this.panel.add( GBoxW.getImpl( box), (int)box.getBounds().getX(),
+		  (int)box.getBounds().getY());
+		 
 	}
 
 	@Override
 	public void remove(GBox box)
 	{
+		this.panel.remove(GBoxW.getImpl(box));
 	}
 
 	@Override

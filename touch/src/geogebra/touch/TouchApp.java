@@ -21,11 +21,11 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
+import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
-import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
@@ -82,7 +82,7 @@ public class TouchApp extends AppWeb
 
 		this.loc = new LocalizationW();
 		
-		infobar = new InfoBarW(this);
+		infobar = new InfoBarT();
 
 		this.fontManager = new FontManagerW();
 		this.touchGUI = touchGUI;

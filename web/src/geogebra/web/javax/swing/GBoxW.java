@@ -4,6 +4,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
+import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
 
@@ -20,9 +21,11 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 	
-	public static HorizontalPanel getImpl(GBoxW box){
-		if (box == null) return null;
-		return box.impl;
+	public static HorizontalPanel getImpl(GBox box){
+		if (!(box instanceof GBoxW)){
+				return null;
+		}
+		return ((GBoxW)box).impl;
 	}
 	
 	@Override

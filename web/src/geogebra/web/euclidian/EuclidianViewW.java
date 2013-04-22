@@ -417,7 +417,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	@Override
     public void add(GBox box) {
 	    this.app.getEuclidianViewpanel().getEuclidianPanel().add(
-	    		GBoxW.getImpl((GBoxW) box),
+	    		GBoxW.getImpl(box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
     }
@@ -426,7 +426,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
     public void remove(GBox box) {
 		App.debug("implementation needed - just finishing"); // TODO
 	    this.app.getEuclidianViewpanel().getEuclidianPanel().remove(
-	    		GBoxW.getImpl((GBoxW) box));
+	    		GBoxW.getImpl(box));
 	    
     }
 

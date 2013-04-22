@@ -238,11 +238,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseDown(MouseDownEvent event) {
 		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!textfieldHasFocus)){
+		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 			
-		if(!textfieldHasFocus){
+		if(!isTextfieldHasFocus()){
 			event.preventDefault();
 		}
 			
