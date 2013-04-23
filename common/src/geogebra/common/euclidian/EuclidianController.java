@@ -7520,6 +7520,15 @@ public abstract class EuclidianController {
 	
 				view.setShowMouseCoords(false);
 				view.setDragCursor();
+			} else {
+				
+				// need to trigger scripts
+				// (on tablets only get drag events)
+				
+				view.requestFocusInWindow();
+
+				app.runScripts(movedGeoElement, (String)null);
+
 			}
 
 		}
