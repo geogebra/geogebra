@@ -5042,6 +5042,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public CasType getCASType() {
+		//return CasType.GIAC;
 		return CasType.MPREDUCE;
 	}
 }

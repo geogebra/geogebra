@@ -225,7 +225,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		script = this.createMPReduceScript(translatedRestrictions);
 		App.info("[LocusEqu] input to cas: "+script);
 		cas.getCurrentCAS().loadGroebner();
-		result = cas.evaluateMPReduce(script);
+		result = cas.evaluate(script);
 		App.info("[LocusEqu] output from cas: "+result);
 		return getCoefficientsFromResult(result, cas);
 	}

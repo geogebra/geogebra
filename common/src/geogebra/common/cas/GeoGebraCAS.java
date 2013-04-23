@@ -85,7 +85,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				break;
 
 			default:
-				cas = getMPReduce();
+				cas = getReduce();
 				app.getSettings().getCasSettings().addListener(cas);
 				break;
 			/*
@@ -110,9 +110,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * @return MPReduce
+	 * @return MPReduce/Giac etc
 	 */
-	private synchronized CASGenericInterface getMPReduce() {
+	private synchronized CASGenericInterface getReduce() {
 		if (cas == null) {
 			cas = app.getCASFactory()
 					.newMPReduce(casParser, new CasParserToolsImpl('e'),
@@ -192,7 +192,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * Evaluates an expression given in MPReduce syntax.
+	 * Evaluates an expression given in MPReduce/Giac syntax.
 	 * 
 	 * @return result string (null possible)
 	 * @param exp
@@ -200,8 +200,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
-	final public String evaluateMPReduce(String exp) throws CASException {
-		return getMPReduce().evaluateCAS(exp);
+	final public String evaluate(String exp) throws CASException {
+		return cas.evaluateCAS(exp);
 	}
 
 	// these variables are cached to gain some speed in getPolynomialCoeffs
@@ -230,7 +230,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		try {
 			// expand expression and get coefficients of
 			// "3*a*x^2 + b" in form "{ b, 0, 3*a }"
-			String tmp = evaluateMPReduce(sbPolyCoeffs.toString());
+			String tmp = evaluate(sbPolyCoeffs.toString());
 
 			// no result
 			if ("{}".equals(tmp) || "".equals(tmp) || tmp == null)
