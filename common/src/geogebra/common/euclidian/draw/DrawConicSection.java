@@ -268,6 +268,16 @@ public class DrawConicSection extends DrawConic {
 		parabola.closePath();
 	}
 	
+	
+	@Override
+	protected void updateParabolaLabelCoords(){
+		labelCoords[0] = 0;
+		labelCoords[1] = 0;
+	}
+	
+	
+	
+	
 	private boolean drawLeft;
 	
 	@Override

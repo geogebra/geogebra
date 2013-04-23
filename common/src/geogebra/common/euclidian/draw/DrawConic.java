@@ -996,14 +996,23 @@ public class DrawConic extends Drawable implements Previewable {
 		updateParabolaPath();
 		
 		shape = parabola;
+		
+		updateParabolaLabelCoords();
 
+		transform.transform(labelCoords, 0, labelCoords, 0, 1);
+		xLabel = (int) labelCoords[0];
+		yLabel = (int) labelCoords[1];
+	}
+	
+	/**
+	 * update label coords for parabola
+	 */
+	protected void updateParabolaLabelCoords(){
 		// set label coords
 		labelCoords[0] = 2 * conic.p;
 		// y = 2p minus 20 pixels
 		labelCoords[1] = labelCoords[0] - 20.0 / view.getYscale();
-		transform.transform(labelCoords, 0, labelCoords, 0, 1);
-		xLabel = (int) labelCoords[0];
-		yLabel = (int) labelCoords[1];
+
 	}
 
 	/** calc control points coords of parabola y^2 = 2 p x */
