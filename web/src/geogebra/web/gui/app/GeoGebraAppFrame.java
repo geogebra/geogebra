@@ -34,7 +34,6 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
  * @author gabor
@@ -60,8 +59,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	@UiField GGWToolBar ggwToolBar;
 	@UiField GGWCommandLine ggwCommandLine;
 	@UiField GGWMenuBar ggwMenuBar;
-	MySplitLayoutPanel ggwSplitLayoutPanel;
-	
+
 	DockLayoutPanel outer = null;
 	GGWFrameLayoutPanel frameLayout;
 	AppW app;
@@ -282,12 +280,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		return frameLayout.getGGWGraphicsView().getEuclidianView1Wrapper();
 		
 	}
-	
-	public SplitLayoutPanel getGGWSplitLayoutPanel() {
-		return ggwSplitLayoutPanel.getSplitLayoutPanel();
-	}
 
-	
 	/**
 	 * @return GGWToolbar the Toolbar container
 	 */

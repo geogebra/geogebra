@@ -110,7 +110,6 @@ public class AppW extends AppWeb {
 
 	private GeoGebraFrame  frame = null;
 	private GeoGebraAppFrame appFrame = null;
-	private Widget mySplitLayoutPanel = null;
 	private EuclidianDockPanelW euclidianViewPanel;
 	private Canvas canvas;
 
@@ -168,7 +167,7 @@ public class AppW extends AppWeb {
 
 		initCoreObjects(undoActive, this);
 
-		removeDefaultContextMenu(mySplitLayoutPanel.getElement());
+		removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 	}
 
 	/********************************************************
@@ -203,7 +202,6 @@ public class AppW extends AppWeb {
 
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		this.canvas = euclidianViewPanel.getCanvas();
-		//this.mySplitLayoutPanel = (MySplitLayoutPanel)appFrame.getGGWSplitLayoutPanel();
 
 		initCoreObjects(undoActive, this);
 
@@ -326,7 +324,6 @@ public class AppW extends AppWeb {
 			// Code to run before buildApplicationPanel
 			initGuiManager();
 			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
-			mySplitLayoutPanel = getGuiManager().getLayout().getRootComponent();
 			// Code to have run before buildApplicationPanel
 
 			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
@@ -1371,9 +1368,15 @@ public class AppW extends AppWeb {
 	}
 
 	public void attachSplitLayoutPanel() {
-		frame.add(mySplitLayoutPanel);
-		// mySplitLayoutPanel.onResize();
-		// mySplitLayoutPanel.forceLayout();
+		frame.add(getSplitLayoutPanel());
+	}
+
+	public Widget getSplitLayoutPanel() {
+		if (getGuiManager() == null)
+			return null;
+		if (getGuiManager().getLayout() == null)
+			return null;
+		return getGuiManager().getLayout().getRootComponent();
 	}
 
 	@Override
@@ -1383,15 +1386,17 @@ public class AppW extends AppWeb {
 				// this should follow the resizing of the EuclidianView
 				int widthDiff = width - euclidianViewPanel.getOffsetWidth();
 				euclidianViewPanel.setPixelSize(width, height);//provided there is no style bar
-				if (mySplitLayoutPanel != null)
-					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
+				if (getSplitLayoutPanel() != null)
+					getSplitLayoutPanel().setPixelSize(
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
 			} else if (evno == 2) {// or the EuclidianView 2
 				Euclidian2DockPanelW ew = (Euclidian2DockPanelW)
 					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
 				int widthDiff = width - ew.getOffsetWidth();
 				ew.setPixelSize(width, height);
-				if (mySplitLayoutPanel != null)
-					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
+				if (getSplitLayoutPanel() != null)
+					getSplitLayoutPanel().setPixelSize(
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
 			}
 		}
 	}
