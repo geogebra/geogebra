@@ -231,7 +231,6 @@ public abstract class Drawable extends DrawableND {
 		int fontSize = g2.getFont().getSize();
 		if (oldLabelDesc == labelDesc && !labelHasIndex
 				&& lastFontSize == fontSize) {
-			lastFontSize = fontSize;
 			g2.drawString(label, xLabel, yLabel);
 			labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		} else { // label with index or label has changed:
@@ -243,6 +242,7 @@ public abstract class Drawable extends DrawableND {
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x, fontSize
 					+ p.y);
+			lastFontSize = fontSize;
 		}
 
 		if (oldFont != null)
