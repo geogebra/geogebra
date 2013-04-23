@@ -101,7 +101,7 @@ public class LayoutW extends Layout implements SettingListener {
 					app.updateMenubar();
 					//app.updateContentPane();
 				}
-	   
+		app.refreshSplitLayoutPanel();
     }
 
 	

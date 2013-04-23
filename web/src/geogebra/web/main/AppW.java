@@ -1331,8 +1331,10 @@ public class AppW extends AppWeb {
 		}
 	}
 
+	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
 	
 	public void buildApplicationPanel() {
+
 		if (showMenuBar) {
 			attachMenubar();
 		}
@@ -1341,12 +1343,20 @@ public class AppW extends AppWeb {
 			attachToolbar();
 		}
 
-		// return euclidianViewPanel;
-		// frame.add(euclidianViewPanel);
 		attachSplitLayoutPanel();
 
 		if (showAlgebraInput) {
 			attachAlgebraInput();
+		}
+	}
+
+	public void refreshSplitLayoutPanel() {
+		if (frame != null && frame.getWidgetCount() != 0 &&
+			frame.getWidgetIndex(getSplitLayoutPanel()) == -1 &&
+			frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
+			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
+			frame.insert(getSplitLayoutPanel(), wi);
+			frame.remove(oldSplitLayoutPanel);
 		}
 	}
 
@@ -1363,14 +1373,20 @@ public class AppW extends AppWeb {
 		objectPool.setGgwMenubar(menubar);
 	}
 
+	private GGWToolBar ggwToolBar = null;
+
 	public void attachToolbar() {
-		GGWToolBar toolbar = new GGWToolBar();
-		toolbar.init(this);
-		frame.add(toolbar);
+		ggwToolBar = new GGWToolBar();
+		ggwToolBar.init(this);
+		frame.add(ggwToolBar);
+	}
+
+	public GGWToolBar getAppletGGWToolbar() {
+		return ggwToolBar;
 	}
 
 	public void attachSplitLayoutPanel() {
-		frame.add(getSplitLayoutPanel());
+		frame.add(oldSplitLayoutPanel = getSplitLayoutPanel());
 	}
 
 	public Widget getSplitLayoutPanel() {
@@ -1865,6 +1881,8 @@ public class AppW extends AppWeb {
 	@Override
     public void afterLoadFileAppOrNot() {
 
+		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
+
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
 		kernel.initUndoInfo();
@@ -1880,6 +1898,8 @@ public class AppW extends AppWeb {
 
 			if (needsSpreadsheetTableModel())
 				getSpreadsheetTableModel();
+
+			refreshSplitLayoutPanel();
 		} else {
 			splashDialog.canNowHide();
 			getEuclidianView1().doRepaint2();

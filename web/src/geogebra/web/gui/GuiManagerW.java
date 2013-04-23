@@ -18,6 +18,8 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -426,7 +428,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			layout.registerPanel(new CASDockPanelW(app));
 
 		// register EuclidianView2
-		//layout.registerPanel(newEuclidian2DockPanel());
+		layout.registerPanel(getEuclidianView2DockPanel());
 
 		// register ConstructionProtocol view
 	//	layout.registerPanel(new ConstructionProtocolDockPanel(app));
@@ -472,8 +474,14 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			toolbarPanel = app.getAppFrame().getGGWToolbar();
-			toolbarPanel.init(app);
+			if (!Web.currentGUI.equals(GuiToLoad.APP)) {
+				toolbarPanel = app.getAppletGGWToolbar();	// note: this may return null
+			} else {
+				toolbarPanel = app.getAppFrame().getGGWToolbar();
+			}
+			if (toolbarPanel != null) {
+				toolbarPanel.init(app);
+			}
 		}
 
 		return toolbarPanel;
@@ -487,7 +495,9 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 		if (layout != null) {
 			// AGlayout.getDockManager().updateToolbars();
-			getToolbarPanel().updateToolbarPanel();
+			if (getToolbarPanel() != null) {
+				getToolbarPanel().updateToolbarPanel();
+			}
 		}
 	}
 
@@ -678,7 +688,26 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	@Override
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		App.debug("unimplemented");
+		/*if (success && !isMacroFile
+			&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
 
+			getLayout().setPerspectives(app.getTmpPerspectives());
+			//SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
+
+			if (!app.isIniting()) {
+				updateFrameSize(); // checks internally if frame is available
+				if (app.needsSpreadsheetTableModel())
+					(app).getSpreadsheetTableModel(); //ensure create one if not already done
+			}
+		} else if (isMacroFile && success) {
+			//setToolBarDefinition(ToolbarW.getAllTools(app));
+			//(app).updateToolBar();
+			//(app).updateContentPane();
+		}
+
+		// force JavaScript ggbOnInit(); to be called
+		if (!app.isApplet())
+			app.getScriptManager().ggbOnInit();*/
 	}
 
 	@Override
