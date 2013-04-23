@@ -479,7 +479,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			} else {
 				toolbarPanel = app.getAppFrame().getGGWToolbar();
 			}
-			if (toolbarPanel != null) {
+			if (toolbarPanel != null && !toolbarPanel.isInited()) {
 				toolbarPanel.init(app);
 			}
 		}
@@ -687,8 +687,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
-		App.debug("unimplemented");
-		/*if (success && !isMacroFile
+		if (success && !isMacroFile
 			&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
 
 			getLayout().setPerspectives(app.getTmpPerspectives());
@@ -707,7 +706,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 		// force JavaScript ggbOnInit(); to be called
 		if (!app.isApplet())
-			app.getScriptManager().ggbOnInit();*/
+			app.getScriptManager().ggbOnInit();
 	}
 
 	@Override

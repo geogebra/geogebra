@@ -41,12 +41,17 @@ public class GGWToolBar extends Composite {
 	static private ToolBarW toolBar;
 	@UiField
 	HorizontalPanel toolBarPanel;
+	boolean inited = false;
 
 	/**
 	 * Create a new GGWToolBar object
 	 */
 	public GGWToolBar() {
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+
+	public boolean isInited() {
+		return inited;
 	}
 	
 	public void setActiveToolbar(Integer viewID){
@@ -62,6 +67,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public void init(App app1) {
 
+		this.inited = true;
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
 		toolBar = new ToolBarW();
@@ -353,7 +359,7 @@ public class GGWToolBar extends Composite {
 
 		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
 			return myIconResourceBundle.mode_multivarstats_32().getSafeUri().asString();
-
+			
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 			return myIconResourceBundle.mode_numeric_32().getSafeUri().asString();
 			
