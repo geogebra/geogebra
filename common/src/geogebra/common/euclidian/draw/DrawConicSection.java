@@ -76,15 +76,30 @@ public class DrawConicSection extends DrawConic {
 			return;
 		}
 		
-		//draw_type = DRAW_TYPE_ELLIPSE;
+		// check if in view
+		Coords M = view.getCoordsForView(conic.getMidpoint3D());
+		if (!Kernel.isZero(M.getZ())) {// check if in view
+			isVisible = false;
+			return;
+		}
+		Coords[] ev = new Coords[2];
+		for (int j = 0; j < 2; j++) {
+			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
+			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				isVisible = false;
+				return;
+			}
+		}
 
 		// check for huge pixel radius
 		double xradius = halfAxes[0] * view.getXscale();
 		double yradius = halfAxes[1] * view.getYscale();
+		/*
 		if (xradius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
 		}
+		*/
 		
 		//use shape
 		GShape arcs;
@@ -135,7 +150,7 @@ public class DrawConicSection extends DrawConic {
 		
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(conic.getAffineTransform());
+		transform.concatenate(view.getTransform(conic, M, ev));
 		
 
 		// BIG RADIUS: larger than screen diagonal

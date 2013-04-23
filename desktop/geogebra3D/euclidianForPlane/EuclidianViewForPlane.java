@@ -10,7 +10,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -26,7 +25,6 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
 import geogebra3D.settings.EuclidianSettingsForPlane;
 
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -115,6 +113,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		case POLYGON3D:
 		case CONIC:
 		case CONIC3D:
+		case CONICSECTION:
 		case ANGLE:
 		case ANGLE3D:
 		case TEXT:
@@ -313,21 +312,6 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 	}
 	
-	@Override
-	public geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
-
-		//use already computed for this view middlepoint M and eigen vecs ev
-		AffineTransform transform = new AffineTransform();			
-		transform.setTransform(
-				ev[0].getX(),
-				ev[0].getY(),
-				ev[1].getX(),
-				ev[1].getY(),
-				M.getX(),
-				M.getY());
-
-		return new geogebra.awt.GAffineTransformD(transform);
-	}
 	
 	@Override
 	public String getFromPlaneString(){

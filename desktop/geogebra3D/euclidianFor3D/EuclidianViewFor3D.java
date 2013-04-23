@@ -1,11 +1,15 @@
 package geogebra3D.euclidianFor3D;
 
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
+
+import java.awt.geom.AffineTransform;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects
@@ -45,6 +49,23 @@ public class EuclidianViewFor3D extends EuclidianViewD {
 		}
 
 		return d;
+	}
+	
+	
+	@Override
+	public geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
+
+		//use already computed for this view middlepoint M and eigen vecs ev
+		AffineTransform transform = new AffineTransform();			
+		transform.setTransform(
+				ev[0].getX(),
+				ev[0].getY(),
+				ev[1].getX(),
+				ev[1].getY(),
+				M.getX(),
+				M.getY());
+
+		return new geogebra.awt.GAffineTransformD(transform);
 	}
 
 }
