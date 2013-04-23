@@ -150,7 +150,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		if (dpBorder == null || dpBorder.length() != 7 ||
 			(dpBorder.length() > 0 && dpBorder.charAt(0) != '#')) {
 			// FIXME: This check is incomplete, do a complete check.
-			dpBorder = "#000000";
+			dpBorder = "#888888";
 		}
 		setBorder(ae, gf, dpBorder, 1);
 	}

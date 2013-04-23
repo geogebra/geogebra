@@ -2,6 +2,7 @@ package geogebra.common.cas.giac;
 
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
@@ -427,6 +428,25 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		
 		}
+
+	public double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas) {
+		String numbers = rawResult.substring(1, rawResult.length()-1);
+		String[] flatData = numbers.split(",");
+		int xLength = Integer.parseInt(flatData[0]);
+		int yLength = Integer.parseInt(flatData[1]);
+		double[][] result = new double[xLength][yLength];
+
+		int counter = 2;
+		for (int x = 0; x < xLength; x++) {
+			for (int y = 0; y < yLength; y++) {
+				result[x][y] = Double.parseDouble(flatData[counter]);
+				App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
+				++counter;
+			}
+		}
+		
+		return result;
+	}
 
 	
 }

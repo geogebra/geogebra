@@ -1,5 +1,6 @@
 package geogebra.common.kernel;
 
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -122,5 +123,12 @@ public interface CASGenericInterface extends SettingListener {
 			Collection<StringBuilder> restrictions, 
 			String constructRestrictions,
 			String vars, String varsToEliminate);
+	
+	/**
+	 * @param rawResult output from eliminate() and coeffs() commands
+	 * @param cas the currently used CAS
+	 * @return 2D array of coefficients
+	 */
+	double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas);
 
 }

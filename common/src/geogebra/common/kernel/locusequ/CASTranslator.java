@@ -22,7 +22,7 @@ import com.google.gwt.regexp.shared.RegExp;
 /**
  * @author sergio
  * @author zoltan
- * Translates a system to MPReduce or Singular.
+ * Translates a system to MPReduce, Giac or Singular.
  */
 public class CASTranslator extends EquationTranslator<StringBuilder> {
 	
@@ -215,7 +215,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			result = App.singularWS.directCommand(script);
 			App.info("[LocusEqu] output from singular: "+result);
 			// Comment this to disable computation via SingularWS:
-			return getCoefficientsFromSingularResult(result);
+			return getBivarPolyCoefficientsSingular(result);
 		}
 		
 		App.debug("TEST: " + this.createSingularScript(translatedRestrictions));
@@ -230,20 +230,11 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		cas.getCurrentCAS().loadGroebner();
 		result = cas.evaluate(script);
 		App.info("[LocusEqu] output from cas: "+result);
-		return getCoefficientsFromResult(result, cas);
+		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
 	}
 
-	private static double[][] getCoefficientsFromResult(String rawResult, GeoGebraCAS cas) {
-		String result = getResultFromRaw(rawResult);
-		App.info("[LocusEqu] to-be-parsed result: "+result);
-		
-		if("".equals(result.trim())) {
-			return new double[][]{{}};
-		}
-		return simplifyResult(parseResult(result,cas));
-	}
 
-	private static double[][] getCoefficientsFromSingularResult(String rawResult) {
+	private static double[][] getBivarPolyCoefficientsSingular(String rawResult) {
 		String[] flatData = rawResult.split(",");
 		int xLength = Integer.parseInt(flatData[0]);
 		int yLength = Integer.parseInt(flatData[1]);
@@ -259,45 +250,9 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		}
 		
 		return result;
-		
 	}
+
 	
-	private static double[][] simplifyResult(double[][] original) {
-		if(original[0][0] == 0.0) {
-			return original;
-		}
-		
-		int xLength = original.length;
-		int yLength = original[0].length;
-		double[][] result = new double[xLength][yLength];
-		
-		// double indepCoeff = original[0][0];
-		// result[0][0] = 1.0;
-		// We don't simplify the result, but leave it to the user:
-		double indepCoeff = 1.0;
-		result[0][0] = original[0][0];
-		
-		for(int y = 1; y < yLength; y++) {
-			result[0][y] = original[0][y] / indepCoeff;
-		}
-		
-		for(int x = 1; x < xLength; x++) {
-			for(int y = 0; y < yLength; y++) {
-				result[x][y] = original[x][y] / indepCoeff;
-			}
-		}
-		
-		return result;
-	}
-
-	private static double[][] parseResult(String result, GeoGebraCAS cas) {
-		return MPReducePolynomialParser.parsePolynomial(result, cas);
-	}
-
-	private static String getResultFromRaw(String rawResult) {
-		int index = rawResult.lastIndexOf("{");
-		return rawResult.substring(index+1,rawResult.length()-1).trim();
-	}
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();

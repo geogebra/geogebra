@@ -3,6 +3,7 @@ package geogebra.common.cas.mpreduce;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.cas.mpreduce.ReducePackage.SpecFnInspecting;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
@@ -19,6 +20,7 @@ import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.MPReducePolynomialParser;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
@@ -550,6 +552,57 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				    append(varsToEliminate).
 				append("}) ;\n").
 				append("coeff(s,{x,y}); \n").toString();
+	}
+
+	
+	/* Locus equation related helper functions.
+	 * @author sergio
+	 */
+	public double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas) {
+		String result = getResultFromRaw(rawResult);
+		App.info("[LocusEqu] to-be-parsed result: "+result);
+		
+		if("".equals(result.trim())) {
+			return new double[][]{{}};
+		}
+		return simplifyResult(parseResult(result, cas));
+	}
+	
+	private static double[][] simplifyResult(double[][] original) {
+		if(original[0][0] == 0.0) {
+			return original;
+		}
+		
+		int xLength = original.length;
+		int yLength = original[0].length;
+		double[][] result = new double[xLength][yLength];
+		
+		// double indepCoeff = original[0][0];
+		// result[0][0] = 1.0;
+		// We don't simplify the result, but leave it to the user:
+		double indepCoeff = 1.0;
+		result[0][0] = original[0][0];
+		
+		for(int y = 1; y < yLength; y++) {
+			result[0][y] = original[0][y] / indepCoeff;
+		}
+		
+		for(int x = 1; x < xLength; x++) {
+			for(int y = 0; y < yLength; y++) {
+				result[x][y] = original[x][y] / indepCoeff;
+			}
+		}
+		
+		return result;
+	}
+
+	private static double[][] parseResult(String result, GeoGebraCAS cas) {
+		return MPReducePolynomialParser.parsePolynomial(result, cas);
+	}
+
+	private static String getResultFromRaw(String rawResult) {
+		int index = rawResult.lastIndexOf("{");
+		return rawResult.substring(index+1,rawResult.length()-1).trim();
 	}
 	
 }
