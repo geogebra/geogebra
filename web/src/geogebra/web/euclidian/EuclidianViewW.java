@@ -12,7 +12,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.javax.swing.GBoxW;
 import geogebra.web.main.AppW;
 import geogebra.web.main.DrawEquationWeb;
@@ -54,12 +54,16 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	public EuclidianViewW(EuclidianDockPanelW euclidianViewPanel,
+	public EuclidianViewW(EuclidianDockPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
 		Canvas canvas = euclidianViewPanel.getCanvas();
-		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
+		if (evNo == 2) {
+			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN2);
+		} else {
+			canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
+		}
 		this.evNo = evNo;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);

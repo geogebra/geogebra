@@ -13,7 +13,15 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
+/**
+ * This class may be redundant since EuclidianDockPanelW,
+ * but GeoGebra Desktop also uses two different classes for similar
+ * purposes, so its behaviour was imitated here.
+ *  
+ * @author arpad
+ */
+
+public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
 	DockLayoutPanel toplevel;
 
@@ -23,16 +31,16 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 	Canvas eview1 = null;// static foreground
 	
-	EuclidianDockPanelW thisPanel;
+	Euclidian2DockPanelW thisPanel;
 
-	public EuclidianDockPanelW(boolean stylebar) {
+	public Euclidian2DockPanelW(boolean stylebar) {
 		super(
-				App.VIEW_EUCLIDIAN,	// view id 
-				"DrawingPad", 				// view title
+				App.VIEW_EUCLIDIAN2,	// view id 
+				"DrawingPad2", 				// view title
 				null,						// toolbar string
 				stylebar,					// style bar?
-				5,							// menu order
-				'1' // ctrl-shift-1
+				6,							// menu order
+				'2' // ctrl-shift-1
 			);
 		
 		//TODO: temporary fix to make applets work until
@@ -63,12 +71,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	
 	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
 
-		EuclidianDockPanelW dockPanel;
+		Euclidian2DockPanelW dockPanel;
 
 		int oldHeight = 0;
 		int oldWidth = 0;
 		
-		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
+		public EuclidianPanel(Euclidian2DockPanelW dockPanel) {
 			this.dockPanel = dockPanel;
 		}
 
@@ -88,7 +96,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 							return;
 						}
 						if (h != oldHeight || w != oldWidth) {
-							app.ggwGraphicsViewDimChanged(w, h);
+							app.ggwGraphicsView2DimChanged(w, h);
 							oldHeight = h;
 							oldWidth = w;
 						}
@@ -103,7 +111,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	protected Widget loadStyleBar() {
 
 		if (espanel == null) {
-			espanel = app.getActiveEuclidianView().getStyleBar();
+			espanel = app.getEuclidianView2().getStyleBar();
 		}
 
 		return (Widget) espanel;
@@ -154,7 +162,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		
 	}
 
-	public EuclidianDockPanelW getEuclidianView1Wrapper() {
+	public Euclidian2DockPanelW getEuclidianView2Wrapper() {
 		return this;
 	}
 

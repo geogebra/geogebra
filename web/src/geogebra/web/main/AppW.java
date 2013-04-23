@@ -1416,6 +1416,28 @@ public class AppW extends AppWeb {
 		        .getEuclidianController()).updateOffsets();
 	}
 
+	/**
+	 * Resets the width of the Canvas converning the Width of its
+	 * wrapper (splitlayoutpanel center)
+	 *
+	 * @param width, height
+	 */
+	public void ggwGraphicsView2DimChanged(int width, int height) {
+		getSettings().getEuclidian(2).setPreferredSize(
+			geogebra.common.factories.AwtFactory.prototype.newDimension(
+				width, height));
+
+		// simple setting temp.
+		//appCanvasHeight = height;
+		//appCanvasWidth = width;
+
+		getEuclidianView2().synCanvasSize();
+		getEuclidianView2().doRepaint2();
+		stopCollectingRepaints();
+		((EuclidianControllerW) getEuclidianView2()
+			.getEuclidianController()).updateOffsets();
+	}
+
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
 			return;
