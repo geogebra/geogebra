@@ -7498,21 +7498,29 @@ public abstract class EuclidianController {
 		// button
 		else if (movedGeoElement instanceof Furniture && ((Furniture)movedGeoElement).isFurniture()) {
 
-			movedGeoButton = (Furniture) movedGeoElement;
-			// move checkbox
-			moveMode = MOVE_BUTTON;
-			startLoc = mouseLoc;
-			oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
-			oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
+			// for applets:
+			//  allow buttons to be dragged only if the button tool is selected
+			// (important for tablets)
+			if (!app.isApplet() || temporaryMode) {
+				// ie Button Mode is really selected
+				
 
-			// part of snap to grid code
-			setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
-					- view.toRealWorldCoordY(oldLoc.y));
-			transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
-			transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
-
-			view.setShowMouseCoords(false);
-			view.setDragCursor();
+				movedGeoButton = (Furniture) movedGeoElement;
+				// move button
+				moveMode = MOVE_BUTTON;
+				startLoc = mouseLoc;
+				oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
+				oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
+	
+				// part of snap to grid code
+				setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x), yRW
+						- view.toRealWorldCoordY(oldLoc.y));
+				transformCoordsOffset[0] = view.toRealWorldCoordX(oldLoc.x) - xRW;
+				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y) - yRW;
+	
+				view.setShowMouseCoords(false);
+				view.setDragCursor();
+			}
 
 		}
 	
