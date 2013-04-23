@@ -24,6 +24,7 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.util.StringUtil;
 
+import java.util.Collection;
 import java.util.StringTokenizer;
 
 /**
@@ -529,4 +530,26 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	public void loadGroebner(){
 		ReducePackage.GROEBNER.load(this);
 	}
+	
+	public String createLocusEquationScript(
+			Collection<StringBuilder> restrictions, 
+			String constructRestrictions,
+			String vars, String varsToEliminate) {
+		StringBuilder script = new StringBuilder();
+		return script.append("off numval, rounded, roundall, factor$").
+				append("algebraic; \n").
+				append("load cali; \n").
+				append("vars := {").
+					append(vars).
+				append("}; \n").
+				append("setring(vars, degreeorder vars, revlex); \n").
+				append("setideal(m,{").
+					append(constructRestrictions).
+				append("}); \n").
+				append("s := eliminate(m, {").
+				    append(varsToEliminate).
+				append("}) ;\n").
+				append("coeff(s,{x,y}); \n").toString();
+	}
+	
 }

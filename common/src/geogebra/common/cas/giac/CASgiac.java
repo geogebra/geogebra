@@ -20,6 +20,8 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 
+import java.util.Collection;
+
 /**
  * Platform (Java / GWT) independent part of giac CAS
  */
@@ -403,4 +405,28 @@ public abstract class CASgiac implements CASGenericInterface {
 		sbCASCommand.append(")");
 	}
 
+	public String createLocusEquationScript(
+			Collection<StringBuilder> restrictions, 
+			String constructRestrictions,
+			String vars, String varsToEliminate) {
+		StringBuilder script = new StringBuilder();
+		
+		return script.append("[[aa:=eliminate([").
+				append(constructRestrictions).
+				append("],[").
+				append(varsToEliminate).
+				append("])],").
+				// Creating a matrix from the output to satisfy Sergio:
+				append("[bb:=coeffs(aa[0],x)], [sx:=size(bb)], [sy:=size(coeffs(aa[0],y))],").
+				append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);").
+				append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];").
+				append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;").
+				append("cc:=append(cc,ee); od; od], cc][5][0]")
+				// See CASTranslator.createSingularScript for more details.
+				
+				.toString();
+		
+		}
+
+	
 }

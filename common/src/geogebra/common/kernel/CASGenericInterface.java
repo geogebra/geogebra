@@ -5,6 +5,8 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
 
+import java.util.Collection;
+
 /**
  * Generic interface for language-specific part of CAS which is plugged into
  * GoGebraCAS.
@@ -108,5 +110,17 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return output
 	 */
 	String evaluateCAS(String exp);
+	
+	/**
+	 * @param restrictions list of equations
+	 * @param constructRestrictions construct restrictions (hypotheses)
+	 * @param vars existing variables
+	 * @param varsToEliminate variables to be eliminated
+	 * @return locus equation
+	 */
+	String createLocusEquationScript(
+			Collection<StringBuilder> restrictions, 
+			String constructRestrictions,
+			String vars, String varsToEliminate);
 
 }

@@ -220,9 +220,12 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		
 		App.debug("TEST: " + this.createSingularScript(translatedRestrictions));
 
-		// Falling back to use Reduce/Cali:
+		// Falling back to use Reduce/Cali or Giac:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		script = this.createMPReduceScript(translatedRestrictions);
+		script = cas.getCurrentCAS().createLocusEquationScript(translatedRestrictions, 
+				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
+				this.getVars(), this.getVarsToEliminate());
+
 		App.info("[LocusEqu] input to cas: "+script);
 		cas.getCurrentCAS().loadGroebner();
 		result = cas.evaluate(script);
@@ -294,24 +297,6 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	private static String getResultFromRaw(String rawResult) {
 		int index = rawResult.lastIndexOf("{");
 		return rawResult.substring(index+1,rawResult.length()-1).trim();
-	}
-
-	private String createMPReduceScript(Collection<StringBuilder> restrictions) {
-		StringBuilder script = new StringBuilder();
-		return script.append("off numval, rounded, roundall, factor$").
-				append("algebraic; \n").
-				append("load cali; \n").
-				append("vars := {").
-					append(this.getVars()).
-				append("}; \n").
-				append("setring(vars, degreeorder vars, revlex); \n").
-				append("setideal(m,{").
-					append(convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
-				append("}); \n").
-				append("s := eliminate(m, {").
-				    append(this.getVarsToEliminate()).
-				append("}) ;\n").
-				append("coeff(s,{x,y}); \n").toString();
 	}
 
 	private String createSingularScript(Collection<StringBuilder> restrictions) {
