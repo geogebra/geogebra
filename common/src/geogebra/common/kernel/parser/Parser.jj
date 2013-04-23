@@ -317,7 +317,7 @@ TOKEN :  {
   | < PI:       ( "pi" | "Pi" | "\u03c0" | "%pi") >
   | < E:        ("\u212f" | "%e") > // Euler constant
   | < IMAGINARY: ("\u03af" | "%i") > // imaginary constant
-  | < DEGREE:   ( "\u00b0" ) >
+  | < DEGREE:   ( "\u00b0" | "\u02da" ) > // 02da is "Ring Above", Alt-k in iPad
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < MINUS_INFINITY: ("minf") >
   | < RAD:      "rad" >
