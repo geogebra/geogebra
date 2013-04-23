@@ -273,8 +273,8 @@ public class DrawConicSection extends DrawConic {
 	@Override
 	protected void updateParabolaX0Y0(){
 		//TODO consider not symmetric parabola
-		y0 = getEnd(0);
-		x0 = conic.p *y0*y0/2;
+		y0 = getEnd(0) * conic.p;
+		x0 = y0*y0/(conic.p * 2);
 	}
 	
 	@Override
