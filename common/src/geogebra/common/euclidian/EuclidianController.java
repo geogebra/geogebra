@@ -9345,16 +9345,18 @@ public abstract class EuclidianController {
 		}
 	
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
-		boolean allowMouseWheel = !app.isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled() && (event.isControlDown()
-						|| event.isMetaDown() || event.isShiftDown()));
+		boolean allowMouseWheel;
 		
 		if (app.isHTML5Applet()) {
 			allowMouseWheel = mode == EuclidianConstants.MODE_ZOOM_IN
 					|| mode == EuclidianConstants.MODE_ZOOM_OUT
-					|| app.isShiftDragZoomEnabled();
+					|| (app.isShiftDragZoomEnabled() && event.isShiftDown());
+		} else {
+			allowMouseWheel = !app.isApplet()
+					|| (mode == EuclidianConstants.MODE_ZOOM_IN)
+					|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+					|| (app.isShiftDragZoomEnabled() &&
+							(event.isMetaDown() || event.isShiftDown()));
 		}
 		
 		if (!allowMouseWheel) {
