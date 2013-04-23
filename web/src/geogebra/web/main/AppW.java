@@ -24,6 +24,8 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
+import geogebra.web.Web;
+import geogebra.web.Web.GuiToLoad;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
@@ -361,7 +363,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean isApplet() {
-		return false;
+		return !GuiToLoad.APP.equals(Web.currentGUI);
 	}
 
 	@Override
