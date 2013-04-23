@@ -253,9 +253,12 @@ public abstract class Drawable extends DrawableND {
 	 * Adapts xLabel and yLabel to make sure that the label rectangle fits fully
 	 * on screen.
 	 */
-	final public void ensureLabelDrawsOnScreen() {
-		// draw label and
-		drawLabel(view.getTempGraphics2D(view.getApplication().getPlainFontCommon()));
+	private void ensureLabelDrawsOnScreen() {
+		// do not draw the label here if not necessary, it's too expensive in Web.
+		GFont font = view.getApplication().getPlainFontCommon();
+		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()){
+			drawLabel(view.getTempGraphics2D(font));
+		}
 
 		// make sure labelRectangle fits on screen horizontally
 		if (xLabel < 3)
@@ -357,36 +360,9 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Adds geo's label offset to xLabel and yLabel.
 	 * 
-	 * @return whether something was changed
+	 * @return whether the label fits on screen
 	 */
 	final protected boolean addLabelOffset() {
-		return addLabelOffset(false);
-	}
-
-	/**
-	 * Adds geo's label offset to xLabel and yLabel.
-	 * 
-	 * @param ensureLabelOnScreen
-	 *            if true we make sure that the label is drawn on screen
-	 * 
-	 * @return whether something was changed
-	 */
-	final protected boolean addLabelOffset(boolean ensureLabelOnScreen) {
-		if (ensureLabelOnScreen) {
-			// MAKE SURE LABEL STAYS ON SCREEN
-			int xLabelOld = xLabel;
-			int yLabelOld = yLabel;
-			xLabel += geo.labelOffsetX;
-			yLabel += geo.labelOffsetY;
-
-			// change xLabel and yLabel so that label stays on screen
-			ensureLabelDrawsOnScreen();
-
-			// something changed?
-			return xLabelOld != xLabel || yLabelOld != yLabel;
-		}
-
-		// STANDARD BEHAVIOUR
 		if (geo.labelOffsetX == 0 && geo.labelOffsetY == 0)
 			return false;
 
@@ -404,6 +380,19 @@ public abstract class Drawable extends DrawableND {
 		xLabel = x;
 		yLabel = y;
 		return true;
+	}
+
+	/**
+	 * Adds geo's label offset to xLabel and yLabel. 
+	 * 
+	 */
+	final protected void addLabelOffsetEnsureOnScreen() {		
+		// MAKE SURE LABEL STAYS ON SCREEN
+		xLabel += geo.labelOffsetX;
+		yLabel += geo.labelOffsetY;
+
+		// change xLabel and yLabel so that label stays on screen
+		ensureLabelDrawsOnScreen();				
 	}
 
 	/**

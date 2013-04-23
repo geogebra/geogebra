@@ -196,7 +196,7 @@ public class DrawLine extends Drawable implements Previewable {
             if (labelVisible) {
 				labelDesc = geo.getLabelDescription();
 				setLabelPosition();      
-				addLabelOffset(true);
+				addLabelOffsetEnsureOnScreen();
             }              
         }
     }

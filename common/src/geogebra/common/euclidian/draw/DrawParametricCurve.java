@@ -199,7 +199,7 @@ public class DrawParametricCurve extends Drawable {
 			default: // case LABEL_NAME:
 				labelDesc = geo.getLabelDescription();
 			}
-			addLabelOffset(true);
+			addLabelOffsetEnsureOnScreen();
 		}
 		// shape for filling
 
