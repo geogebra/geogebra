@@ -37,6 +37,7 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
@@ -482,29 +483,31 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
-		// TODO Auto-generated method stub
-		return false;
+		return (guiManager != null) &&
+			getGuiManager().hasEuclidianView2EitherShowingOrNot();
 	}
 
-	
+	public boolean hasEuclidianView2() {
+		return (guiManager != null) && getGuiManager().hasEuclidianView2();
+	}
 
 	@Override
 	public EuclidianViewW getEuclidianView2() {
-		return null; // TODO: add euclidianview2 here later
+		return (EuclidianViewW)getGuiManager().getEuclidianView2();
 	}
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView() {
-		// if (getGuiManager() == null) {
-		return getEuclidianView1();
-		// }
-		// return getGuiManager().getActiveEuclidianView();
+		if (getGuiManager() == null) {
+			return getEuclidianView1();
+		}
+		return (EuclidianViewW) getGuiManager().getActiveEuclidianView();
 	}
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		// TODO
-		return false;
+		return (guiManager != null) && getGuiManager().hasEuclidianView2()
+			&& getGuiManager().getEuclidianView2().isShowing();
 	}
 
 	@Override
@@ -523,8 +526,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean showView(int view) {
-		App.debug("showView: implementation needed"); // TODO Auto-generated
-		return false;
+		return getGuiManager().showView(view);
 	}
 
 	private void attachViews() {
@@ -1384,7 +1386,7 @@ public class AppW extends AppWeb {
 				if (mySplitLayoutPanel != null)
 					mySplitLayoutPanel.setPixelSize(mySplitLayoutPanel.getOffsetWidth() + widthDiff, height);
 			} else if (evno == 2) {// or the EuclidianView 2
-				EuclidianDockPanelW ew = (EuclidianDockPanelW)
+				Euclidian2DockPanelW ew = (Euclidian2DockPanelW)
 					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
 				int widthDiff = width - ew.getOffsetWidth();
 				ew.setPixelSize(width, height);

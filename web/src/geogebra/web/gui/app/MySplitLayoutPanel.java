@@ -5,6 +5,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
+import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 
@@ -16,7 +17,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	private EuclidianDockPanelW ggwGraphicView;
 
 	private AlgebraDockPanelW ggwViewWrapper = null;
-	private EuclidianDockPanelW ggwGraphicsView2 = null;
+	private Euclidian2DockPanelW ggwGraphicsView2 = null;
 	private SpreadsheetDockPanelW ggwSpreadsheetView = null;
 	private CASDockPanelW ggwCASView = null;
 
@@ -106,7 +107,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	    return ggwGraphicView;
     }
 
-	public EuclidianDockPanelW getGGWGraphicsView2() {
+	public Euclidian2DockPanelW getGGWGraphicsView2() {
 		return ggwGraphicsView2;
 	}
 

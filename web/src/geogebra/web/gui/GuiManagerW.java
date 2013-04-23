@@ -31,7 +31,7 @@ import geogebra.web.gui.inputbar.InputBarHelpPanelW;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
@@ -80,7 +80,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	private CASViewW casView;
 
-	private EuclidianDockPanelW euclidianView2DockPanel;
+	private Euclidian2DockPanelW euclidianView2DockPanel;
 
 	public GuiManagerW(AppW app) {
 		this.app = app;
@@ -974,9 +974,11 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	public boolean hasEuclidianView2() {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented");
-		return false;
+		if (euclidianView2 == null)
+			return false;
+		if (!euclidianView2.isShowing())
+			return false;
+		return true;
 	}
 
 	@Override
@@ -1050,24 +1052,28 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return euclidianView2;
 	}
 
-	public EuclidianDockPanelW getEuclidianView2DockPanel() {
+	public Euclidian2DockPanelW getEuclidianView2DockPanel() {
 		if (euclidianView2DockPanel == null) {
-			euclidianView2DockPanel = new EuclidianDockPanelW(app.isFullAppGui());
+			euclidianView2DockPanel = new Euclidian2DockPanelW(app.isFullAppGui());
 		}
 		return euclidianView2DockPanel;
 	}
 
 	protected EuclidianViewW newEuclidianView(boolean[] showAxis,
 			boolean showGrid, int id) {
-		return new EuclidianViewW(getEuclidianView2DockPanel(), new EuclidianControllerW(kernel), showAxis,
+		if (id == 2) {
+			return new EuclidianViewW(getEuclidianView2DockPanel(), new EuclidianControllerW(kernel), showAxis,
 				showGrid, id, app.getSettings().getEuclidian(id));
+		}
+		return new EuclidianViewW(app.getEuclidianViewpanel(), new EuclidianControllerW(kernel), showAxis,
+			showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented");
-		return false;
+		if (euclidianView2 == null)
+			return false;
+		return true;
 	}
 
 	@Override
