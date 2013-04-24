@@ -480,6 +480,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static Polynomial collinear(Variable fv1, Variable fv2, Variable fv3, 
 			Variable fv4, Variable fv5, Variable fv6) {
+		App.debug("Setting up equation for collinear points " +
+			"(" + fv1 + "," + fv2 + "), " +
+			"(" + fv3 + "," + fv4 + ") and " +
+			"(" + fv5 + "," + fv6 + ")");
 		// a*d-b*c:
 		Polynomial a = new Polynomial(fv1);
 		Polynomial b = new Polynomial(fv2);
@@ -512,6 +516,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static Polynomial perpendicular(Variable v1, Variable v2, Variable v3, 
 			Variable v4, Variable v5, Variable v6, Variable v7, Variable v8) {
 
+		App.debug("Setting up equation for perpendicular lines " +
+				"(" + v1 + "," + v2 + ")-" +
+				"(" + v3 + "," + v4 + ") and " +
+				"(" + v5 + "," + v6 + ")-" +
+				"(" + v7 + "," + v8 + ")");
+		
 		Polynomial a1 = new Polynomial(v1);
 		Polynomial a2 = new Polynomial(v2);
 		Polynomial b1 = new Polynomial(v3);
@@ -543,6 +553,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static Polynomial parallel(Variable v1, Variable v2, Variable v3, 
 			Variable v4, Variable v5, Variable v6, Variable v7, Variable v8) {
 
+		App.debug("Setting up equation for parallel lines " +
+				"(" + v1 + "," + v2 + ")-" +
+				"(" + v3 + "," + v4 + ") and " +
+				"(" + v5 + "," + v6 + ")-" +
+				"(" + v7 + "," + v8 + ")");
+		
 		Polynomial a1 = new Polynomial(v1);
 		Polynomial a2 = new Polynomial(v2);
 		Polynomial b1 = new Polynomial(v3);

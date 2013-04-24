@@ -2208,6 +2208,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable(true);
 				botanaVars[1] = new Variable(true);
+				app.debug("Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
 		

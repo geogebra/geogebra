@@ -1,5 +1,6 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -135,6 +136,10 @@ public class ProverBotanasMethod {
 								// Creating the polynomial for collinearity:
 								Polynomial p = Polynomial.collinear(fv1[0], fv1[1],
 										fv2[0], fv2[1], fv3[0], fv3[1]);
+								App.debug("Forcing non-collinearity for points "
+										+ geo1.getLabelSimple() + ", "
+										+ geo2.getLabelSimple() + " and "
+										+ geo3.getLabelSimple());
 								// Rabinowitsch trick for prohibiting collinearity:
 								ret[i] = p.multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 								// FIXME: this always introduces an extra variable, shouldn't do
@@ -261,17 +266,36 @@ public class ProverBotanasMethod {
 			// AbstractApplication.debug(geo);
 			if (geo instanceof SymbolicParametersBotanaAlgo) {
 				try {
+					App.debug("PROCESSING OBJECT " + geo.getLabelSimple() + ":");
+					String command = geo.getCommandDescription(StringTemplate.noLocalDefault);
+					if (!("".equals(command))) {
+						App.debug("Command definition: " +
+					 		geo.getCommandDescription(StringTemplate.noLocalDefault) + " (" +
+					 		geo.getDefinitionDescription(StringTemplate.noLocalDefault) + ")");
+					} else {
+						App.debug("Free point drawn at " + geo.getAlgebraDescriptionDefault());
+					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
+
 					if (geoPolys != null) {
+						Variable[] v = new Variable[2];
+						v = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+						App.debug("Constrained point " + geo.getLabelSimple() + "(" + v[0] + "," + v[1] + ")");
 						int nHypotheses = 0;
 						if (hypotheses != null)
 							nHypotheses = hypotheses.length;
 						Polynomial[] allPolys = new Polynomial[nHypotheses + geoPolys.length];
-						for (int i=0; i<nHypotheses; ++i)
+						for (int i=0; i<nHypotheses; ++i) {
 							allPolys[i] = hypotheses[i];
-						for (int i=0; i<geoPolys.length; ++i)
+						}
+
+						App.debug("Hypotheses:");
+						for (int i=0; i<geoPolys.length; ++i) {
+							App.debug((nHypotheses + i + 1) + ". " + geoPolys[i]);
 							allPolys[nHypotheses + i] = geoPolys[i];
+						}
 						hypotheses = allPolys;
+					
 					}
 				} catch (NoSymbolicParametersException e) {
 					App.debug(geo.getParentAlgorithm() + " is not fully implemented");
@@ -318,15 +342,25 @@ public class ProverBotanasMethod {
 				// These polynomials will be in the equation system always:
 				for (int j=0; j<nHypotheses; ++j)
 					eqSystem[j] = hypotheses[j];
-				for (int j=0; j<nNdgConditions; ++j)
+				if (nNdgConditions > 0)
+					App.debug("Extra NDGs:");
+				for (int j=0; j<nNdgConditions; ++j) {
+					App.debug((j + nHypotheses + 1) + ". " + ndgConditions[j]);
 					eqSystem[j + nHypotheses] = ndgConditions[j];
-				for (int j=0; j<nPolysStatement - 1; ++j)
+				}
+				if (nPolysStatement > 1)
+					App.debug("Statement equations (non-denied parts):");
+				for (int j=0; j<nPolysStatement - 1; ++j) {
+					App.debug((j + nHypotheses + nNdgConditions + 1) + ". " + statements[i][j]);
 					eqSystem[j + nHypotheses + nNdgConditions] = statements[i][j];
+				}
 
 				// Rabinowitsch trick for the last polynomial of the current statement:
 				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
+				App.debug("Thesis reductio ad absurdum (denied statement):");
 				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
+				App.debug((nHypotheses + nNdgConditions + nPolysStatement) + ". " + spoly);
 				if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}
