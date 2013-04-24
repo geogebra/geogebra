@@ -21,8 +21,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 
-import java.util.Collection;
-
 /**
  * Platform (Java / GWT) independent part of giac CAS
  */
@@ -407,7 +405,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	public String createLocusEquationScript(
-			Collection<StringBuilder> restrictions, 
 			String constructRestrictions,
 			String vars, String varsToEliminate) {
 		StringBuilder script = new StringBuilder();

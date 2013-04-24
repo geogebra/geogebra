@@ -222,7 +222,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 
 		// Falling back to use Reduce/Cali or Giac:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		script = cas.getCurrentCAS().createLocusEquationScript(translatedRestrictions, 
+		script = cas.getCurrentCAS().createLocusEquationScript( 
 				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
 				this.getVars(), this.getVarsToEliminate());
 

@@ -26,7 +26,6 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.util.StringUtil;
 
-import java.util.Collection;
 import java.util.StringTokenizer;
 
 /**
@@ -534,7 +533,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 	
 	public String createLocusEquationScript(
-			Collection<StringBuilder> restrictions, 
 			String constructRestrictions,
 			String vars, String varsToEliminate) {
 		StringBuilder script = new StringBuilder();
