@@ -2,7 +2,6 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.settings.Settings;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.util.LayoutUtil.TitlePanel;
@@ -364,7 +363,7 @@ public class OptionsLayoutD extends
 					ckShowToolHelp.isSelected());
 			app.updateApplicationLayout();
 			app.updateToolBarLayout();
-			((GuiManagerD) app.getGuiManager()).updateToolbar();
+			app.getGuiManager().updateToolbar();
 		} else if (source == rbToolbarNorth) {
 			app.setToolbarPosition(SwingConstants.NORTH, true);
 		} else if (source == rbToolbarSouth) {
@@ -389,7 +388,7 @@ public class OptionsLayoutD extends
 		// menubar settings
 		else if (source == ckShowMenuBar) {
 			app.setShowMenuBar(ckShowMenuBar.isSelected());
-			((GuiManagerD) app.getGuiManager()).updateMenuBarLayout();
+			app.getGuiManager().updateMenuBarLayout();
 		}
 
 		// sidebar settings

@@ -172,8 +172,10 @@ public class DockPanelData {
 		return getViewId();
 	}
 	
-
-	protected StringBuilder getStartXml() {
+	/**
+	 * @return string builder with tag name and basic parameters
+	 */
+	protected final StringBuilder getStartXml() {
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("<view id=\"");

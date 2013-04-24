@@ -159,9 +159,13 @@ public class Perspective {
 	 * @param showInputPanelOnTop
 	 *            true to show input bar on top
 	 * @param toolBarPosition
+	 *  see {@link #setToolBarPosition(int)}
 	 * @param showToolBarHelp
+	 * whether toolbar help should be visible
 	 * @param showDockBar
+	 * 	whether dock bar should be visible
 	 * @param isDockBarEast 
+	 * whether dock bar should be on the eastern side
 	 */
 	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
 			DockPanelData[] dockPanelInfo, String toolbarDefinition,
@@ -339,34 +343,59 @@ public class Perspective {
 		return showInputPanelOnTop;
 	}
 
+	/**
+	 * @return toolbar position, see {@link #setToolBarPosition(int)}
+	 */
 	public int getToolBarPosition() {
 		return toolBarPosition;
 	}
 
+	/**
+	 * @param toolBarPosition
+	 *  1 = NORTH, 3=EAST, 5=SOUTH, 7=WEST
+	 */
 	public void setToolBarPosition(int toolBarPosition) {
 		this.toolBarPosition = toolBarPosition;
 	}
 
+	/**
+	 * @return whether tool help should be shown 
+	 */
 	public boolean getShowToolBarHelp() {
 		return showToolBarHelp;
 	}
 
+	/**
+	 * @param showToolBarHelp whether toolbar help is shown
+	 */
 	public void setShowToolBarHelp(boolean showToolBarHelp) {
 		this.showToolBarHelp = showToolBarHelp;
 	}
 
+	/**
+	 * @return whether dockbar is shown
+	 */
 	public boolean getShowDockBar() {
 		return showDockBar;
 	}
 
+	/**
+	 * @param showDockBar whether dockbar is shown
+	 */
 	public void setShowDockBar(boolean showDockBar) {
 		this.showDockBar = showDockBar;
 	}
 	
+	/**
+	 * @return true for dockbar on eastern side
+	 */
 	public boolean isDockBarEast() {
 		return isDockBarEast;
 	}
 
+	/**
+	 * @param isDockBarEast true to place the dockbar east, false for west
+	 */
 	public void setDockBarEast(boolean isDockBarEast) {
 		this.isDockBarEast = isDockBarEast;
 	}
@@ -459,10 +488,16 @@ public class Perspective {
 		return unitAxesRatio;
 	}
 
+	/**
+	 * @return name of the icon file used for the side bar
+	 */
 	public String getIconString() {
 		return iconString;
 	}
 
+	/**
+	 * @param iconString name of the icon file used for the side bar
+	 */
 	public void setIconString(String iconString) {
 		this.iconString = iconString;
 	}

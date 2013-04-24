@@ -118,7 +118,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			}
 		}
 		exp = sb.toString();
-		App.debug("MPReduce eval: " + exp);
+		//App.debug("MPReduce eval: " + exp);
 		if (!initialized) {
 			// TODO: This looks quite ugly, but seems to work well at the moment.
 			// Gabor suggest to use jquery + callback here instead to make
@@ -136,13 +136,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			if (s.length() == 0)
 				continue;
 			else if (s.startsWith("***")) { // MPReduce comment
-				App.debug("MPReduce comment: " + s);
+		//		App.debug("MPReduce comment: " + s);
 				continue;
 			}else if (s.contains("invalid as")) { // MPReduce comment
-				App.debug("MPReduce comment: " + s);
+		//		App.debug("MPReduce comment: " + s);
 				continue;
 			} else if (s.startsWith("Unknown")) {
-				App.debug("Assumed " + s);
+		//		App.debug("Assumed " + s);
 				continue;
 			} else {
 				// look for any trailing $
@@ -166,7 +166,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		// TODO: remove
-		App.debug("CASmpreduce.evaluateRaw: result: " + result);
 		return result;
 	}
 
@@ -503,10 +502,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		// success
 		if (result2 != null) {
+			exp.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
-			result = exp.getKernel().removeCASVariablePrefix(result, " ");
+			result = Kernel.removeCASVariablePrefix(result, " ");
 		}
 
 		c.handleCASoutput(result, input.hashCode());

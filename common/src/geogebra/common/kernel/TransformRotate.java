@@ -15,8 +15,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * 
  */
 public class TransformRotate extends Transform {
-	
+	/** center of rotation */
 	protected GeoPointND center;
+	/** angle of rotation */
 	protected GeoNumberValue angle;
 
 	/**

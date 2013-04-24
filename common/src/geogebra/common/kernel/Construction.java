@@ -1931,7 +1931,7 @@ public class Construction {
 		/*
 		 * CAS VARIABLE HANDLING e.g. ggbtmpvara for a
 		 */
-		label1 = kernel.removeCASVariablePrefix(label1);
+		label1 = Kernel.removeCASVariablePrefix(label1);
 		geo = geoTableVarLookup(label1);
 		if (geo != null) {
 			// geo found for name that starts with TMP_VARIABLE_PREFIX or
@@ -2739,7 +2739,7 @@ public class Construction {
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML() {
-		return getXMLio().getUndoXML(this);
+		return MyXMLio.getUndoXML(this);
 	}
 	/**
 	 * Each construction has its own IO because of strong coupling between those.

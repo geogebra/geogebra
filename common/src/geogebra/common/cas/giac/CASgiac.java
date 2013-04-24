@@ -6,6 +6,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
@@ -163,6 +164,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		return result;
 	}
 
+	/**
+	 * @param exp expression string
+	 * @param timeoutMilliseconds timeout in milliseconds
+	 * @return result in Giac syntax
+	 * @throws Throwable for CAS error
+	 */
 	protected abstract String evaluate(String exp, long timeoutMilliseconds) throws Throwable;
 
 	final public synchronized String evaluateGeoGebraCAS(
@@ -171,7 +178,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
-		String plainResult = getPlainResult(casInput,keepInput);
+		String plainResult = getPlainResult(casInput);
 			
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
@@ -215,7 +222,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	
 	final public synchronized ExpressionValue evaluateToExpression(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst) throws CASException {
-		String result = getPlainResult(inputExpression,false);
+		String result = getPlainResult(inputExpression);
 		// standard case
 		if ("".equals(result)) {
 			return null;
@@ -224,17 +231,12 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
-	private String getPlainResult(ValidExpression casInput,
-			boolean keepInput) {
+	private String getPlainResult(ValidExpression casInput) {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		Command cmd = casInput.getTopLevelCommand();
-		boolean taylorToStd = true;
 		
-		if(!keepInput && cmd != null && cmd.getName().equals("TaylorSeries")) {
-				taylorToStd = false;
-			}
-		 else if (cmd != null && "Delete".equals(cmd.getName())
+		if (cmd != null && "Delete".equals(cmd.getName())
 				) {
 			String label = 
 					cmd.getArgument(0).toString(
@@ -385,10 +387,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// success
 		if (result2 != null) {
+			exp.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
-			result = exp.getKernel().removeCASVariablePrefix(result, " ");
+			result = Kernel.removeCASVariablePrefix(result, " ");
 		}
 
 		c.handleCASoutput(result, input.hashCode());

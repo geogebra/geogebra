@@ -146,11 +146,9 @@ public class Kernel {
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
 	/** CAS variable handling */
 	public static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
-	private static int kernelInstances = 0;
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
-	private final int kernelID;
 	private GeoGebraCasInterface ggbCAS;
 	/** Angle type: radians */
 	final public static int ANGLE_RADIANT = 1;
@@ -284,8 +282,6 @@ public class Kernel {
 	 * Creates kernel and initializes number formats and CAS prefix
 	 */
 	protected Kernel() {
-		kernelInstances++;
-		kernelID = kernelInstances;
 		nf = FormatFactory.prototype.getNumberFormat(2);
 		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
 		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
@@ -1937,7 +1933,7 @@ public class Kernel {
 	 * @param str string, possibly containing CAS prefix several times
 	 * @return string without CAS prefixes
 	 */
-	final public String removeCASVariablePrefix(final String str) {
+	final public static String removeCASVariablePrefix(final String str) {
 		return removeCASVariablePrefix(str, "");
 	}
 
@@ -1945,7 +1941,7 @@ public class Kernel {
 	 * @return String where CAS variable prefixes are removed again, e.g.
 	 *         "ggbcasvar1a" is turned into "a" and
 	 */
-	final public String removeCASVariablePrefix(final String str, final String replace) {
+	final public static String removeCASVariablePrefix(final String str, final String replace) {
 		// e.g. "ggbtmpvar1a" is changed to "a"
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,
@@ -4399,8 +4395,8 @@ public class Kernel {
 		return getAlgoDispatcher().IntersectConics(labels,  a, b);
 	}
 
-	public void initAfterAsync(App app) {
-		this.app = app;
+	public void initAfterAsync(App app1) {
+		this.app = app1;
 
 		newConstruction();
 		getExpressionNodeEvaluator();

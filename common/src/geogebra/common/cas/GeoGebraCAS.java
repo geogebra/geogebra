@@ -163,10 +163,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// success
 		if (result != null) {
+			app.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
-			result = app.getKernel().removeCASVariablePrefix(result, " ");
+			result = Kernel.removeCASVariablePrefix(result, " ");
 		}
 
 		return result;
@@ -240,9 +241,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (tmp.indexOf(variable) >= 0)
 				return null;
 
+			app.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvara" needs to be changed to "a"
-			tmp = app.getKernel().removeCASVariablePrefix(tmp);
+			tmp = Kernel.removeCASVariablePrefix(tmp);
 
 			tmp = tmp.substring(1, tmp.length() - 1); // strip '{' and '}'
 			result = tmp.split(",");
