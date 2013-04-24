@@ -78,6 +78,7 @@ namespace giac {
   gen _poisson(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_poisson ;
 
+  double poisson_cdf(double lambda,double x);
   gen poisson_cdf(const gen & n,const gen & x,GIAC_CONTEXT);
   gen _poisson_cdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_poisson_cdf ;
@@ -135,7 +136,7 @@ namespace giac {
 
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lower_incomplete_gamma ;
-  gen upper_incomplete_gamma(double s,double z,bool regularize);
+  double upper_incomplete_gammad(double s,double z,bool regularize);
   gen _upper_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_upper_incomplete_gamma ;
 

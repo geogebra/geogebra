@@ -3698,7 +3698,7 @@ namespace giac {
       return v.front();
 #endif
     }
-    r=symbolic(at_prod,v);
+    r=symbolic(at_prod,gen(v,_SEQ__VECT));
 #if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
     r=symb_quote(r);
 #endif
@@ -3774,7 +3774,7 @@ namespace giac {
       return apply(args,_idivis,contextptr);
     gen n=args;
     if (!is_integral(n) && !is_integer(n)) 
-      return gensizeerr(contextptr);
+      return gentypeerr(contextptr);
     return idivis(abs(n,contextptr),contextptr);
   }
   static const char _idivis_s []="idivis";

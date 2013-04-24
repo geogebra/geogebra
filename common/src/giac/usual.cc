@@ -5972,19 +5972,16 @@ namespace giac {
   }
   define_partial_derivative_onearg_genop( D_at_Gamma," D_at_Gamma",&d_Gamma);
   gen Gamma(const gen & x,GIAC_CONTEXT){
-    if (x.type==_VECT && x.subtype==_SEQ__VECT && x._VECTptr->size()==2){
-      gen s=x._VECTptr->front(),z=x._VECTptr->back();
+    if (x.type==_VECT && x.subtype==_SEQ__VECT && x._VECTptr->size()>=2){
+      gen s=x._VECTptr->front(),z=(*x._VECTptr)[1];
       if (s.type==_DOUBLE_)
 	z=evalf_double(z,1,contextptr);
       if (z.type==_DOUBLE_)
 	s=evalf_double(s,1,contextptr);
       if (s.type==_DOUBLE_ && z.type==_DOUBLE_){
-	/* if (calc_mode(contextptr)==1)
-	  return lower_incomplete_gamma(s._DOUBLE_val,z._DOUBLE_val,false);
-	else
-	*/
-	  return Gamma(s,contextptr)-lower_incomplete_gamma(s._DOUBLE_val,z._DOUBLE_val,false);
+	return upper_incomplete_gammad(s._DOUBLE_val,z._DOUBLE_val,x._VECTptr->size()==3?!is_zero(x._VECTptr->back()):false);
       }
+      return symbolic(at_Gamma,x);
     }
     if (x.type==_FLOAT_)
       return fgamma(x._FLOAT_val);

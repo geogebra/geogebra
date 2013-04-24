@@ -412,27 +412,27 @@ namespace giac {
   }
 
   gen gentypeerr(GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Bad Argument Type"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Bad Argument Type"));
   }
 
   void gentypeerr(gen & g,GIAC_CONTEXT){
-    g=undeferr(last_evaled_function(contextptr)+gettext("Bad Argument Type"));
+    g=undeferr(last_evaled_function(contextptr)+gettext(" Error: Bad Argument Type"));
   }
 
   gen gensizeerr(GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Bad Argument Value"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Bad Argument Value"));
   }
 
   void gensizeerr(gen & g,GIAC_CONTEXT){
-    g=undeferr(last_evaled_function(contextptr)+gettext("Bad Argument Value"));
+    g=undeferr(last_evaled_function(contextptr)+gettext(" Error: Bad Argument Value"));
   }
 
   gen gendimerr(GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Invalid dimension"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Invalid dimension"));
   }
 
   void gendimerr(gen & g,GIAC_CONTEXT){
-    g=undeferr(last_evaled_function(contextptr)+gettext("Invalid dimension"));
+    g=undeferr(last_evaled_function(contextptr)+gettext(" Error: Invalid dimension"));
   }
 
   gen gentypeerr(const string & s){
@@ -460,32 +460,32 @@ namespace giac {
   }
 
   gen gendivisionby0err(const gen & e,GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Division of ") + e.print(contextptr)+ gettext(" by 0"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Division of ") + e.print(contextptr)+ gettext(" by 0"));
   }
 
   gen gencksignerr(const gen & e,GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Unable to check sign: ")+e.print(contextptr));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Unable to check sign: ")+e.print(contextptr));
   }
 
   gen geninvalidserieserr(const string & s,GIAC_CONTEXT){
-    *logptr(contextptr) << undeferr(last_evaled_function(contextptr)+gettext("Invalid series expansion: ")+s) << endl;
+    *logptr(contextptr) << undeferr(last_evaled_function(contextptr)+gettext(" Error: Invalid series expansion: ")+s) << endl;
     return undef;
   }
 
   gen gentoofewargs(const string & s,GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Too few arguments: ")+s);
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Too few arguments: ")+s);
   }
 
   gen gentoomanyargs(const string & s,GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Too many arguments: ")+s);
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Too many arguments: ")+s);
   }
 
   gen genmaxordererr(GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("Max order (")+gen(max_series_expansion_order).print(contextptr)+gettext(") exceeded or non unidirectional series"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: Max order (")+gen(max_series_expansion_order).print(contextptr)+gettext(") exceeded or non unidirectional series"));
   }
 
   gen genstabilityerr(GIAC_CONTEXT){
-    return undeferr(last_evaled_function(contextptr)+gettext("calculation size limit exceeded"));
+    return undeferr(last_evaled_function(contextptr)+gettext(" Error: calculation size limit exceeded"));
   }
 
   // void parseerror(){

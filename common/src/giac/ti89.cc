@@ -99,7 +99,7 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     int n=0; gen e1(g._VECTptr->front()),b(g._VECTptr->back()),q;
-    if (is_integer(e1) && is_integer(b) && !is_zero(e1)){
+    if (is_integer(e1) && is_integer(b) && is_strictly_greater(b,1,contextptr) && !is_zero(e1)){
       while (is_zero(irem(e1,b,q))){
 	if (q.type==_ZINT)
 	  e1=*q._ZINTptr;
@@ -2408,9 +2408,11 @@ namespace giac {
   static define_unary_function_eval (__non,&_not,_non_s);
   define_unary_function_ptr5( at_non ,alias_at_non,&__non,0,T_NOT);
 
+  /*
   static const char _resultat_s[]="resultat";
   static define_unary_function_eval_quoted (__resultat,&_nop,_resultat_s);
   define_unary_function_ptr5( at_resultat ,alias_at_resultat,&__resultat,_QUOTE_ARGUMENTS,T_RETURN);
+  */
 
   static const char _fonction_s[]="fonction";
   static define_unary_function_eval_quoted (__fonction,&_for,_fonction_s);

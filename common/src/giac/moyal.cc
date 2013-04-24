@@ -65,7 +65,10 @@ namespace giac {
   define_unary_function_ptr5( at_moyal ,alias_at_moyal,&__moyal,0,true);
 
   double upper_incomplete_gammad(double s,double z,bool regularize){
-    // used for z>=s && z>=10
+    // returns -1 if continued fraction expansion is not convergent
+    // if s is a small integer = poisson_cdf(z,s-1)*Gamma(s)
+    if (s==int(s) && s>0 && s<300)
+      return regularize?poisson_cdf(z,int(s-1)):poisson_cdf(z,int(s-1))*std::exp(lngamma(s));
     // int_z^inf t^(s-1) exp(-t) dt
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // a1=1, a2=1-s, a3=1, a_{m+2}=a_m+1
@@ -73,7 +76,7 @@ namespace giac {
     // P0=0, P1=a1, Q0=1, Q1=b1
     // j>=2: Pj=bj*Pj-1+aj*Pj-2, Qj=bj*Qj-1+aj*Qj-2
     long_double Pm2=0,Pm1=1,Pm,Qm2=1,Qm1=z,Qm,a2m1=1,a2m=1-s,b2m1=z,b2m=1,pmqm;
-    for (long_double m=1;m<100;++m){
+    for (long_double m=1;m<200;++m){
       // even term
       Pm=b2m*Pm1+a2m*Pm2;
       Qm=b2m*Qm1+a2m*Qm2;
@@ -90,7 +93,7 @@ namespace giac {
       if (std::abs(Pm2/Qm2-pmqm)<1e-16){
 	long_double coeff=s*std::log(z)-z;
 	if (regularize)
-	  coeff -= lngamma(z);
+	  coeff -= lngamma(s);
 	return pmqm*std::exp(coeff);
       }
     } 
@@ -149,14 +152,6 @@ namespace giac {
       Pm2 *= Pm; Qm2 *= Pm; Pm1 *= Pm; Qm1 *= Pm;
     }
     return undef; //error
-  }
-
-  gen upper_incomplete_gamma(double s,double z,bool regularize){ 
-    gen l=lower_incomplete_gamma(s,z,true);
-    l=1-l;
-    if (regularize)
-      return l;
-    return l*Gamma(s,context0);
   }
 
   gen incomplete_beta(double a,double b,double p,bool regularize){ // regularize=true by default
@@ -256,19 +251,25 @@ namespace giac {
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
-      return symbolic(at_lower_incomplete_gamma,args);
+      return gensizeerr(contextptr);
     vecteur v=*args._VECTptr;
     int s=v.size();
+    if (s>=2 && (v[0].type==_DOUBLE_ || v[1].type==_DOUBLE_)){
+      v[0]=evalf_double(v[0],1,contextptr);
+      v[1]=evalf_double(v[1],1,contextptr);
+    }
     if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ )
       return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
     if (s<2 || s>3)
       return gendimerr(contextptr);
+    if (abs_calc_mode(contextptr)!=38) // check may be removed if ugamma declared
+      return symbolic(at_lower_incomplete_gamma,args);
     if (s==3){
       if (is_zero(v[2]))
-	return symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]));
-      return symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]))/Gamma(v[0],contextptr);
+	return Gamma(v[0],contextptr)-symbolic(at_Gamma,makesequence(v[0],v[1]));
+      return 1-symbolic(at_Gamma,makesequence(v[0],v[1],1));
     }
-    return symbolic(at_lower_incomplete_gamma,args);
+    return Gamma(v[0],contextptr)-symbolic(at_Gamma,args);
   }
   static const char _lower_incomplete_gamma_s []="igamma"; // "lower_incomplete_gamma"
   static define_unary_function_eval (__lower_incomplete_gamma,&_lower_incomplete_gamma,_lower_incomplete_gamma_s);
@@ -280,18 +281,28 @@ namespace giac {
       return symbolic(at_upper_incomplete_gamma,args);
     vecteur v=*args._VECTptr;
     int s=v.size();
-    if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ )
-      return upper_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
+    if (s>=2 && (v[0].type==_DOUBLE_ || v[1].type==_DOUBLE_)){
+      v[0]=evalf_double(v[0],1,contextptr);
+      v[1]=evalf_double(v[1],1,contextptr);
+    }
+    if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ ){
+      double res=upper_incomplete_gammad(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
+      if (res==-1)
+	return gensizeerr(contextptr);
+      return res;
+    }
     if (s<2 || s>3)
       return gendimerr(contextptr);
+    if (abs_calc_mode(contextptr)!=38) // check may be removed if ugamma declared
+      return symbolic(at_upper_incomplete_gamma,args);
     if (s==3){
       if (is_zero(v[2]))
 	return Gamma(v[0],contextptr)-symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]));
-      return 1-symbolic(at_lower_incomplete_gamma,makesequence(v[0],v[1]))/Gamma(v[0],contextptr);
+      return symbolic(at_Gamma,makesequence(v[0],v[1],1));
     }
-    return Gamma(v[0],contextptr)-symbolic(at_upper_incomplete_gamma,args);
+    return symbolic(at_upper_incomplete_gamma,args);
   }
-  static const char _upper_incomplete_gamma_s []="upper_incomplete_gamma";
+  static const char _upper_incomplete_gamma_s []="ugamma";
   static define_unary_function_eval (__upper_incomplete_gamma,&_upper_incomplete_gamma,_upper_incomplete_gamma_s);
   define_unary_function_ptr5( at_upper_incomplete_gamma ,alias_at_upper_incomplete_gamma,&__upper_incomplete_gamma,0,true);
 
@@ -618,6 +629,33 @@ namespace giac {
       return n;
     if (n.type!=_INT_ || p.type!=_DOUBLE_ || x.type!=_DOUBLE_ || x._DOUBLE_val<0 || x._DOUBLE_val>1 )
       return symbolic(at_binomial_icdf,makesequence(n,p,x));
+    int N=n.val;
+    long_double P=p._DOUBLE_val;
+    if (N*P>=30 && N*(1-P)>=30){
+      // use approximation by normal law as a starting point
+      gen g=_floor(_normal_icdf(makesequence(n*p,sqrt(n*p*(1-p),contextptr),x),contextptr),contextptr);
+      int G=g.val;
+      gen cdf=evalf_double(_binomial_cdf(makesequence(n,p,g),contextptr),1,contextptr);
+      long_double CDF=cdf._DOUBLE_val;
+      long_double T=x._DOUBLE_val;
+      long_double current=std::exp(lngamma(N+1)-lngamma(G+1)-lngamma(N-G+1)+G*std::log(P)+(N-G)*std::log(1-P));
+      long_double P1=P/(1-P);
+      // increase G until CDF>=T
+      for (;T>CDF;){
+	++G;
+	current *= (N-G+1)*P1/G;
+	CDF += current;
+      }
+      if (G!=g.val)
+	return G;
+      // decrease G until CDF<T
+      for (;T<=CDF;){
+	CDF -= current;
+	current /= (N-G+1)*P1/G;
+	--G;
+      }
+      return G+1;
+    }
     gen last=pow(1-p0,n,contextptr);
     gen b=last;
     int k=1;
@@ -686,25 +724,31 @@ namespace giac {
   static define_unary_function_eval (__poisson,&_poisson,_poisson_s);
   define_unary_function_ptr5( at_poisson ,alias_at_poisson,&__poisson,0,true);
 
-  gen poisson_cdf(const gen & n,const gen & x,GIAC_CONTEXT){
-    gen fx=_floor(x,contextptr);
-    if (fx.type!=_INT_ || fx.val<0)
-      return gensizeerr(contextptr);
-    if (n.type==_INT_){
-      long_double N=n.val;
-      long_double res=0,prod=1;
-      for (int i=0;i<=fx.val;){
-	res += prod;
-	prod *= N;
-	++i;
-	prod /= long_double(i);
-      }
-      res *= std::exp(-N);
-      return double(res);
+  double poisson_cdf(double lambda,double x){
+    long_double N=lambda;
+    long_double res=0,prod=1;
+    int fx=int(std::floor(x));
+    for (int i=0;i<=fx;){
+      res += prod;
+      prod *= N;
+      ++i;
+      prod /= long_double(i);
     }
+    res *= std::exp(-N);
+    return res;
+  }
+  gen poisson_cdf(const gen & lambda_,const gen & x,GIAC_CONTEXT){
+    gen fx=_floor(x,contextptr);
+    gen lambda=evalf_double(lambda_,1,contextptr);
+    if (fx.type==_INT_ && fx.val>=0 && fx.val<=300 && lambda.type==_DOUBLE_)
+      return poisson_cdf(lambda._DOUBLE_val,fx.val);
+    if (is_zero(fx-x))
+      return _upper_incomplete_gamma(makesequence(x+1,lambda,1),contextptr);
+    else
+      return _upper_incomplete_gamma(makesequence(evalf(fx,1,contextptr),lambda,1),contextptr);
     gen res=0;
     for (int i=0;i<=fx.val;++i){
-      res +=poisson(n,i,contextptr);
+      res +=poisson(lambda,i,contextptr);
     }
     return res;
     //identificateur k(" k");
@@ -730,7 +774,7 @@ namespace giac {
     gen t=evalf_double(t_orig,1,contextptr);
     gen m=evalf_double(m_orig,1,contextptr);
     if (t.type!=_DOUBLE_ || t._DOUBLE_val<0 || t._DOUBLE_val>1)
-      return gensizeerr();
+      return gensizeerr(contextptr);
     if (m.type!=_DOUBLE_ )
       return symbolic(at_poisson_icdf,makesequence(m,t));
     if (t._DOUBLE_val==0)
@@ -738,8 +782,33 @@ namespace giac {
     if (t._DOUBLE_val==1)
       return plus_inf;
 #if 1
-    if (m._DOUBLE_val>=710)
-      return gensizeerr(gettext("Overflow"));
+    if (m._DOUBLE_val>90){ 
+      // 170.! =7e306 we must insure that the naive definition does not return >170
+      // hence the test since poisson_cdf(90.,170.)=1.0 to double precision
+      // approximation using normal_icdf
+      gen g=_ceil(_normal_icdf(makesequence(m,sqrt(m,contextptr),t),contextptr),contextptr);
+      int G=g.val;
+      // check that poisson_cdf(m,g)>=t, if not increase g
+      gen pg=evalf_double(_poisson_cdf(makesequence(m,g),contextptr),1,contextptr);
+      long_double CDF=pg._DOUBLE_val;
+      long_double M=m._DOUBLE_val;
+      long_double current= std::exp(-M+G*std::log(M)-lngamma(G+1));
+      long_double T=t._DOUBLE_val;
+      for (;T>CDF;){
+	++G;
+	current *= M/G;
+	CDF += current; // std::exp(-m._DOUBLE_val+G*std::log(m._DOUBLE_val)-lngamma(G+1));
+      }
+      if (G!=g.val)
+	return G;
+      // decrease G until cdf<t
+      for (;T<=CDF;){
+	CDF -= current; // pg -= std::exp(-m._DOUBLE_val+G*std::log(m._DOUBLE_val)-lngamma(G+1));
+	current *= G/M;
+	--G;
+      }
+      return G+1;
+    }
     long_double M=m._DOUBLE_val;
     int k=0;
     long_double T=t._DOUBLE_val*std::exp(M),B=0,prod=1;

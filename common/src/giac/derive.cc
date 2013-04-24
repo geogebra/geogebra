@@ -232,13 +232,16 @@ namespace giac {
 	gen tmp=pow(v2,v0-1,contextptr)*pow(1-v2,v1-1,contextptr)*derive(v2,i,contextptr);
 	return tmp;
       }
-      if (vs==2 && (s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
+      if ( (vs==2 || vs==3 && is_zero(v[2])) && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
 	gen v0=v[0],v1=v[1]; 
 	if (!is_zero(derive(v0,i,contextptr)))
-	  return gensizeerr("diff of lower incomplete gamma with respect to non constant 1st arg not implemented");
-	// diff(int_0^v1 exp(-t)*t^(v0-1) dt)
+	  return gensizeerr("diff of incomplete gamma with respect to non constant 1st arg not implemented");
+	// diff(int_v1^inf exp(-t)*t^(v0-1) dt)
 	gen tmp1=exp(-v1,contextptr)*pow(v1,v0-1,contextptr)*derive(v1,i,contextptr);
-	return (s.sommet==at_Gamma)?-tmp1:tmp1;
+	return (s.sommet==at_lower_incomplete_gamma)?tmp1:-tmp1;
+      }
+      if (vs==3 && (s.sommet==at_lower_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
+	return derive(symbolic(s.sommet,makesequence(v[0],v[1]))/symbolic(at_Gamma,v[0]),i,contextptr);
       }
     }
     // now look at other operators, first onearg operator

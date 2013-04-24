@@ -1148,7 +1148,7 @@ namespace giac {
   static void clean(gen & e,const identificateur & x,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return;
-    if (lvarx(e,x).size()>1){
+    if ( complex_mode(contextptr)==0 && (lvarx(e,x).size()>1) ){
       gen es=simplify(e,contextptr);
       if (lvarx(es,x).size()==1){
 	e=es;

@@ -2441,8 +2441,23 @@ namespace giac {
 	}
 	return res;
       } // end piecewise
-      if (intgab(v[0],x,borne_inf,borne_sup,res,contextptr))
+      if (intgab(v[0],x,borne_inf,borne_sup,res,contextptr)){
+	// additional check for singularities in ggb mode
+	if (calc_mode(contextptr)==1){
+	  bool ordonne=is_greater(borne_sup,borne_inf,contextptr);
+	  vecteur sp=protect_find_singularities(v[0],*x._IDNTptr,false,contextptr);
+	  int sps=sp.size();
+	  for (int i=0;i<sps;i++){
+	    if ( (ordonne && is_strictly_greater(sp[i],borne_inf,contextptr) && is_strictly_greater(borne_sup,sp[i],contextptr) ) || 
+		 (!ordonne && is_strictly_greater(sp[i],borne_sup,contextptr) && is_strictly_greater(borne_inf,sp[i],contextptr) )
+		 ){
+	      if (!is_zero(limit(v[0]*(sp[i]-x),*x._IDNTptr,sp[i],0,contextptr)))
+		return undef;
+	    }   
+	  }
+	}
       	return res;
+      }
     }
     gen primitive=integrate0( v[0],*x._IDNTptr,rem,contextptr);
 #ifdef GIAC_GGB
