@@ -1271,6 +1271,7 @@ td.datePickerMonth {
  .geogebraweb {
 	display:inline-block;
 	 -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+ 	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/ 
   }
 
  .geogebraweb .jsloaded {
