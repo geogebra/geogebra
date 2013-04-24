@@ -152,7 +152,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			setInputFieldWidth();
 		}
 	}
-	
+
 	/**
 	 * updates labels according to current locale
 	 */

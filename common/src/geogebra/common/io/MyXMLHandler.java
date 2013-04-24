@@ -1179,7 +1179,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width;
 			int height;
-			if (!App.isFullAppGui()) {
+			if (!App.isFullAppGui()) {// TODO: EV2 in Web!
 				width = (app.getDataParamWidth() > 0 && !app.getUseFullGui()) ? app.getDataParamWidth() :  Integer.parseInt(attrs.get("width"));
 				height = (app.getDataParamHeight() > 0 && !app.getUseFullGui()) ? app.getDataParamHeight() : Integer.parseInt(attrs.get("height"));
 			} else {
@@ -1195,7 +1195,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleSpreadsheetSize(LinkedHashMap<String, String> attrs) {
-		if (app.isApplet())
+		if (app.isApplet() && !app.isHTML5Applet())
 			return true;
 
 		try {

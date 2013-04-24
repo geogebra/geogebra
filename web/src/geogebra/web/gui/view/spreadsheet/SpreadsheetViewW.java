@@ -11,6 +11,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.main.AppW;
 
 import java.util.HashMap;
@@ -1412,8 +1413,9 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 			settings().cellFormat());
 
 		// preferredSize
-		//TODO//this.setPreferredSize(geogebra.awt.GDimensionD
-		//TODO//		.getAWTDimension(settings().preferredSize()));
+		setPreferredSize(
+			((SpreadsheetSettings)settings0).preferredSize().getWidth(),
+			((SpreadsheetSettings)settings0).preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...
@@ -1423,6 +1425,33 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
+	}
+
+	public void setPreferredSize(int width, int height) {
+		getScrollPanel().setWidth(width + "px");
+		getScrollPanel().setHeight(height + "px");
+		syncSpreadsheetSize();
+	}
+
+	public void syncSpreadsheetSize() {
+		if (app.isApplet()) {
+			int width = getScrollPanel().getOffsetWidth();
+			if (app.getSplitLayoutPanel() != null && app.getGuiManager() != null &&
+				app.getGuiManager().getLayout() != null && app.getGuiManager().getLayout().getDockManager() != null) {
+
+				SpreadsheetDockPanelW dockPanel = (SpreadsheetDockPanelW)
+						app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+
+				int widthComputed = app.getSplitLayoutPanel().getOffsetWidth() +
+						width - dockPanel.getOffsetWidth();
+
+				dockPanel.setWidth(width+"px");
+
+				app.getGuiManager().getAlgebraInput().onResize();
+				app.getSplitLayoutPanel().setWidth(widthComputed+"px");
+				app.getGeoGebraFrame().setWidth(widthComputed+"px");
+			}
+		}
 	}
 
 	// ================================================

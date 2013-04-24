@@ -73,6 +73,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				if (application != null) {
 
 					if (sview != null) {
+
 						// If this is resized, we may know its width and height
 						/*
 						 * int width = this.getOffsetWidth();//this is 400, OK
@@ -85,15 +86,18 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 						 * ()).getSpreadsheetStyleBar()).getOffsetHeight();
 						 */
 
-						int width = dockPanel.getComponentInteriorWidth();
-						int height = dockPanel.getComponentInteriorHeight();
+						if (!application.isApplet()) {
 
-						if (width < 0 || height < 0) {
-							return;
+							int width = dockPanel.getComponentInteriorWidth();
+							int height = dockPanel.getComponentInteriorHeight();
+
+							if (width < 0 || height < 0) {
+								return;
+							}
+
+							sview.getScrollPanel().setWidth(width + "px");
+							sview.getScrollPanel().setHeight(height + "px");
 						}
-
-						sview.getScrollPanel().setWidth(width + "px");
-						sview.getScrollPanel().setHeight(height + "px");
 
 						int width2 = ((MyTableW) sview.getSpreadsheetTable())
 						        .getOffsetWidth();
