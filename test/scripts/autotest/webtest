@@ -38,7 +38,7 @@ run() {
  # Postprocessing:
  tail -1 $REPORT >/dev/stderr
  cp $REPORT $TEST-$REPORT
- convert $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $TEST.ansi
+ convert -flatten $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $TEST.ansi
  }
 
 ansi_analyze() {
