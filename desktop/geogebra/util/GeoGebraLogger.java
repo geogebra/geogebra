@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * Web implementation for the GeoGebraLogger 
  */
-public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
+public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 
 	private File logFile = null; // default
 	private FileWriter logFileWriter = null;

@@ -1,4 +1,4 @@
-package geogebra.web.util;
+package geogebra.web.util.debug;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
 
  */
-public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
+public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 
 	/**
 	 * Constructor

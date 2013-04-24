@@ -21,7 +21,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.web.Web;
@@ -55,8 +55,8 @@ import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.kernel.KernelW;
 import geogebra.web.sound.SoundManagerW;
-import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.MyDictionary;
+import geogebra.web.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

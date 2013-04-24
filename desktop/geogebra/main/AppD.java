@@ -52,7 +52,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.Base64;
-import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;

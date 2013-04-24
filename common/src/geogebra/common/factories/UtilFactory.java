@@ -1,9 +1,9 @@
 package geogebra.common.factories;
 
-import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.Prover;
 import geogebra.common.util.URLEncoder;
+import geogebra.common.util.debug.GeoGebraLogger;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>

@@ -1,10 +1,10 @@
 package geogebra.web.factories;
 
 import geogebra.common.factories.UtilFactory;
-import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.Prover;
 import geogebra.common.util.URLEncoder;
+import geogebra.common.util.debug.GeoGebraLogger;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -24,7 +24,7 @@ public class UtilFactoryW extends UtilFactory {
 
 	@Override
     public GeoGebraLogger newGeoGebraLogger() {
-		return new geogebra.web.util.GeoGebraLogger();
+		return new geogebra.web.util.debug.GeoGebraLogger();
     }
 	
 	@Override

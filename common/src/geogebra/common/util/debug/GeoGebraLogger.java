@@ -1,4 +1,4 @@
-package geogebra.common.util;
+package geogebra.common.util.debug;
 
 import java.util.Set;
 import java.util.TreeSet;

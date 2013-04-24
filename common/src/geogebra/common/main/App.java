@@ -56,10 +56,10 @@ import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
