@@ -105,6 +105,28 @@ public class ViewMenuW extends MenuBar {
 			        }
 		        });
 
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		        .getSafeUri().asString(), app.getPlain("DrawingPad")), true,
+		        new Command() {
+			        public void execute() {
+
+			        	int viewId = App.VIEW_EUCLIDIAN;
+			        	((GuiManagerW)app.getGuiManager()).setShowView(
+								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+			        }
+		        });
+
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		        .getSafeUri().asString(), app.getPlain("DrawingPad2")), true,
+		        new Command() {
+			        public void execute() {
+
+			        	int viewId = App.VIEW_EUCLIDIAN2;
+			        	((GuiManagerW)app.getGuiManager()).setShowView(
+								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+			        }
+		        });
+
 		addSeparator();
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
