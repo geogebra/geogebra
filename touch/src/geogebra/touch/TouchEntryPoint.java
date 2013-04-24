@@ -33,7 +33,7 @@ public class TouchEntryPoint implements EntryPoint
 		// insert mathquill css
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText();
 		StyleInjector.inject(mathquillcss);
-		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
+		//JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
 	}
 
 	private static void loadMobileAsync()

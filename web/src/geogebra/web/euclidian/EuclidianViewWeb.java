@@ -15,6 +15,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.main.AppWeb;
+import geogebra.web.main.DrawEquationWeb;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -22,6 +23,11 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 
 public abstract class EuclidianViewWeb extends EuclidianView {
+	
+	public static int repaints, repaintTime, drags, dragTime;
+	public static int moveEventsIgnored;
+	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
+	
 	public geogebra.web.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	public geogebra.web.awt.GGraphics2DW g4copy = null;
@@ -100,7 +106,29 @@ public abstract class EuclidianViewWeb extends EuclidianView {
      * This doRepaint method should be used instead of repaintView in cases
      * when the repaint should be done immediately
      */
-	public abstract void doRepaint2();
+	public final void doRepaint2()
+	{
+		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
+		long l = System.currentTimeMillis();
+		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
+		paint(this.g2p);
+		getEuclidianController().setCollectedRepaints(false);
+		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
+		repaints++;
+		repaintTime += (System.currentTimeMillis() - l);
+		if (repaints % 100 == 0)
+		{
+			App.debug("Repaint:" + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
+			if(drags > 0){
+				App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
+			}
+			repaints = 0;
+			drags = 0;
+			repaintTime = 0;
+			dragTime = 0;
+			moveEventsIgnored = 0;
+		}
+	}
 	
 	/**
 	 * Gets the coordinate space width of the &lt;canvas&gt;.

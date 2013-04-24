@@ -42,14 +42,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianViewM extends EuclidianViewWeb
 {
 	private Canvas canvas;
-	public static int repaints, repaintTime, drags, dragTime;
 
 	protected Hits hits;
 	private EuclidianViewPanel panel;
 
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from
 	                                                // geogebra.common.euclidian.draw.DrawPoint
-	public static int moveEventsIgnored;
 
 	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
@@ -257,35 +255,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	public Canvas getCanvas()
 	{
 		return this.canvas;
-	}
-
-	@Override
-	public void doRepaint2()
-	{
-		((AppWeb) this.app).getTimerSystem().viewRepainting(this);
-		if (getAxesColor() == null)
-		{
-			setAxesColor(geogebra.common.awt.GColor.black);
-		}
-		long l = System.currentTimeMillis();
-		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
-		paint(this.g2p);
-		getEuclidianController().setCollectedRepaints(false);
-		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
-		repaints++;
-		repaintTime += (System.currentTimeMillis() - l);
-		if (repaints % 100 == 0)
-		{
-			App.debug("Repaint:" + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
-			if(drags > 0){
-				App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
-			}
-			repaints = 0;
-			drags = 0;
-			repaintTime = 0;
-			dragTime = 0;
-			moveEventsIgnored = 0;
-		}
 	}
 
 	public void onResize(ResizeEvent event)

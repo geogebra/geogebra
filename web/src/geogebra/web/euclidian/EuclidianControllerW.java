@@ -49,12 +49,16 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
 public class EuclidianControllerW extends geogebra.common.euclidian.EuclidianController implements MouseDownHandler, MouseUpHandler, 
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, 
 TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
 
+	private long lastMoveEvent = 0;
+	private TouchMoveEvent waitingTouchMove = null;
+	private MouseMoveEvent waitingMouseMove = null;
 	/**
 	 * @return offset to get correct getX() in mouseEvents
 	 */
@@ -86,6 +90,26 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void updateOffsets(){
 		//EuclidianViewXOffset = ((EuclidianViewW) view).getAbsoluteLeft() + Window.getScrollLeft();
 		//EuclidianViewYOffset = ((EuclidianViewW) view).getAbsoluteTop() + Window.getScrollTop();	
+	}
+	
+	private Timer repaintTimer = new Timer() {
+		@Override
+		public void run() {
+			moveIfWaiting();
+		}
+	};
+	
+	protected void moveIfWaiting(){
+		if(this.waitingMouseMove != null){
+			EuclidianViewWeb.moveEventsIgnored--;
+			this.onMouseMove(waitingMouseMove);
+			return;
+		}
+		if(this.waitingTouchMove != null){
+			EuclidianViewWeb.moveEventsIgnored--;
+			this.onTouchMove(waitingTouchMove);
+		}
+		
 	}
 	
 	public EuclidianControllerW(Kernel kernel) {
@@ -127,6 +151,19 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
+		EuclidianViewWeb.drags++;
+		long time = System.currentTimeMillis();
+		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+			this.waitingTouchMove = event;
+			this.waitingMouseMove = null;
+			EuclidianViewWeb.moveEventsIgnored++;
+			this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
+			return;
+		}
+		onTouchMoveNow(event);
+	}
+
+	private void onTouchMoveNow(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
@@ -137,7 +174,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				 event.preventDefault();
 			 }
 		}
-	}
+	    this.waitingTouchMove = null;
+    }
 
 	public void onTouchEnd(TouchEndEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
@@ -214,6 +252,19 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseMove(MouseMoveEvent event) {
+		EuclidianViewWeb.drags++;
+		long time = System.currentTimeMillis();
+		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+			this.waitingMouseMove = event;
+			this.waitingTouchMove = null;
+			EuclidianViewWeb.moveEventsIgnored++;
+			this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
+			return;
+		}
+		onMouseMoveNow(event);
+	}
+	
+	public void onMouseMoveNow(MouseMoveEvent event) {
 		event.preventDefault();
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
@@ -222,6 +273,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			 wrapMouseDragged(e);
 		 }
 		 e.release();
+		 this.waitingMouseMove = null;
 	}
 
 	public void onMouseUp(MouseUpEvent event) {

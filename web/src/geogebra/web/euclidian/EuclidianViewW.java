@@ -15,7 +15,6 @@ import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.javax.swing.GBoxW;
 import geogebra.web.main.AppW;
-import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
 
@@ -181,19 +180,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	public EuclidianControllerW getEuclidianController() {
 		return (EuclidianControllerW)euclidianController;
-    }
-
-    
-    @Override
-    public void doRepaint2() {
-
-    	app.getTimerSystem().viewRepainting(this);
-
-    	((DrawEquationWeb)app.getDrawEquation()).clearLaTeXes(this);
-    	paint(g2p);
-    	getEuclidianController().setCollectedRepaints(false);
-    	app.getTimerSystem().viewRepainted(this);
-    }
+	}
 
 	@Override
     protected void initCursor() {

@@ -20,6 +20,7 @@ import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.Swipeables;
 import geogebra.touch.utils.ToolBarCommand;
+import geogebra.web.euclidian.EuclidianViewWeb;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -39,7 +40,6 @@ public class TouchController extends EuclidianController
 	private TouchModel model;
 	private GPoint origin;
 	private boolean clicked = false;
-	private static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
 	int waitingX;
 	int waitingY;
 	private long lastMoveEvent;
@@ -48,9 +48,7 @@ public class TouchController extends EuclidianController
 		@Override
 		public void run() {
 			touchMoveIfWaiting();
-		}
-
-		
+		}	
 	};
 
 	public TouchController(TouchModel touchModel, App app)
@@ -113,16 +111,16 @@ public class TouchController extends EuclidianController
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
 						.getCommand() == ToolBarCommand.RotateAroundPoint))
 		{
-			EuclidianViewM.drags++;
+			EuclidianViewWeb.drags++;
 			long time = System.currentTimeMillis();
-			if(time < this.lastMoveEvent + DELAY_BETWEEN_MOVE_EVENTS){
+			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 				this.waitingX = x;
 				this.waitingY = y;
-				EuclidianViewM.moveEventsIgnored++;
-				this.repaintTimer.schedule(DELAY_BETWEEN_MOVE_EVENTS);
+				EuclidianViewWeb.moveEventsIgnored++;
+				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 				return;
 			}
-			
+			/*
 			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 
@@ -130,7 +128,7 @@ public class TouchController extends EuclidianController
 			wrapMouseDragged(mEvent);
 
 			this.origin = new GPoint(x, y);
-			
+			*/
 			this.waitingX =-1;
 			this.waitingY =-1;
 			touchMoveNow(x, y, time);
@@ -138,17 +136,18 @@ public class TouchController extends EuclidianController
 		}
 	}
 
-	private void touchMoveNow(int x, int y,long l) {
-		this.lastMoveEvent = l;
+	private void touchMoveNow(int x, int y,long time) {
+		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		wrapMouseDragged(mEvent);
 		this.origin = new GPoint(x, y);
-		EuclidianViewM.dragTime+=System.currentTimeMillis()-l;		
+		EuclidianViewWeb.dragTime+=System.currentTimeMillis()-time;		
 	}
 	
 	void touchMoveIfWaiting() {
 		if(this.waitingX > 0){
+			EuclidianViewWeb.moveEventsIgnored--;
 			touchMoveNow(this.waitingX, this.waitingY, System.currentTimeMillis());
 		}
 	}
