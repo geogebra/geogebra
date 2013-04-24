@@ -33,6 +33,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.StringUtil;
 
 
 /**
@@ -256,17 +257,21 @@ public abstract class Drawable extends DrawableND {
 	private void ensureLabelDrawsOnScreen() {
 		// do not draw the label here if not necessary, it's too expensive in Web.
 		GFont font = view.getApplication().getPlainFontCommon();
+		int heightEstimate = (int)(font.getSize() * 1.4);
+		int widthEstimate = (int)labelRectangle.getWidth();
 		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()){
-			drawLabel(view.getTempGraphics2D(font));
+			//if we use name = value, this may still be called pretty often. 
+			// Hence use heuristic here instead of measurement 
+			widthEstimate = (int)(StringUtil.estimateLength(labelDesc) * font.getSize());
 		}
 
 		// make sure labelRectangle fits on screen horizontally
 		if (xLabel < 3)
 			xLabel = 3;
 		else
-			xLabel = Math.min(xLabel, view.getWidth() - (int)labelRectangle.getWidth() - 3);
-		if (yLabel < labelRectangle.getHeight())
-			yLabel = (int)labelRectangle.getHeight();
+			xLabel = Math.min(xLabel, view.getWidth() - widthEstimate - 3);
+		if (yLabel < heightEstimate)
+			yLabel = heightEstimate;
 		else
 			yLabel = Math.min(yLabel, view.getHeight() - 3);
 

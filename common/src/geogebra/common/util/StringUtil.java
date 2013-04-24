@@ -1005,4 +1005,42 @@ public class StringUtil {
 		}
 		return false;
 	}
+
+	
+	/**
+	 * @param label label, may contain bold, italic, indices
+	 * @return ratio of estimated string length and font size
+	 */
+	public static double estimateLength(String label) {
+		String str = label;
+		boolean bold = false;
+		if (str.startsWith("<i>") && str.endsWith("</i>")) {
+			str = str.substring(3, label.length() - 4);
+		}
+		if (str.startsWith("<b>") && str.endsWith("</b>")) {
+			str = str.substring(3, str.length() - 4);
+			bold = true;
+		}
+		if (str.startsWith("<i>") && str.endsWith("</i>")) {
+			str = str.substring(3, str.length() - 4);
+		}
+		double visibleChars = 0;
+		boolean index = false;
+		double indexSize = 0.7;
+		for (int i = 0; i < str.length(); i++) {
+			if (str.charAt(i) == '_') {
+				if (i < str.length() - 1 && str.charAt(i + 1) == '{') {
+					i++;
+					index = true;
+				} else {
+					visibleChars -= (1 - indexSize); // penalty for 1char index
+				}
+			} else if (str.charAt(i) == '}') {
+				index = false;
+			} else {
+				visibleChars += index ? indexSize : 1;
+			}
+		}
+		return bold ? visibleChars * 0.6 : visibleChars * 0.5;
+	}
 }
