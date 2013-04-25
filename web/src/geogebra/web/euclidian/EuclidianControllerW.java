@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
@@ -102,12 +103,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	protected void moveIfWaiting(){
 		long time = System.currentTimeMillis();
 		if(this.waitingMouseMove != null){
-			EuclidianViewWeb.moveEventsIgnored--;
+			GeoGebraProfiler.moveEventsIgnored--;
 			this.onMouseMoveNow(waitingMouseMove, time);
 			return;
 		}
 		if(this.waitingTouchMove != null){
-			EuclidianViewWeb.moveEventsIgnored--;
+			GeoGebraProfiler.moveEventsIgnored--;
 			this.onTouchMoveNow(waitingTouchMove, time);
 		}
 		
@@ -152,7 +153,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-		EuclidianViewWeb.drags++;
+		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
@@ -165,7 +166,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 			this.waitingTouchMove = e;
 			this.waitingMouseMove = null;
-			EuclidianViewWeb.moveEventsIgnored++;
+			GeoGebraProfiler.moveEventsIgnored++;
 			this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 			return;
 		}
@@ -179,7 +180,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 	    this.waitingTouchMove = null;
 	    this.waitingMouseMove = null;
-	    EuclidianViewWeb.dragTime+=System.currentTimeMillis()-time;	
+	    GeoGebraProfiler.dragTime+=System.currentTimeMillis()-time;	
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
@@ -257,14 +258,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public void onMouseMove(MouseMoveEvent event) {
-		EuclidianViewWeb.drags++;
+		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		event.preventDefault();
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 			this.waitingMouseMove = e;
 			this.waitingTouchMove = null;
-			EuclidianViewWeb.moveEventsIgnored++;
+			GeoGebraProfiler.moveEventsIgnored++;
 			this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 			return;
 		}
@@ -282,7 +283,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		 event.release();
 		 this.waitingMouseMove = null;
 		 this.waitingTouchMove = null;
-		 EuclidianViewWeb.dragTime+=System.currentTimeMillis()-time;
+		 GeoGebraProfiler.dragTime+=System.currentTimeMillis()-time;
 	}
 
 	public void onMouseUp(MouseUpEvent event) {

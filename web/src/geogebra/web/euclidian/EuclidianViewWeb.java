@@ -12,6 +12,7 @@ import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.main.AppWeb;
@@ -23,9 +24,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 
 public abstract class EuclidianViewWeb extends EuclidianView {
-	
-	public static int repaints, repaintTime, drags, dragTime;
-	public static int moveEventsIgnored;
+
 	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
 	
 	public geogebra.web.awt.GGraphics2DW g2p = null;
@@ -114,20 +113,8 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
-		repaints++;
-		repaintTime += (System.currentTimeMillis() - l);
-		if (repaints % 100 == 0)
-		{
-			App.debug("Repaint:" + repaints + " x " + (repaintTime / repaints) + " = " + repaintTime);
-			if(drags > 0){
-				App.debug("Drag:" + drags + " x " + (dragTime / drags) + " = " + dragTime + "," + moveEventsIgnored + " ignored");
-			}
-			repaints = 0;
-			drags = 0;
-			repaintTime = 0;
-			dragTime = 0;
-			moveEventsIgnored = 0;
-		}
+		GeoGebraProfiler.addRepaint(l);
+		
 	}
 	
 	/**

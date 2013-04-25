@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
@@ -111,12 +112,12 @@ public class TouchController extends EuclidianController
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
 						.getCommand() == ToolBarCommand.RotateAroundPoint))
 		{
-			EuclidianViewWeb.drags++;
+			GeoGebraProfiler.drags++;
 			long time = System.currentTimeMillis();
 			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 				this.waitingX = x;
 				this.waitingY = y;
-				EuclidianViewWeb.moveEventsIgnored++;
+				GeoGebraProfiler.moveEventsIgnored++;
 				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 				return;
 			}
@@ -142,12 +143,12 @@ public class TouchController extends EuclidianController
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		wrapMouseDragged(mEvent);
 		this.origin = new GPoint(x, y);
-		EuclidianViewWeb.dragTime += System.currentTimeMillis()-time;		
+		GeoGebraProfiler.dragTime += System.currentTimeMillis()-time;		
 	}
 	
 	void touchMoveIfWaiting() {
 		if(this.waitingX > 0){
-			EuclidianViewWeb.moveEventsIgnored--;
+			GeoGebraProfiler.moveEventsIgnored--;
 			touchMoveNow(this.waitingX, this.waitingY, System.currentTimeMillis());
 		}
 	}
