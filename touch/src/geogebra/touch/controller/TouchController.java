@@ -129,20 +129,20 @@ public class TouchController extends EuclidianController
 
 			this.origin = new GPoint(x, y);
 			*/
-			this.waitingX =-1;
-			this.waitingY =-1;
 			touchMoveNow(x, y, time);
 			
 		}
 	}
 
 	private void touchMoveNow(int x, int y,long time) {
+		this.waitingX =-1;
+		this.waitingY =-1;
 		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		wrapMouseDragged(mEvent);
 		this.origin = new GPoint(x, y);
-		EuclidianViewWeb.dragTime+=System.currentTimeMillis()-time;		
+		EuclidianViewWeb.dragTime += System.currentTimeMillis()-time;		
 	}
 	
 	void touchMoveIfWaiting() {
@@ -154,9 +154,7 @@ public class TouchController extends EuclidianController
 
 	public void onTouchEnd(int x, int y)
 	{
-		if(this.waitingX > 0){
-			touchMoveNow(this.waitingX,this.waitingY,System.currentTimeMillis());
-		}
+		touchMoveIfWaiting();
 		
 		this.clicked = false;
 
