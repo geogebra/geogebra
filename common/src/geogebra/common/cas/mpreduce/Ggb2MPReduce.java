@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 public class Ggb2MPReduce {
 	private static Map<String, String> commandMap = new TreeMap<String, String>();
-	private static Map<String, ReducePackage> packageMap = new TreeMap<String, ReducePackage>();
 
 	/**
 	 * @param signature GeoGebra command signature (i.e. "Element.2")
@@ -452,32 +451,5 @@ public class Ggb2MPReduce {
 		p("Zipf.4",
 				"<<begin scalar s; s:= %1; return if %3=true then harmonic(%2,s)/harmonic(%0,s) else 1/((%2)^s*harmonic(%0,s)) end>>");
 		return commandMap;
-	}
-	
-	/**
-	 * @return map that assigns a package to commands that need loading specific packages
-	 */
-	public static Map<String, ReducePackage> getPackageMap(){
-		if(packageMap.isEmpty()){
-			packageMap.put("Integral.1", ReducePackage.ODESOLVE);
-			packageMap.put("Integral.2", ReducePackage.ODESOLVE);
-			packageMap.put("Integral.3", ReducePackage.DEFINT);
-			packageMap.put("Integral.4", ReducePackage.DEFINT);
-			packageMap.put("IntegralBetween.4", ReducePackage.DEFINT);
-			packageMap.put("IntegralBetween.5", ReducePackage.DEFINT);
-			packageMap.put("Groebner.1", ReducePackage.GROEBNER);
-			packageMap.put("Groebner.2", ReducePackage.GROEBNER);
-			for(int i=1;i<6;i++)
-				packageMap.put("SolveODE."+i, ReducePackage.ODESOLVE);
-			packageMap.put("TaylorSeries.4", ReducePackage.TAYLOR);
-			packageMap.put("TaylorSeries.5", ReducePackage.TAYLOR);
-			packageMap.put("Normal.3", ReducePackage.SPECFN);
-			packageMap.put("Normal.4", ReducePackage.SPECFN);
-			packageMap.put("Pascal.4", ReducePackage.SPECFN);
-			packageMap.put("TDistribution.2", ReducePackage.SPECFN);
-			packageMap.put("ChiSquared.2", ReducePackage.SPECFN);
-			packageMap.put("Gamma.3", ReducePackage.SPECFN);
-		}
-		return packageMap;
 	}
 }

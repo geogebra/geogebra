@@ -94,17 +94,6 @@ public interface CASGenericInterface extends SettingListener {
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst);
 
 	/**
-	 * Load all packages for  given command
-	 * @param string command signature (Command.NumberOfArguments)
-	 */
-	void loadPackagesFor(String string);
-
-	/**
-	 * Load packages for Groebner computations
-	 */
-	void loadGroebner();
-
-	/**
 	 * @param exp input
 	 * @return output
 	 */

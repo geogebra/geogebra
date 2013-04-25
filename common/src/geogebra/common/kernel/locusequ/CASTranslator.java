@@ -227,7 +227,6 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				this.getVars(), this.getVarsToEliminate());
 
 		App.info("[LocusEqu] input to cas: "+script);
-		cas.getCurrentCAS().loadGroebner();
 		result = cas.evaluate(script);
 		App.info("[LocusEqu] output from cas: "+result);
 		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);

@@ -71,14 +71,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		
 	}
 
-	public void loadPackagesFor(String string) {
-		// not needed for giac
-	}
-
-	public void loadGroebner() {
-		// not needed for giac	
-	}
-
 	@Override
 	public String evaluateCAS(String exp) {
 		try {

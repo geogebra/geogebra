@@ -4,7 +4,6 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.GeoGebraCAS;
-import geogebra.common.cas.mpreduce.ReducePackage.SpecFnInspecting;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
@@ -175,8 +174,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
-		if(inputExpression.inspect(SpecFnInspecting.INSTANCE))
-			ReducePackage.SPECFN.load(this);
+		
 		
 		String plainResult = getPlainResult(casInput,keepInput);
 				
@@ -363,7 +361,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		App.debug("Loading packages...");
 
 		String[] packages = { "rsolve", "numeric", "linalg", "reset", "trigsimp",
-				"polydiv", "myvector"};
+				"polydiv", "myvector", "specfn", "defint", "odesolve", "groebner"};
 		for (String p : packages) {
 			mpreduce1.evaluate("load_package " + p + ";");
 			App.debug("Reduce package " + p + " loaded"+System.currentTimeMillis());
@@ -520,16 +518,6 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 	public void appendListEnd(StringBuilder sbCASCommand){
 		sbCASCommand.append(")");
-	}
-	
-	public void loadPackagesFor(String commandKey){
-		ReducePackage p = Ggb2MPReduce.getPackageMap().get(commandKey);
-		if(p!=null)
-			p.load(this);
-	}
-	
-	public void loadGroebner(){
-		ReducePackage.GROEBNER.load(this);
 	}
 	
 	public String createLocusEquationScript(

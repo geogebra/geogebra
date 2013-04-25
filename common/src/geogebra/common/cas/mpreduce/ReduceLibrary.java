@@ -1215,10 +1215,8 @@ public class ReduceLibrary {
 				+ "    if numberp(element) then" + "      list()" + "    else"
 				+ "      list(element)" + "  else"
 				+ "    getkernels(part(element,0):=list);");
-		eval("groebnerloaded:=0;");
 		eval("procedure mymainvars(a,n);"
 				+ "begin scalar variables!!, result!!;"
-				+ " if not (groebnerloaded=1) then <<load_package groebner; groebnerloaded:=1>>;"
 				+ " variables!!:=gvars(getkernels(list(a)));"
 				+ " result!!:="
 				+ " if length(variables!!)<n then <<"

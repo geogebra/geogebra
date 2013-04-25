@@ -102,16 +102,6 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	    
     }
 
-	public void loadPackagesFor(String string) {
-	    // not needed
-	    
-    }
-
-	public void loadGroebner() {
-	    // not needed
-	    
-    }
-
 	@Override
     public String evaluate(String exp, long timeoutMilliseconds) {
 	    return evaluate(exp);
