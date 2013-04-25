@@ -258,7 +258,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		String giacInput = casParser.translateToCAS(casInput,
 				StringTemplate.giacTemplate, this);
 		
-		App.error(casInput+"\n\n"+giacInput );
+		//App.error(casInput+"\n\n"+giacInput );
 
 		/*
 		// tell MPReduce whether it should use the keep input flag,
