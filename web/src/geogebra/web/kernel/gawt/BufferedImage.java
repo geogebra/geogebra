@@ -121,8 +121,8 @@ public class BufferedImage {
 	public Canvas getCanvas() {
 		if (canv == null) {
 			canv = Canvas.createIfSupported();
-			canv.setCoordinateSpaceWidth(getWidth());
-			canv.setCoordinateSpaceHeight(getHeight());
+			canv.setCoordinateSpaceWidth(img.getWidth());
+			canv.setCoordinateSpaceHeight(img.getHeight());
 			canv.setWidth(getWidth()+"px");
 			canv.setHeight(getWidth()+"px");
 			Context2d c2d = canv.getContext2d();
