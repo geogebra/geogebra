@@ -4916,6 +4916,11 @@ namespace giac {
     c += g;
   }
 
+  static gen double_times_frac(const gen & a,const fraction & b,GIAC_CONTEXT){
+    gen n=a*b.num,d=b.den;
+    return rdiv(n,d,contextptr);
+  }
+
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // cout << a << "*" << b << endl;
     // if (!( (++control_c_counter) & control_c_counter_mask))
@@ -4963,14 +4968,10 @@ namespace giac {
       return giac_float(a._DOUBLE_val)*b._FLOAT_val;
     case _FLOAT___DOUBLE_:
       return a._FLOAT_val*giac_float(b._DOUBLE_val);
-    case _FLOAT___FRAC:
-      return a*evalf2bcd(b,1,contextptr);
-    case _FRAC__FLOAT_:
-      return evalf2bcd(a,1,contextptr)*b;
-    case _DOUBLE___FRAC:
-      return a*evalf_double(b,1,contextptr);
-    case _FRAC__DOUBLE_:
-      return evalf_double(a,1,contextptr)*b;
+    case _FLOAT___FRAC: _DOUBLE___FRAC:
+      return double_times_frac(a,*b._FRACptr,contextptr);
+    case _FRAC__FLOAT_: case _FRAC__DOUBLE_:
+      return double_times_frac(b,*a._FRACptr,contextptr);
     case _DOUBLE___ZINT:
       return a._DOUBLE_val*mpz_get_d(*b._ZINTptr);
     case _DOUBLE___REAL:

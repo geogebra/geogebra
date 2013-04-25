@@ -329,6 +329,8 @@ namespace giac {
     gen var=v[1],guess;
     if (var.type==_SYMB && (var._SYMBptr->sommet==at_equal || var._SYMBptr->sommet==at_same)){
       guess=var._SYMBptr->feuille._VECTptr->back();
+      if (guess.is_symb_of_sommet(at_interval))
+	return _fsolve(g,contextptr);
       var=var._SYMBptr->feuille._VECTptr->front();
       return newton(remove_equal(v[0]),var,guess,20,1e-5,1e-12,contextptr);
     }

@@ -69,6 +69,8 @@ namespace giac {
     // if s is a small integer = poisson_cdf(z,s-1)*Gamma(s)
     if (s==int(s) && s>0 && s<300)
       return regularize?poisson_cdf(z,int(s-1)):poisson_cdf(z,int(s-1))*std::exp(lngamma(s));
+    // if z large Gamma(s,z) = z^(s-1)*exp(z)*[1 + (s-1)/z + (s-1)*(s-2)/z^2 +...
+
     // int_z^inf t^(s-1) exp(-t) dt
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // a1=1, a2=1-s, a3=1, a_{m+2}=a_m+1

@@ -10270,6 +10270,8 @@ namespace giac {
       return false;
     if (sol.type==_VECT && sol._VECTptr->size()==2)
       sol=(sol[0]+sol[1])/2;
+    if (sol.type==_VECT && sol._VECTptr->size()==1)
+      sol=sol[0];
     sol=evalf_double(sol,1,contextptr);
     return sol.type==_DOUBLE_;
   }

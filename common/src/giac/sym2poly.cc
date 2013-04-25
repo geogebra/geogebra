@@ -901,8 +901,8 @@ namespace giac {
       factorization::const_iterator jt=f.begin(),jtend=f.end();
       for (;jt!=jtend;++jt){
 	if (jt->mult%d)
-	  S=S*jt->fact;
-	D=D*pow(jt->fact,jt->mult/3);
+	  S=S*pow(jt->fact,jt->mult % d);
+	D=D*pow(jt->fact,jt->mult/d);
       }
       // Check sign of D
       vecteur Dl(l);

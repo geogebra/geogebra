@@ -224,7 +224,7 @@ namespace giac {
     for (int ordre=2;ordre<max_series_expansion_order;ordre=2*ordre){
       sparse_poly1 s=series__SPOL1(g,*x._IDNTptr,a,ordre,0,contextptr);
       int n=s.size();
-      if (n && is_undef(s[0].coeff))
+      if (n && (is_undef(s[0].coeff) || is_undef(s[0].exponent)))
 	continue; // stop the loop, try a larger order
       for (int i=0;i<n;++i){
 	gen e1=s[i].exponent+1;

@@ -469,7 +469,9 @@ namespace giac {
     // ok each factor of F0=pcur|0 is square free, they are prime together
     // if lcp has too much terms it will take too long, because
     // we must multiply by product(lcoeffs)/lcp
-    if (!lcoeff_known && std::pow(double(lcp.coord.size()),s-1)>100)
+    // next check was >100 but then heuristic factorization fails
+    // (depends on the size of the coeffs)
+    if (!lcoeff_known && std::pow(double(lcp.coord.size()),s-1)>1e5)
       return false;
     // we will lift pcur*product(lcoeffs)/lcp = product_i F0fact[i]*lcoeffs[i](b)/lcoeff(F0fact[i])
     for (int i=0;i<s;++i){
@@ -492,6 +494,7 @@ namespace giac {
 	}
       }
     }
+    // Perhaps the check on lcp should be made here with pcur_adjusted
     vector<modpoly> u;
     if (!egcd(F0fact,0,u))
       return false;// sum_j U_j * product_{i \neq j} F0fact_i = 1
