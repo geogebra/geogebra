@@ -941,7 +941,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 				//node.setSelected(true);
 				//ensureSelectedItemVisible();
 
-				((RadioButtonTreeItem)node.getWidget()).update();
+				((RadioButtonTreeItem)node.getWidget()).updateOnNextRepaint();
+				repaint();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1392,21 +1393,22 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	 * Otherwise call repaint() instead.
 	 */
 	public void doRepaint() {
-
 		app.getTimerSystem().viewRepainting(this);
-
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement) {
-				((RadioButtonTreeItem)getItem(i).getWidget()).update();
+				((RadioButtonTreeItem)getItem(i).getWidget()).repaint();
 				getItem(i).setSelected(
 					((GeoElement)geo).doHighlighting());
 			} else {
 				((InlineLabelTreeItem)getItem(i).getWidget()).setText(
 					getItem(i).getUserObject().toString());
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {
+					if(getItem(i).getChild(j).getWidget() instanceof RadioButtonTreeItem){
+						((RadioButtonTreeItem)getItem(i).getChild(j).getWidget()).repaint();
+					}
 					geo = getItem(i).getChild(j).getUserObject();
 					if (geo instanceof GeoElement)
 						getItem(i).getChild(j).setSelected(
@@ -1414,7 +1416,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 				}
 			}
 		}
-
 		app.getTimerSystem().viewRepainted(this);
 	}
 

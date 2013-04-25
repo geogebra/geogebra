@@ -184,6 +184,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
+		this.moveIfWaiting();
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
 			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
@@ -287,6 +288,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		this.moveIfWaiting();
 		DRAGMODE_MUST_BE_SELECTED = false;
 		event.preventDefault();	
 		
