@@ -193,21 +193,21 @@ public class CmdGetTime extends CommandProcessor {
 			case 'F': 
 				sb.append(monthStr);break;
 			case 'm': 
-				if(month<10){
-					sb.append(0).append(month);
+				if(m<10){
+					sb.append(0).append(m);
 					}
 				else{
-					sb.append(month);
+					sb.append(m);
 					}
 				break;
 			case 'M':
 				sb.append(monthStr.substring(0,3));
 				break;
 			case 'n': 
-				sb.append(month);
+				sb.append(m);
 				break;
 			case 't': 
-				switch(month)
+				switch(m)
 				{
 				case 1: 
 				case 3: 
