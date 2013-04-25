@@ -10,6 +10,8 @@ import geogebra3D.App3D;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -28,6 +30,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final int TOOLTIP_LOCATION_X = 0;
+	private static final int TOOLTIP_LOCATION_Y = -25;
+	
 	
 	
 	private PopupMenuButton btnRotateView, btnClipping;
@@ -128,6 +134,67 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			super.processSource(source, targetGeos);
 	}
 
+	
+	private class MyToggleButtonAlwaysVisible extends MyToggleButton{
+		
+		public MyToggleButtonAlwaysVisible(ImageIcon icon, int height){
+			super(icon,height);
+			
+		}
+		
+		@Override
+		public void update(Object[] geos) {
+			// always show this button unless in pen mode
+			this.setVisible(mode != EuclidianConstants.MODE_PEN);
+		}
+		
+
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+		}
+		
+	}
+	
+	private class MyToggleButtonVisibleIfNoGeo extends MyToggleButton{
+		
+		public MyToggleButtonVisibleIfNoGeo(ImageIcon icon, int height){
+			super(icon,height);
+			
+		}
+
+		@Override
+		public void update(Object[] geos) {
+			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
+		}
+
+
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+		}
+		
+	}
+
+	private class PopupMenuButtonForView3D extends PopupMenuButton{
+
+		public PopupMenuButtonForView3D(){
+			super(app, null, -1, -1, new Dimension(18, 18), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true);
+		}
+
+		@Override
+		public void update(Object[] geos) {
+			this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
+		}
+		
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+		}
+		
+
+	}
+	
 	@Override
 	protected void createButtons() {
 
@@ -135,29 +202,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		// ========================================
 		// show grid button
-		btnShowPlane = new MyToggleButton(app.getImageIcon("plane.gif"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
-			}
-		};
+		btnShowPlane = new MyToggleButtonAlwaysVisible(app.getImageIcon("plane.gif"),
+				iconHeight);
 		btnShowPlane.addActionListener(this);
 
 		
 		//========================================
 		// rotate view button
-		btnRotateView = new PopupMenuButton(app, null, -1, -1, new Dimension(18, 18), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true){
-			private static final long serialVersionUID = 1L;
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
-			}
-		};		
+		btnRotateView = new PopupMenuButtonForView3D();	
 		btnRotateView.setIcon(app.getImageIcon("stylebar_rotateview.gif"));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
@@ -173,13 +225,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		//========================================
 		// clipping button
-		btnClipping = new PopupMenuButton(app, null, -1, -1, new Dimension(18, 18), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true){
-			private static final long serialVersionUID = 1L;
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
-			}
-		};		
+		btnClipping = new PopupMenuButtonForView3D();	
 		btnClipping.setIcon(app.getImageIcon("stylebar_clipping.gif"));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
@@ -202,50 +248,26 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		//========================================
 		// view perspective button	
-		btnViewDefault = new MyToggleButton(app.getImageIcon("view_default.gif"), iconHeight) {
-			private static final long serialVersionUID = 1L;
-		      @Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
-		      }
-		};
+		btnViewDefault = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_default.gif"), iconHeight);
 		
 		btnViewDefault.addActionListener(this);
 		
 		
 		//========================================
 		// view xy button	
-		btnViewXY = new MyToggleButton(app.getImageIcon("view_xy.gif"), iconHeight) {
-			private static final long serialVersionUID = 1L;
-		      @Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
-		      }
-		};
+		btnViewXY = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_xy.gif"), iconHeight);
 		
 		btnViewXY.addActionListener(this);
 		
 		//========================================
 		// view xz button	
-		btnViewXZ = new MyToggleButton(app.getImageIcon("view_xz.gif"), iconHeight) {
-			private static final long serialVersionUID = 1L;
-		      @Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
-		      }
-		};
+		btnViewXZ = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_xz.gif"), iconHeight);
 		
 		btnViewXZ.addActionListener(this);		
 		
 		//========================================
 		// view yz button	
-		btnViewYZ = new MyToggleButton(app.getImageIcon("view_yz.gif"), iconHeight) {
-			private static final long serialVersionUID = 1L;
-		      @Override
-			public void update(Object[] geos) {
-				this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
-		      }
-		};
+		btnViewYZ = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("view_yz.gif"), iconHeight);
 		
 		btnViewYZ.addActionListener(this);	
 		
@@ -271,6 +293,11 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		@Override
 		public void update(Object[] geos) {
 			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
+		}
+		
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 		}
 
 	}
