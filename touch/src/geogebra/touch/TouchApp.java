@@ -19,7 +19,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;

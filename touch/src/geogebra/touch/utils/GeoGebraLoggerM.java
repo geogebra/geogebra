@@ -8,7 +8,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-import geogebra.common.util.GeoGebraLogger;
+import geogebra.common.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 
 public class GeoGebraLoggerM extends GeoGebraLogger {
