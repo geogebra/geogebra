@@ -7,7 +7,6 @@ import geogebra.web.awt.GColorW;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 

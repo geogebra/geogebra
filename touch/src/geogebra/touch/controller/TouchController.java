@@ -16,7 +16,6 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
-import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.Swipeables;
@@ -89,6 +88,12 @@ public class TouchController extends EuclidianController
 
 	public void onTouchStart(int x, int y)
 	{
+		if(this.mode != this.model.getCommand().getMode())
+		{
+			setMode(this.model.getCommand().getMode()); 
+			switchPreviewableForInitNewMode(this.model.getCommand().getMode()); 
+		}
+		
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
 		handleEvent(x, y);
@@ -110,7 +115,9 @@ public class TouchController extends EuclidianController
 		if (this.clicked
 				&& (this.clicked = this.model.controlClicked())
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
-						.getCommand() == ToolBarCommand.RotateAroundPoint))
+						.getCommand() == ToolBarCommand.RotateAroundPoint || this.model
+						.getCommand() == ToolBarCommand.Pen || this.model
+						.getCommand() == ToolBarCommand.FreehandShape))
 		{
 			GeoGebraProfiler.drags++;
 			long time = System.currentTimeMillis();
@@ -166,16 +173,21 @@ public class TouchController extends EuclidianController
 		{
 			handleEvent(x, y);
 		}
-
-		if (this.model.getCommand().equals(ToolBarCommand.Move_Mobile)
+		
+		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
 				&& this.view.getHits().size() > 0)
 		{
 			this.kernel.storeUndoInfo();
 		}
 		
-		if (this.model.getCommand().equals(ToolBarCommand.RotateAroundPoint) && Math.abs(this.rotationLastAngle) > 0.001)
+		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint && Math.abs(this.rotationLastAngle) > 0.001)
 		{
 			this.kernel.storeUndoInfo(); 
+		}
+		
+		if(this.model.getCommand() == ToolBarCommand.Pen || 
+				this.model.getCommand() == ToolBarCommand.FreehandShape){
+			wrapMouseReleased(new MobileMouseEvent(x, y)); 
 		}
 	}
 

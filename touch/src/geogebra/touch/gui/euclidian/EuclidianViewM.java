@@ -10,7 +10,6 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.touch.controller.TouchController;
@@ -18,8 +17,6 @@ import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.javax.swing.GBoxW;
-import geogebra.web.main.AppWeb;
-import geogebra.web.main.DrawEquationWeb;
 
 import java.util.List;
 

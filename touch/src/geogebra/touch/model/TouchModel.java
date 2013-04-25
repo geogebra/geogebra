@@ -659,7 +659,8 @@ public class TouchModel
 		case DeleteObject:
 			for (GeoElement geo : hits)
 			{
-				geo.remove();
+				// geo.remove();
+				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			}
 			this.commandFinished = true;
 			break;

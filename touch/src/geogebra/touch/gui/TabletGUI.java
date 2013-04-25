@@ -147,9 +147,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		int euclidianWidth = event.getWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
 		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, euclidianWidth);
 		this.euclidianViewPanel.setPixelSize(euclidianWidth, event.getHeight() - this.laf.getPanelsHeight());
-		this.euclidianViewPanel.setWidgetPosition(TabletGUI.this.stylingBar, (int) (euclidianWidth - this.contentPanel.getWidgetSize(this.stylingBar)
-		    .doubleValue()), 10);
-
+		
 		this.toolBar.setWidth(event.getWidth() + "px");
 
 		this.touchModel.getGuiModel().closeOptions();

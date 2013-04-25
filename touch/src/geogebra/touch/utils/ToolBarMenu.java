@@ -53,12 +53,13 @@ public enum ToolBarMenu
 	    ToolBarCommand.TranslateObjectByVector }),
 
 	// TODO:
-	// SpecialObject(ToolBarCommand.InsertText, new ToolBarCommand[] {
+	 SpecialObject(ToolBarCommand.Pen /*TODO: ToolBarCommand.InsertText*/, new ToolBarCommand[] {
 	// ToolBarCommand.InsertText,
 	// ToolBarCommand.InsertImage,
-	// ToolBarCommand.Pen,
-	// ToolBarCommand.FreehandShape,
-	// ToolBarCommand.RelationBetweenTwoObjects }),
+	 ToolBarCommand.Pen,
+	 ToolBarCommand.FreehandShape
+	//, ToolBarCommand.RelationBetweenTwoObjects 
+			 }),
 
 	// TODO:
 	// ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {

@@ -73,8 +73,7 @@ public class ToolBar extends HorizontalPanel
 		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model.getGuiModel()));
-		// TODO: this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject,
-		// touchModel.getGuiModel());
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, model.getGuiModel()));
 		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
 		// touchModel.getGuiModel());
 
