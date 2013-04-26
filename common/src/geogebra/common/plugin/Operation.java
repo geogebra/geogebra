@@ -1368,4 +1368,51 @@ public enum Operation {
 		return this.equals(GREATER_EQUAL) || this.equals(GREATER) 
 				|| this.equals(LESS) || this.equals(LESS_EQUAL);
 	}
+
+	/**
+	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
+	 */
+	public Operation negate() {
+		switch (this) {
+		case GREATER:
+			return Operation.LESS_EQUAL;
+		case GREATER_EQUAL:
+			return Operation.LESS;
+		case LESS:
+			return Operation.GREATER_EQUAL;
+		case LESS_EQUAL:
+			return Operation.GREATER;
+		case EQUAL_BOOLEAN:
+			return Operation.NOT_EQUAL;
+		case NOT_EQUAL:
+			return Operation.EQUAL_BOOLEAN;
+		default:
+			return Operation.NOT;
+		}
+	}
+	
+	/**
+	 * @return operation swapped left to right
+	 */
+	public Operation reverseLeftToRight() {
+		switch (this) {
+		case GREATER:
+			return Operation.LESS;
+		case GREATER_EQUAL:
+			return Operation.LESS_EQUAL;
+		case LESS:
+			return Operation.GREATER;
+		case LESS_EQUAL:
+			return Operation.GREATER_EQUAL;
+		case EQUAL_BOOLEAN:
+			return Operation.EQUAL_BOOLEAN;
+		case NOT_EQUAL:
+			return Operation.NOT_EQUAL;
+		}
+		
+		return Operation.NO_OPERATION;
+	}
 }
+
+
+

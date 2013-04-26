@@ -1887,11 +1887,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sless", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, stringType);
-				// sb.append(leftStr);
-				appendLessSign(sb,stringType);
-				append(sb, rightStr, right, operation, stringType);
-				// sb.append(rightStr);
+				
+				appendInequality(sb, leftStr, rightStr, stringType);				
 			}
 			break;
 
@@ -1901,11 +1898,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, stringType);
-				// sb.append(leftStr);
-				appendGreaterSign(sb,stringType);
-				append(sb, rightStr, right, operation, stringType);
-				// sb.append(rightStr);
+				appendInequality(sb, leftStr, rightStr, stringType);				
 			}
 			break;
 
@@ -1915,11 +1908,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, stringType);
-				// sb.append(leftStr);
-				appendLeqSign(sb,stringType);
-				append(sb, rightStr, right, operation, stringType);
-				// sb.append(rightStr);
+				appendInequality(sb, leftStr, rightStr, stringType);				
 			}
 			break;
 
@@ -1929,11 +1918,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
-				append(sb, leftStr, left, operation, stringType);
-				// sb.append(leftStr);
-				appendGeqSign(sb,stringType);
-				append(sb, rightStr, right, operation, stringType);
-				// sb.append(rightStr);
+				appendInequality(sb, leftStr, rightStr, stringType);				
 			}
 			break;
 
@@ -4453,6 +4438,43 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
+	private void appendInequality(StringBuilder sb, String leftStr, String rightStr, StringType stringType) {
+		
+		Operation op2 = operation;
+		ExpressionValue left2 = left;
+		ExpressionValue right2 = right;
+		
+		if (rightStr.length() == 1 && !StringUtil.isDigit(rightStr.charAt(0))
+				&& stringType == StringType.GEOGEBRA) {
+			// eg turn 3 > x into x < 3
+			
+			op2 = op2.reverseLeftToRight();
+			ExpressionValue tempLeft = left2;
+			String tempLeftStr = leftStr;
+			leftStr = rightStr;
+			left2 = right2;
+			rightStr = tempLeftStr;
+			right2 = tempLeft;
+						
+		}
+		
+		append(sb, leftStr, left, operation, stringType);
+		
+		
+		switch (op2) {
+		case LESS: appendLessSign(sb,stringType); break;
+		case LESS_EQUAL: appendLeqSign(sb,stringType); break;
+		case GREATER: appendGreaterSign(sb,stringType); break;
+		case GREATER_EQUAL: appendGeqSign(sb,stringType); break;
+		default: throw new Error("invalid inequality "+op2);
+		}
+		
+		append(sb, rightStr, right, operation, stringType);
+
+		
+		
+	}
+
 	private void appendGeqSign(StringBuilder sb, StringType stringType) {
 		sb.append(' ');
 		switch (stringType) {
@@ -5553,24 +5575,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
 	 */
 	public ExpressionNode negation() {
-		switch (this.operation) {
-		case GREATER:
-			return new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);
-		case GREATER_EQUAL:
-			return new ExpressionNode(kernel, left, Operation.LESS, right);
-		case LESS:
-			return new ExpressionNode(kernel, left, Operation.GREATER_EQUAL,
-					right);
-		case LESS_EQUAL:
-			return new ExpressionNode(kernel, left, Operation.GREATER, right);
-		case EQUAL_BOOLEAN:
-			return new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);
-		case NOT_EQUAL:
-			return new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN,
-					right);
-		default:
-			return new ExpressionNode(kernel, this, Operation.NOT, null);
-		}
+		
+		return new ExpressionNode(kernel, left, this.operation.negate(), right);
+		
 	}
 
 	/**
