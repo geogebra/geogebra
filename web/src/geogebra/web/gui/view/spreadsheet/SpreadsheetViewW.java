@@ -1447,7 +1447,9 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInte
 
 				dockPanel.setWidth(width+"px");
 
-				app.getGuiManager().getAlgebraInput().onResize();
+				if (app.getGuiManager().getAlgebraInput() != null)
+					app.getGuiManager().getAlgebraInput().onResize();
+
 				app.getSplitLayoutPanel().setWidth(widthComputed+"px");
 				app.getGeoGebraFrame().setWidth(widthComputed+"px");
 			}
