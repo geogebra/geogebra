@@ -283,13 +283,14 @@ public class EuclidianStyleBarW extends StyleBarW
 			// we also update stylebars according to just created geos
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
-
+		long l = System.currentTimeMillis();
 		updateButtons();
-
+		App.debug(System.currentTimeMillis()-l);
 		// show the pen delete button
 		// TODO: handle pen mode in code above
 		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
 		addButtons();
+		App.debug(System.currentTimeMillis()-l);
     }
 	
 
@@ -298,15 +299,21 @@ public class EuclidianStyleBarW extends StyleBarW
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
+		double l = System.currentTimeMillis();
 		Object[] geos = activeGeoList.toArray();
 		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
+		App.debug("tabletext"+(System.currentTimeMillis()-l));
 		for (int i = 0; i < popupBtnList.length; i++) {
-			if (popupBtnList[i] != null)//null pointer fix until necessary
+			if (popupBtnList[i] != null){//null pointer fix until necessary
 				popupBtnList[i].update(geos);
+				App.debug(i+"popup"+(System.currentTimeMillis()-l));
+			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			if (toggleBtnList[i] != null)//null pointer fix until necessary
+			if (toggleBtnList[i] != null){//null pointer fix until necessary
 				toggleBtnList[i].update(geos);
+				App.debug(i+"toggle"+(System.currentTimeMillis()-l));
+			}
 		}
 
 	}
@@ -451,8 +458,6 @@ public class EuclidianStyleBarW extends StyleBarW
 				AppResources.INSTANCE.delete_small(),
 				iconHeight) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
@@ -466,8 +471,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnLabel = new MyToggleButton2(
 				AppResources.INSTANCE.mode_copyvisualstyle_16(),
 				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -485,8 +488,6 @@ public class EuclidianStyleBarW extends StyleBarW
 				AppResources.INSTANCE.mode_copyvisualstyle_16(),
 				iconHeight) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE));
@@ -503,8 +504,6 @@ public class EuclidianStyleBarW extends StyleBarW
 			AppResources.INSTANCE.axes(),
 			iconHeight) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
@@ -520,8 +519,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnShowGrid = new MyToggleButton2(
 			AppResources.INSTANCE.grid(),
 			iconHeight) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -545,8 +542,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		// create button
 		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
 				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -628,8 +623,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 				GeoElement geo;
@@ -690,8 +683,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnPenEraser = new MyToggleButton2(AppResources.INSTANCE.delete_small(),
 				iconHeight) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 				this.setVisible(EuclidianView.isPenMode(mode));
@@ -710,8 +701,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		// hide/show label button
 		btnHideShowLabel = new MyToggleButton2(
 				AppResources.INSTANCE.mode_showhidelabel_16(), iconHeight) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -753,8 +742,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		btnLabelStyle = new PopupMenuButton((AppW) app, captionArray, -1, 1,
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -821,9 +808,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		// ========================================
 		// point capture button
 
-		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
-				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
-				app.getMenu("off") };
+		
 		
 		
 		// =====================================================
@@ -856,8 +841,6 @@ public class EuclidianStyleBarW extends StyleBarW
 			final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
 			btnColor = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
-
-				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void update(Object[] geos) {
@@ -935,8 +918,6 @@ public class EuclidianStyleBarW extends StyleBarW
 			btnBgColor = new ColorPopupMenuButton((AppW) app, bgColorIconSize,
 					ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
-				private static final long serialVersionUID = 1L;
-
 				@Override
 				public void update(Object[] geos) {
 
@@ -998,8 +979,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnTextColor = new ColorPopupMenuButton((AppW) app, textColorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
-			private static final long serialVersionUID = 1L;
-
 			private geogebra.common.awt.GColor geoColor;
 
 			@Override
@@ -1052,8 +1031,6 @@ public class EuclidianStyleBarW extends StyleBarW
 				AppResources.INSTANCE.format_text_bold(),
 				iconHeight) {
 
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void update(Object[] geos) {
 
@@ -1078,8 +1055,6 @@ public class EuclidianStyleBarW extends StyleBarW
 		btnItalic = new MyToggleButton2(
 				AppResources.INSTANCE.format_text_italic(),
 				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -1107,8 +1082,6 @@ public class EuclidianStyleBarW extends StyleBarW
 
 		btnTextSize = new PopupMenuButton((AppW) app, textSizeArray, -1, 1,
 				new GDimensionW(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
