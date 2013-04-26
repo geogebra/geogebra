@@ -31,8 +31,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final int TOOLTIP_LOCATION_X = 0;
-	private static final int TOOLTIP_LOCATION_Y = -25;
 	
 	
 	
@@ -135,46 +133,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 
 	
-	private class MyToggleButtonAlwaysVisible extends MyToggleButton{
-		
-		public MyToggleButtonAlwaysVisible(ImageIcon icon, int height){
-			super(icon,height);
-			
-		}
-		
-		@Override
-		public void update(Object[] geos) {
-			// always show this button unless in pen mode
-			this.setVisible(mode != EuclidianConstants.MODE_PEN);
-		}
-		
-
-		@Override
-		public Point getToolTipLocation(MouseEvent e) {
-			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
-		}
-		
-	}
-	
-	private class MyToggleButtonVisibleIfNoGeo extends MyToggleButton{
-		
-		public MyToggleButtonVisibleIfNoGeo(ImageIcon icon, int height){
-			super(icon,height);
-			
-		}
-
-		@Override
-		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
-		}
-
-
-		@Override
-		public Point getToolTipLocation(MouseEvent e) {
-			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
-		}
-		
-	}
 
 	private class PopupMenuButtonForView3D extends PopupMenuButton{
 

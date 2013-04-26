@@ -31,8 +31,10 @@ import geogebra.main.AppD;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,6 +52,81 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	/***/
 	private static final long serialVersionUID = 1L;
+	
+	
+
+	/**
+	 * Class for buttons always visible
+	 * @author mathieu
+	 * 
+	 */
+	protected class MyToggleButtonAlwaysVisible extends MyToggleButton{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+
+		/**
+		 * constructor
+		 * @param icon icon of the button
+		 * @param height height of the button
+		 */
+		public MyToggleButtonAlwaysVisible(ImageIcon icon, int height){
+			super(icon,height);
+			
+		}
+		
+		@Override
+		public void update(Object[] geos) {
+			// always show this button unless in pen mode
+			this.setVisible(mode != EuclidianConstants.MODE_PEN);
+		}
+		
+
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+		}
+		
+	}
+	
+	/**
+	 * Class for buttons visible only when no geo is selected
+	 * 
+	 * @author mathieu
+	 *
+	 */
+	protected class MyToggleButtonVisibleIfNoGeo extends MyToggleButton{
+		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * constructor
+		 * @param icon icon of the button
+		 * @param height height of the button
+		 */
+		public MyToggleButtonVisibleIfNoGeo(ImageIcon icon, int height){
+			super(icon,height);
+			
+		}
+
+		@Override
+		public void update(Object[] geos) {
+			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
+		}
+
+
+		@Override
+		public Point getToolTipLocation(MouseEvent e) {
+			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+		}
+		
+	}
 
 	// ggb
 	EuclidianControllerD ec;
@@ -451,6 +528,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
 						|| EuclidianView.isPenMode(mode));
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 		btnPen.addActionListener(this);
 		// add(btnPen);
@@ -469,6 +551,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
 						|| mode == EuclidianConstants.MODE_DELETE);
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 		btnDelete.addActionListener(this);
 		add(btnDelete);
@@ -484,7 +571,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				this.setVisible(mode==EuclidianConstants.MODE_DELETE);
 			}
 			
-			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 			
 		};
 		btnDeleteSize.getMySlider().setMinimum(10);
@@ -497,34 +587,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButton(app.getImageIcon("axes.gif"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
-			}
-		};
-
+		btnShowAxes = new MyToggleButtonAlwaysVisible(app.getImageIcon("axes.gif"), iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addActionListener(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButton(app.getImageIcon("grid.gif"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
-			}
-		};
+		btnShowGrid = new MyToggleButtonAlwaysVisible(app.getImageIcon("grid.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
 
@@ -598,6 +667,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.width,
 						lineStyleIconSize.height);
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 
 		};
@@ -674,6 +748,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.width,
 						pointStyleIconSize.height);
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 		};
 		btnPointStyle.getMySlider().setMinimum(1);
@@ -755,6 +834,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			public ImageIcon getButtonIcon() {
 				return (ImageIcon) this.getIcon();
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 		ImageIcon ic = app.getImageIcon("mode_showhidelabel_16.gif");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
@@ -814,6 +898,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					
 				}
 				return true;
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 
 		};
@@ -895,6 +984,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					}
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 
 		};
 
@@ -960,6 +1054,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					}
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
+			
 		};
 		btnBgColor.setKeepVisible(true);
 		btnBgColor.setStandardButton(true); // popup on the whole button
@@ -1029,6 +1129,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
 						null);
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 
 		};
 
@@ -1057,6 +1162,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 							|| style == (Font.BOLD + Font.ITALIC));
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 		btnBold.addActionListener(this);
 
@@ -1082,6 +1192,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					btnItalic.setSelected(style == Font.ITALIC
 							|| style == (Font.BOLD + Font.ITALIC));
 				}
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 
 		};
@@ -1113,6 +1228,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 														// -4 to 4, transform
 														// this to 0,1,..,4
 				}
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 		};
 		btnTextSize.addActionListener(this);
@@ -1156,6 +1276,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					this.setVisible(false);
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 
 		btnTableTextJustify.addActionListener(this);
@@ -1198,6 +1323,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					this.setVisible(false);
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 
 		btnTableTextBracket.addActionListener(this);
@@ -1219,6 +1349,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					setVisible(false);
 				}
 			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
+			}
 		};
 		btnTableTextLinesV.addActionListener(this);
 
@@ -1237,6 +1372,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				} else {
 					setVisible(false);
 				}
+			}
+			
+			@Override
+			public Point getToolTipLocation(MouseEvent e) {
+				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
 		};
 		btnTableTextLinesH.addActionListener(this);
