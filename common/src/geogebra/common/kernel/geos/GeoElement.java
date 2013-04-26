@@ -1184,6 +1184,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case CONIC:
 		case CONICPART:
 		case CONIC3D:
+		case CONICSECTION:
 			typePriority = 70;
 			break;
 		case ANGLE:
