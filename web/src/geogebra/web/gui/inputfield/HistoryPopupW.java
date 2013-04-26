@@ -38,7 +38,11 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHand
 		}
 		historyList.clear();
 		for (String link : list) {
-	        Anchor a = new Anchor(link);
+			
+			//With this constructor, there is no default href added to anchor,
+			//in this way, there is no "Javascript:;" popup on the left bottom corner of Chrome.
+	        Anchor a = new Anchor(false);	        
+	        a.setText(link);
 	        a.addClickHandler(this);
 	        //sadly, it is not so nice, but I can't attach it to historyList :-(
 	        a.addKeyUpHandler(this);
