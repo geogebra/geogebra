@@ -2639,6 +2639,7 @@ __GGB__keysVar.sl.plain = {
     "stylebar_Bracket": "Slog oklepajev",
     "stylebar_Caption": "Slog naslova",
     "stylebar_Capture": "Slog ozna\u010devanja to\u010dk",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Izbira barve",
     "stylebar_ColorTransparency": "Izbira barve in prosojnosti",
     "stylebar_CopyVisualStyle": "Kopiranje sloga",

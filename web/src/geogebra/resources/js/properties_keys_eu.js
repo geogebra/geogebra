@@ -2639,6 +2639,7 @@ __GGB__keysVar.eu.plain = {
     "stylebar_Bracket": "Ezarri parentesien estiloa",
     "stylebar_Caption": "Ezarri azpitituluen estiloa",
     "stylebar_Capture": "Ezarri puntu-kapturaren estiloa",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Ezarri kolorea",
     "stylebar_ColorTransparency": "Ezari Kolorea eta Gardentasuna",
     "stylebar_CopyVisualStyle": "Kopiatu ikuspegi-estiloa",

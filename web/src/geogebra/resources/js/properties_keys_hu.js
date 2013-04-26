@@ -2639,6 +2639,7 @@ __GGB__keysVar.hu.plain = {
     "stylebar_Bracket": "Z\xe1r\xf3jel st\xedlusa",
     "stylebar_Caption": "Felirat",
     "stylebar_Capture": "Pont elfog\xe1s",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Sz\xedn",
     "stylebar_ColorTransparency": "Sz\xedn & kit\xf6lt\xe9s",
     "stylebar_CopyVisualStyle": "V\xedzu\xe1lis st\xedlus m\xe1sol\xe1sa",

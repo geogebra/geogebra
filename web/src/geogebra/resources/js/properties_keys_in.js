@@ -2639,6 +2639,7 @@ __GGB__keysVar.in.plain = {
     "stylebar_Bracket": "Atur format tanda kurung",
     "stylebar_Caption": "Atur format keterangan",
     "stylebar_Capture": "Atur format titik tangkap",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Atur warna",
     "stylebar_ColorTransparency": "Atur warna dan transparansi",
     "stylebar_CopyVisualStyle": "Salin Format Tampilan",

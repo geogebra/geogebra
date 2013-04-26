@@ -2639,6 +2639,7 @@ __GGB__keysVar.de_AT.plain = {
     "stylebar_Bracket": "Klammerndarstellung",
     "stylebar_Caption": "Beschriftung",
     "stylebar_Capture": "Punktfang",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Farbe",
     "stylebar_ColorTransparency": "Farbe und Transparenz",
     "stylebar_CopyVisualStyle": "Format \xfcbertragen",

@@ -2639,6 +2639,7 @@ __GGB__keysVar.is.plain = {
     "stylebar_Bracket": "Setja svigager\xf0",
     "stylebar_Caption": "Setja \xfatlit sk\xfdringartexta",
     "stylebar_Capture": "Setja punktaf\xf6ngun",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Setja lit",
     "stylebar_ColorTransparency": "Setja lit og gegns\xe6i",
     "stylebar_CopyVisualStyle": "Afrita \xfatlit",

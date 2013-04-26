@@ -2639,6 +2639,7 @@ __GGB__keysVar.gl.plain = {
     "stylebar_Bracket": "Fixa o estilo das chaves",
     "stylebar_Caption": "Fixa o estilo de subt\xedtulo",
     "stylebar_Capture": "Fixa o estilo de punto de captura",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Fixa a cor",
     "stylebar_ColorTransparency": "Fixa cor e transparencia",
     "stylebar_CopyVisualStyle": "Copia estilo visual",

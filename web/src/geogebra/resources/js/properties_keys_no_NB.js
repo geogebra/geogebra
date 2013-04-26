@@ -2639,6 +2639,7 @@ __GGB__keysVar.no_NB.plain = {
     "stylebar_Bracket": "Velg parentestype",
     "stylebar_Caption": "Velg tekststil",
     "stylebar_Capture": "Velg type punktstyring",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Velg farge",
     "stylebar_ColorTransparency": "Velg farge og gjennomsiktighet",
     "stylebar_CopyVisualStyle": "Kopier stil og useende",

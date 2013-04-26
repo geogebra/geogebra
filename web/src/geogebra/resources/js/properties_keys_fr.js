@@ -2639,6 +2639,7 @@ __GGB__keysVar.fr.plain = {
     "stylebar_Bracket": "Parenth\xe8ses",
     "stylebar_Caption": "L\xe9gende",
     "stylebar_Capture": "Capture",
+    "stylebar_Clipping": "Espace Restreint",
     "stylebar_Color": "Couleur",
     "stylebar_ColorTransparency": "Couleur et Opacit\xe9",
     "stylebar_CopyVisualStyle": "Copier le style graphique",

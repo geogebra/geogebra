@@ -2639,6 +2639,7 @@ __GGB__keysVar.ja.plain = {
     "stylebar_Bracket": "\u30d6\u30e9\u30b1\u30c3\u30c8\u306e\u30b9\u30bf\u30a4\u30eb\u3092\u8a2d\u5b9a",
     "stylebar_Caption": "\u898b\u51fa\u3057\u30b9\u30bf\u30a4\u30eb\u3092\u8a2d\u5b9a",
     "stylebar_Capture": "\u70b9\u3092\u3064\u304b\u3080\u30b9\u30bf\u30a4\u30eb\u3092\u8a2d\u5b9a",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "\u8272\u3092\u8a2d\u5b9a",
     "stylebar_ColorTransparency": "\u8272\u3068\u900f\u904e\u7387\u3092\u8a2d\u5b9a",
     "stylebar_CopyVisualStyle": "\u8868\u793a\u30b9\u30bf\u30a4\u30eb\u3092\u30b3\u30d4\u30fc",

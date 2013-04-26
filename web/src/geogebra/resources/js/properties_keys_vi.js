@@ -2639,6 +2639,7 @@ __GGB__keysVar.vi.plain = {
     "stylebar_Bracket": "Thi\u1ebft l\u1eadp ki\u1ec3u ngo\u1eb7c",
     "stylebar_Caption": "Thi\u1ebft l\u1eadp ki\u1ec3u \u0111\u1eb7t t\xean",
     "stylebar_Capture": "Thi\u1ebft l\u1eadp ki\u1ec3u ch\u1ee5p h\xecnh",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Thi\u1ebft l\u1eadp m\xe0u",
     "stylebar_ColorTransparency": "Thi\u1ebft l\u1eadp m\xe0u v\xe0 s\u1ef1 trong su\u1ed1t",
     "stylebar_CopyVisualStyle": "Sao ch\xe9p ki\u1ec3u nh\xecn th\u1ea5y",

@@ -2639,6 +2639,7 @@ __GGB__keysVar.ro.plain = {
     "stylebar_Bracket": "Stabile\u0219te stil paranteze",
     "stylebar_Caption": "Stabile\u0219te stil legend\u0103",
     "stylebar_Capture": "Stabile\u0219te stil captur\u0103 puncte",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Stabile\u0219te culoare",
     "stylebar_ColorTransparency": "Stabile\u0219te culoare \u0219i transparen\u021b\u0103",
     "stylebar_CopyVisualStyle": "Copiere stil vizual",

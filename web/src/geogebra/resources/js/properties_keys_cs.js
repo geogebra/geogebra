@@ -2639,6 +2639,7 @@ __GGB__keysVar.cs.plain = {
     "stylebar_Bracket": "Nastaven\xed stylu z\xe1vorky",
     "stylebar_Caption": "Nastaven\xed stylu popisku",
     "stylebar_Capture": "Nastaven\xed stylu bodu",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Nastavit barvu",
     "stylebar_ColorTransparency": "Nastaven\xed barvy a pr\u016fhlednosti",
     "stylebar_CopyVisualStyle": "Kop\xedrov\xe1n\xed vizu\xe1ln\xedho stylu",

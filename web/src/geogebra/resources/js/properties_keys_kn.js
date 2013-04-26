@@ -16,7 +16,7 @@ __GGB__keysVar.kn = {}
  ***********************************************/
 
 __GGB__keysVar.kn.colors = {
-    "aqua": "\u0c86\u0c95\u0ccd\u0cb5\u0cbe",
+    "aqua": "\u0c95\u0ca1\u0cb2\u0cc1\u0ca8\u0cc0\u0cb2\u0cbf",
     "black": "\u0c95\u0caa\u0ccd\u0caa\u0cc1",
     "blue": "\u0ca8\u0cc0\u0cb2\u0cbf",
     "brown": "\u0c95\u0c82\u0ca6\u0cc1",
@@ -2639,6 +2639,7 @@ __GGB__keysVar.kn.plain = {
     "stylebar_Bracket": "Set bracket style",
     "stylebar_Caption": "Set caption style",
     "stylebar_Capture": "Set point capture style",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Set color",
     "stylebar_ColorTransparency": "Set Color and Transparency",
     "stylebar_CopyVisualStyle": "Copy visual style",

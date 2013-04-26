@@ -2639,6 +2639,7 @@ __GGB__keysVar.da.plain = {
     "stylebar_Bracket": "Indstil paranteser",
     "stylebar_Caption": "Indstil undertekst",
     "stylebar_Capture": "Indstil hvordan et punkt \"fanges\"",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Indstil farve",
     "stylebar_ColorTransparency": "Indstil farve og gennemsigtighed",
     "stylebar_CopyVisualStyle": "Kopier stil",

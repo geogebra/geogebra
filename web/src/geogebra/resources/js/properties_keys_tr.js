@@ -2639,6 +2639,7 @@ __GGB__keysVar.tr.plain = {
     "stylebar_Bracket": "Parantez sitilini ayarla",
     "stylebar_Caption": "Ba\u015fl\u0131k sitilini ayarla",
     "stylebar_Capture": "Nokta yakalama sitilini ayarla",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Renk ayarla",
     "stylebar_ColorTransparency": "Renk ve \u015eeffafl\u0131k ayarla",
     "stylebar_CopyVisualStyle": "G\xf6rsel Sitili kopyala",

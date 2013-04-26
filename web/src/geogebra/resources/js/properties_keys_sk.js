@@ -2639,6 +2639,7 @@ __GGB__keysVar.sk.plain = {
     "stylebar_Bracket": "nastavi\u0165 \u0161t\xfdl",
     "stylebar_Caption": "nastavi\u0165 \u0161t\xfdl popisky",
     "stylebar_Capture": "nastavi\u0165 \u0161t\xfdl uchopen\xe9ho bodu",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "nastavi\u0165 farbu",
     "stylebar_ColorTransparency": "nastavi\u0165 farbu a prieh\u013eadnos\u0165",
     "stylebar_CopyVisualStyle": "kop\xedrova\u0165 form\xe1t",

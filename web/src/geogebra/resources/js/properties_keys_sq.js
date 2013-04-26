@@ -2639,6 +2639,7 @@ __GGB__keysVar.sq.plain = {
     "stylebar_Bracket": "Vendos stil kllapash",
     "stylebar_Caption": "Vendos stil kutize sqaruese",
     "stylebar_Capture": "Vendos stil per spjegues pike",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Vendos ngjyre",
     "stylebar_ColorTransparency": "Vendos Ngjyre dhe Transparence",
     "stylebar_CopyVisualStyle": "Kopjo stilin vizual",

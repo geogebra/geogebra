@@ -2639,6 +2639,7 @@ __GGB__keysVar.cy.plain = {
     "stylebar_Bracket": "Gosod arddull cromfachau",
     "stylebar_Caption": "Gosod arddull testun",
     "stylebar_Capture": "Gosod arddull ciplinio pwynt",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Gosod lliw",
     "stylebar_ColorTransparency": "Gosod lliw a thryloywder",
     "stylebar_CopyVisualStyle": "Copio'r arddull gweledol",

@@ -2639,6 +2639,7 @@ __GGB__keysVar.zh_TW.plain = {
     "stylebar_Bracket": "\u9078\u64c7\u62ec\u865f\u6a23\u5f0f",
     "stylebar_Caption": "\u9078\u64c7\u6a19\u984c\u6a23\u5f0f",
     "stylebar_Capture": "\u9078\u64c7\u5438\u9644\u6a21\u5f0f",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "\u9078\u64c7\u984f\u8272",
     "stylebar_ColorTransparency": "\u9078\u64c7\u984f\u8272\u8207\u900f\u660e\u5ea6",
     "stylebar_CopyVisualStyle": "\u8907\u88fd\u6a23\u5f0f",

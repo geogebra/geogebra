@@ -2639,6 +2639,7 @@ __GGB__keysVar.lt.plain = {
     "stylebar_Bracket": "Nustatyti skliaust\u0173 stili\u0173",
     "stylebar_Caption": "Nustatyti antra\u0161t\u0117s stili\u0173",
     "stylebar_Capture": "Nustatyti ta\u0161ko fiksavimo stili\u0173",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Nustatyti spalv\u0105",
     "stylebar_ColorTransparency": "Nustatyti spalv\u0105 ir permatomum\u0105",
     "stylebar_CopyVisualStyle": "Nukopijuoti stili\u0173",

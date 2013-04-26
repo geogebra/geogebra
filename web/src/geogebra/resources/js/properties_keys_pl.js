@@ -2639,6 +2639,7 @@ __GGB__keysVar.pl.plain = {
     "stylebar_Bracket": "Ustal styl",
     "stylebar_Caption": "ustal styl opisu",
     "stylebar_Capture": "Ustal styl punktu",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Ustal kolor",
     "stylebar_ColorTransparency": "Ustal kolor i przejrzysto\u015b\u0107",
     "stylebar_CopyVisualStyle": "Kopiuj wizualny styl",

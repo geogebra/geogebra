@@ -2639,6 +2639,7 @@ __GGB__keysVar.pt.plain = {
     "stylebar_Bracket": "Estilo dos Par\xeantesis",
     "stylebar_Caption": "Estilo das Legendas",
     "stylebar_Capture": "Modo de captura de pontos",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Cor",
     "stylebar_ColorTransparency": "Cor e Transpar\xeancia",
     "stylebar_CopyVisualStyle": "Copiar estilo visual",

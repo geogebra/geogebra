@@ -2639,6 +2639,7 @@ __GGB__keysVar.fi.plain = {
     "stylebar_Bracket": "Aseta sulun tyyli",
     "stylebar_Caption": "Aseta tekstin tyyli",
     "stylebar_Capture": "Aseta pisteen sieppauksen tyyli",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Aseta v\xe4ri",
     "stylebar_ColorTransparency": "Aseta v\xe4ri ja l\xe4pin\xe4kyvyys",
     "stylebar_CopyVisualStyle": "Kopioi visuaalinen tyyli",

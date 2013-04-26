@@ -2639,6 +2639,7 @@ __GGB__keysVar.ar_TN.plain = {
     "stylebar_Bracket": "\u0627\u0644\u0623\u0642\u0648\u0627\u0633",
     "stylebar_Caption": "\u062a\u0633\u0645\u064a\u0629",
     "stylebar_Capture": "\u0623\u0633\u0631",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "\u0627\u0644\u0644\u0648\u0646",
     "stylebar_ColorTransparency": "\u0644\u0648\u0646 \u0634\u0641\u0627\u0641",
     "stylebar_CopyVisualStyle": "\u0646\u0633\u062e \u0627\u0644\u0646\u0645\u0637",

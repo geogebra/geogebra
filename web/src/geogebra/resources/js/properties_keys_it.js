@@ -2639,6 +2639,7 @@ __GGB__keysVar.it.plain = {
     "stylebar_Bracket": "Stile parentesi",
     "stylebar_Caption": "Stile legenda",
     "stylebar_Capture": "Stile cattura punto",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Colore",
     "stylebar_ColorTransparency": "Colore e trasparenza",
     "stylebar_CopyVisualStyle": "Copia stile visuale",

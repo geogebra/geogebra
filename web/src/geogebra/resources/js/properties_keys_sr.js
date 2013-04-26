@@ -2639,6 +2639,7 @@ __GGB__keysVar.sr.plain = {
     "stylebar_Bracket": "Postavi stil zagrada",
     "stylebar_Caption": "Postavi stil naslova",
     "stylebar_Capture": "Postavi stil prihvatanja ta\u010dke",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Postavi boju",
     "stylebar_ColorTransparency": "Postavi boju i providnost",
     "stylebar_CopyVisualStyle": "Kopiraj vizuelni stil",

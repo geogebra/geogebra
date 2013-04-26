@@ -2639,6 +2639,7 @@ __GGB__keysVar.ms.plain = {
     "stylebar_Bracket": "Set gaya tanda-tanda kurung",
     "stylebar_Caption": "Set gaya kapsyen",
     "stylebar_Capture": "Set gaya penangkapan titik",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Set warna",
     "stylebar_ColorTransparency": "Set Warna dan Transparensi",
     "stylebar_CopyVisualStyle": "Salin gaya visual",

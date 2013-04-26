@@ -2639,6 +2639,7 @@ __GGB__keysVar.hr.plain = {
     "stylebar_Bracket": "Postavi stil zagrada",
     "stylebar_Caption": "Postavi stil natpisa",
     "stylebar_Capture": "Postavi stil vezivanja to\u010dke na mre\u017eu",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Postavi boju",
     "stylebar_ColorTransparency": "Postavi boju i prozirnost",
     "stylebar_CopyVisualStyle": "Kopiraj izgled",

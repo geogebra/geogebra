@@ -2639,6 +2639,7 @@ __GGB__keysVar.sv.plain = {
     "stylebar_Bracket": "Parenteser",
     "stylebar_Caption": "F\xf6rklaringsstil",
     "stylebar_Capture": "Punktinf\xe5ngning",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "F\xe4rg",
     "stylebar_ColorTransparency": "F\xe4rg och transparens",
     "stylebar_CopyVisualStyle": "Kopiera visuellt format",

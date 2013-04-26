@@ -2639,6 +2639,7 @@ __GGB__keysVar.tg.plain = {
     "stylebar_Bracket": "Set bracket style",
     "stylebar_Caption": "Set caption style",
     "stylebar_Capture": "Set point capture style",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Set color",
     "stylebar_ColorTransparency": "Set Color and Transparency",
     "stylebar_CopyVisualStyle": "Copy visual style",

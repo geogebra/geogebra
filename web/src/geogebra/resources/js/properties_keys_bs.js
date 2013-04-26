@@ -2639,6 +2639,7 @@ __GGB__keysVar.bs.plain = {
     "stylebar_Bracket": "Zagrade",
     "stylebar_Caption": "Naslov",
     "stylebar_Capture": "Vezivanje ta\u010dke na mre\u017eu",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Boja",
     "stylebar_ColorTransparency": "Boja i providnost",
     "stylebar_CopyVisualStyle": "Kopiraj vizualni stil",

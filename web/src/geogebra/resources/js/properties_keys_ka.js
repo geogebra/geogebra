@@ -2639,6 +2639,7 @@ __GGB__keysVar.ka.plain = {
     "stylebar_Bracket": "Set bracket style",
     "stylebar_Caption": "Set caption style",
     "stylebar_Capture": "Set point capture style",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "\u10e8\u10d4\u10d0\u10e0\u10e9\u10d8\u10d4 \u10e4\u10d4\u10e0\u10d8",
     "stylebar_ColorTransparency": "\u10e8\u10d4\u10d0\u10e0\u10e9\u10d8\u10d4 \u10e4\u10d4\u10e0\u10d8 \u10d3\u10d0 \u10d2\u10d0\u10db\u10ed\u10d5\u10d8\u10e0\u10d5\u10d0\u10da\u10d4\u10dd\u10d1\u10d0",
     "stylebar_CopyVisualStyle": "\u10d5\u10d8\u10d6\u10e3\u10d0\u10da\u10e3\u10e0\u10d8 \u10e1\u10e2\u10d8\u10da\u10d8\u10e1 \u10d9\u10dd\u10de\u10d8\u10e0\u10d4\u10d1\u10d0",

@@ -2639,6 +2639,7 @@ __GGB__keysVar.et.plain = {
     "stylebar_Bracket": "M\xe4\xe4ra sulgude stiil",
     "stylebar_Caption": "M\xe4\xe4ra pealdise stiil",
     "stylebar_Capture": "M\xe4\xe4ra punkti haaramise stiil",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "M\xe4\xe4ra v\xe4rv",
     "stylebar_ColorTransparency": "M\xe4\xe4ra v\xe4rv ja l\xe4bipaistvus",
     "stylebar_CopyVisualStyle": "Kopeeri visuaalne stiil",

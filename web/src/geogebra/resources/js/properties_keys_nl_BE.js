@@ -2639,6 +2639,7 @@ __GGB__keysVar.nl_BE.plain = {
     "stylebar_Bracket": "Instelling haakjes stijl",
     "stylebar_Caption": "Instelling titel stijl",
     "stylebar_Capture": "Instelling puntstijl",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Instelling kleur",
     "stylebar_ColorTransparency": "Instelling kleur en transparantie",
     "stylebar_CopyVisualStyle": "Kopieer de visuele stijl",

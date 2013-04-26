@@ -2639,6 +2639,7 @@ __GGB__keysVar.tl.plain = {
     "stylebar_Bracket": "Ayusin ang istilo ng bracket",
     "stylebar_Caption": "Ayusin ang istilo ng kapsyon",
     "stylebar_Capture": "Ayusin ang istilo ng point capture",
+    "stylebar_Clipping": "Toggle Clipping Box",
     "stylebar_Color": "Ayusin ang kulay",
     "stylebar_ColorTransparency": "Ayusin ang Kulay at Pagkalinaw",
     "stylebar_CopyVisualStyle": "Kopyahin ang istilong biswal",
