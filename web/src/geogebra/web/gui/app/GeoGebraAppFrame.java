@@ -65,7 +65,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	AppW app;
 	
 	public GeoGebraAppFrame() {
-		
 		frameLayout = new GGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
@@ -247,8 +246,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	public void finishAsyncLoading(ArticleElement articleElement,
             GeoGebraAppFrame ins, AppW app) {
-	    handleLoadFile(articleElement,app);
-	    
+	    handleLoadFile(articleElement,app);	    
     }
 	
 	private static void handleLoadFile(ArticleElement articleElement,

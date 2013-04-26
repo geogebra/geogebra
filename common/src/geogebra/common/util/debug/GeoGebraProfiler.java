@@ -11,19 +11,20 @@ import geogebra.common.main.App;
  */
 public abstract class GeoGebraProfiler {
 	
+
+	private static GeoGebraProfiler instance = null;
+	
 	public static int repaints, repaintTime, drags, dragTime;
 	public static int moveEventsIgnored;
 	public static long[] updateTimes = new long[20];
 	
+
 	/**
-	 * @param label
-	 * 
-	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoleprofilelabel
 	 */
-	public abstract void profile(String label);
+	public abstract void profile();
 	
 	/**
-	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoleprofilelabel
+	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoleprofileend
 	 */
 	public abstract void profileEnd();
 	
@@ -31,16 +32,38 @@ public abstract class GeoGebraProfiler {
 	/**
 	 * @param label
 	 * 
-	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoleprofilelabel
+	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoletimelabel
 	 */
 	public abstract void time(String label);
 	
 	/**
 	 * @param label
 	 * 
-	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoleprofilelabel	 * 
+	 * see: https://developers.google.com/chrome-developer-tools/docs/console-api#consoletimeend
 	 */
-	public abstract void timeEnd();
+	public abstract void timeEnd(String label);
+	
+	/**
+	 * see https://developers.google.com/chrome-developer-tools/docs/console-api#consoletrace
+	 */
+	public abstract void trace();
+	
+	/**
+	 * @return GeoGebraProfiler(Web/Desktop) instance
+	 */
+	public static GeoGebraProfiler getInstance() {
+		if (instance == null) {
+			throw new Error("Profiler instance must be created first from Web or Desktop");
+		}
+		return instance;
+	}
+	
+	/**
+	 * @param inst GeoGebraProfiler inst from Web or Desktop
+	 */
+	public static void init(GeoGebraProfiler inst) {
+		instance = inst;
+	}
 
 	public static void addRepaint(long l) {
 		repaints++;

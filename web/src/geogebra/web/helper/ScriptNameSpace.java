@@ -30,9 +30,6 @@ public class ScriptNameSpace extends IFrameElement {
 			this.onload = function() {
 				innerWindow = this.contentWindow;
 				innerDocument = innerWindow.document;
-				innerDocument.open()
-				innerDocument.write('<html><head></head><body></body></html>');
-				innerDocument.close();
 				script = innerDocument.createElement('script');
 				script.src = scriptUrl;
 				script.addEventListener("load", function() {
@@ -42,7 +39,7 @@ public class ScriptNameSpace extends IFrameElement {
 				});
 			innerDocument.body.appendChild(script);
 		};
-		this.src = "about:blank";
+		this.srcdoc = '<html><head></head><body></body></html>';
 		
 	}-*/;
 }

@@ -37,6 +37,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Web implements EntryPoint {
 	
+	
+	
 
 	/**
 	 * Google Authorization class entry point.
@@ -93,12 +95,14 @@ public class Web implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-		//do we have an app?
+		//uncomment this if you need to profile
+		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+
+		
 		Web.currentGUI = checkIfNeedToLoadGUI();
 		
 		// always need English properties available, eg Function.sin
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
-
 		injectResources();
 		
 //		setLocaleToQueryParam();
@@ -119,7 +123,6 @@ public class Web implements EntryPoint {
 	}
 
 	public static void injectResources() {
-	    // insert mathquill css
 		String myModuleBase = GWT.getModuleBaseForStaticFiles();
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText().
 				replace("url(web/font/Symbola", "url(" + myModuleBase + "font/Symbola");
