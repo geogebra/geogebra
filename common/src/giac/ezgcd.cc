@@ -471,7 +471,7 @@ namespace giac {
     // we must multiply by product(lcoeffs)/lcp
     // next check was >100 but then heuristic factorization fails
     // (depends on the size of the coeffs)
-    if (!lcoeff_known && std::pow(double(lcp.coord.size()),s-1)>1e5)
+    if (!lcoeff_known && pow(lcp,s-1).coord.size()>300)
       return false;
     // we will lift pcur*product(lcoeffs)/lcp = product_i F0fact[i]*lcoeffs[i](b)/lcoeff(F0fact[i])
     for (int i=0;i<s;++i){

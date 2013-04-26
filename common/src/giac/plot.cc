@@ -1949,7 +1949,7 @@ namespace giac {
 	  }
 	}
 	else {
-	  if (!ispnt && it!=res.begin())
+	  if (!ispnt && it!=res.begin() && it->type!=_POINT__VECT)
 	    *it=*it+res[0];
 	  it->subtype=_POINT__VECT;
 	}
@@ -9404,8 +9404,10 @@ namespace giac {
 #if defined(WIN32) || !defined(HAVE_SIGNAL_H_OLD)
     res.push_back(_plotfield(args,contextptr));
 #else
-    if (thread_eval_status(contextptr)==1)
+    if (thread_eval_status(contextptr)==1){
       res.push_back(_plotfield(args,contextptr));
+      _DispG(0,contextptr);
+    }
     else
       res.push_back(_signal(_plotfield(args,contextptr),contextptr));
 #endif
