@@ -2017,7 +2017,7 @@ index_status(yyextra)=0; /* (*yylval) = string2gen('"'+string(yytext).substr(3,s
 case 29:
 YY_RULE_SETUP
 #line 347 "input_lexer.ll"
-if (calc_mode(yyextra)==1){ *yylval=undef; return T_SYMBOL;} if (index_status(yyextra)) return T_INTERROGATION; else return T_HELP;
+if (index_status(yyextra)) return T_INTERROGATION; if (calc_mode(yyextra)==1){ *yylval=undef; return T_SYMBOL;}  return T_HELP;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
