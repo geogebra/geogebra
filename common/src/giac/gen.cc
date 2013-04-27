@@ -3490,7 +3490,7 @@ namespace giac {
   gen arg(const gen & a,GIAC_CONTEXT){ 
     if (angle_radian(contextptr)==0){
       angle_radian(1,contextptr);
-      gen res=arg(a,contextptr);
+      gen res=evalf(arg(a,contextptr),1,contextptr);
       angle_radian(0,contextptr);
       return 180*res/cst_pi;
     }      

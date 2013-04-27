@@ -2082,8 +2082,17 @@ namespace giac {
     gen reg=recursive_normal(re(g,contextptr),contextptr),
       img=recursive_normal(im(g,contextptr),contextptr);
     if (s1){
+      gen g1=normal(trigcos(reg,contextptr),contextptr)+cst_i*normal(trigcos(img,contextptr),contextptr);
+      gen g2=normal(trigsin(reg,contextptr),contextptr)+cst_i*normal(trigsin(img,contextptr),contextptr);
+      int g1s=lvar(g1).size(), g2s=lvar(g2).size();
+      if (g1s!=g2s)
+	return g1s<g2s?g1:g2;
+      g1s=taille(g1,RAND_MAX),g2s=taille(g2,RAND_MAX);
+      if (g1s!=g2s)
+	return g1s<g2s?g1:g2;      
       if (v1.front().is_symb_of_sommet(at_sin))
-	return normal(trigsin(reg,contextptr),contextptr)+cst_i*normal(trigsin(img,contextptr),contextptr);
+	return g2;
+      return g1;
     }
     g=normal(trigcos(reg,contextptr),contextptr)+cst_i*normal(trigcos(img,contextptr),contextptr);
     return g;

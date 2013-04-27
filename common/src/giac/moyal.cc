@@ -78,6 +78,7 @@ namespace giac {
     // P0=0, P1=a1, Q0=1, Q1=b1
     // j>=2: Pj=bj*Pj-1+aj*Pj-2, Qj=bj*Qj-1+aj*Qj-2
     long_double Pm2=0,Pm1=1,Pm,Qm2=1,Qm1=z,Qm,a2m1=1,a2m=1-s,b2m1=z,b2m=1,pmqm;
+    long_double deux=9007199254740992.,invdeux=1/deux;
     for (long_double m=1;m<200;++m){
       // even term
       Pm=b2m*Pm1+a2m*Pm2;
@@ -97,6 +98,13 @@ namespace giac {
 	if (regularize)
 	  coeff -= lngamma(s);
 	return pmqm*std::exp(coeff);
+      }
+      // avoid overflow
+      if (std::abs(Pm)>deux){
+	Pm2 *= invdeux;
+	Qm2 *= invdeux;
+	Pm1 *= invdeux;
+	Qm1 *= invdeux;
       }
     } 
     // alt a1=1, a2=s-1, a3=2*(s-2), a_{m+1}=m*(s-m)
@@ -125,6 +133,7 @@ namespace giac {
     // j>=2: Pj=bj*Pj-1+aj*Pj-2, Qj=bj*Qj-1+aj*Qj-2
     // Here bm=1, am=em, etc.
     long_double Pm2=0,Pm1=1,Pm,Qm2=1,Qm1=s,Qm,a2m=-(s-1)*z,a2m1=0,bm=s;
+    long_double deux=9007199254740992.,invdeux=1/deux;
     for (long_double m=1;m<100;++m){
       // even term
       a2m -= z;
@@ -150,8 +159,14 @@ namespace giac {
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
       // normalize
+#if 1
+      if (std::abs(Pm)>deux){
+	Pm2 *= invdeux; Qm2 *= invdeux; Pm1 *= invdeux; Qm1 *= invdeux;
+      }
+#else
       Pm=1/std::sqrt(Pm1*Pm1+Qm1*Qm1);
       Pm2 *= Pm; Qm2 *= Pm; Pm1 *= Pm; Qm1 *= Pm;
+#endif
     }
     return undef; //error
   }
@@ -179,6 +194,7 @@ namespace giac {
     // j>=2: Pj=bj*Pj-1+aj*Pj-2, Qj=bj*Qj-1+aj*Qj-2
     // Here bm=1, am=em, etc.
     long_double Pm2=0,Pm1=1,Pm,Qm2=1,Qm1=1,Qm,am,x=p/(1-p);
+    long_double deux=9007199254740992.,invdeux=1/deux;
     for (long_double m=1;m<100;++m){
       // odd term
       am=-(a+m-1)*(b-m)/(a+2*m-2)/(a+2*m-1)*x;
@@ -206,6 +222,12 @@ namespace giac {
       }	
       Pm2=Pm1; Pm1=Pm;
       Qm2=Qm1; Qm1=Qm;
+      if (std::abs(Pm)>deux){
+	Pm2 *= invdeux; Qm2 *= invdeux; Pm1 *= invdeux; Qm1 *= invdeux;
+      }
+      if (std::abs(Pm)<invdeux){
+	Pm2 *= deux; Qm2 *= deux; Pm1 *= deux; Qm1 *= deux;
+      }
     }
     return undef; //error
   }
