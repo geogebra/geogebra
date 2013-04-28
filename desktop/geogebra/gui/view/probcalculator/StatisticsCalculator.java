@@ -292,6 +292,7 @@ public class StatisticsCalculator extends JPanel implements ActionListener,
 
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
 					fldConfLevel));
+			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
 			break;
 		}
 

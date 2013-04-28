@@ -235,7 +235,7 @@ public class StatisticsCalculatorProcessor {
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.se = ((AlgoZMean2Estimate) algo).getSE();
-
+			sc.me = ((AlgoZMean2Estimate) algo).getME();
 			break;
 
 		case TMEAN2_TEST:
@@ -515,10 +515,12 @@ public class StatisticsCalculatorProcessor {
 		if (result.isDefined() && ((GeoList) result).size() > 0) {
 			sc.lower = ((GeoNumeric) ((GeoList) result).get(0)).getDouble();
 			sc.upper = ((GeoNumeric) ((GeoList) result).get(1)).getDouble();
+			sc.me = (sc.upper - sc.lower)/2;
 
 		} else {
 			sc.lower = Double.NaN;
 			sc.upper = Double.NaN;
+			sc.me = Double.NaN;
 		}
 	}
 
