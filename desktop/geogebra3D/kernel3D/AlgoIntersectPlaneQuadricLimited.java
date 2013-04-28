@@ -23,7 +23,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -113,27 +112,19 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		kernel.setSilentMode(true);
 		algoBottom = new AlgoIntersectPlaneConic(cons);
 		algoTop = new AlgoIntersectPlaneConic(cons);
-		kernel.setSilentMode(oldSilentMode);
-		
-		
-		//output
-		GeoElement[] output = new GeoElement[5];
-		output[0] = conic;
+		kernel.setSilentMode(oldSilentMode);		
 		
 		bottomP  = new GeoPoint3D[2];
 		for(int i = 0 ; i < 2 ; i++){
 			bottomP[i] = new GeoPoint3D(cons);
-			output[1+i] = bottomP[i];
 		}
 
 		topP  = new GeoPoint3D[2];
 		for(int i = 0 ; i < 2 ; i++){
 			topP[i] = new GeoPoint3D(cons);
-			output[3+i] = topP[i];
 		}
 		
-    	//setInputOutput(new GeoElement[] {plane,quadric}, output);
-		super.end();
+ 		super.end();
     }
     
    
@@ -151,6 +142,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 	public void compute(){
     	
     	super.compute();
+
 
     	
     	GeoQuadric3DLimited ql = (GeoQuadric3DLimited) quadric;
@@ -175,7 +167,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     		if (Double.isNaN(bottomParameters[0])){
     			bottomParameters[0] = topParameters[0];
     			bottomParameters[1] = topParameters[1];
-    			bottomP[0] = topP[0];
+    			//bottomP[0] = topP[0];
     			topParameters[0] = Double.NaN;
     		}
     		
@@ -193,7 +185,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     				//if parameters are equal, no hole
     	    		if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])){  	    			
         				if (planeOutsideAxis()){ // just single point
-        					setSinglePoint(bottomP[0],bottomP[1]);
+        					setSinglePoint(bottomP[0],topP[0]);
         				}else{ // no hole
         					bottomParameters[0] = Double.NaN;
         				}
@@ -355,7 +347,23 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
     }
 
 
-    
+    /**
+     * 
+     * @param index index (0 or 1)
+     * @return last bottom point computed
+     */
+    public GeoPoint3D getBottomPoint(int index){
+    	return bottomP[index];
+    }
+
+    /**
+     * 
+     * @param index index (0 or 1)
+     * @return last top point computed
+     */
+    public GeoPoint3D getTopPoint(int index){
+    	return topP[index];
+    }
 
  
 

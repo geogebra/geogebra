@@ -1326,5 +1326,11 @@ public class Manager3D implements Manager3DInterface {
 		AlgoVolume algo = new AlgoVolume(cons, label, hasVolume);
 		return algo.getVolume();
 	}
+	
+	
+	final public GeoPoint3D[] Corner(String[] labels, GeoConicND conic){
+		AlgoCornerConicSection algo = new AlgoCornerConicSection(cons, labels, (GeoConicSection) conic);
+		return algo.getCorners();
+	}
 
 }

@@ -19,6 +19,7 @@ public class CmdAngle3D extends CmdAngle {
 	
 	
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 	    int n = c.getArgumentNumber();
 	    boolean[] ok = new boolean[n];
@@ -35,7 +36,7 @@ public class CmdAngle3D extends CmdAngle {
 	    				&& (ok[2] = (arg[2] .isGeoPoint()))) {
 	    			GeoElement[] ret =
 	    			{
-	    					((Kernel)kernelA).getManager3D().Angle3D(
+	    					kernelA.getManager3D().Angle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
 	    							(GeoPointND) arg[1],

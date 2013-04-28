@@ -657,5 +657,14 @@ public interface Manager3DInterface {
 	 * @return volume of hasVolume
 	 */
 	public GeoNumeric Volume(String label, HasVolume hasVolume);
+	
+	
+	/**
+	 * 
+	 * @param labels
+	 * @param conic
+	 * @return corners for a conic section
+	 */
+	public GeoElement[] Corner(String[] labels, GeoConicND conic);
 
 }

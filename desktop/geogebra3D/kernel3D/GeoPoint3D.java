@@ -254,6 +254,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		else {
 			isInfinite = false;
 			isDefined = v.isDefined();
+			
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
