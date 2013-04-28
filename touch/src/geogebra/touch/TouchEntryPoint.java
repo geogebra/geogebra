@@ -64,8 +64,8 @@ public class TouchEntryPoint implements EntryPoint
 				tabletGUI.getContentWidget().getElement().getStyle().setOverflow(Overflow.VISIBLE);
 				app.getScriptManager().ggbOnInit();
 				//needed for testing
-				if(RootPanel.getBodyElement().getAttribute("data-param-ggbase64").length()>0){
-					app.getGgbApi().setBase64(RootPanel.getBodyElement().getAttribute("data-param-ggbase64"));
+				if(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64").length()>0){
+					app.getGgbApi().setBase64(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64"));
 				}
 				
 			}
