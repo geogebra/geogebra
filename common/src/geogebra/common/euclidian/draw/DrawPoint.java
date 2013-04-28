@@ -97,6 +97,9 @@ public final class DrawPoint extends Drawable {
 
 		update();
 	}
+	
+		
+
 
 	@Override
 	final public void update() {
@@ -122,10 +125,22 @@ public final class DrawPoint extends Drawable {
 				coords[1] = p.getY();
 			}
 		}
-
+		
 		// still needs updating if it's being traced to the spreadsheet
 		if (!isVisible && !P.getSpreadsheetTrace())
 			return;
+
+		
+		update(coords);
+	}
+	
+	/**
+	 * update regarding coords values
+	 * @param coords (x,y) real world coords
+	 */
+	final public void update(double[] coords){
+
+		isVisible = true;
 		labelVisible = geo.isLabelVisible();
 
 		// convert to screen

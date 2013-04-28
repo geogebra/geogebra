@@ -379,17 +379,27 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		
 	
-		Coords coords = conic.getMidpoint3D(); // view transformation will be done in DrawPoint
-		point.setCoords(coords.getX(), coords.getY(), 1.0d);
 
-		
+
+		// looks if it's on view
+		Coords p = view.getCoordsForView(conic.getMidpoint3D());
+		//App.debug("\n"+view+"\n"+p);
+		if (!Kernel.isZero(p.getZ())) {
+			isVisible = false;
+			return;
+		} 
+
+		double[] coords = new double[2];
+		coords[0] = p.getX();
+		coords[1] = p.getY();
+
+
 		point.copyLabel(conic);
 		point.setObjColor(conic.getObjectColor());
 		point.setLabelColor(conic.getLabelColor());
 		point.setPointSize(conic.lineThickness);
 
-
-		drawPoint.update();
+		drawPoint.update(coords);
 	}
 	
 	/**
