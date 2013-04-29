@@ -2356,7 +2356,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					return false;
 				}
 				//also compute corner points
-				//kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
+				kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
 				return true;
 			}
 			//else
