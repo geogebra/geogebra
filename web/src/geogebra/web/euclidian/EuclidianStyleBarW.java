@@ -45,7 +45,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianStyleBarW extends StyleBarW
-	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
+	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler<Boolean>, ClickHandler {
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianControllerW ec;
@@ -111,6 +111,10 @@ public class EuclidianStyleBarW extends StyleBarW
 	private PopupMenuButton[] popupBtnList;
 	
 	private MyCJButton btnDeleteGeo;
+	
+	private enum StyleBarMethod {NONE, UPDATE, UPDATE_STYLE};
+	
+	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 
 
 	public EuclidianStyleBarW(EuclidianView ev) {
@@ -197,12 +201,32 @@ public class EuclidianStyleBarW extends StyleBarW
     }
 	
 	private ArrayList<GeoElement> activeGeoList;
+	private boolean visible;
 
+	@Override
+	public void setOpen(boolean visible) {
+		this.visible = visible;
+		if (visible) {
+			switch (this.waitingOperation) {
+			case UPDATE:
+				updateStyleBar();
+				break;
+			case UPDATE_STYLE:
+				updateButtons();
+				break;
+			}
+			this.waitingOperation = StyleBarMethod.NONE;
+		}
+	}
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	public void updateStyleBar() {
+		if(!visible){
+			this.waitingOperation = StyleBarMethod.UPDATE;
+			return;
+		}
 
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
@@ -283,14 +307,11 @@ public class EuclidianStyleBarW extends StyleBarW
 			// we also update stylebars according to just created geos
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
-		long l = System.currentTimeMillis();
 		updateButtons();
-		App.debug(System.currentTimeMillis()-l);
 		// show the pen delete button
 		// TODO: handle pen mode in code above
 		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
 		addButtons();
-		App.debug(System.currentTimeMillis()-l);
     }
 	
 
@@ -320,8 +341,13 @@ public class EuclidianStyleBarW extends StyleBarW
 	
 
 	public void updateVisualStyle(GeoElement geo) {
-		if(activeGeoList.contains(geo))
+		if(activeGeoList.contains(geo)){
+			if(!visible){
+				this.waitingOperation = StyleBarMethod.UPDATE_STYLE;
+				return;
+			}
 			updateButtons();
+		}
 	}
 	// =====================================================
 	// Init GUI
@@ -1305,13 +1331,6 @@ public class EuclidianStyleBarW extends StyleBarW
 	public void fireActionPerformed(Object actionButton) {
 		handleEventHandlers(actionButton);
     }
-	
-	/**
-	 *  programatically runs update on all buttons
-	 */
-	public void updateAllButtons() {
-	
-	}
 	
 	private void setActionCommand(Widget widget, String actionCommand){
 		widget.getElement().setAttribute("actionCommand", actionCommand);

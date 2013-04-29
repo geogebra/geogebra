@@ -6,6 +6,7 @@ import geogebra.common.main.App;
 import geogebra.web.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
@@ -584,6 +585,10 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			} else {
 				dockPanel.addNorth(titleBarPanel, 14);
 			}
+			Widget w = loadStyleBar();
+			if(w instanceof StyleBarW)
+				((StyleBarW)w).setOpen(showStyleBar);
+			
 		}
 
 		if(component != null){

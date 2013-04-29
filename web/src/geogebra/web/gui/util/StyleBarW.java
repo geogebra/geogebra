@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author G. Sturr
  * 
  */
-public class StyleBarW extends HorizontalPanel {
+public abstract class StyleBarW extends HorizontalPanel {
 
 	/**
 	 * Constructor
@@ -21,6 +21,9 @@ public class StyleBarW extends HorizontalPanel {
 		VerticalSeparator s = new VerticalSeparator(10,25);
 		add(s);
 	}
+
+
+	public abstract void setOpen(boolean showStyleBar);
 	
 	
 }
