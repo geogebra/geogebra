@@ -3130,4 +3130,14 @@ public abstract class App implements UpdateSelection{
 	 */
 	public abstract String getToolTooltipHTML(int mode);
 	
+	public void resetPen() {
+
+		getEuclidianView1().getEuclidianController().resetPen();
+
+		if (hasEuclidianView2()) {
+			getEuclidianView2().getEuclidianController().resetPen();
+		}
+
+	}
+
 }

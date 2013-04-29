@@ -52,11 +52,11 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.Base64;
-import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.euclidian.DrawEquationD;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
@@ -4700,16 +4700,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
-	}
-
-	public void resetPen() {
-
-		getEuclidianView1().getEuclidianController().resetPen();
-
-		if (hasEuclidianView2()) {
-			getEuclidianView2().getEuclidianController().resetPen();
-		}
-
 	}
 
 	@Override

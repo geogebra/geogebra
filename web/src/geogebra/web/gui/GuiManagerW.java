@@ -95,6 +95,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		app.setWaitCursor();
 		kernel.redo();
 		updateActions();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 
@@ -103,6 +104,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		app.setWaitCursor();
 		kernel.undo();
 		updateActions();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 
