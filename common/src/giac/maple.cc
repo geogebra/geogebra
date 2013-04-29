@@ -539,7 +539,7 @@ namespace giac {
       indice=symbolic(at_interval,indice._SYMBptr->feuille-gen(shift)*vecteur(indice._SYMBptr->feuille._VECTptr->size(),1));
     else
       indice -= shift;
-    gen res=g._VECTptr->front()[indice];
+    gen res=g._VECTptr->front().operator_at(indice,contextptr);
     if (ckmatrix(res))
       return gen(*res._VECTptr,_SEQ__VECT);
     else

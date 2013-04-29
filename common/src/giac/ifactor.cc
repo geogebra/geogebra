@@ -3856,7 +3856,7 @@ namespace giac {
   define_unary_function_ptr5( at_euler ,alias_at_euler,&__euler,0,true);
 
   gen pa2b2(const gen & p,GIAC_CONTEXT){
-    if ((p%4)!=1) return gensizeerr(gettext("pa2b2"));// car p!=1 mod 4
+    if ((p%4)!=1) return gensizeerr(contextptr);// car p!=1 mod 4
     gen q=(p-1)/4;
     gen a=2;
     gen ra;
@@ -3866,7 +3866,7 @@ namespace giac {
       a=a+1;
       ra=powmod(a,q,p);
     }
-    if ((ra==1)||(ra==p-1))  return gensizeerr(gettext("pa2b2"));//car p n'est pas premier
+    if ((ra==1)||(ra==p-1))  return gensizeerr(contextptr);//car p n'est pas premier
     gen ux=1,uy=ra,vx=0,vy=p,wx,wy; 
     gen m=1;
     while(m!=0){
@@ -3890,7 +3890,7 @@ namespace giac {
     v[0]=abs(vx,contextptr); // ok
     v[1]=abs(vy,contextptr); // ok
     if (vx*vx+vy*vy!=p)
-      return gensizeerr(gettext("pa2b2"));
+      return gensizeerr(contextptr);
     return v;
   }
   gen _pa2b2(const gen & args,GIAC_CONTEXT){

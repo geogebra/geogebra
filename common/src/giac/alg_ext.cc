@@ -1154,6 +1154,8 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       try {
 #endif
+	if (g._SYMBptr->feuille.type==_SPOL1)
+	  return 0;
 	vecteur lv0(lvar(g._SYMBptr->feuille)),lv; // remove cst idnt
 	for (unsigned i=0;i<lv0.size();++i){
 	  if (!is_constant_idnt(lv0[i]))

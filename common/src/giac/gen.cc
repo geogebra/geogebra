@@ -7138,7 +7138,8 @@ namespace giac {
     if (this->type!=_VECT)
       return gentypeerr(gettext("Gen [int]"));
     if (unsigned(i)>=_VECTptr->size()){
-      i=i+(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      if (xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
+	++i;
       return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(_VECTptr->size())
 #ifndef GIAC_HAS_STO_38
 		       +", syntax compatibility mode "+print_program_syntax(xcas_mode(contextptr))
@@ -7251,7 +7252,7 @@ namespace giac {
     }
     if (i.type!=_INT_)
       return symb_at(makesequence(*this,i));
-    return (*this)[i.val];
+    return this->operator_at(i.val,contextptr);
   }
 
   /*

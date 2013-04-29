@@ -427,10 +427,6 @@ namespace giac {
       }
       i=-i;
     }
-#if 0 //def BESTA_OS
-    // BP: please comment why the code below does not work for besta
-    assert(0);
-#else
     switch (integer_format(contextptr)){
     case 16:
       sprintf(ch,"0x%X",i);
@@ -439,7 +435,6 @@ namespace giac {
     default:
       sprintf(ch,"%d",i);
     }
-#endif
     s += ch;
     return s;
   }

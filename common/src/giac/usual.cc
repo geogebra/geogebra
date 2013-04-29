@@ -4734,7 +4734,7 @@ namespace giac {
     if (!check_2d_vecteur(args)) return gensizeerr(contextptr);
     vecteur v=*args._VECTptr;
     if (!is_integral(v.front()) || !is_integral(v.back()) )
-      return symbolic(at_iquorem,args);
+      return gensizeerr(contextptr); // symbolic(at_iquorem,args);
     return iquorem(args._VECTptr->front(),args._VECTptr->back());
   }
   static const char _iquorem_s []="iquorem";
@@ -5177,7 +5177,10 @@ namespace giac {
   gen _jacobi_symbol(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (!check_2d_vecteur(args)) return gensizeerr(contextptr);
-    return jacobi(args._VECTptr->front(),args._VECTptr->back());    
+    int res=jacobi(args._VECTptr->front(),args._VECTptr->back());
+    if (res==-RAND_MAX)
+      return gensizeerr(contextptr);
+    return res;
   }
   static const char _jacobi_symbol_s []="jacobi_symbol";
   static define_unary_function_eval (__jacobi_symbol,&giac::_jacobi_symbol,_jacobi_symbol_s);

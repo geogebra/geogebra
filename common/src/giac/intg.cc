@@ -2443,7 +2443,7 @@ namespace giac {
       } // end piecewise
       if (intgab(v[0],x,borne_inf,borne_sup,res,contextptr)){
 	// additional check for singularities in ggb mode
-	if (calc_mode(contextptr)==1){
+	if (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38){
 	  bool ordonne=is_greater(borne_sup,borne_inf,contextptr);
 	  vecteur sp=protect_find_singularities(v[0],*x._IDNTptr,false,contextptr);
 	  int sps=sp.size();
@@ -2651,7 +2651,7 @@ namespace giac {
       old_line=vecteur(1,undef);
     }
 #endif
-    if (is_inf(old_line[0])|| is_undef(old_line[0])){
+    if (is_inf(old_line[0])|| is_undef(old_line[0]) || !lop(old_line[0],at_bounded_function).empty()){
       // FIXME middle point in arbitrary precision
       *logptr(contextptr) << gettext("Infinity or undefined limit at bounds.\nUsing middle point Romberg method") << endl;
       gen y=(a+b)/2;

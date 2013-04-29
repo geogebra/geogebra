@@ -655,6 +655,8 @@ namespace giac {
       return symbolic(at_binomial_icdf,makesequence(n,p,x));
     int N=n.val;
     long_double P=p._DOUBLE_val;
+    if (P<0 || P>1)
+      return gensizeerr(contextptr);
     if (N*P>=30 && N*(1-P)>=30){
       // use approximation by normal law as a starting point
       gen g=_floor(_normal_icdf(makesequence(n*p,sqrt(n*p*(1-p),contextptr),x),contextptr),contextptr);
