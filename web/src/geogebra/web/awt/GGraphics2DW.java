@@ -18,6 +18,7 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
@@ -707,21 +708,26 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-		/*
-		 * old code: breaks grid with emulated dashed lines, see #1718
-		 * 
-		geogebra.common.awt.Shape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
+
+		float [] dash_array_save = dash_array;
+		dash_array = null;
+		geogebra.common.awt.GShape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
 		setClip(sh);
-		*/
-		
+		dash_array = dash_array_save;
+
+		/* 
+		 * alternative: makes clipping bad, see #3212
+		 *  
+		//context.save();
 		context.beginPath();
 		context.moveTo(x, y);
 		context.lineTo(x + width, y);
 		context.lineTo(x + width, y + height);
 		context.lineTo(x , y + height);
 		context.lineTo(x , y);
+		//context.closePath();
 		context.clip();
-
+		*/
 	}
 
 	public void setWidth(int w) {
