@@ -6556,7 +6556,7 @@ public abstract class EuclidianController {
 									// make sure that Input Boxes lose focus (and so update) before running scripts
 									view.requestFocusInWindow();
 
-									app.runScripts(geo1, (String)null);
+									runScriptsIfNeeded(geo1);
 								}
 							}
 						}
@@ -6859,8 +6859,13 @@ public abstract class EuclidianController {
 			break;
 		}
 	}
+	
+	// make sure scripts not run twice 
+	private boolean scriptsHaveRun = false;
 
 	protected void wrapMouseclicked(AbstractEvent event) {	
+		
+		scriptsHaveRun = false;
 		
 		if (textfieldJustFocusedW(event.getPoint())) return;
 		
@@ -7527,7 +7532,7 @@ public abstract class EuclidianController {
 				
 				view.requestFocusInWindow();
 
-				app.runScripts(movedGeoElement, (String)null);
+				runScriptsIfNeeded(movedGeoElement);
 
 			}
 
@@ -7942,7 +7947,7 @@ public abstract class EuclidianController {
 				// make sure that Input Boxes lose focus (and so update) before running scripts
 				view.requestFocusInWindow();
 
-				app.runScripts(geo, (String)null);
+				runScriptsIfNeeded(geo);
 				moveMode = MOVE_NONE;
 				resetMovedGeoPoint();
 				return;
@@ -7965,6 +7970,9 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
+		
+		scriptsHaveRun = false; 
+		
 		if (isTextfieldHasFocus() && moveMode != MOVE_BUTTON) {
 			return;
 		}
@@ -8682,7 +8690,8 @@ public abstract class EuclidianController {
 
 	protected void wrapMousePressed(AbstractEvent event) {
 		
-
+		scriptsHaveRun = false;
+		
 		penDragged = false;
 		
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
@@ -8716,10 +8725,12 @@ public abstract class EuclidianController {
 			return;
 		}
 		this.pressedButton = view.getHitButton(mouseLoc);
-		if(pressedButton!=null){
-		pressedButton.setPressed(true);
-		pressedButton.setDraggedOrContext(event.isMetaDown()
-				|| event.isPopupTrigger());
+		if (pressedButton != null) {
+			pressedButton.setPressed(true);
+			pressedButton.setDraggedOrContext(event.isMetaDown()
+					|| event.isPopupTrigger());
+			
+			runScriptsIfNeeded(pressedButton.geoButton);
 		}
 		//TODO:repaint?
 	
@@ -8776,6 +8787,14 @@ public abstract class EuclidianController {
 		}
 
 		switchModeForMousePressed(event);
+	}
+	
+	private void runScriptsIfNeeded(GeoElement geo1) { 
+		if (!scriptsHaveRun) { 
+			scriptsHaveRun = true; 
+			app.runScripts(geo1, (String)null); 
+		} 
+
 	}
 
 	protected boolean processZoomRectangle() {

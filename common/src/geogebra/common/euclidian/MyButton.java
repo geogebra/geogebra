@@ -16,7 +16,7 @@ import geogebra.common.kernel.geos.TextProperties;
  */
 public class MyButton implements Observer{
 
-	private GeoButton geoButton;
+	public GeoButton geoButton;
 	private EuclidianView view;
 	private int x, y;
 	private boolean selected;
@@ -332,9 +332,10 @@ public class MyButton implements Observer{
 		else if (!draggedOrContext) {
 			
 			// make sure that Input Boxes lose focus (and so update) before running scripts
-			geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
+			//geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
 
-			geoButton.getKernel().getApplication().runScripts(geoButton, null);
+			// now called from EuclidianController
+			//geoButton.getKernel().getApplication().runScripts(geoButton, null);
 		}
 
 		pressed = b;
