@@ -551,4 +551,11 @@ public class TouchApp extends AppWeb
 		TouchEntryPoint.tubeSearchGUI.displaySearchResults(query);
 		
 	}
+
+	@Override
+  public String getToolTooltipHTML(int mode)
+  {
+	  // TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+  }
 }
