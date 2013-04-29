@@ -594,7 +594,7 @@ public class Coords extends CoordMatrix {
 	 * @return distance of this to the plane
 	 */
 	public double distPlane(Coords o, Coords vn){
-		return this.sub(o).dotproduct(vn);
+		return Math.abs(this.sub(o).dotproduct(vn));
 	}
 
 	/**
