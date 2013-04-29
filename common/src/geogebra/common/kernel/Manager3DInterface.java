@@ -382,6 +382,9 @@ public interface Manager3DInterface {
 	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
 			GeoElement s);
 	
+	public GeoElement[] IntersectPath(GeoPlaneND plane,
+			GeoPolygon p);
+	
 	public GeoElement[] IntersectRegion(String[] labels, GeoPlaneND plane,
 			GeoElement s, int[] outputSize);
 	

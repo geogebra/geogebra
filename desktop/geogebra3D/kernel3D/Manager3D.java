@@ -767,22 +767,22 @@ public class Manager3D implements Manager3DInterface {
 	public GeoElement[] IntersectPath(String[] labels, GeoPlaneND plane,
 			GeoElement p) {
 
-		
 		if (p instanceof GeoPolygon) {
 			AlgoIntersectPathPlanePolygon3D algo = new AlgoIntersectPathPlanePolygon3D(cons, labels, (GeoPlane3D) plane,
 					(GeoPolygon) p);
 			return algo.getOutput();
 		}
 		
-		/*
-		if (p instanceof GeoPolyhedron) {
-			AlgoIntersectPathPlanePolyhedron algo = new AlgoIntersectPathPlanePolyhedron(cons, labels, (GeoPlane3D) plane,
-					(GeoPolyhedron) p);
-			return algo.getOutput();
-		}
-		*/
-		
 		return null;
+
+	}
+
+	public GeoElement[] IntersectPath(GeoPlaneND plane,
+			GeoPolygon p) {
+		
+		AlgoIntersectPathPlanePolygon3D algo = new AlgoIntersectPathPlanePolygon3D(cons, (GeoPlane3D) plane, p);
+		algo.update();
+		return algo.getOutput();
 
 	}
 	

@@ -50,6 +50,20 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 
 	}
 
+	/**
+	 * common constructor
+	 * 
+	 * @param c
+	 * @param geo line
+	 * @param p polygon
+	 */
+	public AlgoIntersectPathLinePolygon3D(Construction c, 
+			GeoElement geo, GeoElement p) {
+
+		super(c,geo,p);
+
+	}
+
 
 
 	public AlgoIntersectPathLinePolygon3D(Construction c) {

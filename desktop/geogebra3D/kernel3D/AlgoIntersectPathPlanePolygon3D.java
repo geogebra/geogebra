@@ -46,6 +46,25 @@ public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygo
 		super(c,labels,plane,p);
 
 	}
+	
+	
+	/**
+	 * common constructor
+	 * 
+	 * @param c
+	 * @param labels
+	 * @param plane plane
+	 * @param p polygon
+	 */
+	public AlgoIntersectPathPlanePolygon3D(Construction c, 
+			GeoPlane3D plane, GeoElement p) {
+
+		super(c,plane,p);
+
+	}
+	
+	
+	
 
 	public AlgoIntersectPathPlanePolygon3D(Construction c) {
 		super(c);

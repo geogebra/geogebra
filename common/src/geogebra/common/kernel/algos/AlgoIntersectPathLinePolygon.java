@@ -56,11 +56,10 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * common constructor
 	 * 
 	 * @param c
-	 * @param labels
 	 * @param geo line
 	 * @param p polygon
 	 */
-	public AlgoIntersectPathLinePolygon(Construction c, String[] labels,
+	public AlgoIntersectPathLinePolygon(Construction c, 
 			GeoElement geo, GeoElement p) {
 
 		super(c);
@@ -74,12 +73,29 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
 
 		setInputOutput(); // for AlgoElement
+	}
+
+	/**
+	 * common constructor
+	 * 
+	 * @param c
+	 * @param labels
+	 * @param geo line
+	 * @param p polygon
+	 */
+	public AlgoIntersectPathLinePolygon(Construction c, String[] labels,
+			GeoElement geo, GeoElement p) {
+		
+		this(c,geo,p);
 
 		setLabels(labels);
+		hasLabels = true;
 
 		update();
 
 	}
+	
+	private boolean hasLabels = false;
 	
 	public AlgoIntersectPathLinePolygon(Construction c) {
 		super(c);
@@ -360,7 +376,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				outputSegments.getElement(0).setUndefined();
 			}else{
 				outputSegments.adjustOutputSize(segmentList.size());
-				outputSegments.updateLabels();
+				if (hasLabels){
+					outputSegments.updateLabels();
+				}
 				int indexSegment = 0;
 				for (Coords[] seg : segmentList){
 					GeoSegmentND segment = (GeoSegmentND) outputSegments

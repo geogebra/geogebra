@@ -28,6 +28,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.util.StringUtil;
@@ -2337,7 +2338,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				if (B.getMetasLength() == 1){
 					ret = getKernel().getManager3D().IntersectRegion(new String[] {null}, A, B.getMetas()[0], null);
 				}else{
-					ret = getKernel().getManager3D().IntersectionSegment(new String[] {null}, A, B);
+					ret = getKernel().getManager3D().IntersectPath(new String[] {null}, A, B);
 				}				
 				return ret[0].isDefined();
 			}
@@ -2414,9 +2415,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		// plane - polyhedron
 		} else if (A.isGeoPlane() && B.isGeoPolygon()) {
-			createIntersectionCurvePlanePolyhedron(A, (GeoPolygon) B);
+			createIntersectionCurvePlanePolygon(A, (GeoPolygon) B);
 		} else if (B.isGeoPlane() && A.isGeoPolygon()) {
-			createIntersectionCurvePlanePolyhedron(B, (GeoPolygon) A);
+			createIntersectionCurvePlanePolygon(B, (GeoPolygon) A);
 			
 		// plane-quadric
 		} else if (A.isGeoPlane() && B instanceof GeoQuadric3D) {
@@ -2442,41 +2443,52 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 	}
 	
-	private boolean createIntersectionCurvePlanePolyhedron(GeoElement A, GeoPolygon B) {
-		//add intersection to tempArrayList
-		
-		//App.debug("\nA:"+A+"\nB:"+B);
-		
+	private boolean createIntersectionCurvePlanePolygon(GeoElement A, GeoPolygon B) {
+
+
 		//check first if B is linked to polyhedron
-		if (B.getMetasLength() != 1){
-			return false;
+		if (B.getMetasLength() == 1){
+
+			boolean oldSilentMode = getKernel().isSilentMode();
+			getKernel().setSilentMode(true);//tells the kernel not to record the algo
+
+			GeoElement polyhedron = B.getMetas()[0];
+
+			GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, polyhedron);
+
+			boolean goAhead = true;
+			DrawIntersectionCurve3D drawPolygons = new DrawIntersectionCurve3D(view3D, (GeoPolygon3D) ret[0]);
+			for (int i=0; i<ret.length && goAhead ; i++){
+				GeoElement geo = ret[i];
+				if (geo instanceof GeoPolygon3D){
+					DrawPolygon3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) geo);
+					drawPolygons.add(d);
+					processIntersectionCurve(A, polyhedron, geo, drawPolygons);
+				}else{
+					goAhead = false;
+				}
+			}
+
+
+			getKernel().setSilentMode(oldSilentMode);
+
+			return true;
+
 		}
 		
+		//if B is linked to no (or more than one) polyhedron, create intersection segment(s)
 		boolean oldSilentMode = getKernel().isSilentMode();
 		getKernel().setSilentMode(true);//tells the kernel not to record the algo
-		
-		GeoElement polyhedron = B.getMetas()[0];
-		
-		GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, polyhedron);
 
-		boolean goAhead = true;
-		DrawPolygonsForIntersectionCurve drawPolygons = new DrawPolygonsForIntersectionCurve(view3D, (GeoPolygon3D) ret[0]);
-		for (int i=0; i<ret.length && goAhead ; i++){
-			GeoElement geo = ret[i];
-			if (geo instanceof GeoPolygon3D){
-				DrawPolygon3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) geo);
-				drawPolygons.add(d);
-				processIntersectionCurve(A, polyhedron, geo, drawPolygons);
-			}else{
-				goAhead = false;
-			}
-		}
+		GeoElement[] ret = kernel.getManager3D().IntersectPath((GeoPlaneND) A, B);
+		DrawSegment3D d = new DrawSegment3D(view3D, (GeoSegmentND) ret[0]);
+		processIntersectionCurve(A, B, ret[0], d);
 
-		
 		getKernel().setSilentMode(oldSilentMode);
 
-		//App.debug("\n"+A+"\n"+B+"\n"+ret[0]);
 		return true;
+		
+		
 	}
 	
 	private boolean createIntersectionCurvePlaneQuadric(GeoElement A, GeoElement B) {
