@@ -147,6 +147,8 @@ namespace giac {
     if (!(isolate_mode & 2))
       return makevecteur(asine,one_half_tour(contextptr)-asine);
     identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
+    if (is_zero(e))
+      return asine+(*x)*one_half_tour(contextptr);
     return makevecteur(asine+(*x)*one_tour(contextptr),one_half_tour(contextptr)-asine+(*x)*one_tour(contextptr));
   }
   static gen isolate_cos(const gen & e,int isolate_mode,GIAC_CONTEXT){
@@ -154,6 +156,8 @@ namespace giac {
     if (!(isolate_mode & 2))
       return makevecteur(acose,-acose);
     identificateur * x=new identificateur(string("n_")+print_intvar_counter(contextptr));
+    if (is_zero(e))
+      return acose+(*x)*one_half_tour(contextptr);
     return makevecteur(acose+(*x)*one_tour(contextptr),-acose+(*x)*one_tour(contextptr));
   }
   static gen isolate_tan(const gen & e,int isolate_mode,GIAC_CONTEXT){

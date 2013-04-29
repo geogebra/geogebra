@@ -5021,8 +5021,11 @@ namespace giac {
       if ( (a.subtype==_LIST__VECT) || (b.subtype==_LIST__VECT) )
 	return matrix_apply(a,b,contextptr,operator_times);
       { gen res=ckmultmatvecteur(*a._VECTptr,*b._VECTptr);
-	if (res.type==_VECT)
+	if (res.type==_VECT){
 	  res.subtype=b.subtype;
+	  if (res.subtype==0)
+	    res.subtype=a.subtype;
+	}
 	return res;
       }
     case _POLY__POLY:
