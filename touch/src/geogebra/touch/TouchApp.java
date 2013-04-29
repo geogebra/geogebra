@@ -30,6 +30,7 @@ import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
 import geogebra.web.main.LocalizationW;
 import geogebra.web.main.ViewManager;
+import geogebra.web.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class TouchApp extends AppWeb
 
 		if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
 		{
-			logger = new GeoGebraLoggerM(touchGUI);
+			logger = new GeoGebraLogger();
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
