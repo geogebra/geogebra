@@ -5576,6 +5576,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	public ExpressionNode negation() {
 		
+		Operation opNegated = this.operation.negate();
+		
+		if (Operation.NOT.equals(opNegated)) {
+			// unary, not binary
+			return new ExpressionNode(kernel, left, Operation.NOT, null);			
+		}
+		
 		return new ExpressionNode(kernel, left, this.operation.negate(), right);
 		
 	}
