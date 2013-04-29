@@ -30,7 +30,7 @@ public class ModeToggleMenu extends MenuBar{
 //	private ActionListener popupMenuItemListener;
 	private AppW app;
 	int size;
-	private ToolBarW toolbar;
+	ToolBarW toolbar;
 	private AbsolutePanel imagePanel;
 
 	final static GColor bgColor = GColor.white;
@@ -206,6 +206,7 @@ public class ModeToggleMenu extends MenuBar{
         }
 		
 		public void showToolTip(){
+			if (toolbar.hasPopupOpen()) return;
 			
 			app.getToolTipManager().setEnableDelay(false);
 			app.getToolTipManager().showToolTipForElement(this.getElement(), toolTipText);
