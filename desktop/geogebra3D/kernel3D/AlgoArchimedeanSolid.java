@@ -298,18 +298,11 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 	
 	
-	
-	
+
 	@Override
-	public void update() {
-
-		// compute and polyhedron
-		super.update();
-		
-		//output points
-		for (int i=0;i<outputPoints.size();i++)
-			outputPoints.getElement(i).update();
-
+	protected void updateDependentGeos(){
+		super.updateDependentGeos();
+		outputPoints.update();
 	}
 	
 	

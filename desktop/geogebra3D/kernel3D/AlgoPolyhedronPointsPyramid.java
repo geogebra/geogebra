@@ -293,6 +293,17 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 
 	@Override
 	protected void updateVolume(){
+		super.updateVolume();
 		getPolyhedron().setVolume(getBottom().getArea() * getHeightValue() / 3);	
 	}
+	
+	@Override
+	protected void updateDependentGeos(){
+		super.updateDependentGeos();
+		if (height!=null){
+			getTopPoint().update();
+		}
+	}
+	
+
 }

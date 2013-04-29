@@ -317,7 +317,13 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	/**
 	 * updates the polyhedron's volume
 	 */
-	protected abstract void updateVolume();
+	protected void updateVolume(){
+		// calc bottom area if needed
+		if (!bottomAsInput){
+			((GeoPolygon3D) getBottom()).updateCoordSys();
+			getBottom().calcArea();
+		}
+	}
 
 	/**
 	 * 

@@ -259,5 +259,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 
 	}
 	
+	@Override
+	protected void updateDependentGeos(){
+		getPolyhedron().update();
+	}
 	
 }

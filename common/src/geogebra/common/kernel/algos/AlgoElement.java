@@ -376,6 +376,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 				}
 			}
 		}
+		
+		/**
+		 * call update for each geo
+		 */
+		public void update(){
+			for (int i = 0; i < outputList.size(); i++) {
+				outputList.get(i).update();
+			}
+		}
 
 		/**
 		 * set the label to the next geo with no label (or create new one)
@@ -517,13 +526,21 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// computeTime += (endTime - startTime);
 		// startTime = System.currentTimeMillis();
 
+		updateDependentGeos();
+
+		// endTime = System.currentTimeMillis();
+		// updateTime += (endTime - startTime );
+	}
+
+
+	/**
+	 * update output geos
+	 */
+	protected void updateDependentGeos(){
 		// update dependent objects
 		for (int i = 0; i < getOutputLength(); i++) {
 			getOutput(i).update();
 		}
-
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
 	}
 
 	/**
