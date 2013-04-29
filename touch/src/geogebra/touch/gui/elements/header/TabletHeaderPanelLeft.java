@@ -87,7 +87,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				String result = TabletHeaderPanelLeft.this.dialog.getInput();
 
-				if (!result.isEmpty())
+				if (result != null && !result.isEmpty())
 				{
 					TabletHeaderPanelLeft.this.guiModel.closeOptions();
 					TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();

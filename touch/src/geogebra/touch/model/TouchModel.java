@@ -7,6 +7,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -457,6 +460,7 @@ public class TouchModel
 		case VectorBetweenTwoPoints:
 		case CircleWithCenterThroughPoint:
 		case Semicircle:
+		case Locus: 
 			changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 2;
 			break;
@@ -584,9 +588,10 @@ public class TouchModel
 		case Compasses: // TODO
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
 					Test.GEOSEGMENT });
-			draw = getNumberOf(Test.GEOPOINT) >= 2
-					|| getNumberOf(Test.GEOCONIC) >= 1
-					|| getNumberOf(Test.GEOSEGMENT) >= 1;
+			draw = getNumberOf(Test.GEOPOINT) >= 3
+					|| getNumberOf(Test.GEOPOINT) >= 1 && 
+					(getNumberOf(Test.GEOCONIC) >= 1
+					|| getNumberOf(Test.GEOSEGMENT) >= 1);
 			break;
 
 		// commands that need three points or two lines
@@ -706,6 +711,11 @@ public class TouchModel
 						null, (GeoPoint) getElement(Test.GEOPOINT),
 						(GeoPoint) getElement(Test.GEOPOINT, 1)));
 				break;
+			case Locus:
+				newElements.add(this.kernel.getAlgoDispatcher().Locus(null, 
+						(GeoPoint) getElement(Test.GEOPOINT),
+						(GeoPoint) getElement(Test.GEOPOINT, 1)));
+				break;
 			case PerpendicularLine:
 				newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(
 						null, (GeoPoint) getElement(Test.GEOPOINT),
@@ -743,7 +753,7 @@ public class TouchModel
 				}
 				break;
 			case IntersectTwoObjects:
-				Command c = new Command(this.kernel, null, draw);
+				Command c = new Command(this.kernel, "IntersectTwoObjects", draw);
 
 				c.addArgument(new ExpressionNode(
 						this.kernel,
@@ -896,7 +906,36 @@ public class TouchModel
 						(GeoPoint) getElement(Test.GEOPOINT, 2)));
 				break;
 			case Compasses:
-				// TODO
+				if(getNumberOf(Test.GEOPOINT) >= 3)
+				{
+					AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(this.kernel.getConstruction(), 
+							(GeoPoint) getElement(Test.GEOPOINT),
+							(GeoPoint) getElement(Test.GEOPOINT, 1), null);
+					this.kernel.getConstruction().removeFromConstructionList(algoSegment);
+
+					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null, 
+							(GeoPoint) getElement(Test.GEOPOINT, 2), algoSegment.getSegment(), true);
+					GeoConic compassCircle = algo.getCircle();
+					compassCircle.setToSpecific();
+					compassCircle.update();
+					newElements.add(compassCircle); 
+				} else if(getNumberOf(Test.GEOCONIC) >= 1)
+				{
+					AlgoRadius radius = new AlgoRadius(this.kernel.getConstruction(), (GeoConic) getElement(Test.GEOCONIC));
+					this.kernel.getConstruction().removeFromConstructionList(radius);
+
+					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null, 
+							(GeoPoint) getElement(Test.GEOPOINT), radius.getRadius());
+					GeoConic compassCircle2 = algo.getCircle();
+					compassCircle2.setToSpecific();
+					compassCircle2.update();
+					newElements.add(compassCircle2);
+				} else //segment
+				{
+					newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) getElement(Test.GEOPOINT), 
+							(GeoSegment) getElement(Test.GEOSEGMENT)));
+				}
+				
 				break;
 			case Angle:
 				if (this.getNumberOf(Test.GEOPOINT) >= 3)

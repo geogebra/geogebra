@@ -24,7 +24,7 @@ public enum ToolBarMenu
 	    ToolBarCommand.PerpendicularBisector, ToolBarCommand.AngleBisector, ToolBarCommand.Tangents,
 	// TODO: ToolBarCommand.PolarOrDiameterLine,
 	// TODO: ToolBarCommand.BestFitLine,
-	// TODO: ToolBarCommand.Locus
+	    ToolBarCommand.Locus
 	    }),
 
 	Polygon(ToolBarCommand.Polygon, new ToolBarCommand[] { ToolBarCommand.Polygon, ToolBarCommand.RegularPolygon, ToolBarCommand.RigidPolygon,
@@ -32,7 +32,7 @@ public enum ToolBarMenu
 
 	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint, new ToolBarCommand[] {
 	    ToolBarCommand.CircleWithCenterThroughPoint,
-	    // TODO: ToolBarCommand.Compasses,
+	    ToolBarCommand.Compasses,
 	    ToolBarCommand.CircleThroughThreePoints, ToolBarCommand.Semicircle, ToolBarCommand.CircularArcWithCenterBetweenTwoPoints,
 	    ToolBarCommand.CircumCirculuarArcThroughThreePoints, ToolBarCommand.CircularSectorWithCenterBetweenTwoPoints,
 	    ToolBarCommand.CircumCircularSectorThroughThreePoints }),

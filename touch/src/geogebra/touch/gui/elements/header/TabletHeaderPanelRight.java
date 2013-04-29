@@ -29,7 +29,8 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				app.getKernel().undo();
+				app.getKernel().undo();				
+				app.resetPen(); 
 			}
 		}, ClickEvent.getType());
 
@@ -40,6 +41,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				app.getKernel().redo();
+				app.resetPen(); 
 			}
 		}, ClickEvent.getType());
 

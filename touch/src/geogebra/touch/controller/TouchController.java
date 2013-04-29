@@ -128,15 +128,7 @@ public class TouchController extends EuclidianController
 				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 				return;
 			}
-			/*
-			this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-			MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-
 			
-			wrapMouseDragged(mEvent);
-
-			this.origin = new GPoint(x, y);
-			*/
 			touchMoveNow(x, y, time);
 			
 		}
