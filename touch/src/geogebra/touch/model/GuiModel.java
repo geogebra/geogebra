@@ -70,24 +70,6 @@ public class GuiModel
 		}
 	}
 
-	public void processSource(String string)
-	{
-		if (string.equals("pointCapture"))
-		{
-			// taken from EuclidianStyleBarStatic.processSourceCommon
-			int mode = this.euclidianView.getPointCapturingMode();
-			if (mode == 3 || mode == 0)
-			{
-				mode = 3 - mode; // swap 0 and 3
-			}
-			this.euclidianView.setPointCapturing(mode);
-		}
-		else
-		{
-			EuclidianStyleBarStatic.processSourceCommon(string, null, this.euclidianView);
-		}
-	}
-
 	public void updateStylingBar(TouchModel model)
 	{
 		if (this.stylingBar == null)

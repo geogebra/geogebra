@@ -34,8 +34,8 @@ public class StylingBar extends DecoratorPanel
 	private VerticalPanel contentPanel;
 
 	private StandardImageButton[] tempButtons = new StandardImageButton[0];
-	StandardImageButton[] option;
-	StandardImageButton[] button;
+	StandardImageButton[] optionalButtons;
+	StandardImageButton[] standardButtons;
 	StandardImageButton colorButton;
 
 	boolean[] active;
@@ -76,33 +76,16 @@ public class StylingBar extends DecoratorPanel
 	 */
 	private void createStandardButtons()
 	{
-		this.button = new StandardImageButton[2];
+		this.standardButtons = new StandardImageButton[2];
 		this.active = new boolean[] { true, false, true };
 
-		this.button[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
-		this.button[0].addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				StyleBarStatic.showAxes(StylingBar.this.euclidianView);
-			}
-		}, ClickEvent.getType());
-
-		this.button[1] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid(), 1);
-		this.button[1].addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				StyleBarStatic.showGrid(StylingBar.this.euclidianView);
-			}
-		}, ClickEvent.getType());
+		this.standardButtons[0] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes(), 0);
+		this.standardButtons[1] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid(), 1);
 
 		// add the standardButtons to the verticalPanel
-		for (int i = 0; i < this.button.length; i++)
+		for (int i = 0; i < this.standardButtons.length; i++)
 		{
-			this.contentPanel.add(this.button[i]);
+			this.contentPanel.add(this.standardButtons[i]);
 		}
 	}
 
@@ -112,9 +95,9 @@ public class StylingBar extends DecoratorPanel
 	private void createOptionalButtons()
 	{
 		// optional buttons
-		this.option = new StandardImageButton[2];
-		this.option[0] = new StandardImageButton(CommonResources.INSTANCE.label());
-		this.option[0].addDomHandler(new ClickHandler()
+		this.optionalButtons = new StandardImageButton[2];
+		this.optionalButtons[0] = new StandardImageButton(CommonResources.INSTANCE.label());
+		this.optionalButtons[0].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -125,15 +108,15 @@ public class StylingBar extends DecoratorPanel
 				}
 				else
 				{
-					StylingBar.this.guiModel.closeOptions();
-					StylingBar.this.guiModel.showOption(new CaptionBar(StylingBar.this.touchModel), OptionType.CaptionStyle, StylingBar.this.option[0]);
+					StylingBar.this.guiModel
+					    .showOption(new CaptionBar(StylingBar.this.touchModel), OptionType.CaptionStyle, StylingBar.this.optionalButtons[0]);
 				}
 			}
 		}, ClickEvent.getType());
 
-		this.option[1] = new StandardImageButton(CommonResources.INSTANCE.properties_defaults());
+		this.optionalButtons[1] = new StandardImageButton(CommonResources.INSTANCE.properties_defaults());
 
-		this.option[1].addDomHandler(new ClickHandler()
+		this.optionalButtons[1].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -144,8 +127,7 @@ public class StylingBar extends DecoratorPanel
 				}
 				else
 				{
-					StylingBar.this.guiModel.closeOptions();
-					StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel), OptionType.LineStyle, StylingBar.this.option[1]);
+					StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel), OptionType.LineStyle, StylingBar.this.optionalButtons[1]);
 				}
 			}
 		}, ClickEvent.getType());
@@ -186,8 +168,10 @@ public class StylingBar extends DecoratorPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				event.preventDefault();
+
 				StylingBar.this.guiModel.closeOptions();
-				StylingBar.this.guiModel.processSource(process);
+				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
 
 				if (StylingBar.this.active[number])
 				{
@@ -243,7 +227,7 @@ public class StylingBar extends DecoratorPanel
 		ArrayList<StandardImageButton> buttons = new ArrayList<StandardImageButton>();
 		for (SVGResource svg : resource)
 		{
-			for (StandardImageButton b : this.option)
+			for (StandardImageButton b : this.optionalButtons)
 			{
 				if (svg.equals(b.getIcon()))
 				{
