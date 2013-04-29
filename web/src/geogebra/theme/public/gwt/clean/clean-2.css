@@ -1498,6 +1498,17 @@ Paddings for menuitems.
 	background: #D5E2FF;
 }
 
+/*=========== ToolTip =============*/
+
+.ToolTip {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-size: 80%;
+	background: whitesmoke;
+	border: 1px solid lightgray;
+	box-shadow: 2px 2px 8px -1px #ccc;
+	padding: 2px;
+}
+
 
 /*=========== ToolBar =============*/
 

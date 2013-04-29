@@ -150,9 +150,9 @@ public class ModeToggleMenu extends MenuBar{
 			tbutton.getElement().appendChild(tbutton.getCanvas(mode).getElement());
 			
 			this.getElement().setAttribute("mode", actionText);
-//			this.setTitle(app.getToolName(mode));
+			//this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
-			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
+			tbutton.setToolTipText(app.getToolTooltipHTML(mode));
 			//tbutton.setText(app.getToolName(mode));
 		} else if (size == 2){
 			tbutton.getElement().appendChild(tbutton.getCanvasForRedTriangle().getElement());
@@ -197,8 +197,25 @@ public class ModeToggleMenu extends MenuBar{
 		MyJToggleButton(ModeToggleMenu menu) {
 			super("", true, menu);
 			initCanvasForRedTriangle();
+			this.addNativeToolTipHandler(this.getElement(), this);
 		}
 
+		String toolTipText;
+		public void setToolTipText(String string) {
+			toolTipText = string;
+        }
+		
+		public void showToolTip(){
+			
+			app.getToolTipManager().setEnableDelay(false);
+			app.getToolTipManager().showToolTipForElement(this.getElement(), toolTipText);
+			app.getToolTipManager().setEnableDelay(true);
+		}
+		
+		public void hideToolTip(){
+			app.getToolTipManager().hideToolTip();
+		}
+		
 		private void initCanvasForRedTriangle(){
 			canvasForRedTriangle = Canvas.createIfSupported();
 			canvasForRedTriangle.setWidth("40px");
@@ -215,6 +232,17 @@ public class ModeToggleMenu extends MenuBar{
 			addNativeHandler(element, this);
 		}
 
+		private native void addNativeToolTipHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
+		element.addEventListener("mouseout",function() {
+			bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::hideToolTip()();
+		});
+		element.addEventListener("mouseover",function() {
+			bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::showToolTip()();
+		});
+		
+		
+		}-*/;
+		
 		private native void addNativeHandler(Element element, ModeToggleMenu.MyJToggleButton bt) /*-{
 			element.addEventListener("mouseout",function() {
 				bt.@geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton::triangleMouseOut()();

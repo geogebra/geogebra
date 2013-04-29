@@ -21,9 +21,10 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
-import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.css.GuiResources;
@@ -43,6 +44,7 @@ import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
+import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
@@ -103,7 +105,7 @@ public class AppW extends AppWeb {
 	private GuiManagerW guiManager;
 	private SoundManagerW soundManager;
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
-
+	private ToolTipManagerW toolTipManager;
 	
 	
 
@@ -429,6 +431,13 @@ public class AppW extends AppWeb {
 	}
 
 	
+
+	public ToolTipManagerW getToolTipManager(){
+		if(toolTipManager == null){
+		toolTipManager = new ToolTipManagerW();
+		}
+		return toolTipManager;
+	}
 
 	// ========================================================
 	// Undo/Redo
@@ -1914,5 +1923,32 @@ public class AppW extends AppWeb {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	/**
+	 * Returns the tool name and tool help text for the given tool as an HTML
+	 * text that is useful for tooltips.
+	 * 
+	 * @param mode
+	 *            : tool ID
+	 */
+	public String getToolTooltipHTML(int mode) {
+
+		// TODO: fix this code copied from desktop
+		//if getLocalization().getTooltipLocale() != null) {
+		//	getLocalization().setTooltipFlag();
+		// }
+
+		StringBuilder sbTooltip = new StringBuilder();
+		sbTooltip.append("<html><b>");
+		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
+		sbTooltip.append("</b><br>");
+		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
+		sbTooltip.append("</html>");
+
+		getLocalization().clearTooltipFlag();
+
+		return sbTooltip.toString();
+
+	}
 
 }
