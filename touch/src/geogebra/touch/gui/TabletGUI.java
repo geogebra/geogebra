@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchApp;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
@@ -18,12 +19,15 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
  * Coordinates the GUI of the tablet.
@@ -34,26 +38,20 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public static final float ALGEBRA_VIEW_WIDTH_FRACTION = 0.2f;
 	public static final int FOOTER_BORDER_WIDTH = 1;
 
-	SplitLayoutPanel contentPanel;
+	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
+
+	private TouchModel touchModel;
+	private LookAndFeel laf;
+
+	DockLayoutPanel contentPanel;
 	private ToolBar toolBar;
 
 	EuclidianViewPanel euclidianViewPanel;
 	private AlgebraViewPanel algebraViewPanel;
 	StylingBar stylingBar;
-	private LookAndFeel laf;
-	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 
-	private TouchModel touchModel;
-
-	public void addResizeListener(ResizeListener rl)
-	{
-		this.resizeListeners.add(rl);
-	}
-
-	public static GColor getBackgroundColor()
-	{
-		return GColor.LIGHT_GRAY;
-	}
+	private PopupPanel algebraViewButtonPanel;
+	private StandardImageButton algebraViewButton;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -91,7 +89,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		// Initialize GUI Elements
 		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel.getGuiModel());
 
-		this.contentPanel = new SplitLayoutPanel();
+		this.contentPanel = new DockLayoutPanel(Unit.PX);
 
 		TouchController ec = new TouchController(this.touchModel, kernel.getApplication());
 		ec.setKernel(kernel);
@@ -106,16 +104,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
 
 		this.contentPanel.addEast(this.algebraViewPanel, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
-		this.contentPanel.addWest(this.euclidianViewPanel, (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)));
+		this.contentPanel.add(this.euclidianViewPanel);
 		this.contentPanel.setHeight("100%");
 		this.euclidianViewPanel.setPixelSize((int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)),
 		    Window.getClientHeight() - this.laf.getPanelsHeight());
 
 		this.euclidianViewPanel.add(this.stylingBar);
 		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, 0, 10);
-
-		this.contentPanel.setWidgetMinSize(this.algebraViewPanel, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
-		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION)));
 
 		this.setContentWidget(this.contentPanel);
 
@@ -125,6 +120,25 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString());
 		this.getFooterWidget().getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
+		// show/hide AlgebraView Button
+		this.algebraViewButtonPanel = new PopupPanel();
+		this.algebraViewButton = new StandardImageButton(CommonResources.INSTANCE.algebra_open());
+
+		this.algebraViewButtonPanel.setWidget(this.algebraViewButton);
+		// TODO Reposition according to Markus' wishes!
+		this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth() - 70, 70);
+		this.algebraViewButtonPanel.setAutoHideEnabled(false);
+		this.algebraViewButtonPanel.show();
+
+		this.algebraViewButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TabletGUI.this.toggleAlgebraView();
+			}
+		}, ClickEvent.getType());
+
 		Window.addResizeHandler(new ResizeHandler()
 		{
 			@Override
@@ -133,6 +147,16 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 				TabletGUI.this.onResize(event);
 			}
 		});
+	}
+
+	public void addResizeListener(ResizeListener rl)
+	{
+		this.resizeListeners.add(rl);
+	}
+
+	public static GColor getBackgroundColor()
+	{
+		return GColor.LIGHT_GRAY;
 	}
 
 	protected void onResize(ResizeEvent event)
@@ -145,12 +169,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
 		this.contentPanel.onResize();
 		int euclidianWidth = event.getWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
-		this.contentPanel.setWidgetMinSize(this.euclidianViewPanel, euclidianWidth);
+
 		this.euclidianViewPanel.setPixelSize(euclidianWidth, event.getHeight() - this.laf.getPanelsHeight());
-		
+
 		this.toolBar.setWidth(event.getWidth() + "px");
 
 		this.touchModel.getGuiModel().closeOptions();
+		this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth() - 60, 70);
 	}
 
 	@Override
@@ -168,5 +193,24 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public LookAndFeel getLAF()
 	{
 		return this.laf;
+	}
+
+	void toggleAlgebraView()
+	{
+		if (this.algebraViewPanel.isVisible())
+		{
+			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
+			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - this.laf.getPanelsHeight());
+			this.algebraViewPanel.setVisible(false);
+		}
+		else
+		{
+			this.contentPanel.setWidgetSize(this.algebraViewPanel, Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION);
+
+			int euclidianWidth = Window.getClientWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
+
+			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - this.laf.getPanelsHeight());
+			this.algebraViewPanel.setVisible(true);
+		}
 	}
 }
