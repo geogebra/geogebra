@@ -2349,9 +2349,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			GeoElement plane = (GeoElement) getSelectedCS2D()[0];
 			GeoQuadric3D quad = getSelectedQuadric()[0];
 			if (quad instanceof GeoQuadric3DPart){
+				GeoQuadric3DLimited ql = (GeoQuadric3DLimited) ((GeoQuadric3DPart) quad).getMetas()[0];
 				GeoElement[] ret = {kernel.getManager3D().IntersectQuadricLimited( null, (GeoPlaneND) plane, 
-						(GeoQuadric3DLimited) ((GeoQuadric3DPart) quad).getMetas()[0])};
-				return ret[0].isDefined();
+						ql)};
+				if(!ret[0].isDefined()){
+					return false;
+				}
+				//also compute corner points
+				//kernel.getManager3D().Corner(null, (GeoConicSection) ret[0]);
+				return true;
 			}
 			//else
 			GeoElement[] ret = {kernel.getManager3D().Intersect( null, (GeoPlaneND) plane, quad)};
