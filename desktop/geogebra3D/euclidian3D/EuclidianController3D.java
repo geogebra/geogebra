@@ -2458,11 +2458,23 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		GeoElement polyhedron = B.getMetas()[0];
 		
 		GeoElement[] ret = kernel.getManager3D().IntersectRegion((GeoPlaneND) A, polyhedron);
-		Drawable3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) ret[0]);
 
-		getKernel().setSilentMode(oldSilentMode);
-		processIntersectionCurve(A, polyhedron, ret[0], d);
+		boolean goAhead = true;
+		DrawPolygonsForIntersectionCurve drawPolygons = new DrawPolygonsForIntersectionCurve(view3D, (GeoPolygon3D) ret[0]);
+		for (int i=0; i<ret.length && goAhead ; i++){
+			GeoElement geo = ret[i];
+			if (geo instanceof GeoPolygon3D){
+				DrawPolygon3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) geo);
+				drawPolygons.add(d);
+				processIntersectionCurve(A, polyhedron, geo, drawPolygons);
+			}else{
+				goAhead = false;
+			}
+		}
+
 		
+		getKernel().setSilentMode(oldSilentMode);
+
 		//App.debug("\n"+A+"\n"+B+"\n"+ret[0]);
 		return true;
 	}
