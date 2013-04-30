@@ -24,7 +24,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.main.AppWeb;
 import geogebra.web.main.DrawEquationWeb;
@@ -50,6 +49,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -115,7 +115,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}*/
 
-	public RadioButtonTreeItem(GeoElement ge) {
+	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
@@ -126,8 +126,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		radio = new Marble(AppResources.INSTANCE.shown().getSafeUri()
-		        , AppResources.INSTANCE.hidden().getSafeUri(),this);
+		radio = new Marble(showUrl, hiddenUrl,this);
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(ge.isEuclidianVisible());
 		add(radio);
