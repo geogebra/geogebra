@@ -63,7 +63,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			
 			// JavaScript command to send
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
-			sb.append("_ggbCallGiac('" + exp + "');");
+			sb.append("_ggbCallGiac('");
 			sb.append(exp);
 			sb.append("');");
  
