@@ -7,13 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.jogamp.common.jvm.JNILibLoaderBase.LoaderAction;
-
 /**
  * Adapted from http://www.jotschi.de/Uncategorized/2011/09/26/jogl2-jogamp-classpathloader-for-native-libraries.html
  *
  */
-public class MyClassPathLoader implements LoaderAction {
+public class MyClassPathLoader {
 
 	/**
 	 * Loads the given library with the libname from the classpath root
@@ -82,17 +80,6 @@ public class MyClassPathLoader implements LoaderAction {
 	public void loadLibrary(String libname, String[] preload,
 			boolean preloadIgnoreError) {
 		loadLibrary(libname, preloadIgnoreError);
-	}
-
-	public boolean loadLibrary(String arg0, boolean arg1, ClassLoader arg2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void loadLibrary(String arg0, String[] arg1, boolean arg2,
-			ClassLoader arg3) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
