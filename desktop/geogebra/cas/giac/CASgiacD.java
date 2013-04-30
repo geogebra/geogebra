@@ -5,31 +5,43 @@ import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.main.AppD;
 import javagiac.context;
 import javagiac.gen;
 import javagiac.giac;
 
 public class CASgiacD extends CASgiac implements Evaluate {
 
-	public CASgiacD(CASparser casParser, CasParserTools t) {
+	private AppD app;
+
+	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
+		
+		this.app = (AppD) k.getApplication();
 		
 		App.setCASVersionString("GIAC");
 	}
+	
+	static boolean giacLoaded = false;
 
 	static {
 		try {
-			App.debug("Loading giac java interface");
+			App.debug("Loading Giac dynamic library");
+			String file;
 			if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))) {
-				System.loadLibrary( "javagiac64" );
+				file = "javagiac64";
 			} else {
-				System.loadLibrary( "javagiac" );
+				file = "javagiac";
 			}
-		} catch (UnsatisfiedLinkError e) {
+			
+			System.loadLibrary(file);
+			
+			giacLoaded = true;
+		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("Native code library failed to load. See the chapter on Dynamic Linking Problems in the SWIG Java documentation for help.\n" + e);
-			System.exit(1);
+			App.debug("Failed to load Giac dynamic library");
 		}
 	}
 
@@ -37,15 +49,35 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	public String evaluate(String exp) throws Throwable {
 
-		App.error("giac  input: "+exp);		
+		String ret;
+		
+		App.debug("giac  input: "+exp);		
 
-		initialize();
+		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
+			// can't load DLLs in unsigned applet
+			// so use JavaScript version instead
+			
+			String[] args = { exp };
+			
+			Object jsRet = app.getApplet().callJavaScript("_ggbCallGiac", args);
+			
+			if (jsRet instanceof String) {
+				ret = (String) jsRet;
+			} else {
+				ret = "?";
+				String type = (jsRet == null) ? "*null*" : jsRet.getClass()+"";
+				App.debug("wrong type returned from JS: " + type);
+			}
+			
+		} else {
+			initialize();
 
-		gen g = new gen(exp, C);
-		g = giac._eval(g, C);
-		String ret = g.print(C);
+			gen g = new gen(exp, C);
+			g = giac._eval(g, C);
+			ret = g.print(C);
+		}
 
-		App.error("giac output: " + ret);		
+		App.debug("giac output: " + ret);		
 
 		return ret;
 	}
@@ -56,7 +88,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	public void initialize() throws Throwable {
 		if (C == null) {
-			C=new context();
+			C = new context();
 		}
 
 	}

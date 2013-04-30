@@ -16,7 +16,7 @@ public class CASFactoryD extends geogebra.common.factories.CASFactory {
 
 	@Override
 	public CASGenericInterface newGiac(CASparser p, CasParserTools t,Kernel k) {
-		return new CASgiacD(p,t);
+		return new CASgiacD(p, t, k);
 	}
 
 }

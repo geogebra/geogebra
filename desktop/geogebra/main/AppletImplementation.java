@@ -1334,7 +1334,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		}
 	}
 
-	public void callJavaScript(String jsFunction, Object[] args) {
+	public Object callJavaScript(String jsFunction, Object[] args) {
 		// Application.debug("callJavaScript: " + jsFunction);
 
 		initJavaScript();
@@ -1342,17 +1342,18 @@ public class AppletImplementation implements AppletImplementationInterface {
 		try {
 			if (browserWindow != null) {
 				App.debug("callJavaScript: " + jsFunction);
-				browserWindow.call(jsFunction, args);
-			} else {
-				App
-						.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
-								+ jsFunction);
+				return browserWindow.call(jsFunction, args);
 			}
+			
+			App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
+							+ jsFunction);
 		} catch (Exception e) {
 			System.err.println("Warning: Error calling JavaScript function '"
 					+ jsFunction + "' (" + e.getLocalizedMessage() + ")");
 			// e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 	public JApplet getJApplet() {
