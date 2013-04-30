@@ -1366,6 +1366,8 @@ public class AppW extends AppWeb {
 			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
 			frame.insert(getSplitLayoutPanel(), wi);
 			frame.remove(oldSplitLayoutPanel);
+			oldSplitLayoutPanel = getSplitLayoutPanel();
+			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}
 	}
 
@@ -1396,6 +1398,7 @@ public class AppW extends AppWeb {
 
 	public void attachSplitLayoutPanel() {
 		frame.add(oldSplitLayoutPanel = getSplitLayoutPanel());
+		removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 	}
 
 	public Widget getSplitLayoutPanel() {
