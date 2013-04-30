@@ -18,6 +18,7 @@ import geogebra.web.main.AppWeb;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -661,6 +662,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView, SetLabel
 				if (ob instanceof GeoElement) {
 					ti.setWidget(new RadioButtonTreeItem((GeoElement)ob, AppResources.INSTANCE.shown().getSafeUri()
 					        , AppResources.INSTANCE.hidden().getSafeUri()));
+					ti.getElement().getStyle().setPadding(0, Unit.PX);
 
 					// Workaround to make treeitem visual selection available
 					DOM.setStyleAttribute(

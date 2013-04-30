@@ -15,6 +15,7 @@ import geogebra.web.main.AppWeb;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -138,6 +139,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 		{
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,CommonResources.INSTANCE.algebra_shown().getSafeUri(),
                     CommonResources.INSTANCE.algebra_hidden().getSafeUri()));
+			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "inline-block");
