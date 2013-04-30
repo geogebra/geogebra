@@ -43,4 +43,10 @@ public class AlgebraViewPanel extends ScrollPanel
 	{
 		return this.algebraView;
 	}
+	
+	@Override
+	public void setVisible(boolean flag){
+		super.setVisible(flag);
+		this.algebraView.setShowing(flag);
+	}
 }
