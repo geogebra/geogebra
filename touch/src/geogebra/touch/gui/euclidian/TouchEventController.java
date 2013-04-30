@@ -42,12 +42,21 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			if(!this.mc.isTextfieldHasFocus()){
 				event.preventDefault();
 			}
-			this.mc.onTouchStart(event.getTouches().get(0).getClientX(), convertHeight(event.getTouches().get(0).getClientY()));
+			this.mc.onTouchStart( getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
 		}
 		else if (event.getTouches().length() == 2)
 		{
 			this.oldDistance = distance(event.getTouches().get(0), event.getTouches().get(1));
 		}
+	}
+
+	private int getY(Touch touch) {
+		int y = touch.getClientY();
+		return this.offsetWidget == null ? y : y - this.offsetWidget.getOffsetHeight();
+	}
+
+	private static int getX(Touch touch) {
+		return touch.getClientX();
 	}
 
 	private static double distance(Touch t1, Touch t2)
@@ -63,7 +72,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		if (event.getTouches().length() == 1)
 		{
 			// proceed normally
-			this.mc.onTouchMove(event.getTouches().get(0).getClientX(), event.getTouches().get(0).getClientY());
+			this.mc.onTouchMove(getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
 		}
 		else if (event.getTouches().length() == 2)
 		{
@@ -74,8 +83,8 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			first = event.getTouches().get(0);
 			second = event.getTouches().get(1);
 
-			centerX = (first.getClientX() + second.getClientX()) / 2;
-			centerY = (first.getClientY() + second.getClientY()) / 2;
+			centerX = (getX(first) + getX(second)) / 2;
+			centerY = (getX(first) + getY(second)) / 2;
 
 			if (this.oldDistance > 0)
 			{
@@ -95,7 +104,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onTouchEnd(TouchEndEvent event)
 	{
 		event.preventDefault();
-		this.mc.onTouchEnd(event.getChangedTouches().get(0).getClientX(), event.getChangedTouches().get(0).getClientY());
+		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)), getY(event.getChangedTouches().get(0)));
 
 	}
 
@@ -134,10 +143,5 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		{
 			this.mc.onPinch(event.getX(), event.getY(), 1.1);
 		}
-	}
-
-	private int convertHeight(int y)
-	{
-		return this.offsetWidget == null ? y : y - this.offsetWidget.getOffsetHeight();
 	}
 }
