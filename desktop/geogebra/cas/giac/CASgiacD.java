@@ -37,12 +37,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			}
 
 			// "classic" method
-			//System.loadLibrary(file);
-			//giacLoaded = true;
+			System.loadLibrary(file);
+			giacLoaded = true;
 
 			// load native libraries from a jar file
-			MyClassPathLoader loader = new MyClassPathLoader();
-			giacLoaded = loader.loadLibrary(file, false);
+			//MyClassPathLoader loader = new MyClassPathLoader();
+			//giacLoaded = loader.loadLibrary(file, false);
 			//JNILibLoaderBase.setLoadingAction(loader);
 			//NativeLibrary.disableLoading();
 
