@@ -19,13 +19,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
-		
+
 		this.app = (AppD) k.getApplication();
-		
-		App.setCASVersionString("GIAC");
+
+		App.setCASVersionString("Giac");
 	}
-	
-	static boolean giacLoaded = false;
+
+	private static boolean giacLoaded = false;
 
 	static {
 		try {
@@ -36,12 +36,24 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			} else {
 				file = "javagiac";
 			}
-			
-			System.loadLibrary(file);
-			
-			giacLoaded = true;
+
+			// "classic" method
+			//System.loadLibrary(file);
+			//giacLoaded = true;
+
+			// load native libraries from a jar file
+			MyClassPathLoader loader = new MyClassPathLoader();
+			giacLoaded = loader.loadLibrary(file, false);
+			//JNILibLoaderBase.setLoadingAction(loader);
+			//NativeLibrary.disableLoading();
+
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		
+		if (giacLoaded) {
+			App.debug("Giac dynamic library loaded");
+		} else {
 			App.debug("Failed to load Giac dynamic library");
 		}
 	}
@@ -51,28 +63,28 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	public String evaluate(String exp) throws Throwable {
 
 		String ret;
-        Object jsRet = null;
-		
+		Object jsRet = null;
+
 		App.debug("giac  input: "+exp);		
 
 		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
-			
+
 			JSObject window = JSObject.getWindow(app.getApplet().applet);
-			
+
 			// JavaScript command to send
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
 			sb.append("_ggbCallGiac('");
 			sb.append(exp);
 			sb.append("');");
- 
-            // get an array from JavaScript and retrieve its contents
-            JSObject JSarray = (JSObject) window.eval(sb.toString());
+
+			// get an array from JavaScript and retrieve its contents
+			JSObject JSarray = (JSObject) window.eval(sb.toString());
 			if (JSarray != null) {
-            	jsRet = JSarray.getSlot(0);
-            }
-                        
+				jsRet = JSarray.getSlot(0);
+			}
+
 			if (jsRet instanceof String) {
 				ret = (String) jsRet;
 			} else {
@@ -80,7 +92,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				String type = (jsRet == null) ? "*null*" : jsRet.getClass()+"";
 				App.debug("wrong type returned from JS: " + type);
 			}
-			
+
 		} else {
 			initialize();
 
@@ -107,12 +119,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	public void initCAS() {
 		App.error("unimplemented");
-		
+
 	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		App.error("unimplemented");
-		
+
 	}
 
 	@Override
@@ -122,7 +134,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
