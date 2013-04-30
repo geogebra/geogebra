@@ -67,6 +67,7 @@ public class TouchEntryPoint implements EntryPoint
 				if(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64").length()>0){
 					app.getGgbApi().setBase64(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64"));
 				}
+				Window.enableScrolling(false);
 				
 			}
 
