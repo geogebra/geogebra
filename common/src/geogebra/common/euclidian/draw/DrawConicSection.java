@@ -65,6 +65,66 @@ public class DrawConicSection extends DrawConic {
 		return ((GeoConicSectionInterface) getGeoElement()).getParameterEnd(i);
 	}
 	
+	/**
+	 * 
+	 * @param m midpoint
+	 * @param ev0 first eigen vec
+	 * @param ev1 second eigen vec
+	 * @param r0 first half axis
+	 * @param r1 second half axis
+	 * @param parameter angle parameter
+	 * @return ellipse point
+	 */
+	public static final Coords ellipsePoint(Coords m, Coords ev0, Coords ev1, double r0, double r1, double parameter){
+		return m.add(ev0.mul(r0*Math.cos(parameter))).add(ev1.mul(r1*Math.sin(parameter)));
+	}
+	
+	/**
+	 * draw an edge of the ellipse (if not all in the view)
+	 */
+	private void updateEllipseEdge(){
+		
+		Coords m = conic.getMidpoint3D();
+		Coords ev0 = conic.getEigenvec3D(0);
+		Coords ev1 = conic.getEigenvec3D(1);
+		double r0 = conic.getHalfAxis(0);
+		double r1 = conic.getHalfAxis(1);
+		
+		double start0 = getStart(0);
+		double end0 = getEnd(0);
+		double start1 = getStart(1);
+		double end1 = getEnd(1);
+
+		Coords A, B; 
+		
+		if(!Double.isNaN(start1)){ // there is two segments
+			
+			//try first segment
+			A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end0));
+			if (Kernel.isZero(A.getZ())){
+				B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start1));
+			}else{ //try second segment
+				A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end1));
+				B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start0));
+			}
+		}else{ // only one segment
+			A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end0));
+			B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start0));
+		}
+
+		if (Kernel.isZero(B.getZ())){
+			if (line == null)
+				line = AwtFactory.prototype.newLine2D();
+			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
+		}else{
+			isVisible = false;
+			return;
+		}
+
+		// transform to screen coords
+		transform.setTransform(view.getCoordTransform());
+		shape = transform.createTransformedShape(line);
+	}
 	
 	@Override
 	protected void updateEllipse() {
@@ -79,14 +139,14 @@ public class DrawConicSection extends DrawConic {
 		// check if in view
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
 		if (!Kernel.isZero(M.getZ())) {// check if in view
-			isVisible = false;
+			updateEllipseEdge();
 			return;
 		}
 		Coords[] ev = new Coords[2];
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
-				isVisible = false;
+				updateEllipseEdge();
 				return;
 			}
 		}

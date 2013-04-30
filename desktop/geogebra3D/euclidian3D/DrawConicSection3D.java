@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.euclidian.draw.DrawConicSection;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
@@ -66,16 +67,16 @@ public class DrawConicSection3D extends DrawConic3D {
 			
 			if(!Double.isNaN(start1)){ // there is two holes
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
-						ellipsePoint(m, ev1, ev2, e1, e2, start1));
+				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start1));
 				brush.arcEllipse(m, ev1, ev2, e1, e2,start1,extent1);
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start1+extent1),
-						ellipsePoint(m, ev1, ev2, e1, e2, start0));
+				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start1+extent1),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0));
 			}else{
 				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
-						ellipsePoint(m, ev1, ev2, e1, e2, start0));
+				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0));
 			}
 			
 		}else{ // no hole
@@ -85,9 +86,7 @@ public class DrawConicSection3D extends DrawConic3D {
 		//updateSectorSegments(brush, conic.getConicPartType(), m, ev0, ev1, r0, r1, start0, start0+extent0);
 	}
 	
-	private Coords ellipsePoint(Coords m, Coords ev0, Coords ev1, double r0, double r1, double parameter){
-		return m.add(ev0.mul(r0*Math.cos(parameter))).add(ev1.mul(r1*Math.sin(parameter)));
-	}
+
 
 	
 	@Override
@@ -108,10 +107,10 @@ public class DrawConicSection3D extends DrawConic3D {
 			if(!Double.isNaN(start1)){ // there is two holes
 				surface.ellipsePart(m, ev1, ev2, e1, e2, start1, extent1, false);
 				surface.drawQuad(
-						ellipsePoint(m, ev1, ev2, e1, e2, start0), 
-						ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0), 
-						ellipsePoint(m, ev1, ev2, e1, e2, start1), 
-						ellipsePoint(m, ev1, ev2, e1, e2, start1+extent1) 
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0), 
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start0+extent0), 
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start1), 
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2, start1+extent1) 
 						);
 			}
 			
