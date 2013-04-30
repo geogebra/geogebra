@@ -353,6 +353,48 @@ public class DrawConicSection extends DrawConic {
 	
 	
 	
+	@Override
+	protected void updateHyperbolaEdge(){
+
+		Coords m = conic.getMidpoint3D();
+		Coords ev1 = conic.getEigenvec3D(0);
+		Coords ev2 = conic.getEigenvec3D(1);
+		double e1 = conic.getHalfAxis(0);
+		double e2 = conic.getHalfAxis(1);
+		
+
+		Coords A = null, B = null;		
+
+		double start = getStart(0);
+		double end;
+		if(!Double.isNaN(start)){ //try first segment
+			end  = getEnd(0);
+			A = view.getCoordsForView(m.add(ev1.mul(e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))));
+			B = view.getCoordsForView(m.add(ev1.mul(e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
+		}else{ //try second segment
+			start = getStart(1);
+			if(!Double.isNaN(start)){ 
+				end  = getEnd(1);
+				A = view.getCoordsForView(m.add(ev1.mul(-e1*Math.cosh(start))).add(ev2.mul(e2*Math.sinh(start))));
+				B = view.getCoordsForView(m.add(ev1.mul(-e1*Math.cosh(end))).add(ev2.mul(e2*Math.sinh(end))));
+			}
+		}
+		
+
+		if (A != null && Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())){
+			if (line == null)
+				line = AwtFactory.prototype.newLine2D();
+			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
+		}else{
+			isVisible = false;
+			return;
+		}
+
+		// transform to screen coords
+		transform.setTransform(view.getCoordTransform());
+		shape = transform.createTransformedShape(line);
+	}
+	
 	private boolean drawLeft;
 	
 	@Override

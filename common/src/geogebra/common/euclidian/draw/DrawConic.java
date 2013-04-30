@@ -767,20 +767,28 @@ public class DrawConic extends Drawable implements Previewable {
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
 	}
+	
+	/**
+	 * draw only one edge for the hyperbola section
+	 */
+	protected void updateHyperbolaEdge(){
+		//only used in DrawConicSection
+		isVisible = false;
+	}
 
 	final private void updateHyperbola() {
 
 		// check if in view
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
 		if (!Kernel.isZero(M.getZ())) {// check if in view
-			isVisible = false;
+			updateHyperbolaEdge();
 			return;
 		}
 		Coords[] ev = new Coords[2];
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
-				isVisible = false;
+				updateHyperbolaEdge();
 				return;
 			}
 		}
