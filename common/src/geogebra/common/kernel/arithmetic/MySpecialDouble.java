@@ -151,8 +151,7 @@ public class MySpecialDouble extends MyDouble {
 					if (dotIndex > -1) {
 						// eg 2.22E-100
 						i += s[0].length() - dotIndex - 1;
-						// must remove leading '0' -> 047 octal in giac
-						s[0] = s[0].replace("0.", "").replace(".", "");
+						s[0] = s[0].replace(".", "");
 					}
 					
 					// brackets just in case
@@ -169,8 +168,7 @@ public class MySpecialDouble extends MyDouble {
 					if (dotIndex > -1) {
 						// eg 2.22E100 need i=98
 						i -= s[0].length() - dotIndex - 1;
-						// must remove leading '0' -> 047 octal in giac
-						s[0] = s[0].replace("0.", "").replace(".", "");
+						s[0] = s[0].replace(".", "");
 					}
 
 					return s[0] + StringUtil.repeat('0', i);
