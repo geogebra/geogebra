@@ -53,14 +53,6 @@ public class AlgebraViewM extends AlgebraViewWeb {
 				Style.FontWeight.valueOf(font.isBold() ? "BOLD" : "NORMAL"));
 	}
 
-	/**
-	 * @return The display mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
-	 */
-	@Override
-	public SortMode getTreeMode() {
-		return this.treeMode;
-	}
-
 	@Override
 	public Object getPathForLocation(int x, int y) {
 		return null;
@@ -153,15 +145,6 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	@Override
 	public boolean isShowing() {
 		return this.showing;
-	}
-
-	@Override
-	public GeoElement getLastSelectedGeo() {
-		return null;
-	}
-
-	@Override
-	public void setLastSelectedGeo(GeoElement geo) {
 	}
 
 	@Override
