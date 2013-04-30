@@ -63,6 +63,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/* for SortMode.LAYER */
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
+	
+	private GeoElement lastSelectedGeo = null;
 
 	public AlgebraViewWeb(AppWeb app) {
 		this.app = app;
@@ -892,7 +894,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		// binary search for geo's label
 		while (left <= right) {
 			int middle = (left + right) / 2;
-			TreeItem node = (TreeItem) parent.getChild(middle);
+			TreeItem node = parent.getChild(middle);
 			String nodeLabel = ((GeoElement) node.getUserObject())
 			        .getLabelSimple();
 
@@ -918,7 +920,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			return -1;
 		int childCount = parent.getChildCount();
 		for (int i = 0; i < childCount; i++) {
-			TreeItem node = (TreeItem) parent.getChild(i);
+			TreeItem node = parent.getChild(i);
 			GeoElement g = (GeoElement) node.getUserObject();
 			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate)))
 				return i;
@@ -978,5 +980,13 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		 * if (helperBar != null) { helperBar.updateLabels(); }
 		 */
 	}
+	
+	public final GeoElement getLastSelectedGeo() {
+	    return lastSelectedGeo;
+    }
+
+	public final void setLastSelectedGeo(GeoElement geo) {
+	    lastSelectedGeo = geo;	    
+    }
 
 }

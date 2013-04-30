@@ -333,7 +333,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		//return super.isKeyboardNavigationEnabled(ti);
 	}
 
-	public GeoElement lastSelectedGeo = null;
+	
 
 	@Override
 	public void onBrowserEvent(Event event) {
@@ -372,25 +372,5 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 
 	public boolean isShowing() {
 		return isVisible() && isAttached();
-    }
-
-	
-
-
-
-
-	
-
-
-	
-
-	
-
-	public GeoElement getLastSelectedGeo() {
-	    return lastSelectedGeo;
-    }
-
-	public void setLastSelectedGeo(GeoElement geo) {
-	    lastSelectedGeo = geo;	    
     }
 } // AlgebraView
