@@ -1471,4 +1471,29 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getListValue(objName, index); 
 	}
 
+	/**
+	 * evaluates a JavaScript command which should return an array eg ["hello"]
+	 * the String is then returned by this method 
+	 * 
+	 * @param exp JavaScript expression
+	 * @return result from JavaScript call as String
+	 */
+	public String evalJS(String exp) {
+
+		Object ret = null;
+		JSObject window = JSObject.getWindow(applet);
+
+		// get an array from JavaScript and retrieve its contents
+		JSObject JSarray = (JSObject) window.eval(exp);
+		if (JSarray != null) {
+			ret = JSarray.getSlot(0);
+		}
+		
+		if (ret instanceof String) {
+			return (String) ret;
+		}
+		
+		return null;
+	}
+
 }

@@ -11,7 +11,6 @@ import geogebra.main.AppD;
 import javagiac.context;
 import javagiac.gen;
 import javagiac.giac;
-import netscape.javascript.JSObject;
 
 public class CASgiacD extends CASgiac implements Evaluate {
 
@@ -71,19 +70,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
 
-			JSObject window = JSObject.getWindow(app.getApplet().applet);
-
 			// JavaScript command to send
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
 			sb.append("_ggbCallGiac('");
 			sb.append(exp);
 			sb.append("');");
-
-			// get an array from JavaScript and retrieve its contents
-			JSObject JSarray = (JSObject) window.eval(sb.toString());
-			if (JSarray != null) {
-				jsRet = JSarray.getSlot(0);
-			}
+			
+			jsRet = app.getApplet().evalJS(sb.toString());
 
 			if (jsRet instanceof String) {
 				ret = (String) jsRet;
