@@ -4,8 +4,8 @@
 
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoPolygon3D;
 
 import java.util.ArrayList;
 
@@ -27,11 +27,11 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves implements Preview
 	/**
 	 * Common constructor
 	 * @param a_view3D 3D view
-	 * @param poly first polygon
+	 * @param geo first geo
 	 */
-	public DrawIntersectionCurve3D(EuclidianView3D a_view3D, GeoPolygon3D poly){
+	public DrawIntersectionCurve3D(EuclidianView3D a_view3D, GeoElement geo){
 		
-		super(a_view3D, poly);
+		super(a_view3D, geo);
 		
 		drawables = new ArrayList<Drawable3D>();
 		
@@ -41,7 +41,7 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves implements Preview
 	 * add a polygon to draw
 	 * @param d drawable
 	 */
-	public void add(DrawPolygon3D d){
+	public void add(Drawable3D d){
 		drawables.add(d);
 	}
 

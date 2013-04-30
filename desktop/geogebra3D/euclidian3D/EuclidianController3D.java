@@ -2337,10 +2337,16 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoPolygon B = (GeoPolygon) cs2Ds[pIndex];
 				if (B.getMetasLength() == 1){
 					ret = getKernel().getManager3D().IntersectRegion(new String[] {null}, A, B.getMetas()[0], null);
-				}else{
-					ret = getKernel().getManager3D().IntersectPath(new String[] {null}, A, B);
-				}				
-				return ret[0].isDefined();
+					return ret[0].isDefined();
+				}
+				//else
+				ret = getKernel().getManager3D().IntersectPath(new String[] {null}, A, B);				
+				if (ret[0].isDefined()){
+					//create also intersect points
+					getKernel().getManager3D().IntersectionPoint(new String[] {null},A,B);
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -2481,8 +2487,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		getKernel().setSilentMode(true);//tells the kernel not to record the algo
 
 		GeoElement[] ret = kernel.getManager3D().IntersectPath((GeoPlaneND) A, B);
-		DrawSegment3D d = new DrawSegment3D(view3D, (GeoSegmentND) ret[0]);
-		processIntersectionCurve(A, B, ret[0], d);
+
+		DrawIntersectionCurve3D drawSegments = new DrawIntersectionCurve3D(view3D, ret[0]);
+		for (GeoElement geo : ret){
+			DrawSegment3D d = new DrawSegment3D(view3D, (GeoSegmentND) geo);
+			drawSegments.add(d);
+			processIntersectionCurve(A, B, geo, drawSegments);
+		}
 
 		getKernel().setSilentMode(oldSilentMode);
 
