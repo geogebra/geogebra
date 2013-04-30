@@ -457,11 +457,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		App.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar
 				+ " appletImpl=" + appletImpl);
-		if (!isApplet && runningFromJar) {
-			setUpLogging();
-		} else {
+		//if (!isApplet && runningFromJar) {
+		//	setUpLogging();
+		//} else {
 			App.debug("Not setting up logging via LogManager");
-		}
+		//}
 
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
