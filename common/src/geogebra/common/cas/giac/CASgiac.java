@@ -32,16 +32,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	/** CAS parser */
 	public CASparser casParser;
 
-	private static boolean initialized = false;
-	
-	/**
-	 * @return whether CAS was already loaded (in Web)
-	 */
-	public boolean isInitialized(){
-		return initialized;
-	}
-
-
 	/**
 	 * Creates new Giac CAS
 	 * 
@@ -106,10 +96,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		
 		
 		App.debug("giac eval: " + exp);
-		if (!initialized) {
-			App.showAnnouncement("giac loaded"); // for the web
-			initialized = true;
-		}
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		
