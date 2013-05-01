@@ -462,7 +462,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	final public PathParameter getPathParameter() {
 		if (pp == null)
-			pp = new PathParameter();
+			pp = new PathParameter(0);
 		return pp;
 	}
 
