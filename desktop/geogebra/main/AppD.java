@@ -895,6 +895,38 @@ public class AppD extends App implements KeyEventDispatcher {
 			casType = CasType.GIAC;
 		}
 
+		if (args.containsArg("forceFont")) {
+			String fontName = args.getStringValue("forceFont");
+			
+			GraphicsEnvironment graphicsEnvironment =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+			String[] allFonts = graphicsEnvironment.getAvailableFontFamilyNames();
+			
+			boolean found = false;
+			
+			for (String s: allFonts) {
+				App.debug(s);
+				if (s.equals(fontName)) {
+					found = true;
+					break;
+				}
+			}
+			
+			if (found) {
+				App.debug("forcing font to be:" + fontName);
+				FontManagerD.forcedFontName = fontName;
+				resetFonts();
+				
+				// resetFonts() doesn't seem to work
+				// hack
+				setFontSize(getFontSize()+2);
+				setFontSize(getFontSize()-2);
+				
+			} else {
+				App.debug("can't force font to be " + fontName + " (not found)");
+			}
+		}
+
 		if (args.containsArg("primary")) {
 			boolean primary = args.getBooleanValue("primary", false);
 			if (primary) {
@@ -3008,12 +3040,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	final public Font getPlainFont() {
-		return fontManager.getPlainFont();
+		return fontManager.getPlainFont(false);
 	}
-
+	
 	@Override
 	final public geogebra.common.awt.GFont getPlainFontCommon() {
-		return new geogebra.awt.GFontD(fontManager.getPlainFont());
+		return new geogebra.awt.GFontD(fontManager.getPlainFont(true));
 	}
 
 	final public Font getSerifFont() {

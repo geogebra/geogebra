@@ -1,5 +1,6 @@
 package geogebra.main;
 
+import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -21,25 +22,30 @@ import javax.swing.UIManager;
 public class FontManagerD extends FontManager {
 
 	private Font					boldFont, italicFont, plainFont, smallFont, serifFont, serifFontBold, javaSans,
-									javaSerif;
+									javaSerif, forcedFont;
 	private int						fontSize;
 	private String					sansName, serifName;
+	
+	/**
+	 * support for eg --forceFont="Esprit LT Book"
+	 */
+	public static String forcedFontName = null;
 
 	private HashMap			fontMap					= new HashMap();
 	private StringBuilder	key						= new StringBuilder();
 
 	public static final String[]	FONT_NAMES_SANSSERIF	= {
-															"SansSerif", // Java
-			"Arial Unicode MS", // Windows
-			"Helvetica", // Mac OS X
-			"LucidaGrande", // Mac OS X
-			"ArialUnicodeMS" // Mac OS X
-															};
+		"SansSerif", // Java
+		"Arial Unicode MS", // Windows
+		"Helvetica", // Mac OS X
+		"LucidaGrande", // Mac OS X
+		"ArialUnicodeMS" // Mac OS X
+	};
 	public static final String[]	FONT_NAMES_SERIF		= {
-															"Serif", // Java
-			"Times New Roman", // Windows
-			"Times" // Mac OS X
-															};
+		"Serif", // Java
+		"Times New Roman", // Windows
+		"Times" // Mac OS X
+	};
 
 	public FontManagerD() {
 		setFontSize(12);
@@ -183,6 +189,9 @@ public class FontManagerD extends FontManager {
 		boldFont = getFont(sans, Font.BOLD, size);
 		italicFont = getFont(sans, Font.ITALIC, size);
 		smallFont = getFont(sans, Font.PLAIN, size - 2);
+		if (forcedFontName != null) {
+			forcedFont = getFont(forcedFontName, Font.PLAIN, size);
+		}
 
 		// serif
 		serifFont = getFont(serif, Font.PLAIN, size);
@@ -204,7 +213,7 @@ public class FontManagerD extends FontManager {
 	public Font getFont(final boolean serif, final int style, final int size) {
 		final String name = serif ?
 				getSerifFont().getFontName() :
-				getPlainFont().getFontName();
+				getPlainFont(false).getFontName();
 		return getFont(name, style, size);
 	}
 
@@ -239,6 +248,15 @@ public class FontManagerD extends FontManager {
 	 */
 	public Font getFontCanDisplayAwt(final String testString, final boolean serif, final int fontStyle,
 			final int fontSize) {
+		
+		App.debug("checking forced font");
+		if (forcedFont != null) {
+			if (forcedFont.canDisplayUpTo(testString) == -1) {
+				return getFont(forcedFontName, fontStyle, fontSize);
+			}
+			
+		}
+
 		final Font appFont = serif ? serifFont : plainFont;
 		if (appFont == null) {
 			return plainFont;
@@ -259,6 +277,7 @@ public class FontManagerD extends FontManager {
 			// need to compute new font
 			return getFont(appFont.getFontName(), fontStyle, fontSize);
 		}
+		
 
 		// check if standard Java fonts can be used
 		final Font javaFont = serif ? javaSerif : javaSans;
@@ -286,6 +305,10 @@ public class FontManagerD extends FontManager {
 	public String getFontCanDisplay(final LinkedList tryFontNames, final String testCharacters) throws Exception {
 		// System.out.println("expensive test getFontCanDisplay, " + testCharacters);
 
+		//if (true) {
+		//	return "Comic Sans MS";
+		//}
+		
 		// try given fonts
 		if (tryFontNames != null) {
 			final Iterator it = tryFontNames.iterator();
@@ -311,6 +334,7 @@ public class FontManagerD extends FontManager {
 		final Font[] allfonts = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getAllFonts();
 		for (int j = 0; j < allfonts.length; j++) {
+			//App.debug(allfonts[j].toString());
 			final int charsDisplayed = allfonts[j].canDisplayUpTo(testCharacters);
 			if (charsDisplayed == -1) {
 				// avoid "Monospace" font here
@@ -345,7 +369,11 @@ public class FontManagerD extends FontManager {
 		return italicFont;
 	}
 
-	final public Font getPlainFont() {
+	final public Font getPlainFont(boolean force) {
+		if (force && 
+				forcedFont != null) {
+			return forcedFont;
+		}
 		return plainFont;
 	}
 
