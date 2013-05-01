@@ -1,6 +1,5 @@
 package geogebra.main;
 
-import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -249,7 +248,6 @@ public class FontManagerD extends FontManager {
 	public Font getFontCanDisplayAwt(final String testString, final boolean serif, final int fontStyle,
 			final int fontSize) {
 		
-		App.debug("checking forced font");
 		if (forcedFont != null) {
 			if (forcedFont.canDisplayUpTo(testString) == -1) {
 				return getFont(forcedFontName, fontStyle, fontSize);
