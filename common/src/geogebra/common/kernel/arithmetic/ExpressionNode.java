@@ -3415,11 +3415,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 			case GIAC:
-				sb.append("simplify(surd(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append("))");
+				if (leftStr.equals(Unicode.EULER_STRING)) {
+					sb.append("exp(");
+					sb.append(rightStr);
+					sb.append(')');
+				} else {
+					sb.append("simplify(surd(");
+					sb.append(leftStr);
+					sb.append(',');
+					sb.append(rightStr);
+					sb.append("))");
+				}
 				break;
 			default: //MAXIMA, MPREDUCE, PSTRICKS, ...
 				sb.append("(");

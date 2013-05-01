@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -259,6 +260,7 @@ public class MySpecialDouble extends MyDouble {
 	
 	@Override
 	public void set(double val){
+		App.printStacktrace(val+"");
 		super.set(val);
 		setFromOutside = true;
 	}

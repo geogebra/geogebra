@@ -163,7 +163,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			return kernel.formatAngle(angleVal,tpl).toString();
 		}
 
-		String ret = kernel.format(val, tpl);
+		//String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
+		String ret = kernel.format((val), tpl);
 
 		switch (tpl.getStringType()) {
 		case MPREDUCE:
@@ -175,8 +176,19 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			// eg Input Bar: f(x)=x^-0.5
 			//     CAS View: Integral[f,1,Infinity]
 			
+			if (val == Math.PI) {
+				return "pi";
+			}
+			if (val == Math.E) {
+				return "e";
+			}
+			
 			// Note: exact(0.3333333333333) gives 1/3
-			return "exact(" + ret + ")";
+			if (ret.indexOf('.') > -1) {
+				return "exact(" + ret + ")";
+			}
+			
+			return ret;
 
 		default:
 			return ret;
