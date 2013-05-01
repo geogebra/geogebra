@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.DialogManager;
+import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
@@ -90,7 +91,6 @@ import geogebra.util.DownloadManager;
 import geogebra.util.GeoGebraLogger;
 import geogebra.util.ImageManager;
 import geogebra.util.Normalizer;
-import geogebra.util.Util;
 
 import java.awt.AWTKeyStroke;
 import java.awt.BasicStroke;
@@ -891,12 +891,16 @@ public class AppD extends App implements KeyEventDispatcher {
 			this.getSettings().getEuclidian(2).showGrid(showGridParam);
 		}
 
+		if (args.containsArg("giac")) {
+			casType = CasType.GIAC;
+		}
+
 		if (args.containsArg("primary")) {
 			boolean primary = args.getBooleanValue("primary", false);
 			if (primary) {
 
 				getGuiManager().getLayout().applyPerspective("BasicGeometry");
-				GlobalKeyDispatcherD.changeFontsAndGeoElements(this, 20, false);
+				GlobalKeyDispatcher.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 				getEuclidianView1().setCapturingThreshold(10);
 				kernel.setPrintDecimals(0); // rounding to 0dp
@@ -1966,7 +1970,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				fn = fn.substring(index + 1, fn.length()); // filename without
 			}
 			// path
-			fn = Util.processFilename(fn);
+			fn = geogebra.common.util.Util.processFilename(fn);
 
 			// filename will be of form
 			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
@@ -4908,8 +4912,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		} else if (c instanceof JTextField) {
 			((JTextField) c)
-					.setHorizontalAlignment(rtl ? JTextField.RIGHT
-							: JTextField.LEFT);
+					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
+							: SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			((JLabel) renderer)
@@ -5029,10 +5033,22 @@ public class AppD extends App implements KeyEventDispatcher {
 	public LocalizationD getLocalization() {
 		return loc;
 	}
+	
+	static CasType casType = CasType.MPREDUCE;
 
 	@Override
 	public CasType getCASType() {
 		//return CasType.GIAC;
-		return CasType.MPREDUCE;
+		//return CasType.MPREDUCE;
+		return casType;
+	}
+	
+	/**
+	 * must be called before CAS is used
+	 * TODO: remove
+	 * @param type cas type (Giac / Reduce)
+	 */
+	public static void setCasType(CasType type) {
+		casType = type;
 	}
 }

@@ -19,6 +19,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.App;
+import geogebra.common.main.CasType;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
@@ -222,6 +223,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 			}
 		}
 		App.debug("loading " + fileStr);
+		
+		AppD.setCasType("true".equals(applet.getParameter("giac")) ? CasType.GIAC : CasType.MPREDUCE);
 
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
