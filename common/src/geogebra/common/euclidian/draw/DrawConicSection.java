@@ -338,6 +338,39 @@ public class DrawConicSection extends DrawConic {
 	}
 	
 	@Override
+	protected void updateParabolaEdge(){
+		Coords m = conic.getMidpoint3D();
+		Coords ev1 = conic.getEigenvec3D(0);
+		Coords ev2 = conic.getEigenvec3D(1);
+		
+		double t, u, v;
+		
+		t = getStart(0);
+		u = conic.p*t*t/2; 
+		v = conic.p*t; 
+		Coords A = view.getCoordsForView(m.add(ev1.mul(u)).add(ev2.mul(v)));
+		
+		t = getEnd(0);
+		u = conic.p*t*t/2; 
+		v = conic.p*t; 
+		Coords B = view.getCoordsForView(m.add(ev1.mul(u)).add(ev2.mul(v)));
+		
+
+		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())){
+			if (line == null)
+				line = AwtFactory.prototype.newLine2D();
+			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
+		}else{
+			isVisible = false;
+			return;
+		}
+
+		// transform to screen coords
+		transform.setTransform(view.getCoordTransform());
+		shape = transform.createTransformedShape(line);
+	}
+	
+	@Override
 	protected void updateParabolaPath(){
 		super.updateParabolaPath();
 		parabola.closePath();
@@ -487,6 +520,13 @@ public class DrawConicSection extends DrawConic {
 		//TODO ?
 		return true;
 	}
+	
+	@Override
+	protected boolean checkCircleEllipseParabolaOnScreen(GRectangle viewRect){
+		//TODO ?
+		return true;
+	}
+
 	
 	@Override
 	public boolean hitHyperbola(int hitX, int hitY) {

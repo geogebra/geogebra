@@ -298,23 +298,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			boolean includesScreenCompletely = shape.contains(viewRect);
-
-			// offScreen = includesScreenCompletely or the shape does not
-			// intersect the view rectangle
-			boolean offScreen = includesScreenCompletely
-					|| !shape.getBounds2D().intersects(viewRect);
-			if (geo.getAlphaValue() == 0f) {
-				// no filling
-				isVisible = !offScreen;
-			} else {
-				// filling
-				if (includesScreenCompletely) {
-					isVisible = true;
-				} else {
-					isVisible = !offScreen;
-				}
-			}
+			isVisible = checkCircleEllipseParabolaOnScreen(viewRect);
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -342,6 +326,29 @@ public class DrawConic extends Drawable implements Previewable {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
+	}
+	
+	/**
+	 * check circle/ellipse/parabola intersects the screen
+	 * @param viewRect view rectangle
+	 * @return if hyperbola intersects the screen
+	 */
+	protected boolean checkCircleEllipseParabolaOnScreen(GRectangle viewRect){
+		boolean includesScreenCompletely = shape.contains(viewRect);
+
+		// offScreen = includesScreenCompletely or the shape does not
+		// intersect the view rectangle
+		boolean offScreen = includesScreenCompletely
+				|| !shape.getBounds2D().intersects(viewRect);
+		if (geo.getAlphaValue() == 0f) {
+			// no filling
+			return !offScreen;
+		}
+		// filling
+		if (includesScreenCompletely) {
+			return true;
+		}
+		return !offScreen;
 	}
 	
 	/**
@@ -788,7 +795,7 @@ public class DrawConic extends Drawable implements Previewable {
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
-				updateHyperbolaEdge();
+				isVisible = false;
 				return;
 			}
 		}
@@ -962,6 +969,15 @@ public class DrawConic extends Drawable implements Previewable {
 		//geogebra.awt.Area.getAWTArea(super.getShape()).add(new Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
 		super.getShape().add(AwtFactory.prototype.newArea(hypRight));
 	}
+	
+	
+	/**
+	 * draw only one edge for the parabola section
+	 */
+	protected void updateParabolaEdge(){
+		//only used for conic section
+		isVisible = false;
+	}
 
 	final private void updateParabola() {
 		if (conic.p > DrawConic.HUGE_RADIUS) {
@@ -972,7 +988,7 @@ public class DrawConic extends Drawable implements Previewable {
 		// check if in view
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
 		if (!Kernel.isZero(M.getZ())) {// check if in view
-			isVisible = false;
+			updateParabolaEdge();
 			return;
 		}
 		Coords[] ev = new Coords[2];
@@ -1096,6 +1112,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
+			
 			if (conic.isInverseFill()) {
 				fill(g2, getShape(), false);
 			} else {
