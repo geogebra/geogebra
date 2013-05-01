@@ -36,6 +36,7 @@ public abstract class PropertiesView implements View {
 		viewMap.put(App.VIEW_SPREADSHEET, OptionType.SPREADSHEET);
 		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
 		viewMap.put(App.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
+		viewMap.put(App.VIEW_EUCLIDIAN3D, OptionType.EUCLIDIAN3D);
 	}
 
 	protected Kernel kernel;

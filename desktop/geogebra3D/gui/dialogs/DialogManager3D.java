@@ -10,7 +10,6 @@ import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
-import geogebra3D.gui.OptionsDialog3D;
 
 /**
  * 3D version of the dialog manager.
@@ -69,7 +68,6 @@ public class DialogManager3D extends DialogManagerD {
 			}
 			
 			DialogManager3D dialogManager = new DialogManager3D((App3D)app);
-			dialogManager.setOptionsDialogFactory(new OptionsDialog3D.Factory());
 			return dialogManager;
 		}
 	}

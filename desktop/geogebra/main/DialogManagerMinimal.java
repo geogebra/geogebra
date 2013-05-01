@@ -127,11 +127,7 @@ public class DialogManagerMinimal extends DialogManager {
 		
 	}
 
-	@Override
-	public void showOptionsDialog(int tabEuclidian) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
 	public void showPropertiesDialog() {

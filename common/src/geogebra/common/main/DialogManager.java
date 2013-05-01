@@ -361,7 +361,6 @@ public abstract class DialogManager {
 	public abstract void showRenameDialog(GeoElement geo, boolean b, String label,
 			boolean c);
 
-	public abstract void showOptionsDialog(int tabEuclidian);
 
 	public abstract void showPropertiesDialog();
 

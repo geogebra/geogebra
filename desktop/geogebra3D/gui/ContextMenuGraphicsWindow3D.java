@@ -1,7 +1,8 @@
 package geogebra3D.gui;
 
+import geogebra.common.main.App;
 import geogebra.gui.ContextMenuGraphicsWindowD;
-import geogebra.gui.dialog.options.OptionsDialog;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 
@@ -54,8 +55,10 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindowD {
 	}
 	
 	@Override
-	protected void showOptionsDialog(){
-    	app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN3D);
+    protected void showOptionsDialog(){
+    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+    	((GuiManagerD)app.getGuiManager()).setFocusedPanel(((App3D) app).getEuclidianView3D().getViewID(), true);
+
     }
 
 }

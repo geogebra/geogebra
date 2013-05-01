@@ -23,7 +23,6 @@ import geogebra.common.main.OptionType;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
-import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.data.DataSourceDialog;
@@ -51,16 +50,6 @@ import javax.swing.UIManager;
  * created manually if needed.
  */
 public class DialogManagerD extends geogebra.common.main.DialogManager {
-	/**
-	 * The option dialog where the user can change all application settings.
-	 */
-	private OptionsDialog optionsDialog;
-
-	/**
-	 * Object which provides an option dialog if requested. Used because
-	 * different option dialogs are needed for GeoGebra 4 and 5.
-	 */
-	private OptionsDialog.Factory optionsDialogFactory;
 
 	/**
 	 * Dialog to view properties of a function.
@@ -100,11 +89,6 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		if (textInputDialog != null)
 			((TextInputDialog) textInputDialog).updateFonts();
 
-		if (optionsDialog != null) {
-			GuiManagerD.setFontRecursive(optionsDialog,
-					((AppD) app).getPlainFont());
-			SwingUtilities.updateComponentTreeUI(optionsDialog);
-		}
 
 		if (fileChooser != null) {
 			fileChooser.setFont(((AppD) app).getPlainFont());
@@ -121,9 +105,6 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 */
 	public void setLabels() {
 
-		if (optionsDialog != null)
-			optionsDialog.setLabels();
-
 		if (functionInspector != null)
 			functionInspector.setLabels();
 
@@ -138,25 +119,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		
 	}
 
-	/**
-	 * Displays the options dialog.
-	 * 
-	 * @param tabIndex
-	 *            Index of the tab. Use OptionsDialog.TAB_* constants for this,
-	 *            or -1 for the default, -2 to hide.
-	 */
-	@Override
-	public void showOptionsDialog(int tabIndex) {
-		if (optionsDialog == null)
-			optionsDialog = optionsDialogFactory.create(((AppD) app));
-		else
-			optionsDialog.updateGUI();
 
-		if (tabIndex > -1)
-			optionsDialog.showTab(tabIndex);
-
-		optionsDialog.setVisible(tabIndex != -2);
-	}
 
 	@Override
 	public void showPropertiesDialog() {
@@ -571,9 +534,6 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		}
 	}
 
-	public OptionsDialog getOptionsDialog() {
-		return optionsDialog;
-	}
 
 	public GeoGebraFileChooser getFileChooser() {
 		return fileChooser;
@@ -591,18 +551,11 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		return (TextInputDialog) textInputDialog;
 	}
 
-	public OptionsDialog.Factory getOptionsDialogFactory() {
-		return optionsDialogFactory;
-	}
 	
 	public DataSourceDialog getDataSourceDialog() {
 		return dataSourceDialog;
 	}
 
-	public void setOptionsDialogFactory(
-			OptionsDialog.Factory optionsDialogFactory) {
-		this.optionsDialogFactory = optionsDialogFactory;
-	}
 
 	/*
 	 * PropertyChangeListener implementation to handle file filter changes
@@ -644,7 +597,6 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		 */
 		public DialogManagerD create(AppD app) {
 			DialogManagerD dialogManager = new DialogManagerD(app);
-			dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
 			return dialogManager;
 		}
 	}

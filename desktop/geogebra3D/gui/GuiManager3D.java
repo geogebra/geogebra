@@ -10,6 +10,7 @@ import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
+import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -17,6 +18,7 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
+import geogebra3D.gui.view.properties.PropertiesView3D;
 
 import java.awt.Component;
 import java.awt.Point;
@@ -246,10 +248,10 @@ public class GuiManager3D extends GuiManagerD {
 		}
 	}
 	
-	/*
+	
 	@Override
 	protected PropertiesViewD newPropertiesViewD(AppD appD){
 		return new PropertiesView3D(appD);
 	}
-	*/
+	
 }

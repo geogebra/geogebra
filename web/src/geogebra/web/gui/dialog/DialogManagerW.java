@@ -120,11 +120,7 @@ public class DialogManagerW extends DialogManager {
 		id.setVisible(true);
     }
 
-	@Override
-    public void showOptionsDialog(int tabEuclidian) {
-	    // TODO Auto-generated method stub
-	    
-    }
+
 
 	@Override
     public void showPropertiesDialog() {

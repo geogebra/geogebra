@@ -1,14 +1,18 @@
-package geogebra3D.gui;
+package geogebra3D.gui.dialogs.options;
 
-import geogebra.gui.dialog.options.OptionsEuclidian2;
+import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.dialog.options.AxisPanel;
+import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra3D.App3D;
+import geogebra.gui.util.LayoutUtil;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,33 +23,48 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class OptionsEuclidian3D extends OptionsEuclidian2 {
-	private static final long serialVersionUID = 1L;
+/**
+ * options for 3D view
+ * @author mathieu
+ *
+ */
+public class OptionsEuclidian3D extends OptionsEuclidianD {
+	
 	private AxisPanel3D zAxisPanel;
 	
 	private JCheckBox cbUseClipping, cbShowClipping;
 
 	private JRadioButton radioClippingSmall, radioClippingMedium, radioClippingLarge;
-	
-	public OptionsEuclidian3D(App3D app) {
-		super(app, app.getEuclidianView3D());
+
+	private JPanel clippingOptionsPanel, boxSizePanel;
+
+	/**
+	 * constructor
+	 * @param app application
+	 * @param view 3D view
+	 */
+	public OptionsEuclidian3D(AppD app, EuclidianViewND view) {
+		super(app, view);
 		
 
 		enableStuff(false);
 		
 		updateGUI();
-		
 	}
-
+	
+	
+	
+	
 	@Override
-	protected JPanel buildBasicNorthPanel() {
+	protected JPanel buildBasicPanel() {
 
 		//-------------------------------------
 		// clipping options panel
-		JPanel clippingOptionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		clippingOptionsPanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Clipping")));
+		clippingOptionsPanel = new JPanel();
+		clippingOptionsPanel.setLayout(new BoxLayout(clippingOptionsPanel, BoxLayout.Y_AXIS));
 
 		// clipping
 		cbUseClipping = new JCheckBox(app.getPlain("UseClipping")); 						
@@ -54,8 +73,8 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		cbShowClipping = new JCheckBox(app.getPlain("ShowClipping")); 						
 		clippingOptionsPanel.add(cbShowClipping);  
 		
-		JPanel boxSizePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		boxSizePanel.setBorder(BorderFactory.createTitledBorder(app.getMenu("BoxSize")));		
+		boxSizePanel = new JPanel();
+		boxSizePanel.setLayout(new BoxLayout(boxSizePanel, BoxLayout.Y_AXIS));
 		radioClippingSmall = new JRadioButton(app.getPlain("small"));
 		radioClippingMedium = new JRadioButton(app.getPlain("medium"));
 		radioClippingLarge = new JRadioButton(app.getPlain("large"));
@@ -73,12 +92,11 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		
 		//-------------------------------------
 
-		JPanel northPanel = super.buildBasicNorthPanel();
-		northPanel.add(Box.createRigidArea(new Dimension(0,16)));
-        northPanel.add(clippingOptionsPanel);
-        northPanel.add(boxSizePanel);
+		JPanel basicPanel = super.buildBasicPanel();
+        basicPanel.add(clippingOptionsPanel);
+        basicPanel.add(boxSizePanel);
 
-		return northPanel;
+		return basicPanel;
 	}
 
 	private void enableStuff(boolean flag){
@@ -112,27 +130,8 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		btGridColor.setEnabled(flag); 
 		
 	}
+
 	
-	@Override
-	protected void setViewFromIndex(int index){
-		
-		//TODO ?
-		/*
-		switch(index){
-		case 0:
-		default:
-			setView(app.getEuclidianView());
-			break;
-		case 1:
-			setView(app.getGuiManager().getEuclidianView2());
-			break;
-		case 2:
-			setView(((Application3D) app).getEuclidianView3D());
-			break;
-		}
-		*/
-		
-	}
 	
 	@Override
 	public void updateGUI() {
@@ -179,48 +178,14 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		tfCavFactor.setText(""+((EuclidianView3D) view).getCavFactor());		
 	}
 	
-	@Override
-	protected void setLabelsForCbView(){
-		//TODO ?
-		/*
-		super.addItemsToCbView();
-		cbView.addItem(app.getPlain("GraphicsView3D"));
-		*/
-	}
 	
-	@Override
-	protected void createCbView(){
-	}
-	
-	@Override
-	protected void addCbView(){
-	}
-	
-	@Override
-	protected void updateGUIforCbView(){
-		
-	}
-	
-	
-	@Override
-	protected void setCbViewSelectedIndex() {
-		//TODO ?
-		/*
-		if(view == app.getEuclidianView())
-    		cbView.setSelectedIndex(0);
-		else if (view == app.getGuiManager().getEuclidianView2() )
-			cbView.setSelectedIndex(1);
-		else
-			cbView.setSelectedIndex(2);
-		 */
-	}
 	
 	@Override
 	protected void initAxisPanels(){
 
-        xAxisPanel = new AxisPanel3D(0);
-        yAxisPanel = new AxisPanel3D(1);
-        zAxisPanel = new AxisPanel3D(2);       
+        xAxisPanel = new AxisPanel3D(app, view, 0);
+        yAxisPanel = new AxisPanel3D(app, view, 1);
+        zAxisPanel = new AxisPanel3D(app, view, 2);       
 	}
 	
 	@Override
@@ -232,7 +197,8 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 	@Override
 	protected void addAxisTabs(){
 		super.addAxisTabs();
-		tabbedPane.addTab("" , zAxisPanel );
+		tabbedPane.addTab("", new JScrollPane(zAxisPanel));		
+
 	}
 	
 	
@@ -396,9 +362,16 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 	public void setLabels(){
 		super.setLabels();
 		
+		zAxisPanel.setLabels();
+		
 		//basic tab
+		clippingOptionsPanel.setBorder(LayoutUtil.titleBorder(app
+				.getPlain("Clipping")));
 		cbUseClipping.setText(app.getPlain("UseClipping"));
 		cbShowClipping.setText(app.getPlain("ShowClipping"));
+
+		boxSizePanel.setBorder(LayoutUtil.titleBorder(app
+				.getPlain("BoxSize")));
 		radioClippingSmall.setText(app.getPlain("small"));
 		radioClippingMedium.setText(app.getPlain("medium"));
 		radioClippingLarge.setText(app.getPlain("large"));
@@ -514,12 +487,23 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		}
 	}
 	
-	protected class AxisPanel3D extends AxisPanel{
+	
+	@Override
+	protected void updateFont(Font font) {
+
+		super.updateFont(font);
+		
+		zAxisPanel.updateFont();
+	}
+	
+	
+
+	private class AxisPanel3D extends AxisPanel{
 		private static final long serialVersionUID = 1L;
 		final static protected int AXIS_Z = 2;
 
-		public AxisPanel3D(int axis) {
-			super(axis);
+		public AxisPanel3D(AppD app, EuclidianViewND view, int axis) {
+			super(app, view, axis);
 		}
 		
 		protected void enableStuff(boolean flag){
@@ -540,10 +524,9 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		protected String getString(){
 			if (axis==AXIS_Z) {
 				return "zAxis";
-			} else {
-				return super.getString();
 			}
+			return super.getString();
 		}	
 	}	
-	
+
 }

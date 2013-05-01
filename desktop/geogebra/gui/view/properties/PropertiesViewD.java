@@ -264,7 +264,7 @@ public class PropertiesViewD extends
 	}
 
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
-
+		
 		if (stayInCurrentPanel())
 			return;
 
@@ -398,6 +398,7 @@ public class PropertiesViewD extends
 
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 
+		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
 		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
 		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
@@ -524,9 +525,9 @@ public class PropertiesViewD extends
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
 				euclidianPanel = new OptionsEuclidianD((AppD) app,
-						((AppD) app).getActiveEuclidianView());
+						((AppD) app).getEuclidianView1());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(((AppD) app).getEuclidianView1());
+				//euclidianPanel.setView(((AppD) app).getEuclidianView1());
 			}
 
 			return euclidianPanel;
@@ -536,7 +537,7 @@ public class PropertiesViewD extends
 				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
 						((AppD) app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((AppD) app).getEuclidianView2());
+				//euclidianPanel2.setView(((AppD) app).getEuclidianView2());
 			}
 
 			return euclidianPanel2;

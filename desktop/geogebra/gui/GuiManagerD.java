@@ -375,11 +375,21 @@ public class GuiManagerD extends GuiManager {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesViewD(app);
+			propertiesView = newPropertiesViewD(app);
 		}
 
 		return propertiesView;
 	}
+	
+	
+	/**
+	 * @param appD Application
+	 * @return new PropertiesViewD
+	 */
+	protected PropertiesViewD newPropertiesViewD(AppD appD){
+		return new PropertiesViewD(appD);
+	}
+	
 	@Override
 	public boolean hasPropertiesView(){
 		return propertiesView != null;

@@ -87,9 +87,24 @@ public class OptionsEuclidianD extends
 			miscPanel, selectViewPanel;
 
 	// GUI elements
-	private JButton btBackgroundColor, btAxesColor, btGridColor;
-	private JCheckBox cbShowAxes, cbBoldAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
-			cbShowMouseCoords, ckShowNavbar, ckNavPlay, ckOpenConsProtocol;
+	private JButton btBackgroundColor;
+
+	protected JButton btAxesColor;
+
+	protected JButton btGridColor;
+	private JCheckBox cbShowAxes, cbBoldAxes, cbShowGrid;
+
+	protected JCheckBox cbBoldGrid;
+
+	protected JCheckBox cbGridManualTick;
+
+	protected JCheckBox cbShowMouseCoords;
+
+	private JCheckBox ckShowNavbar;
+
+	private JCheckBox ckNavPlay;
+
+	private JCheckBox ckOpenConsProtocol;
 	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
 			cbTooltips;
 
@@ -190,9 +205,13 @@ public class OptionsEuclidianD extends
 
 	protected void addTabs() {
 		tabbedPane.addTab("", new JScrollPane(buildBasicPanel()));
-		tabbedPane.addTab("", new JScrollPane(xAxisPanel));
-		tabbedPane.addTab("", new JScrollPane(yAxisPanel));
+		addAxisTabs();
 		tabbedPane.addTab("", new JScrollPane(buildGridPanel()));
+	}
+	
+	protected void addAxisTabs(){
+		tabbedPane.addTab("", new JScrollPane(xAxisPanel));
+		tabbedPane.addTab("", new JScrollPane(yAxisPanel));		
 	}
 
 	protected void initAxisPanels() {
@@ -331,7 +350,7 @@ public class OptionsEuclidianD extends
 
 	}
 
-	private JPanel buildBasicPanel() {
+	protected JPanel buildBasicPanel() {
 
 		initDimensionPanel();
 		initAxesOptionsPanel();
@@ -422,10 +441,6 @@ public class OptionsEuclidianD extends
 		stylePanel
 				.add(LayoutUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
 
-	}
-
-	protected JPanel buildBasicNorthPanel() {
-		return null;
 	}
 
 	private JPanel buildGridPanel() {
@@ -1141,7 +1156,15 @@ public class OptionsEuclidianD extends
 	public void updateFont() {
 
 		Font font = app.getPlainFont();
-		
+		updateFont(font);
+	}
+
+	/**
+	 * update font
+	 * @param font font
+	 */
+	protected void updateFont(Font font) {
+
 		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
 
 		cbGridType.setFont(font);

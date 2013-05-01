@@ -123,6 +123,7 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	}
 
 	public void updateGUI() {
+
 		OptionType seltype = propertiesView.getSelectedOptionType();
 		btnOption.setFixedIcon(getTypeIcon(propertiesView
 				.getSelectedOptionType()));
@@ -138,6 +139,10 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN2));
+		
+		buttonMap.get(OptionType.EUCLIDIAN3D).setVisible(
+				app.getGuiManager()
+						.showView(App.VIEW_EUCLIDIAN3D));
 		
 		buttonMap.get(OptionType.SPREADSHEET).setVisible(
 				app.getGuiManager()
@@ -224,6 +229,8 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 			return app.getImageIcon("view-graphics24.png");
 		case EUCLIDIAN2:
 			return app.getImageIcon("view-graphics224.png");
+		case EUCLIDIAN3D:
+			return app.getImageIcon("view-graphics3D24.png");
 		case CAS:
 			return app.getImageIcon("view-cas24.png");
 		case ADVANCED:
