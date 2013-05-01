@@ -93,6 +93,8 @@ public class CommandDispatcherGiac {
 		ln(Operation.LOG),
 		/** exp */
 		exp(Operation.EXP),
+		/** erf */
+		erf(Operation.ERF),
 
 		;
 		private Operation op;
@@ -170,6 +172,7 @@ public class CommandDispatcherGiac {
 			case cot:
 			case ln:
 			case exp:
+			case erf:
 
 				
 				if (args.getLength() != 1) {
