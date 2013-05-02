@@ -220,7 +220,7 @@ public class View {
 		                    } else {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
 		                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-		                        	@geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+		                        	@geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
@@ -324,7 +324,7 @@ public class View {
 				                    } else {
 				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(entry.filename+" : text");
 				                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-				                            @geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+				                            @geogebra.common.main.App::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
