@@ -74,8 +74,12 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.web.main.GgbAPI::getAlgorithmXML(Ljava/lang/String;)(objName);
 		};
 
-		$wnd[ggbApplet].getBase64 = function(callback) {
-			return ggbAPI.@geogebra.web.main.GgbAPI::getBase64(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
+		$wnd[ggbApplet].getBase64 = function(param1, param2) {
+			if(param2){
+				return ggbAPI.@geogebra.web.main.GgbAPI::getBase64(Lcom/google/gwt/core/client/JavaScriptObject;)(param1, param2);
+			}else{
+				return ggbAPI.@geogebra.web.main.GgbAPI::getBase64(Lcom/google/gwt/core/client/JavaScriptObject;)(param1);
+			}
 		}
 		
 		$wnd[ggbApplet].setBase64 = function(base64string) {

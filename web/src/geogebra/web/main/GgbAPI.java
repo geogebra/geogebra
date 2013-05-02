@@ -139,7 +139,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	
     	JavaScriptObject callback = getDummyCallback();
     	
-    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback,GWT.getModuleName());
+    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,GWT.getModuleName());
     	return "wait for callback";
     }
     
@@ -157,7 +157,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	createArchiveContent(includeThumbnail);
     	
     	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
-    	getGGBZipJs(prepareToEntrySet(archiveContent),includeThumbnail,callback,GWT.getModuleName());
+    	getGGBZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
 
     }
     
@@ -165,13 +165,13 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		createArchiveContent(includeThumbnail);
 		
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), includeThumbnail, callback,GWT.getModuleName());
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
     }
 
     public void getBase64(JavaScriptObject callback) {
-    	createArchiveContent(true);
+    	createArchiveContent(false);
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), false, callback,GWT.getModuleName());
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
 
     }
 
@@ -235,8 +235,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	ne["archive"].push(obj);
     }-*/;
 
-	public native void getGGBZipJs(JavaScriptObject arch,
-            boolean includeThumbnail, JavaScriptObject clb,String module) /*-{
+	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb,String module) /*-{
 
 		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
 
@@ -346,8 +345,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 
     
-	private native void getNativeBase64ZipJs(JavaScriptObject arch,
-            boolean includeThumbnail, JavaScriptObject clb,String module) /*-{
+	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String module) /*-{
 
 		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
 
@@ -423,6 +421,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 				if (arch.archive.length > 0) {
 					item = arch.archive.shift();
 					var ind = item.fileName.lastIndexOf('.');
+					@geogebra.common.main.App::debug(Ljava/lang/String;)(item.fileName);
 					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
 					//if (item.fileName.indexOf(".png") > -1) {
 							@geogebra.common.main.App::debug(Ljava/lang/String;)("image zipped" + item.fileName);
@@ -449,47 +448,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		}, function(error) {
 			@geogebra.common.main.App::debug(Ljava/lang/String;)("error occured while creating base64 zip");
 		});
-    }-*/;
-
-	public native String getNativeBase64(boolean includeThumbnail) /*-{
-		var isSaving = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::isSaving()();
-		this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(true);	
-
-		var ret = "";
-
-		try {
-			var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.App::getXML()();
-			var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.App::getMacroXMLorEmpty()();
-			var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
-			var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
-
-			var XML_FILE_MACRO = @geogebra.common.io.MyXMLio::XML_FILE_MACRO;
-			var PYTHON_FILE = @geogebra.common.io.MyXMLio::PYTHON_FILE;
-			var JAVASCRIPT_FILE = @geogebra.common.io.MyXMLio::JAVASCRIPT_FILE;
-			var XML_FILE = @geogebra.common.io.MyXMLio::XML_FILE;
-
-    		var zip = new $wnd.zipjs("DEFLATE");
-
-			//this.@geogebra.web.main.GgbAPI::writeConstructionImages(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
-
-    		if (mxmlstr != "") {
-			//	this.@geogebra.web.main.GgbAPI::writeMacroImages(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
-    			zip.add(XML_FILE_MACRO, mxmlstr);
-    		}
-
-    		zip.add(JAVASCRIPT_FILE, jsstr);
-    		if (pystr != "") {
-    			zip.add(PYTHON_FILE, pystr);
-    		}
-    		zip.add(XML_FILE, xmlstr);
-
-			ret = zip.generate();
-		} catch (err) {
-			ret = "JAVASCRIPT EXCEPTION CATCHED";
-		} finally {
-			this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::setSaving(Z)(isSaving);
-			return ret;
-		}
     }-*/;
 
 	private void writeMacroImages() {
