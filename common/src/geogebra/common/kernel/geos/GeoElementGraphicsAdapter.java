@@ -57,6 +57,8 @@ public abstract class GeoElementGraphicsAdapter {
 		imageFileName = filename;
 		image = null;
 	}
+
+	public abstract void convertToSaveableFormat();
 	
 	
 }

@@ -3,6 +3,7 @@ package geogebra.web.kernel.geos;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.main.App;
+import geogebra.common.util.MD5EncrypterGWTImpl;
 
 public class GeoElementGraphicsAdapter extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
@@ -22,9 +23,8 @@ public class GeoElementGraphicsAdapter extends
 		
 		if (imageFileName.startsWith("/geogebra")) {
 			return null;
-		} else {
-			image = app.getExternalImageAdapter(imageFileName);	
 		}
+		image = app.getExternalImageAdapter(imageFileName);
 		
 		return image;
     }
@@ -49,6 +49,18 @@ public class GeoElementGraphicsAdapter extends
 		//} else {
 			image = app.getExternalImageAdapter(fileName);
 		//}
+    }
+
+	@Override
+    public void convertToSaveableFormat() {
+		String ext = imageFileName.substring(imageFileName.lastIndexOf('.')+1).toLowerCase();
+	    if("png".equals(ext)){
+	    	return;
+	    }
+	    int index = imageFileName.lastIndexOf('/');
+	    String fn = imageFileName.substring(index+1,imageFileName.length()-ext.length())+".png";
+	    MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+	    imageFileName = md5e.encrypt(fn)+"/"+fn;
     }
 
 }

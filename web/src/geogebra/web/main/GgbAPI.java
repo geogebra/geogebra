@@ -180,6 +180,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	boolean issaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
+    	adjustConstructionImages(getConstruction(),"");
     	String constructionXml = getApplication().getXML();
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
@@ -478,7 +479,28 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			*/
 		}
 	}
+	
+	
+	private void adjustConstructionImages(Construction cons, String filePath) {
+		// save all GeoImage images
+		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
+		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
+		if (geos == null)
+			return;
 
+		Iterator<GeoElement> it = geos.iterator();
+		while (it.hasNext()) {
+			GeoElement geo =  it.next();
+			// Michael Borcherds 2007-12-10 this line put back (not needed now
+			// MD5 code put in the correct place!)
+			String fileName = geo.getImageFileName();
+			if (fileName != null) {
+					geo.getGraphicsAdapter().convertToSaveableFormat();
+			}
+		}
+	}
+	
+	
     private void writeConstructionImages(Construction cons, String filePath) {
 		// save all GeoImage images
 		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
@@ -493,6 +515,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
+
 				BufferedImage img = geogebra.web.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
 				if (img != null && img.getImageElement() != null) {
 					Canvas cv = Canvas.createIfSupported();

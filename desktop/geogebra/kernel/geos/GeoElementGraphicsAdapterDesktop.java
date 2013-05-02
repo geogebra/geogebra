@@ -62,4 +62,9 @@ public class GeoElementGraphicsAdapterDesktop extends
 		}
 	}
 
+	@Override
+	public void convertToSaveableFormat() {
+		//all openable formats are saveable in Desktop
+	}
+
 }
