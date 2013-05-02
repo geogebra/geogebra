@@ -117,9 +117,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 		
 		double scaleRatio = ((EuclidianView)app.getActiveEuclidianView()).getScaleRatio(); 
 		
-		MenuItem mi;
-		String[] items = {};
-		String[] actionCommands = {};
+		String[] items = new String[axesRatios.length + 2];
+		String[] actionCommands = new String[axesRatios.length + 2];
 		
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
