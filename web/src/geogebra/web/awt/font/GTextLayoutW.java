@@ -13,6 +13,7 @@ public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 	String str;
 	GFontRenderContextW frc;
 	boolean containsLowerCase = false;
+	int advance = -1;
 
 	public GTextLayoutW(String str, geogebra.common.awt.GFont font, GFontRenderContextW frc) {
 	   this.font = font;
@@ -31,7 +32,9 @@ public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
     }
 
 	public float getAdvance() {
-		return frc.measureText(str, ((geogebra.web.awt.GFontW) font).getFullFontString());
+		if(advance<0)
+			advance = frc.measureText(str, ((geogebra.web.awt.GFontW) font).getFullFontString());
+		return advance;
 	}
 
 	public GRectangle2D getBounds() {
