@@ -6,11 +6,18 @@ import geogebra.web.gui.images.AppResources;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 
+/**
+ * Web implementation of FileMenu
+ */
 public class FileMenuW extends MenuBar {
 	
-	private App app;
+	/** Application */
+	App app;
 	private OpenMenuW openMenu;
 	
+	/**
+	 * @param app application
+	 */
 	public FileMenuW(App app) {
 	    super(true);
 	    this.app = app;
@@ -59,6 +66,9 @@ public class FileMenuW extends MenuBar {
 
 	}
 
+	/**
+	 * @return Open submenu
+	 */
 	public OpenMenuW getOpenMenu() {
 	   return openMenu;
     }
