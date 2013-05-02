@@ -16,7 +16,7 @@ __GGB__keysVar.ne = {}
  ***********************************************/
 
 __GGB__keysVar.ne.colors = {
-    "aqua": "\u0905\u0915\u094d\u0935\u093e",
+    "aqua": "\u092a\u093e\u0928\u0940",
     "black": "\u0915\u093e\u0932\u094b",
     "blue": "\u0928\u093f\u0932\u094b",
     "brown": "\u0916\u0948\u0930\u094b",
@@ -2078,6 +2078,7 @@ __GGB__keysVar.ne.plain = {
     "Clipboard_Moodle": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921:\u092e\u094b\u0921\u0932",
     "Clipboard_iframe": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b\u0930\u094d\u0921:<iframe>",
     "CloseApplicationLoseUnsavedData": "Now you are about to close the GeoGebra application and lose all unsaved data.",
+    "CollapseRows": "Collapse Rows",
     "Color": "\u0930\u0919\u094d\u0917",
     "ColorfulConstructionProtocol": "\u0930\u0919\u094d\u0917\u093f\u092f \u0930\u091a\u093e\u0928\u094d\u0924\u093e\u092e\u0915 \u092a\u094d\u0930\u094b\u091f\u094b\u0915\u0932",
     "ColumnPercent": "Column %",
@@ -2551,6 +2552,7 @@ __GGB__keysVar.ne.plain = {
     "TreeModeView": "\u0926\u0943\u0937\u094d\u092f\u0915\u094b \u0906\u0927\u093e\u0930\u092e\u093e \u0935\u0938\u094d\u0924\u0941\u0915\u094b \u091b\u0928\u094c\u091f",
     "Triangle": "\u0924\u094d\u0930\u093f\u092d\u0941\u091c",
     "Turtle": "\u091f\u0930\u094d\u0930\u091f\u0932",
+    "UncollapseRows": "Uncollapse Rows",
     "Undefined": "\u0905\u092a\u0930\u093f\u092d\u093e\u0937\u093f\u0924",
     "UnitVectorOfA": "%0 \u0915\u094b \u090f\u0915\u093e\u0908 \u092d\u0947\u0915\u094d\u091f\u0930",
     "UnitVectorPerpendicularToA": "%0 \u0938\u0901\u0917 \u0932\u092e\u094d\u092c \u090f\u0915\u093e\u0908 \u092d\u0947\u0915\u094d\u091f\u0930",
