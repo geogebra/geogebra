@@ -898,8 +898,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (args.containsArg("forceFont")) {
 			String fontName = args.getStringValue("forceFont");
 			
-			fontName = "\""+fontName+"\"";
-			
 			if (fontName.startsWith("\"") && fontName.endsWith("\"")) {
 				fontName = fontName.substring(1, fontName.length() - 1);
 			}
