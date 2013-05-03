@@ -3773,7 +3773,7 @@ namespace giac {
     if (args.type==_VECT)
       return apply(args,_idivis,contextptr);
     gen n=args;
-    if (!is_integral(n) && !is_integer(n)) 
+    if (is_zero(n) || (!is_integral(n) && !is_integer(n))) 
       return gentypeerr(contextptr);
     return idivis(abs(n,contextptr),contextptr);
   }

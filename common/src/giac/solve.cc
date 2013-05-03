@@ -720,7 +720,7 @@ namespace giac {
       }
       int n=is_cyclotomic(w,epsilon(contextptr));
       if (!n){
-	if (calc_mode(contextptr)!=1 && d==3){
+	if (calc_mode(contextptr)!=1 && abs_calc_mode(contextptr)!=38 && d==3 && lv_.size()==1){
 	  gen W=r2sym(num,lv_,contextptr);
 #if 1
 	  // ALT: alpha*x^3+beta*x^2+gamma*x+delta
@@ -810,7 +810,7 @@ namespace giac {
 	}
 	*logptr(contextptr) << gettext("Warning! Algebraic extension not implemented yet for poly ") << r2sym(w,lv,contextptr) << endl;
 	w=*evalf(w,1,contextptr)._VECTptr;
-	if (has_num_coeff(w)){
+	if (has_num_coeff(w)){ // FIXME: test is always true...
 #ifndef NO_STDEXCEPT
 	  try {
 #endif
@@ -1865,7 +1865,16 @@ namespace giac {
     }
     if (arg1.type!=_VECT && !arg1.is_symb_of_sommet(at_equal) && !arg1.is_symb_of_sommet(at_superieur_strict) && !arg1.is_symb_of_sommet(at_superieur_egal) && !arg1.is_symb_of_sommet(at_inferieur_strict) && !arg1.is_symb_of_sommet(at_inferieur_egal))
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
-    vecteur res=solve(apply(arg1,equal2diff),v.back(),isolate_mode,contextptr);
+    arg1=apply(arg1,equal2diff);
+    vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
+    // quick check if back substitution returns undef
+    const_iterateur it=_res.begin(),itend=_res.end();
+    vecteur res;
+    for (;it!=itend;++it){
+      gen tmp=subst(arg1,v.back(),*it,false,contextptr);
+      if (!is_undef(tmp) && !is_inf(tmp))
+	res.push_back(*it);
+    }
     // if (is_fully_numeric(res))
     if (v.back().type!=_VECT && lidnt(res).empty() && is_zero(im(res,contextptr)))
       res=protect_sort(res,contextptr);
@@ -3072,7 +3081,10 @@ namespace giac {
   */
 
   static gen newton_rand(int j,GIAC_CONTEXT){
-    gen a=evalf(j*4*(gen(rand())/(gen(RAND_MAX)+1)-plus_one_half),1,contextptr);
+    gen a=gen(giac_rand(contextptr));
+    a=a/(gen(RAND_MAX)+1);
+    a-=plus_one_half; 
+    a=evalf(j*4*a,1,contextptr);
     if (j>2 && complex_mode(contextptr))
       a=a+cst_i*evalf(j*4*(gen(rand())/(gen(RAND_MAX)+1)-plus_one_half),1,contextptr);
     return a;
@@ -3197,6 +3209,7 @@ namespace giac {
       return newton(args,vx_var,undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,contextptr);
     vecteur v=*args._VECTptr;
     int s=v.size();
+    v[0]=apply(v[0],equal2diff);
     if (s<2)
       return gensizeerr(contextptr);
     if (s==2){

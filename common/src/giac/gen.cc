@@ -3330,7 +3330,7 @@ namespace giac {
       return 0.0;
     }
     int j=sturmsign(s,false,contextptr);
-    if (!j)
+    if (!j || j==-2)
       return new_ref_symbolic(symbolic(at_abs,gen(s)));
     return j*s;
   }
@@ -5021,7 +5021,7 @@ namespace giac {
       if ( (a.subtype==_LIST__VECT) || (b.subtype==_LIST__VECT) )
 	return matrix_apply(a,b,contextptr,operator_times);
       { gen res=ckmultmatvecteur(*a._VECTptr,*b._VECTptr);
-	if (res.type==_VECT){
+	if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && res.type==_VECT){
 	  res.subtype=b.subtype;
 	  if (res.subtype==0)
 	    res.subtype=a.subtype;
@@ -6803,7 +6803,7 @@ namespace giac {
     }
     if (is_zero(im(a,contextptr),contextptr)){
       int s=sturmsign(a,true,contextptr); 
-      if (s)
+      if (s && s!=-2)
 	return s;
     }
     return new_ref_symbolic(symbolic(at_sign,a));

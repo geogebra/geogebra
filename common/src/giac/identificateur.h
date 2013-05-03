@@ -165,7 +165,9 @@ namespace giac {
   extern const identificateur & laplace_var;
 
   extern const gen & CST__IDNT_e;
-  extern gen & vx_var;
+  // extern gen & vx_var; 
+  // commented otherwise can not make assign/assumptions on vx_var
+  // if must uncomment, check extern gen vx_var declaration after endif
 #else
   extern identificateur a__IDNT;
   extern gen a__IDNT_e;
@@ -225,8 +227,8 @@ namespace giac {
   extern identificateur _IDNT_id_at;
   extern identificateur CST__IDNT;
   extern gen CST__IDNT_e;
-  extern gen vx_var;
 #endif
+  extern gen vx_var;
   extern const gen * const tab_one_letter_idnt[];
   // small utility to remove #...
   int removecomments(const char * ss,char * ss2);

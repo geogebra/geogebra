@@ -58,7 +58,7 @@ namespace giac {
     gen t(s);
     if (s==x){
 #ifdef GIAC_HAS_STO_38
-      t=identificateur("s");
+      t=identificateur("_s38");
 #else
       t=identificateur(" t");
 #endif
@@ -374,7 +374,7 @@ namespace giac {
     v.clear();
     gen f(f_orig),a,b,cur_y(y);
 #ifdef GIAC_HAS_STO_38
-    identificateur t("t");
+    identificateur t("_t38");
 #else
     identificateur t(" t");
 #endif
@@ -608,7 +608,7 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur v;
 #ifdef GIAC_HAS_STO_38
-    identificateur t("t");
+    identificateur t("_t38");
 #else
     identificateur t(" t");
 #endif
@@ -850,7 +850,7 @@ namespace giac {
     gen t(s);
     if (s==x){
 #ifdef GIAC_HAS_STO_38
-      t=identificateur("z");
+      t=identificateur("_z38");
 #else
       t=identificateur(" tztrans");
 #endif
@@ -893,7 +893,7 @@ namespace giac {
     gen t(s);
     if (s==x){
 #ifdef GIAC_HAS_STO_38
-      t=identificateur("s");
+      t=identificateur("_s38");
 #else
       t=identificateur(" tinvztrans");
 #endif

@@ -1348,7 +1348,9 @@ namespace giac {
 
   gen snedecor_cdf(const gen & ndof,const gen & ddof,const gen & x,GIAC_CONTEXT){
     gen gndf(ndof),gddf(ddof),gx(x);
-    if (!is_integral(gndf) || !is_integral(gddf) || gx.type!=_DOUBLE_){
+    if (!is_integral(gndf) || !is_integral(gddf))
+      return gentypeerr(contextptr);
+    if (gx.type!=_DOUBLE_){
       if (calc_mode(contextptr)==1)
 	return symbolic(at_Beta,makesequence(ndof/2,ddof/2,ndof*x/(ndof*x+ddof),1));
       else

@@ -1489,16 +1489,20 @@ namespace giac {
   static define_unary_function_eval (__animate3d,&_animate3d,_animate3d_s);
   define_unary_function_ptr5( at_animate3d ,alias_at_animate3d,&__animate3d,0,true);
 
-  gen _even(const gen & g,GIAC_CONTEXT){
+  gen _even(const gen & g_,GIAC_CONTEXT){
+    gen g(g_);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (!is_integral(g)) return gentypeerr(contextptr);
     return is_zero(smod(g,2));
   }
   static const char _even_s []="even";
   static define_unary_function_eval (__even,&_even,_even_s);
   define_unary_function_ptr5( at_even ,alias_at_even,&__even,0,true);
 
-  gen _odd(const gen & g,GIAC_CONTEXT){
+  gen _odd(const gen & g_,GIAC_CONTEXT){
+    gen g(g_);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (!is_integral(g)) return gentypeerr(contextptr);
     return !is_zero(smod(g,2));
   }
   static const char _odd_s []="odd";

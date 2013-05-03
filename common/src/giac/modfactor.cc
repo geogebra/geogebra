@@ -327,20 +327,23 @@ namespace giac {
       //
       // In characteristic 2, pp^(2^(i*m))+pp=0 mod 2,q
       // hence P(pp)*(P(pp)+1)=0 mod 2,q
-      // where P(X)=X^(2^(i*(m-1)))+X^(2^(i*(m-2)))+...+X
+      // where P(X)=X^(2^(m*i-1))+X^(2^(m*i-2))+...+X
       modpoly ppp(pp),temp,tmp;
       if (env->modulo.val==2 ){
 	modpoly somme(pp);
-	unsigned m=env->pn.val;
-	m *= i-1;
-	for (unsigned ii=1;ii<m;ii *=2){
-	  if (!xtoxpowerpn(ppp,thisqmat,env,k,temp))
-	    return false;
-	  ppp=temp;
-	  operator_times(pp,ppp,env,temp); 
-	  DivRem(temp,ddfactor,env,tmp,pp); // pp=(pp*ppp)% ddfactor;
+	unsigned m=int(std::log(double(env->pn.val))/std::log(2.));
+	m *= i;
+	for (unsigned ii=1;ii<m;++ii){
+	  ppp=operator_times(pp,pp,env);
+	  DivRem(ppp,ddfactor,env,tmp,pp);
 	  somme=operator_plus(somme,pp,env);
 	}
+#if 0
+	// check that P(pp)*P(pp)+P(pp)=0
+	ppp=operator_times(somme,somme,env);
+	ppp=operator_plus(somme,ppp,env);
+	DivRem(ppp,ddfactor,env,tmp,pp);
+#endif
 	pp=somme;
       }
       else {

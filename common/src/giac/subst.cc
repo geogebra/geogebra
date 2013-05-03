@@ -1761,7 +1761,7 @@ namespace giac {
     if (s>1){
       vecteur argln(s);
       for (int i=0;i<s;++i)
-	argln[i]=tsimplify(l[i]._SYMBptr->feuille,contextptr);
+	argln[i]=tsimplify_common(l[i]._SYMBptr->feuille,contextptr); // was tsimplify, but replacing sin/cos in arg of ln is bad
       // check for common factors between args
       // now we make a vector of prime together values and rewrite
       // each arg as a product of these values + a multiple of 2*pi*i
@@ -1802,7 +1802,7 @@ namespace giac {
     // recursively simplify inside exp
     vecteur newl(s); // vector of args of the exponential
     for (int i=0;i<s;++i)
-      newl[i]=tsimplify(l[i]._SYMBptr->feuille,contextptr);
+      newl[i]=tsimplify_common(l[i]._SYMBptr->feuille,contextptr); // was tsimplify, but replacing sin/cos in terms of complex exp is bad
     // check for linear relations with rational coefficients between args
     // add i*pi and ln to the linear relations checking
     // First convert everything to multivariate fractions

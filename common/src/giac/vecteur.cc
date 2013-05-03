@@ -1655,7 +1655,7 @@ namespace giac {
     }
   }
 
-  vecteur proot(const vecteur & v,double eps,int rprec){
+  static vecteur proot(const vecteur & v,double eps,int rprec,bool ck_exact){
     int vsize=v.size();
     int deg=vsize-1;
     if (vsize<2)
@@ -1668,7 +1668,7 @@ namespace giac {
       return makevecteur(evalf((b2-delta)/v[0],1,context0),evalf((b2+delta)/v[0],1,context0)); // ok
     }
     // now check if the input is exact if there are multiple roots
-    if (is_exact(v)){
+    if (ck_exact && is_exact(v)){
 #if 1
       polynome V;
       poly12polynome(v,1,V);
@@ -1683,7 +1683,7 @@ namespace giac {
 	gen tmp=evalf(vcur,1,context0);
 	if (tmp.type!=_VECT || is_undef(tmp))
 	  return vcur;
-	vecteur current=proot(*tmp._VECTptr,eps,rprec);
+	vecteur current=proot(*tmp._VECTptr,eps,rprec,false);
 	for (unsigned j=0;j<current.size();++j){
 	  for (unsigned k=0;k<n;++k){
 	    res.push_back(current[j]);
@@ -1700,6 +1700,10 @@ namespace giac {
 	return res;
       return proot(*tmp._VECTptr,eps,rprec);
 #endif
+    }
+    else {
+      if (!is_numericv(v,1))
+	return vecteur(0);
     }
     bool add_conjugate=is_zero(im(v,context0),context0); // ok
     vecteur res,crystalball;
@@ -1823,6 +1827,10 @@ namespace giac {
       res.push_back(rprec<53?evalf_double(r,1,context0):accurate_evalf(r,rprec)); // ok
       dcur_v=derivative(cur_v);
     } // end i loop
+  }
+
+  vecteur proot(const vecteur & v,double eps,int rprec){
+    return proot(v,eps,rprec,true);
   }
 
   vecteur proot(const vecteur & v,double eps){
@@ -2402,7 +2410,7 @@ namespace giac {
     int c=c2>c1?c2-c1:it->size(); // ncols of a = rows of res
     res.resize(c);
     // find begin of each row
-#if defined( VISUALC ) || defined( BESTA_OS ) || defined(EMCC)
+#if defined( VISUALC ) || defined( BESTA_OS ) || defined(EMCC) || defined(__clang__)
     vector<int>::const_iterator * itr=(vector<int>::const_iterator *)alloca(ncolres*sizeof(vector<int>::const_iterator));
 #else
     vector<int>::const_iterator itr[ncolres];
@@ -2869,7 +2877,13 @@ namespace giac {
     int nthreads=threads_allowed?threads:1;
     if (nthreads>1){
       pthread_t tab[nthreads-1];
+#ifdef __clang__
+      vector< vector<int> > *tabai = (vector< vector<int> > *)alloca(nthreads*sizeof(vector< vector<int> >)),
+	*tabbtrani = (vector< vector<int> > *)alloca(nthreads*sizeof(vector< vector<int> >)),
+	*tabci = (vector< vector<int> > *)alloca(nthreads*sizeof(vector< vector<int> >));
+#else
       vector< vector<int> > tabai[nthreads],tabbtrani[nthreads],tabci[nthreads];
+#endif
       thread_mmult_mod_t multmodparam[nthreads];
       for (unsigned k=0;k<nthreads;++k){
 	thread_mmult_mod_t tmp={0,&a,&btran,&tabai[k],&tabbtrani[k],&tabci[k]};
@@ -4202,17 +4216,31 @@ namespace giac {
       // initialize/alloc nthreads-1 copies of N, res, pivots
       int nthreads=threads_allowed?threads:1;
       pthread_t tab[nthreads-1];
+#ifdef __clang__
+      vector< vector<int> > *Nptr = (vector< vector<int> > *)alloca((nthreads-1)*sizeof(vector< vector<int> >));
+      matrice *resptr = (matrice *)alloca((nthreads-1)*sizeof(matrice));
+      vecteur *pivotsptr = (vecteur *)alloca((nthreads-1)*sizeof(vecteur));
+      smallmodrref_temp_t *work = (smallmodrref_temp_t *)alloca(nthreads*sizeof(smallmodrref_temp_t));
+#else
       vector< vector<int> > Nptr[nthreads-1];
       matrice resptr[nthreads-1];
       vecteur pivotsptr[nthreads-1];
       smallmodrref_temp_t work[nthreads];
+#endif
       for (unsigned i=0;i<nthreads;++i){
+#ifdef __clang__
+	new (&work[i]) smallmodrref_temp_t();
+#endif
 	work[i].Ainv=vector< vector<int> >(mmult_int_blocksize,vector<int>(2*mmult_int_blocksize));
 	work[i].Ainvtran=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
 	work[i].CAinv=vector< vector<int> >(mmult_int_blocksize,vector<int>(mmult_int_blocksize));
 	work[i].pivblock.reserve(mmult_int_blocksize+1);
       }
+#ifdef __clang__
+      thread_modrref_t *modrrefparam = (thread_modrref_t *)alloca((nthreads-1)*sizeof(thread_modrref_t));
+#else
       thread_modrref_t modrrefparam[nthreads-1];
+#endif
       for (unsigned i=0;i<nthreads-1;++i){
 	Nptr[i]=vector< vector<int> >(a.size(),vector<int>(cmax));
 	resptr[i]=matrice(a.size());
@@ -9251,7 +9279,7 @@ namespace giac {
     matrice m;
     vecteur d;
     if (!egv(e,m,d,contextptr,false,false,false))
-      *logptr(contextptr) << gettext("Low accuracy") << endl;
+      *logptr(contextptr) << gettext("Low accuracy or not diagonalizable at some eigenvalue. Try jordan if the matrix is exact.") << endl;
     return m;
   }
 

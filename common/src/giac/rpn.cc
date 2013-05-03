@@ -1720,8 +1720,10 @@ namespace giac {
       else {
 	tmp=gen(makevecteur(arg0,newx,ndiff),_SEQ__VECT);
 	tmp=_derive(tmp,contextptr);
+	// return _limit(makesequence(tmp,newx,value),contextptr);
 	tmp=subst(tmp,newx,value,false,contextptr);
-	return eval(tmp,1,contextptr);
+	tmp=eval(tmp,1,contextptr);
+	return tmp;
       }
     }
     else {

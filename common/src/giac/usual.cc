@@ -5205,11 +5205,11 @@ namespace giac {
       a=makevecteur(*a._MODptr,*(a._MODptr+1));
     if (b.type==_MOD)
       b=makevecteur(*b._MODptr,*(b._MODptr+1));
-    vecteur l(lvar(a)); lvar(b,l);
+    vecteur l(lidnt(makevecteur(a,b)));
     if (l.empty()){
       if (!check_2d_vecteur(a)
 	  || !check_2d_vecteur(b)) 
-	return gensizeerr(gettext("check_2d_vecteur"));
+	return gensizeerr(gettext("Vector of 2 integer arguments expected"));
       vecteur & av=*a._VECTptr;
       vecteur & bv=*b._VECTptr;
       gen ab=av.back();
@@ -5217,14 +5217,17 @@ namespace giac {
       gen aa=av.front();
       gen ba=bv.front();
       if (!is_integral(ab) || !is_integral(bb) || !is_integral(aa) || !is_integral(ba))
-	return gentypeerr(gettext("Non integral argument"));
+	return gentypeerr(gettext("Non integer argument"));
       if (is_greater(1,bb,context0) || is_greater(1,ab,context0))
 	return gentypeerr(gettext("Bad mod value"));
       gen res=ichinrem(aa,ba,ab,bb);
+      if (is_undef(res))
+	return res;
       if (a_orig.type==_MOD)
 	return makemod(res,lcm(ab,bb));
       return makevecteur(res,lcm(ab,bb));
     }
+    l=lvar(a); lvar(b,l);    
     gen x=l.front();
     if (a.type!=_VECT || b.type!=_VECT ){
       // a and b are polynomial, must have the same degrees
@@ -5235,6 +5238,14 @@ namespace giac {
       int as=ax._VECTptr->size(),bs=bx._VECTptr->size();
       if (!as || !bs)
 	return gensizeerr(gettext("Null polynomial"));
+      while (as<bs){
+	ax._VECTptr->insert(ax._VECTptr->begin(),0);
+	++as;
+      }
+      while (bs<as){
+	bx._VECTptr->insert(bx._VECTptr->begin(),0);
+	++bs;
+      }
       gen a0=ax._VECTptr->front(),b0=bx._VECTptr->front(),m,n;
       if (a0.type==_MOD)
 	m=*(a0._MODptr+1);
@@ -5267,10 +5278,16 @@ namespace giac {
       const_iterateur it=ax._VECTptr->begin(),itend=ax._VECTptr->end(),jt=bx._VECTptr->begin();
       vecteur res;
       for (;as>bs;--as,++it){
-	res.push_back(*it);
+	gen tmp=ichinrem2(makevecteur(*it,m),makevecteur(0,n));
+	if (tmp.type!=_VECT)
+	  return gensizeerr(gettext("ichinrem2 3"));
+	res.push_back(tmp._VECTptr->front());
       }
       for (;bs>as;--bs,++jt){
-	res.push_back(*jt);
+	gen tmp=ichinrem2(makevecteur(0,m),makevecteur(*jt,n));
+	if (tmp.type!=_VECT)
+	  return gensizeerr(gettext("ichinrem2 3"));
+	res.push_back(tmp._VECTptr->front());
       }
       for (;it!=itend;++it,++jt){
 	gen tmp=ichinrem2(makevecteur(*it,m),makevecteur(*jt,n));
@@ -5659,6 +5676,8 @@ namespace giac {
   }
   gen _version(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (abs_calc_mode(contextptr)==38)
+      return string2gen(gettext("Powered by Giac 1.1, B. Parisse and R. De Graeve, Institut Fourier, Universite Grenoble I, France"),false);
     return string2gen(version(),false);
   }
   static const char _version_s []="version";
@@ -6862,7 +6881,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return 2*symbolic(at_UTPN,x*plus_sqrt2);
 #else
-    return 1-symbolic(at_erf,x);
+    return 1-erf(x,contextptr); // 1-symbolic(at_erf,x);
 #endif
     gen e=x.evalf(1,contextptr);
 #ifdef HAVE_LIBGSL

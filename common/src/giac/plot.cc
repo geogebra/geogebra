@@ -1949,7 +1949,7 @@ namespace giac {
 	  }
 	}
 	else {
-	  if (!ispnt && it!=res.begin() && it->type!=_POINT__VECT)
+	  if (!ispnt && it!=res.begin() && it->subtype!=_POINT__VECT)
 	    *it=*it+res[0];
 	  it->subtype=_POINT__VECT;
 	}

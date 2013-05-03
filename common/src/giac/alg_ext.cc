@@ -1101,6 +1101,10 @@ namespace giac {
       sto(savevar,var,contextptr);
     if (w.empty() && debug_infolevel)
       *logptr(contextptr) << gettext("Warning: ") << df << gettext("=0: no solution found") << endl;
+    vecteur wvar=makevecteur(cst_pi);
+    lidnt(w,wvar);
+    if (wvar.size()>1)
+      return undef;
     gen resmin=plus_inf;
     gen resmax=minus_inf;
     vecteur xmin,xmax;
@@ -1300,10 +1304,15 @@ namespace giac {
   int sturmsign(const gen & g0,bool strict,GIAC_CONTEXT){
     gen g=simplifier(g0,contextptr);
     // first check some operators inv, *, exp, sqrt
-    if (g.is_symb_of_sommet(at_neg))
-      return -sturmsign(g._SYMBptr->feuille,strict,contextptr);
-    if (g.is_symb_of_sommet(at_inv))
-      return sturmsign(g._SYMBptr->feuille,strict,contextptr);
+    int tmp;
+    if (g.is_symb_of_sommet(at_neg)){
+      tmp=sturmsign(g._SYMBptr->feuille,strict,contextptr);
+      return tmp==-2?tmp:-tmp;
+    }
+    if (g.is_symb_of_sommet(at_inv)){
+      tmp=sturmsign(g._SYMBptr->feuille,strict,contextptr);
+      return tmp==-2?tmp:-tmp;
+    }
     if (g.is_symb_of_sommet(at_exp))
       return 1;
     /* if (g.is_symb_of_sommet(at_pow) && g._SYMBptr->feuille[1]==plus_one_half)
@@ -1323,7 +1332,6 @@ namespace giac {
 	else
 	  w.push_back(v[i]);
       }
-      int tmp;
       switch (w.size()){
       case 0:
 	return res;

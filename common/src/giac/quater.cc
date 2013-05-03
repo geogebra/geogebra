@@ -178,12 +178,14 @@ namespace giac {
   }
 
   vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT){
+#ifdef HAVE_LIBPARI
     if (!primitive){
       gen pari=pari_ffinit(p,m);
       pari=unmod(pari);
       if (pari.type==_VECT)
 	return *pari._VECTptr;
     }
+#endif
     // First check m*20 random polynomials
     int M=100*m;
     for (int k=0;k<M;++k){

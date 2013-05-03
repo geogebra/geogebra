@@ -492,7 +492,8 @@ namespace giac {
 #else
   define_alias_gen(alias_vx38,_IDNT,0,&ref_xx38);
 #endif
-  gen & vx_var = * (gen *) & alias_vx38;
+  // gen & vx_var = * (gen *) & alias_vx38;
+  gen vx_var(identificateur("x"));
 
   /* model
   static const alias_identificateur alias_identificateur_zzz38={0,0,"ZZZ",0,0};
