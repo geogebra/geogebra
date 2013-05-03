@@ -146,6 +146,19 @@ public final class MyMath {
 		return bd.doubleValue();
 	}
 
+	/**
+	 * Computes adjoint matrix to {{a00,a01,a02},{a10,a11,a12},{a20,a21,a22}}
+	 * @param a00 matrix entry
+	 * @param a01 matrix entry
+	 * @param a02 matrix entry
+	 * @param a10 matrix entry
+	 * @param a11 matrix entry
+	 * @param a12 matrix entry
+	 * @param a20 matrix entry
+	 * @param a21 matrix entry
+	 * @param a22 matrix entry
+	 * @return adjoint matrix
+	 */
 	public static double[][] adjoint(double a00, double a01, double a02,
 			double a10, double a11, double a12, double a20, double a21,
 			double a22) {
@@ -159,11 +172,21 @@ public final class MyMath {
 						-(a00 * a12 - a02 * a10), (a00 * a11 - a10 * a01) } };
 	}
 
+	/**
+	 * @param t parameter
+	 * @param mod modulus
+	 * @return smallest multiple of modulus greater or equal t
+	 */
 	public static double nextMultiple(double t, double mod) {
 		return Math.ceil(t / mod) * mod;
 
 	}
 
+	/**
+	 * "pretty" numbers are 1,2,5,10,20,50,...
+	 * @param t input number
+	 * @return closest bigger pretty integer
+	 */
 	public static double nextPrettyNumber(double t) {
 		if (t < 1)
 			return 1;
@@ -178,27 +201,38 @@ public final class MyMath {
 			return 2 * pot;
 		}
 	}
-
-	public static double length(double a, double b) {
+	
+	/**
+	 * Computes length of a vector
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return length of vector (x,y)
+	 */
+	public static double length(double x, double y) {
 		double res;
-		double x = Math.abs(a);
-		double y = Math.abs(b);
+		double absx = Math.abs(x);
+		double absy = Math.abs(y);
 
-		if (x == 0)
-			res = y;
-		else if (y == 0)
-			res = x;
-		else if (x > y) {
-			double temp = y / x;
-			res = x * Math.sqrt(1.0 + temp * temp);
+		if (absx == 0)
+			res = absy;
+		else if (absy == 0)
+			res = absx;
+		else if (absx > absy) {
+			double temp = absy / absx;
+			res = absx * Math.sqrt(1.0 + temp * temp);
 		} else {
-			double temp = x / y;
-			res = y * Math.sqrt(1.0 + temp * temp);
+			double temp = absx / absy;
+			res = absy * Math.sqrt(1.0 + temp * temp);
 		}
 		return res;
 
 	}
 
+	/**
+	 * @param m1 first matrix
+	 * @param m2 second matrix
+	 * @return product of matrices
+	 */
 	public static double[][] multiply(double[][] m1, double[][] m2) {
 		int l1 = m1.length;
 		int l2 = m2[0].length;
@@ -213,11 +247,16 @@ public final class MyMath {
 		return result;
 	}
 	
-    public static double binomial(double n, double r) {
+    /**
+     * @param n n
+     * @param k k
+     * @return (n choose k)
+     */
+    public static double binomial(double n, double k) {
 		double INFINITY=Double.POSITIVE_INFINITY;
     	try {
-    		if (n==0d && r==0d) return 1d;
-    		if (r > n/2) r = n - r;
+    		if (n==0d && k==0d) return 1d;
+    		double r = k > n/2 ?  n - k : k;
     		if (n<1d || r<0d || n<r) return 0d;
     		if (Math.floor(n)!=n || Math.floor(r)!=r) return 0d;
 	    
@@ -238,8 +277,11 @@ public final class MyMath {
     	}    
     }
     
+    /**
+     * Assumes that r < n-r
+     */      
     private static double binomBig(double n, double r) {
-	    if (r > n/2) r = n - r;
+
 	    BigInteger ncr=BigInteger.ONE,dd=BigInteger.ONE,nn,rr;
 //	    nn=BigInteger.valueOf((long)n);
 //	    rr=BigInteger.valueOf((long)r);
