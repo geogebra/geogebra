@@ -2986,17 +2986,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	// G.Sturr: 2010-8-9
 	// Modified drawAxes() to allow variable
 	// crossing points and positive-only axes
-
-	private double getLabelLength(double rw, GFontRenderContext frc) {
-		GTextLayout layout = AwtFactory.prototype
-				.newTextLayout(
-						kernel.formatPiE(rw, axesNumberFormat[0],
-								StringTemplate.defaultTemplate)
-								+ ((axesUnitLabels[0] != null)
-										&& !piAxisUnit[0] ? axesUnitLabels[0]
-										: ""), getFontAxes(), frc);
-		return layout.getAdvance();
-	}
 	
 	
 	private double getXAxisCrossingPixel(){
@@ -3168,7 +3157,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 						.newTextLayout(axesLabels[0],
 								getFontLine().deriveFont(axesLabelsStyle[0]),
 								frc);
-				layout.draw(g2, (int) (getWidth() - 10 - layout.getAdvance()),
+				layout.draw(g2, (int) (getWidth() - 10 - estimateTextWidth(axesLabels[0],getFontAxes())),
 						(int) (yCrossPix - 4));
 			}
 
@@ -3196,9 +3185,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			double smallTickPix;
 			double tickStep = axesStep / 2;
 			double labelLengthMax = Math.max(
-					getLabelLength(rw, frc),
-					getLabelLength(MyMath.nextMultiple(getXmax(),
-							axesNumberingDistances[0]), frc));
+					estimateNumberWidth(rw, getFontAxes()),
+					estimateNumberWidth(MyMath.nextMultiple(getXmax(),
+							axesNumberingDistances[0]), getFontAxes()));
 			int unitsPerLabelX = (int) MyMath.nextPrettyNumber(labelLengthMax
 					/ axesStep);
 
@@ -3297,9 +3286,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								sb.append(axesUnitLabels[0]);
 							}
 
-							GTextLayout layout = AwtFactory.prototype
-									.newTextLayout(sb.toString(),
-											getFontAxes(), frc);
+							
 							int x, y = (int) (yCrossPix + yoffset);
 
 							// flag to handle drawing a label at axis crossing point
@@ -3310,12 +3297,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 									&& axisCross[1] == 0) {
 								x = (int) (pix + 6);
 							} else {
-								x = (int) ((pix + xoffset) - (layout
-										.getAdvance() / 2));
+								x = (int) ((pix + xoffset) - (estimateTextWidth(sb.toString(),getFontAxes()) / 2));
 							}
 
 							drawStringWithBackground(g2, sb.toString(), x, y,
-									bgCol, layout, 0, 6);
+									bgCol, null, 0, 6);
 						}
 					}
 
@@ -3396,9 +3382,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 			double tickStep = axesStep / 2;
 
-			double maxHeight = AwtFactory.prototype
-					.newTextLayout("9", getFontAxes(), frc).getBounds()
-					.getHeight() * 2;
+			double maxHeight = estimateNumberHeight(getFontAxes());
 			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
 					/ axesStep);
 
@@ -3450,11 +3434,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								sb.append(axesUnitLabels[1]);
 							}
 
-							GTextLayout layout = AwtFactory.prototype
-									.newTextLayout(sb.toString(),
-											getFontAxes(), frc);
-							int x = (int) ((xCrossPix + xoffset) - layout
-									.getAdvance());
+							int x = (int) ((xCrossPix + xoffset) - estimateTextWidth(sb.toString(),getFontAxes()));
 							int y;
 
 							// flag for handling label at axis cross point
@@ -3470,7 +3450,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 							}
 
 							drawStringWithBackground(g2, sb.toString(), x, y,
-									bgCol, layout, rw < 0 ? 10 : 5, 0);
+									bgCol, null, rw < 0 ? 10 : 5, 0);
 						}
 					}
 					if (drawMajorTicks[1]) {
@@ -3538,7 +3518,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 				GTextLayout layout = AwtFactory.prototype
 						.newTextLayout(sb.toString(), getFontAxes(), frc);
-				layout.draw(g2, (int) (getWidth() - 5 - layout.getAdvance()),
+				layout.draw(g2, (int) (getWidth() - 5 - estimateTextWidth(sb.toString(),getFontAxes())),
 						getHeight() - 5);
 			}
 		}
@@ -3966,7 +3946,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		GPoint max = new GPoint(0, 0);
 
 		g2.setFont(getFontAxes());
-		GFontRenderContext frc = g2.getFontRenderContext();
 
 		int yAxisHeight = positiveAxes[1] ? (int) getyZero() : getHeight();
 		int maxY = positiveAxes[1] ? (int) getyZero() : getHeight()
@@ -3987,15 +3966,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
 						sb.append(axesUnitLabels[1]);
 					}
-
-					GTextLayout layout = AwtFactory.prototype
-							.newTextLayout(sb.toString(), getFontAxes(), frc);
-
-					if (max.x < layout.getAdvance()) {
-						max.x = (int) layout.getAdvance();
+					double width = estimateTextWidth(sb.toString(),getFontAxes());
+					if (max.x < width) {
+						max.x = (int) width;
 					}
 					if (max.y == 0)
-						max.y = (int) layout.getAscent();
+						max.y = (int) estimateNumberHeight(getFontAxes());
 				}
 			}
 		}
@@ -5019,6 +4995,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public boolean areAxesBold() {
 		return (axesLineType & EuclidianStyleConstants.AXES_BOLD) != 0;
 
+	}
+	
+	private static double estimateNumberHeight(GFont fontAxes2) {
+		return fontAxes2.getSize() * 1.4;
+	}
+	
+	private double estimateNumberWidth(double d, GFont fontAxes2) {
+		String s = kernel.formatPiE(d, axesNumberFormat[0],
+				StringTemplate.defaultTemplate);
+		return StringUtil.estimateLength(s) * fontAxes2.getSize();
+	}
+	
+	private static double estimateTextWidth(String s, GFont fontAxes2) {
+		return StringUtil.estimateLength(s) * fontAxes2.getSize();
 	}
 
 }
