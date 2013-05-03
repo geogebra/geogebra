@@ -1311,7 +1311,7 @@ namespace giac {
     }
     if (g.is_symb_of_sommet(at_inv)){
       tmp=sturmsign(g._SYMBptr->feuille,strict,contextptr);
-      return tmp==-2?tmp:-tmp;
+      return tmp;
     }
     if (g.is_symb_of_sommet(at_exp))
       return 1;

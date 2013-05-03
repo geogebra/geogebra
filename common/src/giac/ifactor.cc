@@ -19,6 +19,12 @@
 	#define PREFETCH(addr) /* nothing */
 #endif
 
+// Trying to make ifactor(2^128+1) work on ARM
+// feel free to comment if it does not build 
+#ifdef BESTA_OS
+#undef BESTA_OS
+#endif 
+
 #include "path.h"
 /*
  *  Copyright (C) 2003,7 R. De Graeve & B. Parisse, 

@@ -585,11 +585,13 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=3) )
       return sommetstr+('('+feuille.print(contextptr)+')');
     string res;
-    if (xcas_mode(contextptr)==3)
-      res="\n:lastprog";
-    else
-      res=" "; // was res=indent(contextptr);
     bool calc38=abs_calc_mode(contextptr)==38;
+    if (!calc38){
+      if (xcas_mode(contextptr)==3)
+	res="\n:lastprog";
+      else
+	res=" "; // was res=indent(contextptr);
+    }
     gen & feuille0=feuille._VECTptr->front();
     if (feuille0.type==_VECT && feuille0.subtype==_SEQ__VECT && feuille0._VECTptr->size()==1)
       res +="("+feuille0._VECTptr->front().print(contextptr)+")";
