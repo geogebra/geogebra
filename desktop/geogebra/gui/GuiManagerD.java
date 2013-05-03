@@ -2505,22 +2505,7 @@ public class GuiManagerD extends GuiManager {
 		return ret;
 	}
 	
-	/**
-	 * hides the properties view if it is open in its own frame not the current
-	 * selection listener
-	 */
-	public void hidePropertiesViewIfNotListener() {
 
-		if (propertiesView != null
-				&& showView(App.VIEW_PROPERTIES)
-				&& propertiesView != app.getCurrentSelectionListener()
-				&& getLayout().getDockManager()
-						.getPanel(App.VIEW_PROPERTIES)
-						.isOpenInFrame()) {
-			
-			setShowView(false, AppD.VIEW_PROPERTIES, false);
-		}
-	}
 
 	@Override
 	public void setMode(int mode,ModeSetter m) {
