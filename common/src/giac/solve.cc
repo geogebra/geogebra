@@ -1872,8 +1872,12 @@ namespace giac {
     vecteur res;
     for (;it!=itend;++it){
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
-      if (!is_undef(tmp) && !is_inf(tmp))
-	res.push_back(*it);
+      if (!is_undef(tmp) && !is_inf(tmp)){
+	if (has_evalf(*it,tmp,1,contextptr))
+	  res.push_back(simplify(*it,contextptr));
+	else
+	  res.push_back(*it);
+      }
     }
     // if (is_fully_numeric(res))
     if (v.back().type!=_VECT && lidnt(res).empty() && is_zero(im(res,contextptr)))
