@@ -126,8 +126,8 @@ public final class DrawPoint extends Drawable {
 			}
 		}
 		
-		// still needs updating if it's being traced to the spreadsheet
-		if (!isVisible && !P.getSpreadsheetTrace())
+		// trace to spreadsheet is no longer bound to EV
+		if (!isVisible)
 			return;
 
 		

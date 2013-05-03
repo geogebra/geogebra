@@ -156,8 +156,8 @@ public class DrawAngle extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			shape = null;
-			// don't return here to make sure that getBounds() works for
-			// offscreen points too
+			//we may return here; the object is not offscreen, but invisible.
+			return;
 		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(angle);

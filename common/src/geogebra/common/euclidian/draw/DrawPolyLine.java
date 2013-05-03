@@ -80,21 +80,21 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
 			}
-		}
+		
 
-		// draw trace
-		if (poly.getTrace()) {
-			isTracing = true;
-			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
-			if (g2 != null)
-				drawTrace(g2);
-		} else {
-			if (isTracing) {
-				isTracing = false;
-				//view.updateBackground();
+			// draw trace
+			if (poly.getTrace()) {
+				isTracing = true;
+				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+				if (g2 != null)
+					drawTrace(g2);
+			} else {
+				if (isTracing) {
+					isTracing = false;
+					//view.updateBackground();
+				}
 			}
 		}
-
 	}
 
 	@Override

@@ -73,8 +73,10 @@ public final class DrawBoolean extends Drawable {
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		//checkBox.setVisible(isVisible);
-    	// don't return here to make sure that getBounds() works for offscreen points too
-		
+    	// return here, object is invisible, not just offscreen
+		if(!isVisible){
+			return;
+		}
 		updateStrokes(geoBool);
 
 		// show hide label by setting text
