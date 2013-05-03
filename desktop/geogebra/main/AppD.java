@@ -898,6 +898,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (args.containsArg("forceFont")) {
 			String fontName = args.getStringValue("forceFont");
 			
+			fontName = "\""+fontName+"\"";
+			
+			if (fontName.startsWith("\"") && fontName.endsWith("\"")) {
+				fontName = fontName.substring(1, fontName.length() - 1);
+			}
+			
+			fontName = fontName.replaceAll(" ", "");
+			
 			GraphicsEnvironment graphicsEnvironment =
                     GraphicsEnvironment.getLocalGraphicsEnvironment();
 			String[] allFonts = graphicsEnvironment.getAvailableFontFamilyNames();
@@ -906,8 +914,9 @@ public class AppD extends App implements KeyEventDispatcher {
 			
 			for (String s: allFonts) {
 				App.debug(s);
-				if (s.equals(fontName)) {
+				if (s.replaceAll(" ", "").equals(fontName)) {
 					found = true;
+					fontName = s;
 					break;
 				}
 			}
