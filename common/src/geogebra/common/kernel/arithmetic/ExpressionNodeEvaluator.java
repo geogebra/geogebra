@@ -850,7 +850,47 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// polynomial ^ number
-		else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
+		else if (lt.isPolynomialInstance() && rt.isNumberValue()) {
+
+			double exponent = rt.evaluateNum().getDouble();
+
+			// the exponent must be a number
+			if (!Kernel.isInteger(exponent)) {
+				str = new String[] { "ExponentMustBeInteger",
+						lt.toString(errorTemplate), "^",
+						rt.toString(errorTemplate) };
+				throw new MyError(l10n, str);
+			}
+
+			// is the base also a number? In this case pull base^exponent
+			// together into lt polynomial
+			boolean baseIsNumber = ((Polynomial) lt).degree() == 0;
+			if (baseIsNumber) {
+				Term base = ((Polynomial) lt).getTerm(0);
+				Term newBase = new Term(new ExpressionNode(kernel,
+						base.getCoefficient(), Operation.POWER,
+						rt), "");
+
+				return new Polynomial(kernel, newBase);
+			}
+
+			// number is not a base
+			if (!rt.isConstant()) {
+				str = new String[] { "ExponentMustBeConstant",
+						lt.toString(errorTemplate), "^",
+						rt.toString(errorTemplate) };
+				throw new MyError(l10n, str);
+			}
+
+			if ((int) exponent >= 0) {
+				poly = new Polynomial(kernel, (Polynomial) lt);
+				poly.power((int) exponent);
+				return poly;
+			}
+			str = new String[] { "ExponentMustBeInteger",
+					lt.toString(errorTemplate), "^", rt.toString(errorTemplate) };
+			throw new MyError(l10n, str);
+		} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()) {
 			// the exponent must be a number
 			if (((Polynomial) rt).degree() != 0) {
 				str = new String[] { "ExponentMustBeInteger",
@@ -891,8 +931,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					lt.toString(errorTemplate), "^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
 		} else {
-			// AbstractApplication.debug("power: lt :" + lt.getClass()
-			// + ", rt: " + rt.getClass());
+			 App.debug("power: lt :" + lt.getClass()
+			 + ", rt: " + rt.getClass());
 			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
 					"^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
