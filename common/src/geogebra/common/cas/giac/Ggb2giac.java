@@ -17,39 +17,50 @@ import java.util.TreeMap;
 
 public class Ggb2giac {
 	private static Map<String, String> commandMap = new TreeMap<String, String>();
+	private static boolean html5;
 
 	/**
 	 * @param signature GeoGebra command signature (i.e. "Element.2")
 	 * @param casSyntax CAS syntax, parameters as %0,%1
 	 */
 	public static void p(String signature, String casSyntax) {
+
+		// TODO: why are the \s needed in HTML5 and not Desktop?
+		if (html5) {
+			//App.debug(casSyntax);
+			casSyntax = casSyntax.replace("_",  "\\_");
+			//App.debug(casSyntax);
+		}
+
 		commandMap.put(signature, casSyntax);
 	}
 
 	/**
+	 * @param html5 
 	 * @return map signature => syntax
 	 */
-	public static Map<String,String> getMap() {
+	public static Map<String,String> getMap(boolean b) {
+		html5 = b;
 		p("Append.2",
 				"append(%0,%1)");
 		// simplify() to make sure Binomial[n,1] gives n
 		p("Binomial.2",
 				"simplify(binomial(%0,%1))");
 		p("BinomialDist.4",
-				"if %3=true then binomial\\_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
+				"if %3=true then binomial_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
-		p("CFactor.1","[with\\_sqrt(0),[ggbans:=cfactor(%0)],with\\_sqrt(1),ggbans][3]");
-		p("CFactor.2","[with\\_sqrt(0),[ggbans:=cfactor(%0,%1)],with\\_sqrt(1),ggbans][3]");
+		p("CFactor.1","[with_sqrt(0),[ggbans:=cfactor(%0)],with_sqrt(1),ggbans][3]");
+		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
 		p("ChiSquared.2", 
-				//"chisquare\\_cdf(%0,%1)");
+				//"chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
 		// TODO: ggbtmpvarx
 		p("Coefficients.1",
 				"coeffs(%0)");
-		
+
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
-				"canonical\\_form(%0)");
+				"canonical_form(%0)");
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 		p("Covariance.2",
 				"covariance(%0,%1)");
@@ -77,9 +88,9 @@ public class Ggb2giac {
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "dim(%0)");
 		p("Div.2",
-				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquo(%0,%1) else quo(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquo(%0,%1) else quo(%0,%1,ggbtmpvarx) fi");
 		p("Division.2",
-				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then iquorem(%0,%1) else quorem(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquorem(%0,%1) else quorem(%0,%1,ggbtmpvarx) fi");
 		p("Divisors.1",
 				"dim(idivis(%0))");
 		p("DivisorsList.1",
@@ -88,39 +99,40 @@ public class Ggb2giac {
 				"sum(idivis(%0))");
 		p("Dot.2", "dot([%0],[%1])");
 		// GeoGebra indexes lists from 1, giac from 0
-		p("Element.2", "%0[%1-1]");
+		//p("Element.2", "%0[%1-1]");
+		p("Element.2", "if type(%0)==DOM_LIST then %0[%1-1] else when(%1==1,left(%0),right(%0)) fi");
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
 				"%0[%1 - 1,%2 - 1]");
-		
+
 		// used in regular mode
 		// Giac doesn't auto-simplify
 		// simplify so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
 		p("Evaluate.1", "normal(simplify(%0))");
 		//p("Evaluate.1", "%0");
-		
+
 		p("Expand.1",
 				"normal(simplify(%0))");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
-		
+
 		// factor over rationals
 		p("Factor.1",
-				"[with\\_sqrt(0),[if type(%0)==DOM\\_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0); fi],with\\_sqrt(1),ggbans][3]");
+				"[with_sqrt(0),[if type(%0)==DOM_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0); fi],with_sqrt(1),ggbans][3]");
 		p("Factor.2",
-				"[with\\_sqrt(0),[ggbans:=factor(%0,%1)],with\\_sqrt(1),ggbans][3]");
+				"[with_sqrt(0),[ggbans:=factor(%0,%1)],with_sqrt(1),ggbans][3]");
 
 		// factor over irrationals
 		// might not need with_sqrt() as we're using collect() for Factor.1
 		//p("RFactor.1","with_sqrt(1);factor(%0);with_sqrt(0);");
-		
+
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[if type(%0)==DOM\\_INT then calc\\_mode(0); ggbans:=ifactors(%0); calc\\_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
+				"[[if type(%0)==DOM_INT then calc_mode(0); ggbans:=ifactors(%0); calc_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
 		p("FDistribution.3",
-				"fisher\\_cdf(%0,%1,%2)");
-				// alternative for exact answers
-				// "Beta(exact(%0)/2,%1/2,%0*%2/(%0*%2+%1),1)");
+				"fisher_cdf(%0,%1,%2)");
+		// alternative for exact answers
+		// "Beta(exact(%0)/2,%1/2,%0*%2/(%0*%2+%1),1)");
 		p("Flatten.1", "flatten(%0)");
 		p("First.1", "{%0[0]}");
 		p("First.2",
@@ -128,13 +140,13 @@ public class Ggb2giac {
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"[[ggbans:=exponential\\_regression(%0)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][1]");
+				"[[ggbans:=exponential_regression(%0)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][1]");
 		p("FitLog.1",
-				"[[ggbans:=logarithmic\\_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][1]");
+				"[[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][1]");
 		p("FitPoly.2",
-				"normal(evalf(horner(polynomial\\_regression(%0,%1),ggbtmpvarx)))");
+				"normal(evalf(horner(polynomial_regression(%0,%1),ggbtmpvarx)))");
 		p("FitPow.1",
-				"[[ggbans:=power\\_regression(%0)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][1]");
+				"[[ggbans:=power_regression(%0)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][1]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
@@ -152,21 +164,21 @@ public class Ggb2giac {
 		p("Identity.1", "identity(round(%0))");
 		p("If.2", "when(%0,%1,undef)");
 		p("If.3", "when(%0,%1,%2)");
-		
+
 		p("ImplicitDerivative.3", "-diff(%0,%2)/diff(%0,%1)");
 		p("ImplicitDerivative.1", "-diff(%0,ggbtmpvarx)/diff(%0,ggbtmpvary)");
-		
+
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.1",
 				"regroup(integrate(%0))");
 		// TODO: arbconst(1) always goes to c_1
 		p("Integral.2",
 				"regroup(integrate(%0,%1))");
-		
+
 		// TODO: deal with ggbtmpvarx
 		p("Integral.3",
 				"normal(integrate(%0,%1,%2))");
-		
+
 		p("Integral.4",
 				"normal(integrate(%0,%1,%2,%3))");
 		p("IntegralBetween.4",
@@ -196,7 +208,7 @@ public class Ggb2giac {
 		p("LCM.2",
 				"lcm(%0,%1)");
 		p("LeftSide.1",
-				"when(type(%0)==DOM\\_LIST,map(%0,left),left(%0))");
+				"when(type(%0)==DOM_LIST,map(%0,left),left(%0))");
 		p("LeftSide.2",
 				"left(%0[%1-1])");
 		p("Length.1",
@@ -226,16 +238,16 @@ public class Ggb2giac {
 		p("MixedNumber.1",
 				"propfrac(%0)");
 		p("Mod.2",
-				"if type(%0)==DOM\\_INT && type(%1)==DOM\\_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3",
 				"romberg(%0,%1,%2)");
 		p("NIntegral.4",
 				"romberg(%0,%1,%2,%3)");
 		p("Normal.3",
-				"normald\\_cdf(%0,%1,%2)");
+				"normald_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"if %3=true then normald\\_cdf(%0,%1,%2) else (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2))) fi");
+				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
 		// first element of list, wrapped back in list
 		p("NSolve.1",
@@ -267,7 +279,7 @@ public class Ggb2giac {
 				"if %3=true then Beta(%0,1+floor(%2),%1,1) else (1-(%1))^(%2)*(%1)^(%0)*binomial(%0+%2-1,%0-1) fi");
 		p("Poisson.3",
 				"if %2=true then " +
-				"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
+						"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
 				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0) fi");
 		p("PreviousPrime.1",
 				"prevprime(%0)");
@@ -282,23 +294,23 @@ public class Ggb2giac {
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
-				"binomial\\_icdf(%0,%1,rand(0,1))");
+				"binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
 		p("RandomPoisson.1",
-		  "poisson\\_icdf(%0,rand(0,1))"); // could also make the product of rand(0,1) until less than exp(-%0)
+				"poisson_icdf(%0,rand(0,1))"); // could also make the product of rand(0,1) until less than exp(-%0)
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
 				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
-		p("Rationalize.1", "if type(%0)==DOM\\_RAT then %0 else normal(exact(%0)) fi");
+		p("Rationalize.1", "if type(%0)==DOM_RAT then %0 else normal(exact(%0)) fi");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
-				"when(type(%0)==DOM\\_LIST,map(%0,right),right(%0))");
+				"when(type(%0)==DOM_LIST,map(%0,right),right(%0))");
 		p("RightSide.2",
 				"right(%0[%1-1]) ");
-			
+
 		p("ReducedRowEchelonForm.1",
 				"rref(%0)");
 		p("Sample.2",
@@ -318,17 +330,17 @@ public class Ggb2giac {
 				"normal(stddev(%0))");
 		p("Shuffle.1", "randperm(%0)");
 		p("Simplify.1", "tlin(simplify(%0))");
-		
+
 		p("Solutions.1",
 				"normal(zeros(%0,ggbtmpvarx))");
 		p("Solutions.2",
 				"normal(zeros(%0,%1))");
-		
+
 		// Root.1 and Solve.1 should be the same		
 		String root1 = "normal([op(solve(%0))])";
 		p("Root.1", root1);
 		p("Solve.1", root1);
-		
+
 		p("Solve.2",
 				"normal([op(solve(%0,%1))])");
 		p("SolveODE.1",
@@ -359,15 +371,15 @@ public class Ggb2giac {
 		p("TaylorSeries.4",
 				"convert(series(%0,%1,%2,%3),polynom)");
 		p("TDistribution.2",
-				"student\\_cdf(%0,%1)");
-				// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
-				// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
+				"student_cdf(%0,%1)");
+		// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
+		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
 				"%0[0]+i*%0[1]");
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"[[ggbans:=polar\\_coordinates(%0)],convert([ggbans[0]" + Unicode.angle + "ggbans[1]],25)][1]");
+				"[[ggbans:=polar_coordinates(%0)],convert([ggbans[0]" + Unicode.angle + "ggbans[1]],25)][1]");
 		p("ToPoint.1",
 				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
