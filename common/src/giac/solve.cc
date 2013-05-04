@@ -1598,12 +1598,29 @@ namespace giac {
     if (setcplx)
       complex_mode(true,contextptr);
     expr=factor(expr,false,contextptr); // factor in complex or real mode
+    if (expr.is_symb_of_sommet(at_neg))
+      expr=expr._SYMBptr->feuille;
     if (is_undef(expr))
       return vecteur(1,expr);
     if (setcplx)
       complex_mode(false,contextptr);
     lv=lvarx(expr,x);
     s=lv.size();
+    if (s==1 && lv[0].is_symb_of_sommet(at_tan) && expr.is_symb_of_sommet(at_prod) && expr._SYMBptr->feuille.type==_VECT){
+      // remove denominator if limit!=0
+      gen etan=limit(subst(expr,lv[0],x,false,contextptr),x,plus_inf,-1,contextptr);
+      if (!is_zero(etan)){
+	const vecteur varg=*expr._SYMBptr->feuille._VECTptr;
+	vecteur newarg;
+	for (unsigned i=0;i<varg.size();++i){
+	  if (varg[i].type==_SYMB && (varg[i]._SYMBptr->sommet==at_inv || (varg[i]._SYMBptr->sommet==at_pow && ck_is_positive(-varg[i]._SYMBptr->feuille._VECTptr->back(),contextptr))) )
+	    ;
+	  else
+	    newarg.push_back(varg[i]);
+	}
+	expr=_prod(gen(newarg,_SEQ__VECT),contextptr);
+      }
+    }
     vecteur v;
     if (!s){
       if (is_zero(expr))
@@ -1611,8 +1628,8 @@ namespace giac {
       return v;
     }
     solve(expr,x,v,isolate_mode,contextptr);
-    if (!(isolate_mode & 2)){
-      // check solutions if there is a tan inside
+    if (0 && !(isolate_mode & 2)){
+      // check solutions if there is a tan inside, commented now that we have the test above
       for (int i=0;i<s;++i){
 	if (lv[i].is_symb_of_sommet(at_tan)){
 	  vecteur res;
@@ -1873,7 +1890,8 @@ namespace giac {
     for (;it!=itend;++it){
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
       if (!is_undef(tmp) && !is_inf(tmp)){
-	if (has_evalf(*it,tmp,1,contextptr))
+	vecteur itv=lop(*it,at_ln); // check added so that solve(2^x=8,x) returns 3 instead of ln(8)/ln(2)
+	if (itv.size()>1)
 	  res.push_back(simplify(*it,contextptr));
 	else
 	  res.push_back(*it);
