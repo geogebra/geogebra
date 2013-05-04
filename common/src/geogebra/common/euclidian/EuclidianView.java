@@ -12,7 +12,6 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
@@ -3300,8 +3299,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								x = (int) ((pix + xoffset) - (estimateTextWidth(sb.toString(),getFontAxes()) / 2));
 							}
 
-							drawStringWithBackground(g2, sb.toString(), x, y,
-									bgCol, null, 0, 6);
+							drawStringWithBackground(g2, sb.toString(), x, y);
 						}
 					}
 
@@ -3449,8 +3447,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 								y = (int) (pix + yoffset);
 							}
 
-							drawStringWithBackground(g2, sb.toString(), x, y,
-									bgCol, null, rw < 0 ? 10 : 5, 0);
+							drawStringWithBackground(g2, sb.toString(), x, y);
 						}
 					}
 					if (drawMajorTicks[1]) {
@@ -3538,22 +3535,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 * spaceToLeft so that minus signs are more visible next to grid
 	 */
 	private void drawStringWithBackground(GGraphics2D g2, String text,
-			double x, double y, GColor bgCol, GTextLayout layout,
-			int spaceToLeft, int spaceBelow) {
-
-		if (bgCol != null) {
-			GRectangle2D rect = layout.getBounds();
-
-			// maybe bug in web implementation of TextLayout?
-			double vOffset = app.isHTML5Applet() ? -rect.getHeight() : 0;
-
-			rect.setRect(rect.getX() + x - spaceToLeft, rect.getY() + y
-					+ vOffset, rect.getWidth() + spaceToLeft, rect.getHeight()
-					+ spaceBelow);
-			// AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
-			g2.setPaint(bgCol);
-			g2.fill(rect);
-		}
+			double x, double y) {
 
 		g2.setPaint(axesColor);
 		g2.drawString(text, (int) (x), (int) y);
