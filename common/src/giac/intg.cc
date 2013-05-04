@@ -2008,6 +2008,18 @@ namespace giac {
 	return rdiv(lnabs(f._VECTptr->front(),contextptr),a,contextptr);
       return rdiv(pow(f._VECTptr->front(),b+plus_one,contextptr),a*(b+plus_one),contextptr);
     }
+    if ( (u==at_surd) && is_constant_wrt(f._VECTptr->back(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->front(),gen_x,a,b,contextptr) ){
+      b=f._VECTptr->back();
+      if (is_minus_one(b))
+	return rdiv(lnabs(f._VECTptr->front(),contextptr),a,contextptr);
+      return gen_x*symbolic(at_surd,f)/(a+a/b);
+    }
+    if ( (u==at_NTHROOT) && is_constant_wrt(f._VECTptr->front(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->back(),gen_x,a,b,contextptr) ){
+      b=f._VECTptr->front();
+      if (is_minus_one(b))
+	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
+      return gen_x*symbolic(at_NTHROOT,f)/(a+a/b);
+    }
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 1 ") << e << endl;
 #endif
@@ -2283,9 +2295,7 @@ namespace giac {
     return true;
   }
 
-#ifdef GIAC_GGB
   static int ggb_intcounter=0;
-#endif
 
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
@@ -2460,12 +2470,10 @@ namespace giac {
       }
     }
     gen primitive=integrate0( v[0],*x._IDNTptr,rem,contextptr);
-#ifdef GIAC_GGB
     if (s==2 && calc_mode(contextptr)==1){
       ++ggb_intcounter;
       primitive += diffeq_constante(ggb_intcounter,contextptr);
     }
-#endif
     if (s==2){
       if (is_zero(rem))
 	return primitive;
