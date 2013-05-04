@@ -395,7 +395,7 @@ public class CASparser implements CASParserInterface{
 			switch (parser.getKernel().getCASType()) {
 
 			case GIAC:
-				rbCasTranslations = Ggb2giac.getMap();
+				rbCasTranslations = Ggb2giac.getMap(parser.getKernel().getApplication().isHTML5Applet());
 				break;
 
 			case MPREDUCE:
