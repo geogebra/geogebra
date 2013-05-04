@@ -247,7 +247,7 @@ public class Ggb2giac {
 		p("Normal.3",
 				"normald_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*(%1^2))) * exp(-((%2-%0)^2) / (2*(%1^2))) fi");
+				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*((%1)^2))) * exp(-((%2-%0)^2) / (2*((%1)^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
 		// first element of list, wrapped back in list
 		p("NSolve.1",
