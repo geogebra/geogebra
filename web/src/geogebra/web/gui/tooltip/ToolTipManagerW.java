@@ -1,6 +1,7 @@
 package geogebra.web.gui.tooltip;
 
 import geogebra.common.main.App;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Element;
@@ -23,7 +24,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class ToolTipManagerW {
 
-	private SimplePanel tipPanel;
+	private AppW app;
+	protected SimplePanel tipPanel;
 	private HTML tipHTML = new HTML();
 
 	protected int mouseX = 0;
@@ -32,21 +34,28 @@ public class ToolTipManagerW {
 	protected int scrollLeft = 0;
 	protected int scrollTop = 0;
 
-	private Timer initialDelayTimer, dismissTimer;
+	private Timer timer;
 
 	// Java ToolTipManager defaults
 	private int initialDelay = 750;
 	private int dismissDelay = 4000;
+	private int reshowDelay = 100;
 
 	private boolean enableDelay = true;
+	protected boolean reshow = false;
+	private String oldText = "";
+
+	protected Element tipElement;
 
 	/******************************************
 	 * Construct a ToolTipManager
 	 */
-	public ToolTipManagerW() {
+	public ToolTipManagerW(AppW app) {
 
+		this.app = app;
 		tipPanel = new SimplePanel();
-		tipPanel.setVisible(false);
+		// tipPanel.setVisible(false);
+		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 		tipPanel.add(tipHTML);
 		RootPanel.get().add(tipPanel);
 		tipPanel.setStyleName("ToolTip");
@@ -111,7 +120,7 @@ public class ToolTipManagerW {
 				scrollTop = event.getScrollTop();
 
 				App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
-				 + scrollTop);
+				        + scrollTop);
 
 			}
 		});
@@ -122,90 +131,106 @@ public class ToolTipManagerW {
 	// ======================================
 
 	/**
-	 * Shows toolTip at given absolute position
+	 * Shows toolTip relative to a given element or at mouse position if element
+	 * is null
 	 * 
-	 * @param x
-	 * @param y
+	 * @param element
+	 *            element associated with tooltip
 	 * @param toolTipText
+	 *            text to be displayed
 	 */
-	public void showToolTipAbsolute(int x, int y, String toolTipText) {
+	public void showToolTip(Element element, String toolTipText) {
 
-		if (toolTipText == null) {
+		tipElement = element;
+
+		if (element == null || toolTipText == null) {
 			return;
 		}
 
+		if (oldText.equals(toolTipText)) {
+			return;
+		}
+
+		oldText = toolTipText;
 		tipHTML.setHTML(toolTipText);
-		RootPanel.get().setWidgetPosition(tipPanel, x, y);
+
 		showToolTipWithDelay();
+
 	}
 
 	/**
-	 * Shows toolTip relative to a given element
-	 * 
-	 * @param elem
-	 *            - element associated with tooltip
-	 * @param toolTipText
-	 */
-	public void showToolTipForElement(Element elem, String toolTipText) {
-
-		if (toolTipText == null || elem == null) {
-			return;
-		}
-
-		if (tipPanel.isVisible()) {
-			return;
-		}
-
-		tipHTML.setHTML(toolTipText);
-
-		// TODO handle window edge overflow case
-		int left = elem.getAbsoluteLeft();
-		int top = elem.getAbsoluteBottom();
-		RootPanel.get().setWidgetPosition(tipPanel, left, top);
-
-		if (enableDelay) {
-			showToolTipWithDelay();
-		} else {
-			show();
-		}
-	}
-
-	/**
-	 * Shows toolTip at current mouse position, just below cursor.
+	 * Shows toolTip at mouse position
 	 * 
 	 * @param toolTipText
+	 *            text to be displayed
 	 */
-	public void showToolTipAtMousePosition(String toolTipText) {
+	public void showToolTip(String toolTipText) {
+
+		tipElement = null;
 
 		if (toolTipText == null) {
 			hideToolTip();
 			return;
 		}
 
-		if (tipPanel.isVisible()) {
+		if (oldText.equals(toolTipText)) {
 			return;
 		}
 
+		oldText = toolTipText;
 		tipHTML.setHTML(toolTipText);
 
-		// TODO handle window edge overflow case
-		int x = scrollLeft + mouseX;
-		int y = scrollTop + mouseY + 18;
-		RootPanel.get().setWidgetPosition(tipPanel, x, y);
-
 		showToolTipWithDelay();
+
+	}
+
+	protected void setToolTipLocation() {
+		int left, top;
+
+		if (tipElement == null) {
+			left = scrollLeft + mouseX;
+			top = scrollTop + mouseY + 18;
+
+		} else {
+			left = tipElement.getAbsoluteLeft();
+			top = tipElement.getAbsoluteBottom();
+		}
+
+		// handle tooltip overflow at left and bottom edge
+		int w = tipPanel.getOffsetWidth();
+		int windowLeft = AppW.getRootComponent(app).getAbsoluteLeft()
+		        + AppW.getRootComponent(app).getOffsetWidth();
+		if (left + w > windowLeft) {
+			left = left - w;
+		}
+		int h = tipPanel.getOffsetHeight();
+		int windowBottom = AppW.getRootComponent(app).getAbsoluteTop()
+		        + AppW.getRootComponent(app).getOffsetHeight();
+		if (top + h > windowBottom) {
+			top = windowBottom - h;
+		}
+		
+		// set the tooltip location
+		RootPanel.get().setWidgetPosition(tipPanel, left, top);
 	}
 
 	private void showToolTipWithDelay() {
 
-		cancelDelayTimer();
+		cancelTimer();
+
 		if (enableDelay) {
-			initialDelayTimer = new Timer() {
+			timer = new Timer() {
+				@Override
 				public void run() {
 					show();
 				}
 			};
-			initialDelayTimer.schedule(initialDelay);
+
+			if (reshow) {
+				timer.schedule(reshowDelay);
+			} else {
+				timer.schedule(initialDelay);
+			}
 
 		} else {
 			show();
@@ -214,15 +239,19 @@ public class ToolTipManagerW {
 
 	protected void show() {
 
-		tipPanel.setVisible(true);
+		setToolTipLocation();
+		// tipPanel.setVisible(true);
+		tipPanel.getElement().getStyle().setProperty("visibility", "visible");
+		reshow = true;
 
 		if (enableDelay) {
-			dismissTimer = new Timer() {
+			timer = new Timer() {
+				@Override
 				public void run() {
-					tipPanel.setVisible(false);
+					hideToolTip();
 				}
 			};
-			dismissTimer.schedule(dismissDelay);
+			timer.schedule(dismissDelay);
 		}
 	}
 
@@ -231,26 +260,32 @@ public class ToolTipManagerW {
 	// ======================================
 
 	public void hideToolTip() {
+		// App.printStacktrace("hide tooltip");
 		hide();
+		reshow = false;
+		oldText = "";
+
 	}
 
 	protected void hide() {
-		cancelDelayTimer();
-		cancelDismissTimer();
-		tipPanel.setVisible(false);
+
+		cancelTimer();
+		// tipPanel.setVisible(false);
+		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
+
+		/*
+		 * if (enableDelay) { timer = new Timer() {
+		 * 
+		 * @Override public void run() { tipPanel.setVisible(false); refreshing
+		 * = false; } }; timer.schedule(exitDelay); }
+		 */
+
 	}
 
-	private void cancelDelayTimer() {
-		if (initialDelayTimer != null) {
-			initialDelayTimer.cancel();
-			initialDelayTimer = null;
-		}
-	}
-
-	private void cancelDismissTimer() {
-		if (dismissTimer != null) {
-			dismissTimer.cancel();
-			dismissTimer = null;
+	private void cancelTimer() {
+		if (timer != null) {
+			timer.cancel();
+			timer = null;
 		}
 	}
 

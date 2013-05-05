@@ -209,7 +209,7 @@ public class ModeToggleMenu extends MenuBar{
 			if (toolbar.hasPopupOpen()) return;
 			
 			app.getToolTipManager().setEnableDelay(false);
-			app.getToolTipManager().showToolTipForElement(this.getElement(), toolTipText);
+			app.getToolTipManager().showToolTip(this.getElement(), toolTipText);
 			app.getToolTipManager().setEnableDelay(true);
 		}
 		

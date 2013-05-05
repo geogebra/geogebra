@@ -364,7 +364,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
     }
 
 	public void setToolTipText(String plainTooltip) {
-	    app.getToolTipManager().showToolTipAtMousePosition(plainTooltip);
+	    app.getToolTipManager().showToolTip(plainTooltip);
 	    
     }
 

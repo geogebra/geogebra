@@ -249,8 +249,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int eWidth = ((EuclidianViewW)view).getWidth();
 		int eHeight = ((EuclidianViewW)view).getHeight();
 		if ((x < ex || x > ex + eWidth) ||
-				(y < ey ||y > ey + eHeight))
+				(y < ey ||y > ey + eHeight)){
 				((GuiManagerW)app.getGuiManager()).removePopup();
+				((AppW)app).getToolTipManager().hideToolTip();
+		}
 		
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
