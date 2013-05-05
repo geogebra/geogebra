@@ -420,7 +420,7 @@ public class Term implements Comparable<Object>, Serializable {
 	private String variableString(StringTemplate tpl) {
 		String str = variables.toString();
 		
-		if(tpl.hasType(StringType.MPREDUCE) && variables.length()>=1){
+		if((tpl.hasType(StringType.MPREDUCE) || tpl.hasType(StringType.GIAC)) && variables.length()>=1){
 			
 			StringBuilder sb = new StringBuilder("(");
 			
