@@ -180,8 +180,7 @@ public class MySpecialDouble extends MyDouble {
 
 				if (dotIndex > -1) {
 					// eg 2.22 -> (222/100)
-					// must remove leading '0' -> 047 octal in giac
-					return "(" + originalString.replace("0.", "").replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
+					return "(" + originalString.replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
 				}
 
 				// simple integer, no need to change
