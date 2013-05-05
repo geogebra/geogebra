@@ -141,50 +141,7 @@ public class MySpecialDouble extends MyDouble {
 			
 			if (tpl.hasType(StringType.GIAC)) {
 				
-				if (originalString.indexOf("E-") > -1) {
-					
-					String[] s = originalString.split("E-");
-					
-					int i = Integer.parseInt(s[1]);
-					
-					int dotIndex = s[0].indexOf('.');
-					
-					if (dotIndex > -1) {
-						// eg 2.22E-100
-						i += s[0].length() - dotIndex - 1;
-						s[0] = s[0].replace(".", "");
-					}
-					
-					// brackets just in case
-					// 2^2.2E-1 is different to 2^22/100
-					return "(" + s[0] + "/1" + StringUtil.repeat('0', i) + ")";
-
-				} else if (originalString.indexOf("E") > -1) {
-					String[] s = originalString.split("E");
-
-					int i = Integer.parseInt(s[1]);
-
-					int dotIndex = s[0].indexOf('.');
-
-					if (dotIndex > -1) {
-						// eg 2.22E100 need i=98
-						i -= s[0].length() - dotIndex - 1;
-						s[0] = s[0].replace(".", "");
-					}
-
-					return s[0] + StringUtil.repeat('0', i);
-				} 
-				
-				
-				int dotIndex = originalString.indexOf('.');
-
-				if (dotIndex > -1) {
-					// eg 2.22 -> (222/100)
-					return "(" + originalString.replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
-				}
-
-				// simple integer, no need to change
-				return originalString;
+				return kernel.convertScientificNotationGiac(originalString);
 			}
 			
 			//if we are printing result of numeric and user didn't force us to use significant digits
