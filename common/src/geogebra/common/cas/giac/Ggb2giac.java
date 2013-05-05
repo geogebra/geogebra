@@ -357,10 +357,16 @@ public class Ggb2giac {
 		p("Substitute.3",
 				"normal(subst(%0,%1,%2)))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
+
+		// remove normal from Sum, otherwise
+		// Sum[1/n*sqrt(1-(k/n)^2),k,1,n]
+		// Sum[1/10*sqrt(1-(k/10)^2),k,1,10]
+		// don't work
 		p("Sum.1",
-				"normal(sum(%0))");
+				"sum(%0)");
 		p("Sum.4",
-				"normal(sum(%0,%1,%2,%3))");
+				"sum(%0,%1,%2,%3)");
+		
 		p("Tangent.2",
 				"ggbtmpvary=subst(diff(%1,ggbtmpvarx),ggbtmpvarx=%0)*(ggbtmpvarx-%0)+subst(%1,ggbtmpvarx=%0)");
 		// GeoGebra counts elements from 1, giac from 0

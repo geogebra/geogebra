@@ -4336,7 +4336,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("}");
 				sb.append(((MyNumberPair)left).x.toString(tpl));
 			} else {
-				if (stringType == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE || stringType == StringType.GIAC) {
 					sb.append("sum(");
 				} else {
 					sb.append("gGbSuM(");

@@ -103,6 +103,10 @@ public class CommandDispatcherGiac {
 		ycoord(Operation.YCOORD),
 		/** symbolic z coord*/
 		zcoord(Operation.ZCOORD),
+		
+		/** symbolic sum */
+		sum(Operation.SUM),
+
 
 		;
 		private Operation op;
@@ -137,6 +141,14 @@ public class CommandDispatcherGiac {
 
 			switch (commands.valueOf(cmdName)) {
 
+			case sum:
+				ret = new ExpressionNode(kernel,
+						new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),
+						Operation.SUM,
+						new MyNumberPair(kernel,args.getItem(2),args.getItem(3))
+						);
+				
+				break;
 			case exact:
 				// just return argument
 				ret = new ExpressionNode(kernel, args.getItem(0));
