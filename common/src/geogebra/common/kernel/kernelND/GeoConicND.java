@@ -1364,7 +1364,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		coeffs[1] = 2 * matrix[3]; // xy        
 		coeffs[3] = 2 * matrix[4]; // x
 		coeffs[4] = 2 * matrix[5]; // y  
-		if(tpl.hasType(StringType.MPREDUCE)){
+		if (tpl.hasType(StringType.MPREDUCE) || tpl.hasType(StringType.GIAC)){
 			StringBuilder sb = sbToValueString;
 			sb.setLength(0);
 			String x = tpl.printVariableName("x");
