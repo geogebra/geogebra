@@ -69,6 +69,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
+			
+			if (!specialFunctionsInitialized) {
+				app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
+				specialFunctionsInitialized = true;
+			}
+
 
 			// JavaScript command to send
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
@@ -106,6 +112,14 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	public void initialize() throws Throwable {
 		if (C == null) {
 			C = new context();
+			
+			if (!specialFunctionsInitialized) {
+				gen g = new gen(specialFunctions, C);
+				g = giac._eval(g, C);
+				App.debug(g.print(C));
+				specialFunctionsInitialized = true;
+			}
+
 		}
 
 	}

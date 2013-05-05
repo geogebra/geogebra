@@ -3959,13 +3959,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
 					sb.append("xcoord(");
 					sb.append(leftStr);
 					sb.append(')');
+					break;
+				case GIAC:
+					sb.append(leftStr);
+					sb.append("[0]");
 					break;
 				case MPREDUCE:
 					appendReduceFunction(sb, "xcoord");
@@ -4003,13 +4006,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
 					sb.append("ycoord(");
 					sb.append(leftStr);
 					sb.append(')');
+					break;
+				case GIAC:
+					sb.append(leftStr);
+					sb.append("[1]");
 					break;
 				case MPREDUCE:
 					appendReduceFunction(sb, "ycoord");
@@ -4043,13 +4049,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
 				case MATH_PIPER:
-				case GIAC:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
 					sb.append("zcoord(");
 					sb.append(leftStr);
 					sb.append(')');
+					break;
+				case GIAC:
+					sb.append(leftStr);
+					sb.append("[2]");
 					break;
 				case MPREDUCE:
 					appendReduceFunction(sb, "zcoord");

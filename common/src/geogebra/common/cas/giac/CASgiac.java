@@ -29,6 +29,24 @@ public abstract class CASgiac implements CASGenericInterface {
 	/** parser tools */
 	protected CasParserTools parserTools;
 	
+	/**
+	 * define extra functions needed in Giac
+	 */
+	protected String specialFunctions = "sech(x):=1/cosh(x);"+
+			"csch(x):=1/sinh(x);"+
+			"coth(x):=1/tanh(x);" +
+			// Giac's fPart has problems, so use this
+			// http://wiki.geogebra.org/en/FractionalPart_Function
+			"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));"+
+			"xcoord(x):=x[0];"+
+			"ycoord(x):=x[1];"+
+			"zcoord(x):=x[2];";
+	
+	/**
+	 * whether extra functions needed in Giac have been initialized yet
+	 */
+	protected boolean specialFunctionsInitialized;
+	
 	/** CAS parser */
 	public CASparser casParser;
 

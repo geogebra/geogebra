@@ -97,6 +97,12 @@ public class CommandDispatcherGiac {
 		abs(Operation.ABS),
 		/** erf */
 		erf(Operation.ERF),
+		/** symbolic x coord*/
+		xcoord(Operation.XCOORD),
+		/** symbolic y coord*/
+		ycoord(Operation.YCOORD),
+		/** symbolic z coord*/
+		zcoord(Operation.ZCOORD),
 
 		;
 		private Operation op;
@@ -176,6 +182,9 @@ public class CommandDispatcherGiac {
 			case exp:
 			case erf:
 			case abs:
+			case xcoord:
+			case ycoord:
+			case zcoord:
 
 				
 				if (args.getLength() != 1) {
