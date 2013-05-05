@@ -3,9 +3,15 @@ package geogebra.web.gui.util;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.util.ggtapi.GeoGebraTubeAPI;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -32,6 +38,8 @@ public class SignInDialog extends DialogBox {
 	private Button facebookLogin;
 	private Button twitterLogin;
 	private	Button openidLogin;
+	
+	private KeyUpHandler enableSubmit;
 
 	/**
 	 * creates a SignInDialog for log in to different
@@ -72,13 +80,28 @@ public class SignInDialog extends DialogBox {
 		logins.getFlexCellFormatter().setColSpan(0, 0, 2);
 		logins.setWidget(0, 0, forumAccount);
 		
+		enableSubmit = new KeyUpHandler() {
+			
+			public void onKeyUp(KeyUpEvent event) {
+				submitButton.setEnabled(!isloginFieldsAreEmpty());
+			}
+		};
+		
 		forumUserName = new TextBox();
 		forumUserName.getElement().setAttribute("placeholder", app.getMenu("username"));
+		forumUserName.getElement().setTabIndex(0);
+		
+		forumUserName.addKeyUpHandler(enableSubmit);
+		
 		logins.getFlexCellFormatter().setColSpan(1, 0, 2);
 		logins.setWidget(1, 0, forumUserName);
 		
 		forumPassword = new PasswordTextBox();
 		forumPassword.getElement().setAttribute("placeholder", app.getMenu("password"));
+		forumPassword.getElement().setTabIndex(1);
+		
+		forumPassword.addKeyUpHandler(enableSubmit);
+		
 		logins.getFlexCellFormatter().setColSpan(2, 0, 2);
 		logins.setWidget(2, 0, forumPassword);
 		
@@ -99,8 +122,26 @@ public class SignInDialog extends DialogBox {
 		logins.setWidget(3, 0, anchorsContainer);
 		
 		submitButton = new Button(app.getMenu("SignIn"));
+		submitButton.getElement().setTabIndex(3);
 		logins.getFlexCellFormatter().setColSpan(4, 0, 2);
 		logins.setWidget(4, 0, submitButton);
+		
+		submitButton.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				GeoGebraTubeAPI.getInstance().logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
+					
+					public void onResponseReceived(Request request, Response response) {
+						// TODO THIS WILL BE IN MODEL
+						
+					}
+					
+					public void onError(Request request, Throwable exception) {
+						// TODO THIS WILL BE IN MODEL
+					}
+				});
+			}
+		});
 		
 		
 		
@@ -129,5 +170,22 @@ public class SignInDialog extends DialogBox {
 		
 		add(container);
 	}
+	
+	@Override
+    public void show() {
+		super.show();
+		clearLoginFields();
+		submitButton.setEnabled(!isloginFieldsAreEmpty());
+	}
+
+	private boolean isloginFieldsAreEmpty() {
+		return (forumUserName.getText().length() == 0 || forumPassword.getText().length() == 0);
+    }
+
+	private void clearLoginFields() {
+		forumUserName.setText("");
+	    forumPassword.setText("");
+	    forumUserName.getElement().focus();
+    }
 
 }

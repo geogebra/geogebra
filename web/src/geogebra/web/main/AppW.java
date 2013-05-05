@@ -25,6 +25,7 @@ import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.css.GuiResources;
@@ -1918,7 +1919,8 @@ public class AppW extends AppWeb {
 			stopCollectingRepaints();
 			// Well, it may cause freeze if we attach this too early
 			attachViews();
-		}	    
+		}	  
+		GeoGebraProfiler.getInstance().profileEnd();
     }
 
 	@Override

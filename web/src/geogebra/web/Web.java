@@ -4,15 +4,16 @@ package geogebra.web;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
 import geogebra.web.asyncservices.HandleOAuth2Service;
 import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
+import geogebra.web.js.ResourcesInjector;
+import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +24,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -96,62 +96,66 @@ public class Web implements EntryPoint {
 
 	public void onModuleLoad() {
 		//uncomment this if you need to profile
-		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+		GeoGebraProfiler.init(new GeoGebraProfilerW());
+		GeoGebraProfiler.getInstance().profile();
 
 		
 		Web.currentGUI = checkIfNeedToLoadGUI();
 		
-		// always need English properties available, eg Function.sin
-		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
-		injectResources();
+		
 		
 //		setLocaleToQueryParam();
 				
 		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 			//we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
-				startGeoGebra(getGeoGebraMobileTags());
+				loadAppletAsync();
 			} else {
-				exportArticleTagRenderer();
-				//export other methods if needed
-				//call the registered methods if any
-				GGW_ext_webReady();
+				loadExtensionAsync();
 			}
 		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
 			loadAppAsync();
 		}
 	}
 
-	public static void injectResources() {
-		String myModuleBase = GWT.getModuleBaseForStaticFiles();
-		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText().
-				replace("url(web/font/Symbola", "url(" + myModuleBase + "font/Symbola");
-		StyleInjector.inject(mathquillcss);
+	private void loadExtensionAsync() {
+		GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				ResourcesInjector.injectResources();
+				 exportArticleTagRenderer();
+				    //export other methods if needed
+				    //call the registered methods if any
+				    GGW_ext_webReady();
+			}
+			
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	   
+    }
 
-		//insert zip.js
-		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
-		Web.webWorkerSupported = checkWorkerSupport(GWT.getModuleBaseURL());
-		if (!webWorkerSupported) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
-			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
-		}
-		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs().getText());
-		//strange, but iPad can blow it away again...
-		if (checkIfFallbackSetExplicitlyInArrayBufferJs() && webWorkerSupported) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
-			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
-		}
-		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+	private void loadAppletAsync() {
+	    GWT.runAsync(new RunAsyncCallback() {
+			
+			public void onSuccess() {
+				startGeoGebra(getGeoGebraMobileTags());
+			}
+			
+			public void onFailure(Throwable reason) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
     }
 
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
+				ResourcesInjector.injectResources();
 				GeoGebraAppFrame app = new GeoGebraAppFrame();
 			}
 
@@ -178,7 +182,7 @@ public class Web implements EntryPoint {
 	    return GuiToLoad.VIEWER;
     }
 	
-	private native void exportArticleTagRenderer() /*-{
+	native void exportArticleTagRenderer() /*-{
 	    $wnd.GGW_ext.render = $entry(@geogebra.web.gui.applet.GeoGebraFrame::renderArticleElemnt(Lcom/google/gwt/dom/client/Element;));
     }-*/;
     
@@ -228,14 +232,14 @@ public class Web implements EntryPoint {
 	
 	public static boolean webWorkerSupported = false; 
 	
-	private void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
 		geogebra.web.gui.applet.GeoGebraFrame.main(geoGebraMobileTags);
 	    
     }
 	
 	
-	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
+	public static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
 			@geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
@@ -245,7 +249,7 @@ public class Web implements EntryPoint {
 	}-*/;
 	
 	
-	private static native boolean checkWorkerSupport(String workerpath) /*-{
+	public static native boolean checkWorkerSupport(String workerpath) /*-{
 		// Worker support in Firefox is incompatible at the moment for zip.js,
 		// see http://gildas-lormeau.github.com/zip.js/ for details:
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {

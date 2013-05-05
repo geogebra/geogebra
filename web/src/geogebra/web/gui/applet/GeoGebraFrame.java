@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
+import geogebra.web.js.ResourcesInjector;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 
@@ -174,6 +175,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
+				ResourcesInjector.injectResources();
 				inst.app = inst.createApplication(articleElement, inst);
 				inst.setCustomToolBar();
 				//useDataParamBorder(articleElement, inst);
