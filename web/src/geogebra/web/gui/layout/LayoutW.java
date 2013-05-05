@@ -1,7 +1,9 @@
 package geogebra.web.gui.layout;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.Layout;
+import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -9,6 +11,8 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -207,9 +211,117 @@ public class LayoutW extends Layout implements SettingListener {
 
 	}
 	
+	/**
+	 * Create a perspective for the current layout.
+	 * 
+	 * @param id
+	 * @return a perspective for the current layout.
+	 */
+	public Perspective createPerspective(String id) {
+		if(app == null || dockManager.getRoot() == null)
+			return null;
+		
+		// return the default perspective in case we're creating new preferences of
+		// a virgin application.		
+		EuclidianView ev = app.getEuclidianView1();
+		Perspective perspective = new Perspective(id);
+
+		// get the information about the split panes
+		DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(app);
+		perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
+
+		// get the information about the dock panels
+		DockPanelW[] panels = dockManager.getPanels();
+		DockPanelData[] dockPanelInfo = new DockPanelData[panels.length];
+
+		for (int i = 0; i < panels.length; ++i) {
+			// just the width of the panels isn't updated every time the panel
+			// is updated, so we have to take care of this by ourself
+			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
+				DockSplitPaneW parent = panels[i].getParentSplitPane();
+				if (parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+					panels[i].setEmbeddedSize(panels[i].getWidth());
+				} else {
+					panels[i].setEmbeddedSize(panels[i].getHeight());
+				}
+				panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
+			}
+			dockPanelInfo[i] = panels[i].createInfo();
+		}
+
+		// Sort the dock panels as the entries with the smallest amount of
+		// definition should
+		// be read first by the loading algorithm.
+		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
+			public int compare(DockPanelData o1, DockPanelData o2) {
+				int diff = o2.getEmbeddedDef().length()
+						- o1.getEmbeddedDef().length();
+				return diff;
+			}
+		});
+		
+		perspective.setDockPanelData(dockPanelInfo);
+
+		perspective.setToolbarDefinition(app.getGuiManager().getToolbarDefinition());
+		perspective.setShowToolBar(app.showToolBar());
+		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
+		perspective.setShowGrid(ev.getShowGrid());
+		perspective.setShowInputPanel(app.showAlgebraInput());
+		perspective.setShowInputPanelCommands(app.showInputHelpToggle());
+		perspective.setShowInputPanelOnTop(app.showInputTop());
+		
+		perspective.setToolBarPosition(app.getToolbarPosition());
+		//perspective.setShowToolBarHelp(app.showToolBarHelp());
+		//perspective.setShowDockBar(app.isShowDockBar());
+		//perspective.setDockBarEast(app.isDockBarEast());
+
+		return perspective;
+	}
+	
+	
 	@Override
     public void getXml(StringBuilder sb, boolean asPreference) {
-		App.debug("unimplemented");
+		/**
+		 * Create a temporary perspective which is used to store the layout
+		 * of the document at the moment. This perspective isn't accessible
+		 * through the menu and will be removed as soon as the document was 
+		 * saved with another perspective. 
+		 */ 
+		Perspective tmpPerspective = createPerspective("tmp");
+
+		sb.append("\t<perspectives>\n");
+		
+		// save the current perspective
+		if(tmpPerspective != null)
+			sb.append(tmpPerspective.getXml());
+		
+		// save all custom perspectives as well
+		for(Perspective perspective : perspectives) {
+			// skip old temporary perspectives
+			if(perspective.getId().equals("tmp")) {
+				continue;
+			}
+			
+			sb.append(perspective.getXml());
+		}
+		
+		sb.append("\t</perspectives>\n");
+
+		/**
+		 * Certain user elements should be just saved as preferences and not
+		 * if a document is saved normally as they just depend on the
+		 * preferences of the user.
+		 */
+		if(asPreference) {
+			sb.append("\t<settings ignoreDocument=\"");
+			sb.append(settings.isIgnoringDocumentLayout());
+			sb.append("\" showTitleBar=\"");
+			sb.append(settings.showTitleBar());
+			sb.append("\" allowStyleBar=\"");
+			sb.append(settings.isAllowingStyleBar());
+			sb.append("\" />\n");
+		}
+
 	}
 
 	@Override
