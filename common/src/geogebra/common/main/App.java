@@ -615,8 +615,7 @@ public abstract class App implements UpdateSelection{
 		/** tells that the coord system has changed*/
 		SET_COORD_SYSTEM_OCCURED,
 		/** no particular state */
-		NONE,
-		JUST_ZOOMED
+		NONE
 	}
 	
 	/**

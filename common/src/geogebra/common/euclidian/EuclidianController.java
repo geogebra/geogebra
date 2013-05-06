@@ -8692,6 +8692,7 @@ public abstract class EuclidianController {
 
 	protected void wrapMousePressed(AbstractEvent event) {
 		
+		app.storeUndoInfoIfSetCoordSystemOccured();
 		app.maySetCoordSystem();
 		
 		scriptsHaveRun = false;
