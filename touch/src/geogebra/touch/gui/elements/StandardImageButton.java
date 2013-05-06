@@ -1,5 +1,7 @@
 package geogebra.touch.gui.elements;
 
+import geogebra.common.awt.GColor;
+
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.PushButton;
 public class StandardImageButton extends PushButton
 {
 	private SVGResource icon;
+	private boolean active;
 	public static final int HEIGHT = 48;
 	public static final int BORDER_WIDTH = 2;
 
@@ -39,6 +42,24 @@ public class StandardImageButton extends PushButton
 		return this.icon;
 	}
 
+	public void setActive(boolean active)
+	{
+		this.active = active; 
+		if(active)
+		{
+			this.getElement().getStyle().setBorderColor(GColor.BLUE.toString());
+		}
+		else
+		{
+			this.getElement().getStyle().setBorderColor("rgba(0,0,0,0)");
+		}
+	}
+	
+	public boolean isActive()
+	{
+		return this.active; 
+	}
+	
 	@Override
 	public int getOffsetHeight()
 	{
@@ -50,4 +71,5 @@ public class StandardImageButton extends PushButton
 	{
 		return 64;
 	}
+
 }

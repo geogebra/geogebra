@@ -72,37 +72,43 @@ public class GuiModel
 
 	public void updateStylingBar(TouchModel model)
 	{
-		if (this.stylingBar == null)
+		if(this.stylingBar != null)
 		{
-			return;
+			this.stylingBar.rebuild(); 
 		}
-
-		if (model == null || model.getTotalNumber() == 0)
-		{
-			this.stylingBar.clear();
-			return;
-		}
-
-		ArrayList<SVGResource> commands = new ArrayList<SVGResource>();
-
-		if (model.getNumberOf(Test.GEOPOINT) == model.getTotalNumber())
-		{
-			commands.add(CommonResources.INSTANCE.label());
-		}
-
-		if (model.getElement(Test.GEOPOINT) == null)
-		{
-			commands.add(CommonResources.INSTANCE.properties_defaults());
-		}
-
-		if (model.getTotalNumber() == 0)
-		{
-			this.stylingBar.clear();
-			return;
-		}
-
-		this.stylingBar.updateColor(model.lastSelected().getAlgebraColor().toString());
-		this.stylingBar.rebuild(commands.toArray(new SVGResource[commands.size()]));
+		
+		//TODO
+//		if (this.stylingBar == null)
+//		{
+//			return;
+//		}
+//
+//		if (model == null || model.getTotalNumber() == 0)
+//		{
+//			this.stylingBar.clear();
+//			return;
+//		}
+//
+//		ArrayList<SVGResource> commands = new ArrayList<SVGResource>();
+//
+//		if (model.getNumberOf(Test.GEOPOINT) == model.getTotalNumber())
+//		{
+//			commands.add(CommonResources.INSTANCE.label());
+//		}
+//
+//		if (model.getElement(Test.GEOPOINT) == null)
+//		{
+//			commands.add(CommonResources.INSTANCE.properties_defaults());
+//		}
+//
+//		if (model.getTotalNumber() == 0)
+//		{
+//			this.stylingBar.clear();
+//			return;
+//		}
+//
+//		this.stylingBar.updateColor(model.lastSelected().getAlgebraColor().toString());
+//		this.stylingBar.rebuild(commands.toArray(new SVGResource[commands.size()]));
 	}
 
 	public void closeOptions()
@@ -127,17 +133,17 @@ public class GuiModel
 		if (this.activeButton != null && this.activeButton != toolBarButton)
 		{
 			// transparent
-			this.activeButton.getElement().getStyle().setBorderColor("rgba(0,0,0,0)");
+			this.activeButton.setActive(false); 
 		}
 		this.activeButton = toolBarButton;
-		this.activeButton.getElement().getStyle().setBorderColor(GColor.BLUE.toString());
+		this.activeButton.setActive(true); 
 
 		if (this.touchModel != null)
 		{
 			this.touchModel.setCommand(toolBarButton.getCmd());
 		}
 
-		this.stylingBar.rebuild(toolBarButton.getCmd().getStylingBarEntries());
+		this.stylingBar.rebuild(); 
 	}
 
 	public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent)

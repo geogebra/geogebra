@@ -116,7 +116,7 @@ public enum ToolBarCommand
 					.parabola(), StylingBarEntries.Line),
 
 	// Measurement
-	Angle(EuclidianConstants.MODE_ANGLE, CommonResources.INSTANCE.angle(), null), Area(
+	Angle(EuclidianConstants.MODE_ANGLE, CommonResources.INSTANCE.angle(), StylingBarEntries.Angle), Area(
 			EuclidianConstants.MODE_AREA, CommonResources.INSTANCE.area(), null), CreateList(
 			EuclidianConstants.MODE_CREATE_LIST, CommonResources.INSTANCE
 					.create_list(), null), DistanceOrLength(
@@ -139,7 +139,7 @@ public enum ToolBarCommand
 
 	// Special Object
 	FreehandShape(EuclidianConstants.MODE_FREEHAND_SHAPE,
-			CommonResources.INSTANCE.freehand_shape(), null), InsertImage(
+			CommonResources.INSTANCE.freehand_shape(), StylingBarEntries.Line), InsertImage(
 			EuclidianConstants.MODE_IMAGE, CommonResources.INSTANCE
 					.insert_image(), null), InsertText(
 			EuclidianConstants.MODE_TEXT, CommonResources.INSTANCE
@@ -176,8 +176,8 @@ public enum ToolBarCommand
 
 	// others
 	Move_Mobile(EuclidianConstants.MODE_MOVE, CommonResources.INSTANCE
-			.arrow_cursor_finger(), null), Select(-1, CommonResources.INSTANCE
-			.arrow_cursor_grab(), null);
+			.arrow_cursor_finger(), StylingBarEntries.Move), Select(-1, CommonResources.INSTANCE
+			.arrow_cursor_grab(), StylingBarEntries.Move);
 
 	int mode;
 	SVGResource icon;

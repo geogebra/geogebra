@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
-import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
@@ -23,7 +22,6 @@ import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
-import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
 import geogebra.web.main.AppWeb;
@@ -56,7 +54,7 @@ public class TouchApp extends AppWeb
 	 */
 	public static String currentFileId = null;
 	private GgbAPITouch ggbapi;
-	private LocalizationW loc;
+//	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
 	// this factor
@@ -81,7 +79,7 @@ public class TouchApp extends AppWeb
 
 		initFactories();
 
-		this.loc = new LocalizationW();
+//		this.loc = new LocalizationW();
 		
 		infobar = new InfoBarT();
 
@@ -454,11 +452,11 @@ public class TouchApp extends AppWeb
 	{
 	}
 
-	@Override
-	public Localization getLocalization()
-	{
-		return this.loc;
-	}
+//	@Override
+//	public Localization getLocalization()
+//	{
+//		return this.loc;
+//	}
 
 	@Override
 	public Canvas getCanvas()

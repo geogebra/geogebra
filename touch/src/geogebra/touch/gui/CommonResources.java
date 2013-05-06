@@ -51,6 +51,16 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource redo();
 
+	// show - hide (AlgebraView and StylingBar)
+	
+	@Source("icons/svg/arrow_dockbar_triangle_right.svg")
+	@Validated(validated = false)
+	SVGResource show();
+	
+	@Source("icons/svg/arrow_dockbar_triangle_left.svg")
+	@Validated(validated = false)
+	SVGResource hide();
+	
 	// AlgebraView
 
 	@Source("icons/svg/algebra_hidden.svg")
@@ -85,7 +95,7 @@ public interface CommonResources extends ClientBundle
 
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
-	SVGResource colour();
+	SVGResource color();
 
 	@Source("icons/svg/tools_generaltools_label.svg")
 	@Validated(validated = false)
@@ -93,7 +103,7 @@ public interface CommonResources extends ClientBundle
 
 	@Source("icons/svg/properties_defaults_2.svg")
 	@Validated(validated = false)
-	SVGResource properties_defaults();
+	SVGResource properties_default();
 
 	// ToolBar
 
