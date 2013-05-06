@@ -75,7 +75,7 @@ public class PropertiesViewD extends
 	private JPanel mainPanel, buttonPanel;
 	// private JButton restoreDefaultsButton, saveButton;
 
-	private boolean isIniting = true;
+	protected boolean isIniting = true;
 
 	/**************************************************
 	 * Constructor

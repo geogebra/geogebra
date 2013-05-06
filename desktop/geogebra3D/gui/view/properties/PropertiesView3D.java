@@ -3,6 +3,7 @@ package geogebra3D.gui.view.properties;
 import geogebra.common.main.OptionType;
 import geogebra.gui.dialog.options.OptionPanelD;
 import geogebra.gui.dialog.options.OptionsEuclidianD;
+import geogebra.gui.view.properties.PropertiesStyleBarD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
@@ -41,6 +42,36 @@ public class PropertiesView3D extends PropertiesViewD {
 		}
 		
 		return super.getOptionPanel(type);
+	}
+	
+	
+	@Override
+	public void setLabels() {
+		
+		super.setLabels();
+		
+		if (euclidianPanel3D != null)
+			euclidianPanel3D.setLabels();
+
+	}
+	
+	@Override
+	public void updateFonts() {
+		
+		if (isIniting) {
+			return;
+		}
+
+		super.updateFonts();
+		
+		if (euclidianPanel3D != null)
+			euclidianPanel3D.updateFont();
+		
+	}
+	
+	@Override
+	protected PropertiesStyleBarD newPropertiesStyleBar() {
+		return new PropertiesStyleBar3D(this, (AppD) app);
 	}
 
 }
