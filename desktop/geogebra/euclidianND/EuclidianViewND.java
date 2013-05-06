@@ -82,6 +82,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 	}
 
 	public void repaint() {
+		this.updateBackgroundIfNecessary();
 		evjpanel.repaint();
 	}
 

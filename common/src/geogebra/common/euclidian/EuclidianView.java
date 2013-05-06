@@ -455,6 +455,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	private boolean updatingBounds = false;
 
 	private Double lockedAxesRatio;
+	private boolean updateBackgroundOnNextRepaint;
 
 	/**
 	 * returns true if the axes ratio is 1
@@ -844,7 +845,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
-			updateBackgroundImage();
+			updateBackgroundOnNextRepaint = true;
 			updateAllDrawables(repaint);
 
 			// needed so that eg Corner[2,1] updates properly on zoom / pan
@@ -856,6 +857,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
+	}
+	
+	protected void updateBackgroundIfNecessary(){
+		if(updateBackgroundOnNextRepaint){
+			this.updateBackgroundImage();
+		}
+		updateBackgroundOnNextRepaint = false;
 	}
 
 	/**
@@ -2775,7 +2783,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			drawGrid(g);
 		}
 		if (showAxes[0] || showAxes[1]) {
+			long t = System.currentTimeMillis();
 			drawAxes(g);
+			App.debug(System.currentTimeMillis()-t);
 		}
 
 		if (getApplication().showResetIcon()
@@ -3568,7 +3578,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	private void drawStringWithBackground(GGraphics2D g2, String text,
 			double x, double y) {
 
-		g2.setPaint(axesColor);
+		g2.setColor(axesColor);
 		g2.drawString(text, (int) (x), (int) y);
 
 	}
