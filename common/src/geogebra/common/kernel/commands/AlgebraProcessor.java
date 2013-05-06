@@ -1274,13 +1274,20 @@ public class AlgebraProcessor {
 		GeoFunctionNVar f = algo.getFunction();
 		return f;
 	}
-	
+	/**
+	 * Processes given equation to an array containing single line / conic / implicit polynomial.
+	 * Throws MyError for degree 0 equations, eg. 1=2 or x=x.
+	 * @param equ equation
+	 * @return line, conic, implicit poly or plane
+	 * @throws MyError e.g. for invalid operation
+	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
 		return processEquation(equ, false);
 	}
 	
 	/**
 	 * @param equ equation
+	 * @param allowConstant true to allow equations like 2=3 or x=x, false to throw MyError for those
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError e.g. for invalid operation
 	 */
