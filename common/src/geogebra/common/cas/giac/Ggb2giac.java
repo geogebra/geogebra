@@ -99,8 +99,21 @@ public class Ggb2giac {
 				"sum(idivis(%0))");
 		p("Dot.2", "dot([%0],[%1])");
 		// GeoGebra indexes lists from 1, giac from 0
-		//p("Element.2", "%0[%1-1]");
-		p("Element.2", "if type(%0)==DOM_LIST then %0[%1-1] else when(%1==1,left(%0),right(%0)) fi");
+		
+		// equations:
+		// (4x-3y=2x+1)[0] ='='
+		// (4x-3y=2x+1)[1] = left side
+		// (4x-3y=2x+1)[2] = right side
+		
+		// expressions:
+		// (4x+3y-1)[0] = '+'
+		// (4x+3y-1)[1] = 4x
+		// (4x+3y-1)[2] = 3y
+		// (4x+3y-1)[3] = -1
+		p("Element.2", "when(type(%0)==DOM_LIST,(%0)[%1-1],(%0)[%1])");
+		
+		//if %0[0]=='=' then %0[%1] else when(...) fi;
+		
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
 				"%0[%1 - 1,%2 - 1]");
