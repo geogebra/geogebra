@@ -8,6 +8,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 /**
  * @author ggb3D
@@ -423,11 +424,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		
 	}
 	
-	
-	
+
+
 	@Override
 	public int getPickOrder() {
-		return DRAW_PICK_ORDER_1D;
+		if (getPickingType() == PickingType.POINT_OR_CURVE){
+			return DRAW_PICK_ORDER_1D;
+		}
+
+		return DRAW_PICK_ORDER_2D;
 	}
 	
 	
@@ -469,6 +474,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     	}
 
     }
+    
+    @Override
+    protected void drawGeometryForPicking(Renderer renderer, PickingType type){
+    	if (type==PickingType.POINT_OR_CURVE){
+    		drawGeometry(renderer);
+    	}else{
+    		drawSurfaceGeometry(renderer);
+    	}
+	}
     
 
     @Override
@@ -594,6 +608,18 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	}
 	
 	
+	
+	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
+	
+	@Override
+	public void setPickingType(PickingType type){
+		lastPickingType = type;
+	}
+	
+	@Override
+	public PickingType getPickingType(){
+		return lastPickingType;
+	}
 
 
 }

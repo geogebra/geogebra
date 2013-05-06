@@ -47,6 +47,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConicSection;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
@@ -2701,9 +2702,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param renderer1
 	 */
 	public void drawForPicking(Renderer renderer1){
-		renderer1.pick(xOyPlaneDrawable);
+		renderer1.pick(xOyPlaneDrawable, PickingType.SURFACE);
 		for(int i=0;i<3;i++)
-			renderer1.pick(axisDrawable[i]);
+			renderer1.pick(axisDrawable[i], PickingType.POINT_OR_CURVE);
 	}
 	
 	

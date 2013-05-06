@@ -2,9 +2,12 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.Drawable3D.drawableComparator;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoQuadric3D;
 
 import java.util.ArrayList;
@@ -149,17 +152,22 @@ public class Hits3D extends Hits {
 	
 
 	
-	
 	/** insert a drawable in the hitSet, called by EuclidianRenderer3D 
 	 * @param d the drawable
-	 * @param isLabel says if it's the label that is picked
+	 * @param type type of picking
 	 * @param zMin z minimum for picking
 	 * @param zMax z maximum for picking*/
-	public void addDrawable3D(Drawable3D d, boolean isLabel, float zMin, float zMax){
+	public void addDrawable3D(Drawable3D d, PickingType type, float zMin, float zMax){
+
+		if (type == PickingType.LABEL){
+			if (!d.getGeoElement().isGeoText()){
+				hitsLabels.add(d, zMin, zMax);
+			}
+		}else{ //remember last type for picking
+			d.setPickingType(type);
+		}
 		
-		if (isLabel && !d.getGeoElement().isGeoText())
-			hitsLabels.add(d, zMin, zMax);
-		//else{
+		//App.debug("\n"+d+"\n"+type);
 		
 		if(d.getPickOrder()<Drawable3D.DRAW_PICK_ORDER_MAX)
 			hitSet[d.getPickOrder()].add(d, zMin, zMax);
@@ -200,8 +208,15 @@ public class Hits3D extends Hits {
 				this.add(geo);
 				
 				// add the parent of this if it's a segment from a GeoPolygon3D or GeoPolyhedron
-				if (geo.isGeoSegment())
+				if (geo.isGeoSegment()){
 					segmentList.add(geo);
+				}else if (geo.isGeoConic()){
+					if (d.getPickingType() == PickingType.POINT_OR_CURVE){
+						((GeoConicND) geo).setLastHitType(HitType.ON_BOUNDARY);
+					}else{ // PickingType.SURFACE
+						((GeoConicND) geo).setLastHitType(HitType.ON_FILLING);
+					}
+				}
 			}
 		}
 		

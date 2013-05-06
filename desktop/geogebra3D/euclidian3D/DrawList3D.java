@@ -4,6 +4,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 /**
  * Class for drawing GeoList (3D part)
@@ -88,7 +89,7 @@ public class DrawList3D extends Drawable3D {
 	}
 	
 	@Override
-	public Drawable3D drawForPicking(Renderer renderer) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
 		
 		return getDrawablePicked();
 		

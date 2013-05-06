@@ -21,7 +21,6 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
-import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -59,7 +58,7 @@ import java.util.ArrayList;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
-Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
+Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3D
 {
 	/** avoid very large and small coefficients for numerical stability */	
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
@@ -3186,21 +3185,23 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		if (!isInRegion(PI)){
 			moveBackToRegion(PI,rp);
 		}else{
-			GeoPoint P=(GeoPoint)PI;
+			Coords coords = PI.getCoordsInD2(getCoordSys());		
 			rp.setIsOnPath(false);
 				
-			coordsRWtoEV(P);
+			coordsRWtoEV(coords);
 			if(type != CONIC_PARABOLA){
-			rp.setT1(P.x/this.halfAxes[0]);
-			rp.setT2(P.y/this.halfAxes[1]);
+				rp.setT1(coords.getX()/this.halfAxes[0]);
+				rp.setT2(coords.getY()/this.halfAxes[1]);
 			}
 			else{
-				rp.setT1(P.x);
-				rp.setT2(P.y/Math.sqrt(this.p));
+				rp.setT1(coords.getX());
+				rp.setT2(coords.getY()/Math.sqrt(this.p));
 				
 			}
-			coordsEVtoRW(P);
+			coordsEVtoRW(coords);
 		}
+		
+		PI.updateCoordsFrom2D(false, null);
 	}
 
 
@@ -3566,5 +3567,31 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		
 		return getCoordSys().getPoint(labelPosition);
 	}
+	
+	
+	// //////////////////////////////////////
+	// REGION3D INTERFACE
+	// //////////////////////////////////////
+	
+	public Coords[] getNormalProjection(Coords coords) {
+		return getCoordSys().getNormalProjection(coords);
+	}
+	
+	public Coords getPoint(double x2d, double y2d) {
+		return getCoordSys().getPoint(x2d, y2d);
+	}
+	
+	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
+			Coords willingDirection) {
+		/*
+		return willingCoords.projectPlaneThruVIfPossible(getCoordSys()
+				.getMatrixOrthonormal(), oldCoords, willingDirection);
+				*/
+		Coords[] ret = willingCoords.projectPlaneThruVIfPossible(getCoordSys()
+				.getMatrixOrthonormal(), oldCoords, willingDirection);
+		
+		return ret;
+	}
+	
 	
 }

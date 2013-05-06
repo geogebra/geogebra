@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -402,40 +403,64 @@ public class Drawable3DLists {
 
 	}
 	
-	private void drawListForPicking(Renderer renderer, Drawable3DList list){
+	private static void drawListForPickingPointOrCurve(Renderer renderer, Drawable3DList list){
 		for (Iterator<Drawable3D> iter = list.iterator(); iter.hasNext();) {
         	Drawable3D d = iter.next();
-        	renderer.pick(d);
+        	renderer.pick(d, PickingType.POINT_OR_CURVE);
 		}		
 	}
 
-	/** draw objects to pick them
+	private static void drawListForPickingSurface(Renderer renderer, Drawable3DList list){
+		for (Iterator<Drawable3D> iter = list.iterator(); iter.hasNext();) {
+        	Drawable3D d = iter.next();
+        	renderer.pick(d, PickingType.SURFACE);
+		}		
+	}
+
+	/** draw points and curves to pick them
 	 * @param renderer opengl context
 	 */
-	public void drawForPicking(Renderer renderer){
-		
-		
+	public void drawForPickingPointsAndCurves(Renderer renderer){		
+
 		renderer.setCulling(false);
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_DEFAULT]);	
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_POINTS]);	
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CURVES]);	
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_SURFACES]);	
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]);	
+		
+		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_DEFAULT]);	
+		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_POINTS]);	
+		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_CURVES]);	
+		view3D.drawForPicking(renderer);
+		
+
 		renderer.setCulling(true);
+
+	}
+
+	/** draw surfaces to pick them
+	 * @param renderer opengl context
+	 */
+	public void drawForPickingSurfaces(Renderer renderer){
+
+		renderer.setCulling(false);
+		
+		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_SURFACES]);	
+		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]);	
+		
+		
+		renderer.setCulling(true);
+		
 		renderer.setCullFaceFront();
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
+		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
 		renderer.setCullFaceBack();
-		drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
+		drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]);	
 
 	
 		renderer.setCulling(false);
+		
 		if (containsClippedSurfaces()){
 			renderer.enableClipPlanesIfNeeded();
-			drawListForPicking(renderer, lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]);	
+			drawListForPickingSurface(renderer, lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]);	
 			renderer.disableClipPlanesIfNeeded();
 		}
 		
-		view3D.drawForPicking(renderer);
 		
 		renderer.setCulling(true);
 		

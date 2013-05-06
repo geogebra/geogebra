@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra3D.kernel3D.GeoPolygon3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -100,10 +101,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		drawGeometry(renderer);
 	}
 	
-	@Override
-	protected void drawGeometryForPicking(Renderer renderer){
-		drawSurfaceGeometry(renderer);
-		drawGeometry(renderer);
+    @Override
+    protected void drawGeometryForPicking(Renderer renderer, PickingType type){
+    	if (type==PickingType.POINT_OR_CURVE){
+    		drawGeometry(renderer);
+    	}else{
+    		drawSurfaceGeometry(renderer);
+    	}
 	}
 	
 

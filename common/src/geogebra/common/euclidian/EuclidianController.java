@@ -5046,7 +5046,7 @@ public abstract class EuclidianController {
 			
 				// create hits for region
 				Hits regionHits = getRegionHits(hits);
-			
+				
 				// only keep polygon in hits if one side of polygon is in hits too
 				// removed: Point Tool creates Point on edge of Polygon
 				if ((mode != EuclidianConstants.MODE_POINT)
@@ -5164,12 +5164,11 @@ public abstract class EuclidianController {
 										}
 									}
 								} else if (((GeoElement) region).isGeoConic()) {
-									if ((mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
-											&& (((GeoConicND) region).getLastHitType() == HitType.ON_FILLING)) {
+									if (createNewPointInRegionPossible((GeoConicND) region)) {
 										createPoint = true;
 										hits.remove(region); // conic won't be treated
 																// as a path
-									} else {
+									}else{
 										createPoint = true;
 									}
 								} else if (region instanceof GeoFunction) {
@@ -5208,9 +5207,20 @@ public abstract class EuclidianController {
 								if (chooseGeo) {
 									path = (Path) chooseGeo(pathHits, true);
 								} else {
-									path = (Path) pathHits.get(0);
+									// find first path which was not hitted as a surface
+									for (int i = 0 ; i < pathHits.size() && path == null ; i++ ){
+										 path = (Path) pathHits.get(i);
+										 if (path instanceof GeoConicND){
+											 if (((GeoConicND) path).getLastHitType() != HitType.ON_BOUNDARY){
+												 path = null;
+											 }
+										 }
+									}
+									//App.debug(path);
 								}
-								createPoint = path != null;
+								if(path != null){
+									createPoint = true;
+								}
 							} else {
 								createPoint = true;
 							}
@@ -5218,15 +5228,19 @@ public abstract class EuclidianController {
 					}
 				}
 			
+				//App.debug(region);
 				// Application.debug("createPoint 3 = "+createPoint);
 			
+				
 				if (createPoint) {
 					transformCoords(); // use point capturing if on
 					// branches reordered to prefer path, and then region
 					if ((path != null) && onPathPossible) {
 						point = createNewPoint(forPreviewable, path, complex);
+						//App.debug(path);
 					} else if ((region != null) && inRegionPossible) {
 						point = createNewPoint(forPreviewable, region, complex);
+						//App.debug(region);
 					} else {
 						point = createNewPoint(forPreviewable, complex);
 						view.setShowMouseCoords(true);
@@ -5235,6 +5249,13 @@ public abstract class EuclidianController {
 			
 				return point;
 			}
+	
+	
+	protected boolean createNewPointInRegionPossible(GeoConicND conic){
+		return ((mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+				&& (conic.getLastHitType() == HitType.ON_FILLING));
+
+	}
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible,
 			boolean intersectPossible, boolean complex) {

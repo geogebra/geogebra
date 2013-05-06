@@ -1240,7 +1240,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glLoadMatrixd(view3D.getToScreenMatrix().get(),0);
 	}
 	
-	private void storePickingInfos(Hits3D hits3D, int labelLoop){
+	private void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop, int labelLoop){
 
         int hits = gl.glRenderMode(GLlocal.GL_RENDER); // Switch To Render Mode, Find Out How Many
         
@@ -1266,10 +1266,18 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	  num = selectBuffer.get(ptr);
 
         	  if (hits3D==null){ // just update z min/max values for the drawable
-            	  drawHits[num].zPickMin = zMin;
-            	  drawHits[num].zPickMax = zMax;        		  
+        		  drawHits[num].zPickMin = zMin;
+        		  drawHits[num].zPickMax = zMax;        		  
         	  }else{ // if for hits array, some checks are done
-         		  hits3D.addDrawable3D(drawHits[num],num>=labelLoop, zMin, zMax);
+        		  PickingType type;
+        		  if (num >= labelLoop){
+        			  type = PickingType.LABEL;
+        		  }else if (num >= pointAndCurvesLoop){
+        			  type = PickingType.POINT_OR_CURVE;
+        		  }else{
+        			  type = PickingType.SURFACE;
+        		  }
+        		  hits3D.addDrawable3D(drawHits[num], type, zMin, zMax);
         		  //App.debug(i+": " + drawHits[num].getGeoElement());
         	  }
       		  
@@ -1298,9 +1306,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
     	setGLForPicking();
     	pushSceneMatrix();
-    	        
-		// picking objects
-        drawable3DLists.drawForPicking(this);        
+
+    	// picking surfaces
+    	drawable3DLists.drawForPickingSurfaces(this);        
+
+    	// picking points and curves
+    	int pointAndCurvesLoop = pickingLoop;
+    	drawable3DLists.drawForPickingPointsAndCurves(this);       
+
         
         // set off the scene matrix
         gl.glPopMatrix();
@@ -1329,7 +1342,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         //Hits3D hits3D = new Hits3D();
         Hits3D hits3D = view3D.getHits3D();
         hits3D.init();
-        storePickingInfos(hits3D, labelLoop);
+        storePickingInfos(hits3D, pointAndCurvesLoop, labelLoop);
         
         // sets the GeoElements in view3D
         hits3D.sort();
@@ -1353,6 +1366,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         gl.glEnable(GLlocal.GL_LIGHTING);
     }
+    
+
+	public enum PickingType {
+		POINT_OR_CURVE,
+		SURFACE,
+		LABEL
+	}
+	
         
     /**
      * process picking for intersection curves
@@ -1380,14 +1401,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	Drawable3D d = intersectionCurve.drawable;
         	d.zPickMax=Float.POSITIVE_INFINITY;
         	d.zPickMin=Float.POSITIVE_INFINITY; 
-        	pick(d,true);
+        	pick(d, true, PickingType.POINT_OR_CURVE);
         }
         
         
         // set off the scene matrix
         gl.glPopMatrix();
  
-        storePickingInfos(null, 0);        
+        storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are passed as null        
         
         gl.glEnable(GLlocal.GL_LIGHTING);
     }   
@@ -1396,16 +1417,17 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	gl.glLoadName(loop);
     }
     
-    public void pick(Drawable3D d){  
-    	 pick(d,false);
+    public void pick(Drawable3D d, PickingType type){  
+    	 pick(d,false,type);
     }
     
-    public void pick(Drawable3D d, boolean intersection){  
+    public void pick(Drawable3D d, boolean intersection, PickingType type){  
     	//Application.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);  	
     	//Application.debug("1");
     	gl.glLoadName(pickingLoop);//Application.debug("2");
-    	Drawable3D ret = d.drawForPicking(this,intersection);	//Application.debug("3");
+    	Drawable3D ret = d.drawForPicking(this,intersection, type);	//Application.debug("3");
     	if (ret!=null){
+    		//App.debug(pickingLoop+","+ret);
     		drawHits[pickingLoop] = ret;//Application.debug("4");
     		pickingLoop++;//Application.debug("5");
     	}

@@ -11,6 +11,7 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
@@ -546,15 +547,7 @@ public abstract class Drawable3D extends DrawableND {
 	abstract public void drawHiding(Renderer renderer); 
 	
 	
-	/**
-	 * sets the matrix, the pencil and draw the geometry for the {@link Renderer} to process picking
-	 * @param renderer the 3D renderer where to draw
-	 * @return this, or the DrawList that created it
-	 */			
-	public Drawable3D drawForPicking(Renderer renderer) {
-		
-		return drawForPicking(renderer, true);
-	}
+
 	
 	/**
 	 * draw for picking, and verify (or not) if pickable
@@ -562,7 +555,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param intersection says if it's for intersection (in this case, no check for pickable/visible)
 	 * @return this, or the DrawList that created it, or null if not pickable/visible
 	 */
-	public Drawable3D drawForPicking(Renderer renderer, boolean intersection) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
 		
 		
 		if (intersection){ // used for intersection tool
@@ -576,7 +569,7 @@ public abstract class Drawable3D extends DrawableND {
 			if(!isVisible())
 				return null;
 			
-			drawGeometryForPicking(renderer);
+			drawGeometryForPicking(renderer, type);
 			
 		}
 		
@@ -603,8 +596,9 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * draws the geometry for picking (in most case, draws the default geometry)
 	 * @param renderer renderer
+	 * @param type type of picking
 	 */
-	protected void drawGeometryForPicking(Renderer renderer){
+	protected void drawGeometryForPicking(Renderer renderer, PickingType type){
 		drawGeometry(renderer);
 	}
 
@@ -615,7 +609,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param renderer renderer
 	 */
 	protected void drawGeometryForPickingIntersection(Renderer renderer){
-		drawGeometryForPicking(renderer);
+		drawGeometryForPicking(renderer, PickingType.POINT_OR_CURVE);
 	}
 
 	
@@ -774,10 +768,14 @@ public abstract class Drawable3D extends DrawableND {
 		
 
 		//finally check if one is before the other
-		if (this.zPickMin<d.zPickMin)
+		if (this.zPickMin<d.zPickMin){
+			//App.debug("-1");
 			return -1;
-		if (this.zPickMin>d.zPickMin)
+		}
+		if (this.zPickMin>d.zPickMin){
+			//App.debug("1");
 			return 1;
+		}
 
 		//says that the two objects are equal for the comparator
 		if (DEBUG){
@@ -1080,8 +1078,25 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	
-	
+	//////////////////////
+	// LAST PICKING TYPE
+	//////////////////////
 
+	/** 
+	 * set last picking type
+	 * @param type picking type
+	 */
+	public void setPickingType(PickingType type){
+		// nothing to do for almost all drawables
+	}
+	
+	/**
+	 * 
+	 * @return last picking type
+	 */
+	public PickingType getPickingType(){
+		return PickingType.POINT_OR_CURVE;
+	}
     
 }
 

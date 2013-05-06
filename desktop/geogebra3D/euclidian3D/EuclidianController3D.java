@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -746,6 +747,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			point3D.doPath();
 				
 		return point3D;
+	}
+	
+	@Override
+	protected boolean createNewPointInRegionPossible(GeoConicND conic){
+		
+		return conic.getLastHitType() == HitType.ON_FILLING;
+
 	}
 	
 	/**
