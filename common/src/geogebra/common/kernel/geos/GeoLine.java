@@ -1375,7 +1375,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	public Coords getDirectionInD3() {
-		return new Coords(-y, x, 0, 0);
+		if (getEndPoint()==null){
+			return new Coords(-y, x, 0, 0);
+		}
+		
+		return getEndInhomCoords().sub(getStartInhomCoords());
 	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
