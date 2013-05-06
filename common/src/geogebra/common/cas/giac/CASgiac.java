@@ -30,9 +30,14 @@ public abstract class CASgiac implements CASGenericInterface {
 	protected CasParserTools parserTools;
 	
 	/**
+	 * string to put Giac into GeoGebra mode
+	 */
+	protected final static String initString = "init geogebra";
+	
+	/**
 	 * define extra functions needed in Giac
 	 */
-	protected String specialFunctions = "sech(x):=1/cosh(x);"+
+	protected final static String specialFunctions = "sech(x):=1/cosh(x);"+
 			"csch(x):=1/sinh(x);"+
 			"coth(x):=1/tanh(x);" +
 			// Giac's fPart has problems, so use this
@@ -41,7 +46,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			"xcoord(x):=x[0];"+
 			"ycoord(x):=x[1];"+
 			"zcoord(x):=x[2];";
-	
+
 	/**
 	 * whether extra functions needed in Giac have been initialized yet
 	 */

@@ -71,6 +71,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// so use JavaScript version instead
 			
 			if (!specialFunctionsInitialized) {
+				app.getApplet().evalJS("_ggbCallGiac('" + initString + "');");
 				app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
 				specialFunctionsInitialized = true;
 			}
@@ -114,9 +115,15 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			C = new context();
 			
 			if (!specialFunctionsInitialized) {
-				gen g = new gen(specialFunctions, C);
+				
+				gen g = new gen(initString, C);
 				g = giac._eval(g, C);
 				App.debug(g.print(C));
+				
+				g = new gen(specialFunctions, C);
+				g = giac._eval(g, C);
+				App.debug(g.print(C));
+				
 				specialFunctionsInitialized = true;
 			}
 

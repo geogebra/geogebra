@@ -67,6 +67,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	public synchronized String evaluate(String s) {
 
 		if (!specialFunctionsInitialized) {
+			nativeEvaluateRaw(initString);
 			nativeEvaluateRaw(specialFunctions);
 			specialFunctionsInitialized = true;
 		}
