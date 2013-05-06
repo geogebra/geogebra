@@ -2287,7 +2287,8 @@ namespace giac {
       if (it->_SYMBptr->sommet!=at_pow){
 	gen tmp=it->_SYMBptr->feuille;
 	tmp=liste2symbolique(symbolique2liste(tmp,contextptr));
-	*it=it->_SYMBptr->sommet(recursive_normal(tmp,false,contextptr),contextptr);
+	tmp=recursive_normal(tmp,false,contextptr);
+	*it=it->_SYMBptr->sommet(tmp,contextptr);
 	continue;
       }
       if (it->_SYMBptr->feuille._VECTptr->front().type==_INT_ && it->_SYMBptr->feuille._VECTptr->back()==plus_one_half)
@@ -2338,6 +2339,8 @@ namespace giac {
 
   gen _recursive_normal(const gen & e,GIAC_CONTEXT){
     gen var,res;
+    if (e.is_symb_of_sommet(at_equal))
+      return symb_equal(_recursive_normal(equal2diff(e),contextptr),0);
     if (is_algebraic_program(e,var,res))
       return symbolic(at_program,makesequence(var,0,recursive_normal(res,contextptr)));
     res=recursive_normal(e,true,contextptr);

@@ -1889,6 +1889,7 @@ namespace giac {
     vecteur res;
     for (;it!=itend;++it){
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
+      tmp=eval(tmp,1,contextptr);
       if (!is_undef(tmp) && !is_inf(tmp)){
 	vecteur itv=lop(*it,at_ln); // check added so that solve(2^x=8,x) returns 3 instead of ln(8)/ln(2)
 	if (itv.size()>1)
