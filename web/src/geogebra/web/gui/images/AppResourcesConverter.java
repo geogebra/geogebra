@@ -31,10 +31,10 @@ public class AppResourcesConverter {
             SelectionTable selectionTable) {
 		waitingForConvert = data.length;
 		converted = new ImageData[waitingForConvert];
-		for (int i = 0; i < waitingForConvert; i++ ) {
+		sT = selectionTable;
+		for (int i = 0; i < data.length; i++) {
 		   convertToImageData(data[i],i);
 		}
-		sT = selectionTable;
     }
 
 	private static void convertToImageData(Object object, final int index) {

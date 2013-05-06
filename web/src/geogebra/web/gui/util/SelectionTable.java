@@ -268,10 +268,18 @@ public class SelectionTable extends Grid implements ClickHandler {
 		int height = 0;
 		switch (mode) {
 		case MODE_TEXT:
-			w = new Anchor((String)object);
+			if (object instanceof String) {
+				w = new Anchor((String)object);
+			} else {
+				App.debug("Problem in SelectionTable.createWidget (String wanted)");
+			}
 			break;
 		case MODE_ICON:
 		case MODE_IMAGE: //fall through
+			if (!(object instanceof ImageData)) {
+				App.debug("Problem in SelectionTable.createWidget (ImageData wanted)");
+				return w;
+			}
 			w = Canvas.createIfSupported();
 			width = ((ImageData)object).getWidth();
 			height = ((ImageData)object).getHeight();
