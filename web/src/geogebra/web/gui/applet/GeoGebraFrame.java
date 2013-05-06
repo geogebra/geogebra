@@ -83,6 +83,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		}
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
 		splash = new SplashDialog(showLogo);
+		splash.setArticleId(ae.getAttribute("id"));
+		splash.setGeoGebraFrame(this);
 		
 		if (width > 0 && height > 0) {
 			setWidth(width + "px");
@@ -104,7 +106,9 @@ public class GeoGebraFrame extends VerticalPanel {
 	
 	@Override
     protected void onLoad() {
-		runAsyncAfterSplash(this, ae);
+		if (splash.isPreviewExists()) {
+			runAsyncAfterSplash();
+		}
 	}
 	
 	protected int dataParamWidth = 0;
@@ -171,7 +175,9 @@ public class GeoGebraFrame extends VerticalPanel {
 		setBorder(ae, gf, "#9999ff", 1);
 	}
 	
-	public void runAsyncAfterSplash(final GeoGebraFrame inst, final ArticleElement articleElement) {
+	public void runAsyncAfterSplash() {
+		final GeoGebraFrame inst = this;
+		final ArticleElement articleElement = ae;
 		GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
