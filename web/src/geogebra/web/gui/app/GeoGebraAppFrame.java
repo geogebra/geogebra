@@ -177,6 +177,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 //		((AppW)app).initializeLanguage();
 				
 		frameLayout.setLayout(app);
+		frameLayout.getGGWGraphicsView().addNavigationBar();
 		
 		//ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);

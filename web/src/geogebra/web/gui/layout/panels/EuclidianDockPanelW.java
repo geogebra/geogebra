@@ -3,6 +3,8 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.VerticalPanelSmart;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -46,6 +48,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			buildGUI();
 		}
 	}
+	
+	public EuclidianDockPanelW(AppW application, boolean stylebar) {
+		this(stylebar);
+		app = application;
+		addNavigationBar();
+	}
 
 	
 	@Override
@@ -59,6 +67,25 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		}
 
 		return euclidianpanel;
+	}
+	
+	public void addNavigationBar(){
+				ConstructionProtocolNavigationW consProtNav = app.getConstructionProtocolNavigation();
+		
+//			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
+//			((ConstructionProtocolNavigation) consProtNav).settingsChanged(cps);
+//			cps.addListener((ConstructionProtocolNavigation)consProtNav);
+				
+//			if (app.getShowCPNavNeedsUpdate()){
+//				app.setShowConstructionProtocolNavigation(app.showConsProtNavigation());
+//			}
+		consProtNav.addStyleName("consProtNav");
+		consProtNav.setVisible(false); //consProtNav.setVisible(app.showConsProtNavigation());
+			
+			
+		//euclidianpanel.add(consProtNav); // may be invisible, but made visible later
+		App.debug("offsetheights: " + euclidianpanel.getOffsetHeight()+" "+consProtNav.getOffsetHeight());
+		euclidianpanel.add(consProtNav,0, euclidianpanel.getOffsetHeight()-consProtNav.getOffsetHeight());
 	}
 	
 	class EuclidianPanel extends AbsolutePanel implements RequiresResize {

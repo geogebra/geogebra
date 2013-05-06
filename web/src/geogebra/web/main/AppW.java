@@ -46,6 +46,7 @@ import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.tooltip.ToolTipManagerW;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
@@ -124,6 +125,8 @@ public class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	private ObjectPool objectPool;
 
+	private ConstructionProtocolNavigationW constProtocolNavigation;
+	
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -162,7 +165,7 @@ public class AppW extends AppWeb {
 
 		initing = true;
 
-		this.euclidianViewPanel = new EuclidianDockPanelW(false);
+		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -1955,5 +1958,15 @@ public class AppW extends AppWeb {
 		return sbTooltip.toString();
 
 	}
+
+	public ConstructionProtocolNavigationW getConstructionProtocolNavigation() {
+
+		if (constProtocolNavigation == null) {
+			constProtocolNavigation = new ConstructionProtocolNavigationW(this);
+		}
+
+		return constProtocolNavigation;
+	
+    }
 
 }

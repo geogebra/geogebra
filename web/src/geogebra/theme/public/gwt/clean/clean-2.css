@@ -1879,3 +1879,9 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	margin-right:20px;
 }
 
+.consProtNav{
+	position: absolute;
+	z-index: 1;
+	background-color: #E2E2E2;
+	width: 100%;
+}
