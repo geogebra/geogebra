@@ -207,8 +207,8 @@ exp	: T_NUMBER		{$$ = $1;}
 	/* | T_COMMENT		{ $$=symb_comment($1); }
 	| T_COMMENT exp		{ $$=$2; } */
 	| symbol T_BEGIN_PAR suite T_END_PAR T_AFFECT bloc {$$ = symb_program_sto($3,$3*zero,$6,$1,false,giac_yyget_extra(scanner));}
-	| symbol T_BEGIN_PAR suite T_END_PAR T_AFFECT exp {if (lidnt($3).empty() || (abs_calc_mode(giac_yyget_extra(scanner))==38 && $1.type==_IDNT && strlen($1._IDNTptr->id_name)==2 && check_vect_38($1._IDNTptr->id_name))) $$=symbolic(at_sto,gen(makevecteur($6,symbolic(at_of,gen(makevecteur($1,$3) ,_SEQ__VECT))) ,_SEQ__VECT)); else $$ = symb_program_sto($3,$3*zero,$6,$1,true,giac_yyget_extra(scanner));}
-	| exp TI_STO symbol T_BEGIN_PAR suite T_END_PAR {if (lidnt($5).empty() || (abs_calc_mode(giac_yyget_extra(scanner))==38 && $3.type==_IDNT && check_vect_38($3._IDNTptr->id_name))) $$=symbolic(at_sto,gen(makevecteur($1,symbolic(at_of,gen(makevecteur($3,$5) ,_SEQ__VECT))) ,_SEQ__VECT)); else $$ = symb_program_sto($5,$5*zero,$1,$3,false,giac_yyget_extra(scanner));}
+	| symbol T_BEGIN_PAR suite T_END_PAR T_AFFECT exp {if (is_array_index($1,$3,giac_yyget_extra(scanner)) || (abs_calc_mode(giac_yyget_extra(scanner))==38 && $1.type==_IDNT && strlen($1._IDNTptr->id_name)==2 && check_vect_38($1._IDNTptr->id_name))) $$=symbolic(at_sto,gen(makevecteur($6,symbolic(at_of,gen(makevecteur($1,$3) ,_SEQ__VECT))) ,_SEQ__VECT)); else $$ = symb_program_sto($3,$3*zero,$6,$1,true,giac_yyget_extra(scanner));}
+	| exp TI_STO symbol T_BEGIN_PAR suite T_END_PAR {if (is_array_index($3,$5,giac_yyget_extra(scanner)) || (abs_calc_mode(giac_yyget_extra(scanner))==38 && $3.type==_IDNT && check_vect_38($3._IDNTptr->id_name))) $$=symbolic(at_sto,gen(makevecteur($1,symbolic(at_of,gen(makevecteur($3,$5) ,_SEQ__VECT))) ,_SEQ__VECT)); else $$ = symb_program_sto($5,$5*zero,$1,$3,false,giac_yyget_extra(scanner));}
 	| exp TI_STO symbol T_INDEX_BEGIN exp T_VECT_END { 
          const giac::context * contextptr = giac_yyget_extra(scanner);
          gen g=symb_at($3,$5,contextptr); $$=symb_sto($1,g); 

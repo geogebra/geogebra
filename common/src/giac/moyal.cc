@@ -476,7 +476,7 @@ namespace giac {
   }
   static gen utpn_inverse(double y,GIAC_CONTEXT){
     identificateur x(" x");
-    return newton(erf(x/std::sqrt(2.0),contextptr)+2*y-1,x,utpn_initial_guess(y),NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);
+    return newton(erf(x/std::sqrt(2.0),contextptr)+2*y-1,x,utpn_initial_guess(y),3*NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);
   }
   static gen normal_icdf(const gen & g_orig,GIAC_CONTEXT){
     gen g=evalf_double(g_orig,1,contextptr);
@@ -651,12 +651,12 @@ namespace giac {
       return zero;
     if (x._DOUBLE_val==1)
       return n;
+    if (is_strictly_greater(p,1,contextptr) || is_strictly_greater(0,p,contextptr))
+      return gensizeerr(contextptr);
     if (n.type!=_INT_ || p.type!=_DOUBLE_ || x.type!=_DOUBLE_ || x._DOUBLE_val<0 || x._DOUBLE_val>1 )
       return symbolic(at_binomial_icdf,makesequence(n,p,x));
     int N=n.val;
     long_double P=p._DOUBLE_val;
-    if (P<0 || P>1)
-      return gensizeerr(contextptr);
     if (N*P>=30 && N*(1-P)>=30){
       // use approximation by normal law as a starting point
       gen g=_floor(_normal_icdf(makesequence(n*p,sqrt(n*p*(1-p),contextptr),x),contextptr),contextptr);
@@ -813,6 +813,8 @@ namespace giac {
       // hence the test since poisson_cdf(90.,170.)=1.0 to double precision
       // approximation using normal_icdf
       gen g=_ceil(_normal_icdf(makesequence(m,sqrt(m,contextptr),t),contextptr),contextptr);
+      if (is_undef(g))
+	return gensizeerr("Underflow");
       int G=g.val;
       // check that poisson_cdf(m,g)>=t, if not increase g
       gen pg=evalf_double(_poisson_cdf(makesequence(m,g),contextptr),1,contextptr);

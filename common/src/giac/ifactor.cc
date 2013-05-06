@@ -19,11 +19,6 @@
 	#define PREFETCH(addr) /* nothing */
 #endif
 
-// Trying to make ifactor(2^128+1) work on ARM
-// feel free to comment if it does not build 
-#ifdef BESTA_OS
-#undef BESTA_OS
-#endif 
 
 #include "path.h"
 /*
@@ -62,6 +57,12 @@ using namespace std;
 #include "misc.h"
 #include "giacintl.h"
 #endif
+
+// Trying to make ifactor(2^128+1) work on ARM
+// feel free to comment if it does not build 
+//#ifdef BESTA_OS
+//#undef BESTA_OS
+//#endif 
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -2890,7 +2891,7 @@ namespace giac {
   // Pollard-rho algorithm
   const int POLLARD_GCD=64;
 #ifdef GIAC_MPQS 
-#ifdef USE_GMP_REPLACEMENTS
+#if defined(USE_GMP_REPLACEMENTS) && defined(RTOS_THREADX)
   const int POLLARD_MAXITER=3000;
 #else
   const int POLLARD_MAXITER=100000;

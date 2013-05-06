@@ -4707,6 +4707,20 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _flatten_s []="flatten";
   static define_unary_function_eval (__flatten,&_flatten,_flatten_s);
   define_unary_function_ptr5( at_flatten ,alias_at_flatten,&__flatten,0,true);
+
+  gen _caseval(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_STRNG) return gensizeerr(contextptr);
+    if (*args._STRNGptr=="init geogebra")
+      init_geogebra(1,contextptr);
+    if (*args._STRNGptr=="close geogebra")
+      init_geogebra(0,contextptr);
+    return string2gen(caseval(args._STRNGptr->c_str()),false);
+  }
+  static const char _caseval_s []="caseval";
+  static define_unary_function_eval (__caseval,&_caseval,_caseval_s);
+  define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

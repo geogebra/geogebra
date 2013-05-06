@@ -12485,6 +12485,16 @@ namespace giac {
   const char * caseval(const char *s){
     static std::string S;
     static context C;
+    const char init[]="init geogebra";
+    const char close[]="close geogebra";
+    if (!strcmp(s,init)){
+      init_geogebra(1,&C);
+      return "geogebra mode on";
+    }
+    if (!strcmp(s,close)){
+      init_geogebra(0,&C);
+      return "geogebra mode off";
+    }
     gen g(s,&C);
     g=g.eval(1,&C);
     S=g.print(&C);

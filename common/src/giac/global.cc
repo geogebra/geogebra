@@ -338,11 +338,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       _scientific_format_=b;
   }
 
-#ifdef GIAC_GGB
-  static int _decimal_digits_=13; 
-#else
   static int _decimal_digits_=12; 
-#endif
+
   int & decimal_digits(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_decimal_digits_;
@@ -486,11 +483,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _eval_abs_=b;
   }
 
-#ifdef GIAC_GGB
-  static bool _all_trig_sol_=true; 
-#else
   static bool _all_trig_sol_=false; 
-#endif
   bool & all_trig_sol(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_all_trig_sol_;
@@ -775,11 +768,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _local_eval_=b;
   }
 
-#ifdef GIAC_GGB
-  static bool _withsqrt_=false;
-#else
   static bool _withsqrt_=true;
-#endif
   bool & withsqrt(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_withsqrt_;
@@ -1105,11 +1094,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
     return *ans;
   }
-#ifdef GIAC_GGB
-  static int _calc_mode_=1; 
-#else
   static int _calc_mode_=0; 
-#endif
   int & calc_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_calc_mode_;
@@ -3475,27 +3460,15 @@ extern "C" void Sleep(unsigned int miliSecond);
 
 
   global::global() : _xcas_mode_(0), 
-#ifdef GIAC_GGB
-		     _calc_mode_(1),_decimal_digits_(13),
-#else
 		     _calc_mode_(0),_decimal_digits_(12),
-#endif
 		     _scientific_format_(0), _integer_format_(0), _latex_format_(0), 
 #ifdef BCD
 		     _bcd_decpoint_('.'|('E'<<16)|(' '<<24)),_bcd_mantissa_(12+(15<<8)), _bcd_flags_(0),_bcd_printdouble_(false),
 #endif
 		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_integer_mode_(true),_complex_mode_(false), _complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
-#ifdef GIAC_GGB
-		     _withsqrt_(false), 
-#else
 		     _withsqrt_(true), 
-#endif
 		     _show_point_(true),  _io_graph_(true),
-#ifdef GIAC_GGB
-		     _all_trig_sol_(true),
-#else
 		     _all_trig_sol_(false),
-#endif
 		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(true),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&std::cerr), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) { 
     _pl._i_sqrt_minus1_=1;
     _turtle_stack_.push_back(_turtle_);
@@ -4366,6 +4339,16 @@ unsigned int ConvertUTF8toUTF16 (
     return archive_restore(f,(size_t (*)(void * p, size_t nbBytes,size_t NbElements, void *file))fread,contextptr);
   }
 
+  void init_geogebra(bool on,GIAC_CONTEXT){
+    _decimal_digits_=on?13:12;
+    _all_trig_sol_=on;
+    _withsqrt_=!on;
+    _calc_mode_=on?1:0;
+    decimal_digits(on?13:12,contextptr);
+    all_trig_sol(on,contextptr);
+    withsqrt(!on,contextptr);
+    calc_mode(on?1:0,contextptr);
+  }
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

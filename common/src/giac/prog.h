@@ -967,6 +967,11 @@ namespace giac {
   gen symb_minus(const gen & args);
   gen symb_compose(const gen & args);
 
+  // test if m(i) is an array index: that will not be the case if
+  // i is an _IDNT or a list of _IDNT
+  // AND m is not already defined as an array
+  bool is_array_index(const gen & m,const gen & i,GIAC_CONTEXT);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

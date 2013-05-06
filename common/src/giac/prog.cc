@@ -8080,6 +8080,24 @@ namespace giac {
     */
   }
 
+  // test if m(i) is an array index: that will not be the case if
+  // i is an _IDNT or a list of _IDNT
+  // AND m is not already defined as an array
+  bool is_array_index(const gen & m,const gen & i,GIAC_CONTEXT){
+    if (i.type==_VECT){
+      for (unsigned j=0;j<i._VECTptr->size();++j){
+	if ((*i._VECTptr)[j].type!=_IDNT)
+	  return true;
+      }
+    }
+    else {
+      if (i.type!=_IDNT)
+	return true;
+    }
+    gen mv=eval(m,1,contextptr);
+    return mv.type==_VECT;
+  }
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
