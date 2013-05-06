@@ -91,6 +91,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1918,11 +1919,16 @@ public class AppW extends AppWeb {
 			refreshSplitLayoutPanel();
 		} else {
 			splashDialog.canNowHide();
+			updateCenterPanel(true);
 			getEuclidianView1().doRepaint2();
 			stopCollectingRepaints();
 			// Well, it may cause freeze if we attach this too early
 			attachViews();
-		}	  
+			((SplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+			((SplitLayoutPanel)getSplitLayoutPanel()).onResize();
+			this.getEuclidianViewpanel().onResize();
+			getEuclidianView1().doRepaint2();
+		}
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 

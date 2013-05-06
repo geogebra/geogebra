@@ -291,7 +291,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	public void setFrameLayout(){
 		frameLayout.setLayout(app);
 	}
-	
+
 	public DockGlassPaneW getGlassPane(){
 		return frameLayout.getGlassPane();
 	}

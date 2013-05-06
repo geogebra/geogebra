@@ -4,7 +4,6 @@ import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -56,7 +55,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		app.getGuiManager().getLayout().getRootComponent().setStyleName("ApplicationPanel");
 		
 		onResize();		
-		
+
 	}
 
 	class MyDockPanelLayout extends DockLayoutPanel {
