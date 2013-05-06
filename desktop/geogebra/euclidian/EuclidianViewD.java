@@ -12,6 +12,10 @@
 
 package geogebra.euclidian;
 
+import geogebra.awt.GBasicStrokeD;
+import geogebra.awt.GBufferedImageD;
+import geogebra.awt.GColorD;
+import geogebra.awt.GGraphics2DD;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -471,7 +475,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				geogebra.awt.GGraphics2DD.getAwtGraphics(g2d).drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
+				GGraphics2DD.getAwtGraphics(g2d).drawImage(GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
 			}
 		} else {
 			// just clear the background if transparency is disabled (clear =
@@ -479,7 +483,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			drawBackground(g2d, !transparency);
 		}
 
-		geogebra.awt.GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(RenderingHints.KEY_RENDERING,
+		GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY);
 
 		setAntialiasing(g2d);
@@ -501,7 +505,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		BufferedImage img = createBufferedImage(width, height, transparency);
-		exportPaint(new geogebra.awt.GGraphics2DD(img.createGraphics()), scale, transparency);
+		exportPaint(new GGraphics2DD(img.createGraphics()), scale, transparency);
 		img.flush();
 		return img;
 	}
@@ -545,7 +549,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 					// it works with applet rescaling
 					int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
 							: getWidth() + 2;
-					geogebra.awt.GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
+					GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
 	}
 	private Image getResetImage() {
 		if (resetImage == null) {
@@ -593,7 +597,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 		g2.drawRect(x - 2, y - 2, 18, 18);
 		Image img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
-		geogebra.awt.GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
+		GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
 	public final boolean hitAnimationButton(AbstractEvent e) {
@@ -635,14 +639,14 @@ public class EuclidianViewD extends EuclidianViewND implements
 	 */
 	@Override
 	public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
-			return new geogebra.awt.GGraphics2DD((Graphics2D) evjpanel.getGraphics());
+			return new GGraphics2DD((Graphics2D) evjpanel.getGraphics());
 
 	}
 
 	@Override
 	protected void doDrawPoints(GeoImage gi, List<geogebra.common.awt.GPoint> penPoints2, geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = geogebra.awt.GBufferedImageD.getAwtBufferedImage(gi
+		BufferedImage penImage2 = GBufferedImageD.getAwtBufferedImage(gi
 						.getFillImage());
 		boolean giNeedsInit = false;
 		if (penImage2 == null) {
@@ -662,10 +666,10 @@ public class EuclidianViewD extends EuclidianViewND implements
 		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
 
-		g2d.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
+		g2d.setStroke(GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
 					.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
 							: penLineStyle)));
-		g2d.setColor(geogebra.awt.GColorD.getAwtColor(penColor));
+		g2d.setColor(GColorD.getAwtColor(penColor));
 
 		g2d.draw(pb.gp);
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
