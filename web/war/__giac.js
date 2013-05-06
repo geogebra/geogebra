@@ -867,6 +867,22 @@ __giac = {
 858: { cmd:"Element[x^2-3*y^2+z,2]", result:"-3y^2" }, 
 859: { cmd:"Element[4*x^2*y, 2]", result:"x^2" }, 
 860: { cmd:"Simplify[(x-y)/(sqrt(x)-sqrt(y))]", result:"sqrt(y)+sqrt(x)" },
+861: { cmd:"Evaluate[x((11,12,13))]", result:"11" },
+862: { cmd:"Evaluate[y((11,12,13))]", result:"12" },
+863: { cmd:"Evaluate[z((11,12,13))]", result:"13" },
+864: { cmd:"Evaluate[x((11,12))]", result:"11" },
+865: { cmd:"Evaluate[y((11,12))]", result:"12" },
+866: { cmd:"Substitute[(x² / a² - y² / b² = 1),({a = 0, b = 0})]", result:"" },
+867: { cmd:"Solve[{((-a² + 4b²) / a² / b² = 1),((-16 a² + 49b²) / a² / b² = 1)},{a,b}]", result:"{{a = 1, b = sqrt(3) / 3}, {a = -1, b = sqrt(3) / 3}, {a = 1, b = (-sqrt(3)) / 3}, {a = -1, b = (-sqrt(3)) / 3}}", notes:"{a = 0, b = 0} not a valid solution" },
+868: { cmd:"Factor[π a² (-2 sqrt(2) + 3) + 3a²]", result:"", notes:"Bavarian 15-1.ggb<br>Shouldn't factor the constant" },
+869: { cmd:"Solve[x-2*sin(x/2)*cos(x/2)=1/2*π,x]", result:"?", notes:"Bavarian 16-1.ggb<br>No explicit form for answer" },
+869: { cmd:"Solve[sin(x)=cos(x)]", result:"{x = n_0 π + π / 4}", notes:"Bavarian 18-1.ggb<br>answer could be simplified" },
+870: { cmd:"Solve[{c*a^(-2)=3.75,c*a^(-4)=0.234375},{c,a}]", result:"{{c = 60, a = 4}, {c = 60, a = -4}}", notes:"Bavarian 19-2.ggb<br>{c = 0, a = 0} spurious" },
+871: { cmd:"Solve(x=x_0+v_0*t+1/2*a*t^2,t)", result:"{t = (sqrt(2x a - 2a x_0 + v_0²) - v_0) / a, t = (-sqrt(2x a - 2a x_0 + v_0²) - v_0) / a}", notes:"Bavarian 26-3.ggb" },
+872: { cmd:"Sum[1/k,k,1,n]", result:"sum(k^(-1), k,1, n)" },
+873: { cmd:"Sum[k^2,k,1,n]", result:"1 / 3 n³ + 1 / 2 n² + 1 / 6 n" },
+874: { cmd:"Sum[1/10*sqrt(1-(k/10)^2),k,1,10]", result:"(3sqrt(11) + sqrt(19) + 2sqrt(21) + 5sqrt(3) + sqrt(51) + 4sqrt(6) + sqrt(91) + 14) / 100", notes:"Bavarian 32-2.ggb" },
+
 //*/
 
 // freezes Giac
