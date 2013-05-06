@@ -6770,6 +6770,8 @@ public abstract class EuclidianController {
 			return;
 		}
 		
+		app.storeUndoInfoIfSetCoordSystemOccured();
+		
 		setMouseLocation(event);
 		
 		processMouseMoved(event);
@@ -8690,6 +8692,8 @@ public abstract class EuclidianController {
 
 	protected void wrapMousePressed(AbstractEvent event) {
 		
+		app.maySetCoordSystem();
+		
 		scriptsHaveRun = false;
 		
 		penDragged = false;
@@ -9029,6 +9033,9 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseReleased(AbstractEvent event) {
+		
+		app.storeUndoInfoIfSetCoordSystemOccured();
+		
 		if(pressedButton!=null){
 			pressedButton.setDraggedOrContext(pressedButton.getDraggedOrContext()
 					|| event.isMetaDown() || event.isPopupTrigger());
@@ -9379,6 +9386,8 @@ public abstract class EuclidianController {
 		if (penMode(mode)) {
 			return;
 		}
+		
+		app.maySetCoordSystem();
 	
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
 		boolean allowMouseWheel = !app.isApplet()
@@ -9818,6 +9827,7 @@ public abstract class EuclidianController {
 	 */
 	protected void checkZooming(boolean forPreviewable) {
 
+		/*
 		if (forPreviewable) {
 			return;
 			// Application.debug("check zooming");
@@ -9828,6 +9838,7 @@ public abstract class EuclidianController {
 		}
 
 		wheelZoomingOccurred = false;
+		*/
 	}
 
 

@@ -853,6 +853,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				// app.updateStatusLabelAxesRatio();
 			}
 		}
+		
+		// tells app that set coord system occured
+		app.setCoordSystemOccured();
 	}
 
 	/**

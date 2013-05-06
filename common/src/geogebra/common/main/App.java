@@ -603,6 +603,61 @@ public abstract class App implements UpdateSelection{
 	 * Store current state of construction for undo/redo purposes
 	 */
 	public abstract void storeUndoInfo();
+	
+	
+	
+	/**
+	 * state to know if we'll need to store undo info
+	 */
+	private enum StoreUndoInfoForSetCoordSystem{
+		/** tells that the mouse has been pressed */
+		MAY_SET_COORD_SYSTEM,
+		/** tells that the coord system has changed*/
+		SET_COORD_SYSTEM_OCCURED,
+		/** no particular state */
+		NONE,
+		JUST_ZOOMED
+	}
+	
+	/**
+	 * flag for current state 
+	 */
+	private StoreUndoInfoForSetCoordSystem storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
+
+	
+	/**
+	 * store undo info only if view coord system has changed
+	 */
+	public void storeUndoInfoIfSetCoordSystemOccured(){
+
+		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.SET_COORD_SYSTEM_OCCURED){
+			storeUndoInfo();
+		}
+
+		storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
+	}
+	
+	
+	
+	/**
+	 * tells the application that a view coord system has changed
+	 */
+	public void setCoordSystemOccured(){
+		
+		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.MAY_SET_COORD_SYSTEM){
+			storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.SET_COORD_SYSTEM_OCCURED;
+		}
+	}
+	
+	/**
+	 * tells the coord sys may be set
+	 */
+	public void maySetCoordSystem(){
+		if (storeUndoInfoForSetCoordSystem == StoreUndoInfoForSetCoordSystem.NONE){
+			storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.MAY_SET_COORD_SYSTEM;
+		}
+	}
+	
 
 	/**
 	 * @return true if we have access to complete gui (menubar, toolbar); false

@@ -128,6 +128,10 @@ public abstract class GlobalKeyDispatcher {
 	 * @return if key was consumed
 	 */
 	protected boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean fromEuclidianView) {
+		
+		// eventually make an undo point (e.g. after zooming)
+		app.storeUndoInfoIfSetCoordSystemOccured();
+		
 		boolean consumed = false;
 
 		// ESC and function keys
