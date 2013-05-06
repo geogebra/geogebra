@@ -80,9 +80,8 @@ import java.util.TreeSet;
  * @author matthieu
  *
  */
+@SuppressWarnings("javadoc")
 public class EuclidianView3D extends EuclidianViewND implements Printable {
-
-	private static final long serialVersionUID = -8414195993686838278L;
 	
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
@@ -200,7 +199,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D, cursorOnXOYPlane;
 	//private boolean cursorOnXOYPlaneVisible;
-	private GeoElement[] cursor3DIntersectionOf = new GeoElement[2]; 
+	//private GeoElement[] cursor3DIntersectionOf = new GeoElement[2]; 
 	
 	//cursor
 	/** no point under the cursor */
@@ -1502,26 +1501,26 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 */
 	public void setRotContinueAnimation(long delay, double rotSpeed){
 		//Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
-
+		double rotSpeed2 = rotSpeed;
 		//if last drag occured more than 200ms ago, then no animation
 		if (delay>200)
 			return;
 		
 		//if speed is too small, no animation
-		if (Math.abs(rotSpeed)<0.01){
+		if (Math.abs(rotSpeed2)<0.01){
 			stopRotAnimation();
 			return;
 		}
 		
 		//if speed is too large, use max speed
-		if (rotSpeed>0.1)
-			rotSpeed=0.1;
-		else if (rotSpeed<-0.1)
-			rotSpeed=-0.1;
+		if (rotSpeed2>0.1)
+			rotSpeed2=0.1;
+		else if (rotSpeed2<-0.1)
+			rotSpeed2=-0.1;
 					
 		animatedContinueRot = true;
 		animatedRot = false;
-		animatedRotSpeed = -rotSpeed;
+		animatedRotSpeed = -rotSpeed2;
 		animatedRotTimeStart = System.currentTimeMillis() - delay;
 		bOld = b;
 		aOld = a;
@@ -1726,13 +1725,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	public Hits getHits() {
 		return hits.clone();
-	}
-
-
-
-	public void setHits(Rectangle rect) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
@@ -2213,9 +2205,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	/**
 	 * draws the mouse cursor (for anaglyph)
-	 * @param renderer renderer
+	 * @param renderer1 renderer
 	 */
-	public void drawMouseCursor(Renderer renderer){
+	public void drawMouseCursor(Renderer renderer1){
 		if (!hasMouse)
 			return;
 		
@@ -2230,19 +2222,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		if (getCursor3DType()==CURSOR_DEFAULT){
 			//if mouse is over nothing, use mouse coords and screen for depth
-			v = new Coords(mouseLoc.x + renderer.getLeft(),-mouseLoc.y + renderer.getTop(), 0, 1);
+			v = new Coords(mouseLoc.x + renderer1.getLeft(),-mouseLoc.y + renderer1.getTop(), 0, 1);
 		}else{
 			//if mouse is over an object, use its depth and mouse coords
-			Coords eye = renderer.getPerspEye();
+			Coords eye = renderer1.getPerspEye();
 			double z = getToScreenMatrix().mul(getCursor3D().getCoords()).getZ()
 					+20; //to be over
 			//App.debug("\n"+eye);
 			double eyeSep = 0;
 			if (getProjection() == PROJECTION_ANAGLYPH)
-				eyeSep = renderer.getEyeSep(); //TODO eye lateralization
+				eyeSep = renderer1.getEyeSep(); //TODO eye lateralization
 			
-			double x = mouseLoc.x + renderer.getLeft() + eyeSep;
-			double y = -mouseLoc.y + renderer.getTop();
+			double x = mouseLoc.x + renderer1.getLeft() + eyeSep;
+			double y = -mouseLoc.y + renderer1.getTop();
 			double dz = eye.getZ() - z;
 			double coeff = dz/eye.getZ();
 			
@@ -2251,36 +2243,36 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 		CoordMatrix4x4 matrix = CoordMatrix4x4.Identity();
 		matrix.setOrigin(v);
-		renderer.setMatrix(matrix);
-		renderer.drawMouseCursor();
+		renderer1.setMatrix(matrix);
+		renderer1.drawMouseCursor();
 		
 	
 	}	
 	
 	/** 
 	 * draws the cursor
-	 * @param renderer renderer
+	 * @param renderer1 renderer
 	 */
-	public void drawCursor(Renderer renderer){
+	public void drawCursor(Renderer renderer1){
 
 		
 		//App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 
 		if (hasMouse){			
 			if (moveCursorIsVisible()){
-				renderer.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());	
-				renderer.drawCursor(PlotterCursor.TYPE_CUBE);
+				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
 			}else if(!getEuclidianController().mouseIsOverLabel() 
 					&& getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())
 					){
-				renderer.setMatrix(getCursor3D().getDrawingMatrix());
+				renderer1.setMatrix(getCursor3D().getDrawingMatrix());
 
 				switch(cursor){
 				case CURSOR_DEFAULT:
 					switch(getCursor3DType()){
 					case PREVIEW_POINT_FREE: //free point on xOy plane
-						renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);					
+						renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);					
 						break;
 					case PREVIEW_POINT_ALREADY: //showing arrows directions
 						drawPointAlready(getCursor3D().getMoveMode());				
@@ -2299,22 +2291,22 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				case CURSOR_HIT:									
 					switch(getCursor3DType()){
 					case PREVIEW_POINT_FREE:
-						renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
 						break;
 					case PREVIEW_POINT_REGION:
 						if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
-							renderer.drawViewInFrontOf();
+							renderer1.drawViewInFrontOf();
 						else
-							renderer.drawCursor(PlotterCursor.TYPE_CROSS2D);
+							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
 						break;
 					case PREVIEW_POINT_PATH:
 						if (getEuclidianController().getMode()==EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
-							renderer.drawViewInFrontOf();
+							renderer1.drawViewInFrontOf();
 						else
-							renderer.drawCursor(PlotterCursor.TYPE_CYLINDER);
+							renderer1.drawCursor(PlotterCursor.TYPE_CYLINDER);
 						break;
 					case PREVIEW_POINT_DEPENDENT:
-						renderer.drawCursor(PlotterCursor.TYPE_DIAMOND);
+						renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
 						break;
 
 					case PREVIEW_POINT_ALREADY:
@@ -2401,7 +2393,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//App.printStacktrace("setDefaultCursor:"+defaultCursorWillBeHitCursor);
 		
 		
-		if (app.getShiftDown()) //do nothing
+		if (AppD.getShiftDown()) //do nothing
 			return;
 		
 		if (defaultCursorWillBeHitCursor){
@@ -2429,7 +2421,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	public void setHitCursor(){
 		
-		if (app.getShiftDown()) //do nothing
+		if (AppD.getShiftDown()) //do nothing
 			return;
 		
 		//App.printStacktrace("setHitCursor");
@@ -2652,11 +2644,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** draw transparent parts of view's drawables (xOy plane)
 	 * @param renderer
 	 */
-	public void drawTransp(Renderer renderer){
+	public void drawTransp(Renderer renderer1){
 		
 		
 		if (xOyPlane.isPlateVisible())
-			xOyPlaneDrawable.drawTransp(renderer);
+			xOyPlaneDrawable.drawTransp(renderer1);
 				
 	}
 	
@@ -2664,19 +2656,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** draw hiding parts of view's drawables (xOy plane)
 	 * @param renderer
 	 */
-	public void drawHiding(Renderer renderer){
-		xOyPlaneDrawable.drawHiding(renderer);
+	public void drawHiding(Renderer renderer1){
+		xOyPlaneDrawable.drawHiding(renderer1);
 	}
 	
 	/** draw not hidden parts of view's drawables (axis)
-	 * @param renderer
+	 * @param renderer1
 	 */
-	public void draw(Renderer renderer){
+	public void draw(Renderer renderer1){
 		for(int i=0;i<3;i++)
-			axisDrawable[i].drawOutline(renderer);
+			axisDrawable[i].drawOutline(renderer1);
 		
 		if (showClippingCube())
-			clippingCubeDrawable.drawOutline(renderer);
+			clippingCubeDrawable.drawOutline(renderer1);
 		
 	}
 
@@ -2687,42 +2679,42 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	/** draw hidden parts of view's drawables (axis)
-	 * @param renderer
+	 * @param renderer1
 	 */
-	public void drawHidden(Renderer renderer){
+	public void drawHidden(Renderer renderer1){
 		for(int i=0;i<3;i++)
-			axisDrawable[i].drawHidden(renderer);
+			axisDrawable[i].drawHidden(renderer1);
 		
-		xOyPlaneDrawable.drawHidden(renderer);
+		xOyPlaneDrawable.drawHidden(renderer1);
 		
 		if (showClippingCube())
-			clippingCubeDrawable.drawHidden(renderer);
+			clippingCubeDrawable.drawHidden(renderer1);
 		
 		if (decorationVisible)
-			pointDecorations.drawHidden(renderer);
+			pointDecorations.drawHidden(renderer1);
 			
 		
 	}
 	
 	
 	/** draw for picking view's drawables (plane and axis)
-	 * @param renderer
+	 * @param renderer1
 	 */
-	public void drawForPicking(Renderer renderer){
-		renderer.pick(xOyPlaneDrawable);
+	public void drawForPicking(Renderer renderer1){
+		renderer1.pick(xOyPlaneDrawable);
 		for(int i=0;i<3;i++)
-			renderer.pick(axisDrawable[i]);
+			renderer1.pick(axisDrawable[i]);
 	}
 	
 	
 	
 	/** draw ticks on axis
-	 * @param renderer
+	 * @param renderer1
 	 */
-	public void drawLabel(Renderer renderer){
+	public void drawLabel(Renderer renderer1){
 		
 		for(int i=0;i<3;i++)
-			axisDrawable[i].drawLabel(renderer);
+			axisDrawable[i].drawLabel(renderer1);
 		
 
 	}
@@ -3517,8 +3509,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 	@Override
-	public boolean getShowAxis(int axis) {
-		return this.axis[axis].isEuclidianVisible();
+	public boolean getShowAxis(int axisNo) {
+		return this.axis[axisNo].isEuclidianVisible();
 	}
 	
 
@@ -3600,8 +3592,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//////////////////////////////////////////
 	@Override
 	protected void drawAxes(geogebra.common.awt.GGraphics2D g2) {
-		
-		
+		//for 2D only
 	}
 	
 	//////////////////////////////////////////

@@ -30,10 +30,8 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -59,14 +57,13 @@ import java.util.List;
 /**
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class EuclidianViewD extends EuclidianViewND implements
-		Printable, SettingListener {
-
-	protected static final long serialVersionUID = 1L;
+		Printable {
 	
-	
+	/**
+	 * Rendering hints for the graphics
+	 */
 	protected static RenderingHints defRenderingHints = new RenderingHints(null);
 	{
 		defRenderingHints.put(RenderingHints.KEY_RENDERING,
@@ -87,19 +84,28 @@ public class EuclidianViewD extends EuclidianViewND implements
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
 	// public static final int DRAW_MODE_BACKGROUND_IMAGE = 1;
 
-	
-	protected Image resetImage, playImage, pauseImage, upArrowImage,
-			downArrowImage;
+	/** reset image in applets */
+	protected Image resetImage; 
+	/** play image for animations*/
+	protected Image playImage;
+	/** pause image for animations */
+	protected Image pauseImage;
 
 
 	// public Graphics2D lastGraphics2D;
-
+	/** default mouse cursor */
 	protected Cursor defaultCursor;
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
 	// EVNO_GENERAL for others
 
+	/**
+	 * @param ec controller
+	 * @param showAxes whether to show x-axis and y-axis
+	 * @param showGrid whether to show grid
+	 * @param settings settings
+	 */
 	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, EuclidianSettings settings) {
 		this(ec, showAxes, showGrid, 1, settings);
@@ -111,7 +117,9 @@ public class EuclidianViewD extends EuclidianViewND implements
 	 * @param ec
 	 *            controller
 	 * @param showAxes
+	 *            whether x-axis and y-axis should be shown
 	 * @param showGrid
+	 *            whether grid should be shown
 	 * @param evno
 	 *            number of this view
 	 * @param settings euclidian settings
@@ -165,6 +173,9 @@ public class EuclidianViewD extends EuclidianViewND implements
 		super.initView(repaint);
 	}
 
+	/**
+	 * @return whether preferred size is defined and greater than minimum
+	 */
 	public boolean hasPreferredSize() {
 		Dimension prefSize = getPreferredSize();
 
@@ -211,6 +222,9 @@ public class EuclidianViewD extends EuclidianViewND implements
 		setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
 	}
 
+	/**
+	 * Set the cursor to grabbing hand
+	 */
 	public void setGrabbingCursor() {
 		setCursor(getCursorForImage(getApplication()
 				.getInternalImage("cursor_grabbing.gif")));
@@ -256,6 +270,10 @@ public class EuclidianViewD extends EuclidianViewND implements
 		setDefaultCursor();
 	}
 
+	/**
+	 * @param image image file
+	 * @return cursor created from image
+	 */
 	protected Cursor getCursorForImage(Image image) {
 		if (image == null) {
 			return null;
@@ -402,15 +420,21 @@ public class EuclidianViewD extends EuclidianViewND implements
 		
 	}
 
+	/**
+	 * @param g2d graphics
+	 * @param scale  ratio of desired size and current size of the graphics
+	 */
 	public void exportPaint(Graphics2D g2d, double scale) {
-		exportPaint(new geogebra.awt.GGraphics2DD(g2d), scale, false);
+		exportPaint(new GGraphics2DD(g2d), scale, false);
 	}
 
 	/**
 	 * Scales construction and draws it to g2d.
 	 * 
 	 * @param g2d
+	 *            export graphics
 	 * @param scale
+	 *            ratio of desired size and current size of the graphics
 	 * 
 	 * @param transparency
 	 *            states if export should be optimized for eps. Note: if this is
@@ -424,11 +448,15 @@ public class EuclidianViewD extends EuclidianViewND implements
 		getApplication().exporting = false;
 	}
 
+	/**
+	 * @param g2d target graphics object
+	 * @param scale ratio of desired size and current size of the graphics
+	 */
 	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale) {
 		exportPaintPre(g2d, scale, false);
 	}
 
-	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
+	private void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
 			boolean transparency) {
 		g2d.scale(scale, scale);
 
@@ -492,14 +520,20 @@ public class EuclidianViewD extends EuclidianViewND implements
 	/**
 	 * Returns image of drawing pad sized according to the given scale factor.
 	 * 
-	 * @param scale
+	 * @param scale  ratio of desired size and current size of the graphics
 	 * @return image of drawing pad sized according to the given scale factor.
-	 * @throws OutOfMemoryError
+	 * @throws OutOfMemoryError if the requested image is too big
 	 */
 	public BufferedImage getExportImage(double scale) throws OutOfMemoryError {
 		return getExportImage(scale, false);
 	}
 
+	/**
+	 * @param scale  ratio of desired size and current size of the graphics
+	 * @param transparency true for transparent image
+	 * @return image
+	 * @throws OutOfMemoryError if the requested image is too big
+	 */
 	public BufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
 		int width = (int) Math.floor(getExportWidth() * scale);
@@ -509,11 +543,16 @@ public class EuclidianViewD extends EuclidianViewND implements
 		img.flush();
 		return img;
 	}
-
-	protected BufferedImage createBufferedImage(int width, int height) {
-		return createBufferedImage(width, height, false);
-	}
-
+	/**
+	 * @param width
+	 * pixel width
+	 * @param height
+	 * pixel height
+	 * @param transparency
+	 * true for transparent
+	 * @return image
+	 * @throws OutOfMemoryError if the requested image is too big
+	 */
 	protected BufferedImage createBufferedImage(int width, int height,
 			boolean transparency) throws OutOfMemoryError {
 
@@ -618,7 +657,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			return true;
 		}
 		// eg ev1 just closed
-		 GetViewId evp = ((LayoutD) getApplication().getGuiManager().getLayout()).getDockManager().getFocusedEuclidianPanel();
+		 GetViewId evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
 		if (evp == null) {
 			return true;
 		}

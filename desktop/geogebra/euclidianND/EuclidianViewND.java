@@ -39,6 +39,7 @@ import javax.swing.border.Border;
  */
 public abstract class EuclidianViewND extends EuclidianView{
 	
+	/** Java component for this view */
 	protected EuclidianViewJPanel evjpanel;
 
 
