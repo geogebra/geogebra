@@ -43,7 +43,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	protected geogebra.common.awt.GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color, bgColor;
+	private GColor color = new geogebra.web.awt.GColorW(255,255,255,255), bgColor;
 	private GAffineTransform savedTransform;
 	private float [] dash_array = null;
 
@@ -262,6 +262,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		} else if (paint instanceof GGradientPaintW) {
 			context.setFillStyle(((GGradientPaintW)paint).getGradient(context));
 			currentPaint = new GGradientPaintW((GGradientPaintW)paint);
+			color = null;
 		} else if (paint instanceof GTexturePaintW) {
 			try {//bug in Firefox
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
@@ -270,6 +271,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 				currentPaint = new GTexturePaintW((GTexturePaintW)paint);
 				CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 				context.setFillStyle(ptr);
+				color = null;
 			} catch (Throwable e) {
 				App.error(e.getMessage());
 			}
@@ -579,9 +581,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
     @Override
     public void setColor(GColor fillColor) {
-    	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
-    	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
-    	this.color=fillColor;
+    	//checking for the same color here speeds up axis drawing by 25%
+    	if(fillColor != null && fillColor.equals(color)){
+    		return;
+    	}
+    	String colorStr = "rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")";
+    	context.setStrokeStyle(colorStr);
+    	context.setFillStyle(colorStr);
+    	this.color = fillColor;
     	this.currentPaint = new geogebra.web.awt.GColorW((geogebra.web.awt.GColorW)fillColor);
     }
 
