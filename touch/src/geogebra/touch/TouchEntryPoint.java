@@ -3,6 +3,7 @@ package geogebra.touch;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.TubeSearchGUI;
+import geogebra.web.js.ResourcesInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -47,10 +48,9 @@ public class TouchEntryPoint implements EntryPoint
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
-
 				app.start();
 				TouchEntryPoint.showTabletGUI();
-
+				ResourcesInjector.injectResources();
 				Window.addResizeHandler(new ResizeHandler()
 				{
 
