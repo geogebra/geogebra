@@ -176,7 +176,7 @@ public class AppW extends AppWeb {
 
 		initCoreObjects(undoActive, this);
 
-		removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+		removeDefaultContextMenu(this.getArticleElement());
 	}
 
 	/********************************************************
