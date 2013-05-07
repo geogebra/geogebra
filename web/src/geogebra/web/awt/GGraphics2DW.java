@@ -20,6 +20,8 @@ import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
+import geogebra.web.helper.ImageLoadCallback;
+import geogebra.web.helper.ImageWrapper;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
 import geogebra.web.openjdk.awt.geom.Polygon;
@@ -256,7 +258,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	@Override
-    public void setPaint(GPaint paint) {
+    public void setPaint(final GPaint paint) {
 		if (paint instanceof GColor) {
 			setColor((GColor)paint);
 		} else if (paint instanceof GGradientPaintW) {
@@ -268,10 +270,24 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 				//https://groups.google.com/forum/#!msg/craftyjs/3qRwn_cW1gs/DdPTaCD81ikJ
 				//NS_ERROR_NOT_AVAILABLE: Component is not available
 				//https://bugzilla.mozilla.org/show_bug.cgi?id=574330
-				currentPaint = new GTexturePaintW((GTexturePaintW)paint);
-				CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
-				context.setFillStyle(ptr);
-				color = null;
+				if (((GTexturePaintW)paint).getImg().getPropertyBoolean("complete")) {
+					currentPaint = new GTexturePaintW((GTexturePaintW)paint);
+					CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
+					context.setFillStyle(ptr);
+					color = null;
+				} else {
+					ImageWrapper.nativeon(((GTexturePaintW)paint).getImg(),
+						"load",
+						new ImageLoadCallback() {
+							public void onLoad() {
+								currentPaint = new GTexturePaintW((GTexturePaintW)paint);
+								CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
+								context.setFillStyle(ptr);
+								color = null;
+							}
+						}
+					);
+				}
 			} catch (Throwable e) {
 				App.error(e.getMessage());
 			}

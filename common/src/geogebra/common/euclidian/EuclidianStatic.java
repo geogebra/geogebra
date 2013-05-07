@@ -344,6 +344,18 @@ public abstract class EuclidianStatic {
 		prototype.doFillWithValueStrokePure(shape, g3);
 		
 	}
+
+	/**
+	 * This hack was needed for ticket #3265
+	 */
+	protected void doFillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi)
+	{ }
+	/**
+	 * This hack was needed for ticket #3265
+	 */
+	public static void fillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi) {
+		prototype.doFillAfterImageLoaded(shape, g3, gi);
+	}
 	/**
 	 * @param app application
 	 * @param labelDesc text

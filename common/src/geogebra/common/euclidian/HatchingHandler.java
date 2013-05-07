@@ -23,6 +23,8 @@ import geogebra.common.main.App;
 public class HatchingHandler {
 
 	private GBufferedImage bufferedImage = null;
+	private GBufferedImage subImage = null;
+
 	/**
 	 * Prototype decides what implementation will be used for static methods
 	 */
@@ -141,7 +143,7 @@ public class HatchingHandler {
 		GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, width, height);
 
 		// use the middle square of our 3 x 3 grid to fill with			
-		g3.setPaint(AwtFactory.prototype.newTexturePaint(bufferedImage.getSubimage(startX,
+		g3.setPaint(AwtFactory.prototype.newTexturePaint(subImage = bufferedImage.getSubimage(startX,
 				startY, width, height), rect));
 	}
 
@@ -340,5 +342,13 @@ public class HatchingHandler {
 			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
 			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
 		}
+	}
+
+	/**
+	 * Used to check whether the hatching image is already loaded
+	 * @return GBufferedImage subImage
+	 */
+	public GBufferedImage getSubImage() {
+		return subImage;
 	}
 }

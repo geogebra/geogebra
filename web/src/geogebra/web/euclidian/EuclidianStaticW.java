@@ -8,6 +8,9 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.web.awt.GBufferedImageW;
+import geogebra.web.helper.ImageLoadCallback;
+import geogebra.web.helper.ImageWrapper;
 
 public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic {
 
@@ -28,7 +31,25 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 		return f.deriveFont(f.getStyle(), newSize);
 	}
 
-	
+	@Override
+	protected void doFillAfterImageLoaded(final geogebra.common.awt.GShape shape, final geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi)
+	{
+		if (((GBufferedImageW)gi).isLoaded()) {
+			g3.fill(shape);
+		} else {
+			// note: AFAIK (?), DOM's addEventListener method can add more listeners
+			ImageWrapper.nativeon(
+				((GBufferedImageW)gi).getImageElement(),
+				"load",
+				new ImageLoadCallback() {
+					public void onLoad() {
+						g3.fill(shape);
+					}
+				}
+			);
+		}
+	}
+
 	@Override
 	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		g2.fill(shape);

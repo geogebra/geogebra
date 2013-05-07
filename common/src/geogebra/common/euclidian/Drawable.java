@@ -510,10 +510,17 @@ public abstract class Drawable extends DrawableND {
 					geo.getFillType(),
 					geo.getFillSymbol(),
 					geo.getKernel().getApplication());
-			if (usePureStroke)
-				EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
-			else
-				g2.fill(fillShape);
+			
+			if (!geo.getKernel().getApplication().isHTML5Applet()) {
+				if (usePureStroke)
+					EuclidianStatic.fillWithValueStrokePure(fillShape, g2);
+				else
+					g2.fill(fillShape);
+			} else {
+				// take care of filling after the image is loaded
+				EuclidianStatic.fillAfterImageLoaded(fillShape, g2,
+						getHatchingHandler().getSubImage());
+			}
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
 			getHatchingHandler().setTexture(g2, geo, geo.getAlphaValue());
