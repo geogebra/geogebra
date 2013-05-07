@@ -2340,7 +2340,7 @@ namespace giac {
   gen _recursive_normal(const gen & e,GIAC_CONTEXT){
     gen var,res;
     if (e.is_symb_of_sommet(at_equal))
-      return symb_equal(_recursive_normal(equal2diff(e),contextptr),0);
+      return apply_to_equal(e,recursive_normal,contextptr); // symb_equal(_recursive_normal(equal2diff(e),contextptr),0);
     if (is_algebraic_program(e,var,res))
       return symbolic(at_program,makesequence(var,0,recursive_normal(res,contextptr)));
     res=recursive_normal(e,true,contextptr);
