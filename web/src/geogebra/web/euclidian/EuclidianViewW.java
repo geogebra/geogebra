@@ -13,6 +13,8 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+import geogebra.web.helper.ImageLoadCallback;
+import geogebra.web.helper.ImageWrapper;
 import geogebra.web.javax.swing.GBoxW;
 import geogebra.web.main.AppW;
 
@@ -309,15 +311,15 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	}
 	
 	@Override
-	final protected void drawAnimationButtons(geogebra.common.awt.GGraphics2D g2) {
+	final protected void drawAnimationButtons(final geogebra.common.awt.GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
 			return;
 		}
 
-		int x = 6;
-		int y = getHeight() - 22;
+		final int x = 6;
+		final int y = getHeight() - 22;
 
 		if (highlightAnimationButtons) {
 			// draw filled circle to highlight button
@@ -330,9 +332,20 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
-		ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
+		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
-		g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
+		if (img.getPropertyBoolean("complete")) {
+			g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
+		} else {
+			ImageWrapper.nativeon(img,
+				"load",
+				new ImageLoadCallback() {
+					public void onLoad() {
+						g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
+					}
+				}
+			);
+		}
 	}
 
 	
