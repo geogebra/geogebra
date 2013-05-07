@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
+import geogebra.common.util.Unicode;
 
 /**
  * Platform (Java / GWT) independent part of giac CAS
@@ -74,93 +75,16 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public String evaluateRaw(final String input) throws Throwable {
 		
-		StringBuilder sb = new StringBuilder();
 
 		String exp = input;
-		
-		/*
-		// we need to escape any upper case letters and non-ascii codepoints
-		// with '!'
-		StringTokenizer tokenizer = new StringTokenizer(exp, "(),;[] ", true);
-		while (tokenizer.hasMoreElements()) {
-			String t = tokenizer.nextToken();
-			if (casParser.getParserFunctions().isReserved(t))
-				sb.append(t);
-			else {
-				for (int i = 0; i < t.length(); ++i) {
-					char c = t.charAt(i);
-					if (StringUtil.isLetter(c) && (c < 97 || c > 122)) {
-						sb.append('!');
-						sb.append(c);
-					} else {
-						switch (c) {
-						case '\'':
-							sb.append('!');
-							sb.append(c);
-							break;
-
-						case '\\':
-							if (i < (t.length() - 1))
-								sb.append(t.charAt(++i));
-							break;
-
-						default:
-							sb.append(c);
-							break;
-						}
-					}
-
-				}
-			}
-		}
-		exp = sb.toString();
-		
-		*/
-		
+			
+		// avoids problems with JS version of Giac
+		exp = exp.replace(Unicode.IMAGINARY, "i");
 		
 		App.debug("giac eval: " + exp);
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
-		
-		/*
-		sb.setLength(0);
-		for (String s : result.split("\n")) {
-			s = s.trim();
-			if (s.length() == 0)
-				continue;
-			else if (s.startsWith("***")) { // MPReduce comment
-				App.debug("MPReduce comment: " + s);
-				continue;
-			}else if (s.contains("invalid as")) { // MPReduce comment
-				App.debug("MPReduce comment: " + s);
-				continue;
-			} else if (s.startsWith("Unknown")) {
-				App.debug("Assumed " + s);
-				continue;
-			} else {
-				// look for any trailing $
-				int len = s.length();
-				while (len > 0 && s.charAt(len - 1) == '$')
-					--len;
-
-				// remove the !
-				for (int i = 0; i < len; ++i) {
-					char character = s.charAt(i);
-					if (character == '!') {
-						if (i + 1 < len) {
-							character = s.charAt(++i);
-						}
-					}
-					sb.append(character);
-				}
-			}
-		}
-
-		//result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
-
-		result = sb.toString();
-		*/
-			
+					
 		if (result.startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 			// assume error
@@ -168,7 +92,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			result = "?";
 		}
 		
-		// TODO: remove
 		App.debug("CASgiac.evaluateRaw: result: " + result);
 		return result;
 	}
