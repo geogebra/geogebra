@@ -2258,6 +2258,9 @@ namespace giac {
       }
     }
     ee=r2sym(f,l,contextptr);
+    if (is_integer(f.den) && !is_one(f.den))
+      return ratnormal(ratnormal(ee)); // first ratnormal will expand sqrt()^
+    // second will remove them
     return ee;
   }
 
