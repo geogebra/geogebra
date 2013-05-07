@@ -31,7 +31,8 @@ public class SplashDialog extends SimplePanel {
 	
 	
 
-	public SplashDialog(boolean showLogo) {
+	public SplashDialog(boolean showLogo, String articleId) {
+		this.articleId = articleId;
 		isPreviewExists = checkIfPreviewExists();
 		if (!isPreviewExists) {
 			String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
@@ -77,7 +78,6 @@ public class SplashDialog extends SimplePanel {
 	private native void removePreviewImg() /*-{
 	    var thisArticle = $doc.getElementById(this.@geogebra.web.gui.SplashDialog::articleId),
 			img = thisArticle.querySelector(".ggb_preview");
-		$wnd.console.log(thisArticle, img);
 		img.parentNode.removeChild(img);
     }-*/;
 
@@ -90,10 +90,6 @@ public class SplashDialog extends SimplePanel {
 
 	public boolean isPreviewExists() {
 	    return isPreviewExists;
-    }
-
-	public void setArticleId(String id) {
-	    this.articleId = id;
     }
 
 	public void setGeoGebraFrame(GeoGebraFrame ggf) {

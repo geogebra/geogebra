@@ -82,8 +82,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			height += 57;
 		}
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
-		splash = new SplashDialog(showLogo);
-		splash.setArticleId(ae.getAttribute("id"));
+		splash = new SplashDialog(showLogo, ae.getId());
 		splash.setGeoGebraFrame(this);
 		
 		if (width > 0 && height > 0) {
