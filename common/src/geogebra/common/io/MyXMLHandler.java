@@ -595,7 +595,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("geogebra".equals(eName)) {
 				// start animation if necessary
 				if (startAnimation) {
-					if (app.isApplet())
+					if (app.isApplet() && !app.isHTML5Applet())
 						// start later, in initInBackground()
 						kernel.setWantAnimationStarted();
 					else
