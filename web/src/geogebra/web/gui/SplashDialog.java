@@ -77,6 +77,7 @@ public class SplashDialog extends SimplePanel {
 	private native void removePreviewImg() /*-{
 	    var thisArticle = $doc.getElementById(this.@geogebra.web.gui.SplashDialog::articleId),
 			img = thisArticle.querySelector(".ggb_preview");
+		$wnd.console.log(thisArticle, img);
 		img.parentNode.removeChild(img);
     }-*/;
 
