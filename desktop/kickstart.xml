@@ -191,14 +191,14 @@ instructions.
 	</target>
 
 	<target name="giac-linux" if="unix">
-		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac.so" dest="lib/javagiac.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libjavagiac.so" dest="lib/javagiac.so"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac64.so" dest="lib/javagiac64.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libjavagiac64.so" dest="lib/javagiac64.so"
 		    usetimestamp="true"/>
 	</target>
 
 	<target name="giac-mac" if="mac">
-		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac.jnilib" dest="lib/javagiac.jnilib"
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libjavagiac.jnilib" dest="lib/javagiac.jnilib"
 		    usetimestamp="true"/>
 		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libgmp.10.dylib" dest="lib/libgmp.10.dylib"
 		    usetimestamp="true"/>
