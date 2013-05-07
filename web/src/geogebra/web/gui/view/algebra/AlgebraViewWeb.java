@@ -18,6 +18,7 @@ import geogebra.web.main.AppWeb;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
@@ -31,6 +32,13 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final AppWeb app; // parent appame
 	protected final Localization loc;
 	protected final Kernel kernel;
+	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	
+	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
+		public void execute(double ts) {
+			doRepaint2();
+		}
+	};
 
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
@@ -85,6 +93,10 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		app.getTimerSystem().viewRepaint(this);
 	}
+	
+	public void doRepaint() {
+		repaintScheduler.requestAnimationFrame(repaintCallback);
+}
 
 	public final void repaintView() {
 		repaint();
@@ -169,7 +181,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * Only call this method if you really know what you're doing. Otherwise
 	 * call repaint() instead.
 	 */
-	public void doRepaint() {
+	public void doRepaint2() {
 		app.getTimerSystem().viewRepainting(this);
 		Object geo;
 		// suppose that the add operations have been already done elsewhere

@@ -180,6 +180,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				geo.isLaTeXDrawableGeo() &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
 				this.needsUpdate = true;
+				av.repaintView();
 			}
 		} else {
 			seNoLatex = se;
