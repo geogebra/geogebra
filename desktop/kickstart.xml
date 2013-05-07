@@ -53,6 +53,7 @@ instructions.
 	<target name="ogp" depends="ogp-geogebra"/>
 	<target name="jython" depends="jython-geogebra"/>
 	<target name="jlatexmath" depends="jlatexmath-geogebra"/>
+	<target name="giac" depends="giac-geogebra"/>
 	<target name="p200ant" depends="p200ant-geogebra"/>
 	<target name="jsobject" depends="jsobject-geogebra"/>
 	<target name="mac_extensions" depends="mac_extensions-geogebra"/>
@@ -79,7 +80,7 @@ instructions.
 	    description="Internal target, please do not use manually. Download all packages needed for creating the JAR files">
 	</target>
 
-	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx"
+	<target name="_lib-runtime" depends="jlatexmath, vernier, jython, jd2xx, giac"
 	    description="Internal target, please do not use manually. Downloads all packages needed for runtime use.">
 	</target>
 
@@ -98,6 +99,10 @@ instructions.
 
 	<condition property="mac">
 		<os family="mac"/>
+	</condition>
+
+	<condition property="unix">
+		<os family="unix"/>
 	</condition>
 
 	<condition property="unix-i386">
@@ -176,6 +181,29 @@ instructions.
 		    usetimestamp="true"/>
 	</target>
 
+	<target name="giac-geogebra" depends="giac-windows, giac-mac, giac-linux"/>
+
+	<target name="giac-windows" if="winnt">
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac.dll" dest="lib/javagiac.dll"
+		    usetimestamp="true"/>
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac64.dll" dest="lib/javagiac64.dll"
+		    usetimestamp="true"/>
+	</target>
+
+	<target name="giac-linux" if="unix">
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac.so" dest="lib/javagiac.so"
+		    usetimestamp="true"/>
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac64.so" dest="lib/javagiac64.so"
+		    usetimestamp="true"/>
+	</target>
+
+	<target name="giac-mac" if="mac">
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/javagiac.jnilib" dest="lib/javagiac.jnilib"
+		    usetimestamp="true"/>
+		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libgmp.10.dylib" dest="lib/libgmp.10.dylib"
+		    usetimestamp="true"/>
+	</target>
+	
 	<!-- download ecj -->
 	<target name="ecj-eclipse">
 	<mkdir dir="lib/build"/>
