@@ -21,6 +21,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
@@ -117,6 +118,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
+		App.debug(System.currentTimeMillis());
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppWeb)kernel.getApplication();
@@ -146,7 +148,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
-
+		App.debug(System.currentTimeMillis());
 		String text = "";
 		if (geo.isIndependent()) {
 			text = geo.getAlgebraDescriptionTextOrHTMLDefault();
@@ -167,22 +169,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				break;
 			}
 		}
-
+		App.debug(System.currentTimeMillis());
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
+			seNoLatex = se;
+			seNoLatex.setInnerHTML(text);
 			if ((latexStr != null) &&
 				geo.isLaTeXDrawableGeo() &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
-				latexStr = DrawEquationWeb.inputLatexCosmetics(latexStr);
-				seMayLatex = se;
-				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, latexStr,
-					geo.getAlgebraColor(), GColor.white);
-				LaTeX = true;
-			} else {
-				seNoLatex = se;
-				seNoLatex.setInnerHTML(text);
+				this.needsUpdate = true;
 			}
 		} else {
 			seNoLatex = se;
