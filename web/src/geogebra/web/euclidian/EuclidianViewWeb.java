@@ -114,7 +114,6 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		paint(this.g2p);
 		getEuclidianController().setCollectedRepaints(false);
 		((AppWeb) this.app).getTimerSystem().viewRepainted(this);
-		App.debug(System.currentTimeMillis() - l);
 		GeoGebraProfiler.addRepaint(l);
 		
 	}
