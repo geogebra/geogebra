@@ -16,7 +16,7 @@ __GGB__keysVar.sk = {}
  ***********************************************/
 
 __GGB__keysVar.sk.colors = {
-    "aqua": "svetlomodr\xe1",
+    "aqua": "akvamar\xednov\xe1",
     "black": "\u010dierna",
     "blue": "modr\xe1",
     "brown": "hned\xe1",
