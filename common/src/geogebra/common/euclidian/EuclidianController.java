@@ -6791,8 +6791,6 @@ public abstract class EuclidianController {
 			return;
 		}
 		
-		app.storeUndoInfoIfSetCoordSystemOccured();
-		
 		setMouseLocation(event);
 		
 		processMouseMoved(event);
@@ -6805,6 +6803,8 @@ public abstract class EuclidianController {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
+		
+		app.storeUndoInfoIfSetCoordSystemOccured();
 
 		startCollectingMinorRepaints();
 		refreshHighlighting(null, event);
