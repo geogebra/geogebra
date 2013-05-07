@@ -121,11 +121,11 @@ public class Ggb2giac {
 		// used in regular mode
 		// Giac doesn't auto-simplify
 		// simplify so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
-		p("Evaluate.1", "normal(simplify(%0))");
+		p("Evaluate.1", "normal(%0)");
 		//p("Evaluate.1", "%0");
 
 		p("Expand.1",
-				"normal(simplify(%0))");
+				"normal(%0)");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// factor over rationals
