@@ -721,7 +721,10 @@ namespace giac {
       if (e._SYMBptr->feuille.type==_VECT){
 	gen ef(sortsubst(*e._SYMBptr->feuille._VECTptr,i,newi,quotesubst,contextptr));
 	ef.subtype=e._SYMBptr->feuille.subtype;
-	if (quotesubst || e._SYMBptr->sommet.quoted() || e._SYMBptr->sommet==at_pow)
+	if (quotesubst || e._SYMBptr->sommet.quoted() 
+	    // || e._SYMBptr->sommet==at_pow
+	    || (e._SYMBptr->sommet==at_pow && ef.type==_VECT && ef._VECTptr->size()==2 && !is_zero(ef._VECTptr->front()))
+	    )
 	  return symbolic(e._SYMBptr->sommet,ef);
 	else
 	  return e._SYMBptr->sommet(ef,contextptr);

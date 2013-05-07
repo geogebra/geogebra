@@ -10028,7 +10028,7 @@ namespace giac {
 	qr_ortho(H,P,contextptr);
 	std_matrix_gen2matrice_destroy(H,h);
 	std_matrix_gen2matrice_destroy(P,p);
-	return makevecteur(_trn(p,contextptr),h,midn(H[0].size()));
+	return makevecteur(_trn(p,contextptr),h,midn(h.size()));
       }
       // qr decomposition using GramSchmidt (not numerically stable)
       matrice res(gramschmidt(*_trn(args,contextptr)._VECTptr,r,method==-1,contextptr));
