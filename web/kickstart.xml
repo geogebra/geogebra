@@ -128,7 +128,7 @@ your workstation.
 	<!-- Please don't change the giac version number here. It is automatically changed by a robot
 	    every time Ggb2giac.java is changed. -->
 	<get
-	    src="http://dev.geogebra.org/download/lib/web/giac-201305070809.js"
+	    src="http://dev.geogebra.org/download/lib/web/giac-201305071149.js"
 	    dest="lib/giac.js"/>
 	<copy todir="src/geogebra/resources/js">
 	 <fileset dir="lib" includes="giac.js" />
