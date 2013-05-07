@@ -12,7 +12,6 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
@@ -2805,6 +2804,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 */
 	protected geogebra.common.euclidian.EuclidianStyleBar styleBar;
 
+	private int getYaxisLabelStart(double xCrossPix){
+		double rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
+		// by default we start with minor tick to the left of first major
+		// tick, exception is for positive only
+		if (getPositiveAxes()[1] && (Kernel.isGreaterEqual(rw, getXmin()))) {
+			// start labels at the y-axis instead of screen border
+			// be careful: axisCross[1] = x value for which the y-axis
+			// crosses,
+			// so xmin is replaced axisCross[1] and not axisCross[0]
+			rw = MyMath.nextMultiple(axisCross[0],
+					axesNumberingDistances[1]);
+		}
+		
+		double labelLengthMax = Math.max(
+				estimateNumberWidth(rw, getFontAxes()),
+				estimateNumberWidth(MyMath.nextMultiple(getYmax(),
+						axesNumberingDistances[0]), getFontAxes()));
+		return (int)(xCrossPix - 4 - getFontAxes().getSize() /4 - labelLengthMax);
+	}
+
 	/**
 	 * Draws grid
 	 * 
@@ -2841,28 +2860,54 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			double tickStep = getXscale() * gridDistances[0];
 			double start = getxZero() % tickStep;
 			double pix = start;
-
-			for (int i = 0; pix <= getWidth(); i++) {
-				// int val = (int) Math.round(i);
-				// g2.drawLine(val, 0, val, height);
-				tempLine.setLine(pix, 0, pix, getHeight());
-				g2.draw(tempLine);
-
-				pix = start + (i * tickStep);
+			
+			if(showAxes[0] && yCrossPix > 0 && yCrossPix < getHeight()){
+				int xPause = (int) (yCrossPix + estimateNumberHeight(getFontAxes()) + 4);
+				for (int j = 0; pix <= getWidth(); j++) {
+					// int val = (int) Math.round(j);
+					// g2.drawLine(0, val, width, val);
+					tempLine.setLine(pix, 0, pix, yCrossPix);
+					g2.draw(tempLine);
+					tempLine.setLine(pix, xPause, pix, getHeight());
+					g2.draw(tempLine);
+					pix = start + (j * tickStep);
+				}
+			}else{
+				for (int i = 0; pix <= getWidth(); i++) {
+					// int val = (int) Math.round(i);
+					// g2.drawLine(val, 0, val, height);
+					tempLine.setLine(pix, 0, pix, getHeight());
+					g2.draw(tempLine);
+	
+					pix = start + (i * tickStep);
+				}
 			}
 
 			// horizontal grid lines
 			tickStep = getYscale() * gridDistances[1];
 			start = getyZero() % tickStep;
 			pix = start;
-
-			for (int j = 0; pix <= getHeight(); j++) {
-				// int val = (int) Math.round(j);
-				// g2.drawLine(0, val, width, val);
-				tempLine.setLine(0, pix, getWidth(), pix);
-				g2.draw(tempLine);
-
-				pix = start + (j * tickStep);
+			
+			if(showAxes[1] && xCrossPix > 0 && xCrossPix < getWidth()){
+				int xPause = this.getYaxisLabelStart(xCrossPix);
+				for (int j = 0; pix <= getHeight(); j++) {
+					// int val = (int) Math.round(j);
+					// g2.drawLine(0, val, width, val);
+					tempLine.setLine(0, (int)pix, xPause, (int)pix);
+					g2.draw(tempLine);
+					tempLine.setLine(xCrossPix, (int)pix, getWidth(), (int)pix);
+					g2.draw(tempLine);
+					pix = start + (j * tickStep);
+				}
+			}else{
+				for (int j = 0; pix <= getHeight(); j++) {
+					// int val = (int) Math.round(j);
+					// g2.drawLine(0, val, width, val);
+					tempLine.setLine(0, pix, getWidth(), pix);
+					g2.draw(tempLine);
+	
+					pix = start + (j * tickStep);
+				}
 			}
 
 			break;
@@ -3094,8 +3139,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		double arrowAdjustx = drawRightArrow ? axesStroke.getLineWidth() : 0;
 		double arrowAdjusty = drawTopArrow ? axesStroke.getLineWidth() : 0;
 
-		GColor bgCol = showGrid ? getBackgroundCommon()	: null;
-
 		// Draw just y-axis first (in case any labels need to be drawn over it)
 		if (yAxisOnscreen()) {
 
@@ -3148,30 +3191,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				}
 			}
 			//erase grid to make space for labels
-			if(bgCol!=null){
-				double x = xCrossPix - 4 - getFontAxes().getSize() /4;
-				
-				double rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
-				// by default we start with minor tick to the left of first major
-				// tick, exception is for positive only
-				if (getPositiveAxes()[1] && (Kernel.isGreaterEqual(rw, getXmin()))) {
-					// start labels at the y-axis instead of screen border
-					// be careful: axisCross[1] = x value for which the y-axis
-					// crosses,
-					// so xmin is replaced axisCross[1] and not axisCross[0]
-					rw = MyMath.nextMultiple(axisCross[0],
-							axesNumberingDistances[1]);
-				}
-				
-				double labelLengthMax = Math.max(
-						estimateNumberWidth(rw, getFontAxes()),
-						estimateNumberWidth(MyMath.nextMultiple(getYmax(),
-								axesNumberingDistances[0]), getFontAxes()));
-				g2.setPaint(bgCol);
-				GRectangle2D rect = AwtFactory.prototype.newRectangle( (int) (x - labelLengthMax), 0, (int) labelLengthMax, getHeight());
-				g2.fill(rect);
-				g2.setPaint(getAxesColor());
-			}
+			
 
 		}
 
@@ -3179,19 +3199,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		// X-AXIS
 		if (xAxisOnscreen()) {
 			//erase the grid to make space for labels, use two rectangles
-			if(bgCol!=null){
-				g2.setPaint(bgCol);
-				GRectangle2D rect = AwtFactory.prototype.newRectangle(0,0,1,1);
-				if(xCrossPix > 1){
-					rect.setRect( 0, (int) yCrossPix, (int)xCrossPix - 1, (int) estimateNumberHeight(getFontAxes()));
-					g2.fill(rect);
-				}
-				if(xCrossPix < getWidth()){
-					rect.setRect((int)xCrossPix + 1, (int) yCrossPix, getWidth(), (int) estimateNumberHeight(getFontAxes()));
-					g2.fill(rect);
-				}
-				g2.setPaint(getAxesColor());
-			}
 
 			yoffset = fontsize + 4;
 			xoffset = 1;
