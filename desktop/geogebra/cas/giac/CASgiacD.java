@@ -29,8 +29,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	static {
 		try {
 			App.debug("Loading Giac dynamic library");
+			
 			String file;
-			if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))) {
+			
+			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (linux64?)
+
+			if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
+					|| "amd64".equals(System.getProperty("os.arch"))) {
 				file = "javagiac64";
 			} else {
 				file = "javagiac";
