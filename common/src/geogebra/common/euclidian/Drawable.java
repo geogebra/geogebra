@@ -270,8 +270,8 @@ public abstract class Drawable extends DrawableND {
 			}else{
 				//if we use name = value, this may still be called pretty often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int)(font.getSize() * 1.4);
-				widthEstimate = (int)(StringUtil.estimateLength(labelDesc) * font.getSize());
+				heightEstimate = (int)(StringUtil.estimateHeight(labelDesc, font));
+				widthEstimate = (int)(StringUtil.estimateLength(labelDesc, font));
 			}
 		}
 		// make sure labelRectangle fits on screen horizontally

@@ -8756,7 +8756,7 @@ public abstract class EuclidianController {
 			pressedButton.setDraggedOrContext(event.isMetaDown()
 					|| event.isPopupTrigger());
 			
-			runScriptsIfNeeded(pressedButton.geoButton);
+			runScriptsIfNeeded(pressedButton.getButton());
 		}
 		//TODO:repaint?
 	

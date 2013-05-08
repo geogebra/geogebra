@@ -858,6 +858,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		app.setCoordSystemOccured();
 	}
 	
+	/**
+	 * If the background was marked for update (axes changed), repaint it
+	 */
 	protected void updateBackgroundIfNecessary(){
 		if(updateBackgroundOnNextRepaint){
 			this.updateBackgroundImage();
@@ -5028,17 +5031,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 	
 	private static double estimateNumberHeight(GFont fontAxes2) {
-		return fontAxes2.getSize() * 1.4;
+		return StringUtil.estimateHeight("",fontAxes2);
 	}
 	
 	private double estimateNumberWidth(double d, GFont fontAxes2) {
 		String s = kernel.formatPiE(d, axesNumberFormat[0],
 				StringTemplate.defaultTemplate);
-		return StringUtil.estimateLength(s) * fontAxes2.getSize();
+		return StringUtil.estimateLength(s, fontAxes2);
 	}
 	
 	private static double estimateTextWidth(String s, GFont fontAxes2) {
-		return StringUtil.estimateLength(s) * fontAxes2.getSize();
+		return StringUtil.estimateLength(s, fontAxes2);
 	}
 
 }

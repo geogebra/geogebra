@@ -1,6 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.main.App;
 
 import java.util.Locale;
@@ -1011,7 +1012,7 @@ public class StringUtil {
 	 * @param label label, may contain bold, italic, indices
 	 * @return ratio of estimated string length and font size
 	 */
-	public static double estimateLength(String label) {
+	public static double estimateLengthHTML(String label,GFont font) {
 		String str = label;
 		boolean bold = false;
 		if (str.startsWith("<i>") && str.endsWith("</i>")) {
@@ -1024,6 +1025,12 @@ public class StringUtil {
 		if (str.startsWith("<i>") && str.endsWith("</i>")) {
 			str = str.substring(3, str.length() - 4);
 		}
+		return estimateLength(label, bold ? font.deriveFont(GFont.BOLD) : font);
+	}
+	
+	public static double estimateLength(String label,GFont font) {
+		String str = label;
+		boolean bold = font.isBold();
 		double visibleChars = 0;
 		boolean index = false;
 		double indexSize = 0.7;
@@ -1042,5 +1049,9 @@ public class StringUtil {
 			}
 		}
 		return bold ? visibleChars * 0.6 : visibleChars * 0.5;
+	}
+
+	public static double estimateHeight(String string, GFont font) {
+		return string.indexOf('_') > -1 ? font.getSize() * 1.8 : font.getSize() * 1.4;
 	}
 }

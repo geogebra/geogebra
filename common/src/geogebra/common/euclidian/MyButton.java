@@ -6,6 +6,7 @@ import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoButton.Observer;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 
@@ -16,7 +17,7 @@ import geogebra.common.kernel.geos.TextProperties;
  */
 public class MyButton implements Observer{
 
-	public GeoButton geoButton;
+	private GeoButton geoButton;
 	private EuclidianView view;
 	private int x, y;
 	private boolean selected;
@@ -372,6 +373,13 @@ public class MyButton implements Observer{
 
 	public void notifySizeChanged() {
 		geoButton.getKernel().notifyRepaint();
+	}
+
+	/**
+	 * @return associated GeoButton
+	 */
+	public GeoElement getButton() {
+		return geoButton;
 	}
 	
 }
