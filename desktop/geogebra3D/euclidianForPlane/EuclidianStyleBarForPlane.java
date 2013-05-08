@@ -24,7 +24,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	
 	
 	
-	private MyToggleButton btnOrientation;
+	private MyToggleButton btnCenterAndOrientation;
 
 
 	/**
@@ -45,7 +45,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	@Override
 	protected void addBtnRotateView(){
 
-		add(btnOrientation);
+		add(btnCenterAndOrientation);
 
 	}
 	
@@ -59,8 +59,8 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	@Override
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
 		
-		if (source.equals(btnOrientation)) {
-			((EuclidianViewForPlane) ev).updateOrientationRegardingView();
+		if (source.equals(btnCenterAndOrientation)) {
+			((EuclidianViewForPlane) ev).updateCenterAndOrientationRegardingView();
 		}else
 			super.processSource(source, targetGeos);
 	}
@@ -72,7 +72,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		
 		// ========================================
 		// button
-		btnOrientation = new MyToggleButton(app.getImageIcon("view_default.gif"),
+		btnCenterAndOrientation = new MyToggleButton(app.getImageIcon("view_default.gif"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -83,7 +83,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 				this.setVisible(mode != EuclidianConstants.MODE_PEN);
 			}
 		};
-		btnOrientation.addActionListener(this);
+		btnCenterAndOrientation.addActionListener(this);
 
 		
 	}	
@@ -92,7 +92,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	@Override
 	public void setLabels(){
 		super.setLabels();
-		btnOrientation.setToolTipText(app.getPlainTooltip("stylebar.Orientation"));
+		btnCenterAndOrientation.setToolTipText(app.getPlainTooltip("stylebar.Orientation"));
 		
 	}
 	
@@ -100,9 +100,9 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	protected void updateGUI(){
 		super.updateGUI();
 		
-		btnOrientation.removeActionListener(this);
-		btnOrientation.setSelected(false);
-		btnOrientation.addActionListener(this);
+		btnCenterAndOrientation.removeActionListener(this);
+		btnCenterAndOrientation.setSelected(false);
+		btnCenterAndOrientation.addActionListener(this);
 		
 		
 

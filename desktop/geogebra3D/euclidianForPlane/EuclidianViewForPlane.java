@@ -20,6 +20,7 @@ import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.layout.LayoutD;
 import geogebra3D.App3D;
+import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.gui.layout.panels.EuclidianDockPanelForPlane;
@@ -52,7 +53,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
 		
 		//initView(true);
-		setShowAxes(false, false);
+		setShowAxes(true, true);
 		//showGrid(false);
 		
 		setPlane(plane);
@@ -214,22 +215,34 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	/**
 	 * update orientation of the view regarding 3D view
 	 */
-	public void updateOrientationRegardingView(){
-		Coords center = getCoordsFromView(
-				toRealWorldCoordX(getWidth()/2),
-				toRealWorldCoordY(getHeight()/2));
+	public void updateCenterAndOrientationRegardingView(){
 		
 		setTransformRegardingView();
 		updateMatrix();
+				
 		
-		Coords center2 = getCoordsForView(center);
+		EuclidianView3D view3D = ((App3D) app).getEuclidianView3D();
 		
-		int x = toScreenCoordX(center2.getX());
-		int y = toScreenCoordY(center2.getY());
+		// coords of the bounding box center in the 3D view
+		Coords c = new Coords(-view3D.getXZero(),-view3D.getYZero(),-view3D.getZZero(),1);
+		
+		// project it in this view coord sys
+		Coords p = c.projectPlane(getMatrix())[1];
+		
+		// take this projection for center
+		int x = toScreenCoordX(p.getX());
+		int y = toScreenCoordY(p.getY());
 
-		
+
+		/*
+		App.debug(getXscale()+","+((App3D) app).getEuclidianView3D().getXscale());
+		double scale = ((App3D) app).getEuclidianView3D().getXscale();
+		setCoordSystem(getWidth()/2-x+getxZero(), getHeight()/2-y+getyZero(), scale, scale);
+		*/
 		
 		setCoordSystem(getWidth()/2-x+getxZero(), getHeight()/2-y+getyZero(), getXscale(), getYscale());
+	
+	
 	}
 
 	
