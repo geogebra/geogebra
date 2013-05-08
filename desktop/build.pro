@@ -222,6 +222,11 @@
 -keep class gnu.io.CommPortIdentifier { <methods>; <fields>; }
 -keep class gnu.io.SerialPort { <methods>; <fields>; }
 
+# attempt to make JNI version of Giac work
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
 # -keep public class * {
 #    public protected *;
 # }
