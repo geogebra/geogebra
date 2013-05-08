@@ -365,8 +365,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			StringBuilder sb = new StringBuilder();
 			boolean switchw = false;
 			//ignore first and last bracket, they come from mathrm
-			int skip = newValue.startsWith("(") ? 1 : 0;	
-			for (int i = skip; i < newValue.length() - skip; i++)
+			int skip = newValue.startsWith("(") ? 1 : 0;
+			boolean inLHS = true;
+			for (int i = skip; i < newValue.length() - skip; i++){
+				//on lhs a*b(x) actually means ab(x)
+				if(inLHS && (newValue.charAt(i)=='*')){
+					continue;
+				}
 				if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));
@@ -375,6 +380,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						sb.append(switchw ? "abs(" : ")");
 					}
 				}
+				if(newValue.charAt(i) == ':' || newValue.charAt(i) == '='){
+					inLHS = false;
+				}
+			}
 			App.debug(sb.toString());
 
 			// Formula Hacks ended.
