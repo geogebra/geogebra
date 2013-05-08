@@ -4734,7 +4734,7 @@ namespace giac {
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
     if (s>int(eq_orig.size())){
-      *logptr(contextptr) << gettext("Warning: solving by reducing number of unknowns to number of equations: ") << vecteur(it,it+eq_orig.size()) << endl;
+      *logptr(contextptr) << gettext("Warning: solving by reducing number of unknowns to number of equations: ") << var_orig << " -> " << vecteur(it,it+eq_orig.size()) << endl;
       vecteur remvars=vecteur(it+eq_orig.size(),itend);
       vecteur res=gsolve(eq_orig,vecteur(it,it+eq_orig.size()),complexmode,contextptr);
       for (unsigned i=0;i<res.size();++i){

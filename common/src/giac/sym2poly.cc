@@ -1316,6 +1316,8 @@ namespace giac {
       minpoly=common_EXT(curext,oldminpoly,&l,contextptr);
       if (minpoly.type!=_VECT)
 	return vecteur(1,gensizeerr(contextptr));
+      if (minpoly._VECTptr->size()>MAX_COMMON_ALG_EXT_ORDER_SIZE)
+	return vecteur(1,undef);
       // compute alg_extoutnum/den using newminpoly
       int s=alg_extin.size();
       for (int i=0;i<s;++i){
@@ -1465,8 +1467,10 @@ namespace giac {
     bool totally_converted=true;
     vecteur lv,lvnum,lvden;
     lvar(e,lv);
-    if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr))
+    if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr)){
+      num=undef;
       return false;
+    }
     totally_converted =totally_converted && sym2r(e,l,lv,lvnum,lvden,l_size,num,den,contextptr);
     // If den is a _POLY, multiply den by the _EXT conjugate of it's lcoeff
     // FIXME this should be done recursively if the 1st coeff is a _POLY!
@@ -2221,6 +2225,11 @@ namespace giac {
       l=alg_lvar(ee);
       sort0(l);
       tmp=e2r(ee,l,contextptr);
+      if (is_undef(tmp)){
+	*logptr(contextptr) << gettext("Unable to build a single algebraic extension for simplifying. Trying rational simplification only.") << endl;
+	l=lvar(ee);
+	tmp=e2r(ee,l,contextptr);	
+      }
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & err){

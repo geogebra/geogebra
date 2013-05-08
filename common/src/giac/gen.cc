@@ -6951,6 +6951,8 @@ namespace giac {
       return fis_nan(e._FLOAT_val);
     case _DOUBLE_:
       return my_isnan(e._DOUBLE_val);
+    case _FRAC:
+      return is_undef(e._FRACptr->num);
     default:
       return false;
     }

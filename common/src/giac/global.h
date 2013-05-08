@@ -183,6 +183,7 @@ namespace giac {
   extern int FFTMUL_SIZE; // Currently adapted to (x+1)^n
   // Should be lower for larger coeff
   extern int MAX_ALG_EXT_ORDER_SIZE; // x^1/d extension not algebraic if d>
+  extern int MAX_COMMON_ALG_EXT_ORDER_SIZE;
   extern int TRY_FU_UPRIME;
   extern int SOLVER_MAX_ITERATE;
   extern int MAX_PRINTABLE_ZINT;

@@ -1327,6 +1327,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=1500; 
   int MAX_ALG_EXT_ORDER_SIZE = 4;
+  int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
   int TRY_FU_UPRIME=5;
   int SOLVER_MAX_ITERATE=25;
   int MAX_PRINTABLE_ZINT=10000;
@@ -1352,6 +1353,11 @@ extern "C" void Sleep(unsigned int miliSecond);
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=1500; 
   int MAX_ALG_EXT_ORDER_SIZE = 6;
+#ifdef EMCC
+  int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
+#else
+  int MAX_COMMON_ALG_EXT_ORDER_SIZE = 64;
+#endif
   int TRY_FU_UPRIME=5;
   int SOLVER_MAX_ITERATE=25;
   int MAX_PRINTABLE_ZINT=1000000;
