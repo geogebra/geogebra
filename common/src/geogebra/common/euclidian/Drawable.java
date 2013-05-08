@@ -519,7 +519,8 @@ public abstract class Drawable extends DrawableND {
 			} else {
 				// take care of filling after the image is loaded
 				EuclidianStatic.fillAfterImageLoaded(fillShape, g2,
-						getHatchingHandler().getSubImage());
+						getHatchingHandler().getSubImage(),
+						geo.getKernel().getApplication());
 			}
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {

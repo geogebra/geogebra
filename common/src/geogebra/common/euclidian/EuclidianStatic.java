@@ -348,13 +348,13 @@ public abstract class EuclidianStatic {
 	/**
 	 * This hack was needed for ticket #3265
 	 */
-	protected void doFillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi)
+	protected void doFillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi, App app)
 	{ }
 	/**
 	 * This hack was needed for ticket #3265
 	 */
-	public static void fillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi) {
-		prototype.doFillAfterImageLoaded(shape, g3, gi);
+	public static void fillAfterImageLoaded(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi, App app) {
+		prototype.doFillAfterImageLoaded(shape, g3, gi, app);
 	}
 	/**
 	 * @param app application
