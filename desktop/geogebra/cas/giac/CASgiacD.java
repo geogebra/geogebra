@@ -64,8 +64,11 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	private context C;
 
-	public String evaluate(String exp) throws Throwable {
+	public String evaluate(String input) throws Throwable {
 
+		// don't need to replace Unicode when sending to JNI
+		String exp = casParser.replaceIndices(input, false);
+		
 		String ret;
 		Object jsRet = null;
 
@@ -105,8 +108,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			g = giac._eval(g, C);
 			ret = g.print(C);
 		}
-
+		
 		App.debug("giac output: " + ret);		
+
+		ret = casParser.insertSpecialChars(ret); // undo special character handling
 
 		return ret;
 	}

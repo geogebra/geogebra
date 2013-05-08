@@ -126,7 +126,8 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	@Override
 	public String evaluateCAS(String exp) {
 		try {
-			String processedExp = casParser.replaceIndices(exp);
+			// don't need to encode Unicode
+			String processedExp = casParser.replaceIndices(exp, false);
 			String ret = evaluateRaw(processedExp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling

@@ -37,7 +37,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	@Override
 	public String evaluateCAS(String exp) {
 		try {
-			String processedExp = casParser.replaceIndices(exp);
+			// replace Unicode when sending to JavaScript
+			// (encoding problem)
+			String processedExp = casParser.replaceIndices(exp, true);
 			String ret = evaluateRaw(processedExp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling

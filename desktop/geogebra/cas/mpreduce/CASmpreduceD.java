@@ -98,7 +98,8 @@ public class CASmpreduceD extends CASmpreduce {
 	@Override
 	public final String evaluateCAS(String input) throws CASException {
 		try {
-			String exp = casParser.replaceIndices(input);
+			// don't need to replace Unicode
+			String exp = casParser.replaceIndices(input, false);
 			String ret = evaluateRaw(exp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling

@@ -32,8 +32,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import geogebra.common.main.App;
 import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 
 import java.util.Map;
 import java.util.Set;
@@ -207,7 +209,7 @@ public class CASparser implements CASParserInterface{
 	 * @param str input string with _,{,}
 	 * @return string where _,{,} are replaced
 	 */
-	public synchronized String replaceIndices(String str) {
+	public synchronized String replaceIndices(String str, boolean replaceUnicode) {
 		int len = str.length();
 		StringBuilder replaceIndices = new StringBuilder();
 		
@@ -228,7 +230,11 @@ public class CASparser implements CASParserInterface{
 							appendcode(replaceIndices,'_');
 						}
 					}
-					else replaceIndices.append(c);
+					else if (replaceUnicode && c > 127 && c != Unicode.angle) {
+						appendcode(replaceIndices, c);
+					} else {
+						replaceIndices.append(c);
+					}
 					break;
 										
 				case UNDERSCORE: 	
@@ -248,6 +254,8 @@ public class CASparser implements CASParserInterface{
 					break;
 			}			
 		}
+		
+		App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
 					
 		return replaceIndices.toString();
 	}

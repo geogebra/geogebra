@@ -25,14 +25,9 @@ public class Ggb2giac {
 	 */
 	public static void p(String signature, String casSyntax) {
 
-		// TODO: why are the \s needed in HTML5 and not Desktop?
-		if (html5) {
-			//App.debug(casSyntax);
-			casSyntax = casSyntax.replace("_",  "\\_");
-			//App.debug(casSyntax);
-		}
-
-		commandMap.put(signature, casSyntax);
+		// replace _ with \_ to make sure it's not replaced with "unicode95u"
+		
+		commandMap.put(signature, casSyntax.replace("_",  "\\_"));
 	}
 
 	/**
