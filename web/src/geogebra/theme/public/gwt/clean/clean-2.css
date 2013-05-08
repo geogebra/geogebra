@@ -1884,4 +1884,9 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	z-index: 1;
 	background-color: #E2E2E2;
 	width: 100%;
+	bottom: 0px;
+}
+
+.consProtNav .gwt-Label{
+	display: inline;
 }

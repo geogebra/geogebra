@@ -83,9 +83,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		consProtNav.setVisible(false); //consProtNav.setVisible(app.showConsProtNavigation());
 			
 			
-		//euclidianpanel.add(consProtNav); // may be invisible, but made visible later
-		App.debug("offsetheights: " + euclidianpanel.getOffsetHeight()+" "+consProtNav.getOffsetHeight());
-		euclidianpanel.add(consProtNav,0, euclidianpanel.getOffsetHeight()-consProtNav.getOffsetHeight());
+		euclidianpanel.add(consProtNav); // may be invisible, but made visible later
 	}
 	
 	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
