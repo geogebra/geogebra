@@ -378,10 +378,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	// GeoCoordSys2D
 	// //////////////////////////////////
 
-	@Override
-	public void pointChangedForRegion(GeoPointND PI) {
-		// TODO
-	}
+
 
 	@Override
 	public void regionChanged(GeoPointND PI) {

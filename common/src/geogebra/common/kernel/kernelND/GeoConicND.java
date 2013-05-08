@@ -3185,7 +3185,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 		if (!isInRegion(PI)){
 			moveBackToRegion(PI,rp);
 		}else{
-			Coords coords = PI.getCoordsInD2(getCoordSys());		
+			Coords coords = PI.getCoordsInD2(getCoordSys());	
 			rp.setIsOnPath(false);
 				
 			coordsRWtoEV(coords);
@@ -3583,14 +3583,10 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
-		/*
+		
 		return willingCoords.projectPlaneThruVIfPossible(getCoordSys()
 				.getMatrixOrthonormal(), oldCoords, willingDirection);
-				*/
-		Coords[] ret = willingCoords.projectPlaneThruVIfPossible(getCoordSys()
-				.getMatrixOrthonormal(), oldCoords, willingDirection);
-		
-		return ret;
+				
 	}
 	
 	
