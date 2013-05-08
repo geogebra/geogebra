@@ -1977,10 +1977,14 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-
+		if(size()==0){
+			return false;
+		}
 		// check for matrix
 		if (getElementType().equals(GeoClass.LIST)) {
-			return true;
+			GeoClass geoClass =((GeoList)get(0)).getElementType();
+			return geoClass.equals(GeoClass.NUMERIC) || geoClass.equals(GeoClass.FUNCTION)
+					||geoClass.equals(GeoClass.NUMERIC);
 		}
 
 		// don't check getGeoElementForPropertiesDialog
@@ -1988,8 +1992,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		if (getElementType().equals(GeoClass.NUMERIC)) {
 			return false;
 		}
-
-		return super.isLaTeXDrawableGeo();
+		boolean ret = true;
+		for(GeoElement geo1:geoList){
+			if(!geo1.isLaTeXDrawableGeo()){
+				return false;
+			}
+		}
+		return ret;
 	}
 
 	@Override
