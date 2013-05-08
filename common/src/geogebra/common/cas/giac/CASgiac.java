@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
-import geogebra.common.util.Unicode;
 
 /**
  * Platform (Java / GWT) independent part of giac CAS
@@ -77,10 +76,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		
 
 		String exp = input;
-			
-		// avoids problems with JS version of Giac
-		exp = exp.replace(Unicode.IMAGINARY, "i");
-		
+					
 		App.debug("giac eval: " + exp);
 		String result = evaluate(exp, getTimeoutMilliseconds());
 

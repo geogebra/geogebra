@@ -5,7 +5,8 @@ public class Unicode {
 
 	// used by Giac for polar separator instead of ;
 	// eg (2;3)
-	final public static char angle = '\u2221';
+	// space needed to avoid encoding problem (probably with $wnd.Module.cwrap, see CASGiacW)
+	final public static String angleSpace = "\u2221 ";
 	final public static char minus = '\u2212';
 	final public static char LESS_EQUAL = '\u2264';
 	final public static char GREATER_EQUAL = '\u2265';
