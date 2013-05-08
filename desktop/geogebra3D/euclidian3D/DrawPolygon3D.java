@@ -106,7 +106,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
     	if (type==PickingType.POINT_OR_CURVE){
     		drawGeometry(renderer);
     	}else{
-    		drawSurfaceGeometry(renderer);
+    		if(getAlpha()>0){ //surface is pickable only if not totally transparent
+    			drawSurfaceGeometry(renderer);
+    		}
     	}
 	}
 	
