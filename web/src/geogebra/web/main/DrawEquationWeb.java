@@ -237,7 +237,7 @@ public class DrawEquationWeb extends DrawEquation {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
-		String eqstring = inputLatexCosmetics(latexString);
+		String eqstring = "\\mathrm{"+inputLatexCosmetics(latexString)+"}";
 
 		String eqstringid = eqstring + "@" + geo.getID();
 
