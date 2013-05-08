@@ -495,7 +495,7 @@ __GGB__keysVar.no_NN.command = {
     "Maximize": "Maksimer",
     "Maximize_Syntax": "[ <Avhengig tal>, <Fritt tal> ]",
     "Mean": "Gjennomsnitt",
-    "Mean_Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tal>, <Liste med frekvensar> ]",
+    "Mean_Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med verdiar (n) eller klassegrenser (n+1)>, <Liste med frekvensar (n)> ]",
     "Mean_SyntaxCAS": "[ <Liste med tal> ]",
     "MeanX": "GjennomsnittX",
     "MeanX_Syntax": "[ <Liste med punkt> ]",
