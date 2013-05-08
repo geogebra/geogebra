@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 
 /**
@@ -130,5 +131,10 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		
 		//also update for e.g. line width
 		setWaitForUpdate();
+	}
+	
+	@Override
+	public PickingType getPickingType(){
+		return PickingType.POINT_OR_CURVE;
 	}
 }

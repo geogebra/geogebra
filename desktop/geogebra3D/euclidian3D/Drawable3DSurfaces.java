@@ -2,6 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.opengl.Renderer;
+import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 /**
  * Class for drawing surfaces
@@ -173,7 +174,10 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 	
 	
-
+	@Override
+	public PickingType getPickingType(){
+		return PickingType.SURFACE;
+	}
 
 
 }

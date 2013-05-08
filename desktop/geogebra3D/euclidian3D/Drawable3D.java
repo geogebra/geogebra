@@ -1094,9 +1094,12 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return last picking type
 	 */
+	abstract public PickingType getPickingType();
+	/*
 	public PickingType getPickingType(){
 		return PickingType.POINT_OR_CURVE;
 	}
+	*/
     
 }
 

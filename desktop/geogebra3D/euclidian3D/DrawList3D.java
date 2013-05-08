@@ -212,4 +212,8 @@ public class DrawList3D extends Drawable3D {
 		}
 	}
 	
+	@Override
+	public PickingType getPickingType(){
+		return getDrawablePicked().getPickingType();
+	}
 }
