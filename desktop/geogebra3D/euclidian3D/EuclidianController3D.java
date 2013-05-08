@@ -32,7 +32,6 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasVolume;
-import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.main.AppD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -775,7 +774,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		point3D.doRegion();
 		point3D.setMoveNormalDirection(point3D.getRegionParameters().getNormal());
 		
-		App.debug(point3D);
+		//App.debug(point3D);
 		
 		if (region==view3D.getxOyPlane()){
 			Coords coords = point3D.getInhomCoords();
