@@ -852,8 +852,13 @@ namespace giac {
       gen a=r2sym(w.front(),lv,contextptr);
       gen minus_b_over_2=r2sym(-b_over_2,lv,contextptr);
       gen delta_prime=r2sym(pow(b_over_2,2,contextptr)-w.front()*w.back(),lv,contextptr);
-      if (!complexmode && is_strictly_positive(-delta_prime,contextptr))
+#if 1 // def NO_STDEXCEPT
+      if (!complexmode && lidnt(evalf(makevecteur(a,minus_b_over_2,delta_prime),1,contextptr)).empty() && is_positive(-delta_prime,contextptr))
+	return;      
+#else
+      if (!complexmode && is_positive(-delta_prime,contextptr))
 	return;
+#endif
       newv.push_back(rdiv(minus_b_over_2+sqrt(delta_prime,contextptr),a,contextptr));
       if (!is_zero(delta_prime))
 	newv.push_back(rdiv(minus_b_over_2-sqrt(delta_prime,contextptr),a,contextptr));

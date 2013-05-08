@@ -3002,7 +3002,7 @@ namespace giac {
     if (args.type==_VECT && args.subtype==_PNT__VECT) return symbolic(at_cercle,args); 
     vecteur v(gen2vecteur(args));
     if (v.empty())
-      return gensizeerr(gettext("cercle"));
+      return gensizeerr(gettext("circle"));
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
     // find diametre
@@ -3041,7 +3041,7 @@ namespace giac {
     }
     if (!narg){
       if (s<2)
-	return gensizeerr(gettext("cercle"));
+	return gensizeerr(gettext("circle"));
       gen f=eval(v[1],contextptr);
       if ((f.type==_SYMB) && (f._SYMBptr->sommet==at_pnt)){
 	gen g=remove_at_pnt(f);

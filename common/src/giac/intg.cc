@@ -3296,12 +3296,18 @@ namespace giac {
     if ( sumab(e,x,a,b,res,true,contextptr) )
       return res;
     gen remains_to_sum;
+#ifdef EMCC
+    res=sum(e,x,remains_to_sum,contextptr);
+#else
     gen oldx=eval(x,1,contextptr),X(x);
     if (!assume_t_in_ab(X,a,b,false,false,contextptr))
       return gensizeerr(contextptr);
     res=sum(e,x,remains_to_sum,contextptr);
     sto(oldx,X,contextptr);
-    res=( (is_inf(b) && x.type==_IDNT)?limit(res,*x._IDNTptr,b,0,contextptr):subst(res,x,b+1,false,contextptr))-( (is_inf(a) && x.type==_IDNT)?limit(res,*x._IDNTptr,a,0,contextptr):subst(res,x,a,false,contextptr));
+#endif
+    gen tmp1=( (is_inf(b) && x.type==_IDNT)?limit(res,*x._IDNTptr,b,0,contextptr):subst(res,x,b+1,false,contextptr));
+    gen tmp2=(is_inf(a) && x.type==_IDNT)?limit(res,*x._IDNTptr,a,0,contextptr):subst(res,x,a,false,contextptr);
+    res=tmp1-tmp2;
     if (is_zero(remains_to_sum))
       return res;
     if ( (a.type==_INT_) && (b.type==_INT_) && (absint(b.val-a.val)<max_sum_add(contextptr)) )
