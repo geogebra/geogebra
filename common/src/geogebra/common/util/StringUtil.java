@@ -1048,7 +1048,7 @@ public class StringUtil {
 				visibleChars += index ? indexSize : 1;
 			}
 		}
-		return bold ? visibleChars * 0.6 : visibleChars * 0.5;
+		return bold ? visibleChars * 0.6 * font.getSize(): visibleChars * 0.5 * font.getSize();
 	}
 
 	public static double estimateHeight(String string, GFont font) {
