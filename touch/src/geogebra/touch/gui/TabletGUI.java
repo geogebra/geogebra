@@ -96,9 +96,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.euclidianViewPanel.initEuclidianView(ec, super.getHeaderWidget());
 		this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
-		this.touchModel.getGuiModel().setEuclidianView(this.euclidianViewPanel.getEuclidianView());
-
-		this.stylingBar = new StylingBar(this.touchModel, this.euclidianViewPanel.getEuclidianView());
+		
+		this.stylingBar = new StylingBar(this.touchModel, this.euclidianViewPanel.getEuclidianView(), this.euclidianViewPanel);
 		this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
 
 		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
@@ -110,7 +109,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		    Window.getClientHeight() - this.laf.getPanelsHeight());
 
 		this.euclidianViewPanel.add(this.stylingBar);
-		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, 0, 10);
+		this.euclidianViewPanel.setWidgetPosition(this.stylingBar, 0, 0);
 
 		this.setContentWidget(this.contentPanel);
 

@@ -1014,7 +1014,7 @@ public class TouchModel
 						}
 						TouchModel.this.kernel.notifyRepaint();
 						TouchModel.this.guiModel
-								.updateStylingBar(TouchModel.this);
+								.updateStylingBar();
 						TouchModel.this.kernel.storeUndoInfo();
 					}
 				});
@@ -1077,7 +1077,7 @@ public class TouchModel
 		if (this.commandFinished || this.command == ToolBarCommand.Select
 				|| this.command == ToolBarCommand.Move_Mobile)
 		{
-			this.guiModel.updateStylingBar(this);
+			this.guiModel.updateStylingBar();
 		}
 	}
 

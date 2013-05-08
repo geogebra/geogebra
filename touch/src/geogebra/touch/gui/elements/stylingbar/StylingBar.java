@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
+import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
@@ -16,6 +17,8 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -49,19 +52,29 @@ public class StylingBar extends DecoratorPanel
 	
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
+	 * @param euclidianViewPanel 
 	 * 
 	 * @param TouchModel
 	 *          touchModel
 	 * @param EuclidianViewM
 	 *          view
 	 */
-	public StylingBar(TouchModel touchModel, EuclidianViewM view)
+	public StylingBar(TouchModel touchModel, EuclidianViewM view, final EuclidianViewPanel euclidianViewPanel)
 	{
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
 
 		this.contentPanel = new HorizontalPanel();
+		this.contentPanel.addDomHandler(new MouseDownHandler()
+		{			
+			@Override
+			public void onMouseDown(MouseDownEvent event)
+			{
+				event.stopPropagation();
+			}
+		}, MouseDownEvent.getType()); 
+		
 		this.showHide = new StandardImageButton(CommonResources.INSTANCE.hide()); 
 		this.showHide.addDomHandler(new ClickHandler()
 		{			
@@ -83,6 +96,11 @@ public class StylingBar extends DecoratorPanel
 					}
 					StylingBar.this.contentPanel.add(StylingBar.this.showHide); 
 					StylingBar.this.visible = true; 
+					
+					// force repaint
+					euclidianViewPanel.remove(StylingBar.this); 
+					euclidianViewPanel.add(StylingBar.this);
+					euclidianViewPanel.setWidgetPosition(StylingBar.this, 0, 0);
 				}
 			}
 		}, ClickEvent.getType()); 
@@ -112,8 +130,6 @@ public class StylingBar extends DecoratorPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				event.preventDefault();
-
 				StylingBar.this.guiModel.closeOptions();
 				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
 

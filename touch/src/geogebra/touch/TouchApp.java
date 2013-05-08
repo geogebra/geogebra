@@ -54,7 +54,6 @@ public class TouchApp extends AppWeb
 	 */
 	public static String currentFileId = null;
 	private GgbAPITouch ggbapi;
-//	private LocalizationW loc;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
 	// this factor
@@ -78,8 +77,6 @@ public class TouchApp extends AppWeb
 		setLabelDragsEnabled(false);
 
 		initFactories();
-
-//		this.loc = new LocalizationW();
 		
 		infobar = new InfoBarT();
 
@@ -452,12 +449,6 @@ public class TouchApp extends AppWeb
 	{
 	}
 
-//	@Override
-//	public Localization getLocalization()
-//	{
-//		return this.loc;
-//	}
-
 	@Override
 	public Canvas getCanvas()
 	{
@@ -554,7 +545,6 @@ public class TouchApp extends AppWeb
 	@Override
   public String getToolTooltipHTML(int mode)
   {
-	  // TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+	  throw new UnsupportedOperationException();
   }
 }

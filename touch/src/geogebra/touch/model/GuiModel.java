@@ -2,10 +2,7 @@ package geogebra.touch.model;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Test;
-import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
@@ -15,8 +12,6 @@ import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.ArrayList;
-
-import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -33,7 +28,6 @@ public class GuiModel
 	private TouchModel touchModel;
 	private ToolBarButton activeButton;
 	private StylingBar stylingBar;
-	private EuclidianView euclidianView;
 	private PopupPanel option;
 
 	private OptionType styleBarOptionShown = OptionType.Non;
@@ -70,45 +64,12 @@ public class GuiModel
 		}
 	}
 
-	public void updateStylingBar(TouchModel model)
+	public void updateStylingBar()
 	{
 		if(this.stylingBar != null)
 		{
 			this.stylingBar.rebuild(); 
 		}
-		
-		//TODO
-//		if (this.stylingBar == null)
-//		{
-//			return;
-//		}
-//
-//		if (model == null || model.getTotalNumber() == 0)
-//		{
-//			this.stylingBar.clear();
-//			return;
-//		}
-//
-//		ArrayList<SVGResource> commands = new ArrayList<SVGResource>();
-//
-//		if (model.getNumberOf(Test.GEOPOINT) == model.getTotalNumber())
-//		{
-//			commands.add(CommonResources.INSTANCE.label());
-//		}
-//
-//		if (model.getElement(Test.GEOPOINT) == null)
-//		{
-//			commands.add(CommonResources.INSTANCE.properties_defaults());
-//		}
-//
-//		if (model.getTotalNumber() == 0)
-//		{
-//			this.stylingBar.clear();
-//			return;
-//		}
-//
-//		this.stylingBar.updateColor(model.lastSelected().getAlgebraColor().toString());
-//		this.stylingBar.rebuild(commands.toArray(new SVGResource[commands.size()]));
 	}
 
 	public void closeOptions()
@@ -162,11 +123,6 @@ public class GuiModel
 	public void setStylingBar(StylingBar bar)
 	{
 		this.stylingBar = bar;
-	}
-
-	public void setEuclidianView(EuclidianView ec)
-	{
-		this.euclidianView = ec;
 	}
 
 	public void resetStyle()
