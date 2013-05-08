@@ -34,21 +34,30 @@ public class SplashDialog extends SimplePanel {
 	public SplashDialog(boolean showLogo, String articleId) {
 		this.articleId = articleId;
 		isPreviewExists = checkIfPreviewExists();
-		if (!isPreviewExists) {
-			String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
-			if (showLogo) {
-				html += GuiResources.INSTANCE.ggbSplashHtml().getText(); 
+		String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
+		if (showLogo) {
+			if (!isPreviewExists) {
+				html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+			} else {
+				html += grabPreviewHtml();
 			}
-			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText() + "</div>"; 
-		    HTML splash = new HTML(html);	
-		    addNativeLoadHandler(splash.getElement());
-		    add(splash);
 		}
+		html += GuiResources.INSTANCE.ggbSpinnerHtml().getText() + "</div>"; 
+	    HTML splash = new HTML(html);	
+	    addNativeLoadHandler(splash.getElement());
+	    add(splash);
 	    t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
     }
 	
+	private native String  grabPreviewHtml() /*-{
+		var ggbPreView = $doc.querySelector('.ggb_preview');
+	    ggbPreView.style.display = 'block';
+	    ggbPreView.parentNode.removeChild(ggbPreView);
+	    return ggbPreView.outerHTML;
+    }-*/;
+
 	protected native void addNativeLoadHandler(Element el) /*-{
-		var img = el.querySelector("img:first-child"),
+		var img = el.querySelector(".spinner"),
 			t = this;
 		img.addEventListener("load",function() {
 			t.@geogebra.web.gui.SplashDialog::triggerImageLoaded()();
@@ -68,11 +77,7 @@ public class SplashDialog extends SimplePanel {
     }-*/;
 
 	protected void hide() {
-		if (!isPreviewExists) {
-			this.removeFromParent();
-		} else {
-			removePreviewImg();
-		}
+		this.removeFromParent();
     }
 
 	private native void removePreviewImg() /*-{

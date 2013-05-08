@@ -103,13 +103,6 @@ public class GeoGebraFrame extends VerticalPanel {
 	
 	private ArticleElement ae;
 	
-	@Override
-    protected void onLoad() {
-		if (splash.isPreviewExists()) {
-			runAsyncAfterSplash();
-		}
-	}
-	
 	protected int dataParamWidth = 0;
 	protected int dataParamHeight = 0;
 	
