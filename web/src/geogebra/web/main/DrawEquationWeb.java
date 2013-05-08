@@ -8,6 +8,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.euclidian.EuclidianViewWeb;
@@ -237,7 +238,14 @@ public class DrawEquationWeb extends DrawEquation {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
-		String eqstring = "\\mathrm{"+inputLatexCosmetics(latexString)+"}";
+		String eqstring = inputLatexCosmetics(latexString);
+		
+		if (geo instanceof TextProperties) {
+			if ((((TextProperties)geo).getFontStyle() & GFont.ITALIC) == 0) {
+				// set to be not italic
+				eqstring = "\\mathrm{"+ eqstring +"}";
+			}
+		}
 
 		String eqstringid = eqstring + "@" + geo.getID();
 
