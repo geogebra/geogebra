@@ -1137,7 +1137,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			else if("#".equals(src)){
 				text = "StaticReference";
 			}
-			else if("\u2297".equals(src)){
+			else if((Unicode.VECTOR_PRODUCT+"").equals(src)){
 				text = "VectorProduct";
 			}
 			

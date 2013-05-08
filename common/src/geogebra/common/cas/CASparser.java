@@ -230,7 +230,7 @@ public class CASparser implements CASParserInterface{
 							appendcode(replaceIndices,'_');
 						}
 					}
-					else if (replaceUnicode && c > 127 && c != Unicode.angle) {
+					else if (replaceUnicode && c > 127 && c != Unicode.angle && c != Unicode.VECTOR_PRODUCT) {
 						appendcode(replaceIndices, c);
 					} else {
 						replaceIndices.append(c);

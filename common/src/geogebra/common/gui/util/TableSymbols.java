@@ -397,7 +397,7 @@ public class TableSymbols {
 		//"\u223A", //GEOMETRIC PROPORTION
 		"\u2295",    //     \\oplus
 		"\u2296",    //     \\ominus
-		"\u2297",    //     \\otimes
+		Unicode.VECTOR_PRODUCT+"",    //     \\otimes
 		"\u2298",    //     \\oslash
 		"\u2299",    //     \\odot
 
@@ -1368,7 +1368,7 @@ public class TableSymbols {
 		"\u2294",    //     \\sqcup
 		"\u2295",    //     \\oplus
 		"\u2296",    //     \\ominus
-		"\u2297",    //     \\otimes
+		Unicode.VECTOR_PRODUCT+"",    //     \\otimes
 		"\u2298",    //     \\oslash
 		"\u2299",    //     \\odot
 		"\u229A",    //     \\circledcirc

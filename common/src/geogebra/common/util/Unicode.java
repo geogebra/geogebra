@@ -141,6 +141,7 @@ public class Unicode {
 	public static final char nDash = '\u2013';
 	public static final char ArabicComma = '\u066b';
 	public static final char ellipsis = '\u2026';
+	public static final char VECTOR_PRODUCT = '\u2297';
 	
 	public static String CAS_OUTPUT_PREFIX = "\u2192";
 	public static String CAS_OUTPUT_KEEPINPUT = "\u2713";

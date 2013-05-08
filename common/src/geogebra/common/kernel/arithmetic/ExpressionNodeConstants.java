@@ -1,5 +1,7 @@
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.util.Unicode;
+
 /**
  * String constants + String types
  */
@@ -61,7 +63,7 @@ public interface ExpressionNodeConstants {
 	/** perpendicular */
 	public static final String strPERPENDICULAR = "\u22a5";
 	/** vector product */
-	public static final String strVECTORPRODUCT = "\u2297";
+	public static final String strVECTORPRODUCT = Unicode.VECTOR_PRODUCT+"";
 	/** is element of */
 	public static final String strIS_ELEMENT_OF = "\u2208";
 	/** is subset of */
