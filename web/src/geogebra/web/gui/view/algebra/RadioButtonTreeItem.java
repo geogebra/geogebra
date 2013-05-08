@@ -241,7 +241,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			text = DrawEquationWeb.inputLatexCosmetics(text);
 			int tl = text.length();
 			text = DrawEquationWeb.stripEqnArray(text);
-			DrawEquationWeb.updateEquationMathQuill(text, seMayLatex,
+			DrawEquationWeb.updateEquationMathQuill("\\mathrm{"+text+"}", seMayLatex,
 			        tl == text.length());
 		} else if (!LaTeX && !newLaTeX) {
 			seNoLatex.setInnerHTML(text);
@@ -254,7 +254,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			ihtml.getElement().replaceChild(se, seNoLatex);
 			text = DrawEquationWeb.inputLatexCosmetics(text);
 			seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, text,
+			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}",
 			        geo.getAlgebraColor(), GColor.white);
 			LaTeX = true;
 		} else {
@@ -359,12 +359,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		thisIsEdited = false;
 		av.cancelEditing();
-
+		
 		if (newValue != null) {
 			// Formula Hacks ... Currently only functions are considered
 			StringBuilder sb = new StringBuilder();
 			boolean switchw = false;
-			for (int i = 0; i < newValue.length(); i++)
+			//ignore first and last bracket, they come from mathrm
+			int skip = newValue.startsWith("(") ? 1 : 0;	
+			for (int i = skip; i < newValue.length() - skip; i++)
 				if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));
@@ -373,12 +375,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						sb.append(switchw ? "abs(" : ")");
 					}
 				}
-			newValue = sb.toString();
+			App.debug(sb.toString());
 
 			// Formula Hacks ended.
 			boolean redefine = !geo.isPointOnPath();
 			GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-					geo, newValue, redefine, true);
+					geo, sb.toString(), redefine, true);
 			if (geo2 != null)
 				geo = geo2;
 		}
