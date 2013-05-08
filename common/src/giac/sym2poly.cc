@@ -828,6 +828,10 @@ namespace giac {
       num=num/deni;
       den=den/deni;
     }
+    if (is_positive(r2e(-den,l,contextptr),contextptr)){
+      num=-num;
+      den=-den;
+    }
     bool sign_changed=false;
     if (d<0){
       n=-n;
@@ -2258,9 +2262,10 @@ namespace giac {
       }
     }
     ee=r2sym(f,l,contextptr);
-    if (is_integer(f.den) && !is_one(f.den))
-      return ratnormal(ratnormal(ee)); // first ratnormal will expand sqrt()^
-    // second will remove them
+    if (is_integer(f.den) && !is_one(f.den)){
+      ee=ratnormal(ratnormal(ee)); // first ratnormal will expand sqrt()^
+      // second will remove them
+    }
     return ee;
   }
 
@@ -2384,8 +2389,12 @@ namespace giac {
       f.normal();
       return r2sym(f,l,context0); // ok
     }
-    else
-      return r2sym(fg,l,context0);
+    if (fg.type==_FRAC && fg._FRACptr->den.type==_CPLX){
+      gen tmp=conj(fg._FRACptr->den,context0);
+      fg._FRACptr->num = fg._FRACptr->num * tmp;
+      fg._FRACptr->den = fg._FRACptr->den * tmp;
+    }
+    return r2sym(fg,l,context0);
   }
   gen rationalgcd(const gen & a, const gen & b){
     gen A,B,C,D;
