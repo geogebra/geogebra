@@ -206,24 +206,29 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     @Override
 	public void compute() {
     	
-    	//clear the points map
+       	//clear the points map
     	newCoords.clear();
-    	
-    	//fill a new points map
-    	//intersectionsCoords(p, newCoords);
-    	intersectionsCoords(p, newCoords);
-    	
-    	//update and/or create points
+ 
+    	//init index
     	int index = 0;   	
-    	//affect new computed points
-    	outputPoints.adjustOutputSize(newCoords.size());
-    	for (Coords coords : newCoords.values()){
-    		GeoPointND point = (GeoPointND) outputPoints.getElement(index);
-    		point.setCoords(coords,false);
-    		point.updateCoords();
-    		index++;
+ 
+
+    	if(((GeoElement) p).isDefined() && g.isDefined()){
+    		//fill a new points map
+    		//intersectionsCoords(p, newCoords);
+    		intersectionsCoords(p, newCoords);
+
+    		//affect new computed points
+    		outputPoints.adjustOutputSize(newCoords.size());
+    		for (Coords coords : newCoords.values()){
+    			GeoPointND point = (GeoPointND) outputPoints.getElement(index);
+    			point.setCoords(coords,false);
+    			point.updateCoords();
+    			index++;
+    		}
     	}
-    	//other points are undefined
+    	
+    	//other points are undefined (eventually all if input are undefined)
     	for(;index<outputPoints.size();index++)
     		outputPoints.getElement(index).setUndefined();
 
