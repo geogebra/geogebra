@@ -150,7 +150,7 @@ public class ToolBarW extends MenuBar {
 			//AG	toolbarVec = parseToolbarString(dockPanel.getToolbarString());
 			//AG} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition(activeView));
+						.getToolbarDefinition());
 			//AG}
 		} catch (Exception e) {
 			//AGif (dockPanel != null) {
@@ -158,7 +158,7 @@ public class ToolBarW extends MenuBar {
 			//AG			+ dockPanel.getToolbarString());
 			//AG} else {
 				App.debug("invalid toolbar string: "
-						+ app.getGuiManager().getToolbarDefinition(activeView));
+						+ app.getGuiManager().getToolbarDefinition());
 			//}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}

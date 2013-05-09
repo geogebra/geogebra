@@ -90,9 +90,13 @@ public class LayoutW extends Layout implements SettingListener {
 
 					//ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
 				}
-				
-				app.getGuiManager().setToolBarDefinition(App.VIEW_EUCLIDIAN,perspective.getToolbarDefinition());
-				
+
+				app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
+				// override the previous command with the data-param-customToolbar setting
+				if (app.getGeoGebraFrame() != null && app.isApplet()) {
+					app.getGeoGebraFrame().setCustomToolBar();
+				}
+
 				app.setShowToolBarNoUpdate(perspective.getShowToolBar());
 				app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
 				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);

@@ -2,7 +2,6 @@ package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GPoint;
-import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -50,8 +49,6 @@ import geogebra.web.main.AppW;
 import geogebra.web.main.ViewManager;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.Command;
@@ -73,9 +70,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
 	private EuclidianViewW euclidianView2;
-	private Map<Integer,String> customToolbarDefinitions = new TreeMap<Integer,String>();
 
-	
 	private final AppW app;
 	private AbsolutePanel main;
 
@@ -391,26 +386,13 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		App.debug("why not use Settings for that?");
 	}
 
-	public void setToolBarDefinition(Integer viewID, String toolBarDefinition) {
-		customToolbarDefinitions.put(viewID,toolBarDefinition);
-	}
-
-	public String getToolbarDefinition(Integer viewID) {
-		if (customToolbarDefinitions.get(viewID) == null) {
-			if(viewID == App.VIEW_CAS)
-				return CASView.TOOLBAR_DEFINITION;
-			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
-		}
-		return customToolbarDefinitions.get(viewID);
-	}
-	
 	public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null && toolbarPanel != null)
 			//return getGeneralToolbar().getDefaultToolbarString();
 			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		return strCustomToolbarDefinition;
 	}
-	
+
 	public void removeFromToolbarDefinition(int mode) {
 		if (strCustomToolbarDefinition != null) {
 			// Application.debug("before: " + strCustomToolbarDefinition +
@@ -1243,4 +1225,8 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		        .getDialogManager()).getSignInDialog();
 	    signIn.center();
     }
+
+	public void setToolBarDefinition(String toolBarDefinition) {
+		strCustomToolbarDefinition = toolBarDefinition;
+	}
 }

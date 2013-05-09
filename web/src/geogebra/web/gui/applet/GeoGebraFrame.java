@@ -198,13 +198,15 @@ public class GeoGebraFrame extends VerticalPanel {
 		}
 	}
 
-	private void setCustomToolBar() {
+	public void setCustomToolBar() {
 		customToolbar = ae.getDataParamCustomToolBar();
 		if ((customToolbar != null) &&
 			(customToolbar.length() > 0) &&
-			(ae.getDataParamShowToolBar())) {
+			(ae.getDataParamShowToolBar()) &&
+			(app != null) &&
+			(app.getGuiManager() != null)) {
 
-			app.getGuiManager().setToolBarDefinition(App.VIEW_EUCLIDIAN, customToolbar);
+			app.getGuiManager().setToolBarDefinition(customToolbar);
 		}
 	}
 
