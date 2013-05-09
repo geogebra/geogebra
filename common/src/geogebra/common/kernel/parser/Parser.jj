@@ -315,6 +315,7 @@ TOKEN :  {
   | < #INDEXDIGIT:                                     // unicode digits
        [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3"] >
   | < PI:       ( "pi" | "Pi" | "\u03c0" | "%pi") >
+  | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Euler–Mascheroni constant
   | < E:        ("\u212f" | "%e") > // Euler constant
   | < IMAGINARY: ("\u03af" | "%i") > // imaginary constant
   | < DEGREE:   ( "\u00b0" | "\u02da" ) > // 02da is "Ring Above", Alt-k in iPad
@@ -1890,6 +1891,11 @@ ExpressionValue myDouble():
     <PI>
     {
        	return new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
+    }
+|
+    <EULER_GAMMA>
+    {
+       	return new MySpecialDouble(kernel, 0.57721566490153286, Unicode.EULER_GAMMA_STRING);
     }
 |
     <E>

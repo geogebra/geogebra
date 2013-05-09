@@ -37,6 +37,7 @@ public class Unicode {
 	/** Unicode symbol for e */
 	final public static char eulerChar = '\u212f';
 	final public static String EULER_STRING = eulerChar + "";
+	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
 
 	/** Unicode symbol for pi */
 	final public static char piChar = '\u03c0'; // "\u0435";

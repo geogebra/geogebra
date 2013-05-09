@@ -15,7 +15,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -181,6 +180,9 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.degreeChar:
 				return "pi/180";
 			case Unicode.eulerChar:
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					return "euler\\_gamma";
+				}
 				return "e";
 			}
 			break;
@@ -193,6 +195,10 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.degreeChar:
 				return "\\'\u00b0";
 			case Unicode.eulerChar:
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					// approx value
+					return "0.57721566490153286060651209008240243104215933593992";
+				}
 				return "e";
 			}
 			break;
@@ -205,6 +211,10 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.degreeChar:
 				return "^{\\circ}";
 			case Unicode.eulerChar:
+				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+					// approx value
+					return "\\mathit{e_{\\gamma}}";
+				}
 				return "\\textit{e}";
 				//return Unicode.EULER_STRING; 
 			}
@@ -216,7 +226,6 @@ public class MySpecialDouble extends MyDouble {
 	
 	@Override
 	public void set(double val){
-		App.printStacktrace(val+"");
 		super.set(val);
 		setFromOutside = true;
 	}

@@ -94,7 +94,7 @@ public class AlgebraProcessor {
 
 	/** kernel */
 	protected final Kernel kernel;
-	private final Construction cons;
+	protected final Construction cons;
 	private final App app;
 	private final Localization loc;
 	private final ParserInterface parser;
@@ -1492,7 +1492,7 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	private GeoElement[] processParametric(Parametric par)
+	protected GeoElement[] processParametric(Parametric par)
 			throws MyError {
 
 		/*
