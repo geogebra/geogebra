@@ -840,6 +840,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					xZero, yZero);
 
 		// real world values
+		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
 
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
@@ -875,13 +876,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return (GeoNumeric) ymaxObject;
 	}
 
-	private double xmin; // ratio yscale / xscale
+	protected double xmin; // ratio yscale / xscale
 
-	private double xmax;
+	protected double xmax;
 
-	private double ymin;
+	protected double ymin;
 
-	private double ymax;
+	protected double ymax;
 
 	private double invXscale;
 
@@ -1142,15 +1143,29 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		ymin = (minMax[1][0]);
 		ymax = (minMax[1][1]);
 	}
+	
+	/**
+	 * Updates xmin, xmax, ... for updateSize()
+	 */
+	protected void setXYMinMaxForUpdateSize() {
+		setXYMinMaxForSetCoordSystem();
+	}
+
+	/**
+	 * Updates xmin, xmax, ... for setCoordSystem()
+	 */
+	protected void setXYMinMaxForSetCoordSystem() {
+		xmin = (-getxZero() * getInvXscale());
+		xmax = ((getWidth() - getxZero()) * getInvXscale());
+		ymax = (getyZero() * getInvYscale());
+		ymin = ((getyZero() - getHeight()) * getInvYscale());
+	}
 
 	/**
 	 * Updates xmin, xmax, ... from xzero, xscale, ...
 	 */
 	final protected void setRealWorldBounds() {
-		xmin = (-getxZero() * getInvXscale());
-		xmax = ((getWidth() - getxZero()) * getInvXscale());
-		ymax = (getyZero() * getInvYscale());
-		ymin = ((getyZero() - getHeight()) * getInvYscale());
+
 		updateBoundObjects();
 		updateBounds();
 		setAxesIntervals(getXscale(), 0);

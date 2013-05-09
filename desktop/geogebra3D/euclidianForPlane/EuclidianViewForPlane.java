@@ -53,13 +53,29 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		super(ec, new boolean[]{ false, false }, false, 0, settings); //TODO euclidian settings
 		
 		//initView(true);
-		setShowAxes(true, true);
+		setShowAxes(false, false);
 		//showGrid(false);
 		
 		setPlane(plane);
 		
 		updateMatrix();
-			
+		updateCenterAndOrientationRegardingView();
+	}
+	
+	@Override
+	protected void setXYMinMaxForUpdateSize() {
+		
+		//keep center of the view at center of the frame
+		
+		double c = (xmin+xmax)/2;
+		double l = getWidth() * getInvXscale()/2;
+		xmin = c-l;
+		xmax = c+l;
+		
+		c = (ymin+ymax)/2;
+		l = getHeight() * getInvYscale()/2;
+		ymax = c+l;
+		ymin = c-l;
 	}
 	
 	/**

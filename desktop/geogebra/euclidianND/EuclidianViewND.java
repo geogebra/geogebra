@@ -307,6 +307,7 @@ public abstract class EuclidianViewND extends EuclidianView{
 		}
 
 		// real world values
+		setXYMinMaxForUpdateSize();
 		setRealWorldBounds();
 
 		// ================================================

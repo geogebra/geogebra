@@ -237,6 +237,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		}
 
 		// real world values
+		setXYMinMaxForUpdateSize();
 		setRealWorldBounds();
 
 		try {
