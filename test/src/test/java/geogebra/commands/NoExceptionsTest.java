@@ -96,6 +96,7 @@ public class NoExceptionsTest {
 		t("ptxt=\"n1+n2\"");
 		t("turtle1=Turtle[]");
 		t("object=(1,1)");
+		t("listSpline={(2,3),(1,4),(2,5)}");
 	}
 	public static int syntaxes;
 	@Before
@@ -1921,7 +1922,10 @@ public class NoExceptionsTest {
 		t("Spearman[ ptlist1 ]");
 	}
 
-	
+	@Test
+	public void cmdCubicSpline() {
+		t("CubicSpline[listSpline]");
+	}
 
 	@Test
 	public void cmdStartAnimation() {

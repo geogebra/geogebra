@@ -252,7 +252,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Defined:
 		case IsDefined:
 			return new CmdDefined(kernel);
-
+		case CubicSpline:
+			return new CmdCubicSpline(kernel);
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);

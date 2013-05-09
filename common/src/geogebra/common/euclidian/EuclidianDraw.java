@@ -7,6 +7,7 @@ import geogebra.common.euclidian.draw.DrawButton;
 import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawConicPart;
 import geogebra.common.euclidian.draw.DrawConicSection;
+import geogebra.common.euclidian.draw.DrawCubicSpline;
 import geogebra.common.euclidian.draw.DrawImage;
 import geogebra.common.euclidian.draw.DrawImplicitPoly;
 import geogebra.common.euclidian.draw.DrawInequality;
@@ -31,6 +32,7 @@ import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
+import geogebra.common.kernel.algos.AlgoCubicSpline;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
@@ -186,7 +188,7 @@ public class EuclidianDraw {
 				d = new DrawBoxPlot(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
-			}
+			} 
 			if (d != null) {
 				if (!geo.isColorSet()) {
 					ConstructionDefaults consDef = geo.getConstruction()
@@ -255,7 +257,12 @@ public class EuclidianDraw {
 			break;
 
 		case LIST:
-			d = new DrawList(ev, (GeoList) geo);
+			algo = geo.getDrawAlgorithm();
+			if (algo instanceof AlgoCubicSpline) {
+				d = new DrawCubicSpline(ev, (GeoList) geo);
+			} else {
+				d = new DrawList(ev, (GeoList) geo);
+			}
 			break;
 
 		case TURTLE:
