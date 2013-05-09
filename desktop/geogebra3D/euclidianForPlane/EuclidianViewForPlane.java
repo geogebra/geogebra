@@ -56,10 +56,12 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		setShowAxes(false, false);
 		//showGrid(false);
 		
-		setPlane(plane);
-		
+		setPlane(plane);		
 		updateMatrix();
+		
+		// set coord system to fit 3D view
 		updateCenterAndOrientationRegardingView();
+		updateScaleRegardingView();
 	}
 	
 	@Override
@@ -229,7 +231,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
 
 	/**
-	 * update orientation of the view regarding 3D view
+	 * update center and orientation of the view regarding 3D view
 	 */
 	public void updateCenterAndOrientationRegardingView(){
 		
@@ -249,18 +251,26 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		int x = toScreenCoordX(p.getX());
 		int y = toScreenCoordY(p.getY());
 
-
-		/*
-		App.debug(getXscale()+","+((App3D) app).getEuclidianView3D().getXscale());
-		double scale = ((App3D) app).getEuclidianView3D().getXscale();
-		setCoordSystem(getWidth()/2-x+getxZero(), getHeight()/2-y+getyZero(), scale, scale);
-		*/
-		
 		setCoordSystem(getWidth()/2-x+getxZero(), getHeight()/2-y+getyZero(), getXscale(), getYscale());
 	
 	
 	}
 
+	
+	/**
+	 * update orientation of the view regarding 3D view
+	 */
+	public void updateScaleRegardingView(){
+		
+		double newScale = ((App3D) app).getEuclidianView3D().getXscale();
+		double w = getWidth()/2;
+		double h = getHeight()/2;
+		double dx = (w-getxZero())*newScale/getXscale();
+		double dy = (h-getyZero())*newScale/getYscale();
+		
+		setCoordSystem(w-dx, h-dy, newScale, newScale);
+	
+	}
 	
 	private int transformMirror;
 	private int transformRotate;
