@@ -1315,7 +1315,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #if defined RTOS_THREADX || defined BESTA_OS
   int LIST_SIZE_LIMIT = 1000 ;
   int FACTORIAL_SIZE_LIMIT = 254 ;
-  int NEWTON_DEFAULT_ITERATION=20;
+  int NEWTON_DEFAULT_ITERATION=40;
   int TEST_PROBAB_PRIME=25;
   int GCDHEU_MAXTRY=5;
   int GCDHEU_DEGREE=100;
@@ -1341,7 +1341,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int FACTORIAL_SIZE_LIMIT = 10000000 ;
 #endif
-  int NEWTON_DEFAULT_ITERATION=20;
+  int NEWTON_DEFAULT_ITERATION=60;
   int TEST_PROBAB_PRIME=25;
   int GCDHEU_MAXTRY=5;
   int GCDHEU_DEGREE=100;
@@ -3057,7 +3057,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   void init_context(context * ptr){
      ptr->globalptr->_xcas_mode_=_xcas_mode_;
+#ifdef GIAC_HAS_STO_38
+     ptr->globalptr->_calc_mode_=-38;
+#else
      ptr->globalptr->_calc_mode_=_calc_mode_;
+#endif
      ptr->globalptr->_decimal_digits_=_decimal_digits_;
      ptr->globalptr->_scientific_format_=_scientific_format_;
      ptr->globalptr->_integer_format_=_integer_format_;

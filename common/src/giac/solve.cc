@@ -2864,7 +2864,7 @@ namespace giac {
       return gensizeerr(gettext("Not linked with GSL"));
 #endif    // HAVE_LIBGSL
     else  {// newton method, call newton
-      gguess=newton(v0,v[1],gguess,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,contextptr);
+      gguess=newton(v0,v[1],gguess,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
       if (is_greater(1e-8,im(gguess,contextptr)/re(gguess,contextptr),contextptr))
 	return re(gguess,contextptr);
       return gguess;
@@ -3108,17 +3108,19 @@ namespace giac {
   }
   */
 
-  static gen newton_rand(int j,GIAC_CONTEXT){
+  static gen newton_rand(int j,bool real,double xmin,double xmax,GIAC_CONTEXT){
     gen a=gen(giac_rand(contextptr));
     a=a/(gen(RAND_MAX)+1);
+    if (xmin<xmax)
+      return xmin+(xmax-xmin)*a;
     a-=plus_one_half; 
     a=evalf(j*4*a,1,contextptr);
-    if (j>2 && complex_mode(contextptr))
+    if (j>2 && complex_mode(contextptr) && !real)
       a=a+cst_i*evalf(j*4*(gen(rand())/(gen(RAND_MAX)+1)-plus_one_half),1,contextptr);
     return a;
   }
 
-  gen newton(const gen & f0, const gen & x,const gen & guess_,int niter,double eps1, double eps2,GIAC_CONTEXT){
+  gen newton(const gen & f0, const gen & x,const gen & guess_,int niter,double eps1, double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT){
     bool out=niter!=NEWTON_DEFAULT_ITERATION;
     gen guess(guess_);
     // ofstream of("log"); of << f0 << endl << x << endl << guess << endl << niter ; 
@@ -3139,11 +3141,11 @@ namespace giac {
 	  int s=f._VECTptr->size();
 	  vecteur v(s);
 	  for (int i=0;i<s;++i)
-	    v[i]=(newton_rand(j,contextptr));
+	    v[i]=(newton_rand(j,real,rand_xmin,rand_xmax,contextptr));
 	  a=v;
 	}
 	else
-	  a=newton_rand(j,contextptr);
+	  a=newton_rand(j,real,rand_xmin,rand_xmax,contextptr);
       }
       else {
 	a=guess;
@@ -3154,7 +3156,7 @@ namespace giac {
 #endif
 	fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
 	// First loop to localize the solution with prefactor
-	gen lambda(1);
+	gen lambda(init_prefactor);
 	int k;
 	for (k=0;k<niter;++k){
 	  if (ctrl_c) { 
@@ -3169,13 +3171,32 @@ namespace giac {
 	  if (d.type!=_FLOAT_ && d.type!=_DOUBLE_ && d.type!=_CPLX && d.type!=_REAL && d.type!=_VECT && !is_undef(d) && !is_inf(d))
 	    return gensizeerr(contextptr);
 	  if (k==0 && is_zero(d) && !is_zero(fa)){
-	    a=newton_rand(j,contextptr);
+	    a=newton_rand(j,real,rand_xmin,rand_xmax,contextptr);
+	    fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
 	    continue;
 	  }
 	  // of << d << " " << endl;
 	  // of << k << " " << invdf << " " << " " << f << " " << x << " " << a << " " << fa << " " << d << " " << epsg1 << endl;
 	  // cerr << k << " " << invdf << " " << " " << f << " " << x << " " << a << " " << fa << " " << d << " " << epsg1 << endl;
 	  b=a+lambda*d;
+	  if (xmin<xmax){
+	    if (!is_zero(im(b,contextptr)) || is_greater(xmin,b,contextptr) || is_greater(b,xmax,contextptr)){
+	      for (;;) {
+		a=newton_rand(j,real,rand_xmin,rand_xmax,contextptr);
+		if (is_greater(a,xmin,contextptr) && is_greater(xmax,a,contextptr))
+		break;
+	      }
+	      fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
+	      continue;
+	    }
+	  }
+	  else {
+	    if(real && !is_zero(im(b,contextptr))){
+	      a=newton_rand(j,real,rand_xmin,rand_xmax,contextptr);
+	      fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
+	      continue;
+	    }
+	  }
 	  gen babs=_l2norm(b,contextptr);
 	  if (is_inf(babs) || is_undef(babs)){
 	    guess_first=true;
@@ -3187,7 +3208,8 @@ namespace giac {
 	    break;
 	  }
 	  fb=evalf(eval(subst(f,x,b,false,contextptr),eval_level(contextptr),contextptr),1,contextptr);
-	  if (is_positive(_l2norm(fb,contextptr)-_l2norm(fa,contextptr),contextptr)){
+	  if ( (real && !is_zero(im(fb,contextptr))) ||
+	       is_positive(_l2norm(fb,contextptr)-_l2norm(fa,contextptr),contextptr)){
 	    // Decrease prefactor and try again
 	    lambda=evalf(plus_one_half,1,contextptr)*lambda;
 	  }
@@ -3234,7 +3256,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     double gsl_eps=epsilon(contextptr);
     if (args.type!=_VECT)
-      return newton(args,vx_var,undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,contextptr);
+      return newton(args,vx_var,undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
     vecteur v=*args._VECTptr;
     int s=v.size();
     v[0]=apply(v[0],equal2diff);
@@ -3242,8 +3264,8 @@ namespace giac {
       return gensizeerr(contextptr);
     if (s==2){
       if (v[1].is_symb_of_sommet(at_equal))
-	return newton(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1],NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,contextptr);
-      return newton(v[0],v[1],undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,contextptr);
+	return newton(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1],NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
+      return newton(v[0],v[1],undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
     }
     int niter=NEWTON_DEFAULT_ITERATION;
     double eps=epsilon(contextptr);
@@ -3256,7 +3278,7 @@ namespace giac {
 	  eps=tmp._DOUBLE_val;
       }
     }
-    gen res=newton(v[0],v[1],v[2],niter,1e-10,eps,contextptr);
+    gen res=newton(v[0],v[1],v[2],niter,1e-10,eps,false,1,0,1,0,1,contextptr);
     if (debug_infolevel)
       *logptr(contextptr) << res << endl;
     return res;

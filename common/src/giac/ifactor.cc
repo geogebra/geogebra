@@ -3144,17 +3144,20 @@ namespace giac {
   static symbolic symb_ithprime(const gen & args){
     return symbolic(at_ithprime,args);
   }
-  static gen ithprime(const gen & g,GIAC_CONTEXT){
+  static gen ithprime(const gen & g_,GIAC_CONTEXT){
+    gen g(g_);
+    if (!is_integral(g))
+      return gentypeerr(contextptr);
     if (g.type!=_INT_)
-      return symb_ithprime(g);
+      return gensizeerr(contextptr); // symb_ithprime(g);
     int i=g.val;
     if (i<0)
-      return gendimerr(contextptr);
+      return gensizeerr(contextptr);
     if (i==0)
       return 1;
     if (i<=int(sizeof(giac_primes)/sizeof(short int)))
       return giac_primes[i-1];
-    return symb_ithprime(g);
+    return gensizeerr(contextptr);
   }
   gen _ithprime(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -3780,7 +3783,7 @@ namespace giac {
     if (args.type==_VECT)
       return apply(args,_idivis,contextptr);
     gen n=args;
-    if (is_zero(n) || (!is_integral(n) && !is_integer(n))) 
+    if (is_zero(n) || (!is_integral(n) && !is_integer(n)) || n.type==_CPLX) 
       return gentypeerr(contextptr);
     return idivis(abs(n,contextptr),contextptr);
   }

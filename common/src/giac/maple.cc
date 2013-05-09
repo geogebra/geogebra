@@ -760,11 +760,8 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) 
+#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS)
     return gensizeerr(gettext("not implemented"));
-#elif defined BESTA_OS
-    // BP: why not return the error above?
-    assert(0);
 #else
     gen tmp=check_secure();
     if (is_undef(tmp)) return tmp;
@@ -1807,8 +1804,8 @@ namespace giac {
     a=e2r(a,v1,contextptr);
     remains=0;
     // solve u(n+1)=l*u(n)+a^n*P(n)
-    if (a==l){ // let v(n)=u(n)/l^n, then v(n+1)=v(n)+P(n)
-      return pow(l0,n,contextptr)*sum(r2e(P,v,contextptr),n,remains,contextptr)/r2e(P0d,v,contextptr);
+    if (a==l){ // let v(n)=u(n)/l^n, then v(n+1)=v(n)+P(n)/l
+      return pow(l0,n,contextptr)*sum(r2e(P,v,contextptr),n,remains,contextptr)/l/r2e(P0d,v,contextptr);
     }
     // search u(n)=a^n*Q(n) with Q a polynomial of same degree than P
     // we have u(n+1)=a^(n+1)*Q(n+1)=l*a^n*Q(n)+a^n*P(n)

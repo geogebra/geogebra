@@ -2351,7 +2351,7 @@ namespace giac {
   gen _cyclotomic(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type!=_INT_)
-      return symb_cyclotomic(a);
+      return gentypeerr(contextptr); // symb_cyclotomic(a);
     return cyclotomic(a.val);
   }
   static const char _cyclotomic_s []="cyclotomic";
@@ -4644,8 +4644,11 @@ namespace giac {
     if (v.front().type==_IDNT)
       return v.front();
     gen vf(v.front()),vb(v.back());
-    if (!is_integral(vf) || !is_integral(vb) )
+    if (!is_integral(vf) || !is_integral(vb) ){
+      if (vf.type==_DOUBLE_ || vb.type==_DOUBLE_)
+	return gensizeerr(contextptr);
       return symbolic(at_irem,args);
+    }
     gen r=irem(vf,vb,q);
     if (is_integer(vb) && is_strictly_positive(-r,contextptr)){
       if (is_strictly_positive(vb,contextptr)){
@@ -5872,16 +5875,10 @@ namespace giac {
   static complex_long_double lngamma(complex_long_double x){
     complex_long_double res;
     if (x.real()<0.5)
-#ifdef BESTA_OS
-		assert(0);
-		// besta compiler does not like this next line, it is unable to resolve the "-" operator
-	    // code looks okay to me, but putting this here to move forward, needs to be fixed sometime....
-#else
 #ifndef HAVE_LONG_DOUBLE
       res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.-x);
 #else
       res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.L-x);
-#endif
 #endif
 	else {
 #ifndef HAVE_LONG_DOUBLE

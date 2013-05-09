@@ -5801,6 +5801,9 @@ namespace giac {
 	return symbolic_plot_makevecteur( a._SYMBptr->sommet,inv(a._SYMBptr->feuille,contextptr),false,contextptr);
       if (a._SYMBptr->sommet==at_inv)
 	return a._SYMBptr->feuille;
+      if (a._SYMBptr->sommet==at_NTHROOT && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
+	return symbolic(at_NTHROOT,makesequence(-a._SYMBptr->feuille._VECTptr->front(),a._SYMBptr->feuille._VECTptr->back()));
+      }
       if (a._SYMBptr->sommet==at_neg)
 	return -inv(a._SYMBptr->feuille,contextptr);      
       else {

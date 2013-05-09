@@ -68,7 +68,9 @@ namespace giac {
   gen newton(const gen & f, const gen & x,const gen & guess,int niter1=5,int niter2=50,double eps1=1e-3,double eps2=1e-12,double prefact1=0.5,double prefact2=1.0);
   */
   
-  gen newton(const gen & f, const gen & x,const gen & guess,int niter,double eps1,double eps2,GIAC_CONTEXT);
+  // if real is true random re-initialization will be real only,
+  // if xmin<xmax random-reinitialization and boundaries for x are xmin xmax
+  gen newton(const gen & f, const gen & x,const gen & guess,int niter,double eps1,double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT);
   gen _newton(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_newton ;
 

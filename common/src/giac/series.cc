@@ -1699,6 +1699,13 @@ namespace giac {
 	continue;
       // recursive call
       res.push_back(*it);
+      if (it->is_symb_of_sommet(at_derive) && it->_SYMBptr->feuille.type==_VECT && it->_SYMBptr->feuille._VECTptr->size()==3 && it->_SYMBptr->feuille._VECTptr->back().type==_INT_){
+	int n=it->_SYMBptr->feuille._VECTptr->back().val;
+	for (--n;n>1;--n){
+	  res.push_back(symbolic(at_derive,makesequence(it->_SYMBptr->feuille._VECTptr->front(),(*it->_SYMBptr->feuille._VECTptr)[1],n)));
+	}
+	res.push_back(symbolic(at_derive,makesequence(it->_SYMBptr->feuille._VECTptr->front(),(*it->_SYMBptr->feuille._VECTptr)[1])));
+      }
       if (it->type==_SYMB) {
 	rlvarx(it->_SYMBptr->feuille,xgen,res);
 	if ( (it->_SYMBptr->sommet==at_pow) 

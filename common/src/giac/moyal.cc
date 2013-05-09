@@ -476,7 +476,7 @@ namespace giac {
   }
   static gen utpn_inverse(double y,GIAC_CONTEXT){
     identificateur x(" x");
-    return newton(erf(x/std::sqrt(2.0),contextptr)+2*y-1,x,utpn_initial_guess(y),3*NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);
+    return newton(erf(x/std::sqrt(2.0),contextptr)+2*y-1,x,utpn_initial_guess(y),NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,.5,contextptr);
   }
   static gen normal_icdf(const gen & g_orig,GIAC_CONTEXT){
     gen g=evalf_double(g_orig,1,contextptr);
@@ -1076,7 +1076,7 @@ namespace giac {
     // return x0;
     // FIXME: use an iterative method to improve the initial guess
     identificateur x(" x");
-    return newton(_student_cdf(makesequence(m,x),contextptr)-y,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);
+    return newton(_student_cdf(makesequence(m,x),contextptr)-y,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,.5,contextptr);
   }
   gen _student_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1232,7 +1232,7 @@ namespace giac {
     double x0=utpc_initial_guess(m.val,1-t._DOUBLE_val,contextptr);
     // FIXME
     identificateur x(" z");
-    return newton(1-UTPC(m,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);   
+    return newton(1-UTPC(m,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,.5,contextptr);   
   }
   gen _chisquare_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1406,7 +1406,7 @@ namespace giac {
     double x0=utpf_initial_guess(num.val,den.val,1-t._DOUBLE_val,contextptr);
     // FIXME
     identificateur x(" z");
-    return newton(1-UTPF(num,den,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,contextptr);   
+    return newton(1-UTPF(num,den,x,contextptr)-t,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,0,1.79769313486e+308,1,0,.5,contextptr);   
   }
   gen _snedecor_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

@@ -332,10 +332,10 @@ namespace giac {
       if (guess.is_symb_of_sommet(at_interval))
 	return _fsolve(g,contextptr);
       var=var._SYMBptr->feuille._VECTptr->front();
-      return newton(remove_equal(v[0]),var,guess,20,1e-5,1e-12,contextptr);
+      return newton(remove_equal(v[0]),var,guess,20,1e-5,1e-12,false,1,0,1,0,1,contextptr);
     }
     else
-      return newton(remove_equal(v[0]),var,undef,20,1e-5,1e-12,contextptr);
+      return newton(remove_equal(v[0]),var,undef,20,1e-5,1e-12,false,1,0,1,0,1,contextptr);
   }
   static const char _nSolve_s[]="nSolve";
   static define_unary_function_eval (__nSolve,&_nSolve,_nSolve_s);
