@@ -132,6 +132,7 @@ public enum Language {
 	Thai(null, true, false, "th","th", "Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Country.Thailand),
 	Turkish(null, true, false, "tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey, Country.Cyprus),
 	Ukrainian(null, true, false, "uk","uk", "Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430", Country.Ukraine),
+	Valencian(null, true, false, "caXV","ca_XV", "Valencian", "catalonia"), // fudge to get right flag
 	Vietnamese(null, true, false, "vi","vi", "Vietnamese / Ti\u1EBFng Vi\u1EC7t", Country.VietNam),
 	Welsh(null, true, false, "cy","cy", "Welsh / Cymraeg", "wales"), // fudge to get right flag
 	Yiddish("\u05d9\u05b4", true, false, "ji","ji", "Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9", Country.Israel);
