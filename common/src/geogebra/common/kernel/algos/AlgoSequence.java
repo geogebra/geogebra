@@ -226,6 +226,7 @@ public class AlgoSequence extends AlgoElement {
 		if (updateRunning)
 			return;
 		updateRunning = true;
+		long l = System.currentTimeMillis();
 		for (int i = 1; i < input.length; i++) {
 			if (!input[i].isDefined()) {
 				list.setUndefined();
@@ -266,6 +267,9 @@ public class AlgoSequence extends AlgoElement {
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);
 		updateRunning = false;
+		if(list.isLabelSet()){
+			App.debug("Sequence "+list.getLabelSimple()+": "+(System.currentTimeMillis()-l));
+		}
 	}
 
 	private void computeSimple() {
