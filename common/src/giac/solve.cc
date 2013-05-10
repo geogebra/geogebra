@@ -1754,7 +1754,7 @@ namespace giac {
 
   static gen symb_solution(const gen & g,const gen & var,GIAC_CONTEXT){
     if (var.type!=_VECT){
-      if (calc_mode(contextptr)!=1 && var.type==_IDNT && !lvarx(g,var).empty())
+      if (var.type==_IDNT && g.type!=_IDNT && !lvarx(g,var).empty())
 	return g;
       else
 	return symbolic(at_equal,makesequence(var,g));
