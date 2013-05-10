@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.gui.app.VerticalPanelSmart;
@@ -28,7 +29,7 @@ public class CASDockPanelW extends DockPanelW {
 		super(
 				App.VIEW_CAS, 	// view id
 				"CAS", 					// view title phrase 
-				null,	// toolbar string
+				getDefaultToolbar(),	// toolbar string
 				true,					// style bar?
 				4,						// menu order
 				'K' // ctrl-shift-K
@@ -107,4 +108,8 @@ public class CASDockPanelW extends DockPanelW {
 	public App getApp() {
 	    return application;
     }
+
+	private static String getDefaultToolbar() {
+		return CASView.TOOLBAR_DEFINITION;		
+	}
 }

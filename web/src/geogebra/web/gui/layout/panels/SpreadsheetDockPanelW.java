@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
@@ -35,7 +36,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		super(
 				App.VIEW_SPREADSHEET, 		// view id
 				"Spreadsheet", 						// view title phrase
-				null,				// toolbar string
+				getDefaultToolbar(),				// toolbar string
 				true,								// style bar?
 				3, 									// menu order
 				'S'									// menu shortcut
@@ -147,4 +148,45 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	public App getApp() {
 	    return application;
     }
+
+	private static String getDefaultToolbar() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" ");		
+		sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
+		
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
+		
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE);
+		
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_SUM);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_AVERAGE);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_COUNT);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MAX);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MIN);
+		
+
+		return sb.toString();
+	}
 }
