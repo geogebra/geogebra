@@ -891,10 +891,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			this.getSettings().getEuclidian(2).showGrid(showGridParam);
 		}
 
-		if (args.containsArg("giac")) {
-			casType = CasType.GIAC;
-		}
-
 		if (args.containsArg("forceFont")) {
 			String fontName = args.getStringValue("forceFont");
 			
@@ -1088,6 +1084,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (args == null) {
 			return;
 		}
+		
+		if (args.containsArg("giac")) {
+			casType = CasType.GIAC;
+		}
+
 		String language = args.getStringValue("language");
 		if (language.length() > 0) {
 			setLocale(getLocale(language));
