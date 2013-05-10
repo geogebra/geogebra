@@ -1050,7 +1050,11 @@ namespace giac {
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_sqrt(gen2complex_d(e));
 #else
+#ifdef EMCC
+	return std::exp(std::log(gen2complex_d(e))/2.0);
+#else
 	return std::sqrt(gen2complex_d(e));
+#endif
 #endif
       }
       // sqrt of an exact complex number

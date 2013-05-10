@@ -2344,7 +2344,10 @@ namespace giac {
     if (l!=l_subst) 
       e_copy=subst(e_copy,l,l_subst,false,contextptr);
     // return global_eval(normal(e_copy),100);
-    return normal(e_copy,distribute_div,contextptr);
+    gen res=normal(e_copy,distribute_div,contextptr);
+    if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && !lop(res,at_rootof).empty())
+      return ratnormal(e_copy);
+    return res;
     // removed eval since it eats neg(x-y)
     // eval(normal(e_copy,distribute_div),contextptr);
   }

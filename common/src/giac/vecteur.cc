@@ -7763,7 +7763,7 @@ namespace giac {
     for (int i=2;i<n;i++){
       iterateur it=H[i].begin(),itend=it+i-1; // or min(i-1,n);
       for (;it!=itend;++it){
-	if (debug_infolevel>2 && std::abs(*it>1e-10))
+	if (debug_infolevel>2 && abs(*it,contextptr)>1e-10)
 	  cerr << "Precision " << i << " " << *it << endl;
 	*it=0;
       }
@@ -12035,14 +12035,14 @@ namespace giac {
     // int n_orig=H.size();//,nitershift0=0;
     if (!is_hessenberg){
       if (debug_infolevel>0)
-	cerr << clock() << " start hessenberg n=" << H.size() << endl;
+	cerr << clock() << " start hessenberg real n=" << H.size() << endl;
 #if 1
       hessenberg_householder(H,P,compute_P);
 #else
       hessenberg_ortho(H,P,0,n_orig,compute_P,0); // insure Hessenberg form (on the whole matrix)
 #endif
       if (debug_infolevel>0)
-	cerr << clock() << " hessenberg done" <<endl;
+	cerr << clock() << " hessenberg real done" <<endl;
     }
     matrix_double Haux(n2/2),T(n2/2);
     vector<giac_double> oper(n2);
@@ -12149,6 +12149,16 @@ namespace giac {
     }
   }
 
+  double complex_abs(const complex_double & c){
+#ifdef EMCC
+    double r=c.real(),i=c.imag();
+    r=std::sqrt(r*r+i*i);
+    return r;
+#else
+    return std::abs(c);
+#endif
+  }
+
   void francis_iterate1(matrix_complex_double & H,int n1,int n2,matrix_complex_double & P,double eps,bool compute_P,complex_double l1,bool finish){
     if (debug_infolevel>2)
       cerr << clock() << " iterate1 " << n1 << " " << n2 << endl;
@@ -12158,7 +12168,7 @@ namespace giac {
       // [[a,b],[c,d]] -> [b,l1-a] or [l1-d,c] as first eigenvector
       complex_double a=H[n2-2][n2-2],b=H[n2-2][n2-1],c=H[n2-1][n2-2],d=H[n2-1][n2-1];
       complex_double l1a=l1-a,l1d=l1-d;
-      if (std::abs(l1a)>std::abs(l1d)){
+      if (complex_abs(l1a)>complex_abs(l1d)){
 	x=b; y=l1a;
       }
       else {
@@ -12209,7 +12219,7 @@ namespace giac {
     if (debug_infolevel>2)
       cerr << clock() << " iterate2 " << n1 << " " << n2 << endl;
     complex_double s=H[n2-1][n2-1]; 
-    double ok=std::abs(H[n2-1][n2-2]/H[n2-1][n2-1]);
+    double ok=complex_abs(H[n2-1][n2-2])/complex_abs(H[n2-1][n2-1]);
     if (!only_one && H.size()>=50){
       // search for a small coeff on the subdiagonal in the last elements
       int k=-1;
@@ -12222,7 +12232,8 @@ namespace giac {
 	     ;--k0
 	     //,ok*=0.99
 	   ){
-	double test=std::abs(H[k0][k0-1]/H[k0-1][k0-1]);
+	double test=1.79769313486e+308;
+	test=complex_abs(H[k0][k0-1])/complex_abs(H[k0-1][k0-1]);
 	if (test<ok){
 	  k=k0;
 	  ok=test;
@@ -12258,12 +12269,22 @@ namespace giac {
 	  Haux[i].swap(T[i]);
 	}
       }
-    }
+    } // if (!only_one  && H.size()>=50)
     else {
-      if (n2-n1==2 ||(ok>1e-1 && n2-n1>2 && std::abs(H[n2-2][n2-3])<1e-2*std::abs(H[n2-2][n2-2]))){
+      if (debug_infolevel>2)
+	cerr << "ok " << ok << endl;
+      if (n2-n1==2 ||(ok>1e-1 && n2-n1>2 && complex_abs(H[n2-2][n2-3])<1e-2*complex_abs(H[n2-2][n2-2]))){
 	complex_double a=H[n2-2][n2-2],b=H[n2-2][n2-1],c=H[n2-1][n2-2],d=H[n2-1][n2-1];
 	complex_double delta=a*a-2.0*a*d+d*d+4.0*b*c;
+	if (debug_infolevel>2)
+	  cerr << "delta " << delta << endl;
+#ifdef EMCC
+	delta=std::exp(std::log(delta)/2.0);
+#else
 	delta=sqrt(delta);
+#endif
+	if (debug_infolevel>2)
+	  cerr << "delta " << delta << endl;
 	complex_double l1=(a+d+delta)/2.0;
 	complex_double l2=(a+d-delta)/2.0;
 	s=l1;
@@ -12273,16 +12294,20 @@ namespace giac {
   }
 
   bool in_francis_schur(matrix_complex_double & H,int n1,int n2,matrix_complex_double & P,int maxiter,double eps,bool compute_P,matrix_complex_double & Haux,bool only_one){
+    if (debug_infolevel>0)
+      cerr << " francis complex " << H << endl << n1 << " " << n2 << " " << maxiter << " " << eps << endl;
     if (n2-n1<=1)
       return true; // nothing to do
     for (int niter=0;n2-n1>1 && niter<maxiter;niter++){
       // check if one subdiagonal element is sufficiently small, if so 
       // we can increase n1 or decrease n2 or split
+      if (debug_infolevel>2)
+	cerr << "niter "<< niter << " " << H << endl;
       double ratio,coeff=1;
       if (niter>maxiter-3)
 	coeff=100;
       for (int i=n2-2;i>=n1;--i){
-	ratio=std::abs(H[i+1][i]/H[i][i]);
+	ratio=complex_abs(H[i+1][i])/complex_abs(H[i][i]);
 	if (debug_infolevel>2 && i>n2-25)
 	  cerr << ratio << " ";
 	if (ratio<coeff*eps){ 
@@ -12314,14 +12339,14 @@ namespace giac {
     int n_orig=H.size();//,nitershift0=0;
     if (!is_hessenberg){
       if (debug_infolevel>0)
-	cerr << clock() << " start hessenberg n=" << H.size() << endl;
+	cerr << clock() << " start hessenberg complex n=" << H.size() << endl;
 #if 0 // FIXME do it for complex
       hessenberg_householder(H,P,compute_P);
 #else
       hessenberg_ortho(H,P,0,n_orig,compute_P,0); // insure Hessenberg form (on the whole matrix)
 #endif
       if (debug_infolevel>0)
-	cerr << clock() << " hessenberg done" <<endl;
+	cerr << clock() << " hessenberg complex done" <<endl;
     }
     matrix_complex_double Haux(n2/2);
     return in_francis_schur(H,n1,n2,P,maxiter,eps,compute_P,Haux,false);
