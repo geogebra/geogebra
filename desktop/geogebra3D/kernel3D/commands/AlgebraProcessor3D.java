@@ -15,13 +15,19 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.MyError;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.kernel3D.AlgoLinePointVector3D;
+import geogebra3D.kernel3D.GeoLine3D;
 import geogebra3D.kernel3D.GeoPlane3D;
+import geogebra3D.kernel3D.GeoPoint3D;
+import geogebra3D.kernel3D.GeoVector3D;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
@@ -129,6 +135,48 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		ret[0] = plane;
 		return ret;
+	}
+
+	@Override
+	// eg g: X = (-5, 5, 2) + t (4, -3, -2)
+	protected GeoElement[] processParametric(Parametric par)
+			throws MyError {
+
+		// point and vector are created silently
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// get point
+		ExpressionNode node = par.getP();
+		node.setForcePoint();
+		GeoElement[] temp = processExpressionNode(node);
+		GeoPoint3D P = (GeoPoint3D) temp[0];
+
+		// get vector
+		node = par.getv();
+		node.setForceVector();
+		temp = processExpressionNode(node);
+		GeoVector3D v = (GeoVector3D) temp[0];
+
+		// switch back to old mode
+		cons.setSuppressLabelCreation(oldMacroMode);
+
+		// Line through P with direction v
+		GeoLine3D line = Line3D(par.getLabel(), P, v);
+
+		line.setToParametric(par.getParameter());
+		line.updateRepaint();
+		GeoElement[] ret = { line };
+		return ret;
+	}
+	
+	/**
+	 * Line named label through Point P with direction of vector v
+	 */
+	final public GeoLine3D Line3D(String label, GeoPoint3D P, GeoVector3D v) {
+		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label, P, v);
+		GeoLine3D g = algo.getLine();
+		return g;
 	}
 
 
