@@ -124,8 +124,9 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// factor over rationals
+		// add ggbtmpvarx so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
 		p("Factor.1",
-				"[with_sqrt(0),[if type(%0)==DOM_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0); fi],with_sqrt(1),ggbans][3]");
+				"[with_sqrt(0),[if type(%0)==DOM_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0,ggbtmpvarx); fi],with_sqrt(1),ggbans][3]");
 		p("Factor.2",
 				"[with_sqrt(0),[ggbans:=factor(%0,%1)],with_sqrt(1),ggbans][3]");
 
