@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-//import geogebra.gui.toolbar.Toolbar;
 //import geogebra.gui.toolbar.ToolbarContainer;
 //import geogebra.web.gui.util.LayoutUtil;
 
@@ -180,7 +179,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * Toolbar associated with this dock panel or null if this panel has no
 	 * toolbar.
 	 */
-	//private Toolbar toolbar;
+	//private ToolBarW toolbar;
 
 	/**
 	 * Toolbar definition string associated with this panel or null if this
@@ -899,7 +898,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 			// load toolbar if this panel has one
 			if (hasToolbar()) {
-	//			toolbar = new Toolbar(app, this);
+				//toolbar = new ToolBarW(app, this);
 
 				if (isOpenInFrame()) {
 	//				toolbarContainer = new ToolbarContainer(app, false);
@@ -925,6 +924,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 			// display toolbar panel if the dock panel is open in a frame
 			if (hasToolbar()) {
+				if (app != null && app.getGuiManager() != null &&
+					app.getGuiManager().getToolbarPanel() != null)
+				app.getGuiManager().getToolbarPanel().setVisible(true);
 		//		toolbarPanel.setVisible(frame != null);
 			}
 		}
@@ -965,7 +967,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateToolbar() {
 		if (isVisible() && isOpenInFrame() && hasToolbar()) {
-		//	toolbarContainer.updateToolbarPanel();
+			if (app != null && app.getGuiManager() != null &&
+				app.getGuiManager().getToolbarPanel() != null)
+			app.getGuiManager().getToolbarPanel().updateToolbarPanel();
 		}
 	}
 

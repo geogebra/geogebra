@@ -127,7 +127,7 @@ public class GGWToolBar extends Composite {
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		//toolbarPanel.clear();
+		toolBarPanel.clear();
 		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
 				((ToolBarW)toolbar).buildGui();
@@ -139,9 +139,8 @@ public class GGWToolBar extends Composite {
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
-		//toolbarPanel.setVisible(true);
-		
-		
+
+		toolBarPanel.setVisible(true);
 	}
 
 	/**

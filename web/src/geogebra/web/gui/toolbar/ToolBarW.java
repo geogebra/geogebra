@@ -298,6 +298,10 @@ public class ToolBarW extends MenuBar {
 	public void setActiveView(Integer viewID) {
 	    activeView = viewID;
     }
+
+	public int getActiveView() {
+		return activeView;
+	}
 	
 	public boolean hasPopupOpen(){
 		return (getSelectedItem() != null);
