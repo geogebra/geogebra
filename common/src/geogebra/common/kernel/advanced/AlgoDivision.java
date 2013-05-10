@@ -34,7 +34,7 @@ public class AlgoDivision extends AlgoElement {
 	protected void setInputOutput() {
 		setOnlyOutput(result);
 		input = new GeoElement[] {a.toGeoElement(),b.toGeoElement()};
-
+		setDependencies();
 	}
 
 	@Override
