@@ -267,9 +267,6 @@ public class AlgoSequence extends AlgoElement {
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);
 		updateRunning = false;
-		if(list.isLabelSet()){
-			App.debug("Sequence "+list.getLabelSimple()+": "+(System.currentTimeMillis()-l));
-		}
 	}
 
 	private void computeSimple() {
@@ -307,7 +304,7 @@ public class AlgoSequence extends AlgoElement {
 
 			// create the sequence
 			double currentVal = from;
-
+			long updateTime = 0, addTime = 0;
 			while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION)
 					|| (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) {
 
@@ -322,15 +319,20 @@ public class AlgoSequence extends AlgoElement {
 				}
 
 				// set local var value
+				long l = System.currentTimeMillis();
 				updateLocalVar(currentVal);
-
+				long l2 = System.currentTimeMillis();
+				updateTime += l2 - l;
 				addElement(i);
-
+				addTime += System.currentTimeMillis() - l2;
 				currentVal += step;
 				if (Kernel.isInteger(currentVal)) {
 					currentVal = Math.round(currentVal);
 				}
 				i++;
+			}
+			if(list.isLabelSet()){
+				App.debug("Sequence " + list.getLabelSimple() + " updatess " + updateTime + " adds " + addTime);
 			}
 		}
 
