@@ -90,7 +90,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 
 		// ========================================
 		// button
-		btnFitScale = new MyToggleButton(app.getImageIcon("view_default.gif"),
+		btnFitScale = new MyToggleButton(app.getImageIcon("stylebar_fit_scale.gif"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
