@@ -1524,6 +1524,21 @@ public class AlgebraProcessor {
 		// switch back to old mode
 		cons.setSuppressLabelCreation(oldMacroMode);
 
+		GeoLine line = Line(par,P,v);
+		
+		GeoElement[] ret = { line };
+		return ret;
+	}
+	
+
+	/**
+	 * 
+	 * @param par parametric equation
+	 * @param P point
+	 * @param v vector
+	 * @return parametric line
+	 */
+	final protected GeoLine Line(Parametric par, GeoPoint P, GeoVector v) {
 		// Line through P with direction v
 		GeoLine line;
 		// independent line
@@ -1537,8 +1552,8 @@ public class AlgebraProcessor {
 		}
 		line.setToParametric(par.getParameter());
 		line.updateRepaint();
-		GeoElement[] ret = { line };
-		return ret;
+
+		return line;
 	}
 
 	/**

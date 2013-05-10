@@ -21,13 +21,14 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra3D.kernel3D.AlgoLinePointVector3D;
-import geogebra3D.kernel3D.GeoLine3D;
 import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.GeoVector3D;
 
 
 public class AlgebraProcessor3D extends AlgebraProcessor {
@@ -150,34 +151,31 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		ExpressionNode node = par.getP();
 		node.setForcePoint();
 		GeoElement[] temp = processExpressionNode(node);
-		GeoPoint3D P = (GeoPoint3D) temp[0];
+		GeoPointND P = (GeoPointND) temp[0];
 
 		// get vector
 		node = par.getv();
 		node.setForceVector();
 		temp = processExpressionNode(node);
-		GeoVector3D v = (GeoVector3D) temp[0];
+		GeoVectorND v = (GeoVectorND) temp[0];
 
 		// switch back to old mode
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		// Line through P with direction v
-		GeoLine3D line = Line3D(par.getLabel(), P, v);
+		GeoLineND line;
+		if (P.isGeoElement3D() || v.isGeoElement3D()) {
+			line = kernel.getManager3D().Line3D(par.getLabel(), P, v);
+		} else {
+			line = Line(par, (GeoPoint) P, (GeoVector) v);
+		}
 
 		line.setToParametric(par.getParameter());
 		line.updateRepaint();
-		GeoElement[] ret = { line };
+		GeoElement[] ret = { (GeoElement) line };
 		return ret;
 	}
 	
-	/**
-	 * Line named label through Point P with direction of vector v
-	 */
-	final public GeoLine3D Line3D(String label, GeoPoint3D P, GeoVector3D v) {
-		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label, P, v);
-		GeoLine3D g = algo.getLine();
-		return g;
-	}
 
 
 	
