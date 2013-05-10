@@ -1,11 +1,14 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GFontRenderContext;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.StringUtil;
 
 
 /**
@@ -238,14 +241,14 @@ public abstract class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static geogebra.common.awt.GPoint drawIndexedString(App app, geogebra.common.awt.GGraphics2D g3,
-			String str, float xPos, float yPos, boolean serif) {
+			String str, float xPos, float yPos, boolean serif, boolean precise) {
 
 		geogebra.common.awt.GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
 		geogebra.common.awt.GFont indexFont = getIndexFont(g2font);
 		geogebra.common.awt.GFont font = g2font;
-		geogebra.common.awt.font.GTextLayout layout;
+		//geogebra.common.awt.font.GTextLayout layout;
 		geogebra.common.awt.GFontRenderContext frc = g3.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
@@ -268,10 +271,9 @@ public abstract class EuclidianStatic {
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, i);
-					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
 					g3.setFont(font);
 					g3.drawString(tempStr, x, y);
-					x += layout.getAdvance();
+					x += measureString(tempStr,font,frc);
 				}
 				startPos = i + 1;
 				depth++;
@@ -284,10 +286,9 @@ public abstract class EuclidianStatic {
 					if (y > maxY)
 						maxY = y;
 					String tempStr = str.substring(startPos, startPos + 1);
-					layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
 					g3.setFont(font);
 					g3.drawString(tempStr, x, y);
-					x += layout.getAdvance();
+					x += measureString(tempStr,font,frc);
 					depth--;
 				}
 				i++;
@@ -302,10 +303,9 @@ public abstract class EuclidianStatic {
 						if (y > maxY)
 							maxY = y;
 						String tempStr = str.substring(startPos, i);
-						layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
 						g3.setFont(font);
 						g3.drawString(tempStr, x, y);
-						x += layout.getAdvance();
+						x += measureString(tempStr,font,frc);
 					}
 					startPos = i + 1;
 					depth--;
@@ -320,10 +320,9 @@ public abstract class EuclidianStatic {
 			if (y > maxY)
 				maxY = y;
 			String tempStr = str.substring(startPos);
-			layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(tempStr, font, frc);
 			g3.setFont(font);
 			g3.drawString(tempStr, x, y);
-			x += layout.getAdvance();
+			x += measureString(tempStr,font,frc);
 		}
 		g3.setFont(g2font);
 		return new geogebra.common.awt.GPoint(Math.round(x - xPos), Math.round(maxY - yPos));
@@ -331,6 +330,12 @@ public abstract class EuclidianStatic {
 	}
 	
 	
+	private static double measureString(String tempStr, GFont font,
+			GFontRenderContext frc) {
+		if(frc!=null)
+			return AwtFactory.prototype.newTextLayout(tempStr, font, frc).getAdvance();
+		return StringUtil.estimateLength(tempStr, font);
+	}
 	/**
 	 * @param shape shape tobe filled
 	 * @param g3 graphics

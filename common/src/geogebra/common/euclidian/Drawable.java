@@ -239,7 +239,7 @@ public abstract class Drawable extends DrawableND {
 			oldLabelDesc = labelDesc;
 
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, label, xLabel, yLabel, isSerif());
+					g2, label, xLabel, yLabel, isSerif(), false);
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x, fontSize
 					+ p.y);
@@ -345,7 +345,7 @@ public abstract class Drawable extends DrawableND {
 					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel, yLabel
-									+ lines * lineSpread, isSerif());
+									+ lines * lineSpread, isSerif(),true);
 					if (p.x > xoffset)
 						xoffset = p.x;
 					if (p.y > yoffset)
@@ -359,7 +359,7 @@ public abstract class Drawable extends DrawableND {
 			GPoint p = EuclidianStatic
 					.drawIndexedString(view.getApplication(), g2,
 							labelDesc.substring(lineBegin), xLabel, ypos,
-							isSerif());
+							isSerif(),true);
 			if (p.x > xoffset)
 				xoffset = p.x;
 			if (p.y > yoffset)

@@ -130,7 +130,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 					g2.setFont(font); // JLaTeXMath changes g2's fontsize
 					xOffset += drawIndexedString(app, g2, lines[j], xLabel
 							+ xOffset, yLabel + height + yOffset + lineSpread,
-							serif).x;
+							serif, true).x;
 
 					// add the height of this line if more lines follow
 					if (j + 1 < lines.length) {
@@ -187,7 +187,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 				// end of line reached: draw this line
 				GPoint p = drawIndexedString(app, g2,
 						labelDesc.substring(lineBegin, i), xLabel, yLabel
-								+ lines * lineSpread, serif);
+								+ lines * lineSpread, serif, true);
 				if (p.x > xoffset)
 					xoffset = p.x;
 				if (p.y > yoffset)
@@ -199,7 +199,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 
 		float ypos = yLabel + lines * lineSpread;
 		GPoint p = drawIndexedString(app, g2, labelDesc.substring(lineBegin),
-				xLabel, ypos, serif);
+				xLabel, ypos, serif, true);
 		if (p.x > xoffset)
 			xoffset = p.x;
 		if (p.y > yoffset)

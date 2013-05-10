@@ -1,8 +1,8 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.euclidian.EuclidianStaticD;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.awt.Color;
@@ -199,7 +199,7 @@ public class DrawLabel3D {
 			//Application.debug("yMin="+yMin+", yMax="+yMax);
 			hasIndex = true;
 			geogebra.common.awt.GPoint p = 
-				EuclidianStaticD.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), text, 0, 0, false);
+				EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(tempGraphics), text, 0, 0, false, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight()+p.y);
 		}else
 			hasIndex = false;
@@ -208,7 +208,7 @@ public class DrawLabel3D {
 	
 	protected void draw(Graphics2D g2d){
 		if (hasIndex)
-			EuclidianStaticD.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(g2d), text, 0, 0, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), new geogebra.awt.GGraphics2DD(g2d), text, 0, 0, false, false);
 		else
 			g2d.drawString(text, 0, 0);	
 	}
