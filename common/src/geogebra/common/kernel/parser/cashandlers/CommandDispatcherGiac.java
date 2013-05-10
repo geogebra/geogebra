@@ -30,8 +30,10 @@ public class CommandDispatcherGiac {
 		igamma(Operation.NO_OPERATION),
 		/** derivative*/
 		diff(Operation.DERIVATIVE),
-		/** derivative*/
+		/** integral */
 		integrate(Operation.INTEGRAL),
+		/** rootof */
+		rootof(Operation.NO_OPERATION),
 		/** exact (convert to fraction)*/
 		exact(Operation.NO_OPERATION),
 		/** psi */
@@ -278,6 +280,11 @@ public class CommandDispatcherGiac {
 
 			case integrate:
 				// eg Integral[exp(x^3)]
+				ret = new ExpressionNode(kernel, Double.NaN);
+				break;
+			case rootof:
+				// GeoGebra can't handle this
+				App.warn("'rootof()' returned from giac");
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case diff:
