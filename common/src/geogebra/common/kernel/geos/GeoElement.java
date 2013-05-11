@@ -1163,8 +1163,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			break;
 		case IMAGE:
 		case TURTLE:
-		case TEXTFIELD:
-		case BUTTON:
 		case BOOLEAN:
 			typePriority = 20;
 			break;
@@ -1228,6 +1226,12 @@ public abstract class GeoElement extends ConstructionElement implements
 			break;
 		case TEXT:
 			typePriority = 150;
+			break;
+		case TEXTFIELD:
+		case BUTTON:
+			// drawn last
+			// in GeoGebra 4 (Java) the buttons/textfields were drawn by swing so were on top
+			typePriority = 155;
 			break;
 		default: // shouldn't occur
 			App.debug("missing case in getDrawingPriority() for "+getGeoClassType());
