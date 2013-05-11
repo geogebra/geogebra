@@ -20,6 +20,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		super(casParser);
 
 		this.app = (AppD) k.getApplication();
+		
+		this.parserTools = t;
 
 		App.setCASVersionString("Giac");
 	}
@@ -110,6 +112,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 		
 		App.debug("giac output: " + ret);		
+		
+		// convert Giac's scientific notation from e.g. 3.24e-4 to
+		// 3.2E-4
+		ret = parserTools.convertScientificFloatNotation(ret);
 
 		ret = casParser.insertSpecialChars(ret); // undo special character handling
 

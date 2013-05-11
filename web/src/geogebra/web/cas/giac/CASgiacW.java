@@ -44,7 +44,7 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
 
-			// convert MPReduce's scientific notation from e.g. 3.24e-4 to
+			// convert Giac's scientific notation from e.g. 3.24e-4 to
 			// 3.2E-4
 			ret = parserTools.convertScientificFloatNotation(ret);
 
