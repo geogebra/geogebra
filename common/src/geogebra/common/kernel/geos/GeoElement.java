@@ -5527,14 +5527,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return true if this is using visual defaults
 	 */
-	public boolean isUseVisualDefaults() {
+	public final boolean isUseVisualDefaults() {
 		return useVisualDefaults;
 	}
 
 	/**
 	 * @param useVisualDefaults true to use visual defaults
 	 */
-	public void setUseVisualDefaults(final boolean useVisualDefaults) {
+	public final void setUseVisualDefaults(final boolean useVisualDefaults) {
 		this.useVisualDefaults = useVisualDefaults;
 	}
 
