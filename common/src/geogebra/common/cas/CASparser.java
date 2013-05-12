@@ -32,7 +32,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
-import geogebra.common.main.App;
 import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -255,7 +254,7 @@ public class CASparser implements CASParserInterface{
 			}			
 		}
 		
-		App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
+		//App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
 					
 		return replaceIndices.toString();
 	}
