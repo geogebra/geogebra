@@ -32,7 +32,10 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		super(casParser);
 		this.parserTools = parserTools;
 		this.kernel = kernel;
-    }
+
+	
+		App.setCASVersionString("Giac/JS");
+}
 	
 	@Override
 	public String evaluateCAS(String exp) {

@@ -23,7 +23,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		
 		this.parserTools = t;
 
-		App.setCASVersionString("Giac");
 	}
 
 	private static boolean giacLoaded = false;
@@ -60,8 +59,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		
 		if (giacLoaded) {
 			App.debug("Giac dynamic library loaded");
+			App.setCASVersionString("Giac/JNI");
 		} else {
 			App.debug("Failed to load Giac dynamic library");
+			App.setCASVersionString("Giac");
 		}
 	}
 
@@ -78,6 +79,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		App.debug("giac  input: "+exp);		
 
 		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
+			App.setCASVersionString("Giac/JS");
+
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
 			
