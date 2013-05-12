@@ -117,7 +117,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			}
 		}
 		exp = sb.toString();
-		//App.debug("MPReduce eval: " + exp);
+		App.debug("MPReduce   eval: " + exp);
 		if (!initialized) {
 			// TODO: This looks quite ugly, but seems to work well at the moment.
 			// Gabor suggest to use jquery + callback here instead to make
@@ -164,7 +164,9 @@ public abstract class CASmpreduce implements CASGenericInterface {
 
 		result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
-		// TODO: remove
+
+		App.debug("MPReduce result: " + result);
+		
 		return result;
 	}
 

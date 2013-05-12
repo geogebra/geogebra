@@ -1,5 +1,6 @@
 package geogebra.cas.giac;
 
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.io.File;
@@ -15,23 +16,34 @@ public class MyClassPathLoader {
 
 	/**
 	 * Loads the given library with the libname from the classpath root
+	 * @param libname eg javagiac or javagiac64
+	 * @return success
 	 */
-	public boolean loadLibrary(String libname, boolean ignoreError) {
+	public boolean loadLibrary(String libname) {
 		
-		String extension;
+		String extension, prefix;
 		if (AppD.WINDOWS) {
+			prefix = "";
 			extension = ".dll";
 		} else if (AppD.MAC_OS) {
+			prefix = "lib";
 			extension = ".jnilib";
 		} else {
 			// assume Linux
+			prefix = "lib";
 			extension = ".so";
 		}
 		
-		String filename = libname + extension;
+		String filename = prefix + libname + extension;
 		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
 		
+		if (ins == null) {
+			App.error(filename + "not found");
+			return false;
+		}
+			
 		try {
+
 			File tmpFile = writeTmpFile(ins, filename);
 			System.load(tmpFile.getAbsolutePath());
 			tmpFile.delete();
@@ -51,7 +63,7 @@ public class MyClassPathLoader {
 	 * @param filename
 	 * @throws IOException
 	 */
-	private File writeTmpFile(InputStream ins, String filename)
+	private static File writeTmpFile(InputStream ins, String filename)
 			throws IOException {
 
 		File tmpFile = new File(System.getProperty("java.io.tmpdir"), filename);
@@ -75,11 +87,6 @@ public class MyClassPathLoader {
 			}
 		}
 		return tmpFile;
-	}
-
-	public void loadLibrary(String libname, String[] preload,
-			boolean preloadIgnoreError) {
-		loadLibrary(libname, preloadIgnoreError);
 	}
 
 }

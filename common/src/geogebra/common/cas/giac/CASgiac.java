@@ -81,13 +81,13 @@ public abstract class CASgiac implements CASGenericInterface {
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 					
-		if (result.startsWith("\"")) {
+		if (result.trim().startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 			// assume error
 			App.debug("message from giac (assuming error) "+result);
 			result = "?";
 		}
-		
+				
 		App.debug("CASgiac.evaluateRaw: result: " + result);
 		return result;
 	}
