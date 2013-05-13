@@ -30,10 +30,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	static {
 		try {
 			App.debug("Loading Giac dynamic library");
-			
+
 			String file;
-			
-			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (linux64?)
+
+			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to happen on linux)
 
 			if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
 					|| "amd64".equals(System.getProperty("os.arch"))) {
@@ -41,15 +41,27 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			} else {
 				file = "javagiac";
 			}
-			
+
 
 			// "classic" method
-			System.loadLibrary(file);
-			giacLoaded = true;
+			// for Webstart, eg loading 
+			// javagiac.dll from javagiac-win32.jar
+			// javagiac64.dll from javagiac-win64.jar
+			// libjavagiac.so from javagiac-linux32.jar
+			// libjavagiac64.so from javagiac-linux64.jar
+			// libjavagiac.jnilib from javagiac-mac.jar
+			
+			try {
+				System.loadLibrary(file);
+				giacLoaded = true;
+			} catch (UnsatisfiedLinkError le) {
 
-			// load native libraries from a jar file
-			//MyClassPathLoader loader = new MyClassPathLoader();
-			//giacLoaded = loader.loadLibrary(file);
+				App.debug("Trying to load Giac library (alternative method)");
+
+				// When running from local jars we can load the library files from inside a jar like this 
+				MyClassPathLoader loader = new MyClassPathLoader();
+				giacLoaded = loader.loadLibrary(file);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
