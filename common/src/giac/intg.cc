@@ -1511,7 +1511,7 @@ namespace giac {
 	r=N;
 	if (is_symmetric(r,N,false)*is_symmetric(q,D,false)==1){
 	  // yes!
-	  type = (xvar.type==_SYMB) || D.size()>1;
+	  type = (xvar.type==_SYMB && xvar._SYMBptr->sommet!=at_tan) || D.size()>1;
 	  if (type)
 	    D=operator_times(D,makevecteur(1,0,4),0);
 	}

@@ -1516,6 +1516,12 @@ namespace giac {
 	if (lvarx(tmp,x).size()==1){
 	  expr=tmp;
 	}
+	// FIXME add assumptions on x for ln variables
+	tmp=_lncollect(expr,contextptr);
+	if (lvarx(tmp,x).size()==1){
+	  *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
+	  expr=tmp;
+	}
       }
     }
     // Checking for fractional power
@@ -2610,7 +2616,13 @@ namespace giac {
   gen _fsolve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(plotpreprocess(args,contextptr));
-    return in_fsolve(v,contextptr);
+    gen res=in_fsolve(v,contextptr);
+    if (calc_mode(contextptr)!=1)
+      return res;
+    // ggb always in a list
+    if (res.type!=_VECT)
+      res=gen(vecteur(1,res),_GGB__VECT);
+    return res;
   }
 
   gen in_fsolve(vecteur & v,GIAC_CONTEXT){
@@ -2864,7 +2876,7 @@ namespace giac {
       return gensizeerr(gettext("Not linked with GSL"));
 #endif    // HAVE_LIBGSL
     else  {// newton method, call newton
-      gguess=newton(v0,v[1],gguess,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
+      gguess=newton(v0,v[1],gguess,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
       if (is_greater(1e-8,im(gguess,contextptr)/re(gguess,contextptr),contextptr))
 	return re(gguess,contextptr);
       return gguess;
@@ -3256,7 +3268,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     double gsl_eps=epsilon(contextptr);
     if (args.type!=_VECT)
-      return newton(args,vx_var,undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
+      return newton(args,vx_var,undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
     vecteur v=*args._VECTptr;
     int s=v.size();
     v[0]=apply(v[0],equal2diff);
@@ -3264,8 +3276,8 @@ namespace giac {
       return gensizeerr(contextptr);
     if (s==2){
       if (v[1].is_symb_of_sommet(at_equal))
-	return newton(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1],NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
-      return newton(v[0],v[1],undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,false,1,0,1,0,1,contextptr);
+	return newton(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1],NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
+      return newton(v[0],v[1],undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
     }
     int niter=NEWTON_DEFAULT_ITERATION;
     double eps=epsilon(contextptr);
@@ -3278,7 +3290,7 @@ namespace giac {
 	  eps=tmp._DOUBLE_val;
       }
     }
-    gen res=newton(v[0],v[1],v[2],niter,1e-10,eps,false,1,0,1,0,1,contextptr);
+    gen res=newton(v[0],v[1],v[2],niter,1e-10,eps,!complex_mode(contextptr),1,0,1,0,1,contextptr);
     if (debug_infolevel)
       *logptr(contextptr) << res << endl;
     return res;

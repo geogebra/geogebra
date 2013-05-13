@@ -3962,7 +3962,9 @@ namespace giac {
     }
     coeff=a[i]/b[i];
     j=i;
-    for (++i;i<s;++i){
+    for (i=0;i<s;++i){
+      if (i==j)
+	continue;
       if (!is_zero(simplify(a[i]*b[j]-a[j]*b[i],contextptr)))
 	return false;
     }

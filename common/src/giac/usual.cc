@@ -5138,10 +5138,14 @@ namespace giac {
     gen args(args0);
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int certif=0;
-    if (args0.type==_VECT && args0._VECTptr->size()==2 && args0._VECTptr->back().type==_INT_){
+#ifdef HAVE_LIBPARI
+    if (args0.type==_VECT && args0.subtype==_SEQ__VECT && args0._VECTptr->size()==2 && args0._VECTptr->back().type==_INT_){
       args=args0._VECTptr->front();
       certif=args0._VECTptr->back().val;
     }
+#endif
+    if (args.type==_VECT)
+      return apply(args,_is_prime,contextptr);
     if (!is_integral(args))
       return gentypeerr(contextptr);
 #ifdef HAVE_LIBPARI

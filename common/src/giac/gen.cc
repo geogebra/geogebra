@@ -5314,8 +5314,8 @@ namespace giac {
     case _INT___INT_: case _ZINT__INT_: case _REAL__INT_: case _CPLX__INT_: case _IDNT__INT_: 
       return pow(base,exponent.val);
     case _DOUBLE___DOUBLE_:
-      if (exponent._DOUBLE_val==int(exponent._DOUBLE_val+.5))
-	return pow(base,int(exponent._DOUBLE_val+.5));
+      if (exponent._DOUBLE_val==int(std::floor(exponent._DOUBLE_val+.25)))
+	return pow(base,int(std::floor(exponent._DOUBLE_val+.25)));
       if (base._DOUBLE_val>=0)
 #ifdef _SOFTMATH_H
 	return std::giac_gnuwince_pow(base._DOUBLE_val,exponent._DOUBLE_val);
@@ -6740,6 +6740,13 @@ namespace giac {
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT){
     if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==b._VECTptr->size())
       return apply(a,b,contextptr,equal);
+    if (a.type==_IDNT && b.type==_VECT){
+      vecteur v=*b._VECTptr;
+      for (unsigned i=0;i<v.size();++i){
+	v[i]=symbolic(at_equal,makesequence(a,v[i]));
+      }
+      return gen(v,b.subtype);
+    }
     gen res=symbolic(at_equal,makesequence(a,b));
     if (a.type==_INT_ && a.subtype==_INT_PLOT && io_graph(contextptr))
       __interactive.op(res,contextptr);
@@ -9547,7 +9554,9 @@ namespace giac {
       char ch=forme[0];
       if (tolower(ch)!='g' && tolower(ch)!='a' && tolower(ch)!='f' && tolower(ch)!='e' )
 	ch='g';
-      if (forme.size()<2)
+      if (calc_mode(contextptr)==1)
+	ch=toupper(ch);
+      if (forme.size()<2 || forme.size()>3 || forme[1]<'0' || forme[1]>'9' || (forme.size()==3 && forme[2]<'0' && forme[2]>'9'))
 	return "invalid format";
       if (my_isnan(d))
 	return "undef";
@@ -9576,6 +9585,8 @@ namespace giac {
     case 3:
       form += "a";
     }
+    if (calc_mode(contextptr)==1)
+      form[form.size()-1]=toupper(form[form.size()-1]);
     if (sf==2){
       // engineering format
       int ndigits=int(giac_floor(std::log10(d)+0.5));

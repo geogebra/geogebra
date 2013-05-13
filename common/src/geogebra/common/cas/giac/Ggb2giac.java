@@ -260,16 +260,16 @@ public class Ggb2giac {
 		p("nPr.2", "perm(%0,%1)");
 		// first element of list, wrapped back in list
 		p("NSolve.1",
-				"{ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]}");
+				"ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]");
 		p("NSolve.2",
-				"{left(%1)=fsolve(%0,%1)}");
+				"left(%1)=fsolve(%0,%1)");
 		// first element of list, wrapped back in list
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 		p("NSolutions.1",
-				"{fsolve(%0,ggbtmpvarx)[0]}");
+				"fsolve(%0,ggbtmpvarx)[0]");
 		p("NSolutions.2",
-				"{fsolve(%0,%1)}");
+				"fsolve(%0,%1)");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
 				// normal() so that Numeric(x + x/2) works
