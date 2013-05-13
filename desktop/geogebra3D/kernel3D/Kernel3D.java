@@ -346,15 +346,6 @@ public class Kernel3D extends Kernel {
 	// OVERRIDES KERNEL
 	// ///////////////////////////////
 
-	@Override
-	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
-			GeoConicND b) {
-
-		if (((GeoElement) a).isGeoElement3D()
-				|| ((GeoElement) b).isGeoElement3D())
-			return getManager3D().IntersectConics(labels, a, b);
-		return super.IntersectConics(labels, a, b);
-	}
 
 	@Override
 	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,

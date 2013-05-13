@@ -1,11 +1,13 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -56,7 +58,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		if (((GeoElement) g).isGeoElement3D()
 				|| ((GeoElement) h).isGeoElement3D()){
-			return (GeoPointND) cons.getKernel().getManager3D().Intersect(label, (GeoElement) g,
+			return (GeoPointND) getManager3D().Intersect(label, (GeoElement) g,
 					(GeoElement) h);
 		}
 		
@@ -76,8 +78,23 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 	}
 	
+
+	@Override
+	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
+			GeoConicND b) {
+
+		if (((GeoElement) a).isGeoElement3D()
+				|| ((GeoElement) b).isGeoElement3D())
+			return getManager3D().IntersectConics(labels, a, b);
+		return super.IntersectConics(labels, a, b);
+	}
 	
 	
+	
+	
+	private Manager3DInterface getManager3D(){
+		return cons.getKernel().getManager3D();
+	}
 
 
 }

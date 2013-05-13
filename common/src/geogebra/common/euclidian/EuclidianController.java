@@ -2235,9 +2235,13 @@ public abstract class EuclidianController {
 				
 				ret[0] = getAlgoDispatcher().IntersectConicsSingle(null,
 						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
+				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
 				ret = (GeoElement[]) getAlgoDispatcher().IntersectConics(null, conics[0],
 						conics[1]);
+				for(int i=0;i<ret.length; i++){
+					checkCoordCartesian((GeoPointND) ret[i]);
+				}
 			}
 			return ret;
 		} else if (selFunctions() >= 2) {

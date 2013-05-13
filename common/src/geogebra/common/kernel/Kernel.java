@@ -57,7 +57,6 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -4448,10 +4447,6 @@ public class Kernel {
 		return getAlgoDispatcher().Distance(label, g, h);
 	}
 
-	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
-			GeoConicND b) {
-		return getAlgoDispatcher().IntersectConics(labels,  a, b);
-	}
 
 	public void initAfterAsync(App app1) {
 		this.app = app1;

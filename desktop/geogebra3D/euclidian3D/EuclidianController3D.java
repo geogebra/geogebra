@@ -2204,9 +2204,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		} else if (selConics()>=2 ) {// conic-conic
 			GeoConicND[] conics = getSelectedConicsND();
 			GeoElement[] ret = new GeoElement[4];
-			GeoPointND[] points = getKernel().getManager3D().IntersectConics(null, conics[0], conics[1]);
-			for(int i=0;i<4; i++)
+			GeoPointND[] points = getKernel().getAlgoDispatcher().IntersectConics(null, conics[0], conics[1]);
+			for(int i=0;i<points.length; i++){
+				checkCoordCartesian3D(points[i]);
 				ret[i] = (GeoElement) points[i];
+			}
 			return ret;
 		} else if (selConics()>=1 && selCS2D()>=1) { // conic-polygon not available
 			
