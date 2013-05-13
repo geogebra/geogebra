@@ -49,6 +49,21 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 		return super.Distance(label, g, h);
 	}
+	
+	
+	@Override
+	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
+
+		if (((GeoElement) g).isGeoElement3D()
+				|| ((GeoElement) h).isGeoElement3D()){
+			return (GeoPointND) cons.getKernel().getManager3D().Intersect(label, (GeoElement) g,
+					(GeoElement) h);
+		}
+		
+		return super.IntersectLines(label, g, h);
+		
+
+	}
 
 	@Override
 	protected GeoVectorND createVector(String label, GeoPointND P){
@@ -60,6 +75,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.createVector(label, P);
 		
 	}
+	
+	
 	
 
 

@@ -4448,10 +4448,6 @@ public class Kernel {
 		return getAlgoDispatcher().Distance(label, g, h);
 	}
 
-	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
-		return getAlgoDispatcher().IntersectLines(label,  g,  h);
-	}
-
 	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
 			GeoConicND b) {
 		return getAlgoDispatcher().IntersectConics(labels,  a, b);

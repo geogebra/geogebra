@@ -2220,12 +2220,11 @@ public abstract class EuclidianController {
 		// two lines
 		if (selLines() >= 2) {
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = (GeoElement) kernel.IntersectLines(null, lines[0],
-					lines[1]);
-			return ret;
+			GeoPointND point = getAlgoDispatcher().IntersectLines(null, lines[0], lines[1]);
+			checkCoordCartesian(point);
+			return new GeoElement[] {(GeoElement) point};
 		}
 		// two conics
 		else if (selConics() >= 2) {
@@ -2446,6 +2445,13 @@ public abstract class EuclidianController {
 			}
 		}
 		return null;
+	}
+	
+	private static void checkCoordCartesian(GeoPointND point){
+		if (point.getMode() != Kernel.COORD_CARTESIAN){
+			point.setCartesian();
+			point.updateRepaint();
+		}
 	}
 
 	protected final GeoElement[] parabola(Hits hits) {
@@ -4276,7 +4282,7 @@ public abstract class EuclidianController {
 		return angle;
 	}
 
-	private AlgoDispatcher getAlgoDispatcher() {
+	protected AlgoDispatcher getAlgoDispatcher() {
 		return kernel.getAlgoDispatcher();
 	}
 

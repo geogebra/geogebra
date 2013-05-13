@@ -2159,7 +2159,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		if (selLines() >= 2) {// two lines	
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoPointND point = getKernel().IntersectLines(null, lines[0], lines[1]);
+			GeoPointND point = getAlgoDispatcher().IntersectLines(null, lines[0], lines[1]);
 			checkCoordCartesian3D(point);
 			return new GeoElement[] {(GeoElement) point};
 
