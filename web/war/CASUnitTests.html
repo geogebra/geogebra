@@ -10,6 +10,29 @@ var Module = { TOTAL_MEMORY: 167772160 };
 <script src="__giac.js"></script>
 <script>
 
+var getVars = new Array();
+ var _start = 1;
+ var _end = Object.keys(__giac).length;
+ var match = undefined;
+ 
+ // parse ?_start=55 or ?_end=200
+ // or match="NSolve"
+var locvartemp = ( window.location.href.indexOf( "?" ) + 1 ) ? window.location.href.substr( window.location.href.indexOf( "?" ) + 1 ) : "";
+locvartemp=unescape(locvartemp);
+locvartemp = locvartemp.split( "&" );
+for( var x = 0; x < locvartemp.length; x++ ) {
+    var lvTempVar = locvartemp[x].split( "=" );
+    getVars[ unescape( lvTempVar[0] ) ] = unescape( lvTempVar[1] );
+	try {
+	//alert(locvartemp[x]);
+	eval(locvartemp[x]);
+	}
+	catch (err) { } 
+}
+
+//alert(start+" "+end+" "+match);
+
+
 var giacInput = "problem recording input to giac";
 var giacOutput = "problem recording output from giac";
 var logStore = "";
@@ -20,43 +43,24 @@ if (typeof String.prototype.startsWith != 'function') {
   };
 }
 
-var customLog = 
-{
- oriLog : '',
- Log : function() 
- {
-   // create string to display
-   var displaystring = '';
-   for(var i = 1, len = arguments.length; i < len; i++)
-   {
-     displaystring += arguments[i];
-     if( i + 1 != len) displaystring += ', ';
-   }
-   //alert(displaystring);
-   
-   if (displaystring.startsWith("js giac  input:")) {
-		giacInput = displaystring;
-   } else if (displaystring.startsWith("js giac output:")) {
-		giacOutput = displaystring;
-   } else {
-		logStore+="<br/>"+displaystring;
-   }
-   
-   //customLog.oriLog(arguments);
- }
-}
-
-
 
 window.onload = function()
 {
  if(console != null)
  { 
-   customLog.oriLog = console.log;   
-   console.log = customLog.Log;
+   
+   console.log = function(){
+   
+   var s = arguments[0];
+	   if (s.startsWith("js giac  input:")) {
+			giacInput = s;
+	   } else if (s.startsWith("js giac output:")) {
+			giacOutput = s;
+	   }
+	   
+   };
  }
 
- console.log('test 1', 'test 2');
 }
 </script>
 </head>
@@ -100,11 +104,13 @@ window.onload = function()
 
 		function ggbOnInit() {
 		
+		
 		var table = '<table border="1">';
 		var table2 = '<table border="1">';
 		var table3 = '<table border="1">';
 		
-		for (var i = 500 ; i <= Object.keys(__giac).length ; i++) {
+		//for (var i = 1 ; i <= Object.keys(__giac).length ; i++) {
+		for (var i = _start ; i <= _end ; i++) {
 		
 			//console.clear();
 		
@@ -113,64 +119,71 @@ window.onload = function()
 			var notes = __giac[i]["notes"];
 			var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
 			
-			if (resultO === "") {
-				resultO = "GEOGEBRA ERROR";
-			}
+			// eg match="NSolve", display just that command
+			if (match === undefined || cmd.indexOf(match) > -1) {
 			
-			var result = resultO;
-			
-			if (expectedResult === undefined) {
-				expectedResult="RESULT MISSING";
-				//expColor = "#FF00FF":
-			}
-			
-			if (notes === undefined) {
-				notes="";
-			}
-			
-			//while (expectedResult.indexOf(" ") > -1) {
-			//	expectedResult = expectedResult.replace(" ","");
-			//}
-			
-			while (result.indexOf(" ") > -1) {
-				result = result.replace(" ","");
-			}
-			
-			// <p style="background-color:#FFFF00">
-			var color = correct(result, expectedResult);
-			
-			var fontsize = 12;
-			if (result.length > 50 || expectedResult.length > 50) {
-				//fontsize = 6;
-			}
+				//alert(cmd);
+				
+				if (resultO === "") {
+					resultO = "GEOGEBRA ERROR";
+				}
+				
+				var result = resultO;
+				
+				if (expectedResult === undefined) {
+					expectedResult="RESULT MISSING";
+					//expColor = "#FF00FF":
+				}
+				
+				if (notes === undefined) {
+					notes="";
+				}
+				
+				//while (expectedResult.indexOf(" ") > -1) {
+				//	expectedResult = expectedResult.replace(" ","");
+				//}
+				
+				while (result.indexOf(" ") > -1) {
+					result = result.replace(" ","");
+				}
+				
+				// <p style="background-color:#FFFF00">
+				var color = correct(result, expectedResult);
+				
+				var fontsize = 12;
+				if (result.length > 50 || expectedResult.length > 50) {
+					//fontsize = 6;
+				}
 
 
-			result = splitIfTooLong(result);
-			expectedResult = splitIfTooLong(expectedResult);
+				result = splitIfTooLong(result);
+				expectedResult = splitIfTooLong(expectedResult);
+				
+				if (logStore.indexOf("Cannot enlarge memory arrays") == -1 && logStore.indexOf("geogebra.common.kernel.CASException") == -1) {
+					// comment out for more debugging
+					logStore = "";
+				}
+						
+				var addToTable = "<tr>";
+				addToTable += "<td>" + cmd + "</td>";
+				addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO + '</span></p></td>';
+				addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
+				addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
+				addToTable += "</tr>";
+				
+				if (color == red) {
+					table += addToTable;
+				} else if (color == orange) {
+					table2 += addToTable;
+				} else {
+					table3 += addToTable;
+				}
+				
+				giacInput = "problem recording input to giac";
+				giacOutput = "problem recording output from giac";
+				logStore="";
 			
-			if (logStore.indexOf("Cannot enlarge memory arrays") == -1 && logStore.indexOf("geogebra.common.kernel.CASException") == -1) {
-				// comment out for more debugging
-				logStore = "";
 			}
-					
-			var addToTable = "<tr>";
-			addToTable += "<td>" + cmd + "</td>";
-			addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO + '</span></p></td>';
-			addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
-			addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
-			addToTable += "</tr>";
-			
-			if (color == red) {
-				table += addToTable;
-			} else if (color == orange) {
-				table2 += addToTable;
-			} else {
-				table3 += addToTable;
-			}
-			
-			giacInput = "problem recording input to giac";
-			giacOutput = "problem recording output from giac";
-			logStore="";
 			
 		}
 		
@@ -182,6 +195,8 @@ window.onload = function()
 		
 		table3 += "</table>";
 		document.getElementById('table3').innerHTML = table3;
+		
+		alert("Finished")
 		
 		}
 		
