@@ -49,7 +49,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 
 			// convert Giac's scientific notation from e.g. 3.24e-4 to
 			// 3.2E-4
-			ret = parserTools.convertScientificFloatNotation(ret);
+			
+			// not needed, Giac now outputs E
+			//ret = parserTools.convertScientificFloatNotation(ret);
 
 			return ret;
 		//} catch (TimeoutException toe) {
