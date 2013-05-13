@@ -75,7 +75,7 @@ public class StylingBar extends DecoratorPanel
 			}
 		}, MouseDownEvent.getType()); 
 		
-		this.showHide = new StandardImageButton(CommonResources.INSTANCE.hide()); 
+		this.showHide = new StandardImageButton(CommonResources.INSTANCE.triangle_left()); 
 		this.showHide.addDomHandler(new ClickHandler()
 		{			
 			@Override
@@ -84,12 +84,12 @@ public class StylingBar extends DecoratorPanel
 				event.preventDefault(); 
 				
 				if(StylingBar.this.visible){
-					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.show()); 
+					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.triangle_right()); 
 					StylingBar.this.contentPanel.clear(); 
 					StylingBar.this.contentPanel.add(StylingBar.this.showHide); 
 					StylingBar.this.visible = false; 
 				}else {
-					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.hide());
+					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.triangle_left());
 					StylingBar.this.contentPanel.clear(); 
 					for(StandardImageButton b : StylingBar.this.button){
 						StylingBar.this.contentPanel.add(b); 
@@ -190,7 +190,7 @@ public class StylingBar extends DecoratorPanel
 						}
 						else
 						{
-							StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel), OptionType.LineStyle, StylingBar.this.button[this.index]);
+							StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this), OptionType.LineStyle, StylingBar.this.button[this.index]);
 						}
 					}
 				}, ClickEvent.getType());

@@ -16,8 +16,6 @@ public class AlgebraViewPanel extends ScrollPanel
 {
 	private AlgebraViewM algebraView;
 
-	// private Button button;
-
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.

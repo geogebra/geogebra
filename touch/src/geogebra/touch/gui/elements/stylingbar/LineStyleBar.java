@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.utils.ToolBarCommand;
 import geogebra.web.gui.util.Slider;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -8,17 +9,20 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class LineStyleBar extends PopupPanel
 {
-	private FlowPanel contentPanel;
+	public static final int SLIDER_MIN = 1; 
+	public static final int SLIDER_MAX = 12; 
+	
+	private VerticalPanel contentPanel;
 
-	public LineStyleBar(final TouchModel touchModel)
+	public LineStyleBar(final TouchModel touchModel, final StylingBar stylingBar)
 	{
 		this.addStyleName("StyleBarOptions");
-		this.contentPanel = new FlowPanel();
+		this.contentPanel = new VerticalPanel();
 
 		Button[] lineStyle = new Button[5];
 
@@ -34,6 +38,12 @@ public class LineStyleBar extends PopupPanel
 					StyleBarStatic.applyLineStyle(touchModel.getSelectedGeos(), index);
 					touchModel.getGuiModel().setLineStyle(index);
 					touchModel.storeOnClose();
+					
+					if(touchModel.getCommand().equals(ToolBarCommand.Pen) || 
+							touchModel.getCommand().equals(ToolBarCommand.FreehandShape))
+					{
+						stylingBar.euclidianView.getEuclidianController().getPen().setPenLineStyle(index);
+					}
 				}
 			}, ClickEvent.getType());
 			this.contentPanel.add(lineStyle[i]);
@@ -41,9 +51,16 @@ public class LineStyleBar extends PopupPanel
 
 		Slider slider = new Slider();
 
+		slider.setMinimum(SLIDER_MIN);
+		slider.setMaximum(SLIDER_MAX);
+		
 		if (touchModel.lastSelected() != null)
 		{
-			slider.setValue(Integer.valueOf(touchModel.lastSelected().getLineThickness() - 2));
+			slider.setValue(Integer.valueOf(touchModel.lastSelected().getLineThickness()));
+		} else if(touchModel.getCommand().equals(ToolBarCommand.Pen) || 
+				touchModel.getCommand().equals(ToolBarCommand.FreehandShape))
+		{
+			slider.setValue(new Integer(stylingBar.euclidianView.getEuclidianController().getPen().getPenSize()));
 		}
 
 		slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
@@ -51,9 +68,15 @@ public class LineStyleBar extends PopupPanel
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event)
 			{
-				StyleBarStatic.applyLineSize(touchModel.getSelectedGeos(), event.getValue().intValue() + 2);
-				touchModel.getGuiModel().setLineSize(event.getValue().intValue() + 2);
+				StyleBarStatic.applyLineSize(touchModel.getSelectedGeos(), event.getValue().intValue());
+				touchModel.getGuiModel().setLineSize(event.getValue().intValue());
 				touchModel.storeOnClose();
+				
+				if(touchModel.getCommand().equals(ToolBarCommand.Pen) || 
+						touchModel.getCommand().equals(ToolBarCommand.FreehandShape))
+				{
+					stylingBar.euclidianView.getEuclidianController().getPen().setPenSize(event.getValue().intValue());
+				}
 			}
 		});
 		this.contentPanel.add(slider);

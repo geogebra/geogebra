@@ -55,11 +55,11 @@ public interface CommonResources extends ClientBundle
 	
 	@Source("icons/svg/arrow_dockbar_triangle_right.svg")
 	@Validated(validated = false)
-	SVGResource show();
+	SVGResource triangle_right();
 	
 	@Source("icons/svg/arrow_dockbar_triangle_left.svg")
 	@Validated(validated = false)
-	SVGResource hide();
+	SVGResource triangle_left();
 	
 	// AlgebraView
 

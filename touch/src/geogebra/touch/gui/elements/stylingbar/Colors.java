@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.List;
 
@@ -55,6 +56,12 @@ public class Colors extends VerticalPanel
 					Colors.this.touchModel.lastSelected().updateRepaint();
 				}
 
+				if(Colors.this.touchModel.getCommand().equals(ToolBarCommand.Pen) || 
+						Colors.this.touchModel.getCommand().equals(ToolBarCommand.FreehandShape))
+				{
+					Colors.this.stylingBar.euclidianView.getEuclidianController().getPen().setPenColor(color);
+				}
+				
 				Colors.this.touchModel.storeOnClose();
 			}
 		}, ClickEvent.getType());

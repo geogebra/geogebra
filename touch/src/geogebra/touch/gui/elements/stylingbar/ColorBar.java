@@ -28,7 +28,6 @@ public class ColorBar extends VerticalPanel
 		this.addStyleName("colorBar");
 
 		this.scrollPanel = new ScrollPanel();
-		this.scrollPanel.addStyleName("colorScrollPanel");
 		
 		//TODO get button height to show
 		this.scrollPanel.setHeight("128px");

@@ -6,18 +6,17 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CaptionBar extends PopupPanel
 {
 
-	private LayoutPanel contentPanel;
+	private VerticalPanel contentPanel;
 
 	public CaptionBar(final TouchModel touchModel)
 	{
-		this.contentPanel = new LayoutPanel();
-		this.addStyleName("StyleBarOptions");
+		this.contentPanel = new VerticalPanel();
 
 		Button[] button = new Button[4];
 		for (int i = 0; i < button.length; i++)
