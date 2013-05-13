@@ -130,14 +130,14 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoLine()))
 					&& (ok[1] = (arg[1] .isGeoConic())))
-				return getAlgoDispatcher().IntersectLineConic(
+				return (GeoElement[]) getAlgoDispatcher().IntersectLineConic(
 						c.getLabels(),
 						(GeoLine) arg[0],
 						(GeoConic) arg[1]);
 			else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoLine())))
-				return getAlgoDispatcher().IntersectLineConic(
+				return (GeoElement[]) getAlgoDispatcher().IntersectLineConic(
 						c.getLabels(),
 						(GeoLine) arg[1],
 						(GeoConic) arg[0]);

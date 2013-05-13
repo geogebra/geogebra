@@ -90,7 +90,16 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 	
 	
-	
+	@Override
+	public GeoPointND[] IntersectLineConic(String[] labels, GeoLineND g,
+			GeoConicND c) {
+		
+		if (((GeoElement) g).isGeoElement3D()
+				|| ((GeoElement) c).isGeoElement3D())
+			return getManager3D().IntersectLineConic(null, g, c);
+		
+		return super.IntersectLineConic(labels, g, c);
+	}
 	
 	private Manager3DInterface getManager3D(){
 		return cons.getKernel().getManager3D();

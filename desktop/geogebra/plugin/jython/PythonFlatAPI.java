@@ -1548,7 +1548,7 @@ public class PythonFlatAPI {
 	 *            conic
 	 * @return intersection points of l and c
 	 */
-	public GeoPoint[] intersectLineConic(GeoLine l, GeoConic c) {
+	public GeoPointND[] intersectLineConic(GeoLine l, GeoConic c) {
 		return getAlgoDispatcher().IntersectLineConic(null, l, c);
 	}
 

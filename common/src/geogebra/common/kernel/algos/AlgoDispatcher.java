@@ -990,9 +990,9 @@ public class AlgoDispatcher {
 	 * IntersectLineConic yields intersection points named label1, label2 of
 	 * line g and conic c
 	 */
-	final public GeoPoint[] IntersectLineConic(String[] labels, GeoLine g,
-			GeoConic c) {
-		AlgoIntersectLineConic algo = getIntersectionAlgorithm(g, c);
+	public GeoPointND[] IntersectLineConic(String[] labels, GeoLineND g,
+			GeoConicND c) {
+		AlgoIntersectLineConic algo = getIntersectionAlgorithm((GeoLine) g, (GeoConic) c);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
 		GeoElement.setLabels(labels, points);

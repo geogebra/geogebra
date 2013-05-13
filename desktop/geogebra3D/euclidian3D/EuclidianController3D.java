@@ -2169,7 +2169,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				GeoConicND conic = getSelectedConicsND()[0];
 				GeoElement[] ret = new GeoElement[2];
 
-				GeoPointND[] points = getKernel().getManager3D().IntersectLineConic(null, line, conic);
+				GeoPointND[] points = getAlgoDispatcher().IntersectLineConic(null, line, conic);
 				for(int i=0;i<2; i++)
 					ret[i] = (GeoElement) points[i];
 
@@ -2239,6 +2239,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	public Color intersectionCurveColorPlanarPlanar = new Color(127, 0, 255);
 
 
+	/**
+	 * ensure that the point will show 3D cartesion coords
+	 * @param point point
+	 */
 	private static void checkCoordCartesian3D(GeoPointND point){
 		if (point.getMode() != Kernel.COORD_CARTESIAN_3D){
 			point.setCartesian3D();

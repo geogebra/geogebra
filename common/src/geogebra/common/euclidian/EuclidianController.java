@@ -2268,16 +2268,20 @@ public abstract class EuclidianController {
 		}
 		// one line and one conic
 		else if ((selLines() >= 1) && (selConics() >= 1)) {
-			GeoConic[] conic = getSelectedConics();
-			GeoLine[] line = getSelectedLines();
+			GeoConicND[] conic = getSelectedConicsND();
+			GeoLineND[] line = getSelectedLinesND();
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
 			if (singlePointWanted) {
-				ret[0] = getAlgoDispatcher().IntersectLineConicSingle(null, line[0],
-						conic[0], xRW, yRW);
+				ret[0] = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) line[0],
+						(GeoConic) conic[0], xRW, yRW);
+				checkCoordCartesian((GeoPointND) ret[0]);
 			} else {
-				ret = getAlgoDispatcher().IntersectLineConic(null, line[0], conic[0]);
+				ret = (GeoElement[]) getAlgoDispatcher().IntersectLineConic(null, line[0], conic[0]);
+				for(int i=0;i<ret.length; i++){
+					checkCoordCartesian((GeoPointND) ret[i]);
+				}
 			}
 	
 			return ret;
@@ -2451,6 +2455,10 @@ public abstract class EuclidianController {
 		return null;
 	}
 	
+	/**
+	 * ensure that the point will show 2D cartesion coords
+	 * @param point point
+	 */
 	private static void checkCoordCartesian(GeoPointND point){
 		if (point.getMode() != Kernel.COORD_CARTESIAN){
 			point.setCartesian();
