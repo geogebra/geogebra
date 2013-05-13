@@ -258,18 +258,18 @@ public class Ggb2giac {
 		p("Normal.4",
 				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*((%1)^2))) * exp(-((%2-%0)^2) / (2*((%1)^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
-		// first element of list, wrapped back in list
+
+		// wrap output in a list if not already eg x=1.1 -> {x=1.1}
 		p("NSolve.1",
-				"ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]");
+				"[[ggbans:=ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("NSolve.2",
-				"left(%1)=fsolve(%0,%1)");
-		// first element of list, wrapped back in list
+				"[[ggbans:=left(%1)=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 		p("NSolutions.1",
-				"fsolve(%0,ggbtmpvarx)[0]");
+				"[[ggbans:=fsolve(%0,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("NSolutions.2",
-				"fsolve(%0,%1)");
+				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
 				// normal() so that Numeric(x + x/2) works
