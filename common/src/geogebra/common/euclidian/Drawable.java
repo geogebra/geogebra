@@ -601,4 +601,11 @@ public abstract class Drawable extends DrawableND {
 	public boolean isFilled(){
 		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
 	}
+	
+	/**
+	 * @return view in which this is drawn
+	 */
+	public EuclidianView getView(){
+		return view;
+	}
 }

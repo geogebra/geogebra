@@ -111,12 +111,6 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		update();
 	}
-	/**
-	 * @return view in which this is drawn
-	 */
-	EuclidianView getView(){
-		return view;
-	}
 	
 	/**
 	 * @return the text field

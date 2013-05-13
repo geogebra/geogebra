@@ -88,13 +88,13 @@ public class DrawTurtle extends Drawable {
 		private GColor penColor = GColor.BLACK;
 		private int penThickness = 1;
 		private int nlines = 0;
-		private double turnAngle1 = 0d;
+		double turnAngle1 = 0d;
 		private GeneralPathClipped currentPath;
 		// private GeoPointND currentPosition = turtle.getStartPoint();
-		private double coords[] = new double[2];
+		double coords[] = new double[2];
 		
 		public DrawState() {
-			currentPath = new GeneralPathClipped(view);
+			currentPath = new GeneralPathClipped(getView());
 			penDown = false;
 			move(turtle.getStartPoint());
 			penDown = true;
@@ -107,7 +107,7 @@ public class DrawTurtle extends Drawable {
 		
 		public void move(GeoPointND newPosition) {
 			newPosition.getInhomCoords(coords);
-			view.toScreenCoords(coords);
+			getView().toScreenCoords(coords);
 			if (penDown) {
 				currentPath.lineTo(coords[0], coords[1]);
 				nlines += 1;
@@ -119,7 +119,7 @@ public class DrawTurtle extends Drawable {
 		public void partialMove(GeoPointND newPosition, double progress) {
 			double[] newCoords = new double[2];
 			newPosition.getInhomCoords(newCoords);
-			view.toScreenCoords(newCoords);
+			getView().toScreenCoords(newCoords);
 			coords[0] = coords[0]*(1d - progress) + newCoords[0]*progress;
 			coords[1] = coords[1]*(1d - progress) + newCoords[1]*progress;
 			if (penDown) {
@@ -156,7 +156,7 @@ public class DrawTurtle extends Drawable {
 			if (nlines > 0) {
 				pathList.add(new PartialPath(penColor, penThickness, currentPath));
 			}
-			currentPath = new GeneralPathClipped(view);
+			currentPath = new GeneralPathClipped(getView());
 			currentPath.moveTo(coords[0], coords[1]);
 		}
 	}

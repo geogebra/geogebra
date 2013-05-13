@@ -65,7 +65,7 @@ import java.util.ArrayList;
  */
 public class DrawConic extends Drawable implements Previewable {
 
-	// plotpoints per quadrant for hyperbola
+	/** plotpoints per quadrant for hyperbola */
 	protected static final int PLOT_POINTS = 32;
 	/** maximum number of plot points */
 	public static final int MAX_PLOT_POINTS = 300;
@@ -75,12 +75,15 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	public static final double HUGE_RADIUS = 1E12;
 
+	/** the conic being drawn (not necessarily the same as geo, eg, for ineq drawing) */
 	protected GeoConicND conic;
 
+	/** whether this is euclidian visible and onscreen */
 	protected boolean isVisible;
+	/** whether the label is visible */
 	protected boolean labelVisible;
 	private int type;
-
+	/** label coordinates */
 	protected double[] labelCoords = new double[2];
 
 	// CONIC_SINGLE_POINT
@@ -101,25 +104,33 @@ public class DrawConic extends Drawable implements Previewable {
 	private GRectangularShape circle;
 	private double mx, my, radius, yradius, angSt, angEnd;
 
-	// for ellipse, hyperbola, parabola
+	/** transform for ellipse, hyperbola, parabola */
 	protected GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
+	/** shape to be filled (eg. ellipse, space between paralel lines) */
 	protected GShape shape;
 
 	// CONIC_ELLIPSE
 	private boolean firstEllipse = true;
+	/** lengths of half axes*/
 	protected double[] halfAxes;
 	private GEllipse2DDouble ellipse;
 
 	// CONIC_PARABOLA
 	private boolean firstParabola = true;
-	protected double x0, y0;
+	/** x coord of start point for parabola/hyperbola */
+	protected double x0;
+	/** y coord of start point for parabola/hyperbola */
+	protected double y0;
 	private double k2;
 	private GeoVec2D vertex;
+	/** parabolic path */
 	protected GGeneralPath parabola;
 	private double[] parpoints = new double[8];
 
 	// CONIC_HYPERBOLA
+	/** whether this is the first time we draw a hyperbola */
 	protected boolean firstHyperbola = true;
+	/** first half-axis */
 	protected double a;
 	private double b;
 	private double tsq;
@@ -128,6 +139,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private double denom;
 	private double x, y;
 	private int index0, index1, n;
+	/** number of points used for hyperbola path */
 	protected int points;
 	private GeneralPathClipped hypLeft, hypRight;
 	private boolean hypLeftOnScreen, hypRightOnScreen;
@@ -717,6 +729,9 @@ public class DrawConic extends Drawable implements Previewable {
 		yLabel = (int) (my - yradius * 0.85) + 20;
 	}
 
+	/**
+	 * Update in case this draws an ellipse
+	 */
 	protected void updateEllipse() {
 		setShape(null);
 		// check for huge pixel radius
@@ -930,12 +945,12 @@ public class DrawConic extends Drawable implements Previewable {
 	/**
 	 * add point to paths for hyperbola
 	 * @param index index for the point
-	 * @param x x coord
-	 * @param y y coord
+	 * @param x1 x coord
+	 * @param y1 y coord
 	 */
-	protected void updateHyperbolaAddPoint(int index, double x, double y){
-		hypRight.addPoint(index, x, y);
-		hypLeft.addPoint(index, -x, y);
+	protected void updateHyperbolaAddPoint(int index, double x1, double y1){
+		hypRight.addPoint(index, x1, y1);
+		hypLeft.addPoint(index, -x1, y1);
 
 	}
 	
