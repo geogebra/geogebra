@@ -2223,7 +2223,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming(); 
 			
-			ret[0] = (GeoElement) getAlgoDispatcher().IntersectLines(null, lines[0],
+			ret[0] = (GeoElement) kernel.IntersectLines(null, lines[0],
 					lines[1]);
 			return ret;
 		}

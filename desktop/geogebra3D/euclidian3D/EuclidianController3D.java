@@ -2159,9 +2159,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		if (selLines() >= 2) {// two lines	
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoElement[] ret = { null };
-			ret[0] = getKernel().getManager3D().Intersect(null, (GeoElement) lines[0], (GeoElement) lines[1]);
-			return ret;
+			GeoPointND point = getKernel().IntersectLines(null, lines[0], lines[1]);
+			checkCoordCartesian3D(point);
+			return new GeoElement[] {(GeoElement) point};
 
 		} else if (selLines() ==1){
 			if (selConics()>=1 ) {// line-conic
@@ -2236,8 +2236,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	//TODO: color should not be created here
 	public Color intersectionCurveColorPlanarPlanar = new Color(127, 0, 255);
 
-	
-	
+
+	private static void checkCoordCartesian3D(GeoPointND point){
+		if (point.getMode() != Kernel.COORD_CARTESIAN_3D){
+			point.setCartesian3D();
+			point.updateRepaint();
+		}
+	}
 	
 	public ArrayList<IntersectionCurve> getIntersectionCurves(){
 		return intersectionCurveList;
