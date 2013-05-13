@@ -226,7 +226,6 @@ public class AlgoSequence extends AlgoElement {
 		if (updateRunning)
 			return;
 		updateRunning = true;
-		long l = System.currentTimeMillis();
 		for (int i = 1; i < input.length; i++) {
 			if (!input[i].isDefined()) {
 				list.setUndefined();
@@ -304,7 +303,6 @@ public class AlgoSequence extends AlgoElement {
 
 			// create the sequence
 			double currentVal = from;
-			long updateTime = 0, addTime = 0;
 			while ((step > 0 && currentVal <= to + Kernel.MIN_PRECISION)
 					|| (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) {
 
@@ -319,20 +317,13 @@ public class AlgoSequence extends AlgoElement {
 				}
 
 				// set local var value
-				long l = System.currentTimeMillis();
 				updateLocalVar(currentVal);
-				long l2 = System.currentTimeMillis();
-				updateTime += l2 - l;
 				addElement(i);
-				addTime += System.currentTimeMillis() - l2;
 				currentVal += step;
 				if (Kernel.isInteger(currentVal)) {
 					currentVal = Math.round(currentVal);
 				}
 				i++;
-			}
-			if(list.isLabelSet()){
-				App.debug("Sequence " + list.getLabelSimple() + " updatess " + updateTime + " adds " + addTime);
 			}
 		}
 
