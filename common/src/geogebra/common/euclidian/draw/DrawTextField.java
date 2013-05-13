@@ -111,6 +111,19 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		update();
 	}
+	/**
+	 * @return view in which this is drawn
+	 */
+	EuclidianView getView(){
+		return view;
+	}
+	
+	/**
+	 * @return the text field
+	 */
+	GeoElement getGeo(){
+		return geo;
+	}
 
 	
 	/**
@@ -130,7 +143,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e focus event
 		 */
 		public void focusGained(FocusEvent e) {
-			view.getEuclidianController().textfieldHasFocus(true);
+			getView().getEuclidianController().textfieldHasFocus(true);
 			//geoTextField.updateText(textField);
 		}
 	
@@ -138,7 +151,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e focus event
 		 */
 		public void focusLost(FocusEvent e) {
-			view.getEuclidianController().textfieldHasFocus(false);	
+			getView().getEuclidianController().textfieldHasFocus(false);	
 			geoTextField.textObjectUpdated(textField);
 			geoTextField.textSubmitted();
 		}
@@ -168,9 +181,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
-				view.requestFocusInWindow();
+				getView().requestFocusInWindow();
 			} else {
-				GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
+				GeoElement linkedGeo = ((GeoTextField) getGeo()).getLinkedGeo();
 				
 				if (linkedGeo instanceof GeoAngle) {
 					
@@ -455,7 +468,9 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 		
 	}
-
+	/**
+	 * @return label for this textfield
+	 */
 	public GLabel getLabel(){
 		return label;
 	}

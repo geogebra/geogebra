@@ -235,19 +235,19 @@ public class DrawConicSection extends DrawConic {
 	@Override
 	protected void updateLines() {
 		
-		Coords[] points = new Coords[4];
+		Coords[] endPoints = new Coords[4];
 
 		Coords m = conic.getOrigin3D(0);
 		Coords d = conic.getDirection3D(0);
 
-		points[0] = view.getCoordsForView(m.add(d.mul(getStart(0))));
-		points[1] = view.getCoordsForView(m.add(d.mul(getEnd(0))));
+		endPoints[0] = view.getCoordsForView(m.add(d.mul(getStart(0))));
+		endPoints[1] = view.getCoordsForView(m.add(d.mul(getEnd(0))));
 		
 		m = conic.getOrigin3D(1);
 		d = conic.getDirection3D(1);
 
-		points[3] = view.getCoordsForView(m.add(d.mul(getStart(1))));
-		points[2] = view.getCoordsForView(m.add(d.mul(getEnd(1))));
+		endPoints[3] = view.getCoordsForView(m.add(d.mul(getStart(1))));
+		endPoints[2] = view.getCoordsForView(m.add(d.mul(getEnd(1))));
 		
 		
 		
@@ -256,12 +256,12 @@ public class DrawConicSection extends DrawConic {
 		boolean firstPoint = true;
 
 		for (int i=0; i<4; i++){
-			if (Kernel.isZero(points[i].getZ())){
+			if (Kernel.isZero(endPoints[i].getZ())){
 				if (firstPoint){
-					path.moveTo((float) points[i].getX(), (float) points[i].getY());
+					path.moveTo((float) endPoints[i].getX(), (float) endPoints[i].getY());
 					firstPoint = false;
 				}else{
-					path.lineTo((float) points[i].getX(), (float) points[i].getY());
+					path.lineTo((float) endPoints[i].getX(), (float) endPoints[i].getY());
 				}
 			}
 		}
