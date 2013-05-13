@@ -8028,9 +8028,25 @@ public abstract class EuclidianController {
 
 		clearJustCreatedGeos();
 		if (!draggingOccured) {
-	
+			
 			draggingOccured = true;
-	
+
+			// make sure dragging triggers reset/play/pause
+			// needed for tablets
+			if (hitResetIcon()) {
+				app.reset();
+				return;
+			} else if (view.hitAnimationButton(event)) {
+				if (kernel.isAnimationRunning()) {
+					kernel.getAnimatonManager().stopAnimation();
+				} else {
+					kernel.getAnimatonManager().startAnimation();
+				}
+				view.repaintView();
+				app.setUnsaved();
+				return;
+			}
+		
 			if ((mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR)
 					&& (selGeos() == 0)) {
 				translateHitsByVector();
