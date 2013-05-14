@@ -266,7 +266,7 @@ public class Ggb2giac {
 		  "ggbtmpvarx=fsolve(%0,ggbtmpvarx)");
 		// "[[ggbans:=ggbtmpvarx=fsolve(%0,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("NSolve.2",
-		  "%1=fsolve(%0,%1)");
+		  "left(%1)=fsolve(%0,%1)");
 		// "[[ggbans:=left(%1)=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
