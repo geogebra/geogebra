@@ -3624,7 +3624,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 				break;
 			case GIAC:
-				sb.append("carg(");
+				sb.append("arg(");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
