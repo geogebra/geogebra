@@ -1284,7 +1284,7 @@ public class OptionsEuclidianD extends
 			ConstructionProtocolNavigation cpn = app.getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn);
+			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
 			app.setUnsaved();
 			updateGUI();
 		}
@@ -1297,7 +1297,7 @@ public class OptionsEuclidianD extends
 			ConstructionProtocolNavigation cpn = app.getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
-			SwingUtilities.updateComponentTreeUI(cpn);
+			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
 			app.setUnsaved();
 			updateGUI();
 		}

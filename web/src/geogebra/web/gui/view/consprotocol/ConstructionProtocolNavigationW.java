@@ -11,7 +11,8 @@ public class ConstructionProtocolNavigationW extends FlowPanel{
 
 	private AppW app;
 	private Label lbSteps;
-//	private ConstructionProtocolViewW prot;
+	private ConstructionProtocolViewW prot;
+
 
 	public ConstructionProtocolNavigationW(AppW app){
 		this.app = app;
@@ -41,29 +42,30 @@ public class ConstructionProtocolNavigationW extends FlowPanel{
 		
 		
 		add(leftPanel);
+		update();
 	}
 	
 	/**
 	 * Updates the texts that show the current construction step and
 	 * the number of construction steps.	
 	 */
-//	public void update() {	
-//		if (prot != null) {
-//			int currentStep = prot.getCurrentStepNumber();
-//			int stepNumber  = prot.getLastStepNumber();
-//			lbSteps.setText(currentStep + " / " + stepNumber);	
-//		}
-//	}
+	public void update() {	
+		if (prot != null) {
+			int currentStep = prot.getCurrentStepNumber();
+			int stepNumber  = prot.getLastStepNumber();
+			lbSteps.setText(currentStep + " / " + stepNumber);	
+		}
+	}
 	
 	/**
 	 * Registers this navigation bar at its protocol
 	 * to be informed about updates.
 	 * @param constructionProtocolView 
 	 */
-//	public void register(ConstructionProtocolViewW constructionProtocolView) { 
-//		if (prot == null) { 
-//			initGUI(); 
-//		}
-//		prot = constructionProtocolView;
-//	}
+	public void register(ConstructionProtocolViewW constructionProtocolView) { 
+		if (prot == null) { 
+			initGUI(); 
+		}
+		prot = constructionProtocolView;
+	}
 }

@@ -30,7 +30,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	 * Component of the construction protocol navigation bar,
 	 * invisible if not needed.
 	 */
-	private JComponent consProtNav;
+	private ConstructionProtocolNavigation consProtNav;
 	
 	/**
 	 * @param app
@@ -68,16 +68,16 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 			consProtNav = app.getConstructionProtocolNavigation();
 
 			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
-			((ConstructionProtocolNavigation) consProtNav).settingsChanged(cps);
-			cps.addListener((ConstructionProtocolNavigation)consProtNav);
+			consProtNav.settingsChanged(cps);
+			cps.addListener(consProtNav);
 				
 			if (app.getShowCPNavNeedsUpdate()){
 				app.setShowConstructionProtocolNavigation(app.showConsProtNavigation());
 			}
-			consProtNav.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.lightGray));
-			consProtNav.setVisible(app.showConsProtNavigation());
+			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.lightGray));
+			consProtNav.getImpl().setVisible(app.showConsProtNavigation());
 			
-			panel.add(consProtNav, BorderLayout.SOUTH); // may be invisible, but made visible later
+			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be invisible, but made visible later
 		}
 		
 		return panel;

@@ -11,6 +11,7 @@ the Free Software Foundation.
 
  */
 
+import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
@@ -18,7 +19,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
@@ -29,6 +29,7 @@ import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanelD;
+import geogebra.javax.swing.GImageIconD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -86,7 +87,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class ConstructionProtocolView extends JPanel implements Printable, ActionListener, SettingListener {
+public class ConstructionProtocolView extends JPanel implements geogebra.common.gui.view.consprotocol.ConstructionProtocolView, Printable, ActionListener, SettingListener {
 
 	/**
 	 * 
@@ -203,6 +204,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		
 	}
 
+	public int getConstructionIndex(int row){
+		return data.getConstructionIndex(row);
+	}
+	
 	public AppD getApplication() {
 		return app;
 	}
@@ -575,7 +580,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						//if (colName.equals("Breakpoint")) {
 						if (colName.equals("H")) {
 							RowData rd = data.getRow(row);
-							GeoElement geo = rd.geo;
+							GeoElement geo = rd.getGeo();
 							boolean newVal = !geo.isConsProtocolBreakpoint();
 							geo.setConsProtocolBreakpoint(newVal);
 
@@ -803,9 +808,9 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			
 			int step = kernel.getConstructionStep();
 			RowData rd = data.getRow(row);
-			int index = rd.geo.getConstructionIndex();
+			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
-				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.geo.getObjectColor()));
+				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.getGeo().getObjectColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -903,89 +908,20 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 	}
 
-	class RowData {
-		int rowNumber=-1;
-		int index; // construction index of line: may be different
-					// to geo.getConstructionIndex() as not every
-					// geo is shown in the protocol
-		GeoElement geo;
-		ImageIcon toolbarIcon;
-		String name, algebra, definition, command, caption;
-		boolean includesIndex;
-		Boolean consProtocolVisible;
+	class RowData extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData{
 
 		public RowData(GeoElement geo) {
-			this.geo = geo;
-			updateAll();
+			super(geo);
 		}
 		
-		public void updateAlgebraAndName() {
-			if (geo instanceof GeoText)
-				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
-			else
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault();
-			// name description changes if type changes, e.g. ellipse becomes
-			// hyperbola
-			name = geo.getNameDescriptionTextOrHTML();
-			// name = geo.getNameDescriptionHTML(true, true);
+		@Override
+		protected int getConstructionIndex(int row){
+			return data.getConstructionIndex(row);
 		}
-
-		public void updateCaption(){
-			caption = geo.getCaptionDescriptionHTML(true,StringTemplate.defaultTemplate);
+		@Override
+		protected GImageIcon getModeIcon(int mode){
+			return app.wrapGetModeIcon(mode);
 		}
-		
-		public void updateAll() {
-
-			/* Only one toolbar should be displayed for each step,
-			 * even if multiple substeps are present in a step (i.e. more rows).
-			 * For that, we calculate the index for the current and the previous row
-			 * and check if they are equal.
-			 */
-			int index;
-			int prevIndex;
-
-			index = (rowNumber < 0) ? -1 : data.getConstructionIndex(rowNumber);
-			prevIndex = (rowNumber < 1) ? -1 : data.getConstructionIndex(rowNumber - 1);
-
-			
-			// TODO: This logic could be merged with the HTML export logic.
-			int m;
-			// Markus' idea to find the correct icon:
-			// 1) check if an object has a parent algorithm:
-			if (geo.getParentAlgorithm() != null) {
-				// 2) if it has a parent algorithm and its modeID returned
-				// is > -1, then use this one:
-				m = geo.getParentAlgorithm().getRelatedModeID();
-			}
-			// 3) otherwise use the modeID of the GeoElement itself:
-			else
-				m = geo.getRelatedModeID();
-
-			if (m != -1 && index != prevIndex)
-				toolbarIcon = app.getModeIcon(m);
-			else
-				toolbarIcon = null;
-
-			// name = geo.getNameDescriptionHTML(true, true);
-			name = geo.getNameDescriptionTextOrHTML();
-			//algebra = geo.getRedefineString(true, true);
-			//algebra = geo.toOutputValueString();
-			if (geo instanceof GeoText)
-				algebra = "\""+geo.toValueString(StringTemplate.defaultTemplate)+"\"";
-			else algebra = geo.getAlgebraDescriptionTextOrHTMLDefault();
-			definition = geo.getDefinitionDescriptionHTML(true);
-			command = geo.getCommandDescriptionHTML(true);
-			updateCaption();
-			consProtocolVisible = new Boolean(geo.isConsProtocolBreakpoint());
-
-			// does this line include an index?
-			includesIndex = (name.indexOf("<sub>") >= 0)
-					|| (algebra.indexOf("<sub>") >= 0)
-					|| (definition.indexOf("<sub>") >= 0)
-					|| (command.indexOf("<sub>") >= 0)
-					|| (caption.indexOf("<sub>") >= 0);
-		}
-
 		
 	}
 
@@ -1043,7 +979,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 	}
 
-	public class ConstructionTableData extends AbstractTableModel implements View {
+	public class ConstructionTableData extends AbstractTableModel
+			implements
+			View,
+			geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData {
 
 		/**
 		 * 
@@ -1080,7 +1019,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		public int getLastStepNumber() {
 			int pos = rowList.size() - 1;
 			if (pos >= 0)
-				return rowList.get(pos).index;
+				return rowList.get(pos).getIndex();
 			else
 				return 0;
 		}
@@ -1096,8 +1035,8 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			int size = rowList.size();
 			for (int i = 0; i < size; i++) {
 				RowData rd = rowList.get(i);
-				if (rd.geo.getConstructionIndex() == step)
-					return rd.index;
+				if (rd.getGeo().getConstructionIndex() == step)
+					return rd.getIndex();
 			}
 			return 0;
 		}
@@ -1126,11 +1065,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public GeoElement getGeoElement(int row) {
-			return rowList.get(row).geo;
+			return rowList.get(row).getGeo();
 		}
 
 		public int getConstructionIndex(int row) {
-			return rowList.get(row).geo.getConstructionIndex();
+			return rowList.get(row).getGeo().getConstructionIndex();
 		}
 
 		public RowData getRow(int row) {
@@ -1218,7 +1157,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return geogebra.awt.GColorD.getAwtColor(rowList.get(nRow).geo.getObjectColor());
+					return geogebra.awt.GColorD.getAwtColor(rowList.get(nRow).getGeo().getObjectColor());
 				else
 					return Color.black;
 			} catch (Exception e) {
@@ -1231,21 +1170,21 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				return "";
 			switch (nCol) {
 			case 0:
-				return rowList.get(nRow).index + "";
+				return rowList.get(nRow).getIndex() + "";
 			case 1:
-				return rowList.get(nRow).name;
+				return rowList.get(nRow).getName();
 			case 2:
-				return rowList.get(nRow).toolbarIcon;
+				return ((GImageIconD) (rowList.get(nRow).getToolbarIcon())).getImpl();
 			case 3:
-				return rowList.get(nRow).definition;
+				return rowList.get(nRow).getDefinition();
 			case 4:
-				return rowList.get(nRow).command;
+				return rowList.get(nRow).getCommand();
 			case 5:
-				return rowList.get(nRow).algebra;
+				return rowList.get(nRow).getAlgebra();
 			case 7:
-				return rowList.get(nRow).consProtocolVisible;
+				return rowList.get(nRow).getCPVisible();
 			case 6:
-				return rowList.get(nRow).caption;
+				return rowList.get(nRow).getCaption();
 			}
 			return "";
 		}
@@ -1257,23 +1196,23 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			switch (nCol) {
 			case 0:
 				return ""
-						+ (rowList.get(nRow).geo
+						+ (rowList.get(nRow).getGeo()
 								.getConstructionIndex() + 1);
 			case 1:
 				return "";
 			case 2:
-				return rowList.get(nRow).geo.getNameDescription();
+				return rowList.get(nRow).getGeo().getNameDescription();
 			case 3:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getDefinitionDescription(StringTemplate.defaultTemplate);
 			case 4:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getCommandDescription(StringTemplate.defaultTemplate);
 			case 5:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionDefault();
 			case 7:
-				return rowList.get(nRow).consProtocolVisible
+				return rowList.get(nRow).getCPVisible()
 						.toString();
 			}
 			return "";
@@ -1299,10 +1238,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			switch (nCol) {
 			case 0:
 				return ""
-						+ (rowList.get(nRow).geo
+						+ (rowList.get(nRow).getGeo()
 								.getConstructionIndex() + 1);
 			case 1:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getNameDescriptionHTML(false, false);
 
 			case 2: { // Displaying toolbar icons in the list on demand.
@@ -1310,7 +1249,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				int m;
 				// Markus' idea to find the correct icon:
 				// 1) check if an object has a parent algorithm:
-				GeoElement ge = rowList.get(nRow).geo;
+				GeoElement ge = rowList.get(nRow).getGeo();
 				if (ge.getParentAlgorithm() != null) {
 					// 2) if it has a parent algorithm and its modeID returned
 					// is > -1, then use this one:
@@ -1319,7 +1258,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				}
 				// 3) otherwise use the modeID of the GeoElement itself:
 				else
-					m = rowList.get(nRow).geo.getRelatedModeID();
+					m = rowList.get(nRow).getGeo().getRelatedModeID();
 
 				if (m == -1 || index == prevIndex)
 					return "";
@@ -1368,21 +1307,21 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				return "<img src=\"" + gifFileName + "\">";
 			}
 			case 3:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getDefinitionDescriptionHTML(false);
 			case 4:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getCommandDescriptionHTML(false);
 			case 5:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionHTMLDefault();
 		
 			case 6:
-				return rowList.get(nRow).geo
+				return rowList.get(nRow).getGeo()
 						.getCaptionDescriptionHTML(false,StringTemplate.defaultTemplate);			
 				
 			case 7:
-				return rowList.get(nRow).consProtocolVisible
+				return rowList.get(nRow).getCPVisible()
 						.toString();
 				
 			}
@@ -1427,7 +1366,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				int pos = 0; // there may be more rows with same index
 				int size = rowList.size();
 				while (pos < size
-						&& index >= rowList.get(pos).geo
+						&& index >= rowList.get(pos).getGeo()
 								.getConstructionIndex())
 					pos++;
 
@@ -1455,9 +1394,9 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			if (row != null) {
 				rowList.remove(row); // remove row
 				geoMap.remove(geo); // remove (geo, row) pair from map
-				updateRowNumbers(row.rowNumber);
+				updateRowNumbers(row.getRowNumber());
 				updateIndices();
-				fireTableRowsDeleted(row.rowNumber, row.rowNumber);
+				fireTableRowsDeleted(row.getRowNumber(), row.getRowNumber());
 				updateAll();
 				updateNavigationBars();
 			}
@@ -1479,7 +1418,8 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				return;
 			int size = rowList.size();
 			for (int i = row; i < size; ++i) {
-				rowList.get(i).rowNumber = i;
+				//rowList.get(i).rowNumber = i;
+				rowList.get(i).setRowNumber(i);
 			}
 		}
 
@@ -1494,12 +1434,12 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			RowData row;
 			for (int i = 0; i < size; ++i) {
 				row = rowList.get(i);
-				int newIndex = row.geo.getConstructionIndex();
+				int newIndex = row.getGeo().getConstructionIndex();
 				if (lastIndex != newIndex) {
 					lastIndex = newIndex;
 					count++;
 				}
-				row.index = count;
+				row.setIndex(count);
 			}
 		}
 
@@ -1540,7 +1480,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				// it seems there isn't fit to content (automatic) row height in JTable,
 				// so we use the most frequent option, 2 lines of text in a row
 				// (this is still better than 1 lines of text in a row)
-				if (row.includesIndex) {
+				if (row.getIncludesIndex()) {
 					table.setRowHeight(i, Math.max(
 							(table.getFont().getSize() * 2 + 16), toolbarIconHeight));
 				} else {
@@ -1563,7 +1503,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				else {
 					row.updateAlgebraAndName();
 					row.updateCaption();
-					fireTableRowsUpdated(row.rowNumber, row.rowNumber);
+					fireTableRowsUpdated(row.getRowNumber(), row.getRowNumber());
 				}
 			} else {
 				// missing row: should be added if only breakpoints
@@ -1612,8 +1552,8 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		public void setValueAt(Object value, int row, int col) {
 
         	if((this.columns[col].getTitle()).equals("Caption")){
-        		data.getRow(row).geo.setCaption(value.toString());
-        		data.getRow(row).geo.update();
+        		data.getRow(row).getGeo().setCaption(value.toString());
+        		data.getRow(row).getGeo().update();
         		//updateAll();
         		kernel.notifyRepaint();     		
         	}

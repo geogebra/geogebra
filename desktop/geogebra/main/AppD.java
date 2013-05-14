@@ -32,6 +32,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -1934,6 +1935,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		imageManager.addExternalImage(filename, image);
 	}
 
+	public GImageIcon wrapGetModeIcon(int mode){
+		return new geogebra.javax.swing.GImageIconD(getModeIcon(mode));
+	}
+	
 	public ImageIcon getModeIcon(int mode) {
 		ImageIcon icon;
 

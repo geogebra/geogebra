@@ -881,7 +881,7 @@ public class GuiManagerD extends GuiManager {
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		
-		((AppD)app).getConstructionProtocolNavigation().setVisible(show); 
+		((AppD)app).getConstructionProtocolNavigation().getImpl().setVisible(show); 
 		
 		if (show) {
 			if (app.getActiveEuclidianView() != null)

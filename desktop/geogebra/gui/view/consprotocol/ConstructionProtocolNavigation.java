@@ -45,7 +45,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Navigation buttons for the construction protocol
  */
-public class ConstructionProtocolNavigation extends JPanel implements ActionListener, SettingListener, SetLabels {
+public class ConstructionProtocolNavigation extends geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation implements ActionListener, SettingListener, SetLabels {
 
 	/**
 	 * 
@@ -71,11 +71,18 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	/** Indicates whether animation is on or off */
 	boolean isPlaying;
 	
+	
+	/**
+	 * ConstructionProtocolNavigation panel
+	 */
+	private JPanel implPanel;
+	
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
 	 * @param prot construction protocol view
 	 */
 	public ConstructionProtocolNavigation(AppD app) {
+		implPanel = new JPanel();
 		this.app = app;			
 				
 		SpinnerModel model =
@@ -99,6 +106,10 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		settingsChanged(cps);
 		cps.addListener(this);
 		*/
+	}
+	
+	public JPanel getImpl(){
+		return implPanel;
 	}
 		
 	/**
@@ -161,7 +172,7 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 * Initializes all components, sets labels
 	 */
 	public void initGUI() {
-		removeAll();	
+		implPanel.removeAll();	
 					
 		btFirst = new JButton(app.getImageIcon("nav_skipback.png"));
 		btLast = new JButton(app.getImageIcon("nav_skipforward.png"));		
@@ -216,11 +227,11 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 	playPanel.setVisible(showPlayButton);
 		
 		// add panels together to center
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));		
-		add(leftPanel);
-		add(playPanel);
-		add(btOpenWindow);
-		add(Box.createRigidArea(new Dimension(20,10)));
+		implPanel.setLayout(new BoxLayout(this.implPanel, BoxLayout.LINE_AXIS));		
+		implPanel.add(leftPanel);
+		implPanel.add(playPanel);
+		implPanel.add(btOpenWindow);
+		implPanel.add(Box.createRigidArea(new Dimension(20,10)));
 								
 		setLabels();
 		setPlayDelay(playDelay);
@@ -268,7 +279,7 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));		
+		implPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));		
 		
 		if (source == btFirst) {
 			prot.firstStep();		
@@ -294,14 +305,14 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		if (prot.isVisible()) 
 			prot.scrollToConstructionStep();
 				
-		setCursor(Cursor.getDefaultCursor());		
+		implPanel.setCursor(Cursor.getDefaultCursor());		
 	}
 	/**
 	 * Make all components enabled / disabled
 	 * @param flag whether components should be enabled
 	 */
 	void setComponentsEnabled(boolean flag) {
-		Component comps[] = getComponents();
+		Component comps[] = implPanel.getComponents();
 		for (int i=0; i < comps.length; i++) {
 			comps[i].setEnabled(flag);
 		}
