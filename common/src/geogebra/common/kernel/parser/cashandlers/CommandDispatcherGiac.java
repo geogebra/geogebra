@@ -29,7 +29,9 @@ public class CommandDispatcherGiac {
 		/** gamma regularized */
 		igamma(Operation.NO_OPERATION),
 		/** derivative*/
-		diff(Operation.DERIVATIVE),
+		diff(Operation.DERIVATIVE),		
+		/** bounded_function */
+		bounded_function(Operation.NO_OPERATION),
 		/** integral */
 		integrate(Operation.INTEGRAL),
 		/** rootof */
@@ -278,8 +280,8 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
-			case integrate:
-				// eg Integral[exp(x^3)]
+			case integrate: // eg Integral[exp(x^3)]
+			case bounded_function: // eg Limit[cos(x),∞]			
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case rootof:
