@@ -357,13 +357,33 @@ public class Ggb2giac {
 		p("Solve.2",
 				"normal([op(solve(%0,%1))])");
 		p("SolveODE.1",
-				"normal(map(desolve(%0),x->ggbtmpvary=x)[0])");
+				"when((%0)[0]=='=',"
+						+"normal(map(desolve(%0),x->ggbtmpvary=x)[0])"
+						+","
+						// add y'= if it's missing
+						+"normal(map(desolve(ggbtmpvary'=%0),x->ggbtmpvary=x)[0])"
+						+")");
 		p("SolveODE.2",
-				"normal(map(desolve(%0,%1),x->ggbtmpvary=x)[0])");
+				"when((%0)[0]=='=',"
+						+"normal(map(desolve(%0,%1),x->ggbtmpvary=x)[0])"
+						+","
+						// add y'= if it's missing
+						+"normal(map(desolve(ggbtmpvary'=%0,%1),x->ggbtmpvary=x)[0])"
+						+")");
 		p("SolveODE.3",
-				"normal(map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))[0])");
+				"when((%0)[0]=='=',"
+						+"normal(map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))[0])"
+						+","
+						// add y'= if it's missing
+						+"normal(map(desolve(ggbtmpvary'=%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))[0])"
+						+")");
 		p("SolveODE.4",
-				"normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])");
+				"when((%0)[0]=='=',"
+						+"normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])"
+						+","
+						// add y'= if it's missing
+						+"normal(map(desolve(ggbtmpvary'=%0,%2,%1,%3),x->%1=x)[0])"
+						+")");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
 		p("Substitute.2","normal(subst(%0,%1))");
