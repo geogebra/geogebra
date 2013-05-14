@@ -2847,17 +2847,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case ARCCOS:
-			trig(leftStr,sb,"<arccos/>","\\arccos","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",
+			trig(leftStr,sb,"<arccos/>","\\arccos","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",degFix("acos"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
-			trig(leftStr,sb,"<arcsin/>","\\arcsin","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",
+			trig(leftStr,sb,"<arcsin/>","\\arcsin","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",degFix("asin"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
-			trig(leftStr,sb,"<arctan/>","\\arctan","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",
+			trig(leftStr,sb,"<arctan/>","\\arctan","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",degFix("atan"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
@@ -2882,6 +2882,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				case MPREDUCE:
 					sb.append(degFix("myatan2"));
+					sb.append("(");
+					break;
+
+				case GIAC:
+					sb.append(degFix("atan2"));
 					sb.append("(");
 					break;
 

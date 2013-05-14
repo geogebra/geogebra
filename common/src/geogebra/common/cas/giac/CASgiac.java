@@ -45,7 +45,15 @@ public abstract class CASgiac implements CASGenericInterface {
 			"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));"+
 			"xcoord(x):=x[0];"+
 			"ycoord(x):=x[1];"+
-			"zcoord(x):=x[2];";
+			"zcoord(x):=x[2];"+
+			// unicode0176u passes unaltered through Giac
+			// then gets decoded to degree sign in GeoGebra
+			// needed for "return angle from inverse trig function"
+			// see ExpressionNode.degFix()
+			"degasin(x):=normal(asin(x)/pi*180)*unicode0176u;"+
+			"degacos(x):=normal(acos(x)/pi*180)*unicode0176u;"+
+			"degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"+
+			"degatan2(x,y):=normal(atan2(x,y)/pi*180)*unicode0176u;";
 
 	/**
 	 * whether extra functions needed in Giac have been initialized yet
