@@ -37,7 +37,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * define extra functions needed in Giac
 	 */
-	protected final static String specialFunctions = "sech(x):=1/cosh(x);"+
+	protected final static String specialFunctions =
+			"atan2(y,x):=arg(x+i*y);"+
+			"sech(x):=1/cosh(x);"+
 			"csch(x):=1/sinh(x);"+
 			"coth(x):=1/tanh(x);" +
 			// Giac's fPart has problems, so use this
@@ -53,7 +55,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			"degasin(x):=normal(asin(x)/pi*180)*unicode0176u;"+
 			"degacos(x):=normal(acos(x)/pi*180)*unicode0176u;"+
 			"degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"+
-			"degatan2(x,y):=normal(atan2(x,y)/pi*180)*unicode0176u;";
+			"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;";
 
 	/**
 	 * whether extra functions needed in Giac have been initialized yet
