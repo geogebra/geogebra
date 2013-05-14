@@ -276,11 +276,19 @@ public class Ggb2giac {
 				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("Numerator.1", "numer(%0)");
 		p("Numeric.1",
+				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
 				// normal() so that Numeric(x + x/2) works
-				"evalf(normal(%0))");
+				"evalf(normal(ggbans))"+
+				","+
+				"evalf(ggbans)"+
+				")][1]");
 		p("Numeric.2",
-				// normal() so that Numeric(x + x/3,3) works
-				"evalf(normal(%0),%1)");
+				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
+				// normal() so that Numeric(x + x/2) works
+				"evalf(normal(ggbans),%1)"+
+				","+
+				"evalf(ggbans,%1)"+
+				")][1]");
 		p("OrthogonalVector.1",
 				"convert([[0,-1],[1,0]]*(%0),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
@@ -386,9 +394,9 @@ public class Ggb2giac {
 						+")");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
-		p("Substitute.2","normal(subst(%0,%1))");
+		p("Substitute.2","(subst(%0,%1))");
 		p("Substitute.3",
-				"normal(subst(%0,%1,%2)))");
+				"(subst(%0,%1,%2)))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
 
 		// remove normal from Sum, otherwise
