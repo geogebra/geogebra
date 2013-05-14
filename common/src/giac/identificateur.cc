@@ -591,7 +591,7 @@ namespace giac {
   }
 
   identificateur::identificateur(const string & s){
-    bool b=strchr(s.c_str(),' ');
+    bool b=strchr(s.c_str(),' ')?true:false;
     int_string_shortint_bool * ptr = new int_string_shortint_bool;
     ptr->i=1;
     ptr->b=0;
@@ -612,7 +612,7 @@ namespace giac {
   }
 
   identificateur::identificateur(const string & s,const gen & e){
-    bool b=strchr(s.c_str(),' ');
+    bool b=strchr(s.c_str(),' ')?true:false;
     int_string_shortint_bool * ptr = new int_string_shortint_bool;
     ptr->i=1;
     ptr->b=0;

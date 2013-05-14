@@ -806,7 +806,7 @@ namespace giac {
     gen extra_div=1;
     if (factor(vp,vp_content,vf,true,false,false,1,extra_div) && vf.size()>1){
       polynome2poly1(vf.front().fact,1,v);
-      for (int i=1;i<vf.size();++i){
+      for (unsigned i=1;i<vf.size();++i){
 	vecteur vi;
 	polynome2poly1(vf[i].fact,1,vi);
 	if (vi.size()<v.size())
@@ -1316,7 +1316,7 @@ namespace giac {
       minpoly=common_EXT(curext,oldminpoly,&l,contextptr);
       if (minpoly.type!=_VECT)
 	return vecteur(1,gensizeerr(contextptr));
-      if (minpoly._VECTptr->size()>MAX_COMMON_ALG_EXT_ORDER_SIZE)
+      if (minpoly._VECTptr->size()>unsigned(MAX_COMMON_ALG_EXT_ORDER_SIZE))
 	return vecteur(1,undef);
       // compute alg_extoutnum/den using newminpoly
       int s=alg_extin.size();

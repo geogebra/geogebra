@@ -1303,7 +1303,7 @@ namespace giac {
 	vecteur vp=*gp._SYMBptr->feuille._VECTptr;
 	res=0;
 	int i=0;
-	for (;i<vp.size();++i){
+	for (;i<int(vp.size());++i){
 	  gen resi;
 	  if (!in_sumab(vp[i],x,a_orig,b_orig,resi,testi,false,contextptr))
 	    break;

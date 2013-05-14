@@ -2621,7 +2621,7 @@ namespace giac {
       return res;
     // ggb always in a list
     if (res.type!=_VECT)
-      res=gen(vecteur(1,res),_GGB__VECT);
+      res=vecteur(1,res);
     return res;
   }
 
@@ -2678,6 +2678,18 @@ namespace giac {
       }
     }
     gen gguess;
+    if (v[1].type==_VECT && !v[1]._VECTptr->empty() && v[1]._VECTptr->front().is_symb_of_sommet(at_equal)){
+      vecteur v1=*v[1]._VECTptr;
+      vecteur vguess(v1.size());
+      for (unsigned i=0;i<v1.size();++i){
+	if (v1[i].is_symb_of_sommet(at_equal)){
+	  vguess[i]=v1[i]._SYMBptr->feuille[1];
+	  v1[i]=v1[i]._SYMBptr->feuille[0];
+	}
+      }
+      v[1]=gen(v1);
+      gguess=vguess;
+    }
     if (v[1].is_symb_of_sommet(at_equal)){
       gguess=v[1]._SYMBptr->feuille[1];
       v[1]=v[1]._SYMBptr->feuille[0];

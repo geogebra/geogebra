@@ -3603,7 +3603,7 @@ namespace giac {
 	for (unsigned i=0;i<in._VECTptr->size();i+=2){
 	  gen f=in[i],m=in[i+1];
 	  if (m.type==_INT_){
-	    for (unsigned j=0;j<m.val;++j)
+	    for (int j=0;j<m.val;++j)
 	      res.push_back(f);
 	  }
 	}

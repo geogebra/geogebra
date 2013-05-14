@@ -472,7 +472,7 @@ namespace giac {
       }
       if (vs>=4 && v[2].type==_INT_ && v[3].type==_INT_){
 	vecteur w(absint(deg)+1,1);
-	for (unsigned i=1;i<=absint(deg);++i){
+	for (unsigned i=1;i<=(unsigned)absint(deg);++i){
 	  w[i]=int(giac_rand(contextptr)/(RAND_MAX+1.0)*(v[3].val-v[2].val+1)+v[2].val);
 	}
 #ifdef GIAC_HAS_STO_38

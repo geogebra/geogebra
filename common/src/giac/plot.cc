@@ -6779,7 +6779,7 @@ namespace giac {
       if (b.type==_VECT && b._VECTptr->size()>=3 && is_zero(b._VECTptr->front()-b._VECTptr->back())){
 	// point in a polygon?
 	int n=0; // n is the number of intersections of halfline M direction 1 with polygon
-	for (int j=1;j<b._VECTptr->size();++j){
+	for (unsigned j=1;j<b._VECTptr->size();++j){
 	  gen A=(*b._VECTptr)[j-1];
 	  gen B=(*b._VECTptr)[j];
 	  gen Ax,Ay,Bx,By,Mx,My;

@@ -2038,7 +2038,7 @@ namespace giac {
 
   bool convertfromdouble(const vector<double> & A,modpoly & a,double M){
     a.clear(); a.reserve(A.size());
-    int m(M);
+    int m( (int)M);
     vector<double>::const_iterator it=A.begin(),itend=A.end();
     for (;it!=itend;++it){
       double d=*it;

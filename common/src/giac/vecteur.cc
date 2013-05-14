@@ -1685,7 +1685,7 @@ namespace giac {
 	  return vcur;
 	vecteur current=proot(*tmp._VECTptr,eps,rprec,false);
 	for (unsigned j=0;j<current.size();++j){
-	  for (unsigned k=0;k<n;++k){
+	  for (int k=0;k<n;++k){
 	    res.push_back(current[j]);
 	  }
 	}

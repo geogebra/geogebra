@@ -333,6 +333,7 @@ namespace giac {
       return s+=')';
     }
 #endif
+    bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
     if (abs_calc_mode(contextptr)==38){
       bool need=need_parenthesis(arg);
       if (pui==plus_one_half){
@@ -352,9 +353,9 @@ namespace giac {
 	return s += (need?")\xe2\x81\xb2":"\xe2\x81\xb2");
       }
       if (pui==plus_two){
-	s += (need?"(":"");
+	s += (argpar?"(":"");
 	add_print(s,arg,contextptr);
-	return s += (need?")²":"²");
+	return s += (argpar?")²":"²");
       }
     }
     if (pui==plus_one_half){
@@ -389,7 +390,6 @@ namespace giac {
 	return add_print(s,pui,contextptr);
       }
     }
-    bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
     if (argpar)
       s += '(';
     add_print(s,arg,contextptr);

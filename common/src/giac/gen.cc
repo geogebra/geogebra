@@ -4968,7 +4968,7 @@ namespace giac {
       return giac_float(a._DOUBLE_val)*b._FLOAT_val;
     case _FLOAT___DOUBLE_:
       return a._FLOAT_val*giac_float(b._DOUBLE_val);
-    case _FLOAT___FRAC: _DOUBLE___FRAC:
+    case _FLOAT___FRAC: case _DOUBLE___FRAC:
       return double_times_frac(a,*b._FRACptr,contextptr);
     case _FRAC__FLOAT_: case _FRAC__DOUBLE_:
       return double_times_frac(b,*a._FRACptr,contextptr);
@@ -6740,6 +6740,8 @@ namespace giac {
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT){
     if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==b._VECTptr->size())
       return apply(a,b,contextptr,equal);
+    if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
+      return equal(a._SYMBptr->feuille[0],b,contextptr);
     if (a.type==_IDNT && b.type==_VECT){
       vecteur v=*b._VECTptr;
       for (unsigned i=0;i<v.size();++i){
