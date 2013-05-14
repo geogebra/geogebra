@@ -986,8 +986,7 @@ public final class MathUtils {
      * @since 1.1
      */
     public static double round(double x, int scale) {
-       //AG no bigdecimal in GWT return round(x, scale, BigDecimal.ROUND_HALF_UP);
-    	return Math.round(x);
+       return round(x, scale, BigDecimal.ROUND_HALF_UP);
     }
 
     /**
