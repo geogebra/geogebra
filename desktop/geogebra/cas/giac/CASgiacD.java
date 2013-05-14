@@ -20,7 +20,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		super(casParser);
 
 		this.app = (AppD) k.getApplication();
-		
+
 		this.parserTools = t;
 
 	}
@@ -43,24 +43,26 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			}
 
 
-			// "classic" method
-			// for Webstart, eg loading 
-			// javagiac.dll from javagiac-win32.jar
-			// javagiac64.dll from javagiac-win64.jar
-			// libjavagiac.so from javagiac-linux32.jar
-			// libjavagiac64.so from javagiac-linux64.jar
-			// libjavagiac.jnilib from javagiac-mac.jar
-			
-			try {
-				System.loadLibrary(file);
-				giacLoaded = true;
-			} catch (UnsatisfiedLinkError le) {
+			// When running from local jars we can load the library files from inside a jar like this 
+			MyClassPathLoader loader = new MyClassPathLoader();
+			giacLoaded = loader.loadLibrary(file);
+
+
+			if (!giacLoaded) {
+				// "classic" method
+				// for Webstart, eg loading 
+				// javagiac.dll from javagiac-win32.jar
+				// javagiac64.dll from javagiac-win64.jar
+				// libjavagiac.so from javagiac-linux32.jar
+				// libjavagiac64.so from javagiac-linux64.jar
+				// libjavagiac.jnilib from javagiac-mac.jar
 
 				App.debug("Trying to load Giac library (alternative method)");
+				System.loadLibrary(file);
+				giacLoaded = true;
 
-				// When running from local jars we can load the library files from inside a jar like this 
-				MyClassPathLoader loader = new MyClassPathLoader();
-				giacLoaded = loader.loadLibrary(file);
+
+
 			}
 
 		} catch (Exception e) {
@@ -68,7 +70,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
+
 		if (giacLoaded) {
 			App.debug("Giac dynamic library loaded");
 			App.setCASVersionString("Giac/JNI");
@@ -84,7 +86,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 		// don't need to replace Unicode when sending to JNI
 		String exp = casParser.replaceIndices(input, false);
-		
+
 		String ret;
 		Object jsRet = null;
 
@@ -95,7 +97,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
-			
+
 			if (!specialFunctionsInitialized) {
 				app.getApplet().evalJS("_ggbCallGiac('" + initString + "');");
 				app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
@@ -108,7 +110,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			sb.append("_ggbCallGiac('");
 			sb.append(exp);
 			sb.append("');");
-			
+
 			jsRet = app.getApplet().evalJS(sb.toString());
 
 			if (jsRet instanceof String) {
@@ -126,7 +128,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			g = giac._eval(g, C);
 			ret = g.print(C);
 		}
-		
+
 		if (ret.trim().startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
 			// assume error
@@ -135,7 +137,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			return "(";
 		}
 
-		
+
 		if (ret.indexOf("c_") > -1) {
 			App.debug("replacing arbitrary constants in "+ret);
 			ret = ret.replaceAll("c_([0-9])*", "arbconst($1)");
@@ -145,9 +147,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			App.debug("replacing arbitrary integers in "+ret);
 			ret = ret.replaceAll("n_([0-9])*", "arbint($1)");
 		}
-		
+
 		App.debug("giac output: " + ret);		
-		
+
 		// convert Giac's scientific notation from e.g. 3.24e-4 to
 		// 3.2E-4
 		ret = parserTools.convertScientificFloatNotation(ret);
@@ -164,17 +166,17 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	public void initialize() throws Throwable {
 		if (C == null) {
 			C = new context();
-			
+
 			if (!specialFunctionsInitialized) {
-				
+
 				gen g = new gen(initString, C);
 				g = giac._eval(g, C);
 				App.debug(g.print(C));
-				
+
 				g = new gen(specialFunctions, C);
 				g = giac._eval(g, C);
 				App.debug(g.print(C));
-				
+
 				specialFunctionsInitialized = true;
 			}
 

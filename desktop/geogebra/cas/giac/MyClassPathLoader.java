@@ -44,7 +44,8 @@ public class MyClassPathLoader {
 			
 		try {
 
-			File tmpFile = writeTmpFile(ins, filename);
+			// Math.random() to avoid problems with 2 instances
+			File tmpFile = writeTmpFile(ins, prefix + libname + Math.random()+ extension);
 			System.load(tmpFile.getAbsolutePath());
 			tmpFile.delete();
 		} catch (IOException e) {
