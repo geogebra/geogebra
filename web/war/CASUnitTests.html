@@ -11,9 +11,9 @@ var Module = { TOTAL_MEMORY: 167772160 };
 <script>
 
 var getVars = new Array();
- var _start = 1;
+ var _start = 900;
  var _end = Object.keys(__giac).length;
- var match = undefined;
+ var _match = undefined;
  
  // parse ?_start=55 or ?_end=200
  // or match="NSolve"
@@ -43,20 +43,28 @@ if (typeof String.prototype.startsWith != 'function') {
   };
 }
 
+var oldLog;
 
 window.onload = function()
 {
- if(console != null)
+
+ if (console != null)
  { 
-   
+   oldLog = console.log;
    console.log = function(){
    
    var s = arguments[0];
 	   if (s.startsWith("js giac  input:")) {
 			giacInput = s;
+			//alert(s);
 	   } else if (s.startsWith("js giac output:")) {
 			giacOutput = s;
+			//alert(s);
 	   }
+	   
+	      //oldLog.call(this, 'My Console!!!');
+    oldLog.apply(this, Array.prototype.slice.call(arguments));
+
 	   
    };
  }
@@ -112,15 +120,29 @@ window.onload = function()
 		//for (var i = 1 ; i <= Object.keys(__giac).length ; i++) {
 		for (var i = _start ; i <= _end ; i++) {
 		
-			//console.clear();
+			console.log("Starting test "+i);
 		
 			var cmd = __giac[i]["cmd"];
 			var expectedResult = __giac[i]["result"];
 			var notes = __giac[i]["notes"];
-			var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
 			
-			// eg match="NSolve", display just that command
-			if (match === undefined || cmd.indexOf(match) > -1) {
+			var beforeTime = +new Date();
+			var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
+			var afterTime = +new Date();
+			var totalTime = afterTime - beforeTime;
+			
+			// replace c_23 with c_0
+			if (resultO.indexOf("c_") > -1 && resultO.indexOf("c_") == resultO.lastIndexOf("c_")) {
+				resultO = resultO.replace(/c_[0-9]*/g, "c_0");
+			}
+			
+			// replace n_23 with n_0
+			if (resultO.indexOf("n_") > -1 && resultO.indexOf("n_") == resultO.lastIndexOf("n_")) {
+				resultO = resultO.replace(/n_[0-9]*/g, "n_0");
+			}
+			
+			// eg _match="NSolve", display just that command
+			if (_match === undefined || cmd.indexOf(_match) > -1) {
 			
 				//alert(cmd);
 				
@@ -163,10 +185,16 @@ window.onload = function()
 					// comment out for more debugging
 					logStore = "";
 				}
+				
+				if (totalTime > 500) {
+					totalTime = '<br><p style="background-color:'+red+'">' + totalTime + 'ms</p>' ;
+				} else {
+					totalTime = "";
+				}
 						
 				var addToTable = "<tr>";
-				addToTable += "<td>" + cmd + "</td>";
-				addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO + '</span></p></td>';
+				addToTable += "<td>" + i + ': ' + cmd +  totalTime + "</td>";
+				addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO +'</span></p></td>';
 				addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
 				addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
 				addToTable += "</tr>";
