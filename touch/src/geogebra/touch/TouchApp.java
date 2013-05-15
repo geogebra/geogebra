@@ -35,6 +35,7 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -73,7 +74,9 @@ public class TouchApp extends AppWeb
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
 		super.initing = true;
-
+		if(Location.getParameter("lang")!=null){
+			this.setLanguage(Location.getParameter("lang"));
+		}
 		setLabelDragsEnabled(false);
 
 		initFactories();
@@ -507,6 +510,7 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public void setLabels() {
+		this.touchGUI.getAlgebraViewPanel().setLabels();
 	}
 
 	@Override

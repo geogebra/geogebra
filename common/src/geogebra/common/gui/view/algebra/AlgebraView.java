@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.view.algebra;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -18,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
  * Algebra view -- shows algebraic representation of the objects either as value,
  * definition or command
  */
-public interface AlgebraView extends View{
+public interface AlgebraView extends View, SetLabels{
 	/**
 	 * Returns whether this view is currently visible
 	 * @return whether this view is currently visible
