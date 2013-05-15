@@ -3,10 +3,12 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.cas.AlgoTangentCurve;
 import geogebra.common.kernel.cas.AlgoTangentFunctionPoint;
+import geogebra.common.kernel.cas.AlgoTangentList;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -57,6 +59,21 @@ public class KernelCAS {
 		t.update();
 		return t;
 	}
-
+	
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param P point
+	 * @param list - list of functions
+	 * @return tangent to curve through point
+	 */
+	public static GeoLine Tangent(Construction cons, String label, GeoPoint P,
+			GeoList list) {
+		AlgoTangentList algo = new AlgoTangentList(cons, label, P, list);
+		GeoLine t = algo.getTangent();
+		t.setToExplicit();
+		t.update();
+		return t;
+	}
 
 }

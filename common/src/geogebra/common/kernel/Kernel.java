@@ -4239,7 +4239,13 @@ public class Kernel {
 		return KernelCAS.Tangent(cons,  label,  P,  f);
 	}
 
-
+	/**
+	 * tangent to spline
+	 */
+	final public GeoLine Tangent(String label, GeoPoint P, GeoList list) {
+		
+		return KernelCAS.Tangent(cons,  label,  P,  list);
+	}
 
 
 	/**

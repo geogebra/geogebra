@@ -24,7 +24,7 @@ public class AlgoCubicSpline extends AlgoElement {
 	 * list of points
 	 */
 	GeoList inputList;
-	
+
 	private float[] cumulativeValueOfParameter;
 	private float[] parametersX;
 	private float[] parametersY;
@@ -32,6 +32,7 @@ public class AlgoCubicSpline extends AlgoElement {
 	private float[] parameterIntervalLimits;
 	private float[] parametersValues;
 	private GeoList listC;
+	private static int length;
 
 	/**
 	 * @param cons
@@ -46,9 +47,10 @@ public class AlgoCubicSpline extends AlgoElement {
 		this.inputList = inputList;
 		listC = new GeoList(cons);
 		parametersValues = new float[inputList.size()];
+		points = new float[inputList.size()][2];
 		Arrays.fill(parametersValues, Float.MAX_VALUE);
 		compute();
-		setInputOutput(); 
+		setInputOutput();
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class AlgoCubicSpline extends AlgoElement {
 		input[0] = inputList;
 		super.setOutputLength(1);
 		super.setOutput(0, listC);
-		setDependencies(); 
+		setDependencies();
 	}
 
 	@Override
@@ -67,10 +69,9 @@ public class AlgoCubicSpline extends AlgoElement {
 			return;
 		}
 
-		int size = inputList.size();
+		length = points.length;
 
-		points = new float[size][2];
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < length; i++) {
 			GeoPoint p = (GeoPoint) inputList.get(i);
 			points[i][0] = (float) p.getX();
 			points[i][1] = (float) p.getY();
@@ -86,7 +87,7 @@ public class AlgoCubicSpline extends AlgoElement {
 	public GeoList getList() {
 		return listC;
 	}
-	
+
 	@Override
 	public GetCommand getClassName() {
 		return Commands.CubicSpline;
@@ -94,36 +95,36 @@ public class AlgoCubicSpline extends AlgoElement {
 
 	private static float[] getSystemSolution(float[][] matrix) {
 		boolean nok = false;
-		float[] solution = new float[matrix.length];
+		length = matrix.length;
+		float[] solution = new float[length];
 		float[] temp = new float[matrix[0].length];
 		int column;
 		int row;
 		int i;
 		int j;
-
-		for (column = 0; column < matrix.length - 1; column++) {
-			for (i = column; i < matrix.length - 1; i++) {
-				for (j = i + 1; j < matrix.length; j++) {
+		for (column = 0; column < length - 1; column++) {
+			for (i = column; i < length - 1; i++) {
+				for (j = i + 1; j < length; j++) {
 					if (Math.abs(matrix[i][column]) < Math
 							.abs(matrix[j][column])) {
 						System.arraycopy(matrix[i], column, temp, column,
-								matrix.length + 1 - column);
+								length + 1 - column);
 						System.arraycopy(matrix[j], column, matrix[i], column,
-								matrix.length + 1 - column);
+								length + 1 - column);
 						System.arraycopy(temp, column, matrix[j], column,
-								matrix.length + 1 - column);
+								length + 1 - column);
 					}
 				}
 			}
 
-			for (row = column; row < matrix.length && matrix[row][column] == 0; row++)
+			for (row = column; row < length && matrix[row][column] == 0; row++)
 				;
 			float value;
-			if (row != matrix.length - 1) {
-				for (i = column; i < matrix.length; i++) {
+			if (row != length - 1) {
+				for (i = column; i < length; i++) {
 					if (matrix[i][column] != 0 && i != row) {
 						value = matrix[i][column] / matrix[row][column];
-						for (j = column; j < matrix.length + 1; j++) {
+						for (j = column; j < length + 1; j++) {
 							matrix[row][j] = matrix[row][j] * value;
 							matrix[i][j] = matrix[i][j] - matrix[row][j];
 						}
@@ -133,38 +134,35 @@ public class AlgoCubicSpline extends AlgoElement {
 		}
 		j = 0;
 		nok = true;
-		for (; j < matrix.length && nok; j++) {
-			if (matrix[matrix.length - 1][j] != 0) {
+		for (; j < length && nok; j++) {
+			if (matrix[length - 1][j] != 0) {
 				nok = false;
 			}
 		}
 		if (nok) {
 			throw new RuntimeException("All zeroes in a row");
 		}
-		solution[solution.length - 1] = matrix[matrix.length - 1][matrix.length]
-				/ matrix[matrix.length - 1][matrix.length - 1];
+		solution[solution.length - 1] = matrix[length - 1][length]
+				/ matrix[length - 1][length - 1];
 		float buffer;
 		int ii;
-		for (i = matrix.length - 2; i > -1; i--) {
+		for (i = length - 2; i > -1; i--) {
 			buffer = 0;
-			for (ii = matrix.length - 1; ii > i; ii--) {
+			for (ii = length - 1; ii > i; ii--) {
 				buffer = buffer + solution[ii] * matrix[i][ii];
 			}
-			solution[i] = (matrix[i][matrix.length] - buffer) / matrix[i][i];
+			solution[i] = (matrix[i][length] - buffer) / matrix[i][i];
 		}
 		return solution;
 	}
-
-	
 
 	private float[][] getLinearSystemParametric(int c) {
 
 		int i = 0, k = 0, j, ii, jj;
 		float currentValueFromZeroToOne;
-		cumulativeValueOfParameter = new float[points.length];
-		cumulativeValueOfParameter[0] = 0;
-		for (ii = 1; ii < points.length; ii++) {
-			cumulativeValueOfParameter[ii] = 0;
+		length = points.length;
+		cumulativeValueOfParameter = new float[length];
+		for (ii = 1; ii < length; ii++) {
 			for (jj = 1; jj <= ii; jj++) {
 				cumulativeValueOfParameter[ii] = cumulativeValueOfParameter[ii]
 						+ (float) Math.sqrt((points[jj][0] - points[jj - 1][0])
@@ -173,10 +171,10 @@ public class AlgoCubicSpline extends AlgoElement {
 								* (points[jj][1] - points[jj - 1][1]));
 			}
 		}
-		float[][] matrix = new float[(points.length - 1) * 4][(points.length - 1) * 4 + 1];
-		for (j = 0; j < points.length - 1; j++) {
+		float[][] matrix = new float[(length - 1) * 4][(length - 1) * 4 + 1];
+		for (j = 0; j < length - 1; j++) {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
-					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
+					/ cumulativeValueOfParameter[length - 1];
 			matrix[i][k] = currentValueFromZeroToOne
 					* currentValueFromZeroToOne * currentValueFromZeroToOne;
 			matrix[i][k + 1] = currentValueFromZeroToOne
@@ -189,9 +187,9 @@ public class AlgoCubicSpline extends AlgoElement {
 
 		}
 		k = 0;
-		for (j = 1; j < points.length; j++) {
+		for (j = 1; j < length; j++) {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
-					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
+					/ cumulativeValueOfParameter[length - 1];
 			matrix[i][k] = currentValueFromZeroToOne
 					* currentValueFromZeroToOne * currentValueFromZeroToOne;
 			matrix[i][k + 1] = currentValueFromZeroToOne
@@ -204,9 +202,9 @@ public class AlgoCubicSpline extends AlgoElement {
 
 		}
 		k = 0;
-		for (j = 1; j < points.length - 1; j++) {
+		for (j = 1; j < length - 1; j++) {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
-					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
+					/ cumulativeValueOfParameter[length - 1];
 			matrix[i][k] = currentValueFromZeroToOne
 					* currentValueFromZeroToOne * 3;
 			matrix[i][k + 1] = currentValueFromZeroToOne * 2;
@@ -223,9 +221,9 @@ public class AlgoCubicSpline extends AlgoElement {
 		}
 
 		k = 0;
-		for (j = 1; j < points.length - 1; j++) {
+		for (j = 1; j < length - 1; j++) {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
-					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
+					/ cumulativeValueOfParameter[length - 1];
 			matrix[i][k] = currentValueFromZeroToOne * 6;
 			matrix[i][k + 1] = 2;
 			matrix[i][k + 2] = 0;
@@ -248,30 +246,42 @@ public class AlgoCubicSpline extends AlgoElement {
 
 	}
 
-	private float[] getParameterIntervalLimits() {
-		parameterIntervalLimits = new float[cumulativeValueOfParameter.length];
-		parameterIntervalLimits[0] = 0;
-		for (int i = 1; i < cumulativeValueOfParameter.length; i++) {
+	public float[] getParameterIntervalLimits() {
+		length = cumulativeValueOfParameter.length;
+		parameterIntervalLimits = new float[length];
+		for (int i = 1; i < length; i++) {
 			parameterIntervalLimits[i] = cumulativeValueOfParameter[i]
 					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
 		}
 		return parameterIntervalLimits;
 	}
 
+	public float[] getParametersX() {
+		return parametersX;
+	}
+
+	public float[] getParametersY() {
+		return parametersY;
+	}
+
+	public float[][] getPoints() {
+		return points;
+	}
+
 	private void calculateParameterValues() {
 		int j = 0;
 		float parameterValue = 0;
 		float[] lx = getParameterIntervalLimits();
-		for (float p = 0; p <= 1; p = p + 0.001f) {
+		for (float p = 0; p <= 1; p = p + 0.01f) {
 			parameterValue = calculate(p, lx);
 			if (Arrays.binarySearch(parametersValues, parameterValue) < 0) {
-				if (j<parametersValues.length){
+				if (j < parametersValues.length) {
 					parametersValues[j] = parameterValue;
 					j++;
 				}
 			}
 		}
-		parametersValues[parametersValues.length - 1] = 1;
+		parametersValues[length - 1] = 1;
 	}
 
 	private static float calculate(float x, float[] m) {
@@ -287,16 +297,21 @@ public class AlgoCubicSpline extends AlgoElement {
 		listC.clear();
 		calculateParameterValues();
 		int k = 0;
-		for (int i = 0; i < parametersX.length; i += 4) {
+		length = parametersX.length;
+		for (int i = 0; i < length; i += 4) {
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-			GeoFunction fx = ap.evaluateToFunction("splineX(t)=" + parametersX[i] + "*t^3+"
-					+ parametersX[i + 1] + "*t^2+" + parametersX[i + 2] + "*t+" + parametersX[i + 3], true);
-			GeoFunction fy = ap.evaluateToFunction("splineY(t)=" + parametersY[i] + "*t^3+"
-					+ parametersY[i + 1] + "*t^2+" + parametersY[i + 2] + "*t+" + parametersY[i + 3], true);
+			GeoFunction fx = ap.evaluateToFunction("splineX(t)="
+					+ parametersX[i] + "*t^3+" + parametersX[i + 1] + "*t^2+"
+					+ parametersX[i + 2] + "*t+" + parametersX[i + 3], true);
+			GeoFunction fy = ap.evaluateToFunction("splineY(t)="
+					+ parametersY[i] + "*t^3+" + parametersY[i + 1] + "*t^2+"
+					+ parametersY[i + 2] + "*t+" + parametersY[i + 3], true);
 			GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 			curve.setFunctionX(fx.getFunction());
 			curve.setFunctionY(fy.getFunction());
 			curve.setInterval(parametersValues[k], parametersValues[k + 1]);
+			curve.setEuclidianVisible(true);
+			curve.setObjColor(listC.getObjectColor());
 			listC.add(curve);
 			k++;
 		}

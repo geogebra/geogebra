@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
@@ -92,6 +93,16 @@ public class CmdTangent extends CommandProcessor {
 				return ret;
 			}
 			// Victor Franco 11-02-2007: end for curve's
+			
+			// For Spline
+			else if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoList())) && areCurve((GeoList)arg[1])) {
+
+				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
+						(GeoPoint) arg[0], (GeoList) arg[1]) };
+				return ret;
+			}
+			
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = getAlgoDispatcher().Tangent(c.getLabels(),
@@ -122,5 +133,14 @@ public class CmdTangent extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	private static boolean areCurve(GeoList geoList) {
+		for (int i=0;i<geoList.size();i++){
+			if(!geoList.get(i).isGeoCurveCartesian()){
+				return false;
+			}
+		}
+		return true;
 	}
 }

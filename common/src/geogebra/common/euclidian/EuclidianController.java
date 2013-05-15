@@ -2900,7 +2900,9 @@ public abstract class EuclidianController {
 		if (!found) {
 			found = addSelectedImplicitpoly(hits, 1, false) != 0;
 		}
-	
+		if (!found) {
+			found = addSelectedList(hits, 1, false) != 0;
+		}
 		if (!found) {
 			if (selLines() == 0) {
 				addSelectedPoint(hits, 1, false);
@@ -2969,6 +2971,23 @@ public abstract class EuclidianController {
 				checkZooming(); 
 				
 				return getAlgoDispatcher().Tangent(null, lines[0], implicitPoly);
+			}
+		} else if(selLists()==1){
+			if (selPoints() == 1) {
+				GeoList list=selectedLists.get(0);
+				for(int i=0;i<list.size();i++){
+					if(!list.get(i).isGeoCurveCartesian()){
+						return null;
+					}
+				}
+				GeoList[] lists = getSelectedLists();
+				GeoPoint[] points = getSelectedPoints();
+				// create new tangents
+				GeoElement[] ret = { null };
+				checkZooming(); 
+				
+				ret[0] = kernel.Tangent(null, points[0], lists[0]);
+				return ret;
 			}
 		}
 		return null;
