@@ -517,11 +517,11 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				int k;
 				for (int i = 0; i < num; i++) {
 					k=i+1;
-					if (geo.getTag("barImage" + k) != null) {
-						geo.setImageFileName(geo.getTag("barImage" + k));
+					if (((AlgoBarChart) algo).getBarImage(k) != null) {
+						geo.setImageFileName(((AlgoBarChart) algo).getBarImage(k));
 						BufferedImage img = geogebra.awt.GBufferedImageD
 								.getAwtBufferedImage(geo.getFillImage());
-						writeImageToZip(zip, geo.getTag("barImage" + k), img);
+						writeImageToZip(zip, ((AlgoBarChart) algo).getBarImage(k), img);
 					}
 				}
 			}

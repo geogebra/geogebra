@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.awt.GFontD;
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -1555,30 +1556,34 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		// and bar has tag for value
 		
 		private void setPreview(GeoElement geo, float alpha) {
+			AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); 
 			if (selectedBarButton != 0
-					&& geo.getTag("barAlpha" + selectedBarButton) != null ) {
-				alpha=Float.parseFloat(geo.getTag("barAlpha" + selectedBarButton));
+					&& (algo.getBarAlpha(selectedBarButton) != -1 )) {
+				alpha=algo.getBarAlpha(selectedBarButton);
 			}
 			previewPanel.setPreview(selectedColor,alpha );
 		}
 
 		private void setOpacitySlider(GeoElement geo, float alpha) {
+			AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); 
 			if (selectedBarButton != 0
-					&& geo.getTag("barAlpha" + selectedBarButton) != null) {
-				alpha = Float.parseFloat(geo
-						.getTag("barAlpha" + selectedBarButton));
+					&& algo.getBarAlpha(selectedBarButton) != -1) {
+				alpha = algo.getBarAlpha(selectedBarButton);
 			}
 			opacitySlider.setValue(Math.round(alpha * 100));
 		}
 
 		private void setChooser(GeoElement geo0) {
+			if (geo0.getParentAlgorithm() instanceof AlgoBarChart){
+			AlgoBarChart algo=(AlgoBarChart) geo0.getParentAlgorithm(); 
 			if (selectedBarButton != 0
-					&& geo0.getTag("barColor" + selectedBarButton) != null) {
-				String[] rgb = geo0.getTag("barColor" + selectedBarButton).split(
-						"_");
-				selectedColor = new Color(Float.parseFloat(rgb[0]),
-						Float.parseFloat(rgb[1]), Float.parseFloat(rgb[2]),
-						Float.parseFloat(rgb[3]));
+					&& algo.getBarColor(selectedBarButton) != null) {
+				GColor color=algo.getBarColor(selectedBarButton);
+				selectedColor = new Color(color.getRed(),
+						color.getGreen(),
+						color.getBlue(),
+						color.getAlpha());
+			}
 			}
 			colChooser.getSelectionModel().setSelectedColor(selectedColor);
 		}
@@ -1654,25 +1659,23 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		// Add tag for color and alpha or remove if selected all bars
 		private void updateBarsColorAndAlpha(GeoElement geo, Color col,
 				float alpha, boolean updateAlphaOnly) {
+			AlgoBarChart algo=(AlgoBarChart)geo.getParentAlgorithm();
 			if (selectedBarButton == 0) {
 				for (int i = 1; i < selectionBarButtons.length; i++) {
-					geo.removeTag("barColor" + i);
-					geo.removeTag("barAlpha" + i);
+					algo.setBarColor(null,i);
+					algo.setBarAlpha(-1, i);
 				}
+				geo.setAlphaValue(alpha);
 				if (!updateAlphaOnly) {
 					geo.setObjColor(new geogebra.awt.GColorD(col));
 				}
-				geo.setAlphaValue(alpha);
+				algo.setBarAlpha(alpha, selectedBarButton);
 				return;
 			}
 			if (!updateAlphaOnly) {
-				float[] rgb = new float[3];
-				col.getRGBColorComponents(rgb);
-				String colorValue = rgb[0] + "_" + rgb[1] + "_" + rgb[2] + "_"
-						+ alpha;
-				geo.addTag("barColor" + selectedBarButton, colorValue);
+				algo.setBarColor(new geogebra.awt.GColorD(col), selectedBarButton);
 			}
-			geo.addTag("barAlpha" + selectedBarButton, "" + alpha);
+			algo.setBarAlpha(alpha, selectedBarButton);
 			// For barchart opacity color  and
 			// opacity image have same value if there is a tag
 			fillingPanel.fillingSlider.removeChangeListener(fillingPanel);
@@ -5624,7 +5627,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			cbFillType.removeActionListener(this);
 			// set selected fill type to first geo's fill type
 			if (isBarChart){
-				setFillType((GeoElement) geos[0]);
+				setFillType((GeoElement)geos[0]);
 			} else {
 				cbFillType.setSelectedIndex(((GeoElement) geos[0]).getFillType()
 						.ordinal());
@@ -5636,7 +5639,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			cbFillInverse.setSelected(((GeoElement) geos[0]).isInverseFill());
 			cbFillInverse.addActionListener(this);
 			if (isBarChart){
-				updateBarFillTypePanel((GeoElement) geos[0]);
+				updateBarFillTypePanel((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm());
 			} else {
 				updateFillTypePanel(((GeoElement) geos[0]).getFillType());
 			}
@@ -5648,19 +5651,19 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// set value to first geo's alpha value
 			double alpha = ((GeoElement) geos[0]).getAlphaValue();
 			if (isBarChart){
-				setAlpha((GeoElement) geos[0],alpha);
+				setAlpha((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm(),alpha);
 			} else {
 				fillingSlider.setValue((int) Math.round(alpha * 100));
 			}
 			double angle = ((GeoElement) geos[0]).getHatchingAngle();
 			if (isBarChart){
-				setAngle((GeoElement) geos[0],angle);
+				setAngle((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm(),angle);
 			} else {
 				angleSlider.setValue((int) angle);
 			}
 			int distance = ((GeoElement) geos[0]).getHatchingDistance();
 			if (isBarChart){
-				setDistance((GeoElement) geos[0],distance);
+				setDistance((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm(),distance);
 			} else {
 				distanceSlider.setValue(distance);
 			}
@@ -5668,7 +5671,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
 			if (isBarChart){
-				setSymbol((GeoElement) geos[0]);
+				setSymbol((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm());
 			} else {
 				if (((GeoElement) geos[0]).getFillSymbol()!=null 
 						&& !((GeoElement) geos[0]).getFillSymbol().trim().equals("") ){
@@ -5690,63 +5693,60 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		// Methods that set value for single bar if single bar is selected
 		// and bar has tag for value
 		
-		private void setAlpha(GeoElement geo, double alpha) {
+		private void setAlpha(AlgoBarChart algo, double alpha) {
 			if (selectedBarButton!=0){
-				if (geo.getTag("barAlpha"+selectedBarButton)!=null){
-					alpha=Float.parseFloat(geo.getTag("barAlpha"+selectedBarButton));
+				if (algo.getBarAlpha(selectedBarButton)!=-1){
+					alpha=algo.getBarAlpha(selectedBarButton);
 				}
 			}
 			fillingSlider.setValue((int) Math.round(alpha * 100));
 		}
 
-		private void setSymbol(GeoElement geo) {
-			String symbol=geo.getFillSymbol();
-			if (selectedBarButton!=0){
-				if (geo.getTag("barSymbol"+ selectedBarButton) !=null
-						&& !geo.getTag("barSymbol"+ selectedBarButton).equals("")){
-					symbol=geo.getTag("barSymbol"+ selectedBarButton);
+		private void setSymbol(AlgoBarChart algo) {
+			String symbol=null;
+				if (algo.getBarSymbol(selectedBarButton) !=null
+						&& !algo.getBarSymbol(selectedBarButton).equals("")){
+					symbol=algo.getBarSymbol(selectedBarButton);
 				}
-			}
 			lblSelectedSymbol.setText(symbol);
 		}
 
-		private void updateBarFillTypePanel(GeoElement geo) {
-			FillType type=geo.getFillType();
-			if (selectedBarButton!=0){
-				if (geo.getTag("barFillType"+selectedBarButton)!=null){
-					type=FillType.values()[Integer.parseInt(geo.getTag("barFillType"+selectedBarButton))];
-				}
+		private void updateBarFillTypePanel(AlgoBarChart algo) {
+			FillType type=FillType.STANDARD;
+			if (algo.getBarFillType(selectedBarButton)!=FillType.STANDARD){
+				type=FillType.values()[algo.getBarFillType(selectedBarButton).ordinal()];
 			}
 			fillType=type;
 			updateFillTypePanel(type);
 		}
 
-		private void setDistance(GeoElement geo, int distance) {
+		private void setDistance(AlgoBarChart algo, int distance) {
 			if (selectedBarButton!=0){
-				if (geo.getTag("barHatchDistance")!=null){
-					distance =Integer.parseInt(geo.getTag("barHatchDistance"));
+				if (algo.getBarHatchDistance(selectedBarButton)!=-1){
+					distance =algo.getBarHatchDistance(selectedBarButton);
 				}
 			}
 			distanceSlider.setValue(distance);
 		}
 
-		private void setAngle(GeoElement geo, double angle) {
+		private void setAngle(AlgoBarChart algo, double angle) {
 			if (selectedBarButton!=0){
-				if (geo.getTag("barHatchAngle")!=null){
-					angle=Double.parseDouble(geo.getTag("barHatchAngle"));
+				if (algo.getBarHatchAngle(selectedBarButton)!=-1){
+					angle=algo.getBarHatchAngle(selectedBarButton);
 				}
 			}
 			angleSlider.setValue((int) angle);
 		}
 
 		private void setFillType(GeoElement geo) {
-			int index=geo.getFillType().ordinal();
-			if (selectedBarButton!=0){
-				if (geo.getTag("barFillType" + selectedBarButton)!=null){
-					index=Integer.parseInt(geo.getTag("barFillType" + selectedBarButton));
+			if (selectedBarButton==0){
+				cbFillType.setSelectedIndex(geo.getFillType().ordinal());
+			} else {
+				AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm();
+				if (algo.getBarFillType(selectedBarButton)!=null){
+					cbFillType.setSelectedIndex(algo.getBarFillType(selectedBarButton).ordinal());
 				}
 			}
-			cbFillType.setSelectedIndex(index);
 		}
 
 		private boolean checkGeos(Object[] geos) {
@@ -5934,55 +5934,43 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		
 		// Add tags or remove if selected all bars
 		private boolean updateBarsFillType(GeoElement geo, int type, String fileName) {
+			AlgoBarChart algo=(AlgoBarChart)geo.getParentAlgorithm();
 			if (selectedBarButton == 0){
 				for ( int i=1; i<selectionBarButtons.length;i++){
-					geo.removeTag("barFillType"+i);
-					geo.removeTag("barHatchDistance"+i);
-					geo.removeTag("barHatchAngle"+i);
-					geo.removeTag("barSymbol"+i);
-					geo.removeTag("barImage"+i);
+					algo.setBarFillType(null, i);
+					algo.setBarHatchDistance(-1,i);
+					algo.setBarHatchAngle(-1, i);
+					algo.setBarSymbol(null,i);
+					algo.setBarImage(null, i);
 				}
 				return false;
 			}
 			switch (type) {
 			case 1:
-				if (fillType == null) {
-					geo.addTag("barFillType" + selectedBarButton, ""
-							+ FillType.STANDARD.ordinal());
-				} else {
-					geo.addTag("barFillType" + selectedBarButton,
-							"" + fillType.ordinal());
-				}
-				geo.addTag("barHatchDistance" + selectedBarButton, ""
-						+ distanceSlider.getValue());
-				geo.addTag("barHatchAngle" + selectedBarButton,
-						"" + angleSlider.getValue());
-				geo.removeTag("barImage" + selectedBarButton);
-				geo.removeTag("barSymbol" + selectedBarButton);
+				algo.setBarFillType(fillType,selectedBarButton);
+				algo.setBarHatchDistance(distanceSlider.getValue(),selectedBarButton);
+				algo.setBarHatchAngle(angleSlider.getValue(), selectedBarButton);
+				algo.setBarImage(null, selectedBarButton);
+				algo.setBarSymbol(null, selectedBarButton);
 				break;
 			case 4:
-				geo.addTag("barAlpha" + selectedBarButton,
-						"" + fillingSlider.getValue()/100f);
+				algo.setBarAlpha(fillingSlider.getValue()/100f, selectedBarButton);
 				break;
 			case 2:
-				geo.removeTag("barFillType" + selectedBarButton);
-				geo.removeTag("barHatchDistance" + selectedBarButton);
-				geo.removeTag("barHatchAngle" + selectedBarButton);
-				geo.removeTag("barSymbol" + selectedBarButton);
-				geo.addTag("barImage" + selectedBarButton,
-						"" +fileName);
-				geo.addTag("barFillType" + selectedBarButton, ""
-						+ FillType.IMAGE.ordinal());
+				algo.setBarFillType(null,selectedBarButton);
+				algo.setBarHatchDistance(-1 , selectedBarButton);
+				algo.setBarHatchAngle(-1, selectedBarButton);
+				algo.setBarSymbol(null , selectedBarButton);
+				algo.setBarImage(fileName, selectedBarButton);
+				algo.setBarFillType(FillType.IMAGE, selectedBarButton);
 				break;
 			case 3:
 				if (lblSelectedSymbol.getText() != null
 						&& !"".equals(lblSelectedSymbol.getText())) {
-					geo.addTag("barFillType" + selectedBarButton, ""
-							+ FillType.SYMBOLS.ordinal());
-					geo.removeTag("barHatchAngle" + selectedBarButton);
-					geo.removeTag("barImage" + selectedBarButton);
-					geo.addTag("barSymbol" + selectedBarButton,
-							lblSelectedSymbol.getText());
+					algo.setBarFillType(FillType.SYMBOLS,selectedBarButton);
+					algo.setBarHatchAngle(-1, selectedBarButton);
+					algo.setBarImage(null, selectedBarButton);
+					algo.setBarSymbol(lblSelectedSymbol.getText() , selectedBarButton);
 				} 
 				break;
 			}

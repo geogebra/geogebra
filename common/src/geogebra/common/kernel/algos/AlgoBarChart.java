@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawBarGraph;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -21,6 +22,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -29,6 +31,8 @@ import geogebra.common.main.App;
 import geogebra.common.util.Cloner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
@@ -44,7 +48,9 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
  * 
  */
 public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
-
+	
+	Map<Integer,HashMap<Integer,Object>> tags=new HashMap<Integer,HashMap<Integer,Object>>();
+	
 	/** Bar chart from expression **/
 	public static final int TYPE_BARCHART_EXPRESSION = 0;
 
@@ -497,6 +503,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 		setOutputLength(1);
 		setOutput(0, sum);
 		setDependencies(); // done by AlgoElement
+		
 	}
 
 	// ======================================================
@@ -739,8 +746,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			break;
 
 		}
-
-	}
+	}	
 
 	public void computeWithExp() {
 
@@ -1116,5 +1122,203 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			algoUnique.remove();
 		}
 	}
-
+	public void setBarColor(GColor color, int numBar){
+		if (color==null){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(0);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(0,color);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(0,color);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public GColor getBarColor(int numBar){
+		HashMap<Integer,Object> hm= tags.get(numBar);
+		if (hm!=null){
+			return (GColor) hm.get(0);
+		}
+		return null;
+	}
+	
+	public void setBarAlpha(float alpha, int numBar){
+		if (alpha==-1){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(1);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(1,alpha);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(1,alpha);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public float getBarAlpha(int numBar){
+		HashMap<Integer,Object> hm = tags.get(numBar);
+		if (hm!=null && hm.get(1)!=null){
+			return ((Float)hm.get(1)).floatValue();
+		}
+		return -1;
+	}
+	
+	public void setBarFillType(FillType fillType, int numBar){
+		FillType fill= fillType==null ? FillType.STANDARD : fillType;  
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(2,fill);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(2,fillType);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public FillType getBarFillType(int numBar){
+		HashMap<Integer,Object> hm= tags.get(numBar);
+		if (hm!=null){
+			if (hm.get(2)==null){
+				return FillType.STANDARD;
+			}
+			return (FillType) hm.get(2);
+		}
+		return FillType.STANDARD;
+	}
+	
+	public void setBarSymbol(String symbol, int numBar){
+		if (symbol==null){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(3);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(3,symbol);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(3,symbol);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public String getBarSymbol(int numBar){
+		HashMap<Integer,Object> hm= tags.get(numBar);
+		if (hm!=null){
+			return (String) hm.get(3);
+		}
+		return null;
+	}
+	
+	public void setBarImage(String image, int numBar){
+		if (image==null){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(4);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(4,image);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(4,image);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public String getBarImage(int numBar){
+		HashMap<Integer,Object> hm= tags.get(numBar);
+		if (hm!=null){
+			return (String) hm.get(4);
+		}
+		return null;
+	}
+	
+	public void setBarHatchDistance(int distance, int numBar){
+		if (distance==-1){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(5);
+			}
+			return;
+		}			
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(5, distance);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(5,distance);
+			tags.put(numBar,hm );
+		}
+	}
+	
+	public int getBarHatchDistance(int numBar){
+		HashMap<Integer,Object> hm = tags.get(numBar);
+		if (hm!=null && hm.get(5)!=null){
+			return ((Integer)hm.get(5)).intValue();
+		}
+		return -1;
+	}
+	
+	public void setBarHatchAngle(int angle, int numBar){
+		if (angle==-1){
+			if (tags.containsKey(numBar)){
+				tags.get(numBar).remove(6);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)){
+			tags.get(numBar).put(6,angle);
+		}else{
+			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
+			hm.put(6,angle);
+			tags.put(numBar,hm );
+		}
+	}
+	public int getBarHatchAngle(int numBar){
+		HashMap<Integer,Object> hm= tags.get(numBar);
+		if (hm!=null && hm.get(6)!=null){
+			return ((Integer)hm.get(6)).intValue();
+		}
+		return -1;
+	}
+	
+	public void barXml(StringBuilder sb){
+		sb.append("\t<tags>\n");
+		for (int i = 1; i <= N; i++) {
+			if (getBarColor(i)!=null){
+				sb.append("\t\t<tag key=\"barColor\""+" barNumber=\""+i+"\" value=\""
+					+ GColor.getColorString(getBarColor(i)) + "\" />\n");
+			}
+			if (getBarAlpha(i)!=-1){
+				sb.append("\t\t<tag key=\"barAlpha\""+" barNumber=\""+i+"\" value=\""
+					+ getBarAlpha(i) + "\" />\n");
+			}
+			if (getBarHatchDistance(i)!=-1){
+				sb.append("\t\t<tag key=\"barHatchDistance\""+" barNumber=\""+i+"\" value=\""
+					+ getBarHatchDistance(i) + "\" />\n");
+			}
+			if (getBarHatchAngle(i)!=-1){
+				sb.append("\t\t<tag key=\"barHatchAngle\""+" barNumber=\""+i+"\" value=\""
+					+ getBarHatchAngle(i) + "\" />\n");
+			}
+			if (getBarFillType(i)!=FillType.STANDARD){
+				sb.append("\t\t<tag key=\"barFillType\""+" barNumber=\""+i+"\" value=\""
+					+ getBarFillType(i).ordinal() + "\" />\n");
+			}
+			if (getBarImage(i)!=null){
+				sb.append("\t\t<tag key=\"barImage\""+" barNumber=\""+i+"\" value=\""
+					+ getBarImage(i) + "\" />\n");
+			}
+			if (getBarSymbol(i)!=null){
+				sb.append("\t\t<tag key=\"barSymbol\""+" barNumber=\""+i+"\" value=\""
+					+ getBarSymbol(i) + "\" />\n");
+			}
+		}
+		sb.append("\t</tags>\n");
+	}
 }

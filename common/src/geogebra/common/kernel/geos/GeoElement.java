@@ -35,6 +35,7 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -78,11 +79,9 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
@@ -100,10 +99,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	/** 
-	 * Tags are an extra piece of information that can be associated with a geoelement.
-	 */
-	protected Map<String,String> tags = new HashMap<String,String>();
 	
 	/**
 	 * Column headings for spreadsheet trace
@@ -5100,15 +5095,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private void getExtraTagsXML(StringBuilder sb) {
-		if (tags.isEmpty()){
-			return;
+		if (this.getParentAlgorithm() instanceof AlgoBarChart) {
+			((AlgoBarChart)this.getParentAlgorithm()).barXml(sb);
 		}
-		sb.append("\t<tags>\n");
-		Set<String> keys=tags.keySet();
-		for (String key: keys){
-			sb.append("\t\t<tag key=\""+key+"\" value=\""+tags.get(key)+"\" />\n");
-		}
-		sb.append("\t</tags>\n");
 	}
 
 	/**
@@ -6959,17 +6948,4 @@ public abstract class GeoElement extends ConstructionElement implements
 		fillSymbol=symbol;
 	}
 	
-	// Handle tags
-	
-	public void addTag(String key,String value){
-		tags.put(key, value);
-	}
-	
-	public String getTag(String key){
-		return tags.get(key);
-	}
-	
-	public void removeTag(String key){
-		tags.remove(key);
-	}
 }

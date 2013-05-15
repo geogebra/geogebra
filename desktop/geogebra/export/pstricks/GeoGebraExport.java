@@ -1435,25 +1435,27 @@ public abstract class GeoGebraExport {
     		fillType = geo.getFillType();
     		linecolor = ((geogebra.awt.GColorD) geo.getObjectColor());
     		
-    		String []rgb=null;
+    		float [] rgb=null;
     		
     		if (geo.getParentAlgorithm() instanceof AlgoBarChart){
-	    		if (geo.getTag("barColor" + barNumber )!=null){
-	    			rgb=geo.getTag("barColor" + barNumber ).split("_");
-	    			linecolor= (GColorD) AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
-							, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3]));
+    			AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm();
+	    		if (algo.getBarColor(barNumber )!=null){	
+	    			rgb=new float[4];
+	    			algo.getBarColor(barNumber ).getRGBColorComponents(rgb);
+	    			linecolor= (GColorD) AwtFactory.prototype.newColor(rgb[0],rgb[1]
+							, rgb[2],rgb[3]);
 	    		}
-	    		if (geo.getTag("barHatchDistance" + barNumber )!=null){
-	    			y=Integer.parseInt((geo.getTag("barHatchDistance" + barNumber)));
+	    		if (algo.getBarHatchDistance(barNumber )!=-1){
+	    			y=algo.getBarHatchDistance(barNumber );
 	    		}
-	    		if (geo.getTag("barHatchAngle" + barNumber )!=null){
-	    			angle=Integer.parseInt((geo.getTag("barHatchAngle" + barNumber )));
+	    		if (algo.getBarHatchAngle(barNumber )!=-1){
+	    			angle=algo.getBarHatchAngle(barNumber );
 	    		}
-	    		if (geo.getTag("barFillType" + barNumber )!=null){
-	    			fillType=FillType.values()[Integer.parseInt((geo.getTag("barFillType" + barNumber )))];
+	    		if (algo.getBarFillType(barNumber )!=null){
+	    			fillType=FillType.values()[algo.getBarFillType(barNumber).ordinal()];
 	    		}
-	    		if (geo.getTag("barAlpha" + barNumber )!=null && rgb!=null){	    			
-					alpha=Float.parseFloat(rgb[3]);
+	    		if (algo.getBarAlpha(barNumber )!=-1 && rgb!=null){	    			
+					alpha=rgb[3];
 	    		}
 	    	} 
 		}

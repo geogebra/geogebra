@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
@@ -29,6 +30,7 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.PathRegionHandling;
+import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -812,9 +814,40 @@ public class MyXMLHandler implements DocHandler {
 
 	
 	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))){
-			geo.addTag(attrs.get("key"), attrs.get("value"));
-			return true;
+		AlgoBarChart algo=(AlgoBarChart)geo.getParentAlgorithm();
+		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value")) && !"".equals(attrs.get("barNumber"))){
+			if (attrs.get("key").equals("barAlpha")){
+				algo.setBarAlpha(Float.parseFloat(attrs.get("value")), 
+						Integer.parseInt(attrs.get("barNumber")));	
+				return true;
+			} else if (attrs.get("key").equals("barHatchDistance")){
+				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")), 
+						Integer.parseInt(attrs.get("barNumber")));	
+				return true;
+			} else if (attrs.get("key").equals("barFillType")){
+				algo.setBarFillType(FillType.values()[Integer.parseInt(attrs.get("value"))], 
+						Integer.parseInt(attrs.get("barNumber")));	
+				return true;
+			} else if (attrs.get("key").equals("barHatchAngle")){
+				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")), 
+						Integer.parseInt(attrs.get("barNumber")));	
+				return true;
+			} else if (attrs.get("key").equals("barImage")){
+				algo.setBarImage(attrs.get("value"), 
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barSymbol")){
+				algo.setBarSymbol(attrs.get("value"), 
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barColor")){
+				String []c=attrs.get("value").split(",");				
+				algo.setBarColor(AwtFactory.prototype.newColor(Integer.parseInt(c[0].substring(5)),
+						Integer.parseInt(c[1]), 
+						Integer.parseInt(c[2])),  
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			}
 		}
 		return false;
 	}

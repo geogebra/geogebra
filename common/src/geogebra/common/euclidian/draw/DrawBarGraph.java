@@ -115,6 +115,7 @@ public class DrawBarGraph extends Drawable {
 		double hatchingAngle=geo.getHatchingAngle();
 		String fileName=geo.getImageFileName();
 		float alpha=geo.getAlphaValue();
+		AlgoBarChart algop=(AlgoBarChart)geo.getParentAlgorithm();
 		int k;
 		if (isVisible) {
 			try {
@@ -123,10 +124,12 @@ public class DrawBarGraph extends Drawable {
 					g2.setStroke(selStroke);
 					for(int i=0;i<gp.length;i++){
 						k=i+1;
-						if (geo.getTag("barColor"+k) != null) {
-							String []rgb=geo.getTag("barColor"+k).split("_");
-							g2.setPaint(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
-									, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3])));
+						if (algop.getBarColor(k) != null) {
+							GColor col=algop.getBarColor(k);
+							g2.setPaint(AwtFactory.prototype.newColor(col.getRed(),
+									col.getGreen(),
+									col.getBlue(),
+									col.getAlpha()));
 						}
 						g2.draw(gp[i]);
 						g2.setPaint(color);
@@ -143,29 +146,28 @@ public class DrawBarGraph extends Drawable {
 					 */
 					for (int i=0;i<gp.length;i++) {
 						k=i+1;
-						if (geo.getTag("barColor"+k)!=null) {
-							String []rgb=geo.getTag("barColor"+k).split("_");
-							geo.setObjColor(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
-									, Float.parseFloat(rgb[2]),Float.parseFloat(rgb[3])));
-							geo.setAlphaValue(Float.parseFloat(rgb[3]));
+						if (algop.getBarColor(k) != null) {
+							GColor col=algop.getBarColor(k);
+							geo.setObjColor(col);
+							geo.setAlphaValue(col.getAlpha());
 						}
-						if (geo.getTag("barAlpha"+k)!=null) {
-							geo.setAlphaValue(Float.parseFloat(geo.getTag("barAlpha"+k)));
+						if (algop.getBarAlpha(k)!=-1.0) {
+							geo.setAlphaValue(algop.getBarAlpha(k));
 						}
-						if (geo.getTag("barFillType"+k)!=null) {
-							geo.setFillType(FillType.values()[Integer.parseInt((geo.getTag("barFillType"+k)))]);
+						if (algop.getBarFillType(k)!=FillType.STANDARD) {
+							geo.setFillType(algop.getBarFillType(k));
 						}
-						if (geo.getTag("barSymbol"+k)!=null) {
-							geo.setFillSymbol(geo.getTag("barSymbol"+k));
+						if (algop.getBarSymbol(k)!=null) {
+							geo.setFillSymbol(algop.getBarSymbol(k));
 						} 
-						if (geo.getTag("barImage"+k)!=null) {
-							geo.setImageFileName(geo.getTag("barImage"+k));
+						if (algop.getBarImage(k)!=null) {
+							geo.setImageFileName(algop.getBarImage(k));
 						}
-						if (geo.getTag("barHatchDistance"+k)!=null) {
-							geo.setHatchingDistance(Integer.parseInt((geo.getTag("barHatchDistance"+k))));
+						if (algop.getBarHatchDistance(k)!=-1) {
+							geo.setHatchingDistance(algop.getBarHatchDistance(k));
 						}
-						if (geo.getTag("barHatchAngle"+k)!=null) {
-							geo.setHatchingAngle(Integer.parseInt((geo.getTag("barHatchAngle"+k))));
+						if (algop.getBarHatchAngle(k)!=-1) {
+							geo.setHatchingAngle(algop.getBarHatchAngle(k));
 						}
 						
 						fill(g2, gp[i], false); // fill using default/hatching/image as
@@ -191,11 +193,15 @@ public class DrawBarGraph extends Drawable {
 					g2.setStroke(objStroke);
 					for(int i=0;i<gp.length;i++) {
 						k=i+1;
-						if (geo.getTag("barColor"+k)!=null) {
-							String []rgb=geo.getTag("barColor"+k).split("_");
-							g2.setPaint(AwtFactory.prototype.newColor(Float.parseFloat(rgb[0]),Float.parseFloat(rgb[1])
-									, Float.parseFloat(rgb[2])));
+						if (algop.getBarColor(k) != null) {
+							GColor col=algop.getBarColor(k);
+							g2.setPaint(AwtFactory.prototype.newColor(col.getRed(),
+									col.getGreen(),
+									col.getBlue(),
+									col.getAlpha()));
 						}
+						g2.draw(gp[i]);
+						g2.setPaint(color);
 						g2.draw(gp[i]);
 						g2.setPaint(color);
 					}
