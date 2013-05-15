@@ -426,7 +426,7 @@ public class Ggb2giac {
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"[[ggbans:=polar_coordinates(%0)],convert([ggbans[0]" + Unicode.angleSpace + "ggbans[1]],25)][1]");
+				"([[ggbans:=polar_coordinates(%0)],convert([ggbans[0]" + Unicode.angleSpace + "ggbans[1]],25)])[1]");
 		p("ToPoint.1",
 				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
