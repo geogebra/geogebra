@@ -69,10 +69,14 @@ public class GeoGebraFrame extends VerticalPanel {
 	 */
 	
 	private void createSplash(ArticleElement ae) {
+		
 		int splashWidth = 427;
 		int splashHeight = 120;
+			
 		int width = ae.getDataParamWidth();
 		int height = ae.getDataParamHeight();
+				
+		/*
 		if (ae.getDataParamShowMenuBar()) {
 			// The menubar has extra height:
 			height += 31;
@@ -81,9 +85,16 @@ public class GeoGebraFrame extends VerticalPanel {
 			// The toolbar has extra height:
 			height += 57;
 		}
+		*/
+		
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
 		splash = new SplashDialog(showLogo, ae.getId());
 		splash.setGeoGebraFrame(this);
+
+		if (splash.isPreviewExists()) {
+			splashWidth = width;
+			splashHeight = height;
+		}		
 		
 		if (width > 0 && height > 0) {
 			setWidth(width + "px");

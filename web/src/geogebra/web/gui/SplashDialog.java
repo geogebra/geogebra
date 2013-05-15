@@ -35,12 +35,10 @@ public class SplashDialog extends SimplePanel {
 		this.articleId = articleId;
 		isPreviewExists = checkIfPreviewExists();
 		String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
-		if (showLogo) {
-			if (!isPreviewExists) {
-				html += GuiResources.INSTANCE.ggbSplashHtml().getText();
-			} else {
-				html += grabPreviewHtml();
-			}
+		if (!isPreviewExists) {
+			html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+		} else if (showLogo) {
+			html += grabPreviewHtml();
 		}
 		html += GuiResources.INSTANCE.ggbSpinnerHtml().getText() + "</div>"; 
 	    HTML splash = new HTML(html);	
