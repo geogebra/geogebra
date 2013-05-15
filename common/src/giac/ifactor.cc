@@ -1,16 +1,10 @@
 // -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c ifactor.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
 #include "giacPCH.h"
 #define GIAC_MPQS // define if you want to use giac for sieving (currently only 1 poly, maybe more later)
-#ifdef RTOS_THREADX
-#define OLD_AFACT
-#define GIAC_ADDITIONAL_PRIMES 16// if defined, additional primes are used in sieve
-#else
-#define GIAC_ADDITIONAL_PRIMES 32// if defined, additional primes are used in sieve
-#endif
 
 // Thanks to Jason Papadopoulos, author of msieve
 #ifdef BESTA_OS
-	#define PREFETCH(addr) /* nothing */
+#define PREFETCH(addr) /* nothing */
 #elif defined(__GNUC__) && __GNUC__ >= 3
 	#define PREFETCH(addr) __builtin_prefetch(addr) 
 #elif defined(_MSC_VER) && _MSC_VER >= 1400
@@ -58,11 +52,17 @@ using namespace std;
 #include "giacintl.h"
 #endif
 
+#ifdef GIAC_HAS_STO_38
+#define BESTA_OS
+#endif
 // Trying to make ifactor(2^128+1) work on ARM
-// feel free to comment if it does not build 
-//#ifdef BESTA_OS
-//#undef BESTA_OS
-//#endif 
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
+//#define OLD_AFACT
+#define GIAC_ADDITIONAL_PRIMES 16// if defined, additional primes are used in sieve
+#else
+#define GIAC_ADDITIONAL_PRIMES 32// if defined, additional primes are used in sieve
+#endif
+
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -442,8 +442,7 @@ namespace giac {
 #endif
 #endif
 
-#ifndef RTOS_THREADX 
-#ifndef BESTA_OS
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
   // #define WITH_INVA
 #if defined(__APPLE__) || defined(__x86_64__)
 #define LP_TAB_SIZE 15 // slice size will be 2^LP_TAB_SIZE
@@ -453,8 +452,7 @@ namespace giac {
 #else
 #define LP_TAB_SIZE 15 // slice size will be 2^LP_TAB_SIZE
 #endif // APPLE or 64 bits
-#endif
-#endif
+#endif // !defined RTOS_THREADX and BESTA_OS
 
 #ifdef LP_TAB_SIZE
 #define LP_MASK ((1<<LP_TAB_SIZE)-1)
@@ -594,11 +592,9 @@ namespace giac {
 #else
       if (p>next){
 	++nbits;
-#ifndef BESTA_OS
-#ifndef RTOS_THREADX
+#if !defined(BESTA_OS) && !defined(RTOS_THREADX)
 	if (nbits==LP_BIT_LIMIT+1)
 	  break;
-#endif
 #endif
 	next *=2;
       }
@@ -622,8 +618,7 @@ namespace giac {
 	bit->root2 = pos2-SLICEEND;
       }
     }
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
 #ifndef LP_TAB_SIZE
     for (;bit!=bitend;++bit){
       // same as above but we are sieving with primes >2^15, no need to check for nbits increase
@@ -640,7 +635,6 @@ namespace giac {
       }
       bit->root2 = pos-ss;
     }
-#endif
 #endif
 #endif
     return bit;
@@ -1055,7 +1049,7 @@ namespace giac {
 	    } else {
 	      // add a prime in additional_primes if <=QS_B_BOUND
 	      if (int(additional_primes.size())>=4*bs 
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
 		  || bs+additional_primes.size()>700
 #endif
 		  )
@@ -1836,12 +1830,14 @@ namespace giac {
     double Nd=evalf_double(N,1,contextptr)._DOUBLE_val;
 #ifdef RTOS_THREADX
     if (Nd>1e40) return false;
-#else
+#endif
+#ifdef BESTA_OS
+    if (Nd>1e40) return false;
+#endif
 #ifdef PRIMES32
     if (Nd>1e76) return false;
 #else
     if (Nd>1e63) return false;
-#endif
 #endif
     int Ndl=int(std::log10(Nd)-std::log10(double(multiplier))+.5); // +2*delta);
 #ifdef LP_TAB_SIZE
@@ -1854,7 +1850,7 @@ namespace giac {
     int pos1=70,pos0=23,afact=2,afixed=0; // pos position in the basis, afact number of factors
     // FIXME Will always include the 3 first primes of the basis
     // set a larger Mtarget gives less polynomials but also use less memory
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(RTOS_THREADX)
     double Mtarget=0.95e5;
     if (Nd>1e36)
       Mtarget=1.2e5;
@@ -2011,7 +2007,7 @@ namespace giac {
       Mtarget=basis.back().p*dtarget; // (int(basis.back().p*1.1)/slicesize)*slicesize;
     }
     unsigned ps=sizeinbase2(basis.back().p);
-#ifndef RTOS_THREADX // def USE_MORE_PRIMES
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS) // def USE_MORE_PRIMES
     unsigned maxadditional=(2+(basis.back().p>>16))*basis.back().p*ps;
 #else
     unsigned maxadditional=3*basis.back().p*ps;
@@ -2132,7 +2128,7 @@ namespace giac {
       isqrtNmodp[i]=smod(isqrtN,basis[i].p).val;
 #endif
     }
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
     unsigned puissancestablength=10000;
 #else
 #if 1 // def USE_MORE_PRIMES
@@ -2166,7 +2162,7 @@ namespace giac {
     additional_map_t additional_primes_map(8*bs);
     axbmodn.reserve(bs);
 #else 
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
     additional_primes.reserve(bs);
     additional_primes_twice.reserve(bs);
     axbmodn.reserve(2*bs);
@@ -2621,14 +2617,14 @@ namespace giac {
 	else
 	  nrelationsa += nrelationsb;
       }
-#ifdef RTOS_THREADX
+#if defined( RTOS_THREADX) || defined(BESTA_OS)
       if (debug_infolevel)
 	*logptr(contextptr) << axbmodn.size() << " of " << todo_rel << " (" << 100-100*(todo_rel-axbmodn.size())/double(bs+marge) << "%)" << endl;
 #endif
       if (nrelationsa==0){
 	sqrtavals.pop_back();
       }
-#ifndef RTOS_THREADX
+#if !defined(RTOS_THREADX) && !defined(BESTA_OS)
       if (debug_infolevel>1)
 	*logptr(contextptr) << clock()<< gettext(" sieved : ") << axbmodn.size() << " of " << todo_rel << " (" << 100-100*(todo_rel-axbmodn.size())/double(bs+marge) << "%), M=" << M << endl;
 #endif
@@ -2891,10 +2887,10 @@ namespace giac {
   // Pollard-rho algorithm
   const int POLLARD_GCD=64;
 #ifdef GIAC_MPQS 
-#if defined(USE_GMP_REPLACEMENTS) && defined(RTOS_THREADX)
+#if defined(BESTA_OS) || defined(RTOS_THREADX)
   const int POLLARD_MAXITER=3000;
 #else
-  const int POLLARD_MAXITER=100000;
+  const int POLLARD_MAXITER=10000;
 #endif
 #else
   const int POLLARD_MAXITER=100000;
@@ -2905,7 +2901,7 @@ namespace giac {
     n.uncoerce();
     int maxiter=POLLARD_MAXITER;
     double nd=evalf_double(n,1,contextptr)._DOUBLE_val;
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
     int nd1=int(2000*(std::log10(nd)-34));
 #else
     int nd1=int(1500*std::pow(16.,(std::log10(nd)-40)/10));
@@ -2958,7 +2954,7 @@ namespace giac {
 #endif
 	m += 1;
 	if (debug_infolevel && ((m % 
-#ifdef RTOS_THREADX
+#if defined(RTOS_THREADX) || defined(BESTA_OS)
 				 (1<<10)
 #else
 				 (1<<18)

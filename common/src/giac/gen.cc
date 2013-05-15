@@ -8023,9 +8023,55 @@ namespace giac {
     mpz_clear(a);
     mpz_clear(b);
   }
+  void my_mpz_gcdext(mpz_t & d,mpz_t & u,mpz_t &v,const mpz_t & a,const mpz_t & b){
+    mpz_t q,r1,r2,u1,u2,v1,v2;
+    // mpz_t r3,u3,v3;
+    mpz_init_set(r1,a); mpz_init_set(r2,b);
+    mpz_init_set_ui(u1,1); mpz_init_set_ui(u2,0);
+    mpz_init_set_ui(v1,0); mpz_init_set_ui(v2,1);
+    mpz_init(q); 
+    // mpz_init(r3); mpz_init(u3); mpz_init(v3);
+    while (mpz_cmp_si(r2,0)){
+      // cerr << "iegcd " << gen(r1) << " " << gen(r2) << endl;
+      mpz_cdiv_qr(q,r1,r1,r2);
+      mpz_swap(r1,r2);
+      mpz_submul(u1,q,u2);
+      mpz_swap(u1,u2);
+      mpz_submul(v1,q,v2);
+      mpz_swap(v1,v2);
+    }
+    if (mpz_cmp_si(r1,0)<0){
+      mpz_neg(r1,r1); mpz_neg(u1,u1); mpz_neg(v1,v1);
+    }
+    mpz_swap(d,r1); mpz_swap(u,u1); mpz_swap(v,v1);
+#if 0 // debugging
+    cerr << gen(d) << " " << gen(u) << " " << gen(v) << endl;
+    mpz_gcdext(d,u,v,a,b);
+    cerr << gen(d) << " " << gen(u) << " " << gen(v) << endl;
+#endif
+    mpz_clear(q); mpz_clear(r1); mpz_clear(r2); 
+    mpz_clear(u1); mpz_clear(u2); 
+    mpz_clear(v1); mpz_clear(v2); 
+    // mpz_clear(u3); mpz_clear(v3); mpz_clear(r3);
+  }
+  bool my_mpz_invert(mpz_t & ainv,const mpz_t & a,const mpz_t & m){
+    mpz_t d,v;
+    mpz_init(d); mpz_init(v);
+    my_mpz_gcdext(d,ainv,v,a,m);
+    mpz_clear(v);
+    bool ok=mpz_cmp_si(d,1)==0;
+    mpz_clear(d);
+    return ok;
+  }
 #else
   void my_mpz_gcd(mpz_t &z,const mpz_t & a,const mpz_t & b){
     mpz_gcd(z,a,b);
+  }
+  void my_mpz_gcdext(mpz_t & d,mpz_t & u,mpz_t &v,const mpz_t & a,const mpz_t & b){
+    mpz_gcdext(d,u,v,a,b);
+  }
+  bool my_mpz_invert(mpz_t & ainv,const mpz_t & a,const mpz_t & m){
+    return mpz_invert(ainv,a,m);
   }
 #endif
 
@@ -8348,7 +8394,7 @@ namespace giac {
 	v.uncoerce();
       if (!d.type)
 	d.uncoerce();
-      mpz_gcdext(*d._ZINTptr,*u._ZINTptr,*v._ZINTptr,*a._ZINTptr,*b._ZINTptr);
+      my_mpz_gcdext(*d._ZINTptr,*u._ZINTptr,*v._ZINTptr,*a._ZINTptr,*b._ZINTptr);
       break;
     default: 
       ciegcd(a,b,u,v,d);
@@ -8628,7 +8674,7 @@ namespace giac {
       mpz_set_si(bptr->z,modulo.val);
     }
     res = new ref_mpz_t;
-    bool ok=mpz_invert(res->z,aptr->z,bptr->z)!=0;
+    bool ok=my_mpz_invert(res->z,aptr->z,bptr->z)!=0;
     if (a.type==_INT_)
       delete aptr;
     if (!modulo.type)

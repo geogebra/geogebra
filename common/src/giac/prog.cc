@@ -4413,6 +4413,7 @@ namespace giac {
     if (args.type!=_INT_)
       return ntl_on(contextptr);
     ntl_on((args.val)!=0,contextptr);
+    ntl_on((args.val)!=0,context0); // Current factorization routines do not have access to the context
     return args;
   }
   static const char _ntl_on_s []="ntl_on";
@@ -4700,7 +4701,8 @@ namespace giac {
     if (args.type!=_INT_)
       return decimal_digits(contextptr);
     set_decimal_digits(args.val,contextptr);
-    return _cas_setup(cas_setup(contextptr),contextptr);
+    _cas_setup(cas_setup(contextptr),contextptr);
+    return decimal_digits(contextptr);
   }
   static const char _Digits_s []="Digits";
   static define_unary_function_eval2 (__Digits,&giac::_Digits,_Digits_s,&printasDigits);

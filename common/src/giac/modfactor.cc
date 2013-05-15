@@ -401,10 +401,18 @@ namespace giac {
       vecteur::iterator it=v.begin(),itend=v.end();
       for (;it!=itend;++it){
 	env->modulo=modulonext;
+	if (debug_infolevel>=20)
+	  cerr << "liftroot old root value " << *it << endl;
 	gen temp1(iquo(horner(q,*it,env),moduloi));
+	if (debug_infolevel>=20)
+	  cerr << "liftroot num " << temp1 << endl;
 	env->modulo=moduloi;
 	gen temp2(horner(qprime,*it,env));
+	if (debug_infolevel>=20)
+	  cerr << "liftroot den " << temp2 << " mod " << env->modulo << endl;
 	*it=smod(*it - moduloi* temp1 * invmod(temp2,env->modulo),modulonext) ;
+	if (debug_infolevel>=20)
+	  cerr << "liftroot new root value " << *it << endl;
       }
       moduloi=modulonext;
       env->modulo=moduloi;
@@ -1084,20 +1092,27 @@ namespace giac {
 	if (is_undef(Q))
 	  return 0;
 	mulmodpoly(Q,invmod(lcoeff,env->modulo),env,Q); // Q=Q*invmod(lcoeff) Q is now unitary
-	// cout << "Trying with " << m << Q << endl;
+	if (debug_infolevel>=20)
+	  cerr << "linearfind: trying with prime " << m << " for " << Q << endl;
 	if (is_one(gcd(Q,derivative(Q,env),env)))
 	  break;
       }
     }
     if (i==100) return 0; // setsizeerr(gettext("modfactor.cc/linearfind")); 
+    if (debug_infolevel>=20)
+      cerr << "linearfind: using prime " << m << endl;
     vecteur w,xpuipn(xpowerpn(env));
     vector<modpoly> wtmp;
     if (is_undef(xpuipn)) return 0;
     if (!roots((pn>0 && signed(Q.size())>pn)?gcd(Q,operator_minus(xpuipn,xpower1(),env),env):Q,env,w,wtmp))
       return 0;
+    if (debug_infolevel>=20)
+      cerr << "linearfind modular roots " << w << endl;
     dense_POLY1 q1(modularize(q,gen(0),env));
     if (is_undef(q1)) return 0;
     liftroots(q1,env,w);
+    if (debug_infolevel>=20)
+      cerr << "linearfind lifted modular roots " << w << endl;
     // try each element of w
     vecteur::const_iterator it=w.begin(),itend=w.end();
     for (;it!=itend;++it){
@@ -1114,6 +1129,8 @@ namespace giac {
 	combination.push_back(gen( 1));
 	combination.push_back(smod(-(*it),env->modulo));
       }
+      if (debug_infolevel>=20)
+	cerr << "checking " << combination << endl;
       if (DenseDivRem(q1,combination,quo,rem,true) && (rem.empty())){
 	// push factor found
 	v.push_back(unmodularize(combination));
@@ -1294,9 +1311,8 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
     int locked=pthread_mutex_trylock(&ntl_mutex);
 #endif // HAVE_LIBPTHREAD
-    if (locked){
-      if (!do_factorunivsqff(q,env,v,i,debug,modfactor_primes))
-	return false;
+    if (locked || ntl_on(context0)==0){
+      return do_factorunivsqff(q,env,v,i,debug,modfactor_primes);
     }
     try {
       int n=q.lexsorted_degree();
@@ -1326,7 +1342,7 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
     int locked=pthread_mutex_trylock(&ntl_mutex);
 #endif // HAVE_LIBPTHREAD
-    if (locked){
+    if (locked || ntl_on(context0)==0){
       vecteur cr;
       return do_linearfind(q,env,qrem,v,cr,i);
     }
