@@ -20,8 +20,8 @@ public abstract class GeoGebraTubeExport {
 	 * If you want to test GeoGebraTube uploads on a test server,
 	 * use a test IP URL instead, e.g.: "http://140.78.116.131:8082/upload"
 	 */
-	//protected static final String uploadURL = "http://www.geogebratube.org/upload";
-	protected static final String uploadURL = "http://test.geogebratube.org:8085/upload";
+	protected static final String uploadURL = "http://www.geogebratube.org/upload";
+	//protected static final String uploadURL = "http://test.geogebratube.org:8085/upload";
 	
 	/**
 	 * Application instance.
