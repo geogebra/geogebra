@@ -1956,6 +1956,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(')');
 
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append("cross(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
+
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
