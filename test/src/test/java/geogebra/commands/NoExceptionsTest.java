@@ -97,6 +97,7 @@ public class NoExceptionsTest {
 		t("turtle1=Turtle[]");
 		t("object=(1,1)");
 		t("listSpline={(2,3),(1,4),(2,5)}");
+		t("CubicSpline[listSpline]");
 	}
 	public static int syntaxes;
 	@Before
@@ -2028,7 +2029,7 @@ public class NoExceptionsTest {
 		t("Tangent[ Pt1, c1 ]");
 		t("Tangent[ Pt1, f1 ]");
 		t("Tangent[ Pt1, f1 ]");
-
+		t("Tangent[ Pt1, CubicSpline[listSpline]]");
 	}
 
 	@Test
