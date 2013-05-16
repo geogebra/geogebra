@@ -37,10 +37,18 @@ public class SplashDialog extends SimplePanel {
 		String html = "<div style=\"position: absolute; z-index: 1000000; background-color: white; \">";
 		if (!isPreviewExists) {
 			html += GuiResources.INSTANCE.ggbSplashHtml().getText();
+			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText();
 		} else if (showLogo) {
 			html += grabPreviewHtml();
+			html += "<div style=\"position: absolute; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; border: 1px solid black; \">" +
+					"GeoGebra loading..." + 
+					"<span style=\"position:absolute; display:inline-block; bottom:0px; right: 10px; \">" +
+					GuiResources.INSTANCE.ggbSpinnerHtml().getText() +
+					"</span>" +
+					"</div>"; 
+			
 		}
-		html += GuiResources.INSTANCE.ggbSpinnerHtml().getText() + "</div>"; 
+		html += "</div>";
 	    HTML splash = new HTML(html);	
 	    addNativeLoadHandler(splash.getElement());
 	    add(splash);
@@ -63,7 +71,7 @@ public class SplashDialog extends SimplePanel {
 	}-*/;
 	
 	private void triggerImageLoaded() {
-		geogebraFrame.runAsyncAfterSplash();
+		//geogebraFrame.runAsyncAfterSplash();
 	}
 
 	private native boolean checkIfPreviewExists() /*-{
