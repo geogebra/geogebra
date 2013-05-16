@@ -47,6 +47,7 @@ public class AlgoTangentList extends AlgoElement {
 			}
 		}
 		algot=new AlgoTangentCurve(cons,label,P,minF);
+		cons.removeFromConstructionList(algot);
 		tangent=algot.getTangent();
 		setInputOutput();
 	}
@@ -86,6 +87,7 @@ public class AlgoTangentList extends AlgoElement {
 		}
 		tangent.setParentAlgorithm(algot);
 		algot.initialize(minF);
+		algot.compute();
 	}
 
 	@Override

@@ -47,15 +47,17 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 		tangent = new GeoLine(cons);
 		this.P = P;
 		initialize(f);
-		tangent.setLabel(label);
+		setInputOutput(); // for AlgoElement
+		compute();
+		tangent.setLabel(label);	
 	}
 
 	/**
-	 * @param f
+	 * @param f1 cartesian curve (input)
 	 */
-	public void initialize(GeoCurveCartesian f) {
+	public void initialize(GeoCurveCartesian f1) {
 		
-		this.f = f;
+		this.f = f1;
 		
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
@@ -74,9 +76,6 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 		algoCAS = new AlgoDerivative(cons, f);
 		this.df = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
-
-		setInputOutput(); // for AlgoElement
-		compute();
 		
 	}
 

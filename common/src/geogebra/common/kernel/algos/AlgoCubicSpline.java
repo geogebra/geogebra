@@ -49,8 +49,9 @@ public class AlgoCubicSpline extends AlgoElement {
 		parametersValues = new float[inputList.size()];
 		points = new float[inputList.size()][2];
 		Arrays.fill(parametersValues, Float.MAX_VALUE);
-		compute();
 		setInputOutput();
+		compute();
+		listC.setLabel(label);
 	}
 
 	@Override
