@@ -39,8 +39,7 @@ public class SplashDialog extends SimplePanel {
 			html += GuiResources.INSTANCE.ggbSplashHtml().getText();
 			html += GuiResources.INSTANCE.ggbSpinnerHtml().getText();
 		} else if (showLogo) {
-			html += grabPreviewHtml();
-			html += "<div style=\"position: absolute; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; border: 1px solid black; \">" +
+			html += "<div style=\"position: absolute; width: 150px; top: 10px; left : 10px; background-color: white; padding:5px 20px 5px 5px; border: 1px solid black; \">" +
 					"GeoGebra loading..." + 
 					"<span style=\"position:absolute; display:inline-block; bottom:0px; right: 10px; \">" +
 					GuiResources.INSTANCE.ggbSpinnerHtml().getText() +
@@ -71,7 +70,7 @@ public class SplashDialog extends SimplePanel {
 	}-*/;
 	
 	private void triggerImageLoaded() {
-		//geogebraFrame.runAsyncAfterSplash();
+		geogebraFrame.runAsyncAfterSplash();
 	}
 
 	private native boolean checkIfPreviewExists() /*-{
@@ -84,6 +83,8 @@ public class SplashDialog extends SimplePanel {
 
 	protected void hide() {
 		this.removeFromParent();
+		removePreviewImg();
+	
     }
 
 	private native void removePreviewImg() /*-{
