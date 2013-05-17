@@ -5,7 +5,7 @@
 		
 	</ui:style>
 	
-	<ui:with field='res' type='geogebra.web.css.GuiResources'/>
+	<ui:with field='res' type='geogebra.html5.css.GuiResources'/>
 	
 	<g:PopupPanel>
 	  <g:HTML HTML='{res.ggb4Splash.getText}'>
