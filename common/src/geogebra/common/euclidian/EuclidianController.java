@@ -8816,7 +8816,9 @@ public abstract class EuclidianController {
 			pressedButton.setDraggedOrContext(event.isMetaDown()
 					|| event.isPopupTrigger());
 			
-			runScriptsIfNeeded(pressedButton.getButton());
+			if (!event.isRightClick()) {
+				runScriptsIfNeeded(pressedButton.getButton());
+			}
 		}
 		//TODO:repaint?
 	
@@ -8878,6 +8880,10 @@ public abstract class EuclidianController {
 	private void runScriptsIfNeeded(GeoElement geo1) { 
 		if (!scriptsHaveRun) { 
 			scriptsHaveRun = true; 
+
+			// make sure that Input Boxes lose focus (and so update) before running scripts 
+			view.requestFocusInWindow();
+
 			app.runScripts(geo1, (String)null); 
 		} 
 
