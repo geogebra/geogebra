@@ -31,9 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.text.DateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
@@ -314,6 +312,12 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		os.println(XMLWriter.normalizeText(getProperty(TITLE)));
 		os.println("</title>");
 
+		
+		/*
+		 * removed this section otherwise SVG fails validation test
+		 * http://validator.w3.org/check
+		 * 
+		 
 		String producer = getClass().getName();
 		if (!isDeviceIndependent()) {
 			producer += " " + version.substring(1, version.length() - 1);
@@ -334,6 +338,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 							DateFormat.FULL).format(new Date()) + "</Date>");
 		}
 		os.println("</desc>");
+		
+		*/
 
 		// write default stroke
 		os.print("<g ");
