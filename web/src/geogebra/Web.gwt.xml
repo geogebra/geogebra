@@ -62,6 +62,7 @@
        
        For more information, please read
        http://dev.geogebra.org/trac/wiki/GWTCompilation -->
+  <extend-property name="locale" values="ar"/>
    
   <!-- For login to Google -->
   <inherits name="com.google.api.gwt.oauth2.OAuth2" />
