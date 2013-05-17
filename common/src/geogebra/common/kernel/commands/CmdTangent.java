@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoCubicSpline;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
@@ -96,8 +97,13 @@ public class CmdTangent extends CommandProcessor {
 			
 			// For Spline
 			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoList())) && areCurve((GeoList)arg[1])) {
-
+					&& (ok[1] = (arg[1].isGeoList()))) {
+					if (!isSpline((GeoList)arg[1])) {
+						throw argErr(app, c.getName(), arg[1]);
+					}
+					if (!((GeoPoint)arg[0]).isFinite()){
+						throw argErr(app, c.getName(), arg[0]);
+					}
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
 						(GeoPoint) arg[0], (GeoList) arg[1]) };
 				return ret;
@@ -135,7 +141,15 @@ public class CmdTangent extends CommandProcessor {
 		}
 	}
 
-	private static boolean areCurve(GeoList geoList) {
+	private static boolean isSpline(GeoList geoList) {
+		if (!(geoList.getParentAlgorithm() instanceof AlgoCubicSpline)){
+			return false;
+		}
+		
+		if (geoList.size()<1){
+			return false;
+		}
+		
 		for (int i=0;i<geoList.size();i++){
 			if(!geoList.get(i).isGeoCurveCartesian()){
 				return false;
