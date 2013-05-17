@@ -49,6 +49,7 @@ implements Previewable, Functional2Var{
 	
 	
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
 
@@ -59,17 +60,28 @@ implements Previewable, Functional2Var{
 
 
 	
-
-	
+	@Override
 	public void drawGeometryHidden(Renderer renderer){
 
 		drawGeometry(renderer);
 	}	
 	
+	@Override
+	public void drawHidden(Renderer renderer){
+		super.drawHidden(renderer);
+		
+
+		drawTraces(renderer);
+
+	}
 	
-	
+	@Override
+	protected void setLineTextureHidden(Renderer renderer){
+		// nothing to do here
+	}
 	
 
+	@Override
 	protected boolean updateForItSelf(){
 		
 		//Application.debug(getGeoElement());
@@ -108,6 +120,7 @@ implements Previewable, Functional2Var{
 		return true;
 	}
 	
+	@Override
 	protected void updateForView(){
 		
 		if (getView3D().viewChangedByZoom())
@@ -118,6 +131,7 @@ implements Previewable, Functional2Var{
 	
 	
 	
+	@Override
 	public int getPickOrder(){
 		return DRAW_PICK_ORDER_0D;
 	}	
@@ -139,6 +153,7 @@ implements Previewable, Functional2Var{
 		
 	}	
 
+	@Override
 	public void disposePreview() {
 		// TODO Auto-generated method stub
 		
@@ -164,11 +179,13 @@ implements Previewable, Functional2Var{
 	
 	
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_POINTS);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_POINTS);
     }
 
@@ -241,11 +258,13 @@ implements Previewable, Functional2Var{
 
 	
 
+	@Override
 	protected float getLabelOffsetX(){
 		//consistent with DrawPoint
 		return super.getLabelOffsetX()+4;
 	}
 
+	@Override
 	protected float getLabelOffsetY(){
 		//consistent with DrawPoint
 		return super.getLabelOffsetY()-2*((GeoPointND) getGeoElement()).getPointSize();
@@ -255,6 +274,7 @@ implements Previewable, Functional2Var{
 	
 
 	
+	@Override
 	protected double getColorShift(){
 		return 0.86;//mostly sqrt(3)/2
 	}

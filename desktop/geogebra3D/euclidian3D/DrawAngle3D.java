@@ -68,8 +68,6 @@ public class DrawAngle3D extends Drawable3DCurves {
 		if (getAlpha()<1)
 			return;
 
-
-		setLight(renderer);
 		setSurfaceHighlightingColor();
 		
 		drawSurfaceGeometry(renderer);
@@ -241,8 +239,6 @@ public class DrawAngle3D extends Drawable3DCurves {
 
     	if (!hasTransparentAlpha())
     		return;
-
-    	setLight(renderer);
 
     	setSurfaceHighlightingColor();
 

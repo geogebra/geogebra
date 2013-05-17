@@ -86,8 +86,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 		if (getAlpha()<1)
 			return;
 		
-
-		setLight(renderer);
 		setSurfaceHighlightingColor();
 
 		drawSurfaceGeometry(renderer);
@@ -496,8 +494,6 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 
     	if (!hasTransparentAlpha())
     		return;
-
-    	setLight(renderer);
 
     	setSurfaceHighlightingColor();
 

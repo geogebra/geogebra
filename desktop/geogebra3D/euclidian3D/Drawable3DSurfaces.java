@@ -71,8 +71,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		if (!hasTransparentAlpha())
 			return;
 		
-		setLight(renderer);
-
 		//setHighlightingColor();
     	setSurfaceHighlightingColor();
 			
@@ -104,8 +102,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		if (getAlpha()<1)
 			return;
 		
-		setLight(renderer);
-
 		//setHighlightingColor();
     	setSurfaceHighlightingColor();
     	

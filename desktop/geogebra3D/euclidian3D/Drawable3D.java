@@ -6,6 +6,7 @@ import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -16,7 +17,9 @@ import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 
@@ -259,6 +262,7 @@ public abstract class Drawable3D extends DrawableND {
 	@Override
 	final public void update(){
 
+		clearTraceIfZoom();
 
 		if (waitForUpdateVisualStyle || waitForUpdate){
 			updateColors();
@@ -268,13 +272,15 @@ public abstract class Drawable3D extends DrawableND {
 		
 		boolean isVisible = isVisible();
 
-		if (isVisible)
+		if (isVisible){
 			updateForView();
+		}
 		
 		
 		if (waitForUpdate && isVisible){
-			if (updateForItSelf())
+			if (updateForItSelf()){
 				waitForUpdate = false;
+			}
 			setLabelWaitForUpdate();//TODO remove that
 		}
 		
@@ -290,6 +296,22 @@ public abstract class Drawable3D extends DrawableND {
 		waitForReset = false;
 	}
 	
+	/**
+	 * 
+	 * @return true if the geo is traced
+	 */
+	private boolean hasTrace(){
+
+		if (geo==null){
+			return false;
+		}
+
+		if (!geo.isTraceable()){
+			return false;
+		}
+		
+		return ((Traceable) geo).getTrace();
+	}
 	
 	
 	/**
@@ -383,14 +405,24 @@ public abstract class Drawable3D extends DrawableND {
 	
 	
 	protected void removeGeometryIndex(int index){
-		if (!waitForReset)
-			getView3D().getRenderer().getGeometryManager().remove(index);
+		if (!waitForReset){
+			if (!hasTrace()){
+				doRemoveGeometryIndex(index);
+			}
+		}
 
+	}
+
+	private void doRemoveGeometryIndex(int index){
+		getView3D().getRenderer().getGeometryManager().remove(index);
 	}
 	
 	protected void setGeometryIndex(int index){
 		removeGeometryIndex(geomIndex);
 		geomIndex = index;
+		if (hasTrace()){
+			recordTrace();
+		}
 	}
 	
 	
@@ -510,28 +542,32 @@ public abstract class Drawable3D extends DrawableND {
 	 */	
 	public void drawHidden(Renderer renderer){
 		
-		
-		if(!isVisible())
-			return;
-		
-		
-		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE)
-			return;
-		
-		setLight(renderer);
+		if(isVisible() 
+				&& getGeoElement().getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE){
 
-		setHighlightingColor();
-		
-		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN)
-			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
-		else
-			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
-		
-		drawGeometryHidden(renderer);		
-		
 
+			setHighlightingColor();
+
+			setLineTextureHidden(renderer);
+
+			drawGeometryHidden(renderer);		
+
+		}
 
 	} 	
+	
+	/**
+	 * set dash texture for lines
+	 * @param renderer renderer
+	 */
+	protected void setLineTextureHidden(Renderer renderer){
+		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN){
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
+		}else{
+			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
+		}
+
+	}
 	
 	/**
 	 * sets the matrix, the pencil and draw the geometry for transparent parts
@@ -856,9 +892,17 @@ public abstract class Drawable3D extends DrawableND {
 		
 		if(doHighlighting()){
 			Manager manager = getView3D().getRenderer().getGeometryManager();
-			getView3D().getRenderer().setColor(manager.getHigthlighting(color,colorHighlighted));
+			setDrawingColor(manager.getHigthlighting(color,colorHighlighted));
 		}else
-			getView3D().getRenderer().setColor(color);
+			setDrawingColor(color);
+	}
+	
+	/**
+	 * sets the renderer drawing color
+	 * @param color color
+	 */
+	protected void setDrawingColor(Coords color){
+		getView3D().getRenderer().setColor(color);
 	}
 	
 	/**
@@ -958,16 +1002,6 @@ public abstract class Drawable3D extends DrawableND {
 	
 	abstract protected double getColorShift();
 	
-	
-	protected void setLight(Renderer renderer){
-		
-		/*
-		if (doHighlighting())
-			renderer.setLight(Renderer.LIGHT_HIGHLIGHTED);
-		else
-			renderer.setLight(Renderer.LIGHT_STANDARD);
-		*/
-	}
 	
 	/////////////////////////////////////////////////////////////////////////////
 	// links to the GeoElement
@@ -1101,6 +1135,121 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	*/
     
+	
+
+	private TreeMap<TraceSettings,ArrayList<Integer>> trace;
+	
+	private TraceSettings traceSettingsCurrent;
+	
+	private int lastTraceIndex = -1;
+	private ArrayList<Integer> lastTraceIndices;
+	
+	private void recordTrace(){
+		if (trace == null){
+			trace = new TreeMap<TraceSettings, ArrayList<Integer>>(); 
+			traceSettingsCurrent = new TraceSettings(color);
+		}
+		
+		ArrayList<Integer> indices = trace.get(traceSettingsCurrent);
+		if (indices==null){
+			indices = new ArrayList<Integer>();
+			trace.put(traceSettingsCurrent.clone(),indices);
+		}
+		
+		//really add trace at next current geometry record
+		if (lastTraceIndices != null){
+			lastTraceIndices.add(lastTraceIndex);
+		}
+		
+		lastTraceIndices = indices;
+		lastTraceIndex = geomIndex;
+
+	}
+	
+	
+	/**
+	 * draw traces
+	 * @param renderer renderer
+	 */
+	protected void drawTraces(Renderer renderer){
+
+		if (trace==null){
+			return;
+		}
+
+		
+		for (TraceSettings settings : trace.keySet()){
+			ArrayList<Integer> indices = trace.get(settings);
+			setDrawingColor(settings.getColor());
+			for (int i : indices){
+				renderer.getGeometryManager().draw(i);
+			}
+		}
+		
+	}
+	
+
+	private void clearTraceIfZoom(){
+		if (getView3D().viewChangedByZoom()){
+			if (trace!=null){
+				//remove all geometry indices from openGL manager
+				for (ArrayList<Integer> indices : trace.values()){
+					for (int i : indices){
+						doRemoveGeometryIndex(i);
+					}
+				}
+				
+				
+				trace.clear();
+				lastTraceIndices = null;
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	private class TraceSettings implements Comparable<TraceSettings>{
+		
+		private Coords c;
+		
+		public TraceSettings(Coords c){
+			this.c = c;
+		}
+		
+		@Override
+		public TraceSettings clone(){
+			Coords c1 = this.c.copyVector();
+			return new TraceSettings(c1);
+		}
+		
+		public Coords getColor(){
+			return c;
+		}
+		
+		private int getInt(double value){
+			return (int) (256*value);
+		}
+
+		public int compareTo(TraceSettings settings) {
+			for (int i=1; i<=4; i++){
+				int v1 = getInt(this.c.get(i));
+				int v2 = getInt(settings.c.get(i));
+				if(v1<v2){
+					return -1;
+				}
+				if(v1>v2){
+					return 1;
+				}
+			}
+			
+			return 0;
+		}
+	}
+	
+	
+	
 }
 
 

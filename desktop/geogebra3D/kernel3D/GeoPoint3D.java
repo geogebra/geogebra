@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -68,7 +69,8 @@ import java.util.TreeSet;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle,
-		RotateableND, Transformable {
+		RotateableND, Transformable,
+		Traceable{
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -858,9 +860,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return 0;
 	}
 
-	public boolean getTrace() {
-		return false; // TODO
-	}
 
 	public void setPointSize(int size) {
 		pointSize = size;
@@ -1395,5 +1394,22 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		this.m_drawingMatrix = a_drawingMatrix;
 	}	
 
+	
+	
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
 
 }

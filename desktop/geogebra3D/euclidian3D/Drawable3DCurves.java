@@ -56,8 +56,6 @@ public abstract class Drawable3DCurves extends Drawable3D {
 			return;	
 		
 		
-		setLight(renderer);
-			
 		setHighlightingColor();
 		
 		//Application.debug("geo:"+getGeoElement().getLabel()+", lineType="+getGeoElement().getLineTypeHidden());
