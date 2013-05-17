@@ -67,15 +67,6 @@ implements Previewable, Functional2Var{
 	}	
 	
 	@Override
-	public void drawHidden(Renderer renderer){
-		super.drawHidden(renderer);
-		
-
-		drawTraces(renderer);
-
-	}
-	
-	@Override
 	protected void setLineTextureHidden(Renderer renderer){
 		// nothing to do here
 	}

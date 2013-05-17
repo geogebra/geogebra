@@ -51,18 +51,17 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		
-		if(!isVisible())
-			return;	
-		
-		
-		setHighlightingColor();
-		
-		//Application.debug("geo:"+getGeoElement().getLabel()+", lineType="+getGeoElement().getLineTypeHidden());
-		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
-		drawGeometry(renderer);
-		
-		
+
+		if(isVisible()){
+
+			setHighlightingColor();
+
+			//Application.debug("geo:"+getGeoElement().getLabel()+", lineType="+getGeoElement().getLineTypeHidden());
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
+			drawGeometry(renderer);
+		}
+
+		drawTraces(renderer);
 
 	}
 
@@ -90,6 +89,16 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		
 		drawGeometry(renderer);
 	} 
+	
+	
+
+	@Override
+	public void drawHidden(Renderer renderer){
+		super.drawHidden(renderer);
+		
+		drawTraces(renderer);
+
+	}
 	
 
 

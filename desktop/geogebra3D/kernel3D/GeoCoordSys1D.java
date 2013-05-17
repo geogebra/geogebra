@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
@@ -22,8 +23,9 @@ import java.util.ArrayList;
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
-Translateable, MatrixTransformable{
-	
+Translateable, MatrixTransformable, 
+Traceable{
+
 	protected CoordSys coordsys;
 	
 	protected GeoPointND startPoint;
@@ -383,11 +385,6 @@ Translateable, MatrixTransformable{
 	}
 
 	
-	
-	public boolean getTrace() {
-		return false;//TODO
-	}
-	
 
 	public Coords getCartesianEquationVector(CoordMatrix m){
 
@@ -565,5 +562,22 @@ Translateable, MatrixTransformable{
 		getCoordSys().matrixTransform(matrix);
 	}
 
+	
+
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
 	
 }
