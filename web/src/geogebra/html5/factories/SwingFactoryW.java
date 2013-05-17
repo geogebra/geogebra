@@ -1,4 +1,4 @@
-package geogebra.web.factories;
+package geogebra.html5.factories;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.factories.SwingFactory;
@@ -18,7 +18,7 @@ public class SwingFactoryW extends SwingFactory {
 
 	@Override
 	public GLabel newJLabel(String string) {
-		return new geogebra.web.javax.swing.GLabelW(string);
+		return new geogebra.html5.javax.swing.GLabelW(string);
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class SwingFactoryW extends SwingFactory {
 
 	@Override
     public AbstractJComboBox newJComboBox() {
-	    return new geogebra.web.javax.swing.GComboBoxW();
+	    return new geogebra.html5.javax.swing.GComboBoxW();
     }
 
 }

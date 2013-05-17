@@ -1,4 +1,4 @@
-package geogebra.web.gui.view.algebra;
+package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
 

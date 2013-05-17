@@ -24,6 +24,7 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
@@ -631,7 +632,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		// update the selection list
 
-		if (!AppW.getControlDown()) {
+		if (!GlobalKeyDispatcherW.getControlDown()) {
 			selectedCellRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
@@ -1870,7 +1871,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		CellRange targetRange;
 
 		// Case 1: Partial row, targetCell created beneath the column
-		if (cr.isPartialRow() || (!cr.isPartialColumn() && AppW.getShiftDown())) {
+		if (cr.isPartialRow() || (!cr.isPartialColumn() && GlobalKeyDispatcherW.getShiftDown())) {
 			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
 			        cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {

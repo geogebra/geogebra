@@ -126,13 +126,13 @@ public abstract class AppWeb extends App implements SetLabels{
 	
 	protected static void initFactories()
 	{
-		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
-		geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
+		geogebra.common.factories.FormatFactory.prototype = new geogebra.html5.factories.FormatFactoryW();
+		geogebra.common.factories.AwtFactory.prototype = new geogebra.html5.factories.AwtFactoryW();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.html5.euclidian.EuclidianStaticW();
-		geogebra.common.factories.SwingFactory.setPrototype(new geogebra.web.factories.SwingFactoryW());
+		geogebra.common.factories.SwingFactory.setPrototype(new geogebra.html5.factories.SwingFactoryW());
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
-		geogebra.common.factories.CASFactory.setPrototype(new geogebra.web.factories.CASFactoryW());
+		geogebra.common.factories.CASFactory.setPrototype(new geogebra.html5.factories.CASFactoryW());
 
 	}
 	

@@ -22,12 +22,11 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
+import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
-import geogebra.web.gui.view.algebra.Marble;
-import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
 import java.util.Iterator;
 

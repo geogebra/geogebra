@@ -1,6 +1,6 @@
 package geogebra.html5.gawt;
 
-import geogebra.web.main.AppW;
+import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -8,7 +8,6 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
-
 public class BufferedImage {
 
 	ImageElement img = null; // necessary
@@ -55,7 +54,7 @@ public class BufferedImage {
 		if (imageElement != null)// This should not called with null 
 			img = imageElement;
 		else
-			AppW.debug("BufferedImage (gawt) called with null");
+			App.debug("BufferedImage (gawt) called with null");
     }
 
 	// this clones this bufferedimage!
@@ -74,7 +73,7 @@ public class BufferedImage {
 					0,0);
 			img = getImageElement();
 		} else {
-			AppW.debug("BufferedImage (gawt) called with null Canvas");
+			App.debug("BufferedImage (gawt) called with null Canvas");
 		}
 	}
 

@@ -1,5 +1,6 @@
 package geogebra.html5.gui.view.algebra;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
@@ -12,19 +13,17 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+//import geogebra.web.euclidian.EuclidianViewW;
+//import geogebra.web.euclidian.EuclidianViewW;
 
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
         SetLabels, AlgebraView, OpenHandler<TreeItem> {
@@ -117,7 +116,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianViewW#setHighlighted()
+	 * @see EuclidianView#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
 		TreeItem node = nodeTable.get(geo);
@@ -689,28 +688,13 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 		return parent;
 	}
-
-	public void setUserObject(TreeItem ti, Object ob) {
-		ti.setUserObject(ob);
-		if (ob instanceof GeoElement) {
-			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
-			        AppResources.INSTANCE.shown().getSafeUri(),
-			        AppResources.INSTANCE.hidden().getSafeUri()));
-			ti.getElement().getStyle().setPadding(0, Unit.PX);
-
-			// Workaround to make treeitem visual selection available
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-			        .getElement().getFirstChildElement(), "display",
-			        "-moz-inline-box");
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-			        .getElement().getFirstChildElement(), "display",
-			        "inline-block");
-		} else {
-			ti.setWidget(new InlineLabelTreeItem(app.getSelectionManager(), ti,
-			        ob.toString()));
-		}
-	}
-
+	/**
+	 * Assign element or element group to a given tree node
+	 * @param ti
+	 * @param ob
+	 */
+	public abstract void setUserObject(TreeItem ti, Object ob);
+	
 	/**
 	 * Remove this node from the model.
 	 * 

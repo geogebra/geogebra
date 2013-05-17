@@ -211,7 +211,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     private native JavaScriptObject getDummyCallback() /*-{
 	   return function() {
-	   		@geogebra.common.main.App::debug(Ljava/lang/String;)("This is a dummy callback from geogebra.web.main.ggbApi.getBase64(); try the callbacked version instead");
+	   		@geogebra.common.main.App::debug(Ljava/lang/String;)("This is a dummy callback from geogebra.html5.main.ggbApi.getBase64(); try the callbacked version instead");
 	   };
     }-*/;
 

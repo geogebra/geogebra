@@ -7,8 +7,6 @@ import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
-import geogebra.web.javax.swing.GComboBoxW;
-import geogebra.web.javax.swing.GLabelW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -32,8 +30,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 	
 	@Override
     public void add(GLabel label) {
-	    impl.add(geogebra.web.javax.swing.GLabelW.getImpl(
-	    		(geogebra.web.javax.swing.GLabelW)label));
+	    impl.add(GLabelW.getImpl((GLabelW)label));
 	    
     }
 

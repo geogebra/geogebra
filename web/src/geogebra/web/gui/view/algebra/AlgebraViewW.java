@@ -18,10 +18,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
+import geogebra.html5.gui.view.algebra.InlineLabelTreeItem;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -328,7 +331,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		return editing;
 	}
 
-	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
+	@Override
+    protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
 		//keys should move the geos in the EV
 		//if (isEditing())
 			return false;
@@ -364,13 +368,34 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	    return false;
     }
 
-	protected void onLoad() {
+	@Override
+    protected void onLoad() {
 		// this may be important if the view is added/removed from the DOM
 		super.onLoad();
 		repaint();
 	}
 
-	
+	@Override
+    public final void setUserObject(TreeItem ti, Object ob) {
+		ti.setUserObject(ob);
+		if (ob instanceof GeoElement) {
+			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
+			        AppResources.INSTANCE.shown().getSafeUri(),
+			        AppResources.INSTANCE.hidden().getSafeUri()));
+			ti.getElement().getStyle().setPadding(0, Unit.PX);
+
+			// Workaround to make treeitem visual selection available
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
+			        .getElement().getFirstChildElement(), "display",
+			        "-moz-inline-box");
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
+			        .getElement().getFirstChildElement(), "display",
+			        "inline-block");
+		} else {
+			ti.setWidget(new InlineLabelTreeItem(app.getSelectionManager(), ti,
+			        ob.toString()));
+		}
+	}	
 
 	public boolean isShowing() {
 		return isVisible() && isAttached();

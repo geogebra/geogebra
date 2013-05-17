@@ -9,7 +9,6 @@ import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
 import java.util.Date;
 
 import com.google.gwt.user.client.Timer;
-//import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 public class TimerSystemW {
 

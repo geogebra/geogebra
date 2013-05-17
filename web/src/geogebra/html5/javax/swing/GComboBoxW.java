@@ -1,4 +1,4 @@
-package geogebra.web.javax.swing;
+package geogebra.html5.javax.swing;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;

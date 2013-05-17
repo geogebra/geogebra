@@ -1,4 +1,4 @@
-package geogebra.web.factories;
+package geogebra.html5.factories;
 
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.util.NumberFormatAdapter;

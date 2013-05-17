@@ -3,13 +3,13 @@ package geogebra.html5.main;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -21,6 +21,23 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 public class GlobalKeyDispatcherW extends
         geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 
+
+	private static boolean controlDown = false;
+	private static boolean shiftDown = false;
+
+	public static boolean getControlDown() {
+		return controlDown;
+	}
+
+	public static boolean getShiftDown() {
+		return shiftDown;
+	}
+
+	public static void setDownKeys(KeyEvent ev) {
+		controlDown = ev.isControlKeyDown();
+		shiftDown = ev.isShiftKeyDown();
+	}
+	
 	/**
 	 * @param app application
 	 */
@@ -35,13 +52,13 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-		AppW.setDownKeys(event);
+		setDownKeys(event);
 		event.stopPropagation();
 		event.preventDefault();
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-		AppW.setDownKeys(event);
+		setDownKeys(event);
 		//AbstractApplication.debug("onkeyup");
 		event.preventDefault();
 		event.stopPropagation();
@@ -102,7 +119,7 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
-		AppW.setDownKeys(event);
+		setDownKeys(event);
 		//AbstractApplication.debug("onkeydown");
 	    event.preventDefault();
 	    event.stopPropagation();

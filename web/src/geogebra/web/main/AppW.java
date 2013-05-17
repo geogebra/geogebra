@@ -81,7 +81,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyEvent;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
@@ -1624,21 +1623,6 @@ public class AppW extends AppWeb {
 	// KEYBOARD
 	// =======================================
 
-	private static boolean controlDown = false;
-	private static boolean shiftDown = false;
-
-	public static boolean getControlDown() {
-		return controlDown;
-	}
-
-	public static boolean getShiftDown() {
-		return shiftDown;
-	}
-
-	public static void setDownKeys(KeyEvent ev) {
-		controlDown = ev.isControlKeyDown();
-		shiftDown = ev.isShiftKeyDown();
-	}
 
 	// ============================================
 	// FONTS
