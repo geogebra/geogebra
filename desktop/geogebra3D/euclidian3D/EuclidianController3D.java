@@ -2273,9 +2273,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		}
 
 		//add selected geo into consideration
-		if (selectedGeos.size()==1 && !hits.contains(selectedGeos.get(0)))
-			hits.addAll(0, selectedGeos);
-
+		//if (selectedGeos.size()==1 && !hits.contains(selectedGeos.get(0)))
+		//	hits.addAll(0, selectedGeos);
 		
 		if(mouseMoved){ //process new intersection only if mouse has moved
 			for (int i = 0; i<intersectionCurveList.size(); ++i) {
@@ -2314,10 +2313,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 			decideIntersection(hits);
 		}
+
 		
 		if (goodHits!=null) {
 			addSelectedCS2D(goodHits, 2, true);
 			addSelectedQuadric(goodHits, 2, true);
+		}else{
+			Hits firstSurface = ((Hits3D) hits).getFirstSurfaceBefore(selectedGeos);
+			addSelectedCS2D(firstSurface, 2, false);
+			addSelectedQuadric(firstSurface, 2, false);
 		}
 
 

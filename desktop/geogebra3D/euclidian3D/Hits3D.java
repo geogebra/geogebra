@@ -353,23 +353,32 @@ public class Hits3D extends Hits {
 		}
 	}
 	
-	public void removeAllGeoCoordSys2DsButOne(){
-		boolean foundTarget = false;
-		for (int i = 0 ; i < size() - 1 ; ++i ) {
-			GeoElement geo = get(i);
-			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3D){
-				if (foundTarget)
-					//not removing when found first time
-					remove(i);
-				foundTarget = true;
-			}
-		}
-	}
 	
 	@Override
 	protected Hits createNewHits() {
 		return new Hits3D();
 	}	
+	
+	/**
+	 * WARNING : only GeoCoordSys2D and GeoQuadric3D implemented yet
+	 * @param ignoredGeos geos that are ignored
+	 * @return hits containing first surface (not included in ignoredGeos)
+	 */
+	public Hits getFirstSurfaceBefore(ArrayList<GeoElement> ignoredGeos){
+		Hits ret = new Hits();
+		for (int i = 0; i < size(); i++){
+			GeoElement geo = get(i);
+			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3D){
+				if (!ignoredGeos.contains(geo)){
+					ret.add(geo);
+					return ret;
+				}
+			}
+		}
+		
+		
+		return ret;
+	}
 	
 
 }
