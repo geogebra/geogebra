@@ -16,6 +16,9 @@ import com.google.gwt.core.client.Scheduler;
 
 public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic {
 
+	public EuclidianStaticW(){
+		
+	}
 	@Override
 	protected GRectangle doDrawMultilineLaTeX(App app,
 	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
@@ -64,9 +67,9 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 								public void execute() {
 									repaintDeferred = false;
 									repaintsFromHereInProgress++;
-									((EuclidianViewW)app.getEuclidianView1()).doRepaint();
+									((EuclidianViewWeb)app.getEuclidianView1()).doRepaint();
 									if (app.hasEuclidianView2())
-										((EuclidianViewW)app.getEuclidianView2()).doRepaint();
+										((EuclidianViewWeb)app.getEuclidianView2()).doRepaint();
 									repaintsFromHereInProgress--;
 								}
 							});
