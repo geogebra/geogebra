@@ -136,7 +136,8 @@ public class SVGFontTable {
             // familiy
             result.append("<font id=\"");
             result.append(attributes.get(TextAttribute.FAMILY));
-            result.append("\">\n");
+            // added horiz-adv-x="0" as it's compulsory according to http://validator.w3.org/check
+            result.append("\" horiz-adv-x=\"0\" >\n");
 
             // font-face
             result.append("<font-face font-family=\"");
