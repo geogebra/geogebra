@@ -924,9 +924,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 			// display toolbar panel if the dock panel is open in a frame
 			if (hasToolbar()) {
-				if (app != null && app.getGuiManager() != null &&
-					app.getGuiManager().getToolbarPanel() != null)
-				app.getGuiManager().getToolbarPanel().setVisible(true);
+			//	if (app != null && app.getGuiManager() != null &&
+			//		app.getGuiManager().getToolbarPanel() != null)
+			//	app.getGuiManager().getToolbarPanel().setVisible(true);
 		//		toolbarPanel.setVisible(frame != null);
 			}
 		}
@@ -967,9 +967,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public void updateToolbar() {
 		if (isVisible() && isOpenInFrame() && hasToolbar()) {
-			if (app != null && app.getGuiManager() != null &&
-				app.getGuiManager().getToolbarPanel() != null)
-			app.getGuiManager().getToolbarPanel().updateToolbarPanel();
+		//	if (app != null && app.getGuiManager() != null &&
+		//		app.getGuiManager().getToolbarPanel() != null)
+		//	app.getGuiManager().getToolbarPanel().updateToolbarPanel();
 		}
 	}
 

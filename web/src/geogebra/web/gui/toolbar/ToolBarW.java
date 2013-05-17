@@ -1,6 +1,7 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
@@ -33,12 +34,15 @@ public class ToolBarW extends MenuBar {
 	private AppW app;
 	private int mode;
 
+	/**
+	 * Dock panel associated to this toolbar or null if this is the general
+	 * toolbar. Just a single toolbar might have no dock panel, otherwise the
+	 * ToolbarContainer logic will not work properly.
+	 */
+	private DockPanel dockPanel;
+
 	private ArrayList<ModeToggleMenu> modeToggleMenus;
-	
-//	public ToolBar(Application app) {
-//		this.app = app;
-//	}
-	
+
 	/**
 	 * Creates general toolbar.
 	 * There is no app parameter here, because of UiBinder.
@@ -50,7 +54,23 @@ public class ToolBarW extends MenuBar {
 		//this.setHeight("55px");  //toolbar's height
 		this.addStyleName("GGWToolbar");
 	}
-	
+
+	/**
+	 * Creates toolbar for a specific dock panel. Call buildGui() to actually
+	 * create the GUI of this toolbar.
+	 * 
+	 * @param app application
+	 * @param dockPanel dock panel
+	 */
+	public ToolBarW(AppW app, DockPanel dockPanel) {
+		this();
+		this.app = app;
+		this.dockPanel = dockPanel;
+
+		//setFloatable(false);
+		//setBackground(getBackground());
+	}
+
 	/**
 	 * Initialisation of the ToolBar object
 	 * 
@@ -59,7 +79,15 @@ public class ToolBarW extends MenuBar {
 	public void init(AppW app1){
 		this.app = app1;
 	}
-	
+
+	/**
+	 * @return The dock panel associated with this toolbar or null if this is
+	 *         the general toolbar.
+	 */
+	public DockPanel getDockPanel() {
+		return dockPanel;
+	}
+
 	/**
 	 * Creates a toolbar using the current strToolBarDefinition.
 	 */
@@ -146,20 +174,20 @@ public class ToolBarW extends MenuBar {
 		Vector<ToolbarItem> toolbarVec;
 		
 		try {
-			//AGif (dockPanel != null) {
-			//AG	toolbarVec = parseToolbarString(dockPanel.getToolbarString());
-			//AG} else {
+			if (dockPanel != null) {
+				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
+			} else {
 				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition());
-			//AG}
+						.getToolbarDefinition(activeView));
+			}
 		} catch (Exception e) {
-			//AGif (dockPanel != null) {
-			//AG	AbstractApplication.debug("invalid toolbar string: "
-			//AG			+ dockPanel.getToolbarString());
-			//AG} else {
+			if (dockPanel != null) {
 				App.debug("invalid toolbar string: "
-						+ app.getGuiManager().getToolbarDefinition());
-			//}
+						+ dockPanel.getToolbarString());
+			} else {
+				App.debug("invalid toolbar string: "
+						+ app.getGuiManager().getToolbarDefinition(activeView));
+			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 		
@@ -223,9 +251,9 @@ public class ToolBarW extends MenuBar {
 	 * @return The default definition of this toolbar with macros.
 	 */
 	public String getDefaultToolbarString() {
-		//AGif (dockPanel != null) {
-		//AG	return dockPanel.getDefaultToolbarString();
-		//AG}
+		if (dockPanel != null) {
+			return dockPanel.getDefaultToolbarString();
+		}
 		return ToolBarW.getAllTools(app);
 	}
 

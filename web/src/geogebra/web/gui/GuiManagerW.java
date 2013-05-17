@@ -2,6 +2,7 @@ package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GPoint;
+import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -391,6 +392,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			//return getGeneralToolbar().getDefaultToolbarString();
 			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		return strCustomToolbarDefinition;
+	}
+
+	public String getToolbarDefinition(Integer viewId) {
+		if (viewId == App.VIEW_CAS)
+			return CASView.TOOLBAR_DEFINITION;
+		return getToolbarDefinition();
 	}
 
 	public void removeFromToolbarDefinition(int mode) {

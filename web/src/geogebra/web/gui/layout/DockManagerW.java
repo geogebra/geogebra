@@ -710,9 +710,8 @@ public class DockManagerW implements  SetLabels {
 		//	mainContainer.addToolbar(panel.getToolbar());
 		//	mainContainer.updateToolbarPanel();
 
-			// notes
-			//app.getGuiManager().getToolbarPanel().setActiveToolbar(panel.getViewId());
-			// app.updateToolBar();
+			app.setShowToolBar(true, true);
+			app.getGuiManager().setActiveToolbarId(panel.getViewId());
 		}
 
 		// has to be called *after* the toolbar was added to the container
