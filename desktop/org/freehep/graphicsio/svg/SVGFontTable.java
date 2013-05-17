@@ -182,7 +182,7 @@ public class SVGFontTable {
             // The maximum unaccented depth of the font within the font coordinate system.
             // If the attribute is not specified, the effect is as if the attribute were set
             // to the vert-origin-y value for the corresponding font.
-            result.append("desscent=\"");
+            result.append("descent=\"");
             result.append(tl.getDescent());
             result.append("\" ");
 
