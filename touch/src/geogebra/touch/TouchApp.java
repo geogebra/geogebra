@@ -74,6 +74,7 @@ public class TouchApp extends AppWeb
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
 		super.initing = true;
+		this.touchGUI = touchGUI;
 		if(Location.getParameter("lang")!=null){
 			this.setLanguage(Location.getParameter("lang"));
 		}
@@ -84,7 +85,7 @@ public class TouchApp extends AppWeb
 		infobar = new InfoBarT();
 
 		this.fontManager = new FontManagerW();
-		this.touchGUI = touchGUI;
+		
 		this.settings = new Settings();
 
 		setFontSize(12);
@@ -510,7 +511,7 @@ public class TouchApp extends AppWeb
 
 	@Override
 	public void setLabels() {
-		this.touchGUI.getAlgebraViewPanel().setLabels();
+		this.touchGUI.setLabels();
 	}
 
 	@Override

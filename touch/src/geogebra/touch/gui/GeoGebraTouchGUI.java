@@ -18,4 +18,9 @@ public interface GeoGebraTouchGUI
 	public void initComponents(Kernel kernel);
 	
 	public Element getElement();
+
+	/**
+	 * Set labels of all components that were already initialized and need i18n
+	 */
+	public void setLabels();
 }
