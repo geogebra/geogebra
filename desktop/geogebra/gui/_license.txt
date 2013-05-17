@@ -156,7 +156,7 @@ TRANSLATORS
   * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah,
       Vasuraj Dhamodharan
   * Tajik: Yusuf Balkas (Tajikistan)
-  * Thai: Alongkot Maiduang, Donny Passary (Thailand) 
+  * Thai: Rachaya Srisurichan, Alongkot Maiduang, Donny Passary (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
   * Ukrainian: Valentyna Pikalova, Valera Rakuta (Ukraine)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
