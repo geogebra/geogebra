@@ -1,6 +1,6 @@
 package geogebra.web.helper;
 
-import geogebra.web.util.ImageManager;
+import geogebra.html5.util.ImageManager;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -25,7 +25,7 @@ public class ImageWrapper {
 
 	private native void addNativeLoadHandler(Element img, ImageManager imageManager) /*-{
 		img.addEventListener("load",function() {
-			imageManager.@geogebra.web.util.ImageManager::checkIfAllLoaded()();
+			imageManager.@geogebra.html5.util.ImageManager::checkIfAllLoaded()();
 		});
 	}-*/;
 	

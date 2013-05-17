@@ -16,11 +16,11 @@ import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.Swipeables;
 import geogebra.touch.utils.ToolBarCommand;
-import geogebra.web.euclidian.EuclidianViewWeb;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;

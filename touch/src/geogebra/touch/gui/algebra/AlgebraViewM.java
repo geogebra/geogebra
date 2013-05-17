@@ -4,11 +4,11 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.html5.main.AppWeb;
 import geogebra.touch.gui.CommonResources;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.view.algebra.InlineLabelTreeItem;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
-import geogebra.web.main.AppWeb;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;

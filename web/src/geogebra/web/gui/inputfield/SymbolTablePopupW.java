@@ -1,7 +1,7 @@
 package geogebra.web.gui.inputfield;
 
 import geogebra.common.gui.util.TableSymbols;
-import geogebra.web.main.AppWeb;
+import geogebra.html5.main.AppWeb;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

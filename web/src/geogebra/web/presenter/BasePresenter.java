@@ -1,7 +1,7 @@
 package geogebra.web.presenter;
 
 import geogebra.common.main.App;
-import geogebra.web.html5.View;
+import geogebra.html5.util.View;
 import geogebra.web.jso.JsUint8Array;
 
 import com.google.gwt.dom.client.Element;

@@ -22,8 +22,8 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.web.awt.GBasicStrokeW;
-import geogebra.web.awt.GRectangleW;
+import geogebra.html5.awt.GBasicStrokeW;
+import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 

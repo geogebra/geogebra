@@ -19,15 +19,15 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.LocalizationW;
+import geogebra.html5.main.ViewManager;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
-import geogebra.web.main.AppWeb;
 import geogebra.web.main.FontManagerW;
-import geogebra.web.main.LocalizationW;
-import geogebra.web.main.ViewManager;
 import geogebra.web.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
@@ -268,7 +268,7 @@ public class TouchApp extends AppWeb
 	@Override
 	public GFont getPlainFontCommon()
 	{
-		return new geogebra.web.awt.GFontW("normal");
+		return new geogebra.html5.awt.GFontW("normal");
 	}
 
 	@Override

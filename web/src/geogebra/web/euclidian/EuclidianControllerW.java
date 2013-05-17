@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;

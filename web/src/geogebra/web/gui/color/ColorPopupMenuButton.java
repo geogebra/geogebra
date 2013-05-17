@@ -2,7 +2,7 @@ package geogebra.web.gui.color;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.web.awt.GDimensionW;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;

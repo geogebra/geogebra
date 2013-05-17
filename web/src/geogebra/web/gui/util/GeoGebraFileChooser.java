@@ -1,10 +1,10 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.main.GgbAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
-import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -106,7 +106,7 @@ public class GeoGebraFileChooser extends DialogBox {
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
 					JavaScriptObject callback = ((AppW) app).getObjectPool().getMyGoogleApis().getPutFileCallback(saveName, description.getText());
-					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
+					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}
@@ -127,7 +127,7 @@ public class GeoGebraFileChooser extends DialogBox {
 					//wont save if . exist in filename 
 					if (saveName.lastIndexOf(".ggb") == -1) saveName += ".ggb"; //It's not necessary if fileName.onChange() was running before.
 					JavaScriptObject callback = ((AppW) app).getObjectPool().getMySkyDriveApis().getPutFileCallback(saveName, description.getText());
-					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
+					((geogebra.html5.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
 				}
 			}

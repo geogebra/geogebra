@@ -11,9 +11,9 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppWeb;
 
 import java.util.ArrayList;
 import java.util.HashMap;

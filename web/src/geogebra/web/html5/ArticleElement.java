@@ -1,6 +1,6 @@
 package geogebra.web.html5;
 
-import geogebra.web.main.AppWeb;
+import geogebra.html5.main.AppWeb;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;

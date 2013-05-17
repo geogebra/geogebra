@@ -10,7 +10,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.SpreadsheetTableModel;
-import geogebra.web.awt.GRectangle2DW;
+import geogebra.html5.awt.GRectangle2DW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 

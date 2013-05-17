@@ -1,10 +1,11 @@
 package geogebra.web.helper;
 
 import geogebra.common.main.App;
+import geogebra.html5.util.DynamicScriptElement;
+import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.html5.DynamicScriptElement;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 import geogebra.web.util.JSON;

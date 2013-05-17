@@ -2,6 +2,7 @@ package geogebra.web.helper;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.FormData;

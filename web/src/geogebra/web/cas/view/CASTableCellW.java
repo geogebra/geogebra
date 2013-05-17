@@ -3,8 +3,8 @@ package geogebra.web.cas.view;
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;

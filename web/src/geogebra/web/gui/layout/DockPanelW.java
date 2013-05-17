@@ -3,7 +3,7 @@ package geogebra.web.gui.layout;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
-import geogebra.web.awt.GRectangleW;
+import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.util.StyleBarW;
@@ -1288,7 +1288,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, toolbarString, visible, openInFrame,
-				showStyleBar, new geogebra.web.awt.GRectangleW(frameBounds),
+				showStyleBar, new geogebra.html5.awt.GRectangleW(frameBounds),
 				embeddedDef, embeddedSize);
 	}
 

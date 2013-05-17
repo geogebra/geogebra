@@ -1,7 +1,7 @@
 package geogebra.web.gui.layout;
 
 import geogebra.common.gui.layout.DockComponent;
-import geogebra.web.awt.GRectangleW;
+import geogebra.html5.awt.GRectangleW;
 
 import java.util.ArrayList;
 

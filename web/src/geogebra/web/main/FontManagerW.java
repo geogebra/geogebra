@@ -19,7 +19,7 @@ public class FontManagerW extends FontManager{
 	@Override
     public GFont getFontCanDisplay(String testString, boolean serif,
             int fontStyle, int fontSize) {
-	    geogebra.web.awt.GFontW ret = new geogebra.web.awt.GFontW("normal");
+	    geogebra.html5.awt.GFontW ret = new geogebra.html5.awt.GFontW("normal");
 	    ret.setFontStyle(fontStyle);
 	    ret.setFontSize(fontSize);
 	    ret.setFontFamily(serif?"serif":"sans-serif");

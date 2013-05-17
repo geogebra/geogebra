@@ -10,7 +10,8 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.web.awt.GGraphics2DW;
+import geogebra.html5.awt.GGraphics2DW;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.helper.ImageLoadCallback;
@@ -67,7 +68,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		}
 		this.evNo = evNo;
 	    // TODO Auto-generated constructor stub
-		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
+		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
 
 		updateFonts();
 		initView(true);
@@ -254,7 +255,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
     }
 
 	private void createImage() {
-		bgImage = new geogebra.web.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
+		bgImage = new geogebra.html5.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 		if (antiAliasing) {
 			setAntialiasing(bgGraphics);
@@ -336,13 +337,13 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
 		if (img.getPropertyBoolean("complete")) {
-			g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
+			g2.drawImage(new geogebra.html5.awt.GBufferedImageW(img), null, x, y);
 		} else {
 			ImageWrapper.nativeon(img,
 				"load",
 				new ImageLoadCallback() {
 					public void onLoad() {
-						g2.drawImage(new geogebra.web.awt.GBufferedImageW(img), null, x, y);
+						g2.drawImage(new geogebra.html5.awt.GBufferedImageW(img), null, x, y);
 					}
 				}
 			);
@@ -364,7 +365,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	 * @param height the new height (in pixel)
 	 */
 	public void setPreferredSize(int width, int height) {
-		setPreferredSize(new geogebra.web.awt.GDimensionW(width, height));
+		setPreferredSize(new geogebra.html5.awt.GDimensionW(width, height));
 	}
 
 	public void setDragCursor() {

@@ -19,6 +19,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.html5.main.ViewManager;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.cas.view.CASViewW;
@@ -47,7 +48,6 @@ import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
-import geogebra.web.main.ViewManager;
 
 import java.util.ArrayList;
 

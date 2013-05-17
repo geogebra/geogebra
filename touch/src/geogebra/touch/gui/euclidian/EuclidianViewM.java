@@ -12,10 +12,10 @@ import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.Settings;
+import geogebra.html5.awt.GGraphics2DW;
+import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.touch.controller.TouchController;
-import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.awt.GRectangleW;
-import geogebra.web.euclidian.EuclidianViewWeb;
 import geogebra.web.javax.swing.GBoxW;
 
 import java.util.List;

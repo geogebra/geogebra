@@ -22,11 +22,11 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
-import geogebra.web.main.AppWeb;
-import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
 
@@ -284,7 +284,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void startEditing() {
 		thisIsEdited = true;
 		if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
-			geogebra.web.main.DrawEquationWeb.editEquationMathQuill(this,seMayLatex);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuill(this,seMayLatex);
 		} else {
 			remove(ihtml);
 			tb = new TextBox();

@@ -15,8 +15,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.GgbAPI;
+import geogebra.html5.gawt.BufferedImage;
 import geogebra.touch.TouchApp;
-import geogebra.web.kernel.gawt.BufferedImage;
 
 public class GgbAPITouch extends GgbAPI
 {
@@ -159,7 +159,7 @@ public class GgbAPITouch extends GgbAPI
 			String fileName = geo.getImageFileName();
 			if (fileName != null)
 			{
-				BufferedImage img = geogebra.web.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
+				BufferedImage img = geogebra.html5.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
 				if (img != null && img.getImageElement() != null)
 				{
 					Canvas cv = Canvas.createIfSupported();

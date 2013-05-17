@@ -27,7 +27,7 @@
 
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.awt.GRectangleW;
+import geogebra.html5.awt.GRectangleW;
 import geogebra.web.kernel.external.Crossings;
 import geogebra.web.kernel.external.Curve;
 

@@ -1,5 +1,7 @@
 package geogebra.web.helper;
 
+import geogebra.html5.util.ScriptLoadCallback;
+
 import com.google.gwt.dom.client.IFrameElement;
 
 /**
@@ -35,7 +37,7 @@ public class ScriptNameSpace extends IFrameElement {
 				script.addEventListener("load", function() {
 					$wnd[toNameSpace] = innerWindow[fromNameSpace];
 					$wnd.console.log($wnd[toNameSpace]);
-					callback.@geogebra.web.helper.ScriptLoadCallback::onLoad()();
+					callback.@geogebra.html5.util.ScriptLoadCallback::onLoad()();
 				});
 			innerDocument.body.appendChild(script);
 		};

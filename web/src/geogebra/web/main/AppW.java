@@ -26,6 +26,12 @@ import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.io.MyXMLioW;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.LocalizationW;
+import geogebra.html5.main.ViewManager;
+import geogebra.html5.sound.SoundManagerW;
+import geogebra.html5.util.MyDictionary;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.css.GuiResources;
@@ -53,13 +59,10 @@ import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.html5.ArticleElement;
-import geogebra.web.io.MyXMLioW;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
 import geogebra.web.kernel.KernelW;
-import geogebra.web.sound.SoundManagerW;
-import geogebra.web.util.MyDictionary;
 import geogebra.web.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
@@ -1642,7 +1645,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public GFont getPlainFontCommon() {
-		return new geogebra.web.awt.GFontW("normal");
+		return new geogebra.html5.awt.GFontW("normal");
 	}
 
 	@Override

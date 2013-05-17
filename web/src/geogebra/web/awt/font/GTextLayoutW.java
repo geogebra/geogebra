@@ -5,7 +5,7 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
-import geogebra.web.awt.GFontRenderContextW;
+import geogebra.html5.awt.GFontRenderContextW;
 
 public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 	
@@ -33,12 +33,12 @@ public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 
 	public float getAdvance() {
 		if(advance<0)
-			advance = frc.measureText(str, ((geogebra.web.awt.GFontW) font).getFullFontString());
+			advance = frc.measureText(str, ((geogebra.html5.awt.GFontW) font).getFullFontString());
 		return advance;
 	}
 
 	public GRectangle2D getBounds() {
-	    return new geogebra.web.awt.GRectangleW((int)getAdvance(),(int)getAscent());
+	    return new geogebra.html5.awt.GRectangleW((int)getAdvance(),(int)getAscent());
     }
 
 	public float getAscent() {

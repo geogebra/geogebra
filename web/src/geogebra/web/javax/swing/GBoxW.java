@@ -61,7 +61,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 
 	@Override
     public GDimension getPreferredSize() {
-	    return new geogebra.web.awt.GDimensionW(impl.getOffsetWidth(), impl.getOffsetHeight());
+	    return new geogebra.html5.awt.GDimensionW(impl.getOffsetWidth(), impl.getOffsetHeight());
     }
 
 	@Override
@@ -74,7 +74,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 			top -= impl.getParent().getAbsoluteTop();			
 		}
 		
-		return new geogebra.web.awt.GRectangleW(
+		return new geogebra.html5.awt.GRectangleW(
 				left, top,
 				impl.getOffsetWidth(), impl.getOffsetHeight());
     }

@@ -8,7 +8,7 @@ import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
-import geogebra.web.awt.GRectangleW;
+import geogebra.html5.awt.GRectangleW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;

@@ -5,9 +5,9 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.main.App;
-import geogebra.web.awt.GDimensionW;
-import geogebra.web.awt.GFontW;
-import geogebra.web.awt.GGraphics2DW;
+import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.awt.GFontW;
+import geogebra.html5.awt.GGraphics2DW;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
 import java.util.HashMap;

@@ -1,9 +1,9 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.awt.GColorW;
-import geogebra.web.awt.GDimensionW;
-import geogebra.web.awt.GFontW;
-import geogebra.web.awt.GPointW;
+import geogebra.html5.awt.GColorW;
+import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.awt.GFontW;
+import geogebra.html5.awt.GPointW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;

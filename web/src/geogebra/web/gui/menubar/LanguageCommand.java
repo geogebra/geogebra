@@ -3,8 +3,8 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
+import geogebra.html5.main.GgbAPI;
 import geogebra.web.main.AppW;
-import geogebra.web.main.GgbAPI;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;

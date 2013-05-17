@@ -23,12 +23,12 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.html5.main.AppWeb;
 import geogebra.web.euclidian.event.KeyListenerW;
 import geogebra.web.gui.KeyEventsHandler;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.main.AppW;
-import geogebra.web.main.AppWeb;
 
 import java.util.ArrayList;
 import java.util.List;

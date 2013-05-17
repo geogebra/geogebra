@@ -1,7 +1,7 @@
 package geogebra.touch;
 
+import geogebra.html5.main.ViewManager;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
-import geogebra.web.main.ViewManager;
 
 public class ViewManagerM implements ViewManager {
 

@@ -1,8 +1,8 @@
 package geogebra.touch.utils;
 
 import geogebra.common.awt.GColor;
+import geogebra.html5.awt.GColorW;
 import geogebra.touch.gui.CommonResources;
-import geogebra.web.awt.GColorW;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.web.euclidian;
 
-import geogebra.web.awt.GBasicStrokeW;
+import geogebra.html5.awt.GBasicStrokeW;
 
 
 

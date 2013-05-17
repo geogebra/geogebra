@@ -2,9 +2,9 @@ package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.util.View;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.html5.ArticleElement;
-import geogebra.web.html5.View;
 import geogebra.web.js.ResourcesInjector;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;

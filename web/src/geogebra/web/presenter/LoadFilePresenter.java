@@ -1,11 +1,11 @@
 package geogebra.web.presenter;
 
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.View;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
-import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
-import geogebra.web.main.AppWeb;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.storage.client.Storage;
