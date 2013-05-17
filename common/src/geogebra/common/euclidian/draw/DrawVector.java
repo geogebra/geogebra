@@ -159,10 +159,11 @@ public class DrawVector extends Drawable implements Previewable {
 		coordsV[1] = coordsB[1] - coordsA[1];
 
 		// calculate endpoint F at base of arrow
-		
+
 		// changed to make arrow-heads a bit bigger for line thickness 8-13
-		//double factor = 12.0 + lineThickness;
-		double factor = 8 + 2 * lineThickness;
+		double factor = lineThickness < 8 ?
+				12.0 + lineThickness :
+				3 * lineThickness;
 
 		double length = MyMath.length(coordsV[0],coordsV[1]);
 		if (length > 0.0) {
