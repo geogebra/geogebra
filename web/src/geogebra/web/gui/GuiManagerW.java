@@ -39,6 +39,7 @@ import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
+import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.SignInDialog;
@@ -387,10 +388,14 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		App.debug("why not use Settings for that?");
 	}
 
+	public ToolBarW getGeneralToolbar() {
+		return toolbarPanel.getToolBar();
+	}
+
 	public String getToolbarDefinition() {
-		if (strCustomToolbarDefinition == null && toolbarPanel != null)
-			//return getGeneralToolbar().getDefaultToolbarString();
-			return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
+		if (strCustomToolbarDefinition == null && getToolbarPanel() != null)
+			return getGeneralToolbar().getDefaultToolbarString();
+			//return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		return strCustomToolbarDefinition;
 	}
 
@@ -1189,6 +1194,13 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	}
 
 	public void setActiveToolbarId(int toolbarID) {
+
+		// set the toolbar string directly from the panels
+		// after closing some panels, this may need to be done
+		// even if the following need not
+		setToolBarDefinition(layout.getDockManager().getPanel(toolbarID).getToolbarString());
+
+
 		if (this.toolbarID != toolbarID) {
 			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
 			updateToolbar();			

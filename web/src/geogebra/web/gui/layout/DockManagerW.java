@@ -704,7 +704,7 @@ public class DockManagerW implements  SetLabels {
 		
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
-		if(!panel.isOpenInFrame() && panel.hasToolbar()) {
+		if(!panel.isOpenInFrame()) {
 		// original
 		//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 		//	mainContainer.addToolbar(panel.getToolbar());
