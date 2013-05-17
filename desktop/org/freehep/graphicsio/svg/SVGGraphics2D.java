@@ -494,7 +494,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		if (path.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
 			style.put("fill-rule", "evenodd");
 		} else {
-			style.put("fill-rule", "nonzero;");
+			style.put("fill-rule", "nonzero");
 		}
 
 		// fill with paint
