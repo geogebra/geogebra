@@ -48,6 +48,7 @@
   <add-linker name="xsiframe" />
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
+  <source path='html5'/>
   <super-source path='/common/src/geogebra/jre' />
   
   
