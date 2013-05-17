@@ -20,15 +20,15 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.html5.main.AppWeb;
+import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
+import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
-import geogebra.web.main.FontManagerW;
-import geogebra.web.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 import java.util.List;

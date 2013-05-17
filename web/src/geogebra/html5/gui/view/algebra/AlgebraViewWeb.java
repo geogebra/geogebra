@@ -1,4 +1,4 @@
-package geogebra.web.gui.view.algebra;
+package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -444,7 +444,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	}
 
-	boolean attached = false;
+	protected boolean attached = false;
 
 	public void attachView() {
 

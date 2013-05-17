@@ -1,9 +1,9 @@
 package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.html5.gui.util.Slider;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.StylingBarEntries;
-import geogebra.web.gui.util.Slider;
 
 import java.util.ArrayList;
 import java.util.List;

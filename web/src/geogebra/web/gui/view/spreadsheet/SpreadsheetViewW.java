@@ -3,7 +3,6 @@ package geogebra.web.gui.view.spreadsheet;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
@@ -11,6 +10,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.main.AppW;
 
@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
-public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewInterface, /*ComponentListener,
+public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb, /*ComponentListener,
 		FocusListener, Gridable,*/ SettingListener, RequiresResize {
 
 	private static final long serialVersionUID = 1L;

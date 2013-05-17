@@ -1,9 +1,9 @@
 package geogebra.touch;
 
+import geogebra.html5.js.ResourcesInjector;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.TubeSearchGUI;
-import geogebra.web.js.ResourcesInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

@@ -1,10 +1,10 @@
 package geogebra.html5.main;
 
-import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
+import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
 
 public interface ViewManager {
 
-	public SpreadsheetViewW getSpreadsheetView();
+	public SpreadsheetViewWeb getSpreadsheetView();
 
 	public boolean hasAlgebraView();
 	

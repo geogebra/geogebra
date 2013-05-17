@@ -5,6 +5,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.js.ResourcesInjector;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
 import geogebra.web.asyncservices.HandleOAuth2Service;
@@ -12,7 +13,6 @@ import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
-import geogebra.web.js.ResourcesInjector;
 import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
@@ -230,49 +230,11 @@ public class Web implements EntryPoint {
 		}
 	}-*/;
 	
-	public static boolean webWorkerSupported = false; 
 	
 	void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
 		geogebra.web.gui.applet.GeoGebraFrame.main(geoGebraMobileTags);
 	    
     }
-	
-	
-	public static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
-		if ($wnd.zip.useWebWorkers === false) {
-			//we set this explicitly in arraybuffer.js
-			@geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
-			return true;;
-		}
-		return false;
-	}-*/;
-	
-	
-	public static native boolean checkWorkerSupport(String workerpath) /*-{
-		// Worker support in Firefox is incompatible at the moment for zip.js,
-		// see http://gildas-lormeau.github.com/zip.js/ for details:
-		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
-			@geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: worker not supported in Firefox, fallback for simple js");
-			return false;
-		}
-		if (navigator.userAgent.toLowerCase().indexOf("safari") != -1
-			&& navigator.userAgent.toLowerCase().indexOf("chrome") == -1) {
-			@geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: worker not supported in Safari, fallback for simple js");
-			return false;
-		}
-		
-	    try {
-	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
-	    } catch (e) {
-	    	@geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: worker not supported (no worker at " + workerpath + "), fallback for simple js");
-	    	
-	    	return false;
-	    }
-	    @geogebra.common.main.App::debug(Ljava/lang/String;)("INIT: workers are supported");
-	    	
-	    worker.terminate();
-	    return true;
-    }-*/;
-	
+
 }

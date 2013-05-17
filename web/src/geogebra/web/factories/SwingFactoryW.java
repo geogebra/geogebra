@@ -23,7 +23,7 @@ public class SwingFactoryW extends SwingFactory {
 
 	@Override
 	public GBox createHorizontalBox() {
-		return new geogebra.web.javax.swing.GBoxW();
+		return new geogebra.html5.javax.swing.GBoxW();
 	}
 
 	@Override

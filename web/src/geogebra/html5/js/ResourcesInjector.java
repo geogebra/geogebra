@@ -1,8 +1,7 @@
-package geogebra.web.js;
+package geogebra.html5.js;
 
-import geogebra.web.Web;
-import geogebra.web.css.GuiResources;
-import geogebra.web.helper.JavaScriptInjector;
+import geogebra.html5.Browser;
+import geogebra.html5.css.GuiResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.StyleInjector;
@@ -29,14 +28,14 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
-		Web.webWorkerSupported = Web.checkWorkerSupport(GWT.getModuleBaseURL());
-		if (!Web.webWorkerSupported) {
+		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
+		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
 			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.arrayBufferJs().getText());
 		//strange, but iPad can blow it away again...
-		if (Web.checkIfFallbackSetExplicitlyInArrayBufferJs() && Web.webWorkerSupported) {
+		if (Browser.checkIfFallbackSetExplicitlyInArrayBufferJs() && Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
 			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
 		}

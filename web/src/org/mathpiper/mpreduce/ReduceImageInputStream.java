@@ -1,6 +1,6 @@
 package org.mathpiper.mpreduce;
 
-import geogebra.web.css.GuiResources;
+import geogebra.html5.css.GuiResources;
 
 import java.io.IOException;
 

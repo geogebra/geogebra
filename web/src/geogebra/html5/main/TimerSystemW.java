@@ -3,8 +3,8 @@ package geogebra.html5.main;
 import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianViewWeb;
-import geogebra.web.gui.view.algebra.AlgebraViewWeb;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
+import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
+import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
 
 import java.util.Date;
 
@@ -37,7 +37,7 @@ public class TimerSystemW {
 
 	EuclidianViewWeb euclidianView1 = null;
 	AlgebraViewWeb algebraView = null;
-	SpreadsheetViewW spreadsheetView = null;
+	SpreadsheetViewWeb spreadsheetView = null;
 
 	public TimerSystemW(AppWeb app) {
 		application = app;

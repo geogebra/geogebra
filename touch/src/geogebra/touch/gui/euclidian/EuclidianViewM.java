@@ -15,8 +15,8 @@ import geogebra.common.main.settings.Settings;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.javax.swing.GBoxW;
 import geogebra.touch.controller.TouchController;
-import geogebra.web.javax.swing.GBoxW;
 
 import java.util.List;
 

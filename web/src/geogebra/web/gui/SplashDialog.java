@@ -1,7 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.web.css.GuiResources;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.gui.applet.GeoGebraFrame;
 
 import com.google.gwt.dom.client.Element;

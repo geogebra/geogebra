@@ -1,12 +1,12 @@
 package geogebra.touch;
 
+import geogebra.html5.gui.view.spreadsheet.SpreadsheetViewWeb;
 import geogebra.html5.main.ViewManager;
-import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 public class ViewManagerM implements ViewManager {
 
 	@Override
-	public SpreadsheetViewW getSpreadsheetView() {
+	public SpreadsheetViewWeb getSpreadsheetView() {
 		return null;
 	}
 

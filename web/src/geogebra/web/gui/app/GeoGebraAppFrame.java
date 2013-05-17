@@ -7,8 +7,8 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.util.View;
-import geogebra.web.Web;
 import geogebra.web.cas.mpreduce.CASmpreduceW;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
@@ -188,7 +188,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
 		
-		if (Web.webWorkerSupported)
+		if (Browser.webWorkerSupported)
 			loadCASWithWorker(GWT.getModuleBaseURL(), this);
     }
 	

@@ -1,4 +1,4 @@
-package geogebra.web.main;
+package geogebra.html5.main;
 
 
 import geogebra.common.awt.GFont;

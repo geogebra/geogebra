@@ -1,8 +1,8 @@
 package geogebra.html5.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.Web;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.html5.ArticleElement;
 
@@ -131,7 +131,7 @@ public class View {
 
 	public void processBase64String(String dataParamBase64String) {
 		archiveContent = new HashMap<String, String>();
-		String workerUrls = (!Web.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
 		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
 	
@@ -246,7 +246,7 @@ public class View {
 
 	public void processFileName(String url) {
 		archiveContent = new HashMap<String, String>();
-		String workerUrls = (!Web.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
 	    populateArchiveContentFromFile(url, workerUrls, this);
     }
 

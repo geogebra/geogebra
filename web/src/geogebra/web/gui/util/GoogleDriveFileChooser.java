@@ -1,7 +1,7 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
-import geogebra.web.css.GuiResources;
+import geogebra.html5.css.GuiResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;

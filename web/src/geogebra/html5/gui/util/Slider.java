@@ -1,7 +1,8 @@
-package geogebra.web.gui.util;
+package geogebra.html5.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.web.gui.util.PopupMenuButton;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

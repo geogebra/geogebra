@@ -1,4 +1,4 @@
-package geogebra.web.util.debug;
+package geogebra.html5.util.debug;
 
 import java.util.Date;
 

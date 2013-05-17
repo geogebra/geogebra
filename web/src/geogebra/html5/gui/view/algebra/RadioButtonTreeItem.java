@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.web.gui.view.algebra;
+package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -26,6 +26,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
+import geogebra.web.gui.view.algebra.Marble;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
 import java.util.Iterator;

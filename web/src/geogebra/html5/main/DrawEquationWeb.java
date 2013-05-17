@@ -12,9 +12,9 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
-import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -406,9 +406,9 @@ public class DrawEquationWeb extends DrawEquation {
 								code = event.which;
 							}
 							if (code == 13) {
-								@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							} else if (code == 27) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							}
 							event.stopPropagation();
 							event.preventDefault();
@@ -424,7 +424,7 @@ public class DrawEquationWeb extends DrawEquation {
 				.focusout(
 						function(event) {
 							if ($wnd.mousein.mout) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							}
 							event.stopPropagation();
 							event.preventDefault();
@@ -444,7 +444,7 @@ public class DrawEquationWeb extends DrawEquation {
 		var thisjq = $wnd.jQuery(elsecond);
 		var latexq = null;
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquill('revert').mathquill();
 	}-*/;
 
@@ -455,7 +455,7 @@ public class DrawEquationWeb extends DrawEquation {
 		var thisjq = $wnd.jQuery(elsecond);
 		var latexq = thisjq.mathquill('text');
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquill('revert').mathquill();
 	}-*/;
 

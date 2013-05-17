@@ -1,4 +1,4 @@
-package geogebra.web.css;
+package geogebra.html5.css;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

@@ -1,8 +1,8 @@
 package geogebra.touch.gui.elements.stylingbar;
 
+import geogebra.html5.gui.util.Slider;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarCommand;
-import geogebra.web.gui.util.Slider;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
