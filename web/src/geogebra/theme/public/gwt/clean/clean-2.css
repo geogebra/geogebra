@@ -1890,3 +1890,9 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .consProtNav .gwt-Label{
 	display: inline;
 }
+
+label {
+	display:inline;
+	color:black;
+	font-weight:normal;
+}

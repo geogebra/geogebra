@@ -1485,3 +1485,9 @@ td.datePickerMonth {
 .GoogleFileDescriptors .fileName {
 	text-decoration: underline;
 }
+
+label {
+	display:inline;
+	color:black;
+	font-weight:normal;
+}
