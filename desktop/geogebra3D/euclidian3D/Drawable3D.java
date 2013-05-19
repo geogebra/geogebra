@@ -262,7 +262,7 @@ public abstract class Drawable3D extends DrawableND {
 	@Override
 	final public void update(){
 
-		clearTraceIfZoom();
+		clearTraceForViewChanged();
 
 		if (waitForUpdateVisualStyle || waitForUpdate){
 			updateColors();
@@ -1189,8 +1189,8 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 
-	private void clearTraceIfZoom(){
-		if (getView3D().viewChangedByZoom()){
+	private void clearTraceForViewChanged(){
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
 			if (trace!=null){
 				//remove all geometry indices from openGL manager
 				for (ArrayList<Integer> indices : trace.values()){
