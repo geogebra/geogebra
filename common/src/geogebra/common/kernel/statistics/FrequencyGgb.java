@@ -5,9 +5,9 @@ import geogebra.common.kernel.Kernel;
 import org.apache.commons.math.stat.Frequency;
 
 /**
- * Extension of the Apache Commons Frequency class. Modifies some methods to
- * handle comparisons with double values that may contain rounding errors and
- * are nearly, but not exactly equal.
+ * Extension of the Apache Commons Frequency class. Modifies the addValue()
+ * method to handle comparisons with double values that may contain rounding
+ * errors but should be treated as equal.
  * 
  * @author G. Sturr
  * 
@@ -17,21 +17,13 @@ public class FrequencyGgb extends Frequency {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public long getCount(Comparable<?> v) {
+	public void addValue(Comparable<?> v) {
 		if (v instanceof Double) {
 			Double v2 = Kernel.checkDecimalFraction((Double) v);
-			return super.getCount(v2);
+			super.addValue(v2);
+			return;
 		}
-		return super.getCount(v);
+		super.addValue(v);
+		return;
 	}
-
-	@Override
-	public long getCumFreq(Comparable<?> v) {
-		if (v instanceof Double) {
-			Double v2 = Kernel.checkDecimalFraction((Double) v);
-			return super.getCumFreq(v2);
-		}
-		return super.getCumFreq(v);
-	}
-
 }
