@@ -19,6 +19,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.util.StringUtil;
 
 /**
@@ -440,15 +441,20 @@ public class AlgoTableText extends AlgoElement {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false,tpl);
-			if (" ".equals(text) || "".equals(text))
-				text = "\\;"; // problem with JLaTeXMath, was "\u00a0";
-			if (geo1.isTextValue()) {
+			String text1 = geo1.toLaTeXString(false,tpl);
+			if (" ".equals(text1) || "".equals(text1))
+				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
+			
+			// make sure latex isn't wrapped in \text{}
+			if ((geo1 instanceof TextProperties && !((TextProperties)geo1).isLaTeXTextCommand()) &&
+					(!(geo1 instanceof GeoText) || !((GeoText)geo1).isLaTeX())) {
 				sb.append("\\text{"); // preserve spaces
-				sb.append(text);
+				sb.append(text1);
 				sb.append("}");
-			} else
-				sb.append(text);
+
+			} else {
+				sb.append(text1);
+			}
 		}
 		if (!finalCell)
 			sb.append("&"); // separate columns
