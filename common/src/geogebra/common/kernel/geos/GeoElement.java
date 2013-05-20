@@ -637,6 +637,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public static GeoPoint[] copyPoints(final Construction cons,
 			final GeoPointND[] points) {
+		
+		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
+		if (points == null) { 
+			return null; 
+		}
+
 		final GeoPoint[] pointsCopy = new GeoPoint[points.length];
 		for (int i = 0; i < points.length; i++) {
 			pointsCopy[i] = (GeoPoint) ((GeoPoint) points[i])

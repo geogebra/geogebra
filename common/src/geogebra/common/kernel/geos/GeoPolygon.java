@@ -538,6 +538,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		GeoPolygon poly = (GeoPolygon) geo;
 		area = poly.area;
 
+		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
+		if (poly.points == null) { 
+			return;
+		}
+
 		// make sure both arrays have same size
 		if (points.length != poly.points.length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.points.length];
