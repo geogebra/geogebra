@@ -622,7 +622,35 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		// draw arc for the angle
 		else {
 			// set arc in real world coords
-			startBeamer(code);
+			GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+	           startBeamer(code);
+	      if (!geocolor.equals(GColor.BLACK)) {
+	            code.append("\\pscustom");
+	            code.append(LineOptionCode(geo, true));
+	            code.append("{\n");
+	            }
+	            code.append("\\parametricplot{");
+	            code.append(angSt);
+	            code.append("}{");
+	            code.append(angExt);
+	            code.append("}{");
+	            code.append(format(r));
+	            code.append("*cos(t)+");
+	            code.append(format(m[0]));
+	            code.append("|");
+	            code.append(format(r));
+	            code.append("*sin(t)+");
+	            code.append(format(m[1]));
+	            code.append("}\n");
+	      if (!geocolor.equals(GColor.BLACK)) {
+	            code.append("\\lineto(");
+	            code.append(format(m[0]));
+	            code.append(",");
+	            code.append(format(m[1]));
+	            code.append(")\\closepath}\n");
+	            }
+	            endBeamer(code);
+			/*startBeamer(code);
 			code.append("\\pscustom");
 			code.append(LineOptionCode(geo, true));
 			code.append("{\\parametricplot{");
@@ -643,7 +671,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(",");
 			code.append(format(m[1]));
 			code.append(")\\closepath}\n");
-			endBeamer(code);
+			endBeamer(code);*/
 			// draw the dot if angle= 90 and decoration=dot
 			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle()
@@ -1652,7 +1680,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(sci2dec(xunit));
 		codeBeginPic.append("cm,yunit=");
 		codeBeginPic.append(sci2dec(yunit));
-		codeBeginPic.append("cm,algebraic=true,dotstyle=o,dotsize=");
+		codeBeginPic.append("cm,algebraic=true,dimen=middle,dotstyle=o,dotsize=");
 		codeBeginPic.append(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		codeBeginPic.append("pt 0");
 		codeBeginPic.append(",linewidth=");
@@ -1949,6 +1977,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
+			boolean dotted=false;
 			String style = ",fillstyle=hlines,hatchangle=";
 			switch (info.getFillType()) {
 			case STANDARD:
@@ -1970,9 +1999,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			case CHESSBOARD:
 			case HONEYCOMB:
 			case BRICK:
-			case CROSSHATCHED:
-				style = ",fillstyle=crosshatch,hatchangle=";
 			case DOTTED:
+				dotted=true;
+			case CROSSHATCHED:				
+				style = ",fillstyle=crosshatch,hatchangle=";				
 			case HATCH:
 				if (coma)
 					sb.append(",");
@@ -1983,6 +2013,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				bracket = true;
 				sb.append("hatchcolor=");
 				ColorCode(info.getLinecolor(), sb);
+				if (dotted){
+					style = ",fillstyle=dots*,hatchangle=";
+				}
 				sb.append(style);
 				sb.append(info.getAngle());
 				sb.append(",hatchsep=");
