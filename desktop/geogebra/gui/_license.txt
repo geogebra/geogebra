@@ -159,7 +159,7 @@ TRANSLATORS
   * Thai: Rachaya Srisurichan, Alongkot Maiduang, Donny Passary (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
   * Ukrainian: Valentyna Pikalova, Valera Rakuta (Ukraine)
-  * Valencian: Vicente Balaguer (Spain)
+  * Valencian: Pilar Embid Giner, Vicente Balaguer (Spain)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
