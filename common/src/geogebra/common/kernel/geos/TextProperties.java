@@ -66,5 +66,7 @@ public interface TextProperties {
 	 * @return true if most of these properties are ignored and just size is taken into account 
 	 */
 	public boolean justFontSize();
+	
+	public boolean isLaTeXTextCommand();
 
 }

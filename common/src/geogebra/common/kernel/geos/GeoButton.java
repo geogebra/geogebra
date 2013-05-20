@@ -351,5 +351,8 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		 */
 		public void notifySizeChanged();
 	}
+	public boolean isLaTeXTextCommand() {
+		return false;
+	}
 
 }

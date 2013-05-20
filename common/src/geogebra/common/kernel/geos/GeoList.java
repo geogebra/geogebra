@@ -2575,5 +2575,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		return geoList.get(closestPointIndex).getMainDirection();
 	}
 
+	public boolean isLaTeXTextCommand() {
+		return false;
+	}
+
 	
 }
