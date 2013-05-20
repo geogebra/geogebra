@@ -1662,6 +1662,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("or ");
 					break;
 
+				case GIAC:
+					sb.append("||");
+					break;
+
 				default:
 					sb.append(strOR);
 				}
@@ -1726,6 +1730,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				case MPREDUCE:
 					sb.append("and ");
+					break;
+					
+				case GIAC:
+					sb.append("&&");
 					break;
 
 				default:
