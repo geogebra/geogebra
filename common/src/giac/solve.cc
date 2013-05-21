@@ -1014,8 +1014,12 @@ namespace giac {
 	   ( !(direction %2) && equalposcomp(veq_not_singu,l))) 
 	  )
 	symb_inf=symb_superieur_strict(x,l);
-      else
-	symb_inf=symb_superieur_egal(x,l);
+      else {
+	if (equalposcomp(veq_excluded,l))
+	  symb_inf=symb_superieur_strict(x,l);
+	else
+	  symb_inf=symb_superieur_egal(x,l);
+      }
       test=eval(subst(e0,x,m,false,contextptr),eval_level(contextptr),contextptr);
       testeq=abs(evalf(subst(e,x,m,false,contextptr),eval_level(contextptr),contextptr),contextptr);
       if ( (is_greater(epsilon(contextptr),testeq,contextptr) || test!=1) &&
@@ -1023,8 +1027,12 @@ namespace giac {
 	   ( !(direction %2) && equalposcomp(veq_not_singu,m)) )
 	  )
 	symb_sup=symb_inferieur_strict(x,m);
-      else
-	symb_sup=symb_inferieur_egal(x,m);
+      else {
+	if (equalposcomp(veq_excluded,m))
+	  symb_sup=symb_inferieur_strict(x,m);
+	else
+	  symb_sup=symb_inferieur_egal(x,m);
+      }
       if (l==minus_inf)
 	res.push_back(symb_sup);
       else {
@@ -3134,13 +3142,13 @@ namespace giac {
 
   static gen newton_rand(int j,bool real,double xmin,double xmax,GIAC_CONTEXT){
     gen a=gen(giac_rand(contextptr));
-    a=a/(gen(RAND_MAX)+1);
+    a=a/(gen(rand_max2)+1);
     if (xmin<xmax)
       return xmin+(xmax-xmin)*a;
     a-=plus_one_half; 
     a=evalf(j*4*a,1,contextptr);
     if (j>2 && complex_mode(contextptr) && !real)
-      a=a+cst_i*evalf(j*4*(gen(rand())/(gen(RAND_MAX)+1)-plus_one_half),1,contextptr);
+      a=a+cst_i*evalf(j*4*(gen(giac_rand(contextptr))/(gen(rand_max2)+1)-plus_one_half),1,contextptr);
     return a;
   }
 

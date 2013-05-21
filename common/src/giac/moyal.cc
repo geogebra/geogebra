@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -g -c moyal.cc" -*-
+// -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -g -c -fno-strict-aliasing moyal.cc" -*-
 #include "giacPCH.h"
 /*
  *  Copyright (C) 2000,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -390,23 +390,25 @@ namespace giac {
   static define_unary_function_eval (__UTPN,&_UTPN,_UTPN_s);
   define_unary_function_ptr5( at_UTPN ,alias_at_UTPN,&__UTPN,0,true);
 
-  gen randNorm(){
+  gen randNorm(GIAC_CONTEXT){
     /*
-    double d=rand()/(RAND_MAX+1.0);
+    double d=rand()/(rand_max2+1.0);
     d=2*d-1;
     identificateur x(" x");
     return newton(erf(x)-d,x,d);
     */
-    double u=rand()/(RAND_MAX+1.0);
-    double d=rand()/(RAND_MAX+1.0);
+    double u=giac_rand(contextptr)/(rand_max2+1.0);
+    double d=giac_rand(contextptr)/(rand_max2+1.0);
     return std::sqrt(-2*std::log(u))*std::cos(2*M_PI*d);
   }
   gen _randNorm(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->empty())
+      return randNorm(contextptr);
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     vecteur & v=*args._VECTptr;
-    return evalf(v[0]+v[1]*randNorm(),1,contextptr);
+    return evalf(v[0]+v[1]*randNorm(contextptr),1,contextptr);
   }
   static const char _randNorm_s []="randNorm";
   static define_unary_function_eval (__randNorm,&_randNorm,_randNorm_s);
@@ -432,7 +434,7 @@ namespace giac {
 
   gen _randexp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    double u=rand()/(RAND_MAX+1.0);
+    double u=giac_rand(contextptr)/(rand_max2+1.0);
     return -gen(std::log(1-u))/args;
   }
   static const char _randexp_s []="randexp";
@@ -508,6 +510,8 @@ namespace giac {
   define_unary_function_ptr5( at_normald_icdf ,alias_at_normald_icdf,&__normald_icdf,0,true);
 
   gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT){
+    if ( (is_zero(p) && is_zero(k)) || (is_one(p) && n==k))
+      return 1;
     if (k.type==_DOUBLE_ || k.type==_FLOAT_ || k.type==_FRAC){
       if (p.type==_DOUBLE_ || p.type==_FLOAT_ || p.type==_FRAC)
 	return gensizeerr(contextptr);
@@ -733,7 +737,53 @@ namespace giac {
   static define_unary_function_eval (__binomial_icdf,&_binomial_icdf,_binomial_icdf_s);
   define_unary_function_ptr5( at_binomial_icdf ,alias_at_binomial_icdf,&__binomial_icdf,0,true);
 
+  gen randbinomial(int n,double P,GIAC_CONTEXT){
+    if (n>1000)
+      return binomial_icdf(n,P,double(giac_rand(contextptr))/rand_max2,contextptr);
+    int ok=0;
+    P*=rand_max2;
+    for (int i=0;i<n;++i){
+      if (giac_rand(contextptr)<=P)
+	ok++;
+    }
+    return ok;
+  }
+  // randbinomial(n,p) returns k in [0..n] with proba binomial(n,k,p)
+  gen _randbinomial(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s<2 
+	|| s>2 // 3
+	)
+      return gensizeerr(contextptr);
+    gen n=v[0];
+    gen p=v[1];
+    int k=1;
+    if (s==3){
+      gen K=v[2];
+      if (!is_integral(K) || K.type!=_INT_)
+	return gensizeerr(contextptr);
+      k=K.val;
+    }
+    if (!is_integral(n) || n.type!=_INT_ || n.val<=0 || ck_is_strictly_greater(0,p,contextptr) || ck_is_strictly_greater(p,1,contextptr))
+      return gensizeerr(contextptr);
+    p=evalf_double(p,1,contextptr);
+    return randbinomial(n.val,p._DOUBLE_val,contextptr);
+  }
+  static const char _randbinomial_s []="randbinomial";
+  static define_unary_function_eval (__randbinomial,&_randbinomial,_randbinomial_s);
+  define_unary_function_ptr5( at_randbinomial ,alias_at_randbinomial,&__randbinomial,0,true);
+
   gen poisson(const gen & m,const gen & k,GIAC_CONTEXT){
+    gen M=evalf_double(m,1,contextptr);
+    if (M.type==_DOUBLE_){
+      gen K=evalf_double(k,1,contextptr);
+      if (K.type==_DOUBLE_)
+	return std::exp(-M._DOUBLE_val + K._DOUBLE_val*std::log(M._DOUBLE_val)-lngamma(K._DOUBLE_val+1));
+    }
     return exp(-m,contextptr)*pow(m,k,contextptr)/_factorial(k,contextptr);
   }
   gen _poisson(const gen & g,GIAC_CONTEXT){
@@ -796,19 +846,49 @@ namespace giac {
   static define_unary_function_eval (__poisson_cdf,&_poisson_cdf,_poisson_cdf_s);
   define_unary_function_ptr5( at_poisson_cdf ,alias_at_poisson_cdf,&__poisson_cdf,0,true);
 
-  gen poisson_icdf(const gen & m_orig,const gen & t_orig,GIAC_CONTEXT){
-    gen t=evalf_double(t_orig,1,contextptr);
-    gen m=evalf_double(m_orig,1,contextptr);
-    if (t.type!=_DOUBLE_ || t._DOUBLE_val<0 || t._DOUBLE_val>1)
+  // randpoisson(lambda) returns k>0 with proba poisson(lambda,k)
+  gen randpoisson(double lambda,GIAC_CONTEXT){
+    if (lambda>700)
+      return poisson_icdf(lambda,double(giac_rand(contextptr))/rand_max2,contextptr);
+    int k=0;
+    if (lambda<200){
+      double seuil=std::exp(-lambda);
+      double res=1.0;
+      for (;;++k){
+	res *= giac_rand(contextptr)/(rand_max2+1.0);
+	if (res<seuil)
+	  return k;
+      }
+    }
+    double res=0.0;
+    for (;;++k){
+      double u = giac_rand(contextptr)/(rand_max2+1.0);
+      res += -std::log(1-u)/lambda;
+      if (res>=1.0)
+	return k;
+    }
+  }
+  gen _randpoisson(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    gen G=evalf_double(g,1,contextptr);
+    if (G.type!=_DOUBLE_)
       return gensizeerr(contextptr);
-    if (m.type!=_DOUBLE_ )
-      return symbolic(at_poisson_icdf,makesequence(m,t));
-    if (t._DOUBLE_val==0)
+    double lambda=G._DOUBLE_val;
+    if (lambda<=0)
+      return gensizeerr(contextptr);
+    return randpoisson(lambda,contextptr);
+  }
+  static const char _randpoisson_s []="randpoisson";
+  static define_unary_function_eval (__randpoisson,&_randpoisson,_randpoisson_s);
+  define_unary_function_ptr5( at_randpoisson ,alias_at_randpoisson,&__randpoisson,0,true);
+
+  gen poisson_icdf(double m,double t,GIAC_CONTEXT){
+    if (t==0)
       return zero;
-    if (t._DOUBLE_val==1)
+    if (t==1)
       return plus_inf;
 #if 1
-    if (m._DOUBLE_val>90){ 
+    if (m>90){ 
       // 170.! =7e306 we must insure that the naive definition does not return >170
       // hence the test since poisson_cdf(90.,170.)=1.0 to double precision
       // approximation using normal_icdf
@@ -819,9 +899,9 @@ namespace giac {
       // check that poisson_cdf(m,g)>=t, if not increase g
       gen pg=evalf_double(_poisson_cdf(makesequence(m,g),contextptr),1,contextptr);
       long_double CDF=pg._DOUBLE_val;
-      long_double M=m._DOUBLE_val;
+      long_double M=m;
       long_double current= std::exp(-M+G*std::log(M)-lngamma(G+1));
-      long_double T=t._DOUBLE_val;
+      long_double T=t;
       for (;T>CDF;){
 	++G;
 	current *= M/G;
@@ -837,9 +917,9 @@ namespace giac {
       }
       return G+1;
     }
-    long_double M=m._DOUBLE_val;
+    long_double M=m;
     int k=0;
-    long_double T=t._DOUBLE_val*std::exp(M),B=0,prod=1;
+    long_double T=t*std::exp(M),B=0,prod=1;
     for (;;){
       B += prod;
       if (B>=T)
@@ -849,7 +929,7 @@ namespace giac {
       prod /= k;
     }
 #else
-    if (m._DOUBLE_val>300)
+    if (m>300)
       return gensizeerr(gettext("Overflow"));
     gen b;
     for (;;++k){
@@ -860,6 +940,16 @@ namespace giac {
     return t;
 #endif
   }
+  gen poisson_icdf(const gen & m_orig,const gen & t_orig,GIAC_CONTEXT){
+    gen t=evalf_double(t_orig,1,contextptr);
+    gen m=evalf_double(m_orig,1,contextptr);
+    if (t.type!=_DOUBLE_ || t._DOUBLE_val<0 || t._DOUBLE_val>1)
+      return gensizeerr(contextptr);
+    if (m.type!=_DOUBLE_ )
+      return symbolic(at_poisson_icdf,makesequence(m,t));
+    return poisson_icdf(m._DOUBLE_val,t._DOUBLE_val,contextptr);
+  }
+
   gen _poisson_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)

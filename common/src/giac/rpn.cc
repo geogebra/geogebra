@@ -59,12 +59,6 @@ void EditMat(int);
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if defined(GIAC_HAS_STO_38) && defined(VISUALC)
-  static const int rand_max3=2147483647;
-#else
-  static const int rand_max3=RAND_MAX;
-#endif
-
   string enmajuscule(const string & s){
     string res;
     string::const_iterator it=s.begin(),itend=s.end();
@@ -1117,7 +1111,7 @@ namespace giac {
       return _rand(gen(makevecteur(*g._CPLXptr,*(g._CPLXptr+1)),_SEQ__VECT),contextptr);
     if (g.type!=_VECT || g.subtype!=_SEQ__VECT || !g._VECTptr->empty())
       return _rand(g,contextptr);
-    return double(giac_rand(contextptr))/rand_max3;
+    return double(giac_rand(contextptr))/rand_max2;
   }
   static const char _RANDOM_s[]="RANDOM";
   static define_unary_function_eval2 (__RANDOM,&giac::_RANDOM,_RANDOM_s,&printasRANDOM); 
@@ -1137,7 +1131,7 @@ namespace giac {
   }
   static const char _MAXREAL_s[]="MAXREAL";
   static define_unary_function_eval (__MAXREAL,&giac::_MAXREAL,_MAXREAL_s); 
-  define_unary_function_ptr5( at_MAXREAL ,alias_at_MAXREAL,&__MAXREAL,0,T_RETURN);  
+  define_unary_function_ptr5( at_MAXREAL ,alias_at_MAXREAL,&__MAXREAL,0,T_NUMBER);  
 
   gen _MINREAL(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1150,7 +1144,7 @@ namespace giac {
   }
   static const char _MINREAL_s[]="MINREAL";
   static define_unary_function_eval (__MINREAL,&giac::_MINREAL,_MINREAL_s); 
-  define_unary_function_ptr5( at_MINREAL ,alias_at_MINREAL,&__MINREAL,0,T_RETURN);  
+  define_unary_function_ptr5( at_MINREAL ,alias_at_MINREAL,&__MINREAL,0,T_NUMBER);  
 
   // transcendent
   static const char _EXP_s[]="EXP";

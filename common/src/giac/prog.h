@@ -29,6 +29,7 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   extern bool user_screen; 
   extern int user_screen_io_x,user_screen_io_y,user_screen_fontsize;
+  extern const int rand_max2; // replace RAND_MAX if giac_rand(contextptr) is used
 
   struct user_function;
   struct module_info {

@@ -2664,7 +2664,7 @@ namespace giac {
     case _USER:
       return _USERptr->conj(contextptr);
     case _IDNT: 
-      if (!complex_variables(contextptr)) 
+      if (is_assumed_real(*this,contextptr))
 	return *this;
       /* if ( (_IDNTptr->value) && (is_zero(_IDNTptr->value->im(),contextptr)) )
 	 return *this; */
@@ -3029,7 +3029,7 @@ namespace giac {
       reim_vect(*g._VECTptr,r,i,g.subtype,contextptr);
       break;
     case _IDNT: 
-      if (!complex_variables(contextptr) || g==cst_euler_gamma || g==cst_pi){
+      if (is_assumed_real(g,contextptr)){
 	r=g;
 	i=0;
       }
@@ -3167,7 +3167,7 @@ namespace giac {
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTre(*_VECTptr,contextptr),0):_VECTre(*_VECTptr,contextptr),subtype);
     case _IDNT: 
-      if (!complex_variables(contextptr))
+      if (is_assumed_real(*this,contextptr))
 	return *this;
       if ( (_IDNTptr->value) && (is_zero(_IDNTptr->value->im(contextptr),contextptr)) )
 	return *this;
@@ -3273,7 +3273,7 @@ namespace giac {
     case _VECT:
       return gen(subtype==_POLY1__VECT?trim(_VECTim(*_VECTptr,contextptr),0):_VECTim(*_VECTptr,contextptr),subtype);
     case _IDNT: 
-      if (!complex_variables(contextptr))
+      if (is_assumed_real(*this,contextptr))
 	return zero;
       if ( (_IDNTptr->value) && (is_zero(_IDNTptr->value->im(contextptr),contextptr)) )
 	return zero;
@@ -5308,7 +5308,7 @@ namespace giac {
 	return new_ref_symbolic(symbolic(at_pow,gen(makevecteur(base,exponent),_SEQ__VECT)));
       }
     }
-    if (abs_calc_mode(contextptr)==38 && !complex_mode(contextptr) && is_zero(base) && is_zero(exponent))
+    if (abs_calc_mode(contextptr)==38 && !complex_mode(contextptr) && is_zero(base,contextptr) && is_zero(exponent,contextptr))
       return undef;
     switch ( (base.type<< _DECALAGE) | exponent.type ) {
     case _INT___INT_: case _ZINT__INT_: case _REAL__INT_: case _CPLX__INT_: case _IDNT__INT_: 
@@ -5808,7 +5808,7 @@ namespace giac {
 	return -inv(a._SYMBptr->feuille,contextptr);      
       else {
 	if (a._SYMBptr->sommet==at_prod)
-	  return new_ref_symbolic(symbolic(at_prod,inv__VECT(*(a._SYMBptr->feuille._VECTptr),contextptr)));
+	  return new_ref_symbolic(symbolic(at_prod,gen(inv__VECT(*(a._SYMBptr->feuille._VECTptr),contextptr),a._SYMBptr->feuille.subtype)));
 	else
 	  return new_ref_symbolic(symbolic(at_inv,a));
       }
@@ -6742,7 +6742,8 @@ namespace giac {
       return apply(a,b,contextptr,equal);
     if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);
-    if (a.type==_IDNT && b.type==_VECT){
+    // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])
+    if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT){
       vecteur v=*b._VECTptr;
       for (unsigned i=0;i<v.size();++i){
 	v[i]=symbolic(at_equal,makesequence(a,v[i]));

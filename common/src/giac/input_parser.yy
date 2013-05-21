@@ -524,6 +524,16 @@ exp	: T_NUMBER		{$$ = $1;}
           const giac::context * contextptr = giac_yyget_extra(scanner);
          $$=symb_program($3,zero*$3,symb_local($5,$7,contextptr),contextptr); 
         } 
+	| symbol T_BEGIN_PAR suite T_END_PAR T_PROC entete prg_suite T_BLOC_END { 
+          if ($8.type==_INT_ && $8.val && $8.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
+          const giac::context * contextptr = giac_yyget_extra(scanner);
+           $$=symb_program_sto($3,zero*$3,symb_local($6,$7,contextptr),$1,false,contextptr); 
+        }
+	| symbol T_BEGIN_PAR suite T_END_PAR T_AFFECT T_PROC entete prg_suite T_BLOC_END { 
+          if ($9.type==_INT_ && $9.val && $9.val!=3) giac_yyerror(scanner,"missing func/prog/proc end delimiter");
+          const giac::context * contextptr = giac_yyget_extra(scanner);
+           $$=symb_program_sto($3,zero*$3,symb_local($7,$8,contextptr),$1,false,contextptr); 
+        }
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}

@@ -6778,32 +6778,164 @@ namespace giac {
   static define_unary_function_eval (__idn,&giac::_idn,_idn_s);
   define_unary_function_ptr5( at_idn ,alias_at_idn,&__idn,0,true);
 
-  vecteur vranm(int n,const gen & F,GIAC_CONTEXT){
+  // find index i of x in v that is i such that v[i] <= x < v[i+1]
+  // where v[-1]=-inf, and v[v.size()]=+inf
+  int dichotomy(const vector<double> & v,double x){
+    int s=v.size();
+    if (x<v[0])
+      return -1;
+    if (x>=v[s-1])
+      return s;
+    int a=0, b=s-1; // v[a] <= x < v[b]
+    while (b-a>1){
+      int c=(a+b)/2;
+      if (x>=v[c])
+	a=c;
+      else
+	b=c;
+    }
+    return a;
+  }
+
+  void vranm(int n,const gen & F,vecteur & res,GIAC_CONTEXT){
     gen f(F);
     if (F.type==_USER)
       f=symbolic(at_rand,F);
     n=giacmax(1,n);
     if (n>LIST_SIZE_LIMIT)
       setstabilityerr();
-    vecteur res;
-    for (int i=0;i<n;++i){
-      if (is_zero(f,contextptr))
-	res.push_back((int) (2*randrange*giac_rand(contextptr)/(rand_max+1.0)-randrange));
+    res.reserve(n);
+    if (is_zero(f,contextptr)){
+      for (int i=0;i<n;++i){
+	res.push_back((int) (2*randrange*giac_rand(contextptr)/(rand_max2+1.0)-randrange));
+      }
+      return;
+    }
+    if (f.type==_INT_){
+      for (int i=0;i<n;++i)
+	res.push_back(_rand(f,contextptr));
+      return;
+    }
+    if (f.is_symb_of_sommet(at_interval) && f._SYMBptr->feuille.type==_VECT){
+      for (int i=0;i<n;++i)
+	res.push_back(rand_interval(*f._SYMBptr->feuille._VECTptr,false,contextptr));
+      return;
+    }
+    if (f.is_symb_of_sommet(at_poisson)){
+      f=evalf_double(f._SYMBptr->feuille,1,contextptr);
+      if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
+	res=vecteur(1,gensizeerr(contextptr));
+	return ;
+      }
+      double lambda=f._DOUBLE_val;
+      int Nv=2*lambda+53; // insure that poisson_cdf(lambda,Nv)==1 up to double precision
+      if (Nv*n>5*lambda+n*std::ceil(std::log(double(Nv))/std::log(2.0))){
+	vector<double> tableau(Nv+1);
+	long_double cumul=0;
+	long_double current; 
+	for (int k=0;k<Nv;++k){
+	  // recompute current from time to time
+	  if (k>>5==0)
+	    current=std::exp(-lambda+k*std::log(lambda)-lngamma(k+1));
+	  cumul += current;
+	  tableau[k+1] = cumul;
+	  current *= lambda/(k+1);
+	}
+	for (int i=0;i<n;++i){
+	  res.push_back(dichotomy(tableau,double(giac_rand(contextptr))/rand_max2));
+	}
+	return;
+      }
+      for (int i=0;i<n;++i)
+	res.push_back(randpoisson(lambda,contextptr));
+      return;     
+    }
+    if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_randexp)){
+      f=evalf_double(f._SYMBptr->feuille,1,contextptr);
+      if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double lambda=f._DOUBLE_val;
+      for (int i=0;i<n;++i)
+	res.push_back(gen(-std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda));
+      return;     
+    }
+    if (f==at_normald || f==at_normal || f==at_randNorm)
+      f=symbolic(at_normald,makesequence(0,1));
+    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+      gen M=evalf_double(f._SYMBptr->feuille._VECTptr->front(),1,contextptr);
+      f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
+      if (M.type!=_DOUBLE_ || f.type!=_DOUBLE_ || f._DOUBLE_val<=0 ){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double m=M._DOUBLE_val,sigma=f._DOUBLE_val;
+      for (int i=0;i<n;++i){
+	double u=giac_rand(contextptr)/(rand_max2+1.0);
+	double d=giac_rand(contextptr)/(rand_max2+1.0);
+	res.push_back(m+sigma*std::sqrt(-2*std::log(u))*std::cos(2*M_PI*d));
+      }
+      return;     
+    }
+    if (f.is_symb_of_sommet(at_binomial) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
+      gen N=f._SYMBptr->feuille._VECTptr->front();
+      f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
+      if (!is_integral(N) || N.type!=_INT_ || N.val<=0 || f.type!=_DOUBLE_ || f._DOUBLE_val<=0 || f._DOUBLE_val>=1){
+	res= vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double p=f._DOUBLE_val;
+      int Nv=N.val;
+      // computation time is proportionnal to Nv*n with the sum of n randoms value 0/1
+      // other idea compute once binomial_cdf(Nv,k,p) for k in [0..Nv]
+      // then find position of random value in the list: this costs Nv+n*ceil(log2(Nv)) operations
+      if (double(Nv)*n>5*Nv+n*std::ceil(std::log(double(Nv))/std::log(2.0))){
+	vector<double> tableau(Nv+1);
+	long_double cumul=0;
+	long_double current; // =std::pow(1-p,Nv);
+	for (int k=0;k<Nv;++k){
+	  // recompute current from time to time
+	  if (k>>5==0)
+	    current=std::exp(lngamma(Nv+1)-lngamma(k+1)-lngamma(Nv-k+1)+k*std::log(p)+(Nv-k)*std::log(1-p));
+	  cumul += current;
+	  tableau[k+1] = cumul;
+	  current *= p*(Nv-k)/(k+1)/(1-p); 
+	}
+	for (int i=0;i<n;++i){
+	  res.push_back(dichotomy(tableau,double(giac_rand(contextptr))/rand_max2));
+	}
+	return;
+      }
+      if (Nv>1000){
+	for (int i=0;i<n;++i)
+	  res.push_back(binomial_icdf(Nv,p,double(giac_rand(contextptr))/rand_max2,contextptr));
+      }
       else {
-	if (f.type==_INT_)
-	  res.push_back(_rand(f,contextptr));
-	else {
-	  if (f.is_symb_of_sommet(at_interval) && f._SYMBptr->feuille.type==_VECT){
-	    res.push_back(rand_interval(*f._SYMBptr->feuille._VECTptr,false,contextptr));
+	p *= rand_max2;
+	for (int i=0;i<n;++i){
+	  int ok=0;	  
+	  for (int j=0;j<Nv;++j){
+	    if (giac_rand(contextptr)<=p)
+	      ok++;
 	  }
-	  else
-	    if (f.is_symb_of_sommet(at_program))
-	      res.push_back(f(vecteur(0),contextptr));
-	    else 
-	      res.push_back(eval(f,eval_level(contextptr),contextptr));
+	  res.push_back(ok);
 	}
       }
+      return;     
     }
+    if (f.is_symb_of_sommet(at_program)){
+      for (int i=0;i<n;++i)
+	res.push_back(f(vecteur(0),contextptr));
+      return;
+    }
+    for (int i=0;i<n;++i)
+      res.push_back(eval(f,eval_level(contextptr),contextptr));
+  }
+
+  vecteur vranm(int n,const gen & F,GIAC_CONTEXT){
+    vecteur res;
+    vranm(n,F,res,contextptr);
     return res;
   }
 
@@ -6814,8 +6946,10 @@ namespace giac {
       setstabilityerr();
     matrice res;
     res.reserve(n);
-    for (int i=0;i<n;++i)
-      res.push_back(vranm(m,f,contextptr));
+    for (int i=0;i<n;++i){
+      res.push_back(vecteur(0));
+      vranm(m,f,*res[i]._VECTptr,contextptr);
+    }
     return res;
   }
 
@@ -6880,7 +7014,9 @@ namespace giac {
 	  else
 	    return gensizeerr(contextptr);
 	}
-	return vranm(n,e._VECTptr->back(),contextptr);
+	gen res(vecteur(0));
+	vranm(n,e._VECTptr->back(),*res._VECTptr,contextptr);
+	return res;
       }
     default:
       return gensizeerr(contextptr);
@@ -11904,7 +12040,7 @@ namespace giac {
       s=H[n2-2][n2-2]+H[n2-1][n2-1];
       p=H[n2-2][n2-2]*H[n2-1][n2-1]-H[n2-1][n2-2]*H[n2-2][n2-1];
       if (p==s*s/4 || (std::abs(H[n2-2][n2-2])<eps &&std::abs(H[n2-1][n2-1])<eps) ) // multiple root 
-	s += giac_rand(context0)*(H[n2-1][n2-2]+std::sqrt(std::abs(p)))/RAND_MAX;
+	s += giac_rand(context0)*(H[n2-1][n2-2]+std::sqrt(std::abs(p)))/rand_max2;
     }
     // compute (H-l2)(H-l1)=(H-s)*H+p on n1-th basis vector (if n1==0, on [1,0,...,0])
     giac_double ha=H[n1][n1],hb=H[n1][n1+1],

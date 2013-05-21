@@ -2331,6 +2331,10 @@ namespace giac {
     if (x.type!=_IDNT){
       if (x.type<_IDNT)
 	return gensizeerr(contextptr);
+      if (abs_calc_mode(contextptr)==38 && x.type!=_SYMB)
+	return gensizeerr(contextptr);
+      if (x.type==_SYMB && x._SYMBptr->sommet!=at_of && x._SYMBptr->sommet!=at_at)
+	return gensizeerr(contextptr);
       identificateur t(" t");
       v[0]=quotesubst(v[0],x,t,contextptr);
       v[1]=t;
@@ -2342,10 +2346,11 @@ namespace giac {
       quoted=*x._IDNTptr->quoted;
       *x._IDNTptr->quoted=1;
     }
-    v[0]=eval(v[0],eval_level(contextptr),contextptr);
     for (int i=2;i<s;++i){
       v[i]=eval(v[i],eval_level(contextptr),contextptr);
     }
+    // if (s>=4) this could take care of boundaries
+    v[0]=eval(v[0],eval_level(contextptr),contextptr); 
     if (x._IDNTptr->quoted)
       *x._IDNTptr->quoted=quoted;    
     if (s>4 || (approx_mode(contextptr) && (s==4)) ){
@@ -2367,7 +2372,7 @@ namespace giac {
       lfloor=lvarx(lfloor,x);
       if (!lfloor.empty()){
 	gen a,b,l,cond=lfloor.front()._SYMBptr->feuille,tmp;
-	if (!is_linear_wrt(cond,x,a,b,contextptr))
+	if (lvarx(cond,x).size()>1 || !is_linear_wrt(cond,x,a,b,contextptr) )
 	  return gensizeerr(gettext("Floor definite integration: can only handle linear < or > condition"));
 	// find integers of the form a*x+b in [borne_inf,borne_sup]
 	gen n1=_floor(a*borne_inf+b,contextptr);

@@ -321,6 +321,7 @@ namespace giac {
   gen _sto(const gen & g,const context * contextptr);
   gen _array_sto(const gen & a,const context * contextptr);
 
+  bool is_assumed_real(const gen & g,GIAC_CONTEXT);
   bool is_assumed_integer(const gen & g,GIAC_CONTEXT);
   bool is_numericv(const vecteur & v, int withfracint = 0);
   bool is_numericm(const vecteur & v, int withfracint = 0);

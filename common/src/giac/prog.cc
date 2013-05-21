@@ -82,9 +82,9 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
 #if 1 // defined(GIAC_HAS_STO_38) && defined(VISUALC)
-  static const int rand_max2=2147483647;
+  const int rand_max2=2147483647;
 #else
-  static const int rand_max2=RAND_MAX;
+  const int rand_max2=RAND_MAX;
 #endif
 
 #ifdef HAVE_LIBDL
@@ -5069,7 +5069,7 @@ namespace giac {
       if (f.val==_CONFRAC && v.back().type==_IDNT){
 	g=evalf_double(g,1,contextptr);
 	if (g.type==_DOUBLE_)
-	  return sto(vector_int_2_vecteur(float2continued_frac(g._DOUBLE_val,epsilon(contextptr)),contextptr),v.back(),contextptr);
+	  return sto(vector_int_2_vecteur(float2continued_frac(g._DOUBLE_val,epsilon(contextptr))),v.back(),contextptr);
       }
     }
     if (s>2)

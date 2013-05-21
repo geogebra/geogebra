@@ -1006,7 +1006,7 @@ namespace giac {
     g=evalf_double(g,1,contextptr);
     if (g.type!=_DOUBLE_)
       return gensizeerr(contextptr);
-    return vector_int_2_vecteur(float2continued_frac(g._DOUBLE_val,eps),contextptr);
+    return vector_int_2_vecteur(float2continued_frac(g._DOUBLE_val,eps));
   }
   static const char _dfc_s []="dfc";
   static define_unary_function_eval (__dfc,&_dfc,_dfc_s);
@@ -3521,12 +3521,15 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
       return vecteur(1,gensizeerr(contextptr));
     int s=read_attributs(*g._VECTptr,attributs,contextptr);
     vecteur v;
-    if (s>=2 && g._VECTptr->front().type==_INT_ && g[1].type==_VECT){
+    if (g.subtype==_SEQ__VECT && s>=4 && g[1].type==_IDNT)
+      return listplot(_seq(g,contextptr),attributs,contextptr);
+    if (s>=2 && g._VECTptr->front().type<=_DOUBLE_ && g[1].type==_VECT){
       int l=g[1]._VECTptr->size();
       v=*g._VECTptr;
       v[0]=vecteur(l);
+      double d=evalf_double(g._VECTptr->front(),1,contextptr)._DOUBLE_val;
       for (int j=0;j<l;++j){
-	(*v[0]._VECTptr)[j]=j+g._VECTptr->front().val;
+	(*v[0]._VECTptr)[j]=j+d;
       }
       if (!ckmatrix(v))
 	return vecteur(1,gendimerr(contextptr));
@@ -4281,7 +4284,7 @@ static define_unary_function_eval (__spline,&_spline,_spline_s);
   }
 
   gen binop(const gen & g,gen (* f) (const gen &, const gen &)){
-    if (g.type!=_VECT && g._VECTptr->empty())
+    if (g.type!=_VECT || g._VECTptr->empty())
       return gensizeerr(gettext("binop"));
     const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
     gen res=*it;
@@ -4502,7 +4505,7 @@ static define_unary_function_eval (__remove_language,&_remove_language,_remove_l
 
   gen _show_language(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    return vector_int_2_vecteur(lexer_localization_vector(),contextptr);
+    return vector_int_2_vecteur(lexer_localization_vector());
   }
   static const char _show_language_s []="show_language";
 static define_unary_function_eval (__show_language,&_show_language,_show_language_s);

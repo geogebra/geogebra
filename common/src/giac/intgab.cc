@@ -1180,7 +1180,7 @@ namespace giac {
 	  // Integration step
 	  decals = subvecteur(decals,vecteur(decals.size(),R0));
 	  if (sumab_int(tmp1,gx,decals,lcoeff,contextptr)){
-	    gen coeffa=limit(g*r2e(s,v,contextptr)/r2e(p,v,contextptr),*x._IDNTptr,a,1,contextptr);
+	    gen coeffa=limit(g*r2e(s,v,contextptr)/r2e(p,v,contextptr)*factorial(a.val-R0.val),*x._IDNTptr,a,1,contextptr);
 	    res=limit(coeffa*tmp1,*gx._IDNTptr,Qg,1,contextptr)/pow(Qg,a-R0,contextptr);
 	    if (est_reel)
 	      res=re(res,contextptr);

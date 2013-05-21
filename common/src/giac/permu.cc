@@ -44,7 +44,7 @@ namespace giac {
     vector<int>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
-    if (xcas_mode(contextptr)){
+    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       for (;it!=itend;++it)
 	res.push_back(*it+1);
     }
@@ -55,12 +55,22 @@ namespace giac {
     return res;
   } 
 
-  vector<int> vecteur_2_vector_int(const vecteur & v,GIAC_CONTEXT){
+  vecteur vector_int_2_vecteur(const vector<int> & v){
+    //transforme un vector<int> en vecteur 
+    vector<int>::const_iterator it=v.begin(),itend=v.end();
+    vecteur res;
+    res.reserve(itend-it);
+    for (;it!=itend;++it)
+      res.push_back(*it);
+    return res;
+  } 
+
+  static vector<int> vecteur_2_vector_int(const vecteur & v,GIAC_CONTEXT){
     //transforme un vecteur en vector<int>  -> empty vector on error
     vecteur::const_iterator it=v.begin(),itend=v.end();
     vector<int> res;
     res.reserve(itend-it);
-    if (xcas_mode(contextptr)){
+    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       for (;it!=itend;++it)
 	if ((*it).type==_INT_) 
 	  res.push_back((*it).val-1);
@@ -77,7 +87,21 @@ namespace giac {
     return res;
   } 
 
-  vector< vector<int> > vecteur_2_vectvector_int(const vecteur & v,GIAC_CONTEXT){
+  vector<int> vecteur_2_vector_int(const vecteur & v){
+    //transforme un vecteur en vector<int>  -> empty vector on error
+    vecteur::const_iterator it=v.begin(),itend=v.end();
+    vector<int> res;
+    res.reserve(itend-it);
+    for (;it!=itend;++it){
+      if ((*it).type==_INT_) 
+	res.push_back((*it).val); 
+      else 
+	return vector<int>(0);
+    }
+    return res;
+  } 
+
+  static vector< vector<int> > vecteur_2_vectvector_int(const vecteur & v,GIAC_CONTEXT){
     //transforme un vecteur en vector< vector<int> >  -> empty vector on error
     vecteur::const_iterator it=v.begin(),itend=v.end();
     vector< vector<int> > res;
@@ -90,13 +114,36 @@ namespace giac {
     return res;
   }
 
-  vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v,GIAC_CONTEXT){
+  vector< vector<int> > vecteur_2_vectvector_int(const vecteur & v){
+    //transforme un vecteur en vector< vector<int> >  -> empty vector on error
+    vecteur::const_iterator it=v.begin(),itend=v.end();
+    vector< vector<int> > res;
+    res.reserve(itend-it);
+    for (;it!=itend;++it){
+      if (it->type!=_VECT)
+	return  vector< vector<int> >(0);
+      res.push_back(vecteur_2_vector_int(*it->_VECTptr));
+    }
+    return res;
+  }
+
+  static vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v,GIAC_CONTEXT){
     //transforme un vector< vector<int> > en vecteur  
     int s=v.size();
     vecteur res;
     res.reserve(s);
     for (int i=0;i<s;++i)
       res.push_back(vector_int_2_vecteur(v[i],contextptr));
+    return res;
+  }
+
+  vecteur vectvector_int_2_vecteur(const vector< vector<int> > & v){
+    //transforme un vector< vector<int> > en vecteur  
+    int s=v.size();
+    vecteur res;
+    res.reserve(s);
+    for (int i=0;i<s;++i)
+      res.push_back(vector_int_2_vecteur(v[i]));
     return res;
   }
 
@@ -206,7 +253,7 @@ namespace giac {
     for (int j=0;j<n;j++){ if (p[j].type!=_INT_){return(false);}}
      
     for (int j=0;j<n;j++){
-      if (xcas_mode(contextptr)>0) 
+      if (xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
 	p1[j]=p[j].val-1; 
       else 
 	p1[j]=p[j].val;
@@ -247,7 +294,7 @@ namespace giac {
     vector<int> c2(n1);
     c1=c2;
     for (int j=0;j<n1;j++){
-      if (xcas_mode(contextptr)>0) 
+      if (xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
 	c1[j]=c[j].val-1; 
       else 
 	c1[j]=c[j].val;
@@ -1228,7 +1275,7 @@ namespace giac {
     vecteur l(n); 
     for (int k=0;k<n;k++){
       for (int j=0;j<n;j++){
-	if (p[k]==j+(xcas_mode(contextptr)!=0)) {
+	if (p[k]==j+(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)) {
 	  l[j]=1;
 	} else {
 	  l[j]=0;

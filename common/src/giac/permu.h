@@ -52,10 +52,11 @@ namespace giac {
 
   vecteur vector_double_2_vecteur(const std::vector<double> & v);
   vecteur vectvector_double_2_vecteur(const std::vector< std::vector<double> > & v);
+  vecteur vector_int_2_vecteur(const std::vector<int> & v);
   vecteur vector_int_2_vecteur(const std::vector<int> & v,GIAC_CONTEXT);
-  std::vector<int> vecteur_2_vector_int(const vecteur & v,GIAC_CONTEXT);
-  std::vector< std::vector<int> > vecteur_2_vectvector_int(const vecteur & v,GIAC_CONTEXT);
-  vecteur vectvector_int_2_vecteur(const std::vector< std::vector<int> > & v,GIAC_CONTEXT);
+  std::vector<int> vecteur_2_vector_int(const vecteur & v);
+  std::vector< std::vector<int> > vecteur_2_vectvector_int(const vecteur & v);
+  vecteur vectvector_int_2_vecteur(const std::vector< std::vector<int> > & v);
   std::vector<int> sizes(const std::vector< std::vector<int> > & v);
 
   std::vector<int> randperm(const int & n);

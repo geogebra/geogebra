@@ -2366,12 +2366,14 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return sommetstr+('('+feuille.print(contextptr)+')');
     vecteur & v=*feuille._VECTptr;
+#if 0
     if (abs_calc_mode(contextptr)==38 && v.back().type!=_VECT){
       string s=v.back().print(contextptr);
       if (s.size()>2 && s[0]=='1' && s[1]=='_')
 	s=s.substr(1,s.size()-1);
       return v.front().print(contextptr)+(calc_mode(contextptr)==38?"\xe2\x96\xba":"=>")+s;
     }
+#endif
     if (xcas_mode(contextptr)==3){
       if ( (v.front().type==_SYMB) && (v.front()._SYMBptr->sommet==at_program)){
 	gen & b=v.front()._SYMBptr->feuille._VECTptr->back();
@@ -3018,7 +3020,8 @@ namespace giac {
     }
     if (b.type==_FUNC){
       string errmsg=b.print(contextptr)+ gettext(" is a reserved word, sto not allowed:");
-      *logptr(contextptr) << errmsg << endl;
+      if (abs_calc_mode(contextptr)!=38)
+	*logptr(contextptr) << errmsg << endl;
       return makevecteur(string2gen(errmsg,false),a);
     }
     return gentypeerr(gettext("sto ")+b.print(contextptr)+ gettext(" not allowed!"));
@@ -3197,6 +3200,24 @@ namespace giac {
   static const char _divcrement_s []="divcrement";
   static define_unary_function_eval4_index (157,__divcrement,&giac::_divcrement,_divcrement_s,&printasdivcrement,&texprintasdivcrement);
   define_unary_function_ptr5( at_divcrement ,alias_at_divcrement,&__divcrement,_QUOTE_ARGUMENTS,true); 
+
+  bool is_assumed_real(const gen & g,GIAC_CONTEXT){
+    if (g.type!=_IDNT)
+      return false;
+    if (g==cst_euler_gamma || g==cst_pi)
+      return true;
+    gen tmp=g._IDNTptr->eval(1,g,contextptr);
+    if (tmp.type==_VECT && tmp.subtype==_ASSUME__VECT){
+      vecteur & v = *tmp._VECTptr;
+      if (!v.empty()){
+	if ((v.front()==_INT_ || v.front()==_ZINT || v.front()==_DOUBLE_) )
+	  return true;
+	if (v.front()==_CPLX)
+	  return false;
+      }
+    }
+    return !complex_variables(contextptr);
+  }
 
   bool is_assumed_integer(const gen & g,GIAC_CONTEXT){
     if (is_integer(g))
@@ -4880,6 +4901,8 @@ namespace giac {
       return args;
     if (args.is_symb_of_sommet(at_unit))
       return apply_unit(args,_floor,contextptr);
+    if (args.is_symb_of_sommet(at_floor) || args.is_symb_of_sommet(at_ceil))
+      return args;
     if (args.type==_VECT)
       return apply(args,contextptr,_floor);
     if (args.type==_CPLX)
@@ -4967,6 +4990,8 @@ namespace giac {
       return args;
     if (args.type==_VECT)
       return apply(args,contextptr,_ceil);
+    if (args.is_symb_of_sommet(at_floor) || args.is_symb_of_sommet(at_ceil))
+      return args;
     if (args.type==_CPLX)
       return _ceil(*args._CPLXptr,contextptr)+cst_i*_ceil(*(args._CPLXptr+1),contextptr);
     if ( (args.type==_INT_) || (args.type==_ZINT))
