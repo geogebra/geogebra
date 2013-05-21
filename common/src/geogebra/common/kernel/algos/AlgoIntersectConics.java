@@ -640,7 +640,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         }
         
         // STANDARD PROCEDURE
-        double epsilon = Kernel.STANDARD_PRECISION;
+        double epsilon = Kernel.MAX_PRECISION;
         while (!ok && epsilon <= Kernel.MIN_PRECISION) { 
             
             // find intersection points conics through intersection points

@@ -589,7 +589,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		int ret = INTERSECTION_PASSING_LINE;
 
 		if (c.isDefined() && g.isDefined()) {
-			double epsilon = Kernel.STANDARD_PRECISION;
+			double epsilon = Kernel.MAX_PRECISION;
 			while (epsilon <= Kernel.MIN_PRECISION) {
 				ret = intersectLineConic(g, c, sol, epsilon);
 				ok = testPoints(g, c, sol, Kernel.MIN_PRECISION);
