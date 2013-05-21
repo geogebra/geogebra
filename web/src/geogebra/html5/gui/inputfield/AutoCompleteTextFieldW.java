@@ -25,9 +25,9 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.html5.event.KeyEventsHandler;
 import geogebra.html5.event.KeyListenerW;
+import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.gui.util.GeoGebraIcon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,7 +250,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 				
 			}
 		};
-	    setBorderButton(1, GeoGebraIcon.createUpDownTriangleIcon(false, true), al);
+	    setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true), al);
 	    this.setBorderButtonVisible(1, false);
 	  }
 	
