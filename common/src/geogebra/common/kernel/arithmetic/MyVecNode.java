@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
+import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
 
@@ -140,7 +141,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		
 		switch (tpl.getStringType()) {
 		case MATH_PIPER:
 			sb.append("{");
@@ -151,11 +151,19 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 			break;
 
 		case GIAC:
-			sb.append("(");
-			sb.append(x.toString(tpl));
-			sb.append(',');
-			sb.append(y.toString(tpl));
-			sb.append(")");
+			if (mode == Kernel.COORD_POLAR) {
+				sb.append("(");
+				sb.append(x.toString(tpl));
+				sb.append(Unicode.angleSpace);
+				sb.append(y.toString(tpl));
+				sb.append(")");
+			} else {			
+				sb.append("(");
+				sb.append(x.toString(tpl));
+				sb.append(',');
+				sb.append(y.toString(tpl));
+				sb.append(")");
+			}
 			break;
 
 		case MPREDUCE:
