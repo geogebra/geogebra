@@ -2145,7 +2145,7 @@ public abstract class App implements UpdateSelection{
 	 * @return whether Ctrl on Win/Linux or Meta on Mac was pressed
 	 */
 	public boolean isControlDown(AbstractEvent e) {
-		return e.isControlDown();
+		return e!=null && e.isControlDown();
 	}
 
 	/**
