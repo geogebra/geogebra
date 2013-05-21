@@ -7,14 +7,14 @@ import geogebra.common.awt.GRectangle2D;
 
 public class GEllipse2DFloatW implements geogebra.common.awt.GEllipse2DFloat, geogebra.html5.awt.GShapeW {
 
-	private geogebra.web.openjdk.awt.geom.Ellipse2D.Float impl;
+	private geogebra.html5.openjdk.awt.geom.Ellipse2D.Float impl;
 
 	public GEllipse2DFloatW(int i, int j, int k, int l) {
-		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Float(i, j, k, l);
+		impl = new geogebra.html5.openjdk.awt.geom.Ellipse2D.Float(i, j, k, l);
 	}
 
 	public GEllipse2DFloatW(){
-		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Float();
+		impl = new geogebra.html5.openjdk.awt.geom.Ellipse2D.Float();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {
@@ -60,7 +60,7 @@ public class GEllipse2DFloatW implements geogebra.common.awt.GEllipse2DFloat, ge
 		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 		return impl;
 	}
 }

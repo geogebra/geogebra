@@ -21,11 +21,11 @@ import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.html5.gawt.BufferedImage;
-import geogebra.web.helper.ImageLoadCallback;
-import geogebra.web.helper.ImageWrapper;
-import geogebra.web.openjdk.awt.geom.PathIterator;
-import geogebra.web.openjdk.awt.geom.Polygon;
-import geogebra.web.openjdk.awt.geom.Shape;
+import geogebra.html5.openjdk.awt.geom.PathIterator;
+import geogebra.html5.openjdk.awt.geom.Polygon;
+import geogebra.html5.openjdk.awt.geom.Shape;
+import geogebra.html5.util.ImageLoadCallback;
+import geogebra.html5.util.ImageWrapper;
 
 import java.util.Map;
 
@@ -248,7 +248,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.setGlobalAlpha(((geogebra.html5.awt.GAlphaCompositeW)comp).getAlpha());
 		
 //		if (comp != null) {
-//			float alpha  = ((geogebra.web.awt.AlphaComposite) comp).getAlpha();
+//			float alpha  = ((geogebra.html5.awt.AlphaComposite) comp).getAlpha();
 //			if (alpha >= 0f && alpha < 1f) {
 //				context.setGlobalAlpha(alpha);
 //			}
@@ -464,7 +464,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		Paint ret;
 		if (fs.getType() == FillStrokeStyle.TYPE_CSSCOLOR) {
 			// it is difficult to make a color out of csscolor
-			ret = new geogebra.web.awt.Color((CssColor)fs);
+			ret = new geogebra.html5.awt.Color((CssColor)fs);
 		} else if (fs.getType() == FillStrokeStyle.TYPE_GRADIENT) {
 			
 		} else if (fs.getType() == FillStrokeStyle.TYPE_PATTERN) {
@@ -480,7 +480,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 //		context.save();
 //		//just to not return null;
-//		return new geogebra.web.awt.AlphaComposite(0, 0) {
+//		return new geogebra.html5.awt.AlphaComposite(0, 0) {
 //		};
 	}
 

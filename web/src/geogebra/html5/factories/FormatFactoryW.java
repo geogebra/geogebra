@@ -3,8 +3,8 @@ package geogebra.html5.factories;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.web.util.NumberFormatWeb;
-import geogebra.web.util.ScientificFormat;
+import geogebra.html5.util.NumberFormatWeb;
+import geogebra.html5.util.ScientificFormat;
 
 public class FormatFactoryW extends FormatFactory{
 	@Override

@@ -52,6 +52,7 @@ public abstract class AlgoCasBase extends AlgoElement {
 	protected AlgoCasBase(Construction cons, CasEvaluableFunction f) {
 		super(cons);
 		this.f = f;
+		System.out.println(f);
 		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
 	}
 

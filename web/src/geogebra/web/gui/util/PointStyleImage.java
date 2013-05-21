@@ -7,9 +7,9 @@ import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianStaticW;
-import geogebra.web.openjdk.awt.geom.Ellipse2D;
-import geogebra.web.openjdk.awt.geom.GeneralPath;
-import geogebra.web.openjdk.awt.geom.Line2D;
+import geogebra.html5.openjdk.awt.geom.Ellipse2D;
+import geogebra.html5.openjdk.awt.geom.GeneralPath;
+import geogebra.html5.openjdk.awt.geom.Line2D;
 
 import com.google.gwt.canvas.client.Canvas;
 

@@ -1751,7 +1751,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// PROCESS MODE
 	
 	@Override
-	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent e){
+	protected boolean switchModeForProcessMode(Hits hits, boolean isControlDown){
 		
 		boolean changedKernel = false;
 		
@@ -1813,7 +1813,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 
 		default:
-			changedKernel = super.switchModeForProcessMode(hits, e);
+			changedKernel = super.switchModeForProcessMode(hits, isControlDown);
 		}
 		
 		
@@ -3049,7 +3049,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (handledGeo!=null){
-			AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+			AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 			setMouseLocation(event);
 			event.release();
 			updateTranslationVector();

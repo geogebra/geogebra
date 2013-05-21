@@ -9,8 +9,8 @@ import geogebra.common.awt.GShape;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
-import geogebra.web.helper.ImageLoadCallback;
-import geogebra.web.helper.ImageWrapper;
+import geogebra.html5.util.ImageLoadCallback;
+import geogebra.html5.util.ImageWrapper;
 
 import com.google.gwt.core.client.Scheduler;
 

@@ -8,10 +8,10 @@ import geogebra.common.awt.GRectangle2D;
 
 public class GArc2DW extends geogebra.common.awt.GArc2D implements GShapeW {
 
-	private geogebra.web.openjdk.awt.geom.Arc2D.Double impl;
+	private geogebra.html5.openjdk.awt.geom.Arc2D.Double impl;
 
 	public GArc2DW(){
-		impl = new geogebra.web.openjdk.awt.geom.Arc2D.Double();
+		impl = new geogebra.html5.openjdk.awt.geom.Arc2D.Double();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {
@@ -68,13 +68,13 @@ public class GArc2DW extends geogebra.common.awt.GArc2D implements GShapeW {
 
 	@Override
 	public GPoint2D getStartPoint() {
-		geogebra.web.openjdk.awt.geom.Point2D p = impl.getStartPoint();
+		geogebra.html5.openjdk.awt.geom.Point2D p = impl.getStartPoint();
 		return new GPoint2D.Double(p.getX(), p.getY());
 	}
 
 	@Override
 	public GPoint2D getEndPoint() {
-		geogebra.web.openjdk.awt.geom.Point2D p = impl.getEndPoint();
+		geogebra.html5.openjdk.awt.geom.Point2D p = impl.getEndPoint();
 		return new GPoint2D.Double(p.getX(), p.getY());
 	}
 
@@ -85,7 +85,7 @@ public class GArc2DW extends geogebra.common.awt.GArc2D implements GShapeW {
 	    
     }
 
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 	    return impl;
     }
 

@@ -2,7 +2,6 @@ package geogebra.html5.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.web.gui.util.PopupMenuButton;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -47,16 +46,6 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 	private native void setRangeValue(Element range, String value) /*-{
 	   range.value = value;
     }-*/;
-
-	public void removeChangeListener(PopupMenuButton popupMenuButton) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void addChangeListener(PopupMenuButton popupMenuButton) {
-		addChangeHandler(popupMenuButton);
-    }
-	
 
 	public Integer getValue() {
 	   return Integer.valueOf(getRangeValue(range));

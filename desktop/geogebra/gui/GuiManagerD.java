@@ -2932,7 +2932,7 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
-		setFocusedPanel(geogebra.euclidian.event.MouseEvent.getEvent(event), updatePropertiesView);
+		setFocusedPanel(geogebra.euclidian.event.MouseEventD.getEvent(event), updatePropertiesView);
 	}
 
 	@Override

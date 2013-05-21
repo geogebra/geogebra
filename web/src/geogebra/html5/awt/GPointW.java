@@ -3,14 +3,14 @@ package geogebra.html5.awt;
 
 public class GPointW extends geogebra.common.awt.GPoint {
 	
-	private geogebra.web.openjdk.awt.geom.Point impl;
+	private geogebra.html5.openjdk.awt.geom.Point impl;
 
 	public GPointW() {
-		impl = new geogebra.web.openjdk.awt.geom.Point();
+		impl = new geogebra.html5.openjdk.awt.geom.Point();
 	}
 	
 	public GPointW(int x, int y) {
-		impl = new geogebra.web.openjdk.awt.geom.Point(x, y);
+		impl = new geogebra.html5.openjdk.awt.geom.Point(x, y);
 	}
 	
 	

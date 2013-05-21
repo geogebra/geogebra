@@ -210,8 +210,8 @@ implements DragGestureListener, DragSourceListener {
 	@Override
 	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev, GeoElement geo, MouseEvent e){
 		// let euclidianView know about the click
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
-		ev.clickedGeo(geo, event);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
+		ev.clickedGeo(geo, app.isControlDown(event));
 		event.release();
 		
 		//if click created a geo, notify app to select it

@@ -15,7 +15,6 @@ package geogebra.html5.gui.view.algebra;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -25,8 +24,6 @@ import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
-import geogebra.web.euclidian.event.MouseEvent;
-import geogebra.web.euclidian.event.ZeroOffset;
 
 import java.util.Iterator;
 
@@ -477,8 +474,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			AbstractEvent event2 = MouseEvent.wrapEvent(evt.getNativeEvent(),ZeroOffset.instance);
-			app.getActiveEuclidianView().clickedGeo(geo, event2);
+			app.getActiveEuclidianView().clickedGeo(geo, evt.getNativeEvent().getCtrlKey());
 			//event.release();
 		} else 
 			// tell selection listener about click

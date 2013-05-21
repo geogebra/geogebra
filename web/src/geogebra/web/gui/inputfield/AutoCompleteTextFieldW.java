@@ -438,8 +438,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 
 	public void addFocusListener(FocusListener listener) {
-		textField.getValueBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		textField.getValueBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
+		textField.getValueBox().addFocusHandler((geogebra.html5.event.FocusListener) listener);
+		textField.getValueBox().addBlurHandler((geogebra.html5.event.FocusListener) listener);	    
     }
 	
 	public void wrapSetText(String s) {

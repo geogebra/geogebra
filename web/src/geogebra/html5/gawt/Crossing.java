@@ -21,8 +21,8 @@
 
 package geogebra.html5.gawt;
 
-import geogebra.web.openjdk.awt.geom.PathIterator;
-import geogebra.web.openjdk.awt.geom.Shape;
+import geogebra.html5.openjdk.awt.geom.PathIterator;
+import geogebra.html5.openjdk.awt.geom.Shape;
 
 public class Crossing {
 

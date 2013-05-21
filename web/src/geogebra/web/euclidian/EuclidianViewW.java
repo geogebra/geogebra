@@ -13,10 +13,10 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
+import geogebra.html5.util.ImageLoadCallback;
+import geogebra.html5.util.ImageWrapper;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
-import geogebra.web.helper.ImageLoadCallback;
-import geogebra.web.helper.ImageWrapper;
 import geogebra.web.main.AppW;
 
 import java.util.List;

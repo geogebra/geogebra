@@ -2,14 +2,14 @@ package geogebra.html5.awt;
 
 public class GPoint2DW extends geogebra.common.awt.GPoint2D {
 	
-	private geogebra.web.openjdk.awt.geom.Point2D.Double impl;
+	private geogebra.html5.openjdk.awt.geom.Point2D.Double impl;
 
 	public GPoint2DW() {
-		impl = new geogebra.web.openjdk.awt.geom.Point2D.Double();
+		impl = new geogebra.html5.openjdk.awt.geom.Point2D.Double();
 	}
 	
 	public GPoint2DW(double x, double y) {
-		impl = new geogebra.web.openjdk.awt.geom.Point2D.Double(x, y);
+		impl = new geogebra.html5.openjdk.awt.geom.Point2D.Double(x, y);
 	}
 	
 	
@@ -42,10 +42,10 @@ public class GPoint2DW extends geogebra.common.awt.GPoint2D {
 	    return impl.distance(x,y);
     }
 
-	public static geogebra.web.openjdk.awt.geom.Point2D.Double getGawtPoint2D(
+	public static geogebra.html5.openjdk.awt.geom.Point2D.Double getGawtPoint2D(
 			geogebra.common.awt.GPoint2D p) {
 		if (p==null) return null;
-		return new geogebra.web.openjdk.awt.geom.Point2D.Double(p.getX(),p.getY());
+		return new geogebra.html5.openjdk.awt.geom.Point2D.Double(p.getX(),p.getY());
     }
 
 }

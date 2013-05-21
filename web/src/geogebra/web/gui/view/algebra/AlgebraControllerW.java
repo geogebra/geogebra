@@ -7,7 +7,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.web.euclidian.event.MouseEvent;
+import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.ZeroOffset;
 
 import java.util.Iterator;
@@ -140,9 +140,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			AbstractEvent event = e;
-			ev.clickedGeo(geo, event);
-			event.release();
+			ev.clickedGeo(geo, app.isControlDown(e));
 		} else 
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);
@@ -272,16 +270,16 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 	public void dropActionChanged(AbstractEvent e) {}
 
 	public void onMouseDown(MouseDownEvent event) {
-		mousePressed(MouseEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mousePressed(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
 		// TODO: make it care for mouse down too 
-		mouseClicked(MouseEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseClicked(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		mouseMoved(MouseEvent.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
+		mouseMoved(MouseEventW.wrapEvent(event.getNativeEvent(),ZeroOffset.instance));
 	}
 
 	public void onMouseOver(MouseOverEvent event) {

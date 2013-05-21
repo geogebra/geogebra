@@ -10,12 +10,12 @@ import geogebra.common.main.App;
 
 public class GenericShape implements geogebra.html5.awt.GShapeW {
 
-	private geogebra.web.openjdk.awt.geom.Shape impl;
+	private geogebra.html5.openjdk.awt.geom.Shape impl;
 	
 	private GenericShape(){}
 	
 	
-	public GenericShape(geogebra.web.openjdk.awt.geom.Shape s) {
+	public GenericShape(geogebra.html5.openjdk.awt.geom.Shape s) {
 	    impl = s;
     }
 
@@ -70,7 +70,7 @@ public class GenericShape implements geogebra.html5.awt.GShapeW {
 	}
 
 
-	public static geogebra.web.openjdk.awt.geom.Shape getGawtShape(GShape shape) {
+	public static geogebra.html5.openjdk.awt.geom.Shape getGawtShape(GShape shape) {
 		if (shape == null)
 			return null;
 		GShape shapeCommon = shape instanceof GeneralPathClipped ?
@@ -84,7 +84,7 @@ public class GenericShape implements geogebra.html5.awt.GShapeW {
 	}
 
 
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 	    return impl;
     }
 

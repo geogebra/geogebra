@@ -8,7 +8,7 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
-import geogebra.web.openjdk.awt.geom.Polygon;
+import geogebra.html5.openjdk.awt.geom.Polygon;
 
 import java.util.HashMap;
 

@@ -11,7 +11,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.web.euclidian.event.HasOffsets;
-import geogebra.web.euclidian.event.MouseEvent;
+import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -164,7 +164,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			 }
 		}
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
-			AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+			AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 			this.waitingTouchMove = e;
 			this.waitingMouseMove = null;
 			GeoGebraProfiler.moveEventsIgnored++;
@@ -217,14 +217,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onDoubleClick(DoubleClickEvent event) {
 		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
 
 	public void onClick(ClickEvent event) {
 		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
@@ -232,7 +232,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
 		 event.preventDefault();
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),event.getDeltaY(),this);
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),event.getDeltaY(),this);
 		 wrapMouseWheelMoved(e);
 		 e.release();
 	}
@@ -255,7 +255,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				((AppW)app).getToolTipManager().hideToolTip();
 		}
 		
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
 	}
@@ -265,7 +265,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
 		event.preventDefault();
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 			this.waitingMouseMove = e;
 			this.waitingTouchMove = null;
@@ -298,7 +298,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		//hide dialogs if they are open
 		((GuiManagerW)app.getGuiManager()).removePopup();
 
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
 		e.release();
 	}
@@ -313,7 +313,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 			
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMousePressed(e);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty()) {
@@ -347,8 +347,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return app.showResetIcon()
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
-	private LinkedList<MouseEvent> mousePool = new LinkedList<MouseEvent>();
-	public LinkedList<MouseEvent> getMouseEventPool() {
+	private LinkedList<MouseEventW> mousePool = new LinkedList<MouseEventW>();
+	public LinkedList<MouseEventW> getMouseEventPool() {
 	    return mousePool;
     }
 	private LinkedList<TouchEvent> touchPool = new LinkedList<TouchEvent>();

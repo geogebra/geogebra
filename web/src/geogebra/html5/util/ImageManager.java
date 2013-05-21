@@ -6,8 +6,6 @@ import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.helper.ImageLoadCallback;
-import geogebra.web.helper.ImageWrapper;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

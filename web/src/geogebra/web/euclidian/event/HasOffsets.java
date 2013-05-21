@@ -7,6 +7,6 @@ public interface HasOffsets {
 	public int getYoffset();
 	public boolean isOffsetsUpToDate();
 	public void updateOffsets();	
-	public LinkedList<MouseEvent> getMouseEventPool();
+	public LinkedList<MouseEventW> getMouseEventPool();
 	public LinkedList<TouchEvent> getTouchEventPool();
 }

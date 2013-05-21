@@ -22,8 +22,6 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-//import geogebra.web.euclidian.EuclidianViewW;
-//import geogebra.web.euclidian.EuclidianViewW;
 
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
         SetLabels, AlgebraView, OpenHandler<TreeItem> {

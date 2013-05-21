@@ -7,10 +7,10 @@ import geogebra.common.awt.GRectangle2D;
 
 public class GQuadCurve2DW extends geogebra.common.awt.GQuadCurve2D implements GShapeW{
 
-	private geogebra.web.openjdk.awt.geom.QuadCurve2D.Double impl;
+	private geogebra.html5.openjdk.awt.geom.QuadCurve2D.Double impl;
 	
 	public GQuadCurve2DW(){
-		impl = new geogebra.web.openjdk.awt.geom.QuadCurve2D.Double();
+		impl = new geogebra.html5.openjdk.awt.geom.QuadCurve2D.Double();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {
@@ -61,7 +61,7 @@ public class GQuadCurve2DW extends geogebra.common.awt.GQuadCurve2D implements G
 		impl.setCurve(parpoints, i);
 	}
 
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 	    return impl;
     }
 

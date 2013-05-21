@@ -1,7 +1,7 @@
 package geogebra.web.gui.dialog.options;
 
+import geogebra.html5.openjdk.awt.geom.Dimension;
 import geogebra.web.main.AppW;
-import geogebra.web.openjdk.awt.geom.Dimension;
 
 public class OptionsObjectW extends
         geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {

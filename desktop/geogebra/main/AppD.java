@@ -4646,17 +4646,17 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public boolean isRightClick(AbstractEvent e) {
-		return isRightClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
+		return isRightClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
 	}
 
 	@Override
 	public boolean isControlDown(AbstractEvent e) {
-		return isControlDown(geogebra.euclidian.event.MouseEvent.getEvent(e));
+		return isControlDown(geogebra.euclidian.event.MouseEventD.getEvent(e));
 	}
 
 	@Override
 	public boolean isMiddleClick(AbstractEvent e) {
-		return isMiddleClick(geogebra.euclidian.event.MouseEvent.getEvent(e));
+		return isMiddleClick(geogebra.euclidian.event.MouseEventD.getEvent(e));
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {

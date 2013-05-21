@@ -13,18 +13,18 @@ import geogebra.common.awt.GShape;
  */
 public class GAreaW implements geogebra.common.awt.GArea, geogebra.html5.awt.GShapeW {
 	
-	private geogebra.web.openjdk.awt.geom.Area impl;
+	private geogebra.html5.openjdk.awt.geom.Area impl;
 	/**
 	 * Creates new area
 	 */
 	public GAreaW() {
-		impl = new geogebra.web.openjdk.awt.geom.Area();
+		impl = new geogebra.html5.openjdk.awt.geom.Area();
 	}
 	/**
 	 * Creates new area
 	 */
 	public GAreaW(GShape shape) {
-		impl = new geogebra.web.openjdk.awt.geom.Area(geogebra.html5.awt.GenericShape.getGawtShape(shape));
+		impl = new geogebra.html5.openjdk.awt.geom.Area(geogebra.html5.awt.GenericShape.getGawtShape(shape));
 	}
 
 	public boolean intersects(int i, int j, int k, int l) {
@@ -59,13 +59,13 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.html5.awt.GSh
 	
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new geogebra.html5.awt.GPathIteratorW(
-				impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) affineTransform));
+				impl.getPathIterator((geogebra.html5.openjdk.awt.geom.AffineTransform) affineTransform));
 	}
 
 	
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new geogebra.html5.awt.GPathIteratorW(
-				impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) at, flatness));
+				impl.getPathIterator((geogebra.html5.openjdk.awt.geom.AffineTransform) at, flatness));
 	}
 
 	
@@ -103,7 +103,7 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.html5.awt.GSh
 	 * @param shape
 	 * @return wrapped area or null in case of wrong input type
 	 */
-	public static geogebra.web.openjdk.awt.geom.Area getGawtArea(geogebra.common.awt.GArea shape){
+	public static geogebra.html5.openjdk.awt.geom.Area getGawtArea(geogebra.common.awt.GArea shape){
 		if(!(shape instanceof GAreaW))
 			return null;
 		return ((GAreaW)shape).impl;
@@ -112,7 +112,7 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.html5.awt.GSh
 	    return impl.isEmpty();
     }
 	
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 	    return impl;
     }
 

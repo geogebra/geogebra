@@ -20,8 +20,8 @@ public class ZeroOffset implements HasOffsets {
 	    // nothing to update
     }
 	public static final ZeroOffset instance = new ZeroOffset();
-	private LinkedList<MouseEvent> mousePool = new LinkedList<MouseEvent>();
-	public LinkedList<MouseEvent> getMouseEventPool() {
+	private LinkedList<MouseEventW> mousePool = new LinkedList<MouseEventW>();
+	public LinkedList<MouseEventW> getMouseEventPool() {
 	    return mousePool;
     }
 	private LinkedList<TouchEvent> touchPool = new LinkedList<TouchEvent>();

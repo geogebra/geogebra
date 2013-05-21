@@ -684,9 +684,9 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	public void setGridLineStyle(int type);
 	/**
 	 * @param geo geo
-	 * @param e click event
+	 * @param isControlDown whether control key is down (multiple selection)
 	 */
-	public void clickedGeo(GeoElement geo, AbstractEvent e);
+	public void clickedGeo(GeoElement geo, boolean isControlDown);
 	/**
 	 * @param geo geo that mouse moved over
 	 */

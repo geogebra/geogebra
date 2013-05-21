@@ -7,10 +7,10 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
 public class GLine2DW extends geogebra.common.awt.GLine2D implements GShapeW {
-	private geogebra.web.openjdk.awt.geom.Line2D impl;
+	private geogebra.html5.openjdk.awt.geom.Line2D impl;
 	
 	public GLine2DW() {
-		impl = new geogebra.web.openjdk.awt.geom.Line2D.Double();
+		impl = new geogebra.html5.openjdk.awt.geom.Line2D.Double();
 	}
 	
 	public boolean intersects(int x, int y, int w, int h) {
@@ -44,12 +44,12 @@ public class GLine2DW extends geogebra.common.awt.GLine2D implements GShapeW {
 
 	
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return (GPathIterator) impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) affineTransform);
+		return (GPathIterator) impl.getPathIterator((geogebra.html5.openjdk.awt.geom.AffineTransform) affineTransform);
 	}
 
 	
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return (GPathIterator) impl.getPathIterator((geogebra.web.openjdk.awt.geom.AffineTransform) at, flatness);
+		return (GPathIterator) impl.getPathIterator((geogebra.html5.openjdk.awt.geom.AffineTransform) at, flatness);
 	}
 
 	
@@ -63,7 +63,7 @@ public class GLine2DW extends geogebra.common.awt.GLine2D implements GShapeW {
 	}
 
 	
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 		return impl;
 	}
 
@@ -74,14 +74,14 @@ public class GLine2DW extends geogebra.common.awt.GLine2D implements GShapeW {
 
 	@Override
     public GPoint2D getP1() {
-		geogebra.web.openjdk.awt.geom.Point2D p = impl.getP1();
+		geogebra.html5.openjdk.awt.geom.Point2D p = impl.getP1();
 		if (p==null) return null;
 		return new geogebra.html5.awt.GPoint2DW(p.getX(), p.getY());
     }
 
 	@Override
     public GPoint2D getP2() {
-		geogebra.web.openjdk.awt.geom.Point2D p2 = impl.getP2();
+		geogebra.html5.openjdk.awt.geom.Point2D p2 = impl.getP2();
 		if (p2==null) return null;
 		return new geogebra.html5.awt.GPoint2DW(p2.getX(), p2.getY());
     }

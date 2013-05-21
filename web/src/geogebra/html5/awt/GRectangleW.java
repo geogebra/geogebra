@@ -4,10 +4,10 @@ import geogebra.common.awt.GPoint2D;
 
 public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geogebra.common.awt.GRectangle {
 	
-	private geogebra.web.openjdk.awt.geom.Rectangle impl;
+	private geogebra.html5.openjdk.awt.geom.Rectangle impl;
 	
 	public GRectangleW() {
-		impl = new geogebra.web.openjdk.awt.geom.Rectangle();
+		impl = new geogebra.html5.openjdk.awt.geom.Rectangle();
 	}
 	
 	public GRectangleW(geogebra.common.awt.GRectangle r) {
@@ -15,15 +15,15 @@ public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geo
 	}
 	
 	public GRectangleW(int w, int h) {
-		impl = new geogebra.web.openjdk.awt.geom.Rectangle(w, h);
+		impl = new geogebra.html5.openjdk.awt.geom.Rectangle(w, h);
 	}
 	
-	public GRectangleW(geogebra.web.openjdk.awt.geom.Rectangle r) {
-	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(r.x, r.y, r.width, r.height);    
+	public GRectangleW(geogebra.html5.openjdk.awt.geom.Rectangle r) {
+	    impl = new geogebra.html5.openjdk.awt.geom.Rectangle(r.x, r.y, r.width, r.height);    
 	}
 
 	public GRectangleW(int x, int y, int w, int h) {
-	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(x, y, w, h);
+	    impl = new geogebra.html5.openjdk.awt.geom.Rectangle(x, y, w, h);
     }
 
 	@Override
@@ -103,7 +103,7 @@ public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geo
 		impl.add(x, y);
 	}
 	
-	public static geogebra.web.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.GRectangle r) {
+	public static geogebra.html5.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.GRectangle r) {
 		if(!(r instanceof GRectangleW))
 			return null;
 		return ((GRectangleW)r).impl;
@@ -126,7 +126,7 @@ public class GRectangleW extends geogebra.html5.awt.GRectangle2DW implements geo
     }
 	
 	@Override
-    protected geogebra.web.openjdk.awt.geom.Rectangle getImpl(){
+    protected geogebra.html5.openjdk.awt.geom.Rectangle getImpl(){
 		return impl;
 	}
 }

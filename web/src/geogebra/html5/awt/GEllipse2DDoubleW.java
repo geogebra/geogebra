@@ -4,15 +4,15 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.web.openjdk.awt.geom.Shape;
+import geogebra.html5.openjdk.awt.geom.Shape;
 
 public class GEllipse2DDoubleW implements geogebra.common.awt.GEllipse2DDouble,
 geogebra.html5.awt.GShapeW{
 
-	private geogebra.web.openjdk.awt.geom.Ellipse2D.Double impl;
+	private geogebra.html5.openjdk.awt.geom.Ellipse2D.Double impl;
 	
 	public GEllipse2DDoubleW(){
-		impl = new geogebra.web.openjdk.awt.geom.Ellipse2D.Double();
+		impl = new geogebra.html5.openjdk.awt.geom.Ellipse2D.Double();
 	}
 	
 	public boolean intersects(int i, int j, int k, int l) {

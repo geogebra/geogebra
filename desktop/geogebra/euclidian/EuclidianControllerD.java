@@ -73,31 +73,31 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseclicked(event);
 		event.release();
 	}
 
 	public void mousePressed(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMousePressed(event);
 		event.release();
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseDragged(event);
 		event.release();
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseReleased(event);
 		event.release();
 	}
 
 	public void mouseMoved(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseMoved(event);
 		event.release();
 	}
@@ -107,7 +107,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseExited(MouseEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseExited(event);
 		event.release();
 	}
@@ -191,7 +191,7 @@ public class EuclidianControllerD extends
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
 		wrapMouseWheelMoved(event);
 		event.release();
 	}

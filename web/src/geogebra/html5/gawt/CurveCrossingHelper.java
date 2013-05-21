@@ -19,7 +19,7 @@
 package geogebra.html5.gawt;
 
 
-import geogebra.web.openjdk.awt.geom.PathIterator;
+import geogebra.html5.openjdk.awt.geom.PathIterator;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -385,7 +385,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		mySlider.setPaintLabels(false);
 		//      mySlider.setSnapToTicks(true);
 		               
-		mySlider.addChangeListener(this);
+		mySlider.addChangeHandler(this);
 		
 		// set slider dimensions from css
 		  

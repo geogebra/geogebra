@@ -16,19 +16,19 @@ public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
     static final byte SEG_CUBICTO = (byte) GPathIterator.SEG_CUBICTO;
     static final byte SEG_CLOSE   = (byte) GPathIterator.SEG_CLOSE;
 
-    private geogebra.web.openjdk.awt.geom.GeneralPath impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
+    private geogebra.html5.openjdk.awt.geom.GeneralPath impl = new geogebra.html5.openjdk.awt.geom.GeneralPath();
 
 	public GeneralPath() {
-		impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
+		impl = new geogebra.html5.openjdk.awt.geom.GeneralPath();
 	}
 	
-	public GeneralPath(geogebra.web.openjdk.awt.geom.GeneralPath g) {
+	public GeneralPath(geogebra.html5.openjdk.awt.geom.GeneralPath g) {
 		impl = g;
 	}
 	
 	
 	public GeneralPath(int rule) {
-		impl = new geogebra.web.openjdk.awt.geom.GeneralPath(rule);
+		impl = new geogebra.html5.openjdk.awt.geom.GeneralPath(rule);
     }
 
 	public boolean intersects(int rx, int ry, int rw, int rh) {
@@ -81,7 +81,7 @@ public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
 	}
 
 	
-	public geogebra.web.openjdk.awt.geom.Shape getGawtShape() {
+	public geogebra.html5.openjdk.awt.geom.Shape getGawtShape() {
 		return impl;
 	}
 

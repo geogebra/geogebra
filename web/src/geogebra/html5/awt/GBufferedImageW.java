@@ -1,7 +1,7 @@
 package geogebra.html5.awt;
 
 import geogebra.common.awt.GGraphics2D;
-import geogebra.web.main.AppW;
+import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -32,7 +32,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 	    if (impl != null)
 		    impl = impl.cloneDeep();
 	    else
-			AppW.debug("BufferedImage (web) called with empty BufferedImage (web)");
+			App.debug("BufferedImage (web) called with empty BufferedImage (web)");
     }
 
 	// this constructor wraps the imageElement
@@ -40,7 +40,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 		if (imageElement != null)
 			impl = new geogebra.html5.gawt.BufferedImage(imageElement);
 		else
-			AppW.debug("BufferedImage (web) called with null ImageElement");
+			App.debug("BufferedImage (web) called with null ImageElement");
     }
 
 	public GBufferedImageW(ImageData imageData) {

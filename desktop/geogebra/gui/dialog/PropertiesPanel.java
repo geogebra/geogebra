@@ -1565,12 +1565,12 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		private void setOpacitySlider(GeoElement geo, float alpha) {
-			AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); 
+			/*AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); 
 			if (selectedBarButton != 0
 					&& algo.getBarAlpha(selectedBarButton) != -1) {
 				alpha = algo.getBarAlpha(selectedBarButton);
 			}
-			opacitySlider.setValue(Math.round(alpha * 100));
+			opacitySlider.setValue(Math.round(alpha * 100));*/
 		}
 
 		private void setChooser(GeoElement geo0) {

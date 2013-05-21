@@ -27,13 +27,13 @@ import geogebra.common.main.App;
 
 public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 
-	private geogebra.web.openjdk.awt.geom.AffineTransform at;
+	private geogebra.html5.openjdk.awt.geom.AffineTransform at;
 
 	public GAffineTransformW() {
-		at = new geogebra.web.openjdk.awt.geom.AffineTransform();
+		at = new geogebra.html5.openjdk.awt.geom.AffineTransform();
 	}
 
-	public GAffineTransformW(geogebra.web.openjdk.awt.geom.AffineTransform at) {
+	public GAffineTransformW(geogebra.html5.openjdk.awt.geom.AffineTransform at) {
 		this.at = at;
 	}
 
@@ -81,7 +81,7 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 	}
 
 	public GShape createTransformedShape(geogebra.common.awt.GShape shape) {
-		geogebra.web.openjdk.awt.geom.Shape ret = null;
+		geogebra.html5.openjdk.awt.geom.Shape ret = null;
 		ret = at.createTransformedShape(geogebra.html5.awt.GenericShape
 		        .getGawtShape(shape));
 		if (ret == null)
@@ -93,7 +93,7 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 	 * @param at2
 	 * @return
 	 */
-	public static geogebra.web.openjdk.awt.geom.AffineTransform getGawtAffineTransform(
+	public static geogebra.html5.openjdk.awt.geom.AffineTransform getGawtAffineTransform(
 	        geogebra.common.awt.GAffineTransform at2) {
 		if (!(at2 instanceof GAffineTransformW))
 			return null;
@@ -101,9 +101,9 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 	}
 
 	public void transform(GPoint2D p, GPoint2D p2) {
-		geogebra.web.openjdk.awt.geom.Point2D point = geogebra.html5.awt.GPoint2DW
+		geogebra.html5.openjdk.awt.geom.Point2D point = geogebra.html5.awt.GPoint2DW
 		        .getGawtPoint2D(p);
-		geogebra.web.openjdk.awt.geom.Point2D point2 = geogebra.html5.awt.GPoint2DW
+		geogebra.html5.openjdk.awt.geom.Point2D point2 = geogebra.html5.awt.GPoint2DW
 		        .getGawtPoint2D(p2);
 		at.transform(point, point2);
 		p2.setX(point2.getX());

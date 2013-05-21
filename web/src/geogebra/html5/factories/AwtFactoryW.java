@@ -105,15 +105,6 @@ public class AwtFactoryW extends AwtFactory {
 		return new geogebra.html5.awt.GPoint2DW(x, y);
 	}
 
-	/*@Override
-	public Point newPoint() {
-		return new geogebra.web.awt.Point();
-	}
-
-	@Override
-	public Point newPoint(int x, int y) {
-		return new geogebra.web.awt.Point(x, y);
-	}*/
 
 	@Override
 	public GRectangle newRectangle(int x, int y) {
@@ -219,7 +210,7 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
     public GTextLayout newTextLayout(String string, GFont fontLine,
             GFontRenderContext frc) {
-	    return new geogebra.web.awt.font.GTextLayoutW(string,fontLine,(geogebra.html5.awt.GFontRenderContextW) frc);
+	    return new geogebra.html5.awt.font.GTextLayoutW(string,fontLine,(geogebra.html5.awt.GFontRenderContextW) frc);
     }
 
 	@Override
@@ -240,7 +231,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public FocusListener newFocusListener(Object listener) {
-	    return new geogebra.web.euclidian.event.FocusListener(listener);
+	    return new geogebra.html5.event.FocusListener(listener);
     }
 
 	@Override

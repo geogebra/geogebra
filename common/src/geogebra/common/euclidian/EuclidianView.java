@@ -4653,7 +4653,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 	// for use in AlgebraController
 	final public void clickedGeo(GeoElement geo,
-			geogebra.common.euclidian.event.AbstractEvent event) {
+			boolean isControlDown) {
 		if (geo == null) {
 			return;
 		}
@@ -4663,7 +4663,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		getEuclidianController().startCollectingMinorRepaints();
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
-				event);
+				isControlDown);
 		if (changedKernel) {
 			getApplication().storeUndoInfo();
 		}
