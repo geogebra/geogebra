@@ -1752,8 +1752,67 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 	}
 
-	// Draw the grid
 	private void drawGrid() {
+		
+		geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
+		double[] GridDist = euclidianView.getGridDistances();
+		double myx = xmin;
+		long truncx = (long) myx;
+		double myy = ymin;
+		long truncy = (long) myy;
+		double RX = Math.abs(xmax - xmin) / GridDist[0] + 1;
+		long repx = (long) RX;
+		double RY = Math.abs(ymax - ymin) / GridDist[1] + 1;
+		long repy = (long) RY;
+
+		// environment pspicture
+
+		codeBeginPic.append("\\begin{pspicture*}(");
+		codeBeginPic.append(format(xmin));
+		codeBeginPic.append(",");
+		codeBeginPic.append(format(ymin));
+		codeBeginPic.append(")(");
+		codeBeginPic.append(format(xmax));
+		codeBeginPic.append(",");
+		codeBeginPic.append(format(ymax));
+		codeBeginPic.append(")\n");
+		initUnitAndVariable();
+
+		// My Grid eje y\multips(0,ymin)(0,griddisy){numero de
+		// repeticiones}{\psline(xmin,0)(xmax,0)}
+		codeBeginPic.append("\\multips(0,");
+		codeBeginPic.append(truncy);
+		codeBeginPic.append(")(0,");
+		codeBeginPic.append(sci2dec(GridDist[1] * yunit));
+		codeBeginPic.append("){");
+		codeBeginPic.append(repy);
+		codeBeginPic
+				.append("}{\\psline[linestyle=dashed,linecap=1,dash=1.5pt 1.5pt,linewidth=0.4pt,linecolor=");
+		ColorCode(GridCol, codeBeginPic);
+		codeBeginPic.append("]{c-c}(");
+		codeBeginPic.append(format(xmin));
+		codeBeginPic.append(",0)(");
+		codeBeginPic.append(format(xmax));
+		codeBeginPic.append(",0)}\n");
+		// My Grid eje
+		// x\multips(xmin,0)(griddisx,0){num}{\psline(0,ymin)(0,ymax)}
+		codeBeginPic.append("\\multips(");
+		codeBeginPic.append(truncx);
+		codeBeginPic.append(",0)(");
+		codeBeginPic.append(sci2dec(GridDist[0] * xunit));
+		codeBeginPic.append(",0){");
+		codeBeginPic.append(repx);
+		codeBeginPic
+				.append("}{\\psline[linestyle=dashed,linecap=1,dash=1.5pt 1.5pt,linewidth=0.4pt,linecolor=");
+		ColorCode(GridCol, codeBeginPic);
+		codeBeginPic.append("]{c-c}(0,");
+		codeBeginPic.append(format(ymin));
+		codeBeginPic.append(")(0,");
+		codeBeginPic.append(format(ymax));
+		codeBeginPic.append(")}\n");
+	}
+	// Draw the grid
+	/*private void drawGrid() {
 		geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
 		double[] GridDist = euclidianView.getGridDistances();
 		// int GridLine=euclidianView.getGridLineStyle();
@@ -1797,7 +1856,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		 * code.append("cm,yunit="); code.append(yunit); code.append("cm}\n");
 		 */
 
-	}
+	//}
 
 	// Draw Axis
 	private void drawAxis() {
