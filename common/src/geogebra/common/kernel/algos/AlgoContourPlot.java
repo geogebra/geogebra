@@ -78,12 +78,8 @@ public class AlgoContourPlot extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		list.setTypeStringForXML("ImplicitPoly");
-		input = new GeoElement[5];
+		input = new GeoElement[1];
 		input[0] = func;
-		input[1] = xmin_geo;
-		input[2] = xmax_geo;
-		input[3] = ymin_geo;
-		input[4] = ymax_geo;
 		setOutputLength(1);
 		setOutput(0, list);
 		setDependencies(); // done by AlgoElement
