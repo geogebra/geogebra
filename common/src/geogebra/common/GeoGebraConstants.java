@@ -118,4 +118,5 @@ public interface GeoGebraConstants {
 	public static final String GEOIP_URL = "http://www.geogebra.org/geoip/geoip_json.php";
 	public static final String GGT_FORGOT_PWD_URL = "http://www.geogebra.org/forum/ucp.php?mode=sendpassword";
 	public static final String GGT_REGISTER_URL = "http://www.geogebra.org/forum/ucp.php?mode=register";
+	public static final String APPLET_FOCUSED_BORDER_COLOR = "#D3D3D3";
 }

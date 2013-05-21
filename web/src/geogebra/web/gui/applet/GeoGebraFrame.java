@@ -175,7 +175,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			setBorder(ae, gf, "#FFFFFF", 0);
 			return;
 		}
-		setBorder(ae, gf, "#9999ff", 1);
+		setBorder(ae, gf, GeoGebraConstants.APPLET_FOCUSED_BORDER_COLOR, 1);
 	}
 	
 	public void runAsyncAfterSplash() {
