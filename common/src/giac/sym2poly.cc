@@ -2070,15 +2070,20 @@ namespace giac {
       gen a,num,den;
       a=e2r(arg[0],lv,contextptr);
       fxnd(a,num,den);
-      gen nd=num*den;
+      gen nd=num*den,out(1);
       gen nover2=rdiv(expnum,plus_two,contextptr);      
+      if (nd.type==_EXT && nd._EXTptr->type==_VECT){ // extract content
+	gen tmp=lgcd(*nd._EXTptr->_VECTptr);
+	out=pow(r2e(nd/tmp,lv,contextptr),expnum/expden,contextptr);
+	nd=tmp;
+      }
       if (nd.type==_INT_ || nd.type==_ZINT){
 	gen simpl,doubl;
 	bool pos;
 	zint2simpldoublpos(nd,simpl,doubl,pos,2,contextptr);
 	if (!pos) simpl=-simpl;
 	lin.push_back(*it);
-	lout.push_back(pow(doubl/abs(r2e(den,lv,contextptr),contextptr),expnum,contextptr)*pow(simpl,nover2,contextptr));
+	lout.push_back(pow(doubl/abs(r2e(den,lv,contextptr),contextptr),expnum,contextptr)*pow(simpl,nover2,contextptr)*out);
 	continue;
       }
       if (nd.type!=_POLY)
@@ -2098,7 +2103,7 @@ namespace giac {
       zint2simpldoublpos(cont,simpl,doubl,pos,2,contextptr);
       if (!pos) simpl=-simpl;
       simpl=r2e(simpl,lv,contextptr); // if simpl is not an integer
-      lout.push_back(pow(simpl,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr));
+      lout.push_back(pow(simpl,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr)*out);
     }
     return subst(e,lin,lout,false,contextptr);
   }
@@ -2346,7 +2351,7 @@ namespace giac {
     // return global_eval(normal(e_copy),100);
     gen res=normal(e_copy,distribute_div,contextptr);
     if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && !lop(res,at_rootof).empty())
-      return ratnormal(e_copy);
+      return ratnormal(normalize_sqrt(e_copy,contextptr));
     return res;
     // removed eval since it eats neg(x-y)
     // eval(normal(e_copy,distribute_div),contextptr);

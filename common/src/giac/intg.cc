@@ -324,12 +324,14 @@ namespace giac {
     gen a=args._VECTptr->front(),b=args._VECTptr->back(),c;
     if (is_zero(b))
       return undef;
-    if (!has_evalf(a,c,1,contextptr)){
-      return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
-    }
     c=_floor(b,contextptr);
     if (c.type==_FLOAT_)
       c=get_int(c._FLOAT_val);
+    if (!has_evalf(a,c,1,contextptr)){
+      if (c.type==_INT_ && c==b && c.val %2 ==0)
+	return pow(a,inv(c,contextptr),contextptr);	
+      return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
+    }
     if (c.type==_INT_ && c==b)
       return surd(a,c.val,contextptr);
     else
@@ -2349,8 +2351,22 @@ namespace giac {
     for (int i=2;i<s;++i){
       v[i]=eval(v[i],eval_level(contextptr),contextptr);
     }
-    // if (s>=4) this could take care of boundaries
-    v[0]=eval(v[0],eval_level(contextptr),contextptr); 
+    bool v0evaled=false;
+    if (s>=4){ // take care of boundaries when evaluating
+      gen xval=x.eval(1,contextptr);
+      gen a(v[2]),b(v[3]);
+      if (evalf_double(a,1,contextptr).type==_DOUBLE_ && evalf_double(b,1,contextptr).type==_DOUBLE_){
+	if (is_greater(v[2],v[3],contextptr)){
+	  a=v[3]; b=v[2];
+	}
+	giac_assume(symb_and(symb_superieur_egal(x,a),symb_inferieur_egal(x,b)),contextptr);
+	v[0]=eval(v[0],eval_level(contextptr),contextptr); 
+	v0evaled=true;
+	sto(xval,x,contextptr);
+      }
+    }
+    if (!v0evaled)
+      v[0]=eval(v[0],eval_level(contextptr),contextptr); 
     if (x._IDNTptr->quoted)
       *x._IDNTptr->quoted=quoted;    
     if (s>4 || (approx_mode(contextptr) && (s==4)) ){
