@@ -52,6 +52,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			
 			// not needed, Giac now outputs E
 			//ret = parserTools.convertScientificFloatNotation(ret);
+			
+			// convert x>3 && x<7 into 3<x<7
+			ret = checkInequalityInterval(ret);
 
 			return ret;
 		//} catch (TimeoutException toe) {

@@ -155,7 +155,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		ret = parserTools.convertScientificFloatNotation(ret);
 
 		ret = casParser.insertSpecialChars(ret); // undo special character handling
-
+		
+		// convert x>3 && x<7 into 3<x<7
+		ret = checkInequalityInterval(ret);
+		
 		return ret;
 	}
 

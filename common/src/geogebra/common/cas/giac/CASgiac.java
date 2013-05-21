@@ -22,6 +22,9 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * Platform (Java / GWT) independent part of giac CAS
  */
@@ -384,6 +387,35 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		
 		return result;
+	}
+	
+	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
+	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
+	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
+	private final static RegExp inequality = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
+
+	/**
+	 * convert x>3 && x<7 into 3<x<7
+	 * @param ret expression
+	 * @return converted expression if changed
+	 */
+	protected String checkInequalityInterval(String ret) {
+
+		MatchResult matcher = inequality.exec(ret);
+
+		boolean matchFound = (matcher != null); // equivalent to regExp.test(inputStr); 
+
+		if (matchFound && 
+				// check variable the same
+				// ie not x>5 && y<4
+				matcher.getGroup(2).equals(matcher.getGroup(7))) {			
+		    ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
+
+			App.debug("giac output (with inequality converted): " + ret);		
+		}
+		
+		return ret;
+
 	}
 
 	

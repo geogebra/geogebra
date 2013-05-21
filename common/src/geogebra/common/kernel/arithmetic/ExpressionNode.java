@@ -1679,8 +1679,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
 				break;
-			}else if (stringType.equals(StringType.MPREDUCE)) {
+			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sand", leftStr, rightStr);
+				break;
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append(leftStr);
+				sb.append("&&");
+				sb.append(rightStr);
 				break;
 			} else {
 				if(right.isExpressionNode()){
@@ -4476,9 +4481,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	private void appendInequality(StringBuilder sb, String leftStr, String rightStr, StringType stringType) {
 		
 		Operation op2 = operation;
+		
+		/* disabled: doesn't work with 3<x<4
 		ExpressionValue left2 = left;
 		ExpressionValue right2 = right;
-		
 		if (rightStr.length() == 1 && !StringUtil.isDigit(rightStr.charAt(0))
 				&& stringType == StringType.GEOGEBRA) {
 			// eg turn 3 > x into x < 3
@@ -4492,6 +4498,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			right2 = tempLeft;
 						
 		}
+		*/
 		
 		append(sb, leftStr, left, operation, stringType);
 		
