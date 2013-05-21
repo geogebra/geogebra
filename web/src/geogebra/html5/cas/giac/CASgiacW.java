@@ -1,4 +1,4 @@
-package geogebra.web.cas.giac;
+package geogebra.html5.cas.giac;
 
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;

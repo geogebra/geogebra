@@ -1,4 +1,4 @@
-package geogebra.web.gui.inputfield;
+package geogebra.html5.gui.inputfield;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
@@ -23,12 +23,11 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.html5.event.KeyEventsHandler;
+import geogebra.html5.event.KeyListenerW;
+import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.euclidian.event.KeyListenerW;
-import geogebra.web.gui.KeyEventsHandler;
-import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -347,7 +346,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		        syntaxString = loc.getCommandSyntax(cmdInt);
 		      }
 		      if (syntaxString.endsWith(isCASInput ? Localization.syntaxCAS
-		          : AppW.syntaxStr)) {
+		          : Localization.syntaxStr)) {
 
 		        // command not found, check for macros
 		        Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);

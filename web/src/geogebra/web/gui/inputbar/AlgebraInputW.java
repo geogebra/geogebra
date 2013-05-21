@@ -8,9 +8,9 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 

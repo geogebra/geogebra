@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.awt.GRectangle2DW;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;

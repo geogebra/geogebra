@@ -1,4 +1,4 @@
-package geogebra.web.euclidian.event;
+package geogebra.html5.event;
 
 import geogebra.common.main.App;
 

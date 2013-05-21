@@ -1,6 +1,6 @@
-package geogebra.web.gui.autocompletion;
+package geogebra.html5.gui.view.autocompletion;
 
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import java.util.ArrayList;
 import java.util.List;

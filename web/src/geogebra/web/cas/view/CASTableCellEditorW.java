@@ -1,7 +1,7 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASTableCellEditor;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 public class CASTableCellEditorW implements CASTableCellEditor{

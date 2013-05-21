@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;

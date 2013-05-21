@@ -1,4 +1,4 @@
-package geogebra.web.gui;
+package geogebra.html5.event;
 
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;

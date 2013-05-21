@@ -24,8 +24,8 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.awt.GBasicStrokeW;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.GlobalKeyDispatcherW;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;

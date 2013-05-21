@@ -6,14 +6,13 @@ import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
-import geogebra.web.cas.giac.CASgiacW;
-import geogebra.web.cas.mpreduce.CASmpreduceW;
+import geogebra.html5.cas.giac.CASgiacW;
 
 public class CASFactoryW extends CASFactory {
 
 	@Override
 	public CASmpreduce newMPReduce(CASparser p, CasParserTools t,Kernel kernel) {
-		return new CASmpreduceW(p, t, kernel);
+		throw new IllegalArgumentException();
 	}
 
 	@Override

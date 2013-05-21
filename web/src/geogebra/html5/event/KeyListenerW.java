@@ -1,4 +1,4 @@
-package geogebra.web.euclidian.event;
+package geogebra.html5.event;
 
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.main.App;
@@ -18,7 +18,7 @@ public class KeyListenerW implements KeyPressHandler {
 		                                    // Auto-generated
 		                                    // method stub
 
-		geogebra.web.euclidian.event.KeyEvent event = geogebra.web.euclidian.event.KeyEvent
+		geogebra.html5.event.KeyEvent event = geogebra.html5.event.KeyEvent
 		        .wrapEvent(e);
 		handler.keyReleased(event);
 		event.release();

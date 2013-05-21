@@ -1,4 +1,4 @@
-package geogebra.web.gui.inputfield;
+package geogebra.html5.gui.inputfield;
 
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.html5.main.AppWeb;

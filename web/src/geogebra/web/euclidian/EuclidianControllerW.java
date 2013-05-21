@@ -10,11 +10,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
