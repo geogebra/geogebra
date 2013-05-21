@@ -34,6 +34,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
+	private CasType casType;
 
 	/**
 	 * Creates new CAS interface
@@ -79,12 +80,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		try {
 			switch (CAS) {
 			case GIAC:
-				
+				casType = CasType.GIAC;
 				cas = getGiac();
 				app.getSettings().getCasSettings().addListener(cas);				
 				break;
 
 			default:
+				casType = CasType.MPREDUCE;
 				cas = getReduce();
 				app.getSettings().getCasSettings().addListener(cas);
 				break;
@@ -335,16 +337,49 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
 					if (args.get(0).isListValue()) {
+						if (casType == CasType.GIAC) {
+
+							sbCASCommand.append(toString(args.get(0), symbolic, tpl));
+							sbCASCommand.append('[');
+							
+							switch (ch) {
+							case 'x':
+							default:
+								sbCASCommand.append('0');
+								break;
+							case 'y':
+								sbCASCommand.append('1');
+								break;
+							case 'z':
+								sbCASCommand.append('2');
+								break;
+
+							}
+							sbCASCommand.append(']');
+
+							return sbCASCommand.toString();
+						
+						}
+						
+						// else MPReduce
 						sbCASCommand.append("applyfunction(");
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord,");
+						
 					} else if (args.get(0).hasCoords()) {
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord(");
 					} else {
-						sbCASCommand.append("multiplication(");
-						sbCASCommand.append(tpl.printVariableName(ch+""));
-						sbCASCommand.append(",");
+						if (casType == CasType.GIAC) {
+							sbCASCommand.append('(');
+							sbCASCommand.append(tpl.printVariableName(ch+""));
+							sbCASCommand.append('*');							
+						} else {
+							// Reduce
+							sbCASCommand.append("multiplication(");
+							sbCASCommand.append(tpl.printVariableName(ch+""));
+							sbCASCommand.append(",");
+						}	
 					}
 					handled = true;
 				}
