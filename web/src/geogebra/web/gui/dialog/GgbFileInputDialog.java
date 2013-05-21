@@ -26,7 +26,7 @@ public class GgbFileInputDialog extends FileInputDialog{
 			var files = this.files;
 			if (files.length) {
 				var fileToHandle = files[0];
-				appl.@geogebra.web.main.AppW::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::getNativeHideAndFocus()());
+				appl.@geogebra.html5.main.AppWeb::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::getNativeHideAndFocus()());
 			}
 
 		};

@@ -849,35 +849,6 @@ public class AppW extends AppWeb {
 	}-*/;
 
 	/**
-	 * Opens the ggb or ggt file
-	 * 
-	 * @param fileToHandle
-	 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
-	 *         returns false. Note that If the function returns true, it's don't
-	 *         mean, that the file opening was successful, and the opening
-	 *         finished already.
-	 */
-	public native boolean openFileAsGgb(JavaScriptObject fileToHandle,
-	        JavaScriptObject callback) /*-{
-		var ggbRegEx = /\.(ggb|ggt)$/i;
-		if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
-			return false;
-
-		var appl = this;
-		var reader = new FileReader();
-		reader.onloadend = function(ev) {
-			if (reader.readyState === reader.DONE) {
-				var fileStr = reader.result;
-				appl.@geogebra.web.main.AppW::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
-				if (callback != null)
-					callback();
-			}
-		};
-		reader.readAsDataURL(fileToHandle);
-		return true;
-	}-*/;
-
-	/**
 	 * Register file drop handlers for the canvas of this application
 	 */
 	native void registerFileDropHandlers(CanvasElement ce) /*-{

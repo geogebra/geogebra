@@ -39,6 +39,7 @@ import java.util.Map.Entry;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
@@ -635,7 +636,34 @@ public abstract class AppWeb extends App implements SetLabels{
 
 		}
 		
-					
+		/**
+		 * Opens the ggb or ggt file
+		 * 
+		 * @param fileToHandle
+		 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
+		 *         returns false. Note that If the function returns true, it's don't
+		 *         mean, that the file opening was successful, and the opening
+		 *         finished already.
+		 */
+		public native boolean openFileAsGgb(JavaScriptObject fileToHandle,
+		        JavaScriptObject callback) /*-{
+			var ggbRegEx = /\.(ggb|ggt)$/i;
+			if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
+				return false;
+
+			var appl = this;
+			var reader = new FileReader();
+			reader.onloadend = function(ev) {
+				if (reader.readyState === reader.DONE) {
+					var fileStr = reader.result;
+					appl.@geogebra.html5.main.AppWeb::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
+					if (callback != null)
+						callback();
+				}
+			};
+			reader.readAsDataURL(fileToHandle);
+			return true;
+		}-*/;					
 
 		protected void clearInputBar() {
 	        // TODO Auto-generated method stub
