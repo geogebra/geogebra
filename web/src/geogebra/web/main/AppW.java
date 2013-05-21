@@ -34,6 +34,7 @@ import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.sound.SoundManagerW;
+import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.Web;
@@ -60,7 +61,6 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
-import geogebra.web.html5.ArticleElement;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
 import geogebra.web.javax.swing.JPopupMenuW;
@@ -1962,5 +1962,11 @@ public class AppW extends AppWeb {
 		return constProtocolNavigation;
 	
     }
+	
+	public void notifyFileLoaded(){
+		if (this.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) this.getDialogManager()).isGoogleDriveChooserNull()) {
+			((DialogManagerW) this.getDialogManager()).getGoogleDriveFileChooser().hide();
+		}
+	}
 
 }

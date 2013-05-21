@@ -3,8 +3,6 @@ package geogebra.html5.util;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.html5.ArticleElement;
 
 import java.util.HashMap;
 
@@ -114,9 +112,7 @@ public class View {
 
 		App.debug("file loaded");
 		//This is used also by touch where dialog manager is null
-		if (app.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) app.getDialogManager()).isGoogleDriveChooserNull()) {
-			((DialogManagerW) app.getDialogManager()).getGoogleDriveFileChooser().hide();
-		}
+		app.notifyFileLoaded();
 		
 	}
 

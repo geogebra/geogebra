@@ -29,8 +29,7 @@ import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.ScriptLoadCallback;
-import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.html5.util.View;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -368,10 +367,8 @@ public abstract class AppWeb extends App implements SetLabels{
 			((DrawEquationWeb) getDrawEquation())
 			        .deleteLaTeXes((EuclidianViewWeb) getActiveEuclidianView());
 			getImageManager().reset();
-			if (useFullAppGui)
-				GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
-			else
-				GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
+			View view = new View(null,this);
+			view.processBase64String(dataUrl);
 		}
 		
 		private void loadFile(HashMap<String, String> archiveContent)
@@ -597,7 +594,7 @@ public abstract class AppWeb extends App implements SetLabels{
 
 		@Override
 		public final GeoElementGraphicsAdapter newGeoElementGraphicsAdapter() {
-			return new geogebra.web.kernel.geos.GeoElementGraphicsAdapter(this);
+			return new geogebra.html5.kernel.GeoElementGraphicsAdapter(this);
 		}
 		
 		@Override
@@ -646,6 +643,11 @@ public abstract class AppWeb extends App implements SetLabels{
         }
 
 		protected void resetStorageInfo() {
+	        // TODO Auto-generated method stub
+	        
+        }
+
+		public void notifyFileLoaded() {
 	        // TODO Auto-generated method stub
 	        
         }

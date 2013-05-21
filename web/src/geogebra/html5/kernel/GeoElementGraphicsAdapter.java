@@ -1,4 +1,4 @@
-package geogebra.web.kernel.geos;
+package geogebra.html5.kernel;
 
 
 import geogebra.common.awt.GBufferedImage;
@@ -44,7 +44,7 @@ public class GeoElementGraphicsAdapter extends
 		//if (fileName.startsWith("/geogebra")) { // internal image
 		//	ImageElement im = ((ImageManager) app
 		//			.getImageManager()).getImageResource(imageFileName);
-		//	image = new geogebra.web.awt.BufferedImage(ImageManager.toBufferedImage(im));
+		//	image = new geogebra.html5.awt.BufferedImage(ImageManager.toBufferedImage(im));
 
 		//} else {
 			image = app.getExternalImageAdapter(fileName);

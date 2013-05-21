@@ -9,7 +9,6 @@ import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.util.View;
-import geogebra.web.gui.app.GeoGebraAppFrame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,12 +43,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	
     public void setBase64(String base64) {
-    	if(GeoGebraAppFrame.fileLoader.getView()==null){
-    		View view = new View(RootPanel.getBodyElement(), (AppWeb) app);
-    		GeoGebraAppFrame.fileLoader.setView(view);
-    	}
-	    GeoGebraAppFrame.fileLoader.process(base64);
-	    
+    	View view = new View(RootPanel.getBodyElement(), (AppWeb) app);
+    	view.processBase64String(base64);	    
     }
 
 	
