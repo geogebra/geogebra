@@ -2548,12 +2548,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						}
 
 						if ((index > 0) && (index != Integer.MAX_VALUE)) {
-							int spaceIndex = leftStr.indexOf(' ');
-							sb.append(leftStr.substring(0, spaceIndex));
+							
+							String leftStrTrimmed = leftStr.trim();
+							
+							int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
+							sb.append(leftStrTrimmed.substring(0, spaceIndex));
 							sb.append(" ^{");
 							sb.append(rightStr);
 							sb.append("}");
-							sb.append(leftStr.substring(spaceIndex + 1)); // everything
+							sb.append(leftStrTrimmed.substring(spaceIndex + 1)); // everything
 							// except
 							// the
 							// "\\sin "
