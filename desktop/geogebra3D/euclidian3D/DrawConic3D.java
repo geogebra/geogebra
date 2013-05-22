@@ -77,20 +77,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	// method used only if surface is not transparent
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
-		
-		if(!isVisible()){
-			return;
+
+		if(isVisible() && getAlpha()>=1){
+			setSurfaceHighlightingColor();
+			drawSurfaceGeometry(renderer);		
 		}
-		
 
-		if (getAlpha()<1)
-			return;
-		
-		setSurfaceHighlightingColor();
-
-		drawSurfaceGeometry(renderer);
-		
-
+		drawTracesNotTranspSurface(renderer);
 		
 	}
 
@@ -486,35 +479,29 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
     
 
     @Override
-	public void drawTransp(Renderer renderer){
-    	if(!isVisible()){
-    		return;
+    public void drawTransp(Renderer renderer){
+    	
+    	if(isVisible() && hasTransparentAlpha()){
+    		setSurfaceHighlightingColor();
+    		drawSurfaceGeometry(renderer);
     	}
-
-
-    	if (!hasTransparentAlpha())
-    		return;
-
-    	setSurfaceHighlightingColor();
-
-    	drawSurfaceGeometry(renderer);
+    	
+    	drawTracesTranspSurface(renderer);
 
     }
     
     
 
 
-	@Override
-	public void drawHiding(Renderer renderer){
-		if(!isVisible())
-			return;
+    @Override
+    public void drawHiding(Renderer renderer){
+    	
+    	if(isVisible() && hasTransparentAlpha()){
+    		drawSurfaceGeometry(renderer);
+    	}
+    	
+    	drawTracesHidingSurface(renderer);
 
-		if (!hasTransparentAlpha())
-			return;
-		
-		
-		drawSurfaceGeometry(renderer);
-		
 	}
 	
 	

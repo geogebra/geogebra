@@ -322,7 +322,7 @@ public class DrawConic extends Drawable implements Previewable {
 			return;
 
 		// draw trace
-		if (conic.trace) {
+		if (conic.getTrace()) {
 			isTracing = true;
 			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)

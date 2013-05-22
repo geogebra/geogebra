@@ -105,8 +105,6 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	protected GAffineTransform transform;
 	/** old value of transform */
 	protected GAffineTransform oldTransform;
-	/** true if should be traced */
-	public boolean trace;	
 
 
 	/** translation vector (midpoint, vertex) */    

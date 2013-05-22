@@ -186,6 +186,7 @@ implements Previewable {
 					surface.start();
 					surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), longitude);
 					setGeometryIndex(surface.end());
+					recordTrace();
 				}
 							
 			}

@@ -146,7 +146,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 
 			// draw trace
-			if (conicPart.trace) {
+			if (conicPart.getTrace()) {
 				isTracing = true;
 				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)

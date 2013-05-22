@@ -19,6 +19,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.ChangeableCoordParent;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.Traceable;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ import java.util.ArrayList;
  * @author matthieu
  *
  */
-public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDConstants{
+public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDConstants,
+Traceable{
 	
 	
 	private int dimension;	
@@ -598,7 +600,26 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 		
 		
 	
-	
+
+		//////////////////
+		// TRACE
+		//////////////////
+
+		private boolean trace;	
+		
+		@Override
+		public boolean isTraceable() {
+			return true;
+		}
+
+		public void setTrace(boolean trace) {
+			this.trace = trace;
+		}
+
+		public boolean getTrace() {
+			return trace;
+		}
+		
 	
 	
 	

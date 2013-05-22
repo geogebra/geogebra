@@ -60,7 +60,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 			drawGeometry(renderer);
 		}
 
-		drawTraces(renderer);
+		drawTracesOutline(renderer);
 
 	}
 
@@ -96,7 +96,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 	public void drawHidden(Renderer renderer){
 		super.drawHidden(renderer);
 		
-		drawTraces(renderer);
+		drawTracesOutline(renderer);
 
 	}
 	

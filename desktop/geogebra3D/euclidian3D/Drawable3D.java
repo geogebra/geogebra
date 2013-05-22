@@ -279,6 +279,7 @@ public abstract class Drawable3D extends DrawableND {
 		
 		if (waitForUpdate && isVisible){
 			if (updateForItSelf()){
+				recordTrace();
 				waitForUpdate = false;
 			}
 			setLabelWaitForUpdate();//TODO remove that
@@ -420,9 +421,6 @@ public abstract class Drawable3D extends DrawableND {
 	protected void setGeometryIndex(int index){
 		removeGeometryIndex(geomIndex);
 		geomIndex = index;
-		if (hasTrace()){
-			recordTrace();
-		}
 	}
 	
 	
@@ -914,9 +912,10 @@ public abstract class Drawable3D extends DrawableND {
 		
 		if(doHighlighting()){
 			Manager manager = getView3D().getRenderer().getGeometryManager();
-			getView3D().getRenderer().setColor(manager.getHigthlighting(surfaceColor,surfaceColorHighlighted));
-		}else
-			getView3D().getRenderer().setColor(surfaceColor);
+			setDrawingColor(manager.getHigthlighting(surfaceColor,surfaceColorHighlighted));
+		}else{
+			setDrawingColor(surfaceColor);
+		}
 	}	
 	
 
@@ -1138,22 +1137,39 @@ public abstract class Drawable3D extends DrawableND {
     
 	
 
-	private TreeMap<TraceSettings,ArrayList<Integer>> trace;
+	private TreeMap<TraceSettings,ArrayList<TraceIndex>> trace;
 	
 	private TraceSettings traceSettingsCurrent;
 	
-	private int lastTraceIndex = -1;
-	private ArrayList<Integer> lastTraceIndices;
-	
-	private void recordTrace(){
-		if (trace == null){
-			trace = new TreeMap<TraceSettings, ArrayList<Integer>>(); 
-			traceSettingsCurrent = new TraceSettings(color);
+	private class TraceIndex{
+		public int geom, surface;
+		public TraceIndex(int geom, int surface){
+			this.geom = geom;
+			this.surface = surface;
 		}
 		
-		ArrayList<Integer> indices = trace.get(traceSettingsCurrent);
+	}
+	
+	private TraceIndex lastTraceIndex;
+	private ArrayList<TraceIndex> lastTraceIndices;
+	
+	
+	
+	final protected void recordTrace(){
+
+		if (!hasTrace()){
+			return;
+		}
+		
+		if (trace == null){
+			trace = new TreeMap<TraceSettings, ArrayList<TraceIndex>>(); 
+			traceSettingsCurrent = new TraceSettings(color, alpha);
+		}
+		
+		traceSettingsCurrent.setAlpha(alpha);
+		ArrayList<TraceIndex> indices = trace.get(traceSettingsCurrent);
 		if (indices==null){
-			indices = new ArrayList<Integer>();
+			indices = new ArrayList<TraceIndex>();
 			trace.put(traceSettingsCurrent.clone(),indices);
 		}
 		
@@ -1163,7 +1179,7 @@ public abstract class Drawable3D extends DrawableND {
 		}
 		
 		lastTraceIndices = indices;
-		lastTraceIndex = geomIndex;
+		lastTraceIndex = new TraceIndex(geomIndex, surfaceIndex);
 
 	}
 	
@@ -1172,7 +1188,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * draw traces
 	 * @param renderer renderer
 	 */
-	protected void drawTraces(Renderer renderer){
+	final protected void drawTracesOutline(Renderer renderer){
 
 		if (trace==null){
 			return;
@@ -1180,23 +1196,99 @@ public abstract class Drawable3D extends DrawableND {
 
 		
 		for (TraceSettings settings : trace.keySet()){
-			ArrayList<Integer> indices = trace.get(settings);
+			ArrayList<TraceIndex> indices = trace.get(settings);
 			setDrawingColor(settings.getColor());
-			for (int i : indices){
-				renderer.getGeometryManager().draw(i);
+			//App.debug(indices.size());
+			for (TraceIndex index : indices){
+				renderer.getGeometryManager().draw(index.geom);
+			}
+		}
+		
+	}
+	
+	/**
+	 * draw traces
+	 * @param renderer renderer
+	 */
+	final protected void drawTracesTranspSurface(Renderer renderer){
+
+		if (trace==null){
+			return;
+		}
+
+
+		for (TraceSettings settings : trace.keySet()){
+			ArrayList<TraceIndex> indices = trace.get(settings);
+			double a = settings.getAlpha();
+			if (a>0 && a<1){
+				Coords c = settings.getColor().copyVector();
+				c.set(4, a);
+				setDrawingColor(c);
+				for (TraceIndex index : indices){
+					renderer.getGeometryManager().draw(index.surface);
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * draw traces
+	 * @param renderer renderer
+	 */
+	final protected void drawTracesHidingSurface(Renderer renderer){
+
+		if (trace==null){
+			return;
+		}
+
+
+		for (TraceSettings settings : trace.keySet()){
+			ArrayList<TraceIndex> indices = trace.get(settings);
+			double a = settings.getAlpha();
+			if (a>0 && a<1){
+				for (TraceIndex index : indices){
+					renderer.getGeometryManager().draw(index.surface);
+				}
+			}
+		}
+		
+	}
+	
+	
+	/**
+	 * draw traces
+	 * @param renderer renderer
+	 */
+	final protected void drawTracesNotTranspSurface(Renderer renderer){
+
+		if (trace==null){
+			return;
+		}
+
+
+		for (TraceSettings settings : trace.keySet()){
+			ArrayList<TraceIndex> indices = trace.get(settings);
+			double a = settings.getAlpha();
+			if (a>=1){
+				setDrawingColor(settings.getColor());
+				for (TraceIndex index : indices){
+					renderer.getGeometryManager().draw(index.surface);
+				}
 			}
 		}
 		
 	}
 	
 
-	private void clearTraceForViewChanged(){
+	final private void clearTraceForViewChanged(){
 		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
 			if (trace!=null){
 				//remove all geometry indices from openGL manager
-				for (ArrayList<Integer> indices : trace.values()){
-					for (int i : indices){
-						doRemoveGeometryIndex(i);
+				for (ArrayList<TraceIndex> indices : trace.values()){
+					for (TraceIndex index : indices){
+						doRemoveGeometryIndex(index.geom);
+						doRemoveGeometryIndex(index.surface);
 					}
 				}
 				
@@ -1214,19 +1306,29 @@ public abstract class Drawable3D extends DrawableND {
 	private class TraceSettings implements Comparable<TraceSettings>{
 		
 		private Coords c;
+		private double a;
 		
-		public TraceSettings(Coords c){
+		public TraceSettings(Coords c, double a){
 			this.c = c;
+			this.a = a;
 		}
 		
 		@Override
 		public TraceSettings clone(){
 			Coords c1 = this.c.copyVector();
-			return new TraceSettings(c1);
+			return new TraceSettings(c1, a);
 		}
 		
 		public Coords getColor(){
 			return c;
+		}
+		
+		public double getAlpha(){
+			return a;
+		}
+		
+		public void setAlpha(double a){
+			this.a = a;
 		}
 		
 		private int getInt(double value){
@@ -1234,7 +1336,9 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 		public int compareTo(TraceSettings settings) {
-			for (int i=1; i<=4; i++){
+			
+			// compare colors (r,g,b)
+			for (int i=1; i<=3; i++){
 				int v1 = getInt(this.c.get(i));
 				int v2 = getInt(settings.c.get(i));
 				if(v1<v2){
@@ -1244,6 +1348,18 @@ public abstract class Drawable3D extends DrawableND {
 					return 1;
 				}
 			}
+			
+			
+			// compare alpha
+			int v1 = getInt(this.a);
+			int v2 = getInt(settings.a);
+			if(v1<v2){
+				return -1;
+			}
+			if(v1>v2){
+				return 1;
+			}
+
 			
 			return 0;
 		}

@@ -38,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Conics in 2D
  */
-public class GeoConic extends GeoConicND implements Traceable,
+public class GeoConic extends GeoConicND implements 
 		ConicMirrorable, Transformable, Mirrorable,
 		Dilateable, SymbolicParametersBotanaAlgo {
 
@@ -94,18 +94,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 		return new GeoConic(this);
 	}
 
-	@Override
-	public boolean isTraceable() {
-		return true;
-	}
 
-	public void setTrace(boolean trace) {
-		this.trace = trace;
-	}
-
-	public boolean getTrace() {
-		return trace;
-	}
 
 	/**
 	 * makes this conic a circle with midpoint M through Point P

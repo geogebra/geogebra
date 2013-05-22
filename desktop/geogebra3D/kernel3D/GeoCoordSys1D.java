@@ -564,6 +564,9 @@ Traceable{
 
 	
 
+	//////////////////
+	// TRACE
+	//////////////////
 
 	private boolean trace;	
 	
