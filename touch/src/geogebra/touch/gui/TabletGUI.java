@@ -167,9 +167,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.contentPanel.setPixelSize(event.getWidth(), event.getHeight());
 		this.contentPanel.onResize();
-		int euclidianWidth = event.getWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
-
-		this.euclidianViewPanel.setPixelSize(euclidianWidth, event.getHeight() - this.laf.getPanelsHeight());
+		updateViewSizes(this.algebraViewPanel.isVisible());
 
 		this.toolBar.setWidth(event.getWidth() + "px");
 
@@ -196,20 +194,25 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	void toggleAlgebraView()
 	{
-		if (this.algebraViewPanel.isVisible())
+		boolean algebraVisible = this.algebraViewPanel.isVisible();
+		updateViewSizes(!algebraVisible);
+		this.algebraViewPanel.setVisible(!algebraVisible);
+	}
+	
+	private void updateViewSizes(boolean algebraVisible){
+		if (!algebraVisible)
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
 			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - this.laf.getPanelsHeight());
-			this.algebraViewPanel.setVisible(false);
 		}
 		else
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION);
 
-			int euclidianWidth = Window.getClientWidth() - (int) this.contentPanel.getWidgetSize(this.algebraViewPanel).doubleValue();
+			int euclidianWidth = (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION));
 
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - this.laf.getPanelsHeight());
-			this.algebraViewPanel.setVisible(true);
+
 		}
 	}
 
