@@ -12,8 +12,6 @@ import geogebra3D.euclidian3D.plots.MarchingCubes;
 import java.awt.Color;
 import java.nio.FloatBuffer;
 
-import javax.media.opengl.GL;
-
 /**
  * 3D brush, drawing circular-section curves.
  * 
@@ -64,7 +62,6 @@ public class PlotterBrush {
 	static final private int TEXTURE_ID = 1;
 	static final private int TEXTURE_AFFINE = 2;
 	static final private int TEXTURE_LINEAR = 3;
-	static final private int TEXTURE_FADING = 4;
 	private int textureTypeX = TEXTURE_ID;
 	private int textureTypeY = TEXTURE_CONSTANT_0;
 	
@@ -250,12 +247,6 @@ public class PlotterBrush {
 			break;
 		case TEXTURE_LINEAR:
 			manager.texture(TEXTURE_AFFINE_FACTOR*scale*pos,0);
-			break;
-			
-		case TEXTURE_FADING:
-			factor =  (TEXTURE_AFFINE_FACTOR*length*scale);
-			manager.texture(GL.GL_TEXTURE0, factor*(pos-texturePosZero)+textureValZero, 0);
-			manager.texture(GL.GL_TEXTURE1, pos, 0);
 			break;
 
 		}
@@ -833,16 +824,7 @@ public class PlotterBrush {
 		setTextureType(TEXTURE_AFFINE);
 	}
 	
-	/** set affine texture zero position
-	 * @param posZero position of the "center" of the cylinder
-	 * @param valZero texture coord for the "center"
-	 */	
-	public void setFadingTexture(float posZero, float valZero){
 
-		texturePosZero = posZero;
-		textureValZero = valZero;
-		setTextureType(TEXTURE_FADING);
-	}
 	
 	/**
 	 * 

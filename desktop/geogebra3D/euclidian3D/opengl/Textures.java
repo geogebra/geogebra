@@ -68,11 +68,10 @@ public class Textures {
 	//fading
 	/** fading texture for surfaces */
 	static public int FADING = DASH_NUMBER;
-	/** fading texture for surfaces */
-	static public int LINE_FADING = FADING+1;
+
 	
 	
-	static private int TEXTURES_NUMBER = LINE_FADING+1;
+	static private int TEXTURES_NUMBER = FADING+1;
 
 	
 	
@@ -107,7 +106,6 @@ public class Textures {
 
 		// fading textures
 		initFadingTexture(texturesIndex[FADING]);
-		initLineFadingTexture(texturesIndex[LINE_FADING]);
 
 		
 		gl.glDisable(GL.GL_TEXTURE_2D);
@@ -130,15 +128,6 @@ public class Textures {
 	 */
 	public void loadTextureLinear(int index){
 
-		loadTextureLinear(index, GL.GL_TEXTURE0);
-	}
-	
-	/** load a template texture (linear type)
-	 * @param index
-	 */
-	public void loadTextureLinear(int index, int textureId){
-
-		activeTexture(textureId);
 		setTextureLinear(texturesIndex[index]);
 		
 	}
@@ -207,17 +196,6 @@ public class Textures {
 	 * @param lineType
 	 */
 	public void setDashFromLineType(int lineType){
-		
-		setDashFromLineType(lineType, GL.GL_TEXTURE0);
-	}	
-	
-	/**
-	 * call the correct texture for the line type specified
-	 * @param lineType
-	 */
-	public void setDashFromLineType(int lineType, int textureId){
-		
-		activeTexture(textureId);
 
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
@@ -246,17 +224,7 @@ public class Textures {
 	}
 	
 
-	/**
-	 * active texture #0
-	 */
-	public void activeDefaultTexture(){
-		activeTexture(GL.GL_TEXTURE0);
-	}
-	
-	private void activeTexture(int textureId){
-		gl.glActiveTexture(textureId);
-		//gl.glEnable(GL.GL_TEXTURE_2D);
-	}
+
 	
 	/**
 	 * call the correct texture for the line type specified
@@ -264,18 +232,6 @@ public class Textures {
 	 * @param lineType
 	 */
 	public void setDashFromLineTypeHidden(int lineType){
-
-		setDashFromLineTypeHidden(lineType, GL.GL_TEXTURE0);
-	}	
-	
-	
-	/**
-	 * call the correct texture for the line type specified
-	 * @param lineType
-	 */
-	public void setDashFromLineTypeHidden(int lineType, int textureId){
-
-		activeTexture(textureId);
 		
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
@@ -333,40 +289,7 @@ public class Textures {
 
 	}
 
-	private void initLineFadingTexture(int index){
 
-
-		/*
-		int sizeX = 2;
-		boolean[] description = {
-				true, false
-		};
-		*/
-		
-		
-		int sizeX = 2;
-		boolean[] description = new boolean[sizeX];
-		for (int i = 0; i < sizeX-1; i++){
-			description[i] = true;
-		}
-		
-		
-		
-		
-		
-		byte[] bytes = new byte[sizeX];
-
-		for (int i=0; i<sizeX; i++)
-			if (description[i])      		
-				bytes[i]= (byte) 255;
-
-		ByteBuffer buf = ByteBuffer.wrap(bytes);
-
-		gl.glBindTexture(GL.GL_TEXTURE_2D, index);
-		
-		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, 1, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
-
-	}
 
 	/*
 	private void initViewButtonsTextures(int index, String name){

@@ -4,13 +4,9 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra3D.euclidian3D.opengl.PlotterBrush;
-import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoLine3D;
 
 import java.util.ArrayList;
-
-import javax.media.opengl.GL;
 
 /**
  * Class for drawing lines
@@ -105,24 +101,5 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 
 
 	
-	@Override
-	protected void setLineTextureNotHidden(Renderer renderer){
-		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType(), GL.GL_TEXTURE0); 
-		//renderer.getTextures().loadTextureLinear(Textures.LINE_FADING, GL.GL_TEXTURE1); 
-	}
-	
-	@Override
-	protected void doSetLineTextureHidden(Renderer renderer){
-		renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
-		//renderer.getTextures().loadTextureLinear(Textures.LINE_FADING, GL.GL_TEXTURE1); 
-	}
-	
-
-	@Override
-	protected void setTexture(PlotterBrush brush, double[] minmax){
-		//brush.setFadingTexture( (float) ((0.5-minmax[0])/(minmax[1]-minmax[0])),  0.25f);
-		brush.setAffineTexture( (float) ((0.5-minmax[0])/(minmax[1]-minmax[0])),  0.25f);
-		
-	}
 
 }

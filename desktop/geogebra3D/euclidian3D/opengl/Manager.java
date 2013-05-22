@@ -208,13 +208,6 @@ abstract public class Manager {
 	abstract protected void texture(float x, float y);
 	
 
-	/** creates a texture at coordinates (x,y)
-	 * @param id texture id
-	 * @param x x coord
-	 * @param y y coord
-	 */
-	abstract protected void texture(int id, float x, float y);
-
 
 	/** creates a color (r,g,b)
 	 * @param r red

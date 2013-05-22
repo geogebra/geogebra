@@ -562,28 +562,13 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void setLineTextureHidden(Renderer renderer){
 		if (getGeoElement().getLineTypeHidden()==EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN){
-			setLineTextureNotHidden(renderer); 
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 		}else{
-			doSetLineTextureHidden(renderer);
+			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
 		}
 
 	}
 	
-	/**
-	 * set textures for lines (not hidden)
-	 * @param renderer renderer
-	 */
-	protected void setLineTextureNotHidden(Renderer renderer){
-		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
-	}
-	
-	/**
-	 * set textures for lines (hidden)
-	 * @param renderer renderer
-	 */
-	protected void doSetLineTextureHidden(Renderer renderer){
-		renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
-	}
 	
 	/**
 	 * sets the matrix, the pencil and draw the geometry for transparent parts

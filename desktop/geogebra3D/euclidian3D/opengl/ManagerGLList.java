@@ -5,7 +5,6 @@ import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.nio.FloatBuffer;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 
@@ -162,18 +161,10 @@ public class ManagerGLList extends Manager {
 	}
 	
 	@Override
-	protected void texture(float x, float y){
-		
-		//renderer.gl.glTexCoord2f(x,y);	
-		texture(GL.GL_TEXTURE0, x, y);
-		texture(GL.GL_TEXTURE1, 0, 0);
+	protected void texture(float x, float y){		
+		renderer.gl.glTexCoord2f(x,y);	
 	}
 	
-	@Override
-	protected void texture(int id, float x, float y){
-		
-		renderer.gl.glMultiTexCoord2f(id, x,y);	
-	}
 	
 	@Override
 	protected void normal(float x, float y, float z){

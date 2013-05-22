@@ -106,7 +106,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		if (!isGridVisible()) return;
 
-		renderer.getTextures().activeDefaultTexture();
 		if (viewDirectionIsParallel){
 			renderer.getTextures().loadTextureNearest(Textures.DASH_LONG);
 			renderer.getGeometryManager().draw(gridOutlineIndex);
