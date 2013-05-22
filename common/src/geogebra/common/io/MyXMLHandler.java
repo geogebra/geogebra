@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GDimension;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -520,6 +521,24 @@ public class MyXMLHandler implements DocHandler {
 		// String eName = qName;
 		switch (mode) {
 		case MODE_EUCLIDIAN_VIEW:
+			// we should set the EV sizes if they were not yet set
+			if (app.isHTML5Applet()) {
+				GDimension gd = evSet.getPreferredSize();
+				if (gd.getWidth() == 0 || gd.getHeight() == 0) {
+					int width = 0;
+					int height = 0;
+					if (!App.isFullAppGui()) {
+						width = app.getDataParamWidth();
+						height = app.getDataParamHeight();
+					} else {
+						width = app.getAppCanvasWidth();
+						height = app.getAppCanvasHeight();
+					}
+					evSet.setPreferredSize(geogebra.common.factories.AwtFactory.prototype
+							.newDimension(width, height));
+				}
+			}
+
 			if ("euclidianView".equals(eName)) {
 				evSet = null;
 				mode = MODE_GEOGEBRA;
