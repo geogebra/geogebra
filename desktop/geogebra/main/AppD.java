@@ -4651,7 +4651,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public boolean isControlDown(AbstractEvent e) {
-		return isControlDown(geogebra.euclidian.event.MouseEventD.getEvent(e));
+		return e != null && isControlDown(geogebra.euclidian.event.MouseEventD.getEvent(e));
 	}
 
 	@Override
