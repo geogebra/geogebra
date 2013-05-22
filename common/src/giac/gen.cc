@@ -12500,8 +12500,11 @@ namespace giac {
 	string reste(res.substr(1,res.size()-1));
 	res=res[0]+("."+reste);
       }
-      else
-	res = "0."+res+"e"+print_INT_(expo);
+      else {
+	res = "0."+res;
+	res += calc_mode(contextptr)==1?'E':'e';
+	res += print_INT_(expo);
+      }
     }
     else
       res="0."+res;

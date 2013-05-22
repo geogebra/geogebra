@@ -8084,7 +8084,7 @@ namespace giac {
 
   // test if m(i) is an array index: that will not be the case if
   // i is an _IDNT or a list of _IDNT
-  // AND m is not already defined as an array
+  // 
   bool is_array_index(const gen & m,const gen & i,GIAC_CONTEXT){
     if (i.type==_VECT){
       for (unsigned j=0;j<i._VECTptr->size();++j){
@@ -8096,6 +8096,9 @@ namespace giac {
       if (i.type!=_IDNT)
 	return true;
     }
+    return false;
+    // commented otherwise is_array_index inside a program would depend on the global
+    // value of m
     gen mv=eval(m,1,contextptr);
     return mv.type==_VECT;
   }
