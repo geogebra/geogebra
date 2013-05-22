@@ -3667,5 +3667,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		
 	}
 	
+	
+	public double[] getIntervalClipped(double[] minmax, 
+			Coords o, Coords v){
+		return clippingCubeDrawable.getIntervalClipped(minmax, o, v);
+	}
+	
 }
 

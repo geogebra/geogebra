@@ -12,6 +12,8 @@ import geogebra3D.euclidian3D.plots.MarchingCubes;
 import java.awt.Color;
 import java.nio.FloatBuffer;
 
+import javax.media.opengl.GL;
+
 /**
  * 3D brush, drawing circular-section curves.
  * 
@@ -62,6 +64,7 @@ public class PlotterBrush {
 	static final private int TEXTURE_ID = 1;
 	static final private int TEXTURE_AFFINE = 2;
 	static final private int TEXTURE_LINEAR = 3;
+	static final private int TEXTURE_FADING = 4;
 	private int textureTypeX = TEXTURE_ID;
 	private int textureTypeY = TEXTURE_CONSTANT_0;
 	
@@ -227,24 +230,38 @@ public class PlotterBrush {
 		
 		Coords[] vectors = s.getNormalAndPosition(u, v);
 		
-		//Application.debug(vectors[0].toString());
-		
-		/*
-		manager.normal(
-				(float) vectors[0].getX(), 
-				(float) vectors[0].getY(), 
-				(float) vectors[0].getZ());	*/
+		//set normal
 		manager.normal(vectors[0]);
-		manager.texture(
-				getTexture(textureX[texture],textureTypeX),
-				getTexture(textureY[texture],textureTypeY));
+		
+		//set texture
+		float pos = textureX[texture];
+		switch(textureTypeX){
+		case TEXTURE_ID:
+		default:
+			manager.texture(pos, 0);
+			break;
+		case TEXTURE_CONSTANT_0:
+			manager.texture(0, 0);
+			break;
+		case TEXTURE_AFFINE:
+			//float factor = (int) (TEXTURE_AFFINE_FACTOR*length*scale); //TODO integer for cycles
+			float factor =  (TEXTURE_AFFINE_FACTOR*length*scale);
+			manager.texture(factor*(pos-texturePosZero)+textureValZero, 0);
+			break;
+		case TEXTURE_LINEAR:
+			manager.texture(TEXTURE_AFFINE_FACTOR*scale*pos,0);
+			break;
+			
+		case TEXTURE_FADING:
+			factor =  (TEXTURE_AFFINE_FACTOR*length*scale);
+			manager.texture(GL.GL_TEXTURE0, factor*(pos-texturePosZero)+textureValZero, 0);
+			manager.texture(GL.GL_TEXTURE1, pos, 0);
+			break;
+
+		}
+		
+		//set vertex
 		manager.vertex(vectors[1]);
-		/*
-		manager.vertex(
-				(float) vectors[1].getX(), 
-				(float) vectors[1].getY(), 
-				(float) vectors[1].getZ());		
-				*/
 		
 	}
 	
@@ -811,11 +828,20 @@ public class PlotterBrush {
 	 */	
 	public void setAffineTexture(float posZero, float valZero){
 
-		//maxima : f(x):=a*x+b;solve([f(posZero)=valZero,f(unit)-f(0)=n],[a,b]);
-
 		texturePosZero = posZero;
 		textureValZero = valZero;
 		setTextureType(TEXTURE_AFFINE);
+	}
+	
+	/** set affine texture zero position
+	 * @param posZero position of the "center" of the cylinder
+	 * @param valZero texture coord for the "center"
+	 */	
+	public void setFadingTexture(float posZero, float valZero){
+
+		texturePosZero = posZero;
+		textureValZero = valZero;
+		setTextureType(TEXTURE_FADING);
 	}
 	
 	/**
@@ -833,26 +859,7 @@ public class PlotterBrush {
 		textureTypeX = type;
 	}
 
-	/** return texture coord regarding position and type
-	 * @param pos
-	 * @return texture coord
-	 */
-	private float getTexture(float pos, int textureType){
-		switch(textureType){
-		case TEXTURE_ID:
-		default:
-			return pos;
-		case TEXTURE_CONSTANT_0:
-			return 0f;
-		case TEXTURE_AFFINE:
-			//float factor = (int) (TEXTURE_AFFINE_FACTOR*length*scale); //TODO integer for cycles
-			float factor =  (TEXTURE_AFFINE_FACTOR*length*scale);
-			return factor*(pos-texturePosZero)+textureValZero;
-		case TEXTURE_LINEAR:
-			return TEXTURE_AFFINE_FACTOR*scale*pos;
 
-		}
-	}
 	
 	private void setTextureX(float x0, float x1){
 		this.textureX[0] = x0;

@@ -48,13 +48,13 @@ public class PlotterText {
 		//GL2 gl = manager.renderer.getGL();
 		
 		manager.renderer.gl.glBegin(GLlocal.GL_QUADS);
-		manager.renderer.gl.glTexCoord2f(0, 0);
+		manager.texture(0, 0);
 		manager.renderer.gl.glVertex3i(x,y,z); 
-		manager.renderer.gl.glTexCoord2f(1, 0);
+		manager.texture(1, 0);
 		manager.renderer.gl.glVertex3i(x+width,y,z); 
-		manager.renderer.gl.glTexCoord2f(1, 1);
+		manager.texture(1, 1);
 		manager.renderer.gl.glVertex3i(x+width,y+height,z); 
-		manager.renderer.gl.glTexCoord2f(0, 1);
+		manager.texture(0, 1);
 		manager.renderer.gl.glVertex3i(x,y+height,z); 	
 		manager.renderer.gl.glEnd();
 		

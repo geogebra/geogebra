@@ -28,18 +28,21 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 			zmin, zmax;
 			*/
 	
-	private double[][] minMax;
+	private double[][] minMax, minMaxLarge;
 	
 	private Coords[] vertices;
 	
 
+	static private double REDUCTION_LARGE = 0; //(1-1./1)/2	
 	
 
 	static private double[] REDUCTION_VALUES = {
 		(1-1./Math.sqrt(3))/2, //small
 		(1-1./Math.sqrt(2))/2, //medium
-		(1-1./1)/2	 //large
+		REDUCTION_LARGE //large
 	};
+	
+	static private int REDUCTION_LENGTH = 3;
 
 	
 	
@@ -53,8 +56,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		super(a_view3D, clippingCube);
 		
 		minMax = new double[3][];
-		for (int i=0; i<3; i++)
+		minMaxLarge = new double[3][];
+		
+		for (int i=0; i<3; i++){
 			minMax[i] = new double[2];
+			minMaxLarge[i] = new double[2];
+		}
 		
 		vertices = new Coords[8];
 		for (int i=0; i<8; i++)
@@ -97,8 +104,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double zmin  = (renderer.getFront(false))/scale+y0;
 		double zmax = (renderer.getBack(false))/scale+y0;
 		
-		
-		double rv = REDUCTION_VALUES[((GeoClippingCube3D) getGeoElement()).getReduction()];
+		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
+		double rv = REDUCTION_VALUES[reductionIndex];
 		double xr = (xmax-xmin)*rv;
 		double yr = (ymax-ymin)*rv;
 		double zr = (zmax-zmin)*rv;
@@ -110,6 +117,25 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		minMax[2][1] = ymax-yr;
 		minMax[1][0] = zmin+zr;
 		minMax[1][1] = zmax-zr;
+		
+		
+		if (reductionIndex < REDUCTION_LENGTH - 1){
+			reductionIndex++;
+		}
+		
+		rv = REDUCTION_VALUES[reductionIndex];
+		xr = (xmax-xmin)*rv;
+		yr = (ymax-ymin)*rv;
+		zr = (zmax-zmin)*rv;
+		
+		
+		minMaxLarge[0][0] = xmin+xr;
+		minMaxLarge[0][1] = xmax-xr;
+		minMaxLarge[2][0] = ymin+yr;
+		minMaxLarge[2][1] = ymax-yr;
+		minMaxLarge[1][0] = zmin+zr;
+		minMaxLarge[1][1] = zmax-zr;
+
 		
 		setVertices();
 		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
@@ -226,6 +252,48 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
+	/** for a line described by (o,v), return the min and max parameters to draw the line
+	 * @param minmax initial interval
+	 * @param o origin of the line
+	 * @param v direction of the line
+	 * @return interval to draw the line
+	 */
+	public double[] getIntervalClipped(double[] minmax, 
+			Coords o, Coords v){
+		
+		for (int i = 1; i <= 3 ; i++){
+			double min = (minMaxLarge[i-1][0] - o.get(i))/v.get(i);
+			double max = (minMaxLarge[i-1][1] - o.get(i))/v.get(i);		
+			updateInterval(minmax, min, max);
+		}
+		
+		return minmax;
+	}
+		
+	/** return the intersection of intervals [minmax] and [v1,v2]
+	 * @param minmax initial interval
+	 * @param v1 first value
+	 * @param v2 second value
+	 * @return intersection interval
+	 */
+	private static double[] updateInterval(double[] minmax, double v1, double v2){
+		
+		if (v1>v2){
+			double v = v1;
+			v1 = v2; v2 = v;
+		}
+		
+		if (v1>minmax[0])
+			minmax[0] = v1;
+				
+		if (v2<minmax[1])
+			minmax[1] = v2;
+	
+		return minmax;
+	}
+	
 	
 	
 

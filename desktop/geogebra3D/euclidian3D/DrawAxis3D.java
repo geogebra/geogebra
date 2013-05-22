@@ -293,11 +293,6 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 	
 	
-	// depth is not used in extended way
-	@Override
-	public void updateDrawMinMax(){
-		updateDrawMinMax(false);
-	}
 	
 	
 	
@@ -376,6 +371,8 @@ public class DrawAxis3D extends DrawLine3D {
 
 		return super.getDrawMinMax();
 	}
+	
+	
 	
 
 	

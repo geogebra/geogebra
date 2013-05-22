@@ -57,24 +57,16 @@ public class DrawRay3D extends DrawCoordSys1D {
 	 * update min and max values
 	 */
 	protected void updateDrawMinMax(){
-
 		
 		GeoLineND line = (GeoLineND) getGeoElement();
-
-		Coords o = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 0).getInhomCoordsInSameDimension());  
-		Coords v = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 1).getInhomCoordsInSameDimension()).sub(o);
 		
-				
-		double[] minmax = getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {0,Double.POSITIVE_INFINITY},
-				o, v, true);
+		Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
+		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
+	
+		double[] minmax = getView3D().getIntervalClipped(
+				new double[] {0,Double.POSITIVE_INFINITY}, o, v);
 		
 		setDrawMinMax(minmax[0], minmax[1]);
-		
-		/*
-		if (((GeoElement) line).getLabel().equals("l"))
-			Application.debug(line+"\n"+o+"\n"+v+"\n"+minmax[0]+", "+minmax[1]);
-		*/
 		
 	}
 	

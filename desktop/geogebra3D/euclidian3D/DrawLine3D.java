@@ -4,9 +4,13 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra3D.euclidian3D.opengl.PlotterBrush;
+import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoLine3D;
 
 import java.util.ArrayList;
+
+import javax.media.opengl.GL;
 
 /**
  * Class for drawing lines
@@ -30,6 +34,7 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	
 	
 	
+	@Override
 	protected boolean updateForItSelf(){
 		
 
@@ -54,36 +59,26 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 
 	/**
 	 *  update min and max values
-	 * @param extendedDepth says if the depth is to be extended
 	 */
-	protected void updateDrawMinMax(boolean extendedDepth){
+	protected void updateDrawMinMax(){
 		
 		GeoLineND line = (GeoLineND) getGeoElement();
-		
-		Coords o = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 0).getInhomCoordsInSameDimension());
-		Coords v = getView3D().getToScreenMatrix().mul(line.getPointInD(3, 1).getInhomCoordsInSameDimension()).sub(o);
-						
-		double[] minmax = 
-			getView3D().getRenderer().getIntervalInFrustum(
-				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-				o, v, extendedDepth);
-		
-		//App.debug("\no=\n"+o+"\nv=\n"+v+"\nminmax="+minmax[0]+", "+minmax[1]);
+				
+		Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
+		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
+	
+		double[] minmax = getView3D().getIntervalClipped(
+				new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY}, o, v);
 		
 		setDrawMinMax(minmax[0], minmax[1]);
 	}
 	
 	
-	/**
-	 *  update min and max values
-	 */
-	public void updateDrawMinMax(){
-		updateDrawMinMax(true);
-	}
 	
 
+	@Override
 	protected void updateForView(){
-		if (getView3D().viewChanged())
+		if (getView3D().viewChangedByZoom())
 			updateForItSelf();
 	}
 	
@@ -110,5 +105,24 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 
 
 	
+	@Override
+	protected void setLineTextureNotHidden(Renderer renderer){
+		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType(), GL.GL_TEXTURE0); 
+		//renderer.getTextures().loadTextureLinear(Textures.LINE_FADING, GL.GL_TEXTURE1); 
+	}
+	
+	@Override
+	protected void doSetLineTextureHidden(Renderer renderer){
+		renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType()); 
+		//renderer.getTextures().loadTextureLinear(Textures.LINE_FADING, GL.GL_TEXTURE1); 
+	}
+	
+
+	@Override
+	protected void setTexture(PlotterBrush brush, double[] minmax){
+		//brush.setFadingTexture( (float) ((0.5-minmax[0])/(minmax[1]-minmax[0])),  0.25f);
+		brush.setAffineTexture( (float) ((0.5-minmax[0])/(minmax[1]-minmax[0])),  0.25f);
+		
+	}
 
 }

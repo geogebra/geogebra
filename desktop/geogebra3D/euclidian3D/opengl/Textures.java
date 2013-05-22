@@ -3,10 +3,6 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.util.ImageManager;
 
-import java.awt.Transparency;
-import java.awt.image.BufferedImage;
-import java.awt.image.PixelGrabber;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL;
@@ -72,21 +68,11 @@ public class Textures {
 	//fading
 	/** fading texture for surfaces */
 	static public int FADING = DASH_NUMBER;
+	/** fading texture for surfaces */
+	static public int LINE_FADING = FADING+1;
 	
 	
-	///////////////////
-	//view buttons
-	/** button OK */
-	static public int BUTTON_OK = FADING+1;
-	/** button OK picked */
-	static public int BUTTON_OK_PICKED = BUTTON_OK+1;
-	
-	/** button cancel */
-	static public int BUTTON_CANCEL = BUTTON_OK_PICKED+1;
-	/** button cancel picked */
-	static public int BUTTON_CANCEL_PICKED = BUTTON_CANCEL+1;
-	
-	static private int TEXTURES_NUMBER = BUTTON_CANCEL_PICKED+1;
+	static private int TEXTURES_NUMBER = LINE_FADING+1;
 
 	
 	
@@ -121,12 +107,8 @@ public class Textures {
 
 		// fading textures
 		initFadingTexture(texturesIndex[FADING]);
+		initLineFadingTexture(texturesIndex[LINE_FADING]);
 
-		// view buttons textures
-		initViewButtonsTextures(texturesIndex[BUTTON_OK],"button-ok.png");
-		initViewButtonsTextures(texturesIndex[BUTTON_OK_PICKED],"button-ok-picked.png");
-		initViewButtonsTextures(texturesIndex[BUTTON_CANCEL],"button-cancel.png");
-		initViewButtonsTextures(texturesIndex[BUTTON_CANCEL_PICKED],"button-cancel-picked.png");
 		
 		gl.glDisable(GL.GL_TEXTURE_2D);
 
@@ -138,9 +120,9 @@ public class Textures {
 	 * @param index
 	 */
 	public void loadTextureNearest(int index){
-
+	
 		setTextureNearest(texturesIndex[index]);
-		
+
 	}
 	
 	/** load a template texture (linear type)
@@ -148,9 +130,20 @@ public class Textures {
 	 */
 	public void loadTextureLinear(int index){
 
+		loadTextureLinear(index, GL.GL_TEXTURE0);
+	}
+	
+	/** load a template texture (linear type)
+	 * @param index
+	 */
+	public void loadTextureLinear(int index, int textureId){
+
+		activeTexture(textureId);
 		setTextureLinear(texturesIndex[index]);
 		
 	}
+	
+	
 	
 	/** sets a computed texture (nearest type)
 	 * @param index
@@ -209,13 +202,22 @@ public class Textures {
 	
 	
 
-	
-	
 	/**
 	 * call the correct texture for the line type specified
 	 * @param lineType
 	 */
 	public void setDashFromLineType(int lineType){
+		
+		setDashFromLineType(lineType, GL.GL_TEXTURE0);
+	}	
+	
+	/**
+	 * call the correct texture for the line type specified
+	 * @param lineType
+	 */
+	public void setDashFromLineType(int lineType, int textureId){
+		
+		activeTexture(textureId);
 
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
@@ -243,6 +245,19 @@ public class Textures {
     	}
 	}
 	
+
+	/**
+	 * active texture #0
+	 */
+	public void activeDefaultTexture(){
+		activeTexture(GL.GL_TEXTURE0);
+	}
+	
+	private void activeTexture(int textureId){
+		gl.glActiveTexture(textureId);
+		//gl.glEnable(GL.GL_TEXTURE_2D);
+	}
+	
 	/**
 	 * call the correct texture for the line type specified
 	 * for hidden parts
@@ -250,6 +265,18 @@ public class Textures {
 	 */
 	public void setDashFromLineTypeHidden(int lineType){
 
+		setDashFromLineTypeHidden(lineType, GL.GL_TEXTURE0);
+	}	
+	
+	
+	/**
+	 * call the correct texture for the line type specified
+	 * @param lineType
+	 */
+	public void setDashFromLineTypeHidden(int lineType, int textureId){
+
+		activeTexture(textureId);
+		
     	switch (lineType) {
 		case EuclidianStyleConstants.LINE_TYPE_FULL:
 			loadTextureNearest(DASH_NONE_HIDDEN);
@@ -281,20 +308,7 @@ public class Textures {
 	/////////////////////////////////////////
 
 	private void initFadingTexture(int index){
-		
-		/*
-		int n=256;
-		int sizeX = n,  sizeY = n;
-		
-		boolean[] description = new boolean[sizeX*sizeY];
-		
-		for (int i=0;i<sizeX;i++)
-				for (int j=0; j<sizeY;j++)
-					if (Math.random()*n*n>i*j)
-						description[i+sizeX*j]=true;
-		*/
-
-		
+				
 		int n=2;
 		int sizeX = n,  sizeY = n;
 		boolean[] description = {
@@ -318,7 +332,43 @@ public class Textures {
 		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
 
 	}
-	
+
+	private void initLineFadingTexture(int index){
+
+
+		/*
+		int sizeX = 2;
+		boolean[] description = {
+				true, false
+		};
+		*/
+		
+		
+		int sizeX = 2;
+		boolean[] description = new boolean[sizeX];
+		for (int i = 0; i < sizeX-1; i++){
+			description[i] = true;
+		}
+		
+		
+		
+		
+		
+		byte[] bytes = new byte[sizeX];
+
+		for (int i=0; i<sizeX; i++)
+			if (description[i])      		
+				bytes[i]= (byte) 255;
+
+		ByteBuffer buf = ByteBuffer.wrap(bytes);
+
+		gl.glBindTexture(GL.GL_TEXTURE_2D, index);
+		
+		gl.glTexImage2D(GL.GL_TEXTURE_2D, 0,  GL.GL_ALPHA, sizeX, 1, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, buf);
+
+	}
+
+	/*
 	private void initViewButtonsTextures(int index, String name){
 
 		
@@ -367,11 +417,11 @@ public class Textures {
 		}
 		
 	}
-		
+	
 	private BufferedImage readImage(String name) throws IOException {
 		return ImageManager.toBufferedImage(imageManager.getImageResource(name),Transparency.TRANSLUCENT);
 	}
-	
+	*/
 	
 	
 
