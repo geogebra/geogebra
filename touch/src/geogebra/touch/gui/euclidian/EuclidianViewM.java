@@ -197,12 +197,6 @@ public class EuclidianViewM extends EuclidianViewWeb
 	}
 
 	@Override
-	public void updateSize()
-	{
-		setRealWorldBounds();
-	}
-
-	@Override
 	public boolean requestFocusInWindow()
 	{
 		return false;

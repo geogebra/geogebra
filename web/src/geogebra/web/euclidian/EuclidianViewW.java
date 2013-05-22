@@ -229,39 +229,6 @@ public class EuclidianViewW extends EuclidianViewWeb {
 						&& (e.getY() >= (getHeight() - 20));
     }
 
-
-	@Override
-    public void updateSize() {
-
-		if ((getWidth() <= 0) || (getHeight() <= 0)) {
-			return;
-		}
-
-		// real world values
-		setXYMinMaxForUpdateSize();
-		setRealWorldBounds();
-
-		try {
-			createImage();
-		} catch (Exception e) {
-			bgImage = null;
-			bgGraphics = null;
-		}
-
-		updateBackgroundImage();
-
-		if (!firstPaint) // if is here to avoid infinite loop
-			updateAllDrawables(true);
-    }
-
-	private void createImage() {
-		bgImage = new geogebra.html5.awt.GBufferedImageW(getWidth(), getHeight(), 0, false);
-		bgGraphics = bgImage.createGraphics();
-		if (antiAliasing) {
-			setAntialiasing(bgGraphics);
-		}
-	}
-
 	@Override
     public boolean requestFocusInWindow() {
 		g2p.getCanvas().getCanvasElement().focus();	
