@@ -1,7 +1,9 @@
 package geogebra.touch.model;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -23,6 +25,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 import geogebra.touch.gui.elements.Picker;
 import geogebra.touch.utils.ToolBarCommand;
@@ -45,6 +48,8 @@ public class TouchModel
 
 	Kernel kernel;
 	GuiModel guiModel;
+	private EuclidianView euclidianView;
+
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
 	private boolean controlClicked = true;
@@ -86,9 +91,17 @@ public class TouchModel
 		{
 			return;
 		}
+
+		if (this.euclidianView == null)
+		{
+			this.euclidianView = this.kernel.getApplication()
+					.getEuclidianView1();
+		}
+
 		resetSelection();
 		this.guiModel.resetStyle();
 		this.command = cmd;
+		createPreviewObject();
 	}
 
 	/**
@@ -123,7 +136,7 @@ public class TouchModel
 		}
 		return success;
 	}
-	
+
 	/**
 	 * selects the given element or deselects it in case it is selected
 	 * 
@@ -435,15 +448,15 @@ public class TouchModel
 		// special command: rotate around point: needs one point as center of
 		// the roation and any other object
 		case RotateAroundPoint:
-			if(this.getTotalNumber() > 0 && hits.contains(this.selectedElements.get(0)))
+			if (this.getTotalNumber() > 0
+					&& hits.contains(this.selectedElements.get(0)))
 			{
-				this.deselect(this.selectedElements.get(0)); 
-			}
-			else
+				this.deselect(this.selectedElements.get(0));
+			} else
 			{
 				select(hits, Test.GEOPOINT, 1);
-			}			
-			
+			}
+
 			// deselect all elements except for the center point (index 0)
 			// needed if there is another rotation
 			while (this.selectedElements.size() > 2)
@@ -460,7 +473,7 @@ public class TouchModel
 		case VectorBetweenTwoPoints:
 		case CircleWithCenterThroughPoint:
 		case Semicircle:
-		case Locus: 
+		case Locus:
 			changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = getNumberOf(Test.GEOPOINT) >= 2;
 			break;
@@ -505,7 +518,8 @@ public class TouchModel
 
 		// commands that need one point and any other object
 		case ReflectObjectAboutPoint:
-			if (!changeSelectionState(hits, Test.GEOPOINT, 1) && hits.size() > 0)
+			if (!changeSelectionState(hits, Test.GEOPOINT, 1)
+					&& hits.size() > 0)
 			{
 				changeSelectionState(hits.get(0));
 			}
@@ -514,7 +528,8 @@ public class TouchModel
 
 		// commands that need one vector and any other object
 		case TranslateObjectByVector:
-			if (!changeSelectionState(hits, Test.GEOVECTOR, 1) && hits.size() > 0)
+			if (!changeSelectionState(hits, Test.GEOVECTOR, 1)
+					&& hits.size() > 0)
 			{
 				changeSelectionState(hits.get(0));
 			}
@@ -589,9 +604,8 @@ public class TouchModel
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
 					Test.GEOSEGMENT });
 			draw = getNumberOf(Test.GEOPOINT) >= 3
-					|| getNumberOf(Test.GEOPOINT) >= 1 && 
-					(getNumberOf(Test.GEOCONIC) >= 1
-					|| getNumberOf(Test.GEOSEGMENT) >= 1);
+					|| getNumberOf(Test.GEOPOINT) >= 1
+					&& (getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOSEGMENT) >= 1);
 			break;
 
 		// commands that need three points or two lines
@@ -625,6 +639,7 @@ public class TouchModel
 			if (!draw)
 			{
 				changeSelectionState(hits, Test.GEOPOINT, 1);
+				createPreviewObject();
 			}
 			break;
 
@@ -712,7 +727,7 @@ public class TouchModel
 						(GeoPoint) getElement(Test.GEOPOINT, 1)));
 				break;
 			case Locus:
-				newElements.add(this.kernel.getAlgoDispatcher().Locus(null, 
+				newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
 						(GeoPoint) getElement(Test.GEOPOINT),
 						(GeoPoint) getElement(Test.GEOPOINT, 1)));
 				break;
@@ -753,7 +768,8 @@ public class TouchModel
 				}
 				break;
 			case IntersectTwoObjects:
-				Command c = new Command(this.kernel, "IntersectTwoObjects", draw);
+				Command c = new Command(this.kernel, "IntersectTwoObjects",
+						draw);
 
 				c.addArgument(new ExpressionNode(
 						this.kernel,
@@ -906,36 +922,47 @@ public class TouchModel
 						(GeoPoint) getElement(Test.GEOPOINT, 2)));
 				break;
 			case Compasses:
-				if(getNumberOf(Test.GEOPOINT) >= 3)
+				if (getNumberOf(Test.GEOPOINT) >= 3)
 				{
-					AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(this.kernel.getConstruction(), 
+					AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(
+							this.kernel.getConstruction(),
 							(GeoPoint) getElement(Test.GEOPOINT),
 							(GeoPoint) getElement(Test.GEOPOINT, 1), null);
-					this.kernel.getConstruction().removeFromConstructionList(algoSegment);
+					this.kernel.getConstruction().removeFromConstructionList(
+							algoSegment);
 
-					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null, 
-							(GeoPoint) getElement(Test.GEOPOINT, 2), algoSegment.getSegment(), true);
+					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
+							this.kernel.getConstruction(), null,
+							(GeoPoint) getElement(Test.GEOPOINT, 2),
+							algoSegment.getSegment(), true);
 					GeoConic compassCircle = algo.getCircle();
 					compassCircle.setToSpecific();
 					compassCircle.update();
-					newElements.add(compassCircle); 
-				} else if(getNumberOf(Test.GEOCONIC) >= 1)
+					newElements.add(compassCircle);
+				} else if (getNumberOf(Test.GEOCONIC) >= 1)
 				{
-					AlgoRadius radius = new AlgoRadius(this.kernel.getConstruction(), (GeoConic) getElement(Test.GEOCONIC));
-					this.kernel.getConstruction().removeFromConstructionList(radius);
+					AlgoRadius radius = new AlgoRadius(
+							this.kernel.getConstruction(),
+							(GeoConic) getElement(Test.GEOCONIC));
+					this.kernel.getConstruction().removeFromConstructionList(
+							radius);
 
-					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(this.kernel.getConstruction(), null, 
-							(GeoPoint) getElement(Test.GEOPOINT), radius.getRadius());
+					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
+							this.kernel.getConstruction(), null,
+							(GeoPoint) getElement(Test.GEOPOINT),
+							radius.getRadius());
 					GeoConic compassCircle2 = algo.getCircle();
 					compassCircle2.setToSpecific();
 					compassCircle2.update();
 					newElements.add(compassCircle2);
-				} else //segment
+				} else
+				// segment
 				{
-					newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) getElement(Test.GEOPOINT), 
+					newElements.add(this.kernel.getAlgoDispatcher().Circle(
+							null, (GeoPoint) getElement(Test.GEOPOINT),
 							(GeoSegment) getElement(Test.GEOSEGMENT)));
 				}
-				
+
 				break;
 			case Angle:
 				if (this.getNumberOf(Test.GEOPOINT) >= 3)
@@ -1013,8 +1040,7 @@ public class TouchModel
 							select(g);
 						}
 						TouchModel.this.kernel.notifyRepaint();
-						TouchModel.this.guiModel
-								.updateStylingBar();
+						TouchModel.this.guiModel.updateStylingBar();
 						TouchModel.this.kernel.storeUndoInfo();
 					}
 				});
@@ -1272,5 +1298,40 @@ public class TouchModel
 			this.storeOnClose = false;
 			this.kernel.storeUndoInfo();
 		}
+	}
+
+	private void createPreviewObject()
+	{
+		if (this.euclidianView == null)
+		{
+			return;
+		}
+		Previewable prev = null;
+
+		switch (this.command)
+		{
+		case Polygon:
+		case RegularPolygon:
+		case RigidPolygon:
+			ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+			for (GeoElement geo : this.selectedElements)
+			{
+				list.add((GeoPoint) geo);
+			}
+			prev = this.euclidianView.createPreviewPolygon(list);
+			break;
+		case PolylineBetweenPoints:
+			ArrayList<GeoPointND> list2 = new ArrayList<GeoPointND>();
+			for (GeoElement geo : this.selectedElements)
+			{
+				list2.add((GeoPoint) geo);
+			}
+			prev = this.euclidianView.createPreviewPolyLine(list2);
+			break;
+		default:
+			break;
+		}
+
+		this.euclidianView.setPreview(prev);
 	}
 }
