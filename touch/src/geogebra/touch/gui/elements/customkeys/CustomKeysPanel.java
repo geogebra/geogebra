@@ -13,8 +13,8 @@ public class CustomKeysPanel extends PopupPanel
 {
 	public enum CustomKey
 	{
-		plus("+"), minus("-"), times("*"), divide("/"), power("^"), leftpar("("), rightpar(")"), squared("²"), degree("°"), pi("\uD960"), leftbr("["), rightbr(
-		    "]"), leftbrace("{"), rightbrace("}");
+		plus("+"), minus("-"), times("*"), divide("/"), power("^"), leftpar("("), rightpar(")"), squared("\u00B2"), degree("\u00B0"), pi("\u03C0"), leftbracket(
+		    "["), rightbracket("]"), leftbrace("{"), rightbrace("}"), equals("=");
 
 		String s;
 
@@ -22,11 +22,15 @@ public class CustomKeysPanel extends PopupPanel
 		{
 			this.s = s;
 		}
+
+		@Override
+		public String toString()
+		{
+			return this.s;
+		}
 	}
 
 	private HorizontalPanel buttonContainer = new HorizontalPanel();
-
-	private List<Button> buttons;
 
 	private List<CustomKeyListener> listeners;
 
@@ -36,12 +40,13 @@ public class CustomKeysPanel extends PopupPanel
 
 		this.listeners = new ArrayList<CustomKeyListener>();
 
-		this.buttons = new ArrayList<Button>();
-
 		for (final CustomKey k : CustomKey.values())
 		{
 			Button b = new Button();
 			b.setText(k.toString());
+
+			// TODO Steffi!
+			b.setSize("40px", "40px");
 
 			b.addDomHandler(new ClickHandler()
 			{
@@ -53,7 +58,7 @@ public class CustomKeysPanel extends PopupPanel
 				}
 			}, ClickEvent.getType());
 
-			this.buttons.add(b);
+			this.buttonContainer.add(b);
 		}
 
 		this.add(this.buttonContainer);

@@ -2,9 +2,16 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
+import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
+import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -19,7 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
  * 
  */
-public class InputDialog extends PopupPanel
+public class InputDialog extends PopupPanel implements CustomKeyListener
 {
 	public enum DialogType
 	{
@@ -28,17 +35,20 @@ public class InputDialog extends PopupPanel
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title;
-	private TextBox textBox = new TextBox();
+	TextBox textBox = new TextBox();
 	private HorizontalPanel buttonContainer = new HorizontalPanel();
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 
 	private String text, input;
 
+	private CustomKeysPanel customKeys = new CustomKeysPanel();
+
 	public InputDialog(DialogType type)
 	{
-		// hide when clicked outside and set modal
-		super(true, true);
+		// don't hide when clicked outside and don't set modal due to the
+		// CustomKeyPanel
+		super(false, false);
 		this.setGlassEnabled(true);
 		this.title = new Label(type.toString());
 
@@ -47,6 +57,7 @@ public class InputDialog extends PopupPanel
 
 	private void init()
 	{
+		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		addTextBox();
@@ -69,8 +80,29 @@ public class InputDialog extends PopupPanel
 			}
 		});
 
+		this.textBox.addBlurHandler(new BlurHandler()
+		{
+
+			@Override
+			public void onBlur(BlurEvent event)
+			{
+				InputDialog.this.textBox.setFocus(true);
+			}
+		});
+
+		this.textBox.addFocusHandler(new FocusHandler()
+		{
+
+			@Override
+			public void onFocus(FocusEvent event)
+			{
+				InputDialog.this.textBox.setFocus(true);
+			}
+		});
+
 		this.textBox.setVisibleLength(100);
 		this.dialogPanel.add(this.textBox);
+		this.textBox.setFocus(true);
 	}
 
 	private void addButtonContainer()
@@ -130,7 +162,8 @@ public class InputDialog extends PopupPanel
 		super.center();
 		this.textBox.setText(this.text);
 		this.input = this.text;
-		this.textBox.setFocus(true);
+
+		this.customKeys.showRelativeTo(this);
 	}
 
 	@Override
@@ -138,6 +171,7 @@ public class InputDialog extends PopupPanel
 	{
 		super.hide();
 		this.text = "";
+		this.customKeys.hide();
 	}
 
 	/**
@@ -154,5 +188,11 @@ public class InputDialog extends PopupPanel
 	public void setText(String text)
 	{
 		this.text = text;
+	}
+
+	@Override
+	public void onCustomKeyPressed(CustomKey c)
+	{
+		this.textBox.setText(this.textBox.getText() + c.toString());
 	}
 }
