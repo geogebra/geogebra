@@ -1,5 +1,6 @@
 package geogebra.web.javax.swing;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -35,6 +36,11 @@ public class JPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	
 	public void setVisible(boolean v){
 		popupPanel.setVisible(v);
+	}
+	
+	public void show(GPoint p){
+		popupPanel.setPopupPosition(p.getX(), p.getY());
+		popupPanel.show();
 	}
 	
 	public void show(Canvas c, int x, int y) {

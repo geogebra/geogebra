@@ -9,6 +9,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
+import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
@@ -167,9 +168,17 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			getPopupMenu(geos, p).show(invoker, p.x, p.y);
 		}
 	}
+	
+	public void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
+	        GPoint p) {
+		// clear highlighting and selections in views
+		app.getActiveEuclidianView().resetMode();
+		getPopupMenu(geos, p).show(p);
+	}
 
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location) {
+		removePopup();
 		currentPopup = new ContextMenuGeoElementW(app, geos, location);
 		((ContextMenuGeoElementW)currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;

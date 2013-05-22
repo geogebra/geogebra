@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -20,14 +21,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.gui.GuiManagerW;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -406,6 +411,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.isEditing())
 			return;
 
+		
+		if(evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
+			if(geo != null) {
+				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				temp.add(geo);
+				GPoint point = new GPoint(evt.getClientX(), evt.getClientY());
+				((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, av, point);
+			}
+			return;
+		}
+		
 		evt.preventDefault();
 		evt.stopPropagation();
 	}

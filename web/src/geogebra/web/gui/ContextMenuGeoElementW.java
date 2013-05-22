@@ -519,6 +519,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		
 		wrappedPopup.show(c, x, y);
 	}
+	
+	public void show(GPoint p){
+		App.debug(wrappedPopup.toString());
+		wrappedPopup.show(p);	
+	}
 
 //	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
 //	    initPopup((AppW) this.app, geos);
