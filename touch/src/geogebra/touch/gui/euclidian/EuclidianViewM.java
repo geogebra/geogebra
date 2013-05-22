@@ -50,7 +50,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 	// (for anything other see App)
 	private int selectionFactor = 3;
 
-	public EuclidianViewM(EuclidianViewPanel euclidianViewPanel, TouchController ec, Widget widget)
+	public EuclidianViewM(EuclidianViewPanel euclidianViewPanel, TouchController ec, Widget widget, int width, int height)
 	{
 		super(ec, new Settings().getEuclidian(1));
 
@@ -59,7 +59,7 @@ public class EuclidianViewM extends EuclidianViewWeb
 		this.setAllowShowMouseCoords(false);
 
 		this.hits = new Hits();
-		init(euclidianViewPanel, widget);
+		init(euclidianViewPanel, widget, width, height);
 		//make sure we listen to the changes of settings, eg if file is loaded
 		if ((this.evNo == 1) || (this.evNo == 2)) {
 			EuclidianSettings es = this.app.getSettings().getEuclidian(this.evNo);
@@ -72,11 +72,12 @@ public class EuclidianViewM extends EuclidianViewWeb
 	 * This method has to be called before using g2p.
 	 * 
 	 */
-	private void init(EuclidianViewPanel euclidianViewPanel, Widget widget)
+	private void init(EuclidianViewPanel euclidianViewPanel, Widget widget, int width, int height)
 	{
 		this.panel = euclidianViewPanel;
 		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
+		this.setCoordinateSpaceSize(width, height);
 		TouchEventController touchController = new TouchEventController((TouchController) this.getEuclidianController(), widget);
 
 		euclidianViewPanel.addDomHandler(touchController, TouchStartEvent.getType());

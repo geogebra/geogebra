@@ -23,9 +23,9 @@ public class EuclidianViewPanel extends AbsolutePanel
 	 *          MobileEuclidianController
 	 * @param widget 
 	 */
-	public void initEuclidianView(TouchController ec, Widget widget)
+	public void initEuclidianView(TouchController ec, Widget widget, int width, int height)
 	{
-		this.euclidianView = new EuclidianViewM(this, ec, widget);
+		this.euclidianView = new EuclidianViewM(this, ec, widget, width, height);
 		this.add(this.euclidianView.getCanvas());
 	}
 
@@ -51,7 +51,9 @@ public class EuclidianViewPanel extends AbsolutePanel
 	public void setPixelSize(int width, int height)
 	{
 		super.setPixelSize(width, height);
-		this.euclidianView.setPixelSize(width, height);
+		if(this.euclidianView!=null){
+			this.euclidianView.setPixelSize(width, height);
+		}
 	}
 
 	@Override
