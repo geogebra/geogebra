@@ -182,7 +182,7 @@ __GGB__keysVar.es.command = {
     "ContingencyTable_Syntax": "[ <Lista de Texto>, <Lista de Texto> ]\n[ <Lista de Texto>, <Lista de Texto>, <Opciones> ]\n[ <Lista de Valores de Fila>, <Lista de Valores de Xolumna>, <Tabla de Frecuencia> ]\n[ <Lista de Valores de Fila>, <List of Column Values>, <Tabla de Frecuencia>, <Opciones> ]",
     "ContinuedFraction": "Fracci\xf3nContinua",
     "ContinuedFraction_Syntax": "[ <N\xfamero> ]\n[ <N\xfamero>, <Nivel> ]\n[ <N\xfamero>, <Nivel>, <Atajo verdadero|falso> ]",
-    "ContourPlot": "ContourPlot",
+    "ContourPlot": "DiagramaPerimetral",
     "ConvexHull": "CierreConvexo",
     "ConvexHull_Syntax": "[ <Lista de Puntos> ]",
     "CopyFreeObject": "CopiaObjetoLibre",
