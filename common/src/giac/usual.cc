@@ -5542,44 +5542,66 @@ namespace giac {
     return symbolic(at_moyal,gen(makevecteur(a,b,vars,order),_SEQ__VECT));
   }
 
-  gen _evalf(const gen & a,GIAC_CONTEXT){
-    if ( a.type==_STRNG && a.subtype==-1) return  a;
+  gen _evalf(const gen & a,int ndigits,GIAC_CONTEXT){
+    int save_decimal_digits=decimal_digits(contextptr);
+#ifndef HAVE_LIBMPFR
+    if (ndigits>14)
+      return gensizeerr(gettext("Longfloat library not available"));
+#endif
+    set_decimal_digits(ndigits,contextptr);
+    gen res=a.evalf(1,contextptr);
+    if (res.type==_REAL || res.type==_CPLX)
+      res=accurate_evalf(res,digits2bits(ndigits));
+#if 0
+    if (ndigits<=14 && calc_mode(contextptr)==1 && (res.type==_DOUBLE_ || res.type==_CPLX)){
+      int decal=0;
+      decal=int(std::floor(std::log10(abs(res,contextptr)._DOUBLE_val)));
+      res=res*pow(10,ndigits-decal-1,contextptr);
+      res=_floor(re(res,contextptr)+.5,contextptr)+cst_i*_floor(im(res,contextptr)+.5,contextptr);
+      res=evalf(res,1,contextptr)*pow(10,decal+1-ndigits,contextptr);
+    }
+    else {
+      if (ndigits<=14 && !is_undef(res)){
+	res=_round(gen(makevecteur(res,ndigits),_SEQ__VECT),contextptr);
+      }
+    }
+#else
+    if (ndigits<=14 && !is_undef(res))
+      res=gen(res.print(contextptr),contextptr);
+#endif
+    set_decimal_digits(save_decimal_digits,contextptr);
+    return res;
+  }
+
+  gen _evalf(const gen & a_orig,GIAC_CONTEXT){
+    gen a(a_orig);
+    if (a.type==_STRNG && a.subtype==-1) return  a;
     if (a.is_symb_of_sommet(at_equal)&&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
       vecteur & v(*a._SYMBptr->feuille._VECTptr);
       return symbolic(at_equal,gen(makevecteur(evalf(v.front(),1,contextptr),evalf(v.back(),1,contextptr)),_SEQ__VECT));
     }
+    gen res;
+    int ndigits=decimal_digits(contextptr);
     if (a.type==_VECT && a.subtype==_SEQ__VECT && a._VECTptr->size()==2 && a._VECTptr->back().type==_INT_){
-      int save_decimal_digits=decimal_digits(contextptr);
-      int ndigits=a._VECTptr->back().val;
-#ifndef HAVE_LIBMPFR
-      if (ndigits>14)
-	return gensizeerr(gettext("Longfloat library not available"));
-#endif
-      set_decimal_digits(ndigits,contextptr);
-      gen res=a._VECTptr->front().evalf(1,contextptr);
-      if (res.type==_REAL || res.type==_CPLX)
-	res=accurate_evalf(res,digits2bits(a._VECTptr->back().val));
-#if 0
-      if (ndigits<=14 && calc_mode(contextptr)==1 && (res.type==_DOUBLE_ || res.type==_CPLX)){
-	int decal=0;
-	decal=int(std::floor(std::log10(abs(res,contextptr)._DOUBLE_val)));
-	res=res*pow(10,ndigits-decal-1,contextptr);
-	res=_floor(re(res,contextptr)+.5,contextptr)+cst_i*_floor(im(res,contextptr)+.5,contextptr);
-	res=evalf(res,1,contextptr)*pow(10,decal+1-ndigits,contextptr);
-      }
-      else {
-	if (ndigits<=14 && !is_undef(res)){
-	  res=_round(gen(makevecteur(res,ndigits),_SEQ__VECT),contextptr);
-	}
-      }
-#else
-      if (ndigits<=14 && !is_undef(res))
-	res=gen(res.print(contextptr),contextptr);
-#endif
-      set_decimal_digits(save_decimal_digits,contextptr);
-      return res;
+      ndigits=a._VECTptr->back().val;
+      a=a._VECTptr->front();
+      res=_evalf(a,ndigits,contextptr);
     }
-    return a.evalf(1,contextptr);
+    else
+      res=a.evalf(1,contextptr);
+#ifdef HAVE_LIBMPFR
+    if ( res/res!=1  && ndigits<=14){
+      // evalf again with 30 digits (overflow workaround)
+      res=_evalf(a,30,contextptr);
+      // and round to ndigits
+      int nbits=digits2bits(ndigits);
+      if (res.type==_REAL)
+	res=real_object(res,nbits);
+      if (res.type==_CPLX)
+	res=real_object(re(res,contextptr),nbits)+cst_i*real_object(im(res,contextptr),nbits);
+    }
+#endif
+    return res;
   }
   static const char _evalf_s []="evalf";
   static define_unary_function_eval (__evalf,&giac::_evalf,_evalf_s);

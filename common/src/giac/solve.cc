@@ -1015,7 +1015,7 @@ namespace giac {
 	  )
 	symb_inf=symb_superieur_strict(x,l);
       else {
-	if (equalposcomp(veq_excluded,l))
+	if (equalposcomp(singu,l))
 	  symb_inf=symb_superieur_strict(x,l);
 	else
 	  symb_inf=symb_superieur_egal(x,l);
@@ -1028,7 +1028,7 @@ namespace giac {
 	  )
 	symb_sup=symb_inferieur_strict(x,m);
       else {
-	if (equalposcomp(veq_excluded,m))
+	if (equalposcomp(singu,m))
 	  symb_sup=symb_inferieur_strict(x,m);
 	else
 	  symb_sup=symb_inferieur_egal(x,m);
@@ -2623,6 +2623,8 @@ namespace giac {
   // fsolve(expr,var[,interval/guess,method])
   gen _fsolve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (calc_mode(contextptr)==1 && args.type!=_VECT)
+      return _fsolve(makesequence(args,ggb_var(args)),contextptr);
     vecteur v(plotpreprocess(args,contextptr));
     gen res=in_fsolve(v,contextptr);
     if (calc_mode(contextptr)!=1)
@@ -2991,7 +2993,7 @@ namespace giac {
       }
       int j;
       j=i;
-      while (li[j]==0 && j<d){
+      while (j<d && li[j]==0){
 	j=j+1;
       }
       if (j==d && !is_zero(li[d])){
