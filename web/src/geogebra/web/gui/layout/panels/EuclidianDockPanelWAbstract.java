@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -51,4 +52,5 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 
 	public abstract AbsolutePanel getEuclidianPanel();
 	public abstract Canvas getCanvas();
+	public abstract EuclidianView getEuclidianView();
 }

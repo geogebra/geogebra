@@ -9,6 +9,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class DockManagerW implements  SetLabels {
 	/**
 	 * The euclidian dock panel which had the focus the last.
 	 */
-	//private EuclidianDockPanelAbstract focusedEuclidianDockPanel;
+	private EuclidianDockPanelWAbstract focusedEuclidianDockPanel;
 	
 	/**
 	 * A list with all registered dock panels.
@@ -921,15 +922,15 @@ public class DockManagerW implements  SetLabels {
 	 * @param panel panel
 	 */
 	public void setFocusedPanel(DockPanel panel) {
-	//	setFocusedPanel(panel, true);
+		setFocusedPanel(panel, true);
 	}
 	
 	/**
-	 * Change the focused panel to "panel".
+	 * Change the focused panel to "panel". TODO: partly unimplemented
 	 * 
 	 * @param panel panel
 	 * @param updatePropertiesView update the properties view
-	 *//*/
+	 */
 	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
 		if(focusedDockPanel == panel) {
 			return;
@@ -942,23 +943,23 @@ public class DockManagerW implements  SetLabels {
 		if(panel == null) {
 			if(focusedEuclidianDockPanel != null) {
 				focusedEuclidianDockPanel.setEuclidianFocus(false);
-				if (focusedEuclidianDockPanel != focusedDockPanel)
-					focusedEuclidianDockPanel.setTitleLabelFocus();
+				// if (focusedEuclidianDockPanel != focusedDockPanel)
+				//	focusedEuclidianDockPanel.setTitleLabelFocus();
 				focusedEuclidianDockPanel = null;
 			}
 		}else{
-			if(panel instanceof EuclidianDockPanelAbstract && focusedEuclidianDockPanel != panel) {
+			if(panel instanceof EuclidianDockPanelWAbstract && focusedEuclidianDockPanel != panel) {
 				// remove focus from previously focused dock panel
 				if(focusedEuclidianDockPanel != null) {
 					focusedEuclidianDockPanel.setEuclidianFocus(false);
-					if (focusedEuclidianDockPanel != focusedDockPanel)
-						focusedEuclidianDockPanel.setTitleLabelFocus();
+					// if (focusedEuclidianDockPanel != focusedDockPanel)
+					//	focusedEuclidianDockPanel.setTitleLabelFocus();
 				}
 
 
 				// if a panel has focus and that panel is a euclidian dock panel
 				// change the focused euclidian dock panel to that panel				
-				focusedEuclidianDockPanel = (EuclidianDockPanelAbstract) panel;
+				focusedEuclidianDockPanel = (EuclidianDockPanelWAbstract) panel;
 				focusedEuclidianDockPanel.setEuclidianFocus(true);
 
 
@@ -974,7 +975,7 @@ public class DockManagerW implements  SetLabels {
 			focusedDockPanel.setFocus(false, false);
 		}
 		
-		focusedDockPanel = panel;
+		focusedDockPanel = (DockPanelW)panel;
 		
 		if(focusedDockPanel != null) {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
@@ -982,13 +983,13 @@ public class DockManagerW implements  SetLabels {
 		
 		app.getGuiManager().updateMenubarSelection();
 		
-		if(focusedDockPanel != null && panel.isInFrame()){
-			panel.getFrame().toFront();
-		}
+		//if(focusedDockPanel != null && panel.isInFrame()){
+		//	panel.getFrame().toFront();
+		//}
 		
 	}
-	*/
-	
+
+
 	/**
 	 * Changes the focused panel to the dock panel with ID viewId. 
 	 * Uses {@link DockManagerW#setFocusedPanel(DockPanel)} internally 
@@ -1032,9 +1033,9 @@ public class DockManagerW implements  SetLabels {
 	/**
 	 * @return The dock euclidian panel which had focus the last.
 	 */
-	//public EuclidianDockPanelAbstract getFocusedEuclidianPanel() {
-	//	return focusedEuclidianDockPanel;
-	//}	
+	public EuclidianDockPanelWAbstract getFocusedEuclidianPanel() {
+		return focusedEuclidianDockPanel;
+	}	
 	
 	/**
 	 * Moves the focus between visible panels. Just the register order is taken

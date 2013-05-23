@@ -9,6 +9,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
@@ -37,6 +38,7 @@ import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
@@ -54,6 +56,8 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -224,9 +228,35 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	@Override
 	public void setFocusedPanel(AbstractEvent event,
 	        boolean updatePropertiesView) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+		setFocusedPanel(geogebra.web.euclidian.event.MouseEventW.getEvent(event), updatePropertiesView);
+	}
 
+	public void setFocusedPanel(NativeEvent e, boolean updatePropertiesView) {
+		// determine parent panel to change focus
+		Element et = Element.as(e.getEventTarget());
+		Element DOMancestor1 = app.getEuclidianViewpanel().getElement();
+		Element DOMancestor2 = null;
+		if (hasEuclidianView2())
+			DOMancestor2 = getEuclidianView2DockPanel().getElement();
+
+		while (et.hasParentElement() && et != DOMancestor1 && et != DOMancestor2)
+			et = et.getParentElement();
+
+		if (et == DOMancestor1)
+			setFocusedPanel(app.getEuclidianViewpanel(), updatePropertiesView);
+		else if (DOMancestor2 != null && et == DOMancestor2)
+			setFocusedPanel(getEuclidianView2DockPanel(), updatePropertiesView);
+	}
+
+	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
+		if (panel != null) {
+			getLayout().getDockManager()
+					.setFocusedPanel(panel,updatePropertiesView);
+
+			// notify the properties view
+			if  (updatePropertiesView)
+				updatePropertiesView();
+		}
 	}
 
 	@Override
@@ -839,7 +869,18 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	public EuclidianView getActiveEuclidianView() {
-		return app.getEuclidianView1();
+
+		if (layout == null)
+			return app.getEuclidianView1();
+
+		EuclidianDockPanelWAbstract focusedEuclidianPanel = layout
+				.getDockManager().getFocusedEuclidianPanel();
+
+		if (focusedEuclidianPanel != null) {
+			return focusedEuclidianPanel.getEuclidianView();
+		}
+		return (app).getEuclidianView1();
+		//return app.getEuclidianView1();
 	}
 
 	public Command getShowAxesAction() {

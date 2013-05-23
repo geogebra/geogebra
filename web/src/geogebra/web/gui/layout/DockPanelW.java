@@ -1425,15 +1425,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 *            has the focus
 	 * @param updatePropertiesView
 	 *            update properties view
-	 *//*TODO
+	 */
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 
 		if (hasFocus && updatePropertiesView) {
-			((GuiManagerW) app.getGuiManager()).updatePropertiesView();
+			app.getGuiManager().updatePropertiesView();
 		}
 
 		setFocus(hasFocus);
-	}*/
+	}
 
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
@@ -1444,7 +1444,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * 
 	 * @param hasFocus
 	 *            has the focus
-	 *//*TODO
+	 */
 	protected void setFocus(boolean hasFocus) {
 
 		// don't change anything if it's not necessary
@@ -1456,15 +1456,15 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (hasFocus) {
 			// request focus and change toolbar if necessary
 			if (openInFrame) {
-				frame.requestFocus();
+				//TODO frame.requestFocus();
 			} else {
-				if (!app.isApplet()) {
+				/*TODO if (!app.isApplet()) {
 					JFrame frame = app.getFrame();
 
 					if (frame != null) {
 						frame.toFront();
 					}
-				}
+				}*/
 
 				setActiveToolBar();
 			}
@@ -1479,45 +1479,47 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			focusGained();
 		} else {
 			focusLost();
-		}*/
+		}
 
 		/*
 		 * Mark the focused view in bold if the focus system is available. If
 		 * this isn't the case we always stick with the normal font as it would
 		 * confuse the users that the focus "indicator" just changes if we
 		 * switch between EVs.
-		 *//*TODO
+		 */
 		setTitleLabelFocus();
-	}*/
+	}
 
 	/**
 	 * sets the active toolbar
 	 */
-	/*protected void setActiveToolBar() {
-		if (hasToolbar()) {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+	protected void setActiveToolBar() {
+		App.debug("unimplemented");
+		/*if (hasToolbar()) {
+			app.getGuiManager().getToolbarPanel()
 					.setActiveToolbar(toolbar);
 		} else {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+			app.getGuiManager().getToolbarPanel()
 					.setActiveToolbar(-1);
 		}
 		// switching the view may cause shrinking of help panel,
 		// we need an update here
-		((GuiManagerD) app.getGuiManager()).getToolbarPanel().validate();
-		((GuiManagerD) app.getGuiManager()).getToolbarPanel().updateHelpText();
-	}*/
+		app.getGuiManager().getToolbarPanel().validate();
+		app.getGuiManager().getToolbarPanel().updateHelpText();*/
+	}
 
 	/**
 	 * sets the title label when this has not the focus
 	 */
-	/*protected void setTitleLabelFocus() {
-		if (dockManager.hasFullFocusSystem()) {
+	protected void setTitleLabelFocus() {
+		App.debug("unimplemented");
+		/*if (dockManager.hasFullFocusSystem()) {
 			if (titleIsBold())
 				titleLabel.setFont(app.getBoldFont());
 			else
 				titleLabel.setFont(app.getPlainFont());
-		}
-	}*/
+		}*/
+	}
 
 	/**
 	 * 

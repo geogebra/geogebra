@@ -562,6 +562,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			kernel.clearConstruction(true);
 
 			kernel.initUndoInfo();
+			resetMaxLayerUsed();
 			setCurrentFile(null);
 			setMoveMode();
 

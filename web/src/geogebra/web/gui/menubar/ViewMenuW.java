@@ -124,6 +124,13 @@ public class ViewMenuW extends MenuBar {
 			        	int viewId = App.VIEW_EUCLIDIAN2;
 			        	((GuiManagerW)app.getGuiManager()).setShowView(
 								!((GuiManagerW)app.getGuiManager()).showView(viewId), viewId);
+
+			        	/*// avoid one EuclidianView hiding the another (imperfect hack)
+			        	app.getGuiManager().getEuclidianView2DockPanel()
+			        		.getAbsolutePanel().setPixelSize(
+			        				300,
+			        				app.getEuclidianView1().getHeight());
+			        	app.getGuiManager().getEuclidianView2DockPanel().onResize();*/
 			        }
 		        });
 

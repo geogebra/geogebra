@@ -1,6 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianStyleBar;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -185,6 +186,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 	public AbsolutePanel getEuclidianPanel() {
 		return euclidianpanel;
+	}
+
+	public EuclidianView getEuclidianView() {
+		if (app != null)
+			return app.getEuclidianView1();
+		return null;
 	}
 
 	@Override

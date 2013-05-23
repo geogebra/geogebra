@@ -35,12 +35,15 @@ public class TimerSystemW {
 	long nextrepainttime = 0;// for its repainting length, EV's will repaint
 
 	EuclidianViewWeb euclidianView1 = null;
+	EuclidianViewWeb euclidianView2 = null;
 	AlgebraViewWeb algebraView = null;
 	SpreadsheetViewWeb spreadsheetView = null;
 
 	public TimerSystemW(AppWeb app) {
 		application = app;
 		euclidianView1 = application.getEuclidianView1();
+		if (application.hasEuclidianView2EitherShowingOrNot())
+			euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
 		if (application.getViewManager().hasAlgebraView())
 			algebraView = (AlgebraViewWeb) application.getAlgebraView();
 		if (application.getViewManager().hasSpreadsheetView())
@@ -57,6 +60,10 @@ public class TimerSystemW {
 			// repaint the EV every time it comes here
 			if (euclidian1Timed) {
 				euclidianView1.doRepaint();
+
+				// quick insertion, may be optimized later too
+				if (euclidianView2 != null)
+					euclidianView2.doRepaint();
 
 				if (nextrepainttime <= 0) {
 					if (nextbigview == 0 && algebraTimed) {
@@ -131,7 +138,7 @@ public class TimerSystemW {
 
 		if (view == null)
 			return;
-		else if (view == euclidianView1)
+		else if (view == euclidianView1 || view == euclidianView2)
 			euclidianRepaint();
 		else if (view == algebraView)
 			algebraRepaint();
@@ -143,7 +150,11 @@ public class TimerSystemW {
 				if (view == euclidianView1)
 					euclidianRepaint();
 			} else if (view.getViewID() == App.VIEW_EUCLIDIAN2) {
-				//TODO
+				if (application.hasEuclidianView2EitherShowingOrNot()) {
+					euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
+					if (view == euclidianView2)
+						euclidianRepaint();
+				}
 			} else if (view.getViewID() == App.VIEW_ALGEBRA) {
 				algebraView = (AlgebraViewWeb)application.getAlgebraView();
 				if (view == algebraView)
