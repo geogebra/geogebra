@@ -2,7 +2,15 @@ package geogebra.html5;
 
 public class Browser {
 	public static boolean webWorkerSupported = false;
-	
+
+	public static native boolean isFirefox() /*-{
+		// copying checking code from the checkWorkerSupport method
+		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 	public static native boolean checkWorkerSupport(String workerpath) /*-{
 		// Worker support in Firefox is incompatible at the moment for zip.js,
 		// see http://gildas-lormeau.github.com/zip.js/ for details:

@@ -1,5 +1,7 @@
 package geogebra.html5.util.debug;
 
+import geogebra.html5.Browser;
+
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
@@ -72,6 +74,22 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 	private native void printWebConsole(String s) /*-{
 		$wnd.console.log(s);
 		}-*/;
+
+
+	/**
+	 * Prints a log message if the logLevel is set to <= level
+	 * and stores those classes which have no implementation
+	 * (simply checks if the message starts with "implementation needed")
+	 * @param level logging level
+	 * @param message the log message
+	 */
+	@Override
+	public void log(Level level, String message) {
+		if (Browser.isFirefox())
+			super.log(level, "\n"+message);
+		else
+			super.log(level, message);
+	}
 	
 	
 	}
