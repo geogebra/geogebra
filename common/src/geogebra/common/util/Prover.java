@@ -276,9 +276,9 @@ public abstract class Prover {
 				return;
 			}
 			if (useAlternativeBotana){
-				result = geogebra.common.kernel.prover.ProverBotanasMethod.proveAlternative(this);
+				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this, true);
 			} else {
-				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
+				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this, false);
 			}
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {

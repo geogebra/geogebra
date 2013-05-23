@@ -236,7 +236,7 @@ public class ProverBotanasMethod {
 			else {
 				geos[i] = geo;
 				ret.put(fv[0], 0);
-				ret.put(fv[1], 1);
+				ret.put(fv[1], 1); // FIXME: If this is set to a new variable, we don't need to assume AreEqual (see below)
 				++i;
 			}
 		}
@@ -252,11 +252,16 @@ public class ProverBotanasMethod {
 
 	
 	/**
-	 * Proves the statement by using Botana's method 
+	 * Proves the statement by using Botana's method
+	 * (Zoltan's interpretation and Simon's "alternative" way).
+	 * Simon's way is currently works over a field of rational functions.
+	 * Zoltan's way is prescribing some forced conditions as if
+	 * they were NDGs. This will be removed later. 
 	 * @param prover the prover input object 
+	 * @param alternative use Simon's way or not
 	 * @return if the statement is true
 	 */
-	public static ProofResult prove(geogebra.common.util.Prover prover) {
+	public static ProofResult prove(geogebra.common.util.Prover prover, boolean alternative) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
 		GeoElement statement = prover.getStatement();
@@ -320,11 +325,15 @@ public class ProverBotanasMethod {
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
-			if (ProverSettings.freePointsNeverCollinear)
+			if (!alternative && ProverSettings.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
 			HashMap<Variable,Integer> substitutions = null;
-			if (ProverSettings.useFixCoordinates)
-				substitutions = fixValues(prover);
+			if (ProverSettings.useFixCoordinates) {
+				if (alternative)
+					substitutions = fixValuesAlternative(prover);
+				else
+					substitutions = fixValues(prover);
+			}
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;
@@ -362,113 +371,33 @@ public class ProverBotanasMethod {
 				App.debug("Thesis reductio ad absurdum (denied statement):");
 				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
 				App.debug((nHypotheses + nNdgConditions + nPolysStatement) + ". " + spoly);
-				if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
+				
+				if (alternative) {
+					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
+					
+					Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
+					if (eliminationIdeal == null){
+						return ProofResult.UNKNOWN;
+					}
 					ans = false;
+					for (Polynomial generator:eliminationIdeal){
+						if (!generator.isZero()){
+							ans = true;
+						}
+					}
+				} else {
+					if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
+						ans = false;
+				}
 			}
+
 			if (ans)
 				return ProofResult.TRUE;
+			
 			return ProofResult.FALSE;
 		} catch (NoSymbolicParametersException e) {
 			return ProofResult.UNKNOWN;
 		}
 	}
 	
-	/**
-	 * Proves the statement by using Botana's method. No ndg-conditions
-	 * It proves the theorem over a field of rational functions
-	 * are generated.
-	 * @param prover the prover input object 
-	 * @return if the statement is true
-	 */
-	public static ProofResult proveAlternative(geogebra.common.util.Prover prover) {
-		// Getting the hypotheses:
-		Polynomial[] hypotheses = null;
-		GeoElement statement = prover.getStatement();
-		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			// AbstractApplication.debug(geo);
-			if (geo instanceof SymbolicParametersBotanaAlgo) {
-				try {
-					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
-					if (geoPolys != null) {
-						int nHypotheses = 0;
-						if (hypotheses != null)
-							nHypotheses = hypotheses.length;
-						Polynomial[] allPolys = new Polynomial[nHypotheses + geoPolys.length];
-						for (int i=0; i<nHypotheses; ++i)
-							allPolys[i] = hypotheses[i];
-						for (int i=0; i<geoPolys.length; ++i)
-							allPolys[nHypotheses + i] = geoPolys[i];
-						hypotheses = allPolys;
-					}
-				} catch (NoSymbolicParametersException e) {
-					App.debug(geo.getParentAlgorithm() + " is not fully implemented");
-					return ProofResult.UNKNOWN;
-				}
-			}
-			else {
-				App.debug(geo.getParentAlgorithm() + " unimplemented");
-				return ProofResult.UNKNOWN;
-			}
-		}
-		
-		updateBotanaVarsInv(statement);
-		
-		try {
-			// The sets of statement polynomials.
-			// The last equation of each set will be negated.
-			if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
-				App.debug(statement.getParentAlgorithm() + " unimplemented");
-				return ProofResult.UNKNOWN;
-			}
-				
-			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
-			
-			HashMap<Variable,Integer> substitutions = null;
-			if (ProverSettings.useFixCoordinates)
-				substitutions = fixValuesAlternative(prover); 
-			
-			int nHypotheses = 0;
-			int nStatements = 0;
-			if (hypotheses != null)
-				nHypotheses = hypotheses.length;
-			if (statements != null)
-				nStatements = statements.length;
-						
-			boolean ans = true;
-			// Solving the equation system for each sets of polynomials of the statement:
-			for (int i=0; i<nStatements && ans; ++i) {
-				int nPolysStatement = statements[i].length;
-				Polynomial[] eqSystem = new Polynomial[nHypotheses + nPolysStatement];
-				// These polynomials will be in the equation system always:
-				for (int j=0; j<nHypotheses; ++j)
-					eqSystem[j] = hypotheses[j];
-				for (int j=0; j<nPolysStatement - 1; ++j)
-					eqSystem[j + nHypotheses] = statements[i][j];
-
-				// Rabinowitsch trick for the last polynomial of the current statement:
-				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
-				// FIXME: this always introduces an extra variable, shouldn't do
-				eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
-				
-				Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
-				if (eliminationIdeal == null){
-					return ProofResult.UNKNOWN;
-				}
-				ans = false;
-				for (Polynomial generator:eliminationIdeal){
-					if (!generator.isZero()){
-						ans = true;
-					}
-				}
-				
-			}
-			if (ans)
-				return ProofResult.TRUE;
-			return ProofResult.FALSE;
-		} catch (NoSymbolicParametersException e) {
-			return ProofResult.UNKNOWN;
-		}
-	}
 }
