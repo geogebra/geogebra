@@ -157,18 +157,24 @@ public class ProverBotanasMethod {
 	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
 	 * The first two variables (usually the coordinates of the first point) are set to 0,
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
+	 * The non-alternative method prefers circle centers to choose.
+	 * Only free variables are fixed for the alternative method.
+	 * FIXME: The same should be done for the non-alternative method as well.
 	 * @param prover the input prover
+	 * @param alternative if we use Simon's alternative way
 	 * @return a HashMap, containing the substitutions
 	 */
-	static HashMap<Variable,Integer> fixValues(Prover prover) {
+	static HashMap<Variable,Integer> fixValues(Prover prover, boolean alternative) {
 		GeoElement statement = prover.getStatement();
-		List<GeoElement> circleCenters = getCircleCenters(statement);
+		List<GeoElement> circleCenters = null;
+		if (!alternative)
+				circleCenters = getCircleCenters(statement);
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
 		if (circleCenters != null)
 			fixedPoints.addAll(circleCenters);
 		for (GeoElement ge : freePoints) {
-			if (!circleCenters.contains(ge))
+			if (circleCenters == null || !circleCenters.contains(ge))
 				fixedPoints.add(ge);
 		}
 		
@@ -193,6 +199,7 @@ public class ProverBotanasMethod {
 				++i;
 			}
 		}
+		// FIXME: We don't want to create NDGs for the alternative method:
 		if (i == 2) {
 			NDGCondition ndgc = new NDGCondition();
 			ndgc.setCondition("AreEqual");
@@ -202,54 +209,6 @@ public class ProverBotanasMethod {
 		}
 		return ret;
 	}
-	
-	/**
-	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
-	 * The first two variables (usually the coordinates of the first point) are set to 0,
-	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
-	 * Only free variables are fixed
-	 * @param prover the input prover
-	 * @return a HashMap, containing the substitutions
-	 */
-	static HashMap<Variable,Integer> fixValuesAlternative(Prover prover) {
-		GeoElement statement = prover.getStatement();
-		List<GeoElement> freePoints = getFreePoints(statement);
-		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
-		for (GeoElement ge : freePoints) {
-				fixedPoints.add(ge);
-		}
-		
-		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
-		
-		Iterator<GeoElement> it = fixedPoints.iterator();
-		GeoElement[] geos = new GeoElement[2];
-		int i = 0;
-		while (it.hasNext() && i<2) {
-			GeoElement geo = it.next();
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
-			if (i==0) {
-				geos[i] = geo;
-				ret.put(fv[0], 0);
-				ret.put(fv[1], 0);
-				++i;
-			}
-			else {
-				geos[i] = geo;
-				ret.put(fv[0], 0);
-				ret.put(fv[1], 1); // FIXME: If this is set to a new variable, we don't need to assume AreEqual (see below)
-				++i;
-			}
-		}
-		if (i == 2) {
-			NDGCondition ndgc = new NDGCondition();
-			ndgc.setCondition("AreEqual");
-			ndgc.setGeos(geos);
-			Arrays.sort(ndgc.getGeos());
-			prover.addNDGcondition(ndgc);
-		}
-		return ret;
-	}
-
 	
 	/**
 	 * Proves the statement by using Botana's method
@@ -330,9 +289,9 @@ public class ProverBotanasMethod {
 			HashMap<Variable,Integer> substitutions = null;
 			if (ProverSettings.useFixCoordinates) {
 				if (alternative)
-					substitutions = fixValuesAlternative(prover);
+					substitutions = fixValues(prover, true);
 				else
-					substitutions = fixValues(prover);
+					substitutions = fixValues(prover, false);
 			}
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
