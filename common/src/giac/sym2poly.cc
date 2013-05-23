@@ -1838,8 +1838,12 @@ namespace giac {
 	  for (int ntry=0;ntry<10;++ntry,tst=false){
 	    gen tmp00=subst(tmp0,vinit,vzero,false,contextptr);
 	    gen tmp10=subst(tmp1,vinit,vzero,false,contextptr);
-	    tmp00=algebraic_EXTension(tmp00,tmp10);
-	    tmp00=tmp00.evalf_double(1,contextptr);
+	    if (tmp10.type==_VECT && _size(_gcd(makesequence(tmp10,derivative(*tmp10._VECTptr)),contextptr),contextptr)>1)
+	      tmp00=cst_i; // retry
+	    else {
+	      tmp00=algebraic_EXTension(tmp00,tmp10);
+	      tmp00=tmp00.evalf_double(1,contextptr);
+	    }
 	    if (tmp00.type<=_CPLX){
 	      gen tmp3=eval(subst(w.front(),vinit,vzero,false,contextptr),1,contextptr);
 	      tmp3=tmp3.evalf_double(1,contextptr);

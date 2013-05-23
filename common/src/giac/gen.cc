@@ -9584,7 +9584,9 @@ namespace giac {
   /* I/O: Print routines */
   string print_DOUBLE_(double d,GIAC_CONTEXT){
 #ifdef BCD
+#ifndef BESTA_OS // Besta sprintf crashes on some doubles
     if (bcd_printdouble(contextptr))
+#endif
       return print_FLOAT_(giac_float(d),contextptr);
 #endif
 #ifndef DOUBLEVAL
@@ -9626,7 +9628,10 @@ namespace giac {
     int sf=scientific_format(contextptr); 
     switch (sf){
     case 0: case 2:
-      form += "g";
+      if (abs_calc_mode(contextptr)==38)
+	form += 'G';
+      else
+	form += "g";
       break;
     case 1: 
       form += "e";

@@ -1015,7 +1015,7 @@ namespace giac {
 	  )
 	symb_inf=symb_superieur_strict(x,l);
       else {
-	if (equalposcomp(singu,l))
+	if (equalposcomp(excluded_not_singu,l) || equalposcomp(singu,l))
 	  symb_inf=symb_superieur_strict(x,l);
 	else
 	  symb_inf=symb_superieur_egal(x,l);
@@ -1028,7 +1028,7 @@ namespace giac {
 	  )
 	symb_sup=symb_inferieur_strict(x,m);
       else {
-	if (equalposcomp(singu,m))
+	if (equalposcomp(excluded_not_singu,m) || equalposcomp(singu,m))
 	  symb_sup=symb_inferieur_strict(x,m);
 	else
 	  symb_sup=symb_inferieur_egal(x,m);
