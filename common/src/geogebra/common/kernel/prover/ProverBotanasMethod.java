@@ -266,14 +266,15 @@ public class ProverBotanasMethod {
 			// AbstractApplication.debug(geo);
 			if (geo instanceof SymbolicParametersBotanaAlgo) {
 				try {
-					App.debug("PROCESSING OBJECT " + geo.getLabelSimple() + ":");
+					App.debug("/* PROCESSING OBJECT " + geo.getLabelSimple() + " */");
 					String command = geo.getCommandDescription(StringTemplate.noLocalDefault);
 					if (!("".equals(command))) {
-						App.debug("Command definition: " +
-					 		geo.getCommandDescription(StringTemplate.noLocalDefault) + " (" +
-					 		geo.getDefinitionDescription(StringTemplate.noLocalDefault) + ")");
+						App.debug("/* Command definition */");
+						App.debug(geo.getLabelSimple() + " = " +
+							geo.getCommandDescription(StringTemplate.noLocalDefault) + " /* " +
+					 		geo.getDefinitionDescription(StringTemplate.noLocalDefault) + " */");
 					} else {
-						App.debug("Free point drawn at " + geo.getAlgebraDescriptionDefault());
+						App.debug(geo.getAlgebraDescriptionDefault() + " /* free point */");
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
 
@@ -411,7 +412,9 @@ public class ProverBotanasMethod {
 				return ProofResult.UNKNOWN;
 			}
 		}
+		
 		updateBotanaVarsInv(statement);
+		
 		try {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
@@ -421,7 +424,6 @@ public class ProverBotanasMethod {
 			}
 				
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
-			// The NDG conditions (automatically created):
 			
 			HashMap<Variable,Integer> substitutions = null;
 			if (ProverSettings.useFixCoordinates)
@@ -450,8 +452,17 @@ public class ProverBotanasMethod {
 				// FIXME: this always introduces an extra variable, shouldn't do
 				eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 				
-				if (Polynomial.solvable2(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
-					ans = false;
+				Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
+				if (eliminationIdeal == null){
+					return ProofResult.UNKNOWN;
+				}
+				ans = false;
+				for (Polynomial generator:eliminationIdeal){
+					if (!generator.isZero()){
+						ans = true;
+					}
+				}
+				
 			}
 			if (ans)
 				return ProofResult.TRUE;

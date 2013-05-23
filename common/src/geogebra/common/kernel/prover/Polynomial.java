@@ -6,6 +6,8 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -129,19 +131,29 @@ public class Polynomial implements Comparable<Polynomial> {
 	/**
 	 * Converts a String to a Polynomial
 	 * @param s the input string 
+ 	 * @param variables The variables contained in the polynomial
      * @author Damien Desfontaines
+     * @author Simon Weitzhofer
+	 * @throws PolynomialOfUnexpectedForm if the String could not be translated to a Polynomial
 	 */
-    // Removed to speed up the Variable class
-    /*
-	public Polynomial(String s) {
-		AbstractApplication.debug("Constructing poly from " + s.length() + " length String");
+	public Polynomial(String s, Set<Variable> variables) throws PolynomialOfUnexpectedForm {
+		App.debug("Constructing poly from " + s.length() + " length String");
+		
+		//Create a map between the variables and the name of the variables
+		Iterator<Variable> variablesIterator = variables.iterator();
+		HashMap<String,Variable> variableMap = new HashMap<String,Variable>();
+		while (variablesIterator.hasNext()){
+			Variable variable = variablesIterator.next();
+			variableMap.put(variable.getName(), variable);
+		}
+		
         // s has the form "-2*x^2*y + 5*x^3 - 2"
         // Firstly, we remove all whitespace.
         s = s.replace(" ","");
         // We verify that s has a "good" form, to avoid bugs
         String regex = "((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*)([\\+-]((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*))*";
         if (! s.matches(regex)) {
-            AbstractApplication.error("Polynomial of unexpected form : ".concat(s));
+            throw new PolynomialOfUnexpectedForm(s);
         }
         // Then, we transform all minus signs between terms into "+-", to
         // separate terms more easily.
@@ -168,10 +180,10 @@ public class Polynomial implements Comparable<Polynomial> {
                     Variable variable;
                     int coeff = 1;
                     if (signedVar.charAt(0) == '-') {
-                    	variable = new Variable(signedVar.substring(1));
+                    	variable = variableMap.get(signedVar.substring(1));
                     	coeff = -1;
                     } else
-                    	variable = new Variable(signedVar);
+                    	variable = variableMap.get(signedVar);
                     int exponent = Integer.parseInt(factorMembers[1]);
                     Polynomial factor = new Polynomial(coeff,variable,exponent);
                     product = product.multiply(factor);
@@ -183,24 +195,22 @@ public class Polynomial implements Comparable<Polynomial> {
                 }
                 // If factors[j] is a variable
                 else if (factors[j].matches("\\w+")) {
-                    Polynomial factor = new Polynomial(new Variable(factors[j]));
+                    Polynomial factor = new Polynomial(variableMap.get(factors[j]));
                     product = product.multiply(factor);
                 }
                 // If factors[j] is the negation of a variable
                 else if (factors[j].matches("-\\w+")) {
-                    Polynomial factor = new Polynomial(-1,new Variable(factors[j].substring(1)));
+                    Polynomial factor = new Polynomial(-1,variableMap.get(factors[j].substring(1)));
                     product = product.multiply(factor);
                 }
                 else {
-                    AbstractApplication.error("Input of unexpected form : ".concat(factors[j]));
-                    product = product.multiply(new Polynomial());
+                    throw new PolynomialOfUnexpectedForm(s);
                 }
             }
             sum = sum.add(product);
         }
 		terms = new TreeMap<Term, Integer>(sum.getTerms());
 	}
-    */
 	
 	/**
 	 * Returns the sum of the polynomial plus another polynomial.
@@ -745,6 +755,50 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
+	 * Creates a Singular program for the elimination ideal given by
+	 * a set of generating polynomials.
+	 * @param ringVariable variable name for the ring in Singular
+	 * @param idealVariable variable name for the ideal in Singular
+	 * @param polys set of polynomials generating the ideal
+	 * @param variables the variables of the polynomials
+	 * @param dependentVariables the variables that should be eliminated
+	 * @return the Singular program code
+	 */
+	public static String getSingularEliminationIdeal(String ringVariable, String idealVariable, 
+			Polynomial[] polys, Set<Variable> variables, Set<Variable> dependentVariables) {
+		
+		StringBuffer ret = new StringBuffer("ring ");
+		ret.append(ringVariable);
+		ret.append("=0,(");
+		Iterator<Variable> variablesIterator = variables.iterator();
+		while (variablesIterator.hasNext()){
+			ret.append(variablesIterator.next());
+			if (variablesIterator.hasNext())
+				ret.append(", ");
+		}
+		ret.append("),dp; ");
+		
+		ret.append("ideal ");
+		ret.append(idealVariable);
+		ret.append(" = ");
+		ret.append(getPolysAsCommaSeparatedString(polys));
+		ret.append("; ");
+		
+		ret.append("eliminate( ");
+		ret.append(idealVariable);
+		ret.append(", ");
+		Iterator<Variable> dependentVariablesIterator = dependentVariables.iterator();
+		while (dependentVariablesIterator.hasNext()){
+			ret.append(dependentVariablesIterator.next());
+			if (dependentVariablesIterator.hasNext()){
+				ret.append("*");
+			}
+		}
+		ret.append(");");
+		return ret.toString();
+	}
+	
+	/**
 	 * Returns a Singular code which tests whether a set of algebraic equations has a solution.
 	 * The polynomials defining the algebraic equation are from the polynomial ring over a field
 	 * of rational functions, namely 
@@ -890,9 +944,9 @@ public class Polynomial implements Comparable<Polynomial> {
 			HashSet<Variable> dependentVariables = new HashSet<Variable>();
 			HashSet<Variable> freeVariables = new HashSet<Variable>();
 			Iterator<Variable> variables = getVars(eqSystem).iterator();
-			while(variables.hasNext()){
-				Variable variable=variables.next();
-				if (variable.isFree()){
+			while (variables.hasNext()) {
+				Variable variable = variables.next();
+				if (variable.isFree()) {
 					freeVariables.add(variable);
 				} else {
 					dependentVariables.add(variable);
@@ -902,15 +956,23 @@ public class Polynomial implements Comparable<Polynomial> {
 			if (substitutions != null) {
 				eqSystemSubstituted = new Polynomial[eqSystem.length];
 				for (int i = 0; i < eqSystem.length; i++) {
-					eqSystemSubstituted[i] = eqSystem[i].substitute(substitutions);
+					eqSystemSubstituted[i] = eqSystem[i]
+							.substitute(substitutions);
 				}
 				freeVariables.removeAll(substitutions.keySet());
 			} else {
 				eqSystemSubstituted = eqSystem;
 			}
-			String singularSolvableProgram = getSingularGroebnerSolvable("r", "i",
-					eqSystemSubstituted, null, freeVariables, dependentVariables);
+			String singularSolvableProgram = getSingularGroebnerSolvable("r",
+					"i", eqSystemSubstituted, null, freeVariables,
+					dependentVariables);
 
+			variables = getVars(eqSystem).iterator();
+			while (variables.hasNext()){
+				Variable variable = variables.next();
+				App.debug(variable.getName()+" -> "+variable.getParent());
+			}
+			
 			if (singularSolvableProgram.length() > 500)
 				App.debug(singularSolvableProgram.length()
 						+ " bytes -> singular");
@@ -918,7 +980,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				App.debug(singularSolvableProgram + " -> singular");
 			String singularSolvable = App.singularWS
 					.directCommand(singularSolvableProgram);
-			if (singularSolvable == null){
+			if (singularSolvable == null) {
 				return null;
 			}
 			if (singularSolvable.length() > 500)
@@ -932,4 +994,96 @@ public class Polynomial implements Comparable<Polynomial> {
 		return null; // cannot decide
 	}
 	
+	/**
+	 * Test if the system of algebraic equations has a solution. The polynomials
+	 * are from the polynomial ring over a field of rational functions. The variables
+	 * of the field are the free variables, that is those where isFree() returns true.
+	 * The calculations are done using SingularWS
+	 * @param eqSystem the polynomials describing the system of algebraic equations
+	 * @param substitutions the substitutions done prior the change
+	 * @return True if the system of equations has a solution, false if not and null
+	 * if Singular was not able to give an answer.
+	 */
+	public static Polynomial[] eliminate(Polynomial[] eqSystem,
+			HashMap<Variable, Integer> substitutions) {
+		if (App.singularWS != null && App.singularWS.isAvailable()) {
+			HashSet<Variable> dependentVariables = new HashSet<Variable>();
+			Set<Variable> variables = getVars(eqSystem);
+			Iterator<Variable> variablesIterator = variables.iterator();
+			while (variablesIterator.hasNext()) {
+				Variable variable = variablesIterator.next();
+				if (!variable.isFree()) {
+					dependentVariables.add(variable);
+				}
+			}
+			Polynomial[] eqSystemSubstituted;
+			if (substitutions != null) {
+				eqSystemSubstituted = new Polynomial[eqSystem.length];
+				for (int i = 0; i < eqSystem.length; i++) {
+					eqSystemSubstituted[i] = eqSystem[i]
+							.substitute(substitutions);
+				}
+				variables.removeAll(substitutions.keySet());
+			} else {
+				eqSystemSubstituted = eqSystem;
+			}
+			String singularEliminationProgram = getSingularEliminationIdeal("r",
+					"i", eqSystemSubstituted, variables, dependentVariables);
+
+			variablesIterator = variables.iterator();
+			while (variablesIterator.hasNext()){
+				Variable variable = variablesIterator.next();
+				App.debug(variable.getName()+" -> "+variable.getParent());
+			}
+			
+			if (singularEliminationProgram.length() > 500)
+				App.debug(singularEliminationProgram.length()
+						+ " bytes -> singular");
+			else
+				App.debug(singularEliminationProgram + " -> singular");
+			String singularSolvable = App.singularWS
+					.directCommand(singularEliminationProgram);
+			if (singularSolvable == null) {
+				return null;
+			}
+			if (singularSolvable.length() > 500)
+				App.debug("singular -> " + singularSolvable.length() + " bytes");
+			else
+				App.debug("singular -> " + singularSolvable);
+			
+			//test whether the result was given back in form
+			// _[0]=poly1
+			// _[1]=poly2
+			if (!(singularSolvable.matches("(.|\\s)*_\\[[0-9]+\\]=(.|\\s)*")))
+				return null;
+			
+			String[] polynomialStrings = singularSolvable.split("_\\[[0-9]+\\]=");
+			
+			List<Polynomial> polynomials = new LinkedList<Polynomial>();
+			for (String polynomialString:polynomialStrings){
+				polynomialString = polynomialString.replaceAll("\\s", "");
+				//simple incomplete test whether the expression is a polynomial or not
+				if (polynomialString.replaceAll("\\(|\\)", "").matches("[-\\+\\d+v][v\\d\\+\\-\\*{1,2}\\^)]*")){
+					try {
+						polynomials.add(new Polynomial(polynomialString, variables));
+					} catch (PolynomialOfUnexpectedForm e) {
+						App.error(e.getMessage());
+						return null;
+					}
+				}
+			}
+			return polynomials.toArray(new Polynomial[polynomials.size()]);
+		}
+		return null; // cannot decide
+	}
+	
+	private class PolynomialOfUnexpectedForm extends Exception{
+
+		private static final long serialVersionUID = 1L;
+		PolynomialOfUnexpectedForm(String poly){
+			super("The polynomial " + poly + " is of unexpected form");
+		}
+		
+	}
+
 }
