@@ -43,15 +43,11 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	@Override
 	public void drawHiding(Renderer renderer){
 		
-		if(!isVisible())
-			return;
-
-		if (!hasTransparentAlpha())
-			return;
-		
-		//renderer.setMatrix(getMatrix());
-		//drawGeometryHiding(renderer);
-		drawSurfaceGeometry(renderer);
+    	if(isVisible() && hasTransparentAlpha()){
+    		drawSurfaceGeometry(renderer);
+    	}
+    	
+    	drawTracesHidingSurface(renderer);
 		
 	}
 	
@@ -63,21 +59,13 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	public void drawTransp(Renderer renderer){
-		if(!isVisible()){
-			return;
-		}
 		
-		
-		if (!hasTransparentAlpha())
-			return;
-		
-		//setHighlightingColor();
-    	setSurfaceHighlightingColor();
-			
-		
-		//renderer.setMatrix(getMatrix());
-		//drawGeometry(renderer);
-		drawSurfaceGeometry(renderer);
+    	if(isVisible() && hasTransparentAlpha()){
+    		setSurfaceHighlightingColor();
+    		drawSurfaceGeometry(renderer);
+    	}
+    	
+    	drawTracesTranspSurface(renderer);
 		
 		
 	}
@@ -94,19 +82,12 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
 		
-		if(!isVisible()){
-			return;
+		if(isVisible() && getAlpha()>=1){
+			setSurfaceHighlightingColor();
+			drawSurfaceGeometry(renderer);		
 		}
-		
-		
-		if (getAlpha()<1)
-			return;
-		
-		//setHighlightingColor();
-    	setSurfaceHighlightingColor();
-    	
-    	//drawGeometry(renderer);
-		drawSurfaceGeometry(renderer);
+
+		drawTracesNotTranspSurface(renderer);
 		
 	}
 	

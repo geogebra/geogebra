@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
@@ -21,7 +22,8 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		GeoElement3DInterface, Functional2Var, SurfaceEvaluable, GeoLevelOfDetail {
+		GeoElement3DInterface, Functional2Var, SurfaceEvaluable, GeoLevelOfDetail,
+		Traceable{
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -219,5 +221,27 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	public boolean hasLevelOfDetail() {
 		return true;
 	}
+	
+	
+
+	//////////////////
+	// TRACE
+	//////////////////
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
+	
 
 }

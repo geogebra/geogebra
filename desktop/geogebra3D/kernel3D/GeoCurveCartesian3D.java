@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -18,7 +19,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		GeoCurveCartesian3DInterface, GeoElement3DInterface {
+		GeoCurveCartesian3DInterface, GeoElement3DInterface, Traceable {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -199,5 +200,27 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public boolean isGeoElement3D() {
 		return true;
 	}
+	
+	
+
+	//////////////////
+	// TRACE
+	//////////////////
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
+	
 
 }

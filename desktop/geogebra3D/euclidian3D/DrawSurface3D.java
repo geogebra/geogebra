@@ -126,7 +126,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-		renderer.getGeometryManager().draw(getGeometryIndex());
+		renderer.getGeometryManager().draw(getSurfaceIndex());
 	}
 	
 	@Override
@@ -206,7 +206,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// TODO use fading texture
 
 		surface.draw(mesh);
-		setGeometryIndex(surface.end());
+		setSurfaceIndex(surface.end());
 
 		return false;
 	}

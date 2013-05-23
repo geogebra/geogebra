@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -20,7 +21,7 @@ import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable {
+		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -558,9 +559,27 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return true;
 	}
 
-	public boolean getTrace() {
-		// TODO Auto-generated method stub
-		return false;
+
+
+	//////////////////
+	// TRACE
+	//////////////////
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
 	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
+	
+	
 
 }

@@ -78,4 +78,9 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 
 	}
 	
+	
+	@Override
+	public boolean isTraceable() {
+		return false;
+	}
 }

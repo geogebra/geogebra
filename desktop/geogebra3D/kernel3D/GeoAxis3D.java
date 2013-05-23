@@ -198,5 +198,10 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return label;
 
 	}
+	
+	@Override
+	public boolean isTraceable() {
+		return false;
+	}
 
 }

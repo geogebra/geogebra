@@ -35,7 +35,7 @@ implements Previewable {
 	@Override
 	public void drawGeometry(Renderer renderer) {
 		renderer.setLayer(getGeoElement().getLayer());
-		renderer.getGeometryManager().draw(getGeometryIndex());
+		renderer.getGeometryManager().draw(getSurfaceIndex());
 		renderer.setLayer(0);
 	}
 	
@@ -88,7 +88,7 @@ implements Previewable {
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start();
 			longitude = surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), getView3D().getScale());
-			setGeometryIndex(surface.end());			
+			setSurfaceIndex(surface.end());			
 			break;
 			
 		case GeoQuadricNDConstants.QUADRIC_CONE:
@@ -111,7 +111,7 @@ implements Previewable {
 			
 			surface.draw();
 			
-			setGeometryIndex(surface.end());
+			setSurfaceIndex(surface.end());
 			
 			break;
 
@@ -185,7 +185,7 @@ implements Previewable {
 					longitude = l;
 					surface.start();
 					surface.drawSphere(quadric.getMidpoint3D(), quadric.getHalfAxis(0), longitude);
-					setGeometryIndex(surface.end());
+					setSurfaceIndex(surface.end());
 					recordTrace();
 				}
 							

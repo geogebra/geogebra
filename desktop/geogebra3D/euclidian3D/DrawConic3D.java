@@ -532,7 +532,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 				Math.sin(u)*Math.cos(v)*r,
 				Math.sin(v)*r});
 		
-		return (Coords) n.add(conic.getMidpoint3D());
+		return n.add(conic.getMidpoint3D());
 	}
 
 
