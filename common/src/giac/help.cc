@@ -67,9 +67,9 @@ namespace giac {
   };
 
   const static_help_t static_help[]={
-#if !defined RTOS_THREADX && !defined BESTA_OS
+    //#if !defined RTOS_THREADX && !defined BESTA_OS
 #include "static_help.h"
-#endif
+    //#endif
   };
 
   const int static_help_size=sizeof(static_help)/sizeof(static_help_t);

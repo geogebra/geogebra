@@ -6878,6 +6878,28 @@ namespace giac {
       }
       return;     
     }
+    if ( (f.is_symb_of_sommet(at_fisher) 
+	  || f.is_symb_of_sommet(at_snedecor) 
+	  || f.is_symb_of_sommet(at_randfisher)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+      gen g1(f._SYMBptr->feuille._VECTptr->front()),g2(f._SYMBptr->feuille._VECTptr->back());
+      if ( is_integral(g1) && g1.type==_INT_ && g1.val>0 && g1.val<=1000 && is_integral(g2) && g2.type==_INT_ && g2.val>0 && g2.val<=1000){
+	int k1=g1.val,k2=g2.val;
+	res.push_back(randchisquare(k1,contextptr)/k1/(randchisquare(k2,contextptr)/k2));
+	return ;
+      }
+    }
+    if ( (f.is_symb_of_sommet(at_chisquare) || f.is_symb_of_sommet(at_randchisquare)) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
+      int k=f._SYMBptr->feuille.val;
+      for (int i=0;i<n;++i)
+	res.push_back(randchisquare(k,contextptr));
+      return;     
+    }
+    if ( (f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent)) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
+      int k=f._SYMBptr->feuille.val;
+      for (int i=0;i<n;++i)
+	res.push_back(randstudent(k,contextptr));
+      return;     
+    }
     if (f.is_symb_of_sommet(at_binomial) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
       gen N=f._SYMBptr->feuille._VECTptr->front();
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);

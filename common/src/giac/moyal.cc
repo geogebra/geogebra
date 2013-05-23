@@ -390,7 +390,7 @@ namespace giac {
   static define_unary_function_eval (__UTPN,&_UTPN,_UTPN_s);
   define_unary_function_ptr5( at_UTPN ,alias_at_UTPN,&__UTPN,0,true);
 
-  gen randNorm(GIAC_CONTEXT){
+  double randNorm(GIAC_CONTEXT){
     /*
     double d=rand()/(rand_max2+1.0);
     d=2*d-1;
@@ -413,6 +413,61 @@ namespace giac {
   static const char _randNorm_s []="randNorm";
   static define_unary_function_eval (__randNorm,&_randNorm,_randNorm_s);
   define_unary_function_ptr5( at_randNorm ,alias_at_randNorm,&__randNorm,0,true);
+
+  double randchisquare(int k,GIAC_CONTEXT){
+    double res=0.0;
+    for (int i=0;i<k;++i){
+      double u=giac_rand(contextptr)/(rand_max2+1.0);
+      double d=giac_rand(contextptr)/(rand_max2+1.0);
+      u=-2*std::log(u);
+      d=std::cos(2*M_PI*d);
+      d=d*d*u;
+      res += d;
+    }
+    return res;
+  }
+  gen _randchisquare(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen g(args);
+    if (!is_integral(g) || g.type!=_INT_ || g.val<=0 || g.val>1000)
+      return gensizeerr(contextptr);
+    return randchisquare(g.val,contextptr);
+  }
+  static const char _randchisquare_s []="randchisquare";
+  static define_unary_function_eval (__randchisquare,&_randchisquare,_randchisquare_s);
+  define_unary_function_ptr5( at_randchisquare ,alias_at_randchisquare,&__randchisquare,0,true);
+
+  double randstudent(int k,GIAC_CONTEXT){
+    return randNorm(contextptr)/std::sqrt(randchisquare(k,contextptr)/k);
+  }
+  gen _randstudent(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    gen g(args);
+    if (!is_integral(g) || g.type!=_INT_ || g.val<=0 || g.val>1000)
+      return gensizeerr(contextptr);
+    return randstudent(g.val,contextptr);
+  }
+  static const char _randstudent_s []="randstudent";
+  static define_unary_function_eval (__randstudent,&_randstudent,_randstudent_s);
+  define_unary_function_ptr5( at_randstudent ,alias_at_randstudent,&__randstudent,0,true);
+
+  double randfisher(int k1,int k2,GIAC_CONTEXT){
+    return randchisquare(k1,contextptr)/k1/(randchisquare(k2,contextptr)/k2);
+  }
+  gen _randfisher(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen g1(args._VECTptr->front()),g2(args._VECTptr->back());
+    if (!is_integral(g1) || g1.type!=_INT_ || g1.val<=0 || g1.val>1000 ||
+	!is_integral(g2) || g2.type!=_INT_ || g2.val<=0 || g2.val>1000
+	)
+      return gensizeerr(contextptr);
+    return randfisher(g1.val,g2.val,contextptr);
+  }
+  static const char _randfisher_s []="randfisher";
+  static define_unary_function_eval (__randfisher,&_randfisher,_randfisher_s);
+  define_unary_function_ptr5( at_randfisher ,alias_at_randfisher,&__randfisher,0,true);
 
   static gen normald(const gen & m,const gen & s,const gen & x,GIAC_CONTEXT){
     gen v(s*s);
@@ -512,6 +567,8 @@ namespace giac {
   gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT){
     if ( (is_zero(p) && is_zero(k)) || (is_one(p) && n==k))
       return 1;
+    if (is_strictly_positive(-n,contextptr))
+      return binomial(k-n-1,k,p,contextptr)*(1-p);
     if (k.type==_DOUBLE_ || k.type==_FLOAT_ || k.type==_FRAC){
       if (p.type==_DOUBLE_ || p.type==_FLOAT_ || p.type==_FRAC)
 	return gensizeerr(contextptr);
@@ -552,6 +609,72 @@ namespace giac {
   static const char _binomial_s []="binomial";
   static define_unary_function_eval (__binomial,&_binomial,_binomial_s);
   define_unary_function_ptr5( at_binomial ,alias_at_binomial,&__binomial,0,true);
+
+  gen _multinomial(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3){
+      gen n=v[0],K=v[1],P=v[2];
+      if (!is_zero(1-_plus(P,contextptr),contextptr))
+	swapgen(K,P);
+      if (_plus(K,contextptr)!=n || K.type!=_VECT || P.type!=_VECT || K._VECTptr->size()!=P._VECTptr->size())
+	return gensizeerr(contextptr);
+      vecteur k=*K._VECTptr,p=*P._VECTptr;
+      unsigned s=k.size();
+      gen res=_factorial(n,contextptr);
+      for (unsigned i=0;i<s;++i){
+	res=res/_factorial(k[i],contextptr);
+      }
+      for (unsigned i=0;i<s;++i){
+	res=res*pow(p[i],k[i],contextptr);
+      }
+      return res;
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _multinomial_s []="multinomial";
+  static define_unary_function_eval (__multinomial,&_multinomial,_multinomial_s);
+  define_unary_function_ptr5( at_multinomial ,alias_at_multinomial,&__multinomial,0,true);
+
+  gen _negbinomial(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3){
+      gen r=v[0],k=v[1],p=v[2];
+      gen tmp=evalf_double(k,1,contextptr);
+      if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val<1 && tmp._DOUBLE_val>0)
+	swapgen(k,p);
+      if (is_integral(p))
+	swapgen(k,p);
+      return binomial(r+k-1,k,p,contextptr)*(1-p);
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _negbinomial_s []="negbinomial";
+  static define_unary_function_eval (__negbinomial,&_negbinomial,_negbinomial_s);
+  define_unary_function_ptr5( at_negbinomial ,alias_at_negbinomial,&__negbinomial,0,true);
+
+  gen _negbinomial_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3){
+      gen n=v[0],p=v[1],k=v[2];
+      return 1-_Beta(makesequence(k+1,n,p,1),contextptr);
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _negbinomial_cdf_s []="negbinomial_cdf";
+  static define_unary_function_eval (__negbinomial_cdf,&_negbinomial_cdf,_negbinomial_cdf_s);
+  define_unary_function_ptr5( at_negbinomial_cdf ,alias_at_negbinomial_cdf,&__negbinomial_cdf,0,true);
 
   gen binomial_cdf(const gen & n,const gen &p,const gen & x0,const gen & x,GIAC_CONTEXT){
     gen fx=_floor(x,contextptr),fx0=_ceil(x0,contextptr);
@@ -1517,6 +1640,118 @@ namespace giac {
   static const char _fisher_icdf_s []="fisher_icdf";
   static define_unary_function_eval (__fisher_icdf,&_snedecor_icdf,_fisher_icdf_s);
   define_unary_function_ptr5( at_fisher_icdf ,alias_at_fisher_icdf,&__fisher_icdf,0,true);
+
+  gen cauchy(const gen & x0,const gen & a,const gen & x,GIAC_CONTEXT){
+    return 1/cst_pi*a/(pow(x-x0,2,contextptr)+pow(a,2,contextptr));
+  }
+  gen _cauchy(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return cauchy(0,1,g,contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return cauchy(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _cauchy_s []="cauchy";
+  static define_unary_function_eval (__cauchy,&_cauchy,_cauchy_s);
+  define_unary_function_ptr5( at_cauchy ,alias_at_cauchy,&__cauchy,0,true);
+
+  gen cauchy_cdf(const gen &x0,const gen &a,const gen & x,GIAC_CONTEXT){
+    return plus_one_half+atan((x-x0)/a,contextptr)/cst_pi;
+  }
+  gen _cauchy_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return cauchy_cdf(0,1,g,contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return cauchy_cdf(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _cauchy_cdf_s []="cauchy_cdf";
+  static define_unary_function_eval (__cauchy_cdf,&_cauchy_cdf,_cauchy_cdf_s);
+  define_unary_function_ptr5( at_cauchy_cdf ,alias_at_cauchy_cdf,&__cauchy_cdf,0,true);
+
+  gen cauchy_icdf(const gen &x0,const gen &a,const gen & x,GIAC_CONTEXT){
+    return tan(cst_pi*(x-plus_one_half),contextptr)*a+x0;
+  }
+  gen _cauchy_icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return cauchy_icdf(0,1,g,contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return cauchy_icdf(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _cauchy_icdf_s []="cauchy_icdf";
+  static define_unary_function_eval (__cauchy_icdf,&_cauchy_icdf,_cauchy_icdf_s);
+  define_unary_function_ptr5( at_cauchy_icdf ,alias_at_cauchy_icdf,&__cauchy_icdf,0,true);
+
+  gen weibull(const gen & k,const gen & lambda,const gen & theta,const gen & x,GIAC_CONTEXT){
+    gen tmp=(x-theta)/lambda;
+    return k/lambda*pow(tmp,k-1,contextptr)*exp(-pow(tmp,k,contextptr),contextptr);
+  }
+  gen _weibull(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return weibull(v[0],v[1],0,v[2],contextptr);
+    if (s==4)
+      return weibull(v[0],v[1],v[2],v[3],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _weibull_s []="weibull";
+  static define_unary_function_eval (__weibull,&_weibull,_weibull_s);
+  define_unary_function_ptr5( at_weibull ,alias_at_weibull,&__weibull,0,true);
+
+  gen weibull_cdf(const gen & k,const gen & lambda,const gen & theta,const gen & x,GIAC_CONTEXT){
+    gen tmp=(x-theta)/lambda;
+    return 1-exp(-pow(tmp,k,contextptr),contextptr);
+  }
+  gen _weibull_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return weibull_cdf(v[0],v[1],0,v[2],contextptr);
+    if (s==4)
+      return weibull_cdf(v[0],v[1],v[2],v[3],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _weibull_cdf_s []="weibull_cdf";
+  static define_unary_function_eval (__weibull_cdf,&_weibull_cdf,_weibull_cdf_s);
+  define_unary_function_ptr5( at_weibull_cdf ,alias_at_weibull_cdf,&__weibull_cdf,0,true);
+
+  gen weibull_icdf(const gen & k,const gen & lambda,const gen & theta,const gen & y,GIAC_CONTEXT){
+    // solve(1-exp(-((x-theta)/lambda)^k)=y,x)
+    // x=lambda*(-ln(-(y-1)))^(1/k)+theta
+    return lambda*pow(-ln(1-y,contextptr),1/k,contextptr)+theta;
+  }
+  gen _weibull_icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return weibull_icdf(v[0],v[1],0,v[2],contextptr);
+    if (s==4)
+      return weibull_icdf(v[0],v[1],v[2],v[3],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _weibull_icdf_s []="weibull_icdf";
+  static define_unary_function_eval (__weibull_icdf,&_weibull_icdf,_weibull_icdf_s);
+  define_unary_function_ptr5( at_weibull_icdf ,alias_at_weibull_icdf,&__weibull_icdf,0,true);
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
   gen Bessel(const gen & g,int kind,GIAC_CONTEXT){

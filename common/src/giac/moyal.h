@@ -40,7 +40,7 @@ namespace giac {
   gen _Airy_Bi(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Airy_Bi ;
 
-  gen randNorm(GIAC_CONTEXT);
+  double randNorm(GIAC_CONTEXT);
   gen _randNorm(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_randNorm ;
 
@@ -48,6 +48,16 @@ namespace giac {
   extern const unary_function_ptr * const  at_randexp ;
   gen randpoisson(double lambda,GIAC_CONTEXT);
   gen randbinomial(int n,double P,GIAC_CONTEXT);
+  double randchisquare(int k,GIAC_CONTEXT);
+  double randstudent(int k,GIAC_CONTEXT);
+  double randfisher(int k1,int k2,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_randchisquare ;
+  extern const unary_function_ptr * const  at_randstudent ;
+  extern const unary_function_ptr * const  at_fisher ;
+  extern const unary_function_ptr * const  at_randfisher ;
+  extern const unary_function_ptr * const  at_cauchy ;
+  extern const unary_function_ptr * const  at_cauchy_cdf ;
+  extern const unary_function_ptr * const  at_cauchy_icdf ;
 
   gen _UTPN(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_UTPN ;

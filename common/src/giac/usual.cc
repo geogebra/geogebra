@@ -5573,6 +5573,22 @@ namespace giac {
     return res;
   }
 
+  gen evalf_nbits(const gen & g,int nbits){
+    if (g.type==_REAL)
+      return real_object(g,nbits);
+    if (g.type==_CPLX)
+      return real_object(*g._CPLXptr,nbits)+cst_i*real_object(*(g._CPLXptr+1),nbits);
+    if (g.type==_VECT){
+      vecteur v=*g._VECTptr;
+      for (unsigned i=0;i<v.size();++i)
+	v[i]=evalf_nbits(v[i],nbits);
+      return gen(v,g.subtype);
+    }
+    if (g.type==_SYMB)
+      return symbolic(g._SYMBptr->sommet,evalf_nbits(g._SYMBptr->feuille,nbits));
+    return g;
+  }
+
   gen _evalf(const gen & a_orig,GIAC_CONTEXT){
     gen a(a_orig);
     if (a.type==_STRNG && a.subtype==-1) return  a;
@@ -5595,10 +5611,8 @@ namespace giac {
       res=_evalf(a,30,contextptr);
       // and round to ndigits
       int nbits=digits2bits(ndigits);
-      if (res.type==_REAL)
-	res=real_object(res,nbits);
-      if (res.type==_CPLX)
-	res=real_object(re(res,contextptr),nbits)+cst_i*real_object(im(res,contextptr),nbits);
+      res=evalf_nbits(res,nbits);
+      return res;
     }
 #endif
     return res;
