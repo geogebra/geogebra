@@ -22,6 +22,7 @@ import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -396,10 +397,11 @@ public abstract class DialogManager {
 	
 	public static void doSegmentFixed(Kernel kernel, GeoPoint geoPoint1, NumberValue num) {
 
-		// apply abs() to number so that entering -3 doesn't give a  
+		// apply abs() to number so that entering -3 doesn't give an undefined point
 	 	ExpressionNode en = new ExpressionNode(kernel, num, Operation.ABS, null);
+	 	AlgoDependentNumber algo = new AlgoDependentNumber(kernel.getConstruction(), en, false);
 	 	
-	 	GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null, geoPoint1, en.evaluateNum());
+	 	GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null, geoPoint1, algo.getNumber());
 		GeoElement[] onlysegment = { null };
 		if (segment != null) {
 			onlysegment[0] = segment[0];
