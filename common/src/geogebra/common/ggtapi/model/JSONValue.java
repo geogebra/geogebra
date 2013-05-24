@@ -8,7 +8,9 @@ package geogebra.common.ggtapi.model;
  */
 public abstract class JSONValue {
 	
-	@Override
-	public abstract String toString();
+	/**
+	 * @return the JSON representation of the object
+	 */
+	public abstract String jsonToString();
 
 }

@@ -12,7 +12,7 @@ public class JSONObject extends JSONValue {
 	}
 
 	@Override
-	public String toString() {
+	public String jsonToString() {
 		StringBuffer sb = new StringBuffer();
 	    sb.append("{");
 	    boolean first = true;
