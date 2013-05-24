@@ -17,7 +17,6 @@ import java.util.TreeMap;
 
 public class Ggb2giac {
 	private static Map<String, String> commandMap = new TreeMap<String, String>();
-	private static boolean html5;
 
 	/**
 	 * @param signature GeoGebra command signature (i.e. "Element.2")
@@ -34,8 +33,7 @@ public class Ggb2giac {
 	 * @param html5 
 	 * @return map signature => syntax
 	 */
-	public static Map<String,String> getMap(boolean b) {
-		html5 = b;
+	public static Map<String,String> getMap() {
 		p("Append.2",
 				"append(%0,%1)");
 		// simplify() to make sure Binomial[n,1] gives n
