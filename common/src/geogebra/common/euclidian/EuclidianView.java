@@ -876,12 +876,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return (GeoNumeric) ymaxObject;
 	}
 
-	protected double xmin; // ratio yscale / xscale
-
+	/** minimal visible  real world x*/
+	protected double xmin;
+	/** maximal visible  real world x*/
 	protected double xmax;
-
+	/** minimal visible  real world y*/
 	protected double ymin;
-
+	/** maximal visible  real world y*/
 	protected double ymax;
 
 	private double invXscale;

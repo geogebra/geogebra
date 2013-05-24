@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.draw.DrawBarGraph;
+import geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.advanced.AlgoUnique;
@@ -49,7 +50,7 @@ import org.apache.commons.math.distribution.ZipfDistributionImpl;
  */
 public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	
-	Map<Integer,HashMap<Integer,Object>> tags=new HashMap<Integer,HashMap<Integer,Object>>();
+	private Map<Integer,HashMap<Integer,Object>> tags=new HashMap<Integer,HashMap<Integer,Object>>();
 	
 	/** Bar chart from expression **/
 	public static final int TYPE_BARCHART_EXPRESSION = 0;
@@ -637,28 +638,28 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 	/**
 	 * @return the type of graph to draw
 	 */
-	public int getDrawType() {
+	public DrawType getDrawType() {
 
 		// case 1: step graphs
 		if (type == TYPE_STEPGRAPH) {
 			if ((hasJoin != null && ((GeoBoolean) hasJoin).getBoolean())) {
-				return DrawBarGraph.DRAW_STEP_GRAPH_CONTINUOUS;
+				return DrawType.STEP_GRAPH_CONTINUOUS;
 			}
-			return DrawBarGraph.DRAW_STEP_GRAPH_JUMP;
+			return DrawType.STEP_GRAPH_JUMP;
 		}
 
 		// case 2: cumulative discrete probability
 		else if (isCumulative != null
 				&& ((GeoBoolean) isCumulative).getBoolean()) {
-			return DrawBarGraph.DRAW_STEP_GRAPH_CONTINUOUS;
+			return DrawType.STEP_GRAPH_CONTINUOUS;
 
 			// case 3: all other types use either horizontal or vertical bars
 		} else if (isHorizontal != null
 				&& ((GeoBoolean) isHorizontal).getBoolean()) {
-			return DrawBarGraph.DRAW_HORIZONTAL_BAR;
+			return DrawType.HORIZONTAL_BAR;
 
 		} else {
-			return DrawBarGraph.DRAW_VERTICAL_BAR;
+			return DrawType.VERTICAL_BAR;
 		}
 	}
 

@@ -22,19 +22,30 @@ import java.util.ArrayList;
  */
 public class DrawBarGraph extends Drawable {
 
-	// graph types
-	public static final int DRAW_VERTICAL_BAR = 0;
-	public static final int DRAW_HORIZONTAL_BAR = 1;
-	public static final int DRAW_STEP_GRAPH_CONTINUOUS = 2;
-	public static final int DRAW_STEP_GRAPH_JUMP = 3;
-	private int drawType = DRAW_VERTICAL_BAR;
+	/** graph types */
+	public enum DrawType {
+		/** vertical bars */
+		VERTICAL_BAR,
+		/** horizontal bars */
+		HORIZONTAL_BAR,
+		/** step graph */
+		STEP_GRAPH_CONTINUOUS,
+		/** stick graph */
+		STEP_GRAPH_JUMP}
+	private DrawType drawType = DrawType.VERTICAL_BAR;
 
-	// point types
+	// point types -- given by user, hence not enum
+	/** closed point on the right */
 	public static final int POINT_RIGHT = 1;
+	/** closed point on the right, open on the left */
 	public static final int POINT_RIGHT_OPEN_LEFT = 2;
+	/** no points */
 	public static final int POINT_NONE = 0;
+	/** closed point on the left */
 	public static final int POINT_LEFT = -1;
+	/** closed point on the left, open on the right */
 	public static final int POINT_LEFT_OPEN_RIGHT = -2;
+
 	private int pointType = POINT_NONE;
 
 	private boolean isVisible, labelVisible;
@@ -63,21 +74,6 @@ public class DrawBarGraph extends Drawable {
 
 		init();
 		update();
-	}
-
-	/**
-	 * @return type of graph to draw
-	 */
-	public int getType() {
-		return drawType;
-	}
-
-	/**
-	 * @param type
-	 *            type of graph to draw
-	 */
-	public void setType(int type) {
-		this.drawType = type;
 	}
 
 	private void init() {
@@ -140,7 +136,7 @@ public class DrawBarGraph extends Drawable {
 			}
 
 			try {
-				if (algo.getDrawType() != DRAW_STEP_GRAPH_CONTINUOUS) {
+				if (algo.getDrawType() != DrawType.STEP_GRAPH_CONTINUOUS) {
 					/*
 					 * Use tags for draw if there are
 					 */
@@ -318,8 +314,8 @@ public class DrawBarGraph extends Drawable {
 				drawPoints.get(i).update();
 			}
 
-			if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
-					|| drawType == DRAW_STEP_GRAPH_JUMP) {
+			if (drawType == DrawType.STEP_GRAPH_CONTINUOUS
+					|| drawType == DrawType.STEP_GRAPH_JUMP) {
 
 				if (pointType == POINT_LEFT
 						|| pointType == POINT_LEFT_OPEN_RIGHT) {
@@ -350,7 +346,7 @@ public class DrawBarGraph extends Drawable {
 
 		switch (drawType) {
 
-		case DRAW_VERTICAL_BAR:
+		case VERTICAL_BAR:
 
 			if (width <= 0) {
 				for (int i = 0; i < N; i++) {
@@ -396,7 +392,7 @@ public class DrawBarGraph extends Drawable {
 
 			break;
 
-		case DRAW_HORIZONTAL_BAR:
+		case HORIZONTAL_BAR:
 
 			if (width <= 0) {
 				for (int i = 0; i < N; i++) {
@@ -441,7 +437,7 @@ public class DrawBarGraph extends Drawable {
 			}
 			break;
 
-		case DRAW_STEP_GRAPH_CONTINUOUS:
+		case STEP_GRAPH_CONTINUOUS:
 
 			for (int i = 0; i < N - 1; i++) {
 
@@ -472,7 +468,7 @@ public class DrawBarGraph extends Drawable {
 
 			break;
 
-		case DRAW_STEP_GRAPH_JUMP:
+		case STEP_GRAPH_JUMP:
 
 			for (int i = 0; i < N - 1; i++) {
 
@@ -517,8 +513,8 @@ public class DrawBarGraph extends Drawable {
 
 		// find the number of points to draw
 		int n;
-		if (drawType == DRAW_STEP_GRAPH_CONTINUOUS
-				|| drawType == DRAW_STEP_GRAPH_JUMP) {
+		if (drawType == DrawType.STEP_GRAPH_CONTINUOUS
+				|| drawType == DrawType.STEP_GRAPH_JUMP) {
 			n = 2 * algo.getIntervals() - 1;
 		} else {
 			n = algo.getIntervals();
