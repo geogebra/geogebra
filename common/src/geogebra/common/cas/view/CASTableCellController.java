@@ -3,10 +3,16 @@ package geogebra.common.cas.view;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 
+/**
+ * Controller for CAS mouse and keyboard events
+ */
 public class CASTableCellController {
 	/**
 	 * Handles pressing of Enter key after user input. The behaviour depends
-	 * on the currently selected mode in the toolbar (Evaluate, Keep Input, Numeric).
+	 * on the currently selected mode in the toolbar (Evaluate, Keep Input, Numeric)
+	 * and Ctrl, Alt keys.
+	 * @param e event
+	 * @param app application
 	 */
 	protected synchronized void handleEnterKey(geogebra.common.euclidian.event.KeyEvent e, App app) {
 		//AppD app = view.getApp();

@@ -206,6 +206,7 @@ public class CASparser implements CASParserInterface{
 	 * to "unicode" + charactercode + DELIMITER Strings. This is needed because
 	 * MathPiper does not handle indices correctly.
 	 * @param str input string with _,{,}
+	 * @param replaceUnicode whether unicode characters need to be encoded
 	 * @return string where _,{,} are replaced
 	 */
 	public synchronized String replaceIndices(String str, boolean replaceUnicode) {
