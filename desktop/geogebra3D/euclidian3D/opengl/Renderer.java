@@ -770,15 +770,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * openGL method called when the canvas is reshaped.
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-      GL gl = drawable.getGL();
-      
-      //Application.debug("reshape\n x = "+x+"\n y = "+y+"\n w = "+w+"\n h = "+h);
-      
-
-      setView(x,y,w,h);
-
-      
-      view3D.reset();
+ 
+      if(setView(x,y,w,h)){
+    	  view3D.reset();
+      }
+ 
     }
 
     /**
@@ -1996,11 +1992,23 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param h height
      * 
      */
-    private void setView(int x, int y, int w, int h){
-    	left=x-w/2;
-    	bottom=y-h/2;
-    	right=left+w;
-    	top = bottom+h;
+    private boolean setView(int x, int y, int w, int h){
+    	
+    	App.error(x+","+y+","+w+","+h);
+    	
+    	int newleft=x-w/2;
+    	int newbottom=y-h/2;
+    	int newright=left+w;
+    	int newtop = bottom+h;
+    	
+    	if (left==newleft && bottom==newbottom && right==newright && top==newtop){
+    		return false;
+    	}
+    	
+    	left = newleft; 
+    	bottom = newbottom; 
+    	right = newright; 
+    	top = newtop;
     	
     	int depth = w/2;//sets depth equals width
        	//int depth = (w+h)/4;//sets depth equals mean(width,height)
@@ -2023,8 +2031,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	    	
     	setView();
     	
-    	view3D.setViewChanged();
-    	view3D.setWaitForUpdate();
+    	return true;
     }
 
 	public void dispose(GLAutoDrawable arg0) {
