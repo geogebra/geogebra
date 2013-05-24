@@ -121,6 +121,8 @@ public class NoExceptionsTest {
 			syntaxes = 0;
 			for(int i=0;i<syntax.length();i++)
 				if(syntax.charAt(i)=='[')syntaxes++;
+			System.out.println();
+			System.out.print(cmdName+" ");
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
@@ -131,6 +133,7 @@ public class NoExceptionsTest {
 			Assert.assertNull(e.getMessage(),e);
 		}finally{
 			syntaxes--;
+			System.out.print("*");
 		}
 
 	}
@@ -1394,9 +1397,10 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdPlaySound() {
-		t("PlaySound[ b1 ]");
+		t("PlaySound[ b1 ]"); 
 		t("PlaySound[ f1, n1, n4 ]");
 		t("PlaySound[ f1, n1, n4, n3, n2]");
+		t("PlaySound[ b1 ]"); // test this twice instead of playing file
 		t("PlaySound[ notes, n1 ]");
 		t("PlaySound[ n3, n2, n1 ]");
 	}
