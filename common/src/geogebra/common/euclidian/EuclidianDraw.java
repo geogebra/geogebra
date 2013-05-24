@@ -255,7 +255,7 @@ public class EuclidianDraw {
 		case CURVE_CARTESIAN:
 			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
 			break;
-
+		case SPLINE:
 		case LIST:
 			algo = geo.getDrawAlgorithm();
 			if (algo instanceof AlgoCubicSpline) {

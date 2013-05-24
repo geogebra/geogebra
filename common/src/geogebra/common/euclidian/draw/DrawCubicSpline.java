@@ -1,5 +1,6 @@
 package geogebra.common.euclidian.draw;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
@@ -12,7 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Draws a cubic spline 
+ * Draws a cubic spline
  * 
  * @author Giuliano Bellucci
  * 
@@ -36,7 +37,9 @@ public class DrawCubicSpline extends Drawable {
 		this.view = view;
 		this.geo = geo.toGeoElement();
 		algo = (AlgoCubicSpline) geo.getParentAlgorithm();
-		list = algo.getList();
+		list = algo.getSpline();
+		algo.getSpline().setObjColor(GColor.black);
+		// list.setObjColor(GColor.black);
 		size = list.size();
 		update();
 	}
@@ -90,7 +93,6 @@ public class DrawCubicSpline extends Drawable {
 			gp.lineTo((float) coordsC[0], (float) coordsC[1]);
 		}
 		EuclidianStatic.drawWithValueStrokePure(gp, g2);
-
 	}
 
 	private static int calculate(float x, float[] m) {

@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoSpline;
 
 import java.util.Arrays;
 
@@ -32,6 +33,7 @@ public class AlgoCubicSpline extends AlgoElement {
 	private float[] parameterIntervalLimits;
 	private float[] parametersValues;
 	private GeoList listC;
+	private GeoSpline spline;
 	private static int length;
 
 	/**
@@ -46,12 +48,15 @@ public class AlgoCubicSpline extends AlgoElement {
 		super(cons);
 		this.inputList = inputList;
 		listC = new GeoList(cons);
+		spline = new GeoSpline(cons);
+		spline.setAllVisualProperties(listC, true);
+		listC.setAlgebraVisible(false);
+		listC=null;
 		parametersValues = new float[inputList.size()];
 		points = new float[inputList.size()][2];
-		Arrays.fill(parametersValues, Float.MAX_VALUE);
 		setInputOutput();
 		compute();
-		listC.setLabel(label);
+		spline.setLabel(label);
 	}
 
 	@Override
@@ -59,14 +64,14 @@ public class AlgoCubicSpline extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = inputList;
 		super.setOutputLength(1);
-		super.setOutput(0, listC);
+		super.setOutput(0, spline);
 		setDependencies();
 	}
 
 	@Override
 	public void compute() {
 		if (!inputList.isDefined()) {
-			listC.setUndefined();
+			spline.setUndefined();
 			return;
 		}
 
@@ -82,13 +87,9 @@ public class AlgoCubicSpline extends AlgoElement {
 		execute();
 	}
 
-	/**
-	 * @return list of parametric curves
-	 */
-	public GeoList getList() {
-		return listC;
+	public GeoSpline getSpline() {
+		return spline;
 	}
-
 	@Override
 	public GetCommand getClassName() {
 		return Commands.CubicSpline;
@@ -295,7 +296,8 @@ public class AlgoCubicSpline extends AlgoElement {
 	}
 
 	private void execute() {
-		listC.clear();
+		Arrays.fill(parametersValues, Float.MAX_VALUE);
+		spline.clear();
 		calculateParameterValues();
 		int k = 0;
 		length = parametersX.length;
@@ -310,10 +312,10 @@ public class AlgoCubicSpline extends AlgoElement {
 			GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 			curve.setFunctionX(fx.getFunction());
 			curve.setFunctionY(fy.getFunction());
-			curve.setInterval(parametersValues[k], parametersValues[k + 1]);
+			curve.setInterval(parametersValues[k], parametersValues[k + 1]);							
 			curve.setEuclidianVisible(true);
-			curve.setObjColor(listC.getObjectColor());
-			listC.add(curve);
+			curve.setObjColor(spline.getObjectColor());
+			spline.add(curve);
 			k++;
 		}
 	}

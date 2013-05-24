@@ -1191,6 +1191,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case NUMERIC:
 			typePriority = 80;
 			break;
+		case SPLINE:
 		case INTERVAL: // not drawable
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:

@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoCubicSpline;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.main.MyError;
 
 /**
@@ -39,7 +40,7 @@ public class CmdCubicSpline extends CommandProcessor {
 					&& arePoint((GeoList) arg[0])) {
 				AlgoCubicSpline algo = new AlgoCubicSpline(cons, c.getLabel(),
 						(GeoList) arg[0]);
-				GeoList list = algo.getList();
+				GeoSpline list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
 			}

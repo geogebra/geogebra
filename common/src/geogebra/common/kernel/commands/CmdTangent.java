@@ -1,7 +1,6 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoCubicSpline;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
@@ -12,6 +11,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
@@ -97,10 +97,7 @@ public class CmdTangent extends CommandProcessor {
 			
 			// For Spline
 			else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoList()))) {
-					if (!isSpline((GeoList)arg[1])) {
-						throw argErr(app, c.getName(), arg[1]);
-					}
+					&& (ok[1] = isSpline(arg[1]))) {
 					if (!((GeoPoint)arg[0]).isFinite()){
 						throw argErr(app, c.getName(), arg[0]);
 					}
@@ -141,20 +138,7 @@ public class CmdTangent extends CommandProcessor {
 		}
 	}
 
-	private static boolean isSpline(GeoList geoList) {
-		if (!(geoList.getParentAlgorithm() instanceof AlgoCubicSpline)){
-			return false;
-		}
-		
-		if (geoList.size()<1){
-			return false;
-		}
-		
-		for (int i=0;i<geoList.size();i++){
-			if(!geoList.get(i).isGeoCurveCartesian()){
-				return false;
-			}
-		}
-		return true;
+	private static boolean isSpline(GeoElement geoList) {
+		return geoList instanceof GeoSpline;
 	}
 }

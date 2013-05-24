@@ -37,7 +37,7 @@ public class CmdElement extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			// list
-			if ((ok[0] = arg[0].isGeoList())
+			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
 					&& (ok[1] = arg[1].isNumberValue())) {
 				
 				AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
