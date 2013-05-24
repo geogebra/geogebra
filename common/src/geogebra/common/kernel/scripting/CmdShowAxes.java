@@ -83,9 +83,10 @@ public class CmdShowAxes extends CmdScripting {
 			default: 
 				ev = app.getEuclidianView1();
 			}
-			
-			ev.setShowAxis(show);
-			ev.repaintView();
+			if(ev != null){
+				ev.setShowAxis(show);
+				ev.repaintView();
+			}
 			break;
 
 		default:

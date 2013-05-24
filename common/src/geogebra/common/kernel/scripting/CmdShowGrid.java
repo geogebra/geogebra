@@ -83,9 +83,10 @@ public class CmdShowGrid extends CmdScripting {
 			default: 
 				ev = app.getEuclidianView1();
 			}
-			
-			ev.showGrid(show);
-			ev.repaintView();
+			if(ev != null){
+				ev.showGrid(show);
+				ev.repaintView();
+			}
 			break;
 
 
