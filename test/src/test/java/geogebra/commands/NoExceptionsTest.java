@@ -2577,10 +2577,16 @@ public class NoExceptionsTest {
 	}
 	@Test
 	public void cmdShowAxes(){
+		t("ShowAxes[]");
+		t("ShowAxes[false]");
+		t("ShowAxes[2,true]");
 	}
 	
 	@Test
 	public void cmdShowGrid(){
+		t("ShowGrid[]");
+		t("ShowGrid[false]");
+		t("ShowGrid[2,true]");
 	}
 	
 	@Test
@@ -2590,8 +2596,8 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdSetTrace(){
-		t("CenterView[Pt1,true]");
-		t("CenterView[Pt2,false]");
+		t("SetTrace[Pt1,true]");
+		t("SetTrace[Pt2,false]");
 	}
 	
 	@Test

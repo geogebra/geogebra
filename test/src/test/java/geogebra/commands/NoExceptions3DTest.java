@@ -171,5 +171,9 @@ public class NoExceptions3DTest {
 	public void cmdIntersectCircle(){
 		// TODO write test
 	}
+	@Test
+	public void cmdVolume(){
+		// TODO write test
+	}	
 
 }
