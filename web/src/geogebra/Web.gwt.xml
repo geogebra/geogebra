@@ -46,6 +46,13 @@
   <set-property name="user.agent" value="safari, gecko1_8, ie9" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
   <add-linker name="xsiframe" />
+  
+  <!-- Define a custom App Cache linker -->
+  <!--<define-linker name="appcachelinker" class="geogebra.linker.AppCacheLinker"/>-->
+  <!-- Use it -->
+  <!--<add-linker name="appcachelinker"/>-->
+  
+  
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
   <source path='html5'/>
