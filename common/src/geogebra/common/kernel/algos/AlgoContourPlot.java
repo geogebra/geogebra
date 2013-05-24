@@ -1,6 +1,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -229,6 +230,10 @@ public class AlgoContourPlot extends AlgoElement {
 					}
 				}
 			}
+			if(Kernel.isEqual(max, min)){
+				list.setUndefined();
+				return;
+			}
 			step = Math.abs((max-min)/10.0);
 			double freeTerm = implicitPoly.getCoeff()[0][0];
 			if ((min<=freeTerm) && (max>=freeTerm)){
@@ -242,7 +247,8 @@ public class AlgoContourPlot extends AlgoElement {
 				}
 			}else{
 				minadded = min;
-				for (double i=min;i<max+step;i+=step){
+				System.out.println(min+","+max+","+step);
+				for (double i=min;i<max;i+=step){
 					addToList(list, i);
 					maxadded = i;
 				}
