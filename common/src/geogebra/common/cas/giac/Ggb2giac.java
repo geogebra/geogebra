@@ -30,7 +30,6 @@ public class Ggb2giac {
 	}
 
 	/**
-	 * @param html5 
 	 * @return map signature => syntax
 	 */
 	public static Map<String,String> getMap() {
