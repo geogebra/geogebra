@@ -1,8 +1,8 @@
 package geogebra.commands;
 
 import geogebra.CommandLineArguments;
-import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.App;
 import geogebra.io.XmlTest;
 import geogebra.main.AppD;
@@ -145,8 +145,9 @@ public class NoExceptionsTest {
 		for (int i = 0; i < mtds.length; i++)
 			methodNames.add(mtds[i].getName());
 		StringBuilder missing = new StringBuilder();
-		for (Algos a : Algos.values()) {
-			if (!methodNames.contains("cmd" + a.getCommand())) {
+		for (Commands a : Commands.values()) {
+			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 
+					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_ENGLISH) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}
@@ -1392,7 +1393,7 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdPlaySoundne() {
+	public void cmdPlaySound() {
 		t("PlaySound[ b1 ]");
 		t("PlaySound[ f1, n1, n4 ]");
 		t("PlaySound[ f1, n1, n4, n3, n2]");
@@ -2574,5 +2575,46 @@ public class NoExceptionsTest {
 		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,1]");
 		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,2,0,0,true,false]");
 	}
+	@Test
+	public void cmdShowAxes(){
+	}
+	
+	@Test
+	public void cmdShowGrid(){
+	}
+	
+	@Test
+	public void cmdCenterView(){
+		t("CenterView[Pt1]");
+	}
+	
+	@Test
+	public void cmdSetTrace(){
+		t("CenterView[Pt1,true]");
+		t("CenterView[Pt2,false]");
+	}
+	
+	@Test
+	public void cmdRelation(){
+		//don't test; user interaction needed
+	}
+	
+	@Test
+	public void cmdContourPlot(){
+		t("ContourPlot[x^2+y^2]");
+	}
+	
+	@Test
+	public void cmdMatrixPlot(){
+		t("MatrixPlot[{{0.1,0.2,0.3},{0.5,0.6,0.1}}]");
+	}
+	
+	@Test
+	public void cmdSetSeed(){
+		t("SetSeed[42]");
+	}
+
+
+
 	
 }
