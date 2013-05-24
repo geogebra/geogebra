@@ -119,11 +119,17 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		minMax[1][1] = zmax-zr;
 		
 		
-		if (reductionIndex < REDUCTION_LENGTH - 1){
-			reductionIndex++;
-		}
+		setVertices();
+		view.setXYMinMax(minMax);
+
 		
-		rv = REDUCTION_VALUES[reductionIndex];
+		
+		
+		
+
+		//minMaxLarge to cut lines
+		
+		rv = (1-(1-rv*2)*1.1)/2;
 		xr = (xmax-xmin)*rv;
 		yr = (ymax-ymin)*rv;
 		zr = (zmax-zmin)*rv;
@@ -136,11 +142,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		minMaxLarge[1][0] = zmin+zr;
 		minMaxLarge[1][1] = zmax-zr;
 
-		
-		setVertices();
-		//Application.debug(xmin+","+xmax+","+ymin+","+ymax+","+zmin+","+zmax);
-		
-		view.setXYMinMax(minMax);
 		
 		
 		return minMax;
