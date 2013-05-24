@@ -1738,7 +1738,7 @@ public class WorksheetExportDialog extends JDialog {
 	
 	final static String[] enableLabelDrags = {"enableLabelDrags", "data-param-enableLabelDrags"};
 	final static String[] showResetIcon = {"showResetIcon", "data-param-showResetIcon"};
-	final static String[] enableRightClick = {"enableRightClick", null};
+	final static String[] enableRightClick = {"enableRightClick", "data-param-enableRightClick"};
 	final static String[] errorDialogsActive = {"errorDialogsActive", null};
 	final static String[] showMenuBar = {"showMenuBar", "data-param-showMenuBar"};
 	final static String[] showToolBar = {"showToolBar", "data-param-showToolBar"};

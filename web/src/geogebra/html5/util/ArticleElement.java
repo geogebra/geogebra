@@ -83,6 +83,15 @@ public final class ArticleElement extends Element {
 		return (!"false".equals(this.getAttribute("data-param-enableLabelDrags")));
 	}
 
+	/**
+	 * Determines if the "data-param-enableRightClick" article attribute is set to true
+	 * 
+	 * @return the data-param-enableRightClick (default: true)
+	 */
+	public boolean getDataParamEnableRightClick() {
+		return (!"false".equals(this.getAttribute("data-param-enableRightClick")));
+	}
+
 
 	/**
 	 * @return the data-param-ggbbase64 article attribute as String if set else empty String

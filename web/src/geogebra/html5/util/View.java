@@ -65,6 +65,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamEnableLabelDrags();
 	}
 	
+	public boolean getDataParamEnableRightClick() {
+		return ((ArticleElement) container).getDataParamEnableRightClick();
+	}
+	
 	public boolean getDataParamShowMenuBar() {
 		return ((ArticleElement) container).getDataParamShowMenuBar();
     }
