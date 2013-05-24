@@ -159,20 +159,23 @@ public class ProverBotanasMethod {
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
 	 * The non-alternative method prefers circle centers to choose.
 	 * Only free variables are fixed for the alternative method.
-	 * FIXME: The same should be done for the non-alternative method as well.
 	 * @param prover the input prover
 	 * @param alternative if we use Simon's alternative way
 	 * @return a HashMap, containing the substitutions
 	 */
 	static HashMap<Variable,Integer> fixValues(Prover prover, boolean alternative) {
 		GeoElement statement = prover.getStatement();
-		List<GeoElement> circleCenters = null;
-		if (!alternative)
-				circleCenters = getCircleCenters(statement);
 		List<GeoElement> freePoints = getFreePoints(statement);
+		List<GeoElement> circleCenters = null;
+		if (!alternative) {
+				circleCenters = getCircleCenters(statement);
+				// Do not use non-free points:
+				circleCenters.retainAll(freePoints);
+		}
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
 		if (circleCenters != null)
 			fixedPoints.addAll(circleCenters);
+		// Adding remaining free points (which are not among circle centers):
 		for (GeoElement ge : freePoints) {
 			if (circleCenters == null || !circleCenters.contains(ge))
 				fixedPoints.add(ge);
@@ -199,8 +202,7 @@ public class ProverBotanasMethod {
 				++i;
 			}
 		}
-		// FIXME: We don't want to create NDGs for the alternative method:
-		if (i == 2) {
+		if (!alternative && i == 2) {
 			NDGCondition ndgc = new NDGCondition();
 			ndgc.setCondition("AreEqual");
 			ndgc.setGeos(geos);
