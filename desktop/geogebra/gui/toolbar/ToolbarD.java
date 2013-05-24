@@ -26,9 +26,7 @@ import geogebra.main.AppD;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import javax.swing.JSeparator;
 import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 
 /**
  * Base class for a single toolbar, either for a dock panel or as a general
@@ -202,7 +200,7 @@ public class ToolbarD extends JToolBar {
 
 			// separator between menus
 			if (ob.getMode() == ToolBar.SEPARATOR) {
-				add(new JSeparator(SwingConstants.VERTICAL));
+				//addSeparator(); //no separator anymore
 				continue;
 			}
 
@@ -317,4 +315,6 @@ public class ToolbarD extends JToolBar {
 	protected boolean preventToolTipDelay(){
 		return !app.showToolBarHelp();
 	}
+	
+	
 }
