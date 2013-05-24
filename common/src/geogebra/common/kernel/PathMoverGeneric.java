@@ -96,6 +96,13 @@ public class PathMoverGeneric implements PathMover {
 		min_param = path.getMinParameter();
 		max_param = path.getMaxParameter();
 
+		if (min_param > max_param) {
+			// case should not happen, by the way
+			double par = max_param;
+			max_param = min_param;
+			min_param = par;
+		}
+
 		// make sure start_param is between min and max
 		if (start_param < min_param || start_param > max_param) {
 			param_extent = max_param - min_param;
@@ -146,10 +153,13 @@ public class PathMoverGeneric implements PathMover {
 		start_paramDOWN = start_param - param_extent;
 
 		max_step_width = param_extent / MIN_STEPS_INSTANCE;
+
 		if (max_step_width < MIN_STEP_WIDTH ||
 			Double.isNaN(max_step_width) ||
-			Double.isInfinite(max_step_width))
+			Double.isInfinite(max_step_width)) {
+			// case should not happen, by the way
 			max_step_width = MIN_STEP_WIDTH;
+		}
 
 		posOrientation = true;
 		resetStartParameter();
