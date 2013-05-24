@@ -33,6 +33,8 @@ public class NoExceptionsTest {
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		ap = app.getKernel().getAlgebraProcessor();
+		//try this before an object named i is created
+		t("1+i");
 		t("Pt1=(1,1)");
 		t("Pt2=(2,1/2)");
 		t("Pt3=(3,1/3)");
@@ -170,7 +172,6 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdExpression() {
-		t("1+i");
 		t("(1,2)+{(2,3),(4,5)}");
 	}
 
