@@ -94,6 +94,7 @@ public class AlgebraProcessor {
 
 	/** kernel */
 	protected final Kernel kernel;
+	/** construction */
 	protected final Construction cons;
 	private final App app;
 	private final Localization loc;
@@ -1324,7 +1325,7 @@ public class AlgebraProcessor {
 			//if constants are allowed, build implicit poly	
 			default:
 				// test for "y= <rhs>" here as well
-				if (equ.getLHS().toString(StringTemplate.defaultTemplate).trim().equals("y")) {
+				if (equ.getLHS().toString(StringTemplate.xmlTemplate).trim().equals("y")) {
 					PolyReplacer rep = PolyReplacer.getReplacer();
 					Function fun = new Function(equ.getRHS().traverse(rep).wrap());
 					// try to use label of equation					
@@ -1335,7 +1336,7 @@ public class AlgebraProcessor {
 			}
 		} catch (MyError eqnError) {
 			// invalid equation: maybe a function of form "y = <rhs>"?
-			String lhsStr = equ.getLHS().toString(StringTemplate.defaultTemplate).trim();
+			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate).trim();
 			if (lhsStr.equals("y")) {
 				try {
 					// try to create function from right hand side
@@ -1492,6 +1493,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param par parametric expression
+	 * @return list containing single line
+	 * @throws MyError if invalid
+	 */
 	protected GeoElement[] processParametric(Parametric par)
 			throws MyError {
 

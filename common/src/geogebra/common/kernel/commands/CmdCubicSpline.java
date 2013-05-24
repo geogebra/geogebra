@@ -19,7 +19,7 @@ import geogebra.common.main.MyError;
 public class CmdCubicSpline extends CommandProcessor {
 
 	/**
-	 * @param kernel 
+	 * @param kernel kernel
 	 */
 	public CmdCubicSpline(Kernel kernel) {
 		super(kernel);
