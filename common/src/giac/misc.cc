@@ -1985,8 +1985,8 @@ namespace giac {
     if (v.size()<2 || v.front().type!=_VECT || v.back().type!=_DOUBLE_)
       return gensizeerr(contextptr);
     double d=v.back()._DOUBLE_val;
-    if (d<0 || d>=1)
-      return gendimerr(gettext(""));
+    if (d<=0 || d>=1)
+      return gendimerr(contextptr);
     if (g.type==_VECT && g.subtype==_SEQ__VECT && v.size()==3)
       return freq_quantile(makevecteur(v[0],v[1]),d,contextptr);
     v=*v.front()._VECTptr;

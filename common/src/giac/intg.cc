@@ -2408,6 +2408,13 @@ namespace giac {
 	for (;is_greater(borne_sup,next,contextptr); cur=next,next+=stepx,n1+=stepn){
 	  tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
 	  res += _integrate(makesequence(tmp,x,cur,next),contextptr);
+	  if (ctrl_c) { 
+	    interrupted = true; ctrl_c=false;
+	    gensizeerr(gettext("Stopped by user interruption."),res);
+	    return res;
+	  }
+	  if (is_undef(res))
+	    return res;
 	}
 	tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
 	res += _integrate(makesequence(tmp,x,cur,borne_sup),contextptr);

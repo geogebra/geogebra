@@ -1982,6 +1982,8 @@ namespace giac {
   define_unary_function_ptr5( at_Store ,alias_at_Store,&__Store,_QUOTE_ARGUMENTS,true);
 
   gen exact_double(double d,double eps){
+    if (eps<1e-14)
+      eps=1e-14;
     if (d<0)
       return -exact_double(-d,eps);
     if (d > (1<<30) )

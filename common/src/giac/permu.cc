@@ -213,11 +213,11 @@ namespace giac {
     int m;
     m=n;
     for (int k=0;k<n;k++) {
-      int h;
-      h=int(m*(rand()/(RAND_MAX*1.0)));
+      int h=int(std::floor(m*(rand()/(RAND_MAX+1.0))));
       p[k]=temp[h]; m=m-1;
       //mise a jour de temp :il faut supprimer temp[h]
-      for (int j=h;j<m;j++) {temp[j]=temp[j+1];
+      for (int j=h;j<m;j++) {
+	temp[j]=temp[j+1];
       }
     }    
     return(p); 
@@ -1011,6 +1011,8 @@ namespace giac {
     v[0]=pow(plus_two,n);
     for (int k=2;k<=n;k+=2){
       v[k]=-((n+2-k)*(n+1-k)*v[k-2])/(2*k);
+      if (is_undef(v[k]))
+	return v;
     }
     return v;
   }
@@ -1048,6 +1050,8 @@ namespace giac {
       // v0, v1, tmp1 -> v1, v0, tmp1 -> v1, tmp1, v0
       v0.swap(v1);
       v1.swap(tmp1);
+      if (is_undef(v1))
+	return v1;
       // cerr << v0 << " " << v1 << endl;
     }
     return v1;
@@ -1088,6 +1092,8 @@ namespace giac {
     if (n==1) return v;
     for (int k=2;k<=n;k+=2){
       v[k]=-((n-k+2)*(n-k+1)*v[k-2])/(2*k*(n-k/2));
+      if (is_undef(v[k]))
+	return v;
     }
     return v;
   }
@@ -1109,6 +1115,8 @@ namespace giac {
     v[0]=pow(gen(2),n);
     for (int k=1;k<=n/2;++k){
       v[2*k]=-(n+2-2*k)*(n+1-2*k)*v[2*k-2]/(4*k*(n+1-k));
+      if (is_undef(v[2*k]))
+	return v;
     }
     return v;
   }
