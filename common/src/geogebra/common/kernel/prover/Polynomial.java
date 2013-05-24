@@ -770,30 +770,44 @@ public class Polynomial implements Comparable<Polynomial> {
 		StringBuffer ret = new StringBuffer("ring ");
 		ret.append(ringVariable);
 		ret.append("=0,(");
+		String vars = "";
 		Iterator<Variable> variablesIterator = variables.iterator();
-		while (variablesIterator.hasNext()){
-			ret.append(variablesIterator.next());
+		while (variablesIterator.hasNext()) {
+			vars += variablesIterator.next();
 			if (variablesIterator.hasNext())
-				ret.append(", ");
+				vars += ",";
 		}
-		ret.append("),dp; ");
+		
+		if (vars != "")
+			ret.append(vars);
+		else
+			ret.append("dummyvar");
+		
+		ret.append("),dp;");
 		
 		ret.append("ideal ");
 		ret.append(idealVariable);
-		ret.append(" = ");
+		ret.append("=");
 		ret.append(getPolysAsCommaSeparatedString(polys));
-		ret.append("; ");
+		ret.append(";");
 		
-		ret.append("eliminate( ");
+		ret.append("eliminate(");
 		ret.append(idealVariable);
-		ret.append(", ");
+		ret.append(",");
+
+		vars = "";
 		Iterator<Variable> dependentVariablesIterator = dependentVariables.iterator();
 		while (dependentVariablesIterator.hasNext()){
-			ret.append(dependentVariablesIterator.next());
+			vars += dependentVariablesIterator.next();
 			if (dependentVariablesIterator.hasNext()){
-				ret.append("*");
+				vars += "*";
 			}
 		}
+		if (vars != "")
+			ret.append(vars);
+		else
+			ret.append("dummyvar");
+		
 		ret.append(");");
 		return ret.toString();
 	}
