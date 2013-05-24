@@ -146,6 +146,11 @@ public class PathMoverGeneric implements PathMover {
 		start_paramDOWN = start_param - param_extent;
 
 		max_step_width = param_extent / MIN_STEPS_INSTANCE;
+		if (max_step_width < MIN_STEP_WIDTH ||
+			Double.isNaN(max_step_width) ||
+			Double.isInfinite(max_step_width))
+			max_step_width = MIN_STEP_WIDTH;
+
 		posOrientation = true;
 		resetStartParameter();
 
@@ -309,20 +314,32 @@ public class PathMoverGeneric implements PathMover {
 		double abs_new_step = Math.abs(new_step);
 
 		if (new_step < MIN_STEP_WIDTH && new_step > NEG_MIN_STEP_WIDTH) {
-			if (new_step >= 0) {
+			if (new_step > 0.0d) {
 				if (step_width == MIN_STEP_WIDTH) {
 					return false;
 				}
 				step_width = MIN_STEP_WIDTH;
 				return true;
+			} else if (new_step < -0.0d) {
+				if (step_width == NEG_MIN_STEP_WIDTH) {
+					return false;
+				}
+				step_width = NEG_MIN_STEP_WIDTH;
+				return true;
 			}
-			if (step_width == NEG_MIN_STEP_WIDTH) {
+
+			if (step_width == NEG_MIN_STEP_WIDTH ||
+				step_width == MIN_STEP_WIDTH) {
 				return false;
 			}
-			step_width = NEG_MIN_STEP_WIDTH;
+			if (step_width >= 0.0d) {
+				step_width = MIN_STEP_WIDTH;
+			} else {
+				step_width = NEG_MIN_STEP_WIDTH;
+			}
 			return true;
 		} else if (abs_new_step > max_step_width) {
-			if (new_step >= 0) {
+			if (new_step >= 0.0d) {
 				if (step_width == max_step_width) {
 					return false;
 				}
