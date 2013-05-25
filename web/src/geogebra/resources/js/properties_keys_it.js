@@ -182,7 +182,7 @@ __GGB__keysVar.it.command = {
     "ContingencyTable_Syntax": "[ <Lista di testi>, <Lista di testi> ]\n[ <Lista di testi>, <Lista di testi>, <Opzioni> ]\n[ <Lista di valori riga>, <Lista di valori colonna>, <Tabella frequenza> ]\n[ <Lista di valori riga>, <Lista di valori colonna>, <Tabella frequenza>, <Opzioni> ]",
     "ContinuedFraction": "FrazioneContinua",
     "ContinuedFraction_Syntax": "[ <Numero> ]\n[ <Numero>, <Livello> ]\n[ <Numero>, <Livello>, <Abbreviata true|false> ]",
-    "ContourPlot": "ContourPlot",
+    "ContourPlot": "LineeLivello",
     "ConvexHull": "InviluppoConvesso",
     "ConvexHull_Syntax": "[ <Lista di Punti> ]",
     "CopyFreeObject": "CopiaOggettoLibero",
