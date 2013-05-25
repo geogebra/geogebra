@@ -34,7 +34,7 @@ import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
-import geogebra.common.kernel.algos.AlgoCubicSpline;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -2976,7 +2976,7 @@ public abstract class EuclidianController {
 		} else if(selLists()==1){
 			if (selPoints() == 1) {
 				GeoList list=selectedLists.get(0);
-				if (!(list.getParentAlgorithm() instanceof AlgoCubicSpline)){
+				if (!(list.getParentAlgorithm() instanceof AlgoSpline)){
 					return null;
 				}
 				if (list.size()<1){

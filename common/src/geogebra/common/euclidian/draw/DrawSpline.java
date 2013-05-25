@@ -7,7 +7,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.kernel.algos.AlgoCubicSpline;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -19,27 +19,27 @@ import geogebra.common.kernel.geos.GeoList;
  * 
  */
 
-public class DrawCubicSpline extends Drawable {
+public class DrawSpline extends Drawable {
 
 	private boolean isVisible;
-	private AlgoCubicSpline algo;
+	private AlgoSpline algo;
 	private int size;
 	private GeoList list;
 	private GeneralPathClipped gp;
-
+	private int degree;
 	/**
 	 * @param view
 	 *            - Euclidian view
 	 * @param geo
 	 *            - List of parametric curves
 	 */
-	public DrawCubicSpline(EuclidianView view, GeoList geo) {
+	public DrawSpline(EuclidianView view, GeoList geo) {
 		this.view = view;
 		this.geo = geo.toGeoElement();
-		algo = (AlgoCubicSpline) geo.getParentAlgorithm();
+		algo = (AlgoSpline) geo.getParentAlgorithm();
 		list = algo.getSpline();
 		algo.getSpline().setObjColor(GColor.black);
-		// list.setObjColor(GColor.black);
+		degree=algo.getDegree();
 		size = list.size();
 		update();
 	}
@@ -75,19 +75,21 @@ public class DrawCubicSpline extends Drawable {
 		gp.moveTo((float) coords[0], (float) coords[1]);
 		g2.setColor(geo.getObjectColor());
 		int splineParameterIndex = 0;
-		float[] splineParameters = algo.getParametersX();
+		float[] splineParametersX = algo.getParametersX();
 		float[] lx = algo.getParameterIntervalLimits();
 		float[] splineParametersY = algo.getParametersY();
 		for (float p = 0; p <= 1; p = p + 0.01f) {
 			splineParameterIndex = calculate(p, lx);
-			currentDrawX = splineParameters[splineParameterIndex] * p * p * p
-					+ splineParameters[splineParameterIndex + 1] * p * p
-					+ splineParameters[splineParameterIndex + 2] * p
-					+ splineParameters[splineParameterIndex + 3];
+			currentDrawX=calc(splineParametersX,splineParameterIndex,p);
+			currentDrawY=calc(splineParametersY,splineParameterIndex,p);
+			/*currentDrawX = splineParametersX[splineParameterIndex] * p * p * p
+					+ splineParametersX[splineParameterIndex + 1] * p * p
+					+ splineParametersX[splineParameterIndex + 2] * p
+					+ splineParametersX[splineParameterIndex + 3];
 			currentDrawY = splineParametersY[splineParameterIndex] * p * p * p
 					+ splineParametersY[splineParameterIndex + 1] * p * p
 					+ splineParametersY[splineParameterIndex + 2] * p
-					+ splineParametersY[splineParameterIndex + 3];
+					+ splineParametersY[splineParameterIndex + 3];*/
 			double[] coordsC = { currentDrawX, currentDrawY };
 			view.toScreenCoords(coordsC);
 			gp.lineTo((float) coordsC[0], (float) coordsC[1]);
@@ -95,10 +97,18 @@ public class DrawCubicSpline extends Drawable {
 		EuclidianStatic.drawWithValueStrokePure(gp, g2);
 	}
 
-	private static int calculate(float x, float[] m) {
+	private float calc(float[] splineParameters, int splineParameterIndex, float p) {
+		double value=0;
+		for (int i=degree-1;i>-1;i--){
+			value+=Math.pow(p, i)*splineParameters[splineParameterIndex+degree-1-i];
+		}
+		return (float) value;
+	}
+
+	private  int calculate(float x, float[] m) {
 		for (int i = m.length - 1; i > -1; i--) {
 			if (x > m[i]) {
-				return i * 4;
+				return i * degree;
 			}
 		}
 		return 0;

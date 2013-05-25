@@ -19,7 +19,7 @@ import java.util.Arrays;
  * @author Giuliano Bellucci
  * 
  */
-public class AlgoCubicSpline extends AlgoElement {
+public class AlgoSpline extends AlgoElement {
 
 	/**
 	 * list of points
@@ -35,6 +35,7 @@ public class AlgoCubicSpline extends AlgoElement {
 	private GeoList listC;
 	private GeoSpline spline;
 	private static int length;
+	private int degree;
 
 	/**
 	 * @param cons
@@ -44,21 +45,25 @@ public class AlgoCubicSpline extends AlgoElement {
 	 * @param inputList
 	 *            list of points
 	 */
-	public AlgoCubicSpline(Construction cons, String label, GeoList inputList) {
+	public AlgoSpline(Construction cons, String label, GeoList inputList) {
+		this(cons,label,inputList,4);
+	}
+	
+	public AlgoSpline(Construction cons, String label, GeoList inputList,int grade) {
 		super(cons);
+		this.degree = grade;
 		this.inputList = inputList;
 		listC = new GeoList(cons);
 		spline = new GeoSpline(cons);
 		spline.setAllVisualProperties(listC, true);
 		listC.setAlgebraVisible(false);
-		listC=null;
+		listC = null;
 		parametersValues = new float[inputList.size()];
 		points = new float[inputList.size()][2];
 		setInputOutput();
 		compute();
 		spline.setLabel(label);
 	}
-
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
@@ -90,9 +95,10 @@ public class AlgoCubicSpline extends AlgoElement {
 	public GeoSpline getSpline() {
 		return spline;
 	}
+
 	@Override
 	public GetCommand getClassName() {
-		return Commands.CubicSpline;
+		return Commands.Spline;
 	}
 
 	private static float[] getSystemSolution(float[][] matrix) {
@@ -160,92 +166,151 @@ public class AlgoCubicSpline extends AlgoElement {
 
 	private float[][] getLinearSystemParametric(int c) {
 
-		int i = 0, k = 0, j, ii, jj;
+		int row = 0;
+		int col = 0;
+		int pointIndex;
 		float currentValueFromZeroToOne;
 		length = points.length;
 		cumulativeValueOfParameter = new float[length];
-		for (ii = 1; ii < length; ii++) {
-			for (jj = 1; jj <= ii; jj++) {
-				cumulativeValueOfParameter[ii] = cumulativeValueOfParameter[ii]
-						+ (float) Math.sqrt((points[jj][0] - points[jj - 1][0])
-								* (points[jj][0] - points[jj - 1][0])
-								+ (points[jj][1] - points[jj - 1][1])
-								* (points[jj][1] - points[jj - 1][1]));
+		for (col = 1; col < length; col++) {
+			for (row = 1; row <= col; row++) {
+				cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
+						+ (float) Math
+								.sqrt((points[row][0] - points[row - 1][0])
+										* (points[row][0] - points[row - 1][0])
+										+ (points[row][1] - points[row - 1][1])
+										* (points[row][1] - points[row - 1][1]));
 			}
 		}
-		float[][] matrix = new float[(length - 1) * 4][(length - 1) * 4 + 1];
-		for (j = 0; j < length - 1; j++) {
-			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
+		float[][] matrix = new float[(length - 1) * degree][(length - 1) * degree + 1];
+		row = 0;
+		col = 0;
+		for (pointIndex = 0; pointIndex < length - 1; pointIndex++) {
+			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
-			matrix[i][k] = currentValueFromZeroToOne
-					* currentValueFromZeroToOne * currentValueFromZeroToOne;
-			matrix[i][k + 1] = currentValueFromZeroToOne
-					* currentValueFromZeroToOne;
-			matrix[i][k + 2] = currentValueFromZeroToOne;
-			matrix[i][k + 3] = 1;
-			matrix[i][matrix.length] = points[j][c];
-			i++;
-			k += 4;
+			evalForPoint(matrix, row, col, currentValueFromZeroToOne);
+			matrix[row][matrix.length] = points[pointIndex][c];
+			row++;
+			col += degree;
 
 		}
-		k = 0;
-		for (j = 1; j < length; j++) {
-			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
+		col = 0;
+		for (pointIndex = 1; pointIndex < length; pointIndex++) {
+			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
-			matrix[i][k] = currentValueFromZeroToOne
-					* currentValueFromZeroToOne * currentValueFromZeroToOne;
-			matrix[i][k + 1] = currentValueFromZeroToOne
-					* currentValueFromZeroToOne;
-			matrix[i][k + 2] = currentValueFromZeroToOne;
-			matrix[i][k + 3] = 1;
-			matrix[i][matrix.length] = points[j][c];
-			i++;
-			k += 4;
+			evalForPoint(matrix, row, col, currentValueFromZeroToOne);
+			matrix[row][matrix.length] = points[pointIndex][c];
+			row++;
+			col += degree;
 
 		}
-		k = 0;
-		for (j = 1; j < length - 1; j++) {
-			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
+		
+		for (int currentDerivative=degree-2;currentDerivative>0;currentDerivative--){
+			col=0;
+			for (pointIndex = 1; pointIndex < length - 1; pointIndex++) {
+				currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
+						/ cumulativeValueOfParameter[length - 1];
+				calcDerivative(matrix[row],col,currentDerivative,currentValueFromZeroToOne);
+				row++;
+				col+=degree;
+			}
+		}
+		
+		/*col = 0;
+		for (pointIndex = 1; pointIndex < length - 1; pointIndex++) {
+			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
-			matrix[i][k] = currentValueFromZeroToOne
+			matrix[row][col] = currentValueFromZeroToOne
 					* currentValueFromZeroToOne * 3;
-			matrix[i][k + 1] = currentValueFromZeroToOne * 2;
-			matrix[i][k + 2] = 1;
-			matrix[i][k + 3] = 0;
-			matrix[i][k + 4] = -matrix[i][k];
-			matrix[i][k + 5] = -matrix[i][k + 1];
-			matrix[i][k + 6] = -1;
-			matrix[i][k + 7] = 0;
-			matrix[i][matrix.length] = 0;
-			i++;
-			k += 4;
+			matrix[row][col + 1] = currentValueFromZeroToOne * 2;
+			matrix[row][col + 2] = 1;
+			matrix[row][col + 3] = 0;
+			matrix[row][col + 4] = -matrix[row][col];
+			matrix[row][col + 5] = -matrix[row][col + 1];
+			matrix[row][col + 6] = -1;
+			matrix[row][col + 7] = 0;
+			matrix[row][matrix.length] = 0;
+			row++;
+			col += degree;
 
 		}
 
-		k = 0;
-		for (j = 1; j < length - 1; j++) {
-			currentValueFromZeroToOne = cumulativeValueOfParameter[j]
+		col = 0;
+		for (pointIndex = 1; pointIndex < length - 1; pointIndex++) {
+			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
-			matrix[i][k] = currentValueFromZeroToOne * 6;
-			matrix[i][k + 1] = 2;
-			matrix[i][k + 2] = 0;
-			matrix[i][k + 3] = 0;
-			matrix[i][k + 4] = -matrix[i][k];
-			matrix[i][k + 5] = -2;
-			matrix[i][k + 6] = 0;
-			matrix[i][k + 7] = 0;
-			matrix[i][matrix.length] = 0;
-			i++;
-			k += 4;
+			matrix[row][col] = currentValueFromZeroToOne * 6;
+			matrix[row][col + 1] = 2;
+			matrix[row][col + 2] = 0;
+			matrix[row][col + 3] = 0;
+			matrix[row][col + 4] = -matrix[row][col];
+			matrix[row][col + 5] = -2;
+			matrix[row][col + 6] = 0;
+			matrix[row][col + 7] = 0;
+			matrix[row][matrix.length] = 0;
+			row++;
+			col += degree;
 
+		}*/
+		matrix[row][0] = 0;
+		matrix[row][1] = fact(degree-2);
+		row++;
+		matrix[row][matrix.length - degree] = fact(degree-1);
+		matrix[row][matrix.length - degree+1] = fact(degree-2);
+		
+		row++;
+		int num=2;
+		for (;row<matrix.length;row++){
+			matrix[row][matrix.length - num*degree] = fact(degree-1)* cumulativeValueOfParameter[num-1]
+					/ cumulativeValueOfParameter[length - 1];
+			matrix[row][matrix.length - num*degree+1] = fact(degree-2);
+			num++;
 		}
-		matrix[i][0] = 0;
-		matrix[i][1] = 2;
-		i++;
-		matrix[i][matrix.length - 4] = 6;
-		matrix[i][matrix.length - 3] = 2;
+		
+		
 		return matrix;
 
+	}
+
+	private float fact(int i) {
+		int f=1;
+		for (int j=2;j<=i;j++ ){
+			f*=j;
+		}
+		return f;
+	}
+
+	private void calcDerivative(float[] row, int col,
+			int currentDerivative, float currentValueFromZeroToOne) {
+		for (int i=col;i<col+degree;i++){
+			row[i]=calcCoeff(i,currentDerivative,currentValueFromZeroToOne);
+			row[i+degree]=-row[i];
+		}
+	}
+
+	private float calcCoeff(int col, int currentDerivative,
+			float currentValueFromZeroToOne) {
+		int exp=col%degree;
+		exp=degree-exp-1;
+		float coeff=(float)Math.pow(currentValueFromZeroToOne,exp-1);
+		if (exp==0){
+			return 0;
+		}
+		for (int i=degree-1;i>currentDerivative;i--){
+			coeff*=exp;
+			exp--;
+		}
+		return coeff;
+	}
+
+	private float evalForPoint(float[][] matrix, int row, int col,
+			float currentValueFromZeroToOne) {
+		double value = 0;
+		for (int j = degree - 1; j > -1; j--) {
+			matrix[row][col + degree - j - 1] = (float) Math.pow(
+					currentValueFromZeroToOne, j);
+		}
+		return (float) value;
 	}
 
 	public float[] getParameterIntervalLimits() {
@@ -268,6 +333,10 @@ public class AlgoCubicSpline extends AlgoElement {
 
 	public float[][] getPoints() {
 		return points;
+	}
+
+	public int getDegree() {
+		return degree;
 	}
 
 	private void calculateParameterValues() {
@@ -301,18 +370,30 @@ public class AlgoCubicSpline extends AlgoElement {
 		calculateParameterValues();
 		int k = 0;
 		length = parametersX.length;
-		for (int i = 0; i < length; i += 4) {
+		for (int i = 0; i < length; i += degree) {
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-			GeoFunction fx = ap.evaluateToFunction("splineX(t)="
-					+ parametersX[i] + "*t^3+" + parametersX[i + 1] + "*t^2+"
-					+ parametersX[i + 2] + "*t+" + parametersX[i + 3], true);
-			GeoFunction fy = ap.evaluateToFunction("splineY(t)="
-					+ parametersY[i] + "*t^3+" + parametersY[i + 1] + "*t^2+"
-					+ parametersY[i + 2] + "*t+" + parametersY[i + 3], true);
+			StringBuilder sbX = new StringBuilder("splineX(t)=");
+			StringBuilder sbY = new StringBuilder("splineY(t)=");
+			for (int j = degree - 1; j > -1; j--) {
+				sbX.append(parametersX[i + degree - 1 - j] + "*t^" + j + "+");
+				sbY.append(parametersY[i + degree - 1 - j] + "*t^" + j + "+");
+			}
+			GeoFunction fx = ap.evaluateToFunction(
+					sbX.substring(0, sbX.length() - 1), true);
+			GeoFunction fy = ap.evaluateToFunction(
+					sbY.substring(0, sbY.length() - 1), true);
+			/*
+			 * GeoFunction fx = ap.evaluateToFunction("splineX(t)=" +
+			 * parametersX[i] + "*t^3+" + parametersX[i + 1] + "*t^2+" +
+			 * parametersX[i + 2] + "*t+" + parametersX[i + 3], true);
+			 * GeoFunction fy = ap.evaluateToFunction("splineY(t)=" +
+			 * parametersY[i] + "*t^3+" + parametersY[i + 1] + "*t^2+" +
+			 * parametersY[i + 2] + "*t+" + parametersY[i + 3], true);
+			 */
 			GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 			curve.setFunctionX(fx.getFunction());
 			curve.setFunctionY(fy.getFunction());
-			curve.setInterval(parametersValues[k], parametersValues[k + 1]);							
+			curve.setInterval(parametersValues[k], parametersValues[k + 1]);
 			curve.setEuclidianVisible(true);
 			curve.setObjColor(spline.getObjectColor());
 			spline.add(curve);

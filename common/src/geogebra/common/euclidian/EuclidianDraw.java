@@ -7,7 +7,7 @@ import geogebra.common.euclidian.draw.DrawButton;
 import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawConicPart;
 import geogebra.common.euclidian.draw.DrawConicSection;
-import geogebra.common.euclidian.draw.DrawCubicSpline;
+import geogebra.common.euclidian.draw.DrawSpline;
 import geogebra.common.euclidian.draw.DrawImage;
 import geogebra.common.euclidian.draw.DrawImplicitPoly;
 import geogebra.common.euclidian.draw.DrawInequality;
@@ -32,7 +32,7 @@ import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
-import geogebra.common.kernel.algos.AlgoCubicSpline;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
@@ -258,8 +258,8 @@ public class EuclidianDraw {
 		case SPLINE:
 		case LIST:
 			algo = geo.getDrawAlgorithm();
-			if (algo instanceof AlgoCubicSpline) {
-				d = new DrawCubicSpline(ev, (GeoList) geo);
+			if (algo instanceof AlgoSpline) {
+				d = new DrawSpline(ev, (GeoList) geo);
 			} else {
 				d = new DrawList(ev, (GeoList) geo);
 			}

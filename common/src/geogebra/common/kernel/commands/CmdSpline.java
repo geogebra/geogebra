@@ -2,7 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoCubicSpline;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -11,17 +11,17 @@ import geogebra.common.main.MyError;
 
 /**
  * 
- * CubicSpline [<list of points>]
+ * Spline [<list of points>]
  * 
  * @author Giuliano Bellucci
  * 
  */
-public class CmdCubicSpline extends CommandProcessor {
+public class CmdSpline extends CommandProcessor {
 
 	/**
 	 * @param kernel kernel
 	 */
-	public CmdCubicSpline(Kernel kernel) {
+	public CmdSpline(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -36,10 +36,26 @@ public class CmdCubicSpline extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() >= 2
+			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
 					&& arePoint((GeoList) arg[0])) {
-				AlgoCubicSpline algo = new AlgoCubicSpline(cons, c.getLabel(),
-						(GeoList) arg[0]);
+				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
+						(GeoList) arg[0],4);
+				GeoSpline list = algo.getSpline();
+				GeoElement[] ret = { list };
+				return ret;
+			}
+			throw argErr(app, c.getName(), arg[0]);
+		case 2:
+			arg = resArgs(c);
+			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
+					&& arePoint((GeoList) arg[0])) {
+				int grade = (int) c.getArgument(1).evaluateNum().getNumber()
+						.getDouble();
+				if (Double.isNaN(grade) || grade > ((GeoList) arg[0]).size() ) {
+					throw argErr(app, c.getName(), c.getArgument(1));
+				}
+				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
+						(GeoList) arg[0],grade+1);
 				GeoSpline list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
