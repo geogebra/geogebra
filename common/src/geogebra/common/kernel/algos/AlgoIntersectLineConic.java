@@ -589,7 +589,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		int ret = INTERSECTION_PASSING_LINE;
 
 		if (c.isDefined() && g.isDefined()) {
-			double epsilon = Kernel.MAX_PRECISION;
+			double epsilon = 1E-15;
 			while (epsilon <= Kernel.MIN_PRECISION) {
 				ret = intersectLineConic(g, c, sol, epsilon);
 				ok = testPoints(g, c, sol, Kernel.MIN_PRECISION);
@@ -615,15 +615,20 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	public final static int intersectLineConic(GeoLine g, GeoConicND c,
 			GeoPoint[] sol, double eps) {
 		double[] A = c.matrix;
+		
+		double [] xyz = g.getnormalizedCoefficients();
+		double x = xyz[0];
+		double y = xyz[1];
+		double z = xyz[2];
 
 		// get arbitrary point of line
 		double px, py;
-		if (Math.abs(g.x) > Math.abs(g.y)) {
-			px = -g.z / g.x;
+		if (Math.abs(x) > Math.abs(y)) {
+			px = -z / x;
 			py = 0.0d;
 		} else {
 			px = 0.0d;
-			py = -g.z / g.y;
+			py = -z / y;
 		}
 
 		// we have to solve u t� + 2d t + w = 0
@@ -637,10 +642,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// = err(dis) <= (|2d|+|u|+|w|)epsilon
 
 		// precalc S.v for u and d
-		double SvX = A[0] * g.y - A[3] * g.x;
-		double SvY = A[3] * g.y - A[1] * g.x;
-		double u = g.y * SvX - g.x * SvY;
-		double d = px * SvX + py * SvY + A[4] * g.y - A[5] * g.x;
+		double SvX = A[0] * y - A[3] * x;
+		double SvY = A[3] * y - A[1] * x;
+		double u = y * SvX - x * SvY;
+		double d = px * SvX + py * SvY + A[4] * y - A[5] * x;
 		double w = c.evaluate(px, py);
 
 		// estimate err for delta; also avoid this too be too large
@@ -669,11 +674,11 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			// d != 0
 			double t0 = -w / (2.0 * d);
 			if (d < 0) {
-				sol[0].setCoords(px + t0 * g.y, py - t0 * g.x, 1.0d);
+				sol[0].setCoords(px + t0 * y, py - t0 * x, 1.0d);
 				sol[1].setUndefined();
 			} else { // d > 0
 				sol[0].setUndefined();
-				sol[1].setCoords(px + t0 * g.y, py - t0 * g.x, 1.0d);
+				sol[1].setCoords(px + t0 * y, py - t0 * x, 1.0d);
 			}
 			return INTERSECTION_MEETING_LINE;
 		}
@@ -685,7 +690,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// if (AbstractKernel.isZero(dis)) {
 		if (Kernel.isEqual(dis, 0, delta)) {
 			double t1 = -d / u;
-			sol[0].setCoords(px + t1 * g.y, py - t1 * g.x, 1.0);
+			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
 			sol[1].setCoords(sol[0]);
 			return INTERSECTION_TANGENT_LINE;
 		}
@@ -696,7 +701,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// Double line => one intersection point
 		if (c.type == GeoConicNDConstants.CONIC_DOUBLE_LINE) {
 			double t1 = -d / u;
-			sol[0].setCoords(px + t1 * g.y, py - t1 * g.x, 1.0);
+			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
 			sol[1].setCoords(sol[0]);
 			return INTERSECTION_SECANT_LINE;
 		}
@@ -716,8 +721,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			double t1 = swap ? w / q : q / u;
 			double t2 = swap ? q / u : w / q;
 
-			sol[0].setCoords(px + t1 * g.y, py - t1 * g.x, 1.0);
-			sol[1].setCoords(px + t2 * g.y, py - t2 * g.x, 1.0);
+			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
+			sol[1].setCoords(px + t2 * y, py - t2 * x, 1.0);
 
 			return INTERSECTION_SECANT_LINE;
 		}

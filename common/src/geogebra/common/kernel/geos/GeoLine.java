@@ -1540,5 +1540,43 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public boolean respectLimitedPath(double param){
 		return true;
 	}
+
+	/**
+	 * normalize coeffients so that
+	 * Intersect[ (x - 1.62010081566832)² + (y + 31.674457260881873)² = 0.028900000000021 ,  0.000158120368003x + 0.000144840828995y = -0.004331583710062 ]
+	 * works
+	 * 
+	 * @return normalized coefficients x,y,z
+	 */
+	public double[] getnormalizedCoefficients() {
+		
+		double ret[] = {x, y, z};
+		
+		if (Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z)) {
+			return ret;
+		}
+		
+		if (Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)) {
+			return ret;
+		}
+		
+		if (Double.isInfinite(x) || Double.isInfinite(y) || Double.isInfinite(z)) {
+			return ret;
+		}
+		
+		while (Math.abs(ret[0]) < 0.5 && Math.abs(ret[1]) < 0.5 && Math.abs(ret[2]) < 0.5) {
+			ret[0] *= 2;
+			ret[1] *= 2;
+			ret[2] *= 2;
+		}
+		
+		while (Math.abs(ret[0]) > 1 && Math.abs(ret[1]) > 1 && Math.abs(ret[2]) > 1) {
+			ret[0] /= 2;
+			ret[1] /= 2;
+			ret[2] /= 2;
+		}
+		
+		return ret;
+	}
 	
 }
