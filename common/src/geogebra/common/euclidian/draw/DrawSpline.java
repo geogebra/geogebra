@@ -48,18 +48,22 @@ public class DrawSpline extends Drawable {
 
 	@Override
 	public void update() {
-		isVisible = geo.isEuclidianVisible();
-		if (!isVisible || !list.isDefined())
+		isVisible = list.isEuclidianVisible();
+		if (!isVisible ){		
 			return;
+		}
 		updateStrokes(geo);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
+		
 		boolean highlighting = geo.doHighlighting();
+		
 		if (!isVisible) {
 			return;
 		}
+		
 		if (highlighting) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
@@ -111,6 +115,9 @@ public class DrawSpline extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y) {
+		if(!isVisible){
+			return false;
+		}
 		Drawable d;
 		for (int i = 0; i < size; i++) {
 			d = new DrawParametricCurve(view, (GeoCurveCartesian) list.get(i));
@@ -123,6 +130,9 @@ public class DrawSpline extends Drawable {
 
 	@Override
 	public boolean isInside(GRectangle rect) {
+		if(!isVisible){
+			return false;
+		}
 		Drawable d;
 		for (int i = 0; i < size; i++) {
 			d = new DrawParametricCurve(view, (GeoCurveCartesian) list.get(i));

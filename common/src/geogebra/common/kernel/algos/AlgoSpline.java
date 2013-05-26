@@ -39,7 +39,6 @@ public class AlgoSpline extends AlgoElement {
 	private static int length;
 	private GeoNumberValue degree;
 	private int degreeValue;
-
 	/**
 	 * @param cons
 	 *            construction
@@ -59,6 +58,7 @@ public class AlgoSpline extends AlgoElement {
 		listC = new GeoList(cons);
 		spline = new GeoSpline(cons);
 		spline.setAllVisualProperties(listC, true);
+		spline.setEuclidianVisible(true);
 		listC.setAlgebraVisible(false);
 		listC = null;
 		parametersValues = new float[inputList.size()];
@@ -82,6 +82,8 @@ public class AlgoSpline extends AlgoElement {
 			spline.setUndefined();
 			return;
 		}
+
+		
 		degreeValue=(int)degree.getDouble()+1;
 		
 		length = points.length;
@@ -102,13 +104,16 @@ public class AlgoSpline extends AlgoElement {
 			return;
 		}
 		execute();
+		if(!spline.isEuclidianVisible()){
+			return;
+		}
 		setInputOutput();
 	}
 
 	public GeoSpline getSpline() {
 		return spline;
 	}
-
+	
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Spline;
