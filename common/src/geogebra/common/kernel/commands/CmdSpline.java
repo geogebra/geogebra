@@ -6,6 +6,8 @@ import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.main.MyError;
 
@@ -39,7 +41,7 @@ public class CmdSpline extends CommandProcessor {
 			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
 					&& arePoint((GeoList) arg[0])) {
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-						(GeoList) arg[0],4);
+						(GeoList) arg[0],new GeoNumeric(cons,3));
 				GeoSpline list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
@@ -49,13 +51,14 @@ public class CmdSpline extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
 					&& arePoint((GeoList) arg[0])) {
-				int grade = (int) c.getArgument(1).evaluateNum().getNumber()
+				int degree = (int) c.getArgument(1).evaluateNum().getNumber()
 						.getDouble();
-				if (Double.isNaN(grade) || grade > ((GeoList) arg[0]).size() ) {
+				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size() || degree < 3) {
 					throw argErr(app, c.getName(), c.getArgument(1));
 				}
+				GeoNumberValue degreeNum=(GeoNumberValue) arg[1]; 
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-						(GeoList) arg[0],grade+1);
+						(GeoList) arg[0],degreeNum);
 				GeoSpline list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
