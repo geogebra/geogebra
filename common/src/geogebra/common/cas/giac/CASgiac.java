@@ -396,24 +396,30 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7
-	 * @param ret expression
+	 * eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) < 0]
+	 * @param exp expression
 	 * @return converted expression if changed
 	 */
-	protected String checkInequalityInterval(String ret) {
+	protected String checkInequalityInterval(String exp) {
 
-		MatchResult matcher = inequality.exec(ret);
 
-		boolean matchFound = (matcher != null); // equivalent to regExp.test(inputStr); 
+		String ret = exp;
 
-		if (matchFound && 
+		MatchResult matcher;
+		while ((matcher = inequality.exec(ret)) != null &&
+
 				// check variable the same
 				// ie not x>5 && y<4
-				matcher.getGroup(2).equals(matcher.getGroup(7))) {			
-		    ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
+				matcher.getGroup(2).equals(matcher.getGroup(7))) {	
+			
+			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
+		
+		}
 
+		if (!exp.equals(ret)) {
 			App.debug("giac output (with inequality converted): " + ret);		
 		}
-		
+
 		return ret;
 
 	}
