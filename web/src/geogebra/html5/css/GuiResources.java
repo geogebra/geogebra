@@ -26,6 +26,18 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/images/10x1.png")
 	ImageResource png10x1();
+	
+	@Source("geogebra/resources/images/spacer.png")
+	ImageResource spacer();
+	
+	@Source("geogebra/resources/images/algebra_down.png")
+	ImageResource algebra_down();
+	
+	@Source("geogebra/resources/images/algebra_left.png")
+	ImageResource algebra_left();
+	
+	@Source("geogebra/resources/images/triangle-down.png")
+	ImageResource triangle_down();
 
 	@Source("geogebra/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();

@@ -72,6 +72,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private GeoElement lastSelectedGeo = null;
 
 	public AlgebraViewWeb(AppWeb app) {
+		super(new TreeImages());
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
@@ -188,7 +189,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				((RadioButtonTreeItem) getItem(i).getWidget()).repaint();
 				getItem(i).setSelected(((GeoElement) geo).doHighlighting());
 			} else {
-				((InlineLabelTreeItem) getItem(i).getWidget()).setText(getItem(
+				((GroupHeader) getItem(i).getWidget()).setText(getItem(
 				        i).getUserObject().toString());
 				if (getItem(i).getState()) {
 					repaintChildren(getItem(i));

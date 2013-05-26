@@ -17,8 +17,9 @@ import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
-import geogebra.html5.gui.view.algebra.InlineLabelTreeItem;
+import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -392,8 +393,9 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			        .getElement().getFirstChildElement(), "display",
 			        "inline-block");
 		} else {
-			ti.setWidget(new InlineLabelTreeItem(app.getSelectionManager(), ti,
-			        ob.toString()));
+			ti.setWidget(new GroupHeader(
+					this.app.getSelectionManager(), ti, ob.toString(),GuiResources.INSTANCE.algebra_down().getSafeUri(),
+					GuiResources.INSTANCE.algebra_left().getSafeUri()));
 		}
 	}	
 
