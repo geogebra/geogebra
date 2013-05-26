@@ -1683,9 +1683,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				appendOp(sb,"sand", leftStr, rightStr);
 				break;
 			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append('(');
 				sb.append(leftStr);
 				sb.append("&&");
 				sb.append(rightStr);
+				sb.append(')');
 				break;
 			} else {
 				if(right.isExpressionNode()){
