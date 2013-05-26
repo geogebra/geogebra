@@ -409,9 +409,9 @@ public abstract class CASgiac implements CASGenericInterface {
 				// check variable the same
 				// ie not x>5 && y<4
 				matcher.getGroup(2).equals(matcher.getGroup(7))) {			
-		    String replaced = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
+		    ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
 
-			App.debug("giac output (with inequality converted): " + replaced);		
+			App.debug("giac output (with inequality converted): " + ret);		
 		}
 		
 		return ret;
