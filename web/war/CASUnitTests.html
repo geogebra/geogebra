@@ -11,7 +11,7 @@ var Module = { TOTAL_MEMORY: 167772160 };
 <script>
 
 var getVars = new Array();
- var _start = 900;
+ var _start = 1000;
  var _end = Object.keys(__giac).length;
  var _match = undefined;
  
@@ -74,21 +74,7 @@ window.onload = function()
 </head>
 <body>
 
-    <script>
-    window.GGW_ext = {
-        startupFunctions : []
-    };
-                                            
-   GGW_ext.webReady = function(functionName, args) {
-        if (typeof GGW_ext[functionName] === "function") {
-            this[functionName](args);
-            console.log("loaded");
-        } else {
-            this.startupFunctions.push([functionName,args]);
-            console.log("not loaded");
-        }   
-    }
-    </script>
+
    <script type="text/javascript" language="javascript" src="web/web.nocache.js"></script>
     <article class="geogebraweb" data-param-width="80" data-param-height="55" data-param-enableLabelDrags="false" data-param-enableShiftDragZoom="false"  data-param-showLogging="true" style="border: 1px solid black; display:inline-block;"
     data-param-ggbbase64="UEsDBBQACAAIAAqeYzgAAAAAAAAAAAAAAAAMAAAAZ2VvZ2VicmEueG1szVbLbts6EF23X0FoX4ekJMsCrBRGuinQxyJtFt0UlETbvJFEl6QcyV/f4UOOaydFb29R3BWlmeFw5pwzlJavh7ZBe660kF0RkRmOEO8qWYtuU0S9Wb9aRK+vXy43XG54qRhaS9UyU0QxRFp7L65fvljqrXxArHEhd4I/FJFRPY8Q6wfRCKbGj+U/vDK6iNas0dbhY992u95MwVVbvxN6er1yeXeNMG/EXtRcoUZWRUSTeWSf7rgyomJNESUYat5KJQ6yM9bwuH0NFoS0OHBoLbG25ZWreMn7qhG1YJ2t1p0EQQg9iNpsi2ie2JRcbLZQTYqpz1ZJqerbURveouELVxKqSfEsW8QxxSTHSb6A2sbgWeBZGqd4QXGaZCnNI6ShXCgkTmd5nGeYxjGOSZbFsOdZlzuY72+5McCIRmzgesJro0R9BHQnRWdu2M70ylEXB9OtGW1m6EfZdlbdpuHBRnz2cnMjG6mQsu2kkDaspV9djD32GIVdDHYR2PttKUc/yamLcGvpVxfViM6fHdogUw8ET8cIjawBkltJTZ02rORAbIT6Tph30wvwf39sxcV/6NsSpHwqgWNK8odSLq/OtLO856rjjVdIBzT1stdob5XouXF11LwSLbx6RwCEWTY+QwHeWvON4vxUbA4s58P+7Okse5SGkioDcwtlG1uynTcDk2CfamasxUq94S2HOTDjDiywT1TH9qvoOL3STegZPI84gvtJAVCS2WnebRlYZoFHt/u9rE9rt90CAq5eGKGdDQ8KXIuB1xeIlYqze6fhC9ejkMwWGOu4BoJAsr7FcByML+/20JNUGqEBh9ttxL5QdJgsAymiV840kmA6hAeXCIpWYkCrKX41Ra0obCRz9xiHrKtkekhPAOHfOl+v9uLSO5DDGojwgvIMXXDlmj9ysfotrqaR9mzNnyPr43qtuUEDdAZDO0Jfyd+h0ulc24MdjmNYDyf4n4xCgK9iynANE+gD/EVnL3CXPTlHtZJty7oadayFzZ9g6sDu0BT2+4MYtugiRuxAeAR7MznMV+Jd5iv1iUO6C7qsKh/ZgG2/P1skjR1fya/O1i8hTGcko5QuErxYkCzOaOKpzmZkTgh8v2iSkjSfE4c/zeFjFNM0x3lCclvR87OXnM/emd5FCx/ySpif6/0MQPq/A/AJoCx+T+F6sPa/gOCP2r4BI1dn0r7UdAj7qZp/vHxOEv9bQuaJY8QupV/+ICM4XBr4v14a8TmwV6dfWPfjGH6Br78DUEsHCC2mYgCuAwAANAsAAFBLAQIUABQACAAIAAqeYzgtpmIArgMAADQLAAAMAAAAAAAAAAAAAAAAAAAAAABnZW9nZWJyYS54bWxQSwUGAAAAAAEAAQA6AAAA6AMAAAAA"></article>
@@ -100,8 +86,6 @@ window.onload = function()
 </div>
 
     <script>
-        var article = document.querySelector(".geogebraweb");
-        GGW_ext.webReady("render", article);
 		
 		var green = "#00FF00";
 		var blue = "#0000FF";
@@ -123,28 +107,29 @@ window.onload = function()
 			console.log("Starting test "+i);
 		
 			var cmd = __giac[i]["cmd"];
-			var expectedResult = __giac[i]["result"];
-			var notes = __giac[i]["notes"];
-			
-			var beforeTime = +new Date();
-			var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
-			var afterTime = +new Date();
-			var totalTime = afterTime - beforeTime;
-			
-			// replace c_23 with c_0
-			if (resultO.indexOf("c_") > -1 && resultO.indexOf("c_") == resultO.lastIndexOf("c_")) {
-				resultO = resultO.replace(/c_[0-9]*/g, "c_0");
-			}
-			
-			// replace n_23 with n_0
-			if (resultO.indexOf("n_") > -1 && resultO.indexOf("n_") == resultO.lastIndexOf("n_")) {
-				resultO = resultO.replace(/n_[0-9]*/g, "n_0");
-			}
 			
 			// eg _match="NSolve", display just that command
 			if (_match === undefined || cmd.indexOf(_match) > -1) {
 			
 				//alert(cmd);
+				
+				var expectedResult = __giac[i]["result"];
+				var notes = __giac[i]["notes"];
+				
+				var beforeTime = +new Date();
+				var resultO = window.ggbApplet.evalGeoGebraCAS(""+cmd+"");
+				var afterTime = +new Date();
+				var totalTime = afterTime - beforeTime;
+				
+				// replace c_23 with c_0
+				if (resultO.indexOf("c_") > -1 && resultO.indexOf("c_") == resultO.lastIndexOf("c_")) {
+					resultO = resultO.replace(/c_[0-9]*/g, "c_0");
+				}
+				
+				// replace n_23 with n_0
+				if (resultO.indexOf("n_") > -1 && resultO.indexOf("n_") == resultO.lastIndexOf("n_")) {
+					resultO = resultO.replace(/n_[0-9]*/g, "n_0");
+				}
 				
 				if (resultO === "") {
 					resultO = "GEOGEBRA ERROR";
@@ -193,9 +178,9 @@ window.onload = function()
 				}
 						
 				var addToTable = "<tr>";
-				addToTable += "<td>" + i + ': ' + cmd +  totalTime + "</td>";
+				addToTable += "<td>" + i + ': ' + cmd.replace(/</g,"&lt;") +  totalTime + "</td>";
 				addToTable += '<td><p style="background-color:'+color+'"><span style="font-size:'+fontsize+'pt;">' + resultO +'</span></p></td>';
-				addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult + '</span></td>';
+				addToTable += '<td><span style="font-size:'+fontsize+'pt;">' + expectedResult.replace(/<br\/>/g,"BREAK").replace(/</g,"&lt;").replace(/BREAK/g,"<br/>") + '</span></td>';
 				addToTable += '<td><p style="background-color:'+yellow+'">' + notes + '</p><br/>' + giacInput + "<br/>" + giacOutput + "<br/>"+logStore+"</td>";
 				addToTable += "</tr>";
 				
