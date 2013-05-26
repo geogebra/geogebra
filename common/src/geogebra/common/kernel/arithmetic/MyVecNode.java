@@ -24,7 +24,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
-import geogebra.common.util.Unicode;
 
 import java.util.HashSet;
 
@@ -152,11 +151,15 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 
 		case GIAC:
 			if (mode == Kernel.COORD_POLAR) {
-				sb.append("(");
+				sb.append("((");
 				sb.append(x.toString(tpl));
-				sb.append(Unicode.angleSpace);
+				sb.append(")*cos(");
 				sb.append(y.toString(tpl));
-				sb.append(")");
+				sb.append("),(");
+				sb.append(x.toString(tpl));
+				sb.append(")*sin(");
+				sb.append(y.toString(tpl));
+				sb.append("))");
 			} else {			
 				sb.append("(");
 				sb.append(x.toString(tpl));
