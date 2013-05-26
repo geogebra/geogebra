@@ -58,6 +58,10 @@ public abstract class GeoElementGraphicsAdapter {
 		image = null;
 	}
 
+	/**
+	 * Make sure the image name and MD5 is adjusted to match the saveable formats 
+	 * (no change in desktop, JPEG, GIF -> PNG in Web)
+	 */
 	public abstract void convertToSaveableFormat();
 	
 	

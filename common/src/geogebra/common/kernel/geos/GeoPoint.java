@@ -58,6 +58,7 @@ import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -2208,7 +2209,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable(true);
 				botanaVars[1] = new Variable(true);
-				app.debug("Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
+				App.debug("Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 		}
 		

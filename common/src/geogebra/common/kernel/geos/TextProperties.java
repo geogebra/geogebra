@@ -67,6 +67,9 @@ public interface TextProperties {
 	 */
 	public boolean justFontSize();
 	
+	/**
+	 * @return whether this was created using a command with LaTeX output
+	 */
 	public boolean isLaTeXTextCommand();
 
 }

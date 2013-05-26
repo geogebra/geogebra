@@ -30,7 +30,6 @@ import geogebra.common.plugin.GeoClass;
 public class GeoCanvasImage extends GeoImage {
 
 	private GBufferedImage bufferedImage = null;
-	protected GBasicStroke objStroke = EuclidianStatic.getDefaultStroke();
 	private GGraphics2D g;
 
 	/**
@@ -71,6 +70,7 @@ public class GeoCanvasImage extends GeoImage {
 		pixelHeight = height;
 
 		this.setBackgroundColor(GColor.blue);
+		GBasicStroke objStroke = EuclidianStatic.getDefaultStroke();
 		createImage(objStroke, getAlgebraColor(), this.getBackgroundColor(),
 				alphaValue, pixelWidth, pixelHeight);
 

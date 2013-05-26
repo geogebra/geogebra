@@ -6946,11 +6946,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isMatrix() {
 		return false;
 	}
-	
+	/**
+	 * @return Unicode symbol used for fill
+	 */
 	public String getFillSymbol(){
 		return fillSymbol;
 	}
-	
+	/**
+	 * Just aets the fill symbol, fill type must be changed to SYMBOL separately 
+	 * @param symbol Unicode symbol used for fill
+	 */
 	public void setFillSymbol(String symbol){
 		fillSymbol=symbol;
 	}
