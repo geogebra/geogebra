@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Tree;
@@ -184,15 +185,17 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement) {
-				((RadioButtonTreeItem) getItem(i).getWidget()).repaint();
-				getItem(i).setSelected(((GeoElement) geo).doHighlighting());
+				((RadioButtonTreeItem) ti.getWidget()).repaint();
+				ti.setSelected(((GeoElement) geo).doHighlighting());
 			} else {
-				((GroupHeader) getItem(i).getWidget()).setText(getItem(
-				        i).getUserObject().toString());
-				if (getItem(i).getState()) {
-					repaintChildren(getItem(i));
+				//TODO try to find better way to do this and at least avoid if not necessary
+				ti.getElement().getFirstChildElement().getStyle().setWidth(100, Unit.PCT);
+				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
+				if (ti.getState()) {
+					repaintChildren(ti);
 				}
 
 			}
