@@ -626,6 +626,9 @@ public class MyXMLHandler implements DocHandler {
 				// perform tasks to maintain backward compability
 				if (ggbFileFormat < 3.3 && hasGuiElement) {
 					createCompabilityLayout();
+				} else if (tmp_perspectives.isEmpty() && hasGuiElement) {
+					// a specific 4.2 ggb file needed this
+					createCompabilityLayout();
 				}
 			}
 			break;
@@ -661,8 +664,10 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_GUI;
 			hasGuiElement = true;
 
-			if (ggbFileFormat < 3.3)
+			//if (ggbFileFormat < 3.3) // safe to reset every time
 				tmp_perspective = new Perspective("tmp");
+			tmp_perspectives.clear();
+
 		} else if ("macro".equals(eName)) {
 			mode = MODE_MACRO;
 			initMacro(attrs);
@@ -2023,12 +2028,12 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		try {
 			// backward compatibility to versions without the layout component
-			if (ggbFileFormat < 3.3) {
+			//if (ggbFileFormat < 3.3) {// also used in some special, newer files
 				tmp_showAlgebra = parseBoolean(attrs.get("algebraView"));
 
 				// Michael Borcherds 2008-04-25
 				tmp_showSpreadsheet = parseBoolean(attrs.get("spreadsheetView"));
-			}
+			//}
 
 			String str = attrs.get("auxiliaryObjects");
 			boolean auxiliaryObjects = (str != null && str.equals("true"));
