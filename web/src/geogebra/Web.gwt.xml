@@ -48,9 +48,9 @@
   <add-linker name="xsiframe" />
   
   <!-- Define a custom App Cache linker -->
-  <!--<define-linker name="appcachelinker" class="geogebra.linker.AppCacheLinker"/>-->
+  <define-linker name="appcachelinker" class="geogebra.linker.AppCacheLinker"/>-->
   <!-- Use it -->
-  <!--<add-linker name="appcachelinker"/>-->
+  <add-linker name="appcachelinker"/>-->
   
   
   <!-- Specify the paths for translatable code                    -->
