@@ -829,7 +829,7 @@ __GGB__keysVar.fr.command = {
     "Sphere": "Sph\xe8re",
     "Sphere_Syntax": "[ <Point>, <Rayon> ]",
     "Spline": "Spline",
-    "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline_Syntax": "[ <Liste de Points> ]\n[ <Liste de Points>, <Ordre \u2265 3> ]",
     "StartAnimation": "D\xe9marrerAnimation",
     "StartAnimation_Syntax": "[ ]\n[ <Bool\xe9en> ]\n[ <Curseur ou Point>, <Curseur ou Point>, ... ]\n[ <Curseur ou Point>, <Curseur ou Point>, ..., <Bool\xe9en> ]",
     "StemPlot": "TigeFeuilles",
