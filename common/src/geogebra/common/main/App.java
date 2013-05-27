@@ -20,6 +20,7 @@ import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
@@ -1824,16 +1825,6 @@ public abstract class App implements UpdateSelection{
 
 	public abstract DrawEquation getDrawEquation();
 
-	/**
-	 * 
-	 * @param show
-	 *            true to show navigation bar
-	 */
-	public void setShowConstructionProtocolNavigation(boolean show) {
-		// TODO Auto-generated method stub
-
-	}
-
 	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
 
 	/**
@@ -3109,6 +3100,8 @@ public abstract class App implements UpdateSelection{
 	}	
 	
 	protected boolean needsSpreadsheetTableModel = false;
+	protected boolean showConstProtNavigationNeedsUpdate = false;
+	protected boolean showConsProtNavigation = false;
 
 	public void setNeedsSpreadsheetTableModel(){
 		needsSpreadsheetTableModel = true;
@@ -3192,6 +3185,36 @@ public abstract class App implements UpdateSelection{
 			getEuclidianView2().getEuclidianController().resetPen();
 		}
 
+	}
+
+	public boolean getShowCPNavNeedsUpdate() {
+		return showConstProtNavigationNeedsUpdate;
+	}
+
+	public boolean showConsProtNavigation() {
+		return showConsProtNavigation;
+	}
+
+	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
+
+	/**
+	 * Displays the construction protocol navigation
+	 * @param show
+	 *            true to show navigation bar
+	 */
+	public void setShowConstructionProtocolNavigation(boolean flag) {
+		if ((flag == showConsProtNavigation)
+				&& (!showConstProtNavigationNeedsUpdate)) {
+			return;
+		}
+		showConsProtNavigation = flag;
+	
+		if (getGuiManager() != null) {
+			getGuiManager().setShowConstructionProtocolNavigation(flag);
+			showConstProtNavigationNeedsUpdate = false;
+		} else {
+			showConstProtNavigationNeedsUpdate = true;
+		}
 	}
 
 }

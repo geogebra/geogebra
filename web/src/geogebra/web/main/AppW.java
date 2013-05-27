@@ -8,6 +8,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -1888,6 +1889,8 @@ public class AppW extends AppWeb {
 			this.getEuclidianViewpanel().onResize();
 			getEuclidianView1().doRepaint2();
 		}
+		
+		this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 
@@ -1924,7 +1927,7 @@ public class AppW extends AppWeb {
 
 	}
 
-	public ConstructionProtocolNavigationW getConstructionProtocolNavigation() {
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 
 		if (constProtocolNavigation == null) {
 			constProtocolNavigation = new ConstructionProtocolNavigationW(this);

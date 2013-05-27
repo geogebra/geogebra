@@ -1,7 +1,7 @@
 package geogebra.web.gui.view.consprotocol;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
+import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
 public class ConstructionProtocolViewW implements ConstructionProtocolView{
@@ -13,7 +13,7 @@ public class ConstructionProtocolViewW implements ConstructionProtocolView{
 	public ConstructionProtocolViewW(final AppW app) {
 		this.app = app;
 		
-		protNavBar = app.getConstructionProtocolNavigation();
+		protNavBar = (ConstructionProtocolNavigationW) (app.getConstructionProtocolNavigation());
 		protNavBar.register(this);	
 	}
 	
@@ -24,6 +24,12 @@ public class ConstructionProtocolViewW implements ConstructionProtocolView{
 
 	public int getLastStepNumber() {
 	    return app.getKernel().getConstruction().getLastGeoElement().getConstructionIndex();
+    }
+
+	public void setConstructionStep(int consStep) {
+		App.debug("ConstructionProtocolViewW.setConstructionStep(int) - implementation needed");
+	    // TODO Auto-generated method stub
+	    
     }
 	
 	

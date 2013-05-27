@@ -65,7 +65,7 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 			
 			panel.add(app.getEuclidianView1().getJPanel(), BorderLayout.CENTER);
 			
-			consProtNav = app.getConstructionProtocolNavigation();
+			consProtNav = (ConstructionProtocolNavigation) app.getConstructionProtocolNavigation();
 
 			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 			consProtNav.settingsChanged(cps);

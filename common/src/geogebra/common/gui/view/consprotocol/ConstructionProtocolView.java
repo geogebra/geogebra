@@ -168,4 +168,6 @@ public interface ConstructionProtocolView {
 
 	}
 
+	void setConstructionStep(int consStep);
+
 }

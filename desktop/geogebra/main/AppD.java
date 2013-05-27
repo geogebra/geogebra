@@ -310,8 +310,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	
 	protected boolean showAlgebraView = true;
 
-	protected boolean showConsProtNavigation = false;
-
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
@@ -2363,8 +2361,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	
-	private boolean showConstProtNavigationNeedsUpdate = false;
-
 	final public String getEnglishCommand(String key) {
 
 		if (rbcommandEnglish == null) {
@@ -2910,29 +2906,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return showMenuBar;
 	}
 
-	public boolean getShowCPNavNeedsUpdate() {
-		return showConstProtNavigationNeedsUpdate;
-	}
-
-	/**
-	 * Displays the construction protocol navigation
-	 */
-	@Override
-	public void setShowConstructionProtocolNavigation(boolean flag) {
-		if ((flag == showConsProtNavigation)
-				&& (!showConstProtNavigationNeedsUpdate)) {
-			return;
-		}
-		showConsProtNavigation = flag;
-
-		if (getGuiManager() != null) {
-			getGuiManager().setShowConstructionProtocolNavigation(flag);
-			showConstProtNavigationNeedsUpdate = false;
-		} else {
-			showConstProtNavigationNeedsUpdate = true;
-		}
-	}
-
 	public void toggleShowConstructionProtocolNavigation() {
 
 		setShowConstructionProtocolNavigation(!showConsProtNavigation());
@@ -2943,10 +2916,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			((GuiManagerD) getGuiManager())
 					.updateCheckBoxesForShowConstructinProtocolNavigation();
 
-	}
-
-	public boolean showConsProtNavigation() {
-		return showConsProtNavigation;
 	}
 
 	@Override
@@ -5041,7 +5010,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private ConstructionProtocolNavigation constProtocolNavigation;
 
-	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+	@Override
+	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		if (constProtocolNavigation == null) {
 			constProtocolNavigation = new ConstructionProtocolNavigation(this);
 		}

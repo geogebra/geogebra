@@ -50,7 +50,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	public ConstructionProtocolContextMenu(AppD app){
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
-		constprotView = ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView();
+		constprotView = (ConstructionProtocolView) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView();
 		initItems();
 	}
 

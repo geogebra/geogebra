@@ -15,6 +15,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -547,8 +548,6 @@ public abstract class GuiManager {
 
 	public abstract void setShowToolBarHelp(boolean showToolBarHelp);
 
-	public abstract void setShowConstructionProtocolNavigation(boolean flag);
-
 	public abstract View getEuclidianView2();
 
 	public abstract boolean hasEuclidianView2EitherShowingOrNot();
@@ -570,5 +569,18 @@ public abstract class GuiManager {
 	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
-	public abstract int getActiveToolbarId();	
+	public abstract int getActiveToolbarId();
+
+	public abstract ConstructionProtocolView getConstructionProtocolView();
+
+	public void setShowConstructionProtocolNavigation(boolean show) {
+		
+		getApp().getConstructionProtocolNavigation().setVisible(show);
+		
+		if (show) {
+			if (getApp().getActiveEuclidianView() != null)
+				getApp().getActiveEuclidianView().resetMode();
+			getConstructionProtocolView();
+		}
+	}
 }

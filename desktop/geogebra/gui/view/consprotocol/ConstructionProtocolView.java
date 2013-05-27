@@ -187,7 +187,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		table.addKeyListener(keyListener);
 
 		// navigation bar
-		protNavBar = app.getConstructionProtocolNavigation();
+		protNavBar = (ConstructionProtocolNavigation) app.getConstructionProtocolNavigation();
 		protNavBar.register(this);
 		//protNavBar.setPlayButtonVisible(false);
 		//protNavBar.setConsProtButtonVisible(false);

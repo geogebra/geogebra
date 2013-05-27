@@ -27,6 +27,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	Canvas eview1 = null;// static foreground
 	
 	EuclidianDockPanelW thisPanel;
+	
+	private ConstructionProtocolNavigationW consProtNav;
 
 	public EuclidianDockPanelW(boolean stylebar) {
 		super(
@@ -71,20 +73,33 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	}
 	
 	public void addNavigationBar(){
-				ConstructionProtocolNavigationW consProtNav = app.getConstructionProtocolNavigation();
+//		App.debug("app in addNavigationBar(): " + app);
+		if (app == null) return;
+		consProtNav = (ConstructionProtocolNavigationW)(app
+		        .getConstructionProtocolNavigation());
+		consProtNav.getImpl().addStyleName("consProtNav");
+		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		
+		updateNavigationBar();
+	}
+	
+	public void updateNavigationBar(){
+//		if (consProtNav == null) return;
+//		ConstructionProtocolSettings cps = app.getSettings()
+//		        .getConstructionProtocol();
+//		((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
+//		cps.addListener((ConstructionProtocolNavigation)consProtNav);
+
 		
-//			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
-//			((ConstructionProtocolNavigation) consProtNav).settingsChanged(cps);
-//			cps.addListener((ConstructionProtocolNavigation)consProtNav);
-				
-//			if (app.getShowCPNavNeedsUpdate()){
-//				app.setShowConstructionProtocolNavigation(app.showConsProtNavigation());
-//			}
-		consProtNav.addStyleName("consProtNav");
+		App.debug("getShowNavNeedsUpdate: "+app.getShowCPNavNeedsUpdate());
+		App.debug("app.showConsProtNavigation(): "+app.showConsProtNavigation());
+		
+		if (app.getShowCPNavNeedsUpdate()) {
+			app.setShowConstructionProtocolNavigation(app
+			        .showConsProtNavigation());
+		}
+
+		consProtNav.update();
 		consProtNav.setVisible(false); //consProtNav.setVisible(app.showConsProtNavigation());
-			
-			
-		euclidianpanel.add(consProtNav); // may be invisible, but made visible later
 	}
 	
 	class EuclidianPanel extends AbsolutePanel implements RequiresResize {

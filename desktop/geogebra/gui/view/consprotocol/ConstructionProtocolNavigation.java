@@ -57,16 +57,11 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	private JLabel lbSteps;
 	/** Delay spinner */
 	JSpinner spDelay;
-	/** Delay in seconds */
-	double playDelay = 2;	 
 	private JPanel playPanel;
 	/** Application */
 	AppD app;
 	/** Construction protocol view */
 	ConstructionProtocolView prot;
-	private boolean showPlayButton = true, 
-					showConsProtButton = true;
-	
 	private AutomaticPlayer player;
 	/** Indicates whether animation is on or off */
 	boolean isPlaying;
@@ -113,15 +108,9 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	}
 		
 	/**
-	 * @return whether play button is visible
-	 */
-	public boolean isPlayButtonVisible() {
-		return showPlayButton;
-	}
-	
-	/**
 	 * @param flag true to make play button visible
 	 */
+	@Override
 	public void setPlayButtonVisible(boolean flag) {
 		showPlayButton = flag;
 		if (playPanel != null) {
@@ -130,15 +119,9 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	}
 	
 	/**
-	 * @return whether button to show construction protocol is visible
-	 */
-	public boolean isConsProtButtonVisible() {
-		return showConsProtButton;
-	}	
-	
-	/**
 	 * @param flag whether button to show construction protocol should be visible
 	 */
+	@Override
 	public void setConsProtButtonVisible(boolean flag) {		
 		showConsProtButton = flag;	
 		if (btOpenWindow != null) {
@@ -147,17 +130,10 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	}
 	
 	/**
-	 * Returns delay between frames of automatic construction protocol
-	 * playing in seconds.
-	 * @return delay in seconds
-	 */
-	public double getPlayDelay() {
-		return playDelay;
-	}
-	/**
 	 * Changes animation delay
 	 * @param delay delay in seconds
 	 */
+	@Override
 	public void setPlayDelay(double delay) {
 		playDelay = delay;
 		
@@ -238,6 +214,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		update();
 	}
 	
+	@Override
 	public void setLabels() {
 		if (btPlay != null)
 			btPlay.setText(app.getPlain("Play"));
@@ -377,6 +354,12 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		setPlayDelay(cps.getPlayDelay());
 		setConsProtButtonVisible(cps.showConsProtButton());
 		update();
+		
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		getImpl().setVisible(visible);
 		
 	}	
 }

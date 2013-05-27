@@ -11,6 +11,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
@@ -49,6 +50,7 @@ import geogebra.web.gui.util.SignInDialog;
 import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
@@ -1155,13 +1157,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean flag) {
-		App.debug("unimplemented");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public View getEuclidianView2() {
 		if (euclidianView2 == null) {
 			boolean[] showAxis = { true, true };
@@ -1238,6 +1233,8 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	private int toolbarID = App.VIEW_EUCLIDIAN;
 
+	private ConstructionProtocolViewW constructionProtocolView;
+
 	@Override
 	public int getActiveToolbarId() {
 		return toolbarID;
@@ -1298,4 +1295,13 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
+
+	@Override
+    public ConstructionProtocolView getConstructionProtocolView() {
+		if (constructionProtocolView == null) {
+			constructionProtocolView = new ConstructionProtocolViewW(app);
+		}
+
+		return constructionProtocolView;
+    }
 }

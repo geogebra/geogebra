@@ -407,7 +407,8 @@ public class GuiManagerD extends GuiManager {
 		return new AlgebraViewD(algc);
 	}
 
-	public ConstructionProtocolView getConstructionProtocolView() {
+	@Override
+	public geogebra.common.gui.view.consprotocol.ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
 			constructionProtocolView = new ConstructionProtocolView(app);
 		}
@@ -418,7 +419,7 @@ public class GuiManagerD extends GuiManager {
 	@Override
 	public View getConstructionProtocolData() {
 
-		return getConstructionProtocolView().getData();
+		return ((ConstructionProtocolView) getConstructionProtocolView()).getData();
 	}
 
 	public AssignmentView getAssignmentView() {
@@ -879,18 +880,6 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show) {
-		
-		((AppD)app).getConstructionProtocolNavigation().getImpl().setVisible(show); 
-		
-		if (show) {
-			if (app.getActiveEuclidianView() != null)
-				app.getActiveEuclidianView().resetMode();
-			getConstructionProtocolView();
-		}
-	}
-
-	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show);
@@ -991,7 +980,7 @@ public class GuiManagerD extends GuiManager {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		(app).getConstructionProtocolNavigation().initGUI();
+		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigation) (app.getConstructionProtocolNavigation())).initGUI();
 
 		if (casView != null)
 			casView.updateFonts();

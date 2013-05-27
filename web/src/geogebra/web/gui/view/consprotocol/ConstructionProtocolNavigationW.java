@@ -1,5 +1,7 @@
 package geogebra.web.gui.view.consprotocol;
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -7,14 +9,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class ConstructionProtocolNavigationW extends FlowPanel{
+public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation{
 
 	private AppW app;
 	private Label lbSteps;
 	private ConstructionProtocolViewW prot;
+	private FlowPanel implPanel;
 
 
 	public ConstructionProtocolNavigationW(AppW app){
+		implPanel = new FlowPanel();
 		this.app = app;
 		
 		lbSteps = new Label();
@@ -41,7 +45,7 @@ public class ConstructionProtocolNavigationW extends FlowPanel{
 		leftPanel.add(btLast);
 		
 		
-		add(leftPanel);
+		implPanel.add(leftPanel);
 		update();
 	}
 	
@@ -49,10 +53,12 @@ public class ConstructionProtocolNavigationW extends FlowPanel{
 	 * Updates the texts that show the current construction step and
 	 * the number of construction steps.	
 	 */
-	public void update() {	
+	public void update() {
+		if (prot==null) App.debug("prot null");
 		if (prot != null) {
 			int currentStep = prot.getCurrentStepNumber();
 			int stepNumber  = prot.getLastStepNumber();
+			App.debug("CPNB update - currentstep: "+currentStep+", stepNumber: "+stepNumber);
 			lbSteps.setText(currentStep + " / " + stepNumber);	
 		}
 	}
@@ -67,5 +73,42 @@ public class ConstructionProtocolNavigationW extends FlowPanel{
 			initGUI(); 
 		}
 		prot = constructionProtocolView;
+	}
+
+	@Override
+    public void setVisible(boolean visible) {
+	    // TODO Auto-generated method stub
+	    App.debug("ConstructionProtocolNavigationW.setVisible(boolean) -implementation needed");
+	    
+    }
+
+	@Override
+    public void setPlayDelay(double delay) {
+	    // TODO Auto-generated method stub
+		App.debug("ConstructionProtocolNavigationW.setPlayDelay(double) -implementation needed");
+	    
+    }
+
+	@Override
+    public void setPlayButtonVisible(boolean flag) {
+	    // TODO Auto-generated method stub
+		App.debug("ConstructionProtocolNavigationW.setPlayButtonVisible(boolean) -implementation needed");
+	    
+    }
+
+	@Override
+    public void setConsProtButtonVisible(boolean flag) {
+	    // TODO Auto-generated method stub
+		App.debug("ConstructionProtocolNavigationW.setconsProtButtonVisible(boolean) -implementation needed");
+    }
+
+	@Override
+    public void setLabels() {
+	    // TODO Auto-generated method stub
+		App.debug("ConstructionProtocolNavigationW.setLabels() -implementation needed");
+    }
+	
+	public FlowPanel getImpl(){
+		return implPanel;
 	}
 }
