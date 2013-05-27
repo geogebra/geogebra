@@ -60,6 +60,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 	@Override
 	protected Widget loadComponent() {
 		if (euclidianpanel == null) {
+			setEmbeddedSize(300);
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
 			eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
