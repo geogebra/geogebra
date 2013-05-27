@@ -460,12 +460,13 @@ public class ToolBar {
 			} else if (tokens[i].equals("||")) { // separator between menus
 				// no separator anymore
 				// keep this for backward compatibility
-				/*
+				
 				if (menu.size() > 0)
 					toolbar.add(new ToolbarItem(menu));
 
 				// add separator between two menus
-				// menu = new Vector();
+				menu = new Vector<Integer>();
+				/*
 				// menu.add(SEPARATOR);
 				// toolbar.add(menu);
 				toolbar.add(new ToolbarItem(SEPARATOR));
