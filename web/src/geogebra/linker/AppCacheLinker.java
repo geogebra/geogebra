@@ -164,7 +164,6 @@ public class AppCacheLinker extends SimpleAppCacheLinker {
     		"js/zipjs/dataview.js",
     		"js/zipjs/deflate.js",
     		"js/zipjs/inflate.js",
-    		"js/zipjs/svnignore.txt",
     		"js/zipjs/zip-2.js",
     		"js/zipjs/zip-fs.js",
     		"js/zipjs/zip.js"
