@@ -387,6 +387,10 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return casView;
 	}
 
+	public boolean hasCasView() {
+		return casView != null;
+	}
+
 	@Override
 	public SpreadsheetViewW getSpreadsheetView() {
 		// init spreadsheet view

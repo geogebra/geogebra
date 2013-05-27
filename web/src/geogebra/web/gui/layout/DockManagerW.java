@@ -885,6 +885,22 @@ public class DockManagerW implements  SetLabels {
 			//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 			//	mainContainer.removeToolbar(panel.getToolbar());
 			//	mainContainer.updateToolbarPanel();
+				app.setShowToolBar(true, true);
+				// active toolbar should not be the panel's any more
+				if (app.getGuiManager().getActiveToolbarId() == panel.getViewId()) {
+					// let it be Graphics view 1 until settled
+					if (app.getEuclidianView1().isShowing())
+						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
+					else if (app.hasEuclidianView2() && app.getEuclidianView2().isShowing())
+						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
+					else if (app.getGuiManager().hasCasView() && app.getGuiManager().getCasView().isShowing())
+						app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
+					// what else can it be??
+					else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
+						app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
+					else //?
+						app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
+				}
 			}
 			
 			app.updateToolBar();
