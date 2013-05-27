@@ -302,6 +302,9 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return true if the geo is traced
 	 */
 	private boolean hasTrace(){
+		
+		if (createdByDrawList())
+			return ((Drawable3D) getDrawListCreator()).hasTrace();
 
 		if (geo==null){
 			return false;
