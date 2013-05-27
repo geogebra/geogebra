@@ -9,12 +9,17 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 
@@ -28,7 +33,7 @@ import java.util.ArrayList;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable {
+		Vector3DValue, SpreadsheetTraceable, RotateableND {
 
 	private GeoPointND startPoint;
 
@@ -548,6 +553,72 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void updateLocation() {
 		updateGeo();
 		kernel.notifyUpdateLocation(this);	
+	}
+	
+	
+	
+	
+	
+
+    
+	final public void rotate(NumberValue phiValue) {
+		
+		double phi = phiValue.getDouble();
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+
+		double x = getX();
+		double y = getY();
+		double z = getZ();
+	
+		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
+	}
+
+	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+
+		rotate(phiValue);
+		
+	}
+
+	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
+		
+		Coords o1 = S.getInhomCoordsInD(3);
+		Coords vn = orientation.getDirectionInD3();
+		
+		
+		rotate(phiValue, o1, vn);
+		
+	}
+	
+	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
+		
+		if (vn.isZero()){
+			setUndefined();
+			return;
+		}
+		
+		//Coords v = getCoordsInD(3);		
+		
+		double phi = phiValue.getDouble();
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+		
+		Coords vn2 = vn.normalized();
+		Coords v2 = vn2.crossProduct4(v);
+		Coords v1 = v2.crossProduct4(vn2);
+		setCoords(v1.mul(cos).add(v2.mul(sin)).add(vn2.mul(v.dotproduct(vn2))));
+		
+	}
+	
+	public void rotate(NumberValue phiValue, GeoLineND line){
+		
+		Coords o1 = line.getStartInhomCoords();
+		Coords vn = line.getDirectionInD3();
+		
+		
+		rotate(phiValue, o1, vn);
+		
+
 	}
 
 }
