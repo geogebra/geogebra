@@ -333,6 +333,33 @@ public class CoordMatrix {
 		return m;
 
 	}
+	
+	
+	public static final CoordMatrix Rotation3x3(Coords u, double angle) {
+		
+		double ux = u.getX();
+		double uy = u.getY();
+		double uz = u.getZ();
+		
+		double c = Math.cos(angle);
+		double s = Math.sin(angle);
+		
+		double[] vals = new double[9];
+		vals[0] = ux*ux*(1-c) + c;
+		vals[1] = ux*uy*(1-c) + uz*s;
+		vals[2] = ux*uz*(1-c) - uy*s;
+		
+		vals[3] = ux*uy*(1-c) - uz*s;
+		vals[4] = uy*uy*(1-c) + c;
+		vals[5] = uy*uz*(1-c) + ux*s;
+		
+		vals[6] = ux*uz*(1-c) + uy*s;
+		vals[7] = uy*uz*(1-c) - ux*s;
+		vals[8] = uz*uz*(1-c) + c;
+		
+		return new CoordMatrix(3, 3, vals);
+
+	}
 
 	// /////////////////////////////////////////////////:
 	// setters and getters
@@ -762,6 +789,30 @@ public class CoordMatrix {
 				result.set(i, j, r);
 			}
 		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param m matrix
+	 * @return 4x4 matrix with multiplication made only in 3x3 up-left submatrix
+	 */
+	protected CoordMatrix4x4 mul3x3(CoordMatrix m) {
+
+		CoordMatrix4x4 result = new CoordMatrix4x4();
+		
+		for (int i = 1; i <= 3; i++) {
+			for (int j = 1; j <= 3; j++) {
+
+				double r = 0;
+				for (int n = 1; n <= 3; n++)
+					r += get(i, n) * m.get(n, j);
+
+				result.set(i, j, r);
+			}
+		}
+		
+		return result;
 	}
 
 	/**

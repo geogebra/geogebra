@@ -31,6 +31,8 @@ public class Coords extends CoordMatrix {
 	private boolean calcNorm = true;
 	private boolean calcSqNorm = true;
 	
+	/** origin 3D vector */
+	public static final Coords O = new Coords(0,0,0,1);
 	/** vx 3D vector */
 	public static final Coords VX = new Coords(1,0,0,0);
 	/** vy 3D vector */

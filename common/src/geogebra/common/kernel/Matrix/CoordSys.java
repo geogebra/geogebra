@@ -531,8 +531,74 @@ public class CoordSys {
 	
 	public void matrixTransform(CoordMatrix4x4 m){
 		matrixOrthonormal = m.mul(matrixOrthonormal);
+
+		setFromMatrixOrthonormal();
+	}
+	
+	private void setFromMatrixOrthonormal(){
 		setOrigin(matrixOrthonormal.getOrigin());
-		setVx(matrixOrthonormal.getVx());		
+		setVx(matrixOrthonormal.getVx());	
+
+		if (dimension==2){
+			setVy(matrixOrthonormal.getVy());
+			setVz(matrixOrthonormal.getVz());
+			Coords o = (new Coords(0, 0, 0, 1))
+					.projectPlane(getMatrixOrthonormal())[0];
+			//if (projectOrigin) // recompute origin for ortho and drawing matrix
+			//	matrixOrthonormal.setOrigin(o);
+
+			drawingMatrix = new CoordMatrix4x4(o, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ);
+		}
+	
+	}
+	
+
+
+	/**
+	 * rotate by phi around center, parallel to xOy plane
+	 * @param phi angle
+	 * @param center center point
+	 */
+	public void rotate(double phi, Coords center){
+		
+		//create rotation matrix
+		//CoordMatrix m = CoordMatrix.Rotation3x3(Coords.VZ, phi);
+		double cos = Math.cos(phi);
+		double sin = Math.sin(phi);
+		CoordMatrix m = new CoordMatrix(3, 3);
+		m.set(1,1, cos); m.set(1,2, -sin);
+		m.set(2,1, sin); m.set(2,2,  cos);
+		m.set(3,3, 1);
+				
+		Coords o = matrixOrthonormal.getOrigin();
+		
+		//set multiplication matrix
+		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
+		//set origin matrix
+		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
+		
+		setFromMatrixOrthonormal();
+	}
+	
+	/**
+	 * rotate by phi around axis through center and parallel to direction
+	 * @param phi angle
+	 * @param center center point
+	 * @param direction direction
+	 */
+	public void rotate(double phi, Coords center, Coords direction){
+		
+		//create rotation matrix
+		CoordMatrix m = CoordMatrix.Rotation3x3(direction, phi);
+				
+		Coords o = matrixOrthonormal.getOrigin();
+		
+		//set multiplication matrix
+		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
+		//set origin matrix
+		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
+		
+		setFromMatrixOrthonormal();
 	}
 
 }

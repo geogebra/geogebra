@@ -6,11 +6,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -19,7 +23,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * @author ggb3D
  * 
  */
-public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// ,
+public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, RotateableND {// ,
 																				// GeoCoordSys2D{
 
 	/** 2D coord sys where the conic exists */
@@ -361,10 +365,12 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	// GeoCoordSys2D
 	// //////////////////////////////////
 
+	@Override
 	public Coords getPoint(double x2d, double y2d) {
 		return getCoordSys().getPoint(x2d, y2d);
 	}
 
+	@Override
 	public Coords[] getNormalProjection(Coords coords) {
 		return coords.projectPlane(getCoordSys().getMatrixOrthonormal());
 	}
@@ -415,5 +421,31 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		setUndefined();
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	final public void rotate(NumberValue phiVal) {
+		coordSys.rotate(phiVal.getDouble(), Coords.O);
+	}	
+	
+	@Override
+	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+		coordSys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
+	}
+
+	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
+		
+		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		
+	}
+
+	public void rotate(NumberValue phiVal, GeoLineND line) {
+		
+		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
+		
+	}
+	
+	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
+		coordSys.rotate(phiVal.getDouble(), center, direction.normalized());
 	}
 }

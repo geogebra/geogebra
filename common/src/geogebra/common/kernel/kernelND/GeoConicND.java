@@ -1975,7 +1975,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	 * rotate this conic by angle phi around (0,0)
 	 * @param phiVal angle
 	 */
-	 final public void rotate(NumberValue phiVal) {
+	 public void rotate(NumberValue phiVal) {
     	double phi = phiVal.getDouble();
 		rotate(phi);
 
@@ -1988,7 +1988,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	 * @param phiVal angle
 	 * @param Q rotation center
 	 */
-	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+	public void rotate(NumberValue phiVal, GeoPoint Q) {
 		double phi = phiVal.getDouble();
 		double qx = Q.getInhomX();
 		double qy = Q.getInhomY();
