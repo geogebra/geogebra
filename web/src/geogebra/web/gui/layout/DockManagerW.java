@@ -810,9 +810,11 @@ public class DockManagerW implements  SetLabels {
 		if (!panel.isOpenInFrame() && containsLessThanTwoPanels())
 			return false;
 		
-		panel.setHidden(!isPermanent);
-		
-		panel.setVisible(false);
+		// do in the end, because we need to calculate width/height
+		//panel.setHidden(!isPermanent);
+		//panel.setVisible(false);
+
+
 		setFocusedPanel(null);
 		
 		if(isPermanent) {
@@ -825,7 +827,9 @@ public class DockManagerW implements  SetLabels {
 			panel.setOpenInFrame(true); // open in frame the next time
 		} else {
 			DockSplitPaneW parent = panel.getParentSplitPane();
-			
+			int parentOffsetWidth = parent.getOffsetWidth();
+			int parentOffsetHeight = parent.getOffsetHeight();
+
 			// Save settings
 			if(parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
 				panel.setEmbeddedSize(panel.getOffsetWidth());
@@ -845,9 +849,9 @@ public class DockManagerW implements  SetLabels {
 			int orientation = parent.getOrientation();
 			int size = 0;
 			if (orientation==DockSplitPaneW.VERTICAL_SPLIT)
-				size = parent.getOffsetHeight();
+				size = parentOffsetHeight;
 			else
-				size = parent.getOffsetWidth();
+				size = parentOffsetWidth;
 
 
 			if(parent == rootPane) {
@@ -872,6 +876,8 @@ public class DockManagerW implements  SetLabels {
 		//	if(isPermanent) {
 		//		app.validateComponent();
 		//	}
+			if (opposite instanceof DockPanelW)
+				((DockPanelW)opposite).onResize();
 			
 			markAlonePanel();
 
@@ -883,7 +889,10 @@ public class DockManagerW implements  SetLabels {
 			
 			app.updateToolBar();
 		}
-		
+
+		panel.setHidden(!isPermanent);
+		panel.setVisible(false);
+
 		return true;
 	}
 	
