@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -111,9 +112,16 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
     }
        
     @Override
-	final public String toString(StringTemplate tpl) {
-   		return loc.getPlain("ARotatedByAngleBAboutCandD", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
-				center.getLabel(tpl), ((GeoElement) orientation).getLabel(tpl));
+    final public String toString(StringTemplate tpl) {
+    	String s;
+    	if (orientation instanceof GeoCoordSys2D){ // axis perpendicular to plane
+    		s = "ARotatedByAngleBAboutPlaneCThroughD";
+    	}else{ // axis = orientation
+    		s = "ARotatedByAngleBAboutCThroughD";  
+    	}
+   		return loc.getPlain(s, in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   				((GeoElement) orientation).getLabel(tpl),
+   				center.getLabel(tpl));
    	
     }
 
