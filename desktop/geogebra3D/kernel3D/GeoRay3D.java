@@ -243,4 +243,10 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		return Kernel.isGreaterEqual(parameter, 0);
 	}
 
+	
+
+	@Override
+	final protected void getCoordsXML(StringBuilder sb) {
+		//not needed here
+	}
 }

@@ -28,6 +28,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.kernel3D.GeoLine3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 
 
@@ -152,22 +153,30 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		node.setForcePoint();
 		GeoElement[] temp = processExpressionNode(node);
 		GeoPointND P = (GeoPointND) temp[0];
+		boolean isConstant = node.isConstant();
 
 		// get vector
 		node = par.getv();
 		node.setForceVector();
 		temp = processExpressionNode(node);
 		GeoVectorND v = (GeoVectorND) temp[0];
-
+		isConstant = isConstant && node.isConstant();
+		
 		// switch back to old mode
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		// Line through P with direction v
 		GeoLineND line;
 		if (P.isGeoElement3D() || v.isGeoElement3D()) {
-			line = kernel.getManager3D().Line3D(par.getLabel(), P, v);
+			if (isConstant) {
+				line = new GeoLine3D(cons);
+				((GeoLine3D) line).setCoord(P.getCoordsInD(3),v.getCoordsInD(3));
+				line.setLabel(par.getLabel());
+			}else{
+				line = kernel.getManager3D().Line3D(par.getLabel(), P, v);
+			}
 		} else {
-			line = Line(par, (GeoPoint) P, (GeoVector) v);
+			line = Line(par, (GeoPoint) P, (GeoVector) v, isConstant);
 		}
 
 		line.setToParametric(par.getParameter());

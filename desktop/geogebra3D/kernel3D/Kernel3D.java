@@ -18,6 +18,7 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -311,13 +312,28 @@ public class Kernel3D extends Kernel {
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
 
-		/*
-		 * Application.debug("attrs =\n"+attrs);
-		 * Application.debug("attrs(x) = "+attrs.get("x"));
-		 * Application.debug("attrs(y) = "+attrs.get("y"));
-		 * Application.debug("attrs(z) = "+attrs.get("z"));
-		 * Application.debug("attrs(w) = "+attrs.get("w"));
-		 */
+
+		if (geo instanceof GeoLine3D){
+			try {
+				//origin
+				double ox = Double.parseDouble(attrs.get("ox"));
+				double oy = Double.parseDouble(attrs.get("oy"));
+				double oz = Double.parseDouble(attrs.get("oz"));
+				double ow = Double.parseDouble(attrs.get("ow"));
+				
+				//direction
+				double vx = Double.parseDouble(attrs.get("vx"));
+				double vy = Double.parseDouble(attrs.get("vy"));
+				double vz = Double.parseDouble(attrs.get("vz"));
+				double vw = Double.parseDouble(attrs.get("vw"));
+				
+				((GeoLine3D) geo).setCoord(new Coords(ox,oy,oz,ow), new Coords(vx,vy,vz,vw));
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+
 
 		if (!(geo instanceof GeoCoords4D)) {
 			return super.handleCoords(geo, attrs);

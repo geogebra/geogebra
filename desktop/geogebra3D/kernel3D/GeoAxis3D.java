@@ -203,5 +203,11 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	public boolean isTraceable() {
 		return false;
 	}
+	
+	@Override
+	final protected void getCoordsXML(StringBuilder sb) {
+		//not needed here
+	}
+	
 
 }

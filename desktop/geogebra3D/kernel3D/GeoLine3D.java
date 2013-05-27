@@ -147,6 +147,45 @@ public class GeoLine3D extends GeoCoordSys1D implements RotateableND {
 	}
 	
 	@Override
+	protected void getXMLtags(StringBuilder sb) {
+        super.getXMLtags(sb);
+        
+        getCoordsXML(sb);
+        
+	}
+        
+	/**
+	 * set coords for XML
+	 * @param sb string for XML
+	 */
+	protected void getCoordsXML(StringBuilder sb) {
+
+		Coords o = coordsys.getOrigin();//TODO inhom coords
+		Coords v = coordsys.getVx();
+
+        sb.append("\t<coords");
+		sb.append(" ox=\"");
+		sb.append(o.getX());
+		sb.append("\" oy=\"");
+		sb.append(o.getY());
+		sb.append("\" oz=\"");
+		sb.append(o.getZ());
+		sb.append("\" ow=\"");
+		sb.append(o.getW());
+		
+		sb.append("\" vx=\"");
+		sb.append(v.getX());
+		sb.append("\" vy=\"");
+		sb.append(v.getY());
+		sb.append("\" vz=\"");
+		sb.append(v.getZ());
+		sb.append("\" vw=\"");
+		sb.append(v.getW());
+		
+		sb.append("\"/>\n");
+	}
+	
+	@Override
 	final public boolean isGeoLine() {
 		return true;
 	}	

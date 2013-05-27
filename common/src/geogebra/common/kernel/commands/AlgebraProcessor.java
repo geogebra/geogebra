@@ -1520,17 +1520,19 @@ public class AlgebraProcessor {
 		node.setForcePoint();
 		GeoElement[] temp = processExpressionNode(node);
 		GeoPoint P = (GeoPoint) temp[0];
+		boolean isConstant = node.isConstant();
 
 		// get vector
 		node = par.getv();
 		node.setForceVector();
 		temp = processExpressionNode(node);
 		GeoVector v = (GeoVector) temp[0];
-
+		isConstant = isConstant && node.isConstant();
+		
 		// switch back to old mode
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		GeoLine line = Line(par,P,v);
+		GeoLine line = Line(par,P,v,isConstant);
 		
 		GeoElement[] ret = { line };
 		return ret;
@@ -1542,15 +1544,17 @@ public class AlgebraProcessor {
 	 * @param par parametric equation
 	 * @param P point
 	 * @param v vector
+	 * @param isConstant says if point and vector are constants
 	 * @return parametric line
 	 */
-	final protected GeoLine Line(Parametric par, GeoPoint P, GeoVector v) {
+	final protected GeoLine Line(Parametric par, GeoPoint P, GeoVector v, boolean isConstant) {
 		// Line through P with direction v
 		GeoLine line;
 		// independent line
-		if (P.isConstant() && v.isConstant()) {
+		if (isConstant) {
 			line = new GeoLine(cons);
 			line.setCoords(-v.y, v.x, v.y * P.inhomX - v.x * P.inhomY);
+			line.setLabel(par.getLabel());
 		}
 		// dependent line
 		else {
