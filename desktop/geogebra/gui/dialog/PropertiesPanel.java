@@ -1536,9 +1536,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 			// set the preview panel (do this after the alpha level is set
 			// above)
-			if (isBarChart){
+			if (((GeoElement)geos[0]).getParentAlgorithm() instanceof AlgoBarChart){
+				isBarChart=true;
 				setPreview((GeoElement) geos[0],alpha);
 			} else {
+				isBarChart=false;
 				previewPanel.setPreview(selectedColor, alpha);
 			}
 			rbtnBackgroundColor.setVisible(hasBackground);
@@ -5638,9 +5640,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			// set selected fill type to first geo's fill type
 			cbFillInverse.setSelected(((GeoElement) geos[0]).isInverseFill());
 			cbFillInverse.addActionListener(this);
-			if (isBarChart){
+			if (((GeoElement)geos[0]).getParentAlgorithm() instanceof AlgoBarChart){
+				isBarChart=true;
 				updateBarFillTypePanel((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm());
 			} else {
+				isBarChart=false;
 				updateFillTypePanel(((GeoElement) geos[0]).getFillType());
 			}
 			this.geos = geos;
