@@ -8442,6 +8442,19 @@ namespace giac {
   static define_unary_function_eval (__tangent,&giac::_tangent,_tangent_s);
   define_unary_function_ptr5( at_tangent ,alias_at_tangent,&__tangent,0,true);
 
+  static bool is_valid_point(const gen & g){
+    if (is_undef(g))
+      return false;
+    if (g.type==_VECT){
+      vecteur & v = *g._VECTptr;
+      int s=v.size();
+      if (s!=3)
+	return false;
+      if (v.front().type==_VECT)
+	return false;
+    }
+    return true;
+  }
   static bool foyers_a(const gen & args,gen & F1,gen & F2, gen & a,GIAC_CONTEXT){
     gen FF=remove_at_pnt(args._VECTptr->front());
     if (FF.type==_VECT && FF._VECTptr->size()!=3){
@@ -8460,7 +8473,7 @@ namespace giac {
     a=remove_at_pnt(get_point(a,0,contextptr));
     F1=remove_at_pnt(get_point(F1,0,contextptr));
     F2=remove_at_pnt(get_point(F2,0,contextptr));
-    if (is_undef(a) || is_undef(F1) || is_undef(F2))
+    if (!is_valid_point(a) || !is_valid_point(F1) || !is_valid_point(F2))
       return false;
     return true;
   }

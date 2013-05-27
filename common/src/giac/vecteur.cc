@@ -6785,7 +6785,7 @@ namespace giac {
     if (x<v[0])
       return -1;
     if (x>=v[s-1])
-      return s;
+      return s-1;
     int a=0, b=s-1; // v[a] <= x < v[b]
     while (b-a>1){
       int c=(a+b)/2;
@@ -6893,6 +6893,24 @@ namespace giac {
       for (int i=0;i<n;++i)
 	res.push_back(randchisquare(k,contextptr));
       return;     
+    }
+    if (f==at_cauchy){
+      for (int i=0;i<n;++i)
+	res.push_back(std::tan(M_PI*giac_rand(contextptr)/(rand_max2+1.0)-.5));
+      return;
+    }
+    if (f.is_symb_of_sommet(at_cauchy) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+      gen g1(f._SYMBptr->feuille._VECTptr->front()),g2(f._SYMBptr->feuille._VECTptr->back());
+      g1=evalf_double(g1,1,contextptr);
+      g2=evalf_double(g2,1,contextptr);
+      if (g1.type!=_DOUBLE_ || g2.type!=_DOUBLE_){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double d1=g1._DOUBLE_val,d2=g2._DOUBLE_val;
+      for (int i=0;i<n;++i)
+	res.push_back(std::tan(M_PI*giac_rand(contextptr)/(rand_max2+1.0)-.5)*g2+g1);
+      return;
     }
     if ( (f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent)) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
       int k=f._SYMBptr->feuille.val;
@@ -7005,6 +7023,22 @@ namespace giac {
 	}
 	if (e._VECTptr->size()==3)
 	  return mranm(n,m,e._VECTptr->back(),contextptr);
+	if (e._VECTptr->size()==4){
+	  gen loi=(*e._VECTptr)[2];
+	  if (loi.type==_FUNC)
+	    loi=symbolic(*loi._FUNCptr,e._VECTptr->back());
+	  else
+	    loi=symb_of(loi,e._VECTptr->back());
+	  return mranm(n,m,loi,contextptr);
+	}
+	if (e._VECTptr->size()>4){
+	  gen loi=(*e._VECTptr)[2];
+	  if (loi.type==_FUNC)
+	    loi=symbolic(*loi._FUNCptr,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
+	  else
+	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
+	  return mranm(n,m,loi,contextptr);
+	}
 	return mranm(n,m,0,contextptr);
       }
     default:
@@ -7027,7 +7061,7 @@ namespace giac {
     case _VECT:
       if (e._VECTptr->size()==1)
 	return _randvector(e._VECTptr->front(),contextptr);
-      if (e._VECTptr->size()==2){
+      if (e._VECTptr->size()>=2){
 	if (e._VECTptr->front().type==_INT_)
 	  n=e._VECTptr->front().val;
 	else {
@@ -7036,8 +7070,21 @@ namespace giac {
 	  else
 	    return gensizeerr(contextptr);
 	}
+	gen loi=(*e._VECTptr)[1];
+	if (e._VECTptr->size()==3){
+	  if (loi.type==_FUNC)
+	    loi=symbolic(*loi._FUNCptr,e._VECTptr->back());
+	  else
+	    loi=symb_of(loi,e._VECTptr->back());
+	}
+	if (e._VECTptr->size()>3){
+	  if (loi.type==_FUNC)
+	    loi=symbolic(*loi._FUNCptr,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
+	  else
+	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
+	}
 	gen res(vecteur(0));
-	vranm(n,e._VECTptr->back(),*res._VECTptr,contextptr);
+	vranm(n,loi,*res._VECTptr,contextptr);
 	return res;
       }
     default:
@@ -10174,7 +10221,8 @@ namespace giac {
     if (!ckmatrix(args))
       return symbolic(at_qr,args);
     // if (!is_zero(im(args,contextptr),contextptr)) return gensizeerr(gettext("Complex entry!"));
-    if (method<0 || !is_fully_numeric(evalf_double(args,1,contextptr)) || !is_zero(im(args,contextptr),contextptr)){
+    bool cplx=false;
+    if (method<0 || !is_fully_numeric(evalf_double(args,1,contextptr)) || (cplx=!is_zero(im(args,contextptr),contextptr)) ){
       matrice r;
       if (is_fully_numeric(args)){ 
 	// qr decomposition using rotations, numerically stable
@@ -10189,7 +10237,7 @@ namespace giac {
 	return makevecteur(_trn(p,contextptr),h,midn(h.size()));
       }
       // qr decomposition using GramSchmidt (not numerically stable)
-      matrice res(gramschmidt(*_trn(args,contextptr)._VECTptr,r,method==-1,contextptr));
+      matrice res(gramschmidt(*_trn(args,contextptr)._VECTptr,r,cplx || method==-1,contextptr));
       return gen(makevecteur(_trn(res,contextptr),r,midn(r.size())),_SEQ__VECT);
     }
 #ifdef HAVE_LIBLAPACK
@@ -10677,7 +10725,7 @@ namespace giac {
       if (is_zero(sc.back(),contextptr))
 	break;
     }
-    r=mtran(r);
+    r=mtran(*conj(r,contextptr)._VECTptr); // transconjugate
     if (normalize){
       gen coeff;
       for (int i=0;i<s;++i){

@@ -2366,6 +2366,17 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return sommetstr+('('+feuille.print(contextptr)+')');
     vecteur & v=*feuille._VECTptr;
+    if (feuille.subtype==_SORTED__VECT && feuille._VECTptr->front().is_symb_of_sommet(at_program)){
+      gen prog=feuille._VECTptr->front()._SYMBptr->feuille;
+      if (prog.type==_VECT && prog._VECTptr->size()==3 && (prog._VECTptr->front()!=_VECT || prog._VECTptr->front()._VECTptr->size()==2)){
+	gen val=prog._VECTptr->back();
+	gen arg=prog._VECTptr->front();
+	if (arg.type==_VECT && arg.subtype==_SEQ__VECT && arg._VECTptr->size()==1)
+	  arg=arg._VECTptr->front();
+	prog=symbolic(at_of,makesequence(feuille._VECTptr->back(),arg));
+	return printassto(gen(makevecteur(val,prog),_SORTED__VECT),sommetstr,contextptr);
+      }
+    }
 #if 0
     if (abs_calc_mode(contextptr)==38 && v.back().type!=_VECT){
       string s=v.back().print(contextptr);
@@ -2394,7 +2405,7 @@ namespace giac {
 	return v.front().print(contextptr)+" => "+v.back().print(contextptr);
     }
 #ifndef GIAC_HAS_STO_38
-    if (v.back().is_symb_of_sommet(at_of)){
+    if (v.back().is_symb_of_sommet(at_of) && feuille.subtype!=_SORTED__VECT){
       gen f=v.back()._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){
 	return f._VECTptr->front().print(contextptr)+"[["+f._VECTptr->back().print(contextptr)+"]] := " + v.front().print(contextptr);
@@ -5589,6 +5600,18 @@ namespace giac {
     return g;
   }
 
+  bool need_workaround(const gen & g){
+    if (g.type<=_CPLX)
+      return g/g!=1;
+    if (g.type!=_VECT)
+      return false;
+    for (unsigned i=0;i<g._VECTptr->size();++i){
+      if (need_workaround((*g._VECTptr)[i]))
+	return true;
+    }
+    return false;
+  }
+
   gen _evalf(const gen & a_orig,GIAC_CONTEXT){
     gen a(a_orig);
     if (a.type==_STRNG && a.subtype==-1) return  a;
@@ -5606,7 +5629,7 @@ namespace giac {
     else
       res=a.evalf(1,contextptr);
 #ifdef HAVE_LIBMPFR
-    if ( res/res!=1  && ndigits<=14){
+    if ( ndigits<=14 && need_workaround(res)){
       // evalf again with 30 digits (overflow workaround)
       res=_evalf(a,30,contextptr);
       // and round to ndigits

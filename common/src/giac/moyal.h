@@ -77,6 +77,8 @@ namespace giac {
   gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT);
   gen _binomial(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_binomial ;
+  gen _negbinomial(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_negbinomial ;
 
   gen binomial_cdf(const gen & n,const gen &p,const gen & x0,const gen & x,GIAC_CONTEXT);
   gen _binomial_cdf(const gen & args,GIAC_CONTEXT);

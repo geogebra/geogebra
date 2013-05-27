@@ -174,7 +174,7 @@ namespace giac {
   vecteur multmatvecteur(const matrice & a,const vecteur & b);
   void multvecteurmat(const vecteur & a,const matrice & b,vecteur & res);
   vecteur multvecteurmat(const vecteur & a,const matrice & b);
-  // Scalar product
+  // Scalar product (does not conjugate, see scalarproduct in misc.h)
   gen dotvecteur(const vecteur & a,const vecteur & b);
   gen dotvecteur(const gen & a,const gen & b);
   gen generalized_dotvecteur(const vecteur & a,const vecteur & b,int pos);

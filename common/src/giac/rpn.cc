@@ -1139,7 +1139,8 @@ namespace giac {
     return_bcd_minreal;
     // return_bcd_minreal;
 #else
-    return 1.26480805335e-321;
+    return 2.22507385851e-308; // smallest non-denormalized double
+    // return 1.26480805335e-321;
 #endif
   }
   static const char _MINREAL_s[]="MINREAL";

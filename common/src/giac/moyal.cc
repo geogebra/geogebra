@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -g -c -fno-strict-aliasing moyal.cc" -*-
+// -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -DGIAC_GENERIC_CONSTANTS  -g -c -fno-strict-aliasing moyal.cc" -*-
 #include "giacPCH.h"
 /*
  *  Copyright (C) 2000,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -564,7 +564,24 @@ namespace giac {
   static define_unary_function_eval (__normald_icdf,&_normal_icdf,_normald_icdf_s);
   define_unary_function_ptr5( at_normald_icdf ,alias_at_normald_icdf,&__normald_icdf,0,true);
 
+  gen apply3rd(const gen & e1, const gen & e2,const gen & e3,const context * contextptr, gen (* f) (const gen &, const gen &,const gen &,const context *) ){
+    if (e3.type!=_VECT)
+      return f(e1,e2,e3,contextptr);
+    const_iterateur it=e3._VECTptr->begin(),itend=e3._VECTptr->end();
+    vecteur v;
+    v.reserve(itend-it);
+    for (;it!=itend;++it){
+      gen tmp=f(e1,e2,*it,contextptr);
+      if (is_undef(tmp))
+	return gen2vecteur(tmp);
+      v.push_back(tmp);
+    }
+    return gen(v,e3.subtype);
+  }
+
   gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT){
+    if (p.type==_VECT)
+      return apply3rd(n,k,p,contextptr,binomial);
     if ( (is_zero(p) && is_zero(k)) || (is_one(p) && n==k))
       return 1;
     if (is_strictly_positive(-n,contextptr))
@@ -600,8 +617,12 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
-    if (s==2)
+    if (s==2){
+      gen tmp=evalf_double(v[1],1,contextptr);
+      if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0 && tmp._DOUBLE_val<1)
+	return symbolic(at_binomial,g); // inert form for binomial pseudo-random generation
       return comb(v[0],v[1],contextptr);
+    }
     if (s==3)
       return binomial(v[0],v[1],v[2],contextptr);
     return gensizeerr(contextptr);
@@ -645,6 +666,7 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
+    if (s==2) return symbolic(at_negbinomial,g); // for random
     if (s==3){
       gen r=v[0],k=v[1],p=v[2];
       gen tmp=evalf_double(k,1,contextptr);
@@ -901,6 +923,8 @@ namespace giac {
   define_unary_function_ptr5( at_randbinomial ,alias_at_randbinomial,&__randbinomial,0,true);
 
   gen poisson(const gen & m,const gen & k,GIAC_CONTEXT){
+    if (k.type==_VECT)
+      return apply2nd(m,k,contextptr,poisson);
     gen M=evalf_double(m,1,contextptr);
     if (M.type==_DOUBLE_){
       gen K=evalf_double(k,1,contextptr);
@@ -912,7 +936,7 @@ namespace giac {
   gen _poisson(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
-      return gensizeerr(contextptr);
+      return symbolic(at_poisson,g);
     vecteur & v=*g._VECTptr;
     int s=v.size();
     if (s==2)
@@ -1090,6 +1114,8 @@ namespace giac {
   define_unary_function_ptr5( at_poisson_icdf ,alias_at_poisson_icdf,&__poisson_icdf,0,true);
 
   gen student(const gen & n0,const gen & x,GIAC_CONTEXT){
+    if (x.type==_VECT)
+      return apply2nd(n0,x,contextptr,student);
     gen n(n0);
     if (!is_integral(n) || n.val<1)
       return gensizeerr(contextptr);
@@ -1098,7 +1124,7 @@ namespace giac {
   gen _student(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
-      return gensizeerr(contextptr);
+      return symbolic(at_student,g);
     vecteur v=*g._VECTptr;
     int s=v.size();
     if (s==2){
@@ -1308,13 +1334,15 @@ namespace giac {
   define_unary_function_ptr5( at_student_icdf ,alias_at_student_icdf,&__student_icdf,0,true);
 
   gen chisquare(const gen & n,const gen & x,GIAC_CONTEXT){
+    if (x.type==_VECT)
+      return apply2nd(n,x,contextptr,chisquare);
     gen n2=n/2;
     return rdiv(pow(x,n2-1,contextptr)*exp(-x/2,contextptr),Gamma(n2,contextptr)*pow(2,n2,contextptr),contextptr);
   }
   gen _chisquare(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
-      return gensizeerr(contextptr);
+      return symbolic(at_chisquare,g);
     vecteur & v=*g._VECTptr;
     int s=v.size();
     if (s==2)
@@ -1464,6 +1492,8 @@ namespace giac {
   define_unary_function_ptr5( at_chisquare_icdf ,alias_at_chisquare_icdf,&__chisquare_icdf,0,true);
 
   gen snedecor(const gen & a,const gen & b,const gen & x,GIAC_CONTEXT){
+    if (x.type==_VECT)
+      return apply3rd(a,b,x,contextptr,snedecor);
     if (is_positive(-x,contextptr))
       return zero;
     return pow(a/b,a/2,contextptr)/Beta(a/2,b/2,contextptr) * pow(x,a/2-1,contextptr) * pow(1+a/b*x,-(a+b)/2,contextptr);
@@ -1474,6 +1504,8 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
+    if (s==2)
+      return symbolic(at_snedecor,g);
     if (s==3)
       return snedecor(v[0],v[1],v[2],contextptr);
     return gensizeerr(contextptr);
@@ -1642,6 +1674,8 @@ namespace giac {
   define_unary_function_ptr5( at_fisher_icdf ,alias_at_fisher_icdf,&__fisher_icdf,0,true);
 
   gen cauchy(const gen & x0,const gen & a,const gen & x,GIAC_CONTEXT){
+    if (x.type==_VECT)
+      return apply3rd(x0,a,x,contextptr,cauchy);
     return 1/cst_pi*a/(pow(x-x0,2,contextptr)+pow(a,2,contextptr));
   }
   gen _cauchy(const gen & g,GIAC_CONTEXT){
@@ -1650,6 +1684,8 @@ namespace giac {
       return cauchy(0,1,g,contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
+    if (s==2)
+      return symbolic(at_cauchy,g);
     if (s==3)
       return cauchy(v[0],v[1],v[2],contextptr);
     return gensizeerr(contextptr);

@@ -218,6 +218,12 @@ namespace giac {
   extern const unary_function_ptr * const  at_bitxor;
   extern const unary_function_ptr * const  at_hamdist;
   matrice effectifs(const vecteur & v,double class_minimum,double class_size,GIAC_CONTEXT);
+  // scalar product <a|b> (unlike dotproduct, takes the conjugate of coordinates of a)
+  gen scalarproduct(const vecteur & a,const vecteur & b,GIAC_CONTEXT);
+  // solution of A*x=b_orig with initial guess x0 up to precision eps
+  // A must be hermitian or real symmetric
+  // This function could be optimized if A, b_orig, x0 has double/complex<double> coefficients
+  gen conjugate_gradient(const matrice & A,const vecteur & b_orig,const vecteur & x0,double eps,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

@@ -1790,8 +1790,9 @@ namespace giac {
 	      return res;
 	    }
 	  }
-	  if (!findlabel)
+	  if (!findlabel){
 	    res=it->eval(eval_lev,newcontextptr);
+	  }
 	  else
 	    res=*it;
 	  if (is_return(res,newres)) {
@@ -4011,7 +4012,11 @@ namespace giac {
       s = '('+s+')';
     if (b.type==_FUNC && s.size()>2 && s[0]=='\'' && s[s.size()-1]=='\'')
       s=s.substr(1,s.size()-2);
-    return a.print(contextptr)+"::"+s+ " ";
+#ifdef GIAC_HAS_STO_38
+    return a.print(contextptr)+"::"+s; // removed final space, otherwise A::B::C adds a _ in prime + " ";
+#else
+    return a.print(contextptr)+"::"+s+" ";
+#endif
   }
   gen symb_double_deux_points(const gen & args){
     return symbolic(at_double_deux_points,args);

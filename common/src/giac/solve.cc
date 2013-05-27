@@ -1015,7 +1015,7 @@ namespace giac {
 	  )
 	symb_inf=symb_superieur_strict(x,l);
       else {
-	if (equalposcomp(excluded_not_singu,l) || equalposcomp(singu,l))
+	if (equalposcomp(excluded_not_singu,l) || (test!=1 && equalposcomp(singu,l)))
 	  symb_inf=symb_superieur_strict(x,l);
 	else
 	  symb_inf=symb_superieur_egal(x,l);
@@ -1028,7 +1028,7 @@ namespace giac {
 	  )
 	symb_sup=symb_inferieur_strict(x,m);
       else {
-	if (equalposcomp(excluded_not_singu,m) || equalposcomp(singu,m))
+	if (equalposcomp(excluded_not_singu,m) || (test!=1 && equalposcomp(singu,m)))
 	  symb_sup=symb_inferieur_strict(x,m);
 	else
 	  symb_sup=symb_inferieur_egal(x,m);
@@ -2642,6 +2642,15 @@ namespace giac {
     int s=v.size();
     if (s<2)
       return gentoofewargs("fsolve");
+    if (v[0].is_symb_of_sommet(at_program))
+      swapgen(v[0],v[1]);
+    if (v[1].is_symb_of_sommet(at_program)){ // scilab-like syntax
+      gen var(identificateur("fsolve_tmpvar"));
+      v.insert(v.begin()+1,var);
+      swapgen(v[0],v[2]);
+      v[0]=v[0](v[1],contextptr);
+      return in_fsolve(v,contextptr);
+    }
     gen v0=remove_equal(v[0]);
     if (s==2 && v[1].type==_IDNT){ 
       gen v00= evalf(v0,1,contextptr);
@@ -2710,6 +2719,19 @@ namespace giac {
       gguess=v[2];
     if (gguess.is_symb_of_sommet(at_equal))
       return gensizeerr(contextptr);
+    if (gguess.type==_VECT && v[1].type==_IDNT){
+      int nvar=gguess._VECTptr->size();
+      vecteur tmp(nvar);
+      vecteur chk=lop(v[0],at_of);
+      bool at=true;
+      for (unsigned i=0;at && i<chk.size();++i){
+	if (chk[i][1]==v[1])
+	  at=false;
+      }
+      for (int i=0;i<nvar;++i)
+	tmp[i]=at?symbolic(at_at,makesequence(v[1],i)):symb_of(v[1],i+1);
+      v[1]=tmp;
+    }
     if (gguess.is_symb_of_sommet(at_interval) && (s<4 || v[3].subtype!=_INT_PLOT)){
       int iszero=-1;
       gen a=gguess._SYMBptr->feuille[0],b=gguess._SYMBptr->feuille[1];
@@ -2728,6 +2750,11 @@ namespace giac {
 	}
       }
       return bisection_solver(v0,v[1],a,b,iszero,contextptr);
+    }
+    if (v0.type==_VECT){
+      if ( (v[1].type==_VECT && v0._VECTptr->size()!=v[1]._VECTptr->size())
+	   || (v[1].type!=_VECT && v[1]._VECTptr->size()!=1))
+	return gendimerr(contextptr);
     }
     // check method
     int method=_NEWTON_SOLVER;

@@ -4724,6 +4724,86 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__caseval,&_caseval,_caseval_s);
   define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,0,true);
 
+  gen scalarproduct(const vecteur & a,const vecteur & b,GIAC_CONTEXT){
+    vecteur::const_iterator ita=a.begin(), itaend=a.end();
+    vecteur::const_iterator itb=b.begin(), itbend=b.end();
+    gen res,tmp;
+    for (;(ita!=itaend)&&(itb!=itbend);++ita,++itb){
+      type_operator_times(conj(*ita,contextptr),(*itb),tmp);
+      res += tmp;
+    }
+    return res;
+  }
+
+  gen conjugate_gradient(const matrice & A,const vecteur & b_orig,const vecteur & x0,double eps,GIAC_CONTEXT){
+    int n=A.size();
+    vecteur b=subvecteur(b_orig,multmatvecteur(A,x0));
+    vecteur xk(x0);
+    vecteur rk(b),pk(b);
+    gen rk2=scalarproduct(rk,rk,contextptr);
+    vecteur Apk(n),tmp(n);
+    for (int k=1;k<=n;++k){
+      multmatvecteur(A,pk,Apk);
+      gen alphak=rk2/scalarproduct(pk,Apk,contextptr);
+      multvecteur(alphak,pk,tmp);
+      addvecteur(xk,tmp,xk);
+      multvecteur(alphak,Apk,tmp);
+      subvecteur(rk,tmp,rk);
+      gen newrk2=scalarproduct(rk,rk,contextptr);
+      if (is_greater(eps*eps,newrk2,contextptr))
+	return xk;
+      multvecteur(newrk2/rk2,pk,tmp);
+      addvecteur(rk,tmp,pk);
+      rk2=newrk2;
+    }
+    *logptr(contextptr) << gettext("Warning! Leaving conjugate gradient algorithm after dimension of matrix iterations. Check that your matrix is hermitian/symmetric definite.") << endl;
+    return xk;
+  }
+
+
+  // params: matrix A, vector b, optional init value x0, optional precision eps
+  gen _conjugate_gradient(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT || args._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur v = *args._VECTptr;
+    int s=v.size();
+    gen A=v[0];
+    gen b=v[1];
+    if (!is_squarematrix(A) || b.type!=_VECT)
+      return gensizeerr(contextptr);
+    int n=A._VECTptr->size();
+    if (n!=b._VECTptr->size())
+      return gensizeerr(contextptr);
+    vecteur x0(n);
+    gen eps;
+    if (s>=3){
+      if (v[2].type==_VECT){
+	if (v[2]._VECTptr->size()!=n)
+	  return gensizeerr(contextptr);
+	x0=*v[2]._VECTptr;
+	if (s>3)
+	  eps=v[3];
+      }
+      else
+	eps=v[2];
+    }
+    eps=evalf_double(eps,1,contextptr);
+    if (eps.type!=_DOUBLE_ || eps._DOUBLE_val < 0 || eps._DOUBLE_val>=1)
+      return gentypeerr(contextptr);
+    return conjugate_gradient(*A._VECTptr,*b._VECTptr,x0,eps._DOUBLE_val,contextptr);
+  }
+  static const char _conjugate_gradient_s []="conjugate_gradient";
+  static define_unary_function_eval (__conjugate_gradient,&_conjugate_gradient,_conjugate_gradient_s);
+  define_unary_function_ptr5( at_conjugate_gradient ,alias_at_conjugate_gradient,&__conjugate_gradient,0,true);
+
+  gen _subtype(const gen & args,GIAC_CONTEXT){
+    return args.subtype;
+  }
+  static const char _subtype_s []="subtype";
+  static define_unary_function_eval (__subtype,&_subtype,_subtype_s);
+  define_unary_function_ptr5( at_subtype ,alias_at_subtype,&__subtype,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

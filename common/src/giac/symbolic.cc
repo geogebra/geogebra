@@ -506,7 +506,11 @@ namespace giac {
     }
     if (g.type==_SYMB)
       return add_print_symbolic(s,*g._SYMBptr,contextptr);
+#ifdef EMCC
+    const string tmp=g.print(contextptr);
+#else
     const string & tmp=g.print(contextptr);
+#endif
     // check +- -> - and -- -> +
     if (l && s[l-1]=='+' ){
       if (!tmp.empty() && tmp[0]=='-'){
@@ -577,6 +581,20 @@ namespace giac {
   }
 
   static gen eval_sto(const gen & feuille,std::vector<const char *> & last,int level,GIAC_CONTEXT){ // autoname function
+    // detect vector/matrix addressing with () parsed as function definition
+    // e.g. M(j,k):=j+k+1 parsed as M:=(j,k)->j+k+1
+    // these affectations are marked by a subtype==1 by the parser
+    // if destination is a matrix
+    if (feuille.type==_VECT && feuille.subtype==_SORTED__VECT && feuille._VECTptr->size()==2 && feuille._VECTptr->front().is_symb_of_sommet(at_program)){
+      gen prog=feuille._VECTptr->front()._SYMBptr->feuille;
+      if (prog.type==_VECT && prog._VECTptr->size()==3 && (prog._VECTptr->front()!=_VECT || prog._VECTptr->front()._VECTptr->size()==2)){
+	gen val=prog._VECTptr->back();
+	if (feuille._VECTptr->back().type==_IDNT && feuille._VECTptr->back()._IDNTptr->eval(1,feuille._VECTptr->back(),contextptr).type==_VECT){
+	  prog=symbolic(at_of,makesequence(feuille._VECTptr->back(),prog._VECTptr->front()));
+	  return eval_sto(gen(makevecteur(val,prog),_SORTED__VECT),last,level,contextptr);
+	}
+      }
+    }
     gen ans;
     gen & feuilleback=feuille._VECTptr->back();
     vecteur & lastarg=last_evaled_arg(contextptr);

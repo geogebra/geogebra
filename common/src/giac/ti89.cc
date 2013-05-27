@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c ti89.cc  -DIN_GIAC -DHAVE_CONFIG_H" -*-
+// -*- mode:C++ ; compile-command: "g++ -I.. -g -c ti89.cc -fno-strict-aliasing -DGIAC_GENERIC_CONSTANTS -DIN_GIAC -DHAVE_CONFIG_H" -*-
 #include "giacPCH.h"
 /*
  *  Copyright (C) 2000,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -363,6 +363,9 @@ namespace giac {
   static const char _cZeros_s[]="cZeros";
   static define_unary_function_eval_quoted (__cZeros,&_cZeros,_cZeros_s);
   define_unary_function_ptr5( at_cZeros ,alias_at_cZeros,&__cZeros,_QUOTE_ARGUMENTS,true);
+  static const char _czeros_s[]="czeros";
+  static define_unary_function_eval_quoted (__czeros,&_cZeros,_czeros_s);
+  define_unary_function_ptr5( at_czeros ,alias_at_czeros,&__czeros,_QUOTE_ARGUMENTS,true);
 
   static gen getDenom(const gen & g,GIAC_CONTEXT){
     vecteur num,den;
@@ -480,6 +483,18 @@ namespace giac {
 #else
 	return symb_horner(w,x);
 #endif
+      }
+      if (vs==4){
+	if (f.type==_FUNC)
+	  f=symbolic(*f._FUNCptr,v.back());
+	else
+	  f=symb_of(f,v.back());
+      }
+      if (vs>4){
+	if (f.type==_FUNC)
+	  f=symbolic(*f._FUNCptr,gen(vecteur(v.begin()+3,v.end()),_SEQ__VECT));
+	else
+	  f=symb_of(f,gen(vecteur(v.begin()+3,v.end()),_SEQ__VECT));
       }
     }
     vecteur w;

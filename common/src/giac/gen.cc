@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -g -c gen.cc -Wall" -*-
+// -*- mode:C++ ; compile-command: "g++ -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -fno-strict-aliasing -g -c gen.cc -Wall" -*-
 #include "giacPCH.h"
 #ifdef VISUALC
 #undef clock
@@ -835,29 +835,39 @@ namespace giac {
 
   gen::gen(const fraction & p){
     subtype=0;
+    if (is_undef(p.num) || is_undef(p.den)){
+      type=_INT_;
+      *this=undef;
+      return;
+    }
+    if (is_inf(p.den)){
+      type=_INT_;
+      val=0;
+      if (is_inf(p.num))
+	*this=undef;
+      return;
+    }
     if (is_exactly_zero(p.num)){
       type=_INT_;
       val=0;
+      return;
     }
-    else {
-      if (is_one(p.den)){
-	type=_INT_;
-	*this = p.num;
-      }
-      else {
-	if (is_minus_one(p.den)){
-	  type=_INT_;
-	  *this = -p.num;
-	}
-	else {              
+    if (is_one(p.den)){
+      type=_INT_;
+      *this = p.num;
+      return;
+    }
+    if (is_minus_one(p.den)){
+      type=_INT_;
+      *this = -p.num;
+    }
+    else {              
 #ifdef SMARTPTR64
-	  * ((longlong * ) this) = longlong(new Tref_fraction<gen>(p)) << 16;
+      * ((longlong * ) this) = longlong(new Tref_fraction<gen>(p)) << 16;
 #else
-	  __FRACptr = new Tref_fraction<gen>(p) ;
+      __FRACptr = new Tref_fraction<gen>(p) ;
 #endif
-	  type = _FRAC;
-	}
-      }
+      type = _FRAC;
     }
   }
 
@@ -5948,11 +5958,20 @@ namespace giac {
     }
     if (exponent<0)
       return inv(pow(base,-exponent),context0);
+    if (is_one(base))
+      return 1;
+    if (is_minus_one(base))
+      return exponent%2?-1:1;
     unsigned long int expo=exponent;
     gen b;
     if (base.type<=_ZINT && has_evalf(base,b,0,context0) && !is_inf(b) &&
-	is_greater(abs(exponent*log(abs(b,context0),context0),context0),powlog2float,context0))
-      return pow(b,expo);
+	is_greater(abs(exponent*log(abs(b,context0),context0),context0),powlog2float,context0)){
+      *logptr(context0) << "Exponent overflow" << endl;
+      if (is_strictly_greater(1,abs(b,context0),context0))
+	return 0;
+      return (exponent%2==0 || is_greater(b,0,context0))?plus_inf:minus_inf; // overflow
+      // return pow(b,expo);
+    }
     return(pow(base,expo));
   }
 
@@ -7356,6 +7375,15 @@ namespace giac {
       if (_SYMBptr->sommet==at_function_diff || _SYMBptr->sommet==at_of || _SYMBptr->sommet==at_at)
 	return new_ref_symbolic(symbolic(at_of,makesequence(*this,i)));
       gen & f=_SYMBptr->feuille;
+      // distributions laws: add arguments and reeval
+      if (_SYMBptr->sommet==at_normald || _SYMBptr->sommet==at_binomial || _SYMBptr->sommet==at_poisson || _SYMBptr->sommet==at_student || _SYMBptr->sommet==at_fisher || _SYMBptr->sommet==at_negbinomial || _SYMBptr->sommet==at_cauchy){
+	vecteur args(gen2vecteur(f));
+	if (i.type==_VECT && i.subtype==_SEQ__VECT)
+	  args=mergevecteur(args,*i._VECTptr);
+	else
+	  args.push_back(i);
+	return _SYMBptr->sommet(gen(args,_SEQ__VECT),contextptr);
+      }
       if (string(_SYMBptr->sommet.ptr()->s)=="pari"){
 	vecteur argv(gen2vecteur(f));
 	if (i.type==_VECT && i.subtype!=_SEQ__VECT)
@@ -7568,6 +7596,10 @@ namespace giac {
 	return giac_float(0);
       return !is_zero(b);
     }
+    if (a.type<=_CPLX || a.type==_FLOAT_)
+      return b;
+    if (b.type<=_CPLX || b.type==_FLOAT_)
+      return a;
     if (a.is_symb_of_sommet(at_and)){
       if (b.is_symb_of_sommet(at_and))
 	return new_ref_symbolic(symbolic(at_and,gen(mergevecteur(*a._SYMBptr->feuille._VECTptr,*b._SYMBptr->feuille._VECTptr),_SEQ__VECT)));
@@ -9583,6 +9615,10 @@ namespace giac {
 
   /* I/O: Print routines */
   string print_DOUBLE_(double d,GIAC_CONTEXT){
+    if (my_isnan(d))
+      return "undef";
+    if (my_isinf(d))
+      return "infinity";
 #ifdef BCD
 #ifndef BESTA_OS // Besta sprintf crashes on some doubles
     if (bcd_printdouble(contextptr))
@@ -9594,10 +9630,6 @@ namespace giac {
     unsigned char * u = (unsigned char *)(&d);
     *u &= 0xe0;
 #endif
-    if (my_isnan(d))
-      return "undef";
-    if (my_isinf(d))
-      return "infinity";
     if (d<0 && calc_mode(contextptr)==38)
       return "−"+print_DOUBLE_(-d,contextptr);
     string & forme=format_double(contextptr);

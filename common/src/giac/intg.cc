@@ -321,13 +321,13 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
-    gen a=args._VECTptr->front(),b=args._VECTptr->back(),c;
+    gen a=args._VECTptr->front(),aa,b=args._VECTptr->back(),c;
     if (is_zero(b))
       return undef;
     c=_floor(b,contextptr);
     if (c.type==_FLOAT_)
       c=get_int(c._FLOAT_val);
-    if (!has_evalf(a,c,1,contextptr)){
+    if (!has_evalf(a,aa,1,contextptr)){
       if (c.type==_INT_ && c==b && c.val %2 ==0)
 	return pow(a,inv(c,contextptr),contextptr);	
       return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
