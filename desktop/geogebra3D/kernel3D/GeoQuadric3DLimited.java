@@ -299,6 +299,22 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		side.setObjColor(color);
 
 	}
+	
+	
+	@Override
+	public void setTrace(boolean trace) {
+		super.setTrace(trace);
+		if (bottom == null)
+			return;
+		bottom.setTrace(trace);
+		if (!silentTop)
+			top.setTrace(trace);
+		side.setTrace(trace);
+
+	}
+	
+	
+	
 
 	/** to be able to fill it with an alpha value */
 	@Override

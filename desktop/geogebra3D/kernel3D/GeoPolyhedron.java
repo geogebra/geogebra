@@ -8,6 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasSegments;
@@ -27,7 +28,7 @@ import java.util.TreeSet;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume {// implements Path {
+public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume, Traceable {// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -1090,7 +1091,47 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 	
 	
+	//////////////////
+	// TRACE
+	//////////////////
 
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public boolean getTrace() {
+		return trace;
+	}
 	
 	
+	public void setTrace(boolean trace) {
+		
+		this.trace = trace;
+
+		if (polygons == null){
+			return;
+		}
+		
+
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setTrace(trace);
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setTrace(trace);
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setTrace(trace);
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((Traceable) segment).setTrace(trace);
+		}
+
+		getKernel().notifyRepaint();
+	}
 }
