@@ -638,7 +638,7 @@ public interface Manager3DInterface {
 	 * @param orientation
 	 * @return geo rotated
 	 */
-	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+	public GeoElement[] Rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoPointND Q, GeoDirectionND orientation);
 	
 	/**
@@ -649,7 +649,7 @@ public interface Manager3DInterface {
 	 * @param line
 	 * @return geo rotated
 	 */
-	public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+	public GeoElement[] Rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoLineND line);
 	
 	

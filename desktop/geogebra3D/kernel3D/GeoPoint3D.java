@@ -1242,17 +1242,20 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
     
     
 	final public void rotate(NumberValue phiValue) {
+		
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 
 		double x = getX();
 		double y = getY();
+		double z = getZ();
 	
-		setCoords(x * cos - y * sin, x * sin + y * cos, getZ(), getW());
+		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
 	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -1271,26 +1274,25 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
 		
-		Coords o = S.getInhomCoordsInD(3);
-		Coords v1 = getInhomCoordsInD(3).sub(o);
+		Coords o1 = S.getInhomCoordsInD(3);
 		Coords vn = orientation.getDirectionInD3();
 		
-		//check if rotation is possible, i.e. if points are in a plane orthogonal to the direction
-		if (!Kernel.isZero(v1.dotproduct(vn))){
-			setUndefined();
-			return;
-		}
 		
-		rotate(phiValue, o, vn, v1);
+		rotate(phiValue, o1, vn);
 		
 	}
 	
-	private void rotate(NumberValue phiValue, Coords o, Coords vn, Coords v1){
+	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
 		
 		if (vn.isZero()){
 			setUndefined();
 			return;
 		}
+		
+		Coords point = getInhomCoordsInD(3);
+		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		
+		Coords v1 = point.sub(o);
 		
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -1307,12 +1309,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 		
-		Coords point = getInhomCoordsInD(3);
-		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
 		
-		Coords v1 = point.sub(o);
-		
-		rotate(phiValue, o, vn, v1);
+		rotate(phiValue, o1, vn);
 		
 
 	}

@@ -1309,16 +1309,16 @@ public class Manager3D implements Manager3DInterface {
 		return new geogebra3D.kernel3D.Geo3DVec(kernel, x, y, z);
 	}
 
-	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+	final public GeoElement[] Rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoPointND center, GeoDirectionND orientation) {
 		Transform t = new TransformRotate3D(cons, phi, center, orientation);
-		return t.transform((GeoElement) geoRot, label);
+		return t.transform(geoRot, label);
 	}
 
-	final public GeoElement[] Rotate3D(String label, GeoPointND geoRot,
+	final public GeoElement[] Rotate3D(String label, GeoElement geoRot,
 			GeoNumberValue phi, GeoLineND line) {
 		Transform t = new TransformRotate3D(cons, phi, line);
-		return t.transform((GeoElement) geoRot, label);
+		return t.transform(geoRot, label);
 	}
 
 
