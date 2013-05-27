@@ -37,6 +37,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, GuiModel guiModel)
 	{
+		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());

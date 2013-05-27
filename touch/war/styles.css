@@ -1,0 +1,299 @@
+@charset "utf-8";
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "Segoe UI", sans-serif;
+	font-size: 15px;
+	color: #000000;
+	overflow: hidden;
+}
+
+/* TOOLS AND STYLEBAR BUTTONS */
+div.button,
+div.button:visited {	
+	/* Border */
+	-webkit-border-radius: 5px;
+  	-khtml-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	
+	border: #DCDCDC solid 1px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
+	background-image: -o-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
+	background-image: -moz-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
+	background-image: -ms-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(255,255,255)),
+		color-stop(1, rgb(254,254,254))
+	);
+}
+
+div.button.button-up-hovering {
+	border: #9999FF 1px solid;
+}
+
+.arrowLeft img {
+	margin: 4px;
+}
+
+.arrowRight img {
+	margin: 4px;
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+.arrowBottom img {
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+.stylebar div.button,
+.headerbar div.button,
+.algebraViewButtonPanel div.button {
+	width: 30px;
+	height: 30px;
+	padding: 4px;
+	display: inline-block;
+	margin: 0px 6px 0px 0px;
+}
+
+.toolbar div.button,
+.subToolBar div.button {
+	width: 40px;
+	height: 40px;
+	padding: 4px;
+	display: inline-block;
+	margin: 0px 6px 0px 0px;
+}
+
+.stylebar div.button img,
+.headerbar div.button img,
+.algebraViewButtonPanel div.button img {
+	width: 30px;
+	height: 30px;
+}
+
+.toolbar div.button img,
+.subToolBar div.button img {
+	width: 40px;
+	height: 40px;
+}
+
+/* ELEMENTS */
+.graphicView {
+	height: 100%;
+	width: 100%;
+	display: block;
+	position: absolute;
+}
+
+.stylebar {
+	padding: 6px 0px 5px 10px;
+	display: inline-block;
+	
+	/* Border */
+	-webkit-border-bottom-right-radius: 5px;
+  	-khtml-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+	border-right: #CCCCCC solid 1px;
+	border-bottom: #CCCCCC solid 1px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
+	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
+	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
+	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(254,254,254)),
+		color-stop(1, rgb(220,220,220))
+	);
+}
+
+.algebraView {	
+	/* Border */
+	border-left: #CCCCCC solid 1px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -o-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -moz-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -ms-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(237,237,237)),
+		color-stop(1, rgb(220,220,220)))
+	);
+}
+
+.algebraViewButtonPanel {
+	/*margin-left: -50px;
+	margin-right: -1px;
+	display: inline-block;
+	float: left;*/
+	
+	/* Border */
+	-webkit-border-bottom-left-radius: 5px;
+  	-khtml-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+	
+	/* Background */
+	background-color: #EDEDED;
+}
+
+.algebraViewArrowPanel {
+	padding: 6px 0px 5px 5px;
+	/*display: inline-block;*/
+	
+	/* Border */
+	-webkit-border-bottom-left-radius: 5px;
+  	-khtml-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+	border-left: #CCCCCC solid 1px;
+	border-bottom: #CCCCCC solid 1px;
+}
+
+.algebraViewButton.arrowLeft {
+	
+}
+
+.algebraViewButton.arrowRight {
+	
+}
+
+.algebraViewContent {
+	padding: 0px 20px;
+}
+
+.elemHeading {
+	height: 35px;
+	padding-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-bottom: #CCCCCC solid 1px;
+}
+
+.elemHeading a.arrowBottom,
+.elemHeading a.arrowLeft {
+	margin-top: -4px;
+	float: right;    
+}
+
+.elemHeading .arrowBottom img,
+.elemHeading .arrowLeft img {
+	width: 30px;
+	height: 30px;
+}
+
+.elemList {
+	padding: 10px 5px;
+	color: #666666;
+}
+
+.elem {
+	padding: 5px 0px 5px 30px;
+}
+
+.elem.visible {
+	background: url(img/elemVisible.svg) no-repeat left 10px;
+}
+
+.elem.hidden {
+	background: url(img/elemHidden.svg) no-repeat left 10px;
+}
+
+.toolbar {
+	
+	/* Border */
+	border-top: #CCCCCC solid 1px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -o-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -moz-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+	background-image: -ms-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(237,237,237)),
+		color-stop(1, rgb(220,220,220)))
+	);
+}
+
+.toolbarButtonPanel {
+	padding: 10px;
+	float: left;
+}
+
+.subToolBar {
+	/* Position
+	display: block;
+	position: relative;
+	margin-top: -68px;*/
+	margin-left: -6px;
+}
+
+.subToolBarButtonPanel {
+	background-color: #FFFFFF;
+	border: #EFEFEF solid 1px;
+	padding: 5px;
+	padding-right: 0px;
+	
+	/* Schatten */
+	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
+	-moz-box-shadow: 3px 3px 5px #DCDCDC;
+	box-shadow: 3px 3px 5px #DCDCDC;
+}
+
+.subToolBarArrow {
+	margin-top: -10px;
+	padding-left: 23px;
+	/*background: url(img/subToolbarArrow.svg) 23px top no-repeat;
+	width: 100px;
+	height: 7px;
+	postion: absolute;
+	bottom: 0px;*/
+}
+
+.inputbarPanel {
+	/*float: right;
+	right: 0px;
+	bottom: 0px;*/
+	width: 310px;
+	padding: 10px 5px;
+	/*display: block;*/
+}
+
+.inputbarPanel input {
+	border: #CCCCCC solid 1px;
+	color: #BABABA;
+	padding: 4px;
+	width: 297px;
+}

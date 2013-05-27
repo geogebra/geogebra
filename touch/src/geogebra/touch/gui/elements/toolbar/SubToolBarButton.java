@@ -11,7 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * @author Thomas Krismayer
  * @see geogebra.touch.gui.elements.toolbar.ToolButton ToolButton
  */
-public class OptionButton extends ToolButton
+public class SubToolBarButton extends ToolButton
 {
 
 	OptionsClickedListener ancestor;
@@ -24,7 +24,7 @@ public class OptionButton extends ToolButton
 	 * @param ancestor
 	 *          OptionsClickedListener
 	 */
-	public OptionButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
+	public SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
 	{
 		super(cmd);
 
@@ -36,7 +36,7 @@ public class OptionButton extends ToolButton
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				OptionButton.this.ancestor.optionClicked(OptionButton.this.getCmd());
+				SubToolBarButton.this.ancestor.optionClicked(SubToolBarButton.this.getCmd());
 			}
 		}, ClickEvent.getType());
 	}

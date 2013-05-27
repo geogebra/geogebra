@@ -35,6 +35,8 @@ public class AlgebraViewPanel extends ScrollPanel
 		kernel.attach(this.algebraView);
 
 		this.setWidget(this.algebraView);
+		
+		this.setStyleName("algebraView");
 	}
 
 	public AlgebraView getAlgebraView()

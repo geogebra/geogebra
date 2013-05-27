@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
@@ -63,6 +64,7 @@ public class StylingBar extends DecoratorPanel
 	 */
 	public StylingBar(TouchModel touchModel, EuclidianViewM view, final EuclidianViewPanel euclidianViewPanel)
 	{
+		this.setStyleName("stylebar");
 		this.euclidianView = view;
 		this.touchModel = touchModel;
 		this.guiModel = touchModel.getGuiModel();
@@ -93,7 +95,7 @@ public class StylingBar extends DecoratorPanel
 			}
 		}, MouseDownEvent.getType()); 
 		
-		this.showHide = new StandardImageButton(CommonResources.INSTANCE.triangle_left()); 
+		this.showHide = new ArrowImageButton(CommonResources.INSTANCE.triangle_left()); 
 		this.showHide.addDomHandler(new ClickHandler()
 		{			
 			@Override
@@ -102,18 +104,20 @@ public class StylingBar extends DecoratorPanel
 				event.preventDefault(); 
 				
 				if(StylingBar.this.visible){
-					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.triangle_right()); 
 					StylingBar.this.contentPanel.clear(); 
 					StylingBar.this.contentPanel.add(StylingBar.this.showHide); 
 					StylingBar.this.visible = false; 
+					
+					StylingBar.this.showHide.setStyleName("arrowRight");
 				}else {
-					StylingBar.this.showHide.setIcon(CommonResources.INSTANCE.triangle_left());
 					StylingBar.this.contentPanel.clear(); 
 					for(StandardImageButton b : StylingBar.this.button){
 						StylingBar.this.contentPanel.add(b); 
 					}
 					StylingBar.this.contentPanel.add(StylingBar.this.showHide); 
 					StylingBar.this.visible = true; 
+					
+					StylingBar.this.showHide.setStyleName("arrowLeft");
 					
 					// force repaint
 					euclidianViewPanel.remove(StylingBar.this); 

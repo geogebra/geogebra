@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
-import geogebra.touch.gui.elements.toolbar.OptionsBar;
 import geogebra.touch.gui.elements.toolbar.ToolBarButton;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -86,7 +85,7 @@ public class GuiModel
 		}
 
 		// activeButton looses style otherwise
-		this.activeButton.addStyleDependentName("active");
+		//this.activeButton.addStyleDependentName("active");
 	}
 
 	public void setActive(ToolBarButton toolBarButton)

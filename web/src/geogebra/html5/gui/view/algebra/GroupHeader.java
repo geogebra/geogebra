@@ -15,6 +15,9 @@ public class GroupHeader extends FlowPanel{
 	private InlineLabelTreeItem il;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
 		this.setWidth("100%");
+		
+		this.setStyleName("elemHeading");
+		
 		this.add(il = new InlineLabelTreeItem(selection,parent,strlab));
 		add(new OpenButton(showUrl,hiddenUrl,parent));
 	}
@@ -45,7 +48,8 @@ public class GroupHeader extends FlowPanel{
 		 */
 		public void setImage(String text)
 		{
-			String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
+			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
+			String html = "<img src=\"" + text + "\" style=\"margin-right: 5px;\">";
 			this.getElement().setInnerHTML(html);
 		}
 

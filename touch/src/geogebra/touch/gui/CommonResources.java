@@ -459,4 +459,9 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/arrow_go_previous_gray.svg")
 	@Validated(validated = false)
 	SVGResource back();
+	
+	// New Styles
+	@Source("icons/svg/subToolbarArrow.svg")
+	@Validated(validated = false)
+	SVGResource subToolBarArrow();
 }

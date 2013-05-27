@@ -76,7 +76,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 	{
 		if (this.menuEntries.length != 0)
 		{
-			OptionsBar options = new OptionsBar(this.menuEntries, this);
+			SubToolBar options = new SubToolBar(this.menuEntries, this);
 			this.model.showOption(options, OptionType.ToolBar, this);
 		}
 		this.model.setActive(this);

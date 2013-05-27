@@ -193,6 +193,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			} else {
 				//TODO try to find better way to do this and at least avoid if not necessary
 				ti.getElement().getFirstChildElement().getStyle().setWidth(100, Unit.PCT);
+				
 				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
 				if (ti.getState()) {
 					repaintChildren(ti);

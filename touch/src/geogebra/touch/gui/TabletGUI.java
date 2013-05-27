@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchApp;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
+import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
@@ -17,7 +18,6 @@ import geogebra.touch.model.TouchModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -47,11 +47,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	private ToolBar toolBar;
 
 	EuclidianViewPanel euclidianViewPanel;
-	private AlgebraViewPanel algebraViewPanel;
+	AlgebraViewPanel algebraViewPanel;
 	StylingBar stylingBar;
 
 	private PopupPanel algebraViewButtonPanel;
-	private StandardImageButton algebraViewButton;
+	StandardImageButton algebraViewButton;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -115,19 +115,18 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.toolBar = new ToolBar(this.touchModel, (TouchApp) kernel.getApplication());
 		this.setFooterWidget(this.toolBar);
-		this.getFooterWidget().getElement().getStyle().setBorderWidth(FOOTER_BORDER_WIDTH, Unit.PX);
-		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString());
-		this.getFooterWidget().getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
 		// show/hide AlgebraView Button
 		this.algebraViewButtonPanel = new PopupPanel();
-		this.algebraViewButton = new StandardImageButton(CommonResources.INSTANCE.algebra_open());
+		this.algebraViewButton = new ArrowImageButton(CommonResources.INSTANCE.triangle_left());
+		
+		this.algebraViewButton.setStyleName("arrowRight");
 
-		this.algebraViewButtonPanel.setWidget(this.algebraViewButton);
-		// TODO Reposition according to Markus' wishes!
-		this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth() - 70, 70);
 		this.algebraViewButtonPanel.setAutoHideEnabled(false);
 		this.algebraViewButtonPanel.show();
+		
+		this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-53), 63);
+		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 
 		this.algebraViewButton.addDomHandler(new ClickHandler()
 		{
@@ -135,9 +134,22 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			public void onClick(ClickEvent event)
 			{
 				TabletGUI.this.toggleAlgebraView();
+				
+				if(TabletGUI.this.algebraViewPanel.isVisible()){					
+					TabletGUI.this.algebraViewButton.setStyleName("arrowLeft");
+					TabletGUI.this.algebraViewButton.addStyleName("algebraViewArrowPanel");
+				} else {
+					TabletGUI.this.algebraViewButton.setStyleName("arrowRight");
+					TabletGUI.this.algebraViewButton.addStyleName("algebraViewArrowPanel");
+				}
+				
 			}
 		}, ClickEvent.getType());
 
+		this.algebraViewButtonPanel.add(this.algebraViewButton);
+		
+		//this.algebraViewButton.setStyleName("algebraViewArrowPanel");
+		
 		Window.addResizeHandler(new ResizeHandler()
 		{
 			@Override
@@ -224,7 +236,5 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.algebraViewPanel.setLabels();
 		}
 		((DefaultLAF) this.laf).getTabletHeaderPanel().setLabels();
-		this.toolBar.getInputDialog().setLabels();
-
 	}
 }
