@@ -51,7 +51,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
-import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.util.Base64;
 import geogebra.common.util.Language;
@@ -4508,34 +4507,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fullPath.indexOf(File.separator);
 	}
 
-	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton) {
-
-		ConstructionProtocolSettings cpSettings = getSettings()
-				.getConstructionProtocol();
-		cpSettings.setShowPlayButton(playButton);
-		cpSettings.setPlayDelay(playDelay);
-		cpSettings.setShowConsProtButton(showProtButton);
-
-		if (constProtocolNavigation != null) {
-			constProtocolNavigation.setConsProtButtonVisible(showProtButton);
-			constProtocolNavigation.setPlayDelay(playDelay);
-			constProtocolNavigation.setPlayButtonVisible(playButton);
-		}
-
-		setShowConstructionProtocolNavigation(show);
-
-		if (getGuiManager() != null) {
-
-			if (show) {
-				getGuiManager().setShowConstructionProtocolNavigation(show,
-						playButton, playDelay, showProtButton);
-			}
-		} 
-
-	}
-
 	// TODO: should be moved to ApplicationSettings
 	@Override
 	public void setTooltipTimeout(int ttt) {
@@ -5007,8 +4978,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 	// ConstructionProtocol
 	// **************************************************************************
-
-	private ConstructionProtocolNavigation constProtocolNavigation;
 
 	@Override
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {

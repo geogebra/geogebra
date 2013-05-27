@@ -23,8 +23,6 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
 		lbSteps = new Label();
 		
-		//TODO: it must be called later - see desktop version
-		initGUI();
 	}
 	
 	public static String getImageIcon(String url) {
@@ -54,11 +52,9 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	 * the number of construction steps.	
 	 */
 	public void update() {
-		if (prot==null) App.debug("prot null");
 		if (prot != null) {
 			int currentStep = prot.getCurrentStepNumber();
 			int stepNumber  = prot.getLastStepNumber();
-			App.debug("CPNB update - currentstep: "+currentStep+", stepNumber: "+stepNumber);
 			lbSteps.setText(currentStep + " / " + stepNumber);	
 		}
 	}

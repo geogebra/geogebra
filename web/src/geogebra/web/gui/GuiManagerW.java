@@ -1049,12 +1049,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-	        boolean playButton, double playDelay, boolean showProtButton) {
-		App.debug("unimplemented");
-	}
-
-	@Override
 	public void showURLinBrowser(String strURL) {
 		App.debug("unimplemented");
 	}

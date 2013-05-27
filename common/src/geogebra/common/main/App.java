@@ -44,6 +44,7 @@ import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Event;
@@ -1843,19 +1844,6 @@ public abstract class App implements UpdateSelection{
 	}
 
 	/**
-	 * @param show
-	 *            whether navigation bar should be visible
-	 * @param playButton
-	 *            whether play button should be visible
-	 * @param playDelay
-	 *            delay between phases (in seconds)
-	 * @param showProtButton
-	 *            whether button to show construction protocol should be visible
-	 */
-	public abstract void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton);
-
-	/**
 	 * Sets tooltip timeout (in seconds)
 	 * 
 	 * @param ttt
@@ -3102,6 +3090,7 @@ public abstract class App implements UpdateSelection{
 	protected boolean needsSpreadsheetTableModel = false;
 	protected boolean showConstProtNavigationNeedsUpdate = false;
 	protected boolean showConsProtNavigation = false;
+	protected ConstructionProtocolNavigation constProtocolNavigation;
 
 	public void setNeedsSpreadsheetTableModel(){
 		needsSpreadsheetTableModel = true;
@@ -3198,11 +3187,49 @@ public abstract class App implements UpdateSelection{
 	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
 	/**
+	 * @param show
+	 *            whether navigation bar should be visible
+	 * @param playButton
+	 *            whether play button should be visible
+	 * @param playDelay
+	 *            delay between phases (in seconds)
+	 * @param showProtButton
+	 *            whether button to show construction protocol should be visible
+	 */
+	public void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton) {
+			
+				ConstructionProtocolSettings cpSettings = getSettings()
+						.getConstructionProtocol();
+				cpSettings.setShowPlayButton(playButton);
+				cpSettings.setPlayDelay(playDelay);
+				cpSettings.setShowConsProtButton(showProtButton);
+			
+				if (constProtocolNavigation != null) {
+					constProtocolNavigation.setConsProtButtonVisible(showProtButton);
+					constProtocolNavigation.setPlayDelay(playDelay);
+					constProtocolNavigation.setPlayButtonVisible(playButton);
+				}
+			
+				setShowConstructionProtocolNavigation(show);
+			
+				if (getGuiManager() != null) {
+			
+					if (show) {
+						getGuiManager().setShowConstructionProtocolNavigation(show,
+								playButton, playDelay, showProtButton);
+					}
+				} 
+			
+			}
+
+	/**
 	 * Displays the construction protocol navigation
 	 * @param show
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
+		App.debug("setShowConstructionProtocolNavigation - flag: "+flag);
 		if ((flag == showConsProtNavigation)
 				&& (!showConstProtNavigationNeedsUpdate)) {
 			return;

@@ -523,9 +523,6 @@ public abstract class GuiManager {
 
 	public abstract void setScrollToShow(boolean b);
 
-	public abstract void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton);
-
 	public abstract void showURLinBrowser(String strURL);
 
 	public abstract void updateMenuWindow();
@@ -574,7 +571,6 @@ public abstract class GuiManager {
 	public abstract ConstructionProtocolView getConstructionProtocolView();
 
 	public void setShowConstructionProtocolNavigation(boolean show) {
-		
 		getApp().getConstructionProtocolNavigation().setVisible(show);
 		
 		if (show) {
@@ -583,4 +579,15 @@ public abstract class GuiManager {
 			getConstructionProtocolView();
 		}
 	}
+
+	public void setShowConstructionProtocolNavigation(boolean show,
+			boolean playButton, double playDelay, boolean showProtButton) {
+				setShowConstructionProtocolNavigation(show);
+				
+				getApp().getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
+				getApp().getConstructionProtocolNavigation().setPlayDelay(playDelay);
+				getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
+				
+			
+			}
 }

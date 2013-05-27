@@ -130,8 +130,6 @@ public class AppW extends AppWeb {
 	boolean menuKeysLoaded = false;
 	private ObjectPool objectPool;
 
-	private ConstructionProtocolNavigationW constProtocolNavigation;
-	
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -1251,13 +1249,6 @@ public class AppW extends AppWeb {
 		App.debug("showAlgebraInput: implementation needed"); // TODO
 		                                                      // Auto-generated
 		return false;
-	}
-
-	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-	        boolean playButton, double playDelay, boolean showProtButton) {
-		App.debug("setShowConstructionProtocolNavigation: implementation needed"); // TODO
-		                                                                           // Auto-generated
 	}
 
 	@Override

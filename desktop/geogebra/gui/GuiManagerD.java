@@ -879,19 +879,6 @@ public class GuiManagerD extends GuiManager {
 		ToolbarContainer.setShowHelp(flag);
 	}
 
-	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton) {
-		setShowConstructionProtocolNavigation(show);
-
-		
-			(app).getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
-			(app).getConstructionProtocolNavigation().setPlayDelay(playDelay);
-			(app).getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
-		
-
-	}
-
 	public boolean isConsProtNavigationPlayButtonVisible() {
 		return (app).getConstructionProtocolNavigation().isPlayButtonVisible();		
 	}

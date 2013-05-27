@@ -12,7 +12,6 @@ public class ConstructionProtocolViewW implements ConstructionProtocolView{
 
 	public ConstructionProtocolViewW(final AppW app) {
 		this.app = app;
-		
 		protNavBar = (ConstructionProtocolNavigationW) (app.getConstructionProtocolNavigation());
 		protNavBar.register(this);	
 	}
