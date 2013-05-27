@@ -312,10 +312,9 @@ public abstract class AppWeb extends App implements SetLabels{
 
 			if (country == null || "".equals(country)) {
 				setLanguage(language);
+				return;
 			}
-			this.
-
-			setLanguage(language + "_" + country);
+			this.setLanguage(language + "_" + country);
 		}
 		
 		@Override
