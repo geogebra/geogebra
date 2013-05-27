@@ -610,14 +610,18 @@ public class DockManagerW implements  SetLabels {
 			
 			// the component opposite to the current component
 			Widget opposite;
-			
+			int oppositeWidth = 0;
+			int oppositeHeight = 0;
+
 			//====================
 			// TODO temporary fix:
-			newSplitPane.setDividerLocation(size);
+			//newSplitPane.setDividerLocation(size);
 			
 			
 			if(secondLastPos == -1) {
 				opposite = rootPane;
+				oppositeWidth = opposite.getOffsetWidth();
+				oppositeHeight = opposite.getOffsetHeight();
 				rootPane = newSplitPane;
 
 				// in root pane, the opposite may be null
@@ -640,10 +644,16 @@ public class DockManagerW implements  SetLabels {
 				// in root pane, the opposite may be null
 				if(opposite == null) {
 					opposite = currentPane.getOpposite(opposite);
+					oppositeWidth = opposite.getOffsetWidth();
+					oppositeHeight = opposite.getOffsetHeight();
 					rootPane = newSplitPane;
 				} else if(opposite.getParent() == rootPane && rootPane.getOpposite(opposite) == null) {
+					oppositeWidth = opposite.getOffsetWidth();
+					oppositeHeight = opposite.getOffsetHeight();
 					rootPane = newSplitPane;
 				} else {
+					oppositeWidth = opposite.getOffsetWidth();
+					oppositeHeight = opposite.getOffsetHeight();
 					currentPane.replaceComponent(opposite, newSplitPane);
 				}
 			}
@@ -670,9 +680,11 @@ public class DockManagerW implements  SetLabels {
 			//check new split pane size regarding orientation
 			int newSplitPaneSize;
 			if(newSplitPane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
-				newSplitPaneSize=newSplitPane.getOffsetWidth();
+				newSplitPaneSize=//newSplitPane.getOffsetWidth();
+					oppositeWidth;
 			} else {
-				newSplitPaneSize=newSplitPane.getOffsetHeight();
+				newSplitPaneSize=//newSplitPane.getOffsetHeight();
+					oppositeHeight;
 			}
 			//check if panel size is not too large
 			if (size+DockComponent.MIN_SIZE>newSplitPaneSize)
@@ -683,9 +695,9 @@ public class DockManagerW implements  SetLabels {
 			// TODO turned this off for now ... need to fix for web
 			//---------------
 			if(lastPos == 0 || lastPos == 3) {
-			//	newSplitPane.setDividerLocation(size);
+				newSplitPane.setDividerLocation(size);
 			} else {
-			//	newSplitPane.setDividerLocation(newSplitPaneSize - size);
+				newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
 			
 
@@ -693,7 +705,7 @@ public class DockManagerW implements  SetLabels {
 			//App.debug("\n======\n"+((DockComponent) opposite).toString(""));
 			//re dispatch divider locations to prevent not visible views
 			if (opposite != null) {
-				//((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
+				((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
 			}
 		}
 		
