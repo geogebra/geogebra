@@ -128,7 +128,13 @@ public class SimpleAppCacheLinker extends AbstractLinker {
               || pathName.endsWith("gwt.rpc")
               || pathName.endsWith("manifest.txt")
               || pathName.startsWith("rpcPolicyManifest")
-              || pathName.endsWith("cssmap")) {
+              || pathName.endsWith("cssmap")
+          	  || pathName.endsWith("svnignore.txt")
+          	  || pathName.endsWith("compilation-mappings.txt")
+          	  || pathName.endsWith(".php")
+          	  || pathName.endsWith("README")
+          	  || pathName.endsWith("oauthWindow.html")
+          	  || pathName.endsWith("windowslive.html")) {
             // skip these resources
           } else {
             publicSourcesSb.append(pathName + "\n");
