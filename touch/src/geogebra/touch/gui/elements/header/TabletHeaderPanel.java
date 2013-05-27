@@ -32,21 +32,20 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	Button titleButton;
 	private TabletHeaderPanelRight rightHeader;
 
-	protected InputDialog dialog = new InputDialog(DialogType.Title);
+	protected InputDialog dialog;
 	TouchApp app;
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, GuiModel guiModel)
 	{
 		this.setWidth(Window.getClientWidth() + "px");
 
-		this.getElement().getStyle()
-				.setBackgroundColor(TabletGUI.getBackgroundColor().toString());
+		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());
 		this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
-		this.getElement().getStyle()
-				.setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+		this.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
 		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
-		
+
 		this.app = app;
+		this.dialog = new InputDialog(this.app, DialogType.Title);
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
 
 		this.titleButton = new Button(app.getConstructionTitle());
@@ -91,20 +90,28 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.titleButton);
 
-		this.titleButton.getElement().getStyle().setBackgroundImage("none"); 
-		this.titleButton.getElement().getStyle().setBorderStyle(BorderStyle.NONE); 
-		this.titleButton.getElement().getStyle().setFontSize(35, Unit.PX); 	
-		
+		this.titleButton.getElement().getStyle().setBackgroundImage("none");
+		this.titleButton.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
+		this.titleButton.getElement().getStyle().setFontSize(35, Unit.PX);
+
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
 
 	}
 
 	@Override
-  public void onResize(ResizeEvent event)
+	public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
 		this.titleButton.setPixelSize(Window.getClientWidth() - 396, 61);
-//		this.titleButton.setWidth(Window.getClientWidth() - this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() + "px");
+		// this.titleButton.setWidth(Window.getClientWidth() -
+		// this.leftHeader.getOffsetWidth() - this.rightHeader.getOffsetWidth() +
+		// "px");
+	}
+
+	public void setLabels()
+	{
+		this.dialog.setLabels();
+		this.leftHeader.dialog.setLabels();
 	}
 }

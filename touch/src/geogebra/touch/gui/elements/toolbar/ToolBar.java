@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
@@ -34,16 +35,17 @@ public class ToolBar extends HorizontalPanel
 	protected List<ToolBarButton> tools;
 	private HorizontalPanel toolPanel, inputButtonPanel;
 
-	protected InputDialog input = new InputDialog(DialogType.Input);
+	protected InputDialog input;
 	protected TouchModel touchModel;
-	
-	public ToolBar(final TouchModel touchModel)
+
+	public ToolBar(final TouchModel touchModel, TouchApp app)
 	{
+		this.input = new InputDialog(app, DialogType.InputField);
 		this.setWidth(Window.getClientWidth() + "px");
 		this.toolPanel = new HorizontalPanel();
 		this.inputButtonPanel = new HorizontalPanel();
-		
-		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString()); 
+
+		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());
 
 		makeTabletToolBar(touchModel);
 	}
@@ -104,14 +106,19 @@ public class ToolBar extends HorizontalPanel
 		}
 		this.toolPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
 		this.inputButtonPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		
+
 		this.add(this.toolPanel);
-		
+
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.inputButtonPanel.add(inputBarButton);
 		this.add(this.inputButtonPanel);
 
 		model.getGuiModel().setActive(this.tools.get(0));
+	}
+
+	public InputDialog getInputDialog()
+	{
+		return this.input;
 	}
 
 }

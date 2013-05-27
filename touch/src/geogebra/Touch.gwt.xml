@@ -77,4 +77,5 @@
 
     <!-- Compile only one permutation -->
 <collapse-all-properties />
+
 </module>

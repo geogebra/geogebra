@@ -69,7 +69,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		{
 			this.laf = new DefaultLAF();
 		}
-
 	}
 
 	/**
@@ -99,7 +98,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.euclidianViewPanel.setPixelSize(width, height);
 		this.euclidianViewPanel.initEuclidianView(ec, super.getHeaderWidget(), width, height);
 		
-		
+
 		this.stylingBar = new StylingBar(this.touchModel, this.euclidianViewPanel.getEuclidianView(), this.euclidianViewPanel);
 		this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
 
@@ -114,7 +113,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.setContentWidget(this.contentPanel);
 
-		this.toolBar = new ToolBar(this.touchModel);
+		this.toolBar = new ToolBar(this.touchModel, (TouchApp) kernel.getApplication());
 		this.setFooterWidget(this.toolBar);
 		this.getFooterWidget().getElement().getStyle().setBorderWidth(FOOTER_BORDER_WIDTH, Unit.PX);
 		this.getFooterWidget().getElement().getStyle().setBorderColor(GColor.BLACK.toString());
@@ -218,9 +217,14 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	}
 
 	@Override
-	public void setLabels() {
-		if(this.algebraViewPanel!=null){
+	public void setLabels()
+	{
+		if (this.algebraViewPanel != null)
+		{
 			this.algebraViewPanel.setLabels();
 		}
+		((DefaultLAF) this.laf).getTabletHeaderPanel().setLabels();
+		this.toolBar.getInputDialog().setLabels();
+
 	}
 }

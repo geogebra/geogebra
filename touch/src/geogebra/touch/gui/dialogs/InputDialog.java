@@ -1,11 +1,11 @@
 package geogebra.touch.gui.dialogs;
 
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,35 +28,40 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class InputDialog extends PopupPanel implements CustomKeyListener
 {
+
 	public enum DialogType
 	{
-		Title, Input;
+		Title, InputField;
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
-	private Label title;
+	private Label title = new Label();
 	TextBox textBox = new TextBox();
 	private HorizontalPanel buttonContainer = new HorizontalPanel();
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
+	private TouchApp app;
+	private DialogType type;
 
-	private String text, input;
+	private String prevText, input;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 
-	public InputDialog(DialogType type)
+	public InputDialog(TouchApp app, DialogType type)
 	{
 		// don't hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
 		super(false, false);
 		this.setGlassEnabled(true);
-		this.title = new Label(type.toString());
+		this.app = app;
+		this.type = type;
 
 		init();
 	}
 
 	private void init()
 	{
+		setLabels();
 		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
@@ -151,7 +156,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 
 	protected void onCancel()
 	{
-		this.input = this.text;
+		this.input = this.prevText;
 		this.hide();
 	}
 
@@ -160,8 +165,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 	{
 		super.show();
 		super.center();
-		this.textBox.setText(this.text);
-		this.input = this.text;
+		this.textBox.setText(this.prevText);
+		this.input = this.prevText;
 
 		this.customKeys.showRelativeTo(this);
 	}
@@ -170,7 +175,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 	public void hide()
 	{
 		super.hide();
-		this.text = "";
+		this.prevText = "";
 		this.customKeys.hide();
 	}
 
@@ -187,8 +192,24 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 
 	public void setText(String text)
 	{
-		this.text = text;
+		this.prevText = text;
 	}
+
+	public void setLabels()
+	{
+		switch (this.type)
+		{
+		case Title:
+			this.title.setText(this.app.getLocalization().getPlain(this.type.toString()));
+			break;
+		case InputField:
+			this.title.setText(this.app.getLocalization().getMenu(this.type.toString()));
+			break;
+		default:
+			break;
+		}
+	}
+
 
 	@Override
 	public void onCustomKeyPressed(CustomKey c)

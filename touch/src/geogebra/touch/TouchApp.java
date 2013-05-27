@@ -29,7 +29,6 @@ import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,17 +74,15 @@ public class TouchApp extends AppWeb
 
 		super.initing = true;
 		this.touchGUI = touchGUI;
-		if(Location.getParameter("lang")!=null){
-			this.setLanguage(Location.getParameter("lang"));
-		}
+
 		setLabelDragsEnabled(false);
 
 		initFactories();
-		
+
 		infobar = new InfoBarT();
 
 		this.fontManager = new FontManagerW();
-		
+
 		this.settings = new Settings();
 
 		setFontSize(12);
@@ -98,7 +95,7 @@ public class TouchApp extends AppWeb
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
-		
+
 		initImageManager();
 	}
 
@@ -118,6 +115,16 @@ public class TouchApp extends AppWeb
 
 		super.initing = false;
 		getScriptManager();
+
+		if (Location.getParameter("lang") != null)
+		{
+			this.setLanguage(Location.getParameter("lang"));
+		}
+		else
+		{
+			this.setLanguage();
+		}
+
 		setConstructionTitle("GeoGebraTouch");
 	}
 
@@ -141,7 +148,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean isApplet()
 	{
-
 		return false;
 	}
 
@@ -175,14 +181,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean freeMemoryIsCritical()
 	{
-
 		return false;
 	}
 
 	@Override
 	public long freeMemory()
 	{
-
 		return 0;
 	}
 
@@ -204,14 +208,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot()
 	{
-
 		return false;
 	}
 
 	@Override
 	public boolean isShowingEuclidianView2()
 	{
-
 		return false;
 	}
 
@@ -254,14 +256,12 @@ public class TouchApp extends AppWeb
 	@Override
 	public double getWidth()
 	{
-
 		return 0;
 	}
 
 	@Override
 	public double getHeight()
 	{
-
 		return 0;
 	}
 
@@ -274,7 +274,6 @@ public class TouchApp extends AppWeb
 	@Override
 	protected EuclidianController newEuclidianController(geogebra.common.kernel.Kernel kernel1)
 	{
-
 		return null;
 	}
 
@@ -292,7 +291,7 @@ public class TouchApp extends AppWeb
 
 	public GgbAPITouch getGgbApiT()
 	{
-		//FIXME - use getGgbApi (changes in web necessary)
+		// FIXME - use getGgbApi (changes in web necessary)
 		if (this.ggbapi == null)
 		{
 			this.ggbapi = new GgbAPITouch(this);
@@ -333,7 +332,6 @@ public class TouchApp extends AppWeb
 	@Override
 	public PythonBridge getPythonBridge()
 	{
-
 		return null;
 	}
 
@@ -346,6 +344,7 @@ public class TouchApp extends AppWeb
 	@Override
 	public String getLocaleStr()
 	{
+		// never used? - getCurrentLocale always returns "default"
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
 		App.debug("Current Locale: " + localeName);
 
@@ -365,13 +364,11 @@ public class TouchApp extends AppWeb
 	@Override
 	public void uploadToGeoGebraTube()
 	{
-
 	}
 
 	@Override
 	public void updateApplicationLayout()
 	{
-
 	}
 
 	@Override
@@ -510,46 +507,105 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void setLabels() {
+	public void setLabels()
+	{
 		this.touchGUI.setLabels();
 	}
 
 	@Override
-	protected void resetCommandDictionary() {
+	protected void resetCommandDictionary()
+	{
 	}
 
 	@Override
-	public void appSplashCanNowHide() {
+	public void appSplashCanNowHide()
+	{
 	}
 
 	@Override
-	public String getLanguageFromCookie() {
+	public String getLanguageFromCookie()
+	{
 		return null;
 	}
 
 	@Override
-	public void showLoadingAnimation(boolean b) {		
+	public void showLoadingAnimation(boolean b)
+	{
 	}
 
 	@Override
-	public void afterLoadFileAppOrNot() {
+	public void afterLoadFileAppOrNot()
+	{
 		App.debug("After file load ...");
-		//TODO: check what else we need to reset
+		// TODO: check what else we need to reset
 		this.kernel.initUndoInfo();
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 	}
 
 	@Override
-	public void tubeSearch(String query) {
+	public void tubeSearch(String query)
+	{
 		TouchEntryPoint.showTubeSearchUI();
 		TouchEntryPoint.tubeSearchGUI.displaySearchResults(query);
-		
 	}
 
 	@Override
-  public String getToolTooltipHTML(int mode)
-  {
-	  throw new UnsupportedOperationException();
-  }
+	public String getToolTooltipHTML(int mode)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void setLanguage()
+	{
+		String locale = getLocale();
+		final String language = locale.substring(0, 2);
+
+		String country = "";
+		if (locale.contains("-"))
+		{
+			country = locale.split("-")[1];
+		}
+
+		setLanguage(language, country);
+	}
+
+	/**
+	 * 
+	 * @return language of client
+	 */
+	public native String getLocale() /*-{
+		var language = window.navigator.systemLanguage
+				|| window.navigator.language;
+		return language;
+	}-*/;
+
+	// // alternative, falls probleme mit Android - nicht getestet
+	// public native String getLocale() /*-{
+	//
+	// var lang;
+	// if (navigator
+	// && navigator.userAgent
+	// && (lang = navigator.userAgent
+	// .match(/android.*\W(\w\w)-(\w\w)\W/i))) {
+	// lang = lang[1];
+	// }
+	//
+	// if (!lang && navigator) {
+	// if (navigator.language) {
+	// lang = navigator.language;
+	// } else if (navigator.browserLanguage) {
+	// lang = navigator.browserLanguage;
+	// } else if (navigator.systemLanguage) {
+	// lang = navigator.systemLanguage;
+	// } else if (navigator.userLanguage) {
+	// lang = navigator.userLanguage;
+	// }
+	// lang = lang.substr(0, 2);
+	// }
+	//
+	// alert("current language is", lang);
+	// return lang;
+	// }-*/;
+
 }

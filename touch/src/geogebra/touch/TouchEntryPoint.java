@@ -34,7 +34,6 @@ public class TouchEntryPoint implements EntryPoint
 		// insert mathquill css
 		String mathquillcss = GuiResources.INSTANCE.mathquillCss().getText();
 		StyleInjector.inject(mathquillcss);
-		//JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
 	}
 
 	private static void loadMobileAsync()
@@ -44,31 +43,35 @@ public class TouchEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{
-//				TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
+				ResourcesInjector.injectResources();
+				// TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(),
+				// Window.getClientHeight());
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				app.start();
 				TouchEntryPoint.showTabletGUI();
-				ResourcesInjector.injectResources();
+
 				Window.addResizeHandler(new ResizeHandler()
 				{
 
 					@Override
 					public void onResize(ResizeEvent event)
 					{
-//						TouchEntryPoint.appWidget.setPixelSize(event.getWidth(), event.getHeight());
+						// TouchEntryPoint.appWidget.setPixelSize(event.getWidth(),
+						// event.getHeight());
 					}
 				});
-				
+
 				tabletGUI.getContentWidget().getElement().getStyle().setOverflow(Overflow.VISIBLE);
 				app.getScriptManager().ggbOnInit();
-				//needed for testing
-				if(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64").length()>0){
+				// needed for testing
+				if (RootPanel.getBodyElement().getAttribute("data-param-ggbbase64").length() > 0)
+				{
 					app.getGgbApi().setBase64(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64"));
 				}
 				Window.enableScrolling(false);
-				
+
 			}
 
 			@Override

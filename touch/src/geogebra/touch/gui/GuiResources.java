@@ -14,6 +14,7 @@ public interface GuiResources extends ClientBundle
 	@Source("geogebra/resources/js/giac.js")
 	TextResource giacJs();
 
+	
 	// for saving - not needed yet, because now we use xml-Strings
 	// @Source("geogebra/resources/js/zipjs/dataview.js")
 	// TextResource dataViewJs();
