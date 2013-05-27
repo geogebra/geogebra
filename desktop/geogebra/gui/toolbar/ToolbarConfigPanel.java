@@ -237,7 +237,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 			}						
 		} 
 		// INSERT
-		else if (src == insertButton) {		
+		else if (src == insertButton) {	
 			childIndex++;
 			
 			boolean didInsert = false;
@@ -247,12 +247,16 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 				Integer modeInt = (Integer)tools[i];
 				if (modeInt.intValue() > -1 && containsTool(root, (Integer)tools[i]))
 					continue;
-				
+
 				DefaultMutableTreeNode newNode;
-				if (parentNode == root && modeInt.intValue() > -1) {
-					// parent is root: create new submenu
-					newNode = new DefaultMutableTreeNode();			
-					newNode.add(new DefaultMutableTreeNode(modeInt));
+				if (parentNode == root){
+					if(modeInt.intValue() > -1) {
+						// parent is root: create new submenu
+						newNode = new DefaultMutableTreeNode();			
+						newNode.add(new DefaultMutableTreeNode(modeInt));
+					}else{
+						continue; //no seperator in root
+					}
 				}
 				else {
 					// parent is submenu

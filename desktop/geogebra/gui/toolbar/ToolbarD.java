@@ -198,11 +198,6 @@ public class ToolbarD extends JToolBar {
 		for (int i = first ; i >=0 && i < toolbarVec.size(); i+=increment) {
 			ToolbarItem ob = toolbarVec.get(i);
 
-			// separator between menus
-			if (ob.getMode() == ToolBar.SEPARATOR) {
-				//addSeparator(); //no separator anymore
-				continue;
-			}
 
 			// new menu
 			Vector<Integer> menu = ob.getMenu();

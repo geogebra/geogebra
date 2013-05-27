@@ -228,7 +228,7 @@ public class ToolBar {
 		// sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
 	
 		// points
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_POINT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
@@ -272,7 +272,7 @@ public class ToolBar {
 		// sb.append(EuclidianView.MODE_LOCUS);
 	
 		// polygon
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_POLYGON);
 		sb.append(" ");
 		// sb.append(EuclidianView.MODE_REGULAR_POLYGON);
@@ -312,7 +312,7 @@ public class ToolBar {
 	
 		// measurements
 		
-		sb.append(" || "); 
+		sb.append(" | "); 
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		//sb.append(" "); 
 		//sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
@@ -353,7 +353,7 @@ public class ToolBar {
 		 */
 	
 		// properties
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ZOOM_IN);
@@ -375,7 +375,7 @@ public class ToolBar {
 	 * @return default toolbar (3D)
 	 */
 	public static String getAllToolsNoMacros3D() {
-		return EuclidianConstants.MODE_MOVE + " || "
+		return EuclidianConstants.MODE_MOVE + " | "
 				+ EuclidianConstants.MODE_POINT + " "
 				+ EuclidianConstants.MODE_POINT_ON_OBJECT + " "
 				+ EuclidianConstants.MODE_INTERSECT + " "
@@ -393,7 +393,7 @@ public class ToolBar {
 				+ EuclidianConstants.MODE_ORTHOGONAL
 				+ " "
 				+ EuclidianConstants.MODE_PARALLEL
-				+ " || "
+				+ " | "
 				+ EuclidianConstants.MODE_POLYGON
 				+ " | "
 				+ EuclidianConstants.MODE_CIRCLE_AXIS_POINT
@@ -403,7 +403,7 @@ public class ToolBar {
 				+ EuclidianConstants.MODE_CIRCLE_THREE_POINTS
 				+ " | "
 				+ EuclidianConstants.MODE_INTERSECTION_CURVE
-				+ " || "
+				+ " | "
 				+ EuclidianConstants.MODE_PLANE_THREE_POINTS
 				+ " "
 				+ EuclidianConstants.MODE_PLANE_POINT_LINE
@@ -411,7 +411,7 @@ public class ToolBar {
 				+ EuclidianConstants.MODE_ORTHOGONAL_PLANE
 				+ " "
 				+ EuclidianConstants.MODE_PARALLEL_PLANE
-				+ " || "
+				+ " | "
 				+EuclidianConstants.MODE_PYRAMID
 				+" "
 				+EuclidianConstants.MODE_PRISM
@@ -422,13 +422,13 @@ public class ToolBar {
 				// +" , "
 				// +EuclidianConstants.MODE_PRISM
 				+ " | " + EuclidianConstants.MODE_SPHERE_TWO_POINTS + " "
-				+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS + " || "
+				+ EuclidianConstants.MODE_SPHERE_POINT_RADIUS + " | "
 				+ EuclidianConstants.MODE_ANGLE + " , "
 				+ EuclidianConstants.MODE_DISTANCE + " "
 				+ EuclidianConstants.MODE_AREA + " "
 				+ EuclidianConstants.MODE_VOLUME + " | "
 				+ EuclidianConstants.MODE_TRANSLATE_BY_VECTOR + " | "
-				+ EuclidianConstants.MODE_TEXT + " || "
+				+ EuclidianConstants.MODE_TEXT + " | "
 				+ EuclidianConstants.MODE_ROTATEVIEW + " "
 				+ EuclidianConstants.MODE_TRANSLATEVIEW + " "
 				+ EuclidianConstants.MODE_ZOOM_IN + " "
@@ -458,6 +458,9 @@ public class ToolBar {
 					toolbar.add(new ToolbarItem(menu));
 				menu = new Vector<Integer>();
 			} else if (tokens[i].equals("||")) { // separator between menus
+				// no separator anymore
+				// keep this for backward compatibility
+				/*
 				if (menu.size() > 0)
 					toolbar.add(new ToolbarItem(menu));
 
@@ -469,6 +472,7 @@ public class ToolBar {
 
 				// start next menu
 				menu = new Vector<Integer>();
+				*/
 			} else if (tokens[i].equals(",")) { // separator within menu
 				menu.add(SEPARATOR);
 			} else { // add mode to menu

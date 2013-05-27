@@ -195,12 +195,6 @@ public class ToolBarW extends MenuBar {
 		for (int i = 0; i < toolbarVec.size(); i++) {
 			ToolbarItem ob = toolbarVec.get(i);
 
-			// separator between menus
-			if (ob.getMode() == ToolBar.SEPARATOR) {
-				addSeparator().addStyleName("toolbarItemSeparator");
-				continue;
-			}
-
 			// new menu
 			Vector<Integer> menu = ob.getMenu();
 			final ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
