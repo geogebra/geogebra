@@ -68,17 +68,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void drawOutline(Renderer renderer) {
 		
-		if(!isVisible())
-			return;	
-		
-			
-		setHighlightingColor();
-		
-		//App.debug("geo:"+getGeoElement()+", lineType="+getGeoElement().getLineTypeHidden());
-		renderer.getTextures().setDashFromLineType(getGeoElement().getLineType()); 
-		drawGeometry(renderer);
-		
-		
+		if(isVisible()){
+
+			setHighlightingColor();
+
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
+			drawGeometry(renderer);
+		}
+
+		drawTracesOutline(renderer);
 
 	}
 	
