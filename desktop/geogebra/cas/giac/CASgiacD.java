@@ -14,7 +14,8 @@ import javagiac.giac;
 
 public class CASgiacD extends CASgiac implements Evaluate {
 
-	private AppD app;
+	@SuppressWarnings("javadoc")
+	AppD app;
 
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
@@ -93,7 +94,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		String ret;
 		Object jsRet = null;
 
-		App.debug("giac  input: "+exp);		
+		App.debug("giac  input: "+exp);	
+
+		threadResult = null;
+		Thread thread;
 
 		if (app.isApplet() && (!AppD.hasFullPermissions() || !giacLoaded)) {
 			App.setCASVersionString("Giac/JS");
@@ -107,61 +111,44 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				specialFunctionsInitialized = true;
 			}
 
-
-			// JavaScript command to send
-			StringBuilder sb = new StringBuilder(exp.length() + 20);
-			sb.append("_ggbCallGiac('");
-			sb.append(exp);
-			sb.append("');");
-
-			jsRet = app.getApplet().evalJS(sb.toString());
-
-			if (jsRet instanceof String) {
-				ret = (String) jsRet;
-			} else {
-				ret = "?";
-				String type = (jsRet == null) ? "*null*" : jsRet.getClass()+"";
-				App.debug("wrong type returned from JS: " + type);
-			}
+			// send expression to CAS
+			thread = new GiacJSThread(exp);
 
 		} else {
 			initialize();
 
-			//gen g = new gen(exp, C);
-			//g = giac._eval(g, C);
-			//ret = g.print(C);
-			
-			threadResult = null;
-			
-			// send expression to CAS
-			GiacJNIThread thread = new GiacJNIThread(exp);
-			thread.start();
-			long startTime = System.currentTimeMillis();
 
-			int wait = 1;
-			
-			// wait for result from thread
-			while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
-				Thread.sleep(wait);
-				wait = wait * 2;
-				//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
-			}
-			
-			//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
-			
-			thread.interrupt();
-			// thread.interrupt() doesn't seem to stop it, so add this for good measure:
-			thread.stop();
-			
-			// if we haven't got a result, CAS took too long to return
-			// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
-			if (threadResult == null) {
-				throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
-			}
-			
-			ret = threadResult;
-			
+			// send expression to CAS
+			thread = new GiacJNIThread(exp);
 		}
+
+		thread.start();
+		long startTime = System.currentTimeMillis();
+
+		int wait = 1;
+
+		// wait for result from thread
+		while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
+			Thread.sleep(wait);
+			wait = wait * 2;
+			//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
+		}
+
+		//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+
+		thread.interrupt();
+		// thread.interrupt() doesn't seem to stop it, so add this for good measure:
+		thread.stop();
+
+		// if we haven't got a result, CAS took too long to return
+		// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
+		if (threadResult == null) {
+			throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+		}
+
+		ret = threadResult;
+
+
 
 		if (ret.trim().startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
@@ -189,10 +176,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		ret = parserTools.convertScientificFloatNotation(ret);
 
 		ret = casParser.insertSpecialChars(ret); // undo special character handling
-		
+
 		// convert x>3 && x<7 into 3<x<7
 		ret = checkInequalityInterval(ret);
-		
+
 		return ret;
 	}
 
@@ -242,35 +229,62 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * store result from Thread here
 	 */
 	String threadResult;
-	
+
 	/**
 	 * @author michael
 	 *
 	 */
 	class GiacJNIThread extends Thread {
-	    private String exp;
+		private String exp;
 		/**
 		 * @param exp Expression to send to Giac
 		 */
 		public GiacJNIThread(String exp) {
-	        //super(exp);
-	        this.exp = exp;
-	    }
-	    @Override
+			this.exp = exp;
+		}
+		@Override
 		public void run() {
-	        App.debug("thread starting: " + exp);
-	        
-	    	gen g = new gen(exp, C);
+			App.debug("thread starting: " + exp);
+
+			gen g = new gen(exp, C);
 			g = giac._eval(g, C);
 			threadResult = g.print(C);
-	        App.debug("message from thread: " + threadResult);
-	    }
+			App.debug("message from thread: " + threadResult);
+		}
+	}
+
+	/**
+	 * @author michael
+	 *
+	 */
+	class GiacJSThread extends Thread {
+		private String exp;
+		/**
+		 * @param exp Expression to send to Giac
+		 */
+		public GiacJSThread(String exp) {
+			this.exp = exp;
+		}
+		@Override
+		public void run() {
+			App.debug("thread starting: " + exp);
+
+			// JavaScript command to send
+			StringBuilder sb = new StringBuilder(exp.length() + 20);
+			sb.append("_ggbCallGiac('");
+			sb.append(exp);
+			sb.append("');");
+
+			threadResult = app.getApplet().evalJS(sb.toString());        
+
+			App.debug("message from thread: " + threadResult);
+		}
 	}
 
 
