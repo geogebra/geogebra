@@ -1891,7 +1891,8 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	display: inline;
 }
 .elemHeadingName{
-	float:left;
+	position:absolute;
+	left:10px;
 }
 label {
 	display:inline;
