@@ -80,7 +80,10 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 	}
 
-	private context C;
+	/**
+	 * Giac's context
+	 */
+	context C;
 
 	public String evaluate(String input) throws Throwable {
 
@@ -124,9 +127,40 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		} else {
 			initialize();
 
-			gen g = new gen(exp, C);
-			g = giac._eval(g, C);
-			ret = g.print(C);
+			//gen g = new gen(exp, C);
+			//g = giac._eval(g, C);
+			//ret = g.print(C);
+			
+			threadResult = null;
+			
+			// send expression to CAS
+			GiacJNIThread thread = new GiacJNIThread(exp);
+			thread.start();
+			long startTime = System.currentTimeMillis();
+
+			int wait = 1;
+			
+			// wait for result from thread
+			while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
+				Thread.sleep(wait);
+				wait = wait * 2;
+				//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
+			}
+			
+			//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+			
+			thread.interrupt();
+			// thread.interrupt() doesn't seem to stop it, so add this for good measure:
+			thread.stop();
+			
+			// if we haven't got a result, CAS took too long to return
+			// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
+			if (threadResult == null) {
+				throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+			}
+			
+			ret = threadResult;
+			
 		}
 
 		if (ret.trim().startsWith("\"")) {
@@ -162,6 +196,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		return ret;
 	}
 
+	@Override
 	public String evaluate(String exp, long timeoutMilliseconds) throws Throwable {
 		return evaluate(exp);
 	}
@@ -206,6 +241,36 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 
 		return null;
+	}
+	
+	
+	/**
+	 * store result from Thread here
+	 */
+	String threadResult;
+	
+	/**
+	 * @author michael
+	 *
+	 */
+	class GiacJNIThread extends Thread {
+	    private String exp;
+		/**
+		 * @param exp Expression to send to Giac
+		 */
+		public GiacJNIThread(String exp) {
+	        //super(exp);
+	        this.exp = exp;
+	    }
+	    @Override
+		public void run() {
+	        App.debug("thread starting: " + exp);
+	        
+	    	gen g = new gen(exp, C);
+			g = giac._eval(g, C);
+			threadResult = g.print(C);
+	        App.debug("message from thread: " + threadResult);
+	    }
 	}
 
 

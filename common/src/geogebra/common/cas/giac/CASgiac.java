@@ -273,7 +273,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * Timeout for CAS in milliseconds.
 	 */
-	private long timeoutMillis = 5000;
+	protected long timeoutMillis = 5000;
 
 	/**
 	 * @return CAS timeout in seconds
@@ -393,6 +393,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
 	private final static RegExp inequality = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
+
+	private final static RegExp inequalitySimple = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
+	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7
