@@ -866,6 +866,7 @@ public class DockManagerW implements  SetLabels {
 				int dividerLoc = grandParent.getDividerLocation();
 				grandParent.replaceComponent(parent, opposite);
 				grandParent.setDividerLocation(dividerLoc);
+				grandParent.forceLayout();
 			}
 			
 			//re dispatch divider location
@@ -876,6 +877,7 @@ public class DockManagerW implements  SetLabels {
 		//	if(isPermanent) {
 		//		app.validateComponent();
 		//	}
+
 			if (opposite instanceof DockPanelW)
 				((DockPanelW)opposite).onResize();
 			
