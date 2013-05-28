@@ -11,9 +11,7 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author Arpad Fekete
- * 
- * Top level GUI for the spreadsheet view
+ * Top level GUI for the CAS view
  *
  */
 public class CASDockPanelW extends DockPanelW {

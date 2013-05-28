@@ -458,4 +458,34 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		}
 	}
 
+	@Override
+	public void onResize() {
+		super.onResize();
+
+		// it's only important to resize components so that
+		// the divider should be inside
+
+		if (getLeftComponent() instanceof DockSplitPaneW)
+			((DockSplitPaneW)getLeftComponent()).updateDumb();
+		if (getRightComponent() instanceof DockSplitPaneW)
+			((DockSplitPaneW)getRightComponent()).updateDumb();
+    }
+
+	public void updateDumb() {
+
+		// w, h should contain the dimensions visible on screen
+		int w = this.getElement().getClientWidth();
+		int h = this.getElement().getClientHeight();
+
+		if (orientation == HORIZONTAL_SPLIT) {
+			// vertical split not considered yet
+			if (getDividerLocation() >= w) {
+				setDividerLocation(0.5);
+			} else {
+				// note: this is an int!
+				setDividerLocation((getDividerLocation() + w/2)/2);
+			}
+			//saveDividerLocation();
+		}
+	}
 }
