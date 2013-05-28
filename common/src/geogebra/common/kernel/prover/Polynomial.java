@@ -946,7 +946,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Test if the system of algebraic equations has a solution. The polynomials
 	 * are from the polynomial ring over a field of rational functions. The variables
 	 * of the field are the free variables, that is those where isFree() returns true.
-	 * The calculations are done using SingularWS
+	 * The calculations are done using SingularWS.
 	 * @param eqSystem the polynomials describing the system of algebraic equations
 	 * @param substitutions the substitutions done prior the change
 	 * @return True if the system of equations has a solution, false if not and null
@@ -1009,14 +1009,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
-	 * Test if the system of algebraic equations has a solution. The polynomials
-	 * are from the polynomial ring over a field of rational functions. The variables
-	 * of the field are the free variables, that is those where isFree() returns true.
-	 * The calculations are done using SingularWS
-	 * @param eqSystem the polynomials describing the system of algebraic equations
-	 * @param substitutions the substitutions done prior the change
-	 * @return True if the system of equations has a solution, false if not and null
-	 * if Singular was not able to give an answer.
+	 * Returns the elimination ideal for the given equation system,
+	 * assuming given substitutions. Only the dependent variables
+	 * will be eliminated. 
+	 * @param eqSystem the equation system
+	 * @param substitutions fixed values for certain variables
+	 * @return elements of the elimination ideal
 	 */
 	public static Polynomial[] eliminate(Polynomial[] eqSystem,
 			HashMap<Variable, Integer> substitutions) {

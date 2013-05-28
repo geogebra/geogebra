@@ -294,6 +294,7 @@ public class ProverBotanasMethod {
 					substitutions = fixValues(prover, true);
 				else
 					substitutions = fixValues(prover, false);
+				App.debug("substitutions: " + substitutions);
 			}
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
