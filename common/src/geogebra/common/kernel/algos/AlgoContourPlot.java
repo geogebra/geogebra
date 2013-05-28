@@ -66,8 +66,8 @@ public class AlgoContourPlot extends AlgoElement {
 		this.ymin = ymin;
 		this.ymax = ymax;
 		this.func = func;
-		this.visibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
-		this.epsilon = visibleArea*1.0E-15;
+		this.visibleArea = Math.abs(xmax - xmin)*Math.abs(ymax - ymin);
+		this.epsilon = visibleArea * 1.0E-15;
 		this.divisionPoints = 5;
 		this.fixed = false;
 		list = new GeoList(cons);		
@@ -107,8 +107,8 @@ public class AlgoContourPlot extends AlgoElement {
 		this.ymin = ymin;
 		this.ymax = ymax;
 		this.func = func;
-		this.visibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
-		this.epsilon = visibleArea*1.0E-15;
+		this.visibleArea = Math.abs(xmax - xmin)*Math.abs(ymax - ymin);
+		this.epsilon = visibleArea * 1.0E-15;
 		this.divisionPoints = 5;
 		this.fixed = true;
 		list = new GeoList(cons);		
@@ -134,7 +134,7 @@ public class AlgoContourPlot extends AlgoElement {
 	}
 	
 	private void addToList(GeoList list, double value){
-		equ=new Equation(kernel,en,new MyDouble(kernel,value));	
+		equ=new Equation(kernel, en, new MyDouble(kernel,value));	
 		equ.initEquation();
 		poly =  equ.getNormalForm();
 		implicitPoly.setCoeff(poly.getCoeff());
@@ -150,68 +150,68 @@ public class AlgoContourPlot extends AlgoElement {
 	private int calculateBoundary(int order){
 		double val;
 		int newContours = 0;
-		for (int i=order-1;i<divisionPoints+order-1;i++){
+		for (int i = order - 1 ; i < divisionPoints + order - 1 ; i++){
 			val = checkPolyValue(i, -order);
-			if (val<min){
+			if (val < min){
 				calcmin = val;
 			}
-			if (val>max){
+			if (val > max){
 				calcmax = val;
 			}
-			val = checkPolyValue(i, divisionPoints+order-1);
-			if (val<min){
+			val = checkPolyValue(i, divisionPoints + order - 1);
+			if (val < min){
 				calcmin = val;
 			}
-			if (val>max){
+			if (val > max){
 				calcmax = val;
 			}
 			val = checkPolyValue(-order, i);
-			if (val<min){
+			if (val < min){
 				calcmin = val;
 			}
-			if (val>max){
+			if (val > max){
 				calcmax = val;
 			}
-			val = checkPolyValue(divisionPoints+order-1, i);
-			if (val<min){
+			val = checkPolyValue(divisionPoints + order - 1, i);
+			if (val < min){
 				calcmin = val;
 			}
-			if (val>max){
+			if (val > max){
 				calcmax = val;
 			}
 					
 		}
 		//add the 4 edges
 		val = checkPolyValue(-order, -order);
-		if (val<min){
+		if (val < min){
 			calcmin = val;
 		}
-		if (val>max){
+		if (val > max){
 			calcmax = val;
 		}
 		val = checkPolyValue(-order, divisionPoints+order);
-		if (val<min){
+		if (val < min){
 			calcmin = val;
 		}
-		if (val>max){
+		if (val > max){
 			calcmax = val;
 		}
-		val = checkPolyValue(-order, divisionPoints+order);
-		if (val<min){
+		val = checkPolyValue(-order, divisionPoints + order);
+		if (val < min){
 			calcmin = val;
 		}
-		if (val>max){
+		if (val > max){
 			calcmax = val;
 		}
-		val = checkPolyValue(divisionPoints+order, divisionPoints+order);
-		if (val<min){
+		val = checkPolyValue(divisionPoints + order, divisionPoints + order);
+		if (val < min){
 			calcmin = val;
 		}
-		if (val>max){
+		if (val > max){
 			calcmax = val;
 		}
-		newContours += minadded>calcmin ? Math.ceil(Math.abs(minadded-calcmin)/step) : 0;
-		newContours += maxadded<calcmax ? Math.ceil(Math.abs(calcmax-maxadded)/step) : 0;
+		newContours += minadded > calcmin ? Math.ceil(Math.abs(minadded - calcmin) / step) : 0;
+		newContours += maxadded < calcmax ? Math.ceil(Math.abs(calcmax - maxadded) / step) : 0;
 		calcxmin -= xstep;
 		calcxmax += xstep;
 		calcymin -= ystep;
@@ -219,18 +219,18 @@ public class AlgoContourPlot extends AlgoElement {
 		return newContours;
 	}
 	
-	private void addAdditionalElements(GeoList list){
+	private void addAdditionalElements(GeoList list1){
 		calcmin = min;
 		calcmax = max;
 		// add boundaries
 		calculateBoundary(1);
 		calculateBoundary(2);
-		for (double i=minadded-step;i>calcmin-step;i-=step){
-			addToList(list, i);
+		for (double i = minadded-step ; i > calcmin - step ; i -= step){
+			addToList(list1, i);
 			minadded = i;
 		}
-		for (double i=maxadded+step;i<calcmax+step;i+=step){
-			addToList(list, i);
+		for (double i = maxadded + step ; i < calcmax + step ; i += step){
+			addToList(list1, i);
 			maxadded = i;
 		}
 	}
@@ -247,9 +247,9 @@ public class AlgoContourPlot extends AlgoElement {
 		implicitPoly.setDefined();
 		FunctionNVar f=func.getFunction();
 		FunctionVariable[] fvars=f.getFunctionVariables();
-		xstep = (xmax-xmin)/(divisionPoints-1.0);
-		ystep = (ymax-ymin)/(divisionPoints-1.0);
-		if (fvars.length!=2){
+		xstep = (xmax - xmin)/(divisionPoints - 1.0);
+		ystep = (ymax - ymin)/(divisionPoints - 1.0);
+		if (fvars.length !=2 ) {
 			implicitPoly.setUndefined();
 			return;
 		}
@@ -259,17 +259,17 @@ public class AlgoContourPlot extends AlgoElement {
 			Polynomial yVar=new Polynomial(kernel,"y");
 			en.replace(fvars[0], xVar);
 			en.replace(fvars[1], yVar);
-			equ =new Equation(kernel,en,new MyDouble(kernel));	
+			equ = new Equation(kernel, en, new MyDouble(kernel));	
 			equ.initEquation();
 			poly =  equ.getNormalForm();
 			implicitPoly.setCoeff(poly.getCoeff());
-			for (int i=0;i<divisionPoints;i++){
+			for (int i = 0 ; i < divisionPoints ; i++){
 				for (int j=0;j<divisionPoints;j++){
 					double val = checkPolyValue(i,j);
-					if (val<min){
+					if (val < min){
 						min = val;
 					}
-					if (val>max){
+					if (val > max){
 						max = val;
 					}
 				}
@@ -277,28 +277,28 @@ public class AlgoContourPlot extends AlgoElement {
 			double freeTerm = 0;
 			if (step == 0 && !fixed){
 				freeTerm = implicitPoly.getCoeff()[0][0];
-				step = Math.abs((max-min)/10.0);
+				step = Math.abs((max - min)/10.0);
 				contourStep.set(new MyDouble(kernel, step).toGeoElement());
 			}
 			
-			if ((min<=freeTerm) && (max>=freeTerm)){
-				for (double i=freeTerm;i>min-step;i-=step){
+			if ((min <= freeTerm) && (max >= freeTerm)){
+				for (double i = freeTerm ; i > min-step ; i -= step) {
 					addToList(list, i);
 					minadded = i;
 				}
-				for (double i=freeTerm+step;i<max+step;i+=step){
+				for (double i = freeTerm + step ; i < max + step ; i += step) {
 					addToList(list, i);
 					maxadded = i;
 				}
-			}else{
-				minadded = step * Math.floor((min-freeTerm)/step);
-				for (double i=minadded;i<max+step;i+=step){
+			} else {
+				minadded = step * Math.floor((min - freeTerm) / step);
+				for (double i = minadded ; i < max + step ; i += step){
 					addToList(list, i);
 					maxadded = i;
 				}
 			}
 			addAdditionalElements(list);
-		}catch(MyError e){
+		} catch (MyError e){
 			App.debug(e.getMessage());
 			implicitPoly.setUndefined();
 			list.add(new GeoImplicitPoly(implicitPoly));
@@ -306,11 +306,11 @@ public class AlgoContourPlot extends AlgoElement {
 	}	
 
 	private boolean movedOut(){
-		return xmin<calcxmin || xmax > calcxmax || ymin<calcymin || ymax>calcymax;
+		return xmin < calcxmin || xmax > calcxmax || ymin < calcymin || ymax > calcymax;
 	}
 	private int getVisibleContourCount(){
 		int count = 0;
-		for (int i=0;i<list.size();i++){
+		for (int i=0 ; i < list.size() ; i++) {
 			if (((GeoImplicitPoly)(list.get(i))).isOnScreen()){
 				count++;
 			}
@@ -324,26 +324,26 @@ public class AlgoContourPlot extends AlgoElement {
 		xmax = cons.getApplication().getActiveEuclidianView().getXmax();
 		ymin = cons.getApplication().getActiveEuclidianView().getYmin();
 		ymax = cons.getApplication().getActiveEuclidianView().getYmax();
-		double newVisibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
+		double newVisibleArea = Math.abs(xmax - xmin) * Math.abs(ymax - ymin);
 		int visible = getVisibleContourCount();
 		if (movedOut()){
 			list.clear();
 			compute();
 		}
-		if (visible<minContours && !fixed){
+		if (visible < minContours && !fixed) {
 			step = step/2;
 			contourStep.set(new MyDouble(kernel, step).toGeoElement());
 			list.clear();
 			compute();
 		}
-		if (visible>maxContours && !fixed){
+		if (visible > maxContours && !fixed) {
 			step = step*2;
 			contourStep.set(new MyDouble(kernel, step).toGeoElement());
 			list.clear();
 			compute();
 		}
 		visibleArea = newVisibleArea;
-		epsilon = visibleArea*1.0E-15;
+		epsilon = visibleArea * 1.0E-15;
 		getOutput(0).update();
 	}
 	
