@@ -12,13 +12,13 @@ import com.google.gwt.user.client.ui.TreeItem;
 
 public class GroupHeader extends FlowPanel{
 	
-	private InlineLabelTreeItem il;
+	private GroupNameLabel il;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
 		this.setWidth("100%");
 		
 		this.setStyleName("elemHeading");
 		
-		this.add(il = new InlineLabelTreeItem(selection,parent,strlab));
+		this.add(il = new GroupNameLabel(selection,parent,strlab));
 		add(new OpenButton(showUrl,hiddenUrl,parent));
 	}
 	

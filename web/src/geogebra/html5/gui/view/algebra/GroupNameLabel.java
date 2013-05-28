@@ -23,7 +23,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TreeItem;
 
 /**
@@ -32,19 +32,20 @@ import com.google.gwt.user.client.ui.TreeItem;
  * File created by Arpad Fekete
  */
 
-public class InlineLabelTreeItem extends InlineLabel
+public class GroupNameLabel extends Label
 	implements ClickHandler, MouseOverHandler, MouseOutHandler {
 
 	TreeItem par;
 	SelectionManager selection;
 
-	public InlineLabelTreeItem(SelectionManager selection, TreeItem parent, String strlab) {
+	public GroupNameLabel(SelectionManager selection, TreeItem parent, String strlab) {
 		super(strlab);
 		this.selection = selection;
 		par = parent;
 		addClickHandler(this);
 		addMouseOverHandler(this);
 		addMouseOutHandler(this);
+		this.setStyleName("elemHeadingName");
 	}
 
 	public void onClick(ClickEvent evt) {

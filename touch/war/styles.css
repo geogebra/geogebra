@@ -209,6 +209,10 @@ div.button.button-up-hovering {
 	height: 30px;
 }
 
+.elemHeadingName{
+	float:left;
+}
+
 .elemList {
 	padding: 10px 5px;
 	color: #666666;
