@@ -829,7 +829,7 @@ __GGB__keysVar.it.command = {
     "Sphere": "Sfera",
     "Sphere_Syntax": "[ <Punto>, <Raggio> ]",
     "Spline": "Spline",
-    "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline_Syntax": "[ <Lista di punti> ]\n[ <Lista di punti>, <Ordine \u2265 3> ]",
     "StartAnimation": "AvviaAnimazione",
     "StartAnimation_Syntax": "[ ]\n[ <Booleano> ]\n[ <Slider o punto>, <Slider o punto>, ... ]\n[ <Slider o punto>, <Slider o punto>, ..., <Booleano> ]",
     "StemPlot": "DiagrammaRamoFoglia",
