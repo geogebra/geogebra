@@ -111,6 +111,10 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		/** arbitrary constant*/
+		arbconst(Operation.ARBCONST),
+		/** arbitrary integer (comes from trig equations)*/
+		arbint(Operation.ARBINT),
 
 		;
 		private Operation op;
@@ -173,6 +177,8 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
+			case arbint:
+			case arbconst:
 			case Ci:
 			case Si:
 			case Ei:
