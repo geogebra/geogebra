@@ -8,6 +8,7 @@ import geogebra.common.factories.Factory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -579,6 +580,13 @@ public class TouchApp extends AppWeb
 				|| window.navigator.language;
 		return language;
 	}-*/;
+
+	@Override
+  public ConstructionProtocolNavigation getConstructionProtocolNavigation()
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 
 	// // alternative, falls probleme mit Android - nicht getestet
 	// public native String getLocale() /*-{
