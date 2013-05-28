@@ -1,7 +1,6 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -24,7 +23,7 @@ public class AlgoContourPlot extends AlgoElement {
 
 	private GeoFunctionNVar func; // input expression
 	private double xmin, xmax, ymin, ymax; // the definition domain where the contour plot is defined
-	private GeoElement xmin_geo, xmax_geo, ymin_geo, ymax_geo;
+	private GeoElement contourStep;
 	private GeoList list; // output
 	private double visibleArea, epsilon;
 	private Equation equ;
@@ -34,6 +33,9 @@ public class AlgoContourPlot extends AlgoElement {
 	private double min, max, step, xstep, ystep;
 	private int divisionPoints;
 	private double calcmin, calcmax, calcxmin, calcxmax, calcymin, calcymax, minadded, maxadded;
+	private boolean fixed;
+	private static final int minContours = 7;
+	private static final int maxContours = 25;
 	
 	/**
 	 * Creates a new algorithm to create a list of implicit functions that form the 
@@ -58,6 +60,7 @@ public class AlgoContourPlot extends AlgoElement {
 			double xmin, double xmax, double ymin, double ymax) {
 		super(c);
 		c.registerEuclidianViewCE(this);
+		step = 0;
 		this.xmin = xmin;
 		this.xmax = xmax;
 		this.ymin = ymin;
@@ -66,21 +69,65 @@ public class AlgoContourPlot extends AlgoElement {
 		this.visibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
 		this.epsilon = visibleArea*1.0E-15;
 		this.divisionPoints = 5;
-		xmin_geo = new MyDouble(kernel, xmin).toGeoElement();
-		xmax_geo = new MyDouble(kernel, xmax).toGeoElement();
-		ymin_geo = new MyDouble(kernel, ymin).toGeoElement();
-		ymax_geo = new MyDouble(kernel, ymax).toGeoElement();
+		this.fixed = false;
 		list = new GeoList(cons);		
 		setInputOutput();
 		compute();
 		list.setLabel(label);
-	}	
+	}
+	
+	
+	/**
+	 * Creates a new algorithm to create a list of implicit functions that form the 
+	 * 		contour plot of a function
+	 * 
+	 * @param c
+	 *			construction
+	 * @param label
+	 * 			label
+	 * @param func
+	 * 			function
+	 * @param xmin
+	 * 			lower bound of x
+	 * @param xmax
+	 * 			upper bound of x
+	 * @param ymin
+	 * 			lower bound of y
+	 * @param ymax
+	 * 			upper bound of y
+	 * @param contourStep the value of the contour line height multiplier
+	 */
+	public AlgoContourPlot(Construction c, String label, GeoFunctionNVar func,
+			double xmin, double xmax, double ymin, double ymax, double contourStep){
+		super(c);
+		c.registerEuclidianViewCE(this);
+		step = contourStep;
+		this.xmin = xmin;
+		this.xmax = xmax;
+		this.ymin = ymin;
+		this.ymax = ymax;
+		this.func = func;
+		this.visibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
+		this.epsilon = visibleArea*1.0E-15;
+		this.divisionPoints = 5;
+		this.fixed = true;
+		list = new GeoList(cons);		
+		setInputOutput();
+		compute();
+		list.setLabel(label);
+	}
 
 	@Override
 	protected void setInputOutput() {
 		list.setTypeStringForXML("ImplicitPoly");
-		input = new GeoElement[1];
-		input[0] = func;
+		contourStep = new MyDouble(kernel, step).toGeoElement();
+		if (this.fixed){
+			input = new GeoElement[2];			
+			input[1] = contourStep;
+		}else{
+			input = new GeoElement[1];			
+		}
+		input[0] = func;		
 		setOutputLength(1);
 		setOutput(0, list);
 		setDependencies(); // done by AlgoElement
@@ -142,21 +189,21 @@ public class AlgoContourPlot extends AlgoElement {
 		if (val>max){
 			calcmax = val;
 		}
-		val = checkPolyValue(-order, divisionPoints+order-1);
+		val = checkPolyValue(-order, divisionPoints+order);
 		if (val<min){
 			calcmin = val;
 		}
 		if (val>max){
 			calcmax = val;
 		}
-		val = checkPolyValue(-order, divisionPoints+order-1);
+		val = checkPolyValue(-order, divisionPoints+order);
 		if (val<min){
 			calcmin = val;
 		}
 		if (val>max){
 			calcmax = val;
 		}
-		val = checkPolyValue(divisionPoints+order-1, divisionPoints+order-1);
+		val = checkPolyValue(divisionPoints+order, divisionPoints+order);
 		if (val<min){
 			calcmin = val;
 		}
@@ -173,14 +220,11 @@ public class AlgoContourPlot extends AlgoElement {
 	}
 	
 	private void addAdditionalElements(GeoList list){
-		int elementCount = list.size();
 		calcmin = min;
 		calcmax = max;
-		// add first boundary
-		int added = calculateBoundary(1);
-		if (elementCount+added<25){
-			added += calculateBoundary(2);
-		}
+		// add boundaries
+		calculateBoundary(1);
+		calculateBoundary(2);
 		for (double i=minadded-step;i>calcmin-step;i-=step){
 			addToList(list, i);
 			minadded = i;
@@ -230,12 +274,13 @@ public class AlgoContourPlot extends AlgoElement {
 					}
 				}
 			}
-			if(Kernel.isEqual(max, min)){
-				list.setUndefined();
-				return;
+			double freeTerm = 0;
+			if (step == 0 && !fixed){
+				freeTerm = implicitPoly.getCoeff()[0][0];
+				step = Math.abs((max-min)/10.0);
+				contourStep.set(new MyDouble(kernel, step).toGeoElement());
 			}
-			step = Math.abs((max-min)/10.0);
-			double freeTerm = implicitPoly.getCoeff()[0][0];
+			
 			if ((min<=freeTerm) && (max>=freeTerm)){
 				for (double i=freeTerm;i>min-step;i-=step){
 					addToList(list, i);
@@ -246,15 +291,11 @@ public class AlgoContourPlot extends AlgoElement {
 					maxadded = i;
 				}
 			}else{
-				minadded = min;
-				System.out.println(min+","+max+","+step);
-				for (double i=min;i<max;i+=step){
+				minadded = step * Math.floor((min-freeTerm)/step);
+				for (double i=minadded;i<max+step;i+=step){
 					addToList(list, i);
 					maxadded = i;
 				}
-				if (freeTerm<-epsilon||freeTerm>epsilon){
-					addToList(list, freeTerm);
-				}				
 			}
 			addAdditionalElements(list);
 		}catch(MyError e){
@@ -283,26 +324,23 @@ public class AlgoContourPlot extends AlgoElement {
 		xmax = cons.getApplication().getActiveEuclidianView().getXmax();
 		ymin = cons.getApplication().getActiveEuclidianView().getYmin();
 		ymax = cons.getApplication().getActiveEuclidianView().getYmax();
-		xmin_geo.set(new MyDouble(kernel, xmin).toGeoElement());
-		xmax_geo.set(new MyDouble(kernel, xmax).toGeoElement());
-		ymin_geo.set(new MyDouble(kernel, ymin).toGeoElement());
-		ymax_geo.set(new MyDouble(kernel, ymax).toGeoElement());
 		double newVisibleArea = Math.abs(xmax-xmin)*Math.abs(ymax-ymin);
-		if (visibleArea-newVisibleArea<-epsilon){
-			if (movedOut()){
-				list.clear();
-				compute();
-			}
-		}else if (visibleArea-newVisibleArea>epsilon){
-			if (getVisibleContourCount()<7){
-				list.clear();
-				compute();
-			}
-		}else{
-			if (movedOut() || getVisibleContourCount()<7){
-				list.clear();
-				compute();
-			}
+		int visible = getVisibleContourCount();
+		if (movedOut()){
+			list.clear();
+			compute();
+		}
+		if (visible<minContours && !fixed){
+			step = step/2;
+			contourStep.set(new MyDouble(kernel, step).toGeoElement());
+			list.clear();
+			compute();
+		}
+		if (visible>maxContours && !fixed){
+			step = step*2;
+			contourStep.set(new MyDouble(kernel, step).toGeoElement());
+			list.clear();
+			compute();
 		}
 		visibleArea = newVisibleArea;
 		epsilon = visibleArea*1.0E-15;
