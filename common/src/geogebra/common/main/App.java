@@ -3184,6 +3184,9 @@ public abstract class App implements UpdateSelection{
 		return showConsProtNavigation;
 	}
 
+	/**
+	 * Returns the construction protocol navigation bar instance.
+	 */
 	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
 	/**
