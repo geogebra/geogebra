@@ -10023,7 +10023,7 @@ namespace giac {
     char * buf = new char[101];
     fread(buf,sizeof(char),4,f);
     if (buf[0]=='-' && buf[1]=='1' && buf[2]==' '){
-      delete buf;
+      delete [] buf;
       gen res=archive_restore(f,contextptr);
       return res;
     }
@@ -10031,7 +10031,7 @@ namespace giac {
     ifstream is(args._STRNGptr->c_str());
     is.getline(buf,100,'\n');
     bool ar = (buf==string("giac archive") || buf==string("giac binarch"));
-    delete buf;
+    delete [] buf;
     is.close();
     if (ar)
       return unarchive_session(*args._STRNGptr,-1,0,contextptr);

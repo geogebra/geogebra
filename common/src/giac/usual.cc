@@ -5603,6 +5603,8 @@ namespace giac {
   bool need_workaround(const gen & g){
     if (g.type<=_CPLX)
       return g/g!=1;
+    if (is_inf(g) || is_undef(g))
+      return true;
     if (g.type!=_VECT)
       return false;
     for (unsigned i=0;i<g._VECTptr->size();++i){

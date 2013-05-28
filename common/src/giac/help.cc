@@ -275,7 +275,7 @@ namespace giac {
       s[length]=i%10+'0';
 #if defined VISUALC || defined BESTA_OS
      string res=s;
-     delete s;
+     delete [] s;
      return res;
 #else
     return s;
@@ -622,9 +622,6 @@ namespace giac {
     for (;i && !i.eof();){
       i.getline(buf,BUFFER_SIZE,'\n');
       string s(buf);
-#if defined VISUALC || defined BESTA_OS
-      delete [] buf;
-#endif
       if (s=="<!--End of Navigation Panel-->")
 	break;
       int t=s.size();
@@ -677,6 +674,9 @@ namespace giac {
 	    } // if (endcmd>2 && endcmd<t)
 	  } // if (t>29 &&...
 	} // end of file
+#if defined VISUALC || defined BESTA_OS
+	delete [] buf;
+#endif
 	return true;
       }
       if (t>14 && s.substr(t-14,14)=="Index</A></B> "){
@@ -687,9 +687,15 @@ namespace giac {
 	  if (warn)
 	    cerr << "Using index " << s << endl;
 	  find_index(current_dir,current_dir+s,mtt,mall,true,warn);
+#if defined VISUALC || defined BESTA_OS
+	  delete [] buf;
+#endif
 	  return true;
 	}
       }
+#if defined VISUALC || defined BESTA_OS
+      delete [] buf;
+#endif
     }
     string tmp;
     char c;
@@ -991,8 +997,12 @@ namespace giac {
       }
       string first(buf);
       if_mtt.getline(buf,BUFFER_SIZE,'¤');
-      if (!if_mtt || if_mtt.eof())
+      if (!if_mtt || if_mtt.eof()){
+#if defined VISUALC || defined BESTA_OS
+	delete [] buf;
+#endif
 	return false;
+      }
       multi.insert(pair<string,string>(first,buf));
       if (!(n%100)){ // check every 100 links if link exists
 	first=buf;
@@ -1039,6 +1049,9 @@ namespace giac {
     while (if_mtt && !if_mtt.eof()){
       if_mtt.getline(buf,BUFFER_SIZE,'¤');
       if (!if_mtt || if_mtt.eof()){
+#if defined VISUALC || defined BESTA_OS
+	delete [] buf;
+#endif
 	if (verbose)	
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
 	return true;
@@ -1047,6 +1060,9 @@ namespace giac {
       ++n;
       if_mtt.getline(buf,BUFFER_SIZE,'\n');
     }
+#if defined VISUALC || defined BESTA_OS
+    delete [] buf;
+#endif
     if (verbose)
       cerr << "// Read " << n << " entries from cache " << filename ;
     return true;

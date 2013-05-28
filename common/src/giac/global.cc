@@ -4248,12 +4248,12 @@ unsigned int ConvertUTF8toUTF16 (
       char * ch=new char[size+1];
       ch[size]=0;
       if (readfunc(ch,1,size,f)!=size){
-	delete ch;
+	delete [] ch;
 	return undef;
       }
       gen res=identificateur(string(ch));
       syms()[ch] = res;
-      delete ch;
+      delete [] ch;
       return res;
     }
     if (t==_SYMB){
@@ -4277,14 +4277,14 @@ unsigned int ConvertUTF8toUTF16 (
 	  ch[size+1]='\'';
 	  ch[size+2]=0;
 	  if (readfunc(ch+1,1,size,f)!=size){
-	    delete ch;
+	    delete [] ch;
 	    return undef;
 	  }
 	}
 	else {
 	  ch[size]=0;
 	  if (readfunc(ch,1,size,f)!=size){
-	    delete ch;
+	    delete [] ch;
 	    return undef;
 	  }
 	  if (builtin_lexer_functions_){
@@ -4299,7 +4299,7 @@ unsigned int ConvertUTF8toUTF16 (
 	}
 	if (is_zero(res))
 	  res=gen(ch,contextptr);
-	delete ch;
+	delete [] ch;
 	if (res.type!=_FUNC){
 	  return undef;
 	}
@@ -4319,11 +4319,11 @@ unsigned int ConvertUTF8toUTF16 (
 	char * ch=new char[size+1];
 	ch[size]=0;
 	if (readfunc(ch,1,size,f)!=size){
-	  delete ch;
+	  delete [] ch;
 	  return undef;
 	}
 	g = gen(ch,contextptr);
-	delete ch;
+	delete [] ch;
 	if (g.type!=_FUNC)
 	  return undef;
       }
@@ -4333,7 +4333,7 @@ unsigned int ConvertUTF8toUTF16 (
     char * ch=new char[size+1];
     ch[size]=0;
     if (readfunc(ch,1,size,f)!=size){
-      delete ch;
+      delete [] ch;
       return undef;
     }
     gen res;
@@ -4341,7 +4341,7 @@ unsigned int ConvertUTF8toUTF16 (
       res=string2gen(ch,true);
     else
       res=gen(ch,contextptr);
-    delete ch;
+    delete [] ch;
     return res;
   }
 

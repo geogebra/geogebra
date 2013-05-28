@@ -1789,6 +1789,161 @@ namespace giac {
   static define_unary_function_eval (__weibull_icdf,&_weibull_icdf,_weibull_icdf_s);
   define_unary_function_ptr5( at_weibull_icdf ,alias_at_weibull_icdf,&__weibull_icdf,0,true);
 
+  gen betad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
+    return pow(x,alpha-1,contextptr)*pow(1-x,beta-1,contextptr)/Beta(alpha,beta,contextptr);
+  }
+  gen _betad(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return betad(0,1,g,contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==2)
+      return symbolic(at_betad,g);
+    if (s==3)
+      return betad(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _betad_s []="betad";
+  static define_unary_function_eval (__betad,&_betad,_betad_s);
+  define_unary_function_ptr5( at_betad ,alias_at_betad,&__betad,0,true);
+
+  // beta_cdf=Beta regularized
+  gen _betad_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return _Beta(makesequence(v[0],v[1],v[2],1),contextptr);
+    if (s==4)
+      return _Beta(makesequence(v[0],v[1],v[3],1),contextptr)-_Beta(makesequence(v[0],v[1],v[2],1),contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _betad_cdf_s []="betad_cdf";
+  static define_unary_function_eval (__betad_cdf,&_betad_cdf,_betad_cdf_s);
+  define_unary_function_ptr5( at_betad_cdf ,alias_at_betad_cdf,&__betad_cdf,0,true);
+
+  gen betad_icdf(const gen &alpha_orig,const gen & beta_orig,const gen & t_orig,GIAC_CONTEXT){
+    if (is_zero(t_orig)|| is_one(t_orig))
+      return t_orig;
+    gen t=evalf_double(t_orig,1,contextptr);
+    gen alpha=evalf_double(alpha_orig,1,contextptr);
+    gen beta=evalf_double(beta_orig,1,contextptr);
+    if (alpha.type!=_DOUBLE_ || beta.type!=_DOUBLE_ || t.type!=_DOUBLE_ || alpha._DOUBLE_val<=0 || beta._DOUBLE_val<=0 || t._DOUBLE_val<0 || t._DOUBLE_val>1)
+      return gensizeerr(contextptr); // symbolic(at_betad_icdf,makesequence(alpha_orig,beta_orig,t_orig));
+    double y=t._DOUBLE_val;
+    if (y<=1e-13){
+      *logptr(contextptr) << "Underflow to 0" << endl;
+      return 0;
+    }
+    if (y>=1-1e-13){
+      *logptr(contextptr) << "Overflow to 1" << endl;
+      return 1;
+    }
+    double x0=.5;
+    double prefactor=.5;
+    if (alpha._DOUBLE_val>=1){
+      if (alpha._DOUBLE_val+beta._DOUBLE_val>=2)
+	x0=(alpha._DOUBLE_val-1)/(alpha._DOUBLE_val+beta._DOUBLE_val-2);
+      else
+	x0=0;
+      prefactor=1.;
+    }
+    identificateur x(" x");
+    return newton(symbolic(at_Beta,makesequence(alpha,beta,x,1))-y,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr);
+  }
+  gen _betad_icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return betad_icdf(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _betad_icdf_s []="betad_icdf";
+  static define_unary_function_eval (__betad_icdf,&_betad_icdf,_betad_icdf_s);
+  define_unary_function_ptr5( at_betad_icdf ,alias_at_betad_icdf,&__betad_icdf,0,true);
+
+  gen gammad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
+    return pow(x,alpha-1,contextptr)*exp(-beta*x,contextptr)*pow(beta,alpha,contextptr)/Gamma(alpha,contextptr);
+  }
+  gen _gammad(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gammad(0,1,g,contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==2)
+      return symbolic(at_gammad,g);
+    if (s==3)
+      return gammad(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _gammad_s []="gammad";
+  static define_unary_function_eval (__gammad,&_gammad,_gammad_s);
+  define_unary_function_ptr5( at_gammad ,alias_at_gammad,&__gammad,0,true);
+
+  // beta_cdf=Gamma regularized
+  gen _gammad_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return _lower_incomplete_gamma(makesequence(v[0],v[1]*v[2],1),contextptr);
+    if (s==4)
+      return _lower_incomplete_gamma(makesequence(v[0],v[1]*v[3],1),contextptr)-_lower_incomplete_gamma(makesequence(v[0],v[1]*v[2],1),contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _gammad_cdf_s []="gammad_cdf";
+  static define_unary_function_eval (__gammad_cdf,&_gammad_cdf,_gammad_cdf_s);
+  define_unary_function_ptr5( at_gammad_cdf ,alias_at_gammad_cdf,&__gammad_cdf,0,true);
+
+  gen gammad_icdf(const gen &alpha_orig,const gen & beta_orig,const gen & t_orig,GIAC_CONTEXT){
+    if (is_zero(t_orig)|| is_one(t_orig))
+      return t_orig;
+    gen t=evalf_double(t_orig,1,contextptr);
+    gen alpha=evalf_double(alpha_orig,1,contextptr);
+    gen beta=evalf_double(beta_orig,1,contextptr);
+    if (alpha.type!=_DOUBLE_ || beta.type!=_DOUBLE_ || t.type!=_DOUBLE_ || alpha._DOUBLE_val<=0 || beta._DOUBLE_val<=0 || t._DOUBLE_val<0 || t._DOUBLE_val>1)
+      return gensizeerr(contextptr); // symbolic(at_gammad_icdf,makesequence(alpha_orig,beta_orig,t_orig));
+    double y=t._DOUBLE_val;
+    if (y<=1e-13){
+      *logptr(contextptr) << "Underflow" << endl;
+      return 0;
+    }
+    if (y>=1-1e-13){
+      *logptr(contextptr) << "Overflow" << endl;
+      return plus_inf;
+    }
+    identificateur x(" x");
+    double x0=.5; // FIXME improve for alpha<1!
+    double prefactor=.5;
+    if (alpha._DOUBLE_val>=1){
+      x0=alpha._DOUBLE_val-1;
+      prefactor=1.;
+    }
+    return newton(symbolic(at_lower_incomplete_gamma,makesequence(alpha,x))-y*Gamma(alpha,contextptr),x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr)/beta; 
+  }
+  gen _gammad_icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3)
+      return gammad_icdf(v[0],v[1],v[2],contextptr);
+    return gensizeerr(contextptr);
+  }
+  static const char _gammad_icdf_s []="gammad_icdf";
+  static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
+  define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
+
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
   gen Bessel(const gen & g,int kind,GIAC_CONTEXT){
 #ifdef BESTA_OS

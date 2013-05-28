@@ -149,6 +149,24 @@ namespace giac {
   gen _Beta(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Beta ;
 
+  gen _betad(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_betad ;
+
+  gen _betad_cdf(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_betad_cdf ;
+
+  gen _betad_icdf(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_betad_icdf ;
+
+  gen _gammad(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_gammad ;
+
+  gen _gammad_cdf(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_gammad_cdf ;
+
+  gen _gammad_icdf(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_gammad_icdf ;
+
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lower_incomplete_gamma ;
   double upper_incomplete_gammad(double s,double z,bool regularize);

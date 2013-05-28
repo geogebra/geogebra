@@ -5318,7 +5318,7 @@ namespace giac {
 	return new_ref_symbolic(symbolic(at_pow,gen(makevecteur(base,exponent),_SEQ__VECT)));
       }
     }
-    if (abs_calc_mode(contextptr)==38 && !complex_mode(contextptr) && is_zero(base,contextptr) && is_zero(exponent,contextptr))
+    if (abs_calc_mode(contextptr)==38 && !complex_mode(contextptr) && is_exactly_zero(base) && is_exactly_zero(exponent)) // was is_zero(,.contextptr) changed so that MINREAL^0 is not undef but 1
       return undef;
     switch ( (base.type<< _DECALAGE) | exponent.type ) {
     case _INT___INT_: case _ZINT__INT_: case _REAL__INT_: case _CPLX__INT_: case _IDNT__INT_: 

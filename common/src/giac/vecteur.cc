@@ -7019,7 +7019,7 @@ namespace giac {
 	  if ((*e._VECTptr)[1].type==_DOUBLE_)
 	    m=int((*e._VECTptr)[1]._DOUBLE_val);
 	  else
-	    return gensizeerr(contextptr);
+	    return _randvector(e,contextptr); // try vector instead of gensizeerr(contextptr);
 	}
 	if (e._VECTptr->size()==3)
 	  return mranm(n,m,e._VECTptr->back(),contextptr);
