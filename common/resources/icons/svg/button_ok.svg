@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Yes check by Gregory Maxwell. Copyright 2005. GFDL-1.2 -->
+
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
    x="0.0000000"
    y="0.0000000"
-   width="600.00000"
-   height="600.00000" viewBox="0 0 600 600"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
    id="Yes_check"
    sodipodi:version="0.32"
-   inkscape:version="0.43"
-   sodipodi:docname="Yes_check.svg"
-   sodipodi:docbase="/home/fizyk/anizo/wiki/SVG/niemoje">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="button_ok.svg">
   <metadata
      id="metadata1375">
     <rdf:RDF>
@@ -52,26 +53,29 @@
        fx="300"
        fy="300"
        r="292.31146"
-       gradientTransform="matrix(1,0,0,0.98278,0,5.165947)"
+       gradientTransform="matrix(0.05366792,0,0,0.05276739,-0.34440973,0.35606289)"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="542"
-     inkscape:window-width="790"
+     inkscape:window-height="661"
+     inkscape:window-width="900"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.62333333"
-     inkscape:cx="300"
-     inkscape:cy="300"
-     inkscape:window-x="23"
-     inkscape:window-y="23"
-     inkscape:current-layer="Yes_check" />
+     inkscape:zoom="9.9733333"
+     inkscape:cx="19.05468"
+     inkscape:cy="10.173157"
+     inkscape:window-x="413"
+     inkscape:window-y="161"
+     inkscape:current-layer="Yes_check"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <path
-     d="M 7.6885391,404.61420 C 7.6885391,404.61420 122.85389,534.30185 145.88696,587.27791 L 244.92916,587.27791 C 286.38869,460.59602 447.62018,158.16034 585.81860,52.208207 C 614.45182,15.394067 542.52080,0.19798715 484.47310,24.568517 C 396.98668,61.298507 231.98485,341.73657 201.16633,409.22081 C 157.40350,420.73735 111.33735,335.51499 111.33735,335.51499 L 7.6885391,404.61420 z "
-     style="fill:url(#radialGradient2256);fill-opacity:1.0;fill-rule:evenodd;stroke:none;stroke-width:1.0000000px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"
-     id="check" />
+     d="m 0.06821822,21.803224 c 0,0 6.18068468,6.963187 7.41682188,9.807575 l 5.3153879,0 C 15.025476,24.809 23.678435,8.5706328 31.095257,2.8818538 32.631943,0.90523073 28.771555,0.08932328 25.656255,1.3978249 20.96104,3.3699303 12.105735,18.427202 10.451769,22.050562 8.1031087,22.668908 5.6308343,18.093152 5.6308343,18.093152 l -5.56261608,3.710072 z"
+     style="fill:url(#radialGradient2256);fill-opacity:1;fill-rule:evenodd;stroke:none"
+     id="check"
+     inkscape:connector-curvature="0" />
 </svg>
