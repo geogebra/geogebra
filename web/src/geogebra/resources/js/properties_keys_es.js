@@ -829,7 +829,7 @@ __GGB__keysVar.es.command = {
     "Sphere": "Esfera",
     "Sphere_Syntax": "[ <Punto>, <Radio (valor num\xe9rico)> ]",
     "Spline": "Spline",
-    "Spline_Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline_Syntax": "[ <Lista de Puntos> ]\n[ <Lista de Puntos>, <Orden \u2265 3> ]",
     "StartAnimation": "IniciaAnimaci\xf3n",
     "StartAnimation_Syntax": "[ ]\n[ <Booleano> ]\n[ <Deslizador o Punto>, <Deslizador o Punto>, ... ]\n[ <Deslizador o Punto>, <Deslizador o Punto>, ..., <Booleano> ]",
     "StemPlot": "DiagramaTalloHojas",
