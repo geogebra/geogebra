@@ -562,14 +562,8 @@ public class CoordSys {
 	public void rotate(double phi, Coords center){
 		
 		//create rotation matrix
-		//CoordMatrix m = CoordMatrix.Rotation3x3(Coords.VZ, phi);
-		double cos = Math.cos(phi);
-		double sin = Math.sin(phi);
-		CoordMatrix m = new CoordMatrix(3, 3);
-		m.set(1,1, cos); m.set(1,2, -sin);
-		m.set(2,1, sin); m.set(2,2,  cos);
-		m.set(3,3, 1);
-				
+		CoordMatrix m = CoordMatrix.Rotation3x3(phi);
+
 		Coords o = matrixOrthonormal.getOrigin();
 		
 		//set multiplication matrix

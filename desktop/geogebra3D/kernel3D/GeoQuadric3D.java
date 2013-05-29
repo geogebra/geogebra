@@ -8,8 +8,12 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -18,6 +22,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.kernel.kernelND.Region3D;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.main.AppD;
 
@@ -31,7 +36,7 @@ import geogebra.main.AppD;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
-		GeoElement3DInterface, Functional2Var, Region3D, Translateable, HasVolume,
+		GeoElement3DInterface, Functional2Var, Region3D, Translateable, RotateableND, HasVolume,
 		GeoQuadric3DInterface{
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
@@ -679,13 +684,65 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
 
 		// eigen matrix
-		eigenMatrix.setOrigin(getMidpoint());
+		eigenMatrix.setOrigin(getMidpoint3D());
 	}
 
 	@Override
 	public boolean isTranslateable() {
 		return true;
 	}
+	
+	
+	
+	
+
+	public void rotate(NumberValue r, GeoPoint S) {
+			
+		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD(3)));		
+	}
+
+	public void rotate(NumberValue r) {
+		
+		rotate(CoordMatrix4x4.Rotation4x4(r.getDouble()));
+	}
+
+	private void rotate(CoordMatrix4x4 tm) {
+	
+		// eigen matrix 
+		eigenMatrix = tm.mul(eigenMatrix);
+
+		// midpoint
+		setMidpoint(eigenMatrix.getOrigin().get());
+
+		// eigen vectors		
+		for (int i = 0; i<3; i++){
+			eigenvecND[i] = tm.mul(eigenvecND[i]);
+		}
+
+		// symetric matrix
+		setMatrix((tm.transposeCopy()).mul(getSymetricMatrix()).mul(tm));
+		
+	}
+
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+		
+		rotate(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD(3)));	
+	}
+
+	public void rotate(NumberValue r, GeoLineND line) {
+
+		rotate(CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords()));	
+		
+	}
+
+	
+	
+	
+	
+	// ///////////////////////////////////
+	// VOLUME
+	// ///////////////////////////////////
+
 	
 	
 	public double getVolume(){

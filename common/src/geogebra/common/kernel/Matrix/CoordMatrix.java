@@ -334,7 +334,30 @@ public class CoordMatrix {
 
 	}
 	
+	/**
+	 * 3x3 rotation matrix around oz
+	 * @param angle angle of rotation
+	 * @return matrix
+	 */	
+	public static final CoordMatrix Rotation3x3(double angle) {
+		
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+		CoordMatrix m = new CoordMatrix(3, 3);
+		m.set(1,1, cos); m.set(1,2, -sin);
+		m.set(2,1, sin); m.set(2,2,  cos);
+		m.set(3,3, 1);
+		
+		return m;
+	}
 	
+	
+	/**
+	 * 3x3 rotation matrix around vector
+	 * @param u vector of rotation
+	 * @param angle angle of rotation
+	 * @return matrix
+	 */
 	public static final CoordMatrix Rotation3x3(Coords u, double angle) {
 		
 		double ux = u.getX();

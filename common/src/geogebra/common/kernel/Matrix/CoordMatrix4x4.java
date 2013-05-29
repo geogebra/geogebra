@@ -30,7 +30,15 @@ public class CoordMatrix4x4 extends CoordMatrix {
 	public CoordMatrix4x4() {
 		super(4, 4);
 	}
-	
+
+	/**
+	 * construct matrix with values
+	 * @param vals values
+	 */
+	public CoordMatrix4x4(double[] vals) {
+		super(4, 4, vals);
+	}
+
 	/**
 	 * Transforms the object using the matrix
 	 * a00 a01 a02
@@ -79,6 +87,89 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.set(3, 3, 1);
 		ret.set(4, 4, 1);
 		return ret;
+	}
+	
+	
+	/**
+	 * 4x4 rotation matrix around oz
+	 * @param angle angle of rotation
+	 * @return matrix
+	 */	
+	public static final CoordMatrix4x4 Rotation4x4(double angle) {
+		
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+		CoordMatrix4x4 m = new CoordMatrix4x4();
+		m.set(1,1, cos); m.set(1,2, -sin);
+		m.set(2,1, sin); m.set(2,2,  cos);
+		m.set(3,3, 1);
+		m.set(4,4, 1);
+		
+		return m;
+	}
+	
+	/**
+	 * 4x4 rotation matrix axis parallel to oz through center
+	 * @param angle angle of rotation
+	 * @param center center of rotation
+	 * @return matrix
+	 */	
+	public static final CoordMatrix4x4 Rotation4x4(double angle, Coords center) {
+		
+		double cos = Math.cos(angle);
+		double sin = Math.sin(angle);
+		CoordMatrix4x4 m = new CoordMatrix4x4();
+		
+		// 3x3 sub-matrix "M"
+		m.set(1,1, cos); m.set(1,2, -sin);
+		m.set(2,1, sin); m.set(2,2,  cos);
+		m.set(3,3, 1);
+		
+		//use (Id-M)center for translation
+		m.setOrigin(center.sub(m.mul(center)));
+		
+		return m;
+	}
+	
+	/**
+	 * 4x4 rotation matrix around vector
+	 * @param u vector of rotation
+	 * @param angle angle of rotation
+	 * @param center center of rotation
+	 * @return matrix
+	 */
+	public static final CoordMatrix4x4 Rotation4x4(Coords u, double angle, Coords center) {
+		
+		double ux = u.getX();
+		double uy = u.getY();
+		double uz = u.getZ();
+		
+		double c = Math.cos(angle);
+		double s = Math.sin(angle);
+		
+		double[] vals = new double[16];
+		vals[0] = ux*ux*(1-c) + c;
+		vals[1] = ux*uy*(1-c) + uz*s;
+		vals[2] = ux*uz*(1-c) - uy*s;
+		//vals[3] = 0;
+		
+		vals[4] = ux*uy*(1-c) - uz*s;
+		vals[5] = uy*uy*(1-c) + c;
+		vals[6] = uy*uz*(1-c) + ux*s;
+		//vals[7] = 0;		
+		
+		vals[8] = ux*uz*(1-c) + uy*s;
+		vals[9] = uy*uz*(1-c) - ux*s;
+		vals[10] = uz*uz*(1-c) + c;
+		//vals[11] = 0;
+
+		CoordMatrix4x4 m = new CoordMatrix4x4(vals);
+		
+		//use (Id-M)center for translation
+		m.setOrigin(center.sub(m.mul(center)));
+		
+		return m;
+
 	}
 
 	/**
