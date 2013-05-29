@@ -394,21 +394,52 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
 	private final static RegExp inequality = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
 
-	private final static RegExp inequalitySimple = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
-	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
+	// eg 3.7 > ggbtmpvarx
+	// eg (37/10) > ggbtmpvarx
+	// eg 333 > ggbtmpvarx
+	// eg (-33) > ggbtmpvarx
+	private final static RegExp inequalitySimple = RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
+	// eg {3, 3>ggbtmpvarx, x^2}
+	// eg {3, 3>ggbtmpvarx}
+	// eg {3>ggbtmpvarx, x^2}
+	// eg {3>ggbtmpvarx}
+	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{])([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^},]+)([,}])(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7
+	 * convert 3>x into x<3
+	 * convert {3>x} into {x<3}
 	 * eg output from Solve[x (x-1)(x-2)(x-3)(x-4)(x-5) < 0]
+	 * 
+	 * Giac's normal command converts inequalities to > or >= so we don't need to check <, <=
+	 * 
 	 * @param exp expression
 	 * @return converted expression if changed
 	 */
 	protected String checkInequalityInterval(String exp) {
 
-
 		String ret = exp;
 
-		MatchResult matcher;
+		MatchResult matcher = inequalitySimple.exec(ret);
+		
+		// swap 3>x into x<3
+		if (matcher != null && exp.startsWith(matcher.getGroup(1))) {
+			//App.debug(matcher.getGroup(1));
+			//App.debug(matcher.getGroup(2));
+			//App.debug(matcher.getGroup(3));
+			//App.debug(matcher.getGroup(4));
+			return matcher.getGroup(3) + "<" + matcher.getGroup(2)+ matcher.getGroup(1);
+		}
+		
+		// swap {3>x, 6>y} into {x<3, y<6}
+		while ((matcher = inequalitySimpleInList.exec(ret)) != null ) {	
+			
+			ret = matcher.getGroup(1) + matcher.getGroup(2) + matcher.getGroup(5) + "<" + matcher.getGroup(4) + matcher.getGroup(3) + matcher.getGroup(6) + matcher.getGroup(7);
+			App.debug(ret);
+		}
+		
+		
+		// swap 5 > x && x > 3 into 3<x<5
 		while ((matcher = inequality.exec(ret)) != null &&
 
 				// check variable the same
