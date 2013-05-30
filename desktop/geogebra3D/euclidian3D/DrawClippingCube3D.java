@@ -35,6 +35,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	static private double REDUCTION_LARGE = 0; //(1-1./1)/2	
 	
+	static private double REDUCTION_ENLARGE = 1.5;
+	
 
 	static private double[] REDUCTION_VALUES = {
 		(1-1./Math.sqrt(3))/2, //small
@@ -129,7 +131,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		//minMaxLarge to cut lines
 		
-		rv = (1-(1-rv*2)*1.1)/2;
+		rv = REDUCTION_ENLARGE*rv + (1-REDUCTION_ENLARGE)/2;//(1-(1-rv*2)*REDUCTION_ENLARGE)/2;
 		xr = (xmax-xmin)*rv;
 		yr = (ymax-ymin)*rv;
 		zr = (zmax-zmin)*rv;
