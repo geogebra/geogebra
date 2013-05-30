@@ -1,0 +1,20 @@
+{
+  "name": "GeoGebraOffline",
+  "description": "GeoGebra is free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
+  "version" : "1.0",
+  "manifest_version": 2,
+  "app": {
+    "urls": [
+      "http://geogebraweboffline.appspot.com/app.html"
+    ],
+    "launch": {
+      "web_url": "http://geogebraweboffline.appspot.com"
+    }
+  },
+  "icons": { 
+  	"16": "icon_16.png",
+    "48": "icon_48.png",
+    "128": "icon_128.png" 
+    },
+  "offline_enabled" : true
+}
