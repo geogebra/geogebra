@@ -392,7 +392,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
 	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
 	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
-	private final static RegExp inequality = RegExp.compile("(.*)\\((ggbtmpvar.+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar.+)\\)(.*)");
+	private final static RegExp inequality = RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) && \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
 
 	// eg 3.7 > ggbtmpvarx
 	// eg (37/10) > ggbtmpvarx
@@ -403,7 +403,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {3, 3>ggbtmpvarx}
 	// eg {3>ggbtmpvarx, x^2}
 	// eg {3>ggbtmpvarx}
-	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{])([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^},]+)([,}])(.*)");
+	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{]\\()([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^},]+)([,}\\)])(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7

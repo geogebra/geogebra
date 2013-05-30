@@ -157,23 +157,29 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// force error? TODO: Needs testing
 			return "(";
 		}
+		
+		if (ret.indexOf("integrate(") > -1) {
+			// eg Integral[sqrt(sin(x))]
+			return "?";
+		}
 
 
 		if (ret.indexOf("c_") > -1) {
 			App.debug("replacing arbitrary constants in "+ret);
-			ret = ret.replaceAll("c_([0-9])*", "arbconst($1)");
+			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1)");
 		}
 
 		if (ret.indexOf("n_") > -1) {
 			App.debug("replacing arbitrary integers in "+ret);
-			ret = ret.replaceAll("n_([0-9])*", "arbint($1)");
+			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
 		}
 
 		App.debug("giac output: " + ret);		
 
 		// convert Giac's scientific notation from e.g. 3.24e-4 to
 		// 3.2E-4
-		ret = parserTools.convertScientificFloatNotation(ret);
+		// not needed, Giac now outputs E
+		//ret = parserTools.convertScientificFloatNotation(ret);
 
 		ret = casParser.insertSpecialChars(ret); // undo special character handling
 

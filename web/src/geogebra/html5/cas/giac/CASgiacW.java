@@ -44,6 +44,32 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			// (encoding problem)
 			String processedExp = casParser.replaceIndices(exp, true);
 			String ret = evaluateRaw(processedExp);
+			
+			
+			if (ret.trim().startsWith("\"")) {
+				// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
+				// assume error
+				App.debug("message from giac (assuming error) "+ret);
+				// force error? TODO: Needs testing
+				return "(";
+			}
+
+			if (ret.indexOf("integrate(") > -1) {
+				// eg Integral[sqrt(sin(x))]
+				return "?";
+			}
+
+
+			if (ret.indexOf("c_") > -1) {
+				App.debug("replacing arbitrary constants in "+ret);
+				ret = ret.replaceAll("c_([0-9]*)", "arbconst($1)");
+			}
+
+			if (ret.indexOf("n_") > -1) {
+				App.debug("replacing arbitrary integers in "+ret);
+				ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
+			}
+
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
 

@@ -121,14 +121,31 @@ window.onload = function()
 				var afterTime = +new Date();
 				var totalTime = afterTime - beforeTime;
 				
+				
+				
 				// replace c_23 with c_0
-				if (resultO.indexOf("c_") > -1 && resultO.indexOf("c_") == resultO.lastIndexOf("c_")) {
-					resultO = resultO.replace(/c_[0-9]*/g, "c_0");
-				}
+				//if (resultO.indexOf("c_") > -1 && resultO.indexOf("c_") == resultO.lastIndexOf("c_")) {
+				//	resultO = resultO.replace(/c_[0-9]*/g, "c_0");
+				//}
 				
 				// replace n_23 with n_0
-				if (resultO.indexOf("n_") > -1 && resultO.indexOf("n_") == resultO.lastIndexOf("n_")) {
-					resultO = resultO.replace(/n_[0-9]*/g, "n_0");
+				//if (resultO.indexOf("n_") > -1 && resultO.indexOf("n_") == resultO.lastIndexOf("n_")) {
+				//	resultO = resultO.replace(/n_[0-9]*/g, "n_0");
+				//}
+				
+				
+				// replace arbint(23) with n_0
+				if (resultO.indexOf("arbint(") > -1 && resultO.indexOf("arbint(") == resultO.lastIndexOf("arbint(")) {
+					resultO = resultO.replace(/arbint\([0-9]+\)/g, "n_0");
+				} else {
+					resultO = resultO.replace(/arbint\(([0-9]+)\)/g, "n_$1");				
+				}
+				
+				// replace arbconst(23) with c_0
+				if (resultO.indexOf("arbconst(") > -1 && resultO.indexOf("arbconst(") == resultO.lastIndexOf("arbconst(")) {
+					resultO = resultO.replace(/arbconst\([0-9]+\)/g, "c_0");
+				} else {
+					resultO = resultO.replace(/arbconst\(([0-9]+)\)/g, "c_$1");								
 				}
 				
 				if (resultO === "") {
