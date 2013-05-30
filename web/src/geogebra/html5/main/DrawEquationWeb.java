@@ -131,8 +131,13 @@ public class DrawEquationWeb extends DrawEquation {
 		ArrayList<String> dead = new ArrayList<String>();
 		while (eei.hasNext()) {
 			String eqID = eei.next();
-			if (!eqID.substring(0, 1).equals(""+ev.getEuclidianViewNo()))
+
+			if (eqID.length() < 1)
 				continue;
+			else if (!eqID.substring(0, 1).equals("0") &&
+					 !eqID.substring(0, 1).equals(""+ev.getEuclidianViewNo()))
+				continue;
+
 			Integer age = equationAges.get(eqID);
 			if (age == null)
 				age = 0;
