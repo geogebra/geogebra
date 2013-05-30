@@ -28,6 +28,7 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
+import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
 import java.util.ArrayList;
@@ -93,6 +94,11 @@ public class TouchApp extends AppWeb
 		if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
 		{
 			logger = new GeoGebraLogger();
+			logger.setLogDestination(LogDestination.CONSOLES);
+			logger.setLogLevel("DEBUG");
+		}else if ("onscreen".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
+		{
+			logger = new GeoGebraLoggerM(touchGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
