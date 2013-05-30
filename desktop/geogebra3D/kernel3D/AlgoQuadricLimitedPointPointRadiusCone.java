@@ -2,9 +2,11 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
@@ -57,6 +59,15 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPo
         return Commands.Cone;
     }
 
-	// TODO Consider locusequability
+
+	////////////////////////
+	// ALGOTRANSFORMABLE
+	////////////////////////
+	
+	@Override
+	protected AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumeric r){
+		return new AlgoQuadricLimitedPointPointRadiusCone(this.cons, labels, p1, p2, r);
+	}
+
 	
 }

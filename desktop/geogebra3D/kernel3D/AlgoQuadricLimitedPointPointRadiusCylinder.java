@@ -2,9 +2,11 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
@@ -56,7 +58,17 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends AlgoQuadricLimit
 	public Commands getClassName() {
         return Commands.Cylinder;
     }
+	
+	////////////////////////
+	// ALGOTRANSFORMABLE
+	////////////////////////
+	
+	@Override
+	protected AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumeric r){
+		return new AlgoQuadricLimitedPointPointRadiusCylinder(this.cons, labels, p1, p2, r);
+	}
 
-	// TODO Consider locusequability
+
+
 	
 }

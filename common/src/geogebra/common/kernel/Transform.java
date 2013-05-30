@@ -1,11 +1,13 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LimitedPath;
+import geogebra.common.kernel.kernelND.AlgoTransformable;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -72,6 +74,13 @@ public abstract class Transform {
 	
 	public GeoElement[] transform(GeoElement geo, String transformedLabel) {
 		String label = transformedLabel;
+		
+		// for geo with parent algorithm that handles the transformation
+		AlgoElement algo = geo.getParentAlgorithm();
+		if ((algo != null) && (algo instanceof AlgoTransformable)){
+			return ((AlgoTransformable) algo).getTransformedOutput(this);
+		}
+		
 		// for polygons we transform
 		if (geo instanceof GeoPoly && this.isAffine()) {
 			GeoPoly poly = (GeoPoly) geo;
@@ -132,11 +141,9 @@ public abstract class Transform {
 		// use visibility of points for transformed points
 		GeoPointND[] oldPoints = oldPoly.getPoints();
 		for (int i = 0; i < oldPoints.length; i++) {
-			((GeoElement) transformedPoints[i])
-					.setEuclidianVisible(((GeoElement) oldPoints[i])
-							.isSetEuclidianVisible());
-			((GeoElement) transformedPoints[i])
-					.setVisualStyleForTransformations((GeoElement) oldPoints[i]);
+			setVisualStyleForTransformations(
+					(GeoElement) oldPoints[i], 
+					(GeoElement) transformedPoints[i]);
 			cons.getKernel().notifyUpdate((GeoElement) transformedPoints[i]);
 		}
 
@@ -149,9 +156,9 @@ public abstract class Transform {
 			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
 
 		for (int i = 0; i < ret.length; i++) {
-			ret[i].setEuclidianVisible(((GeoElement) oldPoly)
-					.isSetEuclidianVisible());
-			ret[i].setVisualStyleForTransformations(((GeoElement) oldPoly));
+			setVisualStyleForTransformations(
+					(GeoElement) oldPoly, 
+					ret[i]);
 		}
 
 		return ret;
@@ -231,5 +238,16 @@ public abstract class Transform {
 	
 	public boolean changesOrientation() {
 		return false;
+	}
+	
+
+	/**
+	 * set the visual style of transformed geo regarding input
+	 * @param input input geo
+	 * @param transformed transformed geo
+	 */
+	static final public void setVisualStyleForTransformations(GeoElement input, GeoElement transformed){
+		transformed.setEuclidianVisible(input.isSetEuclidianVisible());
+		transformed.setVisualStyleForTransformations(input);
 	}
 }

@@ -2,9 +2,14 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.AlgoTransformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -12,7 +17,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
+public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D implements AlgoTransformable {
 
 	//input
 	private GeoPointND origin, secondPoint;
@@ -113,5 +118,50 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
         compute();
         quadric.update();
     }
+	
+
+	////////////////////////
+	// ALGOTRANSFORMABLE
+	////////////////////////
+	
+	/**
+	 * 
+	 * @param labels transformed labels
+	 * @param p1 transformed first point
+	 * @param p2 transformed second point
+	 * @param r transformed radius
+	 * @return new algo for transformed inputs
+	 */
+	protected abstract AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumeric r);
+
+	
+	public GeoElement[] getTransformedOutput(Transform t){
+		
+		GeoPointND p1 = (GeoPointND) t.transform((GeoElement) origin, Transform.transformedGeoLabel((GeoElement) origin))[0];
+		GeoPointND p2 = (GeoPointND) t.transform((GeoElement) secondPoint, Transform.transformedGeoLabel((GeoElement) secondPoint))[0];
+		Transform.setVisualStyleForTransformations((GeoElement) origin, (GeoElement) p1);
+		Transform.setVisualStyleForTransformations((GeoElement) secondPoint, (GeoElement) p2);
+		
+		GeoNumeric r = (new AlgoRadius(this.cons, null, getQuadric().getBottom())).getRadius();
+		r.setAuxiliaryObject(true);
+		
+		GeoElement[] output = getOutput();
+		String[] labels = new String[output.length];
+		for (int i = 0; i < output.length; i++){
+			labels[i] = Transform.transformedGeoLabel(output[i]);
+		}
+		
+		AlgoElement algo = getTransformedAlgo(labels, p1, p2, r);
+	
+		GeoElement[] ret = algo.getOutput();
+		for (int i = 0; i < ret.length; i++){
+			Transform.setVisualStyleForTransformations(output[i], ret[i]);
+		}
+		
+		algo.update();
+	
+		
+		return ret;
+	}
 
 }

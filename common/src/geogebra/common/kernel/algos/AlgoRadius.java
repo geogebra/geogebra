@@ -21,9 +21,9 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
@@ -35,10 +35,10 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoRadius extends AlgoElement {
     
-    private GeoConic c;  // input
+    private GeoConicND c;  // input
     private GeoNumeric num;     // output                  
     
-    public AlgoRadius(Construction cons, GeoConic c) {        
+    public AlgoRadius(Construction cons, GeoConicND c) {        
         super(cons);
         this.c = c;                                                              
         num = new GeoNumeric(cons);                
@@ -46,7 +46,7 @@ public class AlgoRadius extends AlgoElement {
         compute();                     
     }   
     
-    public AlgoRadius(Construction cons, String label,GeoConic c) {        
+    public AlgoRadius(Construction cons, String label,GeoConicND c) {        
         this(cons,c);    
         num.setLabel(label);            
     }   
@@ -68,7 +68,7 @@ public class AlgoRadius extends AlgoElement {
     }       
     
     public GeoNumeric getRadius() { return num; }    
-    GeoConic getConic() { return c; }        
+    GeoConicND getConic() { return c; }        
     
     // set parameter of parabola
     @Override
