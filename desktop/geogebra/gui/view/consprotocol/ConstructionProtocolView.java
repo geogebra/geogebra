@@ -87,7 +87,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class ConstructionProtocolView extends JPanel implements geogebra.common.gui.view.consprotocol.ConstructionProtocolView, Printable, ActionListener, SettingListener {
+public class ConstructionProtocolView extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView implements Printable, ActionListener, SettingListener {
 
 	/**
 	 * 
@@ -99,8 +99,8 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 
 	JTable table;
 	ConstructionTableData data;
-	AppD app;
 	Kernel kernel;
+	JPanel cpPanel;
 
 	private TableColumn[] tableColumns;
 
@@ -125,7 +125,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 	private AbstractAction exportHtmlAction, printPreviewAction;
 	
 	public ConstructionProtocolView(final AppD app) {
-		super(new BorderLayout());
+		cpPanel = new JPanel(new BorderLayout());
 		
 		this.app = app;
 		kernel = app.getKernel();
@@ -173,7 +173,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 
 		scrollPane = new JScrollPane(table);
 		scrollPane.getViewport().setBackground(Color.white);
-		add(scrollPane, BorderLayout.CENTER);
+		cpPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		// clicking
 		ConstructionMouseListener ml = new ConstructionMouseListener();
@@ -203,13 +203,21 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		cps.addListener(this);
 		
 	}
+	
+	public App getApp(){
+		return app;
+	}
+	
+	public JPanel getCpPanel(){
+		return cpPanel;
+	}
 
 	public int getConstructionIndex(int row){
 		return data.getConstructionIndex(row);
 	}
 	
 	public AppD getApplication() {
-		return app;
+		return (AppD)app;
 	}
 
 	public void registerNavigationBar(ConstructionProtocolNavigation nb) {
@@ -301,13 +309,17 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			kernel.attach(data);
 		updateNavigationBars();
 	}
+	
+	private void repaint(){
+		cpPanel.repaint();
+	}
 
 	/**
 	 * inits GUI with labels of current language
 	 */
 	public void initGUI() {
 		//setTitle(app.getPlain("ConstructionProtocol"));
-		setFont(app.getPlainFont());
+		cpPanel.setFont(((AppD)app).getPlainFont());
 		//setMenuBar();
 		getStyleBar().setLabels();
 		// set header values (language may have changed)
@@ -315,7 +327,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			tableColumns[k].setHeaderValue(data.columns[k].getTranslatedTitle());
 		}
 		table.updateUI();
-		table.setFont(app.getPlainFont());
+		table.setFont(((AppD)app).getPlainFont());
 		data.updateAll();
 	}
 
@@ -364,14 +376,13 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 	/**
 	 * shows this dialog centered on screen
 	 */
-	@Override
 	public void setVisible(boolean flag) {
 		if (flag) {
 			data.attachView();
 		} else {
 			data.detachView();
 		}
-		super.setVisible(flag);
+		cpPanel.setVisible(flag);
 	}
 
 	public void scrollToConstructionStep() {
@@ -424,7 +435,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 	 * @return new Construction Protocol style bar
 	 */
 	protected ConstructionProtocolStyleBar newConstructionProtocolHelperBar(){
-		return new ConstructionProtocolStyleBar(this, app);
+		return new ConstructionProtocolStyleBar(this, (AppD)app);
 	}
 	
 	private void initActions() {
@@ -451,7 +462,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		
 		
 		printPreviewAction = new AbstractAction(app.getMenu("Print")
-				+ "...", app.getImageIcon("document-print-preview.png")) {
+				+ "...", ((AppD)app).getImageIcon("document-print-preview.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -484,7 +495,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 					// This may be too long. FIXME
 					private String tableHeader(Construction cons) {
 					
-						TitlePanel tp = new TitlePanel(app);
+						TitlePanel tp = new TitlePanel((AppD)app);
 						String author = tp.loadAuthor();
 						String title = cons.getTitle();
 						String date = tp.configureDate(cons.getDate());
@@ -616,8 +627,8 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 				setConstructionStep(-1);
 				table.repaint();
 			} else if ((e.getClickCount() == 1)&&(AppD.isRightClick(e))&&((ob == table.getTableHeader())||(ob == scrollPane))){
-				ConstructionProtocolContextMenu contextMenu = new ConstructionProtocolContextMenu(app);
-				contextMenu.show(view, e.getPoint().x, e.getPoint().y);
+				ConstructionProtocolContextMenu contextMenu = new ConstructionProtocolContextMenu((AppD)app);
+				contextMenu.show(view.cpPanel, e.getPoint().x, e.getPoint().y);
 				
 			}
 		}
@@ -703,15 +714,15 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			this.column = column;
 			this.colData = colData;
 
-			isBreakPointColumn = colData.title.equals("Breakpoint");
+			isBreakPointColumn = colData.getTitle().equals("Breakpoint");
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			//JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
 			TableColumnModel model = table.getColumnModel();
 			
-			if (colData.isVisible == false){
-				colData.isVisible = true;
+			if (colData.isVisible() == false){
+				colData.setVisible(true);
 				model.addColumn(column);
 				// column is added at right end of model
 				// move column to its default place
@@ -719,7 +730,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 				int pos = data.getColumnNumber(colData);
 				if (pos >= 0 && pos < lastPos)
 					model.moveColumn(lastPos, pos);
-				setSize(getWidth() + column.getPreferredWidth(), getHeight());
+				cpPanel.setSize(cpPanel.getWidth() + column.getPreferredWidth(), cpPanel.getHeight());
 
 				// show breakPointColumn => show all lines
 				if (isBreakPointColumn) {
@@ -727,7 +738,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 					//cbShowOnlyBreakpoints.setSelected(false);
 				}
 			} else {
-				colData.isVisible = false;
+				colData.setVisible(false);
 				model.removeColumn(column);
 				//setSize(getWidth() - column.getWidth(), getHeight());
 				//setSize(view.getWidth(), getHeight());
@@ -736,7 +747,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 
 			// reinit view to update possible breakpoint changes
 			data.initView();
-			SwingUtilities.updateComponentTreeUI(view);
+			SwingUtilities.updateComponentTreeUI(view.cpPanel);
 		}
 	}
 
@@ -763,7 +774,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			
 			geo = data.getGeoElement(rowIndex);
 			String val = geo.getCaptionDescription(StringTemplate.defaultTemplate);		
-			inputPanel = new InputPanelD("", app, 20,false);				
+			inputPanel = new InputPanelD("", (AppD)app, 20,false);				
 			inputPanel.setText(val);
 			inputPanel.setEnabled(true);
 			inputPanel.setVisible(true);
@@ -920,69 +931,14 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		}
 		@Override
 		protected GImageIcon getModeIcon(int mode){
-			return app.wrapGetModeIcon(mode);
+			return ((AppD)app).wrapGetModeIcon(mode);
 		}
 		
-	}
-
-	class ColumnData {
-		String title;
-		boolean isVisible; // column is shown in table
-		private int prefWidth, minWidth;
-		private int alignment;
-		private boolean initShow; // should be shown from the beginning
-
-		public ColumnData(String title, int prefWidth, int minWidth,
-				int alignment, boolean initShow) {
-			this.title = title;
-			this.prefWidth = prefWidth;
-			this.minWidth = minWidth;
-			this.alignment = alignment;
-			this.initShow = initShow;
-
-			isVisible = initShow;
-		}
-
-		public String getTitle() {
-			return title;
-		}
-
-		public String getTranslatedTitle() {
-			return app.getPlain(title);
-		}
-
-		public int getPreferredWidth() {
-			return prefWidth;
-		}
-
-		public int getMinWidth() {
-			return minWidth;
-		}
-
-		public int getAlignment() {
-			return alignment;
-		}
-
-		public boolean getInitShow() {
-			// algebra column should only be shown at startup if algebraview is
-			// shown
-			// in app
-			if (title.equals("Value")
-					&& !((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA))
-				return false;
-
-			return initShow;
-		}
-		
-		public void setVisible(boolean isVisible){
-			this.isVisible = isVisible;
-		}
 	}
 
 	public class ConstructionTableData extends AbstractTableModel
 			implements
-			View,
-			geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData {
+			View{
 
 		/**
 		 * 
@@ -1010,6 +966,10 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		public ConstructionTableData() {
 			rowList = new ArrayList<RowData>();
 			geoMap = new HashMap<GeoElement, RowData>();
+		}
+		
+		public ColumnData[] getColumns(){
+			return columns;
 		}
 
 		/**
@@ -1282,7 +1242,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 				
 				if(thisPath != null){  //thisPath==null if we want to copy to the clipboard
 					
-					ImageIcon icon = app.getModeIcon(m);
+					ImageIcon icon = ((AppD)app).getModeIcon(m);
 					gifFileName = "m" + Integer.toString(m) + ".gif";
 	
 					Image img1 = icon.getImage();
@@ -1587,7 +1547,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			data.notifyAddAll(kernel.getConstruction().getStep());
 			
 			JFrame tempFrame = new JFrame();
-			tempFrame.add(this);
+			tempFrame.add(this.cpPanel);
 			tempFrame.pack();
 		}
 		int r=table.getPrintable(PrintMode.FIT_WIDTH, null, null).print(graphics, pageFormat, pageIndex);
@@ -1745,7 +1705,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		sb.append("<meta keywords = \"");
 		sb.append(StringUtil.toHTMLString(app.getPlain("ApplicationName")));
 		sb.append(" export\">");
-		String css = app.getSetting("cssConstructionProtocol");
+		String css = ((AppD)app).getSetting("cssConstructionProtocol");
 		if (css != null) {
 			sb.append(css);
 			sb.append("\n");
@@ -1861,7 +1821,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 		sb.append("\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
 		sb.append("\n<applet style=\"display:none\">");
 		sb.append("\n<param name=\"ggbBase64\" value=\"");
-		WorksheetExportDialog.appendBase64(app,sb);
+		WorksheetExportDialog.appendBase64((AppD)app,sb);
 		sb.append("\">\n<applet>");
 
 
@@ -1885,7 +1845,7 @@ public class ConstructionProtocolView extends JPanel implements geogebra.common.
 			sb.append(" col");
 			sb.append(i);
 			sb.append("=\"");
-			sb.append(data.columns[i].isVisible);
+			sb.append(data.columns[i].isVisible());
 			sb.append("\"");
 		}
 		sb.append("/>\n");

@@ -4,14 +4,13 @@ import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 
-public interface ConstructionProtocolView {
+public class ConstructionProtocolView {
 	
-	public interface ConstructionTableData{
-		
-	}
+	protected App app;
 	
-	class RowData {
+	protected class RowData {
 		int rowNumber = -1;
 		int index; // construction index of line: may be different
 					// to geo.getConstructionIndex() as not every
@@ -168,6 +167,67 @@ public interface ConstructionProtocolView {
 
 	}
 
-	void setConstructionStep(int consStep);
+	public class ColumnData {
+		String title;
+		boolean isVisible; // column is shown in table
+		private int prefWidth, minWidth;
+		private int alignment;
+		private boolean initShow; // should be shown from the beginning
+	
+		public ColumnData(String title, int prefWidth, int minWidth,
+				int alignment, boolean initShow) {
+			this.title = title;
+			this.prefWidth = prefWidth;
+			this.minWidth = minWidth;
+			this.alignment = alignment;
+			this.initShow = initShow;
+	
+			isVisible = initShow;
+		}
+	
+		public String getTitle() {
+			return title;
+		}
+	
+		public String getTranslatedTitle() {
+			return app.getPlain(title);
+		}
+	
+		public int getPreferredWidth() {
+			return prefWidth;
+		}
+	
+		public int getMinWidth() {
+			return minWidth;
+		}
+	
+		public int getAlignment() {
+			return alignment;
+		}
+	
+		public boolean getInitShow() {
+			// algebra column should only be shown at startup if algebraview is
+			// shown
+			// in app
+			if (title.equals("Value")
+					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA))
+				return false;
+	
+			return initShow;
+		}
+		
+		public void setVisible(boolean isVisible){
+			this.isVisible = isVisible;
+		}
+		
+		public boolean isVisible(){
+			return isVisible;
+		}
+		
+	}
+
+	public void setConstructionStep(int consStep){
+		App.debug("common/ConstructionProtocolView.setConstructionStep - implementation needed.");
+	}
 
 }

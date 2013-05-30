@@ -83,7 +83,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 				removeAllMenuItems();
 				for (int k = 1; k < cpView.getTableColumns().length; k++) {
 					item = new JCheckBoxMenuItem(
-							cpView.getData().columns[k].getTranslatedTitle());
+							cpView.getData().getColumns()[k].getTranslatedTitle());
 					TableColumn column = cpView.getTableColumns()[k];
 					item.setSelected(cpView.isColumnInModel(column));
 					ColumnKeeper colKeeper = cpView.new ColumnKeeper(column, cpView.getData().columns[k]);
@@ -128,7 +128,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 			public void actionPerformed(ActionEvent e) {
 				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
 				cpView.getData().initView();
-				cpView.repaint();
+				cpView.getCpPanel().repaint();
 			}
 		});
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);
@@ -213,7 +213,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 			if(btnOptions.getSelectedIndex()==0){
 				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
 				cpView.getData().initView();
-				cpView.repaint();
+				cpView.getCpPanel().repaint();
 			}
 			else if(btnOptions.getSelectedIndex()==1)
 				cpView.setUseColors(!cpView.getUseColors());

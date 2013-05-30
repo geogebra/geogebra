@@ -279,7 +279,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 			}									
 		}	
 			
-		if (prot.isVisible()) 
+		if (prot.getCpPanel().isVisible()) 
 			prot.scrollToConstructionStep();
 				
 		implPanel.setCursor(Cursor.getDefaultCursor());		

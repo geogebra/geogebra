@@ -4,11 +4,11 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
-public class ConstructionProtocolViewW implements ConstructionProtocolView{
+public class ConstructionProtocolViewW extends ConstructionProtocolView{
 
 	private ConstructionProtocolNavigationW protNavBar;
 	private AppW app;
-	ConstructionTableData data;
+	ConstructionTableDataW data;
 
 	public ConstructionProtocolViewW(final AppW app) {
 		this.app = app;
@@ -30,6 +30,10 @@ public class ConstructionProtocolViewW implements ConstructionProtocolView{
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	public class ConstructionTableDataW{
+
+	}
 	
 	
 }
