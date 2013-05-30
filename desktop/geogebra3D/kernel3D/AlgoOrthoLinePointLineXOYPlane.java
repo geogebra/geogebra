@@ -40,4 +40,18 @@ public class AlgoOrthoLinePointLineXOYPlane extends AlgoOrthoLinePointLine {
         return loc.getPlain("LineThroughAPerpendicularToBInXOYPlane",P.getLabel(tpl),l.getLabel(tpl));
 
     }
+    
+
+	
+    
+    @Override
+    protected int getInputLengthForXML(){
+    	
+    	if(kernel.isSaving()){
+    		return 2; // if saving mode, ignore "xOyPlane" input to ensure ggb2D compatibility
+    	}
+		
+		return super.getInputLengthForXML();
+	}
+
 }

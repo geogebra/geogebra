@@ -1346,7 +1346,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// add input information
 		if (input != null) {
 			sb.append("\t<input");
-			for (int i = 0; i < input.length; i++) {
+			for (int i = 0; i < getInputLengthForXML(); i++) {
 				sb.append(" a");
 				sb.append(i);
 				// attribute name is input No.
@@ -1382,6 +1382,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		sb.append("</command>\n");
 		return sb.toString();
+	}
+	
+	/**
+	 * 
+	 * @return input length for XML
+	 */
+	protected int getInputLengthForXML(){
+		return input.length;
 	}
 	
 	/**
