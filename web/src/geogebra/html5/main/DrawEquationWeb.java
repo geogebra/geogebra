@@ -6,6 +6,7 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
@@ -130,6 +131,8 @@ public class DrawEquationWeb extends DrawEquation {
 		ArrayList<String> dead = new ArrayList<String>();
 		while (eei.hasNext()) {
 			String eqID = eei.next();
+			if (!eqID.substring(0, 1).equals(""+ev.getEuclidianViewNo()))
+				continue;
 			Integer age = equationAges.get(eqID);
 			if (age == null)
 				age = 0;
@@ -182,7 +185,6 @@ public class DrawEquationWeb extends DrawEquation {
 	public static void drawEquationAlgebraView(Element parentElement,
 	        String latexString, GColor fgColor, GColor bgColor) {
 		// no scriptloaded check yet (is it necessary?)
-		// no EuclidianView 1,2 yet
 
 		// logging takes too much time
 		// App.debug("Algebra View: "+eqstring);
@@ -236,10 +238,9 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// the new way to draw an Equation (latex)
 		// no scriptloaded check yet (is it necessary?)
-		// no EuclidianView 1,2 yet
 
 		String eqstring = inputLatexCosmetics(latexString);
-		
+
 		if (geo instanceof TextProperties) {
 			if ((((TextProperties)geo).getFontStyle() & GFont.ITALIC) == 0) {
 				// set to be not italic
@@ -247,10 +248,38 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 		}
 
-		String eqstringid = eqstring + "@" + geo.getID();
-
-		boolean visible =
+		// whether we are painting on EV1 now
+		boolean visible1 =
 				(((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
+
+		// whether we are painting on EV2 now
+		boolean visible2 = false;
+		if (((AppWeb)app1).hasEuclidianView2()) {
+			if (((GGraphics2DW)g2).getCanvas() == ((GGraphics2DW)app1.getEuclidianView2().getGraphicsForPen()).getCanvas()) {
+				visible2 = true;
+			}
+		}
+
+		GGraphics2DW g2visible = (GGraphics2DW)g2;
+		if (!visible1 && !visible2) {
+			if (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) {
+				if (app1.getEuclidianView2().getTempGraphics2D(font) == g2) {
+					g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView2()).getGraphicsForPen();
+				} else if (app1.getEuclidianView1().getTempGraphics2D(font) == g2) {
+					g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
+				}
+			} else {
+				g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
+			}
+		}
+
+		String prestring = "0";
+		if (visible1)
+			prestring = "1";
+		else if (visible2)
+			prestring = "2";
+
+		String eqstringid = prestring + "@" + eqstring + "@" + geo.getID();
 
 		SpanElement ih = equations.get(eqstringid);
 		equationAges.put(eqstringid, 0);
@@ -261,8 +290,8 @@ public class DrawEquationWeb extends DrawEquation {
 			eqstring = stripEqnArray(eqstring);
 
 			drawEquationMathQuill(ih, eqstring,
-					((AppWeb)app1).getCanvas().getCanvasElement().getParentElement(),
-					true, el == eqstring.length(), visible);
+					g2visible.getCanvas().getCanvasElement().getParentElement(),
+					true, el == eqstring.length(), visible1 || visible2);
 
 			equations.put(eqstringid, ih);
 
@@ -270,11 +299,11 @@ public class DrawEquationWeb extends DrawEquation {
 			app1.getKernel().setUpdateAgain(true);
 		} else {
 			ih.getStyle().setDisplay(Style.Display.INLINE);
-			if (visible)
+			if (visible1 || visible2)
 				ih.getStyle().setVisibility(Style.Visibility.VISIBLE);
 			// otherwise do not set it invisible, just leave everything as it is
 		}
-		if (visible) {
+		if (visible1 || visible2) {
 			// if it's not visible, leave at its previous place to prevent lag
 			ih.getStyle().setLeft(x, Style.Unit.PX);
 			ih.getStyle().setTop(y, Style.Unit.PX);
