@@ -5,6 +5,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
@@ -13,7 +14,6 @@ import geogebra.web.asyncservices.HandleOAuth2Service;
 import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.Dom;
-import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,8 +95,10 @@ public class Web implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-		//uncomment this if you need to profile
-		GeoGebraProfiler.init(new GeoGebraProfilerW());
+		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
+		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+		GeoGebraProfiler.init(new SilentProfiler());
+		
 		GeoGebraProfiler.getInstance().profile();
 
 		
