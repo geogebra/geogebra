@@ -26,6 +26,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
 
 /**
@@ -660,6 +661,14 @@ public interface Manager3DInterface {
 	 * @return volume of hasVolume
 	 */
 	public GeoNumeric Volume(String label, HasVolume hasVolume);
+	
+	/**
+	 * 
+	 * @param label
+	 * @param hasHeight
+	 * @return oriented height of hasHeight
+	 */
+	public GeoNumeric OrientedHeight(String label, HasHeight hasHeight);
 	
 	
 	/**

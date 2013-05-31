@@ -38,6 +38,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.plugin.GeoClass;
 
@@ -1325,6 +1326,11 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoNumeric Volume(String label, HasVolume hasVolume){
 		AlgoVolume algo = new AlgoVolume(cons, label, hasVolume);
 		return algo.getVolume();
+	}
+	
+	final public GeoNumeric OrientedHeight(String label, HasHeight hasHeight){
+		AlgoOrientedHeight algo = new AlgoOrientedHeight(cons, label, hasHeight);
+		return algo.getOrientedHeight();
 	}
 	
 	

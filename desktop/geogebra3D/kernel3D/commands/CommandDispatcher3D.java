@@ -168,6 +168,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Volume:
 				return new CmdVolume(kernel);
 				
+			case OrientedHeight:
+				return new CmdOrientedHeight(kernel);
+				
 			default:
 				return super.commandTableSwitch(cmdName);
 			}

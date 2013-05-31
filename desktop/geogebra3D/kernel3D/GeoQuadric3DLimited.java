@@ -11,7 +11,9 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -21,7 +23,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume {
+public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume, HasHeight {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -487,13 +489,16 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 			volume = Double.NaN;
 			return;
 		}
+		
+		double radius = getBottom().getHalfAxis(0);
+		App.debug(radius);
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(topParameter - bottomParameter);
+			volume = radius * radius * Math.PI * Math.abs(topParameter - bottomParameter);
 			break;
 		case QUADRIC_CONE:
-			volume = getHalfAxis(0) * getHalfAxis(0) * Math.PI * Math.abs(topParameter - bottomParameter)
+			volume = radius * radius * Math.PI * Math.abs(topParameter - bottomParameter)
 					/ 3;
 			break;
 		// default:
@@ -568,6 +573,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		
 		silentTop = true;
 		
+	}
+	
+
+
+
+	public double getOrientedHeight() {
+		return topParameter - bottomParameter;
 	}
 
 }

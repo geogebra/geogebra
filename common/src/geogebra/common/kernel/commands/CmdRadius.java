@@ -3,8 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.MyError;
 
 /**
@@ -35,7 +35,7 @@ public class CmdRadius extends CommandProcessor {
 			if (arg[0].isGeoConic()) {
 				
 				AlgoRadius algo = new AlgoRadius(cons, c.getLabel(),
-						(GeoConic) arg[0]);
+						(GeoConicND) arg[0]);
 
 				GeoElement[] ret = { algo.getRadius() };
 				return ret;
