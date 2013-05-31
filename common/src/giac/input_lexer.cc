@@ -2781,52 +2781,52 @@ index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
 case 183:
 YY_RULE_SETUP
 #line 516 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=2; return T_SQ;
+index_status(yyextra)=1; (*yylval)=2; return T_SQ;
 	YY_BREAK
 case 184:
 YY_RULE_SETUP
 #line 517 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=3; return T_SQ;
+index_status(yyextra)=1; (*yylval)=3; return T_SQ;
 	YY_BREAK
 case 185:
 YY_RULE_SETUP
 #line 518 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=4; return T_SQ;
+index_status(yyextra)=1; (*yylval)=4; return T_SQ;
 	YY_BREAK
 case 186:
 YY_RULE_SETUP
 #line 519 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=5; return T_SQ;
+index_status(yyextra)=1; (*yylval)=5; return T_SQ;
 	YY_BREAK
 case 187:
 YY_RULE_SETUP
 #line 520 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=6; return T_SQ;
+index_status(yyextra)=1; (*yylval)=6; return T_SQ;
 	YY_BREAK
 case 188:
 YY_RULE_SETUP
 #line 521 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=7; return T_SQ;
+index_status(yyextra)=1; (*yylval)=7; return T_SQ;
 	YY_BREAK
 case 189:
 YY_RULE_SETUP
 #line 522 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=8; return T_SQ;
+index_status(yyextra)=1; (*yylval)=8; return T_SQ;
 	YY_BREAK
 case 190:
 YY_RULE_SETUP
 #line 523 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=9; return T_SQ;
+index_status(yyextra)=1; (*yylval)=9; return T_SQ;
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
 #line 524 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
+index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
 #line 525 "input_lexer.ll"
-index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
+index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
 	YY_BREAK
 /* "','"                   index_status(yyextra)=0; (*yylval)=gen(at_makevector,2); return T_QUOTED_BINARY; commented because of f('a','b') */
 case 193:
@@ -3174,12 +3174,12 @@ if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval) = gen(at_functio
 case 261:
 YY_RULE_SETUP
 #line 598 "input_lexer.ll"
-if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); return T_NUMBER;
+if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 	YY_BREAK
 case 262:
 YY_RULE_SETUP
 #line 599 "input_lexer.ll"
-(*yylval)=symbolic(at_exp,1); return T_NUMBER;
+(*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 	YY_BREAK
 case 263:
 YY_RULE_SETUP
@@ -5363,6 +5363,10 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
     // Set the input string
     // export GIAC_DEBUG=-2 to renew static_lexer.h/static_extern.h
     YY_BUFFER_STATE set_lexer_string(const std::string &s_orig,yyscan_t & scanner,GIAC_CONTEXT){
+#if 0
+      ofstream of("log"); // ends up in fir/windows/log
+      of << s_orig<< endl;
+#endif
       if (abs_calc_mode(contextptr)==38 && s_orig==string(s_orig.size(),' '))
 	giac_yyerror(scanner,"Void string");
 #ifndef RTOS_THREADX
@@ -5516,6 +5520,16 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	if (i && (unsigned char)s[i]==0xc2 && (unsigned char)s[i+1]!=0xb0)
 	  ss += ' ';
 	if ( (unsigned char)s[i]==0xe2 && i<l-3 ){
+          if ((unsigned char)s[i+1]==0x89){ 
+	    ss += ' ';
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ss += ' ';
+	    continue;
+	  } // 0xe2 0x89	  
           if ((unsigned char)s[i+1]==0x88){ 
 	    // mathop, add blank before and after except following an e/E 
 	    if ((unsigned char) s[i+2]==0x91){ // sigma

@@ -1394,7 +1394,7 @@ namespace giac {
   define_unary_function_ptr5( at_maple_if ,alias_at_maple_if,&__maple_if,_QUOTE_ARGUMENTS,0);
 
   static string printaswhen(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    bool b=abs_calc_mode(contextptr)==38;
+    bool b=calc_mode(contextptr)==38;
     if (b || xcas_mode(contextptr)||feuille.type!=_VECT || feuille._VECTptr->size()!=3)
       return (b?"IFTE":sommetstr)+("("+feuille.print(contextptr)+")");
     vecteur & v=*feuille._VECTptr;
@@ -2863,12 +2863,40 @@ namespace giac {
       return rand_integer_interval(zero,args,contextptr);
     if (args.type==_USER)
       return args._USERptr->rand(contextptr);
+    int nd=is_distribution(args);
+    if (nd==1 && args.type==_FUNC)
+      return randNorm(contextptr);
+    if (args.is_symb_of_sommet(at_exp))
+      return _randexp(args._SYMBptr->feuille,contextptr);
+    if (nd && args.type==_SYMB){
+      vecteur v=gen2vecteur(args._SYMBptr->feuille);
+      if (nd==1){
+	if (v.size()!=2)
+	  return gensizeerr(contextptr);
+	return randNorm(contextptr)*v[1]+v[0];
+      }
+      if (nd==2){
+	if (v.size()!=2 || !is_integral(v[0]) || v[0].type!=_INT_ || (v[1]=evalf_double(v[1],1,contextptr)).type!=_DOUBLE_)
+	  return gensizeerr(contextptr);
+	return randbinomial(v[0].val,v[1]._DOUBLE_val,contextptr);
+      }
+      double p=giac_rand(contextptr)/(rand_max2+1.0);
+      v.push_back(p);
+      return icdf(nd)(gen(v,_SEQ__VECT),contextptr);
+    }
     if (args.type==_VECT){ 
       if (args._VECTptr->empty())
 	return giac_rand(contextptr);
       vecteur & v=*args._VECTptr;
       int s=v.size();
+      if ((nd=is_distribution(v[0]))){
+	if (s==1)
+	  return _rand(v[0],contextptr);
+	return _rand(v[0] (gen(vecteur(v.begin()+1,v.end()),_SEQ__VECT),contextptr),contextptr);
+      }
       if (s==2){ 
+	if (v[0]==at_exp)
+	  return _randexp(v[1],contextptr);
 	if (v.front().type==_INT_ && v.back().type==_VECT){ // rand(n,list) choose n in list
 	  return rand_n_in_list(v.front().val,*v.back()._VECTptr,contextptr);
 	}

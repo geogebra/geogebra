@@ -445,6 +445,9 @@ namespace giac {
   
   // modular polynomial arithmetic: gcd, egcd, simplify
   modpoly operator_plus (const modpoly & th,const modpoly & other,environment * env) {
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -460,6 +463,9 @@ namespace giac {
   } 
 
   modpoly operator + (const modpoly & th,const modpoly & other) {
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -591,6 +597,9 @@ namespace giac {
   }
 
   modpoly operator_minus (const modpoly & th,const modpoly & other,environment * env) {  
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -606,6 +615,9 @@ namespace giac {
   }
 
   modpoly operator - (const modpoly & th,const modpoly & other) {  
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -679,6 +691,9 @@ namespace giac {
   } 
 
   modpoly operator * (const modpoly & th, const gen & fact){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -692,6 +707,9 @@ namespace giac {
   }
 
   modpoly operator * (const gen & fact,const modpoly & th){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -712,6 +730,9 @@ namespace giac {
   
 
   modpoly operator_times (const modpoly & th, const gen & fact,environment * env){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -725,6 +746,9 @@ namespace giac {
   }
 
   modpoly operator_times (const gen & fact,const modpoly & th,environment * env){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
@@ -1107,6 +1131,9 @@ namespace giac {
   }
 
   void operator_times (const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord) {
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       new_coord=modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 

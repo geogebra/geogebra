@@ -223,6 +223,37 @@ namespace giac {
     return v;
   }
 
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j){
+    vecteur v(10);
+    v[0]=a;
+    v[1]=b;
+    v[2]=c;
+    v[3]=d;
+    v[4]=e;
+    v[5]=f;
+    v[6]=g;
+    v[7]=h;
+    v[8]=i;
+    v[9]=j;
+    return v;
+  }
+
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k){
+    vecteur v(11);
+    v[0]=a;
+    v[1]=b;
+    v[2]=c;
+    v[3]=d;
+    v[4]=e;
+    v[5]=f;
+    v[6]=g;
+    v[7]=h;
+    v[8]=i;
+    v[9]=j;
+    v[10]=k;
+    return v;
+  }
+
   gen makesequence(const gen & a){
     return gen(vecteur(1,a),_SEQ__VECT);
   }
@@ -2335,6 +2366,10 @@ namespace giac {
   }
 
   void mtran(const matrice & a,matrice & res,int ncolres){
+    if (!ckmatrix(a,true)){
+      res=vecteur(1,vecteur(ncolres,gensizeerr("Unable to tranpose")));
+      return;
+    }
     vecteur::const_iterator it=a.begin(),itend=a.end();
     int n=itend-it; // nrows of a = ncols of res if ncolres was 0
     res.clear();
@@ -7026,7 +7061,7 @@ namespace giac {
 	if (e._VECTptr->size()==4){
 	  gen loi=(*e._VECTptr)[2];
 	  if (loi.type==_FUNC)
-	    loi=symbolic(*loi._FUNCptr,e._VECTptr->back());
+	    loi=loi(e._VECTptr->back(),contextptr);
 	  else
 	    loi=symb_of(loi,e._VECTptr->back());
 	  return mranm(n,m,loi,contextptr);
@@ -7034,7 +7069,7 @@ namespace giac {
 	if (e._VECTptr->size()>4){
 	  gen loi=(*e._VECTptr)[2];
 	  if (loi.type==_FUNC)
-	    loi=symbolic(*loi._FUNCptr,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
+	    loi=loi(gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT),contextptr);
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
 	  return mranm(n,m,loi,contextptr);
@@ -7073,13 +7108,13 @@ namespace giac {
 	gen loi=(*e._VECTptr)[1];
 	if (e._VECTptr->size()==3){
 	  if (loi.type==_FUNC)
-	    loi=symbolic(*loi._FUNCptr,e._VECTptr->back());
+	    loi=loi(e._VECTptr->back(),contextptr);
 	  else
 	    loi=symb_of(loi,e._VECTptr->back());
 	}
 	if (e._VECTptr->size()>3){
 	  if (loi.type==_FUNC)
-	    loi=symbolic(*loi._FUNCptr,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
+	    loi=loi(gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT),contextptr);
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
 	}

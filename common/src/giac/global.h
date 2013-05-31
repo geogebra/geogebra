@@ -190,6 +190,11 @@ namespace giac {
   extern int MAX_RECURSION_LEVEL;
   extern volatile bool ctrl_c,interrupted;
   void ctrl_c_signal_handler(int signum);
+#ifdef TIMEOUT
+  extern time_t caseval_begin,caseval_current;
+  extern double caseval_maxtime;
+  extern int caseval_n,caseval_mod,caseval_unitialized;
+#endif
   extern const double powlog2float;
   extern const int MPZ_MAXLOG2;
 
@@ -200,7 +205,11 @@ namespace giac {
 #elif BESTA_OS
 #define control_c()
 #else
-  #define control_c() if (ctrl_c) { interrupted = true; std::cerr << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
+#ifdef TIMEOUT
+  void control_c();
+#else
+#define control_c() if (ctrl_c) { interrupted = true; std::cerr << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
+#endif
 #endif
   typedef void ( * void_function )();
   // set to non-0 if you want to hook a function call inside control_c()

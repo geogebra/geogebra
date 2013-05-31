@@ -3956,7 +3956,7 @@ namespace giac {
 
   gen iabcuv(const gen & a,const gen & b,const gen & c){
     gen d=gcd(a,b);
-    if (c%d!=0)  return gensizeerr(gettext("iabcuv"));
+    if (c%d!=0)  return gensizeerr(gettext("No solution in ring"));
     gen a1=a/d,b1=b/d,c1=c/d;
     gen u,v,w;
     egcd(a1,b1,u,v,w);

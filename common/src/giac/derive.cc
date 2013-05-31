@@ -232,7 +232,7 @@ namespace giac {
 	gen tmp=pow(v2,v0-1,contextptr)*pow(1-v2,v1-1,contextptr)*derive(v2,i,contextptr);
 	return tmp;
       }
-      if ( (vs==2 || vs==3 && is_zero(v[2])) && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
+      if ( (vs==2 || (vs==3 && is_zero(v[2]))) && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
 	gen v0=v[0],v1=v[1]; 
 	if (!is_zero(derive(v0,i,contextptr)))
 	  return gensizeerr("diff of incomplete gamma with respect to non constant 1st arg not implemented");

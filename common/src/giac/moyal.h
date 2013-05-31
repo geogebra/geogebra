@@ -77,6 +77,7 @@ namespace giac {
   gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT);
   gen _binomial(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_binomial ;
+  extern const unary_function_ptr * const  at_BINOMIAL ;
   gen _negbinomial(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_negbinomial ;
 
@@ -91,6 +92,7 @@ namespace giac {
   gen poisson(const gen & m,const gen & k,GIAC_CONTEXT);
   gen _poisson(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_poisson ;
+  extern const unary_function_ptr * const  at_POISSON ;
 
   double poisson_cdf(double lambda,double x);
   gen poisson_cdf(const gen & n,const gen & x,GIAC_CONTEXT);
@@ -145,6 +147,8 @@ namespace giac {
   gen _snedecor_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_snedecor_icdf ;
 
+  extern const unary_function_ptr * const  at_weibull ;
+
   gen Beta(const gen & a,const gen& b,GIAC_CONTEXT);
   gen _Beta(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Beta ;
@@ -166,6 +170,14 @@ namespace giac {
 
   gen _gammad_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_gammad_icdf ;
+
+  // return 0 if not distrib
+  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
+  // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
+  int is_distribution(const gen & args);
+  int distrib_nargs(int nd); // number of args for the distribution
+  // icdf function corresponding to the codes above
+  gen icdf(int n);
 
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lower_incomplete_gamma ;

@@ -2719,7 +2719,7 @@ namespace giac {
       gguess=v[2];
     if (gguess.is_symb_of_sommet(at_equal))
       return gensizeerr(contextptr);
-    if (gguess.type==_VECT && v[1].type==_IDNT){
+    if (gguess.type==_VECT && gguess._VECTptr->size()!=2 && v[1].type==_IDNT){
       int nvar=gguess._VECTptr->size();
       vecteur tmp(nvar);
       vecteur chk=lop(v[0],at_of);
@@ -3220,6 +3220,9 @@ namespace giac {
 	gen lambda(init_prefactor);
 	int k;
 	for (k=0;k<niter;++k){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c) { 
 	    interrupted = true; ctrl_c=false;
 	    return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -3291,6 +3294,9 @@ namespace giac {
 	}
 	// Second loop to improve precision (prefactor 1)
 	for (k=0;k<niter;++k){
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c) { 
 	    interrupted = true; ctrl_c=false;
 	    return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -4626,6 +4632,7 @@ namespace giac {
   }
 
   void giac_gbasis(vectpoly & res,const gen & order,environment * env){
+    if (res.empty()) return;
     if (order.val==_PLEX_ORDER){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
@@ -5169,6 +5176,8 @@ namespace giac {
       ids.pop_back();
     }
     gen solu=_solve(gen(makevecteur(sol,vecteur(1,idnt)),_SEQ__VECT),contextptr);
+    if (equalposcomp(lidnt(solu),idnt))
+      return gensizeerr(gettext("Error solving equations. Check that your variables are purged"));
     if (solu.type!=_VECT)
       return gensizeerr(contextptr);
     if (solu._VECTptr->empty())

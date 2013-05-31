@@ -239,6 +239,9 @@ namespace giac {
   }
 
   polynome operator + (const polynome & th,const polynome & other) {
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
@@ -316,6 +319,9 @@ namespace giac {
   }
 
   polynome operator - (const polynome & th,const polynome & other) {  
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
@@ -348,6 +354,9 @@ namespace giac {
   }
 
   polynome operator * (const polynome & th, const gen & fact){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
@@ -880,6 +889,9 @@ namespace giac {
   // Fast multiplication using hash maps, might also use an int for reduction
   // but there is no garantee that res is smod-ed modulo reduce
   void mulpoly (const polynome & th, const polynome & other,polynome & res,const gen & reduce){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       res=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim); 
@@ -1377,6 +1389,9 @@ namespace giac {
       res=th*th;
       return true;
     }
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       res.coord.clear();
@@ -2923,6 +2938,9 @@ namespace giac {
       polynome d(p.dim),pcof(p.dim),qcof(p.dim);
       if (modgcd(p,q,modulo,d,pcof,qcof,false))
 	return d;
+#ifdef TIMEOUT
+      control_c();
+#endif
       if (ctrl_c){
 	ctrl_c=false; interrupted=true;
 	d.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),d.dim));
@@ -4042,6 +4060,9 @@ namespace giac {
   }
 
   void gcd(const polynome & p,const polynome & q,polynome & d){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       d=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),p.dim); 

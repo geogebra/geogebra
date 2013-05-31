@@ -92,6 +92,31 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
+#ifdef TIMEOUT
+  time_t caseval_begin,caseval_current;
+  double caseval_maxtime=15; // max 15 seconds
+  int caseval_n=0,caseval_mod=0,caseval_unitialized=-123454321;
+  void control_c(){
+    if (caseval_unitialized!=-123454321){
+      caseval_unitialized=-123454321;
+      caseval_mod=0;
+      caseval_n=0;
+      caseval_maxtime=15;
+    }
+    if (caseval_mod>0){ 
+      ++caseval_n; 
+      if (caseval_n >=caseval_mod){
+	caseval_n=0; 
+	caseval_current=time(0); 
+	if (difftime(caseval_current,caseval_begin)>caseval_maxtime){ 
+	  cerr << "Timeout" << endl; ctrl_c=true; interrupted=true; 
+	} 
+      } 
+    }
+  }
+#endif
+
+
 #if defined VISUALC || defined BESTA_OS
   int R_OK=4;
   int access(const char *path, int mode ){
@@ -1454,7 +1479,6 @@ extern "C" void Sleep(unsigned int miliSecond);
   volatile bool signal_plot_child=false; // true if child can continue
   volatile bool signal_plot_parent=false; 
   volatile bool child_busy=false,data_ready=false;
-
   // child sends a SIGUSR1
   void data_signal_handler(int signum){
           // cerr << "Parent called" << endl;
@@ -4358,6 +4382,11 @@ unsigned int ConvertUTF8toUTF16 (
     all_trig_sol(on,contextptr);
     withsqrt(!on,contextptr);
     calc_mode(on?1:0,contextptr);
+#ifdef TIMEOUT
+    caseval_maxtime=5;
+    caseval_n=0;
+    caseval_mod=1;
+#endif
   }
 
 #ifndef NO_NAMESPACE_GIAC

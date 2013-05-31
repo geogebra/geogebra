@@ -55,6 +55,13 @@ using namespace std;
   u32 AspenGetNow();
 #endif
 
+#ifdef EMCC
+extern "C" double emcctime(); 
+// definition of emcctime should be added in emscripten directory src/library.js
+// search for _time definition, and return only Date.now() for _emcctime
+// otherwise time() will not work
+#endif
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
@@ -311,6 +318,16 @@ namespace giac {
     double delta;
     int ntimes=1,i=0;
     int level=eval_level(contextptr);
+#ifdef EMCC
+    // time_t t1,t2;
+    // time(&t1);
+    // eval(a,level,contextptr);
+    // time(&t2);
+    // return difftime(t2,t1);
+    double t1=emcctime();
+    eval(a,level,contextptr);
+    return (emcctime()-t1)/1000;
+#endif
 #ifdef __APPLE__
     unsigned u1=clock();
     eval(a,level,contextptr);
@@ -830,15 +847,18 @@ namespace giac {
   static define_unary_function_eval (__fprint,&_fprint,_fprint_s);
   define_unary_function_ptr5( at_fprint ,alias_at_fprint,&__fprint,0,true);
 
-  gen _close(const gen & g,GIAC_CONTEXT){
+  gen _close(const gen & g0,GIAC_CONTEXT){
+    gen g=eval(g0,1,contextptr);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
 #if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H)
     if (g.type==_INT_ && g.subtype==_INT_FD){
+      _purge(g0,contextptr);
       close(g.val);
       return plus_one;
     }
 #endif
     if (g.type==_POINTER_){
+      _purge(g0,contextptr);
       fclose((FILE *)g._POINTER_val);
       return plus_one;
     }
@@ -846,11 +866,11 @@ namespace giac {
   }
   static const char _close_s []="close";
   static define_unary_function_eval (__close,&_close,_close_s);
-  define_unary_function_ptr5( at_close ,alias_at_close,&__close,0,true);
+  define_unary_function_ptr5( at_close ,alias_at_close,&__close,_QUOTE_ARGUMENTS,true);
 
   static const char _fclose_s []="fclose";
   static define_unary_function_eval (__fclose,&_close,_fclose_s);
-  define_unary_function_ptr5( at_fclose ,alias_at_fclose,&__fclose,0,true);
+  define_unary_function_ptr5( at_fclose ,alias_at_fclose,&__fclose,_QUOTE_ARGUMENTS,true);
 
   gen _blockmatrix(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

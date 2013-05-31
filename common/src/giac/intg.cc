@@ -2378,7 +2378,7 @@ namespace giac {
       if ( (has_num_coeff(v[0]) ||
 	    v[2].type==_FLOAT_ || v[2].type==_DOUBLE_ || v[2].type==_REAL ||
 	    v[3].type==_FLOAT_ || v[3].type==_DOUBLE_ || v[3].type==_REAL) &&
-	   lidnt(v[0])==vecteur(1,v[1])
+	   lidnt(makevecteur(v[0],evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)))==vecteur(1,v[1])
 	   )
 	return _romberg(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
       borne_inf=v[2];
@@ -2408,6 +2408,9 @@ namespace giac {
 	for (;is_greater(borne_sup,next,contextptr); cur=next,next+=stepx,n1+=stepn){
 	  tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
 	  res += _integrate(makesequence(tmp,x,cur,next),contextptr);
+#ifdef TIMEOUT
+	  control_c();
+#endif
 	  if (ctrl_c) { 
 	    interrupted = true; ctrl_c=false;
 	    gensizeerr(gettext("Stopped by user interruption."),res);
@@ -3634,8 +3637,14 @@ namespace giac {
     if (s==4) {
       if (v[1]==cst_i)
 	return gensizeerr(gettext("i=sqrt(-1), please use a valid identifier name"));
-      is_integral(v[2]);
-      is_integral(v[3]);
+      if (is_integral(v[2])){
+	while (is_zero(subst(v[0],v[1],v[2],false,contextptr)))
+	  v[2]+=1;
+      }
+      if (is_integral(v[3])){
+	while (is_zero(subst(v[0],v[1],v[3],false,contextptr)))
+	  v[3]-=1;
+      }
       if (is_zero(v[2]-v[3]-1))
 	return zero;
       if (is_positive(v[2]-v[3]-1,contextptr))

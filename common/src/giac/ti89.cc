@@ -1366,11 +1366,11 @@ namespace giac {
     if (v.size()!=3 || !is_squarematrix(res=eval(v[0],eval_level(contextptr),contextptr)) || v[1].type!=_IDNT || v[2].type!=_IDNT )
       return gentypeerr(contextptr);
     gen res1=qr(res,contextptr);
-    if (is_undef(res1) || !ckmatrix(res1))
+    if (is_undef(res1) || !ckmatrix(res1[0]) || !ckmatrix(res1[1]))
       return res;
-    gen tmpsto=sto(res*inv(res1,contextptr),v[1],contextptr);
+    gen tmpsto=sto(res1[0],v[1],contextptr);
     if (is_undef(tmpsto)) return tmpsto;
-    return sto(res1,v[2],contextptr);
+    return sto(res1[1],v[2],contextptr);
   }
   static const char _QR_s[]="QR";
   static define_unary_function_eval_quoted (__QR,&_QR,_QR_s);

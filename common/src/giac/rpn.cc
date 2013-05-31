@@ -1393,7 +1393,7 @@ namespace giac {
       return gensizeerr(contextptr);
     gen name=v[0];
     if (name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points))
-      return _ranm(args,contextptr);
+      return _ranm(eval(args,eval_level(contextptr),contextptr),contextptr);
     v=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     v[1]=_floor(v[1],contextptr);
     if (v[1].type!=_INT_)

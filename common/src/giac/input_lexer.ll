@@ -513,16 +513,16 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "&"                     index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 "√"                     index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 "∡"                     index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
-"²"                     index_status(yyextra)=0; (*yylval)=2; return T_SQ;
-"³"                     index_status(yyextra)=0; (*yylval)=3; return T_SQ;
-"⁴"                     index_status(yyextra)=0; (*yylval)=4; return T_SQ;
-"⁵"                     index_status(yyextra)=0; (*yylval)=5; return T_SQ;
-"⁶"                     index_status(yyextra)=0; (*yylval)=6; return T_SQ;
-"⁷"                     index_status(yyextra)=0; (*yylval)=7; return T_SQ;
-"⁸"                     index_status(yyextra)=0; (*yylval)=8; return T_SQ;
-"⁹"                     index_status(yyextra)=0; (*yylval)=9; return T_SQ;
-""                    index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
-\342\201\262            index_status(yyextra)=0; (*yylval)=-1; return T_SQ;
+"²"                     index_status(yyextra)=1; (*yylval)=2; return T_SQ;
+"³"                     index_status(yyextra)=1; (*yylval)=3; return T_SQ;
+"⁴"                     index_status(yyextra)=1; (*yylval)=4; return T_SQ;
+"⁵"                     index_status(yyextra)=1; (*yylval)=5; return T_SQ;
+"⁶"                     index_status(yyextra)=1; (*yylval)=6; return T_SQ;
+"⁷"                     index_status(yyextra)=1; (*yylval)=7; return T_SQ;
+"⁸"                     index_status(yyextra)=1; (*yylval)=8; return T_SQ;
+"⁹"                     index_status(yyextra)=1; (*yylval)=9; return T_SQ;
+""                    index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
+\342\201\262            index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
   /* "','"                   index_status(yyextra)=0; (*yylval)=gen(at_makevector,2); return T_QUOTED_BINARY; commented because of f('a','b') */
 "'+'"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 "_plus"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
@@ -595,8 +595,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "DEBUG"		        (*yylval) = gen(at_debug,1); index_status(yyextra)=0; return T_UNARY_OP;
 "derive"		(*yylval) = gen(at_derive,2); index_status(yyextra)=0; return T_UNARY_OP;
 "D"  		if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval) = gen(at_function_diff,1); index_status(yyextra)=1; return T_UNARY_OP;} else { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); }
-"e"                     if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); return T_NUMBER;
-"ℯ"                     (*yylval)=symbolic(at_exp,1); return T_NUMBER;
+"e"                     if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
+"ℯ"                     (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 "equal"			(*yylval) = gen(at_equal,2); index_status(yyextra)=0; return T_UNARY_OP;
 "error"		        index_status(yyextra)=0; (*yylval)=gen(at_throw,1); return T_RETURN;
 "erase"                 (*yylval) = gen(at_erase,0); index_status(yyextra)=0; return T_UNARY_OP;
@@ -1179,6 +1179,10 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
     // Set the input string
     // export GIAC_DEBUG=-2 to renew static_lexer.h/static_extern.h
     YY_BUFFER_STATE set_lexer_string(const std::string &s_orig,yyscan_t & scanner,GIAC_CONTEXT){
+#if 0
+      ofstream of("log"); // ends up in fir/windows/log
+      of << s_orig<< endl;
+#endif
       if (abs_calc_mode(contextptr)==38 && s_orig==string(s_orig.size(),' '))
 	giac_yyerror(scanner,"Void string");
 #ifndef RTOS_THREADX
@@ -1332,6 +1336,16 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	if (i && (unsigned char)s[i]==0xc2 && (unsigned char)s[i+1]!=0xb0)
 	  ss += ' ';
 	if ( (unsigned char)s[i]==0xe2 && i<l-3 ){
+          if ((unsigned char)s[i+1]==0x89){ 
+	    ss += ' ';
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ++i;
+	    ss += s[i];
+	    ss += ' ';
+	    continue;
+	  } // 0xe2 0x89	  
           if ((unsigned char)s[i+1]==0x88){ 
 	    // mathop, add blank before and after except following an e/E 
 	    if ((unsigned char) s[i+2]==0x91){ // sigma

@@ -2805,7 +2805,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->size()==2 && !args._VECTptr->front().is_symb_of_sommet(at_pnt))
       return args._VECTptr->front();
-    if (args.type==_VECT)
+    if (args.type==_VECT&& args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_abscisse);
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=2){
@@ -2823,7 +2823,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT && args._VECTptr->size()==2 && !args._VECTptr->front().is_symb_of_sommet(at_pnt))
       return args._VECTptr->back();
-    if (args.type==_VECT)
+    if (args.type==_VECT && args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_ordonnee);
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=2){
@@ -2839,7 +2839,7 @@ namespace giac {
 
   gen _cote(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type==_VECT)
+    if (args.type==_VECT && args.subtype!=_POINT__VECT)
       return apply(args,contextptr,_cote);
     gen g=remove_at_pnt(args);
     if (g.type==_VECT && g._VECTptr->size()>=3)

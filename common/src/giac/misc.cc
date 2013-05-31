@@ -534,7 +534,7 @@ namespace giac {
       s=v.size();
       if (!s)
 	return args;
-      if ( (args.subtype==_POLY1__VECT) || (s<2) )
+      if ( (args.subtype!=_SEQ__VECT) || (s<2) )
 	return v.front();
       x=v[1];
       p=v[0];
@@ -581,7 +581,7 @@ namespace giac {
     else {
       vecteur& v=*args._VECTptr;
       int s=v.size();
-      if ( (args.subtype==_POLY1__VECT) || (s!=2) || (v[1].type!=_IDNT) )
+      if ( (args.subtype!=_SEQ__VECT) || (s!=2) || (v[1].type!=_IDNT) )
 	return tcoeff(v);
       x=v[1];
       p=v[0];
@@ -2197,6 +2197,37 @@ namespace giac {
 
   gen _mean(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    int nd;
+    if (g.type==_SYMB && (nd=is_distribution(g))){
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==1)
+	f=f._VECTptr->front();
+      int s=f.type==_VECT?f._VECTptr->size():1;
+      if (s!=distrib_nargs(nd))
+	return gensizeerr(contextptr);
+      if (nd==1)
+	return f[0];
+      if (nd==2)
+	return f[0]*f[1];
+      if (nd==3)
+	return f[0]*f[1]/(1-f[1]);
+      if (nd==4 || nd==11)
+	return f;
+      if (nd==5)
+	return (f.type<_IDNT && is_strictly_greater(1,f,contextptr))?undef:0;
+      if (nd==6)
+	return (f[1].type<_IDNT && is_greater(2,f[1],contextptr))?undef:f[1]/(f[1]-2);
+      if (nd==8)
+	return f[1]*Gamma(1+inv(f[0],contextptr),contextptr);
+      if (nd==9)
+	return f[0]/(f[0]+f[1]);
+      if (nd==10)
+	return f[0]/f[1];
+      return undef;
+    }
+    if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().type==_FUNC && (nd=is_distribution(g._VECTptr->front()))){
+      return _mean(symbolic(*g._VECTptr->front()._FUNCptr,gen(vecteur(g._VECTptr->begin()+1,g._VECTptr->end()),_SEQ__VECT)),contextptr);
+    }
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       return stddevmean(g,0,contextptr);
     vecteur v(gen2vecteur(g));
@@ -2207,11 +2238,11 @@ namespace giac {
     return v;
   }
   static const char _mean_s []="mean";
-static define_unary_function_eval (__mean,&_mean,_mean_s);
+  static define_unary_function_eval (__mean,&_mean,_mean_s);
   define_unary_function_ptr5( at_mean ,alias_at_mean,&__mean,0,true);
 
   static const char _moyenne_s []="moyenne";
-static define_unary_function_eval (__moyenne,&_mean,_moyenne_s);
+  static define_unary_function_eval (__moyenne,&_mean,_moyenne_s);
   define_unary_function_ptr5( at_moyenne ,alias_at_moyenne,&__moyenne,0,true);
 
   gen _stdDev(const gen & g,GIAC_CONTEXT){
@@ -2226,19 +2257,55 @@ static define_unary_function_eval (__moyenne,&_mean,_moyenne_s);
     return v;
   }
   static const char _stdDev_s []="stdDev";
-static define_unary_function_eval (__stdDev,&_stdDev,_stdDev_s);
+  static define_unary_function_eval (__stdDev,&_stdDev,_stdDev_s);
   define_unary_function_ptr5( at_stdDev ,alias_at_stdDev,&__stdDev,0,true);
 
   static const char _stddevp_s []="stddevp";
-static define_unary_function_eval (__stddevp,&_stdDev,_stddevp_s);
+  static define_unary_function_eval (__stddevp,&_stdDev,_stddevp_s);
   define_unary_function_ptr5( at_stddevp ,alias_at_stddevp,&__stddevp,0,true);
 
   static const char _ecart_type_population_s []="ecart_type_population";
-static define_unary_function_eval (__ecart_type_population,&_stdDev,_ecart_type_population_s);
+  static define_unary_function_eval (__ecart_type_population,&_stdDev,_ecart_type_population_s);
   define_unary_function_ptr5( at_ecart_type_population ,alias_at_ecart_type_population,&__ecart_type_population,0,true);
 
   gen _stddev(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    int nd;
+    if (g.type==_SYMB && (nd=is_distribution(g))){
+      gen f=g._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==1)
+	f=f._VECTptr->front();
+      int s=f.type==_VECT?f._VECTptr->size():1;
+      if (s!=distrib_nargs(nd))
+	return gensizeerr(contextptr);
+      if (nd==1)
+	return f[1];
+      if (nd==2)
+	return sqrt(f[0]*f[1]*(1-f[1]),contextptr);
+      if (nd==3)
+	return sqrt(f[0]*f[1],contextptr)/(1-f[1]);
+      if (nd==4)
+	return sqrt(f,contextptr);
+      if (nd==11)
+	return sqrt(2*f,contextptr);
+      if (nd==5){
+	if (f.type<_IDNT && is_greater(1,f,contextptr)) return undef;
+	if (f.type<_IDNT && is_greater(2,f,contextptr)) return plus_inf;
+	return sqrt(f/(f-2),contextptr);
+      }
+      if (nd==6)
+	return (f[1].type<_IDNT && is_greater(4,f[1],contextptr))?undef:f[1]/(f[1]-2)*sqrt(2*(f[0]+f[1]-2)/f[0]/(f[1]-4),contextptr);
+      if (nd==8)
+	return f[1]*sqrt(Gamma(1+gen(2)/f[0],contextptr)-pow(Gamma(1+gen(1)/f[0],contextptr),2,contextptr),contextptr);
+      if (nd==9)
+	return sqrt(f[0]*f[1]/(f[0]+f[1]+1),contextptr)/(f[0]+f[1]);
+      if (nd==10)
+	return sqrt(f[0],contextptr)/f[1];
+      return undef;
+    }
+    if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().type==_FUNC && (nd=is_distribution(g._VECTptr->front()))){
+      return _stddev(symbolic(*g._VECTptr->front()._FUNCptr,gen(vecteur(g._VECTptr->begin()+1,g._VECTptr->end()),_SEQ__VECT)),contextptr);
+    }
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       return stddevmean(g,1,contextptr);
     vecteur v(gen2vecteur(g));
@@ -2249,11 +2316,11 @@ static define_unary_function_eval (__ecart_type_population,&_stdDev,_ecart_type_
     return v;
   }
   static const char _stddev_s []="stddev";
-static define_unary_function_eval (__stddev,&_stddev,_stddev_s);
+  static define_unary_function_eval (__stddev,&_stddev,_stddev_s);
   define_unary_function_ptr5( at_stddev ,alias_at_stddev,&__stddev,0,true);
 
   static const char _ecart_type_s []="ecart_type";
-static define_unary_function_eval (__ecart_type,&_stddev,_ecart_type_s);
+  static define_unary_function_eval (__ecart_type,&_stddev,_ecart_type_s);
   define_unary_function_ptr5( at_ecart_type ,alias_at_ecart_type,&__ecart_type,0,true);
 
   gen _variance(const gen & g,GIAC_CONTEXT){
@@ -4712,6 +4779,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   define_unary_function_ptr5( at_flatten ,alias_at_flatten,&__flatten,0,true);
 
   gen _caseval(const gen & args,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    caseval_begin=time(0);
+#endif
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_STRNG) return gensizeerr(contextptr);
     if (*args._STRNGptr=="init geogebra")

@@ -4085,10 +4085,12 @@ namespace giac {
     */
     if (rcl_38){
       if (qf.type==_IDNT){
+#if 0
 	if (strlen(qf._IDNTptr->id_name)==2 && qf._IDNTptr->id_name[0]=='U' && qf._IDNTptr->id_name[1]>='0' && qf._IDNTptr->id_name[1]<='9'){
 	  gensizeerr(gettext("Not implemented"),value);
 	  return value;
 	}
+#endif
 	if (rcl_38(value,0,qf._IDNTptr->id_name,b,true,contextptr)){
 	  return value;
 	}
@@ -5440,7 +5442,7 @@ namespace giac {
   define_unary_function_ptr5( at_chinrem ,alias_at_chinrem,&__chinrem,0,true);
 
   static string printasfactorial(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (feuille.type!=_SYMB)
+    if (feuille.type==_IDNT || ((feuille.type<=_DOUBLE_ || feuille.type==_FLOAT_ || feuille.type==_REAL) && is_positive(feuille,contextptr)))
       return feuille.print(contextptr)+"!";
     return "("+feuille.print(contextptr)+")!";
   }

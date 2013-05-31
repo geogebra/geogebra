@@ -479,6 +479,8 @@ namespace giac {
       return normald(0,1,g,contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
+    if (s==2)
+      return symbolic(at_normald,g);
     if (s==3)
       return normald(v[0],v[1],v[2],contextptr);
     return gensizeerr(contextptr);
@@ -630,6 +632,10 @@ namespace giac {
   static const char _binomial_s []="binomial";
   static define_unary_function_eval (__binomial,&_binomial,_binomial_s);
   define_unary_function_ptr5( at_binomial ,alias_at_binomial,&__binomial,0,true);
+
+  static const char _BINOMIAL_s []="BINOMIAL";
+  static define_unary_function_eval (__BINOMIAL,&_binomial,_BINOMIAL_s);
+  define_unary_function_ptr5( at_BINOMIAL ,alias_at_BINOMIAL,&__BINOMIAL,0,true);
 
   gen _multinomial(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -883,6 +889,10 @@ namespace giac {
   define_unary_function_ptr5( at_binomial_icdf ,alias_at_binomial_icdf,&__binomial_icdf,0,true);
 
   gen randbinomial(int n,double P,GIAC_CONTEXT){
+    if (P<=0)
+      return 0;
+    if (P>=1)
+      return n;
     if (n>1000)
       return binomial_icdf(n,P,double(giac_rand(contextptr))/rand_max2,contextptr);
     int ok=0;
@@ -946,6 +956,10 @@ namespace giac {
   static const char _poisson_s []="poisson";
   static define_unary_function_eval (__poisson,&_poisson,_poisson_s);
   define_unary_function_ptr5( at_poisson ,alias_at_poisson,&__poisson,0,true);
+
+  static const char _POISSON_s []="POISSON";
+  static define_unary_function_eval (__POISSON,&_poisson,_POISSON_s);
+  define_unary_function_ptr5( at_POISSON ,alias_at_POISSON,&__POISSON,0,true);
 
   double poisson_cdf(double lambda,double x){
     long_double N=lambda;
@@ -1738,6 +1752,8 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
+    if (s==2)
+      return symbolic(at_weibull,g);
     if (s==3)
       return weibull(v[0],v[1],0,v[2],contextptr);
     if (s==4)
@@ -1790,6 +1806,8 @@ namespace giac {
   define_unary_function_ptr5( at_weibull_icdf ,alias_at_weibull_icdf,&__weibull_icdf,0,true);
 
   gen betad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
+    if ( (x==0 && alpha==1) || (x==1 && beta==1))
+      return 1/Beta(alpha,beta,contextptr);
     return pow(x,alpha-1,contextptr)*pow(1-x,beta-1,contextptr)/Beta(alpha,beta,contextptr);
   }
   gen _betad(const gen & g,GIAC_CONTEXT){
@@ -1842,14 +1860,28 @@ namespace giac {
       *logptr(contextptr) << "Overflow to 1" << endl;
       return 1;
     }
+    // Initial guess
     double x0=.5;
     double prefactor=.5;
-    if (alpha._DOUBLE_val>=1){
-      if (alpha._DOUBLE_val+beta._DOUBLE_val>=2)
+    if (alpha._DOUBLE_val>1){
+      if (beta._DOUBLE_val>1){
 	x0=(alpha._DOUBLE_val-1)/(alpha._DOUBLE_val+beta._DOUBLE_val-2);
+	prefactor=1.;
+      }
       else
-	x0=0;
-      prefactor=1.;
+	return 1-betad_icdf(beta,alpha,1-y,contextptr);
+    }
+    else {
+      gen tmp;
+      if (beta._DOUBLE_val<1 && y>.5)
+	return 1-betad_icdf(beta,alpha,1-y,contextptr);
+      double Y=y*Beta(alpha,beta,contextptr)._DOUBLE_val;
+      tmp=exp(ln(alpha*Y,contextptr)/alpha,contextptr);
+      tmp=tmp*(1+tmp*(beta._DOUBLE_val-1)/(alpha._DOUBLE_val+1));
+      if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0)
+	x0=tmp._DOUBLE_val;
+      if (x0<1e-4)
+	return x0;
     }
     identificateur x(" x");
     return newton(symbolic(at_Beta,makesequence(alpha,beta,x,1))-y,x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr);
@@ -1869,6 +1901,10 @@ namespace giac {
   define_unary_function_ptr5( at_betad_icdf ,alias_at_betad_icdf,&__betad_icdf,0,true);
 
   gen gammad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
+    if (is_zero(x) && alpha==1)
+      return beta;
+    if (x==plus_inf)
+      return 0;
     return pow(x,alpha-1,contextptr)*exp(-beta*x,contextptr)*pow(beta,alpha,contextptr)/Gamma(alpha,contextptr);
   }
   gen _gammad(const gen & g,GIAC_CONTEXT){
@@ -1922,11 +1958,19 @@ namespace giac {
       return plus_inf;
     }
     identificateur x(" x");
-    double x0=.5; // FIXME improve for alpha<1!
+    double x0=.5; // FIXME improve for y near boundaries!
     double prefactor=.5;
-    if (alpha._DOUBLE_val>=1){
+    if (alpha._DOUBLE_val>1){
       x0=alpha._DOUBLE_val-1;
       prefactor=1.;
+    }
+    else {
+      gen tmp=exp(ln(alpha*y*Gamma(alpha,contextptr),contextptr)/alpha,contextptr);
+      tmp=tmp*(1-tmp/(alpha._DOUBLE_val+1));
+      if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0)
+	x0=tmp._DOUBLE_val;
+      if (x0<1e-4)
+	return x0;
     }
     return newton(symbolic(at_lower_incomplete_gamma,makesequence(alpha,x))-y*Gamma(alpha,contextptr),x,x0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,true,1,0,1,0,prefactor,contextptr)/beta; 
   }
@@ -1943,6 +1987,89 @@ namespace giac {
   static const char _gammad_icdf_s []="gammad_icdf";
   static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
   define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
+
+
+  // return 0 if not distrib
+  // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
+  // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
+  int is_distribution(const gen & args){
+    if (args.type==_SYMB)
+      return is_distribution(args._SYMBptr->sommet);
+    if (args.type==_FUNC){
+      if (args==at_normald)
+	return 1;
+      if (args==at_binomial || args==at_BINOMIAL)
+	return 2;
+      if (args==at_negbinomial)
+	return 3;
+      if (args==at_poisson || args==at_POISSON)
+	return 4;
+      if (args==at_student)
+	return 5;
+      if (args==at_fisher || args==at_snedecor)
+	return 6;
+      if (args==at_cauchy)
+	return 7;
+      if (args==at_weibull)
+	return 8;
+      if (args==at_betad)
+	return 9;
+      if (args==at_gammad)
+	return 10;
+      if (args==at_chisquare)
+	return 11;
+    }
+    return 0;
+  }
+
+  int distrib_nargs(int nd){
+    switch (nd){
+    case 4: case 5: case 11:
+      return 1;
+    default:
+      return 2;
+    }
+  }
+
+  gen _mgf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_SYMB){
+      vecteur v(gen2vecteur(g._SYMBptr->feuille));
+      v.insert(v.begin(),g._SYMBptr->sommet);
+      return _mgf(v,contextptr);
+    }
+    int nd;
+    if (g.type!=_VECT || g._VECTptr->empty() || !(nd=is_distribution(g._VECTptr->front())) )
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s!=distrib_nargs(nd)+1)
+      return gensizeerr(contextptr);
+    gen t(identificateur("t"));
+    if (nd==1)
+      return exp(v[1]*t+plus_one_half*pow(v[2],2,contextptr)*pow(t,2,contextptr),contextptr);
+    if (nd==2)
+      return pow((1-v[2])+v[2]*exp(t,contextptr),v[1],contextptr);
+    if (nd==3)
+      return pow((1-v[2])/(1-v[2]*exp(t,contextptr)),v[1],contextptr);
+    if (nd==4)
+      return exp(v[1]*(exp(t,contextptr)-1),contextptr);
+    if (nd==10)
+      return pow(1-t/v[2],-v[1],contextptr);
+    if (nd==11)
+      return pow(1-2*t,-v[1]/2,contextptr);
+    return undef;
+  }
+  static const char _mgf_s []="mgf";
+  static define_unary_function_eval (__mgf,&_mgf,_mgf_s);
+  define_unary_function_ptr5( at_mgf ,alias_at_mgf,&__mgf,0,true);
+
+  gen icdf(int n){
+    static vecteur icdf_static(makevecteur(at_normald_icdf,at_binomial_icdf,undef,at_poisson_icdf,at_student_icdf,at_fisher_icdf,at_cauchy_icdf,at_weibull_icdf,at_betad_icdf,at_gammad_icdf,at_chisquare_icdf));
+    if (n==0 || n>icdf_static.size())
+      return undef;
+    return icdf_static[n-1];
+  }
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
   gen Bessel(const gen & g,int kind,GIAC_CONTEXT){

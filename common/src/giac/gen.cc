@@ -1784,6 +1784,9 @@ namespace giac {
   bool gen::in_eval(int level,gen & evaled,const context * contextptr) const{
     if (!level)
       return false;
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       *logptr(contextptr) << "Stopped in in_eval" << endl;
@@ -1956,6 +1959,9 @@ namespace giac {
 
   gen gen::evalf(int level,const context * contextptr) const{
     // cerr << "evalf " << *this << " " << level << endl;
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -3758,6 +3764,9 @@ namespace giac {
       return a=tmp;
     }
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
@@ -3794,6 +3803,9 @@ namespace giac {
 
   gen operator_plus(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -4372,6 +4384,9 @@ namespace giac {
       return a=tmp;
     }
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
@@ -4408,6 +4423,9 @@ namespace giac {
 
   gen operator_minus(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -4934,6 +4952,9 @@ namespace giac {
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // cout << a << "*" << b << endl;
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -5215,6 +5236,9 @@ namespace giac {
 
   gen pow(const gen & base,const gen & exponent,GIAC_CONTEXT){
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -5770,6 +5794,9 @@ namespace giac {
   }
 
   gen inv(const gen & a,GIAC_CONTEXT){
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -5881,6 +5908,9 @@ namespace giac {
 
   gen pow(const gen & base, unsigned long int exponent){
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -6116,6 +6146,9 @@ namespace giac {
 
   gen rdiv(const gen &a,const gen &b,GIAC_CONTEXT){
     // if (!( (++control_c_counter) & control_c_counter_mask))
+#ifdef TIMEOUT
+    control_c();
+#endif
     if (ctrl_c) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
@@ -12600,6 +12633,32 @@ namespace giac {
       init_geogebra(0,&C);
       return "geogebra mode off";
     }
+#ifdef TIMEOUT
+    if (strlen(s)>8){
+      string args(s);
+      if (args.substr(0,8)=="timeout "){
+	string t=args.substr(8,args.size()-8);
+	double f=atof(t.c_str());
+	if (f>=0 && f<24*60){
+	  caseval_maxtime=f;
+	  S="Max eval time set to "+gen(f).print();
+	  return S.c_str();
+	}
+      }
+      if (args.substr(0,8)=="ckevery "){
+	string t=args.substr(8,args.size()-8);
+	int f=atoi(t.c_str());
+	if (f>0 && f<1e6){
+	  caseval_mod=f;
+	  S="Check every "+gen(f).print();
+	  return S.c_str();
+	}
+      }
+    }
+    ctrl_c=false;
+    interrupted=false;
+    caseval_begin=time(0);    
+#endif
     gen g(s,&C);
     g=g.eval(1,&C);
     S=g.print(&C);
