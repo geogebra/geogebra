@@ -1899,3 +1899,7 @@ label {
 	color:black;
 	font-weight:normal;
 }
+
+#View_2 div table {
+	width: 100%;
+}

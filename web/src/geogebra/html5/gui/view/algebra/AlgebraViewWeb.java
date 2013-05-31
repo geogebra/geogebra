@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Tree;
@@ -190,10 +189,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (geo instanceof GeoElement) {
 				((RadioButtonTreeItem) ti.getWidget()).repaint();
 				ti.setSelected(((GeoElement) geo).doHighlighting());
-			} else {
-				//TODO try to find better way to do this and at least avoid if not necessary
-				ti.getElement().getFirstChildElement().getStyle().setWidth(100, Unit.PCT);
-				
+			} else {				
 				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
 				if (ti.getState()) {
 					repaintChildren(ti);

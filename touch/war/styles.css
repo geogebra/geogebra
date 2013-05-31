@@ -303,3 +303,7 @@ div.button.button-up-hovering {
 	padding: 4px;
 	width: 297px;
 }
+
+#View_2 div table {
+	width: 100%;
+}
