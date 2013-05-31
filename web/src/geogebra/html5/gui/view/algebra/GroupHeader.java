@@ -14,7 +14,6 @@ public class GroupHeader extends FlowPanel{
 	
 	private GroupNameLabel il;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
-		this.setWidth("100%");
 		
 		this.setStyleName("elemHeading");
 		
