@@ -37,11 +37,11 @@ public class CmdVolume extends CommandProcessor {
 	    				c.getLabel(),(HasVolume) arg[0])};
 	    	}
 
-	    	throw argErr(app,"Volume",arg[0]);
+	    	throw argErr(app, c.getName(), arg[0]);
 
 	    
 	    default :
-	    	throw argNumErr(app,"Volume",n);
+	    	throw argNumErr(app, c.getName(), n);
 	    }
 	    
 

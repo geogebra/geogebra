@@ -34,9 +34,9 @@ public class CmdConic extends CommandProcessor {
 			if (arg[0].isGeoList())
 				return Conic(c.getLabel(), (GeoList) arg[0]);
 		case 5:
-			for (int i=0;i<5;i++){
-				if (!arg[i].isGeoPoint()){
-					throw argErr(app,"Conic",arg[i]);
+			for (int i = 0 ; i < 5  ; i++) {
+				if (!arg[i].isGeoPoint()) {
+					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
 			GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
