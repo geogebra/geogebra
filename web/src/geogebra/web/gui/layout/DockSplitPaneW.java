@@ -481,9 +481,6 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 			// vertical split not considered yet
 			if (getDividerLocation() >= w) {
 				setDividerLocation(0.5);
-			} else {
-				// note: this is an int!
-				setDividerLocation((getDividerLocation() + w/2)/2);
 			}
 			//saveDividerLocation();
 		}
