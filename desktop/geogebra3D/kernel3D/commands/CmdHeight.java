@@ -12,12 +12,12 @@ import geogebra.common.main.MyError;
  * @author mathieu
  *
  */
-public class CmdOrientedHeight extends CommandProcessor {
+public class CmdHeight extends CommandProcessor {
 	
 	
 	
 	
-	public CmdOrientedHeight(Kernel kernel) {
+	public CmdHeight(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -37,11 +37,11 @@ public class CmdOrientedHeight extends CommandProcessor {
 	    				c.getLabel(),(HasHeight) arg[0])};
 	    	}
 
-	    	throw argErr(app,"OrientedHeight",arg[0]);
+	    	throw argErr(app, c.getName(), arg[0]);
 
 	    
 	    default :
-	    	throw argNumErr(app,"OrientedHeight",n);
+	    	throw argNumErr(app, c.getName(), n);
 	    }
 	    
 

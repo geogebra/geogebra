@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoRadius.java
@@ -30,60 +30,61 @@ import geogebra.common.kernel.kernelND.HasHeight;
 
 /**
  *
- * @author  Markus
- * @version 
- */
+ * @author  Mathieu
+  */
 public class AlgoOrientedHeight extends AlgoElement {
-    
-    private HasHeight c;  // input
-    private GeoNumeric num;     // output                  
-    
-    public AlgoOrientedHeight(Construction cons, HasHeight c) {        
-        super(cons);
-        this.c = c;                                                              
-        num = new GeoNumeric(cons);                
-        setInputOutput(); // for AlgoElement                
-        compute();                     
-    }   
-    
-    public AlgoOrientedHeight(Construction cons, String label,HasHeight c) {        
-        this(cons,c);    
-        num.setLabel(label);            
-    }   
-    
-    @Override
+
+	private HasHeight c;  // input
+	private GeoNumeric num;     // output                  
+
+	public AlgoOrientedHeight(Construction cons, HasHeight c) {        
+		super(cons);
+		this.c = c;                                                              
+		num = new GeoNumeric(cons);                
+		setInputOutput(); // for AlgoElement                
+		compute();                     
+	}   
+
+	public AlgoOrientedHeight(Construction cons, String label,HasHeight c) {        
+		this(cons,c);    
+		num.setLabel(label);            
+	}   
+
+	@Override
 	public Commands getClassName() {
-        return Commands.OrientedHeight;
-    }
-    
-    // for AlgoElement
-    @Override
+		return Commands.Height;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = (GeoElement) c;        
-        
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }       
-    
-    public GeoNumeric getOrientedHeight() { return num; } 
-    
-    // set parameter of parabola
-    @Override
+		input = new GeoElement[1];
+		input[0] = (GeoElement) c;        
+
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}       
+
+	/**
+	 * @return algebraic height (can be negative)
+	 */
+	public GeoNumeric getOrientedHeight() { 
+		return num;
+	} 
+
+	@Override
 	public final void compute() {
-    	if (!((GeoElement) c).isDefined()){
-    		num.setUndefined();
-    	}else{
-            num.setValue(c.getOrientedHeight());
-    	}
-    }
-    
-    @Override
+		if (!((GeoElement) c).isDefined()){
+			num.setUndefined();
+		}else{
+			num.setValue(c.getOrientedHeight());
+		}
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return loc.getPlain("OrientedHeightOfA",((GeoElement) c).getLabel(tpl));
-    }
+		return loc.getPlain("HeightOfA",((GeoElement) c).getLabel(tpl));
+	}
 
 }

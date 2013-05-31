@@ -9,7 +9,7 @@ public interface HasHeight {
 
 	/**
 	 * 
-	 * @return algebraic value for height
+	 * @return algebraic value for height (can be negative)
 	 */
 	public double getOrientedHeight();
 }

@@ -219,7 +219,7 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Bottom(TABLE_3D),Cone(TABLE_3D),Cube(TABLE_3D),Cylinder(TABLE_3D),Dodecahedron(TABLE_3D),Ends(TABLE_3D),Icosahedron(TABLE_3D),InfiniteCone(TABLE_3D),InfiniteCylinder(TABLE_3D),
    	Octahedron(TABLE_3D),Plane(TABLE_3D),QuadricSide(TABLE_3D),Surface(TABLE_3D),SurfaceCartesian(TABLE_3D),Tetrahedron(TABLE_3D),Top(TABLE_3D),CylinderInfinite(TABLE_ENGLISH),Sphere(TABLE_3D),
    	OrthogonalPlane(TABLE_ENGLISH),PerpendicularPlane(TABLE_3D), Prism(TABLE_3D), Pyramid(TABLE_3D), PlaneBisector(TABLE_3D),IntersectionPaths(TABLE_3D),ConeInfinite(TABLE_ENGLISH),
-   	IntersectCircle(TABLE_3D), OrientedHeight(TABLE_3D),
+   	IntersectCircle(TABLE_3D), Height(TABLE_3D),
    	
    	// ================================================================
    	// Turtle
