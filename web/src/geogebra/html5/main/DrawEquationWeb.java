@@ -329,7 +329,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if (Browser.isFirefox()) {
+		if (Browser.isFirefox() && (fontSize != 12)) {
 			return new geogebra.html5.awt.GDimensionW(getScaledWidth(ih),
 			        getScaledHeight(ih));
 		}
@@ -451,15 +451,21 @@ public class DrawEquationWeb extends DrawEquation {
 			//			});
 		}
 
-		if (fontSize != 0) {
+		if ((fontSize != 0) && (fontSize != 12)) {
 			// floating point division in JavaScript!
 			elsecond.style.zoom = fontSize / 12;
+			elsecond.style.MsZoom = fontSize / 12;
 			elsecond.style.MozTransform = "scale(" + (fontSize / 12) + ")";
 			elsecond.style.MozTransformOrigin = "0px 0px";
+			elsecond.style.OTransform = "scale(" + (fontSize / 12) + ")";
+			elsecond.style.OTransformOrigin = "0px 0px";
 			if (addOverlay) {
 				elfirst.style.zoom = fontSize / 12;
+				elfirst.style.MsZoom = fontSize / 12;
 				elfirst.style.MozTransform = "scale(" + (fontSize / 12) + ")";
 				elfirst.style.MozTransformOrigin = "0px 0px";
+				elfirst.style.OTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.OTransformOrigin = "0px 0px";
 			}
 		}
 	}-*/;
