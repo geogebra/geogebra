@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
@@ -199,7 +200,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
-		drawEquationMathQuill(ih, eqstring, parentElement, true,
+		drawEquationMathQuill(ih, eqstring, 0, parentElement, true,
 		        el == eqstring.length(), true);
 
 		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
@@ -211,6 +212,10 @@ public class DrawEquationWeb extends DrawEquation {
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString, GFont font, boolean serif,
 	        GColor fgColor, GColor bgColor, boolean useCache) {
+
+		// which?
+		int fontSize = g2.getFont().getSize();
+		int fontSize2 = font.getSize();
 
 		boolean shouldPaintBackground = true;
 
@@ -294,7 +299,7 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			drawEquationMathQuill(ih, eqstring,
+			drawEquationMathQuill(ih, eqstring, fontSize,
 					g2visible.getCanvas().getCanvasElement().getParentElement(),
 					true, el == eqstring.length(), visible1 || visible2);
 
@@ -324,9 +329,46 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
+		if (Browser.isFirefox()) {
+			return new geogebra.html5.awt.GDimensionW(getScaledWidth(ih),
+			        getScaledHeight(ih));
+		}
+
 		return new geogebra.html5.awt.GDimensionW(ih.getOffsetWidth(),
 		        ih.getOffsetHeight());
 	}
+
+	public static native int getScaledWidth(Element el) /*-{
+		var ell = el;
+		if (el.lastChild) {//elsecond
+			ell = el.lastChild;
+		}
+		if (ell.getBoundingClientRect) {
+			var cr = ell.getBoundingClientRect();
+			if (cr.width) {
+				return cr.width;
+			} else if (cr.right) {
+				return cr.right - cr.left;
+			}
+		}
+		return el.offsetWidth || 0;
+	}-*/;
+
+	public static native int getScaledHeight(Element el) /*-{
+		var ell = el;
+		if (el.lastChild) {//elsecond
+			ell = el.lastChild;
+		}
+		if (ell.getBoundingClientRect) {
+			var cr = ell.getBoundingClientRect();
+			if (cr.height) {
+				return cr.height;
+			} else if (cr.bottom) {
+				return cr.bottom - cr.top;
+			}
+		}
+		return el.offsetHeight || 0;
+	}-*/;
 
 	/**
 	 * The JavaScript/JQuery bit of drawing an equation with MathQuill More
@@ -344,7 +386,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
 	 *            the beginning
 	 */
-	public static native void drawEquationMathQuill(Element el, String htmlt,
+	public static native void drawEquationMathQuill(Element el, String htmlt, int fontSize,
 	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible) /*-{
 
 		el.style.cursor = "default";
@@ -407,6 +449,18 @@ public class DrawEquationWeb extends DrawEquation {
 			//				//$wnd.jQuery(elsecond).mathquill('latex', htmlt);
 			//				$wnd.jQuery(elsecond).mathquill('eqnarray');
 			//			});
+		}
+
+		if (fontSize != 0) {
+			// floating point division in JavaScript!
+			elsecond.style.zoom = fontSize / 12;
+			elsecond.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+			elsecond.style.MozTransformOrigin = "0px 0px";
+			if (addOverlay) {
+				elfirst.style.zoom = fontSize / 12;
+				elfirst.style.MozTransform = "scale(" + (fontSize / 12) + ")";
+				elfirst.style.MozTransformOrigin = "0px 0px";
+			}
 		}
 	}-*/;
 
