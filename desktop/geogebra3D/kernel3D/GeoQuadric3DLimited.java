@@ -13,7 +13,6 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -491,7 +490,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		}
 		
 		double radius = getBottom().getHalfAxis(0);
-		App.debug(radius);
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
