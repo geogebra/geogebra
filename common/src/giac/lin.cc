@@ -767,6 +767,11 @@ namespace giac {
   static gen sin_expand(const gen & e,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return sin(e,contextptr);
+    if (lidnt(e)==vecteur(1,cst_pi)){
+      gen sine=sin(e,contextptr);
+      if (!contains(lidnt(sine),cst_pi))
+	return sine;
+    }
     if (e._SYMBptr->sommet==at_plus){
       vecteur v=*e._SYMBptr->feuille._VECTptr;
       gen last=v.back(),first;
@@ -790,6 +795,11 @@ namespace giac {
   static gen cos_expand(const gen & e,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return cos(e,contextptr);
+    if (lidnt(e)==vecteur(1,cst_pi)){
+      gen cose=cos(e,contextptr);
+      if (!contains(lidnt(cose),cst_pi))
+	return cose;
+    }
     if (e._SYMBptr->sommet==at_plus){
       vecteur v=*e._SYMBptr->feuille._VECTptr;
       gen last=v.back(),first;
@@ -827,6 +837,11 @@ namespace giac {
   static gen tan_expand(const gen & e,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return tan(e,contextptr);
+    if (lidnt(e)==vecteur(1,cst_pi)){
+      gen tane=tan(e,contextptr);
+      if (!contains(lidnt(tane),cst_pi))
+	return tane;
+    }
     if (e._SYMBptr->sommet==at_plus){
       vecteur v=*e._SYMBptr->feuille._VECTptr;
       gen last=v.back(),first;

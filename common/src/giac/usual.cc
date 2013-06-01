@@ -1535,6 +1535,8 @@ namespace giac {
     if (!approx_mode(contextptr)){ 
       if (is_multiple_of_pi_over_12(e,k,angle_radian(contextptr),contextptr)) 
 	return *table_tan[(k%12)];
+      if (is_multiple_of_pi_over_12(2*e,k,angle_radian(contextptr),contextptr)) 
+	return normal(sin(2*e,contextptr)/(1+cos(2*e,contextptr)),contextptr); 
       else {
 	gen kk;
 	if (angle_radian(contextptr)) 
@@ -5450,6 +5452,9 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT)
       return apply(args,_factorial,contextptr);
+    gen tmp=evalf_double(args,1,contextptr);
+    if (tmp.type>=_IDNT)
+      return symbolic(at_factorial,args);
     if (args.type!=_INT_)
       return Gamma(args+1,contextptr);
     if (args.val<0)
@@ -5604,7 +5609,7 @@ namespace giac {
 
   bool need_workaround(const gen & g){
     if (g.type<=_CPLX)
-      return g/g!=1;
+      return g!=0 && g/g!=1;
     if (is_inf(g) || is_undef(g))
       return true;
     if (g.type!=_VECT)
@@ -6165,6 +6170,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
     return gammatofactorial(x,contextptr);
 #else
+    // if (x.is_symb_of_sommet(at_plus) && x._SYMBptr->feuille.type==_VECT && !x._SYMBptr->feuille._VECTptr->empty() && is_one(x._SYMBptr->feuille._VECTptr->back())) return gammatofactorial(x,contextptr);
     return symbolic(at_Gamma,x);
 #endif
   }

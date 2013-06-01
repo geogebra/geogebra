@@ -587,7 +587,12 @@ namespace giac {
     if ( (is_zero(p) && is_zero(k)) || (is_one(p) && n==k))
       return 1;
     if (is_strictly_positive(-n,contextptr))
-      return binomial(k-n-1,k,p,contextptr)*(1-p);
+      return _negbinomial(makesequence(-n,k,p),contextptr);
+    if (is_strictly_positive(k,contextptr) && is_strictly_greater(1,k,contextptr)){
+      if (is_strictly_positive(p,contextptr) && is_strictly_greater(1,p,contextptr))
+	return gensizeerr(contextptr);
+      return binomial(n,p,k,contextptr);	
+    }
     if (k.type==_DOUBLE_ || k.type==_FLOAT_ || k.type==_FRAC){
       if (p.type==_DOUBLE_ || p.type==_FLOAT_ || p.type==_FRAC)
 	return gensizeerr(contextptr);
@@ -620,9 +625,11 @@ namespace giac {
     vecteur & v=*g._VECTptr;
     int s=v.size();
     if (s==2){
-      gen tmp=evalf_double(v[1],1,contextptr);
-      if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0 && tmp._DOUBLE_val<1)
+      if (is_strictly_positive(v[1],contextptr) && is_strictly_greater(1,v[1],contextptr))
 	return symbolic(at_binomial,g); // inert form for binomial pseudo-random generation
+      gen v0=evalf_double(v[0],1,contextptr),v1=evalf_double(v[1],1,contextptr);
+      if (v0.type!=_DOUBLE_ || v1.type!=_DOUBLE_)
+	return _factorial(v[0],contextptr)/(_factorial(v[1],contextptr)*_factorial(v[0]-v[1],contextptr));
       return comb(v[0],v[1],contextptr);
     }
     if (s==3)
@@ -674,7 +681,7 @@ namespace giac {
     int s=v.size();
     if (s==2) return symbolic(at_negbinomial,g); // for random
     if (s==3){
-      gen r=v[0],k=v[1],p=v[2];
+      gen r=v[0],p=v[1],k=v[2];
       gen tmp=evalf_double(k,1,contextptr);
       if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val<1 && tmp._DOUBLE_val>0)
 	swapgen(k,p);
@@ -703,6 +710,44 @@ namespace giac {
   static const char _negbinomial_cdf_s []="negbinomial_cdf";
   static define_unary_function_eval (__negbinomial_cdf,&_negbinomial_cdf,_negbinomial_cdf_s);
   define_unary_function_ptr5( at_negbinomial_cdf ,alias_at_negbinomial_cdf,&__negbinomial_cdf,0,true);
+
+  gen _negbinomial_icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*g._VECTptr;
+    int s=v.size();
+    if (s==3){
+      gen R=v[0],P=evalf_double(v[1],1,contextptr),T=v[2];
+      if (!is_integral(R) || R.val<=0 || P._DOUBLE_val<=0 || P._DOUBLE_val>=1)
+	return gensizeerr(contextptr);
+      int r=R.val;
+      long_double p=P._DOUBLE_val,t=T._DOUBLE_val;
+      if (t<=0)
+	return 0;
+      if (t>=1)
+	return 1;
+      long_double cumul=std::pow(1-p,r),current=cumul;
+      if (cumul==0){
+	*logptr(contextptr) << gettext("Underflow") <<endl;
+	return undef;
+      }
+      // negbinomial(r,p,k+1)/negbinomial(r,p,k)))=p*(k+r)/(k+1)
+      for (int k=0;;){
+	if (cumul>=t)
+	  return k;
+	current=current*(k+r)*p/(k+1);
+	if (cumul==cumul+current)
+	  return k;
+	++k;
+	cumul += current;
+      }
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _negbinomial_icdf_s []="negbinomial_icdf";
+  static define_unary_function_eval (__negbinomial_icdf,&_negbinomial_icdf,_negbinomial_icdf_s);
+  define_unary_function_ptr5( at_negbinomial_icdf ,alias_at_negbinomial_icdf,&__negbinomial_icdf,0,true);
 
   gen binomial_cdf(const gen & n,const gen &p,const gen & x0,const gen & x,GIAC_CONTEXT){
     gen fx=_floor(x,contextptr),fx0=_ceil(x0,contextptr);
@@ -1988,6 +2033,140 @@ namespace giac {
   static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
   define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
 
+  gen _kolmogorovd(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return apply(g,_kolmogorovd,contextptr);
+    gen tmp=evalf_double(g,1,contextptr);
+    if (tmp.type!=_DOUBLE_)
+      return symbolic(at_kolmogorovd,g);
+    if (is_positive(-g,contextptr))
+      return undef;
+    double c2=tmp._DOUBLE_val;
+    c2=c2*c2;
+    // 2*sum((-1)^(r-1)*exp(-2*r^2*c^2),r,1,inf)
+    long_double cumul=0;
+    for (int r=1;;++r){
+      long_double current=std::exp(-2*r*r*c2);
+      if (cumul==cumul+current)
+	return 1-double(2*cumul);
+      if (r%2)
+	cumul += current;
+      else
+	cumul -= current;
+    }
+  }
+  static const char _kolmogorovd_s []="kolmogorovd";
+  static define_unary_function_eval (__kolmogorovd,&_kolmogorovd,_kolmogorovd_s);
+  define_unary_function_ptr5( at_kolmogorovd ,alias_at_kolmogorovd,&__kolmogorovd,0,true);
+
+  /*
+  gen _kolmogorov_cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return apply(g,_kolmogorov_cdf,contextptr);
+    gen tmp=evalf_double(g,1,contextptr);
+    if (tmp.type!=_DOUBLE_)
+      return symbolic(at_kolmogorov_cdf,g);
+    if (is_positive(-g,contextptr))
+      return undef;
+    double c=tmp._DOUBLE_val,sqrt2=std::sqrt(2.0);
+    // 1-1/ln(2)*sum((-1)^(r-1)/r*erfc(sqrt(2)*r*c),r,1,inf)
+    double cumul=0;
+    for (int r=1;;++r){
+      double current=_erfc(sqrt2*r*c,contextptr)._DOUBLE_val/r;
+      if (cumul==cumul+current)
+	return 1-cumul/std::log(2.0);
+      if (r%2)
+	cumul += current;
+      else
+	cumul -= current;
+    }
+  }
+  static const char _kolmogorov_cdf_s []="kolmogorov_cdf";
+  static define_unary_function_eval (__kolmogorov_cdf,&_kolmogorov_cdf,_kolmogorov_cdf_s);
+  define_unary_function_ptr5( at_kolmogorov_cdf ,alias_at_kolmogorov_cdf,&__kolmogorov_cdf,0,true);
+  */
+
+  gen _kolmogorovt(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur & v = *g._VECTptr;
+    gen x=v[0],y=v[1];
+    if (v.size()>=2)
+      return _kolmogorovt(makesequence(x,y(vecteur(v.begin()+2,v.end()),contextptr)),contextptr);
+    if (is_distribution(x)){
+      if (is_distribution(y))
+	return gensizeerr(contextptr);
+      swapgen(x,y);
+    }
+    int nd=is_distribution(y);
+    x=_sort(evalf_double(x,1,contextptr),contextptr);
+    if (x.type!=_VECT || y.type!=_SYMB)
+      return gensizeerr(contextptr);
+    vecteur X = *x._VECTptr;
+    int n=X.size();
+    double cumulx=0,d=0,dcur,invn=1./n;
+    if (nd){
+      gen f=cdf(nd);
+      if (f.type!=_FUNC)
+	return gensizeerr(contextptr);
+      // add parameters from y
+      vecteur yf=gen2vecteur(y._SYMBptr->feuille);
+      if (yf.size()!=distrib_nargs(nd))
+	return gensizeerr(contextptr);
+      yf.push_back(0);
+      f=symbolic(*f._FUNCptr,yf);
+      gen & fback=f._SYMBptr->feuille._VECTptr->back();
+      for (int i=0;i<n;++i){
+	fback=X[i];
+	gen tmp=evalf_double(f,1,contextptr);
+	if (tmp.type!=_DOUBLE_)
+	  return gensizeerr(contextptr);
+	dcur=std::abs(tmp._DOUBLE_val-cumulx);
+	if (dcur>d)
+	  d=dcur;
+	cumulx += invn;
+	dcur=std::abs(tmp._DOUBLE_val-cumulx);
+	if (dcur>d)
+	  d=dcur;
+      }
+      return makevecteur(d,d*std::sqrt(double(n)));
+    }
+    // 2 lists
+    y=_sort(evalf_double(y,1,contextptr),contextptr);
+    if (y.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & Y = *y._VECTptr;
+    int m=Y.size();
+    double cumuly=0,invm=1./m;
+    int i=0,j=0;
+    while (i<n && j<m){
+      if (X[i]==Y[j]){
+	cumulx += invn;
+	cumuly += invm;
+	++i; ++j;
+      }
+      else {
+	if (ck_is_greater(X[i],Y[j],contextptr)){
+	  cumuly += invm;
+	  ++j;
+	}
+	else {
+	  cumulx += invn;
+	  ++i;
+	}
+      }
+      dcur=std::abs(cumulx-cumuly);
+      if (dcur>d)
+	d=dcur;
+    }
+    return makevecteur(d,d*std::sqrt((n*m)/double(n+m)));
+  }
+  static const char _kolmogorovt_s []="kolmogorovt";
+  static define_unary_function_eval (__kolmogorovt,&_kolmogorovt,_kolmogorovt_s);
+  define_unary_function_ptr5( at_kolmogorovt ,alias_at_kolmogorovt,&__kolmogorovt,0,true);
 
   // return 0 if not distrib
   // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
@@ -2069,6 +2248,13 @@ namespace giac {
     if (n==0 || n>icdf_static.size())
       return undef;
     return icdf_static[n-1];
+  }
+
+  gen cdf(int n){
+    static vecteur cdf_static(makevecteur(at_normald_cdf,at_binomial_cdf,undef,at_poisson_cdf,at_student_cdf,at_fisher_cdf,at_cauchy_cdf,at_weibull_cdf,at_betad_cdf,at_gammad_cdf,at_chisquare_cdf));
+    if (n==0 || n>cdf_static.size())
+      return undef;
+    return cdf_static[n-1];
   }
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY

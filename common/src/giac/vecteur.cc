@@ -6947,11 +6947,15 @@ namespace giac {
 	res.push_back(std::tan(M_PI*giac_rand(contextptr)/(rand_max2+1.0)-.5)*g2+g1);
       return;
     }
-    if ( (f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent)) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
-      int k=f._SYMBptr->feuille.val;
-      for (int i=0;i<n;++i)
-	res.push_back(randstudent(k,contextptr));
-      return;     
+    if ( f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent)){
+      if (f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
+	int k=f._SYMBptr->feuille.val;
+	for (int i=0;i<n;++i)
+	  res.push_back(randstudent(k,contextptr));
+	return; 
+      }
+      res= vecteur(1,gensizeerr(contextptr));
+      return;
     }
     if (f.is_symb_of_sommet(at_binomial) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
       gen N=f._SYMBptr->feuille._VECTptr->front();

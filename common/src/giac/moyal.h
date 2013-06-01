@@ -171,13 +171,23 @@ namespace giac {
   gen _gammad_icdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_gammad_icdf ;
 
+  gen _kolmogorovd(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_kolmogorovd ;
+
+  gen _kolmogorovt(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_kolmogorovt ;
+
+  gen _negbinomial_icdf(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_negbinomial_icdf ;
+
   // return 0 if not distrib
   // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   int is_distribution(const gen & args);
   int distrib_nargs(int nd); // number of args for the distribution
-  // icdf function corresponding to the codes above
+  // icdf and cdf function corresponding to the codes above
   gen icdf(int n);
+  gen cdf(int n);
 
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lower_incomplete_gamma ;
