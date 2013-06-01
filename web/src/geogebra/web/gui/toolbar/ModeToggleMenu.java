@@ -51,7 +51,7 @@ public class ModeToggleMenu extends MenuBar{
 //		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 //		addItem(tbutton);
 
-		popMenu = new GPopupMenuW();
+//		popMenu = new GPopupMenuW();
 //		popMenu.setBackground(bgColor);
 		menuItemList = new ArrayList<MenuItem>();
 		//popupMenuItemListener = new MenuItemListener();
@@ -114,7 +114,7 @@ public class ModeToggleMenu extends MenuBar{
 			}
 		}
 		tbutton.getElement().setAttribute("isSelected","true");
-		
+		tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(miMode)));
 		
 		// tbutton.requestFocus();*/
 		
