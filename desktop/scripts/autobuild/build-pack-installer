@@ -206,14 +206,18 @@ runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept
 runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
 runstep 53 .get-all "Downloading all JOGL$JOGL related packages" ./get-all
 
-# 5/4. Downloading OpenNI and jd2xx
+# 5/4. Downloading OpenNI, jd2xx and javagiac
 # This might be moved to kickstart.xml...
 cd $WORKDIR/lib
 DL=http://dev.geogebra.org/download/lib
+DL2=http://ggb1.idm.jku.at:8098/giac/jni/windows/
 runstep 54 .openni "Downloading OpenNI" \
  wget -N $DL/kinect-OpenNI/openni.jar $DL/kinect-OpenNI/openni64.jar $DL/kinect-OpenNI/opennimac.jar
 runstep 54 .jd2xx "Downloading JD2XX" \
  wget -N $DL/ftdi/jd2xx.jar $DL/ftdi/jd2xx64.jar
+runstep 54 .javagiac "Downloading javagiac" \
+ wget -N $DL2/win32/javagiac.dll
+ wget -N -O javagiac64.dll $DL2/win64/javagiac.dll
 fi
 
 # 6. Invoking make-vanilla-jars

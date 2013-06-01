@@ -726,6 +726,8 @@ Section Install Install
     File "${build.dir}\unpacked\jl*.jar"
     File "${build.dir}\unpacked\jogl.all.jar"
     File "${build.dir}\unpacked\jython.jar"
+    File "${build.dir}\..\lib\javagiac.dll"
+    File "${build.dir}\..\lib\javagiac64.dll"
     File gpl-3.0.txt
     File by-nc-sa-3.0.txt
     File /r "${build.dir}\..\installer\jre\win32\jre"
