@@ -90,8 +90,9 @@ public abstract class App implements UpdateSelection{
 	public static final String WIKI_CAS_VIEW = "CAS_View";
 	/** Url for wiki tutorials */
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
-	/** Url for wiki article about exporting to HTML */
-	public static final String WIKI_EXPORT_WORKSHEET = "Export_Worksheet_Dialog";
+	/** Url for wiki article about exporting to HTML 
+	 * changed to GeoGebraTube upload from ggb44*/
+	public static final String WIKI_EXPORT_WORKSHEET = "Upload_to_GeoGebraTube";
 	/**
 	 * Url for wiki article about advanced features (layers, cond. visibility
 	 * etc.)
@@ -2885,8 +2886,6 @@ public abstract class App implements UpdateSelection{
 	}
 
 	public abstract boolean loadXML(String xml) throws Exception;
-
-	public abstract void exportToLMS(boolean b);
 
 	public abstract void copyGraphicsViewToClipboard();
 

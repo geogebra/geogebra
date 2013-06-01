@@ -63,7 +63,6 @@ import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
-import geogebra.export.WorksheetExportDialog;
 import geogebra.factories.AwtFactoryD;
 import geogebra.factories.CASFactoryD;
 import geogebra.factories.FactoryD;
@@ -115,7 +114,6 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
@@ -4339,34 +4337,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		// strip "file:/", leave leading / for Mac & Linux
 		return codeBaseFolder.substring(WINDOWS ? 6 : 5);
-	}
-
-	@Override
-	public void exportToLMS(boolean ggbWeb) {
-		getSelectionManager().clearSelectedGeos(true, false);
-		updateSelection(false);
-		WorksheetExportDialog d = new WorksheetExportDialog(this);
-
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Clipboard clipboard = toolkit.getSystemClipboard();
-		JPanel appCP = getCenterPanel();
-		int width, height;
-		if (appCP != null) {
-			width = appCP.getWidth();
-			height = appCP.getHeight();
-		} else {
-			width = WorksheetExportDialog.DEFAULT_APPLET_WIDTH;
-			height = WorksheetExportDialog.DEFAULT_APPLET_HEIGHT;
-		}
-
-		clipboard.setContents(
-				new StringSelection(d.getAppletTag(this, width, height, false,
-						true, ggbWeb, false)), null);
-		d.setVisible(false);
-		d.dispose();
-
-		showMessage(getMenu("ClipboardMessage"));
-
 	}
 
 	/*

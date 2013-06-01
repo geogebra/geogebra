@@ -371,14 +371,6 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// export to GeoGebraWeb
-			case B:
-				if (!app.isApplet() && isShiftDown) {
-					app.exportToLMS(true);
-					consumed = true;
-				} 
-				break;
-
 			case C:
 				// Ctrl-shift-c: copy graphics view to clipboard
 				// should also work in applets with no menubar
@@ -415,16 +407,6 @@ public abstract class GlobalKeyDispatcher {
 			case F:
 				app.refreshViews();
 				consumed = true;
-				break;
-
-			case M:
-				if (!app.isApplet() && isShiftDown) {
-					app.exportToLMS(false);
-					consumed = true;
-				} else if (!app.isApplet() || app.isRightClickEnabled()) {
-					app.setStandardView();
-					consumed = true;
-				}
 				break;
 
 				/*

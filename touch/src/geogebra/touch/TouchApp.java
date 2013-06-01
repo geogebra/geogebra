@@ -387,11 +387,6 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void exportToLMS(boolean b)
-	{
-	}
-
-	@Override
 	public void copyGraphicsViewToClipboard()
 	{
 	}

@@ -1647,11 +1647,6 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-	public void exportToLMS(boolean b) {
-		App.debug("unimplemented");
-	}
-
-	@Override
 	public void uploadToGeoGebraTube() {
 		showURLinBrowserWaiterFixedDelay();
 		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);

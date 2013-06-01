@@ -25,7 +25,6 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.StringUtil;
-import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanelD;
@@ -52,6 +51,7 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -1821,7 +1821,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		sb.append("\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
 		sb.append("\n<applet style=\"display:none\">");
 		sb.append("\n<param name=\"ggbBase64\" value=\"");
-		WorksheetExportDialog.appendBase64((AppD)app,sb);
+		appendBase64((AppD)app,sb);
 		sb.append("\">\n<applet>");
 
 
@@ -1830,6 +1830,24 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 		return sb.toString();
 	}
+	
+	/**
+	 * @param app app
+	 * @param sb sb
+	 * @return .ggb file encoded as base64 string
+	 */
+	public static boolean appendBase64(AppD app, StringBuilder sb) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			app.getXMLio().writeGeoGebraFile(baos, false);
+			sb.append(geogebra.common.util.Base64.encode(baos.toByteArray(), 0));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 /*
 	public void showHTMLExportDialog() {
 		Application.printStacktrace("showHTMLExportDialog");
