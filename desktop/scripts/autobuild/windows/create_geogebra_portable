@@ -68,6 +68,9 @@ unzip -o jogl1-windows-i586.jar
 rm -fR META-INF
 rm -f jogl1-*.jar *-linux-*.jar *mac*.jar *64*.jar geogebra-map.txt
 
+# 2/4. Adding javagiac.dll's:
+cp $SVNDIR/geogebra/desktop/lib/javagiac*.dll .
+
 cd ..
 rm -f "$DIRNAME.zip" # deleting if a previous version already exists
 zip -r -9 "$DIRNAME.zip" "$DIRNAME" >> /dev/null
