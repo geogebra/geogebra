@@ -4022,6 +4022,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (!isErrorDialogsActive) {
 			return;
 		}
+		
+		// don't remove, useful
+		App.printStacktrace("");
 
 		// make sure splash screen not showing (will be in front)
 		if (GeoGebra.splashFrame != null) {
