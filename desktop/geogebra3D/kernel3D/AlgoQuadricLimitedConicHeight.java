@@ -122,12 +122,23 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		return quadric;
 	}
 	
-	//compute and update quadric (for helper algos)
 	@Override
 	public void update() {
+		
+		if (stopUpdateCascade) {
+			return;
+		}
+		
+		
         compute();
         quadric.update();
-    }
+		
+		if(!getQuadric().isLabelSet()){ // geo is in sequence/list : update top and side
+			getQuadric().getTop().getParentAlgorithm().update();
+			getQuadric().getSide().getParentAlgorithm().update();
+		}
+		
+	}
 
 	
 
