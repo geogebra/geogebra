@@ -3246,4 +3246,21 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 
+	public void updateCenterPanel(boolean updateUI) {
+		App.debug("App.updateCenterPanel() implementation needed");
+		
+	}
+
+	public void toggleShowConstructionProtocolNavigation() {
+	
+		setShowConstructionProtocolNavigation(!showConsProtNavigation());
+		setUnsaved();
+		updateCenterPanel(true);
+	
+		if (getGuiManager() != null)
+			getGuiManager()
+					.updateCheckBoxesForShowConstructinProtocolNavigation();
+	
+	}
+
 }

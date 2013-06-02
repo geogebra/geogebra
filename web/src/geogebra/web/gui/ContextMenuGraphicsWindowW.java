@@ -37,7 +37,20 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         	setTitle(app.getPlain("DrawingPad"));
         }
         
-        addAxesAndGridCheckBoxes();
+        addAxesAndGridCheckBoxes();      
+       
+        //Show construction protocol navigation bar checkbox item
+        Command showConstructionStepCommand = new Command(){
+			public void execute() {
+				toggleShowConstructionProtocolNavigation();
+            }     	
+        };
+		String htmlString = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("NavigationBar"));
+		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(htmlString, showConstructionStepCommand);
+	    cbShowConstructionStep.setSelected(app.showConsProtNavigation());
+	    wrappedPopup.addItem(cbShowConstructionStep);
+
+        
         
         wrappedPopup.addSeparator();
         
@@ -88,6 +101,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         
         //addMiProperties();
                
+    }
+	
+    void toggleShowConstructionProtocolNavigation(){
+    	((AppW) app).toggleShowConstructionProtocolNavigation();
     }
 	
 	private void addMiProperties() {

@@ -2219,7 +2219,7 @@ public class GuiManagerD extends GuiManager {
 		return true;
 	}
 	
-	
+	@Override
 	public void updateCheckBoxesForShowConstructinProtocolNavigation(){
 		if (propertiesView!=null)
 			propertiesView.updateEuclidianPanelsGUI();

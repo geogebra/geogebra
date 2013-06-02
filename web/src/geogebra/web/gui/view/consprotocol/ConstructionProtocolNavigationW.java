@@ -73,9 +73,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 	@Override
     public void setVisible(boolean visible) {
-	    // TODO Auto-generated method stub
-	    App.debug("ConstructionProtocolNavigationW.setVisible(boolean) -implementation needed");
-	    
+		implPanel.setVisible(visible);
     }
 
 	@Override

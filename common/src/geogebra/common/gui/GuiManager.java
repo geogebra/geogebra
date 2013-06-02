@@ -590,4 +590,8 @@ public abstract class GuiManager {
 				
 			
 			}
+
+	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
+		App.debug("GuiManager.updateCheckBoxesForShowConstructionProtocolNavigation - implementation needed");		
+	}
 }

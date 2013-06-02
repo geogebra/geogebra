@@ -2702,6 +2702,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
+	@Override
 	public void updateCenterPanel(boolean updateUI) {
 		if (centerPanel == null) {
 			return;
@@ -2901,18 +2902,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public boolean showMenuBar() {
 		return showMenuBar;
-	}
-
-	public void toggleShowConstructionProtocolNavigation() {
-
-		setShowConstructionProtocolNavigation(!showConsProtNavigation());
-		setUnsaved();
-		updateCenterPanel(true);
-
-		if (getGuiManager() != null)
-			((GuiManagerD) getGuiManager())
-					.updateCheckBoxesForShowConstructinProtocolNavigation();
-
 	}
 
 	@Override

@@ -99,7 +99,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		}
 
 		consProtNav.update();
-		consProtNav.setVisible(false); //consProtNav.setVisible(app.showConsProtNavigation());
+		consProtNav.setVisible(app.showConsProtNavigation());
 	}
 	
 	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
