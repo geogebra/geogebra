@@ -3,8 +3,6 @@ package geogebra3D.euclidian3D;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 
 /**
  * Class for drawing GeoList (3D part)
@@ -12,12 +10,10 @@ import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
  * @author matthieu
  *
  */
-public class DrawList3D extends Drawable3D {
+public class DrawList3D extends Drawable3DList {
 	
 	private GeoList geoList;	
-	private DrawList3DArray drawables;
 	private boolean isVisible;
-	private EuclidianView3D view3D;
 
 	/**
 	 * common constructor
@@ -27,109 +23,7 @@ public class DrawList3D extends Drawable3D {
 	public DrawList3D(EuclidianView3D view3D, GeoList geo) {
 		super(view3D, geo);
 		this.geoList = geo;
-		this.view3D = view3D;
-		
-		drawables = new DrawList3DArray(view3D);
-		
 	}
-	
-
-    /**
-     * @return all 3D drawables contained in this list
-     */
-    public DrawList3DArray getDrawables3D(){
-    	return drawables;
-    }
-
-	@Override
-	public void drawOutline(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void drawNotTransparentSurface(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawGeometry(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawGeometryHidden(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawGeometryPicked(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawHidden(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawHiding(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void drawTransp(Renderer renderer) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
-		
-		return getDrawablePicked();
-		
-	}
-
-	@Override
-	public void drawLabel(Renderer renderer){
-		
-	}
-	
-	
-	@Override
-	public boolean drawLabelForPicking(Renderer renderer){
-		return false;
-	}
-	
-	@Override
-	public int getPickOrder() {
-		return DRAW_PICK_ORDER_LIST;
-	}
-
-
-
-	@Override
-	public void addToDrawable3DLists(Drawable3DLists lists){
-		addToDrawable3DLists(lists,DRAW_TYPE_DEFAULT);
-	}
-    
-    @Override
-	public void removeFromDrawable3DLists(Drawable3DLists lists){
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_DEFAULT);
-    }
-    
-    
-	@Override
-	public boolean isTransparent() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -173,47 +67,4 @@ public class DrawList3D extends Drawable3D {
     	return true;
 	}
 
-	@Override
-	protected void updateForView() {
-		
-	}
-	
-	
-	@Override
-	protected void updateLabel(){
-		//no label for 3D lists
-	}
-
-	
-
-	@Override
-	protected double getColorShift(){
-		return 0;
-	}
-	
-	@Override
-	public void setWaitForUpdateVisualStyle(){
-		
-		super.setWaitForUpdateVisualStyle();
-		for (DrawableND d : drawables){
-			d.setWaitForUpdateVisualStyle();
-		}
-		
-		//also update for e.g. line width
-		setWaitForUpdate();
-	}
-	
-	@Override
-	public void setWaitForUpdate(){
-		
-		super.setWaitForUpdate();
-		for (DrawableND d : drawables){
-			d.setWaitForUpdate();
-		}
-	}
-	
-	@Override
-	public PickingType getPickingType(){
-		return getDrawablePicked().getPickingType();
-	}
 }

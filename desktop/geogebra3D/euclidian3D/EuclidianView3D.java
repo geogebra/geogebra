@@ -56,6 +56,7 @@ import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPlane3DConstant;
 import geogebra3D.kernel3D.GeoPoint3D;
 import geogebra3D.kernel3D.GeoQuadric3D;
+import geogebra3D.kernel3D.GeoQuadric3DLimited;
 import geogebra3D.kernel3D.GeoQuadric3DPart;
 import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 import geogebra3D.kernel3D.Kernel3D;
@@ -580,6 +581,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			case QUADRIC_PART:					
 				d = new DrawQuadric3DPart(this, (GeoQuadric3DPart) geo);
 				break;	
+				
+			case QUADRIC_LIMITED:
+				if (!geo.isLabelSet()){ //create drawable only when in a list
+					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
+				}
+				break;
 
 			case FUNCTION_NVAR:
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
@@ -1119,12 +1126,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			//drawable3DLists.remove(d);
 			remove(d);
 			
-			//for GeoList : remove all 3D drawables linked to it
-			if (geo.isGeoList()){
-				if (d!=null) {
-					removeDrawList3D((DrawList3D) d);
+			//for Drawable3DList : remove all 3D drawables linked to it
+			//if (geo.isGeoList()){
+				if (d!=null && d instanceof Drawable3DList) {
+					removeDrawable3DList((Drawable3DList) d);
 				}
-			}
+			//}
 		}
 		
 		drawable3DMap.remove(geo);
@@ -1133,18 +1140,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 
-	private void removeDrawList3D(DrawList3D d){
+	private void removeDrawable3DList(Drawable3DList d){
 		for (DrawableND d1 : d.getDrawables3D()){
 			if (d1.createdByDrawList()){
 				remove((Drawable3D) d1);
-				removeFromDrawList(d1);
+				removeFromDrawable3DList(d1);
 			}
 		}
 	}
 	
-	private void removeFromDrawList(DrawableND d){
-		if (d instanceof DrawList3D){
-			removeDrawList3D((DrawList3D) d);
+	private void removeFromDrawable3DList(DrawableND d){
+		if (d instanceof Drawable3DList){
+			removeDrawable3DList((Drawable3DList) d);
 		}
 	}
 	

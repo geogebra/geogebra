@@ -579,5 +579,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 	public double getOrientedHeight() {
 		return topParameter - bottomParameter;
 	}
+	
+	
+	@Override
+	public boolean isGeoElement3D() {
+		return true;
+	}
 
 }

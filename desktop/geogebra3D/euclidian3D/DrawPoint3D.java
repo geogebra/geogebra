@@ -267,6 +267,6 @@ implements Previewable, Functional2Var{
 	
 	@Override
 	protected double getColorShift(){
-		return 0.86;//mostly sqrt(3)/2
+		return COLOR_SHIFT_POINTS;
 	}
 }

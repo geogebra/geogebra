@@ -129,7 +129,7 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 	@Override
 	protected double getColorShift(){
-		return 0.75;
+		return COLOR_SHIFT_CURVES;
 	}
 
 	@Override

@@ -171,7 +171,7 @@ public abstract class Drawable3D extends DrawableND {
 	public float zPickMin;
 
 	/** (r,g,b,a) vector */
-	private Coords 
+	protected Coords 
 	color = new Coords(4), 
 	colorHighlighted = new Coords(4), 
 	surfaceColor = new Coords(4), 
@@ -263,14 +263,15 @@ public abstract class Drawable3D extends DrawableND {
 	final public void update(){
 
 		clearTraceForViewChanged();
-
-		if (waitForUpdateVisualStyle || waitForUpdate){
+		
+		boolean isVisible = isVisible();
+		
+		if ((waitForUpdateVisualStyle || waitForUpdate) && isVisible){
 			updateColors();
 			setLabelWaitForUpdate();
 			waitForUpdateVisualStyle = false;
 		}
 		
-		boolean isVisible = isVisible();
 
 		if (isVisible){
 			updateForView();
@@ -622,8 +623,9 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected Drawable3D getDrawablePicked(){
 		
-		if (createdByDrawList())//if it is part of a DrawList3D, the list is picked
-			return (Drawable3D) getDrawListCreator();
+		if (createdByDrawList()){//if it is part of a DrawList3D, the list is picked
+			return ((Drawable3D) getDrawListCreator()).getDrawablePicked();
+		}
 		
 		return this;
 		
@@ -1002,6 +1004,11 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	
+	
+	protected final static double COLOR_SHIFT_SURFACE = 0.75; //0.2
+	protected final static double COLOR_SHIFT_CURVES = 0.75; //0.2
+	protected final static double COLOR_SHIFT_POINTS = 0.86;//mostly sqrt(3)/2
+	protected final static double COLOR_SHIFT_NONE = 0;
 	
 	abstract protected double getColorShift();
 	

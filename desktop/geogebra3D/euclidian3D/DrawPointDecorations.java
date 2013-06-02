@@ -46,6 +46,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	
 	
 	
+	@Override
 	protected boolean isVisible(){
 		return true; //no geoelement connected
 	}
@@ -74,6 +75,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	
 	
+	@Override
 	public void drawHidden(Renderer renderer){
 		
 		renderer.getTextures().setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
@@ -81,6 +83,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	} 
 	
+	@Override
 	public void drawOutline(Renderer renderer) {
 		
 		renderer.setColor(new Coords(0, 0, 0, 1));//black
@@ -92,6 +95,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 
 	
+	@Override
 	protected boolean updateForItSelf() {
 		
 		updateForItSelf(p1, p2);
@@ -99,16 +103,19 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		return true;
 	}
 	
+	@Override
 	protected void updateLabel(){
 		//nothing to do : there's no label
 	}
 
 
+	@Override
 	protected int getLineThickness(){
 		return 1;
 	}
 	
 
+	@Override
 	protected void updateForView(){
 		if (getView3D().viewChangedByZoom())
 			updateForItSelf();
@@ -119,15 +126,20 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	// UNUSED METHODS
 	///////////////////////////////////////////
 	
+	@Override
 	public void drawGeometryPicked(Renderer renderer) { }
+	@Override
 	public int getPickOrder() {return 0;}
+	@Override
 	public boolean isTransparent() {return false;}
 
 
+	@Override
 	protected double getColorShift(){
-		return 0;
+		return COLOR_SHIFT_NONE;
 	}
 
+	@Override
 	protected void updateColors(){
 		
 	}

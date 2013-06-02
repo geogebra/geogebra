@@ -28,8 +28,7 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPo
 	 * @param r
 	 */
 	public AlgoQuadricLimitedPointPointRadiusCone(Construction c, String[] labels, GeoPointND origin, GeoPointND secondPoint, NumberValue r) {
-		super(c, labels, origin, secondPoint, r, GeoQuadricNDConstants.QUADRIC_CONE);
-		
+		super(c, labels, origin, secondPoint, r, GeoQuadricNDConstants.QUADRIC_CONE);		
 	}
 	
 	@Override
@@ -58,6 +57,7 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPo
 	public Commands getClassName() {
         return Commands.Cone;
     }
+
 
 
 	////////////////////////

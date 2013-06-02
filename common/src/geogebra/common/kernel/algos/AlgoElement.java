@@ -59,7 +59,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	private GeoNumeric[] randomUnlabeledInput;
 
 	private boolean isPrintedInXML = true;
-	private boolean stopUpdateCascade = false;
+	protected boolean stopUpdateCascade = false;
 	
 	/** 
 	 * Creates new algorithm

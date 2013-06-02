@@ -147,7 +147,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	@Override
 	protected double getColorShift(){
-		return 0.2;
+		return COLOR_SHIFT_SURFACE;
 	}
 	
 	

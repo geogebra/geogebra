@@ -112,12 +112,6 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D i
 		return quadric;
 	}
 	
-	//compute and update quadric (for helper algos)
-	@Override
-	public void update() {
-        compute();
-        quadric.update();
-    }
 	
 
 	////////////////////////
@@ -162,6 +156,26 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D i
 	
 		
 		return ret;
+	}
+	
+
+	@Override
+	public void update() {
+		
+		if (stopUpdateCascade) {
+			return;
+		}
+		
+		
+        compute();
+        quadric.update();
+		
+		if(!getQuadric().isLabelSet()){ // geo is in sequence/list : update bottom, top and side
+			getQuadric().getBottom().getParentAlgorithm().update();
+			getQuadric().getTop().getParentAlgorithm().update();
+			getQuadric().getSide().getParentAlgorithm().update();
+		}
+		
 	}
 
 }
