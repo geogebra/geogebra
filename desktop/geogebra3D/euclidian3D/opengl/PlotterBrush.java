@@ -286,7 +286,7 @@ public class PlotterBrush {
 		case ARROW_TYPE_SIMPLE:
 			factor = (12+lineThickness)*LINE3D_THICKNESS/scale;
 			arrowPos = ARROW_LENGTH/length * factor;
-			arrowBase = (Coords) start.getCenter().mul(arrowPos).add(p2.mul(1-arrowPos));
+			arrowBase = start.getCenter().mul(arrowPos).add(p2.mul(1-arrowPos));
 
 			setTextureX(0);
 			if (hasTicks()){
@@ -301,8 +301,8 @@ public class PlotterBrush {
 
 				for(;i<=length*(1-arrowPos);i+=ticksDistance){
 					
-					Coords p1b=(Coords) p1.add(d.mul(i-ticksDelta));
-					Coords p2b=(Coords) p1.add(d.mul(i+ticksDelta));
+					Coords p1b=p1.add(d.mul(i-ticksDelta));
+					Coords p2b=p1.add(d.mul(i+ticksDelta));
 					
 					setTextureType(TEXTURE_AFFINE);
 					setTextureX(i/length);
@@ -360,16 +360,16 @@ public class PlotterBrush {
     	float u=0, v=1;
     	
     	setTextureX(0,0);
-		vn1 = (Coords) v1.mul(u).add(v2.mul(v));
-		down((Coords) center.add(vn1.mul(radius)),vn1,vn2);  	
+		vn1 = v1.mul(u).add(v2.mul(v));
+		down(center.add(vn1.mul(radius)),vn1,vn2);  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
     		u = (float) Math.sin ( i * da ); 
     		v = (float) Math.cos ( i * da ); 
     		
     		setTextureX(i*dt);
-    		vn1 = (Coords) v1.mul(u).add(v2.mul(v));
-    		moveTo((Coords) center.add(vn1.mul(radius)),vn1,vn2);
+    		vn1 = v1.mul(u).add(v2.mul(v));
+    		moveTo(center.add(vn1.mul(radius)),vn1,vn2);
     	} 
     	
 	}
@@ -392,16 +392,16 @@ public class PlotterBrush {
 		v = (float) Math.sin (start); 
    	
     	setTextureX(0,0);
-		vn1 = (Coords) v1.mul(u).add(v2.mul(v));
-		down((Coords) center.add(vn1.mul(radius)),vn1,vn2);  	
+		vn1 = v1.mul(u).add(v2.mul(v));
+		down(center.add(vn1.mul(radius)),vn1,vn2);  	
     	
     	for( int i = 1; i <= longitude  ; i++ ) { 
     		u = (float) Math.cos (start + i * da ); 
     		v = (float) Math.sin (start + i * da ); 
     		
     		setTextureX(i*dt);
-    		vn1 = (Coords) v1.mul(u).add(v2.mul(v));
-    		moveTo((Coords) center.add(vn1.mul(radius)),vn1,vn2);
+    		vn1 = v1.mul(u).add(v2.mul(v));
+    		moveTo(center.add(vn1.mul(radius)),vn1,vn2);
     	} 
     	
 	}
