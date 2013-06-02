@@ -1403,23 +1403,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// colors
-		objColor = geo.objColor;
-		selColor = geo.selColor;
-		labelColor = geo.labelColor;
-		if (geo.isFillable()) {
-			fillColor = geo.fillColor;
-			fillType = geo.fillType;
-			hatchingAngle = geo.hatchingAngle;
-			hatchingDistance = geo.hatchingDistance;
-			graphicsadapter.setImageFileName(geo.getGraphicsAdapter()
-					.getImageFileName());
-			alphaValue = geo.alphaValue;
-		} else {
-			fillColor = geo.objColor;
-			setAlphaValue(geo.getAlphaValue());
-		}
-		bgColor = geo.bgColor;
-		isColorSet = geo.isColorSet();
+		setColorVisualStyle(geo);
+
+		
 		// line thickness and line type:
 		// note: line thickness in Drawable is calculated as lineThickness /
 		// 2.0f
@@ -1438,6 +1424,30 @@ public abstract class GeoElement extends ConstructionElement implements
 			setLayer(geo.getLayer());
 		}
 
+	}
+	
+	/**
+	 * set color from source geo
+	 * @param geo source geo
+	 */
+	protected void setColorVisualStyle(final GeoElement geo){
+		objColor = geo.objColor;
+		selColor = geo.selColor;
+		labelColor = geo.labelColor;
+		if (geo.isFillable()) {
+			fillColor = geo.fillColor;
+			fillType = geo.fillType;
+			hatchingAngle = geo.hatchingAngle;
+			hatchingDistance = geo.hatchingDistance;
+			graphicsadapter.setImageFileName(geo.getGraphicsAdapter()
+					.getImageFileName());
+			alphaValue = geo.alphaValue;
+		} else {
+			fillColor = geo.objColor;
+			setAlphaValue(geo.getAlphaValue());
+		}
+		bgColor = geo.bgColor;
+		isColorSet = geo.isColorSet();
 	}
 
 	/**

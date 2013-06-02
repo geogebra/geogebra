@@ -5,14 +5,19 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -22,7 +27,7 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume, HasHeight {
+public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume, HasHeight, RotateableND {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -584,6 +589,46 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
+	}
+	
+	
+	@Override
+	protected void setColorVisualStyle(final GeoElement geo){
+		setObjColor(geo.getObjectColor());
+		setAlphaValue(geo.getAlphaValue());
+	}
+
+	
+
+	public void rotate(NumberValue r, GeoPoint S) {
+
+		bottom.rotate(r, S);
+		top.rotate(r, S);
+		side.rotate(r, S);
+
+	}
+
+	public void rotate(NumberValue r) {
+		
+		bottom.rotate(r);
+		top.rotate(r);
+		side.rotate(r);
+
+	}
+
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+		
+		((GeoConic3D) bottom).rotate(r, S, orientation);
+		top.rotate(r, S, orientation);
+		side.rotate(r, S, orientation);		
+	}
+
+	public void rotate(NumberValue r, GeoLineND line) {
+
+		((GeoConic3D) bottom).rotate(r, line);
+		top.rotate(r, line);
+		side.rotate(r, line);		
+		
 	}
 
 }

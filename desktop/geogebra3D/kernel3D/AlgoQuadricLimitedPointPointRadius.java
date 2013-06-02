@@ -9,7 +9,6 @@ import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.AlgoTransformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -17,7 +16,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D implements AlgoTransformable {
+public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {//implements AlgoTransformable {
 
 	//input
 	private GeoPointND origin, secondPoint;

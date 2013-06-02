@@ -463,7 +463,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		}
 		*/
 		
-		setWaitForUpdate();
 		drawable3DListToBeAdded.add(d);
 	}
 
@@ -583,7 +582,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				break;	
 				
 			case QUADRIC_LIMITED:
-				if (!geo.isLabelSet()){ //create drawable only when in a list
+				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){ 
+					//create drawable when side is not explicitely created (e.g. in sequence)
 					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
 				}
 				break;
@@ -956,7 +956,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			setWaitForUpdate();
 		}
 		
-		if (waitForUpdate){
+		if (waitForUpdate || drawable3DListToBeRemoved.size() > 0 || drawable3DListToBeAdded.size() > 0 ){
 			//drawList3D.updateAll();
 
 			// I've placed remove() before add(), otherwise when the two lists
@@ -1160,7 +1160,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param d
 	 */
 	public void remove(Drawable3D d) {
-		setWaitForUpdate();
 		drawable3DListToBeRemoved.add(d);		
 	}
 

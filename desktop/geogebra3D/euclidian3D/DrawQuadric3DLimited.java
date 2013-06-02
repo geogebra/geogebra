@@ -26,15 +26,11 @@ public class DrawQuadric3DLimited extends Drawable3DList {
 	}
 
 
+	
 	@Override
 	protected boolean updateForItSelf() {
 		
-		GeoQuadric3DLimited q = (GeoQuadric3DLimited) getGeoElement();
-
- 		drawables.addToDrawableList(q.getBottom(), 0, 3, this);
- 	  	drawables.addToDrawableList(q.getTop(),    1, 3, this);
- 	  	drawables.addToDrawableList(q.getSide(),   2, 3, this);
-
+		//no update here : bottom, top and side will update appart
  	  	return true;
 	}
 	
