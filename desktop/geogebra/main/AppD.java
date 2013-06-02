@@ -4988,13 +4988,26 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc;
 	}
 	
-	static CasType casType = CasType.MPREDUCE;
+	static CasType casType = null;//CasType.MPREDUCE;
 
 	@Override
 	public CasType getCASType() {
-		//return CasType.GIAC;
-		//return CasType.MPREDUCE;
-		return casType;
+		
+		// check for --giac or param giac="true"
+		if (casType != null) {
+
+			//return CasType.GIAC;
+			//return CasType.MPREDUCE;
+			return casType;
+		}
+		
+		// TODO: remove (temporary hack)
+		if (isApplet() || isWebstart() || !WINDOWS) {
+			return CasType.MPREDUCE;
+		} else {
+			// ie windows portable or windows installer or Eclipse
+			return CasType.GIAC;
+		}
 	}
 	
 	/**
