@@ -3681,7 +3681,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			initCodeBase();
 		}
 		return codebase.toString().startsWith(
-				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE + "jnlp/")
+				GeoGebraConstants.GEOGEBRA_ONLINE_WEBSTART_BASE)
 				|| codebase
 						.toString()
 						.startsWith(
