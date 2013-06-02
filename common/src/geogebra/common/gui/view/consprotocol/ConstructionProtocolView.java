@@ -1,14 +1,23 @@
 package geogebra.common.gui.view.consprotocol;
 
 import geogebra.common.javax.swing.GImageIcon;
+import geogebra.common.javax.swing.table.GAbstractTableModel;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.SwingConstants;
+
 public class ConstructionProtocolView {
 	
 	protected App app;
+	public Kernel kernel;
 	
 	protected class RowData {
 		int rowNumber = -1;
@@ -230,4 +239,122 @@ public class ConstructionProtocolView {
 		App.debug("common/ConstructionProtocolView.setConstructionStep - implementation needed.");
 	}
 
+	public class ConstructionTableData{
+
+		protected ConstructionTableData ctData = this;
+		public final ColumnData columns[] = {
+						new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
+						new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
+						new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
+								false),
+						new ColumnData("Definition", 150, 50, SwingConstants.LEFT, true),
+						new ColumnData("Command", 150, 50, SwingConstants.LEFT, false),
+						new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
+						new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
+						new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,
+								false)
+						 };
+		protected ArrayList<RowData> rowList;
+		protected HashMap<GeoElement, RowData> geoMap;
+		protected int columnsCount = columns.length;
+
+		public ConstructionTableData() {
+//			ctDataImpl = new MyGAbstractTableModel();
+			rowList = new ArrayList<RowData>();
+			geoMap = new HashMap<GeoElement, RowData>();
+		}
+		
+		public GAbstractTableModel getImpl(){
+			App.debug("ConstructionTableData.getImpl() must be overriden");
+			return null;
+		}
+
+		public ColumnData[] getColumns() {
+			return columns;
+		}
+
+		/**
+		 * Returns the number of the last construction step shown in the
+		 * construction protocol's table.
+		 */
+		public int getLastStepNumber() {
+			int pos = rowList.size() - 1;
+			if (pos >= 0)
+				return rowList.get(pos).getIndex();
+			else
+				return 0;
+		}
+
+		/**
+		 * Returns the number of the current construction step shown in the
+		 * construction protocol's table.
+		 */
+		public int getCurrentStepNumber() {
+			int step = kernel.getConstructionStep();
+		
+			// search the current construction step in the rowList
+			int size = rowList.size();
+			for (int i = 0; i < size; i++) {
+				RowData rd = rowList.get(i);
+				if (rd.getGeo().getConstructionIndex() == step)
+					return rd.getIndex();
+			}
+			return 0;
+		}
+
+		public void setConstructionStepForRow(int row) {
+			if (row >= 0) {
+				setConstructionStep(getConstructionIndex(row));
+			} else {
+				setConstructionStep(-1);
+			}
+		}
+
+		public int getConstructionIndex(int row) {
+			return rowList.get(row).getGeo().getConstructionIndex();
+		}
+
+		public RowData getRow(int row) {
+			return rowList.get(row);
+		}
+
+		/**
+		 * Don't react to changing mode.
+		 */
+		public void setMode(int mode, ModeSetter m) {
+		}
+
+		public int getRowCount() {
+			return rowList.size();
+		}
+
+		public int getColumnCount() {
+			return columnsCount;
+		}
+
+		public int getRowIndex(RowData row) {
+			return rowList.indexOf(row);
+		}
+
+		public int getColumnNumber(ColumnData column) {
+			int pos = -1;
+			for (int i = 0; i < columns.length; i++) {
+				if (columns[i] == column) {
+					pos = i;
+					break;
+				}
+			}
+			return pos;
+		}
+
+		public boolean isCellEditable(int nRow, int nCol) {
+			
+			if((this.columns[nCol].getTitle()).equals("Caption")){ 
+				return true;
+			}
+			return false;
+		}
+		
+	}
+	
 }

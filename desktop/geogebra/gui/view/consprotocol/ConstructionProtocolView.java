@@ -12,9 +12,8 @@ the Free Software Foundation.
  */
 
 import geogebra.common.javax.swing.GImageIcon;
+import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -29,6 +28,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.javax.swing.GImageIconD;
+import geogebra.javax.swing.table.GAbstractTableModelD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -56,7 +56,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
@@ -72,14 +71,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTable.PrintMode;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
@@ -99,7 +96,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 	JTable table;
 	ConstructionTableData data;
-	Kernel kernel;
 	JPanel cpPanel;
 
 	private TableColumn[] tableColumns;
@@ -135,7 +131,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 		table = new JTable();
 		table.setAutoCreateColumnsFromModel(false);
-		table.setModel(data);
+		table.setModel(((GAbstractTableModelD) data.getImpl()).getImpl());
 		table.setRowSelectionAllowed(true);
 		table.setGridColor(Color.lightGray);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -590,7 +586,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 						//if (colName.equals("Breakpoint")) {
 						if (colName.equals("H")) {
-							RowData rd = data.getRow(row);
+							RowData rd = (RowData) data.getRow(row);
 							GeoElement geo = rd.getGeo();
 							boolean newVal = !geo.isConsProtocolBreakpoint();
 							geo.setConsProtocolBreakpoint(newVal);
@@ -743,7 +739,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				//setSize(getWidth() - column.getWidth(), getHeight());
 				//setSize(view.getWidth(), getHeight());
 			}
-			table.tableChanged(new TableModelEvent(data));
+			table.tableChanged(new TableModelEvent(((GAbstractTableModelD) data.getImpl()).getImpl()));
 
 			// reinit view to update possible breakpoint changes
 			data.initView();
@@ -818,7 +814,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				comp = this;
 			
 			int step = kernel.getConstructionStep();
-			RowData rd = data.getRow(row);
+			RowData rd = (RowData) data.getRow(row);
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
 				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.getGeo().getObjectColor()));
@@ -919,7 +915,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		}
 	}
 
-	class RowData extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData{
+	public class RowData extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData{
 
 		public RowData(GeoElement geo) {
 			super(geo);
@@ -936,7 +932,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		
 	}
 
-	public class ConstructionTableData extends AbstractTableModel
+	public class ConstructionTableData extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData
 			implements
 			View{
 
@@ -945,70 +941,19 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		 */
 		private static final long serialVersionUID = -6933858200673625046L;
 
-		final public ColumnData columns[] = {
-				new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
-				new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
-				new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
-						false),
-				new ColumnData("Definition", 150, 50, SwingConstants.LEFT, true),
-				new ColumnData("Command", 150, 50, SwingConstants.LEFT, false),
-				new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
-				new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
-				new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,
-						false)
-				 };
-
-		private ArrayList<RowData> rowList;
-		// map for (GeoElement, RowData) pairs
-		private HashMap<GeoElement, RowData> geoMap;
-		private int columnsCount = columns.length;
-
+		protected MyGAbstractTableModel ctDataImpl;
+		
 		public ConstructionTableData() {
-			rowList = new ArrayList<RowData>();
-			geoMap = new HashMap<GeoElement, RowData>();
+			super();
+			ctDataImpl = new MyGAbstractTableModel();
+//			rowList = new ArrayList<RowData>();
+//			geoMap = new HashMap<GeoElement, RowData>();
 		}
 		
-		public ColumnData[] getColumns(){
-			return columns;
+		public GAbstractTableModel getImpl(){
+			return ctDataImpl;
 		}
-
-		/**
-		 * Returns the number of the last construction step shown in the
-		 * construction protocol's table.
-		 */
-		public int getLastStepNumber() {
-			int pos = rowList.size() - 1;
-			if (pos >= 0)
-				return rowList.get(pos).getIndex();
-			else
-				return 0;
-		}
-
-		/**
-		 * Returns the number of the current construction step shown in the
-		 * construction protocol's table.
-		 */
-		public int getCurrentStepNumber() {
-			int step = kernel.getConstructionStep();
-
-			// search the current construction step in the rowList
-			int size = rowList.size();
-			for (int i = 0; i < size; i++) {
-				RowData rd = rowList.get(i);
-				if (rd.getGeo().getConstructionIndex() == step)
-					return rd.getIndex();
-			}
-			return 0;
-		}
-
-		public void setConstructionStepForRow(int row) {
-			if (row >= 0) {
-				setConstructionStep(getConstructionIndex(row));
-			} else {
-				setConstructionStep(-1);
-			}
-		}
-
+		
 		boolean moveInConstructionList(int fromIndex, int toIndex) {
 			//kernel.detach(this);
 			boolean changed = kernel.moveInConstructionList(fromIndex, toIndex);
@@ -1026,14 +971,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 		public GeoElement getGeoElement(int row) {
 			return rowList.get(row).getGeo();
-		}
-
-		public int getConstructionIndex(int row) {
-			return rowList.get(row).getGeo().getConstructionIndex();
-		}
-
-		public RowData getRow(int row) {
-			return rowList.get(row);
 		}
 
 		public void initView() {
@@ -1074,44 +1011,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				// side effect: go to last construction step
 				setConstructionStep(kernel.getLastConstructionStep());
 			}
-		}
-
-		/**
-		 * Don't react to changing mode.
-		 */
-		public void setMode(int mode,ModeSetter m) {
-		}
-
-		public int getRowCount() {
-			return rowList.size();
-		}
-
-		public int getColumnCount() {
-			return columnsCount;
-		}
-
-		public int getRowIndex(RowData row) {
-			return rowList.indexOf(row);
-		}
-
-		public int getColumnNumber(ColumnData column) {
-			int pos = -1;
-			for (int i = 0; i < columns.length; i++) {
-				if (columns[i] == column) {
-					pos = i;
-					break;
-				}
-			}
-			return pos;
-		}
-
-		@Override
-		public boolean isCellEditable(int nRow, int nCol) {
-        	
-        	if((this.columns[nCol].getTitle()).equals("Caption")){ 
-        		return true;
-        	}
-			return false;
 		}
 
 		private Color getColorAt(int nRow, int nCol) {
@@ -1320,7 +1219,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 							.isConsProtocolBreakpoint()))
 				return;
 
-			RowData row = geoMap.get(geo); // lookup row for geo
+			RowData row = (RowData) geoMap.get(geo); // lookup row for geo
 			if (row == null) { // new row
 				int index = geo.getConstructionIndex();
 				int pos = 0; // there may be more rows with same index
@@ -1342,21 +1241,21 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				geoMap.put(geo, row); // insert (geo, row) pair in map
 				updateRowNumbers(pos);
 				updateIndices();
-				fireTableRowsInserted(pos, pos);
+				ctDataImpl.fireTableRowsInserted(pos, pos);
 				updateAll();
 				updateNavigationBars();
 			}
 		}
 
 		public void remove(GeoElement geo) {
-			RowData row = geoMap.get(geo);
+			RowData row = (RowData) geoMap.get(geo);
 			// lookup row for GeoElement
 			if (row != null) {
 				rowList.remove(row); // remove row
 				geoMap.remove(geo); // remove (geo, row) pair from map
 				updateRowNumbers(row.getRowNumber());
 				updateIndices();
-				fireTableRowsDeleted(row.getRowNumber(), row.getRowNumber());
+				ctDataImpl.fireTableRowsDeleted(row.getRowNumber(), row.getRowNumber());
 				updateAll();
 				updateNavigationBars();
 			}
@@ -1393,7 +1292,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			int count = 0;
 			RowData row;
 			for (int i = 0; i < size; ++i) {
-				row = rowList.get(i);
+				row = (RowData) rowList.get(i);
 				int newIndex = row.getGeo().getConstructionIndex();
 				if (lastIndex != newIndex) {
 					lastIndex = newIndex;
@@ -1434,7 +1333,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			 */
 
 			for (int i = 0; i < size; ++i) {
-				RowData row = rowList.get(i);
+				RowData row = (RowData) rowList.get(i);
 				row.updateAll();
 
 				// it seems there isn't fit to content (automatic) row height in JTable,
@@ -1448,11 +1347,11 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 							(table.getFont().getSize() * 2 + 12), toolbarIconHeight));
 				}
 			}
-			fireTableRowsUpdated(0, size - 1);
+			ctDataImpl.fireTableRowsUpdated(0, size - 1);
 		}
 
 		final public void update(GeoElement geo) {
-			RowData row = geoMap.get(geo);
+			RowData row = (RowData) geoMap.get(geo);
 			if (row != null) {
 				// remove row if only breakpoints
 				// are shown and this is no longer a breakpoint (while loading a
@@ -1463,7 +1362,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				else {
 					row.updateAlgebraAndName();
 					row.updateCaption();
-					fireTableRowsUpdated(row.getRowNumber(), row.getRowNumber());
+					ctDataImpl.fireTableRowsUpdated(row.getRowNumber(), row.getRowNumber());
 				}
 			} else {
 				// missing row: should be added if only breakpoints
@@ -1508,7 +1407,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			repaint();
 		}
 		
-        @Override
 		public void setValueAt(Object value, int row, int col) {
 
         	if((this.columns[col].getTitle()).equals("Caption")){
@@ -1533,6 +1431,35 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			return false;
 		}
 
+		public class MyGAbstractTableModel extends GAbstractTableModelD{
+
+			@Override
+			public int getRowCount() {
+				return ctData.getRowCount();
+			}
+
+			@Override
+			public Object getValueAt(int nRow, int nCol) {
+				return ((ConstructionTableData)ctData).getValueAt(nRow, nCol);
+			}
+
+			@Override
+			public int getColumnCount() {
+				return ctData.getColumnCount();
+			}
+			
+			@Override
+			public boolean isCellEditable(int nRow, int nCol) {
+				return ctData.isCellEditable(nRow, nCol);
+			}
+			
+			@Override
+			public void setValueAt(Object value, int row, int col) {
+				((ConstructionTableData)ctData).setValueAt(value, row, col);
+	        }
+			
+		}
+		
 	}
 
 	/************

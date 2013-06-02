@@ -1,5 +1,7 @@
 package geogebra.javax.swing.table;
 
+import geogebra.common.javax.swing.table.GAbstractTableModel;
+
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
@@ -9,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
  * @author judit
  *
  */
-public abstract class GAbstractTableModelD {
+public abstract class GAbstractTableModelD implements GAbstractTableModel{
 	
 	MyAbstractTableModel impl;
 	GAbstractTableModelD wrapper = this;
@@ -37,10 +39,12 @@ public abstract class GAbstractTableModelD {
 			return wrapper.getValueAt(rowIndex, columnIndex);
 		}
 		
+		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex){
 			wrapper.setValueAt(aValue, rowIndex, columnIndex);
 		}
 		
+		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			return wrapper.isCellEditable(rowIndex, columnIndex);
 		}
