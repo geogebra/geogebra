@@ -956,7 +956,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 			setWaitForUpdate();
 		}
 		
-		if (waitForUpdate || drawable3DListToBeRemoved.size() > 0 || drawable3DListToBeAdded.size() > 0 ){
+		if (waitForUpdate || !drawable3DListToBeRemoved.isEmpty() || !drawable3DListToBeAdded.isEmpty() ){
 			//drawList3D.updateAll();
 
 			// I've placed remove() before add(), otherwise when the two lists
