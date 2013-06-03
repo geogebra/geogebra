@@ -6,6 +6,7 @@ import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.Window;
 
 /**
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
@@ -57,7 +59,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		this.app = app;
 		this.type = type;
 		
-		this.setPopupPosition(300, 62);
+		//this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
+		//for Win8 position it on top
+		this.setPopupPosition((Window.getClientWidth()/2 - 353), 0);
 		
 		this.setStyleName("inputDialog");
 
@@ -172,6 +176,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		//super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
+		this.textBox.setFocus(true);
 
 		//this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);

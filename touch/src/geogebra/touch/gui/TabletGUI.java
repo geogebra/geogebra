@@ -130,7 +130,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.algebraViewButtonPanel.setAutoHideEnabled(false);
 		this.algebraViewButtonPanel.show();
 		
-		this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 62);
+		//this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 62);
+		//for Win8 position it on top:
+		this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 0);
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 
 		this.algebraViewButton.addDomHandler(new ClickHandler()
@@ -212,7 +214,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - this.laf.getPanelsHeight());
 			
 			// set position and image of algebra view hide/show button
-			this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-48), 62);
+			//this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-48), 62);
+			//for Win8 position it on top:
+			this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-48), 0);
 			this.algebraViewButton.setStyleName("arrowLeft");
 		}
 		else
@@ -224,7 +228,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - this.laf.getPanelsHeight());
 			
 			// set position and image of algebra view hide/show button
-			this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 62);
+			//this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 62);
+			//for Win8 position it on top:
+			this.algebraViewButtonPanel.setPopupPosition((int) (Window.getClientWidth()-Window.getClientWidth()*0.2-48), 0);
 			this.algebraViewButton.setStyleName("arrowRight");
 		}
 	}

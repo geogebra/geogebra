@@ -93,10 +93,12 @@ public class GuiModel
 		if (this.activeButton != null && this.activeButton != toolBarButton)
 		{
 			// transparent
-			this.activeButton.setActive(false); 
+			this.activeButton.setActive(false);
+			this.activeButton.removeStyleName("active");
 		}
 		this.activeButton = toolBarButton;
-		this.activeButton.setActive(true); 
+		this.activeButton.setActive(true);
+		this.activeButton.addStyleName("active");
 
 		if (this.touchModel != null)
 		{

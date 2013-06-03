@@ -155,7 +155,7 @@ public class StylingBar extends DecoratorPanel
 				StylingBar.this.guiModel.closeOptions();
 				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
 
-				newButton.setActive(!newButton.isActive()); 
+				newButton.setActive(!newButton.isActive());
 			}
 		}, ClickEvent.getType());
 

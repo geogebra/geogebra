@@ -117,6 +117,7 @@ public class ToolBar extends HorizontalPanel
 			public void onFocus(FocusEvent event)
 			{
 				ToolBar.this.input.show();
+				ToolBar.this.inputBox.setFocus(false);
 			}
 		});
 		

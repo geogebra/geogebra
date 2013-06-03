@@ -11,8 +11,7 @@ body {
 }
 
 /* TOOLS AND STYLEBAR BUTTONS */
-div.button,
-div.button:visited {	
+div.button {	
 	/* Border */
 	-webkit-border-radius: 5px;
   	-khtml-border-radius: 5px;
@@ -37,7 +36,8 @@ div.button:visited {
 	);
 }
 
-div.button.button-up-hovering {
+div.button.button-up-hovering,
+div.button.active {
 	border: #9999FF 1px solid;
 }
 
@@ -217,6 +217,7 @@ div.button.button-up-hovering {
 	padding-left: 5px;
 	padding-right: 5px;
 	border-bottom: #CCCCCC solid 1px;
+	margin-bottom: 5px;
 }
 
 .elemHeading .arrowBottom,
@@ -231,7 +232,6 @@ div.button.button-up-hovering {
 }
 
 div.elemHeadingName{
-	/*left: 25px;*/
 	float: left;
 }
 
@@ -244,8 +244,8 @@ div.elemHeadingName{
 	padding: 5px;
 }
 
-.elem.visible {
-	background: url(img/elemVisible.svg) no-repeat left 10px;
+.elem img {
+	margin-top: 5px;
 }
 
 .elem.hidden {
