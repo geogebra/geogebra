@@ -105,11 +105,13 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// can't load DLLs in unsigned applet
 			// so use JavaScript version instead
 
-			if (!specialFunctionsInitialized) {
+			if (!giacSetToGeoGebraMode) {
 				app.getApplet().evalJS("_ggbCallGiac('" + initString + "');");
-				app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
-				specialFunctionsInitialized = true;
+				giacSetToGeoGebraMode = true;
 			}
+			
+			// reset Giac
+			app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
 
 			// send expression to CAS
 			thread = new GiacJSThread(exp);
@@ -197,19 +199,22 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	public void initialize() throws Throwable {
 		if (C == null) {
 			C = new context();
+			gen g;
+			
+			if (!giacSetToGeoGebraMode) {
 
-			if (!specialFunctionsInitialized) {
-
-				gen g = new gen(initString, C);
+				g = new gen(initString, C);
 				g = giac._eval(g, C);
 				App.debug(g.print(C));
 
-				g = new gen(specialFunctions, C);
-				g = giac._eval(g, C);
-				App.debug(g.print(C));
 
-				specialFunctionsInitialized = true;
+				giacSetToGeoGebraMode = true;
 			}
+			
+			g = new gen(specialFunctions, C);
+			g = giac._eval(g, C);
+			App.debug(g.print(C));
+
 
 		}
 

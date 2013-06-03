@@ -99,24 +99,33 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	
 	public synchronized String evaluate(String s) {
 
-		if (!specialFunctionsInitialized) {
-			nativeEvaluateRaw(initString);
-			nativeEvaluateRaw(specialFunctions);
-			specialFunctionsInitialized = true;
+		if (!giacSetToGeoGebraMode) {
+			nativeEvaluateRaw(initString, true);
+			giacSetToGeoGebraMode = true;
 		}
+		nativeEvaluateRaw(specialFunctions, false);
 		
 		App.debug("giac  input:"+s);
-		String ret = nativeEvaluateRaw(s);
+		String ret = nativeEvaluateRaw(s, true);
 		App.debug("giac output:"+ret);
 		
 		return ret;
 	}
 
-	private native String nativeEvaluateRaw(String s) /*-{
-		$wnd.console.log("js giac  input:"+s);
+	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
+		
+		if (showOutput) {
+			$wnd.console.log("js giac  input:"+s);
+		}
+		
 		caseval = $wnd.Module.cwrap('_ZN4giac7casevalEPKc', 'string', ['string']);  
+		
 		var ret = caseval(s);
-		$wnd.console.log("js giac output:"+ret);
+		
+		if (showOutput) {
+			$wnd.console.log("js giac output:"+ret);
+		}
+		
 		return ret
 	}-*/;
 

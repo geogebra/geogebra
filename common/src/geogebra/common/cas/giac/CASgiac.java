@@ -33,14 +33,17 @@ public abstract class CASgiac implements CASGenericInterface {
 	protected CasParserTools parserTools;
 	
 	/**
-	 * string to put Giac into GeoGebra mode
+	 * string to put Giac into GeoGebra mode (not affected by 'restart')
 	 */
 	protected final static String initString = "caseval(\"init geogebra\")";
 	
 	/**
 	 * define extra functions needed in Giac
+	 * 
+	 * must be run (with restart) before each command (as assumptions can be set by previous commands)
 	 */
 	protected final static String specialFunctions =
+			"restart;"+
 			"atan2(y,x):=arg(x+i*y);"+
 			"sech(x):=1/cosh(x);"+
 			"csch(x):=1/sinh(x);"+
@@ -61,9 +64,9 @@ public abstract class CASgiac implements CASGenericInterface {
 			"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;";
 
 	/**
-	 * whether extra functions needed in Giac have been initialized yet
+	 * whether Giac has been set to GeoGebra mode yet
 	 */
-	protected boolean specialFunctionsInitialized;
+	protected boolean giacSetToGeoGebraMode;
 	
 	/** CAS parser */
 	public CASparser casParser;
