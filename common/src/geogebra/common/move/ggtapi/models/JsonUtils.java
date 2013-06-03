@@ -1,4 +1,4 @@
-package geogebra.common.ggtapi.model;
+package geogebra.common.move.ggtapi.models;
 
 /**
  * @author gabor
