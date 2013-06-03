@@ -3929,8 +3929,11 @@ static define_unary_function_eval (__camembert,&_camembert,_camembert_s);
 	l.push_back(l0[i]);
     }
     s=l.size();
-    if (s<=3)
+    if (s<=3){
+      if (abs_calc_mode(contextptr)==38)
+	return _polygone(l,contextptr);
       return l;
+    }
     gen zmin=l[0],zcur;
     gen ymin=im(zmin,contextptr),ycur,xmin=re(zmin,contextptr),xcur;
     for (int j=1;j<s;++j){
@@ -3972,6 +3975,8 @@ static define_unary_function_eval (__camembert,&_camembert,_camembert_s);
 	}
       }
     }
+    if (abs_calc_mode(contextptr)==38)
+      return _polygone(res,contextptr);
     return gen(res,g.subtype);
   }
   static const char _convexhull_s []="convexhull";
@@ -4873,6 +4878,76 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _subtype_s []="subtype";
   static define_unary_function_eval (__subtype,&_subtype,_subtype_s);
   define_unary_function_ptr5( at_subtype ,alias_at_subtype,&__subtype,0,true);
+
+  // Graph utilities
+  // convert matrice of probability to matrice of booleans
+  // m[i][j]!=0 means there is a link from i to j
+  void proba2adjacence(const matrice & m,vector< vector<unsigned> >& v){
+    if (!is_integer_matrice(m) && !is_one(_plus(m.front(),context0))){
+      proba2adjacence(mtran(m),v);
+      return;
+    }
+    int l,c;
+    mdims(m,l,c);
+    v.resize(l);
+    for (int i=0;i<l;++i){
+      vecteur & mi=*m[i]._VECTptr;
+      vector<unsigned> & vi =v[i];
+      vi.clear();
+      vi.resize((c+31)/32);
+      for (int j=0;j<c;++j){
+	if (!is_zero(mi[j]))
+	  vi[j/32] |= 1<<(j%32);
+      }
+    }
+  }
+
+  bool different(const vector<unsigned> & a,const vector<unsigned> & b,vector<int> & pos){
+    pos.clear();
+    int s=a.size();
+    for (int i=0;i<s;++i){
+      unsigned ai=a[i],bi=b[i];
+      if (ai!=bi){
+	for (int j=0;j<32;++j){
+	  if ( ((ai>>j)&1) != ((bi>>j)&1) )
+	    pos.push_back(i*32+j);
+	}
+      }
+    }
+    return !pos.empty();
+  }
+
+  // v[i][j]==true if i is connected to j
+  // compute w such that w[i][j]==true if i is connected to j using a path of length >= 1
+  // at the end, if w[i][i]=true then i is recurrent, else transient
+  // i is recurrent positive if for all j w[i][j]=true => w[j][i]=true
+  void connected(const vector< vector<unsigned> >& v,vector< vector<unsigned> > & w){
+    int l=v.size();
+    int c=v.front().size(); // number of columns = c*32
+    w=v;
+    vector<int> pos;
+    for (int i=0;i<l;++i){
+      // compute w[i]
+      vector<unsigned> oldvi(c);
+      vector<unsigned> curvi(w[i]);
+      // oldvi[i/32] = 1 << (i%32); 
+      for (;;){
+	// find indices that differ between oldvi and curvi, 
+	if (!different(oldvi,curvi,pos))
+	  break;
+	for (unsigned j=0;j<pos.size();++j){
+	  // make an OR of curvi with w[pos[j]]
+	  vector<unsigned>::const_iterator wit=w[pos[j]].begin();
+	  vector<unsigned>::iterator curit=curvi.begin(),curitend=curvi.end();
+	  for (;curit!=curitend;++wit,++curit){
+	    *curit |= *wit;
+	  }
+	}
+	oldvi=curvi;
+      }
+      w[i]=curvi;
+    }
+  }
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

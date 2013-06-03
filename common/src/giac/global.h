@@ -825,6 +825,8 @@ namespace giac {
   gen archive_restore(void * f,size_t readfunc(void * p, size_t nbBytes,size_t NbElements, void *file),GIAC_CONTEXT);
   gen archive_restore(FILE * f,GIAC_CONTEXT);
   void init_geogebra(bool on,GIAC_CONTEXT);
+  vecteur giac_current_status(bool save_history,GIAC_CONTEXT);
+  bool unarchive_session(const gen & g,int level,const gen & replace,GIAC_CONTEXT,bool with_history=true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

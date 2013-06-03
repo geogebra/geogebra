@@ -2094,7 +2094,7 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v = *g._VECTptr;
     gen x=v[0],y=v[1];
-    if (v.size()>=2)
+    if (v.size()>2)
       return _kolmogorovt(makesequence(x,y(vecteur(v.begin()+2,v.end()),contextptr)),contextptr);
     if (is_distribution(x)){
       if (is_distribution(y))
@@ -2103,7 +2103,7 @@ namespace giac {
     }
     int nd=is_distribution(y);
     x=_sort(evalf_double(x,1,contextptr),contextptr);
-    if (x.type!=_VECT || y.type!=_SYMB)
+    if (x.type!=_VECT || (nd && y.type!=_SYMB))
       return gensizeerr(contextptr);
     vecteur X = *x._VECTptr;
     int n=X.size();

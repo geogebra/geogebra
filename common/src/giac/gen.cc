@@ -6790,8 +6790,11 @@ namespace giac {
   }
 
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT){
-    if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==b._VECTptr->size())
-      return apply(a,b,contextptr,equal);
+    if (a.type==_VECT && b.type==_VECT){
+      if (a._VECTptr->size()==b._VECTptr->size())
+	return apply(a,b,contextptr,equal);
+      return apply2nd(a,b,contextptr,equal);
+    }
     if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);
     // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])

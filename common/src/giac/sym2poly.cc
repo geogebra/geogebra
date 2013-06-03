@@ -2070,8 +2070,22 @@ namespace giac {
 	continue;
       if (is_one(expnum) && is_integer(arg[0]))
 	continue;
+      gen var=ggb_var(arg[0]),a,b,hyp;
+      // if var is not assigned and arg[0] depends linearly on var, add an assumption
+      if (complex_mode(contextptr)==false && var.type==_IDNT && var._IDNTptr->eval(1,var,contextptr)==var){
+	if (is_linear_wrt(arg[0],var,a,b,contextptr) && !is_zero(a)){
+	  if (is_strictly_positive(a,contextptr))
+	    hyp=symbolic(at_superieur_strict,makesequence(var,-b/a));
+	  if (is_strictly_positive(-a,contextptr))
+	    hyp=symbolic(at_inferieur_strict,makesequence(var,-b/a));
+	  if (!is_zero(hyp)){
+	    *logptr(contextptr) << gettext("Sqrt argument: adding implicit assumption ") << hyp << endl;
+	    giac_assume(hyp,contextptr);
+	  }
+	}
+      }
       vecteur lv(alg_lvar(arg[0]));
-      gen a,num,den;
+      gen num,den;
       a=e2r(arg[0],lv,contextptr);
       fxnd(a,num,den);
       gen nd=num*den,out(1);

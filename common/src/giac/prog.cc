@@ -4676,6 +4676,15 @@ namespace giac {
 	  all_trig_sol(v[10]._DOUBLE_val!=0,contextptr);
       }
     }
+    if (v.size()>=12){ 
+      if (v[11].type==_INT_)
+	integer_mode(v[11].val!=0,contextptr);
+      else {
+	v[11]=evalf_double(v[11],1,contextptr);
+	if (v[11].type==_DOUBLE_)
+	  integer_mode(v[11]._DOUBLE_val!=0,contextptr);
+      }
+    }
     return true;
   }
   vecteur cas_setup(GIAC_CONTEXT){
@@ -4690,7 +4699,8 @@ namespace giac {
     v.push_back(makevecteur(threads,MAX_RECURSION_LEVEL,debug_infolevel,DEFAULT_EVAL_LEVEL));
     v.push_back(increasing_power(contextptr));
     v.push_back(withsqrt(contextptr));
-    v.push_back(all_trig_sol(contextptr));    
+    v.push_back(all_trig_sol(contextptr));
+    v.push_back(integer_mode(contextptr));
     return v;
   }
   gen _cas_setup(const gen & args,GIAC_CONTEXT){

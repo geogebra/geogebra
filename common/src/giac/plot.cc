@@ -9835,40 +9835,6 @@ namespace giac {
     }
   }
 
-  static vecteur giac_current_status(bool save_history,GIAC_CONTEXT){
-    // cas and geo config
-    vecteur res(1,symbolic(at_cas_setup,cas_setup(contextptr)));
-    res.push_back(xyztrange(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,gnuplot_zmin,gnuplot_zmax,gnuplot_tmin,gnuplot_tmax,global_window_xmin,global_window_xmax,global_window_ymin,global_window_ymax,show_axes(contextptr),class_minimum,class_size,
-#ifdef WITH_GNUPLOT
-			    gnuplot_hidden3d,gnuplot_pm3d
-#else
-			    1,1
-#endif
-			    ));
-    // session
-    res.push_back(save_history?history_in(contextptr):vecteur(0));
-    res.push_back(save_history?history_out(contextptr):vecteur(0));
-    // user variables
-    if (contextptr && contextptr->tabptr){
-      sym_tab::const_iterator jt=contextptr->tabptr->begin(),jtend=contextptr->tabptr->end();
-      for (;jt!=jtend;++jt){
-	gen a=jt->second;
-	gen b=identificateur(jt->first);
-	res.push_back(symb_sto(a,b));
-      }
-    }
-    else {
-      sym_tab::const_iterator it=syms().begin(),itend=syms().end();
-      for (;it!=itend;++it){
-	gen id=it->second;
-	if (id.type==_IDNT && id._IDNTptr->value)
-	  res.push_back(symb_sto(*id._IDNTptr->value,id));
-      }
-    }
-    res.push_back(symbolic(at_xcas_mode,xcas_mode(contextptr)));
-    return res;
-  }
-
   gen archive_session(bool save_history,ostream & os,GIAC_CONTEXT){
     os << "giac archive"<< endl;
     gen g(giac_current_status(save_history,contextptr));
@@ -9893,37 +9859,6 @@ namespace giac {
     ostringstream os;
     archive_session(save_history,os,contextptr);
     return os.str();
-  }
-
-  static bool unarchive_session(const gen & g,int level,const gen & replace,GIAC_CONTEXT){
-    int l;
-    if (g.type!=_VECT || (l=g._VECTptr->size())<4)
-      return false;
-    vecteur & v=*g._VECTptr;
-    if (v[2].type!=_VECT || v[3].type!=_VECT || v[2]._VECTptr->size()!=v[3]._VECTptr->size())
-      return false;
-#ifndef DONT_UNARCHIVE_HISTORY
-    history_in(contextptr)=*v[2]._VECTptr;
-    history_out(contextptr)=*v[3]._VECTptr;
-#ifndef GNUWINCE
-    protecteval(v[0],eval_level(contextptr),contextptr); 
-    protecteval(v[1],eval_level(contextptr),contextptr); 
-#endif
-#endif
-    // restore variables
-    for (int i=4;i<l;++i)
-      protecteval(v[i],eval_level(contextptr),contextptr); 
-    // eval replace if level>=0
-    if (level<0 || level>=l){
-      history_in(contextptr).push_back(replace);
-      history_out(contextptr).push_back(protecteval(replace,eval_level(contextptr),contextptr)); 
-    }
-    else {
-      history_in(contextptr)[level]=replace;
-      for (int i=level;i<l;++i)
-	history_out(contextptr)[i]=protecteval(history_in(contextptr)[i],eval_level(contextptr),contextptr); 
-    }
-    return true;
   }
 
   // Unarchive a session from archive named s

@@ -2016,8 +2016,10 @@ namespace giac {
     gen e=e_orig;
     if (e.type==_FRAC)
       return _evalc(e_orig,contextptr);
+    // ratnormal added for E:=2*exp(t/25)/(19+exp(t/25)); F:=simplifier(int(E,t)); 
+    // M:=(1/50)*int(E,t,50,100); simplify(M)
     if (!lop(e,at_ln).empty())
-      e=lncollect(e_orig,contextptr);
+      e=lncollect(ratnormal(e_orig),contextptr);
     if (!lop(e,at_exp).empty())
       e=_exp2pow(e,contextptr);
     if (e.type==_SYMB && e._SYMBptr->feuille.type!=_VECT){
