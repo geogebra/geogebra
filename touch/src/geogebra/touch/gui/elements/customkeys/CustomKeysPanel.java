@@ -13,7 +13,7 @@ public class CustomKeysPanel extends PopupPanel
 {
 	public enum CustomKey
 	{
-		plus("+"), minus("-"), times("*"), divide("/"), power("^"), leftpar("("), rightpar(")"), squared("\u00B2"), degree("\u00B0"), pi("\u03C0"), leftbracket(
+		plus("+"), minus("\u2212"), times("\u00d7"), divide("\u00f7"), power("^"), leftpar("("), rightpar(")"), squared("\u00B2"), degree("\u00B0"), pi("\u03C0"), leftbracket(
 		    "["), rightbracket("]"), leftbrace("{"), rightbrace("}"), equals("=");
 
 		String s;
