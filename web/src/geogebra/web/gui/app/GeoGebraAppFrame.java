@@ -4,13 +4,9 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.cas.GeoGebraCAS;
-import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.main.App;
-import geogebra.html5.Browser;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
-import geogebra.web.cas.mpreduce.CASmpreduceW;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.Dom;
@@ -21,7 +17,6 @@ import geogebra.web.util.JSON;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -187,38 +182,9 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		//Debugging purposes
 		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
-		
-		if (Browser.webWorkerSupported)
-			loadCASWithWorker(GWT.getModuleBaseURL(), this);
     }
 	
-	private native void loadCASWithWorker(String baseUrl, GeoGebraAppFrame ggbAF) /*-{
-		var worker = new Worker(baseUrl+"js/loadCAS.js");		
-		@geogebra.common.main.App::debug(Ljava/lang/String;)(baseUrl+"js/loadCAS.js");
-		worker.addEventListener("message", function(e) {
-		  @geogebra.common.main.App::debug(Ljava/lang/String;)("worker says: " + e.data);
-		});
-		
-	   $wnd.loadCAS =
-	      //$entry(ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS());
-	      function() {ggbAF.@geogebra.web.gui.app.GeoGebraAppFrame::loadCAS()()};
-		
-		//worker.postMessage("{'fnname' : 'loadCAS'}");
-		//worker.postMessage(JSON.stringify(window.loadCAS));
-		worker.postMessage("msg from outside of worker");
-		//worker.terminate();
-	}-*/;
-	
-	private void loadCAS(){
-		App.debug("loadCAS started");
-		CASGenericInterface cas = ((GeoGebraCAS)(app.getKernel().getGeoGebraCAS())).getCurrentCAS();
-		
-		if (cas instanceof CASmpreduceW) {
-			CASmpreduceW.getStaticInterpreter((CASmpreduceW)cas);
-		} else {
-			// giac
-		}
-	}
+
 	
 	/**
 	 * @return int computed width of the canvas

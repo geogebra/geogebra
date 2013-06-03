@@ -10,7 +10,6 @@
   <inherits name='com.google.gwt.xml.XML' /> 
   <inherits name='geogebra.Html5'/>
   <!-- CAS -->
-  <inherits name='org.mathpiper.MpreduceJs' />
   
  <inherits name="com.google.gwt.i18n.I18N"/>
  
