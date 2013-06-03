@@ -5,6 +5,7 @@ import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
@@ -18,6 +19,8 @@ public class ConstructionProtocolView {
 	
 	protected App app;
 	public Kernel kernel;
+	protected ConstructionTableData data;
+	protected boolean isViewAttached;
 	
 	protected class RowData {
 		int rowNumber = -1;
@@ -235,11 +238,77 @@ public class ConstructionProtocolView {
 		
 	}
 
-	public void setConstructionStep(int consStep){
-		App.debug("common/ConstructionProtocolView.setConstructionStep - implementation needed.");
+	protected void updateNavigationBars() {
+		App.debug("common/ContructionProtocolView.updateNavigationBars() not implemented");
 	}
 
-	public class ConstructionTableData{
+	/**
+	 * Returns the number of the current construction step shown in the
+	 * construction protocol's table.
+	 */
+	public int getCurrentStepNumber() {
+		return data.getCurrentStepNumber();
+	}
+	
+	/**
+	 * Returns the number of the last construction step shown in the
+	 * construction protocol's table.
+	 */
+	public int getLastStepNumber() {
+		return data.getLastStepNumber();
+	}
+
+	public void setConstructionStep(int step) {
+		if (isViewAttached)
+			kernel.detach(data);
+		kernel.setConstructionStep(step);
+		if (isViewAttached)
+			kernel.attach(data);
+		updateNavigationBars();
+	}
+
+	public void nextStep() {
+		if (isViewAttached)
+			kernel.detach(data);
+		kernel.nextStep();
+		if (isViewAttached)
+			kernel.attach(data);
+		updateNavigationBars();
+		repaint();
+	}
+
+	public void previousStep() {
+		if (isViewAttached)
+			kernel.detach(data);
+		kernel.previousStep();
+		if (isViewAttached)
+			kernel.attach(data);
+		updateNavigationBars();
+	}
+
+	public void firstStep() {
+		if (isViewAttached)
+			kernel.detach(data);
+		kernel.firstStep();
+		if (isViewAttached)
+			kernel.attach(data);
+		updateNavigationBars();
+	}
+
+	public void lastStep() {
+		if (isViewAttached)
+			kernel.detach(data);
+		kernel.lastStep();
+		if (isViewAttached)
+			kernel.attach(data);
+		updateNavigationBars();
+	}
+
+	protected void repaint() {
+		App.debug("common/ContructionProtocolView.repaint() not implemented");
+	}
+
+	public class ConstructionTableData implements View{
 
 		protected ConstructionTableData ctData = this;
 		public final ColumnData columns[] = {
@@ -352,6 +421,66 @@ public class ConstructionProtocolView {
 			if((this.columns[nCol].getTitle()).equals("Caption")){ 
 				return true;
 			}
+			return false;
+		}
+
+		public void add(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void remove(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void rename(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void update(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void updateVisualStyle(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void updateAuxiliaryObject(GeoElement geo) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void repaintView() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void reset() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void clearView() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		public int getViewID() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		public boolean hasFocus() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public boolean isShowing() {
+			// TODO Auto-generated method stub
 			return false;
 		}
 		

@@ -2685,6 +2685,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private void doSetLabel(final String newLabel) {
+		App.debug("dosetlabel");
 		// UPDATE KERNEL
 		if (!labelSet && isIndependent()) {
 			// add independent object to list of all Construction Elements

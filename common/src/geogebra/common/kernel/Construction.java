@@ -656,7 +656,7 @@ public class Construction {
 	 *            index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
-
+		App.debug("addtoconstructionlist "+index);
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);
@@ -1629,7 +1629,7 @@ public class Construction {
 	 *            empty construction.
 	 */
 	public void setStep(int s) {
-		// Application.debug("setStep"+step+" "+s);
+		App.debug("setStep"+step+" "+s);
 
 		if (s == step || s < -1 || s >= ceList.size())
 			return;

@@ -3,6 +3,7 @@ package geogebra.html5.io;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 
 public class MyXMLioW extends geogebra.common.io.MyXMLio {
 
@@ -72,6 +73,29 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 			}
 
 		}
+		
+		// handle construction step stored in XMLhandler
+		// do this only if the construction protocol navigation is showing	
+		
+		App.debug("nandlecp step stored");
+		if (!isGGTFile && oldVal &&
+				app.showConsProtNavigation()) 
+		{
+				//((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
+
+			if (app.getGuiManager() != null){
+				App.debug("guimanager not null");
+				// if there is a ConstructionProtocolView, then update its navigation bars
+				app.getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
+			}
+			else{
+				App.debug("guimanager null");
+				// otherwise this is not needed 
+				app.getKernel().getConstruction().setStep(handler.getConsStep());
+			}
+
+		}
+		
 	}
 
 }
