@@ -14,12 +14,15 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @see ButtonBar
@@ -34,6 +37,8 @@ public class ToolBar extends HorizontalPanel
 	private HorizontalPanel toolPanel, inputButtonPanel;
 
 	protected InputDialog input;
+	TextBox inputBox = new TextBox();
+	
 	protected TouchModel touchModel;
 
 	public ToolBar(final TouchModel touchModel, TouchApp app)
@@ -81,8 +86,8 @@ public class ToolBar extends HorizontalPanel
 		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
 		// touchModel.getGuiModel());
 
-		// inputBar
-		StandardImageButton inputBarButton = new StandardImageButton(CommonResources.INSTANCE.show_input_bar());
+		// inputBar <----- Old version of input button
+		/*StandardImageButton inputBarButton = new StandardImageButton(CommonResources.INSTANCE.show_input_bar());
 
 		inputBarButton.addDomHandler(new ClickHandler()
 		{
@@ -100,7 +105,30 @@ public class ToolBar extends HorizontalPanel
 			{
 				ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
 			}
+		});*/
+		
+		// new Inputbar (Stefanie Bogner)
+		inputBox.setWidth(Window.getClientWidth()*0.2-20 + "px");
+		inputBox.setText("Input");
+		inputBox.addFocusHandler(new FocusHandler()
+		{
+
+			@Override
+			public void onFocus(FocusEvent event)
+			{
+				ToolBar.this.input.show();
+			}
 		});
+		
+		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
+				{
+					@Override
+					public void onClose(CloseEvent<PopupPanel> event)
+					{
+						ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
+					}
+				});
+		
 
 		for (ToolBarButton b : this.tools)
 		{
@@ -110,7 +138,9 @@ public class ToolBar extends HorizontalPanel
 		this.add(this.toolPanel);
 		
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.inputButtonPanel.add(inputBarButton);
+		this.setVerticalAlignment(ALIGN_MIDDLE);
+		//this.inputButtonPanel.add(inputBarButton);
+		this.inputButtonPanel.add(inputBox);
 		this.add(this.inputButtonPanel);
 
 		model.getGuiModel().setActive(this.tools.get(0));

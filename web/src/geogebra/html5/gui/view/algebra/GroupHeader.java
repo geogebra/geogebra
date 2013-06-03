@@ -29,6 +29,9 @@ public class GroupHeader extends FlowPanel{
 		public OpenButton(SafeUri showUrl,SafeUri hiddenUrl,final TreeItem ti){
 			this.showUrl = showUrl;
 			this.hiddenUrl = hiddenUrl;
+			
+			this.setStyleName("arrowBottom");
+			
 			addDomHandler(new ClickHandler()
 			{
 				public void onClick(ClickEvent event)
@@ -48,7 +51,7 @@ public class GroupHeader extends FlowPanel{
 		public void setImage(String text)
 		{
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-			String html = "<img src=\"" + text + "\" style=\"margin-right: 5px;\">";
+			String html = "<img src=\"" + text + "\">";
 			this.getElement().setInnerHTML(html);
 		}
 
@@ -57,10 +60,12 @@ public class GroupHeader extends FlowPanel{
 			if (value)
 			{
 				setImage(showUrl.asString());
+				this.setStyleName("arrowBottom");
 			}
 			else
 			{
 				setImage(hiddenUrl.asString());
+				this.setStyleName("arrowLeft");
 			}
 		}
 

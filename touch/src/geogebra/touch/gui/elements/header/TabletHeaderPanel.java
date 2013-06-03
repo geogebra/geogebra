@@ -40,14 +40,15 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
-		this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());
-		this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
-		this.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
-		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+		//this.getElement().getStyle().setBackgroundColor(TabletGUI.getBackgroundColor().toString());
+		//this.getElement().getStyle().setBorderColor(GColor.BLACK.toString());
+		//this.getElement().getStyle().setBorderWidth(TabletGUI.FOOTER_BORDER_WIDTH, Unit.PX);
+		//this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
 		this.app = app;
 		this.dialog = new InputDialog(this.app, DialogType.Title);
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
+		this.leftHeader.setStyleName("headerLeft");
 
 		this.titleButton = new Button(app.getConstructionTitle());
 
@@ -61,6 +62,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		});
 
 		this.rightHeader = new TabletHeaderPanelRight(app);
+		this.rightHeader.setStyleName("headerRight");
 
 		this.titleButton.addDomHandler(new ClickHandler()
 		{

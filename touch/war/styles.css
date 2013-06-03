@@ -55,6 +55,7 @@ div.button.button-up-hovering {
 }
 
 .arrowBottom img {
+	margin: 4px;
 	-moz-transform: rotate(270deg);
 	-o-transform: rotate(270deg);
 	-webkit-transform: rotate(270deg);
@@ -68,7 +69,6 @@ div.button.button-up-hovering {
 	width: 30px;
 	height: 30px;
 	padding: 4px;
-	display: inline-block;
 	margin: 0px 6px 0px 0px;
 }
 
@@ -77,7 +77,6 @@ div.button.button-up-hovering {
 	width: 40px;
 	height: 40px;
 	padding: 4px;
-	display: inline-block;
 	margin: 0px 6px 0px 0px;
 }
 
@@ -94,16 +93,41 @@ div.button.button-up-hovering {
 	height: 40px;
 }
 
-/* ELEMENTS */
-.graphicView {
-	height: 100%;
-	width: 100%;
-	display: block;
-	position: absolute;
+/* #####################################################################
+####                    HEADER, STYLEBAR							####
+##################################################################### */
+
+.headerbar {
+	/* Border */
+	border-bottom: #999999 solid 1px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
+	background-image: -o-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
+	background-image: -moz-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
+	background-image: -ms-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(204,204,204)),
+		color-stop(1, rgb(170,170,170)))
+	);
+}
+
+.headerLeft {
+	margin-left: 10px;
+}
+
+.headerLeft td,
+.headerRight td {
+	padding-top: 10px;
 }
 
 .stylebar {
-	padding: 6px 0px 5px 10px;
+	padding: 6px 6px 5px 10px;
 	display: inline-block;
 	
 	/* Border */
@@ -130,6 +154,10 @@ div.button.button-up-hovering {
 	);
 }
 
+/* #####################################################################
+####                    ALGEBRA VIEW 								####
+##################################################################### */
+
 .algebraView {	
 	/* Border */
 	border-left: #CCCCCC solid 1px;
@@ -150,12 +178,7 @@ div.button.button-up-hovering {
 	);
 }
 
-.algebraViewButtonPanel {
-	/*margin-left: -50px;
-	margin-right: -1px;
-	display: inline-block;
-	float: left;*/
-	
+.algebraViewButtonPanel {	
 	/* Border */
 	-webkit-border-bottom-left-radius: 5px;
   	-khtml-border-bottom-left-radius: 5px;
@@ -167,8 +190,7 @@ div.button.button-up-hovering {
 }
 
 .algebraViewArrowPanel {
-	padding: 6px 0px 5px 5px;
-	/*display: inline-block;*/
+	padding: 6px 6px 5px 5px;
 	
 	/* Border */
 	-webkit-border-bottom-left-radius: 5px;
@@ -177,14 +199,6 @@ div.button.button-up-hovering {
     border-bottom-left-radius: 5px;
 	border-left: #CCCCCC solid 1px;
 	border-bottom: #CCCCCC solid 1px;
-}
-
-.algebraViewButton.arrowLeft {
-	
-}
-
-.algebraViewButton.arrowRight {
-	
 }
 
 .algebraViewContent {
@@ -199,10 +213,9 @@ div.button.button-up-hovering {
 	border-bottom: #CCCCCC solid 1px;
 }
 
-.elemHeading a.arrowBottom,
-.elemHeading a.arrowLeft {
-	margin-top: -4px;
-	float: right;    
+.elemHeading .arrowBottom,
+.elemHeading .arrowLeft {
+	margin-top: -10px;   
 }
 
 .elemHeading .arrowBottom img,
@@ -211,8 +224,8 @@ div.button.button-up-hovering {
 	height: 30px;
 }
 
-.elemHeadingName{
-	float:left;
+div.elemHeadingName{
+	left: 25px;
 }
 
 .elemList {
@@ -221,7 +234,7 @@ div.button.button-up-hovering {
 }
 
 .elem {
-	padding: 5px 0px 5px 30px;
+	padding: 5px;
 }
 
 .elem.visible {
@@ -231,6 +244,10 @@ div.button.button-up-hovering {
 .elem.hidden {
 	background: url(img/elemHidden.svg) no-repeat left 10px;
 }
+
+/* #####################################################################
+####                    TOOL BAR									####
+##################################################################### */
 
 .toolbar {
 	
@@ -272,7 +289,7 @@ div.button.button-up-hovering {
 	padding: 5px;
 	padding-right: 0px;
 	
-	/* Schatten */
+	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
 	box-shadow: 3px 3px 5px #DCDCDC;
@@ -288,20 +305,89 @@ div.button.button-up-hovering {
 	bottom: 0px;*/
 }
 
+/* #####################################################################
+####                    INPUT										####
+##################################################################### */
+
 .inputbarPanel {
-	/*float: right;
-	right: 0px;
-	bottom: 0px;*/
-	width: 310px;
 	padding: 10px 5px;
-	/*display: block;*/
 }
 
 .inputbarPanel input {
 	border: #CCCCCC solid 1px;
 	color: #BABABA;
 	padding: 4px;
-	width: 297px;
+	/*width: 297px;*/
+}
+
+.inputDialog {
+	padding: 10px;
+	
+	/* Border */
+	-webkit-border-radius: 5px;
+  	-khtml-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	
+	border: #DCDCDC solid 1px;
+	
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #999999;
+	-moz-box-shadow: 3px 3px 5px #999999;
+	box-shadow: 3px 3px 5px #999999;
+	
+	background-color: #FFFFFF;
+}
+
+.inputDialog .gwt-TextBox {
+	margin-top: 5px;
+}
+
+.inputDialog .gwt-PopupPanel {
+	border: none;
+	padding: 10px 2px 0px 2px;
+}
+
+.customKeyPanel {
+	margin-right: -6px;
+	margin-top: 10px;
+}
+
+.inputDialog .customKeyPanel button {
+	margin-right: 6px;
+	width: 40px;
+	height: 40px;
+	
+	/* Border */
+	-webkit-border-radius: 5px;
+  	-khtml-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	
+	border: #DCDCDC solid 1px;
+	
+	/* Background */
+	background: none;
+	
+	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(254,254,254)),
+		color-stop(1, rgb(237,237,237))
+	);
+}
+
+.inputDialog .customKeyPanel button:hover {
+	border: #9999FF 1px solid;
+	background-image: none;
+	background: #EEEEEE;
 }
 
 #View_2 div table {

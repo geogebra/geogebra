@@ -21,7 +21,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
@@ -124,6 +123,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		app = (AppWeb)kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
+		
+		this.setStyleName("elem");
 
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);

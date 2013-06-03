@@ -55,6 +55,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		this.setGlassEnabled(true);
 		this.app = app;
 		this.type = type;
+		
+		this.setStyleName("inputDialog");
 
 		init();
 	}
@@ -66,7 +68,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		addTextBox();
-		addButtonContainer();
+		//addButtonContainer();
 		this.add(this.dialogPanel);
 	}
 
@@ -168,7 +170,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
 
-		this.customKeys.showRelativeTo(this);
+		//this.customKeys.showRelativeTo(this);
+		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		this.dialogPanel.add(this.customKeys);
 	}
 
 	@Override
