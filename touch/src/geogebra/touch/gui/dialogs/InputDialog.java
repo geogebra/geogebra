@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -49,12 +50,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 
 	public InputDialog(TouchApp app, DialogType type)
 	{
-		// don't hide when clicked outside and don't set modal due to the
+		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
-		super(false, false);
+		super(true, false);
 		this.setGlassEnabled(true);
 		this.app = app;
 		this.type = type;
+		
+		this.setPopupPosition(300, 62);
 		
 		this.setStyleName("inputDialog");
 
@@ -107,21 +110,21 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 			}
 		});
 
-		this.textBox.setVisibleLength(100);
+		this.textBox.setVisibleLength(107);
 		this.dialogPanel.add(this.textBox);
 		this.textBox.setFocus(true);
 	}
 
-	private void addButtonContainer()
+	/*private void addButtonContainer()
 	{
 		addCancelButton();
 		addOKButton();
 
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.dialogPanel.add(this.buttonContainer);
-	}
+	}*/
 
-	private void addOKButton()
+	/*private void addOKButton()
 	{
 		this.okButton.addDomHandler(new ClickHandler()
 		{
@@ -133,9 +136,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		}, ClickEvent.getType());
 
 		this.buttonContainer.add(this.okButton);
-	}
+	}*/
 
-	private void addCancelButton()
+	/*private void addCancelButton()
 	{
 		this.cancelButton.addDomHandler(new ClickHandler()
 		{
@@ -148,7 +151,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		}, ClickEvent.getType());
 
 		this.buttonContainer.add(this.cancelButton);
-	}
+	}*/
 
 	protected void onOK()
 	{
@@ -166,7 +169,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 	public void show()
 	{
 		super.show();
-		super.center();
+		//super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
 

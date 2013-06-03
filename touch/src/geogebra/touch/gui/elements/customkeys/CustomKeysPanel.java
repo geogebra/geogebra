@@ -39,6 +39,7 @@ public class CustomKeysPanel extends PopupPanel
 		super(false, false);
 
 		this.listeners = new ArrayList<CustomKeyListener>();
+		this.setStyleName("customKeyPanel");
 
 		for (final CustomKey k : CustomKey.values())
 		{
@@ -46,7 +47,7 @@ public class CustomKeysPanel extends PopupPanel
 			b.setText(k.toString());
 
 			// TODO Steffi!
-			b.setSize("40px", "40px");
+			//b.setSize("40px", "40px");
 
 			b.addDomHandler(new ClickHandler()
 			{

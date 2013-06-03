@@ -126,6 +126,12 @@ div.button.button-up-hovering {
 	padding-top: 10px;
 }
 
+.headerbar button {
+	background: none;
+	background-image: none;
+	background-color: none;
+}
+
 .stylebar {
 	padding: 6px 6px 5px 10px;
 	display: inline-block;
@@ -225,7 +231,8 @@ div.button.button-up-hovering {
 }
 
 div.elemHeadingName{
-	left: 25px;
+	/*left: 25px;*/
+	float: left;
 }
 
 .elemList {
@@ -341,6 +348,8 @@ div.elemHeadingName{
 
 .inputDialog .gwt-TextBox {
 	margin-top: 5px;
+	border: 1px solid #DCDCDC;
+	padding: 3px;
 }
 
 .inputDialog .gwt-PopupPanel {
@@ -392,4 +401,10 @@ div.elemHeadingName{
 
 #View_2 div table {
 	width: 100%;
+}
+
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
 }
