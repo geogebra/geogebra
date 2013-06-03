@@ -93,8 +93,13 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 
 	@Override
     public final void paintBackground(geogebra.common.awt.GGraphics2D g2) {
-		((geogebra.html5.awt.GGraphics2DW)g2).drawGraphics(
+		if(this.isGridOrAxesShown() || this.hasBackgroundImages()){
+			((geogebra.html5.awt.GGraphics2DW)g2).drawGraphics(
 				(geogebra.html5.awt.GGraphics2DW)bgGraphics, 0, 0, null);
+		}else{
+			((geogebra.html5.awt.GGraphics2DW)g2).fillWith(this.getBackgroundCommon());
+		}
+		
 	}
 	
 	public void doRepaint() {

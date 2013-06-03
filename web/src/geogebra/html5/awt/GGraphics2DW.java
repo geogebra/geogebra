@@ -907,4 +907,10 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		setComposite(GAlphaCompositeW.Src);	    
     }
 
+
+	public void fillWith(GColor color) {
+	    this.setColor(color);
+	    this.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
+    }
+
 }
