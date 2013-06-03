@@ -4,11 +4,11 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.font.GTextLayout;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -20,13 +20,13 @@ import java.text.DecimalFormat;
  * draw density for 2-variables function
  * 
  * @author Giuliano Bellucci 05/04/2013
- *
+ * 
  */
 public class AlgoDensityPlot extends AlgoElement {
 
 	private GeoCanvasImage outputImage;
 	private GeoFunctionNVar function;
-	
+
 	private double minX;
 	private double maxX;
 	private double minY;
@@ -39,8 +39,6 @@ public class AlgoDensityPlot extends AlgoElement {
 	private int[] colors;
 	private int i;
 	private int j;
-	private double y;
-	private double x;
 	private GColor color;
 	private double incX;
 	private double incY;
@@ -48,76 +46,95 @@ public class AlgoDensityPlot extends AlgoElement {
 	private GGraphics2D g;
 	private FunctionNVar f;
 	private DecimalFormat df;
-	private boolean hasGrid;
-	private boolean hasAxes;
 	private GTextLayout t;
 	private GFont font = app.getFontCanDisplay("-999").deriveFont(GFont.PLAIN,
 			8);
 	private double scaleX;
 	private double scaleY;
-	private double zeroY=0;
-	private double zeroX=0;
 	private int grade;
+	private EuclidianViewInterfaceCommon view;
+	private boolean fixed;
+	private int imagePlusOffset;
+	private double value;
+	private boolean prevGrid;
 
-	public AlgoDensityPlot(Construction c, GeoFunctionNVar function) {
-		this(c, function, -2, 2, -2, 2,1);
-
+	/**
+	 * @param c 
+	 *           Construction
+	 * @param function 
+	 *           2-variables function
+	 * 	
+	 */
+	public AlgoDensityPlot(final Construction c, final GeoFunctionNVar function) {
+		this(c, function, -2, 2, -2, 2, false);
 	}
 
+	/**
+	 * @param cons
+	 *            Construction
+	 * @param geoFunctionNVar
+	 *            2-variables function
+	 * @param lowX
+	 * @param highX
+	 * @param lowY
+	 * @param highY
+	 * @param fixed
+	 *            true for fixed scale, false for scale handled by euclidean
+	 *            view
+	 */
 	public AlgoDensityPlot(Construction cons, GeoFunctionNVar geoFunctionNVar,
-			double lowX, double highX, double lowY, double highY) {
-		this(cons, geoFunctionNVar, lowX, highX, lowY, highY,1);
-	}
-
-	public AlgoDensityPlot(Construction cons, GeoFunctionNVar geoFunctionNVar,
-			double lowX, double highX, double lowY, double highY, int grade) {
-		this(cons,geoFunctionNVar,lowX,highX,lowY,highY,grade,0,0,true,false);
-	}
-
-	public AlgoDensityPlot(Construction cons, GeoFunctionNVar geoFunctionNVar,
-			double lowX, double highX, double lowY, double highY, int grade,
-			double zeroX, double zeroY,
-			boolean hasAxes, boolean hasGrid) {
+			double lowX, double highX, double lowY, double highY, boolean fixed) {
 		super(cons);
-		this.function = geoFunctionNVar;
-		f = function.getFunction();
-		minX = lowX;
-		minY = lowY;
-		maxX = highX;
-		maxY = highY;
-		scaleX = maxX - minX;
-		scaleY = maxY - minY;
-		this.zeroX=zeroX;
-		this.zeroY=zeroY;
-		imageSize /= grade;
-		gridPixel /= grade;
-		if (grade == 2) {
+		grade = 1;
+		// for web image, area and resolution are a quarter of desktop
+		if (app.isHTML5Applet()) {
+			grade = 2;
 			offset = 25;
 		}
+		function = geoFunctionNVar;
+		f = function.getFunction();
+		view = app.getActiveEuclidianView();
+		this.fixed = fixed;
+		if (fixed) {
+			minX = lowX;
+			minY = lowY;
+			maxX = highX;
+			maxY = highY;
+		}
+		scaleX = maxX - minX;
+		scaleY = maxY - minY;
+		imageSize /= grade;
+		gridPixel /= grade;
 		outputImage = new GeoCanvasImage(cons, imageSize + 2 * offset,
 				imageSize + 2 * offset);
 		g = outputImage.getGraphics();
 		g.setFont(font);
+		g.setColor(GColor.white);
+		g.fillRect(0, 0, imageSize + 2 * offset, offset);
 		df = new DecimalFormat("0.##");
-		this.grade = grade;
-		this.hasAxes=hasAxes;
-		this.hasGrid=hasGrid;
+		imagePlusOffset = imageSize + offset;
+		outputImage.setAbsoluteScreenLocActive(true);
+		outputImage.setAbsoluteScreenLoc(view.getViewWidth() / 2
+				- (imageSize + 2 * offset) / 2, view.getViewHeight() / 2
+				+ (imageSize + 2 * offset) / 2);
 		setInputOutput();
+		deleteAxes();
+		if (fixed) {
+			compute();
+		}
+		update();
 	}
+
 	@Override
-	protected void setInputOutput() {		
-		input = new GeoElement[10];
+	protected void setInputOutput() {
+		input = new GeoElement[6];
 		input[0] = function;
-		input[1] = new GeoNumeric(cons,minX);
-		input[2] = new GeoNumeric(cons,maxX);
-		input[3] = new GeoNumeric(cons,minY);
-		input[4] = new GeoNumeric(cons,maxY);
-		input[5] = new GeoNumeric(cons,grade);
-		input[6] = new GeoNumeric(cons,zeroX);
-		input[7] = new GeoNumeric(cons,zeroY);
-		input[8] = new GeoBoolean(cons,hasAxes);
-		input[9] = new GeoBoolean(cons,hasGrid);
-		
+		input[1] = new GeoNumeric(cons, minX);
+		input[2] = new GeoNumeric(cons, maxX);
+		input[3] = new GeoNumeric(cons, minY);
+		input[4] = new GeoNumeric(cons, maxY);
+		input[5] = new GeoNumeric(cons, grade);
+
 		super.setOutputLength(1);
 		super.setOutput(0, outputImage);
 		setDependencies(); // done by AlgoElement
@@ -125,39 +142,27 @@ public class AlgoDensityPlot extends AlgoElement {
 
 	@Override
 	public void compute() {
-		incX = scaleX / imageSize;
-		incY = scaleY / imageSize;
-		g.setColor(GColor.white);
-		g.fillRect(0, 0, imageSize + 2 * offset, imageSize + 2 * offset);
-		if (hasAxes) {
-			drawAxes();
-		}
-		for (j = offset, y = maxY; j < imageSize + offset; y -= incY * grade, j += grade) {
-			for (i = offset, x = minX; i < imageSize + offset; x += incX
-					* grade, i += grade) {
-				vals[0] = x;
-				vals[1] = y;
-				double value = f.evaluate(vals);
+		incX = scaleX / imageSize * grade;
+		incY = scaleY / imageSize * grade;
+		for (j = offset, vals[1] = maxY; j < imagePlusOffset; vals[1] -= incY, j += grade) {
+			for (i = offset, vals[0] = minX; i < imagePlusOffset; vals[0] += incX, i += grade) {
+				value = f.evaluate(vals);
 				colors = rgbColor(value);
 				color = AwtFactory.prototype.newColor(colors[0], colors[1],
 						colors[1]);
 				g.setColor(color);
-				g.fillRect(i, j, grade,  grade);
+				g.fillRect(i, j, grade, grade);
 			}
 		}
-		if (hasGrid) {
-			drawGrid();
-		}
-		setInputOutput();
 	}
 
 	private void drawGrid() {
-		g.setColor(GColor.gray);
-		for (i = offset; i <= imageSize + offset; i += gridPixel) {
-			g.drawLine(i, offset, i, imageSize + offset);
+		g.setColor(GColor.lightGray);
+		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
+			g.drawLine(i, offset, i, imagePlusOffset);
 		}
-		for (i = offset; i <= imageSize + offset; i += gridPixel) {
-			g.drawLine(offset, i, imageSize + offset, i);
+		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
+			g.drawLine(offset, i, imagePlusOffset, i);
 		}
 	}
 
@@ -165,22 +170,25 @@ public class AlgoDensityPlot extends AlgoElement {
 		double xx = minX;
 		double yy = maxY;
 		g.setColor(GColor.gray);
-		for (i = offset; i <= imageSize + offset; i += gridPixel * 5) {
+		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
+			g.drawLine(i, imagePlusOffset, i, imagePlusOffset + 2);
 			g.drawLine(offset - 2, i, offset, i);
-			g.drawLine(i, imageSize + offset, i, imageSize + offset + 2);
 		}
 		g.setColor(GColor.black);
-		for (i = offset; i <= imageSize + offset; i += gridPixel * 5) {
-			g.drawString(df.format(yy), 1, i + 4);
+		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					df.format(xx), font, g.getFontRenderContext());
 			g.drawString(df.format(xx), i - t.getAdvance() / 2, imageSize + 2
 					* offset - offset / 3);
-			xx += incX * gridPixel * 5;
-			yy -= incY * gridPixel * 5;
+			g.drawString(df.format(yy), 1, i + 4);
+			yy -= incY * gridPixel * 5 / grade;
+			xx += incX * gridPixel * 5 / grade;
 		}
 	}
 
+	/**
+	 * @return GeoCanvasImage of function
+	 */
 	public GeoCanvasImage getResult() {
 		return outputImage;
 	}
@@ -190,79 +198,63 @@ public class AlgoDensityPlot extends AlgoElement {
 		return Commands.DensityPlot;
 	}
 
-	
-	// getter ad setter 
-	
-	public double getScaleX() {
-		return scaleX;
+	@Override
+	public void update() {
+		if (!fixed) {
+			if (minX != view.getXmin() || minY != view.getYmin()
+					|| maxX != view.getXmax() || maxY != view.getYmax()) {
+				minX = view.getXmin();
+				minY = view.getYmin();
+				maxX = view.getXmax();
+				maxY = view.getYmax();
+				scaleX = maxX - minX;
+				scaleY = maxY - minY;
+				compute();
+			}
+		}
+		deleteAxes();
+		if (view.getShowAxis(EuclidianViewInterfaceCommon.AXIS_X)
+				|| view.getShowAxis(EuclidianViewInterfaceCommon.AXIS_Y)) {
+			drawAxes();
+		}
+		showGrid();
 	}
 
-	public double getScaleY() {
-		return scaleY;
+	private void deleteAxes() {
+		g.setColor(GColor.white);
+		g.fillRect(0, imagePlusOffset, imagePlusOffset + 2 * offset, offset);
+		g.fillRect(0, offset, offset, imagePlusOffset);
+		g.fillRect(0, 0, imagePlusOffset + 2 * offset, offset);
+		g.fillRect(imagePlusOffset, offset, offset,imageSize);
 	}
 
-	public void setZeroY(double value) {		
-		minY = -(scaleY / 2 + value);
-		maxY = scaleY / 2 - value;
-		zeroY=value;
+	private void showGrid() {
+		if (view.getShowGrid()) {
+			drawGrid();
+			prevGrid = true;
+		} else {
+			if (view.getShowGrid() != prevGrid && prevGrid) {
+				prevGrid = false;
+				compute();
+			}
+		}
 	}
 
-	public void setZeroX(double value) {
-		minX = -(scaleX / 2 + value);
-		maxX = scaleX / 2 - value;
-		zeroX=value;
-	}
-
-	public void setScaleX(double scale) {
-		this.scaleX = scale;
-		setZeroX(zeroX);
-	}
-
-	public void setScaleY(double scale) {
-		this.scaleY = scale;
-		setZeroY(zeroY);
-	}
-
-	public double getZeroX() {
-		return zeroX;
-	}
-
-	public double getZeroY() {
-		return zeroY;
-	}
-
-	public void setGrid(boolean selected) {
-		hasGrid = selected;
-	}
-
-	public void setAxes(boolean selected) {
-		hasAxes = selected;
-	}
-
-	public boolean hasGrid() {
-		return hasGrid;
-	}
-
-	public boolean hasAxes() {
-		return hasAxes;
-	}
-	
 	/*
 	 * This code is based on Zoltan Kovacs's <kovacsz@nyf.hu> idea. For details
 	 * see Teaching Math. and Comp. Sci. *2*, pp. 321-331.
 	 */
 
-	private int col(double x) {
+	private static int col(double x1) {
 		int code;
-		code = (int) (x * 256);
+		code = (int) (x1 * 256);
 		if (code > 255) {
 			return 255;
-		} else {
-			return (code);
 		}
+		return (code);
 	}
 
-	private int[] hlsToRgb(double h, double l, double s) {
+	private static int[] hlsToRgb(double h, double l, double s) {
 		int[] rgb = new int[2];
 		double m2;
 		if (l < 0.5) {
@@ -280,12 +272,11 @@ public class AlgoDensityPlot extends AlgoElement {
 		return rgb;
 	}
 
-	public int[] rgbColor(double zre) {
+	private static int[] rgbColor(double zre) {
 		double xx;
 		xx = 1.0 - 2.0 * Math.atan(Math.sqrt(zre * zre)) / Math.PI;
-		double x = xx <= 0.5 ? 2 * xx : 2 - 2 * xx;
+		double x1 = xx <= 0.5 ? 2 * xx : 2 - 2 * xx;
 		double arg = zre < 0 ? 180 : 0;
-		return hlsToRgb(arg, xx, x);
+		return hlsToRgb(arg, xx, x1);
 	}
-	
 }

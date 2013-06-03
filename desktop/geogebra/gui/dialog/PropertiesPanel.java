@@ -26,7 +26,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
-import geogebra.common.kernel.algos.AlgoDensityPlot;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
@@ -2434,7 +2433,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos; // currently selected geos
 		private JCheckBox checkbox;
-		private DensityPlotPanel density;
 		public CheckBoxInterpolateImage() {
 			super(new FlowLayout(FlowLayout.LEFT));
 			checkbox = new JCheckBox();
@@ -2450,28 +2448,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			this.geos = geos;
 			if (!checkGeos(geos))
 				return null;
-			if (((GeoElement) geos[0]) instanceof GeoCanvasImage) {
-				if (((GeoCanvasImage) geos[0]).getParentAlgorithm() instanceof AlgoDensityPlot) {
-					checkbox.setVisible(false);
-					if (density != null) {
-						remove(density);
-					}
-					density = new DensityPlotPanel(this,app);
-					add(density);
-					density.setAlgo((AlgoDensityPlot)((GeoCanvasImage) geos[0])
-							.getParentAlgorithm());
-					density.update();
-				} else {
+			if (((GeoElement) geos[0]) instanceof GeoCanvasImage) {				
 					checkbox.setVisible(true);
-					if (density != null) {
-						remove(density);
-					}
-				}
 			} else {
 				checkbox.setVisible(true);
-				if (density != null) {
-					remove(density);
-				}
 			}
 			checkbox.removeItemListener(this);
 

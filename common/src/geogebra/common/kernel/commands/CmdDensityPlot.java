@@ -2,7 +2,6 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDensityPlot;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -50,70 +49,14 @@ public class CmdDensityPlot extends CommandProcessor {
 					|| ((GeoFunctionNVar) args[0]).getVarNumber() != 2) {
 				throw argErr(app, c.getName(), args[0]);
 			}
-			AlgoDensityPlot algo = new AlgoDensityPlot(cons,
-					(GeoFunctionNVar) args[0]);
-			algo.compute();
+			AlgoDensityPlot algo = new AlgoDensityPlot(cons,(GeoFunctionNVar) args[0]);
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
+		
 		case 5:
 			control(c);
 			algo = new AlgoDensityPlot(cons, (GeoFunctionNVar) args[0], lowX,
-					highX, lowY, highY);
-			algo.compute();
-			ret = new GeoElement[1];
-			ret[0] = algo.getResult();
-			return ret;
-		case 6:
-			control(c);
-			// Quality = 1 -> Image size = 280 x 280. 1 pixel for 1 function
-			// value
-			// Quality = 2 -> Image size = 140 x 140. 4 pixels for 1 function
-			// value (for web)
-			int quality = (int) c.getArgument(5).evaluateNum().getNumber()
-					.getDouble();
-			if (Double.isNaN(quality) || (quality != 1 && quality != 2)) {
-				throw argErr(app, c.getName(), c.getArgument(5));
-			}
-			algo = new AlgoDensityPlot(cons, (GeoFunctionNVar) args[0], lowX,
-					highX, lowY, highY, quality);
-			algo.compute();
-			ret = new GeoElement[1];
-			ret[0] = algo.getResult();
-			return ret;
-		case 10:
-			control(c);
-			quality = (int) c.getArgument(5).evaluateNum().getNumber()
-					.getDouble();
-			if (Double.isNaN(quality) || (quality != 1 && quality != 2)) {
-				throw argErr(app, c.getName(), c.getArgument(5));
-			}
-			double zeroX = c.getArgument(6).evaluateNum().getNumber()
-					.getDouble();
-			if (Double.isNaN(zeroX)) {
-				throw argErr(app, c.getName(), c.getArgument(6));
-			}
-			double zeroY = c.getArgument(7).evaluateNum().getNumber()
-					.getDouble();
-			if (Double.isNaN(zeroY)) {
-				throw argErr(app, c.getName(), c.getArgument(7));
-			}
-			boolean hasAxes = false;
-			if (c.getArgument(8).isBooleanValue()) {
-				hasAxes = "true".equals(c.getArgument(8).toValueString(
-						StringTemplate.defaultTemplate));
-			} else {
-				throw argErr(app, c.getName(), c.getArgument(8));
-			}
-			boolean hasGrid = false;
-			if (c.getArgument(9).isBooleanValue()) {
-				hasGrid = "true".equals(c.getArgument(9).toValueString(
-						StringTemplate.defaultTemplate));
-			} else {
-				throw argErr(app, c.getName(), c.getArgument(9));
-			}
-			algo = new AlgoDensityPlot(cons, (GeoFunctionNVar) args[0], lowX,
-					highX, lowY, highY, quality, zeroX, zeroY, hasAxes, hasGrid);
-			algo.compute();
+					highX, lowY, highY,true);
 			ret = new GeoElement[1];
 			ret[0] = algo.getResult();
 			return ret;
