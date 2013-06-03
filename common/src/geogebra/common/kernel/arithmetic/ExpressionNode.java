@@ -4435,24 +4435,35 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType == StringType.MPREDUCE) {
 				sb.append("iffun(");
 			}
-			else {
+			else if (stringType == StringType.GIAC) {
+				sb.append("when(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(",infinity)");
+			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(app.getLocalization().getCommand("If"));
-				}else{
+				} else {
 					sb.append("If");
 				}
-				sb.append("[");
+				sb.append('[');
 				sb.append(leftStr);
-				sb.append(",");
+				sb.append(',');
 				sb.append(rightStr);
-				sb.append("]");
+				sb.append(']');
 			}
 			break;	
 		case IF_ELSE:
 			if (stringType == StringType.MPREDUCE) {
 				sb.append("ifelsefun(");
-			}
-			else {
+			} else if (stringType == StringType.GIAC) {
+				sb.append("when(");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append(")");
+			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(app.getLocalization().getCommand("If"));
 				}else{
