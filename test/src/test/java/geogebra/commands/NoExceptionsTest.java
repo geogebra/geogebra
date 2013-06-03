@@ -2577,8 +2577,6 @@ public class NoExceptionsTest {
 	public void cmdDensityPlot() {
 		t("DensityPlot[sin(x)*sin(y)]");
 		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1]");
-		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,1]");
-		t("DensityPlot[sin(x)*sin(y),-1,1,-1,1,2,0,0,true,false]");
 	}
 	@Test
 	public void cmdShowAxes(){
