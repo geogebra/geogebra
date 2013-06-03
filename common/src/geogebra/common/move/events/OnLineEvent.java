@@ -3,6 +3,7 @@ package geogebra.common.move.events;
 /**
  * @author gabor
  * 
+ *  Online events happen, when we are connected to the internet
  * 
  *
  */
