@@ -37,6 +37,8 @@ import com.google.gwt.user.client.Timer;
  */
 public class TouchController extends EuclidianController
 {
+	/** Maximum time in ms between touch move was stopped (finger not moving, but still down) and event is handled*/
+	private static final int DELAY_UNTIL_MOVE_FINISH = 150;
 	private TouchModel model;
 	private GPoint origin;
 	private boolean clicked = false;
@@ -122,10 +124,13 @@ public class TouchController extends EuclidianController
 			GeoGebraProfiler.drags++;
 			long time = System.currentTimeMillis();
 			if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
+				boolean wasWaiting = this.waitingX >= 0;
 				this.waitingX = x;
 				this.waitingY = y;
 				GeoGebraProfiler.moveEventsIgnored++;
-				this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
+				if(!wasWaiting){
+					this.repaintTimer.schedule(TouchController.DELAY_UNTIL_MOVE_FINISH);
+				}
 				return;
 			}
 			
