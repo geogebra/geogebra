@@ -108,19 +108,6 @@ public class ConstructionProtocolView {
 			return includesIndex;
 		}
 		
-		//TODO
-		//These functions is used until we have no construction protocol view in web.
-		//Its value is only temporarily, see comment of index variable.
-		//Desktop doesn't use this, it's overridden there.
-		protected int getConstructionIndex(int row){
-			return row;	
-		}
-		protected GImageIcon getModeIcon(int mode){
-			return null;
-		}
-		
-		
-		
 		public void updateAll() {
 
 			/*
@@ -175,6 +162,14 @@ public class ConstructionProtocolView {
 					|| (definition.indexOf("<sub>") >= 0)
 					|| (command.indexOf("<sub>") >= 0)
 					|| (caption.indexOf("<sub>") >= 0);
+		}
+
+		protected int getConstructionIndex(int row) {
+			return data.getConstructionIndex(row);
+		}
+
+		protected GImageIcon getModeIcon(int mode) {
+			return app.wrapGetModeIcon(mode);
 		}
 
 	}
@@ -247,6 +242,7 @@ public class ConstructionProtocolView {
 	 * construction protocol's table.
 	 */
 	public int getCurrentStepNumber() {
+		App.debug("CPW.getCurrentStepNumber");
 		return data.getCurrentStepNumber();
 	}
 	
@@ -359,15 +355,21 @@ public class ConstructionProtocolView {
 		 * construction protocol's table.
 		 */
 		public int getCurrentStepNumber() {
+			App.debug("getCurrentStepNumber");
 			int step = kernel.getConstructionStep();
-		
+			App.debug("step: "+step);
+			
 			// search the current construction step in the rowList
 			int size = rowList.size();
+			App.debug("size: "+size);
 			for (int i = 0; i < size; i++) {
 				RowData rd = rowList.get(i);
-				if (rd.getGeo().getConstructionIndex() == step)
+				if (rd.getGeo().getConstructionIndex() == step){
+					App.debug("rd.getIndex(): " +rd.getIndex());
 					return rd.getIndex();
+				}
 			}
+			App.debug("getCurrentStepNumber will return 0");
 			return 0;
 		}
 

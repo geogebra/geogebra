@@ -11,7 +11,6 @@ the Free Software Foundation.
 
  */
 
-import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -848,23 +847,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			
 			return this;
 		}
-	}
-
-	public class RowData extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData{
-
-		public RowData(GeoElement geo) {
-			super(geo);
-		}
-		
-		@Override
-		protected int getConstructionIndex(int row){
-			return data.getConstructionIndex(row);
-		}
-		@Override
-		protected GImageIcon getModeIcon(int mode){
-			return ((AppD)app).wrapGetModeIcon(mode);
-		}
-		
 	}
 
 	public class ConstructionTableData

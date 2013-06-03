@@ -24,6 +24,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.javax.swing.GImageIcon;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
@@ -3261,6 +3262,11 @@ public abstract class App implements UpdateSelection{
 			getGuiManager()
 					.updateCheckBoxesForShowConstructinProtocolNavigation();
 	
+	}
+
+	public GImageIcon wrapGetModeIcon(int mode) {
+		App.debug("App.wrapGetModeIcon must be overriden");
+		return null;
 	}
 
 }

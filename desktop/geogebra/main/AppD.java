@@ -1930,6 +1930,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		imageManager.addExternalImage(filename, image);
 	}
 
+	@Override
 	public GImageIcon wrapGetModeIcon(int mode){
 		return new geogebra.javax.swing.GImageIconD(getModeIcon(mode));
 	}
