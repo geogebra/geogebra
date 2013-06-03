@@ -176,6 +176,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		//this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.dialogPanel.add(this.customKeys);
+		this.textBox.setFocus(true);
 	}
 
 	@Override

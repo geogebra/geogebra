@@ -108,9 +108,9 @@ public class ToolBar extends HorizontalPanel
 		});*/
 		
 		// new Inputbar (Stefanie Bogner)
-		inputBox.setWidth(Window.getClientWidth()*0.2-20 + "px");
-		inputBox.setText("Input");
-		inputBox.addFocusHandler(new FocusHandler()
+		this.inputBox.setWidth(Window.getClientWidth()*0.2-20 + "px");
+		this.inputBox.setText("Input");
+		this.inputBox.addFocusHandler(new FocusHandler()
 		{
 
 			@Override
@@ -140,7 +140,7 @@ public class ToolBar extends HorizontalPanel
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.setVerticalAlignment(ALIGN_MIDDLE);
 		//this.inputButtonPanel.add(inputBarButton);
-		this.inputButtonPanel.add(inputBox);
+		this.inputButtonPanel.add(this.inputBox);
 		this.add(this.inputButtonPanel);
 
 		model.getGuiModel().setActive(this.tools.get(0));
