@@ -148,7 +148,8 @@ public class Variable extends ValidExpression {
 		}
 		
 		// spreadsheet dollar sign reference
-		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell)) {
+		// need to avoid CAS cell references, eg $1 (see #3206)
+		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell) && !(geo instanceof GeoDummyVariable)) {
 			// row and/or column dollar sign present?
 			boolean col$ = name.indexOf('$') == 0;
 			boolean row$ = name.length() > 2 && name.indexOf('$', 1) > -1;
