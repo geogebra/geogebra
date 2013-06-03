@@ -25,7 +25,7 @@
 
     <inherits name="geogebra.Common" />
 
-    <inherits name="geogebra.Web" />
+    <inherits name="geogebra.Html5" />
 
     <!-- GWT SuperDevMode -->
 

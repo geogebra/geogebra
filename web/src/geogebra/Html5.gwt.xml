@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module rename-to='web'>
+<module rename-to='html5'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <!-- Priority matters! Latter definitions override former (even in former xml-s -->
   <inherits name='com.google.gwt.user.User'/>
@@ -8,7 +8,7 @@
     <!-- GeoGebraTube upload -->
   <inherits name="com.google.gwt.http.HTTP"/>  
   <inherits name='com.google.gwt.xml.XML' /> 
-  <inherits name='geogebra.Html5'/>
+  <inherits name='geogebra.Common'/>
   <!-- CAS -->
   <inherits name='org.mathpiper.MpreduceJs' />
   
@@ -30,17 +30,12 @@
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.    -->
-  <!--Changed to our Own THEME, that is basically the Clean theme-->
-  <inherits name='geogebra.theme.Clean'/>
   <!--<inherits name='geogebra.theme.CleanRTL'/>-->
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  <!--  upBinder for GUI -->
-  <inherits name="com.google.gwt.uibinder.UiBinder" />
- 
+  <!--  upBinder for GUI --> 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
   <set-property name="user.agent" value="safari, gecko1_8, ie9" />
