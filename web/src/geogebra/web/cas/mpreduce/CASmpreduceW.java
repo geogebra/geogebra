@@ -10,9 +10,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 
-import org.mathpiper.mpreduce.Interpretable;
-import org.mathpiper.mpreduce.InterpreterJs;
-
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -27,7 +24,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 
 	
 	
-	private static Interpretable mpreduce_static = new Interpretable() {
+	private static Evaluate mpreduce_static = new Evaluate() {
 		
 		public String evaluate(String exp, long timeoutMilliseconds)
 		        throws Throwable {
@@ -62,7 +59,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	};
 	private static boolean asyncstarted = false;
 	private Kernel kernel;
-	private Interpretable mpreduce;
+	private Evaluate mpreduce;
 	
 	/**
 	 * Creates new CAS
@@ -102,17 +99,17 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	 * @param casInstance CAS instance
 	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
 	 */
-	public static synchronized Interpretable getStaticInterpreter(final CASmpreduceW casInstance) {
+	public static synchronized Evaluate getStaticInterpreter(final CASmpreduceW casInstance) {
 		if (!asyncstarted ) {
 			asyncstarted = true;
 			GWT.runAsync(new RunAsyncCallback() {
 				
 				public void onSuccess() {
 					//just let the constructor run (until callback we can't do anything wit cas anyway, let dummy cas work
-					new InterpreterJs().getStartMessage();
+					//new InterpreterJs().getStartMessage();
 					
 					//this will be hard. 1; First async: we got CAS here. But we must load Lisp image.
-					InterpreterJs.casLoadImage(casInstance);      
+					//InterpreterJs.casLoadImage(casInstance);      
 				}
 				
 				public void onFailure(Throwable reason) {
@@ -178,7 +175,13 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	}
 
 	private String nativeEvaluateRaw(String send) {
-	    String ret = mpreduce.evaluate(send);
+	    String ret = null;
+        try {
+	        ret = mpreduce.evaluate(send);
+        } catch (Throwable e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
 	    if (ret.length() > 3)
 	    	ret = ret.substring(0, ret.length()-2);
 	    return ret;
@@ -219,7 +222,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 	public void lispImageLoaded() {
 		//now we have REAL cas
 		App.debug("LISP image loaded");
-		mpreduce_static = InterpreterJs.getInstance();
+		//mpreduce_static = InterpreterJs.getInstance();
 		mpreduce = mpreduce_static;
 		//2; Second callback: when LISP image loaded :-)
 		try {

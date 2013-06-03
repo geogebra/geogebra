@@ -2,12 +2,11 @@ package geogebra.html5.cas.giac;
 
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
+import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-
-import org.mathpiper.mpreduce.Interpretable;
 
 /**
  * Web implementation of Giac CAS
@@ -15,12 +14,10 @@ import org.mathpiper.mpreduce.Interpretable;
  *
  */
 public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
-
-	
 	
 	private static boolean asyncstarted = false;
 	private Kernel kernel;
-	private Interpretable giac;
+	private Evaluate giac;
 	
 	/**
 	 * Creates new CAS
