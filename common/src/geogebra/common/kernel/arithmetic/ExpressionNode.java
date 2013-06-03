@@ -3958,6 +3958,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case MPREDUCE:
 					sb.append("myrandom()");
 					break;
+				case GIAC:
+					sb.append("rand(0,1)");
+					break;
 				case LIBRE_OFFICE:
 					sb.append("func ");
 				default:
@@ -4106,9 +4109,32 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case FUNCTION:
 			if (stringType == StringType.MPREDUCE
 			&& right instanceof ListValue) {
-				sb.append("applyfunction(" + leftStr + "," + rightStr + ")");
+				sb.append("applyfunction(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
 				break;
 			}
+
+			if (stringType == StringType.GIAC
+					&& right instanceof ListValue) {
+
+
+				ListValue list = (ListValue)right;
+
+				//eg seq(sin({4,5,6}[j]),j,0,2)
+				// DON'T USE i (sqrt(-1) in Giac)
+				sb.append("seq(");
+				sb.append(leftStr);
+				sb.append('(');
+				sb.append(rightStr);
+				sb.append("[j]),j,0,");
+				sb.append(list.size() - 1);
+				sb.append(')');
+				break;
+			}
+			
 			// GeoFunction and GeoFunctionConditional should not be expanded
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
@@ -4264,7 +4290,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case $VAR_ROW: // e.g. A$1
-			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
+			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
@@ -4279,7 +4305,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case $VAR_COL: // e.g. $A1
-			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
+			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
@@ -4300,7 +4326,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case $VAR_ROW_COL: // e.g. $A$1
-			if (valueForm || tpl.hasType(StringType.MPREDUCE)) {
+			if (valueForm || tpl.hasCASType()) {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
@@ -4334,7 +4360,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" d");
 				sb.append(rightStr);
 			} else {
-				if (stringType == StringType.MPREDUCE) {
+				if (stringType == StringType.MPREDUCE || stringType == StringType.GIAC) {
 					sb.append("int(");
 				} else {
 					sb.append("gGbInTeGrAl(");
@@ -4394,6 +4420,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				if (stringType == StringType.MPREDUCE) {
 					sb.append("sub(");
+				} else if (stringType == StringType.GIAC) {
+					sb.append("subst(");
 				} else {
 					sb.append("gGbSuBsTiTuTiOn(");
 				}
@@ -4661,6 +4689,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case MATH_PIPER:
 		case JASYMCA:
 		case MPREDUCE:
+		case GIAC:
 			sb.append("=");
 			break;
 

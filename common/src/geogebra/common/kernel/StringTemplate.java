@@ -572,6 +572,15 @@ public class StringTemplate {
 		
 		return ret;
 	}
+
+	/**
+	 * @return whether stringType is for a CAS (Giac, MPReduce, MathPiper)
+	 */
+	public boolean hasCASType() {
+		return stringType.equals(StringType.MPREDUCE)
+				|| stringType.equals(StringType.GIAC)
+				|| stringType.equals(StringType.MATH_PIPER);
+	}
 		
 	
 	
