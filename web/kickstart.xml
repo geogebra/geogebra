@@ -29,7 +29,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="ggbreduce-base64, gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -72,13 +72,6 @@ your workstation.
 	    </patternset>
 	    <mapper type="flatten"/>
 	</unzip>
-	</target>
-
-	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
-	<!-- Please change the date according to ../desktop/kickstart.xml when the default.img file is changing! -->
-	<target name="ggbreduce-base64">
-	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20121215"
-	    dest="src/geogebra/resources/statictexts/defaultbase64web.img"/>
 	</target>
 	
 	<!-- download javacc from GeoGebra repository -->

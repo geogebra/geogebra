@@ -59,9 +59,7 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/js/zipjs/arraybuffer.js")
 	TextResource arrayBufferJs();
-	
-	@Source("geogebra/resources/statictexts/defaultbase64web.img")
-	TextResource getDefaultImgBase64Web();
+
 	
 	@Source("geogebra/resources/css/mathquill.css")
 	TextResource mathquillCss();
