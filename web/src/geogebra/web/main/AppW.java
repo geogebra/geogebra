@@ -1,6 +1,7 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
@@ -27,6 +28,7 @@ import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.js.JavaScriptInjector;
@@ -126,6 +128,11 @@ public class AppW extends AppWeb {
 
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
+
+	/**
+	 * Preferred application frame size. Used in case frame size needs updating.
+	 */
+	private GDimension preferredSize = new GDimensionW(0,0);
 
 	boolean menuKeysLoaded = false;
 	private ObjectPool objectPool;
@@ -1929,4 +1936,12 @@ public class AppW extends AppWeb {
 		}
 	}
 
+	public GDimension getPreferredSize() {
+		return preferredSize;
+	}
+
+	@Override
+	public void setPreferredSize(geogebra.common.awt.GDimension size) {
+		preferredSize = size;
+	}
 }

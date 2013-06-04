@@ -1,5 +1,6 @@
 package geogebra.web.gui.layout;
 
+import geogebra.common.awt.GDimension;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.gui.layout.DockPanel;
@@ -259,8 +260,17 @@ public class DockManagerW implements  SetLabels {
 			int windowHeight;
 
 			if (app.isApplet() || !App.isFullAppGui()) {
-				windowWidth = app.getDataParamWidth();
-				windowHeight = app.getDataParamHeight();
+				GDimension gdim = app.getPreferredSize();
+				if (gdim.getWidth() > 0) {
+					windowWidth = gdim.getWidth();
+				} else {
+					windowWidth = app.getDataParamWidth();
+				}
+				if (gdim.getHeight() > 0) {
+					windowHeight = gdim.getHeight();
+				} else {
+					windowHeight = app.getDataParamHeight();
+				}
 			} else {
 				windowWidth = app.getAppFrame().getOffsetWidth();
 				windowHeight = app.getAppFrame().getOffsetWidth();
