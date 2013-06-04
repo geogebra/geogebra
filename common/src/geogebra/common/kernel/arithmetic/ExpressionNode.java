@@ -2249,7 +2249,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case JASYMCA:
 			case MATH_PIPER:
-			case GIAC:
 			case LATEX:
 			case LIBRE_OFFICE:
 
@@ -2434,6 +2433,23 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(")");
 					break;
 				}
+				break;
+
+			case GIAC:
+
+				if (isEqualString(left, -1, !valueForm)) {
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(')');
+				} else {
+					sb.append("(");
+					sb.append(leftStr);
+					sb.append(")*(");
+					sb.append(rightStr);
+					sb.append(")");
+					break;
+				}
+				break;
 
 
 			}
@@ -2477,9 +2493,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
+			case GIAC:
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(")/(");
+				sb.append(rightStr);
+				sb.append(')');
+				break;
+
 			case JASYMCA:
 			case MATH_PIPER:
-			case GIAC:
 			default:
 				// check for 1 in denominator
 				if (isEqualString(right, 1, !valueForm)) {
