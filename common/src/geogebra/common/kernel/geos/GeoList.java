@@ -2094,7 +2094,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		if (traceModes != null)
 			return traceModes;
 		
-		traceModes = getTraceModes(geoList);
+		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+			// list = {A, B} : traceModes is computed from A, B
+			traceModes = getTraceModes(geoList);
+		}else{
+			// e.g. Sequence[...] is only copied
+			traceModes = TraceModesEnum.ONLY_COPY;
+		}
+		
+		
 		
 		return traceModes;
 	}
@@ -2109,12 +2117,19 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	public String getTraceDialogAsValues(){
 
 		StringBuilder sb = new StringBuilder();
-		boolean notFirst = false;
-		for (GeoElement geo: geoList){
-			if (notFirst)
-				sb.append(", ");
-			sb.append(geo.getTraceDialogAsValues());
-			notFirst = true;
+		
+		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+			// list = {A, B} : names for A, B
+			boolean notFirst = false;
+			for (GeoElement geo: geoList){
+				if (notFirst)
+					sb.append(", ");
+				sb.append(geo.getTraceDialogAsValues());
+				notFirst = true;
+			}
+		}else{
+			// e.g. Sequence[...] : name of the list
+			sb.append(super.getTraceDialogAsValues());
 		}
 
 		return sb.toString();
