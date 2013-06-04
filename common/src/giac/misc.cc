@@ -4902,15 +4902,78 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
   }
 
+  // For large graphs, use Tarjan algorithm 
+  struct vertex {
+    int index,lowlink;
+    vertex():index(-1),lowlink(-1){}; // -1 means undefined
+  };
+
+  void strongconnect(const vector< vector<unsigned> > & G,vector<vertex> & V,int & index,vector<unsigned> & S,vector<bool> & inS,vector< vector<unsigned> > & SCC,unsigned v){
+    V[v].index=index;
+    V[v].lowlink=index;
+    ++index;
+    S.push_back(v);
+    inS[v]=true;
+    const vector<unsigned> & Gv=G[v];
+    for (unsigned i=0;i<Gv.size();++i){
+      unsigned Gvi=Gv[i];
+      if (!Gvi)
+	continue;
+      for (unsigned j=0;Gvi && j<32;Gvi/=2, ++j){
+	if (!(Gvi %2))
+	  continue;
+	unsigned w=i*32+j;
+	if (V[w].index==-1){
+	  // Successor w has not yet been visited; recurse on it
+	  strongconnect(G,V,index,S,inS,SCC,w);
+	  V[v].lowlink=giacmin(V[v].lowlink,V[w].lowlink);
+	  continue;
+	}
+	if (inS[w]){
+	  // successor of w is in stack S, hence is in the current SCC
+	  V[v].lowlink=giacmin(V[v].lowlink,V[w].index);
+	}
+      }
+    } // end for (visit all vertices connected to v)
+    // If v is a root node, pop the stack and generate a strongly connected component
+    if (V[v].lowlink==V[v].index){
+      vector<unsigned> scc;
+      for (;!S.empty();){
+	scc.push_back(S.back());
+	S.pop_back();
+	inS[scc.back()]=false;
+	if (scc.back()==v)
+	  break;
+      }
+      SCC.push_back(scc);
+    }
+  }
+
+  void tarjan(const vector< vector<unsigned> > & G,vector< vector<unsigned> > & SCC){
+    vector<vertex> V(G.size());
+    SCC.clear();
+    vector<unsigned> S;
+    S.reserve(G.size());
+    vector<bool> inS(G.size(),false);
+    int index=0;
+    for (unsigned v=0;v<G.size();++v){
+      if (V[v].index==-1)
+	strongconnect(G,V,index,S,inS,SCC,v);
+    }
+  }
+
+#if 0
+  // Small graphs
   bool different(const vector<unsigned> & a,const vector<unsigned> & b,vector<int> & pos){
     pos.clear();
     int s=a.size();
     for (int i=0;i<s;++i){
       unsigned ai=a[i],bi=b[i];
       if (ai!=bi){
-	for (int j=0;j<32;++j){
-	  if ( ((ai>>j)&1) != ((bi>>j)&1) )
-	    pos.push_back(i*32+j);
+	int p=i*32;
+	for (;ai&&bi;++p,ai/=2,bi/=2){
+	  if ( ai%2 != bi%2 )
+	    pos.push_back(p);
 	}
       }
     }
@@ -4930,24 +4993,87 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       // compute w[i]
       vector<unsigned> oldvi(c);
       vector<unsigned> curvi(w[i]);
+      vector<unsigned> newvi(c);
       // oldvi[i/32] = 1 << (i%32); 
       for (;;){
 	// find indices that differ between oldvi and curvi, 
 	if (!different(oldvi,curvi,pos))
 	  break;
+	newvi=curvi;
 	for (unsigned j=0;j<pos.size();++j){
 	  // make an OR of curvi with w[pos[j]]
 	  vector<unsigned>::const_iterator wit=w[pos[j]].begin();
-	  vector<unsigned>::iterator curit=curvi.begin(),curitend=curvi.end();
-	  for (;curit!=curitend;++wit,++curit){
-	    *curit |= *wit;
+	  vector<unsigned>::iterator newit=newvi.begin(),newitend=newvi.end();
+	  for (;newit!=newitend;++wit,++newit){
+	    *newit |= *wit;
 	  }
 	}
 	oldvi=curvi;
+	curvi=newvi;
       }
       w[i]=curvi;
     }
   }
+#endif
+
+  void vector_unsigned2vecteur(const vector<unsigned> & V,vecteur & v){
+    v.clear();
+    v.reserve(V.size());
+    for (unsigned i=0;i<V.size();++i)
+      v.push_back(int(V[i]));
+  }
+
+  void matrix_unsigned2matrice(const vector< vector<unsigned> > & M,matrice & m){
+    m.clear();
+    m.reserve(M.size());
+    for (unsigned i=0;i<M.size();++i){
+      vecteur v;
+      vector_unsigned2vecteur(M[i],v);
+      m.push_back(v);
+    }
+  }
+
+  // Input matrix of adjacency or transition matrix
+  // Output a list of strongly connected components
+  gen _graph_scc(const gen & args,GIAC_CONTEXT){
+    if (!is_squarematrix(args))
+      return gensizeerr(contextptr);
+    vector< vector<unsigned> > G,GRAPH_SCC;
+    proba2adjacence(*args._VECTptr,G);
+    tarjan(G,GRAPH_SCC);
+    matrice m;
+    matrix_unsigned2matrice(GRAPH_SCC,m);
+    return m;
+  }
+  static const char _graph_scc_s []="graph_scc";
+  static define_unary_function_eval (__graph_scc,&_graph_scc,_graph_scc_s);
+  define_unary_function_ptr5( at_graph_scc ,alias_at_graph_scc,&__graph_scc,0,true);
+
+  gen _classmarkov(const gen & args,GIAC_CONTEXT){
+    return undef;
+    if (!is_squarematrix(args))
+      return gensizeerr(contextptr);
+    vector< vector<unsigned> > G,GRAPH_SCC;
+    proba2adjacence(*args._VECTptr,G);
+    tarjan(G,GRAPH_SCC);
+    // For a matrix of transition
+    // Look at each component: if it has all outgoing edges going to the same component, 
+    // then this is a recurrent positive, and we can compute the invariant probability
+    // For the remaining components:
+    // Init list of transient components to empty
+    // Set doit to true
+    // Loop on the remaining component
+    // Set doit to false
+    // If all incoming edges of the component are from transient add to transient 
+    //    and set doit to true
+    matrice m;
+    matrix_unsigned2matrice(GRAPH_SCC,m);
+    return m;
+  }
+  static const char _classmarkov_s []="classmarkov";
+  static define_unary_function_eval (__classmarkov,&_classmarkov,_classmarkov_s);
+  define_unary_function_ptr5( at_classmarkov ,alias_at_classmarkov,&__classmarkov,0,true);
+
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

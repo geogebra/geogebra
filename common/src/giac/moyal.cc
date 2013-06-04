@@ -581,7 +581,9 @@ namespace giac {
     return gen(v,e3.subtype);
   }
 
-  gen binomial(const gen & n,const gen & k,const gen & p,GIAC_CONTEXT){
+  gen binomial(const gen & N,const gen & K,const gen & P,GIAC_CONTEXT){
+    gen n(N),k(K),p(P);
+    is_integral(n); is_integral(k); is_integral(p);
     if (p.type==_VECT)
       return apply3rd(n,k,p,contextptr,binomial);
     if ( (is_zero(p) && is_zero(k)) || (is_one(p) && n==k))

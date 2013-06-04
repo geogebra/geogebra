@@ -2040,7 +2040,7 @@ namespace giac {
     return res;
   }
 
-  gen normalize_sqrt(const gen & e,GIAC_CONTEXT){
+  gen in_normalize_sqrt(const gen & e,vecteur & L,GIAC_CONTEXT){
     if (complex_mode(contextptr)) 
       return e;
     // remove multiple factors inside sqrt
@@ -2075,13 +2075,11 @@ namespace giac {
       if (complex_mode(contextptr)==false && var.type==_IDNT && var._IDNTptr->eval(1,var,contextptr)==var){
 	if (is_linear_wrt(arg[0],var,a,b,contextptr) && !is_zero(a)){
 	  if (is_strictly_positive(a,contextptr))
-	    hyp=symbolic(at_superieur_strict,makesequence(var,-b/a));
+	    hyp=symbolic(at_superieur_egal,makesequence(var,-b/a));
 	  if (is_strictly_positive(-a,contextptr))
-	    hyp=symbolic(at_inferieur_strict,makesequence(var,-b/a));
-	  if (!is_zero(hyp)){
-	    *logptr(contextptr) << gettext("Sqrt argument: adding implicit assumption ") << hyp << endl;
-	    giac_assume(hyp,contextptr);
-	  }
+	    hyp=symbolic(at_inferieur_egal,makesequence(var,-b/a));
+	  if (!is_zero(hyp))
+	    L.push_back(hyp);
 	}
       }
       vecteur lv(alg_lvar(arg[0]));
@@ -2124,6 +2122,11 @@ namespace giac {
       lout.push_back(pow(simpl,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr)*out);
     }
     return subst(e,lin,lout,false,contextptr);
+  }
+
+  gen normalize_sqrt(const gen & e,GIAC_CONTEXT){
+    vecteur L;
+    return in_normalize_sqrt(e,L,contextptr);
   }
 
   static bool has_embedded_fractions(const gen & g){
@@ -2244,10 +2247,19 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
 #endif
-      ee=normalize_sqrt(e,contextptr);
+      vecteur L;
+      ee=in_normalize_sqrt(e,L,contextptr);
       l=alg_lvar(ee);
       sort0(l);
+      if (!L.empty())
+	*logptr(contextptr) << gettext("Making implicit assumption for sqrt argument ") << L << endl;
+      for (unsigned k=0;k<L.size();++k)
+	giac_assume(L[k],contextptr);
       tmp=e2r(ee,l,contextptr);
+      for (unsigned k=0;k<L.size();++k){
+	gen Lk=ggb_var(L[k]);
+	_purge(Lk,contextptr);
+      }
       if (is_undef(tmp)){
 	*logptr(contextptr) << gettext("Unable to build a single algebraic extension for simplifying. Trying rational simplification only.") << endl;
 	l=lvar(ee);

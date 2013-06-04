@@ -855,9 +855,11 @@ namespace giac {
     SiCiexp.push_back(at_exp);
     if (!lop(res,SiCiexp).empty()){
       res=recursive_normal(res,contextptr);
-      if (has_i(res)){
+      if (!has_i(e_orig) && has_i(res)){
 	res=_exp2trig(res,contextptr);
 	res=recursive_normal(res,contextptr);
+	if (has_i(res))
+	  res=recursive_normal(re(halftan(res,contextptr),contextptr),contextptr);
       }
     }
     return res;

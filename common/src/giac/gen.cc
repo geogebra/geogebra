@@ -9502,29 +9502,33 @@ namespace giac {
   
   static gen aplatir_plus_only(const gen & g){
     if (g.type==_VECT){
-      vecteur v(*g._VECTptr);
-      iterateur it=v.begin(),itend=v.end();
-      for (;it!=itend;++it)
-	*it=aplatir_plus_only(*it);
-      return gen(v,g.subtype);
+      const vecteur & v=*g._VECTptr;
+      vecteur w(v);
+      const_iterateur it=v.begin(),itend=v.end();
+      iterateur jt=w.begin();
+      for (;it!=itend;++jt,++it)
+	*jt=aplatir_plus_only(*it);
+      return gen(w,g.subtype);
     }
     if (g.type!=_SYMB)
       return g;
     // Quick check for embedded + at the left coming from parser
     if (g.is_symb_of_sommet(at_plus) && g._SYMBptr->feuille.type==_VECT){
-      iterateur it=g._SYMBptr->feuille._VECTptr->begin(),itend=g._SYMBptr->feuille._VECTptr->end();
+      const_iterateur it=g._SYMBptr->feuille._VECTptr->begin(),itend=g._SYMBptr->feuille._VECTptr->end();
       if (it==itend)
 	return 0;
       vecteur v;
       v.reserve(itend-it+1);
-      register gen * f;
+      register const gen * f;
       for (;it!=itend;){
 	for (--itend;itend!=it;--itend)
 	  v.push_back(*itend);
+	// Check first element of the vector g, if it's not a + add it to v and end
 	if (it->type!=_SYMB || it->_SYMBptr->sommet!=at_plus || (f=&it->_SYMBptr->feuille,f->type!=_VECT) ){
 	  v.push_back(*it);
 	  break;
 	}
+	// first element was a plus, restart with all it's arguments
 	itend=f->_VECTptr->end();
 	it=f->_VECTptr->begin();
       }
