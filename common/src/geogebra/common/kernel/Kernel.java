@@ -791,13 +791,9 @@ public class Kernel {
 				numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN,
 				tpl);
 
-		if (tpl.hasType(StringType.MATH_PIPER) && (op == '=')) {
-			sbBuildImplicitEquation.append(" == ");
-		} else {
-			sbBuildImplicitEquation.append(' ');
-			sbBuildImplicitEquation.append(op);
-			sbBuildImplicitEquation.append(' ');
-		}
+		sbBuildImplicitEquation.append(' ');
+		sbBuildImplicitEquation.append(op);
+		sbBuildImplicitEquation.append(' ');
 
 		// temp is set by buildImplicitVarPart
 		sbBuildImplicitEquation.append(format(-temp[vars.length], tpl));
@@ -934,8 +930,6 @@ public class Kernel {
 			return Double.toString(x);
 
 			// number formatting for CAS
-		case MATH_PIPER:
-		case JASYMCA:
 		case GIAC:
 		case MPREDUCE:
 			if (Double.isNaN(x)) {
@@ -1477,7 +1471,6 @@ public class Kernel {
 		}
 		String numberStr = format(x, tpl);
 		switch (tpl.getStringType()) {
-		case MATH_PIPER:
 		case GIAC:
 		case MPREDUCE:
 			return numberStr + "*";
@@ -1501,16 +1494,14 @@ public class Kernel {
 		if (isZero(q)) {
 			sbBuildExplicitLineEquation.append(vars[0]);
 
-			if (casPrintForm.equals(StringType.MATH_PIPER)) {
-				sbBuildExplicitLineEquation.append(" == ");
-			} else {
-				sbBuildExplicitLineEquation.append(' ');
-				if (numbers[0] < MIN_PRECISION) {
-					op = oppositeSign(op);
-				}
-				sbBuildExplicitLineEquation.append(op);
-				sbBuildExplicitLineEquation.append(' ');
+			
+			sbBuildExplicitLineEquation.append(' ');
+			if (numbers[0] < MIN_PRECISION) {
+				op = oppositeSign(op);
 			}
+			sbBuildExplicitLineEquation.append(op);
+			sbBuildExplicitLineEquation.append(' ');
+
 
 			sbBuildExplicitLineEquation.append(format(-numbers[2] / numbers[0],
 					tpl));
@@ -1519,16 +1510,14 @@ public class Kernel {
 
 		// standard case: y-coeff not 0
 		sbBuildExplicitLineEquation.append(vars[1]);
-		if (casPrintForm.equals(StringType.MATH_PIPER)) {
-			sbBuildExplicitLineEquation.append(" == ");
-		} else {
-			sbBuildExplicitLineEquation.append(' ');
-			if (numbers[1] < MIN_PRECISION) {
-				op = oppositeSign(op);
-			}
-			sbBuildExplicitLineEquation.append(op);
-			sbBuildExplicitLineEquation.append(' ');
+		
+		sbBuildExplicitLineEquation.append(' ');
+		if (numbers[1] < MIN_PRECISION) {
+			op = oppositeSign(op);
 		}
+		sbBuildExplicitLineEquation.append(op);
+		sbBuildExplicitLineEquation.append(' ');
+
 
 		// x coeff
 		d = -numbers[0] / q;
@@ -1816,8 +1805,6 @@ public class Kernel {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
-		case MATH_PIPER:
-		case JASYMCA:
 		case MPREDUCE:
 			if (getAngleUnit() == ANGLE_DEGREE) {
 				sbFormatAngle.append("(");

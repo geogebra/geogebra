@@ -1408,7 +1408,6 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 				myVars = varsLateX;
 				break;
 				
-			case MATH_PIPER:
 			case GIAC:
 			case MPREDUCE:	
 				squared = "^2";

@@ -143,14 +143,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
-		case MATH_PIPER:
-			sb.append("{");
-			sb.append(x.toString(tpl));
-			sb.append(", ");
-			sb.append(y.toString(tpl));
-			sb.append("}");
-			break;
-
 		case GIAC:
 			if (mode == Kernel.COORD_POLAR) {
 				sb.append("((");

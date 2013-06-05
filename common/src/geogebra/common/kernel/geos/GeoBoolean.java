@@ -212,13 +212,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		switch (tpl.getStringType()) {
-		case MATH_PIPER:
-			return value ? "True" : "False";
-
-		default:
-			return value ? "true" : "false";
-		}
+		return value ? "true" : "false";
 	}
 
 	@Override

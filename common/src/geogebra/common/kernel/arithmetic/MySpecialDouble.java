@@ -160,17 +160,8 @@ public class MySpecialDouble extends MyDouble {
 
 		// letter constants for pi, e, or degree character
 		StringType printForm = tpl.getStringType();
+		char ch;
 		switch (printForm) {
-		// case JASYMCA:
-		case MATH_PIPER:
-			char ch = strToString.charAt(0);
-			switch (ch) {
-			case Unicode.piChar:
-				return "Pi";
-			case Unicode.degreeChar:
-				return "Pi/180";
-			}
-			break;
 
 		case GIAC:
 			ch = strToString.charAt(0);

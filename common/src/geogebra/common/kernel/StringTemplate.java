@@ -266,15 +266,10 @@ public class StringTemplate {
 		stringType = t;
 
 		switch (t) {
-		case MATH_PIPER:
-			casPrintFormPI = "Pi";
-			break;
-
 		case GIAC:
 			casPrintFormPI = "%pi";
 			break;
 
-		case JASYMCA:
 		case GEOGEBRA_XML:
 			casPrintFormPI = "pi";
 			break;
@@ -578,8 +573,7 @@ public class StringTemplate {
 	 */
 	public boolean hasCASType() {
 		return stringType.equals(StringType.MPREDUCE)
-				|| stringType.equals(StringType.GIAC)
-				|| stringType.equals(StringType.MATH_PIPER);
+				|| stringType.equals(StringType.GIAC);
 	}
 		
 	

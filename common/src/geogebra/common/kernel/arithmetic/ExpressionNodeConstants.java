@@ -15,8 +15,6 @@ public interface ExpressionNodeConstants {
 		GEOGEBRA,
 		/** maxima*/
 		GIAC,
-		/** mathpiper */
-		MATH_PIPER,
 		/** LaTeX */
 		LATEX,
 		/** Libre Office (or Open Office) Math Commands */
@@ -25,8 +23,6 @@ public interface ExpressionNodeConstants {
 		PSTRICKS,
 		/** PGF */
 		PGF,
-		/** JASYMCA */
-		JASYMCA,
 		/** Reduce */
 		MPREDUCE,
 		/** MathML */

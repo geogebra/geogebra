@@ -433,14 +433,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		sbBuildValueString.setLength(0);
 
 		switch (tpl.getStringType()) {
-		case MATH_PIPER:
-			sbBuildValueString.append("{");
-			sbBuildValueString.append(getInhomVec().getX());
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(getInhomVec().getY());
-			sbBuildValueString.append("}");
-			return sbBuildValueString;
-
 		case GIAC:
 			sbBuildValueString.append("(");
 			sbBuildValueString.append(getInhomVec().getX());

@@ -453,18 +453,13 @@ public class Equation extends ValidExpression {
         	sb.append('0');
         
         // equal sign
-        switch (tpl.getStringType()){
-			case MATH_PIPER:
-		        sb.append(" == ");
-		        break;
-				
-			default:	       	        
-		        sb.append(" = ");	        
-        }
+        sb.append(" = ");	        
         
-        if (rhs != null) 
+        if (rhs != null) {
         	sb.append(rhs.toValueString(tpl));
-        else sb.append('0');
+        } else {
+        	sb.append('0');
+        }
         return sb.toString();
 	}
 	
@@ -479,14 +474,7 @@ public class Equation extends ValidExpression {
         	sb.append('0');
         
         // equal sign
-        switch (tpl.getStringType()){
-			case MATH_PIPER:
-		        sb.append(" == ");
-		        break;
-		        
-			default:	       	        
-		        sb.append(" = ");	        
-        }
+        sb.append(" = ");	        
         
         // right hand side
         if (rhs != null) 

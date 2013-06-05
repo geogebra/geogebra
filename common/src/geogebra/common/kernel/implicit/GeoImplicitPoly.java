@@ -338,9 +338,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				sb.append('{');
 				sb.append(exp);
 				sb.append('}');
-			}else if ((tpl.getStringType().equals(StringType.JASYMCA))||
-						(tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
-						(tpl.getStringType().equals(StringType.MATH_PIPER))||
+			}else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
 						(tpl.getStringType().equals(StringType.GIAC))||
 						(tpl.getStringType().equals(StringType.MPREDUCE))){
 				sb.append('^');
@@ -372,13 +370,11 @@ Dilateable, Transformable, EuclidianViewCE {
 		boolean first=true;
 		for (int i=coeff.length-1;i>=0;i--){
 			for (int j=coeff[i].length-1;j>=0;j--){
-				if (i==0&&j==0){
-					if (first)
+				if (i == 0 && j == 0) {
+					if (first) {
 						sb.append("0");
-					if (tpl.getStringType() .equals(StringType.MATH_PIPER)) 
-						sb.append("== ");
-					else
-						sb.append("= ");
+					}
+					sb.append("= ");
 					sb.append(kernel.format(-coeff[0][0],tpl));
 				}else{
 					String number=kernel.format(coeff[i][j],tpl);

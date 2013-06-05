@@ -454,7 +454,6 @@ Traceable{
 				squared = "^{2}";
 				break;
 				
-			case MATH_PIPER:
 			case GIAC:
 			case MPREDUCE:
 				squared = "^2";

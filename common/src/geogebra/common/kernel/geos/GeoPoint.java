@@ -1112,14 +1112,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		sbBuildValueString.setLength(0);
 
 		switch (tpl.getStringType()) {
-		case MATH_PIPER:
-			sbBuildValueString.append("{");
-			sbBuildValueString.append(getInhomX());
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(getInhomY());
-			sbBuildValueString.append("}");
-			return sbBuildValueString;
-
 		case GIAC:
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");

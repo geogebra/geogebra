@@ -1617,10 +1617,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("neg ");
 					break;
 
-				case MATH_PIPER:
-					sb.append("Not ");
-					break;
-
 				default:
 					sb.append(strNOT);
 				}
@@ -1652,10 +1648,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;				
 				case LIBRE_OFFICE:
 					sb.append("or");
-					break;
-
-				case MATH_PIPER:
-					sb.append("Or");
 					break;
 
 				case MPREDUCE:
@@ -1729,10 +1721,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				case LIBRE_OFFICE:
 					sb.append("and");
-					break;
-
-				case MATH_PIPER:
-					sb.append("And");
 					break;
 
 				case MPREDUCE:
@@ -2405,8 +2393,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 				}
 
-			case JASYMCA:
-			case MATH_PIPER:
 			case LATEX:
 			case LIBRE_OFFICE:
 
@@ -2457,8 +2443,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						case PGF:
 						case PSTRICKS:
 						case GEOGEBRA_XML:
-						case JASYMCA:
-						case MATH_PIPER:
 						case GIAC:
 							showMultiplicationSign = true;
 							break;
@@ -2554,8 +2538,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						case PGF:
 						case PSTRICKS:
 						case GEOGEBRA_XML:
-						case JASYMCA:
-						case MATH_PIPER:
 						case GIAC:
 							sb.append(multiplicationSign(stringType));
 							break;
@@ -2659,8 +2641,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
-			case JASYMCA:
-			case MATH_PIPER:
 			default:
 				// check for 1 in denominator
 				if (isEqualString(right, 1, !valueForm)) {
@@ -2808,8 +2788,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						break;
 					}
 					// else fall through
-				case JASYMCA:
-				case MATH_PIPER:
 				case LIBRE_OFFICE:
 				default:
 
@@ -2862,9 +2840,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case MPREDUCE:
 				case GIAC:
 					break;	
-				case JASYMCA:
 				case GEOGEBRA_XML:
-				case MATH_PIPER:
 					sb.append('^'); 
 					sb.append('('); 
 					sb.append(rightStr); 
@@ -3078,10 +3054,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case LIBRE_OFFICE:
 					sb.append("func atan2 left( ");
 					break;
-				case MATH_PIPER:
-					sb.append("ArcTan2(");
-					break;
-
 				case PSTRICKS:
 					sb.append("ATAN2(");
 					break;
@@ -3278,18 +3250,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append('}');
 				break;
 
-			case MATH_PIPER:
-				sb.append("Exp(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "exp");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
-			case JASYMCA:
 			case GEOGEBRA_XML:
 			case GIAC:
 				sb.append("exp(");
@@ -3328,14 +3294,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case LIBRE_OFFICE:
 					sb.append("ln left ( ");
 					break;
-				case MATH_PIPER:
-					sb.append("Ln(");
-					break;
 				case MPREDUCE:
 					appendReduceFunction(sb, "log");
 					break;
 				case GIAC:
-				case JASYMCA:
 				case GEOGEBRA_XML:
 					sb.append("log(");
 					break;
@@ -3373,15 +3335,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(rightBracket(stringType));
 				break;
-			case MATH_PIPER:
-				// user defined function
-				sb.append("logB(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-
 			case MPREDUCE:
 				sb.append("logb(");
 				sb.append(rightStr);
@@ -3435,7 +3388,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-			case MATH_PIPER:
 			case MPREDUCE:
 			default:
 				sb.append("polygamma(");
@@ -3468,7 +3420,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case GIAC:
-			case MATH_PIPER:
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -3500,7 +3451,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case LIBRE_OFFICE:
 				sb.append("func ");
-			case MATH_PIPER:
 			default:
 				sb.append("psi(");
 				sb.append(leftStr);
@@ -3532,7 +3482,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-			case MATH_PIPER:
 			case PGF:
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
@@ -3573,11 +3522,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("log("); 
 				sb.append(leftStr);
 				sb.append(")/log(2)");
-				break;
-			case MATH_PIPER:
-				sb.append("log2(");
-				sb.append(leftStr);
-				sb.append(')');
 				break;
 
 			case MPREDUCE:
@@ -3664,11 +3608,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MATH_PIPER:
-				sb.append("Sqrt(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "sqrt");
 				sb.append(leftStr);
@@ -3697,7 +3636,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MATH_PIPER:
 			case MPREDUCE:
 				if (left instanceof ListValue) {
 					sb.append("applyfunction2(**,");
@@ -3737,12 +3675,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MATH_PIPER:
-				sb.append("Abs(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			case MPREDUCE:
 				appendReduceFunction(sb, "myabs");
 				sb.append(leftStr);
@@ -3762,13 +3694,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\sgn(");
 				break;
 
-			case MATH_PIPER:
-				sb.append("Sign(");
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "sign");
 				break;
-			case JASYMCA:
 			case GIAC:
 				sb.append("sign(");
 				break;
@@ -3797,11 +3725,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append("}");
 				break;
-			case MATH_PIPER:
-				sb.append("Conjugate(");
-				sb.append(leftStr);
-				sb.append(")");
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "conjugate");
 				sb.append(leftStr);
@@ -3828,11 +3751,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\arg \\left( ");
 				sb.append(leftStr);
 				sb.append("\\right)");
-				break;
-			case MATH_PIPER:
-				sb.append("Arg(");
-				sb.append(leftStr);
-				sb.append(")");
 				break;
 			case GIAC:
 				sb.append("arg(");
@@ -3876,11 +3794,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(" right rfloor");
 				break;
-			case MATH_PIPER:
-				sb.append("Floor(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "myfloor");
 				sb.append(leftStr);
@@ -3916,11 +3829,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(" right rceil");
 				break;
-			case MATH_PIPER:
-				sb.append("Ceil(");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "myceil");
 				sb.append(leftStr);
@@ -3949,10 +3857,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("func round left (");
 
-			case MATH_PIPER:
-				sb.append("Round(");
-				break;
-
 			case MPREDUCE:
 				appendReduceFunction(sb, "myround");
 				break;
@@ -3973,7 +3877,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%GAMMA left (");
 				break;
 			case GIAC:
-			case MATH_PIPER:
 				sb.append("Gamma(");
 				break;
 			case MPREDUCE:
@@ -4056,7 +3959,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("%BETA left(");
 				break;
 			case GIAC:
-			case MATH_PIPER:
 				sb.append("Beta(");
 				break;
 
@@ -4172,14 +4074,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("func x left (");
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
-				case MATH_PIPER:
-					// we need to protect x(A) as a constant in the CAS
-					// see http://www.geogebra.org/trac/ticket/662
-					// see http://www.geogebra.org/trac/ticket/922
-					sb.append("xcoord(");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[0]");
@@ -4219,14 +4113,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("func y left (");
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
-				case MATH_PIPER:
-					// we need to protect x(A) as a constant in the CAS
-					// see http://www.geogebra.org/trac/ticket/662
-					// see http://www.geogebra.org/trac/ticket/922
-					sb.append("ycoord(");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[1]");
@@ -4262,14 +4148,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("func z left (");
 					sb.append(leftStr);
 					sb.append(rightBracket(stringType));
-				case MATH_PIPER:
-					// we need to protect x(A) as a constant in the CAS
-					// see http://www.geogebra.org/trac/ticket/662
-					// see http://www.geogebra.org/trac/ticket/922
-					sb.append("zcoord(");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[2]");
@@ -4752,7 +4630,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append("\\geq");
 			break;
 		case LIBRE_OFFICE:
-		case MATH_PIPER:
 		case MPREDUCE:
 		case GIAC:
 			sb.append(">=");
@@ -4775,7 +4652,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append("\\leq");
 			break;
 		case LIBRE_OFFICE:
-		case MATH_PIPER:
 		case MPREDUCE:
 		case GIAC:
 			sb.append("<=");
@@ -4857,9 +4733,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LIBRE_OFFICE:
 			sb.append("<>");
 			break;
-		case MATH_PIPER:
-			sb.append("!=");
-			break;
 
 		default:
 			sb.append(strNOT_EQUAL);
@@ -4878,8 +4751,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append("\\stackrel{\\small ?}{=}");
 			break;
 		case LIBRE_OFFICE:
-		case MATH_PIPER:
-		case JASYMCA:
 		case MPREDUCE:
 		case GIAC:
 			sb.append("=");
@@ -4972,10 +4843,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(app.getFunction(key));
 				sb.append(" left( ");
 				break;
-			case MATH_PIPER:
-				sb.append(mathPiper);
-				break;
-
 			case GIAC:
 				sb.append(giac);
 				sb.append('(');
