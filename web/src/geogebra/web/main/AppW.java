@@ -66,7 +66,7 @@ import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
-import geogebra.web.javax.swing.JPopupMenuW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.kernel.KernelW;
 
 import java.util.ArrayList;
@@ -1763,7 +1763,7 @@ public class AppW extends AppWeb {
 		App.debug("unimplemented");
 	}
 
-	public void addMenuItem(JPopupMenuW wrappedPopup, String filename,
+	public void addMenuItem(GPopupMenuW wrappedPopup, String filename,
 	        String name, boolean asHtml, MenuInterface subMenu) {
 		addMenuItem(wrappedPopup.getPopupMenu(), filename, name, asHtml,
 		        subMenu);

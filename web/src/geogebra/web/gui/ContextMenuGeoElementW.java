@@ -20,7 +20,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
-import geogebra.web.javax.swing.JPopupMenuW;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 public class ContextMenuGeoElementW extends ContextMenuGeoElement implements AttachedToDOM {
 	
-	protected JPopupMenuW wrappedPopup;
+	protected GPopupMenuW wrappedPopup;
 	
 	/**
 	 * Creates new context menu
@@ -46,7 +46,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	ContextMenuGeoElementW(AppW app) {
 		
 		this.app = app;
-		wrappedPopup = new JPopupMenuW();
+		wrappedPopup = new GPopupMenuW();
 		
 		
 		
@@ -511,7 +511,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	    wrappedPopup.addItem(title);
     }
 	
-	public JPopupMenuW getWrappedPopup() {
+	public GPopupMenuW getWrappedPopup() {
 	    return wrappedPopup;
     }
 	
