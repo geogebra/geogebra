@@ -1,11 +1,9 @@
 package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarMenu;
@@ -13,8 +11,6 @@ import geogebra.touch.utils.ToolBarMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -119,6 +115,8 @@ public class ToolBar extends HorizontalPanel
 			{
 				ToolBar.this.input.show();
 				ToolBar.this.inputBox.setFocus(false);
+				event.preventDefault();
+				event.stopPropagation();
 			}
 		});
 		
