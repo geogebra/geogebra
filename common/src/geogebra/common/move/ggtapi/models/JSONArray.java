@@ -1,5 +1,11 @@
 package geogebra.common.move.ggtapi.models;
 
+/**
+ * @author gabor
+ * 
+ * 	JSONArray implementation for Common functionality
+ *
+ */
 public class JSONArray extends JSONValue {
 
 	@Override

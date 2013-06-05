@@ -2,11 +2,20 @@ package geogebra.common.move.ggtapi.models;
 
 import java.util.HashMap;
 
+/**
+ * @author gabor
+ * 
+ * JSON object representation for Common
+ *
+ */
 public class JSONObject extends JSONValue {
 	
 	
 	private HashMap<String, String> json;
 	
+	/**
+	 * Creates a new JSON Object
+	 */
 	public JSONObject() {
 		this.json = new HashMap<String, String>();
 	}
