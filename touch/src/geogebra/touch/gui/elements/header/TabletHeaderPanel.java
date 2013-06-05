@@ -1,6 +1,5 @@
 package geogebra.touch.gui.elements.header;
 
-import geogebra.common.awt.GColor;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;

@@ -1,10 +1,8 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
@@ -12,22 +10,18 @@ import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.Window;
 
 /**
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
@@ -44,9 +38,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title = new Label();
 	TextBox textBox = new TextBox();
-	private HorizontalPanel buttonContainer = new HorizontalPanel();
-	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
-	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private TouchApp app;
 	private DialogType type;
 
