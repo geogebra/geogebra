@@ -2006,14 +2006,91 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case MATHML:
 				mathml(sb, "<plus/>", leftStr, rightStr);
 				break;
-			case JASYMCA:
-			case MATH_PIPER:
 			case GIAC:
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(") + (");
-				sb.append(rightStr);
-				sb.append(')');
+				if (left.isListValue() && !right.isListValue()) {
+					// eg {1,2,3} + 10
+					sb.append("seq((");
+					sb.append(leftStr);
+					sb.append(")[j]+");
+					sb.append(rightStr);
+					sb.append(",j,0,");
+					sb.append(((ListValue)left).size()-1);
+					sb.append(')');
+
+				} else if (!left.isListValue() && right.isListValue()) {
+					// eg 10 + {1,2,3}
+					sb.append("seq((");
+					sb.append(rightStr);
+					sb.append(")[j]+");
+					sb.append(leftStr);
+					sb.append(",j,0,");
+					sb.append(((ListValue)right).size()-1);
+					sb.append(')');
+					
+				} else if (left.isNumberValue() && right.isVectorValue()) {
+					// eg 10 + (1,2)
+					sb.append("((");
+					sb.append(rightStr);
+					sb.append(")[0]+");
+					sb.append(leftStr);
+					sb.append(",(");
+					sb.append(rightStr);
+					sb.append(")[1]+");
+					sb.append(leftStr);
+					sb.append(')');
+
+				} else if (left.isVectorValue() && right.isNumberValue()) {
+					// eg (1,2) + 10
+					sb.append("((");
+					sb.append(leftStr);
+					sb.append(")[0]+");
+					sb.append(rightStr);
+					sb.append(",(");
+					sb.append(leftStr);
+					sb.append(")[1]+");
+					sb.append(rightStr);
+					sb.append(')');
+
+				} else if (left.isNumberValue() && right.isVector3DValue()) {
+					// eg 10 + (1,2,3)
+					sb.append("((");
+					sb.append(rightStr);
+					sb.append(")[0]+");
+					sb.append(leftStr);
+					sb.append(",(");
+					sb.append(rightStr);
+					sb.append(")[1]+");
+					sb.append(leftStr);
+					sb.append(",(");
+					sb.append(rightStr);
+					sb.append(")[2]+");
+					sb.append(leftStr);
+					sb.append(')');
+
+				} else if (left.isVector3DValue() && right.isNumberValue()) {
+					// eg (1,2,3) + 10
+					sb.append("((");
+					sb.append(leftStr);
+					sb.append(")[0]+");
+					sb.append(rightStr);
+					sb.append(",(");
+					sb.append(leftStr);
+					sb.append(")[1]+");
+					sb.append(rightStr);
+					sb.append(",(");
+					sb.append(leftStr);
+					sb.append(")[2]+");
+					sb.append(rightStr);
+					sb.append(')');
+
+				} else {
+
+					sb.append('(');
+					sb.append(leftStr);
+					sb.append(")+(");
+					sb.append(rightStr);
+					sb.append(')');
+				}
 				break;
 
 			case MPREDUCE:
@@ -2102,14 +2179,95 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case MATHML:
 				mathml(sb, "<minus/>", leftStr, rightStr);
 				break;
-			case JASYMCA:
-			case MATH_PIPER:
 			case GIAC:
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(") - (");
-				sb.append(rightStr);
-				sb.append(')');
+				if (left.isListValue() && !right.isListValue()) {
+					// eg {1,2,3} - 10
+					sb.append("seq((");
+					sb.append(leftStr);
+					sb.append(")[j]-(");
+					sb.append(rightStr);
+					sb.append("),j,0,");
+					sb.append(((ListValue)left).size()-1);
+					sb.append(')');
+
+				} else if (!left.isListValue() && right.isListValue()) {
+					// eg 10 - {1,2,3}
+					sb.append("seq(");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[j]");
+					sb.append(",j,0,");
+					sb.append(((ListValue)right).size()-1);
+					sb.append(')');
+				} else if (left.isNumberValue() && right.isVectorValue()) {
+					// eg 10 - (1,2)
+					sb.append("(");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[0]");
+					sb.append(",");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[1])");
+
+				} else if (left.isVectorValue() && right.isNumberValue()) {
+					// eg (1,2) - 10
+					sb.append("((");
+					sb.append(leftStr);
+					sb.append(")[0]-(");
+					sb.append(rightStr);
+					sb.append("),(");
+					sb.append(leftStr);
+					sb.append(")[1]-(");
+					sb.append(rightStr);
+					sb.append("))");
+
+				} else if (left.isNumberValue() && right.isVector3DValue()) {
+					// eg 10 - (1,2,3)
+					sb.append("(");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[0]");
+					sb.append(",");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[1]");
+					sb.append(",");
+					sb.append(leftStr);
+					sb.append("-(");
+					sb.append(rightStr);
+					sb.append(")[2])");
+
+				} else if (left.isVector3DValue() && right.isNumberValue()) {
+					// eg (1,2,3) - 10
+					sb.append("((");
+					sb.append(leftStr);
+					sb.append(")[0]-(");
+					sb.append(rightStr);
+					sb.append("),(");
+					sb.append(leftStr);
+					sb.append(")[1]-(");
+					sb.append(rightStr);
+					sb.append("),(");
+					sb.append(leftStr);
+					sb.append(")[2]-(");
+					sb.append(rightStr);
+					sb.append("))");
+
+
+				} else {
+
+					sb.append('(');
+					sb.append(leftStr);
+					sb.append(")-(");
+					sb.append(rightStr);
+					sb.append(')');
+				}
 				break;
 
 			case MPREDUCE:
