@@ -537,22 +537,13 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		switch(view3D.getCursor3DType()){		
 		case EuclidianView3D.PREVIEW_POINT_FREE:
-			/*
-			point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
-			point3D.setCoords((GeoPointND) point);
-			point3D.updateCoords();
-			ret = point3D;
-			view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
-			view3D.updateMatrixForCursor3D();
-			view3D.getCursor3D().setMoveMode(point3D.getMoveMode());
-			if (mode==EuclidianConstants.MODE_POINT || mode==EuclidianConstants.MODE_POINT_ON_OBJECT)
-				freePointJustCreated = true;
-				*/
+			pointCreated = true;
 			point3D = getNewPointFree(point);
 			ret = point3D;
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_PATH:
+			pointCreated = true;
 			if (onPathPossible){
 				Path path = point.getPath();
 				if (path.toGeoElement().isGeoElement3D()
@@ -563,7 +554,6 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 					point3D.setWillingCoords(null);
 					point3D.setWillingDirection(null);
 					ret = point3D;
-					
 				}else{
 					Coords coords = point.getCoordsInD(2);
 					return createNewPoint2D(null, false, path, coords.getX(), coords.getY(), false, false); 
@@ -574,18 +564,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			break;
 			
 		case EuclidianView3D.PREVIEW_POINT_REGION:
-			//Application.debug("inRegionPossible="+inRegionPossible);
-			//Application.printStacktrace("");
 			if (inRegionPossible){
+				pointCreated = true;
 				Region region = point.getRegion();
 				if (region == view3D.getxOyPlane()){
-					//Application.debug("ici");
 					point3D = getNewPointFree(point);
 					ret = point3D;
 				}else if (((GeoElement) region).isGeoElement3D()){
 					Coords coords = point.getCoords();
 					point3D = (GeoPoint3D) getKernel().getManager3D().Point3DIn(null,region,coords,true,false);			
-					//point3D.setWillingCoords(point.getCoords());
 					point3D.doRegion();
 					point3D.setWillingCoords(null);
 					point3D.setWillingDirection(null);
@@ -601,6 +588,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
 			if (intersectPossible){
 
+				pointCreated = true;
+				
 				//get last intersection preview point
 				GeoPointND intersectionPoint = view3D.getIntersectionPoint();
 				//add it to construction
@@ -629,6 +618,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return firstPoint;
 		case EuclidianView3D.PREVIEW_POINT_NONE:
 		default:
+			pointCreated = true;
 			return super.getNewPoint(hits, 
 					onPathPossible, inRegionPossible, intersectPossible 
 					, false);			
@@ -652,6 +642,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		
 	}
+	
+	
 	
 	/** put sourcePoint coordinates in point */
 	@Override

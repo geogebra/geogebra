@@ -34,7 +34,6 @@ import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -45,6 +44,7 @@ import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoRadius;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -5300,6 +5300,8 @@ public abstract class EuclidianController {
 				&& (conic.getLastHitType() == HitType.ON_FILLING));
 
 	}
+	
+	
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible,
 			boolean intersectPossible, boolean complex) {
@@ -5307,10 +5309,13 @@ public abstract class EuclidianController {
 				return updateNewPoint(false, hits, onPathPossible, inRegionPossible,
 						intersectPossible, true, complex);
 			}
+	
 
 	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible, boolean doSingleHighlighting, boolean complex) {
 			
+				pointCreated = false;
+		
 				if (!allowPointCreation()) {
 					return false;
 				}
@@ -5320,20 +5325,17 @@ public abstract class EuclidianController {
 			
 				if (point != null) {
 			
-					updateMovedGeoPoint(point);
-			
-					movedGeoElement = getMovedGeoPoint();
-					moveMode = MOVE_POINT;
+					handleMovedElement((GeoElement) point, false);
+					
 					view.setDragCursor();
 					if (doSingleHighlighting) {
 						doSingleHighlighting(getMovedGeoPoint());
 					}
-					pointCreated = true;
 			
 					return true;
 				}
+				
 				moveMode = MOVE_NONE;
-				pointCreated = false;
 				return false;
 			}
 
@@ -7036,6 +7038,7 @@ public abstract class EuclidianController {
 	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple) {
+		
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
 		
@@ -8020,6 +8023,7 @@ public abstract class EuclidianController {
 	
 			} 			
 		}
+		
 	
 		if ((geo != null) && !geo.isFixed()) {
 			moveModeSelectionHandled = true;
