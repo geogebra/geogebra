@@ -1995,7 +1995,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				mathml(sb, "<plus/>", leftStr, rightStr);
 				break;
 			case GIAC:
-				if (left.isListValue() && !right.isListValue()) {
+				if (left.isListValue() && right.isNumberValue()) {
+					//App.debug(left.getClass()+" "+right.getClass());
 					// eg {1,2,3} + 10
 					sb.append("seq((");
 					sb.append(leftStr);
@@ -2005,7 +2006,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(((ListValue)left).size()-1);
 					sb.append(')');
 
-				} else if (!left.isListValue() && right.isListValue()) {
+				} else if (left.isNumberValue() && right.isListValue()) {
+					//App.debug(left.getClass()+" "+right.getClass());
 					// eg 10 + {1,2,3}
 					sb.append("seq((");
 					sb.append(rightStr);
@@ -2015,7 +2017,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(((ListValue)right).size()-1);
 					sb.append(')');
 					
-				} else if (left.isNumberValue() && right.isVectorValue()) {
+				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				} else if (left.isNumberValue() && right instanceof VectorValue) {
+					//App.debug(leftStr+" "+left.getClass());
+					//App.debug(rightStr+" "+right.getClass());
 					// eg 10 + (1,2)
 					sb.append("((");
 					sb.append(rightStr);
@@ -2027,7 +2032,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(')');
 
-				} else if (left.isVectorValue() && right.isNumberValue()) {
+				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				} else if (left instanceof VectorValue && right.isNumberValue()) {
+					//App.debug(left.getClass()+" "+right.getClass());
 					// eg (1,2) + 10
 					sb.append("((");
 					sb.append(leftStr);
@@ -2040,6 +2047,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 
 				} else if (left.isNumberValue() && right.isVector3DValue()) {
+					//App.debug(left.getClass()+" "+right.getClass());
 					// eg 10 + (1,2,3)
 					sb.append("((");
 					sb.append(rightStr);
@@ -2056,6 +2064,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 
 				} else if (left.isVector3DValue() && right.isNumberValue()) {
+					//App.debug(left.getClass()+" "+right.getClass());
 					// eg (1,2,3) + 10
 					sb.append("((");
 					sb.append(leftStr);
@@ -2072,6 +2081,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 
 				} else {
+					//App.debug(left.getClass()+" "+right.getClass());
 
 					sb.append('(');
 					sb.append(leftStr);
@@ -2168,7 +2178,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				mathml(sb, "<minus/>", leftStr, rightStr);
 				break;
 			case GIAC:
-				if (left.isListValue() && !right.isListValue()) {
+				if (left.isListValue() && right.isNumberValue()) {
 					// eg {1,2,3} - 10
 					sb.append("seq((");
 					sb.append(leftStr);
@@ -2178,7 +2188,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(((ListValue)left).size()-1);
 					sb.append(')');
 
-				} else if (!left.isListValue() && right.isListValue()) {
+				} else if (left.isNumberValue() && right.isListValue()) {
 					// eg 10 - {1,2,3}
 					sb.append("seq(");
 					sb.append(leftStr);
@@ -2188,7 +2198,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(",j,0,");
 					sb.append(((ListValue)right).size()-1);
 					sb.append(')');
-				} else if (left.isNumberValue() && right.isVectorValue()) {
+				
+				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				} else if (left.isNumberValue() && right instanceof VectorValue) {
 					// eg 10 - (1,2)
 					sb.append("(");
 					sb.append(leftStr);
@@ -2201,7 +2213,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(")[1])");
 
-				} else if (left.isVectorValue() && right.isNumberValue()) {
+				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				} else if (left instanceof VectorValue && right.isNumberValue()) {
 					// eg (1,2) - 10
 					sb.append("((");
 					sb.append(leftStr);
