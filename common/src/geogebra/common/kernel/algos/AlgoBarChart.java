@@ -1177,7 +1177,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			tags.get(numBar).put(2,fill);
 		}else{
 			HashMap<Integer,Object> hm=new HashMap<Integer,Object>();
-			hm.put(2,fillType);
+			hm.put(2,fill);
 			tags.put(numBar,hm );
 		}
 	}

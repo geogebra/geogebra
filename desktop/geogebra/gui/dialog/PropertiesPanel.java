@@ -5655,7 +5655,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			angleSlider.addChangeListener(this);
 			distanceSlider.addChangeListener(this);
 			if (isBarChart){
-				setSymbol((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm());
+				lblSelectedSymbol.setText(((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm()).getBarSymbol(selectedBarButton));
+				//setSymbol((AlgoBarChart) ((GeoElement)geos[0]).getParentAlgorithm());
 			} else {
 				if (((GeoElement) geos[0]).getFillSymbol()!=null 
 						&& !((GeoElement) geos[0]).getFillSymbol().trim().equals("") ){
@@ -5741,7 +5742,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			lblFillType.setVisible(true); // TODO remove this (see below)
 			cbFillType.setVisible(true); // TODO remove this (see below)
 			for (int i = 0; i < geos.length; i++) {
-
 				hasGeoButton = ((GeoElement) geos[i]).isGeoButton();
 				if (!(((GeoElement) geos[i]).isInverseFillable())
 				// transformed objects copy inverse filling from parents, so
@@ -5935,7 +5935,18 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 				algo.setBarHatchDistance(distanceSlider.getValue(),selectedBarButton);
 				algo.setBarHatchAngle(angleSlider.getValue(), selectedBarButton);
 				algo.setBarImage(null, selectedBarButton);
-				algo.setBarSymbol(null, selectedBarButton);
+				if (FillType.values()[cbFillType.getSelectedIndex()]==FillType.SYMBOLS){
+					if (lblSelectedSymbol.getText() != null
+							&& !"".equals(lblSelectedSymbol.getText())){
+						algo.setBarHatchAngle(-1, selectedBarButton);
+						algo.setBarSymbol(lblSelectedSymbol.getText(), selectedBarButton);						
+					}else{
+						algo.setBarFillType(FillType.STANDARD, selectedBarButton);
+						algo.setBarSymbol(null , selectedBarButton);
+					}					
+				} else {
+					algo.setBarSymbol(null , selectedBarButton);
+				}
 				break;
 			case 4:
 				algo.setBarAlpha(fillingSlider.getValue()/100f, selectedBarButton);
@@ -5955,7 +5966,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 					algo.setBarHatchAngle(-1, selectedBarButton);
 					algo.setBarImage(null, selectedBarButton);
 					algo.setBarSymbol(lblSelectedSymbol.getText() , selectedBarButton);
-				} 
+				} else {
+					algo.setBarSymbol(null , selectedBarButton);
+				}
 				break;
 			}
 			return true;
@@ -6123,7 +6136,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 						lblSelectedSymbol.setText(s);
 						lblSelectedSymbol.setFont(GFontD.getAwtFont(app
 								.getFontCanDisplay(s)));
-					}
+					} 
 					popupButton.handlePopupActionEvent();
 				}
 			}

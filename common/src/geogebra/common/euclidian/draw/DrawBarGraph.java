@@ -150,9 +150,10 @@ public class DrawBarGraph extends Drawable {
 						if (algop.getBarAlpha(k)!=-1.0) {
 							geo.setAlphaValue(algop.getBarAlpha(k));
 						}
-						if (algop.getBarFillType(k)!=FillType.STANDARD) {
-							geo.setFillType(algop.getBarFillType(k));
-						}
+
+						geo.setFillType(algop.getBarFillType(k));
+
+
 						if (algop.getBarSymbol(k)!=null) {
 							geo.setFillSymbol(algop.getBarSymbol(k));
 						} 
