@@ -15,6 +15,7 @@ package geogebra.gui.view.consprotocol;
 import geogebra.common.main.Localization;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
+import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -127,7 +128,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		miShowOnlyBreakpoints.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
-				cpView.getData().initView();
+				((ConstructionTableData) cpView.getData()).initView();
 				cpView.getCpPanel().repaint();
 			}
 		});
@@ -212,7 +213,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		if(e.getSource()==btnOptions){
 			if(btnOptions.getSelectedIndex()==0){
 				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
-				cpView.getData().initView();
+				((ConstructionTableData) cpView.getData()).initView();
 				cpView.getCpPanel().repaint();
 			}
 			else if(btnOptions.getSelectedIndex()==1)

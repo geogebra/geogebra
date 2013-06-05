@@ -60,6 +60,7 @@ import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
 import geogebra.gui.view.data.PlotPanelEuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
@@ -710,13 +711,13 @@ public class GuiManagerD extends GuiManager {
 	@Override
 	public void attachConstructionProtocolView() {
 		getConstructionProtocolView();
-		constructionProtocolView.getData().attachView();
+		((ConstructionTableData) (constructionProtocolView.getData())).attachView();
 	}
 
 	@Override
 	public void detachConstructionProtocolView() {
 		if (constructionProtocolView != null)
-			constructionProtocolView.getData().detachView();
+			((ConstructionTableData) (constructionProtocolView.getData())).detachView();
 	}
 
 	@Override

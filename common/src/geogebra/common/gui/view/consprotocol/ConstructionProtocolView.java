@@ -304,6 +304,10 @@ public class ConstructionProtocolView {
 		App.debug("common/ContructionProtocolView.repaint() not implemented");
 	}
 
+	public geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData getData() {
+		return data;
+	}
+
 	public class ConstructionTableData implements View{
 
 		protected ConstructionTableData ctData = this;
@@ -322,6 +326,7 @@ public class ConstructionProtocolView {
 		protected ArrayList<RowData> rowList;
 		protected HashMap<GeoElement, RowData> geoMap;
 		protected int columnsCount = columns.length;
+		protected boolean notifyUpdateCalled;
 
 		public ConstructionTableData() {
 //			ctDataImpl = new MyGAbstractTableModel();
@@ -426,21 +431,77 @@ public class ConstructionProtocolView {
 			return false;
 		}
 
+
+		/***********************
+		 * View Implementation *
+		 ***********************/
 		public void add(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
+			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
+					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
+							.isConsProtocolBreakpoint()))
+				return;
+		
+			App.debug("new row");
+			RowData row = geoMap.get(geo); // lookup row for geo
+			if (row == null) { // new row
+				int index = geo.getConstructionIndex();
+				int pos = 0; // there may be more rows with same index
+				int size = rowList.size();
+				while (pos < size
+						&& index >= rowList.get(pos).getGeo()
+								.getConstructionIndex())
+					pos++;
+		
+				row = new RowData(geo);
+				App.debug("new row into rowList: " +row.getDefinition().toString());
+				if (pos < size) {
+					rowList.add(pos, row);
+				} else {
+					pos = size;
+					rowList.add(row);
+				}
+		
+				// insert new row
+				geoMap.put(geo, row); // insert (geo, row) pair in map
+				updateRowNumbers(pos);
+				updateIndices();
+				fireTableRowsInserted(pos, pos);
+				updateAll();
+				updateNavigationBars();
+			}
 		}
 
 		public void remove(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
+			RowData row = geoMap.get(geo);
+			// lookup row for GeoElement
+			if (row != null) {
+				rowList.remove(row); // remove row
+				geoMap.remove(geo); // remove (geo, row) pair from map
+				updateRowNumbers(row.getRowNumber());
+				updateIndices();
+				fireTableRowsDeleted(row.getRowNumber(), row.getRowNumber());
+				updateAll();
+				updateNavigationBars();
+			}
 		}
+
+		public void clearView() {
+			rowList.clear();
+			geoMap.clear();
+			updateNavigationBars();
+		}
+
+		public final void repaintView() {
+			repaint();
+		}
+
 
 		public void rename(GeoElement geo) {
-			// TODO Auto-generated method stub
-			
+			// renaming may affect multiple rows
+			// so let's update whole table
+			updateAll();
 		}
-
+		
 		public void update(GeoElement geo) {
 			// TODO Auto-generated method stub
 			
@@ -456,17 +517,7 @@ public class ConstructionProtocolView {
 			
 		}
 
-		public void repaintView() {
-			// TODO Auto-generated method stub
-			
-		}
-
 		public void reset() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		public void clearView() {
 			// TODO Auto-generated method stub
 			
 		}
@@ -484,6 +535,67 @@ public class ConstructionProtocolView {
 		public boolean isShowing() {
 			// TODO Auto-generated method stub
 			return false;
+		}
+
+		/* End of View Implementation */
+
+		
+		private void updateRowNumbers(int row) {
+			if (row < 0)
+				return;
+			int size = rowList.size();
+			for (int i = row; i < size; ++i) {
+				//rowList.get(i).rowNumber = i;
+				rowList.get(i).setRowNumber(i);
+			}
+		}
+
+		private void updateIndices() {
+			int size = rowList.size();
+			if (size == 0)
+				return;
+		
+			int lastIndex = -1;
+			int count = 0;
+			RowData row;
+			for (int i = 0; i < size; ++i) {
+				row = rowList.get(i);
+				int newIndex = row.getGeo().getConstructionIndex();
+				if (lastIndex != newIndex) {
+					lastIndex = newIndex;
+					count++;
+				}
+				row.setIndex(count);
+			}
+		}
+
+		
+		protected void fireTableRowsDeleted(int firstRow, int lastRow){
+			App.debug("fireTableRowsDeleted - unimplemented");
+		}
+
+		protected void fireTableRowsInserted(int firstRow, int lastRow){
+			App.debug("fireTableRowsInserted - unimplemented");
+		}
+		
+		public void initView() {
+			// init view
+			rowList.clear();
+			geoMap.clear();
+			App.debug("kernel.getLastConstructionStep: " + kernel.getLastConstructionStep());
+			notifyAddAll(kernel.getLastConstructionStep());
+		}
+
+		public void updateAll() {
+			App.debug("updatedAll - unimplemented");
+		}
+
+		public void notifyAddAll(int lastConstructionStep) {
+			notifyUpdateCalled = true;
+			kernel.notifyAddAll(this,kernel.getLastConstructionStep());
+			notifyUpdateCalled = false;
+			updateAll();
+			
 		}
 		
 	}
