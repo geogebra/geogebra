@@ -198,7 +198,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		
 		
 		// surface
-		
+		/*
 		Coords v = polygon.getMainDirection();
 		int index = renderer.startPolygon((float) v.get(1),(float) v.get(2),(float) v.get(3));
 		
@@ -209,7 +209,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 		
 		
-		setSurfaceIndex(index);				
 		for(int i=0;i<pointLength;i++){
 			v = vertices[i];
 			renderer.addToPolygon(v.get(1),v.get(2),v.get(3));
@@ -217,9 +216,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			
 		}		
 		renderer.endPolygon();
-			
+			*/
 		
 		
+		int index = renderer.startPolygons();
+		Coords n = polygon.getMainDirection();
+		renderer.drawPolygon(n, vertices);
+		renderer.endPolygons();
+		
+		setSurfaceIndex(index);				
 		
 		return true;
 		

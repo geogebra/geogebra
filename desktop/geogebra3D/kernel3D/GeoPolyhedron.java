@@ -439,7 +439,27 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		defaultSegmentLabels();
 
 	}
+	
+	private boolean allLabelsAreSet = false;
 
+	/**
+	 * Returns whether the method initLabels() was called for this polygon. This
+	 * is important to know whether the segments have gotten labels.
+	 * 
+	 * @return true iff all labels (of created polygons, segments, points) are set.
+	 */
+	final public boolean allLabelsAreSet() {
+		return allLabelsAreSet;
+	}
+	
+	/**
+	 * set init labels called 
+	 * @param flag
+	 */
+	public void setAllLabelsAreSet(boolean flag){
+		allLabelsAreSet = flag;
+	}
+	
 	/**
 	 * Inits the labels of this polyhedron, its faces and edges. labels[0] for
 	 * polyhedron itself, labels[1..n] for faces and edges,
@@ -453,6 +473,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		if (cons.isSuppressLabelsActive()) { // for redefine
 			return;
 		}
+		
+		setAllLabelsAreSet(true);
 
 		if (labels == null || labels.length == 0) {
 			labels = new String[1];

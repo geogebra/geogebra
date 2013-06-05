@@ -99,6 +99,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		if (labels==null || labels.length <= 1 || isOldFileVersion())
 			polyhedron.initLabels(labels);
 		else{
+			polyhedron.setAllLabelsAreSet(true);
 			for (int i=0; i<labels.length; i++)
 				getOutput(i).setLabel(labels[i]);
 		}

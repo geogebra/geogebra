@@ -1002,6 +1002,24 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     
+    public int startPolygons(){
+    	
+    	return geometryManager.startPolygons();
+    }
+    
+    /**
+     * draw a polygon
+     * @param n normal
+     * @param v vertices
+     */
+    public void drawPolygon(Coords n, Coords[] v){
+    	geometryManager.drawPolygon(n, v);
+    }
+    
+    public void endPolygons(){
+    	geometryManager.endPolygons();
+    }
+    
     /** add the (x,y) point as a new vertex for the current polygon
      * @param x x-coordinate
      * @param y y-coordinate

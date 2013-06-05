@@ -153,9 +153,23 @@ abstract public class Manager {
 	abstract public void endPolygon();
 	
 
+	/**
+	 * start drawing polygons
+	 * @return geometry index for the polygons
+	 */
+	abstract public int startPolygons();
 	
+    /**
+     * draw a polygon
+     * @param n normal
+     * @param v vertices
+     */
+	abstract public void drawPolygon(Coords n, Coords[] v);
 	
-	
+	/**
+	 * end the polygons
+	 */
+	abstract public void endPolygons();
 	
 	
 	/////////////////////////////////////////////
