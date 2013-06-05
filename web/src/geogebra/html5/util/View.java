@@ -3,6 +3,7 @@ package geogebra.html5.util;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import java.util.HashMap;
 
@@ -117,6 +118,10 @@ public class View {
 		App.debug("file loaded");
 		//This is used also by touch where dialog manager is null
 		app.notifyFileLoaded();
+		
+		//reiniting of navigation bar, to show the correct numbers on the label
+		((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
+		((ConstructionProtocolNavigationW)(this.getApplication().getConstructionProtocolNavigation())).update();
 		
 	}
 
