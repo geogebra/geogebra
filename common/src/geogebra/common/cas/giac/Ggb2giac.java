@@ -284,7 +284,7 @@ public class Ggb2giac {
 		p("Numeric.2",
 				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
 				// normal() so that Numeric(x + x/2) works
-				"normal(evalf(ggbans),%1)"+
+				"normal(evalf(ggbans,%1))"+
 				","+
 				"evalf(ggbans,%1)"+
 				")][1]");
