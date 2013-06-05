@@ -275,14 +275,16 @@ public class Ggb2giac {
 		p("Numeric.1",
 				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
 				// normal() so that Numeric(x + x/2) works
-				"evalf(normal(ggbans))"+
+				// changed order so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
+				// is better when returning degrees from inverse trig
+				"normal(evalf(ggbans))"+
 				","+
 				"evalf(ggbans)"+
 				")][1]");
 		p("Numeric.2",
 				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
 				// normal() so that Numeric(x + x/2) works
-				"evalf(normal(ggbans),%1)"+
+				"normal(evalf(ggbans),%1)"+
 				","+
 				"evalf(ggbans,%1)"+
 				")][1]");
