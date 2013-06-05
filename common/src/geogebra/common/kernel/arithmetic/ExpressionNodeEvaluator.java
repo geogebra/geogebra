@@ -318,6 +318,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		GeoVec2D vec;
 		MyStringBuffer msb;
 		Polynomial poly;
+		
+		//App.debug(lt.getClass()+" "+lt.toString());
+		//App.debug(rt.getClass()+" "+rt.toString());
+
 
 		if (lt.isNumberValue()) {
 			// number * number
@@ -403,6 +407,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			poly = new Polynomial(kernel, (Polynomial) lt);
 			poly.multiply((Polynomial) rt);
 			return poly;
+		} else if (lt.isPolynomialInstance()) {
+			poly = new Polynomial(kernel, (Polynomial) lt);
+			poly.multiply(rt);
+			return poly;
+		} else if (rt.isPolynomialInstance()) {
+			poly = new Polynomial(kernel, (Polynomial) rt);
+			poly.multiply(lt);
+			return poly;
 		} else if (lt.isTextValue()) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
@@ -431,6 +443,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			return msb;
 		} 
+		
+		
 		return illegalBinary(lt,rt, "IllegalMultiplication","*");
 	}
 	/**
