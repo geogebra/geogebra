@@ -336,10 +336,12 @@ public class CopyPaste {
 							&& !conels.contains(ale)) {
 						conels.add(ale);
 						geos = ale.getOutput();
-						for (int k = 0; k < geos.length; k++) {
-							if (!ret.contains(geos[k])
-									&& !conels.contains(geos[k])) {
-								ret.add(geos[k]);
+						if (geos != null) {
+							for (int k = 0; k < geos.length; k++) {
+								if (!ret.contains(geos[k])
+										&& !conels.contains(geos[k])) {
+									ret.add(geos[k]);
+								}
 							}
 						}
 					}
