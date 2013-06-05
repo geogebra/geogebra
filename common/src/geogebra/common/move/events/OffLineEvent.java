@@ -1,5 +1,9 @@
 package geogebra.common.move.events;
 
+/**
+ * @author gabor
+ *  Offline event, happens when app is offline
+ */
 public abstract class OffLineEvent extends BaseEvent {
 
 	/**
