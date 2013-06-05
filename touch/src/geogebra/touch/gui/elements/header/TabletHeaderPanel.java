@@ -46,7 +46,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		//this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 
 		this.app = app;
-		this.dialog = new InputDialog(this.app, DialogType.Title);
+		this.dialog = new InputDialog(this.app, DialogType.Title, tabletGUI);
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
 		this.leftHeader.setStyleName("headerLeft");
 

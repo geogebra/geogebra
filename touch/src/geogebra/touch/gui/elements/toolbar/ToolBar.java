@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -41,11 +42,11 @@ public class ToolBar extends HorizontalPanel
 	
 	protected TouchModel touchModel;
 
-	public ToolBar(final TouchModel touchModel, TouchApp app)
+	public ToolBar(final TouchModel touchModel, TouchApp app,TabletGUI gui)
 	{
 		this.setStyleName("toolbar");
 		
-		this.input = new InputDialog(app, DialogType.InputField);
+		this.input = new InputDialog(app, DialogType.InputField, gui);
 		this.setWidth(Window.getClientWidth() + "px");
 		
 		this.toolPanel = new HorizontalPanel();

@@ -52,7 +52,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.tabletGUI = tabletGUI;
 		this.guiModel = guiModel;
 
-		this.dialog = new InputDialog(app, DialogType.Title);
+		this.dialog = new InputDialog(app, DialogType.Title,tabletGUI);
 
 		this.openDialog = new OpenFileDialog(this.app);
 		this.saveDialog = new SaveFileDialog(this.app);

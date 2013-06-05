@@ -12,4 +12,6 @@ public interface LookAndFeel {
 
 	int getPanelsHeight();
 
+	int getAppBarHeight();
+
 }

@@ -22,6 +22,11 @@ public class WindowsStoreLAF implements LookAndFeel {
 		return 60;
 	}
 
+	@Override
+	public int getAppBarHeight() {
+		return 0;
+	}
+
 	
 
 }

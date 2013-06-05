@@ -2,10 +2,13 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
+import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -16,6 +19,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -29,7 +33,7 @@ import com.google.gwt.user.client.Window;
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
  * 
  */
-public class InputDialog extends PopupPanel implements CustomKeyListener
+public class InputDialog extends PopupPanel implements CustomKeyListener, ResizeListener
 {
 
 	public enum DialogType
@@ -49,8 +53,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 	private String prevText, input;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
+	private LookAndFeel laf;
 
-	public InputDialog(TouchApp app, DialogType type)
+	public InputDialog(TouchApp app, DialogType type, TabletGUI gui)
 	{
 		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
@@ -60,12 +65,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 		this.type = type;
 		
 		//this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
-		//for Win8 position it on top
-		this.setPopupPosition((Window.getClientWidth()/2 - 353), 0);
+		this.laf = gui.getLAF();
+		onResize(null);
+		
+		
 		
 		this.setStyleName("inputDialog");
 
 		init();
+		gui.addResizeListener(this);
 	}
 
 	private void init()
@@ -228,5 +236,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener
 	public void onCustomKeyPressed(CustomKey c)
 	{
 		this.textBox.setText(this.textBox.getText() + c.toString());
+	}
+
+	@Override
+	public void onResize(ResizeEvent e) {
+		this.setPopupPosition((Window.getClientWidth()/2 - 353), this.laf.getAppBarHeight());
+		
 	}
 }

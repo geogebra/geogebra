@@ -34,4 +34,9 @@ public class DefaultLAF implements LookAndFeel
 	{
 		return this.hp;
 	}
+
+	@Override
+	public int getAppBarHeight() {
+		return 62;
+	}
 }
