@@ -375,16 +375,24 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		super.set(geo);
 		if (!geo.isGeoSegment())
 			return;
-
-		if (!geo.isDefined())
-			setUndefined();
-
+		
 		GeoSegmentND seg = (GeoSegmentND) geo;
+		
+		setSegment(seg);
+	}
+	
+	/**
+	 * set the segment to this
+	 * @param seg segment
+	 */
+	public void setSegment(GeoSegmentND seg){
+
+		if (!seg.isDefined())
+			setUndefined();
 
 		setKeepTypeOnGeometricTransform(seg.keepsTypeOnGeometricTransform());
 
-		startPoint.set(seg.getStartPoint());
-		endPoint.set(seg.getEndPoint());
+		setCoord(seg.getStartInhomCoords(), seg.getDirectionInD3());
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -629,6 +630,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 */
 	public void setInitLabelsCalled(boolean flag){
 		initLabelsCalled = flag;
+	}
+	
+	
+	
+	
+	@Override
+	public void rotate(NumberValue r) {
+		getCoordSys().rotate(r.getDouble(), Coords.O);
+	}
+	
+	@Override
+	public void rotate(NumberValue r, GeoPoint S) {
+		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
 	}
 
 }

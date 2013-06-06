@@ -6,13 +6,19 @@ import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.kernelND.HasVolume;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
@@ -28,7 +34,7 @@ import java.util.TreeSet;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume, Traceable {// implements Path {
+public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume, Traceable, RotateableND {// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -927,27 +933,52 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		if (geo instanceof GeoPolyhedron) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
 
+			// global
 			type = polyhedron.type;
+			setVolume(polyhedron.getVolume());
+			
+			// set polygons
+			int index = 0;
+			for (GeoPolygon p : polyhedron.polygonsLinked){
+				setPolygon(index, p);
+				index++;
+			}
+			for (GeoPolygon p : polyhedron.polygons.values()){
+				setPolygon(index, p);
+				index++;
+			}
 
-			polygons.clear();
-			polygons.putAll(polyhedron.polygons);
-			polygonsIndex.clear();
-			polygonsIndex.putAll(polyhedron.polygonsIndex);
-			polygonsDescriptions.clear();
-			polygonsDescriptions.addAll(polyhedron.polygonsDescriptions);
-			polygonsLinked.clear();
-			polygonsLinked.addAll(polyhedron.polygonsLinked);
-			polygonsIndexMax = polyhedron.polygonsIndexMax;
+			// set segments
+			index = 0;
+			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
+				setSegment(index, s);
+				index++;
+			}
+			for (GeoSegment3D s : polyhedron.segments.values()){
+				setSegment(index, s);
+				index++;
+			}
 
-			segments.clear();
-			segments.putAll(polyhedron.segments);
-			segmentsIndex.clear();
-			segmentsIndex.putAll(polyhedron.segmentsIndex);
-			segmentsLinked.clear();
-			segmentsLinked.putAll(polyhedron.segmentsLinked);
-			segmentsIndexMax = polyhedron.segmentsIndexMax;
 
 		}
+	}
+	
+	private void setPolygon(int index, GeoPolygon p){
+		GeoPolygon3D poly = polygons.get(index);
+		if (poly == null){
+			poly = new GeoPolygon3D(getConstruction());
+			polygons.put(index, poly);
+		}
+		poly.set(p);
+	}
+	
+	private void setSegment(long index, GeoSegmentND s){
+		GeoSegment3D seg = segments.get(index);
+		if (seg == null){
+			seg = new GeoSegment3D(getConstruction());
+			segments.put(index, seg);
+		}
+		seg.setSegment(s);
 	}
 
 	private boolean isDefined = true;
@@ -1155,5 +1186,47 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		}
 
 		getKernel().notifyRepaint();
+	}
+	
+	
+	
+	//////////////////////////////////
+	// TRANSFORM
+	//////////////////////////////////
+
+
+	public void rotate(NumberValue r, GeoPoint S) {
+		for (GeoSegment3D seg: segments.values()){
+			((PointRotateable) seg).rotate(r, S);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.rotate(r, S);
+		}
+	}
+
+
+	public void rotate(NumberValue r) {
+		
+		for (GeoSegment3D seg: segments.values()){
+			((PointRotateable) seg).rotate(r);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.rotate(r);
+		}
+		
+	}
+
+
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void rotate(NumberValue r, GeoLineND line) {
+		// TODO Auto-generated method stub
+		
 	}
 }

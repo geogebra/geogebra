@@ -542,12 +542,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		if (poly.points == null) { 
 			return;
 		}
+		
+		int l = 0;
+		if (points != null){
+			l = points.length;
+		}
 
 		// make sure both arrays have same size
-		if (points.length != poly.points.length) {
+		if (l != poly.points.length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.points.length];
 			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < points.length ? points[i] : newGeoPoint();
+				tempPoints[i] = i < l ? points[i] : newGeoPoint();
 			}
 			points = tempPoints;
 		}
@@ -1544,12 +1549,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).rotate(r);
+			getPoint(i).rotate(r);
 	}
 
 	public void rotate(NumberValue r, GeoPoint S) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).rotate(r, S);
+			getPoint(i).rotate(r, S);
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {

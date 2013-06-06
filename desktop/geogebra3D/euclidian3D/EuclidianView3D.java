@@ -55,6 +55,7 @@ import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPlane3DConstant;
 import geogebra3D.kernel3D.GeoPoint3D;
+import geogebra3D.kernel3D.GeoPolyhedron;
 import geogebra3D.kernel3D.GeoQuadric3D;
 import geogebra3D.kernel3D.GeoQuadric3DLimited;
 import geogebra3D.kernel3D.GeoQuadric3DPart;
@@ -585,6 +586,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){ 
 					//create drawable when side is not explicitely created (e.g. in sequence)
 					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
+				}
+				break;
+				
+			case POLYHEDRON:
+				if (!((GeoPolyhedron) geo).allLabelsAreSet()){
+					//create drawable when alone (e.g. in sequence)
+					d = new DrawPolyhedron3D(this, (GeoPolyhedron) geo);
 				}
 				break;
 

@@ -1,24 +1,18 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
 
-public class GeoLine3D extends GeoCoordSys1D implements RotateableND {
+public class GeoLine3D extends GeoCoordSys1D {
 
 	GeoPointND startPoint;
 	
@@ -224,6 +218,7 @@ public class GeoLine3D extends GeoCoordSys1D implements RotateableND {
 		return true;
 	}
 	
+	/*
 	////////////////////
 	// ROTATE
 	////////////////////
@@ -373,5 +368,6 @@ public class GeoLine3D extends GeoCoordSys1D implements RotateableND {
 		rotate(phiValue, o1, vn);
 		
 	}
+	*/
 
 }
