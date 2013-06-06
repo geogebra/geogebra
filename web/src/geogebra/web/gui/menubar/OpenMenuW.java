@@ -49,6 +49,14 @@ public class OpenMenuW extends MenuBar {
 		    });	
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getLoginToGoogleCommand());
 		openFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")),true, getLoginToSkyDriveCommand());
+		
+		if (!((AppW) app).getOfflineOperation().getOnline()) {
+			openFromGoogleDrive.setEnabled(false);
+			openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
+			
+			openFromSkyDrive.setEnabled(false);
+			openFromSkyDrive.setTitle("YouAreOffline");
+		}
 	}
 	
 	private Command getOpenFromGoogleDriveCommand() {

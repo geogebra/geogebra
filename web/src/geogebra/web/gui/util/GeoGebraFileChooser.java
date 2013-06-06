@@ -211,10 +211,21 @@ public class GeoGebraFileChooser extends DialogBox {
 		// dialog opens.
 		refreshIfLoggedIntoGoogle(((AppW) app).getObjectPool().getMyGoogleApis().isLoggedIn());
 		refreshIfLoggedIntoSkyDrive(((AppW) app).getObjectPool().getMySkyDriveApis().isLoggedIn());
+		refreshOnlineState();
 		((GgbAPI) app.getGgbApi()).getGGB(true, this.download.getElement());
 	    super.show();
 	}
 	
+	private void refreshOnlineState() {
+	    if (!((AppW) app).getOfflineOperation().getOnline()) {
+	    	saveToGoogleDrive.setEnabled(false);
+	    	saveToGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
+	    	saveToSkyDrive.setEnabled(false);
+	    	saveToSkyDrive.setTitle("YouAreOffline");
+	    }
+    }
+
+
 	public void setFilename(String newVal){
 		if (newVal.equals("")) newVal = "geogebra.ggb";
         download.getElement().setAttribute("download", newVal);

@@ -2,9 +2,11 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Web implementation of FileMenu
@@ -56,11 +58,17 @@ public class FileMenuW extends MenuBar {
 			
 
 		// this is enabled always
-	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
+	    MenuItem uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}
 	    });
+	    
+	    if (!((AppW) app).getOfflineOperation().getOnline()) {
+	    	uploadToGGT.setEnabled(false);
+	    	uploadToGGT.setTitle(app.getMenu("YouAreOffline"));
+	    	
+	    }
 	    
 		
 
