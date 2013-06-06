@@ -195,9 +195,9 @@ download libs for other architectures than the current one.
 	</target>
 
 	<target name="giac-linux" if="unix">
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac.so" dest="lib/javagiac.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac.so" dest="lib/libjavagiac.so"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac64.so" dest="lib/javagiac64.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac64.so" dest="lib/libjavagiac64.so"
 		    usetimestamp="true"/>
 	</target>
 
