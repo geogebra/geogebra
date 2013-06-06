@@ -2018,7 +2018,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 					
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left.isNumberValue() && right instanceof VectorValue) {
+				} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+					
 					//App.debug(leftStr+" "+left.getClass());
 					//App.debug(rightStr+" "+right.getClass());
 					// eg 10 + (1,2)
@@ -2033,7 +2034,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left instanceof VectorValue && right.isNumberValue()) {
+				} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 					//App.debug(left.getClass()+" "+right.getClass());
 					// eg (1,2) + 10
 					sb.append("((");
@@ -2200,7 +2201,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 				
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left.isNumberValue() && right instanceof VectorValue) {
+				} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
 					// eg 10 - (1,2)
 					sb.append("(");
 					sb.append(leftStr);
@@ -2214,7 +2215,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(")[1])");
 
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left instanceof VectorValue && right.isNumberValue()) {
+				} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 					// eg (1,2) - 10
 					sb.append("((");
 					sb.append(leftStr);
