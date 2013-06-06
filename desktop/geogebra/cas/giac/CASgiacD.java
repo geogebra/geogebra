@@ -263,10 +263,16 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		public void run() {
 			App.debug("thread starting: " + exp);
 
-			gen g = new gen(exp, C);
-			g = giac._eval(g, C);
-			threadResult = g.print(C);
-			App.debug("message from thread: " + threadResult);
+			try {
+				gen g = new gen(exp, C);
+				g = giac._eval(g, C);
+				threadResult = g.print(C);
+				App.debug("message from thread: " + threadResult);
+			} catch (Throwable t) {
+				App.debug("problem from JNI Giac: "+t.toString());
+				// force error in GeoGebra
+				threadResult = "(";
+			}
 		}
 	}
 
