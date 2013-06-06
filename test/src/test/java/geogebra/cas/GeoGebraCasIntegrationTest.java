@@ -46,7 +46,7 @@ public class GeoGebraCasIntegrationTest {
 	@BeforeClass
 	public static void setupCas() {
 		AppD app = new AppD(new CommandLineArguments(
-				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);		
+				silent?new String[]{"--silent","--giac"}:new String[]{"--giac"}), new JFrame(), false);		
 		if(silent)
 			App.logger = null;
 		app.setLanguage(Locale.GERMANY);
@@ -127,7 +127,7 @@ public class GeoGebraCasIntegrationTest {
 					equalToIgnoreWhitespaces(logger, input, expectedResult,
 							validResults));
 		} catch (Throwable t) {
-			Throwables.propagate(t);
+			Assert.assertNull(t);
 		}
 	}
 
