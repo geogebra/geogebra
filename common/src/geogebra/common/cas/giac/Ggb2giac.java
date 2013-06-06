@@ -302,7 +302,7 @@ public class Ggb2giac {
 						"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
 				"else (%0)^(%1)/factorial(floor(%1))*exp(-%0) fi");
 		p("PreviousPrime.1",
-				"if (%0 > 1) then prevprime(%0) else 0/0 fi");
+				"if (%0 > 2) then prevprime(%0) else 0/0 fi");
 		p("PrimeFactors.1",
 				"ifactors(%0)");
 		// normal() makes sure answer is expanded
