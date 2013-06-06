@@ -29,6 +29,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		private OptionsMenuW optionsMenu;
 		private MenuItem signIn;
 		private MenuItem linktoggb;
+		private ViewMenuW viewMenu;
 
 		/**
 		 * Constructs the menubar
@@ -118,7 +119,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		}
 		
 		private void createViewMenu() {
-			ViewMenuW viewMenu = new ViewMenuW(app);
+			viewMenu = new ViewMenuW(app);
 			addItem(app.getMenu("View"), viewMenu);
 		}
 		
@@ -166,7 +167,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		 */
 
 		public void updateSelection() {
-			editMenu.initActions();	        
+			editMenu.initActions();        
         }
 
 		/**
@@ -174,7 +175,9 @@ public class GeoGebraMenubarW extends MenuBar {
 		 */
 		public void updateMenubar() {
 			App.debug("implementation needed - just finishing");
-			app.getOptionsMenu().update();        
+			app.getOptionsMenu().update();
+			viewMenu.update();
+			
         }
 
 		public static void setMenuSelected(MenuItem m,
