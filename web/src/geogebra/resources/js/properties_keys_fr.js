@@ -2398,7 +2398,7 @@ __GGB__keysVar.fr.plain = {
     "ParametricDerivativeOfA": "D\xe9riv\xe9e param\xe9trique de %0",
     "ParametricForm": "Forme param\xe9trique",
     "Pause": "Pause",
-    "PenStroke": "Croquis",
+    "PenStroke": "Trac\xe9s",
     "Pentagon": "Pentagone",
     "PerimeterOfA": "P\xe9rim\xe8tre de %0",
     "PerspectiveName": "Nom Disposition",
