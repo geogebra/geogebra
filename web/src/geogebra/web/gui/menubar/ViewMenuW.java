@@ -55,7 +55,7 @@ public class ViewMenuW extends MenuBar {
 	private void initActions() {
 		clearItems();
 
-		itemAlgebra = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		itemAlgebra = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_algebra24()
 		        .getSafeUri().asString(), app.getPlain("AlgebraWindow")),
 		        new Command() {
 			        public void execute() {
@@ -93,7 +93,7 @@ public class ViewMenuW extends MenuBar {
 
 		addItem(itemAlgebra.getMenuItem());
 		
-		itemSpreadsheet = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		itemSpreadsheet = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_spreadsheet24()
 		        .getSafeUri().asString(), app.getPlain("Spreadsheet")),
 		        new Command() {
 			        public void execute() {
@@ -114,7 +114,7 @@ public class ViewMenuW extends MenuBar {
 		
 		addItem(itemSpreadsheet.getMenuItem());
 		
-		itemCAS = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		itemCAS = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_cas24()
 		        .getSafeUri().asString(), app.getPlain("CAS")),
 		        new Command() {
 			        public void execute() {
@@ -135,7 +135,7 @@ public class ViewMenuW extends MenuBar {
 
 		addItem(itemCAS.getMenuItem());
 		
-		itemEuclidian = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		itemEuclidian = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_graphics24()
 		        .getSafeUri().asString(), app.getPlain("DrawingPad")),
 		        new Command() {
 			        public void execute() {
@@ -149,7 +149,7 @@ public class ViewMenuW extends MenuBar {
 
 		addItem(itemEuclidian.getMenuItem());
 		
-		itemEuclidian2 = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
+		itemEuclidian2 = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_graphics224()
 		        .getSafeUri().asString(), app.getPlain("DrawingPad2")),
 		        new Command() {
 			        public void execute() {
