@@ -7,7 +7,7 @@ import java.util.Iterator;
  * @author gabor
  * List for online events
  */
-public class OnlineEventPool extends EventPool {
+public class OnlineEventPool extends BaseEventPool {
 
 	/**
 	 * @param event OnlineEvent

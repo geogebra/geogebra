@@ -7,7 +7,7 @@ import java.util.Iterator;
  * @author gabor
  * Host for the Common event handling
  */
-public abstract class EventPool {
+public abstract class BaseEventPool {
 	
 	/**
 	 * list of events
@@ -17,7 +17,7 @@ public abstract class EventPool {
 	/**
 	 * Instantiates the Event handling Code
 	 */
-	public EventPool() {
+	public BaseEventPool() {
 		
 	}
 	

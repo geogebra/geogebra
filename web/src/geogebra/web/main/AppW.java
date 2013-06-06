@@ -22,6 +22,13 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.move.events.BaseEventPool;
+import geogebra.common.move.events.NativeEventAttacher;
+import geogebra.common.move.events.OfflineEventPool;
+import geogebra.common.move.events.OnlineEventPool;
+import geogebra.common.move.operations.Network;
+import geogebra.common.move.operations.OfflineOperation;
+import geogebra.common.move.operations.OnlineOperation;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -136,6 +143,28 @@ public class AppW extends AppWeb {
 
 	boolean menuKeysLoaded = false;
 	private ObjectPool objectPool;
+	
+	//Event flow operations
+	private OfflineOperation offlineOperation;
+	private OnlineOperation onlineOperation;
+
+	
+	/**
+	 * @return OfflineOperation event flow
+	 */
+	public OfflineOperation getOfflineOperation() {
+		return offlineOperation;
+	}
+	
+
+
+	/**
+	 * @return OnlineOperation event flow
+	 */
+	public OnlineOperation getOnlineOperation() {
+		return onlineOperation;
+	}
+
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -261,7 +290,51 @@ public class AppW extends AppWeb {
 
 		// neded to not overwrite anything already exists
 		ORIGINAL_BODY_CLASSNAME = RootPanel.getBodyElement().getClassName();
+		
+		//Online - Offline event handling begins here
+		initNetworkEventFlow();
+		
+		
 	}
+	
+	
+
+	private void initNetworkEventFlow() {
+		
+		Network network = new Network() {
+			
+			private native boolean checkOnlineState() /*-{
+				return $wnd.navigator.onLine;
+			}-*/;
+			
+			public boolean onLine() {
+				return checkOnlineState();
+			}
+		};
+		
+		NativeEventAttacher attacher = new NativeEventAttacher() {
+			
+			private native void nativeAttach(String t, BaseEventPool ep) /*-{
+						$wnd.addEventListener(t, function() {
+							ep.@geogebra.common.move.events.BaseEventPool::trigger()();
+						});
+			}-*/;
+			
+			public void attach(String type, BaseEventPool eventPool) {
+				nativeAttach(type, eventPool);
+			}
+		};
+		
+		offlineOperation = new OfflineOperation(network);
+		OfflineEventPool offlineEventPool = new OfflineEventPool();	
+		attacher.attach("offline", offlineEventPool);
+		offlineOperation.setEvent(offlineEventPool);
+		
+		onlineOperation = new OnlineOperation(network);
+		OnlineEventPool onlineEventPool = new OnlineEventPool();
+		attacher.attach("online", onlineEventPool);
+		onlineOperation.setEvent(onlineEventPool);
+    }
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {

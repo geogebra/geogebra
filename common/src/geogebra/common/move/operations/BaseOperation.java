@@ -1,6 +1,6 @@
 package geogebra.common.move.operations;
 
-import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.models.BaseModel;
 import geogebra.common.move.views.BaseView;
 
@@ -26,7 +26,7 @@ public abstract class BaseOperation {
 	 * The Common event component to operate on (if exists)
 	 * (eg. common.move.views.OfflineEventPool)
 	 */
-	protected BaseEvent event = null;
+	protected BaseEventPool eventPool = null;
 	
 	/**
 	 * @return the Common View to operate on
@@ -59,15 +59,15 @@ public abstract class BaseOperation {
 	/**
 	 * @return the Common event to operate on
 	 */
-	public BaseEvent getEvent() {
-		return event;
+	public BaseEventPool getEvent() {
+		return eventPool;
 	}
 	/**
 	 * @param event Common event to operate on
 	 * Sets the common event to operate on
 	 */
-	public void setEvent(BaseEvent event) {
-		this.event = event;
+	public void setEvent(BaseEventPool event) {
+		this.eventPool = event;
 	}
 	
 }

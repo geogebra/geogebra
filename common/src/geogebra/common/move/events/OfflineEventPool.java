@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Pool for Offline events
  *
  */
-public class OfflineEventPool extends EventPool {
+public class OfflineEventPool extends BaseEventPool {
 
 	/**
 	 * @param event OnlineEvent
