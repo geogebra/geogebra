@@ -33,6 +33,13 @@ test -r $GGB_JARS/geogebra_main.jar || {
  exit 13
  }
 
+# Temporary download and .jar package for JNI giac
+MYDIR=`pwd`
+cd $GGB_JARS
+wget -N http://dev.geogebra.org/download/lib/giac/latest/libjavagiac64.so
+zip libjavagiac64.jar libjavagiac64.so
+cd $MYDIR
+
 # 2. Installing JAR files into the Maven repository (usually ~/.m2/repository/geogebra/*/current/*-current.jar)
 NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
 # For namespace hacking consult http://xmlstar.sourceforge.net/doc/UG/ch05s01.html
