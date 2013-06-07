@@ -989,17 +989,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     }
     
     
-    /**
-     * set the tesselator to start drawing a new polygon
-     * @param nx 
-     * @param ny 
-     * @param nz 
-     * @return geometry manager index
-     */
-    public int startPolygon(float nx, float ny, float nz){
-    	
-    	return geometryManager.startPolygon(nx,ny,nz);
-    }
+
     
     
     public int startPolygons(){
@@ -1020,35 +1010,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	geometryManager.endPolygons();
     }
     
-    /** add the (x,y) point as a new vertex for the current polygon
-     * @param x x-coordinate
-     * @param y y-coordinate
-     */
-    public void addToPolygon(double x, double y){
-    	addToPolygon(x, y, 0);
-    }
     
-    //TODO remove this
-    /** add the (x,y,z) point as a new vertex for the current polygon
-     * @param x x-coordinate
-     * @param y y-coordinate
-     * @param z z-coordinate
-     */
-    public void addToPolygon(double x, double y, double z){
-    	geometryManager.addVertexToPolygon(x, y, z);
-    }    
     
-    /**
-     * end of the current polygon
-     */
-    public void endPolygon(){
-    	
-    	geometryManager.endPolygon();       
-    }
-  
-    public void drawPolygon(int index){
-    	geometryManager.draw(index);
-    }
     
      
     /* draws the text s

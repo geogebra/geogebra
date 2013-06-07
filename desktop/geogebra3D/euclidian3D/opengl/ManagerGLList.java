@@ -78,63 +78,8 @@ public class ManagerGLList extends Manager {
 	// POLYGONS METHODS
 	/////////////////////////////////////////////
 	
-	/** start a new polygon 
-	 * @param nx normal x coordinate
-	 * @param ny normal y coordinate
-	 * @param nz normal z coordinate
-	 * @return gl index
-	 */
-	@Override
-	public int startPolygon(float nx, float ny, float nz){
-		
-		// generates a new list
-		int ret = genLists(1);
-		
-		//Application.debug("ret = "+ret);
-		
-		// if ret == 0, there's no list
-		if (ret == 0)
-			return 0;
-		
-	    RendererTesselCallBack tessCallback = new RendererTesselCallBack(renderer);
-	    
-	    tesselator = renderer.glu.gluNewTess();
 
-	    renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX, tessCallback);// vertexCallback);
-	    renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN, tessCallback);// beginCallback);
-	    renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
-	    renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR, tessCallback);// errorCallback);
-	    renderer.glu.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE, tessCallback);// combineCallback);
-    
-	    newList(ret);
-	    
-    	
-	    renderer.glu.gluTessBeginPolygon(tesselator, null);
-	    renderer.glu.gluTessBeginContour(tesselator);
-	    
-	    renderer.glu.gluTessNormal(tesselator,nx,ny,nz);
-		normal(nx, ny, nz);
-		texture(0,0);
-	    
-	    return ret;	
-	}	
 	
-    /**
-     * ends the current polygon
-     */
-    @Override
-	public void endPolygon(){
-    	 	
-    	renderer.glu.gluTessEndContour(tesselator);
-    	renderer.glu.gluTessEndPolygon(tesselator);
-	    renderer.gl.glEndList();
-	    
-	    renderer.glu.gluDeleteTess(tesselator);
-	    
-    	
-    	//endGeometry(null);
-    }  
-    
     
 	@Override
 	public int startPolygons(){
@@ -268,18 +213,6 @@ public class ManagerGLList extends Manager {
 	
 	
 	
-	/////////////////////////////////////////////
-	// POLYGONS DRAWING METHODS
-	/////////////////////////////////////////////
 
-	@Override
-	public void addVertexToPolygon(double x, double y, double z){	
-		
-		double[] point = {x,y,z};
-		renderer.glu.gluTessVertex(tesselator, point, 0, point);
-		
-		
-		//vertex((float) x, (float) y,(float)  z);
-	}
 
 }

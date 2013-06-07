@@ -147,11 +147,6 @@ abstract public class Manager {
 	
 	abstract public void endGeometry();
 	
-	abstract public int startPolygon(float nx, float ny, float nz);
-
-	
-	abstract public void endPolygon();
-	
 
 	/**
 	 * start drawing polygons
@@ -307,15 +302,6 @@ abstract public class Manager {
 				(float) (cylinderEnd.getY()+cylinderThickness*vn.getY()),  
 				(float) (cylinderEnd.getZ()+cylinderThickness*vn.getZ()));
 	}
-	
-	
-	
-	/////////////////////////////////////////////
-	// POLYGONS DRAWING METHODS
-	/////////////////////////////////////////////
-
-	
-	abstract public void addVertexToPolygon(double x, double y, double z);
 	
 	
 	
