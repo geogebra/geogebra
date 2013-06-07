@@ -1531,6 +1531,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList) {
 
+		if (changeableCoordParent == null) {
+			return false;
+		}
+		
 		return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
 
 
