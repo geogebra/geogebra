@@ -1267,15 +1267,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void GCD_Variables_0() {
-		// Disabling temporarily for giac Linux jni:
-		// t("GCD[x^2 + 4 x + 4, x^2 - x - 6]", "x + 2");
+		t("GCD[x^2 + 4 x + 4, x^2 - x - 6]", "x + 2");
 	}
 
 	@Test
 	public void GCD_Variables_1() {
-		// Disabling temporarily for giac Linux jni:
-		// t("GCD[{x^2 + 4 * x + 4, x^2 - x - 6, x^3 - 4 * x^2 - 3 * x + 18}]",
-		//		"x + 2");
+		t("GCD[{x^2 + 4 * x + 4, x^2 - x - 6, x^3 - 4 * x^2 - 3 * x + 18}]",
+				"x + 2");
 	}
 	
 
@@ -3041,8 +3039,7 @@ public class GeoGebraCasIntegrationTest {
 	public void ExponentialEqs(){
 		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(60000);
 		cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
-		// giac will die on Linux, temporary disabling:
-		// t("Solve[7^(2x-5) 5^x = 9^(x+1),x]","{x = (-log(151263)) / (log(9) - 2 * log(7) - log(5))}","{x = log(151263) / log(245 / 9)}");
+		t("Solve[7^(2x-5) 5^x = 9^(x+1),x]","{x = (-log(151263)) / (log(9) - 2 * log(7) - log(5))}","{x = log(151263) / log(245 / 9)}");
 		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]","{x = (-log(55)) / (log(13) - log(5))}","{x = log(55) / log(5 / 13)}");
 		t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]","{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
 		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(5000);
