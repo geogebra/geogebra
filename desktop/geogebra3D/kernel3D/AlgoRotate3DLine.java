@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
 
@@ -76,7 +77,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 	protected void setInputOutput() { 
     	
     	input = new GeoElement[3];
-    	input[0] = in;
+    	input[0] = inGeo;
     	input[1] = angle.toGeoElement();
     	input[2] = (GeoElement) line;
    	
@@ -89,16 +90,17 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
     // calc rotated point
     @Override
 	public final void compute() {
-    	/*
+    	
     	if(inGeo.isGeoList()){
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
     	}
+    	/*
     	if(inGeo instanceof GeoFunction){
     		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
     	} else*/ 
     	
-    	((GeoElement) out).set(in);
+    	outGeo.set(inGeo);
         out.rotate(angle, line);
         /*
         if(inGeo.isLimitedPath())
@@ -113,7 +115,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
        		return loc.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
     				((GeoElement) orientation).getLabel(tpl));
     	*/
-   		return loc.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   		return loc.getPlain("ARotatedByAngleBAboutC", inGeo.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
 				line.getLabel(tpl));
    	
     }

@@ -402,7 +402,7 @@ public class Kernel3D extends Kernel {
 			return v;
 			
 		case LINE:
-			GeoCoordSys1D ret = new GeoLine3D(geo.getConstruction());
+			GeoElement ret = new GeoLine3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
 		case SEGMENT:
@@ -413,6 +413,11 @@ public class Kernel3D extends Kernel {
 			ret = new GeoRay3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
+			
+		case POLYGON:
+			ret =  new GeoPolygon3D(geo.getConstruction());
+			ret.set(geo);
+			return ret;
 
 		case CONIC:
 			return new GeoConic3D((GeoConicND) geo);
@@ -421,6 +426,8 @@ public class Kernel3D extends Kernel {
 			return geo.copy();
 		}
 	}
+	
+	
 
 	/**
 	 * 

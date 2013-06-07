@@ -23,6 +23,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.RotateableND;
 
 
@@ -32,7 +33,7 @@ import geogebra.common.kernel.kernelND.RotateableND;
  */
 public abstract class AlgoRotate3D extends AlgoTransformation {
 
-	protected GeoElement in;
+	protected GeoElement inGeo, outGeo;
     protected RotateableND out;    
     protected NumberValue angle; 
     
@@ -46,10 +47,14 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
     		NumberValue angle) {
     	
         super(cons);   
-        this.in = in;
+        this.inGeo = in;
         this.angle = angle;
 
-        out = (RotateableND) getResultTemplate(in);
+        // create output object
+        outGeo = getResultTemplate(inGeo);
+        if(outGeo instanceof RotateableND)
+        	out = (RotateableND) outGeo;
+
          
     }
 
@@ -61,7 +66,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
   	
 
         setOutputLength(1);
-        setOutput(0, (GeoElement) out);
+        setOutput(0, outGeo);
         setDependencies(); // done by AlgoElement
     }
 
@@ -72,15 +77,18 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
     @Override
 	public
 	GeoElement getResult() {
-        return (GeoElement) out;
+        return outGeo;
     }
 
   
        
     @Override
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
-		in = g;
-		out = (RotateableND) g2;	
+		inGeo = g;
+		outGeo = g2;
+		if(!(outGeo instanceof GeoList))
+			out = (RotateableND)outGeo;
+		
 	}
     
     
@@ -95,6 +103,11 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	@Override
 	protected GeoElement copy(GeoElement geo) {
 		return ((Kernel3D) kernel).copy3D(geo);
+	}
+
+	@Override
+	protected GeoElement copyInternal(Construction cons, GeoElement geo){
+		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
 	}
 
     

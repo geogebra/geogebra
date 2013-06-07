@@ -11,9 +11,12 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
@@ -27,7 +30,7 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-		GeoPolygon3DInterface, ViewCreator {
+		GeoPolygon3DInterface, ViewCreator, RotateableND {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -633,6 +636,10 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 	
 	
+
+	//////////////////////////////////////////////
+	// ROTATION
+	//////////////////////////////////////////////
 	
 	
 	@Override
@@ -643,6 +650,22 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public void rotate(NumberValue r, GeoPoint S) {
 		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
+	}
+
+	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
+		
+		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		
+	}
+
+	public void rotate(NumberValue phiVal, GeoLineND line) {
+		
+		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
+		
+	}
+	
+	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
+		getCoordSys().rotate(phiVal.getDouble(), center, direction.normalized());
 	}
 
 }
