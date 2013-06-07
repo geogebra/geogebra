@@ -14,7 +14,6 @@ import geogebra3D.euclidian3D.plots.CurveTree;
  * 
  */
 public class DrawCurve3D extends Drawable3DCurves {
-	private final boolean useOldCurves = false;
 
 	private CurveMesh mesh;
 	private CurveTree tree;
@@ -37,13 +36,11 @@ public class DrawCurve3D extends Drawable3DCurves {
 	public DrawCurve3D(EuclidianView3D a_view3d, CurveEvaluable3D curve) {
 		super(a_view3d, (GeoElement) curve);
 		this.curve = curve;
-		if (useOldCurves)
-			tree = new CurveTree(curve, a_view3d);
-		else {
-			updateDomain();
-			updateCullingBox();
-			mesh = new CurveMesh(curve, cullingBox, (float) a_view3d.getScale());
-		}
+
+		updateDomain();
+		updateCullingBox();
+		mesh = new CurveMesh(curve, cullingBox, (float) a_view3d.getScale());
+
 	}
 
 	@Override
@@ -53,21 +50,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	}
 
-	/**
-	 * Decides if the curve should be redrawn or not depending on how the view
-	 * changes
-	 * 
-	 * @return
-	 */
-	// private boolean needRedraw(){
-	// double currRad = currentRadius();
-	// if(currRad>savedRadius*radiusMaxFactor || currRad<
-	// savedRadius*radiusMinFactor){
-	// savedRadius=currRad;
-	// return true;
-	// }
-	// return false;
-	// }
+
 
 	private boolean updateDomain() {
 		boolean changed = false;
@@ -104,50 +87,28 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 		boolean ret = true;
 
-		// updateColors();
 
-		if (useOldCurves) {
-//			Renderer renderer = getView3D().getRenderer();
-//
-//			if (!curve.isEuclidianVisible() || !curve.isDefined()) {
-//				setGeometryIndex(-1);
-//			} else {
-//				needRedraw();
-//				tree = new CurveTree(curve, getView3D());
-//
-//				PlotterBrush brush = renderer.getGeometryManager().getBrush();
-//
-//				brush.setThickness(getGeoElement().getLineThickness(),
-//						(float) getView3D().getScale());
-//
-//				brush.start(8);
-//
-//				brush.draw(tree, savedRadius);
-//
-//				setGeometryIndex(brush.end());
-//			}
-		} else {
-			if (elementHasChanged) {
-				if (updateDomain()) {
-					//domain has changed - create a new mesh
-					mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
-				} else {
-					//otherwise, update the surface
-					elementHasChanged = false;
-					mesh.updateParameters();
-				}
+		if (elementHasChanged) {
+			if (updateDomain()) {
+				//domain has changed - create a new mesh
+				mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
+			} else {
+				//otherwise, update the surface
+				elementHasChanged = false;
+				mesh.updateParameters();
 			}
-
-			Renderer renderer = getView3D().getRenderer();
-			mesh.setCullingBox(cullingBox);
-			ret = mesh.optimize();
-
-			PlotterBrush brush = renderer.getGeometryManager().getBrush();
-			brush.start(8);
-			brush.draw(mesh);
-
-			setGeometryIndex(brush.end());
 		}
+
+		Renderer renderer = getView3D().getRenderer();
+		mesh.setCullingBox(cullingBox);
+		ret = mesh.optimize();
+
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();
+		brush.start(8);
+		brush.draw(mesh);
+
+		setGeometryIndex(brush.end());
+
 		return false;
 	}
 
