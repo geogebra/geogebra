@@ -1566,12 +1566,13 @@ public class EuclidianPen {
     	
        	GeoPointND [] pts = new GeoPointND[4];
 
-    	for(i=0; i<4; ++i)
+    	for (i=0; i<4; ++i)
     	{
     		x_first = view.toRealWorldCoordX(points[2*i]);
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
     		
-    		pts[i] = new GeoPoint(cons, x_first, y_first, 1.0);
+    		// null -> created labeled point
+    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
     
     	}
     	
@@ -1924,7 +1925,8 @@ public class EuclidianPen {
     		x_first = view.toRealWorldCoordX(points[2*i]);
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
      		
-    		pts[i] = new GeoPoint(cons, x_first, y_first, 1.0);
+    		// null -> created labeled point
+    		pts[i] = new GeoPoint(cons, null, x_first, y_first, 1.0);
 
     	}
     	
