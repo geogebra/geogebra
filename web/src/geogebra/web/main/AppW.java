@@ -29,6 +29,8 @@ import geogebra.common.move.events.OnlineEventPool;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.OfflineOperation;
 import geogebra.common.move.operations.OnlineOperation;
+import geogebra.common.move.views.OfflineView;
+import geogebra.common.move.views.OnlineView;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -326,14 +328,16 @@ public class AppW extends AppWeb {
 		};
 		
 		offlineOperation = new OfflineOperation(network);
-		OfflineEventPool offlineEventPool = new OfflineEventPool();	
+		OfflineEventPool offlineEventPool = new OfflineEventPool(offlineOperation);	
 		attacher.attach("offline", offlineEventPool);
 		offlineOperation.setEvent(offlineEventPool);
+		offlineOperation.setView(new OfflineView());
 		
 		onlineOperation = new OnlineOperation(network);
-		OnlineEventPool onlineEventPool = new OnlineEventPool();
+		OnlineEventPool onlineEventPool = new OnlineEventPool(onlineOperation);
 		attacher.attach("online", onlineEventPool);
 		onlineOperation.setEvent(onlineEventPool);
+		onlineOperation.setView(new OnlineView());
     }
 
 	private void showSplashImageOnCanvas() {

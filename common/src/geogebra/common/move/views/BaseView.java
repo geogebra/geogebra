@@ -21,11 +21,8 @@ public abstract class BaseView {
 	 * 
 	 * called from child objects.
 	 */
-	protected BaseView(Renderable view) {
-		if (this.viewComponents == null) {
-			this.viewComponents = new ArrayList<Renderable>();
-		}
-		this.viewComponents.add(view);
+	protected BaseView() {
+		
 	}
 	
 	/**
@@ -37,5 +34,30 @@ public abstract class BaseView {
 			views.next().render();
 		}
 		
+	}
+	
+	/**
+	 * @param view Renderable view
+	 * 
+	 * Adds new view to the view's list
+	 */
+	public void add(Renderable view) {
+		if (viewComponents == null) {
+			viewComponents = new ArrayList<Renderable>();
+		}
+		viewComponents.add(view);
+	}
+	
+	/**
+	 * @param view Renderable view
+	 * 
+	 * Removes a view from the views list
+	 */
+	public void remove(Renderable view) {
+		if (viewComponents != null) {
+			if (viewComponents.contains(view)) {
+				viewComponents.remove(view);
+			}
+		}
 	}
 }

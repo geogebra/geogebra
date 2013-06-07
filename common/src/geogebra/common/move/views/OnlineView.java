@@ -9,10 +9,9 @@ package geogebra.common.move.views;
 public class OnlineView extends BaseView {
 	
 	/**
-	 * creates a new online View
-	 * @param view renderable view
+	 * creates a new online View pool
 	 */
-	public OnlineView(Renderable view) {
-		super(view);
+	public OnlineView() {
+		super();
 	}
 }

@@ -1,6 +1,7 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.common.move.views.Renderable;
 import geogebra.html5.main.GgbAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -46,6 +47,11 @@ public class GeoGebraFileChooser extends DialogBox {
 	private HandlerRegistration loginToGoogleR = null;
 	private HandlerRegistration loginToSkyDriveR = null;
 
+	/**
+	 * @param app AppW
+	 * 
+	 * Creates a new GeoGebraFileChooser Window
+	 */
 	public GeoGebraFileChooser(final App app) {
 	    super();
 	    this.app = app;
@@ -134,8 +140,6 @@ public class GeoGebraFileChooser extends DialogBox {
 				
 		};
 		
-		final GeoGebraFileChooser t = this;
-		
 		loginToGoogleH = new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
@@ -202,6 +206,20 @@ public class GeoGebraFileChooser extends DialogBox {
 	    	
 	    });
 	    
+	    ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(false);
+			}
+		});
+	    
+	    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(true);
+			}
+		});
+	    
     }
 	
 	
@@ -218,10 +236,24 @@ public class GeoGebraFileChooser extends DialogBox {
 	
 	private void refreshOnlineState() {
 	    if (!((AppW) app).getOfflineOperation().getOnline()) {
-	    	saveToGoogleDrive.setEnabled(false);
+	    	renderNetworkOperation(false);
+	    }
+    }
+
+
+	/**
+	 * @param online app online - offline state
+	 * renders the state of the buttons concering online - offline
+	 */
+	void renderNetworkOperation(boolean online) {
+	    saveToGoogleDrive.setEnabled(online);
+	    saveToSkyDrive.setEnabled(online);
+	    if (!online) {
 	    	saveToGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
-	    	saveToSkyDrive.setEnabled(false);
 	    	saveToSkyDrive.setTitle("YouAreOffline");
+	    } else {
+	    	saveToGoogleDrive.setTitle(app.getMenu(""));
+	    	saveToSkyDrive.setTitle("");
 	    }
     }
 

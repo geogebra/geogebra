@@ -18,4 +18,14 @@ public abstract class NetworkOperation extends BaseOperation {
 	public boolean getOnline() {
 		return online;
 	}
+
+	/**
+	 * @param online online state
+	 * Sets the online state of the app (used from events)
+	 */
+	public void setOnline(boolean online) {
+		this.online = online;		
+	}
+	
+	
 }

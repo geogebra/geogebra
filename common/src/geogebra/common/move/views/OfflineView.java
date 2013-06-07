@@ -11,11 +11,10 @@ package geogebra.common.move.views;
 public class OfflineView extends BaseView {
 	
 	/**
-	 * @param view that will be rendered on offline operation
-	 * 
+	 * Contstructs an offline view pool
 	 */
-	public OfflineView(Renderable view) {
-		super(view);
+	public OfflineView() {
+		super();
 	}
 
 }

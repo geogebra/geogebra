@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.views.Renderable;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
@@ -17,6 +18,7 @@ public class OpenMenuW extends MenuBar {
 	private App app;
 	private MenuItem openFromGoogleDrive;
 	private MenuItem openFromSkyDrive;
+	private MenuItem openURL;
 
 	/**
 	 * Constructs the "Open" menu
@@ -42,7 +44,7 @@ public class OpenMenuW extends MenuBar {
 			});
 		    
 			// this is enabled always
-		  addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
+		  openURL = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
 		    	public void execute() {
 		    		app.getGuiManager().openURL();
 		    	}
@@ -50,14 +52,46 @@ public class OpenMenuW extends MenuBar {
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getLoginToGoogleCommand());
 		openFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")),true, getLoginToSkyDriveCommand());
 		
+		 ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
+				
+				public void render() {
+					renderNetworkOperation(false);
+				}
+			});
+		    
+		    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
+				
+				public void render() {
+					renderNetworkOperation(true);
+				}
+			});
+		
+		
+		
 		if (!((AppW) app).getOfflineOperation().getOnline()) {
-			openFromGoogleDrive.setEnabled(false);
-			openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
-			
-			openFromSkyDrive.setEnabled(false);
-			openFromSkyDrive.setTitle("YouAreOffline");
+			renderNetworkOperation(false);
 		}
 	}
+
+	/**
+	 * renders the menu concerning online - offline state
+	 * @param online online - offline state
+	 */
+	void renderNetworkOperation(boolean online) {
+	    openFromGoogleDrive.setEnabled(online);
+	    openFromSkyDrive.setEnabled(online);
+	    openURL.setEnabled(online);
+	    
+	    if (!online) {
+	    	openFromGoogleDrive.setTitle(app.getMenu("YouAreOffline"));    
+	    	openFromSkyDrive.setTitle("YouAreOffline");
+	    	openURL.setTitle("YouAreOffline");
+	    } else {
+	    	openFromGoogleDrive.setTitle("");    
+	    	openFromSkyDrive.setTitle("");
+	    	openURL.setTitle("");
+	    }
+    }
 	
 	private Command getOpenFromGoogleDriveCommand() {
 		return new Command() {

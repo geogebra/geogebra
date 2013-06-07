@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.views.Renderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -16,6 +17,7 @@ public class FileMenuW extends MenuBar {
 	/** Application */
 	App app;
 	private OpenMenuW openMenu;
+	private MenuItem uploadToGGT;
 	
 	/**
 	 * @param app application
@@ -58,21 +60,46 @@ public class FileMenuW extends MenuBar {
 			
 
 		// this is enabled always
-	    MenuItem uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
+	    uploadToGGT = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}
 	    });
 	    
+	    ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(false);
+			}
+		});
+	    
+	    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(true);
+			}
+		});
+	    
 	    if (!((AppW) app).getOfflineOperation().getOnline()) {
-	    	uploadToGGT.setEnabled(false);
-	    	uploadToGGT.setTitle(app.getMenu("YouAreOffline"));
-	    	
+	    	renderNetworkOperation(false);    	
 	    }
 	    
 		
 
 	}
+
+	/**
+	 * @param online wether the application is online
+	 * renders a the online - offline state of the FileMenu
+	 */
+	void renderNetworkOperation(boolean online) {
+	    uploadToGGT.setEnabled(online);
+	    if (!online) {
+	    	uploadToGGT.setTitle(app.getMenu("YouAreOffline"));
+		} else {
+			uploadToGGT.setTitle("");
+		}
+    }
 
 	/**
 	 * @return Open submenu

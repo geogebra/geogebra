@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.views.Renderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -74,10 +75,38 @@ public class GeoGebraMenubarW extends MenuBar {
 	   signIn = addItem(app.getMenu("signIn"), getSignInCommand());
 	   signIn.addStyleName("signIn");
 	   
+	   app.getOfflineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(false);
+			}
+		});
+	    
+	    app.getOnlineOperation().getView().add(new Renderable() {
+			
+			public void render() {
+				renderNetworkOperation(true);
+			}
+		});
+	   
 	   if (!app.getOfflineOperation().getOnline()) {
-		   signIn.setEnabled(false);
-		   signIn.setTitle(app.getMenu("YouAreOffline"));
+		   renderNetworkOperation(false);
 	   }
+	   
+	   
+    }
+
+	/**
+	 * @param online network state of the app
+	 * renders the online - offline network state
+	 */
+	void renderNetworkOperation(boolean online) {
+	    signIn.setEnabled(online);
+	    if (!online) {
+	    	signIn.setTitle(app.getMenu("YouAreOffline"));
+	    } else {
+	    	signIn.setTitle("");
+	    }
     }
 
 	private ScheduledCommand getSignInCommand() {
