@@ -255,13 +255,15 @@ public class GeoAngle extends GeoNumeric {
 		super.setIntervalMin(min);
 	}
 
+	/* removed - overrides setting in XML
+	 * this is set from SliderDialog.actionPerformed for new sliders
 	@Override
 	public void setEuclidianVisible(boolean flag) {
 		if (flag && isIndependent()) {
 			setLabelMode(GeoElement.LABEL_NAME_VALUE);
 		}
 		super.setEuclidianVisible(flag);
-	}
+	}*/
 
 	@Override
 	public GeoElement copy() {
