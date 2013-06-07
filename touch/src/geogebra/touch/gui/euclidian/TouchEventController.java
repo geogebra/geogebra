@@ -1,5 +1,6 @@
 package geogebra.touch.gui.euclidian;
 
+import geogebra.common.main.App;
 import geogebra.touch.controller.TouchController;
 
 import com.google.gwt.dom.client.Touch;
@@ -33,6 +34,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		this.offsetWidget = w;
 	}
 
+	private boolean ignoreMouseDown = false;
 	@Override
 	public void onTouchStart(TouchStartEvent event)
 	{
@@ -42,6 +44,8 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			if(!this.mc.isTextfieldHasFocus()){
 				event.preventDefault();
 			}
+			App.debug("Touch down"+getX(event.getTouches().get(0))+","+ getY(event.getTouches().get(0)));
+			this.ignoreMouseDown = true;
 			this.mc.onTouchStart( getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
 		}
 		else if (event.getTouches().length() == 2)
@@ -116,7 +120,12 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		if(!this.mc.isTextfieldHasFocus()){
 			event.preventDefault();
 		}
-		this.mc.onTouchStart(event.getX(), event.getY());
+		if(!this.ignoreMouseDown){
+			App.debug("Mouse down"+event.getX()+","+ event.getY());
+			this.mc.onTouchStart(event.getX(), event.getY());
+		}else{
+			this.ignoreMouseDown = false;
+		}
 	}
 
 	@Override
