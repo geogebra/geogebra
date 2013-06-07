@@ -17,6 +17,12 @@ RETVAL=0
 sleep 3 # Dirty hack to ensure xvfb can run properly
 xvfb-run --auto-servernum -w 3 ./run-junit-tests || RETVAL=1 # Problem running the tests
 ./junit2sqlite # Copying XML data into an SQL database
+
+# giac JS test with PhantomJS:
+cd scripts/autotest
+./giacjs-test.sh
+cd ../..
+
 ./warnings > .warnings
 
 ERRORS=`cat .junit-tests-errors`
