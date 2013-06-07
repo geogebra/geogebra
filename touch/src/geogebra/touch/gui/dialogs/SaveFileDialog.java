@@ -45,7 +45,7 @@ public class SaveFileDialog extends FileDialog
 	@Override
 	public void show()
 	{
-		super.app.getGgbApiT().getGGB(true, super.okButton.getElement());
+		super.app.getGgbApi().getGGB(true, super.okButton.getElement());
 		super.textBox.setText(super.app.getConstructionTitle());
 		super.show();
 	}
