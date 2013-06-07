@@ -371,7 +371,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "PI"			index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 "euler_gamma"		index_status(yyextra)=1; (*yylval) = cst_euler_gamma; return T_LITERAL;
 "infinity"		index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
-"∞"		index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
+"∞"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
+"± ∞"            index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 "inf"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 "unsigned_inf"		index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 "plus_inf"		index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
@@ -509,7 +510,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "+="                    index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_PLUS;
 "--"                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 "-="                    index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_PLUS;
-".+"                    index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
+".+"                    index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
 "&"                     index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 "√"                     index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 "∡"                     index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
@@ -528,7 +529,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_plus"                   index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 "-"                     index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
 "−"                     index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { cerr << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
-".-"                     index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_MOINS;
+".-"                     index_status(yyextra)=0; (*yylval)=gen(at_pointminus,2); return T_PLUS;
 "'-'"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 "_subtract"                   index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 "*"                     index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;

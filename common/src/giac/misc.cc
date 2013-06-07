@@ -1,4 +1,4 @@
-/* -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c misc.cc -DHAVE_CONFIG_H -DIN_GIAC" -*- */
+/* -*- mode:C++ ; compile-command: "g++ -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -fno-strict-aliasing -g -c misc.cc -Wall" -*- */
 #include "giacPCH.h"
 /*
  *  Copyright (C) 2001, 2007 R. De Graeve, B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -1553,6 +1553,14 @@ namespace giac {
   static define_unary_function_eval (__maxnorm,&_maxnorm,_maxnorm_s);
   define_unary_function_ptr5( at_maxnorm ,alias_at_maxnorm,&__maxnorm,0,true);
 
+  gen l1norm(const vecteur & v,GIAC_CONTEXT){
+    gen res;
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it)
+      res=res+linfnorm(*it,contextptr);
+    return res;
+  }
+
   gen _l1norm(const gen & g0,GIAC_CONTEXT){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
     gen g=remove_at_pnt(g0);
@@ -1560,11 +1568,7 @@ namespace giac {
       g=vector2vecteur(*g._VECTptr);
     if (g.type!=_VECT)
       return linfnorm(g,contextptr);
-    gen res;
-    const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
-    for (;it!=itend;++it)
-      res=res+linfnorm(*it,contextptr);
-    return res;
+    return l1norm(*g._VECTptr,contextptr);
   }
   static const char _l1norm_s []="l1norm";
   static define_unary_function_eval (__l1norm,&_l1norm,_l1norm_s);
@@ -1982,25 +1986,53 @@ namespace giac {
   gen _quantile(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
-    if (v.size()<2 || v.front().type!=_VECT || v.back().type!=_DOUBLE_)
+    if (v.size()<2 || v.front().type!=_VECT)
       return gensizeerr(contextptr);
-    double d=v.back()._DOUBLE_val;
-    if (d<=0 || d>=1)
-      return gendimerr(contextptr);
-    if (g.type==_VECT && g.subtype==_SEQ__VECT && v.size()==3)
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && v.size()==3){
+      gen tmp=evalf_double(v.back(),1,contextptr);
+      if (tmp.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      double d=tmp._DOUBLE_val;
+      if (d<=0 || d>=1)
+	return gendimerr(contextptr);
       return freq_quantile(makevecteur(v[0],v[1]),d,contextptr);
+    }
+    if (v.size()!=2)
+      return gensizeerr(contextptr);
+    bool vect=v.back().type==_VECT;
+    vecteur w=gen2vecteur(v.back()),res;
     v=*v.front()._VECTptr;
+    bool matrix=true;
     if (!ckmatrix(v)){
+      matrix=false;
       if (!is_fully_numeric(evalf(v,1,contextptr))){
 	sort(v.begin(),v.end(),islesscomplexthanf);
-	return v[int(std::ceil(d*v.size()))-1]; // v[(v.size()-1)/4];
+	for (unsigned j=0;j<w.size();++j){
+	  gen tmp=evalf_double(w[j],1,contextptr);
+	  if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>=1)
+	    res.push_back(undef);
+	  else
+	    res.push_back(v[int(std::ceil(tmp._DOUBLE_val*v.size()))-1]);
+	}
+	return vect?res:res.front(); 
       }
       v=ascsort(mtran(vecteur(1,v)),true);
     }
     else
       v=ascsort(v,true);
     v=mtran(v);
-    return v[int(std::ceil(d*v.size()))-1];
+    for (unsigned j=0;j<w.size();++j){
+      gen tmp=evalf_double(w[j],1,contextptr);
+      if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>=1)
+	res.push_back(undef);
+      else {
+	gen data=v[int(std::ceil(tmp._DOUBLE_val*v.size()))-1];
+	if (!matrix && data.type==_VECT && data._VECTptr->size()==1)
+	  data=data._VECTptr->front();
+	res.push_back(data);
+      }
+    }
+    return vect?res:res.front();
   }
   static const char _quantile_s []="quantile";
   static define_unary_function_eval(unary_quantile,&_quantile,_quantile_s);
@@ -3269,6 +3301,15 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
     bool old_iograph=io_graph(contextptr);
     io_graph(false,contextptr);
 #endif
+    if (class_size<=0){
+      // find class_minimum and class_size from data and number of classes
+      int nc=class_minimum;
+      vector<double> w=prepare_effectifs(v,contextptr);
+      if (w.size()<2)
+	return gensizeerr(contextptr);
+      class_minimum=w.front();
+      class_size=(w.back()-w.front())/nc;
+    }
     if (ckmatrix(v) && !v.empty() && v.front()._VECTptr->size()==2){
       // matrix format is 2 columns 1st column=interval, 2nd column=frequency
       // OR value/frequencies
@@ -3391,6 +3432,8 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
 	if (arg1.type==_DOUBLE_ && arg2.type==_DOUBLE_)
 	  return histogram(data,arg1._DOUBLE_val,arg2._DOUBLE_val,attributs,contextptr);
       }
+      if (s==2 && is_integral(arg1) && arg1.type==_INT_ && arg1.val>0)
+	return histogram(data,arg1.val,0.0,attributs,contextptr);
       if (s==2 && args[1].type==_VECT)
 	return _histogram(gen(makevecteur(mtran(args),class_minimum),_SEQ__VECT),contextptr);
       return gensizeerr(contextptr);
@@ -3930,8 +3973,10 @@ static define_unary_function_eval (__camembert,&_camembert,_camembert_s);
     }
     s=l.size();
     if (s<=3){
+#if 0
       if (abs_calc_mode(contextptr)==38)
 	return _polygone(l,contextptr);
+#endif
       return l;
     }
     gen zmin=l[0],zcur;
@@ -3975,8 +4020,10 @@ static define_unary_function_eval (__camembert,&_camembert,_camembert_s);
 	}
       }
     }
+#if 0
     if (abs_calc_mode(contextptr)==38)
       return _polygone(res,contextptr);
+#endif
     return gen(res,g.subtype);
   }
   static const char _convexhull_s []="convexhull";
@@ -4633,7 +4680,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return gendimerr(contextptr);
     // check if coeffs>=0 and sum coeffs = 1 on rows or on columns
     gen g=_sum(args,contextptr);
-    if (g!=vecteur(ms,1)){
+    if (!is_zero(g-vecteur(ms,1))){
       m=mtran(m);
       ms=m.size();
       g=_sum(m,contextptr);
@@ -4882,10 +4929,11 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // Graph utilities
   // convert matrice of probability to matrice of booleans
   // m[i][j]!=0 means there is a link from i to j
-  void proba2adjacence(const matrice & m,vector< vector<unsigned> >& v){
-    if (!is_integer_matrice(m) && !is_one(_plus(m.front(),context0))){
-      proba2adjacence(mtran(m),v);
-      return;
+  bool proba2adjacence(const matrice & m,vector< vector<unsigned> >& v,bool check,GIAC_CONTEXT){
+    if (!is_integer_matrice(m) && !is_zero(1-_plus(m.front(),contextptr),contextptr)){
+      if (!check)
+	return false;
+      return proba2adjacence(mtran(m),v,false,contextptr);
     }
     int l,c;
     mdims(m,l,c);
@@ -4900,6 +4948,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  vi[j/32] |= 1<<(j%32);
       }
     }
+    return true;
   }
 
   // For large graphs, use Tarjan algorithm 
@@ -4962,8 +5011,363 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
   }
 
+  void classify_scc(const vector< vector<unsigned> > & G,vector< vector<unsigned> > & SCC, vector< vector<unsigned> > & SCCrec,vector< vector<unsigned> > & SCCtrans){
+    // Look at each SCC: if it has all outgoing edges going to the same component, 
+    // then this is a recurrent positive, and we can compute the invariant probability
+    if (SCC.empty())
+      tarjan(G,SCC);
+    for (unsigned i=0;i<SCC.size();++i){
+      const vector<unsigned> & SCCi=SCC[i];
+      vector<bool> in(G.size(),false);
+      for (unsigned j=0;j<SCCi.size();++j){
+	in[SCCi[j]]=true;
+      }
+      bool recurrent=true;
+      for (unsigned j=0;recurrent && j<SCCi.size();++j){
+	unsigned source=SCCi[j];
+	const vector<unsigned> & targetv=G[source];
+	for (unsigned k=0;recurrent && k<targetv.size();++k){
+	  unsigned Gsk=targetv[k];
+	  unsigned l=k*32;
+	  for (;Gsk;++l,Gsk/=2){
+	    if (Gsk %2 && !in[l]){
+	      recurrent=false;
+	      break;
+	    }
+	  }
+	}
+      }
+      if (recurrent)
+	SCCrec.push_back(SCCi);
+      else
+	SCCtrans.push_back(SCCi);
+    } // end loop on strong connected components
+  }
+
+  void vector_unsigned2vecteur(const vector<unsigned> & V,vecteur & v){
+    v.clear();
+    v.reserve(V.size());
+    for (unsigned i=0;i<V.size();++i)
+      v.push_back(int(V[i]));
+  }
+
+  void matrix_unsigned2matrice(const vector< vector<unsigned> > & M,matrice & m){
+    m.clear();
+    m.reserve(M.size());
+    for (unsigned i=0;i<M.size();++i){
+      vecteur v;
+      vector_unsigned2vecteur(M[i],v);
+      m.push_back(v);
+    }
+  }
+
+  // Input matrix of adjacency or transition matrix
+  // Output a list of strongly connected components
+  gen _graph_scc(const gen & args,GIAC_CONTEXT){
+    if (!is_squarematrix(args))
+      return gensizeerr(contextptr);
+    vector< vector<unsigned> > G,GRAPH_SCC;
+    if (!proba2adjacence(*args._VECTptr,G,true,contextptr))
+      return gensizeerr(contextptr);
+    tarjan(G,GRAPH_SCC);
+    matrice m;
+    matrix_unsigned2matrice(GRAPH_SCC,m);
+    return m;
+  }
+  static const char _graph_scc_s []="graph_scc";
+  static define_unary_function_eval (__graph_scc,&_graph_scc,_graph_scc_s);
+  define_unary_function_ptr5( at_graph_scc ,alias_at_graph_scc,&__graph_scc,0,true);
+
+  void extract_submatrix(const matrice & M,const vector<unsigned> & v,matrice & m){
+    m.reserve(v.size());
+    vecteur current(v.size());
+    for (unsigned j=0;j<v.size();++j){
+      vector<unsigned>::const_iterator it=v.begin(),itend=v.end();
+      const_iterateur jt=M[v[j]]._VECTptr->begin();
+      iterateur kt=current.begin();
+      for (;it!=itend;++kt,++it)
+	*kt=*(jt+*it);
+      m.push_back(current);
+    }
+  }
+
+  // check that g is a stochastic right or left matrix
+  // if so set M to the matrix with sum of rows=1
+  bool is_stochastic(const gen & g,matrice & M,GIAC_CONTEXT){
+    if (!is_squarematrix(g))
+      return false;
+    gen gd=evalf_double(g,1,contextptr);
+    if (!is_fully_numeric(gd))
+      return false;
+    M=*g._VECTptr;
+    int ms=M.size();
+    for (unsigned i=0;i<ms;++i){
+      const vecteur & v=*M[i]._VECTptr;
+      for (unsigned j=0;j<ms;++j){
+	if (is_strictly_greater(0,v[j],contextptr))
+	  return false;
+      }
+    }
+    gen sg=_sum(_tran(g,contextptr),contextptr);
+    if (!is_zero(sg-vecteur(ms,1),contextptr)){
+      M=mtran(M);
+      sg=_sum(g,contextptr);
+      if (!is_zero(sg-vecteur(ms,1),contextptr))
+	return false;
+    }
+    return true;
+  }
+
+  // returns
+  // -> recurrent states: a list of at least one list: 
+  //                      each sublist is a strongly connected component
+  // -> invariant probability state (1-eigenstate) for each recurrent loop
+  // -> transient states: a list of lists, each sublist is strongly connected
+  // -> final probability: starting from each site, probability to end up
+  //    in any of the invariant probability state
+  gen _markov(const gen & args,GIAC_CONTEXT){
+    gen g;
+    double eps(epsilon(contextptr));
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
+      g=evalf_double(args._VECTptr->back(),1,contextptr);
+      if (g.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      eps=g._DOUBLE_val;
+      g=args._VECTptr->front();
+    }
+    else
+      g=args;
+    matrice M;
+    if (!is_stochastic(g,M,contextptr))
+      return gensizeerr("Not a stochastic matrix!");
+    int ms=M.size();
+    vector< vector<unsigned> > G,GRAPH_SCC,SCCrec,SCCtrans;
+    proba2adjacence(M,G,true,contextptr);
+    classify_scc(G,GRAPH_SCC,SCCrec,SCCtrans);
+    matrice mrec,mtrans,meigen;
+    matrix_unsigned2matrice(SCCrec,mrec);
+    matrix_unsigned2matrice(SCCtrans,mtrans);
+    // Find eigenstate 1 for each component of SCCrec
+    for (unsigned i=0;i<SCCrec.size();++i){
+      vector<unsigned> v=SCCrec[i];
+      // extract corresponding submatrix from M
+      matrice m;
+      sort(v.begin(),v.end());
+      if (v.size()==M.size())
+	m=M;
+      else 
+	extract_submatrix(M,v,m);
+      m=mtran(m); // find standard linear algebra 1-eigenvector
+      vecteur w,z;
+      if (is_exact(m)){
+	vecteur k;
+	mker(subvecteur(m,midn(m.size())),k,contextptr);
+	//k=negvecteur(k);
+	if (k.size()==1 && k.front().type==_VECT){
+	  // if dim Ker(m-idn)>1 should find a vector with all coordinate >0
+	  z=divvecteur(*k.front()._VECTptr,prodsum(k.front(),false));
+	}
+      }
+      if (z.empty()){
+	w=vecteur(m.size(),evalf(1,1,contextptr)/int(m.size())),z; // initial guess
+	for (;;){
+	  multmatvecteur(m,w,z);
+	  if (is_greater(eps,l1norm(w-z,contextptr),contextptr))
+	    break;
+	  swap(w,z);
+	}
+      }
+      if (v.size()==M.size())
+	meigen.push_back(z);
+      else {
+	w.clear();
+	unsigned pos=0;
+	for (unsigned j=0;j<v.size();++j){
+	  for (;pos<v[j];++pos)
+	    w.push_back(0);
+	  w.push_back(z[j]);
+	  ++pos;
+	}
+	for (;pos<M.size();++pos)
+	  w.push_back(0);
+	meigen.push_back(w);
+      }
+    }
+    int nrec=meigen.size();
+    if (nrec==1)
+      return makesequence(mrec,meigen,mtrans,vecteur(ms,vecteur(1,1)));
+    // For each initial pure state, find probability to end in 
+    // the recurrents states from meigen
+    M=mtran(M); // linear algebra iteration v->M*v
+    matrice mfinal; // will have nrec columns
+    for (unsigned i=0;i<ms;++i){
+      vecteur line;
+      line.reserve(nrec);
+      // start at state i
+      // speedup: first look if i is in a recurrent strong component 
+      // if so the final state is the recurrent strong component eigenstate
+      for (unsigned j=0;j<SCCrec.size();++j){
+	if (equalposcomp(SCCrec[j],i)){
+	  line=vecteur(nrec,0);
+	  line[j]=1;
+	  break;
+	}
+      }
+      if (!line.empty()){
+	mfinal.push_back(line);
+	continue;
+      }
+      // otherwise iterate starting from 1 at position i
+      vecteur w(ms),z(ms);
+      w[i]=1;
+      for (;;){
+	multmatvecteur(M,w,z);
+	if (is_greater(eps,l1norm(w-z,contextptr),contextptr))
+	  break;
+	swap(w,z);
+      }
+      // find z as a linear combination of the vectors of meigen
+      for (unsigned j=0;j<meigen.size();++j){
+	const vecteur & cur=*meigen[j]._VECTptr;
+	// find the largest component of mcur
+	int pos=0;
+	gen maxcur=0;
+	for (unsigned k=0;k<cur.size();++k){
+	  if (is_strictly_greater(cur[k],maxcur,contextptr)){
+	    maxcur=cur[k];
+	    pos=k;
+	  }
+	}
+	// find coefficient
+	line.push_back(z[pos]/cur[pos]);
+      }
+      mfinal.push_back(line);
+    }
+    return makesequence(mrec,meigen,mtrans,mfinal);
+  }
+  static const char _markov_s []="markov";
+  static define_unary_function_eval (__markov,&_markov,_markov_s);
+  define_unary_function_ptr5( at_markov ,alias_at_markov,&__markov,0,true);
+
+  // random iterations for a Markov chain of transition matrix M, initial state i,
+  // number of iterations n
+  // randmarkov(M,i,n) returns the list of n+1 states starting at i
+  // randmarkov(M,[i1,..,ip],b) returns the matrix of p rows, each row is
+  //   the list of n+1 states starting at ip
+  // randmarkov([n1,..,np],nt) make a random Markov transition matrix
+  // with p recurrent loops of size n1,...,np and nt transient states
+  gen _randmarkov(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur v = *args._VECTptr;
+    if (v.size()<2 || v.size()>4)
+      return gensizeerr(contextptr);
+    if (v.size()==2){
+      is_integral(v[1]); 
+      if (v[1].type!=_INT_ || v[1].val<0)
+	return gensizeerr(contextptr);
+      vecteur w=gen2vecteur(v[0]);
+      if (!is_integer_vecteur(w))
+	return gensizeerr(contextptr);
+      unsigned ws=w.size(),n=0;
+      vector<unsigned> W(ws),Wc(ws+1);
+      for (unsigned i=0;i<ws;++i){
+	if (w[i].type!=_INT_ || w[i].val<=0)
+	  return gendimerr(contextptr);
+	n += (W[i]=w[i].val);
+	Wc[i+1]=Wc[i]+W[i];
+      }
+      int nt=v[1].val,nnt=n+nt;
+      if (nnt*nnt>LIST_SIZE_LIMIT)
+	return gendimerr(contextptr);
+      matrice res(nnt);
+      int pos=0; // position in W
+      // first lines (recurrent states)
+      int cur=Wc[0],next=Wc[1];
+      for (int i=0;i<n;++i){
+	if (i>=next){
+	  ++pos;
+	  cur=next;
+	  next=Wc[pos+1];
+	}
+	vecteur line(nnt);
+	// create Wc[pos] zeros
+	// then Wc[pos+1]-Wc[pos] probabilities
+	for (int j=cur;j<next;++j){
+	  line[j]=giac_rand(contextptr)/(rand_max2+1.0);
+	}
+	res[i]=divvecteur(line,prodsum(line,false));
+      }
+      // transient states
+      for (int i=n;i<nnt;++i){
+	vecteur line(nnt);
+	for (int j=0;j<nnt;++j){
+	  line[j]=giac_rand(contextptr)/(rand_max2+1.0);
+	}
+	res[i]=divvecteur(line,prodsum(line,false));
+      }
+      return res;
+    }
+    vecteur v1=gen2vecteur(v[1]);
+    if (!is_integer_vecteur(v1))
+      return gensizeerr();
+    is_integral(v[2]);
+    if (v[2].type!=_INT_ || v[2].val<0)
+      return gensizeerr(contextptr);
+    int n=v[2].val;
+    gen g=v[0];
+    matrice M;
+    if (!is_stochastic(g,M,contextptr))
+      return gensizeerr("Not a stochastic matrix!");
+    int shift=0;
+    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)
+      shift=1;
+    vector<unsigned> start(v1.size());
+    for (unsigned i=0;i<v1.size();++i){
+      int pos=v1[i].val-shift;
+      if (pos<0 || pos>=M.size())
+	return gendimerr(contextptr);
+      start[i]=pos;
+    }
+    // find cumulated frequencies for each row
+    matrix_double Mcumul(M.size());
+    for (unsigned I=0;I<Mcumul.size();++I){
+      const vecteur & v=*M[I]._VECTptr;
+      vector<giac_double> vcumul(v.size()+1);
+      vcumul[0]=0;
+      for (unsigned j=1;j<=v.size();++j){
+	vcumul[j] = vcumul[j-1]+evalf_double(v[j-1],1,contextptr)._DOUBLE_val;
+      }
+      Mcumul[I]=vcumul;
+    }
+    // iterate
+    matrice res;
+    for (unsigned pos=0;pos<start.size();++pos){
+      int i=start[pos];
+      vecteur line(1,i);
+      for (unsigned j=0;j<n;++j){
+	double d=giac_rand(contextptr)/(rand_max2+1.0);
+	if (i>Mcumul.size())
+	  return gendimerr(contextptr);	
+	int pos=dichotomy(Mcumul[i],d);
+	if (pos==-1)
+	  return gendimerr(contextptr);
+	i=pos;
+	line.push_back(i+shift);
+      }
+      res.push_back(line);
+    }
+    if (v[1].type==_INT_)
+      return res.front();
+    return res;
+  }
+  static const char _randmarkov_s []="randmarkov";
+  static define_unary_function_eval (__randmarkov,&_randmarkov,_randmarkov_s);
+  define_unary_function_ptr5( at_randmarkov ,alias_at_randmarkov,&__randmarkov,0,true);
+
+
 #if 0
-  // Small graphs
+  // Small graphs, not tested
   bool different(const vector<unsigned> & a,const vector<unsigned> & b,vector<int> & pos){
     pos.clear();
     int s=a.size();
@@ -5015,65 +5419,6 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
   }
 #endif
-
-  void vector_unsigned2vecteur(const vector<unsigned> & V,vecteur & v){
-    v.clear();
-    v.reserve(V.size());
-    for (unsigned i=0;i<V.size();++i)
-      v.push_back(int(V[i]));
-  }
-
-  void matrix_unsigned2matrice(const vector< vector<unsigned> > & M,matrice & m){
-    m.clear();
-    m.reserve(M.size());
-    for (unsigned i=0;i<M.size();++i){
-      vecteur v;
-      vector_unsigned2vecteur(M[i],v);
-      m.push_back(v);
-    }
-  }
-
-  // Input matrix of adjacency or transition matrix
-  // Output a list of strongly connected components
-  gen _graph_scc(const gen & args,GIAC_CONTEXT){
-    if (!is_squarematrix(args))
-      return gensizeerr(contextptr);
-    vector< vector<unsigned> > G,GRAPH_SCC;
-    proba2adjacence(*args._VECTptr,G);
-    tarjan(G,GRAPH_SCC);
-    matrice m;
-    matrix_unsigned2matrice(GRAPH_SCC,m);
-    return m;
-  }
-  static const char _graph_scc_s []="graph_scc";
-  static define_unary_function_eval (__graph_scc,&_graph_scc,_graph_scc_s);
-  define_unary_function_ptr5( at_graph_scc ,alias_at_graph_scc,&__graph_scc,0,true);
-
-  gen _classmarkov(const gen & args,GIAC_CONTEXT){
-    return undef;
-    if (!is_squarematrix(args))
-      return gensizeerr(contextptr);
-    vector< vector<unsigned> > G,GRAPH_SCC;
-    proba2adjacence(*args._VECTptr,G);
-    tarjan(G,GRAPH_SCC);
-    // For a matrix of transition
-    // Look at each component: if it has all outgoing edges going to the same component, 
-    // then this is a recurrent positive, and we can compute the invariant probability
-    // For the remaining components:
-    // Init list of transient components to empty
-    // Set doit to true
-    // Loop on the remaining component
-    // Set doit to false
-    // If all incoming edges of the component are from transient add to transient 
-    //    and set doit to true
-    matrice m;
-    matrix_unsigned2matrice(GRAPH_SCC,m);
-    return m;
-  }
-  static const char _classmarkov_s []="classmarkov";
-  static define_unary_function_eval (__classmarkov,&_classmarkov,_classmarkov_s);
-  define_unary_function_ptr5( at_classmarkov ,alias_at_classmarkov,&__classmarkov,0,true);
-
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

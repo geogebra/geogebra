@@ -3701,6 +3701,8 @@ namespace giac {
 #if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
       return symb_quote(v.front());
 #else
+      if (calc_mode(contextptr)==1)
+	return symb_quote(v.front());
       return v.front();
 #endif
     }

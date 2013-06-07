@@ -2356,9 +2356,9 @@ namespace giac {
   }
 
   static int convert_to_direction(const gen & l){
-    if (is_one(l))
+    if (is_one(l) || l==at_plus)
       return 1;
-    if (is_minus_one(l))
+    if (is_minus_one(l) || l==at_binary_minus || l==at_neg)
       return -1;
     if (is_zero(l))
       return 0;
@@ -2378,24 +2378,31 @@ namespace giac {
     return l;
   }
 
+  gen quotedlimit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
+    vecteur v(1,e);
+    v=quote_eval(v,vecteur(1,x),contextptr);
+    return limit(v[0],x,lim_point,direction,contextptr);
+  }
+  
   // "unary" version
   static const char _limit_s []="limit";
   gen _limit(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
-      return limit(args,*vx_var._IDNTptr,0,0,contextptr);
-    int s=args._VECTptr->size();
+      return quotedlimit(args,*vx_var._IDNTptr,0,0,contextptr);
+    vecteur v =*args._VECTptr;
+    int s=v.size();
     if (!s)
       toofewargs(_limit_s);
-    gen G=(*(args._VECTptr))[0];
+    gen G=v[0];
     if (s==1)
-      return limit( G,*vx_var._IDNTptr,0,0,contextptr);
-    gen e=(*(args._VECTptr))[1];
+      return quotedlimit(G,*vx_var._IDNTptr,0,0,contextptr);
+    gen e=v[1];
     if (s==2){
       if (calc_mode(contextptr)==1)
 	return _limit(makesequence(G,ggb_var(G),e),contextptr);
       if (e.type==_IDNT)
-	return limit(G,*e._IDNTptr,0,0,contextptr);
+	return quotedlimit(G,*e._IDNTptr,0,0,contextptr);
       if (e.type!=_SYMB)
 	return gentypeerr(contextptr);
       if (e._SYMBptr->sommet!=at_equal)
@@ -2403,32 +2410,36 @@ namespace giac {
       gen x=(*(e._SYMBptr->feuille._VECTptr))[0];
       if (x.type!=_IDNT)
 	return gensizeerr(contextptr);
-      return limit(G,*x._IDNTptr,(*(e._SYMBptr->feuille._VECTptr))[1],0,contextptr);
+      return quotedlimit(G,*x._IDNTptr,(*(e._SYMBptr->feuille._VECTptr))[1],0,contextptr);
     }
+    if (s>2)
+      v[2]=eval(v[2],1,contextptr);
+    if (s>3)
+      v[3]=eval(v[3],1,contextptr);
     if (s==3){
-      gen arg3=(*(args._VECTptr))[2];
+      gen arg3=v[2];
       if (e.type==_IDNT)
-	return limit(G,*e._IDNTptr,arg3,0,contextptr);
+	return quotedlimit(G,*e._IDNTptr,arg3,0,contextptr);
       if (e.type!=_SYMB){
 	if (is_one(arg3)||is_minus_one(arg3))
-	  return limit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
+	  return quotedlimit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
 	return gentypeerr(contextptr);
       }
       if (e._SYMBptr->sommet!=at_equal){
 	if (is_one(arg3)||is_minus_one(arg3))
-	  return limit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
+	  return quotedlimit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
 	return gensizeerr(contextptr);
       }
       gen x=(*(e._SYMBptr->feuille._VECTptr))[0];
       if (x.type!=_IDNT)
 	return gensizeerr(contextptr);
-      return limit(G,*x._IDNTptr,(*(e._SYMBptr->feuille._VECTptr))[1],convert_to_direction((*(args._VECTptr))[2]),contextptr);
+      return quotedlimit(G,*x._IDNTptr,(*(e._SYMBptr->feuille._VECTptr))[1],convert_to_direction(v[2]),contextptr);
     }
     if (s>4)
       return gentoomanyargs(_limit_s);
     if (e.type!=_IDNT)
       return gentypeerr(contextptr);
-    return limit(G,*e._IDNTptr,(*(args._VECTptr))[2],convert_to_direction((*(args._VECTptr))[3]),contextptr);
+    return quotedlimit(G,*e._IDNTptr,v[2],convert_to_direction(v[3]),contextptr);
   }
   static string texprintaslimit(const gen & g,const char * orig_s,GIAC_CONTEXT){
     string s("\\lim ");
@@ -2453,7 +2464,7 @@ namespace giac {
     return s;
   }
   static define_unary_function_eval4 (__limit,&_limit,_limit_s,0,&texprintaslimit);
-  define_unary_function_ptr5( at_limit ,alias_at_limit,&__limit,0,true);
+  define_unary_function_ptr5( at_limit ,alias_at_limit,&__limit,_QUOTE_ARGUMENTS,true);
 
   // like sparse_poly12gen, but if there is only 1 term and no remainder
   // expand it, l.1976

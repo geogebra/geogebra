@@ -11013,10 +11013,18 @@ namespace giac {
       return _IDNTptr->print(contextptr);
     case _SYMB:
       if (is_inf(_SYMBptr->feuille)){
-	if (_SYMBptr->sommet==at_plus)
-	  return "+infinity";
-	if (_SYMBptr->sommet==at_neg)
-	  return "-infinity";
+	if (_SYMBptr->sommet==at_plus){
+	  if (abs_calc_mode(contextptr)==38) //(calc_mode(contextptr)!=1)
+	    return "∞";
+	  else
+	    "+infinity";
+	}
+	if (_SYMBptr->sommet==at_neg){
+	  if (abs_calc_mode(contextptr)==38) //(calc_mode(contextptr)!=1)
+	    return "-∞"; 
+	  else
+	    return "-infinity";
+	}
       }
       if (subtype==_SPREAD__SYMB){
 	if (_SYMBptr->sommet==at_sto)

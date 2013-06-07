@@ -1066,8 +1066,11 @@ namespace giac {
       gen realpart=normalize_sqrt(sqrt(2*(a+rho),contextptr),contextptr);
       return ratnormal(realpart/2)*(1+cst_i*b/(a+rho));
     }
-    if (e.type==_VECT)
+    if (e.type==_VECT){
+      if (is_squarematrix(e))
+	return analytic_apply(at_sqrt,*e._VECTptr,contextptr);
       return apply(e,giac::sqrt,contextptr);
+    }
     if (is_zero(e) || is_undef(e) || (e==plus_inf) || (e==unsigned_inf))
       return e;
     if (is_perfect_square(e))
@@ -3577,6 +3580,34 @@ namespace giac {
   static const char _plus_s []="+";
   static define_unary_function_eval2_index (2,__plus,&_plus,_plus_s,&printsommetasoperator);
   define_unary_function_ptr( at_plus ,alias_at_plus ,&__plus);
+
+  gen _pointplus(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT && args._VECTptr->size()!=2)
+      return gensizeerr();
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type==_VECT && b.type!=_VECT)
+      return apply1st(a,b,contextptr,operator_plus);
+    if (a.type!=_VECT && b.type==_VECT)
+      return apply2nd(a,b,contextptr,operator_plus);
+    return operator_plus(a,b,contextptr);
+  }
+  static const char _pointplus_s []=" .+ ";
+  static define_unary_function_eval2_index (2,__pointplus,&_pointplus,_pointplus_s,&printsommetasoperator);
+  define_unary_function_ptr( at_pointplus ,alias_at_pointplus ,&__pointplus);
+
+  gen _pointminus(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT && args._VECTptr->size()!=2)
+      return gensizeerr();
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type==_VECT && b.type!=_VECT)
+      return apply1st(a,b,contextptr,operator_minus);
+    if (a.type!=_VECT && b.type==_VECT)
+      return apply2nd(a,b,contextptr,operator_minus);
+    return operator_minus(a,b,contextptr);
+  }
+  static const char _pointminus_s []=" .- ";
+  static define_unary_function_eval2_index (2,__pointminus,&_pointminus,_pointminus_s,&printsommetasoperator);
+  define_unary_function_ptr( at_pointminus ,alias_at_pointminus ,&__pointminus);
 
   inline bool prod_idnt_symb(const gen & a){
     return (a.type==_IDNT && strcmp(a._IDNTptr->id_name,"undef") && strcmp(a._IDNTptr->id_name,"infinity")) || (a.type==_SYMB && !is_inf(a) && (a._SYMBptr->sommet==at_plus || a._SYMBptr->sommet==at_pow || a._SYMBptr->sommet==at_neg));

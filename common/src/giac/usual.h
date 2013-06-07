@@ -411,6 +411,8 @@ namespace giac {
   symbolic symb_plus(const gen & a,const gen & b);
   gen _plus(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_plus ;
+  extern const unary_function_ptr * const  at_pointplus ;
+  extern const unary_function_ptr * const  at_pointminus ;
 
   gen symb_prod(const gen & a,const gen & b);
   gen _prod(const gen & args,GIAC_CONTEXT);

@@ -6356,7 +6356,7 @@ namespace giac {
       return a;
     return matrix_apply(a,b,contextptr,operator_times);
   }
-  static const char _pointprod_s []=".*";
+  static const char _pointprod_s []=" .* ";
   static define_unary_function_eval4_index (92,__pointprod,&_pointprod,_pointprod_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_pointprod ,alias_at_pointprod ,&__pointprod);
 
@@ -6367,7 +6367,7 @@ namespace giac {
       return a;
     return matrix_apply(a,b,contextptr,rdiv);
   }
-  static const char _pointdivision_s []="./";
+  static const char _pointdivision_s []=" ./ ";
   static define_unary_function_eval4_index (94,__pointdivision,&_pointdivision,_pointdivision_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_pointdivision ,alias_at_pointdivision ,&__pointdivision);
 
@@ -7942,7 +7942,7 @@ namespace giac {
 
   
   static string printaspiecewise(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if ( feuille.type!=_VECT || feuille._VECTptr->empty() || abs_calc_mode(contextptr)!=38)
+    if ( feuille.type!=_VECT || feuille._VECTptr->empty() || calc_mode(contextptr)!=38)
       return sommetstr+('('+feuille.print(contextptr)+')');
     vecteur & v = *feuille._VECTptr;
     string res("CASE");

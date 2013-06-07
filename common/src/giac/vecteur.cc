@@ -6901,6 +6901,19 @@ namespace giac {
     if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen M=evalf_double(f._SYMBptr->feuille._VECTptr->front(),1,contextptr);
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
+      if (is_squarematrix(f)){
+	int dim=f._VECTptr->size();
+	vecteur w(dim);
+	for (int i=0;i<n;++i){
+	  for (int j=0;j<dim;++j){
+	    double u=giac_rand(contextptr)/(rand_max2+1.0);
+	    double d=giac_rand(contextptr)/(rand_max2+1.0);
+	    w[j]=std::sqrt(-2*std::log(u))*std::cos(2*M_PI*d);
+	  }
+	  res.push_back(M+multmatvecteur(*f._VECTptr,w));
+	}
+	return;     
+      }
       if (M.type!=_DOUBLE_ || f.type!=_DOUBLE_ || f._DOUBLE_val<=0 ){
 	res=vecteur(1,gensizeerr(contextptr));
 	return;

@@ -2377,10 +2377,13 @@ namespace giac {
     if (s==4){
       if ( (has_num_coeff(v[0]) ||
 	    v[2].type==_FLOAT_ || v[2].type==_DOUBLE_ || v[2].type==_REAL ||
-	    v[3].type==_FLOAT_ || v[3].type==_DOUBLE_ || v[3].type==_REAL) &&
-	   lidnt(makevecteur(v[0],evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)))==vecteur(1,v[1])
-	   )
-	return _romberg(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
+	    v[3].type==_FLOAT_ || v[3].type==_DOUBLE_ || v[3].type==_REAL)){
+	vecteur ld(1,cst_pi);
+	lidnt(makevecteur(v[0],evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)),ld);
+	ld.erase(ld.begin());
+	if (ld==vecteur(1,v[1]))
+	  return _romberg(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
+      }
       borne_inf=v[2];
       borne_sup=v[3];
       v[0]=ceil2floor(v[0],contextptr);

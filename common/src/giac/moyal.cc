@@ -408,6 +408,15 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     vecteur & v=*args._VECTptr;
+    if (v[1].type==_VECT){
+      if (!is_squarematrix(v[1]))
+	return gendimerr(contextptr);
+      int n=v[1]._VECTptr->size();
+      vecteur w(n);
+      for (int i=0;i<n;++i)
+	w[i]=randNorm(contextptr);
+      return evalf(v[0]+v[1]*w,1,contextptr);
+    }
     return evalf(v[0]+v[1]*randNorm(contextptr),1,contextptr);
   }
   static const char _randNorm_s []="randNorm";
@@ -2258,6 +2267,51 @@ namespace giac {
       return undef;
     return cdf_static[n-1];
   }
+
+  gen _cdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    int nd;
+    if (g.type!=_VECT || g._VECTptr->empty() || !(nd=is_distribution(g._VECTptr->front())) )
+      return gensizeerr(contextptr);
+    vecteur & w=*g._VECTptr;
+    int s=w.size();
+    if (s && w.front().type==_SYMB){
+      vecteur v(gen2vecteur(w.front()._SYMBptr->feuille));
+      v.insert(v.begin(),w.front()._SYMBptr->sommet);
+      for (unsigned j=1;j<w.size();++j)
+	v.push_back(w[j]);
+      return _cdf(v,contextptr);
+    }
+    if (s!=distrib_nargs(nd)+2)
+      return gensizeerr(contextptr);
+    return cdf(nd)(gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT),contextptr);
+  }
+  static const char _cdf_s []="cdf";
+  static define_unary_function_eval (__cdf,&_cdf,_cdf_s);
+  define_unary_function_ptr5( at_cdf ,alias_at_cdf,&__cdf,0,true);
+
+  gen _icdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    int nd;
+    if (g.type!=_VECT || g._VECTptr->empty() || !(nd=is_distribution(g._VECTptr->front())) )
+      return gensizeerr(contextptr);
+    vecteur & w=*g._VECTptr;
+    int s=w.size();
+    if (s && w.front().type==_SYMB){
+      vecteur v(gen2vecteur(w.front()._SYMBptr->feuille));
+      v.insert(v.begin(),w.front()._SYMBptr->sommet);
+      for (unsigned j=1;j<w.size();++j)
+	v.push_back(w[j]);
+      return _icdf(v,contextptr);
+    }
+    if (s!=distrib_nargs(nd)+2)
+      return gensizeerr(contextptr);
+    return icdf(nd)(gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT),contextptr);
+  }
+  static const char _icdf_s []="icdf";
+  static define_unary_function_eval (__icdf,&_icdf,_icdf_s);
+  define_unary_function_ptr5( at_icdf ,alias_at_icdf,&__icdf,0,true);
+
 
   // kind=0: BesselI, =1 BesselJ, =2 BesselK, =3 BesselY
   gen Bessel(const gen & g,int kind,GIAC_CONTEXT){

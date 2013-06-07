@@ -531,6 +531,10 @@ namespace giac {
     return res;
   }
 
+  bool seconddec (const pair<int,int> & a,const pair<int,int> & b){
+    return a.second>b.second;
+  }
+
   aide helpon(const string & demande,const vector<aide> & v,int language,int count,bool with_op){
     aide result;
     string current(demande);
@@ -547,22 +551,29 @@ namespace giac {
 	  return result;
 	// Find closest string
 	int best_score=0,cur_score;
-	vector<int> best_j;
+	vector< pair<int,int> > best_j;
 	for (int j=1;j<count;++j){
 	  cur_score=score(current,v[j].cmd_name);
 	  if (cur_score>best_score){
-	    best_j.clear();
-	    best_j.push_back(j);
 	    best_score=cur_score;
+	    vector< pair<int,int> > tmp;
+	    for (unsigned k=0;k<best_j.size();++k){
+	      if (best_j[k].second>=best_score-6)
+		tmp.push_back(best_j[k]);
+	    }
+	    best_j=tmp;
+	    best_j.push_back(pair<int,int>(j,cur_score));
 	    continue;
 	  }
-	  if (cur_score>=mon_max(best_score-6,0))
-	    best_j.push_back(j);
+	  if (cur_score>=mon_max(best_score-6,0)){
+	    best_j.push_back(pair<int,int>(j,cur_score));
+	  }
 	}
 	if (best_score>0){
-	  vector<int>::iterator it=best_j.begin(),itend=best_j.end();
+	  sort(best_j.begin(),best_j.end(),seconddec);
+	  vector< pair<int,int> >::iterator it=best_j.begin(),itend=best_j.end();
 	  for (int k=1;(k<10) && (it!=itend);++k,++it)
-	    result.related.push_back(indexed_string(k, v[*it].cmd_name));
+	    result.related.push_back(indexed_string(k,v[it->first].cmd_name));
 	}
 	result.syntax += gettext("Best match has score ") + printint(best_score) + "\n";
 	result.cmd_name = current;
