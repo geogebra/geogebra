@@ -199,7 +199,8 @@ public class EuclidianViewM extends EuclidianViewWeb
 	@Override
 	public boolean requestFocusInWindow()
 	{
-		return false;
+		this.g2p.getCanvas().getCanvasElement().focus();	
+		return true;
 	}
 
 	@Override
