@@ -589,9 +589,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	/*
 	 * Path interface
 	 */
-	public void pointChanged(GeoPointND PI) {
-
-		GeoPoint P = (GeoPoint) PI;
+	public void pointChanged(GeoPointND P) {
 
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
@@ -623,16 +621,15 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	}
 	
-	private void pathChanged(GeoPointND PI,boolean changePoint) {
+	private void pathChanged(GeoPointND P,boolean changePoint) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
 		if (changePoint) {
-			pointChanged(PI);
+			pointChanged(P);
 			return;
 		}
 
-		GeoPoint P = (GeoPoint) PI;
 
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < startParam)
@@ -641,9 +638,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			pp.t = endParam;
 
 		// calc point for given parameter
-		P.setX(funX.evaluate(pp.t));
-		P.setY(funY.evaluate(pp.t));
-		P.setZ(1.0);
+		P.setCoords2D(funX.evaluate(pp.t), funY.evaluate(pp.t), 1);
+		P.updateCoordsFrom2D(false, null);
 	}
 
 	/**
@@ -656,11 +652,12 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	 *            point to which the distance is minimized
 	 * @return optimal parameter value t
 	 */
-	public double getClosestParameter(GeoPoint P, double startValue) {
+	public double getClosestParameter(GeoPointND P, double startValue) {
 		double startVal = startValue;
 		if (distFun == null)
 			distFun = new ParametricCurveDistanceFunction(this);
-		distFun.setDistantPoint(P.getX() / P.getZ(), P.getY() / P.getZ());
+		Coords coords = P.getCoordsInD(2);
+		distFun.setDistantPoint(coords.getX() / coords.getZ(), coords.getY() / coords.getZ());
 
 		// check if P is on this curve and has the right path parameter already
 		if (P.getPath() == this || true) {
