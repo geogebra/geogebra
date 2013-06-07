@@ -188,16 +188,16 @@ download libs for other architectures than the current one.
 	<target name="giac-geogebra" depends="giac-windows, giac-mac, giac-linux"/>
 
 	<target name="giac-windows" if="winnt">
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/javagiac.dll" dest="lib/javagiac.dll"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306070900/javagiac.dll" dest="lib/javagiac.dll"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/javagiac64.dll" dest="lib/javagiac64.dll"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306070900/javagiac64.dll" dest="lib/javagiac64.dll"
 		    usetimestamp="true"/>
 	</target>
 
 	<target name="giac-linux" if="unix">
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac.so" dest="lib/libjavagiac.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306070900/libjavagiac.so" dest="lib/libjavagiac.so"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201306060800/libjavagiac64.so" dest="lib/libjavagiac64.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306070900/libjavagiac64.so" dest="lib/libjavagiac64.so"
 		    usetimestamp="true"/>
 	</target>
 
