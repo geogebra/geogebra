@@ -808,6 +808,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return new GeoVec2D(kernel, funX.evaluate(t), funY.evaluate(t));
 	}
 
+	public Coords evaluateCurve3D(double t) {
+		return new Coords(funX.evaluate(t), funY.evaluate(t), 0, 1);
+	} 
+
 	/**
 	 * Calculates curvature for curve: k(t) = (a'(t)b''(t)-a''(t)b'(t))/T^3, T =
 	 * sqrt(a'(t)^2+b'(t)^2)
@@ -1024,6 +1028,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	public void clearCasEvalMap(String key) {
 		funX.clearCasEvalMap(key);
 		funY.clearCasEvalMap(key);		
+	}
+	
+	@Override
+	public boolean hasDrawable3D() {
+		return true;
 	}
 
 }

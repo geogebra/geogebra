@@ -40,6 +40,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
@@ -65,7 +66,7 @@ import java.util.TreeSet;
 public class GeoFunction extends GeoElement implements VarString,
 		Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, LineProperties,
-		RealRootFunction, Dilateable, Transformable, InequalityProperties {
+		RealRootFunction, Dilateable, Transformable, InequalityProperties, CurveEvaluable3D {
 
 	/** inner function representation */
 	protected Function fun;
@@ -770,15 +771,17 @@ public class GeoFunction extends GeoElement implements VarString,
 	/*
 	 * Path interface
 	 */
-	public void pointChanged(GeoPointND PI) {
+	private void pointChanged(Coords P) {
 
-		GeoPoint P = (GeoPoint) PI;
+		
+		//GeoPoint P = (GeoPoint) PI;
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
 		} else {
 			P.setX(P.getX() / P.getZ());
 		}
+		
 
 		if (!isBooleanFunction()) {
 			if (interval) {
@@ -795,14 +798,25 @@ public class GeoFunction extends GeoElement implements VarString,
 			pointChangedBoolean(true, P);
 		}
 		P.setZ(1.0);
-
-		// set path parameter for compatibility with
-		// PathMoverGeneric
-		PathParameter pp = P.getPathParameter();
-		pp.t = P.getX();
 	}
 
-	private void pointChangedBoolean(boolean b, GeoPoint P) {
+	public void pointChanged(GeoPointND P) {
+
+		Coords coords = P.getCoordsInD(2);
+		pointChanged(coords);
+		
+		// set path parameter for compatibility with
+		// PathMoverGeneric
+		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
+
+		PathParameter pp = P.getPathParameter();
+		pp.t = coords.getX();//P.getX();
+		
+		P.updateCoordsFrom2D(false, null);
+
+	}
+
+	private void pointChangedBoolean(boolean b, Coords P) {
 		double px;
 		boolean yfun = isFunctionOfY();
 		if (yfun) {
@@ -1881,7 +1895,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
-		GeoPoint P = (GeoPoint) PI;
+		Coords P = PI.getCoordsInD(2);
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
@@ -1892,12 +1906,18 @@ public class GeoFunction extends GeoElement implements VarString,
 		pointChangedBoolean(false, P);
 
 		P.setZ(1.0);
-
+		
+		PI.setCoords2D(P.getX(), P.getY(), P.getZ());
+		
 		// set path parameter for compatibility with
 		// PathMoverGeneric
-		RegionParameters pp = P.getRegionParameters();
+		RegionParameters pp = PI.getRegionParameters();
 		pp.setT1(P.getX());
 		pp.setT2(P.getY());
+		
+		
+		PI.updateCoordsFrom2D(false, null);
+
 	}
 
 	@Override
@@ -2445,5 +2465,23 @@ public class GeoFunction extends GeoElement implements VarString,
 			return ret.toString();
 		}
 	}
+
+
+	public Coords evaluateCurve3D(double t) {
+
+		double y = evaluate(t);
+		if (Double.isNaN(y)){
+			return null;
+		}
+
+		return new Coords(t,y,0,1);
+	}
+	
+
+	@Override
+	public boolean hasDrawable3D() {
+		return true;
+	}
+
 
 }

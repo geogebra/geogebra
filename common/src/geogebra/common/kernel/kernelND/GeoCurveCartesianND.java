@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author matthieu
  *
  */
-public abstract class GeoCurveCartesianND extends GeoElement{
+public abstract class GeoCurveCartesianND extends GeoElement implements CurveEvaluable3D{
 	
 	/** coordinates  functions */
 	protected Function[] fun;

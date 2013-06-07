@@ -1,10 +1,11 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.CurveMesh;
 import geogebra3D.euclidian3D.plots.CurveTree;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 /**
  * @author ggb3D
@@ -19,7 +20,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 	private CurveTree tree;
 
 	/** handle to the curve */
-	private GeoCurveCartesian3D curve;
+	private CurveEvaluable3D curve;
 
 	/** current domain for the function on the format {umin, umax} */
 	private double[] domain = new double[2];
@@ -33,8 +34,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 	 * @param curve
 	 *            the 3D curve to draw
 	 */
-	public DrawCurve3D(EuclidianView3D a_view3d, GeoCurveCartesian3D curve) {
-		super(a_view3d, curve);
+	public DrawCurve3D(EuclidianView3D a_view3d, CurveEvaluable3D curve) {
+		super(a_view3d, (GeoElement) curve);
 		this.curve = curve;
 		if (useOldCurves)
 			tree = new CurveTree(curve, a_view3d);

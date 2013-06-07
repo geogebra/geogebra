@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -50,7 +51,6 @@ import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Renderer.PickingType;
 import geogebra3D.kernel3D.GeoClippingCube3D;
 import geogebra3D.kernel3D.GeoConicSection;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 import geogebra3D.kernel3D.GeoElement3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPlane3DConstant;
@@ -565,8 +565,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				d = new DrawAxis3D(this, (GeoAxisND) geo);	
 				break;	
 
+			case FUNCTION:
+			case CURVE_CARTESIAN:
 			case CURVECARTESIAN3D:	
-				d = new DrawCurve3D(this, (GeoCurveCartesian3D) geo);	
+				d = new DrawCurve3D(this, (CurveEvaluable3D) geo);	
 				break;				
 				
 			case ANGLE:

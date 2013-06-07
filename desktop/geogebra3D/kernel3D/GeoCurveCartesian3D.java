@@ -5,7 +5,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -19,7 +18,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		GeoCurveCartesian3DInterface, GeoElement3DInterface, Traceable {
+		/*GeoCurveCartesian3DInterface,*/ GeoElement3DInterface, Traceable {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -52,13 +51,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		set(curve);
 	}
 
-	public Coords evaluateCurve(double t) {
-		Coords p = new Coords(3);
-		for (int i = 0; i < 3; i++)
-			p.set(i + 1, fun[i].evaluate(t));
-
-		return p;
-	}
 
 	public Coords evaluateTangent(double t) {
 		Coords v = new Coords(3);
@@ -69,8 +61,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
-	public Coords3D evaluateCurve3D(double t) {
-		return new Coords3D(fun[0].evaluate(t), fun[1].evaluate(t),
+	public Coords evaluateCurve3D(double t) {
+		return new Coords(fun[0].evaluate(t), fun[1].evaluate(t),
 				fun[2].evaluate(t), 1);
 	}
 

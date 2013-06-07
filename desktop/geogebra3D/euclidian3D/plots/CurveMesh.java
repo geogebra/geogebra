@@ -1,10 +1,10 @@
 package geogebra3D.euclidian3D.plots;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.CurveTriList;
 import geogebra3D.euclidian3D.TriListElem;
-import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -273,18 +273,18 @@ class CurveSegment extends DynamicMeshElement2 {
 
 	private Coords calcVertex(double u) {
 		final CurveMesh m = (CurveMesh) mesh;
-		final GeoCurveCartesian3D curve = m.curve;
+		final CurveEvaluable3D curve = m.curve;
 		if(m.precalcVertices.containsKey(u))
 			return m.precalcVertices.get(u);
 
-		Coords f = curve.evaluateCurve(u);
+		Coords f = curve.evaluateCurve3D(u);
 
 		// if infinite, attempt to move in some direction
 		double d = 1e-8;
 		if (!f.isFinite() || !f.isDefined()) {
-			f = curve.evaluateCurve(u + d);
+			f = curve.evaluateCurve3D(u + d);
 			if (f.isSingular()) {
-				f = curve.evaluateCurve(u - d);
+				f = curve.evaluateCurve3D(u - d);
 			}
 		}
 		m.precalcVertices.put(u, f);
@@ -747,7 +747,7 @@ public class CurveMesh extends DynamicMesh2 {
 	private CurveSegment root;
 
 	/** reference to the curve being drawn */
-	GeoCurveCartesian3D curve;
+	CurveEvaluable3D curve;
 	
 	HashMap<Double, Coords> precalcVertices = new HashMap<Double, Coords>();
 
@@ -759,7 +759,7 @@ public class CurveMesh extends DynamicMesh2 {
 	 * @param scale
 	 *            How zoomed out things are - used to set width
 	 */
-	public CurveMesh(GeoCurveCartesian3D curve, double[] cullingBox, float scale) {
+	public CurveMesh(CurveEvaluable3D curve, double[] cullingBox, float scale) {
 		super(new FastBucketPQ(new CurveSplitBucketAssigner(), true),
 				new FastBucketPQ(new CurveSplitBucketAssigner(), false),
 				new CurveMeshTriList(100, 0, scale * scalingFactor), 2, 2,

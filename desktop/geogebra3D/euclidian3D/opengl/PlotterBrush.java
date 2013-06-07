@@ -2,7 +2,6 @@ package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.euclidian3D.plots.CurveMesh;
@@ -631,9 +630,7 @@ public class PlotterBrush {
 	 * @param p the point's position vector
 	 * @param t the tangent at the point
 	 */
-	public void addPointToCurve3D(Coords3D p, Coords3D t){
-		Coords position = new Coords(p.getX(),p.getY(),p.getZ(),0);
-		Coords tangent = new Coords(t.getX(),t.getY(),t.getZ(),0);
+	public void addPointToCurve3D(Coords position, Coords tangent){
 		if(firstCurvePoint){
 			end = new PlotterBrushSection(position, tangent, thickness);
 			firstCurvePoint=false;
