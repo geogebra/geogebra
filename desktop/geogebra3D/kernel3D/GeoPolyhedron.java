@@ -10,7 +10,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -1197,7 +1196,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 	public void rotate(NumberValue r, GeoPoint S) {
 		for (GeoSegment3D seg: segments.values()){
-			((PointRotateable) seg).rotate(r, S);
+			seg.rotate(r, S);
 		}
 		
 		for (GeoPolygon3D p : polygons.values()){
@@ -1209,7 +1208,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 	public void rotate(NumberValue r) {
 		
 		for (GeoSegment3D seg: segments.values()){
-			((PointRotateable) seg).rotate(r);
+			seg.rotate(r);
 		}
 		
 		for (GeoPolygon3D p : polygons.values()){
@@ -1220,13 +1219,24 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		// TODO Auto-generated method stub
+		for (GeoSegment3D seg: segments.values()){
+			seg.rotate(r, S, orientation);
+		}
 		
+		for (GeoPolygon3D p : polygons.values()){
+			p.rotate(r, S, orientation);
+		}
 	}
 
 
 	public void rotate(NumberValue r, GeoLineND line) {
-		// TODO Auto-generated method stub
+		for (GeoSegment3D seg: segments.values()){
+			seg.rotate(r, line);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.rotate(r, line);
+		}
 		
 	}
 }
