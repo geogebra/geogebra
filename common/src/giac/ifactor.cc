@@ -3686,7 +3686,7 @@ namespace giac {
   static define_unary_function_eval (__factors,&giac::_factors,_factors_s);
   define_unary_function_ptr5( at_factors ,alias_at_factors,&__factors,0,true);
 
-  gen ifactors2ifactor(const vecteur & l){
+  static gen ifactors2ifactor(const vecteur & l,bool quote){
     int s;
     s=l.size();
     gen r;
@@ -3701,7 +3701,7 @@ namespace giac {
 #if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
       return symb_quote(v.front());
 #else
-      if (calc_mode(contextptr)==1)
+      if (quote)
 	return symb_quote(v.front());
       return v.front();
 #endif
@@ -3710,19 +3710,21 @@ namespace giac {
 #if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
     r=symb_quote(r);
 #endif
-    return(r);
+    if (quote)
+      return symb_quote(r);
+    return r;
   }
   gen ifactor(const gen & n,GIAC_CONTEXT){
     vecteur l;
     l=ifactors(n,contextptr);
     if (!l.empty() && is_undef(l.front())) return l.front();
-    return ifactors2ifactor(l);
+    return ifactors2ifactor(l,calc_mode(contextptr)==1);
   }
   gen _ifactor(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_CPLX && is_integer(*args._CPLXptr) && is_integer(*(args._CPLXptr+1))){
       const vecteur & v=ifactors(*args._CPLXptr,*(args._CPLXptr+1),args,contextptr);
-      return ifactors2ifactor(v);
+      return ifactors2ifactor(v,calc_mode(contextptr)==1);
     }
     gen n=args;
     if (n.type==_VECT && n._VECTptr->size()==1 && is_integer(n._VECTptr->front()))
