@@ -461,6 +461,60 @@ public abstract class CASgiac implements CASGenericInterface {
 		return ret;
 
 	}
+	
+	/**
+	 * various improvements and hack for Giac's output
+	 * 
+	 * @param s output from Giac
+	 * @return result that GeoGebra can parse
+	 */
+	protected String postProcess(String s) {
+		
+		String ret = s.trim();
+		
+		if (ret.startsWith("'") && ret.endsWith("'") && ret.length() > 1) {
+			// output from ifactor can be wrapped to stop simplification
+			ret = ret.substring(1,  ret.length() - 1);
+		}
+		
+		
+		if (ret.startsWith("\"")) {
+			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
+			// assume error
+			App.debug("message from giac (assuming error) "+ret);
+			// force error? TODO: Needs testing
+			return "(";
+		}
+		
+		if (ret.indexOf("integrate(") > -1) {
+			// eg Integral[sqrt(sin(x))]
+			return "?";
+		}
+
+
+		if (ret.indexOf("c_") > -1) {
+			App.debug("replacing arbitrary constants in "+ret);
+			ret = ret.replaceAll("c_([0-9]*)", "arbconst($1)");
+		}
+
+		if (ret.indexOf("n_") > -1) {
+			App.debug("replacing arbitrary integers in "+ret);
+			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
+		}
+		
+		// convert Giac's scientific notation from e.g. 3.24e-4 to
+		// 3.2E-4
+		// not needed, Giac now outputs E
+		//ret = parserTools.convertScientificFloatNotation(ret);
+
+		ret = casParser.insertSpecialChars(ret); // undo special character handling
+
+		// convert x>3 && x<7 into 3<x<7
+		ret = checkInequalityInterval(ret);
+
+		
+		return ret;
+	}
 
 	
 }
