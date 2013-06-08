@@ -15,8 +15,8 @@ If you want to create a GeoGebra release, then do the following:
    make sure that all relevant steps are run from that script). On demand
    another run can be done, it is harmless to do it again later.
 
-3. Run ./build-pack-installer or ./deployggb42 to create a fresh numbered
-   version build into the test42 or 4.2 directory, respectively.
+3. Please use the new build system in ../../../../tools/build
+   and use the scripts in platforms/desktop/official/.
 
 For more details, please read these pages:
 
