@@ -111,6 +111,9 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		/** poly1, occurs for bad syntax eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))  */
+		poly1(Operation.NO_OPERATION),
+
 		/** arbitrary constant*/
 		arbconst(Operation.ARBCONST),
 		/** arbitrary integer (comes from trig equations)*/
@@ -286,6 +289,7 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
+			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),∞]			
 				ret = new ExpressionNode(kernel, Double.NaN);
