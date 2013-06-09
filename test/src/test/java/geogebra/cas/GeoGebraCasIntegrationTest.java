@@ -167,19 +167,28 @@ public class GeoGebraCasIntegrationTest {
 	 *            doesn't match the output. If null, expectedPattern will be
 	 *            used.
 	 */
-	private static void r(String input, String expectedPattern,
+	private static String checkRegex(String input, String expectedPattern,
 			String readablePattern) {
 		try {
 			String result = executeInCAS(input);
-			boolean isMatch = result.matches(expectedPattern);
+			if(result.matches(expectedPattern)){
+				return null;
+			}
 			if (readablePattern != null)
-				Assert.assertTrue("\nExpected: " + readablePattern + "\ngot: "
-						+ result, isMatch);
+				return "\nExpected: " + readablePattern + "\ngot: "
+						+ result;
 			else
-				Assert.assertTrue("\nExpected: " + expectedPattern + "\ngot: "
-						+ result, isMatch);
+				return "\nExpected: " + expectedPattern + "\ngot: ";
 		} catch (Throwable t) {
-			Throwables.propagate(t);
+			return t.getClass().getName() + ":" + t.getMessage();
+		}
+	}
+	
+	private static void r (String input, String expectedPattern,
+			String readablePattern) {
+		String error = checkRegex(input, expectedPattern, readablePattern);
+		if(error != null){
+			Assert.fail(error);
 		}
 	}
 
