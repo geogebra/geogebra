@@ -19,7 +19,6 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 
 	
-	protected boolean elementHasChanged;
 
 
 	/**
@@ -31,14 +30,6 @@ public abstract class Drawable3DCurves extends Drawable3D {
 		super(a_view3d, a_geo);
 	}
 	
-	/**
-	 * says that it has to be updated
-	 */
-	@Override
-	public void setWaitForUpdate(){
-		elementHasChanged = true;
-		super.setWaitForUpdate();
-	}
 
 	
 	/**

@@ -178,6 +178,30 @@ public class PlotterBrush {
 		join();
 	}
 	
+	/**
+	 * move to new coords only if not equal to last. Set texture pos.
+	 * @param point coords
+	 */
+	public void curveTo(Coords point){
+		if (point.equalsForKernel(start.center, Kernel.STANDARD_PRECISION)){
+			return;
+		}
+
+		// update start and end sections
+		if (end != null){
+			start = end;
+		}
+		
+		end = new PlotterBrushSection(start, point, thickness);
+		//end = new PlotterBrushSection(start, point, thickness,true);
+		
+
+		// set curve pos
+		addCurvePos((float) end.length);
+
+		join();
+	}
+	
 	
 	/** move to point and draw curve part
 	 * @param point
@@ -689,7 +713,59 @@ public class PlotterBrush {
 		tree.drawEndPointIfVisible(this);
 	}
 	
+	/*
+	private void draw(CurveSegment segment){
+		
+		
+		if (segment==null){
+			return;
+		}
+		
+		
+		
+
+		
+		draw(segment.getCreatedChild(0));
+		
+
+		if (segment.isVisible()){
+			if (firstPoint){
+				down(segment.getVertex());
+				//down(segment.getParentVertex());
+				//curveTo(segment.getVertex());
+				//App.debug("down: "+segment.getLevel()+" -- "+segment.getParentVertex().getZ());//+segment.getVertex().getZ());
+				firstPoint = false;
+			}else{
+				curveTo(segment.getVertex());
+				//App.debug("curveTo: "+segment.getLevel()+" -- "+segment.getVertex().getZ());
+			}
+		}else{ // curve may be continued
+			firstPoint = true;
+		}
+		
+		draw(segment.getCreatedChild(1));
+	}
+	
+	private boolean firstPoint;
+	*/
+	
+	/**
+	 * draw curve mesh
+	 * @param mesh curve mesh
+	 */
 	public void draw(CurveMesh mesh){
+		
+		/*
+		// texture settings
+		setCurvePos(0f);
+		length=1;
+		
+		// first point will be drawn with down()
+		firstPoint = true;
+		draw(mesh.getRoot());
+		*/
+		
+		
  		FloatBuffer b1 = mesh.getVertices();
 		FloatBuffer b2 = mesh.getNormals();
 		int cnt = mesh.getVisibleChunks();
@@ -704,11 +780,14 @@ public class PlotterBrush {
 			
 			for(int j = 0; j < vps; j++){
 				b1.get(f);b2.get(n);
-				manager.normal(n[0],n[1],n[2]);
-				manager.vertex(f[0],f[1],f[2]);
+				if (!Double.isNaN(f[0])){				
+					manager.normal(n[0],n[1],n[2]);
+					manager.vertex(f[0],f[1],f[2]);
+				}
 			}
 			manager.endGeometry();
 		}
+		
 	}
 	
 	public void draw(MarchingCubes mc) {
@@ -803,6 +882,7 @@ public class PlotterBrush {
 	
 	/**
 	 * add the distance to the position on the curve
+	 * (used for texture)
 	 * @param distance 
 	 * 
 	 */

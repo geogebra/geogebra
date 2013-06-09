@@ -14,10 +14,16 @@ public class PlotterBrushSection {
 
 
 	/** center and clock vectors */
-	private Coords center, clockU, clockV;
+	Coords center;
+
+	private Coords clockU;
+
+	private Coords clockV;
 	
 	/** direction from last point */
 	private Coords direction;
+	
+	double length;
 	
 	/** normal (for caps) */
 	private Coords normal = null;
@@ -68,7 +74,7 @@ public class PlotterBrushSection {
 			if (this.thickness<s.thickness)
 				normal = s.direction;
 			else 
-				normal = (Coords) s.direction.mul(-1);
+				normal = s.direction.mul(-1);
 			s.normal = normal;
 			//keep last direction
 			direction = s.direction;
@@ -114,15 +120,15 @@ public class PlotterBrushSection {
 	 * @return the normal vector
 	 */
 	public Coords[] getNormalAndPosition(double u, double v){
-		Coords vn = (Coords) clockV.mul(v).add(clockU.mul(u));
-		Coords pos = (Coords) vn.mul(thickness).add(center);
+		Coords vn = clockV.mul(v).add(clockU.mul(u));
+		Coords pos = vn.mul(thickness).add(center);
 		if (normal!=null)
 			return new Coords[] {normal,pos};
 		else
 			if (normalDevD!=0){
 				//Application.debug("normalDev="+normalDevD+","+normalDevN);
 				//return new GgbVector[] {vn,pos};
-				return new Coords[] {(Coords) vn.mul(normalDevN).add(direction.mul(normalDevD)),pos};
+				return new Coords[] {vn.mul(normalDevN).add(direction.mul(normalDevD)),pos};
 			}else
 				return new Coords[] {vn,pos};
 	}
@@ -165,7 +171,14 @@ public class PlotterBrushSection {
 	public PlotterBrushSection(PlotterBrushSection s, Coords point, float thickness){
 		this.center = point;
 		this.thickness = thickness;
-		this.direction=this.center.sub(s.getCenter()).normalized();
+		this.direction=this.center.sub(s.getCenter());
+		length = direction.norm();
+		direction = direction.mul(1/length);
+		
+		if (s.clockU == null){
+			Coords[] vn = direction.completeOrthonormal();
+			s.clockU = vn[0]; s.clockV = vn[1];
+		}
 		
 		clockV = direction.crossProduct(s.clockU).normalized(); 
 		//normalize it to avoid little errors propagation

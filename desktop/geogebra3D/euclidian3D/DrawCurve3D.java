@@ -5,7 +5,6 @@ import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.CurveMesh;
-import geogebra3D.euclidian3D.plots.CurveTree;
 
 /**
  * @author ggb3D
@@ -16,8 +15,6 @@ import geogebra3D.euclidian3D.plots.CurveTree;
 public class DrawCurve3D extends Drawable3DCurves {
 
 	private CurveMesh mesh;
-	private CurveTree tree;
-
 	/** handle to the curve */
 	private CurveEvaluable3D curve;
 
@@ -84,39 +81,42 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	@Override
 	protected boolean updateForItSelf() {
+		
+		boolean stillNeedsUpdate = true;
 
-		boolean ret = true;
 
-
-		if (elementHasChanged) {
-			if (updateDomain()) {
-				//domain has changed - create a new mesh
-				mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
-			} else {
-				//otherwise, update the surface
-				elementHasChanged = false;
-				mesh.updateParameters();
-			}
+		if (updateDomain()) {
+			//domain has changed - create a new mesh
+			mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
+		} else {
+			//otherwise, update the surface
+			mesh.updateParameters();
 		}
+
 
 		Renderer renderer = getView3D().getRenderer();
 		mesh.setCullingBox(cullingBox);
-		ret = mesh.optimize();
+		mesh.updateScale((float) getView3D().getScale());
+		stillNeedsUpdate = mesh.optimize();
 
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
 		brush.start(8);
+		brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());		
+		brush.setAffineTexture(0f,0f);
+
 		brush.draw(mesh);
 
 		setGeometryIndex(brush.end());
 
-		return false;
+		return !stillNeedsUpdate;
 	}
 
 	@Override
 	protected void updateForView() {
-		updateCullingBox();
-		EuclidianView3D view = getView3D();
-		mesh.updateScale((float) view.getScale());
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
+			updateCullingBox();
+			setWaitForUpdate();
+		}
 	}
 
 	@Override

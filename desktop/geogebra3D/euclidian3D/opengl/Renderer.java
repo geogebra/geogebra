@@ -671,6 +671,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         gl.glEnable(GLlocal.GL_CULL_FACE);
         //gl.glDisable(GLlocal.GL_BLEND);
         //gl.glEnable(GLlocal.GL_TEXTURE_2D);
+    	//gl.glPolygonMode(GLlocal.GL_FRONT, GLlocal.GL_LINE);gl.glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
         drawable3DLists.draw(this);        
         
         //primitives.disableVBO(gl);
