@@ -248,12 +248,15 @@ public class GeoGebraFileChooser extends DialogBox {
 	void renderNetworkOperation(boolean online) {
 	    saveToGoogleDrive.setEnabled(online);
 	    saveToSkyDrive.setEnabled(online);
+	    uploadToGGT.setEnabled(online);
 	    if (!online) {
 	    	saveToGoogleDrive.setTitle(app.getMenu("YouAreOffline"));
 	    	saveToSkyDrive.setTitle("YouAreOffline");
+	    	uploadToGGT.setTitle("YouAreOffline");
 	    } else {
 	    	saveToGoogleDrive.setTitle(app.getMenu(""));
 	    	saveToSkyDrive.setTitle("");
+	    	uploadToGGT.setTitle("");
 	    }
     }
 
