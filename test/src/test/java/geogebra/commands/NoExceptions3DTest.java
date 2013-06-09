@@ -174,6 +174,11 @@ public class NoExceptions3DTest {
 	@Test
 	public void cmdVolume(){
 		// TODO write test
+	}
+	
+	@Test
+	public void cmdHeight(){
+		// TODO write test
 	}	
 
 }
