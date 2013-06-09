@@ -125,7 +125,13 @@ public class GeoGebraCasIntegrationTest {
 			result = f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
 		}
 		catch(Throwable t){
-				result = t.getClass().getName()+":"+t.getMessage();
+			String sts = "";
+			StackTraceElement[] st = t.getStackTrace();
+			for(int i=0;i< 10 && i < st.length; i++){
+				StackTraceElement stElement = st[i];
+				sts += stElement.getClassName()+":"+stElement.getMethodName()+stElement.getLineNumber()+"\n";
+			}
+			result = t.getClass().getName()+":"+t.getMessage()+sts;
 		}
 		assertThat(
 				result,
