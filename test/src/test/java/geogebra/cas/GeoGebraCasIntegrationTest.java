@@ -104,8 +104,9 @@ public class GeoGebraCasIntegrationTest {
 	}
 
 	private static void t(String input, String expectedResult,
-			String... validResults) {
-		try {
+		String... validResults) {
+		String result; 
+		try{
 			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
 			kernel.getConstruction().addToConstructionList(f,false);
 			f.setInput(input);
@@ -121,14 +122,16 @@ public class GeoGebraCasIntegrationTest {
 								|| ("Numeric".equals(cmdName) && cmd.getArgumentNumber()>1);
 					}
 			}
-			String result = f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
-			assertThat(
-					result,
-					equalToIgnoreWhitespaces(logger, input, expectedResult,
-							validResults));
-		} catch (Throwable t) {
-			Assert.assertNull(t);
+			result = f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
 		}
+		catch(Throwable t){
+				result = t.getClass().getName()+":"+t.getMessage();
+		}
+		assertThat(
+				result,
+				equalToIgnoreWhitespaces(logger, input, expectedResult,
+						validResults));
+
 	}
 
 	/**
@@ -686,7 +689,8 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Cross_1() {
 		t("Cross[{a, b, c}, {d, e, f}]",
-				"{b * f - c * e, -a * f + c * d, a * e - b * d}");
+				"{b * f - c * e, -a * f + c * d, a * e - b * d}",
+				"{b * f - c * e, c * d - a * f, a * e - b * d}");
 	}
 	
 	@Test
@@ -1077,12 +1081,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_Variables_3() {
-		t("Factor[9 a^2 - 3 a^2 b]", "-3 * (b - 3) * a^(2)");
+		t("Factor[9 a^2 - 3 a^2 b]", "-3 * (b - 3) * a^(2)", "-3 * a^2 * (b - 3)");
 	}
 
 	@Test
 	public void Factor_Variables_4() {
-		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * (3 * a * b - c) * a * b^(2)");
+		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * a * b^(2) * (3 * a * b - c) ", "3 * (3 * a * b - c) * a * b^(2)");
 	}
 
 	@Test
@@ -2497,7 +2501,8 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Solve_Trig_0() {
-		s("Solve[3*tan(x)+3=0]", "{x = (4 * k_INDEX * π - π) / 4}");
+		//"{x = (4 * k_INDEX * π - π) / 4}"
+		s("Solve[3*tan(x)+3=0]", "{x = k_INDEX * π - 1 / 4 *π}");
 	}
 
 	@Test
@@ -2534,7 +2539,8 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SolveODE_1() {
-		s("SolveODE[y / x, y, x]", "y = x * c_INDEX");
+		//s("SolveODE[y / x, y, x]", "y = x * c_INDEX");
+		s("SolveODE[y / x, y, x]", "y = c_INDEX * x");
 	}
 	
 
@@ -2553,7 +2559,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Substitute_2() {
 		t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]",
-				"a^(2) - n^(2) -6 * n - 9");
+				"a^(2) - n^(2) -6 * n - 9", "a^2 - (n + 3)^2");
 	}
 
 	@Test
@@ -2785,7 +2791,8 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Variance_1() {
-		t("Variance[{1, 2, a}]", "(2 * a^(2) - 6 * a + 6) / 9");
+		t("Variance[{1, 2, a}]", "(2 * a^(2) - 6 * a + 6) / 9",
+				"2 / 9 * a^(2) - 2 / 3 * a + 2 / 3");
 	}
 	
 	// TODO Find out what the following is about.
@@ -2962,8 +2969,8 @@ public class GeoGebraCasIntegrationTest {
 	public void Rubrik1 () {
 		t("KeepInput[x-1/2=2x+3]","x - 1 / 2 = 2 * x + 3");
 		t("KeepInput[(x-1/2=2x+3)+1/2]","(x - 1 / 2 = 2 * x + 3)+1/2");
-		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
-		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2");
+		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2","x = 2 * x + 7 / 2");
+		t("(x-1/2=2x+3)+1/2","x = (4 * x + 7) / 2","x = 2 * x + 7 / 2");
 		t("Numeric[(x-1/2=2x+3)+1/2]","x = 2 * x + 3.5");
 	}
 	
