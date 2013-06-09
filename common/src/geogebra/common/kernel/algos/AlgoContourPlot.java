@@ -117,7 +117,7 @@ public class AlgoContourPlot extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		list.setTypeStringForXML("ImplicitPoly");
+		list.setTypeStringForXML("implicitpoly");
 		contourStep = new MyDouble(kernel, step).toGeoElement();
 		if (this.fixed) {
 			input = new GeoElement[2];
