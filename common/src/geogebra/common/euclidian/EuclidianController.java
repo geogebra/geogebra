@@ -44,7 +44,6 @@ import geogebra.common.kernel.algos.AlgoPolarLine;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoRadius;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -80,6 +79,7 @@ import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -248,6 +248,8 @@ public abstract class EuclidianController {
 	protected ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
 	protected ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
+	
+	protected ArrayList<GeoSpline> selectedSplines = new ArrayList<GeoSpline>();
 
 	protected Hits highlightedGeos = new Hits();
 
@@ -846,6 +848,15 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
+	protected final GeoSpline[] getSelectedSplines() {
+		GeoSpline[] ret = new GeoSpline[selectedSplines.size()];
+		for (int i = 0; i < selectedSplines.size(); i++) {
+			ret[i] = selectedSplines.get(i);
+		}
+		clearSelection(selectedSplines);
+		return ret;
+	}
+	
 	protected final GeoPolygon[] getSelectedPolygons() {
 		GeoPolygon[] ret = new GeoPolygon[selectedPolygons.size()];
 		for (int i = 0; i < selectedPolygons.size(); i++) {
@@ -1667,7 +1678,11 @@ public abstract class EuclidianController {
 	protected final int selLists() {
 		return selectedLists.size();
 	}
-
+	
+	protected final int selSplines() {
+		return selectedSplines.size();
+	}
+	
 	protected final int selPolyLines() {
 		return selectedPolyLines.size();
 	}
@@ -1822,7 +1837,13 @@ public abstract class EuclidianController {
 				return handleAddSelected(hits, max, addMoreThanOneAllowed,
 						selectedLists, Test.GEOLIST);
 			}
-
+	
+	protected final int addSelectedSpline(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+				return handleAddSelected(hits, max, addMoreThanOneAllowed,
+						selectedSplines, Test.GEOSPLINE);
+			}
+	
 	protected final int addSelectedDirection(Hits hits, int max,
 			boolean addMoreThanOneAllowed) {
 				return handleAddSelected(hits, max, addMoreThanOneAllowed,
@@ -2905,6 +2926,9 @@ public abstract class EuclidianController {
 			found = addSelectedList(hits, 1, false) != 0;
 		}
 		if (!found) {
+			found = addSelectedSpline(hits, 1, false) != 0;
+		}
+		if (!found) {
 			if (selLines() == 0) {
 				addSelectedPoint(hits, 1, false);
 			}
@@ -2973,21 +2997,9 @@ public abstract class EuclidianController {
 				
 				return getAlgoDispatcher().Tangent(null, lines[0], implicitPoly);
 			}
-		} else if(selLists()==1){
+		} else if(selSplines()==1){
 			if (selPoints() == 1) {
-				GeoList list=selectedLists.get(0);
-				if (!(list.getParentAlgorithm() instanceof AlgoSpline)){
-					return null;
-				}
-				if (list.size()<1){
-					return null;
-				}
-				for(int i=0;i<list.size();i++){
-					if(!list.get(i).isGeoCurveCartesian()){
-						return null;
-					}
-				}
-				GeoList[] lists = getSelectedLists();
+				GeoSpline[] lists = getSelectedSplines();
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };

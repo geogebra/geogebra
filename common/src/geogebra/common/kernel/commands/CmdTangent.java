@@ -9,7 +9,6 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -102,7 +101,7 @@ public class CmdTangent extends CommandProcessor {
 						throw argErr(app, c.getName(), arg[0]);
 					}
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint) arg[0], (GeoList) arg[1]) };
+						(GeoPoint) arg[0], (GeoSpline) arg[1]) };
 				return ret;
 			}
 			

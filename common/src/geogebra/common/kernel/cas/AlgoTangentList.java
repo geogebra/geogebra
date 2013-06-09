@@ -8,8 +8,8 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoSpline;
 
 /**
  * @author Giuliano Bellucci 15/05/2013
@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 public class AlgoTangentList extends AlgoElement {
 
 	private GeoPoint P;
-	private GeoList list;
+	private GeoSpline list;
 	private int size;
 	private GeoLine tangent = null;
 	private AlgoTangentCurve algot;
@@ -35,12 +35,12 @@ public class AlgoTangentList extends AlgoElement {
 	 *            - list of GeoCurvecartesian functions
 	 */
 	public AlgoTangentList(Construction cons, String label, GeoPoint P,
-			GeoList list) {
+			GeoSpline list) {
 		super(cons);
 		this.P = P;
 		this.list = list;
 		size=list.size();
-		GeoCurveCartesian minF = findMinDistance();
+		GeoCurveCartesian minF = list.curveOfDistance(P);
 		algot = new AlgoTangentCurve(cons, label, P, minF);
 		cons.removeFromConstructionList(algot);
 		tangent = algot.getTangent();
@@ -73,25 +73,12 @@ public class AlgoTangentList extends AlgoElement {
 	@Override
 	public void compute() {
 		if (size != 0 && P.isFinite()) {
-			GeoCurveCartesian minF = findMinDistance();
-			tangent.setParentAlgorithm(algot);
-			algot.initialize(minF);
+			algot.initialize(list.curveOfDistance(P));
 			algot.compute();
 		}
 	}
 
-	private GeoCurveCartesian findMinDistance() {
-		double min = Double.MAX_VALUE;
-		GeoCurveCartesian minF = null;
-		for (int i = 0; i < size; i++) {
-			GeoCurveCartesian f = (GeoCurveCartesian) list.get(i);
-			if (f.distance(P) < min) {
-				min = f.distance(P);
-				minF = f;
-			}
-		}
-		return minF;
-	}
+	
 
 	@Override
 	public GetCommand getClassName() {

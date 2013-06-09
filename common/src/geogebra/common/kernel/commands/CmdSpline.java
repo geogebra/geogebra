@@ -43,6 +43,7 @@ public class CmdSpline extends CommandProcessor {
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0],new GeoNumeric(cons,3));
 				GeoSpline list = algo.getSpline();
+				
 				GeoElement[] ret = { list };
 				return ret;
 			}

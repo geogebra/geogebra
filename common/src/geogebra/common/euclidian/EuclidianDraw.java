@@ -7,7 +7,6 @@ import geogebra.common.euclidian.draw.DrawButton;
 import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawConicPart;
 import geogebra.common.euclidian.draw.DrawConicSection;
-import geogebra.common.euclidian.draw.DrawSpline;
 import geogebra.common.euclidian.draw.DrawImage;
 import geogebra.common.euclidian.draw.DrawImplicitPoly;
 import geogebra.common.euclidian.draw.DrawInequality;
@@ -24,6 +23,7 @@ import geogebra.common.euclidian.draw.DrawRay;
 import geogebra.common.euclidian.draw.DrawSegment;
 import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.draw.DrawSlope;
+import geogebra.common.euclidian.draw.DrawSpline;
 import geogebra.common.euclidian.draw.DrawText;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.draw.DrawTurtle;
@@ -32,7 +32,6 @@ import geogebra.common.euclidian.draw.DrawVector;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
@@ -53,6 +52,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.geos.GeoTurtle;
@@ -256,13 +256,10 @@ public class EuclidianDraw {
 			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
 			break;
 		case SPLINE:
+			d = new DrawSpline(ev, (GeoSpline) geo);
+			break;
 		case LIST:
-			algo = geo.getDrawAlgorithm();
-			if (algo instanceof AlgoSpline) {
-				d = new DrawSpline(ev, (GeoList) geo);
-			} else {
-				d = new DrawList(ev, (GeoList) geo);
-			}
+			d = new DrawList(ev, (GeoList) geo);
 			break;
 
 		case TURTLE:
