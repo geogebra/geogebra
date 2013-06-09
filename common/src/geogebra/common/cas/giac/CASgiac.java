@@ -122,7 +122,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			StringTemplate tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
-		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && cmd.getName().equals("KeepInput"));
+		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && "KeepInput".equals(cmd.getName()));
 		String plainResult = getPlainResult(casInput);
 			
 		if (keepInput) {
