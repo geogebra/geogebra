@@ -55,6 +55,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		this.n = e;
 		
 		AlgoDependentImplicitPoly d = (AlgoDependentImplicitPoly) n.getParentAlgorithm();
+		cons.removeFromConstructionList(d);
 		ExpressionNode lhs = (ExpressionNode)d.getEquation().getLHS().deepCopy(kernel);
 		ExpressionNode rhs = (ExpressionNode)d.getEquation().getRHS().deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
