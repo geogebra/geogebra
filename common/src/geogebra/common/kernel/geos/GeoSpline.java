@@ -125,6 +125,14 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 
 	@Override
 	public boolean isGeoCurveCartesian() {
+		return true;
+		/*
+		 We can't refer to class names as these get obfuscated for real release.
+		 Let's make sure that either no GeoSpline is needed and everything is handled from
+		 GeoCurveCartesian or if there is an advantage of subclassing, then GeoSpline
+		 is a subclass of GeoCurveCartesian
+		 
+		 
 		StackTraceElement[] s = Thread.getAllStackTraces().get(
 				Thread.currentThread());
 		int i = search(s);
@@ -135,6 +143,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 						"geogebra.common.kernel.arithmetic.ExpressionNode")
 				|| s[i].getClassName().equals(
 						"geogebra.common.kernel.parser.Parser");
+		*/
 	}
 	
 	private int search(StackTraceElement[] s) {
