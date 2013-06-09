@@ -12,6 +12,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -28,6 +29,7 @@ import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -1585,17 +1587,38 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return expr;
 	}
 
+	/*
+	 * wrap eg x+x as Evaluate[x+x] so that it's simplified
+	 */
 	private ValidExpression wrapEvaluate(ValidExpression arg) {
-		if (arg.unwrap().isExpressionNode()) {
-			Command c= new Command(kernel, "Evaluate", false);
-			c.addArgument((ExpressionNode) arg.unwrap());
-			ExpressionNode expr = c.wrap();
-			expr.setAssignmentType(arg.getAssignmentType());
-			expr.setLabel(arg.getLabel());
-			return expr;
+		
+		// don't want to wrap eg Integral[(x+1)^100] otherwise it will be expanded
+		if (arg instanceof Command || arg.unwrap() instanceof Command) {
+			return arg;
 		}
 		
-		return arg;
+		ExpressionValue argUnwrapped = arg.unwrap();
+
+		// wrap in ExpressionNode if necessary
+		ExpressionNode en;
+		if (arg.isExpressionNode()) {
+			en = (ExpressionNode) arg;
+		} else if (argUnwrapped.isExpressionNode()) {
+			en = (ExpressionNode) argUnwrapped;
+		} else {
+			// eg f(x):=x+x
+			// eg {x+x,y+y}
+			// eg x+x=y+y
+			en = new ExpressionNode(kernel, arg.unwrap(), Operation.NO_OPERATION, null);
+		}
+
+		Command c= new Command(kernel, "Evaluate", false);
+		c.addArgument(en);
+		ExpressionNode expr = c.wrap();
+		expr.setAssignmentType(arg.getAssignmentType());
+		expr.setLabel(arg.getLabel());
+		return expr;			
+
 	}
 
 	private void finalizeComputation(final boolean success,
