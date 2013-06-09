@@ -122,7 +122,9 @@ public class GeoGebraCasIntegrationTest {
 								|| ("Numeric".equals(cmdName) && cmd.getArgumentNumber()>1);
 					}
 			}
-			result = f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
+			result = f.getOutputValidExpression()!=null ? 
+					f.getOutputValidExpression().toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate)
+					: f.getOutput(StringTemplate.testTemplate);
 		}
 		catch(Throwable t){
 			String sts = "";
