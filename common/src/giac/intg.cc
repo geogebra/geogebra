@@ -3651,6 +3651,9 @@ namespace giac {
     if (s==4) {
       if (v[1]==cst_i)
 	return gensizeerr(gettext("i=sqrt(-1), please use a valid identifier name"));
+      // test must be done twice for example for sum(sin(k),k,1,0)
+      if (is_zero(v[2]-v[3]-1))
+	return zero;
       if (is_integral(v[2])){
 	while (is_zero(subst(v[0],v[1],v[2],false,contextptr)))
 	  v[2]+=1;
