@@ -2998,62 +2998,62 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COS:
-			trig(leftStr,sb,"<cos/>","\\cos","Cos(","COS(","cos","cos","cos",
+			trig(leftStr,sb,"<cos/>","\\cos","COS(","cos","cos","cos",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SIN:
-			trig(leftStr,sb,"<sin/>","\\sin","Sin(","SIN(","sin","sin","sin",
+			trig(leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin","sin",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case TAN:
-			trig(leftStr,sb,"<tan/>","\\tan","Tan(","TAN(","tan","tan","tan",
+			trig(leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan","tan",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSC:
-			trig(leftStr,sb,"<csc/>","\\csc","Csc(","CSC(","csc","csc","csc",
+			trig(leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc","csc",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SEC:
-			trig(leftStr,sb,"<sec/>","\\sec","Sec(","SEC(","sec","sec","sec",
+			trig(leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec","sec",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case COT:
-			trig(leftStr,sb,"<cot/>","\\cot","Cot(","COT(","cot","cot","cot",
+			trig(leftStr,sb,"<cot/>","\\cot","COT(","cot","cot","cot",
 					stringType,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSCH:
-			trig(leftStr,sb,"<csch/>","\\csch","Csch(","CSCH(","csch","csch","func csch",
+			trig(leftStr,sb,"<csch/>","\\csch","CSCH(","csch","csch","func csch",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SECH:
-			trig(leftStr,sb,"<sech/>","\\sech","Sech(","SECH(","sech","sech","func sech",
+			trig(leftStr,sb,"<sech/>","\\sech","SECH(","sech","sech","func sech",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case COTH:
-			trig(leftStr,sb,"<coth/>","\\coth","Coth(","COTH(","coth","coth","coth",
+			trig(leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth","coth",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCCOS:
-			trig(leftStr,sb,"<arccos/>","\\arccos","ArcCos(","ACOS(",degFix("acos"),"acos","arccos",degFix("acos"),
+			trig(leftStr,sb,"<arccos/>","\\arccos","ACOS(",degFix("acos"),"acos","arccos",degFix("acos"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
-			trig(leftStr,sb,"<arcsin/>","\\arcsin","ArcSin(","ASIN(",degFix("asin"),"asin","arcsin",degFix("asin"),
+			trig(leftStr,sb,"<arcsin/>","\\arcsin","ASIN(",degFix("asin"),"asin","arcsin",degFix("asin"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
-			trig(leftStr,sb,"<arctan/>","\\arctan","ArcTan(","ATAN(",degFix("atan"),"atan","arctan",degFix("atan"),
+			trig(leftStr,sb,"<arctan/>","\\arctan","ATAN(",degFix("atan"),"atan","arctan",degFix("atan"),
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
@@ -3093,45 +3093,45 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COSH:
-			trig(leftStr,sb,"<cosh/>","\\cosh","Cosh(","COSH(","cosh","cosh","cosh",
+			trig(leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh","cosh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SINH:
-			trig(leftStr,sb,"<sinh/>","\\sinh","Sinh(","SINH(","sinh","sinh","sinh",
+			trig(leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh","sinh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case TANH:
-			trig(leftStr,sb,"<tanh/>","\\tanh","Tanh(","TANH(","tanh","tanh","tanh",
+			trig(leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh","tanh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ACOSH:
-			trig(leftStr,sb,"<arccosh/>","\\acosh","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
+			trig(leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","acosh","arcosh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ASINH:
-			trig(leftStr,sb,"<arcsinh/>","\\asinh","ArcSinh(","ASINH(","asinh","asinh","arsinh",
+			trig(leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","asinh","arsinh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);			
 			break;
 
 		case ATANH:
-			trig(leftStr,sb,"<arctanh/>","\\atanh","ArcTanh(","ATANH(","atanh","atanh","artanh",
+			trig(leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","atanh","artanh",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case REAL:
-			trig(leftStr,sb,"<real/>","\\real","","","myreal","real","real","re",
+			trig(leftStr,sb,"<real/>","\\real","","myreal","real","real","re",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case IMAGINARY:
-			trig(leftStr,sb,"<imaginary/>","\\imaginary","","","imaginary","imaginary","imaginary","im",
+			trig(leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","imaginary","im",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case FRACTIONAL_PART:
 			//trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
 			// Giac: problem with fPart, use custom definition instead, see CASgiacW
-			trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fractionalPart",
+			trig(leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart","fractionalPart",
 					stringType,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 		case ZETA:
@@ -4795,22 +4795,19 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 	
-	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
-			String mathPiper, String psTricks, String mpReduce, String key,
+	private void trig(String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
 			String libreOffice,
 			StringType STRING_TYPE, boolean localized,boolean needDegrees) {
 
 		// send "key" for Giac
-		trig(leftStr, sb, mathml, latex,
-				mathPiper,  psTricks,  mpReduce, key,
+		trig(leftStr, sb, mathml, latex,  psTricks,  mpReduce, key,
 				libreOffice, key,
 				STRING_TYPE, localized, needDegrees);
 
 
 	}
 
-	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
-			String mathPiper, String psTricks, String mpReduce, String key,
+	private void trig(String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
 			String libreOffice, String giac,
 			StringType STRING_TYPE, boolean localized,boolean needDegrees) {
 		if (STRING_TYPE.equals(StringType.MATHML)) {
