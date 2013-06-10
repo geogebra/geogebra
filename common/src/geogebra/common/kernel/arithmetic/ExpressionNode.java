@@ -1885,7 +1885,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append('(');
 				sb.append(leftStr);
-				sb.append("minus");
+				sb.append(" minus ");
 				sb.append(rightStr);
 				sb.append(')');
 			} else {
