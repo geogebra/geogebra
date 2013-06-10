@@ -272,22 +272,27 @@ public class Ggb2giac {
 		p("NSolutions.2",
 				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("Numerator.1", "numer(%0)");
+		
 		p("Numeric.1",
-				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
-				// normal() so that Numeric(x + x/2) works
-				// changed order so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
-				// is better when returning degrees from inverse trig
-				"normal(evalf(ggbans))"+
-				","+
-				"evalf(ggbans)"+
+				"[[ggbans:=%0],when(dim(lname(ggbans))==0 || count_eq(unicode0176u,lname(ggbans))>0,"+
+						// normal() so that Numeric(x + x/2) works
+						// check for unicode0176u so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
+						// is better when returning degrees from inverse trig
+						"evalf(ggbans)"+
+						","+
+						"evalf(normal(ggbans))"+
 				")][1]");
+
 		p("Numeric.2",
-				"[[ggbans:=%0],when(type(ggbans)==DOM_SYMBOLIC,"+
-				// normal() so that Numeric(x + x/2) works
-				"normal(evalf(ggbans,%1))"+
-				","+
-				"evalf(ggbans,%1)"+
+				"[[ggbans:=%0],when(dim(lname(ggbans))==0 || lname(ggbans)==[unicode0176u],"+
+						// normal() so that Numeric(x + x/2) works
+						// check for unicode0176u so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
+						// is better when returning degrees from inverse trig
+						"evalf(ggbans,%1)"+
+						","+
+						"evalf(normal(ggbans),%1)"+
 				")][1]");
+
 		p("OrthogonalVector.1",
 				"convert([[0,-1],[1,0]]*(%0),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
