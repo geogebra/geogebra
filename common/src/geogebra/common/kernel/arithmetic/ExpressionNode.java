@@ -3017,7 +3017,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" }");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "factorial");
+				appendReduceFunction(sb, left,  "factorial");
 				sb.append(leftStr);
 				sb.append(")");
 				break;
@@ -3189,7 +3189,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("Zeta(");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "zeta");
+				appendReduceFunction(sb, left,  "zeta");
 				break;	
 			default:
 				sb.append("zeta(");
@@ -3209,10 +3209,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, "Ci");
+				appendReduceFunction(sb, left,  "Ci");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "ci");
+				appendReduceFunction(sb, left,  "ci");
 				break;
 			default:
 				sb.append("cosIntegral(");
@@ -3231,10 +3231,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, "Si");
+				appendReduceFunction(sb, left,  "Si");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "si");
+				appendReduceFunction(sb, left,  "si");
 				break;
 
 			default:
@@ -3253,10 +3253,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, "Ei");
+				appendReduceFunction(sb, left,  "Ei");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "ei");
+				appendReduceFunction(sb, left,  "ei");
 				break;
 
 			default:
@@ -3307,7 +3307,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case MPREDUCE:
-				appendReduceFunction(sb, "exp");
+				appendReduceFunction(sb, left,  "exp");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3351,7 +3351,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("ln left ( ");
 					break;
 				case MPREDUCE:
-					appendReduceFunction(sb, "log");
+					appendReduceFunction(sb, left,  "log");
 					break;
 				case GIAC:
 				case GEOGEBRA_XML:
@@ -3438,7 +3438,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
 				// *******************
-				appendReduceFunction(sb, "Psi");
+				appendReduceFunction(sb, left,  "Psi");
 				sb.append(rightStr);
 				sb.append(',');
 				sb.append(leftStr);
@@ -3468,7 +3468,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightBracket(stringType));
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "erf");
+				appendReduceFunction(sb, left,  "erf");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3494,13 +3494,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightBracket(stringType));
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "psi");
+				appendReduceFunction(sb, left,  "psi");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, "Psi");
+				appendReduceFunction(sb, left,  "Psi");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3665,7 +3665,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append('}');
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "sqrt");
+				appendReduceFunction(sb, left,  "sqrt");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3732,7 +3732,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append('}');
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "myabs");
+				appendReduceFunction(sb, left,  "myabs");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3751,7 +3751,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case MPREDUCE:
-				appendReduceFunction(sb, "sign");
+				appendReduceFunction(sb, left,  "sign");
 				break;
 			case GIAC:
 				sb.append("sign(");
@@ -3782,7 +3782,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("}");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "conjugate");
+				appendReduceFunction(sb, left,  "conjugate");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3814,7 +3814,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "myarg");
+				appendReduceFunction(sb, left,  "myarg");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3851,7 +3851,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" right rfloor");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "myfloor");
+				appendReduceFunction(sb, left,  "myfloor");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3886,7 +3886,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" right rceil");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "myceil");
+				appendReduceFunction(sb, left,  "myceil");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3914,7 +3914,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("func round left (");
 
 			case MPREDUCE:
-				appendReduceFunction(sb, "myround");
+				appendReduceFunction(sb, left,  "myround");
 				break;
 
 			default:
@@ -3936,7 +3936,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("Gamma(");
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, "gamma");
+				appendReduceFunction(sb, left,  "gamma");
 				break;
 
 			default:
@@ -3959,7 +3959,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case MPREDUCE:
-				appendReduceFunction(sb, "gamma2");
+				appendReduceFunction(sb, left,  "gamma2");
 				break;
 
 
@@ -4135,7 +4135,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("[0]");
 					break;
 				case MPREDUCE:
-					appendReduceFunction(sb, "xcoord");
+					appendReduceFunction(sb, left,  "xcoord");
 					sb.append(leftStr);
 					sb.append(')');
 					break;
@@ -4174,7 +4174,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("[1]");
 					break;
 				case MPREDUCE:
-					appendReduceFunction(sb, "ycoord");
+					appendReduceFunction(sb, left,  "ycoord");
 					sb.append(leftStr);
 					sb.append(')');
 					break;
@@ -4209,7 +4209,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("[2]");
 					break;
 				case MPREDUCE:
-					appendReduceFunction(sb, "zcoord");
+					appendReduceFunction(sb, left,  "zcoord");
 					sb.append(leftStr);
 					sb.append(')');
 					break;
@@ -4905,7 +4905,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(psTricks);
 				break;
 			case MPREDUCE:
-				appendReduceFunction(sb, mpReduce);
+				appendReduceFunction(sb, left,  mpReduce);
 				break;
 			default:
 				if(localized){
@@ -4926,7 +4926,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendReduceFunction(StringBuilder sb, String string) {
+	private static void appendReduceFunction(StringBuilder sb,ExpressionValue left, String string) {
 		if (left instanceof ListValue) {
 			sb.append("applyfunction(");
 			sb.append(string);
