@@ -1,13 +1,22 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.algos.AlgoMacro;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
 
@@ -18,7 +27,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		/*GeoCurveCartesian3DInterface,*/ GeoElement3DInterface, Traceable {
+		/*GeoCurveCartesian3DInterface,*/ GeoElement3DInterface, Traceable, RotateableND {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -212,6 +221,57 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public boolean getTrace() {
 		return trace;
+	}
+	
+	
+	
+	
+
+	public void rotate(NumberValue r, GeoPoint S) {
+
+		transform(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD(3)));
+		
+	}
+
+	public void rotate(NumberValue r) {
+
+		transform(CoordMatrix4x4.Rotation4x4(r.getDouble()));
+		
+	}
+
+	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+		
+		transform(CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD(3)));
+	}
+	
+	private void transform(CoordMatrix4x4 m) {
+
+		// current expressions
+		ExpressionNode[] expr = new ExpressionNode[3]; 
+		for (int i = 0; i<3; i++){
+			expr[i] = ((Function) fun[i].deepCopy(kernel)).getExpression();
+		}
+
+		for(int row = 0; row < 3 ; row++){
+			MyDouble[] coeff = new MyDouble[4];
+			for (int i = 0; i<4; i++){
+				coeff[i] = new MyDouble(kernel, m.get(row+1, i+1));
+			}
+
+			ExpressionNode trans = new ExpressionNode(kernel, coeff[3]);
+			for (int i = 0; i<3; i++){
+				trans = trans.plus(expr[i].multiply(coeff[i]));
+			}
+
+			fun[row].setExpression(trans);
+		}
+
+	}
+
+	public void rotate(NumberValue r, GeoLineND line) {
+
+		transform(CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords()));
+		
 	}
 	
 

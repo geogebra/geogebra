@@ -541,6 +541,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	// fun[])
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+		
 		if (isDefined) {
 			StringBuilder sbTemp =
 				 new StringBuilder(80);

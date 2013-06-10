@@ -50,6 +50,13 @@ public abstract class GeoCurveCartesianND extends GeoElement implements CurveEva
 		this.fun = fun;
 	}	
 	
+	/**
+	 * set functions
+	 * @param fun functions
+	 */
+	public void setFun(Function[] fun){
+		this.fun = fun;
+	}
 
 	@Override
 	public boolean isGeoCurveCartesian() {
@@ -153,10 +160,12 @@ public abstract class GeoCurveCartesianND extends GeoElement implements CurveEva
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
-			sbToString.append('(');
-			sbToString.append(fun[0].getFunctionVariables()[0].toString(tpl));
-			sbToString.append(") = ");					
-		}		
+			// sbToString.append('(');
+			// sbToString.append(funX.getVarString());
+			// sbToString.append(") = ");
+			// changed to ':' to make LaTeX output better
+			sbToString.append(':');
+		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}

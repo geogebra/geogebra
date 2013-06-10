@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -95,18 +96,20 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
     	}
-    	/*
+
     	if(inGeo instanceof GeoFunction){
-    		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
-    	} else*/ 
-    	
-    	outGeo.set(inGeo);
+    		toGeoCurveCartesian((GeoFunction)inGeo, (GeoCurveCartesian3D)outGeo);
+    	} else{   	
+    		outGeo.set(inGeo);
+    	}
         out.rotate(angle, line);
         /*
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
         	*/
     }
+    
+
        
     @Override
 	final public String toString(StringTemplate tpl) {

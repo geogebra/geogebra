@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -100,12 +101,13 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
     	}
-    	/*
+
     	if(inGeo instanceof GeoFunction){
-    		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
-    	} else*/ 
+    		toGeoCurveCartesian((GeoFunction)inGeo, (GeoCurveCartesian3D)outGeo);
+    	} else{   	
+    		outGeo.set(inGeo);
+    	}
     	
-    	outGeo.set(inGeo);
         out.rotate(angle, center, orientation);
         /*
         if(inGeo.isLimitedPath())

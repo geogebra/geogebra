@@ -20,6 +20,9 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTransformation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -109,6 +112,27 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	protected GeoElement copyInternal(Construction cons, GeoElement geo){
 		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
 	}
+	
+    
+    protected void toGeoCurveCartesian(GeoFunction geoFun, GeoCurveCartesian3D curve){
+    	FunctionVariable t = new FunctionVariable(kernel, "t");
+		FunctionVariable x = geoFun.getFunction().getFunctionVariable();
+		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) geoFun.getFunction()
+				.getExpression().deepCopy(kernel)).replace(x, t);
+		Function[] fun = new Function[3];
+		fun[0] = new Function(new ExpressionNode(kernel, t), t);
+		fun[1] = new Function(yExp, t);
+		fun[2] = new Function(new ExpressionNode(kernel, 0), t);
+		curve.setFun(fun);
+		if (geoFun.hasInterval()) {
+			curve.setInterval(geoFun.getIntervalMin(), geoFun.getIntervalMax());
+		} else {
+			double min = kernel.getXminForFunctions();
+			double max = kernel.getXmaxForFunctions();
+			curve.setInterval(min, max);
+			//curve.setHideRangeInFormula(true);
+		}
+    }
 
     
 }
