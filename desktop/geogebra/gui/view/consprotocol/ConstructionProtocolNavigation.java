@@ -244,6 +244,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 			initGUI(); 
 		}
 		prot = constructionProtocolView;
+		prot.registerNavigationBar(this);
 	}
 	
 	/**
