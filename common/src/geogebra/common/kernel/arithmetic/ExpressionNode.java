@@ -1641,7 +1641,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\vee");
@@ -1685,16 +1685,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if(right.isExpressionNode()){
 					sb.append(getLeftTree().printCASstring(!valueForm, tpl));
 					switch(((ExpressionNode)right).getOperation()){
-					case LESS:appendLessSign(sb,stringType);break;
-					case LESS_EQUAL:appendLeqSign(sb,stringType);break;
-					case GREATER:appendGreaterSign(sb,stringType);break;
-					case EQUAL_BOOLEAN:appendEqualSign(sb,stringType);break;
-					case NOT_EQUAL:appendNotEqualSign(sb,stringType);break;
-					case GREATER_EQUAL:appendGeqSign(sb,stringType);break;
-					case IS_SUBSET_OF:appendSubsetSign(sb,stringType);break;
-					case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,stringType);break;
-					case PARALLEL:appendParallelSign(sb,stringType);break;
-					case PERPENDICULAR:appendPerpSign(sb,stringType);break;
+					case LESS:appendLessSign(sb,tpl);break;
+					case LESS_EQUAL:appendLeqSign(sb,tpl);break;
+					case GREATER:appendGreaterSign(sb,tpl);break;
+					case EQUAL_BOOLEAN:appendEqualSign(sb,tpl);break;
+					case NOT_EQUAL:appendNotEqualSign(sb,tpl);break;
+					case GREATER_EQUAL:appendGeqSign(sb,tpl);break;
+					case IS_SUBSET_OF:appendSubsetSign(sb,tpl);break;
+					case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,tpl);break;
+					case PARALLEL:appendParallelSign(sb,tpl);break;
+					case PERPENDICULAR:appendPerpSign(sb,tpl);break;
 					default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
 					}
 					sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, tpl));
@@ -1713,7 +1713,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\wedge");
@@ -1752,7 +1752,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\to");
@@ -1782,7 +1782,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				appendEqualSign(sb,stringType);
+				appendEqualSign(sb,tpl);
 				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
@@ -1796,7 +1796,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				appendNotEqualSign(sb,stringType);
+				appendNotEqualSign(sb,tpl);
 				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
@@ -1817,7 +1817,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\in");
@@ -1849,7 +1849,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				appendSubsetSign(sb,stringType);
+				appendSubsetSign(sb,tpl);
 				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
@@ -1874,7 +1874,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
-				appendStrictSubsetSign(sb,stringType);
+				appendStrictSubsetSign(sb,tpl);
 				append(sb, rightStr, right, operation, stringType);
 				// sb.append(rightStr);
 			}
@@ -1895,7 +1895,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\setminus");
@@ -1925,7 +1925,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				appendOp(sb,"sless", leftStr, rightStr);
 			}else {
 				
-				appendInequality(sb, leftStr, rightStr, stringType);				
+				appendInequality(sb, leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1935,7 +1935,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
-				appendInequality(sb, leftStr, rightStr, stringType);				
+				appendInequality(sb, leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1945,7 +1945,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
-				appendInequality(sb, leftStr, rightStr, stringType);				
+				appendInequality(sb, leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1955,7 +1955,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
-				appendInequality(sb, leftStr, rightStr, stringType);				
+				appendInequality(sb, leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1966,7 +1966,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			append(sb, leftStr, left, operation, stringType);
 			// sb.append(leftStr);
-			appendParallelSign(sb,stringType);
+			appendParallelSign(sb,tpl);
 			append(sb, rightStr, right, operation, stringType);
 			// sb.append(rightStr);
 			break;
@@ -1978,7 +1978,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			append(sb, leftStr, left, operation, stringType);
 			// sb.append(leftStr);
-			appendPerpSign(sb,stringType);
+			appendPerpSign(sb,tpl);
 			append(sb, rightStr, right, operation, stringType);
 			// sb.append(rightStr);
 			break;
@@ -2006,7 +2006,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 				switch (stringType) {
 				case LATEX:
-					if (kernel.isInsertLineBreaks()) {
+					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\times");
@@ -2162,7 +2162,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 								.isLabelSet()))) {
 					if (stringType.equals(StringType.LATEX)
-							&& kernel.isInsertLineBreaks()) {
+							&& tpl.isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
 						sb.append(" + ");
@@ -2173,7 +2173,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				} else {
 					if (rightStr.charAt(0) == '-') { // convert + - to -
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
 							sb.append(" - ");
@@ -2187,7 +2187,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						// to
 						// -
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
 							sb.append(" - ");
@@ -2195,7 +2195,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						sb.append(rightStr.substring(3));
 					} else {
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
 							sb.append(" + ");
@@ -2337,7 +2337,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 					if (rightStr.charAt(0) == '-') { // convert - - to +
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
 							sb.append(" + ");
@@ -2351,7 +2351,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						// to
 						// +
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-+ ");
 						} else {
 							sb.append(" + ");
@@ -2359,7 +2359,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						sb.append(rightStr.substring(3));
 					} else {
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append(" \\-- ");
 						} else {
 							sb.append(" - ");
@@ -2369,7 +2369,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				} else {
 					// fix for changing height in Algebra View plus / minus
 					if (stringType.equals(StringType.LATEX)
-							&& kernel.isInsertLineBreaks()) {
+							&& tpl.isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
 						sb.append(" - ");
@@ -2544,7 +2544,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						}
 
 						if (stringType.equals(StringType.LATEX)
-								&& kernel.isInsertLineBreaks()) {
+								&& tpl.isInsertLineBreaks()) {
 							sb.append("\\-");
 						}
 
@@ -4599,11 +4599,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return sb.toString();
 	}
 
-	private void appendPerpSign(StringBuilder sb, StringType stringType) {
+	private static void appendPerpSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\perp");
@@ -4618,11 +4618,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendParallelSign(StringBuilder sb, StringType stringType) {
+	private static void appendParallelSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\parallel");
@@ -4637,7 +4637,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendInequality(StringBuilder sb, String leftStr, String rightStr, StringType stringType) {
+	private void appendInequality(StringBuilder sb, String leftStr, String rightStr, StringTemplate tpl) {
 		
 		Operation op2 = operation;
 		
@@ -4659,28 +4659,28 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 		*/
 		
-		append(sb, leftStr, left, operation, stringType);
+		append(sb, leftStr, left, operation, tpl.getStringType());
 		
 		
 		switch (op2) {
-		case LESS: appendLessSign(sb,stringType); break;
-		case LESS_EQUAL: appendLeqSign(sb,stringType); break;
-		case GREATER: appendGreaterSign(sb,stringType); break;
-		case GREATER_EQUAL: appendGeqSign(sb,stringType); break;
+		case LESS: appendLessSign(sb, tpl); break;
+		case LESS_EQUAL: appendLeqSign(sb, tpl); break;
+		case GREATER: appendGreaterSign(sb, tpl); break;
+		case GREATER_EQUAL: appendGeqSign(sb, tpl); break;
 		default: throw new Error("invalid inequality "+op2);
 		}
 		
-		append(sb, rightStr, right, operation, stringType);
+		append(sb, rightStr, right, operation, tpl.getStringType());
 
 		
 		
 	}
 
-	private void appendGeqSign(StringBuilder sb, StringType stringType) {
+	private static void appendGeqSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\geq");
@@ -4698,11 +4698,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendLeqSign(StringBuilder sb, StringType stringType) {
+	private static void appendLeqSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\leq");
@@ -4720,9 +4720,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendGreaterSign(StringBuilder sb, StringType stringType) {
-		if (stringType.equals(StringType.LATEX)
-				&& kernel.isInsertLineBreaks()) {
+	private static void appendGreaterSign(StringBuilder sb, StringTemplate tpl) {
+		if (tpl.hasType(StringType.LATEX)
+				&& tpl.isInsertLineBreaks()) {
 			sb.append(" \\->");
 		} else {
 			sb.append(" > ");
@@ -4730,9 +4730,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendLessSign(StringBuilder sb, StringType stringType) {
-		if (stringType.equals(StringType.LATEX)
-				&& kernel.isInsertLineBreaks()) {
+	private static void appendLessSign(StringBuilder sb, StringTemplate tpl) {
+		if (tpl.hasType(StringType.LATEX)
+				&& tpl.isInsertLineBreaks()) {
 			sb.append(" \\-< ");
 		} else {
 			sb.append(" < ");
@@ -4740,11 +4740,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendStrictSubsetSign(StringBuilder sb, StringType stringType) {
+	private static void appendStrictSubsetSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\subset");
@@ -4758,11 +4758,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		sb.append(' ');		
 	}
 
-	private void appendSubsetSign(StringBuilder sb, StringType stringType) {
+	private static void appendSubsetSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\subseteq");
@@ -4777,11 +4777,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendNotEqualSign(StringBuilder sb, StringType stringType) {
+	private static void appendNotEqualSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (stringType) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\neq");
@@ -4797,11 +4797,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendEqualSign(StringBuilder sb, StringType STRING_TYPE) {
+	private static void appendEqualSign(StringBuilder sb, StringTemplate tpl) {
 		sb.append(' ');
-		switch (STRING_TYPE) {
+		switch (tpl.getStringType()) {
 		case LATEX:
-			if (kernel.isInsertLineBreaks()) {
+			if (tpl.isInsertLineBreaks()) {
 				sb.append("\\-");
 			}
 			sb.append("\\stackrel{\\small ?}{=}");

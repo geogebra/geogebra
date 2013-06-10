@@ -31,6 +31,14 @@ public class StringTemplate {
 			return false;
 		}
 	};
+	
+	/**
+	 * @return whether line breaks are allowed
+	 */
+	public boolean isInsertLineBreaks(){
+		return false;
+	}
+	
 	static {
 		prefixedDefault.localizeCmds = false;
 		prefixedDefault.internationalizeDigits = false;
