@@ -373,7 +373,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						if (casType == CasType.GIAC) {
 							sbCASCommand.append('(');
 							sbCASCommand.append(tpl.printVariableName(ch+""));
-							sbCASCommand.append('*');							
+							sbCASCommand.append(")*(");							
 						} else {
 							// Reduce
 							sbCASCommand.append("multiplication(");
