@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -39,6 +40,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -1348,16 +1350,27 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawCurveCartesian(GeoCurveCartesian geo) {
+	protected void drawCurveCartesian(GeoElement geo) {
 		drawCurveCartesian(geo, code);
 	}
 
-	private void drawCurveCartesian(GeoCurveCartesian geo, StringBuilder sb) {
+	private void drawCurveCartesian(GeoElement geo, StringBuilder sb) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
 		// Only done using gnuplot
 		// add Warning
-		addWarningGnuplot();
+		addWarningGnuplot();		
+		if (geo.getParentAlgorithm() instanceof AlgoSpline){
+        	GeoSpline s=(GeoSpline)geo;
+        	for (int i=0;i<s.size();i++){
+        		drawSingleCurve(s.get(i),sb);
+        	}
+        } else {
+        	drawSingleCurve((GeoCurveCartesian)geo,sb);
+        }
+	}
+
+	private void drawSingleCurve(GeoCurveCartesian geo, StringBuilder sb) {
 		double start = geo.getMinParameter();
 		double end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();

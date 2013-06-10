@@ -25,6 +25,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -45,6 +46,7 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -1117,10 +1119,20 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     
     @Override
-	protected void drawCurveCartesian (GeoCurveCartesian geo){
+	protected void drawCurveCartesian (GeoElement geo){
         importpackage.add("graph");
         
-        double start = geo.getMinParameter(),
+        if (geo.getParentAlgorithm() instanceof AlgoSpline){
+        	GeoSpline s=(GeoSpline)geo;
+        	for (int i=0;i<s.size();i++){
+        		drawSingleCurve(s.get(i));
+        	}
+        } else {
+        	drawSingleCurve((GeoCurveCartesian)geo);
+        }
+    }
+	private void drawSingleCurve(GeoCurveCartesian geo) {
+		double start = geo.getMinParameter(),
                  end = geo.getMaxParameter();
 //      boolean isClosed=geo.isClosedPath();
         String fx = parseFunction(geo.getFunX(getStringTemplate()));
@@ -1169,7 +1181,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         code.append(format(end));
         code.append(")");   
         endDraw(geo);
-    }
+	}
     
     @Override
 	protected void drawFunction(GeoFunction geo){

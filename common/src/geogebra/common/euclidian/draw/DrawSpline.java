@@ -1,6 +1,5 @@
 package geogebra.common.euclidian.draw;
 
-import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
@@ -38,7 +37,6 @@ public class DrawSpline extends Drawable {
 		this.view = view;
 		this.geo = geo.toGeoElement();
 		list = geo;
-		list.setObjColor(GColor.black);
 		degree = geo.getDegree();
 		size = list.size();
 		labelDesc=geo.getLabelSimple();

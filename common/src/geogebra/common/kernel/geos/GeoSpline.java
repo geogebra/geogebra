@@ -127,33 +127,20 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 	public boolean isGeoCurveCartesian() {
 		return true;
 		/*
-		 We can't refer to class names as these get obfuscated for real release.
-		 Let's make sure that either no GeoSpline is needed and everything is handled from
-		 GeoCurveCartesian or if there is an advantage of subclassing, then GeoSpline
-		 is a subclass of GeoCurveCartesian
-		 
-		 
-		StackTraceElement[] s = Thread.getAllStackTraces().get(
-				Thread.currentThread());
-		int i = search(s);
-		i++;
-		return s[i].getClassName().equals(
-				"geogebra.common.kernel.geos.GeoElement")
-				|| s[i].getClassName().equals(
-						"geogebra.common.kernel.arithmetic.ExpressionNode")
-				|| s[i].getClassName().equals(
-						"geogebra.common.kernel.parser.Parser");
-		*/
-	}
-	
-	private int search(StackTraceElement[] s) {
-		String name = getClass().getName();
-		for (int i = 0; i < s.length; i++) {
-			if (name.equals(s[i].getClassName())) {
-				return i;
-			}
-		}
-		return 0;
+		 * We can't refer to class names as these get obfuscated for real
+		 * release. Let's make sure that either no GeoSpline is needed and
+		 * everything is handled from GeoCurveCartesian or if there is an
+		 * advantage of subclassing, then GeoSpline is a subclass of
+		 * GeoCurveCartesian
+		 * 
+		 * 
+		 * StackTraceElement[] s = Thread.getAllStackTraces().get(
+		 * Thread.currentThread()); int i = search(s); i++; return
+		 * s[i].getClassName().equals( "geogebra.common.kernel.geos.GeoElement")
+		 * || s[i].getClassName().equals(
+		 * "geogebra.common.kernel.arithmetic.ExpressionNode") ||
+		 * s[i].getClassName().equals( "geogebra.common.kernel.parser.Parser");
+		 */
 	}
 
 	@Override
@@ -294,7 +281,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 
 	@Override
 	public double distance(GeoPoint p) {
-		GeoCurveCartesian curve=curveOfDistance(p);
+		GeoCurveCartesian curve = curveOfDistance(p);
 		return curve.distance(p);
 	}
 
@@ -473,6 +460,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 			curves.add(curve);
 			k++;
 		}
+		curves.setObjColor(getObjectColor());
 	}
 
 	private float[] getSystemSolution(float[][] matrix) {

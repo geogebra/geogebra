@@ -32,7 +32,6 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -405,7 +404,7 @@ public abstract class GeoGebraExport {
 				drawFunction((GeoFunction) g);
 				drawLabel(g, null);
 			} else if (g.isGeoCurveCartesian()) {
-				drawCurveCartesian((GeoCurveCartesian) g);
+				drawCurveCartesian(g);
 				drawLabel(g, null);
 			} else if (g.isGeoText()) {
 				drawText((GeoText) g);
@@ -638,7 +637,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The function to export
 	 */
-	abstract protected void drawCurveCartesian(GeoCurveCartesian geo);
+	abstract protected void drawCurveCartesian(GeoElement geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Text on euclidian view
