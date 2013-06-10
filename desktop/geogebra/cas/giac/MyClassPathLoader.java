@@ -38,7 +38,7 @@ public class MyClassPathLoader {
 		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
 		
 		if (ins == null) {
-			App.error(filename + "not found");
+			App.error(filename + " not found");
 			return false;
 		}
 			
