@@ -3927,7 +3927,9 @@ namespace giac {
     gen v;
     v=symbolic(at_division,gen(makevecteur(r,b1),_SEQ__VECT));
     gen w;
-    w=symbolic(at_plus,gen(makevecteur(q,v),_SEQ__VECT));    
+    w=symbolic(at_plus,gen(makevecteur(q,v),_SEQ__VECT));
+    if (calc_mode(contextptr)==1)
+      return symbolic(at_quote,w);
     return w;
   }
   gen _propfrac(const gen & arg,GIAC_CONTEXT){

@@ -4276,7 +4276,10 @@ namespace giac {
     }
     if (is_zero(n))
       return gensizeerr(gettext("Sum of coeff is 0"));
-    sum=rdiv(sum,n,contextptr);
+    if (sum.type==_VECT)
+      sum=inv(n,contextptr)*sum;
+    else
+      sum=rdiv(sum,n,contextptr);
     if (sum.type==_VECT)
       sum.subtype=_POINT__VECT;
     return pnt_attrib(sum,attributs,contextptr);

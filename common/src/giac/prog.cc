@@ -2887,6 +2887,10 @@ namespace giac {
     if (args.type==_VECT){ 
       if (args._VECTptr->empty())
 	return giac_rand(contextptr);
+      if (args.subtype==0){
+	double d=giac_rand(contextptr)*double(args._VECTptr->size())/(rand_max2+1.0);
+	return (*args._VECTptr)[int(d)];
+      }
       vecteur & v=*args._VECTptr;
       int s=v.size();
       if ((nd=is_distribution(v[0]))){

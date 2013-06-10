@@ -180,7 +180,7 @@
     charptr_gen * builtin_lexer_functions(){
       static charptr_gen * ans=0;
       if (!ans){
-	ans = new charptr_gen[1300];
+	ans = new charptr_gen[1400];
 	builtin_lexer_functions_number=0;
       }
       return ans;

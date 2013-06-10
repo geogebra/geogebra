@@ -170,6 +170,11 @@ namespace giac {
   bool print_rewrite_prod_inv=false;
 
   static string & add_print_plus(string & s,const symbolic & g,GIAC_CONTEXT){
+    if (is_inf(g.feuille) 
+	// && calc_mode(contextptr)!=1
+	&& abs_calc_mode(contextptr)==38
+	)
+      return s+="∞";
     if (g.feuille.type!=_VECT){
       s += '+';
       return add_print(s,g.feuille,contextptr);

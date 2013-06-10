@@ -281,6 +281,8 @@ namespace giac {
 
   gen _acot(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (abs_calc_mode(contextptr)==38)
+      return cst_pi_over_2-atan(args,contextptr);
     return atan(inv(args,contextptr),contextptr);
   }    
   static const char _acot_s []="acot";
@@ -2255,6 +2257,12 @@ namespace giac {
 	return f[0]/(f[0]+f[1]);
       if (nd==10)
 	return f[0]/f[1];
+      if (nd==12)
+	return inv(f[0],contextptr);
+      if (nd==13)
+	return (f[1]+f[0])/2;
+      if (nd==14)
+	return inv(f[0],contextptr);
       return undef;
     }
     if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().type==_FUNC && (nd=is_distribution(g._VECTptr->front()))){
@@ -2333,6 +2341,12 @@ namespace giac {
 	return sqrt(f[0]*f[1]/(f[0]+f[1]+1),contextptr)/(f[0]+f[1]);
       if (nd==10)
 	return sqrt(f[0],contextptr)/f[1];
+      if (nd==12)
+	return sqrt(1-f[0],contextptr)/f[0];
+      if (nd==13)
+	return (f[1]-f[0])*sqrt(3,contextptr)/6;
+      if (nd==14)
+	return inv(f[0],contextptr);
       return undef;
     }
     if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().type==_FUNC && (nd=is_distribution(g._VECTptr->front()))){

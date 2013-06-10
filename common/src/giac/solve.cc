@@ -313,14 +313,14 @@ namespace giac {
   vecteur protect_find_singularities(const gen & e,const identificateur & x,int cplxmode,GIAC_CONTEXT){
     vecteur sp;
 #ifdef NO_STDEXCEPT
-    sp=find_singularities(e,x,false,contextptr);
+    sp=find_singularities(e,x,cplxmode,contextptr);
     if (is_undef(sp)){
       *logptr(contextptr) << sp << endl;      
       sp.clear();
     }
 #else
     try {
-      sp=find_singularities(e,x,false,contextptr);
+      sp=find_singularities(e,x,cplxmode,contextptr);
     }
     catch (std::runtime_error & e){
       *logptr(contextptr) << e.what() << endl;

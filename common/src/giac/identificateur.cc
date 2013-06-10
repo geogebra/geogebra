@@ -1090,7 +1090,10 @@ namespace giac {
 	return string_pi;
       }
     }
-    if (abs_calc_mode(contextptr)==38 && !strcmp(id_name,string_infinity))
+    if (
+	//calc_mode(contextptr)!=1 &&
+	abs_calc_mode(contextptr)==38 && 
+	!strcmp(id_name,string_infinity))
       return "±∞";
     // index != sqrt(-1) wich has different notations
     if (xcas_mode(contextptr)==0){

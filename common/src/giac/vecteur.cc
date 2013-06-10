@@ -254,6 +254,60 @@ namespace giac {
     return v;
   }
 
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l){
+    vecteur v(12);
+    v[0]=a;
+    v[1]=b;
+    v[2]=c;
+    v[3]=d;
+    v[4]=e;
+    v[5]=f;
+    v[6]=g;
+    v[7]=h;
+    v[8]=i;
+    v[9]=j;
+    v[10]=k;
+    v[11]=l;
+    return v;
+  }
+
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l,const gen & m){
+    vecteur v(13);
+    v[0]=a;
+    v[1]=b;
+    v[2]=c;
+    v[3]=d;
+    v[4]=e;
+    v[5]=f;
+    v[6]=g;
+    v[7]=h;
+    v[8]=i;
+    v[9]=j;
+    v[10]=k;
+    v[11]=l;
+    v[12]=m;
+    return v;
+  }
+
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l,const gen & m,const gen& n){
+    vecteur v(14);
+    v[0]=a;
+    v[1]=b;
+    v[2]=c;
+    v[3]=d;
+    v[4]=e;
+    v[5]=f;
+    v[6]=g;
+    v[7]=h;
+    v[8]=i;
+    v[9]=j;
+    v[10]=k;
+    v[11]=l;
+    v[12]=m;
+    v[13]=n;
+    return v;
+  }
+
   gen makesequence(const gen & a){
     return gen(vecteur(1,a),_SEQ__VECT);
   }
@@ -6851,10 +6905,35 @@ namespace giac {
 	res.push_back(_rand(f,contextptr));
       return;
     }
+    if (f.type==_VECT){
+      const vecteur & v = *f._VECTptr;
+      int s=v.size();
+      for (int i=0;i<n;++i){
+	double d=giac_rand(contextptr)*double(s)/(rand_max2+1.0);
+	res.push_back(v[int(d)]);
+      }
+      return;
+    }
     if (f.is_symb_of_sommet(at_interval) && f._SYMBptr->feuille.type==_VECT){
       for (int i=0;i<n;++i)
 	res.push_back(rand_interval(*f._SYMBptr->feuille._VECTptr,false,contextptr));
       return;
+    }
+    if (f==at_uniform || f==at_uniformd){
+      for (int i=0;i<n;++i)
+	res.push_back(giac_rand(contextptr)/(rand_max2+1.0));
+      return;
+    }
+    if (f.is_symb_of_sommet(at_uniform) ||f.is_symb_of_sommet(at_uniformd) ){
+      f=evalf_double(f._SYMBptr->feuille,1,contextptr);
+      if (f.type!=_VECT || f._VECTptr->size()!=2 || f._VECTptr->front().type!=_DOUBLE_ || f._VECTptr->back().type!=_DOUBLE_){
+	res=vecteur(1,gensizeerr(contextptr));
+	return ;
+      }
+      double a=f._VECTptr->front()._DOUBLE_val,b=f._VECTptr->back()._DOUBLE_val,c=b-a;
+      for (int i=0;i<n;++i)
+	res.push_back(a+c*giac_rand(contextptr)/(rand_max2+1.0));
+      return;      
     }
     if (f.is_symb_of_sommet(at_poisson)){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
@@ -6885,7 +6964,7 @@ namespace giac {
 	res.push_back(randpoisson(lambda,contextptr));
       return;     
     }
-    if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_randexp)){
+    if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_randexp) || f.is_symb_of_sommet(at_exponential) || f.is_symb_of_sommet(at_exponentiald)){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
       if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
 	res=vecteur(1,gensizeerr(contextptr));
@@ -6896,9 +6975,20 @@ namespace giac {
 	res.push_back(gen(-std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda));
       return;     
     }
-    if (f==at_normald || f==at_normal || f==at_randNorm)
+    if (f.is_symb_of_sommet(at_geometric) || f.is_symb_of_sommet(at_randgeometric)){
+      f=evalf_double(f._SYMBptr->feuille,1,contextptr);
+      if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
+	res=vecteur(1,gensizeerr(contextptr));
+	return;
+      }
+      double lambda=std::log(1-f._DOUBLE_val);
+      for (int i=0;i<n;++i)
+	res.push_back(_ceil(gen(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda),contextptr));
+      return;     
+    }
+    if (f==at_normald || f==at_normal || f==at_randNorm || f==at_randnormald)
       f=symbolic(at_normald,makesequence(0,1));
-    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)|| f.is_symb_of_sommet(at_randnormald)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen M=evalf_double(f._SYMBptr->feuille._VECTptr->front(),1,contextptr);
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
       if (is_squarematrix(f)){
@@ -6926,7 +7016,7 @@ namespace giac {
       }
       return;     
     }
-    if ( (f.is_symb_of_sommet(at_fisher) 
+    if ( (f.is_symb_of_sommet(at_fisher) || f.is_symb_of_sommet(at_fisherd) || f.is_symb_of_sommet(at_randfisherd)
 	  || f.is_symb_of_sommet(at_snedecor) 
 	  || f.is_symb_of_sommet(at_randfisher)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen g1(f._SYMBptr->feuille._VECTptr->front()),g2(f._SYMBptr->feuille._VECTptr->back());
@@ -6936,18 +7026,19 @@ namespace giac {
 	return ;
       }
     }
-    if ( (f.is_symb_of_sommet(at_chisquare) || f.is_symb_of_sommet(at_randchisquare)) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
+    if ( (f.is_symb_of_sommet(at_chisquare) || f.is_symb_of_sommet(at_randchisquare) ||
+	  f.is_symb_of_sommet(at_chisquared) || f.is_symb_of_sommet(at_randchisquared) ) && f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
       int k=f._SYMBptr->feuille.val;
       for (int i=0;i<n;++i)
 	res.push_back(randchisquare(k,contextptr));
       return;     
     }
-    if (f==at_cauchy){
+    if (f==at_cauchy || f==at_cauchyd){
       for (int i=0;i<n;++i)
 	res.push_back(std::tan(M_PI*giac_rand(contextptr)/(rand_max2+1.0)-.5));
       return;
     }
-    if (f.is_symb_of_sommet(at_cauchy) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+      if ( (f.is_symb_of_sommet(at_cauchy) || f.is_symb_of_sommet(at_cauchyd) ) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen g1(f._SYMBptr->feuille._VECTptr->front()),g2(f._SYMBptr->feuille._VECTptr->back());
       g1=evalf_double(g1,1,contextptr);
       g2=evalf_double(g2,1,contextptr);
@@ -6960,7 +7051,8 @@ namespace giac {
 	res.push_back(std::tan(M_PI*giac_rand(contextptr)/(rand_max2+1.0)-.5)*g2+g1);
       return;
     }
-    if ( f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent)){
+    if ( f.is_symb_of_sommet(at_student) || f.is_symb_of_sommet(at_randstudent) ||
+	 f.is_symb_of_sommet(at_studentd) || f.is_symb_of_sommet(at_randstudentd)){
       if (f._SYMBptr->feuille.type==_INT_ && f._SYMBptr->feuille.val>0 && f._SYMBptr->feuille.val<=1000){
 	int k=f._SYMBptr->feuille.val;
 	for (int i=0;i<n;++i)

@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -g -c intg.cc -DHAVE_CONFIG_H -DIN_GIAC" -*-
+// -*- mode:C++ ; compile-command: "g++ -I.. -g -c intg.cc -fno-strict-aliasing -DGIAC_GENERIC_CONSTANTS -DHAVE_CONFIG_H -DIN_GIAC " -*-
 #include "giacPCH.h"
 // #define LOGINT
 
@@ -2524,7 +2524,18 @@ namespace giac {
       else
 	res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
     }
-    vecteur sp=protect_find_singularities(primitive,*x._IDNTptr,false,contextptr);
+    vecteur sp;
+    if (evalf_double(borne_inf,1,contextptr).type==_DOUBLE_ && evalf_double(borne_sup,1,contextptr).type==_DOUBLE_){
+      gen xval=x.eval(1,contextptr);
+      if (is_greater(borne_sup,borne_inf,contextptr))
+	giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
+      else
+	giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
+      sp=protect_find_singularities(primitive,*x._IDNTptr,2,contextptr);
+      sto(xval,x,contextptr);
+    }
+    else
+      sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
     // FIXME if v depends on an integer parameter, find values in inf,sup
     int sps=sp.size();
     for (int i=0;i<sps;i++){

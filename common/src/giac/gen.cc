@@ -11014,13 +11014,19 @@ namespace giac {
     case _SYMB:
       if (is_inf(_SYMBptr->feuille)){
 	if (_SYMBptr->sommet==at_plus){
-	  if (abs_calc_mode(contextptr)==38) //(calc_mode(contextptr)!=1)
+	  if (
+	      // calc_mode(contextptr)!=1
+	      abs_calc_mode(contextptr)==38
+	      )
 	    return "∞";
 	  else
 	    "+infinity";
 	}
 	if (_SYMBptr->sommet==at_neg){
-	  if (abs_calc_mode(contextptr)==38) //(calc_mode(contextptr)!=1)
+	  if (
+	      // calc_mode(contextptr)!=1
+	      abs_calc_mode(contextptr)==38
+	      )
 	    return "-∞"; 
 	  else
 	    return "-infinity";

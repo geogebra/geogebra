@@ -138,7 +138,7 @@ namespace giac {
 	  return pnt_attrib(symbolic(at_hyperplan,gen(makevecteur(n,M),_SEQ__VECT)),attributs,contextptr);
 	return gensizeerr(contextptr);
       }
-      if (v[1].type==_VECT && v[1]._VECTptr->size()>=2){
+      if (v[1].type==_VECT && v[1]._VECTptr->size()==2){
 	s++;
 	v.push_back(v[1]._VECTptr->back());
 	v[1]=v[1]._VECTptr->front();

@@ -63,6 +63,9 @@ namespace giac {
   vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i);
   vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j);
   vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k);
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l);
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l,const gen & m);
+  vecteur makevecteur(const gen & a,const gen & b,const gen & c,const gen & d,const gen & e,const gen & f,const gen & g,const gen & h,const gen & i,const gen &j,const gen & k,const gen & l,const gen & m,const gen &n);
 
   gen makesequence(const gen & a);
   gen makesequence(const gen & a,const gen & b);
@@ -228,6 +231,7 @@ namespace giac {
 
   gen common_deno(const vecteur & v);
 
+  bool convert(const vecteur & v,std::vector<giac_double> & v1);
   void matrice2std_matrix_gen(const matrice & m,std_matrix<gen> & M);
   void std_matrix_gen2matrice(const std_matrix<gen> & M,matrice & m);
   bool vecteur2index(const vecteur & v,index_t & i);

@@ -3425,7 +3425,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 #endif // HAVE_LIBPTHREAD
 
-  debug_struct::debug_struct():indent_spaces(0),debug_mode(false),sst_mode(false),sst_in_mode(false),debug_allowed(true),debug_refresh(false){
+  debug_struct::debug_struct():indent_spaces(0),debug_mode(false),sst_mode(false),sst_in_mode(false),debug_allowed(true),debug_refresh(false),current_instruction(-1){
     debug_info_ptr=new gen;
     fast_debug_info_ptr=new gen;
     debug_prog_name=new gen;
