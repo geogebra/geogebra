@@ -189,7 +189,6 @@ public class AppW extends AppWeb {
 		this.articleElement = ae;
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
-		StringTemplate.latexIsMathQuill = true;
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
 		this.useFullGui = ae.getDataParamGui();
@@ -217,7 +216,8 @@ public class AppW extends AppWeb {
 		canvas.setCoordinateSpaceWidth(1);
 
 		initCoreObjects(undoActive, this);
-
+		//this may only be called after factories are initialized
+		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 
@@ -236,7 +236,6 @@ public class AppW extends AppWeb {
 		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
-		StringTemplate.latexIsMathQuill = true;
 		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
@@ -258,8 +257,10 @@ public class AppW extends AppWeb {
 		initCoreObjects(undoActive, this);
 
 		// initing = true;
-
+		//this may only be called after factories are initialized
+		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu();
+
 	}
 
 	/*************************************************
