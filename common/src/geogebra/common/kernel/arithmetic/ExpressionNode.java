@@ -1385,7 +1385,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								.toValueString(tpl);
 					}
 				}
-				ret = operationToString(leftStr, rightStr, !symbolic, tpl);
+				ret = operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
 			}
 		} finally {
 			// do nothing
@@ -1487,7 +1487,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rightStr = right.toString(tpl);
 			}
 		}
-		return operationToString(leftStr, rightStr, false, tpl);
+		return operationToString(left, right, operation,leftStr, rightStr, false, tpl);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1507,7 +1507,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toValueString(tpl);
 		}
 
-		return operationToString(leftStr, rightStr, true, tpl);
+		return operationToString(left, right, operation, leftStr, rightStr, true, tpl);
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
@@ -1525,7 +1525,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return operationToString(leftStr, rightStr, true, tpl);
+		return operationToString(left, right, operation, leftStr, rightStr, true, tpl);
 	}
 
 	/**
@@ -1564,7 +1564,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 
 		// build latex string
-		ret = operationToString(leftStr, rightStr, !symbolic, tpl);
+		ret = operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
 
 		return checkMathML(ret, tpl);
 	}
@@ -1586,13 +1586,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * toValueString(), forLaTeX is used for LaTeX output
 	 * 
 	 */
-	final private String operationToString(String leftStr, String rightStr,
+	final private static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
 			boolean valueForm, StringTemplate tpl) {
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
 		StringType stringType = tpl.getStringType();
-
+		Localization loc = left.getKernel().getLocalization();
 		switch (operation) {
 		case NOT:
 
@@ -1682,7 +1682,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			} else {
 				if(right.isExpressionNode()){
-					sb.append(getLeftTree().printCASstring(!valueForm, tpl));
+					sb.append(left.wrap().printCASstring(!valueForm, tpl));
 					switch(((ExpressionNode)right).getOperation()){
 					case LESS:appendLessSign(sb,tpl);break;
 					case LESS_EQUAL:appendLeqSign(sb,tpl);break;
@@ -1924,7 +1924,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				appendOp(sb,"sless", leftStr, rightStr);
 			}else {
 				
-				appendInequality(sb, leftStr, rightStr, tpl);				
+				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1934,7 +1934,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
-				appendInequality(sb, leftStr, rightStr, tpl);				
+				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1944,7 +1944,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
-				appendInequality(sb, leftStr, rightStr, tpl);				
+				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -1954,7 +1954,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
-				appendInequality(sb, leftStr, rightStr, tpl);				
+				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
 			}
 			break;
 
@@ -3084,17 +3084,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case ARCCOS:
-			trig(left, leftStr,sb,"<arccos/>","\\arccos","ACOS(",degFix("acos"),"acos","arccos",degFix("acos"),
+			trig(left, leftStr,sb,"<arccos/>","\\arccos","ACOS(",degFix("acos",left),"acos","arccos",degFix("acos",left),
 					tpl,loc,false);
 			break;
 
 		case ARCSIN:
-			trig(left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(",degFix("asin"),"asin","arcsin",degFix("asin"),
+			trig(left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(",degFix("asin",left),"asin","arcsin",degFix("asin",left),
 					tpl,loc,false);
 			break;
 
 		case ARCTAN:
-			trig(left, leftStr,sb,"<arctan/>","\\arctan","ATAN(",degFix("atan"),"atan","arctan",degFix("atan"),
+			trig(left, leftStr,sb,"<arctan/>","\\arctan","ATAN(",degFix("atan",left),"atan","arctan",degFix("atan",left),
 					tpl,loc,false);
 			break;
 
@@ -3114,12 +3114,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 
 				case MPREDUCE:
-					sb.append(degFix("myatan2"));
+					sb.append(degFix("myatan2",left));
 					sb.append("(");
 					break;
 
 				case GIAC:
-					sb.append(degFix("atan2"));
+					sb.append(degFix("atan2",left));
 					sb.append("(");
 					break;
 
@@ -4109,15 +4109,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case XCOORD:
 			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
-				sb.append(kernel.format(((VectorValue) leftEval).getVector()
+				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
-				sb.append(kernel.format(
+				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[0], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
+				sb.append(left.getKernel().format(((GeoLine) leftEval).getX(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -4148,15 +4148,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case YCOORD:
 			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
-				sb.append(kernel.format(((VectorValue) leftEval).getVector()
+				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getY(), tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate(tpl)).isVector3DValue()) {
-				sb.append(kernel.format(
+				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[1], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
+				sb.append(left.getKernel().format(((GeoLine) leftEval).getY(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -4187,11 +4187,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case ZCOORD:
 			if (valueForm && (leftEval = left.evaluate(tpl)).isVector3DValue()) {
-				sb.append(kernel.format(
+				sb.append(left.getKernel().format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(kernel.format(((GeoLine) leftEval).getZ(), tpl));
+				sb.append(left.getKernel().format(((GeoLine) leftEval).getZ(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -4320,7 +4320,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if ((left instanceof FunctionalNVar)
 						&& (right instanceof MyList)) {
 					FunctionNVar func = ((FunctionalNVar) left).getFunction();
-					ExpressionNode en = func.getExpression().getCopy(kernel);
+					ExpressionNode en = func.getExpression().getCopy(left.getKernel());
 					for (int i = 0; (i < func.getVarNumber())
 							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
@@ -4636,10 +4636,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private void appendInequality(StringBuilder sb, String leftStr, String rightStr, StringTemplate tpl) {
-		
+	private static void appendInequality(StringBuilder sb, ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr, StringTemplate tpl) {
 		Operation op2 = operation;
-		
 		/* disabled: doesn't work with 3<x<4
 		ExpressionValue left2 = left;
 		ExpressionValue right2 = right;
@@ -4818,8 +4816,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private String degFix(String string) {
-		if(kernel.getInverseTrigReturnsAngle()){
+	private static String degFix(String string, ExpressionValue left) {
+		if(left.getKernel().getInverseTrigReturnsAngle()){
 			return "deg"+string;
 		}
 		return string;
