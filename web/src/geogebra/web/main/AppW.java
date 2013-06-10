@@ -13,6 +13,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -188,6 +189,7 @@ public class AppW extends AppWeb {
 		this.articleElement = ae;
 		this.frame = gf;
 		this.objectPool = new ObjectPool();
+		StringTemplate.latexIsMathQuill = true;
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
 		this.useFullGui = ae.getDataParamGui();
@@ -234,6 +236,7 @@ public class AppW extends AppWeb {
 		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
+		StringTemplate.latexIsMathQuill = true;
 		App.useFullAppGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();

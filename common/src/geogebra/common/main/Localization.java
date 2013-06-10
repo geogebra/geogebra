@@ -978,5 +978,9 @@ public abstract class Localization {
 		 * @return whether command translation bundle is null
 		 */
 		protected abstract boolean isCommandNull();
+
+		public String getFunction(String key) {
+			return getPlain("Function." + key);
+		}
 	
 }

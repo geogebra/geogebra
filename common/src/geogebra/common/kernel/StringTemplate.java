@@ -129,6 +129,10 @@ public class StringTemplate {
 	 * for input bar; same as default, but increases precision to MIN_EDITING_PRINT_PRECISION
 	 */
 	public static StringTemplate editTemplate = new StringTemplate("editTemplate");
+	/**
+	 * For simplicity make this static now and see in the future whether we will need more engines in one app
+	 */
+	public static boolean latexIsMathQuill = true;
 	static {
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
@@ -582,6 +586,13 @@ public class StringTemplate {
 	public boolean hasCASType() {
 		return stringType.equals(StringType.MPREDUCE)
 				|| stringType.equals(StringType.GIAC);
+	}
+	
+	/**
+	 * @return whether this is using MathQuill or not, may return rubbish for non-LaTeX templates
+	 */
+	public boolean isMathQuill() {
+		return StringTemplate.latexIsMathQuill;
 	}
 		
 	
