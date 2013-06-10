@@ -36,8 +36,7 @@ div.button {
 	);
 }
 
-div.button.button-up-hovering,
-div.button.active {
+div.button.button-up-hovering {
 	border: #9999FF 1px solid;
 }
 
@@ -80,6 +79,18 @@ div.button.active {
 	margin: 0px 6px 0px 0px;
 }
 
+.stylebar div.button.active {
+	border: #9999FF 2px solid;
+	width: 28px;
+	height: 28px;
+}
+
+.toolbar div.button.active {
+	border: #9999FF 2px solid;
+	width: 38px;
+	height: 38px;
+}
+
 .stylebar div.button img,
 .headerbar div.button img,
 .algebraViewButtonPanel div.button img {
@@ -91,6 +102,37 @@ div.button.active {
 .subToolBar div.button img {
 	width: 40px;
 	height: 40px;
+}
+
+.inputDialog .customKeyPanel button,
+.optionsBox button {
+	width: 40px;
+	height: 40px;
+	
+	/* Border */
+	-webkit-border-radius: 5px;
+  	-khtml-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	
+	border: #DCDCDC solid 1px;
+	
+	/* Background */
+	background: none;
+	
+	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgb(254,254,254)),
+		color-stop(1, rgb(237,237,237))
+	);
 }
 
 /* #####################################################################
@@ -158,6 +200,55 @@ div.button.active {
 		color-stop(0, rgb(254,254,254)),
 		color-stop(1, rgb(220,220,220))
 	);
+}
+
+.optionsBoxWrapper {
+	width: 195px;
+	margin-top: -3px;
+}
+
+.optionsBoxArrow {
+	padding-left: 13px;
+	margin-bottom: -5px;
+	margin-top: -5px;
+	z-index: 10;
+}
+
+.optionsBox {
+	background-color: #FFFFFF;
+	border: #EFEFEF solid 1px;
+	padding: 5px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
+	-moz-box-shadow: 3px 3px 5px #DCDCDC;
+	box-shadow: 3px 3px 5px #DCDCDC;
+	
+	z-index: 5;
+}
+
+.optionsBox .button,
+.optionsBox .button.button-up-hovering {
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.optionsBox button {
+	margin-right: 5px;
+	margin-bottom: 5px;
+	width: 42px;
+	height: 42px;
+}
+
+.optionsBox button:hover {
+	border: #9999FF 1px solid;
+	background-image: none;
+	background: #EEEEEE;
 }
 
 /* #####################################################################
@@ -283,10 +374,6 @@ div.elemHeadingName{
 }
 
 .subToolBar {
-	/* Position
-	display: block;
-	position: relative;
-	margin-top: -68px;*/
 	margin-left: -6px;
 }
 
@@ -305,11 +392,6 @@ div.elemHeadingName{
 .subToolBarArrow {
 	margin-top: -10px;
 	padding-left: 23px;
-	/*background: url(img/subToolbarArrow.svg) 23px top no-repeat;
-	width: 100px;
-	height: 7px;
-	postion: absolute;
-	bottom: 0px;*/
 }
 
 /* #####################################################################
@@ -329,6 +411,7 @@ div.elemHeadingName{
 
 .inputDialog {
 	padding: 10px;
+	z-index: 50;
 	
 	/* Border */
 	-webkit-border-radius: 5px;
@@ -364,33 +447,6 @@ div.elemHeadingName{
 
 .inputDialog .customKeyPanel button {
 	margin-right: 6px;
-	width: 40px;
-	height: 40px;
-	
-	/* Border */
-	-webkit-border-radius: 5px;
-  	-khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-	
-	border: #DCDCDC solid 1px;
-	
-	/* Background */
-	background: none;
-	
-	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(254,254,254)),
-		color-stop(1, rgb(237,237,237))
-	);
 }
 
 .inputDialog .customKeyPanel button:hover {
@@ -406,5 +462,6 @@ div.elemHeadingName{
 .gwt-PopupPanelGlass {
   background-color: #000;
   opacity: 0.3;
+  z-index: 20;
   filter: alpha(opacity=30);
 }

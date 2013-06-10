@@ -10,13 +10,12 @@ import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Contains the {@link ColorBar}.
  */
-public class ColorBarBackground extends PopupPanel
+public class ColorBarBackground extends OptionsContent
 {
 	// private final AnimationHelper animationHelper;
 	private VerticalPanel contentPanel;
@@ -36,7 +35,8 @@ public class ColorBarBackground extends PopupPanel
 		this.slider.setMinimum(0);
 		this.slider.setMaximum(10);
 		this.slider.setValue(Integer.valueOf((int) (touchModel.getLastAlpha() * 10)));
-		this.slider.setWidth("100%");
+		//this.slider.setWidth("100%");
+		this.slider.setWidth("181px");
 
 		this.slider.addValueChangeHandler(new ValueChangeHandler<Integer>()
 		{
@@ -71,6 +71,7 @@ public class ColorBarBackground extends PopupPanel
 		// TODO implement animationHelper
 		// this.animationHelper = new AnimationHelper();
 		// add(this.animationHelper);
-		this.setWidget(this.contentPanel);
+		//this.setWidget(this.contentPanel);
+		this.add(this.contentPanel);
 	}
 }

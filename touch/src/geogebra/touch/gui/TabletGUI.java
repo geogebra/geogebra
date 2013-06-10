@@ -214,7 +214,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - this.laf.getPanelsHeight());
 			
 			//for Win8 position it on top, for others under appbar
-			this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth()-ALGEBRA_BUTTON_WIDTH, 0);
+			this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth()-ALGEBRA_BUTTON_WIDTH, this.laf.getAppBarHeight());
 			this.algebraViewButton.setStyleName("arrowLeft");
 		}
 		else

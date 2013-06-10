@@ -7,15 +7,15 @@ import geogebra.touch.model.TouchModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * A {@link LyoutPanel} with a {@link ScrollPanel}.
  */
-public class ColorBar extends VerticalPanel
+public class ColorBar extends OptionsContent
 {
-	ScrollPanel scrollPanel;
+	HorizontalPanel contentPanel;
 	protected Colors colors;
 	List<GColor> listOfColors;
 
@@ -26,28 +26,25 @@ public class ColorBar extends VerticalPanel
 	public ColorBar(StylingBar stylingBar, TouchModel touchModel)
 	{
 		this.addStyleName("colorBar");
-
-		this.scrollPanel = new ScrollPanel();
-		
-		//TODO get button height to show
-		this.scrollPanel.setHeight("128px");
+		this.contentPanel = new HorizontalPanel();
 
 		this.listOfColors = new ArrayList<GColor>();
 		initColors();
 		this.colors = new Colors(stylingBar, touchModel);
 		this.colors.drawColorChoice(this.listOfColors);
 
-		this.scrollPanel.add(this.colors);
+		this.contentPanel.add(this.colors);
 
-		initEndlessColorWheel();
+		// TODO: do we need this?
+		//initEndlessColorWheel();
 
-		this.add(this.scrollPanel);
+		this.add(this.contentPanel);
 	}
 
-	private void initEndlessColorWheel()
+	/*private void initEndlessColorWheel()
 	{
 		// TODO make colorwheel endless
-	}
+	}*/
 
 	private void initColors()
 	{

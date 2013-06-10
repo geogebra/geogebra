@@ -46,9 +46,6 @@ public class CustomKeysPanel extends PopupPanel
 			Button b = new Button();
 			b.setText(k.toString());
 
-			// TODO Steffi!
-			//b.setSize("40px", "40px");
-
 			b.addDomHandler(new ClickHandler()
 			{
 

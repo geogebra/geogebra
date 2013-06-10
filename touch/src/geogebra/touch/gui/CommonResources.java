@@ -464,4 +464,8 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/subToolbarArrow.svg")
 	@Validated(validated = false)
 	SVGResource subToolBarArrow();
+	
+	@Source("icons/svg/optionsBoxArrow.svg")
+	@Validated(validated = false)
+	SVGResource optionsBoxArrow();
 }

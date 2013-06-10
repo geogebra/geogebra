@@ -30,7 +30,7 @@ public class StandardImageButton extends PushButton
 
 	public void setActive(boolean active)
 	{
-		this.active = active; 
+		this.active = active;
 	}
 	
 	public boolean isActive()

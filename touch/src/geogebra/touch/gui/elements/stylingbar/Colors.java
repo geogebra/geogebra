@@ -10,11 +10,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * A {@link VerticalPanel} which contains the different color-choices.
  */
-public class Colors extends VerticalPanel
+public class Colors extends FlowPanel
 {
 	StylingBar stylingBar;
 	TouchModel touchModel;
@@ -37,7 +38,8 @@ public class Colors extends VerticalPanel
 	private void addColorButton(final GColor color)
 	{
 		PushButton button = new PushButton();
-		button.setPixelSize(128, 64);
+		button.setStyleName("button");
+		
 		button.getElement().getStyle().setBackgroundImage("initial");
 
 		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));

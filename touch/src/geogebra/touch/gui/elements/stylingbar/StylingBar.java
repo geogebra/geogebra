@@ -104,6 +104,9 @@ public class StylingBar extends DecoratorPanel
 				event.preventDefault(); 
 				
 				if(StylingBar.this.visible){
+					//close all opened options before hiding the stylingbar
+					StylingBar.this.guiModel.closeOptions();
+					
 					StylingBar.this.contentPanel.clear(); 
 					StylingBar.this.contentPanel.add(StylingBar.this.showHide); 
 					StylingBar.this.visible = false; 
@@ -193,7 +196,7 @@ public class StylingBar extends DecoratorPanel
 						else
 						{
 							StylingBar.this.guiModel
-							    .showOption(new CaptionBar(StylingBar.this.touchModel), OptionType.CaptionStyle, StylingBar.this.button[this.index]);
+										.showOption(new OptionsBox(new CaptionBar(StylingBar.this.touchModel)), OptionType.CaptionStyle, StylingBar.this.button[this.index]);
 						}
 					}
 				}, ClickEvent.getType());
@@ -212,7 +215,7 @@ public class StylingBar extends DecoratorPanel
 						}
 						else
 						{
-							StylingBar.this.guiModel.showOption(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this), OptionType.LineStyle, StylingBar.this.button[this.index]);
+							StylingBar.this.guiModel.showOption(new OptionsBox(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this)), OptionType.LineStyle, StylingBar.this.button[this.index]);
 						}
 					}
 				}, ClickEvent.getType());
@@ -237,7 +240,7 @@ public class StylingBar extends DecoratorPanel
 								ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
 								
 								// includes closeOptions()
-								StylingBar.this.guiModel.showOption(colorBar, OptionType.Color, StylingBar.this.button[StylingBar.this.colorButtonIndex]); 
+								StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color, StylingBar.this.button[StylingBar.this.colorButtonIndex]);
 							}
 						}
 					}, ClickEvent.getType());

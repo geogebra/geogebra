@@ -9,20 +9,19 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public class LineStyleBar extends PopupPanel
+public class LineStyleBar extends OptionsContent
 {
 	public static final int SLIDER_MIN = 1; 
 	public static final int SLIDER_MAX = 12; 
 	
-	private VerticalPanel contentPanel;
+	private FlowPanel contentPanel;
 
 	public LineStyleBar(final TouchModel touchModel, final StylingBar stylingBar)
 	{
-		this.addStyleName("StyleBarOptions");
-		this.contentPanel = new VerticalPanel();
+		this.addStyleName("lineStyleBar");
+		this.contentPanel = new FlowPanel();
 
 		Button[] lineStyle = new Button[5];
 
@@ -50,6 +49,7 @@ public class LineStyleBar extends PopupPanel
 		}
 
 		Slider slider = new Slider();
+		slider.setWidth("181px");
 
 		slider.setMinimum(SLIDER_MIN);
 		slider.setMaximum(SLIDER_MAX);
@@ -81,7 +81,7 @@ public class LineStyleBar extends PopupPanel
 		});
 		this.contentPanel.add(slider);
 
-		this.setWidget(this.contentPanel);
+		this.add(this.contentPanel);
 	}
 
 }
