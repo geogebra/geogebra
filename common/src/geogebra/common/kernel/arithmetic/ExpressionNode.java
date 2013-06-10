@@ -1805,6 +1805,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case IS_ELEMENT_OF:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<in/>", leftStr, rightStr);
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append("when(count\\_eq(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")==0,false,true)");
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
@@ -1831,6 +1837,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case IS_SUBSET_OF:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<subset/>", leftStr, rightStr);
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append("when((");
+				sb.append(leftStr);
+				sb.append(") union (");
+				sb.append(rightStr);
+				sb.append(")==(");
+				sb.append(rightStr);
+				// {1,2,3,3} union {} = {1,2,3}
+				sb.append(") union {},true,false");
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
@@ -1843,6 +1858,19 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case IS_SUBSET_OF_STRICT:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<prsubset/>", leftStr, rightStr);
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append("when((");
+				sb.append(leftStr);
+				sb.append(") union (");
+				sb.append(rightStr);
+				sb.append(")==(");
+				sb.append(rightStr);
+				// {1,2,3,3} union {} = {1,2,3}
+				sb.append(") union {} && dim(");
+				sb.append(leftStr);
+				sb.append("union {})<dim(");
+				sb.append(rightStr);
+				sb.append("union {}),true,false");
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
@@ -2783,9 +2811,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						sb.append("))");
 
 					} else {
+						
 						sb.append("(");
 						sb.append(leftStr);
-						sb.append(")^(");
+
+						if (!left.isListValue() || !((ListValue)left).getListElement(0).isListValue()) {
+							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
+							sb.append(").^(");						
+						} else {
+							sb.append(")^(");
+						}
+						
 						sb.append(rightStr);
 						sb.append(")");
 					}
