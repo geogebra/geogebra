@@ -248,13 +248,13 @@ public class GeoGebraCasIntegrationTest {
 	 */
 	@Test
 	public void Assignment_0() {
-		t("a", "a");
-		t("a := 1", "1");
-		t("a", "1");
+		t("testvar", "testvar");
+		t("testvar := 1", "1");
+		t("testvar", "1");
 		
 		// Tidy up
 		try {
-			t("Delete[a]","true");
+			t("Delete[testvar]","true");
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
@@ -1367,18 +1367,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Identity_1() {
-		t("a := 3", "3");
-		t("Identity[a]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
-		t("Delete[a]","true");
-		t("a := 4", "4");
-		t("Identity[a]", "{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}");
-		t("Delete[a]","true");
-		// Tidy up
-		try {
-			executeInCAS("Delete[a]");
-		} catch (Throwable t) {
-			Throwables.propagate(t);
-		}
+		t("dim := 3", "3");
+		t("Identity[dim]", "{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}");
+		t("Delete[dim]","true");
+		t("dim := 4", "4");
+		t("Identity[dim]", "{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}");
+		t("Delete[dim]","true");
 	}
 
 	@Test
