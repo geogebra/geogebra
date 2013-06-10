@@ -1883,6 +1883,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case SET_DIFFERENCE:
 			if (stringType.equals(StringType.MATHML)) {
 				mathml(sb, "<setdiff/>", leftStr, rightStr);
+			} else if (stringType.equals(StringType.GIAC)) {
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append("minus");
+				sb.append(rightStr);
+				sb.append(')');
 			} else {
 				append(sb, leftStr, left, operation, stringType);
 				// sb.append(leftStr);
