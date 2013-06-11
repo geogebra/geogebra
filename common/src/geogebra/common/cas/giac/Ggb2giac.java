@@ -112,8 +112,9 @@ public class Ggb2giac {
 
 		// used in regular mode
 		// Giac doesn't auto-simplify
-		// simplify so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
-		p("Evaluate.1", "normal(%0)");
+		// normal so f(x):=(x^2-1)/(x-1) -> x+1 (consistent with Reduce)
+		// regroup so that r*r^n -> r^(n+1)
+		p("Evaluate.1", "normal(regroup(%0))");
 		//p("Evaluate.1", "%0");
 
 		p("Expand.1",
@@ -354,7 +355,8 @@ public class Ggb2giac {
 		p("SD.1",
 				"normal(stddev(%0))");
 		p("Shuffle.1", "randperm(%0)");
-		p("Simplify.1", "tlin(simplify(%0))");
+		// regroup for r*r^n
+		p("Simplify.1", "tlin(simplify(regroup(%0)))");
 
 		p("Solutions.1",
 				"normal(zeros(%0,ggbtmpvarx))");
