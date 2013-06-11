@@ -12,7 +12,7 @@ PROVERS="Auto Recio Botana AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenG
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=1 # Rewrite Prove[] to ProveDetails
+PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
 
 if [ "$PROVEDETAILS" = 1 ]; then
  # Remove some incorrectly working provers.
