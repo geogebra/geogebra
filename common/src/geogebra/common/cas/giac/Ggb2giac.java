@@ -46,9 +46,10 @@ public class Ggb2giac {
 		p("ChiSquared.2", 
 				//"chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
-		// TODO: ggbtmpvarx
 		p("Coefficients.1",
-				"coeffs(%0)");
+				"when(is_polynomial(%0),"+
+				"coeffs(%0),"+
+				"{})");
 
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
