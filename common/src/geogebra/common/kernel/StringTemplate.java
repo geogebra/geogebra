@@ -1,7 +1,13 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ListValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.Unicode;
@@ -594,7 +600,217 @@ public class StringTemplate {
 	public boolean isMathQuill() {
 		return StringTemplate.latexIsMathQuill;
 	}
-		
+	
+	public String plusString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
+		StringBuilder sb = new StringBuilder();
+		Operation operation = Operation.PLUS;
+		switch (stringType) {
+		case MATHML:
+			ExpressionNode.mathml(sb, "<plus/>", leftStr, rightStr);
+			break;
+		case GIAC:
+			if (left.isListValue() && right.isNumberValue()) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg {1,2,3} + 10
+				sb.append("seq((");
+				sb.append(leftStr);
+				sb.append(")[j]+");
+				sb.append(rightStr);
+				sb.append(",j,0,");
+				sb.append(((ListValue)left).size()-1);
+				sb.append(')');
+
+			} else if (left.isNumberValue() && right.isListValue()) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg 10 + {1,2,3}
+				sb.append("seq((");
+				sb.append(rightStr);
+				sb.append(")[j]+");
+				sb.append(leftStr);
+				sb.append(",j,0,");
+				sb.append(((ListValue)right).size()-1);
+				sb.append(')');
+				
+			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+			} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+				
+				//App.debug(leftStr+" "+left.getClass());
+				//App.debug(rightStr+" "+right.getClass());
+				// eg 10 + (1,2)
+				sb.append("((");
+				sb.append(rightStr);
+				sb.append(")[0]+");
+				sb.append(leftStr);
+				sb.append(",(");
+				sb.append(rightStr);
+				sb.append(")[1]+");
+				sb.append(leftStr);
+				sb.append(')');
+
+			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+			} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg (1,2) + 10
+				sb.append("((");
+				sb.append(leftStr);
+				sb.append(")[0]+");
+				sb.append(rightStr);
+				sb.append(",(");
+				sb.append(leftStr);
+				sb.append(")[1]+");
+				sb.append(rightStr);
+				sb.append(')');
+
+			} else if (left.isNumberValue() && right.isVector3DValue()) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg 10 + (1,2,3)
+				sb.append("((");
+				sb.append(rightStr);
+				sb.append(")[0]+");
+				sb.append(leftStr);
+				sb.append(",(");
+				sb.append(rightStr);
+				sb.append(")[1]+");
+				sb.append(leftStr);
+				sb.append(",(");
+				sb.append(rightStr);
+				sb.append(")[2]+");
+				sb.append(leftStr);
+				sb.append(')');
+
+			} else if (left.isVector3DValue() && right.isNumberValue()) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg (1,2,3) + 10
+				sb.append("((");
+				sb.append(leftStr);
+				sb.append(")[0]+");
+				sb.append(rightStr);
+				sb.append(",(");
+				sb.append(leftStr);
+				sb.append(")[1]+");
+				sb.append(rightStr);
+				sb.append(",(");
+				sb.append(leftStr);
+				sb.append(")[2]+");
+				sb.append(rightStr);
+				sb.append(')');
+
+			} else {
+				//App.debug(left.getClass()+" "+right.getClass());
+
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append(")+(");
+				sb.append(rightStr);
+				sb.append(')');
+			}
+			break;
+
+		case MPREDUCE:
+			sb.append("addition(");
+			sb.append(leftStr);
+			sb.append(',');
+			sb.append(rightStr);
+			sb.append(')');
+			break;
+
+		default:
+			// check for 0
+			if (valueForm) {
+				if (ExpressionNode.isEqualString(left, 0, !valueForm)) {						
+					ExpressionNode.append(sb, rightStr, right, operation, this);
+					break;
+				} else if (ExpressionNode.isEqualString(right, 0, !valueForm)) {
+					ExpressionNode.append(sb, leftStr, left, operation, this);
+					break;
+				}
+			}
+
+			if (left instanceof Equation) {
+				sb.append(leftBracket());
+				sb.append(leftStr);
+				sb.append(rightBracket());
+			} else {
+				sb.append(leftStr);
+			}
+
+			// we need parantheses around right text
+			// if right is not a leaf expression or
+			// it is a leaf GeoElement without a label (i.e. it is
+			// calculated somehow)
+			if (left.isTextValue()
+					&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
+							.isLabelSet()))) {
+				if (stringType.equals(StringType.LATEX)
+						&& tpl.isInsertLineBreaks()) {
+					sb.append(" \\-+ ");
+				} else {
+					sb.append(" + ");
+				}
+				sb.append(leftBracket());
+				sb.append(rightStr);
+				sb.append(rightBracket());
+			} else {
+				if (rightStr.charAt(0) == '-') { // convert + - to -
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-- ");
+					} else {
+						sb.append(" - ");
+					}
+					sb.append(rightStr.substring(1));
+				} else if (rightStr
+						.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+					// convert
+					// +
+					// -
+					// to
+					// -
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-- ");
+					} else {
+						sb.append(" - ");
+					}
+					sb.append(rightStr.substring(3));
+				} else {
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-+ ");
+					} else {
+						sb.append(" + ");
+					}
+					sb.append(rightStr);
+				}
+			}
+			break;
+		}
+		return sb.toString();
+
+	}
+	
+	public String leftBracket() {
+		//return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
+
+		if (stringType.equals(StringType.LATEX))
+			return " \\left( ";
+		else if (stringType.equals(StringType.LIBRE_OFFICE))
+			return " left ( ";
+		else 
+			return "(";
+	}
+
+	public String rightBracket() {
+		//return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
+
+		if (stringType.equals(StringType.LATEX))
+			return " \\right)";
+		else if (stringType.equals(StringType.LIBRE_OFFICE))
+			return " right )";
+		else 
+			return ")";
+	}
 	
 	
 }

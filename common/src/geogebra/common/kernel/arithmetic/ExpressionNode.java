@@ -1385,7 +1385,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								.toValueString(tpl);
 					}
 				}
-				ret = operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
+				ret = operation.buildString(left, right, leftStr, rightStr, !symbolic, tpl);
 			}
 		} finally {
 			// do nothing
@@ -1487,7 +1487,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rightStr = right.toString(tpl);
 			}
 		}
-		return operationToString(left, right, operation,leftStr, rightStr, false, tpl);
+		return operation.buildString(left, right, leftStr, rightStr, false, tpl);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1507,7 +1507,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toValueString(tpl);
 		}
 
-		return operationToString(left, right, operation, leftStr, rightStr, true, tpl);
+		return operation.buildString(left, right, leftStr, rightStr, true, tpl);
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
@@ -1525,7 +1525,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return operationToString(left, right, operation, leftStr, rightStr, true, tpl);
+		return operation.buildString(left, right, leftStr, rightStr, true, tpl);
 	}
 
 	/**
@@ -1564,7 +1564,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 
 		// build latex string
-		ret = operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
+		ret = operation.buildString(left, right, leftStr, rightStr, !symbolic, tpl);
 
 		return checkMathML(ret, tpl);
 	}
@@ -1581,12 +1581,19 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * Returns a string representation of this node. Note: STRING_TYPE is used
-	 * for LaTeX, MathPiper, Jasymca conform output, valueForm is used by
-	 * toValueString(), forLaTeX is used for LaTeX output
-	 * 
+	 * Returns a string representation of a node. 
+	 * @param left left subtree
+	 * @param right right subtree
+	 * @param operation operation
+	 * @param leftStr serialized left subtree
+	 * @param rightStr serialized right subtree
+	 * @param valueForm whether to show value or symbols
+	 * @param tpl string template
+	 * @return string representation of a node.
+	 * @deprecated Use {@link Operation#buildString(ExpressionValue, ExpressionValue, String, String, boolean, StringTemplate)} instead
 	 */
-	final private static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
+	@Deprecated
+	final public static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
 			boolean valueForm, StringTemplate tpl) {
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
@@ -1622,9 +1629,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (left.isLeaf()) {
 					sb.append(leftStr);
 				} else {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 			}
 			break;
@@ -1635,7 +1642,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sor", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				sb.append(' ');
 
 				switch (stringType) {
@@ -1662,7 +1669,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 
 				sb.append(' ');
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1707,7 +1714,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sand", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 
 				sb.append(' ');
 				switch (stringType) {
@@ -1735,7 +1742,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				sb.append(' ');
 
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 			}
 			break;
 
@@ -1746,7 +1753,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				appendOp(sb,"simplies", leftStr, rightStr);
 			} else {
 				if (stringType != StringType.MPREDUCE)
-					append(sb, leftStr, left, operation, stringType);
+					append(sb, leftStr, left, operation, tpl);
 
 				sb.append(' ');
 				switch (stringType) {
@@ -1767,7 +1774,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 
 				if (stringType != StringType.MPREDUCE)
-					append(sb, rightStr, right, operation, stringType);
+					append(sb, rightStr, right, operation, tpl);
 			}
 			break;
 
@@ -1779,10 +1786,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sequal", leftStr, rightStr);
 			}else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				appendEqualSign(sb,tpl);
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1793,10 +1800,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sunequal", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				appendNotEqualSign(sb,tpl);
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1811,7 +1818,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(")==0,false,true)");
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -1828,7 +1835,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(strIS_ELEMENT_OF);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1846,10 +1853,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// {1,2,3,3} union {} = {1,2,3}
 				sb.append(") union {},true,false");
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				appendSubsetSign(sb,tpl);
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1871,10 +1878,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append("union {}),true,false");
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				appendStrictSubsetSign(sb,tpl);
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
@@ -1889,7 +1896,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(')');
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -1907,11 +1914,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				sb.append(' ');
 				if(right.isExpressionNode() && right.wrap().getOperation()==Operation.SET_DIFFERENCE){
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}else{
-					append(sb, rightStr, right, operation, stringType);
+					append(sb, rightStr, right, operation, tpl);
 				}
 				// sb.append(rightStr);
 			}
@@ -1963,10 +1970,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, stringType);
+			append(sb, leftStr, left, operation, tpl);
 			// sb.append(leftStr);
 			appendParallelSign(sb,tpl);
-			append(sb, rightStr, right, operation, stringType);
+			append(sb, rightStr, right, operation, tpl);
 			// sb.append(rightStr);
 			break;
 
@@ -1975,10 +1982,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, stringType);
+			append(sb, leftStr, left, operation, tpl);
 			// sb.append(leftStr);
 			appendPerpSign(sb,tpl);
-			append(sb, rightStr, right, operation, stringType);
+			append(sb, rightStr, right, operation, tpl);
 			// sb.append(rightStr);
 			break;
 
@@ -2000,7 +2007,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 
 			} else {
-				append(sb, leftStr, left, operation, stringType);
+				append(sb, leftStr, left, operation, tpl);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -2017,195 +2024,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(strVECTORPRODUCT);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, stringType);
+				append(sb, rightStr, right, operation, tpl);
 				// sb.append(rightStr);
 			}
 			break;
-
-		case PLUS:
-			switch (stringType) {
-			case MATHML:
-				mathml(sb, "<plus/>", leftStr, rightStr);
-				break;
-			case GIAC:
-				if (left.isListValue() && right.isNumberValue()) {
-					//App.debug(left.getClass()+" "+right.getClass());
-					// eg {1,2,3} + 10
-					sb.append("seq((");
-					sb.append(leftStr);
-					sb.append(")[j]+");
-					sb.append(rightStr);
-					sb.append(",j,0,");
-					sb.append(((ListValue)left).size()-1);
-					sb.append(')');
-
-				} else if (left.isNumberValue() && right.isListValue()) {
-					//App.debug(left.getClass()+" "+right.getClass());
-					// eg 10 + {1,2,3}
-					sb.append("seq((");
-					sb.append(rightStr);
-					sb.append(")[j]+");
-					sb.append(leftStr);
-					sb.append(",j,0,");
-					sb.append(((ListValue)right).size()-1);
-					sb.append(')');
-					
-				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
-					
-					//App.debug(leftStr+" "+left.getClass());
-					//App.debug(rightStr+" "+right.getClass());
-					// eg 10 + (1,2)
-					sb.append("((");
-					sb.append(rightStr);
-					sb.append(")[0]+");
-					sb.append(leftStr);
-					sb.append(",(");
-					sb.append(rightStr);
-					sb.append(")[1]+");
-					sb.append(leftStr);
-					sb.append(')');
-
-				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
-					//App.debug(left.getClass()+" "+right.getClass());
-					// eg (1,2) + 10
-					sb.append("((");
-					sb.append(leftStr);
-					sb.append(")[0]+");
-					sb.append(rightStr);
-					sb.append(",(");
-					sb.append(leftStr);
-					sb.append(")[1]+");
-					sb.append(rightStr);
-					sb.append(')');
-
-				} else if (left.isNumberValue() && right.isVector3DValue()) {
-					//App.debug(left.getClass()+" "+right.getClass());
-					// eg 10 + (1,2,3)
-					sb.append("((");
-					sb.append(rightStr);
-					sb.append(")[0]+");
-					sb.append(leftStr);
-					sb.append(",(");
-					sb.append(rightStr);
-					sb.append(")[1]+");
-					sb.append(leftStr);
-					sb.append(",(");
-					sb.append(rightStr);
-					sb.append(")[2]+");
-					sb.append(leftStr);
-					sb.append(')');
-
-				} else if (left.isVector3DValue() && right.isNumberValue()) {
-					//App.debug(left.getClass()+" "+right.getClass());
-					// eg (1,2,3) + 10
-					sb.append("((");
-					sb.append(leftStr);
-					sb.append(")[0]+");
-					sb.append(rightStr);
-					sb.append(",(");
-					sb.append(leftStr);
-					sb.append(")[1]+");
-					sb.append(rightStr);
-					sb.append(",(");
-					sb.append(leftStr);
-					sb.append(")[2]+");
-					sb.append(rightStr);
-					sb.append(')');
-
-				} else {
-					//App.debug(left.getClass()+" "+right.getClass());
-
-					sb.append('(');
-					sb.append(leftStr);
-					sb.append(")+(");
-					sb.append(rightStr);
-					sb.append(')');
-				}
-				break;
-
-			case MPREDUCE:
-				sb.append("addition(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-
-			default:
-				// check for 0
-				if (valueForm) {
-					if (isEqualString(left, 0, !valueForm)) {						
-						append(sb, rightStr, right, operation, stringType);
-						break;
-					} else if (isEqualString(right, 0, !valueForm)) {
-						append(sb, leftStr, left, operation, stringType);
-						break;
-					}
-				}
-
-				if (left instanceof Equation) {
-					sb.append(leftBracket(stringType));
-					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
-				} else {
-					sb.append(leftStr);
-				}
-
-				// we need parantheses around right text
-				// if right is not a leaf expression or
-				// it is a leaf GeoElement without a label (i.e. it is
-				// calculated somehow)
-				if (left.isTextValue()
-						&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
-								.isLabelSet()))) {
-					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
-						sb.append(" \\-+ ");
-					} else {
-						sb.append(" + ");
-					}
-					sb.append(leftBracket(stringType));
-					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
-				} else {
-					if (rightStr.charAt(0) == '-') { // convert + - to -
-						if (stringType.equals(StringType.LATEX)
-								&& tpl.isInsertLineBreaks()) {
-							sb.append(" \\-- ");
-						} else {
-							sb.append(" - ");
-						}
-						sb.append(rightStr.substring(1));
-					} else if (rightStr
-							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
-						// convert
-						// +
-						// -
-						// to
-						// -
-						if (stringType.equals(StringType.LATEX)
-								&& tpl.isInsertLineBreaks()) {
-							sb.append(" \\-- ");
-						} else {
-							sb.append(" - ");
-						}
-						sb.append(rightStr.substring(3));
-					} else {
-						if (stringType.equals(StringType.LATEX)
-								&& tpl.isInsertLineBreaks()) {
-							sb.append(" \\-+ ");
-						} else {
-							sb.append(" + ");
-						}
-						sb.append(rightStr);
-					}
-				}
-				break;
-			}
-			break;
-
+			
 		case MINUS:
 			switch (stringType) {
 			case MATHML:
@@ -2315,9 +2138,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			default:
 				if (left instanceof Equation) {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				} else {
 					sb.append(leftStr);
 				}
@@ -2373,9 +2196,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					} else {
 						sb.append(" - ");
 					}
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 				break;
 			}
@@ -2390,12 +2213,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			default:
 				// check for 1 at left
 				if (isEqualString(left, 1, !valueForm)) {
-					append(sb, rightStr, right, operation, stringType);
+					append(sb, rightStr, right, operation, tpl);
 					break;
 				}
 				// check for 1 at right
 				else if (isEqualString(right, 1, !valueForm)) {
-					append(sb, leftStr, left, operation, stringType);
+					append(sb, leftStr, left, operation, tpl);
 					break;
 				}
 
@@ -2447,7 +2270,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				// vector * (matrix * vector) needs brackets; always use brackets for internal templates
 				if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 				}
 
 				// left wing
@@ -2463,18 +2286,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
 							// brackets needed for eg Arabic digits
 							sb.append(Unicode.RightToLeftMark);
-							sb.append(leftBracket(stringType));
+							sb.append(tpl.leftBracket());
 							sb.append(leftStr);
-							sb.append(rightBracket(stringType));
+							sb.append(tpl.rightBracket());
 							sb.append(Unicode.RightToLeftMark);
 						} else {
 							sb.append(leftStr);
 						}
 					}
 				} else {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 
 				// right wing
@@ -2569,9 +2392,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						if (rtlMinus) {
 							sb.append(Unicode.RightToLeftMark);
 						}
-						sb.append(leftBracket(stringType));
+						sb.append(tpl.leftBracket());
 						sb.append(rightStr);
-						sb.append(rightBracket(stringType));
+						sb.append(tpl.rightBracket());
 						if (rtlMinus) {
 							sb.append(Unicode.RightToLeftMark);
 						}
@@ -2594,14 +2417,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 							sb.append(multiplicationSpace(stringType));
 						}
 					}
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 				
 				// vector * (matrix * vector) needs brackets; always use brackets for internal templates
 				if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 
 				break;
@@ -2697,11 +2520,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				// left wing
 				// put parantheses around +, -, *
-				append(sb, leftStr, left, Operation.DIVIDE, stringType);
+				append(sb, leftStr, left, Operation.DIVIDE, tpl);
 				sb.append(" / ");
 
 				// right wing
-				append(sb, rightStr, right, Operation.POWER, stringType); // not
+				append(sb, rightStr, right, Operation.POWER, tpl); // not
 				// +,
 				// -,
 				// *,
@@ -2864,9 +2687,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						// e^x
 						sb.append(leftStr);
 					} else {
-						sb.append(leftBracket(stringType));
+						sb.append(tpl.leftBracket());
 						sb.append(leftStr);
-						sb.append(rightBracket(stringType));
+						sb.append(tpl.rightBracket());
 					}
 					break;
 				}
@@ -2883,11 +2706,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 					sb.append('{');
 					if (addParentheses) {
-						sb.append(leftBracket(stringType));
+						sb.append(tpl.leftBracket());
 					}
 					sb.append(rightStr);
 					if (addParentheses) {
-						sb.append(rightBracket(stringType));
+						sb.append(tpl.rightBracket());
 					}
 					sb.append('}');
 					break;
@@ -2990,9 +2813,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						 */
 					} else {
 						sb.append('^');
-						sb.append(leftBracket(stringType));
+						sb.append(tpl.leftBracket());
 						sb.append(rightStr);
-						sb.append(rightBracket(stringType));
+						sb.append(tpl.rightBracket());
 					}
 				}
 			}
@@ -3029,9 +2852,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					// /, ^
 					sb.append(leftStr);
 				} else {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 				sb.append('!');
 				break;
@@ -3129,7 +2952,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 			}
 			break;
 
@@ -3194,7 +3017,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("zeta(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 		case CI:
 			switch (stringType) {
@@ -3217,7 +3040,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("cosIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 		case SI:
 			switch (stringType) {
@@ -3240,7 +3063,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("sinIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 		case EI:
 			switch (stringType) {
@@ -3262,7 +3085,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("expIntegral(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 		case ARBCONST:
 			sb.append("arbconst(");
@@ -3296,11 +3119,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				sb.append("\\mathit{e}^{");
 				if (addParentheses) {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 				}
 				sb.append(leftStr);
 				if (addParentheses) {
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 				sb.append('}');
 				break;
@@ -3364,7 +3187,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 				}
 				sb.append(leftStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 			}
 			break;
 
@@ -3378,17 +3201,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(rightStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 				break;
 			case LIBRE_OFFICE:
 				sb.append("log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(rightStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 				break;
 			case MPREDUCE:
 				sb.append("logb(");
@@ -3426,9 +3249,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\psi_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(rightStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 				break;
 
 
@@ -3462,9 +3285,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			switch (stringType) {
 			case LATEX:
 				sb.append("\\erf");
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(leftStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, left,  "erf");
@@ -3488,9 +3311,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			switch (stringType) {
 			case LATEX:
 				sb.append("\\psi");
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(leftStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, left,  "psi");
@@ -3920,7 +3743,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("round(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case GAMMA:
@@ -3942,7 +3765,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("gamma(");
 			}
 			sb.append(leftStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case GAMMA_INCOMPLETE:
@@ -3971,7 +3794,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case GAMMA_INCOMPLETE_REGULARIZED:
@@ -4002,7 +3825,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(",1");
 			}
 			
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case BETA:
@@ -4026,7 +3849,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case BETA_INCOMPLETE:
@@ -4051,7 +3874,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case BETA_INCOMPLETE_REGULARIZED:
@@ -4085,7 +3908,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(",1");
 			}
 			
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case RANDOM:
@@ -4123,12 +3946,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case LATEX:
 					sb.append(" x \\left( ");
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 					break;
 				case LIBRE_OFFICE:
 					sb.append("func x left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[0]");
@@ -4167,7 +3990,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case LIBRE_OFFICE:
 					sb.append("func y left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[1]");
@@ -4202,7 +4025,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case LIBRE_OFFICE:
 					sb.append("func z left (");
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				case GIAC:
 					sb.append(leftStr);
 					sb.append("[2]");
@@ -4256,9 +4079,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (stringType.equals(StringType.LIBRE_OFFICE))
 						sb.append("func ");
 					sb.append(geo.getLabel(tpl));
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				} else {
 					// inline function: replace function var by right side
 					FunctionVariable var = geo.getFunction()
@@ -4279,24 +4102,24 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				case $VAR_ROW:
 				case $VAR_COL:
 				case $VAR_ROW_COL:
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 					break;
 
 				default:
 					sb.append(leftStr);
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 					break;
 				}
 			} else {
 				// standard case if we get here
 				sb.append(leftStr);
-				sb.append(leftBracket(stringType));
+				sb.append(tpl.leftBracket());
 				sb.append(rightStr);
-				sb.append(rightBracket(stringType));
+				sb.append(tpl.rightBracket());
 			}
 			break;
 
@@ -4329,16 +4152,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					// add brackets, see
 					// http://www.geogebra.org/trac/ticket/1446
 					if (!stringType.equals(StringType.LATEX)) {
-						sb.append(leftBracket(stringType));
+						sb.append(tpl.leftBracket());
 					}
 					sb.append(en.toValueString(tpl));
 					if (!stringType.equals(StringType.LATEX)) {
-						sb.append(rightBracket(stringType));
+						sb.append(tpl.rightBracket());
 					}
 				} else {
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 			} else {
 				// multivariate functions
@@ -4349,7 +4172,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
 				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
-					sb.append(leftBracket(stringType));
+					sb.append(tpl.leftBracket());
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
@@ -4358,7 +4181,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					} else {
 						sb.append(rightStr.substring(1, rightStr.length() - 1));
 					}
-					sb.append(rightBracket(stringType));
+					sb.append(tpl.rightBracket());
 				}
 			}
 			break;
@@ -4371,9 +4194,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				sb.append(leftStr);
 			}
-			sb.append(leftBracket(stringType));
+			sb.append(tpl.leftBracket());
 			sb.append(rightStr);
-			sb.append(rightBracket(stringType));
+			sb.append(tpl.rightBracket());
 			break;
 
 		case DERIVATIVE: // e.g. f''
@@ -4656,7 +4479,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 		*/
 		
-		append(sb, leftStr, left, operation, tpl.getStringType());
+		append(sb, leftStr, left, operation, tpl);
 		
 		
 		switch (op2) {
@@ -4667,7 +4490,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		default: throw new Error("invalid inequality "+op2);
 		}
 		
-		append(sb, rightStr, right, operation, tpl.getStringType());
+		append(sb, rightStr, right, operation, tpl);
 
 		
 		
@@ -4918,7 +4741,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				sb.append(leftStr);
 			}
-			sb.append(rightBracket(tpl.getStringType()));
+			sb.append(tpl.rightBracket());
 		}
 
 	}
@@ -4940,7 +4763,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				|| exp.getOperation().equals(Operation.DIVIDE);
 	}
 
-	private static void mathml(StringBuilder sb, String op, String leftStr,
+	public static void mathml(StringBuilder sb, String op, String leftStr,
 			String rightStr) {
 		mathml(sb, op, "", leftStr, "", "", rightStr, "");
 	}
@@ -5138,28 +4961,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return null;
 	}
 
-	private static String leftBracket(StringType type) {
-		//return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
-
-		if (type.equals(StringType.LATEX))
-			return " \\left( ";
-		else if (type.equals(StringType.LIBRE_OFFICE))
-			return " left ( ";
-		else 
-			return "(";
-	}
-
-	private static String rightBracket(StringType type) {
-		//return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
-
-		if (type.equals(StringType.LATEX))
-			return " \\right)";
-		else if (type.equals(StringType.LIBRE_OFFICE))
-			return " right )";
-		else 
-			return ")";
-	}
-
 	private static String multiplicationSign(StringType type) {
 		switch (type) {
 		case LATEX:
@@ -5241,15 +5042,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * appends a string to sb, brackets are put around it if the order of
 	 * operation dictates
 	 */
-	private static void append(StringBuilder sb, String str,
-			ExpressionValue ev, Operation op, StringType STRING_TYPE) {
+	public static void append(StringBuilder sb, String str,
+			ExpressionValue ev, Operation op, StringTemplate tpl) {
 		if (ev.isLeaf() || (opID(ev) >= op.ordinal()) && 
 				(!chainedBooleanOp(op) || !chainedBooleanOp(ev.wrap().getOperation()))) {
 			sb.append(str);
 		} else {
-			sb.append(leftBracket(STRING_TYPE));
+			sb.append(tpl.leftBracket());
 			sb.append(str);
-			sb.append(rightBracket(STRING_TYPE));
+			sb.append(tpl.rightBracket());
 		}
 
 	}
