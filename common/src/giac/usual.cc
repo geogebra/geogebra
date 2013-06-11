@@ -1058,11 +1058,14 @@ namespace giac {
 #endif
       }
       // sqrt of an exact complex number
-      // sqrt of an exact complex number
       a=re(e,contextptr);b=im(e,contextptr);
       if (is_zero(b,contextptr))
 	return sqrt(a,contextptr);
       gen rho=sqrt(a*a+b*b,contextptr);
+#ifdef EMCC
+      if (rho.type>=_IDNT)
+	rho=evalf(rho,1,contextptr);
+#endif
       gen realpart=normalize_sqrt(sqrt(2*(a+rho),contextptr),contextptr);
       return ratnormal(realpart/2)*(1+cst_i*b/(a+rho));
     }

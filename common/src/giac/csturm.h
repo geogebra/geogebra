@@ -56,7 +56,7 @@ namespace giac {
   // P must have numeric coefficients, in Q[i]
   vecteur complex_roots(const modpoly & P,const gen & a0,const gen & b0,const gen & a1,const gen & b1,bool complexe,double eps);
 
-  vecteur keep_in_rectangle(const vecteur & croots,const gen A0,const gen & B0,const gen & A1,const gen & B1,bool embed,GIAC_CONTEXT);
+  vecteur keep_in_rectangle(const vecteur & croots,const gen A0,const gen & ,const gen & A1,const gen & B1,bool embed,GIAC_CONTEXT);
 
   gen complexroot(const gen & g,bool complexe,GIAC_CONTEXT);
   gen _complexroot(const gen & g,GIAC_CONTEXT);

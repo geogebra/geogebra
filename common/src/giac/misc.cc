@@ -5110,6 +5110,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // Input matrix of adjacency or transition matrix
   // Output a list of strongly connected components
   gen _graph_scc(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (!is_squarematrix(args))
       return gensizeerr(contextptr);
     vector< vector<unsigned> > G,GRAPH_SCC;
@@ -5172,6 +5173,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // -> final probability: starting from each site, probability to end up
   //    in any of the invariant probability state
   gen _markov(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen g;
     double eps(epsilon(contextptr));
     if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
@@ -5303,6 +5305,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // randmarkov([n1,..,np],nt) make a random Markov transition matrix
   // with p recurrent loops of size n1,...,np and nt transient states
   gen _randmarkov(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur v = *args._VECTptr;
@@ -5410,6 +5413,22 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _randmarkov_s []="randmarkov";
   static define_unary_function_eval (__randmarkov,&_randmarkov,_randmarkov_s);
   define_unary_function_ptr5( at_randmarkov ,alias_at_randmarkov,&__randmarkov,0,true);
+
+  gen _is_polynomial(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    vecteur v = gen2vecteur(args);
+    if (v.empty())
+      return gensizeerr(contextptr);
+    if (v.size()==1)
+      v.push_back(ggb_var(args));
+    if (v.size()>2)
+      return gendimerr(contextptr);
+    vecteur lv=lvarxwithinv(v,v[1],contextptr);
+    return lv.size()<2;
+  }
+  static const char _is_polynomial_s []="is_polynomial";
+  static define_unary_function_eval (__is_polynomial,&_is_polynomial,_is_polynomial_s);
+  define_unary_function_ptr5( at_is_polynomial ,alias_at_is_polynomial,&__is_polynomial,0,true);
 
 
 #if 0
