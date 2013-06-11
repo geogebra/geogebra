@@ -2214,7 +2214,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 						if (!left.isListValue() || !((ListValue)left).getListElement(0).isListValue()) {
 							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
-							sb.append(")^(");						
+							sb.append(").^(");						
 						} else {
 							sb.append(")^(");
 						}
