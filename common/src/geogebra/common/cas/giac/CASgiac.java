@@ -471,12 +471,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	protected String postProcess(String s) {
 		
 		String ret = s.trim();
-		
-		if (ret.startsWith("'") && ret.endsWith("'") && ret.length() > 1) {
-			// output from ifactor can be wrapped to stop simplification
-			ret = ret.substring(1,  ret.length() - 1);
+		// output from ifactor can be wrapped to stop simplification
+		// eg js giac output:-('3*5')
+		while (ret.indexOf('\'') > 0) {
+			ret = ret.replace('\'', ' ');
 		}
-		
 		
 		if (ret.startsWith("\"")) {
 			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
