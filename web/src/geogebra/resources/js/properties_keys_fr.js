@@ -2155,7 +2155,7 @@ __GGB__keysVar.fr.plain = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "Descendre",
     "DownloadingA": "T\xe9l\xe9chargement de %0",
-    "DrawAsDropDownList": "Dessiner comme liste d\xe9roulante",
+    "DrawAsDropDownList": "Liste d\xe9roulante",
     "DrawingPad": "Graphique",
     "DrawingPad2": "Graphique 2",
     "DrawingPadA": "Graphique %0",
