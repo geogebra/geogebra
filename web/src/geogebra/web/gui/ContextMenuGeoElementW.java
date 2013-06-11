@@ -163,7 +163,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	}
         	
         	if (geo.isAnimatable()) {  
-        		cbItem = new GCheckBoxMenuItem( app.getPlain("Animating"), new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getPlain("Animating")), new Command() {
 					
 					public void execute() {
 						animationCmd();	
@@ -188,7 +188,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	
         	//  fix object
         	if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {
-        		cbItem = new GCheckBoxMenuItem( app.getPlain("FixObject"), new Command() {
+        		cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
 					
 					public void execute() {
 						fixObjectCmd();
@@ -199,7 +199,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
         	} else if (geo.isGeoNumeric()){
         		final GeoNumeric num = (GeoNumeric)geo;
 				if (num.isSlider()) {   
-					cbItem = new GCheckBoxMenuItem( app.getPlain("FixObject"), new Command() {
+					cbItem = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),  app.getPlain("FixObject")), new Command() {
 						
 						public void execute() {
 							fixObjectNumericCmd(num);
@@ -258,7 +258,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 					//must set emtpy because "not initialized..." error
 				}
 			});
-			cbItem.setCommand(new Command() {
+			cbItem.setScheduledCommand(new Command() {
 				
 				public void execute() {
 					boolean isSelected = (cbItem.getStyleName().indexOf("checked") > -1);
@@ -267,6 +267,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 			});
 			GeoGebraMenubarW.setMenuSelected(cbItem, geo.isPinned());
 			addItem(cbItem);
+			cbItem.addStyleName("mi_with_image");
 		}
     }
 
