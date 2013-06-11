@@ -190,10 +190,21 @@ if [ $CLASSES = 1 ]; then
  mv $COMMONJAVA.temporarily_renamed $COMMONJAVA
  fi
 
-# 6/4. Packaging
+# 6.4 Downloading latest giac version for all available platforms
+cd lib
+for i in javagiac.dll javagiac64.dll libjavagiac.so libjavagiac64.so; do
+ wget -N http://dev.geogebra.org/download/lib/giac/latest/$i
+ BASENAME=`basename $i .dll`
+ BASENAME=`basename $BASENAME .so`
+ zip $BASENAME.jar $i
+ done
+cd ..
+
+# 6/5. Packaging
+
 $ANT ggb-jar-files3D || exit 3
 
-# 6/5. Tidying up on demand
+# 6/6. Tidying up on demand
 BUILDDIR=`cd $WORKDIR/build; pwd`
 if [ $TIDYUP = 1 ]; then
  echo "Tidying up $BUILDDIR"

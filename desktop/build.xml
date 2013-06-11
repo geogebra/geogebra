@@ -78,7 +78,7 @@ office@geogebra.org
 	
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb">
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, ggb-copy-giac">
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
@@ -118,27 +118,27 @@ office@geogebra.org
 
 	<!-- create all jar files -->
 	<target name="ggb-jar-files3D" 
-			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, copy-jogl-natives">
+			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, copy-jogl-natives, ggb-copy-giac">
 	</target>
 
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar"/>
+			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D-jogl2.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
+			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -202,6 +202,10 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
+			<arg value="javagiac.jar"/>
+			<arg value="javagiac64.jar"/>
+			<arg value="libjavagiac.jar"/>
+			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 	
@@ -256,6 +260,15 @@ office@geogebra.org
 		</copy>
 	</target>
 
+	<!-- copies the giac native jars  -->
+	<target name="ggb-copy-giac" depends="clean" description="copy giac jars">
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}/lib"
+				includes="javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar" />
+		</copy>
+	</target>
+
+
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
 	<target name="ggb-jar-index3D" description="create index in geogebra.jar"
 	    depends="ggb-jar-index3D-jogl1, ggb-jar-index3D-jogl2"/>
@@ -280,6 +293,10 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
+			<arg value="javagiac.jar"/>
+			<arg value="javagiac64.jar"/>
+			<arg value="libjavagiac.jar"/>
+			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 	<target name="ggb-jar-index3D-jogl2" description="create index in geogebra.jar (jogl2)" if="usejogl2">
@@ -302,6 +319,10 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
+			<arg value="javagiac.jar"/>
+			<arg value="javagiac64.jar"/>
+			<arg value="libjavagiac.jar"/>
+			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 
