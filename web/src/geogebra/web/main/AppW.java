@@ -14,6 +14,8 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -260,7 +262,23 @@ public class AppW extends AppWeb {
 		//this may only be called after factories are initialized
 		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu();
-
+		//TODO delete following profiling
+				StringBuilder sb = new StringBuilder(1000);
+				long l = System.currentTimeMillis();
+				FunctionVariable fv = new FunctionVariable(this.getKernel());
+				ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv);
+				for(int i = 0;i<100000;i++){
+					sb.append(n.toValueString(StringTemplate.defaultTemplate));
+				}
+				App.debug("Plus node serialized in"+(System.currentTimeMillis() - l));
+				
+				l = System.currentTimeMillis();
+				StringBuilder sbm = new StringBuilder(1000);
+				ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv);
+				for(int i = 0;i<100000;i++){
+					sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
+				}
+				App.debug("Minus node serialized in"+(System.currentTimeMillis() - l));
 	}
 
 	/*************************************************
