@@ -945,7 +945,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					lt.toString(errorTemplate), "^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
 		} else {
-			 App.debug("power: lt :" + lt.getClass()
+			App.printStacktrace("ExpressionNodeEvaluator.handlePower()");
+			 App.debug("Problem in ExpressionNodeEvaluator.handlePower(): lt :" + lt.getClass()
 			 + ", rt: " + rt.getClass());
 			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
 					"^", rt.toString(errorTemplate) };
