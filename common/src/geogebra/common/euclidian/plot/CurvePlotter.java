@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootUtil;
+import geogebra.common.util.Cloner;
 
 public class CurvePlotter {
 	
@@ -151,7 +152,7 @@ public class CurvePlotter {
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
-		eval0 = eval.clone(); 
+		eval0 = Cloner.clone(eval); 
 
 
 		// evaluate for t2
@@ -164,7 +165,7 @@ public class CurvePlotter {
 					labelPoint);
 		}
 		onScreen = view.isOnView(eval);
-		eval1 = eval.clone();
+		eval1 = Cloner.clone(eval);
 
 
 		// first point
@@ -188,7 +189,7 @@ public class CurvePlotter {
 		depthStack[0] = 0;
 
 		onScreenStack[0] = onScreen;
-		posStack[0] = eval1.clone();
+		posStack[0] = Cloner.clone(eval1);
 
 		// slope between (t1, t2)
 		double[] diff = view.getOnScreenDiff(eval0, eval1);
@@ -232,7 +233,7 @@ public class CurvePlotter {
 				dyadicStack[top] = i;
 				depthStack[top] = depth;
 				onScreenStack[top] = onScreen;
-				posStack[top] = eval1.clone();
+				posStack[top] = Cloner.clone(eval1);
 				i = 2 * i - 1;
 				top++;
 				depth++;
@@ -259,7 +260,7 @@ public class CurvePlotter {
 					}
 				}
 
-				eval1 = eval.clone();
+				eval1 = Cloner.clone(eval);
 				diff = view.getOnScreenDiff(eval0, eval1);
 				
 				if (Kernel.isZero(diff[0]) && Kernel.isZero(diff[1])) {
@@ -308,12 +309,12 @@ public class CurvePlotter {
 			} else {
 				// moveTo: remember moveTo position to avoid multiple moveTo
 				// operations
-				move = eval1.clone();
+				move = Cloner.clone(eval1);
 				nextLineToNeedsMoveToFirst = true;
 			}
 
 			// remember last point in general path
-			eval0 = eval1.clone();
+			eval0 = Cloner.clone(eval1);
 			left = t;
 
 			// remember first point on screen for label position
@@ -344,7 +345,7 @@ public class CurvePlotter {
 			onScreen = onScreenStack[top];
 			depth = depthStack[top] + 1; // pop stack and go to right
 			i = dyadicStack[top] * 2;
-			prevDiff = diff.clone();
+			prevDiff = Cloner.clone(diff);
 			diff = view.getOnScreenDiff(eval0, eval1);
 			t = t1 + i * divisors[depth];
 		} while (top != 0); // end of do-while loop for bisection stack
