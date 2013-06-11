@@ -5,7 +5,11 @@ import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.ArrayList;
 
-public abstract class InputDialog {
+/**
+ * Abstract class for input dialogs
+ */
+ public abstract class InputDialog {
+ 
 
 	protected String initString;
 	protected InputHandler inputHandler;
