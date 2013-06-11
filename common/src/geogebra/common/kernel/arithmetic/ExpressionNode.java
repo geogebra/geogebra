@@ -2035,7 +2035,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				mathml(sb, "<minus/>", leftStr, rightStr);
 				break;
 			case GIAC:
-				if (left.isListValue() && right.isNumberValue()) {
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				if (left instanceof ListValue && right instanceof NumberValue) {
 					// eg {1,2,3} - 10
 					sb.append("seq((");
 					sb.append(leftStr);
@@ -2045,7 +2046,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(((ListValue)left).size()-1);
 					sb.append(')');
 
-				} else if (left.isNumberValue() && right.isListValue()) {
+					// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				} else if (left instanceof NumberValue && right instanceof ListValue) {
 					// eg 10 - {1,2,3}
 					sb.append("seq(");
 					sb.append(leftStr);
@@ -2057,7 +2059,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 				
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+					// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
 					// eg 10 - (1,2)
 					sb.append("(");
 					sb.append(leftStr);
@@ -2071,7 +2074,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(")[1])");
 
 				// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+					// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				} else if (left instanceof VectorValue && right instanceof NumberValue && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 					// eg (1,2) - 10
 					sb.append("((");
 					sb.append(leftStr);
@@ -2083,7 +2087,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append("))");
 
-				} else if (left.isNumberValue() && right.isVector3DValue()) {
+					// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				} else if (left instanceof NumberValue && right.isVector3DValue()) {
 					// eg 10 - (1,2,3)
 					sb.append("(");
 					sb.append(leftStr);
@@ -2101,7 +2106,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(")[2])");
 
-				} else if (left.isVector3DValue() && right.isNumberValue()) {
+					// don't use isNumberValue(), isListValue as those lead to an evaluate()
+				} else if (left.isVector3DValue() && right instanceof NumberValue) {
 					// eg (1,2,3) - 10
 					sb.append("((");
 					sb.append(leftStr);
@@ -2645,7 +2651,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 						if (!left.isListValue() || !((ListValue)left).getListElement(0).isListValue()) {
 							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
-							sb.append(").^(");						
+							sb.append(")^(");						
 						} else {
 							sb.append(")^(");
 						}

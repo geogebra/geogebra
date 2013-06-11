@@ -5,8 +5,10 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
@@ -610,7 +612,8 @@ public class StringTemplate {
 			ExpressionNode.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-			if (left.isListValue() && right.isNumberValue()) {
+			// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			if (left instanceof ListValue && right instanceof NumberValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg {1,2,3} + 10
 				sb.append("seq((");
@@ -621,8 +624,9 @@ public class StringTemplate {
 				sb.append(((ListValue)left).size()-1);
 				sb.append(')');
 
-			} else if (left.isNumberValue() && right.isListValue()) {
-				//App.debug(left.getClass()+" "+right.getClass());
+			// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if ((left instanceof NumberValue) && right instanceof ListValue) {
+				App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + {1,2,3}
 				sb.append("seq((");
 				sb.append(rightStr);
@@ -633,7 +637,8 @@ public class StringTemplate {
 				sb.append(')');
 				
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-			} else if (left.isNumberValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
 				
 				//App.debug(leftStr+" "+left.getClass());
 				//App.debug(rightStr+" "+right.getClass());
@@ -649,7 +654,7 @@ public class StringTemplate {
 				sb.append(')');
 
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-			} else if (left instanceof VectorValue && right.isNumberValue() && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+			} else if (left instanceof VectorValue && (right instanceof NumberValue) && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2) + 10
 				sb.append("((");
@@ -662,7 +667,8 @@ public class StringTemplate {
 				sb.append(rightStr);
 				sb.append(')');
 
-			} else if (left.isNumberValue() && right.isVector3DValue()) {
+			// don't use isNumberValue() as that leads to an evaluate()
+			} else if ((left instanceof NumberValue) && right.isVector3DValue()) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + (1,2,3)
 				sb.append("((");
@@ -679,7 +685,8 @@ public class StringTemplate {
 				sb.append(leftStr);
 				sb.append(')');
 
-			} else if (left.isVector3DValue() && right.isNumberValue()) {
+				// don't use isNumberValue() as that leads to an evaluate()
+			} else if (left.isVector3DValue() && right instanceof NumberValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2,3) + 10
 				sb.append("((");
