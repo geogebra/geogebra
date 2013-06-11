@@ -41,8 +41,9 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"if %3=true then binomial_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
-		p("CFactor.1","[with_sqrt(0),[ggbans:=cfactor(%0)],with_sqrt(1),ggbans][3]");
-		p("CFactor.2","[with_sqrt(0),[ggbans:=cfactor(%0,%1)],with_sqrt(1),ggbans][3]");
+		// [ggbans:=%0] first in case something goes wrong, eg  CFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]
+		p("CFactor.1","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans)],with_sqrt(1),ggbans][4]");
+		p("CFactor.2","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],with_sqrt(1),ggbans][4]");
 		p("ChiSquared.2", 
 				//"chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
@@ -125,9 +126,9 @@ public class Ggb2giac {
 		// factor over rationals
 		// add ggbtmpvarx so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
 		p("Factor.1",
-				"[with_sqrt(0),[if type(%0)==DOM_INT then ggbans:=ifactor(%0); else ggbans:=factor(%0,ggbtmpvarx); fi],with_sqrt(1),ggbans][3]");
+				"[with_sqrt(0),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,ggbtmpvarx); fi],with_sqrt(1),ggbans][4]");
 		p("Factor.2",
-				"[with_sqrt(0),[ggbans:=factor(%0,%1)],with_sqrt(1),ggbans][3]");
+				"[with_sqrt(0),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],with_sqrt(1),ggbans][4]");
 
 		// factor over irrationals
 		// might not need with_sqrt() as we're using collect() for Factor.1
@@ -136,7 +137,7 @@ public class Ggb2giac {
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[if type(%0)==DOM_INT then calc_mode(0); ggbans:=ifactors(%0); calc_mode(1); else ggbans:=factors(%0); fi],matrix(dim(ggbans)/2,2,ggbans)][1]");
+				"[[ggbans:=%0],[if type(ggbans)==DOM_INT then calc_mode(0); ggbans:=ifactors(ggbans); calc_mode(1); else ggbans:=factors(ggbans); fi],matrix(dim(ggbans)/2,2,ggbans)][2]");
 		p("FDistribution.3",
 				"fisher_cdf(%0,%1,%2)");
 		// alternative for exact answers
@@ -148,13 +149,13 @@ public class Ggb2giac {
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"[[ggbans:=exponential_regression(%0)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][1]");
+				"[[ggbans:=%0],[ggbans:=exponential_regression(ggbans)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][2]");
 		p("FitLog.1",
-				"[[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][1]");
+				"[[ggbans:=%0],[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][2]");
 		p("FitPoly.2",
 				"normal(evalf(horner(polynomial_regression(%0,%1),ggbtmpvarx)))");
 		p("FitPow.1",
-				"[[ggbans:=power_regression(%0)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][1]");
+				"[[ggbans:=%0],[ggbans:=power_regression(ggbans)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][2]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
@@ -270,9 +271,9 @@ public class Ggb2giac {
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 		p("NSolutions.1",
-				"[[ggbans:=fsolve(%0,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
+				"[[ggbans:=%0],[ggbans:=fsolve(ggbans,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][2]");
 		p("NSolutions.2",
-				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
+				"[[ggbans:=%0],[ggbans:=fsolve(ggbans,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][2]");
 		p("Numerator.1", "numer(%0)");
 		
 		p("Numeric.1",
@@ -345,7 +346,7 @@ public class Ggb2giac {
 		p("Sample.3",
 				"if %2=true then flatten(seq(rand(1,%0),j,1,%1)) else rand(%1,%0) fi");
 		p("SampleVariance.1",
-				" [[ggbans:=%0],normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))][1]");
+				" [[ggbans:=%0],[ggbans:=normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))],ggbans][2]");
 		p("SampleSD.1",
 				"normal(stddevp(%0))");
 		p("Sequence.1", "seq(j,j,1,%0)");
@@ -433,7 +434,7 @@ public class Ggb2giac {
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"([[ggbans:=polar_coordinates(%0)],convert([ggbans[0]" + Unicode.angleSpace + "ggbans[1]],25)])[1]");
+				"([[ggbans:=%0],[ggbans:=polar_coordinates(ggbans)],[ggbans:=convert([ggbans[0]" + Unicode.angleSpace + "ggbans[1]],25)],ggbans])[3]");
 		p("ToPoint.1",
 				"convert(coordinates(%0),25)");
 		p("Transpose.1", "transpose(%0)");
