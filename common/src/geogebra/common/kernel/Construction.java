@@ -1638,7 +1638,7 @@ public class Construction {
 
 		boolean cpara = kernel
 				.isNotifyConstructionProtocolViewAboutAddRemoveActive();
-		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
+//		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
 
 		if (s < step) {
 			//we must go from high to low there as otherwise the CAS cells would 

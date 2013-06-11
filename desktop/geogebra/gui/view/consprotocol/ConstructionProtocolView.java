@@ -106,7 +106,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 	private int dragIndex = -1; // dragged construction index
 	private int dropIndex = -1;
 
-	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
 	public ConstructionProtocolNavigation protNavBar; // navigation bar of
 														// protocol window
 	private ConstructionProtocolView view=this;
@@ -210,13 +209,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		return (AppD)app;
 	}
 
-	public void registerNavigationBar(ConstructionProtocolNavigation nb) {
-		if (!navigationBars.contains(nb)) {
-			navigationBars.add(nb);
-			((ConstructionTableData)data).attachView();
-		}
-	}
-
 	public void unregisterNavigationBar(ConstructionProtocolNavigation nb) {
 		navigationBars.remove(nb);
 		((ConstructionTableData)data).detachView(); // only done if there are no more navigation bars
@@ -315,6 +307,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		cpPanel.setVisible(flag);
 	}
 
+	@Override
 	public void scrollToConstructionStep() {
 		int rowCount = table.getRowCount();
 		if (rowCount == 0)
@@ -884,16 +877,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 		public GeoElement getGeoElement(int row) {
 			return rowList.get(row).getGeo();
-		}
-
-		public void attachView() {
-			if (!isViewAttached) {
-				kernel.attach(this);
-				initView();
-				isViewAttached = true;
-			}
-
-			scrollToConstructionStep();
 		}
 
 		public void detachView() {

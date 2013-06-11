@@ -21,6 +21,7 @@ public class ConstructionProtocolView {
 	public Kernel kernel;
 	protected ConstructionTableData data;
 	protected boolean isViewAttached;
+	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
 	
 	protected class RowData {
 		int rowNumber = -1;
@@ -308,6 +309,17 @@ public class ConstructionProtocolView {
 		return data;
 	}
 
+	public void registerNavigationBar(ConstructionProtocolNavigation nb) {
+		if (!navigationBars.contains(nb)) {
+			navigationBars.add(nb);
+			data.attachView();
+		}
+	}
+
+	public void scrollToConstructionStep(){
+		App.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
+	}
+	
 	public class ConstructionTableData implements View{
 
 		protected ConstructionTableData ctData = this;
@@ -596,6 +608,16 @@ public class ConstructionProtocolView {
 			notifyUpdateCalled = false;
 			updateAll();
 			
+		}
+
+		public void attachView() {
+			if (!isViewAttached) {
+				kernel.attach(this);
+				initView();
+				isViewAttached = true;
+			}
+		
+			scrollToConstructionStep();
 		}
 		
 	}

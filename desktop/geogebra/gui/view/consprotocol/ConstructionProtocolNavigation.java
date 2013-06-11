@@ -226,6 +226,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	 * Updates the texts that show the current construction step and
 	 * the number of construction steps.	
 	 */
+	@Override
 	public void update() {	
 		if (prot != null) {
 			int currentStep = prot.getCurrentStepNumber();

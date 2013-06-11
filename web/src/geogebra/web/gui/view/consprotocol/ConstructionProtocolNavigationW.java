@@ -81,6 +81,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			initGUI(); 
 		}
 		prot = constructionProtocolView;
+		prot.registerNavigationBar(this);
 	}
 
 	@Override

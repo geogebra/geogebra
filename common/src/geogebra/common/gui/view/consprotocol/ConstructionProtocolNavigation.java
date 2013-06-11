@@ -71,5 +71,10 @@ public abstract class ConstructionProtocolNavigation{
 	 */
 	public abstract void setLabels();
 
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
