@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++-3.4 -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -g -c alg_ext.cc -Wall" -*-
+// -*- mode:C++ ; compile-command: "g++ -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -fno-strict-aliasing -g -c alg_ext.cc -Wall" -*-
 #include "giacPCH.h"
 
 /*
@@ -891,11 +891,23 @@ namespace giac {
       gen p=_e2r(gen(makevecteur(P,vecteur(1,x)),_SEQ__VECT),contextptr),n,d,g1,g2;
       if (is_undef(p)) return p;
       fxnd(p,n,d);
-      int n1=csturm_square(n,a,b,g1,contextptr);
+      vecteur nr;
+      int n1;
+#if 0 // replace by 1 if you want to count complex rational root on the edges
+      if (n.type==_POLY && n._POLYptr->dim==1){
+	polynome nrp=*n._POLYptr;
+	nr=crationalroot(nrp,true);
+	n1=csturm_square(nrp,a,b,g1,contextptr);
+      }
+      else
+	n1=csturm_square(n,a,b,g1,contextptr);
+#else
+      n1=csturm_square(n,a,b,g1,contextptr);
+#endif
       int d1=csturm_square(d,a,b,g2,contextptr);
       if (n1==-1 || d1==-1)
 	return gensizeerr(contextptr);
-      return gen(n1)/2+cst_i*gen(d1)/2;
+      return int(nr.size())+gen(n1)/2+cst_i*gen(d1)/2;
     }
     if (s==5 && v[4].type==_INT_)
       return sturmab(P,x,a,b,v[4].val!=0,contextptr);

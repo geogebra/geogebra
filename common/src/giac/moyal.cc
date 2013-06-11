@@ -854,8 +854,11 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     int s=v.size();
-    if (s==3)
+    if (s==3){
+      if (v[2].type==_IDNT)
+	return symbolic(at_binomial_cdf,makesequence(v[0],v[1],v[2]));
       return binomial_cdf(v[0],v[1],0,v[2],contextptr);
+    }
     if (s==4)
       return binomial_cdf(v[0],v[1],v[2],v[3],contextptr);
     return gensizeerr(contextptr);
@@ -2606,6 +2609,22 @@ namespace giac {
     return cdf_static[n-1];
   }
 
+  // set a and b to the boundaries of the support of distrib number nd
+  // truncate infinities to 100 if truncate is true
+  bool distrib_support(int nd,gen & a,gen &b,bool truncate){
+    a=truncate?gnuplot_xmin:minus_inf;
+    b=truncate?gnuplot_xmax:plus_inf;
+    if (nd==2 || nd==3 || nd==4 || nd==9 || nd==10 || nd==14)
+      a=0;
+    if (nd==9)
+      b=1;
+    if (nd==12)
+      a=1;
+    if (nd==2 || nd==3 || nd==4 || nd==12)
+      return false;
+    return true;
+  }
+
   gen _cdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     int nd;
@@ -2648,13 +2667,43 @@ namespace giac {
 	v.push_back(w[j]);
       return _cdf(v,contextptr);
     }
+    bool plot=false;
+    if (w.back()==at_plot || w.back()==at_plotfunc){
+      if (nd==13){
+	gen a=w[1],b=w[2];
+	return _segment(makesequence(a,b+cst_i),contextptr);
+      }
+      w.back()=vx_var;
+      plot=true;
+    }
     if (s==distrib_nargs(nd)+1){
       w.push_back(vx_var);
       ++s;
     }
     if (s!=distrib_nargs(nd)+2)
       return gensizeerr(contextptr);
-    return cdf(nd)(gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT),contextptr);
+    gen res=gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT);
+    res=cdf(nd)(res,contextptr);
+    if (plot){
+      gen a,b;
+      if (distrib_support(nd,a,b,true)) // true if density
+	return _plotfunc(makesequence(res,symb_equal(vx_var,symb_interval(a,b))),contextptr);
+      if (nd==2) // binomial
+	b=w[1];
+      if (a.type!=_INT_ || !is_integral(b) || b.type!=_INT_ || b.val<=0)
+	return gensizeerr(contextptr);
+      int A=a.val,B=b.val;
+      vecteur v;
+      for (int i=A;i<B;++i){
+	gen y=subst(res,vx_var,i,false,contextptr);
+	v.push_back(i+cst_i*y);
+	v.push_back(i+1+cst_i*y);
+      }
+      gen y=subst(res,vx_var,B,false,contextptr);
+      v.push_back(B+cst_i*y);
+      return _polygone_ouvert(gen(v,_SEQ__VECT),contextptr);
+    }
+    return res;
   }
   static const char _cdf_s []="cdf";
   static define_unary_function_eval (__cdf,&_cdf,_cdf_s);
@@ -2681,13 +2730,30 @@ namespace giac {
 	v.push_back(w[j]);
       return _icdf(v,contextptr);
     }
+    bool plot=false;
+    if (w.back()==at_plot || w.back()==at_plotfunc){
+      if (nd==13){
+	gen a=w[1],b=w[2];
+	return _segment(makesequence(cst_i*a,1+cst_i*b),contextptr);
+      }
+      w.back()=vx_var;
+      plot=true;
+    }
     if (s==distrib_nargs(nd)+1){
       w.push_back(vx_var);
       ++s;
     }
     if (s!=distrib_nargs(nd)+2)
       return gensizeerr(contextptr);
-    return icdf(nd)(gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT),contextptr);
+    gen res=gen(vecteur(w.begin()+1,w.end()),_SEQ__VECT);
+    res=icdf(nd)(res,contextptr);
+    if (plot){
+      gen a,b;
+      if (distrib_support(nd,a,b,true)) // true if density
+	return _plotfunc(makesequence(res,symb_equal(vx_var,symb_interval(0,1))),contextptr);
+      return _symetrie(makesequence(_droite(makesequence(0,1+cst_i),contextptr),_cdf(g,contextptr)),contextptr);
+    }
+    return res;
   }
   static const char _icdf_s []="icdf";
   static define_unary_function_eval (__icdf,&_icdf,_icdf_s);

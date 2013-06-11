@@ -7782,19 +7782,19 @@ namespace giac {
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {
-	    if (is_positive(precexpo,contextptr))
-	      vsorted.push_back(pow(precbasis,precexpo,contextptr));
-	    else
+	    if (is_strictly_positive(precexpo,contextptr))
 	      vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
+	    else
+	      vsorted.push_back(pow(precbasis,precexpo,contextptr));
 	    // vsorted.push_back(pow(precbasis,precexpo,contextptr));
 	    precbasis=basis;
 	    precexpo=expo;
 	  }
 	}
-	if (is_positive(precexpo,contextptr))
-	  vsorted.push_back(pow(precbasis,precexpo,contextptr));
-	else
+	if (is_strictly_positive(-precexpo,contextptr))
 	  vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
+	else
+	  vsorted.push_back(pow(precbasis,precexpo,contextptr));
       }
       vecteur res;
       if (hasneg){
@@ -10103,7 +10103,7 @@ namespace giac {
       case _SEQ__VECT:
 	return "NULL";
       case _SET__VECT:
-	if (xcas_mode(contextptr)>0)
+	if (xcas_mode(contextptr)>0 || calc_mode(contextptr)==1)
 	  return "{ }";
 	else
 	  return "%{ %}";

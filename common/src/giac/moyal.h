@@ -218,6 +218,7 @@ namespace giac {
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
   int is_distribution(const gen & args);
   int distrib_nargs(int nd); // number of args for the distribution
+  bool distrib_support(int nd,gen & a,gen &b,bool truncate);
   // icdf and cdf function corresponding to the codes above
   gen icdf(int n);
   gen cdf(int n);

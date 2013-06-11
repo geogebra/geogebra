@@ -14106,10 +14106,10 @@ namespace giac {
       if (a.is_symb_of_sommet(at_equal) ||b.is_symb_of_sommet(at_equal) ){
 	vecteur syst=makevecteur(remove_equal(a),remove_equal(b));
 	vecteur v=lidnt(syst);
-	if (v.size()!=2)
+	if (v.empty() || v.size()>2)
 	  return gensizeerr(contextptr);
 	string v0s=v[0].print(contextptr);
-	if (v0s[v0s.size()-1]!='x')
+	if (v.size()==2 && v0s[v0s.size()-1]!='x')
 	  swapgen(v[0],v[1]);
 #ifndef NO_STDEXCEPT
 	try {

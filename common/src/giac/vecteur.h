@@ -129,6 +129,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_proot ;
   gen symb_pcoeff(const gen & e) ;
   gen _pcoeff(const gen & e,GIAC_CONTEXT);
+  vecteur pcoeff(const vecteur & v);
   extern const unary_function_ptr * const  at_pcoeff ;
   gen symb_peval(const gen & arg1,const gen & arg2) ;
   extern const unary_function_ptr * const  at_peval;

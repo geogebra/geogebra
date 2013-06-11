@@ -1569,11 +1569,14 @@ namespace giac {
     gen var,res;
     if (is_algebraic_program(e,var,res))
       return symbolic(at_program,makesequence(var,0,_pow2exp(res,contextptr)));
-    if ( e._SYMBptr->sommet==at_pow && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2){ 
-      vecteur & v=*e._SYMBptr->feuille._VECTptr;
+    if ( (e._SYMBptr->sommet==at_pow || e._SYMBptr->sommet==at_surd || e._SYMBptr->sommet==at_NTHROOT) && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2){ 
+      vecteur v=*e._SYMBptr->feuille._VECTptr;
+      if (e._SYMBptr->sommet==at_NTHROOT)
+	swapgen(v[0],v[1]);
       if (v[1].type!=_INT_ && v[1].type!=_FRAC){
 	gen tmp=-v[0];
-	gen tmp1=_pow2exp(v[1],contextptr);
+	gen tmp1=(e._SYMBptr->sommet==at_surd || e._SYMBptr->sommet==at_NTHROOT)?inv(v[1],contextptr):v[1];
+	tmp1=_pow2exp(tmp1,contextptr);
 	if (is_strictly_positive(tmp,contextptr))
 	  return exp(tmp1*_pow2exp(ln(tmp,contextptr),contextptr),contextptr)*symb_exp(v[1]*cst_i*cst_pi);
 	else

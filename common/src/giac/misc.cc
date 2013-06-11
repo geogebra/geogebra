@@ -3426,6 +3426,38 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(args,attributs,contextptr);
     args=vecteur(args.begin(),args.begin()+s);
+    int nd;
+    if (s>=1 && (nd=is_distribution(args[0]))){
+      if (args[0].type==_SYMB){
+	vecteur tmp(gen2vecteur(args[0]._SYMBptr->feuille));
+	for (unsigned i=0;i<tmp.size();++i)
+	  args.insert(args.begin()+1+i,tmp[i]); // inefficient ...
+	args[0]=args[0]._SYMBptr->sommet;
+	s+=tmp.size();
+      }
+      gen a,b;
+      if (distrib_support(nd,a,b,true) || s!=distrib_nargs(nd)+1)
+	return gensizeerr(contextptr);
+      args.push_back(vx_var);
+      gen res;
+      if (args[0].type==_FUNC)
+	res=symbolic(*args[0]._FUNCptr,gen(vecteur(args.begin()+1,args.end()),_SEQ__VECT));
+      else
+	res=args[0](gen(vecteur(args.begin()+1,args.end()),_SEQ__VECT),contextptr);
+      if (nd==2) // binomial
+	b=args[1];
+      if (a.type!=_INT_ || !is_integral(b) || b.type!=_INT_ || b.val<=0)
+	return gensizeerr(contextptr);
+      int A=a.val,B=b.val;
+      vecteur v;
+      for (int i=A;i<B;++i){
+	gen y=subst(res,vx_var,i,false,contextptr);
+	vecteur w=makevecteur(i,i+1,i+1+cst_i*y,i+cst_i*y);
+	w.push_back(w.front());
+	v.push_back(pnt_attrib(gen(w,_GROUP__VECT),attributs,contextptr));
+      }
+      return v;
+    }
     if (s>=2){
       if (args[0].type!=_VECT)
 	return gensizeerr(contextptr);
