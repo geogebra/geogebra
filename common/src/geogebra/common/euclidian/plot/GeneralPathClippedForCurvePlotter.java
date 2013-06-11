@@ -7,6 +7,7 @@ import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.util.Cloner;
 
 /**
  * General path clipped with methods for CurvePlotter
@@ -17,7 +18,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 
 	/**
 	 * constructor
-	 * @param view
+	 * @param view Euclidian view
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
 		super(view);
@@ -32,7 +33,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 	}
 	
 	public void drawTo(double[] pos, boolean lineTo) {
-		double[] p = pos.clone();
+		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		drawTo(p[0], p[1], lineTo);
 	}
@@ -77,7 +78,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 
 	public void corner(double[] pos) {
 		
-		double[] p = pos.clone();
+		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		corner(p[0], p[1]);
 	}
@@ -121,7 +122,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 	
 	public void firstPoint(double pos[], Gap moveToAllowed){
 		
-		double[] p = pos.clone();
+		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);	
 		final double x0 = p[0];
 		final double y0 = p[1];
