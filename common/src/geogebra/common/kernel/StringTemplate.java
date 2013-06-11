@@ -9,9 +9,11 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 /**
  * StringTemplate provides a container for all settings we might need
@@ -817,6 +819,478 @@ public class StringTemplate {
 			return " right )";
 		else 
 			return ")";
+	}
+	public String minusString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr, boolean valueForm,
+			StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder(); 
+		switch (stringType) {
+		case MATHML:
+			ExpressionNode.mathml(sb, "<minus/>", leftStr, rightStr);
+			break;
+		case GIAC:
+			// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			if (left instanceof ListValue && right instanceof NumberValue) {
+				// eg {1,2,3} - 10
+				sb.append("seq((");
+				sb.append(leftStr);
+				sb.append(")[j]-(");
+				sb.append(rightStr);
+				sb.append("),j,0,");
+				sb.append(((ListValue)left).size()-1);
+				sb.append(')');
+
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left instanceof NumberValue && right instanceof ListValue) {
+				// eg 10 - {1,2,3}
+				sb.append("seq(");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[j]");
+				sb.append(",j,0,");
+				sb.append(((ListValue)right).size()-1);
+				sb.append(')');
+			
+			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+				// eg 10 - (1,2)
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[0]");
+				sb.append(",");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[1])");
+
+			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left instanceof VectorValue && right instanceof NumberValue && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+				// eg (1,2) - 10
+				sb.append("((");
+				sb.append(leftStr);
+				sb.append(")[0]-(");
+				sb.append(rightStr);
+				sb.append("),(");
+				sb.append(leftStr);
+				sb.append(")[1]-(");
+				sb.append(rightStr);
+				sb.append("))");
+
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left instanceof NumberValue && right.isVector3DValue()) {
+				// eg 10 - (1,2,3)
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[0]");
+				sb.append(",");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[1]");
+				sb.append(",");
+				sb.append(leftStr);
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(")[2])");
+
+				// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if (left.isVector3DValue() && right instanceof NumberValue) {
+				// eg (1,2,3) - 10
+				sb.append("((");
+				sb.append(leftStr);
+				sb.append(")[0]-(");
+				sb.append(rightStr);
+				sb.append("),(");
+				sb.append(leftStr);
+				sb.append(")[1]-(");
+				sb.append(rightStr);
+				sb.append("),(");
+				sb.append(leftStr);
+				sb.append(")[2]-(");
+				sb.append(rightStr);
+				sb.append("))");
+
+
+			} else {
+
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append(")-(");
+				sb.append(rightStr);
+				sb.append(')');
+			}
+			break;
+
+		case MPREDUCE:
+			sb.append("subtraction(");
+			sb.append(leftStr);
+			sb.append(',');
+			sb.append(rightStr);
+			sb.append(')');
+			break;
+
+		default:
+			if (left instanceof Equation) {
+				sb.append(tpl.leftBracket());
+				sb.append(leftStr);
+				sb.append(tpl.rightBracket());
+			} else {
+				sb.append(leftStr);
+			}
+
+			// check for 0 at right
+			if (valueForm
+					&& rightStr
+					.equals(left.getKernel().getLocalization().unicodeZero + "")) {
+				break;
+			}
+
+			if (right.isLeaf()
+					|| (ExpressionNode.opID(right) >= Operation.MULTIPLY.ordinal())) { // not
+				// +,
+				// -
+
+				if (rightStr.charAt(0) == '-') { // convert - - to +
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-+ ");
+					} else {
+						sb.append(" + ");
+					}
+					sb.append(rightStr.substring(1));
+				} else if (rightStr
+						.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+					// convert
+					// -
+					// -
+					// to
+					// +
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-+ ");
+					} else {
+						sb.append(" + ");
+					}
+					sb.append(rightStr.substring(3));
+				} else {
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append(" \\-- ");
+					} else {
+						sb.append(" - ");
+					}
+					sb.append(rightStr);
+				}
+			} else {
+				// fix for changing height in Algebra View plus / minus
+				if (stringType.equals(StringType.LATEX)
+						&& tpl.isInsertLineBreaks()) {
+					sb.append(" \\-- ");
+				} else {
+					sb.append(" - ");
+				}
+				sb.append(tpl.leftBracket());
+				sb.append(rightStr);
+				sb.append(tpl.rightBracket());
+			}
+			break;
+		}
+		return sb.toString();
+	}
+	public String multiplyString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr, boolean valueForm,
+			StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		Operation operation = Operation.MULTIPLY;
+		Localization loc = left.getKernel().getLocalization();
+		switch (stringType) {
+
+		case MATHML:
+			ExpressionNode.mathml(sb, "<times/>", leftStr, rightStr);
+			break;
+		default:
+			// check for 1 at left
+			if (ExpressionNode.isEqualString(left, 1, !valueForm)) {
+				ExpressionNode.append(sb, rightStr, right, operation, tpl);
+				break;
+			}
+			// check for 1 at right
+			else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
+				ExpressionNode.append(sb, leftStr, left, operation, tpl);
+				break;
+			}
+
+			// removed 0 handling due to problems with functions,
+			// e.g 0 * x + 1 becomes 0 + 1 and no longer is a function
+			// // check for 0 at left
+			// else if (valueForm && isEqualString(left, 0, !valueForm)) {
+			// sb.append("0");
+			// break;
+			// }
+			// // check for 0 at right
+			// else if (valueForm && isEqualString(right, 0, !valueForm)) {
+			// sb.append("0");
+			// break;
+			// }
+
+			// check for degree sign or 1degree or degree1 (eg for Arabic)
+			else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
+					.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
+							.charAt(0) == Unicode.degreeChar) && (rightStr
+									.charAt(1) == (loc.unicodeZero + 1)))))
+									|| rightStr.equals(Unicode.degree)) {
+
+				boolean rtl = loc.isRightToLeftDigits(tpl);
+
+				if (rtl) {
+					sb.append(Unicode.degree);
+				}
+
+				if (!left.isLeaf()) {
+					sb.append('('); // needed for eg (a+b)\u00b0
+				}
+				sb.append(leftStr);
+				if (!left.isLeaf()) {
+					sb.append(')'); // needed for eg (a+b)\u00b0
+				}
+
+				if (!rtl) {
+					sb.append(Unicode.degree);
+				}
+
+				break;
+			}
+
+		case LATEX:
+		case LIBRE_OFFICE:
+
+			boolean nounary = true;
+
+			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
+			if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
+				sb.append(tpl.leftBracket());
+			}
+
+			// left wing
+			if (left.isLeaf()
+					|| (ExpressionNode.opID(left) >= Operation.MULTIPLY.ordinal())) { // not
+				// +,
+				// -
+				if (ExpressionNode.isEqualString(left, -1, !valueForm)) { // unary minus
+					nounary = false;
+					sb.append('-');
+				} else {
+					if (leftStr
+							.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
+						// brackets needed for eg Arabic digits
+						sb.append(Unicode.RightToLeftMark);
+						sb.append(tpl.leftBracket());
+						sb.append(leftStr);
+						sb.append(tpl.rightBracket());
+						sb.append(Unicode.RightToLeftMark);
+					} else {
+						sb.append(leftStr);
+					}
+				}
+			} else {
+				sb.append(tpl.leftBracket());
+				sb.append(leftStr);
+				sb.append(tpl.rightBracket());
+			}
+
+			// right wing
+			int opIDright = ExpressionNode.opID(right);
+			if (right.isLeaf()
+					|| (opIDright >= Operation.MULTIPLY.ordinal())) { // not
+				// +,
+				// -
+				boolean showMultiplicationSign = false;
+				boolean multiplicationSpaceNeeded = true;
+				if (nounary) {
+					switch (stringType) {
+					case PGF:
+					case PSTRICKS:
+					case GEOGEBRA_XML:
+					case GIAC:
+						showMultiplicationSign = true;
+						break;
+
+					case LIBRE_OFFICE:
+					case LATEX:
+						// check if we need a multiplication sign, see #414
+						// digit-digit, e.g. 3 * 5
+						// digit-fraction, e.g. 3 * \frac{5}{2}
+						char lastLeft = leftStr
+						.charAt(leftStr.length() - 1);
+						char firstRight = rightStr.charAt(0);
+						showMultiplicationSign =
+								// left is digit or ends with }, e.g. exponent,
+								// fraction
+								(StringUtil.isDigit(lastLeft) || (lastLeft == '}'))
+								&&
+								// right is digit or fraction
+								(StringUtil.isDigit(firstRight) || rightStr
+										.startsWith("\\frac"));
+						break;
+
+					default: // GeoGebra syntax
+						char firstLeft = leftStr.charAt(0);
+						lastLeft = leftStr.charAt(leftStr.length() - 1);
+						firstRight = rightStr.charAt(0);
+						// check if we need a multiplication sign, see #414
+						// digit-digit, e.g. 3 * 5
+						showMultiplicationSign = Character
+								.isDigit(lastLeft)
+								&& (StringUtil.isDigit(firstRight)
+										// 3*E23AB can't be written 3E23AB
+										|| (rightStr.charAt(0) == 'E'));
+						// check if we need a multiplication space:
+						multiplicationSpaceNeeded = showMultiplicationSign;
+						if (!multiplicationSpaceNeeded) {
+							// check if we need a multiplication space:
+							// it's needed except for number * character,
+							// e.g. 23x
+							// need to check start and end for eg A1 * A2
+							boolean leftIsNumber = left.isLeaf()
+									&& (StringUtil.isDigit(firstLeft) || (firstLeft == '-'))
+									&& StringUtil.isDigit(lastLeft);
+
+							// check if we need a multiplication space:
+							// all cases except number * character, e.g. 3x
+							multiplicationSpaceNeeded = showMultiplicationSign
+									|| !(leftIsNumber && !Character
+											.isDigit(firstRight));
+						}
+					}
+
+					if (stringType.equals(StringType.LATEX)
+							&& tpl.isInsertLineBreaks()) {
+						sb.append("\\-");
+					}
+
+					if (showMultiplicationSign) {
+						sb.append(multiplicationSign());
+					} else if (multiplicationSpaceNeeded) {
+						// space instead of multiplication sign
+						sb.append(multiplicationSpace());
+					}
+				}
+
+				boolean rtlMinus;
+				// show parentheses around these cases
+				if (((rtlMinus = rightStr
+						.startsWith(Unicode.RightToLeftUnaryMinusSign)) || (rightStr
+								.charAt(0) == '-')) // 2 (-5) or -(-5)
+								|| (!nounary && !right.isLeaf() && (opIDright <= Operation.DIVIDE
+								.ordinal() // -(x * a) or -(x / a)
+										))
+										|| (showMultiplicationSign && stringType
+												.equals(StringType.GEOGEBRA))) // 3 (5)
+				{
+					if (rtlMinus) {
+						sb.append(Unicode.RightToLeftMark);
+					}
+					sb.append(tpl.leftBracket());
+					sb.append(rightStr);
+					sb.append(tpl.rightBracket());
+					if (rtlMinus) {
+						sb.append(Unicode.RightToLeftMark);
+					}
+				} else {
+					// -1.0 * 5 becomes "-5"
+					sb.append(rightStr);
+				}
+			} else { // right is + or - tree
+				if (nounary) {
+					switch (stringType) {
+					case PGF:
+					case PSTRICKS:
+					case GEOGEBRA_XML:
+					case GIAC:
+						sb.append(multiplicationSign());
+						break;
+
+					default:
+						// space instead of multiplication sign
+						sb.append(multiplicationSpace());
+					}
+				}
+				sb.append(tpl.leftBracket());
+				sb.append(rightStr);
+				sb.append(tpl.rightBracket());
+			}
+			
+			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
+			if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
+				sb.append(tpl.rightBracket());
+			}
+
+			break;
+
+		case MPREDUCE:
+
+			if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(')');
+			} else {
+				sb.append("multiplication(");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append(")");
+				break;
+			}
+			break;
+
+		case GIAC:
+
+			if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
+				sb.append("-(");
+				sb.append(rightStr);
+				sb.append(')');
+			} else {
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(")*(");
+				sb.append(rightStr);
+				sb.append(")");
+				break;
+			}
+			break;
+
+
+		}
+		return sb.toString();
+
+	}
+	
+	private String multiplicationSign() {
+		switch (stringType) {
+		case LATEX:
+			return " \\cdot ";
+
+		case LIBRE_OFFICE:
+			return " cdot ";
+
+		case GEOGEBRA:
+			return " "; // space for multiplication
+
+		default:
+			return " * ";
+		}
+	}
+	
+	private String multiplicationSpace() {
+		// wide space for multiplicatoin space in LaTeX
+		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
 	
 	
