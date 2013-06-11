@@ -1,10 +1,11 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.CurveEvaluable3D;
+import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.CurveMesh;
+import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 /**
  * @author ggb3D
@@ -16,7 +17,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	private CurveMesh mesh;
 	/** handle to the curve */
-	private CurveEvaluable3D curve;
+	private ParametricCurve curve;
 
 	/** current domain for the function on the format {umin, umax} */
 	private double[] domain = new double[2];
@@ -30,13 +31,13 @@ public class DrawCurve3D extends Drawable3DCurves {
 	 * @param curve
 	 *            the 3D curve to draw
 	 */
-	public DrawCurve3D(EuclidianView3D a_view3d, CurveEvaluable3D curve) {
+	public DrawCurve3D(EuclidianView3D a_view3d, ParametricCurve curve) {
 		super(a_view3d, (GeoElement) curve);
 		this.curve = curve;
 
 		updateDomain();
 		updateCullingBox();
-		mesh = new CurveMesh(curve, cullingBox, (float) a_view3d.getScale());
+		mesh = new CurveMesh((GeoCurveCartesian3D) curve, cullingBox, (float) a_view3d.getScale());
 
 	}
 
@@ -82,12 +83,42 @@ public class DrawCurve3D extends Drawable3DCurves {
 	@Override
 	protected boolean updateForItSelf() {
 		
+		/*
+		EuclidianView3D view = getView3D();
+		
+		Renderer renderer = view.getRenderer();
+
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+		brush.start(8);
+		brush.setThickness(getGeoElement().getLineThickness(),(float) view.getScale());		
+		brush.setAffineTexture(0f,0f);
+		
+		double min = curve.getMinParameter();
+		double max = curve.getMaxParameter();
+		if (curve instanceof GeoFunction) {
+			double minView = view.getXmin();
+			double maxView = view.getXmax();
+			if (min < minView)
+				min = minView;
+			if (max > maxView)
+				max = maxView;
+		}
+		
+		App.debug(min+","+max);
+
+		CurvePlotter.plotCurve(curve, min, max, view, brush, false, CurvePlotter.Gap.MOVE_TO);
+
+		setGeometryIndex(brush.end());
+		
+		return true;
+		*/
+		
 		boolean stillNeedsUpdate = true;
 
 
 		if (updateDomain()) {
 			//domain has changed - create a new mesh
-			mesh = new CurveMesh(curve, cullingBox, (float) getView3D().getScale());
+			mesh = new CurveMesh((GeoCurveCartesian3D) curve, cullingBox, (float) getView3D().getScale());
 		} else {
 			//otherwise, update the surface
 			mesh.updateParameters();

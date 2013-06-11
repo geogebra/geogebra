@@ -18,7 +18,7 @@
 -outjars build/temp
 
 # libraries
--libraryjars <java.home>/lib/rt.jar
+-libraryjars ../java150-rt.jar
 -libraryjars lib/build/lib_jsobject.jar
 -libraryjars lib/build/lib_mac_extensions.jar
 -libraryjars ../jogl1/lib/download/jar/jogl.jar

@@ -1,6 +1,7 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
@@ -11,12 +12,15 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
 
@@ -27,7 +31,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		/*GeoCurveCartesian3DInterface,*/ GeoElement3DInterface, Traceable, RotateableND {
+		ParametricCurve, GeoElement3DInterface, Traceable, RotateableND {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -68,6 +72,17 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		return v.normalized();
 
+	}
+
+	public void evaluateCurve(double t, double [] out){
+	 
+		for (int i = 0; i < 3; i++){
+			out[i] = fun[i].evaluate(t);
+		}
+	}
+
+	public double[] newPoint(){
+		return new double[3];
 	}
 
 	public Coords evaluateCurve3D(double t) {
@@ -272,6 +287,53 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		transform(CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords()));
 		
+	}
+
+	
+	
+	
+	
+	
+	
+	public void pointChanged(GeoPointND PI) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void pathChanged(GeoPointND PI) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isOnPath(GeoPointND PI, double eps) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isClosedPath() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public PathMover createPathMover() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RealRootFunction getRealRootFunctionX() {
+		return fun[0];
+	}
+
+	public RealRootFunction getRealRootFunctionY() {
+		return fun[1];
+	}
+
+	public boolean isFunctionInX() {
+		return false;
+	}
+
+	public GeoVec2D evaluateCurve(double t) {
+		return null;
 	}
 	
 

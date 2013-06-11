@@ -1,5 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import geogebra.common.euclidian.plot.PathPlotter;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
@@ -17,7 +19,7 @@ import java.nio.FloatBuffer;
  * @author mathieu
  *
  */
-public class PlotterBrush {
+public class PlotterBrush implements PathPlotter {
 
 	/** thickness for drawing 3D lines*/
 	public static final float LINE3D_THICKNESS = 0.5f;
@@ -985,4 +987,53 @@ public class PlotterBrush {
     public boolean hasTicks(){
     	return ticks && (ticksDistance>0);
     }
+
+    
+    
+    ////////////////////////////////
+    // PATH PLOTTER
+    ////////////////////////////////
+
+	public void drawTo(double[] pos, boolean lineTo) {
+		
+		Coords p = new Coords(0, 0, 0, 1);
+		p.set(pos);
+		
+		//App.debug("\n"+p);
+
+		if (lineTo) {
+			curveTo(p);
+		} else {
+			down(p);
+		}
+	}
+
+
+	public void lineTo(double[] pos){
+		drawTo(pos, true);
+	}
+
+	public void moveTo(double[] pos){
+		drawTo(pos, false);
+	}
+
+
+
+	public void corner() {
+		// TODO Auto-generated method stub
+	}
+
+
+	public void corner(double[] pos) {
+		// TODO Auto-generated method stub
+	}
+
+
+	public void firstPoint(double[] pos, Gap moveToAllowed) {
+		// TODO only Gap.MOVE_TO implemented
+		moveTo(pos);
+		
+	}
+	
+
 }

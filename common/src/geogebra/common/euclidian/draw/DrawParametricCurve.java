@@ -157,8 +157,9 @@ public class DrawParametricCurve extends Drawable {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible,
-					fillCurve ? Gap.CORNER : Gap.MOVE_TO);
+			//TODO use generalized algo
+			//labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? CurvePlotter.Gap.CORNER : CurvePlotter.Gap.MOVE_TO);
+			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? Gap.CORNER : Gap.MOVE_TO);
 		}
 
 		// gp on screen?

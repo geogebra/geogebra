@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D.plots;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
+import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 /**
  * @author Andr� Eriksson
@@ -46,7 +46,7 @@ public class CurveTree {
 	
 	private CurveTreeNode root;
 	private CurveTreeNode start, end;
-	private CurveEvaluable3D curve;
+	private GeoCurveCartesian3D curve;
 	private EuclidianView3D view;
 	private double radius =0;
 	
@@ -55,7 +55,7 @@ public class CurveTree {
 	/**
 	 * @return the curve object for the tree
 	 */
-	public CurveEvaluable3D getCurve() { 
+	public GeoCurveCartesian3D getCurve() { 
 		return curve; 
 	}
 	
@@ -63,7 +63,7 @@ public class CurveTree {
 	 * @param curve	the curve
 	 * @param view
 	 */
-	public CurveTree(CurveEvaluable3D curve, EuclidianView3D view) {
+	public CurveTree(GeoCurveCartesian3D curve, EuclidianView3D view) {
 		double maxParam = curve.getMaxParameter();
 		double minParam = curve.getMinParameter();
 		double diff = maxParam-minParam;
@@ -344,7 +344,7 @@ class CurveTreeNode{
 	private final double diff;
 	
 	private CurveTreeNode[] children;
-	private CurveEvaluable3D curve;
+	private GeoCurveCartesian3D curve;
 
 	/**
 	 * @param pos	
@@ -360,7 +360,7 @@ class CurveTreeNode{
 	 * @param parent 
 	 */
 	CurveTreeNode(Coords pos, double param, double diff, int level, 
-			CurveEvaluable3D curve, CurveTreeNode parent){
+					GeoCurveCartesian3D curve, CurveTreeNode parent){
 		this.pos = pos.copyVector();
 		this.param = param;
 		this.children = new CurveTreeNode[2];

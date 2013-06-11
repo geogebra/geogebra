@@ -40,7 +40,6 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.CurveEvaluable3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
@@ -66,7 +65,7 @@ import java.util.TreeSet;
 public class GeoFunction extends GeoElement implements VarString,
 		Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, LineProperties,
-		RealRootFunction, Dilateable, Transformable, InequalityProperties, CurveEvaluable3D {
+		RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	/** inner function representation */
 	protected Function fun;
@@ -2467,21 +2466,15 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 
-	public Coords evaluateCurve3D(double t) {
-
-		double y = evaluate(t);
-		if (Double.isNaN(y)){
-			return null;
-		}
-
-		return new Coords(t,y,0,1);
-	}
-	
 
 	@Override
 	public boolean hasDrawable3D() {
 		return true;
 	}
 
+	
+	public double[] newPoint(){
+		return new double[2];
+	}
 
 }

@@ -761,4 +761,8 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
+	
+	public double[] newPoint(){
+		return new double[2];
+	}
 }

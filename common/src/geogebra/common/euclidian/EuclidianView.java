@@ -751,6 +751,70 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	/**
+	 * Checks if (real world) coords are on view.
+	 * @param coords coords
+	 * @return true if coords are on view
+	 */
+	public boolean isOnView(double[] coords) {
+		return (coords[0] >= getXmin()) && (coords[0] <= getXmax())
+				&& (coords[1] >= getYmin()) && (coords[1] <= getYmax());
+	}
+	
+	/**
+	 * 
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @return (p2-p1) vector in screen coordinates
+	 */
+	public double[] getOnScreenDiff(double[] p1, double[] p2){
+		double[] ret = new double[2];
+		ret[0] = (p2[0] - p1[0]) * getXscale();
+		ret[1] = (p2[1] - p1[1]) * getYscale();
+		return ret;
+	}
+	
+
+	
+	/**
+	 * Performs a quick test whether the segment p1 to p2 is off
+	 * view.
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @return true if segment is on / close to view
+	 */
+	public boolean isSegmentOffView(double[] p1, double[] p2) {
+		
+		double tolerance = EuclidianStatic.CLIP_DISTANCE / getYscale();
+		
+		// bottom
+		if (Kernel.isGreater(getYmin(), p1[1], tolerance) 
+				&& Kernel.isGreater(getYmin(), p2[1], tolerance) )
+			return true;
+
+		// top
+		if (Kernel.isGreater(p1[1], getYmax(), tolerance) 
+				&& Kernel.isGreater(p2[1], getYmax(), tolerance) )
+			return true;
+		
+		
+		tolerance = EuclidianStatic.CLIP_DISTANCE / getXscale();
+		
+		// left
+		if (Kernel.isGreater(getXmin(), p1[0], tolerance) 
+				&& Kernel.isGreater(getXmin(), p2[0], tolerance) )
+			return true;
+
+		// right
+		if (Kernel.isGreater(p1[0], getXmax(), tolerance) 
+				&& Kernel.isGreater(p2[0], getXmax(), tolerance) )
+			return true;
+
+		
+		// close to screen
+		return false;
+	}
+
+	/**
 	 * convert screen coordinate x to real world coordinate x
 	 * 
 	 * @param x
@@ -2801,9 +2865,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			drawGrid(g);
 		}
 		if (showAxes[0] || showAxes[1]) {
-			long t = System.currentTimeMillis();
+			//long t = System.currentTimeMillis();
 			drawAxes(g);
-			App.debug(System.currentTimeMillis()-t);
+			//App.debug(System.currentTimeMillis()-t);
 		}
 
 		if (getApplication().showResetIcon()

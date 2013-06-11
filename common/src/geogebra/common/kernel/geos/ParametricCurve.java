@@ -52,4 +52,10 @@ public interface ParametricCurve extends Traceable, Path {
 	 * @return true when this is function of x
 	 */
 	boolean isFunctionInX();
+	
+	/**
+	 * create new double[] to store point coords
+	 * @return new double[] with correct dimension
+	 */
+	public double[] newPoint();
 }

@@ -23,7 +23,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 
 	private ArrayList<MyPoint> pathPoints;
 	private geogebra.common.awt.GGeneralPath gp;
-	private EuclidianViewInterfaceSlim view;
+	protected EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
 	private geogebra.common.awt.GRectangle bounds;
