@@ -1082,7 +1082,7 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 			if (createText) {
 				GeoElement[] ret = kernel.getAlgebraProcessor()
 						.processAlgebraCommand(inputValue, false);
-				if (ret != null && ret[0].isTextValue()) {
+				if (ret != null && ret[0] instanceof GeoText) {
 					GeoText t = (GeoText) ret[0];
 					t.setLaTeX(isLaTeX, true);
 

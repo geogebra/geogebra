@@ -195,7 +195,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			double val;
 			for (int i = 0; i < size; i++) {
 				geo = geoList.get(i);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					val = ((NumberValue) geo).getDouble();
 					sumVal += val;
 					sumSquares += val * val;

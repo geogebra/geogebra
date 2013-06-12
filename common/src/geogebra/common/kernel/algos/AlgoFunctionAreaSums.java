@@ -1565,7 +1565,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo.isNumberValue())
+						if (geo instanceof NumberValue)
 							a = (NumberValue) geo;
 						else {
 							sum.setUndefined();
@@ -1582,7 +1582,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				}
 
 				geo = list1.get(N - 1);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					b = (NumberValue) geo;
 				} else {
 					sum.setUndefined();

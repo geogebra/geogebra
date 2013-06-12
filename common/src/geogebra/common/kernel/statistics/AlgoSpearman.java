@@ -136,7 +136,7 @@ public class AlgoSpearman extends AlgoElement {
 			for (int i=0; i < sizeX; i++) {
         		GeoElement geox = geoListX.get(i);
         		GeoElement geoy = geoListY.get(i);
-        		if (geox.isNumberValue() && geoy.isNumberValue()) {
+        		if (geox instanceof NumberValue && geoy instanceof NumberValue) {
         			NumberValue numx = (NumberValue) geox;
         			NumberValue numy = (NumberValue) geoy;
         			valX[i] = numx.getDouble();

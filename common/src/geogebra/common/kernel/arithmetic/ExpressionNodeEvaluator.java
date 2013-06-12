@@ -143,7 +143,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 																// get
 					// first element
 					) && !(rt instanceof VectorValue) // eg {1,2} + (1,2)
-					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
+					&& !(rt instanceof TextValue)) // bugfix "" + {1,2} Michael Borcherds
 											// 2008-06-05
 			{
 				MyList myList = ((ListValue) lt).getMyList();
@@ -209,11 +209,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return new MyBoolean(kernel,
 					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
 							.getBoolean());
-		} else if (lt.isNumberValue() && rt.isNumberValue()) {
+		} else if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			return new MyBoolean(kernel, Kernel.isEqual(
 					((NumberValue) lt).getDouble(),
 					((NumberValue) rt).getDouble()));
-		} else if (lt.isTextValue() && rt.isTextValue()) {
+		} else if (lt instanceof TextValue && rt instanceof TextValue) {
 
 			String strL = ((TextValue) lt).toValueString(tpl);
 			String strR = ((TextValue) rt).toValueString(tpl);
@@ -340,7 +340,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// text concatenation (left)
-		if (lt.isTextValue()) {
+		if (lt instanceof TextValue) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
 				msb.append(rt.toLaTeXString(false, tpl));
@@ -354,7 +354,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			return msb;
 		} // text concatenation (right)
-		else if (rt.isTextValue()) {
+		else if (rt instanceof TextValue) {
 			msb = ((TextValue) rt).getText();
 			if (holdsLaTeXtext) {
 				msb.insert(0, lt.toLaTeXString(false, tpl));
@@ -371,7 +371,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// number * ...
 
 		// boolean * number
-		if (lt.isBooleanValue() && rt.isNumberValue()) {
+		if (lt instanceof BooleanValue && rt instanceof NumberValue) {
 			num = ((NumberValue) rt).getNumber();
 			MyDouble.mult(num, ((BooleanValue) lt).getDouble(), num);
 			return num;
@@ -415,7 +415,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			poly = new Polynomial(kernel, (Polynomial) rt);
 			poly.multiply(lt);
 			return poly;
-		} else if (lt.isTextValue()) {
+		} else if (lt instanceof TextValue) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
 				msb.append(rt.toLaTeXString(false, tpl));
@@ -429,7 +429,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			return msb;
 		} // text concatenation (right)
-		else if (rt.isTextValue()) {
+		else if (rt instanceof TextValue) {
 			msb = ((TextValue) rt).getText();
 			if (holdsLaTeXtext) {
 				msb.insert(0, lt.toLaTeXString(false, tpl));
@@ -538,7 +538,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			return msb;
 		} // text concatenation (right)
-		else if (rt.isTextValue()) {
+		else if (rt instanceof TextValue) {
 			msb = ((TextValue) rt).getText();
 			if (holdsLaTeXtext) {
 				msb.insert(0, lt.toLaTeXString(false, tpl));

@@ -1654,7 +1654,7 @@ public class AlgebraProcessor {
 			return processPointVector(n, eval);
 		else if (eval.isVector3DValue())
 			return processPointVector3D(n, eval);
-		else if (eval.isTextValue())
+		else if (eval instanceof TextValue)
 			return processText(n, eval);
 		else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval);

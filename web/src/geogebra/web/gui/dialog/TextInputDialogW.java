@@ -89,7 +89,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			if (createText) {
 				GeoElement[] ret = kernel.getAlgebraProcessor()
 						.processAlgebraCommand(inputValue, false);
-				if (ret != null && ret[0].isTextValue()) {
+				if (ret != null && ret[0] instanceof GeoText) {
 					GeoText t = (GeoText) ret[0];
 //					t.setLaTeX(isLaTeX, true);
 

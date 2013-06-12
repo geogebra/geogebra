@@ -117,7 +117,7 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
 			GeoElement geo = null;	
 
 			// number result
-			if (element.isNumberValue()) {	
+			if (element instanceof NumberValue) {	
 				double val = ((NumberValue) element).getDouble();    				
 				
 				// try to use cached element of same type

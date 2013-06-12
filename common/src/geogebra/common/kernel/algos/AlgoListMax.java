@@ -94,7 +94,7 @@ public class AlgoListMax extends AlgoElement {
 		if (freqList == null) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					NumberValue num = (NumberValue) geo;
 					maxVal = Math.max(maxVal, num.getDouble());
 				} else {
@@ -114,7 +114,7 @@ public class AlgoListMax extends AlgoElement {
 				GeoElement geo = geoList.get(i);
 				GeoElement freqGeo = freqList.get(i);
 				
-				if (!geo.isNumberValue() || !freqGeo.isNumberValue()) {
+				if (!(geo instanceof NumberValue) || !(freqGeo instanceof NumberValue)) {
 					max.setUndefined();
 					return;
 				}

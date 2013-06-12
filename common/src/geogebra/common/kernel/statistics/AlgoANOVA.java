@@ -114,7 +114,7 @@ public class AlgoANOVA extends AlgoElement {
 
 			for (int i = 0; i < list.size(); i++) {
 				GeoElement geo = list.get(i);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					NumberValue num = (NumberValue) geo;
 					val[i] = num.getDouble();
 				} else {

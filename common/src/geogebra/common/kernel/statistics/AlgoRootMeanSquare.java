@@ -86,7 +86,7 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		// load input value array from  geoList
 		for (int i=0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
-			if (geo.isNumberValue()) {
+			if (geo instanceof NumberValue) {
 				double d = ((NumberValue) geo).getDouble();
 				sum += d*d;	
 			} else {

@@ -136,7 +136,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 				val = new double[size];
 				for (int i=0; i < size; i++) {
 					GeoElement geo = geoList.get(i);
-					if (geo.isNumberValue()) {
+					if (geo instanceof NumberValue) {
 						NumberValue num = (NumberValue) geo;
 						val[i] = num.getDouble();
 

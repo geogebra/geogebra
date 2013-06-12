@@ -80,7 +80,7 @@ public class AlgoGeometricMean extends AlgoElement {
 		// load input value array from geoList
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
-			if (!geo.isNumberValue() || Double.isNaN(resultLog)) {
+			if (!(geo instanceof NumberValue) || Double.isNaN(resultLog)) {
 				result.setUndefined();
 				return;
 			}

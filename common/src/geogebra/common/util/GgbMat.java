@@ -103,7 +103,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < cols; c++) {
 				ExpressionValue geo = MyList.getCell(inputList, c, r);
-				if (!geo.isNumberValue()) {
+				if (!(geo  instanceof NumberValue)) {
 					setIsUndefined(true);
 					return;
 				}

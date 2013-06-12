@@ -106,7 +106,7 @@ public class AlgoMedian extends AlgoElement {
 			// copy inputList into an array
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					NumberValue num = (NumberValue) geo;
 					sortList[i] = num.getDouble();
 				} else {
@@ -139,15 +139,15 @@ public class AlgoMedian extends AlgoElement {
 
 			// check for bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!freqList.get(i).isNumberValue()
-						|| ((GeoNumeric) freqList.get(i)).getDouble() < 0) {
+				if (!(freqList.get(i) instanceof NumberValue)
+						|| ((NumberValue) freqList.get(i)).getDouble() < 0) {
 					median.setUndefined();
 					return;
 				}
 			}	
 			
 			for (int i = 0; i < inputList.size(); i++) {
-				if (!inputList.get(i).isNumberValue()) {
+				if (!(inputList.get(i) instanceof NumberValue)) {
 					median.setUndefined();
 					return;
 				}

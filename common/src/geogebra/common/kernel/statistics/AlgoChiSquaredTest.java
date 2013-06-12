@@ -145,7 +145,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 			for (int i = 0; i < rows; i++) {
 				GeoElement geo = geoList1.get(i);
 				GeoElement geo2 = geoList2.get(i);
-				if (geo.isNumberValue() && geo2.isNumberValue()) {
+				if (geo instanceof NumberValue && geo2 instanceof NumberValue) {
 					observed[i][0] = ((NumberValue) geo).getDouble();
 					expected[i][0] = ((NumberValue) geo2).getDouble();
 				} else {
@@ -167,7 +167,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 					// get observed values
 					GeoElement geo = ((GeoList) geoList1.get(i)).get(j);
-					if (geo.isNumberValue()) {
+					if (geo instanceof NumberValue) {
 						observed[i][j] = ((NumberValue) geo).getDouble();
 					} else {
 						result.setUndefined();

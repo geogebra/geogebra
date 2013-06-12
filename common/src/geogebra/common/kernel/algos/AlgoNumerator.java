@@ -126,7 +126,7 @@ public class AlgoNumerator extends AlgoElement {
 
 			}
 		}
-		else if (ev.isNumberValue()) {
+		else if (ev instanceof NumberValue) {
 
 			if (f instanceof GeoFunction) {
 				// construct function f(x) = 1

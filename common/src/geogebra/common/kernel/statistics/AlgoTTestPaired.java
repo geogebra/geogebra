@@ -119,7 +119,7 @@ public class AlgoTTestPaired extends AlgoElement {
 		for (int i=0; i < size; i++) {
 			geo0 = geoList0.get(i);
 			geo1 = geoList1.get(i);
-			if (geo0.isNumberValue() && geo1.isNumberValue()) {
+			if (geo0 instanceof NumberValue && geo1 instanceof NumberValue) {
 				num0 = (NumberValue) geo0;
 				num1 = (NumberValue) geo1;
 				val0[i] = num0.getDouble();

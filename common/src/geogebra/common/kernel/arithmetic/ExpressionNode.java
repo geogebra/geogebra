@@ -4454,7 +4454,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if (ev1.isNumberValue() && ev2.isNumberValue()) {
 			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
 					((NumberValue) ev2).getDouble(), Kernel.STANDARD_PRECISION);
-		} else if (ev1.isTextValue() && ev2.isTextValue()) {
+		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
 			return ((TextValue) ev1).toValueString(
 					StringTemplate.defaultTemplate).equals(
 							((TextValue) ev2)
@@ -5148,10 +5148,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					setOperation(Operation.CBRT);
 					hit = true;
 				}
-				else if (!rightLeaf.getRight().unwrap().isExpressionNode() && rightLeaf.getRight().isNumberValue() &&
+				else if (!rightLeaf.getRight().unwrap().isExpressionNode() && rightLeaf.getRight() instanceof NumberValue &&
 						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble()) &&
 						((NumberValue)rightLeaf.getRight()).getDouble()<=maxRoot) {
-					App.debug(((NumberValue)rightLeaf.getRight()).getDouble());
 					setOperation(Operation.NROOT);
 					setRight(new MyDouble(kernel,((NumberValue)rightLeaf.getRight()).getDouble()));
 					hit = true;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -142,7 +143,7 @@ public class AlgoSort extends AlgoElement {
     	} else if (geo0.isGeoText()) {
     		sortedSet = new TreeSet(GeoText.getComparator());
     		
-    	} else if (geo0.isNumberValue()) {
+    	} else if (geo0 instanceof NumberValue) {
     		sortedSet = new TreeSet(GeoNumeric.getComparator());
     		
     	} else {

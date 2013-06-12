@@ -80,7 +80,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 		TreeSet<OrderedPair> sortedSet;
 
-		if (geo0.isNumberValue()) {
+		if (geo0 instanceof NumberValue) {
 			sortedSet = new TreeSet<OrderedPair>(getComparator());
 
 		} else {

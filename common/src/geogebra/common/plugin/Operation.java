@@ -61,7 +61,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isBooleanValue()) {
+			if (lt instanceof BooleanValue) {
 				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
 				bool.setValue(!bool.getBoolean());
 				return bool;
@@ -74,7 +74,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isBooleanValue() && rt.isBooleanValue()) {
+			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
 				bool.setValue(bool.getBoolean()
 						|| ((BooleanValue) rt).getBoolean());
@@ -89,7 +89,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isBooleanValue() && rt.isBooleanValue()) {
+			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
 				bool.setValue(bool.getBoolean()
 						&& ((BooleanValue) rt).getBoolean());
@@ -112,7 +112,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isBooleanValue() && rt.isBooleanValue()) {
+			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 				MyBoolean bool = ((BooleanValue) lt).getMyBoolean();
 				bool.setValue(!bool.getBoolean()
 						|| ((BooleanValue) rt).getBoolean());
@@ -141,12 +141,12 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return new MyBoolean(lt.getKernel(), Kernel.isGreater(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
-			if (lt.isTextValue() && rt.isTextValue()) {
+			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(lt.getKernel(), comp < 0);
@@ -159,12 +159,12 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return new MyBoolean(lt.getKernel(), Kernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
-			if (lt.isTextValue() && rt.isTextValue()) {
+			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(lt.getKernel(), comp > 0);
@@ -177,12 +177,12 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return new MyBoolean(lt.getKernel(), Kernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
-			if (lt.isTextValue() && rt.isTextValue()) {
+			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(lt.getKernel(), comp <= 0);
@@ -196,12 +196,12 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return new MyBoolean(lt.getKernel(), Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
-			if (lt.isTextValue() && rt.isTextValue()) {
+			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(lt.getKernel(), comp >= 0);
@@ -425,7 +425,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cos();
 			}
 			return ev.polynomialOrDie(lt, this, "cos(");
@@ -437,7 +437,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sin();
 			}
 			return ev.polynomialOrDie(lt, this, "sin(");
@@ -449,7 +449,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().tan();
 			}
 			return ev.polynomialOrDie(lt, this, "tan(");
@@ -461,7 +461,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().exp();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
@@ -481,7 +481,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
@@ -500,7 +500,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acos();
 			}
 			return ev.polynomialOrDie(lt, this, "acos(");
@@ -512,7 +512,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asin();
 			}
 			return ev.polynomialOrDie(lt, this, "asin(");
@@ -524,7 +524,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan();
 			}
 			return ev.polynomialOrDie(lt, this, "atan(");
@@ -536,7 +536,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atan2((NumberValue) rt)
 						.getNumber();
 			}
@@ -549,7 +549,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = lt.getKernel();
-			if (rt.isNumberValue()) {
+			if (rt instanceof NumberValue) {
 				double n = ((NumberValue) rt).getDouble();
 				MyDouble exp = new MyDouble(kernel, 1 / n);
 
@@ -613,7 +613,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = lt.getKernel();
 			GeoVec2D vec;
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().abs();
 			} else if (lt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
@@ -632,7 +632,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sgn();
 			}
 			return ev.polynomialOrDie(lt, this, "sgn(");
@@ -709,7 +709,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cosh();
 			}
 			return ev.polynomialOrDie(lt, this, "cosh(");
@@ -721,7 +721,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sinh();
 			}
 			return ev.polynomialOrDie(lt, this, "sinh(");
@@ -733,7 +733,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().tanh();
 			}
 			return ev.polynomialOrDie(lt, this, "tanh(");
@@ -745,7 +745,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().acosh();
 			}
 			return ev.polynomialOrDie(lt, this, "acosh(");
@@ -757,7 +757,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().asinh();
 			}
 			return ev.polynomialOrDie(lt, this, "asinh(");
@@ -769,7 +769,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().atanh();
 			}
 			return ev.polynomialOrDie(lt, this, "atanh(");
@@ -781,7 +781,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().csc();
 			}
 			return ev.polynomialOrDie(lt, this, "csc(");
@@ -793,7 +793,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sec();
 			}
 			return ev.polynomialOrDie(lt, this, "sec(");
@@ -805,7 +805,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cot();
 			}
 			return ev.polynomialOrDie(lt, this, "cot(");
@@ -817,7 +817,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().csch();
 			}
 			return ev.polynomialOrDie(lt, this, "csch(");
@@ -829,7 +829,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sech();
 			}
 			return ev.polynomialOrDie(lt, this, "sech(");
@@ -841,7 +841,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().coth();
 			}
 			return ev.polynomialOrDie(lt, this, "coth(");
@@ -853,7 +853,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().floor();
 			}
 			return ev.polynomialOrDie(lt, this, "floor(");
@@ -865,7 +865,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().ceil();
 			}
 			return ev.polynomialOrDie(lt, this, "ceil(");
@@ -877,7 +877,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().factorial();
 			}
 			return ev.polynomialOrDie(lt, this, "", "!");
@@ -889,7 +889,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().round();
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -901,7 +901,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().gamma();
 			}
 			return ev.polynomialOrDie(lt, this, "gamma(");
@@ -912,7 +912,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().gammaIncomplete(
 						(NumberValue) lt);
 			}
@@ -924,7 +924,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber()
 						.gammaIncompleteRegularized((NumberValue) lt);
 			}
@@ -936,7 +936,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().beta((NumberValue) lt);
 			}
 			return ev.illegalArgument(lt, rt, "beta(");
@@ -947,7 +947,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof VectorValue && rt.isNumberValue()) {
+			if (lt instanceof VectorValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().betaIncomplete(
 						(VectorValue) lt);
 			}
@@ -959,7 +959,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof VectorValue && rt.isNumberValue()) {
+			if (lt instanceof VectorValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber()
 						.betaIncompleteRegularized((VectorValue) lt);
 			}
@@ -982,7 +982,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().psi();
 			}
 			return ev.polynomialOrDie(lt, this, "psi(");
@@ -993,7 +993,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().polygamma(
 						(NumberValue) lt);
 			}
@@ -1005,7 +1005,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log10();
 			}
 			return ev.polynomialOrDie(lt, this, "log10(");
@@ -1017,7 +1017,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().log2();
 			}
 			return ev.polynomialOrDie(lt, this, "log2(");
@@ -1029,7 +1029,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isNumberValue()) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) rt).getNumber().log((NumberValue) lt);
 			}
 			return ev.illegalArgument(lt, rt, "log(");
@@ -1040,7 +1040,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cosineIntegral();
 			}
 			return ev.polynomialOrDie(lt, this, "cosIntegral(");
@@ -1052,7 +1052,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sineIntegral();
 			}
 			return ev.polynomialOrDie(lt, this, "sinIntegral(");
@@ -1064,7 +1064,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().expIntegral();
 			}
 			return ev.polynomialOrDie(lt, this, "expIntegral(");
@@ -1076,7 +1076,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cbrt();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
@@ -1100,7 +1100,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
@@ -1125,7 +1125,7 @@ public enum Operation {
 				MyDouble ret = new MyDouble(kernel, GeoVec2D.arg(vec));
 				ret.setAngle();
 				return ret;
-			} else if (lt.isNumberValue()) {
+			} else if (lt instanceof NumberValue) {
 				return new MyDouble(kernel,
 						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
 			}
@@ -1154,7 +1154,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (rt.isNumberValue()) {
+			if (rt instanceof NumberValue) {
 				NumberValue arg = (NumberValue) rt;
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
@@ -1173,7 +1173,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (rt.isNumberValue()) {
+			if (rt instanceof NumberValue) {
 				if (lt instanceof Functional) { // derivative of GeoFunction
 					return ((Functional) lt).getGeoDerivative((int) Math
 							.round(((NumberValue) rt).getDouble()));
@@ -1223,7 +1223,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isBooleanValue()) {
+			if (lt instanceof BooleanValue) {
 				if (((BooleanValue) lt).getBoolean()) {
 					return rt;
 				}
@@ -1239,7 +1239,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof MyNumberPair) {
 				ExpressionValue cond = ((MyNumberPair) lt).getX().evaluate(tpl);
-				if (cond.isBooleanValue()) {
+				if (cond instanceof BooleanValue) {
 					if (((BooleanValue) cond).getBoolean()) {
 						return ((MyNumberPair) lt).getY().evaluate(tpl);
 					}

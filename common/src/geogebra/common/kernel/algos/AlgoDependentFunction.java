@@ -317,7 +317,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 						ExpressionValue evR = (enL.getRight());
 
-						if (evR.isNumberValue()) {
+						if (evR instanceof NumberValue) {
 							NumberValue num = (NumberValue) evR;
 							double val = num.getDouble();
 

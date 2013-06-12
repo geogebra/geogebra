@@ -102,7 +102,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			break;
 
 		case MULTIPLY:
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				// number * 3D vector
 				if (rt.isVector3DValue()) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
