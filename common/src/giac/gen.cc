@@ -7412,7 +7412,7 @@ namespace giac {
 	return new_ref_symbolic(symbolic(at_of,makesequence(*this,i)));
       gen & f=_SYMBptr->feuille;
       // distributions laws: add arguments and reeval
-      if (_SYMBptr->sommet==at_normald || _SYMBptr->sommet==at_binomial || _SYMBptr->sommet==at_poisson || _SYMBptr->sommet==at_student || _SYMBptr->sommet==at_fisher || _SYMBptr->sommet==at_negbinomial || _SYMBptr->sommet==at_cauchy){
+      if (is_distribution(_SYMBptr->sommet)){
 	vecteur args(gen2vecteur(f));
 	if (i.type==_VECT && i.subtype==_SEQ__VECT)
 	  args=mergevecteur(args,*i._VECTptr);
@@ -7782,7 +7782,7 @@ namespace giac {
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {
-	    if (is_strictly_positive(precexpo,contextptr))
+	    if (is_strictly_positive(-precexpo,contextptr))
 	      vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
 	    else
 	      vsorted.push_back(pow(precbasis,precexpo,contextptr));

@@ -935,6 +935,15 @@ namespace giac {
   // evaluate v with v[1] quoted
   vecteur plotpreprocess(const gen & args,GIAC_CONTEXT){
     vecteur v;
+    gen var,res;
+    if (is_algebraic_program(args,var,res))
+      return makevecteur(args,symb_interval(gnuplot_xmin,gnuplot_xmax));
+    int nd;
+    if ( (nd=is_distribution(args)) ){
+      gen a,b;
+      if (distrib_support(nd,a,b,true))
+	return makevecteur(args,symb_interval(a,b));
+    }
     if ((args.type!=_VECT) || (args.subtype!=_SEQ__VECT) )
       v=makevecteur(args,vx_var);
     else {
@@ -7374,7 +7383,8 @@ namespace giac {
   }
   gen _plot(const gen & g,const context * contextptr){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (g.type!=_VECT)
+    gen var,res;
+    if (g.type!=_VECT && !is_algebraic_program(g,var,res) && !is_distribution(g))
       return _plotfunc(g,contextptr);
     vecteur v=plotpreprocess(g,contextptr);
     if (is_undef(v))
@@ -7397,7 +7407,7 @@ namespace giac {
     }
     if (s<1)
       return _plotfunc(g,contextptr);
-    if (g.subtype!=_SEQ__VECT)
+    if (g.type==_VECT && g.subtype!=_SEQ__VECT)
       return plotpoints(v,attributs,contextptr);
     double xmin=gnuplot_xmin,xmax=gnuplot_xmax,ymin=gnuplot_ymin,ymax=gnuplot_ymax,zmin=gnuplot_zmin,zmax=gnuplot_zmax;
     gen xvar=vx_var,yvar=y__IDNT_e;

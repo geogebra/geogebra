@@ -334,10 +334,10 @@ namespace giac {
       if (guess.is_symb_of_sommet(at_interval))
 	return _fsolve(g,contextptr);
       var=var._SYMBptr->feuille._VECTptr->front();
-      return newton(remove_equal(v[0]),var,guess,20,1e-5,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
+      return newton(remove_equal(v[0]),var,guess,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
     }
     else
-      return newton(remove_equal(v[0]),var,undef,20,1e-5,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
+      return newton(remove_equal(v[0]),var,0,NEWTON_DEFAULT_ITERATION,1e-5,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
   }
   static const char _nSolve_s[]="nSolve";
   static define_unary_function_eval (__nSolve,&_nSolve,_nSolve_s);
@@ -475,7 +475,7 @@ namespace giac {
       }
       if (vs>=4 && v[2].type==_INT_ && v[3].type==_INT_){
 	vecteur w(absint(deg)+1,1);
-	if (calc_mode(contextptr)==1){
+	if (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38){
 	  if (v[2]==v[3])
 	    return gensizeerr(contextptr);
 	  for (;;){
@@ -507,8 +507,17 @@ namespace giac {
       }
     }
     vecteur w;
-    w=vranm(absint(deg),f,contextptr);
-    w.insert(w.begin(),1);
+    if (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38){
+      for (int essai=0;essai<1000;++essai){
+	w=vranm(absint(deg)+1,f,contextptr);
+	if (!is_zero(w.front()))
+	  break;
+      }
+    }
+    else {
+      w=vranm(absint(deg),f,contextptr);
+      w.insert(w.begin(),1);
+    }
 #ifdef GIAC_HAS_STO_38
     return w;
 #else

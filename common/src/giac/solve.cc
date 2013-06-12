@@ -1770,19 +1770,25 @@ namespace giac {
     if (var.type!=_VECT){
       if (var.type==_IDNT && g.type!=_IDNT && !lvarx(g,var).empty())
 	return g;
-      else
+      else 
 	return symbolic(at_equal,makesequence(var,g));
     }
     vecteur v=*var._VECTptr;
     if (g.type!=_VECT || g._VECTptr->size()!=v.size())
       return gensizeerr(contextptr);
-    iterateur it=v.begin(),itend=v.end(),jt=g._VECTptr->begin();
-    for (;it!=itend;++it,++jt)
-      *it=symbolic(at_equal,makesequence(*it,*jt));
+    const_iterateur it=v.begin(),itend=v.end(),jt=g._VECTptr->begin();
+    vecteur res;
+    res.reserve(itend-it);
+    for (;it!=itend;++it,++jt){
+      if (
+	  //calc_mode(contextptr)!=1 || 
+	  *it!=*jt)
+	res.push_back(symbolic(at_equal,makesequence(*it,*jt)));
+    }
     if (xcas_mode(contextptr)==3)
-      return symbolic(at_and,v);
+      return symbolic(at_and,res);
     else
-      return v;
+      return res;
   }
 
   static gen quote_inferieur_strict(const gen & g,GIAC_CONTEXT){
