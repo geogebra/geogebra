@@ -269,9 +269,9 @@ public class Ggb2giac {
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 		p("NSolutions.1",
-				"[[ggbans:=%0],[ggbans:=fsolve(ggbans,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][2]");
+				"[[ggbans:=fsolve(%0,ggbtmpvarx)[0]],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("NSolutions.2",
-				"[[ggbans:=%0],[ggbans:=fsolve(ggbans,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][2]");
+				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 		p("Numerator.1", "numer(%0)");
 		
 		p("Numeric.1",
