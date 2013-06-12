@@ -190,7 +190,7 @@ download libs for other architectures than the current one.
 	<target name="giac-windows" if="winnt">
 		<get src="http://dev.geogebra.org/download/lib/giac/201306121000/javagiac.dll" dest="lib/javagiac.dll"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201306121000/javagiac64.dll" dest="lib/javagiac64.dll"
+		<get src="http://dev.geogebra.org/download/lib/giac/201306111700/javagiac64.dll" dest="lib/javagiac64.dll"
 		    usetimestamp="true"/>
 	</target>
 
