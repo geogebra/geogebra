@@ -151,12 +151,17 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			 * java:179)
 			 */
 			try {
+				
+				//We need new html-code for node, if the color of geo changed - see #3275
+				//TODO: it's needn't to change the code all time...
+				setUserObject(node, geo);
+				
 				// it may be enough that clicking selects an item,
 				// we want to avoid every item selected on changing algebra
 				// descriptions
 				// node.setSelected(true);
 				// ensureSelectedItemVisible();
-
+							
 				((RadioButtonTreeItem) node.getWidget()).updateOnNextRepaint();
 				repaint();
 			} catch (Exception e) {
@@ -180,6 +185,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * call repaint() instead.
 	 */
 	public void doRepaint2() {
+		App.debug("doRepaint2");
 		app.getTimerSystem().viewRepainting(this);
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
