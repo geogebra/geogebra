@@ -434,7 +434,7 @@ public class GeoGebraCasIntegrationTest {
 						.getVarOrderingNumber("ggbtmpvarb")
 				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarc")) {
-			expectedResult.append("(a * x^(2) * a + x * b + c) / a = 0");
+			expectedResult.append("(a * x^(2) + x * b + c) / a = 0");
 		} else {
 			fail("Expected result for this variable ordering not defined yet.");
 		}
