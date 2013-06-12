@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
@@ -110,6 +111,9 @@ public class CommandDispatcherGiac {
 		
 		/** symbolic sum */
 		sum(Operation.SUM),
+		
+		/** polar coordinate */
+		ggb_ang(Operation.NO_OPERATION),
 
 		/** poly1, occurs for bad syntax eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))  */
 		poly1(Operation.NO_OPERATION),
@@ -222,6 +226,12 @@ public class CommandDispatcherGiac {
 							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
 				}
 				break;
+				
+			case ggb_ang:	
+				ret = new MyVecNode(kernel);                         
+				((MyVecNode)ret).setPolarCoords(args.getItem(0), args.getItem(1));     
+				break;
+				
 			case igamma:	
 				if (args.getLength() == 2) {
 					ret = new ExpressionNode(kernel,
