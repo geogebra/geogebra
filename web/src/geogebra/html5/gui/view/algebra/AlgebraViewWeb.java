@@ -185,7 +185,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * call repaint() instead.
 	 */
 	public void doRepaint2() {
-		App.debug("doRepaint2");
 		app.getTimerSystem().viewRepainting(this);
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
