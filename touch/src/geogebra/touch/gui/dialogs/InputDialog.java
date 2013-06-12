@@ -6,6 +6,7 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
+import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -13,6 +14,8 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -54,13 +57,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.setGlassEnabled(true);
 		this.app = app;
 		this.type = type;
-		
-		//this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
+
+		// this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
 		this.laf = gui.getLAF();
 		onResize(null);
-		
-		
-		
+
 		this.setStyleName("inputDialog");
 
 		init();
@@ -74,17 +75,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		addTextBox();
-		//addButtonContainer();
+		// addButtonContainer();
 		this.add(this.dialogPanel);
 	}
 
 	private void addTextBox()
 	{
-		this.textBox.addKeyUpHandler(new KeyUpHandler()
+		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
 
 			@Override
-			public void onKeyUp(KeyUpEvent event)
+			public void onKeyDown(KeyDownEvent event)
 			{
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
@@ -118,43 +119,34 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.textBox.setFocus(true);
 	}
 
-	/*private void addButtonContainer()
-	{
-		addCancelButton();
-		addOKButton();
+	/*
+	 * private void addButtonContainer() { addCancelButton(); addOKButton();
+	 * 
+	 * this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+	 * this.dialogPanel.add(this.buttonContainer); }
+	 */
 
-		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.dialogPanel.add(this.buttonContainer);
-	}*/
+	/*
+	 * private void addOKButton() { this.okButton.addDomHandler(new ClickHandler()
+	 * {
+	 * 
+	 * @Override public void onClick(ClickEvent event) { InputDialog.this.onOK();
+	 * } }, ClickEvent.getType());
+	 * 
+	 * this.buttonContainer.add(this.okButton); }
+	 */
 
-	/*private void addOKButton()
-	{
-		this.okButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				InputDialog.this.onOK();
-			}
-		}, ClickEvent.getType());
-
-		this.buttonContainer.add(this.okButton);
-	}*/
-
-	/*private void addCancelButton()
-	{
-		this.cancelButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				InputDialog.this.onCancel();
-			}
-
-		}, ClickEvent.getType());
-
-		this.buttonContainer.add(this.cancelButton);
-	}*/
+	/*
+	 * private void addCancelButton() { this.cancelButton.addDomHandler(new
+	 * ClickHandler() {
+	 * 
+	 * @Override public void onClick(ClickEvent event) {
+	 * InputDialog.this.onCancel(); }
+	 * 
+	 * }, ClickEvent.getType());
+	 * 
+	 * this.buttonContainer.add(this.cancelButton); }
+	 */
 
 	protected void onOK()
 	{
@@ -172,12 +164,12 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void show()
 	{
 		super.show();
-		//super.center();
+		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
 		this.textBox.setFocus(true);
 
-		//this.customKeys.showRelativeTo(this);
+		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.dialogPanel.add(this.customKeys);
 		this.textBox.setFocus(true);
@@ -222,7 +214,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		}
 	}
 
-
 	@Override
 	public void onCustomKeyPressed(CustomKey c)
 	{
@@ -230,8 +221,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	}
 
 	@Override
-	public void onResize(ResizeEvent e) {
-		this.setPopupPosition((Window.getClientWidth()/2 - 353), this.laf.getAppBarHeight());
-		
+	public void onResize(ResizeEvent e)
+	{
+		this.setPopupPosition((Window.getClientWidth() / 2 - 353), this.laf.getAppBarHeight());
+
 	}
 }
