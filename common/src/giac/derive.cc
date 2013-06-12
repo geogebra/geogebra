@@ -141,9 +141,10 @@ namespace giac {
       gen dbase=derive(base,i,contextptr),dexponent=derive(exponent,i,contextptr);
       // diff(base^exponent)=diff(exp(exponent*ln(base)))
       // =base^exponent*diff(exponent)*ln(base)+base^(exponent-1)*exponent*diff(base)
+      gen expm1=exponent+gen(-1);
       if (is_zero(dexponent))
-	return exponent*dbase*pow(base,exponent-1,contextptr);
-      return dexponent*ln(base,contextptr)*s+exponent*dbase*pow(base,exponent-1,contextptr);
+	return exponent*dbase*pow(base,expm1,contextptr);
+      return dexponent*ln(base,contextptr)*s+exponent*dbase*pow(base,expm1,contextptr);
     }
     if (s.sommet==at_inv){
       if (s.feuille.is_symb_of_sommet(at_pow)){

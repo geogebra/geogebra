@@ -4268,7 +4268,10 @@ namespace giac {
 	return new_ref_symbolic(symbolic(at_plus,makesequence(a,b)));
     }
     if (a.type==_SYMB){
-      if (b==plus_one && a._SYMBptr->sommet==at_plus && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()>1 && a._SYMBptr->feuille._VECTptr->back()==minus_one){
+      if ( a._SYMBptr->sommet==at_plus && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()>1 && 
+	   ( (b==plus_one && a._SYMBptr->feuille._VECTptr->back()==minus_one) || (b==minus_one && a._SYMBptr->feuille._VECTptr->back()==plus_one) ) 
+	   ) 
+	{
 	vecteur v=*a._SYMBptr->feuille._VECTptr;
 	v.pop_back();
 	if (v.size()==1)
@@ -7782,19 +7785,23 @@ namespace giac {
 	  if (basis==precbasis)
 	    precexpo=precexpo+expo;
 	  else {
-	    if (is_strictly_positive(-precexpo,contextptr))
-	      vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
-	    else
-	      vsorted.push_back(pow(precbasis,precexpo,contextptr));
-	    // vsorted.push_back(pow(precbasis,precexpo,contextptr));
+	    if (!is_zero(precexpo)){
+	      if (is_strictly_positive(-precexpo,contextptr))
+		vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
+	      else
+		vsorted.push_back(pow(precbasis,precexpo,contextptr));
+	    }
+	      // vsorted.push_back(pow(precbasis,precexpo,contextptr));
 	    precbasis=basis;
 	    precexpo=expo;
 	  }
 	}
-	if (is_strictly_positive(-precexpo,contextptr))
-	  vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
-	else
-	  vsorted.push_back(pow(precbasis,precexpo,contextptr));
+	if (!is_zero(precexpo)){
+	  if (is_strictly_positive(-precexpo,contextptr))
+	    vsorted.push_back(inv(pow(precbasis,-precexpo,contextptr),contextptr));
+	  else
+	    vsorted.push_back(pow(precbasis,precexpo,contextptr));
+	}
       }
       vecteur res;
       if (hasneg){
