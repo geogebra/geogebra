@@ -324,7 +324,7 @@ public class MyList extends ValidExpression implements ListValue,
 		}
 
 		// expression value is list
-		MyList valueList = value.isListValue() ? ((ListValue) value)
+		MyList valueList = value instanceof ListValue ? ((ListValue) value)
 				.getMyList() : null;
 
 		// Michael Borcherds 2008-04-14 BEGIN
@@ -523,7 +523,7 @@ public class MyList extends ValidExpression implements ListValue,
 				return false;
 			}
 
-			if (singleValue.isListValue()) {
+			if (singleValue instanceof ListValue) {
 				LHcols = ((ListValue) singleValue).getMyList().size();
 				// Application.debug("LHrows"+LHrows);
 				if (LHrows > 1)
@@ -575,7 +575,7 @@ public class MyList extends ValidExpression implements ListValue,
 	 */
 	public static ExpressionValue getCell(MyList list, int row, int col) {
 		ExpressionValue singleValue = list.getListElement(col).evaluate(StringTemplate.defaultTemplate);
-		if (singleValue.isListValue()) {
+		if (singleValue instanceof ListValue) {
 			ExpressionValue ret = (((ListValue) singleValue).getMyList()
 					.getListElement(row)).evaluate(StringTemplate.defaultTemplate);
 			// if (ret.isListValue()) Application.debug("isList*********");

@@ -80,10 +80,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	private static ExpressionValue handleSpecial(ExpressionValue lt,
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			Operation operation, StringTemplate tpl) {
-		if (lt.isListValue()) {
+		if (lt instanceof ListValue) {
 			if ((operation == Operation.MULTIPLY)) {
 
-				if (rt.isVectorValue()) {
+				if (rt instanceof VectorValue) {
 					MyList myList = ((ListValue) lt).getMyList();
 					boolean isMatrix = myList.isMatrix();
 					int rows = myList.getMatrixRows();
@@ -116,7 +116,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 
 			} else if ((operation == Operation.VECTORPRODUCT)
-					&& rt.isListValue()) {
+					&& rt instanceof ListValue) {
 
 				MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
 				MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
@@ -142,7 +142,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					) && (operation != Operation.IS_ELEMENT_OF // list1(1) to
 																// get
 					// first element
-					) && !rt.isVectorValue() // eg {1,2} + (1,2)
+					) && !(rt instanceof VectorValue) // eg {1,2} + (1,2)
 					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
 											// 2008-06-05
 			{
@@ -151,7 +151,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				myList.applyRight(operation, rt, tpl);
 				return myList;
 			}
-		} else if (rt.isListValue()
+		} else if (rt instanceof ListValue
 				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
 				// EQUAL_BOOLEAN
 				// Michael
@@ -224,7 +224,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 
 			return new MyBoolean(kernel, strL.equals(strR));
-		} else if (lt.isListValue() && rt.isListValue()) {
+		} else if (lt instanceof ListValue && rt instanceof ListValue) {
 
 			MyList list1 = ((ListValue) lt).getMyList();
 			MyList list2 = ((ListValue) rt).getMyList();
@@ -249,7 +249,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			GeoElement geo2 = (GeoElement) rt;
 
 			return new MyBoolean(kernel, geo1.isEqual(geo2));
-		} else if (lt.isVectorValue() && rt.isVectorValue()) {
+		} else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			VectorValue vec1 = (VectorValue) lt;
 			VectorValue vec2 = (VectorValue) rt;
 			return new MyBoolean(kernel, vec1.getVector().isEqual(
@@ -271,7 +271,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleXcoord(ExpressionValue arg,Operation op) {
 		Kernel kernel = arg.getKernel();
-		if (arg.isVectorValue()) {
+		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getX());
 		} else if (arg.isVector3DValue()) {
 			return new MyDouble(kernel,
@@ -292,7 +292,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		Kernel kernel = arg.getKernel();
 
 		// y(vector)
-		if (arg.isVectorValue()) {
+		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getY());
 		} else if (arg.isVector3DValue()) {
 			return new MyDouble(kernel,
@@ -331,7 +331,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return num;
 			}
 			// number * vector
-			else if (rt.isVectorValue()) {
+			else if (rt instanceof VectorValue) {
 				vec = ((VectorValue) rt).getVector();
 				GeoVec2D.mult(vec, ((NumberValue) lt).getDouble(), vec);
 				return vec;
@@ -377,7 +377,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return num;
 		}
 		// vector * ...
-		else if (lt.isVectorValue()) {
+		else if (lt instanceof VectorValue) {
 			// vector * number
 			if (rt.isNumberValue()) {
 				vec = ((VectorValue) lt).getVector();
@@ -385,7 +385,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return vec;
 			}
 			// vector * vector (inner/dot product)
-			else if (rt.isVectorValue()) {
+			else if (rt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
 				if (vec.getMode() == Kernel.COORD_COMPLEX) {
 
@@ -469,25 +469,25 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return num;
 		}
 		// vector + vector
-		else if (lt.isVectorValue() && rt.isVectorValue()) {
+		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.add(vec, ((VectorValue) rt).getVector(), vec);
 			return vec;
 		}
 		// vector + number (for complex addition)
-		else if (lt.isVectorValue() && rt.isNumberValue()) {
+		else if (lt instanceof VectorValue && rt instanceof NumberValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.add(vec, ((NumberValue) rt), vec);
 			return vec;
 		}
 		// number + vector (for complex addition)
-		else if (lt.isNumberValue() && rt.isVectorValue()) {
+		else if (lt.isNumberValue() && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
 			GeoVec2D.add(vec, ((NumberValue) lt), vec);
 			return vec;
 		}
 		// list + vector
-		else if (lt.isListValue() && rt.isVectorValue()) {
+		else if (lt instanceof ListValue && rt instanceof VectorValue) {
 			MyList list = ((ListValue) lt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
@@ -506,7 +506,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// vector + list
-		else if (rt.isListValue() && lt.isVectorValue()) {
+		else if (rt instanceof ListValue && lt instanceof VectorValue) {
 			MyList list = ((ListValue) rt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
@@ -524,7 +524,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return myList;
 		}
 		// text concatenation (left)
-		else if (lt.isTextValue()) {
+		else if (lt instanceof TextValue) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
 				msb.append(rt.toLaTeXString(false, tpl));
@@ -589,7 +589,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return num;
 			}
 			// vector / number
-			else if (lt.isVectorValue()) {
+			else if (lt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
 				GeoVec2D.div(vec, ((NumberValue) rt).getDouble(), vec);
 				return vec;
@@ -624,14 +624,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return poly;
 		}
 		// vector / vector (complex division Michael Borcherds 2007-12-09)
-		else if (lt.isVectorValue() && rt.isVectorValue()) {
+		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
 			return vec;
 
 		}
 		// number / vector (complex division Michael Borcherds 2007-12-09)
-		else if (lt.isNumberValue() && rt.isVectorValue()) {
+		else if (lt.isNumberValue() && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector(); // just to
 													// initialise
 													// vec
@@ -669,7 +669,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return num;
 		}
 		// vector - vector
-		else if (lt.isVectorValue() && rt.isVectorValue()) {
+		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.sub(vec, ((VectorValue) rt).getVector(), vec);
 			return vec;
@@ -681,25 +681,25 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		 * ((Vector3DValue)rt).get3DVec(), vec3D); return vec3D; }
 		 */
 		// vector - number (for complex subtraction)
-		else if (lt.isVectorValue() && rt.isNumberValue()) {
+		else if (lt instanceof VectorValue && rt instanceof NumberValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.sub(vec, ((NumberValue) rt), vec);
 			return vec;
 		}
 		// number - vector (for complex subtraction)
-		else if (lt.isNumberValue() && rt.isVectorValue()) {
+		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
 			GeoVec2D.sub(((NumberValue) lt), vec, vec);
 			return vec;
 		}
 		// list - vector
-		else if (lt.isListValue() && rt.isVectorValue()) {
+		else if (lt instanceof ListValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
 			GeoVec2D.sub(vec, ((ListValue) lt), vec, false);
 			return vec;
 		}
 		// vector - list
-		else if (rt.isListValue() && lt.isVectorValue()) {
+		else if (rt instanceof ListValue && lt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
 			return vec;
@@ -804,7 +804,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		 * return num; }
 		 */
 		// vector ^ 2 (inner product)
-		else if (lt.isVectorValue() && rt.isNumberValue()) {
+		else if (lt instanceof VectorValue && rt instanceof NumberValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",
 			// lt.toString(),
@@ -832,7 +832,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// lt.toString(),
 			// "^", rt.toString() };
 			// throw new MyError(l10n, str);
-		} else if (lt.isVectorValue() && rt.isVectorValue()) {
+		} else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",
 			// lt.toString(),
@@ -1014,7 +1014,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleFunctionNVar(ExpressionValue lt,
 			ExpressionValue rt) {
-		if (rt.isListValue() && (lt instanceof FunctionalNVar)) {
+		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
 			Kernel kernel = lt.getKernel();
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			ListValue list = (ListValue) rt;

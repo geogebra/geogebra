@@ -1078,7 +1078,7 @@ final public class GeoVec2D extends ValidExpression implements
 			xx = p.x;
 			yy = p.y;
 			zz = p.z;
-		} else if (rt.isVectorValue()) {
+		} else if (rt instanceof VectorValue) {
 			GeoVec2D v = ((VectorValue) rt).getVector();
 			xx = v.x;
 			yy = v.y;

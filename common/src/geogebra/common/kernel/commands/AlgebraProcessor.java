@@ -1650,7 +1650,7 @@ public class AlgebraProcessor {
 			return processBoolean(n, eval);
 		else if (eval.isNumberValue())
 			return processNumber(n, eval);
-		else if (eval.isVectorValue())
+		else if (eval instanceof VectorValue)
 			return processPointVector(n, eval);
 		else if (eval.isVector3DValue())
 			return processPointVector3D(n, eval);

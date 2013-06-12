@@ -22,6 +22,9 @@ import geogebra3D.kernel3D.Geo3DVec;
  */
 public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
+	/**
+	 * @param l10n localization for errors
+	 */
 	public ExpressionNodeEvaluator3D(Localization l10n) {
 		super(l10n);
 	}
@@ -62,13 +65,13 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 					Geo3DVec.add(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).get3DVec(), vec3D);
 					return vec3D;
-				} else if (rt.isVectorValue()) {
+				} else if (rt instanceof VectorValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 					Geo3DVec.add(vec3D,
 							((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt.isVectorValue() && rt.isVector3DValue()) {
+			} else if (lt instanceof VectorValue && rt.isVector3DValue()) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
 				Geo3DVec.add(((VectorValue) lt).getVector(), vec3D,
 						vec3D);
@@ -84,13 +87,13 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 					Geo3DVec.sub(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).get3DVec(), vec3D);
 					return vec3D;
-				} else if (rt.isVectorValue()) {
+				} else if (rt instanceof VectorValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).get3DVec();
 					Geo3DVec.sub(vec3D,
 							((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt.isVectorValue() && rt.isVector3DValue()) {
+			} else if (lt instanceof VectorValue && rt.isVector3DValue()) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).get3DVec();
 				Geo3DVec.sub(((VectorValue) lt).getVector(), vec3D,
 						vec3D);

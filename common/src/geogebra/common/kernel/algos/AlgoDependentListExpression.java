@@ -141,7 +141,7 @@ public class AlgoDependentListExpression extends AlgoElement implements Dependen
 			} 
 			
 			// point 
-			else if (element.isVectorValue()) {
+			else if (element instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) element).getVector();   				
 				
 				// try to use cached element of same type

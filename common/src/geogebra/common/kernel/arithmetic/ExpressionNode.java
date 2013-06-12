@@ -3500,7 +3500,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case XCOORD:
-			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
+			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
 				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
 			} else if (valueForm
@@ -4459,7 +4459,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					StringTemplate.defaultTemplate).equals(
 							((TextValue) ev2)
 							.toValueString(StringTemplate.defaultTemplate));
-		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
+		} else if (ev1 instanceof VectorValue && ev2 instanceof VectorValue) {
 			return ((VectorValue) ev1).getVector().isEqual(
 					((VectorValue) ev2).getVector());
 		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {

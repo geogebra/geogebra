@@ -312,7 +312,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	public boolean isVectorValue() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isVectorValue();
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 	}
 
 	final public boolean isBooleanValue() {
@@ -366,7 +366,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	public boolean isListValue() {
-		return false;
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
 	}
 
 	/**

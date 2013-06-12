@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
@@ -52,13 +53,13 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 						(GeoList) arg[0], (GeoList) arg[1]) };
 				return ret;
 				
-			}  else if(!(arg[0].isVectorValue() && arg[1].isVectorValue()))
+			}  else if(!(arg[0] instanceof VectorValue && arg[1] instanceof VectorValue))
 				throw argErr(app, c.getName(), arg[0]);
 			
 		
         default :
         	 
-        	if (arg[0].isVectorValue()) {
+        	if (arg[0] instanceof VectorValue) {
                 // try to create list of points (eg FitExp[])
               	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
                    if (list != null) {

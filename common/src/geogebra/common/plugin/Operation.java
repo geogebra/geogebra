@@ -241,7 +241,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (rt.isListValue()) {
+			if (rt instanceof ListValue) {
 				return new MyBoolean(lt.getKernel(), MyList.isElementOf(lt,
 						((ListValue) rt).getMyList()));
 			}
@@ -254,7 +254,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isListValue() && rt.isListValue()) {
+			if (lt instanceof ListValue && rt instanceof ListValue) {
 				return new MyBoolean(lt.getKernel(), MyList.listContains(
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList(), tpl));
@@ -268,7 +268,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isListValue() && rt.isListValue()) {
+			if (lt instanceof ListValue && rt instanceof ListValue) {
 				return new MyBoolean(lt.getKernel(), MyList.listContainsStrict(
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList(), tpl));
@@ -282,7 +282,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isListValue() && rt.isListValue()) {
+			if (lt instanceof ListValue && rt instanceof ListValue) {
 				return MyList.setDifference(lt.getKernel(),
 						((ListValue) lt).getMyList(),
 						((ListValue) rt).getMyList());
@@ -320,7 +320,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isVectorValue() && rt.isVectorValue()) {
+			if (lt instanceof VectorValue && rt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 				GeoVec2D vec2 = ((VectorValue) rt).getVector();
 				MyDouble num = new MyDouble(lt.getKernel());
@@ -378,7 +378,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue() && rt.isListValue()) {
+			if (lt instanceof NumberValue && rt instanceof ListValue) {
 				double x = ((NumberValue) lt).getDouble();
 				double ret = Double.NaN;
 				if (rt.isGeoElement()) {
@@ -463,7 +463,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().exp();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				// complex e^z
@@ -483,7 +483,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().log();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				// complex natural log(z)
@@ -568,7 +568,7 @@ public enum Operation {
 							.getConstantCoefficient();
 					return new Polynomial(kernel, new Term(new ExpressionNode(
 							kernel, coeff, Operation.NROOT, rt), ""));
-				} else if (lt.isVectorValue()) {
+				} else if (lt instanceof VectorValue) {
 					GeoVec2D vec = ((VectorValue) lt).getVector();
 
 					// complex sqrt
@@ -587,7 +587,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().sqrt();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				// complex sqrt
@@ -615,7 +615,7 @@ public enum Operation {
 			GeoVec2D vec;
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().abs();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
 
 				// complex Abs(z)
@@ -663,8 +663,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = lt.getKernel();
 
-			// y(vector)
-			if (lt.isVectorValue()) {
+			// z(vector)
+			if (lt instanceof VectorValue) {
 				return new MyDouble(kernel, 0);
 			} else if (lt.isVector3DValue()) {
 				return new MyDouble(kernel,
@@ -947,7 +947,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isVectorValue() && rt.isNumberValue()) {
+			if (lt instanceof VectorValue && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber().betaIncomplete(
 						(VectorValue) lt);
 			}
@@ -959,7 +959,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isVectorValue() && rt.isNumberValue()) {
+			if (lt instanceof VectorValue && rt.isNumberValue()) {
 				return ((NumberValue) rt).getNumber()
 						.betaIncompleteRegularized((VectorValue) lt);
 			}
@@ -1078,7 +1078,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().cbrt();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 				// complex cbrt
 				GeoVec2D.complexCbrt(vec, vec);
@@ -1102,7 +1102,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				// complex cbrt
@@ -1119,7 +1119,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = lt.getKernel();
-			if (lt.isVectorValue()) {
+			if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				MyDouble ret = new MyDouble(kernel, GeoVec2D.arg(vec));
@@ -1315,7 +1315,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt.isNumberValue()) {
 				return ((NumberValue) lt).getNumber().zeta();
-			} else if (lt.isVectorValue()) {
+			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
 				GeoVec2D.complexZeta(vec, vec);

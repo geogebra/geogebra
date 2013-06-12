@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -89,7 +90,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	           	 GeoElement[] ret = { doCommand(c.getLabel(), list)};
 	                return ret;             	     	 
 	            } 
-        	} else if (arg[0].isVectorValue()) {
+        	} else if (arg[0] instanceof VectorValue) {
                 // try to create list of points (eg FitExp[])
               	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
                    if (list != null) {

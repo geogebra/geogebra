@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -90,7 +91,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
 					return ret;
 				}
-			} else if (arg[0].isVectorValue()) {
+			} else if (arg[0] instanceof VectorValue) {
 				// try to create list of points (eg FitExp[])
 				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.POINT);

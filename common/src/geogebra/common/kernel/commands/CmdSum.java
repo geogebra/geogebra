@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoSumFunctions;
 import geogebra.common.kernel.algos.AlgoSumPoints;
 import geogebra.common.kernel.algos.AlgoSumText;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -137,7 +138,7 @@ public class CmdSum extends CommandProcessor {
 					GeoElement[] ret = { Sum(c.getLabel(), wrapList) };
 					return ret;
 				}
-			} else if (arg[0].isVectorValue()) {
+			} else if (arg[0] instanceof VectorValue) {
 				// try to create list of points
 				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
 						GeoClass.POINT);
