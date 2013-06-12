@@ -2660,7 +2660,10 @@ namespace giac {
     gen module=abs(args,contextptr),argument=arg(args,contextptr);
     if (is_zero(argument))
       return module;
-    return module*symbolic(at_exp,cst_i*argument);
+    gen res=module*symbolic(at_exp,cst_i*argument);
+    if (calc_mode(contextptr)==1)
+      return symb_quote(res);
+    return res;
   }
 
   gen _rectangular2polar(const gen & args,const context * contextptr){

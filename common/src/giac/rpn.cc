@@ -3990,7 +3990,7 @@ namespace giac {
       return res;
     }
     else
-      return symbolic(at_polar_complex,g);
+      return calc_mode(contextptr)==1?symbolic(at_ggb_ang,g):symbolic(at_polar_complex,g);
   }
 #ifdef BCD
   static const char _polar_complex_s[]="\xe2\x88\xa1";
@@ -3999,6 +3999,10 @@ namespace giac {
 #endif
   static define_unary_function_eval4 (__polar_complex,&giac::_polar_complex,_polar_complex_s,&printsommetasoperator,&texprintsommetasoperator); 
   define_unary_function_ptr5( at_polar_complex ,alias_at_polar_complex,&__polar_complex,0,T_MOD);  
+
+  static const char _ggb_ang_s []="ggb_ang"; // prefixed version of polar complex
+  static define_unary_function_eval (__ggb_ang,&_polar_complex,_ggb_ang_s);
+  define_unary_function_ptr5( at_ggb_ang ,alias_at_ggb_ang,&__ggb_ang,0,true);
 
 #ifdef GIAC_HAS_STO_38
   gen aspen_ADigits(int i);

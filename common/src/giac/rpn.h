@@ -124,6 +124,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_Fahrenheit2Celsius;
   extern const unary_function_ptr * const  at_Celsius2Fahrenheit;
   extern const unary_function_ptr * const  at_polar_complex;
+  extern const unary_function_ptr * const  at_ggb_ang;
   extern const unary_function_ptr * const  at_HDigits;
   extern const unary_function_ptr * const  at_HFormat;
   extern const unary_function_ptr * const  at_HComplex;

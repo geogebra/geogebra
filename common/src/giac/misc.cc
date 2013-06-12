@@ -3322,7 +3322,7 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
       if (w.size()<2)
 	return gensizeerr(contextptr);
       class_minimum=w.front();
-      class_size=(w.back()-w.front())/nc;
+      class_size=((w.back()-w.front())*(1+1e-12))/nc;
     }
     if (ckmatrix(v) && !v.empty() && v.front()._VECTptr->size()==2){
       // matrix format is 2 columns 1st column=interval, 2nd column=frequency
