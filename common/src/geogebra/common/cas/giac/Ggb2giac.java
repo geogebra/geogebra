@@ -74,11 +74,11 @@ public class Ggb2giac {
 		p("Denominator.1", "denom(%0)");
 		// TODO: diff(t^2) gives 0 not 2*t
 		p("Derivative.1",
-				"diff(%0, ggbtmpvarx)");
+				"regroup(diff(%0, ggbtmpvarx))");
 		p("Derivative.2", 
-				"diff(%0,%1)");
+				"regroup(diff(%0,%1))");
 		p("Derivative.3", 
-				"diff(%0,%1,%2)");
+				"regroup(diff(%0,%1,%2))");
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "dim(%0)");
 		p("Div.2",
