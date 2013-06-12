@@ -22,16 +22,18 @@ import com.google.gwt.user.client.ui.TreeItem;
  * Taken from the web-project.
  * 
  */
-public class AlgebraViewM extends AlgebraViewWeb {
+public class AlgebraViewM extends AlgebraViewWeb
+{
 
 	/**
 	 * Creates new AlgebraView.
 	 * 
 	 * @param algCtrl
-	 *            : AlgebraController
+	 *          : AlgebraController
 	 * 
 	 */
-	public AlgebraViewM(EuclidianController ctr) {
+	public AlgebraViewM(EuclidianController ctr)
+	{
 		super((AppWeb) ctr.getApplication());
 		// this is the default value
 		this.treeMode = SortMode.TYPE;
@@ -44,17 +46,17 @@ public class AlgebraViewM extends AlgebraViewWeb {
 		getElement().setId("View_" + App.VIEW_ALGEBRA);
 	}
 
-	public void updateFonts() {
+	public void updateFonts()
+	{
 		GFont font = this.app.getPlainFontCommon();
-		getStyleElement().getStyle().setFontStyle(
-				Style.FontStyle.valueOf(font.isItalic() ? "ITALIC" : "NORMAL"));
+		getStyleElement().getStyle().setFontStyle(Style.FontStyle.valueOf(font.isItalic() ? "ITALIC" : "NORMAL"));
 		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
-		getStyleElement().getStyle().setFontWeight(
-				Style.FontWeight.valueOf(font.isBold() ? "BOLD" : "NORMAL"));
+		getStyleElement().getStyle().setFontWeight(Style.FontWeight.valueOf(font.isBold() ? "BOLD" : "NORMAL"));
 	}
 
 	@Override
-	public Object getPathForLocation(int x, int y) {
+	public Object getPathForLocation(int x, int y)
+	{
 		return null;
 	}
 
@@ -62,26 +64,30 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	private boolean showing = true;
 
 	@Override
-	public void startEditing(GeoElement geo, boolean shiftDown) {
+	public void startEditing(GeoElement geo, boolean shiftDown)
+	{
 	}
 
 	// temporary proxies for the temporary implementation of AlgebraController
 	// in
 	// common
 	@Override
-	public GeoElement getGeoElementForPath(Object tp) {
+	public GeoElement getGeoElementForPath(Object tp)
+	{
 		// return getGeoElementForPath((TreePath)tp);
 		return null;
 	}
 
 	@Override
-	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
+	public GeoElement getGeoElementForLocation(Object tree, int x, int y)
+	{
 		// return getGeoElementForLocation((JTree)tree, x, y);
 		return null;
 	}
 
 	@Override
-	public Object getPathBounds(Object tp) {
+	public Object getPathBounds(Object tp)
+	{
 		// return getPathBounds((TreePath)tp);
 		return null;
 	}
@@ -89,18 +95,21 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	// temporary proxies end
 
 	@Override
-	public void cancelEditing() {
+	public void cancelEditing()
+	{
 		this.editing = false;
 		setAnimationEnabled(true);
 	}
 
 	@Override
-	public boolean isEditing() {
+	public boolean isEditing()
+	{
 		return this.editing;
 	}
 
 	@Override
-	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
+	protected boolean isKeyboardNavigationEnabled(TreeItem ti)
+	{
 		// keys should move the geos in the EV
 		// if (isEditing())
 		return false;
@@ -108,35 +117,35 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	}
 
 	@Override
-	public void setUserObject(TreeItem ti, Object ob) {
+	public void setUserObject(TreeItem ti, Object ob)
+	{
 		ti.setUserObject(ob);
-		if (ob instanceof GeoElement) {
-			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
-					CommonResources.INSTANCE.algebra_shown().getSafeUri(),
-					CommonResources.INSTANCE.algebra_hidden().getSafeUri()));
+		if (ob instanceof GeoElement)
+		{
+			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob, CommonResources.INSTANCE.algebra_shown().getSafeUri(), CommonResources.INSTANCE
+			    .algebra_hidden().getSafeUri()));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			// Workaround to make treeitem visual selection available
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-					.getElement().getFirstChildElement(), "display",
-					"-moz-inline-box");
-			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti
-					.getElement().getFirstChildElement(), "display",
-					"inline-block");
-		} else {
-			ti.setWidget(new GroupHeader(
-					this.app.getSelectionManager(), ti, ob.toString(),CommonResources.INSTANCE.triangle_left().getSafeUri(),
-					CommonResources.INSTANCE.triangle_left().getSafeUri()));
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");
+			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "inline-block");
+		}
+		else
+		{
+			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob.toString(), CommonResources.INSTANCE.triangle_left().getSafeUri(),
+			    CommonResources.INSTANCE.triangle_left().getSafeUri()));
 		}
 	}
 
 	@Override
-	public void onBrowserEvent(Event event) {
+	public void onBrowserEvent(Event event)
+	{
 		if (!this.editing)
 			super.onBrowserEvent(event);
 	}
 
 	@Override
-	public boolean hasFocus() {
+	public boolean hasFocus()
+	{
 		return false;
 	}
 
@@ -144,18 +153,21 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	 * TODO: should return false if the panel is not extended!
 	 */
 	@Override
-	public boolean isShowing() {
+	public boolean isShowing()
+	{
 		return this.showing;
 	}
 
 	@Override
-	public boolean isRenderLaTeX() {
+	public boolean isRenderLaTeX()
+	{
 		return false;
 	}
 
-	public void setShowing(boolean flag) {
+	public void setShowing(boolean flag)
+	{
 		this.showing = flag;
-		if(flag)
+		if (flag)
 			repaint();
 	}
 

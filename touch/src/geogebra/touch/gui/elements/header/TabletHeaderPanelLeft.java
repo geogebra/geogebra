@@ -52,7 +52,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.tabletGUI = tabletGUI;
 		this.guiModel = guiModel;
 
-		this.dialog = new InputDialog(app, DialogType.Title,tabletGUI);
+		this.dialog = new InputDialog(app, DialogType.Title, tabletGUI);
 
 		this.openDialog = new OpenFileDialog(this.app);
 		this.saveDialog = new SaveFileDialog(this.app);
@@ -148,4 +148,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		// FIXME ugly, implement observer pattern!
 		this.tabletGUI.getLAF().setTitle(title);
 	}
+	
+	public void setLabels()
+	{
+		this.dialog.setLabels();
+		this.openDialog.setLabels();
+	}
+	
 }

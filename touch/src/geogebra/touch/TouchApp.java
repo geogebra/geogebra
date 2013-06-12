@@ -96,7 +96,8 @@ public class TouchApp extends AppWeb
 			logger = new GeoGebraLogger();
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
-		}else if ("onscreen".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
+		}
+		else if ("onscreen".equals(RootPanel.getBodyElement().getAttribute("data-param-showLogging")))
 		{
 			logger = new GeoGebraLoggerM(touchGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);
@@ -568,7 +569,7 @@ public class TouchApp extends AppWeb
 		{
 			country = locale.split("-")[1];
 		}
-
+		
 		setLanguage(language, country);
 	}
 
@@ -583,11 +584,11 @@ public class TouchApp extends AppWeb
 	}-*/;
 
 	@Override
-  public ConstructionProtocolNavigation getConstructionProtocolNavigation()
-  {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	// // alternative, falls probleme mit Android - nicht getestet
 	// public native String getLocale() /*-{

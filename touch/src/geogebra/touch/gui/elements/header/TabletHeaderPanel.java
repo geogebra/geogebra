@@ -114,6 +114,6 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void setLabels()
 	{
 		this.dialog.setLabels();
-		this.leftHeader.dialog.setLabels();
+		this.leftHeader.setLabels();
 	}
 }

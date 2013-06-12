@@ -200,4 +200,6 @@ public abstract class FileDialog extends PopupPanel
 		this.populateFileList();
 		this.textBox.setFocus(true);
 	}
+	
+	public abstract void setLabels();
 }

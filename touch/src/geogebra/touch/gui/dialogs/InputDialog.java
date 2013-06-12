@@ -67,13 +67,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void init()
 	{
-		setLabels();
 		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		addTextBox();
 		// addButtonContainer();
 		this.add(this.dialogPanel);
+		setLabels();
 	}
 
 	private void addTextBox()
@@ -170,6 +170,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.dialogPanel.add(this.customKeys);
 		this.textBox.setFocus(true);
+		setLabels();
 	}
 
 	@Override

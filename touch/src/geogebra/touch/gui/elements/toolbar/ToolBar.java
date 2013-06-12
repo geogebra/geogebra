@@ -37,19 +37,19 @@ public class ToolBar extends HorizontalPanel
 
 	protected InputDialog input;
 	TextBox inputBox = new TextBox();
-	
+
 	protected TouchModel touchModel;
 
-	public ToolBar(final TouchModel touchModel, TouchApp app,TabletGUI gui)
+	public ToolBar(final TouchModel touchModel, TouchApp app, TabletGUI gui)
 	{
 		this.setStyleName("toolbar");
-		
+
 		this.input = new InputDialog(app, DialogType.InputField, gui);
 		this.setWidth(Window.getClientWidth() + "px");
-		
+
 		this.toolPanel = new HorizontalPanel();
 		this.inputButtonPanel = new HorizontalPanel();
-		
+
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
 
@@ -105,59 +105,64 @@ public class ToolBar extends HorizontalPanel
 				ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
 			}
 		});*/
-		
+
 		// new Inputbar (Stefanie Bogner)
-		this.inputBox.setWidth(Window.getClientWidth()*0.2-20 + "px");
-		this.inputBox.setText("Input");
+		this.inputBox.setWidth(Window.getClientWidth() * 0.2 - 20 + "px");
+		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
 		
-//		this.inputBox.addFocusHandler(new FocusHandler()
-//		{
+//	this.inputBox.addFocusHandler(new FocusHandler()
+//	{
 //
-//			@Override
-//			public void onFocus(FocusEvent event)
-//			{
-//				ToolBar.this.input.show();
-//				ToolBar.this.inputBox.setFocus(false);
-//				event.preventDefault();
-//				event.stopPropagation();
-//			}
-//		});
-//		
-		this.inputButtonPanel.addDomHandler(new ClickHandler()
-		{
-			
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				ToolBar.this.input.show();				
-			}
-		}, ClickEvent.getType());
+//		@Override
+//		public void onFocus(FocusEvent event)
+//		{
+//			ToolBar.this.input.show();
+//			ToolBar.this.inputBox.setFocus(false);
+//			event.preventDefault();
+//			event.stopPropagation();
+//		}
+//	});
+//	
+	this.inputButtonPanel.addDomHandler(new ClickHandler()
+	{
 		
-		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
-				{
-					@Override
-					public void onClose(CloseEvent<PopupPanel> event)
-					{
-						ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
-					}
-				});
-		
-
-		for (ToolBarButton b : this.tools)
+		@Override
+		public void onClick(ClickEvent event)
 		{
-			this.toolPanel.add(b);
+			ToolBar.this.input.show();				
 		}
-		
-		this.add(this.toolPanel);
-		
-		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.setVerticalAlignment(ALIGN_MIDDLE);
-		//this.inputButtonPanel.add(inputBarButton);
-		this.inputButtonPanel.add(this.inputBox);
-		this.add(this.inputButtonPanel);
+	}, ClickEvent.getType());
+	
+	this.input.addCloseHandler(new CloseHandler<PopupPanel>()
+			{
+				@Override
+				public void onClose(CloseEvent<PopupPanel> event)
+				{
+					ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
+				}
+			});
+	
 
-		model.getGuiModel().setActive(this.tools.get(0));
+	for (ToolBarButton b : this.tools)
+	{
+		this.toolPanel.add(b);
+	}
+	
+	this.add(this.toolPanel);
+	
+	this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+	this.setVerticalAlignment(ALIGN_MIDDLE);
+	//this.inputButtonPanel.add(inputBarButton);
+	this.inputButtonPanel.add(this.inputBox);
+	this.add(this.inputButtonPanel);
+
+	model.getGuiModel().setActive(this.tools.get(0));
+	}
+
+	public void setLabels()
+	{
+		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 	}
 
 }

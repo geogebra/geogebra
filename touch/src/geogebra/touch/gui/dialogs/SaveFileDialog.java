@@ -41,7 +41,7 @@ public class SaveFileDialog extends FileDialog
 			super.app.setConstructionTitle(super.textBox.getText());
 		}
 	}
-	
+
 	@Override
 	public void show()
 	{
@@ -49,9 +49,16 @@ public class SaveFileDialog extends FileDialog
 		super.textBox.setText(super.app.getConstructionTitle());
 		super.show();
 	}
-	
+
 	private void setDownloadName()
 	{
-	    super.okButton.getElement().setAttribute("download", super.textBox.getText()+".ggb");
+		super.okButton.getElement().setAttribute("download", super.textBox.getText() + ".ggb");
 	}
+
+	@Override
+  public void setLabels()
+  {
+	  // TODO Auto-generated method stub
+	  
+  }
 }
