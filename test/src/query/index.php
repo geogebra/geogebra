@@ -132,10 +132,14 @@ foreach ($db->query($sql) as $name) {
   else {
    foreach ($result as $row) {
     $error=$row['error'];
-    if ($error==1)
+    if ($error==1) {
      $content.="class=\"error\">";
-    else
+     $errors[$rev]++;
+     }
+    else {
      $content.="class=\"failure\">";
+     $failures[$rev]++;
+     }
     $cn=$row['classname'];
     $t=$row['type'];
     $message=$row['message'];
@@ -166,6 +170,18 @@ foreach ($db->query($sql) as $name) {
   }
  $content.="</tr>";
  }
+
+// Adding sums:
+$content.="<tr class=\"rev\"><td><b>Failures</b></td>";
+foreach ($revs as $rev) {
+ $content.="<td><b>".$failures[$rev]."</b></td>";
+ }
+$content.="</tr>";
+$content.="<tr class=\"rev\"><td><b>Errors</b></td>";
+foreach ($revs as $rev) {
+ $content.="<td><b>".$errors[$rev]."</b></td>";
+ }
+$content.="</tr>";
 
 $content.="</table>";
 
