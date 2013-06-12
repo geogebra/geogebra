@@ -11,6 +11,8 @@ import geogebra.touch.utils.ToolBarMenu;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -107,18 +109,30 @@ public class ToolBar extends HorizontalPanel
 		// new Inputbar (Stefanie Bogner)
 		this.inputBox.setWidth(Window.getClientWidth()*0.2-20 + "px");
 		this.inputBox.setText("Input");
-		this.inputBox.addFocusHandler(new FocusHandler()
+		this.inputBox.setReadOnly(true);
+		
+//		this.inputBox.addFocusHandler(new FocusHandler()
+//		{
+//
+//			@Override
+//			public void onFocus(FocusEvent event)
+//			{
+//				ToolBar.this.input.show();
+//				ToolBar.this.inputBox.setFocus(false);
+//				event.preventDefault();
+//				event.stopPropagation();
+//			}
+//		});
+//		
+		this.inputButtonPanel.addDomHandler(new ClickHandler()
 		{
-
+			
 			@Override
-			public void onFocus(FocusEvent event)
+			public void onClick(ClickEvent event)
 			{
-				ToolBar.this.input.show();
-				ToolBar.this.inputBox.setFocus(false);
-				event.preventDefault();
-				event.stopPropagation();
+				ToolBar.this.input.show();				
 			}
-		});
+		}, ClickEvent.getType());
 		
 		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
 				{
