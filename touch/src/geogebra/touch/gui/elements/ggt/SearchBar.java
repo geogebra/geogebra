@@ -1,16 +1,16 @@
 package geogebra.touch.gui.elements.ggt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -33,17 +33,19 @@ public class SearchBar extends SimplePanel
 
 	public SearchBar()
 	{
+		this.setStyleName("searchbar");
+		
 		this.listeners = new ArrayList<SearchListener>();
 
 		this.decorator = new DecoratorPanel();
 		this.panel = new HorizontalPanel();
 
 		this.query = new TextBox();
-		this.query.addKeyUpHandler(new KeyUpHandler()
+		this.query.addKeyDownHandler(new KeyDownHandler()
 		{
 
 			@Override
-			public void onKeyUp(KeyUpEvent event)
+			public void onKeyDown(KeyDownEvent event)
 			{
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
@@ -90,12 +92,6 @@ public class SearchBar extends SimplePanel
 	public void setWidth(int width)
 	{
 		this.query.setWidth(width - 100 + "px");
-	}
-
-	@Override
-	public int getOffsetHeight()
-	{
-		return this.searchButton.getOffsetHeight();
 	}
 
 	public void onResize(ResizeEvent event)

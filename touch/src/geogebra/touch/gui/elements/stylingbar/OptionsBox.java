@@ -21,7 +21,7 @@ public class OptionsBox extends PopupPanel
 		this.optionsBoxArrowPanel = new LayoutPanel();
 		String html = "<img src=\"" + CommonResources.INSTANCE.optionsBoxArrow().getSafeUri().asString() + "\" />";
 		this.optionsBoxArrowPanel.getElement().setInnerHTML(html);
-		optionsBoxArrowPanel.setStyleName("optionsBoxArrow");
+		this.optionsBoxArrowPanel.setStyleName("optionsBoxArrow");
 		
 		// content of the options box
 		this.contentPanel = content;
@@ -31,6 +31,6 @@ public class OptionsBox extends PopupPanel
 		this.optionsWrapper.add(this.optionsBoxArrowPanel);
 		this.optionsWrapper.add(this.contentPanel);
 		
-		this.add(optionsWrapper);
+		this.add(this.optionsWrapper);
 	}
 }

@@ -21,7 +21,6 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -44,8 +43,8 @@ public class TubeSearchGUI extends VerticalPanel
 	 */
 	public TubeSearchGUI()
 	{
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
-
+		this.setStyleName("tubesearchgui");
+		
 		this.searchBar = new SearchBar();
 		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
@@ -57,9 +56,7 @@ public class TubeSearchGUI extends VerticalPanel
 			}
 		});
 
-		
 		this.featuredMaterials = new HorizontalMaterialPanel();
-		this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 		this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
 		this.resultsArea = new VerticalMaterialPanel();
@@ -77,11 +74,9 @@ public class TubeSearchGUI extends VerticalPanel
 		this.add(this.searchBar);
 		this.add(this.featuredMaterials);
 
-		this.resultsArea.setHeight(Window.getClientHeight() - this.searchBar.getOffsetHeight() - this.featuredMaterials.getOffsetHeight()
-		    - this.backButton.getOffsetHeight() + "px");
+		this.resultsArea.setHeight((Window.getClientHeight() - 300) + "px");
 		this.add(this.resultsArea);
 		this.add(this.backButton);
-		setCellVerticalAlignment(this.backButton, HasVerticalAlignment.ALIGN_BOTTOM);
 
 		loadFeatured();
 
@@ -94,8 +89,9 @@ public class TubeSearchGUI extends VerticalPanel
 			}
 		});
 	}
-	
-	public void displaySearchResults(String query){
+
+	public void displaySearchResults(String query)
+	{
 		GeoGebraTubeAPI.getInstance().search(query, new RequestCallback()
 		{
 			@Override
@@ -125,9 +121,9 @@ public class TubeSearchGUI extends VerticalPanel
 		this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
 		this.resultsArea.setWidth(event.getWidth() + "px");
-		int newHeight = Window.getClientHeight() - this.searchBar.getOffsetHeight() - this.featuredMaterials.getOffsetHeight()
-			    - this.backButton.getOffsetHeight();
-		if(newHeight > 0){
+		int newHeight = Window.getClientHeight() - 300;
+		if (newHeight > 0)
+		{
 			this.resultsArea.setHeight(newHeight + "px");
 		}
 	}

@@ -241,4 +241,21 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		((DefaultLAF) this.laf).getTabletHeaderPanel().setLabels();
 		this.toolBar.setLabels();
 	}
+
+	@Override
+	protected void onUnload()
+	{
+		super.onUnload();
+		this.algebraViewButtonPanel.hide();
+	}
+
+	@Override
+	protected void onLoad()
+	{
+		super.onLoad();
+		if (this.algebraViewButtonPanel != null)
+		{
+			this.algebraViewButtonPanel.show();
+		}
+	}
 }

@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 body {
 	margin: 0px;
 	padding: 0px;
@@ -6,34 +7,32 @@ body {
 	font-size: 15px;
 	color: #000000;
 	overflow: hidden;
-	-ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+	-ms-touch-action: none;
+	/* Direct all pointer events to JavaScript code. */
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
 }
 
 /* TOOLS AND STYLEBAR BUTTONS */
-div.button {	
-	/* Border */
+div.button { /* Border */
 	-webkit-border-radius: 5px;
-  	-khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-	
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	border: #DCDCDC solid 1px;
-	
 	/* Background */
-	background-image: linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
-	background-image: -o-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
-	background-image: -moz-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
-	background-image: -ms-linear-gradient(top, rgb(255,255,255) 0%, rgb(254,254,254) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(255,255,255)),
-		color-stop(1, rgb(254,254,254))
-	);
+	background-image: linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -o-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -moz-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -ms-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(255,
+		255, 255) ), color-stop(1, rgb(254, 254, 254) ) );
 }
 
 div.button.button-up-hovering {
@@ -50,7 +49,7 @@ div.button.button-up-hovering {
 	-o-transform: rotate(180deg);
 	-webkit-transform: rotate(180deg);
 	transform: rotate(180deg);
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1 );
 }
 
 .arrowBottom img {
@@ -59,20 +58,18 @@ div.button.button-up-hovering {
 	-o-transform: rotate(270deg);
 	-webkit-transform: rotate(270deg);
 	transform: rotate(270deg);
-	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1 );
 }
 
-.stylebar div.button,
-.headerbar div.button,
-.algebraViewButtonPanel div.button {
+.stylebar div.button,.headerbar div.button,.algebraViewButtonPanel div.button
+	{
 	width: 30px;
 	height: 30px;
 	padding: 4px;
 	margin: 0px 6px 0px 0px;
 }
 
-.toolbar div.button,
-.subToolBar div.button {
+.toolbar div.button,.subToolBar div.button {
 	width: 40px;
 	height: 40px;
 	padding: 4px;
@@ -91,80 +88,67 @@ div.button.button-up-hovering {
 	height: 38px;
 }
 
-.stylebar div.button img,
-.headerbar div.button img,
-.algebraViewButtonPanel div.button img {
+.stylebar div.button img,.headerbar div.button img,.algebraViewButtonPanel div.button img
+	{
 	width: 30px;
 	height: 30px;
 }
 
-.toolbar div.button img,
-.subToolBar div.button img {
+.toolbar div.button img,.subToolBar div.button img {
 	width: 40px;
 	height: 40px;
 }
 
-.inputDialog .customKeyPanel button,
-.optionsBox button {
+.inputDialog .customKeyPanel button,.optionsBox button {
 	width: 40px;
 	height: 40px;
-	
 	/* Border */
 	-webkit-border-radius: 5px;
-  	-khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-	
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	border: #DCDCDC solid 1px;
-	
 	/* Background */
 	background: none;
-	
-	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(237,237,237) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(254,254,254)),
-		color-stop(1, rgb(237,237,237))
-	);
+	background-image: linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -o-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -moz-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -ms-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254,
+		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
 }
 
 /* #####################################################################
 ####                    HEADER, STYLEBAR							####
 ##################################################################### */
-
-.headerbar {
-	/* Border */
+.headerbar { /* Border */
 	border-bottom: #999999 solid 1px;
-	
 	/* Background */
-	background-image: linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
-	background-image: -o-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
-	background-image: -moz-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
-	background-image: -ms-linear-gradient(top, rgb(204,204,204) 0%, rgb(170,170,170) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(204,204,204)),
-		color-stop(1, rgb(170,170,170)))
-	);
+	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -o-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -moz-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -ms-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(204,
+		204, 204) ), color-stop(1, rgb(170, 170, 170) ) ) );
 }
 
 .headerLeft {
 	margin-left: 10px;
 }
 
-.headerLeft td,
-.headerRight td {
+.headerLeft td,.headerRight td {
 	padding-top: 10px;
 }
 
@@ -177,29 +161,26 @@ div.button.button-up-hovering {
 .stylebar {
 	padding: 6px 6px 5px 10px;
 	display: inline-block;
-	
 	/* Border */
 	-webkit-border-bottom-right-radius: 5px;
-  	-khtml-border-bottom-right-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    border-bottom-right-radius: 5px;
+	-khtml-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
 	border-right: #CCCCCC solid 1px;
 	border-bottom: #CCCCCC solid 1px;
-	
 	/* Background */
-	background-image: linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
-	background-image: -o-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
-	background-image: -moz-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
-	background-image: -ms-linear-gradient(top, rgb(254,254,254) 0%, rgb(220,220,220) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(254,254,254)),
-		color-stop(1, rgb(220,220,220))
-	);
+	background-image: linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254,
+		254, 254) ), color-stop(1, rgb(220, 220, 220) ) );
 }
 
 .optionsBoxWrapper {
@@ -220,17 +201,14 @@ div.button.button-up-hovering {
 	padding: 5px;
 	padding-right: 0px;
 	padding-bottom: 0px;
-	
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
 	box-shadow: 3px 3px 5px #DCDCDC;
-	
 	z-index: 5;
 }
 
-.optionsBox .button,
-.optionsBox .button.button-up-hovering {
+.optionsBox .button,.optionsBox .button.button-up-hovering {
 	width: 40px;
 	height: 40px;
 	float: left;
@@ -254,46 +232,39 @@ div.button.button-up-hovering {
 /* #####################################################################
 ####                    ALGEBRA VIEW 								####
 ##################################################################### */
-
-.algebraView {	
-	/* Border */
+.algebraView { /* Border */
 	border-left: #CCCCCC solid 1px;
-	
 	/* Background */
-	background-image: linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -o-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -moz-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -ms-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(237,237,237)),
-		color-stop(1, rgb(220,220,220)))
-	);
+	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(237,
+		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
 }
 
-.algebraViewButtonPanel {	
-	/* Border */
+.algebraViewButtonPanel { /* Border */
 	-webkit-border-bottom-left-radius: 5px;
-  	-khtml-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-left-radius: 5px;
-	
+	-khtml-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
 	/* Background */
 	background-color: #EDEDED;
 }
 
 .algebraViewArrowPanel {
 	padding: 6px 6px 5px 5px;
-	
 	/* Border */
 	-webkit-border-bottom-left-radius: 5px;
-  	-khtml-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-left-radius: 5px;
+	-khtml-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
 	border-left: #CCCCCC solid 1px;
 	border-bottom: #CCCCCC solid 1px;
 }
@@ -311,18 +282,16 @@ div.button.button-up-hovering {
 	margin-bottom: 5px;
 }
 
-.elemHeading .arrowBottom,
-.elemHeading .arrowLeft {
-	margin-top: -10px;   
+.elemHeading .arrowBottom,.elemHeading .arrowLeft {
+	margin-top: -10px;
 }
 
-.elemHeading .arrowBottom img,
-.elemHeading .arrowLeft img {
+.elemHeading .arrowBottom img,.elemHeading .arrowLeft img {
 	width: 30px;
 	height: 30px;
 }
 
-div.elemHeadingName{
+div.elemHeadingName {
 	float: left;
 }
 
@@ -346,26 +315,21 @@ div.elemHeadingName{
 /* #####################################################################
 ####                    TOOL BAR									####
 ##################################################################### */
-
-.toolbar {
-	
-	/* Border */
+.toolbar { /* Border */
 	border-top: #CCCCCC solid 1px;
-	
 	/* Background */
-	background-image: linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -o-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -moz-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -webkit-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-	background-image: -ms-linear-gradient(top, rgb(237,237,237) 0%, rgb(220,220,220) 100%);
-
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, rgb(237,237,237)),
-		color-stop(1, rgb(220,220,220)))
-	);
+	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(237,
+		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
 }
 
 .toolbarButtonPanel {
@@ -382,7 +346,6 @@ div.elemHeadingName{
 	border: #EFEFEF solid 1px;
 	padding: 5px;
 	padding-right: 0px;
-	
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
@@ -397,7 +360,6 @@ div.elemHeadingName{
 /* #####################################################################
 ####                    INPUT										####
 ##################################################################### */
-
 .inputbarPanel {
 	padding: 10px 5px;
 }
@@ -412,20 +374,16 @@ div.elemHeadingName{
 .inputDialog {
 	padding: 10px;
 	z-index: 50;
-	
 	/* Border */
 	-webkit-border-radius: 5px;
-  	-khtml-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-	
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	border: #DCDCDC solid 1px;
-	
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #999999;
 	-moz-box-shadow: 3px 3px 5px #999999;
 	box-shadow: 3px 3px 5px #999999;
-	
 	background-color: #FFFFFF;
 }
 
@@ -460,8 +418,16 @@ div.elemHeadingName{
 }
 
 .gwt-PopupPanelGlass {
-  background-color: #000;
-  opacity: 0.3;
-  z-index: 20;
-  filter: alpha(opacity=30);
+	background-color: #000;
+	opacity: 0.3;
+	z-index: 20;
+	filter: alpha(opacity =     30);
+}
+
+/* #####################################################################
+####                    TubeSearchGUI								####
+##################################################################### */
+.searchbar div.button img,.tubesearchgui div.button img {
+	width: 40px;
+	height: 40px;
 }
