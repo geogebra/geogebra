@@ -70,6 +70,7 @@ public class CASTableW extends Grid implements CASTable {
 		Widget cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(n + 1,casCell);
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
+		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
 		getCellFormatter()
 		        .getElement(n, COL_CAS_HEADER)
 		        .getStyle()

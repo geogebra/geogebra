@@ -31,11 +31,13 @@ public class CASTableCellW extends VerticalPanel {
 	public CASTableCellW(GeoCasCell casCell) {
 		this.casCell = casCell;
 		inputPanel = new Label();
+		inputPanel.addStyleName("CAS_inputPanel");
 		if(casCell!=null){
 			inputPanel.setText(casCell.getInput(StringTemplate.defaultTemplate));
-			inputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
-			inputPanel.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
-			inputPanel.getElement().getStyle().setHeight(100, Style.Unit.PCT);
+//			some styling moved to css:
+//			inputPanel.getElement().getStyle().setPadding(2, Style.Unit.PX);
+//			inputPanel.getElement().getStyle().setOverflow(Style.Overflow.HIDDEN);
+//			inputPanel.getElement().getStyle().setHeight(100, Style.Unit.PCT);
 		}
 		add(inputPanel);
 
@@ -63,8 +65,9 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel = new HorizontalPanel();
 		if (casCell!=null) {
 			Label commentLabel = new Label();
+				commentLabel.addStyleName("CAS_commentLabel");
 				commentLabel.setText(casCell.getCommandAndComment());
-				commentLabel.getElement().getStyle().setColor("gray");
+				//commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
 		
