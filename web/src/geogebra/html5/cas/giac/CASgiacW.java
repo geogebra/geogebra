@@ -67,6 +67,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			nativeEvaluateRaw(initString, true);
 			giacSetToGeoGebraMode = true;
 		}
+		
+		nativeEvaluateRaw("timeout "+(timeoutMillis/1000), false);
+		
 		nativeEvaluateRaw(specialFunctions, false);
 		
 		App.debug("giac  input:"+s);
