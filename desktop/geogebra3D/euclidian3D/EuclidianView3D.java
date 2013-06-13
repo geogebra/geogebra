@@ -8,6 +8,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -29,7 +30,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -565,10 +566,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				d = new DrawAxis3D(this, (GeoAxisND) geo);	
 				break;	
 
-			//case FUNCTION:
-			//case CURVE_CARTESIAN:
+			case FUNCTION:
+			case CURVE_CARTESIAN:
 			case CURVECARTESIAN3D:	
-				d = new DrawCurve3D(this, (ParametricCurve) geo);	
+				d = new DrawCurve3D(this, (CurveEvaluable) geo);	
 				break;				
 				
 			case ANGLE:
@@ -906,15 +907,50 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public double getZRot(){ return b;}
 	
 
-	/**  @return min-max value for x-axis (linked to grid)*/
-	public double[] getXMinMax(){ return axisDrawable[AXIS_X].getDrawMinMax(); }
-	/**  @return min value for y-axis (linked to grid)*/
-	public double[] getYMinMax(){ return axisDrawable[AXIS_Y].getDrawMinMax(); }
-	/**  @return min value for z-axis */
-	public double[] getZMinMax(){ 
-		return axisDrawable[AXIS_Z].getDrawMinMax(); 
+
+	
+	@Override
+	public double getXmin() {
+		return clippingCubeDrawable.getMinMax()[0][0];
+	}
+	
+	@Override
+	public double getXmax() {
+		return clippingCubeDrawable.getMinMax()[0][1];
 	}
 
+	@Override
+	public double getYmin() {
+		return clippingCubeDrawable.getMinMax()[1][0];
+	}
+
+
+	@Override
+	public double getYmax() {
+		return clippingCubeDrawable.getMinMax()[1][1];
+	}
+
+
+
+	/**
+	 * @return Returns the zmin.
+	 */
+	public double getZmin() {
+		return clippingCubeDrawable.getMinMax()[2][0];
+	}
+
+	
+	/**
+	 * @return Returns the zmax.
+	 */
+	public double getZmax() {
+		return clippingCubeDrawable.getMinMax()[2][1];
+	}
+
+	
+	
+	
+	
 	
 	//TODO specific scaling for each direction
 	private double scale = 50; 
@@ -1378,18 +1414,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return true if the point is between min-max coords values
 	 */
 	public boolean isInside(Coords p){
-		double[] minmax = getXMinMax();
+
 		double val = p.getX();
-		if (val<minmax[0] || val>minmax[1])
+		if (val<getXmin()|| val>getXmax())
 			return false;
-		minmax = getYMinMax();
+
 		val = p.getY();
-		if (val<minmax[0] || val>minmax[1])
+		if (val<getYmin() || val>getYmax())
 			return false;
-		minmax = getZMinMax();
+
 		val = p.getZ();
-		if (val<minmax[0] || val>minmax[1])
+		if (val<getZmin() || val>getZmax())
 			return false;
+		
 		return true;		
 	}
 	
@@ -3687,6 +3724,71 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public double[] getIntervalClipped(double[] minmax, 
 			Coords o, Coords v){
 		return clippingCubeDrawable.getIntervalClipped(minmax, o, v);
+	}
+	
+	@Override
+	public boolean isOnView(double[] coords) {
+		
+		// check first x, y
+		if (!super.isOnView(coords)){
+			return false;
+		}
+		
+		// check z
+		if (coords.length < 3){ // 2D points : z = 0
+			return (0 >= getZmin()) && (0 <= getZmax());
+		}
+		
+		// 3D point
+		return (coords[2] >= getZmin()) && (coords[2] <= getZmax());
+		
+	}
+	
+	
+	@Override
+	public double[] getOnScreenDiff(double[] p1, double[] p2){
+		double[] ret = new double[p1.length];
+		ret[0] = (p2[0] - p1[0]) * getXscale();
+		ret[1] = (p2[1] - p1[1]) * getYscale();
+		if (ret.length > 2){
+			ret[2] = (p2[2] - p1[2]) * getYscale();	
+		}
+		return ret;
+	}
+	
+	
+	@Override
+	public boolean isSegmentOffView(double[] p1, double[] p2) {
+		
+		if (super.isSegmentOffView(p1, p2)){
+			return true;
+		}
+		
+		
+		
+		double tolerance = EuclidianStatic.CLIP_DISTANCE / getZscale();
+	
+		// check z
+		double z1, z2;
+		if (p1.length < 3){ // 2D points : z = 0
+			z1 = 0;
+			z2 = 0;
+		}else{
+			z1 = p1[2];
+			z2 = p2[2];
+		}
+		
+		if (Kernel.isGreater(getZmin(), z1, tolerance) 
+				&& Kernel.isGreater(getZmin(), z2, tolerance) )
+			return true;
+
+		if (Kernel.isGreater(z1, getZmax(), tolerance) 
+				&& Kernel.isGreater(z2, getZmax(), tolerance) )
+			return true;
+
+		
+		// close to screen
+		return false;
 	}
 	
 }

@@ -90,12 +90,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private boolean updateCullingBox() {
 		EuclidianView3D view = getView3D();
-		cullingBox[0] = view.getXMinMax()[0];
-		cullingBox[1] = view.getXMinMax()[1];
-		cullingBox[2] = view.getYMinMax()[0];
-		cullingBox[3] = view.getYMinMax()[1];
-		cullingBox[4] = view.getZMinMax()[0];
-		cullingBox[5] = view.getZMinMax()[1];
+		cullingBox[0] = view.getXmin();
+		cullingBox[1] = view.getXmax();
+		cullingBox[2] = view.getYmin();
+		cullingBox[3] = view.getYmax();
+		cullingBox[4] = view.getZmin();
+		cullingBox[5] = view.getZmax();
 		if(unboundedDomain) {
 			//see if current culling box is inside active culling box
 			final double[] cb = cullingBox;

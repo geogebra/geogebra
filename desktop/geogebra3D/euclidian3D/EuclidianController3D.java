@@ -217,15 +217,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		Coords coords = movedGeoPoint.getInhomCoordsInD(3);
 		
 		// sets the min/max values
-		double[] minmax;
 		double size = movedGeoPoint.getPointSize()*DrawPoint3D.DRAW_POINT_FACTOR/view3D.getScale();
-		minmax = view3D.getXMinMax();
-		xMinMax = getMinMax(minmax[0]+size, coords.getX(), minmax[1]-size);
-		//Application.debug("size="+geo.getLineThickness()+","+size+"\nxmin="+xMinMax[0]+"\nxmax="+xMinMax[1]);
-		minmax = view3D.getYMinMax();
-		yMinMax = getMinMax(minmax[0]+size, coords.getY(), minmax[1]-size);
-		minmax = view3D.getZMinMax();
-		zMinMax = getMinMax(minmax[0]+size, coords.getZ(), minmax[1]-size);
+		xMinMax = getMinMax(view3D.getXmin()+size, coords.getX(), view3D.getXmax()-size);
+		yMinMax = getMinMax(view3D.getYmin()+size, coords.getY(), view3D.getYmax()-size);
+		zMinMax = getMinMax(view3D.getZmin()+size, coords.getZ(), view3D.getZmax()-size);
 			
 
 		//Application.debug("xMinMax="+xMinMax[0]+","+xMinMax[1]);

@@ -13,12 +13,13 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
  * Curve in parametric form (f(t),g(t))
  */
-public interface ParametricCurve extends Traceable, Path {
+public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	double getMinParameter(); 
 	double getMaxParameter();	
 	/**
@@ -53,9 +54,4 @@ public interface ParametricCurve extends Traceable, Path {
 	 */
 	boolean isFunctionInX();
 	
-	/**
-	 * create new double[] to store point coords
-	 * @return new double[] with correct dimension
-	 */
-	public double[] newPoint();
 }

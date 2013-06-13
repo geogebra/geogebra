@@ -42,6 +42,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.App;
 import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
@@ -2463,8 +2464,14 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	
-	public double[] newPoint(){
+	public double[] newDoubleArray(){
 		return new double[2];
+	}
+	
+	
+	public double[] getDefinedInterval(double a, double b){
+		return RealRootUtil.getDefinedInterval(
+				getRealRootFunctionY(), a, b);
 	}
 
 }

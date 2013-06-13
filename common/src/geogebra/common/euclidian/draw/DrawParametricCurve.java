@@ -20,6 +20,8 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
+import geogebra.common.euclidian.plot.CurvePlotter;
+import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -97,7 +99,7 @@ public class DrawParametricCurve extends Drawable {
 	// private static final int MIN_SAMPLE_POINTS = 5;
 
 	private ParametricCurve curve;
-	private GeneralPathClipped gp;
+	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
 	private static int countPoints = 0;
 	private static long countEvaluations = 0;
@@ -135,7 +137,7 @@ public class DrawParametricCurve extends Drawable {
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(geo);
 		if (gp == null)
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		gp.reset();
 
 		fillCurve = filling(curve);
@@ -158,8 +160,8 @@ public class DrawParametricCurve extends Drawable {
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
 			//TODO use generalized algo
-			//labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? CurvePlotter.Gap.CORNER : CurvePlotter.Gap.MOVE_TO);
-			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? Gap.CORNER : Gap.MOVE_TO);
+			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? CurvePlotter.Gap.CORNER : CurvePlotter.Gap.MOVE_TO);
+			//labelPoint = plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? Gap.CORNER : Gap.MOVE_TO);
 		}
 
 		// gp on screen?

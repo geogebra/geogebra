@@ -169,6 +169,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return vertices[i];
 	}
 	
+	/**
+	 * 
+	 * @return x, y, z min-max values
+	 */
+	public double[][] getMinMax(){
+		return minMax;
+	}
+	
 	private Coords getVertexWithBorder(int x, int y, int z){
 		return vertices[x+2*y+4*z].add(new Coords(clippingBorder*(1-2*x),clippingBorder*(1-2*y),clippingBorder*(1-2*z),0));
 	}

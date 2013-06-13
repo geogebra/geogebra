@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
@@ -12,15 +11,14 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.RotateableND;
-import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
 
@@ -31,7 +29,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		ParametricCurve, GeoElement3DInterface, Traceable, RotateableND {
+		CurveEvaluable, GeoElement3DInterface, Traceable, RotateableND {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -81,7 +79,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 	}
 
-	public double[] newPoint(){
+	public double[] newDoubleArray(){
 		return new double[3];
 	}
 
@@ -292,48 +290,40 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	
 	
 	
+
 	
 	
-	
-	public void pointChanged(GeoPointND PI) {
-		// TODO Auto-generated method stub
+	public double[] getDefinedInterval(double a, double b){
 		
-	}
+		// compute interval for x(t)
+		double[] intervalX = RealRootUtil.getDefinedInterval(
+				fun[0], a, b);
 
-	public void pathChanged(GeoPointND PI) {
-		// TODO Auto-generated method stub
+		// compute interval for y(t) and update interval
+		double[] interval2 = RealRootUtil.getDefinedInterval(
+				fun[1], a, b);
 		
-	}
+		if (intervalX[0] < interval2[0]){
+			intervalX[0] = interval2[0];
+		}
+		
+		if (intervalX[1] > interval2[1]){
+			intervalX[1] = interval2[1];
+		}
 
-	public boolean isOnPath(GeoPointND PI, double eps) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		// compute interval for z(t) and update interval
+		interval2 = RealRootUtil.getDefinedInterval(
+				fun[2], a, b);
+		
+		if (intervalX[0] < interval2[0]){
+			intervalX[0] = interval2[0];
+		}
+		
+		if (intervalX[1] > interval2[1]){
+			intervalX[1] = interval2[1];
+		}
 
-	public boolean isClosedPath() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public PathMover createPathMover() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public RealRootFunction getRealRootFunctionX() {
-		return fun[0];
-	}
-
-	public RealRootFunction getRealRootFunctionY() {
-		return fun[1];
-	}
-
-	public boolean isFunctionInX() {
-		return false;
-	}
-
-	public GeoVec2D evaluateCurve(double t) {
-		return null;
+		return intervalX;
 	}
 	
 

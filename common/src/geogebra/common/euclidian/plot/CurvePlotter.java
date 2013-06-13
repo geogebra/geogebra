@@ -3,8 +3,7 @@ package geogebra.common.euclidian.plot;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.ParametricCurve;
-import geogebra.common.kernel.roots.RealRootUtil;
+import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.util.Cloner;
 
 public class CurvePlotter {
@@ -75,7 +74,7 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	final public static GPoint plotCurve(ParametricCurve curve, double t1,
+	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp,
 			boolean calcLabelPos, Gap moveToAllowed) {
 
@@ -114,7 +113,7 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
-	private static GPoint plotInterval(ParametricCurve curve, double t1,
+	private static GPoint plotInterval(CurveEvaluable curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
@@ -134,13 +133,13 @@ public class CurvePlotter {
 		double t;
 		//double x, y;
 		//double moveX = 0, moveY = 0;
-		double[] move = curve.newPoint();
+		double[] move = curve.newDoubleArray();
 		for (int i = 0 ; i < move.length ; i++){
 			move[i] = 0; 
 		}
 		boolean onScreen = false;
 		boolean nextLineToNeedsMoveToFirst = false;
-		double[] eval = curve.newPoint();
+		double[] eval = curve.newDoubleArray();
 		double[] eval0, eval1;
 
 		// evaluate for t1
@@ -319,12 +318,12 @@ public class CurvePlotter {
 
 			// remember first point on screen for label position
 			if (needLabelPos && onScreen) {
-				double xLabel = eval1[0] + 10;
+				double xLabel = view.toScreenCoordXd(eval1[0]) + 10;
 				if (xLabel < 20)
 					xLabel = 5;
 				if (xLabel > view.getWidth() - 30)
 					xLabel = view.getWidth() - 15;
-				double yLabel = eval1[1] + 15;
+				double yLabel = view.toScreenCoordYd(eval1[1]) + 15;
 				if (yLabel < 40)
 					yLabel = 15;
 				else if (yLabel > view.getHeight() - 30)
@@ -374,7 +373,7 @@ public class CurvePlotter {
 	/**
 	 * Plots an interval where f(t1) or f(t2) is undefined.
 	 */
-	private static GPoint plotProblemInterval(ParametricCurve curve, double t1,
+	private static GPoint plotProblemInterval(CurveEvaluable curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed, GPoint labelPoint) {
@@ -417,17 +416,17 @@ public class CurvePlotter {
 			// defined
 
 			// plot interval [t1, (t1+t2)/2]
-			double[] eval = curve.newPoint();
-			getDefinedInterval(curve, t1, splitParam, eval);
+			double[] borders = new double[2];
+			getDefinedInterval(curve, t1, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
-			labelPoint1 = plotInterval(curve, eval[0], eval[1],
+			labelPoint1 = plotInterval(curve, borders[0], borders[1],
 					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 
 			// plot interval [(t1+t2)/2, t2]
-			getDefinedInterval(curve, splitParam, t2, eval);
+			getDefinedInterval(curve, splitParam, t2, borders);
 			calcLabel = calcLabel && labelPoint1 == null;
-			labelPoint2 = plotInterval(curve, eval[0], eval[1],
+			labelPoint2 = plotInterval(curve, borders[0], borders[1],
 					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 		}
@@ -447,10 +446,10 @@ public class CurvePlotter {
 	/**
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
-	private static boolean isDefinedAround(ParametricCurve curve, double t,
+	private static boolean isDefinedAround(CurveEvaluable curve, double t,
 			double eps) {
 		// check if c(t) is undefined
-		double[] eval = curve.newPoint();
+		double[] eval = curve.newDoubleArray();
 
 		// c(t + eps)
 		curve.evaluateCurve(t + eps, eval);
@@ -499,13 +498,11 @@ public class CurvePlotter {
 		// small angle: tan(alpha) < MAX_BEND
 		// |det(v, w)| / v . w < MAX_BEND
 		// |det(v, w)| < MAX_BEND * (v . w)
-		
-		final double vx = v[0]; 
-		final double vy = v[1]; 
-		final double wx = w[0];
-		final double wy = w[1];
 
-		double innerProduct = vx * wx + vy * wy;
+		double innerProduct = 0;
+		for (int i = 0 ; i < v.length ; i++){
+			innerProduct += v[i] * w[i];
+		}
 		if (isUndefined(innerProduct)) {
 			return true;
 		} else if (innerProduct <= 0) {
@@ -514,7 +511,15 @@ public class CurvePlotter {
 		} else {
 			// angle < 90 degrees
 			// small angle: |det(v, w)| < MAX_BEND * (v . w)
-			double det = Math.abs(vx * wy - vy * wx);
+			double det;
+			if (v.length < 3){
+				det = Math.abs(v[0] * w[1] - v[1] * w[0]);
+			}else{
+				double d1 = v[0] * w[1] - v[1] * w[0];
+				double d2 = v[1] * w[2] - v[2] * w[1];
+				double d3 = v[2] * w[0] - v[0] * w[2];
+				det = Math.sqrt(d1*d1+d2*d2+d3*d3);
+			}
 			return det < bend * innerProduct;
 		}
 	}
@@ -526,7 +531,7 @@ public class CurvePlotter {
 	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
-	private static boolean isContinuous(ParametricCurve c, double from,
+	private static boolean isContinuous(CurveEvaluable c, double from,
 			double to, int MAX_ITERATIONS) {
 		double t1 = from;
 		double t2 = to;
@@ -534,7 +539,7 @@ public class CurvePlotter {
 			return true;
 
 		// left = c(t1)
-		double[] left = c.newPoint();
+		double[] left = c.newDoubleArray();
 		c.evaluateCurve(t1, left);
 		countEvaluations++;
 		if (isUndefined(left)) {
@@ -543,7 +548,7 @@ public class CurvePlotter {
 		}
 
 		// right = c(t2)
-		double[] right = c.newPoint();
+		double[] right = c.newDoubleArray();
 		c.evaluateCurve(t2, right);
 		countEvaluations++;
 		if (isUndefined(right)) {
@@ -559,7 +564,7 @@ public class CurvePlotter {
 		double eps = initialDistance * 0.9;
 		double dist = Double.POSITIVE_INFINITY;
 		int iterations = 0;
-		double[] middle = c.newPoint();
+		double[] middle = c.newDoubleArray();
 
 		while (iterations++ < MAX_ITERATIONS && dist > eps) {
 			double m = (t1 + t2) / 2;
@@ -606,15 +611,18 @@ public class CurvePlotter {
 	 * 
 	 * @return whether two defined borders could be found.
 	 */
-	private static boolean getDefinedInterval(ParametricCurve curve, double a,
+	private static boolean getDefinedInterval(CurveEvaluable curve, double a,
 			double b, double[] borders) {
+		
+		double[] eval = curve.newDoubleArray();
+		
 		// check first and last point in interval
-		curve.evaluateCurve(a, borders);
+		curve.evaluateCurve(a, eval);
 		countEvaluations++;
-		boolean aDef = !isUndefined(borders[0]) && !isUndefined(borders[1]);
-		curve.evaluateCurve(b, borders);
+		boolean aDef = !isUndefined(eval);
+		curve.evaluateCurve(b, eval);
 		countEvaluations++;
-		boolean bDef = !isUndefined(borders[0]) && !isUndefined(borders[1]);
+		boolean bDef = !isUndefined(eval);
 
 		// both end points defined
 		if (aDef && bDef) {
@@ -625,14 +633,9 @@ public class CurvePlotter {
 		else if (aDef && !bDef || !aDef && bDef) {
 			// check whether the curve is defined at the interval borders
 			// if not, we try to find a valid domain
-			double[] intervalX = RealRootUtil.getDefinedInterval(
-					curve.getRealRootFunctionX(), a, b);
-			double[] intervalY = RealRootUtil.getDefinedInterval(
-					curve.getRealRootFunctionY(), a, b);
-			double lowerBound = Math.max(intervalX[0], intervalY[0]);
-			double upperBound = Math.min(intervalX[1], intervalY[1]);
-			borders[0] = isUndefined(lowerBound) ? a : lowerBound;
-			borders[1] = isUndefined(upperBound) ? b : upperBound;
+			double[] interval = curve.getDefinedInterval(a, b);
+			borders[0] = isUndefined(interval[0]) ? a : interval[0];
+			borders[1] = isUndefined(interval[1]) ? b : interval[1];
 		}
 		// no end point defined
 		else {

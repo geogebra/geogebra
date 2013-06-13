@@ -34,6 +34,7 @@ import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -1019,7 +1020,26 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return true;
 	}
 
-	public double[] newPoint(){
+	public double[] newDoubleArray(){
 		return new double[2];
 	}
+	
+	
+	public double[] getDefinedInterval(double a, double b){
+		double[] intervalX = RealRootUtil.getDefinedInterval(
+				getRealRootFunctionX(), a, b);
+		double[] intervalY = RealRootUtil.getDefinedInterval(
+				getRealRootFunctionY(), a, b);
+		
+		if (intervalX[0] < intervalY[0]){
+			intervalX[0] = intervalY[0];
+		}
+		
+		if (intervalX[1] > intervalY[1]){
+			intervalX[1] = intervalY[1];
+		}
+		
+		return intervalX;
+	}
+	
 }

@@ -132,6 +132,7 @@ public class PlotterBrush implements PathPlotter {
 		index = manager.startNewList();
 		hasColor = false;
 		this.latitude = latitude;
+		start = null;
 		
 	}
 	
@@ -185,6 +186,13 @@ public class PlotterBrush implements PathPlotter {
 	 * @param point coords
 	 */
 	public void curveTo(Coords point){
+		
+		if (start == null){
+			setCurvePos(0);
+			down(point);
+			return;
+		}
+		
 		if (point.equalsForKernel(start.center, Kernel.STANDARD_PRECISION)){
 			return;
 		}
@@ -1004,6 +1012,7 @@ public class PlotterBrush implements PathPlotter {
 		if (lineTo) {
 			curveTo(p);
 		} else {
+			setCurvePos(0);
 			down(p);
 		}
 	}
@@ -1035,5 +1044,12 @@ public class PlotterBrush implements PathPlotter {
 		
 	}
 	
+	/**
+	 * set the length for texture pos
+	 * @param length length
+	 */
+	public void setLength(float length){
+		this.length = length;
+	}
 
 }

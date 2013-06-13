@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.Arrays;
@@ -762,7 +763,24 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 	}
 
 	
-	public double[] newPoint(){
+	public double[] newDoubleArray(){
 		return new double[2];
+	}
+	
+	public double[] getDefinedInterval(double a, double b){
+		double[] intervalX = RealRootUtil.getDefinedInterval(
+				getRealRootFunctionX(), a, b);
+		double[] intervalY = RealRootUtil.getDefinedInterval(
+				getRealRootFunctionY(), a, b);
+		
+		if (intervalX[0] < intervalY[0]){
+			intervalX[0] = intervalY[0];
+		}
+		
+		if (intervalX[1] > intervalY[1]){
+			intervalX[1] = intervalY[1];
+		}
+		
+		return intervalX;
 	}
 }
