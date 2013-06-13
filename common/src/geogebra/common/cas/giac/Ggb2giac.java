@@ -335,7 +335,7 @@ public class Ggb2giac {
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
-				"randpoly(%0,ggbtmpvarx,%1-1,%2)");
+				"randpoly(%0,ggbtmpvarx,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
 		p("Rationalize.1", "if type(%0)==DOM_RAT then %0 else normal(exact(%0)) fi");
