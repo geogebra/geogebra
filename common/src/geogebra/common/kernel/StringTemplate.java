@@ -618,23 +618,21 @@ public class StringTemplate {
 			if (left.evaluatesToList() && right instanceof NumberValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg {1,2,3} + 10
-				sb.append("seq((");
+				sb.append("map(");
 				sb.append(leftStr);
-				sb.append(")[j]+");
+				sb.append(",ggx->ggx+");
 				sb.append(rightStr);
-				sb.append(",j,0,length(");
-				sb.append(leftStr);
-				sb.append(")-1)");
+				sb.append(")");
 
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
 				App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + {1,2,3}
-				sb.append("seq((");
+				sb.append("map(");
 				sb.append(rightStr);
-				sb.append(")[j]+");
+				sb.append(",ggx->ggx+");
 				sb.append(leftStr);
-				sb.append(",j,0,length(");
+				sb.append(")");
 				sb.append(rightStr);
 				sb.append(")-1)");
 				
