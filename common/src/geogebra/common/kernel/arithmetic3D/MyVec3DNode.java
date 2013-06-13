@@ -210,15 +210,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return false;
 	}
 
-	public boolean isTextValue() {
-		return false;
-	}
-
 	public boolean isListValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
 		return false;
 	}
 

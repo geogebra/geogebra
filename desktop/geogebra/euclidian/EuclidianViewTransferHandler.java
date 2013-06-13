@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
@@ -194,7 +195,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 						.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(sb.toString(), true,false,false);
 
-				if (ret != null && ret[0].isTextValue()) {
+				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
 					geo.setLaTeX(true, false);
 
@@ -309,7 +310,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 								.getAlgebraProcessor()
 								.processAlgebraCommand(text, true);
 
-						if (ret != null && ret[0].isTextValue()) {
+						if (ret != null && ret[0] instanceof TextValue) {
 							GeoText geo = (GeoText) ret[0];
 							geo.setLaTeX(isLaTeX, false);
 

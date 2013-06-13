@@ -748,7 +748,7 @@ public class StringTemplate {
 			// if right is not a leaf expression or
 			// it is a leaf GeoElement without a label (i.e. it is
 			// calculated somehow)
-			if (left.isTextValue()
+			if (left.evaluatesToText()
 					&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 							.isLabelSet()))) {
 				if (stringType.equals(StringType.LATEX)

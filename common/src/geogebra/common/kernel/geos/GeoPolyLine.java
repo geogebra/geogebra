@@ -236,11 +236,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
-	@Override
 	public boolean isGeoPolygon() {
 		return false;
 	}

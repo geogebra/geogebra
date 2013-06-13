@@ -1349,11 +1349,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		return true;
 	}
 
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
 	/**
 	 * Calls super.update() and updateCascade() for all registered locateables.
 	 */

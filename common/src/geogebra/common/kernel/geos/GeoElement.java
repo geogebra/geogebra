@@ -56,6 +56,7 @@ import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoElementND;
@@ -1731,7 +1732,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final public boolean isLabelShowable() {
 		return isDrawable()
-				&& !(isTextValue() || isGeoImage() || isGeoList() || (isGeoBoolean() && !isIndependent()));
+				&& !(this instanceof TextValue || isGeoImage() || isGeoList() || (isGeoBoolean() && !isIndependent()));
 	}
 
 	/**
@@ -1971,7 +1972,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
-		return !fixed && app.letRedefine() && !(isTextValue() || isGeoImage())
+		return !fixed && app.letRedefine() && !(this instanceof TextValue || isGeoImage())
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
 				!isIndependent()); // redefine dependent object
@@ -4143,7 +4144,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final public String getLongDescriptionHTML(final boolean colored,
 			final boolean addHTMLtag) {
-		if ((algoParent == null) || isTextValue() || this instanceof GeoPenStroke) {
+		if ((algoParent == null) || this instanceof TextValue || this instanceof GeoPenStroke) {
 			return getNameDescriptionHTML(colored, addHTMLtag);
 		}
 		final StringBuilder sbLongDescHTML = new StringBuilder();
@@ -5518,7 +5519,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean isTextValue() {
+	public boolean evaluatesToText() {
 		return false;
 	}
 

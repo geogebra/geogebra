@@ -381,6 +381,14 @@ public abstract class ValidExpression implements ExpressionValue {
 	public boolean isPolynomialInstance() {
 		return false;
 	}
+	
+	public boolean isExpressionNode() {	
+		return false;
+	}
+	
+	public boolean evaluatesToText() {	
+		return false;
+	}
 
 
 }

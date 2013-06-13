@@ -161,7 +161,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
 				&& !lt.isVectorValue() // eg {1,2} + (1,2)
-				&& !lt.isTextValue() // bugfix "" + {1,2} Michael Borcherds
+				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael Borcherds
 				// 2008-06-05
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
 			MyList myList = ((ListValue) rt).getMyList();

@@ -571,16 +571,9 @@ public class Polynomial extends ValidExpression implements Serializable
 		return false;
 	}
 
+	@Override
 	final public boolean isPolynomialInstance() {
 		return true;
-	}
-
-	final public boolean isTextValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
 	}
 
 	public boolean isListValue() {

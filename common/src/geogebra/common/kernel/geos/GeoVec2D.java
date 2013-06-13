@@ -994,14 +994,6 @@ final public class GeoVec2D extends ValidExpression implements
 		return true;
 	}
 
-	final public boolean isTextValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
-	}
-
 	public boolean isListValue() {
 		return false;
 	}

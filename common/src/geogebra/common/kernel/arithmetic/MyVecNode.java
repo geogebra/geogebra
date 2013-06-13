@@ -258,15 +258,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return false;
 	}
 
-	public boolean isTextValue() {
-		return false;
-	}
-
 	public boolean isListValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
 		return false;
 	}
 

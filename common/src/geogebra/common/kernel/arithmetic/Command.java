@@ -315,8 +315,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 	}
 
-	public boolean isTextValue() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isTextValue();
+	@Override
+	public boolean evaluatesToText() {
+		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).evaluatesToText();
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
@@ -345,10 +346,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				set.addAll(s);
 		}
 		return set;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
 	}
 
 	final public boolean contains(ExpressionValue ev) {

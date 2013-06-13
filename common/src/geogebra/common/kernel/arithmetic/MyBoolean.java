@@ -71,10 +71,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
         return false;
     }
 
-    public boolean isTextValue() {
-        return false;
-    }
-
     public ExpressionValue deepCopy(Kernel kernel1) {
         return new MyBoolean(kernel1, value);
     }
@@ -91,10 +87,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
     final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
     	return toString(tpl);
     }
-    
-    final public boolean isExpressionNode() {
-        return false;
-    } 
   
     public boolean isListValue() {
         return false;

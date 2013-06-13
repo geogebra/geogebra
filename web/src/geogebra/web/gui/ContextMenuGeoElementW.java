@@ -4,6 +4,7 @@ package geogebra.web.gui;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.ContextMenuGeoElement;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -226,7 +227,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 		}, GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.rename().getSafeUri().asString(), app.getPlain("Rename")), app.getPlain("Rename"));
      }
      
-     if (geos.size() == 1 && geo.isTextValue() && !geo.isTextCommand() && !geo.isFixed()) {
+     if (geos.size() == 1 && geo instanceof TextValue && !geo.isTextCommand() && !geo.isFixed()) {
     	 addAction(new Command() {
 			
 			public void execute() {

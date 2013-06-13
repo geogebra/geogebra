@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -646,7 +647,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 		// EDITING      
 		// EDIT Text in special dialog
-		if (geos.size() == 1 && geo.isTextValue() && !geo.isTextCommand() && !geo.isFixed()) {
+		if (geos.size() == 1 && geo instanceof TextValue && !geo.isTextCommand() && !geo.isFixed()) {
 			addAction(new AbstractAction(
 					app.getPlain("Edit"),
 					((AppD) app).getImageIcon("edit.png")) {

@@ -201,14 +201,6 @@ public class Variable extends ValidExpression {
 		return false;
 	}
 
-	public boolean isTextValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
-	}
-
 	@Override
 	final public boolean isVariable() {
 		return true;

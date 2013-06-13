@@ -634,11 +634,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		slopeTriangleSize = i;
 	}
 
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
 	/**
 	 * Changes maximal value for slider
 	 * 

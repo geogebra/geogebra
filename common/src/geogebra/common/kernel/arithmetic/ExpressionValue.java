@@ -63,7 +63,7 @@ public interface ExpressionValue {
 	/**
 	 * @return whether this is instance of TextValue
 	 */
-	public boolean isTextValue();
+	public boolean evaluatesToText();
 	/**
 	 * @return whether this is instance of ExpressionNode
 	 */

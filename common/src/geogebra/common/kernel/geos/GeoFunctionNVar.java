@@ -385,11 +385,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public boolean isVectorValue() {
 		return false;
 	}
-
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
 	
 	public boolean isBooleanFunction() {
 		if (fun != null)

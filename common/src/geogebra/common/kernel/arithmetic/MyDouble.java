@@ -764,14 +764,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return false;
 	}
 
-	public boolean isTextValue() {
-		return false;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
-	}
-
 	public boolean isListValue() {
 		return false;
 	}

@@ -763,11 +763,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
-	@Override
 	final public boolean isTraceable() {
 		return true;
 	}

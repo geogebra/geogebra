@@ -258,11 +258,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return false;
 	}
 
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
 	public double getRealWorldLocX() {
 		return 0;
 	}

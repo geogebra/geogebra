@@ -750,10 +750,6 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	public boolean isTextValue() {
-		return false;
-	}
-
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		// copy arguments
 		int size = listElements.size();
@@ -794,10 +790,6 @@ public class MyList extends ValidExpression implements ListValue,
 		}
 
 		return varSet;
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
 	}
 
 	public boolean isListValue() {

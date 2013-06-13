@@ -4415,15 +4415,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 	}
 
-	public boolean isTextValue() {
+	@Override
+	public boolean evaluatesToText() {
 		// should be efficient as it is used in operationToString()
 		if (leaf) {
-			return left.isTextValue();
+			return left.evaluatesToText();
 		}
-		return (operation.equals(Operation.PLUS) && (left.isTextValue() || right
-				.isTextValue()));
+		return (operation.equals(Operation.PLUS) || operation.equals(Operation.MULTIPLY) )&& 
+				(left.evaluatesToText() || right.evaluatesToText());
 	}
 
+	@Override
 	final public boolean isExpressionNode() {
 		return true;
 	}

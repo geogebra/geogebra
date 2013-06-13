@@ -97,10 +97,6 @@ public class Parametric extends ValidExpression {
 		return P.isConstant() && v.isConstant();
 	}
 
-	public boolean isExpressionNode() {
-		return false;
-	}
-
 	public boolean isLeaf() {
 		return false;
 	}
@@ -110,10 +106,6 @@ public class Parametric extends ValidExpression {
 	}
 
 	public boolean isNumberValue() {
-		return false;
-	}
-
-	public boolean isTextValue() {
 		return false;
 	}
 

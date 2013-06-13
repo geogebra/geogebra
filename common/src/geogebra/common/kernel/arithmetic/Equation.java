@@ -391,10 +391,6 @@ public class Equation extends ValidExpression {
 		return lhs.isConstant() && rhs.isConstant();
 	}
 
-	public boolean isExpressionNode() {	
-		return false;
-	}
-
 	public boolean isLeaf() {
 		return false;
 	}
@@ -404,10 +400,6 @@ public class Equation extends ValidExpression {
 	}
 
 	public boolean isNumberValue() {
-		return false;
-	}
-
-	public boolean isTextValue() {		
 		return false;
 	}
 

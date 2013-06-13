@@ -84,7 +84,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 
-	public boolean isTextValue() {
+	public boolean evaluatesToText() {
 		return true;
 	}
 
@@ -117,10 +117,6 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 
 	public MyStringBuffer getText() {
 		return new MyStringBuffer(kernel, sb.toString());
-	}
-
-	final public boolean isExpressionNode() {
-		return false;
 	}
 
 	public boolean isListValue() {

@@ -32,6 +32,7 @@ import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -8171,7 +8172,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		// inputPanelDef.setVisible(showDefinition);
 
 		// CAPTION
-		boolean showCaption = !currentGeo.isTextValue(); // borcherds was
+		boolean showCaption = !(currentGeo instanceof TextValue); // borcherds was
 															// currentGeo.isGeoBoolean();
 		if (showCaption) {
 			tfCaption.removeActionListener(this);

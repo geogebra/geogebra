@@ -495,11 +495,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
 	/**
 	 * returns all class-specific xml tags for getXML
 	 */

@@ -135,11 +135,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return false;
 	}
 
-	@Override
-	public boolean isTextValue() {
-		return false;
-	}
-
 	public double getRealWorldLocX() {
 		return 0;
 	}
