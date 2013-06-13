@@ -201,8 +201,10 @@ public abstract class Drawable3D extends DrawableND {
 	public static final int DRAW_TYPE_POINTS = DRAW_TYPE_DEFAULT+1;
 	/** type for drawing lines, circles, etc. */
 	public static final int DRAW_TYPE_CURVES = DRAW_TYPE_POINTS+1;
+	/** type for drawing clipped curves (functions) */
+	public static final int DRAW_TYPE_CLIPPED_CURVES = DRAW_TYPE_CURVES+1;
 	/** type for drawing planes, polygons, etc. */
-	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CURVES+1;
+	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CLIPPED_CURVES+1;
 	/** type for drawing polyhedrons, etc. */
 	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES+1;
 	/** type for drawing  quadrics, etc. */

@@ -137,6 +137,14 @@ public class Drawable3DLists {
 		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES].isEmpty();
 	}
 	
+	/**
+	 * 
+	 * @return true if contains clipped curves
+	 */
+	private boolean containsClippedCurves(){
+		return !lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES].isEmpty();
+	}
+	
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
@@ -272,6 +280,13 @@ public class Drawable3DLists {
 			d.next().drawHidden(renderer);
 
 		
+		if (containsClippedCurves()){
+			renderer.enableClipPlanesIfNeeded();
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES].iterator(); d.hasNext();) 
+				d.next().drawHidden(renderer);
+			renderer.disableClipPlanesIfNeeded();
+		}
+		
 
 		view3D.drawHidden(renderer);
 
@@ -331,25 +346,18 @@ public class Drawable3DLists {
 	 */
 	public void draw(Renderer renderer){	
 
-		// points TODO hidden aspect ?
-		/*
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_POINTS].iterator(); d.hasNext();) 
-			d.next().draw(renderer);
-			*/
 		
 		// curves
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) 
 			d.next().drawOutline(renderer);
 		
-		/*
-		// surfaces
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) 
-			d.next().drawOutline(renderer);	
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) 
-			d.next().drawOutline(renderer);	
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED].iterator(); d.hasNext();) 
-			d.next().drawOutline(renderer);	
-			*/
+		if (containsClippedCurves()){
+			renderer.enableClipPlanesIfNeeded();
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES].iterator(); d.hasNext();) 
+				d.next().drawOutline(renderer);
+			renderer.disableClipPlanesIfNeeded();
+		}
+		
 
 		
 		view3D.draw(renderer);
@@ -427,6 +435,13 @@ public class Drawable3DLists {
 		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_DEFAULT]);	
 		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_POINTS]);	
 		drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_CURVES]);	
+		
+		if (containsClippedCurves()){
+			renderer.enableClipPlanesIfNeeded();
+			drawListForPickingPointOrCurve(renderer, lists[Drawable3D.DRAW_TYPE_CLIPPED_CURVES]);	
+			renderer.disableClipPlanesIfNeeded();
+		}
+		
 		view3D.drawForPicking(renderer);
 		
 
