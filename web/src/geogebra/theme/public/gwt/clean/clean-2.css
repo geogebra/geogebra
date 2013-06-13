@@ -1907,6 +1907,8 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	margin-right:20px;
 }
 
+
+/*=========== Navigation Bar =============*/
 .consProtNav{
 	position: absolute;
 	z-index: 1;
@@ -1918,6 +1920,13 @@ body[dir=rtl] .GeoGebraMenuBar table{
 .consProtNav .gwt-Label{
 	display: inline;
 }
+
+.consProtNav div{
+	display: inline-block;
+}
+
+/*=========== Navigation Bar end =============*/
+
 .elemHeadingName{
 	position:absolute;
 	left:10px;
