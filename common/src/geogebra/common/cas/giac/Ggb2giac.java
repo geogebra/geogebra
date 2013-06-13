@@ -257,29 +257,38 @@ public class Ggb2giac {
 				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*((%1)^2))) * exp(-((%2-%0)^2) / (2*((%1)^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
 
-		// wrap output in a list if not already eg x=1.1 -> {x=1.1}
-		// should be done by fsolve
-		// also removed left, giac = should now do it automatically
 		p("NSolve.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
 		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+		// eg NSolve[a^4 + 34a^3 = 34]
 		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
 		"ggbans][2]");
-		  //"lname(%0)[0]=fsolve(%0,lname(%0)[0])");
-				// "[[ggbvars:=lname(%0) minus {pi}],[ggbvar:=when(dim(ggbvars==1),ggbvars[0],ggbvars)],[ggbans:=fsolve(%0,ggbvar)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans)-1)]=ggbans[j],j,0,dim(ggbans)-1)][4]");
-	 //"[[ggbvars:=lname(%0) minus {pi}],[ggbvar:=when(dim(ggbvars==1),ggbvars[0],ggbvars)],[ggbans:=fsolve(%0,ggbvar)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans)-1)]=ggbans[j],j,0,dim(ggbans)-1)][4]");
+
 		p("NSolve.2",
-		  "left(%1)=fsolve(%0,%1)");
-		// "[[ggbans:=left(%1)=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
+				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
+		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
+		"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+		// eg NSolve[a^4 + 34a^3 = 34, a=3]
+		// eg NSolve[a^4 + 34a^3 = 34, a]
+		"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
+		"ggbans][2]");
+		
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
+
 		p("NSolutions.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+		// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
 		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
+		// eg NSolutions[a^4 + 34a^3 = 34]
 		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
 		"ggbans][2]");
+
 		p("NSolutions.2",
 				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
+
 		p("Numerator.1", "numer(%0)");
 		
 		p("Numeric.1",
