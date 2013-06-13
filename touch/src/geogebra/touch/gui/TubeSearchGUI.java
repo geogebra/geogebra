@@ -1,5 +1,6 @@
 package geogebra.touch.gui;
 
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.ggt.HorizontalMaterialPanel;
@@ -8,7 +9,6 @@ import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
 import geogebra.web.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.util.ggtapi.JSONparserGGT;
-import geogebra.web.util.ggtapi.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +92,7 @@ public class TubeSearchGUI extends VerticalPanel
 
 	public void displaySearchResults(String query)
 	{
-		GeoGebraTubeAPI.getInstance().search(query, new RequestCallback()
+		(GeoGebraTubeAPI.getInstance()).search(query, new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
@@ -133,7 +133,7 @@ public class TubeSearchGUI extends VerticalPanel
 	 */
 	private void loadFeatured()
 	{
-		GeoGebraTubeAPI.getInstance().getFeaturedMaterials(new RequestCallback()
+		(GeoGebraTubeAPI.getInstance()).getFeaturedMaterials(new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(Request request, Response response)

@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.ggt;
 
-import geogebra.web.util.ggtapi.Material;
+import geogebra.common.move.ggtapi.models.Material;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Overflow;

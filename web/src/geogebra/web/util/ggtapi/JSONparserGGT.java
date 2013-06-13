@@ -1,6 +1,7 @@
 package geogebra.web.util.ggtapi;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Material;
 
 import java.util.ArrayList;
 import java.util.List;

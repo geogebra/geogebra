@@ -1,9 +1,6 @@
-package geogebra.web.util.ggtapi;
+package geogebra.common.move.ggtapi.models;
 
 import java.util.Date;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 
 /**
  * Material POJO
@@ -13,7 +10,7 @@ import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
  */
 public class Material implements Comparable<Material>
 {
-	enum MaterialType
+	public enum MaterialType
 	{
 		ggb, ggt, link;
 	}
@@ -157,7 +154,9 @@ public class Material implements Comparable<Material>
 	public String getDate()
 	{
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
-		return DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(new Date(this.timestamp * 1000));
+		//gabor: why does it matter, I don't know right now .-)
+		//return DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(new Date(this.timestamp * 1000));
+		return String.valueOf(new Date().getTime());
 	}
 
 	public void setId(int id)

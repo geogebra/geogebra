@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.ggt;
 
-import geogebra.web.util.ggtapi.Material;
+import geogebra.common.move.ggtapi.models.Material;
 
 import java.util.List;
 

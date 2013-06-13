@@ -1,15 +1,16 @@
-package geogebra.web.util.ggtapi;
+package geogebra.common.move.ggtapi.models;
 
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
+import geogebra.common.move.ggtapi.models.json.JSONArray;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.models.json.JSONString;
+
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
  * 
  * @author Matthias Meisinger
  */
-class MaterialRequest implements Request
+public class MaterialRequest implements Request
 {
 	enum Task
 	{
