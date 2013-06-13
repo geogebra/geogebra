@@ -51,8 +51,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		Dilateable, MatrixTransformable, CasEvaluableFunction, ParametricCurve,
 		LineProperties, ConicMirrorable {
 
-	// samples to find interval with closest parameter position to given point
-	private static final int CLOSEST_PARAMETER_SAMPLES = 100;
 
 	private Function funX, funY;
 	private boolean isClosedPath;

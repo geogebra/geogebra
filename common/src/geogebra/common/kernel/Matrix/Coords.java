@@ -568,6 +568,42 @@ public class Coords extends CoordMatrix {
 
 		return this.sub(v).norm();
 	}
+	
+	/**
+	 * 
+	 * Calc square distance to v - only on x, y, z coords
+	 * 
+	 * @param v coords
+	 * @return square distance
+	 */
+	public double squareDistance3(Coords v){
+		
+		double x = getX() - v.getX();
+		double y = getY() - v.getY();
+		double z = getZ() - v.getZ();
+		
+		return x*x + y*y + z*z;
+		
+	}
+
+	/**
+	 * returns the shortest vector between this and a 3D-line represented by the matrix
+	 * {V O}
+	 * 
+	 * @param O
+	 *            origin of the line
+	 * @param V
+	 *            direction of the line
+	 * @return shortest vector between this and the line
+	 */
+	private Coords vectorToLine(Coords O, Coords V) {
+
+		Coords OM = this.sub(O);
+		Coords N = V.normalized();
+		Coords OH = N.mul(OM.dotproduct(N)); // TODO optimize
+		return OM.sub(OH);
+		
+	}
 
 	/**
 	 * returns the distance between this and a 3D-line represented by the matrix
@@ -581,13 +617,26 @@ public class Coords extends CoordMatrix {
 	 */
 	public double distLine(Coords O, Coords V) {
 
-		Coords OM = this.sub(O);
-		Coords N = V.normalized();
-		Coords OH = N.mul(OM.dotproduct(N)); // TODO optimize
-		Coords HM = OM.sub(OH);
-
-		return HM.norm();
+		return vectorToLine(O, V).norm();
 	}
+	
+	/**
+	 * returns the square distance between this and a 3D-line represented by the matrix
+	 * {V O} (only computed on x, y, z)
+	 * 
+	 * @param O
+	 *            origin of the line
+	 * @param V
+	 *            direction of the line
+	 * @return distance between this and the line
+	 */
+	public double squareDistLine3(Coords O, Coords V) {
+
+		Coords v = vectorToLine(O, V);
+		return v.getX() * v.getX() + v.getY() * v.getY() + v.getZ() * v.getZ();
+	}
+	
+	
 	
 	/**
 	 * 

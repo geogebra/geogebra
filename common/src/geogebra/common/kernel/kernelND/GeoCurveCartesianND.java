@@ -13,6 +13,10 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class GeoCurveCartesianND extends GeoElement {
 	
+	/** samples to find interval with closest parameter position to given point */
+	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
+
+	
 	/** coordinates  functions */
 	protected Function[] fun;
 	/** derivative  functions */

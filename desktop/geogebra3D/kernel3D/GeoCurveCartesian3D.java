@@ -1,6 +1,10 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3D;
@@ -18,6 +22,8 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.euclidian3D.Drawable3D;
@@ -29,7 +35,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, GeoElement3DInterface, Traceable, RotateableND {
+		CurveEvaluable, GeoElement3DInterface, Traceable, RotateableND, Path {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -189,12 +195,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
-
-	@Override
-	public Coords getMainDirection() {
-		return null;
-	}
-
+	
 	public boolean hasGeoElement2D() {
 		return false;
 	}
@@ -326,5 +327,239 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return intervalX;
 	}
 	
+	
+	///////////////////////////////////////
+	// PATH
+	///////////////////////////////////////
+	
+
+
+	public boolean isClosedPath() {
+		return false;
+	}
+
+	public PathMover createPathMover() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public void pointChanged(GeoPointND P) {
+
+		// get closest parameter position on curve
+		PathParameter pp = P.getPathParameter();
+		double t = getClosestParameter(P, pp.t);
+		pp.t = t;
+		pathChanged(P,false);
+	}
+
+	public boolean isOnPath(GeoPointND PI, double eps) {
+
+		if (PI.getPath() == this)
+			return true;
+
+		// get closest parameter position on curve
+		PathParameter pp = PI.getPathParameter();
+		double t = getClosestParameter(PI, pp.t);
+		Coords coords = PI.getInhomCoordsInD(3);
+		boolean onPath = Math.abs(fun[0].evaluate(t) - coords.getX()) <= eps
+				&& Math.abs(fun[1].evaluate(t) - coords.getY()) <= eps
+				&& Math.abs(fun[2].evaluate(t) - coords.getZ()) <= eps;
+		return onPath;
+	}
+
+	public void pathChanged(GeoPointND PI) {
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		pathChanged(PI,!getKernel().usePathAndRegionParameters(PI));
+
+	}
+	
+	private void pathChanged(GeoPointND P,boolean changePoint) {
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (changePoint) {
+			pointChanged(P);
+			return;
+		}
+
+
+		PathParameter pp = P.getPathParameter();
+		if (pp.t < startParam)
+			pp.t = startParam;
+		else if (pp.t > endParam)
+			pp.t = endParam;
+
+		// calc point for given parameter
+		P.setCoords(evaluateCurve3D(pp.t), false);
+	}
+	
+	private CurveCartesian3DDistanceFunction distFun;
+
+	/**
+	 * Returns the parameter value t where this curve has minimal distance to
+	 * point P.
+	 * 
+	 * @param startValue
+	 *            an interval around startValue is specially investigated
+	 * @param P
+	 *            point to which the distance is minimized
+	 * @return optimal parameter value t
+	 */
+	public double getClosestParameter(GeoPointND P, double startValue) {
+		double startVal = startValue;
+		if (distFun == null)
+			distFun = new CurveCartesian3DDistanceFunction(this);
+
+		distFun.setDistantPoint(P);
+
+		// check if P is on this curve and has the right path parameter already
+		if (P.getPath() == this || true) {
+			// point A is on curve c, take its parameter
+			PathParameter pp = P.getPathParameter();
+			double pathParam = pp.t;
+			if (distFun.evaluate(pathParam) < Kernel.MIN_PRECISION
+					* Kernel.MIN_PRECISION)
+				return pathParam;
+
+			// if we don't have a startValue yet, let's take the path parameter
+			// as a guess
+			if (Double.isNaN(startVal))
+				startVal = pathParam;
+		}
+
+		// first sample distFun to find a start intervall for ExtremumFinder
+		double step = (endParam - startParam) / CLOSEST_PARAMETER_SAMPLES;
+		double minVal = distFun.evaluate(startParam);
+		double minParam = startParam;
+		double t = startParam;
+		for (int i = 0; i < CLOSEST_PARAMETER_SAMPLES; i++) {
+			t = t + step;
+			double ft = distFun.evaluate(t);
+			if (ft < minVal) {
+				// found new minimum
+				minVal = ft;
+				minParam = t;
+			}
+		}
+
+		// use interval around our minParam found by sampling
+		// to find minimum
+		// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
+		double left = minParam - step; 
+		double right = minParam + step;
+
+		ExtremumFinder extFinder = kernel.getExtremumFinder();
+		double sampleResult = extFinder.findMinimum(left, right, distFun,
+				Kernel.MIN_PRECISION);
+		
+		sampleResult = adjustRange(sampleResult);
+
+		// if we have a valid startParam we try the interval around it too
+		// however, we don't check the same interval again
+		if (!Double.isNaN(startVal)
+				&& (startVal < left || right < startVal)) {
+			
+			// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
+			left = startVal - step; 
+			right = startVal + step;
+
+			double startValResult = extFinder.findMinimum(left, right, distFun,
+					Kernel.MIN_PRECISION);
+			
+			startValResult = adjustRange(startValResult); 
+			
+			if (distFun.evaluate(startValResult) < distFun
+					.evaluate(sampleResult) + Kernel.MIN_PRECISION/2) {
+				return startValResult;
+			}
+		}
+
+		return sampleResult;
+	}
+
+	/** 
+	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] 
+	 * to "join up" properly at 0 and 12*2pi 
+	 *  
+	 * @param startValResult 
+	 * @return startValResult adjusted to be in range [startParam, endParam] if it's just outside 
+	 */ 
+	private double adjustRange(double startValResult) { 
+		if (startValResult < startParam) { 
+			return startValResult + (endParam - startParam); 
+		} 
+
+		if (startValResult > endParam) { 
+			return startValResult - (endParam - startParam); 
+		} 
+
+		return startValResult; 
+	}
+	
+	
+	///////////////////////////////////////
+	// DISTANCE FUNCTION
+	///////////////////////////////////////
+
+
+	private class CurveCartesian3DDistanceFunction implements RealRootFunction {
+	
+		
+		private Coords distCoords, distDirection;
+
+		private GeoCurveCartesian3D curve;
+
+		/**
+		 * Creates a function for evaluating squared distance of (px,py)
+		 * from curve (px and py must be entered using a setter)
+		 * @param curve curve
+		 */
+		public CurveCartesian3DDistanceFunction(GeoCurveCartesian3D curve) {		
+			this.curve = curve;
+		}
+
+		/**
+		 * Sets the point to be used in the distance function 
+		 * @param p point
+		 */
+		public void setDistantPoint(GeoPointND p) {
+			
+			if (p.isGeoElement3D()){
+				GeoPoint3D p3D = (GeoPoint3D) p;
+				
+				if (p3D.getWillingCoords() != null){
+					distCoords = p3D.getWillingCoords();
+				}else{
+					distCoords = p3D.getInhomCoordsInD(3);
+				}
+				
+				distDirection = p3D.getWillingDirection(); //maybe null
+				
+				
+			}else{
+				distCoords = p.getInhomCoordsInD(3);
+				distDirection = null;
+			}
+		}
+
+		/**
+		 * Returns the square of the distance between the currently set
+		 * distance point and this curve at parameter position t
+		 */
+		public double evaluate(double t) {
+
+			Coords eval = evaluateCurve3D(t);		
+			if (distDirection == null){
+				return eval.squareDistance3(distCoords);
+			}
+			
+			return eval.squareDistLine3(distCoords, distDirection);
+		}
+
+	}
+
 
 }
