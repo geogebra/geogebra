@@ -2211,8 +2211,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						
 						sb.append("(");
 						sb.append(leftStr);
+						//App.debug(left.evaluatesToList());
+						//App.debug(left instanceof ListValue);
+						//App.debug(((ListValue)left).getListElement(0).evaluatesToList());
 
-						if (!left.evaluatesToList() || !((ListValue)left).getListElement(0).evaluatesToList()) {
+						// if list && !matrix
+						if (left.evaluatesToList() && !(left instanceof ListValue && ((ListValue)left).getListElement(0).evaluatesToList())) {
 							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
 							sb.append(").^(");						
 						} else {
