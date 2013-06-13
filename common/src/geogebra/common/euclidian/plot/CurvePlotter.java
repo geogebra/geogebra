@@ -6,6 +6,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.util.Cloner;
 
+/**
+ * Class to plot x->f(x) functions and 2D/3D parametric curves
+ * @author mathieu
+ *
+ */
 public class CurvePlotter {
 	
 	
