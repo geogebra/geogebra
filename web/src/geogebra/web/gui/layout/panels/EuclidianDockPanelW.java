@@ -13,6 +13,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -66,7 +67,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 			eview1 = Canvas.createIfSupported();
 			eview1.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 			eview1.getElement().getStyle().setZIndex(0);
-			euclidianpanel.add(eview1);
+			euclidianpanel.getAbsolutePanel().add(eview1);
 		}
 
 		return euclidianpanel;
@@ -102,15 +103,17 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		consProtNav.setVisible(app.showConsProtNavigation());
 	}
 	
-	class EuclidianPanel extends AbsolutePanel implements RequiresResize {
+	class EuclidianPanel extends FlowPanel implements RequiresResize {
 
 		EuclidianDockPanelW dockPanel;
+		AbsolutePanel absoluteEuclidianPanel;
 
 		int oldHeight = 0;
 		int oldWidth = 0;
 		
 		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
 			this.dockPanel = dockPanel;
+			add(absoluteEuclidianPanel = new AbsolutePanel());
 		}
 
 		public void onResize() {
@@ -138,6 +141,20 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 
 			}
 		}
+
+		public void add(Widget w, int x, int y) {
+	        absoluteEuclidianPanel.add(w,x,y);
+        }
+
+		public boolean remove(Widget w) {
+			return absoluteEuclidianPanel.remove(w);
+        }
+
+		public AbsolutePanel getAbsolutePanel() {
+			return absoluteEuclidianPanel;
+        }
+		
+		
 	}
 	
 	@Override
@@ -154,9 +171,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	    return eview1;
     }
 
-	public AbsolutePanel getAbsolutePanel() {
-	    return euclidianpanel;
-    }
+//	public AbsolutePanel getAbsolutePanel() {
+//	    return euclidianpanel;
+//    }
 
 	public void onResize() {
 		super.onResize();
@@ -200,7 +217,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	}
 
 	public AbsolutePanel getEuclidianPanel() {
-		return euclidianpanel;
+		return euclidianpanel.getAbsolutePanel();
 	}
 
 	public EuclidianView getEuclidianView() {
