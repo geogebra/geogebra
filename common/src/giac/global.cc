@@ -3857,7 +3857,7 @@ unsigned int ConvertUTF16toUTF8 (
     }
 
     target += bytesToWrite;
-    if ((unsigned long)target > (unsigned long)targetEnd) {
+    if (target > targetEnd) {
         source = oldSource; /* Back up source pointer! */
         target -= bytesToWrite; result = targetExhausted; break;
     }
@@ -3958,7 +3958,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
     ch -= offsetsFromUTF8[extraBytesToRead];
 
-    if ((unsigned long)target >= (unsigned long)targetEnd) {
+    if (target >= targetEnd) {
         source -= (extraBytesToRead+1); /* Back up source pointer! */
         result = targetExhausted; break;
     }
@@ -3989,7 +3989,7 @@ unsigned int ConvertUTF8toUTF16 (
         }
     } else {
         /* target is a character in range 0xFFFF - 0x10FFFF. */
-        if ((unsigned long)target + 1 >= (unsigned long)targetEnd) {
+        if (target + 1 >= targetEnd) {
         source -= (extraBytesToRead+1); /* Back up source pointer! */
         result = targetExhausted; break;
         }

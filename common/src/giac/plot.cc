@@ -936,7 +936,7 @@ namespace giac {
   vecteur plotpreprocess(const gen & args,GIAC_CONTEXT){
     vecteur v;
     gen var,res;
-    if (is_algebraic_program(args,var,res))
+    if (args.type!=_VECT && is_algebraic_program(args,var,res))
       return makevecteur(args,symb_interval(gnuplot_xmin,gnuplot_xmax));
     int nd;
     if ( (nd=is_distribution(args)) ){
