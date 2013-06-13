@@ -14,8 +14,7 @@ public class InputDialogOpenURL extends InputDialogW{
 		initString = "http://";
 		
 		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
-		wrappedPopup.center();
-		inputPanel.getTextComponent().getTextField().setFocus(true);			
+		wrappedPopup.center();			
 	}
 	
 	public void onClick(ClickEvent e) {
