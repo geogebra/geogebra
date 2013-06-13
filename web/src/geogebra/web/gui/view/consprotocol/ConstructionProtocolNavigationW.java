@@ -5,6 +5,8 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -47,8 +49,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		btFirst.addClickHandler(this);
 		btLast.addClickHandler(this);
 		btPrev.addClickHandler(this);
-		btNext.addClickHandler(this);
-		
+		btNext.addClickHandler(this);		
 		
 		FlowPanel leftPanel = new FlowPanel();
 		leftPanel.add(btFirst);
@@ -157,6 +158,19 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
     }
 	
+	/**
+	 * Make all components enabled / disabled
+	 * @param flag whether components should be enabled
+	 */
+	void setComponentsEnabled(boolean flag) {
+		NodeList<Element> buttons = implPanel.getElement().getElementsByTagName("button");
+		for (int i=0; i < buttons.getLength(); i++) {
+			buttons.getItem(i).setPropertyBoolean("disabled", !flag);
+		}
+		btPlay.setEnabled(true);	
+		//? lbSteps.setEnabled(true);
+	}		
+	
 	private class AutomaticPlayer{
 		private Timer timer;
 		
@@ -184,12 +198,9 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 		public synchronized void startAnimation() {
 //			app.startDispatchingEventsTo(btPlay);
-			//setPlaying(true);
 			isPlaying = true;
-			//btPlay.setIcon(new ImageIcon(app.getPauseImage()));
 			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_pause().getSafeUri().asString()));
-//			btPlay.setText(app.getPlain("Pause"));
-//			setComponentsEnabled(false);
+			setComponentsEnabled(false);
 			app.setWaitCursor();
 
 			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
@@ -200,14 +211,13 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 		
         public synchronized void stopAnimation() {
-//            timer.stop();                   
+        	timer.cancel();
             
             // unblock application events
 //			app.stopDispatchingEvents();
 			isPlaying = false;
 			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
-//			btPlay.setText(app.getPlain("Play"));
-//			setComponentsEnabled(true);
+			setComponentsEnabled(true);
 			app.setDefaultCursor();
         }
 	}
