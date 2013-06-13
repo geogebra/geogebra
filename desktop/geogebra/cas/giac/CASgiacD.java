@@ -87,7 +87,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	context C;
 
 	// whether to use thread (JNI only)
-	final private static boolean useThread = true;
+	final private static boolean useThread = false;
 
 	public String evaluate(String input) throws Throwable {
 
