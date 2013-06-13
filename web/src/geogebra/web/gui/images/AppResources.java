@@ -322,6 +322,13 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/nav_skipforward.png")
 	ImageResource nav_skipforward();
 	
+	@Source("geogebra/web/gui/images/nav_play.png")
+	ImageResource nav_play();
+
+	@Source("geogebra/web/gui/images/nav_pause.png")
+	ImageResource nav_pause();
+
+	
 	@Source("geogebra/web/gui/images/options_btn.png")
 	ImageResource options_btn();
 	

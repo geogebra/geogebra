@@ -19,6 +19,9 @@ public abstract class ConstructionProtocolNavigation{
 	 */
 	protected boolean showConsProtButton = true;
 
+	/** Indicates whether animation is on or off */
+	public boolean isPlaying;
+
 	/**
 	 * Sets the visibility of the navigation bar.
 	 * @param visible if true, the navigation bar will be visible
@@ -75,6 +78,5 @@ public abstract class ConstructionProtocolNavigation{
 		// TODO Auto-generated method stub
 		
 	}
-
-
+	
 }

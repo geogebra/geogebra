@@ -63,10 +63,6 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	/** Construction protocol view */
 	ConstructionProtocolView prot;
 	private AutomaticPlayer player;
-	/** Indicates whether animation is on or off */
-	boolean isPlaying;
-	
-	
 	/**
 	 * ConstructionProtocolNavigation panel
 	 */

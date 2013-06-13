@@ -7,13 +7,14 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation implements ClickHandler{
 
-	private AppW app;
+	AppW app;
 	private Label lbSteps;
 	private ConstructionProtocolViewW prot;
 	private FlowPanel implPanel;
@@ -21,6 +22,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	private Button btLast;
 	private Button btPrev;
 	private Button btNext;
+	Button btPlay;
+	private AutomaticPlayer player;
 	
 
 	public ConstructionProtocolNavigationW(AppW app){
@@ -54,8 +57,15 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
 		
+		FlowPanel playPanel = new FlowPanel();
+		playPanel.setVisible(true); //playPanel.setVisible(showPlayButton);
+		btPlay = new Button(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
+		btPlay.addClickHandler(this);
+		
+		playPanel.add(btPlay);
 		
 		implPanel.add(leftPanel);
+		implPanel.add(playPanel);
 		update();
 	}
 	
@@ -120,8 +130,6 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	}
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
 		Object source = event.getSource();
 		
 		//TODO : set cursor for wait cursor
@@ -138,6 +146,69 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		else if (source == btNext) {
 			prot.nextStep();
 		}
+		else if (source == btPlay){
+			if (isPlaying){
+				player.stopAnimation();
+			} else {
+				player = new AutomaticPlayer(playDelay);
+				player.startAnimation();
+			}
+		}
 		
     }
+	
+	private class AutomaticPlayer{
+		private Timer timer;
+		
+	      /**
+         * Creates a new player to step through the construction
+         * automatically.
+         * @param delay in seconds between steps
+         */
+		public AutomaticPlayer(double delay){
+			timer = new Timer(){
+
+				@Override
+                public void run() {
+		        	prot.nextStep();        	
+		        	if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
+		        		stopAnimation();
+		        	}
+		        	if (isPlaying){
+		        		timer.schedule((int) (playDelay * 1000));
+		        	}	                
+                }
+				
+			};
+		}
+
+		public synchronized void startAnimation() {
+//			app.startDispatchingEventsTo(btPlay);
+			//setPlaying(true);
+			isPlaying = true;
+			//btPlay.setIcon(new ImageIcon(app.getPauseImage()));
+			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_pause().getSafeUri().asString()));
+//			btPlay.setText(app.getPlain("Pause"));
+//			setComponentsEnabled(false);
+			app.setWaitCursor();
+
+			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
+				prot.firstStep();
+			}
+
+			timer.run();
+		}
+		
+        public synchronized void stopAnimation() {
+//            timer.stop();                   
+            
+            // unblock application events
+//			app.stopDispatchingEvents();
+			isPlaying = false;
+			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
+//			btPlay.setText(app.getPlain("Play"));
+//			setComponentsEnabled(true);
+			app.setDefaultCursor();
+        }
+	}
 }
