@@ -920,6 +920,15 @@ final public class GeoVec2D extends ValidExpression implements
 				// case LATEX:
 				return Unicode.IMAGINARY;
 			}
+		}else if(mode == Kernel.COORD_COMPLEX){
+			sbToString.setLength(0);
+			sbToString.append(tpl.leftBracket());
+			sbToString.append(kernel.format(x, tpl));
+			sbToString.append(" ");
+			kernel.formatSignedCoefficient(y, sbToString, tpl);
+			sbToString.append(Unicode.IMAGINARY);
+			sbToString.append(tpl.rightBracket());
+			return sbToString.toString();
 		}
 
 		sbToString.setLength(0);
@@ -935,11 +944,10 @@ final public class GeoVec2D extends ValidExpression implements
 
 	/**
 	 * interface VectorValue implementation
+	 * Make a copy to make sure eg imaginary(i*5*x) returns 5*x
 	 */
 	final public GeoVec2D getVector() {
-		if (this.isImaginaryUnit())
-			return new GeoVec2D(this);
-		return this;
+		return new GeoVec2D(this);
 	}
 
 	final public boolean isConstant() {
