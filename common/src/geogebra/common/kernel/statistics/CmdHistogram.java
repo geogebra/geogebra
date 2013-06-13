@@ -198,9 +198,9 @@ public class CmdHistogram extends CommandProcessor {
 	 */
 	final private GeoNumeric Histogram(String label, GeoBoolean isCumulative,
 			GeoList list1, GeoList list2, GeoBoolean useDensity,
-			GeoNumeric density, boolean right) {
+			GeoNumeric density, boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative,
-				list1, list2, null, useDensity, density, right);
+				list1, list2, null, useDensity, density, rightHistogram);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}
@@ -211,9 +211,9 @@ public class CmdHistogram extends CommandProcessor {
 	 */
 	final private GeoNumeric Histogram(String label, GeoList list1,
 			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
-			boolean right) {
+			boolean rightHistogram) {
 		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2, null, 
-				useDensity, density, right);
+				useDensity, density, rightHistogram);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}

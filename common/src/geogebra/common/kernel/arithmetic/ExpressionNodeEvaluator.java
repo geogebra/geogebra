@@ -179,7 +179,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// we want to use function arithmetic in cases like f*2 or f+x^2, but
 		// not for f(2), f'(2) etc.
-		else if ((lt instanceof FunctionalNVar) && rt.isNumberValue()
+		else if ((lt instanceof FunctionalNVar) && rt instanceof NumberValue
 				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
 					right, true);

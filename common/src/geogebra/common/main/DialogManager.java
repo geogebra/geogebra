@@ -310,14 +310,14 @@ public abstract class DialogManager {
 		cons.setSuppressLabelCreation(oldVal);
 
 
-		boolean success = result != null && result[0].isNumberValue();
+		boolean success = result != null && result[0] instanceof GeoNumberValue;
 
 		if (!success) {
 			return false;
 		}
 
 
-		GeoElement[] geos = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, (NumberValue) result[0]);
+		GeoElement[] geos = kernel.getAlgoDispatcher().RegularPolygon(null, geoPoint1, geoPoint2, (GeoNumberValue) result[0]);
 		GeoElement[] onlypoly = { null };
 		if (geos != null) {
 			onlypoly[0] = geos[0];

@@ -8,6 +8,13 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
+/**
+ * ContingencyTable[ <List of Text>, <List of Text> ]
+ * ContingencyTable[ <List of Text>, <List of Text>, <Options> ]
+ * ContingencyTable[ <List of Row Values>, <List of Column Values>, <Frequency Table> ]
+ * ContingencyTable[ <List of Row Values>, <List of Column Values>, <Frequency Table>, <Options> ]
+ *
+ */
 public class CmdContingencyTable extends CommandProcessor {
 	/**
 	 * Create new command processor

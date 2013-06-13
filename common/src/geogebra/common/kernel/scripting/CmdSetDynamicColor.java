@@ -65,10 +65,10 @@ public class CmdSetDynamicColor extends CmdScripting {
 		case 5:
 			ok = new boolean[n];
 			arg2 = resArgs(c);
-			if ((ok[1] = arg2[1].isNumberValue())
-					&& (ok[2] = arg2[2].isNumberValue())
-					&& (ok[3] = arg2[3].isNumberValue())
-					&& (ok[4] = arg2[4].isNumberValue())) {
+			if ((ok[1] = arg2[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg2[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg2[3] instanceof GeoNumberValue)
+					&& (ok[4] = arg2[4] instanceof GeoNumberValue)) {
 
 				GeoElement geo = arg2[0];
 				
