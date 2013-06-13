@@ -84,6 +84,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 
+	@Override
 	public boolean evaluatesToText() {
 		return true;
 	}
@@ -117,10 +118,6 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 
 	public MyStringBuffer getText() {
 		return new MyStringBuffer(kernel, sb.toString());
-	}
-
-	public boolean isListValue() {
-		return false;
 	}
 
 	final public boolean contains(ExpressionValue ev) {

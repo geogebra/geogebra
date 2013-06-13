@@ -2212,7 +2212,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						sb.append("(");
 						sb.append(leftStr);
 
-						if (!left.isListValue() || !((ListValue)left).getListElement(0).isListValue()) {
+						if (!left.evaluatesToList() || !((ListValue)left).getListElement(0).evaluatesToList()) {
 							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
 							sb.append(").^(");						
 						} else {
@@ -4405,14 +4405,24 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
-	public boolean isListValue() {
-		// temporary fix for ggbApplet.evalCommandCAS("Factor[x^2-1]")
-		try {
-			return evaluate(StringTemplate.defaultTemplate).isListValue();
-		} catch (MyError e) {
-			e.printStackTrace();
+	@Override
+	public boolean evaluatesToList() {
+		if(isLeaf()){
+			return left.evaluatesToList();
+		}
+		// eg. sin(list), f(list)
+		if(Operation.isSimpleFunction(operation) || operation == Operation.FUNCTION){
+			return left.evaluatesToList();
+		}
+		if(operation == Operation.IS_ELEMENT_OF || operation == Operation.IS_SUBSET_OF || operation == Operation.IS_SUBSET_OF_STRICT
+				|| operation == Operation.EQUAL_BOOLEAN || operation == Operation.NOT_EQUAL
+				|| operation == Operation.FREEHAND || operation == Operation.ELEMENT_OF || operation == Operation.FUNCTION_NVAR){
 			return false;
 		}
+		if(left.evaluatesToList() || (right != null && right.evaluatesToList())){
+			return true;
+		}
+		return false;
 	}
 
 	@Override

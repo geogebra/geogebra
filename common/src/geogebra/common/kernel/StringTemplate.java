@@ -615,28 +615,28 @@ public class StringTemplate {
 			break;
 		case GIAC:
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			if (left instanceof ListValue && right instanceof NumberValue) {
+			if (left.evaluatesToList() && right instanceof NumberValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg {1,2,3} + 10
 				sb.append("seq((");
 				sb.append(leftStr);
 				sb.append(")[j]+");
 				sb.append(rightStr);
-				sb.append(",j,0,");
-				sb.append(((ListValue)left).size()-1);
-				sb.append(')');
+				sb.append(",j,0,length(");
+				sb.append(leftStr);
+				sb.append(")-1)");
 
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if ((left instanceof NumberValue) && right instanceof ListValue) {
+			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
 				App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + {1,2,3}
 				sb.append("seq((");
 				sb.append(rightStr);
 				sb.append(")[j]+");
 				sb.append(leftStr);
-				sb.append(",j,0,");
-				sb.append(((ListValue)right).size()-1);
-				sb.append(')');
+				sb.append(",j,0,length(");
+				sb.append(rightStr);
+				sb.append(")-1)");
 				
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
@@ -1074,7 +1074,7 @@ public class StringTemplate {
 			boolean nounary = true;
 
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
+			if (!tpl.isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
 				sb.append(tpl.leftBracket());
 			}
 
@@ -1228,7 +1228,7 @@ public class StringTemplate {
 			}
 			
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!tpl.isPrintLocalizedCommandNames() || (left.isListValue() && right.isVectorValue())) {
+			if (!tpl.isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
 				sb.append(tpl.rightBracket());
 			}
 

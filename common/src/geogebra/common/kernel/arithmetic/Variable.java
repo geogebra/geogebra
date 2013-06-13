@@ -206,10 +206,6 @@ public class Variable extends ValidExpression {
 		return true;
 	}
 
-	public boolean isListValue() {
-		return false;
-	}
-
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}

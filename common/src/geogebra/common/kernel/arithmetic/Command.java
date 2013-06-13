@@ -352,7 +352,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return ev == this;
 	}
 
-	public boolean isListValue() {
+	@Override
+	public boolean evaluatesToList() {
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
 	}
 

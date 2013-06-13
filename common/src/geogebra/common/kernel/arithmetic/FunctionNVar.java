@@ -581,10 +581,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return false;
 	}
 
-	public boolean isListValue() {
-		return false;
-	}
-
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}

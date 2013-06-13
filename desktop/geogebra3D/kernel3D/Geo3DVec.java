@@ -511,11 +511,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 
 	 final public boolean isVectorValue() {
 		 return false;
-	 }	 
-	 
-    public boolean isListValue() {
-        return false;
-    }
+	 }
 	 
 	 final public boolean contains(ExpressionValue ev) {
 		 return ev == this;

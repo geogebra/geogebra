@@ -395,10 +395,6 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
-	public boolean isListValue() {
-		return false;
-	}
-
 	public boolean isNumberValue() {
 		return false;
 	}

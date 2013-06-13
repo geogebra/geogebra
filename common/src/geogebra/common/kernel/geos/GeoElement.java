@@ -5523,7 +5523,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean isListValue() {
+	public boolean evaluatesToList() {
 		return false;
 	}
 	/**

@@ -258,10 +258,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return false;
 	}
 
-	public boolean isListValue() {
-		return false;
-	}
-
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}

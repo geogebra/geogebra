@@ -801,7 +801,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	}
 
 	@Override
-	public boolean isListValue() {
+	public boolean evaluatesToList() {
 		return true;
 	}
 

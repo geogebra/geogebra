@@ -336,7 +336,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (name.length() == 1) {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
-					if (args.get(0).isListValue()) {
+					if (args.get(0).evaluatesToList()) {
 						if (casType == CasType.GIAC) {
 
 							sbCASCommand.append(toString(args.get(0), symbolic, tpl));

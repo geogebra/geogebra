@@ -87,11 +87,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
     final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
     	return toString(tpl);
     }
-  
-    public boolean isListValue() {
-        return false;
-    }
-
     
     final public boolean contains(ExpressionValue ev) {
         return ev == this;

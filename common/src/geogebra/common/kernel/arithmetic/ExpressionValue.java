@@ -54,7 +54,7 @@ public interface ExpressionValue {
 	/**
 	 * @return whether this is instance of ListValue
 	 */
-	public boolean isListValue();
+	public boolean evaluatesToList();
 
 	/**
 	 * @return whether this is instance of Polynomial

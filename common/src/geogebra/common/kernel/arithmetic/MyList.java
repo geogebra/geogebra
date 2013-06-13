@@ -535,7 +535,7 @@ public class MyList extends ValidExpression implements ListValue,
 							return false;
 						singleValue = LHlist.getListElement(i).evaluate(StringTemplate.defaultTemplate);
 						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
-						if (singleValue.isListValue()) {
+						if (singleValue.evaluatesToList()) {
 							MyList list = ((ListValue) singleValue).getMyList();
 							if (list.size() != LHcols)
 								isMatrix = false;
@@ -792,7 +792,8 @@ public class MyList extends ValidExpression implements ListValue,
 		return varSet;
 	}
 
-	public boolean isListValue() {
+	@Override
+	public boolean evaluatesToList() {
 		return true;
 	}
 

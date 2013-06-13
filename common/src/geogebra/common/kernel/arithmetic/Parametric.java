@@ -101,10 +101,6 @@ public class Parametric extends ValidExpression {
 		return false;
 	}
 
-	public boolean isListValue() {
-		return false;
-	}
-
 	public boolean isNumberValue() {
 		return false;
 	}

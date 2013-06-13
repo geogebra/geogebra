@@ -390,5 +390,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
+	public boolean evaluatesToList() {	
+		return false;
+	}
 
 }
