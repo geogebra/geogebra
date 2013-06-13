@@ -110,11 +110,18 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				giacSetToGeoGebraMode = true;
 			}
 			
+			// set timeout (in seconds)
+			app.getApplet().evalJS("timeout "+(timeoutMillis/1000));
+
 			// reset Giac
 			app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
 
-			// send expression to CAS
-			thread = new GiacJSThread(exp);
+			StringBuilder sb = new StringBuilder(exp.length() + 20);
+			sb.append("_ggbCallGiac('");
+			sb.append(exp);
+			sb.append("');");
+
+			threadResult = app.getApplet().evalJS(sb.toString());        
 
 		} else {
 			initialize();
@@ -122,30 +129,31 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			// send expression to CAS
 			thread = new GiacJNIThread(exp);
-		}
 
-		thread.start();
-		long startTime = System.currentTimeMillis();
 
-		int wait = 1;
+			thread.start();
+			long startTime = System.currentTimeMillis();
 
-		// wait for result from thread
-		while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
-			Thread.sleep(wait);
-			wait = wait * 2;
-			//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
-		}
+			int wait = 1;
 
-		//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+			// wait for result from thread
+			while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
+				Thread.sleep(wait);
+				wait = wait * 2;
+				//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
+			}
 
-		thread.interrupt();
-		// thread.interrupt() doesn't seem to stop it, so add this for good measure:
-		thread.stop();
+			//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
 
-		// if we haven't got a result, CAS took too long to return
-		// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
-		if (threadResult == null) {
-			throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+			thread.interrupt();
+			// thread.interrupt() doesn't seem to stop it, so add this for good measure:
+			thread.stop();
+
+			// if we haven't got a result, CAS took too long to return
+			// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
+			if (threadResult == null) {
+				throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+			}
 		}
 
 
@@ -165,7 +173,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		if (C == null) {
 			C = new context();
 			gen g;
-			
+
 			if (!giacSetToGeoGebraMode) {
 
 				g = new gen(initString, C);
@@ -175,7 +183,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 				giacSetToGeoGebraMode = true;
 			}
-			
+
 			g = new gen(specialFunctions, C);
 			g = giac._eval(g, C);
 			App.debug(g.print(C));
@@ -238,34 +246,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				// force error in GeoGebra
 				threadResult = "(";
 			}
-		}
-	}
-
-	/**
-	 * @author michael
-	 *
-	 */
-	class GiacJSThread extends Thread {
-		private String exp;
-		/**
-		 * @param exp Expression to send to Giac
-		 */
-		public GiacJSThread(String exp) {
-			this.exp = exp;
-		}
-		@Override
-		public void run() {
-			App.debug("thread starting: " + exp);
-
-			// JavaScript command to send
-			StringBuilder sb = new StringBuilder(exp.length() + 20);
-			sb.append("_ggbCallGiac('");
-			sb.append(exp);
-			sb.append("');");
-
-			threadResult = app.getApplet().evalJS(sb.toString());        
-
-			App.debug("message from thread: " + threadResult);
 		}
 	}
 
