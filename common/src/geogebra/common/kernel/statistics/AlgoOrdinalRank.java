@@ -93,8 +93,8 @@ public class AlgoOrdinalRank extends AlgoElement {
 		for (int i=0 ; i<size ; i++)
 		{
 			GeoElement geo = inputList.get(i);
-			if (geo.isNumberValue()) {
-				NumberValue num = (NumberValue)(inputList.get(i)); 
+			if (geo instanceof NumberValue) {
+				NumberValue num = (NumberValue) geo; 
 				OrderedPair pair = new OrderedPair(num.getDouble(), i);
 				sortedSet.add(pair);
 			} else {

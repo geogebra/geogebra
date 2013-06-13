@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -65,12 +66,12 @@ public class CmdIntegral extends CommandProcessor {
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				
 				AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2],"NIntegral".equals(internalCommandName));
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],"NIntegral".equals(internalCommandName));
 
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
@@ -82,14 +83,14 @@ public class CmdIntegral extends CommandProcessor {
 			// difference of two functions
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))
-					&& (ok[2] = (arg[2].isNumberValue()))
-					&& (ok[3] = (arg[3].isNumberValue() && !arg[3]
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue && !arg[3]
 							.isBooleanValue()))) {
 				
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(NumberValue) arg[2], (NumberValue) arg[3]);
+						(GeoNumberValue) arg[2], (NumberValue) arg[3]);
 
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;
@@ -97,13 +98,13 @@ public class CmdIntegral extends CommandProcessor {
 			}
 			// single function integral with evaluate option
 			else if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
 				
 				AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getIntegral() };
@@ -118,14 +119,14 @@ public class CmdIntegral extends CommandProcessor {
 			// difference of two functions with evaluate option
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))
-					&& (ok[2] = (arg[2].isNumberValue()))
-					&& (ok[3] = (arg[3].isNumberValue())
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue)
 							&& (ok[4] = (arg[4].isGeoBoolean())))) {
 				
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(NumberValue) arg[2], (NumberValue) arg[3],
+						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
 						(GeoBoolean) arg[4]);
 				
 				GeoElement[] ret = { algo.getIntegral() };

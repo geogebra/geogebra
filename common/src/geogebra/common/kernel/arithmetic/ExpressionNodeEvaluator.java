@@ -323,9 +323,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		//App.debug(rt.getClass()+" "+rt.toString());
 
 
-		if (lt.isNumberValue()) {
+		if (lt instanceof NumberValue) {
 			// number * number
-			if (rt.isNumberValue()) {
+			if (rt instanceof NumberValue) {
 				num = ((NumberValue) lt).getNumber();
 				MyDouble.mult(num, (NumberValue) rt, num);
 				return num;
@@ -379,7 +379,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// vector * ...
 		else if (lt instanceof VectorValue) {
 			// vector * number
-			if (rt.isNumberValue()) {
+			if (rt instanceof NumberValue) {
 				vec = ((VectorValue) lt).getVector();
 				GeoVec2D.mult(vec, ((NumberValue) rt).getDouble(), vec);
 				return vec;
@@ -463,7 +463,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		GeoVec2D vec;
 		MyStringBuffer msb;
 		Polynomial poly;
-		if (lt.isNumberValue() && rt.isNumberValue()) {
+		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			MyDouble.add(num, ((NumberValue) rt).getNumber(), num);
 			return num;
@@ -581,9 +581,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		GeoVec2D vec;
 		Polynomial poly;
-		if (rt.isNumberValue()) {
+		if (rt instanceof NumberValue) {
 			// number / number
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				num = ((NumberValue) lt).getNumber();
 				MyDouble.div(num, ((NumberValue) rt).getNumber(), num);
 				return num;
@@ -631,7 +631,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// number / vector (complex division Michael Borcherds 2007-12-09)
-		else if (lt.isNumberValue() && rt instanceof VectorValue) {
+		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector(); // just to
 													// initialise
 													// vec
@@ -641,7 +641,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 
-		else if ((rt instanceof GeoFunction) && lt.isNumberValue()) {
+		else if ((rt instanceof GeoFunction) && lt instanceof NumberValue) {
 			return GeoFunction.applyNumberSymb(Operation.DIVIDE,
 					(GeoFunction) rt, left, false);
 		} else {
@@ -663,7 +663,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		GeoVec2D vec;
 		Polynomial poly;
 		// number - number
-		if (lt.isNumberValue() && rt.isNumberValue()) {
+		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			MyDouble.sub(num, (NumberValue) rt, num);
 			return num;
@@ -732,7 +732,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		GeoVec2D vec, vec2;
 		// number ^ number
-		if (lt.isNumberValue() && rt.isNumberValue()) {
+		if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			num = ((NumberValue) lt).getNumber();
 			double base = num.getDouble();
 			MyDouble exponent = ((NumberValue) rt).getNumber();
@@ -847,7 +847,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			GeoVec2D.complexPower(vec, vec2, vec);
 			return vec;
 
-		} else if (lt.isNumberValue() && rt.isVectorValue()) {
+		} else if (lt instanceof NumberValue && rt.isVectorValue()) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",
 			// lt.toString(),
@@ -864,7 +864,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		}
 		// polynomial ^ number
-		else if (lt.isPolynomialInstance() && rt.isNumberValue()) {
+		else if (lt.isPolynomialInstance() && rt instanceof NumberValue) {
 
 			double exponent = rt.evaluateNum().getDouble();
 
@@ -964,7 +964,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		String[] str;
 		Kernel kernel = lt.getKernel();
 		// function(number)
-		if (rt.isNumberValue()) {
+		if (rt instanceof NumberValue) {
 			if (lt instanceof Evaluatable) {
 				NumberValue arg = (NumberValue) rt;
 				if ((lt instanceof GeoFunction)
@@ -1051,7 +1051,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if ((ev instanceof ListValue)
 						&& ((ListValue) ev).getMyList().getListElement(0)
 								.evaluate(StringTemplate.defaultTemplate)
-								.isNumberValue()) {
+								 instanceof NumberValue) { //TODO can we avoid evaluate here
 					double[] vals = ((ListValue) ev).toDouble();
 					if (vals != null) {
 						if (funN.isBooleanFunction()) {

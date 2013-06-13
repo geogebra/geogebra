@@ -3,9 +3,9 @@ package geogebra.common.kernel.scripting;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
@@ -49,9 +49,10 @@ public class CmdRigidPolygon extends CommandProcessor {
 		case 2:
 			throw argNumErr(app, c.getName(), n);
 
-		case 3: if (arg[0].isGeoPolygon() && arg[1].isNumberValue() && arg[2].isNumberValue()) {
+		case 3: if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue && arg[2] instanceof GeoNumberValue) {
 			
-			GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0], ((NumberValue)arg[1]).getDouble(), ((NumberValue)arg[2]).getDouble());
+			GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0], ((GeoNumberValue)arg[1]).getDouble(), 
+					((GeoNumberValue)arg[2]).getDouble());
 			
 			return ret;
 		}

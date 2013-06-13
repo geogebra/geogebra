@@ -3,10 +3,10 @@ package geogebra.common.kernel.scripting;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -36,7 +36,7 @@ public class CmdSlider extends CommandProcessor {
 		if (n < 2 || n > 9)
 			throw argNumErr(app, c.getName(), n);
 		for (int i = 0; i < Math.min(n, 5); i++)
-			if (!arg[i].isNumberValue())
+			if (!(arg[i] instanceof GeoNumberValue))
 				throw argErr(app, c.getName(), arg[i]);
 		for (int i = 5; i < n; i++)
 			if (!arg[i].isBooleanValue())
@@ -69,14 +69,14 @@ public class CmdSlider extends CommandProcessor {
 		
 		
 		
-		slider.setIntervalMin((NumberValue) arg[0]);
-		slider.setIntervalMax((NumberValue) arg[1]);
+		slider.setIntervalMin((GeoNumberValue) arg[0]);
+		slider.setIntervalMax((GeoNumberValue) arg[1]);
 		if (n > 2)
-			slider.setAnimationStep((NumberValue) arg[2]);
+			slider.setAnimationStep((GeoNumberValue) arg[2]);
 		if (n > 3)
-			slider.setAnimationSpeedObject((NumberValue) arg[3]);
+			slider.setAnimationSpeedObject((GeoNumberValue) arg[3]);
 		if (n > 4)
-			slider.setSliderWidth(((NumberValue) arg[4]).getDouble());
+			slider.setSliderWidth(((GeoNumberValue) arg[4]).getDouble());
 		if (n > 6)
 			slider.setSliderHorizontal(((BooleanValue) arg[6]).getBoolean());
 		if (n > 7)

@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
@@ -56,10 +57,10 @@ public class CmdSum extends CommandProcessor {
 				if (!geo.isGeoFunctionable()) {
 					allFunctions = false;
 				}
-				if (!geo.isNumberValue()) {
+				if (!(geo instanceof GeoNumberValue)) {
 					allNumbers = false;
 				}
-				if (!geo.isNumberValue() && !geo.isGeoVector()
+				if (!(geo instanceof GeoNumberValue) && !geo.isGeoVector()
 						&& !geo.isGeoPoint()) {
 					allNumbersVectorsPoints = false;
 				}
@@ -117,7 +118,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			}
 			else if(arg[1].isGeoList()){
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
 				{
 					
 					AlgoSum algo = new AlgoSum(cons, c.getLabel(),list,(GeoList)arg[1]);
@@ -131,7 +132,7 @@ public class CmdSum extends CommandProcessor {
 
 		default:
 			// try to create list of numbers
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof GeoNumberValue) {
 				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (wrapList != null) {

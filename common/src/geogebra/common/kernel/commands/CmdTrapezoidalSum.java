@@ -3,9 +3,9 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,14 +33,14 @@ public class CmdTrapezoidalSum extends CommandProcessor {
 		case 4:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))
-					&& (ok[3] = (arg[3].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
 				
 				AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2],
-						(NumberValue) arg[3]);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;

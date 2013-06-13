@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -28,12 +29,12 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 		
 		case 2:			
 			arg = resArgs(c);
-			if ((arg[0].isNumberValue()) &&
-				(arg[1].isNumberValue())) 
+			if ((arg[0] instanceof GeoNumberValue) &&
+				(arg[1] instanceof GeoNumberValue)) 
 			{
 				GeoElement[] ret = { 
 						doCommand(c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]) };
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]) };
 				return ret;
 				
 			}
@@ -41,12 +42,12 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 
 		case 3:		// return list of results	
 			arg = resArgs(c);
-			if ((arg[0].isNumberValue()) &&
-				(arg[1].isNumberValue()) &&
-				(arg[2].isNumberValue())) 
+			if ((arg[0] instanceof GeoNumberValue) &&
+				(arg[1] instanceof GeoNumberValue) &&
+				(arg[2] instanceof GeoNumberValue)) 
 			{
 				GeoElement[] ret = { 
-						doCommand2(c, (NumberValue) arg[0], (NumberValue) arg[1], (NumberValue) arg[2]) };
+						doCommand2(c, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
 				return ret;
 				
 			}

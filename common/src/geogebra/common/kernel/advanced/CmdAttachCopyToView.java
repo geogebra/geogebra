@@ -38,7 +38,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 
-			if (arg[1].isNumberValue()) {
+			if (arg[1] instanceof NumberValue) {
 				GeoPointND corner1, corner3, screenCorner1,screenCorner3;
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
 				EuclidianView ev;

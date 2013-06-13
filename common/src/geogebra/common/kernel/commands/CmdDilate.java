@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -42,8 +43,8 @@ public class CmdDilate extends CommandProcessor {
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoPolygon() || arg[0]
 					.isGeoList()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
-				NumberValue phi = (NumberValue) arg[1];
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+				NumberValue phi = (GeoNumberValue) arg[1];
 				ret = Dilate(label, arg[0], phi);
 				return ret;
 			}
@@ -57,9 +58,9 @@ public class CmdDilate extends CommandProcessor {
 			// dilate point, line or conic
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoPolygon() || arg[0]
 					.isGeoList()))
-					&& (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				NumberValue phi = (NumberValue) arg[1];
+				NumberValue phi = (GeoNumberValue) arg[1];
 				GeoPoint Q = (GeoPoint) arg[2];
 				ret = getAlgoDispatcher().Dilate(label, arg[0], phi, Q);
 				return ret;

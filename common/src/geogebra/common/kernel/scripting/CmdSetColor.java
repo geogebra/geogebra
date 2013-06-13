@@ -108,9 +108,9 @@ public class CmdSetColor extends CmdScripting {
 		case 4:
 			boolean[] ok = new boolean[n];
 			arg = resArgs(c);
-			if ((ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())) {
+			if ((ok[1] = arg[1] instanceof NumberValue)
+					&& (ok[2] = arg[2] instanceof NumberValue)
+					&& (ok[3] = arg[3] instanceof NumberValue)) {
 				int red = (int) (((NumberValue) arg[1]).getDouble() * 255);
 				if (red < 0)
 					red = 0;

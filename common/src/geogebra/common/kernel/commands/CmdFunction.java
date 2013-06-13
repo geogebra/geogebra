@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -88,11 +89,11 @@ public class CmdFunction extends CommandProcessor {
 			}
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { Function(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2]) };
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

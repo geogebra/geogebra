@@ -31,7 +31,7 @@ public class CmdSetPointSize extends CmdScripting {
 		case 2:
 			arg = resArgs(c);
 
-			if ((ok = arg[0] instanceof PointProperties) && arg[1].isNumberValue()) {
+			if ((ok = arg[0] instanceof PointProperties) && arg[1] instanceof NumberValue) {
 
 				PointProperties point = (PointProperties) arg[0];
 

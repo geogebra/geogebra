@@ -30,7 +30,7 @@ public class CmdLineStyle extends CmdScripting {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (arg[1].isNumberValue()) {
+			if (arg[1] instanceof NumberValue) {
 
 				int style = (int) ((NumberValue) arg[1]).getDouble();
 				Integer[] types = EuclidianView.getLineTypes();

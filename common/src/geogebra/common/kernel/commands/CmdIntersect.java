@@ -259,7 +259,7 @@ public class CmdIntersect extends CommandProcessor {
 			// Line - Conic
 			if ((ok[0] = (arg[0] .isGeoLine()))
 					&& (ok[1] = (arg[1] .isGeoConic()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				GeoElement[] ret =
 					{
 						IntersectLineConicSingle(
@@ -271,7 +271,7 @@ public class CmdIntersect extends CommandProcessor {
 			} else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoLine()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				GeoElement[] ret =
 					{
 						IntersectLineConicSingle(
@@ -320,7 +320,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoConic()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				GeoElement[] ret =
 					{
 						IntersectConicsSingle(
@@ -335,7 +335,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoFunctionable()))
 					&& (ok[1] = (arg[1] .isGeoLine()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				GeoPoint ret =
 					
 						IntersectPolynomialLineSingle(
@@ -356,7 +356,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoLine()))
 					&& (ok[1] = (arg[1] .isGeoFunctionable()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				GeoPoint ret =
 					
 						IntersectPolynomialLineSingle(
@@ -375,7 +375,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoFunctionable()))
 					&& (ok[1] = (arg[1] .isGeoFunctionable()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				GeoElement[] ret =
 					{
 						IntersectPolynomialsSingle(
@@ -389,7 +389,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoFunction()))
 					&& (ok[1] = (arg[1] .isGeoConic()))
-					&& (ok[2] = (arg[2] .isNumberValue())) )
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue)) )
 				return new GeoElement[]{IntersectPolynomialConicSingle(
 						c.getLabel(),
 						(GeoFunction) arg[0],
@@ -397,7 +397,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoConic()))
 					&& (ok[1] = (arg[1] .isGeoFunction()))
-					&& (ok[2] = (arg[2] .isNumberValue())))
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue)))
 				return new GeoElement[]{IntersectPolynomialConicSingle(
 						c.getLabel(),
 						(GeoFunction) arg[1],
@@ -407,7 +407,7 @@ public class CmdIntersect extends CommandProcessor {
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1] .isGeoFunctionable())
 					&& (ok[1]=((GeoFunctionable) arg[1]).getGeoFunction().isPolynomialFunction(false)))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				
 				GeoPoint ret = IntersectImplicitpolyPolynomialSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[0],
@@ -423,7 +423,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if ((ok[0] =arg[0] .isGeoFunctionable())
 					&& (ok[0]=((GeoFunctionable) arg[0]).getGeoFunction().isPolynomialFunction(false))
 					&& (ok[1] = (arg[1] .isGeoImplicitPoly()))
-					&& (ok[2] = (arg[2] .isNumberValue()))) {
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))) {
 				
 				GeoPoint ret = IntersectImplicitpolyPolynomialSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[1],
@@ -440,14 +440,14 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1].isGeoLine()))
-					&& (ok[2] = (arg[2] .isNumberValue())) )
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue)) )
 				return new GeoElement[]{IntersectImplicitpolyLineSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[0],
 						(GeoLine) arg[1] ,(GeoNumberValue)arg[2])};
 			else if (
 					(ok[1] = (arg[1] .isGeoImplicitPoly()))
 					&& (ok[0] = (arg[0].isGeoLine()))
-					&& (ok[2] = (arg[2] .isNumberValue())))
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue)))
 				return new GeoElement[]{IntersectImplicitpolyLineSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[1],
 						(GeoLine) arg[0] ,(GeoNumberValue)arg[2])};
@@ -455,7 +455,7 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))
-					&& (ok[2]=arg[2].isNumberValue()))
+					&& (ok[2]=arg[2] instanceof GeoNumberValue))
 				return new GeoElement[]{IntersectImplicitpolysSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[0],
 						(GeoImplicitPoly) arg[1], (GeoNumberValue) arg[2] )};
@@ -463,14 +463,14 @@ public class CmdIntersect extends CommandProcessor {
 			else if (
 					(ok[0] = (arg[0] .isGeoImplicitPoly()))
 					&& (ok[1] = (arg[1].isGeoConic()))
-					&& (ok[2]=arg[2].isNumberValue()))
+					&& (ok[2]=arg[2] instanceof GeoNumberValue))
 				return new GeoElement[]{IntersectImplicitpolyConicSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[0],
 						(GeoConic) arg[1], (GeoNumberValue) arg[2] )};
 			else if (
 					(ok[1] = (arg[1] .isGeoImplicitPoly()))
 					&& (ok[0] = (arg[0].isGeoConic()))
-					&& (ok[2]=arg[2].isNumberValue()))
+					&& (ok[2]=arg[2] instanceof GeoNumberValue))
 				return new GeoElement[]{IntersectImplicitpolyConicSingle(
 						c.getLabel(), (GeoImplicitPoly) arg[1],
 						(GeoConic) arg[0], (GeoNumberValue) arg[2] )};
@@ -534,8 +534,8 @@ public class CmdIntersect extends CommandProcessor {
 			if (
 					(ok[0] = (arg[0] .isGeoFunction()))
 					&& (ok[1] = (arg[1] .isGeoFunction()))
-					&& (ok[2] = (arg[2] .isNumberValue()))
-					&& (ok[3] = (arg[3] .isNumberValue()))
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3]  instanceof GeoNumberValue))
 					) {
 				GeoElement[] ret =
 						IntersectFunctions(

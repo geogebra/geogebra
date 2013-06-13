@@ -3,8 +3,8 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -40,9 +40,9 @@ public class CmdSequence extends CommandProcessor {
 		else
 			arg = resArgs(c);
 		switch (n) {
-		case 1:if (arg[0].isGeoNumeric()){
+		case 1:if (arg[0] instanceof GeoNumberValue){
 			
-			AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),(GeoNumeric) arg[0]);
+			AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),(GeoNumberValue) arg[0]);
 			return algo.getOutput();
 		}    	
 		throw argErr(app, c.getName(), arg[0]);
@@ -54,15 +54,15 @@ public class CmdSequence extends CommandProcessor {
 
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue()))
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue))
 			{
 				
 				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
 						arg[0],
 						(GeoNumeric) arg[1],
-						(NumberValue) arg[2],
-						(NumberValue) arg[3],
+						(GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3],
 						null);
 
 				return  algo.getOutput();
@@ -77,17 +77,17 @@ public class CmdSequence extends CommandProcessor {
 			
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())
-					&& (ok[4] = arg[4].isNumberValue()) )
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)
+					&& (ok[4] = arg[4] instanceof GeoNumberValue) )
 			{
 				
 				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
 						arg[0],
 						(GeoNumeric) arg[1],
-						(NumberValue) arg[2],
-						(NumberValue) arg[3],
-						(NumberValue) arg[4]);
+						(GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3],
+						(GeoNumberValue) arg[4]);
 				return algo.getOutput();
 
 			} 

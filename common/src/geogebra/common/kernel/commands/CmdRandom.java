@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -52,17 +53,17 @@ public class CmdRandom extends CommandProcessor {
 
 		case 2:			
 			arg = resArgs(c);
-			if ((arg[0].isNumberValue()) &&
-				(arg[1].isNumberValue())) 
+			if ((arg[0] instanceof GeoNumberValue) &&
+				(arg[1] instanceof GeoNumberValue)) 
 			{
 				
-				AlgoRandom algo = new AlgoRandom(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+				AlgoRandom algo = new AlgoRandom(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1]);
 				GeoElement[] ret = { algo.getResult() };
 
 				return ret;
 				
 			}
-			throw argErr(app, c.getName(), arg[0].isNumberValue() ? arg[1] : arg[0]);
+			throw argErr(app, c.getName(), arg[0] instanceof GeoNumberValue ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

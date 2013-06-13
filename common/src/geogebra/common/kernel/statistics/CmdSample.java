@@ -7,6 +7,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,9 +35,9 @@ public class CmdSample extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isNumberValue())) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { Sample(c.getLabel(),
-						(GeoList) arg[0], (NumberValue) arg[1], null) };
+						(GeoList) arg[0], (GeoNumberValue) arg[1], null) };
 				return ret;
 
 			}
@@ -45,10 +46,10 @@ public class CmdSample extends CommandProcessor {
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isNumberValue())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 				GeoElement[] ret = { Sample(c.getLabel(),
-						(GeoList) arg[0], (NumberValue) arg[1],
+						(GeoList) arg[0], (GeoNumberValue) arg[1],
 						(GeoBoolean) arg[2]) };
 				return ret;
 

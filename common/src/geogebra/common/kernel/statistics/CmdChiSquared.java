@@ -4,10 +4,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -48,18 +48,18 @@ public class CmdChiSquared extends CommandProcessor {
 
 			// fall through
 		case 2:			
-			if (arg[0].isNumberValue() ) {
+			if (arg[0] instanceof GeoNumberValue ) {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons, c.getLabel(), (NumberValue)arg[0], cumulative);
+					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons, c.getLabel(), (GeoNumberValue)arg[0], cumulative);
 					return algo.getGeoElements();
 
 
 
-				} else if (arg[1].isNumberValue()) {
+				} else if (arg[1] instanceof GeoNumberValue) {
 					
 					AlgoChiSquared algo = new AlgoChiSquared(cons, c.getLabel(),
-							(NumberValue) arg[0], (NumberValue) arg[1]);
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else

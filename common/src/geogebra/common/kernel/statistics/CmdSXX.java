@@ -1,6 +1,7 @@
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdOneOrTwoListsFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -25,7 +26,7 @@ public class CmdSXX extends CmdOneOrTwoListsFunction {
 	{
 		GeoNumeric num;
 		GeoElement geo = b.get(0);
-		if (geo.isNumberValue()) { // list of numbers
+		if (geo instanceof NumberValue) { // list of numbers
 			AlgoSXX algo = new AlgoSXX(cons, a, b);
 			num = algo.getResult();
 		} else { // (probably) list of points

@@ -4,9 +4,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -45,7 +45,7 @@ public class CmdFromBase extends CommandProcessor{
 				
 				argE[1].resolveVariables(false);
 				arg[1] = resArg(argE[1])[0];
-				if(!arg[1].isNumberValue())
+				if(!(arg[1] instanceof GeoNumberValue))
 					throw argErr(app, c.getName(), arg[1]);
 				String str = argE[0].toString(StringTemplate.defaultTemplate);
 				try{
@@ -62,7 +62,7 @@ public class CmdFromBase extends CommandProcessor{
 				cons.setSuppressLabelCreation(oldMacroMode);
 				
 				AlgoFromBase fromBase = new AlgoFromBase(cons, c.getLabel(),
-						 (GeoText) arg[0],(NumberValue) arg[1]);
+						 (GeoText) arg[0],(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { fromBase.getResult() };
 				return ret;

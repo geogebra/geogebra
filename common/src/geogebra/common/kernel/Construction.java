@@ -2348,9 +2348,9 @@ public class Construction {
 					createdGeo = dist.getDistance();
 					fix = false;
 				}
-			} else if (geo1 != null && geo1.isNumberValue()) {
+			} else if (geo1 != null && geo1 instanceof NumberValue) {
 				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
-				if (geo2 != null && geo2.isNumberValue()) {
+				if (geo2 != null && geo2 instanceof NumberValue) {
 					ExpressionNode node = new ExpressionNode(kernel,
 							((NumberValue) geo1).evaluateNum(),
 							Operation.MULTIPLY, ((NumberValue) geo2).evaluateNum());

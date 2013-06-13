@@ -16,24 +16,23 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *
  * @author  Michael
- * @version 
  */
 public class AlgoDynamicCoordinates extends AlgoElement implements AlgoDynamicCoordinatesInterface {
 
-    private NumberValue x,y; // input
+    private GeoNumberValue x,y; // input
 	private GeoPoint P; // input
     private GeoPoint M; // output        
 
 	
-    public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P, NumberValue x, NumberValue y) {
+    public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P, GeoNumberValue x, GeoNumberValue y) {
         super(cons);
         this.P = P;
         this.x = x;

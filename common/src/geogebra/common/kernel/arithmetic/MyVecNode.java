@@ -116,12 +116,12 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// check if both ExpressionNodes represent NumberValues
 		ExpressionValue evx = x.evaluate(tpl);
-		if (!evx.isNumberValue()) {
+		if (!(evx instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evx.toString(tpl) };
 			throw new MyParseError(kernel.getApplication().getLocalization(), str);
 		}
 		ExpressionValue evy = y.evaluate(tpl);
-		if (!evy.isNumberValue()) {
+		if (!(evy instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evy.toString(tpl) };
 			throw new MyParseError(kernel.getApplication().getLocalization(), str);
 		}

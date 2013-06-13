@@ -218,7 +218,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				geo = geoList.get(i);
 				geoFreq = geoList2.get(i);
-				if (!geo.isNumberValue() || !geoFreq.isNumberValue()) {
+				if (!(geo instanceof NumberValue) || !(geoFreq instanceof NumberValue)) {
 					result.setUndefined();
 					return;
 				}
@@ -228,7 +228,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 				// compute midpoint value if needed
 				if (useMidpoint) {
 					geo2 = geoList.get(i + 1);
-					if (!geo2.isNumberValue()) {
+					if (!(geo2 instanceof NumberValue)) {
 						result.setUndefined();
 						return;
 					}

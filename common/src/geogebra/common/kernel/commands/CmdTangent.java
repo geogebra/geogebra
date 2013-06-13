@@ -2,13 +2,13 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoTangentFunctionNumber;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -55,12 +55,12 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoConic())))
 				return getAlgoDispatcher().Tangent(c.getLabels(), (GeoLine) arg[0],
 						(GeoConic) arg[1]);
-			else if ((ok[0] = (arg[0].isNumberValue()))
+			else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				
 				AlgoTangentFunctionNumber algo = new AlgoTangentFunctionNumber(cons,
 						c.getLabel(),
-						(NumberValue) arg[0], ((GeoFunctionable) arg[1])
+						(GeoNumberValue) arg[0], ((GeoFunctionable) arg[1])
 								.getGeoFunction());
 				GeoLine t = algo.getTangent();
 				t.setToExplicit();

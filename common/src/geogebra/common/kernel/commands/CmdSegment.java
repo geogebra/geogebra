@@ -3,8 +3,8 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -45,12 +45,12 @@ public class CmdSegment extends CommandProcessor {
 	            
 	            // segment from point with given length
 	            else if ((ok[0] = (arg[0] .isGeoPoint()))
-	                && (ok[1] = (arg[1] .isNumberValue())))
+	                && (ok[1] = (arg[1]  instanceof GeoNumberValue)))
 					return
 							getAlgoDispatcher().Segment(
 	                            c.getLabels(),
 	                            (GeoPoint) arg[0],
-	                            (NumberValue) arg[1]);
+	                            (GeoNumberValue) arg[1]);
 				else {
 	                if (!ok[0])
 	                    throw argErr(app, c.getName(), arg[0]);

@@ -3,10 +3,10 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoIteration;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -35,14 +35,14 @@ final public  GeoElement[] process(Command c) throws MyError {
     	case 3 :
     		arg = resArgs(c);
             if ((ok[0] = arg[0].isGeoFunction())
-               	 && (ok[1] = arg[1].isNumberValue())
-               	 && (ok[2] = arg[2].isNumberValue()))
+               	 && (ok[1] = arg[1] instanceof GeoNumberValue)
+               	 && (ok[2] = arg[2] instanceof GeoNumberValue))
                {
             	
         		AlgoIteration algo = new AlgoIteration(cons, c.getLabel(),
                         (GeoFunction) arg[0],
-                        (NumberValue) arg[1],
-                        (NumberValue) arg[2]);
+                        (GeoNumberValue) arg[1],
+                        (GeoNumberValue) arg[2]);
  
             	GeoElement[] ret = {  algo.getResult() };
                    return ret; 

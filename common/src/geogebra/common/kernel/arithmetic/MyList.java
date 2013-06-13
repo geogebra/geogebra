@@ -280,7 +280,7 @@ public class MyList extends ValidExpression implements ListValue,
 		// value);
 
 		// matrix ^ integer
-		if (right && operation == Operation.POWER && value.isNumberValue()
+		if (right && operation == Operation.POWER && value instanceof NumberValue
 				&& isMatrix()) {
 
 			double power = ((NumberValue) value).getDouble();

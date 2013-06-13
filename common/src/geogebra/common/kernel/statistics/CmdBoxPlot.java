@@ -8,6 +8,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +35,8 @@ public class CmdBoxPlot extends CommandProcessor {
 		switch (n) {
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))
+			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))) {
 				
 				
@@ -50,13 +51,13 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		case 4:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))
+			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
 				
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getSum() };
@@ -66,14 +67,14 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of Frequencies>, <Boolean Outliers> ]
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))
+			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoList()))
 					&& (ok[4] = (arg[4].isGeoBoolean()))) {
 				
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4]);
 
 				GeoElement[] ret = { algo.getSum() };
@@ -83,19 +84,19 @@ public class CmdBoxPlot extends CommandProcessor {
 
 		case 7:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))
-					&& (ok[3] = (arg[3].isNumberValue()))
-					&& (ok[4] = (arg[4].isNumberValue()))
-					&& (ok[5] = (arg[5].isNumberValue()))
-					&& (ok[6] = (arg[6].isNumberValue()))) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue))
+					&& (ok[4] = (arg[4] instanceof GeoNumberValue))
+					&& (ok[5] = (arg[5] instanceof GeoNumberValue))
+					&& (ok[6] = (arg[6] instanceof GeoNumberValue))) {
 				
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (NumberValue) arg[3],
-						(NumberValue) arg[4], (NumberValue) arg[5],
-						(NumberValue) arg[6]);
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
+						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
+						(GeoNumberValue) arg[6]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;

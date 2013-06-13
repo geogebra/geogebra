@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoProduct;
 import geogebra.common.kernel.algos.AlgoProductMatrices;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -47,7 +48,7 @@ public class CmdProduct extends CommandProcessor{
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+			if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
 			{
 				AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
 
@@ -59,7 +60,7 @@ public class CmdProduct extends CommandProcessor{
 			// Product[<List of Numbers>, <Number>]
 			if (arg[1].isGeoNumeric()) {
 
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
 				{
 
 					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoNumeric)arg[1]);
@@ -71,7 +72,7 @@ public class CmdProduct extends CommandProcessor{
 			}
 			// Product[<List of Numbers>, <Frequency>]
 			else if (arg[1].isGeoList()){
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
 				{
 
 					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoList)arg[1]);

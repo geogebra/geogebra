@@ -2,10 +2,10 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,12 +33,12 @@ public class CmdBinomialDist extends CommandProcessor {
 		
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				
 				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(cons,
 						c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]);
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -51,12 +51,12 @@ public class CmdBinomialDist extends CommandProcessor {
 			
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(cons,
 						c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1], (GeoBoolean)arg[2]);
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoBoolean)arg[2]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -71,14 +71,14 @@ public class CmdBinomialDist extends CommandProcessor {
 			
 		case 4:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[2] = arg[3].isGeoBoolean())) {
 				
 				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (GeoBoolean) arg[3]);
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

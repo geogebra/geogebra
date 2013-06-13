@@ -4,10 +4,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -47,19 +47,19 @@ public class CmdGamma extends CommandProcessor {
 
 			// fall through
 		case 3:			
-			if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isNumberValue())) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoGammaDF algo = new AlgoGammaDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+					AlgoGammaDF algo = new AlgoGammaDF(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1], cumulative);
 					return algo.getGeoElements();
 
 
 
-				} else if (arg[2].isNumberValue()) {
+				} else if (arg[2] instanceof GeoNumberValue) {
 					
 					AlgoGamma algo = new AlgoGamma(cons, c.getLabel(),
-							(NumberValue) arg[0], (NumberValue) arg[1],
-							(NumberValue) arg[2]);
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2]);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;

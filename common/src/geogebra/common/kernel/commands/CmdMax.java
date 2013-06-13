@@ -6,11 +6,11 @@ import geogebra.common.kernel.algos.AlgoIntervalMax;
 import geogebra.common.kernel.algos.AlgoListMax;
 import geogebra.common.kernel.algos.AlgoMax;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -55,11 +55,11 @@ public class CmdMax extends CommandProcessor {
 		
 		case 2:			
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue()) &&
-				(ok[1] = arg[1].isNumberValue())) 
+			if ((ok[0] = arg[0] instanceof GeoNumberValue) &&
+				(ok[1] = arg[1] instanceof GeoNumberValue)) 
 			{
 				AlgoMax algo = new AlgoMax(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1]);
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -80,14 +80,14 @@ public class CmdMax extends CommandProcessor {
 		case 3:		//Max[f,a,b]
 			arg=resArgs(c);
 			if( (ok[0]=arg[0].isGeoFunction()) &&
-			    (ok[1]=arg[1].isNumberValue())     &&
-			    (ok[2]=arg[2].isNumberValue())  )
+			    (ok[1]=arg[1] instanceof GeoNumberValue)     &&
+			    (ok[2]=arg[2] instanceof GeoNumberValue)  )
 			{
 				
 				AlgoFunctionMax algo = new AlgoFunctionMax(cons, c.getLabel(),
 						(GeoFunction) arg[0],
-						(NumberValue) arg[1],
-						(NumberValue) arg[2]);
+						(GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2]);
 
 				GeoElement[] ret= { algo.getPoint() };
 				return ret;

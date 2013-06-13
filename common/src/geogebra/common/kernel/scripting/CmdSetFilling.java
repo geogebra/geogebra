@@ -30,7 +30,7 @@ public class CmdSetFilling extends CmdScripting {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if (arg[1].isNumberValue()) {
+			if (arg[1] instanceof NumberValue) {
 
 				GeoElement geo = arg[0];
 

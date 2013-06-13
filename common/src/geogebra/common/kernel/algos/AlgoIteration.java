@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 
@@ -29,12 +29,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoIteration extends AlgoElement {
 
 	private GeoFunction f; //input
-	private NumberValue startValue, n;
+	private GeoNumberValue startValue, n;
 	private GeoElement startValueGeo, nGeo;
     private GeoNumeric result; //output	
 
     public AlgoIteration(Construction cons, String label, 
-    		GeoFunction f, NumberValue startValue, NumberValue n) {
+    		GeoFunction f, GeoNumberValue startValue, GeoNumberValue n) {
         super(cons);
         this.f = f;
         this.startValue = startValue;

@@ -51,18 +51,18 @@ public class CmdSetValue extends CmdScripting {
 				fun.set(val.getGeoFunction());
 				fun.updateRepaint();
 			} else if (arg[0].isIndependent() || arg[0].isMoveable()) {
-				if (arg[0].isGeoNumeric() && arg[1].isNumberValue()) {
+				if (arg[0].isGeoNumeric() && arg[1] instanceof NumberValue) {
 					NumberValue num = (NumberValue) arg[1];
 					((GeoNumeric) arg[0]).setValue(num.getDouble());
 				} else {
 					arg[0].set(arg[1]);
 				}
 				arg[0].updateRepaint();
-			} else if (arg[1].isNumberValue() && arg[0].isGeoNumeric() && arg[0].getParentAlgorithm() instanceof SetRandomValue) {
+			} else if (arg[1] instanceof NumberValue && arg[0].isGeoNumeric() && arg[0].getParentAlgorithm() instanceof SetRandomValue) {
 				// eg a = RandomBetween[0,10]
 				SetRandomValue algo = (SetRandomValue) arg[0].getParentAlgorithm();
 				algo.setRandomValue(((NumberValue)arg[1]).getDouble());
-			} else if (arg[1].isNumberValue() && arg[0].getParentAlgorithm() instanceof AlgoDependentNumber) {
+			} else if (arg[1] instanceof NumberValue && arg[0].getParentAlgorithm() instanceof AlgoDependentNumber) {
 				// eg a = random()
 				double val = ((NumberValue)arg[1]).getDouble();
 				if (val >= 0 && val <= 1) {
@@ -77,7 +77,7 @@ public class CmdSetValue extends CmdScripting {
 			}
 			return;
 		case 3:
-			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1].isNumberValue()) {
+			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1] instanceof NumberValue) {
 				GeoList list = (GeoList) arg[0];
 				int nn = (int) ((NumberValue) arg[1]).getDouble();
 
@@ -90,7 +90,7 @@ public class CmdSetValue extends CmdScripting {
 				}
 				GeoElement geo = list.get(nn - 1);
 				if (geo.isIndependent()) {
-					if (geo.isGeoNumeric() && arg[2].isNumberValue()) {
+					if (geo.isGeoNumeric() && arg[2] instanceof NumberValue) {
 						NumberValue num = (NumberValue) arg[2];
 						((GeoNumeric) geo).setValue(num.getDouble());
 					} else {

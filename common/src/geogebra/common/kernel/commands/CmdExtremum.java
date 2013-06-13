@@ -4,10 +4,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoExtremumMulti;
 import geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -43,15 +43,15 @@ public class CmdExtremum extends CommandProcessor {
 		case 3: // Ulven 04.02.2011 for Extremum[f,start-x,end-x]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 
 			) {
 				
 				AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(), 
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1],
-						(NumberValue) arg[2]);
+						(GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2]);
 				return algo.getExtremumPoints(); 
 			}
 			

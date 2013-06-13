@@ -3,9 +3,9 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -38,10 +38,10 @@ public class CmdElement extends CommandProcessor {
 			arg = resArgs(c);
 			// list
 			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
-					&& (ok[1] = arg[1].isNumberValue())) {
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				
 				AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
-						(GeoList) arg[0], (NumberValue) arg[1]);
+						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
@@ -52,12 +52,12 @@ public class CmdElement extends CommandProcessor {
 		default:
 			arg = resArgs(c);
 			// list
-			NumberValue[] nvs = new NumberValue[n-1];
+			GeoNumberValue[] nvs = new GeoNumberValue[n-1];
 			if (!arg[0].isGeoList())
 				throw argErr(app, c.getName(), arg[0]);
 			for (int i = 1; i < n; i++) {
-				if (arg[i].isNumberValue())
-					nvs[i - 1] = (NumberValue) arg[i];
+				if (arg[i] instanceof GeoNumberValue)
+					nvs[i - 1] = (GeoNumberValue) arg[i];
 				else
 					throw argErr(app, c.getName(), arg[i]);
 			}

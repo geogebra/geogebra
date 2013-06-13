@@ -3,9 +3,9 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -42,8 +42,8 @@ public GeoElement[] process(Command c) throws MyError {
         // regular polygon
         if (arg[0].isGeoPoint() && 
 	        arg[1].isGeoPoint() &&
-	        arg[2].isNumberValue())
-				return getAlgoDispatcher().RegularPolygon(c.getLabels(), (GeoPoint) arg[0], (GeoPoint) arg[1], (NumberValue) arg[2]);		
+	        arg[2] instanceof GeoNumberValue)
+				return getAlgoDispatcher().RegularPolygon(c.getLabels(), (GeoPoint) arg[0], (GeoPoint) arg[1], (GeoNumberValue) arg[2]);		
         
         default:
 			// polygon for given points

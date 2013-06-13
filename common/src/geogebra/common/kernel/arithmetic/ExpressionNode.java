@@ -4451,7 +4451,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return true iff ev1 and ev2 are equal
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
-		if (ev1.isNumberValue() && ev2.isNumberValue()) {
+		if (ev1 instanceof NumberValue && ev2 instanceof NumberValue) {
 			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
 					((NumberValue) ev2).getDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {

@@ -177,7 +177,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 					// get expected values if list2 exists (it must be a matrix)
 					if (geoList2 != null) {
 						GeoElement geo2 = ((GeoList) geoList2.get(i)).get(j);
-						if (geo2.isNumberValue()) {
+						if (geo2 instanceof NumberValue) {
 							expected[i][j] = ((NumberValue) geo2).getDouble();
 						} else {
 							result.setUndefined();

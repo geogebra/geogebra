@@ -9,6 +9,7 @@ import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -52,8 +53,8 @@ public class CmdDerivative extends CommandProcessor {
 				arg = resArgs(c);
 				// Derivative[ f(x), 2]
 				if ((arg[0].isGeoFunction()||arg[0].isGeoCurveCartesian())
-						&& arg[1].isNumberValue()) {
-					double order = ((NumberValue) arg[1]).getDouble();
+						&& arg[1] instanceof GeoNumberValue) {
+					double order = ((GeoNumberValue) arg[1]).getDouble();
 
 					// default for arg[1] not GeoNumeric (eg Segment)
 					// don't want f''' for name
@@ -76,7 +77,7 @@ public class CmdDerivative extends CommandProcessor {
 						label = getDerivLabel(f.toGeoElement(), iorder);
 					}
 					GeoElement[] ret = { Derivative(label, f, null,
-							(NumberValue) arg[1]) };
+							(GeoNumberValue) arg[1]) };
 					return ret;
 
 				}
@@ -139,10 +140,10 @@ public class CmdDerivative extends CommandProcessor {
 			try {
 				arg = resArgsLocalNumVar(c, 1, 1);
 				if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()
-						&& arg[2].isNumberValue()) {
+						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { Derivative(label,
 							(CasEvaluableFunction) arg[0], // function
-							(GeoNumeric) arg[1], (NumberValue) arg[2]) }; // var
+							(GeoNumeric) arg[1], (GeoNumberValue) arg[2]) }; // var
 					return ret;
 				}
 			} catch (Throwable t) {
@@ -152,12 +153,12 @@ public class CmdDerivative extends CommandProcessor {
 			arg = resArgs(c);
 			// Derivative[ f(x, y), x, 2]
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
-					&& arg[2].isNumberValue()) {
+					&& arg[2] instanceof GeoNumberValue) {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(arg[1].toString(StringTemplate.defaultTemplate));
 				GeoElement[] ret = { Derivative(label,
 						(GeoFunctionNVar) arg[0], // function
-						var, (NumberValue) arg[2]) }; // var
+						var, (GeoNumberValue) arg[2]) }; // var
 				return ret;
 			}
 			// if we get here, the first argument must have been wrong

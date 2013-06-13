@@ -33,7 +33,7 @@ public class CmdFractionText extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof GeoNumberValue) {
 				
 				AlgoFractionText algo = new AlgoFractionText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0]);

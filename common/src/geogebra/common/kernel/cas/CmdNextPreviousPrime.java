@@ -1,9 +1,9 @@
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdOneNumber;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * NextPrime[number]
@@ -24,7 +24,7 @@ public class CmdNextPreviousPrime extends CmdOneNumber {
 	}
 
 	@Override
-	protected GeoElement getResult(NumberValue num,String label) {
+	protected GeoElement getResult(GeoNumberValue num,String label) {
 		
 		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons, label, num, next);
 		return algo.getResult();

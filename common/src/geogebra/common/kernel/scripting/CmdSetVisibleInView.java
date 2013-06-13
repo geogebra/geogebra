@@ -32,7 +32,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 		switch (n) {
 		case 3:
 			arg = resArgs(c);
-			if (!arg[1].isNumberValue())
+			if (!(arg[1] instanceof NumberValue))
 				throw argErr(app, c.getName(), arg[1]);
 
 

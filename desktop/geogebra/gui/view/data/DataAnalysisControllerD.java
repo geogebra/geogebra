@@ -400,7 +400,7 @@ public class DataAnalysisControllerD {
 		ArrayList<Double> list = new ArrayList<Double>();
 		for (int i = 0; i < dataList.size(); i++) {
 			GeoElement geo = dataList.get(i);
-			if (geo.isNumberValue()) {
+			if (geo instanceof NumberValue) {
 				NumberValue num = (NumberValue) geo;
 				list.add(num.getDouble());
 			}

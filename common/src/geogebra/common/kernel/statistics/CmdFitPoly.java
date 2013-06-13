@@ -18,6 +18,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -42,9 +43,9 @@ public class CmdFitPoly extends CommandProcessor{
         GeoElement[] arg=resArgs(c);
         switch(n) {
             case 2:
-            if(arg[1].isNumberValue()) {
+            if(arg[1] instanceof GeoNumberValue) {
 				if(arg[0].isGeoList()) { 
-				    GeoElement[] ret={FitPoly(c.getLabel(),(GeoList)arg[0],(NumberValue) arg[1]) };
+				    GeoElement[] ret={FitPoly(c.getLabel(),(GeoList)arg[0],(GeoNumberValue) arg[1]) };
 				    return ret;
 				} else if (arg[0].isGeoFunction()) {
 					

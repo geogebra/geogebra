@@ -2,8 +2,8 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -33,10 +33,10 @@ public class CmdHyperbola extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isNumberValue()))) {
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { getAlgoDispatcher().Hyperbola(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(NumberValue) arg[2]) };
+						(GeoNumberValue) arg[2]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))

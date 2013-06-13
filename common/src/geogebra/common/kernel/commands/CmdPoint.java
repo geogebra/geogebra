@@ -6,9 +6,9 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.algos.AlgoPointVector;
 import geogebra.common.kernel.algos.AlgoPointsFromList;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
@@ -54,13 +54,13 @@ public  GeoElement[] process(Command c) throws MyError {
         case 2 :
             arg = resArgs(c);
             if ((ok[0] = (arg[0] .isPath()))
-                    && (ok[1] = (arg[1].isNumberValue()))) {
+                    && (ok[1] = (arg[1] instanceof GeoNumberValue))) {
                     GeoElement[] ret =
                         {
                     		getAlgoDispatcher().Point(
                                 c.getLabel(),
                                 (Path) arg[0],
-                                (NumberValue) arg[1])};
+                                (GeoNumberValue) arg[1])};
                     return ret;
                 }
             else if ((ok[0] = (arg[0] .isGeoPoint()))

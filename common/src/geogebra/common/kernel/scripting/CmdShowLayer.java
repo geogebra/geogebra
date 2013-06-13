@@ -2,9 +2,9 @@ package geogebra.common.kernel.scripting;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 import java.util.Iterator;
@@ -32,8 +32,8 @@ public class CmdShowLayer extends CmdScripting {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isNumberValue()) {
-				GeoNumeric layerGeo = (GeoNumeric) arg[0];
+			if (arg[0] instanceof NumberValue) {
+				NumberValue layerGeo = (NumberValue) arg[0];
 				int layer = (int) layerGeo.getDouble();
 
 				Iterator<GeoElement> it = kernelA.getConstruction()
@@ -45,8 +45,6 @@ public class CmdShowLayer extends CmdScripting {
 						geo.updateRepaint();
 					}
 				}
-
-				
 				return;
 
 			}

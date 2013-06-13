@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoConicFromCoeffList;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -44,7 +45,7 @@ public class CmdConic extends CommandProcessor {
 			GeoElement[] ret = { getAlgoDispatcher().Conic(c.getLabel(), points) };
 			return ret;
 		default:
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof GeoNumberValue) {
 				// try to create list of numbers
 				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);

@@ -150,15 +150,15 @@ public class AlgoQ3 extends AlgoElement {
     		}
 
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!freqList.get(i).isNumberValue()
-						|| ((GeoNumeric) freqList.get(i)).getDouble() < 0) {
+				if (!(freqList.get(i) instanceof NumberValue)
+						|| ((NumberValue) freqList.get(i)).getDouble() < 0) {
 					Q3.setUndefined();
 					return;
 				}
 			}
 			
 			for (int i = 0; i < inputList.size(); i++) {
-				if (!inputList.get(i).isNumberValue()) {
+				if (!(inputList.get(i) instanceof NumberValue)) {
 					Q3.setUndefined();
 					return;
 				}

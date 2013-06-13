@@ -62,7 +62,7 @@ public class CmdRotate extends CommandProcessor {
 	 */
 	final protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
 
-		if ((ok[0] = true) && (ok[1] = (arg[1].isNumberValue()))) {
+		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
 			return Rotate(c.getLabel(), arg[0], phi);
@@ -82,7 +82,7 @@ public class CmdRotate extends CommandProcessor {
 	 */
 	final protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok){
 
-		if ((ok[0] = true) && (ok[1] = (arg[1].isNumberValue()))
+		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 			GeoNumberValue phi = (GeoNumberValue) arg[1];

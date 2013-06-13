@@ -29,7 +29,7 @@ public class CmdSetLineThickness extends CmdScripting {
 		case 2:
 			arg = resArgs(c);
 
-			if (arg[1].isNumberValue()) {
+			if (arg[1] instanceof NumberValue) {
 
 				int thickness = (int) ((NumberValue) arg[1]).getDouble();
 

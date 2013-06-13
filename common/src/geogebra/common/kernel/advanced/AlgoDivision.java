@@ -3,19 +3,19 @@ package geogebra.common.kernel.advanced;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoDivision extends AlgoElement {
 
-	private NumberValue a,b;
+	private GeoNumberValue a,b;
 	private GeoNumeric num, mod;
 	private GeoList result;
-	public AlgoDivision(Construction cons, String label, NumberValue dividend,
-			NumberValue divisor) {
+	public AlgoDivision(Construction cons, String label, GeoNumberValue dividend,
+			GeoNumberValue divisor) {
 		super(cons);
 		a = dividend;
 		b = divisor;

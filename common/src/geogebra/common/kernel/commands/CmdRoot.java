@@ -5,10 +5,10 @@ import geogebra.common.kernel.algos.AlgoRootInterval;
 import geogebra.common.kernel.algos.AlgoRootNewton;
 import geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
@@ -52,11 +52,11 @@ public class CmdRoot extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoFunctionable())
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				
 				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1]);
+						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
@@ -68,12 +68,12 @@ public class CmdRoot extends CommandProcessor {
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
-					&& (ok[1] = (arg[1].isNumberValue()))
-					&& (ok[2] = (arg[2].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				
 				AlgoRootInterval algo = new AlgoRootInterval(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2]);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;

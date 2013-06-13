@@ -1678,23 +1678,23 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo.isNumberValue())
+						if (geo instanceof NumberValue)
 							a = (NumberValue) geo;
 						else {
 							sum.setUndefined();
 							return;
 						}
 					}
-					if (geo.isGeoNumeric())
-						leftBorder[i] = ((GeoNumeric) geo).getDouble();
+					if (geo instanceof NumberValue)
+						leftBorder[i] = ((NumberValue) geo).getDouble();
 					else {
 						sum.setUndefined();
 						return;
 					}
 
 					geo = list2.get(i);
-					if (geo.isGeoNumeric()) {
-						yval[i] = ((GeoNumeric) geo).getDouble();
+					if (geo instanceof NumberValue) {
+						yval[i] = ((NumberValue) geo).getDouble();
 					} else {
 						sum.setUndefined();
 						return;
@@ -1705,7 +1705,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				//yval[N - 1] = yval[N - 2];
 
 				geo = list1.get(N - 1);
-				if (geo.isNumberValue()) {
+				if (geo instanceof NumberValue) {
 					b = (NumberValue) geo;
 				} else {
 					sum.setUndefined();

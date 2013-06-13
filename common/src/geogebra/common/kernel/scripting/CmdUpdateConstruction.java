@@ -37,7 +37,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof NumberValue) {
 				double val = ((NumberValue) arg[0]).getDouble();
 				if (Kernel.isInteger(val)){
 					app.getKernel().updateConstruction((int) val);

@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,20 +34,20 @@ public class CmdCylinder extends CommandProcessor{
 	    	
 	    	if (
 	    			(ok[0] = (arg[0] instanceof GeoConicND ) )
-	    			&& (ok[1] = (arg[1] .isNumberValue() )) 
+	    			&& (ok[1] = (arg[1]  instanceof GeoNumberValue )) 
 	    	) {
 	    		return kernelA.getManager3D().CylinderLimited(
-	    				c.getLabels(),(GeoConicND) arg[0], (NumberValue) arg[1]);
+	    				c.getLabels(),(GeoConicND) arg[0], (GeoNumberValue) arg[1]);
 	    	}else if (
 	    			(ok[0] = (arg[0] instanceof GeoLineND ) )
-	    			&& (ok[1] = (arg[1] .isNumberValue() )) 
+	    			&& (ok[1] = (arg[1]  instanceof GeoNumberValue )) 
 	    	) {
 	    		GeoElement[] ret =
 	    		{
 	    				kernelA.getManager3D().Cylinder(
 	    						c.getLabel(),
 	    						(GeoLineND) arg[0],
-	    						(NumberValue) arg[1])};
+	    						(GeoNumberValue) arg[1])};
 	    		return ret;
 	    	}
 
@@ -60,7 +61,7 @@ public class CmdCylinder extends CommandProcessor{
 	    	if (
 	    			(ok[0] = (arg[0] .isGeoPoint() ) )
 	    			&& (ok[1] = (arg[1] .isGeoVector() ))
-	    			&& (ok[2] = (arg[2] .isNumberValue() )) 
+	    			&& (ok[2] = (arg[2]  instanceof GeoNumberValue )) 
 	    	) {
 	    		GeoElement[] ret =
 	    		{
@@ -68,18 +69,18 @@ public class CmdCylinder extends CommandProcessor{
 	    						c.getLabel(),
 	    						(GeoPointND) arg[0],
 	    						(GeoVectorND) arg[1],
-	    						(NumberValue) arg[2])};
+	    						(GeoNumberValue) arg[2])};
 	    		return ret;
 	    	}else if (
 	    			(ok[0] = (arg[0] .isGeoPoint() ) )
 	    			&& (ok[1] = (arg[1] .isGeoPoint()))
-	    			&& (ok[2] = (arg[2] .isNumberValue() )) 
+	    			&& (ok[2] = (arg[2]  instanceof GeoNumberValue )) 
 	    	) {
 	    		return cylinderPointPointRadius(
     					c,
     					(GeoPointND) arg[0],
     					(GeoPointND) arg[1],
-    					(NumberValue) arg[2]);
+    					(GeoNumberValue) arg[2]);
 	    	}else{
 	    		if (!ok[0])
 	    			throw argErr(arg[0]);

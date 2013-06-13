@@ -553,7 +553,7 @@ public enum Operation {
 				double n = ((NumberValue) rt).getDouble();
 				MyDouble exp = new MyDouble(kernel, 1 / n);
 
-				if (lt.isNumberValue()) {
+				if (lt instanceof NumberValue) {
 					MyDouble root = ((NumberValue) lt).getNumber();
 					if (Kernel.isGreater(0, root.getDouble())
 							&& Kernel.isInteger(n) && Math.round(n) % 2 == 1) {
@@ -585,7 +585,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sqrt();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
@@ -698,7 +698,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().fractionalPart();
 			}
 			return ev.polynomialOrDie(lt, this, "fractionalPart(");
@@ -971,7 +971,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().erf();
 			}
 			return ev.polynomialOrDie(lt, this, "erf(");
@@ -1313,7 +1313,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt.isNumberValue()) {
+			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().zeta();
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();

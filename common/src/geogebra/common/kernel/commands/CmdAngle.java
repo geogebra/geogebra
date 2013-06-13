@@ -152,7 +152,7 @@ public class CmdAngle extends CommandProcessor {
 			// fixed angle
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isNumberValue()))) {
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 				return getAlgoDispatcher().Angle(c.getLabels(), (GeoPoint) arg[0],
 						(GeoPoint) arg[1], (GeoNumberValue) arg[2], true);
 			} else {

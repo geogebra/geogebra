@@ -16,18 +16,18 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 public class AlgoContinuedFraction extends AlgoElement {
 
-	private NumberValue num; // input
-	private NumberValue level; // input
+	private GeoNumberValue num; // input
+	private GeoNumberValue level; // input
 	private GeoText text; // output
 	private GeoBoolean shorthand;
 	private static final int MAX_QUOTIENTS = 15;
@@ -37,12 +37,12 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private boolean dotsNeeded;
 
 	public AlgoContinuedFraction(Construction cons, String label,
-			NumberValue num, NumberValue level,GeoBoolean shorthand) {
+			GeoNumberValue num, GeoNumberValue level,GeoBoolean shorthand) {
 		this(cons, num, level,shorthand);
 		text.setLabel(label);
 	}
 
-	AlgoContinuedFraction(Construction cons, NumberValue num, NumberValue level,GeoBoolean shorthand) {
+	AlgoContinuedFraction(Construction cons, GeoNumberValue num, GeoNumberValue level,GeoBoolean shorthand) {
 		super(cons);
 		this.num = num;
 		this.level = level;

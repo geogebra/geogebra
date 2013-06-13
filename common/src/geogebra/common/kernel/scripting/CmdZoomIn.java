@@ -77,9 +77,11 @@ public class CmdZoomIn extends CmdScripting {
 				throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
 		case 4:
 			arg = resArgs(c);
-			for(int i=0;i<3;i++)
-					if(!arg[i].isNumberValue())
-						throw argErr(app, c.getName(),arg[i]);
+			for(int i=0;i<3;i++){
+				if(!(arg[i] instanceof NumberValue)){
+					throw argErr(app, c.getName(),arg[i]);
+				}
+			}
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			ev.setXminObject((NumberValue)arg[0]);
 			ev.setXmaxObject((NumberValue)arg[2]);

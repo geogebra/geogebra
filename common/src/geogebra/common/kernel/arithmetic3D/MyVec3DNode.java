@@ -107,17 +107,17 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		// check if both ExpressionNodes represent NumberValues
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		ExpressionValue evx = x.evaluate(tpl);
-		if (!evx.isNumberValue()) {
+		if (!(evx instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evx.toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evy = y.evaluate(tpl);
-		if (!evy.isNumberValue()) {
+		if (!(evy instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evy.toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 		ExpressionValue evz = z.evaluate(tpl);
-		if (!evz.isNumberValue()) {
+		if (!(evz instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evz.toString(tpl) };
 			throw new MyParseError(kernel.getLocalization(), str);
 		}

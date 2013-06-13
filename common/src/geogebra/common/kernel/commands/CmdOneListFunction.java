@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -83,7 +84,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
         		return ret;             	     	 
         	}
         	
-        	else if (arg[0].isNumberValue()) {
+        	else if (arg[0] instanceof GeoNumberValue) {
 	            // try to create list of numbers
 	       	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.NUMERIC);
 	            if (list != null) {

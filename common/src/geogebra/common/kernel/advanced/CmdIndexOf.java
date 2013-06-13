@@ -2,10 +2,10 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -52,19 +52,19 @@ public class CmdIndexOf extends CommandProcessor {
 		case 3:
 			boolean[] ok = new boolean[2];
 			if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
-					&& (ok[1] = arg[2].isNumberValue())) {
+					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
 				
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoText) arg[1],
-						(NumberValue) arg[2]);
+						(GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((ok[0] = arg[1].isGeoList())
-					&& (ok[1] = arg[2].isNumberValue())) {
+					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
 				
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
-						(GeoList) arg[1], (NumberValue) arg[2]);
+						(GeoList) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

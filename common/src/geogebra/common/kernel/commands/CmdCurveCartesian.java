@@ -5,6 +5,7 @@ import geogebra.common.kernel.algos.AlgoCurveCartesian;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
@@ -36,20 +37,20 @@ public class CmdCurveCartesian extends CommandProcessor {
 			// create local variable at position 2 and resolve arguments
 			GeoElement[] arg = resArgsLocalNumVar(c, 2, 3);
 
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isNumberValue())
-					&& (ok[4] = arg[4].isNumberValue())) {
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)
+					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
 				
 				// make sure Curve[i,i,i,i,i] gives an error
 				checkDependency(arg, c.getName(), 3, 2);
 				checkDependency(arg, c.getName(), 4, 2);
 				
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, c.getLabel(),
-						new NumberValue[] {(NumberValue) arg[0], (NumberValue) arg[1]},
-						(GeoNumeric) arg[2], (NumberValue) arg[3],
-						(NumberValue) arg[4]);
+						new NumberValue[] {(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]},
+						(GeoNumeric) arg[2], (GeoNumberValue) arg[3],
+						(GeoNumberValue) arg[4]);
 				GeoElement[] ret = { algo.getCurve() };
 
 				return ret;

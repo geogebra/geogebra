@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoText;
@@ -61,9 +62,9 @@ public class CmdVertex extends CommandProcessor {
 
 				return algo.getVertex();
 			}
-			else if (arg[0].isNumberValue()) {
+			else if (arg[0] instanceof GeoNumberValue) {
 				GeoElement[] ret = { CornerOfDrawingPad(c.getLabel(),
-						(NumberValue) arg[0], null) };
+						(GeoNumberValue) arg[0], null) };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
@@ -73,18 +74,18 @@ public class CmdVertex extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				
 				AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, c.getLabel(),
-						(GeoPoly) arg[0], (NumberValue) arg[1]);
+						(GeoPoly) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getOneVertex() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				
 				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
-						(GeoImage) arg[0], (NumberValue) arg[1]);
+						(GeoImage) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;
@@ -92,18 +93,18 @@ public class CmdVertex extends CommandProcessor {
 			// Michael Borcherds 2007-11-26 BEGIN Corner[] for textboxes
 			// Corner[ <Text>, <number> ]
 			else if ((ok[0] = (arg[0].isGeoText()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				
 				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
-						(GeoText) arg[0], (NumberValue) arg[1]);
+						(GeoText) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getCorner() };
 				return ret;
 				// Michael Borcherds 2007-11-26 END
-			} else if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
+			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoElement[] ret = { CornerOfDrawingPad(c.getLabel(),
-						(NumberValue) arg[1], (NumberValue) arg[0]) };
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[0]) };
 				return ret;
 				
 			} else {

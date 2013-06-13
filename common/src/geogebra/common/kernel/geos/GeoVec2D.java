@@ -455,7 +455,7 @@ final public class GeoVec2D extends ValidExpression implements
 		NumberValue enX = list.getListElement(0).evaluateNum();
 		NumberValue enY = list.getListElement(1).evaluateNum();
 
-		if (!enX.isNumberValue() || !enY.isNumberValue()) {
+		if (Double.isNaN(enX.getDouble()) || Double.isNaN(enY.getDouble())) {
 			c.x = Double.NaN;
 			c.y = Double.NaN;
 			return;

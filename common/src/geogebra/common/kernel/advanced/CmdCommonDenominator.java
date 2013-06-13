@@ -7,6 +7,7 @@ import geogebra.common.kernel.cas.AlgoPolynomialCD;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,9 +34,9 @@ public class CmdCommonDenominator extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isNumberValue()))
-					&& (ok[1] = (arg[1].isNumberValue()))) {
-				AlgoCommonDenominator algo = new AlgoCommonDenominator(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]); 
+			if ((ok[0] = (arg[0] instanceof NumberValue))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
+				AlgoCommonDenominator algo = new AlgoCommonDenominator(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1]); 
 						GeoElement[] ret = { algo.getResult() };
 				return ret;
 				

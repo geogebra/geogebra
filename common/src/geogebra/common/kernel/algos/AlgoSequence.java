@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.main.App;
@@ -143,7 +144,7 @@ public class AlgoSequence extends AlgoElement {
 	 * @param upTo
 	 *            upper bound
 	 */
-	public AlgoSequence(Construction cons, String label, NumberValue upTo) {
+	public AlgoSequence(Construction cons, String label, GeoNumberValue upTo) {
 		super(cons);
 		isSimple = true;
 		var_to = upTo;

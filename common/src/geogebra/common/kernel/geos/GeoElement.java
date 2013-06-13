@@ -6844,7 +6844,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 
-		if (isNumberValue()) {
+		if (this instanceof NumberValue) {
 
 			final GeoNumeric xx = new GeoNumeric(cons,
 					((NumberValue) this).getDouble());

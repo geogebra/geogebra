@@ -29,7 +29,7 @@ public class CmdIdentity extends CommandProcessor {
 		arg = resArgs(c);
 		if (n != 1)
 			throw argNumErr(app, c.getName(), n);
-		if (!arg[0].isNumberValue())
+		if (!(arg[0] instanceof GeoNumberValue))
 			throw argErr(app, c.getName(), arg[0]);
 		
 		AlgoIdentity algo= new AlgoIdentity(kernelA.getConstruction(),

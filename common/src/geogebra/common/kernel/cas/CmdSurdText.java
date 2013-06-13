@@ -33,7 +33,7 @@ public class CmdSurdText extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof GeoNumberValue) {
 				
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], null);
@@ -54,7 +54,7 @@ public class CmdSurdText extends CommandProcessor {
 		case 2:
 
 			boolean ok0;
-			if ((ok0 = arg[0].isNumberValue()) && arg[1].isGeoList()) {
+			if ((ok0 = arg[0] instanceof GeoNumberValue) && arg[1].isGeoList()) {
 				
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoList) arg[1]);

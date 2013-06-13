@@ -5,7 +5,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -32,17 +31,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 	
 	private GeoElement doCommand(String a, GeoList b, Command c) {
-		int n = b.size();
-		if ((n == 0)
-				|| ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n)))) {
-			throw argNumErr(app, c.getName(), n);
-		}
-
-		for (int i = 0; i < n; i++) {
-			if (!b.get(i).isGeoPoint()) {
-				throw argErr(app, c.getName(), b.get(i));
-			}
-		}
+		
 
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
 				cons, a, b);
@@ -83,24 +72,23 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 			// more than one argument
 		default:
-			if (arg[0].isNumberValue()) {
-				// try to create list of numbers
-				GeoList list = wrapInList(kernelA, arg, arg.length,
-						GeoClass.NUMERIC);
-				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
-					return ret;
-				}
-			} else if (arg[0] instanceof VectorValue) {
-				// try to create list of points (eg FitExp[])
-				GeoList list = wrapInList(kernelA, arg, arg.length,
-						GeoClass.POINT);
-				if (list != null) {
-					GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
-					return ret;
+			if ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n))) {
+				throw argNumErr(app, c.getName(), n);
+			}
+
+			for (int i = 0; i < n; i++) {
+				if (!arg[i].isGeoPoint()) {
+					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
-			throw argNumErr(app, c.getName(), n);
+	
+			GeoList list = wrapInList(kernelA, arg, arg.length,
+					GeoClass.POINT);
+			if (list != null) {
+				GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
+				return ret;
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		}
 	}
 }

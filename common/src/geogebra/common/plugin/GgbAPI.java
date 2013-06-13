@@ -836,7 +836,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null)
 			return 0;
 		
-		if (geo.isNumberValue())
+		if (geo instanceof NumberValue)
 			return ((NumberValue) geo).getDouble();		
 		else if (geo.isGeoBoolean())
 			return ((GeoBoolean) geo).getBoolean() ? 1 : 0;		

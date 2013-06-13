@@ -3,9 +3,9 @@ package geogebra3D.kernel3D.commands;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -47,11 +47,11 @@ public class CmdPrism extends CommandProcessor {
 					return new GeoElement[] {ret[0]};
 				return ret;
 			} else if ((ok[0] = (arg[0] .isGeoPolygon()))
-					&& (ok[1] = (arg[1] .isNumberValue()))) {
+					&& (ok[1] = (arg[1]  instanceof GeoNumberValue))) {
 				GeoElement[] ret = kernelA.getManager3D().Prism(
 								c.getLabels(),
 								(GeoPolygon) arg[0],
-								(NumberValue) arg[1]);	
+								(GeoNumberValue) arg[1]);	
 				//for older version, make forcing labels not working
 				if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(App.getSubValues("4.9.10.0")))
 					return new GeoElement[] {ret[0]};

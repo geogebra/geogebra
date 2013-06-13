@@ -46,7 +46,7 @@ public class CmdRotate3D extends CmdRotate{
 
 			//first check if rotated geo is 3D element
 			if ((arg[2].isGeoElement3D())
-					&& (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
@@ -56,7 +56,7 @@ public class CmdRotate3D extends CmdRotate{
 			}
 
 			// ROTATION AROUND LINE
-			if ((ok[1] = (arg[1].isNumberValue()))
+			if ((ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoLineND))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
@@ -76,7 +76,7 @@ public class CmdRotate3D extends CmdRotate{
 			arg = resArgs(c);
 
 			// rotate point
-			if ((ok[1] = (arg[1].isNumberValue()))
+			if ((ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoPoint())) && (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
 				return kernelA.getManager3D().Rotate3D(c.getLabel(), 

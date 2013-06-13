@@ -51,7 +51,7 @@ public class CmdShowGrid extends CmdScripting {
 			ev.repaintView();
 			break;
 		case 1:
-			if (!arg[0].isBooleanValue())
+			if (!(arg[0] instanceof BooleanValue))
 				throw argErr(app, c.getName(), arg[0]);
 			
 			boolean show = ((BooleanValue)arg[0]).getBoolean();
@@ -61,9 +61,9 @@ public class CmdShowGrid extends CmdScripting {
 			
 			break;
 		case 2:
-			if (!arg[0].isNumberValue())
+			if (!(arg[0] instanceof NumberValue))
 				throw argErr(app, c.getName(), arg[0]);
-			if (!arg[1].isBooleanValue())
+			if (!(arg[1] instanceof BooleanValue))
 				throw argErr(app, c.getName(), arg[1]);
 			
 			show = ((BooleanValue)arg[1]).getBoolean();

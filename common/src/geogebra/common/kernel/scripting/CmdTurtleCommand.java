@@ -42,7 +42,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 		if (args.length != 2) {
 			throw argNumErr(app, cname, args.length);
 		}
-		if (!args[1].isNumberValue()) {
+		if (!(args[1] instanceof NumberValue)) {
 			throw argErr(app, cname, args[1]);
 		}
 		return ((NumberValue) args[1]).getDouble();

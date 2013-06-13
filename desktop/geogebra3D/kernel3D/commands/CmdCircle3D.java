@@ -2,9 +2,9 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdCircle;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -41,13 +41,13 @@ public class CmdCircle3D extends CmdCircle {
     			return ret;
     		}else if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D() ){
 	    		 if (ok[0] = (arg[0] .isGeoPoint())){
-	    			if(ok[1] = (arg[1] .isNumberValue())){
+	    			if(ok[1] = (arg[1]  instanceof GeoNumberValue)){
 		    			GeoElement[] ret =
 		    				{
 		    					kernelA.getManager3D().Circle3D(
 		    							c.getLabel(),
 		    							(GeoPointND) arg[0],
-		    							(NumberValue) arg[1],
+		    							(GeoNumberValue) arg[1],
 		    							(GeoDirectionND) kernelA.getXOYPlane())};
 		    			return ret;
 
@@ -86,13 +86,13 @@ public class CmdCircle3D extends CmdCircle {
 	    	}
 
 	    	if ((ok[0] = (arg[0] .isGeoPoint())) && (ok[2] = (arg[2] instanceof GeoDirectionND))){
-	    		if (ok[1] = (arg[1] .isNumberValue())){
+	    		if (ok[1] = (arg[1]  instanceof GeoNumberValue)){
 	    			GeoElement[] ret =
 	    			{
 	    					kernelA.getManager3D().Circle3D(
 	    							c.getLabel(),
 	    							(GeoPointND) arg[0],
-	    							(NumberValue) arg[1],
+	    							(GeoNumberValue) arg[1],
 	    							(GeoDirectionND) arg[2])};
 	    			return ret;
 	    		}else if ((ok[1] = (arg[1] .isGeoPoint()))){

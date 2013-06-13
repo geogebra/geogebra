@@ -2,10 +2,10 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -33,21 +33,21 @@ public class CmdContinuedFraction extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof GeoNumberValue) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(NumberValue) arg[0],null,null) };
+						(GeoNumberValue) arg[0],null,null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
-			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isGeoBoolean())) {
+			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1].isGeoBoolean())) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(NumberValue) arg[0],null,(GeoBoolean) arg[1]) };
+						(GeoNumberValue) arg[0],null,(GeoBoolean) arg[1]) };
 				return ret;
 			}
-			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isNumberValue())) {
+			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(NumberValue) arg[0],(NumberValue) arg[1],null) };
+						(GeoNumberValue) arg[0],(GeoNumberValue) arg[1],null) };
 				return ret;
 			}
 			
@@ -55,9 +55,9 @@ public class CmdContinuedFraction extends CommandProcessor {
 		case 3:
 
 			
-			if ((ok[0]=arg[0].isNumberValue())&&(ok[1]=arg[1].isNumberValue())&&(ok[2]=arg[2].isGeoBoolean())) {
+			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1] instanceof GeoNumberValue)&&(ok[2]=arg[2].isGeoBoolean())) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(NumberValue) arg[0],(NumberValue) arg[1],(GeoBoolean) arg[2]) };
+						(GeoNumberValue) arg[0],(GeoNumberValue) arg[1],(GeoBoolean) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
@@ -68,8 +68,8 @@ public class CmdContinuedFraction extends CommandProcessor {
 	}
 	
 	
-	final private GeoText ContinuedFraction(String label, NumberValue num,NumberValue level,GeoBoolean shortHand) {
-		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,level,shortHand);
+	final private GeoText ContinuedFraction(String label, GeoNumberValue num, GeoNumberValue level,GeoBoolean shortHand) {
+		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num, level,shortHand);
 		GeoText text = algo.getResult();
 		return text;
 	}

@@ -27,7 +27,7 @@ public class CmdSetSeed extends CmdScripting {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isNumberValue()) {
+			if (arg[0] instanceof NumberValue) {
 				
 				app.setRandomSeed((int) ((NumberValue)arg[0]).getDouble());
 

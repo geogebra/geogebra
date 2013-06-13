@@ -2352,7 +2352,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		double sum = 0;
 		for (int i = 0 ; i < size() ; i++) {
 			GeoElement geo = get(i);
-			if (geo.isNumberValue()) {
+			if (geo instanceof NumberValue) {
 				sum += ((NumberValue)geo).getDouble();
 			} else {
 				return Double.NaN;

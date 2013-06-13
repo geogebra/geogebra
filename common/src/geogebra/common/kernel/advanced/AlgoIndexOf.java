@@ -14,10 +14,10 @@ package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 
@@ -30,7 +30,7 @@ public class AlgoIndexOf extends AlgoElement {
 	private GeoElement hayStack; //input
 	private GeoElement needle; //input
     private GeoNumeric index; //output	
-	private NumberValue start;
+	private GeoNumberValue start;
 
     /**
      * Creates new index of algorithm
@@ -60,7 +60,7 @@ public class AlgoIndexOf extends AlgoElement {
      * @param hayStack GeoList of GeoText in which we want to search
      * @param start start index (1 means "search from beginning") 
      */
-    public AlgoIndexOf(Construction cons, String label,GeoElement needle,GeoElement hayStack,NumberValue start) {
+    public AlgoIndexOf(Construction cons, String label,GeoElement needle,GeoElement hayStack, GeoNumberValue start) {
         super(cons);
         
         this.hayStack = hayStack;
