@@ -13,11 +13,7 @@ package geogebra.common.kernel.statistics;
  */
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -58,6 +54,12 @@ public class AlgoFit extends AlgoElement {
 	private RealMatrix Y = null;
 	private RealMatrix P = null;
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param pointlist list of input points
+	 * @param functionlist lists of functions that can be used in result
+	 */
 	public AlgoFit(Construction cons, String label, GeoList pointlist,
 			GeoList functionlist) {
 		super(cons);
@@ -85,6 +87,9 @@ public class AlgoFit extends AlgoElement {
 		setDependencies();
 	}// setInputOutput()
 
+	/**
+	 * @return resulting Fit function
+	 */
 	public GeoFunction getFit() {
 		return fitfunction;
 	}
@@ -199,52 +204,7 @@ public class AlgoFit extends AlgoElement {
 		return fitfunction;
 	}// makeFunction()
 
-	// Hook for plugin scripts
-	public final void test() {
 
-	}// test()
-
-	public void mprint(String s, RealMatrix m) {
-		System.out.println(s);
-		int rows = m.getRowDimension();
-		int cols = m.getColumnDimension();
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < cols; c++) {
-				System.out.print(m.getEntry(r, c) + "  ");
-			}// for c
-			System.out.println();
-		}// for r
-	}// mprint()
-
-	// Walk the node tree and print some info
-	public void walk(ExpressionValue ev) {
-		ExpressionNode n = null;
-		if (ev == null) {
-			return;
-		}
-		if (ev.isExpressionNode()) {
-			n = (ExpressionNode) ev;
-			walk(n.getLeft());
-			walk(n.getRight());
-			System.out.println("  Op: " + n.getOperation().toString());
-			System.out.println();
-		} else if (ev.isGeoElement()) {
-			GeoElement geo = (GeoElement) ev;
-			System.out.print("   geo.label " + geo.toString(StringTemplate.defaultTemplate));
-		} else if (ev.isVariable()) {
-			System.out.print("   var: ");
-		} else if (ev.isNumberValue()) {
-			NumberValue nv = (NumberValue) ev;
-			System.out.print("   number: " + nv.getDouble());
-		} else if (ev.isConstant()) {
-			NumberValue nv = (NumberValue) ev;
-			System.out.print("   const: " + nv.getDouble());
-
-		} else {
-			System.out.print("   type??");
-
-		}// if right type
-	}// walk node tree
 
 	// --- SNIP --- ///
 
