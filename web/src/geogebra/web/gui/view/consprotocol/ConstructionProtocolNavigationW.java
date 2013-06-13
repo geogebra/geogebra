@@ -2,11 +2,14 @@ package geogebra.web.gui.view.consprotocol;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
+import geogebra.html5.javax.swing.GSpinnerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -25,12 +28,15 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	private Button btPrev;
 	private Button btNext;
 	Button btPlay;
+	GSpinnerW spDelay;
 	private AutomaticPlayer player;
 	
 
 	public ConstructionProtocolNavigationW(AppW app){
 		implPanel = new FlowPanel();
 		this.app = app;
+		
+		spDelay = new GSpinnerW();
 		
 		lbSteps = new Label();
 		
@@ -62,8 +68,21 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		playPanel.setVisible(true); //playPanel.setVisible(showPlayButton);
 		btPlay = new Button(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
 		btPlay.addClickHandler(this);
+	
+		spDelay.addChangeHandler(new ChangeHandler(){
+
+			public void onChange(ChangeEvent event) {
+				try {
+					playDelay = Double.parseDouble(spDelay.getValue().toString());
+				} catch (Exception ex) {
+					playDelay = 2;
+				} 
+            }
+			
+		});
 		
 		playPanel.add(btPlay);
+		playPanel.add(spDelay);
 		
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
@@ -102,9 +121,14 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 	@Override
     public void setPlayDelay(double delay) {
-	    // TODO Auto-generated method stub
-		App.debug("ConstructionProtocolNavigationW.setPlayDelay(double) -implementation needed");
-	    
+		playDelay = delay;
+		
+		try {
+			spDelay.setValue(new Double(playDelay) + "");
+		} catch (Exception e) {
+			spDelay.setValue(new Integer((int) Math.round(playDelay))+"");
+			
+		}
     }
 
 	@Override
