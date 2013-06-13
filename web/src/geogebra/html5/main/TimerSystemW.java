@@ -18,15 +18,13 @@ public class TimerSystemW {
 
 	AppWeb application;
 
-	// in the final implementation, these wouldn't be static
-	static boolean euclidian1Timed = false;
-	static boolean algebraTimed = false;
-	static boolean spreadsheetTimed = false;
+	boolean euclidian1Timed = false;
+	boolean algebraTimed = false;
+	boolean spreadsheetTimed = false;
 
-	// in the final implementation, these wouldn't be static
-	private static Date euclidian1Latest = null;//new Date();
-	static Date algebraLatest = null;//new Date();
-	static Date spreadsheetLatest = null;//new Date();
+	private Date euclidian1Latest = null;//new Date();
+	Date algebraLatest = null;//new Date();
+	Date spreadsheetLatest = null;//new Date();
 	private long euclidian1Sum = 0;
 	long algebraSum = 0;
 	long spreadsheetSum = 0;
