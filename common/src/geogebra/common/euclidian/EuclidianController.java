@@ -48,6 +48,7 @@ import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.AlgorithmSet;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -9741,7 +9742,7 @@ public abstract class EuclidianController {
 				// independent numbers should not be set visible
 				// as this would produce a slider
 				if (!geo.isSetEuclidianVisible()
-						&& !((geo.isNumberValue() || geo.isBooleanValue()) && geo
+						&& !((geo instanceof NumberValue || geo instanceof BooleanValue) && geo
 								.isIndependent())) {
 					geo.setEuclidianVisible(true);
 					selection.addSelectedGeo(geo);

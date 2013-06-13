@@ -387,10 +387,6 @@ public class Equation extends ValidExpression {
         }     
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
 	public boolean isConstant() {
 		return lhs.isConstant() && rhs.isConstant();
 	}
@@ -408,10 +404,6 @@ public class Equation extends ValidExpression {
 	}
 
 	public boolean isNumberValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
 		return false;
 	}
 

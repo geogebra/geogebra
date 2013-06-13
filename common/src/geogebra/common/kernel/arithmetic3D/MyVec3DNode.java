@@ -210,14 +210,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
 	public boolean isTextValue() {
 		return false;
 	}

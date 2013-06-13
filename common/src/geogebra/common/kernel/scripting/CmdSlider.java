@@ -39,7 +39,7 @@ public class CmdSlider extends CommandProcessor {
 			if (!(arg[i] instanceof GeoNumberValue))
 				throw argErr(app, c.getName(), arg[i]);
 		for (int i = 5; i < n; i++)
-			if (!arg[i].isBooleanValue())
+			if (!(arg[i] instanceof BooleanValue))
 				throw argErr(app, c.getName(), arg[i]);
 
 

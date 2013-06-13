@@ -504,11 +504,6 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
-	@Override
 	public boolean isTextValue() {
 		return true;
 	}

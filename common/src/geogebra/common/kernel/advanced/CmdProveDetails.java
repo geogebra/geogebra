@@ -1,6 +1,7 @@
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -30,7 +31,7 @@ public class CmdProveDetails extends CommandProcessor {
 	
 		switch(n) {
 		case 1:
-			if (arg[0].isBooleanValue()) {
+			if (arg[0] instanceof BooleanValue) {
 				
 				AlgoProveDetails algo = new AlgoProveDetails(cons, c.getLabel(), arg[0]);
 

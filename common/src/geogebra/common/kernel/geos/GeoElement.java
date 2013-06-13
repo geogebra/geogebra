@@ -5514,11 +5514,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
+	public final boolean isPolynomialInstance() {
 		return false;
 	}
 

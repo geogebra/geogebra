@@ -201,14 +201,6 @@ public class Variable extends ValidExpression {
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
 	public boolean isTextValue() {
 		return false;
 	}

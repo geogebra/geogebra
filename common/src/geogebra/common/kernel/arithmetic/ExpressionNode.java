@@ -4405,10 +4405,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
-	public boolean isBooleanValue() {
-		return evaluate(StringTemplate.defaultTemplate).isBooleanValue();
-	}
-
 	public boolean isListValue() {
 		// temporary fix for ggbApplet.evalCommandCAS("Factor[x^2-1]")
 		try {
@@ -4417,11 +4413,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	public boolean isPolynomialInstance() {
-		// return evaluate().isPolynomial();
-		return false;
 	}
 
 	public boolean isTextValue() {
@@ -4462,7 +4453,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		} else if (ev1 instanceof VectorValue && ev2 instanceof VectorValue) {
 			return ((VectorValue) ev1).getVector().isEqual(
 					((VectorValue) ev2).getVector());
-		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {
+		} else if (ev1 instanceof BooleanValue && ev2 instanceof BooleanValue) {
 			return ((BooleanValue) ev1).getMyBoolean().getBoolean() == ((BooleanValue) ev2)
 					.getMyBoolean().getBoolean();
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {

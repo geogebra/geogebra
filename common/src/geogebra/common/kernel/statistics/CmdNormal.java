@@ -38,7 +38,7 @@ public class CmdNormal extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			if (arg[3].isBooleanValue()) {
+			if (arg[3] instanceof BooleanValue) {
 				cumulative = (BooleanValue) arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);

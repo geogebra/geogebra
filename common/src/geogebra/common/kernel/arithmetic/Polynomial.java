@@ -567,10 +567,6 @@ public class Polynomial extends ValidExpression implements Serializable
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
 	final public boolean isVectorValue() {
 		return false;
 	}

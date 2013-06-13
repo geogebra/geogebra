@@ -763,11 +763,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
-	@Override
 	public boolean isTextValue() {
 		return false;
 	}

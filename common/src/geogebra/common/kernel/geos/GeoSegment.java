@@ -310,11 +310,6 @@ final public String toValueString(StringTemplate tpl) {
 	public boolean isVectorValue() {
 		return false;
 	}
-
-	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}   
 	
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;

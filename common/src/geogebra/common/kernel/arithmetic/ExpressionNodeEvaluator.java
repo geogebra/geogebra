@@ -205,7 +205,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// booleans
-		if (lt.isBooleanValue() && rt.isBooleanValue()) {
+		if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 			return new MyBoolean(kernel,
 					((BooleanValue) lt).getBoolean() == ((BooleanValue) rt)
 							.getBoolean());

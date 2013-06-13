@@ -615,11 +615,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return false;
 	}
 
-	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
 	/**
 	 * Returns size of the triangle when used for slop
 	 * 

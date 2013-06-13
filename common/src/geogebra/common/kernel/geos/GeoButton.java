@@ -136,11 +136,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
-	@Override
 	public boolean isTextValue() {
 		return false;
 	}

@@ -750,16 +750,6 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	final public boolean isBooleanValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
-		return false;
-
-		// return evaluate().isPolynomial();
-	}
-
 	public boolean isTextValue() {
 		return false;
 	}

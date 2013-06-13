@@ -1350,11 +1350,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
-	@Override
 	public boolean isTextValue() {
 		return false;
 	}

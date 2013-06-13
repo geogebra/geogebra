@@ -2,6 +2,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -84,8 +85,8 @@ public class CmdIntegral extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
-					&& (ok[3] = (arg[3] instanceof GeoNumberValue && !arg[3]
-							.isBooleanValue()))) {
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue && !(arg[3]
+							instanceof BooleanValue)))) {
 				
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),

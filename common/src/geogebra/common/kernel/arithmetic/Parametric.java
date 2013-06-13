@@ -93,10 +93,6 @@ public class Parametric extends ValidExpression {
 		return vars;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
 	public boolean isConstant() {
 		return P.isConstant() && v.isConstant();
 	}
@@ -114,10 +110,6 @@ public class Parametric extends ValidExpression {
 	}
 
 	public boolean isNumberValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
 		return false;
 	}
 

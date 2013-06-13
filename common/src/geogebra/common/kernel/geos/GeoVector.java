@@ -535,12 +535,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	@Override
 	public boolean isVectorValue() {
 		return true;
-	}
-
-	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}   
+	}  
 
 	@Override
 	public boolean isTextValue() {

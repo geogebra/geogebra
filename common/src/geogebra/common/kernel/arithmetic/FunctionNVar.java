@@ -313,10 +313,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		undecided.clear();
 	}
 	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
+	/** Receives result of evaluate as input, hence may use instanceof */
 	private void initType(ExpressionValue ev) {
-		if (ev.isBooleanValue()) {
+		if (ev instanceof BooleanValue) {
 			isBooleanFunction = true;
-		} else if (ev.isNumberValue()) {
+		} else if (ev instanceof NumberValue) {
 			isBooleanFunction = false;
 		} else if (ev instanceof FunctionNVar) {
 			expression = ((FunctionNVar) ev).getExpression();
@@ -580,15 +581,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
 	public boolean isListValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
 		return false;
 	}
 

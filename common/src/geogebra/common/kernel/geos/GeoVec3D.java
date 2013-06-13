@@ -507,11 +507,6 @@ implements Traceable, CoordStyle {
 	public boolean isVectorValue() {
 		return false;
 	}
-
-	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}   
 	
 	@Override
 	public void setZero() {

@@ -387,11 +387,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}   
-
-	@Override
 	public boolean isTextValue() {
 		return false;
 	}

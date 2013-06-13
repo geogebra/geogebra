@@ -377,6 +377,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		App.debug("integral from "+this.getClass());
 		return null;
 	}
+	
+	public boolean isPolynomialInstance() {
+		return false;
+	}
 
 
 }

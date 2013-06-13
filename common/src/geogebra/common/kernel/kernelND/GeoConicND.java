@@ -3071,12 +3071,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	@Override
 	public boolean isVectorValue() {
 		return false;
-	}
-
-	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}   
+	}  
 	
 	@Override
 	public boolean isTextValue() {

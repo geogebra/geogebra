@@ -249,22 +249,12 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public boolean isBooleanValue() {
-		return true;
-	}
-
-	@Override
 	public boolean isGeoBoolean() {
 		return true;
 	}
 
 	@Override
 	public boolean isVectorValue() {
-		return false;
-	}
-
-	@Override
-	public boolean isPolynomialInstance() {
 		return false;
 	}
 

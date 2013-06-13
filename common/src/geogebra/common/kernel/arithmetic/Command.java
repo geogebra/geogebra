@@ -315,16 +315,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 	}
 
-	final public boolean isBooleanValue() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isBooleanValue();
-	}
-
-	public boolean isPolynomialInstance() {
-		return false;
-
-		// return evaluate().isPolynomial();
-	}
-
 	public boolean isTextValue() {
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isTextValue();
 	}

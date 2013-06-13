@@ -84,14 +84,6 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 
-	public boolean isBooleanValue() {
-		return false;
-	}
-
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
 	public boolean isTextValue() {
 		return true;
 	}

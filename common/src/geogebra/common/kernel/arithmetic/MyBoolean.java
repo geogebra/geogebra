@@ -70,14 +70,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
     final public boolean isVectorValue() {
         return false;
     }
-    
-    final public boolean isBooleanValue() {
-        return true;
-    }
-
-    public boolean isPolynomialInstance() {
-        return false;
-    }
 
     public boolean isTextValue() {
         return false;

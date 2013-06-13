@@ -173,7 +173,7 @@ public class PythonFlatAPI {
 		 * @return true if the expression is a boolean
 		 */
 		public static boolean isBoolean(ExpressionValue e) {
-			return e.isBooleanValue();
+			return e.evaluate(StringTemplate.defaultTemplate) instanceof BooleanValue;
 		}
 
 		/**

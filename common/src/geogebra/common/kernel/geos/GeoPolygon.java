@@ -998,11 +998,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	@Override
-	public boolean isPolynomialInstance() {
-		return false;
-	}
-
-	@Override
 	public boolean isTextValue() {
 		return false;
 	}

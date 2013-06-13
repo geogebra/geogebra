@@ -1646,7 +1646,7 @@ public class AlgebraProcessor {
 			}
 		}
 
-		if (eval.isBooleanValue())
+		if (eval instanceof BooleanValue)
 			return processBoolean(n, eval);
 		else if (eval.isNumberValue())
 			return processNumber(n, eval);

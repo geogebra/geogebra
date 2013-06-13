@@ -32,7 +32,7 @@ public class CmdRandom extends CommandProcessor {
 		
 		case 3:			
 			arg = resArgs(c);
-			if (arg[2].isBooleanValue()) {
+			if (arg[2] instanceof BooleanValue) {
 				
 				if (((BooleanValue) arg[2]).getBoolean()) {
 					// don't pass (BooleanValue)arg[2] (dummy variable, always true)
