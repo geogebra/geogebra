@@ -1662,7 +1662,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Reset": "\u91cd\u7f6e",
     "ResidualPlot": "\u6b8b\u5dee\u56fe",
     "Result": "\u7ed3\u679c",
-    "ResultsFor": "Results for %0",
+    "ResultsFor": "\u641c\u7d22\u7ed3\u679c",
     "ReturnAngleInverseTrig": "\u7528\u53cd\u4e09\u89d2\u51fd\u6570\u8868\u793a\u89d2\u5ea6",
     "RightAngleStyle": "\u76f4\u89d2\u7b26\u53f7",
     "RightClassRule": "< x \u2264",
