@@ -86,6 +86,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 */
 	context C;
 
+	// whether to use thread (JNI only)
+	private static boolean useThread = false;
+
 	public String evaluate(String input) throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
@@ -109,7 +112,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				app.getApplet().evalJS("_ggbCallGiac('" + initString + "');");
 				giacSetToGeoGebraMode = true;
 			}
-			
+
 			// set timeout (in seconds)
 			app.getApplet().evalJS("timeout "+(timeoutMillis/1000));
 
@@ -127,32 +130,39 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			initialize();
 
 
-			// send expression to CAS
-			thread = new GiacJNIThread(exp);
+			if (useThread) {
+				// send expression to CAS
+				thread = new GiacJNIThread(exp);
 
 
-			thread.start();
-			long startTime = System.currentTimeMillis();
+				thread.start();
+				long startTime = System.currentTimeMillis();
 
-			int wait = 1;
+				int wait = 1;
 
-			// wait for result from thread
-			while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
-				Thread.sleep(wait);
-				wait = wait * 2;
-				//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
-			}
+				// wait for result from thread
+				while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
+					Thread.sleep(wait);
+					wait = wait * 2;
+					//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
+				}
 
-			//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+				//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
 
-			thread.interrupt();
-			// thread.interrupt() doesn't seem to stop it, so add this for good measure:
-			thread.stop();
+				thread.interrupt();
+				// thread.interrupt() doesn't seem to stop it, so add this for good measure:
+				thread.stop();
 
-			// if we haven't got a result, CAS took too long to return
-			// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
-			if (threadResult == null) {
-				throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+				// if we haven't got a result, CAS took too long to return
+				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
+				if (threadResult == null) {
+					throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
+				}
+			} else {
+				gen g = new gen(exp, C);
+				g = giac._eval(g, C);
+				threadResult = g.print(C);
+
 			}
 		}
 
