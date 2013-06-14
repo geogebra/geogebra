@@ -223,17 +223,20 @@ public class Ggb2giac {
 		p("Length.3",
 				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
+		
+		// regroup so that exp(1)^2 is simplified
 		p("Limit.2",
-				"limit(%0,%1)");
+				"regroup(limit(%0,%1))");
 		p("Limit.3",
-				"limit(%0,%1,%2)");
+				"regroup(limit(%0,%1,%2))");
 		p("LimitAbove.2",
-				"limit(%0,ggbtmpvarx,%1,1)");
+				"regroup(limit(%0,ggbtmpvarx,%1,1))");
 		p("LimitAbove.3", 
-				"limit(%0,%1,%2,1)");
+				"regroup(limit(%0,%1,%2,1))");
 		p("LimitBelow.2",
-				"limit(%0,ggbtmpvarx,%1,-1)");
-		p("LimitBelow.3", "limit(%0,%1,%2,-1)");
+				"regroup(limit(%0,ggbtmpvarx,%1,-1))");
+		p("LimitBelow.3", "regroup(limit(%0,%1,%2,-1))");
+		
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
 		p("Mean.1",
