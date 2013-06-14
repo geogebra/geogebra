@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -159,7 +160,7 @@ public class PythonFlatAPI {
 		 * @return true if the expression is a vector
 		 */
 		public static boolean isVector(ExpressionValue e) {
-			return e.isVectorValue();
+			return e.evaluate(StringTemplate.defaultTemplate) instanceof VectorValue;
 		}
 
 		/**
