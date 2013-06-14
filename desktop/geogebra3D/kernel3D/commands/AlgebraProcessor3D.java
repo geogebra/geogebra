@@ -68,7 +68,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			}
 		}
 		
-		boolean isVector = n.isVectorValue();
+		boolean isVector = n.shouldEvaluateToGeoVector();
 		
 		
 		if (isIndependent) {

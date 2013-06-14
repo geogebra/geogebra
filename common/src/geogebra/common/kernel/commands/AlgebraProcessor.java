@@ -1877,7 +1877,7 @@ public class AlgebraProcessor {
 					n.setForcePoint();
 			}
 		}
-		boolean isVector = n.isVectorValue();
+		boolean isVector = n.shouldEvaluateToGeoVector();
 
 		if (isIndependent) {
 			// get coords

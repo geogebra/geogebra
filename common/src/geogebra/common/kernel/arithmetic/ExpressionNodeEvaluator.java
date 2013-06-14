@@ -160,7 +160,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.NOT_EQUAL) // ditto
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !lt.isVectorValue() // eg {1,2} + (1,2)
+				&& !(lt instanceof VectorValue) // eg {1,2} + (1,2)
 				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael Borcherds
 				// 2008-06-05
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
@@ -847,7 +847,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			GeoVec2D.complexPower(vec, vec2, vec);
 			return vec;
 
-		} else if (lt instanceof NumberValue && rt.isVectorValue()) {
+		} else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",
 			// lt.toString(),

@@ -632,6 +632,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return true if this should evaluate to GeoVector
 	 */
 	public boolean shouldEvaluateToGeoVector() {
+		if (forcePoint) {
+			return false;
+		}
+		if (forceVector) {
+			return true;
+		}
 		boolean evalToVector = false;
 
 		if (left.isExpressionNode()) {
@@ -1147,12 +1153,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	@Override
 	final public boolean isVectorValue() {
-		if (forcePoint) {
-			return false;
-		}
-		if (forceVector) {
-			return true;
-		}
+		
 
 		return shouldEvaluateToGeoVector();
 	}
@@ -3544,7 +3545,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case YCOORD:
-			if (valueForm && (leftEval = left.evaluate(tpl)).isVectorValue()) {
+			leftEval = left.evaluate(tpl);
+			if (valueForm && leftEval instanceof VectorValue) {
 				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
 						.getY(), tpl));
 			} else if (valueForm
