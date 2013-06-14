@@ -4985,6 +4985,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public CasType getCASType() {
 		
+		if (isApplet()) {
+			return CasType.GIAC;
+		}
+		//if(true) return CasType.MPREDUCE;
+		
 		// check for --giac or param giac="true"
 		if (casType != null) {
 
