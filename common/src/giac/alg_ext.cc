@@ -1102,15 +1102,21 @@ namespace giac {
     gen df(derive(expr,var,contextptr));
     if (is_undef(df))
       return df;
-    gen savevar=var;
-    if (var._IDNTptr->in_eval(1,var,savevar,contextptr))
-      ;
-    giac_assume(symbolic(at_and,makevecteur(symb_superieur_egal(var,range[0]),symb_inferieur_egal(var,range[1]))),contextptr);
-    vecteur w=solve(df,var,2,contextptr);
-    if (savevar==var)
-      _purge(var,contextptr);
-    else
-      sto(savevar,var,contextptr);
+    vecteur w;
+    if (range==makevecteur(minus_inf,plus_inf))
+      w=solve(df,var,2,contextptr);
+    else {
+      // FIXME: check if var is quoted, otherwise it will be erased
+      gen savevar=var;
+      if (var._IDNTptr->in_eval(1,var,savevar,contextptr))
+	;
+      giac_assume(symbolic(at_and,makevecteur(symb_superieur_egal(var,range[0]),symb_inferieur_egal(var,range[1]))),contextptr);
+      w=solve(df,var,2,contextptr);
+      if (savevar==var)
+	_purge(var,contextptr);
+      else
+	sto(savevar,var,contextptr);
+    }
     if (w.empty() && debug_infolevel)
       *logptr(contextptr) << gettext("Warning: ") << df << gettext("=0: no solution found") << endl;
     vecteur wvar=makevecteur(cst_pi);

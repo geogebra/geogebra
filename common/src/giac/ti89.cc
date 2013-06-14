@@ -2024,7 +2024,7 @@ namespace giac {
     vector<int> res;
     double eps1(1+eps);
     for (;!interrupted;){
-      if (ctrl_c) { 
+      if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
 	return gensizeerr(gettext("Stopped by user interruption.")); 
       }

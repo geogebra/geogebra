@@ -1713,7 +1713,7 @@ namespace giac {
   gen gen::eval(int level,const context * contextptr) const{
     // cerr << "eval " << *this << " " << level << endl;
     gen res;
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       gensizeerr(gettext("Stopped by user interruption."),res);
       return res;
@@ -1787,7 +1787,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       *logptr(contextptr) << "Stopped in in_eval" << endl;
       gensizeerr(gettext("Stopped by user interruption."),evaled);
@@ -1962,7 +1962,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -3767,7 +3767,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -3806,7 +3806,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -4025,7 +4025,7 @@ namespace giac {
   }
 
   gen sym_add(const gen & a,const gen & b,GIAC_CONTEXT){
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -4390,7 +4390,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return a=gensizeerr(gettext("Stopped by user interruption.")); 
     }      
@@ -4429,7 +4429,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }      
@@ -4578,7 +4578,7 @@ namespace giac {
   }
 
   gen sym_sub(const gen & a,const gen & b,GIAC_CONTEXT){
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }    
@@ -4958,7 +4958,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -5242,7 +5242,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -5531,7 +5531,7 @@ namespace giac {
   }
 
   gen sym_mult(const gen & a,const gen & b,GIAC_CONTEXT){
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -5800,7 +5800,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -5914,7 +5914,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -6152,7 +6152,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
@@ -6257,7 +6257,7 @@ namespace giac {
       else
 	return fraction(a,b);
     default:
-      if (ctrl_c) { 
+      if (ctrl_c || interrupted) { 
 	interrupted = true; ctrl_c=false;
 	return gensizeerr(gettext("Stopped by user interruption.")); 
       }

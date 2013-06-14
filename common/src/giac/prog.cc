@@ -979,7 +979,7 @@ namespace giac {
     else
       dbgptr->sst_mode=false;
     // Bind local var
-    if (ctrl_c || args._VECTptr->size()!=3){
+    if (ctrl_c || interrupted || args._VECTptr->size()!=3){
       gensizeerr(res,contextptr);
       return res;
     }
@@ -1032,7 +1032,7 @@ namespace giac {
 	it=prog._VECTptr->begin();
 	itend=prog._VECTptr->end();
 	findlabel=false;
-	for (;!ctrl_c && it!=itend;++it){
+	for (;!ctrl_c && !interrupted && it!=itend;++it){
 	  ++debug_ptr(newcontextptr)->current_instruction;
 	  if (debug_ptr(newcontextptr)->debug_mode){
 	    debug_loop(res,newcontextptr);
@@ -1148,7 +1148,7 @@ namespace giac {
     }
     else {
       const_iterateur it=prog._VECTptr->begin(),itend=prog._VECTptr->end();
-      for (;!ctrl_c && it!=itend;++it){
+      for (;!ctrl_c && !interrupted && it!=itend;++it){
 	++dbgptr->current_instruction;
 	if (dbgptr->debug_mode){
 	  debug_loop(res,contextptr);
@@ -1773,7 +1773,7 @@ namespace giac {
 	// add a test for boucle of type program/composite
 	// if that's the case call eval with test for break and continue
 	for (it=itbeg;!interrupted && it!=itend;++it){
-	  if (ctrl_c || (res.type==_STRNG && res.subtype==-1)){
+	  if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
 	    interrupted = true; ctrl_c=false;
 	    *logptr(contextptr) << "Stopped in loop" << endl;
 	    gensizeerr(gettext("Stopped by user interruption."),res);
@@ -2153,7 +2153,7 @@ namespace giac {
 	it=prog._VECTptr->begin(),itend=prog._VECTptr->end();
 	bool findlabel=false;
 	gen label;
-	for (;!ctrl_c && it!=itend;++it){
+	for (;!ctrl_c && !interrupted && it!=itend;++it){
 	  ++debug_ptr(newcontextptr)->current_instruction;
 	  // cout << *it << endl;
 	  if (debug_ptr(newcontextptr)->debug_mode){

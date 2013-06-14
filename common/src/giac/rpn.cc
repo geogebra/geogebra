@@ -2371,7 +2371,7 @@ namespace giac {
     vecteur res;
     if (all)
       res=vecteur(n+1,value);
-    for (int i=0;!ctrl_c && i<n;++i){
+    for (int i=0;!ctrl_c && !interrupted && i<n;++i){
       value=evalf(subst(v0,v1,value,false,contextptr),eval_level(contextptr),contextptr);
       if (is_undef(value))
 	return value;

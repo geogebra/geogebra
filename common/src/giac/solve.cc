@@ -3227,7 +3227,7 @@ namespace giac {
 #ifdef TIMEOUT
 	  control_c();
 #endif
-	  if (ctrl_c) { 
+	  if (ctrl_c || interrupted) { 
 	    interrupted = true; ctrl_c=false;
 	    return gensizeerr(gettext("Stopped by user interruption.")); 
 	  }
@@ -3301,7 +3301,7 @@ namespace giac {
 #ifdef TIMEOUT
 	  control_c();
 #endif
-	  if (ctrl_c) { 
+	  if (ctrl_c || interrupted) { 
 	    interrupted = true; ctrl_c=false;
 	    return gensizeerr(gettext("Stopped by user interruption.")); 
 	  }

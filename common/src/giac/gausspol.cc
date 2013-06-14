@@ -242,7 +242,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
     }
@@ -322,7 +322,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
     }
@@ -357,7 +357,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim);
     }
@@ -892,7 +892,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       res=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),th.dim); 
       return;
@@ -1392,7 +1392,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       res.coord.clear();
       res.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),res.dim));
@@ -2941,7 +2941,7 @@ namespace giac {
 #ifdef TIMEOUT
       control_c();
 #endif
-      if (ctrl_c){
+      if (ctrl_c || interrupted){
 	ctrl_c=false; interrupted=true;
 	d.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),d.dim));
 	return d;
@@ -4063,7 +4063,7 @@ namespace giac {
 #ifdef TIMEOUT
     control_c();
 #endif
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       d=monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),p.dim); 
       return ;

@@ -3555,7 +3555,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
 
   static void mulextaux(const modpoly & a,const modpoly &b,int modulo,modpoly & new_coord){
-    if (ctrl_c) { 
+    if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       new_coord=vecteur(1, gensizeerr(gettext("Stopped by user interruption."))); 
       return;

@@ -2414,7 +2414,7 @@ namespace giac {
 #ifdef TIMEOUT
 	  control_c();
 #endif
-	  if (ctrl_c) { 
+	  if (ctrl_c || interrupted) { 
 	    interrupted = true; ctrl_c=false;
 	    gensizeerr(gettext("Stopped by user interruption."),res);
 	    return res;
@@ -3459,7 +3459,7 @@ namespace giac {
     if (is_strictly_greater(debut,fin,contextptr)){
       if (is_positive(step,contextptr))
 	step=-step;
-      for (;!ctrl_c && is_greater(debut,fin,contextptr);debut=debut+step){
+      for (;!ctrl_c && !interrupted && is_greater(debut,fin,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
 #ifdef RTOS_THREADX
@@ -3471,7 +3471,7 @@ namespace giac {
     else {
       if (is_positive(-step,contextptr))
 	step=-step;
-      for (;!ctrl_c && is_greater(fin,debut,contextptr);debut=debut+step){
+      for (;!ctrl_c && !interrupted && is_greater(fin,debut,contextptr);debut=debut+step){
 	tmp=quotesubst(v[0],v[1],debut,contextptr);
 	tmp=quotesubst(eval(tmp,contextptr),v[1],debut,contextptr);
 #ifdef RTOS_THREADX

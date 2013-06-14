@@ -1906,7 +1906,7 @@ namespace giac {
     mpz_init(zx); mpz_init(zy); mpz_init(zq); mpz_init(zr);
     // fastsmod_prepare(N,zx,zy,zr,N256);
     for (i=1;i<int(sizeof(giac_primes)/sizeof(short));++i){
-      if (ctrl_c)
+      if (ctrl_c || interrupted)
 	break;
       ushort_t j=giac_primes[i];
       if (debug_infolevel>6 && (i%500==99))
@@ -1955,7 +1955,7 @@ namespace giac {
     }
     unsigned lp_basis_pos=0; // position of first prime > 2^16 in the basis
     for (;basis.size()<B;++i){
-      if (ctrl_c)
+      if (ctrl_c || interrupted)
 	break; 
 #ifndef PRIMES32
       if (jp>65535){ 
@@ -1998,7 +1998,7 @@ namespace giac {
 #ifdef LP_SMALL_PRIMES
     vector<small_basis_t> small_basis(lp_basis_pos); // will be filled by primes<2^16
 #endif
-    if (ctrl_c){
+    if (ctrl_c || interrupted){
       mpz_clear(zx); mpz_clear(zy); mpz_clear(zq);  mpz_clear(zr);
       return false;
     }
@@ -2296,7 +2296,7 @@ namespace giac {
 	}
       }
       // finished?
-      if (ctrl_c)
+      if (ctrl_c || interrupted)
 	break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
       todo_rel=bs+marge;
@@ -2380,7 +2380,7 @@ namespace giac {
       // fastsmod_prepare(a,zx,zy,zr,a256);
       gen b;
       for (int i=0;i< (1<<(afact-1));++i){
-	if (ctrl_c)
+	if (ctrl_c || interrupted)
 	  break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	todo_rel=bs+marge;
@@ -2568,7 +2568,7 @@ namespace giac {
 #ifdef LP_TAB_SIZE
 #endif
 	for (int l=0;l<nslices;l++){
-	  if (ctrl_c)
+	  if (ctrl_c || interrupted)
 	    break;
 #ifdef ADDITIONAL_PRIMES_HASHMAP
 	  todo_rel=bs+marge;
@@ -2632,7 +2632,7 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << gettext("Polynomials a,b in use: #a ") << sqrtavals.size() << " and #b " << bvals.size() << endl;
     delete [] slice;
-    if (ctrl_c || puissancesptr==puissancesend){
+    if (ctrl_c || interrupted || puissancesptr==puissancesend){
       mpz_clear(zx); mpz_clear(zy); mpz_clear(zq);  mpz_clear(zr);
       mpz_clear(alloc1); mpz_clear(alloc2); mpz_clear(alloc3); mpz_clear(alloc4); mpz_clear(alloc5);
       delete [] puissancestab;
@@ -2887,13 +2887,13 @@ namespace giac {
   // Pollard-rho algorithm
   const int POLLARD_GCD=64;
 #ifdef GIAC_MPQS 
-#if defined(BESTA_OS) || defined(RTOS_THREADX)
+#if defined(RTOS_THREADX) // !defined(BESTA_OS)
   const int POLLARD_MAXITER=3000;
 #else
   const int POLLARD_MAXITER=10000;
 #endif
 #else
-  const int POLLARD_MAXITER=100000;
+  const int POLLARD_MAXITER=10000;
 #endif  
 
   static gen pollard(gen n, gen k,GIAC_CONTEXT){
@@ -2928,9 +2928,9 @@ namespace giac {
     mpz_init(alloc3);
     mpz_init(alloc4);
     mpz_init(alloc5);
-    while (!ctrl_c && mpz_cmp_si(g,1)==0) {
+    while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0) {
       a=2*a+1;//a=2^(e+1)-1=2*l(m)-1 
-      while (!ctrl_c && mpz_cmp_si(g,1)==0 && a>m) { // ok
+      while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0 && a>m) { // ok
 	// x=f(x,k,n,q);
 #ifdef USE_GMP_REPLACEMENTS
 	mp_sqr(&x,&x2);
@@ -3035,9 +3035,9 @@ namespace giac {
     mpz_set_si(g,1); // g=1;
     a=(a1-1)/2; // a=iquo(a1-1,2);
     m=m1;
-    while (!ctrl_c && mpz_cmp_si(g,1)==0) {
+    while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0) {
       a=2*a+1;
-      while (!ctrl_c && mpz_cmp_si(g,1)==0 && a>m) { // ok
+      while (!ctrl_c && !interrupted && mpz_cmp_si(g,1)==0 && a>m) { // ok
 	// x=f(x,k,n,q);
 	mpz_mul(x2,x,x);
 	mpz_add(x2k,x2,*k._ZINTptr);
@@ -3106,7 +3106,7 @@ namespace giac {
     mpz_clear(y1);
     mpz_clear(p);
     mpz_clear(q);
-    if (ctrl_c){
+    if (ctrl_c || interrupted){
       mpz_clear(g);
       return 0;
     }
@@ -3278,7 +3278,7 @@ namespace giac {
   static gen inpollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
     gen b=do_pollard?pollard(a,k,contextptr):-1;
 #ifdef GIAC_MPQS
-    if (b==-1 && !ctrl_c){ 
+    if (b==-1 && !ctrl_c && !interrupted){ 
       do_pollard=false;
       if (msieve(a,b,contextptr)) return b; else return -1; }
 #endif
@@ -3304,7 +3304,7 @@ namespace giac {
   static gen pollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
     gen b=do_pollard?pollard(a,k,contextptr):-1;
 #ifdef GIAC_MPQS
-    if (b==-1 && !ctrl_c){ 
+    if (b==-1 && !ctrl_c && !interrupted){ 
       do_pollard=false;
       if (msieve(a,b,contextptr)) return b; else return -1; }
 #endif
@@ -3343,7 +3343,7 @@ namespace giac {
       }
     }
     gen a=pollardsieve(n,1,do_pollard,contextptr);
-    if (ctrl_c)
+    if (ctrl_c || interrupted)
       return gensizeerr("Interrupted");
     gen ba=n/a;
     a=ifactor2(a,v,do_pollard,contextptr);

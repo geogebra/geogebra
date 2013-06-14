@@ -1475,7 +1475,10 @@ namespace giac {
     // a and b are the primitive part of p and q
     p.TDivRem1(dp,a,r,true);
     q.TDivRem1(dq,b,r,true);
-    while (!a.coord.empty()){
+    while (
+	   !a.coord.empty()
+	   && !ctrl_c && !interrupted
+	   ){
       int n=b.lexsorted_degree();
       int m=a.lexsorted_degree();
       if (!n) {// if b is constant (then b!=0), gcd=original Tlgcd
