@@ -160,10 +160,24 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.NOT_EQUAL) // ditto
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !(lt instanceof VectorValue) // eg {1,2} + (1,2)
+				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg {1,2} + (1,2)
 				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael Borcherds
 				// 2008-06-05
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
+			
+			if (operation == Operation.MULTIPLY && lt instanceof VectorValue) {
+				MyList myList = ((ListValue) rt).getMyList();
+				boolean isMatrix = myList.isMatrix();
+				int rows = myList.getMatrixRows();
+				int cols = myList.getMatrixCols();
+				if (isMatrix && (rows == 2) && (cols == 2)) {
+					GeoVec2D myVec = ((VectorValue) lt).getVector();
+					// 2x2 matrix
+					myVec.multiplyMatrixLeft(myList);
+
+					return myVec;
+				}
+			}
 			MyList myList = ((ListValue) rt).getMyList();
 			// lt operation list rt
 			myList.applyLeft(operation, lt, tpl);
@@ -190,7 +204,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return null;
 	}
 
-	/**
+	/** (sqrt(2),sqrt(3))*{{1,2},{3,4}}*(π,ℯ)=47.29
 	 * Checks whether first object equals second
 	 * 
 	 * @param kernel
