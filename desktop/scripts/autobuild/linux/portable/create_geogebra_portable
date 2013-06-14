@@ -38,12 +38,20 @@ IMAGE_DIR=../../../../geogebra/gui/images/
 #     }
 
 # 2. Packaging
+# 2/1. Copying to a temporary directory and removing unnecessary files
+rm -fR unpacked
+cp -a ../../../../build/unpacked unpacked
+cd unpacked
+rm -f *windows* *macosx* libjavagiac64.jar vernier* javagiac*.jar *linux-amd64*
+cd ..
+
+# 2/2. Calling Christian's script for packaging
 for i in ../../../../installer/jre/jre*.bin; do
     chmod a+x $i
     python3 ./create_geogebra_portable.py \
      $VERSION_STRING \
      $i \
-      ../../../../build/unpacked \
+      unpacked \
       $IMAGE_DIR/geogebra.png \
       ../geogebra \
       ../../../../build
@@ -54,14 +62,13 @@ cd ../../../../build
 for i in GeoGebra-Linux-*-Portable*.tar.gz; do
  chmod g+w $i
  cp $i $TARGET_DIR
- 
+
  # Copying to Google Code:
  if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
   EXTRA=""
   echo $i | grep x86_64 && EXTRA=" (64 bit)"
-  # TEMPORARILY DISABLED
-  # $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
-  #  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,,OpSys-Linux,Type-Archive $i
+  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
+   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,,OpSys-Linux,Type-Archive $i
   fi
  done
 

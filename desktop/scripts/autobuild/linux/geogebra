@@ -8,8 +8,8 @@
 #
 # GG_SCRIPTNAME=<name of originally called script to start GeoGebra> # If unset, name of this script will be used.
 #
-# GG_PATH=<path of directory containing geogebra.jar> # If unset, path of this script will be used.
-# In this case if the path of script does not contain the geogebra.jar file, /usr/share/geogebra will be used.
+# GG_PATH=<path of directory containing geogebra-jogl2.jar> # If unset, path of this script will be used.
+# In this case if the path of script does not contain the geogebra-jogl2.jar file, /usr/share/geogebra will be used.
 #
 # GG_CONFIG_PATH=<path of directory containing .config/$GG_SCRIPTNAME/geogebra.conf> # If unset, $HOME will be used.
 #
@@ -42,7 +42,7 @@ if [ -z "$GG_PATH" ]; then
 	cd `dirname ${GG_PATH}` > /dev/null
 	GG_PATH=`pwd`
 	popd > /dev/null
-	test -r "${GG_PATH}/geogebra.jar" || GG_PATH='/usr/share/geogebra'
+	test -r "${GG_PATH}/geogebra-jogl2.jar" || GG_PATH='/usr/share/geogebra'
 fi
 
 #---------------------------------------------
@@ -209,4 +209,4 @@ fi
 #---------------------------------------------
 # Run
 
-exec "$JAVACMD" "${JAVA_OPTS[@]}" -jar "$GG_PATH/geogebra.jar" "${GG_OPTS[@]}" "$@"
+exec "$JAVACMD" "${JAVA_OPTS[@]}" -jar "$GG_PATH/geogebra-jogl2.jar" "${GG_OPTS[@]}" "$@"

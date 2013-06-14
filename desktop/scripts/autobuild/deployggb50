@@ -106,6 +106,10 @@ echo "$WARNINGS warnings during chmod'ing web files"
 
 ### TODO: Copy the missing parts here from deployggb4* ###
 
+# 7. Deploying Linux/portable as well:
+cd $SVNDIR/geogebra/desktop/scripts/autobuild/linux/portable
+./create_geogebra_portable
+
 # 8. Copying the Windows installer and the Mac OS X version to Google Code:
 if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
 
