@@ -114,7 +114,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			}
 
 			// set timeout (in seconds)
-			app.getApplet().evalJS("timeout "+(timeoutMillis/1000));
+			app.getApplet().evalJS("_ggbCallGiac('timeout " + (timeoutMillis/1000) + "')");
 
 			// reset Giac
 			app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
