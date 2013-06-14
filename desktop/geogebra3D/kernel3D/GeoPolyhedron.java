@@ -942,46 +942,63 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 			int index = 0;
 			polygons.clear();
 			for (GeoPolygon p : polyhedron.polygonsLinked){
-				setPolygon(index, p);
-				index++;
+				if(setPolygon(index, p)){
+					index++;
+				}
 			}
 			for (GeoPolygon p : polyhedron.polygons.values()){
-				setPolygon(index, p);
-				index++;
+				if(setPolygon(index, p)){
+					index++;
+				}
 			}
 
 			// set segments
 			index = 0;
 			segments.clear();
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
-				setSegment(index, s);
-				index++;
+				if(setSegment(index, s)){
+					index++;
+				}
 			}
 			for (GeoSegment3D s : polyhedron.segments.values()){
-				setSegment(index, s);
-				index++;
+				if(setSegment(index, s)){
+					index++;
+				}
 			}
 	
 
 		}
 	}
 	
-	private void setPolygon(int index, GeoPolygon p){
+	private boolean setPolygon(int index, GeoPolygon p){
+		
+		if (!p.isDefined()){
+			return false;
+		}
+		
 		GeoPolygon3D poly = polygons.get(index);
 		if (poly == null){
 			poly = new GeoPolygon3D(getConstruction());
 			polygons.put(index, poly);
 		}
 		poly.set(p);
+		return true;
 	}
 	
-	private void setSegment(long index, GeoSegmentND s){
+	private boolean setSegment(long index, GeoSegmentND s){
+		
+		if (!s.isDefined()){
+			return false;
+		}
+		
 		GeoSegment3D seg = segments.get(index);
 		if (seg == null){
 			seg = new GeoSegment3D(getConstruction());
 			segments.put(index, seg);
 		}
 		seg.setSegment(s);
+		
+		return true;
 	}
 
 	private boolean isDefined = true;
