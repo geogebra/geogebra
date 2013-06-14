@@ -204,7 +204,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return null;
 	}
 
-	/** (sqrt(2),sqrt(3))*{{1,2},{3,4}}*(π,ℯ)=47.29
+	/** 
 	 * Checks whether first object equals second
 	 * 
 	 * @param kernel
