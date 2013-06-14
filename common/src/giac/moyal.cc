@@ -512,6 +512,10 @@ namespace giac {
   static define_unary_function_eval (__normald,&_normald,_normald_s);
   define_unary_function_ptr5( at_normald ,alias_at_normald,&__normald,0,true);
 
+  static const char _NORMALD_s []="NORMALD";
+  static define_unary_function_eval (__NORMALD,&_normald,_NORMALD_s);
+  define_unary_function_ptr5( at_NORMALD ,alias_at_NORMALD,&__NORMALD,0,true);
+
   gen _randexp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     double u=giac_rand(contextptr)/(rand_max2+1.0);

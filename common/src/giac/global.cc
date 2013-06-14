@@ -27,6 +27,9 @@ using namespace std;
 #include <signal.h>
 #endif
 #include <math.h>
+#ifndef WINDOWS
+#include <stdint.h>   // for uintptr_t
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -3215,7 +3218,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     context * contextptr=(context *) (*v)[2]._POINTER_val;
     thread_param * ptr =thread_param_ptr(contextptr);
     pthread_attr_getstacksize(&ptr->attr,&ptr->stacksize);
-    ptr->stackaddr=(void *) ((unsigned long) &ptr-ptr->stacksize);
+    ptr->stackaddr=(void *) ((uintptr_t) &ptr-ptr->stacksize);
 #ifndef __MINGW_H
     struct tms tmp1,tmp2;
     times(&tmp1);
@@ -3857,7 +3860,7 @@ unsigned int ConvertUTF16toUTF8 (
     }
 
     target += bytesToWrite;
-    if (target > targetEnd) {
+    if ((uintptr_t)target > (uintptr_t)targetEnd) {
         source = oldSource; /* Back up source pointer! */
         target -= bytesToWrite; result = targetExhausted; break;
     }
@@ -3958,7 +3961,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
     ch -= offsetsFromUTF8[extraBytesToRead];
 
-    if (target >= targetEnd) {
+    if ((uintptr_t)target >= (uintptr_t)targetEnd) {
         source -= (extraBytesToRead+1); /* Back up source pointer! */
         result = targetExhausted; break;
     }
@@ -3989,7 +3992,7 @@ unsigned int ConvertUTF8toUTF16 (
         }
     } else {
         /* target is a character in range 0xFFFF - 0x10FFFF. */
-        if (target + 1 >= targetEnd) {
+        if ((uintptr_t)target + 1 >= (uintptr_t)targetEnd) {
         source -= (extraBytesToRead+1); /* Back up source pointer! */
         result = targetExhausted; break;
         }

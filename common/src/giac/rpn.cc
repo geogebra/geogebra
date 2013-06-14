@@ -3857,6 +3857,7 @@ namespace giac {
     "OR",
     "PERM",
     "PI",
+    "PIECEWISE",
     // "PIXOFF",
     // "PIXON",
     "POISSON",

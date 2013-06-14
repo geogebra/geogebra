@@ -1780,10 +1780,8 @@ namespace giac {
     vecteur res;
     res.reserve(itend-it);
     for (;it!=itend;++it,++jt){
-      if (
-	  //calc_mode(contextptr)!=1 || 
-	  *it!=*jt)
-	res.push_back(symbolic(at_equal,makesequence(*it,*jt)));
+      // if (*it!=*jt)
+      res.push_back(symbolic(at_equal,makesequence(*it,*jt)));
     }
     if (xcas_mode(contextptr)==3)
       return symbolic(at_and,res);

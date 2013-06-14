@@ -936,6 +936,7 @@ namespace giac {
   const unary_function_ptr * binary_op_tab();
 
   extern const unary_function_ptr * const  at_piecewise;
+  extern const unary_function_ptr * const  at_PIECEWISE;
   gen _piecewise(const gen & g,GIAC_CONTEXT);
 
   extern const unary_function_ptr * const  at_geo2d ;

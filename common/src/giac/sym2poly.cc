@@ -2633,6 +2633,9 @@ namespace giac {
     }
     vecteur l;
     alg_lvar(e,l);
+    /* if (calc_mode(contextptr)==1 && l.size()==1 && l.front().type==_VECT){
+      sort(l.front()._VECTptr->begin(),l.front()._VECTptr->end(),islesscomplexthanf);
+      } */
     gen f_num,f_den,f,dnum,dden(1);
     f=e2r(e,l,contextptr);
     fxnd(f,f_num,f_den);

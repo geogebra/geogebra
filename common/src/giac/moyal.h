@@ -111,6 +111,7 @@ namespace giac {
 
   gen _normald(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_normald ;
+  extern const unary_function_ptr * const  at_NORMALD ;
   gen _normal_cdf(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_normal_cdf ;
 

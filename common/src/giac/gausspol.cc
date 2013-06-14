@@ -4613,17 +4613,30 @@ namespace giac {
       gen bn=1,the_ext;
       lcmdeno(*newp._POLYptr,bn);
       newp=bn*newp;
-      vector< monomial<gen> >::const_iterator it=newp._POLYptr->coord.begin(),itend=newp._POLYptr->coord.end();
+      vector< monomial<gen> >::iterator it=newp._POLYptr->coord.begin(),itend=newp._POLYptr->coord.end();
       for (;it!=itend;++it){
 	if (it->value.type==_EXT){
-	  the_ext=it->value;
-	  break;
+	  if (the_ext.type==_EXT){
+	    common_EXT(*(it->value._EXTptr+1),*(the_ext._EXTptr+1),0,context0);
+	    the_ext=ext_reduce(the_ext);
+	    if (the_ext.type==_FRAC)
+	      the_ext=the_ext._FRACptr->num;
+	  }
+	  else
+	    the_ext=it->value;
 	}
       }
+      for (it=newp._POLYptr->coord.begin();it!=itend;++it){
+	if (it->value.type==_EXT)
+	  it->value=ext_reduce(it->value);
+      }
+      gen bn2=1;
+      lcmdeno(*newp._POLYptr,bn2);
+      newp=bn2*newp;
       if (the_ext.type!=_EXT)
 	return false;
       bool res=ext_factor(*newp._POLYptr,the_ext,an,p_content,f,false,extra_div);
-      an=an/bn;
+      an=an/(bn*bn2);
       return res;
     }
     an=p.coord.front().value;

@@ -7990,6 +7990,10 @@ namespace giac {
   static define_unary_function_eval2_quoted (__piecewise,&_piecewise,_piecewise_s,&printaspiecewise);
   define_unary_function_ptr5( at_piecewise ,alias_at_piecewise,&__piecewise,_QUOTE_ARGUMENTS,true);
 
+  static const char _PIECEWISE_s []="PIECEWISE";
+  static define_unary_function_eval2_quoted (__PIECEWISE,&_piecewise,_PIECEWISE_s,&printaspiecewise);
+  define_unary_function_ptr5( at_PIECEWISE ,alias_at_PIECEWISE,&__PIECEWISE,_QUOTE_ARGUMENTS,true);
+
   gen _geo2d(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
     return g;
