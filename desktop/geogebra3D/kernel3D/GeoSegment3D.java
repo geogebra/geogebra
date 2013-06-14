@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
@@ -219,8 +220,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	public PathMover createPathMover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PathMoverGeneric(this);
 	}
 
 	public double getMaxParameter() {

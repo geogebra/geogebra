@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -187,8 +188,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	//Path3D interface
 	
 	public PathMover createPathMover() {
-		App.debug("unimplemented");
-		return null;
+		return new PathMoverGeneric(this);
 	}
 
 	public double getMaxParameter() {

@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -339,8 +340,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	public PathMover createPathMover() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PathMoverGeneric(this);
 	}
 	
 	
@@ -551,7 +551,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		 */
 		public double evaluate(double t) {
 
-			Coords eval = evaluateCurve3D(t);		
+			Coords eval = curve.evaluateCurve3D(t);		
 			if (distDirection == null){
 				return eval.squareDistance3(distCoords);
 			}
