@@ -1907,6 +1907,8 @@ namespace giac {
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
     arg1=apply(arg1,equal2diff);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
+    if (_res.front().type==_STRNG || is_undef(_res))
+      return _res;
     // quick check if back substitution returns undef
     const_iterateur it=_res.begin(),itend=_res.end();
     vecteur res;
@@ -4864,7 +4866,7 @@ namespace giac {
 	return vecteur(1,gensizeerr(gettext("Bad var ")+it->print(contextptr)));
       vecteur l(rlvarx(eq,*it));
       if (l.size()>1)
-	return vecteur(1,string2gen(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr),false));
+	return vecteur(1,gensizeerr(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr)));
     }
     vecteur l(1,var);
     alg_lvar(eq,l);
