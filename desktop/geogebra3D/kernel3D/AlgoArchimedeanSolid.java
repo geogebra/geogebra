@@ -304,11 +304,16 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	protected void updateDependentGeos(){
 		super.updateDependentGeos();
 		outputPoints.update();
+		
+		// force update of segments and polygons when e.g. in a list
+		if (! getPolyhedron().allLabelsAreSet()){
+			outputSegments.updateParentAlgorithm();
+			outputPolygons.updateParentAlgorithm();
+		}
+		
+
 	}
 	
-	
-
-
 
 
 	@Override

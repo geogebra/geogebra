@@ -385,6 +385,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 				outputList.get(i).update();
 			}
 		}
+		
+		/**
+		 * call update for each geo parent algo
+		 */
+		public void updateParentAlgorithm(){
+			for (int i = 0; i < outputList.size(); i++) {
+				outputList.get(i).getParentAlgorithm().update();
+			}
+		}
 
 		/**
 		 * set the label to the next geo with no label (or create new one)

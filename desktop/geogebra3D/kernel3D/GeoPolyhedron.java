@@ -931,13 +931,16 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 	public void set(GeoElement geo) {
 		if (geo instanceof GeoPolyhedron) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
-
+			
+			isDefined = polyhedron.isDefined;
+			
 			// global
 			type = polyhedron.type;
 			setVolume(polyhedron.getVolume());
 			
 			// set polygons
 			int index = 0;
+			polygons.clear();
 			for (GeoPolygon p : polyhedron.polygonsLinked){
 				setPolygon(index, p);
 				index++;
@@ -949,6 +952,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 			// set segments
 			index = 0;
+			segments.clear();
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
 				setSegment(index, s);
 				index++;
@@ -957,7 +961,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 				setSegment(index, s);
 				index++;
 			}
-
+	
 
 		}
 	}
