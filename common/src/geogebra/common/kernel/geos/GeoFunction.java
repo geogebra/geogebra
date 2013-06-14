@@ -937,11 +937,6 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
-
-	@Override
 	public boolean isTraceable() {
 		return true;
 	}

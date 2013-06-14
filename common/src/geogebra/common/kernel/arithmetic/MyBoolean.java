@@ -67,10 +67,6 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
         return true;
     }
 
-    final public boolean isVectorValue() {
-        return false;
-    }
-
     public ExpressionValue deepCopy(Kernel kernel1) {
         return new MyBoolean(kernel1, value);
     }

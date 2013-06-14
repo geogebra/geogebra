@@ -486,11 +486,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
-
-	@Override
 	public boolean isGeoImage() {
 		return true;
 	}

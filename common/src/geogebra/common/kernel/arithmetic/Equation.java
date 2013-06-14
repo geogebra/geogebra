@@ -399,10 +399,6 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	public void resolveVariables(boolean forEquation) {    
         lhs.resolveVariables(forEquation);
         rhs.resolveVariables(forEquation);		

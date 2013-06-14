@@ -80,10 +80,6 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return false;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	@Override
 	public boolean evaluatesToText() {
 		return true;

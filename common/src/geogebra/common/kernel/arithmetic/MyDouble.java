@@ -760,10 +760,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return true;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}

@@ -129,11 +129,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	final public String toString(StringTemplate tpl) {
 		return label;
 	}
-	
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
 
 	public double getRealWorldLocX() {
 		return 0;

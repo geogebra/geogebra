@@ -194,11 +194,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return varset;
 	}
 
-	// TODO could be vector or point
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	/**
 	 * @return true for 3D point values
 	 */

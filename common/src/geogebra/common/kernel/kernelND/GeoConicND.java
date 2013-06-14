@@ -3067,11 +3067,6 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	public boolean isNumberValue() {
 		return false;
 	}
-
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
 	
 	@Override
 	final public boolean isGeoConic() {

@@ -610,11 +610,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return true;
 	}
 
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	/**
 	 * Returns size of the triangle when used for slop
 	 * 

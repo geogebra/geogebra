@@ -311,6 +311,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isNumberValue();
 	}
 
+	@Override
 	public boolean isVectorValue() {
 		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 	}

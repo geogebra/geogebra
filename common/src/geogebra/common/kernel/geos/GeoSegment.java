@@ -305,11 +305,6 @@ final public String toValueString(StringTemplate tpl) {
 	public boolean isNumberValue() {
 		return true;
 	}
-
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
 	
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;

@@ -197,10 +197,6 @@ public class Variable extends ValidExpression {
 		return false;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	@Override
 	final public boolean isVariable() {
 		return true;

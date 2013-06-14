@@ -508,10 +508,6 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 	 final public boolean isNumberValue() {
 		 return false;
 	 }
-
-	 final public boolean isVectorValue() {
-		 return false;
-	 }
 	 
 	 final public boolean contains(ExpressionValue ev) {
 		 return ev == this;

@@ -253,11 +253,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return true;
 	}
 
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	public double getRealWorldLocX() {
 		return 0;
 	}

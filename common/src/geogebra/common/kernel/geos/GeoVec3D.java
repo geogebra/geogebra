@@ -502,11 +502,6 @@ implements Traceable, CoordStyle {
 	public boolean isNumberValue() {
 		return false;
 	}
-
-	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
 	
 	@Override
 	public void setZero() {

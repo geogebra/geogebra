@@ -746,10 +746,6 @@ public class MyList extends ValidExpression implements ListValue,
 		return false;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		// copy arguments
 		int size = listElements.size();

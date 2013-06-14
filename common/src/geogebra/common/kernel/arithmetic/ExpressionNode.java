@@ -1145,6 +1145,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	/**
 	 * returns true, if no variable is a point (GeoPoint)
 	 */
+	@Override
 	final public boolean isVectorValue() {
 		if (forcePoint) {
 			return false;

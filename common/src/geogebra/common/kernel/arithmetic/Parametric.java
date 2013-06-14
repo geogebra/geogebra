@@ -105,10 +105,6 @@ public class Parametric extends ValidExpression {
 		return false;
 	}
 
-	public boolean isVectorValue() {
-		return false;
-	}
-
 	public void resolveVariables(boolean forEquation) {
 		P.resolveVariables(forEquation);
 		v.resolveVariables(forEquation);

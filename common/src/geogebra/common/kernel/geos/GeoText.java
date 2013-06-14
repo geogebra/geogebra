@@ -499,11 +499,6 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean isVectorValue() {
-		return false;
-	}
-
-	@Override
 	public boolean evaluatesToText() {
 		return true;
 	}
