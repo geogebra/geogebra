@@ -1483,20 +1483,20 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 */
 	public String evalJS(String exp) {
 
-		Object ret = null;
 		JSObject window = JSObject.getWindow(applet);
 
-		// get an array from JavaScript and retrieve its contents
-		JSObject JSarray = (JSObject) window.eval(exp);
-		if (JSarray != null) {
-			ret = JSarray.getSlot(0);
+		// get an object from JavaScript and retrieve its contents
+		Object ob =  window.eval(exp);
+		
+		if (ob == null) {
+			return null;
 		}
 		
-		if (ret instanceof String) {
-			return (String) ret;
+		if (ob instanceof JSObject) {
+			return ((JSObject)ob).getSlot(0).toString();
 		}
 		
-		return null;
+		return ob.toString();
 	}
 
 }
