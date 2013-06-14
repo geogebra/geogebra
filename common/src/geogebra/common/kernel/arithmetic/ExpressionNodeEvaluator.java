@@ -173,7 +173,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (isMatrix && (rows == 2) && (cols == 2)) {
 					GeoVec2D myVec = ((VectorValue) lt).getVector();
 					// 2x2 matrix
-					myVec.multiplyMatrix(myList);
+					myVec.multiplyMatrixLeft(myList);
 
 					return myVec;
 				}
