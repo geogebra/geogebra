@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -24,9 +25,12 @@ import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -103,9 +107,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		//initTreeCellRendererEditor();
 
 		// add listener
-
-
-		//addMouseDownHandler((AlgebraController)algCtrl);
+		this.addMouseOutHandler((MouseOutHandler)algCtrl);
+		//this.addMouseDownHandler((MouseDownHandler)algCtrl);
 		//addMouseUpHandler((AlgebraController)algCtrl);
 		//addMouseMoveHandler((AlgebraController)algCtrl);
 
@@ -339,7 +342,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			return false;
 		//return super.isKeyboardNavigationEnabled(ti);
 	}
-
 	
 
 	@Override

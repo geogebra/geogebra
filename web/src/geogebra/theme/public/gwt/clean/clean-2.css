@@ -1939,3 +1939,13 @@ label {
 #View_2 div table {
 	width: 100%;
 }
+
+#View_2{
+	height: 100%;
+}
+.algebraPanel>div{
+	height: 100%;
+}
+.algebraSimpleP{
+	height: 100%;
+}

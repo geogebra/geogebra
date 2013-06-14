@@ -7,11 +7,15 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.ZeroOffset;
+import geogebra.web.gui.GuiManagerW;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -22,6 +26,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
@@ -287,6 +293,16 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
-		
+		//hide dialogs if they are open
+		int x = event.getClientX();
+		int y = event.getClientY();
+		int ax = ((AlgebraViewW)view).getAbsoluteLeft();
+		int ay = ((AlgebraViewW)view).getAbsoluteTop();
+		int aWidth = ((AlgebraViewW)view).getOffsetWidth();
+		int aHeight = ((AlgebraViewW)view).getOffsetHeight();
+		if ((x <= ax || x >= ax + aWidth) ||
+				(y <= ay ||y >= ay + aHeight)){
+				((GuiManagerW)app.getGuiManager()).removePopup();
+		}		
 	}
 }

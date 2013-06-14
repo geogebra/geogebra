@@ -3,8 +3,10 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.gui.layout.DockPanelW;
+import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 
+import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,6 +50,8 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 			simplep = new SimplePanel(aview = av);
 			algebrap.add(simplep);
+			simplep.addStyleName("algebraSimpleP");
+			algebrap.addStyleName("algebraPanel");	
 		}
 	}
 
