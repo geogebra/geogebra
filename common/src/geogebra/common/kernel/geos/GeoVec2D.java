@@ -1025,8 +1025,27 @@ final public class GeoVec2D extends ValidExpression implements
 
 		matrixTransform(a, b, c, d);
 	}
-
 	/**
+	 * multiplies 2D vector by a 2x2 matrix
+	 * 
+	 * @param list
+	 *            2x2 matrix
+	 */
+	public void multiplyMatrixLeft(MyList list) {
+		if (list.getMatrixCols() != 2 || list.getMatrixRows() != 2)
+			return;
+
+		double a, b, c, d;
+
+		a = (MyList.getCell(list, 0, 0).evaluateNum()).getDouble();
+		b = (MyList.getCell(list, 1, 0).evaluateNum()).getDouble();
+		c = (MyList.getCell(list, 0, 1).evaluateNum()).getDouble();
+		d = (MyList.getCell(list, 1, 1).evaluateNum()).getDouble();
+
+		matrixTransform(a, c, b, d);
+	}
+
+	/** (1,2)*{{2,0},{0,3}}
 	 * Transforms the object using the matrix
 	 * a00 a01
 	 * a10 a11
