@@ -841,9 +841,9 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 
 	@Override
 	protected Side tooCoarse() {
-		if (splitQueue.peek().getError() > desiredMaxError)
+		if (splitQueue.peek() != null && splitQueue.peek().getError() > desiredMaxError)
 			return Side.SPLIT;
-		else if (mergeQueue.peek().getError() < desiredMaxError)
+		else if (mergeQueue.peek() != null && mergeQueue.peek().getError() < desiredMaxError)
 			return Side.MERGE;
 		return Side.NONE;
 	}
