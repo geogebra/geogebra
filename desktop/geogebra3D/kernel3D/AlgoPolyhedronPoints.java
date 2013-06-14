@@ -471,9 +471,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		return height;
 	}
     
-	
-	
-	
+
 
 	
 }

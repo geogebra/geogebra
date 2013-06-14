@@ -303,6 +303,14 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		if (height!=null){
 			getTopPoint().update();
 		}
+		
+		// force update of segments and polygons when e.g. in a list
+		if (! getPolyhedron().allLabelsAreSet()){
+			outputSegmentsBottom.updateParentAlgorithm();
+			outputSegmentsSide.updateParentAlgorithm();
+			outputPolygonsBottom.updateParentAlgorithm();
+			outputPolygonsSide.updateParentAlgorithm();
+		}
 	}
 	
 

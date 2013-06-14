@@ -394,5 +394,18 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	protected void updateDependentGeos(){
 		super.updateDependentGeos();
 		outputPoints.update();
+		
+		// force update of segments and polygons when e.g. in a list
+		if (! getPolyhedron().allLabelsAreSet()){
+			outputSegmentsBottom.updateParentAlgorithm();
+			outputSegmentsSide.updateParentAlgorithm();
+			outputSegmentsTop.updateParentAlgorithm();
+			outputPolygonsBottom.updateParentAlgorithm();
+			outputPolygonsSide.updateParentAlgorithm();
+			outputPolygonsTop.updateParentAlgorithm();
+		}
+
 	}
+	
+	
 }
