@@ -260,6 +260,11 @@ namespace giac {
     return res;
   }
 
+  bool is_inequation(const gen & g){
+    return g.is_symb_of_sommet(at_superieur_strict) || g.is_symb_of_sommet(at_superieur_egal) 
+      || g.is_symb_of_sommet(at_inferieur_strict) || g.is_symb_of_sommet(at_inferieur_egal);
+  }
+
   vecteur find_singularities(const gen & e,const identificateur & x,int cplxmode,GIAC_CONTEXT){
     vecteur lv(lvarxpow(e,x));
     vecteur res;
@@ -290,10 +295,7 @@ namespace giac {
 	int s=v.size();
 	for (int i=0;i<s-1;i+=2){
 	  gen & e =v[i];
-	  if (e.is_symb_of_sommet(at_superieur_strict) ||
-	      e.is_symb_of_sommet(at_inferieur_strict) ||
-	      e.is_symb_of_sommet(at_superieur_egal) ||
-	      e.is_symb_of_sommet(at_inferieur_egal)){
+	  if (is_inequation(e)){
 	    vecteur tmp=solve(e._SYMBptr->feuille._VECTptr->front()-e._SYMBptr->feuille._VECTptr->back(),x,cplxmode,contextptr);
 	    // is *it continuous at tmp
 	    const_iterateur jt=tmp.begin(),jtend=tmp.end();
@@ -1061,10 +1063,7 @@ namespace giac {
     if (has_num_coeff(e0))
       return vecteur(1,gensizeerr(gettext("Unable to solve inequations with approx coeffs ")+e0.print(contextptr)));
     gen e(e0._SYMBptr->feuille._VECTptr->front()-e0._SYMBptr->feuille._VECTptr->back());
-    if (e.is_symb_of_sommet(at_superieur_strict) ||
-	e.is_symb_of_sommet(at_inferieur_strict) ||
-	e.is_symb_of_sommet(at_superieur_egal) ||
-	e.is_symb_of_sommet(at_inferieur_egal))
+    if (is_inequation(e))
       return vecteur(1,gensizeerr(gettext("Inequation inside inequation not implemented ")+e.print()));
     if (is_zero(ratnormal(derive(e,x,contextptr))))
       *logptr(contextptr) <<gettext("Inequation is constant with respect to ")+string(x.print(contextptr)) << endl;
@@ -1740,10 +1739,7 @@ namespace giac {
 	  vecteur newres;
 	  const_iterateur jt=res.begin(),jtend=res.end();
 	  for (;jt!=jtend;++jt){
-	    if (jt->is_symb_of_sommet(at_superieur_strict) ||
-		jt->is_symb_of_sommet(at_inferieur_strict) ||
-		jt->is_symb_of_sommet(at_superieur_egal) ||
-		jt->is_symb_of_sommet(at_inferieur_egal) ||
+	    if (is_inequation(*jt) ||
 		jt->is_symb_of_sommet(at_and)){
 	      assumesymbolic(*jt,0,contextptr); // assume and solve next equation
 	      newres=mergevecteur(newres,solve(*it,*x._IDNTptr,isolate_mode,contextptr));
@@ -1889,21 +1885,31 @@ namespace giac {
       return _fsolve(args,contextptr);
     gen arg1(v.front());
     if (arg1.type==_VECT){ // Flatten equations which are list of equations
-      vecteur w;
+      vecteur w,w1,w2;
       const_iterateur it=arg1._VECTptr->begin(),itend=arg1._VECTptr->end();
       for (;it!=itend;++it){
 	gen tmp=equal2diff(*it);
 	if (tmp.type==_VECT){
 	  const_iterateur jt=tmp._VECTptr->begin(),jtend=tmp._VECTptr->end();
-	  for (;jt!=jtend;++jt)
-	    w.push_back(*jt);
+	  for (;jt!=jtend;++jt){
+	    if (is_inequation(*jt))
+	      w1.push_back(*jt);
+	    else
+	      w2.push_back(*jt);
+	  }
 	}
-	else
-	  w.push_back(tmp);
+	else {
+	  if (is_inequation(tmp))
+	    w1.push_back(tmp);
+	  else
+	    w2.push_back(tmp);
+	}
       }
+      // put inequations first
+      w=mergevecteur(w1,w2);
       arg1=w;
     }
-    if (arg1.type!=_VECT && !arg1.is_symb_of_sommet(at_equal) && !arg1.is_symb_of_sommet(at_superieur_strict) && !arg1.is_symb_of_sommet(at_superieur_egal) && !arg1.is_symb_of_sommet(at_inferieur_strict) && !arg1.is_symb_of_sommet(at_inferieur_egal))
+    if (arg1.type!=_VECT && !arg1.is_symb_of_sommet(at_equal) && !is_inequation(arg1))
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
     arg1=apply(arg1,equal2diff);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
