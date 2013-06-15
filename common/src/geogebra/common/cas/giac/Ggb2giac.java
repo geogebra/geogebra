@@ -210,10 +210,6 @@ public class Ggb2giac {
 				"inv(ggbarg))"+
 				"],ggbans][3]");
 		
-		//p("Invert.1","right([op(solve(tmpvar=%0,ggbtmpvarx))][0])");
-		
-		//p("Invert.1","subst(right([op(solve(tmpvar=%0,lname(%0)[0]))][0]),tmpvar,lname(%0)[0])");
-		
 		p("IsPrime.1", "isprime(%0)");
 		p("Join.N","flatten(%)");
 		p("Line.2","equation(line(%0,%1))");
@@ -274,9 +270,9 @@ public class Ggb2giac {
 		p("NSolve.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
 		// eg NSolve[a^4 + 34a^3 = 34]
-		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
+		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
 		"ggbans][2]");
 
 		p("NSolve.2",
@@ -295,9 +291,9 @@ public class Ggb2giac {
 		p("NSolutions.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 		// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
+		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
 		// eg NSolutions[a^4 + 34a^3 = 34]
-		"[[ggbvars:=lname(ggbans) minus {pi}],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
+		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
 		"ggbans][2]");
 
 		p("NSolutions.2",
