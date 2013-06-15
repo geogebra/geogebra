@@ -348,8 +348,9 @@ public class ProverBotanasMethod {
 						}
 					}
 				} else {
-					if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
+					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel())) // FIXME: here seems NPE if SingularWS not initialized 
 						ans = false;
+					
 				}
 			}
 

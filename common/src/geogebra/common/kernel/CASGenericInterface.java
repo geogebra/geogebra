@@ -4,7 +4,10 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.settings.SettingListener;
+
+import java.util.HashMap;
 
 /**
  * Generic interface for language-specific part of CAS which is plugged into
@@ -108,6 +111,19 @@ public interface CASGenericInterface extends SettingListener {
 	String createLocusEquationScript(
 			String constructRestrictions,
 			String vars, String varsToEliminate);
+
+	/**
+	 * Creates a program to check if an equation system has no solution, using
+	 * Groebner basis w.r.t. the revgradlex order.
+	 * @param ringVariable internal variable name for the ring if the CAS engine needs it
+	 * @param idealVariable internal variable name for the ideal if the CAS engine needs it 
+	 * @param substitutions e.g [v1=0,v2=1]
+	 * @param varsAsCommaSeparatedString variables, e.g. "v1,v2,v3"
+	 * @param polysAsCommaSeparatedString  polynomials, e.g. "v1+v2-3*v4-10"
+	 * @return the program code
+	 */
+	public String createGroebnerSolvableScript(String ringVariable, String idealVariable, 
+			HashMap<Variable,Integer>substitutions, String varsAsCommaSeparatedString, String polysAsCommaSeparatedString);
 	
 	/**
 	 * @param rawResult output from eliminate() and coeffs() commands

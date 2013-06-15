@@ -656,7 +656,7 @@ public class Construction {
 	 *            index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
-		App.debug("addtoconstructionlist "+index);
+		App.debug("addtoconstructionlist "+index+" "+ce.getClass());
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);

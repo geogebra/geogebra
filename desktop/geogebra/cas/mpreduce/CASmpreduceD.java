@@ -10,8 +10,10 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -193,5 +195,12 @@ public class CASmpreduceD extends CASmpreduce {
 	public void initCAS() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String createGroebnerSolvableScript(String ringVariable,
+			String idealVariable, HashMap<Variable, Integer> substitutions,
+			String varsAsCommaSeparatedString,
+			String polysAsCommaSeparatedString) {
+		return null; // not implemented (it might be possible, but probably too slow)
 	}
 }

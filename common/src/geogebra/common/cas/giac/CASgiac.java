@@ -18,9 +18,13 @@ import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -373,7 +377,71 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 		
 		}
+	
+	/**
+	 * Creates a giac program to check if an equation system has no solution, using
+	 * Groebner basis w.r.t. the revgradlex order.
+	 * @param ringVariable unused (for compatibility with Singular)
+	 * @param idealVariable unused (for compatibility with Singular)
+	 * @param substitutions e.g [v1=0,v2=1]
+	 * @param varsAsCommaSeparatedString variables, e.g. "v1,v2,v3"
+	 * @param polysAsCommaSeparatedString polynomials, e.g. "v1+v2-3*v4-10"
+	 * @return the giac program code
+	 */
+	public String createGroebnerSolvableScript(String ringVariable, String idealVariable, 
+			HashMap<Variable,Integer>substitutions, String varsAsCommaSeparatedString, String polysAsCommaSeparatedString) {
+		
+		/* Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2, ... are used for variables):
+		 * 
+		 * [ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1, 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
+		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
+		 * s1*d2+a1*(s2-d2)-d1*s2-a2*(s1-d1),s1*e2+b1*(s2-e2)-e1*s2-b2*(s1-e1),(a1-m1)*(b1-c1)+(a2-m2)*(b2-c2),
+		 * (b1-m1)*(c1-a1)+(b2-m2)*(c2-a2),z1*(b1*c2+a1*(b2-c2)-c1*b2-a2*(b1-c1))-1,
+		 * z2 *(s1*m2+o1*(s2-m2)-m1*s2-o2*(s1-m1))-1],[d1=0,b1=3]),[a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,o1,
+		 * o2,s1,s2,m1,m2,z1,z2],revlex),(degree(ii[0])!=0)||(ii[0]==0)][1]
+		 * 
+		 * In the last part we check if the Groebner basis is a constant neq 0, i.e. its degree is 0 but it is not 0.
+		 * If yes, there is no solution.
+		 */
+		
+		String ret = "[[" + idealVariable + ":=gbasis(";
+		
+		if (substitutions != null) {
+			ret += "subst(";
+		}
+		
+		ret += "[" + polysAsCommaSeparatedString + "]";
+		
+		if (substitutions != null) {
+			String substParams = substitutionsString(substitutions);
+			ret += ",[" + substParams + "])";
+		}
+		
+		ret += ",[" + varsAsCommaSeparatedString + "],revlex)],(degree(" +
+				idealVariable + "[0])!=0)||(" + idealVariable + "[0]==0)][1]";
 
+		return ret;
+	}
+	
+	/**
+	 * Converts substitutions to giac strings
+	 * @param subst input as a HashMap
+	 * @return the parameters for giac (e.g. "v1=0,v2=0,v3=0,v4=1")
+	 * 
+	 * Taken from prover.Polynomial, one character difference. Maybe commonize.
+	 */
+	static String substitutionsString(HashMap<Variable,Integer> subst) {
+		String ret = "";
+		Iterator<Variable> it = subst.keySet().iterator();
+		while (it.hasNext()) {
+			Variable v = it.next();
+			ret += "," + v.toString() + "=" + subst.get(v);
+		}
+		if (ret.length()>0)
+			return ret.substring(1);
+		return "";
+	}
+	
 	public double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas) {
 		String numbers = rawResult.substring(1, rawResult.length()-1);
 		String[] flatData = numbers.split(",");

@@ -263,6 +263,7 @@ public abstract class Prover {
 		App.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
+			/*
 			// Botana's prover needs singularWS.
 			// So don't try to use it if singularWS is not available:
 			if (App.singularWS == null) {
@@ -275,6 +276,7 @@ public abstract class Prover {
 				result = ProofResult.UNKNOWN;
 				return;
 			}
+			*/ // This is no longer required: giac can solve quite many problems internally
 			if (useAlternativeBotana){
 				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this, true);
 			} else {
