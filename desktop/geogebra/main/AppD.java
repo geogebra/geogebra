@@ -4985,12 +4985,15 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public CasType getCASType() {
 		
+		//if(true) return CasType.MPREDUCE;
+
+		// uses giac.js, so OK in unsigned applets
 		if (isApplet()) {
 			return CasType.GIAC;
 		}
-		//if(true) return CasType.MPREDUCE;
 		
-		// check for --giac or param giac="true"
+		// TODO: remove
+		// check for --giac (commandline / webstart) or param giac="true" (applet)
 		if (casType != null) {
 
 			//return CasType.GIAC;
@@ -4999,10 +5002,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		
 		// TODO: remove (temporary hack)
-		if (isApplet() || isWebstart() || !WINDOWS) {
+		if (isWebstart() || MAC_OS) {
 			return CasType.MPREDUCE;
 		} else {
-			// ie windows portable or windows installer or Eclipse
+			// ie windows / linux portable or windows installer or Eclipse
 			return CasType.GIAC;
 		}
 	}
