@@ -202,7 +202,18 @@ public class Ggb2giac {
 				"flatten(coordinates(%0))");
 		p("RootList.1",
 				"apply(x->convert([x,0],25),%0)");
-		p("Invert.1", "inv(%0)");
+		p("Invert.1", "[[ggbans:=0/0], [ggbarg:=%0], [ggbans:=when(type(ggbarg)!=DOM_LIST,"+
+				// invert function (answer is function, not mapping)
+				"subst(right([op(solve(tmpvar=ggbarg,lname(ggbarg)[0]))][0]),tmpvar,lname(ggbarg)[0])"+
+				","+
+				// invert matrix
+				"inv(ggbarg))"+
+				"],ggbans][3]");
+		
+		//p("Invert.1","right([op(solve(tmpvar=%0,ggbtmpvarx))][0])");
+		
+		//p("Invert.1","subst(right([op(solve(tmpvar=%0,lname(%0)[0]))][0]),tmpvar,lname(%0)[0])");
+		
 		p("IsPrime.1", "isprime(%0)");
 		p("Join.N","flatten(%)");
 		p("Line.2","equation(line(%0,%1))");
