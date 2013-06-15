@@ -11,7 +11,7 @@ import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.OpenFileDialog;
 import geogebra.touch.gui.dialogs.SaveFileDialog;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.model.GuiModel;
+import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,7 +30,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 {
 	Kernel kernel;
 	TouchApp app;
-	GuiModel guiModel;
+	TouchModel touchModel; 
 	TabletGUI tabletGUI;
 
 	InputDialog dialog;
@@ -44,13 +44,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, final GuiModel guiModel)
+	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, TouchModel touchModel)
 	{
 		this.app = app;
 		this.kernel = app.getKernel();
 
 		this.tabletGUI = tabletGUI;
-		this.guiModel = guiModel;
+		this.touchModel = touchModel;
 
 		this.dialog = new InputDialog(app, DialogType.Title, tabletGUI);
 
@@ -89,9 +89,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 				if (result != null && !result.isEmpty())
 				{
-					TabletHeaderPanelLeft.this.guiModel.closeOptions();
+					TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null); 
+					TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
+					TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 					TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
-					TabletHeaderPanelLeft.this.app.setConstructionTitle(result);
+					TabletHeaderPanelLeft.this.app.setConstructionTitle(result);					
 				}
 			}
 		});
@@ -130,7 +132,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				TabletHeaderPanelLeft.this.guiModel.closeOptions();
+				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 
 				TouchEntryPoint.showTubeSearchUI();
 			}

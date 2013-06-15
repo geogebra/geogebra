@@ -135,7 +135,9 @@ public enum ToolBarCommand
 			EuclidianConstants.MODE_ROTATE_BY_ANGLE, CommonResources.INSTANCE
 					.rotate_object_about_point_by_angle(), null), TranslateObjectByVector(
 			EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
-			CommonResources.INSTANCE.translate_object_by_vector(), null),
+			CommonResources.INSTANCE.translate_object_by_vector(), null), Dilate(
+			EuclidianConstants.MODE_DILATE_FROM_POINT,
+			CommonResources.INSTANCE.dilate_object_from_point_by_factor(), null),
 
 	// Special Object
 	FreehandShape(EuclidianConstants.MODE_FREEHAND_SHAPE,

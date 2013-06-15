@@ -49,8 +49,8 @@ public enum ToolBarMenu
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] { ToolBarCommand.ReflectObjectAboutLine,
 	    ToolBarCommand.ReflectObjectAboutPoint, ToolBarCommand.ReflectObjectAboutCircle, 
-	    //TODO: ToolBarCommand.RotateObjectByAngle, 
-	    ToolBarCommand.TranslateObjectByVector }),
+	// TODO: ToolBarCommand.RotateObjectByAngle, 
+	    ToolBarCommand.TranslateObjectByVector, ToolBarCommand.Dilate }),
 
 	// TODO:
 	 SpecialObject(ToolBarCommand.Pen /*TODO: ToolBarCommand.InsertText*/, new ToolBarCommand[] {

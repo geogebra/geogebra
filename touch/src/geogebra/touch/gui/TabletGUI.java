@@ -87,10 +87,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	@Override
 	public void initComponents(final Kernel kernel)
 	{
-		this.touchModel = new TouchModel(kernel);
+		this.touchModel = new TouchModel(kernel, this);
 
 		// Initialize GUI Elements
-		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel.getGuiModel());
+		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 

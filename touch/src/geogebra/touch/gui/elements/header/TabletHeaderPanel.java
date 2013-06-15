@@ -5,7 +5,7 @@ import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
-import geogebra.touch.model.GuiModel;
+import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
@@ -34,7 +34,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	protected InputDialog dialog;
 	TouchApp app;
 
-	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, GuiModel guiModel)
+	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel)
 	{
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
@@ -46,7 +46,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 		this.app = app;
 		this.dialog = new InputDialog(this.app, DialogType.Title, tabletGUI);
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, guiModel);
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel);
 		this.leftHeader.setStyleName("headerLeft");
 
 		this.titleButton = new Button(app.getConstructionTitle());

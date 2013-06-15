@@ -14,7 +14,7 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -27,16 +27,20 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
-import geogebra.touch.gui.elements.Picker;
+import geogebra.touch.TouchApp;
+import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.dialogs.InputDialog;
+import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * 
@@ -49,6 +53,7 @@ public class TouchModel
 	Kernel kernel;
 	GuiModel guiModel;
 	private EuclidianView euclidianView;
+	InputDialog inputDialog; 
 
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
@@ -58,9 +63,16 @@ public class TouchModel
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 	private CmdIntersect cmdIntersect;
 
-	public TouchModel(Kernel k)
+	public TouchModel(Kernel k, TabletGUI tabletGUI)
 	{
 		this.kernel = k;
+		this.inputDialog = new InputDialog((TouchApp) this.kernel.getApplication(), DialogType.NumberValue, tabletGUI);
+		this.inputDialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				inputPanelClosed();				
+			}
+		});
 		this.guiModel = new GuiModel(this);
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
@@ -442,7 +454,7 @@ public class TouchModel
 			break;
 
 		// special command: rotate around point: needs one point as center of
-		// the roation and any other object
+		// the roation and a second point to rotate
 		case RotateAroundPoint:
 			if (this.getTotalNumber() > 0 && hits.contains(this.selectedElements.get(0)))
 			{
@@ -499,7 +511,7 @@ public class TouchModel
 			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
 			break;
 
-		// commands that need one line and any other object
+		// commands that need one circle and any other object
 		case ReflectObjectAboutCircle:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC, Test.GEOPOLYGON, Test.GEOPOLYLINE, Test.GEOCURVECARTESIAN, Test.GEOIMPLICITPOLY });
 			draw = getNumberOf(Test.GEOCONIC) >= 1 && getTotalNumber() >= 2;
@@ -507,6 +519,7 @@ public class TouchModel
 
 		// commands that need one point and any other object
 		case ReflectObjectAboutPoint:
+		case Dilate:
 			if (!changeSelectionState(hits, Test.GEOPOINT, 1) && hits.size() > 0)
 			{
 				changeSelectionState(hits.get(0));
@@ -785,6 +798,10 @@ public class TouchModel
 					newElements.add(e);
 				}
 				break;
+			case Dilate:
+				this.inputDialog.show(); 	
+				//return instead of break, as everthing that follows is done by the dialog! 
+				return; 
 			case TranslateObjectByVector:
 				// get the point that was selected last
 				GeoVector vector = getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) getElement(Test.GEOVECTOR, 1) : (GeoVector) getElement(Test.GEOVECTOR);
@@ -918,27 +935,9 @@ public class TouchModel
 				break;
 			case RegularPolygon:
 				// TODO
-				final Picker picker = new Picker();
-				final GeoPoint[] p = { (GeoPoint) getElement(Test.GEOPOINT), (GeoPoint) getElement(Test.GEOPOINT, 1) };
-				picker.addHandler(new ClickHandler()
-				{
-					@Override
-					public void onClick(ClickEvent event)
-					{
-						// TODO: Append style
-						// the polygon is drawn by the Picker
-						GeoElement[] newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().RegularPolygon(null, p[0], p[1],
-						    new MyDouble(TouchModel.this.kernel, picker.getNumber()));
-						resetSelection();
-						for (GeoElement g : newGeoElements)
-						{
-							select(g);
-						}
-						TouchModel.this.kernel.notifyRepaint();
-						TouchModel.this.guiModel.updateStylingBar();
-						TouchModel.this.kernel.storeUndoInfo();
-					}
-				});
+				
+				this.inputDialog.show(); 
+				
 				this.controlClicked = false;
 				this.commandFinished = true;
 				return; // not break! no need to update or so before everything
@@ -1220,5 +1219,56 @@ public class TouchModel
 	public Kernel getKernel()
 	{
 		return this.kernel;
+	}
+	
+	public void inputPanelClosed(){
+		boolean oldVal = TouchModel.this.kernel.getConstruction().isSuppressLabelsActive();
+		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
+		
+		GeoElement[] result = TouchModel.this.kernel.getAlgebraProcessor().processAlgebraCommand(TouchModel.this.inputDialog.getInput(), false);
+			
+		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(oldVal);
+			
+		if(result == null || result.length == 0 || !(result[0] instanceof NumberValue)){
+			//invalid input; nothing to do anymore. 
+			return; 
+		}
+		
+		GeoElement[] newGeoElements;
+		
+		switch(this.command)
+		{
+		case RegularPolygon:
+			// avoid labeling of num
+			
+
+			newGeoElements = TouchModel.this.kernel
+				.getAlgoDispatcher().RegularPolygon(null, (GeoPoint) getElement(Test.GEOPOINT), (GeoPoint) getElement(Test.GEOPOINT, 1), (NumberValue) result[0]);
+			resetSelection();
+			
+
+			break;
+		case Dilate: 
+			GeoPoint start = (GeoPoint) getElement(Test.GEOPOINT);
+			GeoElement geoDil = this.selectedElements.get(0) == start ? this.selectedElements.get(1) : this.selectedElements.get(0);
+			newGeoElements = TouchModel.this.kernel
+				.getAlgoDispatcher().Dilate(null, geoDil, (NumberValue) result[0], start);
+			resetSelection();
+			
+			break; 
+		default:
+			// should not happen. Therefore there is no repaint or anything else.
+			return;
+		}
+		
+		for (GeoElement g : newGeoElements)
+		{
+			select(g);
+		}
+		
+		this.kernel.notifyRepaint();
+		this.guiModel.updateStylingBar();
+		this.commandFinished = true;
+		this.kernel.storeUndoInfo();
 	}
 }

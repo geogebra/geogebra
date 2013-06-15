@@ -32,7 +32,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	public enum DialogType
 	{
-		Title, InputField;
+		Title, InputField, NumberValue;
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
@@ -206,6 +206,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			break;
 		case InputField:
 			this.title.setText(this.app.getLocalization().getMenu(this.type.toString()));
+			break;
+		case NumberValue: 
+// TODO:			this.title.setText(); 
 			break;
 		default:
 			break;

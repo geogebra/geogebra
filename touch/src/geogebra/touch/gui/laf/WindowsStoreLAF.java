@@ -2,13 +2,13 @@ package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.model.GuiModel;
+import geogebra.touch.model.TouchModel;
 
 public class WindowsStoreLAF implements LookAndFeel {
 
 	@Override
 	public void buildHeader(TabletGUI gui,
-			TouchApp application, GuiModel giModel) {
+			TouchApp application, TouchModel touchModel) {
 
 	}
 
