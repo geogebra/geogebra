@@ -3607,7 +3607,9 @@ namespace giac {
   }
   gen _lname(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
-    return lidnt(args);
+    vecteur res=makevecteur(cst_pi,cst_euler_gamma);
+    lidnt(args,res);
+    return vecteur(res.begin()+2,res.end());
   }
   static const char _lname_s []="lname";
   static define_unary_function_eval (__lname,&_lname,_lname_s);
