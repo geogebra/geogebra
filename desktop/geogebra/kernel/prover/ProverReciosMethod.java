@@ -108,11 +108,13 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 		BigInteger[] coordinates = new BigInteger[n];
 
 		Runtime runtime = Runtime.getRuntime();
-		int nrOfProcessors = runtime.availableProcessors();
-		pointTesters = new PointTester[nrOfProcessors - 1];
-		threads = new Thread[nrOfProcessors - 1];
+		int useProcessors = runtime.availableProcessors() - 1;
+		useProcessors = 0; // do not use threads until #3399 is fixed
+		
+		pointTesters = new PointTester[useProcessors];
+		threads = new Thread[useProcessors];
 
-		for (int i = 0; i < nrOfProcessors - 1; i++) {
+		for (int i = 0; i < useProcessors; i++) {
 			pointTesters[i] = new PointTester(this, values, variables, s);
 			threads[i] = new Thread(pointTesters[i],
 					"ProverReciosMethod_TestPoints" + i);
