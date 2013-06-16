@@ -15,7 +15,7 @@ public class OptionsMenu {
 	private RadioButtonMenuBar menuLabeling;
 	private RadioButtonMenuBar menuPointCapturing;
 	private App app;
-	static Kernel kernel;
+	private Kernel kernel;
 	
 	public OptionsMenu(App app) {
 		this.app = app;
