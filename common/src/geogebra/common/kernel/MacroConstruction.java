@@ -33,6 +33,8 @@ public class MacroConstruction extends Construction {
 		super(kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
 		reservedLabels = new HashSet<String>();
+		//allow using reserved function names in marco constructions
+		super.setFileLoading(true);
 	}		   
 	
 	/**
@@ -43,8 +45,9 @@ public class MacroConstruction extends Construction {
 	public void loadXML(String xmlString) throws Exception {
 		if (undoManager == null)
 			undoManager = kernel.getApplication().getUndoManager(this);
-		
-		undoManager.processXML(xmlString);		
+		this.setFileLoading(true);
+		undoManager.processXML(xmlString);
+		this.setFileLoading(false);
 	}
 	
 	/**
