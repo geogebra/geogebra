@@ -254,7 +254,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 	 * @param nd
 	 *            number of vertices
 	 */
-	private final void compute(int nd) {
+	public final void compute(int nd) {
 
 		GeoPolygon poly = getPoly();
 

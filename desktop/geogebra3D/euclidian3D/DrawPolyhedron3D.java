@@ -191,7 +191,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 		
 		
 		// draw only segments that have no label
-		if (seg.isLabelSet()){
+		if (!seg.isEuclidianVisible() || seg.isLabelSet()){
 			return;
 		}
 		
@@ -204,7 +204,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	private static void drawPolygon(Renderer renderer, GeoPolygon polygon){
 		
 		// draw only polygons that have no label
-		if (polygon.isLabelSet()){
+		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()){
 			return;
 		}
 			

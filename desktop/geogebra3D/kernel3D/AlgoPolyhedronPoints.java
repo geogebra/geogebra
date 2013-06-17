@@ -161,9 +161,19 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegular){
 				AlgoPolygonRegular algo = (AlgoPolygonRegular) getBottom().getParentAlgorithm();
 				bottomPoints1 = algo.getPoints();
-			}else
+				// if no sufficient bottom points, force augment outputs for AlgoPolygonRegular
+				if (bottomPoints1.length < n){
+					int nOld = bottomPoints1.length;
+					algo.compute(n);
+					bottomPoints1 = algo.getPoints();
+					algo.compute(nOld);
+				}
+			}else{
 				bottomPoints1 = getBottomPoints();
+			}
+	
 			updateOutput(n,bottomPoints1);
+			
 		}
 	}
 	
