@@ -69,20 +69,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 		if (bottomPoints == null){
 			bottomPoints = new GeoPointND[1];
 			bottomPoints[0] = new GeoPoint3D(cons);
-			/*
-			bottomPointsLength = 0;
-			
-			//bottom
-			setBottom(polyhedron);
-
-			
-			//top of the prism : dummy face
-			polyhedron.startNewFace();
-			polyhedron.addPointToCurrentFace(new GeoPoint3D(cons));
-			polyhedron.endCurrentFace();
-			
-			return;
-			*/
 		}
 		
 

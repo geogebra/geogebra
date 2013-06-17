@@ -60,6 +60,12 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	protected void createPolyhedron(){
 
 		GeoPointND[] bottomPoints = getBottomPoints();
+		
+		if (bottomPoints == null){
+			bottomPoints = new GeoPointND[1];
+			bottomPoints[0] = new GeoPoint3D(cons);
+		}
+		
 		GeoPointND topPoint = getTopPoint();
 		
 		bottomPointsLength = bottomPoints.length;
@@ -192,6 +198,10 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	protected void updateOutputPoints(){
 		
 		GeoPointND[] bottomPoints = getBottomPoints();
+		
+		if (bottomPoints == null){
+			return;
+		}
 		
 		Coords bottomCenter1 = new Coords(4);
 		//interiorPoint.set(0);
