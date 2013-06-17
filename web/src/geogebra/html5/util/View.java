@@ -3,12 +3,12 @@ package geogebra.html5.util;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
-import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+//import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 public class View {
 	
@@ -121,7 +121,7 @@ public class View {
 		
 		//reiniting of navigation bar, to show the correct numbers on the label
 		((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
-		((ConstructionProtocolNavigationW)(this.getApplication().getConstructionProtocolNavigation())).update();
+		this.getApplication().getConstructionProtocolNavigation().update();
 		
 	}
 
