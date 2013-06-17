@@ -1,5 +1,6 @@
 package geogebra3D.euclidian3D;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra3D.kernel3D.GeoQuadric3DLimited;
 
 /**
@@ -17,12 +18,22 @@ public class DrawQuadric3DLimited extends Drawable3DList {
 	public DrawQuadric3DLimited(EuclidianView3D view3d, GeoQuadric3DLimited geo) {
 		super(view3d, geo);
 
-		drawables.ensureCapacity(3);
-		
-  		drawables.addToDrawableList(geo.getBottom(), 0, 0, this);
- 	  	drawables.addToDrawableList(geo.getTop(),    1, 0, this);
- 	  	drawables.addToDrawableList(geo.getSide(),   2, 0, this);
+		int index = 0;
+		index = addToDrawableList(geo.getBottom(), index);
+		index = addToDrawableList(geo.getTop(), index);
+		addToDrawableList(geo.getSide(), index);
+			
 
+	}
+	
+	private int addToDrawableList(GeoElement geo, int index){
+		if (geo.isLabelSet()){
+			return index;
+		}
+		
+		drawables.addToDrawableList(geo, 0, 0, this);		
+		return index + 1;
+		
 	}
 
 

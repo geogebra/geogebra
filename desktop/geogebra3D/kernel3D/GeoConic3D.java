@@ -448,4 +448,17 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
 		coordSys.rotate(phiVal.getDouble(), center, direction.normalized());
 	}
+	
+
+	public Coords getDirectionInD3() {
+		switch(type){
+		case CONIC_LINE:
+		case CONIC_EMPTY:
+		case CONIC_SINGLE_POINT:
+			return null;
+		default:
+			return getCoordSys().getVz();
+		}
+	}
+
 }

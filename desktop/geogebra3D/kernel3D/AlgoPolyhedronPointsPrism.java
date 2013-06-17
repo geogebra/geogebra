@@ -419,6 +419,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 	
 	@Override
 	protected void updateDependentGeos(){
+		
 		super.updateDependentGeos();
 		outputPoints.update();
 		
@@ -434,5 +435,14 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints{
 
 	}
 	
+	@Override
+	protected void updateOutputSegmentsAndPolygonsParentAlgorithms(){
+		outputSegmentsBottom.updateParentAlgorithm();
+		outputSegmentsSide.updateParentAlgorithm();
+		outputSegmentsTop.updateParentAlgorithm();
+		outputPolygonsBottom.updateParentAlgorithm();
+		outputPolygonsSide.updateParentAlgorithm();
+		outputPolygonsTop.updateParentAlgorithm();
+	}
 	
 }

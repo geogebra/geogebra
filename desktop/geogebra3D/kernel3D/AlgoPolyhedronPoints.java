@@ -73,7 +73,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
         
         update();
 
-        
+
+		// force update segments and polygons
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 	
 	
@@ -108,8 +110,11 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
         setLabels(labels);
         
 
-		update();
-        
+		update(); 
+
+		// force update segments and polygons
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
+		
 	}
 	
 	
@@ -234,6 +239,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 		setLabels(labels);
 
 		update();
+		
+		// force update segments and polygons
+		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 
 	/**
@@ -241,6 +249,14 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 */
 	abstract protected void updateOutputPoints();
     
+	/**
+	 * update output segments and parents algorithms
+	 */
+	abstract protected void updateOutputSegmentsAndPolygonsParentAlgorithms();
+	
+	
+	
+
 	
 	
 	/**

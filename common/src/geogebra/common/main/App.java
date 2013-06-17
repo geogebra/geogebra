@@ -527,7 +527,7 @@ public abstract class App implements UpdateSelection{
 	 * @return true for visible tables
 	 */
 	protected boolean tableVisible(int table) {
-		return !(table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_ENGLISH);
+		return !(table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_SCRIPTING_3D || table == CommandsConstants.TABLE_ENGLISH);
 	}
 
 	/**

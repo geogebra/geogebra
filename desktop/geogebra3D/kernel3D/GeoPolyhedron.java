@@ -321,7 +321,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		
 		// force init labels called to avoid polygon to draw edges
 		polygon.setInitLabelsCalled(true);
-
+		
 		return polygon;
 	}
 	
@@ -1048,8 +1048,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 
 	@Override
 	protected boolean showInEuclidianView() {
-		// TODO Auto-generated method stub
-		return true;
+
+		return isDefined();
 	}
 
 	@Override

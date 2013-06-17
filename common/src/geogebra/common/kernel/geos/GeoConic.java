@@ -585,4 +585,10 @@ public class GeoConic extends GeoConicND implements
 	}
 
 	
+	
+	public Coords getDirectionInD3() {
+		return Coords.VZ;
+	}
+
+	
 }

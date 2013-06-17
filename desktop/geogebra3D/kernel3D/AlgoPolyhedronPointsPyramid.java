@@ -334,5 +334,11 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 		}
 	}
 	
-
+	@Override
+	protected void updateOutputSegmentsAndPolygonsParentAlgorithms(){
+		outputSegmentsBottom.updateParentAlgorithm();
+		outputSegmentsSide.updateParentAlgorithm();
+		outputPolygonsBottom.updateParentAlgorithm();
+		outputPolygonsSide.updateParentAlgorithm();
+	}
 }

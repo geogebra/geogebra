@@ -1230,10 +1230,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				if (view3D.hasMouse())
 					view3D.setRotAnimation(view3D.getCursor3D().getDrawingMatrix().getVz());
 				else {//doesn't come from 3D view
-					if (vn.dotproduct(view3D.getViewDirection())>0)
-						view3D.setRotAnimation(vn.mul(-1));
-					else
-						view3D.setRotAnimation(vn);
+					view3D.setClosestRotAnimation(vn);
 				}
 			}
 		}

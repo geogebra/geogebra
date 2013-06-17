@@ -586,10 +586,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				break;	
 				
 			case QUADRIC_LIMITED:
-				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){ 
+				//if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()){ 
 					//create drawable when side is not explicitely created (e.g. in sequence)
 					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
-				}
+				//}
 				break;
 
 			case POLYHEDRON:
@@ -1584,6 +1584,17 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setRotAnimation(Coords vn){
 		Coords spheric = CoordMatrixUtil.sphericalCoords(vn);		
 		setRotAnimation(spheric.get(2)*180/Math.PI,spheric.get(3)*180/Math.PI,true);
+	}
+	
+	/**
+	 * start a rotation animation to be in the vector direction, shortest way
+	 * @param vn
+	 */	
+	public void setClosestRotAnimation(Coords v){
+		if (v.dotproduct(getViewDirection())>0)
+			setRotAnimation(v.mul(-1));
+		else
+			setRotAnimation(v);	
 	}
 		
 

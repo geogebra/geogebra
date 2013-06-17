@@ -48,8 +48,8 @@ public class CommandDispatcher {
 	protected HashMap<String, CommandProcessor> casTable;
 
 	/** number of visible tables */
-	public static final int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 19
-			: 18;
+	public static final int tableCount = GeoGebraConstants.CAS_VIEW_ENABLED ? 20
+			: 19;
 
 	/**
 	 * Returns localized name of given command set

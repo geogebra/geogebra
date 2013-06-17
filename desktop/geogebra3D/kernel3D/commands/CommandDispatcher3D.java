@@ -5,6 +5,7 @@ import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.App;
+import geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 
 /**
  * Command dispatcher for 3D
@@ -170,6 +171,12 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Height:
 				return new CmdHeight(kernel);
+				
+				
+			// scripting : 3D
+			case SetViewDirection:
+				return new CmdSetViewDirection(kernel);
+				
 				
 			default:
 				return super.commandTableSwitch(cmdName);

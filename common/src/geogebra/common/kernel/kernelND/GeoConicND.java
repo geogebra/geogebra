@@ -58,7 +58,7 @@ import java.util.ArrayList;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
-Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3D
+Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3D, GeoDirectionND
 {
 	/** avoid very large and small coefficients for numerical stability */	
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;

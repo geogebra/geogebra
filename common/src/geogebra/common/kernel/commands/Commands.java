@@ -221,6 +221,12 @@ public enum Commands implements CommandsConstants, GetCommand{
    	OrthogonalPlane(TABLE_ENGLISH),PerpendicularPlane(TABLE_3D), Prism(TABLE_3D), Pyramid(TABLE_3D), PlaneBisector(TABLE_3D),IntersectionPaths(TABLE_3D),ConeInfinite(TABLE_ENGLISH),
    	IntersectCircle(TABLE_3D), Height(TABLE_3D),
    	
+  	//=============================================================	
+  	// scripting 3D
+	//=============================================================
+
+   	SetViewDirection(TABLE_SCRIPTING_3D),
+   	
    	// ================================================================
    	// Turtle
 	//=============================================================
