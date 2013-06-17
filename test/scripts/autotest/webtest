@@ -36,9 +36,9 @@ run() {
  phantomjs $PHANTOMJSFILE > $REPORT
  echo "Return value: $?" >/dev/stderr
  # Postprocessing:
- tail -1 $REPORT >/dev/stderr
+ tail -10 $REPORT >/dev/stderr
  cp $REPORT $TEST-$REPORT
- convert -flatten $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $TEST.ansi
+ convert $PNGFILE jpg:- | jp2a - --width=100 $COLORS > $TEST.ansi
  }
 
 ansi_analyze() {
@@ -51,18 +51,25 @@ cat $ANSIFILENAME | sed 's/\(.\)/\1\n/g' | sort | uniq -c | sort -nr > $ANSIFILE
 # it means no real output is shown. This can be checked by having a 2-lines-output file:
 if [ `cat $ANSIFILENAME.test | wc -l` = 2 ]; then
  echo "Output seems empty for test $1 ($REMOTEURL)"
- exit 21
+ if [ "$2" = force ]; then
+  exit 21
+  fi
+ return 21
  fi
 # 2. If the "space" character is the most often, it may mean that the output
 # stops at the splash screen:
-cat $ANSIFILENAME.test | head -1 | grep --silent "[0-9]  $" && {
- if [ "$2" = force ]; then
+MOST=`cat $ANSIFILENAME.test | head -1 | awk '{print $2}'`
+FREQ=`cat $ANSIFILENAME.test | head -1 | awk '{print $1}'`
+echo $MOST | grep --silent "[0-9] M$" && {
+ if [ `echo $FREQ \> 3700 | bc -q` = 1 ]; then
   echo "Output for test $1 ($REMOTEURL) seems to be almost empty, maybe too slow"
-  exit 22
+  if [ "$2" = force ]; then
+   exit 22
+   fi
+  return 22
   fi
- return 22
  }
- return 0
+return 0
 }
 
 json_analyze() {
@@ -76,12 +83,12 @@ if [ "$SYNTAXERROR" != "" ]; then
 }
 
 MYDIR=`pwd`
-REVISION=`svn info | grep Revision: | awk '{print $2}'`
-TESTFILES=`cd $REVDIR/latest/war/test; ls -1 *.ggb | grep -v ^_`
+TESTFILES=`cd $REVDIR/$REVISION/war/test; ls -1 *.ggb | grep -v ^_`
 for i in $TESTFILES; do
  run $i
- ansi_analyze $i
- if [ $? = 22 ]; then
+ ansi_analyze $i ggbOnInit
+ RETVAL=$?
+ if [ $RETVAL = 21 -o $RETVAL = 22 ]; then
   run $i somethingrandomstringwhichwillneveroccur
   ansi_analyze $i force
   fi
