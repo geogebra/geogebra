@@ -19,8 +19,8 @@ public class GeoGebraTubeAPI extends geogebra.common.move.ggtapi.models.GeoGebra
 
 	private GeoGebraTubeAPI()
 	{
-		//this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
-		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
+		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+//		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
 	}
 
 	/**
