@@ -3798,6 +3798,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		// close to screen
 		return false;
 	}
+
+	@Override
+	protected boolean drawPlayButtonInThisView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
 
