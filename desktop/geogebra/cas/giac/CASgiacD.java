@@ -87,7 +87,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	context C;
 
 	// whether to use thread (JNI only)
-	final private static boolean useThread = false;
+	final private static boolean useThread = !AppD.LINUX;
 
 	public String evaluate(String input) throws Throwable {
 
@@ -95,8 +95,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		String exp = casParser.replaceIndices(input, false);
 
 		String ret;
-		Object jsRet = null;
-
 		App.debug("giac  input: "+exp);	
 
 		threadResult = null;
