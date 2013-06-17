@@ -3269,4 +3269,22 @@ public abstract class App implements UpdateSelection{
 		return null;
 	}
 
+	/**
+	 * 
+	 * useful for benchmarking
+	 * ie only useful for elapsed time
+	 * 
+	 * accuracy will depend on the platform / browser
+	 * uses System.nanoTime()/1000000 in Java
+	 * performance.now() in JavaScript
+	 * 
+	 * Won't return sub-millisecond accuracy
+	 * 
+	 * Chrome: doesn't work for sub-millisecond yet
+	 * https://code.google.com/p/chromium/issues/detail?id=158234
+	 * 
+	 * @return millisecond time
+	 */
+	public abstract double getMillisecondTime();
+	
 }

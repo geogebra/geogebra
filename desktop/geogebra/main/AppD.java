@@ -5018,4 +5018,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	public static void setCasType(CasType type) {
 		casType = type;
 	}
+
+	@Override
+	public double getMillisecondTime() {
+		return System.nanoTime() / 1000000d;
+	}
 }

@@ -679,4 +679,20 @@ public abstract class AppWeb extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        
         }
+		
+		@Override
+		public double getMillisecondTime() {
+			return getMillisecondTimeNative();
+		}
+		
+		private native double getMillisecondTimeNative() /*-{
+			if ($wnd.performance) {
+				return $wnd.performance.now();
+			}
+			
+			// for IE9
+			return new Date().getTime();
+		}-*/;
+
+		
 }
