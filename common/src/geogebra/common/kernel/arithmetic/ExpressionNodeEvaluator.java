@@ -197,7 +197,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& (operation.ordinal() < Operation.FUNCTION.ordinal())) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
 					right, true);
-		} else if ((rt instanceof FunctionalNVar) && lt.isNumberValue()) {
+		} else if ((rt instanceof FunctionalNVar) && lt instanceof NumberValue) {
 			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
 					left, false);
 		}
@@ -495,7 +495,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return vec;
 		}
 		// number + vector (for complex addition)
-		else if (lt.isNumberValue() && rt instanceof VectorValue) {
+		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
 			GeoVec2D.add(vec, ((NumberValue) lt), vec);
 			return vec;

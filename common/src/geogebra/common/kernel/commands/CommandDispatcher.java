@@ -186,7 +186,7 @@ public class CommandDispatcher {
 			throw new MyError(app.getLocalization(), app.getLocalization().getError("UnknownCommand") + " : "
 					+ app.getLocalization().getCommand(c.getName()));
 
-		// switch on macro mode to avoid labeling of output if desired
+		// switch on macro mode to avoid labeling of output if desired Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (!labelOutput)
 			cons.setSuppressLabelCreation(true);

@@ -363,7 +363,7 @@ public class Polynomial extends ValidExpression implements Serializable
 					}
 				}
 
-				if (!ti.coefficient.evaluate(StringTemplate.defaultTemplate).isNumberValue())
+				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue))
 					throw new MyError(kernel.getApplication().getLocalization(), ti.coefficient
 							.evaluate(StringTemplate.defaultTemplate).toString(StringTemplate.defaultTemplate));
 

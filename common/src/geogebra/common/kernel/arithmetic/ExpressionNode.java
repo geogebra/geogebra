@@ -371,7 +371,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (left.isConstant()) {
 				ExpressionValue eval = node
 						.evaluate(StringTemplate.defaultTemplate);
-				if (eval.isNumberValue()) {
+				if (eval instanceof NumberValue) {
 					// we only simplify numbers that have integer values
 					if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
 						left = eval;

@@ -242,7 +242,7 @@ public abstract class DialogManager {
 		cons.setSuppressLabelCreation(oldVal);
 
 
-		boolean success = result != null && result[0].isNumberValue();
+		boolean success = result != null && result[0] instanceof GeoNumberValue;
 
 		if (success) {
 			// GeoElement circle = kernel.Circle(null, geoPoint1,
