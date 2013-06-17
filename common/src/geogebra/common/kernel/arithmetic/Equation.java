@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -428,8 +429,12 @@ public class Equation extends ValidExpression {
         else 
         	sb.append('0');
         
-        // equal sign
-        sb.append(" = ");	        
+        if (tpl.getStringType().equals(StringType.GIAC)) {
+        	sb.append("%=");
+        } else {
+        	// equal sign
+        	sb.append(" = ");
+        }
         
         if (rhs != null) {
         	sb.append(rhs.toValueString(tpl));
@@ -449,8 +454,12 @@ public class Equation extends ValidExpression {
         else 
         	sb.append('0');
         
-        // equal sign
-        sb.append(" = ");	        
+        if (tpl.getStringType().equals(StringType.GIAC)) {
+        	sb.append("%=");
+        } else {
+        	// equal sign
+        	sb.append(" = ");
+        }
         
         // right hand side
         if (rhs != null) 
