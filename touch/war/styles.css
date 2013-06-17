@@ -232,6 +232,9 @@ div.button.button-up-hovering {
 /* #####################################################################
 ####                    ALGEBRA VIEW 								####
 ##################################################################### */
+.algebraView-scroller {
+	margin-left: 18px;
+}
 .algebraView { /* Border */
 	border-left: #CCCCCC solid 1px;
 	/* Background */
@@ -270,7 +273,7 @@ div.button.button-up-hovering {
 }
 
 .algebraViewContent {
-	padding: 0px 20px;
+	padding: 0px 0px;
 }
 
 .elemHeading {

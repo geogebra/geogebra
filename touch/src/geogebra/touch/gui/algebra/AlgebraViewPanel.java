@@ -12,10 +12,12 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends ScrollPanel
+public class AlgebraViewPanel extends LayoutPanel
 {
 	private AlgebraViewM algebraView;
 
+	private ScrollPanel scroller;
+	
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
@@ -33,10 +35,15 @@ public class AlgebraViewPanel extends ScrollPanel
 	{
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
+		this.scroller = new ScrollPanel();
 
-		this.setWidget(this.algebraView);
+		this.scroller.setWidget(this.algebraView);
 		
 		this.setStyleName("algebraView");
+		
+		this.scroller.setStyleName("algebraView-scroller");
+		
+		this.add(this.scroller);
 	}
 
 	public AlgebraView getAlgebraView()
