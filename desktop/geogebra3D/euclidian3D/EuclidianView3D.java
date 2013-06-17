@@ -591,12 +591,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 					d = new DrawQuadric3DLimited(this, (GeoQuadric3DLimited) geo);
 				}
 				break;
-				
+
 			case POLYHEDRON:
-				if (!((GeoPolyhedron) geo).allLabelsAreSet()){
-					//create drawable when alone (e.g. in sequence)
-					d = new DrawPolyhedron3D(this, (GeoPolyhedron) geo);
-				}
+				d = new DrawPolyhedron3D(this, (GeoPolyhedron) geo);
 				break;
 
 			case FUNCTION_NVAR:

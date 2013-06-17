@@ -48,6 +48,17 @@ public class AlgoPolygon3D extends AlgoPolygon {
 		
 	}
 	
+    /**
+     * @param cons the construction
+     * @param points vertices of the polygon
+     * @param createSegments  says if the polygon has to creates its edges (3D only) 
+     * @param polyhedron polyhedron (when segment is part of)
+     */
+	public AlgoPolygon3D(Construction cons,  
+			GeoPointND[] points, boolean createSegments, GeoElement polyhedron) {
+		super(cons, points, null,null,createSegments, polyhedron, null);
+		
+	}
 	
     /**
      * create the polygon

@@ -188,13 +188,26 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	
 	
 	private static void drawSegment(PlotterBrush brush, GeoSegmentND seg){
+		
+		
+		// draw only segments that have no label
+		if (seg.isLabelSet()){
+			return;
+		}
+		
 		brush.setAffineTexture(0.5f,  0.25f);
 		brush.segment(seg.getStartInhomCoords(), seg.getEndInhomCoords());
+		
 		
 	}
 	
 	private static void drawPolygon(Renderer renderer, GeoPolygon polygon){
 		
+		// draw only polygons that have no label
+		if (polygon.isLabelSet()){
+			return;
+		}
+			
 		int pointLength = polygon.getPointsLength();
 		
 		if (pointLength<3 || Kernel.isZero(polygon.getArea())){ //no polygon

@@ -65,7 +65,6 @@ public class AlgoPolygon extends AlgoElement {
     
     /**
      * @param cons the construction
-     * @param labels names of the polygon and the segments
      * @param points vertices of the polygon
      * @param geoList list of vertices of the polygon (alternative to points)
      * @param cs2D for 3D stuff : GeoCoordSys2D
@@ -73,7 +72,7 @@ public class AlgoPolygon extends AlgoElement {
      * @param polyhedron polyhedron (when segment is part of), used for 3D
      * @param direction normal direction, used for 3D
      */
-    protected AlgoPolygon(Construction cons, String [] labels, 
+    protected AlgoPolygon(Construction cons, 
     		GeoPointND [] points, GeoList geoList, CoordSys cs2D, 
     		boolean createSegments, GeoElement polyhedron, GeoDirectionND direction) {
         super(cons);
@@ -96,6 +95,25 @@ public class AlgoPolygon extends AlgoElement {
         
         setInputOutput(); // for AlgoElement
         
+    }
+    
+    /**
+     * @param cons the construction
+     * @param labels names of the polygon and the segments
+     * @param points vertices of the polygon
+     * @param geoList list of vertices of the polygon (alternative to points)
+     * @param cs2D for 3D stuff : GeoCoordSys2D
+     * @param createSegments  says if the polygon has to creates its edges (3D only) 
+     * @param polyhedron polyhedron (when segment is part of), used for 3D
+     * @param direction normal direction, used for 3D
+     */
+    protected AlgoPolygon(Construction cons, String [] labels, 
+    		GeoPointND [] points, GeoList geoList, CoordSys cs2D, 
+    		boolean createSegments, GeoElement polyhedron, GeoDirectionND direction) {
+
+        
+    	this(cons, points, geoList, cs2D, createSegments, polyhedron, direction);
+    	
         //G.Sturr 2010-3-14: Do not label segments or points for polygons 
         // formed by a geolist. 
         //(current code cannot handle sequences of variable length)

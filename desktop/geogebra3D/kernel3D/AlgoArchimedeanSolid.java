@@ -160,7 +160,9 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 		int vertexCount = solid.getVertexCount();
 		
 		outputPoints.augmentOutputSize(vertexCount-2);
-		outputPoints.setLabels(null);
+		if (getPolyhedron().allLabelsAreSet()){
+			outputPoints.setLabels(null);
+		}
 		
 		
 		//coords

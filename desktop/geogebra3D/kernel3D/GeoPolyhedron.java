@@ -112,8 +112,10 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 	 * @param polygon source polygon
 	 */
 	private void addSegmentsLinked(GeoPolygon polygon){
-		for (GeoSegmentND segment: polygon.getSegments()){
-			addSegmentLinked(segment);
+		if (polygon.getSegments() != null){
+			for (GeoSegmentND segment: polygon.getSegments()){
+				addSegmentLinked(segment);
+			}
 		}
 	}
 	
@@ -283,12 +285,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		// last segment
 		s[j-1] = createSegment(endPoint, firstPoint);
 
-		/*
-		String st = "poly : ";
-		for (int i = 0; i < p.length; i++)
-			st += p[i].getLabel();
-		Application.debug(st);
-		*/
 
 		GeoPolygon3D polygon = createPolygon(p);
 		polygons.put(index, polygon);
@@ -316,13 +312,15 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 	public GeoPolygon3D createPolygon(GeoPointND[] points) {
 		GeoPolygon3D polygon;
 
-		AlgoPolygon3D algo = new AlgoPolygon3D(cons, null, points, false, this);
+		AlgoPolygon3D algo = new AlgoPolygon3D(cons, points, false, this);
 		cons.removeFromConstructionList(algo);
 
 		polygon = (GeoPolygon3D) algo.getPoly();
 		// refresh color to ensure segments have same color as polygon:
 		polygon.setObjColor(getObjectColor());
 		
+		// force init labels called to avoid polygon to draw edges
+		polygon.setInitLabelsCalled(true);
 
 		return polygon;
 	}
@@ -939,8 +937,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 			setVolume(polyhedron.getVolume());
 			
 			// set polygons
-			int index = 0;
 			polygons.clear();
+			int index = 0;
 			for (GeoPolygon p : polyhedron.polygonsLinked){
 				if(setPolygon(index, p)){
 					index++;
@@ -951,10 +949,17 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 					index++;
 				}
 			}
+			
+			// set last polygons undefined
+			/*
+			for (int i = index; i < polygons.lastKey() ; i++){
+				polygons.get(i).setUndefined();
+			}
+			*/
 
 			// set segments
-			index = 0;
 			segments.clear();
+			index = 0;
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
 				if(setSegment(index, s)){
 					index++;
@@ -965,6 +970,13 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 					index++;
 				}
 			}
+			
+			// set last segments undefined
+			/*
+			for (int i = index; i < segments.lastKey() ; i++){
+				segments.get((long) i).setUndefined();
+			}
+			*/
 	
 
 		}
