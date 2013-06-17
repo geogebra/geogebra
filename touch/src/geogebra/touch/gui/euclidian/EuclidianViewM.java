@@ -264,4 +264,9 @@ public class EuclidianViewM extends EuclidianViewWeb
 		updateSize();
 		doRepaint2();
 	}
+
+	@Override
+	protected boolean drawPlayButtonInThisView() {
+		return true;
+	}
 }
