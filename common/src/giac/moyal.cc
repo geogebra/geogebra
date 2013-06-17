@@ -2334,7 +2334,7 @@ namespace giac {
 
   gen _randgeometric(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/ln(1-g,contextptr);
+    return _ceil(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/ln(1-g,contextptr),contextptr);
   }
   static const char _randgeometric_s []="randgeometric";
   static define_unary_function_eval (__randgeometric,&_randgeometric,_randgeometric_s);
@@ -2508,6 +2508,182 @@ namespace giac {
   static const char _kolmogorovt_s []="kolmogorovt";
   static define_unary_function_eval (__kolmogorovt,&_kolmogorovt,_kolmogorovt_s);
   define_unary_function_ptr5( at_kolmogorovt ,alias_at_kolmogorovt,&__kolmogorovt,0,true);
+
+  int giacmin(const std::vector<int> & X){
+    vector<int>::const_iterator it=X.begin(),itend=X.end();
+    int r=RAND_MAX;
+    for (;it!=itend;++it){
+      if (*it<r)
+	r=*it;
+    }
+    return r;
+  }
+
+  int giacmax(const std::vector<int> & X){
+    vector<int>::const_iterator it=X.begin(),itend=X.end();
+    int r=-RAND_MAX;
+    for (;it!=itend;++it){
+      if (*it>r)
+	r=*it;
+    }
+    return r;
+  }
+
+  void effectif(const std::vector<int> & x,std::vector<int> & eff,int m){
+    vector<int>::const_iterator it=x.begin(),itend=x.end();
+    for (;it!=itend;++it){
+      ++eff[*it-m];
+    }
+  }
+
+  void somme(const vector<int> & x,const vector<int> &y,vector<int> & z){
+    if (&x==&z){
+      vector<int>::const_iterator jt=y.begin(),jtend=y.end();
+      vector<int>::iterator it=z.begin(),itend=z.end();
+      for (;it!=itend&& jt!=jtend;++it,++jt)
+	*it+=*jt;
+      for (;jt!=jtend;++jt)
+	z.push_back(*jt);
+      return;
+    }
+    if (&y==&z){
+      somme(y,x,z);
+      return;
+    }
+    z.clear();
+    z.reserve(giacmax(x.size(),y.size()));
+    vector<int>::const_iterator it=x.begin(),itend=x.end(),jt=y.begin(),jtend=y.end();
+    for (;it!=itend&& jt!=jtend;++it,++jt)
+      z.push_back(*it+*jt);
+    for (;it!=itend;++it)
+      z.push_back(*it);
+    for (;jt!=jtend;++jt)
+      z.push_back(*jt);
+  }
+
+  int somme(const vector<int> & x){
+    int s=0;
+    vector<int>::const_iterator it=x.begin(),itend=x.end();
+    for (;it!=itend;++it){
+      s+=*it;
+    }
+    return s;
+  }
+
+  gen _chisquaret(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g._VECTptr->size()<2)
+      return gensizeerr(contextptr);
+    vecteur & v = *g._VECTptr;
+    gen x=v[0],y=v[1];
+    gen ytotal=_plus(y,contextptr);
+    bool yproba=is_zero(1-ytotal,contextptr);
+    if (!yproba && x.type==_VECT && y.type==_VECT){
+      // >= 2 samples, same law?
+      // x and y are either classes/effectifs or effectifs (integer values)
+      if (is_integer_vecteur(*x._VECTptr)){
+	if (!is_integer_vecteur(*y._VECTptr))
+	  return gensizeerr(contextptr);  
+	vector< vector<int> > M(2);
+	M[0]=vecteur_2_vector_int(*x._VECTptr);
+	M[1]=vecteur_2_vector_int(*y._VECTptr);
+	unsigned s=v.size();
+	for (int j=2;j<s;++j){
+	  if (v[j].type!=_VECT || !is_integer_vecteur(*v[j]._VECTptr))
+	    return gensizeerr(contextptr);
+	  M.push_back(vecteur_2_vector_int(*v[j]._VECTptr));
+	}
+	vector< vector<int> > effX(s);
+	int k=M[0].size();
+	if (k!=M[1].size()){
+	  // build effectifs for x and y
+	  int m=giacmin(M[0]),ma=giacmax(M[0]);
+	  for (unsigned j=1;j<s;++j){
+	    m=giacmin(m,giacmin(M[j]));
+	    ma=giacmax(ma,giacmax(M[j]));
+	  }
+	  k=ma-m+1;
+	  for (unsigned j=0;j<s;++j){
+	    effX[j]=vector<int>(k);
+	    effectif(M[j],effX[j],m);	  
+	  }
+	}
+	else 
+	  effX=M;
+	vector<int> eff(k);
+	for (unsigned j=0;j<s;++j){
+	  somme(eff,effX[j],eff);	  
+	}
+	double N=somme(eff);
+	vector<double> NX(s);
+	for (unsigned j=0;j<s;++j){
+	  NX[j]=somme(effX[j]);	  
+	}
+	double res=0;
+	for (unsigned i=0;i<eff.size();++i){
+	  // theoric proba of class i is eff[i]/N
+	  double p_i=eff[i]/N;
+	  for (unsigned j=0;j<s;++j){
+	    double tmp1=NX[j]*p_i;
+	    double tmp2=effX[j][i]-tmp1;
+	    res += tmp2*tmp2/tmp1;
+	  }
+	}
+	*logptr(contextptr) << s << gettext("\nsamples Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << k-1 << ",0.95)=" <<  chisquare_icdf(k-1,0.95,contextptr) << " or chisquare_icdf(" << k-1 <<",1-alpha) if alpha!=5%" << endl;	return res;
+      }
+    }
+    if (yproba && x.type==_VECT && !x._VECTptr->empty() && is_integer_vecteur(*x._VECTptr)){
+      // if x is a vector of N integers in 1..J and y a vector of J probabilities
+      // multinomial adequation test: returns sum( (effectif[x==j]-N*y[j])^2/(N*y[j]),j=1..J)
+      // check y
+      if (y.type!=_VECT || y._VECTptr->size()<2)
+	return gensizeerr(contextptr);
+      int J=y._VECTptr->size();
+      vector<int> X=vecteur_2_vector_int(*x._VECTptr);
+      int N=X.size();
+      gen res=0;
+      if (N==J){ // X is directly the effectifs
+	N=0;
+	for (unsigned i=0;i<J;++i){
+	  if (X[i]<0)
+	    return gensizeerr(contextptr);
+	  N+=X[i];
+	}
+	for (unsigned j=0;j<J;++j){
+	  gen tmp= N*y[j];
+	  res += (X[j]-tmp)*(X[j]-tmp)/tmp;
+	}
+      }
+      else {
+	vector<int> eff(J+1);
+	int shift=1;
+	if (equalposcomp(X,0))
+	  shift=0;
+	for (unsigned i=0;i<N;++i){
+	  if (X[i]<shift || X[i]>=J+shift)
+	    return gensizeerr(gettext("Data should be a class number between 0 and ")+print_INT_(J));
+	  ++eff[X[i]];
+	}
+	for (unsigned j=shift;j<J+shift;++j){
+	  gen tmp= N*y[j-shift];
+	  res += (eff[j]-tmp)*(eff[j]-tmp)/tmp;
+	}
+      }
+      *logptr(contextptr) << gettext("Sample adequation to a finite discrete probability distribution\nChi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << J-1 << ",0.95)=" <<  chisquare_icdf(J-1,0.95,contextptr) << " or chisquare_icdf(" << J-1 <<",1-alpha) if alpha!=5%" << endl;
+      return res;
+    }
+    int nd;
+    if ((nd=is_distribution(y))){
+      // adequation to a distribution, parameters are estimated or given, depends on the
+      // number of arguments
+      int nargs=distrib_nargs(nd);
+      
+    }
+    return undef;
+  }
+  static const char _chisquaret_s []="chisquaret";
+  static define_unary_function_eval (__chisquaret,&_chisquaret,_chisquaret_s);
+  define_unary_function_ptr5( at_chisquaret ,alias_at_chisquaret,&__chisquaret,0,true);
 
   // return 0 if not distrib
   // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 

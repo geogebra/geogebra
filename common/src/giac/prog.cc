@@ -1,4 +1,4 @@
-/* -*- mode:C++ ; compile-command: "g++-3.4 -I.. -I../include -g -c prog.cc -Wall  -DHAVE_CONFIG_H -DIN_GIAC " -*- */
+/* -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -DGIAC_GENERIC_CONSTANTS  -g -c -fno-strict-aliasing prog.cc -Wall" -*- */
 #include "giacPCH.h"
 
 /*
@@ -4594,7 +4594,7 @@ namespace giac {
     vecteur v(v_orig);
     if (v.size()<7)
       return false;
-    if (*logptr(contextptr) && debug_infolevel) 
+    if (logptr(contextptr) && debug_infolevel) 
       *logptr(contextptr) << gettext("Cas_setup ") << v << char(10) << char(13) ;
     if (v[0].type==_INT_)
       approx_mode((v[0].val)!=0,contextptr);
@@ -4947,6 +4947,37 @@ namespace giac {
     else {
       f=at_inferieur_strict;
       subtype=args.subtype;
+    }
+    if (!v.empty() && f==at_inferieur_strict){
+      // check integer or double vector
+      if (v.front().type==_INT_ && is_integer_vecteur(v)){
+	// find min/max
+	vector<int> w(vecteur_2_vector_int(v));
+	int m=giacmin(w),M=giacmax(w);
+	if (M-m<=int(w.size())/3){
+	  vector<int> eff(M-m+1);
+	  effectif(w,eff,m);
+	  vecteur res(w.size());
+	  iterateur it=res.begin();
+	  int val=m;
+	  for (unsigned i=0;i<eff.size();++val,++i){
+	    unsigned I=eff[i];
+	    for (unsigned j=0;j<I;++it,++j){
+	      *it=val;
+	    }
+	  }
+	  return res;
+	}
+	sort(w.begin(),w.end());
+	vector_int2vecteur(w,v);
+	return v;
+      }
+      vector<double> V;
+      if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V)){
+	sort(V.begin(),V.end());
+	v=vector_double_2_vecteur(V);
+	return gen(v,subtype);
+      }
     }
     sort(v.begin(),v.end(),gen_sort(f,contextptr));
     return gen(v,subtype);

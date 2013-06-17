@@ -223,6 +223,10 @@ namespace giac {
   // icdf and cdf function corresponding to the codes above
   gen icdf(int n);
   gen cdf(int n);
+  int giacmax(const std::vector<int> & X);
+  int giacmin(const std::vector<int> & X);
+  void effectif(const std::vector<int> & x,std::vector<int> & eff,int m);
+  void somme(const std::vector<int> & x,const std::vector<int> &y,std::vector<int> & z);
 
   gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_lower_incomplete_gamma ;

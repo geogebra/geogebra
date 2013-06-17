@@ -86,10 +86,29 @@ using namespace std;
 #include <Windows.h>
 #else
 #include <bestafir.h>
-#include <stdio.h>
 #include <stdlib.h>
 #endif // besta_win32_target
 #endif // besta_os
+
+#include <stdio.h>
+#include <stdarg.h>
+
+#if defined(FIR)
+extern "C" int firvsprintf(char*,const char*, va_list);
+#endif
+
+int my_sprintf(char * s, const char * format, ...){
+    int z;
+    va_list ap;
+    va_start(ap,format);
+#if defined(FIR)
+    z = firvsprintf(s, format, ap);
+#else
+    z = vsprintf(s, format, ap);
+#endif
+    va_end(ap);
+    return z;
+}
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -811,6 +830,19 @@ extern "C" void Sleep(unsigned int miliSecond);
       _withsqrt_=b;
   }
 
+#ifdef WITH_MYOSTREAM
+  my_ostream my_cerr (&std::cerr);
+  static my_ostream * _logptr_= &my_cerr;
+
+  my_ostream * logptr(GIAC_CONTEXT){
+    my_ostream * res;
+    if (contextptr && contextptr->globalptr )
+      res=contextptr->globalptr->_logptr_;
+    else
+      res= _logptr_;
+    return res?res:&my_cerr;
+  }
+#else
   static ostream * _logptr_=&std::cerr;
   ostream * logptr(GIAC_CONTEXT){
     ostream * res;
@@ -821,7 +853,9 @@ extern "C" void Sleep(unsigned int miliSecond);
     return res?res:&std::cerr;
   }
 
-  void logptr(ostream * b,GIAC_CONTEXT){
+#endif
+
+  void logptr(my_ostream * b,GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_logptr_=b;
     else
@@ -3506,7 +3540,12 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _withsqrt_(true), 
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
-		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(true),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&std::cerr), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) { 
+#ifdef WITH_MYOSTREAM
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(true),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_cerr),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
+#else
+		     _ntl_on_(true),_lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(true),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&std::cerr), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
+#endif
+  { 
     _pl._i_sqrt_minus1_=1;
     _turtle_stack_.push_back(_turtle_);
     _debug_ptr=new debug_struct;

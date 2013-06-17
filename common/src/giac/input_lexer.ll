@@ -463,6 +463,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ">="			index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL;
 "'>='"                  index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_QUOTED_BINARY;
 "="                     spread_formula(yyextra)=!index_status(yyextra); index_status(yyextra)=0; (*yylval)=gen(at_equal,2); return T_EQUAL;
+"%="                     spread_formula(yyextra)=!index_status(yyextra); index_status(yyextra)=0; (*yylval)=gen(at_equal2,2); return T_EQUAL;
 "'='"                  index_status(yyextra)=0; (*yylval)=gen(at_equal,2); return T_QUOTED_BINARY;
 "$"                     index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); if (xcas_mode(yyextra)>0) return T_DOLLAR_MAPLE; else return T_DOLLAR;
 "%$"                   index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); return T_DOLLAR_MAPLE;

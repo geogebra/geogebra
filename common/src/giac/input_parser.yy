@@ -167,6 +167,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc T_UNIT
 %nonassoc T_NEG38 T_NOT
 %nonassoc T_DOLLAR // this priority for spreadsheet
+%nonassoc T_PRIME
 %right T_POW
 %nonassoc T_FACTORIAL
 %left T_SQ
@@ -233,7 +234,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_DIGITS T_AFFECT exp	{$$ = symbolic(*$1._FUNCptr,$3);}
 	| exp TI_STO T_DIGITS	{$$ = symbolic(*$3._FUNCptr,$1);}
 	| exp T_TEST_EQUAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
-	| exp T_EQUAL exp	        {$$ = symb_equal($1,$3); }
+	| exp T_EQUAL exp	        {$$ = symbolic(*$2._FUNCptr,makesequence($1,$3)); }
 	| T_EQUAL exp %prec T_BIDON { 
 	if ($2.type==_SYMB) $$=$2; else $$=symbolic(at_nop,$2); 
 	$$.change_subtype(_SPREAD__SYMB); 

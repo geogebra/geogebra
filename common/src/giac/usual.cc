@@ -3906,7 +3906,7 @@ namespace giac {
     return symbolic(at_inferieur_egal,a);
   }
   static string printasinferieur_egal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (xcas_mode(contextptr) > 0 || calc_mode(contextptr)!=38)
+    if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)!=38)
       return printsommetasoperator(feuille,"<=",contextptr);
     else
       return printsommetasoperator(feuille,"≤",contextptr);
@@ -3941,7 +3941,7 @@ namespace giac {
   define_unary_function_ptr( at_superieur_strict ,alias_at_superieur_strict ,&__superieur_strict);
 
   static string printassuperieur_egal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (xcas_mode(contextptr) > 0 || calc_mode(contextptr)!=38)
+    if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)!=38)
       return printsommetasoperator(feuille,">=",contextptr);
     else
       return printsommetasoperator(feuille,"≥",contextptr);
@@ -3967,7 +3967,7 @@ namespace giac {
   define_unary_function_ptr( at_superieur_egal ,alias_at_superieur_egal ,&__superieur_egal);
 
   static string printasdifferent(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (xcas_mode(contextptr) > 0 || calc_mode(contextptr)!=38)
+    if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)!=38)
       return printsommetasoperator(feuille,"<>",contextptr);
     else
       return printsommetasoperator(feuille,"≠",contextptr);
@@ -4376,7 +4376,7 @@ namespace giac {
     return res;
   }
 #ifdef GIAC_HAS_STO_38
-  static const char _xor_s []=" XOR ";
+  static const char _xor_s []="XOR";
 #else
   static const char _xor_s []=" xor ";
 #endif
@@ -4595,6 +4595,16 @@ namespace giac {
   static const char _equal_s []="=";
   static define_unary_function_eval4_index (80,__equal,&giac::_equal,_equal_s,&printasequal,&texprintsommetasoperator);
   define_unary_function_ptr( at_equal ,alias_at_equal ,&__equal);
+
+  gen _equal2(const gen & a,GIAC_CONTEXT){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if ((a.type!=_VECT) || (a._VECTptr->size()!=2))
+      return equal2(a,gen(vecteur(0),_SEQ__VECT),contextptr);
+    return equal2( (*(a._VECTptr))[0],(*(a._VECTptr))[1],contextptr);
+  }
+  static const char _equal2_s []="%=";
+  static define_unary_function_eval4_index (168,__equal2,&giac::_equal2,_equal2_s,&printsommetasoperator,&texprintsommetasoperator);
+  define_unary_function_ptr( at_equal2 ,alias_at_equal2 ,&__equal2);
 
   static string printassame(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (xcas_mode(contextptr) > 0)

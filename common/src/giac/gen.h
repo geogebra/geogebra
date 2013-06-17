@@ -862,6 +862,7 @@ namespace giac {
   bool operator !=(const gen & a,const gen & b);
   inline bool operator !=(const gen & a,const identificateur & b){ return !(a==b); }
   gen equal(const gen & a,const gen &b,GIAC_CONTEXT);
+  gen equal2(const gen & a,const gen &b,GIAC_CONTEXT);
 
   gen operator !(const gen & a);
 

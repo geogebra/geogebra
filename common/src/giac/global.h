@@ -198,6 +198,11 @@ namespace giac {
   extern const double powlog2float;
   extern const int MPZ_MAXLOG2;
 
+#ifdef WITH_MYOSTREAM
+  // replacement for std::cerr
+  extern my_ostream my_cerr;
+#endif
+
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
 #ifdef RTOS_THREADX
@@ -439,7 +444,11 @@ namespace giac {
     int _show_axes_;
     int _spread_Row_,_spread_Col_;
     int _printcell_current_row_,_printcell_current_col_;
+#ifdef WITH_MYOSTREAM
+    my_ostream * _logptr_;
+#else
     std::ostream * _logptr_;
+#endif
     debug_struct * _debug_ptr;
     gen * _parsed_genptr_;
     parser_lexer _pl;
@@ -646,8 +655,8 @@ namespace giac {
   void epsilon(double c,GIAC_CONTEXT);
   double & proba_epsilon(GIAC_CONTEXT);
 
-  std::ostream * logptr(GIAC_CONTEXT);
-  void logptr(std::ostream *,GIAC_CONTEXT);
+  my_ostream * logptr(GIAC_CONTEXT);
+  void logptr(my_ostream *,GIAC_CONTEXT);
 
   int & eval_level(GIAC_CONTEXT);
   // void eval_level(int b,GIAC_CONTEXT);

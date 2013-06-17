@@ -361,6 +361,7 @@ namespace giac {
   gen _equal(const gen & args,GIAC_CONTEXT);
   gen symb_equal(const gen & a,const gen & b);
   extern const unary_function_ptr * const  at_equal;
+  extern const unary_function_ptr * const  at_equal2;
   gen symb_same(const gen & a);
   symbolic symb_same(const gen & a,const gen & b);
   gen _same(const gen & args,GIAC_CONTEXT);

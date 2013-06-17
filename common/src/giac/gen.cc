@@ -244,11 +244,7 @@ namespace giac {
 #endif
 
   void sprintfdouble(char * ch,const char * format,double d){
-#if defined(BESTA_OS) && defined(ARM)
-    __2sprintf(ch,format,d);
-#else
-    sprintf(ch,format,d);
-#endif
+    my_sprintf(ch,format,d);
   }
 
   // bool is_inevalf=false;
@@ -6814,6 +6810,23 @@ namespace giac {
     return res;
   }
 
+  gen equal2(const gen & a,const gen &b,GIAC_CONTEXT){
+    if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
+      return equal(a._SYMBptr->feuille[0],b,contextptr);
+    // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])
+    if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT){
+      vecteur v=*b._VECTptr;
+      for (unsigned i=0;i<v.size();++i){
+	v[i]=symbolic(at_equal,makesequence(a,v[i]));
+      }
+      return gen(v,b.subtype);
+    }
+    gen res=symbolic(at_equal,makesequence(a,b));
+    if (a.type==_INT_ && a.subtype==_INT_PLOT && io_graph(contextptr))
+      __interactive.op(res,contextptr);
+    return res;
+  }
+
   gen sign(const gen & a,GIAC_CONTEXT){
     if (is_equal(a))
       return apply_to_equal(a,sign,contextptr);
@@ -9430,7 +9443,7 @@ namespace giac {
 	      }
 	    }
 	    if (i==vs){
-	      std::ostream * log = logptr(contextptr);
+	      my_ostream * log = logptr(contextptr);
 	      logptr(0,contextptr);
 	      i_sqrt_minus1(1,contextptr);
 	      void * scanner2;
@@ -9638,8 +9651,13 @@ namespace giac {
       return;
     }
     ostringstream warnstream;
-    ostream * oldptr = logptr(contextptr);
+    my_ostream * oldptr = logptr(contextptr);
+#ifdef WITH_MYOSTREAM
+    my_ostream newptr(&warnstream);
+    logptr(&newptr,contextptr);
+#else
     logptr(&warnstream,contextptr);
+#endif
     if (protected_giac_yyparse(ss,*this,contextptr)){
       if (ss.empty())
 	ss="""""";
@@ -9667,9 +9685,7 @@ namespace giac {
     if (my_isinf(d))
       return "infinity";
 #ifdef BCD
-#ifndef BESTA_OS // Besta sprintf crashes on some doubles
     if (bcd_printdouble(contextptr))
-#endif
       return print_FLOAT_(giac_float(d),contextptr);
 #endif
 #ifndef DOUBLEVAL

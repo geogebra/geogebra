@@ -208,19 +208,19 @@ namespace giac {
 
   string print_INT_(int i){
     char c[256];
-    sprintf(c,"%d",i);
+    my_sprintf(c,"%d",i);
     return c;
   }
 
   string hexa_print_INT_(int i){
     char c[256];
-    sprintf(c,"%X",i);
+    my_sprintf(c,"%X",i);
     return string("0x")+c;
   }
 
   string octal_print_INT_(int i){
     char c[256];
-    sprintf(c,"%o",i);
+    my_sprintf(c,"%o",i);
     return string("0o")+c;
   }
 

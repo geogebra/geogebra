@@ -6983,7 +6983,7 @@ namespace giac {
       }
       double lambda=std::log(1-f._DOUBLE_val);
       for (int i=0;i<n;++i)
-	res.push_back(_ceil(gen(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda),contextptr));
+	res.push_back(int(std::ceil(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda)));
       return;     
     }
     if (f==at_normald || f==at_normal || f==at_randNorm || f==at_randnormald)
@@ -7071,6 +7071,13 @@ namespace giac {
       }
       double p=f._DOUBLE_val;
       int Nv=N.val;
+      if (Nv==1){
+	int seuil=rand_max2*p;
+	for (int i=0;i<n;++i){
+	  res.push_back(giac_rand(contextptr)>seuil);
+	}
+	return;
+      }
       // computation time is proportionnal to Nv*n with the sum of n randoms value 0/1
       // other idea compute once binomial_cdf(Nv,k,p) for k in [0..Nv]
       // then find position of random value in the list: this costs Nv+n*ceil(log2(Nv)) operations
@@ -7169,6 +7176,19 @@ namespace giac {
 	  return mranm(n,m,e._VECTptr->back(),contextptr);
 	if (e._VECTptr->size()==4){
 	  gen loi=(*e._VECTptr)[2];
+	  if (loi.type==_INT_ && e._VECTptr->back().type==_INT_){
+	    // random integer vector in interval
+	    int a=loi.val,b=e._VECTptr->back().val;
+	    matrice M(n);
+	    for (unsigned j=0;j<n;++j){
+	      gen res=vecteur(m);
+	      for (unsigned k=0;k<m;++k){
+		(*res._VECTptr)[k]=(a+int((b-a+1)*(giac_rand(contextptr)/(rand_max2+1.0))));
+	      }
+	      M[j]=res;
+	    }
+	    return m;
+	  }
 	  if (loi.type==_FUNC)
 	    loi=loi(e._VECTptr->back(),contextptr);
 	  else
@@ -7215,7 +7235,17 @@ namespace giac {
 	    return gensizeerr(contextptr);
 	}
 	gen loi=(*e._VECTptr)[1];
+	gen res(vecteur(0));
 	if (e._VECTptr->size()==3){
+	  if (loi.type==_INT_ && e._VECTptr->back().type==_INT_){
+	    // random integer vector in interval
+	    int a=loi.val,b=e._VECTptr->back().val;
+	    res._VECTptr->reserve(n);
+	    for (unsigned j=0;j<n;++j){
+	      res._VECTptr->push_back(a+int((b-a+1)*(giac_rand(contextptr)/(rand_max2+1.0))));
+	    }
+	    return res;
+	  } 
 	  if (loi.type==_FUNC)
 	    loi=loi(e._VECTptr->back(),contextptr);
 	  else
@@ -7227,7 +7257,6 @@ namespace giac {
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+2,e._VECTptr->end()),_SEQ__VECT));
 	}
-	gen res(vecteur(0));
 	vranm(n,loi,*res._VECTptr,contextptr);
 	return res;
       }
@@ -7239,6 +7268,10 @@ namespace giac {
   static const char _randvector_s []="randvector";
   static define_unary_function_eval (__randvector,&giac::_randvector,_randvector_s);
   define_unary_function_ptr5( at_randvector ,alias_at_randvector,&__randvector,0,true);
+
+  static const char _ranv_s []="ranv";
+  static define_unary_function_eval (__ranv,&giac::_randvector,_ranv_s);
+  define_unary_function_ptr5( at_ranv ,alias_at_ranv,&__ranv,0,true);
 
 #ifdef HAVE_LIBLAPACK
   bool matrix2zlapack(const std_matrix<gen> & m,doublef2c_complex * A,GIAC_CONTEXT){

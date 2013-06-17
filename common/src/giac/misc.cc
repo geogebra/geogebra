@@ -3964,9 +3964,7 @@ static define_unary_function_eval (__diagramme_batons,&_diagramme_batons,_diagra
 	da=2*cst_pi*Vals[i]/somme;
 	da100=evalf_double(100*Vals[i]/somme,1,contextptr)._DOUBLE_val;
 	if (da100>0){        
-#if 1 // ndef BESTA_OS // BP please comment, no sprintf avail?
 	  sprintfdouble(ss,"%.4g",da100);
-#endif
 	  if (is_positive(a-cst_pi/2,contextptr))
 	    pos=_QUADRANT2;
 	  if (is_positive(a-cst_pi,contextptr))

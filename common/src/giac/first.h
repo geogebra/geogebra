@@ -37,6 +37,17 @@
 #define GIAC_MPZ_INIT_SIZE 128 // initial number of bits for mpz
 
 typedef double giac_double;
+// sprintf replacement
+int my_sprintf(char * s, const char * format, ...);
+#ifdef GIAC_HAS_STO_38
+#define WITH_MYOSTREAM
+#endif
+
+#ifdef WITH_MYOSTREAM
+#include "myostream.h"
+#else
+#define my_ostream std::ostream
+#endif
 
 #ifdef __x86_64__
 #define alias_type ulonglong
