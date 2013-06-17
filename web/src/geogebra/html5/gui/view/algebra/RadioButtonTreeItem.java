@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -25,13 +24,10 @@ import geogebra.common.main.SelectionManager;
 import geogebra.html5.gui.view.algebra.Marble.GeoContainer;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
-import geogebra.web.gui.GuiManagerW;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -84,6 +80,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private InlineHTML ihtml;
 	private TextBox tb;
 	private boolean needsUpdate;
+	private MouseDownHandler mouseDownHandler;
 	
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
@@ -116,14 +113,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}*/
 
-	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
+	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl,MouseDownHandler mdh) {
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppWeb)kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
-		
+		mouseDownHandler = mdh;
 		this.setStyleName("elem");
 
 		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -409,22 +406,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onMouseDown(MouseDownEvent evt) {
-		if (av.isEditing())
-			return;
-
-		
-		if(evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
-			if(geo != null) {
-				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-				temp.add(geo);
-				GPoint point = new GPoint(evt.getClientX(), evt.getClientY());
-				((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, av, point);
-			}
-			return;
+		if(mouseDownHandler != null){
+			mouseDownHandler.onMouseDown(evt);
 		}
-		
-		evt.preventDefault();
-		evt.stopPropagation();
 	}
 
 	public void onClick(ClickEvent evt) {

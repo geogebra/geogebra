@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -22,13 +22,17 @@ import geogebra.html5.css.GuiResources;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import java.util.ArrayList;
+
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.DOM;
@@ -379,12 +383,33 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	}
 
 	@Override
-    public final void setUserObject(TreeItem ti, Object ob) {
+    public final void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
+			
+			MouseDownHandler mdh = new MouseDownHandler(){
+				public void onMouseDown(MouseDownEvent evt){
+				if (AlgebraViewW.this.isEditing())
+					return;
+
+				
+				if(evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT){
+					if(ob instanceof GeoElement) {
+						ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+						temp.add((GeoElement)ob);
+						GPoint point = new GPoint(evt.getClientX(), evt.getClientY());
+						((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, AlgebraViewW.this, point);
+					}
+					return;
+				}
+				
+				evt.preventDefault();
+				evt.stopPropagation();
+				}
+			};
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
 			        AppResources.INSTANCE.shown().getSafeUri(),
-			        AppResources.INSTANCE.hidden().getSafeUri()));
+			        AppResources.INSTANCE.hidden().getSafeUri(),mdh));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 
 			// Workaround to make treeitem visual selection available

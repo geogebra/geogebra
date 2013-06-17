@@ -123,7 +123,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 		if (ob instanceof GeoElement)
 		{
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob, CommonResources.INSTANCE.algebra_shown().getSafeUri(), CommonResources.INSTANCE
-			    .algebra_hidden().getSafeUri()));
+			    .algebra_hidden().getSafeUri(),null));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");

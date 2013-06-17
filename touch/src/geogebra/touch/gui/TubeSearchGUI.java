@@ -1,14 +1,14 @@
 package geogebra.touch.gui;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
+import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.ggt.HorizontalMaterialPanel;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
-import geogebra.web.util.ggtapi.GeoGebraTubeAPI;
-import geogebra.web.util.ggtapi.JSONparserGGT;
 
 import java.util.ArrayList;
 import java.util.List;

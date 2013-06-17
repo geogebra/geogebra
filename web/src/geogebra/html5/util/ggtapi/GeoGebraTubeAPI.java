@@ -1,4 +1,4 @@
-package geogebra.web.util.ggtapi;
+package geogebra.html5.util.ggtapi;
 
 import geogebra.common.move.ggtapi.models.LoginRequest;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
