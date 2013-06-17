@@ -1440,7 +1440,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		try {
 			// evaluate in GeoGebra
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
-					.doProcessValidExpression(ve);
+					.doProcessValidExpression(ve.deepCopy(kernel).wrap());
 			
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
