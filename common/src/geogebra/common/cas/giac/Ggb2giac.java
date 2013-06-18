@@ -232,17 +232,19 @@ public class Ggb2giac {
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 		
 		// regroup so that exp(1)^2 is simplified
+		// regroup(inf) doesn't work, so extra check needed
 		p("Limit.2",
-				"regroup(limit(%0,%1))");
+				"[[ggbans:=limit(%0,%1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
 		p("Limit.3",
-				"regroup(limit(%0,%1,%2))");
+				"[[ggbans:=limit(%0,%1,%2)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
 		p("LimitAbove.2",
-				"regroup(limit(%0,ggbtmpvarx,%1,1))");
+				"[[ggbans:=limit(%0,ggbtmpvarx,%1,1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
 		p("LimitAbove.3", 
-				"regroup(limit(%0,%1,%2,1))");
+				"[[ggbans:=limit(%0,%1,%2,1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
 		p("LimitBelow.2",
-				"regroup(limit(%0,ggbtmpvarx,%1,-1))");
-		p("LimitBelow.3", "regroup(limit(%0,%1,%2,-1))");
+				"[[ggbans:=limit(%0,ggbtmpvarx,%1,-1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+		p("LimitBelow.3", 
+				"[[ggbans:=limit(%0,%1,%2,-1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
 		
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
