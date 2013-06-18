@@ -542,8 +542,7 @@ public class CoordSys {
 		if (dimension==2){
 			setVy(matrixOrthonormal.getVy());
 			setVz(matrixOrthonormal.getVz());
-			Coords o = (new Coords(0, 0, 0, 1))
-					.projectPlane(getMatrixOrthonormal())[0];
+			Coords o = Coords.O.projectPlane(matrixOrthonormal)[0];
 			//if (projectOrigin) // recompute origin for ortho and drawing matrix
 			//	matrixOrthonormal.setOrigin(o);
 
@@ -570,7 +569,9 @@ public class CoordSys {
 		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
 		//set origin matrix
 		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
-		
+		matrixOrthonormal.set(4,4, 1);
+
+
 		setFromMatrixOrthonormal();
 	}
 	
@@ -591,6 +592,7 @@ public class CoordSys {
 		matrixOrthonormal = m.mul3x3(matrixOrthonormal);
 		//set origin matrix
 		matrixOrthonormal.setOrigin(m.mul(o.sub(center)).add(center));
+		matrixOrthonormal.set(4,4, 1);
 		
 		setFromMatrixOrthonormal();
 	}

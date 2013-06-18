@@ -10,18 +10,23 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable {
+		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable, RotateableND {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -578,6 +583,38 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public boolean getTrace() {
 		return trace;
+	}
+	
+	
+	////////////////////////
+	// ROTATIONS
+	////////////////////////
+	
+	final public void rotate(NumberValue phiVal) {
+		coordsys.rotate(phiVal.getDouble(), Coords.O);
+		coordsys.makeEquationVector();
+	}
+
+	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
+		coordsys.makeEquationVector();
+	}
+	
+	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
+		coordsys.rotate(phiVal.getDouble(), center, direction.normalized());
+		coordsys.makeEquationVector();
+	}
+
+	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
+		
+		rotate(phiVal, Q.getInhomCoordsInD(3), orientation.getDirectionInD3());
+		
+	}
+
+	public void rotate(NumberValue phiVal, GeoLineND line) {
+		
+		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
+		
 	}
 	
 	
