@@ -1787,12 +1787,20 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				appendOp(sb,"sequal", leftStr, rightStr);
-			}else {
-				append(sb, leftStr, left, operation, tpl);
-				// sb.append(leftStr);
-				appendEqualSign(sb,tpl);
-				append(sb, rightStr, right, operation, tpl);
-				// sb.append(rightStr);
+			} else {
+				
+				if (tpl.getStringType().equals(StringType.GIAC)) {
+					sb.append("when(simplify(");
+					append(sb, leftStr, left, operation, tpl);
+					sb.append("-(");
+					append(sb, rightStr, right, operation, tpl);
+					sb.append("))==0,true,false)");
+				} else {
+
+					append(sb, leftStr, left, operation, tpl);
+					appendEqualSign(sb,tpl);
+					append(sb, rightStr, right, operation, tpl);
+				}
 			}
 			break;
 
