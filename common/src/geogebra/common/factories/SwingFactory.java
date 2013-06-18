@@ -5,6 +5,7 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
+import geogebra.common.javax.swing.GPanel;
 import geogebra.common.main.App;
 
 public abstract class SwingFactory {
@@ -19,6 +20,8 @@ public abstract class SwingFactory {
 	public abstract AbstractJComboBox newJComboBox();
 
 	public abstract GBox createHorizontalBox();
+	
+	public abstract GPanel newGPanel();
 
 	/**
 	 * @return might return null. Use App.getSwingFactory()

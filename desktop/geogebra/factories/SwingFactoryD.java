@@ -4,6 +4,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
+import geogebra.common.javax.swing.GPanel;
 import geogebra.common.main.App;
 import geogebra.javax.swing.GComboBoxD;
 
@@ -29,6 +30,11 @@ public class SwingFactoryD extends geogebra.common.factories.SwingFactory {
 	@Override
 	public GComboBoxD newJComboBox() {
 		return new geogebra.javax.swing.GComboBoxD();
+	}
+
+	@Override
+	public GPanel newGPanel() {
+		return new geogebra.javax.swing.GPanelD();
 	}
 
 }

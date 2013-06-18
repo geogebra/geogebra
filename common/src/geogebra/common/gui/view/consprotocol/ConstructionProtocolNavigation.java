@@ -1,5 +1,7 @@
 package geogebra.common.gui.view.consprotocol;
 
+import geogebra.common.javax.swing.GPanel;
+
 /**
  * Navigation buttons for the construction protocol
  */
@@ -21,6 +23,8 @@ public abstract class ConstructionProtocolNavigation{
 
 	/** Indicates whether animation is on or off */
 	public boolean isPlaying;
+
+	protected GPanel playPanel;
 
 	/**
 	 * Sets the visibility of the navigation bar.
@@ -58,12 +62,6 @@ public abstract class ConstructionProtocolNavigation{
 	public abstract void setPlayDelay(double delay);
 	
 	/**
-	 * Sets the play button visible or invisible.
-	 * @param flag if true, the play button will be visible
-	 */
-	public abstract void setPlayButtonVisible(boolean flag);
-
-	/**
 	 * Sets the construction protocol button visible or invisible.
 	 * @param flag if true, the construction protocol button will be visible
 	 */
@@ -77,6 +75,16 @@ public abstract class ConstructionProtocolNavigation{
 	public void update() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/**
+	 * @param flag true to make play button visible
+	 */
+	public void setPlayButtonVisible(boolean flag) {
+		showPlayButton = flag;
+		if (playPanel != null) {
+			playPanel.setVisible(flag);
+		}
 	}
 	
 }

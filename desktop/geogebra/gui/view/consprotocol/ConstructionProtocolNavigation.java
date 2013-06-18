@@ -16,6 +16,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.javax.swing.GPanelD;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -57,7 +58,6 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	private JLabel lbSteps;
 	/** Delay spinner */
 	JSpinner spDelay;
-	private JPanel playPanel;
 	/** Application */
 	AppD app;
 	/** Construction protocol view */
@@ -103,17 +103,6 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		return implPanel;
 	}
 		
-	/**
-	 * @param flag true to make play button visible
-	 */
-	@Override
-	public void setPlayButtonVisible(boolean flag) {
-		showPlayButton = flag;
-		if (playPanel != null) {
-			playPanel.setVisible(flag);
-		}
-	}
-	
 	/**
 	 * @param flag whether button to show construction protocol should be visible
 	 */
@@ -163,9 +152,9 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
 		
-		playPanel = new JPanel();
+		playPanel = new GPanelD();
 		playPanel.setVisible(showPlayButton);
-		playPanel.add(Box.createRigidArea(new Dimension(20,10)));
+		((GPanelD) playPanel).getImpl().add(Box.createRigidArea(new Dimension(20,10)));
 		btPlay = new JButton();
 		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
 		btPlay.addActionListener(this); 	
@@ -180,9 +169,9 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 			}			
 		});
 					
-		playPanel.add(btPlay);
-		playPanel.add(spDelay);	
-		playPanel.add(new JLabel("s"));		
+		((GPanelD)playPanel).getImpl().add(btPlay);
+		((GPanelD)playPanel).getImpl().add(spDelay);	
+		((GPanelD)playPanel).getImpl().add(new JLabel("s"));		
 		
 				
 		btOpenWindow = new JButton();
@@ -201,7 +190,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		// add panels together to center
 		implPanel.setLayout(new BoxLayout(this.implPanel, BoxLayout.LINE_AXIS));		
 		implPanel.add(leftPanel);
-		implPanel.add(playPanel);
+		implPanel.add(((GPanelD)playPanel).getImpl());
 		implPanel.add(btOpenWindow);
 		implPanel.add(Box.createRigidArea(new Dimension(20,10)));
 								

@@ -2,6 +2,7 @@ package geogebra.web.gui.view.consprotocol;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
+import geogebra.html5.javax.swing.GPanelW;
 import geogebra.html5.javax.swing.GSpinnerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -64,8 +65,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
 		
-		FlowPanel playPanel = new FlowPanel();
-		playPanel.setVisible(true); //playPanel.setVisible(showPlayButton);
+		playPanel = new GPanelW();
+		playPanel.setVisible(showPlayButton);
 		btPlay = new Button(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
 		btPlay.addClickHandler(this);
 	
@@ -81,11 +82,11 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			
 		});
 		
-		playPanel.add(btPlay);
-		playPanel.add(spDelay);
+		((GPanelW)playPanel).getImpl().add(btPlay);
+		((GPanelW)playPanel).getImpl().add(spDelay);
 		
 		implPanel.add(leftPanel);
-		implPanel.add(playPanel);
+		implPanel.add(((GPanelW)playPanel).getImpl());
 		update();
 	}
 	
@@ -129,13 +130,6 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			spDelay.setValue(new Integer((int) Math.round(playDelay))+"");
 			
 		}
-    }
-
-	@Override
-    public void setPlayButtonVisible(boolean flag) {
-	    // TODO Auto-generated method stub
-		App.debug("ConstructionProtocolNavigationW.setPlayButtonVisible(boolean) -implementation needed");
-	    
     }
 
 	@Override
