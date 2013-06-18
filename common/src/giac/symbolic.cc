@@ -925,7 +925,7 @@ namespace giac {
 	      values=gen(vecteur(vars._VECTptr->size()));
 	      for (unsigned i=0;i<vars._VECTptr->size();++i){
 		tmp=(*vars._VECTptr)[i];
-		if (tmp.is_symb_of_sommet(at_sto) || tmp.is_symb_of_sommet(at_equal)){
+		if (tmp.is_symb_of_sommet(at_sto) || is_equal(tmp)){
 		  (*values._VECTptr)[i]=tmp._SYMBptr->feuille._VECTptr->back();
 		  (*vars._VECTptr)[i]=tmp._SYMBptr->feuille._VECTptr->front().eval(1,contextptr);
 		}

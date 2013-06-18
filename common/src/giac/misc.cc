@@ -208,7 +208,7 @@ namespace giac {
   define_unary_function_ptr5( at_equal2diff ,alias_at_equal2diff,&__equal2diff,0,true);
 
   static gen equal2list(const gen & arg){
-    if ( (arg.type!=_SYMB) || (arg._SYMBptr->sommet!=at_equal))
+    if ( !is_equal(arg))
       return makevecteur(arg,zero);
     return arg._SYMBptr->feuille;
   }
@@ -301,11 +301,11 @@ namespace giac {
     bool bound=false;
     if (w.size()>=3)
       x=X=w[2];
-    if (x.is_symb_of_sommet(at_equal))
+    if (is_equal(x))
       x=x._SYMBptr->feuille[0];
     if (w.size()>=5)
       X=symb_equal(x,symb_interval(w[3],w[4]));
-    if (X.is_symb_of_sommet(at_equal) && X._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
+    if (is_equal(X) && X._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
       a=X._SYMBptr->feuille[1]._SYMBptr->feuille[0];
       b=X._SYMBptr->feuille[1]._SYMBptr->feuille[1];
       bound=true;
@@ -2077,7 +2077,7 @@ namespace giac {
       int s=read_attributs(v,attributs,contextptr);
       if (s>1){
 	gen tmp=v[s-1];
-	if (tmp.is_symb_of_sommet(at_equal)){
+	if (is_equal(tmp)){
 	  if (tmp._SYMBptr->feuille[0]==x__IDNT_e)
 	    horizontal=false;
 	  tmp=tmp._SYMBptr->feuille[1];
@@ -3812,7 +3812,7 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
 	if (tmp.type==_STRNG && attributs[1].type==_STRNG && *attributs[1]._STRNGptr==nullstr)
 	  attributs[1]=gen(*tmp._STRNGptr,contextptr);
 	else {
-	  if (tmp.is_symb_of_sommet(at_equal))
+	  if (is_equal(tmp))
 	    read_attributs(vecteur(1,tmp),attributs,contextptr);
 	  else {
 	    if (polygone)
@@ -4532,7 +4532,7 @@ static define_unary_function_eval (__hamdist,&_hamdist,_hamdist_s);
     }
     if (s>=2 && v[0].type!=_VECT){
       gen tmp(v[1]),a,b,x(vx_var);
-      if (tmp.is_symb_of_sommet(at_equal) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==2){
+      if (is_equal(tmp) && tmp._SYMBptr->feuille.type==_VECT && tmp._SYMBptr->feuille._VECTptr->size()==2){
 	x=tmp._SYMBptr->feuille[0];
 	tmp=tmp._SYMBptr->feuille[1];
       }

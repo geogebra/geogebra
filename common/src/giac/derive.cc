@@ -276,7 +276,7 @@ namespace giac {
       int nargs=v.size();
       if (nargs<=1)
 	return s.feuille;
-      if (nargs==2 && v[1].is_symb_of_sommet(at_equal)){
+      if (nargs==2 && is_equal(v[1])){
 	gen v1f=v[1]._SYMBptr->feuille;
 	if (v1f.type==_VECT && v1f._VECTptr->size()==2){
 	  gen v1f1=v1f._VECTptr->front();

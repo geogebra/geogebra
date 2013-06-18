@@ -78,7 +78,7 @@ namespace giac {
       vecteur v(*g._VECTptr);
       if (v.size()>=2){
 	gen x(v[1]);
-	if (x.is_symb_of_sommet(at_equal) && x._SYMBptr->feuille.type==_VECT && !x._SYMBptr->feuille._VECTptr->empty())
+	if (is_equal(x) && x._SYMBptr->feuille.type==_VECT && !x._SYMBptr->feuille._VECTptr->empty())
 	  x=x._SYMBptr->feuille._VECTptr->front();
 	if (v.front().is_symb_of_sommet(at_quote))
 	  v.front()=v.front()._SYMBptr->feuille;
@@ -329,7 +329,7 @@ namespace giac {
     if (v.size()!=2)
       return gensizeerr(contextptr);
     gen var=v[1],guess;
-    if (var.type==_SYMB && (var._SYMBptr->sommet==at_equal || var._SYMBptr->sommet==at_same)){
+    if (var.type==_SYMB && (var._SYMBptr->sommet==at_equal || var._SYMBptr->sommet==at_equal2 || var._SYMBptr->sommet==at_same)){
       guess=var._SYMBptr->feuille._VECTptr->back();
       if (guess.is_symb_of_sommet(at_interval))
 	return _fsolve(g,contextptr);
@@ -623,7 +623,7 @@ namespace giac {
     gen x0;
     if (v.size()==4)
       x0=v[3];
-    if (v[1].is_symb_of_sommet(at_equal))
+    if (is_equal(v[1]))
       return _series(makesequence(v[0],v[1],v[2]),contextptr);
     return _series(makesequence(v[0],symbolic(at_equal,makesequence(v[1],x0)),v[2]),contextptr);
   }
@@ -1892,7 +1892,7 @@ namespace giac {
     }
     if (s==2){
       x0=v[1];
-      if (x0.is_symb_of_sommet(at_equal)){
+      if (is_equal(x0)){
 	gen & x0f=x0._SYMBptr->feuille;
 	if (x0f.type==_VECT && x0f._VECTptr->size()==2){
 	  x=x0f._VECTptr->front();

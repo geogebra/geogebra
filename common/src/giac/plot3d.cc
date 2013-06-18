@@ -115,7 +115,7 @@ namespace giac {
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
     v=vecteur(v.begin(),v.begin()+s);
-    if (!v.empty() && (v.front().type==_SYMB) && (v.front()._SYMBptr->sommet==at_equal))
+    if (!v.empty() && is_equal(v.front()))
       return droite_by_equation(*args._VECTptr,true,contextptr);
     if (s)     
       v[0]=remove_at_pnt(v[0]);

@@ -4773,7 +4773,7 @@ namespace giac {
 	if (is_algebraic_program(a,a1,b))
 	  return symbolic(at_program,gen(makevecteur(a1,0,-b),_SEQ__VECT));
       }
-      if (a._SYMBptr->sommet==at_equal || a._SYMBptr->sommet==at_different || a._SYMBptr->sommet==at_same)
+      if (a._SYMBptr->sommet==at_equal || a._SYMBptr->sommet==at_equal2 || a._SYMBptr->sommet==at_different || a._SYMBptr->sommet==at_same)
 	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(-a._SYMBptr->feuille._VECTptr->front(),-a._SYMBptr->feuille._VECTptr->back())));
       if (is_inequality(a))
 	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(-a._SYMBptr->feuille._VECTptr->back(),-a._SYMBptr->feuille._VECTptr->front())));
@@ -5329,7 +5329,7 @@ namespace giac {
 	else 
 	  return pow(v[0],new_exp,contextptr);
       }
-      if (u==at_equal){
+      if (u==at_equal || u==at_equal2){
 	vecteur & vb=*base._SYMBptr->feuille._VECTptr;
 	return new_ref_symbolic(symbolic(base._SYMBptr->sommet,makesequence(pow(vb.front(),exponent,contextptr),pow(vb.back(),exponent,contextptr))));
       }
@@ -5687,18 +5687,18 @@ namespace giac {
       else
 	return -sym_mult(-b,a,contextptr);
     }
-    if (a.type==_SYMB && a._SYMBptr->sommet==at_equal){
+    if (is_equal(a)){
       vecteur & va=*a._SYMBptr->feuille._VECTptr;
-      if (b.type==_SYMB && b._SYMBptr->sommet==at_equal){
+      if (is_equal(b)){
 	vecteur & vb=*b._SYMBptr->feuille._VECTptr;
-	return new_ref_symbolic(symbolic(at_equal,gen(makenewvecteur(va.front()*vb.front(),va.back()*vb.back()),_SEQ__VECT)));
+	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,gen(makenewvecteur(va.front()*vb.front(),va.back()*vb.back()),_SEQ__VECT)));
       }
       else
-	return new_ref_symbolic(symbolic(at_equal,gen(makenewvecteur(va.front()*b,va.back()*b),_SEQ__VECT)));
+	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,gen(makenewvecteur(va.front()*b,va.back()*b),_SEQ__VECT)));
     }
-    if (b.type==_SYMB && b._SYMBptr->sommet==at_equal){
+    if (is_equal(b)){
       vecteur & vb=*b._SYMBptr->feuille._VECTptr;
-      return new_ref_symbolic(symbolic(at_equal,gen(makenewvecteur(a*vb.front(),a*vb.back()),_SEQ__VECT)));
+      return new_ref_symbolic(symbolic(b._SYMBptr->sommet,gen(makenewvecteur(a*vb.front(),a*vb.back()),_SEQ__VECT)));
     }
     if ((a.type==_SYMB)&& (b.type==_SYMB)){
       if ((a._SYMBptr->sommet==at_prod) && (b._SYMBptr->sommet==at_prod))
@@ -6333,18 +6333,18 @@ namespace giac {
 	  return a/(*b._FRACptr);
 	return rdiv(a,_FRAC2_SYMB(b),contextptr);
       }
-      if (a.type==_SYMB && a._SYMBptr->sommet==at_equal){
+      if (is_equal(a)){
 	vecteur & va=*a._SYMBptr->feuille._VECTptr;
-	if (b.type==_SYMB && b._SYMBptr->sommet==at_equal){
+	if (is_equal(b)){
 	  vecteur & vb=*b._SYMBptr->feuille._VECTptr;
-	  return new_ref_symbolic(symbolic(at_equal,makesequence(rdiv(va.front(),vb.front(),contextptr),rdiv(va.back(),vb.back(),contextptr))));
+	  return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(rdiv(va.front(),vb.front(),contextptr),rdiv(va.back(),vb.back(),contextptr))));
 	}
 	else
-	  return new_ref_symbolic(symbolic(at_equal,makesequence(rdiv(va.front(),b,contextptr),rdiv(va.back(),b,contextptr))));
+	  return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(rdiv(va.front(),b,contextptr),rdiv(va.back(),b,contextptr))));
       }
-      if (b.type==_SYMB && b._SYMBptr->sommet==at_equal){
+      if (is_equal(b)){
 	vecteur & vb=*b._SYMBptr->feuille._VECTptr;
-	return new_ref_symbolic(symbolic(at_equal,makesequence(rdiv(a,vb.front(),contextptr),rdiv(a,vb.back(),contextptr))));
+	return new_ref_symbolic(symbolic(b._SYMBptr->sommet,makesequence(rdiv(a,vb.front(),contextptr),rdiv(a,vb.back(),contextptr))));
       }
       /* commented since * is not always commutative
       if (a.is_symb_of_sommet(at_prod) && a._SYMBptr->feuille.type==_VECT){
@@ -6794,7 +6794,7 @@ namespace giac {
 	return apply(a,b,contextptr,equal);
       return apply2nd(a,b,contextptr,equal);
     }
-    if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
+    if (is_equal(a)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);
     // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])
     if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT){
@@ -6811,7 +6811,7 @@ namespace giac {
   }
 
   gen equal2(const gen & a,const gen &b,GIAC_CONTEXT){
-    if (a.is_symb_of_sommet(at_equal)) // so that equal(a=0 ,1) returns a=1, used for fsolve
+    if (is_equal(a)) // so that equal(a=0 ,1) returns a=1, used for fsolve
       return equal(a._SYMBptr->feuille[0],b,contextptr);
     // only in ggb mode, because we want to be able to do subst(x[1],x=[1,2])
     if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT){
@@ -6906,7 +6906,7 @@ namespace giac {
       return false;
     if ( (b==minus_inf) || (a==plus_inf) )
       return true;
-    if (a.is_symb_of_sommet(at_equal) && b.is_symb_of_sommet(at_equal) ){
+    if (is_equal(a) && is_equal(b) ){
       gen & af=a._SYMBptr->feuille;
       gen & bf=b._SYMBptr->feuille;
       if (af.type==_VECT && bf.type==_VECT && af._VECTptr->size()==2 && bf._VECTptr->size()==2 && af._VECTptr->front()==bf._VECTptr->front())

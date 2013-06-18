@@ -1139,7 +1139,7 @@ namespace giac {
   define_unary_function_ptr5( at_interp ,alias_at_interp,&__interp,0,true);
 
   static gen lhsrhs(const gen & g,int i){
-    if (!g.is_symb_of_sommet(at_equal) && !g.is_symb_of_sommet(at_interval))
+    if (!is_equal(g) && !g.is_symb_of_sommet(at_interval))
       return gensizeerr();
     gen & f=g._SYMBptr->feuille;
     if (f.type!=_VECT || f._VECTptr->size()!=2)
@@ -1271,7 +1271,7 @@ namespace giac {
     if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2){
       return sto(g._VECTptr->back(),g._VECTptr->front(),contextptr);
     }
-    if (g.is_symb_of_sommet(at_equal)){
+    if (is_equal(g)){
       gen & f=g._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2)
 	return sto(f._VECTptr->back(),f._VECTptr->front(),contextptr);
@@ -1507,7 +1507,7 @@ namespace giac {
       return gensizeerr();
     // find a frame argument, otherwise use 10
     for (int i=3;i<s;++i){
-      if (v[i].is_symb_of_sommet(at_equal)){
+      if (is_equal(v[i])){
 	gen & f = v[i]._SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_INT_ && f._VECTptr->front().val==_FRAMES && f._VECTptr->back().type==_INT_)
 	  frames=f._VECTptr->back().val;

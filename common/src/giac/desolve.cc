@@ -802,7 +802,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int ordre;
     vecteur parameters;
-    if (args.type!=_VECT || (!args._VECTptr->empty() && args._VECTptr->back().is_symb_of_sommet(at_equal)) ){
+    if (args.type!=_VECT || (!args._VECTptr->empty() && is_equal(args._VECTptr->back()) )){
       // guess x and y
       vecteur lv(lop(args,at_of));
       vecteur f;

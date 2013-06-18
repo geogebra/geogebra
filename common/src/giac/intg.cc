@@ -2285,7 +2285,7 @@ namespace giac {
   bool adjust_int_sum_arg(vecteur & v,int & s){
     if (s<2)
       return false; // setsizeerr(contextptr);
-    if ( (s==2) && (v[1].type==_SYMB) && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_same)){
+    if ( (s==2) && (v[1].type==_SYMB) && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 || v[1]._SYMBptr->sommet==at_same)){
       v.push_back(v[1]._SYMBptr->feuille._VECTptr->back());
       v[1]=v[1]._SYMBptr->feuille._VECTptr->front();
       if ( (v[2].type!=_SYMB) || (v[2]._SYMBptr->sommet!=at_interval) )
@@ -2442,7 +2442,7 @@ namespace giac {
 	for (int i=0;i<vs/2;++i){
 	  bool unable=true;
 	  gen cond=piecev[2*i];
-	  if (cond.is_symb_of_sommet(at_equal) || cond.is_symb_of_sommet(at_same)){
+	  if (is_equal(cond) || cond.is_symb_of_sommet(at_same)){
 	    *logptr(contextptr) << gettext("Assuming false condition ") << cond << endl;
 	    continue;
 	  }
@@ -2839,7 +2839,7 @@ namespace giac {
     }
     else {
       bool ok=false;
-      if (x.is_symb_of_sommet(at_equal)){
+      if (is_equal(x)){
 	a=x._SYMBptr->feuille;
 	if (a.type==_VECT && a._VECTptr->size()==2){
 	  x=a._VECTptr->front();
@@ -3614,7 +3614,7 @@ namespace giac {
     if (v[0].is_symb_of_sommet(at_quote))
       v[0]=v[0]._SYMBptr->feuille;
     if (v[1].type!=_IDNT){
-      if (v[1].is_symb_of_sommet(at_equal) && v[1]._SYMBptr->feuille.type==_VECT){
+      if (is_equal(v[1]) && v[1]._SYMBptr->feuille.type==_VECT){
 	res=true;
 	vecteur tmp =*v[1]._SYMBptr->feuille._VECTptr;
 	if (tmp.size()==2){
@@ -4366,11 +4366,11 @@ namespace giac {
     bool bound=false;
     if (w.size()>=3)
       x=X=w[2];
-    if (x.is_symb_of_sommet(at_equal))
+    if (is_equal(x))
       x=x._SYMBptr->feuille[0];
     if (w.size()>=5)
       X=symb_equal(x,symb_interval(w[3],w[4]));
-    if (X.is_symb_of_sommet(at_equal) && X._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
+    if (is_equal(X) && X._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
       a=X._SYMBptr->feuille[1]._SYMBptr->feuille[0];
       b=X._SYMBptr->feuille[1]._SYMBptr->feuille[1];
       bound=true;

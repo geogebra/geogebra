@@ -2405,7 +2405,7 @@ namespace giac {
 	return quotedlimit(G,*e._IDNTptr,0,0,contextptr);
       if (e.type!=_SYMB)
 	return gentypeerr(contextptr);
-      if (e._SYMBptr->sommet!=at_equal)
+      if (!is_equal(e))
 	return gensizeerr(contextptr);
       gen x=(*(e._SYMBptr->feuille._VECTptr))[0];
       if (x.type!=_IDNT)
@@ -2425,7 +2425,7 @@ namespace giac {
 	  return quotedlimit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
 	return gentypeerr(contextptr);
       }
-      if (e._SYMBptr->sommet!=at_equal){
+      if (!is_equal(e)){
 	if (is_one(arg3)||is_minus_one(arg3))
 	  return quotedlimit(G,*ggb_var(G)._IDNTptr,e,int(evalf_double(arg3,1,contextptr)._DOUBLE_val),contextptr);
 	return gensizeerr(contextptr);
@@ -2571,7 +2571,7 @@ namespace giac {
 
   gen series(const gen & e,const gen & vars,const gen & lim_point,int ordre,int direction,GIAC_CONTEXT){
     gen x,l;
-    if (vars.is_symb_of_sommet(at_equal)){ 
+    if (is_equal(vars)){
       // vars= x==lim_point, overwrites lim_point definition
       // direction is given by lim_point (for interactive input)
       x = (*(vars._SYMBptr->feuille._VECTptr)) [0];
@@ -2635,7 +2635,7 @@ namespace giac {
       return series( v[0],v[1],0,5,contextptr);
     if (s==3){
       if ( (v[1].type==_VECT && v[2].type==_VECT) ||
-	   ( v[1].type==_IDNT || ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_at ) ) )
+	   ( v[1].type==_IDNT || ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 || v[1]._SYMBptr->sommet==at_at ) ) )
 	   )
 	return series( v[0],v[1],v[2],5,contextptr);
       return series( v[0],symbolic(at_equal,makesequence(vx_var,v[1])),v[2],5,contextptr);

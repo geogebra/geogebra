@@ -254,7 +254,7 @@ namespace giac {
     vecteur v(*args._VECTptr);
     int s=v.size();
     if (s==2){
-      if (v[1].is_symb_of_sommet(at_equal)){
+      if (is_equal(v[1])){
 	vecteur & w=*v[1]._SYMBptr->feuille._VECTptr;
 	v.push_back(w[1]);
 	v[1]=w[0];

@@ -865,7 +865,7 @@ namespace giac {
     vector<int> save;
     for (;it!=itend;++it){
       gen tmp=*it;
-      if (tmp.is_symb_of_sommet(at_equal))
+      if (is_equal(tmp))
 	tmp=tmp._SYMBptr->feuille._VECTptr->front();
       if (tmp.type!=_IDNT)
 	save.push_back(-1);
@@ -919,7 +919,7 @@ namespace giac {
 	  contextptr->quoted_global_vars->pop_back();
 	else {
 	  gen tmp=*it;
-	  if (tmp.is_symb_of_sommet(at_equal))
+	  if (is_equal(tmp))
 	    tmp=tmp._SYMBptr->feuille._VECTptr->front();
 	  if (tmp.type==_IDNT && tmp._IDNTptr->quoted)
 	    *tmp._IDNTptr->quoted=save[i]>0?save[i]:0;
@@ -955,7 +955,7 @@ namespace giac {
     }
     // find quoted variables from v[1]
     vecteur quoted;
-    if ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal ||v[1]._SYMBptr->sommet==at_same ))
+    if ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 ||v[1]._SYMBptr->sommet==at_same ))
       plotpreprocess(v[1]._SYMBptr->feuille._VECTptr->front(),quoted,contextptr);
     else
       plotpreprocess(v[1],quoted,contextptr);
@@ -1539,7 +1539,7 @@ namespace giac {
 	  s=it-v.begin();
 	continue;
       }
-      if (!it->is_symb_of_sommet(at_equal))
+      if (!is_equal(*it))
 	continue;
       gen & opt=it->_SYMBptr->feuille;
       if (opt.type!=_VECT || opt._VECTptr->size()!=2)
@@ -1607,7 +1607,7 @@ namespace giac {
       }
       if (it->subtype==_INT_SOLVER && *it==_UNFACTORED)
 	unfactored=true;
-      if (!it->is_symb_of_sommet(at_equal))
+      if (!is_equal(*it))
 	continue;
       gen & opt=it->_SYMBptr->feuille;
       if (opt.type!=_VECT || opt._VECTptr->size()!=2)
@@ -1677,7 +1677,7 @@ namespace giac {
     gen e1=vargs[1];
     bool newsyntax;
     if (e1.type!=_VECT){
-      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (e1.is_symb_of_sommet(at_equal) || s<=4);
+      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(e1) || s<=4);
     }
     else {
       if (e1._VECTptr->size()!=2)
@@ -1797,7 +1797,7 @@ namespace giac {
   gen readvar(const gen & g){
     if (g.type==_IDNT)
       return g;
-    if (!g.is_symb_of_sommet(at_equal))
+    if (!is_equal(g))
       return undef;
     gen & f=g._SYMBptr->feuille;
     if (f.type!=_VECT || f._VECTptr->size()!=2)
@@ -1812,7 +1812,7 @@ namespace giac {
       x=g;
       return true;
     }
-    if (g.is_symb_of_sommet(at_equal)){
+    if (is_equal(g)){
       gen & f=g._SYMBptr->feuille;
       if (f.type!=_VECT)
 	return false;
@@ -1982,7 +1982,7 @@ namespace giac {
     if (!s)
       return gendimerr(contextptr);
     gen eq(remove_equal(v[0])),x(x__IDNT_e),y(y__IDNT_e),z;
-    if (s>=2 && v[1].is_symb_of_sommet(at_equal)){
+    if (s>=2 && is_equal(v[1])){
       if (est_plan) // Only 1 cartesian eq for a 3-d plan
 	return gensizeerr(contextptr);
       if (s<3) ck_parameter_x(contextptr); else x=v[2];
@@ -2188,12 +2188,12 @@ namespace giac {
     if (s<1)
       return gendimerr(contextptr);
     gen & v0=args._VECTptr->front();
-    if ( v0.type==_IDNT || (v0.type==_SYMB && v0._SYMBptr->sommet==at_equal))
+    if ( v0.type==_IDNT || is_equal(v0))
       return droite_by_equation(*args._VECTptr,false,contextptr);
     if (s<2)
       return gendimerr(contextptr);
     gen v1=(*args._VECTptr)[1];
-    if (v1.is_symb_of_sommet(at_equal) && v1._SYMBptr->feuille.type==_VECT){
+    if (is_equal(v1) && v1._SYMBptr->feuille.type==_VECT){
       vecteur & v1v=*v1._SYMBptr->feuille._VECTptr;
       if (v1v.size()==2 && v1v[0]==at_slope){
 	v1=v0+(1+cst_i*v1v[1]);
@@ -2869,7 +2869,7 @@ namespace giac {
 	g.subtype=calc_mode(contextptr)==1?_GGB__VECT:0;
 	return g;
       }
-      if (args._VECTptr->front().is_symb_of_sommet(at_equal)){
+      if (is_equal(args._VECTptr->front())){
 	vecteur v=*args._VECTptr,res;
 	vecteur last(2);
 	bool lastx=false;

@@ -239,25 +239,25 @@ namespace giac {
   define_unary_function_ptr5( at_rm_all_vars ,alias_at_rm_all_vars,&__rm_all_vars,0,true);
 
   bool is_equal(const gen & g){
-    return (g.type==_SYMB) && (g._SYMBptr->sommet==at_equal);
+    return (g.type==_SYMB) && (g._SYMBptr->sommet==at_equal || g._SYMBptr->sommet==at_equal2);
   }
 
   gen apply_to_equal(const gen & g,const gen_op & f){
-    if (g.type!=_SYMB || g._SYMBptr->sommet!=at_equal || g._SYMBptr->feuille.type!=_VECT)
+    if (g.type!=_SYMB || (g._SYMBptr->sommet!=at_equal && g._SYMBptr->sommet!=at_equal2) || g._SYMBptr->feuille.type!=_VECT)
       return f(g);
     vecteur & v=*g._SYMBptr->feuille._VECTptr;
     if (v.empty())
       return gensizeerr(gettext("apply_to_equal"));
-    return symbolic(at_equal,gen(makevecteur(f(v.front()),f(v.back())),_SEQ__VECT));
+    return symbolic(g._SYMBptr->sommet,gen(makevecteur(f(v.front()),f(v.back())),_SEQ__VECT));
   }
 
   gen apply_to_equal(const gen & g,gen (* f) (const gen &, GIAC_CONTEXT),GIAC_CONTEXT){
-    if (g.type!=_SYMB || g._SYMBptr->sommet!=at_equal || g._SYMBptr->feuille.type!=_VECT)
+    if (g.type!=_SYMB || (g._SYMBptr->sommet!=at_equal && g._SYMBptr->sommet!=at_equal2) || g._SYMBptr->feuille.type!=_VECT)
       return f(g,contextptr);
     vecteur & v=*g._SYMBptr->feuille._VECTptr;
     if (v.empty())
       return gensizeerr(contextptr);
-    return symbolic(at_equal,gen(makevecteur(f(v.front(),contextptr),f(v.back(),contextptr)),_SEQ__VECT));
+    return symbolic(g._SYMBptr->sommet,gen(makevecteur(f(v.front(),contextptr),f(v.back(),contextptr)),_SEQ__VECT));
   }
 
   // one arg
@@ -3382,7 +3382,7 @@ namespace giac {
       else
 	arg1=v[1].eval(eval_level(contextptr),contextptr);
       gen borne_inf(gnuplot_xmin),borne_sup(gnuplot_xmax),pas;
-      if ( (s==at_equal || s==at_same) || (s==at_sto) ){     
+      if ( s==at_equal || s== at_equal2 || s==at_same || s==at_sto ){     
 	// ex: assume(a=[1.7,1.1,2.3])
 	if (arg1.type==_VECT && arg1._VECTptr->size()>=3){
 	  vecteur vtmp=*arg1._VECTptr;
@@ -3408,7 +3408,7 @@ namespace giac {
       if (!is_undef(hyp)){
 	gen tmpsto=sto(hyp,arg0,contextptr); 
 	if (is_undef(tmpsto)) return tmpsto;
-	if ( (s==at_equal || s==at_same) || (s==at_sto) )
+	if ( s==at_equal || s==at_equal2 || s==at_same || s==at_sto )
 	  return _parameter(makevecteur(arg0,borne_inf,borne_sup,arg1,pas),contextptr);
 	return arg0;
       }
@@ -3503,7 +3503,7 @@ namespace giac {
   }
   
   inline bool idnt_symb_int(const gen & b){
-    return (b.type==_INT_ && b.val!=0) || b.type==_ZINT || (b.type==_SYMB && !is_inf(b) && b._SYMBptr->sommet!=at_unit && b._SYMBptr->sommet!=at_equal && !equalposcomp(plot_sommets,b._SYMBptr->sommet) ) || (b.type==_IDNT && strcmp(b._IDNTptr->id_name,"undef") && strcmp(b._IDNTptr->id_name,"infinity"));
+    return (b.type==_INT_ && b.val!=0) || b.type==_ZINT || (b.type==_SYMB && !is_inf(b) && b._SYMBptr->sommet!=at_unit && b._SYMBptr->sommet!=at_equal && b._SYMBptr->sommet!=at_equal2 && !equalposcomp(plot_sommets,b._SYMBptr->sommet) ) || (b.type==_IDNT && strcmp(b._IDNTptr->id_name,"undef") && strcmp(b._IDNTptr->id_name,"infinity"));
   }
 
   gen _plus(const gen & args,GIAC_CONTEXT){
@@ -4257,7 +4257,7 @@ namespace giac {
     const_iterateur it=v.begin(),itend=v.end();
     gen_map m(ptr_fun(islesscomplexthanf));
     for (;it!=itend;++it){
-      if (it->is_symb_of_sommet(at_equal)){
+      if (is_equal(*it)){
 	gen & f =it->_SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2){
 	  vecteur & w=*f._VECTptr;
@@ -5668,7 +5668,7 @@ namespace giac {
   gen _evalf(const gen & a_orig,GIAC_CONTEXT){
     gen a(a_orig);
     if (a.type==_STRNG && a.subtype==-1) return  a;
-    if (a.is_symb_of_sommet(at_equal)&&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
+    if (is_equal(a) &&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
       vecteur & v(*a._SYMBptr->feuille._VECTptr);
       return symbolic(at_equal,gen(makevecteur(evalf(v.front(),1,contextptr),evalf(v.back(),1,contextptr)),_SEQ__VECT));
     }
@@ -5702,7 +5702,7 @@ namespace giac {
 
   gen _eval(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
-    if (a.is_symb_of_sommet(at_equal)&&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
+    if (is_equal(a) &&a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
       vecteur & v(*a._SYMBptr->feuille._VECTptr);
       return symbolic(at_equal,gen(makevecteur(eval(v.front(),eval_level(contextptr),contextptr),eval(v.back(),eval_level(contextptr),contextptr)),_SEQ__VECT));
     }
@@ -5755,7 +5755,7 @@ namespace giac {
 	for (;it!=itend;++it){
 	  if (it->type!=_SYMB)
 	    continue;
-	  if (it->_SYMBptr->sommet!=at_equal && it->_SYMBptr->sommet!=at_same)
+	  if (it->_SYMBptr->sommet!=at_equal && it->_SYMBptr->sommet!=at_equal2 && it->_SYMBptr->sommet!=at_same)
 	    continue;
 	  vin.push_back(it->_SYMBptr->feuille._VECTptr->front());
 	  vout.push_back(it->_SYMBptr->feuille._VECTptr->back());
@@ -5765,7 +5765,7 @@ namespace giac {
       }
       if (e.type!=_SYMB)
 	return gentypeerr(contextptr);
-      if (e._SYMBptr->sommet!=at_equal && e._SYMBptr->sommet!=at_same)
+      if (e._SYMBptr->sommet!=at_equal && e._SYMBptr->sommet!=at_equal2 && e._SYMBptr->sommet!=at_same)
 	return gensizeerr(contextptr);
       return subst(v.front(),e._SYMBptr->feuille._VECTptr->front(),e._SYMBptr->feuille._VECTptr->back(),false,contextptr);
     }
@@ -5773,7 +5773,7 @@ namespace giac {
       return gentoofewargs(_subst_s);
     if (s>3)
       return gentoomanyargs(_subst_s);
-    if (v[1].is_symb_of_sommet(at_equal))
+    if (is_equal(v[1]))
       return _subst(makevecteur(v.front(),vecteur(v.begin()+1,v.end())),contextptr);
     return subst(v.front(),v[1],v.back(),false,contextptr);
   }
@@ -5901,7 +5901,7 @@ namespace giac {
     unary_function_ptr & u=*g._FUNCptr;
     if (u==at_pow || u==at_division || u==at_prod)
       return false;
-    if (u==at_neg || u==at_minus || u==at_and || u==at_et || u==at_ou || u==at_oufr || u==at_xor || u==at_same || u==at_equal || u==at_superieur_egal || u==at_superieur_strict || u==at_inferieur_egal || u==at_inferieur_strict)
+    if (u==at_neg || u==at_minus || u==at_and || u==at_et || u==at_ou || u==at_oufr || u==at_xor || u==at_same || u==at_equal || u==at_equal2 || u==at_superieur_egal || u==at_superieur_strict || u==at_inferieur_egal || u==at_inferieur_strict)
       return true;
     if (!u.ptr()->printsommet)
       return false;
@@ -6462,7 +6462,7 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen & f =g._VECTptr->front();
-    if (f.is_symb_of_sommet(at_equal))
+    if (is_equal(f))
       return symb_equal(_normalmod(makevecteur(f._SYMBptr->feuille[0],g._VECTptr->back()),contextptr),
 			_normalmod(makevecteur(f._SYMBptr->feuille[1],g._VECTptr->back()),contextptr));
     if (f.type==_VECT){

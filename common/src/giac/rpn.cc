@@ -1675,7 +1675,7 @@ namespace giac {
   static int taylorxn=0;
   static void hp38_eval(vecteur & v,gen & x,gen& newx,GIAC_CONTEXT){
     x=v[1];
-    if (x.is_symb_of_sommet(at_equal))
+    if (is_equal(x))
       x=x._SYMBptr->feuille[0];
     identificateur idx("taylorx"+print_INT_(taylorxn));
     ++taylorxn;
@@ -1692,7 +1692,7 @@ namespace giac {
     gen tmp;
     if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
       gen value=(*args._VECTptr)[1],var=value;
-      if (value.is_symb_of_sommet(at_equal)){
+      if (is_equal(value)){
 	var=value._SYMBptr->feuille[0];
 	value=value._SYMBptr->feuille[1];
       }
@@ -1739,12 +1739,12 @@ namespace giac {
     if (args.type==_VECT && args.subtype==_SEQ__VECT){
       vecteur v = *args._VECTptr;
       if (v.size()==3){
-	if (v.front().is_symb_of_sommet(at_equal)){
+	if (is_equal(v.front())){
 	  gen var=v.front()._SYMBptr->feuille[0];
 	  gen lower=v.front()._SYMBptr->feuille[1];
 	  v=makevecteur(v[2],var,lower,v[1]);
 	}
-	if (v[1].is_symb_of_sommet(at_equal)){
+	if (is_equal(v[1])){
 	  gen var=v[1]._SYMBptr->feuille[0];
 	  gen lower=v[1]._SYMBptr->feuille[1];
 	  v=makevecteur(v.front(),var,lower,v[2]);
@@ -1780,7 +1780,7 @@ namespace giac {
       if (args._VECTptr->size()!=3)
 	return gensizeerr(contextptr);
       const vecteur & v = *args._VECTptr;
-      if (v[0].is_symb_of_sommet(at_equal)){
+      if (is_equal(v[0])){
 	gen var=v[0]._SYMBptr->feuille[0];
 	if (var.type!=_IDNT)
 	  return gensizeerr(contextptr);
@@ -1789,7 +1789,7 @@ namespace giac {
 	gen expr=v[2];
 	return _sum(gen(makevecteur(expr,var,inf,sup),_SEQ__VECT),contextptr);
       }
-      if (v[1].is_symb_of_sommet(at_equal)){
+      if (is_equal(v[1])){
 	gen var=v[1]._SYMBptr->feuille[0];
 	if (var.type!=_IDNT)
 	  return gensizeerr(contextptr);

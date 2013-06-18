@@ -496,7 +496,7 @@ namespace giac {
 
   // inner solver
   void in_solve(const gen & e,const identificateur & x,vecteur &v,int isolate_mode,GIAC_CONTEXT){
-    if (has_op(e,*at_equal)){
+    if (has_op(e,*at_equal) || has_op(e,*at_equal2)){
       v=vecteur(1,gensizeerr(gettext("Bad equal in")+e.print(contextptr)));
       return;
     }
@@ -1684,7 +1684,7 @@ namespace giac {
 	return solve_inequation(e,x,2,contextptr);
       if (e._SYMBptr->sommet==at_superieur_egal)
 	return solve_inequation(e,x,1,contextptr);
-      if (e._SYMBptr->sommet==at_equal ||e._SYMBptr->sommet==at_same)
+      if (e._SYMBptr->sommet==at_equal || e._SYMBptr->sommet==at_equal2 || e._SYMBptr->sommet==at_same)
 	expr = e._SYMBptr->feuille._VECTptr->front()-e._SYMBptr->feuille._VECTptr->back();
     }
     clean(expr,x,contextptr);
@@ -1879,7 +1879,7 @@ namespace giac {
     }
     vecteur v(solvepreprocess(args,complex_mode(contextptr),contextptr));
     int s=v.size();
-    if (s==2 && v[1].is_symb_of_sommet(at_equal))
+    if (s==2 && is_equal(v[1]))
       return _fsolve(gen(makevecteur(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1]),_SEQ__VECT),contextptr);
     if (s>2)
       return _fsolve(args,contextptr);
@@ -1909,7 +1909,7 @@ namespace giac {
       w=mergevecteur(w1,w2);
       arg1=w;
     }
-    if (arg1.type!=_VECT && !arg1.is_symb_of_sommet(at_equal) && !is_inequation(arg1))
+    if (arg1.type!=_VECT && !is_equal(arg1) && !is_inequation(arg1))
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
     arg1=apply(arg1,equal2diff);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
@@ -2709,11 +2709,11 @@ namespace giac {
       }
     }
     gen gguess;
-    if (v[1].type==_VECT && !v[1]._VECTptr->empty() && v[1]._VECTptr->front().is_symb_of_sommet(at_equal)){
+    if (v[1].type==_VECT && !v[1]._VECTptr->empty() && is_equal(v[1]._VECTptr->front())){
       vecteur v1=*v[1]._VECTptr;
       vecteur vguess(v1.size());
       for (unsigned i=0;i<v1.size();++i){
-	if (v1[i].is_symb_of_sommet(at_equal)){
+	if (is_equal(v1[i])){
 	  vguess[i]=v1[i]._SYMBptr->feuille[1];
 	  v1[i]=v1[i]._SYMBptr->feuille[0];
 	}
@@ -2721,7 +2721,7 @@ namespace giac {
       v[1]=gen(v1);
       gguess=vguess;
     }
-    if (v[1].is_symb_of_sommet(at_equal)){
+    if (is_equal(v[1])){
       gguess=v[1]._SYMBptr->feuille[1];
       v[1]=v[1]._SYMBptr->feuille[0];
       v.insert(v.begin()+2,gguess);
@@ -2729,7 +2729,7 @@ namespace giac {
     }
     if (s>=3)
       gguess=v[2];
-    if (gguess.is_symb_of_sommet(at_equal))
+    if (is_equal(gguess))
       return gensizeerr(contextptr);
     if (gguess.type==_VECT && gguess._VECTptr->size()!=2 && v[1].type==_IDNT){
       int nvar=gguess._VECTptr->size();
@@ -2750,7 +2750,7 @@ namespace giac {
       if (s>=4){
 	if (is_integer(v[3]))
 	  iszero=v[3].val;
-	if (v[3].is_symb_of_sommet(at_equal)){
+	if (is_equal(v[3])){
 	  gen v30=v[3]._SYMBptr->feuille[0];
 	  gen v31=v[3]._SYMBptr->feuille[1];
 	  if (v30.subtype==_INT_PLOT && v30==_NSTEP)
@@ -2957,7 +2957,7 @@ namespace giac {
     for (int i=0;i<de;i++){
       //gen e:
       //e=sl[i];    
-      if ( (sl[i].type==_SYMB) && ((*sl[i]._SYMBptr).sommet==at_equal || (*sl[i]._SYMBptr).sommet==at_same)){
+      if ( (sl[i].type==_SYMB) && ((*sl[i]._SYMBptr).sommet==at_equal || (*sl[i]._SYMBptr).sommet==at_equal2 || (*sl[i]._SYMBptr).sommet==at_same)){
 	sl[i]=(*sl[i]._SYMBptr).feuille[0]-(*sl[i]._SYMBptr).feuille[1];
       }
     }
@@ -3053,7 +3053,7 @@ namespace giac {
   }
 
   gen equal2diff(const gen & g){
-    if ( (g.type==_SYMB) && (g._SYMBptr->sommet==at_equal || g._SYMBptr->sommet==at_same) ){
+    if ( (g.type==_SYMB) && (g._SYMBptr->sommet==at_equal || g._SYMBptr->sommet==at_equal2 || g._SYMBptr->sommet==at_same) ){
       vecteur & v=*g._SYMBptr->feuille._VECTptr;
       return v[0]-v[1];
     }
@@ -3342,7 +3342,7 @@ namespace giac {
     if (s<2)
       return gensizeerr(contextptr);
     if (s==2){
-      if (v[1].is_symb_of_sommet(at_equal))
+      if (is_equal(v[1]))
 	return newton(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1],NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
       return newton(v[0],v[1],undef,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
     }
@@ -4795,7 +4795,7 @@ namespace giac {
   }
 
   gen remove_equal(const gen & f){
-    if ( (f.type==_SYMB) && (f._SYMBptr->sommet==at_equal || f._SYMBptr->sommet==at_same ) ){
+    if ( (f.type==_SYMB) && (f._SYMBptr->sommet==at_equal || f._SYMBptr->sommet==at_equal2 || f._SYMBptr->sommet==at_same ) ){
       vecteur & v=*f._SYMBptr->feuille._VECTptr;
       return v.front()-v.back();
     }
@@ -5006,7 +5006,7 @@ namespace giac {
 
   static void read_gbargs(const vecteur & v,int start,int s,gen & order,bool & with_cocoa,bool & with_f5){
     for (int i=start;i<s;++i){
-      if (v[i].is_symb_of_sommet(at_equal)){
+      if (is_equal(v[i])){
 	gen & tmp=v[i]._SYMBptr->feuille;
 	if (tmp.type==_VECT && tmp._VECTptr->front().type==_INT_ && tmp._VECTptr->back().type==_INT_){
 	  switch (tmp._VECTptr->front().val){
@@ -5205,7 +5205,7 @@ namespace giac {
       return gensizeerr(contextptr);
     gen eq=args._VECTptr->front();
     vecteur term=gen2vecteur(_fxnd(args._VECTptr->back(),contextptr));
-    if (term.size()!=2 || !eq.is_symb_of_sommet(at_equal))
+    if (term.size()!=2 || !is_equal(eq))
       return gensizeerr();
     gen idnt(identificateur(" algsubs"));
     gen ee=term[0]-term[1]*idnt;

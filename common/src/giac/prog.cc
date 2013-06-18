@@ -131,7 +131,7 @@ namespace giac {
     gen tmp=subst(a,substin,substout,true);
     return tmp;
     */
-    if ( (a.type==_SYMB) && (a._SYMBptr->sommet==at_equal) )
+    if ( is_equal(a))
       return symb_same(a._SYMBptr->feuille._VECTptr->front(),a._SYMBptr->feuille._VECTptr->back());
     else
       return a;
@@ -346,7 +346,7 @@ namespace giac {
       check_local_assign(g._SYMBptr->feuille,prog_args,res1,res2,res3,res4,testequal,contextptr);
       return;
     }
-    if (testequal && g.is_symb_of_sommet(at_equal)){
+    if (testequal && is_equal(g)){
       if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2 && g._SYMBptr->feuille._VECTptr->front().type!=_INT_ )
 	res1.push_back(g);
       return;
@@ -1720,7 +1720,7 @@ namespace giac {
       }
     }
     gen test=(*(args._VECTptr))[1];
-    if ((test.type==_SYMB) && (test._SYMBptr->sommet==at_equal))
+    if (is_equal(test))
       test = symb_same(test._SYMBptr->feuille._VECTptr->front(),test._SYMBptr->feuille._VECTptr->back());
     // FIXME: eval local variables in test that are not in increment and prog
     gen increment=to_increment((*(args._VECTptr))[2]);
@@ -2447,7 +2447,7 @@ namespace giac {
     vecteur res(g);
     const_iterateur it=v.begin(),itend=v.end();
     for (;it!=itend;++it){
-      if ( (!it->is_symb_of_sommet(at_equal) && !it->is_symb_of_sommet(at_same)) || it->_SYMBptr->feuille.type!=_VECT || it->_SYMBptr->feuille._VECTptr->size()!=2){
+      if ( (!is_equal(*it) && !it->is_symb_of_sommet(at_same)) || it->_SYMBptr->feuille.type!=_VECT || it->_SYMBptr->feuille._VECTptr->size()!=2){
 	*logptr(contextptr) << gettext("Unknown subsop rule ") << *it << endl;
 	continue;
       }
@@ -3048,7 +3048,7 @@ namespace giac {
 	gen tmp=_map(makevecteur(f,to_map),contextptr);
 	if (f.type==_VECT && tmp.type==_VECT)
 	  tmp.subtype=f.subtype;
-	if (objet._SYMBptr->sommet==at_equal || objet._SYMBptr->sommet==at_same)
+	if (is_equal(objet) || objet._SYMBptr->sommet==at_same)
 	  return symbolic(at_equal,tmp);
 	return objet._SYMBptr->sommet(tmp,contextptr);
       }
@@ -3390,7 +3390,7 @@ namespace giac {
     if (b1.type==_INT_ && b1.val>=0)
       return gen(vecteur(b1.val,eval(a,eval_level(contextptr),contextptr)),_SEQ__VECT);
     gen var,intervalle,step=1;
-    if ( (b.type==_SYMB) && (b._SYMBptr->sommet==at_equal || b._SYMBptr->sommet==at_same ) ){
+    if ( (b.type==_SYMB) && (is_equal(b) || b._SYMBptr->sommet==at_same ) ){
       var=b._SYMBptr->feuille._VECTptr->front();
       if (var.type!=_IDNT)
 	return gensizeerr(contextptr);
@@ -5921,7 +5921,7 @@ namespace giac {
       gen & g=it->_SYMBptr->feuille;
       if ( (g.type!=_VECT) || (g._VECTptr->empty()) )
 	return gensizeerr(contextptr);
-      if (u==at_equal){
+      if (u==at_equal || u==at_equal2){
 	gen tmp=g._VECTptr->front();
 	if (tmp.type==_IDNT){
 	  gen tmp1(eval(tmp,eval_level(contextptr),contextptr));
@@ -7753,7 +7753,7 @@ namespace giac {
   define_unary_function_ptr( at_unit ,alias_at_unit ,&__unit);
 
   const unary_function_ptr * binary_op_tab(){
-  static const unary_function_ptr binary_op_tab_ptr []={*at_plus,*at_prod,*at_pow,*at_and,*at_ou,*at_xor,*at_different,*at_same,*at_equal,*at_unit,*at_compose,*at_composepow,*at_deuxpoints,*at_tilocal,*at_pointprod,*at_pointdivision,*at_pointpow,*at_division,*at_normalmod,*at_minus,*at_intersect,*at_union,*at_interval,*at_inferieur_egal,*at_inferieur_strict,*at_superieur_egal,*at_superieur_strict,0};
+    static const unary_function_ptr binary_op_tab_ptr []={*at_plus,*at_prod,*at_pow,*at_and,*at_ou,*at_xor,*at_different,*at_same,*at_equal,*at_unit,*at_compose,*at_composepow,*at_deuxpoints,*at_tilocal,*at_pointprod,*at_pointdivision,*at_pointpow,*at_division,*at_normalmod,*at_minus,*at_intersect,*at_union,*at_interval,*at_inferieur_egal,*at_inferieur_strict,*at_superieur_egal,*at_superieur_strict,*at_equal2,0};
     return binary_op_tab_ptr;
   }
   // unary_function_ptr binary_op_tab[]={at_and,at_ou,at_different,at_same,0};
@@ -8135,7 +8135,7 @@ namespace giac {
     if (g.type!=_VECT || g._VECTptr->size()!=3)
       return gensizeerr(contextptr);
     vecteur v = *g._VECTptr;
-    if (v[0].is_symb_of_sommet(at_equal) || v[0].is_symb_of_sommet(at_same)){
+    if (is_equal(v[0]) || v[0].is_symb_of_sommet(at_same)){
       *logptr(contextptr) << gettext("Assuming false condition ") << v[0].print(contextptr) << endl;
       return v[2];
     }

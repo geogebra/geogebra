@@ -1034,7 +1034,7 @@ namespace giac {
     }
     bool do_find_range=true;
     vecteur range;
-    if (var.is_symb_of_sommet(at_equal)){
+    if (is_equal(var)){
       gen tmp=var._SYMBptr->feuille;
       if (tmp.type==_VECT && tmp._VECTptr->size()==2){
 	gen varminmax=tmp._VECTptr->back();

@@ -322,7 +322,7 @@ namespace giac {
 
   // n'existe pas avec tex :
   static string mathml_equal2arrow(gen &g,GIAC_CONTEXT){
-    if (g._SYMBptr->sommet!=at_equal)
+    if (!is_equal(g))
       return gen2mathml(g,contextptr);
     vecteur v=*g._SYMBptr->feuille._VECTptr;
     return "<mrow>"+gen2mathml(v[0],contextptr)+"<mo>&rarr;</mo>"+gen2mathml(v[1],contextptr)+"</mrow>";
@@ -394,7 +394,7 @@ namespace giac {
 
 
     unary_function_ptr u =mys.sommet;
-    if (u==at_equal)
+    if (u==at_equal || u==at_equal2)
       return mathml_printsommetasoperator(mys.feuille,"<mo>=</mo>",contextptr);  
     if (u==at_inferieur_egal)
       return mathml_printsommetasoperator(mys.feuille,"<mo>&le;</mo>",contextptr);

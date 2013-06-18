@@ -2235,7 +2235,7 @@ namespace giac {
     }
     if (e.type!=_SYMB)
       return e;
-    if (e._SYMBptr->sommet==at_equal){
+    if (is_equal(e)){
       vecteur & v=*e._SYMBptr->feuille._VECTptr;
       return symbolic(at_equal,makesequence(normal(v.front(),distribute_div,contextptr),normal(v.back(),distribute_div,contextptr)));
     }
@@ -2394,7 +2394,7 @@ namespace giac {
 
   gen _recursive_normal(const gen & e,GIAC_CONTEXT){
     gen var,res;
-    if (e.is_symb_of_sommet(at_equal))
+    if (is_equal(e))
       return apply_to_equal(e,recursive_normal,contextptr); // symb_equal(_recursive_normal(equal2diff(e),contextptr),0);
     if (is_algebraic_program(e,var,res))
       return symbolic(at_program,makesequence(var,0,recursive_normal(res,contextptr)));
