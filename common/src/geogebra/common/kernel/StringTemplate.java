@@ -9,7 +9,6 @@ import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
@@ -1248,8 +1247,8 @@ public class StringTemplate {
 
 		case GIAC:
 			
-			App.debug(left.getClass()+" "+right.getClass());
-			App.debug(leftStr+" "+rightStr);
+			//App.debug(left.getClass()+" "+right.getClass());
+			//App.debug(leftStr+" "+rightStr);
 			
 			if (left instanceof MySpecialDouble && right instanceof ExpressionNode && ((ExpressionNode) right).getOperation().isInequality()) {
 				// eg 3(x<4)
