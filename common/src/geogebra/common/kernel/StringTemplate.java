@@ -5,9 +5,11 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
+import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
@@ -1245,8 +1247,43 @@ public class StringTemplate {
 			break;
 
 		case GIAC:
-
-			if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
+			
+			App.debug(left.getClass()+" "+right.getClass());
+			App.debug(leftStr+" "+rightStr);
+			
+			if (left instanceof MySpecialDouble && right instanceof ExpressionNode && ((ExpressionNode) right).getOperation().isInequality()) {
+				// eg 3(x<4)
+				// MySpecialDouble shouldn't be negative, but just in case:
+				boolean reverse = leftStr.startsWith("-");
+				
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append(")*(");
+				sb.append(((ExpressionNode) right).getLeft().toString(tpl));
+				sb.append(')');
+				sb.append(op((ExpressionNode) right, reverse));
+				sb.append('(');
+				sb.append(leftStr);
+				sb.append(")*(");
+				sb.append(((ExpressionNode) right).getRight().toString(tpl));
+				sb.append(')');
+			} else if (right instanceof MySpecialDouble && left instanceof ExpressionNode && ((ExpressionNode) left).getOperation().isInequality()) {
+				// eg 3(x<4)
+				// MySpecialDouble shouldn't be negative, but just in case:
+				boolean reverse = rightStr.startsWith("-");
+				
+				sb.append('(');
+				sb.append(rightStr);
+				sb.append(")*(");
+				sb.append(((ExpressionNode) left).getLeft().toString(tpl));
+				sb.append(')');
+				sb.append(op((ExpressionNode) left, reverse));
+				sb.append('(');
+				sb.append(rightStr);
+				sb.append(")*(");
+				sb.append(((ExpressionNode) left).getRight().toString(tpl));
+				sb.append(')');
+			} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
 				sb.append("-(");
 				sb.append(rightStr);
 				sb.append(')');
@@ -1266,6 +1303,23 @@ public class StringTemplate {
 
 	}
 	
+	private static String op(ExpressionNode right, boolean reverse) {
+		
+		switch (right.getOperation()) {
+		case LESS:
+			return reverse ? ">" : "<";
+		case LESS_EQUAL:
+			return reverse ? ">=" : "<=";
+		case GREATER_EQUAL:
+			return reverse ? "<=" : ">=";
+		case GREATER:
+			return reverse ? "<" : ">";
+		}
+		
+		return null;
+	
+	}
+
 	private String multiplicationSign() {
 		switch (stringType) {
 		case LATEX:
