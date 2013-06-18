@@ -6817,11 +6817,11 @@ namespace giac {
     if (calc_mode(contextptr)==1 && a.type==_IDNT && b.type==_VECT){
       vecteur v=*b._VECTptr;
       for (unsigned i=0;i<v.size();++i){
-	v[i]=symbolic(at_equal,makesequence(a,v[i]));
+	v[i]=symbolic(at_equal2,makesequence(a,v[i]));
       }
       return gen(v,b.subtype);
     }
-    gen res=symbolic(at_equal,makesequence(a,b));
+    gen res=symbolic(at_equal2,makesequence(a,b));
     if (a.type==_INT_ && a.subtype==_INT_PLOT && io_graph(contextptr))
       __interactive.op(res,contextptr);
     return res;

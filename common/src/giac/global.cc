@@ -4516,7 +4516,6 @@ unsigned int ConvertUTF8toUTF16 (
     return true;
   }
 
-
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

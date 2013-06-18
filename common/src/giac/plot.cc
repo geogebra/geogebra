@@ -10400,7 +10400,9 @@ namespace giac {
 	    // of even multiplicity change last_direction sign
 	    gen sqfftays=_quo(gen(makevecteur(tays,_gcd(gen(makevecteur(tays,derive(tays,t,contextptr)),_SEQ__VECT),contextptr),t),_SEQ__VECT),contextptr);
 	    gen r=_proot(gen(makevecteur(sqfftays,t),_SEQ__VECT),contextptr);
+#ifndef GIAC_HAS_STO_38
 	    *logptr(contextptr) << gettext("Near ") << sp << ", 1/epsilon^2*f(" << sp<< "+epsilon*[1,t])=" << subst(tays,t,t__IDNT_e,false,contextptr) << " roots " << r << endl;
+#endif
 	    if (r.type==_VECT){
 	      int total=0;
 	      for (unsigned kr=0;kr<r._VECTptr->size();++kr){
@@ -10504,8 +10506,10 @@ namespace giac {
 	  } // end if !is_zero(tays)
 	} // end loop on order
       } // end if k<singular_points.size()
+#ifndef GIAC_HAS_STO_38
       if (!singular_points.empty())
 	*logptr(contextptr) << gettext("Singular points directions: [cell_i, cell_j, singularity, next solution] ") << singular_points_directions << endl;
+#endif
     }
     bool pathfound;
     vecteur res;
@@ -10701,8 +10705,11 @@ namespace giac {
 	    }
 	    if (pos>=sing)
 	      singular_points_directions.erase(singular_points_directions.begin()+pos);
-	    else
+	    else {
+#ifndef GIAC_HAS_STO_38
 	      *logptr(contextptr) << gettext("Bad branch, questionnable accuracy") << endl;
+#endif
+	    }
 	    break; // singular points were already done
 	  }
 	  else { 
@@ -10769,7 +10776,9 @@ namespace giac {
 	      ycurrent=sol._DOUBLE_val;
 	  }
 	  else {
+#ifndef GIAC_HAS_STO_38
 	    *logptr(contextptr) << gettext("Warning! Could not loop or reach boundaries ") << fy << endl;
+#endif
 	    break;
 	  }
 	}
@@ -10809,7 +10818,9 @@ namespace giac {
 	      xcurrent=sol._DOUBLE_val;
 	  }
 	  else {
+#ifndef GIAC_HAS_STO_38
 	    *logptr(contextptr) << gettext("Warning! Could not loop or reach boundaries ") << fx << endl;
+#endif
 	    break;
 	  }	    
 	}
@@ -10868,8 +10879,11 @@ namespace giac {
 	oldi=icur;
 	oldj=jcur;
       }
-      if (!chemin_ok)
+      if (!chemin_ok){
+#ifndef GIAC_HAS_STO_38
 	*logptr(contextptr) << gettext("Warning! Could not loop or reach boundaries ") << endl;
+#endif
+      }
       res.push_back(symb_pnt(gen(chemin,_GROUP__VECT),attribut,contextptr));
     } // end for(;;)
 #ifndef WIN32

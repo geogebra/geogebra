@@ -7074,7 +7074,7 @@ namespace giac {
       if (Nv==1){
 	int seuil=rand_max2*p;
 	for (int i=0;i<n;++i){
-	  res.push_back(giac_rand(contextptr)>seuil);
+	  res.push_back(giac_rand(contextptr)<=seuil);
 	}
 	return;
       }

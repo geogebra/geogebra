@@ -2823,7 +2823,8 @@ namespace giac {
 	return res;
       }
       vector<double> D;
-      if (s!=2 || w[0].type!=_VECT || !convert(*w[0]._VECTptr,D))
+      gen w0=evalf_double(w[0],1,contextptr);
+      if (s!=2 || w0.type!=_VECT || !convert(*w0._VECTptr,D))
 	return gensizeerr(contextptr);
       sort(D.begin(),D.end());
       s=D.size();
@@ -2888,6 +2889,19 @@ namespace giac {
   static const char _cdf_s []="cdf";
   static define_unary_function_eval (__cdf,&_cdf,_cdf_s);
   define_unary_function_ptr5( at_cdf ,alias_at_cdf,&__cdf,0,true);
+
+  gen _plotcdf(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    vecteur v(makevecteur(g,at_plot));
+    if (g.type==_VECT && g.subtype==_SEQ__VECT){
+      v=*g._VECTptr;
+      v.push_back(at_plot);
+    }
+    return _cdf(gen(v,_SEQ__VECT),contextptr);
+  }
+  static const char _plotcdf_s []="plotcdf";
+  static define_unary_function_eval (__plotcdf,&_plotcdf,_plotcdf_s);
+  define_unary_function_ptr5( at_plotcdf ,alias_at_plotcdf,&__plotcdf,0,true);
 
   gen _icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
