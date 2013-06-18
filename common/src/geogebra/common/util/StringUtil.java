@@ -1052,6 +1052,9 @@ public class StringUtil {
 	}
 
 	public static double estimateHeight(String string, GFont font) {
+		if (font == null){
+			return 0;
+		}
 		return string.indexOf('_') > -1 ? font.getSize() * 1.8 : font.getSize() * 1.4;
 	}
 }
