@@ -245,9 +245,14 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			App.debug("thread starting: " + exp);
 
 			try {
-				gen g = new gen(exp, C);
-				g = g.eval(1,C);
+				gen g = new gen("caseval(\"" + exp + "\")", C);
+				g = g.eval(1, C);
 				threadResult = g.print(C);
+				
+				if (threadResult.startsWith("\"") && threadResult.endsWith("\"")) {
+					threadResult = threadResult.substring(1, threadResult.length() - 1);
+				}
+				
 				App.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
 				App.debug("problem from JNI Giac: "+t.toString());
