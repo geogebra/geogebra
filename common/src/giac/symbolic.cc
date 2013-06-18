@@ -281,7 +281,7 @@ namespace giac {
       if (e.type!=_SYMB){
 	if (i)
 	  s += '*';
-	if ( (e.type==_CPLX) || (e.type==_MOD) )
+	if ( e.type==_CPLX || e.type==_MOD )
 	  s += "("+e.print(contextptr)+")";
 	else 
 	  add_print(s,e,contextptr); // s +=e.print(contextptr);
@@ -310,7 +310,7 @@ namespace giac {
 	else {
 	  if (i)
 	    s += '*';
-	  if ( (e._SYMBptr->sommet==at_plus) || (e._SYMBptr->sommet==at_neg) ){
+	  if ( e._SYMBptr->sommet==at_plus || e._SYMBptr->sommet==at_neg || is_inequation(e) ){
 	    s += "(";
 	    add_print(s,e,contextptr);
 	    s += ")";

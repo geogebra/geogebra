@@ -27,6 +27,7 @@ namespace giac {
   std::string print_realvar_counter(GIAC_CONTEXT);
   gen _reset_solve_counter(const gen & args,const context * contextptr);
   void set_merge(vecteur & v,const vecteur & w);
+  bool is_inequation(const gen & g);
 
   gen equal2diff(const gen & g); // rewrite = as -
   vecteur protect_sort(const vecteur & res,GIAC_CONTEXT);
