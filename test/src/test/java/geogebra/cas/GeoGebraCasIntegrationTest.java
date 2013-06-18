@@ -1437,7 +1437,7 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Intersect(){
-		t("Intersect[m_1 x + b_1 , m_2 x +b_2 ]","{((-b_1 + b_2) / (m_1 - m_2), (-b_1 * m_2 + b_2 * m_1) / (m_1 - m_2))}");
+		t("Intersect[m_1 x + b_1 , m_2 x +b_2 ]","{(1 / (m_1 - m_2) * (-b_1 + b_2), (-b_1 * m_2 + b_2 * m_1) / (m_1 - m_2))}");
 	}
 
 	/* Invert */
@@ -1851,13 +1851,13 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void PartialFractions_0() {
 		t("PartialFractions[x^2 / (x^2 - 2x + 1)]",
-				"1 + 2 / (x - 1) + 1 / (x - 1)^(2)");
+				"1 + 1 / (x - 1)^(2) + 2 / (x - 1)");
 	}
 
 	@Test
 	public void PartialFractions_1() {
 		t("PartialFractions[a^2 / (a^2 - 2a + 1), a]",
-				"1 + 2 / (a - 1) + 1 / (a-1)^(2)");
+				"1 + 1 / (a - 1)^(2) + 2 / (a - 1)");
 	}
 	
 
@@ -2385,7 +2385,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Solve_ConstantsOnly_4() {
 		s("Solve[{1 = 1, 2 = 2}, {x, y}]",
-				"{{x = x, y = x}}");
+				"{{x = x, y = y}}");
 	}
 
 	@Test
@@ -2607,7 +2607,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Sum_2() {
 		t("Sum[r^i, i, 0, n]", "(r^(n + 1) - 1) / (r - 1)",
-				"(r^(n) * r - 1) / (r - 1)");
+				"(r^(n) * r) / (r - 1) - 1 / (r - 1)");
 	}
 
 	@Test
@@ -2707,7 +2707,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToExponential_0() {
-		t("ToExponential[1 +  \u03af]", "sqrt(2) * ℯ^(( \u03af * π) / 4)");
+		t("ToExponential[1 +  \u03af]", "sqrt(2) * ℯ^(\u03af * π / 4)");
 	}
 	
 
@@ -2999,7 +2999,7 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Rubrik3 () {
-		t("f(t):=c*a^t","a ^ (t) * c");
+		t("f(t):=c*a^t","c * a^(t)");
 		t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
 		t("Delete[f]","true");
 	}
