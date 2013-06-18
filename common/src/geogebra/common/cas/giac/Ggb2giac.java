@@ -70,7 +70,6 @@ public class Ggb2giac {
 				"degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Denominator.1", "denom(%0)");
-		// TODO: diff(t^2) gives 0 not 2*t
 		p("Derivative.1",
 				"regroup(diff(%0, ggbtmpvarx))");
 		p("Derivative.2", 
@@ -172,17 +171,16 @@ public class Ggb2giac {
 		p("If.2", "when(%0,%1,undef)");
 		p("If.3", "when(%0,%1,%2)");
 
-		p("ImplicitDerivative.3", "-diff(%0,%2)/diff(%0,%1)");
-		p("ImplicitDerivative.1", "-diff(%0,ggbtmpvarx)/diff(%0,ggbtmpvary)");
+		// normal(regroup()) so that ImplicitDerivative[x^2 + y^2, y, x] gives a nice answer
+		// the danger is that this could multiply something out eg (x+1)^100 (unlikely)
+		p("ImplicitDerivative.3", "normal(regroup(-diff(%0,%2)/diff(%0,%1)))");
+		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,ggbtmpvarx)/diff(%0,ggbtmpvary)))");
 
-		// TODO: arbconst(1) always goes to c_1
 		p("Integral.1",
 				"regroup(integrate(%0))");
-		// TODO: arbconst(1) always goes to c_1
 		p("Integral.2",
 				"regroup(integrate(%0,%1))");
 
-		// TODO: deal with ggbtmpvarx
 		p("Integral.3",
 				"normal(integrate(%0,%1,%2))");
 
