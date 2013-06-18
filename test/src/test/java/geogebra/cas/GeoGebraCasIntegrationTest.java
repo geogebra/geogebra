@@ -2573,7 +2573,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Substitute_3() {
-		t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a", "(3 a - 3)^(2) - (a + 3)^(2)");
+		t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a", "(3 * a - 3)^(2) - (a + 3)^(2)");
 	}
 	
 	@Test
