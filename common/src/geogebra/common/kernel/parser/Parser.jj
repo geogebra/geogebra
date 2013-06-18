@@ -290,7 +290,7 @@ TOKEN :  {
  // | < INEQUALITY: ( < LESS > | < LESS_EQUAL > | < GREATER_EQUAL > | < GREATER > ) >
   | < PARALLEL: "\u2225" >
   | < PERPENDICULAR: "\u22a5" >
-  | < EQUAL:    "=" >
+  | < EQUAL:    ("=" | "%=") > // %= for Giac
   | < PLUS:     "+" >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
   | < SUPERSCRIPT_MINUS: "\u207b" >

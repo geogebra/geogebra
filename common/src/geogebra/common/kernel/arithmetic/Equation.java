@@ -430,7 +430,12 @@ public class Equation extends ValidExpression {
         	sb.append('0');
         
         if (tpl.getStringType().equals(StringType.GIAC)) {
-        	sb.append("%=");
+        	if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
+        		// %= stops {1,2}={3,4} being turned into {1=3,2=4}
+        		sb.append("%=");
+        	} else {
+        		sb.append("=");
+        	}
         } else {
         	// equal sign
         	sb.append(" = ");
@@ -455,7 +460,12 @@ public class Equation extends ValidExpression {
         	sb.append('0');
         
         if (tpl.getStringType().equals(StringType.GIAC)) {
-        	sb.append("%=");
+        	if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
+        		// %= stops {1,2}={3,4} being turned into {1=3,2=4}
+        		sb.append("%=");
+        	} else {
+        		sb.append("=");
+        	}
         } else {
         	// equal sign
         	sb.append(" = ");
