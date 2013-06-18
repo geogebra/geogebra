@@ -9331,6 +9331,8 @@ namespace giac {
       fp=makevecteur(plus_one,fp);
     gen vars=v[1];
     bool dim3=vars.type==_VECT && vars._VECTptr->size()==3;
+    if (abs_calc_mode(contextptr)==38)
+      dim3=false; // no 3-d rendering :-(
     gen init=remove_at_pnt(v[2]);
     if (init.type!=_VECT)
       init=makevecteur(re(init,contextptr),im(init,contextptr));
@@ -9371,7 +9373,7 @@ namespace giac {
       return gensizeerr(gettext("Time"));
     int maxstep=500;
     if (tminmax_defined && tstep_defined)
-      maxstep=2*int((tmax-tmin)/tstep)+1;
+      maxstep=giacmax(maxstep,2*int((tmax-tmin)/tstep));
     int vs=v.size();
     for (int i=3;i<vs;++i){
       if (readvar(v[i])==vars[0]){

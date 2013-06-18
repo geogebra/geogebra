@@ -3893,7 +3893,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_inferieur_strict(args);
-    return inferieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    gen res=inferieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _inferieur_strict_s []="<";
   static define_unary_function_eval4_index (70,__inferieur_strict,&giac::_inferieur_strict,_inferieur_strict_s,&printsommetasoperator,&texprintsommetasoperator);
@@ -3915,7 +3918,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_inferieur_egal(args);
-    return inferieur_egal(args._VECTptr->front(), args._VECTptr->back(),contextptr);
+    gen res=inferieur_egal(args._VECTptr->front(), args._VECTptr->back(),contextptr);
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _inferieur_egal_s []="<=";//"≤";
   static string texprintasinferieur_egal(const gen & g,const char * s,GIAC_CONTEXT){
@@ -3934,7 +3940,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_superieur_strict(args);
-    return superieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    gen res=superieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _superieur_strict_s []=">";
   static define_unary_function_eval4_index (74,__superieur_strict,&giac::_superieur_strict,_superieur_strict_s,&printsommetasoperator,&texprintsommetasoperator);
@@ -3957,7 +3966,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_superieur_egal(args);
-    return superieur_egal(args._VECTptr->front(), args._VECTptr->back(),contextptr);
+    gen res=superieur_egal(args._VECTptr->front(), args._VECTptr->back(),contextptr);
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _superieur_egal_s []=">="; // "≥";
   static string texprintassuperieur_egal(const gen & g,const char * s,GIAC_CONTEXT){
@@ -3980,7 +3992,10 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_different(args);
-    return args._VECTptr->front() != args._VECTptr->back();
+    gen res=args._VECTptr->front() != args._VECTptr->back();
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _different_s []="!=";
   static define_unary_function_eval2_index (78,__different,&giac::_different,_different_s,&printasdifferent);
@@ -4622,11 +4637,16 @@ namespace giac {
     if ( a.type==_STRNG && a.subtype==-1) return  a;
     if ((a.type!=_VECT) || (a._VECTptr->size()!=2))
       return symb_same(a);
+    gen res=undef;
     if (a._VECTptr->front().type==_SYMB || a._VECTptr->back().type==_SYMB){
       if (!is_inf(a._VECTptr->front()) && !is_undef(a._VECTptr->front()) && !is_inf(a._VECTptr->back()) && !is_undef(a._VECTptr->back()) && a._VECTptr->front().type!=_VECT &&a._VECTptr->back().type!=_VECT )
-	return is_zero(a._VECTptr->front()-a._VECTptr->back(),contextptr);
+	res=is_zero(a._VECTptr->front()-a._VECTptr->back(),contextptr);
     }
-    return operator_equal(a._VECTptr->front(),a._VECTptr->back(),contextptr);
+    if (is_undef(res))
+      res=operator_equal(a._VECTptr->front(),a._VECTptr->back(),contextptr);
+    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+      res.subtype=_INT_BOOLEAN;
+    return res;
   }
   static const char _same_s []="==";
   static define_unary_function_eval4_index (148,__same,&giac::_same,_same_s,&printassame,&texprintsommetasoperator);
