@@ -234,17 +234,17 @@ public class Ggb2giac {
 		// regroup so that exp(1)^2 is simplified
 		// regroup(inf) doesn't work, so extra check needed
 		p("Limit.2",
-				"[[ggbans:=limit(%0,%1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,%1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("Limit.3",
-				"[[ggbans:=limit(%0,%1,%2)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitAbove.2",
-				"[[ggbans:=limit(%0,ggbtmpvarx,%1,1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,ggbtmpvarx,%1,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitAbove.3", 
-				"[[ggbans:=limit(%0,%1,%2,1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitBelow.2",
-				"[[ggbans:=limit(%0,ggbtmpvarx,%1,-1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,ggbtmpvarx,%1,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitBelow.3", 
-				"[[ggbans:=limit(%0,%1,%2,-1)], when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))][1]");
+				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
