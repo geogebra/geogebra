@@ -521,12 +521,23 @@ public class SelectionManager {
 			lastGeo = geo;
 		}
 	}
-	
+
 	/**
 	 * Update stylebars, menubar and properties view to match selection
 	 */
 	public void updateSelection() {
-		listener.updateSelection(true);
+
+		updateSelection(true);
+	}
+	
+	/**
+	 * Update stylebars, menubar and properties view to match selection
+	 * 
+	 * @param updatePropertiesView
+	 *            whether to update properties view
+	 */
+	public void updateSelection(boolean updatePropertiesView) {
+		listener.updateSelection(updatePropertiesView);
 	}
 
 }
