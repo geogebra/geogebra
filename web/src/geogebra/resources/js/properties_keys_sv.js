@@ -782,6 +782,8 @@ __GGB__keysVar.sv.command = {
     "SetTrace_Syntax": "[ <Objekt>, <sant | falskt> ]",
     "SetValue": "S\xe4ttV\xe4rde",
     "SetValue_Syntax": "[ <Boolesk variabel>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Lista>, <Tal>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "S\xe4ttSynligIRitomr\xe5de",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Ritomr\xe5de 1|2>, <sant | falskt (visa eller d\xf6lj)> ]",
     "Shear": "Skjuva",

@@ -782,6 +782,8 @@ __GGB__keysVar.gl.command = {
     "SetTrace_Syntax": "[ <Obxecto>, <true | false> ]",
     "SetValue": "Valor",
     "SetValue_Syntax": "[ <Booleano>, <0|1> ]\n[ <Obxecto>, <Obxecto> ]\n[ <Lista>, <\xcdndice>, <Obxecto> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "VisibleNaVista",
     "SetVisibleInView_Syntax": "[ <Obxecto>, <N\xfamero de vista 1|2>, <Booleana> ]",
     "Shear": "Cisalla",

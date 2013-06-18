@@ -782,6 +782,8 @@ __GGB__keysVar.bs.command = {
     "SetTrace_Syntax": "[ <Figura>, <da | ne> ]",
     "SetValue": "PostaviVrijednost",
     "SetValue_Syntax": "[ <Boolean-logi\u010dka vrijednost>, <0|1> ]\n[ <Figura>, <Figura> ]\n[ <Lista>, <Broj>, <Figura> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "PostaviVidljivostFigure",
     "SetVisibleInView_Syntax": "[ <Figura>, <Prikaz broj 1|2>, <Boolean-logi\u010dka vrijednost> ]",
     "Shear": "Smicanje",

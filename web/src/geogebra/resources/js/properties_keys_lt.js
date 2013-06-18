@@ -782,6 +782,8 @@ __GGB__keysVar.lt.command = {
     "SetTrace_Syntax": "[ <Objektas>, <tiesa | melas> ]",
     "SetValue": "NustatytiVert\u0119",
     "SetValue_Syntax": "[ <Login\u0117 vert\u0117>, <0|1> ]\n[ <Objektas>, <Objektas> ]\n[ <S\u0105ra\u0161as>, <Skai\u010dius>, <Objektas> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "NustatytiMatom\u0105Lauk\u0105",
     "SetVisibleInView_Syntax": "[ <Objektas>, <Vaizd\u0173 skai\u010dius 1|2>, <Login\u0117 vert\u0117> ]",
     "Shear": "Dalintis",

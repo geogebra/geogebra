@@ -782,6 +782,8 @@ __GGB__keysVar.vi.command = {
     "SetTrace_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\xfang | Sai> ]",
     "SetValue": "ThietLapGiaTri",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]\n[ <Danh s\xe1ch>, <S\u1ed1>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "ThietLapHienThiDuoc",
     "SetVisibleInView_Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <Hi\u1ec3n th\u1ecb s\u1ed1 1|2>, <Bi\u1ebfn Boolean> ]",
     "Shear": "BienDang",

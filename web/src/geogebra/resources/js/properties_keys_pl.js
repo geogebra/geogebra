@@ -782,6 +782,8 @@ __GGB__keysVar.pl.command = {
     "SetTrace_Syntax": "[ <Obiekt>, <prawda| Fa\u0142sz> ]",
     "SetValue": "UstawWarto\u015b\u0107",
     "SetValue_Syntax": "[ <Logiczna>, <0|1> ]\n[ <Lista>, <Element> ]\n[ <Obiekt>, <Obiekt> ]\n[ <Lista>, <Liczba>, <Obiekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "UstawCzyWidocznyWWidoku",
     "SetVisibleInView_Syntax": "[ <Obiekt>, <Numer Widoku 1|2>, <Warto\u015b\u0107 Logiczna> ]",
     "Shear": "Shear",

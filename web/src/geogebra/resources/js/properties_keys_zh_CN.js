@@ -782,6 +782,8 @@ __GGB__keysVar.zh_CN.command = {
     "SetTrace_Syntax": "[ <\u5bf9\u8c61>, <true | false> ]",
     "SetValue": "\u8bbe\u5b9a\u503c",
     "SetValue_Syntax": "[ <true | false>, <0|1> ]\n[ <\u5bf9\u8c611>, <\u5bf9\u8c612> ]\n[ <\u96c6\u5408>, <\u6570\u5b57>, <\u5bf9\u8c61> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "\u663e\u793a\u5bf9\u8c61",
     "SetVisibleInView_Syntax": "[ <\u5bf9\u8c61>, <\u89c6\u56fe\u7f16\u53f7 1|2>, <true | false> ]",
     "Shear": "\u5207\u53d8",

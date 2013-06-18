@@ -782,6 +782,8 @@ __GGB__keysVar.fi.command = {
     "SetTrace_Syntax": "[ <Objekti>, <true | false> ]",
     "SetValue": "AsetaArvo",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Lista>, <Alkio> ]\n[ <Objekti>, <Objekti> ]\n[ <Lista>, <Luku>, <Objekti> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "AsetaN\xe4kyvyysN\xe4kym\xe4ss\xe4",
     "SetVisibleInView_Syntax": "[ <Objekti>, <N\xe4kym\xe4luku 1|2>, <Tutuusarvo> ]",
     "Shear": "Liukumuunnos",

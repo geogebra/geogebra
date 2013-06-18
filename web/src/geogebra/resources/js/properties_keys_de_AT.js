@@ -782,6 +782,8 @@ __GGB__keysVar.de_AT.command = {
     "SetTrace_Syntax": "[ <Objekt>, <Wahrheitswert true|false> ]",
     "SetValue": "SetzeWert",
     "SetValue_Syntax": "[ <Wahrheitswert>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Liste>, <Zahl>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetzeSichtbarInGrafikansicht",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Grafikfenster 1|2>, <Wahrheitswert> ]",
     "Shear": "Verschiebung",

@@ -782,6 +782,8 @@ __GGB__keysVar.it.command = {
     "SetTrace_Syntax": "[ <Oggetto>, <true | false> ]",
     "SetValue": "ImpValore",
     "SetValue_Syntax": "[ <Booleano>, <0|1> ]\n[ <Oggetto>, <Oggetto> ]\n[ <Lista>, <Numero>, <Oggetto> ]",
+    "SetViewDirection": "ImpDirezioneVista",
+    "SetViewDirection_Syntax": "[ <Direzione> ]",
     "SetVisibleInView": "ImpVisibileInVista",
     "SetVisibleInView_Syntax": "[ <Oggetto>, <Numero Vista 1|2>, <Booleano> ]",
     "Shear": "Scorri",

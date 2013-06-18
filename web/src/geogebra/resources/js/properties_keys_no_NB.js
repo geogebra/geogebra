@@ -782,6 +782,8 @@ __GGB__keysVar.no_NB.command = {
     "SetTrace_Syntax": "[ <Objekt>, <0|1> ]",
     "SetValue": "VelgVerdi",
     "SetValue_Syntax": "[ <Boolsk>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Liste>, <Tall>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "VelgVisningIGrafikkfelt",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Visningsnummer 1|2>, <Boolsk> ]",
     "Shear": "Forskyv",

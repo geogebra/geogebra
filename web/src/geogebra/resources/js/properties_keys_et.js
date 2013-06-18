@@ -782,6 +782,8 @@ __GGB__keysVar.et.command = {
     "SetTrace_Syntax": "[ <Objekt>, <true | false> ]",
     "SetValue": "M\xe4\xe4raV\xe4\xe4rtus",
     "SetValue_Syntax": "[ <T\xf5ev\xe4\xe4rtus>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Loend>, <Arv>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "M\xe4\xe4raN\xe4htavusVaates",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Vaate number>, <T\xf5ev\xe4\xe4rtus> ]",
     "Shear": "Nihe",

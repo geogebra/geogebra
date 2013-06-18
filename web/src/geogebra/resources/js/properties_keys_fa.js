@@ -782,6 +782,8 @@ __GGB__keysVar.fa.command = {
     "SetTrace_Syntax": "[ <Object>, <true | false> ]",
     "SetValue": "SetValue",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Object>, <Object> ]\n[ <List>, <Number>, <Object> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetVisibleInView",
     "SetVisibleInView_Syntax": "[ <Object>, <View Number 1|2>, <Boolean> ]",
     "Shear": "Shear",

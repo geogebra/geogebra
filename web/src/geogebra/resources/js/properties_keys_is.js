@@ -782,6 +782,8 @@ __GGB__keysVar.is.command = {
     "SetTrace_Syntax": "[ <Hlutur>, <satt | \xf3satt> ]",
     "SetValue": "SetjaGildi",
     "SetValue_Syntax": "[ <Boole>, <0 | 1> ]\n[ <Hlutur>, <Hlutur> ]\n[ <Listi>, <Tala>, <Hlutur> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetjaSj\xe1anlegt",
     "SetVisibleInView_Syntax": "[ <Hlutur>, <S\xfdn n\xfamer 1 | 2>, <Boole> ]",
     "Shear": "Skekking",

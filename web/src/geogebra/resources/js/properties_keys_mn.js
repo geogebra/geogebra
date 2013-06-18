@@ -782,6 +782,8 @@ __GGB__keysVar.mn.command = {
     "SetTrace_Syntax": "[ <Object>, <true | false> ]",
     "SetValue": "\u0423\u0442\u0433\u0430\u04e8\u04e9\u0440\u0447\u0438\u043b",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Object>, <Object> ]\n[ <List>, <Number>, <Object> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "\u041e\u0431\u044c\u0435\u043a\u0442\u0425\u0430\u0440\u0430\u0433\u0434\u0430\u0445\u042d\u0441\u044d\u0445",
     "SetVisibleInView_Syntax": "[ <Object>, <View Number 1|2>, <Boolean> ]",
     "Shear": "\u0422\u0430\u0439\u0440",

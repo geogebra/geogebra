@@ -782,6 +782,8 @@ __GGB__keysVar.fr.command = {
     "SetTrace_Syntax": "[ <Objet>, <true | false> ]",
     "SetValue": "SoitValeur",
     "SetValue_Syntax": "[ <Bool\xe9en>, <0|1> ]\n[ <Objet>, <Objet> ]\n[ <Liste>, <Nombre>, <Objet> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SoitVisibleDansVue",
     "SetVisibleInView_Syntax": "[ <Objet>, <Num\xe9ro 1|2>, <Bool\xe9en> ]",
     "Shear": "Transvection",

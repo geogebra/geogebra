@@ -782,6 +782,8 @@ __GGB__keysVar.ms.command = {
     "SetTrace_Syntax": "[ <Objek>, <benar | palsu> ]",
     "SetValue": "SetNilai",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Objek>, <Objek> ]\n[ <Senarai>, <Nombor>, <Objek> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetNampakPadaPaparan",
     "SetVisibleInView_Syntax": "[ <Objek>, <Nombor Paparan 1|2>, <Boolean> ]",
     "Shear": "Ricih",

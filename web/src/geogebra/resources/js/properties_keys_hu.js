@@ -782,6 +782,8 @@ __GGB__keysVar.hu.command = {
     "SetTrace_Syntax": "[ <Alakzat>, <Logikai \xe9rt\xe9k (true/false)> ]",
     "SetValue": "\xc9rt\xe9k",
     "SetValue_Syntax": "[ <Logikai>, <0|1> ]\n[ <Alakzat>, <Alakzat> ]\n[ <Lista>, <Sz\xe1m>, <Alakzat> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "Megjelen\xedt\xe9sRajzlapon",
     "SetVisibleInView_Syntax": "[ <Alakzat>, <Rajzlap1l2>, <Logikai \xe9rt\xe9k> ]",
     "Shear": "Ny\xedr\xe1s",

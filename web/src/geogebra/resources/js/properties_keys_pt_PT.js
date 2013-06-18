@@ -782,6 +782,8 @@ __GGB__keysVar.pt_PT.command = {
     "SetTrace_Syntax": "[ <Objeto>, <true|false> ]",
     "SetValue": "DefinirValor",
     "SetValue_Syntax": "[ <Booleano>, <0|1> ]\n[ <Objeto>, <Objeto> ]\n[ <Lista>, <N\xfamero>, <Objeto> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "DefinirVisibilidade",
     "SetVisibleInView_Syntax": "[ <Objeto>, <N\xfamero da Vista 1|2>, <Booleano> ]",
     "Shear": "Cisalhamento",

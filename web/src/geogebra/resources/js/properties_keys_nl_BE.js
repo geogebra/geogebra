@@ -782,6 +782,8 @@ __GGB__keysVar.nl_BE.command = {
     "SetTrace_Syntax": "[ <Object>, <waar | vals> ]",
     "SetValue": "SetValue",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Object>, <Object> ]\n[ <Lijst>, <Getal>, <Object> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetVisibleInView",
     "SetVisibleInView_Syntax": "[ <Object>, <Tekenvenster 1|2>, <Booleaanse> ]",
     "Shear": "Vervormen",

@@ -782,6 +782,8 @@ __GGB__keysVar.sk.command = {
     "SetTrace_Syntax": "[ <Objekt>, <\xe1no | nie> ]",
     "SetValue": "Nastavi\u0165Hodnotu",
     "SetValue_Syntax": "[ <Logick\xe1 premenn\xe1>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Zoznam>, <\u010c\xedslo>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "Nastavi\u0165Vidite\u013enos\u0165",
     "SetVisibleInView_Syntax": "[ <Objekt>, <\u010c\xedslo poh\u013eadu 1|2>, <Boolovsk\xe1 premenn\xe1> ]",
     "Shear": "Skosi\u0165",

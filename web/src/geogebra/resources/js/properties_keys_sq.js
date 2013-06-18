@@ -782,6 +782,8 @@ __GGB__keysVar.sq.command = {
     "SetTrace_Syntax": "[ <Objekt>, <vertete | fallco> ]",
     "SetValue": "VendosVlere",
     "SetValue_Syntax": "[ <Bulean>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Liste>, <Number>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "VendosiDukshemNePamje",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Numri Pamjes 1|2>, <Bulean> ]",
     "Shear": "TranslacionSiperfaqeKonstante",

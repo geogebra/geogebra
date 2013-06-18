@@ -782,6 +782,8 @@ __GGB__keysVar.da.command = {
     "SetTrace_Syntax": "[ <Objekt>, <sand | falsk> ]",
     "SetValue": "TildelV\xe6rdi",
     "SetValue_Syntax": "[ <Boolesk>, <0|1> ]\n[ <Object>, <Objekt> ]\n[ <Liste>, <tal>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "V\xe6lgUsynlig",
     "SetVisibleInView_Syntax": "[ <Objekt>, <Visning 1|2>, <Boolesk> ]",
     "Shear": "Forskydning",

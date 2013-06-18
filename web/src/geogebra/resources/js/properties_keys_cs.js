@@ -782,6 +782,8 @@ __GGB__keysVar.cs.command = {
     "SetTrace_Syntax": "[ <Objekt>, <true | false> ]",
     "SetValue": "NastavitHodnotu",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Seznam>, <\u010c\xedslo>, <Objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "NastavitViditelnostVOkne",
     "SetVisibleInView_Syntax": "[ <Objekt>, <N\xe1hled \u010d\xedsla 1|2>, <Boolean> ]",
     "Shear": "Zkoseni",

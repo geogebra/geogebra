@@ -782,6 +782,8 @@ __GGB__keysVar.ca.command = {
     "SetTrace_Syntax": "[ <Objecte>, <true | false> ]",
     "SetValue": "DefineixValor",
     "SetValue_Syntax": "[ <Boole\xe0>, <true/false> ]\n[ <Objecte>, <Objecte> ]\n[ <Llista>, <Posici\xf3 en la llista>, <Objecte> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "DefineixVisibleEnZonaGr\xe0fica",
     "SetVisibleInView_Syntax": "[ <Objecte>, <Nombre Vista 1|2>, <true/false> ]",
     "Shear": "Transvecci\xf3",

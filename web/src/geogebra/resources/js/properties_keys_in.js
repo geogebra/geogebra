@@ -782,6 +782,8 @@ __GGB__keysVar.in.command = {
     "SetTrace_Syntax": "[ <Objek>, <benar | salah> ]",
     "SetValue": "AturNilai",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Objek>, <Objek> ]\n[ <Daftar>, <Angka>, <Objek> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "AturTerlihatDiTampilan",
     "SetVisibleInView_Syntax": "[ <Objek>, <Angka Tampil 1|2>, <Boolean> ]",
     "Shear": "Pangkas",

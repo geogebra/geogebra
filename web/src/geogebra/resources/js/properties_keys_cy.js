@@ -782,6 +782,8 @@ __GGB__keysVar.cy.command = {
     "SetTrace_Syntax": "[ <Object>, <true | false> ]",
     "SetValue": "GosodGwerth",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Gwrthrych>, <Gwrthrych> ]\n[ <Rhestr>, <Rhif>, <Gwrthrych> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "GosodGweddWeladwy",
     "SetVisibleInView_Syntax": "[ <Gwrthrych>, <Rhif Golygfa 1|2>, <Boolean> ]",
     "Shear": "Croeswasgu",

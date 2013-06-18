@@ -782,6 +782,8 @@ __GGB__keysVar.sr.command = {
     "SetTrace_Syntax": "[ <objekat>, <true | false> ]",
     "SetValue": "PostaviVrednost",
     "SetValue_Syntax": "[ <logi\u010dka vrednost>, <0|1> ]\n[ <objekat>, <objekat> ]\n[ <lista>, <broj>, <objekat> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "PostaviVidljivoUPrikazu",
     "SetVisibleInView_Syntax": "[ <objekat>, <prikaz broj 1|2>, <logi\u010dka vrednost> ]",
     "Shear": "Smicanje",

@@ -782,6 +782,8 @@ __GGB__keysVar.ro.command = {
     "SetTrace_Syntax": "[ <Obiect>, <true | false> ]",
     "SetValue": "Seteaz\u0103Valoare",
     "SetValue_Syntax": "[ <Boolean>, <0|1> ]\n[ <Obiect>, <Obiect> ]\n[ <List\u0103>, <Num\u0103r>, <Obiect> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "Seteaz\u0103Vizibil\xcenFereastra",
     "SetVisibleInView_Syntax": "[ <Obiect>, <Fereastra num\u0103rul 1|2>, <Boolean> ]",
     "Shear": "Foarfece",

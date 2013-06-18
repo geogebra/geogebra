@@ -782,6 +782,8 @@ __GGB__keysVar.ar_TN.command = {
     "SetTrace_Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0635\u0648\u0627\u0628 | \u062e\u0637\u0623> ]",
     "SetValue": "\u0645\u062a\u063a\u064a\u0631",
     "SetValue_Syntax": "[ <\u0645\u0646\u0637\u0642\u064a>, <0|1> ]\n[ <\u0639\u0646\u0635\u0631>, <\u0639\u0646\u0635\u0631> ]\n[ <\u0642\u0627\u0626\u0645\u0629>, <\u0639\u062f\u062f>, <\u0639\u0646\u0635\u0631> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "\u0625\u0638\u0647\u0627\u0631",
     "SetVisibleInView_Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0627\u0644\u0639\u062f\u062f \u0627\u0644\u0638\u0627\u0647\u06311|2>, <\u0645\u0646\u0637\u0642\u064a> ]",
     "Shear": "\u0642\u0635",

@@ -782,6 +782,8 @@ __GGB__keysVar.ja.command = {
     "SetTrace_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <true | false> ]",
     "SetValue": "SetValue",
     "SetValue_Syntax": "[ <\u771f\u507d\u5024>, <0|1> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]\n[ <\u30ea\u30b9\u30c8>, <\u6570\u5024>, <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "SetVisibleInView",
     "SetVisibleInView_Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <View Number 1|2>, <\u771f\u507d\u5024> ]",
     "Shear": "Shear",

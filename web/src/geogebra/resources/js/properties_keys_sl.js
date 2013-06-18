@@ -782,6 +782,8 @@ __GGB__keysVar.sl.command = {
     "SetTrace_Syntax": "[ <objekt>, <res | ni res> ]",
     "SetValue": "Dolo\u010diVrednost",
     "SetValue_Syntax": "[ <logi\u010dna vrednost>, <0|1> ]\n[ <objekt>, <objekt> ]\n[ <seznam>, <\u0161tevilo>, <objekt> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "Dolo\u010diPrikaz",
     "SetVisibleInView_Syntax": "[ <objekt>, <pogled 1|2>, <logi\u010dna vrednost> ]",
     "Shear": "Strig",

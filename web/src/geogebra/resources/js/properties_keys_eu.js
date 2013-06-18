@@ -782,6 +782,8 @@ __GGB__keysVar.eu.command = {
     "SetTrace_Syntax": "[ <Objektua>, <egia | gezurra> ]",
     "SetValue": "FinkatuBalioa",
     "SetValue_Syntax": "[ <Boolearra>, <0|1> ]\n[ <Objektua>, <Objektua> ]\n[ <Zerrenda>, <Zenbakia>, <Objektua> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "FinkatuIkusgaiIkuspegian",
     "SetVisibleInView_Syntax": "[ <Objektua>, <Ikuspegiaren Zenbakia 1|2>, <Boolearra> ]",
     "Shear": "Irristatu",

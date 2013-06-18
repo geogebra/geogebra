@@ -782,6 +782,8 @@ __GGB__keysVar.tr.command = {
     "SetTrace_Syntax": "[ <Nesne>, <do\u011fru | yanl\u0131\u015f> ]",
     "SetValue": "De\u011feriVer",
     "SetValue_Syntax": "[ <Mant\u0131ksal>, <0|1> ]\n[ <Nesne>, <Nesne> ]\n[ <Liste>, <Say\u0131>, <Nesne> ]",
+    "SetViewDirection": "SetViewDirection",
+    "SetViewDirection_Syntax": "[ <Direction> ]",
     "SetVisibleInView": "G\xf6r\xfcnebilirlikAyarla",
     "SetVisibleInView_Syntax": "[ <Nesne>, <G\xf6r\xfcn\xfcm No 1|2>, <Mant\u0131ksal> ]",
     "Shear": "Kayk\u0131l",
