@@ -6039,6 +6039,27 @@ namespace giac {
   static define_unary_function_eval (__tail,&giac::_tail,_tail_s);
   define_unary_function_ptr5( at_tail ,alias_at_tail,&__tail,0,true);
 
+  gen _back(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_STRNG){
+      string & s =*args._STRNGptr;
+      int l=s.size();
+      if (!l)
+	return args;
+      return string2gen(s.substr(l-1,1),false);
+    }
+    if (args.type!=_VECT)
+      return args;
+    if (args._VECTptr->size())
+      return args._VECTptr->back();
+    else
+      return args;
+  }
+  static const char _back_s []="back";
+  static define_unary_function_eval (__back,&giac::_back,_back_s);
+  define_unary_function_ptr5( at_back ,alias_at_back,&__back,0,true);
+
+
   // return the vector of affixes of vertices of a polygonal line
   // If popback is true and the polygonal line is closed
   // the last vertex is removed from the returned vector

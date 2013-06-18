@@ -607,6 +607,39 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
       return symbolic(at_count,args);
+    if (args.subtype!=_SEQ__VECT && is_integer_vecteur(*args._VECTptr)){
+      // count elements in list of integers
+      vector<int> x=vecteur_2_vector_int(*args._VECTptr);
+      int m=giacmin(x),M=giacmax(x),s=x.size();
+      if (M-m<3*s){
+	vector<int> eff(M-m+1);
+	effectif(x,eff,m);
+	matrice res;
+	for (int i=m;i<=M;++i){
+	  int e=eff[i-m];
+	  if (e>0)
+	    res.push_back(makevecteur(i,e));
+	}
+	return res;
+      }
+      sort(x.begin(),x.end());
+      int old=M,eff=0,cur;
+      matrice res;
+      for (int pos=0;pos<s;++pos){
+	cur=x[pos];
+	if (cur==old){
+	  ++eff;
+	  continue;
+	}
+	if (eff)
+	  res.push_back(makevecteur(old,eff));
+	old=cur;
+	eff=1;
+      }
+      if (eff)
+	res.push_back(makevecteur(old,eff));
+      return res;
+    }
     gen v((*args._VECTptr)[1]);
     gen f(args._VECTptr->front());
     gen param;

@@ -83,7 +83,7 @@ namespace giac {
     // 152
     alias_at_decrement,alias_at_multcrement,alias_at_divcrement,alias_at_sq,alias_at_display,
     // 162
-    alias_at_of,alias_at_at,alias_at_normalmod,at_equal2,
+    alias_at_of,alias_at_at,alias_at_normalmod,alias_at_equal2,
     0
   };
   const unary_function_ptr * _archive_function_tab = (const unary_function_ptr *) &archive_function_tab_alias;

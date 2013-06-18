@@ -1370,6 +1370,7 @@ namespace giac {
   extern const alias_type alias_at_superieur_egal;
   extern const alias_type alias_at_different;
   extern const alias_type alias_at_equal;
+  extern const alias_type alias_at_equal2;
   extern const alias_type alias_at_rpn_prog;
   extern const alias_type alias_at_local;
   extern const alias_type alias_at_return;

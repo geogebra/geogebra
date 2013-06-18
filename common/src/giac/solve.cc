@@ -4863,6 +4863,40 @@ namespace giac {
       return vecteur(1,undef);
 #endif
     }
+    if (var.size()>1){
+      // check if one equation depends only on one unknown
+      for (int i=0;i<eq.size();++i){
+	vecteur curv=lidnt(eq[i]);
+	gen curvvar=_intersect(makesequence(curv,var),contextptr);
+	if (curvvar.type==_VECT && curvvar._VECTptr->size()==1){
+	  gen curvar= curvvar._VECTptr->front();
+	  int varn=equalposcomp(var,curvar);
+	  var.erase(var.begin()+varn-1);
+	  vecteur sol=solve(eq[i],curvar,complexmode,contextptr);
+	  vecteur res;
+	  if (!is_undef(res)){
+	    eq.erase(eq.begin()+i);
+	    for (int j=0;j<sol.size();++j){
+	      gen eq1=subst(eq,curvar,sol[j],false,contextptr),tmp;
+	      if (eq1.type==_VECT && eq1._VECTptr->size()==1 && var.size()==1)
+		tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
+	      else
+		tmp=solve(eq1,var,complexmode,contextptr);
+	      if (tmp.type==_VECT){
+		for (unsigned k=0;k<tmp._VECTptr->size();++k){
+		  vecteur solv=gen2vecteur((*tmp._VECTptr)[k]);
+		  if (solv.size()<varn)
+		    return vecteur(1,gensizeerr(contextptr));
+		  solv.insert(solv.begin()+varn-1,sol[j]);
+		  res.push_back(solv);
+		}
+	      }
+	    } // for j (solutions in the single variable)
+	    return res;
+	  } // end if !is_undef(res)
+	} // end curvar size==1
+      } // end for on all equations
+    } // end var size >1
     bool convertapprox=has_num_coeff(eq);
     if (convertapprox)
       eq=*exact(evalf(eq,1,contextptr),contextptr)._VECTptr;

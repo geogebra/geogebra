@@ -2559,11 +2559,13 @@ namespace giac {
 		   usqrta,a,b,bvalues,zq,M);
 #endif // PRIMES32
 	// we can now sieve in [-M,M[ by slice of size slicesize
+#ifndef GIAC_HAS_STO_38  
 	if (debug_infolevel>5){
 	  *logptr(contextptr) << clock();
 	  *logptr(contextptr) << gettext(" Polynomial a,b,M=") << a << "," << b << "," << M << " (" << pos << ")" ;
 	  *logptr(contextptr) << clock() << endl;
 	}
+#endif  
 	int nrelationsb=0;
 #ifdef LP_TAB_SIZE
 #endif
@@ -3287,9 +3289,13 @@ namespace giac {
   static gen pollardsieve(const gen &a,gen k,bool & do_pollard,GIAC_CONTEXT){
 #if defined( GIAC_HAS_STO_38) || defined(EMCC)
     int debug_infolevel_=debug_infolevel;
+#ifdef RTOS_THREADX
     debug_infolevel=2;
     if (do_pollard)
       *logptr(contextptr) << gettext("Pollard-rho on ") << a << endl; 
+#else
+    debug_infolevel=0;
+#endif
 #endif
     gen res=inpollardsieve(a,k,do_pollard,contextptr);
 #if defined( GIAC_HAS_STO_38) || defined(EMCC)

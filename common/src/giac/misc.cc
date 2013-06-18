@@ -3284,6 +3284,12 @@ static define_unary_function_eval (__parabolic_interpolate,&_parabolic_interpola
 	return vecteur(1,gensizeerr(contextptr));
       double milieu=g._DOUBLE_val;
       double fin=milieu+(milieu-debut);
+      if (it+1!=itend){
+	g=evalf_double(*(it+1),1,contextptr);
+	if (g.type!=_DOUBLE_)
+	  return vecteur(1,gensizeerr(contextptr));
+	fin=(milieu+g._DOUBLE_val)/2;
+      }
       if (fin<=debut)
 	return vecteur(1,gensizeerr(contextptr));
       res.push_back(symb_interval(debut,fin));
@@ -3498,7 +3504,7 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
 	if (is_undef(data[0]))
 	  return gensizeerr(contextptr);
 	data=mtran(data);
-	return histogram(data,0.0,0.0,attributs,contextptr);
+	return histogram(data,0.0,1e-14,attributs,contextptr);
       }
     }
     return histogram(args,class_minimum,class_size,attributs,contextptr);
@@ -5427,6 +5433,26 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _is_polynomial_s []="is_polynomial";
   static define_unary_function_eval (__is_polynomial,&_is_polynomial,_is_polynomial_s);
   define_unary_function_ptr5( at_is_polynomial ,alias_at_is_polynomial,&__is_polynomial,0,true);
+
+  // find positions of object in list
+  gen _find(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    vecteur v = gen2vecteur(args);
+    if (v.size()!=2 || v.back().type!=_VECT)
+      return gensizeerr(contextptr);
+    const gen a=v.front();
+    const vecteur & w =*v.back()._VECTptr;
+    int s=w.size(),shift=xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
+    vecteur res;
+    for (int i=0;i<s;++i){
+      if (a==w[i])
+	res.push_back(i+shift);
+    }
+    return res;
+  }
+  static const char _find_s []="find";
+  static define_unary_function_eval (__find,&_find,_find_s);
+  define_unary_function_ptr5( at_find ,alias_at_find,&__find,0,true);
 
 
 #if 0
