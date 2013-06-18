@@ -2606,8 +2606,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Sum_2() {
-		t("Sum[r^i, i, 0, n]", "(r^(n + 1) - 1) / (r - 1)",
-				"(r^(n) * r) / (r - 1) - 1 / (r - 1)");
+		t("Sum[r^i, i, 0, n]", "(r^(n + 1)) / (r - 1) - 1 / (r - 1)");
 	}
 
 	@Test
