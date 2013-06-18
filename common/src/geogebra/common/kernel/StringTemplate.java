@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
@@ -626,15 +625,12 @@ public class StringTemplate {
 
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
-				App.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + {1,2,3}
 				sb.append("map(");
 				sb.append(rightStr);
 				sb.append(",ggx->ggx+");
 				sb.append(leftStr);
 				sb.append(")");
-				sb.append(rightStr);
-				sb.append(")-1)");
 				
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
