@@ -488,12 +488,21 @@ public class ConstructionDefaults {
 				+ "\">\n");
 		sb.append("<construction>\n");
 		for (GeoElement geo : defaultGeoElements.values()) {
-			geo.getXML(sb);
+			getXML(geo,sb);
 		}
 		sb.append("</construction>\n");
 		sb.append("</geogebra>\n");
 
 		return sb.toString();
+	}
+	
+	/**
+	 * put geo XML in string builder for default settings
+	 * @param geo geo
+	 * @param sb string builder
+	 */
+	protected void getXML(GeoElement geo, StringBuilder sb){
+		geo.getXML(sb);
 	}
 
 	/**

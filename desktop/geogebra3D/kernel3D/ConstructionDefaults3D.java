@@ -363,4 +363,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		}
 	}
 
+	
+	@Override
+	protected void getXML(GeoElement geo, StringBuilder sb){
+		if (!geo.isGeoElement3D())
+			super.getXML(geo, sb);
+		
+		//TODO implement also 3D defaults
+	}
 }
