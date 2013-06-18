@@ -246,7 +246,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			try {
 				gen g = new gen(exp, C);
-				g = giac._eval(g, C);
+				g = g.eval(1,C);
 				threadResult = g.print(C);
 				App.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
