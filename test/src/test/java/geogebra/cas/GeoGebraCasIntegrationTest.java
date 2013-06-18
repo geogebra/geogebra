@@ -325,7 +325,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SimplificationOfTerms_PolynomialDivision_1() {
-		t("(7x^3-14 x^2)/(6x-12)", "7 * x^(2) / 6", "(7 * x^(2)) / 6");
+		t("(7x^3-14 x^2)/(6x-12)", "7 / 6 * x^(2)", "(7 / 6 * x^(2))");
 	}
 
 	@Test
@@ -419,27 +419,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SimplificationOfEquations_SeveralVariables_1() {
-		StringBuilder expectedResult = new StringBuilder("");
-
-		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvarb")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarc")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarc") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarx")) {
-			expectedResult.append("(a * x^(2) + b * x + c) / a = 0");
-		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvara")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarb")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarc")) {
-			expectedResult.append("(a * x^(2) + x * b + c) / a = 0");
-		} else {
-			fail("Expected result for this variable ordering not defined yet.");
-		}
-
-		t("(a x^2 + b x + c = 0) / a", expectedResult.toString());
+		t("(a x^2 + b x + c = 0) / a", "(a * x^(2) + b * x + c) / a = 0");
 	}
 	
 
@@ -1014,13 +994,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Expand_0() {
-		t("Expand[((a + b) / c)^2]", "a^(2) / c^(2) + (2 * a * b) / c^(2) + b^(2) / c^(2)");
+		t("Expand[((a + b) / c)^2]", "(a^(2) + 2 * a * b + b^(2)) / c^(2)");
 	}
 
 	@Test
 	public void Expand_1() {
 		t("Expand[((a + b) / (c + d))^2]",
-				"a^(2) / (c^(2) + 2 * c * d + d^(2)) + (2 * a * b) / (c^(2) + 2 * c * d + d^(2)) + b^(2) / (c^(2) + 2 * c * d + d^(2))");
+				"(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
 	}
 	
 	@Test
@@ -2384,7 +2364,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Solve_ConstantsOnly_0() {
-		s("Solve[1 = 1]", "{x = c_INDEX}");
+		s("Solve[1 = 1]", "{x = x}");
 	}
 
 	@Test
@@ -2394,7 +2374,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Solve_ConstantsOnly_2() {
-		s("Solve[1 = 1, x]", "{x = c_INDEX}");
+		s("Solve[1 = 1, x]", "{x = x}");
 	}
 
 	@Test
@@ -2405,7 +2385,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Solve_ConstantsOnly_4() {
 		s("Solve[{1 = 1, 2 = 2}, {x, y}]",
-				"{{x = c_INDEX, y = c_INDEX}}");
+				"{{x = x, y = x}}");
 	}
 
 	@Test
@@ -2789,7 +2769,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
-				"((-b) / sqrt(a^(2) + b^(2)) , a / sqrt(a^(2) + b^(2)))");
+				"((-b) / sqrt(b * b + a * a), a / sqrt(b * b + a * a))");
 	}
 	
 
