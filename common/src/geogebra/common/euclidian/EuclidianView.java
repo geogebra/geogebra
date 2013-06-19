@@ -4205,11 +4205,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
 	}
-
+	/** Whether some trace was painted in this view */
+	protected boolean tracing = false;
 	/**
 	 * @return background graphics
 	 */
 	final public GGraphics2D getBackgroundGraphics() {
+		this.tracing = true;
 		return bgGraphics;
 	}
 	
