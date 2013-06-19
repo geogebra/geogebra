@@ -6,12 +6,16 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.FlowPanel;
+
 public class ConstructionProtocolViewW extends ConstructionProtocolView{
 
 	private ConstructionProtocolNavigationW protNavBar;
 	private AppW app;
+	public FlowPanel cpPanel;
 
 	public ConstructionProtocolViewW(final AppW app) {
+		cpPanel = new FlowPanel();
 		this.app = app;
 		kernel = app.getKernel();
 		data = new ConstructionTableData();
@@ -64,5 +68,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //		for (int i = 0; i < size; i++) {
 //			navigationBars.get(i).update();
 //		}
-	}	
+	}
+	
+	public FlowPanel getCpPanel(){
+		return cpPanel;
+	}
 }

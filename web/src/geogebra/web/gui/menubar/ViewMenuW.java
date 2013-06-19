@@ -37,6 +37,7 @@ public class ViewMenuW extends MenuBar {
 	 * Menuitem with checkbox for show Euclidian2 view
 	 */
 	GCheckBoxMenuItem itemEuclidian2;
+	GCheckBoxMenuItem itemConsprot;
 	
 	/**
 	 * Constructs the "Window" menu
@@ -170,6 +171,23 @@ public class ViewMenuW extends MenuBar {
 		
 		addItem(itemEuclidian2.getMenuItem());
 
+		
+		itemConsprot = new GCheckBoxMenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_constructionprotocol24()
+		        .getSafeUri().asString(), app.getPlain("ConstructionProtocol")),
+		        new Command() {
+			        public void execute() {
+
+			        	int viewId = App.VIEW_CONSTRUCTION_PROTOCOL;
+			        	app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(viewId), viewId);
+			        	itemConsprot.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+
+			        }
+		        });
+		
+//		addItem(itemConsprot.getMenuItem());
+		
+		
 		addSeparator();
 
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty()
