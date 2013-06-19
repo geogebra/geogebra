@@ -1392,6 +1392,7 @@ namespace giac {
     vecteur res;
     for (unsigned i=0;i<sol.size();++i){
       gen tmp=subst(e,x,sol[i],false,contextptr);
+      tmp=_evalf(makesequence(tmp,100),contextptr);
       tmp=evalf_double(tmp,1,contextptr);
       if ((tmp.type>_CPLX && tmp.type!=_FLOAT_) || is_greater(1e-6,abs(tmp,contextptr),contextptr))
 	res.push_back(sol[i]);
@@ -1534,9 +1535,9 @@ namespace giac {
 	if (lvarx(tmp,x).size()==1){
 	  expr=tmp;
 	}
-	// FIXME add assumptions on x for ln variables
 	tmp=_lncollect(expr,contextptr);
 	if (lvarx(tmp,x).size()==1){
+	  // Note: we are checking solutions numerically later
 	  *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
 	  expr=tmp;
 	}

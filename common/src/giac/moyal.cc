@@ -1,4 +1,4 @@
-// -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -I. -I.. -DIN_GIAC -DGIAC_GENERIC_CONSTANTS  -g -c -fno-strict-aliasing moyal.cc" -*-
+// -*- mode:C++ ; compile-command: "g++ -DHAVE_CONFIG_H -m32 -I. -I.. -DIN_GIAC -DGIAC_GENERIC_CONSTANTS  -g -c -fno-strict-aliasing moyal.cc" -*-
 #include "giacPCH.h"
 /*
  *  Copyright (C) 2000,2007 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -2570,15 +2570,56 @@ namespace giac {
     return s;
   }
 
+  // Chi2 test: valid inputs
+  // Arg2: A list of probabilities (multinomial adequation test) or a distribution
+  //       or a list of integer values (two samples test)
+  // Arg1: A list of integer values that is either effectifs or data
+  // or a list of double values (adequation to density only)
+  // or a matrix of classes/data (like obtained by classes)
   gen _chisquaret(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()<2)
       return gensizeerr(contextptr);
-    vecteur & v = *g._VECTptr;
+    vecteur v = *g._VECTptr;
+    if (g.subtype!=_SEQ__VECT && is_integer_vecteur(v)){
+      vector<int> X=vecteur_2_vector_int(v);
+      int m=giacmin(X),M=giacmax(X);
+      // guess if data=effectifs or data=values
+      if (X.size()>=50 && X.size()>5*(M-m)){
+	*logptr(contextptr) << gettext("Guessing data is a list of values, adequation to uniform discret distribution between ")<<m << gettext(" and ") <<  M << endl;
+	return _chisquaret(makesequence(g,vecteur(M-m+1,1./(M-m))),contextptr);
+      }
+      *logptr(contextptr) << gettext("Guessing data is the list of number of elements in each class, adequation to uniform distribution")<<endl;
+      return _chisquaret(makesequence(g,vecteur(X.size(),1./X.size())),contextptr);     
+    }
+    // parse arguments for keyword classes
+    double classmin=class_minimum,classsize=class_size;
+    bool classdef=false;
+    for (unsigned i=0;i<v.size();++i){
+      if (v[i]==at_classes){
+	if (i+1<v.size()){
+	  gen tmp=evalf_double(v[i+1],1,contextptr);
+	  if (tmp.type!=_DOUBLE_)
+	    return gensizeerr(contextptr);
+	  classmin=tmp._DOUBLE_val;
+	  if (i+2<v.size()){
+	    gen tmp=evalf_double(v[i+2],1,contextptr);
+	    if (tmp.type!=_DOUBLE_)
+	      return gensizeerr(contextptr);
+	    classsize=tmp._DOUBLE_val;
+	    classdef=true;
+	  }
+	}
+	v.erase(v.begin()+i,v.end());
+	break;
+      }
+    }
     gen x=v[0],y=v[1];
+    if (x.type!=_VECT)
+      return gensizeerr(contextptr);
     gen ytotal=_plus(y,contextptr);
     bool yproba=is_zero(1-ytotal,contextptr);
-    if (!yproba && x.type==_VECT && y.type==_VECT){
+    if (!yproba && y.type==_VECT){
       // >= 2 samples, same law?
       // x and y are either classes/effectifs or effectifs (integer values)
       if (is_integer_vecteur(*x._VECTptr)){
@@ -2676,8 +2717,193 @@ namespace giac {
     if ((nd=is_distribution(y))){
       // adequation to a distribution, parameters are estimated or given, depends on the
       // number of arguments
+      gen xorig=x,moyenne=undef,ecart;
+      vector<int> X,eff;
+      int minX,maxX,Xclasses;
+      double efftotal;
+      if (is_integer_vecteur(*xorig._VECTptr)){
+	X=vecteur_2_vector_int(*xorig._VECTptr);
+	minX=giacmin(X),maxX=giacmax(X);
+	Xclasses=maxX-minX+1;
+	if (X.size()>=50 && X.size()>=5*Xclasses){
+	  eff.resize(Xclasses);
+	  effectif(X,eff,minX);
+	  efftotal=somme(eff);
+	}
+	else {
+	  minX=0;
+	  eff=X;
+	  efftotal=somme(eff);
+	  Xclasses=X.size();
+	  gen m1=0,m2=0;
+	  for (unsigned i=1;i<X.size();++i){
+	    m1 += double(i)*X[i];
+	    m2 += (i*double(i))*X[i];
+	  }
+	  moyenne=m1/efftotal;
+	  ecart=sqrt(m2/efftotal-moyenne*moyenne,contextptr);
+	}	
+      }
+      if (is_undef(moyenne)){
+	x=evalf_double(x,1,contextptr);
+	moyenne=_mean(x,contextptr);
+	ecart=_stdDev(x,contextptr);
+      }
+      if (x.type!=_VECT)
+	return gensizeerr(contextptr);
       int nargs=distrib_nargs(nd);
-      
+      vecteur w(v.begin()+2,v.end());
+      if (y.type==_SYMB)
+	w=gen2vecteur(y._SYMBptr->feuille);
+      int s=w.size();
+      if (s>nargs || s<nargs-2)
+	return gendimerr(contextptr);
+      int dof = nargs-s; // adjust number of degree of freedom
+      if (s==nargs-2){ // 2 params estimation
+	switch (nd){
+	case 1:
+	  w.push_back(moyenne);
+	  w.push_back(ecart);
+	  *logptr(contextptr) << gettext("Normal density, estimating mean and stddev from data ") << moyenne << " " << ecart << endl;
+	  break;
+	case 2:{
+	  // moyenne=n*p, ecart^2=n*p*(1-p)
+	  gen p=1-ecart*ecart/moyenne;
+	  if (is_greater(0,p,contextptr) || is_greater(p,1,contextptr))
+	    return gensizeerr(contextptr);
+	  gen n=_round(moyenne/p,contextptr);
+	  *logptr(contextptr) << gettext("Binomial: estimating n and p from data ") << n << " " << p << endl;
+	  w.push_back(n);
+	  w.push_back(p);
+	  break;
+	}
+	case 3:{
+	  gen p=moyenne/(ecart*ecart);
+	  if (is_greater(0,p,contextptr) || is_greater(p,1,contextptr))
+	    return gensizeerr(contextptr);
+	  gen n=_round(moyenne*p/(1-p),contextptr);
+	  *logptr(contextptr) << gettext("Negative binomial: estimating n and p from data ") << n << " " << p << endl;
+	  w.push_back(n);
+	  w.push_back(p);
+	  break;
+	}
+	case 8:
+	  // weibull: 2 parameters to estimate k, lambda, theta assumed to be 0
+	  // lambda*Gamma(1+1/k)=moyenne, lambda^2*Gamma(1+2/k)=ecart^2-moyenne^2
+	  return gensizeerr(contextptr);
+	  break;
+	case 13:{ // moyenne +/- sqrt(3)*ecart
+	  gen a=moyenne-std::sqrt(3.0)*ecart;
+	  gen b=moyenne+std::sqrt(3.0)*ecart;
+	  w.push_back(a);
+	  w.push_back(b);
+	  *logptr(contextptr) << gettext("Uniform density, estimating interval boundaries from data ") << a << " " << b << endl;
+	  break;
+	}
+	default:
+	  return gendimerr(contextptr);
+	} // end switch
+	s=w.size();
+      } // end 2 paramters to estimate
+      if (s==nargs-1){ // 1 params estimation
+	switch (nd){
+	case 1: {// normald with 1 parameter known, w[0] default is stddev
+	  if (w.empty())
+	    return gendimerr(contextptr);
+	  if (w[0].is_symb_of_sommet(at_equal)){
+	    if (w[0][1]==at_mean){
+	      *logptr(contextptr) << gettext("Normal density, estimating std deviation from data ") << ecart << endl;
+	      w.push_back(ecart);
+	    }
+	    w[0]=w[0][2];
+	  }
+	  if (w.size()==1){
+	    *logptr(contextptr) << gettext("Normal density, estimating mean from data ") << moyenne << endl;
+	    w.insert(w.begin(),moyenne);
+	  }
+	  break;
+	}
+	case 4:
+	  w.push_back(moyenne);
+	  *logptr(contextptr) << gettext("Poisson distribution, estimating parameter from data mean ") << moyenne << endl;
+	  break;
+	default:
+	  return gensizeerr(contextptr);
+	}
+	s=w.size();
+      }
+      w.push_back(0); // last argument of the distribution
+      gen loi;
+      bool discret=is_discrete_distribution(nd);
+      if (discret)
+	loi=symbolic(y.type==_FUNC?*y._FUNCptr:y._SYMBptr->sommet,gen(w,_SEQ__VECT));
+      else {
+	loi=cdf(nd);
+	if (loi.type!=_FUNC)
+	  return gensizeerr(contextptr);
+	loi=symbolic(*loi._FUNCptr,gen(w,_SEQ__VECT));
+      }
+      // now we have the law, do the test!
+      // if classdef=false, for discrete distributions use classsize=1, classmin=0
+      // for densities guess from data?
+      if (is_integer_vecteur(*xorig._VECTptr)){
+	if (classdef){
+	  // not yet supported...
+	  *logptr(contextptr) << "Warning, using default class minimum=0 and class_size=1 for discrete distribution" << endl;
+	}
+	dof=Xclasses-1-dof;
+	gen res=0;
+	for (unsigned i=0;i<eff.size();++i){
+	  // theoric proba of class i from law
+	  loi._SYMBptr->feuille._VECTptr->back()=minX+int(i);
+	  gen tmp=evalf_double(loi,1,contextptr);
+	  if (!discret){ // could be improved, we compute twice the cdf
+	    loi._SYMBptr->feuille._VECTptr->back()=minX+int(i+1);
+	    tmp=evalf_double(loi,1,contextptr)-tmp;
+	  }
+	  double p_i=tmp._DOUBLE_val;
+	  double tmp1=efftotal*p_i;
+	  double tmp2=eff[i]-tmp1;
+	  res += tmp2*tmp2/tmp1;
+	}
+	loi._SYMBptr->feuille._VECTptr->back()=identificateur(".");
+	*logptr(contextptr) << gettext("Sample adequation to ")<< loi <<gettext(", Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << dof << ",0.95)=" <<  chisquare_icdf(dof,0.95,contextptr) << " or chisquare_icdf(" << dof <<",1-alpha) if alpha!=5%" << endl;	
+	return res;
+      } // end if is_integer_vecteur(x)
+      if (discret)
+	return gensizeerr(gettext("Non integer values for adequation to a discrete distribution"));
+      // compute classes and recall itself
+      matrice m;
+      if (ckmatrix(x))
+	m=*x._VECTptr;
+      else
+	m=effectifs(*x._VECTptr,classmin,classsize,contextptr);
+      efftotal=0.0;
+      for (unsigned i=0;i<m.size();++i){
+	gen effi=m[i][1];
+	if (effi.type!=_INT_)
+	  return gensizeerr(contextptr);
+	efftotal += effi.val;
+      }
+      gen res=0;
+      for (unsigned i=0;i<m.size();++i){
+	gen tmp=m[i][0];
+	if (!tmp.is_symb_of_sommet(at_interval))
+	  return gensizeerr(contextptr);
+	gen tmp0=evalf_double(tmp._SYMBptr->feuille[0],1,contextptr),
+	  tmp1=evalf_double(tmp._SYMBptr->feuille[1],1,contextptr),
+	  tmp2=m[i][1];
+	if (tmp0.type!=_DOUBLE_ || tmp1.type!=_DOUBLE_ || tmp1._DOUBLE_val<=tmp0._DOUBLE_val)
+	  return gensizeerr(contextptr);
+	loi._SYMBptr->feuille._VECTptr->back()=tmp1;
+	gen theoric=evalf_double(loi,1,contextptr);
+	loi._SYMBptr->feuille._VECTptr->back()=tmp0;
+	theoric=theoric-evalf_double(loi,1,contextptr);
+	theoric=efftotal*theoric;
+	res += (tmp2-theoric)*(tmp2-theoric)/theoric;
+      }
+      *logptr(contextptr) << gettext("Sample adequation to ") << loi <<gettext(", Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << dof << ",0.95)=" <<  chisquare_icdf(dof,0.95,contextptr) << " or chisquare_icdf(" << dof <<",1-alpha) if alpha!=5%" << endl;	
+      return res;
     }
     return undef;
   }

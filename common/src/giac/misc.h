@@ -129,6 +129,7 @@ namespace giac {
   gen _histogram(const gen & g,GIAC_CONTEXT);
   gen _cumulated_frequencies(const gen & g,GIAC_CONTEXT);
   gen _classes(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_classes ;
   gen _listplot(const gen & g,GIAC_CONTEXT);
   gen _scatterplot(const gen & g,GIAC_CONTEXT);
   gen _polygonplot(const gen & g,GIAC_CONTEXT);

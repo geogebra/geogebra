@@ -934,6 +934,10 @@ namespace giac {
   static define_unary_function_eval (__cumSum,&_cumSum,_cumSum_s);
   define_unary_function_ptr5( at_cumSum ,alias_at_cumSum,&__cumSum,0,true);
 
+  static const char _cumsum_s[]="cumsum";
+  static define_unary_function_eval (__cumsum,&_cumSum,_cumsum_s);
+  define_unary_function_ptr5( at_cumsum ,alias_at_cumsum,&__cumsum,0,true);
+
   static gen _rightapply(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
