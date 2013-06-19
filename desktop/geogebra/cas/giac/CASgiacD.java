@@ -12,11 +12,20 @@ import javagiac.context;
 import javagiac.gen;
 import javagiac.giac;
 
+/**
+ * @author michael
+ *
+ */
 public class CASgiacD extends CASgiac implements Evaluate {
 
 	@SuppressWarnings("javadoc")
 	AppD app;
 
+	/**
+	 * @param casParser casParser
+	 * @param t CasParserTools
+	 * @param k Kernel
+	 */
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
 
@@ -89,6 +98,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	// whether to use thread (JNI only)
 	final private static boolean useThread = !AppD.LINUX;
 
+	@SuppressWarnings("deprecation")
 	public String evaluate(String input) throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
@@ -157,10 +167,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 					throw new geogebra.common.cas.error.TimeoutException("Timeout from Giac");
 				}
 			} else {
-				gen g = new gen(exp, C);
-				g = giac._eval(g, C);
-				threadResult = g.print(C);
 
+				threadResult = evalRaw(exp);
+				
 			}
 		}
 
@@ -245,13 +254,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			App.debug("thread starting: " + exp);
 
 			try {
-				gen g = new gen("caseval(\"" + exp + "\")", C);
-				g = g.eval(1, C);
-				threadResult = g.print(C);
-				
-				if (threadResult.startsWith("\"") && threadResult.endsWith("\"")) {
-					threadResult = threadResult.substring(1, threadResult.length() - 1);
-				}
+				threadResult = evalRaw(exp);
 				
 				App.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
@@ -260,6 +263,23 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				threadResult = "(";
 			}
 		}
+	}
+	
+	/**
+	 * @param exp String to send to Giac
+	 * @return String from Giac
+	 */
+	String evalRaw(String exp) {
+		gen g = new gen("caseval(\"" + exp + "\")", C);
+		g = g.eval(1, C);
+		String ret = g.print(C);
+		
+		if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
+			ret = ret.substring(1, ret.length() - 1);
+		}
+		
+		return ret;
+
 	}
 
 
