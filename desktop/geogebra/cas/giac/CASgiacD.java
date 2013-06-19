@@ -270,7 +270,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 * @return String from Giac
 	 */
 	String evalRaw(String exp) {
-		gen g = new gen("caseval(\"" + exp + "\")", C);
+		gen g = new gen(exp, C);
 		g = g.eval(1, C);
 		String ret = g.print(C);
 		
