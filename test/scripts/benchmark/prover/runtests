@@ -55,6 +55,7 @@ echo "</tr><tr>" >> $MYDIR/$HTML
 
 for j in $PROVERS; do
  echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
+ rm -f $MYDIR/tmp/rinput-$j
  done
 
 echo "</tr>" >> $MYDIR/$HTML
@@ -124,6 +125,7 @@ for i in `find -name '*.ggb' | sort`; do
    # But now it's OK, thanks to Markus and Simon in [17470].
    #RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
+   echo "$TIME" >> $MYDIR/tmp/rinput-$j
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
     cp $LOGFILE $LOGFILE-$TEST-$j
@@ -220,6 +222,16 @@ for j in $PROVERS; do
  echo -n "$VALUE;;"
  echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
  done
+echo "</tr>" >> $MYDIR/$HTML
 echo
+
+# Statistics (using R, install "r-base" on Ubuntu to make this work)
+echo "<tr><td class=\"summary\" colspan=\"2\"><b>Statistics</b></td>" >> $MYDIR/$HTML
+for j in $PROVERS; do
+ echo "<td class=\"summary\" colspan=\"2\"><pre>" >> $MYDIR/$HTML
+ R -q -e "x <- read.csv('$MYDIR/tmp/rinput-$j', header = F); summary(x); sd(x[ , 1])" \
+  | sed s/"\[1\] "/" StdDev.:"/ | head -n -2 | tail -n +3 >> $MYDIR/$HTML
+ echo "</td>" >> $MYDIR/$HTML
+ done
 
 echo "</tr></table></body></html>" >> $MYDIR/$HTML
