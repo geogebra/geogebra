@@ -111,7 +111,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
 	/** background image */
 	protected GBufferedImage bgImage;
-	/** g2d of bgImage */
+	/** g2d of bgImage: used for axis, grid, background images and object traces */
 	protected geogebra.common.awt.GGraphics2D bgGraphics;
 	// zoom rectangle colors
 	private static final geogebra.common.awt.GColor colZoomRectangle = AwtFactory.prototype
