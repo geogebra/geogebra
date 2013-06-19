@@ -388,33 +388,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SimplificationOfEquations_SeveralVariables_0() {
-		StringBuilder expectedResult = new StringBuilder("");
-		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvarx")) {
-			expectedResult.append("a^(2) - 14 * a * x + 49 * x^(2) = ");
-		} else {
-			expectedResult.append("49 * x^(2) - 14 * x * a  + a^(2) = ");
-		}
-
-		if (CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvarc")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarc") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarx")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvary")) {
-			expectedResult.append("b + c - 56 * x * y");
-		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
-				.getVarOrderingNumber("ggbtmpvary")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvary") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarb")
-				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
-						.getVarOrderingNumber("ggbtmpvarc")) {
-			expectedResult.append("-56 * x * y + b + c");
-		} else {
-			fail("Expected result for this variable ordering not defined yet.");
-		}
-
-		t("(a - 7 x)^2 = b - 56 x y + c", expectedResult.toString());
+		t("(a - 7 x)^2 = b - 56 x y + c", "a^(2) - 14 * a * x + 49 * x^(2) = b + c - 56 * x * y");
 	}
 
 	@Test
@@ -1051,7 +1025,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_ConstantsOnly_0() {
-		t("Factor[-15]", "-3 * 5");
+		t("Factor[-15]", "-(3 * 5)");
 	}
 
 	@Test
@@ -1083,7 +1057,9 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_Variables_2() {
-		t("Factor[9 a^2 - 3 a b]", "3 * (3 * a - b) * a");
+		//t("Factor[9 a^2 - 3 a b]", "3 * (3 * a - b) * a");
+		// Giac
+		t("Factor[9 a^2 - 3 a b]", "-3 * a * (b - 3 * a)");
 	}
 
 	@Test
@@ -1094,6 +1070,8 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Factor_Variables_4() {
 		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * a * b^(2) * (3 * a * b - c) ", "3 * (3 * a * b - c) * a * b^(2)");
+		// Giac
+		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * a * b^(2) * (3 * a * b - c) ", "-3 * b^(2) * a * (c - 3 * b * a)");
 	}
 
 	@Test
@@ -1103,7 +1081,9 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_Variables_6() {
-		t("Factor[5 a x+5 b x-2 b y-2 a y]", "(a + b) * (5 * x - 2 * y)");
+		//t("Factor[5 a x+5 b x-2 b y-2 a y]", "(a + b) * (5 * x - 2 * y)");
+		// Giac
+		t("Factor[5 a x+5 b x-2 b y-2 a y]", "(b + a) * (5 * x - 2 * y)");
 	}
 
 	@Test
@@ -1143,7 +1123,9 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factors_ConstantsOnly_0() {
-		t("Factors[-15]", "{{-3, 1}, {5, 1}}");
+		//t("Factors[-15]", "{{-3, 1}, {5, 1}}");
+		// Giac
+		t("Factors[-15]", "{{-1,1}, {3, 1}, {5, 1}}");
 	}
 
 	@Test
@@ -1657,7 +1639,9 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Median_1() {
-		t("Median[{1, 1, 8, 8}]", "9 / 2");
+		//t("Median[{1, 1, 8, 8}]", "9 / 2");
+		// Giac
+		t("Median[{1, 1, 8, 8}]", "4.5");
 	}
 	
 
@@ -1678,7 +1662,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void MixedNumber_0() {
-		t("MixedNumber[-3.5]", "-3 - 1 / 2");
+		t("MixedNumber[-3.5]", "-3 + (-1) / 2");
 	}
 
 	@Test
@@ -1693,7 +1677,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void MixedNumber_3() {
-		t("MixedNumber[12 / 14]", "6 / 7");
+		t("MixedNumber[12 / 14]", "0 + 6 / 7");
 	}
 	
 
@@ -2493,8 +2477,8 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Solve_OneVariableVC_8() {
-		// TODO Resolve whether we can have this.
-		t("Solve[0 = b^c, b]", "{b = 0}");
+		// in Giac, {} is correct
+		t("Solve[0 = b^c, b]", "{}");
 	}
 
 	@Test
@@ -2567,8 +2551,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Substitute_2() {
-		t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]",
-				"a^(2) - n^(2) -6 * n - 9", "a^(2) - (n + 3)^(2)");
+		t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "-(n + 3)^(2) + a^(2)");
 	}
 
 	@Test
@@ -2588,7 +2571,7 @@ public class GeoGebraCasIntegrationTest {
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
-		t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6");
+		t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "-b + 2 * a + 6");
 	}
 	
 
@@ -2606,7 +2589,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Sum_2() {
-		t("Sum[r^i, i, 0, n]", "(r^(n + 1)) / (r - 1) - 1 / (r - 1)");
+		t("Sum[r^i, i, 0, n]", "r^(n + 1) / (r - 1) - 1 / (r - 1)");
 	}
 
 	@Test
@@ -2999,7 +2982,9 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Rubrik3 () {
 		t("f(t):=c*a^t","c * a^(t)");
-		t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
+		//t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
+		// Giac
+		t("Solve(f(2)=225,a)","{a = 15 * sqrt(c) / c, a = -15 * sqrt(c) / c}");
 		t("Delete[f]","true");
 	}
 	
