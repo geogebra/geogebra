@@ -4885,7 +4885,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     caseval_begin=time(0);
 #endif
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_STRNG) return gensizeerr(contextptr);
+    if (args.type!=_STRNG) return string2gen(caseval(args.print(contextptr).c_str()),false);
     if (*args._STRNGptr=="init geogebra")
       init_geogebra(1,contextptr);
     if (*args._STRNGptr=="close geogebra")
@@ -4894,7 +4894,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
   static const char _caseval_s []="caseval";
   static define_unary_function_eval (__caseval,&_caseval,_caseval_s);
-  define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,0,true);
+  define_unary_function_ptr5( at_caseval ,alias_at_caseval,&__caseval,_QUOTE_ARGUMENTS,true);
 
   gen scalarproduct(const vecteur & a,const vecteur & b,GIAC_CONTEXT){
     vecteur::const_iterator ita=a.begin(), itaend=a.end();

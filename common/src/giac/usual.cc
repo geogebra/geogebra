@@ -2328,6 +2328,8 @@ namespace giac {
 
   gen _abs(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (ckmatrix(args))
+      return _l2norm(args,contextptr);
     return apply(args,contextptr,giac::abs);
   }
   symbolic symb_abs(const gen & e){

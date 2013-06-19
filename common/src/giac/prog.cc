@@ -4921,6 +4921,10 @@ namespace giac {
   */
 
   gen simplifier(const gen & g,GIAC_CONTEXT){
+    if (g.type<_SYMB)
+      return g;
+    if (is_equal(g))
+      return apply_to_equal(g,simplifier,contextptr);
     return liste2symbolique(symbolique2liste(g,contextptr));
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){
@@ -5651,6 +5655,7 @@ namespace giac {
     catch (std::runtime_error & e){
       *debug_ptr(contextptr)=dbg;
       res=string2gen(e.what(),false);
+      res.subtype=-1;
       ctrl_c=false; interrupted=false;
       // something went wrong, so restore the old cas_setup
       cas_setup(cas_setup_save, contextptr);
