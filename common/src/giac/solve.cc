@@ -1388,6 +1388,17 @@ namespace giac {
     }
   }
 
+  static vecteur solve_numeric_check(const gen & e,const gen & x,const vecteur & sol,GIAC_CONTEXT){
+    vecteur res;
+    for (unsigned i=0;i<sol.size();++i){
+      gen tmp=subst(e,x,sol[i],false,contextptr);
+      tmp=evalf_double(tmp,1,contextptr);
+      if ((tmp.type>_CPLX && tmp.type!=_FLOAT_) || is_greater(1e-6,abs(tmp,contextptr),contextptr))
+	res.push_back(sol[i]);
+    }
+    return res;
+  }
+
   static vecteur solve_cleaned(const gen & e,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     gen expr(e),a,b;
     if (is_linear_wrt(e,x,a,b,contextptr)){
@@ -1646,6 +1657,7 @@ namespace giac {
       return v;
     }
     solve(expr,x,v,isolate_mode,contextptr);
+    v=solve_numeric_check(e,x,v,contextptr);
     if (0 && !(isolate_mode & 2)){
       // check solutions if there is a tan inside, commented now that we have the test above
       for (int i=0;i<s;++i){
