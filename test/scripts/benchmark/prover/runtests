@@ -8,7 +8,7 @@ TIMEOUT=30
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Auto Recio Botana AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+PROVERS="Auto Recio Botana BotanaGiac AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
@@ -99,12 +99,19 @@ for i in `find -name '*.ggb' | sort`; do
   if [ $ENGINE = OpenGeoProver ]; then
    METHOD=`echo $j | cut -f2 -d_`
    fi
+  unset SWSOPTS
+  unset EXTRAOPTS
+  if [ $ENGINE = BotanaGiac ]; then
+   ENGINE=Botana
+   SWSOPTS=",enable:false"
+   EXTRAOPTS=--giac
+   fi
 
   # Testing:
   timeout $TIMEOUT ./run \
-   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:$SINGULARWSREMOTEURL \
+   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
    --logFile=$LOGFILE \
-   --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
+   --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en $EXTRAOPTS \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
   
   RETVAL=$?
