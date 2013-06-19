@@ -1069,7 +1069,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Factor_Variables_4() {
-		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * a * b^(2) * (3 * a * b - c) ", "3 * (3 * a * b - c) * a * b^(2)");
+		//t("Factor[9 a^2 b^3 - 3 a b^2 c]", "3 * a * b^(2) * (3 * a * b - c) ", "3 * (3 * a * b - c) * a * b^(2)");
 		// Giac
 		t("Factor[9 a^2 b^3 - 3 a b^2 c]", "-3 * b^(2) * a * (c - 3 * b * a)");
 	}
