@@ -1314,7 +1314,7 @@ __GGB__keysVar.no_NN.menu = {
     "Expand": "Utvid",
     "Expand_Help": "Utvidar parentesar",
     "ExpandAll": "Utvid alt",
-    "Exponential": "Eksponentiell",
+    "Exponential": "Eksponentiell 2",
     "Export": "Eksporter",
     "ExportAllWorksheets": "Eksporter alle opne arbeidsark",
     "Extrusion": "Ekstruder til prisme eller sylinder",

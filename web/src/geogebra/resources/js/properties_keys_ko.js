@@ -132,7 +132,7 @@ __GGB__keysVar.ko.command = {
     "CenterView_Syntax": "[ <\uc911\uc2ec\uc810> ]",
     "Centroid": "\ubb34\uac8c\uc911\uc2ec",
     "Centroid_Syntax": "[ <\ub2e4\uac01\ud615> ]",
-    "Checkbox": "\uccb4\ud06c\ubc15\uc2a4",
+    "Checkbox": "\uccb4\ud06c\uc0c1\uc790",
     "Checkbox_Syntax": "[ ]\n[ <\ucea1\uc158> ]\n[ <\ub9ac\uc2a4\ud2b8> ]\n[ <\ucea1\uc158>, <\ub9ac\uc2a4\ud2b8> ]",
     "ChiSquared": "\uce74\uc774\uc81c\uacf1",
     "ChiSquared_Syntax": "[ <\uc790\uc720\ub3c4>, x ]\n[ <\uc790\uc720\ub3c4>, <\ubcc0\ub7c9> ]\n[ <\uc790\uc720\ub3c4>, x, <\ub204\uc801 true|false> ]",
