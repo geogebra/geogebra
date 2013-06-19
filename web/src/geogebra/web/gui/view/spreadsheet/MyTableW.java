@@ -219,7 +219,6 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		this.table = this;
 		this.tableModel = tableModel;
 		this.view = view;
-		((SpreadsheetTableModelW)tableModel).attachMyTable(this);
 
 		// grabCursor = createCursor(app.getImageIcon("cursor_grab.gif")
 		// .getImage(), true);
@@ -265,6 +264,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// add cell renderer & editors
 		defaultTableCellRenderer = new MyCellRendererW(app, view,
 		        (CellFormat) this.getCellFormatHandler());
+
+		// this needs defaultTableCellRenderer now
+		((SpreadsheetTableModelW)tableModel).attachMyTable(this);
 
 		//:NEXT:Grid.setCellFormatter
 		editor = new MyCellEditorW(kernel, view);
@@ -2145,7 +2147,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	}
 	
 	public void updateTableCell(Object value,int row, int column) {
-		defaultTableCellRenderer.updateTableCell(this, value, row, column);
+		if (defaultTableCellRenderer != null)
+			defaultTableCellRenderer.updateTableCell(this, value, row, column);
 	}
 
 		

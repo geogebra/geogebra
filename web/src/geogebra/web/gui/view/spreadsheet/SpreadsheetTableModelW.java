@@ -58,6 +58,12 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	
 	public void attachMyTable(MyTableW table){
 		this.table = table;
+		Object value;
+		if (table != null)
+			for (int i = 0; i < rowNum; i++)
+				for (int j = 0; j < colNum; j++)
+					if ((value = getValueAt(i,j)) != null)
+						table.updateTableCell(value, i+1, j+1);
 	}
 		
 	@Override
