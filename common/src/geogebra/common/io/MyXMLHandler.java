@@ -626,7 +626,7 @@ public class MyXMLHandler implements DocHandler {
 				// perform tasks to maintain backward compability
 				if (ggbFileFormat < 3.3 && hasGuiElement) {
 					createCompabilityLayout();
-				} else if (tmp_perspectives.isEmpty() && hasGuiElement) {
+				} else if (ggbFileFormat < 4.3 && tmp_perspectives.isEmpty() && hasGuiElement) {
 					// a specific 4.2 ggb file needed this
 					createCompabilityLayout();
 				}
