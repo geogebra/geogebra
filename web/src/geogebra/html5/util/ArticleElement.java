@@ -58,14 +58,6 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return the data-param-filename article attribute as String if set else empty String
-	 */
-	public String getDataParamFileName() {
-		String ret = this.getAttribute("data-param-filename");
-		return (ret != null) ? ret : "";
-	}
-
-	/**
 	 * Determines if the "data-param-gui" article attribute is set to true
 	 * 
 	 * @return the data-param-gui (default: false)

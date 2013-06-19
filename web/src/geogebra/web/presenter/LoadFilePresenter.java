@@ -7,7 +7,6 @@ import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter{
@@ -42,8 +41,6 @@ public class LoadFilePresenter{
 			//do nothing here - everything done in isReloadDataInStorage() function 
 		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);
-		} else if (!"".equals((filename = view.getDataParamFileName()))) {
-			fetch(filename);
 		} else if (!"".equals((fileId = getGoogleFileId()))) {
 			((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
@@ -141,12 +138,6 @@ public class LoadFilePresenter{
 	
     public void onWorksheetReady() {
 		getView().hide();
-	}
-	// Private Methods
-	private void fetch(String fileName) {
-		getView().showLoadAnimation();
-		String url = fileName.startsWith("http") ? fileName : GWT.getModuleBaseURL()+"../"+fileName;
-		getView().processFileName(url);
 	}
 	
 	public AppWeb getApplication() {
