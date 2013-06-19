@@ -538,18 +538,18 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected String postProcess(String s) {
 		
+		if (s.indexOf("GIAC_ERROR:") > -1) {
+			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error: Bad Argument Value
+			App.debug("error from Giac: "+s);
+
+			return "?";
+		}
+
 		String ret = s.trim();
 		// output from ifactor can be wrapped to stop simplification
 		// eg js giac output:-('3*5')	
 		ret = ret.replaceAll("'", "");
 		
-		if (ret.startsWith("\"")) {
-			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
-			// assume error
-			App.debug("message from giac (assuming error) "+ret);
-			// force error? TODO: Needs testing
-			return "(";
-		}
 		
 		if (ret.indexOf("integrate(") > -1) {
 			// eg Integral[sqrt(sin(x))]
