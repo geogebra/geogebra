@@ -110,6 +110,10 @@ public abstract class GColor implements GPaint{
 	}
 
 	public int getRGB() {
+		// FIXME: this method should return "long"
+		// although it currently works well with overflown Integers
+		// so if we change this, change the dependencies as well
+
 		int red = getRed();
 		if (red > 255) red = 255;
 		if (red < 0) red = 0;

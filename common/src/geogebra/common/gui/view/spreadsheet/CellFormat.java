@@ -692,6 +692,8 @@ public class CellFormat implements CellFormatInterface {
 				sb.append(formatDelimiter);
 				sb.append(bgColorToken);
 				sb.append(formatDelimiter);
+
+				// FIXME: getRGB should return "long"
 				sb.append(bgColor.getRGB()); // convert to RGB integer
 			}
 
@@ -748,12 +750,31 @@ public class CellFormat implements CellFormatInterface {
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);
-			formatValue = Integer.parseInt(f[i + 1]);
-			if (formatType == FORMAT_BGCOLOR)
+			if (formatType == FORMAT_BGCOLOR) {
+
+				// code commented out waiting for "long" input
+				/*formatValue = Long.parseLong(f[i + 1]);
+				if ((Long)formatValue < 0) {*/
+					// backwards-compatibility with old files of overflown integers
+					// this negative value means an overflown Integer,
+					// so let's parse it as an Integer
+					formatValue = Integer.parseInt(f[i + 1]);
+					// this Integer is of the form 0xAARRGGBB,
+					// so remove the alpha channel to make it positive
+					formatValue = (Integer)formatValue & 0x00ffffff;
+				/*} else {
+					// now neglect the alpha channel of this Long value,
+					// to make an Integer from it which does not overflow
+					// FIXME: this part of code is buggy...
+					formatValue = (int)((Long)formatValue % 0xffffff);
+				}*/
 				formatValue = AwtFactory.prototype.newColor((Integer)formatValue);
-			else if (formatType == FORMAT_BORDER) {
+			} else if (formatType == FORMAT_BORDER) {
+				formatValue = Integer.parseInt(f[i + 1]);
 				int b = (Integer) formatValue;
 				formatValue = (byte) b;
+			} else {
+				formatValue = Integer.parseInt(f[i + 1]);
 			}
 			this.setFormat(cell, formatType, formatValue);
 		}
