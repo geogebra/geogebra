@@ -202,7 +202,10 @@ public class EuclidianPen {
 		return app.isRightClick(e) && !freehand;
 	}
 
-
+	/**
+	 * Update the info about last geo so that we can continue a polyline
+	 * @param penGeo last object created with pen
+	 */
 	public void setPenGeo(GeoElement penGeo) {
 		
 		if (penGeo == null) {
@@ -211,7 +214,9 @@ public class EuclidianPen {
 			lastAlgo = penGeo.getParentAlgorithm();
 		}
 	}
-
+	/**
+	 * Make sure we start using a new polyline
+	 */
 	public void resetPenOffsets() {
 		lastAlgo = null;
 	}
@@ -223,7 +228,7 @@ public class EuclidianPen {
 	
 	/**
 	 * Mouse dragged while in pen mode, decide whether erasing or new points.
-	 * @param e
+	 * @param e mouse event
 	 */
 	public void handleMouseDraggedForPenMode(AbstractEvent e){
 		view.setTransparentCursor();
