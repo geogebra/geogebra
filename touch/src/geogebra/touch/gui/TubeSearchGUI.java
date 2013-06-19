@@ -1,6 +1,7 @@
 package geogebra.touch.gui;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.TouchEntryPoint;
@@ -10,7 +11,6 @@ import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TubeSearchGUI extends VerticalPanel
 {
 	private SearchBar searchBar;
-	HorizontalMaterialPanel featuredMaterials;
+	//HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel resultsArea;
 	private StandardImageButton backButton;
 
@@ -41,7 +41,7 @@ public class TubeSearchGUI extends VerticalPanel
 	/**
 	 * 
 	 */
-	public TubeSearchGUI()
+	public TubeSearchGUI(AppWeb app)
 	{
 		this.setStyleName("tubesearchgui");
 		
@@ -56,10 +56,10 @@ public class TubeSearchGUI extends VerticalPanel
 			}
 		});
 
-		this.featuredMaterials = new HorizontalMaterialPanel();
-		this.featuredMaterials.setMaterials(new ArrayList<Material>());
+		//this.featuredMaterials = new HorizontalMaterialPanel();
+		//this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
-		this.resultsArea = new VerticalMaterialPanel();
+		this.resultsArea = new VerticalMaterialPanel(app);
 
 		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
 		this.backButton.addDomHandler(new ClickHandler()
@@ -72,9 +72,9 @@ public class TubeSearchGUI extends VerticalPanel
 		}, ClickEvent.getType());
 
 		this.add(this.searchBar);
-		this.add(this.featuredMaterials);
+		//this.add(this.featuredMaterials);
 
-		this.resultsArea.setHeight((Window.getClientHeight() - 300) + "px");
+		this.resultsArea.setHeight((Window.getClientHeight() - 120) + "px");
 		this.add(this.resultsArea);
 		this.add(this.backButton);
 
@@ -118,10 +118,10 @@ public class TubeSearchGUI extends VerticalPanel
 	{
 		this.searchBar.onResize(event);
 
-		this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
+		//this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
 		this.resultsArea.setWidth(event.getWidth() + "px");
-		int newHeight = Window.getClientHeight() - 300;
+		int newHeight = Window.getClientHeight() - 120;
 		if (newHeight > 0)
 		{
 			this.resultsArea.setHeight(newHeight + "px");
@@ -139,8 +139,8 @@ public class TubeSearchGUI extends VerticalPanel
 			public void onResponseReceived(Request request, Response response)
 			{
 				List<Material> materialList = JSONparserGGT.parseResponse(response.getText());
-
-				TubeSearchGUI.this.featuredMaterials.setMaterials(materialList);
+				TubeSearchGUI.this.resultsArea.setMaterials(materialList);
+				//TubeSearchGUI.this.featuredMaterials.setMaterials(materialList);
 			}
 
 			@Override

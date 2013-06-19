@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.main.AppWeb;
 
 import java.util.List;
 
@@ -10,10 +11,12 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public class VerticalMaterialPanel extends ScrollPanel
 {
 	private FlexTable contentPanel;
+	private AppWeb app;
 
-	public VerticalMaterialPanel()
+	public VerticalMaterialPanel(AppWeb app)
 	{
 		this.contentPanel = new FlexTable();
+		this.app = app;
 
 		this.setWidget(this.contentPanel);
 	}
@@ -25,7 +28,7 @@ public class VerticalMaterialPanel extends ScrollPanel
 		int i = 0;
 		for (Material m : materials)
 		{
-			MaterialListElement preview = new MaterialListElement(m);
+			MaterialListElement preview = new MaterialListElement(m, this.app);
 			this.contentPanel.setWidget(i, 0, preview);
 			i++;
 		}

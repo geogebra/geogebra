@@ -1,6 +1,9 @@
 package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.main.AppWeb;
+import geogebra.html5.util.View;
+import geogebra.touch.TouchEntryPoint;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -13,6 +16,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -32,7 +36,7 @@ public class MaterialListElement extends HorizontalPanel
 	private Label title, date, sharedBy, author, likes;
 	private Button open;
 
-	public MaterialListElement(Material m)
+	public MaterialListElement(final Material m, final AppWeb app)
 	{
 		// TODO set infos alignment
 		this.image = new SimplePanel();
@@ -101,8 +105,8 @@ public class MaterialListElement extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				event.stopPropagation();
-				// TODO Load material for editing
-				Window.alert("MATERIAL FOR EDITING!");
+				new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
+				TouchEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());
 

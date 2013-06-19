@@ -24,7 +24,7 @@ public class TouchEntryPoint implements EntryPoint
 {
 	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
-	static TubeSearchGUI tubeSearchGUI = new TubeSearchGUI();
+	static TubeSearchGUI tubeSearchGUI;
 
 	@Override
 	public void onModuleLoad()
@@ -50,8 +50,8 @@ public class TouchEntryPoint implements EntryPoint
 
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				app.start();
+				tubeSearchGUI = new TubeSearchGUI(app);
 				TouchEntryPoint.showTabletGUI();
-
 				Window.addResizeHandler(new ResizeHandler()
 				{
 
