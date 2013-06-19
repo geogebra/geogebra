@@ -195,9 +195,12 @@
 			if (!that.data) {
 				request = new XMLHttpRequest();
 				request.addEventListener("load", function() {
-					if (!that.size)
-						that.size = Number(request.getResponseHeader("Content-Length"));
+					//Zbynek's hack
+					//if (!that.size)
+					//	that.size = Number(request.getResponseHeader("Content-Length"));
 					that.data = new Uint8Array(request.response);
+					that.size = that.data.length + 18;
+					//end of hack
 					callback();
 				}, false);
 				request.addEventListener("error", onerror, false);
@@ -211,11 +214,15 @@
 		function init(callback, onerror) {
 			var request = new XMLHttpRequest();
 			request.addEventListener("load", function() {
-				that.size = Number(request.getResponseHeader("Content-Length"));
+				//Zbynek's hack
+				//that.size = Number(request.getResponseHeader("Content-Length"));
+				that.size = request.response.length;
+				//end of hack
 				callback();
 			}, false);
 			request.addEventListener("error", onerror, false);
-			request.open("HEAD", url);
+			//Zbynek's hack: GET instead of HEAD
+			request.open("GET", url);
 			request.send();
 		}
 
