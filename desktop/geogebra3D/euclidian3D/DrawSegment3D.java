@@ -70,4 +70,16 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		
 	}	
 
+
+	@Override
+	protected boolean updateForItSelf(){
+
+		//updateColors();
+
+		GeoSegmentND seg = (GeoSegmentND) getGeoElement();
+		updateForItSelf(seg.getStartInhomCoords(),seg.getEndInhomCoords());
+
+		return true;
+	}
+
 }

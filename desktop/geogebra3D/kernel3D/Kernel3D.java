@@ -441,14 +441,7 @@ public class Kernel3D extends Kernel {
 
 		case POLYGON:
 			GeoPolygon3D poly = new GeoPolygon3D(cons, null);
-			GeoPointND[] geoPoints = ((GeoPolygon) geo).getPointsND();
-			GeoPointND[] points = new GeoPointND[geoPoints.length];
-			for (int i = 0; i < geoPoints.length; i++) {
-				points[i] = new GeoPoint3D(geoPoints[i]);
-				((GeoElement) points[i]).setConstruction(cons);
-			}
-			poly.setPoints(points);
-			poly.set(geo);
+			((GeoPolygon) geo).copyInternal(cons, poly);
 			return poly;
 		default:
 			return geo.copyInternal(cons);

@@ -2008,7 +2008,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 		return true;
 	}
 
-	final public void matrixTransform(double a00, double a01, double a10, double a11) {
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		double det = a00 * a11 - a01 * a10;
 		double det2 = det * det;
 		

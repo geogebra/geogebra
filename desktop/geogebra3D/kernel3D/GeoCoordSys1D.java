@@ -77,7 +77,7 @@ Traceable, RotateableND {
 	
 	
 	
-	/** set the matrix to [V O] */
+	/** set the matrix to [(I-O) O] */
 	public void setCoordFromPoints(Coords a_O, Coords a_I){
 		 setCoord(a_O,a_I.sub(a_O));
 	}
@@ -548,22 +548,41 @@ Traceable, RotateableND {
 		return true;
 	}
 	
-	public void matrixTransform(double p, double q, double r, double s) {
 
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
+		
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		m.set(1,1, a00);
+		m.set(1,2, a01);
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+			
+		setCoord(m.mul(getCoordSys().getOrigin()), m.mul(getCoordSys().getVx()));
 	}
-	
+
+
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
-		matrixTransform(new CoordMatrix4x4(
-				a00, a01, a02, 
-				a10, a11, a12, 
-				a20, a21, a22));
-
-	}
-	
-	public void matrixTransform(CoordMatrix4x4 matrix){
-		getCoordSys().matrixTransform(matrix);
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		
+		m.set(1,1, a00);
+		m.set(1,2, a01);		
+		m.set(1,3, a02);
+		
+		
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+		m.set(2,3, a12);
+		
+		
+		m.set(3,1, a20);
+		m.set(3,2, a21);		
+		m.set(3,3, a22);
+		
+		
+		setCoord(m.mul(getCoordSys().getOrigin()), m.mul(getCoordSys().getVx()));
+		
 	}
 
 	

@@ -258,6 +258,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 		return ret;
 	}
+	
 
 	// /////////////////////////////////////////////////
 	// OVERWRITE Ggb3DMatrix

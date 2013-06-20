@@ -549,9 +549,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return Double.POSITIVE_INFINITY;
 	}
 	
-	// ///////////////////////////////////
-	// TRANSFORMATIONS
-	// ///////////////////////////////////
+	/////////////////////////////////////
+	// TRANSLATE
+	/////////////////////////////////////
 
 	public void translate(Coords v) {
 		getCoordSys().translate(v);

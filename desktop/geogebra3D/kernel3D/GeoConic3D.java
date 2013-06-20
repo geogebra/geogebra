@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -416,10 +417,46 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 		coordSys.translate(v);
 	}
 
+
+
+	@Override
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
+		
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		m.set(1,1, a00);
+		m.set(1,2, a01);
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+		
+		double[] ret = getCoordSys().matrixTransform(m);	
+		
+		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
+	}
+
+
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		setUndefined();
-		// TODO Auto-generated method stub
+
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		
+		m.set(1,1, a00);
+		m.set(1,2, a01);		
+		m.set(1,3, a02);
+		
+		
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+		m.set(2,3, a12);
+		
+		
+		m.set(3,1, a20);
+		m.set(3,2, a21);		
+		m.set(3,3, a22);
+		
+		
+		double[] ret = getCoordSys().matrixTransform(m);	
+		
+		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
 		
 	}
 	

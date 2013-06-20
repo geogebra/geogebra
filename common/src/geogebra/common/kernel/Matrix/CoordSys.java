@@ -529,10 +529,73 @@ public class CoordSys {
 		drawingMatrix.setOrigin(getOrigin());
 	}
 	
-	public void matrixTransform(CoordMatrix4x4 m){
-		matrixOrthonormal = m.mul(matrixOrthonormal);
+	/**
+	 * transform the matrix orthonormal to fit transform represented by m.
+	 * Compute {a,b,c} to perform inside coordsys transformation (which keep
+	 * orthonormal matrix) :
+	 * new x = a*x
+	 * new y = b*x + c*y
+	 * @param m matrix of transformation
+	 * @return {a,b,c} for inside coordsys transformation
+	 */
+	public double[] matrixTransform(CoordMatrix4x4 m){
+		
+		double[] ret;
+		
+		Coords o = m.mul(matrixOrthonormal.getOrigin());
+		
+		Coords vx = m.mul(matrixOrthonormal.getVx());
+		Coords vy = m.mul(matrixOrthonormal.getVy());
+		Coords vn = vx.crossProduct4(vy);
+		
+		
+		if (vn.isZero()){ // vx, vy not independant
+			if (vx.isZero()){
+				if (vy.isZero()){ // all to 0
+					ret = new double[] {0, 0, 
+										   0};
+					matrixOrthonormal = CoordMatrix4x4.Identity();
+					matrixOrthonormal.setOrigin(o);
+				}else{ // vy != 0
+					vy.calcNorm();
+					double l = vy.getNorm();
+					ret = new double[] {0, 0, 
+										   l};
+					matrixOrthonormal = new CoordMatrix4x4(o, vy.mul(1/l), CoordMatrix4x4.VY);
+				}				
+			}else{ // vx != 0
+				vx.calcNorm();
+				double l = vx.getNorm();
+				vx = vx.mul(1/l);
+				double a = vy.dotproduct(vx); // vy maybe not 0
+				ret = new double[] {l, a, 
+									   0};
+				matrixOrthonormal = new CoordMatrix4x4(o, vx, CoordMatrix4x4.VX);
+
+			}
+		}else{ // none are 0
+			
+			vx.calcNorm();
+			double l = vx.getNorm();
+			vx = vx.mul(1/l);
+			vn.normalize();
+			Coords vyn = vn.crossProduct4(vx);
+			double a = vy.dotproduct(vx);
+			double b = vy.dotproduct(vyn);
+			ret = new double[] {l, a, 
+								   b};
+			matrixOrthonormal.setVx(vx);
+			matrixOrthonormal.setVy(vyn);
+			matrixOrthonormal.setVz(vn);
+			matrixOrthonormal.setOrigin(o);
+		
+		}
+		
+		
 
 		setFromMatrixOrthonormal();
+		
+		return ret;
 	}
 	
 	private void setFromMatrixOrthonormal(){

@@ -1184,7 +1184,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 		double x = getX();
 		double y = getY();
-		double z = getZ();
 
 		Double x1 = a * x + b * y;
 		Double y1 = c * x + d * y;

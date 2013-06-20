@@ -529,18 +529,7 @@ final public String toValueString(StringTemplate tpl) {
 		return new Coords(getPointX(0.5), getPointY(0.5), 0, 1);
 	}
   	
-  	@Override
-	public Coords getPointInD(int dimension, double lambda){
-
-		switch(dimension){
-		case 3:
-			return new Coords(getPointX(lambda), getPointY(lambda), 0, 1);
-		case 2:
-			return new Coords(getPointX(lambda), getPointY(lambda), 1);
-		default:
-			return null;
-		}
-	}
+  
   	
   	/**
   	 * returns the paramter for the closest point to P on the Segment (extrapolated)

@@ -86,7 +86,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			isVisible = addPointsToPath(poly.getPointsND());
+			isVisible = addPointsToPath(poly.getPointsLength());
 			if (!isVisible)
 				return;
 			gp.closePath();
@@ -116,16 +116,24 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		}
 	}
+	
+	private Coords getCoords(int i){
+		if (poly!=null){
+			return view.getCoordsForView(poly.getPoint3D(i));
+		}
+		
+		return view.getCoordsForView(points.get(i).getInhomCoordsInD(3));
+	}
 
 	// return false if a point doesn't lie on the plane
-	private boolean addPointsToPath(GeoPointND[] pts) {
+	private boolean addPointsToPath(int length) {
 		if (gp == null)
 			gp = new GeneralPathClipped(view);
 		else
 			gp.reset();
 
 		// first point
-		Coords v = view.getCoordsForView(pts[0].getInhomCoordsInD(3));
+		Coords v = getCoords(0);
 		if (!Kernel.isZero(v.getZ()))
 			return false;
 		coords[0] = v.getX();
@@ -137,8 +145,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		double xsum = coords[0];
 		double ysum = coords[1];
 
-		for (int i = 1; i < pts.length; i++) {
-			v = view.getCoordsForView(pts[i].getInhomCoordsInD(3));
+		for (int i = 1; i < length; i++) {
+			v = getCoords(i);
 			if (!Kernel.isZero(v.getZ())) {
 				return false;
 			}
@@ -154,8 +162,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
-			xLabel = (int) (xsum / pts.length);
-			yLabel = (int) (ysum / pts.length);
+			xLabel = (int) (xsum / length);
+			yLabel = (int) (ysum / length);
 			addLabelOffset();
 		}
 
@@ -200,11 +208,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		isVisible = size > 0;
 
 		if (isVisible) {
-			GeoPointND[] pointsArray = new GeoPointND[size];
-			for (int i = 0; i < size; i++) {
-				pointsArray[i] = points.get(i);
-			}
-			addPointsToPath(pointsArray);
+			addPointsToPath(size);
 		}
 	}
 

@@ -140,6 +140,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		//3D only
 	}
 
+	/**
+	 * for 3D stuff (unused here)
+	 * 
+	 * @param p polygon
+	 * 			
+	 */
+	public void setCoordSys(GeoPolygon p) {
+		//3D only
+	}
+
 	private boolean notFixedPointsLength = false;
 
 	/**
@@ -231,9 +241,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 * @return number for points
 	 */
 	public int getPointsLength() {
-		if (points == null) // TODO remove this (preview bug)
+		if (getPoints() == null) // TODO remove this (preview bug)
 			return 0;
-		return points.length;
+		return getPoints().length;
 	}
 
 	/**
@@ -490,21 +500,24 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 	
 
-	/**
-	 * need to say if it's an internal copy to get the correct vertices coords
-	 */
-	protected boolean isCopyInternal;
 	
 
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
+
 		GeoPolygon ret = newGeoPolygon(cons1);
-		ret.points = copyPoints(cons1);
-		ret.set(this);
-		ret.isCopyInternal = true;
-		
+		copyInternal(cons1, ret);
 		return ret;
+	}
+	
+	/**
+	 * @param cons1 consctruction
+	 * @param ret poly where to copy
+	 */
+	public void copyInternal(Construction cons1, GeoPolygon ret){
+		ret.setPoints2D(GeoElement.copyPoints(cons1, getPoints()));
+		ret.set(this);
 	}
 
 	/**
@@ -516,22 +529,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		return new GeoPolygon(cons, null);
 	}
 
-	/**
-	 * @param cons1 construction
-	 * @return array of copied vertices
-	 */
-	protected GeoPointND[] copyPoints(Construction cons1) {
-		return GeoElement.copyPoints(cons1, points);
-	}
 
-	/**
-	 * Returns new point in the same construction
-	 * 
-	 * @return new point
-	 */
-	protected GeoPointND newGeoPoint() {
-		return new GeoPoint(cons);
-	}
 
 	@Override
 	public void set(GeoElement geo) {
@@ -539,29 +537,29 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		area = poly.area;
 
 		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
-		if (poly.points == null) { 
+		if (poly.getPoints() == null) { 
 			return;
 		}
 		
 		int l = 0;
-		if (points != null){
-			l = points.length;
+		if (getPoints() != null){
+			l = getPoints().length;
 		}
 
 		// make sure both arrays have same size
-		if (l != poly.points.length) {
-			GeoPointND[] tempPoints = new GeoPointND[poly.points.length];
+		if (l != poly.getPoints().length) {
+			GeoPoint[] tempPoints = new GeoPoint[poly.points.length];
 			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < l ? points[i] : newGeoPoint();
+				tempPoints[i] = i < l ? getPoint(i) : new GeoPoint(cons);//newGeoPoint();
 			}
-			points = tempPoints;
+			setPoints(tempPoints);
 		}
 
-		for (int i = 0; i < points.length; i++) {
-			points[i].toGeoElement().set(poly.points[i].toGeoElement());
+		for (int i = 0; i < getPoints().length; i++) {
+			getPoint(i).set(poly.getPoint(i).toGeoElement());
 		}
 
-		setCoordSys(null);
+		setCoordSys(poly);
 		updateSegments();
 		defined = poly.defined;
 
@@ -569,6 +567,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
 	}
 
+	
+	
 
 
 	/**
@@ -591,6 +591,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public GeoPointND[] getPoints() {
 		return points;
+	}
+	
+	/**
+	 * set the 2D points
+	 * @param points 2D points
+	 */
+	public void setPoints2D(GeoPoint[] points){
+		this.points = points;
 	}
 
 	/**
@@ -1011,7 +1019,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	}
 
 	public double getMaxParameter() {
-		return segments.length;
+		return getPointsLength();
 	}
 
 	public double getMinParameter() {
@@ -1548,7 +1556,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for (int i = 0; i < getPointsLength(); i++)
-			((MatrixTransformable) getPointND(i)).matrixTransform(a00, a01, a10, a11);
+			getPoint(i).matrixTransform(a00, a01, a10, a11);
 		this.calcArea();
 	}
 

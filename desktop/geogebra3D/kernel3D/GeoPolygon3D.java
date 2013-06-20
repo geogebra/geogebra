@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -25,6 +26,10 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
+ * 
+ * This is based on adding a coordsys where to plot 2D points.
+ * 2D points are always defined and are used for all computations. 
+ * 3D points are only used as a link to created vertices.
  * 
  * @author ggb3D
  * 
@@ -163,9 +168,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public Coords getPoint3D(int i) {
 		
-		if (isCopyInternal){
-			return getPointND(i).getInhomCoordsInD(3);
-		}
+		
 		
 		Coords v = super.getPoint3D(i);
 		return coordSys.getPoint(v.getX(), v.getY());
@@ -202,6 +205,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public GeoPointND[] getPoints() {
 		return points2D;
+	}
+	
+
+	@Override
+	public void setPoints2D(GeoPoint[] points){
+		points2D = points;
 	}
 
 	@Override
@@ -240,6 +249,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			coordSys = new CoordSys(2);
 			updateCoordSys();
 		}
+	}
+	
+	
+	@Override
+	public void setCoordSys(GeoPolygon p) {
+		if (coordSys == null) {
+			coordSys = new CoordSys(2);
+		}
+		coordSys.set(p.getCoordSys());
 	}
 
 	/**
@@ -433,10 +451,17 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		// remember old parameter
 		double oldT = pp.getT();
-
+		
+		
 		// find the segment where the point lies
 		int index = (int) pp.getT();
-		GeoSegmentND seg = segments[index];
+		GeoSegmentND seg;
+		if (segments == null){
+			seg = new GeoSegment3D(cons);
+			((GeoSegment3D) seg).setCoordFromPoints(getPoint3D(index), getPoint3D((index + 1) % getPointsLength()));
+		}else{
+			seg = segments[index];
+		}
 
 		// sets the path parameter for the segment, calc the new position of the
 		// point
@@ -466,14 +491,24 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		double minDist = Double.POSITIVE_INFINITY;
 		Coords res = null;
 		double param = 0;
-
+		
+		GeoSegment3D segment = null;
+		if (segments == null){
+			segment = new GeoSegment3D(cons);
+		}
+		
 		// find closest point on each segment
 		PathParameter pp = P.getPathParameter();
-		for (int i = 0; i < segments.length; i++) {
+		for (int i = 0; i < getPointsLength(); i++) {
 
 			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
 
-			segments[i].pointChanged(P);
+			if(segment == null){
+				segments[i].pointChanged(P);
+			}else{
+				segment.setCoordFromPoints(getPoint3D(i), getPoint3D((i+1) % getPointsLength()));
+				segment.pointChanged(P);
+			}
 
 			double dist;// = P.getInhomCoords().sub(coordsOld).squareNorm();
 			// double dist = 0;
@@ -495,7 +530,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 		P.setCoords(res, false);
 		pp.setT(param);
-
+		
 		P.setRegion(region);
 	}
 
@@ -527,31 +562,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	
 
 	@Override
-	protected GeoPointND[] copyPoints(Construction cons) {
-		return GeoElement.copyPointsND(cons, points);
-	}
-
-	@Override
-	protected GeoPointND newGeoPoint() {
-		return new GeoPoint3D(cons);
-	}
-
-	@Override
 	public Coords getDirectionInD3() {
 		return getCoordSys().getNormal();
 	}
 
-	/*
-	 * public void calcArea() {
-	 * 
-	 * //TODO: non-simple case area = Math.abs(calcAreaWithSign(points2D)); }
-	 */
 
-	@Override
-	public void translate(Coords v) {
-		super.translate(v);
-		getCoordSys().translate(v);
-	}
 	
 
 	// ////////////////////////////////
@@ -615,16 +630,43 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	
 	@Override
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
-		super.matrixTransform(a00, a01, a10, a11);
-		updateCoordSys();
+		
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		m.set(1,1, a00);
+		m.set(1,2, a01);
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+		
+		double[] ret = getCoordSys().matrixTransform(m);	
+		
+		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 
-		super.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
-		updateCoordSys();
+		CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+		
+		m.set(1,1, a00);
+		m.set(1,2, a01);		
+		m.set(1,3, a02);
+		
+		
+		m.set(2,1, a10);
+		m.set(2,2, a11);
+		m.set(2,3, a12);
+		
+		
+		m.set(3,1, a20);
+		m.set(3,2, a21);		
+		m.set(3,3, a22);
+		
+		
+		double[] ret = getCoordSys().matrixTransform(m);	
+		
+		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
+		
 	}
 	
 	/**
@@ -666,6 +708,17 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	
 	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
 		getCoordSys().rotate(phiVal.getDouble(), center, direction.normalized());
+	}
+	
+	
+	//////////////////////////////////////////////
+	// TRANSLATE
+	//////////////////////////////////////////////
+
+	@Override
+	public void translate(Coords v) {
+		getCoordSys().translate(v);
+		getCoordSys().translateDrawingMatrix();
 	}
 
 }
