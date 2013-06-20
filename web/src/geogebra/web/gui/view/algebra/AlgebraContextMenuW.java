@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;
@@ -12,7 +13,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class AlgebraContextMenuW {
+public class AlgebraContextMenuW implements AttachedToDOM{
 
 	private AppW app;
 	GPopupMenuW wrappedPopup;
@@ -57,6 +58,10 @@ public class AlgebraContextMenuW {
 
 	public void show(AlgebraView view, int x, int y) {
 	    wrappedPopup.show(new GPoint(x,y));
+    }
+
+	public void removeFromDOM() {
+	    wrappedPopup.removeFromParent();
     }
 	
 	

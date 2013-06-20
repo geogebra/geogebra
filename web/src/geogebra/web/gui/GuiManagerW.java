@@ -49,6 +49,7 @@ import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleDriveFileChooser;
 import geogebra.web.gui.util.SignInDialog;
 import geogebra.web.gui.util.SkyDriveFileChooser;
+import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -183,6 +184,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		getPopupMenu(geos, p).show(p);
 	}
 
+	public AlgebraContextMenuW getAlgebraContextMenu(){
+		removePopup();
+		currentPopup = new AlgebraContextMenuW(app);
+		return (AlgebraContextMenuW)currentPopup;
+	}
+	
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location) {
 		removePopup();
