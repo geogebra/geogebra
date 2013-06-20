@@ -767,6 +767,8 @@ namespace giac {
       TMP2(res.front().order,res.front().dim);
     // reduce res
     for (unsigned i=0;i<G.size();++i){
+      if (interrupted || ctrl_c)
+	return;
       poly8 & p=res[i];
       reduce(p,res,G,i,pred,TMP1,TMP2,env);
       swap(res[i].coord,pred.coord);
@@ -823,11 +825,15 @@ namespace giac {
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
     for (unsigned i=0;i<G.size();++i){
+      if (interrupted || ctrl_c)
+	return;
       if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
 	continue;
       index_lcm(h0,res[G[i]].coord.front().u,tmp1,order); // h0 and G[i] leading monomial not prime together
       unsigned j;
       for (j=0;j<G.size();++j){
+	if (interrupted || ctrl_c)
+	  return;
 	if (i==j || res[G[j]].coord.empty())
 	  continue;
 	index_lcm(h0,res[G[j]].coord.front().u,tmp2,order);
@@ -845,6 +851,8 @@ namespace giac {
     vector< pair<unsigned,unsigned> > B1;
     B1.reserve(B.size()+C.size());
     for (unsigned i=0;i<B.size();++i){
+      if (interrupted || ctrl_c)
+	return;
       if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
 	continue;
       index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,tmp1,order);
@@ -872,6 +880,8 @@ namespace giac {
     C.reserve(G.size());
     vector<unsigned> hG(1,pos);
     for (unsigned i=0;i<G.size();++i){
+      if (interrupted || ctrl_c)
+	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].coord.front().u,h0,order)){
 	// reduce res[G[i]] with respect to h
 	reduce(res[G[i]],res,hG,-1,res[G[i]],TMP1,TMP2,env);
@@ -902,9 +912,13 @@ namespace giac {
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
+	if (interrupted || ctrl_c)
+	  return v;
       }
       index_lcm(res[B[smallpos].first].coord.front().u,res[B[smallpos].second].coord.front().u,small,order);
       for (unsigned i=smallpos+1;i<B.size();++i){
+	if (interrupted || ctrl_c)
+	  return v;
 	if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
 	  continue;
 	index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,cur,order);
