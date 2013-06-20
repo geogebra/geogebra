@@ -15,11 +15,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.RotateableND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 
@@ -33,7 +35,7 @@ import java.util.ArrayList;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable, RotateableND {
+		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable {
 
 	private GeoPointND startPoint;
 
@@ -151,13 +153,30 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	@Override
 	public void set(GeoElement geo) {
 		if (geo.isGeoVector()) {
-			GeoVectorND v = (GeoVectorND) geo;
-			setCoords(v.getCoordsInD(3).get());
-			try {// TODO see GeoVector
-				setStartPoint(v.getStartPoint());
-			} catch (CircularDefinitionException e) {
-				e.printStackTrace();
+			GeoVectorND vec = (GeoVectorND) geo;
+			setCoords(vec.getCoordsInD(3).get());
+			
+
+			// don't set start point for macro output
+			// see AlgoMacro.initRay()
+			if (geo.cons != cons && isAlgoMacroOutput())
+				return;
+
+			try {
+				GeoPointND sp = vec.getStartPoint();
+				if (sp != null) {
+					if (vec.hasAbsoluteLocation()) {
+						//	create new location point	
+						setStartPoint(sp.copy());
+					} else {
+						//	take existing location point	
+						setStartPoint(sp);
+					}
+				}
 			}
+			catch (CircularDefinitionException e) {
+				App.debug("set GeoVector3D: CircularDefinitionException");
+			}		
 		}
 	}
 
@@ -168,14 +187,12 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	@Override
 	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected boolean showInEuclidianView() {
-		// TODO Auto-generated method stub
-		return true;
+		return isDefined() && !isInfinite();
 	}
 
 	@Override
@@ -364,10 +381,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			return;
 
 		// macro output uses initStartPoint() only
-		// TODO if (isAlgoMacroOutput()) return;
+		if (isAlgoMacroOutput()) return;
 
 		// check for circular definition
-		if (isParentOf((GeoElement) p))
+		if (isParentOf(p))
 			throw new CircularDefinitionException();
 
 		// remove old dependencies
@@ -396,7 +413,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	public boolean hasAbsoluteLocation() {
-		return startPoint == null; // TODO || startPoint.isAbsoluteStartPoint();
+		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
 	public void initStartPoint(GeoPointND p, int number) {
@@ -413,6 +430,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			try {
 				setStartPoint(null);
 			} catch (Exception e) {
+				//ignore circular definition here
 			}
 		}
 
@@ -451,9 +469,20 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		return ret;
 	}
 
+
+	private boolean trace;	
+	
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
 	public boolean getTrace() {
-		// TODO Auto-generated method stub
-		return false;
+		return trace;
 	}
 
 	public Coords getDirectionInD3() {
