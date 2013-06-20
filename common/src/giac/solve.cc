@@ -4658,17 +4658,18 @@ namespace giac {
     return count==dim;
   }
 
-  void giac_gbasis(vectpoly & res,const gen & order,environment * env){
-    if (res.empty()) return;
+  bool giac_gbasis(vectpoly & res,const gen & order,environment * env){
+    if (res.empty()) return true;
     if (order.val==_PLEX_ORDER){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
       for (unsigned k=0;k<resrev.size();++k)
 	change_monomial_order(resrev[k],_REVLEX_ORDER);
-      giac_gbasis(resrev,_REVLEX_ORDER,env);
+      if (!giac_gbasis(resrev,_REVLEX_ORDER,env))
+	return false;
       if (is_zero_dim(resrev) && fglm_lex(resrev,reslex,1024,env,context0)){
 	reslex.swap(res);
-	return;
+	return true;
       }
     }
     reduce(res,env);
@@ -4677,22 +4678,45 @@ namespace giac {
     if (debug_infolevel>6)
       res.dbgprint();
 #ifndef CAS38_DISABLED
-    if (res.front().dim<12){
+    if (res.front().dim<12-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
       res=gbasis8(res,env);
       reduce(res,env);
       sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
       reverse(res.begin(),res.end());
-      return ;
+      return true;
     }
 #endif
-#ifndef BESTA_OS 
+#ifdef BESTA_OS 
+    bool notfound=true;
+    for (;notfound && !interrupted;){
+      if (debug_infolevel>6)
+	res.dbgprint();
+      notfound=false;
+      vectpoly::const_iterator it=res.begin(),itend=res.end(),jt;
+      vectpoly newres(res);
+      for (;it!=itend && !interrupted;++it){
+	for (jt=it+1;jt!=itend && !interrupted;++jt){
+	  if (disjoint(it->coord.front().index,jt->coord.front().index))
+	    continue;
+	  polynome toadd(spoly(*it,*jt,env));
+	  toadd=reduce(toadd,newres,env);
+	  if (!toadd.coord.empty()){
+	    newres.push_back(toadd); // should be at the right place
+	    notfound=true;
+	  }
+	}
+      }
+      reduce(newres,env);
+      swap(res,newres);
+    }
+#else
     // BP: What's wrong for besta here?
     vector<unsigned> G;
     vector< pair<unsigned,unsigned> > B;
     for (unsigned l=0;l<res.size();++l){
       gbasis_update(G,B,res,l,env);
     }
-    for (;!B.empty();){
+    for (;!B.empty() && !interrupted;){
       if (debug_infolevel>1)
 	cerr << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
@@ -4743,36 +4767,14 @@ namespace giac {
     reduce(res,env);
     if (!env || !env->moduloon)
       ppz(res);
-#else
-    bool notfound=true;
-    for (;notfound;){
-      if (debug_infolevel>6)
-	res.dbgprint();
-      notfound=false;
-      vectpoly::const_iterator it=res.begin(),itend=res.end(),jt;
-      vectpoly newres(res);
-      for (;it!=itend;++it){
-	for (jt=it+1;jt!=itend;++jt){
-	  if (disjoint(it->coord.front().index,jt->coord.front().index))
-	    continue;
-	  polynome toadd(spoly(*it,*jt,env));
-	  toadd=reduce(toadd,newres,env);
-	  if (!toadd.coord.empty()){
-	    newres.push_back(toadd); // should be at the right place
-	    notfound=true;
-	  }
-	}
-      }
-      reduce(newres,env);
-      swap(res,newres);
-    }
 #endif
     sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
     reverse(res.begin(),res.end());
+    return true;
   }
 
   vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env){
-    if (v.size()==1){
+    if (v.size()<=1){
       return v;
     }
     vectpoly res(v);
@@ -4792,7 +4794,8 @@ namespace giac {
       cerr << "Unable to compute gbasis with CoCoA" << endl;
     }
 #endif
-    giac_gbasis(res,order,env);
+    if (!giac_gbasis(res,order,env))
+      gensizeerr(gettext("Unable to compute gbasis with giac, perhaps dimension is too large"));
     return res;
   }
 

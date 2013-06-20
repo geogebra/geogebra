@@ -893,7 +893,7 @@ namespace giac {
     for (unsigned l=0;l<res.size();++l){
       gbasis_update(G,B,res,l,TMP1,TMP2,env);
     }
-    for (;!B.empty();){
+    for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
 	cerr << clock() << " number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
