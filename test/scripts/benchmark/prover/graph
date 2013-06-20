@@ -3,7 +3,8 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 PROVERS="Auto Recio Botana BotanaGiac AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
-#PROVERS="Recio Botana OpenGeoProver_Wu OpenGeoProver_Area"
+# Smaller version:
+# PROVERS="Auto Recio Botana OpenGeoProver_Wu OpenGeoProver_Area"
 
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
@@ -21,6 +22,12 @@ COL[5]=black;	LTY[5]=3
 COL[6]=red;	LTY[6]=2
 COL[7]=darkgreen;	LTY[7]=1
 COL[8]=darkgreen;	LTY[8]=2
+# Smaller version:
+# COL[1]=blue;	LTY[1]=1
+# COL[2]=red;	LTY[2]=1
+# COL[3]=black;	LTY[3]=1
+# COL[4]=darkgreen;	LTY[4]=1
+# COL[5]=darkgreen;	LTY[5]=2
 
 i=1
 for j in $PROVERS; do
