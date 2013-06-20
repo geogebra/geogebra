@@ -2670,7 +2670,8 @@ namespace giac {
 	    res += tmp2*tmp2/tmp1;
 	  }
 	}
-	*logptr(contextptr) << s << gettext("\nsamples Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << k-1 << ",0.95)=" <<  chisquare_icdf(k-1,0.95,contextptr) << " or chisquare_icdf(" << k-1 <<",1-alpha) if alpha!=5%" << endl;	return res;
+	*logptr(contextptr) << s << gettext(" samples Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << k-1 << ",0.95)=" <<  chisquare_icdf(k-1,0.95,contextptr) << " or chisquare_icdf(" << k-1 <<",1-alpha) if alpha!=5%" << endl;	
+	return res;
       }
     }
     if (yproba && x.type==_VECT && !x._VECTptr->empty() && is_integer_vecteur(*x._VECTptr)){
@@ -2902,6 +2903,7 @@ namespace giac {
 	theoric=efftotal*theoric;
 	res += (tmp2-theoric)*(tmp2-theoric)/theoric;
       }
+      loi._SYMBptr->feuille._VECTptr->back()=identificateur(".");
       *logptr(contextptr) << gettext("Sample adequation to ") << loi <<gettext(", Chi2 test result ") << res << gettext(",\nreject adequation if superior to chisquare_icdf(") << dof << ",0.95)=" <<  chisquare_icdf(dof,0.95,contextptr) << " or chisquare_icdf(" << dof <<",1-alpha) if alpha!=5%" << endl;	
       return res;
     }

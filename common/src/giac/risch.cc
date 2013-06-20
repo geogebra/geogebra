@@ -800,7 +800,7 @@ namespace giac {
     if (tmp.empty())
       tmp=vecteur(1,ipshift);
     else
-      tmp[0]=tmp[0]+ipshift;
+      tmp.back() += ipshift;
     if (!risch_poly_part(tmp,0,x,v,allowed_lnarg,prim,lncoeff,remains_to_integrate,contextptr) && !is_zero(allowed_lnarg))
       return false;
     return true;

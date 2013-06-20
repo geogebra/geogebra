@@ -1392,7 +1392,9 @@ namespace giac {
     vecteur res;
     for (unsigned i=0;i<sol.size();++i){
       gen tmp=subst(e,x,sol[i],false,contextptr);
+#ifdef HAVE_LIBMPFR
       tmp=_evalf(makesequence(tmp,100),contextptr);
+#endif
       tmp=evalf_double(tmp,1,contextptr);
       if ((tmp.type>_CPLX && tmp.type!=_FLOAT_) || is_greater(1e-6,abs(tmp,contextptr),contextptr))
 	res.push_back(sol[i]);

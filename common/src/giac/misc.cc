@@ -3911,9 +3911,30 @@ static define_unary_function_eval (__ligne_polygonale_pointee,&_polygonscatterpl
   }
 
   // list of values or matrix with col1=list of legends, col2=list of values
-  gen _diagramme_batons(const gen & g,GIAC_CONTEXT){
+  gen _diagramme_batons(const gen & g_,GIAC_CONTEXT){
+    gen g(g_);
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur vals,names,attributs,res;
+    double largeur=.4;
+    if (g.type==_VECT && g.subtype==_SEQ__VECT){
+      vecteur v=*g._VECTptr;
+      for (unsigned i=0;i<v.size();++i){
+	if (v[i].is_symb_of_sommet(at_equal) && v[i]._SYMBptr->feuille.type==_VECT && v[i]._SYMBptr->feuille._VECTptr->front()==at_size){
+	  gen tmp=v[i]._SYMBptr->feuille._VECTptr->back();
+	  tmp=evalf_double(tmp,1,contextptr);
+	  if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>1)
+	    return gensizeerr(contextptr);
+	  largeur=tmp._DOUBLE_val;
+	  v.erase(v.begin()+i);
+	  break;
+	}
+      }
+      if (v.size()==1)
+	g=v.front();
+      else
+	g=gen(v,_SEQ__VECT);
+    }
+    largeur /=2;
     gen errcode=read_camembert_args(g,vals,names,attributs,contextptr);
     if (is_undef(errcode)) return errcode;
     vecteur attr(gen2vecteur(attributs[0]));
@@ -3930,7 +3951,7 @@ static define_unary_function_eval (__ligne_polygonale_pointee,&_polygonscatterpl
 	++i;
       }
       for (;i<s;++i){
-	gen tmp(makevecteur(xy+i+.4+cst_i*Vals[i],xy+i+.4,xy+i-.4,xy+i-.4+cst_i*Vals[i],xy+i+.4+cst_i*Vals[i]),_LINE__VECT);
+	gen tmp(makevecteur(xy+i+largeur+cst_i*Vals[i],xy+i+largeur,xy+i-largeur,xy+i-largeur+cst_i*Vals[i],xy+i+largeur+cst_i*Vals[i]),_LINE__VECT);
 	res.push_back(symb_pnt_name(tmp,i<t?attr[i]:((i==7?0:i) | _FILL_POLYGON | _QUADRANT2),names[i],contextptr));
       }
     }

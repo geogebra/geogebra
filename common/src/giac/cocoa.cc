@@ -558,7 +558,7 @@ namespace giac {
       if (p.is_strictly_greater==i_total_lex_is_strictly_greater)
 	order=_TDEG_ORDER;
       if (p.dim>GROEBNER_VARS-(order==_REVLEX_ORDER || order==_TDEG_ORDER)) 
-	cerr << "Dimension error";
+	cerr << "Number of variables is too large to be handled by giac";
       else {
 	coord.reserve(p.coord.size());
 	for (unsigned i=0;i<p.coord.size();++i){
