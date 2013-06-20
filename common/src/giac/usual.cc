@@ -6169,6 +6169,10 @@ namespace giac {
       }
       return symbolic(at_Gamma,x);
     }
+    if (x==plus_inf)
+      return x;
+    if (is_inf(x))
+      return undef;
     if (x.type==_FLOAT_)
       return fgamma(x._FLOAT_val);
     // return Gamma(get_double(x._FLOAT_val),contextptr);

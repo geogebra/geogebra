@@ -4298,9 +4298,9 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->empty())
       return gensizeerr(contextptr);
     const_iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
-    if (itend-it==2 && ckmatrix(args)){
+    if (itend-it==2 && args.subtype!=_SEQ__VECT && ckmatrix(args)){
       vecteur & v=*(it+1)->_VECTptr;
-      if (!v.front().is_symb_of_sommet(at_pnt))
+      if (!v.front().is_symb_of_sommet(at_pnt) && is_zero(im(v.front(),contextptr)))
 	return inbarycentre(_tran(args,contextptr),contextptr);
     }
     return inbarycentre(args,contextptr);
