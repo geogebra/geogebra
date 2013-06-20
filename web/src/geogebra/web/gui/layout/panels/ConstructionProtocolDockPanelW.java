@@ -5,6 +5,7 @@ import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends DockPanelW{
@@ -19,7 +20,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
 			"ConstructionProtocol", 					// view title phrase 
 			null,	// toolbar string
-			false,					// style bar?
+			true,					// style bar?
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
@@ -35,7 +36,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 
 	@Override
 	protected Widget loadStyleBar() {
-		return null; //return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+		return new SimplePanel(); //return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
 	}
 	
 	@Override

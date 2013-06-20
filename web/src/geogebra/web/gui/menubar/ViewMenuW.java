@@ -185,7 +185,7 @@ public class ViewMenuW extends MenuBar {
 			        }
 		        });
 		
-//		addItem(itemConsprot.getMenuItem());
+		addItem(itemConsprot.getMenuItem());
 		
 		
 		addSeparator();

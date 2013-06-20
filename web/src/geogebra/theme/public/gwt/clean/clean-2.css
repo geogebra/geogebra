@@ -1926,6 +1926,13 @@ body[dir=rtl] .GeoGebraMenuBar table{
 
 /*=========== Navigation Bar end =============*/
 
+/*=========== Construction protocol =============*/
+.cpTable{
+	width: 100%
+}
+
+/*=========== Construction protocol end =============*/
+
 .elemHeadingName{
 	position:absolute;
 	left:10px;

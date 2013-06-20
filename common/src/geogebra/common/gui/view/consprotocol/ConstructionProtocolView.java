@@ -346,6 +346,10 @@ public class ConstructionProtocolView {
 			geoMap = new HashMap<GeoElement, RowData>();
 		}
 		
+		public ArrayList<RowData> getrowList(){
+			return rowList;
+		}
+		
 		public GAbstractTableModel getImpl(){
 			App.debug("ConstructionTableData.getImpl() must be overriden");
 			return null;
