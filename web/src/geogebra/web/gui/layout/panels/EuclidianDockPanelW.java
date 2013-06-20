@@ -31,6 +31,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	
 	private ConstructionProtocolNavigationW consProtNav;
 
+	/**
+	 * This constructor is used by the Application
+	 * and by the other constructor
+	 * 
+	 * @param stylebar (is there stylebar?)
+	 */
 	public EuclidianDockPanelW(boolean stylebar) {
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
@@ -53,6 +59,11 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		}
 	}
 	
+	/**
+	 * This constructor is used by the applet
+	 * @param application
+	 * @param stylebar
+	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		app = application;

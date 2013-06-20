@@ -1526,7 +1526,7 @@ public class AppW extends AppWeb {
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
-		((EuclidianControllerW) getActiveEuclidianView()
+		((EuclidianControllerW) getEuclidianView1()
 		        .getEuclidianController()).updateOffsets();
 	}
 
@@ -1548,8 +1548,7 @@ public class AppW extends AppWeb {
 		getEuclidianView2().synCanvasSize();
 		getEuclidianView2().doRepaint2();
 		stopCollectingRepaints();
-		((EuclidianControllerW) getEuclidianView2()
-			.getEuclidianController()).updateOffsets();
+		getEuclidianView2().getEuclidianController().updateOffsets();
 	}
 
 	public void updateToolBar() {

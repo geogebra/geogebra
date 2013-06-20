@@ -1,6 +1,5 @@
 package geogebra.web.gui.layout;
 
-import geogebra.common.awt.GDimension;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.layout.DockComponent;
 import geogebra.common.gui.layout.DockPanel;
@@ -14,6 +13,7 @@ import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -161,12 +161,18 @@ public class DockManagerW implements  SetLabels {
 		
 		if(spData.length > 0) {
 			DockSplitPaneW[] splitPanes = new DockSplitPaneW[spData.length];
-			
+
+			// hm should mean 
+			HashMap<DockSplitPaneW, Integer> spw = new HashMap<DockSplitPaneW, Integer>();
+			HashMap<DockSplitPaneW, Integer> sph = new HashMap<DockSplitPaneW, Integer>();
+
 			// construct the split panes
 			for(int i = 0; i < spData.length; ++i) {
 				splitPanes[i] = new DockSplitPaneW(spData[i].getOrientation());
+				spw.put(splitPanes[i], 0);
+				sph.put(splitPanes[i], 0);
 			}
-			
+
 			// cascade the split panes
 			rootPane = splitPanes[0];
 			
@@ -240,54 +246,72 @@ public class DockManagerW implements  SetLabels {
 				} else {
 					currentParent.setRightComponentCheckEmpty((Widget) panel);
 				}
-				
+
+				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
+				// this might have to belong to panel.updatePanel
+				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+					panel.setHeight(dpData[i].getEmbeddedSize()+"px");
+				} else {
+					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
+				}
 				panel.updatePanel();
-				
+
+				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
+					spw.put(currentParent, Math.max(spw.get(currentParent), panel.getOffsetWidth()));
+				} else {
+					spw.put(currentParent, spw.get(currentParent) + dpData[i].getEmbeddedSize());
+					sph.put(currentParent, Math.max(sph.get(currentParent), panel.getOffsetHeight()));
+				}
+
+				DockSplitPaneW oldParent = currentParent;
+				while (oldParent != rootPane) {
+					if (oldParent.getParent() instanceof DockSplitPaneW) {
+						oldParent = (DockSplitPaneW)oldParent.getParent();
+						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
+							spw.put(oldParent, Math.max(spw.get(oldParent), panel.getOffsetWidth()));
+						} else {
+							spw.put(oldParent, spw.get(oldParent) + dpData[i].getEmbeddedSize());
+							sph.put(oldParent, Math.max(sph.get(oldParent), panel.getOffsetHeight()));
+						}
+					} else {
+						break;
+					}
+				}
+
 				// move toolbar to main container
 			//	if(panel.hasToolbar()) {
 			//		ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
 			//		mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
 			//	}
 			}
-			
+
 			//recursive update resize weights for giving new space to euclidian views
-			updateSplitPanesResizeWeight();
-			
-			//int windowWidth = app.getPreferredSize().width;
-			//int windowHeight = app.getPreferredSize().height;
-			
-			int windowWidth;
-			int windowHeight;
 
 			if (app.isApplet() || !App.isFullAppGui()) {
-				GDimension gdim = app.getPreferredSize();
-				if (gdim.getWidth() > 0) {
-					windowWidth = gdim.getWidth();
-				} else {
-					windowWidth = app.getDataParamWidth();
-				}
-				if (gdim.getHeight() > 0) {
-					windowHeight = gdim.getHeight();
-				} else {
-					windowHeight = app.getDataParamHeight();
-				}
-			} else {
-				windowWidth = app.getAppFrame().getOffsetWidth();
-				windowHeight = app.getAppFrame().getOffsetWidth();
+				// height doesn't work still
+				//App.debug("!!!! "+spw.get(rootPane)+" "+sph.get(rootPane));
+
+				rootPane.setWidth(spw.get(rootPane)+"px");
+			} else {//FIXME
+				updateSplitPanesResizeWeight();
 			}
-			
+
 			// set the dividers of the split panes
 			for(int i = 0; i < spData.length; ++i) {
 				if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT)
-					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowHeight));
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * sph.get(splitPanes[i]) ));
 				else 
-					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * windowWidth));
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * spw.get(splitPanes[i]) ));
 				
 				splitPanes[i].updateUI();
 			}
-			
+			// crucial to make this work!
+			rootPane.forceLayout();
+
 			markAlonePanel();
-			
+
 			// is focused dock panel not visible anymore => choose another one
 		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
 		//		for(DockPanelW panel : dockPanels) {
