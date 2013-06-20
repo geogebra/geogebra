@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
-import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.StringTemplate;
@@ -60,7 +59,7 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
+public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, geogebra.common.gui.view.algebra.AlgebraView, SettingListener {
 
 	private static final long serialVersionUID = 1L;
 
