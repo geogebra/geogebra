@@ -25,6 +25,9 @@ import java.util.HashSet;
  */
 public class CellFormat implements CellFormatInterface {
 
+	int highestIndexRow = 0;
+	int highestIndexColumn = 0;
+
 	MyTable table;
 
 	// Array of format tables
@@ -106,8 +109,18 @@ public class CellFormat implements CellFormatInterface {
 	 * Clears all format objects from the maps
 	 */
 	public void clearAll() {
+		highestIndexRow = 0;
+		highestIndexColumn = 0;
 		for (int i = 0; i < formatMapArray.length; i++)
 			formatMapArray[i].clear();
+	}
+
+	public int getHighestIndexRow() {
+		return highestIndexRow;
+	}
+
+	public int getHighestIndexColumn() {
+		return highestIndexColumn;
 	}
 
 	/**
@@ -250,6 +263,9 @@ public class CellFormat implements CellFormatInterface {
 			// cr.debug();
 			if (cr.isRow()) {
 
+				if (highestIndexRow < cr.getMaxRow())
+					highestIndexRow = cr.getMaxRow();
+
 				// iterate through each row in the selection
 				for (int r = cr.getMinRow(); r <= cr.getMaxRow(); ++r) {
 
@@ -269,6 +285,10 @@ public class CellFormat implements CellFormatInterface {
 			}
 
 			else if (cr.isColumn()) {
+
+				if (highestIndexColumn < cr.getMaxColumn())
+					highestIndexColumn = cr.getMaxColumn();
+
 				// iterate through each column in the selection
 				for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 
@@ -291,6 +311,12 @@ public class CellFormat implements CellFormatInterface {
 			}
 
 			else {
+
+				if (highestIndexRow < cr.getMaxRow())
+					highestIndexRow = cr.getMaxRow();
+				if (highestIndexColumn < cr.getMaxColumn())
+					highestIndexColumn = cr.getMaxColumn();
+
 				// System.out.println("other");
 				for (GPoint cellPoint : cr.toCellList(true))
 					formatTable.put(cellPoint, value);
@@ -744,7 +770,7 @@ public class CellFormat implements CellFormatInterface {
 		// System.out.println("cellFormat:  " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
 		GPoint cell = new GPoint(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
-		int formatType, beginIndex;
+		int formatType;
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);

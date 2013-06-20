@@ -2246,6 +2246,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		// cells
 		int colCount = tableModel.getHighestUsedColumn() + 2;
 		int rowCount = tableModel.getHighestUsedRow() + 2;
+
+		// fix for empty cells with background colors
+		int altColCount = ((CellFormat)getCellFormatHandler()).getHighestIndexColumn() + 2;
+		int altRowCount = ((CellFormat)getCellFormatHandler()).getHighestIndexRow() + 2;
+		if (altRowCount > rowCount)
+			rowCount = altRowCount;
+		if (altColCount > colCount)
+			colCount = altColCount;
+
 		for (int i = colCount - 1; i >= 1; i--) {
 			for (int j = rowCount - 1; j >= 1; j--) {
 
