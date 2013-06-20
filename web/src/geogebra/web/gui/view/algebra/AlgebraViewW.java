@@ -112,7 +112,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 
 		// add listener
 		this.addMouseOutHandler((MouseOutHandler)algCtrl);
-		//this.addMouseDownHandler((MouseDownHandler)algCtrl);
+		this.addMouseDownHandler((MouseDownHandler)algCtrl);
 		//addMouseUpHandler((AlgebraController)algCtrl);
 		//addMouseMoveHandler((AlgebraController)algCtrl);
 
@@ -400,7 +400,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 						GPoint point = new GPoint(evt.getClientX(), evt.getClientY());
 						((GuiManagerW)app.getGuiManager()).showPopupMenu(temp, AlgebraViewW.this, point);
 					}
-					return;
 				}
 				
 				evt.preventDefault();

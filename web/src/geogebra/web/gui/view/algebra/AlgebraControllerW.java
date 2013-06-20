@@ -7,15 +7,13 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.web.euclidian.event.MouseEventW;
 import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.main.AppW;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -26,8 +24,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.TreeItem;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
@@ -171,32 +167,32 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 			/*e.consume(); FIXME*/
 
 			// get GeoElement at mouse location		
-			Object tp = view.getPathForLocation(e.getX(), e.getY());
-			GeoElement geo = view.getGeoElementForPath(tp);
-
-			if (geo != null && !selection.containsSelectedGeo(geo)) {
-				selection.clearSelectedGeos();					
-			}
+//			Object tp = view.getPathForLocation(e.getX(), e.getY());
+//			GeoElement geo = view.getGeoElementForPath(tp);
+			
+//
+//			if (geo != null && !selection.containsSelectedGeo(geo)) {
+//				selection.clearSelectedGeos();					
+//			}
 
 			// single selection: popup menu
-			if (selection.selectedGeosSize() < 2) {
-				/*
-				if(geo == null) {
-					AlgebraContextMenu contextMenu = new AlgebraContextMenu(app);
+//			if (selection.selectedGeosSize() < 2) {
+//				
+//				if(geo == null) {
+					AlgebraContextMenuW contextMenu = new AlgebraContextMenuW((AppW) app);
 					contextMenu.show(view, e.getPoint().x, e.getPoint().y);
-				} else {
-					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-					temp.add(geo);
-					app.getGuiManager().showPopupMenu(temp, view, mouseCoords);
-				}
-				*/			
-			} 
+//				}else {
+//					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+//					temp.add(geo);
+//					app.getGuiManager().showPopupMenu(temp, view, mouseCoords);
+//				}		
+//			} 
 			// multiple selection: popup menu (several geos)
-			else {
-				if(geo != null) {
-					//app.getGuiManager().showPopupMenu(selection.getSelectedGeos(), view, mouseCoords);
-				}
-			}	
+//			else {
+//				if(geo != null) {
+//					//app.getGuiManager().showPopupMenu(selection.getSelectedGeos(), view, mouseCoords);
+//				}
+//			}	
 
 			// LEFT CLICK	
 		} else {
