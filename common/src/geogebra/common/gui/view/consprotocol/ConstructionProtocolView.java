@@ -243,7 +243,6 @@ public class ConstructionProtocolView {
 	 * construction protocol's table.
 	 */
 	public int getCurrentStepNumber() {
-		App.debug("CPW.getCurrentStepNumber");
 		return data.getCurrentStepNumber();
 	}
 	
@@ -376,21 +375,16 @@ public class ConstructionProtocolView {
 		 * construction protocol's table.
 		 */
 		public int getCurrentStepNumber() {
-			App.debug("getCurrentStepNumber");
 			int step = kernel.getConstructionStep();
-			App.debug("step: "+step);
 			
 			// search the current construction step in the rowList
 			int size = rowList.size();
-			App.debug("size: "+size);
 			for (int i = 0; i < size; i++) {
 				RowData rd = rowList.get(i);
 				if (rd.getGeo().getConstructionIndex() == step){
-					App.debug("rd.getIndex(): " +rd.getIndex());
 					return rd.getIndex();
 				}
 			}
-			App.debug("getCurrentStepNumber will return 0");
 			return 0;
 		}
 
@@ -457,7 +451,6 @@ public class ConstructionProtocolView {
 							.isConsProtocolBreakpoint()))
 				return;
 		
-			App.debug("new row");
 			RowData row = geoMap.get(geo); // lookup row for geo
 			if (row == null) { // new row
 				int index = geo.getConstructionIndex();
@@ -469,7 +462,6 @@ public class ConstructionProtocolView {
 					pos++;
 		
 				row = new RowData(geo);
-				App.debug("new row into rowList: " +row.getDefinition().toString());
 				if (pos < size) {
 					rowList.add(pos, row);
 				} else {
@@ -598,7 +590,6 @@ public class ConstructionProtocolView {
 			// init view
 			rowList.clear();
 			geoMap.clear();
-			App.debug("kernel.getLastConstructionStep: " + kernel.getLastConstructionStep());
 			notifyAddAll(kernel.getLastConstructionStep());
 		}
 
