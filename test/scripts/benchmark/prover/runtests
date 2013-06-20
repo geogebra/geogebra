@@ -225,13 +225,14 @@ for j in $PROVERS; do
 echo "</tr>" >> $MYDIR/$HTML
 echo
 
+# Use the "graph" script instead.
 # Statistics (using R, install "r-base" on Ubuntu to make this work)
-echo "<tr><td class=\"summary\" colspan=\"2\"><b>Statistics</b></td>" >> $MYDIR/$HTML
-for j in $PROVERS; do
- echo "<td class=\"summary\" colspan=\"2\"><pre>" >> $MYDIR/$HTML
- R -q -e "x <- read.csv('$MYDIR/tmp/rinput-$j', header = F); summary(x); sd(x[ , 1])" \
-  | sed s/"\[1\] "/" StdDev.:"/ | head -n -2 | tail -n +3 >> $MYDIR/$HTML
- echo "</td>" >> $MYDIR/$HTML
- done
+# echo "<tr><td class=\"summary\" colspan=\"2\"><b>Statistics</b></td>" >> $MYDIR/$HTML
+# for j in $PROVERS; do
+#  echo "<td class=\"summary\" colspan=\"2\"><pre>" >> $MYDIR/$HTML
+#  R -q -e "x <- read.csv('$MYDIR/tmp/rinput-$j', header = F); summary(x); sd(x[ , 1])" \
+#   | sed s/"\[1\] "/" StdDev.:"/ | head -n -2 | tail -n +3 >> $MYDIR/$HTML
+#  echo "</td>" >> $MYDIR/$HTML
+#  done
 
 echo "</tr></table></body></html>" >> $MYDIR/$HTML

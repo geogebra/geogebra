@@ -1,0 +1,47 @@
+#!/bin/bash
+# Creates R based density graph
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+PROVERS="Auto Recio Botana BotanaGiac AlternativeBotana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+#PROVERS="Recio Botana OpenGeoProver_Wu OpenGeoProver_Area"
+
+THISDIR=`dirname $0`
+MYDIR=`cd $THISDIR; pwd`
+PROG=$MYDIR/tmp/rprog
+
+echo "library(sm); data = NULL; group = NULL;" > $PROG
+
+XMAX=300
+YMAX=0.15
+COL[1]=blue;	LTY[1]=1
+COL[2]=red;	LTY[2]=1
+COL[3]=black;	LTY[3]=1
+COL[4]=black;	LTY[4]=2
+COL[5]=black;	LTY[5]=3
+COL[6]=red;	LTY[6]=2
+COL[7]=darkgreen;	LTY[7]=1
+COL[8]=darkgreen;	LTY[8]=2
+
+i=1
+for j in $PROVERS; do
+ LTY=${LTY[$i]}
+ COLOR=${COL[$i]}
+ if [ $i = 1 ]; then
+ PROVERSLIST="'$j'"
+ COLSLIST="'$COLOR'"
+ LTYSLIST="$LTY"
+else
+ PROVERSLIST="$PROVERSLIST,'$j'"
+ COLSLIST="$COLSLIST,'$COLOR'"
+ LTYSLIST="$LTYSLIST,$LTY"
+ fi
+
+ echo "$j <- read.csv('$MYDIR/tmp/rinput-$j', header = F);" >> $PROG
+ echo "sm.density($j,xlim=c(0,$XMAX),ylim=c(0,$YMAX),col='$COLOR',lty=$LTY,positive=TRUE,xlab='',ylab='');" >> $PROG
+ echo "par(new=TRUE);" >> $PROG
+ i=$((i+1))
+ done
+
+echo "legend('center','groups',c($PROVERSLIST),lty=c($LTYSLIST),col=c($COLSLIST),ncol=2,bty=\"n\");" >> $PROG
+
+cat $PROG | R -q --save
