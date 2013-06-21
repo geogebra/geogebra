@@ -575,7 +575,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		ret = casParser.insertSpecialChars(ret); // undo special character handling
 
 		// don't do check for long strings eg 7^99999
-		if (ret.length() < 100) {
+		if (ret.length() < 200) {
 			// convert x>3 && x<7 into 3<x<7
 			ret = checkInequalityInterval(ret);
 		}
