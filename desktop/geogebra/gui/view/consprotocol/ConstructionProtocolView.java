@@ -1683,7 +1683,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			//else {
 			//	model.removeColumn(column);
 			//}
-			((ConstructionTableData) data).initView();
+			
 			data.columns[i].setVisible(colsVisibility[i]);
 		}	
 	}

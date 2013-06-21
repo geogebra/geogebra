@@ -102,22 +102,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	}
 	
 	private void setColsVisibility(boolean[] colsVisibility) {
-		App.debug("ConstructionProtocolViewW.setColsVisibility - implementation needed - just finishing");
-//		TableColumnModel model = table.getColumnModel();
-		
-		int k = Math.min(colsVisibility.length, data.columns.length);
-		
-		for(int i=0; i<k; i++){
-//			TableColumn column = getTableColumns()[i];
-//			model.removeColumn(column);
-//			if (colsVisibility[i] == true){
-//				model.addColumn(column);
-//			} 
-			//else {
-			//	model.removeColumn(column);
-			//}
-			data.initView();
-		}	
+		App.debug("ConstructionProtocolViewW.setColsVisibility - implementation needed");
 	}
 	
 	@Override
