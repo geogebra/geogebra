@@ -775,22 +775,10 @@ public class CellFormat implements CellFormatInterface {
 		for (int i = 2; i < f.length; i = i + 2) {
 			formatType = formatTokenMap.get(f[i]);
 			if (formatType == FORMAT_BGCOLOR) {
-
-				// code commented out waiting for "long" input
-				formatValue = Long.parseLong(f[i + 1]);
-				if ((Long)formatValue < 0) {
-					// backwards-compatibility with old files of overflown integers
-					// this negative value means an overflown Integer,
-					// so let's parse it as an Integer
-					formatValue = Integer.parseInt(f[i + 1]);
-					// this Integer is of the form 0xAARRGGBB,
-					// so remove the alpha channel to make it positive
-					formatValue = (Integer)formatValue & 0x00ffffff;
-				} else {
-					// now neglect the alpha channel of this Long value,
-					// to make an Integer from it which does not overflow
-					formatValue = (int)((Long)formatValue % 0x1000000L);
-				}
+				formatValue = Integer.parseInt(f[i + 1]);
+				// this Integer is of the form 0xAARRGGBB,
+				// so remove the alpha channel to make it positive
+				formatValue = (Integer)formatValue & 0x00ffffff;
 				formatValue = AwtFactory.prototype.newColor((Integer)formatValue);
 			} else if (formatType == FORMAT_BORDER) {
 				formatValue = Integer.parseInt(f[i + 1]);

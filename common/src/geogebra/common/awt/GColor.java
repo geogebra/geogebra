@@ -110,26 +110,25 @@ public abstract class GColor implements GPaint{
 	}
 
 	/**
-	 * This method is now for the sole support of CellFormat.encodeFormats,
-	 * so it returns a String fit for that method
-	 * (implementation suggested by Michael)
+	 * This method could return Long, but it returns Integer
+	 * for backwards-compatibility, even if it's negative
 	 * 
-	 * @return String
+	 * @return int
 	 */
-	public String getRGB() {
+	public int getRGB() {
 		// must use longs to avoid negative overflow
-		long redL = getRed();
-		if (redL > 255) redL = 255;
-		if (redL < 0) redL = 0;
-		long greenL = getGreen();
-		if (greenL > 255) greenL = 255;
-		if (greenL < 0) greenL = 0;
-		long blueL = getBlue();
-		if (blueL > 255) blueL = 255;
-		if (blueL < 0) blueL = 0;
-		long alphaL = getAlpha();
-		if (alphaL > 255) alphaL = 255;
-		if (alphaL < 0) alphaL = 0;
-		return ((alphaL << 24) | (redL << 16) | (greenL << 8) | blueL) + "";
+		int red = getRed();
+		if (red > 255) red = 255;
+		if (red < 0) red = 0;
+		int green = getGreen();
+		if (green > 255) green = 255;
+		if (green < 0) green = 0;
+		int blue = getBlue();
+		if (blue > 255) blue = 255;
+		if (blue < 0) blue = 0;
+		int alpha = getAlpha();
+		if (alpha > 255) alpha = 255;
+		if (alpha < 0) alpha = 0;
+		return ((alpha*256+red)*256+green)*256+blue;
 	}
 }
