@@ -1705,7 +1705,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 		}else if (stringType.equals(StringType.GIAC)) {
 			sb.append('(');
 			sb.append(leftStr);
-			sb.append(")&&(");
+			sb.append(" && ");
 			sb.append(rightStr);
 			sb.append(')');
 		} else {
