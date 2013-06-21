@@ -1124,62 +1124,10 @@ public class AlgebraProcessor {
 				ExpressionNode enLeft = (ExpressionNode) left;
 				ExpressionNode enRight = (ExpressionNode) right;
 
-				Operation opLeft = enLeft.getOperation();
-				Operation opRight = enRight.getOperation();
-
-				ExpressionValue leftLeft = enLeft.getLeft();
-				ExpressionValue leftRight = enLeft.getRight();
-				ExpressionValue rightLeft = enRight.getLeft();
-				ExpressionValue rightRight = enRight.getRight();
-
 				// directions of inequalities, need one + and one - for an
 				// interval
-				int leftDir = 0;
-				int rightDir = 0;
-
-				if ((opLeft.equals(Operation.LESS) || opLeft
-						.equals(Operation.LESS_EQUAL))) {
-					if (leftLeft instanceof FunctionVariable
-							&& leftRight.isNumberValue())
-						leftDir = -1;
-					else if (leftRight instanceof FunctionVariable
-							&& leftLeft.isNumberValue())
-						leftDir = +1;
-
-				} else if ((opLeft.equals(Operation.GREATER) || opLeft
-						.equals(Operation.GREATER_EQUAL))) {
-					if (leftLeft instanceof FunctionVariable
-							&& leftRight.isNumberValue())
-						leftDir = +1;
-					else if (leftRight instanceof FunctionVariable
-							&& leftLeft.isNumberValue())
-						leftDir = -1;
-
-				}
-
-				if ((opRight.equals(Operation.LESS) || opRight
-						.equals(Operation.LESS_EQUAL))) {
-					if (rightLeft instanceof FunctionVariable
-							&& rightRight.isNumberValue())
-						rightDir = -1;
-					else if (rightRight instanceof FunctionVariable
-							&& rightLeft.isNumberValue())
-						rightDir = +1;
-
-				} else if ((opRight.equals(Operation.GREATER) || opRight
-						.equals(Operation.GREATER_EQUAL))) {
-					if (rightLeft instanceof FunctionVariable
-							&& rightRight.isNumberValue())
-						rightDir = +1;
-					else if (rightRight instanceof FunctionVariable
-							&& rightLeft.isNumberValue())
-						rightDir = -1;
-
-				}
-
-				// AbstractApplication.debug(leftDir+" "+rightDir);
-				// AbstractApplication.debug(leftLeft.getClass()+" "+leftRight.getClass());
-				// AbstractApplication.debug(rightLeft.getClass()+" "+rightRight.getClass());
+				int leftDir = getDirection(enLeft);
+				int rightDir = getDirection(enRight);
 
 				// opposite directions -> OK
 				if (leftDir * rightDir < 0) {
@@ -1224,6 +1172,33 @@ public class AlgebraProcessor {
 	}
 
 
+
+	private static int getDirection(ExpressionNode enLeft) {
+		int dir = 0;
+		ExpressionValue left = enLeft.getLeft();
+		ExpressionValue right = enLeft.getRight();
+		Operation op = enLeft.getOperation();
+		if ((op.equals(Operation.LESS) || op
+				.equals(Operation.LESS_EQUAL))) {
+			if (left instanceof FunctionVariable
+					&& right.isNumberValue() && right.isConstant())
+				dir = -1;
+			else if (right instanceof FunctionVariable
+					&& left.isNumberValue()  && left.isConstant())
+				dir = +1;
+
+		} else if ((op.equals(Operation.GREATER) || op
+				.equals(Operation.GREATER_EQUAL))) {
+			if (left instanceof FunctionVariable
+					&& right.isNumberValue()  && right.isConstant())
+				dir = +1;
+			else if (right instanceof FunctionVariable
+					&& left.isNumberValue()  && right.isConstant())
+				dir = -1;
+
+		}
+		return dir;
+	}
 
 	/**
 	 * Interval dependent on coefficients of arithmetic expressions with
@@ -1667,7 +1642,6 @@ public class AlgebraProcessor {
 		// we have to process list in case list=matrix1(1), but not when
 		// list=list2
 		else if (eval instanceof GeoList && myNode.hasOperations()) {
-			App.debug("should work");
 			return processList(n, ((GeoList) eval).getMyList());
 		} else if (eval.isGeoElement()) {
 
