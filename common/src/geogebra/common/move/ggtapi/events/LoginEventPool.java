@@ -2,6 +2,8 @@ package geogebra.common.move.ggtapi.events;
 
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.events.BaseEventPool;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.operations.BaseOperation;
 
 import java.util.ArrayList;
@@ -50,6 +52,21 @@ public class LoginEventPool extends BaseEventPool {
 					}
 				}
 			}
+		}
+	}
+	
+	/**
+	 * @param response JSONObject
+	 * 
+	 * The response got back from GGT
+	 * 
+	 */
+	public void trigger(JSONObject response) {
+		//:TODO send some parameter super.trigger();
+		if (response.get("error") == null) {
+			((LoginOperation) operation).loginSuccess(response);
+		} else {
+			((LoginOperation) operation).loginError(response);
 		}
 	}
 	
