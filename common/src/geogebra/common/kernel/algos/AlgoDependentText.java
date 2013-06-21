@@ -27,7 +27,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.plugin.Operation;
 
 /**
  * 
@@ -215,10 +214,10 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		ExpressionValue right = en.getRight();
 
 		if (left != null) {
-			lev = copy(left, en.getOperation().equals(Operation.PLUS));
+			lev = copy(left);
 		}
 		if (right != null) {
-			rev = copy(right, en.getOperation().equals(Operation.PLUS));
+			rev = copy(right);
 		}
 
 		if (lev != null) {
@@ -240,7 +239,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	// adpated from ExpressionNode
 	// finds first "+ NumberValue" and replaces with " x "
 	// eg "value = "+x(A)+"cm"
-	private ExpressionValue copy(ExpressionValue ev, boolean opIsPlus) {
+	private ExpressionValue copy(ExpressionValue ev) {
 		if (ev == null) {
 			return null;
 		}
@@ -254,7 +253,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			// ************
 			setNumToTrace(ev);
 			ret = new MyStringBuffer(kernel, " ... ");
-		} else if (ev.isExpressionNode()) {
+		} else if (ev instanceof ExpressionNode) {
 			ExpressionNode en = (ExpressionNode) ev;
 			ret = getSpecialCopy(en);
 		//} else if (ev instanceof MyList) {
@@ -269,7 +268,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			// eg FormulaText[x(A)]
 			GeoElement geo = (GeoElement) ev;
 			AlgoElement algo = geo.getParentAlgorithm();
-			if (algo != null) {
+			if (algo != null && algo.getInput().length > 0) {
 				GeoElement geo2 = algo.getInput()[0];
 				if (geo2.isNumberValue()) {
 					setNumToTrace(geo2);
