@@ -302,7 +302,7 @@ public enum Operation {
 		@Override
 		public String buildString(ExpressionValue left, ExpressionValue right,
 				String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
-			return tpl.plusString(left, right, leftStr, rightStr, valueForm, tpl);
+			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		}
 		
 	},

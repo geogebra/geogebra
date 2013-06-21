@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.export.MathmlTemplate;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Traversing.Replacer;
@@ -38,7 +39,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -1334,7 +1334,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * printCASstring()
 	 */
 
-	private String printCASstring(boolean symbolic, StringTemplate tpl) {
+	public String printCASstring(boolean symbolic, StringTemplate tpl) {
 		String ret = null;
 
 		try {
@@ -1546,7 +1546,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (left != null) {
 				ret = left.toLaTeXString(symbolic, tpl);
 
-				return checkMathML(ret, tpl);
+				return checkMathml(ret, tpl);
 			}
 		}
 
@@ -1568,13 +1568,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// build latex string
 		ret = operation.buildString(left, right, leftStr, rightStr, !symbolic, tpl);
 
-		return checkMathML(ret, tpl);
+		return checkMathml(ret, tpl);
 	}
 
 	/**
 	 * make sure string wrapped in MathML if necessary eg <ci>x</ci>
 	 */
-	private static String checkMathML(String str, StringTemplate tpl) {
+	private static String checkMathml(String str, StringTemplate tpl) {
 		if (tpl.hasType(StringType.MATHML) && str.charAt(0) != '<') {
 			return "<ci>" + str + "</ci>";
 		}
@@ -1603,159 +1603,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		StringType stringType = tpl.getStringType();
 		Localization loc = left.getKernel().getLocalization();
 		switch (operation) {
-		case NOT:
+		case NOT: return tpl.notString(left,leftStr);
 
-			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<not/>", leftStr, null);
-			}else if (stringType.equals(StringType.MPREDUCE)) {
-				sb.append("snot(");
-				sb.append(leftStr);
-				sb.append(')');
-			} else {
+		case OR: return tpl.orString(left, right, leftStr, rightStr);
+		case AND_INTERVAL: return tpl.andIntervalString(left, right, leftStr, rightStr,valueForm);
 
-				switch (stringType) {
-				case MATHML:
-
-					break;
-				case LATEX:
-					sb.append("\\neg ");
-					break;
-
-				case LIBRE_OFFICE:
-					sb.append("neg ");
-					break;
-
-				default:
-					sb.append(strNOT);
-				}
-				if (left.isLeaf()) {
-					sb.append(leftStr);
-				} else {
-					sb.append(tpl.leftBracket());
-					sb.append(leftStr);
-					sb.append(tpl.rightBracket());
-				}
-			}
-			break;
-
-		case OR:
-			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<or/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sor", leftStr, rightStr);
-			}else {
-				append(sb, leftStr, left, operation, tpl);
-				sb.append(' ');
-
-				switch (stringType) {
-				case LATEX:
-					if (tpl.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\vee");
-					break;				
-				case LIBRE_OFFICE:
-					sb.append("or");
-					break;
-
-				case MPREDUCE:
-					sb.append("or ");
-					break;
-
-				case GIAC:
-					sb.append("||");
-					break;
-
-				default:
-					sb.append(strOR);
-				}
-
-				sb.append(' ');
-				append(sb, rightStr, right, operation, tpl);
-				// sb.append(rightStr);
-			}
-			break;
-		case AND_INTERVAL:
-			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<and/>", leftStr, rightStr);
-				break;
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sand", leftStr, rightStr);
-				break;
-			} else if (stringType.equals(StringType.GIAC)) {
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append("&&");
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-			} else {
-				if(right.isExpressionNode()){
-					sb.append(left.wrap().printCASstring(!valueForm, tpl));
-					switch(((ExpressionNode)right).getOperation()){
-					case LESS:appendLessSign(sb,tpl);break;
-					case LESS_EQUAL:appendLeqSign(sb,tpl);break;
-					case GREATER:appendGreaterSign(sb,tpl);break;
-					case EQUAL_BOOLEAN:appendEqualSign(sb,tpl);break;
-					case NOT_EQUAL:appendNotEqualSign(sb,tpl);break;
-					case GREATER_EQUAL:appendGeqSign(sb,tpl);break;
-					case IS_SUBSET_OF:appendSubsetSign(sb,tpl);break;
-					case IS_SUBSET_OF_STRICT:appendStrictSubsetSign(sb,tpl);break;
-					case PARALLEL:appendParallelSign(sb,tpl);break;
-					case PERPENDICULAR:appendPerpSign(sb,tpl);break;
-					default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
-					}
-					sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, tpl));
-					break;
-				}
-			}
-
-		case AND:
-			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<and/>", leftStr, rightStr);
-			}else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sand", leftStr, rightStr);
-			} else {
-				append(sb, leftStr, left, operation, tpl);
-
-				sb.append(' ');
-				switch (stringType) {
-				case LATEX:
-					if (tpl.isInsertLineBreaks()) {
-						sb.append("\\-");
-					}
-					sb.append("\\wedge");
-					break;
-
-				case LIBRE_OFFICE:
-					sb.append("and");
-					break;
-
-				case MPREDUCE:
-					sb.append("and ");
-					break;
-					
-				case GIAC:
-					sb.append("&&");
-					break;
-
-				default:
-					sb.append(strAND);
-				}
-				sb.append(' ');
-
-				append(sb, rightStr, right, operation, tpl);
-			}
-			break;
+		case AND: return tpl.andString(left,right,leftStr,rightStr);
 
 		case IMPLICATION:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<implies/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<implies/>", leftStr, rightStr);
 			}else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"simplies", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"simplies", leftStr, rightStr);
 			} else {
 				if (stringType != StringType.MPREDUCE)
-					append(sb, leftStr, left, operation, tpl);
+					tpl.append(sb, leftStr, left, operation);
 
 				sb.append(' ');
 				switch (stringType) {
@@ -1776,51 +1638,45 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(' ');
 
 				if (stringType != StringType.MPREDUCE)
-					append(sb, rightStr, right, operation, tpl);
+					tpl.append(sb, rightStr, right, operation);
 			}
 			break;
 
 		case EQUAL_BOOLEAN:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<eq/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sequal", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"sequal", leftStr, rightStr);
 			} else {
 				
 				if (tpl.getStringType().equals(StringType.GIAC)) {
 					sb.append("when(simplify(");
-					append(sb, leftStr, left, operation, tpl);
+					tpl.append(sb, leftStr, left, operation);
 					sb.append("-(");
-					append(sb, rightStr, right, operation, tpl);
+					tpl.append(sb, rightStr, right, operation);
 					sb.append("))==0,true,false)");
 				} else {
 
-					append(sb, leftStr, left, operation, tpl);
-					appendEqualSign(sb,tpl);
-					append(sb, rightStr, right, operation, tpl);
+					tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.equalSign());
 				}
 			}
 			break;
 
 		case NOT_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<neq/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<neq/>", leftStr, rightStr);
 			}else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sunequal", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"sunequal", leftStr, rightStr);
 			} else {
-				append(sb, leftStr, left, operation, tpl);
-				// sb.append(leftStr);
-				appendNotEqualSign(sb,tpl);
-				append(sb, rightStr, right, operation, tpl);
-				// sb.append(rightStr);
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.notEqualSign());
 			}
 			break;
 
 		case IS_ELEMENT_OF:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<in/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<in/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append("when(count\\_eq(");
 				sb.append(leftStr);
@@ -1828,7 +1684,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(")==0,false,true)");
 			} else {
-				append(sb, leftStr, left, operation, tpl);
+				tpl.append(sb, leftStr, left, operation);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -1845,14 +1701,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(strIS_ELEMENT_OF);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, tpl);
+				tpl.append(sb, rightStr, right, operation);
 				// sb.append(rightStr);
 			}
 			break;
 
 		case IS_SUBSET_OF:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<subset/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<subset/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append("when((");
 				sb.append(leftStr);
@@ -1863,17 +1719,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// {1,2,3,3} union {} = {1,2,3}
 				sb.append(") union {},true,false");
 			} else {
-				append(sb, leftStr, left, operation, tpl);
-				// sb.append(leftStr);
-				appendSubsetSign(sb,tpl);
-				append(sb, rightStr, right, operation, tpl);
-				// sb.append(rightStr);
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.subsetSign());
 			}
 			break;
 
 		case IS_SUBSET_OF_STRICT:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<prsubset/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<prsubset/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append("when((");
 				sb.append(leftStr);
@@ -1888,17 +1740,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append("union {}),true,false");
 			} else {
-				append(sb, leftStr, left, operation, tpl);
-				// sb.append(leftStr);
-				appendStrictSubsetSign(sb,tpl);
-				append(sb, rightStr, right, operation, tpl);
-				// sb.append(rightStr);
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.strictSubsetSign());
 			}
 			break;
 
 		case SET_DIFFERENCE:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<setdiff/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<setdiff/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append('(');
 				sb.append(leftStr);
@@ -1906,7 +1754,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(')');
 			} else {
-				append(sb, leftStr, left, operation, tpl);
+				tpl.append(sb, leftStr, left, operation);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -1928,7 +1776,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(tpl.rightBracket());
 				}else{
-					append(sb, rightStr, right, operation, tpl);
+					tpl.append(sb, rightStr, right, operation);
 				}
 				// sb.append(rightStr);
 			}
@@ -1936,42 +1784,42 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case LESS:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<lt/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<lt/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sless", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"sless", leftStr, rightStr);
 			}else {
 				
-				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.lessSign());				
 			}
 			break;
 
 		case GREATER:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<gt/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<gt/>", leftStr, rightStr);
 			}else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sgreater", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
-				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.greaterSign());				
 			}
 			break;
 
 		case LESS_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<leq/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<leq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"slessequal", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"slessequal", leftStr, rightStr);
 			}else {
-				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.leqSign());				
 			}
 			break;
 
 		case GREATER_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<qeq/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<qeq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.MPREDUCE)) {
-				appendOp(sb,"sgreaterequal", leftStr, rightStr);
+				StringTemplate.appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
-				appendInequality(sb, left, right, operation,leftStr, rightStr, tpl);				
+				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.geqSign());				
 			}
 			break;
 
@@ -1980,11 +1828,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, tpl);
-			// sb.append(leftStr);
-			appendParallelSign(sb,tpl);
-			append(sb, rightStr, right, operation, tpl);
-			// sb.append(rightStr);
+			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.parallelSign());
 			break;
 
 		case PERPENDICULAR:
@@ -1992,16 +1836,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			append(sb, leftStr, left, operation, tpl);
-			// sb.append(leftStr);
-			appendPerpSign(sb,tpl);
-			append(sb, rightStr, right, operation, tpl);
-			// sb.append(rightStr);
+			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.perpSign());;
 			break;
 
 		case VECTORPRODUCT:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<vectorproduct/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.MPREDUCE)) {
 				sb.append("mycross(");
 				sb.append(leftStr);
@@ -2017,7 +1857,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 
 			} else {
-				append(sb, leftStr, left, operation, tpl);
+				tpl.append(sb, leftStr, left, operation);
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
@@ -2034,380 +1874,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(strVECTORPRODUCT);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, tpl);
+				tpl.append(sb, rightStr, right, operation);
 				// sb.append(rightStr);
 			}
 			break;
 			
 		case MINUS:
-			return tpl.minusString(left, right, leftStr, rightStr, valueForm, tpl);
+			return tpl.minusString(left, right, leftStr, rightStr, valueForm);
 
 		case MULTIPLY:
-			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm, tpl);
+			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm);
 		case DIVIDE:
-			switch (stringType) {
-			case MATHML:
-				mathml(sb, "<divide/>", leftStr, rightStr);
-				break;
-			case LATEX:
-				if ((leftStr.charAt(0) == '-')
-						&& (left.isLeaf() || (left instanceof ExpressionNode && isMultiplyOrDivide((ExpressionNode) left)))) {
-					sb.append("-\\frac{");
-					sb.append(leftStr.substring(1));
-					sb.append("}{");
-					sb.append(rightStr);
-					sb.append("}");
-				} else {
-
-					sb.append("\\frac{");
-					sb.append(leftStr);
-					sb.append("}{");
-					sb.append(rightStr);
-					sb.append("}");
-				}
-				break;
-			case LIBRE_OFFICE:
-				sb.append("{ ");
-				sb.append(leftStr);
-				sb.append(" } over { ");
-				sb.append(rightStr);
-				sb.append(" }");
-				break;
-
-			case MPREDUCE:
-				sb.append("mydivision(");
-				sb.append(leftStr);
-				sb.append(",");
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-
-			case GIAC:
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append(")/(");
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-
-			default:
-				// check for 1 in denominator
-				if (isEqualString(right, 1, !valueForm)) {
-					sb.append(leftStr);
-					break;
-				}
-
-				// left wing
-				// put parantheses around +, -, *
-				append(sb, leftStr, left, Operation.DIVIDE, tpl);
-				sb.append(" / ");
-
-				// right wing
-				append(sb, rightStr, right, Operation.POWER, tpl); // not
-				// +,
-				// -,
-				// *,
-				// /
-			}
-			break;
+			return tpl.divideString(left, right, leftStr, rightStr, valueForm);
 
 		case POWER:
-			/*
-			 * support for sin^2(x) for display, too slow and hacky if
-			 * (STRING_TYPE.equals(StringType.GEOGEBRA &&
-			 * leftStr.startsWith("sin(")) { //&& rightStr.equals("2")) { int
-			 * index; try { index = Integer.parseInt(rightStr); } catch
-			 * (NumberFormatException nfe) { index = Integer.MAX_VALUE; }
-			 * 
-			 * if (index > 0 && index != Integer.MAX_VALUE) { sb.append("sin");
-			 * sb.append(Unicode.numberToIndex(index));
-			 * sb.append(leftStr.substring(3)); // everying except the "sin"
-			 * break; }
-			 * 
-			 * }//
-			 */
-
-			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<power/>", leftStr, rightStr);
-			} else {
-
-				// everything else
-
-				boolean finished = false;
-
-				// support for sin^2(x) for LaTeX, eg FormulaText[]
-				if (stringType.equals(StringType.LATEX)
-						&& left.isExpressionNode()) {
-					switch (((ExpressionNode) left).getOperation()) {
-					// #1592
-					case SIN:
-					case COS:
-					case TAN:
-					case SEC:
-					case CSC:
-					case COT:
-					case SINH:
-					case COSH:
-					case TANH:
-					case SECH:
-					case CSCH:
-					case COTH:
-						int index;
-						try {
-							index = Integer.parseInt(rightStr);
-						} catch (NumberFormatException nfe) {
-							index = Integer.MAX_VALUE;
-						}
-
-						if ((index > 0) && (index != Integer.MAX_VALUE)) {
-							
-							String leftStrTrimmed = leftStr.trim();
-							
-							int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
-							sb.append(leftStrTrimmed.substring(0, spaceIndex));
-							sb.append(" ^{");
-							sb.append(rightStr);
-							sb.append("}");
-							sb.append(leftStrTrimmed.substring(spaceIndex + 1)); // everything
-							// except
-							// the
-							// "\\sin "
-
-							finished = true;
-
-							break;
-						}
-
-					default:
-						// fall through
-					}
-
-					if (finished) {
-						break;
-					}
-
-				}
-
-				switch (stringType) {
-				case MPREDUCE:
-					if("e".equals(leftStr)){
-						sb.append("exp(");
-						sb.append(rightStr);
-						sb.append(')');
-						break;
-					}
-					sb.append("mypower(");
-					sb.append(leftStr);
-					sb.append(",");
-					sb.append(rightStr);
-					sb.append(')');
-					break;
-
-				case GIAC:
-
-					if (right.isExpressionNode() && ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
-						ExpressionNode enR = (ExpressionNode) right;
-
-						sb.append("simplify(surd(");
-						sb.append(leftStr);
-						sb.append(',');
-						sb.append(enR.right.toString(tpl));
-						sb.append(")");
-						sb.append("^(");
-						sb.append(enR.left.toString(tpl));
-						sb.append("))");
-
-					} else {
-						
-						sb.append("(");
-						sb.append(leftStr);
-						//App.debug(left.evaluatesToList());
-						//App.debug(left instanceof ListValue);
-						//App.debug(((ListValue)left).getListElement(0).evaluatesToList());
-
-						// if list && !matrix
-						if (left.evaluatesToList() && !(left instanceof ListValue && ((ListValue)left).getListElement(0).evaluatesToList())) {
-							// make sure {1,2,3}^2 gives {1,4,9} rather than 14
-							sb.append(").^(");						
-						} else {
-							sb.append(")^(");
-						}
-						
-						sb.append(rightStr);
-						sb.append(")");
-					}
-
-					break;
-				
-				
-				case LATEX:
-
-					// checks if the basis is leaf and if so
-					// omits the brackets
-					if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
-						sb.append(leftStr);
-						break;
-					}
-					// else fall through
-				case LIBRE_OFFICE:
-				default:
-
-					/*
-					 * removed Michael Borcherds 2009-02-08 doesn't work eg m=1
-					 * g(x) = (x - 1)^m (x - 3)
-					 * 
-					 * 
-					 * // check for 1 in exponent if (isEqualString(right, 1,
-					 * !valueForm)) { sb.append(leftStr); break; } //
-					 */
-
-					// left wing
-					if ((leftStr.charAt(0) != '-')
-							&& // no unary
-							(left.isLeaf() || ((opID(left) > Operation.POWER
-									.ordinal()) && (opID(left) != Operation.EXP
-									.ordinal())))) { // not +, -, *, /, ^,
-						// e^x
-						sb.append(leftStr);
-					} else {
-						sb.append(tpl.leftBracket());
-						sb.append(leftStr);
-						sb.append(tpl.rightBracket());
-					}
-					break;
-				}
-
-				// right wing
-				switch (stringType) {
-				case LATEX:
-				case LIBRE_OFFICE:
-					sb.append('^');
-
-					// add brackets for eg a^b^c -> a^(b^c)
-					boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode) right)
-							.getOperation().equals(Operation.POWER));
-
-					sb.append('{');
-					if (addParentheses) {
-						sb.append(tpl.leftBracket());
-					}
-					sb.append(rightStr);
-					if (addParentheses) {
-						sb.append(tpl.rightBracket());
-					}
-					sb.append('}');
-					break;
-				// rightStr already done in Giac and Reduce
-				case MPREDUCE:
-				case GIAC:
-					break;	
-				case GEOGEBRA_XML:
-					sb.append('^'); 
-					sb.append('('); 
-					sb.append(rightStr); 
-					sb.append(')'); 
-					break;
-
-
-				default:
-					if (right.isLeaf()
-							|| ((opID(right) > Operation.POWER.ordinal()) && (opID(right) != Operation.EXP
-							.ordinal()))) { // not
-						// +,
-						// -,
-						// *,
-						// /,
-						// ^,
-						// e^x
-						// Michael Borcherds 2008-05-14
-						// display powers over 9 as unicode superscript
-						try {
-							int i = Integer.parseInt(rightStr);
-							String index = "";
-							if (i < 0) {
-								sb.append('\u207B'); // superscript minus sign
-								i = -i;
-							}
-
-							if (i == 0) {
-								sb.append('\u2070'); // zero
-							} else {
-								while (i > 0) {
-									switch (i % 10) {
-									case 0:
-										index = "\u2070" + index;
-										break;
-									case 1:
-										index = "\u00b9" + index;
-										break;
-									case 2:
-										index = "\u00b2" + index;
-										break;
-									case 3:
-										index = "\u00b3" + index;
-										break;
-									case 4:
-										index = "\u2074" + index;
-										break;
-									case 5:
-										index = "\u2075" + index;
-										break;
-									case 6:
-										index = "\u2076" + index;
-										break;
-									case 7:
-										index = "\u2077" + index;
-										break;
-									case 8:
-										index = "\u2078" + index;
-										break;
-									case 9:
-										index = "\u2079" + index;
-										break;
-
-									}
-									i = i / 10;
-								}
-							}
-
-							sb.append(index);
-						} catch (Exception e) {
-							sb.append('^');
-							sb.append(rightStr);
-						}
-
-						/*
-						 * 
-						 * if (rightStr.length() == 1) { switch
-						 * (rightStr.charAt(0)) {
-						 * 
-						 * case '0': sb.append('\u2070'); break; case '1':
-						 * sb.append('\u00b9'); break; case '2':
-						 * sb.append('\u00b2'); break; case '3':
-						 * sb.append('\u00b3'); break; case '4':
-						 * sb.append('\u2074'); break; case '5':
-						 * sb.append('\u2075'); break; case '6':
-						 * sb.append('\u2076'); break; case '7':
-						 * sb.append('\u2077'); break; case '8':
-						 * sb.append('\u2078'); break; case '9':
-						 * sb.append('\u2079'); break; default: sb.append('^');
-						 * sb.append(rightStr); } } else { sb.append('^');
-						 * sb.append(rightStr); }
-						 */
-					} else {
-						sb.append('^');
-						sb.append(tpl.leftBracket());
-						sb.append(rightStr);
-						sb.append(tpl.rightBracket());
-					}
-				}
-			}
-			break;
+			return tpl.powerString(left,right,leftStr, rightStr,valueForm);
 
 		case FACTORIAL:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<factorial/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<factorial/>", leftStr, null);
 				break;
 			case LIBRE_OFFICE:
 				sb.append("fact {");
@@ -2506,7 +1992,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case ARCTAN2:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<atan/>", leftStr, rightStr);
+				MathmlTemplate.mathml(sb, "<atan/>", leftStr, rightStr);
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -2690,7 +2176,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case EXP:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<exp/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<exp/>", leftStr, null);
 				break;
 			case LIBRE_OFFICE:
 				sb.append("func ");
@@ -2746,7 +2232,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case LOG:
 			if (stringType.equals(StringType.MATHML)) {
-				mathml(sb, "<ln/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<ln/>", leftStr, null);
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -2777,7 +2263,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LOGB:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<log/>", "<logbase>", leftStr, "</logbase>", "",
+				MathmlTemplate.mathml(sb, "<log/>", "<logbase>", leftStr, "</logbase>", "",
 						rightStr, "");
 				break;
 			case LATEX:
@@ -2924,7 +2410,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LOG10:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<log/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<log/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\log_{10} \\left(");
@@ -3005,7 +2491,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case NROOT:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<root/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\sqrt[");
@@ -3057,7 +2543,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case SQRT:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<root/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\sqrt{");
@@ -3084,7 +2570,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case CBRT:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<root/>", "<degree>", "3", "</degree>", "",
+				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "",
 						leftStr, "");
 				break;
 			case LATEX:
@@ -3124,7 +2610,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case ABS:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<abs/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<abs/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\left|");
@@ -3174,7 +2660,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case CONJUGATE:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<conjugate/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<conjugate/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\overline{");
@@ -3206,7 +2692,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case ARG:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<arg/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<arg/>", leftStr, null);
 				break;
 			case LATEX:
 				sb.append("\\arg \\left( ");
@@ -3235,7 +2721,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case FLOOR:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<floor/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
 				if (!tpl.isMathQuill()) {
@@ -3270,7 +2756,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case CEIL:
 			switch (stringType) {
 			case MATHML:
-				mathml(sb, "<ceiling/>", leftStr, null);
+				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
 				if (!tpl.isMathQuill()) {
@@ -4005,223 +3491,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return sb.toString();
 	}
 
-	private static void appendPerpSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\perp");
-			break;
-		case LIBRE_OFFICE:
-			sb.append(" ortho ");
-			break;
-		default:
-			sb.append(strPERPENDICULAR);
-		}
-		sb.append(' ');
+	
 
-	}
+	
 
-	private static void appendParallelSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\parallel");
-			break;
-		case LIBRE_OFFICE:
-			sb.append(" parallel ");
-			break;
-		default:
-			sb.append(strPARALLEL);
-		}
-		sb.append(' ');
-
-	}
-
-	private static void appendInequality(StringBuilder sb, ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr, StringTemplate tpl) {
-		Operation op2 = operation;
-		/* disabled: doesn't work with 3<x<4
-		ExpressionValue left2 = left;
-		ExpressionValue right2 = right;
-		if (rightStr.length() == 1 && !StringUtil.isDigit(rightStr.charAt(0))
-				&& stringType == StringType.GEOGEBRA) {
-			// eg turn 3 > x into x < 3
-			
-			op2 = op2.reverseLeftToRight();
-			ExpressionValue tempLeft = left2;
-			String tempLeftStr = leftStr;
-			leftStr = rightStr;
-			left2 = right2;
-			rightStr = tempLeftStr;
-			right2 = tempLeft;
-						
-		}
-		*/
-		
-		append(sb, leftStr, left, operation, tpl);
-		
-		
-		switch (op2) {
-		case LESS: appendLessSign(sb, tpl); break;
-		case LESS_EQUAL: appendLeqSign(sb, tpl); break;
-		case GREATER: appendGreaterSign(sb, tpl); break;
-		case GREATER_EQUAL: appendGeqSign(sb, tpl); break;
-		default: throw new Error("invalid inequality "+op2);
-		}
-		
-		append(sb, rightStr, right, operation, tpl);
-
-		
-		
-	}
-
-	private static void appendGeqSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\geq");
-			break;
-		case LIBRE_OFFICE:
-		case MPREDUCE:
-		case GIAC:
-			sb.append(">=");
-			break;
-
-		default:
-			sb.append(strGREATER_EQUAL);
-		}
-		sb.append(' ');
-
-	}
-
-	private static void appendLeqSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\leq");
-			break;
-		case LIBRE_OFFICE:
-		case MPREDUCE:
-		case GIAC:
-			sb.append("<=");
-			break;
-
-		default:
-			sb.append(strLESS_EQUAL);
-		}
-		sb.append(' ');
-
-	}
-
-	private static void appendGreaterSign(StringBuilder sb, StringTemplate tpl) {
-		if (tpl.hasType(StringType.LATEX)
-				&& tpl.isInsertLineBreaks()) {
-			sb.append(" \\->");
-		} else {
-			sb.append(" > ");
-		}
-
-	}
-
-	private static void appendLessSign(StringBuilder sb, StringTemplate tpl) {
-		if (tpl.hasType(StringType.LATEX)
-				&& tpl.isInsertLineBreaks()) {
-			sb.append(" \\-< ");
-		} else {
-			sb.append(" < ");
-		}
-
-	}
-
-	private static void appendStrictSubsetSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\subset");
-			break;
-		case LIBRE_OFFICE:
-			sb.append(" subset ");
-			break;
-		default:
-			sb.append(strIS_SUBSET_OF_STRICT);
-		}
-		sb.append(' ');		
-	}
-
-	private static void appendSubsetSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\subseteq");
-			break;
-		case LIBRE_OFFICE:
-			sb.append(" subseteq ");
-			break;
-		default:
-			sb.append(strIS_SUBSET_OF);
-		}
-		sb.append(' ');
-
-	}
-
-	private static void appendNotEqualSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\neq");
-			break;
-		case LIBRE_OFFICE:
-			sb.append("<>");
-			break;
-
-		default:
-			sb.append(strNOT_EQUAL);
-		}
-		sb.append(' ');
-
-	}
-
-	private static void appendEqualSign(StringBuilder sb, StringTemplate tpl) {
-		sb.append(' ');
-		switch (tpl.getStringType()) {
-		case LATEX:
-			if (tpl.isInsertLineBreaks()) {
-				sb.append("\\-");
-			}
-			sb.append("\\stackrel{\\small ?}{=}");
-			break;
-		case LIBRE_OFFICE:
-		case MPREDUCE:
-		case GIAC:
-			sb.append("=");
-			break;
-
-		default:
-			sb.append(strEQUAL_BOOLEAN);
-		}
-		sb.append(' ');
-
-	}
+	
 
 	private static String degFix(String string, ExpressionValue left) {
 		if(left.getKernel().getInverseTrigReturnsAngle()){
@@ -4230,16 +3504,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return string;
 	}
 
-	private static void appendOp(StringBuilder sb, String string, String leftStr,
-			String rightStr) {
-		sb.append(string);
-		sb.append('(');
-		sb.append(leftStr);
-		sb.append(',');
-		sb.append(rightStr);
-		sb.append(')');
-
-	}
+	
 	
 	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
 			String libreOffice,
@@ -4257,7 +3522,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			String libreOffice, String giac,
 			StringTemplate tpl,Localization loc,boolean needDegrees) {
 		if (tpl.hasType(StringType.MATHML)) {
-			mathml(sb, mathml, leftStr, null);
+			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {
 			case LATEX:
@@ -4342,57 +3607,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private static boolean isMultiplyOrDivide(ExpressionNode exp) {
+	public static boolean isMultiplyOrDivide(ExpressionNode exp) {
 		return exp.getOperation().equals(Operation.MULTIPLY)
 				|| exp.getOperation().equals(Operation.DIVIDE);
 	}
 
-	public static void mathml(StringBuilder sb, String op, String leftStr,
-			String rightStr) {
-		mathml(sb, op, "", leftStr, "", "", rightStr, "");
-	}
-
-	private static void mathml(StringBuilder sb, String op, String preL,
-			String leftStr, String postL, String preR, String rightStr,
-			String postR) {
-		sb.append("<apply>");
-		sb.append(op);
-		sb.append(preL);
-
-		if (leftStr.startsWith("<apply>")) {
-			sb.append(leftStr);
-		} else if (StringUtil.isNumber(leftStr)) {
-			sb.append("<cn>");
-			sb.append(leftStr);
-			sb.append("</cn>");
-		} else {
-			sb.append("<ci>");
-			sb.append(leftStr);
-			sb.append("</ci>");
-		}
-
-		sb.append(postL);
-		sb.append(preR);
-
-		if (rightStr != null) {
-			if (rightStr.startsWith("<apply>")) {
-				sb.append(rightStr);
-			} else if (StringUtil.isNumber(rightStr)) {
-				sb.append("<cn>");
-				sb.append(rightStr);
-				sb.append("</cn>");
-			} else {
-				sb.append("<ci>");
-				sb.append(rightStr);
-				sb.append("</ci>");
-			}
-		}
-
-		sb.append(postR);
-
-		sb.append("</apply>");
-
-	}
+	
 
 	/**
 	 * return operation number for expression nodes and -1 for other expression
@@ -4610,20 +3830,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * appends a string to sb, brackets are put around it if the order of
 	 * operation dictates
 	 */
-	public static void append(StringBuilder sb, String str,
-			ExpressionValue ev, Operation op, StringTemplate tpl) {
-		if (ev.isLeaf() || (opID(ev) >= op.ordinal()) && 
-				(!chainedBooleanOp(op) || !chainedBooleanOp(ev.wrap().getOperation()))) {
-			sb.append(str);
-		} else {
-			sb.append(tpl.leftBracket());
-			sb.append(str);
-			sb.append(tpl.rightBracket());
-		}
+	
 
-	}
-
-	private static boolean chainedBooleanOp(Operation op) {
+	public static boolean chainedBooleanOp(Operation op) {
 		switch(op){
 		case EQUAL_BOOLEAN:
 		case NOT_EQUAL:

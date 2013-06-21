@@ -1,14 +1,16 @@
 package geogebra.common.kernel;
 
+import geogebra.common.export.MathmlTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.NumberFormatAdapter;
@@ -20,7 +22,7 @@ import geogebra.common.util.Unicode;
  * when serializing ExpressionValues to screen / XML / CAS input / export.
  * @author Zbynek Konecny
  */
-public class StringTemplate {
+public class StringTemplate implements ExpressionNodeConstants{
 	
 	private final String name;
 	/**
@@ -606,12 +608,12 @@ public class StringTemplate {
 	}
 	
 	public String plusString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm, StringTemplate tpl){
+			String leftStr, String rightStr, boolean valueForm){
 		StringBuilder sb = new StringBuilder();
 		Operation operation = Operation.PLUS;
 		switch (stringType) {
 		case MATHML:
-			ExpressionNode.mathml(sb, "<plus/>", leftStr, rightStr);
+			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
 			break;
 		case GIAC:
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
@@ -723,10 +725,10 @@ public class StringTemplate {
 			// check for 0
 			if (valueForm) {
 				if (ExpressionNode.isEqualString(left, 0, !valueForm)) {						
-					ExpressionNode.append(sb, rightStr, right, operation, this);
+					append(sb, rightStr, right, operation);
 					break;
 				} else if (ExpressionNode.isEqualString(right, 0, !valueForm)) {
-					ExpressionNode.append(sb, leftStr, left, operation, this);
+					append(sb, leftStr, left, operation);
 					break;
 				}
 			}
@@ -747,7 +749,7 @@ public class StringTemplate {
 					&& (!right.isLeaf() || (right.isGeoElement() && !((GeoElement) right)
 							.isLabelSet()))) {
 				if (stringType.equals(StringType.LATEX)
-						&& tpl.isInsertLineBreaks()) {
+						&& isInsertLineBreaks()) {
 					sb.append(" \\-+ ");
 				} else {
 					sb.append(" + ");
@@ -758,7 +760,7 @@ public class StringTemplate {
 			} else {
 				if (rightStr.charAt(0) == '-') { // convert + - to -
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
 						sb.append(" - ");
@@ -772,7 +774,7 @@ public class StringTemplate {
 					// to
 					// -
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
 						sb.append(" - ");
@@ -780,7 +782,7 @@ public class StringTemplate {
 					sb.append(rightStr.substring(3));
 				} else {
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
 						sb.append(" + ");
@@ -816,12 +818,11 @@ public class StringTemplate {
 			return ")";
 	}
 	public String minusString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm,
-			StringTemplate tpl) {
+			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder(); 
 		switch (stringType) {
 		case MATHML:
-			ExpressionNode.mathml(sb, "<minus/>", leftStr, rightStr);
+			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
@@ -933,9 +934,9 @@ public class StringTemplate {
 
 		default:
 			if (left instanceof Equation) {
-				sb.append(tpl.leftBracket());
+				sb.append(leftBracket());
 				sb.append(leftStr);
-				sb.append(tpl.rightBracket());
+				sb.append(rightBracket());
 			} else {
 				sb.append(leftStr);
 			}
@@ -954,7 +955,7 @@ public class StringTemplate {
 
 				if (rightStr.charAt(0) == '-') { // convert - - to +
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
 						sb.append(" + ");
@@ -968,7 +969,7 @@ public class StringTemplate {
 					// to
 					// +
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
 						sb.append(" + ");
@@ -976,7 +977,7 @@ public class StringTemplate {
 					sb.append(rightStr.substring(3));
 				} else {
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
 						sb.append(" - ");
@@ -986,39 +987,38 @@ public class StringTemplate {
 			} else {
 				// fix for changing height in Algebra View plus / minus
 				if (stringType.equals(StringType.LATEX)
-						&& tpl.isInsertLineBreaks()) {
+						&& isInsertLineBreaks()) {
 					sb.append(" \\-- ");
 				} else {
 					sb.append(" - ");
 				}
-				sb.append(tpl.leftBracket());
+				sb.append(leftBracket());
 				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				sb.append(rightBracket());
 			}
 			break;
 		}
 		return sb.toString();
 	}
 	public String multiplyString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm,
-			StringTemplate tpl) {
+			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
 		Operation operation = Operation.MULTIPLY;
 		Localization loc = left.getKernel().getLocalization();
 		switch (stringType) {
 
 		case MATHML:
-			ExpressionNode.mathml(sb, "<times/>", leftStr, rightStr);
+			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
 			break;
 		default:
 			// check for 1 at left
 			if (ExpressionNode.isEqualString(left, 1, !valueForm)) {
-				ExpressionNode.append(sb, rightStr, right, operation, tpl);
+				append(sb, rightStr, right, operation);
 				break;
 			}
 			// check for 1 at right
 			else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
-				ExpressionNode.append(sb, leftStr, left, operation, tpl);
+				append(sb, leftStr, left, operation);
 				break;
 			}
 
@@ -1042,7 +1042,7 @@ public class StringTemplate {
 									.charAt(1) == (loc.unicodeZero + 1)))))
 									|| rightStr.equals(Unicode.degree)) {
 
-				boolean rtl = loc.isRightToLeftDigits(tpl);
+				boolean rtl = loc.isRightToLeftDigits(this);
 
 				if (rtl) {
 					sb.append(Unicode.degree);
@@ -1069,8 +1069,8 @@ public class StringTemplate {
 			boolean nounary = true;
 
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!tpl.isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
-				sb.append(tpl.leftBracket());
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
+				sb.append(leftBracket());
 			}
 
 			// left wing
@@ -1086,18 +1086,18 @@ public class StringTemplate {
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
 						// brackets needed for eg Arabic digits
 						sb.append(Unicode.RightToLeftMark);
-						sb.append(tpl.leftBracket());
+						sb.append(leftBracket());
 						sb.append(leftStr);
-						sb.append(tpl.rightBracket());
+						sb.append(rightBracket());
 						sb.append(Unicode.RightToLeftMark);
 					} else {
 						sb.append(leftStr);
 					}
 				}
 			} else {
-				sb.append(tpl.leftBracket());
+				sb.append(leftBracket());
 				sb.append(leftStr);
-				sb.append(tpl.rightBracket());
+				sb.append(rightBracket());
 			}
 
 			// right wing
@@ -1166,7 +1166,7 @@ public class StringTemplate {
 					}
 
 					if (stringType.equals(StringType.LATEX)
-							&& tpl.isInsertLineBreaks()) {
+							&& isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 
@@ -1192,9 +1192,9 @@ public class StringTemplate {
 					if (rtlMinus) {
 						sb.append(Unicode.RightToLeftMark);
 					}
-					sb.append(tpl.leftBracket());
+					sb.append(leftBracket());
 					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					sb.append(rightBracket());
 					if (rtlMinus) {
 						sb.append(Unicode.RightToLeftMark);
 					}
@@ -1217,14 +1217,14 @@ public class StringTemplate {
 						sb.append(multiplicationSpace());
 					}
 				}
-				sb.append(tpl.leftBracket());
+				sb.append(leftBracket());
 				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				sb.append(rightBracket());
 			}
 			
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!tpl.isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
-				sb.append(tpl.rightBracket());
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
+				sb.append(rightBracket());
 			}
 
 			break;
@@ -1258,13 +1258,13 @@ public class StringTemplate {
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) right).getLeft().toString(tpl));
+				sb.append(((ExpressionNode) right).getLeft().toString(this));
 				sb.append(')');
 				sb.append(op((ExpressionNode) right, reverse));
 				sb.append('(');
 				sb.append(leftStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) right).getRight().toString(tpl));
+				sb.append(((ExpressionNode) right).getRight().toString(this));
 				sb.append(')');
 			} else if (right instanceof MySpecialDouble && left instanceof ExpressionNode && ((ExpressionNode) left).getOperation().isInequality()) {
 				// eg 3(x<4)
@@ -1274,13 +1274,13 @@ public class StringTemplate {
 				sb.append('(');
 				sb.append(rightStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) left).getLeft().toString(tpl));
+				sb.append(((ExpressionNode) left).getLeft().toString(this));
 				sb.append(')');
 				sb.append(op((ExpressionNode) left, reverse));
 				sb.append('(');
 				sb.append(rightStr);
 				sb.append(")*(");
-				sb.append(((ExpressionNode) left).getRight().toString(tpl));
+				sb.append(((ExpressionNode) left).getRight().toString(this));
 				sb.append(')');
 			} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
 				sb.append("-(");
@@ -1340,5 +1340,680 @@ public class StringTemplate {
 		return (stringType.equals(StringType.LATEX)) ? " \\; " : " ";
 	}
 	
+	public void append(StringBuilder sb, String str,
+			ExpressionValue ev, Operation op) {
+		if (ev.isLeaf() || (ExpressionNode.opID(ev) >= op.ordinal()) && 
+				(!ExpressionNode.chainedBooleanOp(op) || !ExpressionNode.chainedBooleanOp(ev.wrap().getOperation()))) {
+			sb.append(str);
+		} else {
+			sb.append(leftBracket());
+			sb.append(str);
+			sb.append(rightBracket());
+		}
+
+	}
+	public String divideString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr, boolean valueForm) {
+		StringBuilder sb = new StringBuilder();
+		switch (stringType) {
+		case MATHML:
+			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
+			break;
+		case LATEX:
+			if ((leftStr.charAt(0) == '-')
+					&& (left.isLeaf() || (left instanceof ExpressionNode && ExpressionNode.isMultiplyOrDivide((ExpressionNode) left)))) {
+				sb.append("-\\frac{");
+				sb.append(leftStr.substring(1));
+				sb.append("}{");
+				sb.append(rightStr);
+				sb.append("}");
+			} else {
+
+				sb.append("\\frac{");
+				sb.append(leftStr);
+				sb.append("}{");
+				sb.append(rightStr);
+				sb.append("}");
+			}
+			break;
+		case LIBRE_OFFICE:
+			sb.append("{ ");
+			sb.append(leftStr);
+			sb.append(" } over { ");
+			sb.append(rightStr);
+			sb.append(" }");
+			break;
+
+		case MPREDUCE:
+			sb.append("mydivision(");
+			sb.append(leftStr);
+			sb.append(",");
+			sb.append(rightStr);
+			sb.append(')');
+			break;
+
+		case GIAC:
+			sb.append("(");
+			sb.append(leftStr);
+			sb.append(")/(");
+			sb.append(rightStr);
+			sb.append(')');
+			break;
+
+		default:
+			// check for 1 in denominator
+			if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
+				sb.append(leftStr);
+				break;
+			}
+
+			// left wing
+			// put parantheses around +, -, *
+			append(sb, leftStr, left, Operation.DIVIDE);
+			sb.append(" / ");
+
+			// right wing
+			append(sb, rightStr, right, Operation.POWER); // not
+			// +,
+			// -,
+			// *,
+			// /
+		}
+		return sb.toString();
+	}
+	public String notString(ExpressionValue left, String leftStr) {
+		StringBuilder sb = new StringBuilder();
+
+		if (stringType.equals(StringType.MATHML)) {
+			MathmlTemplate.mathml(sb, "<not/>", leftStr, null);
+		}else if (stringType.equals(StringType.MPREDUCE)) {
+			sb.append("snot(");
+			sb.append(leftStr);
+			sb.append(')');
+		} else {
+
+			switch (stringType) {
+			case MATHML:
+
+				break;
+			case LATEX:
+				sb.append("\\neg ");
+				break;
+
+			case LIBRE_OFFICE:
+				sb.append("neg ");
+				break;
+
+			default:
+				sb.append(strNOT);
+			}
+			if (left.isLeaf()) {
+				sb.append(leftStr);
+			} else {
+				sb.append(leftBracket());
+				sb.append(leftStr);
+				sb.append(rightBracket());
+			}
+		}
+		return sb.toString();
+	}
+	
+	public static void appendOp(StringBuilder sb, String string, String leftStr,
+			String rightStr) {
+		sb.append(string);
+		sb.append('(');
+		sb.append(leftStr);
+		sb.append(',');
+		sb.append(rightStr);
+		sb.append(')');
+
+	}
+	
+	public String orString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr) {
+		StringBuilder sb = new StringBuilder();
+
+		if (stringType.equals(StringType.MATHML)) {
+			MathmlTemplate.mathml(sb, "<or/>", leftStr, rightStr);
+		} else if (stringType.equals(StringType.MPREDUCE)) {
+			appendOp(sb,"sor", leftStr, rightStr);
+		}else {
+			append(sb, leftStr, left, Operation.OR);
+			sb.append(' ');
+
+			switch (stringType) {
+			case LATEX:
+				if (isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
+				sb.append("\\vee");
+				break;				
+			case LIBRE_OFFICE:
+				sb.append("or");
+				break;
+
+			case MPREDUCE:
+				sb.append("or ");
+				break;
+
+			case GIAC:
+				sb.append("||");
+				break;
+
+			default:
+				sb.append(strOR);
+			}
+
+			sb.append(' ');
+			append(sb, rightStr, right, Operation.OR);
+			// sb.append(rightStr);
+		}
+		return sb.toString();
+	}
+	
+	public String geqSign() {
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\geq";
+			}
+			return "\\geq";
+		case LIBRE_OFFICE:
+		case MPREDUCE:
+		case GIAC:
+			return ">=";
+		default:
+			return strGREATER_EQUAL;
+		}
+	}
+
+	public String leqSign() {
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\leq";
+			}
+			return "\\leq";
+		case LIBRE_OFFICE:
+		case MPREDUCE:
+		case GIAC:
+			return "<=";
+		default:
+			return strLESS_EQUAL;
+		}
+	}
+
+	public String greaterSign() {
+		if (hasType(StringType.LATEX)
+				&& isInsertLineBreaks()) {
+			return "\\->";
+		}
+		return ">";
+	}
+
+	public String lessSign() {
+		if (hasType(StringType.LATEX)
+				&& isInsertLineBreaks()) {
+			return "\\-<";
+		}
+		return " < ";
+	}
+
+	public String strictSubsetSign() {
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\subset";
+			}
+			return "\\subset";
+		case LIBRE_OFFICE:
+			return "subset";
+		default:
+			return strIS_SUBSET_OF_STRICT;
+		}
+	}
+
+	public String subsetSign() {
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\subseteq";
+			}
+			return "\\subseteq";
+		case LIBRE_OFFICE:
+			return "subseteq";
+		default:
+			return strIS_SUBSET_OF;
+		}
+	}
+
+	public String notEqualSign() {
+		
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\neq";
+			}
+			return "\\neq";
+		case LIBRE_OFFICE:
+			return "<>";
+
+		default:
+			return strNOT_EQUAL;
+		}
+		
+
+	}
+
+	public String equalSign() {
+		
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\stackrel{\\small ?}{=}";
+			}
+			return "\\stackrel{\\small ?}{=}";
+		case LIBRE_OFFICE:
+		case MPREDUCE:
+		case GIAC:
+			return "=";
+		default:
+			return strEQUAL_BOOLEAN;
+		}
+
+	}
+	
+	public String perpSign() {
+		
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\perp";
+			}
+			return "\\perp";
+		case LIBRE_OFFICE:
+			return "ortho";
+		default:
+			return strPERPENDICULAR;
+		}
+	}
+
+	public String parallelSign() {
+		switch (getStringType()) {
+		case LATEX:
+			if (isInsertLineBreaks()) {
+				return "\\-\\parallel";
+			}
+			return "\\parallel";
+		case LIBRE_OFFICE:
+			return "parallel";
+		default:
+			return strPARALLEL;
+		}
+	}
+	
+	
+	public void infixBinary(StringBuilder sb, ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr, StringTemplate tpl,
+			String operationString) {
+	
+		
+		tpl.append(sb, leftStr, left, operation);
+		sb.append(' ');
+		sb.append(operationString);
+		sb.append(' ');
+		tpl.append(sb, rightStr, right, operation);
+
+		
+		
+	}
+	public String andIntervalString(ExpressionValue left,
+			ExpressionValue right, String leftStr, String rightStr,boolean valueForm) {
+		StringBuilder sb = new StringBuilder();
+		if (stringType.equals(StringType.MATHML) || stringType.equals(StringType.MPREDUCE) || 
+				stringType.equals(StringType.GIAC)) {
+			return andString(left,right,leftStr,rightStr);
+		}
+		if(right.isExpressionNode()){
+			sb.append(left.wrap().printCASstring(!valueForm, this));
+			sb.append(' ');
+			switch(((ExpressionNode)right).getOperation()){
+			case LESS: sb.append(lessSign());break;
+			case LESS_EQUAL:sb.append(leqSign());break;
+			case GREATER:sb.append(greaterSign());break;
+			case EQUAL_BOOLEAN:sb.append(equalSign());break;
+			case NOT_EQUAL:sb.append(notEqualSign());break;
+			case GREATER_EQUAL:sb.append(geqSign());break;
+			case IS_SUBSET_OF:sb.append(subsetSign());break;
+			case IS_SUBSET_OF_STRICT:sb.append(strictSubsetSign());break;
+			case PARALLEL:sb.append(parallelSign());break;
+			case PERPENDICULAR:sb.append(perpSign());break;
+			default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
+			}
+			sb.append(' ');
+			sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, this));
+			return sb.toString();
+		}
+		return andString(left,right,leftStr,rightStr);
+	}
+	public String andString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr) {
+		StringBuilder sb = new StringBuilder();
+		if (stringType.equals(StringType.MATHML)) {
+			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
+		}else if (stringType.equals(StringType.MPREDUCE)) {
+			StringTemplate.appendOp(sb,"sand", leftStr, rightStr);
+		} else {
+			append(sb, leftStr, left, Operation.AND);
+
+			sb.append(' ');
+			switch (stringType) {
+			case LATEX:
+				if (isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
+				sb.append("\\wedge");
+				break;
+
+			case LIBRE_OFFICE:
+				sb.append("and");
+				break;
+
+			case MPREDUCE:
+				sb.append("and ");
+				break;
+				
+			case GIAC:
+				sb.append("&&");
+				break;
+
+			default:
+				sb.append(strAND);
+			}
+			sb.append(' ');
+
+			append(sb, rightStr, right, Operation.AND);
+		}
+		return sb.toString();
+	}
+	public String powerString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr, boolean valueForm) {
+		StringBuilder sb = new StringBuilder();
+
+		/*
+		 * support for sin^2(x) for display, too slow and hacky if
+		 * (STRING_TYPE.equals(StringType.GEOGEBRA &&
+		 * leftStr.startsWith("sin(")) { //&& rightStr.equals("2")) { int
+		 * index; try { index = Integer.parseInt(rightStr); } catch
+		 * (NumberFormatException nfe) { index = Integer.MAX_VALUE; }
+		 * 
+		 * if (index > 0 && index != Integer.MAX_VALUE) { sb.append("sin");
+		 * sb.append(Unicode.numberToIndex(index));
+		 * sb.append(leftStr.substring(3)); // everying except the "sin"
+		 * break; }
+		 * 
+		 * }//
+		 */
+
+		if (stringType.equals(StringType.MATHML)) {
+			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
+		} else {
+
+			// everything else
+
+			boolean finished = false;
+
+			// support for sin^2(x) for LaTeX, eg FormulaText[]
+			if (stringType.equals(StringType.LATEX)
+					&& left.isExpressionNode()) {
+				switch (((ExpressionNode) left).getOperation()) {
+				// #1592
+				case SIN:
+				case COS:
+				case TAN:
+				case SEC:
+				case CSC:
+				case COT:
+				case SINH:
+				case COSH:
+				case TANH:
+				case SECH:
+				case CSCH:
+				case COTH:
+					int index;
+					try {
+						index = Integer.parseInt(rightStr);
+					} catch (NumberFormatException nfe) {
+						index = Integer.MAX_VALUE;
+					}
+
+					if ((index > 0) && (index != Integer.MAX_VALUE)) {
+						
+						String leftStrTrimmed = leftStr.trim();
+						
+						int spaceIndex = leftStrTrimmed.trim().indexOf(' ');
+						sb.append(leftStrTrimmed.substring(0, spaceIndex));
+						sb.append(" ^{");
+						sb.append(rightStr);
+						sb.append("}");
+						sb.append(leftStrTrimmed.substring(spaceIndex + 1)); // everything
+						// except
+						// the
+						// "\\sin "
+
+						finished = true;
+
+						break;
+					}
+
+				default:
+					// fall through
+				}
+
+				if (finished) {
+					return sb.toString();
+				}
+
+			}
+
+			switch (stringType) {
+			case MPREDUCE:
+				if("e".equals(leftStr)){
+					sb.append("exp(");
+					sb.append(rightStr);
+					sb.append(')');
+					break;
+				}
+				sb.append("mypower(");
+				sb.append(leftStr);
+				sb.append(",");
+				sb.append(rightStr);
+				sb.append(')');
+				break;
+
+			case GIAC:
+
+				if (right.isExpressionNode() && ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
+					ExpressionNode enR = (ExpressionNode) right;
+
+					sb.append("simplify(surd(");
+					sb.append(leftStr);
+					sb.append(',');
+					sb.append(enR.getRight().toString(this));
+					sb.append(")");
+					sb.append("^(");
+					sb.append(enR.getLeft().toString(this));
+					sb.append("))");
+
+				} else {
+					
+					sb.append("(");
+					sb.append(leftStr);
+					//App.debug(left.evaluatesToList());
+					//App.debug(left instanceof ListValue);
+					//App.debug(((ListValue)left).getListElement(0).evaluatesToList());
+
+					// if list && !matrix
+					if (left.evaluatesToList() && !(left instanceof ListValue && ((ListValue)left).getListElement(0).evaluatesToList())) {
+						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
+						sb.append(").^(");						
+					} else {
+						sb.append(")^(");
+					}
+					
+					sb.append(rightStr);
+					sb.append(")");
+				}
+
+				break;
+			
+			
+			case LATEX:
+
+				// checks if the basis is leaf and if so
+				// omits the brackets
+				if (left.isLeaf() && (leftStr.charAt(0) != '-')) {
+					sb.append(leftStr);
+					break;
+				}
+				// else fall through
+			case LIBRE_OFFICE:
+			default:
+
+				/*
+				 * removed Michael Borcherds 2009-02-08 doesn't work eg m=1
+				 * g(x) = (x - 1)^m (x - 3)
+				 * 
+				 * 
+				 * // check for 1 in exponent if (isEqualString(right, 1,
+				 * !valueForm)) { sb.append(leftStr); break; } //
+				 */
+
+				// left wing
+				if ((leftStr.charAt(0) != '-')
+						&& // no unary
+						(left.isLeaf() || ((ExpressionNode.opID(left) > Operation.POWER
+								.ordinal()) && (ExpressionNode.opID(left) != Operation.EXP
+								.ordinal())))) { // not +, -, *, /, ^,
+					// e^x
+					sb.append(leftStr);
+				} else {
+					sb.append(leftBracket());
+					sb.append(leftStr);
+					sb.append(rightBracket());
+				}
+				break;
+			}
+
+			// right wing
+			switch (stringType) {
+			case LATEX:
+			case LIBRE_OFFICE:
+				sb.append('^');
+
+				// add brackets for eg a^b^c -> a^(b^c)
+				boolean addParentheses = (right.isExpressionNode() && ((ExpressionNode) right)
+						.getOperation().equals(Operation.POWER));
+
+				sb.append('{');
+				if (addParentheses) {
+					sb.append(leftBracket());
+				}
+				sb.append(rightStr);
+				if (addParentheses) {
+					sb.append(rightBracket());
+				}
+				sb.append('}');
+				break;
+			// rightStr already done in Giac and Reduce
+			case MPREDUCE:
+			case GIAC:
+				break;	
+			case GEOGEBRA_XML:
+				sb.append('^'); 
+				sb.append('('); 
+				sb.append(rightStr); 
+				sb.append(')'); 
+				break;
+
+
+			default:
+				if (right.isLeaf()
+						|| ((ExpressionNode.opID(right) > Operation.POWER.ordinal()) && (ExpressionNode.opID(right) != Operation.EXP
+						.ordinal()))) { // not
+					// +,
+					// -,
+					// *,
+					// /,
+					// ^,
+					// e^x
+					// Michael Borcherds 2008-05-14
+					// display powers over 9 as unicode superscript
+					try {
+						int i = Integer.parseInt(rightStr);
+						String index = "";
+						if (i < 0) {
+							sb.append('\u207B'); // superscript minus sign
+							i = -i;
+						}
+
+						if (i == 0) {
+							sb.append('\u2070'); // zero
+						} else {
+							while (i > 0) {
+								switch (i % 10) {
+								case 0:
+									index = "\u2070" + index;
+									break;
+								case 1:
+									index = "\u00b9" + index;
+									break;
+								case 2:
+									index = "\u00b2" + index;
+									break;
+								case 3:
+									index = "\u00b3" + index;
+									break;
+								case 4:
+									index = "\u2074" + index;
+									break;
+								case 5:
+									index = "\u2075" + index;
+									break;
+								case 6:
+									index = "\u2076" + index;
+									break;
+								case 7:
+									index = "\u2077" + index;
+									break;
+								case 8:
+									index = "\u2078" + index;
+									break;
+								case 9:
+									index = "\u2079" + index;
+									break;
+
+								}
+								i = i / 10;
+							}
+						}
+
+						sb.append(index);
+					} catch (Exception e) {
+						sb.append('^');
+						sb.append(rightStr);
+					}
+
+				
+				} else {
+					sb.append('^');
+					sb.append(leftBracket());
+					sb.append(rightStr);
+					sb.append(rightBracket());
+				}
+			}
+		}
+		
+		return sb.toString();
+	}
 	
 }
