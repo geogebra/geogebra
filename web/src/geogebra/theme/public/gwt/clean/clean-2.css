@@ -1931,6 +1931,11 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	width: 100%
 }
 
+.cpScrollPanel{
+	width: 100%;
+	height: 100%;
+}
+
 /*=========== Construction protocol end =============*/
 
 .elemHeadingName{

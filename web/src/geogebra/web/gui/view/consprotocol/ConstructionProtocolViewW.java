@@ -43,8 +43,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //		
 
 		ScrollPanel scrollPane = new ScrollPanel(table);
-		//scrollPane.setScrollingEnabledX(false);
-		//scrollPane.scrollToRight();
+		scrollPane.setStyleName("cpScrollPanel");
 		cpPanel.add(scrollPane);
 		
 		initGui();
