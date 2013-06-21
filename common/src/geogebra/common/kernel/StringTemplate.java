@@ -1702,6 +1702,12 @@ public class StringTemplate implements ExpressionNodeConstants{
 			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
 		}else if (stringType.equals(StringType.MPREDUCE)) {
 			StringTemplate.appendOp(sb,"sand", leftStr, rightStr);
+		}else if (stringType.equals(StringType.GIAC)) {
+			sb.append('(');
+			sb.append(leftStr);
+			sb.append(")&&(");
+			sb.append(rightStr);
+			sb.append(')');
 		} else {
 			append(sb, leftStr, left, Operation.AND);
 
