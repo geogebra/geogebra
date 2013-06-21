@@ -505,7 +505,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			MyList list = ((ListValue) lt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
-				if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
+				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as point, ev is evaluated before
 					// + point
 					vec = ((VectorValue) rt).getVector();
 					GeoVec2D.add(vec, ((ListValue) lt), vec);
@@ -524,7 +524,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			MyList list = ((ListValue) rt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
-				if (ev.isNumberValue()) { // eg {1,2} + (1,2) treat as point
+				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as point, ev is evaluated before
 					// + point
 					vec = ((VectorValue) lt).getVector();
 					GeoVec2D.add(vec, ((ListValue) rt), vec);

@@ -389,7 +389,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (right.isConstant()) {
 				ExpressionValue eval = node
 						.evaluate(StringTemplate.defaultTemplate);
-				if (eval.isNumberValue()) {
+				if (eval instanceof NumberValue) {
 					// we only simplify numbers that have integer values
 					if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
 						right = eval;
@@ -3800,8 +3800,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 			}
 
-			if (right.isNumberValue()) {
-				int order = (int) Math.round(((MyDouble) right).getDouble());
+			if (right instanceof NumberValue) {
+				int order = (int) Math.round(((NumberValue) right).getDouble());
 				for (; order > 0; order--) {
 					sb.append('\'');
 				}

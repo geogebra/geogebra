@@ -2,7 +2,6 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -79,15 +78,15 @@ public class CmdHyperGeometric extends CommandProcessor {
 
 		case 5:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4].isGeoBoolean())) {
 				
 				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
-						(NumberValue) arg[2], (NumberValue) arg[3],
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
 						(GeoBoolean) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };

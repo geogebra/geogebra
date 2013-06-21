@@ -1648,7 +1648,7 @@ public class AlgebraProcessor {
 
 		if (eval instanceof BooleanValue)
 			return processBoolean(n, eval);
-		else if (eval.isNumberValue())
+		else if (eval instanceof NumberValue)
 			return processNumber(n, eval);
 		else if (eval instanceof VectorValue)
 			return processPointVector(n, eval);
