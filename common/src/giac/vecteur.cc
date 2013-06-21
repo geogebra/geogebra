@@ -10343,7 +10343,7 @@ namespace giac {
     // Giac LU decomposition
     if (!mlu(*args._VECTptr,P,L,U,contextptr))
       return gendimerr(contextptr);
-    if (xcas_mode(contextptr)){
+    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       int s=P.size();
       for (int i=0;i<s;++i){
 	P[i]=P[i]+1;

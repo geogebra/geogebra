@@ -2386,6 +2386,8 @@ namespace giac {
       }
       borne_inf=v[2];
       borne_sup=v[3];
+      if (borne_inf==borne_sup)
+	return 0;
       v[0]=ceil2floor(v[0],contextptr);
       vecteur lfloor(lop(v[0],at_floor));
       lfloor=lvarx(lfloor,x);
@@ -2430,6 +2432,10 @@ namespace giac {
       vecteur lpiece(lop(v[0],at_piecewise));
       lpiece=lvarx(lpiece,x);
       if (!lpiece.empty()){
+	bool chsign=is_strictly_greater(borne_inf,borne_sup,contextptr);
+	if (chsign)
+	  swapgen(borne_inf,borne_sup);
+	res=0;
 	gen piece=lpiece.front();
 	if (!piece.is_symb_of_sommet(at_piecewise))
 	  return gensizeerr(contextptr);
@@ -2450,7 +2456,7 @@ namespace giac {
 	    *logptr(contextptr) << gettext("Assuming true condition ") << cond << endl;
 	    v[0]=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
 	    res += _integrate(gen(makevecteur(v[0],x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
-	    return res;
+	    return chsign?-res:res;
 	  }
 	  if (cond.is_symb_of_sommet(at_superieur_strict) || cond.is_symb_of_sommet(at_superieur_egal)){
 	    cond=cond._SYMBptr->feuille[0]-cond._SYMBptr->feuille[1];
@@ -2466,24 +2472,39 @@ namespace giac {
 	  // check if a*x+b>0 on [borne_inf,borne_sup]
 	  l=-b/a;
 	  bool positif=ck_is_greater(a,0,contextptr);
-	  if ( positif?ck_is_greater(borne_inf,l,contextptr):ck_is_greater(l,borne_sup,contextptr)){ 
-	    // the condition is met on the whole interval
-	    // replace piecewise globally by v[2*i+1]
-	    v[0]=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
-	    res += _integrate(gen(makevecteur(v[0],x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
-	    return res;
+	  gen tmp=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
+	  if (ck_is_greater(l,borne_sup,contextptr)){
+	    // borne_inf < borne_sup <= l
+	    if (positif) // test is false, continue
+	      continue;
+	    // test is true we can compute the integral
+	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
+	    return chsign?-res:res;
 	  }
-	  if (positif?!ck_is_greater(l,borne_sup,contextptr):!ck_is_greater(borne_inf,l,contextptr)){
-	    gen tmp=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
-	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,l),_SEQ__VECT),contextptr);
-	    borne_inf=l;
+	  if (ck_is_greater(borne_inf,l,contextptr)){
+	    // l <= borne_inf < borne_sup
+	    if (!positif) // test is false, continue
+	      continue;
+	    // test is true we can compute the integral
+	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
+	    return chsign?-res:res;
 	  }
+	  // borne_inf<l<borne_sup
+	  if (positif){
+	    // compute integral between l and borne_sup
+	    res += _integrate(gen(makevecteur(tmp,x,l,borne_sup),_SEQ__VECT),contextptr);
+	    borne_sup=l; // continue with integral from borne_inf to l
+	    continue;
+	  }
+	  // compute integral between borne_inf and l
+	  res += _integrate(gen(makevecteur(tmp,x,borne_inf,l),_SEQ__VECT),contextptr);
+	  borne_inf=l; // continue with integral from l to borne_sup
 	}
 	if (vs%2){
 	  v[0]=quotesubst(v[0],piece,piecev[vs-1],contextptr);
 	  res += _integrate(gen(makevecteur(v[0],x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
 	}
-	return res;
+	return chsign?-res:res;
       } // end piecewise
       if (intgab(v[0],x,borne_inf,borne_sup,res,contextptr)){
 	// additional check for singularities in ggb mode

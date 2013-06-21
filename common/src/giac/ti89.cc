@@ -1375,7 +1375,7 @@ namespace giac {
   gen _QR(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (abs_calc_mode(contextptr)==38){
-      gen args=evalf(g,eval_level(contextptr),contextptr);
+      gen args=evalf(eval(g,1,contextptr),eval_level(contextptr),contextptr);
       gen res=qr(makevecteur(args,-1),contextptr);
       if (res.type==_VECT)
 	res.subtype=_SEQ__VECT;

@@ -694,7 +694,13 @@ namespace giac {
 	f=factors(*it,x,contextptr); // Factor then split factors
         gen xfact(plus_one),yfact(plus_one);
 	if (separate_variables(f,x,y,xfact,yfact,contextptr)){ // y'/yfact=xfact
-	  gen pr=parameters.back()+integrate_without_lnabs(inv(yfact,contextptr),y,contextptr);
+	  gen pr=integrate_without_lnabs(inv(yfact,contextptr),y,contextptr);
+	  if (has_op(pr,at_ln))
+	      pr=_lncollect(pr,contextptr); // hack to solve y'=y*(1-y)
+	  if (pr.is_symb_of_sommet(at_ln))
+	    pr=symbolic(at_ln,parameters.back()*pr._SYMBptr->feuille);
+	  else
+	    pr=parameters.back()+pr;
 	  sol=mergevecteur(sol,solve(pr-integrate_without_lnabs(xfact,x,contextptr),*y._IDNTptr,3,contextptr));
 	  continue;
 	}

@@ -1315,7 +1315,7 @@ namespace giac {
 	  return res;
 	}
 	else
-	  return symb_when(args);
+	  return symb_when(eval(args,1,contextptr));
       }
     }
     bool rt;
