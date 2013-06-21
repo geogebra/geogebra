@@ -1492,7 +1492,6 @@ public class AppW extends AppWeb {
 			if (evno == 1) {
 				// this should follow the resizing of the EuclidianView
 				int widthDiff = width - euclidianViewPanel.getOffsetWidth();
-				euclidianViewPanel.setPixelSize(width, height);//provided there is no style bar
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
 						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
@@ -1500,7 +1499,6 @@ public class AppW extends AppWeb {
 				Euclidian2DockPanelW ew = (Euclidian2DockPanelW)
 					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
 				int widthDiff = width - ew.getOffsetWidth();
-				ew.setPixelSize(width, height);
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
 						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);

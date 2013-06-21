@@ -3,14 +3,12 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
-import geogebra.web.gui.app.VerticalPanelSmart;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,16 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 
-	DockLayoutPanel toplevel;
-
-	VerticalPanelSmart ancestor;
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
 	
-	Euclidian2DockPanelW thisPanel;
-
 	public Euclidian2DockPanelW(boolean stylebar) {
 		super(
 				App.VIEW_EUCLIDIAN2,	// view id 
@@ -49,7 +42,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract {
 		
 		if(stylebar){
 			component = loadComponent();
-			thisPanel = this;
 		}else{
 			loadComponent();
 			buildGUI();
