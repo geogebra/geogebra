@@ -497,5 +497,15 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 			return getCoordSys().getVz();
 		}
 	}
+	
+	
+	//////////////////////////////////////////////
+	// TRANSLATE
+	//////////////////////////////////////////////
+
+	@Override
+	public void translate(Coords v) {
+		getCoordSys().translate(v);
+	}
 
 }

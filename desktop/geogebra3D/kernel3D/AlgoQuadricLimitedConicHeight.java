@@ -80,6 +80,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	 */
 	final protected void createTop(){
 		AlgoQuadricEndTop algo2 = new AlgoQuadricEndTop(cons, getQuadric());
+		algo2.setIsHelperAlgo();
 		cons.removeFromConstructionList(algo2);
 		top = algo2.getSection();
 

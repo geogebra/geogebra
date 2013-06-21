@@ -1908,7 +1908,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Region3
 	 * translate conic by vector v
 	 * @param v translation vector
 	 */
-	final public void translate(Coords v) {
+	public void translate(Coords v) {
 		doTranslate(v);
 
 		//classifyConic();

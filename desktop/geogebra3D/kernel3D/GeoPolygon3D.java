@@ -718,7 +718,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	@Override
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
-		getCoordSys().translateDrawingMatrix();
 	}
 
 }

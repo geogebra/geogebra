@@ -116,6 +116,25 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
     }
     
+    
+    private boolean isHelperAlgo = false;
+    
+    /**
+     * says that it's an helper algo for quadric limites (cone/cylinder)
+     */
+    public void setIsHelperAlgo(){
+    	isHelperAlgo = true;
+    }
+    
+    @Override
+    public void remove() {
+    	if(removed)
+			return;
+        super.remove();
+        //if is helper algo for a quadric, remove it
+        if (isHelperAlgo)
+            quadric.remove();
+    } 
  
     abstract protected Coords getOrigin(Coords o1, Coords o2);
     

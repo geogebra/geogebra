@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +34,8 @@ import java.util.TreeSet;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolume, Traceable, RotateableND {// implements Path {
+public class GeoPolyhedron extends GeoElement3D 
+implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -1272,4 +1274,21 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments, HasVolum
 		}
 		
 	}
+
+	
+	@Override
+	final public boolean isTranslateable() {
+		return true;
+	}
+
+	public void translate(Coords v) {
+		for (GeoSegment3D seg: segments.values()){
+			seg.translate(v);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.translate(v);
+		}	
+	}
+	
 }

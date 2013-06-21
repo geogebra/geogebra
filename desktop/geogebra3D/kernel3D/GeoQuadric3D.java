@@ -672,19 +672,20 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// ///////////////////////////////////
 
 	public void translate(Coords v) {
-		setMidpoint(getMidpoint().add(v).get());
-
+		Coords m = getMidpoint3D();
+		m.addInside(v);
+		setMidpoint(m.get());
+		
 		// current symetric matrix
 		CoordMatrix sm = getSymetricMatrix();
 		// transformation matrix
 		CoordMatrix tm = CoordMatrix.Identity(4);
-		tm.setOrigin(v.mul(-1));
-		tm.set(4, 4, 1);
+		tm.setOrigin(m);
 		// set new symetric matrix
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
 
 		// eigen matrix
-		eigenMatrix.setOrigin(getMidpoint3D());
+		eigenMatrix.setOrigin(m);
 	}
 
 	@Override

@@ -520,13 +520,18 @@ public class CoordSys {
 	// TRANSFORMATIONS
 	// //////////////////////////
 
+	/**
+	 * translate the coord sys (matrix orthonormal and drawing matrix)
+	 * @param v translation vector
+	 */
 	public void translate(Coords v) {
-		setOrigin(getOrigin().add(v));
-		matrixOrthonormal.setOrigin(getOrigin());
-	}
 
-	public void translateDrawingMatrix() {
-		drawingMatrix.setOrigin(getOrigin());
+		Coords o = matrixOrthonormal.getOrigin();
+		o.addInside(v);
+		matrixOrthonormal.setOrigin(o);
+		if (dimension==2){
+			drawingMatrix.setOrigin(o);
+		}
 	}
 	
 	/**

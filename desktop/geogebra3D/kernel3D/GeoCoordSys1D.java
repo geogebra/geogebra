@@ -456,10 +456,14 @@ Traceable, RotateableND {
 	final public boolean isTranslateable() {
 		return true;
 	}
-	
-    final public void translate(Coords v) {        
-       coordsys.translate(v);
-    }  
+
+	final public void translate(Coords v) {   
+
+		Coords o = getCoordSys().getOrigin();
+		o.addInside(v);
+		setCoord(o, getCoordSys().getVx());
+		
+	}  
     
     
     /////////////////////////////////////

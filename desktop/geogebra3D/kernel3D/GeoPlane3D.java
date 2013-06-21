@@ -555,7 +555,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
-		getCoordSys().translateDrawingMatrix();
 		getCoordSys().makeEquationVector();
 	}
 

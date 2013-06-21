@@ -90,8 +90,8 @@ public abstract class GeoVec extends GeoElement3D {
 
 	public void translate(Coords v0) {
 
-		Coords v1 = v.add(v0).getColumn(1);
-		setCoords(v1);
+		v.addInside(v0);
+		setCoords(v);
 	}
 
 }

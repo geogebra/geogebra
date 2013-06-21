@@ -1058,6 +1058,16 @@ public class Coords extends CoordMatrix {
 
 		return (Coords) super.add(v);
 	}
+	
+	/**
+	 * add values of v inside this
+	 * @param v vector
+	 */
+	public void addInside(Coords v){
+		for (int i = 0 ; i < v.val.length ; i++){
+			val[i] += v.val[i];
+		}
+	}
 
 	@Override
 	public Coords mul(double val0) {

@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -27,7 +28,8 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue, HasVolume, HasHeight, RotateableND {
+public class GeoQuadric3DLimited extends GeoQuadricND 
+implements GeoNumberValue, HasVolume, HasHeight, RotateableND, Translateable {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -629,6 +631,17 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements GeoNumberValue,
 		top.rotate(r, line);
 		side.rotate(r, line);		
 		
+	}
+	
+	@Override
+	final public boolean isTranslateable() {
+		return true;
+	}
+
+	public void translate(Coords v) {
+		bottom.translate(v);
+		top.translate(v);
+		side.translate(v);
 	}
 
 }
