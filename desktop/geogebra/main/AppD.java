@@ -4952,6 +4952,10 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
 		for (int i = 0 ; i < n ; i++) {
+			
+			// avoid values like 14.399999999999968
+			val = Kernel.checkDecimalFraction(val);
+			
 			num.setValue(val);
 			num.updateRepaint();
 
