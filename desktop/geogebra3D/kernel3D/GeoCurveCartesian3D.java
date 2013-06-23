@@ -12,6 +12,7 @@ import geogebra.common.kernel.Matrix.Coords3D;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -68,6 +69,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public GeoCurveCartesian3D(GeoCurveCartesian3D curve) {
 		super(curve.cons);
 		set(curve);
+	}
+	
+
+	@Override
+	public Function getFun(int i){
+		return fun[i];
 	}
 
 
@@ -135,17 +142,27 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	@Override
 	public void set(GeoElement geo) {
-		GeoCurveCartesian3D geoCurve = (GeoCurveCartesian3D) geo;
+		
+		if (! (geo instanceof GeoCurveCartesianND)){
+			return;
+		}
+		
+		GeoCurveCartesianND geoCurve = (GeoCurveCartesianND) geo;
 
 		fun = new Function[3];
-		for (int i = 0; i < 3; i++) {
-			fun[i] = new Function(geoCurve.fun[i], kernel);
+		for (int i = 0; i < 2; i++) {
+			fun[i] = new Function(geoCurve.getFun(i), kernel);
 			// Application.debug(fun[i].toString());
 		}
+		if (geoCurve.isGeoElement3D()){
+			fun[2] = new Function(geoCurve.getFun(2), kernel);
+		}else{ // t -> (x,y,0) 2D curve
+			fun[2] = new Function(new ExpressionNode(kernel, 0), new FunctionVariable(kernel, "t"));
+		}
 
-		startParam = geoCurve.startParam;
-		endParam = geoCurve.endParam;
-		isDefined = geoCurve.isDefined;
+		startParam = geoCurve.getMinParameter();
+		endParam = geoCurve.getMaxParameter();
+		isDefined = geoCurve.isDefined();
 
 		// macro OUTPUT
 		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {

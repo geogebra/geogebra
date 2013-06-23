@@ -242,6 +242,12 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 			return sbTemp.toString();
 		}
 		return app.getPlain("Undefined");		
-	}		
+	}	
+	
+	/**
+	 * @param i
+	 * @return i-th function
+	 */
+	public abstract Function getFun(int i);
 	
 }

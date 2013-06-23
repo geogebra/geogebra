@@ -1035,4 +1035,17 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return intervalX;
 	}
 	
+	
+	@Override
+	public Function getFun(int i){
+		switch(i){
+		case 0:
+			return funX;
+		case 1:
+			return funY;
+		default:
+			return null;
+		}
+	}
+	
 }

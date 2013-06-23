@@ -3,6 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.kernelND.GeoVectorND;
@@ -29,7 +30,7 @@ public class AlgoTranslate3D extends AlgoTranslate {
     
     @Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if(geo instanceof GeoFunction && v.isGeoElement3D())
+		if((geo instanceof GeoFunction || geo instanceof GeoCurveCartesian) && v.isGeoElement3D())
 			return new GeoCurveCartesian3D(cons);
 
 		return super.getResultTemplate(geo);

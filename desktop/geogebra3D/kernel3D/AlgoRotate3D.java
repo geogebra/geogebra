@@ -21,6 +21,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
@@ -94,7 +95,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
     
     @Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if(geo instanceof GeoFunction)
+		if(geo instanceof GeoFunction || geo instanceof GeoCurveCartesian)
 			return new GeoCurveCartesian3D(cons);
 
 		return super.getResultTemplate(geo);
