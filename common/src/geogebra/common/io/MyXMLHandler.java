@@ -622,13 +622,16 @@ public class MyXMLHandler implements DocHandler {
 					else
 						kernel.getAnimatonManager().startAnimation();
 				}
+				
 
 				// perform tasks to maintain backward compability
-				if (ggbFileFormat < 3.3 && hasGuiElement) {
-					createCompabilityLayout();
-				} else if (ggbFileFormat < 4.3 && tmp_perspectives.isEmpty() && hasGuiElement) {
-					// a specific 4.2 ggb file needed this
-					createCompabilityLayout();
+				if (hasGuiElement){
+					if (ggbFileFormat < 3.3) {
+						createCompabilityLayout();
+					} else if (!isPreferencesXML && tmp_perspectives.isEmpty()) {
+						// a specific 4.2 ggb file needed this
+						createCompabilityLayout();
+					}
 				}
 			}
 			break;
@@ -663,6 +666,7 @@ public class MyXMLHandler implements DocHandler {
 		} else if ("gui".equals(eName)) {
 			mode = MODE_GUI;
 			hasGuiElement = true;
+			isPreferencesXML = false;
 
 			//if (ggbFileFormat < 3.3) // safe to reset every time
 				tmp_perspective = new Perspective("tmp");
@@ -2054,6 +2058,8 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
+	
+	private static boolean isPreferencesXML = false;
 
 	/**
 	 * Settings of the user, not saved in the file XML but for preferences XML.
@@ -2066,6 +2072,10 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private static boolean handleGuiSettings(App app,
 			LinkedHashMap<String, String> attrs) {
+		
+		// set that XML load is a preferences settings
+		isPreferencesXML = true;
+		
 		try {
 			boolean ignoreDocument = !attrs.get("ignoreDocument").equals(
 					"false");
