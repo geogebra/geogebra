@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -33,67 +33,79 @@ import geogebra.common.kernel.geos.GeoList;
 public class AlgoRandomElement extends AlgoElement {
 
 	private GeoList geoList; //input
-    private GeoElement element; //output	
+	private GeoElement element; //output	
 
-    /**
-     * Creates new random element algo
-     * @param cons
-     * @param label
-     * @param geoList
-     */
-    public AlgoRandomElement(Construction cons, String label, GeoList geoList) {
-        super(cons);
-        this.geoList = geoList;
+	/**
+	 * Creates new random element algo
+	 * @param cons
+	 * @param label
+	 * @param geoList
+	 */
+	public AlgoRandomElement(Construction cons, String label, GeoList geoList) {
+		super(cons);
+		this.geoList = geoList;
 
-        // init return element as copy of first list element
-        element = geoList.get(0).copyInternal(cons);        
+		// init return element as copy of first list element
+		if (geoList.size() > 0) { 
+			element = geoList.get(0).copyInternal(cons);         
+		} else if (geoList.getTypeStringForXML() != null) { 
+			// if the list was non-empty at some point before saving, get the same type of geo 
+			// saved in XML from 4.1.131.0 
+			element = kernel.createGeoElement(cons, geoList.getTypeStringForXML()); 
+		} 
 
-        setInputOutput();
-        compute();
-        element.setLabel(label);
-    }
+		// desperate case: empty list 
+		else { 
+			// saved in XML from 4.0.18.0 
+			element = cons.getOutputGeo(); 
+		}
 
-    @Override
+		setInputOutput();
+		compute();
+		element.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.RandomElement;
-    }
+		return Commands.RandomElement;
+	}
 
-    @Override
+	@Override
 	protected void setInputOutput(){
-    	
-	        input = new GeoElement[1];
-	        input[0] = geoList;
 
-        setOutputLength(1);
-        setOutput(0,element);
-        setDependencies(); // done by AlgoElement
-    }
+		input = new GeoElement[1];
+		input[0] = geoList;
 
-    /**
-     * Returns chosen element
-     * @return chosen element
-     */
-    public GeoElement getElement() {
-        return element;
-    }
+		setOutputLength(1);
+		setOutput(0,element);
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
+	/**
+	 * Returns chosen element
+	 * @return chosen element
+	 */
+	public GeoElement getElement() {
+		return element;
+	}
+
+	@Override
 	public final void compute() {
-    	if (!geoList.isDefined()) {
-        	element.setUndefined();
-    		return;
-    	}
+		if (!geoList.isDefined() || geoList.size() == 0) {
+			element.setUndefined();
+			return;
+		}
 
 		GeoElement randElement = geoList.get((int)Math.floor((cons.getApplication().getRandomNumber() * geoList.size())));
-		
+
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {
 			element.set(randElement);			
 		} else {
 			element.setUndefined();
 		}
-    }
+	}
 
 	// TODO Consider locusequability
-    
+
 }
