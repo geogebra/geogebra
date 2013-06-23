@@ -2,6 +2,10 @@ package geogebra.common.move.ggtapi.views;
 
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.views.BaseView;
+import geogebra.common.move.views.SuccessErrorRenderable;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author gabor
@@ -21,7 +25,10 @@ public class LoginView extends BaseView {
 	 * sets the successfull response 
 	 */
 	public void loginSuccess(JSONObject response) {
-		
+		Iterator<SuccessErrorRenderable> views = this.viewComponents.iterator();
+		while (views.hasNext()) {
+			views.next().success(response);
+		}		
 	}
 
 	/**
@@ -29,8 +36,22 @@ public class LoginView extends BaseView {
 	 * Error happened, must be shown if view
 	 */
 	public void loginError(JSONObject response) {
-		// TODO Auto-generated method stub
-		
+		Iterator<SuccessErrorRenderable> views = this.viewComponents.iterator();
+		while (views.hasNext()) {
+			views.next().fail(response);
+		}		
+	}
+	
+	/**
+	 * @param view Renderable view
+	 * 
+	 * Adds new view to the view's list
+	 */
+	public void add(SuccessErrorRenderable view) {
+		if (viewComponents == null) {
+			viewComponents = new ArrayList<SuccessErrorRenderable>();
+		}
+		viewComponents.add(view);
 	}
 
 }

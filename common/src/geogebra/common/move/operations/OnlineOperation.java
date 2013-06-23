@@ -1,5 +1,7 @@
 package geogebra.common.move.operations;
 
+import geogebra.common.move.views.OnlineView;
+
 /**
  * @author gabor
  * 
@@ -15,4 +17,10 @@ public class OnlineOperation extends NetworkOperation {
 	public OnlineOperation(Network network) {
 		this.online = network.onLine();
 	}
+	
+	@Override
+	public OnlineView getView() {
+		return (OnlineView) view;
+	}
+	
 }

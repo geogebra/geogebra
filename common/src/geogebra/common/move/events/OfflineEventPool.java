@@ -2,6 +2,7 @@ package geogebra.common.move.events;
 
 import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.operations.NetworkOperation;
+import geogebra.common.move.views.OfflineView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public class OfflineEventPool extends BaseEventPool {
 	
 	@Override
 	public void trigger() {
-		operation.getView().render();
+		((OfflineView) operation.getView()).render();
 		((NetworkOperation) operation).setOnline(false);
 	}
 }
