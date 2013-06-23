@@ -45,7 +45,8 @@ import java.util.HashSet;
 public class AlgoTranslate extends AlgoTransformation implements SymbolicParametersAlgo {
 
 	private Translateable out;
-	private GeoElement inGeo, outGeo;
+	protected GeoElement inGeo;
+	protected GeoElement outGeo;
 	protected GeoElement v; // input
 	private Polynomial[] polynomials;
 
@@ -76,18 +77,10 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 
 		inGeo = in;
 
-		// create out
-		if (inGeo.isGeoPolyLine() || inGeo.isGeoPolygon()
-				|| inGeo.isLimitedPath()) {
-
-			outGeo = copyInternal(cons, inGeo);
-			out = (Translateable) outGeo;
-		} else if (in.isGeoList()) {
-			outGeo = new GeoList(cons);
-		} else {
-			outGeo = copy(inGeo);
-			out = (Translateable) outGeo;
-		}
+	    // create output object
+        outGeo = getResultTemplate(inGeo);
+        if(outGeo instanceof Translateable)
+        	out = (Translateable) outGeo;
 
 		setInputOutput();
 		compute();
@@ -127,11 +120,18 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
-		outGeo.set(inGeo);
+		setOutGeo();
 		out.translate(getVectorCoords());
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
+	}
+	
+	/**
+	 * set inGeo to outGeo
+	 */
+	protected void setOutGeo(){
+		outGeo.set(inGeo);
 	}
 
 	protected Coords getVectorCoords() {

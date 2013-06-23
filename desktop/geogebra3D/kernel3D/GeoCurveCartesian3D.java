@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -36,7 +37,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, GeoElement3DInterface, Traceable, RotateableND, Path {
+		CurveEvaluable, GeoElement3DInterface, Traceable, RotateableND, Path, Translateable {
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -560,6 +561,29 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 
 	}
+	
+	
+	// ///////////////////////////////////
+	// TRANSLATE
+	// ///////////////////////////////////
+
+	public void translate(Coords v) {
+		
+		// current expressions
+		for (int i = 0; i<3; i++){
+			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel)).getExpression();
+			ExpressionNode trans = expr.plus(v.get(i+1));
+			fun[i].setExpression(trans);
+		}
+
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
+	}
+	
+	
 
 
 }
