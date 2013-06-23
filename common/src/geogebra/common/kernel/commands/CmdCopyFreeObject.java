@@ -69,6 +69,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			// https://www.geogebra.org/forum/viewtopic.php?f=8&t=26356
 			GeoElement geo = arg[0].deepCopyGeo();
 			geo.setLabel(label);
+			geo.setVisualStyle(arg[0]);
 			GeoElement[] ret = { geo };
 			if(!arg[0].isLabelSet())
 				arg[0].remove();
