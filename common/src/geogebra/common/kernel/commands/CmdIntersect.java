@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoIntersect;
 import geogebra.common.kernel.algos.AlgoIntersectConics;
+import geogebra.common.kernel.algos.AlgoIntersectCurveCurve;
 import geogebra.common.kernel.algos.AlgoIntersectFunctions;
 import geogebra.common.kernel.algos.AlgoIntersectLineConic;
 import geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
@@ -83,6 +84,16 @@ public class CmdIntersect extends CommandProcessor {
 						getAlgoDispatcher().IntersectLineCurve(
 								c.getLabels(),
 								(GeoLine) arg[1],
+								(GeoCurveCartesian) arg[0]);
+				return ret;
+			}
+			// curve - curve
+			else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian))
+					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))) {
+				GeoElement[] ret =
+						getAlgoDispatcher().IntersectCurveCurve(
+								c.getLabels(),
+								(GeoCurveCartesian) arg[1],
 								(GeoCurveCartesian) arg[0]);
 				return ret;
 			}
@@ -546,6 +557,21 @@ public class CmdIntersect extends CommandProcessor {
 								(GeoNumberValue) arg[3]
 								);
 				return ret;
+				// intersection of curves with starting point for iteration
+			} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian)) 
+					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))
+					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3]  instanceof GeoNumberValue))
+
+					) { 
+				AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons,
+								c.getLabels(), 
+								(GeoCurveCartesian) arg[0], 
+								(GeoCurveCartesian) arg[1],
+								(GeoNumberValue) arg[2],
+								(GeoNumberValue) arg[3]
+										); 
+				return algo.getOutput(); 
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 

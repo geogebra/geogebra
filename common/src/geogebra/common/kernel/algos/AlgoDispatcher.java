@@ -948,8 +948,33 @@ public class AlgoDispatcher {
 		return algo.getOutput();
 	}
 
+	/** 
+	 * yields intersection points named label of curve g and curve p 
+	 */ 
+	final public GeoElement[] IntersectCurveCurve(String[] labels, GeoCurveCartesian g, 
+			GeoCurveCartesian p) { 
+		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons, 
+				labels, g, p); 
+		return algo.getOutput(); 
+	} 
 
 
+	/** 
+	 * yields intersection points named label of curve c1 and curve c1
+	 * (x,y) determines the parameters for the iteration
+	 */ 
+	final public GeoElement[] IntersectCurveCurveSingle(String[] labels, GeoCurveCartesian c1, 
+			GeoCurveCartesian c2, double x, double y) { 
+
+		GeoPoint p = new GeoPoint(cons, x, y, 1.0); 
+
+		double t1 = c1.getClosestParameter(p, (c1.getMinParameter() + c1.getMaxParameter()) / 2); 
+		double t2 = c2.getClosestParameter(p, (c2.getMinParameter() + c2.getMaxParameter()) / 2); 
+
+		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons, 
+				labels, c1, c2, new GeoNumeric(cons, t1), new GeoNumeric(cons, t2)); 
+		return algo.getOutput(); 
+	}
 
 	/**
 	 * yields intersection points named label of line g and polygon p (as

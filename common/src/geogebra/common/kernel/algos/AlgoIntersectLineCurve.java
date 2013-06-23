@@ -44,12 +44,13 @@ import java.util.LinkedList;
  * Algo for intersection of a line with a curve
  * adapted from AlgoIntersectLinePolyLine
  * @author Michael
- * @version 
  */
 public class AlgoIntersectLineCurve extends AlgoElement{
 
-	protected GeoLine line; // input
+	private GeoLine line; // input
+	@SuppressWarnings("javadoc")
 	protected GeoCurveCartesian curve;
+	@SuppressWarnings("javadoc")
 	protected OutputHandler<GeoElement> outputPoints; // output
 
 	/** 
@@ -77,7 +78,17 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 		update();    
 	}
 
-	private void setLabels(String[] labels) {
+	/**
+	 * @param c cons
+	 */
+	public AlgoIntersectLineCurve(Construction c) {
+		super(c);
+	}
+
+	/**
+	 * @param labels labels
+	 */
+	protected void setLabels(String[] labels) {
 		//if only one label (e.g. "A") for more than one output, new labels will be A_1, A_2, ...
 		if (labels!=null &&
 				labels.length==1 &&
@@ -240,7 +251,7 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		return loc.getPlain("IntersectionPointOfAB",((GeoElement) line).getLabel(tpl),
 				((GeoElement)curve).getLabel(tpl));
 	}  

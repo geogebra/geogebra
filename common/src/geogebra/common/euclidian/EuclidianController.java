@@ -693,7 +693,6 @@ public abstract class EuclidianController {
 	 * @return single intersection points from geos a,b
 	 */
 	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b, boolean coords2D) {
-	
 		GeoPointND point = null;
 		
 		// first hit is a line
@@ -707,6 +706,9 @@ public abstract class EuclidianController {
 			} else if (b.isGeoConic()) {
 				point = getAlgoDispatcher().IntersectLineConicSingle(null, (GeoLine) a,
 						(GeoConic) b, xRW, yRW);
+			} else if (b.isGeoCurveCartesian()) { 
+				return (GeoPointND) getAlgoDispatcher().IntersectLineCurve(null, (GeoLine) a, 
+						(GeoCurveCartesian) b)[0];
 			} else if (b.isGeoFunctionable()) {
 				// line and function
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
@@ -764,10 +766,18 @@ public abstract class EuclidianController {
 			} else {
 				return null;
 			}
-		}
+		} else if (a.isGeoCurveCartesian()) { 
+			if (b.isGeoCurveCartesian()) { 
+				return (GeoPointND) getAlgoDispatcher().IntersectCurveCurveSingle(null, (GeoCurveCartesian) a, 
+						(GeoCurveCartesian) b, xRW, yRW)[0]; 
+			} else if (b.isGeoLine()) { 
+				return (GeoPointND) getAlgoDispatcher().IntersectLineCurve(null, (GeoLine) b, 
+						(GeoCurveCartesian) a)[0]; 
+			}			
+		} 
 
-		if (point!=null){
-			if (!coords2D){
+		if (point!=null) {
+			if (!coords2D) {
 				point.setCartesian3D();
 				point.update();
 			}
@@ -2331,7 +2341,22 @@ public abstract class EuclidianController {
 					curve);
 			return ret;
 		}
-		// line and polygon
+		// curve-curve 
+		else if ((selCurves() >= 2)) { 
+			GeoCurveCartesian[] curves = getSelectedCurves(); 
+			GeoElement[] ret = { null }; 
+			checkZooming();  
+
+			// multiple points disabled in ggb42, Reduce too slow 
+			if (singlePointWanted) {                       
+			ret = getAlgoDispatcher().IntersectCurveCurveSingle(new String[] { null }, curves[0], 
+					curves[1], xRW, yRW); 
+			} else { 
+			      ret = getAlgoDispatcher().IntersectCurveCurve(new String[] { null }, curves[0], 
+			                      curves[1]);                              
+			} 
+			return ret; 
+		}		// line and polygon
 		else if ((selLines() >= 1) && (selPolygons() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolygon polygon = getSelectedPolygons()[0];
