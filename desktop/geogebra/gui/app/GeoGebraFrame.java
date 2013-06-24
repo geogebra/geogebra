@@ -66,9 +66,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
+	private static final String VERSION_URL = "http://www.geogebra.org/download/version50.txt";
 	private static final String INSTALLERS_URL = "http://www.geogebra.org/installers";
-	private static final int VERSION_CHECK_DAYS = 30;
+	private static final int VERSION_CHECK_DAYS = 1;
 	// This works only for subversion numbers <= 999 (change 1000 to 10000 for
 	// 9999):
 	private static final int VERSION_TO_LONG_MULTIPLIER = 1000;
