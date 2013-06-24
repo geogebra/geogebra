@@ -78,6 +78,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void addTextBox()
 	{
+		this.textBox.getElement().setAttribute("autocorrect", "off");
+		this.textBox.getElement().setAttribute("autocapitalize", "off");
+		
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
 
