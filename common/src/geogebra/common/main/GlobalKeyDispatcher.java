@@ -385,6 +385,13 @@ public abstract class GlobalKeyDispatcher {
 
 				}
 				break;
+			case B:
+			case M:
+				// copy base64 string to clipboard
+				if (isShiftDown) {
+					app.copyBase64ToClipboard();
+				}
+				break;
 
 				// Ctrl + H / G: Show Hide objects (labels)
 			case G:

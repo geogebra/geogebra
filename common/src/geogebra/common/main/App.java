@@ -2888,7 +2888,15 @@ public abstract class App implements UpdateSelection{
 
 	public abstract boolean loadXML(String xml) throws Exception;
 
+	/**
+	 * copy bitmap of EV to clipboard
+	 */
 	public abstract void copyGraphicsViewToClipboard();
+
+	/**
+	 * copy base64 of current .ggb file to clipboard
+	 */
+	public abstract void copyBase64ToClipboard();
 
 	/**
 	 * Resets active EV to standard

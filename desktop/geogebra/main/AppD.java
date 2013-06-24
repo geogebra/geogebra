@@ -114,6 +114,7 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
@@ -2127,6 +2128,16 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		copyGraphicsViewToClipboard((EuclidianViewND) getGuiManager()
 				.getActiveEuclidianView());
+	}
+
+	@Override
+	public void copyBase64ToClipboard() {
+		
+		// don't include preview bitmap
+		String str = getGgbApi().getBase64(false);
+
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+		.setContents(new StringSelection(str), null);
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianViewND euclidianViewND) {

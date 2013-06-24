@@ -694,5 +694,9 @@ public abstract class AppWeb extends App implements SetLabels{
 			return new Date().getTime();
 		}-*/;
 
-		
+		@Override
+		public void copyBase64ToClipboard() {
+			// unimplemented
+		}
+	
 }
