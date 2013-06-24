@@ -85,6 +85,28 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	    table.addColumn(nameColumn, app.getPlain("Name"));
 	    
 	    table.setRowData(0, data.getrowList());
+	    
+//	    // Add a text column to show the definition.
+//	    TextColumn<RowData> defColumn = new TextColumn<RowData>() {
+//	      @Override
+//	      public String getValue(RowData object) {
+//	        return object.getDefinition();
+//	      }
+//	    };
+//	    table.addColumn(defColumn, app.getPlain("Definition"));
+
+	    // Add a text column to show the value.
+	    TextColumn<RowData> valColumn = new TextColumn<RowData>() {
+	      @Override
+	      public String getValue(RowData object) {
+	        return object.getAlgebra();
+	      }
+	    };
+	    table.addColumn(valColumn, app.getPlain("Value"));
+
+	    
+	    table.setRowData(0, data.getrowList());
+	    
 	}
 	
 	public void settingsChanged(AbstractSettings settings) {
@@ -129,7 +151,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		
 		@Override
 		public void fireTableRowsInserted(int firstRow, int lastRow){
-			App.debug("rowlist size in firetablerowsinserted: "+data.getrowList().size());
 			if(table != null){
 				table.setRowCount(0);
 				table.setRowData(0, data.getrowList());
