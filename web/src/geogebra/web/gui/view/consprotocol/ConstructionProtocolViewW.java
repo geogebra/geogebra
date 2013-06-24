@@ -104,9 +104,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	    };
 	    table.addColumn(valColumn, app.getPlain("Value"));
 
-	    
-	    table.setRowData(0, data.getrowList());
-	    
+	    tableInit();	    
 	}
 	
 	public void settingsChanged(AbstractSettings settings) {
@@ -142,6 +140,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		return cpPanel;
 	}
 	
+	public void tableInit(){
+	    table.setRowData(0, data.getrowList());
+	    table.setVisibleRange(1, data.getrowList().size());
+	}
+	
 	class ConstructionTableDataW extends ConstructionTableData{
 
 		public ConstructionTableDataW(){
@@ -151,17 +154,19 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		
 		@Override
 		public void fireTableRowsInserted(int firstRow, int lastRow){
+			//TODO: maybe it's not necessary to reinit the all table
 			if(table != null){
 				table.setRowCount(0);
-				table.setRowData(0, data.getrowList());
+				tableInit();
 			}
 		}
 		
 		@Override
 		public void fireTableRowsDeleted(int firstRow, int lastRow){
+			//TODO: maybe it's not necessary to reinit the all table
 			if(table != null){
 				table.setRowCount(0);
-				table.setRowData(0, data.getrowList());
+				tableInit();
 			}
 		}
 	}
