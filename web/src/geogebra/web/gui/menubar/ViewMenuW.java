@@ -180,7 +180,7 @@ public class ViewMenuW extends MenuBar {
 			        	int viewId = App.VIEW_CONSTRUCTION_PROTOCOL;
 			        	app.getGuiManager().setShowView(
 								!app.getGuiManager().showView(viewId), viewId);
-			        	itemConsprot.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+			        	itemConsprot.setSelected(app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL));
 
 			        }
 		        });
