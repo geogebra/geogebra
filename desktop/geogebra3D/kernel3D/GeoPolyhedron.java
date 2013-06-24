@@ -939,7 +939,7 @@ implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// im
 			setVolume(polyhedron.getVolume());
 			
 			// set polygons
-			polygons.clear();
+			//polygons.clear();
 			int index = 0;
 			for (GeoPolygon p : polyhedron.polygonsLinked){
 				if(setPolygon(index, p)){
@@ -951,16 +951,17 @@ implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// im
 					index++;
 				}
 			}
-			
+
 			// set last polygons undefined
-			/*
-			for (int i = index; i < polygons.lastKey() ; i++){
-				polygons.get(i).setUndefined();
+			if(!polygons.isEmpty()){
+				for (int i = index; i < polygons.lastKey() ; i++){
+					polygons.get(i).setUndefined();
+				}
 			}
-			*/
+			
 
 			// set segments
-			segments.clear();
+			//segments.clear();
 			index = 0;
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
 				if(setSegment(index, s)){
@@ -972,13 +973,14 @@ implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// im
 					index++;
 				}
 			}
-			
+
 			// set last segments undefined
-			/*
-			for (int i = index; i < segments.lastKey() ; i++){
-				segments.get((long) i).setUndefined();
+			if (!segments.isEmpty()){
+				for (int i = index; i < segments.lastKey() ; i++){
+					segments.get((long) i).setUndefined();
+				}
 			}
-			*/
+
 	
 
 		}
