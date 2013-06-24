@@ -2913,6 +2913,156 @@ namespace giac {
   static define_unary_function_eval (__chisquaret,&_chisquaret,_chisquaret_s);
   define_unary_function_ptr5( at_chisquaret ,alias_at_chisquaret,&__chisquaret,0,true);
 
+  // normalt arguments: 
+  // arg1 = 1/ [x,n] number of success, number of trials
+  //      = 2/ [mu1,n] mean, sample size
+  //      = 3/ data (list of values)
+  // arg2 = 1/ p proportion
+  //      = 2, 3/ mu population mean, or data
+  // arg3 optionnal for 2, 3/: sigma. If not given and 
+  //        arg1=[int,int] and arg2=p in ]0,1[, sigma is derived from p
+  // nextarg < > or != alternative hypothesis 
+  // nextarg optional alpha level of confidence, default value 0.05
+  gen zttest(const gen & g,bool ztest,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g._VECTptr->size()<3 || g._VECTptr->front().type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur v =*g._VECTptr;
+    vecteur v0=*v[0]._VECTptr;
+    gen MU1=evalf_double(v[1],1,contextptr),test=undef;
+    double mu0,mu1,alpha=0.05,sigma=1;
+    double n0,n1=0; // sample size for data0 and data1, 0 for data1 if not a sample
+    int dof=0;
+    if (v0.size()<2)
+      return gensizeerr(contextptr);
+    bool proportion=false,data0=false,data1=MU1.type==_VECT;
+    if (data1){
+      n1=MU1._VECTptr->size();
+      dof = n1-1; // mean estimated from data
+      gen tmp=_mean(MU1,contextptr);
+      if (tmp.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      mu1=tmp._DOUBLE_val;
+      *logptr(contextptr) << gettext("Estimated mean from sample(s)") << mu1 << endl;
+    }
+    else {
+      if (MU1.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      mu1=MU1._DOUBLE_val;
+    }
+    if ( (n0=v0.size())==2 && is_integer(v0[1])){
+      gen v00=evalf_double(v0[0],1,contextptr);
+      if (v00.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      // arg1 =[mu1,n] or [x,n]
+      n0=evalf_double(v0[1],1,contextptr)._DOUBLE_val;
+      dof += n0;
+      proportion=ztest && is_integer(v0[0]) && MU1.type==_DOUBLE_ && MU1._DOUBLE_val>0 && MU1._DOUBLE_val<1 && v[2].type==_FUNC;
+      if (proportion)
+	mu0=v00._DOUBLE_val/n0;
+      else 
+	mu0=v00._DOUBLE_val;
+    }
+    else {
+      dof += n0;
+      data0=true;
+      gen tmp=evalf_double(_mean(v0,contextptr),1,contextptr);
+      if (tmp.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      mu0=tmp._DOUBLE_val;
+    }
+    if (v[2].type==_FUNC){
+      // estimate sigma value from data
+      --dof;
+      gen S=0;
+      if (data0)
+	S=n0*_variance(v[0],contextptr);
+      if (data1)
+	S += n1*_variance(v[1],contextptr);
+      S=evalf_double(S/dof,1,contextptr);
+      if (S.type!=_DOUBLE_ || S._DOUBLE_val<=0)
+	return gensizeerr(gettext("Unable to guess sigma using data"));
+      sigma=std::sqrt(S._DOUBLE_val);
+      *logptr(contextptr) << gettext("Estimated sigma from sample(s)") << sigma << endl;
+      if (v.size()>4)
+	return gendimerr(contextptr);
+      if (v.size()==4){
+	gen tmp=evalf_double(v[3],1,contextptr);
+	if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>=1)
+	  return gensizeerr(contextptr);
+	alpha=tmp._DOUBLE_val;
+      }
+      test=v[2];
+    }
+    else {
+      if (v.size()<4)
+	return gendimerr(contextptr);
+      gen tmp=evalf_double(v[2],1,contextptr);
+      if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0)
+	return gensizeerr(contextptr);
+      sigma=tmp._DOUBLE_val;
+      test=v[3];
+      if (v.size()==5){
+	tmp=evalf_double(v[4],1,contextptr);
+	if (tmp.type!=_DOUBLE_ || tmp._DOUBLE_val<=0 || tmp._DOUBLE_val>=1)
+	  return gensizeerr(contextptr);
+	alpha=tmp._DOUBLE_val;
+      }
+    }
+    if (test==at_inferieur_strict)
+      test=-1;
+    if (test==at_superieur_strict)
+      test=1;
+    if (test==at_different)
+      test=0;
+    if (test!=0 && test!=-1 && test!=1)
+      return gensizeerr(gettext("Bad alternative hypothesis, should be '>', '<' or '!='"));
+    // Ready to test: compare mu0 to mu1-f(alpha)*sigma
+    gen Falpha;
+    if (test==0)
+      Falpha=ztest?_normal_icdf(makesequence(0,1,1-alpha/2),contextptr):_student_icdf(makesequence(dof,1-alpha),contextptr);
+    else
+      Falpha=ztest?_normal_icdf(makesequence(0,1,1-alpha),contextptr):_student_icdf(makesequence(dof,1-alpha),contextptr);
+    double falpha=evalf_double(Falpha,1,contextptr)._DOUBLE_val;
+    bool ok=true;
+    double sqrtn0=std::sqrt(n0);
+    if (test==-1){
+      if (mu0<mu1-sigma*falpha/sqrtn0)
+	ok=false;
+    }
+    if (test==0){
+      // mu0 should be < mu1 for test to fail
+      if (mu0<mu1-sigma*falpha/sqrtn0 || mu0>mu1+sigma*falpha/sqrtn0)
+	ok=false;
+    }
+    if (test==1){
+      if (mu0>mu1+sigma*falpha/sqrtn0)
+	ok=false;
+    }
+    *logptr(contextptr) << "*** TEST RESULT " << (ok?"1 ***":"0 ***") << endl << "Summary " << (ztest?"Z-Test":"T-Test") << " null hypothesis " << (proportion?"p1=p2":"mu1=mu2") << ", alt. hyp. mu1" << (test==-1? "<":(test==0?"!=":">")) <<  "mu2." << endl;
+    *logptr(contextptr) << "Test returns 0 if probability to observe data is less than " << alpha << endl;
+    *logptr(contextptr) << "(hyp. mu1=mu2 can be rejected with less than alpha probability error)" << endl;
+    *logptr(contextptr) << "Test returns 1 otherwise (can not reject null hypothesis)" << endl;
+    *logptr(contextptr) << "Data mean " << mu0 << ", population mean " << mu1 ;
+    if (!ztest)
+      *logptr(contextptr) << ", degrees of freedom " << dof;
+    *logptr(contextptr) << endl << "alpha level " << alpha << ", multiplier*stddev/sqrt(sample size)= " << falpha << "*" << sigma << "/" << sqrtn0 << endl;
+    return (ok?1:0);
+  }
+  gen _normalt(const gen & g,GIAC_CONTEXT){
+    return zttest(g,true,contextptr);
+  }
+  static const char _normalt_s []="normalt";
+  static define_unary_function_eval (__normalt,&_normalt,_normalt_s);
+  define_unary_function_ptr5( at_normalt ,alias_at_normalt,&__normalt,0,true);
+
+  gen _studentt(const gen & g,GIAC_CONTEXT){
+    return zttest(g,false,contextptr);
+  }
+  static const char _studentt_s []="studentt";
+  static define_unary_function_eval (__studentt,&_studentt,_studentt_s);
+  define_unary_function_ptr5( at_studentt ,alias_at_studentt,&__studentt,0,true);
+
   // return 0 if not distrib
   // 1 normal, 2 binomial, 3 negbinomial, 4 poisson, 5 student, 
   // 6 fisher, 7 cauchy, 8 weibull, 9 betad, 10 gammad, 11 chisquare
@@ -2921,7 +3071,7 @@ namespace giac {
     if (args.type==_SYMB)
       return is_distribution(args._SYMBptr->sommet);
     if (args.type==_FUNC){
-      if (args==at_normald)
+      if (args==at_normald || args==at_NORMALD)
 	return 1;
       if (args==at_binomial || args==at_BINOMIAL)
 	return 2;
@@ -2951,6 +3101,13 @@ namespace giac {
 	return 14;
     }
     return 0;
+  }
+
+  gen distribution(int nd){
+    static vecteur d_static(makevecteur(at_normald,at_binomial,at_negbinomial,at_poisson,at_studentd,at_fisherd,at_cauchyd,at_weibulld,at_betad,at_gammad,at_chisquared,at_geometric,at_uniformd,at_exponentiald));
+    if (nd<=0 || nd>d_static.size())
+      return undef;
+    return d_static[nd-1];
   }
 
   int distrib_nargs(int nd){
@@ -3005,14 +3162,14 @@ namespace giac {
 
   gen icdf(int n){
     static vecteur icdf_static(makevecteur(at_normald_icdf,at_binomial_icdf,undef,at_poisson_icdf,at_studentd_icdf,at_fisherd_icdf,at_cauchyd_icdf,at_weibulld_icdf,at_betad_icdf,at_gammad_icdf,at_chisquared_icdf,at_geometric_icdf,at_uniformd_icdf,at_exponentiald_icdf));
-    if (n==0 || n>icdf_static.size())
+    if (n<=0 || n>icdf_static.size())
       return undef;
     return icdf_static[n-1];
   }
 
   gen cdf(int n){
     static vecteur cdf_static(makevecteur(at_normald_cdf,at_binomial_cdf,undef,at_poisson_cdf,at_studentd_cdf,at_fisherd_cdf,at_cauchyd_cdf,at_weibulld_cdf,at_betad_cdf,at_gammad_cdf,at_chisquared_cdf,at_geometric_cdf,at_uniformd_cdf,at_exponentiald_cdf));
-    if (n==0 || n>cdf_static.size())
+    if (n<=0 || n>cdf_static.size())
       return undef;
     return cdf_static[n-1];
   }
@@ -3022,7 +3179,7 @@ namespace giac {
   bool distrib_support(int nd,gen & a,gen &b,bool truncate){
     a=truncate?gnuplot_xmin:minus_inf;
     b=truncate?gnuplot_xmax:plus_inf;
-    if (nd==2 || nd==3 || nd==4 || nd==9 || nd==10 || nd==14)
+    if (nd==2 || nd==3 || nd==4 || nd==9 || nd==10 || nd==11 || nd==14)
       a=0;
     if (nd==9)
       b=1;
@@ -3130,6 +3287,10 @@ namespace giac {
   static const char _plotcdf_s []="plotcdf";
   static define_unary_function_eval (__plotcdf,&_plotcdf,_plotcdf_s);
   define_unary_function_ptr5( at_plotcdf ,alias_at_plotcdf,&__plotcdf,0,true);
+
+  static const char _cdfplot_s []="cdfplot";
+  static define_unary_function_eval (__cdfplot,&_plotcdf,_cdfplot_s);
+  define_unary_function_ptr5( at_cdfplot ,alias_at_cdfplot,&__cdfplot,0,true);
 
   gen _icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

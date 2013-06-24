@@ -695,12 +695,22 @@ namespace giac {
         gen xfact(plus_one),yfact(plus_one);
 	if (separate_variables(f,x,y,xfact,yfact,contextptr)){ // y'/yfact=xfact
 	  gen pr=integrate_without_lnabs(inv(yfact,contextptr),y,contextptr);
+#if 1
+	  vecteur prv=lop(lvarx(pr,y),at_ln);
+	  gen pra,prb;
+	  if (!prv.empty() && prv[0].is_symb_of_sommet(at_ln) && is_linear_wrt(pr,prv[0],pra,prb,contextptr)){
+	    pr=pra*(symbolic(at_ln,parameters.back()*prv[0]._SYMBptr->feuille))+prb;
+	  }
+	  else
+	    pr=parameters.back()+pr;
+#else	  
 	  if (has_op(pr,at_ln))
-	      pr=_lncollect(pr,contextptr); // hack to solve y'=y*(1-y)
+	    pr=_lncollect(pr,contextptr); // hack to solve y'=y*(1-y)
 	  if (pr.is_symb_of_sommet(at_ln))
 	    pr=symbolic(at_ln,parameters.back()*pr._SYMBptr->feuille);
 	  else
 	    pr=parameters.back()+pr;
+#endif
 	  sol=mergevecteur(sol,solve(pr-integrate_without_lnabs(xfact,x,contextptr),*y._IDNTptr,3,contextptr));
 	  continue;
 	}

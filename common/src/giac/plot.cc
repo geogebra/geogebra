@@ -1677,7 +1677,7 @@ namespace giac {
     gen e1=vargs[1];
     bool newsyntax;
     if (e1.type!=_VECT){
-      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(e1) || s<=4);
+      newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(e1) || s<4);
     }
     else {
       if (e1._VECTptr->size()!=2)
@@ -1752,6 +1752,12 @@ namespace giac {
   }
   gen _plotfunc(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    int nd;
+    if ( (nd=is_distribution(args)) || (args.type==_VECT && !args._VECTptr->empty() && (nd=is_distribution(args._VECTptr->front())) ) ){
+      if (is_discrete_distribution(nd))
+	*logptr(contextptr) << "Correct commandname is histogram" << endl;
+      return _plot(args,contextptr);
+    }
     return funcplotfunc(args,false,contextptr);
   }
   static const char _plotfunc_s []="plotfunc";
@@ -2009,7 +2015,7 @@ namespace giac {
       if (is_zero(directeur[2])){ // z is constant on the line
 	if (is_zero(directeur[1])){ // fix x=0 and solve for y and z
 	  gen sol=solve(makevecteur(subst(eq,x,0,false,contextptr),subst(eq1,x,0,false,contextptr)),makevecteur(y,z),0,contextptr);
-	  if (sol.type!=_VECT || sol._VECTptr->size()!=1)
+	  if (is_undef(sol) || sol.type!=_VECT || sol._VECTptr->size()!=1)
 	    return gensizeerr(contextptr);
 	  sol=sol._VECTptr->front();
 	  A=gen(makevecteur(0,sol._VECTptr->front(),sol._VECTptr->back()),_POINT__VECT);
@@ -2017,7 +2023,7 @@ namespace giac {
 	else {
 	  // fix y=0 for A, solve
 	  gen sol=solve(makevecteur(subst(eq,y,0,false,contextptr),subst(eq1,y,0,false,contextptr)),makevecteur(x,z),0,contextptr);
-	  if (sol.type!=_VECT || sol._VECTptr->size()!=1)
+	  if (is_undef(sol) || sol.type!=_VECT || sol._VECTptr->size()!=1)
 	    return gensizeerr(contextptr);
 	  sol=sol._VECTptr->front();
 	  A=gen(makevecteur(sol._VECTptr->front(),0,sol._VECTptr->back()),_POINT__VECT);
@@ -2025,7 +2031,7 @@ namespace giac {
       }
       else { // Fix z=0
 	gen sol=solve(makevecteur(subst(eq,z,0,false,contextptr),subst(eq1,z,0,false,contextptr)),makevecteur(x,y),0,contextptr);
-	if (sol.type!=_VECT || sol._VECTptr->size()!=1)
+	if (is_undef(sol) || sol.type!=_VECT || sol._VECTptr->size()!=1)
 	  return gensizeerr(contextptr);
 	sol=sol._VECTptr->front();
 	A=gen(makevecteur(sol._VECTptr->front(),sol._VECTptr->back(),0),_POINT__VECT);
@@ -7407,7 +7413,37 @@ namespace giac {
     gen var,res;
     if (g.type!=_VECT && !is_algebraic_program(g,var,res) && !is_distribution(g))
       return _plotfunc(g,contextptr);
-    vecteur v=plotpreprocess(g,contextptr);
+    vecteur v;
+    gen g_(g);
+    if (g.type==_VECT){
+      v=*g._VECTptr;
+      int s=v.size(),nd=0,nargs=0;
+      if (v[0].type==_FUNC && (nd=is_distribution(v[0])) && 1+(nargs=distrib_nargs(nd))<=s){
+	if (is_discrete_distribution(nd))
+	  return _histogram(g,contextptr);
+	gen d=distribution(nd);
+	if (d.type==_FUNC){
+	  if (nargs==1)
+	    v[0]=symbolic(*d._FUNCptr,v[1]);
+	  else
+	    v[0]=symbolic(*d._FUNCptr,gen(vecteur(v.begin()+1,v.begin()+1+nargs),_SEQ__VECT));
+	  s -= nargs;
+	  v.erase(v.begin()+1,v.begin()+1+nargs);
+	  if (s==1)
+	    g_=v.front();
+	  else
+	    g_=gen(vecteur(v.begin(),v.end()),_SEQ__VECT);
+	}
+      }
+    }
+    else {
+      int nd;
+      if (nd=is_distribution(g)){
+	if (is_discrete_distribution(nd))
+	  return _histogram(g,contextptr);
+      }
+    }
+    v=plotpreprocess(g_,contextptr);
     if (is_undef(v))
       return v;
     int s=v.size();
@@ -7454,6 +7490,10 @@ namespace giac {
 	w[1]=symbolic(at_equal,makesequence(tmp,v[1]));
 	return _plot(gen(w,_SEQ__VECT),contextptr);
       }
+      if (i==2 && (v[i].type<_CPLX || v[i].type==_FLOAT_))
+	xmin=evalf_double(v[i],1,contextptr)._DOUBLE_val;
+      if (i==3 && (v[i].type<_CPLX || v[i].type==_FLOAT_))
+	xmax=evalf_double(v[i],1,contextptr)._DOUBLE_val;
       if (!v[i].is_symb_of_sommet(at_equal))
 	continue;
       gen & opt=v[i]._SYMBptr->feuille;

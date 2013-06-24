@@ -6935,7 +6935,7 @@ namespace giac {
 	res.push_back(a+c*giac_rand(contextptr)/(rand_max2+1.0));
       return;      
     }
-    if (f.is_symb_of_sommet(at_poisson)){
+    if (f.is_symb_of_sommet(at_poisson) ||f.is_symb_of_sommet(at_POISSON) ){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
       if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
 	res=vecteur(1,gensizeerr(contextptr));
@@ -6964,7 +6964,7 @@ namespace giac {
 	res.push_back(randpoisson(lambda,contextptr));
       return;     
     }
-    if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_randexp) || f.is_symb_of_sommet(at_exponential) || f.is_symb_of_sommet(at_exponentiald)){
+    if (f.is_symb_of_sommet(at_exp) || f.is_symb_of_sommet(at_EXP) || f.is_symb_of_sommet(at_randexp) || f.is_symb_of_sommet(at_exponential) || f.is_symb_of_sommet(at_exponentiald)){
       f=evalf_double(f._SYMBptr->feuille,1,contextptr);
       if (f.type!=_DOUBLE_ || f._DOUBLE_val<=0){
 	res=vecteur(1,gensizeerr(contextptr));
@@ -6986,9 +6986,9 @@ namespace giac {
 	res.push_back(int(std::ceil(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/lambda)));
       return;     
     }
-    if (f==at_normald || f==at_normal || f==at_randNorm || f==at_randnormald)
+    if (f==at_normald || f==at_NORMALD || f==at_normal || f==at_randNorm || f==at_randnormald)
       f=symbolic(at_normald,makesequence(0,1));
-    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)|| f.is_symb_of_sommet(at_randnormald)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
+    if ( (f.is_symb_of_sommet(at_normald) || f.is_symb_of_sommet(at_NORMALD) || f.is_symb_of_sommet(at_normal) || f.is_symb_of_sommet(at_randNorm)|| f.is_symb_of_sommet(at_randnormald)) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2 ){
       gen M=evalf_double(f._SYMBptr->feuille._VECTptr->front(),1,contextptr);
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
       if (is_squarematrix(f)){
@@ -7062,7 +7062,8 @@ namespace giac {
       res= vecteur(1,gensizeerr(contextptr));
       return;
     }
-    if (f.is_symb_of_sommet(at_binomial) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
+    if ( (f.is_symb_of_sommet(at_binomial) || f.is_symb_of_sommet(at_BINOMIAL))
+	 && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
       gen N=f._SYMBptr->feuille._VECTptr->front();
       f=evalf_double(f._SYMBptr->feuille._VECTptr->back(),1,contextptr);
       if (!is_integral(N) || N.type!=_INT_ || N.val<=0 || f.type!=_DOUBLE_ || f._DOUBLE_val<=0 || f._DOUBLE_val>=1){

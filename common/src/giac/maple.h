@@ -52,7 +52,9 @@ namespace giac {
   gen _colspace(const gen & g,GIAC_CONTEXT);
   gen _copy(const gen & g,GIAC_CONTEXT);
   gen _row(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_row ;
   gen _col(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_col ;
   gen _count(const gen & args,const context * contextptr);
   gen _count_eq(const gen & args,const context * contextptr);
   gen _count_sup(const gen & args,GIAC_CONTEXT);

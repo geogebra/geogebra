@@ -3323,7 +3323,7 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
 #endif
     if (class_size<=0){
       // find class_minimum and class_size from data and number of classes
-      int nc=class_minimum;
+      int nc=int(class_minimum); // arg passed is the number of classes
       vector<double> w=prepare_effectifs(v,contextptr);
       if (w.size()<2)
 	return gensizeerr(contextptr);
@@ -3424,6 +3424,11 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
   }
   gen _histogram(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_SYMB && is_distribution(g)){
+      vecteur v(gen2vecteur(g._SYMBptr->feuille));
+      v.insert(v.begin(),g._SYMBptr->sommet);
+      return _histogram(gen(v,_SEQ__VECT),contextptr);
+    }
     if (g.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur args;
@@ -3456,9 +3461,9 @@ static define_unary_function_eval (__center2interval,&_center2interval,_center2i
 	return gensizeerr(contextptr);
       int A=a.val,B=b.val;
       vecteur v;
-      for (int i=A;i<B;++i){
+      for (int i=A;i<=B;++i){
 	gen y=subst(res,vx_var,i,false,contextptr);
-	vecteur w=makevecteur(i,i+1,i+1+cst_i*y,i+cst_i*y);
+	vecteur w=makevecteur(i-.5,i+.5,i+.5+cst_i*y,i-.5+cst_i*y);
 	w.push_back(w.front());
 	v.push_back(pnt_attrib(gen(w,_GROUP__VECT),attributs,contextptr));
       }
@@ -3958,8 +3963,12 @@ static define_unary_function_eval (__ligne_polygonale_pointee,&_polygonscatterpl
     return res;
   }
   static const char _diagramme_batons_s []="bar_plot";
-static define_unary_function_eval (__diagramme_batons,&_diagramme_batons,_diagramme_batons_s);
+  static define_unary_function_eval (__diagramme_batons,&_diagramme_batons,_diagramme_batons_s);
   define_unary_function_ptr5( at_diagramme_batons ,alias_at_diagramme_batons,&__diagramme_batons,0,true);
+
+  static const char _diagrammebatons_s []="barplot";
+  static define_unary_function_eval (__diagrammebatons,&_diagramme_batons,_diagrammebatons_s);
+  define_unary_function_ptr5( at_diagrammebatons ,alias_at_diagrammebatons,&__diagrammebatons,0,true);
 
   gen _camembert(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -5173,9 +5182,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return false;
     M=*g._VECTptr;
     int ms=M.size();
-    for (unsigned i=0;i<ms;++i){
+    for (int i=0;i<ms;++i){
       const vecteur & v=*M[i]._VECTptr;
-      for (unsigned j=0;j<ms;++j){
+      for (int j=0;j<ms;++j){
 	if (is_strictly_greater(0,v[j],contextptr))
 	  return false;
       }
@@ -5273,7 +5282,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     // the recurrents states from meigen
     M=mtran(M); // linear algebra iteration v->M*v
     matrice mfinal; // will have nrec columns
-    for (unsigned i=0;i<ms;++i){
+    for (unsigned i=0;int(i)<ms;++i){
       vecteur line;
       line.reserve(nrec);
       // start at state i
@@ -5334,9 +5343,22 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur v = *args._VECTptr;
-    if (v.size()<2 || v.size()>4)
+    vecteur attributs(1,default_color(contextptr));
+    int vs=read_attributs(v,attributs,contextptr);
+    if (vs<2 || vs>4)
       return gensizeerr(contextptr);
-    if (v.size()==2){
+    bool plot=int(args._VECTptr->size())>vs;
+    bool polygon=true;
+    if (vs==4) {
+      if (v[3]==at_plot || v[3]==at_polygonplot || v[3]==at_scatterplot){
+	if (v[3]==at_scatterplot)
+	  polygon=true;
+	plot=true;
+      }
+      else
+	return gensizeerr(contextptr);
+    }
+    if (vs==2){
       is_integral(v[1]); 
       if (v[1].type!=_INT_ || v[1].val<0)
 	return gensizeerr(contextptr);
@@ -5358,7 +5380,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       int pos=0; // position in W
       // first lines (recurrent states)
       int cur=Wc[0],next=Wc[1];
-      for (int i=0;i<n;++i){
+      for (int i=0;i<int(n);++i){
 	if (i>=next){
 	  ++pos;
 	  cur=next;
@@ -5399,7 +5421,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     vector<unsigned> start(v1.size());
     for (unsigned i=0;i<v1.size();++i){
       int pos=v1[i].val-shift;
-      if (pos<0 || pos>=M.size())
+      if (pos<0 || pos>=int(M.size()))
 	return gendimerr(contextptr);
       start[i]=pos;
     }
@@ -5416,12 +5438,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     // iterate
     matrice res;
+    vecteur line1;
+    for (int j=0;j<=int(n);++j){
+      line1.push_back(j);
+    }
     for (unsigned pos=0;pos<start.size();++pos){
       int i=start[pos];
       vecteur line(1,i);
-      for (unsigned j=0;j<n;++j){
+      for (int j=0;j<n;++j){
 	double d=giac_rand(contextptr)/(rand_max2+1.0);
-	if (i>Mcumul.size())
+	if (i>int(Mcumul.size()))
 	  return gendimerr(contextptr);	
 	int pos=dichotomy(Mcumul[i],d);
 	if (pos==-1)
@@ -5431,8 +5457,23 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       res.push_back(line);
     }
-    if (v[1].type==_INT_)
+    if (v[1].type==_INT_){
+      if (plot){
+	gen tmp=makesequence(line1,res.front());
+	if (polygon)
+	  return _polygonscatterplot(tmp,contextptr);
+	else
+	  return _scatterplot(tmp,contextptr);
+      }
       return res.front();
+    }
+    if (plot){
+      res.insert(res.begin(),line1);
+      if (polygon)
+	return _polygonplot(_tran(res,contextptr),contextptr);
+      else
+	return _scatterplot(_tran(res,contextptr),contextptr);
+    }
     return res;
   }
   static const char _randmarkov_s []="randmarkov";

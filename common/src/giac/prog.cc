@@ -320,6 +320,7 @@ namespace giac {
       }
       vecteur addvars(rm_checktype(gen2vecteur(declaredvars)));
       vecteur newvars(mergevecteur(prog_args,addvars));
+      // check_local_assign(f._VECTptr->front(),newvars,res1,res2,res3,res4,testequal,contextptr);
       check_local_assign(f._VECTptr->back(),newvars,res1,res2,res3,res4,testequal,contextptr);
       return; 
     }
@@ -335,14 +336,14 @@ namespace giac {
 	return;
       }
     }
-    if (g.is_symb_of_sommet(at_ifte)){
+    if (g.is_symb_of_sommet(at_ifte) || g.is_symb_of_sommet(at_when)){
       vecteur v=lop(g,at_array_sto);
       if (!v.empty() && logptr(contextptr))
 	*logptr(contextptr) << gettext("Warning, =< is in-place assign, check ") << v << endl;
     }
     if (g.is_symb_of_sommet(at_bloc) || 
 	g.is_symb_of_sommet(at_for) ||
-	g.is_symb_of_sommet(at_ifte)){
+	g.is_symb_of_sommet(at_ifte) || g.is_symb_of_sommet(at_when)){
       check_local_assign(g._SYMBptr->feuille,prog_args,res1,res2,res3,res4,testequal,contextptr);
       return;
     }
@@ -605,46 +606,46 @@ namespace giac {
     string locals,inits;
     gen proc_args=feuille._VECTptr->front();
     vecteur vect,non_init_vars,initialisation_seq;
-    if ((xcas_mode(contextptr)>0) && (feuille._VECTptr->back().type==_SYMB) && (feuille._VECTptr->back()._SYMBptr->sommet==at_local)){
-        test=false;
-        gen tmp=feuille._VECTptr->back()._SYMBptr->feuille;
-	local_init(tmp._VECTptr->front(),non_init_vars,initialisation_seq);
-	// For Maple add proc parameters to local vars
-	if (xcas_mode(contextptr) ==1+_DECALAGE){
-	  if (proc_args.type==_VECT){
-	    vecteur v=*proc_args._VECTptr;
-	    non_init_vars=mergevecteur(non_init_vars,v);
-	    iterateur it=v.begin(),itend=v.end();
-	    for (;it!=itend;++it){
-	      gen tmp=add_global(*it,contextptr);
-	      initialisation_seq.push_back(symb_sto(tmp,*it));
-	      *it=tmp;
-	    }
-	    proc_args=gen(v,_SEQ__VECT);
+    if ((xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) && (feuille._VECTptr->back().type==_SYMB) && (feuille._VECTptr->back()._SYMBptr->sommet==at_local)){
+      test=false;
+      gen tmp=feuille._VECTptr->back()._SYMBptr->feuille;
+      local_init(tmp._VECTptr->front(),non_init_vars,initialisation_seq);
+      // For Maple add proc parameters to local vars
+      if (xcas_mode(contextptr) ==1+_DECALAGE){
+	if (proc_args.type==_VECT){
+	  vecteur v=*proc_args._VECTptr;
+	  non_init_vars=mergevecteur(non_init_vars,v);
+	  iterateur it=v.begin(),itend=v.end();
+	  for (;it!=itend;++it){
+	    gen tmp=add_global(*it,contextptr);
+	    initialisation_seq.push_back(symb_sto(tmp,*it));
+	    *it=tmp;
 	  }
-	  else {
-	    non_init_vars.push_back(proc_args);
-	    gen tmp=add_global(proc_args,contextptr);
-	    initialisation_seq.push_back(symb_sto(tmp,proc_args));
-	    proc_args=tmp;
-	  }
+	  proc_args=gen(v,_SEQ__VECT);
 	}
-	if (!non_init_vars.empty()){
-	  if (xcas_mode(contextptr)==3)
-	    locals=indent(contextptr)+"Local "+printinner_VECT(non_init_vars,_SEQ__VECT,contextptr);
-	  else
-	    locals=indent(contextptr)+"  local "+printinner_VECT(non_init_vars,_SEQ__VECT,contextptr)+";";
+	else {
+	  non_init_vars.push_back(proc_args);
+	  gen tmp=add_global(proc_args,contextptr);
+	  initialisation_seq.push_back(symb_sto(tmp,proc_args));
+	  proc_args=tmp;
 	}
-	inits=printasinnerbloc(gen(initialisation_seq,_SEQ__VECT),contextptr);
-	if (tmp._VECTptr->back().type==_VECT)
-	  vect=*tmp._VECTptr->back()._VECTptr;
+      }
+      if (!non_init_vars.empty()){
+	if (xcas_mode(contextptr)==3)
+	  locals=indent(contextptr)+"Local "+printinner_VECT(non_init_vars,_SEQ__VECT,contextptr);
 	else
-	  vect=makevecteur(tmp._VECTptr->back());
+	  locals=indent(contextptr)+(calc38?" LOCAL ":"  local ")+printinner_VECT(non_init_vars,_SEQ__VECT,contextptr)+";";
+      }
+      inits=printasinnerbloc(gen(initialisation_seq,_SEQ__VECT),contextptr);
+      if (tmp._VECTptr->back().type==_VECT)
+	vect=*tmp._VECTptr->back()._VECTptr;
+      else
+	vect=makevecteur(tmp._VECTptr->back());
     }
     else {
-        test=(feuille._VECTptr->back().type!=_VECT ||feuille._VECTptr->back().subtype );
-        if (!test)
-            vect=*feuille._VECTptr->back()._VECTptr;
+      test=(feuille._VECTptr->back().type!=_VECT ||feuille._VECTptr->back().subtype );
+      if (!test)
+	vect=*feuille._VECTptr->back()._VECTptr;
     }
     if (test){
       if (xcas_mode(contextptr)==3)
@@ -662,8 +663,12 @@ namespace giac {
 	  res += indent(contextptr)+inits+";";
       }
     }
-    else
-      res += calc38?"BEGIN " :"{";
+    else { 
+      if (calc38)
+	res += "BEGIN "+locals;
+      else
+	res += "{";
+    }
     const_iterateur it=vect.begin(),itend=vect.end();
     debug_ptr(contextptr)->indent_spaces +=2;
     for (;;){

@@ -472,10 +472,8 @@ namespace giac {
     if (e.type==_VECT)
       return apply(e,giac::log10,contextptr);
     gen a,b;
-#ifdef GIAC_HAS_STO_38
-    if (has_evalf(e,a,1,contextptr))
+    if (abs_calc_mode(contextptr)==38 && has_evalf(e,a,1,contextptr))
       return log10(a,contextptr);
-#endif
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,log10(b,contextptr)),_SEQ__VECT));
     int n=0; gen e1(e),q;

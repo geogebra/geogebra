@@ -2953,7 +2953,7 @@ namespace giac {
 #endif    // HAVE_LIBGSL
     else  {// newton method, call newton
       gguess=newton(v0,v[1],gguess,NEWTON_DEFAULT_ITERATION,gsl_eps,1e-12,!complex_mode(contextptr),1,0,1,0,1,contextptr);
-      if (is_greater(1e-8,im(gguess,contextptr)/re(gguess,contextptr),contextptr))
+      if (is_greater(1e-8,abs(im(gguess,contextptr),contextptr)/abs(re(gguess,contextptr),contextptr),contextptr))
 	return re(gguess,contextptr);
       return gguess;
     }
@@ -4903,7 +4903,7 @@ namespace giac {
 	      if (tmp.type==_VECT){
 		for (unsigned k=0;k<tmp._VECTptr->size();++k){
 		  vecteur solv=gen2vecteur((*tmp._VECTptr)[k]);
-		  if (solv.size()<varn)
+		  if (solv.size()<varn-1)
 		    return vecteur(1,gensizeerr(contextptr));
 		  solv.insert(solv.begin()+varn-1,sol[j]);
 		  res.push_back(solv);
@@ -4945,7 +4945,7 @@ namespace giac {
       if (!is_zero(n))
 	return vecteur(0); // no solution since cst equation
     }
-    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER));
+    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */true,/* f5 */ false,/*environment * */0));
     // should reorder eqpr with lex order here
     // solve from right to left
     sort(eqpr.begin(),eqpr.end(),tensor_is_strictly_greater<gen>);
@@ -5092,7 +5092,14 @@ namespace giac {
       return gentoofewargs("gbasis");
     if ( (v[0].type!=_VECT) || (v[1].type!=_VECT) )
       return gensizeerr(contextptr);
-    vecteur l=vecteur(1,v[1]);
+    vecteur l1=*v[1]._VECTptr, l0=lidnt(v[0]);
+    // remove variables not in args0
+    vecteur l;
+    for (unsigned i=0;i<l1.size();++i){
+      if (equalposcomp(l0,l1[i]))
+	l.push_back(l1[i]);
+    }
+    l=vecteur(1,l);
     alg_lvar(v[0],l);
     // v[2] will serve for ordering
     gen order=0; // _REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies

@@ -3799,6 +3799,13 @@ namespace giac {
     }    
   }
 
+  static gen ck_evalf_double(const gen & g,GIAC_CONTEXT){
+    gen tmp=evalf_double(g,1,contextptr);
+    if (tmp.type<=_CPLX)
+      return tmp;
+    return gensizeerr(contextptr);
+  }
+
   gen operator_plus(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
     // if (!( (++control_c_counter) & control_c_counter_mask))
 #ifdef TIMEOUT
@@ -3861,7 +3868,7 @@ namespace giac {
     case _FLOAT___FRAC:
       return a+evalf2bcd(b,1,contextptr);
     case _DOUBLE___FRAC:
-      return a+evalf_double(b,1,contextptr);
+      return a+ck_evalf_double(b,contextptr);
     case _INT___FLOAT_:
       return b._FLOAT_val+giac_float(a.val);
     case _DOUBLE___FLOAT_:
@@ -3887,7 +3894,7 @@ namespace giac {
     case _FRAC__FLOAT_:
       return evalf2bcd(a,1,contextptr)+b;
     case _FRAC__DOUBLE_:
-      return evalf_double(a,1,contextptr)+b;
+      return ck_evalf_double(a,contextptr)+b;
     case _SPOL1__SPOL1:
       return spadd(*a._SPOL1ptr,*b._SPOL1ptr,contextptr);
     case _EXT__EXT:
@@ -4487,11 +4494,11 @@ namespace giac {
     case _FLOAT___FRAC:
       return a-evalf2bcd(b,1,contextptr);
     case _DOUBLE___FRAC:
-      return a-evalf_double(b,1,contextptr);
+      return a-ck_evalf_double(b,contextptr);
     case _FRAC__FLOAT_:
       return evalf2bcd(a,1,contextptr)-b;
     case _FRAC__DOUBLE_:
-      return evalf_double(a,1,contextptr)-b;
+      return ck_evalf_double(a,contextptr)-b;
     case _ZINT__DOUBLE_:
       return mpz_get_d(*a._ZINTptr)-b._DOUBLE_val;
     case _DOUBLE___ZINT:
@@ -5421,8 +5428,12 @@ namespace giac {
 	return exponent;
       if (is_one(base) && !is_inf(exponent))
 	return base;
-      if (is_squarematrix(base) && (exponent.type==_REAL || exponent.type==_DOUBLE_ || exponent.type==_FLOAT_))
-	return matpow(*base._VECTptr,exponent,contextptr);
+      if (is_squarematrix(base)){ 
+	if ((exponent.type==_REAL || exponent.type==_DOUBLE_ || exponent.type==_FLOAT_))
+	  return matpow(*base._VECTptr,exponent,contextptr);
+	if (exponent.type>=_IDNT)
+	  *logptr(contextptr) << gettext("Use matpow to force computation of a power of matrix via jordanisation") << endl;
+      }
       if (base.type==_REAL || base.type==_DOUBLE_ || 
 	  (base.type==_CPLX 
 	   // && base.subtype==3

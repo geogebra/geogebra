@@ -919,6 +919,12 @@ namespace giac {
     if (g.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
+    if (g.subtype==_SEQ__VECT && v.size()==2){
+      if (v.back()==at_col)
+	return _tran(_cumSum(_tran(v.front(),contextptr),contextptr),contextptr);
+      if (v.back()==at_row)
+	return _cumSum(v.front(),contextptr);
+    }
     const_iterateur it=v.begin(),itend=v.end();
     if (it==itend)
       return zero;
