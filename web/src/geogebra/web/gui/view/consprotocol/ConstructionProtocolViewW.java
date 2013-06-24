@@ -19,13 +19,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	private ConstructionProtocolNavigationW protNavBar;
 	private AppW app;
 	public FlowPanel cpPanel;
-	private CellTable<RowData> table;
+	CellTable<RowData> table;
 
 	public ConstructionProtocolViewW(final AppW app) {
 		cpPanel = new FlowPanel();
 		this.app = app;
 		kernel = app.getKernel();
-		data = new ConstructionTableData();
+		data = new ConstructionTableDataW();
 		protNavBar = (ConstructionProtocolNavigationW) (app.getConstructionProtocolNavigation());
 		protNavBar.register(this);
 		table = new CellTable<RowData>();
@@ -118,5 +118,30 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	
 	public FlowPanel getCpPanel(){
 		return cpPanel;
+	}
+	
+	class ConstructionTableDataW extends ConstructionTableData{
+
+		public ConstructionTableDataW(){
+			super();
+//			ctDataImpl = new MyGAbstractTableModel();
+		}
+		
+		@Override
+		public void fireTableRowsInserted(int firstRow, int lastRow){
+			App.debug("rowlist size in firetablerowsinserted: "+data.getrowList().size());
+			if(table != null){
+				table.setRowCount(0);
+				table.setRowData(0, data.getrowList());
+			}
+		}
+		
+		@Override
+		public void fireTableRowsDeleted(int firstRow, int lastRow){
+			if(table != null){
+				table.setRowCount(0);
+				table.setRowData(0, data.getrowList());
+			}
+		}
 	}
 }

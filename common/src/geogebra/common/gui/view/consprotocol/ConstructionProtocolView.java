@@ -19,7 +19,7 @@ public class ConstructionProtocolView {
 	
 	protected App app;
 	public Kernel kernel;
-	protected ConstructionTableData data;
+	public ConstructionTableData data;
 	protected boolean isViewAttached;
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
 	
@@ -579,11 +579,11 @@ public class ConstructionProtocolView {
 
 		
 		protected void fireTableRowsDeleted(int firstRow, int lastRow){
-			App.debug("fireTableRowsDeleted - unimplemented");
+			App.debug("fireTableRowsDeleted - must be overridden");
 		}
 
 		protected void fireTableRowsInserted(int firstRow, int lastRow){
-			App.debug("fireTableRowsInserted - unimplemented");
+			App.debug("fireTableRowsInserted - must be overriden");
 		}
 		
 		public void initView() {
@@ -594,7 +594,7 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateAll() {
-			App.debug("updatedAll - unimplemented");
+			App.debug("updateAll - unimplemented");
 		}
 
 		public void notifyAddAll(int lastConstructionStep) {
