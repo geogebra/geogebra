@@ -13,6 +13,7 @@
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -22,6 +23,8 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * 
@@ -156,16 +159,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public boolean showInEuclidianView() {
 		return isIndependent();
-	}
-
-	private static int lastLocY = 5;
-
-	/**
-	 * Set initial absolue screen location
-	 */
-	public void initLocation() {
-		setAbsoluteScreenLoc(5, lastLocY);
-		lastLocY += 30;
 	}
 
 	@Override
@@ -369,5 +362,47 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			((GeoBoolean) oldGeo).condListenersShowObject = null;
 		}
 	}
+	
+	@Override
+	public void setEuclidianVisible(boolean visible){
+		if(visible && labelOffsetX == 0 && labelOffsetY == 0 && isIndependent()){
+			initScreenLocation();
+		}
+		super.setEuclidianVisible(visible);
+	}
+	
+	private void initScreenLocation() {
+		int count = countCheckboxes();
+		labelOffsetX = 5;
+		EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
+		if(ev != null){
+			labelOffsetY = ev.getSliderOffsetY() - 45 + 30 * count;
+		}else{
+			labelOffsetY = 5 + 30 * count;
+		}
+		// make sure checkbox is visible on screen
+		labelOffsetY = labelOffsetY / 400 * 10 + labelOffsetY % 400;		
+	}
+	
+	private int countCheckboxes() {
+		int count = 0;
+
+		// get all number and angle sliders
+		TreeSet<GeoElement> bools = cons
+				.getGeoSetLabelOrder(GeoClass.BOOLEAN);
+
+		if (bools != null) {
+			Iterator<GeoElement> it = bools.iterator();
+			while (it.hasNext()) {
+				GeoBoolean num = (GeoBoolean) it.next();
+				if (num.isIndependent() && num.isEuclidianVisible()){
+					count++;
+				}
+			}
+		}
+
+		return count;
+	}
+
 	
 }

@@ -63,7 +63,6 @@ public class CmdCheckbox extends CommandProcessor {
 		}
 		GeoBoolean gb = new GeoBoolean(app.getKernel().getConstruction());
 		gb.setValue(true);
-		gb.initLocation();
 		gb.setEuclidianVisible(true);
 		gb.setLabel(c.getLabel());	
 		
