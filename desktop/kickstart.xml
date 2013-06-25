@@ -202,9 +202,9 @@ download libs for other architectures than the current one.
 	</target>
 
 	<target name="giac-mac" if="mac">
-		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libjavagiac.jnilib" dest="lib/javagiac.jnilib"
+		<get src="http://dev.geogebra.org/download/lib/giac/20130624/libjavagiac.jnilib" dest="lib/javagiac.jnilib"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/20130506/libgmp.10.dylib" dest="lib/libgmp.10.dylib"
+		<get src="http://dev.geogebra.org/download/lib/giac/20130624/libjavagiac.jnilib" dest="libgmp.10.dylib"
 		    usetimestamp="true"/>
 	</target>
 	

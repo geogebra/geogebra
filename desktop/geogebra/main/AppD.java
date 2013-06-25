@@ -5017,12 +5017,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		
 		// TODO: remove (temporary hack)
-		if (MAC_OS) {
-			return CasType.MPREDUCE;
-		} else {
+		//if (MAC_OS) {
+		//	return CasType.MPREDUCE;
+		//} else {
 			// ie windows / linux portable or windows installer or Eclipse
 			return CasType.GIAC;
-		}
+		//}
 	}
 	
 	/**
