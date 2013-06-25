@@ -269,4 +269,9 @@ public class EuclidianViewM extends EuclidianViewWeb
 	protected boolean drawPlayButtonInThisView() {
 		return true;
 	}
+	
+	@Override
+	public int getSliderOffsetY(){
+		return 110;
+	}
 }

@@ -228,17 +228,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 				// init screen location
 				if (sliderX == 0 && sliderY == 0) {
-					int count = countSliders();
-
-					if (isAbsoluteScreenLocActive()) {
-						sliderX = 30;
-						sliderY = 50 + 40 * count;
-						// make sure slider is visible on screen
-						sliderY = (int) sliderY / 400 * 10 + sliderY % 400;
-					} else {
-						sliderX = -5;
-						sliderY = 10 - count;
-					}
+					initScreenLocation();
 				}
 
 				// make sure
@@ -254,6 +244,25 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		super.setEuclidianVisible(visible);
 	}
 
+	private void initScreenLocation() {
+		int count = countSliders();
+
+		if (isAbsoluteScreenLocActive()) {
+			sliderX = 30;
+			EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
+			if(ev != null){
+				sliderY = ev.getSliderOffsetY() + 40 * count;
+			}else{
+				sliderY = 50 + 40 * count;
+			}
+			// make sure slider is visible on screen
+			sliderY = (int) sliderY / 400 * 10 + sliderY % 400;
+		} else {
+			sliderX = -5;
+			sliderY = 10 - count;
+		}
+		
+	}
 	private int countSliders() {
 		int count = 0;
 

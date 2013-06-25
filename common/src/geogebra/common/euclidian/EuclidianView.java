@@ -5155,4 +5155,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return StringUtil.estimateLength(s, fontAxes2);
 	}
 
+	public int getSliderOffsetY(){
+		return 50;
+	}
+
 }

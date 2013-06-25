@@ -139,4 +139,10 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 */
 	public void setRealWorldCoordSystem(double xmin, double xmax,
 			double ymin, double ymax);
+	
+
+	/**
+	 *  @return y-offset of topmost slider in pixels 
+	 */
+	public int getSliderOffsetY();
 }

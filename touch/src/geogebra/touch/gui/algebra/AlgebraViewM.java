@@ -161,7 +161,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 	@Override
 	public boolean isRenderLaTeX()
 	{
-		return false;
+		return true;
 	}
 
 	public void setShowing(boolean flag)
