@@ -522,9 +522,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				sbTemp.append("],");
 				sbTemp.append(funX.getFunctionVariable().toString(StringTemplate.giacTemplate));
 				sbTemp.append(',');
-				sbTemp.append(getMinParameter());
+				sbTemp.append(kernel.format(getMinParameter(), StringTemplate.giacTemplate));
 				sbTemp.append(',');
-				sbTemp.append(getMaxParameter());
+				sbTemp.append(kernel.format(getMaxParameter(), StringTemplate.giacTemplate));
 				sbTemp.append(')');
 			} else {
 
