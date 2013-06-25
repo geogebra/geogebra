@@ -680,9 +680,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * mirror this line at point Q
 	 */
-	final public void mirror(GeoPoint Q) {
-		double qx = x * Q.getInhomX();
-		double qy = y * Q.getInhomY();
+	final public void mirror(Coords Q) {
+		double qx = x * Q.getX();
+		double qy = y * Q.getY();
 
 		z = z + 2.0 * (qx + qy);
 		x = -x;

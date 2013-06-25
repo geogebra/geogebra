@@ -1571,7 +1571,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.calcArea();
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++)
 			((GeoPoint) points[i]).mirror(Q);
 	}

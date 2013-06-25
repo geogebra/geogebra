@@ -20,6 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -359,9 +360,9 @@ final public class GeoVec2D extends ValidExpression implements
 	 * @param Q
 	 *            mirror point
 	 */
-	final public void mirror(GeoPoint Q) {
-		x = 2.0 * Q.getInhomX() - x;
-		y = 2.0 * Q.getInhomY() - y;
+	final public void mirror(Coords Q) {
+		x = 2.0 * Q.getX() - x;
+		y = 2.0 * Q.getY() - y;
 	}
 
 	/**

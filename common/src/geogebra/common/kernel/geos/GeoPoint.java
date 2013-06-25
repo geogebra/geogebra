@@ -990,9 +990,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	/**
 	 * mirror this point at point Q
 	 */
-	final public void mirror(GeoPoint Q) {
-		double qx = z * Q.getInhomX();
-		double qy = z * Q.getInhomY();
+	final public void mirror(Coords Q) {
+		double qx = z * Q.getX();
+		double qy = z * Q.getY();
 
 		setCoords(2.0 * qx - x, 2.0 * qy - y, z);
 	}

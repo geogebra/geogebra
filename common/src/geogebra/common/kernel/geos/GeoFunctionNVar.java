@@ -718,10 +718,14 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 		public void dilate(NumberValue r, GeoPoint S) {
+			dilate(r,S.getInhomCoords());
+		}
+
+		private void dilate(NumberValue r, Coords S) {
 			fun.translate(-S.getX(),-S.getY());
 			fun.matrixTransform(1/r.getDouble(),0,0,1/r.getDouble());
 			fun.translate(S.getX(),S.getY());
-			
+
 		}
 
 		public void rotate(NumberValue phi) {
@@ -737,7 +741,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			
 		}
 
-		public void mirror(GeoPoint Q) {
+		public void mirror(Coords Q) {
 			dilate(new MyDouble(kernel,-1.0),Q);
 			
 		}

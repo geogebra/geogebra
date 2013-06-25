@@ -335,9 +335,9 @@ public class GeoConic extends GeoConicND implements
 	/**
 	 * mirror this conic at point Q
 	 */
-	final public void mirror(GeoPoint Q) {
-		double qx = Q.getInhomX();
-		double qy = Q.getInhomY();
+	final public void mirror(Coords Q) {
+		double qx = Q.getX();
+		double qy = Q.getY();
 
 		matrix[2] = 4.0
 				* (qy * qy * matrix[1] + qx

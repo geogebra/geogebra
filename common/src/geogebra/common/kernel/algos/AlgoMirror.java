@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.ConicMirrorable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -201,15 +201,23 @@ public class AlgoMirror extends AlgoTransformation {
         	out.mirror(mirrorLine);
         } else if (mirror == mirrorPoint) {
         	if(outGeo.isGeoFunction()) {
-        		((GeoFunction)outGeo).dilate(new MyDouble(kernel,-1), mirrorPoint);
+        		((GeoFunction)outGeo).mirror(getMirrorCoords());
         	} else {
-        		out.mirror(mirrorPoint);
+        		out.mirror(getMirrorCoords());
         	}
         }
         else ((ConicMirrorable)out).mirror(mirrorConic);
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
-    }       
+    } 
+    
+    /**
+     * 
+     * @return inhom coords for mirror point
+     */
+    protected Coords getMirrorCoords(){
+    	return mirrorPoint.getInhomCoords();
+    }
     
     @Override
 	final public String toString(StringTemplate tpl) {

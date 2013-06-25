@@ -466,7 +466,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		calcLength();
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).mirror(Q);
 		}

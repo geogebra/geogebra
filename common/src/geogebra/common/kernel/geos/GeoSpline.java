@@ -718,7 +718,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(Coords Q) {
 		for (int i = 0; i < points.size(); i++) {
 			((GeoPoint) points.get(i)).mirror(Q);
 		}

@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -22,7 +23,7 @@ public interface Mirrorable extends GeoElementND{
 	 * Miror at point
 	 * @param Q mirror
 	 */
-	public void mirror(GeoPoint Q);
+	public void mirror(Coords Q);
 	/**
 	 * Miror at line
 	 * @param g mirror

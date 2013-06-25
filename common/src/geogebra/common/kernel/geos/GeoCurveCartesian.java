@@ -356,7 +356,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		translate(P.getX(), P.getY());
 	}
 
-	final public void mirror(GeoPoint P) {
+	final public void mirror(Coords P) {
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
@@ -394,6 +394,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	}
 
 	public void dilate(NumberValue ratio, GeoPoint P) {
+		dilate(ratio,P.getInhomCoords());
+	}
+	
+	private void dilate(NumberValue ratio, Coords P) {
 		translate(-P.getX(), -P.getY());
 		ExpressionNode exprX = ((Function) funX.deepCopy(kernel))
 				.getExpression();

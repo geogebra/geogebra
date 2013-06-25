@@ -783,7 +783,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(Coords Q) {
 		if (!initTransformPoints())
 			return;
 

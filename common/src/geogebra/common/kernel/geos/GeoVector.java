@@ -358,7 +358,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		rotateXY(r);
 	}
 
-	public void mirror(GeoPoint Q) {
+	public void mirror(Coords Q) {
 
 		setCoords(- x,- y, z );
 

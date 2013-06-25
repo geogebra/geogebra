@@ -1171,8 +1171,8 @@ Dilateable, Transformable, EuclidianViewCE {
 				new double[][]{{cx*cx + cy*cy, -2*cy, 1}, {-2*cx,0,0}, {1,0,0}});
 	}
 
-	public void mirror(GeoPoint Q) {
-		plugInPoly(new double[][]{{2*Q.getInhomX()},{-1}},new double[][]{{2*Q.getInhomY(),-1}});
+	public void mirror(Coords Q) {
+		plugInPoly(new double[][]{{2*Q.getX()},{-1}},new double[][]{{2*Q.getY(),-1}});
 	}
 
 	public void mirror(GeoLine g) {
