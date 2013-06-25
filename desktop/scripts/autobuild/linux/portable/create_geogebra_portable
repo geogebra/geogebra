@@ -45,30 +45,31 @@ cd unpacked
 rm -f *windows* *macosx* libjavagiac64.jar vernier* javagiac*.jar *linux-amd64*
 cd ..
 
+# argument 1: version of GeoGebra (eg. 3.2.44.0)
+# argument 2: path of directory containing jre installation files (eg. jre-6u21-linux-x64.bin)
+# argument 3: path of directory containing unpacked geogebra files
+# argument 4: path of geogebra icon (eg. geogebra.png)
+# argument 5: path of start script geogebra
+# argument 6: path of destination directory
+
+
 # 2/2. Calling Christian's script for packaging
-for i in ../../../../installer/jre/jre*.bin; do
-    chmod a+x $i
-    python3 ./create_geogebra_portable.py \
+python3 ./create_geogebra_portable.py \
      $VERSION_STRING \
-     $i \
-      unpacked \
-      $IMAGE_DIR/geogebra.png \
-      ../geogebra \
-      ../../../../build
-     done
+     ../../../../installer/jre \
+     unpacked \
+     $IMAGE_DIR/geogebra.png \
+     ../geogebra \
+     ../../../../build
 
 # 3. Copying to installer/ directory (deploying):
 cd ../../../../build
-for i in GeoGebra-Linux-*-Portable*.tar.gz; do
- chmod g+w $i
- cp $i $TARGET_DIR
+i=`ls -1 GeoGebra-Linux-Portable*.tar.gz`
+chmod g+w $i
+cp $i $TARGET_DIR
 
- # Copying to Google Code:
- if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
-  EXTRA=""
-  echo $i | grep x86_64 && EXTRA=" (64 bit)"
-  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
-   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,,OpSys-Linux,Type-Archive $i
-  fi
- done
-
+# Copying to Google Code:
+if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+ $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux" \
+  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test,,OpSys-Linux,Type-Archive $i
+ fi
