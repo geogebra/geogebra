@@ -12,14 +12,22 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * @author arpad
+ *
+ */
 public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 
-	protected AppW app;
+	private AppW app;
 
-	protected SimplePanel inputWidget;
-	protected Button btCancel, btOK;
-	protected Element video;
+	private SimplePanel inputWidget;
+	private Button btCancel, btOK;
+	private Element video;
 
+	/**
+	 * @param modal modal
+	 * @param app app
+	 */
 	public WebCamInputDialog(boolean modal, AppW app) {
 	    super(false, modal);
 	    this.app = app;
@@ -27,10 +35,10 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 	    center();
     }
 
-	protected void createGUI() {
+	private void createGUI() {
 
 		inputWidget = new SimplePanel();
-		video = populate(inputWidget.getElement());
+		video = populate(inputWidget.getElement(), app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"), app.getMenu("Webcam.Problem"));
 
 		// create buttons
 		btOK = new Button(app.getPlain("OK"));
@@ -52,21 +60,19 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 		setWidget(centerPanel);
 	}
 
-	public native Element populate(Element el) /*-{
+	private native Element populate(Element el, String messageChrome, String messageFirefox, String errorMessage) /*-{
 
 		el.style.position = "relative";
-		var ihtml = "<span style='position:absolute;width:640px;height:480px;text-align:center;'><br><br>Please click 'Allow' in the pop-up bar.</span>\n";
-		ihtml += "<video width='640' height='480' autoplay><br><br>This video could not be played. 'video tag' is not supported. For more information, please check out the GeoGebra Wiki.</video>";
+		var message = ($wnd.navigator.mozGetUserMedia) ? messageFirefox : messageChrome;
+		var ihtml = "<span style='position:absolute;width:640px;height:480px;text-align:center;'><br><br>" + message + "</span>\n";
+		ihtml += "<video width='640' height='480' autoplay><br><br>" + errorMessage + "</video>";
 		el.innerHTML = ihtml;
 		var video = el.lastChild;
 
-		$wnd.navigator.getUserMedia =
-			$wnd.navigator.getUserMedia ||
-			$wnd.navigator.webkitGetUserMedia ||
-			$wnd.navigator.msGetUserMedia ||
-			$wnd.navigator.mozGetUserMedia ||
-			$wnd.navigator.oGetUserMedia ||
-			null;
+		$wnd.navigator.getMedia = ( $wnd.navigator.getUserMedia || 
+                         $wnd.navigator.webkitGetUserMedia ||
+                         $wnd.navigator.mozGetUserMedia ||
+                         $wnd.navigator.msGetUserMedia);
 
 		$wnd.URL =
 			$wnd.URL ||
@@ -76,9 +82,9 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 			$wnd.oURL ||
 			null;
 
-		if ($wnd.navigator.getUserMedia) {
+		if ($wnd.navigator.getMedia) {
 			try {
-				$wnd.navigator.getUserMedia({video: true}, function(bs) {
+				$wnd.navigator.getMedia({video: true}, function(bs) {
 					if ($wnd.URL && $wnd.URL.createObjectURL) {
 						video.src = $wnd.URL.createObjectURL(bs);
 						el.firstChild.style.display = "none";
@@ -86,38 +92,32 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 						video.src = bs;
 						el.firstChild.style.display = "none";
 					}
-				});
+					video.play();
+				},
+				
+			    function(err) {
+			      @geogebra.web.main.AppW::debug(Ljava/lang/String;)("Error from WebCam: "+err);
+			    } );
+			    
 				return video;
 			} catch (e) {
-				try {
-					$wnd.navigator.getUserMedia("video", function(bs) {
-						if ($wnd.URL && $wnd.URL.createObjectURL) {
-							video.src = $wnd.URL.createObjectURL(bs);
-							el.firstChild.style.display = "none";
-						} else {
-							video.src = bs;
-							el.firstChild.style.display = "none";
-						}
-					});
-					return video;
-				} catch (exc) {
-					el.firstChild.innerHTML = "<br><br>This video could not be played. 'getUserMedia' is not supported. For more information, please check out the GeoGebra Wiki.";
+					el.firstChild.innerHTML = "<br><br>" + errorMessage;
 					return null;
-				}
+			
 			}
 		} else {
-			el.firstChild.innerHTML = "<br><br>This video could not be played. 'getUserMedia' is not supported. For more information, please check out the GeoGebra Wiki.";
+			el.firstChild.innerHTML = "<br><br>" + errorMessage;
 		}
 		return null;
 	}-*/;
 
-	public native String shotcapture(Element video) /*-{
+	private native String shotcapture(Element video1) /*-{
 
 		var canvas = $doc.createElement("canvas");
 		canvas.width = 640;
 		canvas.height = 480;
 		var ctx = canvas.getContext('2d');
-		ctx.drawImage(video, 0, 0);
+		ctx.drawImage(video1, 0, 0);
 		return canvas.toDataURL('image/png');
 
 	}-*/;
