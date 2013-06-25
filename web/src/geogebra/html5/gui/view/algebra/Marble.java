@@ -4,6 +4,10 @@ import geogebra.common.kernel.geos.GeoElement;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -24,7 +28,9 @@ public class Marble extends SimplePanel
 		addDomHandler(new ClickHandler()
 		{
 			public void onClick(ClickEvent event)
-			{
+			{	
+				event.preventDefault();
+				event.stopPropagation();
 				gc.getGeo().setEuclidianVisible(!gc.getGeo().isSetEuclidianVisible());
 				gc.getGeo().updateVisualStyle();
 				gc.getGeo().getKernel().getApplication().storeUndoInfo();
@@ -33,6 +39,22 @@ public class Marble extends SimplePanel
 				setChecked(gc.getGeo().isEuclidianVisible());
 			}
 		}, ClickEvent.getType());
+		//MouseDown triggers scrolling if the element is too long for AV
+		addDomHandler(new MouseDownHandler()
+		{
+			public void onMouseDown(MouseDownEvent event)
+			{	
+				event.preventDefault();
+				event.stopPropagation();}
+		}, MouseDownEvent.getType());
+		
+		addDomHandler(new TouchStartHandler()
+		{
+			public void onTouchStart(TouchStartEvent event)
+			{	
+				event.preventDefault();
+				event.stopPropagation();}
+		}, TouchStartEvent.getType());
 	}
 
 	/**
