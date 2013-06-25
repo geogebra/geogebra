@@ -1441,8 +1441,8 @@ public class AppW extends AppWeb {
 			frame.getWidgetIndex(getSplitLayoutPanel()) == -1 &&
 			frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
 			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
-			frame.insert(getSplitLayoutPanel(), wi);
 			frame.remove(oldSplitLayoutPanel);
+			frame.insert(getSplitLayoutPanel(), wi);
 			oldSplitLayoutPanel = getSplitLayoutPanel();
 			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
 		}

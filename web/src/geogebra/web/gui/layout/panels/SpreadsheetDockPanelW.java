@@ -100,7 +100,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 						int width2 = ((MyTableW) sview.getSpreadsheetTable())
 						        .getOffsetWidth();
 						int height2 = ((MyTableW) sview.getSpreadsheetTable())
-						        .getOffsetWidth();
+						        .getOffsetHeight();
 
 						sview.getFocusPanel().setWidth(width2 + "px");
 						sview.getFocusPanel().setHeight(height2 + "px");

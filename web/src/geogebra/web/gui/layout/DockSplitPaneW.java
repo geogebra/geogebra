@@ -185,7 +185,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 		// if both components exist give the resizing pane to rightComponent
 		// (in Swing this corresponds to resize weight = 1)
-		if (leftComponent != null & rightComponent != null) {
+		if (leftComponent != null && rightComponent != null) {
 			if (orientation == HORIZONTAL_SPLIT) {
 				addWest(leftComponent, dividerLocation);
 				add(rightComponent);
