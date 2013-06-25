@@ -198,7 +198,8 @@ public class ProverBotanasMethod {
 			else {
 				geos[i] = geo;
 				ret.put(fv[0], 0);
-				ret.put(fv[1], 1);
+				if (!alternative)
+					ret.put(fv[1], 1);
 				++i;
 			}
 		}
