@@ -177,19 +177,16 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	/**
-	 * Draws an equation on the algebra view in display mode (not editing)
+	 * Draws an equation on the algebra view in display mode (not editing).
+	 * Color is supposed to be handled in outer span element.
 	 * 
 	 * @param parentElement
 	 *            adds the equation as the child of this element
 	 * @param latexString
 	 *            the equation in LaTeX
-	 * @param fgColor
-	 *            foreground color
-	 * @param bgColor
-	 *            background color
 	 */
 	public static void drawEquationAlgebraView(Element parentElement,
-	        String latexString, GColor fgColor, GColor bgColor) {
+	        String latexString) {
 		// no scriptloaded check yet (is it necessary?)
 
 		// logging takes too much time
@@ -202,11 +199,6 @@ public class DrawEquationWeb extends DrawEquation {
 		String eqstring = stripEqnArray(latexString);
 		drawEquationMathQuill(ih, eqstring, 0, parentElement, true,
 		        el == eqstring.length(), true);
-
-		// ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
-
-		if (fgColor != null)
-			ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
 	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,

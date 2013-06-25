@@ -237,34 +237,39 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			text = DrawEquationWeb.inputLatexCosmetics(text);
 			int tl = text.length();
 			text = DrawEquationWeb.stripEqnArray(text);
+			updateColor(seMayLatex);
 			DrawEquationWeb.updateEquationMathQuill("\\mathrm{"+text+"}", seMayLatex,
 			        tl == text.length());
+			updateColor(seMayLatex);
 		} else if (!LaTeX && !newLaTeX) {
+			updateColor(seNoLatex);
 			seNoLatex.setInnerHTML(text);
 		} else if (newLaTeX) {
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle()
-			        .setColor(GColor.getColorString(geo.getAlgebraColor()));
+			updateColor(se);
 			ihtml.getElement().replaceChild(se, seNoLatex);
 			text = DrawEquationWeb.inputLatexCosmetics(text);
 			seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}",
-			        geo.getAlgebraColor(), GColor.white);
+			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
 			LaTeX = true;
 		} else {
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle()
-			        .setColor(GColor.getColorString(geo.getAlgebraColor()));
+			updateColor(se);
 			ihtml.getElement().replaceChild(se, seMayLatex);
 			seNoLatex = se;
 			seNoLatex.setInnerHTML(text);
 			LaTeX = false;
 		}
 
+	}
+	
+	private void updateColor(SpanElement se){
+		se.getStyle()
+        .setColor(GColor.getColorString(geo.getAlgebraColor()));
 	}
 
 	public boolean isThisEdited() {
