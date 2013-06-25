@@ -24,6 +24,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -511,12 +512,29 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		if (isDefined) {
 			StringBuilder sbTemp = new StringBuilder(80);
-			sbTemp.setLength(0);
-			sbTemp.append('(');
-			sbTemp.append(funX.toValueString(tpl));
-			sbTemp.append(", ");
-			sbTemp.append(funY.toValueString(tpl));
-			sbTemp.append(')');
+
+			if (tpl.getStringType().equals(StringType.GIAC)) {
+				// eg plotparam([t,t^2],t,-10,10)
+				sbTemp.append("plotparam([");
+				sbTemp.append(funX.toValueString(tpl));
+				sbTemp.append(',');
+				sbTemp.append(funY.toValueString(tpl));
+				sbTemp.append("],");
+				sbTemp.append(funX.getFunctionVariable().toString(StringTemplate.giacTemplate));
+				sbTemp.append(',');
+				sbTemp.append(getMinParameter());
+				sbTemp.append(',');
+				sbTemp.append(getMaxParameter());
+				sbTemp.append(')');
+			} else {
+
+				sbTemp.append('(');
+				sbTemp.append(funX.toValueString(tpl));
+				sbTemp.append(", ");
+				sbTemp.append(funY.toValueString(tpl));
+				sbTemp.append(')');
+			}
+
 			return sbTemp.toString();
 		}
 		return app.getPlain("Undefined");

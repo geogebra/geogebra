@@ -199,8 +199,12 @@ public class Ggb2giac {
 				"normal(int(%0-(%1),ggbtmpvarx,%2,%3))");
 		p("IntegralBetween.5",
 				"normal(int(%0-(%1),%2,%3,%4))");
+		
+		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
+		// but not for Intersect[x^2,x^3]
 		p("Intersect.2",
-				"inter(%0,%1)");
+				"[[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][2]");
+		
 		p("Iteration.3",
 				"(unapply(%0,ggbtmpvarx)@@%2)(%1)");
 		p("IterationList.3",
