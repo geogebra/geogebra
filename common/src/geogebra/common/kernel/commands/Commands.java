@@ -237,6 +237,8 @@ public enum Commands implements CommandsConstants, GetCommand{
    	
    	Reflect(TABLE_ENGLISH),
    	CFactor(TABLE_ENGLISH),
+   	CIFactor(TABLE_ENGLISH),
+   	IFactor(TABLE_ENGLISH),
    	CommonDenominator(TABLE_ALGEBRA),
    	Cross(TABLE_ENGLISH),
    	CSolutions(TABLE_ENGLISH),

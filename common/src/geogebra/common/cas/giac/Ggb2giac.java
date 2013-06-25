@@ -39,9 +39,16 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"if %3=true then binomial_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
+		
+		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg  CFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]
 		p("CFactor.1","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans)],with_sqrt(1),ggbans][4]");
 		p("CFactor.2","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],with_sqrt(1),ggbans][4]");
+		
+		// factor over complex irrationals
+		p("CIFactor.1","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans)],ggbans][3]");
+		p("CIFactor.2","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],ggbans][3]");
+		
 		p("ChiSquared.2", 
 				//"chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
@@ -128,8 +135,10 @@ public class Ggb2giac {
 				"[with_sqrt(0),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],with_sqrt(1),ggbans][4]");
 
 		// factor over irrationals
-		// might not need with_sqrt() as we're using collect() for Factor.1
-		//p("RFactor.1","with_sqrt(1);factor(%0);with_sqrt(0);");
+		p("IFactor.1",
+				"[with_sqrt(1),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,ggbtmpvarx); fi],ggbans][3]");
+		p("IFactor.2",
+				"[with_sqrt(1),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],ggbans][3]");
 
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
