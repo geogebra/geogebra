@@ -741,7 +741,7 @@ public class TouchModel
 				}
 				break;
 			case IntersectTwoObjects:
-				Command c = new Command(this.kernel, "IntersectTwoObjects", draw);
+				Command c = new Command(this.kernel, "Intersect", draw);
 
 				c.addArgument(new ExpressionNode(this.kernel, this.selectedElements.get(this.selectedElements.size() - 1)));
 				c.addArgument(new ExpressionNode(this.kernel, this.selectedElements.get(this.selectedElements.size() - 2)));
