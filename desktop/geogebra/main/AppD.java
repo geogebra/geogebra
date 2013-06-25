@@ -5017,7 +5017,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		
 		// TODO: remove (temporary hack)
-		if (isWebstart() || MAC_OS) {
+		if (MAC_OS) {
 			return CasType.MPREDUCE;
 		} else {
 			// ie windows / linux portable or windows installer or Eclipse
