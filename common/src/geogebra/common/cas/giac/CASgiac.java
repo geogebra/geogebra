@@ -475,7 +475,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg {3, 3>ggbtmpvarx}
 	// eg {3>ggbtmpvarx, x^2}
 	// eg {3>ggbtmpvarx}
-	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{]\\()([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^},]+)([,}\\)])(.*)");
+	private final static RegExp inequalitySimpleInList = RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^,}\\(\\)]+)([,}\\)])(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7
@@ -500,16 +500,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			//App.debug(matcher.getGroup(2));
 			//App.debug(matcher.getGroup(3));
 			//App.debug(matcher.getGroup(4));
-			return matcher.getGroup(3) + "<" + matcher.getGroup(2)+ matcher.getGroup(1);
+			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)+ matcher.getGroup(1);
+			App.debug("giac output (with inequality converted): " + ret);
+			return ret;
 		}
-		
-		// swap {3>x, 6>y} into {x<3, y<6}
-		while ((matcher = inequalitySimpleInList.exec(ret)) != null ) {	
-			
-			ret = matcher.getGroup(1) + matcher.getGroup(2) + matcher.getGroup(5) + "<" + matcher.getGroup(4) + matcher.getGroup(3) + matcher.getGroup(6) + matcher.getGroup(7);
-			App.debug(ret);
-		}
-		
 		
 		// swap 5 > x && x > 3 into 3<x<5
 		while ((matcher = inequality.exec(ret)) != null &&
@@ -521,6 +515,15 @@ public abstract class CASgiac implements CASGenericInterface {
 			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
 		
 		}
+
+		// swap {3>x, 6>y} into {x<3, y<6}
+		while ((matcher = inequalitySimpleInList.exec(ret)) != null ) {	
+			
+			ret = matcher.getGroup(1) + matcher.getGroup(2) + matcher.getGroup(5) + "<" + matcher.getGroup(4) + matcher.getGroup(3) + matcher.getGroup(6) + matcher.getGroup(7);
+			App.debug(ret);
+		}
+		
+		
 
 		if (!exp.equals(ret)) {
 			App.debug("giac output (with inequality converted): " + ret);		
@@ -576,6 +579,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// don't do check for long strings eg 7^99999
 		if (ret.length() < 200) {
+			
 			// convert x>3 && x<7 into 3<x<7
 			ret = checkInequalityInterval(ret);
 		}
