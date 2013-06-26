@@ -67,7 +67,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	public void onResize() {
 		super.onResize();
-		// App.debug("Resized");
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
 
@@ -75,17 +74,14 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 					if (sview != null) {
 
-						// If this is resized, we may know its width and height
-						/*
-						 * int width = this.getOffsetWidth();//this is 400, OK
-						 * int height = this.getOffsetHeight();
-						 * 
-						 * if (application.getGuiManager().hasSpreadsheetView())
-						 * height -=
-						 * (((SpreadsheetViewW)application.getGuiManager().
-						 * getSpreadsheetView
-						 * ()).getSpreadsheetStyleBar()).getOffsetHeight();
-						 */
+						int width2 = ((MyTableW) sview.getSpreadsheetTable())
+						        .getOffsetWidth();
+						int height2 = ((MyTableW) sview.getSpreadsheetTable())
+						        .getOffsetHeight();
+
+						sview.getFocusPanel().setWidth(width2 + "px");
+						sview.getFocusPanel().setHeight(height2 + "px");
+
 
 						int width = dockPanel.getComponentInteriorWidth();
 						int height = dockPanel.getComponentInteriorHeight();
@@ -96,17 +92,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 						sview.getScrollPanel().setWidth(width + "px");
 						sview.getScrollPanel().setHeight(height + "px");
-
-						int width2 = ((MyTableW) sview.getSpreadsheetTable())
-						        .getOffsetWidth();
-						int height2 = ((MyTableW) sview.getSpreadsheetTable())
-						        .getOffsetHeight();
-
-						sview.getFocusPanel().setWidth(width2 + "px");
-						sview.getFocusPanel().setHeight(height2 + "px");
-
-						// ((MyTableW)sview.getSpreadsheetTable()).setRepaintAll();
-						// sview.repaint();
 					}
 				}
 
