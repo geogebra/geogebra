@@ -215,6 +215,7 @@ public class ViewMenuW extends MenuBar {
 		itemCAS.setSelected(app.getGuiManager().showView(App.VIEW_CAS));
 		itemEuclidian.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
 		itemEuclidian2.setSelected(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+		itemConsprot.setSelected(app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL));
 	}
 	
 //	public void updateCheckboxAlgebra(){
