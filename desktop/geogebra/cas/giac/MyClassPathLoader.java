@@ -41,15 +41,18 @@ public class MyClassPathLoader {
 			App.error(filename + " not found");
 			return false;
 		}
+		
+		String fname = prefix + libname + Math.random() + extension;
 			
 		try {
 
 			// Math.random() to avoid problems with 2 instances
-			File tmpFile = writeTmpFile(ins, prefix + libname + Math.random()+ extension);
+			File tmpFile = writeTmpFile(ins, fname);
 			System.load(tmpFile.getAbsolutePath());
 			tmpFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
+			App.debug("error loading: "+fname);
 			return false;
 		}
 

@@ -39,19 +39,21 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	static {
 		try {
-			App.debug("Loading Giac dynamic library");
 
 			String file;
 
-			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to happen on linux)
-
-			if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
+			if (AppD.MAC_OS) {
+				// Architecture on OSX seems to be x86_64, but let's make sure
+				file = "javagiac";
+			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
+					// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to happen on linux)
 					|| "amd64".equals(System.getProperty("os.arch"))) {
 				file = "javagiac64";
 			} else {
 				file = "javagiac";
 			}
 
+			App.debug("Loading Giac dynamic library: "+file);
 
 			// When running from local jars we can load the library files from inside a jar like this 
 			MyClassPathLoader loader = new MyClassPathLoader();
@@ -98,7 +100,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	// whether to use thread (JNI only)
 	final private static boolean useThread = !AppD.LINUX;
 
-	@SuppressWarnings("deprecation")
 	public String evaluate(String input) throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
@@ -152,14 +153,18 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
 					Thread.sleep(wait);
 					wait = wait * 2;
-					//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
+					App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
 				}
 
-				//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
-
-				thread.interrupt();
+				App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+				App.debug(threadResult.length());
+				try {
+				//thread.interrupt();
 				// thread.interrupt() doesn't seem to stop it, so add this for good measure:
-				thread.stop();
+				//thread.stop();
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
 
 				// if we haven't got a result, CAS took too long to return
 				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
@@ -173,9 +178,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			}
 		}
 
-
+		App.debug(1);
 		ret = postProcess(threadResult);
-
+		App.debug(2);
 		App.debug("giac output: " + ret);		
 
 		return ret;
@@ -270,7 +275,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 * @return String from Giac
 	 */
 	String evalRaw(String exp) {
-		gen g = new gen(exp, C);
+		gen g = new gen("caseval(\"" + exp + "\")", C);
 		g = g.eval(1, C);
 		String ret = g.print(C);
 		
