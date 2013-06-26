@@ -4,7 +4,7 @@
 # Requires python3 with zlib support and ImageMagick convert.
 # Please put all Java Runtime Environments to ../../../../.. (jre*.bin),
 # they can be downloaded from http://www.oracle.com/technetwork/java/javase/downloads/jre-6u26-download-400751.html.
-# The result .tar.gz will be put into ../../../../build/.
+# The result .tar.bz2 will be put into ../../../../build/.
 
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
@@ -59,7 +59,7 @@ python3 ./create_geogebra_portable.py \
 
 # 3. Copying to installer/ directory (deploying):
 cd ../../../../build
-i=`ls -1 GeoGebra-Linux-Portable*.tar.gz`
+i=`ls -1 GeoGebra-Linux-Portable*.tar.bz2`
 chmod g+w $i
 cp $i $TARGET_DIR
 

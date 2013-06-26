@@ -139,11 +139,11 @@ try:
 		    "Use option \"--help\" for more information.\n"]
 		readme_file.writelines(readme_file_lines)
 	os.chdir("../")
-	tar_gz_file = tarfile.open(destination_path+"/GeoGebra-Linux-Portable-"+geogebra_version+".tar.gz", "w:gz")
+	tar_bz2_file = tarfile.open(destination_path+"/GeoGebra-Linux-Portable-"+geogebra_version+".tar.bz2", "w:bz2")
 	try:
-		tar_gz_file.add("GeoGebra-Linux-Portable-"+geogebra_version)
+		tar_bz2_file.add("GeoGebra-Linux-Portable-"+geogebra_version)
 	finally:
-		tar_gz_file.close()
+		tar_bz2_file.close()
 finally:
 	os.chdir("../")
 	shutil.rmtree(temp_dir)
