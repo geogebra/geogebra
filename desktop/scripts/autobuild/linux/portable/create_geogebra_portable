@@ -43,8 +43,8 @@ rm -fR unpacked
 cp -a ../../../../build/unpacked unpacked
 cd unpacked
 rm -f *windows* *macosx* vernier* javagiac-win*.jar javagiac-mac*.jar
-unzip javagiac-linux32.jar
-unzip javagiac-linux64.jar
+unzip -o javagiac-linux32.jar libjavagiac.so
+unzip -o javagiac-linux64.jar libjavagiac64.so
 rm javagiac-linux*.jar # Preserving the .so files only
 cd ..
 

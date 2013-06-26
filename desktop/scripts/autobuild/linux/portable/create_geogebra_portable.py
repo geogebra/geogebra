@@ -90,7 +90,7 @@ try:
 
 			jre_dir = ""
 			for name in content:
-				if "jre" in name:
+				if "jre" in name and not "-" in name:
 					jre_dir = name
 					break
 			if jre_dir == "":
