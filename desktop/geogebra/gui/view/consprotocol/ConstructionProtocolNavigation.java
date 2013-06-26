@@ -184,8 +184,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 			}				
 		});
 		
-		btOpenWindow.setVisible(showConsProtButton); 
-	 	playPanel.setVisible(showPlayButton);
+		btOpenWindow.setVisible(showConsProtButton);
 		
 		// add panels together to center
 		implPanel.setLayout(new BoxLayout(this.implPanel, BoxLayout.LINE_AXIS));		
