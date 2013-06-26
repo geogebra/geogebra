@@ -5,12 +5,13 @@ import geogebra.touch.TouchApp;
 public class OpenFileDialog extends FileDialog
 {
 
-	InfoDialog infoDialog;
+	//InfoDialog infoDialog;
 
 	public OpenFileDialog(TouchApp app)
 	{
-		super(app);
-		this.infoDialog = new InfoDialog(app.getLocalization(),super.stockStore);
+		super(app);		
+		//FIXME the glass pane has z-index 20, we must go higher
+		this.getElement().getStyle().setZIndex(42);
 	}
 
 	@Override
@@ -51,8 +52,8 @@ public class OpenFileDialog extends FileDialog
 	}
 	
 	@Override
-  public void setLabels()
+	public void setLabels()
 	{
-		this.infoDialog.setLabels();
+
 	}
 }

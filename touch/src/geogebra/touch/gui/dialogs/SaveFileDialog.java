@@ -8,6 +8,8 @@ public class SaveFileDialog extends FileDialog
 	public SaveFileDialog(TouchApp app)
 	{
 		super(app);
+		//FIXME the glass pane has z-index 20, we must go higher
+		this.getElement().getStyle().setZIndex(42);
 	}
 
 	@Override
