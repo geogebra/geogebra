@@ -45,13 +45,13 @@ cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | gre
  # Copying files to packed directory:
  scp -P $PORT packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR
  # Copying files to unpacked directory:
- scp -P $PORT unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR
+ scp -P $PORT unpacked/*.jar unpacked/*.dylib $RUSER@$IP:$DIR/$MYDIR
  # Copying files to unsigned directory:
  # scp -P $PORT unsigned/*.jar.var $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Copying files to unsigned/packed directory:
  scp -P $PORT unsigned/packed/*.jar.pack.gz $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Copying files to unsigned/unpacked directory:
- scp -P $PORT unsigned/unpacked/*.jar $RUSER@$IP:$DIR/$MYDIR/unsigned
+ scp -P $PORT unsigned/unpacked/*.jar unsigned/unpacked/*.dylib $RUSER@$IP:$DIR/$MYDIR/unsigned
  # Symlinking files into jnlp/ for fast webstart:
  # ssh -n -l $RUSER -p $PORT $IP "cd $DIR/$MYDIR/unpacked; for i in *.jar; do cd; cd $DIR/$MYDIR/jnlp; rm -f \$i; ln -s ../unpacked/\$i; ln -s ../packed/\$i.pack.gz; done"
  # Symlinking files into jnlp/unsigned:

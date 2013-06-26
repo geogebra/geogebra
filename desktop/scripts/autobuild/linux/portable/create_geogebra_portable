@@ -42,16 +42,11 @@ IMAGE_DIR=../../../../geogebra/gui/images/
 rm -fR unpacked
 cp -a ../../../../build/unpacked unpacked
 cd unpacked
-rm -f *windows* *macosx* libjavagiac64.jar vernier* javagiac*.jar *linux-amd64*
+rm -f *windows* *macosx* vernier* javagiac-win*.jar javagiac-mac*.jar
+unzip javagiac-linux32.jar
+unzip javagiac-linux64.jar
+rm javagiac-linux*.jar # Preserving the .so files only
 cd ..
-
-# argument 1: version of GeoGebra (eg. 3.2.44.0)
-# argument 2: path of directory containing jre installation files (eg. jre-6u21-linux-x64.bin)
-# argument 3: path of directory containing unpacked geogebra files
-# argument 4: path of geogebra icon (eg. geogebra.png)
-# argument 5: path of start script geogebra
-# argument 6: path of destination directory
-
 
 # 2/2. Calling Christian's script for packaging
 python3 ./create_geogebra_portable.py \

@@ -47,7 +47,8 @@ echo "$0: static files copied"
 
 # 4/2. Copying/overwriting JAR files to 5.0 and history/$MYVER:
 cd $SVNDIR/geogebra/desktop/build
-find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name geogebra-map.txt -or -name preload.html -or -name '*.var' | while read filename; do
+find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt \
+ -or -name geogebra-map.txt -or -name preload.html -or -name '*.var' -or -name '*.dylib' | while read filename; do
  directory=`dirname $filename`
  mkdir -p $WWWDIR/$MYDIR/$directory $WWWDIR/history/$MYVER/$directory || exit 5
  chmod g+rwx $WWWDIR/$MYDIR/$directory $WWWDIR/history/$MYVER/$directory || exit 5

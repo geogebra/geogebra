@@ -194,10 +194,16 @@ if [ $CLASSES = 1 ]; then
 cd lib
 for i in javagiac.dll javagiac64.dll libjavagiac.so libjavagiac64.so; do
  wget -N http://dev.geogebra.org/download/lib/giac/latest/$i
- BASENAME=`basename $i .dll`
- BASENAME=`basename $BASENAME .so`
- zip $BASENAME.jar $i
  done
+# Getting the Mac files. Warning: the path is hardcoded for now!
+for i in libgmp.10.dylib libjavagiac.jnilib
+ wget -N http://dev.geogebra.org/download/lib/giac/20130624/$i
+ done
+zip javagiac-win32.jar javagiac.dll
+zip javagiac-win64.jar javagiac64.dll
+zip javagiac-linux32.jar libjavagiac.so
+zip javagiac-linux64.jar libjavagiac64.so
+zip javagiac-mac.jar libjavagiac.jnilib
 cd ..
 
 # 6/5. Packaging

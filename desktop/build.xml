@@ -124,21 +124,21 @@ office@geogebra.org
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
+			value="geogebra-jogl1.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl1.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt-jogl1.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D-jogl2.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar"/>
+			value="geogebra-jogl2.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d-jogl2.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -202,10 +202,6 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
-			<arg value="javagiac.jar"/>
-			<arg value="javagiac64.jar"/>
-			<arg value="libjavagiac.jar"/>
-			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 	
@@ -264,7 +260,7 @@ office@geogebra.org
 	<target name="ggb-copy-giac" depends="clean" description="copy giac jars">
 		<copy todir="${build.dir}">
 			<fileset dir="${src.dir}/lib"
-				includes="javagiac.jar javagiac64.jar libjavagiac.jar libjavagiac64.jar" />
+				includes="javagiac-win32.jar javagiac-win64.jar javagiac-linux32.jar javagiac-linux64.jar javagiac-mac.jar libgmp.10.dylib" />
 		</copy>
 	</target>
 
@@ -293,10 +289,6 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
-			<arg value="javagiac.jar"/>
-			<arg value="javagiac64.jar"/>
-			<arg value="libjavagiac.jar"/>
-			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 	<target name="ggb-jar-index3D-jogl2" description="create index in geogebra.jar (jogl2)" if="usejogl2">
@@ -319,10 +311,6 @@ office@geogebra.org
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
 			<arg value="OpenGeoProver.jar"/>
-			<arg value="javagiac.jar"/>
-			<arg value="javagiac64.jar"/>
-			<arg value="libjavagiac.jar"/>
-			<arg value="libjavagiac64.jar"/>
 		</exec>
 	</target>
 
