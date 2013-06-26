@@ -248,13 +248,19 @@ public class DockManagerW implements  SetLabels {
 				}
 
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
+
+				panel.updatePanel();
+
+				/*
 				// this might have to belong to panel.updatePanel
+				// maybe not needed if updatePanel is right
+				// maybe wrong if onResize makes things wrong
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
 					panel.setHeight(dpData[i].getEmbeddedSize()+"px");
 				} else {
 					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
 				}
-				panel.updatePanel();
+				*/
 
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
@@ -289,28 +295,38 @@ public class DockManagerW implements  SetLabels {
 
 			//recursive update resize weights for giving new space to euclidian views
 
+			updateSplitPanesResizeWeight();
+
 			if (app.isApplet() || !App.isFullAppGui()) {
 				// height doesn't work still
 				//App.debug("!!!! "+spw.get(rootPane)+" "+sph.get(rootPane));
 
+				// dilemma to call this or not
 				rootPane.setWidth(spw.get(rootPane)+"px");
-			} else {//FIXME
-				updateSplitPanesResizeWeight();
+				// without this, the width of the rootPane is not OK,
+				// with this, onResize is called and things get too long
 			}
 
 			// set the dividers of the split panes
-			for(int i = 0; i < spData.length; ++i) {
+			for (int i = 0; i < spData.length; ++i) {
+				// don't set splitpane width/height here, because that would call onResize
 				if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT)
-					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * sph.get(splitPanes[i]) ));
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * sph.get(splitPanes[0]) ));
 				else 
-					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * spw.get(splitPanes[i]) ));
-				
+					splitPanes[i].setDividerLocation((int)(spData[i].getDividerLocation() * spw.get(splitPanes[0]) ));
+
 				splitPanes[i].updateUI();
 			}
-			// crucial to make this work!
-			rootPane.forceLayout();
 
 			markAlonePanel();
+
+			// don't set panel width/height here, because that would call onResize
+
+			// maybe crucial to make this work!
+			// also good to make sure things are not undone afterwards
+			// calling forceLayout once should be enough!
+			// but if this called, perspectives with 3 panels may be too long
+			rootPane.forceLayout();
 
 			// is focused dock panel not visible anymore => choose another one
 		//	if(focusedDockPanel == null || !focusedDockPanel.isVisible()) {
