@@ -240,6 +240,11 @@ read the following web pages:
 	<!-- creates a GeoGebra.app bundle for Mac OS X -->
 	<!-- By default we run the JOGL2 version. -->
 	<target name="installer-macosx" depends="readVersion">
+		<unzip src="${build.dir}/unpacked/javagiac-mac.jar" dest="${build.dir}/unpacked/">
+			<patternset>
+				<include name="*.jnilib" />
+			</patternset>
+		</unzip>
 		<jarbundler
 				dir="${build.dir}/installer/macosx"
 				name="GeoGebra"
@@ -255,7 +260,7 @@ read the following web pages:
 				stubfile="installer/JavaApplicationStub"
 				version="${version}">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
-			<javafileset dir="${build.dir}/unpacked" excludes="*-linux*.jar,*-windows-*.jar,*-win*.jar,*64.jar,geogebra-map.txt" />
+			<javafileset dir="${build.dir}/unpacked" excludes="*-linux*.jar,*-windows-*.jar,*-win*.jar,*64.jar,geogebra-map.txt,javagiac-mac.jar" />
 			<documenttype
 				name="GeoGebra File"
 				extensions="ggb"
