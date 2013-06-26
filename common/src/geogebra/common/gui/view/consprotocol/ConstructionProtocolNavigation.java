@@ -15,7 +15,7 @@ public abstract class ConstructionProtocolNavigation{
 	/**
 	 * Delay in seconds
 	 */
-	protected double playDelay = 2;
+	public double playDelay = 2;
 	/**
 	 * True if the button for opening construction protocol is visible.
 	 */

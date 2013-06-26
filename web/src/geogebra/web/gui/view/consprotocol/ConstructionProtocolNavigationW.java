@@ -84,9 +84,22 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
 		((GPanelW)playPanel).getImpl().add(btPlay);
 		((GPanelW)playPanel).getImpl().add(spDelay);
+		((GPanelW)playPanel).getImpl().add(new Label("s"));
+
+		Button btOpenWindow = new Button(getImageIcon(AppResources.INSTANCE.table().getSafeUri().asString()));		
+		btOpenWindow.addClickHandler(new ClickHandler(){
+
+			public void onClick(ClickEvent event) {
+				if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
+					app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
+            }
+			
+		});
+		btOpenWindow.setVisible(showConsProtButton);
 		
 		implPanel.add(leftPanel);
 		implPanel.add(((GPanelW)playPanel).getImpl());
+		implPanel.add(btOpenWindow);
 		update();
 	}
 	
