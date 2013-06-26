@@ -8,6 +8,9 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
+import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -62,7 +65,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //				table.setText(0, k, data.columns[k].getTitle());
 //		}		
 //	}
-	
+    
 	public void initGui(){
 	    // Add a number column to show the id.
 	    Cell<Number> idCell = new NumberCell();
@@ -76,15 +79,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		
 		
 	    // Add a text column to show the name.
-	    TextColumn<RowData> nameColumn = new TextColumn<RowData>() {
-	      @Override
-	      public String getValue(RowData object) {
-	        return object.getName();
-	      }
-	    };
+		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
+		        new SafeHtmlCell()) {
+			
+			@Override
+            public SafeHtml getValue(RowData object) {
+				return SafeHtmlUtils.fromTrustedString(object.getName());
+			}
+
+		};    
 	    table.addColumn(nameColumn, app.getPlain("Name"));
-	    
-	    table.setRowData(0, data.getrowList());
 	    
 //	    // Add a text column to show the definition.
 //	    TextColumn<RowData> defColumn = new TextColumn<RowData>() {
@@ -94,6 +98,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //	      }
 //	    };
 //	    table.addColumn(defColumn, app.getPlain("Definition"));
+
 
 	    // Add a text column to show the value.
 	    TextColumn<RowData> valColumn = new TextColumn<RowData>() {
@@ -142,7 +147,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	
 	public void tableInit(){
 	    table.setRowData(0, data.getrowList());
-	    table.setVisibleRange(1, data.getrowList().size());
+	    table.setVisibleRange(0, data.getrowList().size()+1);
 	}
 	
 	class ConstructionTableDataW extends ConstructionTableData{
