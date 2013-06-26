@@ -105,6 +105,7 @@ office@geogebra.org
 		<copy todir="${build.dir}/unsigned/unpacked">
 			<fileset dir="${build.dir}">
 				<include name="*.jar" />
+				<include name="*.dylib" />
 			</fileset>
 		</copy>
 	</target>
@@ -114,6 +115,7 @@ office@geogebra.org
 		<copy todir="${build.dir}/debug">
 			<fileset dir="${build.dir}">
 				<include name="*.jar" />
+				<include name="*.dylib" />
 			</fileset>
 		</copy>
 	</target>
@@ -123,6 +125,7 @@ office@geogebra.org
 		<copy todir="${build.dir}/debug">
 			<fileset dir="${build.dir}">
 				<include name="*.jar" />
+				<include name="*.dylib" />
 			</fileset>
 		</copy>
 	</target>
@@ -132,6 +135,7 @@ office@geogebra.org
 		<copy todir="${build.dir}/unsigned/unpacked">
 			<fileset dir="${build.dir}">
 				<include name="*.jar" />
+				<include name="*.dylib" />
 			</fileset>
 		</copy>
 	</target>
@@ -169,6 +173,7 @@ office@geogebra.org
 		<move todir="${build.dir}">
 			<fileset dir="${temp.dir}">
 				<include name="*.jar"/>
+				<include name="*.dylib"/>
 			</fileset>
 		</move>
 		<delete dir="${temp.dir}"/>
@@ -266,6 +271,7 @@ office@geogebra.org
 		<move todir="${build.dir}/unpacked">
 			<fileset dir="${build.dir}">
 				<include name="*.jar" />
+				<include name="*.dylib" />
 			</fileset>
 		</move>
 
