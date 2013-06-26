@@ -10,7 +10,7 @@ public class OpenFileDialog extends FileDialog
 	public OpenFileDialog(TouchApp app)
 	{
 		super(app);
-		this.infoDialog = new InfoDialog(this);
+		this.infoDialog = new InfoDialog(app.getLocalization(),super.stockStore);
 	}
 
 	@Override

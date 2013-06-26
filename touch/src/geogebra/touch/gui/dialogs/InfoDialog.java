@@ -1,10 +1,12 @@
 package geogebra.touch.gui.dialogs;
 
+import geogebra.common.main.Localization;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -14,17 +16,20 @@ public class InfoDialog extends PopupPanel
 {
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
-	OpenFileDialog openDialog;
+	//OpenFileDialog openDialog;
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private Label title;
 	String consTitle;
 	String xml;
+	private Localization loc;
+	Storage stockStore;
 
-	public InfoDialog(OpenFileDialog openDialog)
+	public InfoDialog(Localization loc,Storage stockStore)
 	{
 		super(true, true);
-		this.openDialog = openDialog;
+		this.loc = loc;
+		this.stockStore = stockStore;
 		this.setGlassEnabled(true);
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
@@ -37,7 +42,7 @@ public class InfoDialog extends PopupPanel
 
 	private void addLabel()
 	{
-		this.title.setText(this.openDialog.app.getLocalization().getMenu("DoYouWantToSaveYourChanges"));
+		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
 		this.dialogPanel.add(this.title);
 	}
 
@@ -75,7 +80,7 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				// just save in stockStore - no changes of construction title
-				InfoDialog.this.openDialog.stockStore.setItem(InfoDialog.this.consTitle, InfoDialog.this.xml);
+				InfoDialog.this.stockStore.setItem(InfoDialog.this.consTitle, InfoDialog.this.xml);
 				InfoDialog.this.hide();
 			}
 		}, ClickEvent.getType());
@@ -91,6 +96,6 @@ public class InfoDialog extends PopupPanel
 
 	public void setLabels()
 	{
-		this.title.setText(this.openDialog.app.getLocalization().getMenu("DoYouWantToSaveYourChanges"));
+		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
 	}
 }

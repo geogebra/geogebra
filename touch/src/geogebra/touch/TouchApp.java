@@ -36,6 +36,7 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -133,7 +134,20 @@ public class TouchApp extends AppWeb
 			this.setLanguage();
 		}
 
-		setConstructionTitle("GeoGebraTouch");
+		setConstructionTitle(getDefaultConstructionTitle());
+	}
+
+	private String getDefaultConstructionTitle() {
+		Storage stockStore = Storage.getLocalStorageIfSupported();
+		
+		
+		int i = 1;
+		String filename;
+		do{
+			filename = getLocalization().getPlain("UntitledA",i+"");
+		}
+			while (stockStore != null && stockStore.getItem(filename)!=null);
+		return filename;
 	}
 
 	public GeoGebraTouchGUI getTouchGui()
