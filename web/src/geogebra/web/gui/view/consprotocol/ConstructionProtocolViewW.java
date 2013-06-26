@@ -13,7 +13,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -101,14 +100,17 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 
 
 	    // Add a text column to show the value.
-	    TextColumn<RowData> valColumn = new TextColumn<RowData>() {
-	      @Override
-	      public String getValue(RowData object) {
-	        return object.getAlgebra();
-	      }
-	    };
-	    table.addColumn(valColumn, app.getPlain("Value"));
+		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
+		        new SafeHtmlCell()) {
+			
+			@Override
+            public SafeHtml getValue(RowData object) {
+				return SafeHtmlUtils.fromTrustedString(object.getAlgebra());
+			}
 
+		};    
+	    table.addColumn(valColumn, app.getPlain("Value"));
+	    
 	    tableInit();	    
 	}
 	
