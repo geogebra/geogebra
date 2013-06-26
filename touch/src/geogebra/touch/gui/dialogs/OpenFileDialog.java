@@ -16,10 +16,6 @@ public class OpenFileDialog extends FileDialog
 	@Override
 	protected void onOK()
 	{
-		if (!super.app.getXML().equals(super.stockStore.getItem(super.app.getConstructionTitle())))
-		{
-			saveBeforeOpen();
-		}
 
 		String fileAsXML = super.stockStore.getItem(super.textBox.getText());
 		if (fileAsXML != null)
@@ -38,10 +34,7 @@ public class OpenFileDialog extends FileDialog
 		hide();
 	}
 
-	private void saveBeforeOpen()
-	{
-		this.infoDialog.show(super.app.getConstructionTitle(), super.app.getXML());
-	}
+
 
 	@Override
 	protected void onCancel()

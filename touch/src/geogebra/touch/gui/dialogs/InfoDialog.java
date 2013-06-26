@@ -1,6 +1,8 @@
 package geogebra.touch.gui.dialogs;
 
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 
@@ -24,6 +26,7 @@ public class InfoDialog extends PopupPanel
 	String xml;
 	private Localization loc;
 	Storage stockStore;
+	Runnable callback = null;
 
 	public InfoDialog(Localization loc,Storage stockStore)
 	{
@@ -67,6 +70,11 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				InfoDialog.this.hide();
+				if(InfoDialog.this.callback != null){
+					InfoDialog.this.callback.run();
+				}else{
+					App.debug("no callback");
+				}
 			}
 		}, ClickEvent.getType());
 	}
@@ -82,20 +90,36 @@ public class InfoDialog extends PopupPanel
 				// just save in stockStore - no changes of construction title
 				InfoDialog.this.stockStore.setItem(InfoDialog.this.consTitle, InfoDialog.this.xml);
 				InfoDialog.this.hide();
+				if(InfoDialog.this.callback!=null){
+					InfoDialog.this.callback.run();
+				}else{
+					App.debug("no callback");
+				}
 			}
 		}, ClickEvent.getType());
 	}
 
-	public void show(String constructionTitle, String constructionXML)
+	public void showIfNeeded(TouchApp app)
 	{
-		this.consTitle = constructionTitle;
-		this.xml = constructionXML;
-		super.show();
-		super.center();
+		String constructionXML = app.getXML();
+		if(!constructionXML.equals(this.stockStore.getItem(app.getConstructionTitle()))){
+			this.consTitle = app.getConstructionTitle();
+			this.xml = constructionXML;
+			super.show();
+			super.center();
+		}else{
+			if(this.callback != null){
+				this.callback.run();
+			}
+		}
 	}
 
 	public void setLabels()
 	{
 		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+	}
+
+	public void setCallback(Runnable callback) {
+		this.callback = callback;
 	}
 }

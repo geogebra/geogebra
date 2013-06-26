@@ -137,7 +137,7 @@ public class TouchApp extends AppWeb
 		setConstructionTitle(getDefaultConstructionTitle());
 	}
 
-	private String getDefaultConstructionTitle() {
+	public String getDefaultConstructionTitle() {
 		Storage stockStore = Storage.getLocalStorageIfSupported();
 		
 		
@@ -145,8 +145,9 @@ public class TouchApp extends AppWeb
 		String filename;
 		do{
 			filename = getLocalization().getPlain("UntitledA",i+"");
+			i++;
 		}
-			while (stockStore != null && stockStore.getItem(filename)!=null);
+		while (stockStore != null && stockStore.getItem(filename)!=null);
 		return filename;
 	}
 

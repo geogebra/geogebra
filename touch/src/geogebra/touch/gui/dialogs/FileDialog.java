@@ -202,4 +202,8 @@ public abstract class FileDialog extends PopupPanel
 	}
 	
 	public abstract void setLabels();
+
+	public Storage getStorage() {
+		return this.stockStore;
+	}
 }

@@ -1,11 +1,13 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.FileDialog;
+import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.dialogs.OpenFileDialog;
@@ -35,6 +37,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	InputDialog dialog;
 	FileDialog openDialog, saveDialog;
+	InfoDialog infoDialog;
 
 	private StandardImageButton newButton = new StandardImageButton(CommonResources.INSTANCE.document_new());
 	private StandardImageButton openButton = new StandardImageButton(CommonResources.INSTANCE.document_open());
@@ -56,6 +59,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 		this.openDialog = new OpenFileDialog(this.app);
 		this.saveDialog = new SaveFileDialog(this.app);
+		this.infoDialog = new InfoDialog(this.app.getLocalization(),this.openDialog.getStorage());
 
 		initNewButton();
 		initOpenButton();
@@ -70,44 +74,49 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	private void initNewButton()
 	{
+		final Runnable newConstruction = new Runnable(){
+			@Override
+			public void run(){
+				TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null); 
+				TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
+				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
+				App.debug("new construction 1");
+				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
+				App.debug("new construction 2");
+				TabletHeaderPanelLeft.this.app.setConstructionTitle(TabletHeaderPanelLeft.this.app.getDefaultConstructionTitle());
+				App.debug("new construction 3");
+			}
+		};
+		
 		this.newButton.addDomHandler(new ClickHandler()
 		{
+			
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				TabletHeaderPanelLeft.this.dialog.show();
+				TabletHeaderPanelLeft.this.infoDialog.setCallback(newConstruction);
+				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
 			}
 		}, ClickEvent.getType());
-
-		this.dialog.addCloseHandler(new CloseHandler<PopupPanel>()
-		{
-
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event)
-			{
-				String result = TabletHeaderPanelLeft.this.dialog.getInput();
-
-				if (result != null && !result.isEmpty())
-				{
-					TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null); 
-					TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
-					TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
-					TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
-					TabletHeaderPanelLeft.this.app.setConstructionTitle(result);					
-				}
-			}
-		});
 	}
 
 	private void initOpenButton()
 	{
+		
+		final Runnable showOpenDialog = new Runnable(){
+			@Override
+			public void run(){
+				TabletHeaderPanelLeft.this.openDialog.show();		
+			}
+		};
 		this.openButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.openDialog.show();
+				TabletHeaderPanelLeft.this.infoDialog.setCallback(showOpenDialog);
+				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
 			}
 		}, ClickEvent.getType());
 	}
