@@ -9288,75 +9288,7 @@ public abstract class EuclidianController {
 				return;
 			}
 			if (!temporaryMode) {
-				if (!app.isRightClickEnabled()) {
-					return;
-				}
-				if (processZoomRectangle()) {
-					return;
-					// Michael Borcherds 2007-10-08
-				}
-	
-				// make sure cmd-click selects multiple points (not open
-				// properties)
-				if ((app.isMacOS() && app.isControlDown(event))
-						|| !app.isRightClick(event)) {
-					return;
-				}
-	
-				// get selected GeoElements
-				// show popup menu after right click
-				view.setHits(mouseLoc);
-				hits = view.getHits().getTopHits();
-				if (hits.isEmpty()) {
-					// no hits
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						if (selection.selectedGeosSize() > 0) {
-							// GeoElement selGeo = (GeoElement)
-							// getAppSelectedGeos().get(0);
-							app.getGuiManager().showPopupMenu(
-									getAppSelectedGeos(),  view, mouseLoc);
-						} else {
-							showDrawingPadPopup(mouseLoc);
-						}
-					}
-				} else {
-					// there are hits
-					if (selection.selectedGeosSize() > 0) {
-	
-						// right click on already selected geos -> show menu for
-						// them
-						// right click on object(s) not selected -> clear
-						// selection
-						// and show menu just for new objects
-						
-						if (!hits.intersect(getAppSelectedGeos())) {
-							selection.clearSelectedGeos(false); //repaint will be done next step
-							selection.addSelectedGeos(hits, true);
-						} else {
-							//selection.addSelectedGeo(hits.get(0));
-						}
-
-						if (app.isUsingFullGui() && app.getGuiManager() != null)
-							showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
-							//app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
-
-					} else {
-						// no selected geos: choose geo and show popup menu				
-						if (app.isUsingFullGui() && app.getGuiManager() != null) {
-							
-							GeoElement geo = chooseGeo(hits, true, false);
-
-							if (geo==null)//when axis is clicked
-								showDrawingPadPopup(mouseLoc);
-							else{
-								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-								geos.add(geo);
-								showPopupMenuChooseGeo(geos,hits);
-							}
-						}
-						
-					}
-				}
+				processRightReleased(hits, event);
 				return;
 			}
 		}
@@ -9496,6 +9428,79 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
+	private void processRightReleased(Hits hits, AbstractEvent event) {
+
+		if (!app.isRightClickEnabled()) {
+			return;
+		}
+		if (processZoomRectangle()) {
+			return;
+			// Michael Borcherds 2007-10-08
+		}
+
+		// make sure cmd-click selects multiple points (not open
+		// properties)
+		if ((app.isMacOS() && app.isControlDown(event))
+				|| !app.isRightClick(event)) {
+			return;
+		}
+
+		// get selected GeoElements
+		// show popup menu after right click
+		view.setHits(mouseLoc);
+		hits = view.getHits().getTopHits();
+		if (hits.isEmpty()) {
+			// no hits
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				if (selection.selectedGeosSize() > 0) {
+					// GeoElement selGeo = (GeoElement)
+					// getAppSelectedGeos().get(0);
+					app.getGuiManager().showPopupMenu(
+							getAppSelectedGeos(),  view, mouseLoc);
+				} else {
+					showDrawingPadPopup(mouseLoc);
+				}
+			}
+		} else {
+			// there are hits
+			if (selection.selectedGeosSize() > 0) {
+
+				// right click on already selected geos -> show menu for
+				// them
+				// right click on object(s) not selected -> clear
+				// selection
+				// and show menu just for new objects
+				
+				if (!hits.intersect(getAppSelectedGeos())) {
+					selection.clearSelectedGeos(false); //repaint will be done next step
+					selection.addSelectedGeos(hits, true);
+				} else {
+					//selection.addSelectedGeo(hits.get(0));
+				}
+
+				if (app.isUsingFullGui() && app.getGuiManager() != null)
+					showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
+					//app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+
+			} else {
+				// no selected geos: choose geo and show popup menu				
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					
+					GeoElement geo = chooseGeo(hits, true, false);
+
+					if (geo==null)//when axis is clicked
+						showDrawingPadPopup(mouseLoc);
+					else{
+						ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+						geos.add(geo);
+						showPopupMenuChooseGeo(geos,hits);
+					}
+				}
+				
+			}
+		}
+		
+	}
 	/**
 	 * set just created geos as selected (if any)
 	 * @return true if any just created geos
