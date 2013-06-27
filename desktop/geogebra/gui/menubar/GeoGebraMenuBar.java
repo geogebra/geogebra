@@ -198,6 +198,15 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 		//updateSelection();  //it's redundant here, look at editMenu.update();
 	}
+	
+	/**
+	 * Checkbox of Construction protocol view will be checked in view menu if visible is true.
+	 * Otherwise won't be checked.
+	 * @param visible
+	 */
+	public void updateCPView(boolean visible){
+		((ViewMenu) viewMenu).updateCPView(visible);
+	}
 
 	/**
 	 * Update the selection.

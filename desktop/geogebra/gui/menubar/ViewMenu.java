@@ -1,10 +1,12 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
+import geogebra.gui.layout.panels.ConstructionProtocolDockPanel;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
 
@@ -33,6 +35,10 @@ public class ViewMenu extends BaseMenu {
 	private JCheckBoxMenuItem[] cbViews;
 
 	private AbstractAction showLayoutOptionsAction;
+	/*
+	 * Checkbox for construction protocol view.
+	 */
+	private JCheckBoxMenuItem cbConsprot;
 
 	/**
 	 * @param app
@@ -296,6 +302,7 @@ public class ViewMenu extends BaseMenu {
 
 				menu.add(cb);
 				cbViews[i] = cb;
+				if (panel instanceof ConstructionProtocolDockPanel) cbConsprot = cb;
 				++i;
 			}
 		}
@@ -327,6 +334,14 @@ public class ViewMenu extends BaseMenu {
 		}
 	}
 	
+	/**
+	 * Checkbox of Construction protocol view will be checked if visible is true.
+	 * Otherwise won't be checked.
+	 * @param visible
+	 */
+	public void updateCPView(boolean selected){
+		cbConsprot.setSelected(selected);
+	}
 	
 	private class ShowViewAction extends AbstractAction{
 
