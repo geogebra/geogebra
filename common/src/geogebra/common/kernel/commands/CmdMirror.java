@@ -36,7 +36,7 @@ public class CmdMirror extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

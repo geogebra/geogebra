@@ -8,9 +8,12 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -35,7 +38,9 @@ import java.util.TreeSet;
  * 
  */
 public class GeoPolyhedron extends GeoElement3D 
-implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// implements Path {
+implements HasSegments, HasVolume, Traceable, 
+RotateableND, Translateable, Mirrorable, Transformable
+{// implements Path {
 
 	public static final int TYPE_NONE = 0;
 	public static final int TYPE_PYRAMID = 1;
@@ -1292,5 +1297,27 @@ implements HasSegments, HasVolume, Traceable, RotateableND, Translateable {// im
 			p.translate(v);
 		}	
 	}
+	
+	
+	
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords Q) {
+		for (GeoSegment3D seg: segments.values()){
+			seg.mirror(Q);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.mirror(Q);
+		}	
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

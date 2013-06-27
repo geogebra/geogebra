@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  *
@@ -49,11 +50,12 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 public class AlgoMirror extends AlgoTransformation {
 
     private Mirrorable out;   
-    private GeoElement inGeo, outGeo; 
+    protected GeoElement inGeo;
+	protected GeoElement outGeo; 
     private GeoLine mirrorLine;   
-    private GeoPoint mirrorPoint;      
+    protected GeoPointND mirrorPoint;      
     private GeoConic mirrorConic;      
-    private GeoElement mirror;
+    protected GeoElement mirror;
     
     private GeoPoint transformedPoint;
     
@@ -64,7 +66,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param in
      * @param p
      */
-    AlgoMirror(Construction cons, String label,GeoElement in,GeoPoint p) {
+    protected AlgoMirror(Construction cons, String label,GeoElement in,GeoPointND p) {
     	this(cons, in, null, p, null);  
     	 outGeo.setLabel(label);
     }
@@ -102,7 +104,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param p
      * @param c
      */
-    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPoint p, GeoConic c) {
+    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPointND p, GeoConic c) {
         super(cons);
         //this.in = in;      
         mirrorLine = g;
@@ -112,7 +114,7 @@ public class AlgoMirror extends AlgoTransformation {
         if (g != null)
         	mirror = g;
 		else if (p != null)
-			mirror = p;
+			mirror = (GeoElement) p;
 		else
 			mirror = c; // Michael Borcherds 2008-02-10
               
@@ -174,23 +176,8 @@ public class AlgoMirror extends AlgoTransformation {
     		transformList((GeoList)inGeo,(GeoList)outGeo);
     		return;
     	}
-    	if(mirror instanceof GeoConic && inGeo instanceof GeoLine){
-    		((GeoLine)inGeo).toGeoConic((GeoConic)outGeo);    		
-    	}
-    	/*
-    	else if(mirror instanceof GeoConic && geoIn instanceof GeoConic && geoOut instanceof GeoCurveCartesian){
-    		((GeoConic)geoIn).toGeoCurveCartesian((GeoCurveCartesian)geoOut);    		
-    	}*/
-    	else if(mirror instanceof GeoConic && inGeo instanceof GeoConic && outGeo instanceof GeoImplicitPoly){
-    		((GeoConic)inGeo).toGeoImplicitPoly((GeoImplicitPoly)outGeo);    		
-    	}
-    	else if(inGeo instanceof GeoFunction && mirror != mirrorPoint){
-    		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
-    	}
-    	else if(inGeo instanceof GeoPoly && mirror == mirrorConic){
-    		((GeoPoly)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);    		
-    	}
-    	else outGeo.set(inGeo);
+    	
+    	setOutGeo();
     	
     	if(inGeo.isRegion() && mirror == mirrorConic){
 			GeoVec2D v = mirrorConic.getTranslationVector();   
@@ -210,6 +197,29 @@ public class AlgoMirror extends AlgoTransformation {
         if(inGeo.isLimitedPath())
         	this.transformLimitedPath(inGeo, outGeo);
     } 
+    
+	/**
+	 * set inGeo to outGeo
+	 */
+	protected void setOutGeo(){
+		if(mirror instanceof GeoConic && inGeo instanceof GeoLine){
+    		((GeoLine)inGeo).toGeoConic((GeoConic)outGeo);    		
+    	}
+    	/*
+    	else if(mirror instanceof GeoConic && geoIn instanceof GeoConic && geoOut instanceof GeoCurveCartesian){
+    		((GeoConic)geoIn).toGeoCurveCartesian((GeoCurveCartesian)geoOut);    		
+    	}*/
+    	else if(mirror instanceof GeoConic && inGeo instanceof GeoConic && outGeo instanceof GeoImplicitPoly){
+    		((GeoConic)inGeo).toGeoImplicitPoly((GeoImplicitPoly)outGeo);    		
+    	}
+    	else if(inGeo instanceof GeoFunction && mirror != mirrorPoint){
+    		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
+    	}
+    	else if(inGeo instanceof GeoPoly && mirror == mirrorConic){
+    		((GeoPoly)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);    		
+    	}
+    	else outGeo.set(inGeo);
+	}
     
     /**
      * 
@@ -253,7 +263,7 @@ public class AlgoMirror extends AlgoTransformation {
 			return geo.copyInternal(cons);		
 		if(geo.isGeoList())        	
         	return new GeoList(cons);
-		return geo.copy();
+		return copy(geo);
 	}
     
     @Override

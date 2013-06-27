@@ -1321,6 +1321,12 @@ public class Manager3D implements Manager3DInterface {
 		Transform t = new TransformRotate3D(cons, phi, line);
 		return t.transform(geoRot, label);
 	}
+	
+	final public GeoElement[] Mirror3D(String label, GeoElement geo,
+			GeoPointND p) {
+		Transform t = new TransformMirror3D(cons, p);
+		return t.transform(geo, label);
+	}
 
 
 	final public GeoNumeric Volume(String label, HasVolume hasVolume){

@@ -10,7 +10,10 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Mirrorable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -36,7 +39,9 @@ import geogebra.main.AppD;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements
-		GeoElement3DInterface, Functional2Var, Region3D, Translateable, RotateableND, HasVolume,
+		GeoElement3DInterface, Functional2Var, Region3D, 
+		Translateable, RotateableND, Mirrorable, Transformable,
+		HasVolume,
 		GeoQuadric3DInterface{
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
@@ -737,6 +742,34 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	}
 
 	
+	
+	
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords point) {
+
+		// eigen matrix 
+		eigenMatrix.mulInside(-1);
+		eigenMatrix.addToOrigin(point.mul(2));
+
+		// midpoint
+		setMidpoint(eigenMatrix.getOrigin().get());
+
+		// eigen vectors		
+		for (int i = 0; i<3; i++){
+			eigenvecND[i].mulInside(-1);
+		}
+
+		// symetric matrix
+		setMatrixFromEigenMatrix(eigenMatrix);
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

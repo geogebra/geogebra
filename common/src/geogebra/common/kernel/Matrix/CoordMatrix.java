@@ -716,6 +716,16 @@ public class CoordMatrix {
 
 		return result;
 	}
+	
+	/**
+	 * multiply all values by v
+	 * @param v factor
+	 */
+	public void mulInside(double v){
+		for (int i = 0 ; i < val.length; i++){
+			val[i] *= v;
+		}
+	}
 
 	// matrix addition
 	/**
@@ -983,6 +993,16 @@ public class CoordMatrix {
 	 */
 	public void setOrigin(Coords v) {
 		set(v, getColumns());
+	}
+	
+	/**
+	 * add vector values to origin
+	 * @param v vector
+	 */
+	public void addToOrigin(Coords v){
+		for (int i = 1 ; i <= v.getRows() ; i++){
+			set(i, getColumns(), get(i, getColumns()) + v.get(i));
+		}
 	}
 
 	/**

@@ -41,9 +41,11 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -70,7 +72,7 @@ import java.util.TreeSet;
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle,
 		RotateableND, Transformable,
-		Traceable{
+		Traceable, Mirrorable{
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1407,6 +1409,27 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	public boolean getTrace() {
 		return trace;
+	}
+
+	
+	
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords Q) {
+		double w = getW();
+		double qx = w * Q.getX();
+		double qy = w * Q.getY();
+		double qz = w * Q.getZ();
+
+		setCoords(2.0 * qx - getX(), 2.0 * qy - getY(), 2.0 * qz - getZ(), w);
+		
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

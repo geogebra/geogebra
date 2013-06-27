@@ -656,6 +656,14 @@ public interface Manager3DInterface {
 	
 	/**
 	 * 
+	 */
+	public GeoElement[] Mirror3D(String label, GeoElement geo,
+			GeoPointND p);
+
+	
+	
+	/**
+	 * 
 	 * @param label
 	 * @param hasVolume
 	 * @return volume of hasVolume

@@ -12,8 +12,11 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
@@ -28,7 +31,7 @@ import java.util.ArrayList;
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
 Translateable, MatrixTransformable, 
-Traceable, RotateableND {
+Traceable, RotateableND, Mirrorable, Transformable {
 
 	protected CoordSys coordsys;
 	
@@ -766,6 +769,25 @@ Traceable, RotateableND {
 		
 
 		rotate(phiValue, o1, vn);
+		
+	}
+	
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords Q) {
+		
+		Coords o = getCoordSys().getOrigin().mul(-1);
+		
+		o.addInside(Q.mul(2));
+		
+		setCoord(o, getCoordSys().getVx().mul(-1));
+		
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
 		
 	}
 	

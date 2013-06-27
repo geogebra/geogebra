@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND implements 
-		ConicMirrorable, Transformable, Mirrorable,
+		ConicMirrorable, 
 		Dilateable, SymbolicParametersBotanaAlgo {
 
 	/*

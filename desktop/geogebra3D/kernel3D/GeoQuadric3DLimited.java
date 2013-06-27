@@ -7,8 +7,11 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Mirrorable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -29,7 +32,8 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoQuadric3DLimited extends GeoQuadricND 
-implements GeoNumberValue, HasVolume, HasHeight, RotateableND, Translateable {
+implements GeoNumberValue, HasVolume, HasHeight, 
+RotateableND, Translateable, Mirrorable, Transformable {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -642,6 +646,23 @@ implements GeoNumberValue, HasVolume, HasHeight, RotateableND, Translateable {
 		bottom.translate(v);
 		top.translate(v);
 		side.translate(v);
+	}
+	
+	
+	
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords Q) {
+		bottom.mirror(Q);
+		top.mirror(Q);
+		side.mirror(Q);
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

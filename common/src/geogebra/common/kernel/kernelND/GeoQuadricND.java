@@ -166,12 +166,22 @@ Traceable{
 	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
 	 */
 	protected void setMatrixFromEigen(){
-		
-		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
-		
+				
 		CoordMatrix eigenMatrix = new CoordMatrix(4, 4);
 		eigenMatrix.set(eigenvecND);
 		eigenMatrix.set(getMidpoint(),4);
+		
+		setMatrixFromEigenMatrix(eigenMatrix);
+
+	}
+	
+	/**
+	 * sets the matrix values from eigen matrix and "diagonal" values
+	 * @param eigenMatrix eigen matrix
+	 */
+	protected void setMatrixFromEigenMatrix(CoordMatrix eigenMatrix){
+		
+		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
 		
 		CoordMatrix eigenMatrixInv = eigenMatrix.inverse();
 		

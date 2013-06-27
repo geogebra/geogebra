@@ -12,10 +12,13 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable {
+		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable, Mirrorable, Transformable {
 
 	private GeoPointND startPoint;
 
@@ -648,6 +651,17 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		rotate(phiValue, o1, vn);
 		
 
+	}
+
+	public void mirror(Coords Q) {
+		
+		setCoords(v.mul(-1));
+		
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

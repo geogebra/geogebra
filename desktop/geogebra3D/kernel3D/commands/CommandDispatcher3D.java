@@ -161,6 +161,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Rotate:
 				return new CmdRotate3D(kernel);
+				
+			case Mirror:
+				return new CmdMirror3D(kernel);
 
 			case Length:
 				return new CmdLength3D(kernel);

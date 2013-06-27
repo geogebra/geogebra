@@ -664,5 +664,20 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
+	
+	
+	/**
+	 * mirror the coord sys at point
+	 * @param point point
+	 */
+	public void mirror(Coords point){
+		
+		//reverse all values
+		matrixOrthonormal.mulInside(-1);
+		//translate origin matrix
+		matrixOrthonormal.addToOrigin(point.mul(2));
+		
+		setFromMatrixOrthonormal();
+	}
 
 }

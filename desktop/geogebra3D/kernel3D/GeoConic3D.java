@@ -9,6 +9,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -506,6 +507,21 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 	@Override
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
+	}
+	
+	
+
+	////////////////////////
+	// MIRROR
+	////////////////////////
+	
+	public void mirror(Coords Q) {
+		getCoordSys().mirror(Q);		
+	}
+
+	public void mirror(GeoLine g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -15,7 +15,16 @@ import geogebra.common.kernel.geos.GeoPoint;
  */
 public class TransformMirror extends Transform {
 
-	private GeoElement mirror;
+	protected GeoElement mirror;
+	
+	/**
+	 * @param cons construction
+	 * @param mirror mirror
+	 */
+	protected TransformMirror(Construction cons, GeoElement mirror) {
+		this.mirror = mirror;
+		this.cons = cons;
+	}
 
 	/**
 	 * @param cons construction
