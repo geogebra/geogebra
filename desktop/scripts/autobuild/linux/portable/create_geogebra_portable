@@ -55,6 +55,7 @@ python3 ./create_geogebra_portable.py \
      unpacked \
      $IMAGE_DIR/geogebra.png \
      ../geogebra \
+     ./remove-jre-unused
      ../../../../build
 
 # 3. Copying to installer/ directory (deploying):

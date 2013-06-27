@@ -10,7 +10,8 @@
 # argument 3: path of directory containing unpacked geogebra files
 # argument 4: path of geogebra icon (eg. geogebra.png)
 # argument 5: path of start script geogebra
-# argument 6: path of destination directory
+# argument 6: path of script remove-jre-unused
+# argument 7: path of destination directory
 
 import os, shutil, sys, tarfile, tempfile
 if len(sys.argv) != 7:
@@ -31,12 +32,16 @@ if not os.path.exists(sys.argv[5]):
 if not os.path.exists(sys.argv[6]):
 	print("Error: "+sys.argv[6]+" does not exist.")
 	sys.exit(1)
+if not os.path.exists(sys.argv[7]):
+	print("Error: "+sys.argv[7]+" does not exist.")
+	sys.exit(1)
 geogebra_version = sys.argv[1]
 java_path = os.path.abspath(sys.argv[2])
 unpacked_path = os.path.abspath(sys.argv[3])
 icon_path = os.path.abspath(sys.argv[4])
 start_script_path = os.path.abspath(sys.argv[5])
-destination_path = os.path.abspath(sys.argv[6])
+removejreunused_path = os.path.abspath(sys.argv[6])
+destination_path = os.path.abspath(sys.argv[7])
 if not os.path.isdir(java_path):
 	print("Error: "+java_path+" is not a directory.")
 	sys.exit(1)
@@ -96,6 +101,8 @@ try:
 			if jre_dir == "":
 				print("Error: "+java_filename+" does not create expected folder.")
 				sys.exit(1)
+			os.system("cd "+jre_dir+"; sh "+removejreunused_path)
+			shutil.copy(removejreunused_path, jre_dir)
 			os.rename(jre_dir, jre_dir+"-"+arch)
 
 	with open("geogebra-portable", "w") as start_script_geogebra_portable_file:

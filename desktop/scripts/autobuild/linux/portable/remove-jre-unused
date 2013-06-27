@@ -1,0 +1,16 @@
+#!/bin/bash
+# Removes unnecessary files from a JRE installation.
+# Due to size issues (i.e., to save disk space and shorten download time and decrease resource wasting)
+# GeoGebra provides a minimized version of Orace JRE 1.6. Please check the list of the removed
+# files compared to the original bundle. No other change is made to the JRE on the behalf of GeoGebra.
+# Maybe other files can also be removed. Please feel free to report if yes. Thanks!
+
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+rm -vfR lib/{jce,jsse,javaws,plugin,deploy,charsets,alt-string}.jar
+rm -vfR lib/{amd64,i386}/lib{mlib_image,cmm,deploy,splashscreen,jdwp,jsound,hprof,JdbcOdbc}.so
+rm -vfR lib/{amd64,i386}/{motif21,headless}
+rm -vfR lib/i386/server
+rm -vfR lib/{amd64,i386}/client/classes.jsa
+rm -vfR lib/cmm javaws man plugin .systemPrefs
+find bin -type f -not -name java | xargs rm -vfR
