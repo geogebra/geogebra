@@ -759,7 +759,7 @@ public abstract class App implements UpdateSelection{
 	 * @param useBrowserForJavaScript
 	 *         desktop: determines whether Rhino will be used (false) or the
 	 *         browser (true) web: determines whether JS input comes from
-	 *         the browser (true) or from the ggb file (false)
+	 *         the html file (true) or from the ggb file (false)
 	 */
 	public void setUseBrowserForJavaScript(boolean useBrowserForJavaScript) {
 		this.useBrowserForJavaScript = useBrowserForJavaScript;
@@ -768,7 +768,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return desktop: determines whether Rhino will be used (false) or the
 	 *         browser (true) web: determines whether JS input comes from
-	 *         the browser (true) or from the ggb file (false)
+	 *         the html file (true) or from the ggb file (false)
 	 */
 	public boolean useBrowserForJavaScript() {
 		return useBrowserForJavaScript;
