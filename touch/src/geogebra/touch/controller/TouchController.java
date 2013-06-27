@@ -119,7 +119,9 @@ public class TouchController extends EuclidianController
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
 						.getCommand() == ToolBarCommand.RotateAroundPoint || this.model
 						.getCommand() == ToolBarCommand.Pen || this.model
-						.getCommand() == ToolBarCommand.FreehandShape))
+						.getCommand() == ToolBarCommand.FreehandShape ||
+						this.model
+						.getCommand() == ToolBarCommand.DeleteObject))
 		{
 			GeoGebraProfiler.drags++;
 			long time = System.currentTimeMillis();
@@ -145,6 +147,7 @@ public class TouchController extends EuclidianController
 		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+		App.debug("Move now");
 		wrapMouseDragged(mEvent);
 		this.origin = new GPoint(x, y);
 		GeoGebraProfiler.dragTime += System.currentTimeMillis()-time;		
@@ -183,7 +186,8 @@ public class TouchController extends EuclidianController
 		}
 		
 		if(this.model.getCommand() == ToolBarCommand.Pen || 
-				this.model.getCommand() == ToolBarCommand.FreehandShape){
+				this.model.getCommand() == ToolBarCommand.FreehandShape ||
+				this.model.getCommand() == ToolBarCommand.DeleteObject){
 			wrapMouseReleased(new MobileMouseEvent(x, y)); 
 		}
 	}
