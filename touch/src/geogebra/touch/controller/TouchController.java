@@ -182,6 +182,7 @@ public class TouchController extends EuclidianController
 		{
 			handleEvent(x, y);
 			this.selectedPoints.clear();
+			this.view.getPreviewDrawable().updatePreview();
 			
 		}
 		
