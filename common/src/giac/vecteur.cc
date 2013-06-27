@@ -9683,8 +9683,11 @@ namespace giac {
   vecteur megvl(const matrice & e,GIAC_CONTEXT){
     matrice m;
     vecteur d;
+    bool b=complex_mode(contextptr);
+    complex_mode(true,contextptr);
     if (!egv(e,m,d,contextptr,true,false,true))
       *logptr(contextptr) << gettext("Low accuracy") << endl;
+    complex_mode(b,contextptr);
     return d;
   }
   gen symb_egvl(const gen & a){

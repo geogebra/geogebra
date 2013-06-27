@@ -2340,16 +2340,7 @@ namespace giac {
   static define_unary_function_eval (__randgeometric,&_randgeometric,_randgeometric_s);
   define_unary_function_ptr5( at_randgeometric ,alias_at_randgeometric,&__randgeometric,0,true);
 
-  gen _kolmogorovd(const gen & g,GIAC_CONTEXT){
-    if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (g.type==_VECT)
-      return apply(g,_kolmogorovd,contextptr);
-    gen tmp=evalf_double(g,1,contextptr);
-    if (tmp.type!=_DOUBLE_)
-      return symbolic(at_kolmogorovd,g);
-    if (is_positive(-g,contextptr))
-      return undef;
-    double c2=tmp._DOUBLE_val;
+  double kolmogorovd(double c2){
     c2=c2*c2;
     // 2*sum((-1)^(r-1)*exp(-2*r^2*c^2),r,1,inf)
     long_double cumul=0;
@@ -2362,6 +2353,19 @@ namespace giac {
       else
 	cumul -= current;
     }
+  }
+
+  gen _kolmogorovd(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return apply(g,_kolmogorovd,contextptr);
+    gen tmp=evalf_double(g,1,contextptr);
+    if (tmp.type!=_DOUBLE_)
+      return symbolic(at_kolmogorovd,g);
+    if (is_positive(-g,contextptr))
+      return undef;
+    double c2=tmp._DOUBLE_val;
+    return kolmogorovd(c2);
   }
   static const char _kolmogorovd_s []="kolmogorovd";
   static define_unary_function_eval (__kolmogorovd,&_kolmogorovd,_kolmogorovd_s);
@@ -2428,7 +2432,7 @@ namespace giac {
       return gensizeerr(contextptr);
     sort(X.begin(),X.end());
     int n=X.size();
-    double cumulx=0,d=0,dcur,invn=1./n;
+    double cumulx=0,d=0,dcur,invn=1./n,ks;
     if (nd){
       gen f=cdf(nd);
       if (f.type!=_FUNC)
@@ -2457,7 +2461,8 @@ namespace giac {
 	  if (dcur>d)
 	    d=dcur;
 	}
-	return makevecteur(d,d*std::sqrt(double(n)));
+	ks=d*std::sqrt(double(n));
+	return makevecteur(string2gen("D=",false),d,string2gen("K=",false),ks,string2gen("1-kolmogorovd(K)=",false),1-kolmogorovd(ks));
       }
       for (int i=0;i<n;++i){
 	fback=X[i];
@@ -2472,7 +2477,8 @@ namespace giac {
 	if (dcur>d)
 	  d=dcur;
       }
-      return makevecteur(d,d*std::sqrt(double(n)));
+      ks=d*std::sqrt(double(n));
+      return makevecteur(string2gen("D=",false),d,string2gen("K=",false),ks,string2gen("1-kolmogorovd(K)=",false),1-kolmogorovd(ks));
     }
     // 2 lists
     vector<double> Y;
@@ -2503,7 +2509,8 @@ namespace giac {
       if (dcur>d)
 	d=dcur;
     }
-    return makevecteur(d,d*std::sqrt((n*m)/double(n+m)));
+    ks=d*std::sqrt((n*m)/double(n+m));
+    return makevecteur(string2gen("D=",false),d,string2gen("K=",false),ks,string2gen("1-kolmogorovd(K)=",false),1-kolmogorovd(ks));
   }
   static const char _kolmogorovt_s []="kolmogorovt";
   static define_unary_function_eval (__kolmogorovt,&_kolmogorovt,_kolmogorovt_s);
@@ -3041,9 +3048,9 @@ namespace giac {
     }
     *logptr(contextptr) << "*** TEST RESULT " << (ok?"1 ***":"0 ***") << endl << "Summary " << (ztest?"Z-Test":"T-Test") << " null hypothesis " << (proportion?"p1=p2":"mu1=mu2") << ", alt. hyp. mu1" << (test==-1? "<":(test==0?"!=":">")) <<  "mu2." << endl;
     *logptr(contextptr) << "Test returns 0 if probability to observe data is less than " << alpha << endl;
-    *logptr(contextptr) << "(hyp. mu1=mu2 can be rejected with less than alpha probability error)" << endl;
+    *logptr(contextptr) << "(null hyp. mu1=mu2 rejected with less than alpha probability error)" << endl;
     *logptr(contextptr) << "Test returns 1 otherwise (can not reject null hypothesis)" << endl;
-    *logptr(contextptr) << "Data mean " << mu0 << ", population mean " << mu1 ;
+    *logptr(contextptr) << "Data mean mu1=" << mu0 << ", population mean mu2=" << mu1 ;
     if (!ztest)
       *logptr(contextptr) << ", degrees of freedom " << dof;
     *logptr(contextptr) << endl << "alpha level " << alpha << ", multiplier*stddev/sqrt(sample size)= " << falpha << "*" << sigma << "/" << sqrtn0 << endl;

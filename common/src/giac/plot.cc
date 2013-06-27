@@ -113,7 +113,7 @@ namespace giac {
   double global_window_xmin(gnuplot_xmin),global_window_xmax(gnuplot_xmax),global_window_ymin(gnuplot_ymin),global_window_ymax(gnuplot_ymax);
   double x_tick(1.0),y_tick(1.0);
   double class_minimum(0.0),class_size(1.0);
-#ifdef GIAC_HAS_STO_38
+#ifdef RTOS_THREADX
   int gnuplot_pixels_per_eval=128;
 #else
   int gnuplot_pixels_per_eval=400;
@@ -2673,7 +2673,7 @@ namespace giac {
     gen a=remove_at_pnt(diam._VECTptr->front());
     gen b=remove_at_pnt(diam._VECTptr->back());
     centre=normal(rdiv(a+b,plus_two,contextptr),contextptr);
-    rayon=rdiv(a-b,plus_two,contextptr);
+    rayon=rdiv(b-a,plus_two,contextptr);
     if (absrayon)
       rayon=abs(normal(rayon,contextptr),contextptr);
     return true;
@@ -4320,7 +4320,7 @@ namespace giac {
     gen a=remove_at_pnt(a0);
     gen b=remove_at_pnt(b0);
     if (a.type==_VECT && b.type==_VECT)
-      return dotvecteur(a,b);
+      return scalarproduct(*a._VECTptr,*b._VECTptr,contextptr);
     gen ax,ay; reim(a,ax,ay,contextptr);
     gen bx,by; reim(b,bx,by,contextptr);
     return ax*bx+ay*by;
@@ -7617,6 +7617,8 @@ namespace giac {
     }
     else {
       s=args._VECTptr->size();
+      if (s==1)
+	return _parameq(args._VECTptr->front(),contextptr);
       if (s>=2 && (*args._VECTptr)[1].is_symb_of_sommet(at_pnt))
 	return _parameq(args._VECTptr->front(),contextptr);
       if (s<2) 
@@ -8407,12 +8409,17 @@ namespace giac {
 	if (v[1].type==_IDNT && find_curve_parametrization(curve,m,v[1],T,tmin,tmax,false,contextptr)){
 	  if (re(m,contextptr)==v[1]){
 	    gen r=re(M,contextptr);
-	    // check that M is on the curve? disabled
-	    if (true || is_zero(normal(M-subst(m,v[1],r,false,contextptr),contextptr))){
+	    // check that M is on the curve? was disabled, re-enabled, if not don't draw anything
+	    if (
+		// true || is_zero(normal(M-subst(m,v[1],r,false,contextptr),contextptr))
+		is_zero(evalf(M-subst(m,v[1],r,false,contextptr),1,contextptr))
+		){
 	      direction=subst(direction,v[1],r,false,contextptr);
 	      result.push_back(_droite(makevecteur(M,M+direction),contextptr));
 	      return result;
 	    }
+	    // not on the curve
+	    return result;
 	  }
 	  vecteur mv=rlvarx(m,v[1]);
 	  if (mv.empty() || (mv.size()==1 && mv.front()==v[1])){

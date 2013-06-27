@@ -849,6 +849,10 @@ namespace giac {
     }
     if (ck_is_strictly_greater(a,b,contextptr))
       return sturmab(g,x,b,a,contextptr);
+#ifdef NO_STDEXCEPT
+    if (lvar(g)!=vecteur(1,x))
+      return -2;
+#endif
     int res=0,dontcare,global_sign=1;
     vecteur v=sturm(g,x,contextptr);
     if (is_undef(v))

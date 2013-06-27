@@ -1624,12 +1624,22 @@ namespace giac {
   static define_unary_function_eval (__CCONCAT,&giac::_concat,_CONCAT_s);
   define_unary_function_ptr5( at_CONCAT ,alias_at_CONCAT,&__CCONCAT,0,T_UNARY_OP_38);
 
+  gen _PILIST(const gen & args,GIAC_CONTEXT){
+    if (args.type==_VECT)
+      return _product(change_subtype(args,0),contextptr);
+    return _product(args,contextptr);
+  }
   static const char _PILIST_s[]="ΠLIST";
-  static define_unary_function_eval (__PILIST,&giac::_product,_PILIST_s);
+  static define_unary_function_eval (__PILIST,&giac::_PILIST,_PILIST_s);
   define_unary_function_ptr5( at_PILIST ,alias_at_PILIST,&__PILIST,0,T_UNARY_OP_38);
 
+  gen _SIGMALIST(const gen & args,GIAC_CONTEXT){
+    if (args.type==_VECT)
+      return _sum(change_subtype(args,0),contextptr);
+    return _sum(args,contextptr);
+  }
   static const char _SIGMALIST_s[]="ΣLIST";
-  static define_unary_function_eval (__SIGMALIST,&giac::_sum,_SIGMALIST_s);
+  static define_unary_function_eval (__SIGMALIST,&giac::_SIGMALIST,_SIGMALIST_s);
   define_unary_function_ptr5( at_SIGMALIST ,alias_at_SIGMALIST,&__SIGMALIST,0,T_UNARY_OP_38);
 
   static const char _REVERSE_s[]="REVERSE";
@@ -2505,7 +2515,7 @@ namespace giac {
       gen Bi=B[i];
       vecteur tmp(as);
       for (int j=0;j<as;++j){
-	tmp[j] = (Ag[j]*Bi)/(Ag[j]*Ag[j]);
+	tmp[j] = scalar_product(Ag[j],Bi,contextptr)/scalar_product(Ag[j],Ag[j],contextptr);
       }
       res.push_back(tmp);
     }

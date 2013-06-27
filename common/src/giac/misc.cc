@@ -281,8 +281,12 @@ namespace giac {
 
   gen _acot(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (is_zero(args))
+      return cst_pi_over_2;
+#if 0
     if (abs_calc_mode(contextptr)==38)
       return cst_pi_over_2-atan(args,contextptr);
+#endif
     return atan(inv(args,contextptr),contextptr);
   }    
   static const char _acot_s []="acot";
@@ -1581,6 +1585,8 @@ namespace giac {
     if ( (g.type!=_VECT) || (g._VECTptr->size()!=2))
       return gentypeerr(contextptr);
     vecteur v=*g._VECTptr;
+    if (v[0].type==_VECT && v[1].type==_VECT)
+      return scalarproduct(*v[0]._VECTptr,*v[1]._VECTptr,contextptr);
     return dotvecteur(v[0],v[1]);
   }
   static const char _dotprod_s []="dotprod";
