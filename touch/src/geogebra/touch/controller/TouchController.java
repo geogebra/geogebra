@@ -147,7 +147,6 @@ public class TouchController extends EuclidianController
 		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-		App.debug("Move now");
 		wrapMouseDragged(mEvent);
 		this.origin = new GPoint(x, y);
 		GeoGebraProfiler.dragTime += System.currentTimeMillis()-time;		
