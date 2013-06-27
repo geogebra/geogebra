@@ -121,7 +121,8 @@ public class TouchController extends EuclidianController
 						.getCommand() == ToolBarCommand.Pen || this.model
 						.getCommand() == ToolBarCommand.FreehandShape ||
 						this.model
-						.getCommand() == ToolBarCommand.DeleteObject))
+						.getCommand() == ToolBarCommand.DeleteObject
+						|| Swipeables.isSwipeable(this.model.getCommand())))
 		{
 			GeoGebraProfiler.drags++;
 			long time = System.currentTimeMillis();
@@ -147,8 +148,18 @@ public class TouchController extends EuclidianController
 		this.lastMoveEvent = time;
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-		wrapMouseDragged(mEvent);
-		this.origin = new GPoint(x, y);
+		if(Swipeables.isSwipeable(this.model.getCommand())){
+			GeoElement geo = this.app.getKernel().getConstruction().getLastGeoElement();
+			//FIXME selectedPoints should not be probably accessed from here
+			if(this.selectedPoints.isEmpty() && geo instanceof GeoPoint){
+				this.selectedPoints.add((GeoPoint)geo);
+			}
+			wrapMouseMoved(mEvent);
+		}else{
+			wrapMouseDragged(mEvent);
+			this.origin = new GPoint(x, y);
+		}
+		
 		GeoGebraProfiler.dragTime += System.currentTimeMillis()-time;		
 	}
 	
@@ -164,13 +175,13 @@ public class TouchController extends EuclidianController
 		touchMoveIfWaiting();
 		
 		this.clicked = false;
-
 		if (Swipeables.isSwipeable(this.model.getCommand())
 				&& this.model.getNumberOf(Test.GEOPOINT) == 1
 				&& (Math.abs(this.origin.getX() - x) > 10 || Math
 						.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
+			this.view.setPreview(null);
 		}
 		
 		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
