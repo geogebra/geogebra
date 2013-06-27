@@ -216,41 +216,41 @@ public abstract class EuclidianController {
 
 	protected Hits tempArrayList3 = new Hits();
 
-	protected ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
+	protected final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
 
-	protected ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
+	protected final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
 
-	protected ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
+	protected final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
 
-	protected ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
+	protected final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
 
-	protected ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
+	protected final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
 
-	protected ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
+	protected final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
 
-	protected ArrayList<Region> selectedRegions = new ArrayList<Region>();
+	protected final ArrayList<Region> selectedRegions = new ArrayList<Region>();
 
-	protected ArrayList<Path> selectedPaths = new ArrayList<Path>();
+	protected final ArrayList<Path> selectedPaths = new ArrayList<Path>();
 
-	protected ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
+	protected final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
 
-	protected ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
+	protected final ArrayList<GeoImplicitPoly> selectedImplicitpoly = new ArrayList<GeoImplicitPoly>();
 
-	protected ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
+	protected final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
 
-	protected ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
+	protected final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
 
-	protected ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
+	protected final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
 
-	protected ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
+	protected final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
 
-	protected ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
+	protected final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
 
-	protected ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
+	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
 
-	protected ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
+	protected final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
 	
-	protected ArrayList<GeoSpline> selectedSplines = new ArrayList<GeoSpline>();
+	protected final ArrayList<GeoSpline> selectedSplines = new ArrayList<GeoSpline>();
 
 	protected Hits highlightedGeos = new Hits();
 
