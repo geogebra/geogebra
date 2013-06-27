@@ -151,11 +151,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			 * java:179)
 			 */
 			try {
-				
-				//We need new html-code for node, if the color of geo changed - see #3275
-				//TODO: it's needn't to change the code all time...
-				//setUserObject(node, geo);
-				
 				// it may be enough that clicking selects an item,
 				// we want to avoid every item selected on changing algebra
 				// descriptions
