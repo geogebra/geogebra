@@ -914,7 +914,8 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			case 1:
 				return rowList.get(nRow).getName();
 			case 2:
-				return ((GImageIconD) (rowList.get(nRow).getToolbarIcon())).getImpl();
+				GImageIconD toolbarIcon = (GImageIconD) rowList.get(nRow).getToolbarIcon();
+				return (toolbarIcon == null)? null : toolbarIcon.getImpl();
 			case 3:
 				return rowList.get(nRow).getDefinition();
 			case 4:
