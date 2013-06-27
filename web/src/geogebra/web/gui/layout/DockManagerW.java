@@ -251,7 +251,7 @@ public class DockManagerW implements  SetLabels {
 
 				panel.updatePanel();
 
-				/*
+				
 				// this might have to belong to panel.updatePanel
 				// maybe not needed if updatePanel is right
 				// maybe wrong if onResize makes things wrong
@@ -260,7 +260,7 @@ public class DockManagerW implements  SetLabels {
 				} else {
 					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
 				}
-				*/
+				
 
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
