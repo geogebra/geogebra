@@ -14,8 +14,8 @@
 # argument 7: path of destination directory
 
 import os, shutil, sys, tarfile, tempfile
-if len(sys.argv) != 7:
-	print("Error: Six arguments are expected.")
+if len(sys.argv) != 8:
+	print("Error: Seven arguments are expected.")
 	sys.exit(1)
 if not os.path.exists(sys.argv[2]):
 	print("Error: "+sys.argv[2]+" does not exist.")
