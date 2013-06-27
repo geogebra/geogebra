@@ -127,7 +127,7 @@ div.button.button-up-hovering {
 /* #####################################################################
 ####                    HEADER, STYLEBAR							####
 ##################################################################### */
-.headerbar { /* Border */
+.headerbar, .worksheetTitle { /* Border */
 	border-bottom: #999999 solid 1px;
 	/* Background */
 	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,

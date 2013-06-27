@@ -56,6 +56,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 		this.rightHeader = new TabletHeaderPanelRight(app);
 		this.rightHeader.setStyleName("headerRight");
+		this.worksheetTitle.setStyleName("worksheetTitle");
 
 		this.worksheetTitle.addKeyDownHandler(new KeyDownHandler()
 		{
@@ -92,7 +93,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.worksheetTitle);
 
-		this.worksheetTitle.getElement().getStyle().setBackgroundImage("none");
+		//this.worksheetTitle.getElement().getStyle().setBackgroundImage("none");
 		this.worksheetTitle.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
 		this.worksheetTitle.getElement().getStyle().setFontSize(35, Unit.PX);
 
