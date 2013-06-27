@@ -2576,7 +2576,7 @@ __GGB__keysVar.it.plain = {
     "Undefined": "non definito",
     "UnitVectorOfA": "Versore di %0",
     "UnitVectorPerpendicularToA": "Versore perpendicolare a %0",
-    "UntitledA": "Untitled%0",
+    "UntitledA": "Senza Titolo %0",
     "UntitledConstruction": "Costruzione senza titolo",
     "Up": "Su",
     "Upload": "Caricamento",
