@@ -9,7 +9,6 @@ import geogebra.html5.util.MyDictionary;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class LocalizationW extends Localization {
@@ -126,8 +125,8 @@ public class LocalizationW extends Localization {
 
 	/**
 	 * @author Rana This method should work for both if the getPlain and
-	 *         getPlainTooltip. In the case of getPlainTooltip, if the
-	 *         tooltipFlag is true, then getPlain is called.
+	 *         getPlainTooltip. In the case of getPlainTooltip then getPlain is called
+	 *         as secondary languages not supported in HTML5
 	 */
 	@Override
 	public String getPlain(String key) {
@@ -242,15 +241,9 @@ public class LocalizationW extends Localization {
 		return ret;
 	}
 
-
-	/**
-	 * @author Rana Since we are not implementing at this stage a secondary
-	 *         language for tooltips The default behavior of setTooltipFlag()
-	 *         will be to set the member variable tooltipFlag to true
-	 */
 	@Override
 	public void setTooltipFlag() {
-		tooltipFlag = true;
+		// secondary languages not supported in HTML5
 	}
 	
 	@Override
@@ -351,11 +344,9 @@ public class LocalizationW extends Localization {
 	@Override
 	public String getPlainTooltip(String key) {
 
-		if (tooltipFlag) {
-			return getPlain(key);
-		}
+		// secondary languages not supported in HTML5
 
-		return null;
+		return getPlain(key);
 	}
 
 	public void setLanguage(String lang) {
@@ -386,20 +377,15 @@ public class LocalizationW extends Localization {
 	@Override
 	public String getTooltipLanguageString() {
 
-		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		if (localeName != null && !"".equals(localeName)) {
-			if (localeName.equals(LANGUAGE_NORWEGIAN_NYNORSK_BCP47)) {
-				return LANGUAGE_NORWEGIAN_NYNORSK;
-			}
-			return localeName;
-		}
-		return DEFAULT_LANGUAGE;
+		// secondary languages not supported in HTML5
+		
+		return null;
 
 	}
 
 	@Override
     public String getMenuTooltip(String string) {
-	    // TODO Auto-generated method stub
+		// secondary languages not supported in HTML5
 	    return getMenu(string);
     }
 
