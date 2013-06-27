@@ -13,16 +13,18 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation implements ClickHandler{
 
 	AppW app;
 	private Label lbSteps;
-	private ConstructionProtocolViewW prot;
+	ConstructionProtocolViewW prot;
 	private FlowPanel implPanel;
 	private Button btFirst;
 	private Button btLast;
@@ -31,6 +33,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	Button btPlay;
 	GSpinnerW spDelay;
 	private AutomaticPlayer player;
+	private Button btOpenWindow;
 	
 
 	public ConstructionProtocolNavigationW(AppW app){
@@ -43,15 +46,15 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
 	}
 	
-	public static String getImageIcon(String url) {
-		return "<img width=\"16\" height=\"16\" src=\""+url+"\" />";
+	public static Image getImageForIcon(SafeUri src) {
+		return new Image(src);
 	}
 	
 	public void initGUI(){
-		btFirst = new Button(getImageIcon(AppResources.INSTANCE.nav_skipback().getSafeUri().asString()));
-		btLast = new Button(getImageIcon(AppResources.INSTANCE.nav_skipforward().getSafeUri().asString()));
-		btPrev = new Button(getImageIcon(AppResources.INSTANCE.nav_rewind().getSafeUri().asString()));
-		btNext = new Button(getImageIcon(AppResources.INSTANCE.nav_fastforward().getSafeUri().asString()));	
+		btFirst = new Button(getImageForIcon(AppResources.INSTANCE.nav_skipback().getSafeUri()).toString());
+		btLast = new Button(getImageForIcon(AppResources.INSTANCE.nav_skipforward().getSafeUri()).toString());
+		btPrev = new Button(getImageForIcon(AppResources.INSTANCE.nav_rewind().getSafeUri()).toString());
+		btNext = new Button(getImageForIcon(AppResources.INSTANCE.nav_fastforward().getSafeUri()).toString());	
 	
 		btFirst.addClickHandler(this);
 		btLast.addClickHandler(this);
@@ -67,7 +70,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		
 		playPanel = new GPanelW();
 		playPanel.setVisible(showPlayButton);
-		btPlay = new Button(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
+		btPlay = new Button();	//will be initialized in setLabels()
 		btPlay.addClickHandler(this);
 	
 		spDelay.addChangeHandler(new ChangeHandler(){
@@ -86,7 +89,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		((GPanelW)playPanel).getImpl().add(spDelay);
 		((GPanelW)playPanel).getImpl().add(new Label("s"));
 
-		Button btOpenWindow = new Button(getImageIcon(AppResources.INSTANCE.table().getSafeUri().asString()));		
+		btOpenWindow = new Button(getImageForIcon(AppResources.INSTANCE.table().getSafeUri()).toString());		
 		btOpenWindow.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -100,6 +103,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		implPanel.add(leftPanel);
 		implPanel.add(((GPanelW)playPanel).getImpl());
 		implPanel.add(btOpenWindow);
+		setLabels();
 		update();
 	}
 	
@@ -153,9 +157,17 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 	@Override
     public void setLabels() {
-	    // TODO Auto-generated method stub
-		App.debug("ConstructionProtocolNavigationW.setLabels() -implementation needed");
-    }
+		if (btPlay != null){
+			String btPlayText = "<div class=\"gwt-Label\">"+app.getPlain((isPlaying)?"Pause":"Play")+"</div>";
+			Image playImage = getImageForIcon(
+					((isPlaying) ? AppResources.INSTANCE.nav_pause() : AppResources.INSTANCE.nav_play())
+					.getSafeUri());
+			btPlay.setHTML(playImage.toString()+btPlayText);
+		}
+		if (btOpenWindow != null){
+			btOpenWindow.setTitle(app.getPlainTooltip("ConstructionProtocol"));
+		}
+	}
 	
 	public FlowPanel getImpl(){
 		return implPanel;
@@ -203,7 +215,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	}		
 	
 	private class AutomaticPlayer{
-		private Timer timer;
+		Timer timer;
 		
 	      /**
          * Creates a new player to step through the construction
@@ -230,7 +242,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		public synchronized void startAnimation() {
 //			app.startDispatchingEventsTo(btPlay);
 			isPlaying = true;
-			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_pause().getSafeUri().asString()));
+			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause().getSafeUri());
+			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Pause")+"</div>");
 			setComponentsEnabled(false);
 			app.setWaitCursor();
 
@@ -247,7 +260,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
             // unblock application events
 //			app.stopDispatchingEvents();
 			isPlaying = false;
-			btPlay.setHTML(getImageIcon(AppResources.INSTANCE.nav_play().getSafeUri().asString()));
+			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play().getSafeUri());
+			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Play")+"</div>");
 			setComponentsEnabled(true);
 			app.setDefaultCursor();
         }

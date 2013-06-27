@@ -102,14 +102,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	    // Add a text column to show the value.
 		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
 		        new SafeHtmlCell()) {
-			
+
 			@Override
-            public SafeHtml getValue(RowData object) {
+			public SafeHtml getValue(RowData object) {
 				return SafeHtmlUtils.fromTrustedString(object.getAlgebra());
 			}
 
-		};    
-	    table.addColumn(valColumn, app.getPlain("Value"));
+		};
+		table.addColumn(valColumn, app.getPlain("Value"));
 	    
 	    tableInit();	    
 	}
