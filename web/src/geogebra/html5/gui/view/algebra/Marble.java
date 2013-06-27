@@ -1,6 +1,7 @@
 package geogebra.html5.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,16 +12,44 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * Algebra view marble to show or hide geos
+ *
+ */
 public class Marble extends SimplePanel
 {
 	private SafeUri showUrl, hiddenUrl;
 	private GeoContainer gc;
+	/** whether the last switch was done using touch (ignore onclick in that case) */
+	boolean touchUsed;
 	
+	/**
+	 * Object providing the corresponding geo
+	 */
 	public interface GeoContainer {
+		/**
+		 * @return corresponding geo
+		 */
 		public GeoElement getGeo();
 		
 	}
 	
+	/**
+	 * Toggle visibility of corresponding geo
+	 */
+	void toggleVisibility(){
+		gc.getGeo().setEuclidianVisible(!gc.getGeo().isSetEuclidianVisible());
+		gc.getGeo().updateVisualStyle();
+		gc.getGeo().getKernel().getApplication().storeUndoInfo();
+		gc.getGeo().getKernel().notifyRepaint();
+		setChecked(gc.getGeo().isEuclidianVisible());
+	}
+	
+	/**
+	 * @param showUrl url of image for shown geos
+	 * @param hiddenUrl url of image for hidden geos
+	 * @param gc object providing the GeoElement
+	 */
 	public Marble(SafeUri showUrl,SafeUri hiddenUrl,final GeoContainer gc){
 		this.showUrl = showUrl;
 		this.hiddenUrl = hiddenUrl;
@@ -31,12 +60,12 @@ public class Marble extends SimplePanel
 			{	
 				event.preventDefault();
 				event.stopPropagation();
-				gc.getGeo().setEuclidianVisible(!gc.getGeo().isSetEuclidianVisible());
-				gc.getGeo().updateVisualStyle();
-				gc.getGeo().getKernel().getApplication().storeUndoInfo();
-				gc.getGeo().getKernel().notifyRepaint();
-
-				setChecked(gc.getGeo().isEuclidianVisible());
+				App.debug("click");
+				if(touchUsed){
+					touchUsed = false;
+				}else{
+					toggleVisibility();
+				}
 			}
 		}, ClickEvent.getType());
 		//MouseDown triggers scrolling if the element is too long for AV
@@ -45,20 +74,29 @@ public class Marble extends SimplePanel
 			public void onMouseDown(MouseDownEvent event)
 			{	
 				event.preventDefault();
-				event.stopPropagation();}
+				event.stopPropagation();
+				App.debug("mouse down");
+			}
+			
 		}, MouseDownEvent.getType());
-		
+		//let's also prevent default TouchStart; note that calling preventDefault may cause missing Click event
 		addDomHandler(new TouchStartHandler()
 		{
 			public void onTouchStart(TouchStartEvent event)
 			{	
 				event.preventDefault();
-				event.stopPropagation();}
+				event.stopPropagation();
+				toggleVisibility();
+				touchUsed = true;
+				App.debug("touch start");
+			}
 		}, TouchStartEvent.getType());
+
 	}
 
 	/**
 	 * set background-images via HTML
+	 * @param text URL of image as string
 	 */
 	public void setImage(String text)
 	{
@@ -67,6 +105,9 @@ public class Marble extends SimplePanel
 		this.getElement().setInnerHTML(html);
 	}
 
+	/**
+	 * @param value true tfor visible, false for invisible geo
+	 */
 	public void setChecked(boolean value)
 	{
 		if (value)
@@ -78,7 +119,11 @@ public class Marble extends SimplePanel
 			setImage(hiddenUrl.asString());
 		}
 	}
-
+	
+	/**
+	 * Enable or disable this control, NOT IMPLEMENTED
+	 * @param euclidianShowable whether the geo may be shown/hidden
+	 */
 	public void setEnabled(boolean euclidianShowable) {
 	    // TODO Auto-generated method stub
 	    
