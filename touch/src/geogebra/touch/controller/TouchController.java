@@ -149,7 +149,7 @@ public class TouchController extends EuclidianController
 		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
 		MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		if(Swipeables.isSwipeable(this.model.getCommand())){
-			GeoElement geo = this.app.getKernel().getConstruction().getLastGeoElement();
+			GeoElement geo = this.model.getElement(Test.GEOPOINT);
 			//FIXME selectedPoints should not be probably accessed from here
 			if(this.selectedPoints.isEmpty() && geo instanceof GeoPoint){
 				this.selectedPoints.add((GeoPoint)geo);
@@ -181,7 +181,8 @@ public class TouchController extends EuclidianController
 						.abs(this.origin.getY() - y) > 10))
 		{
 			handleEvent(x, y);
-			this.view.setPreview(null);
+			this.selectedPoints.clear();
+			
 		}
 		
 		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
