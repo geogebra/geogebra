@@ -854,7 +854,8 @@ ExpressionNode expression():
 {    
     rhs = expressionnode()              
     {
-        if (!GeoGebraCASParsing && rhs.includesPolynomial()) {
+      // Giac uses x,y not ggbtmpvarx/y
+        if (!GeoGebraCASParsing && !GiacParsing && rhs.includesPolynomial()) {
         	throw new MyError(loc, "IncompleteEquation");
         }
         
