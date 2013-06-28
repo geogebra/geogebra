@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -580,7 +579,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		titleBarPanel.add(toglStyleBtn2, 2, 0);
 
-		Label titleBarLabel = new Label(getPlainTitle());
+		Label titleBarLabel;
+		if (App.isFullAppGui()) {
+			titleBarLabel = new Label(getPlainTitle());
+		} else {
+			// TODO: find out why this is wrong
+			titleBarLabel = new Label("");
+		}
 		titleBarLabel.addStyleName("TitleBarLabel");
 		titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
 
@@ -598,11 +603,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (hasStyleBar) {
 			dockPanel.addNorth(titleBarPanel, 16);
-			if (showStyleBar && this instanceof EuclidianDockPanelWAbstract) {
-				// remove/change EuclidianDockPanelWAbstract
-				// if there will be other style bars too
+			if (showStyleBar)
 				dockPanel.addNorth(styleBarPanel, 25);
-			}
 			Widget w = loadStyleBar();
 			if(w instanceof StyleBarW)
 				((StyleBarW)w).setOpen(showStyleBar);
