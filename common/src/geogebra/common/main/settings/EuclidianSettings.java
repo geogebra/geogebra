@@ -58,6 +58,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
 		this.euclidianSettings1 = euclidianSettings1;
 		preferredSize = AwtFactory.prototype.newDimension(0,0);
+		resetNoFire();
 	}
 
 	/*
@@ -66,6 +67,11 @@ public class EuclidianSettings extends AbstractSettings {
 	 * EuclidianView.settingsChanged()
 	 */
 	public void reset() {
+		resetNoFire();
+		settingChanged();
+	}
+
+	private void resetNoFire() {
 		gridDistances = null;
 		axisNumberingDistanceX = Double.NaN;
 		axisNumberingDistanceY = Double.NaN;
@@ -106,7 +112,6 @@ public class EuclidianSettings extends AbstractSettings {
 		axisCross[1] = 0;
 		positiveAxes[0] = false;
 		positiveAxes[1] = false;
-		settingChanged();
 	}
 
 	/**
