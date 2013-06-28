@@ -1159,9 +1159,11 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 		// set the labelling of the panels
 		// titles on the top of their style bars
-		DockPanelW [] panels = getLayout().getDockManager().getPanels();
-		for (int i = 0; i < panels.length; i++)
-			panels[i].setLabels();
+		if (getLayout() != null && getLayout().getDockManager() != null) {
+			DockPanelW [] panels = getLayout().getDockManager().getPanels();
+			for (int i = 0; i < panels.length; i++)
+				panels[i].setLabels();
+		}
 	}
 
 	@Override
