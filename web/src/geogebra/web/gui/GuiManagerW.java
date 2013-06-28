@@ -35,6 +35,7 @@ import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
+import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
@@ -1135,7 +1136,8 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			GGWToolBar.getToolBar().buildGui();
 		}
 
-		if (app.getObjectPool().getGgwMenubar().getMenubar() != null) {
+		if (app.getObjectPool().getGgwMenubar() != null &&
+			app.getObjectPool().getGgwMenubar().getMenubar() != null) {
 			app.getObjectPool().getGgwMenubar().removeMenus();
 			app.getObjectPool().getGgwMenubar().init(app);
 		}
@@ -1155,6 +1157,11 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		
 		(app).getConstructionProtocolNavigation().setLabels();
 
+		// set the labelling of the panels
+		// titles on the top of their style bars
+		DockPanelW [] panels = getLayout().getDockManager().getPanels();
+		for (int i = 0; i < panels.length; i++)
+			panels[i].setLabels();
 	}
 
 	@Override

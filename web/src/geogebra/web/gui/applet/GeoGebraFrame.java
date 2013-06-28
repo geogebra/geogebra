@@ -190,7 +190,10 @@ public class GeoGebraFrame extends VerticalPanel {
 				//useDataParamBorder(articleElement, inst);
 			    //inst.add(inst.app.buildApplicationPanel());
 				inst.app.buildApplicationPanel();
-			    
+
+			    // need to call setLabels here
+				// to print DockPanels' titles
+				inst.app.setLabels();
 			}
 			
 			public void onFailure(Throwable reason) {

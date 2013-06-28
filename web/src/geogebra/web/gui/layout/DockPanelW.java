@@ -243,6 +243,12 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	private boolean isDialog = false;
 
 	/**
+	 * After injectResources is called, setLabels is called,
+	 * and afterwards, titleBarLabel can be set
+	 */
+	private boolean titleBarLabelCanSet = false;
+
+	/**
 	 * If the view needs a menu bar when undocked, its is kept here
 	 */
 	//private JMenuBar menubar;
@@ -508,6 +514,8 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 	PushButton toglStyleBtn2;
 	AbsolutePanel titleBarPanel;
+	
+	Label titleBarLabel;
 
 	private VerticalPanel componentPanel;
 	
@@ -579,11 +587,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		titleBarPanel.add(toglStyleBtn2, 2, 0);
 
-		Label titleBarLabel;
-		if (App.isFullAppGui()) {
+		if (App.isFullAppGui() || titleBarLabelCanSet) {
 			titleBarLabel = new Label(getPlainTitle());
 		} else {
-			// TODO: find out why this is wrong
 			titleBarLabel = new Label("");
 		}
 		titleBarLabel.addStyleName("TitleBarLabel");
@@ -591,9 +597,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		setLayout();
 	}
-	
-	
-	
+
+	public void setLabels() {
+		if (titleBarLabel != null) {
+			titleBarLabelCanSet = true;
+			titleBarLabel.setText(getPlainTitle());
+		}
+	}
+
 	/**
 	 * sets the layout of the stylebar and title panel
 	 */
