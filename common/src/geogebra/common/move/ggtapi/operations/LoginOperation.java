@@ -27,8 +27,8 @@ public class LoginOperation extends BaseOperation {
 	 * 
 	 */
 	public void loginSuccess(JSONObject response) {
-		((LoginModel) getModel()).loginSuccess(response);
-		((LoginView) getView()).loginSuccess(response);
+		getModel().loginSuccess(response);
+		getView().loginSuccess(response);
 	}
 
 	/**
@@ -37,8 +37,18 @@ public class LoginOperation extends BaseOperation {
 	 * Error happened during login
 	 */
 	public void loginError(JSONObject response) {
-		((LoginModel) getModel()).loginError(response);
-		((LoginView) getView()).loginError(response);
+		getModel().loginError(response);
+		getView().loginError(response);
+	}
+	
+	@Override
+	public LoginModel getModel() {
+		return (LoginModel) super.getModel();
+	}
+	
+	@Override
+	public LoginView getView() {
+		return (LoginView) super.getView();
 	}
 
 }

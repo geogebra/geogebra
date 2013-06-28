@@ -1,14 +1,14 @@
 package geogebra.common.move.ggtapi.models;
 
 import geogebra.common.move.ggtapi.models.json.JSONObject;
-import geogebra.common.move.models.BaseModel;
+import geogebra.common.move.ggtapi.models.json.JSONString;
 
 /**
  * @author gabor
  * Model for loginOperation
  *
  */
-public class LoginModel extends BaseModel {
+public abstract class LoginModel extends AuthenticationModel {
 	
 	/**
 	 * Creates a new login model
@@ -22,8 +22,10 @@ public class LoginModel extends BaseModel {
 	 * Parses the response, and sets model depenent things (localStorage, etc).
 	 */
 	public void loginSuccess(JSONObject response) {
-		// TODO Auto-generated method stub
-		
+		JSONString token = (JSONString) response.get(GGB_TOKEN_KEY_NAME);
+		if (token.isString() != null) {
+			storeLoginToken(token.toString());
+		}
 	}
 
 	/**
@@ -31,8 +33,11 @@ public class LoginModel extends BaseModel {
 	 * error happened, cleanup, etc
 	 */
 	public void loginError(JSONObject response) {
-		// TODO Auto-generated method stub
-		
+		if (getLoginToken() != null) {
+			clearLoginToken();
+		}
 	}
+	
+	
 
 }
