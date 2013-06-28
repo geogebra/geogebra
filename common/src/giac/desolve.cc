@@ -552,10 +552,12 @@ namespace giac {
     vecteur lv=lidnt(f_orig);
     vx=vx_var;
     vy=y__IDNT_e;
+#if 0
     if (calc_mode(contextptr)==1){
       vx=gen("ggbtmpvarx",contextptr);
       vy=gen("ggbtmpvary",contextptr);
     }
+#endif
     for (unsigned i=0;i<lv.size();++i){
       string s=lv[i].print(contextptr);
       char c=s[s.size()-1];
