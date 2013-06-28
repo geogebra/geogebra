@@ -163,7 +163,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				 event.preventDefault();
 			 }
 		}
-		App.debug("touch event received");
 		if(time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS){
 			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
 			this.waitingTouchMove = e;
@@ -172,12 +171,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			this.repaintTimer.schedule(EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS);
 			return;
 		}
-		App.debug("touch event handling");
 		AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
 		onTouchMoveNow(e, time);
 	}
 
 	private void onTouchMoveNow(AbstractEvent event,long time) {
+		App.debug("touch move now"+event.getX()+","+event.getY()+" offset "+this.getXoffset()+","+this.getYoffset());
 		this.lastMoveEvent = time;
 		wrapMouseDragged(event);
 		
