@@ -321,7 +321,7 @@ public class DrawEquationWeb extends DrawEquation {
 				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
 
-		if (Browser.isFirefox() && (fontSize != 12)) {
+		if ((Browser.isFirefox() || Browser.isIE()) && (fontSize != 12)) {
 			return new geogebra.html5.awt.GDimensionW(getScaledWidth(ih),
 			        getScaledHeight(ih));
 		}

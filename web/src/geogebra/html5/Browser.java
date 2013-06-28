@@ -5,7 +5,17 @@ public class Browser {
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
+		// however, this is not necessarily the best method to decide
 		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
+			return true;
+		}
+		return false;
+	}-*/;
+
+	public static native boolean isIE() /*-{
+		// copying checking code from isFirefox() and checked from web
+		// however, this is not necessarily the best method to decide
+		if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) {
 			return true;
 		}
 		return false;
