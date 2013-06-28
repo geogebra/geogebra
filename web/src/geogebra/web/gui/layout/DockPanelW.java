@@ -5,8 +5,8 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
 
@@ -598,9 +598,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (hasStyleBar) {
 			dockPanel.addNorth(titleBarPanel, 16);
-			if (showStyleBar &&	
-					(this instanceof EuclidianDockPanelW || // TODO: temporary beauty hack
-					this instanceof Euclidian2DockPanelW)) {
+			if (showStyleBar && this instanceof EuclidianDockPanelWAbstract) {
+				// remove/change EuclidianDockPanelWAbstract
+				// if there will be other style bars too
 				dockPanel.addNorth(styleBarPanel, 25);
 			}
 			Widget w = loadStyleBar();
@@ -640,7 +640,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 			component = loadComponent();
 		}
 		if (hasStyleBar) {
-			styleBarPanel.add(loadStyleBar(), 24, 0);
+			styleBarPanel.add(loadStyleBar(), 2, 0);
 		}
 		setLayout();
 	}
