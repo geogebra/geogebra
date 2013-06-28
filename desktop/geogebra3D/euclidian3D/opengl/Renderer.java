@@ -1515,7 +1515,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	float g = view3D.isShutDownGreen() ? 0 : (float) c.getGreen()/255;
     	float b = (float) c.getBlue()/255;
     	
-        gl.glClearColor(r,g,b, 0.0f);   
+        gl.glClearColor(r,g,b, 1.0f);   
     }
      
     
