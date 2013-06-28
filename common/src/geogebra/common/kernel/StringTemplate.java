@@ -534,7 +534,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 	}
 	
 
-	final private static String printVariableName(final StringType printForm, final String label) {
+	final private String printVariableName(final StringType printForm, final String label) {
 		switch (printForm) {
 		case MPREDUCE:
 		case GIAC:
@@ -551,8 +551,18 @@ public class StringTemplate implements ExpressionNodeConstants{
 	
 	/**
 	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
+	 * 
+	 * important eg i -> ggbtmpvari, e -> ggbtmpvare
+	 * so that they aren't confused with the constants
 	 */
-	private static String addTempVariablePrefix(final String label) {
+	private String addTempVariablePrefix(final String label) {
+		
+		// TODO: experimental
+		// keep x, y, z so that x^2+y^2=1 works in Giac
+		if (getStringType().equals(StringType.GIAC) && "x".equals(label) || "y".equals(label) || "z".equals(label)) {
+			return label;
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
 		sb.append(Kernel.TMP_VARIABLE_PREFIX);

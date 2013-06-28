@@ -358,6 +358,9 @@ public class Ggb2giac {
 		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
+		
+		p("Radius.1", "radius(conic(%0))"); 
+		
 		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
 				"binomial_icdf(%0,%1,rand(0,1))");
