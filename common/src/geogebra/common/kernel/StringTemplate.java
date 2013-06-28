@@ -559,7 +559,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 		
 		// TODO: experimental
 		// keep x, y, z so that x^2+y^2=1 works in Giac
-		if (getStringType().equals(StringType.GIAC) && ("x".equals(label) || "y".equals(label) || "y'".equals(label) || "z".equals(label))) {
+		if (getStringType().equals(StringType.GIAC) && ("x".equals(label) || "y".equals(label) || "y'".equals(label) || "y''".equals(label) || "z".equals(label))) {
 			return label;
 		}
 		
