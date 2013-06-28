@@ -48,6 +48,13 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected final static String specialFunctions =
 			"restart;"+
+	
+			// probably temporary
+			"ggbtmpvarx:=x;"+
+			"ggbtmpvary:=y;"+
+			"ggbtmpvarz:=z;"+
+			
+			
 			"atan2(y,x):=arg(x+i*y);"+
 			"sech(x):=1/cosh(x);"+
 			"csch(x):=1/sinh(x);"+
@@ -470,7 +477,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// eg (37/10) > ggbtmpvarx
 	// eg 333 > ggbtmpvarx
 	// eg (-33) > ggbtmpvarx
-	private final static RegExp inequalitySimple = RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
+	private final static RegExp inequalitySimple = RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar[^,}\\(\\)&|<=]+)");
 	// eg {3, 3>ggbtmpvarx, x^2}
 	// eg {3, 3>ggbtmpvarx}
 	// eg {3>ggbtmpvarx, x^2}
@@ -501,16 +508,24 @@ public abstract class CASgiac implements CASGenericInterface {
 			//App.debug(matcher.getGroup(3));
 			//App.debug(matcher.getGroup(4));
 			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)+ matcher.getGroup(1);
-			App.debug("giac output (with inequality converted): " + ret);
+			App.debug("giac output (with simple inequality converted): " + ret);
 			return ret;
 		}
 		
 		// swap 5 > x && x > 3 into 3<x<5
 		while ((matcher = inequality.exec(ret)) != null &&
+// TODO: check not x<3 && x<4
 
 				// check variable the same
 				// ie not x>5 && y<4
 				matcher.getGroup(2).equals(matcher.getGroup(7))) {	
+			App.debug("1 "+matcher.getGroup(1));
+			App.debug("2 "+matcher.getGroup(2));
+			App.debug("3 "+matcher.getGroup(3));
+			App.debug("4 "+matcher.getGroup(4));
+			App.debug("5 "+matcher.getGroup(5));
+			App.debug("6 "+matcher.getGroup(6));
+			App.debug("7 "+matcher.getGroup(7));
 			
 			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<" + matcher.getGroup(3) + matcher.getGroup(2) + "<" + matcher.getGroup(6) + matcher.getGroup(5) + matcher.getGroup(8);
 		
