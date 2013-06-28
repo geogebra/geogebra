@@ -14,6 +14,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.PolyReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -176,7 +177,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if ("".equals(result)) {
 			return null;
 		}
-		return replaceRoots(casParser.parseGiac(result),arbconst);
+		return replaceRoots(casParser.parseGiac(result).traverse(PolyReplacer.getReplacer()),arbconst);
 
 	}
 
@@ -249,7 +250,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	final public synchronized String toGeoGebraString(String giacString,
 			MyArbitraryConstant arbconst, StringTemplate tpl)
 					throws CASException {
-		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst);
+		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString).traverse(PolyReplacer.getReplacer()), arbconst);
 		//replace rational exponents by roots or vice versa
 
 
