@@ -1962,8 +1962,29 @@ namespace giac {
     if (is_undef(difff) || difff.type!=_VECT)
       return difff;
     matrice m=mtran(*difff._VECTptr);
-    if (!is_zero(derive(m,x,contextptr)))
+    if (!is_zero(derive(m,x,contextptr))){
+      if (f._VECTptr->size()==1 && x._VECTptr->size()==1 && is_zero(derive(f,n,contextptr))){
+	// homographic?
+	gen tmp=ratnormal(f._VECTptr->front()),var(x._VECTptr->front());
+	gen tmpn=_getNum(tmp,contextptr),tmpd=_getDenom(tmp,contextptr),a,b,c,d;
+	if (is_linear_wrt(tmpn,var,a,b,contextptr) && is_linear_wrt(tmpd,var,c,d,contextptr)&& !is_zero(c)){
+	  // u_{n+1}=(a*u_n+b)/(c*u_n+d)
+	  // find fixed points
+	  gen fixed=solve(a*n+b-(c*n+d)*n,n,1,contextptr);
+	  if (fixed.type==_VECT && fixed._VECTptr->size()==2){
+	    gen r1=fixed._VECTptr->front(),r2=fixed._VECTptr->back();
+	    // (u_n-r1)/(u_n-r2) is geometric, compute ratio
+	    gen un1=(a*n+b)/(c*n+d);
+	    gen r=normal((un1-r1)*(n-r2)/((un1-r2)*(n-r1)),contextptr);
+	    if (is_zero(derive(r,n,contextptr))){
+	      un1=pow(r,n,contextptr)*(var-r1)/(var-r2);
+	      return (r1-un1*r2)/(1-un1);
+	    }
+	  }
+	}
+      }
       return symbolic(at_seqsolve,args);
+    }
     vecteur cst=*normal(subvecteur(*f._VECTptr,multmatvecteur(m,*x._VECTptr)),contextptr)._VECTptr;
     if (m.size()==1 && cst.size()==1){
       gen l(m[0][0]),c(cst[0]),remains;

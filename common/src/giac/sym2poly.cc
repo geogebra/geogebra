@@ -2118,7 +2118,8 @@ namespace giac {
       gen simpl,doubl; bool pos;
       zint2simpldoublpos(cont,simpl,doubl,pos,2,contextptr);
       if (!pos) simpl=-simpl;
-      simpl=r2e(simpl,lv,contextptr); // if simpl is not an integer
+      simpl=r2e(polynome(simpl,nd._POLYptr->dim),lv,contextptr); // if simpl is not an integer
+      doubl=r2e(polynome(doubl,nd._POLYptr->dim),lv,contextptr); // if doubl is not an integer
       lout.push_back(pow(simpl,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr)*out);
     }
     return subst(e,lin,lout,false,contextptr);
