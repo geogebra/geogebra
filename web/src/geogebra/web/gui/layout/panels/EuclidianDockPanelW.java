@@ -164,7 +164,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	protected Widget loadStyleBar() {
 
 		if (espanel == null) {
-			espanel = app.getActiveEuclidianView().getStyleBar();
+			espanel = app.getEuclidianView1().getStyleBar();
 		}
 
 		return (Widget) espanel;
