@@ -306,6 +306,16 @@ public abstract class ValidExpression implements ExpressionValue {
 		return new MyDouble(getKernel(), Double.NaN);
 	}
 
+	/**
+	 * Evaluates like function, a complex expression
+	 * 
+	 * @return function 
+	 */
+	public Function evaluateComplex() {
+		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
+		return (Function) ev;
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated

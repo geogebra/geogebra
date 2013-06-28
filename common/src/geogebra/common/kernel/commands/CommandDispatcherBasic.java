@@ -254,6 +254,10 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
+		case Nyquist:
+			return new CmdNyquist(kernel);
+		case Bode:
+			return new CmdBode(kernel);
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);

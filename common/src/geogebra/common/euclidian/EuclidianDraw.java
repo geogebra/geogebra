@@ -15,6 +15,7 @@ import geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import geogebra.common.euclidian.draw.DrawLine;
 import geogebra.common.euclidian.draw.DrawList;
 import geogebra.common.euclidian.draw.DrawLocus;
+import geogebra.common.euclidian.draw.DrawNyquist;
 import geogebra.common.euclidian.draw.DrawParametricCurve;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.euclidian.draw.DrawPolyLine;
@@ -36,6 +37,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoTransferFunction;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -55,6 +57,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -255,6 +258,12 @@ public class EuclidianDraw {
 		case CURVE_CARTESIAN:
 			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
 			break;
+		case CURVE_POLAR:
+			if (geo.getParentAlgorithm() instanceof AlgoTransferFunction){
+				d = new DrawNyquist(ev, (GeoTransferFunction) geo);
+			}
+			break;
+			
 		case SPLINE:
 			d = new DrawSpline(ev, (GeoSpline) geo);
 			break;
