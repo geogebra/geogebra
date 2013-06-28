@@ -66,19 +66,19 @@ public class Ggb2giac {
 		p("Covariance.1",
 				"normal(covariance(%0))");
 		p("Cross.2", "cross(%0,%1)");
-		p("ComplexRoot.1", "normal(cZeros(%0,ggbtmpvarx))");
-		p("CSolutions.1", "normal(cZeros(%0,ggbtmpvarx))");
+		p("ComplexRoot.1", "normal(cZeros(%0,x))");
+		p("CSolutions.1", "normal(cZeros(%0,x))");
 		p("CSolutions.2",
 				"normal(cZeros(%0,%1))");
 		p("CSolve.1",
-				"normal(csolve(%0,ggbtmpvarx))");
+				"normal(csolve(%0,x))");
 		p("CSolve.2", "normal(csolve(%0,%1))");
 		p("Degree.1",
 				"degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
 		p("Denominator.1", "denom(%0)");
 		p("Derivative.1",
-				"regroup(diff(%0, ggbtmpvarx))");
+				"regroup(diff(%0, x))");
 		p("Derivative.2", 
 				"regroup(diff(%0,%1))");
 		p("Derivative.3", 
@@ -86,9 +86,9 @@ public class Ggb2giac {
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "dim(%0)");
 		p("Div.2",
-				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquo(%0,%1) else quo(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquo(%0,%1) else quo(%0,%1,x) fi");
 		p("Division.2",
-				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquorem(%0,%1) else quorem(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then iquorem(%0,%1) else quorem(%0,%1,x) fi");
 		p("Divisors.1",
 				"dim(idivis(%0))");
 		p("DivisorsList.1",
@@ -128,15 +128,15 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// factor over rationals
-		// add ggbtmpvarx so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
+		// add x so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
 		p("Factor.1",
-				"[with_sqrt(0),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,ggbtmpvarx); fi],with_sqrt(1),ggbans][4]");
+				"[with_sqrt(0),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,x); fi],with_sqrt(1),ggbans][4]");
 		p("Factor.2",
 				"[with_sqrt(0),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],with_sqrt(1),ggbans][4]");
 
 		// factor over irrationals
 		p("IFactor.1",
-				"[with_sqrt(1),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,ggbtmpvarx); fi],ggbans][3]");
+				"[with_sqrt(1),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,x); fi],ggbans][3]");
 		p("IFactor.2",
 				"[with_sqrt(1),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],ggbans][3]");
 
@@ -155,13 +155,13 @@ public class Ggb2giac {
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"[[ggbans:=%0],[ggbans:=exponential_regression(ggbans)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*ggbtmpvarx)][2]");
+				"[[ggbans:=%0],[ggbans:=exponential_regression(ggbans)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*x)][2]");
 		p("FitLog.1",
-				"[[ggbans:=%0],[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(ggbtmpvarx)+evalf(ggbans[1])][2]");
+				"[[ggbans:=%0],[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(x)+evalf(ggbans[1])][2]");
 		p("FitPoly.2",
-				"normal(evalf(horner(polynomial_regression(%0,%1),ggbtmpvarx)))");
+				"normal(evalf(horner(polynomial_regression(%0,%1),x)))");
 		p("FitPow.1",
-				"[[ggbans:=%0],[ggbans:=power_regression(ggbans)],evalf(ggbans[1])*ggbtmpvarx^evalf(ggbans[0])][2]");
+				"[[ggbans:=%0],[ggbans:=power_regression(ggbans)],evalf(ggbans[1])*x^evalf(ggbans[0])][2]");
 
 		p("Gamma.3", "igamma((%0),(%2)/(%1),1)");
 		p("GCD.2",
@@ -183,7 +183,7 @@ public class Ggb2giac {
 		// normal(regroup()) so that ImplicitDerivative[x^2 + y^2, y, x] gives a nice answer
 		// the danger is that this could multiply something out eg (x+1)^100 (unlikely)
 		p("ImplicitDerivative.3", "normal(regroup(-diff(%0,%2)/diff(%0,%1)))");
-		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,ggbtmpvarx)/diff(%0,ggbtmpvary)))");
+		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,x)/diff(%0,y)))");
 
 		p("Integral.1",
 				"regroup(integrate(%0))");
@@ -196,7 +196,7 @@ public class Ggb2giac {
 		p("Integral.4",
 				"normal(integrate(%0,%1,%2,%3))");
 		p("IntegralBetween.4",
-				"normal(int(%0-(%1),ggbtmpvarx,%2,%3))");
+				"normal(int(%0-(%1),x,%2,%3))");
 		p("IntegralBetween.5",
 				"normal(int(%0-(%1),%2,%3,%4))");
 		
@@ -206,9 +206,9 @@ public class Ggb2giac {
 				"[[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][2]");
 		
 		p("Iteration.3",
-				"(unapply(%0,ggbtmpvarx)@@%2)(%1)");
+				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
-				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=f(l[k-1]); od; l; end],ggbans(unapply(%0,ggbtmpvarx),%1,%2)][1]");
+				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=f(l[k-1]); od; l; end],ggbans(unapply(%0,x),%1,%2)][1]");
 		p("PointList.1",
 				"flatten(coordinates(%0))");
 		p("RootList.1",
@@ -249,11 +249,11 @@ public class Ggb2giac {
 		p("Limit.3",
 				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitAbove.2",
-				"[[ggbans:=?],[ggbans:=limit(%0,ggbtmpvarx,%1,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggbans:=?],[ggbans:=limit(%0,x,%1,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitAbove.3", 
 				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitBelow.2",
-				"[[ggbans:=?],[ggbans:=limit(%0,ggbtmpvarx,%1,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggbans:=?],[ggbans:=limit(%0,x,%1,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitBelow.3", 
 				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		
@@ -268,7 +268,7 @@ public class Ggb2giac {
 		p("MixedNumber.1",
 				"propfrac(%0)");
 		p("Mod.2",
-				"if type(%0)==DOM_INT && type(%1)==DOM_INT then irem(%0,%1) else rem(%0,%1,ggbtmpvarx) fi");
+				"if type(%0)==DOM_INT && type(%1)==DOM_INT then irem(%0,%1) else rem(%0,%1,x) fi");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3",
 				"romberg(%0,%1,%2)");
@@ -370,7 +370,7 @@ public class Ggb2giac {
 		p("RandomNormal.2",
 				"randnorm(%0,%1)");
 		p("RandomPolynomial.3",
-				"randpoly(%0,ggbtmpvarx,%1,%2)");
+				"randpoly(%0,x,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
 		p("Rationalize.1", "if type(%0)==DOM_RAT then %0 else normal(exact(%0)) fi");
@@ -402,7 +402,7 @@ public class Ggb2giac {
 		p("Simplify.1", "tlin(simplify(regroup(%0)))");
 
 		p("Solutions.1",
-				"normal(zeros(%0,ggbtmpvarx))");
+				"normal(zeros(%0,x))");
 		p("Solutions.2",
 				"normal(zeros(%0,%1))");
 
@@ -415,31 +415,31 @@ public class Ggb2giac {
 				"normal([op(solve(%0,%1))])");
 		p("SolveODE.1",
 				"when((%0)[0]=='=',"
-						+"normal(map(desolve(%0),x->ggbtmpvary=x)[0])"
+						+"normal(map(desolve(%0),x->y=x)[0])"
 						+","
 						// add y'= if it's missing
-						+"normal(map(desolve(ggbtmpvary'=%0),x->ggbtmpvary=x)[0])"
+						+"normal(map(desolve(y'=%0),x->y=x)[0])"
 						+")");
 		p("SolveODE.2",
 				"when((%0)[0]=='=',"
-						+"normal(map(desolve(%0,%1),x->ggbtmpvary=x)[0])"
+						+"normal(map(desolve(%0,%1),x->y=x)[0])"
 						+","
 						// add y'= if it's missing
-						+"normal(map(desolve(ggbtmpvary'=%0,%1),x->ggbtmpvary=x)[0])"
+						+"normal(map(desolve(y'=%0,%1),x->y=x)[0])"
 						+")");
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"
-						+"normal(map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))[0])"
+						+"normal(map(desolve(%0,%2,%1),type(%1)==6?(x->%1=x):(x->y=x))[0])"
 						+","
 						// add y'= if it's missing
-						+"normal(map(desolve(ggbtmpvary'=%0,%2,%1),type(%1)==6?(x->%1=x):(x->ggbtmpvary=x))[0])"
+						+"normal(map(desolve(y'=%0,%2,%1),type(%1)==6?(x->%1=x):(x->y=x))[0])"
 						+")");
 		p("SolveODE.4",
 				"when((%0)[0]=='=',"
 						+"normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])"
 						+","
 						// add y'= if it's missing
-						+"normal(map(desolve(ggbtmpvary'=%0,%2,%1,%3),x->%1=x)[0])"
+						+"normal(map(desolve(y'=%0,%2,%1,%3),x->%1=x)[0])"
 						+")");
 		p("SolveODE.5",//SolveODE[y''=x,y,x,A,{B}]
 				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
@@ -458,12 +458,12 @@ public class Ggb2giac {
 				"sum(%0,%1,%2,%3)");
 		
 		p("Tangent.2",
-				"ggbtmpvary=subst(diff(%1,ggbtmpvarx),ggbtmpvarx=%0)*(ggbtmpvarx-%0)+subst(%1,ggbtmpvarx=%0)");
+				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)");
 		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
 				"%0[%1-1..%2-1]");
 		p("TaylorSeries.3",
-				"convert(series(%0,ggbtmpvarx,%1,%2),polynom)");
+				"convert(series(%0,x,%1,%2),polynom)");
 		p("TaylorSeries.4",
 				"convert(series(%0,%1,%2,%3),polynom)");
 		p("TDistribution.2",

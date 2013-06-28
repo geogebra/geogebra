@@ -48,13 +48,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected final static String specialFunctions =
 			"restart;"+
-	
-			// probably temporary
-			"ggbtmpvarx:=x;"+
-			"ggbtmpvary:=y;"+
-			"ggbtmpvarz:=z;"+
-			
-			
 			"atan2(y,x):=arg(x+i*y);"+
 			"sech(x):=1/cosh(x);"+
 			"csch(x):=1/sinh(x);"+
