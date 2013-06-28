@@ -5,6 +5,7 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.main.AppW;
@@ -18,6 +19,7 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -540,32 +542,48 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		titleBarPanel.addStyleName("cursor_drag");
 
 		titleBarPanel.addDomHandler(this, MouseDownEvent.getType());
-		
+
 		Image img = new Image(AppResources.INSTANCE.triangle_down().getSafeUri());
 		toglStyleBtn = new PushButton(img);
-		toglStyleBtn.setSize("16px", "8px");
-		toglStyleBtn.setStyleName("StyleBarToggleButton");
-		toglStyleBtn.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				showStyleBar = false;
-				setLayout();
-			}
-		});
-		
 		Image img2 = new Image(AppResources.INSTANCE.triangle_right().getSafeUri());
 		toglStyleBtn2 = new PushButton(img2);
-		toglStyleBtn2.setSize("16px", "8px");
-		toglStyleBtn2.setStyleName("none");
-		toglStyleBtn2.addClickHandler(new ClickHandler() {
+
+		ClickHandler ch1 = new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				showStyleBar = true;
+				showStyleBar = false;
+				titleBarPanel.remove(toglStyleBtn);
+				titleBarPanel.insert(toglStyleBtn2, 2, 0, 0);
 				setLayout();
 			}
-		});
-		
-		styleBarPanel.add(toglStyleBtn, 2, 0);
+		};
+
+		ClickHandler ch2 = new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				showStyleBar = true;
+				titleBarPanel.remove(toglStyleBtn2);
+				titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
+				setLayout();
+			}
+		};
+
+		toglStyleBtn.setSize("16px", "8px");
+		toglStyleBtn.setStyleName("StyleBarToggleButton");
+		toglStyleBtn.addClickHandler(ch1);
+
+		toglStyleBtn2.setSize("16px", "8px");
+		toglStyleBtn2.setStyleName("none");
+		toglStyleBtn2.addClickHandler(ch2);
+
+		// toglStyleBtn used to belong to styleBarPanel
+		//styleBarPanel.add(toglStyleBtn, 2, 0);
+		// but titleBarPanel should always be visible, like in Desktop
+
 		titleBarPanel.add(toglStyleBtn2, 2, 0);
-			
+
+		Label titleBarLabel = new Label(getPlainTitle());
+		titleBarLabel.addStyleName("TitleBarLabel");
+		titleBarPanel.add(titleBarLabel, 20, 0);// as toglStyleBtn2 is 16px long
+
 		setLayout();
 	}
 	
@@ -579,10 +597,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		dockPanel.clear();
 
 		if (hasStyleBar) {
-			if (showStyleBar) {
+			dockPanel.addNorth(titleBarPanel, 16);
+			if (showStyleBar &&	
+					(this instanceof EuclidianDockPanelW || // TODO: temporary beauty hack
+					this instanceof Euclidian2DockPanelW)) {
 				dockPanel.addNorth(styleBarPanel, 25);
-			} else {
-				dockPanel.addNorth(titleBarPanel, 14);
 			}
 			Widget w = loadStyleBar();
 			if(w instanceof StyleBarW)
@@ -1754,10 +1773,14 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 
 	public void onMouseDown(MouseDownEvent event) {
-		if(event.getRelativeX(this.toglStyleBtn2.getElement()) > 20){
-			dockManager.drag(this);	    
+		if (this.toglStyleBtn2.isAttached()) {
+			if (event.getRelativeX(this.toglStyleBtn2.getElement()) > 20) {
+				dockManager.drag(this);
+			}
+		} else if (this.toglStyleBtn.isAttached()) {
+			if (event.getRelativeX(this.toglStyleBtn.getElement()) > 20) {
+				dockManager.drag(this);
+			}
 		}
     }
-	
-
 }

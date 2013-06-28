@@ -1409,7 +1409,12 @@ Paddings for menuitems.
 }
 
 .TitleBarPanel {
-	height: 13;
+	height: 16px;
+}
+
+.TitleBarLabel {
+	font-size: 10px;
+	font-weight: bold;
 }
 
 .DockGlassPane, .TitleBarPanel {
