@@ -195,9 +195,10 @@ cd lib
 for i in javagiac.dll javagiac64.dll libjavagiac.so libjavagiac64.so; do
  wget -N http://dev.geogebra.org/download/lib/giac/latest/$i
  done
-# Getting the Mac files. Warning: the path is hardcoded for now!
+# Getting the Mac files by hacking the info from kickstart.xml
+JNILIB_URL=`cat ../../kickstart.xml | grep jnilib | awk '{print $2}' | cut -f2 -d\" | sed s/"libjavagiac.jnilib"//`
 for i in libgmp.10.dylib libjavagiac.jnilib; do
- wget -N http://dev.geogebra.org/download/lib/giac/20130624/$i
+ wget -N $JNILIB_URL/$i
  done
 zip javagiac-win32.jar javagiac.dll
 zip javagiac-win64.jar javagiac64.dll
