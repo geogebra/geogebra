@@ -683,8 +683,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			if (getObjectColor().equals(ConstructionDefaults.colRegionPoint))
 				setObjColor(ConstructionDefaults.colPoint);
 			// move from Dependent to Independent in AlgebraView
-			if (app.isUsingFullGui())
-				((AlgebraViewD) (app.getAlgebraView()))
+			if (kernel.getApplication().isUsingFullGui())
+				((AlgebraViewD) (kernel.getApplication().getAlgebraView()))
 						.rename(this);
 		}
 
@@ -779,7 +779,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isInfinite())
-			return app.getPlain("Undefined");
+			return loc.getPlain("Undefined");
 
 		StringBuilder sbToString = getSbBuildValueString();
 

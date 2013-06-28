@@ -470,7 +470,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public GeoElement(final Construction c) {
 		super(c);
 
-		graphicsadapter = app.newGeoElementGraphicsAdapter();
+		graphicsadapter = kernel.getApplication().newGeoElementGraphicsAdapter();
 		// this.geoID = geoCounter++;
 
 		// moved to subclasses, see
@@ -481,13 +481,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
 
 		// ensure all new objects are in the top layer
-		if (app != null) {
-			layer = app.getMaxLayerUsed();
+		if (kernel.getApplication() != null) {
+			layer = kernel.getApplication().getMaxLayerUsed();
 		}
 
 		viewFlags = new ArrayList<Integer>();
 		EuclidianViewInterfaceSlim ev;
-		if ((app != null) && ((ev = app.getActiveEuclidianView()) != null)) {
+		if ((kernel.getApplication() != null) && ((ev = kernel.getApplication().getActiveEuclidianView()) != null)) {
 			viewFlags.add(ev.getViewID());
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
 			// euclidian view
@@ -1760,7 +1760,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		switch (tooltipMode) {
 		default:
 			// case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(app.isUsingFullGui() && app
+			if (!(kernel.getApplication().isUsingFullGui() && kernel.getApplication()
 					.showView(App.VIEW_ALGEBRA))) {
 				return false;
 			}
@@ -1791,7 +1791,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn) {
-				if (!(app.isUsingFullGui() && app
+				if (!(kernel.getApplication().isUsingFullGui() && kernel.getApplication()
 						.showView(App.VIEW_ALGEBRA))) {
 					return "";
 				}
@@ -1972,7 +1972,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
-		return !fixed && app.letRedefine() && !(this instanceof TextValue || isGeoImage())
+		return !fixed && kernel.getApplication().letRedefine() && !(this instanceof TextValue || isGeoImage())
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
 				!isIndependent()); // redefine dependent object
@@ -3221,7 +3221,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// remove from selection
 		if (isSelected()) {
 			//prevent update selection if construction will replace the geo
-			app.getSelectionManager().removeSelectedGeo(this, false, !cons.isRemovingGeoToReplaceIt());
+			kernel.getApplication().getSelectionManager().removeSelectedGeo(this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
 		// notify views before we change labelSet
@@ -4105,7 +4105,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return localized type string
 	 */
 	public String translatedTypeString() {
-		return app.getPlain(getTypeString());
+		return loc.getPlain(getTypeString());
 	}
 
 	/**
@@ -4114,7 +4114,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String translatedTypeStringForAlgebraView() {
 		//App.debug(getTypeStringForAlgebraView());
 		//App.debug(app.getPlain(getTypeStringForAlgebraView()));
-		return app.getPlain(getTypeStringForAlgebraView());
+		return loc.getPlain(getTypeStringForAlgebraView());
 	}
 
 	/**
@@ -4292,7 +4292,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isDefined()) {
 			return toValueString(tpl);
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	/**
@@ -4382,7 +4382,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final StringBuilder sbAlgebraDesc = new StringBuilder();
 			sbAlgebraDesc.append(label);
 			sbAlgebraDesc.append(' ');
-			sbAlgebraDesc.append(app.getPlain("Undefined"));
+			sbAlgebraDesc.append(loc.getPlain("Undefined"));
 			return sbAlgebraDesc.toString();
 			
 	}
@@ -4400,7 +4400,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);
 				sbAlgebraDesc.append(' ');
-				sbAlgebraDesc.append(app.getPlain("Undefined"));
+				sbAlgebraDesc.append(loc.getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4422,7 +4422,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				strAlgebraDescription = toStringMinimal(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
-				sbAlgebraDesc.append(app.getPlain("Undefined"));
+				sbAlgebraDesc.append(loc.getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4449,7 +4449,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isDefined() && !isInfinite()) {
 				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
-				strLaTeX = " \\text{" + app.getPlain("Undefined") + "} ";
+				strLaTeX = " \\text{" + loc.getPlain("Undefined") + "} ";
 
 			}
 		}
@@ -4487,7 +4487,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// isLatexNeeded may return true
 			sb.append(label);
 			sb.append("\\, \\text{");
-			sb.append(app.getPlain("Undefined"));
+			sb.append(loc.getPlain("Undefined"));
 			sb.append("} ");
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
@@ -5027,9 +5027,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		// Get spreadsheet trace XML from the trace manager
 
 		// trace to spreadsheet
-		if (app.isUsingFullGui() && isSpreadsheetTraceable()
+		if (kernel.getApplication().isUsingFullGui() && isSpreadsheetTraceable()
 				&& getSpreadsheetTrace()) {
-			sb.append(app.getTraceXML(this));// sb.append(null)?
+			sb.append(kernel.getApplication().getTraceXML(this));// sb.append(null)?
 		}
 
 		/*
@@ -6042,7 +6042,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
-				ret = " \\text{" + app.getPlain("Undefined") + "} ";
+				ret = " \\text{" + loc.getPlain("Undefined") + "} ";
 			} else if ((Unicode.Infinity + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MinusInfinity + "").equals(ret)) {
@@ -6084,8 +6084,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Called after mouse_release.
 	 */
 	public void resetTraceColumns() {
-		if (app.isUsingFullGui()) {
-			app.resetTraceColumn(this);
+		if (kernel.getApplication().isUsingFullGui()) {
+			kernel.getApplication().resetTraceColumn(this);
 		}
 	}
 
@@ -6187,7 +6187,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 		// Make sure we're listening to events for this script
-		app.startGeoScriptRunner();
+		kernel.getApplication().startGeoScriptRunner();
 		Script oldScript = scripts[evt.ordinal()];
 		if (oldScript != null) {
 			oldScript.unbind(this, evt);
@@ -6217,7 +6217,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param arg argument that replaces all %0 in the script
 	 */
 	public void runClickScripts(final String arg) {
-		app.dispatchEvent(new Event(EventType.CLICK, this, arg));
+		kernel.getApplication().dispatchEvent(new Event(EventType.CLICK, this, arg));
 	}
 	
 	/**
@@ -6225,7 +6225,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param arg argument that replaces all %0 in the script
 	 */
 	public void runUpdateScripts(final String arg) {
-		app.dispatchEvent(new Event(EventType.UPDATE, this, arg));
+		kernel.getApplication().dispatchEvent(new Event(EventType.UPDATE, this, arg));
 	}
 
 	private boolean showTrimmedIntersectionLines = false;

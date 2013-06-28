@@ -3025,32 +3025,32 @@ Region3D, GeoDirectionND
 		  String ret = null;
 		  switch (type) {
 			 case GeoConicNDConstants.CONIC_CIRCLE:
-				 ret = app.getPlain("CircleEquation");
+				 ret = loc.getPlain("CircleEquation");
 				 break;
 
 			 case GeoConicNDConstants.CONIC_ELLIPSE:
-				 ret = app.getPlain("EllipseEquation");
+				 ret = loc.getPlain("EllipseEquation");
 				 break;
 
 			 case GeoConicNDConstants.CONIC_HYPERBOLA:
-				 ret = app.getPlain("HyperbolaEquation");
+				 ret = loc.getPlain("HyperbolaEquation");
 				 break;
  
 			 case GeoConicNDConstants.CONIC_PARABOLA:
-				 ret = app.getPlain("ParabolaEquation");
+				 ret = loc.getPlain("ParabolaEquation");
 				 break;        
     
 			 case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-				 ret = app.getPlain("DoubleLineEquation");
+				 ret = loc.getPlain("DoubleLineEquation");
 				 break;      
     
 			 case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			 case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				 ret = app.getPlain("ConicLinesEquation");
+				 ret = loc.getPlain("ConicLinesEquation");
 				 break;                  
 				 
 			 case GeoConicNDConstants.CONIC_LINE:
-				 ret = app.getPlain("DoubleLineEquation");
+				 ret = loc.getPlain("DoubleLineEquation");
 				 break;                  
 
 		  }

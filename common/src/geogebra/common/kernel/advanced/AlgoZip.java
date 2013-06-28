@@ -192,8 +192,8 @@ public class AlgoZip extends AlgoElement {
 
 			while (currentVal < minOverSize()) {
 				// check we haven't run out of memory
-				if (app.freeMemoryIsCritical()) {
-					long mem = app.freeMemory();
+				if (kernel.getApplication().freeMemoryIsCritical()) {
+					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
 					App
@@ -301,8 +301,8 @@ public class AlgoZip extends AlgoElement {
 			GeoElement listElement = list.get(currentVal);
 
 			// check we haven't run out of memory
-			if (app.freeMemoryIsCritical()) {
-				long mem = app.freeMemory();
+			if (kernel.getApplication().freeMemoryIsCritical()) {
+				long mem = kernel.getApplication().freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
 				App.debug("AlgoZip aborted: free memory reached "

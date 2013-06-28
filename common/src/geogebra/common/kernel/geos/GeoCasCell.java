@@ -320,7 +320,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	public void setFont(GFont ft) {
 		setFontSizeMultiplier((double) ft.getSize()
-				/ (double) app.getFontSize());
+				/ (double) kernel.getApplication().getFontSize());
 		setFontStyle(ft.getStyle());
 	}
 
@@ -794,7 +794,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	private void internalizeInput() {
 		// local commands -> internal commands
-		input = GgbScript.localizedScript2Script(app, input);
+		input = GgbScript.localizedScript2Script(kernel.getApplication(), input);
 	}
 
 	/**
@@ -804,7 +804,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// replace all internal command names in input by local command names
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// internal commands -> local commands
-			return GgbScript.script2LocalizedScript(app,input1);
+			return GgbScript.script2LocalizedScript(kernel.getApplication(),input1);
 		}
 		// keep internal commands
 		return input1;
@@ -1274,7 +1274,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
 			
 			if(outputVE!=null){
-				CommandReplacer cr = CommandReplacer.getReplacer(app);
+				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
 				if(inputVE!=null)
 					outputVE.setAssignmentType(inputVE.getAssignmentType());
@@ -1337,7 +1337,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// check that assignment variable is not a reserved name in GeoGebra
-		if (app.getParserFunctions().isReserved(assignmentVar))
+		if (kernel.getApplication().getParserFunctions().isReserved(assignmentVar))
 			return;
 
 		// try to create twin geo for assignment, e.g. m := c + 3
@@ -1770,7 +1770,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				StringUtil.encodeXML(sb, commentText.getTextString());
 				sb.append("\" ");
 			} else {
-				StringUtil.encodeXML(sb, GgbScript.localizedScript2Script(app, input));
+				StringUtil.encodeXML(sb, GgbScript.localizedScript2Script(kernel.getApplication(), input));
 				sb.append("\" ");
 
 				if (evalVE != getInputVE()) {
@@ -2126,7 +2126,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			twinGeo.setEuclidianVisible(visible);
 			twinGeo.updateVisualStyle();
 		}
-		app.storeUndoInfo();
+		kernel.getApplication().storeUndoInfo();
 		kernel.notifyRepaint();
 	}
 	private boolean pointList;

@@ -271,7 +271,7 @@ public class AlgoTableText extends AlgoElement {
 		if (tpl.getStringType().equals(StringType.MATHML)) {
 			mathml(tpl);			
 		} else {
-			if (app.isHTML5Applet()) {
+			if (kernel.getApplication().isHTML5Applet()) {
 				latexMQ(tpl);
 			} else {
 				latex(tpl);

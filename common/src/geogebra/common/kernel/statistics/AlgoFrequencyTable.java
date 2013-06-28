@@ -199,13 +199,13 @@ public class AlgoFrequencyTable extends AlgoElement {
 			}
 
 			strHeader = new String[2];
-			strHeader[0] = app.getMenu("Interval");
+			strHeader[0] = loc.getMenu("Interval");
 			if (algoHistogram.getUseDensityGeo() != null
 					&& ((GeoBoolean) algoHistogram.getUseDensityGeo())
 							.getBoolean()) {
-				strHeader[1] = app.getMenu("Frequency");
+				strHeader[1] = loc.getMenu("Frequency");
 			} else {
-				strHeader[1] = app.getMenu("Count");
+				strHeader[1] = loc.getMenu("Count");
 			}
 
 			double[] leftBorder = algoHistogram.getLeftBorder();
@@ -231,8 +231,8 @@ public class AlgoFrequencyTable extends AlgoElement {
 				return;
 			}
 			strHeader = new String[2];
-			strHeader[0] = app.getMenu("Value");
-			strHeader[1] = app.getMenu("Count");
+			strHeader[0] = loc.getMenu("Value");
+			strHeader[1] = loc.getMenu("Count");
 
 			strValue = algoBarChart.getValue();
 			double[] f2 = algoBarChart.getYValue();
@@ -262,8 +262,8 @@ public class AlgoFrequencyTable extends AlgoElement {
 			if (classList == null) {
 
 				strHeader = new String[2];
-				strHeader[0] = app.getMenu("Value");
-				strHeader[1] = useDens ? app.getMenu("Frequency") : app
+				strHeader[0] = loc.getMenu("Value");
+				strHeader[1] = useDens ? loc.getMenu("Frequency") : loc
 						.getMenu("Count");
 
 				strValue = new String[length];
@@ -287,8 +287,8 @@ public class AlgoFrequencyTable extends AlgoElement {
 				}
 
 				strHeader = new String[2];
-				strHeader[0] = app.getMenu("Interval");
-				strHeader[1] = useDens ? app.getMenu("Frequency") : app
+				strHeader[0] = loc.getMenu("Interval");
+				strHeader[1] = useDens ? loc.getMenu("Frequency") : loc
 						.getMenu("Count");
 
 				strValue = new String[length + 1];

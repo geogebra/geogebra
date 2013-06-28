@@ -47,7 +47,7 @@ public class AlgoDensityPlot extends AlgoElement {
 	private FunctionNVar f;
 	private DecimalFormat df;
 	private GTextLayout t;
-	private GFont font = app.getFontCanDisplay("-999").deriveFont(GFont.PLAIN,
+	private GFont font = kernel.getApplication().getFontCanDisplay("-999").deriveFont(GFont.PLAIN,
 			8);
 	private double scaleX;
 	private double scaleY;
@@ -87,13 +87,13 @@ public class AlgoDensityPlot extends AlgoElement {
 		super(cons);
 		grade = 1;
 		// for web image, area and resolution are a quarter of desktop
-		if (app.isHTML5Applet()) {
+		if (kernel.getApplication().isHTML5Applet()) {
 			grade = 2;
 			offset = 25;
 		}
 		function = geoFunctionNVar;
 		f = function.getFunction();
-		view = app.getActiveEuclidianView();
+		view = kernel.getApplication().getActiveEuclidianView();
 		this.fixed = fixed;
 		if (fixed) {
 			minX = lowX;

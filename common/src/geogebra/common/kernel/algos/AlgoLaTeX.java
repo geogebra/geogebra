@@ -49,7 +49,7 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = showName;
 		text = new GeoText(cons);
 		
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setFormulaType(kernel.getApplication().getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 		
 		setInputOutput(); // for AlgoElement
@@ -69,7 +69,7 @@ public class AlgoLaTeX extends AlgoElement {
 		this.showName = null;
 		text = new GeoText(cons);
 
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setFormulaType(kernel.getApplication().getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
@@ -120,7 +120,7 @@ public class AlgoLaTeX extends AlgoElement {
     	boolean useLaTeX = true;
     	
     	// LaTeX or MathML
-    	StringType formulaRendererType = app.getPreferredFormulaRenderingType();
+    	StringType formulaRendererType = kernel.getApplication().getPreferredFormulaRenderingType();
 		
  		if (!geo.isDefined() 
 				|| (substituteVars != null && !substituteVars.isDefined())

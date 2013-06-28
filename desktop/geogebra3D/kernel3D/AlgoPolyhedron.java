@@ -84,7 +84,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	 */
 	protected void setIsOldFileVersion(){
 		isOldFileVersion = GeoGebraConstants.IS_PRE_RELEASE 
-				&& app.fileVersionBefore(App.getSubValues("4.9.10.0"));
+				&& kernel.getApplication().fileVersionBefore(App.getSubValues("4.9.10.0"));
 	}
 	
 	/**

@@ -970,7 +970,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					kernel.getViewsXMax(sum));
 
 			// subsample every 5 pixels
-			double noOfSamples = app.countPixels(visibleMin, visibleMax)
+			double noOfSamples = kernel.getApplication().countPixels(visibleMin, visibleMax)
 					/ SAMPLE_PIXELS;
 
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;

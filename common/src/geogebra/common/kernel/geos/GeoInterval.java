@@ -123,7 +123,7 @@ public class GeoInterval extends GeoFunction {
 		// output as nice string eg 3 < x < 5
 
 		if (!isDefined())
-			return app.getPlain("Undefined");
+			return loc.getPlain("Undefined");
 
 		// return "3 < x < 5";//fun.toValueString();
 
@@ -168,7 +168,7 @@ public class GeoInterval extends GeoFunction {
 		if (isDefined()) {
 			return toString(true,tpl);
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class GeoInterval extends GeoFunction {
 		if (isDefined()) {
 			return fun.toLaTeXString(symbolic,tpl);
 		}
-		return " \\text{" + app.getPlain("Undefined") + "} ";
+		return " \\text{" + loc.getPlain("Undefined") + "} ";
 	}
 
 	@Override

@@ -86,7 +86,7 @@ protected void setInputOutput() {
 		int k = 0;
 		do {
 			k++;
-			p *= app.getRandomNumber();
+			p *= kernel.getApplication().getRandomNumber();
 		} while (p >= L);
 		
 		return k - 1;
@@ -117,8 +117,8 @@ protected void setInputOutput() {
 		
 			int k = -1;
 			while ( k < 0 || (us < 0.013 && v > us)) {
-				double u = app.getRandomNumber() - 0.5;
-				v = app.getRandomNumber();
+				double u = kernel.getApplication().getRandomNumber() - 0.5;
+				v = kernel.getApplication().getRandomNumber();
 				us = 0.5 - Math.abs(u);
 				k = (int)Math.floor((2 * a / us + b) * u + mu + 0.43);
 				if (us >= 0.07 && v < v_r) return k;

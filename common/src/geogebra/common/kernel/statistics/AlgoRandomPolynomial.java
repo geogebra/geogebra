@@ -26,8 +26,8 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	 * @param cons construction
 	 * @param label label for output
 	 * @param degree maximal degree
-	 * @param min
-	 * @param max
+	 * @param min minimal coefficient vlaue	
+	 * @param max maximal coefficient value
 	 */
 	public AlgoRandomPolynomial(Construction cons, String label,
 			NumberValue degree, NumberValue min, NumberValue max) {
@@ -86,12 +86,12 @@ public class AlgoRandomPolynomial extends AlgoElement {
 				// or both zero (which shouldn't happen)
 				// eg RandomPolynomial[3,0,0] returns undefined
 				|| Math.signum(maxD) == Math.signum(minD)) {
-			return new ExpressionNode(kernel,app.getRandomIntegerBetween(minD,
+			return new ExpressionNode(kernel,kernel.getApplication().getRandomIntegerBetween(minD,
 					maxD));
 		}
 		
 		// logic doen't work unless minD < 0 < maxD 
-		int rnd = app.getRandomIntegerBetween(minD, maxD - 1);
+		int rnd = kernel.getApplication().getRandomIntegerBetween(minD, maxD - 1);
 		return new ExpressionNode(kernel, rnd >= 0 ? rnd + 1 : rnd);
 	}
 

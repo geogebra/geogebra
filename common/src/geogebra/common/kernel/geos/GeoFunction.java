@@ -123,7 +123,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (isLabelSet() && !isBooleanFunction()
 				&& this.isFunctionOfY()) {
 			this.remove();
-			throw new MyError(app.getLocalization(), "InvalidFunction");
+			throw new MyError(loc, "InvalidFunction");
 		}
 	}
 	/**
@@ -684,7 +684,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (fun != null && isDefined()) {
 			return fun.toValueString(tpl);
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	/*
@@ -703,14 +703,14 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (fun != null && isDefined()) {
 			return fun.toOutputValueString(tpl);
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	public String toSymbolicString(StringTemplate tpl) {
 		if (fun != null && isDefined()) {
 			return fun.toString(tpl);
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	@Override
@@ -718,7 +718,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (fun != null && isDefined()) {
 			return fun.toLaTeXString(symbolic, tpl);
 		}
-		return " \\text{" + app.getPlain("Undefined") + "} ";
+		return " \\text{" + loc.getPlain("Undefined") + "} ";
 	}
 
 	/**
@@ -1991,7 +1991,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			} else {
 
 				if (getFunction() == null) {
-					ret = app.getPlain("Undefined");
+					ret = loc.getPlain("Undefined");
 				} else
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getFunction().toString(tpl);
@@ -2012,7 +2012,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret))
-				ret = " \\text{"+app.getPlain("Undefined") + "} ";
+				ret = " \\text{"+loc.getPlain("Undefined") + "} ";
 			else if ((Unicode.Infinity + "").equals(ret))
 				ret = "\\infty";
 			else if ((Unicode.MinusInfinity + "").equals(ret))
@@ -2088,7 +2088,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				sbLaTeX.append("& : ");
 				if (i == cases.size() - 1 && complete) {
 					sbLaTeX.append("\\text{");
-					sbLaTeX.append(app.getPlain("otherwise"));
+					sbLaTeX.append(loc.getPlain("otherwise"));
 					sbLaTeX.append("}");
 				} else {
 					sbLaTeX.append(conditions.get(i).toLaTeXString(

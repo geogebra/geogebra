@@ -234,11 +234,11 @@ public class GeoTextField extends GeoButton {
 							defineText, linkedGeo.isIndependent(), true); 
 			
 		}catch (MyError e1) {
-			app.showError(e1);
+			kernel.getApplication().showError(e1);
 			return;
 		} 
 		catch (Exception e1) {
-			app.showError(e1.getMessage());
+			kernel.getApplication().showError(e1.getMessage());
 			return;
 		}
 		this.setLinkedGeo(linkedGeo);
@@ -316,7 +316,7 @@ public class GeoTextField extends GeoButton {
 	public AutoCompleteTextField getTextField(int viewID, DrawTextField drawTextField) {
 		
 		if (textField == null) {
-			textField = app.getSwingFactory().newAutoCompleteTextField(getLength(), app, drawTextField);
+			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
 			textField.showPopupSymbolButton(true);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);		
@@ -331,7 +331,7 @@ public class GeoTextField extends GeoButton {
 		}
 		
 		if (textField2 == null) {
-			textField2 = app.getSwingFactory().newAutoCompleteTextField(getLength(), app, drawTextField);
+			textField2 = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
 			textField2.showPopupSymbolButton(true);
 			textField2.setAutoComplete(false);
 			textField2.enableColoring(false);		

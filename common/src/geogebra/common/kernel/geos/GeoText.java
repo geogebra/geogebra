@@ -561,7 +561,7 @@ public class GeoText extends GeoElement implements Locateable,
 			sb.append("\t<isLaTeX val=\"true\"/>\n");
 		}
 
-		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeXorMathML, app);
+		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeXorMathML, kernel.getApplication());
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {

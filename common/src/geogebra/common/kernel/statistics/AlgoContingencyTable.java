@@ -336,24 +336,24 @@ public class AlgoContingencyTable extends AlgoElement {
 		sb.append(" \\\\ \\hline ");
 
 		// table header
-		addTableRow(sb, 0, handleSpecialChar(app.getMenu("Frequency")),
+		addTableRow(sb, 0, handleSpecialChar(loc.getMenu("Frequency")),
 				"colValue");
 
 		if (showRowPercent)
-			addTableRow(sb, 0, handleSpecialChar(app.getPlain("RowPercent")),
+			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("RowPercent")),
 					"blank");
 		if (showColPercent)
 			addTableRow(sb, 0,
-					handleSpecialChar(app.getPlain("ColumnPercent")), "blank");
+					handleSpecialChar(loc.getPlain("ColumnPercent")), "blank");
 		if (showTotalPercent)
-			addTableRow(sb, 0, handleSpecialChar(app.getPlain("TotalPercent")),
+			addTableRow(sb, 0, handleSpecialChar(loc.getPlain("TotalPercent")),
 					"blank");
 		if (showExpected)
 			addTableRow(sb, 0,
-					handleSpecialChar(app.getPlain("ExpectedCount")), "blank");
+					handleSpecialChar(loc.getPlain("ExpectedCount")), "blank");
 		if (showChi)
 			addTableRow(sb, 0,
-					handleSpecialChar(app.getPlain("ChiSquaredContribution")),
+					handleSpecialChar(loc.getPlain("ChiSquaredContribution")),
 					"blank");
 
 		sb.append("\\hline ");
@@ -378,7 +378,7 @@ public class AlgoContingencyTable extends AlgoElement {
 		sb.append("\\hline ");
 
 		// table footer
-		addTableRow(sb, 0, app.getMenu("Total"), "tableFooter");
+		addTableRow(sb, 0, loc.getMenu("Total"), "tableFooter");
 		if (showRowPercent)
 			addTableRow(sb, 0, null, "rowPercentFooter");
 		sb.append("\\hline ");
@@ -396,12 +396,12 @@ public class AlgoContingencyTable extends AlgoElement {
 			GeoList result = test.getResult();
 
 			sb.append("\\\\");
-			sb.append(app.getMenu("ChiSquaredTest"));
+			sb.append(loc.getMenu("ChiSquaredTest"));
 			sb.append("\\\\");
 			sb.append("\\begin{array}{| | | | |}");
 			sb.append(" \\\\ \\hline ");
-			sb.append(app.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
-					+ Unicode.Superscript_2 + "&" + app.getMenu("PValue"));
+			sb.append(loc.getMenu("DegreesOfFreedom.short") + "&" + Unicode.chi
+					+ Unicode.Superscript_2 + "&" + loc.getMenu("PValue"));
 			sb.append("\\\\");
 			sb.append("\\hline ");
 			sb.append(kernel.format(
@@ -489,7 +489,7 @@ public class AlgoContingencyTable extends AlgoElement {
 			sb.append(rowSum[rowIndex]);
 
 		} else if (type.equals("colValue")) {
-			sb.append(app.getMenu("Total"));
+			sb.append(loc.getMenu("Total"));
 
 		} else if (type.equals("|")) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;

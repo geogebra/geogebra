@@ -340,8 +340,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		 */
 
 
-		boolean pointsSegmentsShowLabel = (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
-				|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
+		boolean pointsSegmentsShowLabel = (kernel.getApplication().getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
+				|| (kernel.getApplication().getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
 				cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
 
 		// set labels for points only if the original points had labels

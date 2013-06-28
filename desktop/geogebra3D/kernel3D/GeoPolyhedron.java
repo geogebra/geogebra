@@ -591,7 +591,7 @@ RotateableND, Translateable, Mirrorable, Transformable
 			if (labelUsability < 2) {
 
 				sb.setLength(0);
-				sb.append(app.getPlain("Name.face"));
+				sb.append(loc.getPlain("Name.face"));
 
 				// sets the direction to the next first name
 				int indexSecondPointPlus = indexFirstPointName + 1;
@@ -642,7 +642,7 @@ RotateableND, Translateable, Mirrorable, Transformable
 			if (labelUsability < 2) {
 
 				sb.setLength(0);
-				sb.append(app.getPlain("Name.edge"));
+				sb.append(loc.getPlain("Name.edge"));
 				// sets the points names in order
 				if (points[0].compareToIgnoreCase(points[1]) < 0) {
 					sb.append(points[0]);

@@ -43,7 +43,7 @@ public class AlgoFractionText extends AlgoElement {
         text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
 		
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setFormulaType(kernel.getApplication().getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 		
         setInputOutput();

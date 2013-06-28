@@ -49,7 +49,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		this.shorthand = shorthand;
 		text = new GeoText(cons);
 		
-		text.setFormulaType(app.getPreferredFormulaRenderingType());
+		text.setFormulaType(kernel.getApplication().getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
 		
 		text.setIsTextCommand(true); // stop editing as text

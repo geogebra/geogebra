@@ -576,7 +576,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = ((App3D) app).createEuclidianViewForPlane(this,true);
+		euclidianViewForPlane = ((App3D) kernel.getApplication()).createEuclidianViewForPlane(this,true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 	
@@ -589,7 +589,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 	
 	public boolean hasView2DVisible(){
-		return euclidianViewForPlane!=null && app.getGuiManager().showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane!=null && kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 	
 
@@ -601,7 +601,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 			return;
 		}
 		
-		app.getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
+		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
 		
 		
 	}

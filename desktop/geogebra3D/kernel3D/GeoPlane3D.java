@@ -484,7 +484,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = ((App3D) app)
+		euclidianViewForPlane = ((App3D) kernel.getApplication())
 				.createEuclidianViewForPlane(this,true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
@@ -504,7 +504,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 	
 	public boolean hasView2DVisible(){
-		return euclidianViewForPlane!=null && app.getGuiManager().showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane!=null && kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 	
 
@@ -516,7 +516,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			return;
 		}
 		
-		app.getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
+		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
 		
 	}
 

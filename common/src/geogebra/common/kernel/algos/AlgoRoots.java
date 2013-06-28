@@ -371,7 +371,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		// EuclidianView ev = app.getEuclidianView();
 		double visiblemax =kernel.getViewsXMax(points[0]);
 		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = app.countPixels(visiblemin, visiblemax);
+		double visiblepixs = kernel.getApplication().countPixels(visiblemin, visiblemax);
 		// debug("Visible pixels: "+visiblepixs);
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);

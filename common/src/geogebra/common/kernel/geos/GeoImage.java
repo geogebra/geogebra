@@ -233,7 +233,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
 		this.getGraphicsAdapter().setImageOnly(
-				app.getExternalImageAdapter(fileName));
+				kernel.getApplication().getExternalImageAdapter(fileName));
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -432,7 +432,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return label == null ? app.getPlain("Image") : label;
+		return label == null ? loc.getPlain("Image") : label;
 	}
 
 	@Override
@@ -866,11 +866,11 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
 		String md5A = imageFileName.substring(0,
-				app.getMD5folderLength(imageFileName));
+				kernel.getApplication().getMD5folderLength(imageFileName));
 		String imageFileName2 = ((GeoImage) geo).getGraphicsAdapter()
 				.getImageFileName();
 		String md5B = imageFileName2.substring(0,
-				app.getMD5folderLength(imageFileName));
+				kernel.getApplication().getMD5folderLength(imageFileName));
 		// MD5 checksums equal, so images almost certainly identical
 		if (md5A.equals(md5B))
 			return true;

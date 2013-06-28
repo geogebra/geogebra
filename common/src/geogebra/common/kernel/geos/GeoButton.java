@@ -247,7 +247,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		super.getXMLtags(sb);
 
 		// font settings
-		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, app);
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, kernel.getApplication());
 
 		// name of image file
 		if (getFillImage() != null) {

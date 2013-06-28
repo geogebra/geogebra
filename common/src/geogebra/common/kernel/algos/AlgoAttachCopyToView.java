@@ -158,9 +158,9 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		int view = (int) viewID.getDouble();
 		EuclidianView ev = null;
 		if (view == 2)
-			ev = app.getEuclidianView2();
+			ev = kernel.getApplication().getEuclidianView2();
 		else if (view == 1)
-			ev = app.getEuclidianView1();
+			ev = kernel.getApplication().getEuclidianView1();
 		if (ev == null && view != 0) {
 			outGeo.setUndefined();
 			return;

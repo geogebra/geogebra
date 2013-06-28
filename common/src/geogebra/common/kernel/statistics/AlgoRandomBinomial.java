@@ -75,7 +75,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 		int count = 0;
 		for (int i = 0 ; i < n ; i++) {
-			if (app.getRandomNumber() < p) count ++;
+			if (kernel.getApplication().getRandomNumber() < p) count ++;
 		}
 
 		return count;

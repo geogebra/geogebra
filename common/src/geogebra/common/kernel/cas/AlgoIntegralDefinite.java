@@ -122,7 +122,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		
 		
 		// always use numerical algorithm in web (CAS much too slow)
-		if (app.isHTML5Applet()) {
+		if (kernel.getApplication().isHTML5Applet()) {
 			evaluateNumerically = true;
 		}
 

@@ -349,7 +349,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (!isDefined()) {
-				strLaTeX = app.getPlain("Undefined");
+				strLaTeX = loc.getPlain("Undefined");
 			} else if (isInfinite()) {
 				if (value >= 0)
 					strLaTeX = "\\infty";
@@ -977,7 +977,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		double max = getIntervalMax();
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
-		return Kernel.checkDecimalFraction(Math.floor(app.getRandomNumber() * n)
+		return Kernel.checkDecimalFraction(Math.floor(kernel.getApplication().getRandomNumber() * n)
 				* increment + min);
 	}
 
@@ -1184,7 +1184,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	final public void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
-		setValue(app.getRandomNumber());
+		setValue(kernel.getApplication().getRandomNumber());
 
 		super.updateRandomGeo();
 	}

@@ -212,7 +212,7 @@ implements AlgoMacroInterface {
 	private void createOutputObjects() {		
 		setOutputLength(macroOutput.length);								 						
 		
-		int layer = app.getMaxLayerUsed();
+		int layer = kernel.getApplication().getMaxLayerUsed();
 		for (int i=0; i < macroOutput.length; i++) {  
 			// copy output object of macro and make the copy part of this construction
 			setOutput(i,macroOutput[i].copyInternal(cons));

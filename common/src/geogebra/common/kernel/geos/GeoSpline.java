@@ -337,7 +337,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 			sbTemp.append(']');
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	public String getVarString(StringTemplate tpl) {
@@ -352,7 +352,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 			sbTemp.append(']');
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	@Override
@@ -364,7 +364,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 			}
 			return s;
 		}
-		return " \\text{" + app.getPlain("Undefined") + "} ";
+		return " \\text{" + loc.getPlain("Undefined") + "} ";
 	}
 
 	public void recalculate() {

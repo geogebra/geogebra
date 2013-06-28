@@ -676,7 +676,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			// MathQuill can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
-			if (inputs.length == 2 && app.isHTML5Applet()) {
+			if (inputs.length == 2 && kernel.getApplication().isHTML5Applet()) {
 				sb.append(" \\binom{ ");
 				sb.append(inputs[0]);
 				sb.append(" }{ ");

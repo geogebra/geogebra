@@ -220,13 +220,13 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 		// check if in view
 		Coords M = view.getCoordsForView(getMidpoint3D());
 		if (!Kernel.isZero(M.getZ())) {// check if in view
-			return new StringBuilder(app.getPlain("NotIncluded"));
+			return new StringBuilder(loc.getPlain("NotIncluded"));
 		}
 		Coords[] ev = new Coords[2];
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
-				return new StringBuilder(app.getPlain("NotIncluded"));
+				return new StringBuilder(loc.getPlain("NotIncluded"));
 			}
 		}
 

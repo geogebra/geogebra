@@ -119,7 +119,6 @@ public class AlgoFitSin extends AlgoElement {
 
 	public AlgoFitSin(Construction cons, GeoList geolist) {
 		super(cons);
-		app = kernel.getApplication();
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
 		setInputOutput();

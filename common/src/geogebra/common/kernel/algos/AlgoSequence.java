@@ -308,8 +308,8 @@ public class AlgoSequence extends AlgoElement {
 					|| (step < 0 && currentVal >= to - Kernel.MIN_PRECISION)) {
 
 				// check we haven't run out of memory
-				if (app.freeMemoryIsCritical()) {
-					long mem = app.freeMemory();
+				if (kernel.getApplication().freeMemoryIsCritical()) {
+					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
 					App.debug("AlgoSequence aborted: free memory reached "
@@ -425,8 +425,8 @@ public class AlgoSequence extends AlgoElement {
 			GeoElement listElement = list.get(i);
 
 			// check we haven't run out of memory
-			if (app.freeMemoryIsCritical()) {
-				long mem = app.freeMemory();
+			if (kernel.getApplication().freeMemoryIsCritical()) {
+				long mem = kernel.getApplication().freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
 				App.debug("AlgoSequence aborted: free memory reached " + mem);

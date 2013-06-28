@@ -196,7 +196,7 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}	
 	
 	/**
@@ -220,7 +220,7 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 			sbTemp.append(')');
 			return sbTemp.toString();
 		} 
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 	
 	@Override
@@ -241,7 +241,7 @@ public abstract class GeoCurveCartesianND extends GeoElement {
 			sbTemp.append("\\end{array}\\right)");
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");		
+		return loc.getPlain("Undefined");		
 	}	
 	
 	/**

@@ -141,9 +141,8 @@ public class AlgoIntegralODE extends AlgoElement {
 				ymin = Math.min(ymin,  view.toRealWorldCoordY((view.getHeight())));
 			}
 
-			app = kernel.getApplication();
-			if (app.hasEuclidianView2()) {
-				EuclidianView view2 = app.getEuclidianView2();
+			if (kernel.getApplication().hasEuclidianView2()) {
+				EuclidianView view2 = kernel.getApplication().getEuclidianView2();
 				if (view2.isVisibleInThisView(locus)) {
 					xmax = Math.max(xmax,  view2.toRealWorldCoordX((view.getWidth())));
 					ymax = Math.max(ymax,  view2.toRealWorldCoordY(0));

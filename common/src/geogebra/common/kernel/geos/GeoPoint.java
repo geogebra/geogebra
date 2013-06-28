@@ -1100,7 +1100,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	final public String toValueStringMinimal(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 		if (isInfinite()) {
-			sbBuildValueString.append(app.getPlain("Undefined"));
+			sbBuildValueString.append(loc.getPlain("Undefined"));
 			return sbBuildValueString.toString();
 		}
 		sbBuildValueString
@@ -1150,7 +1150,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		}
 
 		if (isInfinite()) {
-			sbBuildValueString.append(app.getPlain("Undefined"));
+			sbBuildValueString.append(loc.getPlain("Undefined"));
 			return sbBuildValueString;
 		}
 

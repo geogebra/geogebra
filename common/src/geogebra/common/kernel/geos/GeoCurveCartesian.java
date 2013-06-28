@@ -104,7 +104,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	@Override
 	public String translatedTypeString() {
-		return app.getPlain("Curve");
+		return loc.getPlain("Curve");
 	}
 
 	@Override
@@ -537,7 +537,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in
@@ -555,7 +555,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return app.getPlain("Undefined");
+		return loc.getPlain("Undefined");
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in
@@ -569,7 +569,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			
 			String param = getVarString(tpl);
 			
-			if (app.isHTML5Applet()) {
+			if (kernel.getApplication().isHTML5Applet()) {
 				// mathquill friendly
 				sbTemp.append("\\binom{x}{y} = \\binom{");
 				sbTemp.append(funX.toLaTeXString(symbolic, tpl));
@@ -605,7 +605,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			}
 			return sbTemp.toString();
 		}
-		return " \\text{" + app.getPlain("Undefined") + "} ";
+		return " \\text{" + loc.getPlain("Undefined") + "} ";
 	}
 
 	/*

@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 
 import java.util.TreeSet;
@@ -32,8 +31,7 @@ public abstract class ConstructionElement implements
 	public transient Construction cons;
 	/** parent kernel of this element */
 	public transient Kernel kernel; 
-	/** parent application of this element */
-	protected transient App app; 
+	/** localization used to serialize this element */
 	protected Localization loc;
 
 
@@ -58,8 +56,7 @@ public abstract class ConstructionElement implements
 	public void setConstruction(final Construction c) {
 		cons = c;
 		kernel = c.getKernel();
-		app = c.getApplication();
-		loc = app.getLocalization();
+		loc = kernel.getLocalization();
 	}
 
 	/**

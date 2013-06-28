@@ -860,7 +860,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 		sb.append(pointStyle);
 		sb.append("\"/>\n");
 
-		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, app);
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, kernel.getApplication());
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {
@@ -1474,7 +1474,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 			final StringBuilder sb = new StringBuilder();
 
-			if (app.isHTML5Applet()) {
+			if (kernel.getApplication().isHTML5Applet()) {
 				sb.append("\\left(\\ggbtable{");
 				for (int i = 0; i < size(); i++) {
 					final GeoList geo = (GeoList) get(i);
@@ -2242,7 +2242,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	}
 
 	private AbstractJComboBox buildComboBox() {
-		return buildComboBox(app.getSwingFactory().newJComboBox());
+		return buildComboBox(kernel.getApplication().getSwingFactory().newJComboBox());
 	}
 	/**
 	 * Rebuilds combobox if some items changed
