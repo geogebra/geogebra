@@ -390,5 +390,8 @@ else
  echo "GeoGebraWeb compilation and installation finished."
  example
  fi
+# Trying to fix permissions (for a broken CIFS mount):
+chmod -R g+r $INSTALLDIR
+find $INSTALLDIR -type d | xargs chmod g+x
 
 exit 0
