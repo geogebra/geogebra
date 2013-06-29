@@ -2576,7 +2576,7 @@ __GGB__keysVar.fr.plain = {
     "Undefined": "non d\xe9fini",
     "UnitVectorOfA": "Vecteur unitaire de %0",
     "UnitVectorPerpendicularToA": "Vecteur unitaire orthogonal \xe0 %0",
-    "UntitledA": "Untitled%0",
+    "UntitledA": "Sans-titre%0",
     "UntitledConstruction": "Construction sans titre",
     "Up": "Monter",
     "Upload": "T\xe9l\xe9verser",
