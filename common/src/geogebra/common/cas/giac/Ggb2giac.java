@@ -223,7 +223,6 @@ public class Ggb2giac {
 		
 		p("IsPrime.1", "isprime(%0)");
 		p("Join.N","flatten(%)");
-		p("Line.2","equation(line(%0,%1))");
 		p("Last.1",
 				"{%0[dim(%0)-1]}");
 		p("Last.2",
@@ -358,9 +357,7 @@ public class Ggb2giac {
 		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
-		
-		p("Radius.1", "radius(conic(%0))"); 
-		
+				
 		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
 				"binomial_icdf(%0,%1,rand(0,1))");
@@ -504,6 +501,42 @@ public class Ggb2giac {
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
 				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi");
+		
+		
+		// Experimental Geometry commands. Giac only
+		p("Radius.1", "radius(conic(%0))"); 
+		p("Center.1", "coordinates(center(conic(%0)))"); 
+		p("Midpoint.2", "regroup(normal(coordinates(midpoint(%0,%1))))");
+		
+		// center-point or center-radius
+		p("Circle.2", "equation(circle(%0,%1))");
+		
+		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
+		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
+		
+		// can it be plotted in GeoGebra? Do we want it to be plotted?
+		p("Angle.3", "angle(%1,%0,%2)");
+		
+		// eg distance((4,5),(0,3))
+		// eg distance((2,3,4),(0,3,1))
+		// eg distance(conic(y=x^2),(0,3))
+		// TODO: maybe need to wrap conics with conic() in ConicND, and change Radius.1, Center.1?
+		// TODO: what about functions?
+		p("Distance.2", "distance(%0,%1)");
+		// TODO: parallel
+		p("Line.2","equation(line(%0,%1))");
+		
+		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
+		// TODO: return Segment() not equation
+		p("Segment.2","equation(segment(%0,%1))");
+		
+		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
+		//p("Curve.5", "equation(plotparam([%0,%1],%2,%3,%4))");
+		//p("Polygon.N", "polygon(%)");
+		//p("PolyLine.N", "open_polygon(%)");
+		
+
+		
 		return commandMap;
 	}
 
