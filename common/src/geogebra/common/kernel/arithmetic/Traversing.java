@@ -104,9 +104,42 @@ public interface Traversing {
 				}
 				Kernel kernel = ev.getKernel();
 				
-				return new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
-						multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
-						multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))).multiply(((Polynomial)ev).getTerm(0).getCoefficient());
+				ExpressionValue coeff = ((Polynomial)ev).getTerm(0).getCoefficient();
+				
+				ExpressionNode ret = null;
+				
+				if (!Kernel.isEqual(coeff.evaluateNum().getDouble(), 1d)) {
+					ret = new ExpressionNode(kernel, coeff);
+				}
+				
+				ExpressionNode en;
+
+				if (exponents[2] > 0) {
+					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]));
+					if (ret == null) {
+						ret = en;
+					} else {
+						ret = ret.multiplyR(en);
+					}
+				}
+				if (exponents[1] > 0) {
+					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]));
+					if (ret == null) {
+						ret = en;
+					} else {
+						ret = ret.multiplyR(en);
+					}
+				}
+				if (exponents[0] > 0) {
+					en = new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0]));
+					if (ret == null) {
+						ret = en;
+					} else {
+						ret = ret.multiplyR(en);
+					}
+				}
+				
+				return ret;
 			
 			}
 			return ev;
