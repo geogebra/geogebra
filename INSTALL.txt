@@ -1,6 +1,7 @@
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org/
 
+
 This directory definitely contains the "desktop" and the "web" versions
 of GeoGebra. The "common" directory contains the common parts for the
 two interfaces. Also the "touch" version takes place in the "touch"
