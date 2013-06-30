@@ -11,6 +11,9 @@ public class Animator extends FPSAnimator {
 		
 	}
 	
+	public void resume(){
+		// used for JOGL2
+	}
 	
 	
 }
