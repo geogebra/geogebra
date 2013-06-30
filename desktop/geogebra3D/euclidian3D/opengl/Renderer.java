@@ -144,6 +144,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
         App.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
 	    
+	    
 	    App.debug("create animator");
 	    animator = new Animator( canvas, 60 );
         //animator.setRunAsFastAsPossible(true);	  
@@ -1528,6 +1529,9 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * @param drawable The GLAutoDrawable object.
      */
     public void init(GLAutoDrawable drawable) {
+    	
+    	// ensure that animation is on (needed when undocking/docking 3D view)
+    	animator.resume();
     	
     	GL gl2 = drawable.getGL(); 
         App.debug("Init on "+Thread.currentThread()); 

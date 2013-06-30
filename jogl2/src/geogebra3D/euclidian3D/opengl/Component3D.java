@@ -19,24 +19,6 @@ import javax.media.opengl.awt.GLJPanel;
 public class Component3D extends GLJPanel{ 
 
 	private static final long serialVersionUID = 1L;
-	
-	
-	private static GLCapabilities caps;
-
-	static {
-		
-		caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-		caps.setAlphaBits(8);
-
-		
-		//anti-aliasing
-		caps.setSampleBuffers(true);
-		caps.setNumSamples(4);    	
-		//avoid flickering
-		caps.setDoubleBuffered(true);
-		      	
-	}
-
 	  
 	
 	/**
@@ -45,8 +27,8 @@ public class Component3D extends GLJPanel{
 	public Component3D(){
 
 		//super(caps); //GLCanvas
-		super(caps, null, null); //GLJPanel
-    	
+		super(new GLCapabilities( GLProfile.getDefault() )); //GLJPanel
+		    	
 	}
 
 	
