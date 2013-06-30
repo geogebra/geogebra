@@ -17,7 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
@@ -58,8 +58,10 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	@Override
-	public Commands getClassName() {
-        return Commands.CellRange;
+	public Algos getClassName() {
+		// rather than writing <command name="CellRange"> <input a0="B2" a1="B3" a2="B4" etc />
+		// write an expression: <expression label="list1" exp="A1:A3" />
+        return Algos.Expression;
     }
 
 	@Override
@@ -113,10 +115,11 @@ public class AlgoCellRange extends AlgoElement {
 
 		setDependencies();
 
-		// // change input now for XML saving
-		// input = new GeoElement[2];
-		// input[0] = startCell;
-		// input[1] = endCell;
+		// see this.getClassName() for better solution
+		 // change input now for XML saving
+		 //input = new GeoElement[2];
+		 //input[0] = startCell;
+		 //input[1] = endCell;
 	}
 
 	/**
