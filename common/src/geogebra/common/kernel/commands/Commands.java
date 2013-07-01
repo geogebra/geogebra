@@ -254,6 +254,8 @@ public enum Commands implements CommandsConstants, GetCommand{
    	Rationalize(TABLE_ENGLISH),
    	Solutions(TABLE_ENGLISH),
    	Solve(TABLE_ENGLISH),
+   	SolveCubic(TABLE_ENGLISH),
+   	SolveQuartic(TABLE_ENGLISH),
    	Substitute(TABLE_ENGLISH),
    	ToComplex(TABLE_GEOGEBRA),
    	ToExponential(TABLE_ENGLISH),

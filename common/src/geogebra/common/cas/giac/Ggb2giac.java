@@ -23,7 +23,7 @@ public class Ggb2giac {
 	public static void p(String signature, String casSyntax) {
 
 		// replace _ with \_ to make sure it's not replaced with "unicode95u"
-		
+
 		commandMap.put(signature, casSyntax.replace("_",  "\\_"));
 	}
 
@@ -39,22 +39,22 @@ public class Ggb2giac {
 		p("BinomialDist.4",
 				"if %3=true then binomial_cdf(%0,%1,%2) else binomial(%0,%1,%2) fi");
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
-		
+
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg  CFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]
 		p("CFactor.1","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans)],with_sqrt(1),ggbans][4]");
 		p("CFactor.2","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],with_sqrt(1),ggbans][4]");
-		
+
 		// factor over complex irrationals
 		p("CIFactor.1","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans)],ggbans][3]");
 		p("CIFactor.2","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],ggbans][3]");
-		
+
 		p("ChiSquared.2", 
 				//"chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
 		p("Coefficients.1",
 				"when(is_polynomial(%0),"+
-				"coeffs(%0),"+
+						"coeffs(%0),"+
 				"{})");
 
 		p("Coefficients.2", "coeffs(%0,%1)");
@@ -97,21 +97,21 @@ public class Ggb2giac {
 				"sum(idivis(%0))");
 		p("Dot.2", "dot([%0],[%1])");
 		// GeoGebra indexes lists from 1, giac from 0
-		
+
 		// equations:
 		// (4x-3y=2x+1)[0] ='='
 		// (4x-3y=2x+1)[1] = left side
 		// (4x-3y=2x+1)[2] = right side
-		
+
 		// expressions:
 		// (4x+3y-1)[0] = '+'
 		// (4x+3y-1)[1] = 4x
 		// (4x+3y-1)[2] = 3y
 		// (4x+3y-1)[3] = -1
 		p("Element.2", "when(type(%0)==DOM_LIST,(%0)[%1-1],(%0)[%1])");
-		
+
 		//if %0[0]=='=' then %0[%1] else when(...) fi;
-		
+
 		// GeoGebra indexes lists from 1, giac from 0
 		p("Element.3",
 				"%0[%1 - 1,%2 - 1]");
@@ -199,12 +199,12 @@ public class Ggb2giac {
 				"normal(int(%0-(%1),x,%2,%3))");
 		p("IntegralBetween.5",
 				"normal(int(%0-(%1),%2,%3,%4))");
-		
+
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
 		p("Intersect.2",
 				"[[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][2]");
-		
+
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
@@ -220,7 +220,7 @@ public class Ggb2giac {
 				// invert matrix
 				"inv(ggbarg))"+
 				"],ggbans][3]");
-		
+
 		p("IsPrime.1", "isprime(%0)");
 		p("Join.N","flatten(%)");
 		p("Last.1",
@@ -240,7 +240,7 @@ public class Ggb2giac {
 		p("Length.3",
 				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
-		
+
 		// regroup so that exp(1)^2 is simplified
 		// regroup(inf) doesn't work, so extra check needed
 		p("Limit.2",
@@ -255,7 +255,7 @@ public class Ggb2giac {
 				"[[ggbans:=?],[ggbans:=limit(%0,x,%1,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
 		p("LimitBelow.3", 
 				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
-		
+
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
 		p("Mean.1",
@@ -281,38 +281,38 @@ public class Ggb2giac {
 
 		p("NSolve.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
-		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
-		// eg NSolve[a^4 + 34a^3 = 34]
-		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-		"ggbans][2]");
+						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
+						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+						// eg NSolve[a^4 + 34a^3 = 34]
+						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
+				"ggbans][2]");
 
 		p("NSolve.2",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
-		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
-		// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
-		"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
-		// eg NSolve[a^4 + 34a^3 = 34, a=3]
-		// eg NSolve[a^4 + 34a^3 = 34, a]
-		"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-		"ggbans][2]");
-		
+						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
+						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
+						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+						// eg NSolve[a^4 + 34a^3 = 34, a=3]
+						// eg NSolve[a^4 + 34a^3 = 34, a]
+						"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
+				"ggbans][2]");
+
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 
 		p("NSolutions.1",
 				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
-		// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
-		// eg NSolutions[a^4 + 34a^3 = 34]
-		"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
-		"ggbans][2]");
+						// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
+						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
+						// eg NSolutions[a^4 + 34a^3 = 34]
+						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
+				"ggbans][2]");
 
 		p("NSolutions.2",
 				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
 
 		p("Numerator.1", "numer(%0)");
-		
+
 		p("Numeric.1",
 				"[[ggbans:=%0],when(dim(lname(ggbans))==0 || count_eq(unicode0176u,lname(ggbans))>0,"+
 						// normal() so that Numeric(x + x/2) works
@@ -357,8 +357,8 @@ public class Ggb2giac {
 		p("Product.4", "normal(product(%0,%1,%2,%3))");
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
-				
-		p("Random.2", "%0+rand(%1-%0+1)"); // "RandomBetween"
+
+		p("Random.2", "%0+rand(%1-(%0)+1)"); // "RandomBetween"
 		p("RandomBinomial.2",
 				"binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
@@ -453,7 +453,7 @@ public class Ggb2giac {
 				"sum(%0)");
 		p("Sum.4",
 				"sum(%0,%1,%2,%3)");
-		
+
 		p("Tangent.2",
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)");
 		// GeoGebra counts elements from 1, giac from 0
@@ -501,42 +501,120 @@ public class Ggb2giac {
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
 				"if %3=true then harmonic(%1,%2)/harmonic(%1,%0) else 1/((%2)^%1*harmonic(%1,%0)) fi");
-		
-		
+
+		// SolveCubic[x^3+3x^2+x-1]
+		// SolveCubic[x^3+3x^2+x-2]
+		// SolveCubic[x^3+3x^2+x-3]
+
+		// SolveCubic[x^3 + 6x^2 - 7*x - 2]
+		// x³ - 6x² - 7x + 9
+
+		// adapted from xcas example by Bernard Parisse
+		p("SolveCubic.1", "["+
+			"[j:=exp(2*i*pi/3)],"+
+			"[V:=symb2poly(%0,x)],"+
+			"[n:=size(V)],"+
+			
+			//if (n!=4){
+			//  throw(afficher(P)+" n'est pas de degre 3");
+			//}
+			// Reduction de l'equation
+			
+			"[V:=V/V[0]],"+
+			"[b:=V[1]],"+
+			"[V:=ptayl(V,-b/3)],"+
+			"[p:=V[2]],"+
+			"[q:=V[3]],"+
+			// on est ramen  x^3+p*x+q=0
+			// x=u+v -> u^3+v^3+(3uv+p)(u+v)+q=0
+			// On pose uv=-p/3 donc u^3+v^3=-q et u^3 et v^3 sont solutions
+			// de u^3 v^3 = -p^3/27 et u^3+v^3=-q
+			// donc de x^2+q*x-p^3/27=0
+			"[d:=q^2/4+p^3/27],"+
+			
+			//if (d==0){
+			//  // racine double
+			//  return solve(P,x);
+			//}
+			"[d:=sqrt(d)],"+
+			"[u:=(-q/2+d)^(1/3)],"+
+			"[v:=-p/3/u],"+
+			"[x1:=u+v-b/3],"+
+			"[x2:=u*j+v*conj(j)-b/3],"+
+			"[x3:=u*conj(j)+v*j-b/3],"+
+			"[x1s:=simplify(x1)],"+
+			"[x2s:=simplify(x2)],"+
+			"[x3s:=simplify(x3)],"+
+			//"[when(d==0,[solve(%0,x)],[when(x1s[1][0]=='rootof',x1,x1s),when(x2s[1][0]=='rootof',x2,x2s),when(x3s[1][0]=='rootof',x3,x3s)])]"+
+			"[[x1,x2,x3]]"+
+			"][18][0]");
+
+
+		/*
+		// SolveQuartic[2x^4+3x^3+x^2+1]
+		// SolveQuartic[x^4+6x^2-60x+36]
+		// SolveQuartic[3x^4   + 6x^3   - 123x^2   - 126x + 1080]
+		p("SolveQuartic.1", "["+
+				"[ggbcoeffs:=coeffs(%0)],"+
+				// divide thorugh by coeffient of x^4
+				"[ggbcoeffs2:= ggbcoeffs / ggbcoeffs[0]],"+
+				"[a3:=ggbcoeffs[0]],"+
+				"[a2:=ggbcoeffs[1]],"+
+				"[a1:=ggbcoeffs[2]],"+
+				"[a0:=ggbcoeffs[3]],"+
+				"[p:=a2-3*a3^2/8],"+
+				"[q:=a1-a2*a3/2+a3^3/8],"+
+				"[r:=a0-a1*a3/4+a2*a3^2/16-3*a3^4/256],"+
+				// root of resolvent cubic
+				//"[u1:=zeros(4*(x-p)*(x^2/4-r)-q^2,x)[0]]"+
+				"[y1:=zeros(x^3-a2*x^2+(a1*a3-4*a0)*x+4*a2*a0-a1*a1-a3*a3*a0,x)[0]]"+
+				//"[a3:=ggbcoeffs2[0]/4],"+
+				// substitute x=x-a3/4 to eliminate x^3 term
+				//"[ggbcoeffs3:=coeffs(  (x-a3)^4 + ggbcoeffs2[0] * (x-a3)^3 + ggbcoeffs2[1] (x-a3)^2 + ggbcoeffs2[2]*(x-a3) + ggbcoeffs2[3])]"+
+				//"[],"+
+				//"[],"+
+				//"[],"+
+				"]"+
+				"[9]");
+		 */
+
 		// Experimental Geometry commands. Giac only
-		p("Radius.1", "radius(conic(%0))"); 
+		p("Radius.1", "normal(regroup(radius(conic(%0))))"); 
 		p("Center.1", "coordinates(center(conic(%0)))"); 
-		p("Midpoint.2", "regroup(normal(coordinates(midpoint(%0,%1))))");
-		
+		p("Midpoint.2", "normal(regroup(coordinates(midpoint(%0,%1))))");
+
 		// center-point or center-radius
 		p("Circle.2", "equation(circle(%0,%1))");
-		
+
+		p("Area.1", "normal(regroup(area(circle(%0))))");
+		p("Circumference.1", "normal(regroup(perimeter(circle(%0))))");
+
 		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
-		
+
 		// can it be plotted in GeoGebra? Do we want it to be plotted?
-		p("Angle.3", "angle(%1,%0,%2)");
-		
+		p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
+
 		// eg distance((4,5),(0,3))
 		// eg distance((2,3,4),(0,3,1))
 		// eg distance(conic(y=x^2),(0,3))
 		// TODO: maybe need to wrap conics with conic() in ConicND, and change Radius.1, Center.1?
 		// TODO: what about functions?
-		p("Distance.2", "distance(%0,%1)");
+		p("Distance.2", "normal(regroup(distance(%0,%1)))");
 		// TODO: parallel
 		p("Line.2","equation(line(%0,%1))");
-		
+
 		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
 		// TODO: return Segment() not equation
 		p("Segment.2","equation(segment(%0,%1))");
-		
+
 		// TODO: needs to get back from Giac into GeoGebra as a parametric eqn
 		//p("Curve.5", "equation(plotparam([%0,%1],%2,%3,%4))");
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
-		
 
-		
+
+
 		return commandMap;
 	}
 
