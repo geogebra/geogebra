@@ -31,7 +31,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  * @author Markus
  */
-public class GeoAngle extends GeoNumeric {
+public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	//public int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private int arcSize;
@@ -273,7 +273,6 @@ public class GeoAngle extends GeoNumeric {
 		return angle;
 	}
 
-	// Michael Borcherds 2007-10-21 BEGIN
 	/**
 	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
@@ -308,7 +307,7 @@ public class GeoAngle extends GeoNumeric {
 	 */
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
-		if(forceReflexAngle){
+		if (forceReflexAngle){
 			setAngleStyle(ANGLE_ISREFLEX);
 		}
 		else if(angleStyle == ANGLE_ISREFLEX){
@@ -461,7 +460,6 @@ public class GeoAngle extends GeoNumeric {
 		if (isIndependent())
 			return;
 
-		// Michael Borcherds 2007-10-21
 		sb.append("\t<allowReflexAngle val=\"");
 		sb.append(angleStyle != ANGLE_ISNOTREFLEX);
 		sb.append("\"/>\n");
@@ -471,10 +469,6 @@ public class GeoAngle extends GeoNumeric {
 			sb.append("\"/>\n");
 		}
 
-		// sb.append("\t<angleStyle val=\"");
-		// sb.append(angleStyle);
-		// sb.append("\"/>\n");
-		// Michael Borcherds 2007-10-21
 	}
 	
 	private void getXMLEmphasizeRightAngleTag(StringBuilder sb) {
@@ -487,7 +481,6 @@ public class GeoAngle extends GeoNumeric {
 		sb.append("\"/>\n");		
 	}
 
-	// Michael Borcherds 2007-11-20
 	@Override
 	public void setDecorationType(int type) {
 		if (type >= getDecoTypes().length || type < 0)
@@ -495,8 +488,6 @@ public class GeoAngle extends GeoNumeric {
 		else
 			decorationType = type;
 	}
-
-	// Michael Borcherds 2007-11-20
 
 	/**
 	 * Returns true if this angle shuld be drawn differently when right
@@ -533,7 +524,6 @@ public class GeoAngle extends GeoNumeric {
 	public boolean canHaveClickScript() {
 		return isDrawable();
 	}
-	
 
 
 }

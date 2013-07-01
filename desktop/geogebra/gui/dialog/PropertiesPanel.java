@@ -34,6 +34,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -58,6 +59,7 @@ import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.CoordStyle;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -237,7 +239,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 	 * If just panels should be displayed which are used if the user modifies
 	 * the default properties of an object type.
 	 */
-	private boolean isDefaults;
+	boolean isDefaults;
 
 	private JTabbedPane tabs;
 
@@ -2891,6 +2893,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			setComboLabels();
 		}
 
+		@SuppressWarnings("unchecked")
 		public void setComboLabels() {
 			intervalCombo.removeActionListener(this);
 			intervalCombo.removeAllItems();
@@ -2918,13 +2921,13 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			intervalCombo.removeActionListener(this);
 
 			// check if properties have same values
-			GeoAngle temp, geo0 = (GeoAngle) geos[0];
+			AngleProperties temp, geo0 = (AngleProperties) geos[0];
 			boolean equalangleStyle = true;
 			boolean hasOrientationOld = hasOrientation;
 			hasOrientation = true;
 
 			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoAngle) geos[i];
+				temp = (AngleProperties) geos[i];
 				if (!temp.hasOrientation())
 					hasOrientation = false;
 				if (geo0.getAngleStyle() != temp.getAngleStyle())
@@ -2943,11 +2946,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			return this;
 		}
 
-		private boolean checkGeos(Object[] geos) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoElement geo = (GeoElement) geos[i];
+		private boolean checkGeos(Object[] geos1) {
+			for (int i = 0; i < geos1.length; i++) {
+				GeoElement geo = (GeoElement) geos1[i];
 				if ((geo.isIndependent() && !isDefaults)
-						|| !(geo instanceof GeoAngle))
+						|| !(geo instanceof AngleProperties))
 					return false;
 			}
 			return true;
@@ -2956,30 +2959,32 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == intervalCombo) {
-				GeoAngle geo;
+				AngleProperties geo;
 				int index = getIndex();
 				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoAngle) geos[i];
+					geo = (AngleProperties) geos[i];
 					geo.setAngleInterval(index);
-					geo.updateRepaint();
+					((GeoElementND) geo).updateRepaint();
 				}
 			}
 		}
 
 		private int getIndex() {
-			if (hasOrientation)
+			if (hasOrientation) {
 				return intervalCombo.getSelectedIndex();
-			else
-				// first interval disabled
-				return intervalCombo.getSelectedIndex() + 1;
+			}
+			
+			// first interval disabled
+			return intervalCombo.getSelectedIndex() + 1;
 		}
 
 		private void setSelectedIndex(int index) {
-			if (hasOrientation)
+			if (hasOrientation) {
 				intervalCombo.setSelectedIndex(index);
-			else
+			} else {
 				// first interval disabled
 				intervalCombo.setSelectedIndex(index - 1);
+			}
 		}
 
 		public void updateFonts() {
@@ -5135,7 +5140,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			slider.removeChangeListener(this);
 
 			// set value to first point's size
-			GeoAngle geo0 = (GeoAngle) geos[0];
+			AngleProperties geo0 = (AngleProperties) geos[0];
 			slider.setValue(geo0.getArcSize());
 
 			slider.addChangeListener(this);
@@ -5145,8 +5150,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (geos[i] instanceof GeoAngle) {
-					GeoAngle angle = (GeoAngle) geos[i];
+				if (geos[i] instanceof AngleProperties) {
+					AngleProperties angle = (AngleProperties) geos[i];
 					if (angle.isIndependent() || !angle.isDrawable()) {
 						geosOK = false;
 						break;
@@ -5165,15 +5170,15 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void stateChanged(ChangeEvent e) {
 			if (!slider.getValueIsAdjusting()) {
 				int size = slider.getValue();
-				GeoAngle angle;
+				AngleProperties angle;
 				for (int i = 0; i < geos.length; i++) {
-					angle = (GeoAngle) geos[i];
+					angle = (AngleProperties) geos[i];
 					// addded by Loic BEGIN
 					// check if decoration could be drawn
 					if (size < 20
-							&& (angle.decorationType == GeoElement.DECORATION_ANGLE_THREE_ARCS || angle.decorationType == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
+							&& (angle.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
 						angle.setArcSize(20);
-						int selected = ((GeoAngle) geos[0]).decorationType;
+						int selected = ((AngleProperties) geos[0]).getDecorationType();
 						if (selected == GeoElement.DECORATION_ANGLE_THREE_ARCS
 								|| selected == GeoElement.DECORATION_ANGLE_TWO_ARCS) {
 							slider.setValue(20);
@@ -6907,8 +6912,8 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			decoCombo.removeActionListener(this);
 
 			// set slider value to first geo's decoration
-			GeoAngle geo0 = (GeoAngle) geos[0];
-			decoCombo.setSelectedIndex(geo0.decorationType);
+			AngleProperties geo0 = (AngleProperties) geos[0];
+			decoCombo.setSelectedIndex(geo0.getDecorationType());
 			decoCombo.addActionListener(this);
 			return this;
 		}
@@ -6916,7 +6921,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoAngle)) {
+				if (!(geos[i] instanceof AngleProperties)) {
 					geosOK = false;
 					break;
 				}
@@ -6927,15 +6932,15 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == decoCombo) {
-				GeoAngle geo;
+				AngleProperties geo;
 				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
 				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoAngle) geos[i];
+					geo = (AngleProperties) geos[i];
 					geo.setDecorationType(type);
 					// addded by Loic BEGIN
 					// check if decoration could be drawn
 					if (geo.getArcSize() < 20
-							&& (geo.decorationType == GeoElement.DECORATION_ANGLE_THREE_ARCS || geo.decorationType == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
+							&& (geo.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || geo.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
 						geo.setArcSize(20);
 						setSliderMinValue();
 					}
@@ -6982,7 +6987,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			emphasizeRightAngle.removeActionListener(this);
 
 			// set JcheckBox value to first geo's decoration
-			GeoAngle geo0 = (GeoAngle) geos[0];
+			AngleProperties geo0 = (AngleProperties) geos[0];
 			emphasizeRightAngle.setSelected(geo0.isEmphasizeRightAngle());
 			emphasizeRightAngle.addActionListener(this);
 			return this;
@@ -6991,7 +6996,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		private boolean checkGeos(Object[] geos) {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoAngle)) {
+				if (!(geos[i] instanceof AngleProperties)) {
 					geosOK = false;
 					break;
 				}
@@ -7007,10 +7012,10 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == emphasizeRightAngle) {
-				GeoAngle geo;
+				AngleProperties geo;
 				boolean b = emphasizeRightAngle.isSelected();
 				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoAngle) geos[i];
+					geo = (AngleProperties) geos[i];
 					geo.setEmphasizeRightAngle(b);
 					geo.updateRepaint();
 				}

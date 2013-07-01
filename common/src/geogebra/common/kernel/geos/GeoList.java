@@ -52,14 +52,15 @@ import java.util.ArrayList;
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
 PointProperties, TextProperties, Traceable, Path, Transformable,
-SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties {
+SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
+AngleProperties {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
 	private boolean trace;
 
-	private static String STR_OPEN = "{";
-	private static String STR_CLOSE = "}";
+	private final static String STR_OPEN = "{";
+	private final static String STR_CLOSE = "}";
 
 	// GeoElement list members
 	private final ArrayList<GeoElement> geoList;
@@ -875,6 +876,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 			sb.append(printFigures);
 			sb.append("\"/>\n");
 		}
+				
+		// AngleProperties
+		sb.append("\t<allowReflexAngle val=\"");
+		sb.append(angleStyle != GeoAngle.ANGLE_ISNOTREFLEX);
+		sb.append("\"/>\n");
+		if (angleStyle == GeoAngle.ANGLE_ISREFLEX) {
+			sb.append("\t<forceReflexAngle val=\"");
+			sb.append(true);
+			sb.append("\"/>\n");
+		}
+
+		if (!emphasizeRightAngle) { 		
+			// only store emphasizeRightAngle if "false"
+			sb.append("\t<emphasizeRightAngle val=\"");
+			sb.append(emphasizeRightAngle);
+			sb.append("\"/>\n");		
+		}
+		// AngleProperties end
+
 
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
@@ -1778,22 +1798,31 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 		if (directionInfoOrdering != null)
 			n = directionInfoOrdering[n];
+		
+		GeoElement elementN = get(n);
+		
+		if (!(elementN instanceof PathOrPoint)) {
+			App.debug("not path or point");
+			return;
+		}
 
-		final PathOrPoint path = (PathOrPoint) get(n);
+		final PathOrPoint path = (PathOrPoint) elementN;
 
 		int pt = pp.getPathType();
-		if (path instanceof GeoQuadricND)
+		if (path instanceof GeoQuadricND) {
 			pp.setPathType(((GeoQuadricND)path).getType());
-
+		}
+		
 		// check direction of the path, as it is not sure that the main list path
 		// has the same direction for minParameter and maxParameter as the subpathes
-		if ((directionInfoArray == null) || directionInfoArray[n])
+		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toParentPathParameter(t - n1,
 				path.getMinParameter(), path.getMaxParameter()));
-		else
+		} else {
 			pp.setT(PathNormalizer.toParentPathParameter(n1 - t + 1,
 				path.getMinParameter(), path.getMaxParameter()));
-
+		}
+		
 		// Application.debug("pathChanged "+n);
 
 		path.pathChanged(PI);
@@ -1834,8 +1863,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 	}
 
 	public boolean isClosedPath() {
-		// TODO Auto-generated method stub
-
 		return !shouldUseAlgoLocusList;
 	}
 
@@ -2592,6 +2619,185 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties 
 
 	public boolean isLaTeXTextCommand() {
 		return false;
+	}
+
+	private int angleStyle = GeoAngle.ANGLE_ISANTICLOCKWISE;
+	private boolean emphasizeRightAngle = true;
+	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
+
+	/**
+	 * @param index index of currently used interval
+	 */
+	public void setAngleInterval(int index){
+		setAngleStyle(GeoAngle.INTERVAL_TO_STYLE[index]);
+	}
+	
+	/**
+	 * Changes angle style and recomputes the value from raw.
+	 * See GeoAngle.ANGLE_*
+	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
+	 */
+	public void setAngleStyle(int angleStyle) {
+		int newAngleStyle = angleStyle;
+		if (newAngleStyle == this.angleStyle)
+			return;
+
+		this.angleStyle = newAngleStyle;
+		switch (newAngleStyle) {
+		case GeoAngle.ANGLE_ISCLOCKWISE:
+			newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
+			break;
+
+		case GeoAngle.ANGLE_ISNOTREFLEX:
+			newAngleStyle = GeoAngle.ANGLE_ISNOTREFLEX;
+			break;
+
+		case GeoAngle.ANGLE_ISREFLEX:
+			newAngleStyle = GeoAngle.ANGLE_ISREFLEX;
+			break;
+
+		default:
+			newAngleStyle = GeoAngle.ANGLE_ISANTICLOCKWISE;
+		}
+
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setAngleStyle(angleStyle);
+			}
+		}
+	}
+
+
+	public int getAngleInterval() {
+		return GeoAngle.STYLE_TO_INTERVAL[getAngleStyle()];
+	}
+
+	public int getAngleStyle() {
+		return angleStyle;
+	}
+
+	public boolean hasOrientation() {
+		return true;
+	}
+
+	/**
+	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
+	 * value). raw_value contains the original value.
+	 * @param allowReflexAngle If true, angle is allowed to be> 180 degrees
+	 * 
+	 */
+	final public void setAllowReflexAngle(boolean allowReflexAngle) {
+		switch (angleStyle) {
+		case GeoAngle.ANGLE_ISNOTREFLEX:
+			if (allowReflexAngle)
+				setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+			break;
+		case GeoAngle.ANGLE_ISREFLEX:
+			// do nothing
+			break;
+		default: // ANGLE_ISANTICLOCKWISE
+			if (!allowReflexAngle)
+				setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+			break;
+
+		}
+		if (allowReflexAngle)
+			setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+		else
+			setAngleStyle(GeoAngle.ANGLE_ISNOTREFLEX);
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setAllowReflexAngle(allowReflexAngle);
+			}
+		}
+		
+	}
+
+	/**
+	 * Sets this angle shuld be drawn differently when right
+	 * @param emphasizeRightAngle true iff this angle shuld be drawn differently when right
+	 */
+	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
+		this.emphasizeRightAngle = emphasizeRightAngle;
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setEmphasizeRightAngle(emphasizeRightAngle);
+			}
+		}
+		
+	}
+
+	/**
+	 * Forces angle to be reflex or switches it to anticlockwise
+	 * @param forceReflexAngle switch to reflex for true
+	 */
+	final public void setForceReflexAngle(boolean forceReflexAngle) {
+
+		if (forceReflexAngle){
+			setAngleStyle(GeoAngle.ANGLE_ISREFLEX);
+		}
+		else if(angleStyle == GeoAngle.ANGLE_ISREFLEX){
+			setAngleStyle(GeoAngle.ANGLE_ISANTICLOCKWISE);
+		}		
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setForceReflexAngle(forceReflexAngle);
+			}
+		}
+		
+	}
+	
+	@Override
+	public void setDecorationType(int type) {
+		if (type >= GeoAngle.getDecoTypes().length || type < 0) {
+			decorationType = DECORATION_NONE;
+		} else {
+			decorationType = type;
+		}
+		
+		if (geoList != null) {
+			for (GeoElement geo: geoList) {
+				if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+					((AngleProperties) geo).setDecorationType(type);
+				}
+			}
+		}
+
+	}
+
+
+	/** 
+	 * Change the size of the arc in pixels, 
+	 * @param i arc size, should be in <10,100>
+	 */
+	public void setArcSize(int i) {
+		arcSize = i;
+	
+		for (GeoElement geo: geoList) {
+			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
+				((AngleProperties) geo).setArcSize(i);
+			}
+		}
+		
+	}
+
+	/** 
+	 * returns size of the arc in pixels
+	 * @return arc size in pixels
+	 */
+	public int getArcSize() {
+		return arcSize;
+	}
+
+	/**
+	 *
+	 * @return true iff this angle should be drawn differently when 90 degrees
+	 */
+	public boolean isEmphasizeRightAngle() {
+		return emphasizeRightAngle;
 	}
 
 	

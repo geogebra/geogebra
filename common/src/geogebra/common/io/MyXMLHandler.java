@@ -39,7 +39,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -4251,14 +4251,14 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleArcSize(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoAngle)) {
+		if (!(geo instanceof AngleProperties)) {
 			App.error("wrong element type for <arcSize>: "
 					+ geo.getClass());
 			return false;
 		}
 
 		try {
-			GeoAngle angle = (GeoAngle) geo;
+			AngleProperties angle = (AngleProperties) geo;
 			angle.setArcSize(Integer.parseInt(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -4288,14 +4288,14 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAllowReflexAngle(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoAngle())) {
+		if (!(geo instanceof AngleProperties)) {
 			App.error("wrong element type for <allowReflexAngle>: "
 					+ geo.getClass());
 			return false;
 		}
 
 		try {
-			GeoAngle angle = (GeoAngle) geo;
+			AngleProperties angle = (AngleProperties) geo;
 			angle.setAllowReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -4306,14 +4306,14 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleEmphasizeRightAngle(
 			LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoAngle())) {
+		if (!(geo instanceof AngleProperties)) {
 			App.error("wrong element type for <emphasizeRightAngle>: "
 					+ geo.getClass());
 			return false;
 		}
 
 		try {
-			GeoAngle angle = (GeoAngle) geo;
+			AngleProperties angle = (AngleProperties) geo;
 			angle.setEmphasizeRightAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
@@ -4342,14 +4342,14 @@ public class MyXMLHandler implements DocHandler {
 
 	// Michael Borcherds 2007-11-19
 	private boolean handleForceReflexAngle(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoAngle())) {
+		if (!(geo instanceof AngleProperties)) {
 			System.err.println("wrong element type for <forceReflexAngle>: "
 					+ geo.getClass());
 			return false;
 		}
 
 		try {
-			GeoAngle angle = (GeoAngle) geo;
+			AngleProperties angle = (AngleProperties) geo;
 			angle.setForceReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
