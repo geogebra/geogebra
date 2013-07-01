@@ -2689,6 +2689,11 @@ namespace giac {
 	v[1]=-v[1];
 	return symbolic(at_polar_complex,gen(v,_SEQ__VECT));
       }
+      if (_SYMBptr->sommet==at_rootof){
+	gen a;
+	if (has_evalf(*this,a,1,contextptr) && is_zero(a.im(contextptr),contextptr))
+	  return *this;
+      }
       if (equalposcomp(plot_sommets,_SYMBptr->sommet) || equalposcomp(analytic_sommets,_SYMBptr->sommet) || _SYMBptr->sommet==at_surd)
 	return new_ref_symbolic(symbolic(_SYMBptr->sommet,_SYMBptr->feuille.conj(contextptr)));
       else

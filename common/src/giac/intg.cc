@@ -2299,6 +2299,20 @@ namespace giac {
 
   static int ggb_intcounter=0;
 
+  gen ck_int_numerically(const gen & f,const gen & x,const gen & a,const gen &b,const gen & exactvalue,GIAC_CONTEXT){
+    gen tmp=evalf_double(exactvalue,1,contextptr);
+    if (tmp.type!=_DOUBLE_)
+      return exactvalue;
+    *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
+    gen tmp2=_romberg(makesequence(f,x,a,b),contextptr);
+    if (tmp2.type==_VECT && tmp2._VECTptr->size()==2)
+      tmp2=tmp2._VECTptr->back();
+    tmp2=evalf_double(tmp2,1,contextptr);
+    if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<1e-3*std::abs(tmp2._DOUBLE_val))
+      return simplifier(exactvalue,contextptr);
+    *logptr(contextptr) << gettext("Check failed, returning approx value, exact value was ") << exactvalue << endl;
+    return tmp2;
+  }
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
 #ifdef LOGINT
@@ -2373,7 +2387,7 @@ namespace giac {
       v[1]=x;
       return _romberg(gen(v,_SEQ__VECT),contextptr);
     }
-    gen rem,borne_inf,borne_sup,res;
+    gen rem,borne_inf,borne_sup,res,v0orig,aorig,borig;
     if (s==4){
       if ( (has_num_coeff(v[0]) ||
 	    v[2].type==_FLOAT_ || v[2].type==_DOUBLE_ || v[2].type==_REAL ||
@@ -2384,8 +2398,9 @@ namespace giac {
 	if (ld==vecteur(1,v[1]))
 	  return _romberg(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
       }
-      borne_inf=v[2];
-      borne_sup=v[3];
+      v0orig=v[0];
+      aorig=borne_inf=v[2];
+      borig=borne_sup=v[3];
       if (borne_inf==borne_sup)
 	return 0;
       v[0]=ceil2floor(v[0],contextptr);
@@ -2426,7 +2441,7 @@ namespace giac {
 	}
 	tmp=quotesubst(v[0],lfloor.front(),n1,contextptr);
 	res += _integrate(makesequence(tmp,x,cur,borne_sup),contextptr);
-	return res;
+	return ck_int_numerically(v0orig,x,aorig,borig,res,contextptr);
       }
       v[0]=when2piecewise(v[0],contextptr);
       vecteur lpiece(lop(v[0],at_piecewise));
@@ -2456,7 +2471,7 @@ namespace giac {
 	    *logptr(contextptr) << gettext("Assuming true condition ") << cond << endl;
 	    v[0]=quotesubst(v[0],piece,piecev[2*i+1],contextptr);
 	    res += _integrate(gen(makevecteur(v[0],x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
-	    return chsign?-res:res;
+	    return ck_int_numerically(v0orig,x,aorig,borig,(chsign?-res:res),contextptr);
 	  }
 	  if (cond.is_symb_of_sommet(at_superieur_strict) || cond.is_symb_of_sommet(at_superieur_egal)){
 	    cond=cond._SYMBptr->feuille[0]-cond._SYMBptr->feuille[1];
@@ -2479,7 +2494,7 @@ namespace giac {
 	      continue;
 	    // test is true we can compute the integral
 	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
-	    return chsign?-res:res;
+	    return ck_int_numerically(v0orig,x,aorig,borig,(chsign?-res:res),contextptr);
 	  }
 	  if (ck_is_greater(borne_inf,l,contextptr)){
 	    // l <= borne_inf < borne_sup
@@ -2487,7 +2502,7 @@ namespace giac {
 	      continue;
 	    // test is true we can compute the integral
 	    res += _integrate(gen(makevecteur(tmp,x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
-	    return chsign?-res:res;
+	    return ck_int_numerically(v0orig,x,aorig,borig,(chsign?-res:res),contextptr);
 	  }
 	  // borne_inf<l<borne_sup
 	  if (positif){
@@ -2504,7 +2519,7 @@ namespace giac {
 	  v[0]=quotesubst(v[0],piece,piecev[vs-1],contextptr);
 	  res += _integrate(gen(makevecteur(v[0],x,borne_inf,borne_sup),_SEQ__VECT),contextptr);
 	}
-	return chsign?-res:res;
+	return ck_int_numerically(v0orig,x,aorig,borig,(chsign?-res:res),contextptr); // return chsign?-res:res;
       } // end piecewise
       if (intgab(v[0],x,borne_inf,borne_sup,res,contextptr)){
 	// additional check for singularities in ggb mode
@@ -2569,8 +2584,9 @@ namespace giac {
       if (is_inf(res))
 	return symbolic(at_integrate,gen(makevecteur(v[0],x,v[2],v[3]),_SEQ__VECT));
       res = res + symbolic(at_integrate,gen(makevecteur(rem,x,v[2],v[3]),_SEQ__VECT));
+      return res;
     }
-    return res;
+    return ck_int_numerically(v0orig,x,aorig,borig,res,contextptr);
   }
   static const char _integrate_s []="integrate";
   static string texprintasintegrate(const gen & g,const char * s_orig,GIAC_CONTEXT){

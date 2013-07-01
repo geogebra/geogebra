@@ -2252,7 +2252,7 @@ namespace giac {
       ee=in_normalize_sqrt(e,L,contextptr);
       l=alg_lvar(ee);
       sort0(l);
-      if (!L.empty())
+      if (!L.empty() && debug_infolevel)
 	*logptr(contextptr) << gettext("Making implicit assumption for sqrt argument ") << L << endl;
       for (unsigned k=0;k<L.size();++k)
 	giac_assume(L[k],contextptr);

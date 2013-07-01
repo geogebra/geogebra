@@ -1955,8 +1955,12 @@ namespace giac {
       }
       if (it->type==_VECT){
 	if (it->_VECTptr->size()==2){
-	  if (ispnt)
-	    *it=(it->_VECTptr->front()+it->_VECTptr->back())/2;
+	  if (ispnt){
+	    if (it->subtype==_LINE__VECT || it->subtype==_HALFLINE__VECT || it->subtype==_VECTOR__VECT)
+	      *it=res[0]+it->_VECTptr->back()-it->_VECTptr->front();
+	    else
+	      *it=(it->_VECTptr->front()+it->_VECTptr->back())/2;
+	  }
 	  else {
 	    *it=it->_VECTptr->front()+cst_i*it->_VECTptr->back();
 	    if (it!=res.begin())
@@ -3160,7 +3164,11 @@ namespace giac {
 
   gen _rayon(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    gen a=remove_at_pnt(args);
+    gen a(args);
+    if (a.is_symb_of_sommet(at_equal))
+      a=_conique(a,contextptr);
+    else
+      a=remove_at_pnt(a);
     gen centre,rayon;
     if (!centre_rayon(a,centre,rayon,true,contextptr))
       return false;
@@ -3899,15 +3907,25 @@ namespace giac {
   define_unary_function_ptr5( at_hauteur ,alias_at_hauteur,&__hauteur,0,true);
 
   gen bissectrice(const gen & args,bool interieur,GIAC_CONTEXT){
-    gen e,f,g;
+    gen E,e,f,g;
     vecteur attributs(1,default_color(contextptr));
     if (!gen23points(args,e,f,g,attributs,contextptr))
       return gensizeerr(contextptr);
+    if (e==f || e==g)
+      return gensizeerr(contextptr);
     // direction (f-e)+(g-e)*||f-e||/||g-e||
-    if (interieur)
-      return symb_segment(e,f+(g-e)*rdiv(abs_norm(f,e,contextptr),abs_norm(g,e,contextptr),contextptr),attributs,_LINE__VECT,contextptr);
-    else
-      return symb_segment(e,f-(g-e)*rdiv(abs_norm(f,e,contextptr),abs_norm(g,e,contextptr),contextptr),attributs,_LINE__VECT,contextptr);
+    E=f+(g-e)*rdiv(abs_norm(f,e,contextptr),abs_norm(g,e,contextptr),contextptr);
+    if (E==e){
+      if (interieur)
+	E=e+cst_i*(f-e);
+      else
+	E=f;
+    }
+    else {
+      if (!interieur)
+	E=e+cst_i*(E-e);
+    }
+    return symb_segment(e,E,attributs,_LINE__VECT,contextptr);
   }
 
   gen _bissectrice(const gen & args,GIAC_CONTEXT){
@@ -4863,8 +4881,8 @@ namespace giac {
       if (!centre_rayon(g,centre,rayon,false,contextptr))
 	return gensizeerr(contextptr);
       if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=3)
-	return ratnormal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*(rayon*conj(rayon,contextptr))/2);
-      return cst_pi*ratnormal(rayon*conj(rayon,contextptr));
+	return normal(((*g._SYMBptr->feuille._VECTptr)[2]-(*g._SYMBptr->feuille._VECTptr)[1])*(rayon*conj(rayon,contextptr))/2,contextptr);
+      return cst_pi*normal(rayon*conj(rayon,contextptr),contextptr);
     }
     if (g.type!=_VECT || g.subtype==_POINT__VECT)
       return 0; // so that a single point has area 0
@@ -9122,7 +9140,7 @@ namespace giac {
 	  gen valv1=valv[1];
 	  if (valv1.type==_VECT && valv1._VECTptr->size()>2){
 	    tmp=(*valv1._VECTptr)[1];
-	    if (tmp.type==_STRNG)
+	    while (tmp.type==_STRNG)
 	      tmp=gen(*tmp._STRNGptr,contextptr);
 	    if (tmp.is_symb_of_sommet(at_equal))
 	      tmp=tmp._SYMBptr->feuille._VECTptr->back();

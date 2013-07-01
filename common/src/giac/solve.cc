@@ -371,12 +371,24 @@ namespace giac {
 	if (lv.size()!=1 || l==minus_inf || m==plus_inf)
 	  continue;
 	gen n(lv.front()),a,b,expr(*it);
+	expr=pow2expln(expr,contextptr);
 	// check linearity
-	while (expr.type==_SYMB && (expr._SYMBptr->sommet==at_ln || expr._SYMBptr->sommet==at_exp)){
+	while (expr.type==_SYMB){
+	  vecteur varn(lvarx(expr,n));
+	  if (varn.size()!=1)
+	    break;
+	  if (!is_linear_wrt(expr,varn.front(),a,b,contextptr))
+	    break;
+	  expr=varn.front();
+	  l=(l-b)/a;
+	  m=(m-b)/a;
+	  if (is_strictly_positive(-a,contextptr))
+	    swapgen(l,m);
 	  if (expr.is_symb_of_sommet(at_ln)){
 	    l=exp(l,contextptr);
 	    m=exp(m,contextptr);
 	    expr=expr._SYMBptr->feuille;
+	    continue;
 	  }
 	  if (expr.is_symb_of_sommet(at_exp)){
 	    if (is_positive(l,contextptr)){
@@ -386,10 +398,12 @@ namespace giac {
 	    else
 	      l=m=minus_inf;
 	    expr=expr._SYMBptr->feuille;
+	    continue;
 	  }
+	  break;
 	}
 	if (is_inf(l) || n.type!=_IDNT || n.print(contextptr).substr(0,2)!="n_" || !is_linear_wrt(expr,n,a,b,contextptr)){
-	  *logptr(contextptr) << gettext("Unable to check solutions for ") << expr << gettext(" in range [") << l << "," << m << "]" << endl;
+	  *logptr(contextptr) << gettext("Warning: unable to find ") <<n << gettext(" integer solutions for ") << expr << ">=" << l << gettext(" and <=") << m << gettext(", answer may be wrong.\nIf you are computing an integral with boundaries, run it again with approx. boundaries") << endl;
 	  continue;
 	}
 	newv.pop_back();
@@ -1292,6 +1306,9 @@ namespace giac {
       l.push_back(arg[0]);
       l.push_back(expden.val);
       l.push_back(*it);
+      vecteur v=lvarfracpow(arg[0]);
+      if (!v.empty())
+	l=mergevecteur(v,l);
     }
     return l;
   }
@@ -1349,7 +1366,7 @@ namespace giac {
       // hence can be used only if no parameter present
       gen expr(e);
       int s=listvars.size();
-      for (int i=1;i<s;++i){
+      for (int i=s-1;i>=1;--i){
 	// expr must be rationnal wrt listvars[i]
 	vecteur vtmp(1,listvars[i]);
 	if (listvars[i].type!=_IDNT)
@@ -1562,13 +1579,14 @@ namespace giac {
 	return vecteur(1,gensizeerr(gettext("unable to isolate ")+gen(listvars).print(contextptr)));
       for (int i=0;i<s;++i){
 	gen lsvar=ls[3*i+2];
+	gen ls3i=subst(ls[3*i],substin,substout,false,contextptr);
 	substin.push_back(lsvar);
 	gen tmp("c__"+print_INT_(i),contextptr);
 	if (!(ls[3*i+1].val %2))
 	  assumesymbolic(symb_superieur_egal(tmp,0),0,contextptr); 
 	listvars.push_back(tmp);
 	substout.push_back(tmp);
-	equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls[3*i]);
+	equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);
       }
       gen expr1=subst(expr,substin,substout,false,contextptr);
       expr1=factor(expr1,false,contextptr);
@@ -1599,7 +1617,8 @@ namespace giac {
 	}
       }
       else {
-	*logptr(contextptr) << gettext("Warning, solutions were not checked!") << endl;
+	if (debug_infolevel)
+	  *logptr(contextptr) << gettext("Warning, solutions were not checked!") << endl;
 	res=fullres;
       }
       return res;

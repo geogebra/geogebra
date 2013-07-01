@@ -1744,6 +1744,8 @@ namespace giac {
     int s=v.size();
     if (s==3)
       return snedecor_cdf(v[0],v[1],v[2],contextptr);
+    if (s==4)
+      return snedecor_cdf(v[0],v[1],v[3],contextptr)-snedecor_cdf(v[0],v[1],v[2],contextptr);
     return gensizeerr(contextptr);
   }
   static const char _snedecor_cdf_s []="snedecor_cdf";

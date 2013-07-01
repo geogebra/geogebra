@@ -1184,7 +1184,7 @@ namespace giac {
 	  return 0;
 	vecteur lv0(lvar(g._SYMBptr->feuille)),lv; // remove cst idnt
 	for (unsigned i=0;i<lv0.size();++i){
-	  if (!is_constant_idnt(lv0[i]))
+	  if (evalf_double(lv0[i],1,contextptr)!=_DOUBLE_) // if (!is_constant_idnt(lv0[i]))
 	    lv.push_back(lv0[i]);
 	}
 	if (!lv.empty()){
