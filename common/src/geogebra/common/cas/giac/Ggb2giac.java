@@ -583,8 +583,9 @@ public class Ggb2giac {
 		p("Center.1", "coordinates(center(conic(%0)))"); 
 		p("Midpoint.2", "normal(regroup(coordinates(midpoint(%0,%1))))");
 
-		// center-point or center-radius
-		p("Circle.2", "equation(circle(%0,%1))");
+		// center-point:      point(%0),point(%1)
+		// or center-radius:  point(%0),%1
+		p("Circle.2", "equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(circle(%0))))");
