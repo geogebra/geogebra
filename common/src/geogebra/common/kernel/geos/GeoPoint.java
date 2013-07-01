@@ -261,8 +261,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			GeoVector v = (GeoVector) geo;
 			setCoords(v.getX(), v.getY(), 1d);
 			setMode(v.getMode()); // complex etc
-		} else
+		} else if (geo.isGeoNumeric()) {
+			GeoNumeric v = (GeoNumeric) geo;
+			setCoords(v.getDouble(), 0, 1d);
+			setMode(Kernel.COORD_COMPLEX);
+		} else{
+			App.error(geo.getGeoClassType()+" invalid as point");
 			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
