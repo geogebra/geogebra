@@ -358,6 +358,19 @@ public abstract class ValidExpression implements ExpressionValue {
 					sb.append(",");
 				sb.append(debugString(((MyList)s).getListElement(i)));
 			}
+			sb.append(')');
+			return sb.toString();
+		}
+		if (s instanceof Command){
+			StringBuilder sb = new StringBuilder("Cmd:");
+			sb.append(((Command)s).getName());
+			sb.append("(");
+			for(int i=0;i<((Command)s).getArgumentNumber();i++){
+				if(i>0)
+					sb.append(",");
+				sb.append(debugString(((Command)s).getArgument(i).unwrap()));
+			}
+			sb.append(')');
 			return sb.toString();
 		}
 		return s.getClass().getName()
