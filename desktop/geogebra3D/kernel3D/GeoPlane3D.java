@@ -12,7 +12,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
@@ -625,7 +624,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		// TODO Auto-generated method stub
 		
 	}

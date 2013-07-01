@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
@@ -361,7 +362,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
-	final public void mirror(GeoLine g) {
+	final public void mirror(GeoLineND g1) {
+		
+		GeoLine g = (GeoLine) g1;
+
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirrorTransform(phi)
 		// and phi/2 is the line's slope angle

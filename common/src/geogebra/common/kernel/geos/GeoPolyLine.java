@@ -22,6 +22,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
@@ -472,7 +473,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		}
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).mirror(g);
 		}

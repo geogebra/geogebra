@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
 
@@ -1175,11 +1176,12 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{2*Q.getX()},{-1}},new double[][]{{2*Q.getY(),-1}});
 	}
 
-	public void mirror(GeoLine g) {
-		if (!g.isDefined()){
+	public void mirror(GeoLineND g1) {
+		if (!g1.isDefined()){
 			setUndefined();
 			return;
 		}
+		GeoLine g = (GeoLine) g1;
 		double[] dir=new double[2];
 		g.getDirection(dir);
 		double dx=dir[0];

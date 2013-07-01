@@ -12,7 +12,6 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
@@ -786,7 +785,7 @@ Traceable, RotateableND, Mirrorable, Transformable {
 		
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		// TODO Auto-generated method stub
 		
 	}

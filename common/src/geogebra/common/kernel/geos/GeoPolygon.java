@@ -34,6 +34,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasSegments;
@@ -1573,12 +1574,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).mirror(Q);
+			getPoint(i).mirror(Q);
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).mirror(g);
+			getPoint(i).mirror(g);
 	}
 
 	/**

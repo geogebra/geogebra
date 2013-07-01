@@ -8,7 +8,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -1314,9 +1313,14 @@ RotateableND, Translateable, Mirrorable, Transformable
 		}	
 	}
 
-	public void mirror(GeoLine g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND g) {
+		for (GeoSegment3D seg: segments.values()){
+			seg.mirror(g);
+		}
 		
+		for (GeoPolygon3D p : polygons.values()){
+			p.mirror(g);
+		}	
 	}
 
 	

@@ -13,6 +13,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoElementND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
  * Represents geos that can be mirrored atline or point
@@ -28,5 +29,5 @@ public interface Mirrorable extends GeoElementND{
 	 * Miror at line
 	 * @param g mirror
 	 */
-	public void mirror(GeoLine g);
+	public void mirror(GeoLineND g);
 }

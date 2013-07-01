@@ -1024,7 +1024,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	/**
 	 * mirror this point at line g
 	 */
-	final public void mirror(GeoLine g) {
+	final public void mirror(GeoLineND g1) {
+		
+		GeoLine g = (GeoLine) g1;
+
 		// Y = S(phi).(X - Q) + Q
 		// where Q is a point on g, S(phi) is the mirrorTransform(phi)
 		// and phi/2 is the line's slope angle

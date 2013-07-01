@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -52,7 +53,7 @@ public class AlgoMirror extends AlgoTransformation {
     private Mirrorable out;   
     protected GeoElement inGeo;
 	protected GeoElement outGeo; 
-    private GeoLine mirrorLine;   
+    private GeoLineND mirrorLine;   
     protected GeoPointND mirrorPoint;      
     private GeoConic mirrorConic;      
     protected GeoElement mirror;
@@ -104,7 +105,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param p
      * @param c
      */
-    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPointND p, GeoConic c) {
+    public AlgoMirror(Construction cons, GeoElement in, GeoLineND g, GeoPointND p, GeoConic c) {
         super(cons);
         //this.in = in;      
         mirrorLine = g;
@@ -112,7 +113,7 @@ public class AlgoMirror extends AlgoTransformation {
         mirrorConic = c; // Michael Borcherds 2008-02-10
         
         if (g != null)
-        	mirror = g;
+        	mirror = (GeoElement) g;
 		else if (p != null)
 			mirror = (GeoElement) p;
 		else

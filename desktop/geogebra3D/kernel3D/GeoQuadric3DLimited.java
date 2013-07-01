@@ -7,7 +7,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -660,9 +659,10 @@ RotateableND, Translateable, Mirrorable, Transformable {
 		side.mirror(Q);
 	}
 
-	public void mirror(GeoLine g) {
-		// TODO Auto-generated method stub
-		
+	public void mirror(GeoLineND g) {
+		bottom.mirror(g);
+		top.mirror(g);
+		side.mirror(g);
 	}
 
 }

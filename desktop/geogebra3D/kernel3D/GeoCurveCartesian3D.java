@@ -16,7 +16,6 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
@@ -613,7 +612,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		dilate(new MyDouble(kernel, -1.0),Q);
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		// TODO Auto-generated method stub
 		
 	}

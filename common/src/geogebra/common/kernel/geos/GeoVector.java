@@ -36,6 +36,7 @@ import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -364,7 +365,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g1) {
+		GeoLine g = (GeoLine) g1;
 		mirrorXY(2.0 * Math.atan2(-g.getX(), g.getY()));
 
 	}

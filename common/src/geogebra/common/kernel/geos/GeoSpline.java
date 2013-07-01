@@ -9,6 +9,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
@@ -725,7 +726,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.size(); i++) {
 			((GeoPoint) points.get(i)).mirror(g);
 		}

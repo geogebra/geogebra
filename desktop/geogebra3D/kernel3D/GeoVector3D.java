@@ -12,7 +12,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -659,7 +658,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		// TODO Auto-generated method stub
 		
 	}

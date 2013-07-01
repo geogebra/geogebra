@@ -22,6 +22,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -813,7 +814,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		if (!initTransformPoints())
 			return;
 

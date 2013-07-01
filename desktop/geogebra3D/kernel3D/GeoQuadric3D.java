@@ -10,7 +10,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Transformable;
@@ -766,7 +765,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMatrixFromEigenMatrix(eigenMatrix);
 	}
 
-	public void mirror(GeoLine g) {
+	public void mirror(GeoLineND g) {
 		// TODO Auto-generated method stub
 		
 	}

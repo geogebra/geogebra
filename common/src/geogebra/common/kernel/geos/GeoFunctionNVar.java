@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -746,7 +747,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			
 		}
 
-		public void mirror(GeoLine g) {
+		public void mirror(GeoLineND g1) {
+			
+			GeoLine g = (GeoLine) g1;
+
 			double qx, qy; 
 	        if (Math.abs(g.getX()) > Math.abs(g.getY())) {
 	            qx = g.getZ() / g.getX();
