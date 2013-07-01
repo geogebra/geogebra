@@ -1118,17 +1118,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		case GIAC:
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
-				sbBuildValueString.append(getInhomX());
-				sbBuildValueString.append('+');
-				sbBuildValueString.append(Unicode.IMAGINARY);
-				sbBuildValueString.append('+');
-				sbBuildValueString.append(getInhomY());
+				sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+				sbBuildValueString.append("+i*");
+				sbBuildValueString.append(kernel.format(getInhomY(), tpl));
 				sbBuildValueString.append(")");
 			} else {
-				sbBuildValueString.append("(");
-				sbBuildValueString.append(getInhomX());
+				sbBuildValueString.append("point(");
+				sbBuildValueString.append(kernel.format(getInhomX(), tpl));
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(getInhomY());
+				sbBuildValueString.append(kernel.format(getInhomY(), tpl));
 				sbBuildValueString.append(")");
 			}
 			return sbBuildValueString;
@@ -1136,13 +1134,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		case MPREDUCE:
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
-				sbBuildValueString.append(getInhomX());
+				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
 				sbBuildValueString.append("+i*");
-				sbBuildValueString.append(getInhomY());
+				sbBuildValueString.append(kernel.format(getInhomY(),tpl));
 				sbBuildValueString.append(")");
 			} else {
 				sbBuildValueString.append("myvect(");
-				sbBuildValueString.append( kernel.format(getInhomX(),tpl));
+				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
 				sbBuildValueString.append(",");
 				sbBuildValueString.append(kernel.format(getInhomY(),tpl));
 				sbBuildValueString.append(")");
