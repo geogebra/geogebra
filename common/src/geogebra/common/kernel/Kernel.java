@@ -950,7 +950,15 @@ public class Kernel {
 				// number small enough that Double.toString() won't create E
 				// notation
 				if ((abs >= 10E-3) && (abs < 10E7)) {
-					return Double.toString(x);
+					String ret = Double.toString(x);
+					
+					// convert 0.125 to 1/8 so Giac treats it as an exact number
+					// Note: exact(0.3333333333333) gives 1/3
+					if (casPrintForm.equals(StringType.GIAC) && ret.indexOf('.') > -1) {
+						return "exact(" + ret + ")";
+					}
+
+					return ret;
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = Double.toString(x);
