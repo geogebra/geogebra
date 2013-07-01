@@ -579,7 +579,7 @@ public class Ggb2giac {
 		 */
 
 		// Experimental Geometry commands. Giac only
-		p("Radius.1", "normal(regroup(radius(conic(%0))))"); 
+		p("Radius.1", "normal(regroup(radius(%0)))"); 
 		p("Center.1", "coordinates(center(conic(%0)))"); 
 		p("Midpoint.2", "normal(regroup(coordinates(midpoint(%0,%1))))");
 
