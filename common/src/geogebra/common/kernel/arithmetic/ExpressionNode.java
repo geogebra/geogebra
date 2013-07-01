@@ -2522,11 +2522,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(')');
 				} else {
-					sb.append("simplify(surd(");
+					// was simplify(surd(, causes problems with output from cubic formula, eg x^3 - 6x^2 - 7x + 9
+					sb.append("surd(");
 					sb.append(leftStr);
 					sb.append(',');
 					sb.append(rightStr);
-					sb.append("))");
+					sb.append(")");
 				}
 				break;
 			default: //MAXIMA, MPREDUCE, PSTRICKS, ...
@@ -2596,9 +2597,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				sb.append("simplify(surd(");
+				// was simplify(surd(, causes problems with output from cubic formula, eg x^3 - 6x^2 - 7x + 9
+				sb.append("surd(");
 				sb.append(leftStr);
-				sb.append(",3))");
+				sb.append(",3)");
 				break;
 			default:
 				sb.append("cbrt(");
