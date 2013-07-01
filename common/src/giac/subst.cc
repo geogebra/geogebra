@@ -2125,6 +2125,8 @@ namespace giac {
     calc_mode(0,contextptr);
     res=simplify(args,contextptr);
     calc_mode(c,contextptr);
+    if (c==1 && has_op(res,at_rootof))
+      res=ratnormal(args);
     return res;
   }
   static const char _simplify_s []="simplify";

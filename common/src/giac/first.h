@@ -40,7 +40,7 @@ typedef double giac_double;
 // sprintf replacement
 int my_sprintf(char * s, const char * format, ...);
 #ifdef GIAC_HAS_STO_38
-#define WITH_MYOSTREAM
+//#define WITH_MYOSTREAM
 #endif
 
 #ifdef WITH_MYOSTREAM

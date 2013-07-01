@@ -1945,6 +1945,8 @@ namespace giac {
     vecteur res(*args._VECTptr);
     iterateur it=res.begin(),itend=res.end();
     for (;it!=itend;++it){
+      if (it->is_symb_of_sommet(at_equal))
+	*it=_droite(*it,contextptr);
       bool ispnt=it->is_symb_of_sommet(at_pnt);
       *it=remove_at_pnt(*it);
       if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_cercle)){
@@ -3165,10 +3167,12 @@ namespace giac {
   gen _rayon(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen a(args);
-    if (a.is_symb_of_sommet(at_equal))
-      a=_conique(a,contextptr);
-    else
-      a=remove_at_pnt(a);
+    if (a.is_symb_of_sommet(at_equal)){
+      a=_cercle(a,contextptr);
+      if (a.type==_VECT && !a._VECTptr->empty())
+	a=a._VECTptr->front();
+    }
+    a=remove_at_pnt(a);
     gen centre,rayon;
     if (!centre_rayon(a,centre,rayon,true,contextptr))
       return false;
@@ -4757,7 +4761,13 @@ namespace giac {
   }
 
   gen distance2(const gen & f1,const gen & f2,GIAC_CONTEXT){
-    gen e1(remove_at_pnt(f1)),e2(remove_at_pnt(f2));
+    gen e1(remove_at_pnt(f1)),e2(f2);
+    if (e2.is_symb_of_sommet(at_equal)){
+      e2=_plotimplicit(e2,contextptr);
+      if (e2.type==_VECT && !e2._VECTptr->empty())
+	e2=e2._VECTptr->front();
+    }
+    e2=remove_at_pnt(e2);
     if (e1.type==_VECT && e1.subtype==_VECTOR__VECT)
       e1=vector2vecteur(*e1._VECTptr);
     if (e2.type==_VECT && e2.subtype==_VECTOR__VECT)
@@ -4875,7 +4885,13 @@ namespace giac {
 	res += _aire((*args._VECTptr)[i],contextptr);
       return res;
     }
-    gen g=remove_at_pnt(args);
+    gen g=args;
+    if (g.is_symb_of_sommet(at_equal)){
+      g=_cercle(g,contextptr);
+      if (g.type==_VECT && !g._VECTptr->empty())
+	g=g._VECTptr->front();
+    }
+    g=remove_at_pnt(g);
     if (g.is_symb_of_sommet(at_cercle)){
       gen centre,rayon;
       if (!centre_rayon(g,centre,rayon,false,contextptr))
@@ -4947,7 +4963,13 @@ namespace giac {
 
   gen _perimetre(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    gen g=remove_at_pnt(args);
+    gen g=args;
+    if (g.is_symb_of_sommet(at_equal)){
+      g=_cercle(g,contextptr);
+      if (g.type==_VECT && !g._VECTptr->empty())
+	g=g._VECTptr->front();
+    }
+    g=remove_at_pnt(g);
     if (g.is_symb_of_sommet(at_cercle)){
       gen centre,rayon;
       if (!centre_rayon(g,centre,rayon,true,contextptr))

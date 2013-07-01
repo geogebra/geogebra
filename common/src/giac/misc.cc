@@ -4921,7 +4921,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     caseval_begin=time(0);
 #endif
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_STRNG) return string2gen(caseval(args.print(contextptr).c_str()),false);
+    if (args.type!=_STRNG){
+      gen g=protecteval(args,1,contextptr);
+      if (is_undef(g)){
+	while (g.type==_VECT && !g._VECTptr->empty() && is_undef(g._VECTptr->front()))
+	  g=g._VECTptr->front();
+	if (g.type==_POLY && !g._POLYptr->coord.empty() && is_undef(g._POLYptr->coord.front()))
+	  g=g._POLYptr->coord.front().value;      
+      }
+      if (g.type==_STRNG && g.subtype==-1)
+	*g._STRNGptr = "GIAC_ERROR: "+*g._STRNGptr;
+      return g;
+    }
     if (*args._STRNGptr=="init geogebra")
       init_geogebra(1,contextptr);
     if (*args._STRNGptr=="close geogebra")
