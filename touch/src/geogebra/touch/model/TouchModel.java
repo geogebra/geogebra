@@ -19,7 +19,9 @@ import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -68,7 +70,8 @@ public class TouchModel {
 		this.inputDialog = new InputDialog(
 				(TouchApp) this.kernel.getApplication(),
 				DialogType.NumberValue, tabletGUI);
-		this.inputDialog.addCloseHandler(new CloseHandler<PopupPanel>() {
+		this.inputDialog.addCloseHandler(new CloseHandler<PopupPanel>()
+		{
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
 				inputPanelClosed();
@@ -477,6 +480,7 @@ public class TouchModel {
 		// commands that need one point and any other object
 		case ReflectObjectAboutPoint:
 		case Dilate:
+		case RotateObjectByAngle:
 			if (!changeSelectionState(hits, Test.GEOPOINT, 1)
 					&& hits.size() > 0) {
 				changeSelectionState(hits.get(0));
@@ -496,9 +500,9 @@ public class TouchModel {
 		// commands that need one point or line and one circle or conic
 		case Tangents:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-					Test.GEOCONIC });
+					Test.GEOCONIC, Test.GEOFUNCTION });
 			draw = (getNumberOf(Test.GEOPOINT) + getNumberOf(Test.GEOLINE) >= 1)
-					&& getNumberOf(Test.GEOCONIC) >= 1;
+					&& getNumberOf(Test.GEOCONIC) + getNumberOf(Test.GEOFUNCTION) >= 1;
 			break;
 
 		// commands that need one point and one vector
@@ -789,6 +793,12 @@ public class TouchModel {
 				// return instead of break, as everthing that follows is done by
 				// the dialog!
 				return;
+			case RotateObjectByAngle: 
+				this.inputDialog.setText("45\u00B0"); // 45°
+				this.inputDialog.show();
+				// return instead of break, as everthing that follows is done by
+				// the dialog!
+				return;
 			case TranslateObjectByVector:
 				// get the point that was selected last
 				GeoVector vector = getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) getElement(
@@ -803,10 +813,21 @@ public class TouchModel {
 			case Tangents:
 				GeoElement[] lines;
 				if (this.getElement(Test.GEOPOINT) != null) {
-					lines = this.kernel.getAlgoDispatcher().Tangent(null,
-							(GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoConic) this.getElement(Test.GEOCONIC));
+					GeoElement g = getElementFrom(new Test[]{Test.GEOCONIC, Test.GEOFUNCTION});
+					if(g instanceof GeoConic){
+						//GeoPoint + GeoConic
+						lines = this.kernel.getAlgoDispatcher().Tangent(null,
+								(GeoPoint) this.getElement(Test.GEOPOINT),
+								(GeoConic) g);
+					} else {
+						//GeoPoint + GeoFunction
+						lines = new GeoElement[1];
+						lines[0] = this.kernel.getAlgoDispatcher().Tangent(null,
+								(GeoPoint) this.getElement(Test.GEOPOINT),
+								(GeoFunction) g);
+					}
 				} else {
+					//GeoLine + GeoConic
 					lines = this.kernel.getAlgoDispatcher().Tangent(null,
 							(GeoLine) this.getElement(Test.GEOLINE),
 							(GeoConic) this.getElement(Test.GEOCONIC));
@@ -1252,6 +1273,15 @@ public class TouchModel {
 					.get(1) : this.selectedElements.get(0);
 			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Dilate(
 					null, geoDil, (NumberValue) result[0], start);
+			resetSelection();
+
+			break;
+		case RotateObjectByAngle: 
+			GeoPoint center = (GeoPoint) getElement(Test.GEOPOINT);
+			GeoElement geoRotate = this.selectedElements.get(0) == center ? this.selectedElements
+					.get(1) : this.selectedElements.get(0);
+			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Rotate(
+					null, geoRotate, (GeoNumberValue) result[0], center);
 			resetSelection();
 
 			break;
