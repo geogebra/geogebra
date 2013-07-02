@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -310,7 +311,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 			
-		if(!isTextfieldHasFocus()){
+		if((!isTextfieldHasFocus())&&(!(view.getHits().get(0) instanceof GeoList))){
 			event.preventDefault();
 		}
 			
