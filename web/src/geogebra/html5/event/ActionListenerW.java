@@ -1,4 +1,4 @@
-package geogebra.web.euclidian.event;
+package geogebra.html5.event;
 
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.ActionListenerI;
@@ -15,12 +15,12 @@ public class ActionListenerW extends ActionListener implements EventListener, Ch
 	}
 	
 	public void onBrowserEvent(Event e) {
-	    geogebra.web.euclidian.event.ActionEventW event = geogebra.web.euclidian.event.ActionEventW.wrapEvent(e);
+	    ActionEventW event = ActionEventW.wrapEvent(e);
 	    wrapActionPerformed(event);
     }
 
 	public void onChange(ChangeEvent e) {
-	    geogebra.web.euclidian.event.ChangeEventW event = geogebra.web.euclidian.event.ChangeEventW.wrapEvent(e);
+	    ChangeEventW event = ChangeEventW.wrapEvent(e);
 	    wrapActionPerformed(event);
 	    
     }
