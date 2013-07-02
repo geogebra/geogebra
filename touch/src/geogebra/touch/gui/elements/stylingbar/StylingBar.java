@@ -45,10 +45,10 @@ public class StylingBar extends DecoratorPanel
 	private ToolBarCommand lastCommand;
 	boolean visible = true; 
 
-	private abstract class StylingBarClickHandler implements ClickHandler{
+	private abstract class StylingBarTouchStartHandler implements TouchStartHandler{
 		protected int index; 
 		
-		StylingBarClickHandler(int i){
+		StylingBarTouchStartHandler(int i){
 			this.index = i; 
 		}		
 	}
@@ -78,6 +78,7 @@ public class StylingBar extends DecoratorPanel
 				event.stopPropagation();
 			}
 		}, ClickEvent.getType()); 
+		
 		this.contentPanel.addDomHandler(new TouchStartHandler()
 		{			
 			@Override
@@ -86,6 +87,7 @@ public class StylingBar extends DecoratorPanel
 				event.stopPropagation();
 			}
 		}, TouchStartEvent.getType()); 
+		
 		this.contentPanel.addDomHandler(new MouseDownHandler()
 		{			
 			@Override
@@ -95,13 +97,15 @@ public class StylingBar extends DecoratorPanel
 			}
 		}, MouseDownEvent.getType()); 
 		
+		
 		this.showHide = new ArrowImageButton(CommonResources.INSTANCE.triangle_left()); 
-		this.showHide.addDomHandler(new ClickHandler()
-		{			
+
+		this.showHide.addTouchStartHandler(new TouchStartHandler(){
 			@Override
-			public void onClick(ClickEvent event)
-			{
+      public void onTouchStart(TouchStartEvent event)
+      {
 				event.preventDefault(); 
+				event.stopPropagation();
 				
 				if(StylingBar.this.visible){
 					//close all opened options before hiding the stylingbar
@@ -127,9 +131,9 @@ public class StylingBar extends DecoratorPanel
 					euclidianViewPanel.add(StylingBar.this);
 					euclidianViewPanel.setWidgetPosition(StylingBar.this, 0, 0);
 				}
-			}
-		}, ClickEvent.getType()); 
-
+      }
+		});
+		
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
@@ -150,18 +154,19 @@ public class StylingBar extends DecoratorPanel
 	private StandardImageButton createStyleBarButton(final String process, SVGResource svg)
 	{
 		final StandardImageButton newButton = new StandardImageButton(svg);
-		newButton.addDomHandler(new ClickHandler()
+
+		newButton.addTouchStartHandler(new TouchStartHandler()
 		{
 			@Override
-			public void onClick(ClickEvent event)
+			public void onTouchStart(TouchStartEvent event)
 			{
 				StylingBar.this.guiModel.closeOptions();
 				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
 
 				newButton.setActive(!newButton.isActive());
 			}
-		}, ClickEvent.getType());
-
+		});
+		
 		return newButton;
 	}
 
@@ -184,10 +189,11 @@ public class StylingBar extends DecoratorPanel
 			if(resource[i].equals(CommonResources.INSTANCE.label()))
 			{
 				b[i] = new StandardImageButton(CommonResources.INSTANCE.label());
-				b[i].addDomHandler(new StylingBarClickHandler(i)
+			
+				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
 				{
 					@Override
-					public void onClick(ClickEvent event)
+					public void onTouchStart(TouchStartEvent event)
 					{
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
 						{
@@ -199,15 +205,16 @@ public class StylingBar extends DecoratorPanel
 										.showOption(new OptionsBox(new CaptionBar(StylingBar.this.touchModel)), OptionType.CaptionStyle, StylingBar.this.button[this.index]);
 						}
 					}
-				}, ClickEvent.getType());
+				});
 			}
 			else if(resource[i].equals(CommonResources.INSTANCE.properties_default()))
 			{
 				b[i] = new StandardImageButton(CommonResources.INSTANCE.properties_default());
-				b[i].addDomHandler(new StylingBarClickHandler(i)
+
+				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
 				{
 					@Override
-					public void onClick(ClickEvent event)
+					public void onTouchStart(TouchStartEvent event)
 					{
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
 						{
@@ -218,32 +225,34 @@ public class StylingBar extends DecoratorPanel
 							StylingBar.this.guiModel.showOption(new OptionsBox(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this)), OptionType.LineStyle, StylingBar.this.button[this.index]);
 						}
 					}
-				}, ClickEvent.getType());
+				});
 			}
 			else if(resource[i].equals(CommonResources.INSTANCE.color()))
 			{
 				b[i] = new StandardImageButton(CommonResources.INSTANCE.color());
 				b[i].getElement().getStyle().setBackgroundImage("initial");
 				b[i].getElement().getStyle().setBackgroundColor(entry.getColor().toString());
-				b[i].addDomHandler(new ClickHandler()
+				
+				b[i].addTouchStartHandler(new TouchStartHandler()
+				{					
+					@Override
+					public void onTouchStart(TouchStartEvent event)
 					{
-						@Override
-						public void onClick(ClickEvent event)
+						event.preventDefault();
+						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
 						{
-							event.preventDefault();
-							if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
-							{
-								StylingBar.this.guiModel.closeOptions();
-							}
-							else
-							{
-								ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
-								
-								// includes closeOptions()
-								StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color, StylingBar.this.button[StylingBar.this.colorButtonIndex]);
-							}
+							StylingBar.this.guiModel.closeOptions();
 						}
-					}, ClickEvent.getType());
+						else
+						{
+							ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
+							
+							// includes closeOptions()
+							StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color, StylingBar.this.button[StylingBar.this.colorButtonIndex]);
+						}
+					}
+				});
+				
 				this.colorButtonIndex = i; 
 			}
 			else if(resource[i].equals(CommonResources.INSTANCE.show_or_hide_the_axes()))
