@@ -789,11 +789,21 @@ public class TouchModel {
 				}
 				break;
 			case Dilate:
+				if(this.inputDialog.getType() != DialogType.NumberValue)
+				{
+					this.inputDialog.redefine(DialogType.NumberValue);
+				}
+				this.inputDialog.setMode("DilateFromPoint");
 				this.inputDialog.show();
 				// return instead of break, as everthing that follows is done by
 				// the dialog!
 				return;
 			case RotateObjectByAngle: 
+				if(this.inputDialog.getType() != DialogType.Angle)
+				{
+					this.inputDialog.redefine(DialogType.Angle);
+				}
+				this.inputDialog.setMode("RotateByAngle");
 				this.inputDialog.setText("45\u00B0"); // 45°
 				this.inputDialog.show();
 				// return instead of break, as everthing that follows is done by
@@ -974,8 +984,11 @@ public class TouchModel {
 				}
 				break;
 			case RegularPolygon:
-				// TODO
-
+				if(this.inputDialog.getType() != DialogType.NumberValue)
+				{
+					this.inputDialog.redefine(DialogType.NumberValue);
+				}
+				this.inputDialog.setMode("RegularPolygon");
 				this.inputDialog.show();
 
 				this.controlClicked = false;
@@ -1241,9 +1254,13 @@ public class TouchModel {
 				.isSuppressLabelsActive();
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
 
+		String input = TouchModel.this.inputDialog.getInput();
+		if(this.inputDialog.clockwise()){
+			input = "-(" + input + ")";
+		}
+		
 		GeoElement[] result = TouchModel.this.kernel.getAlgebraProcessor()
-				.processAlgebraCommand(TouchModel.this.inputDialog.getInput(),
-						false);
+				.processAlgebraCommand(input, false);
 
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
 				oldVal);

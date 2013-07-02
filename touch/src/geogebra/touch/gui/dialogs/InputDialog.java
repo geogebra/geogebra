@@ -16,10 +16,12 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -37,11 +39,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title = new Label();
+	private RadioButton[] radioButton = new RadioButton[2];
 	TextBox textBox = new TextBox();
 	private TouchApp app;
 	private DialogType type;
-
-	private String prevText, input;
+	private String prevText, input, mode;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
@@ -65,12 +67,32 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		gui.addResizeListener(this);
 	}
 
+	public void redefine(DialogType dialogType)
+	{
+		this.clear();
+		if (this.dialogPanel != null)
+		{
+			this.dialogPanel.clear();
+		}
+		this.type = dialogType;
+		init();
+	}
+
 	private void init()
 	{
+		// needs to be reset
+		this.mode = "";
+
 		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		addTextBox();
+
+		if (this.type == DialogType.Angle)
+		{
+			addRadioButton();
+		}
+
 		// addButtonContainer();
 		this.add(this.dialogPanel);
 		setLabels();
@@ -80,7 +102,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		this.textBox.getElement().setAttribute("autocorrect", "off");
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
-		
+
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
 
@@ -117,6 +139,19 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.textBox.setVisibleLength(107);
 		this.dialogPanel.add(this.textBox);
 		this.textBox.setFocus(true);
+	}
+
+	private void addRadioButton()
+	{
+		// "A" is just a label to group the two radioButtons (could be any String -
+		// as long as the same is used twice)
+		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain("clockwise"), Direction.DEFAULT);
+		this.dialogPanel.add(this.radioButton[0]);
+
+		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain("counterClockwise"), Direction.DEFAULT);
+		this.dialogPanel.add(this.radioButton[1]);
+
+		this.radioButton[0].setValue(new Boolean(true));
 	}
 
 	/*
@@ -167,16 +202,22 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
+
+		if (this.radioButton[0] != null)
+		{
+			this.radioButton[0].setValue(new Boolean(true));
+		}
+
 		this.textBox.setFocus(true);
 
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		
-		if(this.type != DialogType.Title)
+
+		if (this.type != DialogType.Title)
 		{
 			this.dialogPanel.add(this.customKeys);
 		}
-		
+
 		this.textBox.setFocus(true);
 		setLabels();
 	}
@@ -200,9 +241,20 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		return this.input;
 	}
 
+	public boolean clockwise()
+	{
+		return this.type == DialogType.Angle && this.radioButton[1].getValue().booleanValue();
+	}
+
 	public void setText(String text)
 	{
 		this.prevText = text;
+	}
+
+	public void setMode(String mode)
+	{
+		this.mode = mode;
+		setLabels();
 	}
 
 	public void setLabels()
@@ -215,15 +267,21 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		case InputField:
 			this.title.setText(this.app.getLocalization().getMenu(this.type.toString()));
 			break;
-		case NumberValue: 
-// TODO:			this.title.setText(); 
+		case NumberValue:
+		case Angle:
+			if (this.mode != null && this.mode.length() > 0)
+			{
+				this.title.setText(this.app.getLocalization().getMenu(this.mode));
+			}
 			break;
-		case Angle: 
-// TODO
-			break; 
 		default:
 			break;
 		}
+	}
+
+	public DialogType getType()
+	{
+		return this.type;
 	}
 
 	@Override
