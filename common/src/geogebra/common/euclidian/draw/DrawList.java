@@ -399,8 +399,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		 * @param e action event
 		 */
 		public void actionPerformed(ActionEvent e) {
-
-			App.debug("action performed" + comboBox.getSelectedIndex());
 			geoList.setSelectedIndex(comboBox.getSelectedIndex(), true);
 		}
 
