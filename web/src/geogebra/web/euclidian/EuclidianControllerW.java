@@ -311,7 +311,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 			
-		if((!isTextfieldHasFocus())&&(!(view.getHits().get(0) instanceof GeoList))){
+		if((!isTextfieldHasFocus())&&(!(view.getHits().size()>0 && view.getHits().get(0) instanceof GeoList))){
 			event.preventDefault();
 		}
 			
