@@ -242,8 +242,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
     public ActionListener newActionListener(ActionListenerI listener) {
-		App.debug("newActionListener: implementation needed really"); // TODO Auto-generated
-	    return null;
+		return new geogebra.web.euclidian.event.ActionListenerW(listener);
     }
 
 

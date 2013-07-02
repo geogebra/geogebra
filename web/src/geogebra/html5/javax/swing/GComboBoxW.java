@@ -4,7 +4,15 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
+import geogebra.common.main.App;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,7 +24,7 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 	 * Creates new wrapper Box
 	 */
 	public GComboBoxW() {
-		this.impl = new ListBox();
+		this.impl = new ListBox();		
 	}
 	
 	@Override
@@ -68,19 +76,17 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 
 	@Override
     public void setSelectedIndex(int selectedIndex) {
-	    // TODO Auto-generated method stub
-	    
+	    impl.setSelectedIndex(selectedIndex);
     }
 
 	@Override
     public int getSelectedIndex() {
-	    // TODO Auto-generated method stub
-	    return 0;
+	    return impl.getSelectedIndex();
     }
 
 	@Override
     public void addActionListener(ActionListener newActionListener) {
-	    // TODO Auto-generated method stub
+		impl.addChangeHandler((ChangeHandler) newActionListener);
 	    
     }
 
