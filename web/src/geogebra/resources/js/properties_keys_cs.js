@@ -851,7 +851,7 @@ __GGB__keysVar.cs.command = {
     "Substitute_SyntaxCAS": "[ <V\xfdraz>, <od>, <do> ]",
     "Sum": "Suma",
     "Sum_Syntax": "[ <Seznam> ]\n[ <Seznam>, <\u010c\xedsla prvk\u016f> ]\n[ <Seznam>, <Seznam frekvenc\xed> ]",
-    "Sum_SyntaxCAS": "[ <V\xfdraz>, <Prom\u011bnn\xe1>, <Po\u010d\xe1te\u010dn\xed hodnota>, <Koncov\xe1 hodnota> ]",
+    "Sum_SyntaxCAS": "[ <Seznam> ]\n[ <V\xfdraz>, <Prom\u011bnn\xe1>, <Po\u010d\xe1te\u010dn\xed hodnota>, <Koncov\xe1 hodnota> ]",
     "SumSquaredErrors": "SoucetKvadratickeChyby",
     "SumSquaredErrors_Syntax": "[ <Seznam bod\u016f>, <Funkce> ]",
     "SurdText": "IracionalniText",
