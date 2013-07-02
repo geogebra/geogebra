@@ -756,7 +756,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < points.size(); i++) {
 			((GeoPoint) points.get(i)).dilate(r, S);
 		}

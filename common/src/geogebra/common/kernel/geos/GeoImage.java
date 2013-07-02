@@ -841,7 +841,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, Coords S) {
 		if (!initTransformPoints())
 			return;
 

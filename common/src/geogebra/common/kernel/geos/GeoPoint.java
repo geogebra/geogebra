@@ -961,11 +961,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	/**
 	 * dilate from S by r
 	 */
-	final public void dilate(NumberValue rval, GeoPoint S) {
+	final public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = (1 - r);
-		setCoords(r * x + temp * S.getInhomX() * z,
-				r * y + temp * S.getInhomY() * z, z);
+		setCoords(r * x + temp * S.getX() * z,
+				r * y + temp * S.getY() * z, z);
 	}
 
 	/**

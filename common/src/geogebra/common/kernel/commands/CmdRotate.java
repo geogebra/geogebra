@@ -54,7 +54,7 @@ public class CmdRotate extends CommandProcessor {
 	}
 	
 	/**
-	 * process for 3 args
+	 * process for 2 args
 	 * @param c command
 	 * @param arg args
 	 * @param ok is that ok ?

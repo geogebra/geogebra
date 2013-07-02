@@ -2077,10 +2077,10 @@ Region3D, GeoDirectionND
 	 * @param rval ratio
 	 * @param S fixed point of dilation
 	 */
-	 final public void dilate(NumberValue rval, GeoPoint S) {  
+	 final public void dilate(NumberValue rval, Coords S) {  
 	    double r = rval.getDouble();		    	    	    
-	 	double sx = S.getInhomX();
-		double sy = S.getInhomY();
+	 	double sx = S.getX();
+		double sy = S.getY();
 		
 		// remember Eigenvector orientation
 		boolean oldOrientation = hasPositiveEigenvectorOrientation();

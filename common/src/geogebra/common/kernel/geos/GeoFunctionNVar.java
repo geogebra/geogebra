@@ -718,11 +718,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				fun.matrixTransform(a11/d,-a01/d,-a10/d,a00/d);				
 		}
 
-		public void dilate(NumberValue r, GeoPoint S) {
-			dilate(r,S.getInhomCoords());
-		}
 
-		private void dilate(NumberValue r, Coords S) {
+		public void dilate(NumberValue r, Coords S) {
 			fun.translate(-S.getX(),-S.getY());
 			fun.matrixTransform(1/r.getDouble(),0,0,1/r.getDouble());
 			fun.translate(S.getX(),S.getY());

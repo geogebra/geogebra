@@ -1,5 +1,6 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoElementND;
 /**
@@ -12,5 +13,5 @@ public interface Dilateable extends GeoElementND{
 	 * @param r ratio
 	 * @param S point
 	 */
-	public void dilate(NumberValue r, GeoPoint S);
+	public void dilate(NumberValue r, Coords S);
 }

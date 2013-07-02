@@ -1833,9 +1833,6 @@ public class GeoFunction extends GeoElement implements VarString,
 		return yExp.buildFunction(t);
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
-		dilate(r,S.getInhomCoords());
-	}
 	
 	/**
 	 * mirror at point P
@@ -1845,7 +1842,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		dilate(new MyDouble(kernel, -1.0), P);
 	}
 
-	private void dilate(NumberValue r, Coords S) {
+	public void dilate(NumberValue r, Coords S) {
 		double rd = r.getNumber().getDouble(), a = S.getX(), b = S.getY();
 		if (Kernel.isZero(rd)) {
 			setUndefined();

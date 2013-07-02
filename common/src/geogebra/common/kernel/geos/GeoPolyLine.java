@@ -456,26 +456,26 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	public void translate(Coords v) {
 		App.debug("translating points");
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).translate(v);
+			getPoint(i).translate(v);
 		}
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).dilate(r, S);
+			getPoint(i).dilate(r, S);
 		}
 		calcLength();
 	}
 
 	public void mirror(Coords Q) {
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).mirror(Q);
+			getPoint(i).mirror(Q);
 		}
 	}
 
 	public void mirror(GeoLineND g) {
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).mirror(g);
+			getPoint(i).mirror(g);
 		}
 	}
 

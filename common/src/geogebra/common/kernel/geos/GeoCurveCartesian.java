@@ -398,11 +398,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
 	}
 
-	public void dilate(NumberValue ratio, GeoPoint P) {
-		dilate(ratio,P.getInhomCoords());
-	}
 	
-	private void dilate(NumberValue ratio, Coords P) {
+	public void dilate(NumberValue ratio, Coords P) {
 		translate(-P.getX(), -P.getY());
 		ExpressionNode exprX = ((Function) funX.deepCopy(kernel))
 				.getExpression();

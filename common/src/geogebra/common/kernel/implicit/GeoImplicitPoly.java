@@ -1224,9 +1224,9 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{x*(1-cos)+y*sin,-sin},{cos,0}},new double[][]{{-x*sin+y*(1-cos),cos},{sin,0}});
 	}
 
-	public void dilate(NumberValue rval, GeoPoint S) {
+	public void dilate(NumberValue rval, Coords S) {
 		double r=1/rval.getDouble();
-		plugInPoly(new double[][]{{(1-r)*S.getInhomX()},{r}},new double[][]{{(1-r)*S.getInhomY(),r}});
+		plugInPoly(new double[][]{{(1-r)*S.getX()},{r}},new double[][]{{(1-r)*S.getY(),r}});
 	}
 	
 	@Override

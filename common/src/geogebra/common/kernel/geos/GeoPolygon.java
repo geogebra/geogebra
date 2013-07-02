@@ -1563,12 +1563,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 
 	public void translate(Coords v) {
 		for (int i = 0; i < points.length; i++)
-			((Translateable) points[i]).translate(v);
+			getPoint(i).translate(v);
 	}
 
-	public void dilate(NumberValue r, GeoPoint S) {
+	public void dilate(NumberValue r, Coords S) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint) points[i]).dilate(r, S);
+			getPoint(i).dilate(r, S);
 		this.calcArea();
 	}
 

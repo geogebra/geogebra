@@ -21,6 +21,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.Dilateable;
@@ -141,9 +142,9 @@ public class AlgoDilate extends AlgoTransformation {
 		outGeo.set(inGeo);
 		if (S == null) {
 			// Application.debug(cons.getOrigin());
-			out.dilate(r, cons.getOrigin());
+			out.dilate(r, Coords.O);
 		} else
-			out.dilate(r, S);
+			dilate();
 		if (inGeo.isLimitedPath())
 			this.transformLimitedPath(inGeo, outGeo);
 	}
@@ -157,6 +158,13 @@ public class AlgoDilate extends AlgoTransformation {
 		return loc.getPlain("ADilatedByFactorBfromC", inGeo.getLabel(tpl),
 				rgeo.getLabel(tpl), sLabel);
 
+	}
+	
+	/**
+	 * dilate out about r, S
+	 */
+	protected void dilate(){
+		out.dilate(r, S.getInhomCoords());
 	}
 
 	@Override

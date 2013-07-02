@@ -371,7 +371,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	}
 
-	public void dilate(NumberValue rval, GeoPoint S) {
+	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();	
 		setCoords(r * x, r * y, z);
 
