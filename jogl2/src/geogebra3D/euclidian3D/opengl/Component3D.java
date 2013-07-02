@@ -25,14 +25,14 @@ public class Component3D extends GLJPanel{
 	static {
 		
 		caps = new GLCapabilities(GLProfile.getDefault());
-		//caps.setAlphaBits(8);
+		caps.setAlphaBits(8);
 
 		
 		//anti-aliasing
 		caps.setSampleBuffers(true);
 		caps.setNumSamples(4);    	
 		//avoid flickering
-		//caps.setDoubleBuffered(true);
+		caps.setDoubleBuffered(true);
 		      	
 	}
 	
