@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -37,7 +38,8 @@ import java.util.ArrayList;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable, Mirrorable, Transformable {
+		Vector3DValue, SpreadsheetTraceable, 
+		RotateableND, Traceable, Mirrorable, Transformable, Dilateable {
 
 	private GeoPointND startPoint;
 
@@ -663,6 +665,16 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		Coords vn = line.getDirectionInD3().normalized();
 		setCoords(vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
 		
+	}
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		
+		setCoords(v.mul(rval.getDouble()));
 	}
 
 }

@@ -559,4 +559,16 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		return rot.mul(this);
 	}
 
+	/**
+	 * mul 3x3 submatrix by v
+	 * @param v value
+	 */
+	public void mulInside3x3(double v){
+		for (int i = 0 ; i < 3; i++){
+			for (int j = 0 ; j < 3; j++){
+				val[i + 4*j] *= v;
+			}
+		}
+	}
+
 }

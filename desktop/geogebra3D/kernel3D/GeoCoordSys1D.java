@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
 Translateable, MatrixTransformable, 
-Traceable, RotateableND, Mirrorable, Transformable {
+Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
 
 	protected CoordSys coordsys;
 	
@@ -799,6 +800,24 @@ Traceable, RotateableND, Mirrorable, Transformable {
 		vn.normalize();
 		Coords v = getCoordSys().getVx();
 		setCoord(point, vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
+
+		
+	}
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		
+		double r = rval.getDouble();
+		
+		Coords o = getCoordSys().getOrigin().mul(r);
+		
+		o.addInside(S.mul(1-r));
+		
+		setCoord(o, getCoordSys().getVx().mul(r));
 
 		
 	}

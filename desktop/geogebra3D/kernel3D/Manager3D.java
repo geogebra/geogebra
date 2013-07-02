@@ -1334,6 +1334,13 @@ public class Manager3D implements Manager3DInterface {
 		return t.transform(geo, label);
 	}
 
+	final public GeoElement[] Dilate3D(String label, GeoElement geoDil,
+			NumberValue r, GeoPointND S){
+		
+		Transform t = new TransformDilate3D(cons, r, S);
+		return t.transform(geoDil, label);
+		
+	}
 
 	final public GeoNumeric Volume(String label, HasVolume hasVolume){
 		AlgoVolume algo = new AlgoVolume(cons, label, hasVolume);

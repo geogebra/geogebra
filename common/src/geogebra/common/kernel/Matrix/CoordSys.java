@@ -665,6 +665,26 @@ public class CoordSys {
 		setFromMatrixOrthonormal();
 	}
 	
+	/**
+	 * dilate at point
+	 * @param r ratio
+	 * @param point center point
+	 */
+	public void dilate(double r, Coords point){
+		
+		if (r < 0){//reverse all values
+			matrixOrthonormal.mulInside3x3(-1);
+		}
+		
+		//translate origin matrix
+		matrixOrthonormal.mulOrigin(r);
+		matrixOrthonormal.addToOrigin(point.mul(1-r));
+		
+		setFromMatrixOrthonormal();
+	}
+	
+
+	
 	
 	/**
 	 * mirror the coord sys at point
@@ -679,6 +699,8 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
+	
+	
 	
 	/**
 	 * mirror the coord sys at line defined by point, direction

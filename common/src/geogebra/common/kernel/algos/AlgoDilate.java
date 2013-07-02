@@ -28,9 +28,7 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 
@@ -39,10 +37,12 @@ import geogebra.common.kernel.geos.GeoPolygon;
  */
 public class AlgoDilate extends AlgoTransformation {
 
-	private GeoPoint S;
+	protected GeoPointND S;
 	private Dilateable out;
 	private NumberValue r;
-	private GeoElement inGeo, outGeo, rgeo;
+	protected GeoElement inGeo;
+	protected GeoElement outGeo;
+	private GeoElement rgeo;
 
 	/**
 	 * Creates new labeled enlarge geo
@@ -54,7 +54,7 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 */
 	AlgoDilate(Construction cons, String label, GeoElement A, NumberValue r,
-			GeoPoint S) {
+			GeoPointND S) {
 		this(cons, A, r, S);
 		outGeo.setLabel(label);
 	}
@@ -68,23 +68,18 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 */
 	public AlgoDilate(Construction cons, GeoElement A, NumberValue r,
-			GeoPoint S) {
+			GeoPointND S) {
 		super(cons);
 		this.r = r;
 		this.S = S;
 
 		inGeo = A;
 		rgeo = r.toGeoElement();
-		if (A instanceof GeoPolygon || A instanceof GeoPolyLine
-				|| A.isLimitedPath()) {
-			outGeo = inGeo.copyInternal(cons);
-			out = (Dilateable) outGeo;
-		} else if (!A.isGeoList()) {
-			// create output object
-			outGeo = inGeo.copy();
-			out = (Dilateable) outGeo;
-		} else
-			outGeo = new GeoList(cons);
+		
+		outGeo = getResultTemplate(inGeo);
+		if(outGeo instanceof Dilateable)
+        	out = (Dilateable)outGeo;
+		
 		setInputOutput();
 		compute();
 
@@ -107,7 +102,7 @@ public class AlgoDilate extends AlgoTransformation {
 		input[0] = inGeo;
 		input[1] = rgeo;
 		if (S != null)
-			input[2] = S;
+			input[2] = (GeoElement) S;
 
 		setOutputLength(1);
 		setOutput(0, outGeo);
@@ -139,14 +134,20 @@ public class AlgoDilate extends AlgoTransformation {
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
-		outGeo.set(inGeo);
-		if (S == null) {
-			// Application.debug(cons.getOrigin());
-			out.dilate(r, Coords.O);
-		} else
-			dilate();
+
+    	setOutGeo();		
+    	
+    	out.dilate(r, getPointCoords());
+    	
 		if (inGeo.isLimitedPath())
 			this.transformLimitedPath(inGeo, outGeo);
+	}
+	
+	/**
+	 * set inGeo to outGeo
+	 */
+	protected void setOutGeo(){
+		outGeo.set(inGeo);
 	}
 
 	@Override
@@ -161,11 +162,17 @@ public class AlgoDilate extends AlgoTransformation {
 	}
 	
 	/**
-	 * dilate out about r, S
+	 * 
+	 * @return point coords for dilate
 	 */
-	protected void dilate(){
-		out.dilate(r, S.getInhomCoords());
+	protected Coords getPointCoords(){
+		if (S == null){
+			return Coords.O;
+		}
+		
+		return S.getInhomCoords();
 	}
+	
 
 	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {

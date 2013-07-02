@@ -740,4 +740,27 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		getCoordSys().mirror(point, direction);
 	}
 
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	@Override
+	public void dilate(NumberValue rval, Coords S) {
+		
+		double r = rval.getDouble();
+		
+		getCoordSys().dilate(r,S);	
+		
+		if (r < 0){ //mirror was done in coord sys
+			r = -r;
+		}
+		
+		for (int i = 0; i < getPointsLength(); i++)
+			getPoint(i).dilate(r);
+		
+		this.calcArea();
+		
+	}
+
 }

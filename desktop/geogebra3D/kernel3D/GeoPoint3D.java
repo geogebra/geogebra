@@ -40,6 +40,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -71,7 +72,7 @@ import java.util.TreeSet;
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle,
 		RotateableND, Transformable,
-		Traceable, Mirrorable{
+		Traceable, Mirrorable, Dilateable{
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1436,6 +1437,26 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		//mirror at projected point
 		mirror(o);
+		
+	}
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		
+		double r = rval.getDouble();
+		double temp = (1 - r);
+		
+		double w = getW();
+		
+		setCoords(r * getX() + temp * S.getX() * w,
+				r * getY() + temp * S.getY() * w, 
+				r * getZ() + temp * S.getZ() * w, 				
+				w);
+		
 		
 	}
 

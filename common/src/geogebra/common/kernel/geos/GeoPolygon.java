@@ -55,7 +55,7 @@ import java.util.TreeSet;
 public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta {
+		GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;

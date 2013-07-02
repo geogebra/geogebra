@@ -1039,6 +1039,25 @@ public class CoordMatrix {
 	}
 
 	/**
+	 * multiply column j by v
+	 * @param v value
+	 * @param j column
+	 */
+	public void mulColumn(double v, int j){
+		for (int i = 1 ; i <= getRows() ; i++){
+			set(i, j, get(i, j) * v);
+		}
+	}
+	
+	/**
+	 * multiply origin column by v
+	 * @param v value
+	 */
+	public void mulOrigin(double v){
+		mulColumn(v,getColumns());
+	}
+
+	/**
 	 * return "x-axis" vector
 	 * 
 	 * @param v

@@ -967,6 +967,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		setCoords(r * x + temp * S.getX() * z,
 				r * y + temp * S.getY() * z, z);
 	}
+	
+	/**
+	 * dilate from O
+	 * @param r ratio
+	 */
+	final public void dilate(double r){
+		setCoords(r * x, r * y, z);
+	}
 
 	/**
 	 * rotate this point by angle phi around (0,0)

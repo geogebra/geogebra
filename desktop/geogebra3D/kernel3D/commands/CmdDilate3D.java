@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdDilate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
@@ -28,7 +29,7 @@ public class CmdDilate3D extends CmdDilate {
 			NumberValue r, GeoElement point) {
 		
 		if (geoDil.isGeoElement3D() || point.isGeoElement3D()){
-			
+			return kernelA.getManager3D().Dilate3D(label, geoDil, r, (GeoPointND) point);
 		}
 		
 		return super.Dilate(label, geoDil, r, point);
