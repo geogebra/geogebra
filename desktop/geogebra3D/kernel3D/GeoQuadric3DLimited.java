@@ -220,6 +220,9 @@ RotateableND, Translateable, Mirrorable, Transformable {
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
 			halfAxes[i] = r;
+		
+		halfAxes[2] = 1;
+
 
 		// set the diagonal values
 		diagonal[0] = 1;
@@ -268,6 +271,8 @@ RotateableND, Translateable, Mirrorable, Transformable {
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
 			halfAxes[i] = r;
+		
+		halfAxes[2] = 1;
 
 		// set the diagonal values
 		diagonal[0] = 1;
@@ -277,7 +282,7 @@ RotateableND, Translateable, Mirrorable, Transformable {
 
 		// set matrix
 		setMatrixFromEigen();
-
+		
 		// set type
 		type = QUADRIC_CONE;
 	}

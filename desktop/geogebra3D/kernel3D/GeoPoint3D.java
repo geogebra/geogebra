@@ -1426,8 +1426,16 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+	
+		Coords o1 = line.getStartInhomCoords();
+		Coords vn = line.getDirectionInD3();
+
+		Coords point = getInhomCoordsInD(3);
+		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+
+		//mirror at projected point
+		mirror(o);
 		
 	}
 

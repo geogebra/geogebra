@@ -624,8 +624,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+		
+		Coords point = line.getStartInhomCoords();
+		Coords direction = line.getDirectionInD3().normalized();
+
+		coordsys.mirror(point, direction);
+		coordsys.makeEquationVector();
 		
 	}
 	

@@ -1000,8 +1000,41 @@ public class CoordMatrix {
 	 * @param v vector
 	 */
 	public void addToOrigin(Coords v){
+		addToColumn(v, getColumns());
+	}
+	
+	/**
+	 * add vector values to vx
+	 * @param v vector
+	 */
+	public void addToVx(Coords v){
+		addToColumn(v, 1);
+	}
+	
+	/**
+	 * add vector values to vy
+	 * @param v vector
+	 */
+	public void addToVy(Coords v){
+		addToColumn(v, 2);
+	}
+	
+	/**
+	 * add vector values to vz
+	 * @param v vector
+	 */
+	public void addToVz(Coords v){
+		addToColumn(v, 3);
+	}
+	
+	/**
+	 * add vector values to column j
+	 * @param v vector
+	 * @param j column
+	 */
+	public void addToColumn(Coords v, int j){
 		for (int i = 1 ; i <= v.getRows() ; i++){
-			set(i, getColumns(), get(i, getColumns()) + v.get(i));
+			set(i, j, get(i, j) + v.get(i));
 		}
 	}
 

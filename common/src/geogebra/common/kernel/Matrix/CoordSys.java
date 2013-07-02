@@ -679,5 +679,31 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
+	
+	/**
+	 * mirror the coord sys at line defined by point, direction
+	 * @param point point
+	 * @param direction direction
+	 */
+	public void mirror(Coords point, Coords direction){
+		
+		//origin projected on the line
+		Coords o1 = matrixOrthonormal.getOrigin().projectLine(point, direction)[0]; 
+		
+		//get projection values
+		double x = 2*matrixOrthonormal.getVx().dotproduct(direction);
+		double y = 2*matrixOrthonormal.getVy().dotproduct(direction);
+		double z = 2*matrixOrthonormal.getVz().dotproduct(direction);
+		//reverse all values
+		matrixOrthonormal.mulInside(-1);
+		//translate vectors
+		matrixOrthonormal.addToVx(direction.mul(x));
+		matrixOrthonormal.addToVy(direction.mul(y));
+		matrixOrthonormal.addToVz(direction.mul(z));
+		//translate origin matrix
+		matrixOrthonormal.addToOrigin(o1.mul(2));
+		
+		setFromMatrixOrthonormal();
+	}
 
 }

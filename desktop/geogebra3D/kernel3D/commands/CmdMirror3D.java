@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdMirror;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Transformable;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -43,12 +44,20 @@ public class CmdMirror3D extends CmdMirror {
 
 			//check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
-				
+
 				// translate object
-				if ((ok[0] = (arg[0] instanceof Transformable))
-						&& (ok[1] = (arg[1].isGeoPoint()))) {				
-					ret = kernelA.getManager3D().Mirror3D(label, arg[0], (GeoPointND) arg[1]);
-					return ret;
+				if (arg[0] instanceof Transformable){
+					if(arg[1].isGeoPoint()) {				
+						ret = kernelA.getManager3D().Mirror3D(label, arg[0], (GeoPointND) arg[1]);
+						return ret;
+					}
+					if(arg[1].isGeoLine()) {				
+						ret = kernelA.getManager3D().Mirror3D(label, arg[0], (GeoLineND) arg[1]);
+						return ret;
+					}					
+					ok[1] = false;
+				}else{
+					ok[0] = false;
 				}
 			}
 			break;

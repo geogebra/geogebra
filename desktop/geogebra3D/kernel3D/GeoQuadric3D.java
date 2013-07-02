@@ -84,11 +84,10 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		volume = 4*Math.PI*getHalfAxis(0)*getHalfAxis(1)*getHalfAxis(2)/3;
 
 		// eigen matrix
-		eigenMatrix = new CoordMatrix4x4();
 		eigenMatrix.setOrigin(getMidpoint3D());
-		eigenMatrix.setVx(new Coords(getHalfAxis(0), 0, 0, 0));
-		eigenMatrix.setVy(new Coords(0, getHalfAxis(1), 0, 0));
-		eigenMatrix.setVz(new Coords(0, 0, getHalfAxis(2), 0));
+		for (int i = 1; i <= 3 ; i++){
+			eigenMatrix.set(i, i, getHalfAxis(i-1));
+		}
 	}
 
 	@Override
@@ -146,6 +145,9 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
 			halfAxes[i] = r;
+		
+		halfAxes[2] = 1;
+
 
 		// set the diagonal values
 		diagonal[0] = 1;
@@ -157,13 +159,8 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMatrixFromEigen();
 
 		// eigen matrix
-		eigenMatrix = new CoordMatrix4x4();
-		eigenMatrix.setOrigin(getMidpoint3D());
-
-		eigenMatrix.setVx(eigenvecND[0].mul(getHalfAxis(0)));
-		eigenMatrix.setVy(eigenvecND[1].mul(getHalfAxis(1)));
-		eigenMatrix.setVz(eigenvecND[2]);
-
+		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
+		
 		// set type
 		type = QUADRIC_CONE;
 	}
@@ -207,6 +204,9 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// set halfAxes = radius
 		for (int i = 0; i < 2; i++)
 			halfAxes[i] = r;
+		
+		halfAxes[2] = 1;
+
 
 		// set the diagonal values
 		diagonal[0] = 1;
@@ -218,15 +218,26 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		setMatrixFromEigen();
 
 		// eigen matrix
-		eigenMatrix = new CoordMatrix4x4();
-		eigenMatrix.setOrigin(getMidpoint3D());
-
-		eigenMatrix.setVx(eigenvecND[0].mul(getHalfAxis(0)));
-		eigenMatrix.setVy(eigenvecND[1].mul(getHalfAxis(1)));
-		eigenMatrix.setVz(eigenvecND[2]);
+		setEigenMatrix(halfAxes[0], halfAxes[1], 1);
 
 		// set type
 		type = QUADRIC_CYLINDER;
+	}
+	
+	/**
+	 * set the eigen matrix
+	 * @param x x half-axis
+	 * @param y y half-axis
+	 * @param z z half-axis
+	 */
+	private void setEigenMatrix(double x, double y, double z){
+
+		eigenMatrix.setOrigin(getMidpoint3D());
+
+		eigenMatrix.setVx(eigenvecND[0].mul(x));
+		eigenMatrix.setVy(eigenvecND[1].mul(y));
+		eigenMatrix.setVz(eigenvecND[2].mul(z));
+
 	}
 
 	// /////////////////////////////
@@ -279,7 +290,6 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 		setMidpoint(quadric.getMidpoint().get());
 
-		eigenMatrix = new CoordMatrix4x4();
 		eigenMatrix.set(quadric.eigenMatrix);
 
 		defined = quadric.defined;
@@ -762,11 +772,37 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		}
 
 		// symetric matrix
-		setMatrixFromEigenMatrix(eigenMatrix);
+		setMatrixFromEigen();
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+		
+		Coords point = line.getStartInhomCoords();
+		Coords direction = line.getDirectionInD3().normalized();
+		
+		// midpoint
+		Coords mp = getMidpoint3D();
+		Coords o1 = mp.projectLine(point, direction)[0]; 
+		mp.mulInside(-1);
+		mp.addInside(o1.mul(2));
+		setMidpoint(mp.get());
+
+		
+
+		// eigen vectors		
+		for (int i = 0; i<3; i++){
+			Coords v = eigenvecND[i];
+			double a = 2*v.dotproduct(direction);
+			v.mulInside(-1);
+			v.addInside(direction.mul(a));
+		}
+
+		// symetric matrix
+		setMatrixFromEigen();
+		
+		// set eigen matrix
+		setEigenMatrix(getHalfAxis(0), getHalfAxis(1), getHalfAxis(2));
+		
 		
 	}
 	

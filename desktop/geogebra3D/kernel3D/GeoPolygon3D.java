@@ -732,9 +732,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 
 	@Override
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
-		
+	public void mirror(GeoLineND line) {
+
+		Coords point = line.getStartInhomCoords();
+		Coords direction = line.getDirectionInD3().normalized();
+
+		getCoordSys().mirror(point, direction);
 	}
 
 }

@@ -658,8 +658,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+
+		Coords vn = line.getDirectionInD3().normalized();
+		setCoords(vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
 		
 	}
 

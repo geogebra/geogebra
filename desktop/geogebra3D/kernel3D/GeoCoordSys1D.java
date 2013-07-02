@@ -785,8 +785,21 @@ Traceable, RotateableND, Mirrorable, Transformable {
 		
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+		
+		Coords o1 = line.getStartInhomCoords();
+		Coords vn = line.getDirectionInD3();
+
+		Coords point = getCoordSys().getOrigin();
+		Coords o = point.projectLine(o1, vn)[0]; //point projected on the line
+		point = point.mul(-1);
+		point.addInside(o.mul(2));
+		
+		
+		vn.normalize();
+		Coords v = getCoordSys().getVx();
+		setCoord(point, vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
+
 		
 	}
 	

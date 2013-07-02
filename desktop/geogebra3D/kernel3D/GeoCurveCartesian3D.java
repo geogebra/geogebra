@@ -612,8 +612,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		dilate(new MyDouble(kernel, -1.0),Q);
 	}
 
-	public void mirror(GeoLineND g) {
-		// TODO Auto-generated method stub
+	public void mirror(GeoLineND line) {
+
+		transform(CoordMatrix4x4.AxialSymetry(line.getDirectionInD3().normalized(), line.getStartInhomCoords()));
+
 		
 	}
 

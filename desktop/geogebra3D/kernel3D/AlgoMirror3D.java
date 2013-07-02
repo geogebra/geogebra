@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoMirror;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -19,10 +20,20 @@ public class AlgoMirror3D extends AlgoMirror {
 	 * mirror at point
 	 * @param cons construction
 	 * @param in input
-	 * @param point point
+	 * @param point mirror point
 	 */
 	public AlgoMirror3D(Construction cons, GeoElement in, GeoPointND point) {
 		super(cons, in, null, point, null);
+	}
+	
+	/**
+	 * mirror at line
+	 * @param cons construction
+	 * @param in input
+	 * @param line mirror line
+	 */
+	public AlgoMirror3D(Construction cons, GeoElement in, GeoLineND line) {
+		super(cons, in, line, null, null);
 	}
 	
     

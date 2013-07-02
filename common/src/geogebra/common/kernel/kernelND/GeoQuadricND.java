@@ -171,16 +171,6 @@ Traceable{
 		eigenMatrix.set(eigenvecND);
 		eigenMatrix.set(getMidpoint(),4);
 		
-		setMatrixFromEigenMatrix(eigenMatrix);
-
-	}
-	
-	/**
-	 * sets the matrix values from eigen matrix and "diagonal" values
-	 * @param eigenMatrix eigen matrix
-	 */
-	protected void setMatrixFromEigenMatrix(CoordMatrix eigenMatrix){
-		
 		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
 		
 		CoordMatrix eigenMatrixInv = eigenMatrix.inverse();
@@ -189,6 +179,9 @@ Traceable{
 		
 		setMatrix(finalMatrix);
 	}
+	
+	
+
 
 	/**
 	 * sets the matrix values from the symmetric matrix m

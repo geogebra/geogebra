@@ -1328,6 +1328,12 @@ public class Manager3D implements Manager3DInterface {
 		return t.transform(geo, label);
 	}
 
+	final public GeoElement[] Mirror3D(String label, GeoElement geo,
+			GeoLineND line) {
+		Transform t = new TransformMirror3D(cons, line);
+		return t.transform(geo, label);
+	}
+
 
 	final public GeoNumeric Volume(String label, HasVolume hasVolume){
 		AlgoVolume algo = new AlgoVolume(cons, label, hasVolume);

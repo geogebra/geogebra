@@ -660,7 +660,8 @@ public interface Manager3DInterface {
 	public GeoElement[] Mirror3D(String label, GeoElement geo,
 			GeoPointND p);
 
-	
+	public GeoElement[] Mirror3D(String label, GeoElement geo,
+			GeoLineND line);
 	
 	/**
 	 * 

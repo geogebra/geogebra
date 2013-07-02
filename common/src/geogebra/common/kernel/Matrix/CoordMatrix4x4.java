@@ -171,6 +171,42 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		return m;
 
 	}
+	
+	
+	/**
+	 * Axial symetry matrix around line
+	 * @param u direction of line
+	 * @param center point on line
+	 * @return matrix
+	 */
+	public static final CoordMatrix4x4 AxialSymetry(Coords u, Coords center) {
+		
+		double ux = u.getX();
+		double uy = u.getY();
+		double uz = u.getZ();
+		
+		double[] vals = new double[16];
+		vals[0] = 2*ux*ux - 1;
+		vals[1] = 2*ux*uy;
+		vals[2] = 2*ux*uz;
+		
+		vals[4] = 2*ux*uy;
+		vals[5] = 2*uy*uy - 1;
+		vals[6] = 2*uy*uz;
+		
+		vals[8] = 2*ux*uz;
+		vals[9] = 2*uy*uz;
+		vals[10] = 2*uz*uz - 1;
+
+		CoordMatrix4x4 m = new CoordMatrix4x4(vals);
+		
+		//use (Id-M)center for translation
+		m.setOrigin(center.sub(m.mul(center)));
+		
+		return m;
+
+	}
+
 
 	/**
 	 * complete a 4 x n matrix to a 4 x 4 matrix, orthogonal method
