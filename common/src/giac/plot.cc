@@ -2678,10 +2678,10 @@ namespace giac {
       return false;
     gen a=remove_at_pnt(diam._VECTptr->front());
     gen b=remove_at_pnt(diam._VECTptr->back());
-    centre=normal(rdiv(a+b,plus_two,contextptr),contextptr);
+    centre=recursive_normal(rdiv(a+b,plus_two,contextptr),contextptr);
     rayon=rdiv(b-a,plus_two,contextptr);
     if (absrayon)
-      rayon=abs(normal(rayon,contextptr),contextptr);
+      rayon=abs(recursive_normal(rayon,contextptr),contextptr);
     return true;
   }
 
@@ -3150,6 +3150,11 @@ namespace giac {
   gen _centre(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen a=args;
+    if (a.is_symb_of_sommet(at_equal)){
+      a=_cercle(a,contextptr);
+      if (a.type==_VECT && !a._VECTptr->empty())
+	a=a._VECTptr->front();
+    }
     if (a.type==_VECT && a.subtype==_SEQ__VECT && a._VECTptr->size()==1)
       a=a._VECTptr->front();
     a=remove_at_pnt(a);
@@ -5576,7 +5581,7 @@ namespace giac {
 	    g=vecteur(0);
 	    return true;
 	  }
-	  gen rayon(normal(sqrt(rayon2,contextptr),contextptr));
+	  gen rayon(recursive_normal(sqrt(rayon2,contextptr),contextptr));
 	  g=symbolic(at_cercle,gen(makevecteur(gen(makevecteur(centre-rayon,centre+rayon),_GROUP__VECT),0,cst_two_pi),_PNT__VECT));
 	  return true;
 	}
@@ -12903,8 +12908,8 @@ namespace giac {
 
 
   static const char _hasard_s []="hasard";
-  static define_unary_function_eval2 (__hasard,&_rand,_hasard_s,&printastifunction);
-  define_unary_function_ptr5( at_hasard ,alias_at_hasard,&__hasard,0,T_LOGO);
+  static define_unary_function_eval2 (__hasard,&giac::_RANDOM,_hasard_s,&printasRANDOM);
+  define_unary_function_ptr5( at_hasard ,alias_at_hasard,&__hasard,0,T_RETURN);
 
   /* A FAIRE:
      traduction latex

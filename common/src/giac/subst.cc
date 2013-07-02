@@ -2125,7 +2125,7 @@ namespace giac {
     calc_mode(0,contextptr);
     res=simplify(args,contextptr);
     calc_mode(c,contextptr);
-    if (c==1 && has_op(res,at_rootof))
+    if ( (c==1 || c==-38 || c==38) && !lop(res,at_rootof).empty())
       res=ratnormal(args);
     return res;
   }

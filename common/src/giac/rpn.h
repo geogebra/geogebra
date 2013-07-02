@@ -167,6 +167,7 @@ namespace giac {
   gen _ABS(const gen & args,GIAC_CONTEXT);
   gen _MODULO(const gen & args,GIAC_CONTEXT);
   gen _RANDOM(const gen & g,GIAC_CONTEXT);
+  std::string printasRANDOM(const gen & feuille,const char * s,GIAC_CONTEXT);
   gen _MAXREAL(const gen & g,GIAC_CONTEXT);
   gen _MINREAL(const gen & g,GIAC_CONTEXT);
   gen _EXPM1(const gen & g,GIAC_CONTEXT);

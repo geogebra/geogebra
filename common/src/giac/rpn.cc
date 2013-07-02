@@ -1098,10 +1098,10 @@ namespace giac {
   static define_unary_function_eval (__PERM,&giac::_perm,_PERM_s); 
   define_unary_function_ptr5( at_PERM ,alias_at_PERM,&__PERM,0,T_UNARY_OP_38);  
 
-  static string printasRANDOM(const gen & feuille,const char * s,GIAC_CONTEXT){
+  string printasRANDOM(const gen & feuille,const char * s,GIAC_CONTEXT){
     if (feuille.type==_VECT && feuille._VECTptr->empty())
-      return "RANDOM";
-    return "(RANDOM "+feuille.print()+")";
+      return s;
+    return "("+(s+(" "+feuille.print())+")");
   }
   gen _RANDOM(const gen & g0,GIAC_CONTEXT){
     gen g(g0);
