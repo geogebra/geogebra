@@ -93,7 +93,6 @@ public class DrawNyquist extends Drawable {
 			gpP.lineTo(xPN, yP);
 			gpN.lineTo(xPN, yN);
 		}
-		drawArrow(g2);
 		GColor geoColor = geo.getObjectColor();
 		GColor color = AwtFactory.prototype.newColor(geoColor.getRed(),
 				geoColor.getGreen(), geoColor.getBlue(), 127);
@@ -101,7 +100,7 @@ public class DrawNyquist extends Drawable {
 		EuclidianStatic.drawWithValueStrokePure(gpN, g2);
 		g2.setColor(geoColor);
 		EuclidianStatic.drawWithValueStrokePure(gpP, g2);
-
+		drawArrow(g2);
 	}
 
 	private void drawArrow(GGraphics2D g2) {

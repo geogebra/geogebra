@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -2977,5 +2978,19 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		endBeamer(codeFilledObject);
 		
+	}
+
+	@Override
+	protected void drawNyquist(GeoTransferFunction g) {
+		String la="<-";
+		String ra="->";
+		String s = LineOptionCode(g, true);
+		if (s.length()!=0){
+			la=",<-";
+			ra=",->";
+		}
+		String template = "\\draw["+s+"§arrows§] (%f,%f) -- (%f,%f);\n";
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§arrows§",la,ra);
+		code.append(lineBuilder.toString() + ";\n");
 	}
 }

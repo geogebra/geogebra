@@ -49,6 +49,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -86,7 +87,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 * 
 	 * @param app
 	 *            GeoGeBra Application
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public GeoGebraToPstricks(AppD app) {
 		super(app);
@@ -116,8 +117,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code = new StringBuilder();
 		codePoint = new StringBuilder();
 		codePreamble = new StringBuilder();
-		if(symbols.size()==0){
-			codePreamble.insert(0,"%%%%%% File unicodetex not found or I/O error. %%%%%%\n");
+		if (symbols.size() == 0) {
+			codePreamble.insert(0,
+					"%%%%%% File unicodetex not found or I/O error. %%%%%%\n");
 		}
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
@@ -283,7 +285,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		endBeamer(codeFilledObject);
 	}
 
-	
 	@Override
 	protected void drawSumTrapezoidal(GeoNumeric geo) {
 		AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo
@@ -625,37 +626,13 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		else {
 			// set arc in real world coords
 			GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
-	           startBeamer(code);
-	      if (!geocolor.equals(GColor.BLACK)) {
-	            code.append("\\pscustom");
-	            code.append(LineOptionCode(geo, true));
-	            code.append("{\n");
-	            }
-	            code.append("\\parametricplot{");
-	            code.append(angSt);
-	            code.append("}{");
-	            code.append(angExt);
-	            code.append("}{");
-	            code.append(format(r));
-	            code.append("*cos(t)+");
-	            code.append(format(m[0]));
-	            code.append("|");
-	            code.append(format(r));
-	            code.append("*sin(t)+");
-	            code.append(format(m[1]));
-	            code.append("}\n");
-	      if (!geocolor.equals(GColor.BLACK)) {
-	            code.append("\\lineto(");
-	            code.append(format(m[0]));
-	            code.append(",");
-	            code.append(format(m[1]));
-	            code.append(")\\closepath}\n");
-	            }
-	            endBeamer(code);
-			/*startBeamer(code);
-			code.append("\\pscustom");
-			code.append(LineOptionCode(geo, true));
-			code.append("{\\parametricplot{");
+			startBeamer(code);
+			if (!geocolor.equals(GColor.BLACK)) {
+				code.append("\\pscustom");
+				code.append(LineOptionCode(geo, true));
+				code.append("{\n");
+			}
+			code.append("\\parametricplot{");
 			code.append(angSt);
 			code.append("}{");
 			code.append(angExt);
@@ -667,13 +644,28 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(r));
 			code.append("*sin(t)+");
 			code.append(format(m[1]));
-			code.append("}");
-			code.append("\\lineto(");
-			code.append(format(m[0]));
-			code.append(",");
-			code.append(format(m[1]));
-			code.append(")\\closepath}\n");
-			endBeamer(code);*/
+			code.append("}\n");
+			if (!geocolor.equals(GColor.BLACK)) {
+				code.append("\\lineto(");
+				code.append(format(m[0]));
+				code.append(",");
+				code.append(format(m[1]));
+				code.append(")\\closepath}\n");
+			}
+			endBeamer(code);
+			/*
+			 * startBeamer(code); code.append("\\pscustom");
+			 * code.append(LineOptionCode(geo, true));
+			 * code.append("{\\parametricplot{"); code.append(angSt);
+			 * code.append("}{"); code.append(angExt); code.append("}{");
+			 * code.append(format(r)); code.append("*cos(t)+");
+			 * code.append(format(m[0])); code.append("|");
+			 * code.append(format(r)); code.append("*sin(t)+");
+			 * code.append(format(m[1])); code.append("}");
+			 * code.append("\\lineto("); code.append(format(m[0]));
+			 * code.append(","); code.append(format(m[1]));
+			 * code.append(")\\closepath}\n"); endBeamer(code);
+			 */
 			// draw the dot if angle= 90 and decoration=dot
 			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle()
@@ -968,59 +960,59 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double tx = af.getTranslateX();
 		double ty = af.getTranslateY();
 		startBeamer(code);
-//Sector command: \pscustom[options]{\parametricplot{startAngle}{endAngle}{x+r*cos(t),y+r*sin(t)}\lineto(x,y)\closepath}
-			if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){
-				code.append("\\pscustom");
-				code.append(LineOptionCode(geo,true));
-				code.append("{\\parametricplot{");
-			}
-			else if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_ARC){
-				code.append("\\parametricplot");
-				code.append(LineOptionCode(geo,true));
-				code.append("{");
-			}
-			if (startAngle>endAngle){
-				startAngle-=Math.PI*2;
-			}
-			StringBuilder sb1=new StringBuilder();
-			sb1.append(format(r1));
-			sb1.append("*cos(t)");
-			StringBuilder sb2=new StringBuilder();
-			sb2.append(format(r2));
-			sb2.append("*sin(t)");
-			code.append(startAngle);
-			code.append("}{");
-			code.append(endAngle);
-			code.append("}{");
-			code.append(format(m11));
-			code.append("*");
-			code.append(sb1);
-			code.append("+");
-			code.append(format(m12));
-			code.append("*");
-			code.append(sb2);
-			code.append("+");
-			code.append(format(tx));			
-			code.append("|");
-			code.append(format(m21));
-			code.append("*");
-			code.append(sb1);
-			code.append("+");
-			code.append(format(m22));
-			code.append("*");
-			code.append(sb2);
-			code.append("+");
+		// Sector command:
+		// \pscustom[options]{\parametricplot{startAngle}{endAngle}{x+r*cos(t),y+r*sin(t)}\lineto(x,y)\closepath}
+		if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+			code.append("\\pscustom");
+			code.append(LineOptionCode(geo, true));
+			code.append("{\\parametricplot{");
+		} else if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC) {
+			code.append("\\parametricplot");
+			code.append(LineOptionCode(geo, true));
+			code.append("{");
+		}
+		if (startAngle > endAngle) {
+			startAngle -= Math.PI * 2;
+		}
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append(format(r1));
+		sb1.append("*cos(t)");
+		StringBuilder sb2 = new StringBuilder();
+		sb2.append(format(r2));
+		sb2.append("*sin(t)");
+		code.append(startAngle);
+		code.append("}{");
+		code.append(endAngle);
+		code.append("}{");
+		code.append(format(m11));
+		code.append("*");
+		code.append(sb1);
+		code.append("+");
+		code.append(format(m12));
+		code.append("*");
+		code.append(sb2);
+		code.append("+");
+		code.append(format(tx));
+		code.append("|");
+		code.append(format(m21));
+		code.append("*");
+		code.append(sb1);
+		code.append("+");
+		code.append(format(m22));
+		code.append("*");
+		code.append(sb2);
+		code.append("+");
+		code.append(format(ty));
+		code.append("}");
+		if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+			code.append("\\lineto(");
+			code.append(format(tx));
+			code.append(",");
 			code.append(format(ty));
-			code.append("}");
-			if (geo.getConicPartType()==GeoConicNDConstants.CONIC_PART_SECTOR){				
-				code.append("\\lineto(");
-				code.append(format(tx));
-				code.append(",");
-				code.append(format(ty));
-				code.append(")\\closepath}");
-			}
-			code.append("\n");
-		//}
+			code.append(")\\closepath}");
+		}
+		code.append("\n");
+		// }
 		endBeamer(code);
 	}
 
@@ -1028,14 +1020,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawCurveCartesian(GeoElement geo) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
-		if (geo.getParentAlgorithm() instanceof AlgoSpline){
-        	GeoSpline s=(GeoSpline)geo;
-        	for (int i=0;i<s.size();i++){
-        		drawSingleCurve(s.get(i));
-        	}
-        } else {
-        	drawSingleCurve((GeoCurveCartesian)geo);
-        }
+		if (geo.getParentAlgorithm() instanceof AlgoSpline) {
+			GeoSpline s = (GeoSpline) geo;
+			for (int i = 0; i < s.size(); i++) {
+				drawSingleCurve(s.get(i));
+			}
+		} else {
+			drawSingleCurve((GeoCurveCartesian) geo);
+		}
 	}
 
 	private void drawSingleCurve(GeoCurveCartesian geo) {
@@ -1115,11 +1107,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			a = xrangemax;
 			String s = line.toString();
 			// if is'n latex function draws the function as a set of lines
-			if (!isLatexFunction(s)) {				
+			if (!isLatexFunction(s)) {
 				liopco = liopco.replace(",plotpoints=200]{", "]");
 				liopco = liopco.replace("[plotpoints=200]{", "");
-				String template="\\psline" + liopco + "(%f,%f)(%f,%f)\n";
-				StringBuilder lineBuilder=drawNoLatexFunction(geo, xrangemax, xrangemin, 300, template);
+				String template = "\\psline" + liopco + "(%f,%f)(%f,%f)\n";
+				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
+						xrangemin, 300, template);
 				s = lineBuilder.toString();
 				code.append(s);
 			} else {
@@ -1128,8 +1121,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			endBeamer(code);
 		}
 	}
-
-	
 
 	/**
 	 * We have to rewrite the function - kill spaces - add character * when
@@ -1693,7 +1684,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(sci2dec(xunit));
 		codeBeginPic.append("cm,yunit=");
 		codeBeginPic.append(sci2dec(yunit));
-		codeBeginPic.append("cm,algebraic=true,dimen=middle,dotstyle=o,dotsize=");
+		codeBeginPic
+				.append("cm,algebraic=true,dimen=middle,dotstyle=o,dotsize=");
 		codeBeginPic.append(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		codeBeginPic.append("pt 0");
 		codeBeginPic.append(",linewidth=");
@@ -1766,7 +1758,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	private void drawGrid() {
-		
+
 		geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
 		double[] GridDist = euclidianView.getGridDistances();
 		double myx = xmin;
@@ -1824,52 +1816,44 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(format(ymax));
 		codeBeginPic.append(")}\n");
 	}
+
 	// Draw the grid
-	/*private void drawGrid() {
-		geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
-		double[] GridDist = euclidianView.getGridDistances();
-		// int GridLine=euclidianView.getGridLineStyle();
+	/*
+	 * private void drawGrid() { geogebra.common.awt.GColor GridCol =
+	 * euclidianView.getGridColor(); double[] GridDist =
+	 * euclidianView.getGridDistances(); // int
+	 * GridLine=euclidianView.getGridLineStyle();
+	 * 
+	 * // Set Units for grid codeBeginPic.append("\\psset{xunit="); //
+	 * Application.debug(GridDist[0]*xunit);
+	 * codeBeginPic.append(sci2dec(GridDist[0] * xunit));
+	 * codeBeginPic.append("cm,yunit="); codeBeginPic.append(sci2dec(GridDist[1]
+	 * * yunit)); codeBeginPic.append("cm}\n");
+	 * 
+	 * // environment pspicture codeBeginPic.append("\\begin{pspicture*}(");
+	 * codeBeginPic.append(format(xmin / GridDist[0]));
+	 * codeBeginPic.append(","); codeBeginPic.append(format(ymin /
+	 * GridDist[1])); codeBeginPic.append(")("); codeBeginPic.append(format(xmax
+	 * / GridDist[0])); codeBeginPic.append(",");
+	 * codeBeginPic.append(format(ymax / GridDist[1]));
+	 * codeBeginPic.append(")\n");
+	 * 
+	 * // Draw Grid
+	 * codeBeginPic.append("\\psgrid[subgriddiv=0,gridlabels=0,gridcolor=");
+	 * ColorCode(GridCol, codeBeginPic); codeBeginPic.append("](0,0)(");
+	 * codeBeginPic.append(format(xmin / GridDist[0]));
+	 * codeBeginPic.append(","); codeBeginPic.append(format(ymin /
+	 * GridDist[1])); codeBeginPic.append(")("); codeBeginPic.append(format(xmax
+	 * / GridDist[0])); codeBeginPic.append(",");
+	 * codeBeginPic.append(format(ymax / GridDist[1]));
+	 * codeBeginPic.append(")\n");
+	 * 
+	 * // Set units for the pspicture initUnitAndVariable(); /*
+	 * code.append("\\psset{xunit="); code.append(xunit);
+	 * code.append("cm,yunit="); code.append(yunit); code.append("cm}\n");
+	 */
 
-		// Set Units for grid
-		codeBeginPic.append("\\psset{xunit=");
-		// Application.debug(GridDist[0]*xunit);
-		codeBeginPic.append(sci2dec(GridDist[0] * xunit));
-		codeBeginPic.append("cm,yunit=");
-		codeBeginPic.append(sci2dec(GridDist[1] * yunit));
-		codeBeginPic.append("cm}\n");
-
-		// environment pspicture
-		codeBeginPic.append("\\begin{pspicture*}(");
-		codeBeginPic.append(format(xmin / GridDist[0]));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymin / GridDist[1]));
-		codeBeginPic.append(")(");
-		codeBeginPic.append(format(xmax / GridDist[0]));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymax / GridDist[1]));
-		codeBeginPic.append(")\n");
-
-		// Draw Grid
-		codeBeginPic.append("\\psgrid[subgriddiv=0,gridlabels=0,gridcolor=");
-		ColorCode(GridCol, codeBeginPic);
-		codeBeginPic.append("](0,0)(");
-		codeBeginPic.append(format(xmin / GridDist[0]));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymin / GridDist[1]));
-		codeBeginPic.append(")(");
-		codeBeginPic.append(format(xmax / GridDist[0]));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymax / GridDist[1]));
-		codeBeginPic.append(")\n");
-
-		// Set units for the pspicture
-		initUnitAndVariable();
-		/*
-		 * code.append("\\psset{xunit="); code.append(xunit);
-		 * code.append("cm,yunit="); code.append(yunit); code.append("cm}\n");
-		 */
-
-	//}
+	// }
 
 	// Draw Axis
 	private void drawAxis() {
@@ -2009,12 +1993,12 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	private String LineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
-		
+
 		Info info = new Info(geo);
-		
+
 		boolean coma = false;
 		boolean bracket = false;
 		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
@@ -2049,7 +2033,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
-			boolean dotted=false;
+			boolean dotted = false;
 			String style = ",fillstyle=hlines,hatchangle=";
 			switch (info.getFillType()) {
 			case STANDARD:
@@ -2072,9 +2056,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			case HONEYCOMB:
 			case BRICK:
 			case DOTTED:
-				dotted=true;
-			case CROSSHATCHED:				
-				style = ",fillstyle=crosshatch,hatchangle=";				
+				dotted = true;
+			case CROSSHATCHED:
+				style = ",fillstyle=crosshatch,hatchangle=";
 			case HATCH:
 				if (coma)
 					sb.append(",");
@@ -2085,7 +2069,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				bracket = true;
 				sb.append("hatchcolor=");
 				ColorCode(info.getLinecolor(), sb);
-				if (dotted){
+				if (dotted) {
 					style = ",fillstyle=dots*,hatchangle=";
 				}
 				sb.append(style);
@@ -2403,8 +2387,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					((GeoElement) conic).setAlphaValue(((GeoElement) geo)
 							.getAlphaValue());
 					conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-					((GeoElement) conic).setHatchingAngle((int)((GeoElement) geo)
-							.getHatchingAngle());
+					((GeoElement) conic)
+							.setHatchingAngle((int) ((GeoElement) geo)
+									.getHatchingAngle());
 					((GeoElement) conic).setHatchingDistance(((GeoElement) geo)
 							.getHatchingDistance());
 					((GeoElement) conic).setFillType(((GeoElement) geo)
@@ -2422,14 +2407,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				double zeroX = ds[4] * (-ds[0]);
 				GPathIterator path = s.getPathIterator(null);
 				code.append("\\pspolygon");
-				code.append(LineOptionCode((GeoElement)geo,true));
+				code.append(LineOptionCode((GeoElement) geo, true));
 				double precX = Integer.MAX_VALUE;
 				double precY = Integer.MAX_VALUE;
 				while (!path.isDone()) {
 					path.currentSegment(coords);
 					if (coords[0] == precX && coords[1] == precY) {
 						code.append("\\pspolygon");
-						code.append(LineOptionCode((GeoElement)geo,true));
+						code.append(LineOptionCode((GeoElement) geo, true));
 					} else {
 						code.append("(");
 						code.append(format((coords[0] - zeroX) / ds[4]));
@@ -2441,8 +2426,8 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					precY = coords[1];
 					path.next();
 				}
-				int i=code.lastIndexOf(")");
-				code.delete(i+1, code.length());
+				int i = code.lastIndexOf(")");
+				code.delete(i + 1, code.length());
 				code.append("\n");
 				break;
 			}
@@ -2451,24 +2436,25 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2) throws IOException{
+			Inequality inequality, EuclidianViewND euclidianView2)
+			throws IOException {
 		return new MyGraphicsPs(ef, inequality, euclidianView2);
 	}
 
 	@Override
-	protected void drawHistogramOrBarChartBox(double[] y,
-			double[] x, int length, double width, GeoNumeric g) {
+	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
+			int length, double width, GeoNumeric g) {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < length; i++) {
-			barNumber=i+1;
+			barNumber = i + 1;
 			codeFilledObject.append("\\psframe");
 			codeFilledObject.append(LineOptionCode(g, true));
 			codeFilledObject.append("(");
 			codeFilledObject.append(format(x[i]));
 			codeFilledObject.append(",0)(");
-			if (x.length==length){
-				codeFilledObject.append(format(x[i]+width));
-			}else{
+			if (x.length == length) {
+				codeFilledObject.append(format(x[i] + width));
+			} else {
 				codeFilledObject.append(format(x[i + 1]));
 			}
 			codeFilledObject.append(",");
@@ -2478,6 +2464,16 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				codeFilledObject.append("  ");
 		}
 		endBeamer(codeFilledObject);
-		
+
+	}
+
+	@Override
+	protected void drawNyquist(GeoTransferFunction g) {
+		startBeamer(code);
+		String liopco = LineOptionCode(g, true);
+		String template = "\\psline" + liopco + "§arrows§(%f,%f)(%f,%f)\n";
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§arrows§","{<-}","{->}");
+		code.append(lineBuilder.toString());
+		endBeamer(code);
 	}
 }

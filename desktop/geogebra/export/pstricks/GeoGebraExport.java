@@ -13,6 +13,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -46,6 +47,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -60,6 +62,7 @@ import geogebra.main.AppD;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -412,6 +415,8 @@ public abstract class GeoGebraExport {
 				// Image --> export to eps is better and easier!
 			} else if (g.isGeoLocus()) {
 				drawLocus((GeoLocus) g);
+			} else if (g instanceof GeoTransferFunction){
+				drawNyquist((GeoTransferFunction) g);
 			}
 		}
 
@@ -790,7 +795,19 @@ public abstract class GeoGebraExport {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Export as PSTricks or PGF/TikZ or Asympote, Nyquist diagram
+	 * 
+	 * @param g 
+	 * 			Transfer function
+	 *            
+	 *
+	 */
+	
+	protected abstract void drawNyquist(GeoTransferFunction g);
+	
+	
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected MyGraphics createGraphics(FunctionalNVar ef,
@@ -1341,6 +1358,54 @@ public abstract class GeoGebraExport {
 		return lineBuilder;
 	}
 
+	
+	protected StringBuilder drawNyquistDiagram(GeoTransferFunction geo,
+			String template,String arrowMark,String arrowCommand,String reverseArrowCommand) {
+		String t=template;
+		String sub;
+		boolean flag=true;
+		StringBuilder lineBuilder = new StringBuilder();
+		List<Coords> coordsList=geo.getCoordsList();
+		Coords p=coordsList.get(0);
+		double xprec=p.getX();
+		double yprec=p.getY();
+		double x;
+		double y;
+		for (int i = 1; i < coordsList.size()-10; i+=10) {
+			p = coordsList.get(i);
+			x = p.getX();
+			y = p.getY();
+			if (flag && i>coordsList.size()/2.3){
+				sub=t.replaceAll(arrowMark, arrowCommand);
+				flag=false;
+			} else {
+				sub=t.replaceAll(arrowMark, "");
+			}
+			lineBuilder.append(String.format(sub, xprec, yprec, x, y));
+			xprec=x;
+			yprec=y;
+		}	
+		flag=true;
+		p=coordsList.get(0);
+		xprec=p.getX();
+		yprec=-p.getY();
+		for (int i = 1; i < coordsList.size(); i+=4) {
+			p = coordsList.get(i);
+			x = p.getX();
+			y = -p.getY();
+			if (flag && i>coordsList.size()/2.3){
+				sub=t.replaceAll(arrowMark, reverseArrowCommand);
+				flag=false;
+			} else {
+				sub=t.replaceAll(arrowMark, "");
+			}
+			lineBuilder.append(String.format(sub, xprec, yprec, x, y));
+			xprec=x;
+			yprec=y;
+		}	
+		return lineBuilder;
+	}
+	
 	protected boolean isLatexFunction(String s) {
 		// used if there are other non-latex
 		return !s.toLowerCase().contains("erf(")

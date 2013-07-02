@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoSpline;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -3527,6 +3528,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			Inequality inequality, EuclidianViewND euclidianView2) throws IOException{
 		return new MyGraphicsAs(ef, inequality, euclidianView2);
 	}
+	
 	protected boolean isLatexFunction(String s) {
 		// used if there are other non-latex
 		return  !s.toLowerCase().contains("csc(")
@@ -3536,4 +3538,13 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 				&& !s.toLowerCase().contains("coth(")
 				&& !s.toLowerCase().contains("sech(");
 	}
+	@Override
+	protected void drawNyquist(GeoTransferFunction g) {
+		StringBuilder sb=new StringBuilder();
+		ColorCode(g.getObjectColor(), sb);   
+		String template = "draw( (%f,%f) -- (%f,%f),"+sb+"+linewidth(1)§,arrows§);\n";
+		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§,arrows§",",BeginArrow",",EndArrow");
+		code.append(lineBuilder.toString() + ";\n");
+	}
+		
 }
