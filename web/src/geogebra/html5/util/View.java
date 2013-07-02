@@ -116,8 +116,10 @@ public class View {
 		app.notifyFileLoaded();
 		
 		//reiniting of navigation bar, to show the correct numbers on the label
-		((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
-		this.getApplication().getConstructionProtocolNavigation().update();
+		if(app.getGuiManager() != null){
+			((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
+			this.getApplication().getConstructionProtocolNavigation().update();
+		}
 		
 	}
 

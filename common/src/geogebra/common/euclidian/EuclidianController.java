@@ -9070,6 +9070,7 @@ public abstract class EuclidianController {
 			// input bar
 			if ((hits != null) && (hits.size() > 0) && (e != null)
 					&& e.isAltDown() && app.isUsingFullGui()
+					&& app.getGuiManager() != null
 					&& app.showAlgebraInput()) {
 				
 	

@@ -1923,7 +1923,7 @@ public abstract class App implements UpdateSelection{
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		showToolBar = toolbar;
 		showToolBarHelp = help;
-		if (showToolBar) {
+		if (showToolBar && getGuiManager() != null) {
 			getGuiManager().setShowToolBarHelp(showToolBarHelp);
 		}
 	}
@@ -2713,7 +2713,7 @@ public abstract class App implements UpdateSelection{
 	 *            whether innput help toggle button should be visible
 	 */
 	public void setShowInputHelpToggle(boolean flag) {
-		if (showInputHelpToggle == flag) {
+		if (showInputHelpToggle == flag || getGuiManager() == null) {
 			return;
 		}
 
@@ -2921,7 +2921,7 @@ public abstract class App implements UpdateSelection{
 	}
 
 	public final void zoom(double px, double py, double zoomFactor) {
-		getGuiManager().getActiveEuclidianView().zoom(px, py, zoomFactor, 15,
+		getActiveEuclidianView().zoom(px, py, zoomFactor, 15,
 				true);
 	}
 
@@ -2933,14 +2933,14 @@ public abstract class App implements UpdateSelection{
 	 *            axes scale ratio
 	 */
 	public final void zoomAxesRatio(double axesratio) {
-		getGuiManager().getActiveEuclidianView().zoomAxesRatio(axesratio, true);
+		getActiveEuclidianView().zoomAxesRatio(axesratio, true);
 	}
 
 	/**
 	 * Zooms and pans active EV to show all objects
 	 */
 	public final void setViewShowAllObjects() {
-		getGuiManager().getActiveEuclidianView().setViewShowAllObjects(true);
+		getActiveEuclidianView().setViewShowAllObjects(true);
 	}
 
 	/**

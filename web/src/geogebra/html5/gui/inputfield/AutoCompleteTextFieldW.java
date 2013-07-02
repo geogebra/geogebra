@@ -495,7 +495,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	    // show help if available
 	    if (help != null) {
 	      app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n" + help, cmd));
-	    } else {
+	    } else if (app.getGuiManager() != null) {
 	      app.getGuiManager().openCommandHelp(null);
 	    }
 	  }
@@ -899,8 +899,9 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		            if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))
 		              showCommandHelp(app.getInternalCommand(closest));
-		            else
+		            else if(app.getGuiManager() != null){
 		              app.getGuiManager().openHelp(App.WIKI_MANUAL);
+		            }
 
 		          }
 		        } else

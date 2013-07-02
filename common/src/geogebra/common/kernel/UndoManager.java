@@ -74,7 +74,7 @@ public abstract class UndoManager {
 	 * Update undo/redo buttons in GUI
 	 */
 	protected void updateUndoActions() {
-		if (app.isUsingFullGui())
+		if (app.isUsingFullGui() && app.getGuiManager() != null)
 			app.getGuiManager().updateActions();
 	}
 

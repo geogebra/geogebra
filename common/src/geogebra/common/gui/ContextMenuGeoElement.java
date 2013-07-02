@@ -382,7 +382,9 @@ public abstract class ContextMenuGeoElement {
 				// update the geo lists and show the popup again with the new selection
 				sGeos.clear();
 				sGeos.add(cmdGeo);
-				app.getGuiManager().showPopupChooseGeo(sGeos, gs, v, l);
+				if(app.getGuiManager() != null){
+					app.getGuiManager().showPopupChooseGeo(sGeos, gs, v, l);
+				}
 			}
 
 }

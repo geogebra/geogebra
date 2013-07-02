@@ -644,7 +644,7 @@ public abstract class GlobalKeyDispatcher {
 
 		// change application font size
 		app.setFontSize(fontSize);
-		if (app.isUsingFullGui())
+		if (app.isUsingFullGui() && app.getGuiManager() != null)
 			app.getGuiManager().updateSpreadsheetColumnWidths();
 
 		// apply styles to to selected or all geos

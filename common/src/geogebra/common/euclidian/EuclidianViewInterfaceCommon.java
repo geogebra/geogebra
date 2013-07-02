@@ -748,5 +748,9 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void requestFocus();
 
+	public void setViewShowAllObjects(boolean b);
+
+	public void zoomAxesRatio(double axesratio, boolean b);
+
 
 }

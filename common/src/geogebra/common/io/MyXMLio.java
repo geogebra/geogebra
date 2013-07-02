@@ -74,7 +74,7 @@ public abstract class MyXMLio {
 		c.getConstructionXML(sb);
 		
 		// save ProbabilityCalculator settings
-		if (consApp.isUsingFullGui() && consApp.getGuiManager().hasProbabilityCalculator()){
+		if (consApp.isUsingFullGui() && consApp.getGuiManager() != null && consApp.getGuiManager().hasProbabilityCalculator()){
 			consApp.getGuiManager().getProbabilityCalculatorXML(sb);
 		}
 

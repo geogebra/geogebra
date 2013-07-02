@@ -205,22 +205,26 @@ public class AppW extends AppWeb {
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
+		debug("there");
 		initCommonObjects();
-
+		debug("there2");
 		initing = true;
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
+		debug("there3");
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-
+		App.debug("done1");
 		initCoreObjects(undoActive, this);
+		App.debug("done2");
 		//this may only be called after factories are initialized
 		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu(this.getArticleElement());
+		App.debug("done4");
 	}
 
 	/********************************************************
@@ -622,7 +626,7 @@ public class AppW extends AppWeb {
 		if (getGuiManager() == null) {
 			return getEuclidianView1();
 		}
-		return (EuclidianViewW) getGuiManager().getActiveEuclidianView();
+		return getGuiManager().getActiveEuclidianView();
 	}
 
 	@Override
