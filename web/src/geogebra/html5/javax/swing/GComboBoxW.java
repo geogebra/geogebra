@@ -4,15 +4,8 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
-import geogebra.common.main.App;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,87 +17,87 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 	 * Creates new wrapper Box
 	 */
 	public GComboBoxW() {
-		this.impl = new ListBox();		
+		this.impl = new ListBox();
 	}
-	
-	@Override
-    public void setVisible(boolean b) {
-	    impl.setVisible(b);
-	    
-    }
 
 	@Override
-    public Object getItemAt(int i) {
-	    return impl.getItemText(i);
-    }
+	public void setVisible(boolean b) {
+		impl.setVisible(b);
+
+	}
 
 	@Override
-    public void setFont(GFont font) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public Object getItemAt(int i) {
+		return impl.getItemText(i);
+	}
 
 	@Override
-    public void setForeground(GColor objectColor) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setFont(GFont font) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void setBackground(GColor color) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setForeground(GColor objectColor) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void setFocusable(boolean b) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setBackground(GColor color) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void setEditable(boolean b) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setFocusable(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void addItem(String string) {
-	    impl.addItem(string);
-	    
-    }
+	public void setEditable(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public void setSelectedIndex(int selectedIndex) {
-	    impl.setSelectedIndex(selectedIndex);
-    }
+	public void addItem(String string) {
+		impl.addItem(string);
+
+	}
 
 	@Override
-    public int getSelectedIndex() {
-	    return impl.getSelectedIndex();
-    }
+	public void setSelectedIndex(int selectedIndex) {
+		impl.setSelectedIndex(selectedIndex);
+	}
 
 	@Override
-    public void addActionListener(ActionListener newActionListener) {
+	public int getSelectedIndex() {
+		return impl.getSelectedIndex();
+	}
+
+	@Override
+	public void addActionListener(ActionListener newActionListener) {
 		impl.addChangeHandler((ChangeHandler) newActionListener);
-	    
-    }
+
+	}
 
 	public static Widget getImpl(AbstractJComboBox comboBox) {
-	    if(!(comboBox instanceof GComboBoxW))
-	    	return null;
-	    return ((GComboBoxW)comboBox).impl;
-    }
+		if (!(comboBox instanceof GComboBoxW))
+			return null;
+		return ((GComboBoxW) comboBox).impl;
+	}
 
 	@Override
-    public void removeAllItems() {
+	public void removeAllItems() {
 		impl.clear();
-	    
-    }
+
+	}
 
 	@Override
-    public int getItemCount() {
-	    return impl.getItemCount();
+	public int getItemCount() {
+		return impl.getItemCount();
 	}
 
 }
