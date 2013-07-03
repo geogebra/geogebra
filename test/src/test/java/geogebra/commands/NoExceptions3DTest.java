@@ -2,7 +2,6 @@ package geogebra.commands;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 
@@ -178,6 +177,11 @@ public class NoExceptions3DTest {
 	
 	@Test
 	public void cmdHeight(){
+		// TODO write test
+	}	
+	
+	@Test
+	public void cmdSetViewDirection(){
 		// TODO write test
 	}	
 
