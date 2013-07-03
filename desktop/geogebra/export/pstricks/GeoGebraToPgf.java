@@ -53,6 +53,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidianND.EuclidianViewND;
@@ -64,7 +65,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 
 /**
  * Generates PGF/Tikz string representation of current view.
@@ -1014,7 +1014,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		// MultiLine
 		else {
 			StringBuilder sb = new StringBuilder();
-			StringTokenizer stk = new StringTokenizer(st, "\n");
+			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
 			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);

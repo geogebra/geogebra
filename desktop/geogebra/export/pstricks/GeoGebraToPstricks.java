@@ -9,6 +9,7 @@ the Free Software Foundation.
 package geogebra.export.pstricks;
 
 import geogebra.awt.GColorD;
+import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
@@ -60,6 +61,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidianND.EuclidianViewND;
@@ -67,12 +69,10 @@ import geogebra.main.AppD;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 
 /**
  * @author Le Coq loïc
@@ -915,7 +915,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		// MultiLine
 		else {
 			StringBuilder sb = new StringBuilder();
-			StringTokenizer stk = new StringTokenizer(st, "\n");
+			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
 			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);
@@ -948,8 +948,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double startAngle = geo.getParameterStart();
 		double endAngle = geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		AffineTransform af = geogebra.awt.GAffineTransformD
-				.getAwtAffineTransform(geo.getAffineTransform());
+		GAffineTransform af = geo.getAffineTransform();
 		double m11 = af.getScaleX();
 		double m22 = af.getScaleY();
 		double m12 = af.getShearX();
@@ -1291,8 +1290,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// command:
 			// \rput{angle}(x_center,y_center){\psellipse(0,0)(20.81,-10.81)}
-			AffineTransform at = geogebra.awt.GAffineTransformD
-					.getAwtAffineTransform(geo.getAffineTransform());
+			GAffineTransform at = geo.getAffineTransform();
 			double eigenvecX = at.getScaleX();
 			double eigenvecY = at.getShearY();
 			double x1 = geo.getTranslationVector().getX();
@@ -1324,8 +1322,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 			// parameter of the parabola
 			double p = geo.p;
-			at = geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo
-					.getAffineTransform());
+			at = geo.getAffineTransform();
 			// first eigenvec
 			eigenvecX = at.getScaleX();
 			eigenvecY = at.getShearY();
@@ -1376,8 +1373,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// command:
 			// \rput{angle_rotation}(x_origin,y_origin){\parametric{-1}{1}{a(1+t^2)/(1-t^2)|2bt/(1-t^2)}
-			at = geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo
-					.getAffineTransform());
+			at = geo.getAffineTransform();
 			eigenvecX = at.getScaleX();
 			eigenvecY = at.getShearY();
 			x1 = geo.getTranslationVector().getX();
