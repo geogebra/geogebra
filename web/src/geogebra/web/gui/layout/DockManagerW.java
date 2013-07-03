@@ -325,7 +325,7 @@ public class DockManagerW implements  SetLabels {
 									break;
 							}
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
-							spw.put(oldParent, Math.max(spw.get(oldParent), panel.getOffsetWidth()));
+							spw.put(oldParent, Math.max(spw.get(oldParent), panelDim));
 						} else {
 							switch (panel.getViewId()) {
 								case App.VIEW_EUCLIDIAN:
