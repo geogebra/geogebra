@@ -1,4 +1,4 @@
-package geogebra.export.pstricks;
+package geogebra.common.export.pstricks;
 
 import java.util.HashMap;
 

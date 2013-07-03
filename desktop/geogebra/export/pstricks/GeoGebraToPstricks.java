@@ -15,6 +15,8 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.export.pstricks.GeoGebraExport;
+import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
@@ -873,7 +875,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		String st = geo.getTextString();
 		GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
 		int style = geo.getFontStyle();
-		int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
+		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
 		GeoPoint gp;
 		double x, y;
 		// compute location of text

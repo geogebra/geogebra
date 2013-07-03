@@ -1,6 +1,6 @@
-package geogebra.export.pstricks;
+package geogebra.common.export.pstricks;
 
-import geogebra.awt.GColorD;
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
@@ -57,6 +57,8 @@ import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.List;
+//import geogebra.export.pstricks.ExportFrame;
+//import geogebra.export.pstricks.MyGraphics;
 
 /*
  import org.mozilla.javascript.Context;
@@ -68,11 +70,11 @@ public abstract class GeoGebraExport {
 	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
 			codeBeginDoc;
-	protected App app;
+	private App app;
 	protected Kernel kernel;
 	protected Construction construction;
 	protected EuclidianView euclidianView;
-	protected ExportFrame frame;
+	protected ExportSettings frame;
 	protected HashMap<geogebra.common.awt.GColor, String> CustomColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
@@ -119,39 +121,39 @@ public abstract class GeoGebraExport {
 		euclidianView.repaint();
 	}
 
-	protected void setxmin(double xmin) {
+	public void setxmin(double xmin) {
 		this.xmin = xmin;
 		this.refreshSelectionRectangle();
 	}
 
-	protected void setxmax(double xmax) {
+	public void setxmax(double xmax) {
 		this.xmax = xmax;
 		this.refreshSelectionRectangle();
 	}
 
-	protected void setymin(double ymin) {
+	public void setymin(double ymin) {
 		this.ymin = ymin;
 		this.refreshSelectionRectangle();
 	}
 
-	protected void setymax(double ymax) {
+	public void setymax(double ymax) {
 		this.ymax = ymax;
 		this.refreshSelectionRectangle();
 	}
 
-	protected double getxmin() {
+	public double getxmin() {
 		return this.xmin;
 	}
 
-	protected double getxmax() {
+	public double getxmax() {
 		return this.xmax;
 	}
 
-	protected double getymin() {
+	public double getymin() {
 		return this.ymin;
 	}
 
-	protected double getymax() {
+	public double getymax() {
 		return this.ymax;
 	}
 
@@ -240,7 +242,7 @@ public abstract class GeoGebraExport {
 	 * @return The name for the color uses hexadecimal decomposition
 	 */
 
-	String createCustomColor(int red, int green, int blue) {
+	protected String createCustomColor(int red, int green, int blue) {
 		final String suff = "qrstuvwxyzabcdef";
 		int[] nb = { red, green, blue };
 		StringBuilder sb = new StringBuilder();
@@ -707,7 +709,7 @@ public abstract class GeoGebraExport {
 
 	abstract protected void createFrame();
 
-	abstract protected void generateAllCode();
+	public abstract void generateAllCode();
 
 	/**
 	 * Export as PSTricks or PGF/TikZ color's code
@@ -801,13 +803,13 @@ public abstract class GeoGebraExport {
 	
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
-	abstract protected MyGraphics createGraphics(FunctionalNVar ef,
+	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2);
 
 	/**
 	 * @return the xmin
 	 */
-	protected double getXmin() {
+	public double getXmin() {
 		return xmin;
 	}
 
@@ -815,14 +817,14 @@ public abstract class GeoGebraExport {
 	 * @param xmin
 	 *            the xmin to set
 	 */
-	protected void setXmin(double xmin) {
+	public void setXmin(double xmin) {
 		this.xmin = xmin;
 	}
 
 	/**
 	 * @return the xmax
 	 */
-	protected double getXmax() {
+	public double getXmax() {
 		return xmax;
 	}
 
@@ -830,14 +832,14 @@ public abstract class GeoGebraExport {
 	 * @param xmax
 	 *            the xmax to set
 	 */
-	protected void setXmax(double xmax) {
+	public void setXmax(double xmax) {
 		this.xmax = xmax;
 	}
 
 	/**
 	 * @return the ymin
 	 */
-	protected double getYmin() {
+	public double getYmin() {
 		return ymin;
 	}
 
@@ -845,14 +847,14 @@ public abstract class GeoGebraExport {
 	 * @param ymin
 	 *            the ymin to set
 	 */
-	protected void setYmin(double ymin) {
+	public void setYmin(double ymin) {
 		this.ymin = ymin;
 	}
 
 	/**
 	 * @return the ymax
 	 */
-	protected double getYmax() {
+	public double getYmax() {
 		return ymax;
 	}
 
@@ -860,14 +862,14 @@ public abstract class GeoGebraExport {
 	 * @param ymax
 	 *            the ymax to set
 	 */
-	protected void setYmax(double ymax) {
+	public void setYmax(double ymax) {
 		this.ymax = ymax;
 	}
 
 	/**
 	 * @return the xunit
 	 */
-	protected double getXunit() {
+	public double getXunit() {
 		return xunit;
 	}
 
@@ -875,14 +877,14 @@ public abstract class GeoGebraExport {
 	 * @param xunit
 	 *            the xunit to set
 	 */
-	protected void setXunit(double xunit) {
+	public void setXunit(double xunit) {
 		this.xunit = xunit;
 	}
 
 	/**
 	 * @return the yunit
 	 */
-	protected double getYunit() {
+	public double getYunit() {
 		return yunit;
 	}
 
@@ -890,7 +892,7 @@ public abstract class GeoGebraExport {
 	 * @param yunit
 	 *            the yunit to set
 	 */
-	protected void setYunit(double yunit) {
+	public void setYunit(double yunit) {
 		this.yunit = yunit;
 	}
 
@@ -1438,15 +1440,15 @@ public abstract class GeoGebraExport {
 		private int y;
 		private double angle;
 		private FillType fillType;
-		private GColorD linecolor;
+		private GColor linecolor;
 
-	    Info(GeoElement geo){	
+	    public Info(GeoElement geo){	
 	    	
 	    	alpha=geo.getAlphaValue();
     		y=geo.getHatchingDistance();
     		angle=geo.getHatchingAngle();
     		fillType = geo.getFillType();
-    		linecolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+    		linecolor = geo.getObjectColor();
     		
     		float [] rgb=null;
     		
@@ -1455,7 +1457,7 @@ public abstract class GeoGebraExport {
 	    		if (algo.getBarColor(barNumber )!=null){	
 	    			rgb=new float[4];
 	    			algo.getBarColor(barNumber ).getRGBColorComponents(rgb);
-	    			linecolor= (GColorD) AwtFactory.prototype.newColor(rgb[0],rgb[1]
+	    			linecolor= AwtFactory.prototype.newColor(rgb[0],rgb[1]
 							, rgb[2],rgb[3]);
 	    		}
 	    		if (algo.getBarHatchDistance(barNumber )!=-1){
@@ -1489,7 +1491,7 @@ public abstract class GeoGebraExport {
 			return fillType;
 		}
 		
-		public GColorD getLinecolor() {
+		public GColor getLinecolor() {
 			return linecolor;
 		}
 		

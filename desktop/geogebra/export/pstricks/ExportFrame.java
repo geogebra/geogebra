@@ -1,4 +1,6 @@
 package geogebra.export.pstricks;
+import geogebra.common.export.pstricks.ExportSettings;
+import geogebra.common.export.pstricks.GeoGebraExport;
 import geogebra.common.main.Localization;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
@@ -24,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-abstract public class ExportFrame extends JFrame{
+abstract public class ExportFrame extends JFrame implements ExportSettings{
 	private static final long serialVersionUID = 1L;
 	private final String TEXT_XUNIT="textxunit";
 	private final String TEXT_YUNIT="textyunit";
@@ -243,30 +245,38 @@ abstract public class ExportFrame extends JFrame{
 		}
 		return 10;
 	}
-	protected int getFormat(){
+	public int getFormat(){
 		return comboFormat.getSelectedIndex();
 	}
 	 // Andy Zhu - for use in Asymptote frame
-	protected boolean getShowAxes(){
+	public boolean getShowAxes(){
 	    return jcbShowAxes.isSelected();
 	}
-	protected boolean getAsyCompact(){
+	public boolean getAsyCompact(){
 	    return jcbAsyCompact.isSelected();
 	}
-	protected boolean getAsyCompactCse5(){
+	public boolean getAsyCompactCse5(){
 	    return jcbAsyCse5.isSelected();
 	}
-	protected boolean getKeepDotColors(){
+	public boolean getKeepDotColors(){
 	    return jcbDotColors.isSelected();
 	}
-	protected boolean getUsePairNames(){
+	public boolean getUsePairNames(){
         return jcbPairName.isSelected();
     }
-	protected int getFillType(){
+	public int getFillType(){
 	    return comboFill.getSelectedIndex();
 	}
 	 // end changes
 
+	public int textYmaxValue(){
+		return (int) this.textYmax.getValue();
+	}
+	
+	public int textYminValue(){
+		return (int) this.textYmin.getValue();
+	}
+	
 	protected abstract boolean isLaTeX();
 	protected abstract boolean isConTeXt();
 	protected abstract boolean isPlainTeX();
@@ -433,7 +443,7 @@ abstract public class ExportFrame extends JFrame{
 						ggb.setxmax(m);
 						width=m-xmin;
 					}
-					textwidth.setValue(width*ggb.xunit);
+					textwidth.setValue(width*ggb.getXunit());
 					ggb.refreshSelectionRectangle();
 				}
 				catch(NumberFormatException e1){}
@@ -457,7 +467,7 @@ abstract public class ExportFrame extends JFrame{
 						ggb.setymin(m);
 						height=ymax-m;
 					}
-					textheight.setValue(height*ggb.yunit);
+					textheight.setValue(height*ggb.getYunit());
 					ggb.refreshSelectionRectangle();
 				}
 				catch(NumberFormatException e1){}
@@ -480,7 +490,7 @@ abstract public class ExportFrame extends JFrame{
 						ggb.setymax(m);
 						height=m-ymin;
 					}
-					textheight.setValue(height*ggb.yunit);
+					textheight.setValue(height*ggb.getYunit());
 					ggb.refreshSelectionRectangle();
 				}
 				catch(NumberFormatException e1){}

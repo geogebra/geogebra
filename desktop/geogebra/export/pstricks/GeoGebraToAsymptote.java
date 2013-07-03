@@ -13,6 +13,8 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.export.pstricks.GeoGebraExport;
+import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
@@ -900,7 +902,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         geogebra.common.awt.GColor geocolor = geo.getObjectColor();
         int style = geo.getFontStyle();
-        int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
+        int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
         GeoPoint gp;
         double x,y;
           // compute location of text       
@@ -946,11 +948,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 code.append(","); comma = true;
                 ColorCode(geocolor,code);
             }
-            if(size != app.getFontSize()) { // fontsize
+            if(size != getApp().getFontSize()) { // fontsize
                 if(!comma) code.append(",");
                 else packSpace(code, "+");
                 code.append("fontsize(");
-                code.append(fontsize+(size-app.getFontSize()));
+                code.append(fontsize+(size-getApp().getFontSize()));
                 code.append(")");
             }
             else if(compactcse5) {  // use default font pen for cse5
@@ -992,11 +994,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 code.append(","); comma = true;
                 ColorCode(geocolor,code);
             }
-            if(size != app.getFontSize()) { // fontsize
+            if(size != getApp().getFontSize()) { // fontsize
                 if(!comma) code.append(",");
                 else packSpace(code, "+");
                 code.append("fontsize(");
-                code.append(fontsize+(size-app.getFontSize()));
+                code.append(fontsize + (size - getApp().getFontSize()));
                 code.append(")");
             }
             else if(compactcse5) {  // use default font pen for cse5

@@ -6,6 +6,8 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.export.pstricks.GeoGebraExport;
+import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
@@ -966,7 +968,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		boolean isLatex = geo.isLaTeX();
 		String st = geo.getTextString();
 		int style = geo.getFontStyle();
-		int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
+		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
 		GeoPoint gp;
 		double x, y;
 		// compute location of text
@@ -2156,8 +2158,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		 * window height Else we say it's vertical.
 		 */
 
-		double heightScreen = frame.textYmax.getValue()
-				- frame.textYmin.getValue();
+		double heightScreen = frame.textYmaxValue()
+				- frame.textYminValue();
 		if (Math.abs(a / b / heightScreen) > 40) {
 			b = 0;
 		}
