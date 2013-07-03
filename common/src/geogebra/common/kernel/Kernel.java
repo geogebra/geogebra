@@ -962,7 +962,7 @@ public class Kernel {
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = Double.toString(x);
-				return convertScientificNotation(scientificStr, tpl);
+				return tpl.convertScientificNotation(scientificStr);
 			}
 
 			// number formatting for screen output
@@ -1716,98 +1716,7 @@ public class Kernel {
 		return formatAngle(phi, 10, tpl);
 	}
 
-	/**
-	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on
-	 * current print form
-	 * @param scientificStr string in scientific notation
-	 * @param tpl string template for output
-	 * @return formated string in scientific notation (except for Giac)
-	 */
-	public String convertScientificNotation(String scientificStr,
-			StringTemplate tpl) {
-		
-		// for Giac, don't want 3E3 or 3*10^3
-		if (tpl.hasType(StringType.GIAC)) {
-			return convertScientificNotationGiac(scientificStr);
-		}
-		
-		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
-		boolean Efound = false;
-		for (int i = 0; i < scientificStr.length(); i++) {
-			char ch = scientificStr.charAt(i);
-			if (ch == 'E') {
-				if (tpl.hasType(StringType.LATEX)) {
-					sb.append(" \\cdot 10^{");
-				} else {
-					sb.append("*10^(");
-				}
-				Efound = true;
-			} else if (ch != '+') {
-				sb.append(ch);
-			}
-		}
-		if (Efound) {
-			if (tpl.hasType(StringType.LATEX)) {
-				sb.append("}");
-			} else {
-				sb.append(")");
-			}
-		}
-
-		return sb.toString();
-	}
-
-	/*
-	 * convert 3E3 to 3000
-	 * convert 3.33 to 333/100
-	 * convert 3E-3 to 3/1000
-	 */
-	public String convertScientificNotationGiac(String originalString) {
-		if (originalString.indexOf("E-") > -1) {
-
-			String[] s = originalString.split("E-");
-
-			int i = Integer.parseInt(s[1]);
-
-			int dotIndex = s[0].indexOf('.');
-
-			if (dotIndex > -1) {
-				// eg 2.22E-100
-				i += s[0].length() - dotIndex - 1;
-				s[0] = s[0].replace(".", "");
-			}
-
-			// brackets just in case
-			// 2^2.2E-1 is different to 2^22/100
-			return "(" + s[0] + "/1" + StringUtil.repeat('0', i) + ")";
-
-		} else if (originalString.indexOf("E") > -1) {
-			String[] s = originalString.split("E");
-
-			int i = Integer.parseInt(s[1]);
-
-			int dotIndex = s[0].indexOf('.');
-
-			if (dotIndex > -1) {
-				// eg 2.22E100 need i=98
-				i -= s[0].length() - dotIndex - 1;
-				s[0] = s[0].replace(".", "");
-			}
-
-			return s[0] + StringUtil.repeat('0', i);
-		} 
-
-
-		int dotIndex = originalString.indexOf('.');
-
-		if (dotIndex > -1) {
-			// eg 2.22 -> (222/100)
-			return "(" + originalString.replace(".", "") + "/1" + StringUtil.repeat('0', originalString.length() - dotIndex - 1) + ")";
-		}
-
-		// simple integer, no need to change
-		return originalString;
-	}
+	
 
 	final public StringBuilder formatAngle(double alpha, double precision,
 			StringTemplate tpl) {

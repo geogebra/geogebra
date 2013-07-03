@@ -140,7 +140,7 @@ public class MySpecialDouble extends MyDouble {
 			
 			if (tpl.hasType(StringType.GIAC)) {
 				
-				return kernel.convertScientificNotationGiac(originalString);
+				return tpl.convertScientificNotationGiac(originalString);
 			}
 			
 			//if we are printing result of numeric and user didn't force us to use significant digits
@@ -149,7 +149,7 @@ public class MySpecialDouble extends MyDouble {
 					|| tpl.allowMoreDigits()) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
-					return kernel.convertScientificNotation(strToString,tpl);
+					return tpl.convertScientificNotation(strToString);
 				}
 				// keep original string
 				return strToString;
