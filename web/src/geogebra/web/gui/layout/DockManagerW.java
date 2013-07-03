@@ -158,6 +158,8 @@ public class DockManagerW implements  SetLabels {
 				}
 			}
 		}
+
+		int panelDim;
 		
 		if(spData.length > 0) {
 			DockSplitPaneW[] splitPanes = new DockSplitPaneW[spData.length];
@@ -260,26 +262,88 @@ public class DockManagerW implements  SetLabels {
 				} else {
 					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
 				}
-				
 
+
+				
 				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+					switch (panel.getViewId()) {
+						case App.VIEW_EUCLIDIAN:
+							panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
+							break;
+						case App.VIEW_EUCLIDIAN2:
+							panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
+							break;
+						case App.VIEW_SPREADSHEET:
+							panelDim = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+							break;
+						default:
+							// probably won't work
+							panelDim = panel.getOffsetWidth();
+							break;
+					}
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
-					spw.put(currentParent, Math.max(spw.get(currentParent), panel.getOffsetWidth()));
+					spw.put(currentParent, Math.max(spw.get(currentParent), panelDim));
 				} else {
+					switch (panel.getViewId()) {
+						case App.VIEW_EUCLIDIAN:
+							panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
+							break;
+						case App.VIEW_EUCLIDIAN2:
+							panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
+							break;
+						case App.VIEW_SPREADSHEET:
+							panelDim = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+							break;
+						default:
+							// probably won't work
+							panelDim = panel.getOffsetHeight();
+							break;
+					}
 					spw.put(currentParent, spw.get(currentParent) + dpData[i].getEmbeddedSize());
-					sph.put(currentParent, Math.max(sph.get(currentParent), panel.getOffsetHeight()));
+					sph.put(currentParent, Math.max(sph.get(currentParent), panelDim));
 				}
 
 				DockSplitPaneW oldParent = currentParent;
 				while (oldParent != rootPane) {
 					if (oldParent.getParent() instanceof DockSplitPaneW) {
 						oldParent = (DockSplitPaneW)oldParent.getParent();
+						
 						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+							switch (panel.getViewId()) {
+								case App.VIEW_EUCLIDIAN:
+									panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getWidth();
+									break;
+								case App.VIEW_EUCLIDIAN2:
+									panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getWidth();
+									break;
+								case App.VIEW_SPREADSHEET:
+									panelDim = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+									break;
+								default:
+									// probably won't work
+									panelDim = panel.getOffsetWidth();
+									break;
+							}
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
 							spw.put(oldParent, Math.max(spw.get(oldParent), panel.getOffsetWidth()));
 						} else {
+							switch (panel.getViewId()) {
+								case App.VIEW_EUCLIDIAN:
+									panelDim = app.getSettings().getEuclidian(1).getPreferredSize().getHeight();
+									break;
+								case App.VIEW_EUCLIDIAN2:
+									panelDim = app.getSettings().getEuclidian(2).getPreferredSize().getHeight();
+									break;
+								case App.VIEW_SPREADSHEET:
+									panelDim = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+									break;
+								default:
+									// probably won't work
+									panelDim = panel.getOffsetHeight();
+									break;
+							}
 							spw.put(oldParent, spw.get(oldParent) + dpData[i].getEmbeddedSize());
-							sph.put(oldParent, Math.max(sph.get(oldParent), panel.getOffsetHeight()));
+							sph.put(oldParent, Math.max(sph.get(oldParent), panelDim));
 						}
 					} else {
 						break;
@@ -302,7 +366,7 @@ public class DockManagerW implements  SetLabels {
 				//App.debug("!!!! "+spw.get(rootPane)+" "+sph.get(rootPane));
 
 				// dilemma to call this or not
-				rootPane.setWidth(spw.get(rootPane)+"px");
+				rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 				// without this, the width of the rootPane is not OK,
 				// with this, onResize is called and things get too long
 			}

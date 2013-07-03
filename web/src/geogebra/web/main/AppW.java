@@ -1493,13 +1493,13 @@ public class AppW extends AppWeb {
 	@Override
     public void syncAppletPanelSize(int width, int height, int evno) {
 		if (!isFullAppGui()) {
-			if (evno == 1) {
+			if (evno == 1 && getEuclidianView1().isShowing()) {
 				// this should follow the resizing of the EuclidianView
 				int widthDiff = width - euclidianViewPanel.getOffsetWidth();
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
 						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
-			} else if (evno == 2) {// or the EuclidianView 2
+			} else if (evno == 2 && getEuclidianView2().isShowing()) {// or the EuclidianView 2
 				Euclidian2DockPanelW ew = (Euclidian2DockPanelW)
 					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
 				int widthDiff = width - ew.getOffsetWidth();
