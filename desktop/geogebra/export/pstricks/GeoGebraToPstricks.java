@@ -1107,7 +1107,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			if (!isLatexFunction(s)) {
 				liopco = liopco.replace(",plotpoints=200]{", "]");
 				liopco = liopco.replace("[plotpoints=200]{", "");
-				String template = "\\psline" + liopco + "(%f,%f)(%f,%f)\n";
+				String template = "\\psline" + liopco + "(%0,%1)(%2,%3)\n";
 				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
 						xrangemin, 300, template);
 				s = lineBuilder.toString();
@@ -2473,7 +2473,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawNyquist(GeoTransferFunction g) {
 		startBeamer(code);
 		String liopco = LineOptionCode(g, true);
-		String template = "\\psline" + liopco + "§arrows§(%f,%f)(%f,%f)\n";
+		String template = "\\psline" + liopco + "§arrows§(%0,%1)(%2,%3)\n";
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§arrows§","{<-}","{->}");
 		code.append(lineBuilder.toString());
 		endBeamer(code);

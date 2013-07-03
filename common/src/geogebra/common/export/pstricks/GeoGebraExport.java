@@ -1342,7 +1342,7 @@ public abstract class GeoGebraExport {
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (Math.abs(y) < 0.001)
 					y = 0;
-				lineBuilder.append(String.format(template, xprec, yprec, x, y));
+				lineBuilder.append(StringUtil.format(template, xprec, yprec, x, y));
 			}
 			yprec = y;
 			xprec = x;
@@ -1373,7 +1373,7 @@ public abstract class GeoGebraExport {
 			} else {
 				sub=t.replaceAll(arrowMark, "");
 			}
-			lineBuilder.append(String.format(sub, xprec, yprec, x, y));
+			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
 			xprec=x;
 			yprec=y;
 		}	
@@ -1391,7 +1391,7 @@ public abstract class GeoGebraExport {
 			} else {
 				sub=t.replaceAll(arrowMark, "");
 			}
-			lineBuilder.append(String.format(sub, xprec, yprec, x, y));
+			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
 			xprec=x;
 			yprec=y;
 		}	

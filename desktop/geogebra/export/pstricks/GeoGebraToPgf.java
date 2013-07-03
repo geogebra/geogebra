@@ -1290,7 +1290,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					if (s.length() != 0) {
 						s="["+s+"]";
 					}
-					String template = "\\draw"+s+" (%f,%f) -- (%f,%f);\n";
+					String template = "\\draw"+s+" (%0,%1) -- (%2,%3);\n";
 					StringBuilder lineBuilder = drawNoLatexFunction(geo,
 							xrangemax, xrangemin, 400, template);
 					sb.append(lineBuilder.toString() + ";\n");
@@ -2993,7 +2993,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			la=",<-";
 			ra=",->";
 		}
-		String template = "\\draw["+s+"§arrows§] (%f,%f) -- (%f,%f);\n";
+		String template = "\\draw["+s+"§arrows§] (%0,%1) -- (%2,%3);\n";
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§arrows§",la,ra);
 		code.append(lineBuilder.toString() + ";\n");
 	}

@@ -1057,4 +1057,10 @@ public class StringUtil {
 		}
 		return string.indexOf('_') > -1 ? font.getSize() * 1.8 : font.getSize() * 1.4;
 	}
+
+	public static Object format(String sub, double x0, double x1,
+			double x2, double x3) {
+		return sub.replaceAll("%0", x0+"").replaceAll("%1", x1+"").replaceAll("%2", x2+"")
+				.replace("%3", x3+"");
+	}
 }

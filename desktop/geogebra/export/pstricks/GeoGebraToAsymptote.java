@@ -1210,7 +1210,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 			if (!isLatexFunction(value)) {
 				StringBuilder sb=new StringBuilder();
 				ColorCode(geo.getObjectColor(), sb);
-				String template = "draw( (%f,%f) -- (%f,%f),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
+				String template = "draw( (%0,%1) -- (%2,%3),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
 				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
 						xrangemin, 400, template);
 				code.append(lineBuilder.toString() + ";\n");
@@ -3515,7 +3515,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawNyquist(GeoTransferFunction g) {
 		StringBuilder sb=new StringBuilder();
 		ColorCode(g.getObjectColor(), sb);   
-		String template = "draw( (%f,%f) -- (%f,%f),"+sb+"+linewidth(1)§,arrows§);\n";
+		String template = "draw( (%0,%1) -- (%2,%3),"+sb+"+linewidth(1)§,arrows§);\n";
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template,"§,arrows§",",BeginArrow",",EndArrow");
 		code.append(lineBuilder.toString() + ";\n");
 	}
