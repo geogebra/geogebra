@@ -75,6 +75,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings{
 	public ExportFrame(final GeoGebraExport ggb,String action){
 		this.ggb=ggb;
 		this.app= (AppD) ggb.getApp();
+		loc = app.getLocalization();
 		width=ggb.getXmax()-ggb.getXmin();
 		height=ggb.getYmax()-ggb.getYmin();
 		listenKey=new ListenKey(this);
