@@ -65,11 +65,7 @@ import geogebra.main.AppD;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.geom.AffineTransform;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -105,7 +101,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      // Contains list of points
     private ArrayList<GeoPoint> pointList;
      // Maps unicode expressions to text equivalents
-    private Map<String, String> unicodeTable, pairNameTable;
+    private Map<String, String> pairNameTable;
      // Maps function return expressions to function #
     private Map<String, Integer> functionTable, implicitPolyTable;
      // use the following packages for Asymptote and LaTeX commands
@@ -145,7 +141,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         usepackage    = new TreeSet<String>();
         importpackage = new TreeSet<String>();
         pointList         = new ArrayList<GeoPoint>();     // list of pairs, for cse5
-        unicodeTable      = new HashMap<String, String>(); // map of unicode -> LaTeX commands
         pairNameTable     = new HashMap<String, String>(); // map of coordinates -> point's name 
         functionTable     = new HashMap<String, Integer>(); // function(x) return value to function #
         implicitPolyTable = new HashMap<String, Integer>(); // function(x,y) return value to function #
@@ -204,9 +199,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         
         // In cse5, initialize pair definitions.
         initPointDeclarations();
-        // Initialize Unicode Table
-        initUnicodeTextTable();
-        
+
         // get all objects from construction and "draw" by creating Asymptote code
         // **Run this before generating other code in case it causes other changes
         //  such as which packages should be imported.**
@@ -3183,35 +3176,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         addPoint(format(x), format(y), sb);
     }
     
-    /** Initializes a Hash Map mapping unicode expressions with plain text equivalents. 
-     * Reads from file at directory geogebra/export/pstricks/unicodetex.
-     * 
-     */
-    protected void initUnicodeTextTable(){ // TODO file path issue
-        // read unicode symbols from unicodetex.txt
-        try {
-            
-            InputStream is = GeoGebraToAsymptote.class.getResourceAsStream("/geogebra/export/pstricks/unicodetex");
-			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF8"));
-			
-            String st; 
-            
-            while ((st = br.readLine()) != null) {
-                int indexTab = st.indexOf("\t");
-                // file format:
-                // \ uXXXX \t plaintext
-                unicodeTable.put(st.substring(0,indexTab), 
-                                 st.substring(indexTab+1,st.length()));
-            }
-        } catch (FileNotFoundException e) { 
-            codePreamble.insert(0,"/* File unicodetex not found. */\n\n");
-            e.printStackTrace();
-        } catch (IOException e) {
-            codePreamble.insert(0,"/* IO error. */\n\n");
-            e.printStackTrace();     
-        }
-    }
-    
     /** Converts unicode expressions ("\u03c0") to plain text ("pi").
      * @param sb StringBuilder with code.
      * @return Updated StringBuilder;
@@ -3233,10 +3197,10 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     protected String convertUnicodeToText(String s){
         // import unicode;
         String s1 = new String(s);
-        Iterator<String> it = unicodeTable.keySet().iterator();
+        Iterator<String> it = UnicodeTeX.getMap().keySet().iterator();
         while(it.hasNext()) {
             String skey = it.next();
-            s1 = s1.replaceAll(skey, unicodeTable.get(skey)+" ");
+            s1 = s1.replaceAll(skey, UnicodeTeX.getMap().get(skey)+" ");
         }
         return s1.replaceAll("\u00b0", "o ")    // degree symbol
                  .replaceAll("\u212f", "e ")
@@ -3252,11 +3216,11 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     protected String convertUnicodeToLatex(String s){
         // import unicode;
         String s1 = new String(s);
-        Iterator<String> it = unicodeTable.keySet().iterator();
+        Iterator<String> it = UnicodeTeX.getMap().keySet().iterator();
         // look up unicodeTable conversions and replace with LaTeX commands
         while(it.hasNext()) {
             String skey = it.next();
-            s1 = s1.replaceAll(skey, "\\\\"+unicodeTable.get(skey)+" ");
+            s1 = s1.replaceAll(skey, "\\\\"+UnicodeTeX.getMap().get(skey)+" ");
         }
         
         // strip dollar signs

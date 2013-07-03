@@ -69,7 +69,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 /**
@@ -80,7 +79,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	private boolean eurosym = false;
 	private static final int FORMAT_BEAMER = 1;
 	private StringBuilder codeBeginPic;
-	private static Properties symbols = new Properties();
 
 	/**
 	 * Constructor for GeoGeBra export
@@ -91,7 +89,6 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 */
 	public GeoGebraToPstricks(AppD app) {
 		super(app);
-		initializeSymbols(symbols);
 	}
 
 	@Override
@@ -117,10 +114,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		code = new StringBuilder();
 		codePoint = new StringBuilder();
 		codePreamble = new StringBuilder();
-		if (symbols.size() == 0) {
-			codePreamble.insert(0,
-					"%%%%%% File unicodetex not found or I/O error. %%%%%%\n");
-		}
+
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
 		codeBeginPic = new StringBuilder();
@@ -1704,9 +1698,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
 						String uCode = "" + name.charAt(i);
-						if (symbols.containsKey(uCode)) {
+						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode,
-									"\\$\\\\" + symbols.get(uCode) + "\\$");
+									"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$");
 						}
 					}
 					nameSym = nameSym.replace("$\\euro$", "\\euro");
@@ -2248,10 +2242,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			String stSym = st;
 			for (int i = 0; i < st.length(); i++) {
 				String uCode = "" + st.charAt(i);
-				if (symbols.containsKey(uCode)) {
+				if (UnicodeTeX.getMap().containsKey(uCode)) {
 					addTextPackage();
 					stSym = stSym.replaceAll("\\" + uCode,
-							"\\\\" + symbols.get(uCode) + " ");
+							"\\\\" + UnicodeTeX.getMap().get(uCode) + " ");
 				}
 			}
 			st = stSym;
@@ -2262,10 +2256,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			String stSym = st;
 			for (int i = 0; i < st.length(); i++) {
 				String uCode = "" + st.charAt(i);
-				if (symbols.containsKey(uCode)) {
+				if (UnicodeTeX.getMap().containsKey(uCode)) {
 					addTextPackage();
 					stSym = stSym.replaceAll("\\" + uCode,
-							"\\$\\\\" + symbols.get(uCode) + "\\$ ");
+							"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$ ");
 				}
 			}
 			st = stSym;

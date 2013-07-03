@@ -63,7 +63,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 /*
@@ -1420,13 +1419,7 @@ public abstract class GeoGebraExport {
 				&& !s.toLowerCase().contains("sech(");
 	}
 
-	protected void initializeSymbols(Properties symbols) {
-		try {
-			symbols.load(GeoGebraExport.class.getResourceAsStream("unicodetex"));
-		} catch (IOException e) {
-			// FileMenu catch this
-		}
-	}
+	
 
 	// To avoid duplicate inequalities drawing algorithms replacing Graphics.
 	// In the three implementations (pstricks, pgf, asymptote) print the

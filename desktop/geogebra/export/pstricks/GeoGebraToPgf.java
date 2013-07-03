@@ -61,7 +61,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.StringTokenizer;
 
 /**
@@ -74,7 +73,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	private static final int FORMAT_PLAIN_TEX = 1;
 	private static final int FORMAT_CONTEXT = 2;
 	private static final int FORMAT_BEAMER = 3;
-	private static Properties symbols = new Properties();
 	private int functionIdentifier = 0;
 	private boolean forceGnuplot = false;
 	private boolean gnuplotWarning = false;
@@ -82,7 +80,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	public GeoGebraToPgf(AppD app) {
 		super(app);
-		initializeSymbols(symbols);
 	}
 
 	@Override
@@ -103,9 +100,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		code = new StringBuilder();
 		codePoint = new StringBuilder();
 		codePreamble = new StringBuilder();
-		if(symbols.size()==0){
-			codePreamble.insert(0,"%%%%%% File unicodetex not found or I/O error. %%%%%%\n");
-		}
+		
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
 		CustomColor = new HashMap<geogebra.common.awt.GColor, String>();
@@ -1057,10 +1052,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					code.append("$");
 				for (int i = 0; i < st.length(); i++) {
 					String uCode = "" + st.charAt(i);
-					if (symbols.containsKey(uCode)) {
+					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode,
-								"\\\\" + symbols.get(uCode));
+								"\\\\" + UnicodeTeX.getMap().get(uCode));
 					}
 				}
 			}
@@ -1069,10 +1064,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				st = st.replaceAll("\\\\", "\\\\textbackslash ");
 				for (int i = 0; i < st.length(); i++) {
 					String uCode = "" + st.charAt(i);
-					if (symbols.containsKey(uCode)) {
+					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode,
-								"\\$\\\\" + symbols.get(uCode) + "\\$");
+								"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$");
 					}
 				}
 				st = st.replace("$\\euro$", "euro");
@@ -2317,9 +2312,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
 						String uCode = "" + name.charAt(i);
-						if (symbols.containsKey(uCode)) {
+						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode,
-									"\\$\\\\" + symbols.get(uCode) + "\\$");
+									"\\$\\\\" + UnicodeTeX.getMap().get(uCode) + "\\$");
 						}
 					}
 					nameSym = nameSym.replace("$\\euro$", "euro");
