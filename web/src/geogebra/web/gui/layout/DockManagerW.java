@@ -20,6 +20,8 @@ import java.util.ListIterator;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -176,8 +178,27 @@ public class DockManagerW implements  SetLabels {
 			}
 
 			// cascade the split panes
-			rootPane = splitPanes[0];
-			
+			if (rootPane != null) {
+				Widget rootPaneParent = rootPane.getParent();
+				if (rootPaneParent != null) {
+					if (rootPaneParent instanceof VerticalPanel) {
+						rootPane.removeFromParent();
+						rootPane = splitPanes[0];
+						((VerticalPanel)rootPaneParent).add(rootPane);
+					} else if (rootPaneParent instanceof DockLayoutPanel) {
+						rootPane.removeFromParent();
+						rootPane = splitPanes[0];
+						((DockLayoutPanel)rootPaneParent).add(rootPane);
+					} else {
+						rootPane = splitPanes[0];
+					}
+				} else {
+					rootPane = splitPanes[0];
+				}
+			} else {
+				rootPane = splitPanes[0];
+			}
+
 			// loop through every but the first split pane
 			for(int i = 1; i < spData.length; ++i) {
 				DockSplitPaneW currentParent = rootPane;
@@ -365,7 +386,6 @@ public class DockManagerW implements  SetLabels {
 				// height doesn't work still
 				//App.debug("!!!! "+spw.get(rootPane)+" "+sph.get(rootPane));
 
-				// dilemma to call this or not
 				rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 				// without this, the width of the rootPane is not OK,
 				// with this, onResize is called and things get too long
