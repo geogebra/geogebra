@@ -3,6 +3,7 @@ package geogebra.export.pstricks;
 import geogebra.awt.GColorD;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawLine;
@@ -50,10 +51,9 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.statistics.AlgoHistogram;
+import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.AppD;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,10 +69,10 @@ public abstract class GeoGebraExport {
 	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
 			codeBeginDoc;
-	protected AppD app;
+	protected App app;
 	protected Kernel kernel;
 	protected Construction construction;
-	protected EuclidianViewND euclidianView;
+	protected EuclidianView euclidianView;
 	protected ExportFrame frame;
 	protected HashMap<geogebra.common.awt.GColor, String> CustomColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
@@ -81,15 +81,15 @@ public abstract class GeoGebraExport {
 	protected boolean isBeamer = false;
 	protected int barNumber;
 	
-	public GeoGebraExport(AppD app) {
+	public GeoGebraExport(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
-		this.euclidianView = app.getActiveEuclidianView();
+		this.euclidianView = (EuclidianView) app.getActiveEuclidianView();
 		initGui();
 	}
 
-	public AppD getApp() {
+	public App getApp() {
 		return app;
 	}
 
@@ -802,7 +802,7 @@ public abstract class GeoGebraExport {
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2);
+			Inequality inequality, EuclidianView euclidianView2);
 
 	/**
 	 * @return the xmin

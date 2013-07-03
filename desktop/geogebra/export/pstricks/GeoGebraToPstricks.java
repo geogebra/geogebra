@@ -13,6 +13,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -916,7 +917,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			int width = 0;
 			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);
-			FontMetrics fm = euclidianView.getFontMetrics(font);
+			FontMetrics fm = ((EuclidianViewND)euclidianView).getFontMetrics(font);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
 				width = Math.max(width, fm.stringWidth(line));
@@ -2364,7 +2365,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	class MyGraphicsPs extends MyGraphics {
 
 		public MyGraphicsPs(FunctionalNVar geo, Inequality ineq,
-				EuclidianViewND euclidianView) throws IOException {
+				EuclidianView euclidianView) throws IOException {
 			super(geo, ineq, euclidianView);
 		}
 
@@ -2430,7 +2431,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2){
+			Inequality inequality, EuclidianView euclidianView2){
 		try{
 			return new MyGraphicsPs(ef, inequality, euclidianView2);
 		} catch (IOException e) {

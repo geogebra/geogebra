@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -1015,7 +1016,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			int width = 0;
 			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);
-			FontMetrics fm = euclidianView.getFontMetrics(font);
+			FontMetrics fm = ((EuclidianViewND)euclidianView).getFontMetrics(font);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
 				width = Math.max(width, fm.stringWidth(line));
@@ -2344,7 +2345,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				GColor geocolor = geo.getObjectColor();
 				startBeamer(codePoint);
-				FontMetrics fm = euclidianView
+				FontMetrics fm = ((EuclidianViewND)euclidianView)
 						.getFontMetrics(geogebra.awt.GFontD
 								.getAwtFont(euclidianView.getFont()));
 				int width = fm.stringWidth(StringUtil.toLaTeXString(
@@ -2451,7 +2452,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm = euclidianView
+				FontMetrics fm = ((EuclidianViewND)euclidianView)
 						.getFontMetrics(geogebra.awt.GFontD
 								.getAwtFont(euclidianView.getFont()));
 				int width = fm.stringWidth(label[0]);
@@ -2516,7 +2517,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm = euclidianView
+				FontMetrics fm = ((EuclidianViewND)euclidianView)
 						.getFontMetrics(geogebra.awt.GFontD
 								.getAwtFont(euclidianView.getFont()));
 				geogebra.common.awt.GRectangle rect = euclidianView
@@ -2854,7 +2855,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	class MyGraphicsPgf extends MyGraphics{
 
 		
-		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq, EuclidianViewND euclidianView) throws IOException {
+		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq, EuclidianView euclidianView) throws IOException {
 			super(geo,ineq,euclidianView);
 		}
 
@@ -2947,7 +2948,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2)
+			Inequality inequality, EuclidianView euclidianView2)
 			{
 		try{
 			return new MyGraphicsPgf(ef, inequality, euclidianView2);

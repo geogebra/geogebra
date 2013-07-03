@@ -6,7 +6,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.epsgraphics.ColorMode;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ abstract class MyGraphics extends GGraphics2DD {
 	protected FunctionalNVar geo;
 
 	public MyGraphics(FunctionalNVar geo, Inequality ineq,
-			EuclidianViewND euclidianView) throws IOException {
+			EuclidianView euclidianView) throws IOException {
 		super(new MyGraphics2D(null, System.out, 0, 0, 0, 0,
 				ColorMode.COLOR_RGB));
 		view = euclidianView;

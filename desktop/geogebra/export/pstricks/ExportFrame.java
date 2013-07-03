@@ -1,4 +1,5 @@
 package geogebra.export.pstricks;
+import geogebra.common.main.Localization;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
@@ -58,6 +59,7 @@ abstract public class ExportFrame extends JFrame{
 //	private ExportFrame ef;
 	protected File currentFile=null;
 	private GeoGebraExport ggb;
+	private Localization loc;
 	ListenKey listenKey;
 	protected String fileExtension=AppD.FILE_EXT_TEX;
 	protected String fileExtensionMsg="TeX ";
@@ -70,7 +72,7 @@ abstract public class ExportFrame extends JFrame{
 	//then the width is changed.
 	public ExportFrame(final GeoGebraExport ggb,String action){
 		this.ggb=ggb;
-		this.app= ggb.getApp();
+		this.app= (AppD) ggb.getApp();
 		width=ggb.getXmax()-ggb.getXmin();
 		height=ggb.getYmax()-ggb.getYmin();
 		listenKey=new ListenKey(this);
@@ -92,25 +94,25 @@ abstract public class ExportFrame extends JFrame{
 		textYmax.addKeyListener(listenKey);
 		
 		panel=new JPanel();
-		button=new JButton(app.getPlain(action));
-		button_copy=new JButton(app.getPlain("CopyToClipboard"));
-		labelXUnit=new JLabel(app.getPlain("XUnits"));
-		labelYUnit=new JLabel(app.getPlain("YUnits"));
-		labelwidth=new JLabel(app.getPlain("PictureWidth"));
-		labelheight=new JLabel(app.getPlain("PictureHeight"));
-		labelFontSize=new JLabel(app.getPlain("LatexFontSize"));
-		labelXmin=new JLabel(app.getPlain("xmin"));
- 		labelXmax=new JLabel(app.getPlain("xmax"));
- 		labelYmin=new JLabel(app.getPlain("ymin"));
- 		labelYmax=new JLabel(app.getPlain("ymax"));
-		jcbPointSymbol=new JCheckBox(app.getPlain("DisplayPointSymbol"));
-		jcbGrayscale=new JCheckBox(app.getPlain("PGFExport.Grayscale"));
+		button=new JButton(loc.getPlain(action));
+		button_copy=new JButton(loc.getPlain("CopyToClipboard"));
+		labelXUnit=new JLabel(loc.getPlain("XUnits"));
+		labelYUnit=new JLabel(loc.getPlain("YUnits"));
+		labelwidth=new JLabel(loc.getPlain("PictureWidth"));
+		labelheight=new JLabel(loc.getPlain("PictureHeight"));
+		labelFontSize=new JLabel(loc.getPlain("LatexFontSize"));
+		labelXmin=new JLabel(loc.getPlain("xmin"));
+ 		labelXmax=new JLabel(loc.getPlain("xmax"));
+ 		labelYmin=new JLabel(loc.getPlain("ymin"));
+ 		labelYmax=new JLabel(loc.getPlain("ymax"));
+		jcbPointSymbol=new JCheckBox(loc.getPlain("DisplayPointSymbol"));
+		jcbGrayscale=new JCheckBox(loc.getPlain("PGFExport.Grayscale"));
 		 // Andy Zhu: for use in Asymptote frame
-		jcbShowAxes   = new JCheckBox(app.getMenu("ShowAxesGrid"));
-		jcbAsyCompact = new JCheckBox(app.getMenu("ConciseCode"));
-		jcbAsyCse5    = new JCheckBox(app.getMenu("ConciseUsingCSE5"));
-		jcbDotColors  = new JCheckBox(app.getMenu("KeepDotColors"));
-		jcbPairName   = new JCheckBox(app.getMenu("UsePairNames"));
+		jcbShowAxes   = new JCheckBox(loc.getMenu("ShowAxesGrid"));
+		jcbAsyCompact = new JCheckBox(loc.getMenu("ConciseCode"));
+		jcbAsyCse5    = new JCheckBox(loc.getMenu("ConciseUsingCSE5"));
+		jcbDotColors  = new JCheckBox(loc.getMenu("KeepDotColors"));
+		jcbPairName   = new JCheckBox(loc.getMenu("UsePairNames"));
 		jcbShowAxes.setSelected(true);
 		jcbAsyCompact.setSelected(false);
 		jcbAsyCse5.setSelected(false);
@@ -281,7 +283,7 @@ abstract public class ExportFrame extends JFrame{
 	String encoding="";
 	EncodingDialog(ExportFrame ef){
 		super(ef,true);
-		setTitle(app.getPlain("PGFExport.Encoding"));
+		setTitle(loc.getPlain("PGFExport.Encoding"));
 		encode=new HashMap();
 		encode.put("ansinew","windows-1252");
 		encode.put("ascii","US-ASCII");
