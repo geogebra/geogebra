@@ -73,6 +73,10 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		setComponents();
 	}
 
+	public void setDividerLocationSilent(int location) {
+		dividerLocation = location;
+	}
+
 	public void setDividerLocation(double proportion) {
 		if (getOrientation() == VERTICAL_SPLIT) {
 			setDividerLocation((int) (proportion * getOffsetHeight()));
@@ -180,8 +184,7 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		setComponents();
 	}
 
-	private void setComponents() {
-		clear();
+	public void setComponentsSilent() {
 
 		// if both components exist give the resizing pane to rightComponent
 		// (in Swing this corresponds to resize weight = 1)
@@ -210,7 +213,11 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 
 		// forceLayout();
 		updateDivider();
+	}
 
+	private void setComponents() {
+		clear();
+		setComponentsSilent();
 	}
 
 	/**
