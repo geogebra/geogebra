@@ -9,6 +9,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -39,7 +40,7 @@ import geogebra.main.AppD;
  */
 public class GeoQuadric3D extends GeoQuadricND implements
 		GeoElement3DInterface, Functional2Var, Region3D, 
-		Translateable, RotateableND, Mirrorable, Transformable,
+		Translateable, RotateableND, Mirrorable, Transformable, Dilateable,
 		HasVolume,
 		GeoQuadric3DInterface{
 
@@ -83,6 +84,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		
 		volume = 4*Math.PI*getHalfAxis(0)*getHalfAxis(1)*getHalfAxis(2)/3;
 
+		// set the diagonal values
+		diagonal[0] = 1;
+		diagonal[1] = 1;
+		diagonal[2] = 1;
+		diagonal[3] = -r * r;
+		
 		// eigen matrix
 		eigenMatrix.setOrigin(getMidpoint3D());
 		for (int i = 1; i <= 3 ; i++){
@@ -288,11 +295,16 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			halfAxes[i] = quadric.halfAxes[i];
 		}
 
+		for (int i = 0; i < 4; i++) {
+			diagonal[i] = quadric.diagonal[i];
+		}
+
 		setMidpoint(quadric.getMidpoint().get());
 
 		eigenMatrix.set(quadric.eigenMatrix);
 
 		defined = quadric.defined;
+		volume = quadric.volume;
 		
 		super.set(geo);
 	}
@@ -629,6 +641,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
+		//App.debug("qm=\n"+qm);
 		CoordMatrix pm = new CoordMatrix(4, 2);
 		pm.setVx(willingDirection);
 		pm.setOrigin(willingCoords);
@@ -637,7 +650,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// sets the solution matrix from line and quadric matrix
 		CoordMatrix sm = pmt.mul(qm).mul(pm);
 
-		// Application.debug("sm=\n"+sm);
+		//App.debug("sm=\n"+sm);
 		double a = sm.get(1, 1);
 		double b = sm.get(1, 2);
 		double c = sm.get(2, 2);
@@ -803,6 +816,58 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		// set eigen matrix
 		setEigenMatrix(getHalfAxis(0), getHalfAxis(1), getHalfAxis(2));
 		
+		
+	}
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+
+		double r = rval.getDouble();
+
+
+		// midpoint
+		Coords mp = getMidpoint3D();
+		mp.mulInside(r);
+		mp.addInside(S.mul(1-r));
+		setMidpoint(mp.get());
+		
+		if (r<0){
+			// eigen vectors		
+			for (int i = 0; i<3; i++){
+				eigenvecND[i].mulInside(-1);
+			}
+			
+			r = -r;
+		}
+		
+		// half axis
+		for (int i = 0; i<3; i++){
+			halfAxes[i] *= r;
+		}
+		
+		// diagonal
+		switch (getType()) {
+		case QUADRIC_SPHERE:
+		case QUADRIC_CYLINDER:
+			diagonal[3] *= r*r;
+			break;
+		case QUADRIC_CONE:
+			diagonal[2] *= r*r;
+			break;
+		}
+
+		// symetric matrix
+		setMatrixFromEigen();
+		
+		// set eigen matrix
+		setEigenMatrix(getHalfAxis(0), getHalfAxis(1), getHalfAxis(2));
+
+		// volume
+		volume *= r*r*r;
 		
 	}
 	

@@ -525,5 +525,25 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 		getCoordSys().mirror(point, direction);
 		
 	}
+	
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		
+		double r = rval.getDouble();
+		
+		getCoordSys().dilate(r,S);	
+		
+		if (r < 0){ //mirror was done in coord sys
+			r = -r;
+		}
+		
+		dilate(r);
+		
+	}
 
 }

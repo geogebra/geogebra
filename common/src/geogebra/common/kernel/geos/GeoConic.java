@@ -24,6 +24,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -40,8 +41,8 @@ import java.util.ArrayList;
  * Conics in 2D
  */
 public class GeoConic extends GeoConicND implements 
-		ConicMirrorable, 
-		Dilateable, SymbolicParametersBotanaAlgo {
+		ConicMirrorable,
+		SymbolicParametersBotanaAlgo {
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
@@ -592,6 +593,34 @@ public class GeoConic extends GeoConicND implements
 	
 	public Coords getDirectionInD3() {
 		return Coords.VZ;
+	}
+
+	
+	/**
+	 * dilate this conic from point S by factor r
+	 * @param rval ratio
+	 * @param S fixed point of dilation
+	 */
+	 final public void dilate(NumberValue rval, Coords S) {  
+	    double r = rval.getDouble();		    	    	    
+	 	double sx = S.getX();
+		double sy = S.getY();
+		
+		// remember Eigenvector orientation
+		boolean oldOrientation = hasPositiveEigenvectorOrientation();
+		
+		// translate -S
+		doTranslate(-sx, -sy);
+		// do dilation
+		doDilate(r);
+		// translate +S
+		doTranslate(sx, sy);	
+				
+		// classify as type may have change
+		classifyConic();        
+		
+		// make sure we preserve old Eigenvector orientation
+		setPositiveEigenvectorOrientation(oldOrientation);
 	}
 
 	

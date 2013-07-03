@@ -35,6 +35,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -60,7 +61,8 @@ import java.util.ArrayList;
  *
  */
 public abstract class GeoConicND extends GeoQuadricND implements LineProperties, Path,
-Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable, Transformable, Mirrorable,
+Translateable, GeoConicNDConstants,
+MatrixTransformable, PointRotateable, Transformable, Mirrorable, Dilateable,
 Region3D, GeoDirectionND
 {
 	/** avoid very large and small coefficients for numerical stability */	
@@ -2072,34 +2074,27 @@ Region3D, GeoDirectionND
 		matrix[4] = A4;
 	}
 	
-	/**
-	 * dilate this conic from point S by factor r
-	 * @param rval ratio
-	 * @param S fixed point of dilation
-	 */
-	 final public void dilate(NumberValue rval, Coords S) {  
-	    double r = rval.getDouble();		    	    	    
-	 	double sx = S.getX();
-		double sy = S.getY();
-		
-		// remember Eigenvector orientation
-		boolean oldOrientation = hasPositiveEigenvectorOrientation();
-		
-		// translate -S
-		doTranslate(-sx, -sy);
-		// do dilation
-		doDilate(r);
-		// translate +S
-		doTranslate(sx, sy);	
-				
-		// classify as type may have change
-		classifyConic();        
-		
-		// make sure we preserve old Eigenvector orientation
-		setPositiveEigenvectorOrientation(oldOrientation);
-	}
+
+	 /**
+	  * dilate this conic from point (0,0) by factor r
+	  * @param r ratio
+	  */
+	 final protected void dilate(double r) {  
+
+		 // remember Eigenvector orientation
+		 boolean oldOrientation = hasPositiveEigenvectorOrientation();
+
+		 // do dilation
+		 doDilate(r);
+
+		 // classify as type may have change
+		 classifyConic();        
+
+		 // make sure we preserve old Eigenvector orientation
+		 setPositiveEigenvectorOrientation(oldOrientation);
+	 }
 	
-	final private void doDilate(double factor) {
+	protected final void doDilate(double factor) {
 		// calc dilated matrix
 		double r = 1d/factor;
 		double r2 = r*r;
@@ -2290,7 +2285,7 @@ Region3D, GeoDirectionND
 	
 
 	
-	private void classifyConic() {
+	protected void classifyConic() {
 		classifyConic(false);
 	}
 	
@@ -2836,7 +2831,7 @@ Region3D, GeoDirectionND
 	 * @return true iff the determinant of 2x2 matrix of eigenvectors is
 	 * positive. 
 	 */
-	final boolean hasPositiveEigenvectorOrientation() {
+	protected final boolean hasPositiveEigenvectorOrientation() {
 		//return eigenvec[0].x * eigenvec[1].y - eigenvec[0].y * eigenvec[1].x > 0;
 		return eigenvec[0].getX() * eigenvec[1].getY() > eigenvec[0].getY() * eigenvec[1].getX();
 	}
@@ -2845,7 +2840,7 @@ Region3D, GeoDirectionND
 	 * Sets orientation of eigenvectors to positive or negative
 	 * @param flag true for positive, false for negative
 	 */
-	final void setPositiveEigenvectorOrientation(boolean flag) {
+	protected final void setPositiveEigenvectorOrientation(boolean flag) {
 			if (flag != hasPositiveEigenvectorOrientation()) {
 				eigenvec[1].setX(-eigenvec[1].getX());
 				eigenvec[1].setY(-eigenvec[1].getY());

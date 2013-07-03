@@ -171,6 +171,8 @@ Traceable{
 		eigenMatrix.set(eigenvecND);
 		eigenMatrix.set(getMidpoint(),4);
 		
+		
+		
 		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
 		
 		CoordMatrix eigenMatrixInv = eigenMatrix.inverse();

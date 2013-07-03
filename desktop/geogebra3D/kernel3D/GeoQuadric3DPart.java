@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
@@ -97,6 +98,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	public String toValueString(StringTemplate tpl) {
 		switch (type) {
 		case QUADRIC_CYLINDER:
+		case QUADRIC_CONE:
 			return kernel.format(area,tpl);
 
 		}
@@ -165,6 +167,17 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		case QUADRIC_CYLINDER:
 			area = 2 * getHalfAxis(0) * Math.PI * (max - min);
 			break;
+		case QUADRIC_CONE:
+			double r2 = getHalfAxis(0);
+			r2 *= r2;
+			double h2;
+			if (min*max < 0){ // "double-cone"
+				h2 = min*min + max*max;
+			}else{ // truncated cone
+				h2 = Math.abs(max*max - min*min);
+			}
+			area = Math.PI*h2*r2*Math.sqrt(1+1/r2);
+			break;
 		}
 	}
 
@@ -218,6 +231,19 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	 */
 	public void setFromMeta(GeoElement quadric) {
 		meta = quadric;
+	}
+	
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	@Override
+	public void dilate(NumberValue rval, Coords S) {
+		super.dilate(rval, S);
+		double r = rval.getDouble();
+		area *= r*r;
 	}
 
 }

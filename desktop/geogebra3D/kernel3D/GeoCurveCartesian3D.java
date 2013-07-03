@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -42,7 +43,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		CurveEvaluable, GeoElement3DInterface, Traceable, Path,
-		RotateableND, Translateable, Mirrorable, Transformable{
+		RotateableND, Translateable, Mirrorable, Transformable, Dilateable{
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -618,9 +619,16 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		
 	}
+	
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
 
 
-	private void dilate(NumberValue ratio, Coords P) {
+
+
+	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++){
 			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel))

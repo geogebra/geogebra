@@ -1339,7 +1339,8 @@ RotateableND, Translateable, Mirrorable, Transformable, Dilateable
 			p.dilate(rval,S);
 		}	
 
-		volume *= Math.abs(rval.getDouble());
+		double r = Math.abs(rval.getDouble());		
+		volume *= r*r*r;
 		
 	}
 

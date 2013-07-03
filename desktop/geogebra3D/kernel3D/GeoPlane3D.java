@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
@@ -28,7 +29,8 @@ import geogebra3D.App3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable, RotateableND, Mirrorable, Transformable {
+		ViewCreator, GeoCoords4D, GeoPlaneND, 
+		Translateable, Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -630,6 +632,21 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		Coords direction = line.getDirectionInD3().normalized();
 
 		coordsys.mirror(point, direction);
+		coordsys.makeEquationVector();
+		
+	}
+	
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		
+		double r = rval.getDouble();
+		
+		coordsys.dilate(r,S);	
 		coordsys.makeEquationVector();
 		
 	}

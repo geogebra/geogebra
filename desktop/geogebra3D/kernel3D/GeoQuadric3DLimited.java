@@ -6,6 +6,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -32,7 +33,7 @@ import geogebra.common.plugin.GeoClass;
  */
 public class GeoQuadric3DLimited extends GeoQuadricND 
 implements GeoNumberValue, HasVolume, HasHeight, 
-RotateableND, Translateable, Mirrorable, Transformable {
+RotateableND, Translateable, Mirrorable, Transformable, Dilateable {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -668,6 +669,22 @@ RotateableND, Translateable, Mirrorable, Transformable {
 		bottom.mirror(g);
 		top.mirror(g);
 		side.mirror(g);
+	}
+	
+	
+	////////////////////////
+	// DILATE
+	////////////////////////
+
+
+	public void dilate(NumberValue rval, Coords S) {
+		bottom.dilate(rval, S);
+		top.dilate(rval, S);
+		side.dilate(rval, S);
+		
+		double r = Math.abs(rval.getDouble());		
+		volume *= r*r*r;
+
 	}
 
 }
