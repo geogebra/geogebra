@@ -2300,18 +2300,20 @@ namespace giac {
   static int ggb_intcounter=0;
 
   gen ck_int_numerically(const gen & f,const gen & x,const gen & a,const gen &b,const gen & exactvalue,GIAC_CONTEXT){
+    if (is_inf(a) || is_inf(b))
+      return exactvalue;
     gen tmp=evalf_double(exactvalue,1,contextptr);
     if (tmp.type!=_DOUBLE_)
       return exactvalue;
-    *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
-    gen tmp2=_romberg(makesequence(f,x,a,b),contextptr);
-    if (tmp2.type==_VECT && tmp2._VECTptr->size()==2)
-      tmp2=tmp2._VECTptr->back();
+    if (debug_infolevel)
+      *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
+    gen tmp2;
+    tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr);
     tmp2=evalf_double(tmp2,1,contextptr);
     if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<1e-3*std::abs(tmp2._DOUBLE_val))
       return simplifier(exactvalue,contextptr);
-    *logptr(contextptr) << gettext("Check failed, returning approx value, exact value was ") << exactvalue << endl;
-    return tmp2;
+    *logptr(contextptr) << gettext("Error while checking exact value with approximate value, returning both!") << endl;
+    return makevecteur(exactvalue,tmp2);
   }
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
@@ -2608,6 +2610,7 @@ namespace giac {
   static define_unary_function_eval4_quoted (__integrate,&_integrate,_integrate_s,0,&texprintasintegrate);
   define_unary_function_ptr5( at_integrate ,alias_at_integrate,&__integrate,_QUOTE_ARGUMENTS,true);
 
+  // Not linked currently
   double rombergo(const gen & f0,const gen & x, const gen & a_orig, const gen & b_orig, int n,GIAC_CONTEXT){
     //f est l'expression a integrer, x le nom de la variable, a et b les bornes
     // n si on veut faire 2^n subdivisions
@@ -2671,6 +2674,7 @@ namespace giac {
     return(T[0]);
   }
 
+  // Not linked currently
   double rombergt(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT){
     //f est l'expression a integrer, x le nom de la variable, a et b les bornes
     // n si on veut faire 2^n subdivisions
@@ -2723,12 +2727,108 @@ namespace giac {
     return(T[0]);
   }
 
+  // find approx value of int(f) using Gauss quadrature with s=15 (order 30)
+  // returns approx value of int(f), of int(abs(f)) and error estimate
+  // error estimated using embedded order 14 and 6 method as
+  // err1=abs(i30-i14); err2=abs(i30-i6); err1*(err1/err2)^2
+  static bool tegral_util(const gen & f,const gen &x, const gen &a,const gen &b,gen & i30,gen & i30abs, gen &err,GIAC_CONTEXT){
+    gen h=evalf_double(b-a,1,contextptr),i14,i6;
+    int s30=15,s14=14,s6=6;
+    long_double c30[]={0.60037409897572857552e-2,0.31363303799647047846e-1,0.75896708294786391900e-1,0.13779113431991497629,0.21451391369573057623,0.30292432646121831505,0.39940295300128273885,0.50000000000000000000,0.60059704699871726115,0.69707567353878168495,0.78548608630426942377,0.86220886568008502371,0.92410329170521360810,0.96863669620035295215,0.99399625901024271424};
+    long_double b30[]={0.15376620998058634177e-1,0.35183023744054062355e-1,0.53579610233585967506e-1,0.69785338963077157224e-1,0.83134602908496966777e-1,0.93080500007781105513e-1,0.99215742663555788228e-1,0.10128912096278063644,0.99215742663555788228e-1,0.93080500007781105514e-1,0.83134602908496966777e-1,0.69785338963077157224e-1,0.53579610233585967507e-1,0.35183023744054062355e-1,0.15376620998058634177e-1};
+    long_double b14[]={0.21474028217339757006e-1,0.14373155100418764102e-1,0.92599218105237092609e-1,0.11827741709315709983e-1,0.15847003639679458478,0.38429189419875016111e-2,0.19741290152890658991,0.19741290152890658991,0.38429189419875016111e-2,0.15847003639679458478,0.11827741709315709983e-1,0.92599218105237092608e-1,0.14373155100418764102e-1,0.21474028217339757006e-1};
+    long_double b6[]={0.10715760948621577132,0.31130901929813818033e-1,0.36171148858397041065,0,0.36171148858397041065,0.31130901929813818033e-1,0.10715760948621577132};
+    vecteur v30(15),v30abs(15);
+    for (int i=0;i<15;i++){
+      v30[i]=evalf_double(subst(f,x,a+double(c30[i])*h,false,contextptr),1,contextptr);
+      v30abs[i]=_l2norm(v30[i],contextptr);
+      if (v30abs[i].type!=_DOUBLE_)
+	return false;
+    }
+    i30abs=i30=i14=i6=0;
+    for (int i=0;i<15;i++){
+      i30 += double(b30[i])*v30[i];
+      i30abs += double(b30[i])*v30abs[i];
+    }
+    for (int i=0;i<=6;i++){
+      i14 += double(b14[i])*v30[i];
+    }
+    for (int i=8;i<=14;i++){
+      i14 += double(b14[i-1])*v30[i];
+    }
+    for (int i=1;i<15;i+=2){
+      if (i==7)
+	continue;
+      i6 += double(b6[(i-1)/2])*v30[i];
+    }
+    i30 = i30*h;
+    i30abs = i30abs*h;
+    i14 = i14*h;
+    i6 = i6*h;
+    gen err1=_l2norm(i30-i14,contextptr);
+    gen err2=_l2norm(i30-i6,contextptr);
+    // check if err1 and err2 corresponds to errors in h^14 and h^6
+    if (is_greater(abs(14./6.-ln(err1,contextptr)/ln(err2,contextptr)),.1,contextptr))
+      err=err1;
+    else {
+      err=err1/err2;
+      err=err1*(err*err);
+    }
+    return true;
+  }
+
+  // nmax=max number of subdivisions (may be 1000 or more...)
+  bool tegral(const gen & f,const gen & x,const gen & a,const gen &b,const gen & eps,int nmax,gen & value,GIAC_CONTEXT){
+    // adaptive integration, cf. Hairer
+    gen i30,i30abs,err,maxerr,ERR,I30ABS;
+    int maxerrpos;
+    if (!tegral_util(f,x,a,b,i30,i30abs,err,contextptr))
+      return false;
+    vecteur v(1,makevecteur(a,b,i30,i30abs,err));
+    for (;v.size()<nmax;){
+      // sum of errors, check for end
+      i30=I30ABS=ERR=maxerr=0;
+      maxerrpos=0;
+      for (unsigned i=0;i<v.size();++i){
+	if (v[i].type!=_VECT || v[i]._VECTptr->size()<5)
+	  return false;
+	vecteur & w=*v[i]._VECTptr;
+	i30 += w[2];
+	I30ABS += w[3];
+	ERR += w[4];
+	if (is_greater(w[4],maxerr,contextptr)){
+	  maxerrpos=i;
+	  maxerr=w[4];
+	}
+      }
+      value=i30;
+      if (is_greater(eps,ERR/I30ABS,contextptr))
+	return true;
+      // cut interval at maxerrpos in 2 parts
+      vecteur & w = *v[maxerrpos]._VECTptr;
+      gen A=w[0],B=w[1],C=(A+B)/2;
+      if (A==C || B==C)
+	return false; // can not subdivise anymore
+      if (!tegral_util(f,x,A,C,i30,i30abs,err,contextptr))
+	return false;
+      v[maxerrpos]=makevecteur(A,C,i30,i30abs,err);
+      if (!tegral_util(f,x,C,B,i30,i30abs,err,contextptr))
+	return false;
+      v.push_back(makevecteur(C,B,i30,i30abs,err));
+    }
+    return false; // too many iterations
+  }
+
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT){
     gen x(x0),f(f0);
     if (x.type!=_IDNT){
       x=identificateur(" x");
       f=subst(f,x0,x,false,contextptr);
     }
+    gen value;
+    if (tegral(f,x,a,b,eps,(1 << nmax),value,contextptr))
+      return value;
+    *logptr(contextptr) << "Adaptive method failure, will try with Romberg, last approximation was " << value << endl;
     // a, b and eps should be evalf-ed, and eps>0
     gen h=b-a;
     vecteur old_line,cur_line;
@@ -2795,8 +2895,8 @@ namespace giac {
       }
       if (calc_mode(contextptr)==1)
 	return undef;
-      *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last computed line of approximations") << endl;
-      cur_line=makevecteur(old_line.back(),cur_line.back());
+      *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last approximations") << endl;
+      cur_line=makevecteur(value,cur_line.back());
       return cur_line;
       return rombergo(f,x,a,b,nmax,contextptr);
     }
@@ -2836,8 +2936,8 @@ namespace giac {
     }
     if (calc_mode(contextptr)==1)
       return undef;
-    *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last computed line of approximations") << endl;
-    cur_line=makevecteur(old_line.back(),cur_line.back());
+    *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last approximations") << endl;
+    cur_line=makevecteur(value,cur_line.back());
     return cur_line;
   }
   gen ggb_var(const gen & f){

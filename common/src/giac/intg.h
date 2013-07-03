@@ -63,6 +63,7 @@ namespace giac {
   gen integrate_gen(const gen & e,const gen & f,GIAC_CONTEXT);
   gen _integrate(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_integrate ;
+  bool tegral(const gen & f,const gen & x,const gen & a,const gen &b,const gen & eps,int nmax,gen & value,GIAC_CONTEXT);
   double rombergo(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   double rombergt(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT);

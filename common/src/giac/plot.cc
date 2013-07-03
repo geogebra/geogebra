@@ -5587,9 +5587,9 @@ namespace giac {
 	}
       }
       // conique
-      gen x0,y0,propre,equation_reduite;
+      gen x0,y0,propre,equation_reduite,ratparam;
       vecteur V0,V1,param_curves;
-      if (!conique_reduite(f,makevecteur(x,y),x0,y0,V0,V1,propre,equation_reduite,param_curves,contextptr))
+      if (!conique_reduite(f,makevecteur(x,y),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,true,contextptr))
 	return false;
       vecteur res;
       int n=param_curves.size();
@@ -7654,6 +7654,14 @@ namespace giac {
   // Parametric equation
   gen _parameq(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.is_symb_of_sommet(at_equal)){
+      // supposed to be a cartesian equation in x/y
+      gen x0,y0,propre,equation_reduite,ratparam;
+      vecteur V0,V1,param_curves;
+      if (conique_reduite(args,makevecteur(vx_var,y__IDNT_e),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,false,contextptr))
+	return ratparam;
+      return gensizeerr(contextptr);
+    }
     vecteur v;
     int s=1;
     if (args.type!=_VECT){

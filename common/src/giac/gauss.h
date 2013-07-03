@@ -52,7 +52,7 @@ namespace giac {
   // and the reduced equation in equation_reduite
   // param_curves is a vecteur containing vecteurs of size 2 (lines) 
   // or 5 (parametric curves with equation,identificateur,tmin,tmax,tstep)
-  bool conique_reduite(const gen & equation_conique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V1, vecteur &V2, gen & propre,gen & equation_reduite, vecteur & param_curves,GIAC_CONTEXT);
+  bool conique_reduite(const gen & equation_conique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V1, vecteur &V2, gen & propre,gen & equation_reduite, vecteur & param_curves,gen & ratparam,bool numeric,GIAC_CONTEXT);
   bool quadrique_reduite(const gen & q,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT);
 
   extern const unary_function_ptr * const  at_conique_reduite;
