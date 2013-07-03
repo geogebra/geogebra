@@ -116,6 +116,25 @@ public class EuclidianStyleBarW extends StyleBarW
 	
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 
+	/**
+	 * Toggle button that should be visible if no geos are selected or to be created
+	 * and no special icons appear in stylebar (eg. delete mode)
+	 */
+	class MyToggleButtonForEV extends MyToggleButton2{
+		/**
+		 * @param img image
+		 * @param iconHeight height in pixels
+		 */
+		public MyToggleButtonForEV(ImageResource img, int iconHeight) {
+	        super(img, iconHeight);
+        }
+
+		@Override
+		public void update(Object[] geos){
+			this.setVisible(geos.length == 0  && !EuclidianView.isPenMode(mode)
+					&& mode != EuclidianConstants.MODE_DELETE);
+		}
+	}
 
 	public EuclidianStyleBarW(EuclidianView ev) {
 		isIniting = true;
@@ -526,32 +545,17 @@ public class EuclidianStyleBarW extends StyleBarW
 		
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButton2(
+		btnShowAxes = new MyToggleButtonForEV(
 			AppResources.INSTANCE.axes(),
-			iconHeight) {
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
-			}
-		};
-
+			iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addValueChangeHandler(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButton2(
+		btnShowGrid = new MyToggleButtonForEV(
 			AppResources.INSTANCE.grid(),
-			iconHeight) {
-
-			@Override
-			public void update(Object[] geos) {
-				// always show this button unless in pen mode
-				this.setVisible(!EuclidianView.isPenMode(mode));
-			}
-		};
+			iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addValueChangeHandler(this);
 		
