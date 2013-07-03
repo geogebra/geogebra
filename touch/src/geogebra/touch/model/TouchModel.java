@@ -130,19 +130,6 @@ public class TouchModel {
 		this.selectedElements.add(geo);
 	}
 
-	public boolean select(Hits hits, Test geoclass, int max) {
-		boolean success = false;
-		Hits h = new Hits();
-		hits.getHits(geoclass, h);
-		for (int i = 0; i < max; i++) {
-			if (i < h.size()) {
-				select(h.get(i));
-				success = true;
-			}
-		}
-		return success;
-	}
-
 	/**
 	 * selects the given element or deselects it in case it is selected
 	 * 
@@ -196,29 +183,128 @@ public class TouchModel {
 	 *            the Hits to get the elements form
 	 * @param geoclass
 	 *            Array of possible classes
+	 * @param max 
+	 * 						maximum number of elements that might be selected (has 
+	 * 						to include the same number of elements as geoclass)
 	 * @return success (false if there is no element of any of the given
 	 *         classes)
 	 */
-	public boolean selectOutOf(Hits hits, Test[] geoclass) {
+	public boolean selectOutOf(Hits hits, Test[] geoclass, int[] max) {
+		if(geoclass.length != max.length){
+			return false;
+		}
+		
+		Hits h = new Hits();
+		for (int i = 0; i < max.length; i++) {
+			boolean selectAllowed = true;
+			if(getNumberOf(geoclass[i]) >= max[i]){
+				selectAllowed = false;
+			}
+			hits.getHits(geoclass[i], h);
+			if (h.size() > 0) {
+				if(selectAllowed){
+					changeSelectionState(h.get(0));
+					return true;
+				} else if(deselect(h.get(0))){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * selects one element of the given class (if there are elements of
+	 * different classes, the first class that has elements in the hits will be
+	 * used)
+	 * 
+	 * @param hits
+	 *            the Hits to get the elements form
+	 * @param geoclass
+	 *            Array of possible classes
+	 * @param max 
+	 * 						maximum number of elements that might be selected
+	 * @return success (false if there is no element of any of the given
+	 *         classes)
+	 */
+	public boolean selectOutOf(Hits hits, Test[] geoclass, int max) {
+		boolean selectAllowed = true;		
+		int sum = 0; 
+		for(Test t : geoclass){
+			sum += getNumberOf(t);
+		}
+		if(sum >= max){
+			selectAllowed = false;
+		}
+		
 		Hits h = new Hits();
 		for (int i = 0; i < geoclass.length; i++) {
 			hits.getHits(geoclass[i], h);
 			if (h.size() > 0) {
-				changeSelectionState(h.get(0));
-				return true;
+				if(selectAllowed){
+					changeSelectionState(h.get(0));
+					return true;
+				} else if(deselect(h.get(0))){
+					return true;
+				}				
 			}
 		}
 		return false;
 	}
 
+	public boolean select(Hits hits, Test geoclass, int max) {
+		boolean selectAllowed = true;
+		if(getNumberOf(geoclass) >= max){
+			selectAllowed = false;
+		}
+		
+		boolean success = false;
+		Hits h = new Hits();
+		hits.getHits(geoclass, h);
+		for (int i = 0; i < max; i++) {
+			if (i < h.size()) {
+				if(selectAllowed){
+					select(h.get(i));
+					success = true;
+				} else if(deselect(h.get(i))){
+					return true;
+				}
+			}
+		}
+		return success;
+	}
+	
+	public boolean select(Hits hits, int max) {
+		boolean selectAllowed = true;
+		if(getTotalNumber() >= max){
+			selectAllowed = false;
+		}
+		
+		boolean success = false;
+		for (int i = 0; i < max; i++) {
+			if (i < hits.size()) {
+				if(selectAllowed){
+					select(hits.get(i));
+					success = true;
+				} else if(deselect(hits.get(i))){
+					return true;
+				}
+			}
+		}
+		return success;
+	}
+	
 	/**
 	 * 
 	 * @param geo
 	 *            the element to be deselected
+	 * @return 
 	 */
-	public void deselect(GeoElement geo) {
+	public boolean deselect(GeoElement geo) {
+		boolean ret = geo.isSelected();
 		geo.setSelected(false);
 		this.selectedElements.remove(geo);
+		return ret;
 	}
 
 	/**
@@ -404,8 +490,7 @@ public class TouchModel {
 			break;
 
 		// special command: attach/detach: needs a point (detach) or a point and
-		// a
-		// region/path (attach)
+		// a region/path (attach)
 		case AttachDetachPoint:
 			attachDetach(hits, point);
 			break;
@@ -444,7 +529,7 @@ public class TouchModel {
 		case PerpendicularLine:
 		case ParallelLine:
 		case Parabola:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, new int[] {1,1});
 			draw = getNumberOf(Test.GEOPOINT) >= 1
 					&& getNumberOf(Test.GEOLINE) >= 1;
 			break;
@@ -453,7 +538,7 @@ public class TouchModel {
 		// or one segment or a circle
 		case DistanceOrLength: // TODO
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-					Test.GEOSEGMENT, Test.GEOCONIC });
+					Test.GEOSEGMENT, Test.GEOCONIC }, new int[] {2,2,1,1});
 			draw = getNumberOf(Test.GEOPOINT) >= 2
 					|| (getNumberOf(Test.GEOPOINT) >= 1 && getNumberOf(Test.GEOLINE) >= 1)
 					|| getNumberOf(Test.GEOLINE) >= 2
@@ -463,17 +548,19 @@ public class TouchModel {
 
 		// commands that need one line and any other object
 		case ReflectObjectAboutLine:
-			if (!changeSelectionState(hits, Test.GEOLINE, 1) && hits.size() > 0) {
-				changeSelectionState(hits.get(0));
+			if (!changeSelectionState(hits, Test.GEOLINE, 1)) {
+				select(hits, 1 + getNumberOf(Test.GEOLINE));
 			}
 			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
 			break;
 
 		// commands that need one circle and any other object
 		case ReflectObjectAboutCircle:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
+			if(!select(hits, Test.GEOCONIC, 2)){
+				selectOutOf(hits, new Test[]{Test.GEOPOINT,
 					Test.GEOPOLYGON, Test.GEOPOLYLINE, Test.GEOCURVECARTESIAN,
-					Test.GEOIMPLICITPOLY });
+					Test.GEOIMPLICITPOLY }, 1);
+			}
 			draw = getNumberOf(Test.GEOCONIC) >= 1 && getTotalNumber() >= 2;
 			break;
 
@@ -499,15 +586,16 @@ public class TouchModel {
 
 		// commands that need one point or line and one circle or conic
 		case Tangents:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
-					Test.GEOCONIC, Test.GEOFUNCTION });
+			if(!selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE}, 1)){
+				selectOutOf(hits, new Test[] { Test.GEOCONIC, Test.GEOFUNCTION}, 1);				
+			}
 			draw = (getNumberOf(Test.GEOPOINT) + getNumberOf(Test.GEOLINE) >= 1)
 					&& getNumberOf(Test.GEOCONIC) + getNumberOf(Test.GEOFUNCTION) >= 1;
 			break;
 
 		// commands that need one point and one vector
 		case VectorFromPoint:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR });
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR }, new int[]{1,1});
 			draw = getNumberOf(Test.GEOPOINT) >= 1
 					&& getNumberOf(Test.GEOVECTOR) >= 1;
 			break;
@@ -529,7 +617,7 @@ public class TouchModel {
 					Test.GEOPOLYLINE, Test.GEOCONIC, Test.GEOFUNCTION,
 					Test.GEOIMPLICITPOLY, Test.GEOPOLYGON };
 
-			boolean success = selectOutOf(hits, classes);
+			boolean success = selectOutOf(hits, classes, 2);
 
 			if (success && hits.size() >= 2) { // try to select another element
 												// to prevent problems when
@@ -538,7 +626,7 @@ public class TouchModel {
 				hits.removePolygons();
 				hits.remove(this.selectedElements.get(this.selectedElements
 						.size() - 1));
-				if (selectOutOf(hits, classes)) {
+				if (selectOutOf(hits, classes, 2)) {
 					singlePointForIntersection = true;
 				}
 			}
@@ -559,10 +647,10 @@ public class TouchModel {
 			draw = getNumberOf(Test.GEOPOINT) >= 3;
 			break;
 
-		// commands that need two points or one circle or one segment
+		// commands that need one point and two additional points or one circle or one segment
 		case Compasses: // TODO
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
-					Test.GEOSEGMENT });
+					Test.GEOSEGMENT }, new int[] {3, 1, 1});
 			draw = getNumberOf(Test.GEOPOINT) >= 3
 					|| getNumberOf(Test.GEOPOINT) >= 1
 					&& (getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOSEGMENT) >= 1);
@@ -571,7 +659,7 @@ public class TouchModel {
 		// commands that need three points or two lines
 		case Angle:
 		case AngleBisector:
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE });
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, new int[] {3, 2});
 			draw = getNumberOf(Test.GEOPOINT) >= 3
 					|| getNumberOf(Test.GEOLINE) >= 2;
 			break;
@@ -1067,9 +1155,11 @@ public class TouchModel {
 		EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 				.getActiveEuclidianView();
 
-		selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.PATH,
-				Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR,
-				Test.REGION3D });
+		// a point and a path/line/conic/function/... or just a point
+		if(!select(hits,  Test.GEOPOINT, 1)){
+			selectOutOf(hits, new Test[] { Test.PATH, Test.GEOCONICND, Test.GEOFUNCTION, Test.GEOFUNCTIONNVAR,
+				Test.REGION3D }, 1);			
+		}
 
 		GeoPoint point = (GeoPoint) getElement(Test.GEOPOINT);
 		Path path = (Path) getElement(Test.PATH);

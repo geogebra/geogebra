@@ -210,6 +210,11 @@ public class TouchController extends EuclidianController
 		super.zoomInOut(scaleFactor,scaleFactor<EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR?1:2);
 	}
 
+	/**
+	 * used to get events from the AlgebraView
+	 * 
+	 * @param hits
+	 */
 	public void handleEvent(Hits hits)
 	{
 		this.model.handleEvent(hits, null, null);

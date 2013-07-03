@@ -1,13 +1,12 @@
 package geogebra.touch.gui.algebra;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.algebra.GroupHeader;
-import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.html5.main.AppWeb;
+import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.CommonResources;
 
 import com.google.gwt.dom.client.Style;
@@ -25,6 +24,8 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class AlgebraViewM extends AlgebraViewWeb
 {
 
+	TouchController controller; 
+	
 	/**
 	 * Creates new AlgebraView.
 	 * 
@@ -32,12 +33,14 @@ public class AlgebraViewM extends AlgebraViewWeb
 	 *          : AlgebraController
 	 * 
 	 */
-	public AlgebraViewM(EuclidianController ctr)
+	public AlgebraViewM(TouchController ctr)
 	{
 		super((AppWeb) ctr.getApplication());
 		// this is the default value
 		this.treeMode = SortMode.TYPE;
 
+		this.controller = ctr;
+		
 		// initializes the tree model
 		initModel();
 
@@ -117,13 +120,13 @@ public class AlgebraViewM extends AlgebraViewWeb
 	}
 
 	@Override
-	public void setUserObject(TreeItem ti, Object ob)
+	public void setUserObject(TreeItem ti, final Object ob)
 	{
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement)
 		{
-			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob, CommonResources.INSTANCE.algebra_shown().getSafeUri(), CommonResources.INSTANCE
-			    .algebra_hidden().getSafeUri(),null));
+			ti.setWidget(new RadioButtonTreeItemT((GeoElement) ob, CommonResources.INSTANCE.algebra_shown().getSafeUri(), CommonResources.INSTANCE
+			    .algebra_hidden().getSafeUri(), null, this.controller));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute((com.google.gwt.user.client.Element) ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");
