@@ -57,7 +57,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /*
  import org.mozilla.javascript.Context;
@@ -198,12 +197,13 @@ public abstract class GeoGebraExport {
 	 */
 	protected String sci2dec(double d) {
 		String s = StringUtil.toLowerCase(String.valueOf(d));
-		StringTokenizer st = new StringTokenizer(s, "e");
+		//StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
-		if (st.countTokens() == 1)
+		int posE = s.indexOf("e");
+		if (posE == -1)
 			return s;
-		String token1 = st.nextToken();
-		String token2 = st.nextToken();
+		String token1 = s.substring(0,posE);
+		String token2 = s.substring(posE + 1);
 		number = new StringBuilder(token1);
 		int exp = Integer.parseInt(token2);
 		if (exp > 0) {
