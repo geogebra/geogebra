@@ -258,7 +258,8 @@ read the following web pages:
 				shortname="GeoGebra"
 				signature="GGB"
 				stubfile="installer/JavaApplicationStub"
-				version="${version}">
+				version="${version}"
+				workingdirectory="$JAVAROOT">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
 			<javafileset dir="${build.dir}/unpacked" excludes="*-linux*.jar,*-windows-*.jar,*-win*.jar,*64.jar,geogebra-map.txt,javagiac-mac.jar" />
 			<documenttype
