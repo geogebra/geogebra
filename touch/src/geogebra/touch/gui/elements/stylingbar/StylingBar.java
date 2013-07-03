@@ -3,6 +3,9 @@ package geogebra.touch.gui.elements.stylingbar;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.geos.LineProperties;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.SelectionManager;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -195,8 +198,9 @@ public class StylingBar extends DecoratorPanel
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
-
-		rebuild(this.guiModel.getCommand());
+		if(this.guiModel.getCommand() != null){
+			rebuild(this.guiModel.getCommand().getStylingBarEntries());
+		}
 		this.lastCommand = this.guiModel.getCommand();
 
 		this.setWidget(this.contentPanel);
@@ -245,15 +249,9 @@ public class StylingBar extends DecoratorPanel
 		return newButton;
 	}
 
-	private boolean rebuild(ToolBarCommand command)
+	private boolean rebuild(StylingBarEntries entry)
 	{
-		if (command == null || command.getStylingBarEntries() == null)
-		{
-			return false;
-		}
-
-		StylingBarEntries entry = command.getStylingBarEntries();
-
+		
 		this.colorButtonIndex = -1;
 
 		SVGResource[] resource = entry.getResources();
@@ -455,11 +453,22 @@ event.stopPropagation();
 
 		this.setVisible(true);
 
-		if (!rebuild(this.guiModel.getCommand()))
+		if (this.guiModel.getCommand()!=null && !rebuild(this.guiModel.getCommand().getStylingBarEntries()))
 		{
 			clear();
 			this.setVisible(false);
 		}
 		this.lastCommand = this.guiModel.getCommand();
+	}
+
+	public void updateGeos(SelectionManager sel) {
+		if(sel.getSelectedGeos().size()==0){
+			rebuild(StylingBarEntries.Move);
+		}else if(sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND){
+			rebuild(StylingBarEntries.Point);
+		}else if(sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties){
+			rebuild(StylingBarEntries.Line);
+		}
+		
 	}
 }

@@ -2,6 +2,7 @@ package geogebra.touch.gui;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.SelectionManager;
 import geogebra.touch.TouchApp;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
@@ -257,5 +258,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		{
 			this.algebraViewButtonPanel.show();
 		}
+	}
+
+	@Override
+	public void updateStylingBar(SelectionManager selectionManager) {
+		this.stylingBar.updateGeos(selectionManager);
+		
 	}
 }
