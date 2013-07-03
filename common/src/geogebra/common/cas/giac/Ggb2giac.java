@@ -202,9 +202,12 @@ public class Ggb2giac {
 
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
+		// ggbans:=0/0 to make sure if there's an error, we don't output previous answer
 		p("Intersect.2",
-				"[[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][2]");
+				"[[ggbans:=0/0],[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
+		p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))=0");
+		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),point(%2)))=0");
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
@@ -454,8 +457,6 @@ public class Ggb2giac {
 		p("Sum.4",
 				"sum(%0,%1,%2,%3)");
 
-		p("Tangent.2",
-				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)");
 		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
 				"%0[%1-1..%2-1]");
@@ -509,6 +510,9 @@ public class Ggb2giac {
 		// SolveCubic[x^3 + 6x^2 - 7*x - 2]
 		// x³ - 6x² - 7x + 9
 
+		// check with CSolve first, eg
+		// f(x) = x³ - 9x² - 2x + 8
+		
 		// adapted from xcas example by Bernard Parisse
 		p("SolveCubic.1", "["+
 			"[j:=exp(2*i*pi/3)],"+
@@ -580,7 +584,7 @@ public class Ggb2giac {
 
 		// Experimental Geometry commands. Giac only
 		p("Radius.1", "normal(regroup(radius(%0)))"); 
-		p("Center.1", "coordinates(center(conic(%0)))"); 
+		p("Center.1", "coordinates(center(%0))"); 
 		p("Midpoint.2", "normal(regroup(coordinates(midpoint(%0,%1))))");
 
 		// center-point:      point(%0),point(%1)
@@ -588,7 +592,7 @@ public class Ggb2giac {
 		p("Circle.2", "equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
-		p("Circumference.1", "normal(regroup(perimeter(circle(%0))))");
+		p("Circumference.1", "normal(regroup(perimeter(%0)))");
 
 		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
@@ -602,8 +606,10 @@ public class Ggb2giac {
 		// TODO: maybe need to wrap conics with conic() in ConicND, and change Radius.1, Center.1?
 		// TODO: what about functions?
 		p("Distance.2", "normal(regroup(distance(%0,%1)))");
-		// TODO: parallel
-		p("Line.2","equation(line(%0,%1))");
+
+		// wrap (2,3) as point(2,3), but not eg
+		// Line[(2,3),y=x]
+		p("Line.2","equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))");
 
 		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
 		// TODO: return Segment() not equation
@@ -614,6 +620,9 @@ public class Ggb2giac {
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
 
+		// Tangent[x-value, function]
+		p("Tangent.2",
+				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)");
 
 
 		return commandMap;
