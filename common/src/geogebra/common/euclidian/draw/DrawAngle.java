@@ -15,6 +15,7 @@ package geogebra.common.euclidian.draw;
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
@@ -474,7 +475,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.GGraphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 			if (!show90degrees
@@ -655,7 +656,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
+	final public void drawPreview(GGraphics2D g2) {
 		isVisible = geo != null && prevPoints.size() == 2;
 		draw(g2);
 	}
