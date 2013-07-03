@@ -2851,7 +2851,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}	
 		
-	class MyGraphicsPgf extends GeoGebraExport.MyGraphics{
+	class MyGraphicsPgf extends MyGraphics{
 
 		
 		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq, EuclidianViewND euclidianView) throws IOException {
@@ -2948,8 +2948,14 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected MyGraphics createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianViewND euclidianView2)
-			throws IOException {
-		return new MyGraphicsPgf(ef, inequality, euclidianView2);
+			{
+		try{
+			return new MyGraphicsPgf(ef, inequality, euclidianView2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

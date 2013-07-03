@@ -1,10 +1,8 @@
 package geogebra.export.pstricks;
 
 import geogebra.awt.GColorD;
-import geogebra.awt.GGraphics2DD;
-import geogebra.common.awt.GShape;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawLine;
@@ -55,12 +53,8 @@ import geogebra.common.kernel.statistics.AlgoHistogram;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.export.epsgraphics.ColorMode;
-import geogebra.export.epsgraphics.EpsGraphics;
 import geogebra.main.AppD;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -769,9 +763,9 @@ public abstract class GeoGebraExport {
 			ef = geo;
 		}
 		DrawInequality drawable = new DrawInequality(euclidianView, ef);
-		MyGraphics g = null;
+		GGraphics2D g = null;
 		IneqTree tree = ef.getFunction().getIneqs();
-		try {
+		
 			if (tree.getLeft() != null) {
 				for (int i = 0; i < tree.getLeft().getSize(); i++) {
 					g = createGraphics(ef, tree.getLeft().get(i), euclidianView);
@@ -790,9 +784,7 @@ public abstract class GeoGebraExport {
 				drawable.draw(g);
 			}
 			// Only for syntax. Never throws
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		
 	}
 	
 	/**
@@ -810,8 +802,7 @@ public abstract class GeoGebraExport {
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2)
-			throws IOException;
+			Inequality inequality, EuclidianViewND euclidianView2);
 
 	/**
 	 * @return the xmin
@@ -1421,30 +1412,6 @@ public abstract class GeoGebraExport {
 
 	
 
-	// To avoid duplicate inequalities drawing algorithms replacing Graphics.
-	// In the three implementations (pstricks, pgf, asymptote) print the
-	// appropriate commands
-	abstract class MyGraphics extends GGraphics2DD {
-
-		protected double[] ds;
-		protected Inequality ineq;
-		protected EuclidianView view;
-		protected FunctionalNVar geo;
-
-		public MyGraphics(FunctionalNVar geo, Inequality ineq,
-				EuclidianViewND euclidianView) throws IOException {
-			super(new MyGraphics2D(null, System.out, 0, 0, 0, 0,
-					ColorMode.COLOR_RGB));
-			view = euclidianView;
-			this.geo = geo;
-			this.ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
-			this.ineq = ineq;
-		}
-
-		@Override
-		public abstract void fill(GShape s);
-	}
-
 	protected void addTextPackage() {
 		StringBuilder packages = new StringBuilder();
 		if (codePreamble.indexOf("amssymb") == -1) {
@@ -1465,17 +1432,6 @@ public abstract class GeoGebraExport {
 		}
 	}
 
-	// Created just for the constructor of MyGraphics.EpsGraphics used to avoid
-	// having all methods of Graphics2D. None of his methods is used
-	class MyGraphics2D extends EpsGraphics {
-
-		public MyGraphics2D(String title, OutputStream outputStream, int minX,
-				int minY, int maxX, int maxY, ColorMode colorMode)
-				throws IOException {
-			super(title, outputStream, minX, minY, maxX, maxY, colorMode);
-		}
-	}
-	
 	protected class Info {
 		
 		private float alpha;

@@ -3381,7 +3381,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     	// Asymptote doesn't understand E notation ie 3E-10 
     	return StringTemplate.fullFigures(StringType.PSTRICKS);    }
     
-    class MyGraphicsAs extends GeoGebraExport.MyGraphics {
+    class MyGraphicsAs extends MyGraphics {
 
 		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq,
 				EuclidianViewND euclidianView) throws IOException {
@@ -3489,8 +3489,14 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 	@Override
 	protected MyGraphics createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianViewND euclidianView2) throws IOException{
-		return new MyGraphicsAs(ef, inequality, euclidianView2);
+			Inequality inequality, EuclidianViewND euclidianView2){
+		try {
+			return new MyGraphicsAs(ef, inequality, euclidianView2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	protected boolean isLatexFunction(String s) {
