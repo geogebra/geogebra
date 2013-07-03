@@ -160,7 +160,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		
 		// ========================================
 		// show grid button
-		btnShowPlane = new MyToggleButtonAlwaysVisible(app.getImageIcon("plane.gif"),
+		btnShowPlane = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("plane.gif"),
 				iconHeight);
 		btnShowPlane.addActionListener(this);
 

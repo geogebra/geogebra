@@ -53,47 +53,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	/***/
 	private static final long serialVersionUID = 1L;
 	
-	
-
-	/**
-	 * Class for buttons always visible
-	 * @author mathieu
-	 * 
-	 */
-	protected class MyToggleButtonAlwaysVisible extends MyToggleButton{
-		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-
-		/**
-		 * constructor
-		 * @param icon icon of the button
-		 * @param height height of the button
-		 */
-		public MyToggleButtonAlwaysVisible(ImageIcon icon, int height){
-			super(icon,height);
-			
-		}
-		
-		@Override
-		public void update(Object[] geos) {
-			// always show this button unless in pen mode
-			this.setVisible(mode != EuclidianConstants.MODE_PEN);
-		}
-		
-
-		@Override
-		public Point getToolTipLocation(MouseEvent e) {
-			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
-		}
-		
-	}
-	
 	/**
 	 * Class for buttons visible only when no geo is selected
+	 * and no geo is to be created
 	 * 
 	 * @author mathieu
 	 *
@@ -587,13 +549,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonAlwaysVisible(app.getImageIcon("axes.gif"), iconHeight);
+		btnShowAxes = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("axes.gif"), iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addActionListener(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid = new MyToggleButtonAlwaysVisible(app.getImageIcon("grid.gif"), iconHeight);
+		btnShowGrid = new MyToggleButtonVisibleIfNoGeo(app.getImageIcon("grid.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
 
