@@ -9,12 +9,14 @@ the Free Software Foundation.
 package geogebra.export.pstricks;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.export.pstricks.GeoGebraExport;
+import geogebra.common.export.pstricks.TextGraphicsForIneq;
 import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -69,14 +71,12 @@ import geogebra.main.AppD;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-//import java.util.StringTokenizer;
 
 /*
 import org.mozilla.javascript.Context;
@@ -3385,10 +3385,10 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     	// Asymptote doesn't understand E notation ie 3E-10 
     	return StringTemplate.fullFigures(StringType.PSTRICKS);    }
     
-    class MyGraphicsAs extends MyGraphics {
+    class MyGraphicsAs extends TextGraphicsForIneq {
 
 		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
+				EuclidianView euclidianView) {
 			super(geo, ineq, euclidianView);
 		}
 
@@ -3492,15 +3492,10 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 		return sb.toString();
 	}
 	@Override
-	protected MyGraphics createGraphics(FunctionalNVar ef,
+	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2){
-		try {
+		
 			return new MyGraphicsAs(ef, inequality, euclidianView2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
 	}
 	
 	protected boolean isLatexFunction(String s) {

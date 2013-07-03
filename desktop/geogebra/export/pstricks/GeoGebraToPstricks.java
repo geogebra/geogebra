@@ -11,12 +11,14 @@ package geogebra.export.pstricks;
 import geogebra.awt.GColorD;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.export.pstricks.GeoGebraExport;
+import geogebra.common.export.pstricks.TextGraphicsForIneq;
 import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -2360,10 +2362,10 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	class MyGraphicsPs extends MyGraphics {
+	class MyGraphicsPs extends TextGraphicsForIneq {
 
 		public MyGraphicsPs(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
+				EuclidianView euclidianView) {
 			super(geo, ineq, euclidianView);
 		}
 
@@ -2428,15 +2430,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	@Override
-	protected MyGraphics createGraphics(FunctionalNVar ef,
+	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2){
-		try{
 			return new MyGraphicsPs(ef, inequality, euclidianView2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	@Override
