@@ -311,8 +311,17 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 			
-		if((!isTextfieldHasFocus())&&(!(view.getHits().size()>0 && view.getHits().get(0) instanceof GeoList))){
-			event.preventDefault();
+		if((!isTextfieldHasFocus())&&(!(view.getHits().size()>0))){
+			
+			//Call preventDefault only if no GeoList object clicked.
+			boolean noGeolist = true;
+			int i=0;
+			while (noGeolist && i<view.getHits().size()){
+				if (view.getHits().get(i++) instanceof GeoList) noGeolist = false;
+			}			
+			if (noGeolist){
+				event.preventDefault();
+			}
 		}
 			
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
