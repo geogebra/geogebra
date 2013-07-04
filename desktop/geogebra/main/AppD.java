@@ -1033,8 +1033,19 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 		if ("usefixcoords".equalsIgnoreCase(str[0])) {
-			ProverSettings.useFixCoordinatesProve = Integer.valueOf(str[1].charAt(0));
-			ProverSettings.useFixCoordinatesProveDetails = Integer.valueOf(str[1].charAt(1));
+			int fixcoordsP = Integer.valueOf(str[1].substring(0,1));
+			int fixcoordsPD = Integer.valueOf(str[1].substring(1,2));
+
+			if (fixcoordsP < 0 || fixcoordsP > 4)
+				App.error("Improper value for usefixcoords for Prove, using default instead");
+			else
+				ProverSettings.useFixCoordinatesProve = fixcoordsP;
+
+			if (fixcoordsPD < 0 || fixcoordsPD > 4)
+				App.error("Improper value for usefixcoords for ProveDetails, using default instead");
+			else
+				ProverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
+				
 			return;
 		}
 		if ("polysofractf".equalsIgnoreCase(str[0])) {

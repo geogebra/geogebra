@@ -912,7 +912,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		App.info("[solvable] output from cas: "+result);	
 		if ("0".equals(result))
 			return false; // no solution
-		return true; // at least one solution exists
+		if ("1".equals(result))
+			return true; // at least one solution exists
+		return null; // cannot decide 
 	}
 	
 	/** Returns the square of the input polynomial
