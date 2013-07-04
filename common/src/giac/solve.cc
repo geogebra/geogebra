@@ -1521,8 +1521,13 @@ namespace giac {
 	  continue;
 	}
 	gen g1=subst(g,x,*it,false,contextptr);
-	if (normal(abs(g1,contextptr)-g1,contextptr)==0) // was ratnormal, but insufficient
+	gen g1f=evalf(g1,1,contextptr);
+	if ( (g1f.type==_DOUBLE_ || g1f.type==_FLOAT_ || g1f.type==_REAL) && is_positive(g1,contextptr))
 	  res.push_back(*it);
+	else {
+	  if (normal(abs(g1,contextptr)-g1,contextptr)==0) // was ratnormal, but insufficient
+	    res.push_back(*it);
+	}
       }
       ee=subst(expr,*itla,-g,false,contextptr);
       v1=solve(ee,x,isolate_mode,contextptr);
@@ -1541,8 +1546,13 @@ namespace giac {
 	  continue;
 	}
 	gen g1=subst(g,x,*it,false,contextptr);
-	if (normal(abs(g1,contextptr)+g1,contextptr)==0) 
+	gen g1f=evalf(g1,1,contextptr);
+	if ( (g1f.type==_DOUBLE_ || g1f.type==_FLOAT_ || g1f.type==_REAL) && is_positive(-g1,contextptr))
 	  res.push_back(*it);
+	else {
+	  if (normal(abs(g1,contextptr)+g1,contextptr)==0) 
+	    res.push_back(*it);
+	}
       }
       return res;
     }
@@ -1612,6 +1622,13 @@ namespace giac {
 	    res.push_back(*it);
 	  else {
 	    gen tmp=evalf(subst(expr,x,*it,false,contextptr),1,contextptr);
+	    if ( (tmp.type==_DOUBLE_ || tmp.type==_REAL || tmp.type==_FLOAT_) && is_greater(1e-8,abs(tmp,contextptr),contextptr)){
+	      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && has_op(*it,at_rootof))
+		res.push_back(evalf(*it,1,contextptr));
+	      else
+		res.push_back(*it);
+	      continue;
+	    }
 	    if (is_undef(tmp))
 	      tmp=limit(expr,x,*it,0,contextptr);
 	    if (is_zero(tmp))
