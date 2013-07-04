@@ -7796,8 +7796,13 @@ namespace giac {
       vecteur res;
       const_iterateur it=arg._VECTptr->begin(),itend=arg._VECTptr->end();
       for (;it!=itend;++it){
-	res.push_back(equation(*it,x,y,z,contextptr));
+	gen tmp=equation(*it,x,y,z,contextptr);
+	if (calc_mode(contextptr)==1)
+	  tmp=remove_equal(tmp);
+	res.push_back(tmp);
       }
+      if (calc_mode(contextptr)==1)
+	return symbolic(at_equal,makesequence(_prod(res,contextptr),0));
       return res;
     }
     gen e=remove_at_pnt(arg);
@@ -7866,7 +7871,7 @@ namespace giac {
 	// if xt and yt are rational fractions of v[1], use the resultant
 	if (lvarxpow(makevecteur(xt,yt),v[1]).size()<=1){
 	  // return _resultant(makevecteur(xt-x,yt-y,v[1]),contextptr);
-	  return rationalparam2equation(v[0],v[1],x,y,contextptr);
+	  return symbolic(at_equal,makesequence(rationalparam2equation(v[0],v[1],x,y,contextptr),0));
 	}
 	vecteur w(solve(xt-x,v[1],0,contextptr));
 	if (w.empty())
@@ -9198,6 +9203,7 @@ namespace giac {
     if (s<4)
       return gentypeerr(contextptr);
     gen l=_angle(gen(makevecteur(eval(v[0],eval_level(contextptr),contextptr),eval(v[1],eval_level(contextptr),contextptr),eval(v[2],eval_level(contextptr),contextptr)),_SEQ__VECT),contextptr);
+    l=recursive_normal(l,contextptr);
     int save_digits=decimal_digits(contextptr);
     decimal_digits(contextptr)=3;
     string ss="\"α";
@@ -9224,6 +9230,7 @@ namespace giac {
     if (s<4)
       return gentypeerr(contextptr);
     gen l=_angle(gen(makevecteur(v[0],v[1],v[2]),_SEQ__VECT),contextptr);
+    l=recursive_normal(l,contextptr);
     vecteur w=makevecteur(v[3],l);
     for (int i=4; i<s;++i)
       w.push_back(v[i]);
@@ -13847,13 +13854,14 @@ namespace giac {
   //et dessine les 4 points ou les 3 droites + le point ou les 4 droites
   gen _div_harmonique(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ( (args.type!=_VECT) || (args._VECTptr->size()<4))
+    if ( (args.type!=_VECT) || (args._VECTptr->size()<3))
       return symbolic(at_div_harmonique,args);
     vecteur v(*args._VECTptr);
     gen d;
-    gen v0=eval(v[0],contextptr),v1=eval(v[1],contextptr),v2=eval(v[2],contextptr);      
+    gen v0=eval(v[0],contextptr),v1=eval(v[1],contextptr),v2=eval(v[2],contextptr);
     d=_conj_harmonique(makesequence(v0,v1,v2),contextptr); 
-    if (is_undef(d)) return d;
+    if (v.size()==3 || is_undef(d)) 
+      return d;
     if (v0.is_symb_of_sommet(at_pnt))
       v0=symb_pnt(v0,default_color(contextptr),contextptr);
     if (v1.is_symb_of_sommet(at_pnt))
@@ -14252,27 +14260,13 @@ namespace giac {
       // try equations (for ggb)
       if (a.is_symb_of_sommet(at_equal) ||b.is_symb_of_sommet(at_equal) ){
 	vecteur syst=makevecteur(remove_equal(a),remove_equal(b));
-	vecteur v=lidnt(syst);
-	if (v.empty() || v.size()>2)
-	  return gensizeerr(contextptr);
-	string v0s=v[0].print(contextptr);
-	if (v.size()==2 && v0s[v0s.size()-1]!='x')
-	  swapgen(v[0],v[1]);
-#ifndef NO_STDEXCEPT
-	try {
-#endif
-	  vecteur sol=solve(syst,v,0,contextptr); 
-	  iterateur it=sol.begin(),itend=sol.end();
-	  for (;it!=itend;++it){
-	    *it=change_subtype(*it,_GGB__VECT);
-	  }
-	  return sol;
-#ifndef NO_STDEXCEPT
+	vecteur v=makevecteur(x__IDNT_e,y__IDNT_e);
+	vecteur sol=solve(syst,v,0,contextptr); 
+	iterateur it=sol.begin(),itend=sol.end();
+	for (;it!=itend;++it){
+	  *it=change_subtype(*it,_GGB__VECT);
 	}
-	catch (std::runtime_error &){
-	  return makevecteur(symbolic(at_inter,makesequence(a,b)));
-	}
-#endif	
+	return sol;
       }
       gen eq=a-b;
       gen x=ggb_var(eq);

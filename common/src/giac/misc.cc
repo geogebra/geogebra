@@ -4927,7 +4927,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	while (g.type==_VECT && !g._VECTptr->empty() && is_undef(g._VECTptr->front()))
 	  g=g._VECTptr->front();
 	if (g.type==_POLY && !g._POLYptr->coord.empty() && is_undef(g._POLYptr->coord.front()))
-	  g=g._POLYptr->coord.front().value;      
+	  g=g._POLYptr->coord.front().value;
       }
       if (g.type==_STRNG && g.subtype==-1)
 	*g._STRNGptr = "GIAC_ERROR: "+*g._STRNGptr;

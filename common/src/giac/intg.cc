@@ -2410,8 +2410,12 @@ namespace giac {
       lfloor=lvarx(lfloor,x);
       if (!lfloor.empty()){
 	gen a,b,l,cond=lfloor.front()._SYMBptr->feuille,tmp;
-	if (lvarx(cond,x).size()>1 || !is_linear_wrt(cond,x,a,b,contextptr) )
-	  return gensizeerr(gettext("Floor definite integration: can only handle linear < or > condition"));
+	if (lvarx(cond,x).size()>1 || !is_linear_wrt(cond,x,a,b,contextptr) ){
+	  *logptr(contextptr) << gettext("Floor definite integration: can only handle linear < or > condition") << endl;
+	  if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	    return undef;
+	  return res;
+	}
 	// find integers of the form a*x+b in [borne_inf,borne_sup]
 	gen n1=_floor(a*borne_inf+b,contextptr);
 	// n1=a*x+b -> x=(n1-b)/a
@@ -2484,8 +2488,12 @@ namespace giac {
 	    unable=false;
 	  }
 	  gen a,b,l;
-	  if (unable || !is_linear_wrt(cond,x,a,b,contextptr))
-	    return gensizeerr(gettext("Piecewise definite integration: can only handle linear < or > condition"));
+	  if (unable || !is_linear_wrt(cond,x,a,b,contextptr)){
+	    *logptr(contextptr) << gettext("Piecewise definite integration: can only handle linear < or > condition") << endl;
+	    if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	      return undef;
+	    return res;
+	  }
 	  // check if a*x+b>0 on [borne_inf,borne_sup]
 	  l=-b/a;
 	  bool positif=ck_is_greater(a,0,contextptr);
@@ -2574,9 +2582,21 @@ namespace giac {
     }
     else
       sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
+    if (is_undef(sp)){
+      *logptr(contextptr) << gettext("Unable to find singular points of antiderivative");
+      if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	return undef;
+      return res;
+    }
     // FIXME if v depends on an integer parameter, find values in inf,sup
     int sps=sp.size();
     for (int i=0;i<sps;i++){
+      if (sp[i].type==_DOUBLE_ || sp[i].type==_REAL || has_op(sp[i],at_rootof)){
+	*logptr(contextptr) << gettext("Unable to handle approx. or algebraic extension singular point ")+sp[i].print(contextptr)+gettext(" of antiderivative");
+	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	  return undef;
+	return res;
+      }
       if ( (ordonne && is_strictly_greater(sp[i],borne_inf,contextptr) && is_strictly_greater(borne_sup,sp[i],contextptr) ) || 
 	   (desordonne && is_strictly_greater(sp[i],borne_sup,contextptr) && is_strictly_greater(borne_inf,sp[i],contextptr) )
 	   )

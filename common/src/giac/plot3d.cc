@@ -404,7 +404,7 @@ namespace giac {
     gen M,N;
     vecteur n;
     if (!perpendiculaire_commune(args._VECTptr->front(),args._VECTptr->back(),M,N,n,contextptr))
-      return gensizeerr(gettext("Parellel lines"));
+      return gensizeerr(gettext("Parallel lines"));
     return pnt_attrib(gen(makevecteur(M,N),_LINE__VECT),attributs,contextptr);
   }
   static const char _perpendiculaire_commune_s []="common_perpendicular";

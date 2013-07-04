@@ -318,7 +318,7 @@ namespace giac {
     sp=find_singularities(e,x,cplxmode,contextptr);
     if (is_undef(sp)){
       *logptr(contextptr) << sp << endl;      
-      sp.clear();
+      // sp.clear(); 
     }
 #else
     try {
@@ -326,7 +326,8 @@ namespace giac {
     }
     catch (std::runtime_error & e){
       *logptr(contextptr) << e.what() << endl;
-      sp.clear();
+      sp=vecteur(1,undef);
+      // sp.clear();
     }
 #endif
     return sp;
@@ -403,8 +404,9 @@ namespace giac {
 	  break;
 	}
 	if (is_inf(l) || n.type!=_IDNT || n.print(contextptr).substr(0,2)!="n_" || !is_linear_wrt(expr,n,a,b,contextptr)){
-	  *logptr(contextptr) << gettext("Warning: unable to find ") <<n << gettext(" integer solutions for ") << expr << ">=" << l << gettext(" and <=") << m << gettext(", answer may be wrong.\nIf you are computing an integral with boundaries, run it again with approx. boundaries") << endl;
-	  continue;
+	  *logptr(contextptr) << gettext("Warning: unable to find ") <<n << gettext(" integer solutions for ") << expr << ">=" << l << gettext(" and <=") << m << gettext(", answer may be wrong.\nIf you are computing an integral with exact boundaries, replace by approx. boundaries") << endl;
+	  v=vecteur(1,undef);
+	  return;
 	}
 	newv.pop_back();
 	a=normal(a,contextptr);
@@ -668,10 +670,11 @@ namespace giac {
     if (translate_gcddeg(w,w_translated,delta_x,deg)){
       // composite polynomials
       gen invdeg=inv(deg,contextptr);
-      gen newe=symb_horner(*r2sym(w_translated,lv,contextptr)._VECTptr,x);
+      identificateur compositex("_tmp_x_solve_composite_");
+      gen newe=symb_horner(*r2sym(w_translated,lv,contextptr)._VECTptr,compositex);
       delta_x=r2sym(delta_x,lv,contextptr);
       vecteur vtmp;
-      in_solve(newe,x,vtmp,isolate_mode,contextptr);
+      in_solve(newe,compositex,vtmp,isolate_mode,contextptr);
       vecteur unitroot(1,plus_one),munitroot;
       if (complexmode){
 	for (int k=1;k<deg;++k)
@@ -4810,7 +4813,8 @@ namespace giac {
       }
 #ifndef NO_STDEXCEPT
     } catch (...){
-      cerr << "Unable to compute gbasis with CoCoA" << endl;
+      if (debug_infolevel)
+	cerr << "Unable to compute gbasis with CoCoA" << endl;
     }
 #endif
     if (!giac_gbasis(res,order,env))
