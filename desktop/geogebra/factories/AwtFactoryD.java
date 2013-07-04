@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.awt.GEllipse2DDoubleD;
+import geogebra.awt.GFontD;
 import geogebra.common.awt.Component;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GAlphaComposite;
@@ -27,6 +28,8 @@ import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.factories.AwtFactory;
+
+import java.awt.Font;
 
 public class AwtFactoryD extends AwtFactory{
 	
@@ -243,6 +246,10 @@ public class AwtFactoryD extends AwtFactory{
 	@Override
 	public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
 		return new geogebra.awt.GTexturePaintD(subimage, rect);
+	}
+	@Override
+	public GFont newFont(String name, int style, int size) {
+		return new GFontD(new Font(name, style, size));
 	}
 
 	

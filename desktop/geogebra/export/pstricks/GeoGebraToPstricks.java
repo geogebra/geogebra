@@ -11,6 +11,7 @@ package geogebra.export.pstricks;
 import geogebra.awt.GColorD;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
@@ -20,6 +21,7 @@ import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.export.pstricks.GeoGebraExport;
 import geogebra.common.export.pstricks.TextGraphicsForIneq;
 import geogebra.common.export.pstricks.UnicodeTeX;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Matrix.Coords;
@@ -66,11 +68,8 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -919,12 +918,11 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
+			GFont font = AwtFactory.prototype.newFont(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);
-			FontMetrics fm = ((EuclidianViewND)euclidianView).getFontMetrics(font);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
-				width = Math.max(width, fm.stringWidth(line));
+				width = Math.max(width, (int) Math.ceil(StringUtil.estimateLength(line,font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");

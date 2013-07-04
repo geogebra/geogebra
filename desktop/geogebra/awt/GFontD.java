@@ -1,8 +1,10 @@
 package geogebra.awt;
 
+import geogebra.common.awt.GFont;
+
 public class GFontD extends geogebra.common.awt.GFont {
 	
-	private java.awt.Font impl = new java.awt.Font("Default", geogebra.common.awt.GFont.PLAIN, 12);
+	private java.awt.Font impl = new java.awt.Font("Default", GFont.PLAIN, 12);
 
 	public GFontD(java.awt.Font font){
 		impl = font;
@@ -11,7 +13,7 @@ public class GFontD extends geogebra.common.awt.GFont {
 		return impl;
 	}
 
-	public static java.awt.Font getAwtFont(geogebra.common.awt.GFont font) {
+	public static java.awt.Font getAwtFont(GFont font) {
 		if(!(font instanceof GFontD))
 			return null;
 		return ((GFontD)font).impl;

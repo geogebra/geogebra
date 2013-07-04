@@ -1,6 +1,7 @@
 package geogebra.export.pstricks;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GShape;
@@ -10,6 +11,7 @@ import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.export.pstricks.GeoGebraExport;
 import geogebra.common.export.pstricks.TextGraphicsForIneq;
 import geogebra.common.export.pstricks.UnicodeTeX;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
@@ -58,11 +60,8 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1017,12 +1016,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			Font font = new Font(geo.isSerifFont() ? "Serif" : "SansSerif",
+			GFont font = AwtFactory.prototype.newFont(geo.isSerifFont() ? "Serif" : "SansSerif",
 					style, size);
-			FontMetrics fm = ((EuclidianViewND)euclidianView).getFontMetrics(font);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
-				width = Math.max(width, fm.stringWidth(line));
+				width = Math.max(width, (int) Math.ceil(StringUtil.estimateLength(line, font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");
@@ -2348,12 +2346,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				GColor geocolor = geo.getObjectColor();
 				startBeamer(codePoint);
-				FontMetrics fm = ((EuclidianViewND)euclidianView)
-						.getFontMetrics(geogebra.awt.GFontD
-								.getAwtFont(euclidianView.getFont()));
-				int width = fm.stringWidth(StringUtil.toLaTeXString(
-						geo.getLabelDescription(), true));
-				int height = fm.getHeight();
+				int width = (int) Math.ceil(StringUtil.estimateLength(StringUtil.toLaTeXString(
+						geo.getLabelDescription(), true), euclidianView.getFont()));
+				int height = (int) Math.ceil(StringUtil.estimateHeight(StringUtil.toLaTeXString(
+						geo.getLabelDescription(), true), euclidianView.getFont()));
 				double translation[] = new double[2];
 				translation[0] = euclidianView.getXZero() + width / 2;
 				translation[1] = euclidianView.getYZero() - height / 2;
@@ -2455,10 +2451,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm = ((EuclidianViewND)euclidianView)
-						.getFontMetrics(geogebra.awt.GFontD
-								.getAwtFont(euclidianView.getFont()));
-				int width = fm.stringWidth(label[0]);
+
+				int width = (int) Math.ceil(StringUtil.estimateLength(label[0],euclidianView.getFont()));
 				geogebra.common.awt.GRectangle rect = euclidianView
 						.getSelectionRectangle();
 				double x = euclidianView.toRealWorldCoordX(euclidianView
@@ -2520,17 +2514,15 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm = ((EuclidianViewND)euclidianView)
-						.getFontMetrics(geogebra.awt.GFontD
-								.getAwtFont(euclidianView.getFont()));
+				int height = (int) Math.ceil(StringUtil.estimateHeight(label[1],euclidianView.getFont()));
 				geogebra.common.awt.GRectangle rect = euclidianView
 						.getSelectionRectangle();
 				double x = euclidianView.toRealWorldCoordX(euclidianView
 						.getXZero() + 5);
-				double y = euclidianView.toRealWorldCoordY(5 + fm.getHeight());
+				double y = euclidianView.toRealWorldCoordY(5 + height);
 				if (rect != null) {
 					y = euclidianView.toRealWorldCoordY(rect.getMinY() + 5
-							+ fm.getHeight());
+							+ height);
 				}
 				writePoint(x, y, codeBeginDoc);
 				codeBeginDoc.append(" node [anchor=west] { ");

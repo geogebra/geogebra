@@ -30,6 +30,7 @@ import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GBufferedImageW;
+import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGradientPaintW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.awt.GTexturePaintW;
@@ -243,6 +244,11 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
     public ActionListener newActionListener(ActionListenerI listener) {
 		return new geogebra.html5.event.ActionListenerW(listener);
+    }
+
+	@Override
+    public GFont newFont(String name, int style, int size) {
+	    return new GFontW(name, style, size);
     }
 
 

@@ -28,6 +28,13 @@ public class GFontW extends geogebra.common.awt.GFont {
 		this.setFontStyle(fontStyle);			
 	}
 
+	public GFontW(String name, int style, int size) {
+	    fontFamily = name;
+	    fontSize = size+"";
+	    setFontStyle(style);
+	    
+    }
+
 	public void setFontStyle(String fontStyle) {
 		this.fontStyle = fontStyle;
 	}

@@ -73,5 +73,5 @@ public abstract class AwtFactory {
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 	public abstract geogebra.common.awt.Component newComponent(Object component);
 	public abstract GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect);
-	
+	public abstract GFont newFont(String name, int style, int size);
 }
