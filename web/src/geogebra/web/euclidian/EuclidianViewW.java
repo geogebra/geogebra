@@ -55,6 +55,8 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
+	
+	protected EuclidianDockPanelWAbstract EVPanel;
 
 	public EuclidianViewW(EuclidianDockPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
@@ -132,6 +134,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 			settingsChanged(es);
 			es.addListener(this);
 		}
+		EVPanel = euclidianViewPanel;
     }
 
 	// STROKES
@@ -389,7 +392,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void add(GBox box) {
-	    this.app.getEuclidianViewpanel().getEuclidianPanel().add(
+	    EVPanel.getEuclidianPanel().add(
 	    		GBoxW.getImpl(box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
@@ -397,8 +400,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void remove(GBox box) {
-		App.debug("implementation needed - just finishing"); // TODO
-	    this.app.getEuclidianViewpanel().getEuclidianPanel().remove(
+	    EVPanel.getEuclidianPanel().remove(
 	    		GBoxW.getImpl(box));
 	    
     }
