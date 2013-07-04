@@ -265,6 +265,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			LaTeX = false;
 		}
 
+		radio.setChecked(geo.isEuclidianVisible());
+		
 	}
 	
 	private void updateColor(SpanElement se){
