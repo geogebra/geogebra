@@ -112,7 +112,7 @@ public class TouchModel {
 		resetSelection();
 		this.guiModel.resetStyle();
 		this.command = cmd;
-		createPreviewObject();
+		createPreviewObject(false);
 	}
 
 	/**
@@ -327,6 +327,7 @@ public class TouchModel {
 	public void resetSelection() {
 		for (GeoElement geo : this.selectedElements) {
 			geo.setSelected(false);
+			geo.setHighlighted(false);
 		}
 		this.selectedElements.clear();
 	}
@@ -648,9 +649,11 @@ public class TouchModel {
 			break;
 
 		// commands that need one point and two additional points or one circle or one segment
-		case Compasses: // TODO
-			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC,
-					Test.GEOSEGMENT }, new int[] {3, 1, 1});
+		case Compasses: 
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOSEGMENT, Test.GEOCONIC}, new int[] {3, 1, 1});
+			if(lastSelected() instanceof GeoConic && !((GeoConic) lastSelected()).isCircle()){
+				deselect(lastSelected());
+			}
 			draw = getNumberOf(Test.GEOPOINT) >= 3
 					|| getNumberOf(Test.GEOPOINT) >= 1
 					&& (getNumberOf(Test.GEOCONIC) >= 1 || getNumberOf(Test.GEOSEGMENT) >= 1);
@@ -686,8 +689,8 @@ public class TouchModel {
 			draw = finishedPolygon(hits);
 			if (!draw) {
 				changeSelectionState(hits, Test.GEOPOINT, 1);
-				createPreviewObject();
 			}
+			createPreviewObject(!draw);
 			break;
 
 		// special commands
@@ -1305,33 +1308,35 @@ public class TouchModel {
 		}
 	}
 
-	private void createPreviewObject() {
+	private void createPreviewObject(boolean show) {
 		if (this.euclidianView == null) {
 			return;
 		}
 		Previewable prev = null;
 
-		switch (this.command) {
-		case Polygon:
-		case RegularPolygon:
-		case RigidPolygon:
-			ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
-			for (GeoElement geo : this.selectedElements) {
-				list.add((GeoPoint) geo);
+		if(show){
+			switch (this.command) {
+			case Polygon:
+			case RegularPolygon:
+			case RigidPolygon:
+				ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+				for (GeoElement geo : this.selectedElements) {
+					list.add((GeoPoint) geo);
+				}
+				prev = this.euclidianView.createPreviewPolygon(list);
+				break;
+			case PolylineBetweenPoints:
+				ArrayList<GeoPointND> list2 = new ArrayList<GeoPointND>();
+				for (GeoElement geo : this.selectedElements) {
+					list2.add((GeoPoint) geo);
+				}
+				prev = this.euclidianView.createPreviewPolyLine(list2);
+				break;
+			default:
+				break;
 			}
-			prev = this.euclidianView.createPreviewPolygon(list);
-			break;
-		case PolylineBetweenPoints:
-			ArrayList<GeoPointND> list2 = new ArrayList<GeoPointND>();
-			for (GeoElement geo : this.selectedElements) {
-				list2.add((GeoPoint) geo);
-			}
-			prev = this.euclidianView.createPreviewPolyLine(list2);
-			break;
-		default:
-			break;
 		}
-
+		
 		this.euclidianView.setPreview(prev);
 	}
 
@@ -1384,7 +1389,7 @@ public class TouchModel {
 
 			break;
 		case RotateObjectByAngle: 
-			GeoPoint center = (GeoPoint) getElement(Test.GEOPOINT);
+			GeoPoint center = lastSelected() instanceof GeoPoint ? (GeoPoint) lastSelected() : (GeoPoint) getElement(Test.GEOPOINT);
 			GeoElement geoRotate = this.selectedElements.get(0) == center ? this.selectedElements
 					.get(1) : this.selectedElements.get(0);
 			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Rotate(
@@ -1402,7 +1407,8 @@ public class TouchModel {
 			select(g);
 		}
 
-		this.kernel.notifyRepaint();
+		// still false! includes a repaint
+		this.kernel.setNotifyRepaintActive(true);
 		this.guiModel.updateStylingBar();
 		this.commandFinished = true;
 		this.kernel.storeUndoInfo();

@@ -182,8 +182,11 @@ public class TouchController extends EuclidianController
 		{
 			handleEvent(x, y);
 			this.selectedPoints.clear();
-			this.view.getPreviewDrawable().updatePreview();
 			
+			if(this.view.getPreviewDrawable() != null)
+			{
+				this.view.getPreviewDrawable().updatePreview();
+			}
 		}
 		
 		if (this.model.getCommand() == ToolBarCommand.Move_Mobile

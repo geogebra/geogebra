@@ -82,6 +82,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				App.debug("new construction 2");
 				TabletHeaderPanelLeft.this.app.setConstructionTitle(TabletHeaderPanelLeft.this.app.getDefaultConstructionTitle());
 				App.debug("new construction 3");
+				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 			}
 		};
 		
