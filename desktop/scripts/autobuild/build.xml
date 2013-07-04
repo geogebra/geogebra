@@ -9,10 +9,10 @@
     <bundleapp outputdirectory="."
         name="GeoGebra"
         displayname="GeoGebra"
-        identifier="geogebra.GeoGebra"
+        identifier="geogebra.GeoGebra3D"
         shortversion="SHORTVERSION"
         icon="Contents/Resources/geogebra.icns"
-        mainclassname="geogebra.GeoGebra"
+        mainclassname="geogebra.GeoGebra3D"
         copyright="2013 International GeoGebra Institute."
         
         applicationCategory="public.app-category.developer-tools">
