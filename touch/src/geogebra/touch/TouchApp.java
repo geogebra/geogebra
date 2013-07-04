@@ -1,7 +1,6 @@
 package geogebra.touch;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -634,9 +633,12 @@ public class TouchApp extends AppWeb
 	// alert("current language is", lang);
 	// return lang;
 	// }-*/;
-	public void updateSelection(boolean updatePropertiesView){
-		if(this.getMode() == EuclidianConstants.MODE_MOVE){
-			this.touchGUI.updateStylingBar(this.getSelectionManager());
-		}
-	}
+	
+	// TODO: use with SelectionManager
+//	public void updateSelection(boolean updatePropertiesView){
+//		if(this.getMode() == EuclidianConstants.MODE_MOVE){
+//			this.touchGUI.updateStylingBar(this.getSelectionManager());
+//		}
+//	}
+	
 }

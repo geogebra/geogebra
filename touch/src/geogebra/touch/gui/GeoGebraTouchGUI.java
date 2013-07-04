@@ -1,7 +1,6 @@
 package geogebra.touch.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.SelectionManager;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 
@@ -17,7 +16,7 @@ public interface GeoGebraTouchGUI
 	public AlgebraViewPanel getAlgebraViewPanel();
 
 	public void initComponents(Kernel kernel);
-	
+
 	public Element getElement();
 
 	/**
@@ -25,5 +24,6 @@ public interface GeoGebraTouchGUI
 	 */
 	public void setLabels();
 
-	public void updateStylingBar(SelectionManager selectionManager);
+	// TODO: use with SelectionManager
+	// public void updateStylingBar(SelectionManager selectionManager);
 }

@@ -3,9 +3,10 @@ package geogebra.touch.gui.elements.stylingbar;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.SelectionManager;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -67,7 +68,7 @@ public class StylingBar extends DecoratorPanel
 			this.index = i;
 		}
 	}
-	
+
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
 	 * 
@@ -198,7 +199,8 @@ public class StylingBar extends DecoratorPanel
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
-		if(this.guiModel.getCommand() != null){
+		if (this.guiModel.getCommand() != null)
+		{
 			rebuild(this.guiModel.getCommand().getStylingBarEntries());
 		}
 		this.lastCommand = this.guiModel.getCommand();
@@ -238,7 +240,7 @@ public class StylingBar extends DecoratorPanel
 			public void onClick(ClickEvent event)
 			{
 				event.stopPropagation();
-				
+
 				StylingBar.this.guiModel.closeOptions();
 				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
 
@@ -251,10 +253,36 @@ public class StylingBar extends DecoratorPanel
 
 	private boolean rebuild(StylingBarEntries entry)
 	{
-		
+		if (entry == null)
+		{
+			return false;
+		}
+
 		this.colorButtonIndex = -1;
 
 		SVGResource[] resource = entry.getResources();
+		String color = entry.getColor() != null ? entry.getColor().toString() : "";
+		
+		if(entry == StylingBarEntries.Move && this.touchModel.getTotalNumber() > 0){
+			color = this.touchModel.getSelectedGeos().get(0).getObjectColor().toString();
+			if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND)
+			{
+				resource = StylingBarEntries.Point.getResources();
+			}
+			else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties)
+			{
+				resource = StylingBarEntries.Line.getResources();
+			}
+			else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPolygon)
+			{
+				resource = StylingBarEntries.Polygon.getResources();
+			}
+			else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoAngle)
+			{
+				resource = StylingBarEntries.Angle.getResources();
+			}
+		}
+		
 		StandardImageButton[] b = new StandardImageButton[resource.length];
 
 		for (int i = 0; i < resource.length; i++)
@@ -269,7 +297,7 @@ public class StylingBar extends DecoratorPanel
 					public void onTouchStart(TouchStartEvent event)
 					{
 						event.stopPropagation();
-						
+
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
 						{
 							StylingBar.this.guiModel.closeOptions();
@@ -288,8 +316,8 @@ public class StylingBar extends DecoratorPanel
 					@Override
 					public void onClick(ClickEvent event)
 					{
-event.stopPropagation();
-						
+						event.stopPropagation();
+
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
 						{
 							StylingBar.this.guiModel.closeOptions();
@@ -312,7 +340,7 @@ event.stopPropagation();
 					public void onTouchStart(TouchStartEvent event)
 					{
 						event.stopPropagation();
-						
+
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
 						{
 							StylingBar.this.guiModel.closeOptions();
@@ -332,7 +360,7 @@ event.stopPropagation();
 					public void onClick(ClickEvent event)
 					{
 						event.stopPropagation();
-						
+
 						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
 						{
 							StylingBar.this.guiModel.closeOptions();
@@ -350,7 +378,7 @@ event.stopPropagation();
 			{
 				b[i] = new StandardImageButton(CommonResources.INSTANCE.color());
 				b[i].getElement().getStyle().setBackgroundImage("initial");
-				b[i].getElement().getStyle().setBackgroundColor(entry.getColor().toString());
+				b[i].getElement().getStyle().setBackgroundColor(color);
 
 				b[i].addTouchStartHandler(new TouchStartHandler()
 				{
@@ -446,14 +474,14 @@ event.stopPropagation();
 
 	public void rebuild()
 	{
-		if (this.lastCommand != null && this.lastCommand.equals(this.guiModel.getCommand()))
+		if (this.lastCommand != null && this.guiModel.getCommand() != ToolBarCommand.Move_Mobile && this.lastCommand.equals(this.guiModel.getCommand()))
 		{
 			return;
 		}
 
 		this.setVisible(true);
 
-		if (this.guiModel.getCommand()!=null && !rebuild(this.guiModel.getCommand().getStylingBarEntries()))
+		if (this.guiModel.getCommand() != null && !rebuild(this.guiModel.getCommand().getStylingBarEntries()))
 		{
 			clear();
 			this.setVisible(false);
@@ -461,14 +489,20 @@ event.stopPropagation();
 		this.lastCommand = this.guiModel.getCommand();
 	}
 
-	public void updateGeos(SelectionManager sel) {
-		if(sel.getSelectedGeos().size()==0){
-			rebuild(StylingBarEntries.Move);
-		}else if(sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND){
-			rebuild(StylingBarEntries.Point);
-		}else if(sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties){
-			rebuild(StylingBarEntries.Line);
-		}
-		
-	}
+	// TODO: use with SelectionManager
+//	public void updateGeos(SelectionManager sel)
+//	{
+//		if (sel.getSelectedGeos().size() == 0)
+//		{
+//			rebuild(StylingBarEntries.Move);
+//		}
+//		else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND)
+//		{
+//			rebuild(StylingBarEntries.Point);
+//		}
+//		else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties)
+//		{
+//			rebuild(StylingBarEntries.Line);
+//		}
+//	}
 }
