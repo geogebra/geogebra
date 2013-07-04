@@ -8,7 +8,6 @@ the Free Software Foundation.
 
 package geogebra.export.pstricks;
 
-import geogebra.awt.GColorD;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
@@ -467,7 +466,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		float yLabelHor = y
 				- (float) ((euclidianView.getFont().getSize() + 2) / euclidianView
 						.getYscale());
-		GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+		GColor geocolor = geo.getObjectColor();
 		startBeamer(codePoint);
 		codePoint.append("\\rput[bl](");
 		codePoint.append(format(xLabelHor));
@@ -623,7 +622,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		// draw arc for the angle
 		else {
 			// set arc in real world coords
-			GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+			GColor geocolor = geo.getObjectColor();
 			startBeamer(code);
 			if (!geocolor.equals(GColor.BLACK)) {
 				code.append("\\pscustom");
@@ -874,7 +873,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	protected void drawText(GeoText geo) {
 		boolean isLatex = geo.isLaTeX();
 		String st = geo.getTextString();
-		GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+		GColor geocolor = geo.getObjectColor();
 		int style = geo.getFontStyle();
 		int size = (int) (geo.getFontSizeMultiplier() * getApp().getFontSize());
 		GeoPoint gp;
@@ -1724,7 +1723,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
 
-				GColorD geocolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+				GColor geocolor = geo.getObjectColor();
 				startBeamer(codePoint);
 				codePoint.append("\\rput[bl](");
 				codePoint.append(format(xLabel));
@@ -1911,7 +1910,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	private void PointOptionCode(GeoPoint geo) {
-		GColorD dotcolor = ((geogebra.awt.GColorD) geo.getObjectColor());
+		GColor dotcolor = geo.getObjectColor();
 		int dotsize = geo.getPointSize();
 		int dotstyle = geo.getPointStyle();
 		if (dotstyle == -1) { // default
@@ -2131,7 +2130,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			int green = c.getGreen();
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = new GColorD(grayscale, grayscale, grayscale);
+			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
 			if (CustomColor.containsKey(c)) {
 				colorname = CustomColor.get(c).toString();
 			} else {
@@ -2234,7 +2233,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 * + "  \\psfs@solid}\n"; if (!transparency) codePreamble.append(str);
 	 * transparency=true; }
 	 */
-	private void addText(String st, boolean isLatex, int style, GColorD geocolor) {
+	private void addText(String st, boolean isLatex, int style, GColor geocolor) {
 		if (isLatex) {
 			if (!st.startsWith("$"))
 				code.append("$");

@@ -68,7 +68,6 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,9 +114,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     private boolean fillInequality=false;
 
     /**
-     * @param app
+     * @param app application
      */
-    public GeoGebraToAsymptote(final AppD app) {
+    public GeoGebraToAsymptote(final App app) {
         super(app);
     }
     @Override

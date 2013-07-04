@@ -56,11 +56,11 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +81,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	private boolean gnuplotWarning = false;
 	private boolean hatchWarning = false;	
 	
-	public GeoGebraToPgf(AppD app) {
+	public GeoGebraToPgf(App app) {
 		super(app);
 	}
 
