@@ -207,8 +207,10 @@ public class Ggb2giac {
 		p("Intersect.2",
 				"[[ggbans:=0/0],[ggbans:=inter(equation(%0),equation(%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
-		p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))=0");
-		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),point(%2)))=0");
+		p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
+		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),point(%2)))");
+		p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),point(%2)))");
+
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
