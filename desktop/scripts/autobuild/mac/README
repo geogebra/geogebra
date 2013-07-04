@@ -1,0 +1,13 @@
+main.m is a modified version of AppBundler's native/main.m from
+https://java.net/projects/appbundler/sources/svn/content/appbundler/native/main.m.
+
+build.xml is used by the AppBundler ant task. However, geogebra-jogl2.jar
+as classpath is hardcoded and cannot be changed without recompiling
+AppBundler.
+
+Recompilation may be done on Mac OS X 10.7 with a fully functional
+development subsystem after exporting JAVA_HOME=$(/usr/libexec/java_home).
+Full source code can be obtained from https://svn.java.net/svn/appbundler~svn.
+
+The macsign script runs the AppBundler task and also JarBundler to create
+an older version as well without bundled Java.
