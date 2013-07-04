@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -132,12 +133,11 @@ public class SignInDialog extends DialogBox {
 				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
-						// TODO THIS WILL BE IN MODEL
-						
+						GWT.log(response.getText());
 					}
 					
 					public void onError(Request request, Throwable exception) {
-						// TODO THIS WILL BE IN MODEL
+						GWT.log(exception.getLocalizedMessage());
 					}
 				});
 			}
