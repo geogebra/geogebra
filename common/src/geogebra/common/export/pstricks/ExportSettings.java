@@ -1,7 +1,7 @@
 package geogebra.common.export.pstricks;
 
 public interface ExportSettings {
-
+	static final int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2, FILL_LAYER = 3;
 	double getLatexHeight();
 
 	int getFontSize();
@@ -35,5 +35,7 @@ public interface ExportSettings {
 	boolean getShowAxes();
 
 	boolean getUsePairNames();
+
+	boolean getGnuplot();
 
 }

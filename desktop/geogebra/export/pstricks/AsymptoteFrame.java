@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;

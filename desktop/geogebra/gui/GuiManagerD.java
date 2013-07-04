@@ -2992,7 +2992,7 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showPSTricksExport() {
-		new geogebra.export.pstricks.GeoGebraToPstricks(app);
+		new geogebra.common.export.pstricks.GeoGebraToPstricks(app);
 		
 	}
 

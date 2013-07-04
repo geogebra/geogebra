@@ -6,7 +6,7 @@ the Free Software Foundation.
 
  */
 
-package geogebra.export.pstricks;
+package geogebra.common.export.pstricks;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
@@ -16,9 +16,6 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
-import geogebra.common.export.pstricks.GeoGebraExport;
-import geogebra.common.export.pstricks.TextGraphicsForIneq;
-import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -1026,7 +1023,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // Fill if: SECTOR and fill type not set to FILL_NONE
         if(m11 == 1 && m22 == 1 && m12 == 0 && m21 == 0) {
             if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
-                    && fillType != ExportFrame.FILL_NONE)               
+                    && fillType != ExportSettings.FILL_NONE)               
                 startTransparentFill(tempsb);
             else
                 startDraw(tempsb);
@@ -1078,7 +1075,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             tempsb.append(");} ");
             
             if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
-                    && fillType != ExportFrame.FILL_NONE)               
+                    && fillType != ExportSettings.FILL_NONE)               
                 startTransparentFill(tempsb);
             else
                 startDraw(tempsb);
@@ -1094,7 +1091,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             tempsb.append("--");
             addPoint(format(tx),format(ty),tempsb);
             tempsb.append("--cycle");
-            if(fillType == ExportFrame.FILL_NONE)
+            if(fillType == ExportSettings.FILL_NONE)
                 endDraw(geo,tempsb);
             else
                 endTransparentFill(geo,tempsb);
@@ -1103,7 +1100,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             endDraw(geo,tempsb);
     
         if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR 
-                && fillType != ExportFrame.FILL_NONE)               
+                && fillType != ExportSettings.FILL_NONE)               
             codeFilledObject.append(tempsb);
         else
             code.append(tempsb);
@@ -3079,7 +3076,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     protected void startTransparentFill(StringBuilder sb){
         if(!compact)
             sb.append("\n");
-        if(fillType != ExportFrame.FILL_NONE) // filldraw
+        if(fillType != ExportSettings.FILL_NONE) // filldraw
             sb.append("filldraw(");
         else if(compactcse5) // normal draw
             sb.append("D(");
@@ -3095,7 +3092,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         
     	Info info = new Info(geo);
     	// transparent fill options
-        if(fillType == ExportFrame.FILL_OPAQUE) {
+        if(fillType == ExportSettings.FILL_OPAQUE) {
             packSpaceAfter(sb, ",");
             if(info.getAlpha() >= 0.9) 
                 ColorCode(info.getLinecolor(),sb);
@@ -3103,7 +3100,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 sb.append("invisible");
         }
         // use opacity(alpha value) pen
-        else if(fillType == ExportFrame.FILL_OPACITY_PEN) {
+        else if(fillType == ExportSettings.FILL_OPACITY_PEN) {
             packSpaceAfter(sb, ",");
             ColorCode(info.getLinecolor(),sb);
             packSpace(sb,"+");
@@ -3111,7 +3108,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             sb.append(info.getAlpha());
             sb.append(")");
         }
-        else if(fillType == ExportFrame.FILL_LAYER) {
+        else if(fillType == ExportSettings.FILL_LAYER) {
             packSpaceAfter(sb, ",");
             ColorLightCode(info.getLinecolor(),info.getAlpha(),sb);        
         }

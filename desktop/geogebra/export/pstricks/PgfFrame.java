@@ -1,5 +1,6 @@
 package geogebra.export.pstricks;
 
+import geogebra.common.export.pstricks.GeoGebraToPgf;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
@@ -127,7 +128,7 @@ public class PgfFrame extends ExportFrame{
 		centerOnScreen();
 		setVisible(true);
 	}
-	protected boolean getGnuplot(){
+	public boolean getGnuplot(){
 		return forceGnuplot.isSelected();
 	}
 	@Override

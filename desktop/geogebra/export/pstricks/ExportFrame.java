@@ -44,7 +44,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings{
 	 // Andy Zhu TODO
 	 ,comboFill;
 	protected JLabel labelFill;
-	static final int FILL_NONE = 0, FILL_OPAQUE = 1, FILL_OPACITY_PEN = 2, FILL_LAYER = 3;
+	
 	 // end changes
 	protected JPanel panel;
 	protected JButton button,button_copy;
@@ -501,4 +501,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings{
 			
 		}
 	}
+	
+	public boolean getGnuplot(){
+		return false;
+	}	
 } 

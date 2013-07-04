@@ -1,4 +1,4 @@
-package geogebra.export.pstricks;
+package geogebra.common.export.pstricks;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
@@ -8,9 +8,6 @@ import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
-import geogebra.common.export.pstricks.GeoGebraExport;
-import geogebra.common.export.pstricks.TextGraphicsForIneq;
-import geogebra.common.export.pstricks.UnicodeTeX;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
@@ -89,7 +86,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	public void generateAllCode() {
 
 		format = frame.getFormat();
-		forceGnuplot = ((PgfFrame) frame).getGnuplot();
+		forceGnuplot = frame.getGnuplot();
 		// init unit variables
 		try {
 			xunit = frame.getXUnit();
