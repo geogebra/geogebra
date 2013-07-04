@@ -17,10 +17,9 @@ public class GeoGebraTubeAPI extends geogebra.common.move.ggtapi.models.GeoGebra
 {
 	private RequestBuilder requestBuilder;
 
-	private GeoGebraTubeAPI()
+	private GeoGebraTubeAPI(String url)
 	{
 		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
-//		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, secure_test_url);
 	}
 
 	/**
@@ -113,13 +112,14 @@ public class GeoGebraTubeAPI extends geogebra.common.move.ggtapi.models.GeoGebra
 	
 	/**
 	 * Get Singleton GeogebraTubeAPI
+	 * @param url Depends on Touch and Web for now. Later must be changed.
 	 * 
 	 * @return GeogebraTubeAPI singleton
 	 */
-	public static GeoGebraTubeAPI getInstance() {
+	public static GeoGebraTubeAPI getInstance(String url) {
 		if (instance == null)
 		{
-			instance = new GeoGebraTubeAPI();
+			instance = new GeoGebraTubeAPI(url);
 		}
 		return (GeoGebraTubeAPI) instance;
 	}

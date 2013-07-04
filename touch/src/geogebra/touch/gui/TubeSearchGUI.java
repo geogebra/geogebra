@@ -91,7 +91,7 @@ public class TubeSearchGUI extends VerticalPanel
 
 	public void displaySearchResults(String query)
 	{
-		(GeoGebraTubeAPI.getInstance()).search(query, new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).search(query, new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
@@ -132,7 +132,7 @@ public class TubeSearchGUI extends VerticalPanel
 	 */
 	private void loadFeatured()
 	{
-		(GeoGebraTubeAPI.getInstance()).getFeaturedMaterials(new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).getFeaturedMaterials(new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(Request request, Response response)

@@ -14,13 +14,13 @@ public class GeoGebraTubeAPI {
 	/**
 	 * Secure test url
 	 */
-//	protected static final String secure_test_url = "https://test.geogebratube.org:8084/api/json.php";
+	public static final String test_url = "http://test.geogebratube.org:8080/api/json.php";
 
 	/**
 	 * Public url (no SSL)
 	 * DO NOT CHANGE!
 	 */
-	protected static final String url = "http://www.geogebratube.org/api/json.php";
+	public static final String url = "http://www.geogebratube.org/api/json.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */

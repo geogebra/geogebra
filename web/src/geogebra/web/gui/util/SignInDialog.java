@@ -129,7 +129,7 @@ public class SignInDialog extends DialogBox {
 		submitButton.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				(GeoGebraTubeAPI.getInstance()).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
+				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
 						// TODO THIS WILL BE IN MODEL
