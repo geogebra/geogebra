@@ -286,5 +286,4 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	}
 
-
 }

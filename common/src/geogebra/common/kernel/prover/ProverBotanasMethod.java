@@ -58,6 +58,8 @@ public class ProverBotanasMethod {
 		return freePoints;
 	}
 
+	// We don't use this at the moment. It seemed to be useful to select the best coordinates to fix from circle centers
+	// but finally there is no test case for this at the moment to be convinced if this really helps in speed.
 	private static List<GeoElement> getCircleCenters(GeoElement statement) {
 		List<GeoElement> circleCenters = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
@@ -80,7 +82,6 @@ public class ProverBotanasMethod {
 		return circleCenters;
 	}
 
-	
 	/** 
 	 * Creates those polynomials which describe that none of 3 free points
 	 * can lie on the same line. 
@@ -157,53 +158,42 @@ public class ProverBotanasMethod {
 	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
 	 * The first two variables (usually the coordinates of the first point) are set to 0,
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
-	 * The non-alternative method prefers circle centers to choose.
-	 * Only free variables are fixed for the alternative method.
 	 * @param prover the input prover
-	 * @param alternative if we use Simon's alternative way
+	 * @param coords number of fixed coordinates
 	 * @return a HashMap, containing the substitutions
 	 */
-	static HashMap<Variable,Integer> fixValues(Prover prover, boolean alternative) {
+	static HashMap<Variable,Integer> fixValues(Prover prover, int coords) {
+		
+		int[] fixCoords = {0, 0, 0, 1};
+		
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
-		List<GeoElement> circleCenters = null;
-		if (!alternative) {
-				circleCenters = getCircleCenters(statement);
-				// Do not use non-free points:
-				circleCenters.retainAll(freePoints);
-		}
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
-		if (circleCenters != null)
-			fixedPoints.addAll(circleCenters);
-		// Adding remaining free points (which are not among circle centers):
+		// Adding free points:
 		for (GeoElement ge : freePoints) {
-			if (circleCenters == null || !circleCenters.contains(ge))
-				fixedPoints.add(ge);
+			fixedPoints.add(ge);
 		}
 		
 		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
 		
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
-		int i = 0;
-		while (it.hasNext() && i<2) {
+		int i = 0, j = 0;
+		while (it.hasNext() && i < 2 && j < coords) {
 			GeoElement geo = it.next();
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
-			if (i==0) {
-				geos[i] = geo;
-				ret.put(fv[0], 0);
-				ret.put(fv[1], 0);
+			geos[i] = geo;
+			ret.put(fv[0], fixCoords[j]);
+			++j;
+			if (j < coords) {
+				ret.put(fv[1], fixCoords[j]);
 				++i;
-			}
-			else {
-				geos[i] = geo;
-				ret.put(fv[0], 0);
-				if (!alternative)
-					ret.put(fv[1], 1);
-				++i;
+				++j;
 			}
 		}
-		if (!alternative && i == 2) {
+
+		// We implicitly assumed that the first two points are different:
+		if (i == 2 && prover.isReturnExtraNDGs()) {
 			NDGCondition ndgc = new NDGCondition();
 			ndgc.setCondition("AreEqual");
 			ndgc.setGeos(geos);
@@ -215,15 +205,10 @@ public class ProverBotanasMethod {
 	
 	/**
 	 * Proves the statement by using Botana's method
-	 * (Zoltan's interpretation and Simon's "alternative" way).
-	 * Simon's way is currently works over a field of rational functions.
-	 * Zoltan's way is prescribing some forced conditions as if
-	 * they were NDGs. This will be removed later. 
 	 * @param prover the prover input object 
-	 * @param alternative use Simon's way or not
 	 * @return if the statement is true
 	 */
-	public static ProofResult prove(geogebra.common.util.Prover prover, boolean alternative) {
+	public static ProofResult prove(geogebra.common.util.Prover prover) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
 		GeoElement statement = prover.getStatement();
@@ -287,14 +272,16 @@ public class ProverBotanasMethod {
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
-			if (!alternative && ProverSettings.freePointsNeverCollinear)
+			if (ProverSettings.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
 			HashMap<Variable,Integer> substitutions = null;
-			if (ProverSettings.useFixCoordinates) {
-				if (alternative)
-					substitutions = fixValues(prover, true);
-				else
-					substitutions = fixValues(prover, false);
+			int fixcoords = 0;
+			if (prover.isReturnExtraNDGs())
+				fixcoords = ProverSettings.useFixCoordinatesProveDetails;
+			else
+				fixcoords = ProverSettings.useFixCoordinatesProve;
+			if (fixcoords > 0) {
+				substitutions = fixValues(prover, fixcoords);
 				App.debug("substitutions: " + substitutions);
 			}
 			int nHypotheses = 0;
@@ -335,7 +322,7 @@ public class ProverBotanasMethod {
 				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
 				App.debug((nHypotheses + nNdgConditions + nPolysStatement) + ". " + spoly);
 				
-				if (alternative) {
+				if (prover.isReturnExtraNDGs()) {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
 					Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
@@ -349,9 +336,9 @@ public class ProverBotanasMethod {
 						}
 					}
 				} else {
-					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel())) // FIXME: here seems NPE if SingularWS not initialized 
+					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
+							ProverSettings.polysofractf)) // FIXME: here seems NPE if SingularWS not initialized 
 						ans = false;
-					
 				}
 			}
 

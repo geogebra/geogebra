@@ -211,7 +211,6 @@ public abstract class Prover {
 	
 	private List<ProverEngine> proveAutoOrder;
 	private List<ProverEngine> proveDetailsAutoOrder;
-	private boolean useAlternativeBotana;
 
 		
 	/**
@@ -263,25 +262,7 @@ public abstract class Prover {
 		App.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
-			/*
-			// Botana's prover needs singularWS.
-			// So don't try to use it if singularWS is not available:
-			if (App.singularWS == null) {
-				App.debug(currentEngine + " cannot be used, since singularWS is null");
-				result = ProofResult.UNKNOWN;
-				return;
-			}
-			if (!App.singularWS.isAvailable()) {
-				App.debug(currentEngine + " cannot be used, since singularWS is unavailable");
-				result = ProofResult.UNKNOWN;
-				return;
-			}
-			*/ // This is no longer required: giac can solve quite many problems internally
-			if (useAlternativeBotana){
-				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this, true);
-			} else {
-				result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this, false);
-			}
+			result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
 			result = reciosProver.prove(this);
@@ -369,16 +350,6 @@ public abstract class Prover {
 	 */
 	public void setReturnExtraNDGs(boolean returnExtraNDGs) {
 		this.returnExtraNDGs = returnExtraNDGs;
-	}
-
-	/**
-	 * Sets if the alternative botana method should be used to check
-	 * if a statement is generically true.
-	 * @param b True if the alternative method should be used, false if the traditional method should be used
-	 */
-	public void setAlternativeBotana(final boolean b) {
-		useAlternativeBotana = b;
-		
 	}
 	
 }

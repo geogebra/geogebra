@@ -752,13 +752,16 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
 							+ ProverSettings.proverMethod
 							+ "] (OpenGeoProver only)\n"
-							+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear ["
+							+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
 							+ ProverSettings.freePointsNeverCollinear
 							+ "] (Botana only)\n"
-							+ "      usefixcoords:BOOLEAN\tuse fix coordinates for the first points ["
-							+ ProverSettings.useFixCoordinates
+							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
+							+ ProverSettings.useFixCoordinatesProve + ProverSettings.useFixCoordinatesProveDetails 
 							+ "] (Botana only)\n"
-							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:false\n");
+							+ "      polysofractf:BOOLEAN\tuse polynomial ring over a fraction field for Prove ["
+							+ ProverSettings.polysofractf
+							+ "] (Botana only)\n"
+							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
 			System.exit(0);
 		}
 		if (args.containsArg("singularWShelp")) {
@@ -1030,8 +1033,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 		if ("usefixcoords".equalsIgnoreCase(str[0])) {
-			ProverSettings.useFixCoordinates = Boolean.valueOf(str[1])
-					.booleanValue();
+			ProverSettings.useFixCoordinatesProve = Integer.valueOf(str[1].charAt(0));
+			ProverSettings.useFixCoordinatesProveDetails = Integer.valueOf(str[1].charAt(1));
+			return;
+		}
+		if ("polysofractf".equalsIgnoreCase(str[0])) {
+			ProverSettings.polysofractf = Boolean.valueOf(str[1]).booleanValue();
 			return;
 		}
 		App.warn("Prover option not recognized: ".concat(option));

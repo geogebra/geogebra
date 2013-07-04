@@ -23,9 +23,21 @@ public class ProverSettings {
     /**
      * Assume if the free points are never collinear. Used by Botana's prover at the moment.
      */
-    public static boolean freePointsNeverCollinear = true;
+    public static boolean freePointsNeverCollinear = false;
     /**
-     * Do we need to set fix coordinates to speed up computation?  Used by Botana's prover at the moment.
+     * How many coordinates are to be fixed speed up computation for "Prove"?
+     * Used by Botana's prover at the moment.
      */
-    public static boolean useFixCoordinates = true;
+    public static int useFixCoordinatesProve = 4;
+    /**
+     * How many coordinates are to be fixed speed up computation for "ProveDetails"?
+     * Used by Botana's prover at the moment.
+     */
+    public static int useFixCoordinatesProveDetails = 2;
+    /**
+     * If possible, should the polynomial ring over a fraction field to be used?
+     * Singular normally supports that by using a good enough (and fast) implementation.
+     */
+    public static boolean polysofractf = true;
+
 }

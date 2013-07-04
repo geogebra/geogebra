@@ -139,7 +139,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @throws PolynomialOfUnexpectedForm if the String could not be translated to a Polynomial
 	 */
 	public Polynomial(String s, Set<Variable> variables) throws PolynomialOfUnexpectedForm {
-		App.debug("Constructing poly from " + s.length() + " length String");
+		if (s.length() > 200)
+			App.debug("Constructing poly from " + s.length() + " length String");
+		else
+			App.debug("Constructing poly " + s);
 		
 		//Create a map between the variables and the name of the variables
 		Iterator<Variable> variablesIterator = variables.iterator();
@@ -425,9 +428,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Creates a comma separated list of the variables in the given polynomials
 	 * @param polys the polynomials
 	 * @param extraVars (maybe) extra variables (typically substituted variables)
+	 * @param free filter the query if the variables are free or dependant (or any if null)
 	 * @return the comma separated list
 	 */
-	public static String getVarsAsCommaSeparatedString(Polynomial[] polys, HashSet<Variable> extraVars) {
+	public static String getVarsAsCommaSeparatedString(Polynomial[] polys, HashSet<Variable> extraVars, Boolean free) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<Variable> vars = getVars(polys);
 		if (extraVars != null)
@@ -435,7 +439,8 @@ public class Polynomial implements Comparable<Polynomial> {
 		Iterator<Variable> it = vars.iterator();
 		while (it.hasNext()) {
 			Variable fv = it.next();
-			sb.append("," + fv);
+			if ((free == null) || (free && fv.isFree()) || (!free && !fv.isFree()))
+				sb.append("," + fv);		
 		}
 		if (sb.length()>0)
 			return sb.substring(1); // removing first "," character
@@ -465,7 +470,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
-		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2}, null);
+		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2}, null, null);
 		if (vars != "")
 			return "ring " + ringVariable + "=0,(" 
 				+ vars
@@ -723,41 +728,29 @@ public class Polynomial implements Comparable<Polynomial> {
 			return ret.substring(1);
 		return "";
 	}
-	
+		
 	/**
-	 * Creates a Singular program for creating a ring to work with several
-	 * polynomials, and returns if the equation system has a solution. Uses
-	 * the Groebner basis w.r.t. the revgradlex order.
-	 * @param ringVariable variable name for the ring in Singular
-	 * @param idealVariable variable name for the ideal in Singular
-	 * @param polys array of polynomials
-	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
-	 * @return the Singular program code
-	 * 
-	 * TODO: This should not be used. Instead use createGroebnerSolvableScript().
-	 *
-	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys,
-			HashMap<Variable,Integer> substitutions) {
-		HashSet<Variable> substVars = null;
-		String substCommand = "";
-		if (substitutions != null) {
-			substVars = new HashSet<Variable>(substitutions.keySet());
-			String substParams = substitutionsString(substitutions);
-			substCommand = idealVariable + "=subst(" + idealVariable + "," + substParams + ");";
-		}
-		String ret = "ring " + ringVariable + "=0,(" 
-			+ getVarsAsCommaSeparatedString(polys, substVars)
-			+ "),dp;" // ring definition in Singular
-				
-			+ "ideal " + idealVariable + "="
-		 	+ getPolysAsCommaSeparatedString(polys) + ";"; // ideal definition in Singular
-
-		ret += substCommand;
-
-		ret += "groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
-		return ret;
+	 * Adds a leading comma to the input string if it not empty
+	 * @param in input
+	 * @return output string
+	 */
+	public static String addLeadingComma (String in) {
+		if (in == null || in.length() == 0)
+			return "";
+		return "," + in;
 	}
-	*/
+	
+	/**
+	 * Returns in1 if it is not empty, in2 otherwise
+	 * @param in1 input1
+	 * @param in2 input2
+	 * @return the first non-empty input
+	 */
+	public static String coalesce (String in1, String in2) {
+		if (in1 == null || in1.length() == 0)
+			return in2;
+		return in1;
+	}
 	
 	/**
 	 * Creates a Singular program for creating a ring to work with several
@@ -765,24 +758,38 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * the Groebner basis w.r.t. the revgradlex order.
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param idealVariable variable name for the ideal in Singular
+	 * @param dummyVar dummy variable name
 	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
-	 * @param varsAsCommaSeparatedString variables, e.g. "v1,v2,v3"
-	 * @param polysAsCommaSeparatedString polynomials, e.g. "v1+v2-3*v4-10"
+	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
+	 * @param fieldVars field variables (comma separated) 
+	 * @param ringVars ring variables (comma separated)
+	 * @param polysofractf use polynomial ring over a fraction field of polynomials (rational functions)
 	 * @return the Singular program code
 	 */
-	public static String createGroebnerSolvableScript(String ringVariable, String idealVariable, 
-			HashMap<Variable,Integer> substitutions, String varsAsCommaSeparatedString, String polysAsCommaSeparatedString) {
+	public static String createGroebnerSolvableScript(String ringVariable, String idealVariable,
+			String dummyVar, HashMap<Variable,Integer> substitutions, String polys,
+			String fieldVars, String ringVars, boolean polysofractf) {
+		
+		String vars = ringVars + addLeadingComma(fieldVars); 
+		
 		String substCommand = "";
 		if (substitutions != null) {
 			String substParams = substitutionsString(substitutions);
 			substCommand = idealVariable + "=subst(" + idealVariable + "," + substParams + ");";
 		}
-		String ret = "ring " + ringVariable + "=0,(" 
-			+ varsAsCommaSeparatedString
-			+ "),dp;" // ring definition in Singular
-				
+		String ret = "ring " + ringVariable + "=";
+		
+		if (polysofractf) {
+			ret += "(0" + addLeadingComma(fieldVars)
+				+ "),(" + coalesce(ringVars, dummyVar);
+		}
+		else {
+			ret += "0,(" + coalesce(vars, dummyVar);
+		}
+		
+		ret += "),dp;" // ring definition in Singular, using revgradlex
 			+ "ideal " + idealVariable + "="
-		 	+ polysAsCommaSeparatedString + ";"; // ideal definition in Singular
+		 	+ polys + ";"; // ideal definition in Singular
 
 		ret += substCommand;
 
@@ -854,20 +861,29 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * on the field of the complex numbers.
 	 * @param polys the array of polynomials
 	 * @param substitutions some variables which are to be evaluated with exact numbers
+	 * @param kernel kernel for the prover
+	 * @param polysofractf use polynomial over rational functions if possible 
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions, Kernel kernel) {
+	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions, Kernel kernel,
+			boolean polysofractf) {
 		
 		HashSet<Variable> substVars = null;
 		String polysAsCommaSeparatedString = getPolysAsCommaSeparatedString(polys);
 		substVars = new HashSet<Variable>(substitutions.keySet());		
-		String varsAsCommaSeparatedString = getVarsAsCommaSeparatedString(polys, substVars);
-				
+		
+		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true);
+		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
+		 
+		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			
-			String singularSolvableProgram = createGroebnerSolvableScript("r", "i", 
-					substitutions, varsAsCommaSeparatedString, polysAsCommaSeparatedString);
-			// String singularSolvableProgram = getSingularGroebnerSolvable("r", "i", polys, substitutions);
+			String singularSolvableProgram = createGroebnerSolvableScript("r", "i", "d", substitutions, polysAsCommaSeparatedString, 
+					freeVars, dependantVars, polysofractf);
+ 
+			// createGroebnerSolvableScript("r", "i", 
+			// 		substitutions, varsAsCommaSeparatedString, polysAsCommaSeparatedString);
+			
 			if (singularSolvableProgram.length()>500)
 				App.debug(singularSolvableProgram.length() + " bytes -> singular");
 			else
@@ -884,7 +900,9 @@ public class Polynomial implements Comparable<Polynomial> {
 
 		// If SingularWS is not applicable, then we try to use the internal CAS:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		String script = cas.getCurrentCAS().createGroebnerSolvableScript("rr", "ii", substitutions, varsAsCommaSeparatedString, polysAsCommaSeparatedString);
+		
+		String script = cas.getCurrentCAS().createGroebnerSolvableScript("", "ii", "", substitutions, polysAsCommaSeparatedString,
+				freeVars, dependantVars, polysofractf);
 		if (script == null) {
 			App.info("Not implemented (yet)");
 			return null; // cannot decide
@@ -992,8 +1010,8 @@ public class Polynomial implements Comparable<Polynomial> {
 			//test whether the result was given back in form
 			// _[0]=poly1
 			// _[1]=poly2
-			if (!(singularSolvable.matches("(.|\\s)*_\\[[0-9]+\\]=(.|\\s)*")))
-				return null;
+			// if (!(singularSolvable.matches("^_\\[[0-9]+\\]=(.|\\s)*")))
+			//	return null;
 			
 			String[] polynomialStrings = singularSolvable.split("_\\[[0-9]+\\]=");
 			

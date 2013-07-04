@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -378,20 +379,11 @@ public abstract class CASgiac implements CASGenericInterface {
 				.toString();
 
 	}
-
-	/**
-	 * Creates a giac program to check if an equation system has no solution, using
-	 * Groebner basis w.r.t. the revgradlex order.
-	 * @param ringVariable unused (for compatibility with Singular)
-	 * @param idealVariable unused (for compatibility with Singular)
-	 * @param substitutions e.g [v1=0,v2=1]
-	 * @param varsAsCommaSeparatedString variables, e.g. "v1,v2,v3"
-	 * @param polysAsCommaSeparatedString polynomials, e.g. "v1+v2-3*v4-10"
-	 * @return the giac program code
-	 */
-	public String createGroebnerSolvableScript(String ringVariable, String idealVariable, 
-			HashMap<Variable,Integer>substitutions, String varsAsCommaSeparatedString, String polysAsCommaSeparatedString) {
-
+	
+	public String createGroebnerSolvableScript(String ringVar, String idealVar,
+			String dummyVar, HashMap<Variable, Integer> substitutions,
+			String polys, String freeVars, String dependantVars,
+			boolean polysofractf) {
 		/* Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2, ... are used for variables):
 		 * 
 		 * [ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1, 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
@@ -403,23 +395,28 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * In the last part we check if the Groebner basis is a constant neq 0, i.e. its degree is 0 but it is not 0.
 		 * If yes, there is no solution.
+		 * 
+		 * The giac implementation does not handle the case for request for polynomial ring over rational functions.
+		 * We silently use a polynomial ring instead.
 		 */
 
-		String ret = "[[" + idealVariable + ":=gbasis(";
+		String ret = "[[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {
 			ret += "subst(";
 		}
 
-		ret += "[" + polysAsCommaSeparatedString + "]";
+		ret += "[" + polys + "]";
 
 		if (substitutions != null) {
 			String substParams = substitutionsString(substitutions);
 			ret += ",[" + substParams + "])";
 		}
 
-		ret += ",[" + varsAsCommaSeparatedString + "],revlex)],(degree(" +
-				idealVariable + "[0])!=0)||(" + idealVariable + "[0]==0)][1]";
+		String vars = freeVars + Polynomial.addLeadingComma(dependantVars);
+		
+		ret += ",[" + vars + "],revlex)],(degree(" +
+				idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][1]";
 
 		return ret;
 	}

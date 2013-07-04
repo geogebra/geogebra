@@ -115,16 +115,20 @@ public interface CASGenericInterface extends SettingListener {
 	/**
 	 * Creates a program to check if an equation system has no solution, using
 	 * Groebner basis w.r.t. the revgradlex order.
-	 * @param ringVariable internal variable name for the ring if the CAS engine needs it
-	 * @param idealVariable internal variable name for the ideal if the CAS engine needs it 
+	 * @param ringVar internal variable name for the ring if the CAS engine needs it
+	 * @param idealVar internal variable name for the ideal if the CAS engine needs it
+	 * @param dummyVar dummy variable name
 	 * @param substitutions e.g [v1=0,v2=1]
-	 * @param varsAsCommaSeparatedString variables, e.g. "v1,v2,v3"
-	 * @param polysAsCommaSeparatedString  polynomials, e.g. "v1+v2-3*v4-10"
+	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
+	 * @param freeVars free variables
+	 * @param dependantVars dependent variables
+	 * @param polysofractf use polynomials of rational functions 
 	 * @return the program code
 	 */
-	public String createGroebnerSolvableScript(String ringVariable, String idealVariable, 
-			HashMap<Variable,Integer>substitutions, String varsAsCommaSeparatedString, String polysAsCommaSeparatedString);
-	
+	public String createGroebnerSolvableScript(String ringVar, String idealVar, String dummyVar, 
+			HashMap<Variable,Integer>substitutions, String polys,
+			String freeVars, String dependantVars, boolean polysofractf);
+		
 	/**
 	 * @param rawResult output from eliminate() and coeffs() commands
 	 * @param cas the currently used CAS
