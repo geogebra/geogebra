@@ -387,7 +387,8 @@ class FileMenu extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new geogebra.export.pstricks.GeoGebraToPstricks(app);
+					geogebra.export.pstricks.GeoGebraToPstricks export = new geogebra.export.pstricks.GeoGebraToPstricks(app);
+					new geogebra.export.pstricks.PstricksFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -404,7 +405,8 @@ class FileMenu extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new geogebra.export.pstricks.GeoGebraToPgf(app);
+					geogebra.export.pstricks.GeoGebraToPgf export = new geogebra.export.pstricks.GeoGebraToPgf(app);
+					new geogebra.export.pstricks.PgfFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
@@ -422,7 +424,8 @@ class FileMenu extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new geogebra.export.pstricks.GeoGebraToAsymptote(app);
+					geogebra.export.pstricks.GeoGebraToAsymptote export = new geogebra.export.pstricks.GeoGebraToAsymptote(app);
+					new  geogebra.export.pstricks.AsymptoteFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {

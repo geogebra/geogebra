@@ -2,7 +2,6 @@ package geogebra.export.pstricks;
 import geogebra.common.export.pstricks.ExportSettings;
 import geogebra.common.export.pstricks.GeoGebraExport;
 import geogebra.common.main.Localization;
-import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -76,6 +75,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings{
 		this.ggb=ggb;
 		this.app= (AppD) ggb.getApp();
 		loc = app.getLocalization();
+		ggb.setFrame(this);
+		
 		width=ggb.getXmax()-ggb.getXmin();
 		height=ggb.getYmax()-ggb.getYmin();
 		listenKey=new ListenKey(this);
@@ -159,7 +160,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings{
 
 			public void actionPerformed(ActionEvent e){
         		currentFile =
-		            ((GuiManagerD)app.getGuiManager()).showSaveDialog(
+		            app.getGuiManager().showSaveDialog(
 		                fileExtension, currentFile,
 		                fileExtensionMsg + app.getMenu("Files"), true, false);
 		        if (currentFile == null)

@@ -2807,11 +2807,6 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
-	@Override
-	protected void createFrame() {
-		frame = new PgfFrame(this);
-	}
-
 	/**
 	 * Export Implicit plot for polynom degree greater than 2
 	 */

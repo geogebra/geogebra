@@ -87,7 +87,7 @@ public abstract class GeoGebraExport {
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
 		this.euclidianView = (EuclidianView) app.getActiveEuclidianView();
-		initGui();
+		initBounds();
 	}
 
 	public App getApp() {
@@ -160,7 +160,7 @@ public abstract class GeoGebraExport {
 	/**
 	 * Initialize Gui JFrame
 	 */
-	private void initGui() {
+	private void initBounds() {
 		xunit = 1;
 		yunit = 1;
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
@@ -179,7 +179,6 @@ public abstract class GeoGebraExport {
 			ymin = euclidianView.getYmin();
 			ymax = euclidianView.getYmax();
 		}
-		createFrame();
 	}
 
 	/**
@@ -707,7 +706,12 @@ public abstract class GeoGebraExport {
 	abstract protected void drawArrowArc(GeoAngle geo, double[] vertex,
 			double angSt, double angEnd, double r, boolean clockwise);
 
-	abstract protected void createFrame();
+	/**
+	 * @param settingsFrame frame where user may edit the settings and where he becomes the output
+	 */
+	public final void setFrame(ExportSettings settingsFrame){
+		frame = settingsFrame;
+	}
 
 	public abstract void generateAllCode();
 

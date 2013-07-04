@@ -63,13 +63,12 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -88,15 +87,9 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 * 
 	 * @param app
 	 *            GeoGeBra Application
-	 * @throws IOException
 	 */
-	public GeoGebraToPstricks(AppD app) {
+	public GeoGebraToPstricks(App app) {
 		super(app);
-	}
-
-	@Override
-	protected void createFrame() {
-		frame = new PstricksFrame(this);
 	}
 
 	@Override

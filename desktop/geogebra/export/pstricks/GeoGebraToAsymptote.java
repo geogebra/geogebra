@@ -119,10 +119,6 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     public GeoGebraToAsymptote(final App app) {
         super(app);
     }
-    @Override
-	protected void createFrame(){
-        frame = new AsymptoteFrame(this);
-    }
     
     /**
      * generateAllCode: generate Asymptote output by assembling snippets and sanitizing
