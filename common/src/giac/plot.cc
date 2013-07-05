@@ -7777,6 +7777,17 @@ namespace giac {
     aden=r2e(aden,v,contextptr);
     gen eq2=anum-y*aden;
     gen res=_resultant(makevecteur(eq1,eq2,t),contextptr);
+    vecteur resl=alg_lvar(res);
+    res=e2r(res,resl,contextptr);
+    if (res.type==_FRAC)
+      res=res._FRACptr->num;
+    if (res.type==_POLY){
+      gen c=Tcontent(*res._POLYptr);
+      if (is_positive(-res._POLYptr->coord.front()))
+	c=-c;
+      res=*res._POLYptr/c;
+    }
+    res=r2e(res,resl,contextptr);
     if (is_undef(res)) return res;
     if (approx)
       res=evalf(res,1,contextptr);

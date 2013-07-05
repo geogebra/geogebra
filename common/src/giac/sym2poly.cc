@@ -1262,7 +1262,7 @@ namespace giac {
 
   static void extract_ext(const gen & g,gen & extracted,vector<int> & embeddings){
     if (g.type==_EXT){
-      extracted= g;
+      extracted= ext_reduce(g);
       return;
     }
     if (g.type==_POLY && !g._POLYptr->coord.empty() && Tis_constant<gen>(*g._POLYptr)){
@@ -1403,6 +1403,11 @@ namespace giac {
 	gen ext;
 	vector<int> emb;
 	extract_ext(lvnum[i],ext,emb);
+	if (ext.type==_FRAC){
+	  lvnum[i]=lvnum[i]*ext._FRACptr->den;
+	  lvden[i]=lvden[i]*ext._FRACptr->den;
+	  ext=ext._FRACptr->num;
+	}
 	if (!is_zero(ext))
 	  extensions[emb.size()].push_back(ext);
       }
