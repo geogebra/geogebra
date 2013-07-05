@@ -2630,7 +2630,7 @@ namespace giac {
   static define_unary_function_eval4_quoted (__integrate,&_integrate,_integrate_s,0,&texprintasintegrate);
   define_unary_function_ptr5( at_integrate ,alias_at_integrate,&__integrate,_QUOTE_ARGUMENTS,true);
 
-  // Not linked currently
+  // called by approx_area
   double rombergo(const gen & f0,const gen & x, const gen & a_orig, const gen & b_orig, int n,GIAC_CONTEXT){
     //f est l'expression a integrer, x le nom de la variable, a et b les bornes
     // n si on veut faire 2^n subdivisions

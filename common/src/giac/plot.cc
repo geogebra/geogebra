@@ -7794,15 +7794,21 @@ namespace giac {
   static gen equation(const gen & arg,const gen & x,const gen & y, const gen & z,GIAC_CONTEXT){
     if (arg.type==_VECT){
       vecteur res;
-      const_iterateur it=arg._VECTptr->begin(),itend=arg._VECTptr->end();
+      const_iterateur it=arg._VECTptr->begin(),itbeg=it,itend=arg._VECTptr->end();
+      gen prev;
       for (;it!=itend;++it){
 	gen tmp=equation(*it,x,y,z,contextptr);
+	if (tmp==prev)
+	  continue;
+	prev=tmp;
 	if (calc_mode(contextptr)==1)
 	  tmp=remove_equal(tmp);
 	res.push_back(tmp);
       }
       if (calc_mode(contextptr)==1)
 	return symbolic(at_equal,makesequence(_prod(res,contextptr),0));
+      if (res.size()==1)
+	return res.front();
       return res;
     }
     gen e=remove_at_pnt(arg);
@@ -8150,6 +8156,33 @@ namespace giac {
     return res;
   }
 
+  bool intercartesianparametric(const gen & a0,const gen & b0,vecteur & res,GIAC_CONTEXT){ 
+    // intersection a0 cartesian equation, b0 parametric curve
+    gen a=remove_equal(a0);
+    gen m,mx,my,t(t__IDNT_e),tmin,tmax; double T; bool tminmax; vecteur v;
+    if (!find_curve_parametrization(b0,m,t,T,tmin,tmax,tminmax,contextptr))
+      return false;
+    reim(m,mx,my,contextptr);
+    gen eq=subst(a,makevecteur(x__IDNT_e,y__IDNT_e),makevecteur(mx,my),false,contextptr);
+#ifndef NO_STDEXCEPT
+    try {
+#endif
+      v=solve(eq,t,0,contextptr);
+#ifndef NO_STDEXCEPT
+    } catch(std::runtime_error) {
+      return false;
+    }
+#endif
+    for (unsigned i=0;i<v.size();++i){
+      if (is_greater(v[i],tmin,contextptr) && is_greater(tmax,v[i],contextptr))
+	res.push_back(v[i]);
+    }
+    for (unsigned i=0;i<res.size();++i){
+      res[i]=subst(m,t,res[i],false,contextptr);
+    }
+    return true;
+  }
+
   vecteur inter(const gen & aa,const gen & bb,GIAC_CONTEXT){
     if (aa.type==_VECT){
       if (bb.type==_VECT){
@@ -8271,6 +8304,11 @@ namespace giac {
       return interhypersurfacecurve(b,a,contextptr);
     if (a.is_symb_of_sommet(at_hypersurface) && b.is_symb_of_sommet(at_hypersurface))
       return inter2hypersurface(a,b,contextptr);
+    vecteur res;
+    if (a.is_symb_of_sommet(at_equal) && b.is_symb_of_sommet(at_curve) && intercartesianparametric(a,b,res,contextptr))
+      return res;
+    if (b.is_symb_of_sommet(at_equal) && a.is_symb_of_sommet(at_curve) && intercartesianparametric(b,a,res,contextptr))
+      return res;
     if ( (a.type==_SYMB) && (a._SYMBptr->sommet==at_curve) && (b.type==_SYMB) && (b._SYMBptr->sommet==at_curve) ){ // curve inter curve
       gen fa,fb;
       if ((fa=a._SYMBptr->feuille).type!=_VECT || (fb=b._SYMBptr->feuille).type!=_VECT || fa._VECTptr->empty() || fb._VECTptr->empty() || fa._VECTptr->front().type!=_VECT || fb._VECTptr->front().type!=_VECT)

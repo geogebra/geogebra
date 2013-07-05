@@ -5512,6 +5512,10 @@ namespace giac {
       return feuille.print(contextptr)+"!";
     return "("+feuille.print(contextptr)+")!";
   }
+  static gen d_factorial(const gen & args,GIAC_CONTEXT){
+    return Psi(args+1,0)*_factorial(args,contextptr);
+  }
+  define_partial_derivative_onearg_genop( D_at_factorial," D_at_factorial",&d_factorial);
   gen _factorial(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_VECT)
@@ -5526,7 +5530,7 @@ namespace giac {
     return factorial((unsigned long int) args.val);
   }
   static const char _factorial_s []="factorial";
-  static define_unary_function_eval2 (__factorial,&giac::_factorial,_factorial_s,printasfactorial);
+  static define_unary_function_eval5 (__factorial,&giac::_factorial,D_at_factorial,_factorial_s,&printasfactorial,0);
   define_unary_function_ptr5( at_factorial ,alias_at_factorial,&__factorial,0,true);
 
   gen double_is_int(const gen & g,GIAC_CONTEXT){
