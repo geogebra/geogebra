@@ -3038,4 +3038,10 @@ public class GuiManagerD extends GuiManager {
 	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
+
+	@Override
+	public void clearAbsolutePanels() {
+		// TODO Auto-generated method stub
+		
+	}
 }
