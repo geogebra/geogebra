@@ -41,6 +41,7 @@ import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.CASDockPanelW;
 import geogebra.web.gui.layout.panels.ConstructionProtocolDockPanelW;
 import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
+import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
@@ -59,6 +60,7 @@ import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
@@ -66,6 +68,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GuiManagerW extends GuiManager implements ViewManager {
 
@@ -1321,4 +1324,26 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 		return constructionProtocolView;
     }
+
+	@Override
+    public void clearAbsolutePanels() {
+		clearAbsolutePanel(App.VIEW_EUCLIDIAN);
+		clearAbsolutePanel(App.VIEW_EUCLIDIAN2);   
+    }
+	
+	private void clearAbsolutePanel(int viewid){
+		AbsolutePanel ep;
+		if (viewid==App.VIEW_EUCLIDIAN){
+			ep = ((EuclidianDockPanelW) getLayout().getDockManager().getPanel(viewid)).getEuclidianPanel();
+		} else if (viewid==App.VIEW_EUCLIDIAN2){
+			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(viewid)).getEuclidianPanel();
+		} else return;
+		
+		if (ep == null) return;
+	    Iterator<Widget> it = ep.iterator();
+	    while (it.hasNext()) {
+	    	Widget nextItem = it.next();
+	    	if (!(nextItem instanceof Canvas)) it.remove();
+	    }
+	}
 }
