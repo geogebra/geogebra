@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Iterator;
-import java.io.ByteArrayInputStream;
 
 @SuppressWarnings("all")
 public class PolynomialParser implements PolynomialParserConstants {
@@ -18,7 +17,7 @@ public class PolynomialParser implements PolynomialParserConstants {
       Variable variable = variablesIterator.next();
       variableMap.put(variable.getName(), variable);
     }
-    PolynomialParser parser = new PolynomialParser(new ByteArrayInputStream(string.getBytes()));
+    PolynomialParser parser = new PolynomialParser(new java.io.StringReader(string));
     return parser.polynomialStartingPoint(variableMap);
   }
 
@@ -31,7 +30,7 @@ public class PolynomialParser implements PolynomialParserConstants {
       Variable variable = variablesIterator.next();
       variableMap.put(variable.getName(), variable);
     }
-    PolynomialParser parser = new PolynomialParser(new ByteArrayInputStream(string.getBytes()));
+    PolynomialParser parser = new PolynomialParser(new java.io.StringReader(string));
     return parser.polynomialFactorsStartingPoint(variableMap);
   }
 
@@ -44,7 +43,7 @@ public class PolynomialParser implements PolynomialParserConstants {
       Variable variable = variablesIterator.next();
       variableMap.put(variable.getName(), variable);
     }
-    PolynomialParser parser = new PolynomialParser(new ByteArrayInputStream(string.getBytes()));
+    PolynomialParser parser = new PolynomialParser(new java.io.StringReader(string));
     return parser.polynomialFactoredSetStartingPoint(variableMap);
   }
 
