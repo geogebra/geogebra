@@ -503,7 +503,7 @@ public class TouchModel {
 					&& hits.contains(this.selectedElements.get(0))) {
 				this.deselect(this.selectedElements.get(0));
 			} else {
-				select(hits, Test.GEOPOINT, 1);
+				select(hits, Test.GEOPOINT, 2);
 			}
 
 			// deselect all elements except for the center point (index 0)

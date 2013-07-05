@@ -96,6 +96,11 @@ public class TouchController extends EuclidianController
 			switchPreviewableForInitNewMode(this.model.getCommand().getMode()); 
 		}
 		
+		if(this.mode == ToolBarCommand.Move_Mobile.getMode())
+		{
+			this.model.resetSelection();
+		}
+		
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
 		handleEvent(x, y);
@@ -198,6 +203,9 @@ public class TouchController extends EuclidianController
 		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint && Math.abs(this.rotationLastAngle) > 0.001)
 		{
 			this.kernel.storeUndoInfo(); 
+			// deselect the point that was rotated
+			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
+			this.kernel.notifyRepaint();
 		}
 		
 		if(this.model.getCommand() == ToolBarCommand.Pen || 
