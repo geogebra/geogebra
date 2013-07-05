@@ -207,7 +207,19 @@ public class Ggb2giac {
 		p("Intersect.2",
 				"[[ggbans:=0/0],[ggbans:=inter(equation(%0),equation(%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
-		p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
+		// Giac currently uses approximation for this
+		//p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
+		
+		// http://www.had2know.com/academics/conic-section-through-five-points.html
+		// exact method
+		p("Conic.5",
+				"[[[A:=(0/0,0/0)],[B:=(0/0,0/0)],[C:=(0/0,0/0)],[D:=(0/0,0/0)],[E:=(0/0,0/0)]],"+
+						"[[A:=%0],[B:=%1],[C:=%2],[D:=%3],[E:=%4]],"+
+						"[M:={{x^2,x*y,y^2,x,y,1},{A[0]^2,A[0]*A[1],A[1]^2,A[0],A[1],1},{B[0]^2,B[0]*B[1],B[1]^2,B[0],B[1],1},{C[0]^2,C[0]*C[1],C[1]^2,C[0],C[1],1},{D[0]^2,D[0]*D[1],D[1]^2,D[0],D[1],1},{E[0]^2,E[0]*E[1],E[1]^2,E[0],E[1],1}}],"+
+						"det(M)=0"+
+						"][3]"
+				);
+		
 		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),point(%2)))");
 		p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),point(%2)))");
 
