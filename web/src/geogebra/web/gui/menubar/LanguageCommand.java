@@ -3,7 +3,6 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
-import geogebra.html5.main.GgbAPI;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -82,7 +81,7 @@ public class LanguageCommand implements Command {
 		//Otherwise only the language will change, and the setting related with language.
 		if (oldRTLOrder != app.getLocalization().rightToLeftReadingOrder){
 			JavaScriptObject callback = saveBase64ToLocalStorage();
-			((GgbAPI) app.getGgbApi()).getBase64(callback);
+			app.getGgbApi().getBase64(callback);
 		} else {
 			app.setLanguage(localeCode);
 		}
