@@ -10,6 +10,7 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -18,6 +19,7 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
 import geogebra.html5.main.AppWeb;
@@ -27,6 +29,7 @@ import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
+import geogebra.touch.gui.elements.header.TabletHeaderPanelLeft;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
@@ -400,6 +403,12 @@ public class TouchApp extends AppWeb
 	{
 		this.kernel.clearConstruction(true);
 		this.kernel.initUndoInfo();
+		setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
+		this.settings.beginBatch();
+		this.settings.getEuclidian(1).reset();
+		this.settings.getEuclidian(1).setShowAxes(true, true);
+		this.settings.getEuclidian(1).setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+		this.settings.endBatch();
 		this.kernel.notifyRepaint();
 	}
 

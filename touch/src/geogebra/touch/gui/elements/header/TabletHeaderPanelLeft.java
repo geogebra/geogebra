@@ -77,11 +77,8 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null); 
 				TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
-				App.debug("new construction 1");
 				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
-				App.debug("new construction 2");
 				TabletHeaderPanelLeft.this.app.setConstructionTitle(TabletHeaderPanelLeft.this.app.getDefaultConstructionTitle());
-				App.debug("new construction 3");
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 			}
 		};
