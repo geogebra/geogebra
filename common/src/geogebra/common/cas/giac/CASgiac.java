@@ -380,8 +380,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 	
-	public String createGroebnerSolvableScript(String ringVar, String idealVar,
-			String dummyVar, HashMap<Variable, Integer> substitutions,
+	public String createGroebnerSolvableScript(HashMap<Variable, Integer> substitutions,
 			String polys, String freeVars, String dependantVars,
 			boolean polysofractf) {
 		/* Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2, ... are used for variables):
@@ -400,6 +399,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * We silently use a polynomial ring instead.
 		 */
 
+		String idealVar = "ii";
+		
 		String ret = "[[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {

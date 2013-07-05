@@ -197,8 +197,7 @@ public class CASmpreduceD extends CASmpreduce {
 		
 	}
 
-	public String createGroebnerSolvableScript(String ringVar, String idealVar,
-			String dummyVar, HashMap<Variable, Integer> substitutions,
+	public String createGroebnerSolvableScript(HashMap<Variable, Integer> substitutions,
 			String polys, String freeVars, String dependantVars,
 			boolean polysofractf) {
 		// unimplemented, maybe possible (at least partially)

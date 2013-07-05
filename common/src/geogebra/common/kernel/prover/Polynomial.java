@@ -800,16 +800,42 @@ public class Polynomial implements Comparable<Polynomial> {
 	
 	/**
 	 * Creates a Singular program for the elimination ideal given by
-	 * a set of generating polynomials.
-	 * @param ringVariable variable name for the ring in Singular
-	 * @param idealVariable variable name for the ideal in Singular
+	 * a set of generating polynomials. We get the result in factorized form.
 	 * @param polys set of polynomials generating the ideal
 	 * @param variables the variables of the polynomials
 	 * @param dependentVariables the variables that should be eliminated
 	 * @return the Singular program code
 	 */
-	public static String getSingularEliminationIdeal(String ringVariable, String idealVariable, 
+	
+	/*
+	 * Example program code:
+	 * ring r=0,(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15),dp;
+	 * ideal i=-1*v5+-1*v3+2*v1,-1*v6+-1*v4+2*v2,-1*v9+2*v7+-1*v5,-1*v10+2*v8+-1*v6,2*v11+-1*v7+-1*v1,2*v12+-1*v8+-1*v2,
+	 * -1*v13*v12+v14*v11+v13*v6+-1*v11*v6+-1*v14*v5+v12*v5,
+	 * -1*v13*v10+v14*v9+v13*v4+-1*v9*v4+-1*v14*v3+v10*v3,
+	 * -1+2*v15*v14*v10+-1*v15*v10^2+2*v15*v13*v9+-1*v15*v9^2+-2*v15*v14*v4+v15*v4^2+-2*v15*v13*v3+v15*v3^2;
+	 * ideal e=eliminate(i,v1*v2*v7*v8*v11*v12*v13*v14*v15);
+	 * list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
+	 * 
+	 * Example output from Singular:
+	 * [1]:
+          [1]:
+             _[1]=1
+             _[2]=v4*v5-v3*v6-v4*v9+v6*v9+v3*v10-v5*v10
+          [2]:
+             1,1
+	 */
+	
+	public static String getSingularEliminationIdeal( 
 			Polynomial[] polys, Set<Variable> variables, Set<Variable> dependentVariables) {
+
+		String ringVariable = "r";
+		String idealVariable = "i";
+		String loopVariable = "j";
+		String sizeVariable = "s";
+		String eliminationVariable = "e";
+		String outputVariable = "o";
+		String dummyVar = "d";
 		
 		StringBuffer ret = new StringBuffer("ring ");
 		ret.append(ringVariable);
@@ -825,7 +851,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		if (vars != "")
 			ret.append(vars);
 		else
-			ret.append("dummyvar");
+			ret.append(dummyVar);
 		
 		ret.append("),dp;");
 		
@@ -835,6 +861,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		ret.append(getPolysAsCommaSeparatedString(polys));
 		ret.append(";");
 		
+		ret.append("ideal ");
+		ret.append(eliminationVariable);
+		ret.append("=");
 		ret.append("eliminate(");
 		ret.append(idealVariable);
 		ret.append(",");
@@ -850,9 +879,17 @@ public class Polynomial implements Comparable<Polynomial> {
 		if (vars != "")
 			ret.append(vars);
 		else
-			ret.append("dummyvar");
+			ret.append(dummyVar);
 		
 		ret.append(");");
+
+		// list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
+		ret.append("list " + outputVariable + ";int " + sizeVariable + "=size(" + eliminationVariable + ");");
+		ret.append("int " + loopVariable + ";for(" + loopVariable + "=1;" + loopVariable + "<=" + sizeVariable
+				+ ";" + loopVariable + "=" + loopVariable + "+1)");
+		ret.append("{" + outputVariable + "[" + loopVariable + "]=factorize(" + eliminationVariable
+				+ "[" + loopVariable + "]);}o;");
+		
 		return ret.toString();
 	}
 
@@ -901,7 +938,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		// If SingularWS is not applicable, then we try to use the internal CAS:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		
-		String script = cas.getCurrentCAS().createGroebnerSolvableScript("", "ii", "", substitutions, polysAsCommaSeparatedString,
+		String script = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
 				freeVars, dependantVars, polysofractf);
 		if (script == null) {
 			App.info("Not implemented (yet)");
@@ -985,8 +1022,8 @@ public class Polynomial implements Comparable<Polynomial> {
 			} else {
 				eqSystemSubstituted = eqSystem;
 			}
-			String singularEliminationProgram = getSingularEliminationIdeal("r",
-					"i", eqSystemSubstituted, variables, dependentVariables);
+			String singularEliminationProgram = getSingularEliminationIdeal(
+					eqSystemSubstituted, variables, dependentVariables);
 
 			variablesIterator = variables.iterator();
 			while (variablesIterator.hasNext()){

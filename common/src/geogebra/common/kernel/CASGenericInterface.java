@@ -125,7 +125,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @param polysofractf use polynomials of rational functions 
 	 * @return the program code
 	 */
-	public String createGroebnerSolvableScript(String ringVar, String idealVar, String dummyVar, 
+	public String createGroebnerSolvableScript( 
 			HashMap<Variable,Integer>substitutions, String polys,
 			String freeVars, String dependantVars, boolean polysofractf);
 		
