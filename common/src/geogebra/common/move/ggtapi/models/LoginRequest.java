@@ -47,15 +47,14 @@ public class LoginRequest implements Request {
 	}
 
 	public String toJSONString() {
-		this.apiJSON.put("-api", new JSONString(api));
-		this.requestJSON.put("request", this.apiJSON);
+		
 		
 		this.loginJSON.put("-type", new JSONString(loginType));
 		this.loginJSON.put("-username", new JSONString(userName));
 		this.loginJSON.put("-password", new JSONString(password));
 		this.loginJSON.put("-exptime", new JSONString(exptime));
 		this.loginJSON.put("-info", new JSONString(info));
-		this.requestJSON.put("login", this.loginJSON);
+		this.apiJSON.put("login", this.loginJSON);
 		
 		this.taskJSON.put("-type", new JSONString(taskType));
 		this.credentialsJSON.put("-provider", new JSONString(credentialsProvider));
@@ -67,7 +66,10 @@ public class LoginRequest implements Request {
 		this.taskJSON.put("expiration",  this.expirationJSON);
 		
 		
-		this.requestJSON.put("task", this.taskJSON);
+		this.apiJSON.put("task", this.taskJSON);
+		
+		this.apiJSON.put("-api", new JSONString(api));
+		this.requestJSON.put("request", this.apiJSON);
 		
 		
 		return this.requestJSON.toString();

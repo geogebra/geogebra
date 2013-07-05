@@ -4,7 +4,9 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.util.JSON;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,6 +15,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -133,7 +136,10 @@ public class SignInDialog extends DialogBox {
 				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
-						GWT.log(response.getText());
+						JavaScriptObject json = JSON.parse(response.getText());
+						if (JSON.get(json, "error") != null) {
+							Window.alert(JSON.get(json, "error"));
+						}
 					}
 					
 					public void onError(Request request, Throwable exception) {
