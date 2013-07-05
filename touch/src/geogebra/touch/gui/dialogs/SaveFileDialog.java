@@ -32,14 +32,9 @@ public class SaveFileDialog extends FileDialog
 	 */
 	private void save(String xml)
 	{
-		if (super.stockStore == null)
-		{
-			return;
-		}
-
 		if (!super.textBox.getText().isEmpty())
 		{
-			super.stockStore.setItem(super.textBox.getText(), xml);
+			super.fm.saveFile(super.textBox.getText(), xml);
 			super.app.setConstructionTitle(super.textBox.getText());
 		}
 	}

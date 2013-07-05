@@ -18,7 +18,7 @@ public class OpenFileDialog extends FileDialog
 	protected void onOK()
 	{
 
-		String fileAsXML = super.stockStore.getItem(super.textBox.getText());
+		String fileAsXML = super.fm.getFile(super.textBox.getText());
 		if (fileAsXML != null)
 		{
 			try

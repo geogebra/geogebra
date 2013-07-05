@@ -1,5 +1,6 @@
 package geogebra.touch.gui.dialogs;
 
+import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -34,7 +35,7 @@ public abstract class FileDialog extends PopupPanel
 	private VerticalPanel dialogPanel;
 	private Label title;
 
-	protected Storage stockStore = Storage.getLocalStorageIfSupported();
+	protected FileManagerM fm;
 
 	protected ListBox fileList;
 	protected TextBox textBox;
@@ -123,20 +124,7 @@ public abstract class FileDialog extends PopupPanel
 	 */
 	protected void populateFileList()
 	{
-		this.fileList.clear();
-
-		if (this.stockStore == null)
-		{
-			return;
-		}
-
-		if (this.stockStore.getLength() > 0)
-		{
-			for (int i = 0; i < this.stockStore.getLength(); i++)
-			{
-				this.fileList.addItem(this.stockStore.key(i));
-			}
-		}
+		fm.toList(fileList);
 	}
 
 	private void initDeleteButton()
@@ -188,7 +176,7 @@ public abstract class FileDialog extends PopupPanel
 
 	protected void onDelete()
 	{
-		this.stockStore.removeItem(this.textBox.getText());
+		fm.delete(this.textBox.getText());
 		populateFileList();
 	}
 
@@ -203,7 +191,7 @@ public abstract class FileDialog extends PopupPanel
 	
 	public abstract void setLabels();
 
-	public Storage getStorage() {
-		return this.stockStore;
+	public FileManagerM getFileManager() {
+		return this.fm;
 	}
 }

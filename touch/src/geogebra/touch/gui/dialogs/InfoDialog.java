@@ -2,6 +2,7 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -25,14 +26,16 @@ public class InfoDialog extends PopupPanel
 	String consTitle;
 	String xml;
 	private Localization loc;
-	Storage stockStore;
+	private App app;
+	FileManagerM fm;
 	Runnable callback = null;
 
-	public InfoDialog(Localization loc,Storage stockStore)
+	public InfoDialog(App app,FileManagerM fm)
 	{
 		super(true, true);
-		this.loc = loc;
-		this.stockStore = stockStore;
+		this.app = app;
+		this.loc = app.getLocalization();
+		this.fm = fm;
 		this.setGlassEnabled(true);
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
@@ -90,7 +93,7 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				// just save in stockStore - no changes of construction title
-				InfoDialog.this.stockStore.setItem(InfoDialog.this.consTitle, InfoDialog.this.xml);
+				InfoDialog.this.fm.saveFile(InfoDialog.this.consTitle, InfoDialog.this.xml);
 				InfoDialog.this.hide();
 				if(InfoDialog.this.callback!=null){
 					InfoDialog.this.callback.run();
@@ -104,7 +107,7 @@ public class InfoDialog extends PopupPanel
 	public void showIfNeeded(TouchApp app)
 	{
 		String constructionXML = app.getXML();
-		if(!constructionXML.equals(this.stockStore.getItem(app.getConstructionTitle()))){
+		if(!app.isSaved()){
 			this.consTitle = app.getConstructionTitle();
 			this.xml = constructionXML;
 			super.show();
