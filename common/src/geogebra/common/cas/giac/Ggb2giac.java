@@ -637,9 +637,12 @@ public class Ggb2giac {
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
 
-		// Tangent[x-value, function]
-		p("Tangent.2",
-				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)");
+		p("Tangent.2","when(type(%0)==DOM_LIST,"+
+				// Tangent[point, function]
+				// just use x-coordinate %0[0]
+				"y=subst(diff(%1,x),x=%0[0])*(x-%0[0])+subst(%1,x=%0[0]),"+
+				// Tangent[x-value, function]
+				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0))");
 
 
 		return commandMap;
