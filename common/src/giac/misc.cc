@@ -4597,7 +4597,7 @@ static define_unary_function_eval (__hamdist,&_hamdist,_hamdist_s);
 		res.push_back(b);
 		int nd=decimal_digits(contextptr);
 		decimal_digits(3,contextptr);
-		attributs[1]=string2gen(_romberg(gen(makevecteur(v[0],v[1]),_SEQ__VECT),contextptr).print(contextptr),false);
+		attributs[1]=string2gen(_gaussquad(gen(makevecteur(v[0],v[1]),_SEQ__VECT),contextptr).print(contextptr),false);
 		decimal_digits(nd,contextptr);
 		return pnt_attrib(gen(res,_GROUP__VECT),attributs,contextptr);
 	      } // end s==2

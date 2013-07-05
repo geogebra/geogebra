@@ -366,7 +366,8 @@ namespace giac {
     _FADEEV=25,
     _BAREISS=26,
     _ROMBERGT=27,
-    _ROMBERGM=28
+    _ROMBERGM=28,
+    _GAUSS15=29,
   };
 
   enum groebner_switches {

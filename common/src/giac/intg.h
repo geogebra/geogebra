@@ -67,8 +67,10 @@ namespace giac {
   double rombergo(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   double rombergt(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT);
+  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT);
   gen symb_romberg(const gen & a,const gen & b);
   gen _romberg(const gen & args,GIAC_CONTEXT);
+  gen _gaussquad(const gen & args,GIAC_CONTEXT);
   gen ggb_var(const gen & f); // return vx_var or the first var in f if vx_var not there
   extern const unary_function_ptr * const  at_romberg;
 

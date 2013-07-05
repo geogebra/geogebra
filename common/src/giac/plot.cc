@@ -4879,7 +4879,9 @@ namespace giac {
     }
     if (method==_ROMBERGM)
       return rombergo(f,x,a,b,n,contextptr);
-    return romberg(f,x,a,b,epsilon(contextptr),n,contextptr);
+    if (method==_ROMBERGT)
+      return rombergt(f,x,a,b,n,contextptr);
+    return evalf_int(f,x,a,b,epsilon(contextptr),n,false,contextptr);
   }
 
   gen _aire(const gen & args,GIAC_CONTEXT){

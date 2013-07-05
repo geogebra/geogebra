@@ -2177,7 +2177,7 @@ namespace giac {
 	return true;
       }
       if (_SYMBptr->sommet==at_integrate || (_SYMBptr->sommet==at_int && xcas_mode(contextptr)!=3)){
-	evaled=_romberg(_SYMBptr->feuille,contextptr);
+	evaled=_gaussquad(_SYMBptr->feuille,contextptr);
 	return true;
       }
       if (_SYMBptr->sommet==at_rootof){
@@ -2299,7 +2299,7 @@ namespace giac {
       unary_function_ptr & s =g0._SYMBptr->sommet;
       gen f =g0._SYMBptr->feuille;
       if (s==at_integrate && f._VECTptr->size()==4)
-	return _romberg(f,contextptr);
+	return _gaussquad(f,contextptr);
       if (f.type==_VECT && !s.quoted()){
 	if (s==at_plus){
 	  double res(0);
@@ -2445,7 +2445,7 @@ namespace giac {
       unary_function_ptr & s =g0._SYMBptr->sommet;
       gen f =g0._SYMBptr->feuille;
       if (s==at_integrate && f._VECTptr->size()==4)
-	return _romberg(f,contextptr);
+	return _gaussquad(f,contextptr);
       if (f.type==_VECT && !s.quoted()){
 	if (s==at_plus){
 	  giac_float res(0);
@@ -10405,6 +10405,8 @@ namespace giac {
 	return "rombergt";
       case _ROMBERGM:
 	return "rombergm";
+      case _GAUSS15:
+	return "gauss15";
       default:
 	return print_INT_(val);
       }

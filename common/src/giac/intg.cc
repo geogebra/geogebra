@@ -2387,7 +2387,7 @@ namespace giac {
       *x._IDNTptr->quoted=quoted;    
     if (s>4 || (approx_mode(contextptr) && (s==4)) ){
       v[1]=x;
-      return _romberg(gen(v,_SEQ__VECT),contextptr);
+      return _gaussquad(gen(v,_SEQ__VECT),contextptr);
     }
     gen rem,borne_inf,borne_sup,res,v0orig,aorig,borig;
     if (s==4){
@@ -2398,7 +2398,7 @@ namespace giac {
 	lidnt(makevecteur(v[0],evalf_double(v[2],1,contextptr),evalf_double(v[3],1,contextptr)),ld);
 	ld.erase(ld.begin());
 	if (ld==vecteur(1,v[1]))
-	  return _romberg(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
+	  return _gaussquad(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
       }
       v0orig=v[0];
       aorig=borne_inf=v[2];
@@ -2840,15 +2840,19 @@ namespace giac {
   }
 
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT){
+    return evalf_int(f0,x0,a,b,eps,nmax,true,contextptr);
+  }
+  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT){
     gen x(x0),f(f0);
     if (x.type!=_IDNT){
       x=identificateur(" x");
       f=subst(f,x0,x,false,contextptr);
     }
-    gen value;
-    if (tegral(f,x,a,b,eps,(1 << nmax),value,contextptr))
+    gen value=undef;
+    if (!romberg_method && tegral(f,x,a,b,eps,(1 << nmax),value,contextptr))
       return value;
-    *logptr(contextptr) << "Adaptive method failure, will try with Romberg, last approximation was " << value << endl;
+    if (!romberg_method)
+      *logptr(contextptr) << "Adaptive method failure, will try with Romberg, last approximation was " << value << endl;
     // a, b and eps should be evalf-ed, and eps>0
     gen h=b-a;
     vecteur old_line,cur_line;
@@ -2911,14 +2915,15 @@ namespace giac {
 	if (i>nmax/2 && (ck_is_greater(eps,err,contextptr)
 			 || ck_is_greater(eps*abs(cur_line[i+1],contextptr),err,contextptr)) )
 	  return (old_line[i]+cur_line[i+1])/2;
-	old_line=cur_line;
+	if (i!=nmax-1)
+	  old_line=cur_line;
       }
       if (calc_mode(contextptr)==1)
 	return undef;
       *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last approximations") << endl;
-      cur_line=makevecteur(value,cur_line.back());
+      cur_line=is_undef(value)?makevecteur(old_line.back(),cur_line.back()):makevecteur(cur_line.back(),value);
       return cur_line;
-      return rombergo(f,x,a,b,nmax,contextptr);
+      // return rombergo(f,x,a,b,nmax,contextptr);
     }
     int n=1;
     // At the i-th step of the loop compute the trapeze approx of the integral
@@ -2952,12 +2957,13 @@ namespace giac {
       if (i>nmax/2 && (ck_is_greater(eps,err,contextptr)
 		       || ck_is_greater(eps*abs(cur_line[i+1],contextptr),err,contextptr)) )
 	return (old_line[i]+cur_line[i+1])/2;
-      old_line=cur_line;
+      if (i!=nmax-1)
+	old_line=cur_line;
     }
     if (calc_mode(contextptr)==1)
       return undef;
     *logptr(contextptr) << gettext("Unable to find numeric integral using Romberg method, returning the last approximations") << endl;
-    cur_line=makevecteur(value,cur_line.back());
+    cur_line=is_undef(value)?makevecteur(old_line.back(),cur_line.back()):makevecteur(cur_line.back(),value);
     return cur_line;
   }
   gen ggb_var(const gen & f){
@@ -2973,10 +2979,10 @@ namespace giac {
     }
     return l.front();
   }
-  gen _romberg(const gen & args,GIAC_CONTEXT) {
+  gen intnum(const gen & args,bool romberg_method,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || (args._VECTptr->size()<2) )
-      return symbolic(at_romberg,args);
+      return gensizeerr(contextptr);
     const_iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
     gen f=*it;
     ++it;
@@ -3019,7 +3025,7 @@ namespace giac {
       f=subst(f,x,tanx,false,contextptr)*(1+pow(tanx,2));
       a=atan(a,contextptr);
       b=atan(b,contextptr);
-      return _romberg(makesequence(f,x,a,b),contextptr);
+      return intnum(makesequence(f,x,a,b),romberg_method,contextptr);
     }
     a=a.evalf(1,contextptr);
     b=b.evalf(1,contextptr);
@@ -3041,11 +3047,21 @@ namespace giac {
 	 || (b.type!=_DOUBLE_ && b.type!=_REAL) 
 	 )
       return symbolic(at_integrate,args);
-    return romberg(f,x,a,b,eps,n,contextptr);
+    return evalf_int(f,x,a,b,eps,n,romberg_method,contextptr);
+  }
+  gen _romberg(const gen & args,GIAC_CONTEXT) {
+    return intnum(args,true,contextptr);
   }
   static const char _romberg_s []="romberg";
   static define_unary_function_eval (__romberg,&_romberg,_romberg_s);
   define_unary_function_ptr5( at_romberg ,alias_at_romberg,&__romberg,0,true);
+
+  gen _gaussquad(const gen & args,GIAC_CONTEXT) {
+    return intnum(args,false,contextptr);
+  }
+  static const char _gaussquad_s []="gaussquad";
+  static define_unary_function_eval (__gaussquad,&_gaussquad,_gaussquad_s);
+  define_unary_function_ptr5( at_gaussquad ,alias_at_gaussquad,&__gaussquad,0,true);
 
 /**********************************************************************
 * Desc:		Solve P(x+1)-P(x)=Q(x)
