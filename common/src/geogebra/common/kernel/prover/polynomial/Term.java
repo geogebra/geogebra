@@ -1,6 +1,5 @@
-package geogebra.common.kernel.prover;
+package geogebra.common.kernel.prover.polynomial;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.SortedMap;
@@ -14,7 +13,6 @@ import java.util.TreeMap;
  */
 public class Term implements Comparable<Term> {
 	private TreeMap<Variable, Integer> variables;
-	private HashMap<Term, Integer> comparisons=new HashMap<Term, Integer>();
 
 	/**
 	 * creates the 1 term
@@ -205,6 +203,25 @@ public class Term implements Comparable<Term> {
 			return 0;
 		}
 		return variables.firstKey().hashCode()>>variables.lastKey().hashCode();
+	}
+
+	/**
+	 * Test whether the term f is a multiple of term g
+	 * @param f the dividend
+	 * @param g the divisor
+	 * @return true if g divides f and false otherwise
+	 */
+	public static boolean divides(final Term f, final Term g) {
+		TreeMap<Variable, Integer> termG = g.getTerm();
+		Iterator<Variable> itG = termG.keySet().iterator();
+		while(itG.hasNext()){
+			Variable var = itG.next();
+			Integer powF=f.getTerm().get(var);
+			if (powF==null || powF.intValue() < termG.get(var).intValue()){
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -10,7 +10,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package geogebra.common.kernel.prover;
+package geogebra.common.kernel.prover.polynomial;
 
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.Kernel;
@@ -8,8 +8,6 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -128,93 +126,6 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial(final int coeff, final Term t) {
 		this();
 		terms.put(t, coeff);
-	}
-
-	/**
-	 * Converts a String to a Polynomial
-	 * @param s the input string 
- 	 * @param variables The variables contained in the polynomial
-     * @author Damien Desfontaines
-     * @author Simon Weitzhofer
-	 * @throws PolynomialOfUnexpectedForm if the String could not be translated to a Polynomial
-	 */
-	public Polynomial(String s, Set<Variable> variables) throws PolynomialOfUnexpectedForm {
-		if (s.length() > 200)
-			App.debug("Constructing poly from " + s.length() + " length String");
-		else
-			App.debug("Constructing poly " + s);
-		
-		//Create a map between the variables and the name of the variables
-		Iterator<Variable> variablesIterator = variables.iterator();
-		HashMap<String,Variable> variableMap = new HashMap<String,Variable>();
-		while (variablesIterator.hasNext()){
-			Variable variable = variablesIterator.next();
-			variableMap.put(variable.getName(), variable);
-		}
-		
-        // s has the form "-2*x^2*y + 5*x^3 - 2"
-        // Firstly, we remove all whitespace.
-        s = s.replace(" ","");
-        // We verify that s has a "good" form, to avoid bugs
-        String regex = "((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*)([\\+-]((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*))*";
-        if (! s.matches(regex)) {
-            throw new PolynomialOfUnexpectedForm(s);
-        }
-        // Then, we transform all minus signs between terms into "+-", to
-        // separate terms more easily.
-        // The 4 following lines are ugly. There must be a better way to do this.
-        s = s.replace("*-","*~");
-        s = s.replace("+-","-");
-        s = s.replace("-","+-");
-        s = s.replace("~","-");
-        // Avoid the "'-' in first position" bug
-        if (s.length() != 0 && s.charAt(0) == '+') {
-            s = s.substring(1);
-        }
-        // We can now separate our string into his terms
-        String[] termsOfS = s.split("[+]");
-        Polynomial sum = new Polynomial(0);
-        for (int i = 0 ; i < termsOfS.length ; i++) {
-            String[] factors = termsOfS[i].split("[*]");
-            Polynomial product = new Polynomial(1);
-            for (int j = 0 ; j < factors.length ; j++) {
-                // If factors[j] is of form x^n
-                if (factors[j].contains("^")) {
-                    String[] factorMembers = factors[j].split("\\^");
-                    String signedVar = factorMembers[0];
-                    Variable variable;
-                    int coeff = 1;
-                    if (signedVar.charAt(0) == '-') {
-                    	variable = variableMap.get(signedVar.substring(1));
-                    	coeff = -1;
-                    } else
-                    	variable = variableMap.get(signedVar);
-                    int exponent = Integer.parseInt(factorMembers[1]);
-                    Polynomial factor = new Polynomial(coeff,variable,exponent);
-                    product = product.multiply(factor);
-                }
-                // If factors[j] is a number
-                else if (factors[j].matches("-?[0-9]+")) {
-                    Polynomial factor = new Polynomial(Integer.parseInt(factors[j]));
-                    product = product.multiply(factor);
-                }
-                // If factors[j] is a variable
-                else if (factors[j].matches("\\w+")) {
-                    Polynomial factor = new Polynomial(variableMap.get(factors[j]));
-                    product = product.multiply(factor);
-                }
-                // If factors[j] is the negation of a variable
-                else if (factors[j].matches("-\\w+")) {
-                    Polynomial factor = new Polynomial(-1,variableMap.get(factors[j].substring(1)));
-                    product = product.multiply(factor);
-                }
-                else {
-                    throw new PolynomialOfUnexpectedForm(s);
-                }
-            }
-            sum = sum.add(product);
-        }
-		terms = new TreeMap<Term, Integer>(sum.getTerms());
 	}
 	
 	/**
@@ -711,6 +622,15 @@ public class Polynomial implements Comparable<Polynomial> {
 	public boolean isZero() {
 		return terms.isEmpty();
 	}
+	
+	/**
+	 * Tests if the Polynomial is the constant one polynomial
+	 * @return true if the polynomial is zero false otherwise
+	 */
+	public boolean isOne() {
+		return equals(new Polynomial(1));
+	}
+	
 
 	/**
 	 * Converts substitutions to Singular strings
@@ -1046,13 +966,25 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				App.debug("singular -> " + singularSolvable);
 			
+			Set<Set<Polynomial>> polySet;
+			try {
+				polySet = PolynomialParser.parseFactoredPolynomialSet(singularSolvable, variables);
+				for (int i=0;i<1;){
+					i++;
+				}
+				App.debug(polySet);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			//test whether the result was given back in form
 			// _[0]=poly1
 			// _[1]=poly2
 			// if (!(singularSolvable.matches("^_\\[[0-9]+\\]=(.|\\s)*")))
 			//	return null;
 			
-			String[] polynomialStrings = singularSolvable.split("_\\[[0-9]+\\]=");
+			/*String[] polynomialStrings = singularSolvable.split("_\\[[0-9]+\\]=");
 			
 			List<Polynomial> polynomials = new LinkedList<Polynomial>();
 			for (String polynomialString:polynomialStrings){
@@ -1067,18 +999,9 @@ public class Polynomial implements Comparable<Polynomial> {
 					}
 				}
 			}
-			return polynomials.toArray(new Polynomial[polynomials.size()]);
+			return polynomials.toArray(new Polynomial[polynomials.size()]);*/
 		}
 		return null; // cannot decide
-	}
-	
-	private class PolynomialOfUnexpectedForm extends Exception{
-
-		private static final long serialVersionUID = 1L;
-		PolynomialOfUnexpectedForm(String poly){
-			super("The polynomial " + poly + " is of unexpected form");
-		}
-		
 	}
 
 }

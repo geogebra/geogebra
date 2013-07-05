@@ -139,6 +139,19 @@ public abstract class Prover {
 		public void setGeos(GeoElement[] object) {
 			this.geos = object;
 		}
+		
+		@Override
+		public int hashCode(){
+			int result=condition.hashCode();
+			if (geos!=null){
+				for (GeoElement geo: geos){
+					if (geo != null){
+						result += geo.hashCode(); 
+					}
+				}
+			}
+			return result;
+		}
 	}
 	
 	/**

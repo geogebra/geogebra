@@ -32,8 +32,8 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.util.MyMath;
 
 //import geogebra.kernel.kernelND.GeoConicND;

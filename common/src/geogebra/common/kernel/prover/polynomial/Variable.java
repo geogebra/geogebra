@@ -1,4 +1,4 @@
-package geogebra.common.kernel.prover;
+package geogebra.common.kernel.prover.polynomial;
 
 import geogebra.common.kernel.geos.GeoElement;
 

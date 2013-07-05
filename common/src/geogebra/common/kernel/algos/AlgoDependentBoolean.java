@@ -24,8 +24,8 @@ import geogebra.common.kernel.prover.AlgoAreEqual;
 import geogebra.common.kernel.prover.AlgoAreParallel;
 import geogebra.common.kernel.prover.AlgoArePerpendicular;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.plugin.Operation;
 
 import java.math.BigInteger;

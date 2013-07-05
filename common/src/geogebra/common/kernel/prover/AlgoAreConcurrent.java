@@ -11,6 +11,8 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 
 import java.math.BigInteger;
 import java.util.HashMap;

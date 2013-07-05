@@ -3,6 +3,7 @@ package geogebra.common.kernel.prover;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.main.App;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.ProofResult;

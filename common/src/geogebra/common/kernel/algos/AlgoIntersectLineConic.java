@@ -32,8 +32,8 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

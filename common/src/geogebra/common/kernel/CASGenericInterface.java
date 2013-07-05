@@ -4,7 +4,7 @@ import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.settings.SettingListener;
 
 import java.util.HashMap;

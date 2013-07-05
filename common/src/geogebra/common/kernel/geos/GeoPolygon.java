@@ -39,8 +39,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.HasSegments;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 

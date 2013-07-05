@@ -3,7 +3,7 @@ package geogebra.web.kernel.prover;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
 import geogebra.common.util.Prover.ProofResult;
 

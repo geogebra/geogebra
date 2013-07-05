@@ -3,8 +3,8 @@ package geogebra.common.kernel.algos;
 
 
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
-import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 
 import java.math.BigInteger;
 import java.util.HashMap;
