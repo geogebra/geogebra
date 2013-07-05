@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -85,6 +86,11 @@ public class CASparser implements CASParserInterface{
 			
 			// resolve Variable objects in ValidExpression as GeoDummy objects
 			resolveVariablesForCAS(ve);
+			
+			// resolve Equations as Functions if lhs is y
+			if (ve instanceof Function) {
+				ve.traverse(Traversing.FunctionCreator.getCreator());
+			}
 			
 			return ve;
 		//}catch (MaximaVersionUnsupportedExecption e) {

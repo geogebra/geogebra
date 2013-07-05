@@ -556,6 +556,37 @@ public interface Traversing {
 			return collector;
 		}
 	}
+	
+	
+	/**
+	 * Returns the RHS side of an equation if LHS is y
+	 * Eg y=x! returns x!
+	 * @author bencze
+	 *
+	 */
+	public class FunctionCreator implements Traversing {
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Equation) {
+				Equation eq = (Equation) ev;
+				if (eq.getLHS() != null && eq.getLHS().getLeft() instanceof GeoDummyVariable) {
+					GeoDummyVariable gdv = (GeoDummyVariable) eq.getLHS().getLeft();
+					if (gdv.toString(StringTemplate.defaultTemplate).equals("y")) {
+						return eq.getRHS();
+					}
+				}
+			}
+			return ev;
+		}
+		
+		private static FunctionCreator creator = new FunctionCreator();
+		
+		/**
+		 * @return instance of FunctionCreater
+		 */
+		public static FunctionCreator getCreator() {
+			return creator;
+		}
+	}
 
 
 }
