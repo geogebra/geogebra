@@ -149,32 +149,6 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		app.getGuiManager().clearAbsolutePanels();
     }
 	
-	/*
-	 * In web there are some drawable which not drawn on the canvas of euclidian view, but added for an AbsolutePanel which hides the canvas.
-	 * (e.g. inputbox)
-	 * When we remove all drawable, we must to clear this AbsolutePanel too.
-	 */
-//	private void clearAbsolutePanels(){
-//		clearAbsolutePanel(App.VIEW_EUCLIDIAN);
-//		clearAbsolutePanel(App.VIEW_EUCLIDIAN2);
-//	}
-//	
-//	private void clearAbsolutePanel(int viewid){
-//		if((viewid==App.VIEW_EUCLIDIAN) || (viewid==App.VIEW_EUCLIDIAN2)){
-//			AbsolutePanel ep = ( ((EuclidianDockPanelW) ((LayoutW)(app.getGuiManager().getLayout())).getDockManager().getPanel(viewid)).getEuclidianPanel());
-//		    Iterator<Widget> it = ep.iterator();
-//		    while (it.hasNext()) {
-//		    	Widget nextItem = it.next();
-//		    	if (!(nextItem instanceof Canvas)) it.remove();
-//		    }
-//		}
-//
-//		if((viewid==App.VIEW_EUCLIDIAN) || (viewid==App.VIEW_EUCLIDIAN2)){
-//			app.getGuiManager().getLayout()
-//		}
-//		
-//	};
-	
 	@Override
 	protected final void setHeight(int h)
 	{
