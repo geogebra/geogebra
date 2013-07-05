@@ -220,8 +220,10 @@ public class Ggb2giac {
 						"][3]"
 				);
 		
-		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),point(%2)))");
-		p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),point(%2)))");
+		// Ellipse[point, point, point/number]
+		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
+		// Hyperbola[point, point, point/number]
+		p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
 
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
