@@ -54,7 +54,7 @@ public abstract class FileDialog extends PopupPanel
 		this.setGlassEnabled(true);
 
 		this.app = app;
-
+		this.fm = new FileManagerM();
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
 		this.textBox = new TextBox();

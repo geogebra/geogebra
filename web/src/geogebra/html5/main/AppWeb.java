@@ -698,5 +698,9 @@ public abstract class AppWeb extends App implements SetLabels{
 		public void copyBase64ToClipboard() {
 			// unimplemented
 		}
+		
+		public boolean isSaved(){
+			return false;
+		}
 	
 }

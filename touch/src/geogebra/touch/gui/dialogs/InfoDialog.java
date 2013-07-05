@@ -24,9 +24,8 @@ public class InfoDialog extends PopupPanel
 	private HorizontalPanel buttonContainer;
 	private Label title;
 	String consTitle;
-	String xml;
 	private Localization loc;
-	private App app;
+	App app;
 	FileManagerM fm;
 	Runnable callback = null;
 
@@ -93,7 +92,7 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				// just save in stockStore - no changes of construction title
-				InfoDialog.this.fm.saveFile(InfoDialog.this.consTitle, InfoDialog.this.xml);
+				InfoDialog.this.fm.saveFile(InfoDialog.this.consTitle, InfoDialog.this.app);
 				InfoDialog.this.hide();
 				if(InfoDialog.this.callback!=null){
 					InfoDialog.this.callback.run();
@@ -106,10 +105,8 @@ public class InfoDialog extends PopupPanel
 
 	public void showIfNeeded(TouchApp app)
 	{
-		String constructionXML = app.getXML();
 		if(!app.isSaved()){
 			this.consTitle = app.getConstructionTitle();
-			this.xml = constructionXML;
 			super.show();
 			super.center();
 		}else{

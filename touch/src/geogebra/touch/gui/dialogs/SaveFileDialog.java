@@ -15,7 +15,7 @@ public class SaveFileDialog extends FileDialog
 	@Override
 	protected void onOK()
 	{
-		save(super.app.getXML());
+		save();
 		setDownloadName();
 		hide();
 	}
@@ -30,11 +30,11 @@ public class SaveFileDialog extends FileDialog
 	 * Saves current file as xml String to the local storage.
 	 * 
 	 */
-	private void save(String xml)
+	private void save()
 	{
 		if (!super.textBox.getText().isEmpty())
 		{
-			super.fm.saveFile(super.textBox.getText(), xml);
+			super.fm.saveFile(super.textBox.getText(), super.app);
 			super.app.setConstructionTitle(super.textBox.getText());
 		}
 	}
