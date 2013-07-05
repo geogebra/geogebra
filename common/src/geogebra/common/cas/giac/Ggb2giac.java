@@ -203,9 +203,8 @@ public class Ggb2giac {
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
 		// ggbans:=0/0 to make sure if there's an error, we don't output previous answer
-		// TODO: remove wrapping in equation when Giac supports intersecting equation, parametric
 		p("Intersect.2",
-				"[[ggbans:=0/0],[ggbans:=inter(equation(%0),equation(%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
+				"[[ggbans:=0/0],[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
 		// Giac currently uses approximation for this
 		//p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
@@ -637,10 +636,10 @@ public class Ggb2giac {
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
 
-		p("Tangent.2","when(type(%0)==DOM_LIST,"+
+		p("Tangent.2","when(type(%0)==DOM_LIST),"+
 				// Tangent[point, function]
 				// just use x-coordinate %0[0]
-				"y=subst(diff(%1,x),x=%0[0])*(x-%0[0])+subst(%1,x=%0[0]),"+
+				"y=subst(diff(%1,x),x=%0[0])*(x-%0[0])+subst(%1,x=%0[0])"+
 				// Tangent[x-value, function]
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0))");
 

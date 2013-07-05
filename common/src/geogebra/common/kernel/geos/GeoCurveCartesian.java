@@ -516,7 +516,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			if (tpl.getStringType().equals(StringType.GIAC)) {
 				// eg plotparam([t,t^2],t,-10,10)
-				sbTemp.append("plotparam([");
+				// TODO: remove wrapping in equation when Giac supports intersecting equation, parametric
+				sbTemp.append("equation(plotparam([");
 				sbTemp.append(funX.toValueString(tpl));
 				sbTemp.append(',');
 				sbTemp.append(funY.toValueString(tpl));
@@ -526,7 +527,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				sbTemp.append(kernel.format(getMinParameter(), StringTemplate.giacTemplate));
 				sbTemp.append(',');
 				sbTemp.append(kernel.format(getMaxParameter(), StringTemplate.giacTemplate));
-				sbTemp.append(')');
+				sbTemp.append("))");
 			} else {
 
 				sbTemp.append('(');
