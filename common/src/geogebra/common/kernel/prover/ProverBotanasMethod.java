@@ -48,7 +48,7 @@ public class ProverBotanasMethod {
     	}
     }
     
-	private static List<GeoElement> getFreePoints(GeoElement statement) {
+	protected static List<GeoElement> getFreePoints(GeoElement statement) {
 		List<GeoElement> freePoints = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
@@ -327,7 +327,7 @@ public class ProverBotanasMethod {
 				if (prover.isReturnExtraNDGs()) {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
-					Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
+					Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions, prover);
 					if (eliminationIdeal == null){
 						return ProofResult.UNKNOWN;
 					}
