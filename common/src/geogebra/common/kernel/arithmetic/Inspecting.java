@@ -2,6 +2,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
+import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Allows checking whether at least one part of structured expression value has certain property.
@@ -75,7 +76,7 @@ public interface Inspecting {
 					if (!gdv.toString(StringTemplate.defaultTemplate).equals("x")) {
 						return true;
 					}
-				} else if (!(v instanceof MyDouble) && !(v instanceof ExpressionNode)) {
+				} else if (!(v instanceof MyDouble) && !(v instanceof ExpressionNode) && !(v instanceof GeoNumeric)) {
 					return true;
 				}
 				return false;
