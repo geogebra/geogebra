@@ -948,7 +948,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			variablesIterator = variables.iterator();
 			while (variablesIterator.hasNext()){
 				Variable variable = variablesIterator.next();
-				App.debug(variable.getName()+" -> "+variable.getParent());
+				// App.debug(variable.getName()+" -> "+variable.getParent());
 			}
 			
 			if (singularEliminationProgram.length() > 500)

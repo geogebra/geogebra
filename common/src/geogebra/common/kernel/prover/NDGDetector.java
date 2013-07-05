@@ -61,6 +61,34 @@ public class NDGDetector {
 
 		}
 
+		Combinations pairs = new Combinations(freePointsSet,2);
+		
+		while (pairs.hasNext()) {
+			HashSet<Object> pair = (HashSet<Object>) pairs.next();
+			Iterator<Object> it = pair.iterator();
+			// GeoElement[] points = (GeoElement[]) pair.toArray();
+			// This is not working directly, so we have to do it manually:
+			int i = 0;
+			GeoElement[] points = new GeoElement[pair.size()];
+			while (it.hasNext()) {
+				points[i] = (GeoElement) it.next();
+				i++;
+			}
+			Variable[] fv1 = ((SymbolicParametersBotanaAlgo)points[0]).getBotanaVars(points[0]);
+			Variable[] fv2 = ((SymbolicParametersBotanaAlgo)points[1]).getBotanaVars(points[1]);
+			// Creating the polynomial for collinearity:
+			Polynomial coll = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]);
+			if (coll.add(p).isZero() || coll.equals(p)) { // coll == +p or -p
+				App.debug(p + " means equality for " + pair);
+				NDGCondition ndgc = new NDGCondition();
+				ndgc.setGeos(points);
+				Arrays.sort(ndgc.getGeos());
+				ndgc.setCondition("AreEqual");
+				return ndgc;
+			}
+
+		}
+		
 		return null;
 
 		
