@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A prover which uses Francisco Botana's method to prove geometric theorems.
@@ -327,15 +328,40 @@ public class ProverBotanasMethod {
 				if (prover.isReturnExtraNDGs()) {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
-					Polynomial[] eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions, prover);
+					Set<Set<Polynomial>> eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
 					if (eliminationIdeal == null){
 						return ProofResult.UNKNOWN;
 					}
-					ans = false;
-					for (Polynomial generator:eliminationIdeal){
-						if (!generator.isZero()){
-							ans = true;
+					
+					Iterator<Set<Polynomial>> ndgSet = eliminationIdeal.iterator();
+					boolean found = false;
+					while (ndgSet.hasNext() && !found) {
+						List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
+						// All NDGs must be translatable into human readable form.
+						boolean readable = true;
+						Iterator<Polynomial> ndg = ndgSet.next().iterator();
+						while (ndg.hasNext() && readable) {
+							Polynomial poly = ndg.next();
+							if (poly.isZero())
+								return ProofResult.FALSE;
+							NDGCondition ndgc = NDGDetector.detect(poly, prover);
+							if (ndgc == null)
+								readable = false;
+							else {
+								ndgcl.add(ndgc);
+							}
 						}
+						// Now we take the first set with readable conditions.
+						// Later we will change to select the most educational set.
+						if (readable) {
+							Iterator<NDGCondition> ndgc = ndgcl.iterator();
+							while (ndgc.hasNext()) {
+								prover.addNDGcondition(ndgc.next());
+							}
+							found = true;
+						}
+						ans = true;
+						// TODO: If !found, add an ndgc with "Unknown" or "Object" item.
 					}
 				} else {
 					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),

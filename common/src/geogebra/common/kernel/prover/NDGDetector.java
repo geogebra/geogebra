@@ -50,7 +50,7 @@ public class NDGDetector {
 			Variable[] fv3 = ((SymbolicParametersBotanaAlgo)points[2]).getBotanaVars(points[2]);
 			// Creating the polynomial for collinearity:
 			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
-			if (coll.equals(p)) {
+			if (coll.add(p).isZero() || coll.equals(p)) { // coll == +p or -p
 				App.debug(p + " means collinearity for " + triplet);
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
@@ -58,7 +58,7 @@ public class NDGDetector {
 				ndgc.setCondition("AreCollinear");
 				return ndgc;
 			}
-			
+
 		}
 
 		return null;

@@ -2,17 +2,12 @@ package geogebra.common.kernel.prover.polynomial;
 
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.prover.NDGDetector;
 import geogebra.common.main.App;
-import geogebra.common.util.Prover;
-import geogebra.common.util.Prover.NDGCondition;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
@@ -924,8 +919,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param substitutions fixed values for certain variables
 	 * @return elements of the elimination ideal
 	 */
-	public static Polynomial[] eliminate(Polynomial[] eqSystem,
-			HashMap<Variable, Integer> substitutions, Prover prover) {
+	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
+			HashMap<Variable, Integer> substitutions) {
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			HashSet<Variable> dependentVariables = new HashSet<Variable>();
 			Set<Variable> variables = getVars(eqSystem);
@@ -970,46 +965,15 @@ public class Polynomial implements Comparable<Polynomial> {
 				App.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
 				App.debug("singular -> " + singularSolvable);
-			
 						
 			try {
-				Set<Set<Polynomial>> ndgSets;
-				ndgSets = PolynomialParser.parseFactoredPolynomialSet(singularSolvable, variables);
-				Iterator<Set<Polynomial>> ndgSet = ndgSets.iterator();
-				boolean found = false;
-				while (ndgSet.hasNext() && !found) {
-					List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
-					// All NDGs must be translatable into human readable form.
-					boolean readable = true;
-					Iterator<Polynomial> ndg = ndgSet.next().iterator();
-					while (ndg.hasNext() && readable) {
-						Polynomial poly = ndg.next();
-						NDGCondition ndgc = NDGDetector.detect(poly, prover);
-						if (ndgc == null)
-							readable = false;
-						else {
-							ndgcl.add(ndgc);
-						}
-					}
-					// Now we take the first set with readable conditions.
-					// Later we will change to select the most educational set.
-					if (readable) {
-						Iterator<NDGCondition> ndgc = ndgcl.iterator();
-						while (ndgc.hasNext()) {
-							prover.addNDGcondition(ndgc.next());
-						}
-						found = true;
-					}
-				}
-				return null;
-
+				return PolynomialParser.parseFactoredPolynomialSet(singularSolvable, variables);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
+			}		
 		}
-		return null; // ??? cannot decide
+		return null; // cannot decide
 	}
 
 }
