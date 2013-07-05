@@ -219,11 +219,52 @@ public class Ggb2giac {
 						"][3]"
 				);
 		
+		// version using Giac's internal commands: slower and not robust (converts to parametric form as an intermediate step)
 		// Ellipse[point, point, point/number]
-		p("Ellipse.3", "equation(ellipse(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
+		//p("Ellipse.3", "equation(ellipse(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
 		// Hyperbola[point, point, point/number]
-		p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
+		//p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
 
+		
+		// adapted from GeoConicND.setEllipseHyperbola()
+		final String ellipseHyperbola1 = "[[[a:=0/0],"+
+				"[b1:=0/0],"+
+				"[b2:=0/0],"+
+				"[c1:=0/0],"+
+				"[c2:=0/0],"+				
+				"[a:=%2],"+
+				"[b1:=%0[0]],"+
+				"[b2:=%0[1]],"+
+				"[c1:=%1[0]],"+
+				"[c2:=%1[1]],"+
+				// AlgoEllipseFociPoint, AlgoHyperbolaFociPoint
+				"[a := when(type(a)==DOM_LIST,(sqrt((b1-a[0])^2+(b2-a[1])^2) ";
+
+		final String ellipseHyperbola2 = "sqrt((c1-a[0])^2+(c2-a[1])^2))/2,a)],"+
+				"[diff1 := b1 - c1],"+
+				"[diff2 := b2 - c2],"+
+				"[sqsumb := b1 * b1 + b2 * b2],"+
+				"[sqsumc := c1 * c1 + c2 * c2],"+
+				"[sqsumdiff := sqsumb - sqsumc],"+
+				"[a2 := 2 * a],"+
+				"[asq4 := a2 * a2],"+
+				"[asq := a * a],"+
+				"[afo := asq * asq],"+
+				"[ggbans:=simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc))]],"+
+				// simplify (...)/1000 = 0
+				"when(type(denom(ggbans))==DOM_INT,numer(ggbans)=0,ggbans=0)][1]";
+
+		
+		p("Ellipse.3", 
+				ellipseHyperbola1 +
+				"+" +
+				ellipseHyperbola2);
+		
+		p("Hyperbola.3", 
+				ellipseHyperbola1 +
+				"-" +
+				ellipseHyperbola2);
+				
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
