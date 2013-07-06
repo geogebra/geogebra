@@ -2287,7 +2287,7 @@ __GGB__keysVar.es.plain = {
     "InputForm": "Formulario de entrada",
     "InputLabel": "Entrada",
     "InputLabelToolTip": "Anotar un comando",
-    "Insert": "Insertar",
+    "Insert": "Inserta",
     "InsertPictureOfAllOpenViews": "Insertar imagen de todas las vistas abiertas",
     "InsertPictureOfConstruction": "Insertar imagen de Vista Gr\xe1fica",
     "Integer": "Entero",
