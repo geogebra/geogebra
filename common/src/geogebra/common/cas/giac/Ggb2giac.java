@@ -323,7 +323,6 @@ public class Ggb2giac {
 		p("Median.1",
 				"median(%0)");
 		p("Min.N", "min(%)");
-		p("Midpoint.2", "convert(coordinates(midpoint(%0,%1)),25)");
 		p("MixedNumber.1",
 				"propfrac(%0)");
 		p("Mod.2",
@@ -646,7 +645,8 @@ public class Ggb2giac {
 
 		// center-point:      point(%0),point(%1)
 		// or center-radius:  point(%0),%1
-		p("Circle.2", "equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))");
+		// regroup r*r -> r^2 without multiplying out
+		p("Circle.2", "regroup(equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
@@ -662,11 +662,19 @@ public class Ggb2giac {
 		// eg distance(conic(y=x^2),(0,3))
 		// TODO: maybe need to wrap conics with conic() in ConicND, and change Radius.1, Center.1?
 		// TODO: what about functions?
-		p("Distance.2", "normal(regroup(distance(%0,%1)))");
+		p("Distance.2", "regroup(distance(%0,%1))");
 
 		// wrap (2,3) as point(2,3), but not eg
 		// Line[(2,3),y=x]
-		p("Line.2","equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))");
+		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
+		p("Line.2","regroup(equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))))");
+		
+		//p("Midpoint.2", "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))]," +
+		//		"(ggbans[0],ggbans[1])][1]");
+
+		// normal: nice form for Midpoint[(1/2,pi),(1,1)]
+		// factor: nice form for Midpoint[(a,b),(c,d)]
+		p("Midpoint.2", "convert(factor((normal(coordinates(midpoint(%0,%1))))),25)");
 
 		p("OrthogonalLine.2", "equation(perpendicular(%0,line(%1)))");
 		// TODO: return Segment() not equation
