@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
@@ -78,7 +79,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
-				TabletHeaderPanelLeft.this.app.setConstructionTitle(TabletHeaderPanelLeft.this.app.getDefaultConstructionTitle());
+				TabletHeaderPanelLeft.this.app.setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(TabletHeaderPanelLeft.this.app.getLocalization()));
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 			}
 		};
@@ -101,7 +102,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		final Runnable showOpenDialog = new Runnable(){
 			@Override
 			public void run(){
-				TabletHeaderPanelLeft.this.openDialog.show();		
+				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
+				TouchEntryPoint.showBrowseUI();
+				//TabletHeaderPanelLeft.this.openDialog.show();		
 			}
 		};
 		this.openButton.addDomHandler(new ClickHandler()

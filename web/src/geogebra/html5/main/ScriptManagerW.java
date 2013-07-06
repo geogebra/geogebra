@@ -406,10 +406,6 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::debug(Ljava/lang/String;)(str);
 		};
 		
-		$wnd[ggbApplet].tubeSearch = function(str){ 
-				ggbAPI.@geogebra.html5.main.GgbAPI::tubeSearch(Ljava/lang/String;)(str);
-		};
-		
 		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)

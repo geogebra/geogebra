@@ -138,22 +138,10 @@ public class TouchApp extends AppWeb
 			this.setLanguage();
 		}
 
-		setConstructionTitle(getDefaultConstructionTitle());
+		setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(this.getLocalization()));
 	}
 
-	public String getDefaultConstructionTitle() {
-		Storage stockStore = Storage.getLocalStorageIfSupported();
-		
-		
-		int i = 1;
-		String filename;
-		do{
-			filename = getLocalization().getPlain("UntitledA",i+"");
-			i++;
-		}
-		while (stockStore != null && stockStore.getItem(filename)!=null);
-		return filename;
-	}
+	
 
 	public GeoGebraTouchGUI getTouchGui()
 	{
@@ -569,13 +557,6 @@ public class TouchApp extends AppWeb
 		this.kernel.initUndoInfo();
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
-	}
-
-	@Override
-	public void tubeSearch(String query)
-	{
-		TouchEntryPoint.showTubeSearchUI();
-		TouchEntryPoint.tubeSearchGUI.displaySearchResults(query);
 	}
 
 	@Override

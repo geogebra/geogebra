@@ -1987,12 +1987,6 @@ public class AppW extends AppWeb {
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 
-	@Override
-    public void tubeSearch(String phrase) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
 	 * text that is useful for tooltips.

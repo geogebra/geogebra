@@ -4,6 +4,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.FileManagerM;
 
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -105,7 +106,12 @@ public class MaterialListElement extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				event.stopPropagation();
-				new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
+				if(m.getId()>0){
+					//remote material
+					new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
+				}else{
+					app.setXML(new FileManagerM().getFile(m.getURL()), true);
+				}
 				TouchEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());

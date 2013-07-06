@@ -81,24 +81,46 @@ public class JSONparserGGT
 		if(obj == null){
 			return;
 		}
-		Material.MaterialType type = Material.MaterialType.valueOf(obj.get("type").isString().stringValue());
+		result.add(toMaterial(obj)); 
+    }
+
+	private static Material toMaterial(JSONObject obj) {
+		App.debug(obj.toString());
+		Material.MaterialType type = Material.MaterialType.valueOf(getString(obj,"type"));
 		int ID = Integer.parseInt(obj.get("id").isString().stringValue());
 
 		Material material = new Material(ID, type);
 
-		material.setTitle(obj.get("title").isString().stringValue());
-		material.setDescription(obj.get("description").isString().stringValue());
-		material.setTimestamp(Long.parseLong(obj.get("timestamp").isString().stringValue()));
-		material.setAuthor(obj.get("author").isString().stringValue());
-		material.setAuthorURL(obj.get("author_url").isString().stringValue());
-		material.setURL(obj.get("url").isString().stringValue());
-		material.setURLdirect(obj.get("url_direct").isString().stringValue());
-		material.setThumbnail(obj.get("thumbnail").isString().stringValue());
-		material.setLanguage(obj.get("language").isString().stringValue());
-		material.setFeatured(Boolean.parseBoolean((obj.get("featured").isString().stringValue())));
-		material.setLikes(Integer.parseInt(obj.get("likes").isString().stringValue()));
+		material.setTitle(getString(obj,"title"));
+		material.setDescription(getString(obj,"description"));
+		material.setTimestamp(Long.parseLong(getString(obj,"timestamp")));
+		material.setAuthor(getString(obj,"author"));
+		material.setAuthorURL(getString(obj,"author_url"));
+		material.setURL(getString(obj,"url"));
+		material.setURLdirect(getString(obj,"url_direct"));
+		material.setThumbnail(getString(obj,"thumbnail"));
+		material.setLanguage(getString(obj,"language"));
+		material.setFeatured(Boolean.parseBoolean(getString(obj,"featured")));
+		material.setLikes(Integer.parseInt(getString(obj,"likes")));
 
-		result.add(material);
-	    
+	    return material;
+    }
+
+	private static String getString(JSONObject obj, String string) {
+	    return obj.get(string).isString().stringValue();
+    }
+
+	public static Material parseMaterial(String item) {
+	    JSONValue mat = null;
+	    try{
+	    	mat = JSONParser.parseStrict(item);
+	    }
+	    catch(Throwable t){
+	    	t.printStackTrace();
+	    }
+	    if(mat == null || mat.isObject() == null){
+	    	return null;
+	    }
+	    return toMaterial(mat.isObject());
     }
 }

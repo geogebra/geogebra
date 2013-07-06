@@ -1,6 +1,7 @@
 package geogebra.touch;
 
 import geogebra.html5.js.ResourcesInjector;
+import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.TubeSearchGUI;
@@ -25,6 +26,7 @@ public class TouchEntryPoint implements EntryPoint
 	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static TubeSearchGUI tubeSearchGUI;
+	static BrowseGUI browseGUI;
 
 	@Override
 	public void onModuleLoad()
@@ -51,6 +53,7 @@ public class TouchEntryPoint implements EntryPoint
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				app.start();
 				tubeSearchGUI = new TubeSearchGUI(app);
+				browseGUI = new BrowseGUI(app);
 				TouchEntryPoint.showTabletGUI();
 				Window.addResizeHandler(new ResizeHandler()
 				{
@@ -86,6 +89,7 @@ public class TouchEntryPoint implements EntryPoint
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
+		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 		TouchEntryPoint.appWidget.showWidget(0);
 	}
@@ -93,7 +97,16 @@ public class TouchEntryPoint implements EntryPoint
 	public static void showTubeSearchUI()
 	{
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
+		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tubeSearchGUI);
+		TouchEntryPoint.appWidget.showWidget(0);
+	}
+	
+	public static void showBrowseUI()
+	{
+		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
+		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
+		TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.showWidget(0);
 	}
 }

@@ -572,8 +572,6 @@ public abstract class AppWeb extends App implements SetLabels{
 			// }
 			// return false;
 		}
-
-		public abstract void tubeSearch(String query);
 		
 		@Override
 		public final GBufferedImage getExternalImageAdapter(String fileName) {

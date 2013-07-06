@@ -2,6 +2,9 @@ package geogebra.common.move.ggtapi.models;
 
 import java.util.Date;
 
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
+
 /**
  * Material POJO
  * 
@@ -247,5 +250,31 @@ public class Material implements Comparable<Material>
 		sb.append("Featured: " + this.isFeatured() + " ");
 		sb.append("Likes: " + this.likes);
 		return sb.toString();
+	}
+	
+	public JSONObject toJson(){
+		JSONObject ret = new JSONObject();
+		putString(ret,"thumbnail", thumbnail);
+	//	putString(ret,"-type", TODO);
+		putString(ret,"author_url", author_url);
+		putString(ret,"language", language);
+		putString(ret,"author", author);
+		putString(ret,"description", description);
+		putString(ret,"url_direct", url_direct);
+		putString(ret,"featured", featured+"");
+		putString(ret,"timestamp", timestamp+"");
+		putString(ret,"url", url);
+		putString(ret,"type", type.name());
+		putString(ret,"title", title);
+		putString(ret,"id", id+"");
+		putString(ret,"likes", likes+"");
+		return ret;
+		// {   "type":"ggb", "title":"The 11 paterns of the cube (Net of a Cube)", "id":"19165", "likes":"86"}
+	}
+
+	private void putString(JSONObject ret, String key, String value) {
+		if(value!=null){
+			ret.put(key, new JSONString(value));
+		}
 	}
 }
