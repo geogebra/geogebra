@@ -2,9 +2,14 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.polynomial.Polynomial;
+import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra3D.euclidian3D.EuclidianView3D;
 
-public class GeoPlane3DConstant extends GeoPlane3D {
+public class GeoPlane3DConstant extends GeoPlane3D implements SymbolicParametersBotanaAlgo {
 	
 	public static final int XOY_PLANE = 1;
 
@@ -82,5 +87,18 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 	@Override
 	public boolean isTraceable() {
 		return false;
+	}
+
+
+	public Variable[] getBotanaVars(GeoElement geo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

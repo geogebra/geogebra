@@ -33,7 +33,7 @@ public class ProverSettings {
      * How many coordinates are to be fixed speed up computation for "ProveDetails"?
      * Used by Botana's prover at the moment.
      */
-    public static int useFixCoordinatesProveDetails = 2;
+    public static int useFixCoordinatesProveDetails = 0; // TODO: implement 2
     /**
      * If possible, should the polynomial ring over a fraction field to be used?
      * Singular normally supports that by using a good enough (and fast) implementation.

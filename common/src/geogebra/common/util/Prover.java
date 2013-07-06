@@ -171,13 +171,15 @@ public abstract class Prover {
 		 
 		 // Order of ProveDetails[] for the AUTO prover:
 		 proveDetailsAutoOrder = new ArrayList<ProverEngine>();
-		 // Wu's method does the best job.
-		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
-		 // Current version of Botana's presumes some good looking conditions, so maybe useful. 
+		 // Botana's prover based on elimination (with no presumed NDGs) gives
+		 // the shortest conditions, best for educational use.
 		 proveDetailsAutoOrder.add(ProverEngine.BOTANAS_PROVER);
-		 // Recio may a few NDGs for the denominator polynomial. 
+		 // Wu's method does the most general good job.
+		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
+		 // Recio may give a few NDGs for the denominator polynomial. 
 		 proveDetailsAutoOrder.add(ProverEngine.RECIOS_PROVER);
-		 // Area method seems to return {true} always, not useful.
+		 // Area method is buggy at the moment, needs Damien's fixes.
+		 // It returns {true} always at the moment, not useful.
 		 proveDetailsAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 	}
 

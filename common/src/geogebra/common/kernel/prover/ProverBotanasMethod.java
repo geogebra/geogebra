@@ -229,7 +229,9 @@ public class ProverBotanasMethod {
 							geo.getCommandDescription(StringTemplate.noLocalDefault) + " /* " +
 					 		geo.getDefinitionDescription(StringTemplate.noLocalDefault) + " */");
 					} else {
-						App.debug(geo.getAlgebraDescriptionDefault() + " /* free point */");
+						String description = geo.getAlgebraDescriptionDefault();
+						if (!description.startsWith("xOyPlane")) // handling GeoGebra3D's definition for xy-plane
+							App.debug(description + " /* free point */");
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
 
