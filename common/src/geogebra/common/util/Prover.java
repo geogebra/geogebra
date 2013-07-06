@@ -107,6 +107,28 @@ public abstract class Prover {
 		 * The condition String
 		 */
 		String condition;
+		
+		/**
+		 * How human readable is this condition? The lower the better.
+		 * This number is always >= 0; 
+		 */
+		double readability = 1.0;
+		
+		/**
+		 * Gets readability score for this NDG condition.
+		 * @return score
+		 */
+		public double getReadability() {
+			return readability;
+		}
+		/**
+		 * Sets readability score for this NDG condition.
+		 * @param readability score
+		 */
+		public void setReadability(double readability) {
+			this.readability = readability;
+		}
+
 		/**
 		 * Array of GeoElements (parameters of the condition)
 		 */

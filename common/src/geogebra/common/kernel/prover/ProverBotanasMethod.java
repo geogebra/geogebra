@@ -300,7 +300,6 @@ public class ProverBotanasMethod {
 				nStatements = statements.length;
 						
 			boolean ans = true;
-			// FIXME: The NDG conditions are collected for the last statement only, this should be fixed.
 			// Solving the equation system for each sets of polynomials of the statement:
 			for (int i=0; i<nStatements && ans; ++i) {
 				int nPolysStatement = statements[i].length;
@@ -338,8 +337,11 @@ public class ProverBotanasMethod {
 					
 					Iterator<Set<Polynomial>> ndgSet = eliminationIdeal.iterator();
 					boolean found = false;
-					while (ndgSet.hasNext() && !found) {
+					List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
+					double bestScore = Double.POSITIVE_INFINITY;
+					while (ndgSet.hasNext()) {
 						List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
+						double score = 0.0;
 						// All NDGs must be translatable into human readable form.
 						boolean readable = true;
 						Iterator<Polynomial> ndg = ndgSet.next().iterator();
@@ -352,20 +354,24 @@ public class ProverBotanasMethod {
 								readable = false;
 							else {
 								ndgcl.add(ndgc);
+								score += ndgc.getReadability();
 							}
 						}
-						// Now we take the first set with readable conditions.
-						// Later we will change to select the most educational set.
-						if (readable) {
-							Iterator<NDGCondition> ndgc = ndgcl.iterator();
-							while (ndgc.hasNext()) {
-								prover.addNDGcondition(ndgc.next());
-							}
+						// Now we take the set if the conditions are readable and the set is the current best.
+						if (readable && score < bestScore) {
+							bestScore = score;
+							bestNdgSet = ndgcl;
 							found = true;
 						}
 					}
 					if (!found)
-						return ProofResult.UNKNOWN; 
+						return ProofResult.UNKNOWN;
+					
+					Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
+					while (ndgc.hasNext()) {
+						prover.addNDGcondition(ndgc.next());
+					}
+					
 					// No readable proof was found, search for another prover to make a better job.
 				} else {
 					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),

@@ -15,15 +15,15 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Detects NDG conditions
+ * Detects polynomial NDG conditions and turns into human readable form
  * @author Zoltan Kovacs <zoltan@geogebra.org>
- *
  */
 public class NDGDetector {
 
 	/**
 	 * Returns the NDG condition (as a GeoGebra object) if the input polynomial is detected as a
-	 * recognizable geometrically meaningful condition (parallelism, collinearity etc.).
+	 * recognizable geometrically meaningful condition (collinearity, equality etc.).
+	 * TODO: Implement missing features (parallelism, perpendicularity etc.).
 	 * @param p input polynomial
 	 * @param prover input prover
 	 * @return the NDG condition
@@ -33,6 +33,8 @@ public class NDGDetector {
 		App.debug("Trying to detect polynomial " + p);
 		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(prover.getStatement());
 		HashSet<GeoElement>freePointsSet = new HashSet<GeoElement>(freePoints);
+
+		// CHECKING COLLINEARITY
 		
 		Combinations triplets = new Combinations(freePointsSet,3);
 		
@@ -60,9 +62,10 @@ public class NDGDetector {
 				ndgc.setCondition("AreCollinear");
 				return ndgc;
 			}
-
 		}
 
+		// CHECKING STRONG EQUALITY
+		
 		Combinations pairs = new Combinations(freePointsSet,2);
 		
 		while (pairs.hasNext()) {
@@ -111,6 +114,8 @@ public class NDGDetector {
 				}
 			}
 		
+		// CHECKING EQUALITY (WHERE WE CAN GIVE SUFFICIENT CONDITIONS ONLY)
+		
 		pairs = new Combinations(freeXvars,2);
 
 		while (pairs.hasNext()) {
@@ -132,7 +137,8 @@ public class NDGDetector {
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
-				ndgc.setCondition("_AreEqualX");
+				ndgc.setCondition("AreEqual"); // in fact this is x(A)=x(B), so we use a sufficient condition instead
+				ndgc.setReadability(5); // we don't really want this condition
 				return ndgc;
 			}
 		}
@@ -158,7 +164,8 @@ public class NDGDetector {
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
-				ndgc.setCondition("_AreEqualY");
+				ndgc.setCondition("AreEqual"); // in fact this is y(A)=y(B), so we use a sufficient condition instead
+				ndgc.setReadability(5); // we don't really want this condition
 				return ndgc;
 			}
 		}
