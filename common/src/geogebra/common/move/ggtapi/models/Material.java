@@ -1,9 +1,9 @@
 package geogebra.common.move.ggtapi.models;
 
-import java.util.Date;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.models.json.JSONString;
 
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
+import java.util.Date;
 
 /**
  * Material POJO
