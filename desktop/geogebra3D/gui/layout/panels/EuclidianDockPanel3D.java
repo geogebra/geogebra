@@ -53,8 +53,19 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 		return true;
 	}
 	
+	@Override
 	public boolean isEuclidianDockPanel3D() {
 		return true;
+	}
+	
+	@Override
+	public void updatePanel() {
+		
+		super.updatePanel();
+		
+		if (visible){ //ensure that 3D animator is running
+			((App3D)app).getEuclidianView3D().getRenderer().resumeAnimator();
+		}
 	}
 
 }

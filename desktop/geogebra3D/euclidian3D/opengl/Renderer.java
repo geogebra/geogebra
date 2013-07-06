@@ -772,16 +772,11 @@ public class Renderer extends RendererJogl implements GLEventListener {
      * openGL method called when the canvas is reshaped.
      */
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-        GL gl = drawable.getGL();
-        
-        //Application.debug("reshape\n x = "+x+"\n y = "+y+"\n w = "+w+"\n h = "+h);
-        
 
         setView(x,y,w,h);
-
-        
         view3D.reset();
-      }
+
+    }
 
     /**
      * openGL method called when the display change.
@@ -1530,8 +1525,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
      */
     public void init(GLAutoDrawable drawable) {
     	
-    	// ensure that animation is on (needed when undocking/docking 3D view)
-    	animator.resume();
     	
     	GL gl2 = drawable.getGL(); 
         App.debug("Init on "+Thread.currentThread()); 
@@ -1678,8 +1671,17 @@ public class Renderer extends RendererJogl implements GLEventListener {
         
         //reset picking buffer
         needsNewPickingBuffer = true;
-
+        
+       	// ensure that animation is on (needed when undocking/docking 3D view)
+        resumeAnimator();
     }  
+    
+    /**
+     * ensure that animation is on (needed when undocking/docking 3D view)
+     */
+    public void resumeAnimator(){
+    	animator.resume();
+    }
     
     //projection mode
     
