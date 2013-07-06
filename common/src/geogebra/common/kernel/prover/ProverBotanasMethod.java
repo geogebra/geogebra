@@ -300,6 +300,7 @@ public class ProverBotanasMethod {
 				nStatements = statements.length;
 						
 			boolean ans = true;
+			// FIXME: The NDG conditions are collected for the last statement only, this should be fixed.
 			// Solving the equation system for each sets of polynomials of the statement:
 			for (int i=0; i<nStatements && ans; ++i) {
 				int nPolysStatement = statements[i].length;
@@ -362,9 +363,10 @@ public class ProverBotanasMethod {
 							}
 							found = true;
 						}
-						ans = true;
-						// TODO: If !found, add an ndgc with "Unknown" or "Object" item.
 					}
+					if (!found)
+						return ProofResult.UNKNOWN; 
+					// No readable proof was found, search for another prover to make a better job.
 				} else {
 					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
 							ProverSettings.polysofractf)) // FIXME: here seems NPE if SingularWS not initialized 

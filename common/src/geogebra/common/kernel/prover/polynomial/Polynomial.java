@@ -624,6 +624,16 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 	
 	/**
+	 * Tests if two polynomials are associates by a +/-1 multiplier
+	 * @param p1 First polynomial
+	 * @param p2 Second polynomial
+	 * @return if the polynomials are associates
+	 */
+	public static boolean areAssociates1(Polynomial p1, Polynomial p2) {
+		return p1.equals(p2) || p1.add(p2).isZero();
+	}
+	
+	/**
 	 * Tests if the Polynomial is the constant one polynomial
 	 * @return true if the polynomial is zero false otherwise
 	 */

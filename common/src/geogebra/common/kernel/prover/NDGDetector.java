@@ -9,6 +9,7 @@ import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,9 @@ public class NDGDetector {
 	 */
 	public static NDGCondition detect(Polynomial p, Prover prover) {
 
+		App.debug("Trying to detect polynomial " + p);
 		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(prover.getStatement());
-		HashSet<GeoElement >freePointsSet = new HashSet<GeoElement>(freePoints);
+		HashSet<GeoElement>freePointsSet = new HashSet<GeoElement>(freePoints);
 		
 		Combinations triplets = new Combinations(freePointsSet,3);
 		
@@ -50,7 +52,7 @@ public class NDGDetector {
 			Variable[] fv3 = ((SymbolicParametersBotanaAlgo)points[2]).getBotanaVars(points[2]);
 			// Creating the polynomial for collinearity:
 			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
-			if (coll.add(p).isZero() || coll.equals(p)) { // coll == +p or -p
+			if (Polynomial.areAssociates1(p, coll)) {
 				App.debug(p + " means collinearity for " + triplet);
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
@@ -76,9 +78,9 @@ public class NDGDetector {
 			}
 			Variable[] fv1 = ((SymbolicParametersBotanaAlgo)points[0]).getBotanaVars(points[0]);
 			Variable[] fv2 = ((SymbolicParametersBotanaAlgo)points[1]).getBotanaVars(points[1]);
-			// Creating the polynomial for collinearity:
-			Polynomial coll = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]);
-			if (coll.add(p).isZero() || coll.equals(p)) { // coll == +p or -p
+			// Creating the polynomial for equality:
+			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]);
+			if (Polynomial.areAssociates1(p, eq)) {
 				App.debug(p + " means equality for " + pair);
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
@@ -86,11 +88,81 @@ public class NDGDetector {
 				ndgc.setCondition("AreEqual");
 				return ndgc;
 			}
+		}
 
+		HashSet<Variable> freeXvars = new HashSet<Variable>();
+		HashMap<Variable,GeoElement> xvarGeo = new HashMap<Variable,GeoElement>();
+		HashSet<Variable> freeYvars = new HashSet<Variable>();
+		HashMap<Variable,GeoElement> yvarGeo = new HashMap<Variable,GeoElement>();
+		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+				if (geo.isGeoPoint() && (geo instanceof SymbolicParametersBotanaAlgo)) {
+					Variable x = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo)[0];
+					if (x.isFree()) {
+						freeXvars.add(x);
+						xvarGeo.put(x, geo);
+					}
+					Variable y = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo)[1];
+					if (y.isFree()) {
+						freeYvars.add(y);
+						yvarGeo.put(y, geo);
+					}
+				}
+			}
+		
+		pairs = new Combinations(freeXvars,2);
+
+		while (pairs.hasNext()) {
+			HashSet<Object> pair = (HashSet<Object>) pairs.next();
+			Iterator<Object> itc = pair.iterator();
+			// GeoElement[] points = (GeoElement[]) pair.toArray();
+			// This is not working directly, so we have to do it manually:
+			int i = 0;
+			Variable[] coords = new Variable[pair.size()];
+			GeoElement[] points = new GeoElement[pair.size()];
+			while (itc.hasNext()) {
+				coords[i] = (Variable) itc.next();
+				points[i] = xvarGeo.get(coords[i]); 
+				i++;
+			}
+			Polynomial xeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1])));
+			if (Polynomial.areAssociates1(p, xeq)) {
+				App.debug(p + " means x-equality for " + pair);
+				NDGCondition ndgc = new NDGCondition();
+				ndgc.setGeos(points);
+				Arrays.sort(ndgc.getGeos());
+				ndgc.setCondition("_AreEqualX");
+				return ndgc;
+			}
+		}
+
+		pairs = new Combinations(freeYvars,2);
+
+		while (pairs.hasNext()) {
+			HashSet<Object> pair = (HashSet<Object>) pairs.next();
+			Iterator<Object> itc = pair.iterator();
+			// GeoElement[] points = (GeoElement[]) pair.toArray();
+			// This is not working directly, so we have to do it manually:
+			int i = 0;
+			Variable[] coords = new Variable[pair.size()];
+			GeoElement[] points = new GeoElement[pair.size()];
+			while (itc.hasNext()) {
+				coords[i] = (Variable) itc.next();
+				points[i] = yvarGeo.get(coords[i]); 
+				i++;
+			}
+			Polynomial yeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1])));
+			if (Polynomial.areAssociates1(p, yeq)) {
+				App.debug(p + " means y-equality for " + pair);
+				NDGCondition ndgc = new NDGCondition();
+				ndgc.setGeos(points);
+				Arrays.sort(ndgc.getGeos());
+				ndgc.setCondition("_AreEqualY");
+				return ndgc;
+			}
 		}
 		
 		return null;
-
-		
 	}	
 }
