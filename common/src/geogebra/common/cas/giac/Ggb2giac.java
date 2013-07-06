@@ -204,7 +204,7 @@ public class Ggb2giac {
 		// but not for Intersect[x^2,x^3]
 		// ggbans:=0/0 to make sure if there's an error, we don't output previous answer
 		p("Intersect.2",
-				"[[ggbans:=0/0],[ggbans:=inter(%0,%1)],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
+				"[[ggbans:=0/0],[ggbans:=normal(inter(%0,%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
 		// Giac currently uses approximation for this
 		//p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
