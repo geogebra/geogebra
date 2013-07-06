@@ -269,7 +269,6 @@ public class Material implements Comparable<Material>
 		putString(ret,"id", id+"");
 		putString(ret,"likes", likes+"");
 		return ret;
-		// {   "type":"ggb", "title":"The 11 paterns of the cube (Net of a Cube)", "id":"19165", "likes":"86"}
 	}
 
 	private void putString(JSONObject ret, String key, String value) {

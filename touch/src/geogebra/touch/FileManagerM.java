@@ -1,13 +1,13 @@
 package geogebra.touch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.ListBox;
@@ -73,7 +73,7 @@ public class FileManagerM {
 		mat.setTitle(consTitle);
 		mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
 		
-		this.stockStore.setItem(META_PREFIX+consTitle,System.currentTimeMillis()+"");
+		this.stockStore.setItem(META_PREFIX+consTitle,mat.toJson().toString());
 		
 	}
 
