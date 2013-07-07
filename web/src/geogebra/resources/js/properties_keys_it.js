@@ -153,7 +153,7 @@ __GGB__keysVar.it.command = {
     "CircumcircleSector": "SettoreTrePunti",
     "CircumcircleSector_Syntax": "[ <Punto>, <Punto>, <Punto> ]",
     "Circumference": "Perimetro",
-    "Circumference_Syntax": "[ <Conica> ]",
+    "Circumference_Syntax": "[ <Poligono> ]\n[ <Conica> ]\n[ <Luogo> ]",
     "Classes": "Classi",
     "Classes_Syntax": "[ <Lista di dati>, <Numero delle classi> ]\n[ <Lista di dati>, <Inizio>, <Ampiezza delle classi> ]",
     "ClosestPoint": "PuntoDistMin",
