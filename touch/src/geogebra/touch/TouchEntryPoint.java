@@ -26,7 +26,7 @@ public class TouchEntryPoint implements EntryPoint
 	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static TubeSearchGUI tubeSearchGUI;
-	static BrowseGUI browseGUI;
+	public static BrowseGUI browseGUI;
 
 	@Override
 	public void onModuleLoad()

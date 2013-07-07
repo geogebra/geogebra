@@ -79,7 +79,7 @@ public class BrowseGUI extends VerticalPanel
 		this.add(this.resultsArea);
 		this.add(this.backButton);
 
-		loadFeatured();
+		loadAllFiles();
 
 		Window.addResizeHandler(new ResizeHandler()
 		{
@@ -114,7 +114,7 @@ public class BrowseGUI extends VerticalPanel
 	/**
 	 * Loads the featured materials
 	 */
-	private void loadFeatured()
+	public void loadAllFiles()
 	{
 		List<Material> materialList = fm.getAllFiles();
 		BrowseGUI.this.resultsArea.setMaterials(materialList);

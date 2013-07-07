@@ -1,5 +1,8 @@
 package geogebra.touch.gui.elements.ggt;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;

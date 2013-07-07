@@ -30,8 +30,9 @@ public class FileManagerM {
 			{
 				String oldKey = this.stockStore.key(i);
 				if(!oldKey.contains("#")){
-					this.stockStore.setItem(FILE_PREFIX+oldKey,this.stockStore.getItem(oldKey));
 					this.stockStore.removeItem(oldKey);
+				}else{
+					App.debug(stockStore.getItem(oldKey));
 				}
 			}
 		}	
@@ -61,7 +62,7 @@ public class FileManagerM {
 	public void delete(String text) {
 		this.stockStore.removeItem(FILE_PREFIX+text);
 		this.stockStore.removeItem(THUMB_PREFIX+text);
-		
+		TouchEntryPoint.browseGUI.loadAllFiles();
 	}
 
 	public void saveFile(String consTitle, App app) {
@@ -74,7 +75,7 @@ public class FileManagerM {
 		mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
 		
 		this.stockStore.setItem(META_PREFIX+consTitle,mat.toJson().toString());
-		
+		TouchEntryPoint.browseGUI.loadAllFiles();
 	}
 
 	public String getFile(String text) {
