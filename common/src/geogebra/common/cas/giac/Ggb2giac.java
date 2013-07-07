@@ -212,11 +212,16 @@ public class Ggb2giac {
 		// http://www.had2know.com/academics/conic-section-through-five-points.html
 		// exact method
 		p("Conic.5",
-				"[[[A:=(0/0,0/0)],[B:=(0/0,0/0)],[C:=(0/0,0/0)],[D:=(0/0,0/0)],[E:=(0/0,0/0)]],"+
+				"[[[M:=0/0],[A:=(0/0,0/0)],[B:=(0/0,0/0)],[C:=(0/0,0/0)],[D:=(0/0,0/0)],[E:=(0/0,0/0)]],"+
 						"[[A:=%0],[B:=%1],[C:=%2],[D:=%3],[E:=%4]],"+
 						"[M:={{x^2,x*y,y^2,x,y,1},{A[0]^2,A[0]*A[1],A[1]^2,A[0],A[1],1},{B[0]^2,B[0]*B[1],B[1]^2,B[0],B[1],1},{C[0]^2,C[0]*C[1],C[1]^2,C[0],C[1],1},{D[0]^2,D[0]*D[1],D[1]^2,D[0],D[1],1},{E[0]^2,E[0]*E[1],E[1]^2,E[0],E[1],1}}],"+
-						"det(M)=0"+
-						"][3]"
+						"[M:=det(M)],"+
+						
+						// eg Conic[(5,0),(-5,0),(0,5),(0,-5),(4,1)]
+						// simplify to x² +2 x y + y² - 25 from 10000x² + 20000x y + 10000y² - 250000
+						"[hcf:=factors(M)[0]],"+
+						"when(type(hcf)==DOM_INT,normal(M/hcf)=0,M=0)"+
+						"][5]"
 				);
 		
 		// version using Giac's internal commands: slower and not robust (converts to parametric form as an intermediate step)
@@ -646,7 +651,7 @@ public class Ggb2giac {
 		// center-point:      point(%0),point(%1)
 		// or center-radius:  point(%0),%1
 		// regroup r*r -> r^2 without multiplying out
-		p("Circle.2", "regroup(equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))");
+		p("Circle.2", "reorder(regroup(equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))),[x,y])");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
