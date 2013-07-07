@@ -79,7 +79,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
-				TabletHeaderPanelLeft.this.app.setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(TabletHeaderPanelLeft.this.app.getLocalization()));
+				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 			}
 		};

@@ -58,7 +58,7 @@ public class TubeSearchGUI extends VerticalPanel
 		//this.featuredMaterials = new HorizontalMaterialPanel();
 		//this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
-		this.resultsArea = new VerticalMaterialPanel(app);
+		this.resultsArea = new VerticalMaterialPanel(app, null);
 
 		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
 		this.backButton.addDomHandler(new ClickHandler()

@@ -138,10 +138,12 @@ public class TouchApp extends AppWeb
 			this.setLanguage();
 		}
 
+		setDefaultConstructionTitle();
+	}
+	
+	public void setDefaultConstructionTitle() {
 		setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(this.getLocalization()));
 	}
-
-	
 
 	public GeoGebraTouchGUI getTouchGui()
 	{

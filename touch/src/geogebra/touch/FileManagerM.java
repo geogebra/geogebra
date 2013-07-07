@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
 import java.util.ArrayList;
@@ -75,11 +76,16 @@ public class FileManagerM {
 		mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
 		
 		this.stockStore.setItem(META_PREFIX+consTitle,mat.toJson().toString());
+		this.stockStore.setItem(THUMB_PREFIX+consTitle,((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString());
 		TouchEntryPoint.browseGUI.loadAllFiles();
 	}
 
-	public String getFile(String text) {
-		return this.stockStore.getItem(FILE_PREFIX+text);
+	public String getFile(String title) {
+		return this.stockStore.getItem(FILE_PREFIX + title);
+	}
+	
+	public String getThumbnailDataUrl(String title){
+		return this.stockStore.getItem(THUMB_PREFIX + title);
 	}
 
 	public List<Material> search(String query) {

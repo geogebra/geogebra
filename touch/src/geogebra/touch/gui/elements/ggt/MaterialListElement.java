@@ -40,7 +40,9 @@ public class MaterialListElement extends HorizontalPanel
 	private Label title, date, sharedBy, author, likes;
 	private Button open;
 
-	public MaterialListElement(final Material m, final AppWeb app)
+	private FileManagerM fm;
+
+	public MaterialListElement(final Material m, final AppWeb app, final FileManagerM fm)
 	{
 		// TODO set infos alignment
 		this.image = new SimplePanel();
@@ -49,6 +51,8 @@ public class MaterialListElement extends HorizontalPanel
 		this.sharedPanel = new HorizontalPanel();
 		this.likesPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
+		
+		this.fm = fm;
 
 		// TODO Change to icon
 		this.open = new Button("OPEN");
@@ -64,7 +68,11 @@ public class MaterialListElement extends HorizontalPanel
 		this.getElement().getStyle().setMarginBottom(5, Unit.PX);
 
 		this.add(this.image);
-		this.image.getElement().getStyle().setBackgroundImage("url(http:" + m.getThumbnail() + ")");
+		if(m.getId()>0){
+			this.image.getElement().getStyle().setBackgroundImage("url(http:" + m.getThumbnail() + ")");
+		}else{
+			this.image.getElement().getStyle().setBackgroundImage("url(" + fm.getThumbnailDataUrl(m.getURL()) + ")");
+		}
 		this.image.getElement().getStyle().setMarginRight(5, Unit.PX);
 		this.image.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		this.image.setSize("100px", "100px");
@@ -113,7 +121,7 @@ public class MaterialListElement extends HorizontalPanel
 					//remote material
 					new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
 				}else{
-					app.setXML(new FileManagerM().getFile(m.getURL()), true);
+					app.setXML(fm.getFile(m.getURL()), true);
 				}
 				TouchEntryPoint.showTabletGUI();
 			}
