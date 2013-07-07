@@ -159,7 +159,7 @@ public class Material implements Comparable<Material>
 		// JAVA USES MILLISECONDS, UNIX USES SECONDS
 		//gabor: why does it matter, I don't know right now .-)
 		//return DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(new Date(this.timestamp * 1000));
-		return String.valueOf(new Date().getTime());
+		return new Date(timestamp * 1000).toString();
 	}
 
 	public void setId(int id)
