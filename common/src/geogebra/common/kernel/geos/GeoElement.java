@@ -46,6 +46,7 @@ import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
+import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -59,6 +60,7 @@ import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -6960,6 +6962,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public int getDecorationType() {
 		return decorationType;
+	}
+
+	public EquationElementInterface buildEquationElement(EquationScope scope) {
+		return null;
 	}
 	
 }

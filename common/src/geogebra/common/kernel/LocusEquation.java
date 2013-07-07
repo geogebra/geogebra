@@ -11,6 +11,7 @@ import geogebra.common.kernel.algos.EquationElementInterface;
 import geogebra.common.kernel.algos.EquationScopeInterface;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.locusequ.CmdLocusEquation;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
@@ -24,6 +25,7 @@ import geogebra.common.kernel.locusequ.elements.EquationConicPartCircumcircle;
 import geogebra.common.kernel.locusequ.elements.EquationDiameterLine;
 import geogebra.common.kernel.locusequ.elements.EquationEllipseFociLength;
 import geogebra.common.kernel.locusequ.elements.EquationEllipseFociPoint;
+import geogebra.common.kernel.locusequ.elements.EquationFreeLine;
 import geogebra.common.kernel.locusequ.elements.EquationHyperbolaFociLength;
 import geogebra.common.kernel.locusequ.elements.EquationHyperbolaFociPoint;
 import geogebra.common.kernel.locusequ.elements.EquationIntersectConicsRestriction;
@@ -567,6 +569,10 @@ public class LocusEquation {
 	 */
 	public static CommandProcessor newCmdLocusEquation(Kernel kernel) {
 		return new CmdLocusEquation(kernel);
+	}
+
+	public static EquationElementInterface eqnLine(GeoLine line, EquationScopeInterface scope) {
+		return new EquationFreeLine(line, (EquationScope) scope);
 	}
 
 }

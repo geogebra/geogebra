@@ -74,7 +74,9 @@ public class EquationElementMap {
     	AlgoElement algo = key.getParentAlgorithm();
     	
     	if(algo == null) {
-    		return EquationRestriction.getEmptyRestriction();
+    		EquationElementInterface ret = key.buildEquationElement(this.scope);
+    		return ret !=null ? ret :
+    		EquationRestriction.getEmptyRestriction();
     	}
     	return algo.buildEquationElementForGeo(key, this.scope);
     }
