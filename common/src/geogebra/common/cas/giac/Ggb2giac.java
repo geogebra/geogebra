@@ -665,14 +665,13 @@ public class Ggb2giac {
 		// eg distance((4,5),(0,3))
 		// eg distance((2,3,4),(0,3,1))
 		// eg distance(conic(y=x^2),(0,3))
-		// TODO: maybe need to wrap conics with conic() in ConicND, and change Radius.1, Center.1?
 		// TODO: what about functions?
-		p("Distance.2", "regroup(distance(%0,%1))");
+		p("Distance.2", "normal(regroup(distance(%0,%1)))");
 
 		// wrap (2,3) as point(2,3), but not eg
 		// Line[(2,3),y=x]
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
-		p("Line.2","regroup(equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1))))");
+		p("Line.2","normal(regroup(equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))))");
 		
 		//p("Midpoint.2", "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))]," +
 		//		"(ggbans[0],ggbans[1])][1]");
