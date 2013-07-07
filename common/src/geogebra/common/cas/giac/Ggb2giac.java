@@ -697,7 +697,8 @@ public class Ggb2giac {
 				// Tangent[x-value, function]
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0))");
 
-
+		p("Vector.2", "%1-(%0)");
+		
 		return commandMap;
 	}
 
