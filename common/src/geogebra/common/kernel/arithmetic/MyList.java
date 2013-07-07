@@ -584,20 +584,9 @@ public class MyList extends ValidExpression implements ListValue,
 		return null;
 	}
 
-	/*
-	 * // Michael Borcherds 2008-04-14 private static MyDouble getCell(MyList
-	 * list, int col, int row) { ExpressionValue
-	 * singleValue=((ExpressionValue)list.getListElement(col)).evaluate(); if (
-	 * singleValue.isListValue() ){ ExpressionValue cell =
-	 * (((ListValue)singleValue).getMyList().getListElement(row)).evaluate(); if
-	 * (cell.isNumberValue()) { NumberValue cellValue=(NumberValue)cell;
-	 * MyDouble cellDouble = (MyDouble)cellValue; return cellDouble; } } return
-	 * null; }
-	 */
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl); // Michael Borcherds 2008-06-05
+		return toString(tpl, true);
 		/*
 		 * int size = listElements.size(); for (int i=0; i < size; i++) {
 		 * ((ExpressionValue) listElements.get(i)).evaluate(); }
@@ -673,10 +662,14 @@ public class MyList extends ValidExpression implements ListValue,
 		return toLaTeXString.toString();
 	}
 
-	// Michael Borcherds 2008-02-04
-	// adapted from GeoList
 	@Override
 	public String toString(StringTemplate tpl) {
+		return toString(tpl, false);
+	}
+	
+	// Michael Borcherds 2008-02-04
+	// adapted from GeoList
+	public String toString(StringTemplate tpl, boolean valueMode) {
 
 		StringBuilder sb = new StringBuilder();
 		if (tpl.hasType(StringType.MPREDUCE)) {
@@ -691,13 +684,13 @@ public class MyList extends ValidExpression implements ListValue,
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
 				ExpressionValue exp = listElements.get(i);
-				sb.append(exp.toString(tpl)); // .toOutputValueString());
+				sb.append(valueMode? exp.toOutputValueString(tpl) : exp.toString(tpl)); // .toOutputValueString());
 				sb.append(", ");
 			}
 
 			// last element
 			ExpressionValue exp = listElements.get(lastIndex);
-			sb.append(exp.toString(tpl));
+			sb.append(valueMode? exp.toOutputValueString(tpl) : exp.toString(tpl));
 		}
 
 		if (tpl.hasType(StringType.MPREDUCE)) {
