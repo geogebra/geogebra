@@ -44,7 +44,7 @@ public class BrowseGUI extends VerticalPanel
 	 */
 	public BrowseGUI(AppWeb app)
 	{
-		this.setStyleName("BrowseGUI");
+		this.setStyleName("tubesearchgui");
 		this.fm = new FileManagerM();
 		this.searchBar = new SearchBar();
 		this.searchBar.setWidth(Window.getClientWidth());

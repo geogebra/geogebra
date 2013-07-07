@@ -42,7 +42,14 @@ public class MaterialListElement extends HorizontalPanel
 
 	private FileManagerM fm;
 
-	public MaterialListElement(final Material m, final AppWeb app, final FileManagerM fm)
+	private VerticalMaterialPanel vmp;
+
+	private Button delete;
+
+	private Material material;
+
+	public MaterialListElement(final Material m, final AppWeb app, final FileManagerM fm,
+			VerticalMaterialPanel vmp)
 	{
 		// TODO set infos alignment
 		this.image = new SimplePanel();
@@ -51,21 +58,24 @@ public class MaterialListElement extends HorizontalPanel
 		this.sharedPanel = new HorizontalPanel();
 		this.likesPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
+		this.vmp = vmp;
 		
 		this.fm = fm;
+		this.material = m;
 
 		// TODO Change to icon
 		this.open = new Button("OPEN");
+		this.delete = new Button("DELETE");
 
 		this.setHeight(PANEL_HEIGHT + "px");
-		this.setWidth(Window.getClientWidth() - 100 + "px");
-
-		this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.InfoBackground);
+		this.setWidth((Window.getClientWidth() - 100)/vmp.getColumns() + "px");
+		this.markUnSelected();
+		/*this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.InfoBackground);
 		this.getElement().getStyle().setBorderColor(GeoGebraTubeStyle.BorderColor);
 		this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 		this.getElement().getStyle().setBorderWidth(GeoGebraTubeStyle.BorderWidth, Unit.PX);
 		this.getElement().getStyle().setMarginTop(5, Unit.PX);
-		this.getElement().getStyle().setMarginBottom(5, Unit.PX);
+		this.getElement().getStyle().setMarginBottom(5, Unit.PX);*/
 
 		this.add(this.image);
 		if(m.getId()>0){
@@ -110,6 +120,8 @@ public class MaterialListElement extends HorizontalPanel
 		this.add(this.infos);
 
 		this.links.add(this.open);
+		this.links.add(this.delete);
+		
 		this.links.getElement().setAttribute("align", "right");
 		this.open.addDomHandler(new ClickHandler()
 		{
@@ -126,7 +138,19 @@ public class MaterialListElement extends HorizontalPanel
 				TouchEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());
-
+		this.delete.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				event.stopPropagation();
+				if(m.getId()>0){
+					//remote material should not have this visible					
+				}else{
+					fm.delete(m.getURL());
+				}
+			}
+		}, ClickEvent.getType());
 		this.add(this.links);
 
 		this.addDomHandler(new ClickHandler()
@@ -135,9 +159,24 @@ public class MaterialListElement extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				// TODO Load worksheet for students
-				Window.alert("WORKSHEET FOR STUDENTS!");
+				MaterialListElement.this.markSelected();
 			}
 		}, ClickEvent.getType());
+	}
+
+	protected void markSelected() {
+		this.vmp.unselectMaterials();
+		setStyleName("browserSelectedFile");
+		this.open.setVisible(true);
+		if(this.material.getId() == 0){
+			this.delete.setVisible(true);
+		}
+		this.vmp.rememberSelected(this);
+	}
+	
+	protected void markUnSelected() {
+		setStyleName("browserDefaultFile");
+		this.open.setVisible(false);
+		this.delete.setVisible(false);
 	}
 }

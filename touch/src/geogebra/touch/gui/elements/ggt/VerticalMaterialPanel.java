@@ -14,6 +14,8 @@ public class VerticalMaterialPanel extends ScrollPanel
 	private FlexTable contentPanel;
 	private AppWeb app;
 	private FileManagerM fm;
+	private MaterialListElement lastSelected;
+	private int columns = 2;
 
 	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
 	{
@@ -31,8 +33,8 @@ public class VerticalMaterialPanel extends ScrollPanel
 		int i = 0;
 		for (Material m : materials)
 		{
-			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm);
-			this.contentPanel.setWidget(i, 0, preview);
+			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
+			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
 			i++;
 		}
 	}
@@ -48,5 +50,20 @@ public class VerticalMaterialPanel extends ScrollPanel
 	{
 		super.setWidth(width);
 		this.contentPanel.setWidth(width);
+	}
+
+	public void unselectMaterials() {
+		if(this.lastSelected!=null){
+			this.lastSelected.markUnSelected();
+		}
+		
+	}
+
+	public void rememberSelected(MaterialListElement materialElement) {
+		this.lastSelected = materialElement;
+	}
+
+	public int getColumns() {
+		return columns;
 	}
 }

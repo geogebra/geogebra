@@ -434,3 +434,11 @@ div.elemHeadingName {
 	width: 40px;
 	height: 40px;
 }
+
+/* File browser */
+.browserDefaultFile{
+	
+}
+.browserSelectedFile{
+	background-color:rgb(153,153,255);
+}
