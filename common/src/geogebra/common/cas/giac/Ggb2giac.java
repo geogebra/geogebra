@@ -207,7 +207,8 @@ public class Ggb2giac {
 				"[[ggbans:=0/0],[ggbans:=normal(inter(%0,%1))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][3]");
 
 		// Giac currently uses approximation for this
-		//p("Conic.5", "equation(conic(point(%0),point(%1),point(%2),point(%3),point(%4)))");
+		//p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
+		
 		
 		// http://www.had2know.com/academics/conic-section-through-five-points.html
 		// exact method
@@ -227,9 +228,9 @@ public class Ggb2giac {
 		
 		// version using Giac's internal commands: slower and not robust (converts to parametric form as an intermediate step)
 		// Ellipse[point, point, point/number]
-		//p("Ellipse.3", "equation(ellipse(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
+		//p("Ellipse.3", "equation(ellipse(%0,%1,%2))");
 		// Hyperbola[point, point, point/number]
-		//p("Hyperbola.3", "equation(hyperbola(point(%0),point(%1),when(type(%2)==DOM_LIST,point(%2),%2)))");
+		//p("Hyperbola.3", "equation(hyperbola(%0,%1,%2))");
 
 		
 		// adapted from GeoConicND.setEllipseHyperbola()
@@ -539,7 +540,7 @@ public class Ggb2giac {
 		// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
 		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
-				"%0[0]+i*%0[1]");
+				"%0[1]");
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
