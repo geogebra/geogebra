@@ -1388,7 +1388,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "(-1) / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
+		s("Integral[-x^3 + x^2]", "+ 1 / 3 * x^(3) - 1 / 4 * x^(4) + c_INDEX");
 	}
 
 	/* Definite Integral */
@@ -2551,12 +2551,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Substitute_2() {
-		t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "-(n + 3)^(2) + a^(2)");
+		t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "a^(2) - (n + 3)^(2)");
 	}
 
 	@Test
 	public void Substitute_3() {
-		t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a", "(3 * a - 3)^(2) - (a + 3)^(2)");
+		t("Substitute[(3 m - 3)^2 - (m + 3)^2, m, a]", "8 * a^(2) - 24 * a", " -(a + 3)^(2) + (3 * a - 3)^(2)");
 	}
 	
 	@Test
@@ -2571,7 +2571,7 @@ public class GeoGebraCasIntegrationTest {
 		} catch (Throwable t) {
 			Throwables.propagate(t);
 		}
-		t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "-b + 2 * a + 6");
+		t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6");
 	}
 	
 
