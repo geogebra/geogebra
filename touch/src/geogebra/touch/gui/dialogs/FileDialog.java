@@ -2,9 +2,7 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -14,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -126,7 +123,7 @@ public abstract class FileDialog extends PopupPanel
 	 */
 	protected void populateFileList()
 	{
-		fm.toList(fileList);
+		this.fm.toList(this.fileList);
 	}
 
 	private void initDeleteButton()
@@ -178,7 +175,7 @@ public abstract class FileDialog extends PopupPanel
 
 	protected void onDelete()
 	{
-		fm.delete(this.textBox.getText());
+		this.fm.delete(this.textBox.getText());
 	}
 
 	@Override

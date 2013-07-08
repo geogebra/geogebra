@@ -1,8 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;

@@ -65,6 +65,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		init();
 		gui.addResizeListener(this);
+
+		setAutoHideEnabled(true);
 	}
 
 	public void redefine(DialogType dialogType)
@@ -238,11 +240,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	 */
 	public String getInput()
 	{
-		if(this.input == null)
+		if (this.input == null)
 		{
 			return "";
 		}
-		
+
 		for (CustomKey c : CustomKey.values())
 		{
 			if (!c.getReplace().equals(""))
@@ -299,7 +301,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void onCustomKeyPressed(CustomKey c)
 	{
-		this.textBox.setText(this.textBox.getText() + c.toString());
+		int pos = this.textBox.getCursorPos();
+		this.textBox.setText(this.textBox.getText().substring(0, pos) + c.toString() + this.textBox.getText().substring(pos));
+		this.textBox.setCursorPos(pos + 1);
 	}
 
 	@Override

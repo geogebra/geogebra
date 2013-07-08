@@ -9,7 +9,6 @@ import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -103,10 +102,10 @@ public class InfoDialog extends PopupPanel
 		}, ClickEvent.getType());
 	}
 
-	public void showIfNeeded(TouchApp app)
+	public void showIfNeeded(TouchApp touchApp)
 	{
-		if(!app.isSaved()){
-			this.consTitle = app.getConstructionTitle();
+		if(!touchApp.isSaved()){
+			this.consTitle = touchApp.getConstructionTitle();
 			super.show();
 			super.center();
 		}else{
