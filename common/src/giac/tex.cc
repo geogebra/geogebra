@@ -307,7 +307,7 @@ namespace giac {
       if (it==itend)
 	return s;
       if (it->type<=_IDNT || (it->type==_SYMB && 
-			      (it->_SYMBptr->sommet==at_neg || (it->_SYMBptr->sommet.ptr()->printsommet && it->_SYMBptr->feuille.type==_VECT && !it->_SYMBptr->feuille._VECTptr->empty() && it->_SYMBptr->feuille._VECTptr->front().type<_IDNT))
+			      (it->_SYMBptr->sommet==at_neg || (it->_SYMBptr->sommet.ptr()->printsommet && it->_SYMBptr->feuille.type==_VECT && !it->_SYMBptr->feuille._VECTptr->empty() && it->_SYMBptr->feuille._VECTptr->front().type<=_IDNT))
 			      )) // second part of the test added for e.g. latex('2*3*5^2')
 	s += "\\cdot ";
       else

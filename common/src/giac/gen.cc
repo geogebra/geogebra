@@ -5031,6 +5031,21 @@ namespace giac {
     case _CPLX__CPLX:
       return adjust_complex_display(gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr)),a,b);
     case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL:
+      // matrix * point -> point
+      if (ckmatrix(a) && b.is_symb_of_sommet(at_pnt)){
+	gen tmp=b._SYMBptr->feuille;
+	if (tmp.type==_VECT && !tmp._VECTptr->empty()){
+	  gen f0=tmp._VECTptr->front();
+	  if (f0.type==_VECT && f0.subtype==_POINT__VECT)
+	    return _point(multmatvecteur(*a._VECTptr,*f0._VECTptr),contextptr);
+	  if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
+	    gen r,i;
+	    reim(f0,r,i,contextptr);
+	    f0=multmatvecteur(*a._VECTptr,makevecteur(r,i));
+	    return _point(f0,contextptr);
+	  }	
+	}
+      }
       if (a.subtype==_VECTOR__VECT && a._VECTptr->size()==2)
 	return vector2vecteur(*a._VECTptr)*b;
       if (a.subtype==_PNT__VECT)
