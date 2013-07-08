@@ -660,7 +660,8 @@ public class Ggb2giac {
 		// center-point:      point(%0),point(%1)
 		// or center-radius:  point(%0),%1
 		// regroup r*r -> r^2 without multiplying out
-		p("Circle.2", "regroup(equation(circle(%0,%1)))");
+		// circle(2*(%0)-(%1),%1) to convert centre,point -> points on diameter
+		p("Circle.2", "regroup(equation(when(%1[0]=='pnt',circle(2*(%0)-(%1),%1),circle(%0,%1))))");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
