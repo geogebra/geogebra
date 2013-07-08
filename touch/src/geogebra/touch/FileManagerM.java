@@ -78,6 +78,7 @@ public class FileManagerM {
 		this.stockStore.setItem(META_PREFIX+consTitle,mat.toJson().toString());
 		this.stockStore.setItem(THUMB_PREFIX+consTitle,((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString());
 		TouchEntryPoint.browseGUI.loadAllFiles();
+		app.setSaved();
 	}
 
 	public String getFile(String title) {

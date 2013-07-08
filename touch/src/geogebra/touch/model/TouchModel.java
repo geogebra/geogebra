@@ -1130,7 +1130,7 @@ public class TouchModel {
 		this.kernel.setNotifyRepaintActive(true); // includes a repaint
 
 		if (this.commandFinished) {
-			this.kernel.storeUndoInfo();
+			this.kernel.getApplication().storeUndoInfo();
 		}
 
 		if (this.commandFinished || this.command == ToolBarCommand.Select
@@ -1294,7 +1294,7 @@ public class TouchModel {
 	public void setCaptionMode(int index) {
 		this.guiModel.setCaptionMode(index);
 		this.guiModel.closeOptions();
-		this.kernel.storeUndoInfo();
+		this.kernel.getApplication().storeUndoInfo();
 	}
 
 	public void storeOnClose() {
@@ -1304,7 +1304,7 @@ public class TouchModel {
 	public void optionsClosed() {
 		if (this.storeOnClose) {
 			this.storeOnClose = false;
-			this.kernel.storeUndoInfo();
+			this.kernel.getApplication().storeUndoInfo();
 		}
 	}
 
@@ -1411,6 +1411,6 @@ public class TouchModel {
 		this.kernel.setNotifyRepaintActive(true);
 		this.guiModel.updateStylingBar();
 		this.commandFinished = true;
-		this.kernel.storeUndoInfo();
+		this.kernel.getApplication().storeUndoInfo();
 	}
 }
