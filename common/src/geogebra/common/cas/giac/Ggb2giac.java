@@ -567,7 +567,7 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"normalize(%0)");
+				"convert(unitV([real(%0[1]),im(%0[1])]),25)");
 		p("Variance.1",
 				"normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
