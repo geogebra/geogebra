@@ -401,8 +401,13 @@ public class DockManagerW implements  SetLabels {
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
 			} else {
-				windowWidth = app.getAppFrame().getOffsetWidth(); 
-				windowHeight = app.getAppFrame().getOffsetWidth();
+				windowWidth = app.getAppFrame().getOffsetWidth();
+
+				// this is just a heuristic, as data-param-height would be
+				windowHeight = app.getAppFrame().getOffsetHeight();
+
+				rootPane.clear();
+				rootPane.setSize("100%", "100%");
 			}
 
 			// set the dividers of the split panes
