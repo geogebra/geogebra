@@ -224,10 +224,10 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
          */
 		public AutomaticPlayer(double delay){
 			timer = new Timer(){
-
+				
 				@Override
                 public void run() {
-		        	prot.nextStep();        	
+					prot.nextStep();        	
 		        	if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
 		        		stopAnimation();
 		        	}
@@ -248,7 +248,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			app.setWaitCursor();
 
 			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
-				prot.firstStep();
+				prot.setConstructionStep(-1);
 			}
 
 			timer.run();
