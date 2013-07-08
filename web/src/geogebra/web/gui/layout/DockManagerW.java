@@ -386,14 +386,23 @@ public class DockManagerW implements  SetLabels {
 
 			updateSplitPanesResizeWeight();
 
+			int windowWidth;
+			int windowHeight;
 			if (app.isApplet() || !App.isFullAppGui()) {
-				// height doesn't work still
-				//App.debug("!!!! "+spw.get(rootPane)+" "+sph.get(rootPane));
+
+				// old version, should we support it?
+				// data-param-height is not the same as the height of the split pane!
+				//windowWidth = app.getDataParamWidth();
+				//windowHeight = app.getDataParamHeight();
+
+				windowWidth = spw.get(rootPane);
+				windowHeight = sph.get(rootPane);
 
 				rootPane.clear();
-				rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
-				// without this, the width of the rootPane is not OK,
-				// with this, onResize is called and things get too long
+				rootPane.setPixelSize(windowWidth, windowHeight);
+			} else {
+				windowWidth = app.getAppFrame().getOffsetWidth(); 
+				windowHeight = app.getAppFrame().getOffsetWidth();
 			}
 
 			// set the dividers of the split panes
@@ -401,9 +410,9 @@ public class DockManagerW implements  SetLabels {
 				splitPanes[i].clear();
 				// don't set splitpane width/height here, because that would call onResize
 				if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * sph.get(splitPanes[0]) ));
+					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowHeight ));
 				} else {
-					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * spw.get(splitPanes[0]) ));
+					splitPanes[i].setDividerLocationSilent((int)(spData[i].getDividerLocation() * windowWidth ));
 				}
 			}
 
