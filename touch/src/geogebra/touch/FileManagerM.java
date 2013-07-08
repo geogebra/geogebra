@@ -3,6 +3,7 @@ package geogebra.touch;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -90,11 +91,12 @@ public class FileManagerM {
 	}
 
 	public List<Material> search(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		return getFiles(MaterialFilter.getSearchFilter(query));
 	}
-
 	public List<Material> getAllFiles() {
+		return getFiles(MaterialFilter.getUniversalFilter());
+	}
+	public List<Material> getFiles(MaterialFilter filter) {
 		List<Material> ret = new ArrayList<Material>();
 		if (this.stockStore == null || this.stockStore.getLength() <=0)
 		{
@@ -111,8 +113,10 @@ public class FileManagerM {
 					mat = new Material(0,MaterialType.ggb);
 					mat.setTitle(keyStem);
 				}
-				mat.setURL(keyStem);
-				ret.add(mat);
+				if(filter.check(mat)){
+					mat.setURL(keyStem);
+					ret.add(mat);
+				}
 			}
 		}
 
