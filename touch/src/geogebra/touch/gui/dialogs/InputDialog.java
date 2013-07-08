@@ -238,6 +238,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	 */
 	public String getInput()
 	{
+		if(this.input == null)
+		{
+			return "";
+		}
+		
 		for (CustomKey c : CustomKey.values())
 		{
 			if (!c.getReplace().equals(""))

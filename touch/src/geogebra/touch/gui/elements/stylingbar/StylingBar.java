@@ -59,16 +59,6 @@ public class StylingBar extends DecoratorPanel
 		}
 	}
 
-	private abstract class StylingBarClickHandler implements ClickHandler
-	{
-		protected int index;
-
-		StylingBarClickHandler(int i)
-		{
-			this.index = i;
-		}
-	}
-
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
 	 * 
@@ -156,46 +146,6 @@ public class StylingBar extends DecoratorPanel
 			}
 		});
 
-		// required for testing on a PC
-		this.showHide.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.preventDefault();
-				event.stopPropagation();
-
-				if (StylingBar.this.visible)
-				{
-					// close all opened options before hiding the stylingbar
-					StylingBar.this.guiModel.closeOptions();
-
-					StylingBar.this.contentPanel.clear();
-					StylingBar.this.contentPanel.add(StylingBar.this.showHide);
-					StylingBar.this.visible = false;
-
-					StylingBar.this.showHide.setStyleName("arrowRight");
-				}
-				else
-				{
-					StylingBar.this.contentPanel.clear();
-					for (StandardImageButton b : StylingBar.this.button)
-					{
-						StylingBar.this.contentPanel.add(b);
-					}
-					StylingBar.this.contentPanel.add(StylingBar.this.showHide);
-					StylingBar.this.visible = true;
-
-					StylingBar.this.showHide.setStyleName("arrowLeft");
-
-					// force repaint
-					euclidianViewPanel.remove(StylingBar.this);
-					euclidianViewPanel.add(StylingBar.this);
-					euclidianViewPanel.setWidgetPosition(StylingBar.this, 0, 0);
-				}
-			}
-		}, ClickEvent.getType());
-
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
@@ -232,21 +182,6 @@ public class StylingBar extends DecoratorPanel
 				newButton.setActive(!newButton.isActive());
 			}
 		});
-
-		// required for testing on a PC
-		newButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-
-				StylingBar.this.guiModel.closeOptions();
-				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
-
-				newButton.setActive(!newButton.isActive());
-			}
-		}, ClickEvent.getType());
 
 		return newButton;
 	}
@@ -310,25 +245,6 @@ public class StylingBar extends DecoratorPanel
 					}
 				});
 
-				// required for testing on a PC
-				b[i].addDomHandler(new StylingBarClickHandler(i)
-				{
-					@Override
-					public void onClick(ClickEvent event)
-					{
-						event.stopPropagation();
-
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							StylingBar.this.guiModel.showOption(new OptionsBox(new CaptionBar(StylingBar.this.touchModel)), OptionType.CaptionStyle,
-							    StylingBar.this.button[this.index]);
-						}
-					}
-				}, ClickEvent.getType());
 			}
 			else if (resource[i].equals(CommonResources.INSTANCE.properties_default()))
 			{
@@ -353,26 +269,6 @@ public class StylingBar extends DecoratorPanel
 					}
 				});
 
-				// required for testing on a PC
-				b[i].addDomHandler(new StylingBarClickHandler(i)
-				{
-					@Override
-					public void onClick(ClickEvent event)
-					{
-						event.stopPropagation();
-
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							StylingBar.this.guiModel.showOption(new OptionsBox(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this)),
-							    OptionType.LineStyle, StylingBar.this.button[this.index]);
-						}
-
-					}
-				}, ClickEvent.getType());
 			}
 			else if (resource[i].equals(CommonResources.INSTANCE.color()))
 			{
@@ -400,28 +296,6 @@ public class StylingBar extends DecoratorPanel
 						}
 					}
 				});
-
-				// required for testing on a PC
-				b[i].addDomHandler(new ClickHandler()
-				{
-					@Override
-					public void onClick(ClickEvent event)
-					{
-						event.preventDefault();
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
-
-							// includes closeOptions()
-							StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color,
-							    StylingBar.this.button[StylingBar.this.colorButtonIndex]);
-						}
-					}
-				}, ClickEvent.getType());
 
 				this.colorButtonIndex = i;
 			}
