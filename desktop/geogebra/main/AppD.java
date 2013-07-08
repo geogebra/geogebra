@@ -587,7 +587,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getScriptManager().ggbOnInit();
 		}
 
-		isSaved = true;
+		setSaved();
 
 		if (getCASVersionString().equals("")) {
 			setCASVersionString(getPlain("CASInitializing"));
@@ -1129,25 +1129,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 	// STATUS
 	// **************************************************************************
-
-	/**
-	 * Sets state of application to "saved", so that no warning appears on
-	 * close.
-	 * 
-	 * @author Zbynek Konecny
-	 * @version 2010-05-26
-	 */
-	public void setSaved() {
-		isSaved = true;
-	}
-
-	/**
-	 * Sets application state to "unsaved" so that user is reminded on close.
-	 */
-	@Override
-	public void setUnsaved() {
-		isSaved = false;
-	}
 
 	@Override
 	final public boolean isApplet() {
@@ -3388,7 +3369,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getXMLio().readZipFromString(zipFile);
 
 			kernel.initUndoInfo();
-			isSaved = true;
+			setSaved();
 			setCurrentFile(null);
 			// command list may have changed due to macros
 			updateCommandDictionary();
@@ -3416,7 +3397,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			getXMLio().processXMLString(xml, true, false);
 
 			kernel.initUndoInfo();
-			isSaved = true;
+			setSaved();
 			setCurrentFile(null);
 			// command list may have changed due to macros
 			updateCommandDictionary();
@@ -3451,7 +3432,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (!isMacroFile) {
 				kernel.initUndoInfo();
-				isSaved = true;
+				setSaved();
 				setCurrentFile(null);
 			}
 
@@ -3477,7 +3458,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		try {
 			setWaitCursor();
 			((MyXMLioD) myXMLio).writeGeoGebraFile(file);
-			isSaved = true;
+			setSaved();
 			setDefaultCursor();
 			return true;
 		} catch (Exception e) {
@@ -3569,22 +3550,18 @@ public class AppD extends App implements KeyEventDispatcher {
 		return new MyXMLioD(cons.getKernel(), cons);
 	}
 
-	public boolean isSaved() {
-		return isSaved;
-	}
-
 	@Override
 	public void storeUndoInfo() {
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
-			isSaved = false;
+			setUnsaved();
 		}
 	}
 
 	public void restoreCurrentUndoInfo() {
 		if (isUndoActive()) {
 			kernel.restoreCurrentUndoInfo();
-			isSaved = false;
+			setUnsaved();
 		}
 	}
 

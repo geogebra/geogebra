@@ -1480,9 +1480,26 @@ public abstract class App implements UpdateSelection{
 
 	}
 
-	public void setUnsaved() {
-		// TODO Auto-generated method stub
+	/**
+	 * Sets state of application to "saved", so that no warning appears on
+	 * close.
+	 * 
+	 * @author Zbynek Konecny
+	 * @version 2010-05-26
+	 */
+	public final void setSaved() {
+		isSaved = true;
+	}
 
+	/**
+	 * Sets application state to "unsaved" so that user is reminded on close.
+	 */
+	public final void setUnsaved() {
+		isSaved = false;
+	}
+
+	public final boolean isSaved() {
+		return isSaved;
 	}
 
 	/**
@@ -2637,7 +2654,7 @@ public abstract class App implements UpdateSelection{
 			getGuiManager().updateActions();
 		}
 
-		isSaved = true;
+		setSaved();
 	}
 
 	

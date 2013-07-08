@@ -146,7 +146,9 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
-		app.getGuiManager().clearAbsolutePanels();
+		if(app.getGuiManager()!=null){
+			app.getGuiManager().clearAbsolutePanels();
+		}
     }
 	
 	@Override

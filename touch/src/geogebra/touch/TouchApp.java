@@ -110,6 +110,7 @@ public class TouchApp extends AppWeb
 		}
 
 		initImageManager();
+		this.setSaved();
 	}
 
 	/**
@@ -175,6 +176,7 @@ public class TouchApp extends AppWeb
 		{
 			this.kernel.storeUndoInfo();
 		}
+		this.setUnsaved();
 	}
 
 	@Override
