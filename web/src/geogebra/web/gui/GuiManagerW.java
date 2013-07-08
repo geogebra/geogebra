@@ -1157,7 +1157,9 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		// if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 		// GeoGebraAppFrame.setCloseMessage(app);
 		// }
-		
+
+		if (constructionProtocolView != null)
+			constructionProtocolView.initGUI();
 		(app).getConstructionProtocolNavigation().setLabels();
 
 		// set the labelling of the panels

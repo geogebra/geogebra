@@ -48,7 +48,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		scrollPane.setStyleName("cpScrollPanel");
 		cpPanel.add(scrollPane);
 		
-		initGui();
+		initGUI();
 		
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
@@ -65,7 +65,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 //		}		
 //	}
     
-	public void initGui(){
+	public void initGUI(){
+		//remove all columns if there are
+		int colCount = table.getColumnCount();
+		for(int i=0; i<colCount; i++){
+			table.removeColumn(0);
+		}		
+		
 	    // Add a number column to show the id.
 	    Cell<Number> idCell = new NumberCell();
 	    Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
@@ -148,6 +154,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 	}
 	
 	public void tableInit(){
+		data.updateAll();
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
 	}
@@ -174,6 +181,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 			if(table != null){
 				table.setRowCount(0);
 				tableInit();
+			}
+		}
+		
+		public void updateAll(){
+			App.debug("ConstuctionTableDataW - implementation needed - just finishing");
+			int size = rowList.size();
+
+			for (int i = 0; i < size; ++i) {
+				RowData row = rowList.get(i);
+				row.updateAll();
 			}
 		}
 	}
