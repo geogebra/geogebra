@@ -7626,9 +7626,14 @@ namespace giac {
     if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==2 && b._VECTptr->size()==2){
       gen & a2=a._VECTptr->back();
       gen & b2=b._VECTptr->back();
-      if (a2!=b2)
+      if (a2!=b2){
+	if (a2.type==b2.type)
+	  return a2.islesscomplexthan(b2);
 	return !a2.islesscomplexthan(b2);
+      }
     }
+    if (a.type==b.type)
+      return a.islesscomplexthan(b);
     return !a.islesscomplexthan(b);
   }
 

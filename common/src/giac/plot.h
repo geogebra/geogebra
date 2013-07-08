@@ -490,8 +490,11 @@ namespace giac {
 
   gen _curve(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_curve;
+  // curve arguments: 0 complex parametric equation, 1 variable (e.g. t), 2 tmin, 3 tmax, 
+  // 4 optional != 0 automatically show a legende based on arg 0 and 1
+  // 5 optional cartesian equation in x and y, 6 optional parametric rational equation
 
-  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const context * contextptr);
+  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const context * contextptr);
   gen _plotparam(const gen & args,GIAC_CONTEXT);
   gen _paramplot(const gen & args,const context * contextptr);
   extern const unary_function_ptr * const  at_plotparam;

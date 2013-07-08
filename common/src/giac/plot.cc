@@ -2642,6 +2642,23 @@ namespace giac {
   gen symb_pnt(const gen & x,GIAC_CONTEXT){
     return symb_pnt(x,gen(0),contextptr); // 0 instead of FL_BLACK
   }
+  static string printaspnt(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
+    if ( calc_mode(contextptr)==1 && feuille.type==_VECT && !feuille._VECTptr->empty()){
+      gen f0=feuille._VECTptr->front();
+      if (f0.type==_VECT && f0.subtype==_POINT__VECT){
+	f0.subtype=_SEQ__VECT;
+	return '('+f0.print(contextptr)+')';
+      }
+      if (f0.type!=_VECT){
+	if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
+	  gen r,i;
+	  reim(f0,r,i,contextptr);
+	  return '('+r.print(contextptr)+','+i.print(contextptr)+')';
+	}
+      }
+    }
+    return sommetstr+('('+feuille.print(contextptr)+')');
+  }
   gen _pnt(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ((args.type==_SYMB) && (args._SYMBptr->sommet==at_pnt))
@@ -2658,7 +2675,7 @@ namespace giac {
     return symbolic(at_pnt,args);
   }
   static const char _pnt_s []="pnt";
-  static define_unary_function_eval_index (24,__pnt,&giac::_pnt,_pnt_s);
+  static define_unary_function_eval2_index (24,__pnt,&giac::_pnt,_pnt_s,&printaspnt);
   define_unary_function_ptr5( at_pnt ,alias_at_pnt,&__pnt,0,true);
 
   bool centre_rayon(const gen & cercle,gen & centre,gen & rayon,bool absrayon,GIAC_CONTEXT){
@@ -5534,8 +5551,9 @@ namespace giac {
   define_unary_function_ptr5( at_as_function_of ,alias_at_as_function_of,&__as_function_of,_QUOTE_ARGUMENTS,true);
 
   // equation f -> geometric object g
-  static bool equation2geo2d(const gen & f0,const gen & x,const gen & y,gen & g,double tmin,double tmax,double tstep,const context * contextptr){
+  static bool equation2geo2d(const gen & f0,const gen & x,const gen & y,gen & g,double tmin,double tmax,double tstep,const gen & pointon,const context * contextptr){
     gen f=_fxnd(remove_equal(f0),contextptr)._VECTptr->front();
+    gen eq=subst(f,makevecteur(x,y),makevecteur(x__IDNT_e,y__IDNT_e),false,contextptr);
     if (!lop(f,at_abs).empty() || !lop(f,at_sign).empty())
       return false;
     gen fx(derive(f,x,contextptr)),fy(derive(f,y,contextptr));
@@ -5591,7 +5609,7 @@ namespace giac {
       // conique
       gen x0,y0,propre,equation_reduite,ratparam;
       vecteur V0,V1,param_curves;
-      if (!conique_reduite(f,makevecteur(x,y),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,true,contextptr))
+      if (!conique_reduite(eq,pointon,makevecteur(x__IDNT_e,y__IDNT_e),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,true,contextptr))
 	return false;
       vecteur res;
       int n=param_curves.size();
@@ -5602,7 +5620,7 @@ namespace giac {
 	  int s=objv.size();
 	  if (s==2)
 	    res.push_back(obj);
-	  if (s==5){
+	  if (s>=5){
 	    gen tmp=paramplotparam(gen(objv,_SEQ__VECT),false,contextptr);
 	    res.push_back(remove_at_pnt(tmp));
 	  }
@@ -5635,7 +5653,10 @@ namespace giac {
 	fg=fg._VECTptr->front();
 	if (fg.type==_VECT && fg._VECTptr->size()>3){
 	  vecteur & fgv=*fg._VECTptr;
-	  m=subst(fgv[0],fgv[1],gen_t,false,contextptr); 
+	  m=fgv[0];
+	  if (fgv.size()>6 && !is_undef(fgv[6]))
+	    m=fgv[6];
+	  m=subst(m,fgv[1],gen_t,false,contextptr); 
 	  if (!tminmax_defined){
 	    tmin=fgv[2]; tmax=fgv[3];
 	  }
@@ -5954,7 +5975,7 @@ namespace giac {
 	  if (!doublify(tmin,tmax,T,tmin_d,tmax_d,contextptr))
 	    return gensizeerr(contextptr);
 	  double tstep_d=tstep_defined?tstep:(tmax_d-tmin_d)/80;
-	  if (equation2geo2d(lieu_eq,x,y,geoobj,tmin_d,tmax_d,tstep_d,contextptr)){
+	  if (equation2geo2d(lieu_eq,x,y,geoobj,tmin_d,tmax_d,tstep_d,undef,contextptr)){
 	    vecteur lieu_vect;
 	    if (geoobj.type==_VECT && geoobj.subtype==_SEQ__VECT)
 	      lieu_vect=*geoobj._VECTptr;
@@ -7179,7 +7200,7 @@ namespace giac {
   define_unary_function_ptr5( at_curve ,alias_at_curve,&__curve,0,true);
 
 
-  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const context * contextptr){
+  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const context * contextptr){
     if (function_tstep<=0 || (function_tmax-function_tmin)/function_tstep>1e5)
       return gensizeerr(gettext("Plotparam: unable to discretize: tmin, tmax, tstep=")+print_DOUBLE_(function_tmin,12)+","+print_DOUBLE_(function_tmax,12)+","+print_DOUBLE_(function_tstep,12));
     gen fC(f);
@@ -7263,7 +7284,7 @@ namespace giac {
 	chemin.push_back(gen(i,j));
       else {
 	if (!chemin.empty())
-	  res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,t),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
+	  res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,t,0,equation,parameq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
 	function_tmin=t;
 	chemin=vecteur(1,gen(i,j));
       }
@@ -7271,7 +7292,7 @@ namespace giac {
       oldj=j;
     }
     if (!chemin.empty())
-      res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,function_tmax),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
+      res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,function_tmax,0,equation,parameq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
     leave(protect,localvar,newcontextptr);
     // io_graph(old_io_graph,contextptr);
 #if !defined(WIN32) && defined(WITH_GNUPLOT)
@@ -7309,6 +7330,11 @@ namespace giac {
       }
     }
     int s=vargs.size();
+    gen eq=undef,parameq=undef;
+    if (s>5)
+      eq=vargs[5];
+    if (s>6)
+      parameq=vargs[6];
     double umin=gnuplot_tmin,vmin=gnuplot_tmin,umax=gnuplot_tmax,vmax=gnuplot_tmax,tmin=gnuplot_tmin,tmax=gnuplot_tmax,xmin=gnuplot_xmin,xmax=gnuplot_xmax,ymin=gnuplot_ymin,ymax=gnuplot_ymax,zmin=gnuplot_zmin,zmax=gnuplot_zmax,tstep=-1,ustep=-1,vstep=-1;
     if (param2d && s>=3){
       gen trange=vargs[2].evalf_double(eval_level(contextptr),contextptr);
@@ -7421,7 +7447,7 @@ namespace giac {
     }
     if (!readrange(vars,tmin,tmax,vars,tmin,tmax,contextptr))
       return gensizeerr(gettext("2nd arg must be a free variable"));
-    return plotparam(f,vars,attributs,densityplot,xmin,xmax,ymin,ymax,tmin,tmax,tstep,contextptr);
+    return plotparam(f,vars,attributs,densityplot,xmin,xmax,ymin,ymax,tmin,tmax,tstep,eq,parameq,contextptr);
   }
   gen _plotparam(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -7498,14 +7524,14 @@ namespace giac {
     vecteur attributs(1,attribut);
     if (g.subtype!=_SEQ__VECT && s==3 ){
       if (v[2].type==_IDNT)
-	return plotparam(v[0]+cst_i*v[1],v[2],attributs,true,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,contextptr);
+	return plotparam(v[0]+cst_i*v[1],v[2],attributs,true,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,undef,contextptr); // FIX equation?
       if (v[2].is_symb_of_sommet(at_equal)){ // parametric plot
 	gen & gw=v[2]._SYMBptr->feuille;
 	if (gw.type==_VECT && gw._VECTptr->size()==2){
 	  gen gx=gw._VECTptr->front();
 	  double inf,sup;
 	  if (gx.type==_IDNT && chk_double_interval(gw._VECTptr->back(),inf,sup,contextptr))
-	    return plotparam(v[0]+cst_i*v[1],gx,attributs,true,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,inf,sup,gnuplot_tstep,contextptr);
+	    return plotparam(v[0]+cst_i*v[1],gx,attributs,true,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,inf,sup,gnuplot_tstep,undef,undef,contextptr); // FIX EQUATION?
 	}
       }
     }
@@ -7660,7 +7686,7 @@ namespace giac {
       // supposed to be a cartesian equation in x/y
       gen x0,y0,propre,equation_reduite,ratparam;
       vecteur V0,V1,param_curves;
-      if (conique_reduite(args,makevecteur(vx_var,y__IDNT_e),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,false,contextptr))
+      if (conique_reduite(args,undef,makevecteur(vx_var,y__IDNT_e),x0,y0,V0,V1,propre,equation_reduite,param_curves,ratparam,false,contextptr))
 	return ratparam;
       return gensizeerr(contextptr);
     }
@@ -7733,7 +7759,10 @@ namespace giac {
       return e;
     if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_curve)){
       vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr;
-      gen tmp= subst(v[0],v[1],t,false,contextptr);
+      gen pareq=v[0];
+      if (v.size()>6 && !is_undef(v[6]))
+	pareq=v[6];
+      gen tmp= subst(pareq,v[1],t,false,contextptr);
       if (tmp.type==_VECT)
 	tmp.subtype=0;
       return tmp;
@@ -7875,6 +7904,8 @@ namespace giac {
     }
     if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_curve)){
       vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr; 
+      if (v.size()>=6 && !is_undef(v[5]))
+	return subst(v[5],makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e),makevecteur(x,y,z),false,contextptr);
       if (v[1].type!=_IDNT)
 	return gensizeerr(gettext("Wrong parameter type ")+v[1].print(contextptr));
       identificateur & id=*v[1]._IDNTptr;
@@ -8172,6 +8203,8 @@ namespace giac {
   bool intercartesianparametric(const gen & a0,const gen & b0,vecteur & res,GIAC_CONTEXT){ 
     // intersection a0 cartesian equation, b0 parametric curve
     gen a=remove_equal(a0);
+    if (is_undef(a))
+      return false;
     gen m,mx,my,t(t__IDNT_e),tmin,tmax; double T; bool tminmax; vecteur v;
     if (!find_curve_parametrization(b0,m,t,T,tmin,tmax,tminmax,contextptr))
       return false;
@@ -8327,7 +8360,11 @@ namespace giac {
       if ((fa=a._SYMBptr->feuille).type!=_VECT || (fb=b._SYMBptr->feuille).type!=_VECT || fa._VECTptr->empty() || fb._VECTptr->empty() || fa._VECTptr->front().type!=_VECT || fb._VECTptr->front().type!=_VECT)
 	return vecteur(1,gensizeerr(contextptr));
       vecteur va=*fa._VECTptr->front()._VECTptr;
+      if (va.size()>=6 && intercartesianparametric(va[5],b,res,contextptr))
+	return res;
       vecteur vb=*fb._VECTptr->front()._VECTptr;
+      if (vb.size()>=6 && intercartesianparametric(vb[5],a,res,contextptr))
+	return res;
       if (va.size()<2 || vb.size()<2 || va[1].type!=_IDNT || vb[1].type!=_IDNT)
 	return vecteur(1,gensizeerr(contextptr));
       gen m,tmin,tmax; double T=1e300;
@@ -8679,6 +8716,19 @@ namespace giac {
       return t;
   }
 
+  // cartesian ellipse or hyperbola equation from focus F1/F2 and square of a
+  static gen ellipse_hyperbole_equation(const gen & F1,const gen & F2,const gen & a2,GIAC_CONTEXT){
+    gen x1,x2,y1,y2,x(x__IDNT_e),y(y__IDNT_e);
+    if (F1.type==_VECT)
+      return undef;
+    reim(F1,x1,y1,contextptr);
+    reim(F2,x2,y2,contextptr);
+    gen diffMF2=(x2-x1)*(2*x-(x1+x2))+(y2-y1)*(2*y-(y1+y2));
+    gen MF2=pow(x-x1,2,contextptr)+pow(y-y1,2,contextptr);
+    gen eq=16*a2*a2+8*a2*diffMF2+pow(diffMF2,2)-16*a2*MF2;
+    return eq;
+  }
+
   gen _ellipse(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     ck_parameter_t(contextptr);
@@ -8691,21 +8741,29 @@ namespace giac {
     if (s==1)
       return _plotimplicit(args,contextptr);
     // args=[F,F',M] or [F,F',a] / FM+F'M=2*a
-    gen F1,F2,a,n;
+    gen F1,F2,M,a,n;
     gen aorig=*(args._VECTptr->begin()+s-1);
     if (!foyers_a(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s),F1,F2,a,contextptr))
       return gensizeerr(contextptr);
     if ( aorig.is_symb_of_sommet(at_pnt) || a.type==_VECT || !is_zero(im(a,contextptr)) ){
-      a=remove_at_pnt(get_point(remove_at_pnt(a),0,contextptr));
+      M=a=remove_at_pnt(get_point(remove_at_pnt(a),0,contextptr));
       if (is_undef(a)) return a;
       if (a.type==_VECT)
 	n=a;
       a=rdiv(abs_norm(a-F1,contextptr)+abs_norm(a-F2,contextptr),plus_two,contextptr);
     }
+    else {
+      gen F1F2=F2-F1;
+      gen c=abs_norm(F1F2,contextptr)/2;
+      M=F1+(a/c+1)/2*F1F2;
+    }
+    gen a2=recursive_normal(a*a,contextptr);
+    gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
+    gen parameq=conique_ratparam(eq,M,contextptr);
     gen F1F2=F2-F1;
     gen O=rdiv(F1+F2,plus_two,contextptr);
     gen c2=rdiv(F1F2.squarenorm(contextptr),gen(4),contextptr);
-    gen b=sqrt(a*a-c2,contextptr),res;
+    gen b=sqrt(a2-c2,contextptr),res;
 #if 0 // def GIAC_HAS_STO_38
     gen theta=vx_var;
 #else
@@ -8731,9 +8789,9 @@ namespace giac {
     gen nstep=_NSTEP;
     nstep.subtype=_INT_PLOT;
 #if 0 // def GIAC_HAS_STO_38
-    return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #else
-    return _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #endif
   }
   static const char _ellipse_s []="ellipse";
@@ -8754,19 +8812,28 @@ namespace giac {
       return _plotimplicit(args,contextptr);
     gen F1,F2,a,n;
     gen aorig=*(args._VECTptr->begin()+s-1);
+    gen M;
     if (!foyers_a(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s),F1,F2,a,contextptr))
       return gensizeerr(contextptr);
     if ( aorig.is_symb_of_sommet(at_pnt) || a.type==_VECT || !is_zero(im(a,contextptr)) ){
-      a=remove_at_pnt(get_point(remove_at_pnt(a),0,contextptr));
+      M=a=remove_at_pnt(get_point(remove_at_pnt(a),0,contextptr));
       if (is_undef(a)) return a;
       if (a.type==_VECT)
 	n=a;
       a=rdiv(abs_norm(a-F1,contextptr)-abs_norm(a-F2,contextptr),plus_two,contextptr);
     }
+    else {
+      gen F1F2=F2-F1;
+      gen c=abs_norm(F1F2,contextptr)/2;
+      M=F1+(a/c+1)/2*F1F2;
+    }
+    gen a2=recursive_normal(a*a,contextptr);
+    gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
+    gen parameq=conique_ratparam(eq,M,contextptr);
     gen F1F2=F2-F1;
     gen O=rdiv(F1+F2,plus_two,contextptr);
     gen c2=rdiv(F1F2.squarenorm(contextptr),gen(4),contextptr);
-    gen b=sqrt(c2-a*a,contextptr),res,res1,res2;
+    gen b=sqrt(c2-a2,contextptr),res,res1,res2;
 #if 0 // def GIAC_HAS_STO_38
     gen theta=vx_var;
 #else
@@ -8793,9 +8860,9 @@ namespace giac {
     gen nstep=_NSTEP;
     nstep.subtype=_INT_PLOT;
 #if 0 // def GIAC_HAS_STO_38
-    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr)); // should be -inf..inf
+    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
 #else
-    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0]))),_SEQ__VECT),contextptr)); // should be -inf..inf
+    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(t__IDNT_e,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
 #endif
   }
   static const char _hyperbole_s []="hyperbola";
@@ -8927,7 +8994,7 @@ namespace giac {
       identificateur x(" x"),y(" y");
       gen eq=res[0]*x*x+res[1]*x*y+res[2]*y*y+res[3]*x+res[4]*y+res[5];
       gen g;
-      if (equation2geo2d(eq,x,y,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,contextptr))
+      if (equation2geo2d(eq,x,y,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,w[0],contextptr))
 	return put_attributs(g,attributs,contextptr);
       else
 	return gensizeerr(gettext("Bug in conique, equation ")+eq.print(contextptr));	
@@ -10461,7 +10528,7 @@ namespace giac {
     }
     gen attribut=attributs.empty()?default_color(contextptr):attributs[0];
     gen lieu_geo;
-    if (equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,contextptr))
+    if (equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,contextptr))
       return put_attributs(lieu_geo,attributs,contextptr);
     // make a lattice between gnuplot_xmin/gnuplot_xmax and ymin/ymax
     // find zeros of f inside each square and follow the branches

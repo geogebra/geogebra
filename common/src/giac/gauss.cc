@@ -410,8 +410,21 @@ namespace giac {
     }
   }
 
-  bool conique_reduite(const gen & equation_conique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V0, vecteur &V1, gen & propre,gen & equation_reduite, vecteur & param_curves,gen & ratparam,bool numeric,GIAC_CONTEXT){
-    ratparam=undef;
+  // rational parametrization of a conic, given cartesian equation and point over
+  gen conique_ratparam(const gen & eq,const gen & M,GIAC_CONTEXT){
+    if (is_undef(M))
+      return undef;
+    gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
+    reim(M,Mx,My,contextptr);
+    gen eqM=recursive_normal(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr)/x,contextptr);
+    vecteur res=solve(eqM,x,0,contextptr); // x in terms of t
+    if (res.size()!=1)
+      return undef;
+    return M+res[0]*(1+cst_i*t);
+  }
+
+  bool conique_reduite(const gen & equation_conique,const gen & pointsurconique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V0, vecteur &V1, gen & propre,gen & equation_reduite, vecteur & param_curves,gen & ratparam,bool numeric,GIAC_CONTEXT){
+    ratparam=conique_ratparam(equation_conique,pointsurconique,contextptr);
     gen q(remove_equal(equation_conique));
     vecteur x(nom_des_variables);
     if (x.size()!=2)
@@ -533,8 +546,9 @@ namespace giac {
 	ck_parameter_t(contextptr);
 	gen Z=coeff*t*t+cst_i*t;
 	Z=z0+zV0*Z;
-	ratparam=Z;
-	param_curves.push_back(makevecteur(Z,t,-4,4,0.1));
+	if (is_undef(ratparam))
+	  ratparam=Z;
+	param_curves.push_back(makevecteur(Z,t,-4,4,0.1,q,ratparam));
       }
     } 
     else {
@@ -608,9 +622,10 @@ namespace giac {
 	    tmp=vp0*symb_cos(t)+cst_i*vp1*symb_sin(t);
 	    tmp=z0+zV0*tmp;
 	  }
-	  ratparam=z0+zV0*(vp0*(1-pow(t,2))+cst_i*vp1*2*t)/(1+pow(t,2));
+	  if (is_undef(ratparam))
+	    ratparam=z0+zV0*(vp0*(1-pow(t,2))+cst_i*vp1*2*t)/(1+pow(t,2));
 	  bool rad=angle_radian(contextptr);
-	  param_curves.push_back(makevecteur(tmp,t,0,rad?cst_two_pi:360,rad?cst_two_pi/60:6));
+	  param_curves.push_back(makevecteur(tmp,t,0,rad?cst_two_pi:360,rad?cst_two_pi/60:6,q,ratparam));
 	} else {
 	  if (is_zero(coeffcst)){
 	    // 2 secant lines at (x0,y0)
@@ -619,7 +634,8 @@ namespace giac {
 #endif
 	    // vp0*X^2+vp1*Y^2=0 => Y=+/-sqrt(-vp0/vp1)*X
 	    gen directeur=normalize_sqrt(sqrt(-vp0/vp1,contextptr),contextptr);
-	    ratparam=makevecteur(z0+zV0*(1+cst_i*directeur)*t,z0+zV0*(1-cst_i*directeur)*t);
+	    if (is_undef(ratparam))
+	      ratparam=makevecteur(z0+zV0*(1+cst_i*directeur)*t,z0+zV0*(1-cst_i*directeur)*t);
 	    param_curves.push_back(gen(makevecteur(z0,z0+zV0*(1+cst_i*directeur)),_LINE__VECT));
 	    param_curves.push_back(gen(makevecteur(z0,z0+zV0*(1-cst_i*directeur)),_LINE__VECT));
 	    return true;
@@ -643,9 +659,11 @@ namespace giac {
 	    tmp=vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
 	    tmp=z0+zV0*tmp;
 	  }
-	  ratparam=vp0*((sprodcoeff<0)?(t+1/t)/2:(t-1/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-1/t)/2:(t+1/t)/2);
-	  ratparam=z0+zV0*ratparam;
-	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1));
+	  if (is_undef(ratparam)){
+	    ratparam=vp0*((sprodcoeff<0)?(t+1/t)/2:(t-1/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-1/t)/2:(t+1/t)/2);
+	    ratparam=z0+zV0*ratparam;
+	  }
+	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1,q,ratparam));
 	  if (numeric){
 	    tmp=(sprodcoeff<0?-1:1)*evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
 	    tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
@@ -654,7 +672,7 @@ namespace giac {
 	    tmp=(sprodcoeff<0?-1:1)*vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
 	    tmp=z0+zV0*tmp;
 	  }
-	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1));
+	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1,q,ratparam));
 	}
       }
     }
@@ -662,11 +680,11 @@ namespace giac {
   }  
 
 #ifdef RTOS_THREADX
-  bool quadrique_reduite(const gen & q,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT){
+  bool quadrique_reduite(const gen & q,const gen & M,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT){
     return false;
   }
 #else
-  bool quadrique_reduite(const gen & q,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT){
+  bool quadrique_reduite(const gen & q,const gen & M,const vecteur & vxyz,gen & x,gen & y,gen & z,vecteur & u,vecteur & v,vecteur & w,vecteur & propre,gen & equation_reduite,vecteur & param_surface,vecteur & centre,bool numeric,GIAC_CONTEXT){
     if (vxyz.size()!=3)
       return false; // setdimerr(contextptr);
     x=vxyz[0]; y=vxyz[1]; z=vxyz[2];
@@ -1003,11 +1021,11 @@ namespace giac {
       gen x0,y0,z0,eq_reduite,propre,ratparam;
       vecteur V0,V1,V2,param_curves,centre,proprev;
       if (v[1]._VECTptr->size()==3){
-	quadrique_reduite(v[0],*v[1]._VECTptr,x0,y0,z0,V0,V1,V2,proprev,eq_reduite,param_curves,centre,false,contextptr);
+	quadrique_reduite(v[0],undef,*v[1]._VECTptr,x0,y0,z0,V0,V1,V2,proprev,eq_reduite,param_curves,centre,false,contextptr);
 	return makevecteur(centre,mtran(makevecteur(V0,V1,V2)),proprev,eq_reduite,param_curves);
       }
       else {
-	if (!conique_reduite(v[0],*v[1]._VECTptr,x0,y0,V0,V1,propre,eq_reduite,param_curves,ratparam,false,contextptr))
+	if (!conique_reduite(v[0],undef,*v[1]._VECTptr,x0,y0,V0,V1,propre,eq_reduite,param_curves,ratparam,false,contextptr))
 	  return gensizeerr(contextptr);
 	return makevecteur(makevecteur(x0,y0),mtran(makevecteur(V0,V1)),propre,eq_reduite,param_curves);
       }

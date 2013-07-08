@@ -1109,7 +1109,7 @@ namespace giac {
   define_partial_derivative_onearg_genop( D_at_sqrt," D_at_sqrt",&d_sqrt);
   static const char _sqrt_s []="sqrt";
   static string printassqrt(const gen & g,const char * s,GIAC_CONTEXT){
-    bool need=need_parenthesis(g);
+    bool need=need_parenthesis(g) || g.type==_SYMB;
     if (abs_calc_mode(contextptr)==38)
       return (need?"√(":"√")+g.print(contextptr)+(need?")":"");
     else

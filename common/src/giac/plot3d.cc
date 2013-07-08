@@ -1535,7 +1535,7 @@ namespace giac {
 
 
   // equation f -> geometric object g
-  static bool equation2geo3d(const gen & f0,const gen & x,const gen & y,const gen & z,gen & g,double umin,double umax,double ustep,double vmin,double vmax,double vstep,bool numeric,const context * contextptr){
+  static bool equation2geo3d(const gen & f0,const gen & M,const gen & x,const gen & y,const gen & z,gen & g,double umin,double umax,double ustep,double vmin,double vmax,double vstep,bool numeric,const context * contextptr){
     gen f=_fxnd(remove_equal(f0),contextptr)._VECTptr->front();
     gen fx(derive(f,x,contextptr)),fy(derive(f,y,contextptr)),fz(derive(f,z,contextptr));
     bool fx0=is_zero(fx),fy0=is_zero(fy),fz0=is_zero(fz);
@@ -1579,7 +1579,7 @@ namespace giac {
       // conique
       gen x0,y0,z0,equation_reduite;
       vecteur V0,V1,V2,param_curves,propre,centre;
-      quadrique_reduite(f,vxyz,x0,y0,z0,V0,V1,V2,propre,equation_reduite,param_curves,centre,numeric,contextptr);
+      quadrique_reduite(f,M,vxyz,x0,y0,z0,V0,V1,V2,propre,equation_reduite,param_curves,centre,numeric,contextptr);
       vecteur res;
       int n=param_curves.size();
       for (int i=0;i<n;++i){
@@ -1960,7 +1960,7 @@ namespace giac {
     }
     gen attribut=attributs.empty()?default_color(contextptr):attributs[0];
     gen lieu_geo;
-    if (equation2geo3d(f_orig,x,y,z,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,true,contextptr))
+    if (equation2geo3d(f_orig,undef,x,y,z,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,true,contextptr))
       return put_attributs(lieu_geo,attributs,contextptr);
     //return undef;
     double xstep=(xmax-xmin)/nxstep;
@@ -2172,7 +2172,7 @@ namespace giac {
     }
     gen g;
     if (s==1){
-      if (equation2geo3d(v[0],x__IDNT_e,y__IDNT_e,z__IDNT_e,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,numeric,contextptr))
+      if (equation2geo3d(v[0],undef,x__IDNT_e,y__IDNT_e,z__IDNT_e,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,numeric,contextptr))
 	return put_attributs(g,attributs,contextptr);
     }
     if (s<=5)
@@ -2212,7 +2212,7 @@ namespace giac {
       vecteur & res = *base.front()._VECTptr;
       identificateur x(" x"),y(" y"),z( "z");
       gen eq=res[0]*x*x+res[1]*x*y+res[2]*y*y+res[3]*x+res[4]*y+res[5]+res[6]*z*z+res[7]*z*x+res[8]*z*y+res[9]*z;
-      if (equation2geo3d(eq,x,y,z,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,numeric,contextptr))
+      if (equation2geo3d(eq,w[0],x,y,z,g,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,numeric,contextptr))
 	return put_attributs(g,attributs,contextptr);
       else
 	return gensizeerr(gettext("Bug in quadrique, equation ")+eq.print(contextptr));	

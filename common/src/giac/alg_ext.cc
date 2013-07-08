@@ -321,6 +321,8 @@ namespace giac {
 #endif
 		  gen r2=_max(real_proot(v2,1e-12,contextptr),contextptr);
 		  K=(r2-theta2)/(theta1-r1); // must be <= k
+		  if (is_undef(K))
+		    K=0;
 #ifndef NO_STDEXCEPT
 		}
 		catch (std::runtime_error & ){
