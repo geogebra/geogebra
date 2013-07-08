@@ -3,6 +3,7 @@ package geogebra.web.gui.util;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.views.SuccessErrorRenderable;
 import geogebra.html5.move.ggtapi.models.JSONParser;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
@@ -33,7 +34,7 @@ import com.google.gwt.user.client.ui.TextBox;
  * Dialog for signing in users
  *
  */
-public class SignInDialog extends DialogBox {
+public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	
 	private App app;
 	private Button cancel;
@@ -44,6 +45,7 @@ public class SignInDialog extends DialogBox {
 	private Button facebookLogin;
 	private Button twitterLogin;
 	private	Button openidLogin;
+	private Label errormsg;
 	
 	private KeyUpHandler enableSubmit;
 
@@ -89,6 +91,7 @@ public class SignInDialog extends DialogBox {
 		enableSubmit = new KeyUpHandler() {
 			
 			public void onKeyUp(KeyUpEvent event) {
+				errormsg.setText("");
 				submitButton.setEnabled(!isloginFieldsAreEmpty());
 			}
 		};
@@ -127,10 +130,14 @@ public class SignInDialog extends DialogBox {
 		logins.getFlexCellFormatter().setColSpan(3, 0, 2);
 		logins.setWidget(3, 0, anchorsContainer);
 		
+		errormsg = new Label();
+		errormsg.addStyleName("loginerror");
+		
+		logins.setWidget(4, 0, errormsg);
+		
 		submitButton = new Button(app.getMenu("SignIn"));
 		submitButton.getElement().setTabIndex(3);
-		logins.getFlexCellFormatter().setColSpan(4, 0, 2);
-		logins.setWidget(4, 0, submitButton);
+		logins.setWidget(4, 1, submitButton);
 		
 		submitButton.addClickHandler(new ClickHandler() {
 			
@@ -172,7 +179,7 @@ public class SignInDialog extends DialogBox {
 		ggtLoginPanel.add(logins);
 		container.add(ggtLoginPanel);
 		
-		
+		((AppW) app).getLoginOperation().getView().add(this);
 		
 		
 		
@@ -193,7 +200,16 @@ public class SignInDialog extends DialogBox {
 	private void clearLoginFields() {
 		forumUserName.setText("");
 	    forumPassword.setText("");
-	    forumUserName.getElement().focus();
+	    forumUserName.setFocus(true);
+	    errormsg.setText("");
+    }
+
+	public void success(JSONObject response) {
+	    this.hide();
+    }
+
+	public void fail(JSONObject resonse) {
+	   errormsg.setText(app.getMenu("LoginFailed"));
     }
 
 }

@@ -1896,6 +1896,10 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	background: #5a5d5e;
 }
 
+.errormsg {
+	color: rgb(255,0,0);
+}
+
 .loginbutton {
     min-width: 200px;
     display: block;

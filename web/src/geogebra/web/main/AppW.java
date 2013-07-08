@@ -29,6 +29,8 @@ import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
 import geogebra.common.move.events.OfflineEventPool;
 import geogebra.common.move.events.OnlineEventPool;
+import geogebra.common.move.ggtapi.events.LogOutEventPool;
+import geogebra.common.move.ggtapi.events.LoginEventPool;
 import geogebra.common.move.ggtapi.operations.LogOutOperation;
 import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.ggtapi.views.LogOutView;
@@ -352,16 +354,22 @@ public class AppW extends AppWeb {
 		loginOperation = new LoginOperation();
 		LogInModelWeb loginModel = new LogInModelWeb();
 		LoginView loginView = new LoginView();
+		LoginEventPool loginEvent = new LoginEventPool(loginOperation);
 		
 		loginOperation.setModel(loginModel);
 		loginOperation.setView(loginView);
+		loginOperation.setEvent(loginEvent);
 		
 		logoutOperation = new LogOutOperation();
 		LogOutModelWeb logOutModel = new LogOutModelWeb();
 		LogOutView logOutView = new LogOutView();
+		LogOutEventPool logOutEvent = new LogOutEventPool(logoutOperation);
+		
 		
 		logoutOperation.setModel(logOutModel);
 		logoutOperation.setView(logOutView);
+		logoutOperation.setEvent(logOutEvent);
+		
 	}
 	
 	

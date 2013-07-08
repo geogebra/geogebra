@@ -4,6 +4,8 @@ import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.html5.util.JSON;
 
+import java.util.Set;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -17,17 +19,13 @@ public class JSONParser {
 	 * @return  JSONObject a common json object
 	 */
 	public static JSONObject parseToJSONObject(JavaScriptObject json) {
+	   com.google.gwt.json.client.JSONObject tmp = new com.google.gwt.json.client.JSONObject(json);
 	   JSONObject ret = new JSONObject();
-	   String [] keys = JSONParser.getKeys(json);
-	   for (int i = 0, k = keys.length; i < k; i++) {
-		   ret.put(keys[i], new JSONString(JSON.get(json, keys[i])));
+	   Set<String> keys = tmp.keySet();
+	   for (String key : keys) {
+		   ret.put(key, new JSONString(JSON.get(json, key)));
 	   }	   
 	   return ret;
     }
-
-	private static native String[] getKeys(JavaScriptObject json) /*-{
-		var keys = Object.keys(json);
-		return keys;
-    }-*/;
 
 }
