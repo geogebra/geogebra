@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.operations;
 
+import geogebra.common.move.ggtapi.events.LoginEventPool;
 import geogebra.common.move.ggtapi.models.LoginModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.views.LoginView;
@@ -49,6 +50,11 @@ public class LoginOperation extends BaseOperation {
 	@Override
 	public LoginView getView() {
 		return (LoginView) super.getView();
+	}
+	
+	@Override
+	public LoginEventPool getEvent() {
+		return (LoginEventPool) super.getEvent();
 	}
 
 }

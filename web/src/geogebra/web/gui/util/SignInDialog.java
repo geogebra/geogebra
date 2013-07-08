@@ -2,8 +2,11 @@ package geogebra.web.gui.util;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.html5.move.ggtapi.models.JSONParser;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.AppW;
 import geogebra.web.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -15,7 +18,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -49,7 +51,7 @@ public class SignInDialog extends DialogBox {
 	 * creates a SignInDialog for log in to different
 	 * accounts
 	 */
-	public SignInDialog(App app) {
+	public SignInDialog(final App app) {
 		super();
 		this.app = app;
 		
@@ -137,9 +139,9 @@ public class SignInDialog extends DialogBox {
 					
 					public void onResponseReceived(Request request, Response response) {
 						JavaScriptObject json = JSON.parse(response.getText());
-						if (JSON.get(json, "error") != null) {
-							Window.alert(JSON.get(json, "error"));
-						}
+						JSONObject resp = JSONParser.parseToJSONObject(json);
+						
+						((AppW) app).getLoginOperation().getEvent().trigger(resp);
 					}
 					
 					public void onError(Request request, Throwable exception) {

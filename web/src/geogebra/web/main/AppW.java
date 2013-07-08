@@ -29,6 +29,10 @@ import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
 import geogebra.common.move.events.OfflineEventPool;
 import geogebra.common.move.events.OnlineEventPool;
+import geogebra.common.move.ggtapi.operations.LogOutOperation;
+import geogebra.common.move.ggtapi.operations.LoginOperation;
+import geogebra.common.move.ggtapi.views.LogOutView;
+import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.OfflineOperation;
 import geogebra.common.move.operations.OnlineOperation;
@@ -48,6 +52,8 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
+import geogebra.html5.move.ggtapi.models.LogInModelWeb;
+import geogebra.html5.move.ggtapi.models.LogOutModelWeb;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -152,6 +158,8 @@ public class AppW extends AppWeb {
 	//Event flow operations
 	private OfflineOperation offlineOperation;
 	private OnlineOperation onlineOperation;
+	private LoginOperation loginOperation;
+	private LogOutOperation logoutOperation;
 
 	
 	/**
@@ -170,6 +178,19 @@ public class AppW extends AppWeb {
 		return onlineOperation;
 	}
 
+	/**
+	 * @return LogInOperation eventFlow
+	 */
+	public LoginOperation getLoginOperation() {
+		return loginOperation;
+	}
+	
+	/**
+	 * @return LogoutOperation logOutOperation
+	 */
+	public LogOutOperation getLogOutOperation() {
+		return logoutOperation;
+	}
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -321,8 +342,26 @@ public class AppW extends AppWeb {
 		
 		//Online - Offline event handling begins here
 		initNetworkEventFlow();
+		//Login - Logout operation event handling begins here
+		initAuthenticationEventFlow();
 		
 		
+	}
+	
+	private void initAuthenticationEventFlow() {
+		loginOperation = new LoginOperation();
+		LogInModelWeb loginModel = new LogInModelWeb();
+		LoginView loginView = new LoginView();
+		
+		loginOperation.setModel(loginModel);
+		loginOperation.setView(loginView);
+		
+		logoutOperation = new LogOutOperation();
+		LogOutModelWeb logOutModel = new LogOutModelWeb();
+		LogOutView logOutView = new LogOutView();
+		
+		logoutOperation.setModel(logOutModel);
+		logoutOperation.setView(logOutView);
 	}
 	
 	

@@ -62,7 +62,6 @@ public class LoginEventPool extends BaseEventPool {
 	 * 
 	 */
 	public void trigger(JSONObject response) {
-		//:TODO send some parameter super.trigger();
 		if (response.get("error") == null) {
 			((LoginOperation) operation).loginSuccess(response);
 		} else {
