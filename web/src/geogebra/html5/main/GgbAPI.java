@@ -6,6 +6,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.util.View;
@@ -118,21 +119,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     
     
     HashMap<String, String> archiveContent = null;
-
-    /**
-     * This method does something like geogebra.io.MyXMLio.writeGeoGebraFile,
-     * but it is a non callback version. Use callbacked version instead.
-     * just in base64 in Web.
-     */
-    @Override
-    public String getBase64(boolean includeThumbnail) {
-    	createArchiveContent(includeThumbnail);
-    	
-    	JavaScriptObject callback = getDummyCallback();
-    	
-    	getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,GWT.getModuleName());
-    	return "wait for callback";
-    }
     
     private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
 		return function(ggbZip){
@@ -143,6 +129,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			//downloadButton.disabled = false;
 			}
     }-*/;
+    
+    private native JavaScriptObject getDefaultBase64Callback() /*-{
+	return function(b){
+		if($wnd.console){
+			$wnd.console.log(b);
+		}
+		
+		}
+	}-*/;
     
     public void getGGB(boolean includeThumbnail, Element downloadButton) {
     	createArchiveContent(includeThumbnail);
@@ -156,13 +151,21 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		createArchiveContent(includeThumbnail);
 		
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+    }
+    
+    public String getBase64(boolean includeThumbnail) {
+    	createArchiveContent(false);
+    	JavaScriptObject jso = prepareToEntrySet(archiveContent);
+		getNativeBase64ZipJs(jso, getDefaultBase64Callback(), Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
+		return null;
+
     }
 
     public void getBase64(JavaScriptObject callback) {
     	createArchiveContent(false);
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
 
     }
 
@@ -199,12 +202,6 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
     }
-
-    private native JavaScriptObject getDummyCallback() /*-{
-	   return function() {
-	   		@geogebra.common.main.App::debug(Ljava/lang/String;)("This is a dummy callback from geogebra.html5.main.ggbApi.getBase64(); try the callbacked version instead");
-	   };
-    }-*/;
 
 	private JavaScriptObject prepareToEntrySet(HashMap<String, String> archive) {
     	JavaScriptObject nativeEntry = JavaScriptObject.createObject();
@@ -334,12 +331,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 
 	 }-*/;
-
-
     
-	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String module) /*-{
+	private native void getNativeBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,String workerUrls) /*-{
 
-		$wnd.zip.workerScriptsPath = module + "/js/zipjs/";
+		if (workerUrls === "false") {
+			    	$wnd.zip.useWebWorkers = false;
+			    } else {
+		    		$wnd.zip.workerScriptsPath = workerUrls;
+			    }
+
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
