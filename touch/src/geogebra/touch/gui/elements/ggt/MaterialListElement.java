@@ -1,15 +1,11 @@
 package geogebra.touch.gui.elements.ggt;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchEntryPoint;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,8 +36,6 @@ public class MaterialListElement extends HorizontalPanel
 	private Label title, date, sharedBy, author, likes;
 	private Button open;
 
-	private FileManagerM fm;
-
 	private VerticalMaterialPanel vmp;
 
 	private Button delete;
@@ -60,7 +54,6 @@ public class MaterialListElement extends HorizontalPanel
 		this.links = new VerticalPanel();
 		this.vmp = vmp;
 		
-		this.fm = fm;
 		this.material = m;
 
 		// TODO Change to icon

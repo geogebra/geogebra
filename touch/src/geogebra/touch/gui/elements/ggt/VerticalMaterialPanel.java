@@ -64,6 +64,6 @@ public class VerticalMaterialPanel extends ScrollPanel
 	}
 
 	public int getColumns() {
-		return columns;
+		return this.columns;
 	}
 }

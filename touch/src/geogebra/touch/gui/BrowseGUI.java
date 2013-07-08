@@ -93,7 +93,7 @@ public class BrowseGUI extends VerticalPanel
 
 	public void displaySearchResults(String query)
 	{
-		List<Material> materialList = fm.search(query);
+		List<Material> materialList = this.fm.search(query);
 		BrowseGUI.this.resultsArea.setMaterials(materialList);
 	}
 
@@ -116,7 +116,7 @@ public class BrowseGUI extends VerticalPanel
 	 */
 	public void loadAllFiles()
 	{
-		List<Material> materialList = fm.getAllFiles();
+		List<Material> materialList = this.fm.getAllFiles();
 		BrowseGUI.this.resultsArea.setMaterials(materialList);
 	}
 }
