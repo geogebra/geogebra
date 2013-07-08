@@ -85,7 +85,6 @@ public class JSONparserGGT
     }
 
 	private static Material toMaterial(JSONObject obj) {
-		App.debug(obj.toString());
 		Material.MaterialType type = Material.MaterialType.valueOf(getString(obj,"type"));
 		int ID = Integer.parseInt(obj.get("id").isString().stringValue());
 
