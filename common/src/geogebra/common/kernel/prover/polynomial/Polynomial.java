@@ -85,7 +85,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final int coeff, final Variable variable) {
 		this();
-		terms.put(new Term(variable), coeff);
+		if (coeff != 0)
+			terms.put(new Term(variable), coeff);
 	}
 
 	/**
@@ -101,7 +102,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial(final int coeff, final Variable variable,
 			final int power) {
 		this();
-		terms.put(new Term(variable, power), coeff);
+		if (coeff != 0)
+			terms.put(new Term(variable, power), coeff);
 	}
 
 	/**
@@ -125,7 +127,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial(final int coeff, final Term t) {
 		this();
-		terms.put(t, coeff);
+		if (coeff != 0)
+			terms.put(t, coeff);
 	}
 	
 	/**
@@ -975,7 +978,16 @@ public class Polynomial implements Comparable<Polynomial> {
 				App.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
 				App.debug("singular -> " + singularSolvable);
-						
+
+			if ("empty list".equals(singularSolvable)) {
+				// If we get an empty list from Singular, it means
+				// the answer is false, so we artificially create the {{0}} answer.
+				Set<Set<Polynomial>> ret = new HashSet<Set<Polynomial>>();
+				HashSet<Polynomial> polys = new HashSet<Polynomial>();
+				polys.add(new Polynomial(0)); // this might be Polynomial() as well
+				ret.add(polys);
+				return ret;
+			}
 			try {
 				return PolynomialParser.parseFactoredPolynomialSet(singularSolvable, variables);
 			} catch (ParseException e) {
