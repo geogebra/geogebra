@@ -565,7 +565,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("UnitOrthogonalVector.1",
-				"convert(unitV([-%0[1],%0[0]]),25)");
+				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
 				"normalize(%0)");
 		p("Variance.1",
