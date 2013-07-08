@@ -33,8 +33,6 @@ public class FileManagerM {
 				String oldKey = this.stockStore.key(i);
 				if(!oldKey.contains("#")){
 					this.stockStore.removeItem(oldKey);
-				}else{
-					App.debug(stockStore.getItem(oldKey));
 				}
 			}
 		}	
