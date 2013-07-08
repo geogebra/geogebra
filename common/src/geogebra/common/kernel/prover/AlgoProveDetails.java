@@ -168,6 +168,7 @@ public class AlgoProveDetails extends AlgoElement {
 							s += ',';
 						// There can be a case when the underlying prover sends such objects which cannot be
 						// understood by GeoGebra. In this case we use the "Objects" word.
+						// FIXME: In this case we should return ProveResult.UNKNOWN to not confuse the student.
 						GeoElement geo = ndgc.getGeos()[i]; 
 						if (geo != null)
 							s += ndgc.getGeos()[i].getLabelSimple();

@@ -168,11 +168,23 @@ public abstract class Prover {
 			if (geos!=null){
 				for (GeoElement geo: geos){
 					if (geo != null){
-						result += geo.hashCode(); 
+						result += geo.hashCode();
 					}
 				}
 			}
 			return result;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+	        if (obj == null)
+	            return false;
+	        if (obj == this)
+	            return true;
+	        if (obj.getClass() != getClass())
+	            return false;
+
+	        return this.hashCode() == obj.hashCode();			
 		}
 	}
 	

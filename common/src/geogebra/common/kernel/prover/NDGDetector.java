@@ -170,6 +170,8 @@ public class NDGDetector {
 			}
 		}
 		
+		App.debug("No human readable geometrical meaning found for " + p);
+		
 		return null;
 	}	
 }

@@ -43,6 +43,10 @@ public class Combinations implements Iterator<Object> {
 		set = inputSet;
 		n = inputSet.size();
 		r = order;
+		if (n < r) { // in this case we don't have to do anything
+			done = true;
+			return;
+		}
 		num = new int[r];
 		for (int i = 0; i < r; i++) {
 	        num[i] = i + 1;
