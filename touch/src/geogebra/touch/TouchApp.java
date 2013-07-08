@@ -29,7 +29,6 @@ import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
-import geogebra.touch.gui.elements.header.TabletHeaderPanelLeft;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.GgbAPITouch;
@@ -40,7 +39,6 @@ import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -66,6 +64,8 @@ public class TouchApp extends AppWeb
 	// this factor
 	// (for Points see EuclidianView)
 	private int selectionFactor = 3;
+
+	private GuiManager guiManager;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -422,7 +422,11 @@ public class TouchApp extends AppWeb
 	@Override
 	public GuiManager getGuiManager()
 	{
-		return null;
+		// TODO
+		if(this.guiManager == null){
+			this.guiManager = new GuiManagerT();
+		}
+		return this.guiManager;
 	}
 
 	@Override
