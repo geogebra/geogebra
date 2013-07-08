@@ -21,6 +21,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -933,6 +934,9 @@ final public class GeoVec2D extends ValidExpression implements
 		}
 
 		sbToString.setLength(0);
+		if (tpl.getStringType().equals(StringType.GIAC)) {
+			sbToString.append("point");			
+		}
 		sbToString.append('(');
 		sbToString.append(kernel.format(x, tpl));
 		sbToString.append(", ");

@@ -213,7 +213,8 @@ public class Ggb2giac {
 		// exact method
 		p("Conic.5",
 				"[[[M:=0/0],[A:=(0/0,0/0)],[B:=(0/0,0/0)],[C:=(0/0,0/0)],[D:=(0/0,0/0)],[E:=(0/0,0/0)]],"+
-						"[[A:=%0],[B:=%1],[C:=%2],[D:=%3],[E:=%4]],"+
+						//"[[A:=%0],[B:=%1],[C:=%2],[D:=%3],[E:=%4]],"+
+						"[[A:=(real(%0[1]),im(%0[1]))],[B:=(real(%1[1]),im(%1[1]))],[C:=(real(%2[1]),im(%2[1]))],[D:=(real(%3[1]),im(%3[1]))],[E:=(real(%4[1]),im(%4[1]))],],"+
 						"[M:={{x^2,x*y,y^2,x,y,1},{A[0]^2,A[0]*A[1],A[1]^2,A[0],A[1],1},{B[0]^2,B[0]*B[1],B[1]^2,B[0],B[1],1},{C[0]^2,C[0]*C[1],C[1]^2,C[0],C[1],1},{D[0]^2,D[0]*D[1],D[1]^2,D[0],D[1],1},{E[0]^2,E[0]*E[1],E[1]^2,E[0],E[1],1}}],"+
 						"[M:=det(M)],"+
 						
@@ -238,14 +239,14 @@ public class Ggb2giac {
 				"[c1:=0/0],"+
 				"[c2:=0/0],"+				
 				"[a:=%2],"+
-				"[b1:=%0[0]],"+
-				"[b2:=%0[1]],"+
-				"[c1:=%1[0]],"+
-				"[c2:=%1[1]],"+
+				"[b1:=real(%0[1])],"+
+				"[b2:=im(%0[1])],"+
+				"[c1:=real(%1[1])],"+
+				"[c2:=im(%1[1])],"+
 				// AlgoEllipseFociPoint, AlgoHyperbolaFociPoint
-				"[a := when(type(a)==DOM_LIST,(sqrt((b1-a[0])^2+(b2-a[1])^2) ";
+				"[a := when(%2[0]=='pnt',(sqrt((b1-real(a[1]))^2+(b2-im(a[1]))^2) ";
 
-		final String ellipseHyperbola2 = "sqrt((c1-a[0])^2+(c2-a[1])^2))/2,a)],"+
+		final String ellipseHyperbola2 = "sqrt((c1-real(a[1]))^2+(c2-im(a[1]))^2))/2,a)],"+
 				"[diff1 := b1 - c1],"+
 				"[diff2 := b2 - c2],"+
 				"[sqsumb := b1 * b1 + b2 * b2],"+
@@ -258,6 +259,14 @@ public class Ggb2giac {
 				"[ggbans:=simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc))]],"+
 				// simplify (...)/1000 = 0
 				"when(type(denom(ggbans))==DOM_INT,numer(ggbans)=0,ggbans=0)][1]";
+
+		
+		
+		// simplify (...)/1000 = 0
+		//"[ggbans:=numer(ggbans)],"+
+		// simplify eg 28x² - 24x y - 160x + 60y² - 96y + 256 = 0
+		//"[hcf:=factors(ggbans)[0]]],"+
+		//"when(type(hcf)==DOM_INT,normal(ggbans/hcf)=0,ggbans=0)][1]";
 
 		
 		p("Ellipse.3", 
@@ -651,7 +660,7 @@ public class Ggb2giac {
 		// center-point:      point(%0),point(%1)
 		// or center-radius:  point(%0),%1
 		// regroup r*r -> r^2 without multiplying out
-		p("Circle.2", "regroup(equation(circle(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))");
+		p("Circle.2", "regroup(equation(circle(%0,%1)))");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
@@ -668,10 +677,9 @@ public class Ggb2giac {
 		// TODO: what about functions?
 		p("Distance.2", "normal(regroup(distance(%0,%1)))");
 
-		// wrap (2,3) as point(2,3), but not eg
-		// Line[(2,3),y=x]
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
-		p("Line.2","normal(regroup(equation(line(point(%0),when(type(%1)==DOM_LIST,point(%1),%1)))))");
+		// don't want normal(), eg Line[(a,b),(c,d)]
+		p("Line.2","regroup(equation(line(%0,%1)))");
 		
 		//p("Midpoint.2", "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))]," +
 		//		"(ggbans[0],ggbans[1])][1]");
@@ -689,12 +697,14 @@ public class Ggb2giac {
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
 
-		p("Tangent.2","when(type(%0)==DOM_LIST),"+
+		p("Tangent.2","when((%0)[0]=='pnt',"+
 				// Tangent[point, function]
-				// just use x-coordinate %0[0]
-				"y=subst(diff(%1,x),x=%0[0])*(x-%0[0])+subst(%1,x=%0[0])"+
+				// just use x-coordinate real(%0[1])
+				"y=subst(diff(%1,x),x=real(%0[1]))*(x-real(%0[1]))+subst(%1,x=real(%0[1]))"+
+				","+
 				// Tangent[x-value, function]
-				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0))");
+				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
+				")");
 
 		p("Vector.2", "%1-(%0)");
 		

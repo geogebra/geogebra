@@ -155,7 +155,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append(y.toString(tpl));
 				sb.append("))");
 			} else {			
-				sb.append("(");
+				sb.append("point(");
 				sb.append(x.toString(tpl));
 				sb.append(',');
 				sb.append(y.toString(tpl));
