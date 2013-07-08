@@ -4,10 +4,10 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.html5.move.ggtapi.models.JSONParser;
+import geogebra.html5.util.JSON;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
-import geogebra.web.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;

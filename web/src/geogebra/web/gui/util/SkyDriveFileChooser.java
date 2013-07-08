@@ -1,8 +1,8 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.util.JSON;
 import geogebra.web.main.AppW;
-import geogebra.web.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 

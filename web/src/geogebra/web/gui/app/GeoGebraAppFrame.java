@@ -6,13 +6,13 @@ package geogebra.web.gui.app;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
-import geogebra.web.util.JSON;
 
 import java.util.Date;
 

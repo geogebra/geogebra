@@ -2,7 +2,7 @@ package geogebra.html5.move.ggtapi.models;
 
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
-import geogebra.web.util.JSON;
+import geogebra.html5.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 

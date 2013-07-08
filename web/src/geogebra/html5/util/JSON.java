@@ -1,4 +1,4 @@
-package geogebra.web.util;
+package geogebra.html5.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
