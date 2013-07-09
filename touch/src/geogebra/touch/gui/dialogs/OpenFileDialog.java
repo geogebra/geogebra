@@ -18,19 +18,12 @@ public class OpenFileDialog extends FileDialog
 	protected void onOK()
 	{
 
-		String fileAsXML = super.fm.getFile(super.textBox.getText());
-		if (fileAsXML != null)
+		boolean success = super.fm.getFile(super.textBox.getText(),super.app);
+		if (success)
 		{
-			try
-			{
-				super.app.loadXML(fileAsXML);
+			
 				super.app.setConstructionTitle(super.textBox.getText());
-			}
-			catch (Exception e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 		hide();
 	}

@@ -161,8 +161,21 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		return null;
 
     }
+    
+    public void getBase64(StringHandler callback) {
+    	createArchiveContent(true);
+    	JavaScriptObject jsCallback = nativeCallback(callback);
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), jsCallback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
 
-    public void getBase64(JavaScriptObject callback) {
+    }
+    
+    private native JavaScriptObject nativeCallback(StringHandler callback) /*-{
+	    return function(b){
+	    	callback.@geogebra.html5.main.StringHandler::handle(Ljava/lang/String;)(b);
+	    };
+    }-*/;
+
+	public void getBase64(JavaScriptObject callback) {
     	createArchiveContent(false);
 
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");

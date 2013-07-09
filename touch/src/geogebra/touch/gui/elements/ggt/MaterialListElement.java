@@ -126,7 +126,7 @@ public class MaterialListElement extends HorizontalPanel
 					//remote material
 					new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
 				}else{
-					app.setXML(fm.getFile(m.getURL()), true);
+					fm.getFile(m.getURL(),app);
 				}
 				TouchEntryPoint.showTabletGUI();
 			}
