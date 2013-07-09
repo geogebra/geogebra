@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public class ConstructionProtocolViewW extends ConstructionProtocolView{
 
 	private ConstructionProtocolNavigationW protNavBar;
-	private AppW app;
 	public FlowPanel cpPanel;
 	CellTable<RowData> table;
 

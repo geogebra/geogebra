@@ -110,11 +110,6 @@ public class ConstructionProtocolView {
 		}
 		
 		public void updateAll() {
-			
-			if (app == null) {
-				// TODO: why is app == null?
-				return;
-			}
 
 			/*
 			 * Only one toolbar icon should be displayed for each step, even if
