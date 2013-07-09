@@ -60,7 +60,7 @@ public abstract class CASgiac implements CASGenericInterface {
 					"xcoord(x):=when(x[0]=='pnt',real(x[1]),x[0]);"+
 					"ycoord(x):=when(x[0]=='pnt',im(x[1]),x[1]);"+
 					// make sure z((1,2)) = 0
-					"zcoord(x):=when(x[0]='pnt',0,when(length(x)<3,0,x[2]));"+
+					"zcoord(x):=when(x[0]=='pnt',0,when(length(x)<3,0,x[2]));"+
 					// unicode0176u passes unaltered through Giac
 					// then gets decoded to degree sign in GeoGebra
 					// needed for "return angle from inverse trig function"
