@@ -11,6 +11,7 @@ import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,6 +22,7 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -32,8 +34,11 @@ public class BrowseGUI extends VerticalPanel
 	private SearchBar searchBar;
 	private FileManagerM fm;
 	//HorizontalMaterialPanel featuredMaterials;
-	VerticalMaterialPanel resultsArea;
+	VerticalMaterialPanel localFilePanel, tubeFilePanel;
+	
 	private StandardImageButton backButton;
+	private List<Material> localList = new ArrayList<Material>();
+	List<Material> tubeList = new ArrayList<Material>();
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -60,7 +65,9 @@ public class BrowseGUI extends VerticalPanel
 		//this.featuredMaterials = new HorizontalMaterialPanel();
 		//this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
-		this.resultsArea = new VerticalMaterialPanel(app, this.fm);
+		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
+		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
+		this.tubeFilePanel.getElement().getStyle().setBackgroundColor("rgb(200,200,200)");
 
 		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
 		this.backButton.addDomHandler(new ClickHandler()
@@ -75,11 +82,15 @@ public class BrowseGUI extends VerticalPanel
 		this.add(this.searchBar);
 		//this.add(this.featuredMaterials);
 
-		this.resultsArea.setHeight((Window.getClientHeight() - 120) + "px");
-		this.add(this.resultsArea);
+		this.localFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
+		this.tubeFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
+		FlowPanel fileList = new FlowPanel();
+		fileList.add(this.localFilePanel);
+		fileList.add(this.tubeFilePanel);
+		this.add(fileList);
 		this.add(this.backButton);
 
-		loadAllFiles();
+		loadFeatured();
 
 		Window.addResizeHandler(new ResizeHandler()
 		{
@@ -93,8 +104,44 @@ public class BrowseGUI extends VerticalPanel
 
 	public void displaySearchResults(String query)
 	{
-		List<Material> materialList = this.fm.search(query);
-		BrowseGUI.this.resultsArea.setMaterials(materialList);
+		this.localList = this.fm.search(query);
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).search(query, new RequestCallback()
+		{
+			@Override
+			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
+			{
+				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
+
+				updateGUI();
+			}
+
+			@Override
+			public void onError(com.google.gwt.http.client.Request request, Throwable exception)
+			{
+				// TODO Handle error!
+				updateGUI();
+				exception.printStackTrace();
+			}
+		});
+		
+		
+	}
+	
+	protected void updateGUI(){
+		if(this.tubeList.isEmpty()){
+			this.localFilePanel.setMaterials(2, this.localList);
+			this.tubeFilePanel.setVisible(false);
+			this.localFilePanel.setVisible(true);
+		}else if(this.localList.isEmpty()){
+			this.tubeFilePanel.setMaterials(2, this.tubeList);
+			this.localFilePanel.setVisible(false);
+			this.tubeFilePanel.setVisible(true);
+		}else{
+			this.localFilePanel.setMaterials(1, this.localList);
+			this.tubeFilePanel.setMaterials(1, this.tubeList);
+			this.tubeFilePanel.setVisible(true);
+			this.localFilePanel.setVisible(true);
+		}
 	}
 
 	protected void onResize(ResizeEvent event)
@@ -103,20 +150,43 @@ public class BrowseGUI extends VerticalPanel
 
 		//this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
-		this.resultsArea.setWidth(event.getWidth() + "px");
+		this.localFilePanel.updateWidth();
+		this.tubeFilePanel.updateWidth();
 		int newHeight = Window.getClientHeight() - 120;
 		if (newHeight > 0)
 		{
-			this.resultsArea.setHeight(newHeight + "px");
+			this.localFilePanel.setHeight(newHeight + "px");
+			this.tubeFilePanel.setHeight(newHeight + "px");
 		}
 	}
 
 	/**
 	 * Loads the featured materials
 	 */
-	public void loadAllFiles()
+	public void reloadLocalFiles()
 	{
-		List<Material> materialList = this.fm.getAllFiles();
-		BrowseGUI.this.resultsArea.setMaterials(materialList);
+		this.localList = this.fm.getAllFiles();
+		updateGUI();
+	}
+	
+	private void loadFeatured()
+	{
+		this.localList = this.fm.getAllFiles();
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).getFeaturedMaterials(new RequestCallback()
+		{
+			@Override
+			public void onResponseReceived(Request request, Response response)
+			{
+				
+				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
+				updateGUI();
+			}
+
+			@Override
+			public void onError(Request request, Throwable exception)
+			{
+				updateGUI();
+			}
+		});
 	}
 }

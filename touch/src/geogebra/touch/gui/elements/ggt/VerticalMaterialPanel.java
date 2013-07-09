@@ -6,11 +6,14 @@ import geogebra.touch.FileManagerM;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class VerticalMaterialPanel extends ScrollPanel
 {
+	public static final int SPACE = 20;
 	private FlexTable contentPanel;
 	private AppWeb app;
 	private FileManagerM fm;
@@ -19,6 +22,7 @@ public class VerticalMaterialPanel extends ScrollPanel
 
 	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
 	{
+		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
 		this.app = app;
 		this.fm = fm;
@@ -26,8 +30,10 @@ public class VerticalMaterialPanel extends ScrollPanel
 		this.setWidget(this.contentPanel);
 	}
 
-	public void setMaterials(List<Material> materials)
+	public void setMaterials(int cols, List<Material> materials)
 	{
+		this.columns = cols;
+		this.updateWidth();
 		this.contentPanel.clear();
 
 		int i = 0;
@@ -65,5 +71,9 @@ public class VerticalMaterialPanel extends ScrollPanel
 
 	public int getColumns() {
 		return this.columns;
+	}
+
+	public void updateWidth() {
+		this.setWidth((Window.getClientWidth()-SPACE)/2* this.columns+"px");
 	}
 }

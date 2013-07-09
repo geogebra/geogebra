@@ -100,7 +100,7 @@ public class TubeSearchGUI extends VerticalPanel
 
 				if (materialList != null)
 				{
-					TubeSearchGUI.this.resultsArea.setMaterials(materialList);
+					TubeSearchGUI.this.resultsArea.setMaterials(2,materialList);
 				}
 			}
 
@@ -138,7 +138,7 @@ public class TubeSearchGUI extends VerticalPanel
 			public void onResponseReceived(Request request, Response response)
 			{
 				List<Material> materialList = JSONparserGGT.parseResponse(response.getText());
-				TubeSearchGUI.this.resultsArea.setMaterials(materialList);
+				TubeSearchGUI.this.resultsArea.setMaterials(2,materialList);
 				//TubeSearchGUI.this.featuredMaterials.setMaterials(materialList);
 			}
 

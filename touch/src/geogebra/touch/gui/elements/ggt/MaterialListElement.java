@@ -61,7 +61,7 @@ public class MaterialListElement extends HorizontalPanel
 		this.delete = new Button("DELETE");
 
 		this.setHeight(PANEL_HEIGHT + "px");
-		this.setWidth((Window.getClientWidth() - 100)/vmp.getColumns() + "px");
+		this.setWidth((Window.getClientWidth() - 100)/2 + "px");
 		this.markUnSelected();
 		/*this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.InfoBackground);
 		this.getElement().getStyle().setBorderColor(GeoGebraTubeStyle.BorderColor);
