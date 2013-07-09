@@ -2645,6 +2645,12 @@ namespace giac {
   static string printaspnt(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( calc_mode(contextptr)==1 && feuille.type==_VECT && !feuille._VECTptr->empty()){
       gen f0=feuille._VECTptr->front();
+      /*
+      if (f0.type==_VECT && f0.subtype==_VECTOR__VECT){
+	f0.subtype=_SEQ__VECT;
+	return "vector("+f0.print(contextptr)+")";
+      }
+      */
       if (f0.type==_VECT && f0.subtype==_POINT__VECT){
 	f0.subtype=_SEQ__VECT;
 	return '('+f0.print(contextptr)+')';
@@ -3377,6 +3383,8 @@ namespace giac {
     if (is_undef(a)) return a;
     if (!b.is_symb_of_sommet(at_pnt)){
       // b=vector or complex -> make a line
+      if (b.type==_VECT && b._VECTptr->size()==2)
+	b=b._VECTptr->front()+cst_i*b._VECTptr->back();
       b=symbolic(at_pnt,gen(makevecteur(gen(makevecteur(0,b),_LINE__VECT),attributs[0]),_PNT__VECT));
     }
     if (s>2){
@@ -8205,7 +8213,7 @@ namespace giac {
     gen a=remove_equal(a0);
     if (is_undef(a))
       return false;
-    gen m,mx,my,t(t__IDNT_e),tmin,tmax; double T; bool tminmax; vecteur v;
+    gen m,mx,my,t(t__IDNT_e),tmin,tmax; double T=-1e300; bool tminmax=false; vecteur v;
     if (!find_curve_parametrization(b0,m,t,T,tmin,tmax,tminmax,contextptr))
       return false;
     reim(m,mx,my,contextptr);

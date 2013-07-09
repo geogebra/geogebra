@@ -2594,7 +2594,7 @@ namespace giac {
       vector<int> X=vecteur_2_vector_int(v);
       int m=giacmin(X),M=giacmax(X);
       // guess if data=effectifs or data=values
-      if (X.size()>=50 && X.size()>5*(M-m)){
+      if (X.size()>=50 && int(X.size())>5*(M-m)){
 	*logptr(contextptr) << gettext("Guessing data is a list of values, adequation to uniform discret distribution between ")<<m << gettext(" and ") <<  M << endl;
 	return _chisquaret(makesequence(g,vecteur(M-m+1,1./(M-m))),contextptr);
       }
@@ -2638,7 +2638,7 @@ namespace giac {
 	M[0]=vecteur_2_vector_int(*x._VECTptr);
 	M[1]=vecteur_2_vector_int(*y._VECTptr);
 	unsigned s=v.size();
-	for (int j=2;j<s;++j){
+	for (int j=2;j<int(s);++j){
 	  if (v[j].type!=_VECT || !is_integer_vecteur(*v[j]._VECTptr))
 	    return gensizeerr(contextptr);
 	  M.push_back(vecteur_2_vector_int(*v[j]._VECTptr));
@@ -2695,12 +2695,12 @@ namespace giac {
       gen res=0;
       if (N==J){ // X is directly the effectifs
 	N=0;
-	for (unsigned i=0;i<J;++i){
+	for (int i=0;i<J;++i){
 	  if (X[i]<0)
 	    return gensizeerr(contextptr);
 	  N+=X[i];
 	}
-	for (unsigned j=0;j<J;++j){
+	for (int j=0;j<J;++j){
 	  gen tmp= N*y[j];
 	  res += (X[j]-tmp)*(X[j]-tmp)/tmp;
 	}
@@ -2710,12 +2710,12 @@ namespace giac {
 	int shift=1;
 	if (equalposcomp(X,0))
 	  shift=0;
-	for (unsigned i=0;i<N;++i){
+	for (int i=0;i<N;++i){
 	  if (X[i]<shift || X[i]>=J+shift)
 	    return gensizeerr(gettext("Data should be a class number between 0 and ")+print_INT_(J));
 	  ++eff[X[i]];
 	}
-	for (unsigned j=shift;j<J+shift;++j){
+	for (int j=shift;j<J+shift;++j){
 	  gen tmp= N*y[j-shift];
 	  res += (eff[j]-tmp)*(eff[j]-tmp)/tmp;
 	}
@@ -2735,7 +2735,7 @@ namespace giac {
 	X=vecteur_2_vector_int(*xorig._VECTptr);
 	minX=giacmin(X),maxX=giacmax(X);
 	Xclasses=maxX-minX+1;
-	if (X.size()>=50 && X.size()>=5*Xclasses){
+	if (X.size()>=50 && int(X.size())>=5*Xclasses){
 	  eff.resize(Xclasses);
 	  effectif(X,eff,minX);
 	  efftotal=somme(eff);
@@ -2947,7 +2947,7 @@ namespace giac {
     bool proportion=false,data0=false,data1=MU1.type==_VECT;
     if (data1){
       n1=MU1._VECTptr->size();
-      dof = n1-1; // mean estimated from data
+      dof = int(n1)-1; // mean estimated from data
       gen tmp=_mean(MU1,contextptr);
       if (tmp.type!=_DOUBLE_)
 	return gensizeerr(contextptr);
@@ -2965,7 +2965,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       // arg1 =[mu1,n] or [x,n]
       n0=evalf_double(v0[1],1,contextptr)._DOUBLE_val;
-      dof += n0;
+      dof += int(n0);
       proportion=ztest && is_integer(v0[0]) && MU1.type==_DOUBLE_ && MU1._DOUBLE_val>0 && MU1._DOUBLE_val<1 && v[2].type==_FUNC;
       if (proportion)
 	mu0=v00._DOUBLE_val/n0;
@@ -2973,7 +2973,7 @@ namespace giac {
 	mu0=v00._DOUBLE_val;
     }
     else {
-      dof += n0;
+      dof += int(n0);
       data0=true;
       gen tmp=evalf_double(_mean(v0,contextptr),1,contextptr);
       if (tmp.type!=_DOUBLE_)
@@ -3114,7 +3114,7 @@ namespace giac {
 
   gen distribution(int nd){
     static vecteur d_static(makevecteur(at_normald,at_binomial,at_negbinomial,at_poisson,at_studentd,at_fisherd,at_cauchyd,at_weibulld,at_betad,at_gammad,at_chisquared,at_geometric,at_uniformd,at_exponentiald));
-    if (nd<=0 || nd>d_static.size())
+    if (nd<=0 || nd>int(d_static.size()))
       return undef;
     return d_static[nd-1];
   }
@@ -3171,14 +3171,14 @@ namespace giac {
 
   gen icdf(int n){
     static vecteur icdf_static(makevecteur(at_normald_icdf,at_binomial_icdf,undef,at_poisson_icdf,at_studentd_icdf,at_fisherd_icdf,at_cauchyd_icdf,at_weibulld_icdf,at_betad_icdf,at_gammad_icdf,at_chisquared_icdf,at_geometric_icdf,at_uniformd_icdf,at_exponentiald_icdf));
-    if (n<=0 || n>icdf_static.size())
+    if (n<=0 || n>int(icdf_static.size()))
       return undef;
     return icdf_static[n-1];
   }
 
   gen cdf(int n){
     static vecteur cdf_static(makevecteur(at_normald_cdf,at_binomial_cdf,undef,at_poisson_cdf,at_studentd_cdf,at_fisherd_cdf,at_cauchyd_cdf,at_weibulld_cdf,at_betad_cdf,at_gammad_cdf,at_chisquared_cdf,at_geometric_cdf,at_uniformd_cdf,at_exponentiald_cdf));
-    if (n<=0 || n>cdf_static.size())
+    if (n<=0 || n>int(cdf_static.size()))
       return undef;
     return cdf_static[n-1];
   }
@@ -3218,6 +3218,44 @@ namespace giac {
       }
       vector<double> D;
       gen w0=evalf_double(w[0],1,contextptr);
+      if (s==2 && ckmatrix(w0)){ // list of classes/effectifs
+	matrice m=*w0._VECTptr;
+	if (m.empty()) return gensizeerr(contextptr);
+	if (m.front()._VECTptr->size()!=2)
+	  m=mtran(m);
+	if (m.front()._VECTptr->size()!=2)
+	  return gensizeerr(contextptr);
+	sort(m.begin(),m.end(),first_ascend_sort);
+	s=m.size();
+	double tot=0,cur=0;
+	for (int i=0;i<s;++i){
+	  if (m[i][1].type!=_DOUBLE_)
+	    return gensizeerr(contextptr);
+	  tot += m[i][1]._DOUBLE_val;
+	}
+	if (w[1]!=at_plot){
+	  w[1]=evalf_double(w[1],1,contextptr);
+	  if (w[1].type!=_DOUBLE_ || w[1]._DOUBLE_val<=0 || w[1]._DOUBLE_val>=1)
+	    return gensizeerr(contextptr);
+	  tot *= w[1]._DOUBLE_val;
+	  for (int i=0;i<s;++i){
+	    cur += m[i][1]._DOUBLE_val;
+	    if (cur>=tot)
+	      return m[i][0];
+	  }
+	}
+	// plot cdf for frequencies
+	vecteur res; res.reserve(2*s);
+	for (int i=0;i<s;++i){
+	  gen mi0=m[i][0];
+	  if (mi0.is_symb_of_sommet(at_interval) && mi0._SYMBptr->feuille.type==_VECT && mi0._SYMBptr->feuille._VECTptr->size()==2)
+	    mi0=(mi0._SYMBptr->feuille._VECTptr->front()+mi0._SYMBptr->feuille._VECTptr->back())/2;
+	  res.push_back(mi0+(cur/tot)*cst_i);
+	  cur += m[i][1]._DOUBLE_val;
+	  res.push_back(mi0+(cur/tot)*cst_i);
+	}
+	return _polygone_ouvert(gen(res,_SEQ__VECT),contextptr);	  
+      }
       if (s!=2 || w0.type!=_VECT || !convert(*w0._VECTptr,D))
 	return gensizeerr(contextptr);
       sort(D.begin(),D.end());

@@ -5032,19 +5032,14 @@ namespace giac {
       return adjust_complex_display(gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr)),a,b);
     case _VECT__INT_: case _VECT__ZINT: case _VECT__DOUBLE_: case _VECT__FLOAT_: case _VECT__CPLX: case _VECT__SYMB: case _VECT__IDNT: case _VECT__POLY: case _VECT__EXT: case _VECT__MOD: case _VECT__FRAC: case _VECT__REAL:
       // matrix * point -> point
-      if (ckmatrix(a) && b.is_symb_of_sommet(at_pnt)){
-	gen tmp=b._SYMBptr->feuille;
-	if (tmp.type==_VECT && !tmp._VECTptr->empty()){
-	  gen f0=tmp._VECTptr->front();
-	  if (f0.type==_VECT && f0.subtype==_POINT__VECT)
-	    return _point(multmatvecteur(*a._VECTptr,*f0._VECTptr),contextptr);
-	  if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
-	    gen r,i;
-	    reim(f0,r,i,contextptr);
-	    f0=multmatvecteur(*a._VECTptr,makevecteur(r,i));
-	    return _point(f0,contextptr);
-	  }	
+      if (b.is_symb_of_sommet(at_pnt)){
+	gen tmp=complex2vecteur(remove_at_pnt(b),contextptr);
+	if (ckmatrix(a)){
+	  tmp=multmatvecteur(*a._VECTptr,*tmp._VECTptr);
+	  return _point(tmp,contextptr);	
 	}
+	if (a._VECTptr->size()==tmp._VECTptr->size())
+	  return dotvecteur(*a._VECTptr,*tmp._VECTptr);
       }
       if (a.subtype==_VECTOR__VECT && a._VECTptr->size()==2)
 	return vector2vecteur(*a._VECTptr)*b;
@@ -5057,9 +5052,12 @@ namespace giac {
       }
       return multgen_poly(b,*a._VECTptr,a.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
     case _INT___VECT: case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT:
-      if (a.is_symb_of_sommet(at_pnt) && ckmatrix(b)){
+      if (a.is_symb_of_sommet(at_pnt)){
 	gen tmp=complex2vecteur(remove_at_pnt(a),contextptr);
-	return _point(multvecteurmat(*tmp._VECTptr,*b._VECTptr),contextptr);
+	if (ckmatrix(b))
+	  return _point(multvecteurmat(*tmp._VECTptr,*b._VECTptr),contextptr);
+	if (tmp._VECTptr->size()==b._VECTptr->size())
+	  return dotvecteur(*tmp._VECTptr,*b._VECTptr,contextptr);
       }
       if (b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
 	return a*vector2vecteur(*b._VECTptr);
