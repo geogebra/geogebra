@@ -614,8 +614,13 @@ public abstract    class DockPanelW extends ResizeComposite implements
 
 		if (hasStyleBar) {
 			dockPanel.addNorth(titleBarPanel, 16);
-			if (showStyleBar)
+			if (showStyleBar) {
 				dockPanel.addNorth(styleBarPanel, 25);
+				if (toglStyleBtn2.isAttached()) {
+					titleBarPanel.remove(toglStyleBtn2);
+					titleBarPanel.insert(toglStyleBtn, 2, 0, 0);
+				}
+			}
 			Widget w = loadStyleBar();
 			if(w instanceof StyleBarW)
 				((StyleBarW)w).setOpen(showStyleBar);
