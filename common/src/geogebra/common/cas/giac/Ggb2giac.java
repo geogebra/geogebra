@@ -195,7 +195,7 @@ public class Ggb2giac {
 		// get the first element of the list to ignore the warning
 		p("Integral.3","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2)]]," +
 				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
-		p("Integral.4","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2)]]," +
+		p("Integral.4","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2,%3)]]," +
 				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
 		p("IntegralBetween.4","[[[ggbans:=0/0],[ggbans:=int(%0-(%1),x,%2,%3)]]," +
 				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
