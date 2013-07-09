@@ -276,7 +276,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	@Override
 	public void loadImage(GeoPoint loc, Object object, boolean altDown) {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 
 		app.setWaitCursor();
 
@@ -287,20 +287,20 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 
 	}
 
 	@Override
 	public boolean isInputFieldSelectionListener() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 		return false;
 	}
 
 	@Override
 	public GTextComponent getAlgebraInputTextField() {
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -387,7 +387,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	public View getConstructionProtocolData() {
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -415,14 +415,14 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	public View getProbabilityCalculator() {
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public View getPlotPanelView(int id) {
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}

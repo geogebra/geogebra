@@ -23,7 +23,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	public void clearPreferences() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+		//App.debug("unimplemented method");
 
 	}
 
