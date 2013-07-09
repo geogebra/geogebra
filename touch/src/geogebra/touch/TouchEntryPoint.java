@@ -114,9 +114,11 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
-						tabletGUI.getTouchModel().getGuiModel().closeOptions();
+						if (!tabletGUI.getTouchModel().getGuiModel().closeOptions())
+						{
+							phoneGap.exitApp();
+						}
 					}
-
 				});
 			}
 
