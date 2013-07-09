@@ -6784,6 +6784,8 @@ namespace giac {
   define_partial_derivative_onearg_genop( D_at_erf," D_at_erf",d_erf);
 
   static gen erf0(const gen & x,gen & erfc,GIAC_CONTEXT){
+    if (x.type==_REAL && is_strictly_positive(-x,contextptr))
+      return -erf0(-x,erfc,contextptr);
     if (x.type==_DOUBLE_){ 
       double absx=std::abs(x._DOUBLE_val);
       if (absx<=3){
