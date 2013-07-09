@@ -228,26 +228,26 @@ public class AppW extends AppWeb {
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
-		debug("there");
+		//debug("there");// use better descriptions if it's important
 		initCommonObjects();
-		debug("there2");
+		//debug("there2");// use better descriptions if it's important
 		initing = true;
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
-		debug("there3");
+		//debug("there3");// use better descriptions if it's important
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-		App.debug("done1");
+		//App.debug("done1");// use better descriptions if it's important
 		initCoreObjects(undoActive, this);
-		App.debug("done2");
+		//App.debug("done2");// use better descriptions if it's important
 		//this may only be called after factories are initialized
 		StringTemplate.latexIsMathQuill = true;
 		removeDefaultContextMenu(this.getArticleElement());
-		App.debug("done4");
+		//App.debug("done4");// use better descriptions if it's important
 	}
 
 	/********************************************************

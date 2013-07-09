@@ -48,7 +48,7 @@ public class SpreadsheetStyleBarPanel extends Composite implements RequiresResiz
     }
 
 	public void onResize() {
-		App.debug("resized");
+		//App.debug("resized");
     }
 
 	public void attachApp(App app) {

@@ -62,7 +62,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 			if(application.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
 				((HasOffsets)application.getActiveEuclidianView().getEuclidianController()).updateOffsets();
 		}
-		App.debug("resized");
+		//App.debug("resized");
     }
 
 	public void attachApp(App app) {

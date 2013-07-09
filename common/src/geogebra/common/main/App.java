@@ -3290,7 +3290,8 @@ public abstract class App implements UpdateSelection{
 	}
 
 	public GImageIcon wrapGetModeIcon(int mode) {
-		App.debug("App.wrapGetModeIcon must be overriden");
+		// TODO: debug message commented out from Trunk version, probably loops
+		//App.debug("App.wrapGetModeIcon must be overriden");
 		return null;
 	}
 

@@ -182,9 +182,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 				tableInit();
 			}
 		}
-		
+
 		public void updateAll(){
-			App.debug("ConstuctionTableDataW - implementation needed - just finishing");
+			// avoid too frequent App.debug messages in Trunk version
+			// the goal of App.debug is debugging anyway
+			// App.debug("ConstuctionTableDataW - implementation needed - just finishing");
 			int size = rowList.size();
 
 			for (int i = 0; i < size; ++i) {
