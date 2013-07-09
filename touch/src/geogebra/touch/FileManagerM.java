@@ -69,6 +69,7 @@ public class FileManagerM {
 			public void handle(String s) {
 				FileManagerM.this.stockStore.setItem(FILE_PREFIX + consTitle,
 						s);
+				TouchEntryPoint.browseGUI.loadAllFiles();
 			}
 		};
 
@@ -85,8 +86,7 @@ public class FileManagerM {
 				.toString());
 		this.stockStore.setItem(THUMB_PREFIX + consTitle,
 				((EuclidianViewWeb) app.getEuclidianView1())
-						.getCanvasBase64WithTypeString());
-		TouchEntryPoint.browseGUI.loadAllFiles();
+						.getCanvasBase64WithTypeString());		
 		app.setSaved();
 	}
 
