@@ -518,7 +518,7 @@ __GGB__keysVar.de.command = {
     "Min_Syntax": "[ <Interval> ]\n[ <Number>, <Number> ]\n[ <List> ]\n[ <List of Data>, <List of Frequencies> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "Min_SyntaxCAS": "[ <Liste> ]\n[ <Zahl>, <Zahl> ]",
     "Minimize": "Minimiere",
-    "Minimize_Syntax": "[ <Abh\xe4ngige Zahlr>, <Freie Zahl (Schieberegler)> ]",
+    "Minimize_Syntax": "[ <Abh\xe4ngige Zahl>, <Freie Zahl (Schieberegler)> ]",
     "MinimumSpanningTree": "MinimalerSpannbaum",
     "MinimumSpanningTree_Syntax": "[ <Liste von Punkten> ]",
     "Mirror": "Spiegle",
