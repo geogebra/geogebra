@@ -301,7 +301,9 @@ public class ConstructionProtocolView {
 	}
 
 	protected void repaint() {
-		App.debug("common/ContructionProtocolView.repaint() not implemented");
+		// TODO: implement it...
+		// avoid calling App.debug messages in a loop
+		//App.debug("common/ContructionProtocolView.repaint() not implemented");
 	}
 
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData getData() {
