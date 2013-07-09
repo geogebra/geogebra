@@ -99,7 +99,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			return false;
 
 		// isCSV = DataImport.hasHTMLFlavor(contents);
-		// System.out.println("transfer string: " + transferString);
+		// App.debug("transfer string: " + transferString);
 
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
@@ -166,7 +166,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			return false;
 		}
 
-		// System.out.println(dataFile.getName() + ": " + contents.capacity());
+		// App.debug(dataFile.getName() + ": " + contents.capacity());
 
 		boolean succ = true;
 

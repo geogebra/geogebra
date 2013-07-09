@@ -5,18 +5,16 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
-import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -269,7 +267,7 @@ public class SpreadsheetColumnControllerW implements
 			}
 		}
 
-		// System.out.println("isOver = " + isOver );
+		// "isOver = " + isOver );
 		if (isOver && overTraceButtonColumn != column) {
 			overTraceButtonColumn = column;
 			if (table.getTableHeader() != null) {
@@ -574,7 +572,7 @@ public class SpreadsheetColumnControllerW implements
 				// layout.getLayoutComponent(BorderLayout.WEST).getBounds(rect);
 				btnTrace.getBounds(rect);
 
-				// System.out.println(loc.toString() + "  :  " +
+				// loc.toString() + "  :  " +
 				// rect.toString());
 				return rect.contains(loc);
 			} catch (Exception e) {

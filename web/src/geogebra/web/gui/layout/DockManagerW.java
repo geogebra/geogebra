@@ -1082,14 +1082,14 @@ public class DockManagerW implements  SetLabels {
 	public void eventDispatched(AWTEvent event) {
 		// we also get notified about other mouse events, but we want to ignore them
 		if(event.getID() != MouseEvent.MOUSE_CLICKED) {
-//			System.out.println(event);
+//			App.debug(event);
 			return;
 		}
 		
 		// determine ancestor element of the event source which is of type
 		// dock panel
 		Component source = (Component)event.getSource();
-		//System.out.println("    source: " + source);
+		//App.debug("    source: " + source);
 		DockPanel dp = (DockPanel)SwingUtilities.getAncestorOfClass(DockPanel.class, source);
 		
 		// ignore this if we didn't hit a dock panel at all or if we hit the euclidian

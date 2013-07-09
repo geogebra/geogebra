@@ -1726,7 +1726,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/*public class MyButtonHider extends MouseAdapter {
 
 		public void mouseEntered(MouseEvent e) {
-			// System.out.println("entered, not jpanel");
+			// App.debug("entered, not jpanel");
 			if (e.getSource() != titlePanel) {
 				e.consume();
 			} else if (!windowButton.isVisible()
@@ -1739,7 +1739,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		}
 
 		public void mouseExited(MouseEvent e) {
-			// System.out.println("exited:");
+			// App.debug("exited:");
 			if (!titlePanel.getVisibleRect().contains(e.getPoint())) {
 				windowButton.setVisible(false);
 			}

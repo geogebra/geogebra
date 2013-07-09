@@ -236,7 +236,7 @@ public class MyCellRendererW {
 					//try {//Widget will be custom
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();
-						// System.out.println(latexStr);
+						// App.debug(latexStr);
 						app.getDrawEquation().drawLatexImageIcon(
 								app,
 								latexIcon,
@@ -498,7 +498,7 @@ public class MyCellRendererW {
 					//try {//Widget will be custom
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();
-						// System.out.println(latexStr);
+						// App.debug(latexStr);
 						app.getDrawEquation().drawLatexImageIcon(
 								app,
 								latexIcon,

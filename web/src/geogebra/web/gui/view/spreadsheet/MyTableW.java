@@ -643,7 +643,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			/*
 			 * // return if we have already ctrl-selected this range for
 			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ System.out.println("reutrned");
+			 * (cr.equals(newSelection)){ App.debug("reutrned");
 			 * return; } }
 			 */
 
@@ -731,17 +731,17 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			//?//	getTableHeader().repaint();
 		}
 
-		// System.out.println("------------------");
+		// App.debug("------------------");
 		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
 
 	private void printSelectionParameters() {
-		System.out.println("----------------------------------");
-		System.out.println("minSelectionColumn = " + minSelectionColumn);
-		System.out.println("maxSelectionColumn = " + maxSelectionColumn);
-		System.out.println("minSelectionRow = " + minSelectionRow);
-		System.out.println("maxSelectionRow = " + maxSelectionRow);
-		System.out.println("----------------------------------");
+		App.debug("----------------------------------");
+		App.debug("minSelectionColumn = " + minSelectionColumn);
+		App.debug("maxSelectionColumn = " + maxSelectionColumn);
+		App.debug("minSelectionRow = " + minSelectionRow);
+		App.debug("maxSelectionRow = " + maxSelectionRow);
+		App.debug("----------------------------------");
 	}
 
 	/**
