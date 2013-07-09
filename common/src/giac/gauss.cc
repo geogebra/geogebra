@@ -416,7 +416,7 @@ namespace giac {
       return undef;
     gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
     reim(M,Mx,My,contextptr);
-    gen eqM=recursive_normal(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr)/x,contextptr);
+    gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);
     vecteur res=solve(eqM,x,0,contextptr); // x in terms of t
     if (res.size()!=1)
       return undef;
