@@ -7,6 +7,8 @@ import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.laf.LookAndFeel;
+import geogebra.touch.model.GuiModel;
+import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -47,8 +49,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
+	private GuiModel guiModel;
 
-	public InputDialog(TouchApp app, DialogType type, TabletGUI gui)
+	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, GuiModel guiModel)
 	{
 		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
@@ -65,6 +68,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		init();
 		gui.addResizeListener(this);
+		this.guiModel = guiModel;
 
 		setAutoHideEnabled(true);
 	}
@@ -201,6 +205,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void show()
 	{
 		super.show();
+		this.guiModel.showOption(this, OptionType.Dialog, null);
+		
 		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;

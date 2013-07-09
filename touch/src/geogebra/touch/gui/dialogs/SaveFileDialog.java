@@ -1,13 +1,14 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.TouchApp;
+import geogebra.touch.model.GuiModel;
 
 public class SaveFileDialog extends FileDialog
 {
 
-	public SaveFileDialog(TouchApp app)
+	public SaveFileDialog(TouchApp app, GuiModel guiModel)
 	{
-		super(app);
+		super(app, guiModel);
 		//FIXME the glass pane has z-index 20, we must go higher
 		this.getElement().getStyle().setZIndex(42);
 	}

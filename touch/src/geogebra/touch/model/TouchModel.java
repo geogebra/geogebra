@@ -67,9 +67,10 @@ public class TouchModel {
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
+		this.guiModel = new GuiModel(this);
 		this.inputDialog = new InputDialog(
 				(TouchApp) this.kernel.getApplication(),
-				DialogType.NumberValue, tabletGUI);
+				DialogType.NumberValue, tabletGUI, this.guiModel);
 		this.inputDialog.addCloseHandler(new CloseHandler<PopupPanel>()
 		{
 			@Override
@@ -77,7 +78,6 @@ public class TouchModel {
 				inputPanelClosed();
 			}
 		});
-		this.guiModel = new GuiModel(this);
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
 

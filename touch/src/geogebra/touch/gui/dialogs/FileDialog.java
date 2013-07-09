@@ -4,6 +4,8 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.model.GuiModel;
+import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -40,18 +42,21 @@ public abstract class FileDialog extends PopupPanel
 	protected TextBox textBox;
 
 	private HorizontalPanel buttonContainer;
+	
+	private GuiModel guiModel;
 
 //	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
 	protected Anchor okButton = new Anchor();
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton deleteButton = new StandardImageButton(CommonResources.INSTANCE.dialog_trash());
 
-	public FileDialog(TouchApp app)
+	public FileDialog(TouchApp app, GuiModel guiModel)
 	{
 		// hide when clicked outside and set modal
 		super(true, true);
 		this.setGlassEnabled(true);
 
+		this.guiModel = guiModel;
 		this.app = app;
 		this.fm = new FileManagerM();
 		this.dialogPanel = new VerticalPanel();
@@ -185,6 +190,7 @@ public abstract class FileDialog extends PopupPanel
 		super.center();
 		this.populateFileList();
 		this.textBox.setFocus(true);
+		this.guiModel.showOption(this, OptionType.Dialog, null);
 	}
 	
 	public abstract void setLabels();

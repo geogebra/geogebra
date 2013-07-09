@@ -42,7 +42,7 @@ public class ToolBar extends HorizontalPanel
 	{
 		this.setStyleName("toolbar");
 
-		this.input = new InputDialog(app, DialogType.InputField, gui);
+		this.input = new InputDialog(app, DialogType.InputField, gui, touchModel.getGuiModel());
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.toolPanel = new HorizontalPanel();

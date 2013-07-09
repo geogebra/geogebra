@@ -65,9 +65,9 @@ public class GuiModel
 
 	public void updateStylingBar()
 	{
-		if(this.stylingBar != null)
+		if (this.stylingBar != null)
 		{
-			this.stylingBar.rebuild(); 
+			this.stylingBar.rebuild();
 		}
 	}
 
@@ -85,7 +85,7 @@ public class GuiModel
 		}
 
 		// activeButton looses style otherwise
-		//this.activeButton.addStyleDependentName("active");
+		// this.activeButton.addStyleDependentName("active");
 	}
 
 	public void setActive(ToolBarButton toolBarButton)
@@ -105,14 +105,27 @@ public class GuiModel
 			this.touchModel.setCommand(toolBarButton.getCmd());
 		}
 
-		this.stylingBar.rebuild(); 
+		this.stylingBar.rebuild();
 	}
 
+	/**
+	 * 
+	 * @param newOption
+	 *          the PopupPanel to be shown
+	 * @param type
+	 *          the OptionsType of the PopupPanel
+	 * @param parent
+	 *          the button that was clicked, null in case of a Dialog
+	 *          (OptionsType.Dialog)
+	 */
 	public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent)
 	{
 		closeOptions();
 		this.option = newOption;
-		newOption.showRelativeTo(parent);
+		if (type != OptionType.Dialog)
+		{
+			newOption.showRelativeTo(parent);
+		}
 		this.styleBarOptionShown = type;
 	}
 
