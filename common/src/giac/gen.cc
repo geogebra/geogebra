@@ -2818,7 +2818,7 @@ namespace giac {
       reim(a,ra,ia,contextptr);
       reim(b,rb,ib,contextptr);
       r=ra*rb-ia*ib;
-      i=ra*ib+rb*ia;
+      i=ra*ib+ia*rb;
       return;
     }
     if (u==at_surd && is_integer(f._VECTptr->back())){
