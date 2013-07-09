@@ -71,8 +71,13 @@ public class GuiModel
 		}
 	}
 
-	public void closeOptions()
+	/**
+	 * 
+	 * @return true if anything was closed, false otherwise
+	 */
+	public boolean closeOptions()
 	{
+		boolean ret = this.option != null;
 		if (this.option != null)
 		{
 			this.option.hide();
@@ -83,6 +88,7 @@ public class GuiModel
 				this.touchModel.optionsClosed();
 			}
 		}
+		return ret;
 
 		// activeButton looses style otherwise
 		// this.activeButton.addStyleDependentName("active");
