@@ -213,8 +213,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
 			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - this.laf.getPanelsHeight());
 
-			//for Win8 position it on top, for others under appbar
-			this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth()-ALGEBRA_BUTTON_WIDTH, this.laf.getAppBarHeight());
+			// for Win8 position it on top, for others under appbar
+			this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth() - ALGEBRA_BUTTON_WIDTH, this.laf.getAppBarHeight());
 			this.algebraViewButton.setStyleName("arrowLeft");
 		}
 		else
@@ -259,9 +259,14 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		}
 	}
 
+	public TouchModel getTouchModel()
+	{
+		return this.touchModel;
+	}
+
 	// TODO: use with SelelctionManager
-//	@Override
-//	public void updateStylingBar(SelectionManager selectionManager) {
-//		this.stylingBar.updateGeos(selectionManager);	
-//	}
+	// @Override
+	// public void updateStylingBar(SelectionManager selectionManager) {
+	// this.stylingBar.updateGeos(selectionManager);
+	// }
 }

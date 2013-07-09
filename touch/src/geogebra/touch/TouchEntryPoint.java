@@ -17,6 +17,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.googlecode.gwtphonegap.client.PhoneGap;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
+import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -27,6 +30,7 @@ public class TouchEntryPoint implements EntryPoint
 	static TabletGUI tabletGUI = new TabletGUI();
 	static TubeSearchGUI tubeSearchGUI;
 	public static BrowseGUI browseGUI;
+	public static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
 
 	@Override
 	public void onModuleLoad()
@@ -46,6 +50,7 @@ public class TouchEntryPoint implements EntryPoint
 			public void onSuccess()
 			{
 				ResourcesInjector.injectResources();
+
 				// TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(),
 				// Window.getClientHeight());
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
@@ -73,8 +78,46 @@ public class TouchEntryPoint implements EntryPoint
 				{
 					app.getGgbApi().setBase64(RootPanel.getBodyElement().getAttribute("data-param-ggbbase64"));
 				}
+
+				initPhoneGap();
+
 				Window.enableScrolling(false);
 
+			}
+
+			private void initPhoneGap()
+			{
+//			phoneGap.addHandler(new PhoneGapAvailableHandler()
+//			{
+//				@Override
+//				public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
+//				{
+//					// TODO Auto-generated method stub
+//					System.out.println("test onPhoneGapAvailable");
+//				}
+//			});
+//
+//			phoneGap.addHandler(new PhoneGapTimeoutHandler()
+//			{
+//
+//				@Override
+//				public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
+//				{
+//					// TODO Auto-generated method stub
+//
+//				}
+//			});
+				phoneGap.initializePhoneGap();
+				phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(new BackButtonPressedHandler()
+				{
+
+					@Override
+					public void onBackButtonPressed(BackButtonPressedEvent event)
+					{
+						tabletGUI.getTouchModel().getGuiModel().closeOptions();
+					}
+
+				});
 			}
 
 			@Override
@@ -101,7 +144,7 @@ public class TouchEntryPoint implements EntryPoint
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tubeSearchGUI);
 		TouchEntryPoint.appWidget.showWidget(0);
 	}
-	
+
 	public static void showBrowseUI()
 	{
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);

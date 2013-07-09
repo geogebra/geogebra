@@ -16,6 +16,8 @@
     <inherits name="com.google.gwt.resources.Resources" />
 
     <inherits name="com.google.gwt.logging.Logging" />
+    
+    <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
 
     <!-- Other module inherits -->
 

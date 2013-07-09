@@ -28,7 +28,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 {
 	Kernel kernel;
 	TouchApp app;
-	TouchModel touchModel; 
+	TouchModel touchModel;
 	TabletGUI tabletGUI;
 
 	InputDialog dialog;
@@ -70,11 +70,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	private void initNewButton()
 	{
-		final Runnable newConstruction = new Runnable(){
+		final Runnable newConstruction = new Runnable()
+		{
 			@Override
-			public void run(){
-				TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null); 
-				TabletHeaderPanelLeft.this.touchModel.resetSelection(); 
+			public void run()
+			{
+				TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(null);
+				TabletHeaderPanelLeft.this.touchModel.resetSelection();
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
 				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
@@ -82,10 +84,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.app.setSaved();
 			}
 		};
-		
+
 		this.newButton.addDomHandler(new ClickHandler()
 		{
-			
+
 			@Override
 			public void onClick(ClickEvent event)
 			{
@@ -97,13 +99,15 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	private void initOpenButton()
 	{
-		
-		final Runnable showOpenDialog = new Runnable(){
+
+		final Runnable showOpenDialog = new Runnable()
+		{
 			@Override
-			public void run(){
+			public void run()
+			{
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TouchEntryPoint.showBrowseUI();
-				//TabletHeaderPanelLeft.this.openDialog.show();		
+				// TabletHeaderPanelLeft.this.openDialog.show();
 			}
 		};
 		this.openButton.addDomHandler(new ClickHandler()
@@ -156,11 +160,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		// FIXME ugly, implement observer pattern!
 		this.tabletGUI.getLAF().setTitle(title);
 	}
-	
+
 	public void setLabels()
 	{
 		this.dialog.setLabels();
 		this.openDialog.setLabels();
 	}
-	
+
 }
