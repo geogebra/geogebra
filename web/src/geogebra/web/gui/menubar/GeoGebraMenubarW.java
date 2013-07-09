@@ -1,7 +1,9 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.views.Renderable;
+import geogebra.common.move.views.SuccessErrorRenderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -19,7 +21,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 
 
-public class GeoGebraMenubarW extends MenuBar {
+public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable {
 	
 	
 		private AppW app;
@@ -88,6 +90,8 @@ public class GeoGebraMenubarW extends MenuBar {
 				renderNetworkOperation(true);
 			}
 		});
+	    
+	    app.getLoginOperation().getView().add(this);
 	   
 	   if (!app.getOfflineOperation().getOnline()) {
 		   renderNetworkOperation(false);
@@ -229,5 +233,27 @@ public class GeoGebraMenubarW extends MenuBar {
 		public MenuItem getSignIn() {
 			return signIn;
 		}
+
+		public void success(JSONObject response) {
+	       signIn.setText(app.getMenu("SignedIn"));
+	       signIn.setScheduledCommand(getSignOutCommand());
+        }
+
+		private ScheduledCommand getSignOutCommand() {
+			final GeoGebraMenubarW _this = this;
+			 return new ScheduledCommand() {
+					
+					public void execute() {
+						//TODO: do we need to notify ggt about we logged out???? I think not.
+						//jus for depug now we call fail
+						_this.fail(null);
+					}
+				};
+        }
+
+		public void fail(JSONObject resonse) {
+	       signIn.setText(app.getMenu("signIn"));
+	       signIn.setScheduledCommand(getSignInCommand());
+        }
 		
 }

@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.operations;
 
+import geogebra.common.move.ggtapi.events.LogOutEventPool;
 import geogebra.common.move.ggtapi.models.LogOutModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.views.LogOutView;
@@ -47,6 +48,12 @@ public class LogOutOperation extends BaseOperation {
 	@Override
 	public LogOutModel getModel() {
 		return (LogOutModel) super.getModel();
+	}
+	
+	@Override
+	public LogOutEventPool getEvent() {
+		return (LogOutEventPool) super.getEvent();
+		
 	}
 
 }
