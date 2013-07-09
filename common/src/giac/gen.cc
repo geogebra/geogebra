@@ -5057,6 +5057,10 @@ namespace giac {
       }
       return multgen_poly(b,*a._VECTptr,a.subtype); // gen(multvecteur(b,*a._VECTptr),a.subtype);
     case _INT___VECT: case _ZINT__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _CPLX__VECT: case _SYMB__VECT: case _IDNT__VECT: case _POLY__VECT: case _EXT__VECT: case _MOD__VECT: case _FRAC__VECT: case _REAL__VECT:
+      if (a.is_symb_of_sommet(at_pnt) && ckmatrix(b)){
+	gen tmp=complex2vecteur(remove_at_pnt(a),contextptr);
+	return _point(multvecteurmat(*tmp._VECTptr,*b._VECTptr),contextptr);
+      }
       if (b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
 	return a*vector2vecteur(*b._VECTptr);
       if (b.subtype==_PNT__VECT)
@@ -5665,8 +5669,13 @@ namespace giac {
 	}
 	return _vector(vector2vecteur(*tmp._VECTptr)*b,contextptr);
       }
-      if ((b.type==_SYMB) && equalposcomp(plot_sommets,b._SYMBptr->sommet))
+      if ((b.type==_SYMB) && equalposcomp(plot_sommets,b._SYMBptr->sommet)){
+	gen tmpb=complex2vecteur(remove_at_pnt(b),contextptr);
+	tmp=complex2vecteur(tmp,contextptr);
+	if (tmpb._VECTptr->size()==tmp._VECTptr->size())
+	  return dotvecteur(*tmp._VECTptr,*tmpb._VECTptr,contextptr);
 	return gensizeerr(gettext("Unable to multiply two graphic objects"));
+      }
       return symbolic_plot_makevecteur(a._SYMBptr->sommet,a._SYMBptr->feuille*b,false,contextptr);
     }
     if ((b.type==_SYMB) && equalposcomp(plot_sommets,b._SYMBptr->sommet)){

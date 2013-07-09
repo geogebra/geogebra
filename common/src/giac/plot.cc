@@ -5114,7 +5114,7 @@ namespace giac {
 	res=angle(v1,v2,contextptr);
       }
       else
-	res=arg(simplify(conj(f-e,contextptr)*(g-e),contextptr),contextptr);
+	res=recursive_normal(arg(simplify(conj(f-e,contextptr)*(g-e),contextptr),contextptr),contextptr);
     }
     gen c,c2;
     montrer = montrer && f.type!=_VECT;
@@ -7905,7 +7905,7 @@ namespace giac {
     if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_curve)){
       vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr; 
       if (v.size()>=6 && !is_undef(v[5]))
-	return subst(v[5],makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e),makevecteur(x,y,z),false,contextptr);
+	return symbolic(at_equal,makesequence(subst(v[5],makevecteur(x__IDNT_e,y__IDNT_e,z__IDNT_e),makevecteur(x,y,z),false,contextptr),0));
       if (v[1].type!=_IDNT)
 	return gensizeerr(gettext("Wrong parameter type ")+v[1].print(contextptr));
       identificateur & id=*v[1]._IDNTptr;
@@ -9321,7 +9321,6 @@ namespace giac {
     if (s<4)
       return gentypeerr(contextptr);
     gen l=_angle(gen(makevecteur(eval(v[0],eval_level(contextptr),contextptr),eval(v[1],eval_level(contextptr),contextptr),eval(v[2],eval_level(contextptr),contextptr)),_SEQ__VECT),contextptr);
-    l=recursive_normal(l,contextptr);
     int save_digits=decimal_digits(contextptr);
     decimal_digits(contextptr)=3;
     string ss="\"α";

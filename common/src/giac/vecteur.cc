@@ -9967,6 +9967,15 @@ namespace giac {
   gen symb_cross(const gen & args){
     return symbolic(at_cross,args);
   }
+  gen complex2vecteur(const gen & g,GIAC_CONTEXT){
+    if (g.type!=_VECT){
+      gen x,y;
+      reim(g,x,y,contextptr);
+      return makevecteur(x,y);
+    }
+    return g;
+  }
+    
   gen cross(const gen & a,const gen & b,GIAC_CONTEXT){
     gen g1=remove_at_pnt(a);
     if (a.type==_VECT && a.subtype==_GGB__VECT)
@@ -9974,6 +9983,13 @@ namespace giac {
     gen g2=remove_at_pnt(b);
     if (b.type==_VECT && b.subtype==_GGB__VECT)
       g2=b;
+    if (g1.type!=_VECT || g2.type!=_VECT){
+      g1=complex2vecteur(g1,contextptr);      
+      g2=complex2vecteur(g2,contextptr);
+      if (g1._VECTptr->size()!=2 || g2._VECTptr->size()!=2)
+	return gensizeerr(contextptr);
+      return g1._VECTptr->front()*g2._VECTptr->back()-g1._VECTptr->back()*g2._VECTptr->front();
+    }
     if (is_undef(g1) || g1.type!=_VECT || is_undef(g2) || g2.type!=_VECT)
       return gensizeerr(gettext("cross"));
     if (g1.subtype==_VECTOR__VECT)

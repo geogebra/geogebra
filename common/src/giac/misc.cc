@@ -2390,10 +2390,20 @@ namespace giac {
 static define_unary_function_eval (__variance,&_variance,_variance_s);
   define_unary_function_ptr5( at_variance ,alias_at_variance,&__variance,0,true);
 
+  vecteur genpoint2vecteur(const gen & g,GIAC_CONTEXT){
+    vecteur v(gen2vecteur(g));
+    for (unsigned i=0;i<v.size();++i){
+      gen & tmp = v[i];
+      if (tmp.is_symb_of_sommet(at_pnt))
+	tmp=complex2vecteur(remove_at_pnt(tmp),contextptr);
+    }
+    return v;
+  }
+
   static vecteur covariance_correlation(const gen & g,const gen & u1,const gen & u2,int xcol,int ycol,int freqcol,GIAC_CONTEXT){
     if (is_undef(g))
       return makevecteur(g,g);
-    vecteur v(gen2vecteur(g));
+    vecteur v(genpoint2vecteur(g,contextptr));
     if (!ckmatrix(v) || v.empty() || v.front()._VECTptr->size()<2)
       return makevecteur(undef,undef);
     gen sigmax,sigmay,sigmaxy,sigmax2,sigmay2,tmpx,tmpy,n,freq;
@@ -2501,14 +2511,14 @@ static define_unary_function_eval (__variance,&_variance,_variance_s);
       gv=v[0];
     }
     else {
-      if (!ckmatrix(g) || g._VECTptr->empty()){
+      gv=genpoint2vecteur(g,contextptr);
+      if (!ckmatrix(gv) || gv._VECTptr->empty()){
 	gv=gensizeerr(contextptr);
 	return;
       }
-      gv=g;
-      if (g._VECTptr->front()._VECTptr->size()>2)
+      if (gv._VECTptr->front()._VECTptr->size()>2)
 	freqcol=2;
-      if (g._VECTptr->front()._VECTptr->front().type==_STRNG)
+      if (gv._VECTptr->front()._VECTptr->front().type==_STRNG)
 	freqcol=-2;
     }
   }
@@ -2857,7 +2867,7 @@ static define_unary_function_eval (__power_regression_plot,&_power_regression_pl
 
   static gen polynomial_regression(const gen & g,int d,const gen & u1, const gen & u2,double & xmin, double & xmax,GIAC_CONTEXT){
     xmin=1e300,xmax=-xmin;
-    vecteur v(gen2vecteur(g));
+    vecteur v(genpoint2vecteur(g,contextptr));
     if (!ckmatrix(v) || v.empty() || v.front()._VECTptr->size()<2)
       return undef;
     // use first and second column

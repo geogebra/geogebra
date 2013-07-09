@@ -186,6 +186,7 @@ namespace giac {
   gen generalized_dotvecteur(const vecteur & a,const vecteur & b,int pos);
   vecteur generalized_multmatvecteur(const matrice & a,const vecteur & b);
   // Vect product (3-d)
+  gen complex2vecteur(const gen & g,GIAC_CONTEXT);
   vecteur cross(const vecteur & v,const vecteur & w,GIAC_CONTEXT);
   gen cross(const gen & g1,const gen & g2,GIAC_CONTEXT);
   // ckmvmult check a and b

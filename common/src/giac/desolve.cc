@@ -815,6 +815,22 @@ namespace giac {
       return g;
     return makevecteur(g);
   }
+  static gen point2vecteur(const gen & g_,GIAC_CONTEXT){
+    if (!g_.is_symb_of_sommet(at_point))
+      return g_;
+    gen g=g_._SYMBptr->feuille;
+    gen x,y;
+    if (g.type==_VECT){
+      if (g._VECTptr->size()!=2)
+	return gensizeerr(contextptr);
+      x=g._VECTptr->front();
+      y=g._VECTptr->back();
+    }
+    else
+      reim(g,x,y,contextptr);
+    g=makevecteur(x,y);
+    return g;
+  }
   // "unary" version
   gen _desolve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -832,6 +848,9 @@ namespace giac {
     }
     vecteur v=*args._VECTptr;
     int s=v.size();
+    for (int i=0;i<s;++i){
+      v[i]=apply(v[i],point2vecteur,contextptr);
+    }
     if (s==3 && v[1].type==_VECT && v[2].type==_VECT)
       swapgen(v[1],v[2]);
     if (s==2 && v[1].type==_VECT && v[1]._VECTptr->size()==2){

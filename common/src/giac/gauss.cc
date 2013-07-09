@@ -615,8 +615,12 @@ namespace giac {
 	  // => x+i*y = x0+i*y0 + V0*(x[0]+i*y[0])
 	  gen tmp;
 	  if (numeric){
-	    tmp=evalf(vp0,1,contextptr)*symb_cos(t)+cst_i*evalf(vp1,1,contextptr)*symb_sin(t);
-	    tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	    if (!is_undef(ratparam))
+	      tmp=subst(evalf(ratparam,1,contextptr),t,symbolic(at_tan,t/2),false,contextptr);
+	    else {
+	      tmp=evalf(vp0,1,contextptr)*symb_cos(t)+cst_i*evalf(vp1,1,contextptr)*symb_sin(t);
+	      tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	    }
 	  }
 	  else {
 	    tmp=vp0*symb_cos(t)+cst_i*vp1*symb_sin(t);
@@ -652,8 +656,12 @@ namespace giac {
 	  vp1=normalize_sqrt(sqrt(coeffcst/vp1,contextptr),contextptr);
 	  gen tmp;
 	  if (numeric){
-	    tmp=evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
-	    tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	    if (!is_undef(ratparam))
+	      tmp=subst(evalf(ratparam,1,contextptr),t,symbolic(at_tan,t/2),false,contextptr);
+	    else {
+	      tmp=evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
+	      tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	    }
 	  }
 	  else {
 	    tmp=vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
@@ -663,16 +671,18 @@ namespace giac {
 	    ratparam=vp0*((sprodcoeff<0)?(t+1/t)/2:(t-1/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-1/t)/2:(t+1/t)/2);
 	    ratparam=z0+zV0*ratparam;
 	  }
-	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1,q,ratparam));
-	  if (numeric){
-	    tmp=(sprodcoeff<0?-1:1)*evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
-	    tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	  param_curves.push_back(makevecteur(tmp,t,-3.14,3.14,0.0314,q,ratparam));
+	  if (is_undef(ratparam)){
+	    if (numeric){
+	      tmp=(sprodcoeff<0?-1:1)*evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
+	      tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;
+	    }
+	    else {
+	      tmp=(sprodcoeff<0?-1:1)*vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
+	      tmp=z0+zV0*tmp;
+	    }
+	    param_curves.push_back(makevecteur(tmp,t,-3,3,0.1,q,ratparam));
 	  }
-	  else {
-	    tmp=(sprodcoeff<0?-1:1)*vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
-	    tmp=z0+zV0*tmp;
-	  }
-	  param_curves.push_back(makevecteur(tmp,t,-3,3,0.1,q,ratparam));
 	}
       }
     }
