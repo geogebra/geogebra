@@ -8749,7 +8749,7 @@ namespace giac {
     if (s==1)
       return _plotimplicit(args,contextptr);
     // args=[F,F',M] or [F,F',a] / FM+F'M=2*a
-    gen F1,F2,M,a,n;
+    gen F1,F2,M,a,a2,n;
     gen aorig=*(args._VECTptr->begin()+s-1);
     if (!foyers_a(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s),F1,F2,a,contextptr))
       return gensizeerr(contextptr);
@@ -8759,13 +8759,15 @@ namespace giac {
       if (a.type==_VECT)
 	n=a;
       a=rdiv(abs_norm(a-F1,contextptr)+abs_norm(a-F2,contextptr),plus_two,contextptr);
+      gen MF1=distance2(M,F1,contextptr),MF2=distance2(M,F2,contextptr);
+      a2=(MF1+MF2)/4+sqrt(MF1*MF2,contextptr)/2;
     }
     else {
       gen F1F2=F2-F1;
       gen c=abs_norm(F1F2,contextptr)/2;
       M=F1+(a/c+1)/2*F1F2;
+      a2=recursive_normal(a*a,contextptr);
     }
-    gen a2=recursive_normal(a*a,contextptr);
     gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
     gen parameq=conique_ratparam(eq,M,contextptr);
     gen F1F2=F2-F1;
@@ -8818,7 +8820,7 @@ namespace giac {
       return gendimerr(contextptr);
     if (s==1)
       return _plotimplicit(args,contextptr);
-    gen F1,F2,a,n;
+    gen F1,F2,a,a2,n;
     gen aorig=*(args._VECTptr->begin()+s-1);
     gen M;
     if (!foyers_a(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s),F1,F2,a,contextptr))
@@ -8829,13 +8831,15 @@ namespace giac {
       if (a.type==_VECT)
 	n=a;
       a=rdiv(abs_norm(a-F1,contextptr)-abs_norm(a-F2,contextptr),plus_two,contextptr);
+      gen MF1=distance2(M,F1,contextptr),MF2=distance2(M,F2,contextptr);
+      a2=(MF1+MF2)/4-sqrt(MF1*MF2,contextptr)/2;
     }
     else {
       gen F1F2=F2-F1;
       gen c=abs_norm(F1F2,contextptr)/2;
       M=F1+(a/c+1)/2*F1F2;
+      a2=recursive_normal(a*a,contextptr);
     }
-    gen a2=recursive_normal(a*a,contextptr);
     gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
     gen parameq=conique_ratparam(eq,M,contextptr);
     gen F1F2=F2-F1;
