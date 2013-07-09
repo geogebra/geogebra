@@ -673,7 +673,8 @@ public class Ggb2giac {
 		// eg distance((2,3,4),(0,3,1))
 		// eg distance(conic(y=x^2),(0,3))
 		// TODO: what about functions?
-		p("Distance.2", "normal(regroup(distance(%0,%1)))");
+		// don't want normal(), eg Distance[(a,b),(c,d)] 
+		p("Distance.2", "regroup(distance(%0,%1))");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
 		// don't want normal(), eg Line[(a,b),(c,d)]
