@@ -190,15 +190,17 @@ public class Ggb2giac {
 		p("Integral.2",
 				"regroup(integrate(%0,%1))");
 
-		p("Integral.3",
-				"normal(integrate(%0,%1,%2))");
-
-		p("Integral.4",
-				"normal(integrate(%0,%1,%2,%3))");
-		p("IntegralBetween.4",
-				"normal(int(%0-(%1),x,%2,%3))");
-		p("IntegralBetween.5",
-				"normal(int(%0-(%1),%2,%3,%4))");
+		// The symbolic value of the integral is checked against a numeric evaluation of the integral
+		// if they return different answers then a list with both values is returned.
+		// get the first element of the list to ignore the warning
+		p("Integral.3","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2)]]," +
+				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
+		p("Integral.4","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2)]]," +
+				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
+		p("IntegralBetween.4","[[[ggbans:=0/0],[ggbans:=int(%0-(%1),x,%2,%3)]]," +
+				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
+		p("IntegralBetween.5","[[[ggbans:=0/0],[ggbans:=int(%0-(%1),%2,%3,%4)]]," +
+				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
 
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
@@ -709,7 +711,7 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"convert(unitV([real(%0[1]),im(%0[1])]),25)");
+				"when(type(%0)==DOM_LIST,normalize(%0),convert(unitV([real(%0[1]),im(%0[1])]),25))");
 		
 		return commandMap;
 	}
