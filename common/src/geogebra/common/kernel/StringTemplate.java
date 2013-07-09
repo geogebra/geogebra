@@ -652,13 +652,13 @@ public class StringTemplate implements ExpressionNodeConstants{
 				//App.debug(leftStr+" "+left.getClass());
 				//App.debug(rightStr+" "+right.getClass());
 				// eg 10 + (1,2)
-				sb.append("((");
+				sb.append("point(real(");
 				sb.append(rightStr);
-				sb.append(")[0]+");
+				sb.append("[1])+");
 				sb.append(leftStr);
-				sb.append(",(");
+				sb.append(",im(");
 				sb.append(rightStr);
-				sb.append(")[1]+");
+				sb.append("[1])+");
 				sb.append(leftStr);
 				sb.append(')');
 
@@ -666,13 +666,13 @@ public class StringTemplate implements ExpressionNodeConstants{
 			} else if (left instanceof VectorValue && (right instanceof NumberValue) && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2) + 10
-				sb.append("((");
+				sb.append("point(real(");
 				sb.append(leftStr);
-				sb.append(")[0]+");
+				sb.append("[1])+");
 				sb.append(rightStr);
-				sb.append(",(");
+				sb.append(",im(");
 				sb.append(leftStr);
-				sb.append(")[1]+");
+				sb.append("[1])+");
 				sb.append(rightStr);
 				sb.append(')');
 
@@ -712,8 +712,21 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(')');
 
-			} else {
+			} else if (left.isVectorValue() && right instanceof VectorValue) {
 				//App.debug(left.getClass()+" "+right.getClass());
+				// eg (1,2)+(3,4)
+				sb.append("point(real(");
+				sb.append(leftStr);
+				sb.append("[1])+real(");
+				sb.append(rightStr);
+				sb.append("[1]),im(");
+				sb.append(leftStr);
+				sb.append("[1])+im(");
+				sb.append(rightStr);
+				sb.append("[1]))");
+
+			} else {
+				//App.debug("default method" + left.getClass()+" "+right.getClass());
 
 				sb.append('(');
 				sb.append(leftStr);
@@ -862,28 +875,28 @@ public class StringTemplate implements ExpressionNodeConstants{
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
 				// eg 10 - (1,2)
-				sb.append("(");
+				sb.append("point(");
 				sb.append(leftStr);
-				sb.append("-(");
+				sb.append("-real(");
 				sb.append(rightStr);
-				sb.append(")[0]");
+				sb.append("[1])");
 				sb.append(",");
 				sb.append(leftStr);
-				sb.append("-(");
+				sb.append("-im(");
 				sb.append(rightStr);
-				sb.append(")[1])");
+				sb.append("[1]))");
 
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if (left instanceof VectorValue && right instanceof NumberValue && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
 				// eg (1,2) - 10
-				sb.append("((");
+				sb.append("point(real(");
 				sb.append(leftStr);
-				sb.append(")[0]-(");
+				sb.append("[1])-(");
 				sb.append(rightStr);
-				sb.append("),(");
+				sb.append("),real(");
 				sb.append(leftStr);
-				sb.append(")[1]-(");
+				sb.append("[1])-(");
 				sb.append(rightStr);
 				sb.append("))");
 
@@ -923,6 +936,19 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append("))");
 
+
+			} else if (left.isVectorValue() && right instanceof VectorValue) {
+				App.debug(left.getClass()+" "+right.getClass());
+				// eg (1,2)-(3,4)
+				sb.append("point(real(");
+				sb.append(leftStr);
+				sb.append("[1])-real(");
+				sb.append(rightStr);
+				sb.append("[1]),im(");
+				sb.append(leftStr);
+				sb.append("[1])-im(");
+				sb.append(rightStr);
+				sb.append("[1]))");
 
 			} else {
 

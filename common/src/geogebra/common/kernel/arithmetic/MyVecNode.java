@@ -145,7 +145,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		switch (tpl.getStringType()) {
 		case GIAC:
 			if (mode == Kernel.COORD_POLAR) {
-				sb.append("((");
+				sb.append("point((");
 				sb.append(x.toString(tpl));
 				sb.append(")*cos(");
 				sb.append(y.toString(tpl));
