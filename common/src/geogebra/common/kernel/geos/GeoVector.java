@@ -436,7 +436,12 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-			sbBuildValueString.append("(");
+			// TODO: send to Giac as a list/vector so that these work:
+			// Line[(3,4),Vector[(1,2)]] works
+			// Angle[ <Vector>, <Vector> ]
+			// PerpendicularLine[ <Point>, <Vector> ]
+			// Point[ <Point>, <Vector> ]
+			sbBuildValueString.append("point(");
 			sbBuildValueString.append(getInhomVec().getX());
 			sbBuildValueString.append(',');
 			sbBuildValueString.append(getInhomVec().getY());

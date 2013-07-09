@@ -407,8 +407,6 @@ public class Ggb2giac {
 						"evalf(normal(ggbans),%1)"+
 				")][1]");
 
-		p("OrthogonalVector.1",
-				"convert([[0,-1],[1,0]]*(%0),25)");
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
 		// with_sqrt(0) to factor over rationals
 		p("PartialFractions.1",
@@ -564,10 +562,6 @@ public class Ggb2giac {
 		p("TrigCombine.2",
 				"tcollect(%0)");
 		p("Unique.1", "[op(set[op(%0)])]");
-		p("UnitOrthogonalVector.1",
-				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
-		p("UnitVector.1",
-				"convert(unitV([real(%0[1]),im(%0[1])]),25)");
 		p("Variance.1",
 				"normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
@@ -708,7 +702,14 @@ public class Ggb2giac {
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
 				")");
 
-		p("Vector.2", "%1-(%0)");
+		// TODO: see GeoVector.buildValueString()
+		// p("Vector.2", "%1-(%0)");
+		p("OrthogonalVector.1",
+				"convert([[0,-1],[1,0]]*(%0),25)");
+		p("UnitOrthogonalVector.1",
+				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
+		p("UnitVector.1",
+				"convert(unitV([real(%0[1]),im(%0[1])]),25)");
 		
 		return commandMap;
 	}
