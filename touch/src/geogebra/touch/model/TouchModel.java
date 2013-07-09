@@ -463,8 +463,6 @@ public class TouchModel {
 	}
 
 	public void handleEvent(Hits hits, Point point, Point2D pointRW) {
-		this.guiModel.closeOptions();
-
 		this.kernel.setNotifyRepaintActive(false);
 
 		boolean draw = false;

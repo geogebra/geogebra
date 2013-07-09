@@ -228,6 +228,7 @@ public class TouchController extends EuclidianController
 	 */
 	public void handleEvent(Hits hits)
 	{
+		this.model.getGuiModel().closeOptions();
 		this.model.handleEvent(hits, null, null);
 	}
 

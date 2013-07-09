@@ -77,18 +77,30 @@ public class GuiModel
 	 */
 	public boolean closeOptions()
 	{
-		boolean ret = this.option != null;
+		if (this.styleBarOptionShown == OptionType.Non)
+		{
+			System.out.println("false");
+			return false;
+		}
+
 		if (this.option != null)
 		{
-			this.option.hide();
-			this.styleBarOptionShown = OptionType.Non;
+			if (this.styleBarOptionShown != OptionType.Dialog)
+			{
+				this.option.hide();
+			}
 
 			if (this.touchModel != null)
 			{
 				this.touchModel.optionsClosed();
 			}
 		}
-		return ret;
+
+		this.styleBarOptionShown = OptionType.Non;
+
+		System.out.println("true");
+		
+		return true;
 
 		// activeButton looses style otherwise
 		// this.activeButton.addStyleDependentName("active");

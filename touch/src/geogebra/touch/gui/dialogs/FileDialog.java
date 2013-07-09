@@ -193,6 +193,13 @@ public abstract class FileDialog extends PopupPanel
 		this.guiModel.showOption(this, OptionType.Dialog, null);
 	}
 	
+	@Override
+	public void hide()
+	{
+	  super.hide();
+	  this.guiModel.closeOptions();
+	}
+	
 	public abstract void setLabels();
 
 	public FileManagerM getFileManager() {

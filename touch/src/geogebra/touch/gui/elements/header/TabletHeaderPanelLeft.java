@@ -50,7 +50,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 		this.openDialog = new OpenFileDialog(this.app, touchModel.getGuiModel());
 		this.saveDialog = new SaveFileDialog(this.app, touchModel.getGuiModel());
-		this.infoDialog = new InfoDialog(this.app, this.openDialog.getFileManager());
+		this.infoDialog = new InfoDialog(this.app, this.openDialog.getFileManager(), touchModel.getGuiModel());
 
 		initNewButton();
 		initOpenButton();

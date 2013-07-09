@@ -6,6 +6,8 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.model.GuiModel;
+import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +20,7 @@ public class InfoDialog extends PopupPanel
 {
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
-	//OpenFileDialog openDialog;
+	// OpenFileDialog openDialog;
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private Label title;
@@ -27,8 +29,9 @@ public class InfoDialog extends PopupPanel
 	App app;
 	FileManagerM fm;
 	Runnable callback = null;
+	private GuiModel guiModel;
 
-	public InfoDialog(App app,FileManagerM fm)
+	public InfoDialog(App app, FileManagerM fm, GuiModel guiModel)
 	{
 		super(true, true);
 		this.app = app;
@@ -37,15 +40,30 @@ public class InfoDialog extends PopupPanel
 		this.setGlassEnabled(true);
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
+		this.guiModel = guiModel;
 
 		addLabel();
 		addButtons();
 
 		this.add(this.dialogPanel);
-		//FIXME the glass pane has z-index 20, we must go higher
+		// FIXME the glass pane has z-index 20, we must go higher
 		this.getElement().getStyle().setZIndex(42);
 	}
 
+	@Override
+	public void show()
+	{
+		super.show();
+		this.guiModel.showOption(this, OptionType.Dialog, null);
+	}
+
+	@Override
+	public void hide()
+	{
+	  super.hide();
+	  this.guiModel.closeOptions();
+	}
+	
 	private void addLabel()
 	{
 		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
@@ -73,9 +91,12 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				InfoDialog.this.hide();
-				if(InfoDialog.this.callback != null){
+				if (InfoDialog.this.callback != null)
+				{
 					InfoDialog.this.callback.run();
-				}else{
+				}
+				else
+				{
 					App.debug("no callback");
 				}
 			}
@@ -93,9 +114,12 @@ public class InfoDialog extends PopupPanel
 				// just save in stockStore - no changes of construction title
 				InfoDialog.this.fm.saveFile(InfoDialog.this.consTitle, InfoDialog.this.app);
 				InfoDialog.this.hide();
-				if(InfoDialog.this.callback!=null){
+				if (InfoDialog.this.callback != null)
+				{
 					InfoDialog.this.callback.run();
-				}else{
+				}
+				else
+				{
 					App.debug("no callback");
 				}
 			}
@@ -104,12 +128,16 @@ public class InfoDialog extends PopupPanel
 
 	public void showIfNeeded(TouchApp touchApp)
 	{
-		if(!touchApp.isSaved()){
+		if (!touchApp.isSaved())
+		{
 			this.consTitle = touchApp.getConstructionTitle();
-			super.show();
+			show();
 			super.center();
-		}else{
-			if(this.callback != null){
+		}
+		else
+		{
+			if (this.callback != null)
+			{
 				this.callback.run();
 			}
 		}
@@ -120,7 +148,8 @@ public class InfoDialog extends PopupPanel
 		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
 	}
 
-	public void setCallback(Runnable callback) {
+	public void setCallback(Runnable callback)
+	{
 		this.callback = callback;
 	}
 }
