@@ -4,7 +4,7 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.TubeSearchGUI;
+import geogebra.touch.gui.WorksheetGUI;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -28,9 +28,10 @@ public class TouchEntryPoint implements EntryPoint
 {
 	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
-	static TubeSearchGUI tubeSearchGUI;
-	public static BrowseGUI browseGUI;
-	public static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
+	static BrowseGUI browseGUI;
+	static WorksheetGUI worksheetGUI = new WorksheetGUI();
+	
+	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
 
 	@Override
 	public void onModuleLoad()
@@ -51,14 +52,18 @@ public class TouchEntryPoint implements EntryPoint
 			{
 				ResourcesInjector.injectResources();
 
-				// TouchEntryPoint.appWidget.setPixelSize(Window.getClientWidth(),
-				// Window.getClientHeight());
+				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+				browseGUI = new BrowseGUI(app);
+				
+				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
+				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
+				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
+				
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
-				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+				
 				app.start();
-				tubeSearchGUI = new TubeSearchGUI(app);
-				browseGUI = new BrowseGUI(app);
+			
 				TouchEntryPoint.showTabletGUI();
 				Window.addResizeHandler(new ResizeHandler()
 				{
@@ -87,26 +92,26 @@ public class TouchEntryPoint implements EntryPoint
 
 			private void initPhoneGap()
 			{
-				// phoneGap.addHandler(new PhoneGapAvailableHandler()
-				// {
-				// @Override
-				// public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
-				// {
-				// // TODO Auto-generated method stub
-				// System.out.println("test onPhoneGapAvailable");
-				// }
-				// });
-				//
-				// phoneGap.addHandler(new PhoneGapTimeoutHandler()
-				// {
-				//
-				// @Override
-				// public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
-				// {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				// });
+//			phoneGap.addHandler(new PhoneGapAvailableHandler()
+//			{
+//				@Override
+//				public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
+//				{
+//					// TODO Auto-generated method stub
+//					System.out.println("test onPhoneGapAvailable");
+//				}
+//			});
+//
+//			phoneGap.addHandler(new PhoneGapTimeoutHandler()
+//			{
+//
+//				@Override
+//				public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
+//				{
+//					// TODO Auto-generated method stub
+//
+//				}
+//			});
 				phoneGap.initializePhoneGap();
 				phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(new BackButtonPressedHandler()
 				{
@@ -114,15 +119,7 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
-						if (browseGUI.isVisible() || tubeSearchGUI.isVisible()) // GUIs
-						{
-							showTabletGUI();
-						}
-						else if (tabletGUI.getTouchModel().getGuiModel().isDialogShown()) // Dialogs
-						{
-							tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
-						}
-						else if (!tabletGUI.getTouchModel().getGuiModel().closeOptions()) // Options
+						if (!tabletGUI.getTouchModel().getGuiModel().closeOptions())
 						{
 							phoneGap.exitApp();
 						}
@@ -140,30 +137,18 @@ public class TouchEntryPoint implements EntryPoint
 	}
 
 	public static void showTabletGUI()
-	{
-		TouchEntryPoint.browseGUI.setVisible(false);
-		TouchEntryPoint.tubeSearchGUI.setVisible(false);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
-		TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
-		TouchEntryPoint.appWidget.showWidget(0);
-	}
-
-	public static void showTubeSearchUI()
-	{
-		TouchEntryPoint.tubeSearchGUI.setVisible(true);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
-		TouchEntryPoint.appWidget.add(TouchEntryPoint.tubeSearchGUI);
+	{	
 		TouchEntryPoint.appWidget.showWidget(0);
 	}
 
 	public static void showBrowseUI()
+	{		
+		TouchEntryPoint.appWidget.showWidget(1);
+	}
+	
+	public static void showWorksheetUI()
 	{
-		TouchEntryPoint.browseGUI.setVisible(true);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
-		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
-		TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
-		TouchEntryPoint.appWidget.showWidget(0);
+
+		TouchEntryPoint.appWidget.showWidget(2);
 	}
 }
