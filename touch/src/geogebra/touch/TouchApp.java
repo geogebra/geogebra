@@ -65,6 +65,8 @@ public class TouchApp extends AppWeb
 
 	private GuiManager guiManager;
 
+	private boolean isDefaultFileName;
+
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * 
@@ -115,11 +117,11 @@ public class TouchApp extends AppWeb
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
 	 * initializes the components of the {@link GeoGebraTouchGUI}.
 	 */
-	public void start()
+	public void start(FileManagerM fm)
 	{
 		initKernel();
 
-		this.touchGUI.initComponents(this.kernel);
+		this.touchGUI.initComponents(this.kernel, fm);
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 
 		hasFullPermissions = true;
@@ -142,6 +144,7 @@ public class TouchApp extends AppWeb
 	
 	public void setDefaultConstructionTitle() {
 		setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(this.getLocalization()));
+		this.isDefaultFileName = true;
 	}
 
 	public GeoGebraTouchGUI getTouchGui()
@@ -488,6 +491,7 @@ public class TouchApp extends AppWeb
 	public void setConstructionTitle(String title)
 	{
 		this.kernel.getConstruction().setTitle(title);
+		this.isDefaultFileName = false;
 		fireTitleChangedEvent(title);
 	}
 
@@ -590,6 +594,14 @@ public class TouchApp extends AppWeb
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean isDefaultFileName() {
+		return this.isDefaultFileName;
+	}
+
+	public void approveFileName() {
+		this.isDefaultFileName = false;
 	}
 
 	// // alternative, falls probleme mit Android - nicht getestet

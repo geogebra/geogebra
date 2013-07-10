@@ -2,11 +2,13 @@ package geogebra.touch.gui;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
+import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
 import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
@@ -85,12 +87,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	 *          Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel)
+	public void initComponents(final Kernel kernel, FileManagerM fm)
 	{
 		this.touchModel = new TouchModel(kernel, this);
 
 		// Initialize GUI Elements
-		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel);
+		this.laf.buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel, fm);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 
@@ -262,6 +264,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public TouchModel getTouchModel()
 	{
 		return this.touchModel;
+	}
+
+	public String getConstructionTitle() {
+		if(this.getHeaderWidget() instanceof TabletHeaderPanel){
+			return ((TabletHeaderPanel)this.getHeaderWidget()).getConstructionTitle();
+		}
+		return "";
 	}
 
 	// TODO: use with SelelctionManager

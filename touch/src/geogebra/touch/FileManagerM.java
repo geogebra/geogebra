@@ -60,18 +60,16 @@ public class FileManagerM {
 		this.stockStore.removeItem(FILE_PREFIX + text);
 		this.stockStore.removeItem(THUMB_PREFIX + text);
 		TouchEntryPoint.browseGUI.reloadLocalFiles();
-		TouchEntryPoint.saveGUI.reloadFiles();
 	}
 
-	public void saveFile(final String consTitle, final App app) {
-
+	public void saveFile(final App app) {
+		final String consTitle = app.getKernel().getConstruction().getTitle();
 		StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(String s) {
 				FileManagerM.this.stockStore.setItem(FILE_PREFIX + consTitle,
 						s);
 				TouchEntryPoint.browseGUI.reloadLocalFiles();
-				TouchEntryPoint.saveGUI.reloadFiles();
 			}
 		};
 
@@ -90,6 +88,7 @@ public class FileManagerM {
 				((EuclidianViewWeb) app.getEuclidianView1())
 						.getCanvasBase64WithTypeString());		
 		app.setSaved();
+		((TouchApp)app).approveFileName();
 	}
 
 	public boolean getFile(String title, App app) {

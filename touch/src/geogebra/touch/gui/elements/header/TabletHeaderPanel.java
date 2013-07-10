@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
+import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
@@ -32,13 +33,13 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 	TouchApp app;
 
-	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel)
+	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel, FileManagerM fm)
 	{
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel);
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
 		this.leftHeader.setStyleName("headerLeft");
 
 		this.worksheetTitle = new TextBox();
@@ -112,5 +113,9 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void setLabels()
 	{
 		this.leftHeader.setLabels();
+	}
+
+	public String getConstructionTitle() {
+		return this.worksheetTitle.getText();
 	}
 }

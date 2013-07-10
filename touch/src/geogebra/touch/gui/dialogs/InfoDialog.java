@@ -7,6 +7,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -102,7 +103,7 @@ public class InfoDialog extends PopupPanel
 			public void onClick(ClickEvent event)
 			{
 				// just save in stockStore - no changes of construction title
-				InfoDialog.this.fm.saveFile(InfoDialog.this.consTitle, InfoDialog.this.app);
+				InfoDialog.this.fm.saveFile(InfoDialog.this.app);
 				InfoDialog.this.hide();
 				if (InfoDialog.this.callback != null)
 				{
