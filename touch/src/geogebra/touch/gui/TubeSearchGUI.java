@@ -32,7 +32,6 @@ public class TubeSearchGUI extends VerticalPanel
 	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel resultsArea;
 	private StandardImageButton backButton;
-	private boolean isVisible;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -149,16 +148,5 @@ public class TubeSearchGUI extends VerticalPanel
 				// TODO Auto-generated method stub
 			}
 		});
-	}
-
-	public void setVisibility(boolean visible)
-	{
-		this.isVisible = visible;
-	}
-
-	@Override
-	public boolean isVisible()
-	{
-		return this.isVisible;
 	}
 }

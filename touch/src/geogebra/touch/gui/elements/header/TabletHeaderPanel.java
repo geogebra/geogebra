@@ -85,7 +85,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 			}
 		});
-
+		
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 

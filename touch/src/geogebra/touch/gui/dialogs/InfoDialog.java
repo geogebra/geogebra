@@ -52,18 +52,15 @@ public class InfoDialog extends PopupPanel
 	{
 		super.show();
 		this.guiModel.setActiveDialog(this);
-//		this.guiModel.showOption(this, OptionType.Dialog, null);
 	}
 
 	@Override
 	public void hide()
 	{
-	  super.hide();
+		super.hide();
 		this.guiModel.setActiveDialog(null);
-
-//	  this.guiModel.closeOptions();
 	}
-	
+
 	private void addLabel()
 	{
 		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));

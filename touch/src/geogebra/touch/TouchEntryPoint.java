@@ -141,8 +141,8 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showTabletGUI()
 	{
-		TouchEntryPoint.browseGUI.setVisibility(false);
-		TouchEntryPoint.tubeSearchGUI.setVisibility(false);
+		TouchEntryPoint.browseGUI.setVisible(false);
+		TouchEntryPoint.tubeSearchGUI.setVisible(false);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
@@ -151,7 +151,7 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showTubeSearchUI()
 	{
-		TouchEntryPoint.tubeSearchGUI.setVisibility(true);
+		TouchEntryPoint.tubeSearchGUI.setVisible(true);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tubeSearchGUI);
@@ -160,7 +160,7 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showBrowseUI()
 	{
-		TouchEntryPoint.browseGUI.setVisibility(true);
+		TouchEntryPoint.browseGUI.setVisible(true);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);

@@ -34,7 +34,6 @@ public class BrowseGUI extends VerticalPanel
 
 	private List<Material> localList = new ArrayList<Material>();
 	List<Material> tubeList = new ArrayList<Material>();
-	private boolean isVisible;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -180,16 +179,5 @@ public class BrowseGUI extends VerticalPanel
 				updateGUI();
 			}
 		});
-	}
-
-	public void setVisibility(boolean visible)
-	{
-		this.isVisible = visible;
-	}
-
-	@Override
-	public boolean isVisible()
-	{
-		return this.isVisible;
 	}
 }
