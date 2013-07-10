@@ -14,7 +14,6 @@ import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.gwtphonegap.client.PhoneGap;
@@ -26,11 +25,11 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  */
 public class TouchEntryPoint implements EntryPoint
 {
-	static DeckLayoutPanel appWidget = new DeckLayoutPanel();
+	static TabletDeckLayoutPanel appWidget = new TabletDeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static BrowseGUI browseGUI;
 	static WorksheetGUI worksheetGUI = new WorksheetGUI();
-	
+
 	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
 
 	@Override
@@ -54,16 +53,15 @@ public class TouchEntryPoint implements EntryPoint
 
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				browseGUI = new BrowseGUI(app);
-				
+
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
-				
+
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
-				
 				app.start();
-			
+
 				TouchEntryPoint.showTabletGUI();
 				Window.addResizeHandler(new ResizeHandler()
 				{
@@ -92,26 +90,26 @@ public class TouchEntryPoint implements EntryPoint
 
 			private void initPhoneGap()
 			{
-//			phoneGap.addHandler(new PhoneGapAvailableHandler()
-//			{
-//				@Override
-//				public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
-//				{
-//					// TODO Auto-generated method stub
-//					System.out.println("test onPhoneGapAvailable");
-//				}
-//			});
-//
-//			phoneGap.addHandler(new PhoneGapTimeoutHandler()
-//			{
-//
-//				@Override
-//				public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
-//				{
-//					// TODO Auto-generated method stub
-//
-//				}
-//			});
+				// phoneGap.addHandler(new PhoneGapAvailableHandler()
+				// {
+				// @Override
+				// public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
+				// {
+				// // TODO Auto-generated method stub
+				// System.out.println("test onPhoneGapAvailable");
+				// }
+				// });
+				//
+				// phoneGap.addHandler(new PhoneGapTimeoutHandler()
+				// {
+				//
+				// @Override
+				// public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
+				// {
+				// // TODO Auto-generated method stub
+				//
+				// }
+				// });
 				phoneGap.initializePhoneGap();
 				phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(new BackButtonPressedHandler()
 				{
@@ -119,9 +117,19 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
-						if (!tabletGUI.getTouchModel().getGuiModel().closeOptions())
+						// is Dialog open? -> close dialog
+						if (tabletGUI.getTouchModel().getGuiModel().isDialogShown())
 						{
-							phoneGap.exitApp();
+							tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
+						}
+						else
+						{
+							// else go to last view in history
+							if (!appWidget.goBack())
+							{
+								// if history is empty -> close app
+								phoneGap.exitApp();
+							}
 						}
 					}
 				});
@@ -137,18 +145,18 @@ public class TouchEntryPoint implements EntryPoint
 	}
 
 	public static void showTabletGUI()
-	{	
-		TouchEntryPoint.appWidget.showWidget(0);
-	}
-
-	public static void showBrowseUI()
-	{		
-		TouchEntryPoint.appWidget.showWidget(1);
-	}
-	
-	public static void showWorksheetUI()
 	{
-
-		TouchEntryPoint.appWidget.showWidget(2);
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
 	}
+
+	public static void showBrowseGUI()
+	{
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
+	}
+
+	public static void showWorksheetGUI()
+	{
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
+	}
+
 }
