@@ -35,8 +35,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	private StandardImageButton newButton = new StandardImageButton(CommonResources.INSTANCE.document_new());
 	private StandardImageButton openButton = new StandardImageButton(CommonResources.INSTANCE.document_open());
 	private StandardImageButton saveButton = new StandardImageButton(CommonResources.INSTANCE.document_save());
-	private StandardImageButton ggtButton = new StandardImageButton(CommonResources.INSTANCE.geogebra_tube());
-
+	
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
@@ -55,12 +54,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		initNewButton();
 		initOpenButton();
 		initSaveButton();
-		initGGTButton();
 
 		this.add(this.newButton);
 		this.add(this.openButton);
 		this.add(this.saveButton);
-		this.add(this.ggtButton);
 	}
 
 	private void initNewButton()
@@ -125,20 +122,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.saveDialog.show();
-			}
-		}, ClickEvent.getType());
-	}
-
-	private void initGGTButton()
-	{
-		this.ggtButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
-
-				TouchEntryPoint.showTubeSearchUI();
 			}
 		}, ClickEvent.getType());
 	}
