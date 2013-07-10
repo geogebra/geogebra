@@ -10,9 +10,9 @@ public class SaveMaterialListElement extends MaterialListElement {
 			VerticalMaterialPanel vmp) {
 		super(m, app, fm, vmp);
 	}
-	
+
 	@Override
-	protected void initButtons(){
+	protected void initButtons() {
 		initDeleteButton();
 	}
 

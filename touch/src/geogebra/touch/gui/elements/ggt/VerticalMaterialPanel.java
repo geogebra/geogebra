@@ -11,8 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class VerticalMaterialPanel extends ScrollPanel
-{
+public class VerticalMaterialPanel extends ScrollPanel {
 	public static final int SPACE = 20;
 	private FlexTable contentPanel;
 	private AppWeb app;
@@ -20,8 +19,7 @@ public class VerticalMaterialPanel extends ScrollPanel
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 
-	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
-	{
+	public VerticalMaterialPanel(AppWeb app, FileManagerM fm) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
 		this.app = app;
@@ -30,45 +28,43 @@ public class VerticalMaterialPanel extends ScrollPanel
 		this.setWidget(this.contentPanel);
 	}
 
-	public void setMaterials(int cols, List<Material> materials)
-	{
+	public void setMaterials(int cols, List<Material> materials) {
 		this.columns = cols;
 		this.updateWidth();
 		this.contentPanel.clear();
 
 		int i = 0;
-		for (Material m : materials)
-		{
-			MaterialListElement preview = buildListElement(m,this.app,this.fm);
-			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
+		for (Material m : materials) {
+			MaterialListElement preview = buildListElement(m, this.app, this.fm);
+			this.contentPanel.setWidget(i / this.columns, i % this.columns,
+					preview);
 			i++;
 		}
 	}
 
-	protected MaterialListElement buildListElement(Material m,AppWeb app2, FileManagerM fm2) {
-		MaterialListElement mle =  new MaterialListElement(m, app2, fm2, this);
+	protected MaterialListElement buildListElement(Material m, AppWeb app2,
+			FileManagerM fm2) {
+		MaterialListElement mle = new MaterialListElement(m, app2, fm2, this);
 		mle.initButtons();
 		return mle;
 	}
 
 	@Override
-	public int getOffsetHeight()
-	{
+	public int getOffsetHeight() {
 		return MaterialListElement.PANEL_HEIGHT;
 	}
 
 	@Override
-	public void setWidth(String width)
-	{
+	public void setWidth(String width) {
 		super.setWidth(width);
 		this.contentPanel.setWidth(width);
 	}
 
 	public void unselectMaterials() {
-		if(this.lastSelected!=null){
+		if (this.lastSelected != null) {
 			this.lastSelected.markUnSelected();
 		}
-		
+
 	}
 
 	public void rememberSelected(MaterialListElement materialElement) {
@@ -80,6 +76,7 @@ public class VerticalMaterialPanel extends ScrollPanel
 	}
 
 	public void updateWidth() {
-		this.setWidth((Window.getClientWidth()-SPACE)/2* this.columns+"px");
+		this.setWidth((Window.getClientWidth() - SPACE) / 2 * this.columns
+				+ "px");
 	}
 }
