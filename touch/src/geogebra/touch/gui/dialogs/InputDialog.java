@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Window;
@@ -109,13 +110,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
-
 			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
+				if(!InputDialog.this.textBox.isVisible()){
+					return;
+				}
+				
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					InputDialog.this.onOK();
+					// TODO: close the keyboard!!!
 				}
 			}
 		});
@@ -202,6 +207,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void show()
 	{
+		setVisible(true);
+		this.textBox.setVisible(true);
+
 		super.show();
 		this.guiModel.setActiveDialog(this);
 
@@ -231,9 +239,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void hide()
 	{
-		super.hide();
+		// super.hide(); -> leads to crash in some Android versions!
 		this.prevText = "";
+		setVisible(false);
+		this.textBox.setVisible(false);
 		this.customKeys.hide();
+		CloseEvent.fire(this, this, false);
+
+		// prevent that the function is drawn twice
+		this.input = "";
 	}
 
 	/**
