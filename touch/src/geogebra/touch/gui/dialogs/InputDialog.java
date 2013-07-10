@@ -232,7 +232,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void hide()
 	{
 		super.hide();
-		this.guiModel.setActiveDialog(null);
 		this.prevText = "";
 		this.customKeys.hide();
 	}

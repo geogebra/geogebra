@@ -208,11 +208,7 @@ public class GuiModel
 
 	public boolean isDialogShown()
 	{
-		if (this.activeDialog != null)
-		{
-			return true;
-		}
-		return false;
+		return this.activeDialog != null;
 	}
 
 	public void closeActiveDialog()
@@ -221,6 +217,7 @@ public class GuiModel
 		{
 			this.activeDialog.hide();
 		}
+		this.setActiveDialog(null);
 	}
 
 	public void setActiveDialog(PopupPanel dialog)

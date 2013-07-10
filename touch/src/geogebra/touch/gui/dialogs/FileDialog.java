@@ -195,13 +195,6 @@ public abstract class FileDialog extends PopupPanel
 		this.guiModel.setActiveDialog(this);
 	}
 
-	@Override
-	public void hide()
-	{
-		super.hide();
-		this.guiModel.setActiveDialog(null);
-	}
-
 	public abstract void setLabels();
 
 	public FileManagerM getFileManager()
