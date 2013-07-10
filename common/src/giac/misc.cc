@@ -4926,6 +4926,30 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__flatten,&_flatten,_flatten_s);
   define_unary_function_ptr5( at_flatten ,alias_at_flatten,&__flatten,0,true);
 
+  bool has_undef_stringerr(const gen & g,std::string & err){
+    if (g.type==_STRNG && g.subtype==-1){
+      err=*g._STRNGptr;
+      return true;
+    }
+    if (g.type==_VECT){
+      unsigned s=g._VECTptr->size();
+      for (unsigned i=0;i<s;++i){
+	if (has_undef_stringerr((*g._VECTptr)[i],err))
+	  return true;
+      }
+      return false;
+    }
+    if (g.type==_POLY){
+      unsigned s=g._POLYptr->coord.size();
+      for (unsigned i=0;i<s;++i){
+	if (has_undef_stringerr(g._POLYptr->coord[i].value,err))
+	  return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
   gen _caseval(const gen & args,GIAC_CONTEXT){
 #ifdef TIMEOUT
     caseval_begin=time(0);
@@ -4933,14 +4957,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_STRNG){
       gen g=protecteval(args,1,contextptr);
-      if (is_undef(g)){
-	while (g.type==_VECT && !g._VECTptr->empty() && is_undef(g._VECTptr->front()))
-	  g=g._VECTptr->front();
-	if (g.type==_POLY && !g._POLYptr->coord.empty() && is_undef(g._POLYptr->coord.front()))
-	  g=g._POLYptr->coord.front().value;
+      string err;
+      if (has_undef_stringerr(g,err)){
+	err = "GIAC_ERROR: "+err;
+	g=string2gen(err,false);
+	g.subtype=-1;
       }
-      if (g.type==_STRNG && g.subtype==-1)
-	*g._STRNGptr = "GIAC_ERROR: "+*g._STRNGptr;
       return g;
     }
     if (*args._STRNGptr=="init geogebra")

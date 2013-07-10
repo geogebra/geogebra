@@ -357,7 +357,7 @@ namespace giac {
     const_iterateur it=w.begin(),itend=w.end();
     newcoeff=coeff*arg;
     for (;it!=itend;++it){
-      res.push_back(normal(*it*newcoeff,false,contextptr));
+      res.push_back(recursive_normal(*it*newcoeff,false,contextptr));
       ++it;
       res.push_back(*it);
     }

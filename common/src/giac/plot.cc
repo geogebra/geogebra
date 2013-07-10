@@ -7878,11 +7878,13 @@ namespace giac {
       return symbolic(at_equal,makesequence(f,zero));
     }
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_cercle)){
-      gen centre,rayon;
+      gen centre,rayon,r,i;
       if (!centre_rayon(e,centre,rayon,false,contextptr))
 	return gensizeerr(contextptr);
-      rayon=normal(rayon,contextptr);
-      return symbolic(at_equal,makesequence(pow(x-re(centre,contextptr),2)+pow(y-im(centre,contextptr),2),rayon*conj(rayon,contextptr)));
+      rayon=recursive_normal(rayon,contextptr);
+      reim(rayon,r,i,contextptr);
+      r=recursive_normal(r*r+i*i,contextptr);
+      return symbolic(at_equal,makesequence(pow(x-re(centre,contextptr),2)+pow(y-im(centre,contextptr),2),r));
     }
     if ( (e.type==_VECT) && (e._VECTptr->size()==2) ){
       gen A=e._VECTptr->front();

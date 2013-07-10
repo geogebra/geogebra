@@ -3144,8 +3144,13 @@ namespace giac {
     if (n+1>erato.size()){
       unsigned N=int(n);
       ++N;
+#if defined BESTA_OS 
+      if (N>2e6)
+	return false;
+#else
       if (N>2e9)
 	return false;
+#endif
       N = (N*11)/10;
       erato=vector<bool>(N+1,true); 
       // insure that we won't recompute all again from start for ithprime(i+1)

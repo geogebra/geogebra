@@ -12752,14 +12752,8 @@ namespace giac {
 #endif
     gen g(s,&C);
     g=protecteval(g,1,&C);
-    if (is_undef(g)){
-      while (g.type==_VECT && !g._VECTptr->empty() && is_undef(g._VECTptr->front()))
-	g=g._VECTptr->front();
-      if (g.type==_POLY && !g._POLYptr->coord.empty() && is_undef(g._POLYptr->coord.front()))
-	g=g._POLYptr->coord.front().value;      
-    }
-    if (g.type==_STRNG && g.subtype==-1)
-      S="GIAC_ERROR: "+*g._STRNGptr;
+    if (has_undef_stringerr(g,S))
+      S="GIAC_ERROR: "+S;
     else
       S=g.print(&C);
     return S.c_str();

@@ -226,6 +226,8 @@ namespace giac {
   // This function could be optimized if A, b_orig, x0 has double/complex<double> coefficients
   gen conjugate_gradient(const matrice & A,const vecteur & b_orig,const vecteur & x0,double eps,GIAC_CONTEXT);
 
+  bool has_undef_stringerr(const gen & g,std::string & err);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // NO_NAMESPACE_GIAC
