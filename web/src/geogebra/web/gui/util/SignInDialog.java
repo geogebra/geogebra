@@ -2,15 +2,16 @@ package geogebra.web.gui.util;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.common.move.views.SuccessErrorRenderable;
-import geogebra.html5.move.ggtapi.models.JSONParser;
 import geogebra.html5.util.JSON;
+import geogebra.html5.util.JavaScriptObjectWrapper;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -145,8 +146,20 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
-						JavaScriptObject json = JSON.parse(response.getText());
-						JSONObject resp = JSONParser.parseToJSONObject(json);
+						JavaScriptObjectWrapper json = (JavaScriptObjectWrapper) JSON.parse(response.getText());
+						
+						JSONObject resp = new JSONObject();
+
+						if (json.getKeyAsString("error") != null) {
+							resp.put("error", new JSONString(json.getKeyAsString("error")));
+						} else {					
+							String token_value = json.getKeyAsObject("responses")
+									.getKeyAsObject("response")
+									.getKeyAsObject("token")
+									.getKeyAsString("-value");
+							resp.put(AuthenticationModel.GGB_TOKEN_KEY_NAME, new JSONString(token_value));
+						}
+						
 						
 						((AppW) app).getLoginOperation().getEvent().trigger(resp);
 					}

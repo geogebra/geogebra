@@ -57,4 +57,18 @@ public class LoginOperation extends BaseOperation {
 		return (LoginEventPool) super.getEvent();
 	}
 
+	/**
+	 * @return boolean indicating that token is stored or not.
+	 */
+	public boolean isOnline() {
+		return getModel().getLoginToken() != null;
+	}
+
+	/**
+	 * @return JSONObject containing the stored login data
+	 */
+	public JSONObject getStoredLoginData() {
+		return getModel().getStoredLoginData();
+	}
+
 }

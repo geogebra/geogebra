@@ -12,12 +12,12 @@ public class JSON {
 		return $wnd.JSON.parse(obj);
 	}-*/;
 
-	public static native String get(JavaScriptObject obj, String attr) /*-{
-	   return obj[attr] ;
+	public static native String get(JavaScriptObject obj, String key) /*-{
+	   return obj[key] ;
     }-*/;
 
-	public static native void put (JavaScriptObject file, String attr,
+	public static native void put (JavaScriptObject obj, String key,
             String value) /*-{
-	   file[attr] = value;
+	   obj[key] = value;
     }-*/;
 }

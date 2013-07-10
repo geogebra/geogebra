@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.models.BaseModel;
 
 /**
@@ -12,7 +13,11 @@ public abstract class AuthenticationModel extends BaseModel {
 	/**
 	 * token name for user logged in got back from GGT
 	 */
-	protected static String GGB_TOKEN_KEY_NAME = "token";
+	public static String GGB_TOKEN_KEY_NAME = "token";
+	/**
+	 * used for store any other thing got back concerning login
+	 */
+	public static String GGB_LOGIN_DATA_KEY_NAME ="login";
 
 	/**
 	 * Class constructor for login and logout operations
@@ -36,5 +41,10 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * Clears the login token from localStorage, or from other storage place used
 	 */
 	public abstract void clearLoginToken();
+	
+	/**
+	 * @return gets the login data from localStorage or from other storage places
+	 */
+	public abstract JSONObject getStoredLoginData();
 
 }

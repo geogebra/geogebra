@@ -1,8 +1,7 @@
 package geogebra.common.move.ggtapi.views;
 
-import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.views.BaseView;
-import geogebra.common.move.views.SuccessErrorRenderable;
+import geogebra.common.move.views.Renderable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,44 +13,31 @@ import java.util.Iterator;
 public class LogOutView extends BaseView {
 	
 	/**
-	 * Creates a new Login view
+	 * Creates a new LoginOut view
 	 */
 	public LogOutView() {
 		super();
 	}
-
+	
 	/**
-	 * @param response from GGT
-	 * sets the successfull response 
+	 * @param view adds a new View to viewcomponents
 	 */
-	public void logOutSuccess(JSONObject response) {
-		Iterator<SuccessErrorRenderable> views = this.viewComponents.iterator();
-		while (views.hasNext()) {
-			views.next().success(response);
-		}		
-	}
-
-	/**
-	 * @param response from GGT
-	 * Error happened, must be shown if view
-	 */
-	public void logOutError(JSONObject response) {
-		Iterator<SuccessErrorRenderable> views = this.viewComponents.iterator();
-		while (views.hasNext()) {
-			views.next().fail(response);
-		}		
+	public void add(Renderable view) {
+		if (this.viewComponents == null) {
+			this.viewComponents = new ArrayList<Renderable>();
+		}
+		this.viewComponents.add(view);
 	}
 	
 	/**
-	 * @param view SuccessErrorRenderable view
-	 * 
-	 * Adds new view to the view's list
+	 * renders the attached views
 	 */
-	public void add(SuccessErrorRenderable view) {
-		if (viewComponents == null) {
-			viewComponents = new ArrayList<SuccessErrorRenderable>();
+	public void render() {
+		Iterator<Renderable> view = this.viewComponents.iterator();
+		while (view.hasNext()) {
+			view.next().render();
 		}
-		viewComponents.add(view);
 	}
+	
 
 }
