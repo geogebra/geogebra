@@ -276,4 +276,8 @@ public class Material implements Comparable<Material>
 			ret.put(key, new JSONString(value));
 		}
 	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
 }

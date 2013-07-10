@@ -4,7 +4,9 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
@@ -18,7 +20,7 @@ public class VerticalMaterialPanel extends ScrollPanel {
 	private FileManagerM fm;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
-
+	private Map<String,MaterialListElement> titlesToPreviews= new HashMap<String, MaterialListElement>();
 	public VerticalMaterialPanel(AppWeb app, FileManagerM fm) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
@@ -36,6 +38,7 @@ public class VerticalMaterialPanel extends ScrollPanel {
 		int i = 0;
 		for (Material m : materials) {
 			MaterialListElement preview = buildListElement(m, this.app, this.fm);
+			this.titlesToPreviews.put(m.getURL(), preview);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
 					preview);
 			i++;
@@ -65,6 +68,13 @@ public class VerticalMaterialPanel extends ScrollPanel {
 			this.lastSelected.markUnSelected();
 		}
 
+	}
+	
+	public void markByURL(String url){
+		MaterialListElement mle = this.titlesToPreviews.get(url);
+		if(mle != null){
+			mle.markSelected();
+		}
 	}
 
 	public void rememberSelected(MaterialListElement materialElement) {

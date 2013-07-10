@@ -37,8 +37,9 @@ public class SaveMaterialListElement extends MaterialListElement {
 				TouchEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());
-		
-		initDeleteButton();
+		if(material.getTimestamp()>0){
+			initDeleteButton();
+		}
 	}
 
 }

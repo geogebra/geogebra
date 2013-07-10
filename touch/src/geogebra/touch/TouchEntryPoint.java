@@ -67,6 +67,7 @@ public class TouchEntryPoint implements EntryPoint
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
 				app.start();
+				saveGUI.reloadFiles();
 
 				TouchEntryPoint.showTabletGUI();
 				

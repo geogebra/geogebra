@@ -151,8 +151,12 @@ public class FileManagerM {
 		do {
 			filename = loc.getPlain("UntitledA", i + "");
 			i++;
-		} while (this.stockStore != null
-				&& this.stockStore.getItem(FILE_PREFIX + filename) != null);
+		} while (hasFile(filename));
 		return filename;
+	}
+
+	public boolean hasFile(String filename) {
+		return this.stockStore != null
+				&& this.stockStore.getItem(FILE_PREFIX + filename) != null;
 	}
 }
