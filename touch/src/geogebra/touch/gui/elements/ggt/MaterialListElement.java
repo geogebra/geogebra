@@ -34,13 +34,16 @@ public class MaterialListElement extends HorizontalPanel
 	private VerticalPanel infos, links;
 	private HorizontalPanel sharedPanel, likesPanel;
 	private Label title, date, sharedBy, author, likes;
-	private Button open;
+	
 
 	private VerticalMaterialPanel vmp;
 
 	private Button delete;
+	private Button open;
 
-	private Material material;
+	Material material;
+	AppWeb app;
+	FileManagerM fm;
 
 	public MaterialListElement(final Material m, final AppWeb app, final FileManagerM fm,
 			VerticalMaterialPanel vmp)
@@ -53,12 +56,11 @@ public class MaterialListElement extends HorizontalPanel
 		this.likesPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
 		this.vmp = vmp;
-		
+		this.app = app;
+		this.fm = fm;
 		this.material = m;
 
-		// TODO Change to icon
-		this.open = new Button("OPEN");
-		this.delete = new Button("DELETE");
+		
 
 		this.setHeight(PANEL_HEIGHT + "px");
 		this.setWidth((Window.getClientWidth() - 100)/2 + "px");
@@ -112,40 +114,10 @@ public class MaterialListElement extends HorizontalPanel
 		this.infos.add(this.likesPanel);
 		this.add(this.infos);
 
-		this.links.add(this.open);
-		this.links.add(this.delete);
+		
 		
 		this.links.getElement().setAttribute("align", "right");
-		this.open.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				if(m.getId()>0){
-					//remote material
-					new View(RootPanel.getBodyElement(),app).processFileName("http://www.geogebratube.org/files/material-"+m.getId()+".ggb");
-				}else{
-					fm.getFile(m.getURL(),app);
-				}
-				TouchEntryPoint.showTabletGUI();
-			}
-		}, ClickEvent.getType());
-		this.delete.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				if(m.getId()>0){
-					//remote material should not have this visible					
-				}else{
-					fm.delete(m.getURL());
-				}
-			}
-		}, ClickEvent.getType());
-		this.add(this.links);
-
+		
 		this.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -155,21 +127,67 @@ public class MaterialListElement extends HorizontalPanel
 				MaterialListElement.this.markSelected();
 			}
 		}, ClickEvent.getType());
+		
+		
+		
+		this.add(this.links);
+
+		
+	}
+	
+	protected void initButtons(){
+		// TODO Change to icon
+		this.open = new Button("OPEN");
+		
+		this.links.add(this.open);
+		this.open.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				event.stopPropagation();
+				if(MaterialListElement.this.material.getId()>0){
+					//remote material
+					new View(RootPanel.getBodyElement(),MaterialListElement.this.app).processFileName("http://www.geogebratube.org/files/material-"+MaterialListElement.this.material.getId()+".ggb");
+				}else{
+					MaterialListElement.this.fm.getFile(MaterialListElement.this.material.getURL(),MaterialListElement.this.app);
+				}
+				TouchEntryPoint.showTabletGUI();
+			}
+		}, ClickEvent.getType());
+		
+		//remote material should not have this visible
+		if(MaterialListElement.this.material.getId()<=0){
+			initDeleteButton();		
+		}
+	}
+	
+
+	protected void initDeleteButton() {
+		this.delete = new Button("DELETE");
+		this.links.add(this.delete);
+		this.delete.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				event.stopPropagation();
+				MaterialListElement.this.fm.delete(MaterialListElement.this.material.getURL());
+			}
+		}, ClickEvent.getType());
+
+		
 	}
 
 	protected void markSelected() {
 		this.vmp.unselectMaterials();
 		setStyleName("browserSelectedFile");
-		this.open.setVisible(true);
-		if(this.material.getId() == 0){
-			this.delete.setVisible(true);
-		}
+		this.links.setVisible(true);
 		this.vmp.rememberSelected(this);
 	}
 	
 	protected void markUnSelected() {
 		setStyleName("browserDefaultFile");
-		this.open.setVisible(false);
-		this.delete.setVisible(false);
+		this.links.setVisible(false);
 	}
 }

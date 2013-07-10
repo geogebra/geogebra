@@ -5,8 +5,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
@@ -14,8 +12,6 @@ import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;

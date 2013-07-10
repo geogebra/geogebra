@@ -39,10 +39,16 @@ public class VerticalMaterialPanel extends ScrollPanel
 		int i = 0;
 		for (Material m : materials)
 		{
-			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
+			MaterialListElement preview = buildListElement(m,this.app,this.fm);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
 			i++;
 		}
+	}
+
+	protected MaterialListElement buildListElement(Material m,AppWeb app2, FileManagerM fm2) {
+		MaterialListElement mle =  new MaterialListElement(m, app2, fm2, this);
+		mle.initButtons();
+		return mle;
 	}
 
 	@Override
