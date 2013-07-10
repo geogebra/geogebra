@@ -7,8 +7,6 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
-import geogebra.touch.utils.OptionType;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -20,7 +18,6 @@ public class InfoDialog extends PopupPanel
 {
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
-	// OpenFileDialog openDialog;
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private Label title;
@@ -54,14 +51,17 @@ public class InfoDialog extends PopupPanel
 	public void show()
 	{
 		super.show();
-		this.guiModel.showOption(this, OptionType.Dialog, null);
+		this.guiModel.setActiveDialog(this);
+//		this.guiModel.showOption(this, OptionType.Dialog, null);
 	}
 
 	@Override
 	public void hide()
 	{
 	  super.hide();
-	  this.guiModel.closeOptions();
+		this.guiModel.setActiveDialog(null);
+
+//	  this.guiModel.closeOptions();
 	}
 	
 	private void addLabel()

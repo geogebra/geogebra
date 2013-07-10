@@ -8,8 +8,6 @@ import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.GuiModel;
-import geogebra.touch.utils.OptionType;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -205,8 +203,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void show()
 	{
 		super.show();
-		this.guiModel.showOption(this, OptionType.Dialog, null);
-		
+		this.guiModel.setActiveDialog(this);
+
 		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
@@ -234,7 +232,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void hide()
 	{
 		super.hide();
-		this.guiModel.closeOptions();
+		this.guiModel.setActiveDialog(null);
 		this.prevText = "";
 		this.customKeys.hide();
 	}

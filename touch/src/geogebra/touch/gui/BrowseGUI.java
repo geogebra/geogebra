@@ -33,12 +33,13 @@ public class BrowseGUI extends VerticalPanel
 {
 	private SearchBar searchBar;
 	private FileManagerM fm;
-	//HorizontalMaterialPanel featuredMaterials;
+	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel localFilePanel, tubeFilePanel;
-	
+
 	private StandardImageButton backButton;
 	private List<Material> localList = new ArrayList<Material>();
 	List<Material> tubeList = new ArrayList<Material>();
+	private boolean isVisible;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -62,8 +63,8 @@ public class BrowseGUI extends VerticalPanel
 			}
 		});
 
-		//this.featuredMaterials = new HorizontalMaterialPanel();
-		//this.featuredMaterials.setMaterials(new ArrayList<Material>());
+		// this.featuredMaterials = new HorizontalMaterialPanel();
+		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
 		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
@@ -80,7 +81,7 @@ public class BrowseGUI extends VerticalPanel
 		}, ClickEvent.getType());
 
 		this.add(this.searchBar);
-		//this.add(this.featuredMaterials);
+		// this.add(this.featuredMaterials);
 
 		this.localFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
 		this.tubeFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
@@ -123,20 +124,25 @@ public class BrowseGUI extends VerticalPanel
 				exception.printStackTrace();
 			}
 		});
-		
-		
+
 	}
-	
-	protected void updateGUI(){
-		if(this.tubeList.isEmpty()){
+
+	protected void updateGUI()
+	{
+		if (this.tubeList.isEmpty())
+		{
 			this.localFilePanel.setMaterials(2, this.localList);
 			this.tubeFilePanel.setVisible(false);
 			this.localFilePanel.setVisible(true);
-		}else if(this.localList.isEmpty()){
+		}
+		else if (this.localList.isEmpty())
+		{
 			this.tubeFilePanel.setMaterials(2, this.tubeList);
 			this.localFilePanel.setVisible(false);
 			this.tubeFilePanel.setVisible(true);
-		}else{
+		}
+		else
+		{
 			this.localFilePanel.setMaterials(1, this.localList);
 			this.tubeFilePanel.setMaterials(1, this.tubeList);
 			this.tubeFilePanel.setVisible(true);
@@ -148,7 +154,7 @@ public class BrowseGUI extends VerticalPanel
 	{
 		this.searchBar.onResize(event);
 
-		//this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
+		// this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
@@ -168,7 +174,7 @@ public class BrowseGUI extends VerticalPanel
 		this.localList = this.fm.getAllFiles();
 		updateGUI();
 	}
-	
+
 	private void loadFeatured()
 	{
 		this.localList = this.fm.getAllFiles();
@@ -177,7 +183,7 @@ public class BrowseGUI extends VerticalPanel
 			@Override
 			public void onResponseReceived(Request request, Response response)
 			{
-				
+
 				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
 				updateGUI();
 			}
@@ -188,5 +194,16 @@ public class BrowseGUI extends VerticalPanel
 				updateGUI();
 			}
 		});
+	}
+
+	public void setVisibility(boolean visible)
+	{
+		this.isVisible = visible;
+	}
+
+	@Override
+	public boolean isVisible()
+	{
+		return this.isVisible;
 	}
 }

@@ -9,7 +9,7 @@ public class SaveFileDialog extends FileDialog
 	public SaveFileDialog(TouchApp app, GuiModel guiModel)
 	{
 		super(app, guiModel);
-		//FIXME the glass pane has z-index 20, we must go higher
+		// FIXME the glass pane has z-index 20, we must go higher
 		this.getElement().getStyle().setZIndex(42);
 	}
 
@@ -53,9 +53,9 @@ public class SaveFileDialog extends FileDialog
 	}
 
 	@Override
-  public void setLabels()
-  {
-	  // TODO Auto-generated method stub
-	  
-  }
+	public void setLabels()
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

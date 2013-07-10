@@ -5,8 +5,6 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
-import geogebra.touch.utils.OptionType;
-
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,10 +40,11 @@ public abstract class FileDialog extends PopupPanel
 	protected TextBox textBox;
 
 	private HorizontalPanel buttonContainer;
-	
+
 	private GuiModel guiModel;
 
-//	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
+	// private StandardImageButton okButton = new
+	// StandardImageButton(CommonResources.INSTANCE.dialog_ok());
 	protected Anchor okButton = new Anchor();
 	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
 	private StandardImageButton deleteButton = new StandardImageButton(CommonResources.INSTANCE.dialog_trash());
@@ -76,10 +75,12 @@ public abstract class FileDialog extends PopupPanel
 		});
 
 		this.fileList = new ListBox();
-		this.fileList.addChangeHandler(new ChangeHandler() {
+		this.fileList.addChangeHandler(new ChangeHandler()
+		{
 
 			@Override
-			public void onChange(ChangeEvent event) {
+			public void onChange(ChangeEvent event)
+			{
 				if (FileDialog.this.fileList.getSelectedIndex() != -1)
 				{
 					String selectedText = FileDialog.this.fileList.getItemText(FileDialog.this.fileList.getSelectedIndex());
@@ -157,12 +158,13 @@ public abstract class FileDialog extends PopupPanel
 
 	private void initOKButton()
 	{
-		String html = "<img src=\"" + CommonResources.INSTANCE.dialog_ok().getSafeUri().asString() + "\" style=\"height:48px; width:48px; margin:auto;\">";
+		String html = "<img src=\"" + CommonResources.INSTANCE.dialog_ok().getSafeUri().asString()
+		    + "\" style=\"height:48px; width:48px; margin:auto;\">";
 		this.okButton.getElement().setInnerHTML(html);
 		this.okButton.getElement().setAttribute("style", "display:block;");
 		this.okButton.setStyleName("gwt-PushButton");
 		this.okButton.addStyleName("gwt-PushButton-up");
-		
+
 		this.okButton.addDomHandler(new ClickHandler()
 		{
 
@@ -190,19 +192,20 @@ public abstract class FileDialog extends PopupPanel
 		super.center();
 		this.populateFileList();
 		this.textBox.setFocus(true);
-		this.guiModel.showOption(this, OptionType.Dialog, null);
+		this.guiModel.setActiveDialog(this);
 	}
-	
+
 	@Override
 	public void hide()
 	{
-	  super.hide();
-	  this.guiModel.closeOptions();
+		super.hide();
+		this.guiModel.setActiveDialog(null);
 	}
-	
+
 	public abstract void setLabels();
 
-	public FileManagerM getFileManager() {
+	public FileManagerM getFileManager()
+	{
 		return this.fm;
 	}
 }

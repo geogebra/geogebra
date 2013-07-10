@@ -29,9 +29,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TubeSearchGUI extends VerticalPanel
 {
 	private SearchBar searchBar;
-	//HorizontalMaterialPanel featuredMaterials;
+	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel resultsArea;
 	private StandardImageButton backButton;
+	private boolean isVisible;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -43,7 +44,7 @@ public class TubeSearchGUI extends VerticalPanel
 	public TubeSearchGUI(AppWeb app)
 	{
 		this.setStyleName("tubesearchgui");
-		
+
 		this.searchBar = new SearchBar();
 		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
@@ -55,8 +56,8 @@ public class TubeSearchGUI extends VerticalPanel
 			}
 		});
 
-		//this.featuredMaterials = new HorizontalMaterialPanel();
-		//this.featuredMaterials.setMaterials(new ArrayList<Material>());
+		// this.featuredMaterials = new HorizontalMaterialPanel();
+		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
 		this.resultsArea = new VerticalMaterialPanel(app, null);
 
@@ -71,7 +72,7 @@ public class TubeSearchGUI extends VerticalPanel
 		}, ClickEvent.getType());
 
 		this.add(this.searchBar);
-		//this.add(this.featuredMaterials);
+		// this.add(this.featuredMaterials);
 
 		this.resultsArea.setHeight((Window.getClientHeight() - 120) + "px");
 		this.add(this.resultsArea);
@@ -100,7 +101,7 @@ public class TubeSearchGUI extends VerticalPanel
 
 				if (materialList != null)
 				{
-					TubeSearchGUI.this.resultsArea.setMaterials(2,materialList);
+					TubeSearchGUI.this.resultsArea.setMaterials(2, materialList);
 				}
 			}
 
@@ -117,7 +118,7 @@ public class TubeSearchGUI extends VerticalPanel
 	{
 		this.searchBar.onResize(event);
 
-		//this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
+		// this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
 		this.resultsArea.setWidth(event.getWidth() + "px");
 		int newHeight = Window.getClientHeight() - 120;
@@ -138,8 +139,8 @@ public class TubeSearchGUI extends VerticalPanel
 			public void onResponseReceived(Request request, Response response)
 			{
 				List<Material> materialList = JSONparserGGT.parseResponse(response.getText());
-				TubeSearchGUI.this.resultsArea.setMaterials(2,materialList);
-				//TubeSearchGUI.this.featuredMaterials.setMaterials(materialList);
+				TubeSearchGUI.this.resultsArea.setMaterials(2, materialList);
+				// TubeSearchGUI.this.featuredMaterials.setMaterials(materialList);
 			}
 
 			@Override
@@ -148,5 +149,16 @@ public class TubeSearchGUI extends VerticalPanel
 				// TODO Auto-generated method stub
 			}
 		});
+	}
+
+	public void setVisibility(boolean visible)
+	{
+		this.isVisible = visible;
+	}
+
+	@Override
+	public boolean isVisible()
+	{
+		return this.isVisible;
 	}
 }

@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class GuiModel
 {
-
 	private TouchModel touchModel;
 	private ToolBarButton activeButton;
 	private StylingBar stylingBar;
@@ -36,6 +35,7 @@ public class GuiModel
 	private int lineStyle = -1;
 	private int lineSize = -1;
 	private int captionMode = -1;
+	private PopupPanel activeDialog;
 
 	/**
 	 * @param model
@@ -79,16 +79,12 @@ public class GuiModel
 	{
 		if (this.styleBarOptionShown == OptionType.Non)
 		{
-			System.out.println("false");
 			return false;
 		}
 
 		if (this.option != null)
 		{
-			if (this.styleBarOptionShown != OptionType.Dialog)
-			{
-				this.option.hide();
-			}
+			this.option.hide();
 
 			if (this.touchModel != null)
 			{
@@ -97,9 +93,6 @@ public class GuiModel
 		}
 
 		this.styleBarOptionShown = OptionType.Non;
-
-		System.out.println("true");
-		
 		return true;
 
 		// activeButton looses style otherwise
@@ -140,10 +133,7 @@ public class GuiModel
 	{
 		closeOptions();
 		this.option = newOption;
-		if (type != OptionType.Dialog)
-		{
-			newOption.showRelativeTo(parent);
-		}
+		newOption.showRelativeTo(parent);
 		this.styleBarOptionShown = type;
 	}
 
@@ -214,5 +204,27 @@ public class GuiModel
 	public void setCaptionMode(int i)
 	{
 		this.captionMode = i;
+	}
+
+	public boolean isDialogShown()
+	{
+		if (this.activeDialog != null)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public void closeActiveDialog()
+	{
+		if (this.activeDialog != null)
+		{
+			this.activeDialog.hide();
+		}
+	}
+
+	public void setActiveDialog(PopupPanel dialog)
+	{
+		this.activeDialog = dialog;
 	}
 }

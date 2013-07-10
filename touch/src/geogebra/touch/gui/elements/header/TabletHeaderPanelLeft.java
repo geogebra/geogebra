@@ -102,7 +102,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TouchEntryPoint.showBrowseUI();
-				// TabletHeaderPanelLeft.this.openDialog.show();
 			}
 		};
 		this.openButton.addDomHandler(new ClickHandler()

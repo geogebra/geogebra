@@ -87,26 +87,26 @@ public class TouchEntryPoint implements EntryPoint
 
 			private void initPhoneGap()
 			{
-//			phoneGap.addHandler(new PhoneGapAvailableHandler()
-//			{
-//				@Override
-//				public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
-//				{
-//					// TODO Auto-generated method stub
-//					System.out.println("test onPhoneGapAvailable");
-//				}
-//			});
-//
-//			phoneGap.addHandler(new PhoneGapTimeoutHandler()
-//			{
-//
-//				@Override
-//				public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
-//				{
-//					// TODO Auto-generated method stub
-//
-//				}
-//			});
+				// phoneGap.addHandler(new PhoneGapAvailableHandler()
+				// {
+				// @Override
+				// public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
+				// {
+				// // TODO Auto-generated method stub
+				// System.out.println("test onPhoneGapAvailable");
+				// }
+				// });
+				//
+				// phoneGap.addHandler(new PhoneGapTimeoutHandler()
+				// {
+				//
+				// @Override
+				// public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
+				// {
+				// // TODO Auto-generated method stub
+				//
+				// }
+				// });
 				phoneGap.initializePhoneGap();
 				phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(new BackButtonPressedHandler()
 				{
@@ -114,7 +114,15 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
-						if (!tabletGUI.getTouchModel().getGuiModel().closeOptions())
+						if (browseGUI.isVisible() || tubeSearchGUI.isVisible()) // GUIs
+						{
+							showTabletGUI();
+						}
+						else if (tabletGUI.getTouchModel().getGuiModel().isDialogShown()) // Dialogs
+						{
+							tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
+						}
+						else if (!tabletGUI.getTouchModel().getGuiModel().closeOptions()) // Options
 						{
 							phoneGap.exitApp();
 						}
@@ -133,6 +141,8 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showTabletGUI()
 	{
+		TouchEntryPoint.browseGUI.setVisibility(false);
+		TouchEntryPoint.tubeSearchGUI.setVisibility(false);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
@@ -141,6 +151,7 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showTubeSearchUI()
 	{
+		TouchEntryPoint.tubeSearchGUI.setVisibility(true);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.browseGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.tubeSearchGUI);
@@ -149,6 +160,7 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void showBrowseUI()
 	{
+		TouchEntryPoint.browseGUI.setVisibility(true);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tabletGUI);
 		TouchEntryPoint.appWidget.remove(TouchEntryPoint.tubeSearchGUI);
 		TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
