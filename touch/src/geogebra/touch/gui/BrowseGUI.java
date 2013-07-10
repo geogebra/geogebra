@@ -36,7 +36,6 @@ public class BrowseGUI extends VerticalPanel
 	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel localFilePanel, tubeFilePanel;
 
-	private StandardImageButton backButton;
 	private List<Material> localList = new ArrayList<Material>();
 	List<Material> tubeList = new ArrayList<Material>();
 	private boolean isVisible;
@@ -70,15 +69,7 @@ public class BrowseGUI extends VerticalPanel
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
 		this.tubeFilePanel.getElement().getStyle().setBackgroundColor("rgb(200,200,200)");
 
-		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
-		this.backButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				TouchEntryPoint.showTabletGUI();
-			}
-		}, ClickEvent.getType());
+		
 
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
@@ -89,7 +80,6 @@ public class BrowseGUI extends VerticalPanel
 		fileList.add(this.localFilePanel);
 		fileList.add(this.tubeFilePanel);
 		this.add(fileList);
-		this.add(this.backButton);
 
 		loadFeatured();
 

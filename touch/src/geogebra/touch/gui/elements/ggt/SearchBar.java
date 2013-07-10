@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.ggt;
 
 import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.elements.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import java.util.ArrayList;
@@ -12,34 +13,29 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class SearchBar extends SimplePanel
+public class SearchBar extends AuxiliaryHeaderPanel
 {
 	public interface SearchListener
 	{
 		void onSearch(String query);
 	}
 
-	private DecoratorPanel decorator;
-	private HorizontalPanel panel;
+	
 
 	private TextBox query;
 	private StandardImageButton searchButton;
 	private List<SearchListener> listeners;
+	
 
 	public SearchBar()
 	{
+		super();
 		this.setStyleName("searchbar");
 		
 		this.listeners = new ArrayList<SearchListener>();
-
-		this.decorator = new DecoratorPanel();
-		this.panel = new HorizontalPanel();
-
+	
 		this.query = new TextBox();
 		this.query.addKeyDownHandler(new KeyDownHandler()
 		{
@@ -66,9 +62,6 @@ public class SearchBar extends SimplePanel
 
 		this.panel.add(this.query);
 		this.panel.add(this.searchButton);
-
-		this.decorator.setWidget(this.panel);
-		this.setWidget(this.decorator);
 	}
 
 	public boolean addSearchListener(SearchListener l)
