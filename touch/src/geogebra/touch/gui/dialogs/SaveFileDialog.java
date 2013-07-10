@@ -35,8 +35,8 @@ public class SaveFileDialog extends FileDialog
 	{
 		if (!super.textBox.getText().isEmpty())
 		{
-			super.fm.saveFile(super.textBox.getText(), super.app);
 			super.app.setConstructionTitle(super.textBox.getText());
+			super.fm.saveFile(super.textBox.getText(), super.app);
 		}
 	}
 
