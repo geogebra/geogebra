@@ -1,19 +1,22 @@
 package geogebra.touch.gui.elements;
 
+import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.CommonResources;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Label;
 
-public class AuxiliaryHeaderPanel extends SimplePanel{
+public class AuxiliaryHeaderPanel extends FlowPanel{
 	private StandardImageButton backButton;
-	protected HorizontalPanel panel;
-	private DecoratorPanel decorator;
-	public AuxiliaryHeaderPanel(){
+	private HorizontalPanel panel;
+	protected HorizontalPanel rightPanel;
+	public AuxiliaryHeaderPanel(String title,Localization loc){
 		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
 		this.backButton.addDomHandler(new ClickHandler()
 		{
@@ -24,9 +27,16 @@ public class AuxiliaryHeaderPanel extends SimplePanel{
 			}
 		}, ClickEvent.getType());
 		this.panel = new HorizontalPanel();
+		this.rightPanel = new HorizontalPanel();
 		this.panel.add(this.backButton);
-		this.decorator = new DecoratorPanel();
-		this.decorator.setWidget(this.panel);
-		this.setWidget(this.decorator);
+		this.panel.add(new Label(loc.getMenu("Back")));
+		
+		this.panel.getElement().getStyle().setFloat(Style.Float.LEFT);
+		this.rightPanel.getElement().getStyle().setFloat(Style.Float.RIGHT);
+		
+		this.getElement().getStyle().setTextAlign(TextAlign.CENTER);
+		this.add(this.panel);
+		this.add(this.rightPanel);
+		this.add(new Label(title));
 	}
 }

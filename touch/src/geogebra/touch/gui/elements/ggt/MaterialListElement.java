@@ -30,7 +30,9 @@ public class MaterialListElement extends HorizontalPanel {
 	public static final int PANEL_HEIGHT = 100;
 
 	private SimplePanel image, likeIcon;
-	private VerticalPanel infos, links;
+	private VerticalPanel infos;
+
+	protected VerticalPanel links;
 	private HorizontalPanel sharedPanel, likesPanel;
 	private Label title, date, sharedBy, author, likes;
 
@@ -197,5 +199,9 @@ public class MaterialListElement extends HorizontalPanel {
 	protected void markUnSelected() {
 		setStyleName("browserDefaultFile");
 		this.links.setVisible(false);
+	}
+
+	public String getMaterialTitle() {
+		return this.material.getTitle();
 	}
 }

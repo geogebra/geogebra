@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.ggt;
 
+import geogebra.common.main.Localization;
 import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.elements.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -24,8 +25,8 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 	private StandardImageButton searchButton;
 	private List<SearchListener> listeners;
 
-	public SearchBar() {
-		super();
+	public SearchBar(Localization loc) {
+		super(loc.getMenu("Open"), loc);
 		this.setStyleName("searchbar");
 
 		this.listeners = new ArrayList<SearchListener>();
@@ -50,8 +51,8 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 			}
 		}, ClickEvent.getType());
 
-		this.panel.add(this.query);
-		this.panel.add(this.searchButton);
+		this.rightPanel.add(this.query);
+		this.rightPanel.add(this.searchButton);
 	}
 
 	public boolean addSearchListener(SearchListener l) {
@@ -69,7 +70,7 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 	}
 
 	public void setWidth(int width) {
-		this.query.setWidth(width - 100 + "px");
+		this.query.setWidth(width/2 - 100 + "px");
 	}
 
 	public void onResize(ResizeEvent event) {

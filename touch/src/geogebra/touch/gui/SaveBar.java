@@ -2,6 +2,7 @@ package geogebra.touch.gui;
 
 import geogebra.common.main.App;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.elements.StandardImageButton;
 
@@ -17,10 +18,11 @@ public class SaveBar extends AuxiliaryHeaderPanel {
 	private StandardImageButton saveButton;
 
 	public SaveBar(final FileManagerM fm, final App app){
-		super();
+		super(app.getLocalization().getMenu("Save"),app.getLocalization());
 		
 
 		this.title = new TextBox();
+		///title.setText(app.getKernel().getConstruction().getTitle());
 		this.title.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
@@ -40,12 +42,16 @@ public class SaveBar extends AuxiliaryHeaderPanel {
 			}
 		}, ClickEvent.getType());
 
-		this.panel.add(this.title);
-		this.panel.add(this.saveButton);
 	}
 
 	protected void performSave(FileManagerM fm, App app) {
 		fm.saveFile(this.title.getText(), app);
+		TouchEntryPoint.showTabletGUI();
+	}
+
+	public void setTitleText(String materialTitle) {
+		this.title.setText(materialTitle);
+		
 	}
 
 }

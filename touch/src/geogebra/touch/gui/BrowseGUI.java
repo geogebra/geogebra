@@ -46,7 +46,7 @@ public class BrowseGUI extends VerticalPanel
 	{
 		this.setStyleName("tubesearchgui");
 		this.fm = fm;
-		this.searchBar = new SearchBar();
+		this.searchBar = new SearchBar(app.getLocalization());
 		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
 		{
@@ -143,7 +143,7 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		int newHeight = Window.getClientHeight() - 120;
+		int newHeight = Window.getClientHeight() - 60;
 		if (newHeight > 0)
 		{
 			this.localFilePanel.setHeight(newHeight + "px");
