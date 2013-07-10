@@ -68,8 +68,7 @@ public class TouchEntryPoint implements EntryPoint
 
 				app.start();
 
-				// TouchGUI is not added to the history stack
-				TouchEntryPoint.appWidget.showWidget(0);
+				TouchEntryPoint.showTabletGUI();
 				
 				Window.addResizeHandler(new ResizeHandler()
 				{
@@ -166,5 +165,10 @@ public class TouchEntryPoint implements EntryPoint
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
 	}
+
+	public static void showSaveGUI()
+  {
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.saveGUI);	  
+  }
 
 }

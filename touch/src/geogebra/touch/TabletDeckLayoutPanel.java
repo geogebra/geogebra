@@ -26,6 +26,10 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel
 	{
 		try
 		{
+			// remove the current shown view
+			this.history.pop();
+			
+			// go back to the last view
 			this.showWidget(this.history.pop());
 			return true;
 		}

@@ -122,7 +122,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
-				TouchEntryPoint.showSaveUI();
+				TouchEntryPoint.showSaveGUI();
 			}
 		}, ClickEvent.getType());
 	}
