@@ -3,7 +3,6 @@
 body {
 	margin: 0px;
 	padding: 0px;
-	font-family: "Segoe UI", sans-serif;
 	font-size: 15px;
 	color: #000000;
 	overflow: hidden;
@@ -127,8 +126,10 @@ div.button.button-up-hovering {
 /* #####################################################################
 ####                    HEADER, STYLEBAR							####
 ##################################################################### */
-.headerbar, .worksheetTitle { /* Border */
+.headerbar, .worksheetTitle {
+	/* Border */
 	border-bottom: #999999 solid 1px;
+	
 	/* Background */
 	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,
 		rgb(170, 170, 170) 100% );
@@ -148,14 +149,20 @@ div.button.button-up-hovering {
 	margin-left: 10px;
 }
 
-.headerLeft td,.headerRight td {
+.headerLeft td, .headerRight td {
 	padding-top: 10px;
 }
 
-.headerbar button {
+.headerRight {
+	margin-right: 10px;
+}
+
+.headerbar div.button {
 	background: none;
 	background-image: none;
 	background-color: none;
+	border: none;
+	padding: 0px;
 }
 
 .stylebar {
@@ -238,17 +245,17 @@ div.button.button-up-hovering {
 .algebraView { /* Border */
 	border-left: #CCCCCC solid 1px;
 	/* Background */
-	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+	background-image: linear-gradient(top, rgb(237, 237, 237) 10%,
 		rgb(220, 220, 220) 100% );
-	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 10%,
 		rgb(220, 220, 220) 100% );
-	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 10%,
 		rgb(220, 220, 220) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 10%,
 		rgb(220, 220, 220) 100% );
-	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 10%,
 		rgb(220, 220, 220) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(237,
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgb(237,
 		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
 }
 
@@ -424,7 +431,7 @@ div.elemHeadingName {
 	background-color: #000;
 	opacity: 0.3;
 	z-index: 20;
-	filter: alpha(opacity =     30);
+	filter: alpha(opacity = 30);
 }
 
 /* #####################################################################

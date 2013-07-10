@@ -1,0 +1,135 @@
+@charset "utf-8";
+
+body div {
+	font-family: "Roboto", sans-serif;
+}
+
+/* ########################################
+###              HEADER                 ###
+####################################### */
+
+body .headerbar, body .worksheetTitle {
+	height: 50px;
+	color: #FFFFFF;
+	font-weight: normal;
+	font-family: "Roboto", sans serif;
+	font-size: 18px;
+	
+	/* Border */
+	border: none;
+	/* Background */
+	background-image: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
+	background-image: -o-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
+	background-image: -moz-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
+	background-image: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(37, 37, 37) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(68, 68, 68) ),
+	color-stop(1, rgb(37, 37, 37) ) ) );
+}
+
+body .headerbar div.button img,
+body .headerbar .worksheetTitle {
+	opacity: 0.8;
+  	filter: alpha(opacity=80);
+}
+
+body .headerbar div.button {
+	border: none;
+	margin: 0px 10px 0px 6px;
+}
+
+.inputUnderline.inactive {
+	height: 4px;
+	border-left: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	margin: -10px -5px 0px -5px;
+}
+
+.inputUnderline.active {
+	height: 4px;
+	border-left: 2px solid #9999FF;
+	border-right: 2px solid #9999FF;
+	border-bottom: 2px solid #9999FF;
+	margin: -10px -5px 0px -5px;
+}
+
+/*##########################################
+###            INPUT BAR                 ###
+######################################### */
+
+body .inputbarPanel {
+	margin: 0px;
+	padding: 0px 15px;
+}
+
+body .inputbarPanel input {
+	border: none;
+	background: none;
+	padding: 4px 0px;
+	color: #CCCCCC;
+	height: 28px;
+	width: 100%;
+}
+
+body .inputDialog {
+	padding: 0px;
+	z-index: 50;
+	
+	color: #FFFFFF;
+	
+	/* Border */
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #444444 solid 1px;
+	
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #999999;
+	-moz-box-shadow: 3px 3px 5px #999999;
+	box-shadow: 3px 3px 5px #999999;
+	background-color: #222222;
+}
+
+.inputDialog .gwt-Label {
+	border-bottom: 2px solid #9999FF;
+	padding: 15px;
+	margin-bottom: 15px;
+	text-align: left;
+	font-size: 18px;
+}
+
+body .inputDialog .gwt-TextBox {
+	margin-top: 5px;
+	border: none;
+	padding: 3px;
+	background: none;
+}
+
+.inputDialog .gwt-PopupPanel {
+	border: none;
+	padding: 10px 2px 0px 2px;
+}
+
+.customKeyPanel {
+	margin-right: -6px;
+	margin-top: 10px;
+}
+
+.inputDialog .customKeyPanel button {
+	margin-right: 6px;
+}
+
+.inputDialog .customKeyPanel button:hover {
+	border: #9999FF 1px solid;
+	background-image: none;
+	background: #EEEEEE;
+}
+
+body .gwt-PopupPanelGlass {
+	background-color: #000;
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
+}
