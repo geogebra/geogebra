@@ -10,11 +10,12 @@ import java.util.List;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SaveGUI extends VerticalPanel {
-	private SaveBar saveBar = new SaveBar();
+	private SaveBar saveBar;
 	private VerticalMaterialPanel filePanel;
 	private FileManagerM fm;
 	public SaveGUI(AppWeb app, FileManagerM fm){
-		this.saveBar = new SaveBar();
+		this.setStyleName("tubesearchgui");
+		this.saveBar = new SaveBar(fm,app);
 		this.filePanel = new VerticalMaterialPanel(app, fm);
 		this.fm = fm;
 		this.add(this.saveBar);

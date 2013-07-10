@@ -3,8 +3,8 @@ package geogebra.touch;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
+import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -60,6 +60,7 @@ public class FileManagerM {
 		this.stockStore.removeItem(FILE_PREFIX + text);
 		this.stockStore.removeItem(THUMB_PREFIX + text);
 		TouchEntryPoint.browseGUI.reloadLocalFiles();
+		TouchEntryPoint.saveGUI.reloadFiles();
 	}
 
 	public void saveFile(final String consTitle, final App app) {
@@ -70,6 +71,7 @@ public class FileManagerM {
 				FileManagerM.this.stockStore.setItem(FILE_PREFIX + consTitle,
 						s);
 				TouchEntryPoint.browseGUI.reloadLocalFiles();
+				TouchEntryPoint.saveGUI.reloadFiles();
 			}
 		};
 

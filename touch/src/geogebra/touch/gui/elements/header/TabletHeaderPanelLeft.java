@@ -121,7 +121,8 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			public void onClick(ClickEvent event)
 			{
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.saveDialog.show();
+				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
+				TouchEntryPoint.showSaveUI();
 			}
 		}, ClickEvent.getType());
 	}
