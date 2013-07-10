@@ -7,8 +7,6 @@ import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.FileDialog;
 import geogebra.touch.gui.dialogs.InfoDialog;
-import geogebra.touch.gui.dialogs.OpenFileDialog;
-import geogebra.touch.gui.dialogs.SaveFileDialog;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.TouchModel;
 
@@ -47,8 +45,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.tabletGUI = tabletGUI;
 		this.touchModel = touchModel;
 
-		this.openDialog = new OpenFileDialog(this.app, touchModel.getGuiModel());
-		this.saveDialog = new SaveFileDialog(this.app, touchModel.getGuiModel());
 		this.infoDialog = new InfoDialog(this.app, this.openDialog.getFileManager(), touchModel.getGuiModel());
 
 		initNewButton();

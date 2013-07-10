@@ -31,7 +31,6 @@ import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
-import geogebra.touch.utils.GgbAPITouch;
 import geogebra.touch.utils.TitleChangedListener;
 
 import java.util.ArrayList;
@@ -58,7 +57,6 @@ public class TouchApp extends AppWeb
 	 * static because it gets from server side, either "" or the set filename
 	 */
 	public static String currentFileId = null;
-	private GgbAPITouch ggbapi;
 
 	// accepting range for hitting Geos (except for Points) is multiplied with
 	// this factor
@@ -306,16 +304,6 @@ public class TouchApp extends AppWeb
 	public void updateStyleBars()
 	{
 
-	}
-
-	public GgbAPITouch getGgbApiT()
-	{
-		// FIXME - use getGgbApi (changes in web necessary)
-		if (this.ggbapi == null)
-		{
-			this.ggbapi = new GgbAPITouch(this);
-		}
-		return this.ggbapi;
 	}
 
 	@Override
