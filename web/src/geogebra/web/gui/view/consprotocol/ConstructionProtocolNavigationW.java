@@ -151,8 +151,10 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 	@Override
     public void setConsProtButtonVisible(boolean flag) {
-	    // TODO Auto-generated method stub
-		App.debug("ConstructionProtocolNavigationW.setconsProtButtonVisible(boolean) -implementation needed");
+		showConsProtButton = flag;	
+		if (btOpenWindow != null) {
+			btOpenWindow.setVisible(flag);
+		}
     }
 
 	@Override
