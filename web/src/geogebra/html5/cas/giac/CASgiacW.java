@@ -81,6 +81,11 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
 		
+		if (typeof Float64Array === 'undefined') {
+			$wnd.console.log("Typed arrays not supported, Giac won't work");
+			return "?";
+		}
+		
 		if (showOutput) {
 			$wnd.console.log("js giac  input:"+s);
 		}
