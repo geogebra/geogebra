@@ -712,7 +712,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(')');
 
-			} else if (left.isVectorValue() && right instanceof VectorValue) {
+			} else if (left.isVectorValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
 				sb.append("point(real(");
