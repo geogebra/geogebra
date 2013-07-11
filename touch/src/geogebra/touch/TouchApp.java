@@ -557,6 +557,8 @@ public class TouchApp extends AppWeb
 		this.kernel.initUndoInfo();
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
+		//notify all construction title listeners
+		setConstructionTitle(getConstructionTitle());
 	}
 
 	@Override
