@@ -120,20 +120,7 @@ public class TouchEntryPoint implements EntryPoint
 					@Override
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
-						// is Dialog open? -> close dialog
-						if (tabletGUI.getTouchModel().getGuiModel().isDialogShown())
-						{
-							tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
-						}
-						else
-						{
-							// else go to last view in history
-							if (!appWidget.goBack())
-							{
-								// if history is empty -> close app
-								phoneGap.exitApp();
-							}
-						}
+						goBack();
 					}
 				});
 			}
@@ -147,6 +134,24 @@ public class TouchEntryPoint implements EntryPoint
 		});
 	}
 
+	public static void goBack()
+	{
+		//is Dialog open? -> close dialog
+			if (tabletGUI.getTouchModel().getGuiModel().isDialogShown())
+			{
+				tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
+			}
+			else
+			{
+				// else go to last view in history
+				if (!appWidget.goBack())
+				{
+					// if history is empty -> close app
+					phoneGap.exitApp();
+				}
+			}
+	}
+	
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
