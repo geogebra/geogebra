@@ -273,6 +273,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		return "";
 	}
 
+	public void editTitle() {
+		if(this.getHeaderWidget() instanceof TabletHeaderPanel){
+			((TabletHeaderPanel)this.getHeaderWidget()).editTitle();
+		}
+	}
+
 	// TODO: use with SelelctionManager
 	// @Override
 	// public void updateStylingBar(SelectionManager selectionManager) {

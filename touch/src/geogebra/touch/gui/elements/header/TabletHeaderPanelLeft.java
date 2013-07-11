@@ -124,7 +124,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				if(TabletHeaderPanelLeft.this.app.isDefaultFileName()
 						&& TabletHeaderPanelLeft.this.app.getConstructionTitle().equals(TabletHeaderPanelLeft.this.tabletGUI.getConstructionTitle())
 						){
-					
+					TabletHeaderPanelLeft.this.tabletGUI.editTitle();
 				}else{
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
 				}

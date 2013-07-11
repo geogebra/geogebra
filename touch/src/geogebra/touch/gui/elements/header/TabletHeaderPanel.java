@@ -32,6 +32,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	private TabletHeaderPanelRight rightHeader;
 
 	TouchApp app;
+	FileManagerM fm;
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel, FileManagerM fm)
 	{
@@ -39,6 +40,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
+		this.fm = fm;
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
 		this.leftHeader.setStyleName("headerLeft");
 
@@ -67,6 +69,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
+					TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
 					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				}
 				else if(event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
@@ -117,5 +120,10 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 	public String getConstructionTitle() {
 		return this.worksheetTitle.getText();
+	}
+
+	public void editTitle() {
+		this.worksheetTitle.setFocus(true);
+		this.worksheetTitle.selectAll();
 	}
 }
