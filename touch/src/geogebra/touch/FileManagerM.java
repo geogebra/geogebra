@@ -59,7 +59,7 @@ public class FileManagerM {
 	public void delete(String text) {
 		this.stockStore.removeItem(FILE_PREFIX + text);
 		this.stockStore.removeItem(THUMB_PREFIX + text);
-		TouchEntryPoint.browseGUI.reloadLocalFiles();
+		TouchEntryPoint.reloadLocalFiles();
 	}
 
 	public void saveFile(final App app) {
@@ -69,7 +69,7 @@ public class FileManagerM {
 			public void handle(String s) {
 				FileManagerM.this.stockStore.setItem(FILE_PREFIX + consTitle,
 						s);
-				TouchEntryPoint.browseGUI.reloadLocalFiles();
+				TouchEntryPoint.reloadLocalFiles();
 			}
 		};
 

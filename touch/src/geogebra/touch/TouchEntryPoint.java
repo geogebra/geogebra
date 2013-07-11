@@ -167,5 +167,10 @@ public class TouchEntryPoint implements EntryPoint
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
 	}
 
+	public static void reloadLocalFiles()
+  {
+	  TouchEntryPoint.browseGUI.reloadLocalFiles();
+  }
+
 
 }
