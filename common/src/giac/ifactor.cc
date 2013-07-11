@@ -3157,9 +3157,38 @@ namespace giac {
       for (unsigned p=2;;++p){
 	while (!erato[p]) // find next prime
 	  ++p;
-	if (p*p>=N) // finished
+	if (p*p>N) // finished
 	  return true;
 	for (unsigned i=2*p;i<=N;i+=p) 
+	  erato[i]=false; // remove p multiples
+      }
+    }
+    return true;
+  }
+
+  bool eratosthene2(double n,vector<bool> * & v){
+    static vector<bool> erato;
+    v=&erato;
+    if (n/2>=erato.size()){
+      unsigned N=int(n);
+      ++N;
+#if defined BESTA_OS 
+      if (N>4e6)
+	return false;
+#else
+      if (N>2e9)
+	return false;
+#endif
+      // 11/20 insures that we won't recompute all again from start for ithprime(i+1)
+      N = (N*11)/20; // keep only odd numbers in sieve
+      erato=vector<bool>(N+1,true); //erato[i] stands for 2*i+1 <-> n corresponds to erato[n/2]
+      for (unsigned p=3;;p+=2){
+	while (!erato[p/2]) // find next prime (first one is p==3)
+	  p+=2;
+	if (p*p>2*N+1) // finished
+	  return true;
+	// p is prime, set 3*p, 5*p, etc. to be non prime
+	for (unsigned i=(3*p)/2;i<=N;i+=p) 
 	  erato[i]=false; // remove p multiples
       }
     }
@@ -3184,6 +3213,20 @@ namespace giac {
     if (i<=int(sizeof(giac_primes)/sizeof(short int)))
       return giac_primes[i-1];
     vector<bool> * vptr=0;
+#if 1
+    if (!eratosthene2(i*std::log(double(i))*1.1,vptr))
+      return gensizeerr(contextptr);
+    unsigned count=2;
+    unsigned s=vptr->size();
+    for (unsigned k=2;k<s;++k){
+      if ((*vptr)[k]){
+	++count;
+	if (i==count)
+	  return int(2*k+1);
+      }
+    }
+    return undef;
+#else
     if (!eratosthene(i*std::log(double(i))*1.1,vptr))
       return gensizeerr(contextptr);
     unsigned count=2;
@@ -3196,6 +3239,7 @@ namespace giac {
       }
     }
     return undef;
+#endif
   }
   gen _ithprime(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;

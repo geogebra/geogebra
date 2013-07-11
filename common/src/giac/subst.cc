@@ -1974,7 +1974,7 @@ namespace giac {
 	const unary_function_ptr & s=f._SYMBptr->sommet;
 	const gen & ff=f._SYMBptr->feuille;
 	if (s==at_exp)
-	  return expln2trig(exp(-ff,contextptr),contextptr);
+	  return expln2trig(symbolic(at_exp,-ff),contextptr);
 	if (s==at_prod)
 	  return _prod(expln2trig(inv(ff,contextptr),contextptr),contextptr);
 	if (s==at_pow)
