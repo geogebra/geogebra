@@ -67,11 +67,15 @@ public class Ggb2giac {
 				"normal(covariance(%0))");
 		p("Cross.2", "cross(%0,%1)");
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
-		p("CSolutions.1", "normal(cZeros(%0,x))");
+		p("CSolutions.1",
+				"[[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1]");
 		p("CSolutions.2",
 				"normal(cZeros(%0,%1))");
 		p("CSolve.1",
-				"normal(csolve(%0,x))");
+				"[[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"normal(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1]");
+		
 		p("CSolve.2", "normal(csolve(%0,%1))");
 		p("Degree.1",
 				"degree(%0)");
@@ -672,9 +676,12 @@ public class Ggb2giac {
 		// eg distance((4,5),(0,3))
 		// eg distance((2,3,4),(0,3,1))
 		// eg distance(conic(y=x^2),(0,3))
-		// TODO: what about functions?
 		// don't want normal(), eg Distance[(a,b),(c,d)] 
-		p("Distance.2", "regroup(distance(%0,%1))");
+		// bit do want it for Distance[(0.5,0.5),x^2+y^2=1]
+		// TODO: what about functions?
+		p("Distance.2", 
+				"[[[ggbans:=0/0],[ggbans:=regroup(distance(%0,%1))]]," +
+				"when(lname(ggbans)=={},normal(ggbans),ggbans)][1]");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
 		// don't want normal(), eg Line[(a,b),(c,d)]
