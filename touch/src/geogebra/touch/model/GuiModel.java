@@ -71,32 +71,18 @@ public class GuiModel
 		}
 	}
 
-	/**
-	 * 
-	 * @return true if anything was closed, false otherwise
-	 */
-	public boolean closeOptions()
+	public void closeOptions()
 	{
-		if (this.styleBarOptionShown == OptionType.Non)
-		{
-			return false;
-		}
-
 		if (this.option != null)
 		{
 			this.option.hide();
+			this.styleBarOptionShown = OptionType.Non;
 
 			if (this.touchModel != null)
 			{
 				this.touchModel.optionsClosed();
 			}
 		}
-
-		this.styleBarOptionShown = OptionType.Non;
-		return true;
-
-		// activeButton looses style otherwise
-		// this.activeButton.addStyleDependentName("active");
 	}
 
 	public void setActive(ToolBarButton toolBarButton)
