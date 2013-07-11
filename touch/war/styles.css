@@ -123,7 +123,8 @@ div.button.button-up-hovering {
 		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
 }
 
-.disabled {
+.disabled,
+.transparent {
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
 }
@@ -132,6 +133,8 @@ div.button.button-up-hovering {
 ####                    HEADER, STYLEBAR							####
 ##################################################################### */
 .headerbar, .worksheetTitle {
+	height: 50px;
+	
 	/* Border */
 	border-bottom: #999999 solid 1px;
 	
@@ -148,6 +151,12 @@ div.button.button-up-hovering {
 		rgb(170, 170, 170) 100% );
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(204,
 		204, 204) ), color-stop(1, rgb(170, 170, 170) ) ) );
+}
+
+input.worksheetTitle {
+	border: none;
+	background: none;
+	width: 100%;
 }
 
 .headerLeft {

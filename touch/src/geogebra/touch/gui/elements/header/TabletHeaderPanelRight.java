@@ -24,6 +24,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		StandardImageButton[] button = new StandardImageButton[2];
 
 		button[0] = new StandardImageButton(CommonResources.INSTANCE.undo());
+		
 		button[0].addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -35,6 +36,7 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		}, ClickEvent.getType());
 
 		button[1] = new StandardImageButton(CommonResources.INSTANCE.redo());
+		
 		button[1].addDomHandler(new ClickHandler()
 		{
 			@Override

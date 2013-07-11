@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.touch.TouchApp;
+import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
@@ -18,8 +19,11 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @see ButtonBar
@@ -31,7 +35,8 @@ public class ToolBar extends HorizontalPanel
 {
 
 	protected List<ToolBarButton> tools;
-	private HorizontalPanel toolPanel, inputButtonPanel;
+	private HorizontalPanel toolPanel;
+	private VerticalPanel inputButtonPanel;
 
 	protected InputDialog input;
 	TextBox inputBox = new TextBox();
@@ -46,7 +51,7 @@ public class ToolBar extends HorizontalPanel
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.toolPanel = new HorizontalPanel();
-		this.inputButtonPanel = new HorizontalPanel();
+		this.inputButtonPanel = new VerticalPanel();
 
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
@@ -83,45 +88,15 @@ public class ToolBar extends HorizontalPanel
 		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
 		// touchModel.getGuiModel());
 
-		// inputBar <----- Old version of input button
-		/*StandardImageButton inputBarButton = new StandardImageButton(CommonResources.INSTANCE.show_input_bar());
-
-		inputBarButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				ToolBar.this.input.show();
-			}
-		}, ClickEvent.getType());
-
-		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
-		{
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event)
-			{
-				ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
-			}
-		});*/
-
 		// new Inputbar (Stefanie Bogner)
-		this.inputBox.setWidth(Window.getClientWidth() * 0.2 - 20 + "px");
+		this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
+		
+		// fx background icon
+		this.inputBox.getElement().setAttribute("style", "background: url(" + CommonResources.INSTANCE.icon_fx().getSafeUri().asString() + ") top right no-repeat;");
+		
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
 		
-//	this.inputBox.addFocusHandler(new FocusHandler()
-//	{
-//
-//		@Override
-//		public void onFocus(FocusEvent event)
-//		{
-//			ToolBar.this.input.show();
-//			ToolBar.this.inputBox.setFocus(false);
-//			event.preventDefault();
-//			event.stopPropagation();
-//		}
-//	});
-//	
 	this.inputButtonPanel.addDomHandler(new ClickHandler()
 	{
 		
@@ -153,6 +128,13 @@ public class ToolBar extends HorizontalPanel
 	this.setVerticalAlignment(ALIGN_MIDDLE);
 	//this.inputButtonPanel.add(inputBarButton);
 	this.inputButtonPanel.add(this.inputBox);
+	
+	//Input Underline for Android
+	Panel underline = new LayoutPanel();
+	underline.setStyleName("inputUnderline");
+	underline.addStyleName("inactive");
+	this.inputButtonPanel.add(underline);
+	
 	this.add(this.inputButtonPanel);
 
 	model.getGuiModel().setActive(this.tools.get(0));

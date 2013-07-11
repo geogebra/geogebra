@@ -1,7 +1,9 @@
 @charset "utf-8";
 
-body div {
+body div,
+body input {
 	font-family: "Roboto", sans-serif;
+	font-size: 14px;
 }
 
 /* ########################################
@@ -9,7 +11,7 @@ body div {
 ####################################### */
 
 body .headerbar, body .worksheetTitle {
-	height: 50px;
+	height: 48px;
 	color: #FFFFFF;
 	font-weight: normal;
 	font-family: "Roboto", sans serif;
@@ -26,6 +28,10 @@ body .headerbar, body .worksheetTitle {
 	background-image: -webkit-gradient(linear, left top, left bottom,
 	color-stop(0, rgb(68, 68, 68) ),
 	color-stop(1, rgb(37, 37, 37) ) ) );
+}
+
+body .worksheetTitle {
+	margin-top: 0px;
 }
 
 body .headerbar div.button img,
@@ -52,7 +58,7 @@ body .headerbar div.button {
 	border-left: 2px solid #9999FF;
 	border-right: 2px solid #9999FF;
 	border-bottom: 2px solid #9999FF;
-	margin: -10px -5px 0px -5px;
+	margin: -5px -5px 0px -5px;
 }
 
 /*##########################################
@@ -70,8 +76,10 @@ body .inputbarPanel input {
 	padding: 4px 0px;
 	color: #CCCCCC;
 	height: 28px;
-	width: 100%;
+	font-size: 14px;
 }
+
+/* POPUP Dialog INPUT */
 
 body .inputDialog {
 	padding: 0px;
@@ -106,6 +114,12 @@ body .inputDialog .gwt-TextBox {
 	border: none;
 	padding: 3px;
 	background: none;
+	color: #FFFFFF;
+	width: 703px;
+}
+
+body .textPanel {
+	width: 710px;
 }
 
 .inputDialog .gwt-PopupPanel {
@@ -114,7 +128,7 @@ body .inputDialog .gwt-TextBox {
 }
 
 .customKeyPanel {
-	margin-right: -6px;
+	margin-right: 0px;
 	margin-top: 10px;
 }
 
@@ -122,6 +136,8 @@ body .inputDialog .customKeyPanel button {
 	margin: 0px;
 	border: none;
 	background: none;
+	width: 50px;
+	height: 50px;
 	
 	-webkit-border-radius: 0px;
 	-khtml-border-radius: 0px;
@@ -135,12 +151,18 @@ body .inputDialog .customKeyPanel button {
 	padding: 5px;
 }
 
+body .inputDialog .customKeyPanel button.last,
+body .inputDialog .customKeyPanel button.last:hover {
+	border-right: none;
+}
+
 body .inputDialog .customKeyPanel button:hover {
 	border: none;
 	border-right: 1px solid #999999;
 	border-top: 1px solid #999999;
 	background-image: none;
 	background: none;
+	color: #9999FF;
 }
 
 body .gwt-PopupPanelGlass {

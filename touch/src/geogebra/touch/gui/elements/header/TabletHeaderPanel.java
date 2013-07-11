@@ -7,8 +7,6 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
-import com.google.gwt.dom.client.Style.BorderStyle;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -89,17 +87,13 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 			}
 		});
-		
+
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 
-		this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 61);
+		//this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 30);
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.worksheetTitle);
-
-		//this.worksheetTitle.getElement().getStyle().setBackgroundImage("none");
-		this.worksheetTitle.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		this.worksheetTitle.getElement().getStyle().setFontSize(35, Unit.PX);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);
@@ -110,7 +104,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
-		this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 61);
+		//this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 30);
 	}
 
 	public void setLabels()

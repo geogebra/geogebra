@@ -51,7 +51,6 @@ public class TouchEntryPoint implements EntryPoint
 			public void onSuccess()
 			{
 				ResourcesInjector.injectResources();
-
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
@@ -171,6 +170,5 @@ public class TouchEntryPoint implements EntryPoint
   {
 	  TouchEntryPoint.browseGUI.reloadLocalFiles();
   }
-
 
 }

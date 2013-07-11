@@ -218,6 +218,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// for Win8 position it on top, for others under appbar
 			this.algebraViewButtonPanel.setPopupPosition(Window.getClientWidth() - ALGEBRA_BUTTON_WIDTH, this.laf.getAppBarHeight());
 			this.algebraViewButton.setStyleName("arrowLeft");
+			
+			// Set algebraviewbutton transparent, when algebra view is closed
+			this.algebraViewButtonPanel.addStyleName("transparent");
 		}
 		else
 		{
@@ -230,6 +233,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// for Win8 position it on top, for others under appbar
 			this.algebraViewButtonPanel.setPopupPosition(euclidianWidth - ALGEBRA_BUTTON_WIDTH, this.laf.getAppBarHeight());
 			this.algebraViewButton.setStyleName("arrowRight");
+			
+			// set alebraviewbutton back to none transparent, when algebra view is open
+			this.algebraViewButtonPanel.removeStyleName("transparent");
 		}
 	}
 

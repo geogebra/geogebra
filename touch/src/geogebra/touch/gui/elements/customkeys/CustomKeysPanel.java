@@ -63,6 +63,12 @@ public class CustomKeysPanel extends PopupPanel
 					fireClickEvent(k);
 				}
 			}, ClickEvent.getType());
+			
+			// Specific styles for last button
+			CustomKey lastKey = CustomKey.values()[CustomKey.values().length-1];
+			if(k == lastKey) {
+				b.setStyleName("last");
+			}
 
 			this.buttonContainer.add(b);
 		}

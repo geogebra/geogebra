@@ -38,6 +38,9 @@ public class DefaultLAF implements LookAndFeel
 
 	@Override
 	public int getAppBarHeight() {
-		return 62;
+		//return 62;
+		
+		// Android
+		return 50;
 	}
 }

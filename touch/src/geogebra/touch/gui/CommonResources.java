@@ -5,7 +5,6 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ClientBundle.Source;
 
 public interface CommonResources extends ClientBundle
 {
@@ -453,15 +452,15 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource back();
 	
-	@Source("icons/svg/blank.gif")
+	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource document_viewer();
 	
-	@Source("icons/svg/blank.gif")
+	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource document_edit();
 
-	@Source("icons/svg/blank.gif")
+	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource icon_fx();
 	
