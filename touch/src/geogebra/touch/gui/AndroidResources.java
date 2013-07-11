@@ -4,62 +4,80 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
 
-public interface AndroidResources extends ClientBundle {
+public interface AndroidResources extends CommonResources {
 	
 	public static AndroidResources INSTANCE = GWT.create(AndroidResources.class);
 
-	@Source("icons/svg/android/android_delete.svg")
-	@Validated(validated = false)
-	SVGResource android_delete();
-
-	@Source("icons/svg/android/android_edit.svg")
-	@Validated(validated = false)
-	SVGResource android_edit();
-
-	@Source("icons/svg/android/android_fx_input_icon.svg")
-	@Validated(validated = false)
-	SVGResource android_fx_input_icon();
-
-	@Source("icons/svg/android/android_menu_back.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_back();
-
-	@Source("icons/svg/android/android_menu_cancel.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_cancel();
-
-	@Source("icons/svg/android/android_menu_edit_redo.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_edit_redo();
-
-	@Source("icons/svg/android/android_menu_edit_undo.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_edit_undo();
-
-	@Source("icons/svg/android/android_menu_new_file.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_new_file();
-
-	@Source("icons/svg/android/android_menu_ok.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_ok();
-
-	@Source("icons/svg/android/android_menu_save_file.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_save_file();
-
-	@Source("icons/svg/android/android_menu_search.svg")
-	@Validated(validated = false)
-	SVGResource android_menu_search();
+	// Dialogs
 	
-	@Source("icons/svg/android/android_menu_home.svg")
+	@Override
+	@Source("icons/svg/android/button_ok.svg")
 	@Validated(validated = false)
-	SVGResource android_menu_home();
+	SVGResource dialog_ok();
+	
+	@Override
+	@Source("icons/svg/android/button_cancel.svg")
+	@Validated(validated = false)
+	SVGResource dialog_cancel();
+	
+	@Override
+	@Source("icons/svg/android/button_trashcan.svg")
+	@Validated(validated = false)
+	SVGResource dialog_trash();
 
-	@Source("icons/svg/android/android_open_viewer.svg")
+	// Header
+	
+	@Override
+	@Source("icons/svg/android/document-new.svg")
 	@Validated(validated = false)
-	SVGResource android_open_viewer();
+	SVGResource document_new();
+	
+	@Override
+	@Source("icons/svg/android/document-open.svg")
+	@Validated(validated = false)
+	SVGResource document_open();
+
+	@Override
+	@Source("icons/svg/android/document-save.svg")
+	@Validated(validated = false)
+	SVGResource document_save();
+
+	@Override
+	@Source("icons/svg/android/menu_edit_undo.svg")
+	@Validated(validated = false)
+	SVGResource undo();
+	
+	@Override
+	@Source("icons/svg/android/menu_edit_redo.svg")
+	@Validated(validated = false)
+	SVGResource redo();	
+	
+	// GeoGebraTube View
+	
+	@Override
+	@Source("icons/svg/android/document-open.svg")
+	@Validated(validated = false)
+	SVGResource search();
+	
+	@Override
+	@Source("icons/svg/android/menu_back.svg")
+	@Validated(validated = false)
+	SVGResource back();
+	
+	@Override
+	@Source("icons/svg/android/document_viewer.svg")
+	@Validated(validated = false)
+	SVGResource document_viewer();
+	
+	@Override
+	@Source("icons/svg/android/document_edit.svg")
+	@Validated(validated = false)
+	SVGResource document_edit();
+
+	@Override
+	@Source("icons/svg/android/icon_fx.svg")
+	@Validated(validated = false)
+	SVGResource icon_fx();
 
 }

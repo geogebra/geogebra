@@ -110,7 +110,7 @@ body .inputDialog .gwt-TextBox {
 
 .inputDialog .gwt-PopupPanel {
 	border: none;
-	padding: 10px 2px 0px 2px;
+	padding: 0px;
 }
 
 .customKeyPanel {
@@ -118,14 +118,29 @@ body .inputDialog .gwt-TextBox {
 	margin-top: 10px;
 }
 
-.inputDialog .customKeyPanel button {
-	margin-right: 6px;
+body .inputDialog .customKeyPanel button {
+	margin: 0px;
+	border: none;
+	background: none;
+	
+	-webkit-border-radius: 0px;
+	-khtml-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	
+	color: #FFFFFF;
+	font-size: 12px;
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
+	padding: 5px;
 }
 
-.inputDialog .customKeyPanel button:hover {
-	border: #9999FF 1px solid;
+body .inputDialog .customKeyPanel button:hover {
+	border: none;
+	border-right: 1px solid #999999;
+	border-top: 1px solid #999999;
 	background-image: none;
-	background: #EEEEEE;
+	background: none;
 }
 
 body .gwt-PopupPanelGlass {

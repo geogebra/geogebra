@@ -5,6 +5,7 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ClientBundle.Source;
 
 public interface CommonResources extends ClientBundle
 {
@@ -38,10 +39,6 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/document-save.svg")
 	@Validated(validated = false)
 	SVGResource document_save();
-
-	@Source("icons/svg/geogebra_tube.svg")
-	@Validated(validated = false)
-	SVGResource geogebra_tube();
 
 	@Source("icons/svg/menu_edit_undo.svg")
 	@Validated(validated = false)
@@ -447,10 +444,6 @@ public interface CommonResources extends ClientBundle
 	@Validated(validated = false)
 	SVGResource delete_object();
 
-	@Source("icons/svg/geogebra_tube.svg")
-	@Validated(validated = false)
-	SVGResource logoGeoGebraTube();
-
 	// GeoGebraTube View
 	@Source("icons/svg/view_zoom.svg")
 	@Validated(validated = false)
@@ -459,6 +452,19 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/arrow_go_previous_gray.svg")
 	@Validated(validated = false)
 	SVGResource back();
+	
+	@Source("icons/svg/blank.gif")
+	@Validated(validated = false)
+	SVGResource document_viewer();
+	
+	@Source("icons/svg/blank.gif")
+	@Validated(validated = false)
+	SVGResource document_edit();
+
+	@Source("icons/svg/blank.gif")
+	@Validated(validated = false)
+	SVGResource icon_fx();
+	
 	
 	// New Styles
 	@Source("icons/svg/subToolbarArrow.svg")
