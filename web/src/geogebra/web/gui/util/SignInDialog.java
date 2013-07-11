@@ -12,9 +12,13 @@ import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.http.client.Request;
@@ -39,7 +43,10 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	
 	private App app;
 	private Button cancel;
-	private TextBox forumUserName;
+	/**
+	 * userName for forum textfield
+	 */
+	TextBox forumUserName;
 	private PasswordTextBox forumPassword;
 	private Button submitButton;
 	private Button googleLogin;
@@ -55,7 +62,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	 * accounts
 	 */
 	public SignInDialog(final App app) {
-		super();
+		super(false, true);
 		this.app = app;
 		
 		addStyleName("signInDialog");
@@ -99,7 +106,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		
 		forumUserName = new TextBox();
 		forumUserName.getElement().setAttribute("placeholder", app.getMenu("username"));
-		forumUserName.getElement().setTabIndex(0);
+		forumUserName.setTabIndex(1);
 		
 		forumUserName.addKeyUpHandler(enableSubmit);
 		
@@ -108,9 +115,17 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		
 		forumPassword = new PasswordTextBox();
 		forumPassword.getElement().setAttribute("placeholder", app.getMenu("password"));
-		forumPassword.getElement().setTabIndex(1);
+		forumPassword.setTabIndex(2);
 		
 		forumPassword.addKeyUpHandler(enableSubmit);
+		forumPassword.addKeyDownHandler(new KeyDownHandler() {
+			
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					submitButton.click();
+				}
+			}
+		});
 		
 		logins.getFlexCellFormatter().setColSpan(2, 0, 2);
 		logins.setWidget(2, 0, forumPassword);
@@ -185,23 +200,25 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		logins.setWidget(0, 2, otherWebSites);
 		
 		googleLogin = new Button("<span class=\"loginbutton\"><img src=\"" + AppResources.INSTANCE.social_google().getSafeUri().asString() + "\"/>" + app.getMenu("LoginToGoogle") + "</span>");
+		googleLogin.setTabIndex(4);
 		logins.setWidget(1, 2, googleLogin);
 		
 		facebookLogin = new Button("<span class=\"loginbutton\"><img src=\"" + AppResources.INSTANCE.social_facebook().getSafeUri().asString() + "\"/>" + app.getMenu("LoginToFaceBook") + "</span>");
+		facebookLogin.setTabIndex(5);
 		logins.setWidget(1, 3, facebookLogin);
 		
 		twitterLogin = new Button("<span class=\"loginbutton\"><img src=\"" + AppResources.INSTANCE.social_twitter().getSafeUri().asString() + "\"/>" + app.getMenu("LoginToTwitter") + "</span>");
+		twitterLogin.setTabIndex(6);
 		logins.setWidget(2, 2, twitterLogin);
 		
 		openidLogin = new Button("<span class=\"loginbutton\"><img src=\"" + AppResources.INSTANCE.social_openid().getSafeUri().asString() + "\"/>" + app.getMenu("LoginToOpenId") + "</span>");
+		openidLogin.setTabIndex(7);
 		logins.setWidget(2, 3, openidLogin);		
 		
 		ggtLoginPanel.add(logins);
 		container.add(ggtLoginPanel);
 		
-		((AppW) app).getLoginOperation().getView().add(this);
-		
-		
+		((AppW) app).getLoginOperation().getView().add(this);		
 		
 		add(container);
 	}
@@ -211,6 +228,11 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		super.show();
 		clearLoginFields();
 		submitButton.setEnabled(!isloginFieldsAreEmpty());
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand () {
+	        public void execute () {
+	            forumUserName.setFocus(true);
+	        }
+	    });
 	}
 
 	private boolean isloginFieldsAreEmpty() {
@@ -220,7 +242,6 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 	private void clearLoginFields() {
 		forumUserName.setText("");
 	    forumPassword.setText("");
-	    forumUserName.setFocus(true);
 	    errormsg.setText("");
     }
 

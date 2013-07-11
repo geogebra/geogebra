@@ -259,7 +259,9 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
         }
 
 		private void renderSignInState() {
-			signedInMenu.setVisible(false);
+			if (signedInMenu != null) {
+				signedInMenu.setVisible(false);
+			}
 			signIn.setVisible(true);
         }
 		
