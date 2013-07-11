@@ -45,6 +45,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private TouchApp app;
 	private DialogType type;
 	private String prevText, input, mode;
+	boolean handlingExpected = false;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
@@ -113,12 +114,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
-				if(!InputDialog.this.textBox.isVisible()){
+				if (!InputDialog.this.textBox.isVisible())
+				{
 					return;
 				}
-				
+
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
+					InputDialog.this.handlingExpected = true;
 					InputDialog.this.onOK();
 					// TODO: close the keyboard!!!
 				}
@@ -216,13 +219,12 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
+		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null)
 		{
 			this.radioButton[0].setValue(new Boolean(true));
 		}
-
-		this.textBox.setFocus(true);
 
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -314,6 +316,22 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public DialogType getType()
 	{
 		return this.type;
+	}
+
+	/**
+	 * 
+	 * @param reset
+	 *          if true handlingExpected will be set to false
+	 * @return true if the input should be handled
+	 */
+	public boolean isHandlingExpected(boolean reset)
+	{
+		boolean ret = this.handlingExpected;
+		if (reset)
+		{
+			this.handlingExpected = false;
+		}
+		return ret;
 	}
 
 	@Override

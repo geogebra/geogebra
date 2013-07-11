@@ -1343,6 +1343,16 @@ public class TouchModel {
 	}
 
 	public void inputPanelClosed() {
+		this.inputDialog.setText("");
+		
+		if(!this.inputDialog.isHandlingExpected(true))
+		{
+			resetSelection();
+			// still false! includes a repaint
+			this.kernel.setNotifyRepaintActive(true);
+			return;
+		}
+		
 		boolean oldVal = TouchModel.this.kernel.getConstruction()
 				.isSuppressLabelsActive();
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
