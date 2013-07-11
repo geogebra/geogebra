@@ -1933,6 +1933,21 @@ body[dir=rtl] .GeoGebraMenuBar table{
 	display: inline-block;
 }
 
+.navbar_leftPanel{
+	text-align: center;
+	width: 45%;
+}
+
+.navbar_playPanel{
+	text-align: center;
+	width: 45%
+}
+
+.navbar_btOpenWindow{
+	position: absolute;
+	right: 20px;
+}
+
 /*=========== Navigation Bar end =============*/
 
 /*=========== Construction protocol =============*/

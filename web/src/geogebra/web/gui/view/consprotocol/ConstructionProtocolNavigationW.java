@@ -100,6 +100,10 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		});
 		btOpenWindow.setVisible(showConsProtButton);
 		
+		leftPanel.addStyleName("navbar_leftPanel");
+		((GPanelW)playPanel).getImpl().addStyleName("navbar_playPanel");
+		btOpenWindow.addStyleName("navbar_btOpenWindow");
+		
 		implPanel.add(leftPanel);
 		implPanel.add(((GPanelW)playPanel).getImpl());
 		implPanel.add(btOpenWindow);
