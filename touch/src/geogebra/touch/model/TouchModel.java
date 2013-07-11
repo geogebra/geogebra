@@ -810,10 +810,12 @@ public class TouchModel {
 				if (geoA instanceof GeoCurveCartesian
 						&& geoB instanceof GeoCurveCartesian
 						&& singlePointForIntersection && pointRW != null) {
-					this.kernel.getAlgoDispatcher().IntersectCurveCurveSingle(
+					for (GeoElement g : this.kernel.getAlgoDispatcher().IntersectCurveCurveSingle(
 							new String[] { null }, (GeoCurveCartesian) geoA,
 							(GeoCurveCartesian) geoB, pointRW.getX(),
-							pointRW.getY());
+							pointRW.getY())){
+						newElements.add(g);
+					}
 					break;
 				}
 				
@@ -828,7 +830,9 @@ public class TouchModel {
 				}
 
 				try {
-					this.cmdIntersect.process(c);
+					for (GeoElement g : this.cmdIntersect.process(c)){
+						newElements.add(g);
+					}
 				} catch (MyError e) {
 					// in case there is a problem (f.e. intersecting is not
 					// implemented for these object types),
@@ -1029,14 +1033,14 @@ public class TouchModel {
 				break;
 			case Angle:
 				if (this.getNumberOf(Test.GEOPOINT) >= 3) {
-					this.kernel.getAlgoDispatcher().Angle(null,
+					newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
 							(GeoPoint) this.getElement(Test.GEOPOINT),
 							(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 2));
+							(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
 				} else {
-					this.kernel.getAlgoDispatcher().Angle(null,
+					newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
 							(GeoLine) this.getElement(Test.GEOLINE),
-							(GeoLine) this.getElement(Test.GEOLINE, 1));
+							(GeoLine) this.getElement(Test.GEOLINE, 1)));
 				}
 				break;
 			case AngleBisector:
