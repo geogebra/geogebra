@@ -178,21 +178,23 @@ public class TouchEntryPoint implements EntryPoint
 
 	protected static void setLookAndFeel()
 	{
-		switch (RootPanel.getBodyElement().getAttribute("data-param-laf"))
-		{
-		case "android":
-			laf = new AndroidLAF();
-			break;
-		case "ios":
-			laf = new DefaultLAF(); // FIXME set ios laf
-			break;
-		case "win":
-			laf = new WindowsStoreLAF();
-			break;
-		default:
-			laf = new DefaultLAF();
+		String param = RootPanel.getBodyElement().getAttribute("data-param-laf");
 
-			break;
+		if ("android".equals(param))
+		{
+			laf = new AndroidLAF();
+		}
+		else if ("ios".equals(param))
+		{
+			laf = new DefaultLAF(); // FIXME set ios laf
+		}
+		else if ("win".equals(param))
+		{
+			laf = new WindowsStoreLAF();
+		}
+		else
+		{
+			laf = new DefaultLAF();
 		}
 	}
 
