@@ -19,6 +19,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
+import geogebra.common.util.Language;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.io.ConstructionException;
@@ -254,20 +255,19 @@ public abstract class AppWeb extends App implements SetLabels{
 			return new MyXMLioW(cons.getKernel(), cons);
 		}
 		
-		public void setLanguage(final String lang) {
-
-			if (lang != null && lang.equals(loc.getLanguage())) {
+		public void setLanguage(final String browserLang) {
+			if (browserLang != null && browserLang.equals(loc.getLanguage())) {
 				setLabels();
 				return;
 			}
 
-			if (lang == null || "".equals(lang)) {
+			if (browserLang == null || "".equals(browserLang)) {
 
 				App.error("language being set to empty string");
 				setLanguage("en");
 				return;
 			}
-
+			final String lang = Language.getClosestGWTSupportedLanguage(browserLang);
 			App.debug("setting language to:" + lang);
 
 			// load keys (into a JavaScript <script> tag)
@@ -281,7 +281,7 @@ public abstract class AppWeb extends App implements SetLabels{
 					// force reload
 					resetCommandDictionary();
 
-					loc.setLanguage(lang);
+					((LocalizationW)getLocalization()).setLanguage(lang);
 
 					// make sure digits are updated in all numbers
 					getKernel().updateConstruction();
