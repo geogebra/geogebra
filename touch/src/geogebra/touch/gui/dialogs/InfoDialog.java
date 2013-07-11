@@ -4,8 +4,9 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.GuiModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,8 +18,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends PopupPanel
 {
-	private StandardImageButton cancelButton = new StandardImageButton(CommonResources.INSTANCE.dialog_cancel());
-	private StandardImageButton okButton = new StandardImageButton(CommonResources.INSTANCE.dialog_ok());
+	private StandardImageButton cancelButton = new StandardImageButton(getLafIcons().dialog_cancel());
+	private StandardImageButton okButton = new StandardImageButton(getLafIcons().dialog_ok());
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private Label title;
@@ -46,6 +47,11 @@ public class InfoDialog extends PopupPanel
 		this.add(this.dialogPanel);
 		// FIXME the glass pane has z-index 20, we must go higher
 		this.getElement().getStyle().setZIndex(42);
+	}
+
+	private static DefaultIcons getLafIcons()
+	{
+		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
 	@Override

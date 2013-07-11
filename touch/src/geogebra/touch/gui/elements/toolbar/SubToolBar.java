@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.utils.ToolBarCommand;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -32,7 +32,7 @@ public class SubToolBar extends PopupPanel
 	public SubToolBar(ToolBarCommand[] menuEntries, OptionsClickedListener ancestor)
 	{
 		this.setStyleName("subToolBar");
-		
+
 		this.contentPanel = new VerticalPanel();
 
 		this.subToolBarPanel = new HorizontalPanel();
@@ -48,9 +48,9 @@ public class SubToolBar extends PopupPanel
 
 		this.contentPanel.add(this.subToolBarPanel);
 		this.setWidget(this.contentPanel);
-		
+
 		this.arrowPanel = new LayoutPanel();
-		String html = "<img src=\"" + CommonResources.INSTANCE.subToolBarArrow().getSafeUri().asString() + "\" />";
+		String html = "<img src=\"" + TouchEntryPoint.getLookAndFeel().getIcons().subToolBarArrow().getSafeUri().asString() + "\" />";
 		this.arrowPanel.getElement().setInnerHTML(html);
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");

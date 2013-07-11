@@ -7,11 +7,12 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
+import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
@@ -36,6 +37,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class StylingBar extends DecoratorPanel
 {
+	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 	HorizontalPanel contentPanel;
 
 	StandardImageButton[] button = new StandardImageButton[0];
@@ -105,7 +107,7 @@ public class StylingBar extends DecoratorPanel
 			}
 		}, MouseDownEvent.getType());
 
-		this.showHide = new ArrowImageButton(CommonResources.INSTANCE.triangle_left());
+		this.showHide = new ArrowImageButton(LafIcons.triangle_left());
 
 		this.showHide.addTouchStartHandler(new TouchStartHandler()
 		{
@@ -125,9 +127,6 @@ public class StylingBar extends DecoratorPanel
 					StylingBar.this.visible = false;
 
 					StylingBar.this.showHide.setStyleName("arrowRight");
-					
-					// Set stylebar transparent, when closed
-					StylingBar.this.addStyleName("transparent");
 				}
 				else
 				{
@@ -140,9 +139,6 @@ public class StylingBar extends DecoratorPanel
 					StylingBar.this.visible = true;
 
 					StylingBar.this.showHide.setStyleName("arrowLeft");
-					
-					// Set stylebar not transparent, when open
-					StylingBar.this.removeStyleName("transparent");
 
 					// force repaint
 					euclidianViewPanel.remove(StylingBar.this);
@@ -203,8 +199,9 @@ public class StylingBar extends DecoratorPanel
 
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString() : "";
-		
-		if(entry == StylingBarEntries.Move && this.touchModel.getTotalNumber() > 0){
+
+		if (entry == StylingBarEntries.Move && this.touchModel.getTotalNumber() > 0)
+		{
 			color = this.touchModel.getSelectedGeos().get(0).getObjectColor().toString();
 			if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND)
 			{
@@ -223,14 +220,14 @@ public class StylingBar extends DecoratorPanel
 				resource = StylingBarEntries.Angle.getResources();
 			}
 		}
-		
+
 		StandardImageButton[] b = new StandardImageButton[resource.length];
 
 		for (int i = 0; i < resource.length; i++)
 		{
-			if (resource[i].equals(CommonResources.INSTANCE.label()))
+			if (resource[i].equals(LafIcons.label()))
 			{
-				b[i] = new StandardImageButton(CommonResources.INSTANCE.label());
+				b[i] = new StandardImageButton(LafIcons.label());
 
 				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
 				{
@@ -252,9 +249,9 @@ public class StylingBar extends DecoratorPanel
 				});
 
 			}
-			else if (resource[i].equals(CommonResources.INSTANCE.properties_default()))
+			else if (resource[i].equals(LafIcons.properties_default()))
 			{
-				b[i] = new StandardImageButton(CommonResources.INSTANCE.properties_default());
+				b[i] = new StandardImageButton(LafIcons.properties_default());
 
 				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
 				{
@@ -276,9 +273,9 @@ public class StylingBar extends DecoratorPanel
 				});
 
 			}
-			else if (resource[i].equals(CommonResources.INSTANCE.color()))
+			else if (resource[i].equals(LafIcons.color()))
 			{
-				b[i] = new StandardImageButton(CommonResources.INSTANCE.color());
+				b[i] = new StandardImageButton(LafIcons.color());
 				b[i].getElement().getStyle().setBackgroundImage("initial");
 				b[i].getElement().getStyle().setBackgroundColor(color);
 
@@ -305,13 +302,13 @@ public class StylingBar extends DecoratorPanel
 
 				this.colorButtonIndex = i;
 			}
-			else if (resource[i].equals(CommonResources.INSTANCE.show_or_hide_the_axes()))
+			else if (resource[i].equals(LafIcons.show_or_hide_the_axes()))
 			{
-				b[i] = createStyleBarButton("showAxes", CommonResources.INSTANCE.show_or_hide_the_axes());
+				b[i] = createStyleBarButton("showAxes", LafIcons.show_or_hide_the_axes());
 			}
-			else if (resource[i].equals(CommonResources.INSTANCE.show_or_hide_the_grid()))
+			else if (resource[i].equals(LafIcons.show_or_hide_the_grid()))
 			{
-				b[i] = createStyleBarButton("showGrid", CommonResources.INSTANCE.show_or_hide_the_grid());
+				b[i] = createStyleBarButton("showGrid", LafIcons.show_or_hide_the_grid());
 			}
 
 			else
@@ -370,19 +367,21 @@ public class StylingBar extends DecoratorPanel
 	}
 
 	// TODO: use with SelectionManager
-//	public void updateGeos(SelectionManager sel)
-//	{
-//		if (sel.getSelectedGeos().size() == 0)
-//		{
-//			rebuild(StylingBarEntries.Move);
-//		}
-//		else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND)
-//		{
-//			rebuild(StylingBarEntries.Point);
-//		}
-//		else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties)
-//		{
-//			rebuild(StylingBarEntries.Line);
-//		}
-//	}
+	// public void updateGeos(SelectionManager sel)
+	// {
+	// if (sel.getSelectedGeos().size() == 0)
+	// {
+	// rebuild(StylingBarEntries.Move);
+	// }
+	// else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog()
+	// instanceof GeoPointND)
+	// {
+	// rebuild(StylingBarEntries.Point);
+	// }
+	// else if (sel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog()
+	// instanceof LineProperties)
+	// {
+	// rebuild(StylingBarEntries.Line);
+	// }
+	// }
 }

@@ -1,33 +1,29 @@
 package geogebra.touch.gui.laf;
 
-import geogebra.touch.FileManagerM;
-import geogebra.touch.TouchApp;
-import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.model.TouchModel;
-
-public class WindowsStoreLAF implements LookAndFeel {
-
+public class WindowsStoreLAF extends DefaultLAF
+{
 	@Override
-	public void buildHeader(TabletGUI gui,
-			TouchApp application, TouchModel touchModel, FileManagerM fm) {
+	public void setTitle(String title)
+	{
 
 	}
 
 	@Override
-	public void setTitle(String title) {
-		
-	}
-
-	@Override
-	public int getPanelsHeight() {
+	public int getPanelsHeight()
+	{
 		return 60;
 	}
 
 	@Override
-	public int getAppBarHeight() {
+	public int getAppBarHeight()
+	{
 		return 0;
 	}
 
-	
-
+	@Override
+  public DefaultIcons getIcons()
+  {
+	  // FIXME return windows specific icons
+	  return DefaultIcons.INSTANCE;
+  }
 }

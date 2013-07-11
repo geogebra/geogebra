@@ -4,10 +4,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.CommonResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -30,10 +30,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	InfoDialog infoDialog;
 
-	private StandardImageButton newButton = new StandardImageButton(CommonResources.INSTANCE.document_new());
-	private StandardImageButton openButton = new StandardImageButton(CommonResources.INSTANCE.document_open());
-	private StandardImageButton saveButton = new StandardImageButton(CommonResources.INSTANCE.document_save());
-
+	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private StandardImageButton newButton = new StandardImageButton(LafIcons.document_new());
+	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_open());
+	private StandardImageButton saveButton = new StandardImageButton(LafIcons.document_save());
+	
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
@@ -138,13 +139,12 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	@Override
 	public void setTitle(String title)
 	{
-		// FIXME ugly, implement observer pattern!
-		this.tabletGUI.getLAF().setTitle(title);
+		TouchEntryPoint.getLookAndFeel().setTitle(title);
 	}
 
 	public void setLabels()
 	{
-		// not needed ATM
+			// not needed ATM
 	}
 
 }

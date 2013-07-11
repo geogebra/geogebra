@@ -6,8 +6,9 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.main.AppWeb;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.gui.laf.DefaultIcons;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -125,7 +126,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement)
 		{
-			ti.setWidget(new RadioButtonTreeItemT((GeoElement) ob, CommonResources.INSTANCE.algebra_shown().getSafeUri(), CommonResources.INSTANCE
+			ti.setWidget(new RadioButtonTreeItemT((GeoElement) ob, getLafIcons().algebra_shown().getSafeUri(), DefaultIcons.INSTANCE
 			    .algebra_hidden().getSafeUri(), null, this.controller));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			// Workaround to make treeitem visual selection available
@@ -134,10 +135,15 @@ public class AlgebraViewM extends AlgebraViewWeb
 		}
 		else
 		{
-			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob.toString(), CommonResources.INSTANCE.triangle_left().getSafeUri(),
-			    CommonResources.INSTANCE.triangle_left().getSafeUri()));
+			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob.toString(), DefaultIcons.INSTANCE.triangle_left().getSafeUri(),
+			    getLafIcons().triangle_left().getSafeUri()));
 		}
 	}
+
+	private static DefaultIcons getLafIcons()
+  {	  
+	  return TouchEntryPoint.getLookAndFeel().getIcons();
+  }
 
 	@Override
 	public void onBrowserEvent(Event event)

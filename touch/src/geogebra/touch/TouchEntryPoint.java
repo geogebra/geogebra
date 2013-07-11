@@ -5,6 +5,10 @@ import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.laf.AndroidLAF;
+import geogebra.touch.gui.laf.DefaultLAF;
+import geogebra.touch.gui.laf.LookAndFeel;
+import geogebra.touch.gui.laf.WindowsStoreLAF;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -31,6 +35,7 @@ public class TouchEntryPoint implements EntryPoint
 	static WorksheetGUI worksheetGUI = new WorksheetGUI();
 
 	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
+	private static LookAndFeel laf;
 
 	@Override
 	public void onModuleLoad()
@@ -46,11 +51,11 @@ public class TouchEntryPoint implements EntryPoint
 	{
 		GWT.runAsync(new RunAsyncCallback()
 		{
-
 			@Override
 			public void onSuccess()
 			{
 				ResourcesInjector.injectResources();
+				setLookAndFeel();
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
@@ -64,7 +69,7 @@ public class TouchEntryPoint implements EntryPoint
 				app.start(fm);
 
 				TouchEntryPoint.showTabletGUI();
-				
+
 				Window.addResizeHandler(new ResizeHandler()
 				{
 
@@ -135,22 +140,22 @@ public class TouchEntryPoint implements EntryPoint
 
 	public static void goBack()
 	{
-		//is Dialog open? -> close dialog
-			if (tabletGUI.getTouchModel().getGuiModel().isDialogShown())
+		// is Dialog open? -> close dialog
+		if (tabletGUI.getTouchModel().getGuiModel().isDialogShown())
+		{
+			tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
+		}
+		else
+		{
+			// else go to last view in history
+			if (!appWidget.goBack())
 			{
-				tabletGUI.getTouchModel().getGuiModel().closeActiveDialog();
+				// if history is empty -> close app
+				phoneGap.exitApp();
 			}
-			else
-			{
-				// else go to last view in history
-				if (!appWidget.goBack())
-				{
-					// if history is empty -> close app
-					phoneGap.exitApp();
-				}
-			}
+		}
 	}
-	
+
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
@@ -167,8 +172,32 @@ public class TouchEntryPoint implements EntryPoint
 	}
 
 	public static void reloadLocalFiles()
-  {
-	  TouchEntryPoint.browseGUI.reloadLocalFiles();
-  }
+	{
+		TouchEntryPoint.browseGUI.reloadLocalFiles();
+	}
 
+	protected static void setLookAndFeel()
+	{
+		switch (RootPanel.getBodyElement().getAttribute("data-param-laf"))
+		{
+		case "android":
+			laf = new AndroidLAF();
+			break;
+		case "ios":
+			laf = new DefaultLAF(); // FIXME set ios laf
+			break;
+		case "win":
+			laf = new WindowsStoreLAF();
+			break;
+		default:
+			laf = new DefaultLAF();
+
+			break;
+		}
+	}
+
+	public static LookAndFeel getLookAndFeel()
+	{
+		return TouchEntryPoint.laf;
+	}
 }

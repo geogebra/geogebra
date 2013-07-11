@@ -1,9 +1,10 @@
 package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.main.Localization;
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		});
 
 		this.searchButton = new StandardImageButton(
-				CommonResources.INSTANCE.search());
+				getLaf().getIcons().search());
 		this.searchButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -75,5 +76,10 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 
 	public void onResize(ResizeEvent event) {
 		this.setWidth(event.getWidth());
+	}
+	
+	private static LookAndFeel getLaf()
+	{
+		return TouchEntryPoint.getLookAndFeel();
 	}
 }

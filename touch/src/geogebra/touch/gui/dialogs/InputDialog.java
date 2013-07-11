@@ -1,6 +1,7 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.touch.TouchApp;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
@@ -21,7 +22,6 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -48,11 +48,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private TouchApp app;
 	private DialogType type;
 	private String prevText, input, mode;
-	boolean handlingExpected = false;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
 	private GuiModel guiModel;
+	private boolean handlingExpected = false;
 
 	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, GuiModel guiModel)
 	{
@@ -64,7 +64,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.type = type;
 
 		// this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
-		this.laf = gui.getLAF();
+		this.laf = TouchEntryPoint.getLookAndFeel();
 		onResize(null);
 
 		this.setStyleName("inputDialog");
@@ -117,14 +117,12 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
-				if (!InputDialog.this.textBox.isVisible())
-				{
+				if(!InputDialog.this.textBox.isVisible()){
 					return;
 				}
-
+				
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
-					InputDialog.this.handlingExpected = true;
 					InputDialog.this.onOK();
 					// TODO: close the keyboard!!!
 				}
@@ -148,25 +146,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			public void onFocus(FocusEvent event)
 			{
 				InputDialog.this.textBox.setFocus(true);
-				InputDialog.this.underline.removeStyleName("inactive");
+					InputDialog.this.underline.removeStyleName("inactive");
 				InputDialog.this.underline.addStyleName("active");
 			}
 		});
-		
-		VerticalPanel textPanel = new VerticalPanel();
-		textPanel.setStyleName("textPanel");
-		textPanel.add(this.textBox);
-		
-		//Input Underline for Android
-		this.underline = new LayoutPanel();
-		this.underline.setStyleName("inputUnderline");
-		this.underline.addStyleName("inactive");
-		
-		textPanel.add(this.underline);
-		
+
+		this.textBox.setVisibleLength(107);
+		this.dialogPanel.add(this.textBox);
 		this.textBox.setFocus(true);
-		
-		this.dialogPanel.add(textPanel);
 	}
 
 	private void addRadioButton()
@@ -181,6 +168,35 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.radioButton[0].setValue(new Boolean(true));
 	}
+
+	/*
+	 * private void addButtonContainer() { addCancelButton(); addOKButton();
+	 * 
+	 * this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+	 * this.dialogPanel.add(this.buttonContainer); }
+	 */
+
+	/*
+	 * private void addOKButton() { this.okButton.addDomHandler(new ClickHandler()
+	 * {
+	 * 
+	 * @Override public void onClick(ClickEvent event) { InputDialog.this.onOK();
+	 * } }, ClickEvent.getType());
+	 * 
+	 * this.buttonContainer.add(this.okButton); }
+	 */
+
+	/*
+	 * private void addCancelButton() { this.cancelButton.addDomHandler(new
+	 * ClickHandler() {
+	 * 
+	 * @Override public void onClick(ClickEvent event) {
+	 * InputDialog.this.onCancel(); }
+	 * 
+	 * }, ClickEvent.getType());
+	 * 
+	 * this.buttonContainer.add(this.cancelButton); }
+	 */
 
 	protected void onOK()
 	{
@@ -206,12 +222,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		// super.center();
 		this.textBox.setText(this.prevText);
 		this.input = this.prevText;
-		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null)
 		{
 			this.radioButton[0].setValue(new Boolean(true));
 		}
+
+		this.textBox.setFocus(true);
 
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -305,7 +322,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		return this.type;
 	}
 
-	/**
+/**
 	 * 
 	 * @param reset
 	 *          if true handlingExpected will be set to false
@@ -320,7 +337,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		}
 		return ret;
 	}
-
+	
 	@Override
 	public void onCustomKeyPressed(CustomKey c)
 	{

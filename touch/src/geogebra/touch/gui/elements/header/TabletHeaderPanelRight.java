@@ -1,7 +1,7 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.CommonResources;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,27 +23,26 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	{
 		StandardImageButton[] button = new StandardImageButton[2];
 
-		button[0] = new StandardImageButton(CommonResources.INSTANCE.undo());
+		button[0] = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().undo());
 		
 		button[0].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				app.getKernel().undo();				
-				app.resetPen(); 
+				app.getKernel().undo();
+				app.resetPen();
 			}
 		}, ClickEvent.getType());
 
-		button[1] = new StandardImageButton(CommonResources.INSTANCE.redo());
-		
+		button[1] = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().redo());
 		button[1].addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				app.getKernel().redo();
-				app.resetPen(); 
+				app.resetPen();
 			}
 		}, ClickEvent.getType());
 

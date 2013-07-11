@@ -1,4 +1,4 @@
-package geogebra.touch.gui;
+package geogebra.touch.gui.laf;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 import org.vectomatic.dom.svg.ui.SVGResource.Validated;
@@ -6,10 +6,9 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
-public interface CommonResources extends ClientBundle
+public interface DefaultIcons extends ClientBundle
 {
-
-	public static CommonResources INSTANCE = GWT.create(CommonResources.class);
+	static DefaultIcons INSTANCE = GWT.create(DefaultIcons.class);
 
 	// Dialogs
 
@@ -48,19 +47,19 @@ public interface CommonResources extends ClientBundle
 	SVGResource redo();
 
 	// show - hide (AlgebraView and StylingBar)
-	
+
 	@Source("icons/svg/arrow_dockbar_triangle_right.svg")
 	@Validated(validated = false)
 	SVGResource triangle_right();
-	
+
 	@Source("icons/svg/arrow_dockbar_triangle_left.svg")
 	@Validated(validated = false)
 	SVGResource triangle_left();
-	
+
 	@Source("icons/svg/arrow_dockbar_triangle_down.svg")
 	@Validated(validated = false)
 	SVGResource triangle_down();
-	
+
 	// AlgebraView
 
 	@Source("icons/svg/algebra_hidden.svg")
@@ -451,11 +450,11 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/arrow_go_previous_gray.svg")
 	@Validated(validated = false)
 	SVGResource back();
-	
+
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource document_viewer();
-	
+
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource document_edit();
@@ -463,13 +462,12 @@ public interface CommonResources extends ClientBundle
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource icon_fx();
-	
-	
+
 	// New Styles
 	@Source("icons/svg/subToolbarArrow.svg")
 	@Validated(validated = false)
 	SVGResource subToolBarArrow();
-	
+
 	@Source("icons/svg/optionsBoxArrow.svg")
 	@Validated(validated = false)
 	SVGResource optionsBoxArrow();

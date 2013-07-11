@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements;
 
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.CommonResources;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
@@ -17,7 +16,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel{
 	private HorizontalPanel panel;
 	protected HorizontalPanel rightPanel;
 	public AuxiliaryHeaderPanel(String title,Localization loc){
-		this.backButton = new StandardImageButton(CommonResources.INSTANCE.back());
+		this.backButton = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().back());
 		this.backButton.addDomHandler(new ClickHandler()
 		{
 			@Override

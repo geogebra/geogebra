@@ -31,16 +31,23 @@ public class DefaultLAF implements LookAndFeel
 		return 122;
 	}
 
-	public TabletHeaderPanel getTabletHeaderPanel()
+	@Override
+  public TabletHeaderPanel getTabletHeaderPanel()
 	{
 		return this.hp;
 	}
 
 	@Override
-	public int getAppBarHeight() {
-		//return 62;
+	public int getAppBarHeight()
+	{
+		return 62;
 		
-		// Android
-		return 50;
+	
+	}
+
+	@Override
+	public DefaultIcons getIcons()
+	{
+		return DefaultIcons.INSTANCE;
 	}
 }
