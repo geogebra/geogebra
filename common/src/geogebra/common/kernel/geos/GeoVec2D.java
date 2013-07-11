@@ -703,6 +703,207 @@ final public class GeoVec2D extends ValidExpression implements
 	}
 
 	/**
+	 * c = sin(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexSin(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.sin();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = cos(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCos(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.cos();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = tan(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexTan(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.tan();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = sinh(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexSinh(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.sinh();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = cosh(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCosh(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.cosh();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = tanh(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexTanh(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = out.tanh();
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = sec(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexSec(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.cos());
+		
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = csc(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCsc(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.sin());		
+		
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = cot(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCot(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.tan());
+		
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+	/**
+	 * c = sech(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexSech(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.cosh());
+			
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = csc(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCsch(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.sinh());
+		
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
+	 * c = cot(a) 
+	 * 
+	 * @param a
+	 *            a
+	 * @param c
+	 *            c
+	 */
+	final public static void complexCoth(GeoVec2D a, GeoVec2D c) {
+		Complex out = new Complex(a.x, a.y);
+		out = Complex.ONE.divide(out.tanh());
+		
+		c.x = out.getReal();
+		c.y = out.getImaginary();
+		c.setMode(Kernel.COORD_COMPLEX);
+	}
+
+	/**
 	 * c = zeta(a) Michael Borcherds 2010-02-07
 	 * 
 	 * @param a

@@ -427,6 +427,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cos();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCos(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "cos(");
 
@@ -439,7 +446,14 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sin();
-			}
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexSin(vec, vec);
+				return vec;
+
+			} 
 			return ev.polynomialOrDie(lt, this, "sin(");
 
 		}
@@ -451,6 +465,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().tan();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexTan(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "tan(");
 
@@ -711,6 +732,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cosh();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCosh(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "cosh(");
 
@@ -723,6 +751,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sinh();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexSinh(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "sinh(");
 
@@ -735,6 +770,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().tanh();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexTanh(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "tanh(");
 
@@ -783,6 +825,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().csc();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCsc(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "csc(");
 
@@ -795,6 +844,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sec();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexSec(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "sec(");
 
@@ -807,6 +863,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().cot();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCot(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "cot(");
 
@@ -819,6 +882,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().csch();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCsch(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "csch(");
 
@@ -831,6 +901,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().sech();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexSech(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "sech(");
 
@@ -843,6 +920,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().coth();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+				// complex sin
+				GeoVec2D.complexCoth(vec, vec);
+				return vec;
+
 			}
 			return ev.polynomialOrDie(lt, this, "coth(");
 
