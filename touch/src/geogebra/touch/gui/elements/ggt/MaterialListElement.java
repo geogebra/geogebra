@@ -165,7 +165,7 @@ public class MaterialListElement extends HorizontalPanel {
 							MaterialListElement.this.material.getURL(),
 							MaterialListElement.this.app);
 				}
-				TouchEntryPoint.showTabletGUI();
+				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
 
