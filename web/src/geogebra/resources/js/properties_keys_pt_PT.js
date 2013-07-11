@@ -270,7 +270,7 @@ __GGB__keysVar.pt_PT.command = {
     "Ends": "BaseCircular",
     "Erlang": "Erlang",
     "Erlang_Syntax": "[ <Forma>, <Taxa>, x ]\n[ <Forma>, <Taxa>, <Valor da Vari\xe1vel> ]\n[ <Forma>, <Taxa>, x, <Acumulada (true | false)> ]",
-    "Evaluate": "Evaluate",
+    "Evaluate": "Avaliar",
     "Excentricity": "ExcentricidadeLinear",
     "Excentricity_Syntax": "[ <C\xf3nica> ]",
     "Execute": "Executar",
