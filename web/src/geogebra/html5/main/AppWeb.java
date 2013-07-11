@@ -285,7 +285,6 @@ public abstract class AppWeb extends App implements SetLabels{
 
 					// make sure digits are updated in all numbers
 					getKernel().updateConstruction();
-					setUnsaved();
 
 					// update display & Input Bar Dictionary etc
 					setLabels();

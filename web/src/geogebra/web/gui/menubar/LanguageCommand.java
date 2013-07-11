@@ -69,11 +69,13 @@ public class LanguageCommand implements Command {
 		} else {
 			setCookies(LOCALE_PARAMETER, localeCode);
 		}
+		
+		app.setUnsaved();
 	
 		String oldLang = app.getLanguageFromCookie();
 		//TODO: change "en" for the default language
 		//if there is no cookie yet, it starts with the default language
-		if (oldLang==null) oldLang="en";
+		if (oldLang==null) oldLang="en";		
 		boolean oldRTLOrder = Localization.rightToLeftReadingOrder(oldLang);
 			
 		//On changing language from LTR/RTL the page will reload.
@@ -83,7 +85,7 @@ public class LanguageCommand implements Command {
 			JavaScriptObject callback = saveBase64ToLocalStorage();
 			app.getGgbApi().getBase64(callback);
 		} else {
-			app.setLanguage(localeCode);
+			app.setLanguage(localeCode);			
 		}
 		
 	}
