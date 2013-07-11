@@ -31,7 +31,6 @@ public class LoadFilePresenter{
     public void onPageLoad() {
 		
 		View view = getView();
-		String filename;
 		String base64String;
 		String fileId;
 		
@@ -85,8 +84,10 @@ public class LoadFilePresenter{
 
 		app.setUndoActive(undoActive);			
 
-		//String language = view.getDataParamLanguage();
-		String language = app.getLanguageFromCookie();
+		String language = view.getDataParamLanguage();
+		if(language == null){
+			language = app.getLanguageFromCookie();
+		}
 		
 		if (language != null) {
 			String country = view.getDataParamCountry();
