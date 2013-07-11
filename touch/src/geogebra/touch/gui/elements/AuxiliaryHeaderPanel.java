@@ -24,7 +24,6 @@ public class AuxiliaryHeaderPanel extends FlowPanel{
 			public void onClick(ClickEvent event)
 			{
 				TouchEntryPoint.goBack();
-//				TouchEntryPoint.showTabletGUI();
 			}
 		}, ClickEvent.getType());
 		this.panel = new HorizontalPanel();
