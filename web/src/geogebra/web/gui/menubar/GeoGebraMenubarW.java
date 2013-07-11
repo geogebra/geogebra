@@ -35,6 +35,8 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 		private MenuItem signIn;
 		private MenuItem linktoggb;
 		private ViewMenuW viewMenu;
+		private SignedInMenuW signedIn;
+		private MenuItem signedInMenu;
 
 		/**
 		 * Constructs the menubar
@@ -101,12 +103,18 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 		   renderNetworkOperation(false);
 	   }
 	   
-	   if (app.getLoginOperation().isOnline()) {
+	   if (app.getLoginOperation().isLoggedIn()) {
 		   this.success(app.getLoginOperation().getStoredLoginData());
 	   }
 	   
 	   
     }
+	
+	private void createSignedInMenu() {
+		  signedIn = new SignedInMenuW(app);
+	      signedInMenu = addItem(app.getMenu("SignedIn"), signedIn);
+	      signedInMenu.addStyleName("signIn");
+	}
 
 	/**
 	 * @param online network state of the app
@@ -243,17 +251,7 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 		}
 
 		public void success(JSONObject response) {
-	       signIn.setText(app.getMenu("SignedIn"));
-	       signIn.setScheduledCommand(getSignOutCommand());
-        }
-
-		private ScheduledCommand getSignOutCommand() {
-			 return new ScheduledCommand() {
-					
-					public void execute() {
-						app.getLogOutOperation().logOut();
-					}
-				};
+				renderSignedInState();     
         }
 
 		public void fail(JSONObject resonse) {
@@ -261,9 +259,20 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
         }
 
 		private void renderSignInState() {
-	        signIn.setText(app.getMenu("signIn"));
-	        signIn.setScheduledCommand(getSignInCommand());
+			signedInMenu.setVisible(false);
+			signIn.setVisible(true);
         }
+		
+		private void renderSignedInState() {
+			if (signedInMenu == null) {
+				createSignedInMenu();
+			} else {
+				signedIn.refreshstate();
+			}
+			signedInMenu.setVisible(true);
+			signIn.setVisible(false);
+		}
+		
 
 		public void render() {
 			renderSignInState();

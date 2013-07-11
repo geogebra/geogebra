@@ -54,8 +54,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
-import geogebra.html5.move.ggtapi.models.LogInModelWeb;
-import geogebra.html5.move.ggtapi.models.LogOutModelWeb;
+import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -352,21 +351,20 @@ public class AppW extends AppWeb {
 	
 	private void initAuthenticationEventFlow() {
 		loginOperation = new LoginOperation();
-		LogInModelWeb loginModel = new LogInModelWeb();
+		AuthenticationModelWeb authenticationModel = new AuthenticationModelWeb();
 		LoginView loginView = new LoginView();
 		LoginEventPool loginEvent = new LoginEventPool(loginOperation);
 		
-		loginOperation.setModel(loginModel);
+		loginOperation.setModel(authenticationModel);
 		loginOperation.setView(loginView);
 		loginOperation.setEvent(loginEvent);
 		
-		logoutOperation = new LogOutOperation();
-		LogOutModelWeb logOutModel = new LogOutModelWeb();
+		logoutOperation = new LogOutOperation();		
 		LogOutView logOutView = new LogOutView();
 		LogOutEventPool logOutEvent = new LogOutEventPool(logoutOperation);
 		
 		
-		logoutOperation.setModel(logOutModel);
+		logoutOperation.setModel(authenticationModel);
 		logoutOperation.setView(logOutView);
 		logoutOperation.setEvent(logOutEvent);
 		

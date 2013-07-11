@@ -1,8 +1,9 @@
 package geogebra.common.move.ggtapi.operations;
 
 import geogebra.common.move.ggtapi.events.LoginEventPool;
-import geogebra.common.move.ggtapi.models.LoginModel;
+import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.move.operations.BaseOperation;
 
@@ -43,8 +44,8 @@ public class LoginOperation extends BaseOperation {
 	}
 	
 	@Override
-	public LoginModel getModel() {
-		return (LoginModel) super.getModel();
+	public AuthenticationModel getModel() {
+		return (AuthenticationModel) super.getModel();
 	}
 	
 	@Override
@@ -57,18 +58,26 @@ public class LoginOperation extends BaseOperation {
 		return (LoginEventPool) super.getEvent();
 	}
 
-	/**
-	 * @return boolean indicating that token is stored or not.
-	 */
-	public boolean isOnline() {
-		return getModel().getLoginToken() != null;
-	}
 
 	/**
 	 * @return JSONObject containing the stored login data
 	 */
 	public JSONObject getStoredLoginData() {
 		return getModel().getStoredLoginData();
+	}
+
+	/**
+	 * @return the user name from the storage
+	 */
+	public String getUserName() {
+		return ((JSONString) getModel().getStoredLoginData().get(AuthenticationModel.GGB_LOGIN_DATA_USERNAME_KEY_NAME)).stringValue();
+	}
+
+	/**
+	 * @return boolean indicating that the user is already logged in.
+	 */
+	public boolean isLoggedIn() {
+		return getModel().getLoginToken() != null;
 	}
 
 }

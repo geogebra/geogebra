@@ -143,7 +143,9 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		submitButton.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(forumUserName.getText(), forumPassword.getText(), new RequestCallback() {
+				final String userName = forumUserName.getText();
+				String passwd = forumPassword.getText();
+				(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).logIn(userName, passwd, new RequestCallback() {
 					
 					public void onResponseReceived(Request request, Response response) {
 						JavaScriptObjectWrapper json = (JavaScriptObjectWrapper) JSON.parse(response.getText());
@@ -158,6 +160,11 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 									.getKeyAsObject("token")
 									.getKeyAsString("-value");
 							resp.put(AuthenticationModel.GGB_TOKEN_KEY_NAME, new JSONString(token_value));
+							
+							JSONObject userInfo = new JSONObject();
+							userInfo.put(AuthenticationModel.GGB_LOGIN_DATA_USERNAME_KEY_NAME, new JSONString(userName));
+							
+							resp.put(AuthenticationModel.GGB_LOGIN_DATA_KEY_NAME, userInfo);
 						}
 						
 						

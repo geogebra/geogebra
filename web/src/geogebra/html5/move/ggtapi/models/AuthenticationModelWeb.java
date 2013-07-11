@@ -1,7 +1,7 @@
 package geogebra.html5.move.ggtapi.models;
 
 
-import geogebra.common.move.ggtapi.models.LoginModel;
+import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.html5.util.JSON;
 
@@ -11,14 +11,14 @@ import com.google.gwt.storage.client.Storage;
  * @author gabor
  *
  */
-public class LogInModelWeb extends LoginModel {
+public class AuthenticationModelWeb extends AuthenticationModel {
 	
 	private Storage storage = null;
 	
 	/**
 	 * creates a new login model for Web
 	 */
-	public LogInModelWeb() {
+	public AuthenticationModelWeb() {
 		storage = Storage.getLocalStorageIfSupported();
 	}
 
@@ -42,5 +42,15 @@ public class LogInModelWeb extends LoginModel {
 		JSONObject resp = JSONParser.parseToJSONObject(JSON.parse(storage.getItem(GGB_LOGIN_DATA_KEY_NAME)));
 		return resp;
 	}
+
+	@Override
+    public void storeLoginData(JSONObject info) {
+	    storage.setItem(GGB_LOGIN_DATA_KEY_NAME, info.toString());
+    }
+
+	@Override
+    public void removeStoredLoginData() {
+	    storage.removeItem(GGB_LOGIN_DATA_KEY_NAME);
+    }
 
 }
