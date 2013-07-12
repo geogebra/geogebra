@@ -730,404 +730,7 @@ public class TouchModel {
 		}
 
 		// draw anything other than a point
-		if (draw) {
-			ArrayList<GeoElement> newElements = new ArrayList<GeoElement>();
-
-			switch (this.command) {
-			case LineThroughTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Line(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case SegmentBetweenTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Segment(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case RayThroughTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Ray(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case VectorBetweenTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case CircleWithCenterThroughPoint:
-				newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case Semicircle:
-				newElements.add(this.kernel.getAlgoDispatcher().Semicircle(
-						null, (GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case Locus:
-				newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				break;
-			case PerpendicularLine:
-				newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(
-						null, (GeoPoint) getElement(Test.GEOPOINT),
-						(GeoLine) getElement(Test.GEOLINE)));
-				break;
-			case ParallelLine:
-				newElements.add(this.kernel.getAlgoDispatcher().Line(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoLine) getElement(Test.GEOLINE)));
-				break;
-			case MidpointOrCenter:
-				if (getNumberOf(Test.GEOSEGMENT) > 0) {
-					newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
-							null, (GeoSegment) getElement(Test.GEOSEGMENT)));
-				} else if (getNumberOf(Test.GEOPOINT) >= 2) {
-					newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
-							null, (GeoPoint) getElement(Test.GEOPOINT),
-							(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				}
-				break;
-			case PerpendicularBisector:
-				if (getNumberOf(Test.GEOSEGMENT) > 0) {
-					newElements.add(this.kernel.getAlgoDispatcher()
-							.LineBisector(null,
-									(GeoSegment) getElement(Test.GEOSEGMENT)));
-				} else if (getNumberOf(Test.GEOPOINT) >= 2) {
-					newElements.add(this.kernel.getAlgoDispatcher()
-							.LineBisector(null,
-									(GeoPoint) getElement(Test.GEOPOINT),
-									(GeoPoint) getElement(Test.GEOPOINT, 1)));
-				}
-				break;
-			case IntersectTwoObjects:
-				GeoElement geoA = this.selectedElements
-						.get(this.selectedElements.size() - 1);
-				GeoElement geoB = this.selectedElements
-						.get(this.selectedElements.size() - 2);
-				//intersection of two curves needs 4 params
-				if (geoA instanceof GeoCurveCartesian
-						&& geoB instanceof GeoCurveCartesian
-						&& singlePointForIntersection && pointRW != null) {
-					for (GeoElement g : this.kernel.getAlgoDispatcher().IntersectCurveCurveSingle(
-							new String[] { null }, (GeoCurveCartesian) geoA,
-							(GeoCurveCartesian) geoB, pointRW.getX(),
-							pointRW.getY())){
-						newElements.add(g);
-					}
-					break;
-				}
-				
-				Command c = new Command(this.kernel, "Intersect", draw);
-				c.addArgument(geoA.wrap());
-				c.addArgument(geoB.wrap());
-				//intersection with specified initial point needs 3 params
-				if (singlePointForIntersection && pointRW != null) {
-					GeoPoint p = new GeoPoint(this.kernel.getConstruction(),
-							pointRW.getX(), pointRW.getY(), 1);
-					c.addArgument(new ExpressionNode(this.kernel, p));
-				}
-
-				try {
-					for (GeoElement g : this.cmdIntersect.process(c)){
-						newElements.add(g);
-					}
-				} catch (MyError e) {
-					// in case there is a problem (f.e. intersecting is not
-					// implemented for these object types),
-					// continue selecting geos
-					draw = false;
-				}
-
-				break;
-			case Parabola:
-				newElements.add(this.kernel.getAlgoDispatcher().Parabola(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoLine) getElement(Test.GEOLINE)));
-				break;
-			case DistanceOrLength:
-				// TODO: EuclidianController.distance
-				break;
-			case ReflectObjectAboutLine:
-				// get the line that was selected last
-				GeoLine line = getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) getElement(
-						Test.GEOLINE, 1) : (GeoLine) getElement(Test.GEOLINE);
-				deselect(line);
-				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-						null, this.selectedElements.get(0), line)) {
-					newElements.add(e);
-				}
-				break;
-			case ReflectObjectAboutCircle:
-				// get the circle that was selected last
-				GeoConic circle = getNumberOf(Test.GEOCONIC) > 1 ? (GeoConic) getElement(
-						Test.GEOCONIC, 1)
-						: (GeoConic) getElement(Test.GEOCONIC);
-				deselect(circle);
-				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-						null, this.selectedElements.get(0), circle)) {
-					newElements.add(e);
-				}
-				break;
-			case ReflectObjectAboutPoint:
-				// get the point that was selected last
-				GeoPoint mirrorPoint = getNumberOf(Test.GEOPOINT) > 1 ? (GeoPoint) getElement(
-						Test.GEOPOINT, 1)
-						: (GeoPoint) getElement(Test.GEOPOINT);
-				deselect(mirrorPoint);
-				for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-						null, this.selectedElements.get(0), mirrorPoint)) {
-					newElements.add(e);
-				}
-				break;
-			case Dilate:
-				if(this.inputDialog.getType() != DialogType.NumberValue)
-				{
-					this.inputDialog.redefine(DialogType.NumberValue);
-				}
-				this.inputDialog.setMode("DilateFromPoint");
-				this.inputDialog.show();
-				// return instead of break, as everthing that follows is done by
-				// the dialog!
-				return;
-			case RotateObjectByAngle: 
-				if(this.inputDialog.getType() != DialogType.Angle)
-				{
-					this.inputDialog.redefine(DialogType.Angle);
-				}
-				this.inputDialog.setMode("RotateByAngle");
-				this.inputDialog.setText("45\u00B0"); // 45°
-				this.inputDialog.show();
-				// return instead of break, as everthing that follows is done by
-				// the dialog!
-				return;
-			case TranslateObjectByVector:
-				// get the point that was selected last
-				GeoVector vector = getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) getElement(
-						Test.GEOVECTOR, 1)
-						: (GeoVector) getElement(Test.GEOVECTOR);
-				deselect(vector);
-				for (GeoElement e : this.kernel.getAlgoDispatcher().Translate(
-						null, this.selectedElements.get(0), vector)) {
-					newElements.add(e);
-				}
-				break;
-			case Tangents:
-				GeoElement[] lines;
-				if (this.getElement(Test.GEOPOINT) != null) {
-					GeoElement g = getElementFrom(new Test[]{Test.GEOCONIC, Test.GEOFUNCTION});
-					if(g instanceof GeoConic){
-						//GeoPoint + GeoConic
-						lines = this.kernel.getAlgoDispatcher().Tangent(null,
-								(GeoPoint) this.getElement(Test.GEOPOINT),
-								(GeoConic) g);
-					} else {
-						//GeoPoint + GeoFunction
-						lines = new GeoElement[1];
-						lines[0] = this.kernel.getAlgoDispatcher().Tangent(null,
-								(GeoPoint) this.getElement(Test.GEOPOINT),
-								(GeoFunction) g);
-					}
-				} else {
-					//GeoLine + GeoConic
-					lines = this.kernel.getAlgoDispatcher().Tangent(null,
-							(GeoLine) this.getElement(Test.GEOLINE),
-							(GeoConic) this.getElement(Test.GEOCONIC));
-				}
-				for (GeoElement l : lines) {
-					newElements.add(l);
-				}
-				break;
-			case VectorFromPoint:
-				GeoPoint endPoint = (GeoPoint) this.kernel.getAlgoDispatcher()
-						.Translate(null, getElement(Test.GEOPOINT),
-								(GeoVec3D) getElement(Test.GEOVECTOR))[0];
-				newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
-						(GeoPoint) getElement(Test.GEOPOINT), endPoint));
-				break;
-			case CircleThroughThreePoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1),
-						(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case CircularArcWithCenterBetweenTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().CircleArc(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1),
-						(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case CircularSectorWithCenterBetweenTwoPoints:
-				newElements.add(this.kernel.getAlgoDispatcher().CircleSector(
-						null, (GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1),
-						(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case CircumCirculuarArcThroughThreePoints:
-				newElements.add(this.kernel.getAlgoDispatcher()
-						.CircumcircleArc(null,
-								(GeoPoint) getElement(Test.GEOPOINT),
-								(GeoPoint) getElement(Test.GEOPOINT, 1),
-								(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case CircumCircularSectorThroughThreePoints:
-				newElements.add(this.kernel.getAlgoDispatcher()
-						.CircumcircleSector(null,
-								(GeoPoint) getElement(Test.GEOPOINT),
-								(GeoPoint) getElement(Test.GEOPOINT, 1),
-								(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case Ellipse:
-				newElements.add(this.kernel.getAlgoDispatcher().Ellipse(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1),
-						(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case Hyperbola:
-				newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null,
-						(GeoPoint) getElement(Test.GEOPOINT),
-						(GeoPoint) getElement(Test.GEOPOINT, 1),
-						(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				break;
-			case Compasses:
-				if (getNumberOf(Test.GEOPOINT) >= 3) {
-					AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(
-							this.kernel.getConstruction(),
-							(GeoPoint) getElement(Test.GEOPOINT),
-							(GeoPoint) getElement(Test.GEOPOINT, 1), null);
-					this.kernel.getConstruction().removeFromConstructionList(
-							algoSegment);
-
-					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
-							this.kernel.getConstruction(), null,
-							(GeoPoint) getElement(Test.GEOPOINT, 2),
-							algoSegment.getSegment(), true);
-					GeoConic compassCircle = algo.getCircle();
-					compassCircle.setToSpecific();
-					compassCircle.update();
-					newElements.add(compassCircle);
-				} else if (getNumberOf(Test.GEOCONIC) >= 1) {
-					AlgoRadius radius = new AlgoRadius(
-							this.kernel.getConstruction(),
-							(GeoConic) getElement(Test.GEOCONIC));
-					this.kernel.getConstruction().removeFromConstructionList(
-							radius);
-
-					AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
-							this.kernel.getConstruction(), null,
-							(GeoPoint) getElement(Test.GEOPOINT),
-							radius.getRadius());
-					GeoConic compassCircle2 = algo.getCircle();
-					compassCircle2.setToSpecific();
-					compassCircle2.update();
-					newElements.add(compassCircle2);
-				} else
-				// segment
-				{
-					newElements.add(this.kernel.getAlgoDispatcher().Circle(
-							null, (GeoPoint) getElement(Test.GEOPOINT),
-							(GeoSegment) getElement(Test.GEOSEGMENT)));
-				}
-
-				break;
-			case Angle:
-				if (this.getNumberOf(Test.GEOPOINT) >= 3) {
-					newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
-							(GeoPoint) this.getElement(Test.GEOPOINT),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 1),
-							(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
-				} else {
-					newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
-							(GeoLine) this.getElement(Test.GEOLINE),
-							(GeoLine) this.getElement(Test.GEOLINE, 1)));
-				}
-				break;
-			case AngleBisector:
-				if (getNumberOf(Test.GEOPOINT) >= 3) {
-					newElements.add(this.kernel.getAlgoDispatcher()
-							.AngularBisector(null,
-									(GeoPoint) getElement(Test.GEOPOINT),
-									(GeoPoint) getElement(Test.GEOPOINT, 1),
-									(GeoPoint) getElement(Test.GEOPOINT, 2)));
-				} else {
-					for (GeoElement e : this.kernel.getAlgoDispatcher()
-							.AngularBisector(null,
-									(GeoLine) getElement(Test.GEOLINE),
-									(GeoLine) getElement(Test.GEOLINE, 1))) {
-						newElements.add(e);
-					}
-				}
-				break;
-			case ConicThroughFivePoints:
-				newElements.add(this.kernel.getAlgoDispatcher().Conic(
-						null,
-						new GeoPoint[] { (GeoPoint) getElement(Test.GEOPOINT),
-								(GeoPoint) getElement(Test.GEOPOINT, 1),
-								(GeoPoint) getElement(Test.GEOPOINT, 2),
-								(GeoPoint) getElement(Test.GEOPOINT, 3),
-								(GeoPoint) getElement(Test.GEOPOINT, 4), }));
-				break;
-			case PolylineBetweenPoints:
-				ArrayList<GeoElement> geos = getAll(Test.GEOPOINT);
-				GeoElement[] geoArray = this.kernel.PolyLineND(null,
-						geos.toArray(new GeoPoint[geos.size()]));
-				for (GeoElement geo : geoArray) {
-					newElements.add(geo);
-				}
-				break;
-			case RegularPolygon:
-				if(this.inputDialog.getType() != DialogType.NumberValue)
-				{
-					this.inputDialog.redefine(DialogType.NumberValue);
-				}
-				this.inputDialog.setMode("RegularPolygon");
-				this.inputDialog.show();
-
-				this.controlClicked = false;
-				this.commandFinished = true;
-				return; // not break! no need to update or so before everything
-				// is drawn
-			case Polygon:
-				ArrayList<GeoElement> geos2 = getAll(Test.GEOPOINT);
-				GeoElement[] geoArray2 = this.kernel.Polygon(null,
-						geos2.toArray(new GeoPoint[geos2.size()]));
-				for (GeoElement geo : geoArray2) {
-					newElements.add(geo);
-				}
-				break;
-			case RigidPolygon:
-				ArrayList<GeoElement> geos3 = getAll(Test.GEOPOINT);
-				GeoElement[] geoArray3 = this.kernel.RigidPolygon(null,
-						geos3.toArray(new GeoPoint[geos3.size()]));
-				for (GeoElement geo : geoArray3) {
-					newElements.add(geo);
-				}
-				break;
-			case VectorPolygon:
-				ArrayList<GeoElement> geos4 = getAll(Test.GEOPOINT);
-				GeoElement[] geoArray4 = this.kernel.VectorPolygon(null,
-						geos4.toArray(new GeoPoint[geos4.size()]));
-				for (GeoElement geo : geoArray4) {
-					newElements.add(geo);
-				}
-				break;
-			default:
-			}
-
-			if (draw) // set to false, if the command could not be finished
-			{
-				resetSelection();
-
-				for (GeoElement geo : newElements) {
-					select(geo);
-				}
-
-				this.guiModel.appendStyle(newElements);
-
-				this.commandFinished = true;
-			}
-		}
+		if (draw) { handleDraw(pointRW,singlePointForIntersection);		}
 
 		this.kernel.setNotifyRepaintActive(true); // includes a repaint
 
@@ -1139,6 +742,408 @@ public class TouchModel {
 				|| this.command == ToolBarCommand.Move_Mobile) {
 			this.guiModel.updateStylingBar();
 		}
+	}
+
+	private void handleDraw(Point2D pointRW, boolean singlePointForIntersection) {
+		boolean draw = true;
+		ArrayList<GeoElement> newElements = new ArrayList<GeoElement>();
+
+		switch (this.command) {
+		case LineThroughTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Line(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case SegmentBetweenTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Segment(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case RayThroughTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Ray(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case VectorBetweenTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case CircleWithCenterThroughPoint:
+			newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case Semicircle:
+			newElements.add(this.kernel.getAlgoDispatcher().Semicircle(
+					null, (GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case Locus:
+			newElements.add(this.kernel.getAlgoDispatcher().Locus(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			break;
+		case PerpendicularLine:
+			newElements.add(this.kernel.getAlgoDispatcher().OrthogonalLine(
+					null, (GeoPoint) getElement(Test.GEOPOINT),
+					(GeoLine) getElement(Test.GEOLINE)));
+			break;
+		case ParallelLine:
+			newElements.add(this.kernel.getAlgoDispatcher().Line(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoLine) getElement(Test.GEOLINE)));
+			break;
+		case MidpointOrCenter:
+			if (getNumberOf(Test.GEOSEGMENT) > 0) {
+				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
+						null, (GeoSegment) getElement(Test.GEOSEGMENT)));
+			} else if (getNumberOf(Test.GEOPOINT) >= 2) {
+				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
+						null, (GeoPoint) getElement(Test.GEOPOINT),
+						(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			}
+			break;
+		case PerpendicularBisector:
+			if (getNumberOf(Test.GEOSEGMENT) > 0) {
+				newElements.add(this.kernel.getAlgoDispatcher()
+						.LineBisector(null,
+								(GeoSegment) getElement(Test.GEOSEGMENT)));
+			} else if (getNumberOf(Test.GEOPOINT) >= 2) {
+				newElements.add(this.kernel.getAlgoDispatcher()
+						.LineBisector(null,
+								(GeoPoint) getElement(Test.GEOPOINT),
+								(GeoPoint) getElement(Test.GEOPOINT, 1)));
+			}
+			break;
+		case IntersectTwoObjects:
+			GeoElement geoA = this.selectedElements
+					.get(this.selectedElements.size() - 1);
+			GeoElement geoB = this.selectedElements
+					.get(this.selectedElements.size() - 2);
+			//intersection of two curves needs 4 params
+			if (geoA instanceof GeoCurveCartesian
+					&& geoB instanceof GeoCurveCartesian
+					&& singlePointForIntersection && pointRW != null) {
+				for (GeoElement g : this.kernel.getAlgoDispatcher().IntersectCurveCurveSingle(
+						new String[] { null }, (GeoCurveCartesian) geoA,
+						(GeoCurveCartesian) geoB, pointRW.getX(),
+						pointRW.getY())){
+					newElements.add(g);
+				}
+				break;
+			}
+			
+			Command c = new Command(this.kernel, "Intersect", draw);
+			c.addArgument(geoA.wrap());
+			c.addArgument(geoB.wrap());
+			//intersection with specified initial point needs 3 params
+			if (singlePointForIntersection && pointRW != null) {
+				GeoPoint p = new GeoPoint(this.kernel.getConstruction(),
+						pointRW.getX(), pointRW.getY(), 1);
+				c.addArgument(new ExpressionNode(this.kernel, p));
+			}
+
+			try {
+				for (GeoElement g : this.cmdIntersect.process(c)){
+					newElements.add(g);
+				}
+			} catch (MyError e) {
+				// in case there is a problem (f.e. intersecting is not
+				// implemented for these object types),
+				// continue selecting geos
+				draw = false;
+			}
+
+			break;
+		case Parabola:
+			newElements.add(this.kernel.getAlgoDispatcher().Parabola(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoLine) getElement(Test.GEOLINE)));
+			break;
+		case DistanceOrLength:
+			// TODO: EuclidianController.distance
+			break;
+		case ReflectObjectAboutLine:
+			// get the line that was selected last
+			GeoLine line = getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) getElement(
+					Test.GEOLINE, 1) : (GeoLine) getElement(Test.GEOLINE);
+			deselect(line);
+			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+					null, this.selectedElements.get(0), line)) {
+				newElements.add(e);
+			}
+			break;
+		case ReflectObjectAboutCircle:
+			// get the circle that was selected last
+			GeoConic circle = getNumberOf(Test.GEOCONIC) > 1 ? (GeoConic) getElement(
+					Test.GEOCONIC, 1)
+					: (GeoConic) getElement(Test.GEOCONIC);
+			deselect(circle);
+			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+					null, this.selectedElements.get(0), circle)) {
+				newElements.add(e);
+			}
+			break;
+		case ReflectObjectAboutPoint:
+			// get the point that was selected last
+			GeoPoint mirrorPoint = getNumberOf(Test.GEOPOINT) > 1 ? (GeoPoint) getElement(
+					Test.GEOPOINT, 1)
+					: (GeoPoint) getElement(Test.GEOPOINT);
+			deselect(mirrorPoint);
+			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
+					null, this.selectedElements.get(0), mirrorPoint)) {
+				newElements.add(e);
+			}
+			break;
+		case Dilate:
+			if(this.inputDialog.getType() != DialogType.NumberValue)
+			{
+				this.inputDialog.redefine(DialogType.NumberValue);
+			}
+			this.inputDialog.setMode("DilateFromPoint");
+			this.inputDialog.show();
+			// return instead of break, as everthing that follows is done by
+			// the dialog!
+			return;
+		case RotateObjectByAngle: 
+			if(this.inputDialog.getType() != DialogType.Angle)
+			{
+				this.inputDialog.redefine(DialogType.Angle);
+			}
+			this.inputDialog.setMode("RotateByAngle");
+			this.inputDialog.setText("45\u00B0"); // 45°
+			this.inputDialog.show();
+			// return instead of break, as everthing that follows is done by
+			// the dialog!
+			return;
+		case TranslateObjectByVector:
+			// get the point that was selected last
+			GeoVector vector = getNumberOf(Test.GEOVECTOR) > 1 ? (GeoVector) getElement(
+					Test.GEOVECTOR, 1)
+					: (GeoVector) getElement(Test.GEOVECTOR);
+			deselect(vector);
+			for (GeoElement e : this.kernel.getAlgoDispatcher().Translate(
+					null, this.selectedElements.get(0), vector)) {
+				newElements.add(e);
+			}
+			break;
+		case Tangents:
+			GeoElement[] lines;
+			if (this.getElement(Test.GEOPOINT) != null) {
+				GeoElement g = getElementFrom(new Test[]{Test.GEOCONIC, Test.GEOFUNCTION});
+				if(g instanceof GeoConic){
+					//GeoPoint + GeoConic
+					lines = this.kernel.getAlgoDispatcher().Tangent(null,
+							(GeoPoint) this.getElement(Test.GEOPOINT),
+							(GeoConic) g);
+				} else {
+					//GeoPoint + GeoFunction
+					lines = new GeoElement[1];
+					lines[0] = this.kernel.getAlgoDispatcher().Tangent(null,
+							(GeoPoint) this.getElement(Test.GEOPOINT),
+							(GeoFunction) g);
+				}
+			} else {
+				//GeoLine + GeoConic
+				lines = this.kernel.getAlgoDispatcher().Tangent(null,
+						(GeoLine) this.getElement(Test.GEOLINE),
+						(GeoConic) this.getElement(Test.GEOCONIC));
+			}
+			for (GeoElement l : lines) {
+				newElements.add(l);
+			}
+			break;
+		case VectorFromPoint:
+			GeoPoint endPoint = (GeoPoint) this.kernel.getAlgoDispatcher()
+					.Translate(null, getElement(Test.GEOPOINT),
+							(GeoVec3D) getElement(Test.GEOVECTOR))[0];
+			newElements.add(this.kernel.getAlgoDispatcher().Vector(null,
+					(GeoPoint) getElement(Test.GEOPOINT), endPoint));
+			break;
+		case CircleThroughThreePoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Circle(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1),
+					(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case CircularArcWithCenterBetweenTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().CircleArc(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1),
+					(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case CircularSectorWithCenterBetweenTwoPoints:
+			newElements.add(this.kernel.getAlgoDispatcher().CircleSector(
+					null, (GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1),
+					(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case CircumCirculuarArcThroughThreePoints:
+			newElements.add(this.kernel.getAlgoDispatcher()
+					.CircumcircleArc(null,
+							(GeoPoint) getElement(Test.GEOPOINT),
+							(GeoPoint) getElement(Test.GEOPOINT, 1),
+							(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case CircumCircularSectorThroughThreePoints:
+			newElements.add(this.kernel.getAlgoDispatcher()
+					.CircumcircleSector(null,
+							(GeoPoint) getElement(Test.GEOPOINT),
+							(GeoPoint) getElement(Test.GEOPOINT, 1),
+							(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case Ellipse:
+			newElements.add(this.kernel.getAlgoDispatcher().Ellipse(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1),
+					(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case Hyperbola:
+			newElements.add(this.kernel.getAlgoDispatcher().Hyperbola(null,
+					(GeoPoint) getElement(Test.GEOPOINT),
+					(GeoPoint) getElement(Test.GEOPOINT, 1),
+					(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			break;
+		case Compasses:
+			if (getNumberOf(Test.GEOPOINT) >= 3) {
+				AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(
+						this.kernel.getConstruction(),
+						(GeoPoint) getElement(Test.GEOPOINT),
+						(GeoPoint) getElement(Test.GEOPOINT, 1), null);
+				this.kernel.getConstruction().removeFromConstructionList(
+						algoSegment);
+
+				AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
+						this.kernel.getConstruction(), null,
+						(GeoPoint) getElement(Test.GEOPOINT, 2),
+						algoSegment.getSegment(), true);
+				GeoConic compassCircle = algo.getCircle();
+				compassCircle.setToSpecific();
+				compassCircle.update();
+				newElements.add(compassCircle);
+			} else if (getNumberOf(Test.GEOCONIC) >= 1) {
+				AlgoRadius radius = new AlgoRadius(
+						this.kernel.getConstruction(),
+						(GeoConic) getElement(Test.GEOCONIC));
+				this.kernel.getConstruction().removeFromConstructionList(
+						radius);
+
+				AlgoCirclePointRadius algo = new AlgoCirclePointRadius(
+						this.kernel.getConstruction(), null,
+						(GeoPoint) getElement(Test.GEOPOINT),
+						radius.getRadius());
+				GeoConic compassCircle2 = algo.getCircle();
+				compassCircle2.setToSpecific();
+				compassCircle2.update();
+				newElements.add(compassCircle2);
+			} else
+			// segment
+			{
+				newElements.add(this.kernel.getAlgoDispatcher().Circle(
+						null, (GeoPoint) getElement(Test.GEOPOINT),
+						(GeoSegment) getElement(Test.GEOSEGMENT)));
+			}
+
+			break;
+		case Angle:
+			if (this.getNumberOf(Test.GEOPOINT) >= 3) {
+				newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
+						(GeoPoint) this.getElement(Test.GEOPOINT),
+						(GeoPoint) this.getElement(Test.GEOPOINT, 1),
+						(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
+			} else {
+				newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
+						(GeoLine) this.getElement(Test.GEOLINE),
+						(GeoLine) this.getElement(Test.GEOLINE, 1)));
+			}
+			break;
+		case AngleBisector:
+			if (getNumberOf(Test.GEOPOINT) >= 3) {
+				newElements.add(this.kernel.getAlgoDispatcher()
+						.AngularBisector(null,
+								(GeoPoint) getElement(Test.GEOPOINT),
+								(GeoPoint) getElement(Test.GEOPOINT, 1),
+								(GeoPoint) getElement(Test.GEOPOINT, 2)));
+			} else {
+				for (GeoElement e : this.kernel.getAlgoDispatcher()
+						.AngularBisector(null,
+								(GeoLine) getElement(Test.GEOLINE),
+								(GeoLine) getElement(Test.GEOLINE, 1))) {
+					newElements.add(e);
+				}
+			}
+			break;
+		case ConicThroughFivePoints:
+			newElements.add(this.kernel.getAlgoDispatcher().Conic(
+					null,
+					new GeoPoint[] { (GeoPoint) getElement(Test.GEOPOINT),
+							(GeoPoint) getElement(Test.GEOPOINT, 1),
+							(GeoPoint) getElement(Test.GEOPOINT, 2),
+							(GeoPoint) getElement(Test.GEOPOINT, 3),
+							(GeoPoint) getElement(Test.GEOPOINT, 4), }));
+			break;
+		case PolylineBetweenPoints:
+			ArrayList<GeoElement> geos = getAll(Test.GEOPOINT);
+			GeoElement[] geoArray = this.kernel.PolyLineND(null,
+					geos.toArray(new GeoPoint[geos.size()]));
+			for (GeoElement geo : geoArray) {
+				newElements.add(geo);
+			}
+			break;
+		case RegularPolygon:
+			if(this.inputDialog.getType() != DialogType.NumberValue)
+			{
+				this.inputDialog.redefine(DialogType.NumberValue);
+			}
+			this.inputDialog.setMode("RegularPolygon");
+			this.inputDialog.show();
+
+			this.controlClicked = false;
+			this.commandFinished = true;
+			return; // not break! no need to update or so before everything
+			// is drawn
+		case Polygon:
+			ArrayList<GeoElement> geos2 = getAll(Test.GEOPOINT);
+			GeoElement[] geoArray2 = this.kernel.Polygon(null,
+					geos2.toArray(new GeoPoint[geos2.size()]));
+			for (GeoElement geo : geoArray2) {
+				newElements.add(geo);
+			}
+			break;
+		case RigidPolygon:
+			ArrayList<GeoElement> geos3 = getAll(Test.GEOPOINT);
+			GeoElement[] geoArray3 = this.kernel.RigidPolygon(null,
+					geos3.toArray(new GeoPoint[geos3.size()]));
+			for (GeoElement geo : geoArray3) {
+				newElements.add(geo);
+			}
+			break;
+		case VectorPolygon:
+			ArrayList<GeoElement> geos4 = getAll(Test.GEOPOINT);
+			GeoElement[] geoArray4 = this.kernel.VectorPolygon(null,
+					geos4.toArray(new GeoPoint[geos4.size()]));
+			for (GeoElement geo : geoArray4) {
+				newElements.add(geo);
+			}
+			break;
+		default:
+		}
+
+		if (draw) // set to false, if the command could not be finished
+		{
+			resetSelection();
+
+			for (GeoElement geo : newElements) {
+				select(geo);
+			}
+
+			this.guiModel.appendStyle(newElements);
+
+			this.commandFinished = true;
+		}
+
+		
 	}
 
 	private boolean finishedPolygon(Hits hits) {
