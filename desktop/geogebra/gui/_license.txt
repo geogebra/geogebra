@@ -306,7 +306,7 @@ Libraries used by GeoGebra:
   * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
   * org-concord-sensor, http://code.google.com/p/org-concord-sensor/
     (LGPL)
-  * Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
+  * Giac, http://www-fourier.ujf-grenoble.fr/~parisse/giac.html (GPL3)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
   * zip.js, http://gildas-lormeau.github.com/zip.js/ (BSD)
   * zxing 1.7, http://zxing.googlecode.com/files/ZXing-1.7.zip
