@@ -62,6 +62,7 @@ public class BrowseGUI extends VerticalPanel
 		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
 		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
+		this.localFilePanel.setStyleName("localFilePanel");
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
 		this.tubeFilePanel.getElement().getStyle().setBackgroundColor("rgb(200,200,200)");
 

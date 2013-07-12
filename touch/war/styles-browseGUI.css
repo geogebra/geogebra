@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+body div .tubesearchgui .headerbar {
+	height: 50px;
+}
+
+body .tubesearchgui .headerbar .gwt-Label {
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+body .tubesearchgui .headerbar .gwt-Label,
+body .tubesearchgui .headerbar img {
+	opacity: 0.8;
+  	filter: alpha(opacity=80);
+}
+
+body .tubesearchgui .headerLeft {
+	margin-left: 0px;
+}
+
+body .tubesearchgui .headerLeft td,
+body .tubesearchgui .headerRight td {
+	padding: 0px;
+}
+
+body .tubesearchgui .headerbar div.button {
+	border: none;
+	margin: 0px 0px 0px 5px;
+}
+
+body .tubesearchgui .headerLeft img {
+	height: 24px;
+	width: 24px;
+	margin-top: 3px;
+}
+
+body .tubesearchgui .headerRight div.button {
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+}
+
+body .tubesearchgui .headerRight .button img {
+	height: 24px;
+	width: 24px;
+}
+
+body .tubesearchgui input.gwt-TextBox {
+	background: none;
+	border: none;
+	color: #FFFFFF;
+}

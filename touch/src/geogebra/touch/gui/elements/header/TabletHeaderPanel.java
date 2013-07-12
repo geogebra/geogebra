@@ -4,9 +4,14 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -17,8 +22,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Extends from {@link HeaderPanel}.
@@ -26,6 +34,8 @@ import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 {
 	private TabletHeaderPanelLeft leftHeader;
+	private VerticalPanel titlePanel;
+	Panel underline;
 	TextBox worksheetTitle;
 	private TabletHeaderPanelRight rightHeader;
 
@@ -41,10 +51,11 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.fm = fm;
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
 		this.leftHeader.setStyleName("headerLeft");
-
+		
+		this.titlePanel = new VerticalPanel();
+		
 		this.worksheetTitle = new TextBox();
 		this.worksheetTitle.setText(app.getConstructionTitle());
-		this.worksheetTitle.setAlignment(TextAlignment.CENTER);
 
 		this.app.addTitleChangedListener(new TitleChangedListener()
 		{
@@ -87,12 +98,38 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 			}
 		});
+		
+		this.worksheetTitle.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				// set underline active
+				TabletHeaderPanel.this.underline.removeStyleName("inactive");
+				TabletHeaderPanel.this.underline.addStyleName("active");
+			}
+		});
+		this.worksheetTitle.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				// set underline inactive
+				TabletHeaderPanel.this.underline.removeStyleName("active");
+				TabletHeaderPanel.this.underline.addStyleName("inactive");
+			}
+		});
+		
+		this.titlePanel.add(this.worksheetTitle);
+		
+		//Input Underline for Android
+		this.underline = new LayoutPanel();
+		this.underline.setStyleName("inputUnderline");
+		this.underline.addStyleName("inactive");
+		
+		this.titlePanel.add(underline);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.add(this.worksheetTitle);
+		this.add(this.titlePanel);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.add(this.rightHeader);

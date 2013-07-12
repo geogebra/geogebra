@@ -135,6 +135,7 @@ div.button.button-up-hovering {
 ##################################################################### */
 .headerbar, .worksheetTitle {
 	height: 50px;
+	width: 100%;
 	
 	/* Border */
 	border-bottom: #999999 solid 1px;
@@ -156,6 +157,7 @@ div.button.button-up-hovering {
 
 .headerbar td {
 	width: 33%;
+	vertical-align: middle;
 }
 
 .headerbar td td {
@@ -166,6 +168,7 @@ input.worksheetTitle {
 	border: none;
 	background: none;
 	width: 100%;
+	text-align: center;
 }
 
 .headerLeft {
@@ -470,10 +473,10 @@ div.elemHeadingName {
 /* #####################################################################
 ####                    TubeSearchGUI								####
 ##################################################################### */
-.searchbar div.button img,.tubesearchgui div.button img {
+/*.searchbar div.button img,.tubesearchgui div.button img {
 	width: 40px;
 	height: 40px;
-}
+}*/
 
 /* File browser */
 .browserDefaultFile{
