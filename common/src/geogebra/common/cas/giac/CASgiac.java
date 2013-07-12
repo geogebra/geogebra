@@ -385,12 +385,24 @@ public abstract class CASgiac implements CASGenericInterface {
 			boolean polysofractf) {
 		/* Example syntax (from Gröbner basis tester; but in GeoGebra v1, v2, ... are used for variables):
 		 * 
+		 * Old code:
+		 * 
 		 * [ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1, 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
 		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
 		 * s1*d2+a1*(s2-d2)-d1*s2-a2*(s1-d1),s1*e2+b1*(s2-e2)-e1*s2-b2*(s1-e1),(a1-m1)*(b1-c1)+(a2-m2)*(b2-c2),
 		 * (b1-m1)*(c1-a1)+(b2-m2)*(c2-a2),z1*(b1*c2+a1*(b2-c2)-c1*b2-a2*(b1-c1))-1,
 		 * z2 *(s1*m2+o1*(s2-m2)-m1*s2-o2*(s1-m1))-1],[d1=0,b1=3]),[a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,o1,
 		 * o2,s1,s2,m1,m2,z1,z2],revlex),(degree(ii[0])!=0)||(ii[0]==0)][1]
+		 * 
+		 * Now we prefer this since generically true check should be performed (instead of checking
+		 * geometrically true property):
+		 * 
+		 * [ii:=gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1, 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
+		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
+		 * s1*d2+a1*(s2-d2)-d1*s2-a2*(s1-d1),s1*e2+b1*(s2-e2)-e1*s2-b2*(s1-e1),(a1-m1)*(b1-c1)+(a2-m2)*(b2-c2),
+		 * (b1-m1)*(c1-a1)+(b2-m2)*(c2-a2),z1*(b1*c2+a1*(b2-c2)-c1*b2-a2*(b1-c1))-1,
+		 * z2 *(s1*m2+o1*(s2-m2)-m1*s2-o2*(s1-m1))-1],[d1=0,b1=3]),[a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,o1,
+		 * o2,s1,s2,m1,m2,z1,z2],revlex),ii[0]==0][1]
 		 * 
 		 * In the last part we check if the Groebner basis is a constant neq 0, i.e. its degree is 0 but it is not 0.
 		 * If yes, there is no solution.
@@ -401,7 +413,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String idealVar = "ii";
 		
-		String ret = "[[" + idealVar + ":=gbasis(";
+		String ret = "[" + idealVar + ":=gbasis(";
 
 		if (substitutions != null) {
 			ret += "subst(";
@@ -416,8 +428,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String vars = freeVars + Polynomial.addLeadingComma(dependantVars);
 		
-		ret += ",[" + vars + "],revlex)],(degree(" +
-				idealVar + "[0])!=0)||(" + idealVar + "[0]==0)][1]";
+		ret += ",[" + vars + "],revlex)," + idealVar + "[0]==0][1]";
 
 		return ret;
 	}
