@@ -71,23 +71,25 @@ public class MacroConstruction extends Construction {
     @Override
 	public final GeoElement lookupLabel(String label, boolean autoCreate) {//package private
     	if (label == null) return null;
-    	
+
+		String label1 = label;
+
     	// local var handling
 		if (localVariableTable != null) {        	
-        	GeoElement localGeo = localVariableTable.get(label);        
+        	GeoElement localGeo = localVariableTable.get(label1);        
             if (localGeo != null) return localGeo;
         }
     	    	       
         // global var handling        
-        GeoElement geo = geoTableVarLookup(label);
+        GeoElement geo = geoTableVarLookup(label1);
 
 		// STANDARD CASE: variable name found
 		if (geo != null) {
 			return geo;
 		}
 
-		label = Kernel.removeCASVariablePrefix(label);
-		geo = geoTableVarLookup(label);
+		label1 = Kernel.removeCASVariablePrefix(label1);
+		geo = geoTableVarLookup(label1);
 		if (geo != null) {
 			// geo found for name that starts with TMP_VARIABLE_PREFIX or
 			// GGBCAS_VARIABLE_PREFIX
@@ -99,10 +101,10 @@ public class MacroConstruction extends Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label.indexOf('$') > -1) {
-			StringBuilder labelWithout$ = new StringBuilder(label.length() - 1);
-			for (int i = 0; i < label.length(); i++) {
-				char ch = label.charAt(i);
+		if (label1.indexOf('$') > -1) {
+			StringBuilder labelWithout$ = new StringBuilder(label1.length() - 1);
+			for (int i = 0; i < label1.length(); i++) {
+				char ch = label1.charAt(i);
 				if (ch != '$') {
 					labelWithout$.append(ch);
 				}
@@ -130,12 +132,12 @@ public class MacroConstruction extends Construction {
 
 		// try upper case version for spreadsheet label like a1
 		if (autoCreate) {
-			if (StringUtil.isLetter(label.charAt(0)) // starts with letter
-					&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
+			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
+					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
 																				// with
 																				// digit
 			{
-				String upperCaseLabel = label.toUpperCase();
+				String upperCaseLabel = label1.toUpperCase();
 				geo = geoTableVarLookup(upperCaseLabel);
 				if (geo != null) {
 					return geo;
@@ -143,9 +145,9 @@ public class MacroConstruction extends Construction {
 			}
 		}
 
-        if (geo == null && globalVariableLookup && !isReservedLabel(label)) {
+        if (geo == null && globalVariableLookup && !isReservedLabel(label1)) {
         	// try parent construction        	
-        	 geo =  parentCons.lookupLabel(label, autoCreate); 
+        	 geo =  parentCons.lookupLabel(label1, autoCreate); 
         }
         return geo;                   
     }
