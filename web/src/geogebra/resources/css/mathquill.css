@@ -133,7 +133,7 @@
 .mathquill-rendered-math var,
 .mathquill-rendered-math i,
 .mathquill-rendered-math i.font {
-  font-syle: italic;
+  font-style: italic;
 }
 .mathquill-rendered-math var.florin {
   margin: 0 -0.1em;
@@ -168,6 +168,7 @@
 }
 .mathquill-rendered-math sup,
 .mathquill-rendered-math sub {
+  position: relative;
   font-size: 90%;
 }
 .mathquill-rendered-math sup .binary-operator,
