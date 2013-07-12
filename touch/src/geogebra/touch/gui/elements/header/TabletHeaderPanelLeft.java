@@ -148,7 +148,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	public void setLabels()
 	{
-		// not needed ATM
+		this.infoDialog.setLabels();
 	}
 
 	public void enableDisableSave()

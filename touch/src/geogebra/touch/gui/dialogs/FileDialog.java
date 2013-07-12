@@ -200,6 +200,13 @@ public abstract class FileDialog extends PopupPanel
 		this.textBox.setFocus(true);
 		this.guiModel.setActiveDialog(this);
 	}
+	
+	@Override
+  public void hide()
+	{
+		super.hide();
+		this.guiModel.setActiveDialog(null);
+	}
 
 	public abstract void setLabels();
 
@@ -207,4 +214,5 @@ public abstract class FileDialog extends PopupPanel
 	{
 		return this.fm;
 	}
+	
 }

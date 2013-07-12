@@ -233,7 +233,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.textBox.setVisible(false);
 		this.customKeys.hide();
 		CloseEvent.fire(this, this, false);
-
+		this.guiModel.setActiveDialog(null);
 		// prevent that the function is drawn twice
 		this.input = "";
 	}

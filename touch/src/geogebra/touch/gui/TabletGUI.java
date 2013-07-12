@@ -236,7 +236,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		{
 			this.algebraViewPanel.setLabels();
 		}
-		TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().setLabels();
+		if (TouchEntryPoint.getLookAndFeel() != null) {
+			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().setLabels();
+		}
 		this.toolBar.setLabels();
 	}
 

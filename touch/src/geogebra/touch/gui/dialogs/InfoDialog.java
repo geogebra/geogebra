@@ -74,6 +74,13 @@ public class InfoDialog extends PopupPanel
 		this.guiModel.setActiveDialog(this);
 	}
 
+//	@Override
+//  public void hide()
+//	{
+//		super.hide();
+//		this.guiModel.closeActiveDialog();
+//	}
+	
 	private void addLabel()
 	{
 		this.title.setText(this.loc.getMenu("CloseFile"));
@@ -181,5 +188,12 @@ public class InfoDialog extends PopupPanel
 	public void setCallback(Runnable callback)
 	{
 		this.callback = callback;
+	}
+	
+	@Override
+  public void hide()
+	{
+		super.hide();
+		this.guiModel.setActiveDialog(null);
 	}
 }
