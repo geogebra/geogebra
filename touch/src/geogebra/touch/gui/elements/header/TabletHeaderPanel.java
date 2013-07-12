@@ -55,7 +55,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			}
 		});
 
-		this.rightHeader = new TabletHeaderPanelRight(app);
+		this.rightHeader = new TabletHeaderPanelRight(app, this);
 		this.rightHeader.setStyleName("headerRight");
 		this.worksheetTitle.setStyleName("worksheetTitle");
 
@@ -70,16 +70,16 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 					TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
 					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				}
-				else if(event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
+				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
 				{
 					TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
 					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				}
 			}
 		});
-		
+
 		this.worksheetTitle.addMouseOutHandler(new MouseOutHandler()
-		{			
+		{
 			@Override
 			public void onMouseOut(MouseOutEvent event)
 			{
@@ -110,12 +110,24 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.leftHeader.setLabels();
 	}
 
-	public String getConstructionTitle() {
+	public String getConstructionTitle()
+	{
 		return this.worksheetTitle.getText();
 	}
 
-	public void editTitle() {
+	public void editTitle()
+	{
 		this.worksheetTitle.setFocus(true);
 		this.worksheetTitle.selectAll();
+	}
+
+	public TabletHeaderPanelRight getRightHeader()
+	{
+		return this.rightHeader;
+	}
+
+	public TabletHeaderPanelLeft getLeftHeader()
+	{
+		return this.leftHeader;
 	}
 }

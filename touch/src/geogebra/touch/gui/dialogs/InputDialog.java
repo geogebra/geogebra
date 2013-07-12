@@ -38,7 +38,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	public enum DialogType
 	{
-		Title, InputField, NumberValue, Angle;
+		InputField, NumberValue, Angle;
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
@@ -120,10 +120,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			@Override
 			public void onKeyDown(KeyDownEvent event)
 			{
-				if(!InputDialog.this.textBox.isVisible()){
+				if (!InputDialog.this.textBox.isVisible())
+				{
 					return;
 				}
-				
+
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					InputDialog.this.onOK();
@@ -155,11 +156,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 				InputDialog.this.underline.addStyleName("active");
 			}
 		});
-		
+
 		this.textPanel = new VerticalPanel();
 		this.textPanel.add(this.textBox);
-		
-		//Input Underline for Android
+
+		// Input Underline for Android
 		this.underline = new LayoutPanel();
 		this.underline.setStyleName("inputUnderline");
 		this.underline.addStyleName("inactive");
@@ -217,10 +218,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 
-		if (this.type != DialogType.Title)
-		{
-			this.dialogPanel.add(this.customKeys);
-		}
+		this.dialogPanel.add(this.customKeys);
 
 		this.textBox.setFocus(true);
 		setLabels();
@@ -283,9 +281,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		switch (this.type)
 		{
-		case Title:
-			this.title.setText(this.app.getLocalization().getPlain(this.type.toString()));
-			break;
 		case InputField:
 			this.title.setText(this.app.getLocalization().getMenu(this.type.toString()));
 			break;
@@ -306,7 +301,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		return this.type;
 	}
 
-/**
+	/**
 	 * 
 	 * @param reset
 	 *          if true handlingExpected will be set to false
@@ -321,7 +316,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public void onCustomKeyPressed(CustomKey c)
 	{

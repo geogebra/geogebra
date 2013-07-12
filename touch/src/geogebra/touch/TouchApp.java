@@ -30,6 +30,7 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
+import geogebra.touch.gui.laf.DefaultLAF;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
 
@@ -141,8 +142,9 @@ public class TouchApp extends AppWeb
 
 		setDefaultConstructionTitle();
 	}
-	
-	public void setDefaultConstructionTitle() {
+
+	public void setDefaultConstructionTitle()
+	{
 		setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(this.getLocalization()));
 		this.isDefaultFileName = true;
 	}
@@ -178,6 +180,13 @@ public class TouchApp extends AppWeb
 			this.kernel.storeUndoInfo();
 		}
 		this.setUnsaved();
+
+		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
+		{
+			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getLeftHeader().enableDisableSave();
+			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getRightHeader().enableDisableUndo();
+			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getRightHeader().enableDisableRedo();
+		}
 	}
 
 	@Override
@@ -414,7 +423,8 @@ public class TouchApp extends AppWeb
 	public GuiManager getGuiManager()
 	{
 		// TODO
-		if(this.guiManager == null){
+		if (this.guiManager == null)
+		{
 			this.guiManager = new GuiManagerT();
 		}
 		return this.guiManager;
@@ -557,7 +567,7 @@ public class TouchApp extends AppWeb
 		this.kernel.initUndoInfo();
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
-		//notify all construction title listeners
+		// notify all construction title listeners
 		setConstructionTitle(getConstructionTitle());
 	}
 
@@ -577,7 +587,7 @@ public class TouchApp extends AppWeb
 		{
 			country = locale.split("-")[1];
 		}
-		
+
 		setLanguage(language, country);
 	}
 
@@ -598,11 +608,13 @@ public class TouchApp extends AppWeb
 		return null;
 	}
 
-	public boolean isDefaultFileName() {
+	public boolean isDefaultFileName()
+	{
 		return this.isDefaultFileName;
 	}
 
-	public void approveFileName() {
+	public void approveFileName()
+	{
 		this.isDefaultFileName = false;
 	}
 
@@ -633,12 +645,12 @@ public class TouchApp extends AppWeb
 	// alert("current language is", lang);
 	// return lang;
 	// }-*/;
-	
+
 	// TODO: use with SelectionManager
-//	public void updateSelection(boolean updatePropertiesView){
-//		if(this.getMode() == EuclidianConstants.MODE_MOVE){
-//			this.touchGUI.updateStylingBar(this.getSelectionManager());
-//		}
-//	}
-	
+	// public void updateSelection(boolean updatePropertiesView){
+	// if(this.getMode() == EuclidianConstants.MODE_MOVE){
+	// this.touchGUI.updateStylingBar(this.getSelectionManager());
+	// }
+	// }
+
 }

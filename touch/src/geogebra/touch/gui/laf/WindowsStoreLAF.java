@@ -1,5 +1,7 @@
 package geogebra.touch.gui.laf;
 
+import geogebra.touch.gui.elements.header.TabletHeaderPanel;
+
 public class WindowsStoreLAF extends DefaultLAF
 {
 	@Override
@@ -21,9 +23,15 @@ public class WindowsStoreLAF extends DefaultLAF
 	}
 
 	@Override
-  public DefaultIcons getIcons()
-  {
-	  // FIXME return windows specific icons
-	  return DefaultIcons.INSTANCE;
-  }
+	public DefaultIcons getIcons()
+	{
+		// FIXME return windows specific icons
+		return DefaultIcons.INSTANCE;
+	}
+
+	@Override
+	public TabletHeaderPanel getTabletHeaderPanel()
+	{
+		return null;
+	}
 }

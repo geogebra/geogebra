@@ -34,7 +34,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	private StandardImageButton newButton = new StandardImageButton(LafIcons.document_new());
 	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_open());
 	private StandardImageButton saveButton = new StandardImageButton(LafIcons.document_save());
-	
+
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
@@ -120,15 +120,19 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
-				if(TabletHeaderPanelLeft.this.app.isDefaultFileName()
-						&& TabletHeaderPanelLeft.this.app.getConstructionTitle().equals(TabletHeaderPanelLeft.this.tabletGUI.getConstructionTitle())
-						){
+				if (TabletHeaderPanelLeft.this.app.isDefaultFileName()
+				    && TabletHeaderPanelLeft.this.app.getConstructionTitle().equals(TabletHeaderPanelLeft.this.tabletGUI.getConstructionTitle()))
+				{
 					TabletHeaderPanelLeft.this.tabletGUI.editTitle();
-				}else{
+				}
+				else
+				{
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
+					TabletHeaderPanelLeft.this.enableDisableSave();
 				}
 			}
 		}, ClickEvent.getType());
+		enableDisableSave();
 	}
 
 	/**
@@ -144,7 +148,19 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	public void setLabels()
 	{
-			// not needed ATM
+		// not needed ATM
+	}
+
+	public void enableDisableSave()
+	{
+		if (this.app.isSaved())
+		{
+			this.saveButton.addStyleName("disabled");
+		}
+		else
+		{
+			this.saveButton.removeStyleName("disabled");
+		}
 	}
 
 }
