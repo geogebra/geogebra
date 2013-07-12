@@ -513,6 +513,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			resizeRows(tableModel.getRowCount() + 1);
 
 			setRepaintAll();
+			repaint();
 		}
 
 		public void valueChange() {
