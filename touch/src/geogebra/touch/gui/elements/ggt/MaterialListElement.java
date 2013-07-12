@@ -38,8 +38,7 @@ public class MaterialListElement extends HorizontalPanel {
 
 	private VerticalMaterialPanel vmp;
 
-	private Button delete;
-	private Button open;
+	private Button open, delete, edit;
 
 	Material material;
 	AppWeb app;
@@ -145,11 +144,14 @@ public class MaterialListElement extends HorizontalPanel {
 	}
 
 	protected void initButtons() {
+		if (MaterialListElement.this.material.getId() > 0){
+			initOpenButton();
+		}
 		// TODO Change to icon
-		this.open = new Button("OPEN");
+		this.edit = new Button("EDIT");
 
-		this.links.add(this.open);
-		this.open.addDomHandler(new ClickHandler() {
+		this.links.add(this.edit);
+		this.edit.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
@@ -173,6 +175,19 @@ public class MaterialListElement extends HorizontalPanel {
 		if (MaterialListElement.this.material.getId() <= 0) {
 			initDeleteButton();
 		}
+	}
+
+	private void initOpenButton() {
+		this.open = new Button("OPEN");
+		this.links.add(this.open);
+		this.open.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				event.stopPropagation();
+				TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);	
+			}
+		}, ClickEvent.getType());
+		
 	}
 
 	protected void initDeleteButton() {

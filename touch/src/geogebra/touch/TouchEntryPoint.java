@@ -1,5 +1,6 @@
 package geogebra.touch;
 
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
@@ -33,7 +34,7 @@ public class TouchEntryPoint implements EntryPoint
 	static TabletDeckLayoutPanel appWidget = new TabletDeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
 	static BrowseGUI browseGUI;
-	static WorksheetGUI worksheetGUI = new WorksheetGUI();
+	static WorksheetGUI worksheetGUI;
 
 	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
 	private static LookAndFeel laf;
@@ -60,7 +61,7 @@ public class TouchEntryPoint implements EntryPoint
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
-
+				worksheetGUI = new WorksheetGUI(app.getLocalization());
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
@@ -167,8 +168,9 @@ public class TouchEntryPoint implements EntryPoint
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
 	}
 
-	public static void showWorksheetGUI()
+	public static void showWorksheetGUI(Material material)
 	{
+		TouchEntryPoint.worksheetGUI.loadWorksheet(material);
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
 	}
 

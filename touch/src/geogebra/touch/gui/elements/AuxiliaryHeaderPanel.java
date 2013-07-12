@@ -15,6 +15,8 @@ public class AuxiliaryHeaderPanel extends FlowPanel{
 	private StandardImageButton backButton;
 	private HorizontalPanel panel;
 	protected HorizontalPanel rightPanel;
+	protected Label headerText;
+	
 	public AuxiliaryHeaderPanel(String title,Localization loc){
 		this.backButton = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().back());
 		this.backButton.addDomHandler(new ClickHandler()
@@ -36,6 +38,12 @@ public class AuxiliaryHeaderPanel extends FlowPanel{
 		this.getElement().getStyle().setTextAlign(TextAlign.CENTER);
 		this.add(this.panel);
 		this.add(this.rightPanel);
-		this.add(new Label(title));
+		this.headerText = new Label(title);
+		this.add(this.headerText);
+	}
+	
+	public void setText(String title) {
+		this.headerText.setText(title);
+		
 	}
 }
