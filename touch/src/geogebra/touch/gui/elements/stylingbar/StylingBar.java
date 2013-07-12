@@ -23,10 +23,12 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -50,16 +52,6 @@ public class StylingBar extends DecoratorPanel
 
 	private ToolBarCommand lastCommand;
 	boolean visible = true;
-
-	private abstract class StylingBarTouchStartHandler implements TouchStartHandler
-	{
-		protected int index;
-
-		StylingBarTouchStartHandler(int i)
-		{
-			this.index = i;
-		}
-	}
 
 	/**
 	 * Initializes the {@link StylingBarButton StylingBarButtons}.
@@ -109,50 +101,8 @@ public class StylingBar extends DecoratorPanel
 
 		this.showHide = new ArrowImageButton(LafIcons.triangle_left());
 
-		this.showHide.addTouchStartHandler(new TouchStartHandler()
-		{
-			@Override
-			public void onTouchStart(TouchStartEvent event)
-			{
-				event.preventDefault();
-				event.stopPropagation();
-
-				if (StylingBar.this.visible)
-				{
-					// close all opened options before hiding the stylingbar
-					StylingBar.this.guiModel.closeOptions();
-
-					StylingBar.this.contentPanel.clear();
-					StylingBar.this.contentPanel.add(StylingBar.this.showHide);
-					StylingBar.this.visible = false;
-
-					StylingBar.this.showHide.setStyleName("arrowRight");
-					
-					// Set stylebar transparent, when closed
-					StylingBar.this.addStyleName("transparent");
-				}
-				else
-				{
-					StylingBar.this.contentPanel.clear();
-					for (StandardImageButton b : StylingBar.this.button)
-					{
-						StylingBar.this.contentPanel.add(b);
-					}
-					StylingBar.this.contentPanel.add(StylingBar.this.showHide);
-					StylingBar.this.visible = true;
-
-					StylingBar.this.showHide.setStyleName("arrowLeft");
-					
-					// Set stylebar nontransparent, when open
-					StylingBar.this.removeStyleName("transparent");
-
-					// force repaint
-					euclidianViewPanel.remove(StylingBar.this);
-					euclidianViewPanel.add(StylingBar.this);
-					euclidianViewPanel.setWidgetPosition(StylingBar.this, 0, 0);
-				}
-			}
-		});
+		this.showHide.addHandler(TouchEntryPoint.getLookAndFeel().getStylBarHandlerShowHide(this, euclidianViewPanel), TouchEntryPoint.getLookAndFeel()
+		    .getStylBarEventType());
 
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
@@ -170,26 +120,14 @@ public class StylingBar extends DecoratorPanel
 	 * 
 	 * @param process
 	 * @param svg
-	 * @param number
 	 * @return a new StylingBarButton with an ClickHandler
 	 */
 	private StandardImageButton createStyleBarButton(final String process, SVGResource svg)
 	{
 		final StandardImageButton newButton = new StandardImageButton(svg);
 
-		newButton.addTouchStartHandler(new TouchStartHandler()
-		{
-			@Override
-			public void onTouchStart(TouchStartEvent event)
-			{
-				event.stopPropagation();
-
-				StylingBar.this.guiModel.closeOptions();
-				EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
-
-				newButton.setActive(!newButton.isActive());
-			}
-		});
+		newButton.addHandler(TouchEntryPoint.getLookAndFeel().getStylBarButtonHandler(this, newButton, process), TouchEntryPoint.getLookAndFeel()
+		    .getStylBarEventType());
 
 		return newButton;
 	}
@@ -235,49 +173,15 @@ public class StylingBar extends DecoratorPanel
 			{
 				b[i] = new StandardImageButton(LafIcons.label());
 
-				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
-				{
-					@Override
-					public void onTouchStart(TouchStartEvent event)
-					{
-						event.stopPropagation();
-
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.CaptionStyle)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							StylingBar.this.guiModel.showOption(new OptionsBox(new CaptionBar(StylingBar.this.touchModel)), OptionType.CaptionStyle,
-							    StylingBar.this.button[this.index]);
-						}
-					}
-				});
-
+				b[i].addHandler(TouchEntryPoint.getLookAndFeel().getOptionalButtonHandler(this, b[i], OptionType.CaptionStyle), TouchEntryPoint
+				    .getLookAndFeel().getStylBarEventType());
 			}
 			else if (resource[i].equals(LafIcons.properties_default()))
 			{
 				b[i] = new StandardImageButton(LafIcons.properties_default());
 
-				b[i].addTouchStartHandler(new StylingBarTouchStartHandler(i)
-				{
-					@Override
-					public void onTouchStart(TouchStartEvent event)
-					{
-						event.stopPropagation();
-
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.LineStyle)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							StylingBar.this.guiModel.showOption(new OptionsBox(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this)),
-							    OptionType.LineStyle, StylingBar.this.button[this.index]);
-						}
-					}
-				});
-
+				b[i].addHandler(TouchEntryPoint.getLookAndFeel().getOptionalButtonHandler(this, b[i], OptionType.LineStyle), TouchEntryPoint.getLookAndFeel()
+				    .getStylBarEventType());
 			}
 			else if (resource[i].equals(LafIcons.color()))
 			{
@@ -285,26 +189,8 @@ public class StylingBar extends DecoratorPanel
 				b[i].getElement().getStyle().setBackgroundImage("initial");
 				b[i].getElement().getStyle().setBackgroundColor(color);
 
-				b[i].addTouchStartHandler(new TouchStartHandler()
-				{
-					@Override
-					public void onTouchStart(TouchStartEvent event)
-					{
-						event.preventDefault();
-						if (StylingBar.this.guiModel.getOptionTypeShown() == OptionType.Color)
-						{
-							StylingBar.this.guiModel.closeOptions();
-						}
-						else
-						{
-							ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
-
-							// includes closeOptions()
-							StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color,
-							    StylingBar.this.button[StylingBar.this.colorButtonIndex]);
-						}
-					}
-				});
+				b[i].addHandler(TouchEntryPoint.getLookAndFeel().getOptionalButtonHandler(this, b[i], OptionType.Color), TouchEntryPoint.getLookAndFeel()
+				    .getStylBarEventType());
 
 				this.colorButtonIndex = i;
 			}
@@ -370,6 +256,82 @@ public class StylingBar extends DecoratorPanel
 			this.setVisible(false);
 		}
 		this.lastCommand = this.guiModel.getCommand();
+	}
+
+	public void onTouchStartShowHide(DomEvent<? extends EventHandler> event, EuclidianViewPanel euclidianViewPanel)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+
+		if (StylingBar.this.visible)
+		{
+			// close all opened options before hiding the stylingbar
+			StylingBar.this.guiModel.closeOptions();
+
+			StylingBar.this.contentPanel.clear();
+			StylingBar.this.contentPanel.add(StylingBar.this.showHide);
+			StylingBar.this.visible = false;
+
+			StylingBar.this.showHide.setStyleName("arrowRight");
+
+			// Set stylebar transparent, when closed
+			StylingBar.this.addStyleName("transparent");
+		}
+		else
+		{
+			StylingBar.this.contentPanel.clear();
+			for (StandardImageButton b : StylingBar.this.button)
+			{
+				StylingBar.this.contentPanel.add(b);
+			}
+			StylingBar.this.contentPanel.add(StylingBar.this.showHide);
+			StylingBar.this.visible = true;
+
+			StylingBar.this.showHide.setStyleName("arrowLeft");
+
+			// Set stylebar nontransparent, when open
+			StylingBar.this.removeStyleName("transparent");
+
+			// force repaint
+			euclidianViewPanel.remove(StylingBar.this);
+			euclidianViewPanel.add(StylingBar.this);
+			euclidianViewPanel.setWidgetPosition(StylingBar.this, 0, 0);
+		}
+	}
+
+	public void onTouchStartStyleBarButton(DomEvent<? extends EventHandler> event, StandardImageButton newButton, String process)
+	{
+		event.stopPropagation();
+
+		StylingBar.this.guiModel.closeOptions();
+		EuclidianStyleBarStatic.processSourceCommon(process, null, StylingBar.this.euclidianView);
+
+		newButton.setActive(!newButton.isActive());
+	}
+
+	public void onTouchStartOptionalButton(DomEvent<? extends EventHandler> event, StandardImageButton eventSource, OptionType type)
+	{
+		event.preventDefault();
+		if (StylingBar.this.guiModel.getOptionTypeShown().equals(type))
+		{
+			StylingBar.this.guiModel.closeOptions();
+		}
+		else if (type.equals(OptionType.Color))
+		{
+			ColorBarBackground colorBar = new ColorBarBackground(StylingBar.this, StylingBar.this.touchModel);
+
+			// includes closeOptions()
+			StylingBar.this.guiModel.showOption(new OptionsBox(colorBar), OptionType.Color, StylingBar.this.button[StylingBar.this.colorButtonIndex]);
+		}
+		else if (type.equals(OptionType.LineStyle))
+		{
+			StylingBar.this.guiModel.showOption(new OptionsBox(new LineStyleBar(StylingBar.this.touchModel, StylingBar.this)), OptionType.LineStyle,
+			    eventSource);
+		}
+		else if (type.equals(OptionType.CaptionStyle))
+		{
+			StylingBar.this.guiModel.showOption(new OptionsBox(new CaptionBar(StylingBar.this.touchModel)), OptionType.CaptionStyle, eventSource);
+		}
 	}
 
 	// TODO: use with SelectionManager
