@@ -6,7 +6,9 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.StringHandler;
+import geogebra.html5.util.View;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class FileManagerM {
 	private static final String FILE_PREFIX = "file#";
@@ -157,5 +160,21 @@ public class FileManagerM {
 	public boolean hasFile(String filename) {
 		return this.stockStore != null
 				&& this.stockStore.getItem(FILE_PREFIX + filename) != null;
+	}
+
+	public void getMaterial(Material material, AppWeb app) {
+		if (material.getId() > 0) {
+			// remote material
+			new View(RootPanel.getBodyElement(),
+					app)
+					.processFileName("http://www.geogebratube.org/files/material-"
+							+ material.getId()
+							+ ".ggb");
+		} else {
+			getFile(
+					material.getURL(),
+					app);
+		}
+		
 	}
 }

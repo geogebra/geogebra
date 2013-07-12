@@ -61,7 +61,7 @@ public class TouchEntryPoint implements EntryPoint
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
-				worksheetGUI = new WorksheetGUI(app.getLocalization());
+				worksheetGUI = new WorksheetGUI(app, fm);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);

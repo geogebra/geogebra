@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
-import geogebra.html5.util.View;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
 
@@ -16,7 +15,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -155,18 +153,7 @@ public class MaterialListElement extends HorizontalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
-				if (MaterialListElement.this.material.getId() > 0) {
-					// remote material
-					new View(RootPanel.getBodyElement(),
-							MaterialListElement.this.app)
-							.processFileName("http://www.geogebratube.org/files/material-"
-									+ MaterialListElement.this.material.getId()
-									+ ".ggb");
-				} else {
-					MaterialListElement.this.fm.getFile(
-							MaterialListElement.this.material.getURL(),
-							MaterialListElement.this.app);
-				}
+				MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
