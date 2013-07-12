@@ -28,6 +28,7 @@ public class VerticalMaterialPanel extends ScrollPanel {
 		this.fm = fm;
 
 		this.setWidget(this.contentPanel);
+		this.contentPanel.setWidth("100%");
 	}
 
 	public void setMaterials(int cols, List<Material> materials) {
@@ -57,12 +58,6 @@ public class VerticalMaterialPanel extends ScrollPanel {
 		return MaterialListElement.PANEL_HEIGHT;
 	}
 
-	@Override
-	public void setWidth(String width) {
-		super.setWidth(width);
-		this.contentPanel.setWidth(width);
-	}
-
 	public void unselectMaterials() {
 		if (this.lastSelected != null) {
 			this.lastSelected.markUnSelected();
@@ -86,7 +81,6 @@ public class VerticalMaterialPanel extends ScrollPanel {
 	}
 
 	public void updateWidth() {
-		this.setWidth((Window.getClientWidth() - SPACE) / 2 * this.columns
-				+ "px");
+		this.setWidth(((Window.getClientWidth()) / 2 * this.columns) +"px");
 	}
 }

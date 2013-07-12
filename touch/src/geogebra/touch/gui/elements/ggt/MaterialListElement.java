@@ -9,7 +9,6 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -57,7 +56,7 @@ public class MaterialListElement extends HorizontalPanel {
 		this.material = m;
 
 		this.setHeight(PANEL_HEIGHT + "px");
-		this.setWidth((Window.getClientWidth() - 100) / 2 + "px");
+		this.setWidth("100%");
 		this.markUnSelected();
 		/*
 		 * this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.
