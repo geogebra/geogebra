@@ -5,6 +5,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
@@ -69,8 +70,8 @@ public class BrowseGUI extends VerticalPanel
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
 
-		this.localFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
-		this.tubeFilePanel.setHeight((Window.getClientHeight() - 120) + "px");
+		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) + "px");
+		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) + "px");
 		FlowPanel fileList = new FlowPanel();
 		fileList.add(this.localFilePanel);
 		fileList.add(this.tubeFilePanel);
@@ -143,7 +144,7 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		int newHeight = Window.getClientHeight() - 60;
+		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight();
 		if (newHeight > 0)
 		{
 			this.localFilePanel.setHeight(newHeight + "px");
