@@ -2751,7 +2751,7 @@ namespace giac {
 	    m2 += (i*double(i))*X[i];
 	  }
 	  moyenne=m1/efftotal;
-	  ecart=sqrt(m2/efftotal-moyenne*moyenne,contextptr);
+	  ecart=std::sqrt(efftotal/(efftotal-1))*sqrt(m2/efftotal-moyenne*moyenne,contextptr);
 	}	
       }
       if (is_undef(moyenne)){
@@ -2865,10 +2865,10 @@ namespace giac {
 	gen res=0;
 	for (unsigned i=0;i<eff.size();++i){
 	  // theoric proba of class i from law
-	  loi._SYMBptr->feuille._VECTptr->back()=minX+int(i);
+	  loi._SYMBptr->feuille._VECTptr->back()=minX+int(i)-.5;
 	  gen tmp=evalf_double(loi,1,contextptr);
 	  if (!discret){ // could be improved, we compute twice the cdf
-	    loi._SYMBptr->feuille._VECTptr->back()=minX+int(i+1);
+	    loi._SYMBptr->feuille._VECTptr->back()=minX+int(i+1)-.5;
 	    tmp=evalf_double(loi,1,contextptr)-tmp;
 	  }
 	  double p_i=tmp._DOUBLE_val;
