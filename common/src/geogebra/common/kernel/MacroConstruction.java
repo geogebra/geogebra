@@ -13,6 +13,7 @@ package geogebra.common.kernel;
 
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
 
@@ -79,6 +80,68 @@ public class MacroConstruction extends Construction {
     	    	       
         // global var handling        
         GeoElement geo = geoTableVarLookup(label);
+
+		// STANDARD CASE: variable name found
+		if (geo != null) {
+			return geo;
+		}
+
+		label = Kernel.removeCASVariablePrefix(label);
+		geo = geoTableVarLookup(label);
+		if (geo != null) {
+			// geo found for name that starts with TMP_VARIABLE_PREFIX or
+			// GGBCAS_VARIABLE_PREFIX
+			return geo;
+		}
+
+		/*
+		 * SPREADSHEET $ HANDLING In the spreadsheet we may have variable names
+		 * like "A$1" for the "A1" to deal with absolute references. Let's
+		 * remove all "$" signs from label and try again.
+		 */
+		if (label.indexOf('$') > -1) {
+			StringBuilder labelWithout$ = new StringBuilder(label.length() - 1);
+			for (int i = 0; i < label.length(); i++) {
+				char ch = label.charAt(i);
+				if (ch != '$') {
+					labelWithout$.append(ch);
+				}
+			}
+			String labelString = labelWithout$.toString();
+			// allow automatic creation of elements
+			geo = lookupLabel(labelString, autoCreate);
+			if (geo != null) {
+				// geo found for name that includes $ signs
+				return geo;
+			}
+			if(labelString.charAt(0)>='0' && labelString.charAt(0)<='9'){
+				int cell = 0;
+				try{
+					cell = Integer.parseInt(labelWithout$.toString());
+					}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				if(cell>0){
+					return this.getCasCell(cell-1);
+				}
+			}
+		}
+
+		// try upper case version for spreadsheet label like a1
+		if (autoCreate) {
+			if (StringUtil.isLetter(label.charAt(0)) // starts with letter
+					&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
+																				// with
+																				// digit
+			{
+				String upperCaseLabel = label.toUpperCase();
+				geo = geoTableVarLookup(upperCaseLabel);
+				if (geo != null) {
+					return geo;
+				}
+			}
+		}
 
         if (geo == null && globalVariableLookup && !isReservedLabel(label)) {
         	// try parent construction        	
