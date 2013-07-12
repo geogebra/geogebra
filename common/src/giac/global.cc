@@ -4122,6 +4122,25 @@ unsigned int ConvertUTF8toUTF16 (
     return utf82unicode(line, NULL, n);
   }
 
+  // convert UTF8 string to unicode, allocate memory with new
+  wchar_t * utf82unicode(const char * idname){
+    if (!idname)
+      return 0;
+    int l=strlen(idname);
+    wchar_t * wname=new wchar_t[l+1];
+    utf82unicode(idname,wname,l);
+    return wname;
+  }
+
+  char * unicode2utf8(const wchar_t * idname){
+    if (!idname)
+      return 0;
+    int l=wcslen(idname);
+    char * name=new char[4*l+1];
+    unicode2utf8(idname,name,l);
+    return name;
+  }
+
   unsigned int wstrlen(const wchar_t * wline){
     if (!wline)
       return 0;

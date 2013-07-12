@@ -4640,7 +4640,7 @@ namespace giac {
 	newres=distance2pp(t*b+(1-t)*a,p,contextptr);
       else
 	newres=distance2pp(b,p,contextptr);
-      if (ck_is_greater(res,newres,contextptr))
+      if (subtype==_LINE__VECT || ck_is_greater(res,newres,contextptr))
 	res=newres;
       ++it;
       if (it==itend)

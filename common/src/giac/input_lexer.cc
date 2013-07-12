@@ -5409,7 +5409,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  for (int i=0;i<nfunc;i++){
 	    static_lexer << "{\"" << builtin_lexer_functions_begin()[i].first << "\",13," << signed(builtin_lexer_functions_begin()[i].second.subtype) ;
 	    if (debug_infolevel==-2)
-	      static_lexer << ",0,*((unsigned longlong *) at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ")";
+	      static_lexer << ",0,*((ulonglong *) at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ")";
 	    else
 	      static_lexer << ",0,0"; 
 	    if (builtin_lexer_functions_begin()[i].second._FUNCptr->quoted())

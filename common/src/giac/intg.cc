@@ -163,7 +163,7 @@ namespace giac {
       return false;
     if (e.type!=_SYMB)
       return true;
-    return is_zero(derive(e,x,contextptr)); 
+    return is_exactly_zero(derive(e,x,contextptr)); 
   }
 
   // return true if e=a*x+b
@@ -3423,6 +3423,8 @@ namespace giac {
 	return false;
     }
     gen ratio=simplify(subst(e,x,x+1,false,contextptr)/e,contextptr);
+    if (is_undef(ratio))
+      return false;
     v=lvarx(makevecteur(ratio,x),x);
     if ( (v.size()!=1) || (v.front()!=x) ){
       ratio=simplify(_texpand(ratio,contextptr),contextptr);
@@ -3828,11 +3830,11 @@ namespace giac {
       if (is_zero(v[2]-v[3]-1))
 	return zero;
       if (is_integral(v[2])){
-	while (is_zero(subst(v[0],v[1],v[2],false,contextptr)))
+	while (is_exactly_zero(subst(v[0],v[1],v[2],false,contextptr)))
 	  v[2]+=1;
       }
       if (is_integral(v[3])){
-	while (is_zero(subst(v[0],v[1],v[3],false,contextptr)))
+	while (is_exactly_zero(subst(v[0],v[1],v[3],false,contextptr)))
 	  v[3]-=1;
       }
       if (is_zero(v[2]-v[3]-1))

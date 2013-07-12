@@ -108,6 +108,9 @@ namespace giac {
   double giac_ceil(double d);
   unsigned int utf82unicode(const char * line,wchar_t * wline,unsigned int n);
   unsigned int unicode2utf8(const wchar_t * wline,char * line,unsigned int n);
+  wchar_t * utf82unicode(const char * idname);
+  char * unicode2utf8(const wchar_t * idname);
+
   // convert position n in utf8-encoded line into the corresponding position
   // in the same string encoded with unicode
   unsigned int utf8pos2unicodepos(const char * line,unsigned int n,bool skip_added_spaces = true);

@@ -71,11 +71,11 @@ namespace giac {
 #if 0
   struct int256 {
     longlong a;
-    unsigned longlong b,c,d;
+    ulonglong b,c,d;
   };
   struct int128 {
     longlong a;
-    unsigned longlong b;
+    ulonglong b;
   };
 
   void sub(int256 A,int b,int256 & C){
@@ -141,7 +141,7 @@ namespace giac {
     unsigned A3,A2,A1,A0,B3,B2,B1,B0,C6,C5,C4,C3,C2,C1,C0;
     int128tounsigned(A,A3,A2,A1,A0);
     int128tounsigned(B,B3,B2,B1,B0);
-    unsigned longlong p1,p2,p3,p;
+    ulonglong p1,p2,p3,p;
     p1=A0; p2=B0;
     p3=p1*p2;
     C0=p3;
