@@ -101,7 +101,7 @@ public class StylingBar extends DecoratorPanel
 
 		this.showHide = new ArrowImageButton(LafIcons.triangle_left());
 
-		this.showHide.addHandler(TouchEntryPoint.getLookAndFeel().getStylBarHandlerShowHide(this, euclidianViewPanel), TouchEntryPoint.getLookAndFeel()
+		this.showHide.addHandler(TouchEntryPoint.getLookAndFeel().getStyleBarHandlerShowHide(this, euclidianViewPanel), TouchEntryPoint.getLookAndFeel()
 		    .getStylBarEventType());
 
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
@@ -126,7 +126,7 @@ public class StylingBar extends DecoratorPanel
 	{
 		final StandardImageButton newButton = new StandardImageButton(svg);
 
-		newButton.addHandler(TouchEntryPoint.getLookAndFeel().getStylBarButtonHandler(this, newButton, process), TouchEntryPoint.getLookAndFeel()
+		newButton.addHandler(TouchEntryPoint.getLookAndFeel().getStyleBarButtonHandler(this, newButton, process), TouchEntryPoint.getLookAndFeel()
 		    .getStylBarEventType());
 
 		return newButton;

@@ -1,8 +1,14 @@
 package geogebra.touch.gui.laf;
 
+
+import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
+import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -10,16 +16,56 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
-public class DefaultLAF extends AbstractLAF<ClickHandler>
+public class DefaultLAF implements LookAndFeel
 {
+	private TabletHeaderPanel hp;
+
 	@Override
-  public Type<ClickHandler> getStylBarEventType()
+	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel, FileManagerM fm)
+	{
+		this.hp = new TabletHeaderPanel(gui, app, touchModel, fm);
+		gui.setHeaderWidget(this.hp);
+		gui.addResizeListener(this.hp);
+	}
+
+	@Override
+	public void setTitle(String title)
+	{
+		this.hp.setTitle(title);
+	}
+
+	@Override
+	public int getPanelsHeight()
+	{
+		return 122;
+	}
+
+	@Override
+  public TabletHeaderPanel getTabletHeaderPanel()
+	{
+		return this.hp;
+	}
+
+	@Override
+	public int getAppBarHeight()
+	{
+		return 62;
+	}
+
+	@Override
+	public DefaultIcons getIcons()
+	{
+		return DefaultIcons.INSTANCE;
+	}
+	
+	@Override
+  public Type getStylBarEventType()
   {
 	  return ClickEvent.getType();
   }
 	
 	@Override
-  public ClickHandler getStylBarHandlerShowHide(final StylingBar stylingBar, final EuclidianViewPanel euclidianViewPanel)
+  public EventHandler getStyleBarHandlerShowHide(final StylingBar stylingBar, final EuclidianViewPanel euclidianViewPanel)
   {
 	  return new ClickHandler()
 		{			
@@ -32,7 +78,7 @@ public class DefaultLAF extends AbstractLAF<ClickHandler>
   }
 
 	@Override
-  public EventHandler getStylBarButtonHandler(final StylingBar stylingBar, final StandardImageButton newButton, final String process)
+  public EventHandler getStyleBarButtonHandler(final StylingBar stylingBar, final StandardImageButton newButton, final String process)
   {
 	  return new ClickHandler()
 		{			

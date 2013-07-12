@@ -13,7 +13,7 @@ import geogebra.touch.utils.OptionType;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
-public interface LookAndFeel<H extends EventHandler>
+public interface LookAndFeel
 {
 	public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel, FileManagerM fm);
 
@@ -27,11 +27,11 @@ public interface LookAndFeel<H extends EventHandler>
 
 	public TabletHeaderPanel getTabletHeaderPanel();
 	
-	public Type<H> getStylBarEventType();
+	public Type getStylBarEventType();
 	
-	public H getStylBarHandlerShowHide(StylingBar stylingBar, EuclidianViewPanel euclidianViewPanel);
+	public EventHandler getStyleBarHandlerShowHide(StylingBar stylingBar, EuclidianViewPanel euclidianViewPanel);
 	
-	public EventHandler getStylBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
+	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
 
 	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
 }

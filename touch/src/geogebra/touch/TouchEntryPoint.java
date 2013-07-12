@@ -6,6 +6,7 @@ import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
 import geogebra.touch.gui.laf.AndroidLAF;
+import geogebra.touch.gui.laf.AppleLAF;
 import geogebra.touch.gui.laf.DefaultLAF;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.gui.laf.WindowsStoreLAF;
@@ -186,7 +187,7 @@ public class TouchEntryPoint implements EntryPoint
 		}
 		else if ("ios".equals(param))
 		{
-			laf = new DefaultLAF(); // FIXME set ios laf
+			laf = new AppleLAF();
 		}
 		else if ("win".equals(param))
 		{
