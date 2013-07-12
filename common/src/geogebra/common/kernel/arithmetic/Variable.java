@@ -227,4 +227,12 @@ public class Variable extends ValidExpression {
 		return false;
 	}
 
+	/**
+	 * force the name to s, used by RelativeCopy
+	 * @param s new name
+	 */
+	public void setName(String s) {
+		name = s;	
+	}
+
 }

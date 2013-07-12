@@ -19,15 +19,14 @@ public class GeoElementSpreadsheet {
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
 	public static final RegExp spreadsheetPattern = RegExp
-			.compile("^\\$?([A-Z]+)\\$?([1-9][0-9]*)$");
-	/**
-	 * match fooA1bar, but not fooA01bar etc.
-	 */
-	public static final RegExp spreadsheetPatternPart = RegExp
-			.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)");
-
-	//public static final RegExp spreadsheetPatternGlobal = RegExp
-	//		.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)", "g");
+			.compile("^(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)$");
+	
+	// regex groups for above
+	public final static int MATCH_COLUMN_$ = 1;
+	public final static int MATCH_COLUMN   = 2;
+	public final static int MATCH_ROW_$    = 3;
+	public final static int MATCH_ROW      = 4;
+	
 	/**
 	 * Converts column number to name
 	 * @param column column number
@@ -52,7 +51,7 @@ public class GeoElementSpreadsheet {
 		MatchResult matcher = spreadsheetPattern.exec(label);
 		if (matcher == null)
 			return null;
-		return matcher.getGroup(1);
+		return matcher.getGroup(MATCH_COLUMN);
 	}
 
 	/**
@@ -133,7 +132,7 @@ public class GeoElementSpreadsheet {
 		if (matcher == null)
 			return -1;
 
-		String s = matcher.getGroup(1);
+		String s = matcher.getGroup(MATCH_COLUMN);
 		int column = 0;
 		while (s.length() > 0) {
 			column *= 26;
@@ -159,7 +158,7 @@ public class GeoElementSpreadsheet {
 			return -1;
 		int ret = -1; 
 		try { 
-			String s = matcher.getGroup(2);
+			String s = matcher.getGroup(MATCH_ROW);
 			ret = Integer.parseInt(s) - 1; 
 		} catch (Exception e) { 
 			// eg number is bigger than MAXINT 
@@ -264,8 +263,8 @@ public class GeoElementSpreadsheet {
 		MatchResult cellNameMatcher = spreadsheetPattern
 				.exec(label);
 		if (cellNameMatcher != null) {
-			String col = cellNameMatcher.getGroup(1);
-			int row = Integer.parseInt(cellNameMatcher.getGroup(2));
+			String col = cellNameMatcher.getGroup(MATCH_COLUMN);
+			int row = Integer.parseInt(cellNameMatcher.getGroup(MATCH_ROW));
 
 			// try to get neighbouring cell for object type look above
 			GeoElement neighbourCell = cons.geoTableVarLookup(col + (row - 1));

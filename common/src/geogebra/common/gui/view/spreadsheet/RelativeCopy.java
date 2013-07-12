@@ -6,6 +6,21 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.MyBoolean;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.MyVecNode;
+import geogebra.common.kernel.arithmetic.Parametric;
+import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.arithmetic.Term;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -13,6 +28,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
@@ -361,7 +377,7 @@ public class RelativeCopy {
 			throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 						.exec(oldValue.getLabel(StringTemplate.defaultTemplate));
 				int column = GeoElementSpreadsheet
 						.getSpreadsheetColumn(matcher);
@@ -420,9 +436,13 @@ public class RelativeCopy {
 			}
 		}
 
-		// Application.debug("before:"+text);
-		text = updateCellReferences(value, text, dx, dy);
-		// Application.debug("after:"+text);
+		ValidExpression exp = kernel.getParser().parseGeoGebraExpression(text);
+		
+		updateCellReferences(exp, dx, dy);
+
+		//App.debug("before:"+text);
+		text = exp.toString(highPrecision);
+		//App.debug("after:"+text);
 
 		// condition to show object
 		GeoBoolean bool = value.getShowObjectCondition();
@@ -436,8 +456,11 @@ public class RelativeCopy {
 		}
 
 		if (oldBoolText != null) {
-			boolText = updateCellReferences(bool, oldBoolText, dx, dy);
+			exp = kernel.getParser().parseGeoGebraExpression(oldBoolText);
+			updateCellReferences(exp, dx, dy);
+			boolText = exp.toString(StringTemplate.maxPrecision);
 		}
+		
 		
 		String startPoints[] = null;
 		if (value instanceof Locateable) {
@@ -449,7 +472,10 @@ public class RelativeCopy {
 			
 			for (int i = 0 ; i < pts.length ; i++) {
 				startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
-				startPoints[i] = updateCellReferences((GeoElement) pts[i], startPoints[i], dx, dy);
+				
+				if (GeoElementSpreadsheet.spreadsheetPattern.test(startPoints[i])) {					
+					startPoints[i] = updateCellNameWithOffset(startPoints[i], dx, dy);
+				}
 			}
 			
 		}
@@ -466,8 +492,9 @@ public class RelativeCopy {
 		}
 
 		if (oldColorText != null) {
-			colorText = updateCellReferences(dynamicColorList, oldColorText,
-					dx, dy);
+			exp = kernel.getParser().parseGeoGebraExpression(oldColorText);
+			updateCellReferences(exp, dx, dy);
+			colorText = exp.toString(StringTemplate.maxPrecision);
 		}
 
 		// allow pasting blank strings
@@ -486,7 +513,7 @@ public class RelativeCopy {
 		// column + dx) + (row + dy + 1));
 
 		// create the new cell geo
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 				.exec(value.getLabel(StringTemplate.defaultTemplate));
 		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -498,7 +525,7 @@ public class RelativeCopy {
 			}
 			//value2.setLabel(table.getModel().getColumnName(column0 + dx)
 			//		+ (row0 + dy + 1));
-			value2.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column0 + dx, row0 + dy + 1));
+			value2.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column0 + dx, row0 + dy));
 			value2.updateRepaint();
 		} else {
 			value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel, app,
@@ -564,145 +591,120 @@ public class RelativeCopy {
 	 * spreadsheet of offset (dx,dy) (changes only dependents of value) eg
 	 * change A1 < 3 to A2 < 3 for a vertical copy
 	 */
-	public static String updateCellReferences(GeoElement value, String inputText,
-			int dx, int dy) {
-		String text = inputText;
-		StringBuilder before = new StringBuilder();
-		StringBuilder after = new StringBuilder();
-
-		GeoElement[] dependents = getDependentObjects(value);
-		GeoElement[] dependents2 = new GeoElement[dependents.length + 1];
-		for (int i = 0; i < dependents.length; ++i) {
-			dependents2[i] = dependents[i];
+	private static void updateCellReferences(ValidExpression exp, int dx, int dy) {
+		
+		if (exp == null) {
+			return;
 		}
-		dependents = dependents2;
-		dependents[dependents.length - 1] = value;
-		for (int i = 0; i < dependents.length; ++i) {
-			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
-			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
-					.exec(name);
-			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
-			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-
-			if ((column == -1) || (row == -1)) {
-				continue;
+		//App.debug("updating "+exp+" "+dx + " " + dy);
+		
+		if (exp.isExpressionNode()) {
+			updateCellReferences((ValidExpression) ((ExpressionNode)exp).getLeft(),dx,dy);
+			updateCellReferences((ValidExpression) ((ExpressionNode)exp).getRight(),dx,dy);
+			
+		} else if (exp instanceof Command) {
+			Command c = (Command)exp;
+			
+			for (ExpressionNode en: c.getArguments()) {
+				updateCellReferences(en, dx, dy);
 			}
-			String column1 = GeoElementSpreadsheet
-					.getSpreadsheetColumnName(column);
-			String row1 = "" + (row + 1);
-
-			before.setLength(0);
-			before.append('$');
-			before.append(column1);
-			before.append(row1);
-			after.setLength(0);
-			after.append('$');
-			after.append(column1);
-			after.append("::");
-			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
-					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
-			// "$" + column1 + row1, "$" + column1 + "::" + row1);
-
-			before.setLength(0);
-			before.append(column1);
-			before.append('$');
-			before.append(row1);
-			after.setLength(0);
-			after.append("::");
-			after.append(column1);
-			after.append('$');
-			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
-					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
-			// column1 + "$" + row1, "::" + column1 + "$" + row1);
-
-			before.setLength(0);
-			before.append(column1);
-			before.append(row1);
-			after.setLength(0);
-			after.append("::");
-			after.append(column1);
-			after.append("::");
-			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
-					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
-			// column1 + row1, "::" + column1 + "::" + row1);
-
-		}
-
-		// TODO is this a bug in the regex?
-		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
-		// =$B$1 BinomialCoefficient[B$2, $A3] gives BinomialCoefficient[::::::B$2, $A::3]
-		text = text.replace("::::::", "::");
-		text = text.replace("::::", "::");
-
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
-				.exec(value.getLabel(StringTemplate.defaultTemplate));
-		for (int i = 0; i < dependents.length; ++i) {
-			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
-			matcher = GeoElementSpreadsheet.spreadsheetPatternPart.exec(name);
-			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
-			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-			if ((column == -1) || (row == -1)) {
-				continue;
+		} else if (exp instanceof Variable) {
+			Variable v = (Variable)exp;
+			
+			String name = v.getName(StringTemplate.defaultTemplate);
+			
+			
+			//App.debug("found VARIABLE: "+name);
+			if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
+				//App.debug("FOUND SPREADSHEET VARIABLE: "+name);
+				
+				String newName = updateCellNameWithOffset(name, dx, dy);
+				
+				// make sure new cell is autocreated if it doesn't exist already
+				exp.getKernel().getConstruction().lookupLabel(newName, true);
+				
+				//App.debug("setting new name to: "+newName);
+				
+				v.setName(newName);
+				
 			}
-			String column1 = GeoElementSpreadsheet
-					.getSpreadsheetColumnName(column);
-			String row1 = "" + (row + 1);
-			String column2 = GeoElementSpreadsheet
-					.getSpreadsheetColumnName(column + dx);
-			String row2 = "" + (row + dy + 1);
-
-			before.setLength(0);
-			before.append("::");
-			before.append(column1);
-			before.append("::");
-			before.append(row1);
-			after.setLength(0);
-			after.append(' '); // space important eg 2 E2 not 2E2
-			after.append(column2);
-			after.append(row2);
-			text = replaceAll(pattern2, text, before.toString(),
-					after.toString());
-			// text = replaceAll(pattern2, text, "::" + column1 + "::" + row1,
-			// "("+ column2 + row2 + ")");
-
-			before.setLength(0);
-			before.append("$");
-			before.append(column1);
-			before.append("::");
-			before.append(row1);
-			after.setLength(0);
-			after.append('$');
-			after.append(column1);
-			after.append(row2);
-			text = replaceAll(pattern2, text, before.toString(),
-					after.toString());
-			// text = replaceAll(pattern2, text, "$" + column1 + "::" + row1,
-			// "$" + column1 + row2);
-
-			before.setLength(0);
-			before.append("::");
-			before.append(column1);
-			before.append('$');
-			before.append(row1);
-			after.setLength(0);
-			after.append(column2);
-			after.append('$');
-			after.append(row1);
-			text = replaceAll(pattern2, text, before.toString(),
-					after.toString());
-			// text = replaceAll(pattern2, text, "::" + column1 + "$" + row1,
-			// column2 + "$" + row1);
-
+			
+		} else if (exp instanceof MyVecNode) {
+			MyVecNode vec = (MyVecNode)exp;
+			updateCellReferences((ValidExpression) vec.getX(), dx, dy);
+			updateCellReferences((ValidExpression) vec.getY(), dx, dy);
+		} else if (exp instanceof MyVec3DNode) {
+			MyVec3DNode vec = (MyVec3DNode)exp;
+			updateCellReferences((ValidExpression) vec.getX(), dx, dy);
+			updateCellReferences((ValidExpression) vec.getY(), dx, dy);
+			updateCellReferences((ValidExpression) vec.getZ(), dx, dy);
+		} else if (exp instanceof FunctionNVar) {
+			FunctionNVar fun = (FunctionNVar)exp;
+			updateCellReferences(fun.getFunctionExpression(), dx, dy);
+		} else if (exp instanceof Equation) {
+			Equation eq = (Equation)exp;
+			updateCellReferences(eq.getLHS(), dx, dy);
+			updateCellReferences(eq.getRHS(), dx, dy);
+		} else if (exp instanceof Polynomial) {
+			Polynomial p = (Polynomial)exp;
+			
+			for (int i = 0 ; i < p.length() ; i++) {
+				Term t = p.getTerm(i);				
+				updateCellReferences((ValidExpression) t.getCoefficient(), dx, dy);
+			}
+			
+		} else if (exp instanceof Parametric) {
+			Parametric p = (Parametric)exp;
+			
+			updateCellReferences(p.getP(), dx, dy);
+			updateCellReferences(p.getv(), dx, dy);
+			
+		} else if (exp instanceof MyStringBuffer
+				|| exp instanceof MyBoolean
+				|| exp instanceof MyDouble
+				|| exp instanceof MyList
+				|| exp instanceof GeoVec2D			
+				) {
+			// nothing to do
+		} else {
+			App.error("missing case: "+exp.getClass());
 		}
+	}
 
-		return text;
-
+	private static String updateCellNameWithOffset(String name, int dx, int dy) {
+		MatchResult m = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
+		
+		// $ or ""
+		String m1 = m.getGroup(GeoElementSpreadsheet.MATCH_COLUMN_$);
+		// column eg A
+		String m2 = m.getGroup(GeoElementSpreadsheet.MATCH_COLUMN);
+		// $ or ""
+		String m3 = m.getGroup(GeoElementSpreadsheet.MATCH_ROW_$);
+		// row eg 23
+		String m4 = m.getGroup(GeoElementSpreadsheet.MATCH_ROW);
+		
+		if ("".equals(m1)) {
+			int column = GeoElementSpreadsheet.getSpreadsheetColumn(m);
+			if (column > -1 && dx + column > 0) {
+				m2 = GeoElementSpreadsheet.getSpreadsheetColumnName(dx + column);
+			}
+		}
+		
+		if ("".equals(m3)) {
+			int row = GeoElementSpreadsheet.getSpreadsheetRow(m);
+			if (row > -1 && dy + row + 1 >= 1) {
+				m4 = "" + (dy + row + 1);
+			}
+		}
+		
+		// preserve $ eg A$3 -> A$4
+		StringBuilder newName = new StringBuilder();
+		newName.append(m1);
+		newName.append(m2);
+		newName.append(m3);
+		newName.append(m4);
+		
+		return newName.toString();
 	}
 
 	/**
