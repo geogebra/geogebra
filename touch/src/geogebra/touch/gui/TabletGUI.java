@@ -223,6 +223,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// for Win8 position it on top, for others under appbar
 			this.algebraViewButtonPanel.setPopupPosition(euclidianWidth - ALGEBRA_BUTTON_WIDTH, TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 			this.algebraViewButton.setStyleName("arrowRight");
+			
+			// Set algebraviewbutton nontransparent, when algebra view is open
+			this.algebraViewButtonPanel.removeStyleName("transparent");
 		}
 	}
 

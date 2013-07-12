@@ -1,5 +1,7 @@
 package geogebra.touch.gui.dialogs;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.touch.FileManagerM;
@@ -11,8 +13,11 @@ import geogebra.touch.model.GuiModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -20,9 +25,12 @@ public class InfoDialog extends PopupPanel
 {
 	private StandardImageButton cancelButton = new StandardImageButton(getLafIcons().dialog_cancel());
 	private StandardImageButton okButton = new StandardImageButton(getLafIcons().dialog_ok());
+	private SVGResource iconQuestion = getLafIcons().icon_question();
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
+	private HorizontalPanel textPanel;
 	private Label title;
+	private Label infoText;
 	String consTitle;
 	private Localization loc;
 	App app;
@@ -39,14 +47,19 @@ public class InfoDialog extends PopupPanel
 		this.setGlassEnabled(true);
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
+		this.infoText = new Label();
 		this.guiModel = guiModel;
+		this.textPanel = new HorizontalPanel();
 
 		addLabel();
+		addText();
 		addButtons();
 
 		this.add(this.dialogPanel);
 		// FIXME the glass pane has z-index 20, we must go higher
-		this.getElement().getStyle().setZIndex(42);
+		//this.getElement().getStyle().setZIndex(42);
+		
+		this.setStyleName("infoDialog");
 	}
 
 	private static DefaultIcons getLafIcons()
@@ -63,8 +76,24 @@ public class InfoDialog extends PopupPanel
 
 	private void addLabel()
 	{
-		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		this.title.setText(this.loc.getMenu("CloseFile"));
 		this.dialogPanel.add(this.title);
+		this.title.setStyleName("title");
+	}
+	
+	private void addText() {
+		Panel iconPanel = new LayoutPanel();
+		String html = "<img src=\"" + this.iconQuestion.getSafeUri().asString() + "\" style=\"margin-right: 10px;\" />";
+		iconPanel.getElement().setInnerHTML(html);
+		this.textPanel.add(iconPanel);
+		
+		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		this.textPanel.add(this.infoText);
+		
+		this.textPanel.setStyleName("textPanel");
+		
+		this.dialogPanel.add(this.textPanel);
 	}
 
 	private void addButtons()
@@ -74,9 +103,12 @@ public class InfoDialog extends PopupPanel
 
 		this.buttonContainer = new HorizontalPanel();
 		this.buttonContainer.setWidth("100%");
-		this.buttonContainer.add(this.okButton);
 		this.buttonContainer.add(this.cancelButton);
-
+		this.buttonContainer.add(this.okButton);
+		
+		// Last Button has no border-right
+		this.okButton.addStyleName("last");
+		
 		this.dialogPanel.add(this.buttonContainer);
 	}
 
@@ -142,7 +174,8 @@ public class InfoDialog extends PopupPanel
 
 	public void setLabels()
 	{
-		this.title.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		this.title.setText(this.loc.getMenu("CloseFile"));
+		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
 	}
 
 	public void setCallback(Runnable callback)

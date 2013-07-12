@@ -80,5 +80,10 @@ interface AndroidIcons extends DefaultIcons
 	@Source("icons/svg/android/icon_fx.svg")
 	@Validated(validated = false)
 	SVGResource icon_fx();
+	
+	@Override
+	@Source("icons/svg/android/icon_question.svg")
+	@Validated(validated = false)
+	SVGResource icon_question();
 
 }

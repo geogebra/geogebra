@@ -127,6 +127,9 @@ public class StylingBar extends DecoratorPanel
 					StylingBar.this.visible = false;
 
 					StylingBar.this.showHide.setStyleName("arrowRight");
+					
+					// Set stylebar transparent, when closed
+					StylingBar.this.addStyleName("transparent");
 				}
 				else
 				{
@@ -139,6 +142,9 @@ public class StylingBar extends DecoratorPanel
 					StylingBar.this.visible = true;
 
 					StylingBar.this.showHide.setStyleName("arrowLeft");
+					
+					// Set stylebar nontransparent, when open
+					StylingBar.this.removeStyleName("transparent");
 
 					// force repaint
 					euclidianViewPanel.remove(StylingBar.this);

@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @see ButtonBar
@@ -34,7 +35,9 @@ public class ToolBar extends HorizontalPanel
 {
 
 	protected List<ToolBarButton> tools;
-	private HorizontalPanel toolPanel, inputButtonPanel;
+	private HorizontalPanel toolPanel;
+	private VerticalPanel inputButtonPanel;
+	Panel underline;
 
 	protected InputDialog input;
 	TextBox inputBox = new TextBox();
@@ -49,7 +52,7 @@ public class ToolBar extends HorizontalPanel
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.toolPanel = new HorizontalPanel();
-		this.inputButtonPanel = new HorizontalPanel();
+		this.inputButtonPanel = new VerticalPanel();
 
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
@@ -86,27 +89,6 @@ public class ToolBar extends HorizontalPanel
 		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
 		// touchModel.getGuiModel());
 
-		// inputBar <----- Old version of input button
-		/*StandardImageButton inputBarButton = new StandardImageButton(DefaultIcons.INSTANCE.show_input_bar());
-
-		inputBarButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				ToolBar.this.input.show();
-			}
-		}, ClickEvent.getType());
-
-		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
-		{
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event)
-			{
-				ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
-			}
-		});*/
-
 		// new Inputbar (Stefanie Bogner)
 		this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
 		
@@ -122,7 +104,9 @@ public class ToolBar extends HorizontalPanel
 		@Override
 		public void onClick(ClickEvent event)
 		{
-			ToolBar.this.input.show();				
+			ToolBar.this.underline.removeStyleName("inactive");
+			ToolBar.this.underline.addStyleName("active");
+			ToolBar.this.input.show();
 		}
 	}, ClickEvent.getType());
 	
@@ -131,6 +115,8 @@ public class ToolBar extends HorizontalPanel
 				@Override
 				public void onClose(CloseEvent<PopupPanel> event)
 				{
+					ToolBar.this.underline.removeStyleName("active");
+					ToolBar.this.underline.addStyleName("inactive");
 					ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
 				}
 			});
@@ -149,10 +135,10 @@ public class ToolBar extends HorizontalPanel
 	this.inputButtonPanel.add(this.inputBox);
 	
 	//Input Underline for Android
-	Panel underline = new LayoutPanel();
-	underline.setStyleName("inputUnderline");
-	underline.addStyleName("inactive");
-	this.inputButtonPanel.add(underline);
+	this.underline = new LayoutPanel();
+	this.underline.setStyleName("inputUnderline");
+	this.underline.addStyleName("inactive");
+	this.inputButtonPanel.add(this.underline);
 	
 	this.add(this.inputButtonPanel);
 

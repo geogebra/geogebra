@@ -22,6 +22,7 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -43,6 +44,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title = new Label();
 	private RadioButton[] radioButton = new RadioButton[2];
+	VerticalPanel textPanel;
 	TextBox textBox = new TextBox();
 	Panel underline;
 	private TouchApp app;
@@ -95,6 +97,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
+		this.title.setStyleName("title");
 		addTextBox();
 
 		if (this.type == DialogType.Angle)
@@ -136,6 +139,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			public void onBlur(BlurEvent event)
 			{
 				InputDialog.this.textBox.setFocus(true);
+				InputDialog.this.underline.removeStyleName("inactive");
+				InputDialog.this.underline.addStyleName("active");
 			}
 		});
 
@@ -146,13 +151,21 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			public void onFocus(FocusEvent event)
 			{
 				InputDialog.this.textBox.setFocus(true);
-					InputDialog.this.underline.removeStyleName("inactive");
+				InputDialog.this.underline.removeStyleName("inactive");
 				InputDialog.this.underline.addStyleName("active");
 			}
 		});
+		
+		this.textPanel = new VerticalPanel();
+		this.textPanel.add(this.textBox);
+		
+		//Input Underline for Android
+		this.underline = new LayoutPanel();
+		this.underline.setStyleName("inputUnderline");
+		this.underline.addStyleName("inactive");
+		this.textPanel.add(this.underline);
 
-		this.textBox.setVisibleLength(107);
-		this.dialogPanel.add(this.textBox);
+		this.dialogPanel.add(this.textPanel);
 		this.textBox.setFocus(true);
 	}
 
@@ -168,35 +181,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.radioButton[0].setValue(new Boolean(true));
 	}
-
-	/*
-	 * private void addButtonContainer() { addCancelButton(); addOKButton();
-	 * 
-	 * this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-	 * this.dialogPanel.add(this.buttonContainer); }
-	 */
-
-	/*
-	 * private void addOKButton() { this.okButton.addDomHandler(new ClickHandler()
-	 * {
-	 * 
-	 * @Override public void onClick(ClickEvent event) { InputDialog.this.onOK();
-	 * } }, ClickEvent.getType());
-	 * 
-	 * this.buttonContainer.add(this.okButton); }
-	 */
-
-	/*
-	 * private void addCancelButton() { this.cancelButton.addDomHandler(new
-	 * ClickHandler() {
-	 * 
-	 * @Override public void onClick(ClickEvent event) {
-	 * InputDialog.this.onCancel(); }
-	 * 
-	 * }, ClickEvent.getType());
-	 * 
-	 * this.buttonContainer.add(this.cancelButton); }
-	 */
 
 	protected void onOK()
 	{

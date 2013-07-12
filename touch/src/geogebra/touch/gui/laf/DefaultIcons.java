@@ -462,6 +462,10 @@ public interface DefaultIcons extends ClientBundle
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource icon_fx();
+	
+	@Source("icons/svg/empty.svg")
+	@Validated(validated = false)
+	SVGResource icon_question();
 
 	// New Styles
 	@Source("icons/svg/subToolbarArrow.svg")

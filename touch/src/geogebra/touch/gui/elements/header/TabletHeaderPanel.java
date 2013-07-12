@@ -91,7 +91,6 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
 
-		//this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 30);
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.add(this.worksheetTitle);
 
@@ -104,7 +103,6 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void onResize(ResizeEvent event)
 	{
 		this.setWidth(event.getWidth() + "px");
-		//this.worksheetTitle.setPixelSize(Window.getClientWidth() - 396, 30);
 	}
 
 	public void setLabels()
