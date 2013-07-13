@@ -364,6 +364,7 @@ public class ProverBotanasMethod {
 							found = true;
 						}
 					}
+					// No readable proof was found, search for another prover to make a better job:
 					if (!found)
 						return ProofResult.UNKNOWN;
 					
@@ -372,10 +373,13 @@ public class ProverBotanasMethod {
 						prover.addNDGcondition(ndgc.next());
 					}
 					
-					// No readable proof was found, search for another prover to make a better job.
 				} else {
-					if (Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
-							ProverSettings.polysofractf)) // FIXME: here seems NPE if SingularWS not initialized 
+					Boolean solvable = Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
+						ProverSettings.polysofractf);
+					if (solvable == null)
+						// Prover returned with no success, search for another prover:
+						return ProofResult.UNKNOWN;
+					if (solvable)
 						ans = false;
 				}
 			}
