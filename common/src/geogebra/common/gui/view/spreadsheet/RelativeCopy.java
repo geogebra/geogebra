@@ -468,13 +468,16 @@ public class RelativeCopy {
 			
 			GeoPointND[] pts = loc.getStartPoints();
 			
-			startPoints = new String[pts.length];
+			if (pts != null) {
 			
-			for (int i = 0 ; i < pts.length ; i++) {
-				startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
+				startPoints = new String[pts.length];
 				
-				if (GeoElementSpreadsheet.spreadsheetPattern.test(startPoints[i])) {					
-					startPoints[i] = updateCellNameWithOffset(startPoints[i], dx, dy);
+				for (int i = 0 ; i < pts.length ; i++) {
+					startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
+					
+					if (GeoElementSpreadsheet.spreadsheetPattern.test(startPoints[i])) {					
+						startPoints[i] = updateCellNameWithOffset(startPoints[i], dx, dy);
+					}
 				}
 			}
 			
