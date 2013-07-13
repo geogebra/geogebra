@@ -880,9 +880,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		App.info("[solvable] input to cas: "+script);
 		String result = cas.evaluate(script);
 		App.info("[solvable] output from cas: "+result);	
-		if ("0".equals(result) || "false".equals(result))
+		if ("0".equals(result))
 			return false; // no solution
-		if ("1".equals(result) || "true".equals(result))
+		if ("1".equals(result))
 			return true; // at least one solution exists
 		return null; // cannot decide 
 	}
