@@ -689,9 +689,6 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Creates a Singular program for creating a ring to work with several
 	 * polynomials, and returns if the equation system has a solution. Uses
 	 * the Groebner basis w.r.t. the revgradlex order.
-	 * @param ringVariable variable name for the ring in Singular
-	 * @param idealVariable variable name for the ideal in Singular
-	 * @param dummyVar dummy variable name
 	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param fieldVars field variables (comma separated) 
@@ -699,9 +696,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param polysofractf use polynomial ring over a fraction field of polynomials (rational functions)
 	 * @return the Singular program code
 	 */
-	public static String createGroebnerSolvableScript(String ringVariable, String idealVariable,
-			String dummyVar, HashMap<Variable,Integer> substitutions, String polys,
+	public static String createGroebnerSolvableScript(HashMap<Variable,Integer> substitutions, String polys,
 			String fieldVars, String ringVars, boolean polysofractf) {
+		
+		String ringVariable = "r";
+		String idealVariable = "i";
+		String dummyVar = "d";
 		
 		String vars = ringVars + addLeadingComma(fieldVars); 
 		
@@ -759,7 +759,7 @@ public class Polynomial implements Comparable<Polynomial> {
              1,1
 	 */
 	
-	public static String getSingularEliminationIdeal( 
+	public static String createEliminateFactorizedScript( 
 			Polynomial[] polys, Set<Variable> variables, Set<Variable> dependentVariables) {
 
 		String ringVariable = "r";
@@ -844,26 +844,23 @@ public class Polynomial implements Comparable<Polynomial> {
 		
 		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true);
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
-		 
+		String solvableResult, solvableProgram;
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			
-			String singularSolvableProgram = createGroebnerSolvableScript("r", "i", "d", substitutions, polysAsCommaSeparatedString, 
+			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
 					freeVars, dependantVars, polysofractf);
- 
-			// createGroebnerSolvableScript("r", "i", 
-			// 		substitutions, varsAsCommaSeparatedString, polysAsCommaSeparatedString);
-			
-			if (singularSolvableProgram.length()>500)
-				App.debug(singularSolvableProgram.length() + " bytes -> singular");
+ 		
+			if (solvableProgram.length()>500)
+				App.debug(solvableProgram.length() + " bytes -> singular");
 			else
-				App.debug(singularSolvableProgram + " -> singular");
-			String singularSolvable = App.singularWS.directCommand(singularSolvableProgram);
-			if (singularSolvable.length()>500)
-				App.debug("singular -> " + singularSolvable.length() + " bytes");
+				App.debug(solvableProgram + " -> singular");
+			solvableResult = App.singularWS.directCommand(solvableProgram);
+			if (solvableResult.length()>500)
+				App.debug("singular -> " + solvableResult.length() + " bytes");
 			else
-				App.debug("singular -> " + singularSolvable);
-			if ("0".equals(singularSolvable))
+				App.debug("singular -> " + solvableResult);
+			if ("0".equals(solvableResult))
 				return false; // no solution
 			return true; // at least one solution exists
 		}
@@ -871,18 +868,18 @@ public class Polynomial implements Comparable<Polynomial> {
 		// If SingularWS is not applicable, then we try to use the internal CAS:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		
-		String script = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
+		solvableProgram = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
 				freeVars, dependantVars, polysofractf);
-		if (script == null) {
+		if (solvableProgram == null) {
 			App.info("Not implemented (yet)");
 			return null; // cannot decide
 		}
-		App.info("[solvable] input to cas: "+script);
-		String result = cas.evaluate(script);
-		App.info("[solvable] output from cas: "+result);	
-		if ("0".equals(result))
+		App.info("[groebnerSolvable] input to cas: "+solvableProgram);
+		solvableResult = cas.evaluate(solvableProgram);
+		App.info("[groebnerSolvable] output from cas: "+solvableResult);	
+		if ("0".equals(solvableResult))
 			return false; // no solution
-		if ("1".equals(result))
+		if ("1".equals(solvableResult))
 			return true; // at least one solution exists
 		return null; // cannot decide 
 	}
@@ -930,6 +927,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * will be eliminated. 
 	 * @param eqSystem the equation system
 	 * @param substitutions fixed values for certain variables
+	 * @param kernel GeoGebra kernel
 	 * @return elements of the elimination ideal
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
@@ -956,19 +954,19 @@ public class Polynomial implements Comparable<Polynomial> {
 			eqSystemSubstituted = eqSystem;
 		}
 		
-		String elimResult;
+		String elimResult, elimProgram;
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
-			String singularEliminationProgram = getSingularEliminationIdeal(
+			elimProgram = createEliminateFactorizedScript(
 					eqSystemSubstituted, variables, dependentVariables);
 			
-			if (singularEliminationProgram.length() > 500)
-				App.debug(singularEliminationProgram.length()
+			if (elimProgram.length() > 500)
+				App.debug(elimProgram.length()
 						+ " bytes -> singular");
 			else
-				App.debug(singularEliminationProgram + " -> singular");
+				App.debug(elimProgram + " -> singular");
 			elimResult = App.singularWS
-					.directCommand(singularEliminationProgram);
+					.directCommand(elimProgram);
 			if (elimResult == null) {
 				return null;
 			}
@@ -983,15 +981,14 @@ public class Polynomial implements Comparable<Polynomial> {
 			
 			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
 			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
-			
-			String elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
+			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
 			if (elimProgram == null) {
 				App.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
-			App.info("[solvable] input to cas: "+elimProgram);
+			App.info("[eliminateFactorized] input to cas: "+elimProgram);
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
-			App.info("[solvable] output from cas: "+elimResult);	
+			App.info("[eliminateFactorized] output from cas: "+elimResult);	
 		}
 
 		if ("empty list".equals(elimResult)) {
