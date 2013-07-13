@@ -97,7 +97,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public String evaluateRaw(final String input) throws Throwable {
 
-
 		String exp = input;
 
 		App.debug("giac eval: " + exp);
@@ -106,11 +105,16 @@ public abstract class CASgiac implements CASGenericInterface {
 		// FIXME: This check is too heuristic: in giac.js we can get results starting with \"
 		// and they are still correct (e.g. from eliminateFactorized).
 		// TODO: Find a better way for checking, now we assume that \"[ start is OK.
-		if (result.trim().startsWith("\"") && !result.trim().startsWith("\"[")) {
-			// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
-			// assume error
-			App.debug("message from giac (assuming error) "+result);
-			result = "?";
+		if (result.trim().startsWith("\"")) {
+			if (!result.trim().startsWith("\"[")) {
+				// eg "Index outside range : 5, vector size is 3, syntax compatibility mode xcas Error: Invalid dimension"
+				// assume error
+				App.debug("message from giac (assuming error) "+result);
+				result = "?";
+			}
+			else { // this is a special string output (only for the prover at the moment)
+				result = result.substring(1, result.length() - 1); // removing \" from left and right
+			}
 		}
 
 		App.debug("CASgiac.evaluateRaw: result: " + result);
