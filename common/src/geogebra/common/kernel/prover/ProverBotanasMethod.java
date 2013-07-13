@@ -330,7 +330,7 @@ public class ProverBotanasMethod {
 				if (prover.isReturnExtraNDGs()) {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
-					Set<Set<Polynomial>> eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions);
+					Set<Set<Polynomial>> eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions, statement.getKernel());
 					if (eliminationIdeal == null){
 						return ProofResult.UNKNOWN;
 					}

@@ -113,11 +113,19 @@ public interface CASGenericInterface extends SettingListener {
 			String vars, String varsToEliminate);
 
 	/**
+	 * Creates a program to return the elimination ideal in factorized form.
+	 * @param polys input polynomials (comma separated strings)
+	 * @param elimVars variables to eliminate (comma separated strings)
+	 * @return factors in the same form as Singular gives
+	 */
+	public String createEliminateFactorizedScript(
+			String polys, String elimVars);
+	
+	
+	/**
 	 * Creates a program to check if an equation system has no solution, using
 	 * Groebner basis w.r.t. the revgradlex order.
-	 * @param ringVar internal variable name for the ring if the CAS engine needs it
-	 * @param idealVar internal variable name for the ideal if the CAS engine needs it
-	 * @param dummyVar dummy variable name
+
 	 * @param substitutions e.g [v1=0,v2=1]
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
 	 * @param freeVars free variables

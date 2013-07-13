@@ -203,4 +203,9 @@ public class CASmpreduceD extends CASmpreduce {
 		// unimplemented, maybe possible (at least partially)
 		return null;
 	}
+
+	public String createEliminateFactorizedScript(String polys, String elimVars) {
+		// unimplemented
+		return null;
+	}
 }

@@ -933,68 +933,84 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return elements of the elimination ideal
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
-			HashMap<Variable, Integer> substitutions) {
+			HashMap<Variable, Integer> substitutions, Kernel kernel) {
+
+		HashSet<Variable> dependentVariables = new HashSet<Variable>();
+		Set<Variable> variables = getVars(eqSystem);
+		Iterator<Variable> variablesIterator = variables.iterator();
+		while (variablesIterator.hasNext()) {
+			Variable variable = variablesIterator.next();
+			if (!variable.isFree()) {
+				dependentVariables.add(variable);
+			}
+		}
+		Polynomial[] eqSystemSubstituted;
+		if (substitutions != null) {
+			eqSystemSubstituted = new Polynomial[eqSystem.length];
+			for (int i = 0; i < eqSystem.length; i++) {
+				eqSystemSubstituted[i] = eqSystem[i]
+						.substitute(substitutions);
+			}
+			variables.removeAll(substitutions.keySet());
+		} else {
+			eqSystemSubstituted = eqSystem;
+		}
+		
+		String elimResult;
+		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
-			HashSet<Variable> dependentVariables = new HashSet<Variable>();
-			Set<Variable> variables = getVars(eqSystem);
-			Iterator<Variable> variablesIterator = variables.iterator();
-			while (variablesIterator.hasNext()) {
-				Variable variable = variablesIterator.next();
-				if (!variable.isFree()) {
-					dependentVariables.add(variable);
-				}
-			}
-			Polynomial[] eqSystemSubstituted;
-			if (substitutions != null) {
-				eqSystemSubstituted = new Polynomial[eqSystem.length];
-				for (int i = 0; i < eqSystem.length; i++) {
-					eqSystemSubstituted[i] = eqSystem[i]
-							.substitute(substitutions);
-				}
-				variables.removeAll(substitutions.keySet());
-			} else {
-				eqSystemSubstituted = eqSystem;
-			}
 			String singularEliminationProgram = getSingularEliminationIdeal(
 					eqSystemSubstituted, variables, dependentVariables);
-
-			variablesIterator = variables.iterator();
-			while (variablesIterator.hasNext()){
-				Variable variable = variablesIterator.next();
-				// App.debug(variable.getName()+" -> "+variable.getParent());
-			}
 			
 			if (singularEliminationProgram.length() > 500)
 				App.debug(singularEliminationProgram.length()
 						+ " bytes -> singular");
 			else
 				App.debug(singularEliminationProgram + " -> singular");
-			String singularSolvable = App.singularWS
+			elimResult = App.singularWS
 					.directCommand(singularEliminationProgram);
-			if (singularSolvable == null) {
+			if (elimResult == null) {
 				return null;
 			}
-			if (singularSolvable.length() > 500)
-				App.debug("singular -> " + singularSolvable.length() + " bytes");
+			if (elimResult.length() > 500)
+				App.debug("singular -> " + elimResult.length() + " bytes");
 			else
-				App.debug("singular -> " + singularSolvable);
-
-			if ("empty list".equals(singularSolvable)) {
-				// If we get an empty list from Singular, it means
-				// the answer is false, so we artificially create the {{0}} answer.
-				Set<Set<Polynomial>> ret = new HashSet<Set<Polynomial>>();
-				HashSet<Polynomial> polys = new HashSet<Polynomial>();
-				polys.add(new Polynomial(0)); // this might be Polynomial() as well
-				ret.add(polys);
-				return ret;
+				App.debug("singular -> " + elimResult);
+		} else {
+			
+			// If SingularWS is not applicable, then we try to use the internal CAS:
+			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+			
+			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
+			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
+			
+			String elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
+			if (elimProgram == null) {
+				App.info("Not implemented (yet)");
+				return null; // cannot decide
 			}
-			try {
-				return PolynomialParser.parseFactoredPolynomialSet(singularSolvable, variables);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
+			App.info("[solvable] input to cas: "+elimProgram);
+			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
+			App.info("[solvable] output from cas: "+elimResult);	
 		}
+
+		if ("empty list".equals(elimResult)) {
+			// If we get an empty list from Singular, it means
+			// the answer is false, so we artificially create the {{0}} answer.
+			Set<Set<Polynomial>> ret = new HashSet<Set<Polynomial>>();
+			HashSet<Polynomial> polys = new HashSet<Polynomial>();
+			polys.add(new Polynomial(0)); // this might be Polynomial() as well
+			ret.add(polys);
+			return ret;
+		}
+		try {
+			return PolynomialParser.parseFactoredPolynomialSet(
+					elimResult, variables);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return null; // cannot decide
 	}
 
