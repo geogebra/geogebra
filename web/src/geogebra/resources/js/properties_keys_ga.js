@@ -397,7 +397,7 @@ __GGB__keysVar.ga.command = {
     "IntegralBetween_Syntax": "[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]",
     "IntegralBetween_SyntaxCAS": "[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Function>, <Variable>, <Start Value>, <End Value> ]",
     "Intersect": "Intersect",
-    "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]",
+    "Intersect_Syntax": "[ <Object>, <Object> ]\n[ <Object>, <Object>, <Index of Intersection Point> ]\n[ <Object>, <Object>, <Initial Point> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Curve 1>, <Curve 2>, <Parameter 1>, <Parameter 2> ]",
     "Intersect_SyntaxCAS": "[ <Function>, <Function> ]",
     "IntersectPath": "IntersectPath",
     "IntersectPath_Syntax": "[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]",
