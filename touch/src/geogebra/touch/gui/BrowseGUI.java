@@ -68,6 +68,8 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
+		this.localFilePanel.setStyleName("filePanel");
+		this.tubeFilePanel.setStyleName("filePanel");
 
 		this.headingMyProfile = new Label();
 		this.headingGeoGebraTube = new Label();

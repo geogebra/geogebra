@@ -5,15 +5,15 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
 
-import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends HorizontalPanel {
+public class MaterialListElement extends FlowPanel {
 	public static final int PANEL_HEIGHT = 100;
 
 	private SimplePanel image, likeIcon;
@@ -45,8 +45,10 @@ public class MaterialListElement extends HorizontalPanel {
 			final FileManagerM fm, VerticalMaterialPanel vmp) {
 		// TODO set infos alignment
 		this.image = new SimplePanel();
+		this.image.addStyleName("fileImage");
 		this.infos = new VerticalPanel();
-		this.infos.setSpacing(5);
+		//this.infos.setSpacing(5);
+		this.infos.setStyleName("fileDescription");
 		this.sharedPanel = new HorizontalPanel();
 		this.likesPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
@@ -55,8 +57,8 @@ public class MaterialListElement extends HorizontalPanel {
 		this.fm = fm;
 		this.material = m;
 
-		this.setHeight(PANEL_HEIGHT + "px");
-		this.setWidth("100%");
+		this.setStyleName("browserFile");
+		
 		this.markUnSelected();
 		/*
 		 * this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.
@@ -81,15 +83,16 @@ public class MaterialListElement extends HorizontalPanel {
 					.setBackgroundImage(
 							"url(" + fm.getThumbnailDataUrl(m.getURL()) + ")");
 		}
-		this.image.getElement().getStyle().setMarginRight(5, Unit.PX);
-		this.image.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-		this.image.setSize("100px", "100px");
+		
+		//this.image.getElement().getStyle().setMarginRight(5, Unit.PX);
+		//this.image.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		//this.image.setSize("100px", "100px");
 
 		this.title = new Label(m.getTitle());
+		this.title.setStyleName("fileTitle");
 		this.infos.add(this.title);
 		this.title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		this.title.getElement().getStyle()
-				.setColor(GeoGebraTubeStyle.TitleColor);
+		//this.title.getElement().getStyle().setColor(GeoGebraTubeStyle.TitleColor);
 
 		this.date = new Label(m.getDate());
 		this.infos.add(this.date);
@@ -127,7 +130,8 @@ public class MaterialListElement extends HorizontalPanel {
 		this.add(this.infos);
 
 		this.links.getElement().setAttribute("align", "right");
-
+		this.links.setStyleName("fileLinks");
+		
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -137,7 +141,10 @@ public class MaterialListElement extends HorizontalPanel {
 		}, ClickEvent.getType());
 
 		this.add(this.links);
-
+		
+		LayoutPanel clearPanel = new LayoutPanel();
+		clearPanel.setStyleName("fileClear");
+		this.add(clearPanel);
 	}
 
 	protected void initButtons() {
@@ -192,13 +199,13 @@ public class MaterialListElement extends HorizontalPanel {
 
 	protected void markSelected() {
 		this.vmp.unselectMaterials();
-		setStyleName("browserSelectedFile");
+		addStyleName("selected");
 		this.links.setVisible(true);
 		this.vmp.rememberSelected(this);
 	}
 
 	protected void markUnSelected() {
-		setStyleName("browserDefaultFile");
+		removeStyleName("selected");
 		this.links.setVisible(false);
 	}
 

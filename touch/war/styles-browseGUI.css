@@ -56,6 +56,10 @@ body .tubesearchgui input.gwt-TextBox {
 
 /* TubeSearchGUI CONTENT */
 
+.tubesearchgui table {
+	border-spacing: 0px;
+}
+
 .tubesearchgui .tubeFilePanel {
 	padding: 0px;
 	
@@ -73,14 +77,48 @@ body .tubesearchgui input.gwt-TextBox {
 .tubesearchgui .filePanelTitle {
 	color: #999999;
 	font-size: 20px;
-	height: 40px;
+	height: 35px;
 	vertical-align: middle;
-	padding: 10px 20px 0px 20px;
+	padding: 15px 20px 0px 20px;
 }
 
-.tubesearchgui .browserDefaultFile {
+.tubesearchgui .filePanel td {
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.tubesearchgui .filePanel td .browserFile {
 	padding: 10px;
 }
-.tubesearchgui .browserSelectedFile{
-	background-color:rgb(153,153,255);
+
+.tubesearchgui .browserFile.selected, 
+.tubesearchgui .browserFile:hover {
+	background-color: #C2C2FF;
+}
+
+.tubesearchgui .fileImage {
+	width: 198px;
+	height: 120px;
+	overflow: hidden;
+	border: 1px solid #CCCCCC;
+	margin-right: 20px;
+	
+	float: left;
+}
+
+.tubesearchgui .fileDescription {
+	float: left;
+}
+
+.tubesearchgui .fileTitle {
+	font-weight: bold;
+}
+
+.tubesearchgui .fileLinks {
+	float: right;
+}
+
+.tubesearchgui .fileClear {
+	clear: both;
 }
