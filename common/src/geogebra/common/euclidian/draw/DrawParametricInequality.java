@@ -41,7 +41,7 @@ class DrawParametricInequality extends Drawable {
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
 
-		if (!isForceNoFill())
+		//if (!isForceNoFill())
 			fill(g2, gp, true); // fill using default/hatching/image as
 		// appropriate
 
