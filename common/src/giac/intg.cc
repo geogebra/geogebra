@@ -441,7 +441,9 @@ namespace giac {
       }
     }
     gen c=normal(-b/a,contextptr);
-    if (d!=n && n%d==0){ 
+    if (n%d)
+      return false;
+    if (d!=n){ 
       // rescale and check cyclotomic
       gen tw=pow(*it/v.front(),-n/d)*v.back();
       if (tw.type!=_INT_)
