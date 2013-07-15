@@ -349,12 +349,14 @@ public class ProverBotanasMethod {
 							Polynomial poly = ndg.next();
 							if (poly.isZero())
 								return ProofResult.FALSE;
-							NDGCondition ndgc = NDGDetector.detect(poly, prover, substitutions);
-							if (ndgc == null)
-								readable = false;
-							else {
-								ndgcl.add(ndgc);
-								score += ndgc.getReadability();
+							if (!Polynomial.areAssociates1(poly, new Polynomial(1))) { // poly is not 1 or -1
+								NDGCondition ndgc = NDGDetector.detect(poly, prover, substitutions);
+								if (ndgc == null)
+									readable = false;
+								else {
+									ndgcl.add(ndgc);
+									score += ndgc.getReadability();
+								}
 							}
 						}
 						// Now we take the set if the conditions are readable and the set is the current best.
