@@ -47,7 +47,7 @@ public class BrowseGUI extends VerticalPanel
 	{
 		this.setStyleName("tubesearchgui");
 		this.fm = fm;
-		this.searchBar = new SearchBar(app.getLocalization());
+		this.searchBar = new SearchBar(app.getLocalization(), this);
 		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
 		{
@@ -65,8 +65,6 @@ public class BrowseGUI extends VerticalPanel
 		this.localFilePanel.setStyleName("localFilePanel");
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
 		this.tubeFilePanel.setStyleName("tubeFilePanel");
-
-		
 
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
@@ -162,7 +160,7 @@ public class BrowseGUI extends VerticalPanel
 		updateGUI();
 	}
 
-	private void loadFeatured()
+	public void loadFeatured()
 	{
 		this.localList = this.fm.getAllFiles();
 		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).getFeaturedMaterials(new RequestCallback()
@@ -170,7 +168,6 @@ public class BrowseGUI extends VerticalPanel
 			@Override
 			public void onResponseReceived(Request request, Response response)
 			{
-
 				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
 				updateGUI();
 			}
