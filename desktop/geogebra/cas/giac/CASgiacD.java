@@ -132,9 +132,11 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
 
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
-			sb.append("_ggbCallGiac('");
+			
+			// don't use ', can be in Giac commands eg =='pnt'
+			sb.append("_ggbCallGiac(\"");
 			sb.append(exp);
-			sb.append("');");
+			sb.append("\");");
 
 			threadResult = app.getApplet().evalJS(sb.toString());        
 
