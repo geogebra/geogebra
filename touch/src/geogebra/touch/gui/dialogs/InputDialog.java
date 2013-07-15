@@ -1,7 +1,6 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.common.main.App;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -44,7 +43,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	public enum DialogType
 	{
-		InputField, NumberValue, Angle;
+		InputField, Redefine, NumberValue, Angle;
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
@@ -235,7 +234,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void hide()
 	{
-		App.printStacktrace("");
 		this.app.unregisterErrorHandler(this);
 		// super.hide(); -> leads to crash in some Android versions!
 		this.prevText = "";
