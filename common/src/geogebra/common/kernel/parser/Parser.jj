@@ -300,7 +300,7 @@ TOKEN :  {
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
   | < FACTORIAL: "!" >  
-  | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" | "und" ) >
+  | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" ) >
 //  | < POWER0:   "\u2070" >
 //  | < POWER1:   "\u00b9" >
 //  | < SQUARED:  "\u00b2" >
