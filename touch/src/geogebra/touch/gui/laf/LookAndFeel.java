@@ -27,7 +27,9 @@ public interface LookAndFeel
 
 	public TabletHeaderPanel getTabletHeaderPanel();
 	
-	public Type getStylBarEventType();
+	public boolean isMouseDownIgnored();
+	
+	public Type<EventHandler> getStylBarEventType();
 	
 	public EventHandler getStyleBarHandlerShowHide(StylingBar stylingBar, EuclidianViewPanel euclidianViewPanel);
 	

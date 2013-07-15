@@ -63,4 +63,9 @@ public class AppleLAF extends DefaultLAF
 	{
 		return 53;
 	}
+	@Override
+	public boolean isMouseDownIgnored()
+	{
+	  return true;
+	}
 }

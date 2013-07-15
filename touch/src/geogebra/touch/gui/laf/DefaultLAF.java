@@ -90,4 +90,10 @@ public class DefaultLAF implements LookAndFeel {
 			}
 		};
 	}
+
+	@Override
+  public boolean isMouseDownIgnored()
+  {
+	  return false;
+  }
 }

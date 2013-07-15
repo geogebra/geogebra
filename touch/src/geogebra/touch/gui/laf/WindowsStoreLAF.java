@@ -34,4 +34,10 @@ public class WindowsStoreLAF extends DefaultLAF
 	{
 		return null;
 	}
+	
+	@Override
+	public boolean isMouseDownIgnored()
+	{
+	  return true;
+	}
 }

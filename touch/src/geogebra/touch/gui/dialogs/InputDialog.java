@@ -23,6 +23,8 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.i18n.client.HasDirection.Direction;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -59,7 +61,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
 	private GuiModel guiModel;
-	private boolean handlingExpected = false;
+	boolean handlingExpected = false;
 	private InputHandler inputHandler;
 
 	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, GuiModel guiModel)
@@ -133,8 +135,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
+					InputDialog.this.handlingExpected = true;
 					InputDialog.this.onOK();
-					// TODO: close the keyboard!!!
 				}
 			}
 		});
@@ -191,7 +193,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	protected void onOK()
 	{
-		if(this.inputHandler.processInput(this.textBox.getText())){
+		if (this.inputHandler.processInput(this.textBox.getText()))
+		{
 			this.hide();
 		}
 	}
@@ -212,6 +215,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		// super.center();
 		this.textBox.setText(this.prevText);
+		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null)
 		{
@@ -314,14 +318,28 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	}
 
 	@Override
-	public void showError(String error) {
+	public void showError(String error)
+	{
 		this.errorBox.setText(error);
 		this.errorBox.setVisible(true);
-		
 	}
 
-	public void setInputHandler(InputHandler inputHandler) {
+	public void setInputHandler(InputHandler inputHandler)
+	{
 		this.inputHandler = inputHandler;
-		
+	}
+
+	@Override
+	protected void onPreviewNativeEvent(NativePreviewEvent event)
+	{
+		super.onPreviewNativeEvent(event);
+
+		Event nativeEvent = Event.as(event.getNativeEvent());
+		if (nativeEvent.getTypeInt() == Event.ONMOUSEDOWN && TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		{
+			event.cancel();
+			nativeEvent.preventDefault();
+			nativeEvent.stopPropagation();
+		}
 	}
 }

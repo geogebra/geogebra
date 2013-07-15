@@ -13,4 +13,10 @@ public class AndroidLAF extends DefaultLAF
 	{
 		return 50;
 	}
+	
+	@Override
+	public boolean isMouseDownIgnored()
+	{
+	  return true;
+	}
 }
