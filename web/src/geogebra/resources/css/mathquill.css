@@ -280,6 +280,9 @@
   -o-transform-origin: top;
   transform-origin: top;
 }
+.mathquill-rendered-math .font .sqrt-prefix {
+  top: 0.5px;
+}
 .mathquill-rendered-math .sqrt-stem {
   border-top: 1px solid;
   margin-top: 1px;
