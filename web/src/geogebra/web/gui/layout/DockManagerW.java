@@ -424,12 +424,7 @@ public class DockManagerW implements  SetLabels {
 				}
 			}
 
-			for (int i = 0; i < spData.length; i++) {
-				// don't set splitpane width/height here, because that would call onResize
-				splitPanes[i].setComponentsSilent();
-				splitPanes[i].updateUI();
-				splitPanes[i].forceLayout();
-			}
+			rootPane.setComponentsSilentRecursive();
 
 			markAlonePanel();
 

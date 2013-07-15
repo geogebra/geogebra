@@ -220,6 +220,18 @@ public class DockSplitPaneW extends SplitLayoutPanel implements DockComponent {
 		setComponentsSilent();
 	}
 
+	public void setComponentsSilentRecursive() {
+		setComponentsSilent();
+		updateUI();
+		forceLayout();
+		if (getLeftComponent() instanceof DockSplitPaneW) {
+			((DockSplitPaneW)getLeftComponent()).setComponentsSilentRecursive();
+		}
+		if (getRightComponent() instanceof DockSplitPaneW) {
+			((DockSplitPaneW)getRightComponent()).setComponentsSilentRecursive();
+		}
+	}
+
 	/**
 	 * Replace a component from the split pane with another.
 	 * 
