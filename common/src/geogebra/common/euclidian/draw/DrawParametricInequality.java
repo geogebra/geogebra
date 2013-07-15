@@ -12,11 +12,20 @@ import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
+/**
+ * Drawable for drawing inequalities like x<sin(y) or y<x^3.
+ *	Never stands of its own, always part of DrawInequality tree
+ */
 class DrawParametricInequality extends Drawable {
 
 	private Inequality paramIneq;
 	private GeneralPathClipped gp;
 
+	/**
+	 * @param ineq parametric inequality
+	 * @param view view
+	 * @param geo top level element (the function which may consist of several inequalities)
+	 */
 	protected DrawParametricInequality(Inequality ineq, EuclidianView view,
 			GeoElement geo) {
 		this.view = view;
@@ -29,6 +38,9 @@ class DrawParametricInequality extends Drawable {
 		return AwtFactory.prototype.newArea(gp);
 	}
 
+	/**
+	 * @return border of the inequality (function of x or y)
+	 */
 	GeoElement getBorder() {
 		return paramIneq.getBorder();
 	}
@@ -41,8 +53,7 @@ class DrawParametricInequality extends Drawable {
 			EuclidianStatic.drawWithValueStrokePure(gp, g2);
 		}
 
-		//if (!isForceNoFill())
-			fill(g2, gp, true); // fill using default/hatching/image as
+		fill(g2, gp, true); // fill using default/hatching/image as
 		// appropriate
 
 		if (geo.lineThickness > 0) {
@@ -137,6 +148,9 @@ class DrawParametricInequality extends Drawable {
 
 	}
 
+	/**
+	 * @return true when x is the parameter (false for y) 
+	 */
 	boolean isXparametric() {
 		return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;
 	}
