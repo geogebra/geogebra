@@ -16,7 +16,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
-import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -30,12 +29,12 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
-import geogebra.touch.gui.laf.DefaultLAF;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
@@ -68,6 +67,8 @@ public class TouchApp extends AppWeb
 
 	private boolean isDefaultFileName;
 
+	private final Stack<ErrorHandler> errorHandlers;
+
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * 
@@ -82,6 +83,7 @@ public class TouchApp extends AppWeb
 
 		super.initing = true;
 		this.touchGUI = touchGUI;
+		this.errorHandlers = new Stack<ErrorHandler>();
 
 		setLabelDragsEnabled(false);
 
@@ -204,7 +206,22 @@ public class TouchApp extends AppWeb
 	@Override
 	public void showError(String s)
 	{
-
+		if(this.errorHandlers.peek() != null){
+			this.errorHandlers.peek().showError(s);
+		}
+	}
+	/**
+	 * @param handler handler to be registered 
+	 */
+	public void registerErrorHandler(ErrorHandler handler){
+		this.errorHandlers.push(handler);
+	}
+	
+	/**
+	 * @param handler handler to be unregistered 
+	 */
+	public void unregisterErrorHandler(ErrorHandler handler){
+		this.errorHandlers.remove(handler);
 	}
 
 	@Override
@@ -265,15 +282,15 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void showError(MyError e)
+	public void showCommandError(String command,String message)
 	{
 
 	}
 
 	@Override
-	public void showError(String string, String str)
+	public void showError(String key, String error)
 	{
-
+		this.showErrorDialog(getLocalization().getError(key) + ": " + error);
 	}
 
 	@Override
@@ -450,6 +467,9 @@ public class TouchApp extends AppWeb
 	@Override
 	public void showErrorDialog(String s)
 	{
+		if(this.errorHandlers.peek() != null){
+			this.errorHandlers.peek().showError(s);
+		}
 	}
 
 	@Override

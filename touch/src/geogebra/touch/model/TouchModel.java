@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -41,9 +42,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * 
@@ -71,11 +69,12 @@ public class TouchModel {
 		this.inputDialog = new InputDialog(
 				(TouchApp) this.kernel.getApplication(),
 				DialogType.NumberValue, tabletGUI, this.guiModel);
-		this.inputDialog.addCloseHandler(new CloseHandler<PopupPanel>()
+		this.inputDialog.setInputHandler(new InputHandler()
 		{
+
 			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
-				inputPanelClosed();
+			public boolean processInput(String inputString) {
+				return inputPanelClosed(inputString);
 			}
 		});
 		this.cmdIntersect = new CmdIntersect(this.kernel);
@@ -1213,12 +1212,13 @@ public class TouchModel {
 	 * 
 	 * @param input
 	 *            the new command
+	 * @return 
 	 */
-	public void newInput(String input) {
+	public boolean newInput(String input) {
 		try {
 			this.kernel.clearJustCreatedGeosInViews();
 			if (input == null || input.length() == 0) {
-				return;
+				return true;
 			}
 			this.kernel.getApplication().getEuclidianView1()
 					.getEuclidianController().startCollectingMinorRepaints();
@@ -1244,13 +1244,15 @@ public class TouchModel {
 
 				}
 			} catch (Exception e) {
+				this.kernel.getApplication().showError(e.getLocalizedMessage());
 				stopCollecting();
 				e.printStackTrace();
-				return;
+				return false;
 			} catch (MyError e) {
+				this.kernel.getApplication().showError(e);
 				stopCollecting();
 				e.printStackTrace();
-				return;
+				return false;
 			}
 
 			// create texts in the middle of the visible view
@@ -1287,7 +1289,9 @@ public class TouchModel {
 		} catch (Exception e) {
 			stopCollecting();
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public boolean isColorChangeAllowed() {
@@ -1351,7 +1355,7 @@ public class TouchModel {
 		return this.kernel;
 	}
 
-	public void inputPanelClosed() {
+	public boolean inputPanelClosed(String input) {
 		this.inputDialog.setText("");
 		
 		if(!this.inputDialog.isHandlingExpected(true))
@@ -1359,20 +1363,17 @@ public class TouchModel {
 			resetSelection();
 			// still false! includes a repaint
 			this.kernel.setNotifyRepaintActive(true);
-			return;
+			return true;
 		}
 		
 		boolean oldVal = TouchModel.this.kernel.getConstruction()
 				.isSuppressLabelsActive();
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
-
-		String input = TouchModel.this.inputDialog.getInput();
-		if(this.inputDialog.clockwise()){
-			input = "-(" + input + ")";
-		}
+		String signedInput =this.inputDialog.clockwise() ?
+			"-(" + input + ")" : input;
 		
 		GeoElement[] result = TouchModel.this.kernel.getAlgebraProcessor()
-				.processAlgebraCommand(input, false);
+				.processAlgebraCommand(signedInput, false);
 
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
 				oldVal);
@@ -1380,7 +1381,7 @@ public class TouchModel {
 		if (result == null || result.length == 0
 				|| !(result[0] instanceof NumberValue)) {
 			// invalid input; nothing to do anymore.
-			return;
+			return false;
 		}
 
 		GeoElement[] newGeoElements;
@@ -1417,7 +1418,7 @@ public class TouchModel {
 		default:
 			// should not happen. Therefore there is no repaint or anything
 			// else.
-			return;
+			return false;
 		}
 
 		for (GeoElement g : newGeoElements) {
@@ -1429,5 +1430,6 @@ public class TouchModel {
 		this.guiModel.updateStylingBar();
 		this.commandFinished = true;
 		this.kernel.getApplication().storeUndoInfo();
+		return true;
 	}
 }

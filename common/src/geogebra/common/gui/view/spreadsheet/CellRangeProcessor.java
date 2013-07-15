@@ -889,7 +889,7 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showErrorDialog(loc.getPlain("CellAisNotDefined",
+						app.showError(loc.getPlain("CellAisNotDefined",
 								GeoElementSpreadsheet.getSpreadsheetCellName(i,
 										j)));
 						return null;
@@ -913,7 +913,7 @@ public class CellRangeProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showErrorDialog(loc.getPlain("CellAisNotDefined",
+						app.showError(loc.getPlain("CellAisNotDefined",
 								GeoElementSpreadsheet.getSpreadsheetCellName(i,
 										j)));
 						return null;

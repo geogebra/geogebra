@@ -1,5 +1,8 @@
 package geogebra.touch.gui.dialogs;
 
+import geogebra.common.gui.InputHandler;
+import geogebra.common.main.App;
+import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
@@ -9,6 +12,7 @@ import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.GuiModel;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -33,7 +37,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
  * 
  */
-public class InputDialog extends PopupPanel implements CustomKeyListener, ResizeListener
+public class InputDialog extends PopupPanel implements CustomKeyListener, ResizeListener, ErrorHandler
 {
 
 	public enum DialogType
@@ -43,18 +47,20 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title = new Label();
+	private Label errorBox = new Label();
 	private RadioButton[] radioButton = new RadioButton[2];
 	VerticalPanel textPanel;
 	TextBox textBox = new TextBox();
 	Panel underline;
 	private TouchApp app;
 	private DialogType type;
-	private String prevText, input, mode;
+	private String prevText, mode;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
 	private GuiModel guiModel;
 	private boolean handlingExpected = false;
+	private InputHandler inputHandler;
 
 	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, GuiModel guiModel)
 	{
@@ -99,12 +105,12 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.add(this.title);
 		this.title.setStyleName("title");
 		addTextBox();
-
+		this.errorBox.setVisible(false);
+		this.textPanel.add(this.errorBox);
 		if (this.type == DialogType.Angle)
 		{
 			addRadioButton();
 		}
-
 		// addButtonContainer();
 		this.add(this.dialogPanel);
 		setLabels();
@@ -185,13 +191,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	protected void onOK()
 	{
-		this.input = this.textBox.getText();
-		this.hide();
+		if(this.inputHandler.processInput(this.textBox.getText())){
+			this.hide();
+		}
 	}
 
 	protected void onCancel()
 	{
-		this.input = this.prevText;
 		this.hide();
 	}
 
@@ -206,7 +212,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		// super.center();
 		this.textBox.setText(this.prevText);
-		this.input = this.prevText;
 
 		if (this.radioButton[0] != null)
 		{
@@ -220,11 +225,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.textBox.setFocus(true);
 		setLabels();
+		this.app.registerErrorHandler(this);
 	}
 
 	@Override
 	public void hide()
 	{
+		App.printStacktrace("");
+		this.app.unregisterErrorHandler(this);
 		// super.hide(); -> leads to crash in some Android versions!
 		this.prevText = "";
 		setVisible(false);
@@ -233,30 +241,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		CloseEvent.fire(this, this, false);
 		this.guiModel.setActiveDialog(null);
 		// prevent that the function is drawn twice
-		this.input = "";
-	}
-
-	/**
-	 * Get the users input.
-	 * 
-	 * @return the new input if the users action was positive - the old input set
-	 *         by setText, if the users action was negative
-	 */
-	public String getInput()
-	{
-		if (this.input == null)
-		{
-			return "";
-		}
-
-		for (CustomKey c : CustomKey.values())
-		{
-			if (!c.getReplace().equals(""))
-			{
-				this.input = this.input.replace(c.toString(), c.getReplace());
-			}
-		}
-		return this.input;
 	}
 
 	public boolean clockwise()
@@ -319,7 +303,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void onCustomKeyPressed(CustomKey c)
 	{
 		int pos = this.textBox.getCursorPos();
-		this.textBox.setText(this.textBox.getText().substring(0, pos) + c.toString() + this.textBox.getText().substring(pos));
+		this.textBox.setText(this.textBox.getText().substring(0, pos) + c.getReplace() + this.textBox.getText().substring(pos));
 		this.textBox.setCursorPos(pos + 1);
 	}
 
@@ -327,5 +311,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void onResize(ResizeEvent e)
 	{
 		this.setPopupPosition((Window.getClientWidth() / 2 - 353), this.laf.getAppBarHeight());
+	}
+
+	@Override
+	public void showError(String error) {
+		this.errorBox.setText(error);
+		this.errorBox.setVisible(true);
+		
+	}
+
+	public void setInputHandler(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
+		
 	}
 }

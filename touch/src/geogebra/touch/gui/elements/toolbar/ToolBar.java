@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.common.gui.InputHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
@@ -117,9 +118,19 @@ public class ToolBar extends HorizontalPanel
 				{
 					ToolBar.this.underline.removeStyleName("active");
 					ToolBar.this.underline.addStyleName("inactive");
-					ToolBar.this.touchModel.newInput(ToolBar.this.input.getInput());
+					
 				}
 			});
+	this.input.setInputHandler(new InputHandler()
+			{
+
+				@Override
+				public boolean processInput(String inputString) {
+					return ToolBar.this.touchModel.newInput(inputString);
+				}
+		
+			});
+	
 	
 
 	for (ToolBarButton b : this.tools)

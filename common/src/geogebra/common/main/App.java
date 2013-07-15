@@ -750,7 +750,7 @@ public abstract class App implements UpdateSelection{
 	 * 
 	 * @param s
 	 */
-	public abstract void showErrorDialog(String s);
+	protected abstract void showErrorDialog(String s);
 
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
@@ -1583,7 +1583,17 @@ public abstract class App implements UpdateSelection{
 		return false;
 	}
 
-	public abstract void showError(MyError e);
+	public final void showError(MyError e){
+		String command = e.getcommandName();
+		String message = e.getLocalizedMessage();
+		if (command == null) {
+			showErrorDialog(message);
+			return;
+		}
+		showCommandError(command, message);
+	}
+
+	protected abstract void showCommandError(String command, String message);
 
 	/**
 	 * FKH

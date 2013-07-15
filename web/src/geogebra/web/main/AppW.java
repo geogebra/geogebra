@@ -22,7 +22,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.common.main.MyError;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.move.events.BaseEventPool;
@@ -1209,17 +1208,11 @@ public class AppW extends AppWeb {
 	// ERROR HANDLING
 	// ================================================
 
-	@Override
-	public void showError(MyError e) {
-		final String command = e.getcommandName();
-
+	public void showCommandError(final String command, final String message) {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
 
-		if (command == null) {
-			showErrorDialog(e.getLocalizedMessage());
-			return;
-		}
+		
 
 		final PopupPanel dialog = new PopupPanel(false, true);
 
@@ -1243,7 +1236,7 @@ public class AppW extends AppWeb {
 		buttonPanel.add(showHelp);
 
 		VerticalPanel panel = new VerticalPanel();
-		String[] lines = e.getLocalizedMessage().split("\n");
+		String[] lines = message.split("\n");
 		for (String item : lines) {
 			panel.add(new Label(item));
 		}

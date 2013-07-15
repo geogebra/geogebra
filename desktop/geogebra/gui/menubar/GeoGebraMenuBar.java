@@ -366,7 +366,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 			};
 			runner.start();
 		} catch (java.lang.NoClassDefFoundError ee) {
-			app.showErrorDialog(app.getLocalization().getError("ExportJarMissing"));
+			app.showError(app.getLocalization().getError("ExportJarMissing"));
 			ee.printStackTrace();
 		}
 	}

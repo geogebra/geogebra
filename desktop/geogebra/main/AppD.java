@@ -3987,21 +3987,15 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public void showError(MyError e) {
-		String command = e.getcommandName();
+	public void showCommandError(String command, String message) {
 
 		// make sure splash screen not showing (will be in front)
 		if (GeoGebra.splashFrame != null) {
 			GeoGebra.splashFrame.setVisible(false);
 		}
 
-		if (command == null) {
-			showErrorDialog(e.getLocalizedMessage());
-			return;
-		}
-
 		Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
-		int n = JOptionPane.showOptionDialog(mainComp, e.getLocalizedMessage(),
+		int n = JOptionPane.showOptionDialog(mainComp, message,
 				getPlain("ApplicationName") + " - " + getLocalization().getError("Error"),
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
 																				// not

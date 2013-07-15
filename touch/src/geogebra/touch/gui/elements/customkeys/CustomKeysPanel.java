@@ -13,9 +13,9 @@ public class CustomKeysPanel extends PopupPanel
 {
 	public enum CustomKey
 	{
-		plus("+", ""), minus("\u2212", ""), times("\u2217", "*"), divide("/", ""), squared("\u00B2", ""), power("^", ""), degree("\u00B0", ""), pi(
-		    "\u03C0", ""), leftpar("(", ""), rightpar(")", ""), leftbracket("[", ""), rightbracket("]", ""), leftbrace("{", ""), rightbrace("}", ""), equals(
-		    "=", "");
+		plus("+"), minus("\u2212"), times("\u2217", "*"), divide("/"), squared("\u00B2"), power("^"), degree("\u00B0"), 
+		pi("\u03C0"), leftpar("("), rightpar(")"), leftbracket("["), rightbracket("]"), leftbrace("{"), rightbrace("}"),
+		equals("=");
 
 		String s;
 		private String replace;
@@ -24,6 +24,12 @@ public class CustomKeysPanel extends PopupPanel
 		{
 			this.s = s;
 			this.replace = replace;
+		}
+		
+		CustomKey(String s)
+		{
+			this.s = s;
+			this.replace = "";
 		}
 
 		@Override
