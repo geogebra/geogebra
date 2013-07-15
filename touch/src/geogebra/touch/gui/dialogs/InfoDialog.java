@@ -1,7 +1,5 @@
 package geogebra.touch.gui.dialogs;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.touch.FileManagerM;
@@ -10,6 +8,8 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.GuiModel;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -90,7 +90,7 @@ public class InfoDialog extends PopupPanel
 	
 	private void addText() {
 		Panel iconPanel = new LayoutPanel();
-		String html = "<img src=\"" + this.iconQuestion.getSafeUri().asString() + "\" style=\"margin-right: 10px;\" />";
+		String html = "<img src=\"" + this.iconQuestion.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		this.textPanel.add(iconPanel);
 		
@@ -109,7 +109,7 @@ public class InfoDialog extends PopupPanel
 		initOKButton();
 
 		this.buttonContainer = new HorizontalPanel();
-		this.buttonContainer.setWidth("100%");
+		this.buttonContainer.setStyleName("buttonPanel");
 		this.buttonContainer.add(this.cancelButton);
 		this.buttonContainer.add(this.okButton);
 		
