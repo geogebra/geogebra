@@ -26,9 +26,10 @@ public class NDGDetector {
 	 * TODO: Implement missing features (parallelism, perpendicularity etc.).
 	 * @param p input polynomial
 	 * @param prover input prover
+	 * @param substitutions if fixed coordinates are used, the fix coordinates for certain variables
 	 * @return the NDG condition
 	 */
-	public static NDGCondition detect(Polynomial p, Prover prover) {
+	public static NDGCondition detect(Polynomial p, Prover prover, HashMap<Variable, Integer> substitutions) {
 
 		App.debug("Trying to detect polynomial " + p);
 		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(prover.getStatement());
@@ -53,7 +54,7 @@ public class NDGDetector {
 			Variable[] fv2 = ((SymbolicParametersBotanaAlgo)points[1]).getBotanaVars(points[1]);
 			Variable[] fv3 = ((SymbolicParametersBotanaAlgo)points[2]).getBotanaVars(points[2]);
 			// Creating the polynomial for collinearity:
-			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
+			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, coll)) {
 				App.debug(p + " means collinearity for " + triplet);
 				NDGCondition ndgc = new NDGCondition();
@@ -82,7 +83,7 @@ public class NDGDetector {
 			Variable[] fv1 = ((SymbolicParametersBotanaAlgo)points[0]).getBotanaVars(points[0]);
 			Variable[] fv2 = ((SymbolicParametersBotanaAlgo)points[1]).getBotanaVars(points[1]);
 			// Creating the polynomial for equality:
-			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]);
+			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, eq)) {
 				App.debug(p + " means equality for " + pair);
 				NDGCondition ndgc = new NDGCondition();
@@ -131,7 +132,7 @@ public class NDGDetector {
 				points[i] = xvarGeo.get(coords[i]); 
 				i++;
 			}
-			Polynomial xeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1])));
+			Polynomial xeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, xeq)) {
 				App.debug(p + " means x-equality for " + pair);
 				NDGCondition ndgc = new NDGCondition();
@@ -158,7 +159,7 @@ public class NDGDetector {
 				points[i] = yvarGeo.get(coords[i]); 
 				i++;
 			}
-			Polynomial yeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1])));
+			Polynomial yeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, yeq)) {
 				App.debug(p + " means y-equality for " + pair);
 				NDGCondition ndgc = new NDGCondition();

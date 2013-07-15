@@ -556,11 +556,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Substitutes variables in the polynomial by integer values
 	 * 
 	 * @param substitutions
-	 *            A map of the substitutions (not null)
+	 *            A map of the substitutions
 	 * @return a new polynomial with the variables substituted.
 	 */
 	public Polynomial substitute(Map<Variable, Integer> substitutions) {
 		
+		if (substitutions == null)
+			return this;
+			
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 
 		Iterator<Term> it = terms.keySet().iterator();

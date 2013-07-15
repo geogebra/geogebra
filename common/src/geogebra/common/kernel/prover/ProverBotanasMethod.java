@@ -349,7 +349,7 @@ public class ProverBotanasMethod {
 							Polynomial poly = ndg.next();
 							if (poly.isZero())
 								return ProofResult.FALSE;
-							NDGCondition ndgc = NDGDetector.detect(poly, prover);
+							NDGCondition ndgc = NDGDetector.detect(poly, prover, substitutions);
 							if (ndgc == null)
 								readable = false;
 							else {
