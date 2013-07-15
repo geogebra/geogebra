@@ -224,7 +224,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-
+		this.errorBox.setVisible(false);
 		this.dialogPanel.add(this.customKeys);
 
 		this.textBox.setFocus(true);

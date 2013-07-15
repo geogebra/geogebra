@@ -1,15 +1,15 @@
 package geogebra.touch.gui.algebra;
 
+import geogebra.common.euclidian.Hits;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.touch.controller.TouchController;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.safehtml.shared.SafeUri;
-
-import geogebra.common.euclidian.Hits;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
-import geogebra.touch.controller.TouchController;
 
 public class RadioButtonTreeItemT extends RadioButtonTreeItem
 {
@@ -33,7 +33,7 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt)
 	{
-	  // don't do anything
+	  this.controller.redefine(getGeo());
 	}
 	
 	@Override

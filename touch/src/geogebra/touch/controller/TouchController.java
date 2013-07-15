@@ -404,4 +404,9 @@ public class TouchController extends EuclidianController
 		}
 	}
 
+	public void redefine(GeoElement geo) {
+		this.model.redefine(geo);
+		
+	}
+
 }

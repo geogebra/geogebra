@@ -10,7 +10,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoRadius;
 import geogebra.common.kernel.arithmetic.Command;
@@ -1431,5 +1433,18 @@ public class TouchModel {
 		this.commandFinished = true;
 		this.kernel.getApplication().storeUndoInfo();
 		return true;
+	}
+
+	public void redefine(GeoElement geo) {
+		if(this.inputDialog.getType() != DialogType.InputField)
+		{
+			this.inputDialog.redefine(DialogType.InputField);
+		}
+		AlgoElement algo = geo.getParentAlgorithm();
+		this.inputDialog.setText(algo == null ? 
+				geo.toString(StringTemplate.editTemplate) : algo.getCommandDescription(StringTemplate.editTemplate));
+		this.inputDialog.setMode("DilateFromPoint");
+		this.inputDialog.show();
+		
 	}
 }
