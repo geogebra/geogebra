@@ -156,10 +156,12 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		if (this.app.isSaved())
 		{
 			this.saveButton.addStyleName("disabled");
+			this.saveButton.setEnabled(false);
 		}
 		else
 		{
 			this.saveButton.removeStyleName("disabled");
+			this.saveButton.setEnabled(true);
 		}
 	}
 

@@ -213,8 +213,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			this.radioButton[0].setValue(new Boolean(true));
 		}
 
-		this.textBox.setFocus(true);
-
 		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 
@@ -329,6 +327,5 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void onResize(ResizeEvent e)
 	{
 		this.setPopupPosition((Window.getClientWidth() / 2 - 353), this.laf.getAppBarHeight());
-
 	}
 }

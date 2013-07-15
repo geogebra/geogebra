@@ -77,10 +77,12 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		if (this.app.getKernel().undoPossible())
 		{
 			this.undo.removeStyleName("disabled");
+			this.undo.setEnabled(true);
 		}
 		else
 		{
 			this.undo.addStyleName("disabled");
+			this.undo.setEnabled(false);
 		}
 	}
 
@@ -89,10 +91,12 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 		if (this.app.getKernel().redoPossible())
 		{
 			this.redo.removeStyleName("disabled");
+			this.redo.setEnabled(true);
 		}
 		else
 		{
 			this.redo.addStyleName("disabled");
+			this.redo.setEnabled(false);
 		}
 	}
 }

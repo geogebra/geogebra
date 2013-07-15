@@ -4,7 +4,6 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
@@ -15,8 +14,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -25,7 +22,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ValueBoxBase.TextAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -51,9 +47,9 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.fm = fm;
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
 		this.leftHeader.setStyleName("headerLeft");
-		
+
 		this.titlePanel = new VerticalPanel();
-		
+
 		this.worksheetTitle = new TextBox();
 		this.worksheetTitle.setText(app.getConstructionTitle());
 
@@ -89,41 +85,36 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			}
 		});
 
-		this.worksheetTitle.addMouseOutHandler(new MouseOutHandler()
+		this.worksheetTitle.addFocusHandler(new FocusHandler()
 		{
 			@Override
-			public void onMouseOut(MouseOutEvent event)
+			public void onFocus(FocusEvent event)
 			{
-				TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
-				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
-			}
-		});
-		
-		this.worksheetTitle.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
 				// set underline active
 				TabletHeaderPanel.this.underline.removeStyleName("inactive");
 				TabletHeaderPanel.this.underline.addStyleName("active");
 			}
 		});
-		this.worksheetTitle.addBlurHandler(new BlurHandler() {
+
+		this.worksheetTitle.addBlurHandler(new BlurHandler()
+		{
 			@Override
-			public void onBlur(BlurEvent event) {
+			public void onBlur(BlurEvent event)
+			{
 				// set underline inactive
 				TabletHeaderPanel.this.underline.removeStyleName("active");
 				TabletHeaderPanel.this.underline.addStyleName("inactive");
 			}
 		});
-		
+
 		this.titlePanel.add(this.worksheetTitle);
-		
-		//Input Underline for Android
+
+		// Input Underline for Android
 		this.underline = new LayoutPanel();
 		this.underline.setStyleName("inputUnderline");
 		this.underline.addStyleName("inactive");
-		
-		this.titlePanel.add(underline);
+
+		this.titlePanel.add(this.underline);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.add(this.leftHeader);
