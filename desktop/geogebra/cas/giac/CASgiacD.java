@@ -182,26 +182,20 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	/**
 	 * 
-	 * wrap in either _ggbCallGiac('...') or _ggbCallGiac("...") as appropriate
+	 * wrap in _ggbCallGiac('...')
 	 * 
 	 * @param s string to wrap
-	 * @return
+	 * @return wrapped string
 	 */
 	private static String wrapJSString(String s) {
 		StringBuilder sb = new StringBuilder(s.length() + 20);
 		
-		boolean hasSingleQuote = s.indexOf("'") > -1;
-		boolean hasDoubleQuote = s.indexOf("\"") > -1;
-		
-		if (hasSingleQuote && hasDoubleQuote) {
-			App.error("string contains \" and '");
-		}
-		
-		sb.append("_ggbCallGiac(");
-		sb.append(hasSingleQuote ? "\"" : "'");
-		sb.append(s);
-		sb.append(hasSingleQuote ? "\"" : "'");
-		sb.append(");");
+		// we will wrap string in '', so we need to escape any 's
+		String str = s.replace("'", "\\'");		
+	
+		sb.append("_ggbCallGiac('");
+		sb.append(str);
+		sb.append("');");
 		
 		return sb.toString();
 	}
