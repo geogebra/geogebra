@@ -1291,22 +1291,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * Returns a string representation of this node that can be used with the
-	 * given CAS, e.g. "*" and "^" are always printed.
-	 * 
-	 * @param symbolic
-	 *            true for variable names, false for values of variables
-	 * @param tpl
-	 *            String template
-	 * @return string representation of this node that can be used with given
-	 *         CAS
-	 */
-	final public String getCASstring(StringTemplate tpl, boolean symbolic) {
-		String ret = printCASstring(symbolic, tpl);
-		return ret;
-	}
-
-	/**
 	 * @return true iff this node contains MyStringBuffer as subnode
 	 */
 	public boolean containsMyStringBuffer() {
@@ -1329,12 +1313,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	/*
-	 * splits a string up for editing with the Text Tool adapted from
-	 * printCASstring()
+	/**
+	 * Returns a string representation of this node that can be used with the
+	 * given CAS, e.g. "*" and "^" are always printed.
+	 * 
+	 * @param symbolic
+	 *            true for variable names, false for values of variables
+	 * @param tpl
+	 *            String template
+	 * @return string representation of this node that can be used with given
+	 *         CAS
 	 */
-
-	public String printCASstring(boolean symbolic, StringTemplate tpl) {
+	public String getCASstring(StringTemplate tpl, boolean symbolic) {
 		String ret = null;
 
 		try {
@@ -1350,7 +1340,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (symbolic && left.isGeoElement()) {
 					ret = ((GeoElement) left).getLabel(tpl);
 				} else if (left.isExpressionNode()) {
-					ret = ((ExpressionNode) left).printCASstring(symbolic, tpl);
+					ret = ((ExpressionNode) left).getCASstring(tpl, symbolic);
 				} else {
 					ret = symbolic ? left.toString(tpl) : left
 							.toValueString(tpl);
@@ -1369,8 +1359,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (symbolic && left.isGeoElement()) {
 					leftStr = ((GeoElement) left).getLabel(tpl);
 				} else if (left.isExpressionNode()) {
-					leftStr = ((ExpressionNode) left).printCASstring(symbolic,
-							tpl);
+					leftStr = ((ExpressionNode) left).getCASstring(tpl,
+							symbolic);
 				} else {
 					leftStr = symbolic ? left.toString(tpl) : left
 							.toValueString(tpl);
@@ -1380,8 +1370,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (symbolic && right.isGeoElement()) {
 						rightStr = ((GeoElement) right).getLabel(tpl);
 					} else if (right.isExpressionNode()) {
-						rightStr = ((ExpressionNode) right).printCASstring(
-								symbolic, tpl);
+						rightStr = ((ExpressionNode) right).getCASstring(
+								tpl, symbolic);
 					} else {
 						rightStr = symbolic ? right.toString(tpl) : right
 								.toValueString(tpl);
@@ -1836,7 +1826,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.perpSign());;
+			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.perpSign());
 			break;
 
 		case VECTORPRODUCT:
@@ -3609,6 +3599,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
+	/**
+	 * @param exp expression
+	 * @return whether top level operation is * or /
+	 */
 	public static boolean isMultiplyOrDivide(ExpressionNode exp) {
 		return exp.getOperation().equals(Operation.MULTIPLY)
 				|| exp.getOperation().equals(Operation.DIVIDE);
@@ -3834,6 +3828,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	
 
+	/**
+	 * @param op operation
+	 * @return whether this operation returns boolean and can be used in chain
+	 * eg. x < y <=z
+	 */
 	public static boolean chainedBooleanOp(Operation op) {
 		switch(op){
 		case EQUAL_BOOLEAN:

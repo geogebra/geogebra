@@ -1710,7 +1710,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 			return andString(left,right,leftStr,rightStr);
 		}
 		if(right.isExpressionNode()){
-			sb.append(left.wrap().printCASstring(!valueForm, this));
+			sb.append(left.wrap().getCASstring(this,!valueForm));
 			sb.append(' ');
 			switch(((ExpressionNode)right).getOperation()){
 			case LESS: sb.append(lessSign());break;
@@ -1726,7 +1726,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 			default:App.debug(((ExpressionNode)right).getOperation()+" invalid in chain");
 			}
 			sb.append(' ');
-			sb.append(((ExpressionNode)right).getRightTree().printCASstring(!valueForm, this));
+			sb.append(((ExpressionNode)right).getRightTree().getCASstring(this,!valueForm));
 			return sb.toString();
 		}
 		return andString(left,right,leftStr,rightStr);

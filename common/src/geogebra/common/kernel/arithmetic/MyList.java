@@ -669,7 +669,7 @@ public class MyList extends ValidExpression implements ListValue,
 	
 	// Michael Borcherds 2008-02-04
 	// adapted from GeoList
-	public String toString(StringTemplate tpl, boolean valueMode) {
+	private String toString(StringTemplate tpl, boolean valueMode) {
 
 		StringBuilder sb = new StringBuilder();
 		if (tpl.hasType(StringType.MPREDUCE)) {
