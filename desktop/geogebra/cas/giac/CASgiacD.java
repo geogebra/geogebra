@@ -121,24 +121,17 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// so use JavaScript version instead
 
 			if (!giacSetToGeoGebraMode) {
-				app.getApplet().evalJS("_ggbCallGiac(\"" + initString + "\");");
+				app.getApplet().evalJS(wrapJSString(initString));
 				giacSetToGeoGebraMode = true;
 			}
 
 			// set timeout (in seconds)
-			app.getApplet().evalJS("_ggbCallGiac(\"timeout " + (timeoutMillis/1000) + "\")");
+			app.getApplet().evalJS(wrapJSString("timeout " + (timeoutMillis / 1000)));
 
 			// reset Giac
-			app.getApplet().evalJS("_ggbCallGiac(\"" + specialFunctions + "\");");
+			app.getApplet().evalJS(wrapJSString(specialFunctions));
 
-			StringBuilder sb = new StringBuilder(exp.length() + 20);
-			
-			// don't use ', can be in Giac commands eg =='pnt'
-			sb.append("_ggbCallGiac(\"");
-			sb.append(exp);
-			sb.append("\");");
-
-			threadResult = app.getApplet().evalJS(sb.toString());        
+			threadResult = app.getApplet().evalJS(wrapJSString(exp));        
 
 		} else {
 			initialize();
@@ -185,6 +178,32 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		App.debug("giac output: " + ret);		
 
 		return ret;
+	}
+
+	/**
+	 * 
+	 * wrap in either _ggbCallGiac('...') or _ggbCallGiac("...") as appropriate
+	 * 
+	 * @param s string to wrap
+	 * @return
+	 */
+	private static String wrapJSString(String s) {
+		StringBuilder sb = new StringBuilder(s.length() + 20);
+		
+		boolean hasSingleQuote = s.indexOf("'") > -1;
+		boolean hasDoubleQuote = s.indexOf("\"") > -1;
+		
+		if (hasSingleQuote && hasDoubleQuote) {
+			App.error("string contains \" and '");
+		}
+		
+		sb.append("_ggbCallGiac(");
+		sb.append(hasSingleQuote ? "\"" : "'");
+		sb.append(s);
+		sb.append(hasSingleQuote ? "\"" : "'");
+		sb.append(");");
+		
+		return sb.toString();
 	}
 
 	@Override
