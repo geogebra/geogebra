@@ -39,4 +39,9 @@ public class WorksheetGUI extends HeaderPanel
 		}
 		App.debug("loading" + m.getTitle());
 	}
+
+	public void setLabels()
+  {
+	  this.header.setLabels();
+  }
 }

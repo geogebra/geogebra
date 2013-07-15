@@ -556,6 +556,8 @@ public class TouchApp extends AppWeb
 	public void setLabels()
 	{
 		this.touchGUI.setLabels();
+		TouchEntryPoint.worksheetGUI.setLabels();
+		TouchEntryPoint.browseGUI.setLabels();
 	}
 
 	@Override

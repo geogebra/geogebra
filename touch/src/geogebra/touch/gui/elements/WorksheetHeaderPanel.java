@@ -13,14 +13,15 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel
 {
 
 	Material material;
+	private Button edit;
 
 	public WorksheetHeaderPanel(final AppWeb app, final FileManagerM fm)
 	{
 		super("", app.getLocalization());
 		// TODO replace with icon
-		Button edit = new Button("EDIT");
-		this.rightPanel.add(edit);
-		edit.addClickHandler(new ClickHandler()
+		this.edit = new Button("EDIT");
+		this.rightPanel.add(this.edit);
+		this.edit.addClickHandler(new ClickHandler()
 		{
 
 			@Override
@@ -42,4 +43,11 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel
 		this.material = m;
 	}
 
+	@Override
+  public void setLabels()
+	{
+		super.setLabels();
+		this.edit.setText(super.loc.getMenu("Edit"));
+	}
+	
 }

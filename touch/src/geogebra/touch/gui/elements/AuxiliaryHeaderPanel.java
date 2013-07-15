@@ -18,9 +18,13 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
 	protected Label headerText;
+	private Label backLabel;
+	protected Localization loc;
+
 	
 	public AuxiliaryHeaderPanel(String title, Localization loc) {
 		
+		this.loc = loc;
 		this.backButton = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().back());
 		this.backButton.addDomHandler(new ClickHandler()
 		{
@@ -35,7 +39,10 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.backPanel.setStyleName("headerLeft");
 		this.backPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.backPanel.add(this.backButton);
-		this.backPanel.add(new Label(loc.getMenu("Back")));
+		
+		this.backLabel = new Label(loc.getMenu("Back"));
+		this.backPanel.add(this.backLabel);
+//		this.backPanel.add(new Label(loc.getMenu("Back")));
 		
 		this.rightPanel = new VerticalPanel();
 		this.rightPanel.setStyleName("headerRight");
@@ -55,5 +62,11 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	
 	public void setText(String title) {
 		this.headerText.setText(title);
+	}
+	
+	public void setLabels()
+	{
+		System.out.println("setLabels");
+		this.backLabel.setText(this.loc.getMenu("Back"));
 	}
 }

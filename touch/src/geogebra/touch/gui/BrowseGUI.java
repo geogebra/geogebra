@@ -179,4 +179,10 @@ public class BrowseGUI extends VerticalPanel
 			}
 		});
 	}
+	
+	public void setLabels()
+	{
+		this.searchBar.setLabels();
+	}
+	
 }
