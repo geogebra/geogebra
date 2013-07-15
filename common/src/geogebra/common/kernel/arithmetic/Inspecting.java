@@ -3,6 +3,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoVector;
 
 /**
  * Allows checking whether at least one part of structured expression value has certain property.
@@ -76,9 +77,14 @@ public interface Inspecting {
 					if (!gdv.toString(StringTemplate.defaultTemplate).equals("x")) {
 						return true;
 					}
-				} else if (!(v instanceof MyDouble) && !(v instanceof ExpressionNode) && !(v instanceof GeoNumeric)) {
+				} else if (!(v instanceof MyDouble
+						|| v instanceof ExpressionNode
+						|| v instanceof GeoNumeric 
+						|| v instanceof MyVecNode
+						|| v instanceof GeoVector
+						|| v instanceof MyList)) {
 					return true;
-				}
+				} 
 				return false;
 			default: return false;
 		
@@ -110,12 +116,12 @@ public interface Inspecting {
 			} else if (v instanceof Variable || v instanceof GeoDummyVariable) {
 				type = 9;
 				return false;
-			} else if (v instanceof FunctionNVar) {
-				type = 10;
-				return true;
 			} else if (v instanceof ExpressionNode) {
 				type = 11;
 				return false;
+			} else if (v instanceof FunctionNVar) {
+				type = 10;
+				return true;
 			}
 			return false;
 		}

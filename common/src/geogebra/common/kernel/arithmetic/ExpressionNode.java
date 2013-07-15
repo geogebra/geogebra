@@ -302,8 +302,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// deep copy
 		//important to check for commands before we call isConstant as that might
 		//result in evaluation, FunctionNVar important because of FunctionExpander
-		else if (ev.isPolynomialInstance() || (ev.inspect(Inspecting.CommandFinder.INSTANCE)) || ev.isConstant() || ev instanceof FunctionNVar || ev instanceof Equation
-				) {
+		else if (ev.isPolynomialInstance()
+				|| (ev.inspect(Inspecting.CommandFinder.INSTANCE))
+				|| ev.isConstant() 
+				|| ev instanceof FunctionNVar
+				|| ev instanceof Equation
+				|| ev instanceof MyVecNode) {
 			ret = ev.deepCopy(kernel);
 		} else {
 			ret = ev;
