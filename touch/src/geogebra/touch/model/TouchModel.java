@@ -1244,7 +1244,7 @@ public class TouchModel {
 
 				}
 			} catch (Exception e) {
-				this.kernel.getApplication().showError(e.getLocalizedMessage());
+				this.kernel.getApplication().showError(e,null);
 				stopCollecting();
 				e.printStackTrace();
 				return false;

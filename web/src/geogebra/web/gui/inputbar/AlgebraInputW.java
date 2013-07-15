@@ -235,11 +235,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					app.setScrollToShow(true);
 					GeoElement[] geos;
 					try {
-						if (input.startsWith("/")) {
-							String cmd = input.substring(1);
-							app.getPythonBridge().eval(cmd);
-							geos = new GeoElement[0];
-						} else {
+						
 							geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true );
 							
 							// need label if we type just eg
@@ -247,10 +243,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 							if (geos.length == 1 && !geos[0].labelSet) {
 								geos[0].setLabel(geos[0].getDefaultLabel());
 							}
-
-						}
 					} catch (Exception ee) {
-						inputField.showError(ee);
+						app.showError(ee,inputField);
 						return;
 					}
 				 catch (MyError ee) {

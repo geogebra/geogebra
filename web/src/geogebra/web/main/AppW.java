@@ -656,7 +656,8 @@ public class AppW extends AppWeb {
 			getGuiManager().hasEuclidianView2EitherShowingOrNot();
 	}
 
-	public boolean hasEuclidianView2() {
+	@Override
+    public boolean hasEuclidianView2() {
 		return (guiManager != null) && getGuiManager().hasEuclidianView2();
 	}
 
@@ -954,7 +955,8 @@ public class AppW extends AppWeb {
 		                driveBase64description);
 	}
 	
-	protected void clearInputBar(){
+	@Override
+    protected void clearInputBar(){
 		if (isUsingFullGui() && showAlgebraInput()) {
 			AlgebraInputW ai = (getGuiManager().getAlgebraInput());
 			ai.clear();
@@ -1208,7 +1210,8 @@ public class AppW extends AppWeb {
 	// ERROR HANDLING
 	// ================================================
 
-	public void showCommandError(final String command, final String message) {
+	@Override
+    public void showCommandError(final String command, final String message) {
 		// TODO
 		App.debug("TODO later: make sure splash screen not showing");
 
@@ -1264,6 +1267,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public void showErrorDialog(final String msg) {
+		App.printStacktrace("");
 		final PopupPanel dialog = new PopupPanel(false, true);
 		// dialog.setText(getPlain("ApplicationName") + " - " +
 		// getMenu("Info"));
@@ -1442,7 +1446,8 @@ public class AppW extends AppWeb {
 		return app.getGuiManager().getLayout().getRootComponent();
 	}
 	
-	public void updateCenterPanel(boolean updateUI) {
+	@Override
+    public void updateCenterPanel(boolean updateUI) {
 		LayoutPanel centerPanel = null;
 		
 		if (isUsingFullGui()) {
@@ -2032,7 +2037,8 @@ public class AppW extends AppWeb {
 	 * @param mode
 	 *            : tool ID
 	 */
-	public String getToolTooltipHTML(int mode) {
+	@Override
+    public String getToolTooltipHTML(int mode) {
 
 		// TODO: fix this code copied from desktop
 		//if getLocalization().getTooltipLocale() != null) {
@@ -2052,7 +2058,8 @@ public class AppW extends AppWeb {
 
 	}
 
-	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+	@Override
+    public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 
 		if (constProtocolNavigation == null) {
 			constProtocolNavigation = new ConstructionProtocolNavigationW(this);
@@ -2062,7 +2069,8 @@ public class AppW extends AppWeb {
 	
     }
 	
-	public void notifyFileLoaded(){
+	@Override
+    public void notifyFileLoaded(){
 		if (this.getDialogManager() instanceof DialogManagerW && !((DialogManagerW) this.getDialogManager()).isGoogleDriveChooserNull()) {
 			((DialogManagerW) this.getDialogManager()).getGoogleDriveFileChooser().hide();
 		}

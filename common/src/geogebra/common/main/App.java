@@ -42,6 +42,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
+import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
@@ -59,6 +60,7 @@ import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.CommandInputField;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
@@ -1591,6 +1593,33 @@ public abstract class App implements UpdateSelection{
 			return;
 		}
 		showCommandError(command, message);
+	}
+	
+	public final void showError(Exception e, CommandInputField f){
+		Localization loc = getLocalization();
+		if (e instanceof MyException) {			
+			int err = ((MyException) e).getErrorType();
+			if (err == MyException.INVALID_INPUT) { 
+				
+				// eg type
+				// seg<enter><enter> to show syntax for Segment
+				String command = f == null ? null : getReverseCommand(f.getCommand()); 
+				if (command != null) { 
+
+					showCommandError(command, loc.getError("InvalidInput") 
+							+ "\n\n" + loc.getPlain("Syntax") + ":\n" 
+							+ loc.getCommandSyntax(command)); 
+					return; 
+				} 
+			} else if (err == MyException.IMBALANCED_BRACKETS) {
+				showError((MyError)e.getCause());
+				return;
+
+			}
+		}
+		// can't work out anything better, just show "Invalid Input"
+		e.printStackTrace();
+		showError(loc.getError("InvalidInput"));
 	}
 
 	protected abstract void showCommandError(String command, String message);

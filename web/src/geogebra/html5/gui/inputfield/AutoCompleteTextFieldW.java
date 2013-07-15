@@ -12,7 +12,6 @@ import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.MyTextField;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
@@ -569,28 +568,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	      curWord.setLength(curWord.length() - 1);
 	    }
 	  }
-
-	public void showError(Exception e) {
-		 if (e instanceof MyException) {
-		      updateCurrentWord(true);
-		      int err = ((MyException) e).getErrorType();
-		      if (err == MyException.INVALID_INPUT) {
-		        String command = app.getReverseCommand(getCurrentWord());
-		        if (command != null) {
-
-		          app.showError(new MyError(loc, loc.getError("InvalidInput") + "\n\n"
-		              + loc.getPlain("Syntax") + ":\n" + loc.getCommandSyntax(command),
-		              getCurrentWord()));
-		          return;
-		        }
-		      }
-		    }
-		    // can't work out anything better, just show "Invalid Input"
-		 //TODO
-		 //   e.printStackTrace();
-		 //   app.showError(app.getError("InvalidInput"));
-		    app.showError(e.getLocalizedMessage());
-    }
 	
 	 /*
 	   * just show syntax error (already correctly formulated by CommandProcessor.argErr())
@@ -665,9 +642,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    	  textField.getValueBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
 		      }
 		      return true;
-		    } else {
-		      return false;
 		    }
+			return false;
 		  }
 	
 
@@ -1236,5 +1212,10 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 			textField.setWidth(width  + "px");
 		}
 		super.setWidth(width + "px");
+	}
+	
+	public String getCommand() {
+		this.updateCurrentWord(true);
+		return this.getCurrentWord();
 	}
 }

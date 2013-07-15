@@ -10,7 +10,6 @@ import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
@@ -916,80 +915,6 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	}
 
 	/**
-	 * @param command
-	 *            command name in local language
-	 * @return syntax description of command as html text or null
-	 */
-	private String getCmdSyntax(String command) {
-		if (command == null || command.length() == 0)
-			return null;
-
-		// try macro first
-		Macro macro = app.getKernel().getMacro(command);
-		if (macro != null) {
-			return macro.toString();
-		}
-
-		// translate command to internal name and get syntax description
-		// note: the translation ignores the case of command
-		String internalCmd = app.getReverseCommand(command);
-		// String key = internalCmd + "Syntax";
-		// String syntax = app.getCommand(key);
-		String syntax;
-		if (isCASInput) {
-			syntax = app.getLocalization().getCommandSyntaxCAS(internalCmd);
-		} else {
-			syntax = app.getLocalization().getCommandSyntax(internalCmd);
-		}
-
-		// check if we really found syntax information
-		// if (key.equals(syntax)) return null;
-		if (syntax.indexOf(Localization.syntaxStr) == -1)
-			return null;
-
-		// build html tooltip
-		syntax = syntax.replaceAll("<", "&lt;");
-		syntax = syntax.replaceAll(">", "&gt;");
-		syntax = syntax.replaceAll("\n", "<br>");
-		StringBuilder sb = new StringBuilder();
-		sb.append("<html>");
-		sb.append(syntax);
-		sb.append("</html>");
-		return sb.toString();
-	}
-
-	/**
-	 * Syntax help is shown elsewhere.  
-	 * @param e exception
-	 */
-	public void showError(Exception e) {
-		if (e instanceof MyException) {			
-			int err = ((MyException) e).getErrorType();
-			if (err == MyException.INVALID_INPUT) { 
-				updateCurrentWord(true);
-				// eg type
-				// seg<enter><enter> to show syntax for Segment
-				String command = app.getReverseCommand(getCurrentWord()); 
-				if (command != null) { 
-
-					app.showError(new MyError(loc, loc.getError("InvalidInput") 
-							+ "\n\n" + app.getPlain("Syntax") + ":\n" 
-							+ loc.getCommandSyntax(command), getCurrentWord())); 
-					return; 
-				} 
-			} else if (err == MyException.IMBALANCED_BRACKETS) {
-				app.showError((MyError)e.getCause());
-				return;
-
-			}
-		}
-		// can't work out anything better, just show "Invalid Input"
-		e.printStackTrace();
-		app.showError(loc.getError("InvalidInput"));
-
-	}
-
-	/**
 	 * just show syntax error (already correctly formulated by
 	 * CommandProcessor.argErr())
 	 * @param e error
@@ -1064,6 +989,11 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	public void addKeyHandler(KeyHandler handler) {
 		addKeyListener(new KeyListenerD(handler));
 		
+	}
+
+	public String getCommand() {
+		this.updateCurrentWord(true);
+		return this.getCurrentWord();
 	}
 
 }

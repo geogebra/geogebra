@@ -338,7 +338,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 				}
 			} catch (Exception ee) {
-				inputField.showError(ee);
+				app.showError(ee,inputField);
 				return;
 			}
 			catch (MyError ee) {

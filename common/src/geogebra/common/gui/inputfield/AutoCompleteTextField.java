@@ -8,9 +8,10 @@ import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.AutoCompleteDictionary;
+import geogebra.common.util.CommandInputField;
 import geogebra.common.util.TextObject;
 
-public interface AutoCompleteTextField extends GeoElementSelectionListener, TextObject{
+public interface AutoCompleteTextField extends GeoElementSelectionListener, TextObject, CommandInputField{
 
 	void showPopupSymbolButton(boolean b);
 
