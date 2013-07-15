@@ -2045,7 +2045,7 @@ namespace giac {
     return res;
   }
 
-  gen in_normalize_sqrt(const gen & e,vecteur & L,GIAC_CONTEXT){
+  static gen in_normalize_sqrt(const gen & e,vecteur & L,GIAC_CONTEXT){
     if (complex_mode(contextptr)) 
       return e;
     // remove multiple factors inside sqrt
@@ -2622,19 +2622,12 @@ namespace giac {
     return ordered_factor(e,l,with_sqrt,contextptr);
   }
 
-  gen factor(const gen & ee,bool with_sqrt,const gen & divide_an_by,GIAC_CONTEXT){
-    if (xcas_mode(contextptr)==3 && is_integer(ee))
-      return _ifactor(ee,contextptr);
-    gen e(ee);
-    if (has_num_coeff(ee))
-      e=e.evalf(1,contextptr);
-    else
-      e=normalize_sqrt(ee,contextptr);
+  static gen in_factor(const gen & e,bool with_sqrt,const gen & divide_an_by,GIAC_CONTEXT){
     if (e.type==_VECT){
       vecteur w;
       vecteur::const_iterator it=e._VECTptr->begin(),itend=e._VECTptr->end();
       for (;it!=itend;++it)
-	w.push_back(factor(*it,with_sqrt,divide_an_by,contextptr));
+	w.push_back(in_factor(*it,with_sqrt,divide_an_by,contextptr));
       return w;
     }
     vecteur l;
@@ -2668,6 +2661,22 @@ namespace giac {
     gen N=var_factor(f_num,l,false,with_sqrt,dnum,contextptr);
     gen D=var_factor(f_den,l,false,with_sqrt,dden,contextptr);
     return rdiv(N,D);
+  }
+
+  gen factor(const gen & ee,bool with_sqrt,const gen & divide_an_by,GIAC_CONTEXT){
+    if (xcas_mode(contextptr)==3 && is_integer(ee))
+      return _ifactor(ee,contextptr);
+    gen e(ee);
+    if (has_num_coeff(ee))
+      e=e.evalf(1,contextptr);
+    else {
+      vecteur L=lop_pow(e);
+      L=lidnt(L);
+      // make cfactor(-x/4*pi^2+i*sqrt(3+x)/2+x^2+3/4) work
+      e=in_factor(e,with_sqrt && L.empty(),divide_an_by,contextptr);
+      return e;
+    }
+    return in_factor(e,with_sqrt,divide_an_by,contextptr);
   }
 
   gen factor(const gen & ee,bool with_sqrt,GIAC_CONTEXT){

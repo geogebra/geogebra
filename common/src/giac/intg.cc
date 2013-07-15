@@ -2346,6 +2346,14 @@ namespace giac {
     if (s>6)
       return gentoomanyargs("integrate");
     gen x=v[1];
+    if (rcl_38 && x.type==_IDNT && rcl_38(x,0,x._IDNTptr->id_name,undef,false,contextptr)){
+      identificateur t("_t");
+      x=v[1];
+      v[0]=quotesubst(v[0],x,t,contextptr);
+      v[1]=t;
+      gen res=_integrate(gen(v,_SEQ__VECT),contextptr);
+      return quotesubst(res,t,x,contextptr);
+    }
     if (x.type!=_IDNT){
       if (x.type<_IDNT)
 	return gensizeerr(contextptr);
@@ -2805,7 +2813,7 @@ namespace giac {
     if (!tegral_util(f,x,a,b,i30,i30abs,err,contextptr))
       return false;
     vecteur v(1,makevecteur(a,b,i30,i30abs,err));
-    for (;v.size()<nmax;){
+    for (;int(v.size())<nmax;){
       // sum of errors, check for end
       i30=I30ABS=ERR=maxerr=0;
       maxerrpos=0;

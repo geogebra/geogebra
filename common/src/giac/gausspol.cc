@@ -4751,10 +4751,15 @@ namespace giac {
       gen b_over_2=rdiv(b,plus_two,context0);
       if (b_over_2.type!=_FRAC){
 	delta=a*c-b_over_2*b_over_2;
-	vecteur vv(makevecteur(plus_one,rdiv(algebraic_EXTension(makevecteur(plus_one,b_over_2),makevecteur(plus_one,zero,delta)),a,context0)));
+	gen un=plus_one;
+	if (is_positive(delta,context0)){
+	  un=cst_i;
+	  delta=-delta;
+	}
+	vecteur vv(makevecteur(plus_one,rdiv(algebraic_EXTension(makevecteur(un,b_over_2),makevecteur(plus_one,zero,delta)),a,context0)));
 	v.push_back(poly12polynome(vv,1));
-	vv=makevecteur(a,algebraic_EXTension(makevecteur(minus_one,b_over_2),makevecteur(plus_one,zero,delta)));
-	v.push_back(poly12polynome(vv,1));
+	vv=makevecteur(1,algebraic_EXTension(makevecteur(-un,b_over_2),makevecteur(plus_one,zero,delta))/a);
+	v.push_back(a*poly12polynome(vv,1));
       }
       else {
 	gen un=plus_one;
@@ -4762,10 +4767,10 @@ namespace giac {
 	  un=cst_i;
 	  delta=-delta;
 	}
-	vecteur vv(makevecteur(plus_one,rdiv(algebraic_EXTension(makevecteur(un,b),makevecteur(plus_one,zero,delta)),plus_two*a,context0)));
+	vecteur vv(makevecteur(plus_one,rdiv(algebraic_EXTension(makevecteur(un,b),makevecteur(plus_one,zero,delta)),2*a,context0)));
 	v.push_back(poly12polynome(vv,1));
-	vv=makevecteur(a,rdiv(algebraic_EXTension(makevecteur(-un,b),makevecteur(plus_one,zero,delta)),plus_two,context0));
-	v.push_back(poly12polynome(vv,1));
+	vv=makevecteur(1,rdiv(algebraic_EXTension(makevecteur(-un,b),makevecteur(plus_one,zero,delta)),2*a,context0));
+	v.push_back(a*poly12polynome(vv,1));
       }
     }
   }
