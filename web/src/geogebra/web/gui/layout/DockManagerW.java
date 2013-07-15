@@ -9,6 +9,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
+import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
@@ -402,12 +403,14 @@ public class DockManagerW implements  SetLabels {
 				rootPane.setPixelSize(windowWidth, windowHeight);
 			} else {
 				windowWidth = app.getAppFrame().getOffsetWidth();
-
-				// this is just a heuristic, as data-param-height would be
 				windowHeight = app.getAppFrame().getOffsetHeight();
+				windowHeight -= GGWFrameLayoutPanel.MINUS_FROM_HEIGHT;
 
 				rootPane.clear();
 				rootPane.setSize("100%", "100%");
+
+				// this might be good as well:
+				//rootPane.setPixelSize(windowWidth, windowHeight);
 			}
 
 			// set the dividers of the split panes
