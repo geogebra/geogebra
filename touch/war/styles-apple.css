@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+body div {
+	font-family: "Helvetica", sans-serif;
+}
+
+/* HEADER */
+
+body .headerbar,
+body .worksheetTitle {
+	color: #FFFFFF;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -o-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -moz-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -ms-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, rgb(136, 136, 136) ),
+		color-stop(1, rgb(68, 68, 68) ) ) );
+}
+
+.worksheetTitle {
+	font-size: 15px;
+}
+
+/* TOOLBAR -> INPUT */
+
+body .inputbarPanel {
+	padding: 10px 30px 10px 10px;
+}
+
+body .inputbarPanel input {
+	border: #CCCCCC solid 1px;
+	color: #BABABA;
+	background: #FFFFFF;
+	width: 100%;
+	padding: 4px 10px;
+	
+	-webkit-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+body .inputDialog .gwt-TextBox,
+body .infoDialog .gwt-TextBox {
+	border: #CCCCCC solid 1px;
+	color: #000000;
+	background: #FFFFFF;
+	width: 662px;
+	padding: 4px 10px;
+	
+	-webkit-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}

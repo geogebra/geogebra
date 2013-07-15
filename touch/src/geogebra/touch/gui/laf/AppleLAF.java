@@ -57,5 +57,10 @@ public class AppleLAF extends DefaultLAF
 			}
 		};
   }
-
+	
+	@Override
+	public int getAppBarHeight()
+	{
+		return 53;
+	}
 }

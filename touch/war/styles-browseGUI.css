@@ -1,5 +1,7 @@
 @charset "utf-8";
 
+/* TubesearchGUI HEADER */
+
 body div .tubesearchgui .headerbar {
 	height: 50px;
 }
@@ -50,4 +52,20 @@ body .tubesearchgui input.gwt-TextBox {
 	background: none;
 	border: none;
 	color: #FFFFFF;
+}
+
+/* TubeSearchGUI CONTENT */
+
+.tubesearchgui .tubeFilePanel {
+	padding: 0px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, rgb(239, 239, 239) ),
+		color-stop(1, rgb(205, 205, 205) ) );
 }

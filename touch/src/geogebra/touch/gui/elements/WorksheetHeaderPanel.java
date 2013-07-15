@@ -17,7 +17,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 		super("", app.getLocalization());
 		//TODO replace with icon
 		Button edit = new Button("EDIT");
-		this.queryPanel.add(edit);
+		this.rightPanel.add(edit);
 		edit.addClickHandler(new ClickHandler(){
 
 			@Override

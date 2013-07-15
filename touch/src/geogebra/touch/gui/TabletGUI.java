@@ -39,7 +39,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 {
 	public static final float ALGEBRA_VIEW_WIDTH_FRACTION = 0.2f;
 	public static final int FOOTER_BORDER_WIDTH = 1;
-	private static final int ALGEBRA_BUTTON_WIDTH = 48;
+	private static final int ALGEBRA_BUTTON_WIDTH = 49;
 
 	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 

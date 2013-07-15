@@ -137,9 +137,6 @@ div.button.button-up-hovering {
 	height: 50px;
 	width: 100%;
 	
-	/* Border */
-	border-bottom: #999999 solid 1px;
-	
 	/* Background */
 	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,
 		rgb(170, 170, 170) 100% );
@@ -155,13 +152,20 @@ div.button.button-up-hovering {
 		204, 204) ), color-stop(1, rgb(170, 170, 170) ) ) );
 }
 
+.headerbar {
+	/* Border */
+	border-bottom: #999999 solid 1px;
+}
+
 .headerbar td {
 	width: 33%;
 	vertical-align: middle;
+	border: none;
 }
 
 .headerbar td td {
 	width: 0px;
+	border: none;
 }
 
 input.worksheetTitle {
@@ -434,6 +438,7 @@ div.elemHeadingName {
 	margin-top: 5px;
 	border: 1px solid #DCDCDC;
 	padding: 3px;
+	font-size: 15px;
 }
 
 .inputDialog .gwt-PopupPanel,

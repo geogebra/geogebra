@@ -113,6 +113,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.underline = new LayoutPanel();
 		this.underline.setStyleName("inputUnderline");
 		this.underline.addStyleName("inactive");
+		this.titlePanel.getElement().setAttribute("width", "100%");
 
 		this.titlePanel.add(this.underline);
 

@@ -102,8 +102,8 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		this.searchPanel.add(this.query);
 		this.searchPanel.add(this.cancelButton);
 		
-		this.queryPanel.add(this.searchPanel);
-		this.queryPanel.add(this.underline);
+		this.rightPanel.add(this.searchPanel);
+		this.rightPanel.add(this.underline);
 	}
 
 	public boolean addSearchListener(SearchListener l) {

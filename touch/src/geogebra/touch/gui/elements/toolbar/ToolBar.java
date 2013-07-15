@@ -93,7 +93,7 @@ public class ToolBar extends HorizontalPanel
 		this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
 		
 		// fx background icon
-		this.inputBox.getElement().setAttribute("style", "background: url(" + TouchEntryPoint.getLookAndFeel().getIcons().icon_fx().getSafeUri().asString() + ") top right no-repeat;");
+		this.inputBox.getElement().setAttribute("style", "background-image: url(" + TouchEntryPoint.getLookAndFeel().getIcons().icon_fx().getSafeUri().asString() + "); background-position: top right; background-repeat: no-repeat;");
 		
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);

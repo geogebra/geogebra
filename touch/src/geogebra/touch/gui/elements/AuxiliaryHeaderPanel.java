@@ -16,7 +16,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	private StandardImageButton backButton;
 	private HorizontalPanel backPanel;
 	protected HorizontalPanel searchPanel;
-	protected VerticalPanel queryPanel;
+	protected VerticalPanel rightPanel;
 	protected Label headerText;
 	
 	public AuxiliaryHeaderPanel(String title, Localization loc) {
@@ -37,8 +37,8 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.backPanel.add(this.backButton);
 		this.backPanel.add(new Label(loc.getMenu("Back")));
 		
-		this.queryPanel = new VerticalPanel();
-		this.queryPanel.setStyleName("headerRight");
+		this.rightPanel = new VerticalPanel();
+		this.rightPanel.setStyleName("headerRight");
 		
 		this.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		
@@ -50,7 +50,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.add(this.headerText);
 		
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		this.add(this.queryPanel);
+		this.add(this.rightPanel);
 	}
 	
 	public void setText(String title) {

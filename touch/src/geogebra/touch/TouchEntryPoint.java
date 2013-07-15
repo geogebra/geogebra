@@ -187,7 +187,7 @@ public class TouchEntryPoint implements EntryPoint
 		{
 			laf = new AndroidLAF();
 		}
-		else if ("ios".equals(param))
+		else if ("apple".equals(param))
 		{
 			laf = new AppleLAF();
 		}
