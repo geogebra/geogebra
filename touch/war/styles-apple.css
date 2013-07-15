@@ -25,6 +25,15 @@ body .worksheetTitle {
 	font-size: 15px;
 }
 
+body .headerbar div.button {
+	background: none;
+	background-image: none;
+	background-color: none;
+	border: none;
+	padding: 0px;
+	margin: 0px 10px 0px 6px;
+}
+
 /* TOOLBAR -> INPUT */
 
 body .inputbarPanel {
@@ -152,8 +161,4 @@ body .infoDialog .button:hover {
 body .infoDialog .button.last,
 body .infoDialog button.last {
 	margin: 0px;
-}
-
-body .infoDialog .buttonPanel {
-	width: 100%;
 }

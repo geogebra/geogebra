@@ -92,6 +92,7 @@ public class InfoDialog extends PopupPanel
 		Panel iconPanel = new LayoutPanel();
 		String html = "<img src=\"" + this.iconQuestion.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
+		iconPanel.setStyleName("iconPanel");
 		this.textPanel.add(iconPanel);
 		
 		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));

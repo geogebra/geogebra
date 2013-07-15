@@ -452,6 +452,10 @@ div.elemHeadingName {
 	margin-top: 10px;
 }
 
+.infoDialog .buttonPanel {
+	width: 100%;
+}
+
 .inputDialog button,
 .infoDialog .button {
 	margin-right: 6px;
@@ -473,20 +477,4 @@ div.elemHeadingName {
 	opacity: 0.3;
 	z-index: 20;
 	filter: alpha(opacity = 30);
-}
-
-/* #####################################################################
-####                    TubeSearchGUI								####
-##################################################################### */
-/*.searchbar div.button img,.tubesearchgui div.button img {
-	width: 40px;
-	height: 40px;
-}*/
-
-/* File browser */
-.browserDefaultFile{
-	
-}
-.browserSelectedFile{
-	background-color:rgb(153,153,255);
 }

@@ -69,3 +69,18 @@ body .tubesearchgui input.gwt-TextBox {
 		color-stop(0, rgb(239, 239, 239) ),
 		color-stop(1, rgb(205, 205, 205) ) );
 }
+
+.tubesearchgui .filePanelTitle {
+	color: #999999;
+	font-size: 20px;
+	height: 40px;
+	vertical-align: middle;
+	padding: 10px 20px 0px 20px;
+}
+
+.tubesearchgui .browserDefaultFile {
+	padding: 10px;
+}
+.tubesearchgui .browserSelectedFile{
+	background-color:rgb(153,153,255);
+}

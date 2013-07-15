@@ -162,7 +162,7 @@ body .infoDialog .button {
 	border-radius: 0px;
 	
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 14px;
 	border-right: 1px solid #999999;
 	border-top: 1px solid #999999;
 	padding: 5px;
@@ -191,6 +191,10 @@ body .infoDialog .button:hover {
 	background-image: none;
 	background: none;
 	color: #9999FF;
+}
+
+body .infoDialog .iconPanel {
+	margin-right: 10px;
 }
 
 body .gwt-PopupPanelGlass {

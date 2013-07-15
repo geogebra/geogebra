@@ -19,7 +19,8 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -32,9 +33,13 @@ public class BrowseGUI extends VerticalPanel
 	private FileManagerM fm;
 	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel localFilePanel, tubeFilePanel;
+	VerticalPanel localFileContainer, tubeFileContainer;
 
 	private List<Material> localList = new ArrayList<Material>();
 	List<Material> tubeList = new ArrayList<Material>();
+	
+	private Label headingMyProfile;
+	private Label headingGeoGebraTube;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -62,18 +67,34 @@ public class BrowseGUI extends VerticalPanel
 		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
 		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
-		this.localFilePanel.setStyleName("localFilePanel");
 		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
-		this.tubeFilePanel.setStyleName("tubeFilePanel");
+
+		this.headingMyProfile = new Label();
+		this.headingGeoGebraTube = new Label();
+		this.headingMyProfile.setStyleName("filePanelTitle");
+		this.headingGeoGebraTube.setStyleName("filePanelTitle");
+		
+		this.headingMyProfile.setText("My Profile");
+		this.headingGeoGebraTube.setText("GeoGebra Tube");
+		
+		this.localFileContainer = new VerticalPanel();
+		this.localFileContainer.setStyleName("localFilePanel");
+		this.localFileContainer.add(this.headingMyProfile);
+		this.localFileContainer.add(this.localFilePanel);
+		
+		this.tubeFileContainer = new VerticalPanel();
+		this.tubeFileContainer.setStyleName("tubeFilePanel");
+		this.tubeFileContainer.add(this.headingGeoGebraTube);
+		this.tubeFileContainer.add(this.tubeFilePanel);
 
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
 
-		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) + "px");
-		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) + "px");
-		FlowPanel fileList = new FlowPanel();
-		fileList.add(this.localFilePanel);
-		fileList.add(this.tubeFilePanel);
+		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - 50 + "px");
+		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - 50 + "px");
+		HorizontalPanel fileList = new HorizontalPanel();
+		fileList.add(this.localFileContainer);
+		fileList.add(this.tubeFileContainer);
 		this.add(fileList);
 
 		loadFeatured();
@@ -117,21 +138,21 @@ public class BrowseGUI extends VerticalPanel
 		if (this.tubeList.isEmpty())
 		{
 			this.localFilePanel.setMaterials(2, this.localList);
-			this.tubeFilePanel.setVisible(false);
-			this.localFilePanel.setVisible(true);
+			this.tubeFileContainer.setVisible(false);
+			this.localFileContainer.setVisible(true);
 		}
 		else if (this.localList.isEmpty())
 		{
 			this.tubeFilePanel.setMaterials(2, this.tubeList);
-			this.localFilePanel.setVisible(false);
-			this.tubeFilePanel.setVisible(true);
+			this.localFileContainer.setVisible(false);
+			this.tubeFileContainer.setVisible(true);
 		}
 		else
 		{
 			this.localFilePanel.setMaterials(1, this.localList);
 			this.tubeFilePanel.setMaterials(1, this.tubeList);
-			this.tubeFilePanel.setVisible(true);
-			this.localFilePanel.setVisible(true);
+			this.tubeFileContainer.setVisible(true);
+			this.localFileContainer.setVisible(true);
 		}
 	}
 
@@ -143,7 +164,7 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight();
+		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - 50;
 		if (newHeight > 0)
 		{
 			this.localFilePanel.setHeight(newHeight + "px");
@@ -179,10 +200,4 @@ public class BrowseGUI extends VerticalPanel
 			}
 		});
 	}
-	
-	public void setLabels()
-	{
-		this.searchBar.setLabels();
-	}
-	
 }
