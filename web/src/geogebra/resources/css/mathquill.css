@@ -120,7 +120,7 @@
   font-size: 87%;
 }
 .mathquill-rendered-math .font {
-  font: 1em "Times New Roman", Symbola, serif;
+  font: 1em Symbola, "Times New Roman", serif;
 }
 .mathquill-rendered-math .font * {
   font-family: inherit;
