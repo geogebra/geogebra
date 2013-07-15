@@ -46,7 +46,8 @@ rm -fR ggbloadworker WEB-INF
 find -name .svn -or -name svnignore.txt | xargs rm -fR
 rm -fR web/web.devmode.js web/statictexts css/font
 find -name '*.cache.svg' -or -name '*.cache.ttf' -or -name '*.cache.woff' \
- -or -name '*.cache.eot' -or -name '*.cache.otf' | xargs rm
+ -or -name '*.cache.eot' -or -name '*.cache.otf' -or -name __giac.js \
+ -or -name 'material*.png' | xargs rm
 rm -fR test favicon.ico index.jsp index.php test.php
 
 # 5. Adding license file and version
