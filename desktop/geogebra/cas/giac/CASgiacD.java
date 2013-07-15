@@ -121,15 +121,15 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			// so use JavaScript version instead
 
 			if (!giacSetToGeoGebraMode) {
-				app.getApplet().evalJS("_ggbCallGiac('" + initString + "');");
+				app.getApplet().evalJS("_ggbCallGiac(\"" + initString + "\");");
 				giacSetToGeoGebraMode = true;
 			}
 
 			// set timeout (in seconds)
-			app.getApplet().evalJS("_ggbCallGiac('timeout " + (timeoutMillis/1000) + "')");
+			app.getApplet().evalJS("_ggbCallGiac(\"timeout " + (timeoutMillis/1000) + "\")");
 
 			// reset Giac
-			app.getApplet().evalJS("_ggbCallGiac('" + specialFunctions + "');");
+			app.getApplet().evalJS("_ggbCallGiac(\"" + specialFunctions + "\");");
 
 			StringBuilder sb = new StringBuilder(exp.length() + 20);
 			
