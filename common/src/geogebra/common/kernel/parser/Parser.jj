@@ -314,13 +314,12 @@ TOKEN :  {
   | < POWERN: (<SUPERSCRIPT_MINUS>)? ( <INDEXDIGIT> )+ >
   | < #INDEXDIGIT:                                     // unicode digits
        [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3"] >
-  | < PI:       ( "pi" | "Pi" | "\u03c0" | "%pi") >
+  | < PI:       ( "pi" | "Pi" | "\u03c0" ) >
   | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Euler–Mascheroni constant
-  | < E:        ("\u212f" | "%e") > // Euler constant
-  | < IMAGINARY: ("\u03af" | "%i") > // imaginary constant
+  | < E:        ("\u212f") > // Euler constant
+  | < IMAGINARY: ("\u03af") > // imaginary constant
   | < DEGREE:   ( "\u00b0" | "\u02da" ) > // 02da is "Ring Above", Alt-k in iPad
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
-  | < MINUS_INFINITY: ("minf") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
   | < TRUE:     ( "true" | "True" ) >
@@ -407,7 +406,6 @@ TOKEN: {
     < X_FUNC:  ("x" | "xcoord") + ("("|"[")>
 |	< Y_FUNC:  ("y" | "ycoord")  + ("("|"[")> 
 |	< Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
-|	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |   < POLAR_SEPARATOR: ( "\u2221" | ";" ) > // separator used by Giac instead of ;
@@ -1679,60 +1677,8 @@ ExpressionValue list():
     "}"
     {  return myList;  }
    )
-|
-	// matrix from MPReduce,e.g. mat((1,2),(3,4))
-    ev = matrixReduce()
-    {
-        return ev;
-    }   
+  
 }
-
-// mat((1,2),(3,4)) from MPReduce
-ExpressionValue matrixReduce():
-{
-    MyList matrixList, rowList;
-    ExpressionValue row;
-}
-{
-    // matrix from MPReduce
-    < MAT_FUNC >
-      // first row
-      row = matrixRowReduce()
-      	{
-      	  	matrixList = new MyList(kernel);
-      	  	matrixList.addListElement(row);
-      	 }  	     
-     ( <COMMA> row = matrixRowReduce()  
-   	  	{
-   			matrixList.addListElement(row); 
-   	  	} 
-      )*	     
-    ")" // end of mat(...)
-    {  return matrixList;  }             
-}
-
-// (a,b,c)
-ExpressionValue matrixRowReduce():
-{
-    MyList  rowList;
-    ExpressionValue ev;
-}
-{
-      // row like (1,2,3)
-      "("
-	      ev = cmdexpression()     
-	       {   
-	            rowList = new MyList(kernel);         
-	            rowList.addListElement(ev);
-	        }
-	       ( <COMMA> ev = cmdexpression()  
-	       	 {
-	       		rowList.addListElement(ev); 
-	       	 } 
-	        )*
-	   ")"
-	    {  return rowList;  }  	            
-}  
 
 ExpressionValue numVecVariable():
 {
@@ -1914,11 +1860,6 @@ ExpressionValue myDouble():
     <INFINITY>
     {
         return new MyDouble(kernel, Double.POSITIVE_INFINITY);
-    }   
-|
-    <MINUS_INFINITY>
-    {
-        return new MyDouble(kernel, Double.NEGATIVE_INFINITY);
     }   
 |
 	<UNDEFINED>
