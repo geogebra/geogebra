@@ -10,6 +10,8 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
+import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -605,6 +607,21 @@ public class TouchApp extends AppWeb
 		{
 			setConstructionTitle(TouchEntryPoint.browseGUI.getChocenMaterial().getMaterialTitle());
 		}
+		
+		for (Perspective perspective : tmpPerspectives) {
+			if (perspective.getId().equals("tmp")) {
+				toggleAVvisibility(perspective.getDockPanelData());
+			}
+		}
+	}
+
+	private void toggleAVvisibility(DockPanelData[] dockPanelData) {
+		for(DockPanelData dp:dockPanelData){
+			if(dp.getViewId()== App.VIEW_ALGEBRA){
+				this.touchGUI.setAlgebraVisible(dp.isVisible());
+			}
+		}
+		
 	}
 
 	@Override

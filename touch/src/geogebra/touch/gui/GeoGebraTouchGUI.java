@@ -25,6 +25,8 @@ public interface GeoGebraTouchGUI
 	 */
 	public void setLabels();
 
+	public void setAlgebraVisible(boolean visible);
+
 	// TODO: use with SelectionManager
 	// public void updateStylingBar(SelectionManager selectionManager);
 }

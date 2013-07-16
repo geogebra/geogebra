@@ -192,9 +192,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	void toggleAlgebraView()
 	{
-		boolean algebraVisible = this.algebraViewPanel.isVisible();
-		updateViewSizes(!algebraVisible);
-		this.algebraViewPanel.setVisible(!algebraVisible);
+		this.setAlgebraVisible(!this.algebraViewPanel.isVisible());
 	}
 
 	private void updateViewSizes(boolean algebraVisible)
@@ -284,6 +282,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		super.setVisible(visible);
 		if(this.algebraViewButtonPanel != null)
 		this.algebraViewButtonPanel.setVisible(visible);
+	}
+
+	@Override
+	public void setAlgebraVisible(boolean visible) {
+		updateViewSizes(visible);
+		this.algebraViewPanel.setVisible(visible);
 	}
 
 	// TODO: use with SelelctionManager
