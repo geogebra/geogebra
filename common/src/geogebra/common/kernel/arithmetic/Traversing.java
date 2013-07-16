@@ -1,5 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -7,6 +8,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
@@ -262,6 +264,53 @@ public interface Traversing {
 			replacer.replacements = 0;
 			return replacer;
 		}
+	}
+	
+	/**
+	 * Renames Spreadsheet Variables with new name according to offset (dx,dy)
+	 * @author michael
+	 *
+	 */
+	public class SpreadsheetVariableRenamer implements Traversing {
+		private int dx;
+		private int dy;
+		/**
+		 * Renames Spreadsheet Variables with new name according to offset (dx,dy)
+		 * 
+		 * @param dx x-offset
+		 * @param dy y-offset
+		 */
+		public SpreadsheetVariableRenamer(int dx, int dy) {
+			this.dx = dx;
+			this.dy = dy;
+		}
+		public ExpressionValue process(ExpressionValue ev) {
+			
+			if (ev instanceof Variable) {
+				Variable v = (Variable)ev;
+				
+				String name = v.getName(StringTemplate.defaultTemplate);
+				
+				
+				//App.debug("found VARIABLE: "+name);
+				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
+					//App.debug("FOUND SPREADSHEET VARIABLE: "+name);
+					
+					String newName = RelativeCopy.updateCellNameWithOffset(name, dx, dy);
+					
+					// make sure new cell is autocreated if it doesn't exist already
+					ev.getKernel().getConstruction().lookupLabel(newName, true);
+					
+					//App.debug("setting new name to: "+newName);
+					
+					v.setName(newName);
+					
+				}
+			}
+			
+			return ev;
+		}
+
 	}
 	/**
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics

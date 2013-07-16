@@ -6,21 +6,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.Equation;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionNVar;
-import geogebra.common.kernel.arithmetic.MyBoolean;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.MyStringBuffer;
-import geogebra.common.kernel.arithmetic.MyVecNode;
-import geogebra.common.kernel.arithmetic.Parametric;
-import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.arithmetic.Term;
+import geogebra.common.kernel.arithmetic.Traversing;
+import geogebra.common.kernel.arithmetic.Traversing.SpreadsheetVariableRenamer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic.Variable;
-import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -28,7 +16,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.SpreadsheetTableModel;
@@ -595,86 +582,14 @@ public class RelativeCopy {
 	 * change A1 < 3 to A2 < 3 for a vertical copy
 	 */
 	private static void updateCellReferences(ValidExpression exp, int dx, int dy) {
+			
+		SpreadsheetVariableRenamer replacer = new Traversing.SpreadsheetVariableRenamer(dx, dy);
 		
-		if (exp == null) {
-			return;
-		}
-		//App.debug("updating "+exp+" "+dx + " " + dy);
+		exp.traverse(replacer);
 		
-		if (exp.isExpressionNode()) {
-			updateCellReferences((ValidExpression) ((ExpressionNode)exp).getLeft(),dx,dy);
-			updateCellReferences((ValidExpression) ((ExpressionNode)exp).getRight(),dx,dy);
-			
-		} else if (exp instanceof Command) {
-			Command c = (Command)exp;
-			
-			for (ExpressionNode en: c.getArguments()) {
-				updateCellReferences(en, dx, dy);
-			}
-		} else if (exp instanceof Variable) {
-			Variable v = (Variable)exp;
-			
-			String name = v.getName(StringTemplate.defaultTemplate);
-			
-			
-			//App.debug("found VARIABLE: "+name);
-			if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
-				//App.debug("FOUND SPREADSHEET VARIABLE: "+name);
-				
-				String newName = updateCellNameWithOffset(name, dx, dy);
-				
-				// make sure new cell is autocreated if it doesn't exist already
-				exp.getKernel().getConstruction().lookupLabel(newName, true);
-				
-				//App.debug("setting new name to: "+newName);
-				
-				v.setName(newName);
-				
-			}
-			
-		} else if (exp instanceof MyVecNode) {
-			MyVecNode vec = (MyVecNode)exp;
-			updateCellReferences((ValidExpression) vec.getX(), dx, dy);
-			updateCellReferences((ValidExpression) vec.getY(), dx, dy);
-		} else if (exp instanceof MyVec3DNode) {
-			MyVec3DNode vec = (MyVec3DNode)exp;
-			updateCellReferences((ValidExpression) vec.getX(), dx, dy);
-			updateCellReferences((ValidExpression) vec.getY(), dx, dy);
-			updateCellReferences((ValidExpression) vec.getZ(), dx, dy);
-		} else if (exp instanceof FunctionNVar) {
-			FunctionNVar fun = (FunctionNVar)exp;
-			updateCellReferences(fun.getFunctionExpression(), dx, dy);
-		} else if (exp instanceof Equation) {
-			Equation eq = (Equation)exp;
-			updateCellReferences(eq.getLHS(), dx, dy);
-			updateCellReferences(eq.getRHS(), dx, dy);
-		} else if (exp instanceof Polynomial) {
-			Polynomial p = (Polynomial)exp;
-			
-			for (int i = 0 ; i < p.length() ; i++) {
-				Term t = p.getTerm(i);				
-				updateCellReferences((ValidExpression) t.getCoefficient(), dx, dy);
-			}
-			
-		} else if (exp instanceof Parametric) {
-			Parametric p = (Parametric)exp;
-			
-			updateCellReferences(p.getP(), dx, dy);
-			updateCellReferences(p.getv(), dx, dy);
-			
-		} else if (exp instanceof MyStringBuffer
-				|| exp instanceof MyBoolean
-				|| exp instanceof MyDouble
-				|| exp instanceof MyList
-				|| exp instanceof GeoVec2D			
-				) {
-			// nothing to do
-		} else {
-			App.error("missing case: "+exp.getClass());
-		}
 	}
 
-	private static String updateCellNameWithOffset(String name, int dx, int dy) {
+	public static String updateCellNameWithOffset(String name, int dx, int dy) {
 		MatchResult m = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
 		
 		// $ or ""
