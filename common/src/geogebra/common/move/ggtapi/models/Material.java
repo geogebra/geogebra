@@ -68,6 +68,10 @@ public class Material implements Comparable<Material>
 	 * Number of likes for this material
 	 */
 	private int likes;
+	private int width;
+	private int height;
+	private String instructionsPre;
+	private String instructionsPost;
 
 	public Material(int id, MaterialType type)
 	{
@@ -84,6 +88,10 @@ public class Material implements Comparable<Material>
 		this.featured = false;
 		this.likes = -1;
 		this.description = "";
+		this.instructionsPre = "";
+		this.instructionsPost = "";
+		this.width = -1;
+		this.height = -1;
 		this.thumbnail = "";
 	}
 
@@ -279,5 +287,37 @@ public class Material implements Comparable<Material>
 
 	public long getTimestamp() {
 		return timestamp;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public String getInstructionsPre(){
+		return instructionsPre;
+	}
+	
+	public String getInstructionsPost(){
+		return instructionsPost;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setInstructionsPre(String instructionsPre) {
+		this.instructionsPre = instructionsPre;
+	}
+
+	public void setInstructionsPost(String instructionsPost) {
+		this.instructionsPost = instructionsPost;
 	}
 }

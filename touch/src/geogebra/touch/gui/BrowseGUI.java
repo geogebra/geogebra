@@ -1,5 +1,6 @@
 package geogebra.touch.gui;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
@@ -118,11 +119,12 @@ public class BrowseGUI extends VerticalPanel
 	public void displaySearchResults(String query)
 	{
 		this.localList = this.fm.search(query);
-		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).search(query, new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).search(query, new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
 			{
+				App.debug(response.getText());
 				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
 				updateGUI();
 			}
@@ -189,7 +191,7 @@ public class BrowseGUI extends VerticalPanel
 	public void loadFeatured()
 	{
 		this.localList = this.fm.getAllFiles();
-		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).getFeaturedMaterials(new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).getFeaturedMaterials(new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(Request request, Response response)

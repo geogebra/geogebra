@@ -4,19 +4,17 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.WorksheetHeaderPanel;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class WorksheetGUI extends HeaderPanel
 {
-
-	private Frame content = new Frame();
+	private Label instructionsPost, instructionsPre;
+	private Frame frame = new Frame();
 	private WorksheetHeaderPanel header;
 
 	public WorksheetGUI(AppWeb app, FileManagerM fm)
@@ -25,29 +23,30 @@ public class WorksheetGUI extends HeaderPanel
 		this.setStyleName("worksheetgui");
 		this.header = new WorksheetHeaderPanel(app, fm);
 		this.setHeaderWidget(this.header);
-		this.content.setPixelSize(Window.getClientWidth(), Window.getClientHeight()-TouchEntryPoint.getLookAndFeel().getAppBarHeight());
-		this.setContentWidget(this.content);
+		FlowPanel content = new FlowPanel();
+		this.instructionsPost = new Label();
+		this.instructionsPre = new Label();
+		content.add(this.instructionsPre);
+		content.add(this.frame);
+		content.add(this.instructionsPost);
 		
-		Window.addResizeHandler(new ResizeHandler()
-		{
-			@Override
-			public void onResize(ResizeEvent event)
-			{
-				WorksheetGUI.this.onResize(event);
-			}
-		});
+		
+		this.setContentWidget(content);
+		
+		
 	}
 
-	protected void onResize(ResizeEvent event) {
-		this.content.setPixelSize(Window.getClientWidth(), Window.getClientHeight()-TouchEntryPoint.getLookAndFeel().getAppBarHeight());		
-	}
+	
 
 	public void loadWorksheet(Material m)
 	{
 		if (m.getId() > 0)
 		{
-			this.content.setUrl("http://geogebratube.org/student/m" + m.getId() + "?mobile=true&touch=true");
+			this.frame.setUrl("http://test.geogebratube.org:8080/student/e" + m.getId() + "?mobile=true");
 			this.header.setMaterial(m);
+			this.frame.setPixelSize(m.getWidth(),m.getHeight());
+			this.instructionsPre.setText(m.getInstructionsPre());
+			this.instructionsPost.setText(m.getInstructionsPost());
 		}
 		else
 		{
