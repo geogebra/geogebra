@@ -26,6 +26,7 @@
 
 // Original code is modified by International GeoGebra Institute (IGI)
 // to make external libraries JOGL and giac work properly.
+// Added Info.plist entry JVMClassPath.
 // Modifications by Zoltan Kovacs <zoltan@geogebra.org>
 
 #import <Cocoa/Cocoa.h>
@@ -38,6 +39,7 @@
 #define JVM_MAIN_CLASS_NAME_KEY "JVMMainClassName"
 #define JVM_OPTIONS_KEY "JVMOptions"
 #define JVM_ARGUMENTS_KEY "JVMArguments"
+#define JVM_CLASS_PATH "JVMClassPath"
 
 #define UNSPECIFIED_ERROR "An unknown error occurred."
 
@@ -122,8 +124,17 @@ int launch(char *commandName) {
     // Set the class path
     NSString *mainBundlePath = [mainBundle bundlePath];
     NSString *javaPath = [mainBundlePath stringByAppendingString:@"/Contents/Java"];
-    NSString *classPath = @"-Djava.class.path=geogebra-jogl2.jar";
-    NSLog ( @"Setting hardcoded classpath");
+
+    //     NSArray *classPathArray = [infoDictionary objectForKey:@JVM_CLASS_PATH];
+    //     if (classPathArray == nil) {
+    //         classPathArray = [NSArray array];
+    //      }
+    //     NSString *classPathEntries = [[array valueForKey:@"description"] componentsJoinedByString:@":"];
+    //     NSString *classPath = [NSString stringWithFormat:@"-Djava.class.path=%s", classPathEntries];
+
+    NSString *classPathInfo1 = [infoDictionary objectForKey:@JVM_CLASS_PATH];
+    NSString *classPathInfo2 = [classPathInfo1 stringByReplacingOccurrencesOfString:@";" withString:@":"];
+    NSString *classPath = [NSString stringWithFormat:@"-Djava.class.path=%s", classPathInfo2];
 
     // Set the working directory to the Java path
     chdir([javaPath UTF8String]);
@@ -135,9 +146,6 @@ int launch(char *commandName) {
             reason:NSLocalizedString(@"JavaDirectoryNotFound", @UNSPECIFIED_ERROR)
             userInfo:nil] raise];
     }
-
-    // Set the library path (not really required)
-    NSString *libraryPath = @"-Djava.library.path=.";
 
     // Get the VM options
     NSArray *options = [infoDictionary objectForKey:@JVM_OPTIONS_KEY];
@@ -173,11 +181,13 @@ int launch(char *commandName) {
     }
 
     int j;
+    NSLog( @"Application parameters:");
     for (j = 0; j < i; ++j) {
         NSLog( @"%i %s", j, argv[j]);
     }
 
     // Invoke JLI_Launch()
+    NSLog( @"Launching application...");
     return jli_LaunchFxnPtr(argc, argv,
                             0, NULL,
                             0, NULL,
