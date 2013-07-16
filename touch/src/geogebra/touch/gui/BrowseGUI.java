@@ -40,6 +40,7 @@ public class BrowseGUI extends VerticalPanel
 	
 	private Label headingMyProfile;
 	private Label headingGeoGebraTube;
+	private final static int HEADING_HEIGHT = 50;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -92,8 +93,8 @@ public class BrowseGUI extends VerticalPanel
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
 
-		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - 50 + "px");
-		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - 50 + "px");
+		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT + "px");
+		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT + "px");
 		HorizontalPanel fileList = new HorizontalPanel();
 		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
@@ -166,7 +167,7 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - 50;
+		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - HEADING_HEIGHT;
 		if (newHeight > 0)
 		{
 			this.localFilePanel.setHeight(newHeight + "px");

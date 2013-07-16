@@ -1,5 +1,18 @@
 @charset "utf-8";
 
+.tubesearchgui .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tubesearchgui .button.button-up-hovering {
+	border: none;
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
 /* TubesearchGUI HEADER */
 
 body div .tubesearchgui .headerbar {
@@ -90,6 +103,8 @@ body .tubesearchgui input.gwt-TextBox {
 
 .tubesearchgui .filePanel td .browserFile {
 	padding: 10px;
+	font-size: 14px;
+	color: #666666;
 }
 
 .tubesearchgui .browserFile.selected, 
@@ -99,16 +114,25 @@ body .tubesearchgui input.gwt-TextBox {
 
 .tubesearchgui .fileImage {
 	width: 198px;
-	height: 120px;
+	height: 118px;
 	overflow: hidden;
 	border: 1px solid #CCCCCC;
 	margin-right: 20px;
 	
 	float: left;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-color: #FFFFFF;
 }
 
 .tubesearchgui .fileDescription {
 	float: left;
+	margin-top: 10px;
+}
+
+.tubesearchgui .fileDescription td {
+	padding-bottom: 10px;
+	text-align: left;
 }
 
 .tubesearchgui .fileTitle {
@@ -117,6 +141,14 @@ body .tubesearchgui input.gwt-TextBox {
 
 .tubesearchgui .fileLinks {
 	float: right;
+}
+
+.tubesearchgui .fileLinks td {
+	text-align: center;
+}
+
+.tubesearchgui .button.delete {
+	margin-top: 3px;
 }
 
 .tubesearchgui .fileClear {

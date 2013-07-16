@@ -4,12 +4,12 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.laf.DefaultIcons;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -26,20 +26,23 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MaterialListElement extends FlowPanel {
 	public static final int PANEL_HEIGHT = 100;
 
-	private SimplePanel image, likeIcon;
+	private SimplePanel image;
 	private VerticalPanel infos;
 
 	protected VerticalPanel links;
-	private HorizontalPanel sharedPanel, likesPanel;
-	private Label title, date, sharedBy, author, likes;
+	private HorizontalPanel sharedPanel;
+	private Label title, date, sharedBy, author;
 
 	private VerticalMaterialPanel vmp;
-
-	private Button open, delete, edit;
 
 	Material material;
 	AppWeb app;
 	FileManagerM fm;
+	
+	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_viewer());
+	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
+	private StandardImageButton deleteButton = new StandardImageButton(LafIcons.dialog_trash());
 
 	public MaterialListElement(final Material m, final AppWeb app,
 			final FileManagerM fm, VerticalMaterialPanel vmp) {
@@ -50,8 +53,8 @@ public class MaterialListElement extends FlowPanel {
 		//this.infos.setSpacing(5);
 		this.infos.setStyleName("fileDescription");
 		this.sharedPanel = new HorizontalPanel();
-		this.likesPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
+		
 		this.vmp = vmp;
 		this.app = app;
 		this.fm = fm;
@@ -60,76 +63,33 @@ public class MaterialListElement extends FlowPanel {
 		this.setStyleName("browserFile");
 		
 		this.markUnSelected();
-		/*
-		 * this.getElement().getStyle().setBackgroundColor(GeoGebraTubeStyle.
-		 * InfoBackground);
-		 * this.getElement().getStyle().setBorderColor(GeoGebraTubeStyle
-		 * .BorderColor);
-		 * this.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
-		 * this.getElement
-		 * ().getStyle().setBorderWidth(GeoGebraTubeStyle.BorderWidth, Unit.PX);
-		 * this.getElement().getStyle().setMarginTop(5, Unit.PX);
-		 * this.getElement().getStyle().setMarginBottom(5, Unit.PX);
-		 */
 
 		this.add(this.image);
 		if (m.getId() > 0) {
-			this.image.getElement().getStyle()
-					.setBackgroundImage("url(http:" + m.getThumbnail() + ")");
+			this.image.getElement().getStyle().setBackgroundImage("url(http:" + m.getThumbnail() + ")");
 		} else {
-			this.image
-					.getElement()
-					.getStyle()
-					.setBackgroundImage(
-							"url(" + fm.getThumbnailDataUrl(m.getURL()) + ")");
+			this.image.getElement().getStyle().setBackgroundImage("url(" + fm.getThumbnailDataUrl(m.getURL()) + ")");
 		}
-		
-		//this.image.getElement().getStyle().setMarginRight(5, Unit.PX);
-		//this.image.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-		//this.image.setSize("100px", "100px");
 
 		this.title = new Label(m.getTitle());
 		this.title.setStyleName("fileTitle");
 		this.infos.add(this.title);
-		this.title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		//this.title.getElement().getStyle().setColor(GeoGebraTubeStyle.TitleColor);
 
 		this.date = new Label(m.getDate());
 		this.infos.add(this.date);
-		this.date.getElement().getStyle().setColor(GeoGebraTubeStyle.TextColor);
-
-		this.sharedBy = new Label(GeoGebraTubeStyle.SharedBy);
-		this.sharedPanel.add(this.sharedBy);
-		this.sharedBy.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		this.sharedBy.getElement().getStyle()
-				.setColor(GeoGebraTubeStyle.TextColor);
-
-		this.author = new Label(m.getAuthor());
-		this.sharedPanel.add(this.author);
-		this.author.getElement().getStyle()
-				.setColor(GeoGebraTubeStyle.TextColor);
-		this.infos.add(this.sharedPanel);
-
-		this.likeIcon = new SimplePanel();
-		this.likeIcon
-				.getElement()
-				.getStyle()
-				.setBackgroundImage(
-						"url(http://www.geogebratube.org/images/like-neutral-small.png)");
-		this.likesPanel.add(this.likeIcon);
-		this.likesPanel.setCellVerticalAlignment(this.likeIcon,
-				HasVerticalAlignment.ALIGN_MIDDLE);
-		this.likesPanel.setSpacing(5);
-		this.likeIcon.setSize("12px", "11px");
-
-		this.likes = new Label(String.valueOf(m.getLikes()));
-		this.likesPanel.add(this.likes);
-		this.likes.getElement().getStyle()
-				.setColor(GeoGebraTubeStyle.TextColor);
-		this.infos.add(this.likesPanel);
+		
+		// no shared Panel for local files
+		if (MaterialListElement.this.material.getId() > 0){
+			this.sharedBy = new Label(GeoGebraTubeStyle.SharedBy);
+			this.sharedPanel.add(this.sharedBy);
+			this.author = new Label(m.getAuthor());
+			this.sharedPanel.add(this.author);
+			this.sharedPanel.setStyleName("sharedPanel");
+			this.infos.add(this.sharedPanel);
+		}
+		
 		this.add(this.infos);
 
-		this.links.getElement().setAttribute("align", "right");
 		this.links.setStyleName("fileLinks");
 		
 		this.addDomHandler(new ClickHandler() {
@@ -142,20 +102,19 @@ public class MaterialListElement extends FlowPanel {
 
 		this.add(this.links);
 		
+		// clearPanel clears flow layout (needed for styling)
 		LayoutPanel clearPanel = new LayoutPanel();
 		clearPanel.setStyleName("fileClear");
 		this.add(clearPanel);
 	}
 
-	protected void initButtons() {
-		if (MaterialListElement.this.material.getId() > 0){
-			initOpenButton();
-		}
-		// TODO Change to icon
-		this.edit = new Button("EDIT");
-
-		this.links.add(this.edit);
-		this.edit.addDomHandler(new ClickHandler() {
+	protected void initButtons() {		
+		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		
+		initOpenButton();
+		
+		this.links.add(this.editButton);
+		this.editButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
@@ -171,9 +130,9 @@ public class MaterialListElement extends FlowPanel {
 	}
 
 	private void initOpenButton() {
-		this.open = new Button("OPEN");
-		this.links.add(this.open);
-		this.open.addDomHandler(new ClickHandler() {
+		
+		this.links.add(this.openButton);
+		this.openButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
@@ -184,14 +143,14 @@ public class MaterialListElement extends FlowPanel {
 	}
 
 	protected void initDeleteButton() {
-		this.delete = new Button("DELETE");
-		this.links.add(this.delete);
-		this.delete.addDomHandler(new ClickHandler() {
+		
+		this.links.add(this.deleteButton);
+		this.deleteButton.addStyleName("delete");
+		this.deleteButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
-				MaterialListElement.this.fm
-						.delete(MaterialListElement.this.material.getURL());
+				MaterialListElement.this.fm.delete(MaterialListElement.this.material.getURL());
 			}
 		}, ClickEvent.getType());
 
