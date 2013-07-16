@@ -24,7 +24,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel
 
 	public AuxiliaryHeaderPanel(String title, Localization loc)
 	{
-
+		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.backButton = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().back());
 

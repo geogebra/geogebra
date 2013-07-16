@@ -42,7 +42,6 @@ public class SearchBar extends AuxiliaryHeaderPanel
 	public SearchBar(Localization loc, BrowseGUI browseGUI)
 	{
 		super(loc.getMenu("Worksheets"), loc);
-		this.setStyleName("headerbar");
 		this.browseGUI = browseGUI;
 
 		this.searchPanel = new HorizontalPanel();
