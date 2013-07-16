@@ -274,7 +274,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		switch (this.type)
 		{
 		case InputField:
-			this.title.setText(this.app.getLocalization().getMenu(this.type.toString()));
+			this.title.setText(this.app.getLocalization().getMenu("InputField"));
+			break;
+		case Redefine:	
+			this.title.setText(this.app.getLocalization().getPlain("Redefine"));
 			break;
 		case NumberValue:
 		case Angle:

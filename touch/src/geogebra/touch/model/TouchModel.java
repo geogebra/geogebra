@@ -1467,9 +1467,9 @@ public class TouchModel {
 			public boolean processInput(String input){
 				boolean redefine = !geo.isPointOnPath();
 
-				TouchModel.this.kernel.getAlgebraProcessor().changeGeoElement(
+				GeoElement redefined = TouchModel.this.kernel.getAlgebraProcessor().changeGeoElement(
 					geo, input, redefine, true);
-				return true;
+				return redefined != null;
 			}
 		});
 		this.inputDialog.show();
