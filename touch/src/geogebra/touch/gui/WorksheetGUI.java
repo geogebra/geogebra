@@ -42,7 +42,8 @@ public class WorksheetGUI extends HeaderPanel
 	{
 		if (m.getId() > 0)
 		{
-			this.frame.setUrl("http://test.geogebratube.org:8080/student/e" + m.getId() + "?mobile=true");
+			this.frame.setUrl("http://test.geogebratube.org:8080/student/e" + 
+					m.getId() + "?mobile=true&width="+m.getWidth()+"&height="+m.getHeight());
 			this.header.setMaterial(m);
 			this.frame.setPixelSize(m.getWidth(),m.getHeight());
 			this.instructionsPre.setText(m.getInstructionsPre());
