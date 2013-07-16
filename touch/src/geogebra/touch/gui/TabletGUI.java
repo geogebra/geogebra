@@ -278,6 +278,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			((TabletHeaderPanel)this.getHeaderWidget()).editTitle();
 		}
 	}
+	
+	@Override
+	public void setVisible(boolean visible){
+		super.setVisible(visible);
+		if(this.algebraViewButtonPanel != null)
+		this.algebraViewButtonPanel.setVisible(visible);
+	}
 
 	// TODO: use with SelelctionManager
 	// @Override
