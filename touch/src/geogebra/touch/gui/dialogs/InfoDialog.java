@@ -13,6 +13,7 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -23,8 +24,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends PopupPanel
 {
-	private StandardImageButton cancelButton = new StandardImageButton(getLafIcons().dialog_cancel());
-	private StandardImageButton okButton = new StandardImageButton(getLafIcons().dialog_ok());
+//	private StandardImageButton cancelButton = new StandardImageButton(getLafIcons().dialog_cancel());
+//	private StandardImageButton okButton = new StandardImageButton(getLafIcons().dialog_ok());
+	private Button cancelButton = new Button();
+	private Button saveButton = new Button();
+	private Button dontSaveButton = new Button();
+	
 	private SVGResource iconQuestion = getLafIcons().icon_question();
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
@@ -107,22 +112,24 @@ public class InfoDialog extends PopupPanel
 	private void addButtons()
 	{
 		initCancelButton();
-		initOKButton();
+		initSaveButton();
+		initDontSaveButton();
 
 		this.buttonContainer = new HorizontalPanel();
 		this.buttonContainer.setStyleName("buttonPanel");
 		this.buttonContainer.add(this.cancelButton);
-		this.buttonContainer.add(this.okButton);
+		this.buttonContainer.add(this.dontSaveButton);
+		this.buttonContainer.add(this.saveButton);
 		
 		// Last Button has no border-right
-		this.okButton.addStyleName("last");
+		this.saveButton.addStyleName("last");
 		
 		this.dialogPanel.add(this.buttonContainer);
 	}
 
-	private void initCancelButton()
-	{
-		this.cancelButton.addDomHandler(new ClickHandler()
+	private void initDontSaveButton()
+  {
+		this.dontSaveButton.addDomHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
@@ -138,11 +145,11 @@ public class InfoDialog extends PopupPanel
 				}
 			}
 		}, ClickEvent.getType());
-	}
+  }
 
-	private void initOKButton()
+	private void initSaveButton()
 	{
-		this.okButton.addDomHandler(new ClickHandler()
+		this.saveButton.addDomHandler(new ClickHandler()
 		{
 
 			@Override
@@ -159,6 +166,19 @@ public class InfoDialog extends PopupPanel
 				{
 					App.debug("no callback");
 				}
+			}
+		}, ClickEvent.getType());
+	}
+
+	private void initCancelButton()
+	{
+		this.cancelButton.addDomHandler(new ClickHandler()
+		{
+			
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				InfoDialog.this.hide();
 			}
 		}, ClickEvent.getType());
 	}
@@ -184,6 +204,9 @@ public class InfoDialog extends PopupPanel
 	{
 		this.title.setText(this.loc.getMenu("CloseFile"));
 		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		this.cancelButton.setText(this.loc.getMenu("Cancel"));
+		this.saveButton.setText(this.loc.getMenu("Save"));
+		this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
 	}
 
 	public void setCallback(Runnable callback)
