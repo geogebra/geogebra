@@ -136,8 +136,8 @@ public abstract class CASView implements View{
 
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 		case EuclidianConstants.MODE_CAS_INTEGRAL:
-			// use first variable in expression as parameter
-			processInput(command, new String[] { "%0" });
+			// parameter will come from evalText
+			processInput(command, null);
 			break;
 		default:
 			backToEvaluate = false;
