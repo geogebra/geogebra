@@ -1,50 +1,61 @@
 @charset "utf-8";
 
-.tubesearchgui .button {
+.tubesearchgui .button,
+.worksheetgui .button {
 	border: none;
 	background: none;
 	opacity: 0.8;
 	filter: alpha(opacity = 80);
 }
 
-.tubesearchgui .button.button-up-hovering {
+.tubesearchgui .button.button-up-hovering,
+.worksheetgui .button.button-up-hovering  {
 	border: none;
 	opacity: 1;
 	filter: alpha(opacity = 100);
 }
 
-/* TubesearchGUI HEADER */
+/* TubesearchGUI, WorksheetGUI HEADER */
 
-body div .tubesearchgui .headerbar {
+body div .tubesearchgui .headerbar,
+body div .worksheetgui .headerbar {
 	height: 50px;
 }
 
-body .tubesearchgui .headerbar .gwt-Label {
+body .tubesearchgui .headerbar .gwt-Label,
+body .worksheetgui .headerbar .gwt-Label {
 	font-size: 18px;
 	vertical-align: middle;
 }
 
 body .tubesearchgui .headerbar .gwt-Label,
-body .tubesearchgui .headerbar img {
+body .tubesearchgui .headerbar img,
+body .worksheetgui .headerbar .gwt-Label,
+body .worksheetgui .headerbar img {
 	opacity: 0.8;
   	filter: alpha(opacity=80);
 }
 
-body .tubesearchgui .headerLeft {
+body .tubesearchgui .headerLeft,
+body .worksheetgui .headerLeft {
 	margin-left: 0px;
 }
 
 body .tubesearchgui .headerLeft td,
-body .tubesearchgui .headerRight td {
+body .tubesearchgui .headerRight td,
+body .worksheetgui .headerLeft td,
+body .worksheetgui .headerRight td {
 	padding: 0px;
 }
 
-body .tubesearchgui .headerbar div.button {
+body .tubesearchgui .headerbar div.button,
+.worksheetgui .headerbar div.button {
 	border: none;
 	margin: 0px 0px 0px 5px;
 }
 
-body .tubesearchgui .headerLeft img {
+body .tubesearchgui .headerLeft img,
+body .worksheetgui .headerLeft img {
 	height: 24px;
 	width: 24px;
 	margin-top: 3px;
@@ -54,6 +65,10 @@ body .tubesearchgui .headerRight div.button {
 	width: 24px;
 	margin: 0px;
 	padding: 0px;
+}
+
+body .worksheetgui .headerRight div.button {
+	margin: 0px;
 }
 
 body .tubesearchgui .headerRight .button img {
@@ -153,4 +168,11 @@ body .tubesearchgui input.gwt-TextBox {
 
 .tubesearchgui .fileClear {
 	clear: both;
+}
+
+/* WORKSHEET GUI CONTENT */
+
+.worksheetgui iframe html .simple {
+	background-image: none;
+	background-color: pink;
 }

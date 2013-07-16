@@ -26,6 +26,11 @@ interface AndroidIcons extends DefaultIcons
 	@Source("icons/svg/android/button_trashcan.svg")
 	@Validated(validated = false)
 	SVGResource dialog_trash();
+	
+	@Override
+	@Source("icons/svg/android/icon_warning.svg")
+	@Validated(validated = false)
+	SVGResource icon_warning();
 
 	// Header
 

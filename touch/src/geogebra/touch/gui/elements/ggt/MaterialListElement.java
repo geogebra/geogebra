@@ -45,7 +45,7 @@ public class MaterialListElement extends FlowPanel {
 	private StandardImageButton deleteButton = new StandardImageButton(LafIcons.dialog_trash());
 
 	public MaterialListElement(final Material m, final AppWeb app,
-			final FileManagerM fm, VerticalMaterialPanel vmp) {
+		final FileManagerM fm, VerticalMaterialPanel vmp) {
 		// TODO set infos alignment
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");

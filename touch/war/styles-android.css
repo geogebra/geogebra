@@ -203,6 +203,7 @@ body .infoDialog .button:hover {
 	color: #9999FF;
 }
 
+body .inputDialog .iconPanel,
 body .infoDialog .iconPanel {
 	margin-right: 10px;
 }

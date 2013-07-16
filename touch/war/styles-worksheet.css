@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+body.simple {
+	background-image: none;
+	background-color: pink;
+}

@@ -19,11 +19,15 @@ public class WorksheetGUI extends HeaderPanel
 	public WorksheetGUI(AppWeb app, FileManagerM fm)
 	{
 		// TODO add header!
-		this.setStyleName("tubesearchgui");
+		this.setStyleName("worksheetgui");
 		this.header = new WorksheetHeaderPanel(app, fm);
 		this.setHeaderWidget(this.header);
 		this.content.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 		this.setContentWidget(this.content);
+		
+		// TODO
+		// load stylesheet
+		String styles = "<link href=\"styles-worksheet.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	}
 
 	public void loadWorksheet(Material m)

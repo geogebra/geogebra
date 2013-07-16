@@ -23,6 +23,10 @@ public interface DefaultIcons extends ClientBundle
 	@Source("icons/svg/button_trashcan.svg")
 	@Validated(validated = false)
 	SVGResource dialog_trash();
+	
+	@Source("icons/svg/empty.svg")
+	@Validated(validated = false)
+	SVGResource icon_warning();
 
 	// Header
 

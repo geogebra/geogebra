@@ -12,6 +12,8 @@ import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.GuiModel;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -26,6 +28,8 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -48,7 +52,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
 	private Label title = new Label();
-	private Label errorBox = new Label();
+	private HorizontalPanel errorBox = new HorizontalPanel();
+	private SVGResource iconWarning;
+	private Label errorText = new Label();
 	private RadioButton[] radioButton = new RadioButton[2];
 	VerticalPanel textPanel;
 	TextBox textBox = new TextBox();
@@ -74,6 +80,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		// this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
 		this.laf = TouchEntryPoint.getLookAndFeel();
+		
+		this.iconWarning = this.laf.getIcons().icon_warning();
+		
 		onResize(null);
 
 		this.setStyleName("inputDialog");
@@ -105,9 +114,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.title);
 		this.title.setStyleName("title");
+		
 		addTextBox();
-		this.errorBox.setVisible(false);
-		this.textPanel.add(this.errorBox);
+		
 		if (this.type == DialogType.Angle)
 		{
 			addRadioButton();
@@ -165,6 +174,20 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		});
 
 		this.textPanel = new VerticalPanel();
+		
+		this.errorBox.setVisible(false);
+		this.errorBox.setStyleName("errorBox");
+		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		
+		Panel iconPanel = new LayoutPanel();
+		String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
+		iconPanel.getElement().setInnerHTML(html);
+		iconPanel.setStyleName("iconPanel");
+		this.errorBox.add(iconPanel);
+		this.errorBox.add(this.errorText);
+		
+		this.textPanel.add(this.errorBox);
+		
 		this.textPanel.add(this.textBox);
 
 		// Input Underline for Android
@@ -329,7 +352,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void showError(String error)
 	{
-		this.errorBox.setText(error);
+		this.errorText.setText(error);
 		this.errorBox.setVisible(true);
 	}
 

@@ -4,25 +4,22 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.laf.DefaultIcons;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 
-public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel
-{
-
+public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 	Material material;
-	private Button edit;
+	
+	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
 
 	public WorksheetHeaderPanel(final AppWeb app, final FileManagerM fm)
 	{
 		super("", app.getLocalization());
-		// TODO replace with icon
-		this.edit = new Button("EDIT");
-		this.rightPanel.add(this.edit);
-		this.edit.addClickHandler(new ClickHandler()
-		{
+		this.rightPanel.add(this.editButton);
+		this.editButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event)
@@ -47,7 +44,6 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel
   public void setLabels()
 	{
 		super.setLabels();
-		this.edit.setText(super.loc.getMenu("Edit"));
 	}
 	
 }

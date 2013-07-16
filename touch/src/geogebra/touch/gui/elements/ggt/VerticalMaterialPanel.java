@@ -39,6 +39,13 @@ public class VerticalMaterialPanel extends ScrollPanel
 		this.columns = cols;
 		this.updateWidth();
 		this.contentPanel.clear();
+		
+		if (this.columns == 2) {
+			this.contentPanel.getCellFormatter().setWidth(0, 0, "50%");
+			this.contentPanel.getCellFormatter().setWidth(0, 1, "50%");
+		} else {
+			this.contentPanel.getCellFormatter().setWidth(0, 0, "100%");
+		}
 
 		int i = 0;
 		for (Material m : materials)

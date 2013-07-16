@@ -433,6 +433,11 @@ div.elemHeadingName {
 	background-color: #FFFFFF;
 }
 
+.inputDialog .errorBox {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
 .inputDialog .gwt-TextBox,
 .infoDialog .gwt-TextBox {
 	margin-top: 5px;
