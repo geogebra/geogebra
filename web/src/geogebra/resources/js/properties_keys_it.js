@@ -1950,7 +1950,7 @@ __GGB__keysVar.it.menu = {
     "Windows": "Finestre",
     "WithOpacityPen": "Con opacit\xe0",
     "WithinGroups": "Entro i gruppi",
-    "Worksheets": "Worksheets",
+    "Worksheets": "Fogli di lavoro",
     "X_Y": "X \u2192 Y",
     "XBetween": "\u2264 X \u2264",
     "XLessThanOrEqual": "X \u2264",

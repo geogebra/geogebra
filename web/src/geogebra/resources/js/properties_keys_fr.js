@@ -1950,7 +1950,7 @@ __GGB__keysVar.fr.menu = {
     "Windows": "Fen\xeatres",
     "WithOpacityPen": "Avec l'opacit\xe9 du stylo",
     "WithinGroups": "Groupe",
-    "Worksheets": "Worksheets",
+    "Worksheets": "Pages",
     "X_Y": "X \u2192 Y",
     "XBetween": "\u2264 X \u2264",
     "XLessThanOrEqual": "X \u2264",
