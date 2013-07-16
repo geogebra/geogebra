@@ -1410,12 +1410,20 @@ namespace giac {
 
   static vecteur solve_numeric_check(const gen & e,const gen & x,const vecteur & sol,GIAC_CONTEXT){
     vecteur res;
+    vecteur eid=lidnt(e);
     for (unsigned i=0;i<sol.size();++i){
       gen tmp=subst(e,x,sol[i],false,contextptr);
 #ifdef HAVE_LIBMPFR
       tmp=_evalf(makesequence(tmp,100),contextptr);
 #endif
       tmp=evalf_double(tmp,1,contextptr);
+      vecteur tmpid=lidnt(tmp); // find identifiers introduced by all_trig_sols=true
+      for (unsigned j=0;j<tmpid.size();++j){
+	if (!equalposcomp(eid,tmpid[j]))
+	  tmp=subst(tmp,tmpid[j],0,false,contextptr);
+      }
+      tmp=evalf_double(tmp,1,contextptr);
+      // the following test accepts undef, otherwise we might miss some solutions
       if ((tmp.type>_CPLX && tmp.type!=_FLOAT_) || is_greater(1e-6,abs(tmp,contextptr),contextptr))
 	res.push_back(sol[i]);
     }
@@ -4923,7 +4931,7 @@ namespace giac {
     }
     if (var.size()>1){
       // check if one equation depends only on one unknown
-      for (int i=0;i<eq.size();++i){
+      for (unsigned i=0;i<eq.size();++i){
 	vecteur curv=lidnt(eq[i]);
 	gen curvvar=_intersect(makesequence(curv,var),contextptr);
 	if (curvvar.type==_VECT && curvvar._VECTptr->size()==1){
@@ -4934,7 +4942,7 @@ namespace giac {
 	  vecteur res;
 	  if (!is_undef(res)){
 	    eq.erase(eq.begin()+i);
-	    for (int j=0;j<sol.size();++j){
+	    for (unsigned j=0;j<sol.size();++j){
 	      gen eq1=subst(eq,curvar,sol[j],false,contextptr),tmp;
 	      if (eq1.type==_VECT && eq1._VECTptr->size()==1 && var.size()==1)
 		tmp=solve(eq1._VECTptr->front(),var.front(),complexmode,contextptr);
@@ -4943,7 +4951,7 @@ namespace giac {
 	      if (tmp.type==_VECT){
 		for (unsigned k=0;k<tmp._VECTptr->size();++k){
 		  vecteur solv=gen2vecteur((*tmp._VECTptr)[k]);
-		  if (solv.size()<varn-1)
+		  if (int(solv.size())<varn-1)
 		    return vecteur(1,gensizeerr(contextptr));
 		  solv.insert(solv.begin()+varn-1,sol[j]);
 		  res.push_back(solv);
@@ -5152,17 +5160,19 @@ namespace giac {
       return vecteur(1,plus_one);
     gen coeff;
     environment env ;
-    if (!eqp.empty() && coefftype(eqp.front(),coeff)==_MOD){
-      with_cocoa = false;
-      env.moduloon = true;
-      env.modulo = *(coeff._MODptr+1);
-      env.pn=env.modulo;
-      vectpoly::iterator it=eqp.begin(),itend=eqp.end();
-      for (;it!=itend;++it)
-	*it=unmodularize(*it);
+    env.moduloon = false;    
+    for (unsigned i=0;i<eqp.size();++i){
+      if (coefftype(eqp[i],coeff)==_MOD){
+	with_cocoa = false;
+	env.moduloon = true;
+	env.modulo = *(coeff._MODptr+1);
+	env.pn=env.modulo;
+	vectpoly::iterator it=eqp.begin(),itend=eqp.end();
+	for (;it!=itend;++it)
+	  *it=unmodularize(*it);
+	break;
+      }
     }
-    else
-      env.moduloon = false;
     if (!with_cocoa)
       change_monomial_order(eqp,order);
     vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env));

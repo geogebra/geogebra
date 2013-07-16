@@ -732,7 +732,7 @@ namespace giac {
       TMP2.coord.clear();
       smallshift(res[G[i]].coord,pt->u-res[G[i]].coord.front().u,TMP1.coord);
       if (env && env->moduloon){
-	smallmult(a*invmod(b,env->modulo),TMP1.coord,TMP1.coord); // ?env->modulo
+	smallmult(smod(a*invmod(b,env->modulo),env->modulo),TMP1.coord,TMP1.coord); // ?env->modulo
 	smallsub(rem.coord,TMP1.coord,TMP2.coord,env->modulo);
       }
       else {

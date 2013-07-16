@@ -3187,8 +3187,8 @@ namespace giac {
 	  p+=2;
 	if (p*p>2*N+1) // finished
 	  return true;
-	// p is prime, set 3*p, 5*p, etc. to be non prime
-	for (unsigned i=(3*p)/2;i<=N;i+=p) 
+	// p is prime, set p*p, (p+2)*p, etc. to be non prime
+	for (unsigned i=(p*p)/2;i<=N;i+=p) 
 	  erato[i]=false; // remove p multiples
       }
     }

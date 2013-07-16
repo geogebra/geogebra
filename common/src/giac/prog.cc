@@ -2866,6 +2866,8 @@ namespace giac {
     }
     if (args.type==_ZINT)
       return rand_integer_interval(zero,args,contextptr);
+    if (args.type==_FRAC)
+      return _rand(args._FRACptr->num,contextptr)/args._FRACptr->den;
     if (args.type==_USER)
       return args._USERptr->rand(contextptr);
     int nd=is_distribution(args);
