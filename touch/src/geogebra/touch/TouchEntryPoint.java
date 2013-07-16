@@ -205,4 +205,8 @@ public class TouchEntryPoint implements EntryPoint
 	{
 		return TouchEntryPoint.laf;
 	}
+
+	public static void allowEditing(boolean allow) {
+		tabletGUI.allowEditing(allow);
+	}
 }

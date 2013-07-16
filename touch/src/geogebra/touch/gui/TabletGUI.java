@@ -197,10 +197,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	private void updateViewSizes(boolean algebraVisible)
 	{
+		int panelHeight = this.toolBar.isVisible()? TouchEntryPoint.getLookAndFeel().getPanelsHeight() :
+			TouchEntryPoint.getLookAndFeel().getAppBarHeight();
 		if (!algebraVisible)
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
-			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getPanelsHeight());
+			this.euclidianViewPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - panelHeight);
 
 			// for Win8 position it on top, for others under appbar
 			this.algebraViewButtonPanel
@@ -216,7 +218,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 			int euclidianWidth = (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION));
 
-			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getPanelsHeight());
+			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - panelHeight);
 
 			// for Win8 position it on top, for others under appbar
 			this.algebraViewButtonPanel.setPopupPosition(euclidianWidth - ALGEBRA_BUTTON_WIDTH, TouchEntryPoint.getLookAndFeel().getAppBarHeight());
@@ -288,6 +290,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void setAlgebraVisible(boolean visible) {
 		updateViewSizes(visible);
 		this.algebraViewPanel.setVisible(visible);
+	}
+
+	public void allowEditing(boolean b) {
+		this.toolBar.setVisible(b);
+		this.algebraViewButtonPanel.setVisible(b);
+		this.stylingBar.setVisible(b);
+		
 	}
 
 	// TODO: use with SelelctionManager

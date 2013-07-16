@@ -136,7 +136,14 @@ public class MaterialListElement extends FlowPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
-				TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);	
+				if(MaterialListElement.this.material.getId() > 0){
+					TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
+				}else{
+					MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
+					TouchEntryPoint.allowEditing(false);
+					TouchEntryPoint.goBack();
+				}
+				
 			}
 		}, ClickEvent.getType());
 		
