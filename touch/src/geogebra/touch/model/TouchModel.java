@@ -24,6 +24,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -600,6 +601,14 @@ public class TouchModel {
 
 		// commands that need two points or one segment
 		case MidpointOrCenter:
+			if (!changeSelectionState(hits, Test.GEOPOINT, 1) &&
+					!changeSelectionState(hits, Test.GEOCONIC, 1)) {
+				changeSelectionState(hits, Test.GEOSEGMENT, 1);
+			}
+			draw = getNumberOf(Test.GEOSEGMENT) >= 1
+					|| getNumberOf(Test.GEOCONIC) >= 1
+					|| getNumberOf(Test.GEOPOINT) >= 2;
+			break;
 		case PerpendicularBisector:
 			if (!changeSelectionState(hits, Test.GEOPOINT, 1)) {
 				changeSelectionState(hits, Test.GEOSEGMENT, 1);
@@ -658,6 +667,11 @@ public class TouchModel {
 
 		// commands that need three points or two lines
 		case Angle:
+			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOPOLYGON }, new int[] {3, 2, 1});
+			draw = getNumberOf(Test.GEOPOINT) >= 3
+					|| getNumberOf(Test.GEOLINE) >= 2
+					|| getNumberOf(Test.GEOPOLYGON) >= 1;
+			break;		
 		case AngleBisector:
 			selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, new int[] {3, 2});
 			draw = getNumberOf(Test.GEOPOINT) >= 3
@@ -797,6 +811,9 @@ public class TouchModel {
 			if (getNumberOf(Test.GEOSEGMENT) > 0) {
 				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
 						null, (GeoSegment) getElement(Test.GEOSEGMENT)));
+			} else if (getNumberOf(Test.GEOCONIC) > 0) {
+				newElements.add(this.kernel.getAlgoDispatcher().Center(
+						null, (GeoConic) getElement(Test.GEOCONIC)));
 			} else if (getNumberOf(Test.GEOPOINT) >= 2) {
 				newElements.add(this.kernel.getAlgoDispatcher().Midpoint(
 						null, (GeoPoint) getElement(Test.GEOPOINT),
@@ -1051,10 +1068,15 @@ public class TouchModel {
 						(GeoPoint) this.getElement(Test.GEOPOINT),
 						(GeoPoint) this.getElement(Test.GEOPOINT, 1),
 						(GeoPoint) this.getElement(Test.GEOPOINT, 2)));
-			} else {
+			} else if (this.getNumberOf(Test.GEOLINE) >= 2){
 				newElements.add(this.kernel.getAlgoDispatcher().Angle(null,
 						(GeoLine) this.getElement(Test.GEOLINE),
 						(GeoLine) this.getElement(Test.GEOLINE, 1)));
+			} else {
+				for(GeoElement geo:this.kernel.getAlgoDispatcher().Angles(null,
+						(GeoPolygon) this.getElement(Test.GEOPOLYGON))){
+					newElements.add(geo);
+				}
 			}
 			break;
 		case AngleBisector:
