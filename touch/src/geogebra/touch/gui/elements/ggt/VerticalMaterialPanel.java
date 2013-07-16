@@ -13,15 +13,18 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class VerticalMaterialPanel extends ScrollPanel {
+public class VerticalMaterialPanel extends ScrollPanel
+{
 	public static final int SPACE = 20;
 	private FlexTable contentPanel;
 	private AppWeb app;
 	private FileManagerM fm;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
-	private Map<String,MaterialListElement> titlesToPreviews= new HashMap<String, MaterialListElement>();
-	public VerticalMaterialPanel(AppWeb app, FileManagerM fm) {
+	private Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
+
+	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
+	{
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
 		this.app = app;
@@ -31,56 +34,69 @@ public class VerticalMaterialPanel extends ScrollPanel {
 		this.contentPanel.setWidth("100%");
 	}
 
-	public void setMaterials(int cols, List<Material> materials) {
+	public void setMaterials(int cols, List<Material> materials)
+	{
 		this.columns = cols;
 		this.updateWidth();
 		this.contentPanel.clear();
 
 		int i = 0;
-		for (Material m : materials) {
+		for (Material m : materials)
+		{
 			MaterialListElement preview = buildListElement(m, this.app, this.fm);
 			this.titlesToPreviews.put(m.getURL(), preview);
-			this.contentPanel.setWidget(i / this.columns, i % this.columns,
-					preview);
+			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
 			i++;
 		}
 	}
 
-	protected MaterialListElement buildListElement(Material m, AppWeb app2,
-			FileManagerM fm2) {
+	protected MaterialListElement buildListElement(Material m, AppWeb app2, FileManagerM fm2)
+	{
 		MaterialListElement mle = new MaterialListElement(m, app2, fm2, this);
 		mle.initButtons();
 		return mle;
 	}
 
 	@Override
-	public int getOffsetHeight() {
+	public int getOffsetHeight()
+	{
 		return MaterialListElement.PANEL_HEIGHT;
 	}
 
-	public void unselectMaterials() {
-		if (this.lastSelected != null) {
+	public void unselectMaterials()
+	{
+		if (this.lastSelected != null)
+		{
 			this.lastSelected.markUnSelected();
 		}
-
 	}
-	
-	public void markByURL(String url){
+
+	public void markByURL(String url)
+	{
 		MaterialListElement mle = this.titlesToPreviews.get(url);
-		if(mle != null){
+		if (mle != null)
+		{
 			mle.markSelected();
 		}
 	}
 
-	public void rememberSelected(MaterialListElement materialElement) {
+	public void rememberSelected(MaterialListElement materialElement)
+	{
 		this.lastSelected = materialElement;
 	}
 
-	public int getColumns() {
+	public int getColumns()
+	{
 		return this.columns;
 	}
 
-	public void updateWidth() {
-		this.setWidth(((Window.getClientWidth()) / 2 * this.columns) +"px");
+	public void updateWidth()
+	{
+		this.setWidth(((Window.getClientWidth()) / 2 * this.columns) + "px");
+	}
+	
+	public MaterialListElement getChosenMaterial()
+	{
+		return this.lastSelected;
 	}
 }

@@ -206,21 +206,27 @@ public class TouchApp extends AppWeb
 	@Override
 	public void showError(String s)
 	{
-		if(this.errorHandlers.peek() != null){
+		if (this.errorHandlers.peek() != null)
+		{
 			this.errorHandlers.peek().showError(s);
 		}
 	}
+
 	/**
-	 * @param handler handler to be registered 
+	 * @param handler
+	 *          handler to be registered
 	 */
-	public void registerErrorHandler(ErrorHandler handler){
+	public void registerErrorHandler(ErrorHandler handler)
+	{
 		this.errorHandlers.push(handler);
 	}
-	
+
 	/**
-	 * @param handler handler to be unregistered 
+	 * @param handler
+	 *          handler to be unregistered
 	 */
-	public void unregisterErrorHandler(ErrorHandler handler){
+	public void unregisterErrorHandler(ErrorHandler handler)
+	{
 		this.errorHandlers.remove(handler);
 	}
 
@@ -282,7 +288,7 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	public void showCommandError(String command,String message)
+	public void showCommandError(String command, String message)
 	{
 
 	}
@@ -467,7 +473,8 @@ public class TouchApp extends AppWeb
 	@Override
 	public void showErrorDialog(String s)
 	{
-		if(this.errorHandlers.peek() != null){
+		if (this.errorHandlers.peek() != null)
+		{
 			this.errorHandlers.peek().showError(s);
 		}
 	}
@@ -590,7 +597,14 @@ public class TouchApp extends AppWeb
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().getEuclidianController().stopCollectingMinorRepaints();
 		// notify all construction title listeners
-		setConstructionTitle(getConstructionTitle());
+		if (!getConstructionTitle().equals(""))
+		{
+			setConstructionTitle(getConstructionTitle());
+		}
+		else
+		{
+			setConstructionTitle(TouchEntryPoint.browseGUI.getChocenMaterial().getMaterialTitle());
+		}
 	}
 
 	@Override

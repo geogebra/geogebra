@@ -6,6 +6,7 @@ import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.ggt.MaterialListElement;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
@@ -31,6 +32,7 @@ public class BrowseGUI extends VerticalPanel
 {
 	private SearchBar searchBar;
 	private FileManagerM fm;
+	private AppWeb app;
 	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel localFilePanel, tubeFilePanel;
 	VerticalPanel localFileContainer, tubeFileContainer;
@@ -53,7 +55,8 @@ public class BrowseGUI extends VerticalPanel
 	{
 		this.setStyleName("tubesearchgui");
 		this.fm = fm;
-		this.searchBar = new SearchBar(app.getLocalization(), this);
+		this.app = app;
+		this.searchBar = new SearchBar(this.app.getLocalization(), this);
 		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
 		{
@@ -67,8 +70,8 @@ public class BrowseGUI extends VerticalPanel
 		// this.featuredMaterials = new HorizontalMaterialPanel();
 		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
-		this.localFilePanel = new VerticalMaterialPanel(app, this.fm);
-		this.tubeFilePanel = new VerticalMaterialPanel(app, this.fm);
+		this.localFilePanel = new VerticalMaterialPanel(this.app, this.fm);
+		this.tubeFilePanel = new VerticalMaterialPanel(this.app, this.fm);
 		this.localFilePanel.setStyleName("filePanel");
 		this.tubeFilePanel.setStyleName("filePanel");
 
@@ -121,7 +124,6 @@ public class BrowseGUI extends VerticalPanel
 			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
 			{
 				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
-
 				updateGUI();
 			}
 
@@ -204,9 +206,13 @@ public class BrowseGUI extends VerticalPanel
 		});
 	}
 	
+	public MaterialListElement getChocenMaterial()
+	{
+		return this.tubeFilePanel.getChosenMaterial();
+	}
+	
 	public void setLabels()
 	{
 		this.searchBar.setLabels();
 	}
-	
 }
