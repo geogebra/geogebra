@@ -13,9 +13,11 @@ import com.google.gwt.safehtml.shared.SafeUri;
 
 public class RadioButtonTreeItemT extends RadioButtonTreeItem
 {
-
 	private TouchController controller;
+	private long lastClick = -1;
 	
+	public static final int TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK = 500;
+
 	public RadioButtonTreeItemT(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl, MouseDownHandler mdh, TouchController controller)
 	{
 		super(ge, showUrl, hiddenUrl, mdh);
@@ -25,20 +27,30 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		Hits hits = new Hits();
-		hits.add(getGeo());
-		this.controller.handleEvent(hits);
+		if (this.lastClick - System.currentTimeMillis() < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK)
+		{
+			//doubleClick
+			this.controller.redefine(getGeo());
+		}
+		else
+		{
+			//first click or single click
+			Hits hits = new Hits();
+			hits.add(getGeo());
+			this.controller.handleEvent(hits);
+		}
+		this.lastClick = System.currentTimeMillis();
 	}
-	
+
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt)
 	{
-	  this.controller.redefine(getGeo());
+		// done in the onClick
 	}
-	
+
 	@Override
 	public void onMouseMove(MouseMoveEvent evt)
 	{
-	  // don't do anything
+		// don't do anything
 	}
 }
