@@ -27,7 +27,7 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem
 	@Override
 	public void onClick(ClickEvent evt)
 	{
-		if (this.lastClick - System.currentTimeMillis() < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK)
+		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK)
 		{
 			//doubleClick
 			this.controller.redefine(getGeo());

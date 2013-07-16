@@ -13,9 +13,8 @@ public class CustomKeysPanel extends PopupPanel
 {
 	public enum CustomKey
 	{
-		plus("+"), minus("\u2212"), times("\u2217", "*"), divide("/"), squared("\u00B2"), power("^"), degree("\u00B0"), 
-		pi("\u03C0"), leftpar("("), rightpar(")"), leftbracket("["), rightbracket("]"), leftbrace("{"), rightbrace("}"),
-		equals("=");
+		plus("+"), minus("\u2212"), times("\u2217", "*"), divide("/"), squared("\u00B2"), power("^"), degree("\u00B0"), pi("\u03C0"), leftpar("("), rightpar(
+		    ")"), leftbracket("["), rightbracket("]"), leftbrace("{"), rightbrace("}"), equals("=");
 
 		String s;
 		private String replace;
@@ -25,7 +24,7 @@ public class CustomKeysPanel extends PopupPanel
 			this.s = s;
 			this.replace = replace;
 		}
-		
+
 		CustomKey(String s)
 		{
 			this.s = s;
@@ -69,10 +68,11 @@ public class CustomKeysPanel extends PopupPanel
 					fireClickEvent(k);
 				}
 			}, ClickEvent.getType());
-			
+
 			// Specific styles for last button
-			CustomKey lastKey = CustomKey.values()[CustomKey.values().length-1];
-			if(k == lastKey) {
+			CustomKey lastKey = CustomKey.values()[CustomKey.values().length - 1];
+			if (k == lastKey)
+			{
 				b.setStyleName("last");
 			}
 
@@ -84,7 +84,10 @@ public class CustomKeysPanel extends PopupPanel
 
 	public void addCustomKeyListener(CustomKeyListener l)
 	{
-		this.listeners.add(l);
+		if (!this.listeners.contains(l))
+		{
+			this.listeners.add(l);
+		}
 	}
 
 	public void removeCustomKeyListener(CustomKeyListener l)
