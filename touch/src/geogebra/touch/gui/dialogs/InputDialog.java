@@ -223,7 +223,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 				input = input.replace(c.toString(), c.getReplace());
 			}
 		}
-		if (this.inputHandler.processInput(input))
+		if (this.inputHandler == null || this.inputHandler.processInput(input))
 		{
 			this.hide();
 		}

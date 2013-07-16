@@ -63,6 +63,7 @@ public class TouchModel {
 	private ToolBarCommand command;
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 	private CmdIntersect cmdIntersect;
+	private GeoElement redefineGeo;
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
@@ -72,7 +73,6 @@ public class TouchModel {
 				DialogType.NumberValue, tabletGUI, this.guiModel);
 		this.inputDialog.setInputHandler(new InputHandler()
 		{
-
 			@Override
 			public boolean processInput(String inputString) {
 				return inputPanelClosed(inputString);
@@ -1388,6 +1388,20 @@ public class TouchModel {
 			return true;
 		}
 		
+		// redefine
+		if(this.inputDialog.getType() == DialogType.Redefine){
+			if(this.redefineGeo == null){
+				return false;
+			}
+			
+			boolean redefine = !this.redefineGeo.isPointOnPath();
+
+			GeoElement redefined = TouchModel.this.kernel.getAlgebraProcessor().changeGeoElement(
+					this.redefineGeo, input, redefine, true);
+			return redefined != null;
+		}
+		
+		// avoid labeling of num
 		boolean oldVal = TouchModel.this.kernel.getConstruction()
 				.isSuppressLabelsActive();
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
@@ -1405,20 +1419,18 @@ public class TouchModel {
 			// invalid input; nothing to do anymore.
 			return false;
 		}
-
+		
 		GeoElement[] newGeoElements;
 
 		switch (this.command) {
 		case RegularPolygon:
-			// avoid labeling of num
-
 			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher()
 					.RegularPolygon(null, (GeoPoint) getElement(Test.GEOPOINT),
 							(GeoPoint) getElement(Test.GEOPOINT, 1),
 							(NumberValue) result[0]);
 			resetSelection();
-
 			break;
+			
 		case Dilate:
 			GeoPoint start = (GeoPoint) getElement(Test.GEOPOINT);
 			GeoElement geoDil = this.selectedElements.get(0) == start ? this.selectedElements
@@ -1426,8 +1438,8 @@ public class TouchModel {
 			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Dilate(
 					null, geoDil, (NumberValue) result[0], start);
 			resetSelection();
-
 			break;
+			
 		case RotateObjectByAngle: 
 			GeoPoint center = lastSelected() instanceof GeoPoint ? (GeoPoint) lastSelected() : (GeoPoint) getElement(Test.GEOPOINT);
 			GeoElement geoRotate = this.selectedElements.get(0) == center ? this.selectedElements
@@ -1435,8 +1447,8 @@ public class TouchModel {
 			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Rotate(
 					null, geoRotate, (GeoNumberValue) result[0], center);
 			resetSelection();
-
 			break;
+			
 		default:
 			// should not happen. Therefore there is no repaint or anything
 			// else.
@@ -1460,18 +1472,11 @@ public class TouchModel {
 		{
 			this.inputDialog.redefine(DialogType.Redefine);
 		}
+		
+		this.redefineGeo = geo;
+		
 		this.inputDialog.setText(geo.getDefinitionForInputBar());
 		
-		this.inputDialog.setInputHandler(new InputHandler(){
-			@Override
-			public boolean processInput(String input){
-				boolean redefine = !geo.isPointOnPath();
-
-				GeoElement redefined = TouchModel.this.kernel.getAlgebraProcessor().changeGeoElement(
-					geo, input, redefine, true);
-				return redefined != null;
-			}
-		});
 		this.inputDialog.show();
 		
 	}
