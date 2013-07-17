@@ -93,7 +93,7 @@ public class MaterialListElement extends FlowPanel
 			this.infos.add(this.sharedPanel);
 		}
 
-		this.add(this.infos);
+		//this.add(this.infos);
 
 		this.links.setStyleName("fileLinks");
 
@@ -109,6 +109,8 @@ public class MaterialListElement extends FlowPanel
 
 		this.add(this.links);
 
+		this.add(this.infos);
+		
 		// clearPanel clears flow layout (needed for styling)
 		LayoutPanel clearPanel = new LayoutPanel();
 		clearPanel.setStyleName("fileClear");
