@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
@@ -1253,25 +1254,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// && !output.startsWith(assignmentVar);
 		if (nativeOutput) {
 			String res = output;
-			if (isFunctionDeclaration && prependLabel) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(getInputVE().getLabelForAssignment());
-
-				switch (getInputVE().getAssignmentType()) {
-				case DEFAULT:
-					sb.append(getInputVE().getAssignmentOperator());
-					break;
-				case DELAYED:
-					sb.append(getInputVE().getDelayedAssignmentOperator());
-					break;
-				}
-
-				sb.append(output);
-				res = sb.toString();
-			}
-
+			
 			// parse output into valid expression
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
+			
+			if (isFunctionDeclaration && prependLabel) {
+				// removing y from expressions y = x! and 
+				outputVE = (ValidExpression) outputVE.traverse(Traversing.FunctionCreator.getCreator());
+				outputVE.setLabel(getInputVE().getLabelForAssignment());
+				outputVE.setAssignmentType(getInputVE().getAssignmentType());
+			}
 			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
