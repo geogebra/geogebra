@@ -1,6 +1,5 @@
 package geogebra.html5.main;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
@@ -15,18 +14,14 @@ import geogebra.html5.Browser;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
-import geogebra.html5.util.DynamicScriptElement;
-import geogebra.html5.util.ScriptLoadCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
@@ -40,28 +35,7 @@ public class DrawEquationWeb extends DrawEquation {
 	private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
 
 	public DrawEquationWeb() {
-		// export module base url;
-		exportGetModuleBaseUrl();
-		// Load script first
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-		        .createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL() + GeoGebraConstants.MATHML_URL);
-		script.addLoadHandler(new ScriptLoadCallback() {
-
-			public void onLoad() {
-				scriptloaded = true;
-				cvmBoxInit(GWT.getModuleBaseURL());
-			}
-		});
-		Document.get().getBody().appendChild(script);
 	}
-
-	private native void exportGetModuleBaseUrl() /*-{
-		if (!$wnd.ggw) {
-			$wnd.ggw = {};
-		}
-		$wnd.ggw.getGWTModuleBaseURL = $entry(@com.google.gwt.core.client.GWT::getModuleBaseURL());
-	}-*/;
 
 	protected native void cvmBoxInit(String moduleBaseURL) /*-{
 		$wnd.cvm.box.init(moduleBaseURL);

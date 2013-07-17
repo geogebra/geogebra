@@ -78,9 +78,7 @@ public interface GeoGebraConstants {
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
-	
-	/** relative path to mathml*/
-	public static final String MATHML_URL = "js/mathml_concat.js";
+
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 	/** team page URL*/
