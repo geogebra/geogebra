@@ -261,7 +261,7 @@ read the following web pages:
 				version="${version}"
 				workingdirectory="$JAVAROOT">
 			<javaproperty name="apple.laf.useScreenMenuBar" value="true" />
-			<javafileset dir="${build.dir}/unpacked" excludes="*-linux*.jar,*-windows-*.jar,*-win*.jar,*64.jar,geogebra-map.txt,javagiac-mac.jar" />
+			<javafileset dir="${build.dir}/unpacked" excludes="*-linux*.jar,*-windows-*.jar,*-win*.jar,*64.jar,geogebra-map.txt,libjavagiac.jnilib" />
 			<documenttype
 				name="GeoGebra File"
 				extensions="ggb"
