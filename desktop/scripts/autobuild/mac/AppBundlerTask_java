@@ -81,8 +81,8 @@ public class AppBundlerTask extends Task {
     // JVM info properties
     private String mainClassName = null;
     private FileSet runtime = null;
-    private String classPath = null;
-    // private ArrayList<FileSet> libraryPath = new ArrayList<>();
+    private ArrayList<FileSet> classPath = new ArrayList<>();
+    private ArrayList<FileSet> libraryPath = new ArrayList<>();
     private ArrayList<String> options = new ArrayList<>();
     private ArrayList<String> arguments = new ArrayList<>();
 
@@ -165,12 +165,6 @@ public class AppBundlerTask extends Task {
     }
 
     public void addConfiguredClassPath(FileSet classPath) {
-        String value = classPath.toString();
-
-        if (value == null || "".equals(value)) {
-            throw new BuildException("Value is required.");
-        }
-
         this.classPath.add(classPath);
     }
 
@@ -456,6 +450,7 @@ public class AppBundlerTask extends Task {
                 writeString(xout, option);
             }
 
+            xout.writeCharacters("   ");
             xout.writeEndElement();
             xout.writeCharacters("\n");
 
@@ -470,23 +465,12 @@ public class AppBundlerTask extends Task {
                 writeString(xout, argument);
             }
 
+            xout.writeCharacters("   ");
             xout.writeEndElement();
             xout.writeCharacters("\n");
 
             // Write classpath entries
-            writeKey(xout, "JVMClassPath");
-
-            xout.writeCharacters("   ");
-            xout.writeStartElement(ARRAY_TAG);
-            xout.writeCharacters("\n");
-
-            for (String argument : arguments) {
-                writeString(xout, argument);
-            }
-
-            xout.writeEndElement();
-            xout.writeCharacters("\n");
-
+            writeProperty(xout, "JVMClassPath", getClassPathEntries());
 
             // End root dictionary
             xout.writeCharacters(" ");
@@ -579,5 +563,20 @@ public class AppBundlerTask extends Task {
                 copy(new File(source, file), new File(destination, file));
             }
         }
+    }
+
+    private String getClassPathEntries() throws IOException {
+	String ret = "";
+        for (FileSet fileSet : classPath) {
+            File classPathDirectory = fileSet.getDir();
+            DirectoryScanner directoryScanner = fileSet.getDirectoryScanner(getProject());
+            String[] includedFiles = directoryScanner.getIncludedFiles();
+
+            for (int i = 0; i < includedFiles.length; i++) {
+                String includedFile = includedFiles[i];
+		ret += includedFile + ":";
+            }
+        }
+	return ret;
     }
 }

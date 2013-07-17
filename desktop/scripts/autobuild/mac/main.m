@@ -166,7 +166,6 @@ int launch(char *commandName) {
     int i = 0;
     argv[i++] = commandName;
     argv[i++] = strdup([classPath UTF8String]);
-    argv[i++] = strdup([libraryPath UTF8String]);
 
     for (NSString *option in options) {
         option = [option stringByReplacingOccurrencesOfString:@APP_ROOT_PREFIX withString:[mainBundle bundlePath]];

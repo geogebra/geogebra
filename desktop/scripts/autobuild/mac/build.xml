@@ -23,13 +23,9 @@
         <!-- The bundleapp task doesn't support classpathref so all 
             the run classpath entries must be stated here too.
         -->
-        <classpath>
-	    <fileset>
-		<include name="geogebra-jogl2.jar"/>
-		<include name="javagiac-mac.jar"/>
-	    </fileset>
-	</classpath>
-              
+        <classpath file="Contents/Resources/Java/geogebra-jogl2.jar" />
+        <classpath file="Contents/Resources/Java/javagiac-mac.jar" />
+
         <!-- Workaround since the icon parameter for bundleapp 
              doesn't work. (It's not a bug in AppBundler but 
              in the JavaAppLauncher, see Known Problems).
