@@ -613,6 +613,7 @@ public class TouchApp extends AppWeb
 				toggleAVvisibility(perspective.getDockPanelData());
 			}
 		}
+		this.kernel.notifyRepaint();
 	}
 
 	private void toggleAVvisibility(DockPanelData[] dockPanelData) {

@@ -128,8 +128,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				else
 				{
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
-					TabletHeaderPanelLeft.this.enableDisableSave();
 				}
+				TabletHeaderPanelLeft.this.enableDisableSave();
+
 			}
 		}, ClickEvent.getType());
 		enableDisableSave();

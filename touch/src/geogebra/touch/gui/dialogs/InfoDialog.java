@@ -5,7 +5,6 @@ import geogebra.common.main.Localization;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.GuiModel;
 
@@ -71,20 +70,6 @@ public class InfoDialog extends PopupPanel
 	{
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
-
-	@Override
-	public void show()
-	{
-		super.show();
-		this.guiModel.setActiveDialog(this);
-	}
-
-//	@Override
-//  public void hide()
-//	{
-//		super.hide();
-//		this.guiModel.closeActiveDialog();
-//	}
 	
 	private void addLabel()
 	{
@@ -212,6 +197,13 @@ public class InfoDialog extends PopupPanel
 	public void setCallback(Runnable callback)
 	{
 		this.callback = callback;
+	}
+	
+	@Override
+	public void show()
+	{
+		super.show();
+		this.guiModel.setActiveDialog(this);
 	}
 	
 	@Override
