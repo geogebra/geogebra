@@ -204,10 +204,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		// "A" is just a label to group the two radioButtons (could be any String -
 		// as long as the same is used twice)
-		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain("clockwise"), Direction.DEFAULT);
+		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain("counterClockwise"), Direction.DEFAULT);
 		this.dialogPanel.add(this.radioButton[0]);
 
-		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain("counterClockwise"), Direction.DEFAULT);
+		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain("clockwise"), Direction.DEFAULT);
 		this.dialogPanel.add(this.radioButton[1]);
 
 		this.radioButton[0].setValue(new Boolean(true));
