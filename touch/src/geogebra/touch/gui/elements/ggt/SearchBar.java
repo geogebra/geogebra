@@ -56,6 +56,13 @@ public class SearchBar extends AuxiliaryHeaderPanel
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					SearchBar.this.fireSearchEvent();
+					SearchBar.this.query.setFocus(false);
+					if (SearchBar.this.query.getText().equals(""))
+					{
+						SearchBar.this.cancelButton.setVisible(false);
+					}
+					SearchBar.this.underline.removeStyleName("active");
+					SearchBar.this.underline.addStyleName("inactive");
 				}
 			}
 		});
@@ -76,13 +83,13 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			@Override
 			public void onBlur(BlurEvent event)
 			{
-				SearchBar.this.query.setFocus(false);
 				if (SearchBar.this.query.getText().equals(""))
 				{
+					SearchBar.this.query.setFocus(false);
+					SearchBar.this.underline.removeStyleName("active");
+					SearchBar.this.underline.addStyleName("inactive");
 					SearchBar.this.cancelButton.setVisible(false);
 				}
-				SearchBar.this.underline.removeStyleName("active");
-				SearchBar.this.underline.addStyleName("inactive");
 			}
 		});
 
@@ -93,6 +100,13 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			public void onClick(ClickEvent event)
 			{
 				SearchBar.this.fireSearchEvent();
+				SearchBar.this.query.setFocus(false);
+				if (SearchBar.this.query.getText().equals(""))
+				{
+					SearchBar.this.cancelButton.setVisible(false);
+				}
+				SearchBar.this.underline.removeStyleName("active");
+				SearchBar.this.underline.addStyleName("inactive");
 			}
 		}, ClickEvent.getType());
 
@@ -103,9 +117,21 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				SearchBar.this.query.setText("");
-				SearchBar.this.query.setFocus(true);
-				SearchBar.this.browseGUI.loadFeatured();
+				if (SearchBar.this.query.getText().equals(""))
+				{
+					SearchBar.this.query.setFocus(false);
+					SearchBar.this.underline.removeStyleName("active");
+					SearchBar.this.underline.addStyleName("inactive");
+					SearchBar.this.cancelButton.setVisible(false);
+				}
+				else
+				{
+					SearchBar.this.query.setText("");
+					SearchBar.this.query.setFocus(true);
+					SearchBar.this.underline.removeStyleName("inactive");
+					SearchBar.this.underline.addStyleName("active");
+					SearchBar.this.browseGUI.loadFeatured();
+				}
 			}
 		});
 
