@@ -100,9 +100,9 @@ public class JSONparserGGT
 		material.setThumbnail(getString(obj,"thumbnail"));
 		material.setLanguage(getString(obj,"language"));
 		material.setFeatured(Boolean.parseBoolean(getString(obj,"featured")));
-		material.setLikes(getInt(obj,"likes"));
-		material.setHeight(getInt(obj,"height"));
-		material.setWidth(getInt(obj,"width"));
+		material.setLikes(getInt(obj,"likes",-1));
+		material.setHeight(getInt(obj,"height",600));
+		material.setWidth(getInt(obj,"width",800));
 		material.setInstructionsPost(getString(obj,"instructions_post"));
 		material.setInstructionsPre(getString(obj,"instructions_pre"));
 
@@ -116,9 +116,9 @@ public class JSONparserGGT
 	    return obj.get(string).isString().stringValue();
     }
 	
-	private static int getInt(JSONObject obj, String string) {
-		if(obj.get(string) == null){
-			return -1;
+	private static int getInt(JSONObject obj, String string, int def) {
+		if(obj.get(string) == null || "".equals(obj.get(string).isString().stringValue())){
+			return def;
 		}
 	    return Integer.parseInt(obj.get(string).isString().stringValue());
     }
