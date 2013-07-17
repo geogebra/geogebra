@@ -41,7 +41,7 @@ public class TouchController extends EuclidianController
 	private static final int DELAY_UNTIL_MOVE_FINISH = 150;
 	private TouchModel model;
 	private GPoint origin;
-	private boolean clicked = false;
+	private boolean clicked = false, ignoreNextMove = false;
 	int waitingX;
 	int waitingY;
 	private long lastMoveEvent;
@@ -115,10 +115,17 @@ public class TouchController extends EuclidianController
 			this.rotationLastAngle = Math.atan2(this.yRW - this.rotationCenter.inhomY, this.xRW
 					- this.rotationCenter.inhomX);
 		}
+		
+		this.ignoreNextMove = true;
 	}
 
 	public void onTouchMove(int x, int y)
 	{
+		if(this.ignoreNextMove){
+			this.ignoreNextMove = false;
+			return;
+		}
+		
 		if (this.clicked
 				&& (this.clicked = this.model.controlClicked())
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
@@ -143,7 +150,6 @@ public class TouchController extends EuclidianController
 			}
 			
 			touchMoveNow(x, y, time);
-			
 		}
 	}
 
