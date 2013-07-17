@@ -11,4 +11,5 @@ AppBundlerTask.java has also been changed. See the changed documentation
 in appbundler.html.
 
 The macsign script runs the AppBundler task and also JarBundler to create
-an older version as well without bundled Java.
+an older version as well without bundled Java. Make sure to use the
+correct build.xml file for the various GeoGebra versions.
