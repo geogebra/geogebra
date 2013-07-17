@@ -1206,13 +1206,6 @@ public class TouchModel {
 				resetSelection();
 				changeSelectionState(point);
 				this.commandFinished = true;
-			} else if (region != null) // attach to region
-			{
-				this.kernel.getAlgoDispatcher().attach(point, region, view,
-						p.getX(), p.getY());
-				resetSelection();
-				changeSelectionState(point);
-				this.commandFinished = true;
 			} else if (path != null) // attach to path
 			{
 				this.kernel.getAlgoDispatcher().attach(point, path, view,
@@ -1220,7 +1213,14 @@ public class TouchModel {
 				resetSelection();
 				changeSelectionState(point);
 				this.commandFinished = true;
-			}
+			} else if (region != null) // attach to region
+			{
+				this.kernel.getAlgoDispatcher().attach(point, region, view,
+						p.getX(), p.getY());
+				resetSelection();
+				changeSelectionState(point);
+				this.commandFinished = true;
+			} 
 		}
 	}
 
