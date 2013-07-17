@@ -14,6 +14,12 @@
 . `dirname $0`/autobuild.conf
 cd $MACSIGN_DIR
 MACOSX_ZIP_FINAL=$1
+BUILDFILE=$2
+
+if [ "$BUILDFILE" = "" ]; then
+ BUILDFILE=build.xml
+ fi
+
 # Exploding version number ("GeoGebra-MacOS-Installer-4-2-23-0.zip"):
 VERSION=`echo $MACOSX_ZIP_FINAL | cut -d- -f4-7 | cut -d. -f1 | tr - .`
 # Remember to set JDKVERSION in autobuild.conf!
@@ -26,7 +32,7 @@ unzip -o $MACOSX_ZIP_FINAL
 mv GeoGebra.app GeoGebra.app-unsigned
 
 # Substituting variables into build.xml
-cat build.xml \
+cat $BUILDFILE \
  | sed s/SHORTVERSION/$VERSION/g \
  | sed s/JDKVERSION/$JDKVERSION/g > GeoGebra.app-unsigned/build.xml
 

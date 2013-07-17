@@ -23,6 +23,7 @@
         <!-- The bundleapp task doesn't support classpathref so all 
             the run classpath entries must be stated here too.
         -->
+	<!-- WARNING: We use a changed way of using classpath for GeoGebra here! -->
         <classpath file="Contents/Resources/Java/geogebra-jogl2.jar" />
         <classpath file="Contents/Resources/Java/javagiac-mac.jar" />
 

@@ -125,16 +125,12 @@ int launch(char *commandName) {
     NSString *mainBundlePath = [mainBundle bundlePath];
     NSString *javaPath = [mainBundlePath stringByAppendingString:@"/Contents/Java"];
 
-    //     NSArray *classPathArray = [infoDictionary objectForKey:@JVM_CLASS_PATH];
-    //     if (classPathArray == nil) {
-    //         classPathArray = [NSArray array];
-    //      }
-    //     NSString *classPathEntries = [[array valueForKey:@"description"] componentsJoinedByString:@":"];
-    //     NSString *classPath = [NSString stringWithFormat:@"-Djava.class.path=%s", classPathEntries];
-
     NSString *classPathInfo1 = [infoDictionary objectForKey:@JVM_CLASS_PATH];
     NSString *classPathInfo2 = [classPathInfo1 stringByReplacingOccurrencesOfString:@";" withString:@":"];
-    NSString *classPath = [NSString stringWithFormat:@"-Djava.class.path=%s", classPathInfo2];
+    NSString *classPath = [NSString stringWithFormat:@"-Djava.class.path=%@", classPathInfo2];
+
+    // Set the library path
+    NSString *libraryPath = [NSString stringWithFormat:@"-Djava.library.path=%@/Contents/MacOS", mainBundlePath];
 
     // Set the working directory to the Java path
     chdir([javaPath UTF8String]);
@@ -166,6 +162,7 @@ int launch(char *commandName) {
     int i = 0;
     argv[i++] = commandName;
     argv[i++] = strdup([classPath UTF8String]);
+    argv[i++] = strdup([libraryPath UTF8String]);
 
     for (NSString *option in options) {
         option = [option stringByReplacingOccurrencesOfString:@APP_ROOT_PREFIX withString:[mainBundle bundlePath]];
