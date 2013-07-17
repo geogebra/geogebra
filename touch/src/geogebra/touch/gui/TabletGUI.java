@@ -9,6 +9,7 @@ import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
 import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.WorksheetHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
@@ -55,6 +56,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	private PopupPanel algebraViewButtonPanel;
 	private Panel algebraViewArrowPanel;
 	StandardImageButton algebraViewButton;
+	private FileManagerM fm;
+	private TouchApp app;
+	
+	private boolean editing = true;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -76,16 +81,17 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	 *          Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel, FileManagerM fm)
+	public void initComponents(final Kernel kernel, FileManagerM fm1)
 	{
 		this.touchModel = new TouchModel(kernel, this);
-
+		this.fm = fm1;
+		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
-		TouchEntryPoint.getLookAndFeel().buildHeader(this, (TouchApp) kernel.getApplication(), this.touchModel, fm);
+		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel, fm1);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 
-		TouchController ec = new TouchController(this.touchModel, kernel.getApplication());
+		TouchController ec = new TouchController(this.touchModel, this.app);
 		ec.setKernel(kernel);
 
 		int width = (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION));
@@ -107,7 +113,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.setContentWidget(this.contentPanel);
 
-		this.toolBar = new ToolBar(this.touchModel, (TouchApp) kernel.getApplication(), this);
+		this.toolBar = new ToolBar(this.touchModel, this.app, this);
 		this.setFooterWidget(this.toolBar);
 
 		// show/hide AlgebraView Button
@@ -197,7 +203,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	private void updateViewSizes(boolean algebraVisible)
 	{
-		int panelHeight = this.toolBar.isVisible()? TouchEntryPoint.getLookAndFeel().getPanelsHeight() :
+		int panelHeight = this.editing ? TouchEntryPoint.getLookAndFeel().getPanelsHeight() :
 			TouchEntryPoint.getLookAndFeel().getAppBarHeight();
 		if (!algebraVisible)
 		{
@@ -283,19 +289,28 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void setVisible(boolean visible){
 		super.setVisible(visible);
 		if(this.algebraViewButtonPanel != null)
-		this.algebraViewButtonPanel.setVisible(visible);
+			this.algebraViewButtonPanel.setVisible(visible);
 	}
 
 	@Override
 	public void setAlgebraVisible(boolean visible) {
 		updateViewSizes(visible);
-		this.algebraViewPanel.setVisible(visible);
+		this.algebraViewPanel.setVisible(this.editing);
 	}
 
 	public void allowEditing(boolean b) {
+		this.editing = b;
 		this.toolBar.setVisible(b);
 		this.algebraViewButtonPanel.setVisible(b);
 		this.stylingBar.setVisible(b);
+		if(b){
+			getLaf().buildHeader(this, this.app, this.touchModel, this.fm);
+			this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
+		}else{
+			this.setHeaderWidget(new WorksheetHeaderPanel(this.app, this.fm));
+			this.touchModel.getGuiModel().setStylingBar(null);
+			this.onResize();
+		}
 		
 	}
 

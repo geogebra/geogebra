@@ -119,7 +119,7 @@ public class BrowseGUI extends VerticalPanel
 	public void displaySearchResults(String query)
 	{
 		this.localList = this.fm.search(query);
-		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).search(query, new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).search(query, new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response)
@@ -191,7 +191,7 @@ public class BrowseGUI extends VerticalPanel
 	public void loadFeatured()
 	{
 		this.localList = this.fm.getAllFiles();
-		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.test_url)).getFeaturedMaterials(new RequestCallback()
+		(GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)).getFeaturedMaterials(new RequestCallback()
 		{
 			@Override
 			public void onResponseReceived(Request request, Response response)
