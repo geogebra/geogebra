@@ -166,8 +166,8 @@ public class MaterialListElement extends FlowPanel
 				else
 				{
 					MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
-					TouchEntryPoint.allowEditing(false);
-					TouchEntryPoint.goBack();
+					TouchEntryPoint.allowEditing(false, MaterialListElement.this.material);
+					TouchEntryPoint.showTabletGUI();
 				}
 
 			}

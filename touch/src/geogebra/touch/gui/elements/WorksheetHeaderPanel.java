@@ -29,6 +29,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 				{
 					fm.getMaterial(WorksheetHeaderPanel.this.material, app);
 					TouchEntryPoint.showTabletGUI();
+					TouchEntryPoint.allowEditing(true, WorksheetHeaderPanel.this.material);
 				}
 			}
 		});

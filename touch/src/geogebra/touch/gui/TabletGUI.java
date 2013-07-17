@@ -2,6 +2,7 @@ package geogebra.touch.gui;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -293,27 +294,37 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void setVisible(boolean visible){
 		super.setVisible(visible);
 		if(this.algebraViewButtonPanel != null)
-			this.algebraViewButtonPanel.setVisible(visible);
+			this.algebraViewButtonPanel.setVisible(this.editing);
 	}
 
 	@Override
 	public void setAlgebraVisible(boolean visible) {
 		updateViewSizes(visible);
-		this.algebraViewPanel.setVisible(this.editing);
+		this.algebraViewPanel.setVisible(visible);
 	}
 
-	public void allowEditing(boolean b) {
+	public void allowEditing(boolean b, Material material) {
+		if(this.editing == b){
+			return;
+		}
 		this.editing = b;
 		this.toolBar.setVisible(b);
 		this.algebraViewButtonPanel.setVisible(b);
 		this.stylingBar.setVisible(b);
+		if(this.getHeaderWidget()!=null){
+			this.remove(this.getHeaderWidget());
+		}
 		if(b){
 			getLaf().buildHeader(this, this.app, this.touchModel, this.fm);
 			this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
 		}else{
-			this.setHeaderWidget(new WorksheetHeaderPanel(this.app, this.fm));
+			System.out.println("worksheet header");
+			this.resizeListeners.clear();
+			WorksheetHeaderPanel whp = new WorksheetHeaderPanel(this.app, this.fm);
+			whp.setMaterial(material);
+			
+			this.setHeaderWidget(whp);
 			this.touchModel.getGuiModel().setStylingBar(null);
-			this.onResize();
 		}
 		
 	}
