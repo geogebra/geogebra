@@ -13,6 +13,7 @@ import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -32,6 +33,7 @@ import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
@@ -378,11 +380,15 @@ public class TouchApp extends AppWeb
 		Perspective tmp = new Perspective("tmp");
 		tmp.setShowAxes(this.getEuclidianView1().getShowAxis(1));
 		tmp.setShowGrid(this.getEuclidianView1().getShowGrid());
-		DockPanelData[] dock = new DockPanelData[1];
+		DockPanelData[] dock = new DockPanelData[2];
+		int width = Window.getClientWidth();
+		int algebraWidth = TabletGUI.computeAlgebraWidth();
+		int height = Window.getClientHeight();
 		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0,0), 
-				AwtFactory.prototype.newDimension(42, 42), "", 42);
-		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", true, false, true, new GPoint(0,0), 
-				AwtFactory.prototype.newDimension(42, 42), "", 42);
+				AwtFactory.prototype.newDimension(width - algebraWidth, height), "", width - algebraWidth);
+		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", true, false, true, new GPoint(width - algebraWidth,0), 
+				AwtFactory.prototype.newDimension(algebraWidth, height), "", algebraWidth);
+		tmp.setSplitPaneData(new DockSplitPaneData[0]);
 		tmp.setDockPanelData(dock);
 		// save the current perspective
 		
@@ -629,7 +635,7 @@ public class TouchApp extends AppWeb
 			setConstructionTitle(TouchEntryPoint.browseGUI.getChocenMaterial().getMaterialTitle());
 		}
 		
-		for (Perspective perspective : tmpPerspectives) {
+		for (Perspective perspective : this.tmpPerspectives) {
 			if (perspective.getId().equals("tmp")) {
 				toggleAVvisibility(perspective.getDockPanelData());
 			}
