@@ -24,8 +24,13 @@ public class WorksheetGUI extends HeaderPanel
 		this.header = new WorksheetHeaderPanel(app, fm);
 		this.setHeaderWidget(this.header);
 		FlowPanel content = new FlowPanel();
+		content.setStyleName("worksheet");
+		
 		this.instructionsPost = new Label();
 		this.instructionsPre = new Label();
+		this.instructionsPre.setStyleName("instructionsPre");
+		this.instructionsPost.setStyleName("instructionsPost");
+		
 		content.add(this.instructionsPre);
 		content.add(this.frame);
 		content.add(this.instructionsPost);

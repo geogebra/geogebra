@@ -203,6 +203,7 @@ public class InfoDialog extends PopupPanel
 	public void show()
 	{
 		super.show();
+		super.center();
 		this.guiModel.setActiveDialog(this);
 	}
 	

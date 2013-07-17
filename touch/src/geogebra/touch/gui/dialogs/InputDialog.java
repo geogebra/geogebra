@@ -243,7 +243,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		super.show();
 		this.guiModel.setActiveDialog(this);
 
-		// super.center();
+		super.center();
 		this.textBox.setText(this.prevText);
 		this.handlingExpected = false;
 
