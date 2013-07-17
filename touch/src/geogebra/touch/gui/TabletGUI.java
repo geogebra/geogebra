@@ -154,8 +154,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		});
 	}
 
-	private int computeAlgebraWidth() {
-		return Math.min(250, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
+	private static int computeAlgebraWidth() {
+		return Math.max(250, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
 	}
 
 	private static LookAndFeel getLaf()
@@ -317,6 +317,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		if(b){
 			getLaf().buildHeader(this, this.app, this.touchModel, this.fm);
 			this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
+			
+			this.removeStyleName("worksheetgui");
 		}else{
 			System.out.println("worksheet header");
 			this.resizeListeners.clear();
@@ -325,6 +327,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			
 			this.setHeaderWidget(whp);
 			this.touchModel.getGuiModel().setStylingBar(null);
+			
+			this.addStyleName("worksheetgui");
 		}
 		
 	}

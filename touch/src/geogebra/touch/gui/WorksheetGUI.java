@@ -19,7 +19,6 @@ public class WorksheetGUI extends HeaderPanel
 
 	public WorksheetGUI(AppWeb app, FileManagerM fm)
 	{
-		// TODO add header!
 		this.setStyleName("worksheetgui");
 		this.header = new WorksheetHeaderPanel(app, fm);
 		this.setHeaderWidget(this.header);

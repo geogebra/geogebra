@@ -81,8 +81,7 @@ public class BrowseGUI extends VerticalPanel
 		this.headingMyProfile.setStyleName("filePanelTitle");
 		this.headingGeoGebraTube.setStyleName("filePanelTitle");
 		
-		this.headingMyProfile.setText("My Profile");
-		this.headingGeoGebraTube.setText("GeoGebra Tube");
+		this.headingGeoGebraTube.setText("GeoGebraTube");
 		
 		this.localFileContainer = new VerticalPanel();
 		this.localFileContainer.setStyleName("localFilePanel");
@@ -216,5 +215,8 @@ public class BrowseGUI extends VerticalPanel
 	public void setLabels()
 	{
 		this.searchBar.setLabels();
+		this.tubeFilePanel.setLabels();
+		this.localFilePanel.setLabels();
+		this.headingMyProfile.setText(this.app.getMenu("MyProfile"));
 	}
 }

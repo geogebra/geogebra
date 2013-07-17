@@ -50,18 +50,12 @@ public class VerticalMaterialPanel extends ScrollPanel
 		int i = 0;
 		for (Material m : materials)
 		{
-			MaterialListElement preview = buildListElement(m, this.app, this.fm);
+			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
+			preview.initButtons();
 			this.titlesToPreviews.put(m.getURL(), preview);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
 			i++;
 		}
-	}
-
-	protected MaterialListElement buildListElement(Material m, AppWeb app2, FileManagerM fm2)
-	{
-		MaterialListElement mle = new MaterialListElement(m, app2, fm2, this);
-		mle.initButtons();
-		return mle;
 	}
 
 	@Override
@@ -105,5 +99,11 @@ public class VerticalMaterialPanel extends ScrollPanel
 	public MaterialListElement getChosenMaterial()
 	{
 		return this.lastSelected;
+	}
+	
+	public void setLabels(){
+		for(MaterialListElement e: this.titlesToPreviews.values()){
+			e.setLabels();
+		}
 	}
 }

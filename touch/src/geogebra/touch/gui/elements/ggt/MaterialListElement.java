@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -31,8 +30,7 @@ public class MaterialListElement extends FlowPanel
 	private VerticalPanel infos;
 
 	protected VerticalPanel links;
-	private HorizontalPanel sharedPanel;
-	private Label title, date, sharedBy, author;
+	private Label title, date, sharedBy;
 
 	private VerticalMaterialPanel vmp;
 
@@ -53,7 +51,6 @@ public class MaterialListElement extends FlowPanel
 		this.infos = new VerticalPanel();
 		// this.infos.setSpacing(5);
 		this.infos.setStyleName("fileDescription");
-		this.sharedPanel = new HorizontalPanel();
 		this.links = new VerticalPanel();
 
 		this.vmp = vmp;
@@ -85,12 +82,9 @@ public class MaterialListElement extends FlowPanel
 		// no shared Panel for local files
 		if (MaterialListElement.this.material.getId() > 0)
 		{
-			this.sharedBy = new Label(GeoGebraTubeStyle.SharedBy);
-			this.sharedPanel.add(this.sharedBy);
-			this.author = new Label(m.getAuthor());
-			this.sharedPanel.add(this.author);
-			this.sharedPanel.setStyleName("sharedPanel");
-			this.infos.add(this.sharedPanel);
+			this.sharedBy = new Label(app.getLocalization().getPlain("SharedByA", m.getAuthor()));
+			this.sharedBy.setStyleName("sharedPanel");
+			this.infos.add(this.sharedBy);
 		}
 
 		//this.add(this.infos);
@@ -211,5 +205,9 @@ public class MaterialListElement extends FlowPanel
 	public String getMaterialTitle()
 	{
 		return this.material.getTitle();
+	}
+	
+	public void setLabels(){
+		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA",this.material.getAuthor()));
 	}
 }
