@@ -628,7 +628,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 		case GIAC:
 			// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			if (left.evaluatesToList() && right instanceof NumberValue) {
-				//App.debug(left.getClass()+" "+right.getClass());
+				App.debug(left+" "+left.evaluatesToList());
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
@@ -848,28 +848,24 @@ public class StringTemplate implements ExpressionNodeConstants{
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-			// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			if (left instanceof ListValue && right instanceof NumberValue) {
-				// eg {1,2,3} - 10
-				sb.append("seq((");
+			// don't use isNumberValue(), isListValue as those lead to an evaluate(); {1,2}-3
+			if (left.evaluatesToList() && right instanceof NumberValue) {
+				App.debug(left+" "+left.evaluatesToList());
+				// eg {1,2,3} + 10
+				sb.append("map(");
 				sb.append(leftStr);
-				sb.append(")[j]-(");
+				sb.append(",ggx->ggx-");
 				sb.append(rightStr);
-				sb.append("),j,0,");
-				sb.append(((ListValue)left).size()-1);
-				sb.append(')');
+				sb.append(")");
 
-				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left instanceof NumberValue && right instanceof ListValue) {
-				// eg 10 - {1,2,3}
-				sb.append("seq(");
-				sb.append(leftStr);
-				sb.append("-(");
+			// don't use isNumberValue(), isListValue as those lead to an evaluate()
+			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
+				// eg 10 + {1,2,3}
+				sb.append("map(");
 				sb.append(rightStr);
-				sb.append(")[j]");
-				sb.append(",j,0,");
-				sb.append(((ListValue)right).size()-1);
-				sb.append(')');
+				sb.append(",ggx->");
+				sb.append(leftStr);
+				sb.append("-ggx)");
 			
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
