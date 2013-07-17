@@ -66,6 +66,7 @@ public class SearchBar extends AuxiliaryHeaderPanel
 				}
 			}
 		});
+		
 		this.query.addFocusHandler(new FocusHandler()
 		{
 			@Override
@@ -77,6 +78,7 @@ public class SearchBar extends AuxiliaryHeaderPanel
 				SearchBar.this.underline.addStyleName("active");
 			}
 		});
+		
 		this.query.addBlurHandler(new BlurHandler()
 		{
 
@@ -117,21 +119,30 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				if (SearchBar.this.query.getText().equals(""))
-				{
 					SearchBar.this.query.setFocus(false);
+					SearchBar.this.query.setText("");
 					SearchBar.this.underline.removeStyleName("active");
 					SearchBar.this.underline.addStyleName("inactive");
 					SearchBar.this.cancelButton.setVisible(false);
-				}
-				else
-				{
-					SearchBar.this.query.setText("");
-					SearchBar.this.query.setFocus(true);
-					SearchBar.this.underline.removeStyleName("inactive");
-					SearchBar.this.underline.addStyleName("active");
 					SearchBar.this.browseGUI.loadFeatured();
-				}
+					
+//					gewünschtes verhalten für searchbar erst mit neuer version von gwt möglich - focus
+//					if (SearchBar.this.query.getText().equals(""))
+//					{
+//						SearchBar.this.query.setFocus(false);
+//						SearchBar.this.underline.removeStyleName("active");
+//						SearchBar.this.underline.addStyleName("inactive");
+//						SearchBar.this.cancelButton.setVisible(false);
+//					}
+//					else
+//					{
+//						SearchBar.this.query.setText("");
+//						SearchBar.this.query.setFocus(true);
+//						SearchBar.this.underline.removeStyleName("inactive");
+//						SearchBar.this.underline.addStyleName("active");
+//						SearchBar.this.browseGUI.loadFeatured();
+//					}
+					
 			}
 		});
 
