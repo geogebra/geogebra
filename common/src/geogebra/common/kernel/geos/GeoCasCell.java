@@ -1254,16 +1254,29 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// && !output.startsWith(assignmentVar);
 		if (nativeOutput) {
 			String res = output;
+
+			if (isFunctionDeclaration && prependLabel) {
+				// removing y from expressions y = x! and 
+				outputVE = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(res).traverse(Traversing.FunctionCreator.getCreator());
+			
+				StringBuilder sb = new StringBuilder();
+				sb.append(getInputVE().getLabelForAssignment());
+
+				switch (getInputVE().getAssignmentType()) {
+				case DEFAULT:
+					sb.append(getInputVE().getAssignmentOperator());
+					break;
+				case DELAYED:
+					sb.append(getInputVE().getDelayedAssignmentOperator());
+					break;
+				}
+
+				sb.append(outputVE.toString(StringTemplate.defaultTemplate));
+				res = sb.toString();
+			}
 			
 			// parse output into valid expression
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
-			
-			if (isFunctionDeclaration && prependLabel) {
-				// removing y from expressions y = x! and 
-				outputVE = (ValidExpression) outputVE.traverse(Traversing.FunctionCreator.getCreator());
-				outputVE.setLabel(getInputVE().getLabelForAssignment());
-				outputVE.setAssignmentType(getInputVE().getAssignmentType());
-			}
 			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
