@@ -1,7 +1,7 @@
 @charset "utf-8";
 
-.tubesearchgui .button,
-.worksheetgui .button {
+body .tubesearchgui .button,
+body .worksheetgui .button {
 	border: none;
 	background: none;
 	opacity: 0.8;
@@ -54,11 +54,17 @@ body .tubesearchgui .headerbar div.button,
 	margin: 0px 0px 0px 5px;
 }
 
+body .tubesearchgui .headerLeft div.button,
+body .worksheetgui .headerLeft div.button {
+	width: 11px;
+	padding-right: 5px;
+}
+
 body .tubesearchgui .headerLeft img,
 body .worksheetgui .headerLeft img {
-	height: 24px;
-	width: 24px;
-	margin-top: 3px;
+	height: 20px;
+	width: 11px;
+	margin-top: 5px;
 }
 
 body .tubesearchgui .headerRight div.button {
@@ -160,6 +166,13 @@ body .tubesearchgui input.gwt-TextBox {
 
 .tubesearchgui .fileLinks td {
 	text-align: center;
+}
+
+body .tubesearchgui .fileLinks .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
 }
 
 .tubesearchgui .button.delete {
