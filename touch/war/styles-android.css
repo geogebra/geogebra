@@ -121,12 +121,14 @@ body .infoDialog {
 	margin-bottom: 15px;
 	text-align: left;
 	font-size: 18px;
+	color: #FFFFFF;
 }
 
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
 	text-align: left;
 	font-size: 14px;
+	color: #FFFFFF;
 }
 
 body .inputDialog .gwt-TextBox,

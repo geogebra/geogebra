@@ -48,8 +48,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
@@ -123,8 +121,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		mouseDownHandler = mdh;
 		this.setStyleName("elem");
 
-		setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		//setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		
+		
 
 		radio = new Marble(showUrl, hiddenUrl,this);
 		radio.setEnabled(ge.isEuclidianShowable());

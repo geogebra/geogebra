@@ -124,10 +124,14 @@ div.button.button-up-hovering {
 		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
 }
 
-.disabled,
-.transparent {
+.disabled {
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
+}
+
+.transparent {
+	opacity: 0.5;
+	filter: alpha(opacity = 50);
 }
 
 /* #####################################################################
@@ -330,7 +334,7 @@ input.worksheetTitle {
 	padding-left: 5px;
 	padding-right: 5px;
 	border-bottom: #CCCCCC solid 1px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 .elemHeading .arrowBottom,.elemHeading .arrowLeft {
@@ -355,8 +359,16 @@ div.elemHeadingName {
 	padding: 5px;
 }
 
+.elem td {
+	text-align: left;
+	vertical-align: top;
+	width: 0px;
+	padding: 2px 0px;
+	padding-right: 5px;
+}
+
 .elem img {
-	margin-top: 5px;
+	/*margin-top: 5px;*/
 }
 
 .treeItemWrapper {

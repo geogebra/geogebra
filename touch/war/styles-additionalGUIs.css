@@ -26,6 +26,7 @@ body .tubesearchgui .headerbar .gwt-Label,
 body .worksheetgui .headerbar .gwt-Label {
 	font-size: 18px;
 	vertical-align: middle;
+	color: #FFFFFF;
 }
 
 body .tubesearchgui .headerbar .gwt-Label,
