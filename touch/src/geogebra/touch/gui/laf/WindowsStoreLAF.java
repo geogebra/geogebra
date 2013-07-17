@@ -1,6 +1,10 @@
 package geogebra.touch.gui.laf;
 
+import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
+import geogebra.touch.model.TouchModel;
 
 public class WindowsStoreLAF extends DefaultLAF
 {
@@ -33,6 +37,12 @@ public class WindowsStoreLAF extends DefaultLAF
 	public TabletHeaderPanel getTabletHeaderPanel()
 	{
 		return null;
+	}
+	
+	@Override
+	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel,
+			FileManagerM fm) {
+
 	}
 	
 	@Override
