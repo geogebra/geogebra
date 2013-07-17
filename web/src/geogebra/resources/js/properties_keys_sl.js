@@ -2487,6 +2487,7 @@ __GGB__keysVar.sl.plain = {
     "SelectionAllowed": "Dovoljena izbira",
     "Semicircle": "Polkro\u017enica",
     "SemicircleThroughAandB": "Polkro\u017enica skozi %0 in %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Prika\u017ei",
     "ShowAas2DView": "Prikaz %0 v 2D",
     "ShowAllObjects": "Prika\u017ei vse objekte",

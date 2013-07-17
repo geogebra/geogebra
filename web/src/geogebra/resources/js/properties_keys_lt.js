@@ -2487,6 +2487,7 @@ __GGB__keysVar.lt.plain = {
     "SelectionAllowed": "Pasirinkimas leistinas",
     "Semicircle": "Pusapskritimis",
     "SemicircleThroughAandB": "Pusapskritimis per %0 ir %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Rodyti",
     "ShowAas2DView": "Rodyti %0 kaip 2D vaizd\u0105",
     "ShowAllObjects": "Rodyti visus objektus",

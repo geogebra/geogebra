@@ -2487,6 +2487,7 @@ __GGB__keysVar.tr.plain = {
     "SelectionAllowed": "Se\xe7im M\xfcmk\xfcn",
     "Semicircle": "Yar\u0131m \xe7ember",
     "SemicircleThroughAandB": "%0 ve %1 den ge\xe7en yar\u0131m \xe7ember",
+    "SharedByA": "Shared by: %0",
     "Show": "G\xf6ster",
     "ShowAas2DView": "2D G\xf6r\xfcn\xfcm\xfc %0 olarak G\xf6ster",
     "ShowAllObjects": "T\xfcm Nesneleri G\xf6ster",

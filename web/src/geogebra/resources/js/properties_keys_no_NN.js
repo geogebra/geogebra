@@ -2487,6 +2487,7 @@ __GGB__keysVar.no_NN.plain = {
     "SelectionAllowed": "Vel med museklikk",
     "Semicircle": "Halvsirkel",
     "SemicircleThroughAandB": "Halvsirkel gjennom %0 og %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Vis",
     "ShowAas2DView": "Vis %0 i 2D",
     "ShowAllObjects": "Vis alle objekt",

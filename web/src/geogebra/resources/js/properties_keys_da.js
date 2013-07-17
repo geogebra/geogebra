@@ -2487,6 +2487,7 @@ __GGB__keysVar.da.plain = {
     "SelectionAllowed": "Udv\xe6lgelse tilladt",
     "Semicircle": "Halvcirkel",
     "SemicircleThroughAandB": "Halvcirkel gennem %0 og %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Vis",
     "ShowAas2DView": "Vis %0 i 2D",
     "ShowAllObjects": "Vis alle objekter",

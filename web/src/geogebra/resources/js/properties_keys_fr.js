@@ -2487,6 +2487,7 @@ __GGB__keysVar.fr.plain = {
     "SelectionAllowed": "S\xe9lectionnable",
     "Semicircle": "Demi-cercle",
     "SemicircleThroughAandB": "Demi-cercle d\xe9fini par %0 et %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Afficher",
     "ShowAas2DView": "Afficher %0 comme vue 2D",
     "ShowAllObjects": "Recadrer",

@@ -2487,6 +2487,7 @@ __GGB__keysVar.cs.plain = {
     "SelectionAllowed": "V\xfdb\u011br povolen",
     "Semicircle": "Polokru\u017enice",
     "SemicircleThroughAandB": "Polokru\u017enice nad %0 a %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Zobrazit",
     "ShowAas2DView": "Zobrazit %0 jako 2D n\xe1hled",
     "ShowAllObjects": "Zobrazit v\u0161echny objekty",

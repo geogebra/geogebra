@@ -2487,6 +2487,7 @@ __GGB__keysVar.fi.plain = {
     "SelectionAllowed": "Valinta sallittu",
     "Semicircle": "Puoliympyr\xe4",
     "SemicircleThroughAandB": "%0:n ja %1:n kautta kulkeva puoliympyr\xe4",
+    "SharedByA": "Shared by: %0",
     "Show": "N\xe4yt\xe4",
     "ShowAas2DView": "N\xe4yt\xe4 %0 2D N\xe4kym\xe4ss\xe4",
     "ShowAllObjects": "N\xe4yt\xe4 kaikki objektit",

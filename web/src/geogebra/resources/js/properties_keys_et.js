@@ -2487,6 +2487,7 @@ __GGB__keysVar.et.plain = {
     "SelectionAllowed": "Valimine lubatud",
     "Semicircle": "Poolringjoon",
     "SemicircleThroughAandB": "Poolringjoon punktidega %0 ja %1",
+    "SharedByA": "Shared by: %0",
     "Show": "N\xe4ita",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "N\xe4ita k\xf5iki objekte",

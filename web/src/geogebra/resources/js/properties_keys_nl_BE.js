@@ -2487,6 +2487,7 @@ __GGB__keysVar.nl_BE.plain = {
     "SelectionAllowed": "Selectie toegestaan",
     "Semicircle": "Halfcirkel",
     "SemicircleThroughAandB": "Halfcirkel door %0 en %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Toon",
     "ShowAas2DView": "Toon %0 bij 2D venster",
     "ShowAllObjects": "Toon alle objecten",

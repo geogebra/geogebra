@@ -2487,6 +2487,7 @@ __GGB__keysVar.hu.plain = {
     "SelectionAllowed": "Kijel\xf6l\xe9s enged\xe9lyezett",
     "Semicircle": "F\xe9lk\xf6r",
     "SemicircleThroughAandB": "%0 \xe9s %1 \xe1ltal meghat\xe1rozott f\xe9lk\xf6r",
+    "SharedByA": "Shared by: %0",
     "Show": "Mutat",
     "ShowAas2DView": "%0 mutat\xe1sa 2D-s n\xe9zetben",
     "ShowAllObjects": "Minden objektum mutat\xe1sa",

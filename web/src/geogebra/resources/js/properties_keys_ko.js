@@ -2487,6 +2487,7 @@ __GGB__keysVar.ko.plain = {
     "SelectionAllowed": "\uc120\ud0dd \uac00\ub2a5",
     "Semicircle": "\ubc18\uc6d0",
     "SemicircleThroughAandB": "%0 \uc640(\uacfc) %1 \uc744(\ub97c) \uc9c0\ub098\ub294 \ubc18\uc6d0",
+    "SharedByA": "Shared by: %0",
     "Show": "\ubcf4\uc774\uae30",
     "ShowAas2DView": "2\ucc28\uc6d0 \uae30\ud558\ucc3d\uc73c\ub85c %0 \ubcf4\uc774\uae30",
     "ShowAllObjects": "\ubaa8\ub4e0 \ub300\uc0c1 \ubcf4\uc774\uae30",

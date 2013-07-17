@@ -2487,6 +2487,7 @@ __GGB__keysVar.ms.plain = {
     "SelectionAllowed": "Pilihan Diizinkan",
     "Semicircle": "Semibulatan",
     "SemicircleThroughAandB": "Semibulatan melalui %0 dan %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Tunjuk",
     "ShowAas2DView": "Tunjuk %0 sebagai Paparan 2D",
     "ShowAllObjects": "Tunjuk Semua Objek",

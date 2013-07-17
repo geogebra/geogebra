@@ -2487,6 +2487,7 @@ __GGB__keysVar.ca.plain = {
     "SelectionAllowed": "Habilita selecci\xf3",
     "Semicircle": "Semicircumfer\xe8ncia",
     "SemicircleThroughAandB": "Semicircumfer\xe8ncia que passa per %0 i %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Mostra",
     "ShowAas2DView": "Mostra %0 en 2D",
     "ShowAllObjects": "Mostra tots els objectes",

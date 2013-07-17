@@ -2487,6 +2487,7 @@ __GGB__keysVar.sk.plain = {
     "SelectionAllowed": "v\xfdber povolen\xfd",
     "Semicircle": "Polku\u017enica",
     "SemicircleThroughAandB": "Polkru\u017enica nad priemerom %0%1",
+    "SharedByA": "Shared by: %0",
     "Show": "Zobrazi\u0165",
     "ShowAas2DView": "Uk\xe1\u017e %0 v 2D poh\u013eade",
     "ShowAllObjects": "Uk\xe1za\u0165 v\u0161etky objekty",

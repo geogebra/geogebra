@@ -2487,6 +2487,7 @@ __GGB__keysVar.cy.plain = {
     "SelectionAllowed": "Caniat\xebir y detholiad",
     "Semicircle": "Hanner cylch",
     "SemicircleThroughAandB": "Hanner cylch trwy %0 a %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Dangos",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Dangos pob gwrthrych",

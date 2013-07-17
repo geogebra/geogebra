@@ -2487,6 +2487,7 @@ __GGB__keysVar.ga.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "Leathchiorcal",
     "SemicircleThroughAandB": "Leathchiorcal tr\xed %0 agus %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Show",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Show All Objects",

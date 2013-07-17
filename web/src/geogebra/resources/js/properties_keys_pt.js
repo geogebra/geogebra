@@ -2487,6 +2487,7 @@ __GGB__keysVar.pt.plain = {
     "SelectionAllowed": "Permitir Sele\xe7\xe3o",
     "Semicircle": "Semic\xedrculo",
     "SemicircleThroughAandB": "Semic\xedrculo passando por %0 e %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Exibir",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Exibir Todos os Objetos",

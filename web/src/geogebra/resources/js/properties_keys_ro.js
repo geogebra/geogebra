@@ -2487,6 +2487,7 @@ __GGB__keysVar.ro.plain = {
     "SelectionAllowed": "Selec\u021bie permis\u0103",
     "Semicircle": "Semicerc",
     "SemicircleThroughAandB": "Semicerc prin %0 \u015fi %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Arat\u0103",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Arat\u0103 toate obictele",

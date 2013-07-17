@@ -2487,6 +2487,7 @@ __GGB__keysVar.vi.plain = {
     "SelectionAllowed": "Cho ph\xe9p l\u1ef1a ch\u1ecdn",
     "Semicircle": "H\xecnh b\xe1n nguy\u1ec7t",
     "SemicircleThroughAandB": "H\xecnh b\xe1n nguy\u1ec7t qua %0 v\xe0 %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Hi\u1ec3n th\u1ecb",
     "ShowAas2DView": "Hi\u1ec3n th\u1ecb %0 trong kh\xf4ng gian 2 chi\u1ec1u",
     "ShowAllObjects": "Hi\u1ec3n th\u1ecb t\u1ea5t c\u1ea3 c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng",

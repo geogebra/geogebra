@@ -2487,6 +2487,7 @@ __GGB__keysVar.sq.plain = {
     "SelectionAllowed": "Selektimi Lejohet",
     "Semicircle": "Gjysem-Rreth",
     "SemicircleThroughAandB": "Gjysem-Rreth qe Kalon nga %0 dhe %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Shfaq",
     "ShowAas2DView": "Shfaq %0 si Pamje 2D",
     "ShowAllObjects": "Shfaq Gjithe Objektet",

@@ -2487,6 +2487,7 @@ __GGB__keysVar.pt_PT.plain = {
     "SelectionAllowed": "Sele\xe7\xe3o permitida",
     "Semicircle": "Semicircunfer\xeancia",
     "SemicircleThroughAandB": "Semicircunfer\xeancia de extremos %0 e %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Mostrar",
     "ShowAas2DView": "Mostrar %0 com Vista 2D",
     "ShowAllObjects": "Mostrar Todos os Objetos",

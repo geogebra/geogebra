@@ -2487,6 +2487,7 @@ __GGB__keysVar.pl.plain = {
     "SelectionAllowed": "Wyb\xf3r dozwolony",
     "Semicircle": "P\xf3\u0142okr\u0105g",
     "SemicircleThroughAandB": "P\xf3\u0142okr\u0105g przez %0 i %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Poka\u017c",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Poka\u017c wszystkie obiekty",

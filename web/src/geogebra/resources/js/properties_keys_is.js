@@ -2487,6 +2487,7 @@ __GGB__keysVar.is.plain = {
     "SelectionAllowed": "Val leyft",
     "Semicircle": "H\xe1lfhringur",
     "SemicircleThroughAandB": "H\xe1lfhringur gegnum %0 og %1",
+    "SharedByA": "Shared by: %0",
     "Show": "S\xfdna",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "S\xfdna alla hluti",

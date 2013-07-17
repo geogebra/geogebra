@@ -2487,6 +2487,7 @@ __GGB__keysVar.zh_TW.plain = {
     "SelectionAllowed": "\u5141\u8a31\u9078\u53d6",
     "Semicircle": "\u534a\u5713",
     "SemicircleThroughAandB": "\u5f9e %0 \u5230 %1 \u7684\u534a\u5713",
+    "SharedByA": "Shared by: %0",
     "Show": "\u986f\u793a",
     "ShowAas2DView": "\u986f\u793a %0 \u7684\u5e73\u9762\u5716",
     "ShowAllObjects": "\u986f\u793a\u6240\u6709\u7269\u4ef6",

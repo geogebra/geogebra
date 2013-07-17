@@ -2487,6 +2487,7 @@ __GGB__keysVar.en_AU.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "Semicircle",
     "SemicircleThroughAandB": "Semicircle through %0 and %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Show",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Show All Objects",

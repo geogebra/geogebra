@@ -2487,6 +2487,7 @@ __GGB__keysVar.eu.plain = {
     "SelectionAllowed": "Hautapen Onartua",
     "Semicircle": "Zirkunferentzierdia",
     "SemicircleThroughAandB": "Zirkunferentzierdia %0 eta %1-(e)tik pasatuz",
+    "SharedByA": "Shared by: %0",
     "Show": "Erakutsi",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "Erakutsi Objektu Guztiak",

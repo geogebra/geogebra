@@ -2487,6 +2487,7 @@ __GGB__keysVar.ka.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "\u10dc\u10d0\u10ee\u10d4\u10d5\u10d0\u10e0\u10ec\u10e0\u10d4\u10ec\u10d8\u10e0\u10d8",
     "SemicircleThroughAandB": "\u10dc\u10d0\u10ee\u10d4\u10d5\u10d0\u10e0\u10ec\u10e0\u10d4\u10ec\u10d8\u10e0\u10d8\u10d0, \u10d2\u10d0\u10d3\u10d8\u10e1 %0-\u10e1\u10d0 \u10d3\u10d0 %1-\u10d6\u10d4",
+    "SharedByA": "Shared by: %0",
     "Show": "\u10e9\u10d5\u10d4\u10dc\u10d4\u10d1\u10d0",
     "ShowAas2DView": "Show %0 as 2D View",
     "ShowAllObjects": "\u10d0\u10e9\u10d5\u10d4\u10dc\u10d4 \u10e7\u10d5\u10d4\u10da\u10d0 \u10dd\u10d1\u10d8\u10d4\u10e5\u10e2\u10d4\u10d1\u10d8",

@@ -2487,6 +2487,7 @@ __GGB__keysVar.gl.plain = {
     "SelectionAllowed": "Selecci\xf3n habilitada",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia pasando por %0 e %1",
+    "SharedByA": "Shared by: %0",
     "Show": "Amosar",
     "ShowAas2DView": "Mostrar %0 como vista 2D",
     "ShowAllObjects": "Amosar todos os obxectos",
