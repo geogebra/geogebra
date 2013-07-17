@@ -3565,6 +3565,21 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	protected int getWindowWidth(){
+		if ((frame != null) && (frame.getWidth() > 0)) {
+			return frame.getWidth();
+		} else {
+			return 800;
+		}
+	}
+	
+	protected int getWindowHeight(){
+		if ((frame != null) && (frame.getHeight() > 0)) {
+			return frame.getHeight();
+		} else {
+			return 600;
+		}
+	}
 	/*
 	 * final public void clearAll() { // load preferences
 	 * GeoGebraPreferences.loadXMLPreferences(this); updateContentPane(); //
@@ -3574,39 +3589,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 
 	@Override
-	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		// save the dimensions of the current window
-		sb.append("\t<window width=\"");
-
-		if ((frame != null) && (frame.getWidth() > 0)) {
-			sb.append(frame.getWidth());
-		} else {
-			sb.append(800);
-		}
-
-		sb.append("\" height=\"");
-
-		if ((frame != null) && (frame.getHeight() > 0)) {
-			sb.append(frame.getHeight());
-		} else {
-			sb.append(600);
-		}
-
-		sb.append("\" />\n");
-
+	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
 		if (guiManager == null) {
 			initGuiManager();
 		}
 		getGuiManager().getLayout().getXml(sb, asPreference);
-
-		// labeling style
-		// default changed so we need to always save this now
-		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-		sb.append("\t<labelingStyle ");
-		sb.append(" val=\"");
-		sb.append(getLabelingStyle());
-		sb.append("\"/>\n");
-		// }
 	}
 
 	/**

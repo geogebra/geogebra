@@ -2541,7 +2541,8 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 
-	
+	protected abstract int getWindowWidth();
+	protected abstract int getWindowHeight();
 
 	/**
 	 * Appends layout settings in XML format to given builder
@@ -2551,8 +2552,31 @@ public abstract class App implements UpdateSelection{
 	 * @param asPreference
 	 *            whether this is for preferences
 	 */
-	protected abstract void getWindowLayoutXML(StringBuilder sb,
-			boolean asPreference);
+	protected void getWindowLayoutXML(StringBuilder sb,
+			boolean asPreference){
+		sb.append("\t<window width=\"");
+
+		sb.append(getWindowWidth()+"");
+
+		sb.append("\" height=\"");
+
+		sb.append(this.getWindowHeight()+"");
+
+		sb.append("\" />\n");
+
+		getLayoutXML(sb, asPreference);
+
+		// labeling style
+		// default changed so we need to always save this now
+		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
+		sb.append("\t<labelingStyle ");
+		sb.append(" val=\"");
+		sb.append(getLabelingStyle());
+		sb.append("\"/>\n");
+	}
+			
+
+	protected abstract void getLayoutXML(StringBuilder sb, boolean asPreference);
 
 	public abstract void reset();
 

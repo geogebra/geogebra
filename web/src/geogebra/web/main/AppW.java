@@ -1672,46 +1672,35 @@ public class AppW extends AppWeb {
 	// ============================================
 
 	@Override
-	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		// save the dimensions of the current window
-		sb.append("\t<window width=\"");
-
+    protected int getWindowWidth(){
 		if (getEuclidianView1().getWidth() > 1) {
 			// double ratio = 800.0 * (getEuclidianView1().getHeight() + 170) /
 			// 600.0;
 			// sb.append((int)ratio);
 			// so it seems GeoGebraTube doesn't add anything to the following:
-			sb.append(getEuclidianView1().getWidth());
+			return getEuclidianView1().getWidth();
 		} else {
-			sb.append(800);
+			return 800;
 		}
-
-		sb.append("\" height=\"");
-
+	}
+	
+	@Override
+    protected int getWindowHeight(){
 		if (getEuclidianView1().getHeight() > 1) {
 			// 170 is a GeoGebraTube hack
-			sb.append(getEuclidianView1().getHeight() + 170);
+			return getEuclidianView1().getHeight() + 170;
 		} else {
-			sb.append(600);
+			return 600;
 		}
-
-		sb.append("\" />\n");
-
+	}
+	
+	@Override
+	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+		
 		if (guiManager == null) {
 			initGuiManager();
 		}
-		getGuiManager().getLayout().getXml(sb, asPreference);// TODO
-		                                                     // implementation
-		                                                     // needed
-
-		// labeling style
-		// default changed so we need to always save this now
-		// if (labelingStyle != ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
-		sb.append("\t<labelingStyle ");
-		sb.append(" val=\"");
-		sb.append(getLabelingStyle());
-		sb.append("\"/>\n");
-		// }
+		getGuiManager().getLayout().getXml(sb, asPreference);
 	}
 
 	

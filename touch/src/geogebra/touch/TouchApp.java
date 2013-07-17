@@ -1,9 +1,11 @@
 package geogebra.touch;
 
 import geogebra.common.awt.GFont;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
@@ -40,6 +42,7 @@ import java.util.Stack;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -368,9 +371,27 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference)
+	protected void getLayoutXML(StringBuilder sb, boolean asPreference)
 	{
-
+		sb.append("\t<perspectives>\n");
+		
+		Perspective tmp = new Perspective("tmp");
+		tmp.setShowAxes(this.getEuclidianView1().getShowAxis(1));
+		tmp.setShowGrid(this.getEuclidianView1().getShowGrid());
+		DockPanelData[] dock = new DockPanelData[1];
+		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0,0), 
+				AwtFactory.prototype.newDimension(42, 42), "", 42);
+		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", true, false, true, new GPoint(0,0), 
+				AwtFactory.prototype.newDimension(42, 42), "", 42);
+		tmp.setDockPanelData(dock);
+		// save the current perspective
+		
+		sb.append(tmp.getXml());
+		
+		// save all custom perspectives as well
+		
+		
+		sb.append("\t</perspectives>\n");
 	}
 
 	@Override
@@ -670,6 +691,16 @@ public class TouchApp extends AppWeb
 	public void approveFileName()
 	{
 		this.isDefaultFileName = false;
+	}
+
+	@Override
+	protected int getWindowWidth() {
+		return Window.getClientWidth();
+	}
+
+	@Override
+	protected int getWindowHeight() {
+		return Window.getClientHeight();
 	}
 
 	// // alternative, falls probleme mit Android - nicht getestet
