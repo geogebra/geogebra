@@ -94,7 +94,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		TouchController ec = new TouchController(this.touchModel, this.app);
 		ec.setKernel(kernel);
 
-		int width = (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION));
+		int width = Window.getClientWidth() - computeAlgebraWidth();
 		int height = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getPanelsHeight();
 		this.euclidianViewPanel.setPixelSize(width, height);
 		this.euclidianViewPanel.initEuclidianView(ec, super.getHeaderWidget(), width, height);
@@ -104,7 +104,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
 
-		this.contentPanel.addEast(this.algebraViewPanel, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
+		this.contentPanel.addEast(this.algebraViewPanel, computeAlgebraWidth());
 		this.contentPanel.add(this.euclidianViewPanel);
 		this.contentPanel.setHeight("100%");
 
@@ -151,6 +151,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 				TabletGUI.this.onResize(event);
 			}
 		});
+	}
+
+	private int computeAlgebraWidth() {
+		return Math.min(250, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
 	}
 
 	private static LookAndFeel getLaf()
@@ -220,9 +224,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		}
 		else
 		{
-			this.contentPanel.setWidgetSize(this.algebraViewPanel, Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION);
+			this.contentPanel.setWidgetSize(this.algebraViewPanel, computeAlgebraWidth());
 
-			int euclidianWidth = (int) (Window.getClientWidth() * (1 - ALGEBRA_VIEW_WIDTH_FRACTION));
+			int euclidianWidth = Window.getClientWidth() - computeAlgebraWidth();
 
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - panelHeight);
 
