@@ -35,7 +35,7 @@ public class SearchBar extends AuxiliaryHeaderPanel
 	Panel underline;
 	TextBox query;
 	private StandardImageButton searchButton;
-	private StandardImageButton cancelButton;
+	StandardImageButton cancelButton;
 	private List<SearchListener> listeners;
 	BrowseGUI browseGUI;
 
@@ -43,9 +43,7 @@ public class SearchBar extends AuxiliaryHeaderPanel
 	{
 		super(loc.getMenu("Worksheets"), loc);
 		this.browseGUI = browseGUI;
-
 		this.searchPanel = new HorizontalPanel();
-
 		this.listeners = new ArrayList<SearchListener>();
 
 		this.query = new TextBox();
@@ -67,6 +65,7 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			public void onFocus(FocusEvent event)
 			{
 				SearchBar.this.query.setFocus(true);
+				SearchBar.this.cancelButton.setVisible(true);
 				SearchBar.this.underline.removeStyleName("inactive");
 				SearchBar.this.underline.addStyleName("active");
 			}
@@ -78,6 +77,10 @@ public class SearchBar extends AuxiliaryHeaderPanel
 			public void onBlur(BlurEvent event)
 			{
 				SearchBar.this.query.setFocus(false);
+				if (SearchBar.this.query.getText().equals(""))
+				{
+					SearchBar.this.cancelButton.setVisible(false);
+				}
 				SearchBar.this.underline.removeStyleName("active");
 				SearchBar.this.underline.addStyleName("inactive");
 			}
@@ -94,13 +97,14 @@ public class SearchBar extends AuxiliaryHeaderPanel
 		}, ClickEvent.getType());
 
 		this.cancelButton = new StandardImageButton(getLaf().getIcons().dialog_cancel());
-
+		this.cancelButton.setVisible(false);
 		this.cancelButton.addClickHandler(new ClickHandler()
 		{
 			@Override
 			public void onClick(ClickEvent event)
 			{
 				SearchBar.this.query.setText("");
+				SearchBar.this.query.setFocus(true);
 				SearchBar.this.browseGUI.loadFeatured();
 			}
 		});
