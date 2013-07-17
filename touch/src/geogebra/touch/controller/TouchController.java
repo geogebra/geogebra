@@ -203,12 +203,12 @@ public class TouchController extends EuclidianController
 		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
 				&& this.view.getHits().size() > 0)
 		{
-			this.kernel.storeUndoInfo();
+			this.app.storeUndoInfo();
 		}
 		
 		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint && Math.abs(this.rotationLastAngle) > 0.001)
 		{
-			this.kernel.storeUndoInfo(); 
+			this.app.storeUndoInfo();
 			// deselect the point that was rotated
 			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
 			this.kernel.notifyRepaint();
