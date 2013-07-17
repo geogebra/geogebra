@@ -195,6 +195,7 @@ public class FileManagerM
 		{
 			// remote material
 			new View(RootPanel.getBodyElement(), app).processFileName("http://www.geogebratube.org/files/material-" + material.getId() + ".ggb");
+			app.setUnsaved();
 		}
 		else
 		{
