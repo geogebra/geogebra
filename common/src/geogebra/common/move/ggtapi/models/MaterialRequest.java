@@ -4,6 +4,9 @@ import geogebra.common.move.ggtapi.models.json.JSONArray;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
@@ -43,6 +46,7 @@ public class MaterialRequest implements Request
 
 	private Fields[] fields = Fields.values();
 	private Filters[] filters = { Filters.search };
+	private Map<Filters,String> filterMap = new HashMap<Filters,String>();
 	private Order by = Order.relevance;
 	private Type type = Type.desc;
 	private int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
@@ -59,15 +63,13 @@ public class MaterialRequest implements Request
 	private JSONObject orderJSON = new JSONObject();
 	private JSONObject limitJSON = new JSONObject();
 
-	private String query;
-	private int id;
-
 	/**
 	 * Constructor for a Featured Materials Request
 	 */
 	public MaterialRequest()
 	{
-		this.filters = new Filters[] { Filters.featured };
+		this.filters = new Filters[] { Filters.featured, Filters.type };
+		this.filterMap.put(Filters.type, "ggb");
 		this.by = Order.likes;
 		this.type = Type.desc;
 	}
@@ -81,7 +83,7 @@ public class MaterialRequest implements Request
 	public MaterialRequest(String query)
 	{
 		this.filters = new Filters[] { Filters.search };
-		this.query = query;
+		this.filterMap.put(Filters.search, query);
 	}
 
 	/**
@@ -93,7 +95,7 @@ public class MaterialRequest implements Request
 	public MaterialRequest(int id)
 	{
 		this.filters = new Filters[] { Filters.id };
-		this.id = id;
+		this.filterMap.put(Filters.id, id+"");
 	}
 
 	public String toJSONString()
@@ -115,14 +117,10 @@ public class MaterialRequest implements Request
 			JSONObject current = new JSONObject();
 			current.put("-name", new JSONString(this.filters[i].toString()));
 
-			if (this.filters[i] == Filters.search)
+			if (this.filterMap.get(this.filters[i]) != null)
 			{
-				current.put("#text", new JSONString(this.query));
-			}
-			else if (this.filters[i] == Filters.id)
-			{
-				current.put("#text", new JSONString(String.valueOf(this.id)));
-			}
+				current.put("#text", new JSONString(this.filterMap.get(this.filters[i])));
+			}			
 
 			this.filterJSON.set(i, current);
 		}
