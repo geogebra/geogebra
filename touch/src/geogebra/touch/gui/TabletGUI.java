@@ -294,7 +294,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void setVisible(boolean visible){
 		super.setVisible(visible);
 		if(this.algebraViewButtonPanel != null)
-			this.algebraViewButtonPanel.setVisible(this.editing);
+			this.algebraViewButtonPanel.setVisible(this.editing && visible);
 	}
 
 	@Override
