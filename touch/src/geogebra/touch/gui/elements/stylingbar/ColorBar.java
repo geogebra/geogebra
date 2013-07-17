@@ -35,16 +35,8 @@ public class ColorBar extends OptionsContent
 
 		this.contentPanel.add(this.colors);
 
-		// TODO: do we need this?
-		//initEndlessColorWheel();
-
 		this.add(this.contentPanel);
 	}
-
-	/*private void initEndlessColorWheel()
-	{
-		// TODO make colorwheel endless
-	}*/
 
 	private void initColors()
 	{
