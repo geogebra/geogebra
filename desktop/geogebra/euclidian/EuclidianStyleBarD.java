@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
@@ -1378,9 +1379,16 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
 		targetGeos.addAll(ec.getJustCreatedGeos());
-		if (mode != EuclidianConstants.MODE_MOVE)
+		if (mode != EuclidianConstants.MODE_MOVE){
 			targetGeos.addAll(defaultGeos);
-		else
+			Previewable p = ev.getPreviewDrawable();
+			if (p!=null){
+				GeoElement geo = p.getGeoElement();
+				if (geo!=null){
+					targetGeos.add(geo);
+				}
+			}
+		}else
 			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
 
 		processSource(source, targetGeos);

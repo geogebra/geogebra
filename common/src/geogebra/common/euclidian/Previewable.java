@@ -1,5 +1,7 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.kernel.geos.GeoElement;
+
 /**
  * @author Markus Hohenwarter
  */
@@ -21,5 +23,12 @@ public interface Previewable {
 	 * Called when preview is not needed anymore
 	 */
 	public void disposePreview();
+	
+
+	/**
+	 * @return the geo linked to this
+	 */
+	public GeoElement getGeoElement();
+	
 	
 }
