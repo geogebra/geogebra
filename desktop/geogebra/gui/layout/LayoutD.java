@@ -52,7 +52,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * {@link #initialize(AppD)} has to be called once in order to use this class.
 	 */
 	public LayoutD() {
-		initializeDefaultPerspectives(true, false);
+		initializeDefaultPerspectives(true, false, 0.25);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}

@@ -23,7 +23,7 @@ public abstract class Layout {
 	 * Initialize the default perspectives
 	 * 	 
 	 */
-	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5) {
+	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5, double AVpercent) {
 		defaultPerspectives = new Perspective[5];
 		
 		DockPanelData[] dpData;
@@ -41,7 +41,7 @@ public abstract class Layout {
 		dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 600), "1,1", 500);
 		
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.25, GSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", AVpercent, GSplitPane.HORIZONTAL_SPLIT);
 	
 		defToolbar = ToolBar.getAllToolsNoMacros(showAllTools, html5);
 	

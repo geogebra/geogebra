@@ -28,7 +28,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * instantiates layout for Web
 	 */
 	public LayoutW() {
-		initializeDefaultPerspectives(false, true);
+		initializeDefaultPerspectives(false, true, 0.2);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}
@@ -362,5 +362,4 @@ public class LayoutW extends Layout implements SettingListener {
 		}		
 		return dockManager.getRoot();
 	}
-
 }
