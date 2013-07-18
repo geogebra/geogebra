@@ -34,13 +34,8 @@ public class WorksheetGUI extends HeaderPanel
 		content.add(this.frame);
 		content.add(this.instructionsPost);
 		
-		
 		this.setContentWidget(content);
-		
-		
 	}
-
-	
 
 	public void loadWorksheet(Material m)
 	{

@@ -86,6 +86,11 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 						TabletHeaderPanel.this.infoOverrideDialog.setConsTitle(TabletHeaderPanel.this.worksheetTitle.getText());
 						TabletHeaderPanel.this.infoOverrideDialog.show();
 					}
+					else if (TabletHeaderPanel.this.worksheetTitle.getText().equals(""))
+					{
+						TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
+						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
+					}
 					else 
 					{
 						TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
