@@ -50,6 +50,7 @@ import geogebra.common.kernel.arithmetic.*;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -2059,8 +2060,10 @@ ExpressionNode numberFunction():
 	      		
 	      }
 	      if(cell!=null && geo==null)	{
-			  	
-	      		return new ExpressionNode(kernel, cell, Operation.FUNCTION, myList.getListElement(0)); 
+			  	if(((GeoCasCell)cell).getFunctionVariables().length <2)			  	{			  	  
+	      		return new ExpressionNode(kernel, cell, Operation.FUNCTION, myList.getListElement(0));
+	      }else	      {				return new ExpressionNode(kernel, cell, Operation.FUNCTION_NVAR, myList);
+	      } 
 	      		
 	      }
 			// create variable object for label to make sure
