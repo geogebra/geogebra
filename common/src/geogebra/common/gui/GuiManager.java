@@ -586,9 +586,11 @@ public abstract class GuiManager {
 				
 				getApp().getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 				getApp().getConstructionProtocolNavigation().setPlayDelay(playDelay);
-				getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
-				
-			
+				if (getApp().isFullAppGui()){
+					getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
+				} else {
+					getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(false);
+				}
 			}
 
 	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
