@@ -12,53 +12,42 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends LayoutPanel
-{
+public class AlgebraViewPanel extends ScrollPanel {
 	private AlgebraViewM algebraView;
 
-	private ScrollPanel scroller;
-	
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
 	 * 
-	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM algebraView}
-	 * to it. Attaches the {@link AlgebraViewM algebraView} to the {@link Kernel
-	 * kernel}.
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
+	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
+	 * {@link Kernel kernel}.
 	 * 
 	 * @param controller
-	 *          MobileAlgebraController
+	 *            MobileAlgebraController
 	 * @param kernel
-	 *          Kernel
+	 *            Kernel
 	 */
-	public AlgebraViewPanel(TouchController controller, Kernel kernel)
-	{
+	public AlgebraViewPanel(TouchController controller, Kernel kernel) {
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
-		this.scroller = new ScrollPanel();
 
-		this.scroller.setWidget(this.algebraView);
-		
 		this.setStyleName("algebraView");
-		
-		this.scroller.setStyleName("algebraView-scroller");
-		
-		this.add(this.scroller);
+		this.setWidget(this.algebraView);
 	}
 
-	public AlgebraView getAlgebraView()
-	{
+	public AlgebraView getAlgebraView() {
 		return this.algebraView;
 	}
-	
+
 	@Override
-	public void setVisible(boolean flag){
+	public void setVisible(boolean flag) {
 		super.setVisible(flag);
 		this.algebraView.setShowing(flag);
 	}
 
 	public void setLabels() {
-		if(this.algebraView != null){
+		if (this.algebraView != null) {
 			this.algebraView.setLabels();
 		}
 	}
