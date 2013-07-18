@@ -13,6 +13,8 @@ import geogebra.touch.utils.ToolBarMenu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -38,6 +40,8 @@ public class ToolBar extends HorizontalPanel
 	protected List<ToolBarButton> tools;
 	private HorizontalPanel toolPanel;
 	private VerticalPanel inputButtonPanel;
+	private HorizontalPanel inputPanel;
+	private SVGResource iconFx = TouchEntryPoint.getLookAndFeel().getIcons().icon_fx();
 	Panel underline;
 
 	protected InputDialog input;
@@ -54,6 +58,7 @@ public class ToolBar extends HorizontalPanel
 
 		this.toolPanel = new HorizontalPanel();
 		this.inputButtonPanel = new VerticalPanel();
+		this.inputPanel = new HorizontalPanel();
 
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
@@ -91,10 +96,18 @@ public class ToolBar extends HorizontalPanel
 		// touchModel.getGuiModel());
 
 		// new Inputbar (Stefanie Bogner)
-		this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
+		//this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
+		
+		this.inputPanel.setStyleName("inputPanel");
+		this.inputPanel.add(this.inputBox);
 		
 		// fx background icon
-		this.inputBox.getElement().setAttribute("style", "background-image: url(" + TouchEntryPoint.getLookAndFeel().getIcons().icon_fx().getSafeUri().asString() + "); background-position: top right; background-repeat: no-repeat;");
+		//this.inputBox.getElement().setAttribute("style", "background-image: url(" + TouchEntryPoint.getLookAndFeel().getIcons().icon_fx().getSafeUri().asString() + "); background-position: top right; background-repeat: no-repeat;");
+		Panel iconPanel = new LayoutPanel();
+		String html = "<img src=\"" + this.iconFx.getSafeUri().asString() + "\" />";
+		iconPanel.getElement().setInnerHTML(html);
+		iconPanel.setStyleName("iconPanel");
+		this.inputPanel.add(iconPanel);
 		
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
@@ -143,7 +156,7 @@ public class ToolBar extends HorizontalPanel
 	this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	this.setVerticalAlignment(ALIGN_MIDDLE);
 	//this.inputButtonPanel.add(inputBarButton);
-	this.inputButtonPanel.add(this.inputBox);
+	this.inputButtonPanel.add(this.inputPanel);
 	
 	//Input Underline for Android
 	this.underline = new LayoutPanel();
