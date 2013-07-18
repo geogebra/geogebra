@@ -1848,25 +1848,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 		}
 
-		// construct default xml data in case we're using an old version which
-		// didn't
-		// store the layout xml.
-		DockPanelData[] dpXml = new DockPanelData[] {
-				new DockPanelData(App.VIEW_EUCLIDIAN, null,
-						true, false, false,
-						geogebra.common.factories.AwtFactory.prototype
-								.newRectangle(400, 400), defEV, 200),
-				new DockPanelData(App.VIEW_ALGEBRA, null,
-						tmp_showAlgebra, false, false,
-						geogebra.common.factories.AwtFactory.prototype
-								.newRectangle(200, 400), defAV, 200),
-				new DockPanelData(App.VIEW_SPREADSHEET, null,
-						tmp_showSpreadsheet, false, false,
-						geogebra.common.factories.AwtFactory.prototype
-								.newRectangle(400, 400), defSV, 200) };
-		tmp_perspective.setDockPanelData(dpXml);
-		tmp_perspective.setShowToolBar(true);
-
 		geogebra.common.awt.GDimension evSize = app.getSettings()
 				.getEuclidian(1).getPreferredSize();
 
@@ -1880,10 +1861,37 @@ public class MyXMLHandler implements DocHandler {
 			height = 440;
 		}
 
+		int ssize = 200;
+		if (tmp_showSpreadsheet) {
+			if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
+				ssize = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+			} else {
+				ssize = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+			}
+		}
+
+		// construct default xml data in case we're using an old version which
+		// didn't
+		// store the layout xml.
+		DockPanelData[] dpXml = new DockPanelData[] {
+				new DockPanelData(App.VIEW_EUCLIDIAN, null,
+						true, false, false,
+						geogebra.common.factories.AwtFactory.prototype
+								.newRectangle(400, 400), defEV, width),
+				new DockPanelData(App.VIEW_ALGEBRA, null,
+						tmp_showAlgebra, false, false,
+						geogebra.common.factories.AwtFactory.prototype
+								.newRectangle(200, 400), defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2 : 200),
+				new DockPanelData(App.VIEW_SPREADSHEET, null,
+						tmp_showSpreadsheet, false, false,
+						geogebra.common.factories.AwtFactory.prototype
+								.newRectangle(400, 400), defSV, ssize) };
+		tmp_perspective.setDockPanelData(dpXml);
+		tmp_perspective.setShowToolBar(true);
+
 		if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
 			if (tmp_showSpreadsheet) {
-				width += 5 + app.getSettings().getSpreadsheet().preferredSize()
-						.getWidth();
+				width += 5 + ssize;
 			}
 
 			if (tmp_showAlgebra) {
@@ -1891,8 +1899,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 		} else {
 			if (tmp_showSpreadsheet) {
-				height += 5 + app.getSettings().getSpreadsheet()
-						.preferredSize().getHeight();
+				height += 5 + ssize;
 			}
 			if (tmp_showAlgebra) {
 				height += 5 + tmp_sp2;
@@ -2121,6 +2128,8 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleSplitDivider(LinkedHashMap<String, String> attrs) {
 		try {
+			tmp_sp1 = 0;
+			tmp_sp2 = 0;
 			tmp_spHorizontal = !"false".equals(attrs.get("horizontal"));
 
 			// There were just two panels in GeoGebra < 3.2, therefore just one
@@ -2152,6 +2161,8 @@ public class MyXMLHandler implements DocHandler {
 			}
 			return true;
 		} catch (Exception e) {
+			tmp_sp1 = 0;
+			tmp_sp2 = 0;
 			return false;
 		}
 	}
