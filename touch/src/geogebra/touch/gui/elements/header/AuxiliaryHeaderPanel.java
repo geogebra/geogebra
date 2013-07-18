@@ -1,7 +1,8 @@
-package geogebra.touch.gui.elements;
+package geogebra.touch.gui.elements.header;
 
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

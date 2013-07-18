@@ -1,9 +1,10 @@
-package geogebra.touch.gui.elements;
+package geogebra.touch.gui.elements.header;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultIcons;
 
 import com.google.gwt.event.dom.client.ClickEvent;

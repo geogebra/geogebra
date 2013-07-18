@@ -4,7 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
-import geogebra.touch.gui.elements.WorksheetHeaderPanel;
+import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;

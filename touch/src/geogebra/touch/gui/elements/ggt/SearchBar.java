@@ -3,8 +3,8 @@ package geogebra.touch.gui.elements.ggt;
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
-import geogebra.touch.gui.elements.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.header.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
