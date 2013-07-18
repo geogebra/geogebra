@@ -364,6 +364,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	protected void onPreviewNativeEvent(NativePreviewEvent event)
 	{
+		if(!this.isVisible()){
+			return;
+		}
+		
 		super.onPreviewNativeEvent(event);
 
 		Event nativeEvent = Event.as(event.getNativeEvent());
