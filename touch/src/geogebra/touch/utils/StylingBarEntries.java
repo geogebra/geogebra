@@ -3,7 +3,7 @@ package geogebra.touch.utils;
 import geogebra.common.awt.GColor;
 import geogebra.html5.awt.GColorW;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -35,7 +35,7 @@ public enum StylingBarEntries
 		return this.entry;
 	}
 
-	private static DefaultIcons getLafIcons()
+	private static DefaultResources getLafIcons()
 	{
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}

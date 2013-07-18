@@ -630,7 +630,7 @@ public class TouchApp extends AppWeb
 		}
 		else
 		{
-			setConstructionTitle(TouchEntryPoint.browseGUI.getChocenMaterial().getMaterialTitle());
+			setConstructionTitle(TouchEntryPoint.browseGUI.getChosenMaterial().getMaterialTitle());
 		}
 		
 		for (Perspective perspective : this.tmpPerspectives) {

@@ -47,8 +47,8 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public DefaultIcons getIcons() {
-		return DefaultIcons.INSTANCE;
+	public DefaultResources getIcons() {
+		return DefaultResources.INSTANCE;
 	}
 
 	@Override

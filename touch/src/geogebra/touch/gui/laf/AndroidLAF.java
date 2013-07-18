@@ -3,10 +3,10 @@ package geogebra.touch.gui.laf;
 public class AndroidLAF extends DefaultLAF
 {
 	@Override
-	public DefaultIcons getIcons()
+	public DefaultResources getIcons()
 	{
 		// TODO Auto-generated method stub
-		return AndroidIcons.INSTANCE;
+		return AndroidResources.INSTANCE;
 	}
 	@Override
 	public int getAppBarHeight()

@@ -23,7 +23,7 @@ public interface LookAndFeel
 
 	public int getAppBarHeight();
 
-	public DefaultIcons getIcons();
+	public DefaultResources getIcons();
 
 	public TabletHeaderPanel getTabletHeaderPanel();
 	

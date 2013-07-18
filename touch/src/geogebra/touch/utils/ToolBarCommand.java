@@ -2,13 +2,13 @@ package geogebra.touch.utils;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 /**
  * Merging Modes from {@link EuclidianConstants} with their icon from
- * {@link DefaultIcons} to one Enum ToolBarCommand.
+ * {@link DefaultResources} to one Enum ToolBarCommand.
  * 
  * @author Matthias Meisinger
  * 
@@ -213,7 +213,7 @@ public enum ToolBarCommand
 	  return this.icon;
   }
 	
-	private static DefaultIcons getLafIcons()
+	private static DefaultResources getLafIcons()
 	{
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}

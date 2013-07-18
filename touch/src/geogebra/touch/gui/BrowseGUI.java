@@ -208,7 +208,7 @@ public class BrowseGUI extends VerticalPanel
 		});
 	}
 	
-	public MaterialListElement getChocenMaterial()
+	public MaterialListElement getChosenMaterial()
 	{
 		return this.tubeFilePanel.getChosenMaterial();
 	}

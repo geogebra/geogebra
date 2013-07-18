@@ -6,7 +6,7 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
@@ -75,7 +75,7 @@ public class InfoDialog extends PopupPanel
 		this.setStyleName("infoDialog");
 	}
 
-	private static DefaultIcons getLafIcons()
+	private static DefaultResources getLafIcons()
 	{
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}

@@ -12,7 +12,7 @@ import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewM;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class StylingBar extends DecoratorPanel
 {
-	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 	HorizontalPanel contentPanel;
 
 	StandardImageButton[] button = new StandardImageButton[0];

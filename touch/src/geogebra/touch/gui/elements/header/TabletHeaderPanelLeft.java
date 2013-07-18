@@ -8,7 +8,7 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -32,7 +32,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 
 	InfoDialog infoDialog;
 
-	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 	private StandardImageButton newButton = new StandardImageButton(LafIcons.document_new());
 	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_open());
 	private StandardImageButton saveButton = new StandardImageButton(LafIcons.document_save());

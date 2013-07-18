@@ -8,7 +8,7 @@ import geogebra.html5.gui.view.algebra.GroupHeader;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -126,7 +126,7 @@ public class AlgebraViewM extends AlgebraViewWeb
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement)
 		{
-			ti.setWidget(new RadioButtonTreeItemT((GeoElement) ob, getLafIcons().algebra_shown().getSafeUri(), DefaultIcons.INSTANCE
+			ti.setWidget(new RadioButtonTreeItemT((GeoElement) ob, getLafIcons().algebra_shown().getSafeUri(), DefaultResources.INSTANCE
 			    .algebra_hidden().getSafeUri(), null, this.controller));
 			ti.getElement().getStyle().setPadding(0, Unit.PX);
 			ti.setStyleName("treeItemWrapper");
@@ -136,12 +136,12 @@ public class AlgebraViewM extends AlgebraViewWeb
 		}
 		else
 		{
-			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob.toString(), DefaultIcons.INSTANCE.triangle_left().getSafeUri(),
+			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob.toString(), DefaultResources.INSTANCE.triangle_left().getSafeUri(),
 			    getLafIcons().triangle_left().getSafeUri()));
 		}
 	}
 
-	private static DefaultIcons getLafIcons()
+	private static DefaultResources getLafIcons()
   {	  
 	  return TouchEntryPoint.getLookAndFeel().getIcons();
   }

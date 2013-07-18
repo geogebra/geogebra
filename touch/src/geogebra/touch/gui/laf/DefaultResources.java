@@ -5,10 +5,11 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
-public interface DefaultIcons extends ClientBundle
+public interface DefaultResources extends ClientBundle
 {
-	static DefaultIcons INSTANCE = GWT.create(DefaultIcons.class);
+	static DefaultResources INSTANCE = GWT.create(DefaultResources.class);
 
 	// Dialogs
 
@@ -479,4 +480,7 @@ public interface DefaultIcons extends ClientBundle
 	@Source("icons/svg/optionsBoxArrow.svg")
 	@Validated(validated = false)
 	SVGResource optionsBoxArrow();
+	
+	@Source("gif/progress_indicator.gif")
+	ImageResource progressIndicator();
 }

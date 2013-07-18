@@ -5,7 +5,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.laf.DefaultIcons;
+import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,7 +13,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 	Material material;
 	
-	private static DefaultIcons LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
 
 	public WorksheetHeaderPanel(final AppWeb app, final FileManagerM fm)
@@ -31,7 +31,6 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 					fm.getMaterial(WorksheetHeaderPanel.this.material, app);
 					TouchEntryPoint.showTabletGUI();
 					TouchEntryPoint.allowEditing(true, WorksheetHeaderPanel.this.material);
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
 				}
 			}
 		});

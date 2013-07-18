@@ -27,10 +27,10 @@ public class WindowsStoreLAF extends DefaultLAF
 	}
 
 	@Override
-	public DefaultIcons getIcons()
+	public DefaultResources getIcons()
 	{
 		// FIXME return windows specific icons
-		return DefaultIcons.INSTANCE;
+		return DefaultResources.INSTANCE;
 	}
 
 	@Override

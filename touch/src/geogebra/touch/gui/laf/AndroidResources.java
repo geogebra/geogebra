@@ -5,10 +5,10 @@ import org.vectomatic.dom.svg.ui.SVGResource.Validated;
 
 import com.google.gwt.core.client.GWT;
 
-interface AndroidIcons extends DefaultIcons
+interface AndroidResources extends DefaultResources
 {
 
-	static AndroidIcons INSTANCE = GWT.create(AndroidIcons.class);
+	static AndroidResources INSTANCE = GWT.create(AndroidResources.class);
 
 	// Dialogs
 
