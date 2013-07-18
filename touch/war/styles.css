@@ -278,9 +278,6 @@ input.worksheetTitle {
 	overflow-y: hidden;
 }
 .algebraView {
-	position: absolute;
-	z-index: 5;
-	
 	/* Border */
 	border-left: #CCCCCC solid 1px;
 	/* Background */
@@ -299,9 +296,6 @@ input.worksheetTitle {
 }
 
 .algebraViewButtonPanel { /* Border */
-	position: absolute;
-	z-index: 10;
-	
 	-webkit-border-bottom-left-radius: 5px;
 	-khtml-border-bottom-left-radius: 5px;
 	-moz-border-radius-bottomleft: 5px;
@@ -369,6 +363,12 @@ div.elemHeadingName {
 
 .elem img {
 	/*margin-top: 5px;*/
+}
+
+.elem td span.gwt-InlineHTML {
+	width: 200px;
+	display: block;
+	overflow: hidden;
 }
 
 .treeItemWrapper {
