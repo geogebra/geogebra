@@ -134,10 +134,6 @@ public class MaterialListElement extends FlowPanel
 			{
 				event.stopPropagation();
 				MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
-				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
-				{
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
-				}
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());

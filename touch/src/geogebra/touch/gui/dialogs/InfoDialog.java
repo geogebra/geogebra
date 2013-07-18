@@ -146,6 +146,7 @@ public class InfoDialog extends PopupPanel
 				{
 					InfoDialog.this.tabletGUI.editTitle();
 				}
+				InfoDialog.this.app.setSaved();
 				InfoDialog.this.hide();
 				
 				if (InfoDialog.this.callback != null)
@@ -174,6 +175,7 @@ public class InfoDialog extends PopupPanel
 						((TouchApp) InfoDialog.this.app).setConstructionTitle(InfoDialog.this.consTitle);
 					}
 				InfoDialog.this.fm.saveFile(InfoDialog.this.app);
+				InfoDialog.this.app.setSaved();
 				InfoDialog.this.hide();
 				if (InfoDialog.this.callback != null)
 				{

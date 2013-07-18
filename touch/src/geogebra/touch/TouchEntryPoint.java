@@ -127,7 +127,6 @@ public class TouchEntryPoint implements EntryPoint
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
 						goBack();
-						TouchEntryPoint.tabletGUI.getTouchModel().getKernel().notifyRepaint();
 					}
 				});
 			}
@@ -157,11 +156,20 @@ public class TouchEntryPoint implements EntryPoint
 				phoneGap.exitApp();
 			}
 		}
+		tabletGUI.getTouchModel().getKernel().notifyRepaint();
+//		tabletGUI.getTouchModel().getKernel().getApplication().setSaved();
+		if (laf.getTabletHeaderPanel() != null) {
+			laf.getTabletHeaderPanel().enableDisableButtons();
+		}
 	}
 
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
+		tabletGUI.getTouchModel().getKernel().notifyRepaint();
+		if (laf.getTabletHeaderPanel() != null) {
+			laf.getTabletHeaderPanel().enableDisableButtons();
+		}
 	}
 
 	public static void showBrowseGUI()
