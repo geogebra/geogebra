@@ -101,8 +101,17 @@ public class StylingBar extends DecoratorPanel
 
 		this.showHide = new ArrowImageButton(LafIcons.triangle_left());
 
-		this.showHide.addHandler(TouchEntryPoint.getLookAndFeel().getStyleBarHandlerShowHide(this, euclidianViewPanel), TouchEntryPoint.getLookAndFeel()
-		    .getStylBarEventType());
+		// this.showHide.addHandler(TouchEntryPoint.getLookAndFeel().getStyleBarHandlerShowHide(this,
+		// euclidianViewPanel), TouchEntryPoint.getLookAndFeel()
+		// .getStylBarEventType());
+		this.showHide.addHandler(new MouseDownHandler()
+		{
+			@Override
+			public void onMouseDown(MouseDownEvent event)
+			{
+				onTouchStartShowHide(event, euclidianViewPanel);
+			}
+		}, MouseDownEvent.getType());
 
 		this.getElement().getStyle().setBackgroundColor(GColor.WHITE.toString());
 
@@ -301,6 +310,7 @@ public class StylingBar extends DecoratorPanel
 
 	public void onTouchStartStyleBarButton(DomEvent<? extends EventHandler> event, StandardImageButton newButton, String process)
 	{
+		event.preventDefault();
 		event.stopPropagation();
 
 		StylingBar.this.guiModel.closeOptions();
@@ -312,6 +322,8 @@ public class StylingBar extends DecoratorPanel
 	public void onTouchStartOptionalButton(DomEvent<? extends EventHandler> event, StandardImageButton eventSource, OptionType type)
 	{
 		event.preventDefault();
+		event.stopPropagation();
+
 		if (StylingBar.this.guiModel.getOptionTypeShown().equals(type))
 		{
 			StylingBar.this.guiModel.closeOptions();
