@@ -2487,7 +2487,7 @@ __GGB__keysVar.es.plain = {
     "SelectionAllowed": "Selecci\xf3n Habilitada",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia a trav\xe9s de %0 y %1",
-    "SharedByA": "Shared by: %0",
+    "SharedByA": "Compartido por: %0",
     "Show": "Muestra",
     "ShowAas2DView": "Muestra el %0 como Vista 2D",
     "ShowAllObjects": "Muestra Todos los Objetos",

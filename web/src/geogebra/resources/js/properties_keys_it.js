@@ -2487,7 +2487,7 @@ __GGB__keysVar.it.plain = {
     "SelectionAllowed": "Consenti selezione",
     "Semicircle": "Semicirconferenza",
     "SemicircleThroughAandB": "Semicirconferenza per %0 e %1",
-    "SharedByA": "Shared by: %0",
+    "SharedByA": "Condiviso da: %0",
     "Show": "Mostra",
     "ShowAas2DView": "Mostra %0 in Vista 2D",
     "ShowAllObjects": "Mostra tutti gli oggetti",
