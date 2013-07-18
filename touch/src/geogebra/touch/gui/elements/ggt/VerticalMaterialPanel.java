@@ -11,9 +11,9 @@ import java.util.Map;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public class VerticalMaterialPanel extends ScrollPanel
+public class VerticalMaterialPanel extends FlowPanel
 {
 	public static final int SPACE = 20;
 	private FlexTable contentPanel;
@@ -30,7 +30,8 @@ public class VerticalMaterialPanel extends ScrollPanel
 		this.app = app;
 		this.fm = fm;
 
-		this.setWidget(this.contentPanel);
+		//this.setWidget(this.contentPanel);
+		this.add(this.contentPanel);
 		this.contentPanel.setWidth("100%");
 	}
 

@@ -95,6 +95,10 @@ body .tubesearchgui input.gwt-TextBox {
 	border-spacing: 0px;
 }
 
+.tubesearchgui .filePanel {
+	overflow-y: auto;
+}
+
 .tubesearchgui .tubeFilePanel {
 	padding: 0px;
 	
@@ -129,8 +133,7 @@ body .tubesearchgui input.gwt-TextBox {
 	color: #666666;
 }
 
-.tubesearchgui .browserFile.selected, 
-.tubesearchgui .browserFile:hover {
+.tubesearchgui .browserFile.selected {
 	background-color: #C2C2FF;
 }
 
