@@ -28,6 +28,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	TouchModel touchModel;
 	TabletGUI tabletGUI;
 	FileManagerM fm;
+	TabletHeaderPanel headerPanel;
 
 	InfoDialog infoDialog;
 
@@ -39,7 +40,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, TouchModel touchModel, FileManagerM fm)
+	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, TouchModel touchModel, FileManagerM fm, TabletHeaderPanel headerPanel)
 	{
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -47,6 +48,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.tabletGUI = tabletGUI;
 		this.touchModel = touchModel;
 		this.fm = fm;
+		this.headerPanel = headerPanel;
 
 		this.infoDialog = new InfoDialog(this.app, fm, touchModel.getGuiModel(), InfoType.SaveChanges, tabletGUI);
 
@@ -73,6 +75,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 				TabletHeaderPanelLeft.this.app.setSaved();
+				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		};
 
@@ -84,6 +87,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				TabletHeaderPanelLeft.this.infoDialog.setCallback(newConstruction);
 				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
+				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 	}
@@ -98,8 +102,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TouchEntryPoint.showBrowseGUI();
+				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		};
+		
 		this.openButton.addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -108,6 +114,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.infoDialog.setCallback(showOpenDialog);
 				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
+				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 	}
@@ -131,7 +138,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				{
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
 				}
-				TabletHeaderPanelLeft.this.enableDisableSave();
+				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 		enableDisableSave();
@@ -153,7 +160,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.infoDialog.setLabels();
 	}
 
-	public void enableDisableSave()
+	protected void enableDisableSave()
 	{
 		if (this.app.isSaved())
 		{
@@ -166,5 +173,4 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			this.saveButton.setEnabled(true);
 		}
 	}
-
 }

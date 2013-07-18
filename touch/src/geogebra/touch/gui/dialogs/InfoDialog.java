@@ -168,6 +168,11 @@ public class InfoDialog extends PopupPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				if (InfoDialog.this.consTitle != null)
+					{
+					
+						((TouchApp) InfoDialog.this.app).setConstructionTitle(InfoDialog.this.consTitle);
+					}
 				InfoDialog.this.fm.saveFile(InfoDialog.this.app);
 				InfoDialog.this.hide();
 				if (InfoDialog.this.callback != null)
@@ -178,6 +183,7 @@ public class InfoDialog extends PopupPanel
 				{
 					App.debug("no callback");
 				}
+				TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 	}
@@ -233,7 +239,6 @@ public class InfoDialog extends PopupPanel
 			this.saveButton.setText(this.loc.getMenu("Overwrite"));
 			this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
 		}
-		
 	}
 
 	public void setCallback(Runnable callback)
@@ -254,5 +259,10 @@ public class InfoDialog extends PopupPanel
 	{
 		super.hide();
 		this.guiModel.setActiveDialog(null);
+	}
+	
+	public void setConsTitle(String title)
+	{
+		this.consTitle = title;
 	}
 }

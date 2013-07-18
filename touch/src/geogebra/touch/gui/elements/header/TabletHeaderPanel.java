@@ -43,6 +43,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 	TouchApp app;
 	FileManagerM fm;
+	protected String newTitle;
 
 	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel, FileManagerM fm)
 	{
@@ -51,7 +52,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 
 		this.app = app;
 		this.fm = fm;
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm, this);
 		this.leftHeader.setStyleName("headerLeft");
 		this.infoOverrideDialog = new InfoDialog(this.app, this.fm, touchModel.getGuiModel(), InfoType.Override, tabletGUI);
 
@@ -80,13 +81,14 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			{
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
-					TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
 					if (TabletHeaderPanel.this.fm.hasFile(TabletHeaderPanel.this.worksheetTitle.getText()))
 					{
+						TabletHeaderPanel.this.infoOverrideDialog.setConsTitle(TabletHeaderPanel.this.worksheetTitle.getText());
 						TabletHeaderPanel.this.infoOverrideDialog.show();
 					}
 					else 
 					{
+						TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
 						TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
 						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 					}
@@ -96,6 +98,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 					TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
 					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				}
+				TabletHeaderPanel.this.enableDisableButtons();
 			}
 		});
 
@@ -123,7 +126,6 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		  				TabletHeaderPanel.this.underline.addStyleName("active");
 		        }
 		    });
-				
 			}
 		});
 
@@ -190,5 +192,16 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public TabletHeaderPanelLeft getLeftHeader()
 	{
 		return this.leftHeader;
+	}
+	
+	/**
+	 * Enable or disable the buttons redo, undo and save.
+	 * 
+	 */
+	public void enableDisableButtons()
+	{
+		this.leftHeader.enableDisableSave();
+		this.rightHeader.enableDisableRedo();
+		this.rightHeader.enableDisableUndo();
 	}
 }

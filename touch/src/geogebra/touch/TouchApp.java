@@ -192,9 +192,7 @@ public class TouchApp extends AppWeb
 
 		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
 		{
-			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getLeftHeader().enableDisableSave();
-			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getRightHeader().enableDisableUndo();
-			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().getRightHeader().enableDisableRedo();
+			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
 		}
 	}
 

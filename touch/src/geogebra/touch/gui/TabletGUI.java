@@ -326,7 +326,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			
 			this.removeStyleName("worksheetgui");
 		}else{
-			System.out.println("worksheet header");
 			this.resizeListeners.clear();
 			WorksheetHeaderPanel whp = new WorksheetHeaderPanel(this.app, this.fm);
 			whp.setMaterial(material);

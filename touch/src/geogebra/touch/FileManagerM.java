@@ -200,7 +200,6 @@ public class FileManagerM
 		else
 		{
 			((TouchApp) app).setConstructionTitle(material.getTitle());
-			System.out.println(material.getURL());
 			getFile(material.getURL(), app);
 		}
 
