@@ -24,8 +24,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-//import geogebra.gui.toolbar.ToolbarContainer;
-//import geogebra.web.gui.util.LayoutUtil;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -1349,7 +1347,11 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	 * @return Whether this view should open in frame.
 	 */
 	public boolean isOpenInFrame() {
-		return openInFrame;
+		//TODO: return openInFrame;
+		//currently opening in an own frame is not implemented on web,
+		//so temporarily it will return false all time (see #3468)
+		return false;
+		//return openInFrame;
 	}
 
 	/**
