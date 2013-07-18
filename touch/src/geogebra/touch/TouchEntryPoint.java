@@ -127,6 +127,7 @@ public class TouchEntryPoint implements EntryPoint
 					public void onBackButtonPressed(BackButtonPressedEvent event)
 					{
 						goBack();
+						TouchEntryPoint.tabletGUI.getTouchModel().getKernel().notifyRepaint();
 					}
 				});
 			}

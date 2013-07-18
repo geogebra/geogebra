@@ -6,6 +6,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InfoDialog;
+import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.TouchModel;
@@ -47,7 +48,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.touchModel = touchModel;
 		this.fm = fm;
 
-		this.infoDialog = new InfoDialog(this.app, fm, touchModel.getGuiModel());
+		this.infoDialog = new InfoDialog(this.app, fm, touchModel.getGuiModel(), InfoType.SaveChanges, tabletGUI);
 
 		initNewButton();
 		initOpenButton();
@@ -120,6 +121,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
+				
 				if (TabletHeaderPanelLeft.this.app.isDefaultFileName()
 				    && TabletHeaderPanelLeft.this.app.getConstructionTitle().equals(TabletHeaderPanelLeft.this.tabletGUI.getConstructionTitle()))
 				{
@@ -130,7 +132,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
 				}
 				TabletHeaderPanelLeft.this.enableDisableSave();
-
 			}
 		}, ClickEvent.getType());
 		enableDisableSave();

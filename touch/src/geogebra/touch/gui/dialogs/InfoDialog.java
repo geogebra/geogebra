@@ -5,6 +5,7 @@ import geogebra.common.main.Localization;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.laf.DefaultIcons;
 import geogebra.touch.model.GuiModel;
 
@@ -23,8 +24,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends PopupPanel
 {
-//	private StandardImageButton cancelButton = new StandardImageButton(getLafIcons().dialog_cancel());
-//	private StandardImageButton okButton = new StandardImageButton(getLafIcons().dialog_ok());
+	public enum InfoType
+	{
+		SaveChanges, Override;
+	}
+	
+	InfoType type;
+	
 	private Button cancelButton = new Button();
 	private Button saveButton = new Button();
 	private Button dontSaveButton = new Button();
@@ -41,14 +47,17 @@ public class InfoDialog extends PopupPanel
 	FileManagerM fm;
 	Runnable callback = null;
 	private GuiModel guiModel;
+	TabletGUI tabletGUI;
 
-	public InfoDialog(App app, FileManagerM fm, GuiModel guiModel)
+	public InfoDialog(App app, FileManagerM fm, GuiModel guiModel, InfoType type, TabletGUI tabletGUI)
 	{
 		super(true, true);
+		this.tabletGUI = tabletGUI;
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.fm = fm;
 		this.setGlassEnabled(true);
+		this.type = type;
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
 		this.infoText = new Label();
@@ -73,7 +82,14 @@ public class InfoDialog extends PopupPanel
 	
 	private void addLabel()
 	{
-		this.title.setText(this.loc.getMenu("CloseFile"));
+		if (this.type == InfoType.SaveChanges)
+		{
+			this.title.setText(this.loc.getMenu("CloseFile"));
+		}
+		else
+		{
+			this.title.setText(this.loc.getMenu("Rename"));
+		}
 		this.dialogPanel.add(this.title);
 		this.title.setStyleName("title");
 	}
@@ -85,7 +101,14 @@ public class InfoDialog extends PopupPanel
 		iconPanel.setStyleName("iconPanel");
 		this.textPanel.add(iconPanel);
 		
-		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		if (this.type == InfoType.SaveChanges)
+		{
+			this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+		}
+		else
+		{
+			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
+		}
 		this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.textPanel.add(this.infoText);
 		
@@ -119,7 +142,12 @@ public class InfoDialog extends PopupPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				if (InfoDialog.this.type == InfoType.Override)
+				{
+					InfoDialog.this.tabletGUI.editTitle();
+				}
 				InfoDialog.this.hide();
+				
 				if (InfoDialog.this.callback != null)
 				{
 					InfoDialog.this.callback.run();
@@ -140,7 +168,6 @@ public class InfoDialog extends PopupPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				// just save in stockStore - no changes of construction title
 				InfoDialog.this.fm.saveFile(InfoDialog.this.app);
 				InfoDialog.this.hide();
 				if (InfoDialog.this.callback != null)
@@ -170,28 +197,43 @@ public class InfoDialog extends PopupPanel
 
 	public void showIfNeeded(TouchApp touchApp)
 	{
-		if (!touchApp.isSaved())
+		if (this.type == InfoType.SaveChanges)
 		{
-			this.consTitle = touchApp.getConstructionTitle();
-			show();
-			super.center();
-		}
-		else
-		{
-			if (this.callback != null)
+			if (!touchApp.isSaved())
 			{
-				this.callback.run();
+				this.consTitle = touchApp.getConstructionTitle();
+				show();
+				super.center();
+			}
+			else
+			{
+				if (this.callback != null)
+				{
+					this.callback.run();
+				}
 			}
 		}
 	}
 
 	public void setLabels()
 	{
-		this.title.setText(this.loc.getMenu("CloseFile"));
-		this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
-		this.cancelButton.setText(this.loc.getMenu("Cancel"));
-		this.saveButton.setText(this.loc.getMenu("Save"));
-		this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
+		if (this.type == InfoType.SaveChanges)
+		{
+			this.title.setText(this.loc.getMenu("CloseFile"));
+			this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+			this.cancelButton.setText(this.loc.getMenu("Cancel"));
+			this.saveButton.setText(this.loc.getMenu("Save"));
+			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
+		}
+		else
+		{
+			this.title.setText(this.loc.getMenu("Rename"));
+			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
+			this.cancelButton.setText(this.loc.getMenu("Cancel"));
+			this.saveButton.setText(this.loc.getMenu("Overwrite"));
+			this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
+		}
+		
 	}
 
 	public void setCallback(Runnable callback)

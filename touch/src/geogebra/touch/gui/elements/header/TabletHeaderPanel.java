@@ -4,9 +4,12 @@ import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.dialogs.InfoDialog;
+import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.TitleChangedListener;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -36,6 +39,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	Panel underline;
 	TextBox worksheetTitle;
 	private TabletHeaderPanelRight rightHeader;
+	InfoDialog infoOverrideDialog;
 
 	TouchApp app;
 	FileManagerM fm;
@@ -49,6 +53,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.fm = fm;
 		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm);
 		this.leftHeader.setStyleName("headerLeft");
+		this.infoOverrideDialog = new InfoDialog(this.app, this.fm, touchModel.getGuiModel(), InfoType.Override, tabletGUI);
 
 		this.titlePanel = new VerticalPanel();
 
@@ -76,8 +81,15 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
-					TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
-					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
+					if (TabletHeaderPanel.this.fm.hasFile(TabletHeaderPanel.this.worksheetTitle.getText()))
+					{
+						TabletHeaderPanel.this.infoOverrideDialog.show();
+					}
+					else 
+					{
+						TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
+						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
+					}
 				}
 				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
 				{
@@ -102,9 +114,16 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			@Override
 			public void onFocus(FocusEvent event)
 			{
-				// set underline active
-				TabletHeaderPanel.this.underline.removeStyleName("inactive");
-				TabletHeaderPanel.this.underline.addStyleName("active");
+				 Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand () {
+		        @Override
+            public void execute () {
+		        	TabletHeaderPanel.this.worksheetTitle.setFocus(true);
+		        	TabletHeaderPanel.this.worksheetTitle.selectAll();
+		  				TabletHeaderPanel.this.underline.removeStyleName("inactive");
+		  				TabletHeaderPanel.this.underline.addStyleName("active");
+		        }
+		    });
+				
 			}
 		});
 
@@ -113,7 +132,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			@Override
 			public void onBlur(BlurEvent event)
 			{
-				// set underline inactive
+				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				TabletHeaderPanel.this.underline.removeStyleName("active");
 				TabletHeaderPanel.this.underline.addStyleName("inactive");
 			}
@@ -149,6 +168,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	public void setLabels()
 	{
 		this.leftHeader.setLabels();
+		this.infoOverrideDialog.setLabels();
 	}
 
 	public String getConstructionTitle()

@@ -34,6 +34,7 @@ public class BrowseGUI extends VerticalPanel
 	private SearchBar searchBar;
 	private FileManagerM fm;
 	private AppWeb app;
+
 	// HorizontalMaterialPanel featuredMaterials;
 	VerticalMaterialPanel localFilePanel, tubeFilePanel;
 	VerticalPanel localFileContainer, tubeFileContainer;
