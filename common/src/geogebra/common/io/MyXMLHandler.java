@@ -530,6 +530,12 @@ public class MyXMLHandler implements DocHandler {
 					if (!App.isFullAppGui()) {
 						width = app.getDataParamWidth();
 						height = app.getDataParamHeight();
+						if (width == 0 || height == 0) {
+							// setting a standard size, like in compabilityLayout
+							// fixing a real bug of height 0
+							width = 600;
+							height = 440;
+						}
 					} else {
 						width = app.getAppCanvasWidth();
 						height = app.getAppCanvasHeight();
