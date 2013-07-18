@@ -1496,23 +1496,32 @@ public class AppW extends AppWeb {
 	}
 
 	public void attachAlgebraInput() {
+		// inputbar's width varies,
+		// so it's probably good to regenerate every time
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
 	}
 
 	public void attachMenubar() {
-		GGWMenuBar menubar = new GGWMenuBar();
-		menubar.init(this);
+		// reusing old menubar is probably a good decision
+		GGWMenuBar menubar = objectPool.getGgwMenubar();
+		if (menubar == null) {
+			menubar = new GGWMenuBar();
+			menubar.init(this);
+			objectPool.setGgwMenubar(menubar);
+		}
 		frame.add(menubar);
-		objectPool.setGgwMenubar(menubar);
 	}
 
 	private GGWToolBar ggwToolBar = null;
 
 	public void attachToolbar() {
-		ggwToolBar = new GGWToolBar();
-		ggwToolBar.init(this);
+		// reusing old toolbar is probably a good decision
+		if (ggwToolBar == null) {
+			ggwToolBar = new GGWToolBar();
+			ggwToolBar.init(this);
+		}
 		frame.add(ggwToolBar);
 	}
 
@@ -2072,5 +2081,48 @@ public class AppW extends AppWeb {
 	@Override
 	public void setPreferredSize(geogebra.common.awt.GDimension size) {
 		preferredSize = size;
+	}
+
+	/**
+	 * Updates the GUI of the main component.
+	 */
+	public void updateContentPane() {
+		updateContentPane(true);
+	}
+
+	private void updateContentPane(boolean updateComponentTreeUI) {
+		if (initing) {
+			return;
+		}
+
+		addMacroCommands();
+
+		if (!isFullAppGui() && frame != null) {
+			// simple but dumb solution, this may be improved
+			frame.clear();
+			buildApplicationPanel();
+		} else {
+			// application mode should have menubar, toolbar, algebra input on
+			// so don't change anything here
+		}
+
+		fontManager.setFontSize(getGUIFontSize());
+
+		// update sizes
+		euclidianView.updateSize();
+
+		// update layout
+		if (updateComponentTreeUI) {
+			((SplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
+			//updateComponentTreeUI();
+		}
+
+		// reset mode and focus
+		setMoveMode();
+
+		if (euclidianView.isShowing()) {
+			euclidianView.requestFocusInWindow();
+		}
+
 	}
 }

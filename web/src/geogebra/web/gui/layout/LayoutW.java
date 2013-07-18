@@ -103,13 +103,16 @@ public class LayoutW extends Layout implements SettingListener {
 				
 				// change the dock panel layout
 				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
-				
+
 				if(!app.isIniting()) {
 					app.updateToolBar();
 					app.updateMenubar();
-					//app.updateContentPane();
+					app.updateContentPane();
 				}
-		app.refreshSplitLayoutPanel();
+
+		// old behaviour: just updating center, instead of updateContentPane
+		//app.refreshSplitLayoutPanel();
+		
     }
 
 	
