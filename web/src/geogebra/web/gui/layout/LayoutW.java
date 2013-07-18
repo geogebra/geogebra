@@ -97,8 +97,14 @@ public class LayoutW extends Layout implements SettingListener {
 					app.getGeoGebraFrame().setCustomToolBar();
 				}
 
-				app.setShowToolBarNoUpdate(perspective.getShowToolBar());
-				app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
+				app.setShowToolBarNoUpdate(perspective.getShowToolBar() &&
+						app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||
+						app.getArticleElement().getDataParamShowToolBar());
+
+				app.setShowAlgebraInput(perspective.getShowInputPanel() &&
+						app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue() ||
+						app.getArticleElement().getDataParamShowAlgebraInput(), false);
+
 				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 				
 				// change the dock panel layout
