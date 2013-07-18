@@ -277,7 +277,7 @@ input.worksheetTitle {
 	margin: 0px 18px 0px 5px;
 	overflow-y: hidden;
 }
-.algebraView {
+.algebraView {	
 	/* Border */
 	border-left: #CCCCCC solid 1px;
 	/* Background */
