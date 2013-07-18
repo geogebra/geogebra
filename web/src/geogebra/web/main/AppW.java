@@ -1468,17 +1468,20 @@ public class AppW extends AppWeb {
 	
 	public void buildApplicationPanel() {
 
-		if (showMenuBar) {
+		if (showMenuBar && articleElement.getDataParamShowMenuBarDefaultTrue() ||
+			articleElement.getDataParamShowMenuBar()) {
 			attachMenubar();
 		}
 
-		if (showToolBar) {
+		if (showToolBar && articleElement.getDataParamShowToolBarDefaultTrue() ||
+			articleElement.getDataParamShowToolBar()) {
 			attachToolbar();
 		}
 
 		attachSplitLayoutPanel();
 
-		if (showAlgebraInput) {
+		if (showAlgebraInput && articleElement.getDataParamShowAlgebraInputDefaultTrue() ||
+			articleElement.getDataParamShowAlgebraInput()) {
 			attachAlgebraInput();
 		}
 	}

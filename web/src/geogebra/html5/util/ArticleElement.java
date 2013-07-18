@@ -99,12 +99,26 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamShowMenuBar() {
 		return ("true".equals(this.getAttribute("data-param-showMenuBar")));
 	}
+
+	/**
+	 * @return the data-param-showMenuBar (default: true)
+	 */
+	public boolean getDataParamShowMenuBarDefaultTrue() {
+		return (!"false".equals(this.getAttribute("data-param-showMenuBar")));
+	}
 	
 	/**
 	 * @return the data-param-showToolBar (default: false)
 	 */
 	public boolean getDataParamShowToolBar() {
 		return ("true".equals(this.getAttribute("data-param-showToolBar")));
+	}
+
+	/**
+	 * @return the data-param-showToolBar (default: true)
+	 */
+	public boolean getDataParamShowToolBarDefaultTrue() {
+		return (!"false".equals(this.getAttribute("data-param-showToolBar")));
 	}
 	
 	/**
@@ -121,7 +135,14 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamShowAlgebraInput() {
 		return ("true".equals(this.getAttribute("data-param-showAlgebraInput")));
 	}
-	
+
+	/**
+	 * @return the data-param-showAlgebraInput (default: true)
+	 */
+	public boolean getDataParamShowAlgebraInputDefaultTrue() {
+		return (!"false".equals(this.getAttribute("data-param-showAlgebraInput")));
+	}
+
 	/**
 	 * @return the data-param-showResetIcon (default: false)
 	 */
