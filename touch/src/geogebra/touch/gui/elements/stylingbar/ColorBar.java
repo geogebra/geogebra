@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.awt.GColorW;
 import geogebra.touch.model.TouchModel;
 
@@ -41,16 +42,23 @@ public class ColorBar extends OptionsContent
 	private void initColors()
 	{
 		this.listOfColors.add(GColor.BLACK);
-		this.listOfColors.add(new GColorW(153, 51, 0));
-		this.listOfColors.add(GColor.MAGENTA);
+		this.listOfColors.add(GeoGebraColorConstants.BROWN);
+		this.listOfColors.add(GeoGebraColorConstants.ORANGE);
+		this.listOfColors.add(GColor.YELLOW);
+		
 		this.listOfColors.add(GColor.BLUE);
 		this.listOfColors.add(GColor.CYAN);
 		this.listOfColors.add(GColor.GREEN);
-		this.listOfColors.add(GColor.YELLOW);
+		this.listOfColors.add(GeoGebraColorConstants.DARKGREEN);
+		
 		this.listOfColors.add(GColor.RED);
-		this.listOfColors.add(GColor.WHITE);
-		this.listOfColors.add(GColor.LIGHT_GRAY);
-		this.listOfColors.add(GColor.GRAY);
+		this.listOfColors.add(GColor.MAGENTA);
+		this.listOfColors.add(GeoGebraColorConstants.LIGHTBLUE);
+		this.listOfColors.add(GeoGebraColorConstants.LIGHTVIOLET);
+		
 		this.listOfColors.add(GColor.DARK_GRAY);
+		this.listOfColors.add(GColor.GRAY);
+		this.listOfColors.add(GColor.LIGHT_GRAY);
+		this.listOfColors.add(GColor.WHITE);
 	}
 }
