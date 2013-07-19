@@ -133,6 +133,26 @@ body .tubesearchgui input.gwt-TextBox {
 	color: #666666;
 }
 
+.tubesearchgui .fileControlPanel .button:hover {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tubesearchgui .filePageControls {
+	float: left;
+}
+
+.tubesearchgui .filePageControls button {
+	background: none;
+	border: none;
+	width: 35px;
+	height: 35px;
+}
+
+.tubesearchgui .filePageControls button.selected {
+	background: #9999FF;
+}
+
 .tubesearchgui .browserFile.selected {
 	background-color: #C2C2FF;
 }

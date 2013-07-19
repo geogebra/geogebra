@@ -10,6 +10,9 @@ body {
 	/* Direct all pointer events to JavaScript code. */
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+	
+	min-height: 600px;
+	background: url(../gif/splash.gif) center center no-repeat #FFFFFF;
 }
 
 /* TOOLS AND STYLEBAR BUTTONS */
