@@ -50,10 +50,10 @@ public class ColorBar extends OptionsContent
 		this.listOfColors.add(GColor.GREEN);
 		this.listOfColors.add(GeoGebraColorConstants.DARKGREEN);
 		
-		this.listOfColors.add(GColor.RED);
-		this.listOfColors.add(GColor.MAGENTA);
 		this.listOfColors.add(GeoGebraColorConstants.LIGHTBLUE);
 		this.listOfColors.add(GeoGebraColorConstants.LIGHTVIOLET);
+		this.listOfColors.add(GColor.MAGENTA);
+		this.listOfColors.add(GColor.RED);
 		
 		this.listOfColors.add(GColor.DARK_GRAY);
 		this.listOfColors.add(GColor.GRAY);
