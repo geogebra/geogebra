@@ -17,6 +17,7 @@ import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -344,6 +345,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		if(b){
 			getLaf().buildHeader(this, this.app, this.touchModel, this.fm);
 			this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
+			this.touchModel.setCommand(this.touchModel.getGuiModel().getCommand());
 			
 			this.removeStyleName("worksheetgui");
 		}else{
@@ -353,6 +355,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			
 			this.setHeaderWidget(whp);
 			this.touchModel.getGuiModel().setStylingBar(null);
+			this.touchModel.setCommand(ToolBarCommand.Move_Mobile);
 			
 			this.addStyleName("worksheetgui");
 		}

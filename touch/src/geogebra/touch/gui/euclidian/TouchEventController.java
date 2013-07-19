@@ -1,6 +1,7 @@
 package geogebra.touch.gui.euclidian;
 
 import geogebra.common.main.App;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 
 import com.google.gwt.dom.client.Touch;
@@ -35,18 +36,20 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	}
 
 	private boolean ignoreMouseDown = false;
+
 	@Override
 	public void onTouchStart(TouchStartEvent event)
 	{
 		if (event.getTouches().length() == 1)
 		{
-			//ensure textfiled loses focus
-			if(!this.mc.isTextfieldHasFocus()){
+			// ensure textfiled loses focus
+			if (!this.mc.isTextfieldHasFocus())
+			{
 				event.preventDefault();
 			}
-			App.debug("Touch down"+getX(event.getTouches().get(0))+","+ getY(event.getTouches().get(0)));
+			App.debug("Touch down" + getX(event.getTouches().get(0)) + "," + getY(event.getTouches().get(0)));
 			this.ignoreMouseDown = true;
-			this.mc.onTouchStart( getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
+			this.mc.onTouchStart(getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
 		}
 		else if (event.getTouches().length() == 2)
 		{
@@ -54,12 +57,14 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		}
 	}
 
-	private int getY(Touch touch) {
+	private int getY(Touch touch)
+	{
 		int y = touch.getClientY();
-		return this.offsetWidget == null ? y : y - this.offsetWidget.getOffsetHeight();
+		return this.offsetWidget == null ? y : y - TouchEntryPoint.getLookAndFeel().getAppBarHeight();
 	}
 
-	private static int getX(Touch touch) {
+	private static int getX(Touch touch)
+	{
 		return touch.getClientX();
 	}
 
@@ -116,14 +121,18 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onMouseDown(MouseDownEvent event)
 	{
-		//ensure textfields lose focus
-		if(!this.mc.isTextfieldHasFocus()){
+		// ensure textfields lose focus
+		if (!this.mc.isTextfieldHasFocus())
+		{
 			event.preventDefault();
 		}
-		if(!this.ignoreMouseDown){
-			App.debug("Mouse down"+event.getX()+","+ event.getY());
+		if (!this.ignoreMouseDown && !TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		{
+			App.debug("Mouse down" + event.getX() + "," + event.getY());
 			this.mc.onTouchStart(event.getX(), event.getY());
-		}else{
+		}
+		else
+		{
 			this.ignoreMouseDown = false;
 		}
 	}
@@ -131,14 +140,20 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
-		this.mc.onTouchMove(event.getX(), event.getY());
+		if (!TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		{
+			this.mc.onTouchMove(event.getX(), event.getY());
+		}
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
 		event.preventDefault();
-		this.mc.onTouchEnd(event.getX(), event.getY());
+		if (!TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		{
+			this.mc.onTouchEnd(event.getX(), event.getY());
+		}
 	}
 
 	@Override
