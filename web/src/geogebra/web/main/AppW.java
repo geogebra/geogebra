@@ -72,7 +72,6 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.gui.layout.panels.Euclidian2DockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
@@ -1555,21 +1554,19 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-    public void syncAppletPanelSize(int width, int height, int evno) {
+    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		if (!isFullAppGui()) {
 			if (evno == 1 && getEuclidianView1().isShowing()) {
 				// this should follow the resizing of the EuclidianView
-				int widthDiff = width - euclidianViewPanel.getOffsetWidth();
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 			} else if (evno == 2 && getEuclidianView2().isShowing()) {// or the EuclidianView 2
-				Euclidian2DockPanelW ew = (Euclidian2DockPanelW)
-					getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN2);
-				int widthDiff = width - ew.getOffsetWidth();
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff, height);
+						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 			}
 		}
 	}
