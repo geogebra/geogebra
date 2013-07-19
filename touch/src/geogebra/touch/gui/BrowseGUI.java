@@ -56,7 +56,7 @@ public class BrowseGUI extends VerticalPanel
 	private StandardImageButton nextTubeButton = new StandardImageButton(LafIcons.arrow_go_next());
 	
 	private final static int HEADING_HEIGHT = 50;
-	private final static int CONTROLS_HEIGHT = 50;
+	public final static int CONTROLS_HEIGHT = 50;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -71,7 +71,6 @@ public class BrowseGUI extends VerticalPanel
 		this.fm = fm;
 		this.app = app;
 		this.searchBar = new SearchBar(this.app.getLocalization(), this);
-		this.searchBar.setWidth(Window.getClientWidth());
 		this.searchBar.addSearchListener(new SearchListener()
 		{
 			@Override
@@ -119,7 +118,7 @@ public class BrowseGUI extends VerticalPanel
 			@Override
 			public void onResize(ResizeEvent event)
 			{
-				BrowseGUI.this.onResize(event);
+				BrowseGUI.this.onResize();
 			}
 		});
 	}
@@ -171,9 +170,9 @@ public class BrowseGUI extends VerticalPanel
 		}
 	}
 
-	protected void onResize(ResizeEvent event)
+	public void onResize()
 	{
-		this.searchBar.onResize(event);
+		this.searchBar.onResize();
 
 		// this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
 
@@ -184,6 +183,8 @@ public class BrowseGUI extends VerticalPanel
 		{
 			this.localFilePanel.setHeight(newHeight + "px");
 			this.tubeFilePanel.setHeight(newHeight + "px");
+			this.localFilePanel.updateHeight();
+			this.tubeFilePanel.updateHeight();
 		}
 	}
 

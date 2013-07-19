@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -177,15 +176,9 @@ public class SearchBar extends AuxiliaryHeaderPanel
 		}
 	}
 
-	public void setWidth(int width)
+	public void onResize()
 	{
-		// this.query.setWidth(width/2 - 100 + "px");
-		// TODO: Do we need this? It destroys my design
-	}
-
-	public void onResize(ResizeEvent event)
-	{
-		this.setWidth(event.getWidth());
+		
 	}
 
 	private static LookAndFeel getLaf()

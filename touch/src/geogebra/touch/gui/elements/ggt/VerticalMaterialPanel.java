@@ -3,8 +3,11 @@ package geogebra.touch.gui.elements.ggt;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.BrowseGUI;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +21,18 @@ public class VerticalMaterialPanel extends FlowPanel
 	public static final int SPACE = 20;
 	private FlexTable contentPanel;
 	private AppWeb app;
+	private int materialHeight = 140;
 	private FileManagerM fm;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	
-	private int start, end;
+	private int start;
 	private List<Material> materials; 
+	
+	private static int maxHeight(){
+		return Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - BrowseGUI.CONTROLS_HEIGHT;
+	}
 
 	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
 	{
@@ -57,19 +65,13 @@ public class VerticalMaterialPanel extends FlowPanel
 			this.contentPanel.getCellFormatter().setWidth(0, 0, "100%");
 		}
 
-		int totalHeight = 0;
-		for (int i = 0; i < materials.size() - this.start; i++)
+		for (int i = 0; i < materials.size() - this.start && i < maxHeight() / this.materialHeight; i++)
 		{
 			Material m = materials.get(i+this.start);
 			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
 			preview.initButtons();
 			this.titlesToPreviews.put(m.getURL(), preview);
-			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
-			totalHeight += 140;			
-			this.end = this.start + i;
-			if(totalHeight > Window.getClientHeight() - 200){
-				break;
-			}
+			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);			
 		}
 		
 		
@@ -125,16 +127,29 @@ public class VerticalMaterialPanel extends FlowPanel
 	}
 
 	public void nextPage() {
-		if(this.end+1 >= this.materials.size()){
+		if(this.start + maxHeight() / this.materialHeight >= this.materials.size()){
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, this.end+1);	
+		this.setMaterials(this.columns, this.materials, this.start + maxHeight() / this.materialHeight);	
 	}
 	
 	public void prevPage() {
 		if(this.start <= 0){
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, Math.max(0, this.start-(this.end+1 - this.start)));	
+		this.setMaterials(this.columns, this.materials, this.start - maxHeight() / this.materialHeight);	
+	}
+
+	public void updateHeight() {
+		Iterator<MaterialListElement> material = this.titlesToPreviews.values().iterator();
+		if(material.hasNext()){
+			if(material.next().getOffsetHeight() > 0){
+				this.materialHeight = material.next().getOffsetHeight();
+			}
+		}
+		//if(this.materialHeight != oldMaterialHeight){
+			this.setMaterials(this.columns, this.materials, this.start);
+		//}
+		
 	}
 }

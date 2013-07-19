@@ -170,6 +170,7 @@ public class TouchEntryPoint implements EntryPoint {
 
 	public static void showBrowseGUI() {
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
+		TouchEntryPoint.browseGUI.onResize();
 	}
 
 	public static void showWorksheetGUI(Material material) {
