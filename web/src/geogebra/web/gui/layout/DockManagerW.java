@@ -153,11 +153,11 @@ public class DockManagerW implements  SetLabels {
 					panel.setOpenInFrame(dpData[i].isOpenInFrame());
 					
 					// detach views which were visible, but are not in the new perspective
-					if(panel.isVisible() && !dpData[i].isVisible()) {
+					if(panel.isVisible() && (!dpData[i].isVisible() || dpData[i].isOpenInFrame())) {
 						app.getGuiManager().detachView(panel.getViewId());
 					}
 					
-					panel.setVisible(dpData[i].isVisible());
+					panel.setVisible(dpData[i].isVisible() && !dpData[i].isOpenInFrame());
 				}
 			}
 		}
@@ -234,7 +234,7 @@ public class DockManagerW implements  SetLabels {
 			for(int i = 0; i < dpData.length; ++i) {
 				DockPanelW panel = getPanel(dpData[i].getViewId());
 				// skip panels which will not be drawn in the main window
-				if(!dpData[i].isVisible()
+				if(!dpData[i].isVisible() || dpData[i].isOpenInFrame()
 						// eg run "no 3D" with 3D View open in saved settings
 						|| panel == null){
 					continue;
@@ -243,10 +243,10 @@ public class DockManagerW implements  SetLabels {
 				// attach view to kernel (being attached multiple times is ignored)
 				app.getGuiManager().attachView(panel.getViewId());
 				
-				if(dpData[i].isOpenInFrame()) {
-					show(panel);
-					continue;
-				}
+				//if(dpData[i].isOpenInFrame()) {
+				//	show(panel);
+				//	continue;
+				//}
 				
 				DockSplitPaneW currentParent = rootPane;
 				String[] directions = dpData[i].getEmbeddedDef().split(",");
