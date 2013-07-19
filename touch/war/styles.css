@@ -356,8 +356,8 @@ div.elemHeadingName {
 	padding-right: 5px;
 }
 
-.elem img { /*margin-top: 5px;*/
-	
+.elem .marble {
+	margin-top: 3px;
 }
 
 .elem td span.gwt-InlineHTML {

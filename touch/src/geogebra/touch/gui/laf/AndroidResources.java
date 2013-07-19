@@ -90,5 +90,15 @@ interface AndroidResources extends DefaultResources
 	@Source("icons/svg/android/icon_question.svg")
 	@Validated(validated = false)
 	SVGResource icon_question();
+	
+	@Override
+	@Source("icons/svg/android/arrow_go_previous.svg")
+	@Validated(validated = false)
+	SVGResource arrow_go_previous();
+	
+	@Override
+	@Source("icons/svg/android/arrow_go_next.svg")
+	@Validated(validated = false)
+	SVGResource arrow_go_next();
 
 }

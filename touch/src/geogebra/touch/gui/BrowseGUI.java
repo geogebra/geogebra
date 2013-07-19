@@ -7,10 +7,12 @@ import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.ggt.MaterialListElement;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
+import geogebra.touch.gui.laf.DefaultResources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,7 +47,21 @@ public class BrowseGUI extends VerticalPanel
 	
 	private Label headingMyProfile;
 	private Label headingGeoGebraTube;
+	
+	private FlowPanel localFileControlPanel;
+	private FlowPanel tubeFileControlPanel;
+	
+	private HorizontalPanel localFilePages;
+	private HorizontalPanel tubeFilePages;
+	
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private StandardImageButton prevLocalButton = new StandardImageButton(LafIcons.arrow_go_previous());
+	private StandardImageButton nextLocalButton = new StandardImageButton(LafIcons.arrow_go_next());
+	private StandardImageButton prevTubeButton = new StandardImageButton(LafIcons.arrow_go_previous());
+	private StandardImageButton nextTubeButton = new StandardImageButton(LafIcons.arrow_go_next());
+	
 	private final static int HEADING_HEIGHT = 50;
+	private final static int CONTROLS_HEIGHT = 50;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -93,12 +110,45 @@ public class BrowseGUI extends VerticalPanel
 		this.tubeFileContainer.setStyleName("tubeFilePanel");
 		this.tubeFileContainer.add(this.headingGeoGebraTube);
 		this.tubeFileContainer.add(this.tubeFilePanel);
+		
+		// Panel for page controls local files
+		this.localFileControlPanel = new FlowPanel();
+		this.localFileControlPanel.setStyleName("fileControlPanel");
+		
+		this.prevLocalButton.addStyleName("prevButton");
+		this.localFileControlPanel.add(this.prevLocalButton);
+		
+		this.localFilePages = new HorizontalPanel();
+		this.localFilePages.setStyleName("filePageControls");
+		//TODO: add number buttons here
+		
+		this.localFileControlPanel.add(this.localFilePages);
+		this.nextLocalButton.addStyleName("nextButton");
+		this.localFileControlPanel.add(this.nextLocalButton);
+		this.localFileContainer.add(this.localFileControlPanel);
+		
+		// Panel for page controls tube files
+		this.tubeFileControlPanel = new FlowPanel();
+		this.tubeFileControlPanel.setStyleName("fileControlPanel");
+		
+		this.prevTubeButton.addStyleName("prevButton");
+		this.tubeFileControlPanel.add(this.prevTubeButton);
+		
+		this.tubeFilePages = new HorizontalPanel();
+		this.tubeFilePages.setStyleName("filePageControls");
+		//TODO: add number buttons here
+		
+		this.tubeFileControlPanel.add(this.tubeFilePages);
+		this.nextTubeButton.addStyleName("nextButton");
+		this.tubeFileControlPanel.add(this.nextTubeButton);
+		this.tubeFileContainer.add(this.tubeFileControlPanel);
 
+		
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
 
-		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT + "px");
-		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT + "px");
+		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
+		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
 		HorizontalPanel fileList = new HorizontalPanel();
 		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
@@ -171,7 +221,7 @@ public class BrowseGUI extends VerticalPanel
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - HEADING_HEIGHT;
+		int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - HEADING_HEIGHT - CONTROLS_HEIGHT ;
 		if (newHeight > 0)
 		{
 			this.localFilePanel.setHeight(newHeight + "px");

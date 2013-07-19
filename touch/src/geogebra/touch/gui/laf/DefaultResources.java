@@ -471,6 +471,14 @@ public interface DefaultResources extends ClientBundle
 	@Source("icons/svg/empty.svg")
 	@Validated(validated = false)
 	SVGResource icon_question();
+	
+	@Source("icons/svg/empty.svg")
+	@Validated(validated = false)
+	SVGResource arrow_go_previous();
+	
+	@Source("icons/svg/empty.svg")
+	@Validated(validated = false)
+	SVGResource arrow_go_next();
 
 	// New Styles
 	@Source("icons/svg/subToolbarArrow.svg")

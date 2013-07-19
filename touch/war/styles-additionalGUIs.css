@@ -96,7 +96,7 @@ body .tubesearchgui input.gwt-TextBox {
 }
 
 .tubesearchgui .filePanel {
-	overflow-y: auto;
+	overflow-y: hidden;
 }
 
 .tubesearchgui .tubeFilePanel {
@@ -185,6 +185,31 @@ body .tubesearchgui .fileLinks .button {
 
 .tubesearchgui .fileClear {
 	clear: both;
+}
+
+.tubesearchgui .fileControlPanel {
+	height: 40px;
+	margin-left: 7px;
+	margin-right: 7px;
+	padding-top: 10px;
+	color: #666666;
+}
+
+.tubesearchgui .fileControlPanel .button {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.tubesearchgui .filePageControls {
+	float: left;
+}
+
+.prevButton {
+	float: left;
+}
+
+.nextButton {
+	float:right;
 }
 
 /* WORKSHEET GUI CONTENT */
