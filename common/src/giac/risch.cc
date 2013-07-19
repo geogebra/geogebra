@@ -615,7 +615,7 @@ namespace giac {
       vecteur eprim(s+1);
       gen lnc,remains;
       for (int j=s-1;j>0;--j){
-	// eprim[j] ' + (j+1) eprim[j+1] * v.front()' = e[j]
+	// eprim[s-j] ' =  e[s-1-j] - (j+1) eprim[s-j-1] * v.front()'
 	if (!in_risch(e[s-1-j]-(j+1)*eprim[s-1-j]*dX,x,v1,X._SYMBptr->feuille,eprim[s-j],lnc,remains,contextptr)){
 	  remains_to_integrate=remains_to_integrate+symb_horner(e,X);
 	  return false;
@@ -746,7 +746,9 @@ namespace giac {
 	    return false;
 	  // compute u'/u, must be a multiple of it->num/it->den
 	  lncoeff=normal(allowed_lnarg*r2sym(it->num,l,contextptr)/(derive(allowed_lnarg,x,contextptr)*r2sym(it->den,l,contextptr)),contextptr);
-	  return is_zero(derive(lncoeff,x,contextptr));
+	  if (!is_zero(derive(lncoeff,x,contextptr)))
+	    return false;
+	  continue;
 	}
 	// Logarithmic part: compute resultant of num - t * den
 	polynome p1(s);
@@ -851,7 +853,7 @@ namespace giac {
     }
     res += risch_lin(remsum,x,remains_to_integrate,contextptr);
     if (!has_i(e_orig) && has_i(remains_to_integrate))
-      remains_to_integrate=ratnormal(_exp2trig(remains_to_integrate,contextptr));
+      remains_to_integrate=ratnormal(re(_exp2trig(remains_to_integrate,contextptr),contextptr));
     vector<const unary_function_ptr *> SiCiexp(1,at_Si);
     SiCiexp.push_back(at_Ci);
     SiCiexp.push_back(at_exp);

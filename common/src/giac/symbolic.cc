@@ -340,7 +340,7 @@ namespace giac {
 #endif
     bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
     if (abs_calc_mode(contextptr)==38){
-      bool need=need_parenthesis(arg);
+      bool need=need_parenthesis(arg) || arg.type==_SYMB;
       if (pui==plus_one_half){
 	s += (need?"√(":"√");
 	add_print(s,arg,contextptr);

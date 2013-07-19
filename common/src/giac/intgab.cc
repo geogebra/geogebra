@@ -1022,7 +1022,7 @@ namespace giac {
 		  return true;
 		}
 		if (is_strictly_greater(radius,wabs,contextptr)){
-		  somme_residues = somme_residues + residue(gof,x,w[i],contextptr);
+		  somme_residues = somme_residues + tmpresidue; // was residue(gof,x,w[i],contextptr) but no reason to compute it twice...
 		  if (is_undef(somme_residues))
 		    return false;
 		}

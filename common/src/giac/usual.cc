@@ -770,6 +770,8 @@ namespace giac {
 	      q=1;
 	    if (d<0){ r=-r; d=-d; }
 	    if (r<0) r += 2*d;
+	    if (abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)
+	      return q*symb_exp(r*(cst_pi*cst_i/d));
 	    // exp(r*i*pi/d) -> use rootof([1,..,0],cyclotomic(2*d))
 	    vecteur vr(r+1);
 	    vr[0]=1;

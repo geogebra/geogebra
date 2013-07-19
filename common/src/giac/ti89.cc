@@ -966,7 +966,15 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
       return gensizeerr(contextptr);
-    vecteur & v=*g._VECTptr;
+    vecteur v=*g._VECTptr;
+    if (ckmatrix(g)){
+      for (unsigned i=0;i<v.size();++i){
+	v[i].subtype=0;
+      }
+      return gen(v);
+    }
+    if (v.size()!=2)
+      return gensizeerr(contextptr);
     gen taille=evalf_double(v[1],1,contextptr);
     if (g.subtype!=_SEQ__VECT || v.size()!=2 || v[0].type!=_VECT || taille.type!=_DOUBLE_)
       return vecteur(1,v);
