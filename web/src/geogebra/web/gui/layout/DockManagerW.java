@@ -10,6 +10,7 @@ import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
@@ -391,16 +392,34 @@ public class DockManagerW implements  SetLabels {
 			int windowHeight;
 			if (app.isApplet() || !App.isFullAppGui()) {
 
-				// old version, should we support it?
-				// data-param-height is not the same as the height of the split pane!
-				//windowWidth = app.getDataParamWidth();
-				//windowHeight = app.getDataParamHeight();
+				// window width can be get almost exactly
+				windowWidth = app.getDataParamWidth();
+				// if it is not 0, there will be some scaling later
+				if (windowWidth <= 0)
+					windowWidth = spw.get(rootPane);
+				// note that data-param settings now override GGB XML!
 
-				windowWidth = spw.get(rootPane);
-				windowHeight = sph.get(rootPane);
+				// this is applet window height 
+				windowHeight = app.getDataParamHeight();
+				// but we want to know the available height for the rootPane
+				// so we either use the above as a heuristic,
+				// or we should substract the height(s) of
+				// toolbar, menubar, and input bar;
+				// heuristics come from GeoGebraAppFrame
+				if (app.showAlgebraInput())
+					windowHeight -= GeoGebraAppFrame.GGWCommandLine_HEIGHT;
+				if (app.showToolBar())
+					windowHeight -= GeoGebraAppFrame.GGWToolBar_HEIGHT;
+				// menubar height might be there too,
+				// but hope it is not there for now (heuristics)
+				if (windowHeight <= 0)
+					windowHeight = sph.get(rootPane);
 
 				rootPane.clear();
 				rootPane.setPixelSize(windowWidth, windowHeight);
+
+				// for debugging
+				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 			} else {
 				windowWidth = app.getAppFrame().getOffsetWidth();
 				windowHeight = app.getAppFrame().getOffsetHeight();
