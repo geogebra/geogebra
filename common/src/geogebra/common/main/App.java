@@ -1968,6 +1968,10 @@ public abstract class App implements UpdateSelection{
 		return showToolBar;
 	}
 
+	public boolean showMenuBar() {
+		return showMenuBar;
+	}
+
 	public void setShowMenuBar(boolean flag) {
 		showMenuBar = flag;
 	}

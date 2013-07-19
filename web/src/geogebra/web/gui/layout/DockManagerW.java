@@ -394,9 +394,16 @@ public class DockManagerW implements  SetLabels {
 
 				// window width can be get almost exactly
 				windowWidth = app.getDataParamWidth();
+
 				// if it is not 0, there will be some scaling later
-				if (windowWidth <= 0)
+				if (windowWidth <= 0) {
 					windowWidth = spw.get(rootPane);
+
+					// empirical hack to make room for the toolbar always
+					if (app.showToolBar() && windowWidth < 600)
+						windowWidth = 600;
+					// maybe this has to be put outside the "if"?
+				}
 				// note that data-param settings now override GGB XML!
 
 				// this is applet window height 
@@ -410,6 +417,8 @@ public class DockManagerW implements  SetLabels {
 					windowHeight -= GeoGebraAppFrame.GGWCommandLine_HEIGHT;
 				if (app.showToolBar())
 					windowHeight -= GeoGebraAppFrame.GGWToolBar_HEIGHT;
+				if (app.showMenuBar())
+					windowHeight -= 35;// empirical observation
 				// menubar height might be there too,
 				// but hope it is not there for now (heuristics)
 				if (windowHeight <= 0)
