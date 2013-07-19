@@ -2,6 +2,7 @@ package geogebra.touch;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -638,6 +639,8 @@ public class TouchApp extends AppWeb
 				toggleAVvisibility(perspective.getDockPanelData());
 			}
 		}
+		this.setMode(EuclidianConstants.MODE_MOVE);
+		this.touchGUI.resetMode();
 		this.kernel.notifyRepaint();
 	}
 
