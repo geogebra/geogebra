@@ -548,7 +548,8 @@ public class TouchModel {
 		// commands that need one line and any other object
 		case ReflectObjectAboutLine:
 			if (!changeSelectionState(hits, Test.GEOLINE, 1)) {
-				select(hits, 1 + getNumberOf(Test.GEOLINE));
+				changeSelectionState(hits.get(0));
+				//select(hits, 1 + getNumberOf(Test.GEOLINE));
 			}
 			draw = getNumberOf(Test.GEOLINE) >= 1 && getTotalNumber() >= 2;
 			break;
@@ -885,9 +886,9 @@ public class TouchModel {
 			GeoLine line = getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) getElement(
 					Test.GEOLINE, 1) : (GeoLine) getElement(Test.GEOLINE);
 			deselect(line);
-			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-					null, this.selectedElements.get(0), line)) {
-				newElements.add(e);
+			for(GeoElement source: this.selectedElements){
+					addAll(newElements, this.kernel.getAlgoDispatcher().Mirror(
+							null, source, line));
 			}
 			break;
 		case ReflectObjectAboutCircle:
@@ -896,9 +897,9 @@ public class TouchModel {
 					Test.GEOCONIC, 1)
 					: (GeoConic) getElement(Test.GEOCONIC);
 			deselect(circle);
-			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-					null, this.selectedElements.get(0), circle)) {
-				newElements.add(e);
+			for(GeoElement source: this.selectedElements){
+				addAll(newElements,  this.kernel.getAlgoDispatcher().Mirror(
+						null, source, circle));
 			}
 			break;
 		case ReflectObjectAboutPoint:
@@ -907,9 +908,9 @@ public class TouchModel {
 					Test.GEOPOINT, 1)
 					: (GeoPoint) getElement(Test.GEOPOINT);
 			deselect(mirrorPoint);
-			for (GeoElement e : this.kernel.getAlgoDispatcher().Mirror(
-					null, this.selectedElements.get(0), mirrorPoint)) {
-				newElements.add(e);
+			for(GeoElement source: this.selectedElements){
+				addAll(newElements, this.kernel.getAlgoDispatcher().Mirror(
+						null, source, mirrorPoint));
 			}
 			break;
 		case Dilate:
@@ -939,9 +940,9 @@ public class TouchModel {
 					Test.GEOVECTOR, 1)
 					: (GeoVector) getElement(Test.GEOVECTOR);
 			deselect(vector);
-			for (GeoElement e : this.kernel.getAlgoDispatcher().Translate(
-					null, this.selectedElements.get(0), vector)) {
-				newElements.add(e);
+			for(GeoElement source:this.selectedElements){
+				addAll(newElements,this.kernel.getAlgoDispatcher().Translate(
+						null, source, vector));
 			}
 			break;
 		case Tangents:
@@ -1420,32 +1421,34 @@ public class TouchModel {
 			return false;
 		}
 		
-		GeoElement[] newGeoElements;
+		ArrayList<GeoElement> newGeoElements = new ArrayList<GeoElement>();
 
 		switch (this.command) {
 		case RegularPolygon:
-			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher()
+			addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher()
 					.RegularPolygon(null, (GeoPoint) getElement(Test.GEOPOINT),
 							(GeoPoint) getElement(Test.GEOPOINT, 1),
-							(NumberValue) result[0]);
+							(NumberValue) result[0]));
 			resetSelection();
 			break;
 			
 		case Dilate:
 			GeoPoint start = (GeoPoint) getElement(Test.GEOPOINT);
-			GeoElement geoDil = this.selectedElements.get(0) == start ? this.selectedElements
-					.get(1) : this.selectedElements.get(0);
-			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Dilate(
-					null, geoDil, (NumberValue) result[0], start);
+			deselect(start);
+			for(GeoElement source: this.selectedElements){
+				addAll(newGeoElements, TouchModel.this.kernel.getAlgoDispatcher().Dilate(
+					null, source, (NumberValue) result[0], start));
+			}
 			resetSelection();
 			break;
 			
-		case RotateObjectByAngle: 
+		case RotateObjectByAngle:
 			GeoPoint center = lastSelected() instanceof GeoPoint ? (GeoPoint) lastSelected() : (GeoPoint) getElement(Test.GEOPOINT);
-			GeoElement geoRotate = this.selectedElements.get(0) == center ? this.selectedElements
-					.get(1) : this.selectedElements.get(0);
-			newGeoElements = TouchModel.this.kernel.getAlgoDispatcher().Rotate(
-					null, geoRotate, (GeoNumberValue) result[0], center);
+			deselect(center);
+			for(GeoElement source: this.selectedElements){
+			 addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher().Rotate(
+					null, source, (GeoNumberValue) result[0], center));
+			}
 			resetSelection();
 			break;
 			
@@ -1465,6 +1468,14 @@ public class TouchModel {
 		this.commandFinished = true;
 		this.kernel.getApplication().storeUndoInfo();
 		return true;
+	}
+
+	private static void addAll(ArrayList<GeoElement> newGeoElements,
+			GeoElement[] regularPolygon) {
+		for(GeoElement geo:regularPolygon){
+			newGeoElements.add(geo);
+		}
+		
 	}
 
 	public void redefine(final GeoElement geo) {
