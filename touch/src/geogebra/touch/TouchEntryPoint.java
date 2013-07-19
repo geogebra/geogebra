@@ -43,7 +43,6 @@ public class TouchEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		progressIndicator.show();
 
 		loadMobileAsync();
 

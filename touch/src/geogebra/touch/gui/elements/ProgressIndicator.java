@@ -5,28 +5,21 @@ import geogebra.touch.gui.laf.DefaultResources;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-public class ProgressIndicator extends PopupPanel {
+public class ProgressIndicator extends PopupPanel
+{
 
 	private static Image progressIndicator = new Image(DefaultResources.INSTANCE.progressIndicator());
 
-	static
+	public ProgressIndicator()
 	{
-		progressIndicator.setPixelSize(50, 50);
-	}
-	
-	@Override
-	public void show() {
-		this.setPixelSize(50, 50);
+		super(false);
 		this.setWidget(ProgressIndicator.progressIndicator);
+	}
+
+	@Override
+	public void show()
+	{
 		super.show();
 		this.center();
-
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
-
-		this.remove(ProgressIndicator.progressIndicator);
 	}
 }
