@@ -29,6 +29,8 @@ public interface GeoGebraTouchGUI
 
 	public void resetMode();
 
+	public boolean isAlgebraShowing();
+
 	// TODO: use with SelectionManager
 	// public void updateStylingBar(SelectionManager selectionManager);
 }

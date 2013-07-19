@@ -383,9 +383,10 @@ public class TouchApp extends AppWeb
 		int width = Window.getClientWidth();
 		int algebraWidth = TabletGUI.computeAlgebraWidth();
 		int height = Window.getClientHeight();
+		
 		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0,0), 
 				AwtFactory.prototype.newDimension(width - algebraWidth, height), "", width - algebraWidth);
-		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", true, false, true, new GPoint(width - algebraWidth,0), 
+		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", this.touchGUI.isAlgebraShowing()  , false, true, new GPoint(width - algebraWidth,0), 
 				AwtFactory.prototype.newDimension(algebraWidth, height), "", algebraWidth);
 		tmp.setSplitPaneData(new DockSplitPaneData[0]);
 		tmp.setDockPanelData(dock);

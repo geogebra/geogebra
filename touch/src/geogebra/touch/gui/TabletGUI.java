@@ -368,6 +368,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		
 	}
 
+	@Override
+	public boolean isAlgebraShowing() {
+		return this.algebraViewPanel.isVisible();
+	}
+
 	// TODO: use with SelelctionManager
 	// @Override
 	// public void updateStylingBar(SelectionManager selectionManager) {
