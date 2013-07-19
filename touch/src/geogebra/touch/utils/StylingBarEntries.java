@@ -1,7 +1,7 @@
 package geogebra.touch.utils;
 
 import geogebra.common.awt.GColor;
-import geogebra.html5.awt.GColorW;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -11,10 +11,10 @@ public enum StylingBarEntries
 {
 	Point(GColor.blue, new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), DependentPoints(GColor.darkGray,
 	    new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), Line(GColor.black, new SVGResource[] {
-	    getLafIcons().color(), getLafIcons().properties_default() }), Polygon(new GColorW(153, 51, 0), new SVGResource[] {
+	    getLafIcons().color(), getLafIcons().properties_default() }), Polygon(GeoGebraColorConstants.BROWN, new SVGResource[] {
 	    getLafIcons().color(), getLafIcons().properties_default() }), Move(null, new SVGResource[] {
-	    getLafIcons().show_or_hide_the_axes(), getLafIcons().show_or_hide_the_grid() }), Angle(GColor.green, new SVGResource[] {
-	    getLafIcons().color(), getLafIcons().properties_default() });
+	    getLafIcons().show_or_hide_the_axes(), getLafIcons().show_or_hide_the_grid() }), Angle(GeoGebraColorConstants.DARKGREEN, 
+	    new SVGResource[] {getLafIcons().color(), getLafIcons().properties_default() });
 
 	GColor defaultColor;
 	SVGResource[] entry;

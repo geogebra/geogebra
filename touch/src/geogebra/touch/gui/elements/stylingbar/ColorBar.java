@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.html5.awt.GColorW;
 import geogebra.touch.model.TouchModel;
 
 import java.util.ArrayList;
