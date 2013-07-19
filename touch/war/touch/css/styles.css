@@ -1,0 +1,500 @@
+@charset "utf-8";
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-size: 15px;
+	color: #000000;
+	overflow: hidden;
+	-ms-touch-action: none;
+	/* Direct all pointer events to JavaScript code. */
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+}
+
+/* TOOLS AND STYLEBAR BUTTONS */
+div.button { /* Border */
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	/* Background */
+	background-image: linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -o-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -moz-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -ms-linear-gradient(top, rgb(255, 255, 255) 0%,
+		rgb(254, 254, 254) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(255,
+		255, 255) ), color-stop(1, rgb(254, 254, 254) ) );
+}
+
+div.button.button-up-hovering {
+	border: #9999FF 1px solid;
+}
+
+.arrowLeft img {
+	margin: 4px;
+}
+
+.arrowRight img {
+	margin: 4px;
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1 );
+}
+
+.arrowBottom img {
+	margin: 4px;
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1 );
+}
+
+.stylebar div.button,.headerbar div.button,.algebraViewButtonPanel div.button
+	{
+	width: 30px;
+	height: 30px;
+	padding: 4px;
+	margin: 0px 6px 0px 0px;
+}
+
+.toolbar div.button,.subToolBar div.button {
+	width: 40px;
+	height: 40px;
+	padding: 4px;
+	margin: 0px 6px 0px 0px;
+}
+
+.stylebar div.button.active {
+	border: #9999FF 2px solid;
+	width: 28px;
+	height: 28px;
+}
+
+.toolbar div.button.active {
+	border: #9999FF 2px solid;
+	width: 38px;
+	height: 38px;
+}
+
+.stylebar div.button img,.headerbar div.button img,.algebraViewButtonPanel div.button img
+	{
+	width: 30px;
+	height: 30px;
+}
+
+.toolbar div.button img,.subToolBar div.button img {
+	width: 40px;
+	height: 40px;
+}
+
+.inputDialog button,
+.optionsBox button {
+	width: 40px;
+	height: 40px;
+	/* Border */
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	/* Background */
+	background: none;
+	background-image: linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -o-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -moz-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -ms-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(237, 237, 237) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254,
+		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
+}
+
+.disabled {
+	opacity: 0.3;
+	filter: alpha(opacity =     30);
+}
+
+.transparent {
+	opacity: 0.7;
+	filter: alpha(opacity = 70);
+}
+
+/* #####################################################################
+####                    HEADER, STYLEBAR							####
+##################################################################### */
+.headerbar,.worksheetTitle {
+	height: 50px;
+	width: 100%;
+	/* Background */
+	background-image: linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -o-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -moz-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -ms-linear-gradient(top, rgb(204, 204, 204) 0%,
+		rgb(170, 170, 170) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(204,
+		204, 204) ), color-stop(1, rgb(170, 170, 170) ) ) );
+}
+
+.headerbar { /* Border */
+	border-bottom: #999999 solid 1px;
+}
+
+.headerbar td {
+	width: 33%;
+	vertical-align: middle;
+	border: none;
+}
+
+.headerbar td td {
+	width: 0px;
+	border: none;
+}
+
+input.worksheetTitle {
+	border: none;
+	background: none;
+	width: 100%;
+	text-align: center;
+}
+
+.headerLeft {
+	margin-left: 10px;
+}
+
+.headerLeft td,.headerRight td {
+	padding-top: 10px;
+}
+
+.headerRight {
+	margin-right: 10px;
+}
+
+.headerbar div.button {
+	background: none;
+	background-image: none;
+	background-color: none;
+	border: none;
+	padding: 0px;
+}
+
+.stylebar {
+	padding: 6px 6px 5px 10px;
+	display: inline-block;
+	/* Border */
+	-webkit-border-bottom-right-radius: 5px;
+	-khtml-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px;
+	border-right: #CCCCCC solid 1px;
+	border-bottom: #CCCCCC solid 1px;
+	/* Background */
+	background-image: linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(254, 254, 254) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(254,
+		254, 254) ), color-stop(1, rgb(220, 220, 220) ) );
+}
+
+.optionsBoxWrapper {
+	width: 195px;
+	margin-top: -3px;
+}
+
+.optionsBoxArrow {
+	padding-left: 13px;
+	margin-bottom: -5px;
+	margin-top: -5px;
+	z-index: 10;
+}
+
+.optionsBox {
+	background-color: #FFFFFF;
+	border: #EFEFEF solid 1px;
+	padding: 5px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
+	-moz-box-shadow: 3px 3px 5px #DCDCDC;
+	box-shadow: 3px 3px 5px #DCDCDC;
+	z-index: 5;
+}
+
+.optionsBox .button,.optionsBox .button.button-up-hovering {
+	width: 40px;
+	height: 40px;
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.optionsBox button {
+	margin-right: 5px;
+	margin-bottom: 5px;
+	width: 42px;
+	height: 42px;
+}
+
+.optionsBox button:hover {
+	border: #9999FF 1px solid;
+	background-image: none;
+	background: #EEEEEE;
+}
+
+/* #####################################################################
+####                    ALGEBRA VIEW 								####
+##################################################################### */
+.algebraView {
+	padding: 0px 20px 0px 5px;
+	overflow-y: hidden;
+	/* Border */
+	border-left: #CCCCCC solid 1px;
+	/* Background */
+	background-image: linear-gradient(top, rgb(237, 237, 237) 10%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 10%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 10%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 10%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 10%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgb(237,
+		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
+}
+
+.algebraViewButtonPanel { /* Border */
+	-webkit-border-bottom-left-radius: 5px;
+	-khtml-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
+	/* Background */
+	background-color: #EDEDED;
+	width: 50px;
+	height: 54px;
+}
+
+.algebraViewArrowPanel {
+	padding: 6px 6px 5px 5px;
+	/* Border */
+	-webkit-border-bottom-left-radius: 5px;
+	-khtml-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px;
+	border-left: #CCCCCC solid 1px;
+	border-bottom: #CCCCCC solid 1px;
+}
+
+.algebraViewContent {
+	padding: 0px 0px;
+}
+
+.elemHeading {
+	height: 35px;
+	padding-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-bottom: #CCCCCC solid 1px;
+	margin-bottom: 10px;
+}
+
+.elemHeading .arrowBottom,.elemHeading .arrowLeft {
+	margin-top: -10px;
+}
+
+.elemHeading .arrowBottom img,.elemHeading .arrowLeft img {
+	width: 30px;
+	height: 30px;
+}
+
+div.elemHeadingName {
+	float: left;
+}
+
+.elemList {
+	padding: 10px 5px;
+	color: #666666;
+}
+
+.elem {
+	padding: 5px;
+}
+
+.elem td {
+	text-align: left;
+	vertical-align: top;
+	width: 0px;
+	padding: 2px 0px;
+	padding-right: 5px;
+}
+
+.elem .marble {
+	margin-top: 3px;
+}
+
+.elem td span.gwt-InlineHTML {
+	width: 170px;
+	display: block;
+	overflow: hidden;
+}
+
+.treeItemWrapper {
+	margin: 0px;
+}
+
+/*.elem.hidden {
+	background: url(img/elemHidden.svg) no-repeat left 10px;
+}*/
+/* #####################################################################
+####                    TOOL BAR									####
+##################################################################### */
+.toolbar { /* Border */
+	border-top: #CCCCCC solid 1px;
+	/* Background */
+	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
+		rgb(220, 220, 220) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(237,
+		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
+}
+
+.toolbarButtonPanel {
+	padding: 10px;
+	float: left;
+}
+
+.subToolBar {
+	margin-left: -6px;
+}
+
+.subToolBarButtonPanel {
+	background-color: #FFFFFF;
+	border: #EFEFEF solid 1px;
+	padding: 5px;
+	padding-right: 0px;
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
+	-moz-box-shadow: 3px 3px 5px #DCDCDC;
+	box-shadow: 3px 3px 5px #DCDCDC;
+}
+
+.subToolBarArrow {
+	margin-top: -7px;
+	padding-left: 23px;
+}
+
+/* #####################################################################
+####                    INPUT	AND   DIALOGS						####
+##################################################################### */
+.inputbarPanel {
+	padding: 10px 5px;
+}
+
+.inputPanel {
+	width: 100%;
+}
+
+.inputbarPanel input {
+	border: #CCCCCC solid 1px;
+	color: #BABABA;
+	padding: 4px;
+	width: 100%;
+}
+
+.inputDialog,.infoDialog {
+	padding: 10px;
+	z-index: 50;
+	/* Border */
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: #DCDCDC solid 1px;
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #999999;
+	-moz-box-shadow: 3px 3px 5px #999999;
+	box-shadow: 3px 3px 5px #999999;
+	background-color: #FFFFFF;
+}
+
+.inputDialog .errorBox {
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.inputDialog .gwt-TextBox,.infoDialog .gwt-TextBox {
+	margin-top: 5px;
+	border: 1px solid #DCDCDC;
+	padding: 3px;
+	font-size: 15px;
+}
+
+.inputDialog .gwt-PopupPanel,.infoDialog .gwt-PopupPanel {
+	border: none;
+	padding: 10px 2px 0px 2px;
+}
+
+.customKeyPanel {
+	margin-right: -6px;
+	margin-top: 10px;
+}
+
+.infoDialog .buttonPanel {
+	width: 100%;
+}
+
+.inputDialog button,.infoDialog .button {
+	margin-right: 6px;
+}
+
+.inputDialog button:hover,.infoDialog .button:hover {
+	border: #9999FF 1px solid;
+	background-image: none;
+	background: #EEEEEE;
+}
+
+#View_2 div table {
+	width: 100%;
+}
+
+.gwt-PopupPanelGlass {
+	background-color: #000;
+	opacity: 0.3;
+	z-index: 20;
+	filter: alpha(opacity =     30);
+}

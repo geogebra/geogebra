@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/javascript">
+      if (window.opener && window.opener.oauth2 && window.opener.oauth2.__doLogin) {
+        window.opener.oauth2.__doLogin(location.hash);
+      } else {
+        document.body.innerText =
+            "Your browser seems to be stopping this window from communicating with the main window.";
+      }
+    </script>
+  </head>
+  <body></body>
+</html>
