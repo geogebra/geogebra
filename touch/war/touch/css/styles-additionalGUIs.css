@@ -95,6 +95,10 @@ body .tubesearchgui input.gwt-TextBox {
 	border-spacing: 0px;
 }
 
+.tubesearchgui .localFilePanel {
+	background-color: #FFFFFF;
+}
+
 .tubesearchgui .filePanel {
 	overflow-y: hidden;
 }

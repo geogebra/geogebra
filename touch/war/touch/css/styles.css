@@ -4,6 +4,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 	font-size: 15px;
+	font-family: sans serif;
 	color: #000000;
 	overflow: hidden;
 	-ms-touch-action: none;
