@@ -620,7 +620,7 @@ public interface Traversing {
 				if (eq.getLHS() != null && eq.getLHS().getLeft() instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) eq.getLHS().getLeft();
 					if (gdv.toString(StringTemplate.defaultTemplate).equals("y")) {
-						return eq.getRHS();
+						return eq.getRHS().unwrap();
 					}
 				}
 			}
@@ -634,6 +634,37 @@ public interface Traversing {
 		 */
 		public static FunctionCreator getCreator() {
 			return creator;
+		}
+	}
+	
+	/**
+	 * Removes commands from a given expression and returns 
+	 * the first argument of the command
+	 */
+	public class CommandRemover implements Traversing {
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Command) {
+				Command ec = (Command) ev;
+				for (int i = 0; i < commands.length; i++) {
+					if (ec.getName().equals(commands[i])) {
+						return ec.getArgument(0).unwrap();
+					}
+				}
+			}
+			return ev;
+		}
+		
+		private static CommandRemover remover = new CommandRemover();
+		private static String[] commands;
+		
+		/**
+		 * Get the remover
+		 * @param commands1 commands to be removed
+		 * @return command remover
+		 */
+		public static CommandRemover getRemover(String... commands1) {
+			commands = commands1;
+			return remover;
 		}
 	}
 

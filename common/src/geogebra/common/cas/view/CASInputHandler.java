@@ -4,6 +4,8 @@ import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Inspecting;
+import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.parser.ParseException;
@@ -702,9 +704,19 @@ public class CASInputHandler {
 				&& cell.getTwinGeo().isEuclidianVisible()
 				&& cell.getTwinGeo().isEuclidianShowable();
 		ValidExpression ve = cell.getOutputValidExpression();
+		boolean isPlottableList = true;
+		if (ve != null && ve.unwrap() instanceof MyList) {
+			MyList ml = (MyList) ve.unwrap();
+			int i = 0;
+			while (i < ml.size() && isPlottableList) {
+				isPlottableList &= !(ml.getItem(i).unwrap() instanceof MySpecialDouble) && !ml.getItem(i++).unwrap().inspect(Inspecting.UnplottableChecker.getChecker());
+			}
+		} else {
+			isPlottableList = false;
+		}
 		if (ve != null) {
 			if (cell.showOutput() && !cell.isError() &&
-					!ve.inspect(Inspecting.UnplottableChecker.getChecker())) {
+					(!ve.unwrap().inspect(Inspecting.UnplottableChecker.getChecker()) || isPlottableList)) {
 				renderer.setMarbleValue(marbleShown);
 				renderer.setMarbleVisible(true);
 			} else {

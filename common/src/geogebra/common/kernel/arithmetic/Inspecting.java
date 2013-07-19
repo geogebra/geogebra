@@ -41,6 +41,7 @@ public interface Inspecting {
 	/**
 	 * Checks if a ValidExpression is unplottable
 	 * @author bencze
+	 * @warning it always returns false for MyList, the checking has to be done manually for each element
 	 *
 	 */
 	public class UnplottableChecker implements Inspecting {
@@ -49,46 +50,54 @@ public interface Inspecting {
 		
 		public boolean check(ExpressionValue v) {
 			switch (type) {
-			case 0: //first define the type
+			case 0: // first define the top type of our expression
 				break;
 			case 1:
 			case 4:
 			case 5:
-			case 6:
 			case 10:
 				return true;
+			case 6:
+				return false;
 			case 2:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
-						if (!gdv.toString(StringTemplate.defaultTemplate).equals("x")
-								&& !gdv.toString(StringTemplate.defaultTemplate).equals("y")) {
-							return true;
-						}
+					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
+							"x")
+							&& !gdv.toString(StringTemplate.defaultTemplate)
+									.equals("y")) {
+						return true;
 					}
-					return false;
+				}
+				return false;
 			case 3:
 				if (v instanceof GeoDummyVariable) {
 					return true;
 				}
-				return false;
+				return false;	
 			case 11:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
-					if (!gdv.toString(StringTemplate.defaultTemplate).equals("x")) {
+					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
+							"x")) {
 						return true;
 					}
 				} else if (!(v instanceof MyDouble
 						|| v instanceof ExpressionNode
-						|| v instanceof GeoNumeric 
-						|| v instanceof MyVecNode
-						|| v instanceof GeoVector
-						|| v instanceof MyList)) {
+						|| v instanceof GeoNumeric || v instanceof MyVecNode
+						|| v instanceof GeoVector || v instanceof MyList)) {
 					return true;
-				} 
+				}
 				return false;
-			default: return false;
-		
+			default:
+				return false;
 			}
+			return setType(v);
+		}
+		
+		private static UnplottableChecker checker = new UnplottableChecker();
+		
+		private static boolean setType(ExpressionValue v) {
 			if (v instanceof Command) {
 				type = 1;
 				return true;
@@ -103,10 +112,10 @@ public interface Inspecting {
 				return true;
 			} else if (v instanceof MyDouble) {
 				type = 5;
-				return true;
+				return false;
 			} else if (v instanceof MyList) {
 				type = 6;
-				return true;
+				return false;
 			} else if (v instanceof Parametric) {
 				type = 7;
 				return false;
@@ -114,8 +123,10 @@ public interface Inspecting {
 				type = 8;
 				return false;
 			} else if (v instanceof Variable || v instanceof GeoDummyVariable) {
-				type = 9;
-				return false;
+				if (v.toString(StringTemplate.defaultTemplate).equals("x")) {
+					return false;
+				}
+				return true;
 			} else if (v instanceof ExpressionNode) {
 				type = 11;
 				return false;
@@ -124,9 +135,8 @@ public interface Inspecting {
 				return true;
 			}
 			return false;
+
 		}
-		
-		private static UnplottableChecker checker = new UnplottableChecker();
 		
 		/**
 		 * @return UnplottableChecker singleton instance 

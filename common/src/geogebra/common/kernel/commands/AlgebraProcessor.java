@@ -209,8 +209,12 @@ public class AlgebraProcessor {
 				// update construction order and
 				// rebuild construction using XML
 				cons.changeCasCell(casCell);
-				casCell.computeOutput();
-				casCell.updateCascade();				
+				// the changeCasCell command computes the output
+				// so we don't need to call computeOutput,
+				// which also causes marble crashes
+				
+				//casCell.computeOutput();
+				//casCell.updateCascade();				
 			} catch (Exception e) {
 				e.printStackTrace();
 				casCell.setError("RedefinitionFailed");

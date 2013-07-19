@@ -1795,6 +1795,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 						sb.append("\" ");
 					}
 				}
+				
+				if (pointList) {
+					sb.append(" pointList=\"true\"");
+				}
 			}
 			sb.append("/>\n");
 			sb.append("\t\t");
@@ -1816,9 +1820,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 			if (isNative()) {
 				sb.append(" native=\"true\"");
-			}
-			if (pointList) {
-				sb.append(" pointList=\"true\"");
 			}
 			if (!"".equals(evalCmd)) {
 				sb.append(" evalCommand=\"");
@@ -1973,6 +1974,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return;
 		}
 		twinGeo.setCorrespondingCasCell(this);
+		twinGeo.setParentAlgorithm(getParentAlgorithm());
 		if (dependsOnDummy(twinGeo)) {
 			twinGeo.setUndefined();
 			twinGeo.setAlgebraVisible(false);
@@ -2165,28 +2167,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// definition of a point
 		// instead of a vector
 		assignmentVar = "GgbmpvarPlot";
-
-		// wrap output of Solve and Solutions to make them plotable
-
-		if (evalVE.isTopLevelCommand()) {
-			String cmd = evalVE.getTopLevelCommand().getName();
-			if (!inequalityInEvalVE() && cmd.equals("Solve") 
-					|| cmd.equals("Solutions")
-					|| cmd.equals("CSolve")
-					|| cmd.equals("CSolutions")
-					|| cmd.equals("NSolve")
-					|| cmd.equals("NSolutions")
-					|| cmd.equals("Root")
-					|| cmd.equals("ComplexRoot")) {
-				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
-				//we want the command in input as well
-				if(!pointList){
-					inputVE = evalVE;
-				}
-				pointList = true;
-			}
-		}
-
+		setPointList();
 		this.firstComputeOutput = true;
 		this.computeOutput(true,true);
 		if (twinGeo != null  && !dependsOnDummy(twinGeo))
@@ -2197,11 +2178,20 @@ public class GeoCasCell extends GeoElement implements VarString {
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
 			/**
 			 * We use EvalVE here as it's more transparent to push the command to the input
+			 * except Evaluate and KeepInput
 			 */
+			
+			ValidExpression ex = (ValidExpression) getEvalVE().deepCopy(kernel);
+			ex.traverse(Traversing.CommandRemover.getRemover("KeepInput", "Evaluate"));
+			ex.setAssignmentType(AssignmentType.DEFAULT);
+			ex.setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
+			if (twinGeo instanceof GeoFunction) {
+				ex.traverse(Traversing.FunctionCreator.getCreator());
+			}
+			
 			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
 			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));		
-			setInput(getEvalVE()
-						.toAssignmentString(StringTemplate.numericDefault));
+			setInput(ex.toAssignmentString(StringTemplate.numericDefault));
 			
 			computeOutput(false,false);
 			this.update();
@@ -2329,5 +2319,28 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return true;
 		return inputVE!=null && inputVE.inspect(CommandFinder.INSTANCE);
 	}
-
+	
+	/**
+	 * Wrap output of Solve and Solutions to make them plottable
+	 */
+	public void setPointList() {
+		if (evalVE.isTopLevelCommand()) {
+			String cmd = evalVE.getTopLevelCommand().getName();
+			if (!inequalityInEvalVE() && cmd.equals("Solve") 
+					|| cmd.equals("Solutions")
+					|| cmd.equals("CSolve")
+					|| cmd.equals("CSolutions")
+					|| cmd.equals("NSolve")
+					|| cmd.equals("NSolutions")
+					|| cmd.equals("Root")
+					|| cmd.equals("ComplexRoot")) {
+				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
+				//we want the command in input as well
+				if(!pointList){
+					inputVE = evalVE;
+				}
+				pointList = true;
+			}
+		}
+	}
 }
