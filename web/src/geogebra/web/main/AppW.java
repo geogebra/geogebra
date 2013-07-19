@@ -1468,11 +1468,17 @@ public class AppW extends AppWeb {
 	
 	public void buildApplicationPanel() {
 
+		// showMenuBar should come from data-param,
+		// this is just a 'second line of defense'
+		// otherwise it can be used for taking ggb settings into account too
 		if (showMenuBar && articleElement.getDataParamShowMenuBarDefaultTrue() ||
 			articleElement.getDataParamShowMenuBar()) {
 			attachMenubar();
 		}
 
+		// showToolBar should come from data-param,
+		// this is just a 'second line of defense'
+		// otherwise it can be used for taking ggb settings into account too
 		if (showToolBar && articleElement.getDataParamShowToolBarDefaultTrue() ||
 			articleElement.getDataParamShowToolBar()) {
 			attachToolbar();
@@ -1480,6 +1486,9 @@ public class AppW extends AppWeb {
 
 		attachSplitLayoutPanel();
 
+		// showAlgebraInput should come from data-param,
+		// this is just a 'second line of defense'
+		// otherwise it can be used for taking ggb settings into account too
 		if (showAlgebraInput && articleElement.getDataParamShowAlgebraInputDefaultTrue() ||
 			articleElement.getDataParamShowAlgebraInput()) {
 			attachAlgebraInput();

@@ -95,15 +95,18 @@ public class LayoutW extends Layout implements SettingListener {
 				// override the previous command with the data-param-customToolbar setting
 				if (app.getGeoGebraFrame() != null && app.isApplet()) {
 					app.getGeoGebraFrame().setCustomToolBar();
+
+					app.setShowToolBarNoUpdate(
+							/*perspective.getShowToolBar() &&
+							app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||*/
+							app.getArticleElement().getDataParamShowToolBar());
+
+					app.setShowAlgebraInput(
+							/*perspective.getShowInputPanel() &&
+							app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue() ||*/
+							app.getArticleElement().getDataParamShowAlgebraInput(), false);
+
 				}
-
-				app.setShowToolBarNoUpdate(perspective.getShowToolBar() &&
-						app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||
-						app.getArticleElement().getDataParamShowToolBar());
-
-				app.setShowAlgebraInput(perspective.getShowInputPanel() &&
-						app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue() ||
-						app.getArticleElement().getDataParamShowAlgebraInput(), false);
 
 				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 				
