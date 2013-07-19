@@ -22,6 +22,9 @@ public class VerticalMaterialPanel extends FlowPanel
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
+	
+	private int start, end;
+	private List<Material> materials; 
 
 	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
 	{
@@ -37,9 +40,15 @@ public class VerticalMaterialPanel extends FlowPanel
 
 	public void setMaterials(int cols, List<Material> materials)
 	{
+		setMaterials(cols, materials, 0);
+	}
+
+	private void setMaterials(int cols, List<Material> materials, int offset) {
 		this.columns = cols;
 		this.updateWidth();
 		this.contentPanel.clear();
+		this.start = offset;
+		this.materials = materials;
 		
 		if (this.columns == 2) {
 			this.contentPanel.getCellFormatter().setWidth(0, 0, "50%");
@@ -48,15 +57,22 @@ public class VerticalMaterialPanel extends FlowPanel
 			this.contentPanel.getCellFormatter().setWidth(0, 0, "100%");
 		}
 
-		int i = 0;
-		for (Material m : materials)
+		int totalHeight = 0;
+		for (int i = 0; i < materials.size() - this.start; i++)
 		{
+			Material m = materials.get(i+this.start);
 			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
 			preview.initButtons();
 			this.titlesToPreviews.put(m.getURL(), preview);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
-			i++;
+			totalHeight += 140;			
+			this.end = this.start + i;
+			if(totalHeight > Window.getClientHeight() - 200){
+				break;
+			}
 		}
+		
+		
 	}
 
 	@Override
@@ -106,5 +122,19 @@ public class VerticalMaterialPanel extends FlowPanel
 		for(MaterialListElement e: this.titlesToPreviews.values()){
 			e.setLabels();
 		}
+	}
+
+	public void nextPage() {
+		if(this.end+1 >= this.materials.size()){
+			return;
+		}
+		this.setMaterials(this.columns, this.materials, this.end+1);	
+	}
+	
+	public void prevPage() {
+		if(this.start <= 0){
+			return;
+		}
+		this.setMaterials(this.columns, this.materials, Math.max(0, this.start-(this.end+1 - this.start)));	
 	}
 }
