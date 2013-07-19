@@ -13,7 +13,8 @@ body {
 	/* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
 	
 	min-height: 600px;
-	background: url(../gif/splash.gif) center center no-repeat #FFFFFF;
+	background: url(../img/geogebraLogo.png) center center no-repeat #FFFFFF;
+	z-index: -1;
 }
 
 /* TOOLS AND STYLEBAR BUTTONS */
