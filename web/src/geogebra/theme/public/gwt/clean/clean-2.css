@@ -756,6 +756,7 @@ body[dir=rtl] .gwt-MenuBarPopup {
   border-top: 1px solid #999;
   font-size: 100%;
   font-family: Arial Unicode MS, Arial, sans-serif;
+  width: 96%; /* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
 }
 
 .gwt-SuggestBoxPopup {
