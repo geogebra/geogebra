@@ -3347,7 +3347,7 @@ public abstract class App implements UpdateSelection{
 	
 		setShowConstructionProtocolNavigation(!showConsProtNavigation());
 		setUnsaved();
-		updateCenterPanel(true);
+//		updateCenterPanel(true);
 	
 		if (getGuiManager() != null)
 			getGuiManager()
