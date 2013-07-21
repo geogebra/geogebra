@@ -301,9 +301,7 @@ public class ConstructionProtocolView {
 	}
 
 	protected void repaint() {
-		// TODO: implement it...
-		// avoid calling App.debug messages in a loop
-		//App.debug("common/ContructionProtocolView.repaint() not implemented");
+		//overridden (at least on desktop and web)
 	}
 
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData getData() {
@@ -318,7 +316,7 @@ public class ConstructionProtocolView {
 	}
 
 	public void scrollToConstructionStep(){
-		App.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
+		//TODO App.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
 	}
 	
 	public class ConstructionTableData implements View{

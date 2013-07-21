@@ -77,8 +77,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	}
 	
 	public void addNavigationBar(){
-//		App.debug("app in addNavigationBar(): " + app);
-		if (app == null) return;
 		consProtNav = (ConstructionProtocolNavigationW)(app
 		        .getConstructionProtocolNavigation());
 		consProtNav.getImpl().addStyleName("consProtNav");
@@ -87,15 +85,11 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	}
 	
 	public void updateNavigationBar(){
-//		if (consProtNav == null) return;
 //		ConstructionProtocolSettings cps = app.getSettings()
 //		        .getConstructionProtocol();
 //		((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
 //		cps.addListener((ConstructionProtocolNavigation)consProtNav);
 
-		
-		App.debug("getShowNavNeedsUpdate: "+app.getShowCPNavNeedsUpdate());
-		App.debug("app.showConsProtNavigation(): "+app.showConsProtNavigation());
 		
 		if (app.getShowCPNavNeedsUpdate()) {
 			app.setShowConstructionProtocolNavigation(app

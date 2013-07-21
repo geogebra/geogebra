@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-//import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 public class View {
 	

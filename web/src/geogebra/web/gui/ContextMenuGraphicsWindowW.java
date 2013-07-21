@@ -172,7 +172,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
 			selPos++;
 		}
 		
-		App.debug("selPos: " +selPos);
 		menu.addRadioButtonMenuItems(this, items, actionCommands,  selPos, false);
 	 
     }

@@ -3324,7 +3324,6 @@ public abstract class App implements UpdateSelection{
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
-		App.debug("setShowConstructionProtocolNavigation - flag: "+flag);
 		if ((flag == showConsProtNavigation)
 				&& (!showConstProtNavigationNeedsUpdate)) {
 			return;
