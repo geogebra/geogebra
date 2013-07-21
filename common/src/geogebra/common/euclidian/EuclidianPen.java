@@ -527,41 +527,11 @@ public class EuclidianPen {
 				double x_last=view.toRealWorldCoordX(rs.x2);
 				double y_last=view.toRealWorldCoordY(rs.y2);
 				AlgoJoinPointsSegment algo = null;
-				//	line1=new Line2D();
-				//System.out.println(penOffsetX);
-				if(x_first==x_last)
-				{
-					//equation="x" + "=" + (x_first);
-					//AbstractApplication.debug(equation);
-					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
-				}
-				else if(y_last==y_first)
-				{
-					//equation="y" + "=" + " " + (y_first);
-					//AbstractApplication.debug(equation);
-					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
-				}
-				else
-				{
-					double x_diff=(x_last-x_first);
-					if(x_diff<0)
-					{
-						//equation=y_diff + "x" + "-" + -x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-						//AbstractApplication.debug(equation);
-					}
-					else
-					{
-						//equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
-						//AbstractApplication.debug(equation);
-					}
-					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
-				}	
+				
+				GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), null, x_first, y_first, 1.0);
+				GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null, x_last, y_last, 1.0);
+				algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
+					
 				GeoElement line = algo.getGeoElements()[0];
 				line.setLineThickness(penSize * 2);
 				line.setLineType(penLineStyle);
