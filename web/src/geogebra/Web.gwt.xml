@@ -80,4 +80,6 @@
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="resources" />
   
+  <!-- Compile only one permutation -->
+  <collapse-all-properties />
 </module>
