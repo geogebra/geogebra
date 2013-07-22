@@ -8,7 +8,7 @@ public interface GuiResources extends ClientBundle
 {
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
-	@Source("css/mathquill.css")
+	@Source("geogebra/resources/css/mathquill.css")
 	TextResource mathquillCss();
 	
 	@Source("geogebra/resources/js/giac.js")
