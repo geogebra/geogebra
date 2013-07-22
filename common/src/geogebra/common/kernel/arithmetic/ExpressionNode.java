@@ -3156,7 +3156,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					var.setVarString(rightStr);
 					if (stringType.equals(StringType.LIBRE_OFFICE))
 						sb.append("func ");
-					sb.append(geo.getLabel(tpl));
+					//do not recompute the expression string if we are plugging in the same variable; #3481
+					String rhString = oldVarStr.equals(rightStr) ? rightStr : geo.getLabel(tpl);
+					sb.append(rhString);
 					var.setVarString(oldVarStr);
 				}
 			} else if (valueForm && left.isExpressionNode()) {
@@ -3458,6 +3460,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;	
 		case IF_ELSE:
+			App.debug(leftStr);
 			if (stringType == StringType.MPREDUCE) {
 				sb.append("ifelsefun(");
 			} else if (stringType == StringType.GIAC) {
