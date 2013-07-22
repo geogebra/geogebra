@@ -3,6 +3,8 @@ package geogebra.touch.gui.elements.header;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.model.TouchModel;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -19,14 +21,16 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 	private StandardImageButton redo = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().redo());
 	TabletHeaderPanel headerPanel;
 	TouchApp app;
+	TouchModel model;
 
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
-	public TabletHeaderPanelRight(final TouchApp app, TabletHeaderPanel headerPanel)
+	public TabletHeaderPanelRight(final TouchApp app, TabletHeaderPanel headerPanel, TouchModel model)
 	{
 		this.headerPanel = headerPanel;
 		this.app = app;
+		this.model = model;
 
 		addUndoButton();
 		addRedoButton();
@@ -39,6 +43,8 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				TabletHeaderPanelRight.this.model.resetSelection();
+				
 				TabletHeaderPanelRight.this.app.getKernel().undo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
@@ -57,6 +63,8 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
+				TabletHeaderPanelRight.this.model.resetSelection();
+				
 				TabletHeaderPanelRight.this.app.getKernel().redo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();

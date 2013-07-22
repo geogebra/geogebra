@@ -1,0 +1,265 @@
+@charset "utf-8";
+
+body .tubesearchgui .button,
+body .worksheetgui .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tubesearchgui .button.button-up-hovering,
+.worksheetgui .button.button-up-hovering  {
+	border: none;
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
+/* TubesearchGUI, WorksheetGUI HEADER */
+
+body div .tubesearchgui .headerbar,
+body div .worksheetgui .headerbar {
+	height: 50px;
+}
+
+body .tubesearchgui .headerbar .gwt-Label,
+body .worksheetgui .headerbar .gwt-Label {
+	font-size: 18px;
+	vertical-align: middle;
+	color: #FFFFFF;
+}
+
+body .tubesearchgui .headerbar .gwt-Label,
+body .tubesearchgui .headerbar img,
+body .worksheetgui .headerbar .gwt-Label,
+body .worksheetgui .headerbar img {
+	opacity: 0.8;
+  	filter: alpha(opacity=80);
+}
+
+body .tubesearchgui .headerLeft,
+body .worksheetgui .headerLeft {
+	margin-left: 0px;
+}
+
+body .tubesearchgui .headerLeft td,
+body .tubesearchgui .headerRight td,
+body .worksheetgui .headerLeft td,
+body .worksheetgui .headerRight td {
+	padding: 0px;
+}
+
+body .tubesearchgui .headerbar div.button,
+.worksheetgui .headerbar div.button {
+	border: none;
+	margin: 0px 0px 0px 5px;
+}
+
+body .tubesearchgui .headerLeft div.button,
+body .worksheetgui .headerLeft div.button {
+	width: 11px;
+	padding-right: 5px;
+}
+
+body .tubesearchgui .headerLeft img,
+body .worksheetgui .headerLeft img {
+	height: 20px;
+	width: 11px;
+	margin-top: 5px;
+}
+
+body .tubesearchgui .headerRight div.button {
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+}
+
+body .worksheetgui .headerRight div.button {
+	margin: 0px;
+}
+
+body .tubesearchgui .headerRight .button img {
+	height: 24px;
+	width: 24px;
+}
+
+body .tubesearchgui input.gwt-TextBox {
+	background: none;
+	border: none;
+	color: #FFFFFF;
+}
+
+/* TubeSearchGUI CONTENT */
+
+.tubesearchgui table {
+	border-spacing: 0px;
+}
+
+.tubesearchgui .localFilePanel {
+	background-color: #FFFFFF;
+}
+
+.tubesearchgui .filePanel {
+	overflow-y: hidden;
+}
+
+.tubesearchgui .tubeFilePanel {
+	padding: 0px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(205, 205, 205) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, rgb(239, 239, 239) ),
+		color-stop(1, rgb(205, 205, 205) ) );
+}
+
+.tubesearchgui .filePanelTitle {
+	color: #999999;
+	font-size: 20px;
+	height: 35px;
+	vertical-align: middle;
+	padding: 15px 20px 0px 20px;
+}
+
+.tubesearchgui .filePanel td {
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.tubesearchgui .filePanel td .browserFile {
+	padding: 10px;
+	font-size: 14px;
+	color: #666666;
+}
+
+.tubesearchgui .fileControlPanel .button:hover {
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tubesearchgui .filePageControls {
+	float: left;
+}
+
+.tubesearchgui .filePageControls button {
+	background: none;
+	border: none;
+	width: 35px;
+	height: 35px;
+}
+
+.tubesearchgui .filePageControls button.selected {
+	background: #9999FF;
+}
+
+.tubesearchgui .browserFile.selected {
+	background-color: #C2C2FF;
+}
+
+.tubesearchgui .fileImage {
+	width: 198px;
+	height: 118px;
+	overflow: hidden;
+	border: 1px solid #CCCCCC;
+	margin-right: 20px;
+	
+	float: left;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-color: #FFFFFF;
+}
+
+.tubesearchgui .fileDescription {
+	float: left;
+	margin-top: 10px;
+}
+
+.tubesearchgui .fileDescription td {
+	padding-bottom: 10px;
+	text-align: left;
+}
+
+.tubesearchgui .fileTitle {
+	font-weight: bold;
+}
+
+.tubesearchgui .fileLinks {
+	float: right;
+}
+
+.tubesearchgui .fileLinks td {
+	text-align: center;
+}
+
+body .tubesearchgui .fileLinks .button {
+	border: none;
+	background: none;
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
+}
+
+.tubesearchgui .button.delete {
+	margin-top: 3px;
+}
+
+.tubesearchgui .fileClear {
+	clear: both;
+}
+
+.tubesearchgui .fileControlPanel {
+	height: 40px;
+	margin-left: 7px;
+	margin-right: 7px;
+	padding-top: 10px;
+	color: #666666;
+}
+
+.tubesearchgui .fileControlPanel .button {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.tubesearchgui .filePageControls {
+	float: left;
+}
+
+.prevButton {
+	float: left;
+}
+
+.nextButton {
+	float:right;
+}
+
+/* WORKSHEET GUI CONTENT */
+
+.worksheetgui .worksheet {
+	padding: 30px 20px 40px 20px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -webkit-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, rgb(239, 239, 239) ),
+		color-stop(0.1, rgb(255, 255, 255) ) );
+}
+
+.worksheet .instructionsPre {
+	margin-bottom: 20px;
+}
+
+.worksheet iframe {
+	border: 1px solid #CCCCCC;
+}
+
+.worksheet .instructionsPost {
+	margin-top: 20px;
+}

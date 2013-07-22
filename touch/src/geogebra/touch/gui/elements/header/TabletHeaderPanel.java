@@ -70,7 +70,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			}
 		});
 
-		this.rightHeader = new TabletHeaderPanelRight(app, this);
+		this.rightHeader = new TabletHeaderPanelRight(app, this, touchModel);
 		this.rightHeader.setStyleName("headerRight");
 		this.worksheetTitle.setStyleName("worksheetTitle");
 

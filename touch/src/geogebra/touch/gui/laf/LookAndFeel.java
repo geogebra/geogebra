@@ -6,7 +6,6 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
-import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 
@@ -26,13 +25,11 @@ public interface LookAndFeel
 	public DefaultResources getIcons();
 
 	public TabletHeaderPanel getTabletHeaderPanel();
-	
+
 	public boolean isMouseDownIgnored();
-	
+
 	public Type<EventHandler> getStylBarEventType();
-	
-	public EventHandler getStyleBarHandlerShowHide(StylingBar stylingBar, EuclidianViewPanel euclidianViewPanel);
-	
+
 	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
 
 	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);

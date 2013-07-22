@@ -1,0 +1,164 @@
+@charset "utf-8";
+
+body div {
+	font-family: "Helvetica", sans-serif;
+}
+
+/* HEADER */
+
+body .headerbar,
+body .worksheetTitle {
+	color: #FFFFFF;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -o-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -moz-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -ms-linear-gradient(top, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		color-stop(0, rgb(136, 136, 136) ),
+		color-stop(1, rgb(68, 68, 68) ) ) );
+}
+
+.worksheetTitle {
+	font-size: 15px;
+}
+
+body .headerbar div.button {
+	background: none;
+	background-image: none;
+	background-color: none;
+	border: none;
+	padding: 0px;
+	margin: 0px 10px 0px 6px;
+}
+
+/* TOOLBAR -> INPUT */
+
+body .inputbarPanel {
+	padding: 10px 30px 10px 10px;
+}
+
+body .inputbarPanel input {
+	border: #CCCCCC solid 1px;
+	color: #BABABA;
+	background: #FFFFFF;
+	width: 100%;
+	padding: 4px 10px;
+	
+	-webkit-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+/* POPUP */
+
+body .inputDialog,
+body .infoDialog {
+	padding: 6px;
+	z-index: 50;
+	
+	color: #FFFFFF;
+	
+	/* Border */
+	-webkit-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: #FFFFFF solid 2px;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(140, 150, 170) 0%, rgb(68, 71, 104) 40% );
+	background-image: -o-linear-gradient(top, rgb(140, 150, 170) 0%, rgb(68, 71, 104) 40% );
+	background-image: -moz-linear-gradient(top, rgb(140, 150, 170) 0%, rgb(68, 71, 104) 40% );
+	background-image: -webkit-linear-gradient(top, rgb(140, 150, 170) 0%, rgb(68, 71, 104) 40% );
+	background-image: -ms-linear-gradient(top, rgb(140, 150, 170) 0%, rgb(68, 71, 104) 40% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(140, 150, 170) ),
+	color-stop(0.4, rgb(68, 71, 104) ) ) );
+	
+	/* Shadow */
+	-webkit-box-shadow: 3px 3px 5px #999999;
+	-moz-box-shadow: 3px 3px 5px #999999;
+	box-shadow: 3px 3px 5px #999999;
+	background-color: #434967;
+}
+
+.inputDialog .title,
+.infoDialog .title {
+	padding: 10px;
+	margin-bottom: 15px;
+	text-align: center;
+	font-size: 18px;
+	text-shadow: 0px -2px 2px #111111;
+}
+
+.inputDialog .gwt-Label,
+.infoDialog .gwt-Label {
+	text-align: center;
+	font-size: 15px;
+	text-shadow: 0px -2px 2px #111111;
+}
+
+body .inputDialog .gwt-TextBox,
+body .infoDialog .gwt-TextBox {
+	border: #FFFFFF solid 1px;
+	color: #000000;
+	background: #FFFFFF;
+	width: 662px;
+	padding: 4px 10px;
+	
+	-webkit-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+body .infoDialog .textPanel {
+	padding: 0px 15px 15px 15px;
+}
+
+body .infoDialog .textPanel img {
+	width: 0px;
+	height: 0px;
+}
+
+body .inputDialog button,
+body .infoDialog .button,
+body .inputDialog button:hover,
+body .infoDialog .button:hover {
+	border: none;
+	
+	/* Background */
+	background-image: linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background-image: -o-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background-image: -moz-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background-image: -webkit-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background-image: -ms-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background-image: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(175, 180, 196) ),
+	color-stop(0.5, rgb(68, 71, 104) ),
+	color-stop(0.51, rgb(82, 94, 125) ),
+	color-stop(1, rgb(99, 110, 138) ) );
+	
+	-webkit-border-radius: 7px;
+	-khtml-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 5px;
+	
+	text-shadow: 0px -2px 2px #111111;
+}
+
+body .infoDialog .button.last,
+body .infoDialog button.last {
+	margin: 0px;
+}

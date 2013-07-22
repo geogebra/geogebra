@@ -216,6 +216,16 @@ public class StylingBar extends DecoratorPanel
 			{
 				return false;
 			}
+			
+			b[i].addMouseDownHandler(new MouseDownHandler()
+			{			
+				@Override
+				public void onMouseDown(MouseDownEvent event)
+				{
+					event.preventDefault();
+					event.stopPropagation(); 
+				}
+			});
 		}
 
 		this.contentPanel.clear();
