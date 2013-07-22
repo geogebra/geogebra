@@ -36,6 +36,8 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	}
 
 	private boolean ignoreMouseDown = false;
+	private boolean ignoreMouseMove = false;
+	private boolean ignoreMouseUp = false;
 
 	@Override
 	public void onTouchStart(TouchStartEvent event)
@@ -78,6 +80,8 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	{
 		event.preventDefault();
 
+		this.ignoreMouseMove = true;
+
 		if (event.getTouches().length() == 1)
 		{
 			// proceed normally
@@ -113,6 +117,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onTouchEnd(TouchEndEvent event)
 	{
 		event.preventDefault();
+		this.ignoreMouseUp = true;
 		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)), getY(event.getChangedTouches().get(0)));
 
 	}
@@ -126,7 +131,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		{
 			event.preventDefault();
 		}
-		if (!this.ignoreMouseDown && !TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		if (!this.ignoreMouseDown)
 		{
 			App.debug("Mouse down" + event.getX() + "," + event.getY());
 			this.mc.onTouchStart(event.getX(), event.getY());
@@ -140,9 +145,13 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
-		if (!TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		if (!this.ignoreMouseMove)
 		{
 			this.mc.onTouchMove(event.getX(), event.getY());
+		}
+		else
+		{
+			this.ignoreMouseMove = false;
 		}
 	}
 
@@ -150,9 +159,13 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onMouseUp(MouseUpEvent event)
 	{
 		event.preventDefault();
-		if (!TouchEntryPoint.getLookAndFeel().isMouseDownIgnored())
+		if (!this.ignoreMouseUp)
 		{
 			this.mc.onTouchEnd(event.getX(), event.getY());
+		}
+		else
+		{
+			this.ignoreMouseUp = false;
 		}
 	}
 
@@ -168,4 +181,5 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 			this.mc.onPinch(event.getX(), event.getY(), 1.1);
 		}
 	}
+
 }

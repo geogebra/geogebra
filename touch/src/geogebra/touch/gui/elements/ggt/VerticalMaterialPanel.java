@@ -148,8 +148,10 @@ public class VerticalMaterialPanel extends FlowPanel
 			}
 		}
 		//if(this.materialHeight != oldMaterialHeight){
+		if(this.materials != null){
 			this.setMaterials(this.columns, this.materials, this.start);
-		//}
+		}
+			//}
 		
 	}
 }
