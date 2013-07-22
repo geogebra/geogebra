@@ -4348,10 +4348,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		
 		if (Operation.NOT.equals(opNegated)) {
 			// unary, not binary
-			return new ExpressionNode(kernel, left, Operation.NOT, null);			
+			return new ExpressionNode(kernel, this, Operation.NOT, null);			
 		}
 		
-		return new ExpressionNode(kernel, left, this.operation.negate(), right);
+		return new ExpressionNode(kernel, left, opNegated, right);
 		
 	}
 
