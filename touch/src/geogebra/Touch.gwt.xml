@@ -30,4 +30,7 @@
 	<!-- Compile only one permutation -->
 	<collapse-all-properties />
 
+	<!-- Include needed resources in war/ -->
+	<public path="resources" excludes="html/, images/, statictexts/" />
+
 </module>
