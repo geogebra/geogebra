@@ -536,7 +536,6 @@ public class EuclidianPen {
 				line.setLineThickness(penSize * 2);
 				line.setLineType(penLineStyle);
 				line.setObjColor(penColor);
-				line.setLayer(1);
 				line.updateRepaint();
 				
 				return line;
@@ -660,7 +659,6 @@ public class EuclidianPen {
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
-		poly.setLayer(1);
 		
 		app.getSelectionManager().clearSelectedGeos(false);
 		app.getSelectionManager().addSelectedGeo(poly);
@@ -781,7 +779,6 @@ public class EuclidianPen {
 		fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		fun.setLineType(penLineStyle);
 		fun.setObjColor(penColor);
-		fun.setLayer(1);
 		
 
 		minX = Integer.MAX_VALUE;
@@ -1081,7 +1078,6 @@ public class EuclidianPen {
 		circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		circle.setLineType(penLineStyle);
 		circle.setObjColor(penColor);
-		circle.setLayer(1);
 		circle.updateRepaint();
 		
 		return circle;
@@ -1557,7 +1553,6 @@ public class EuclidianPen {
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
-		poly.setLayer(1);
 		poly.updateRepaint();
 
     	return poly;
@@ -1757,7 +1752,6 @@ public class EuclidianPen {
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
 		line.setObjColor(penColor);
-		line.setLayer(1);
 		line.updateRepaint();
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)));
@@ -1768,7 +1762,6 @@ public class EuclidianPen {
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
 		line.setObjColor(penColor);
-		line.setLayer(1);
 		line.updateRepaint();
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)));
@@ -1779,7 +1772,6 @@ public class EuclidianPen {
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
 		line.setObjColor(penColor);
-		line.setLayer(1);
 		line.updateRepaint();
 		return line;
     }
@@ -1911,7 +1903,6 @@ public class EuclidianPen {
 		poly.setLineThickness(penSize * 2);
 		poly.setLineType(penLineStyle);
 		poly.setObjColor(penColor);
-		poly.setLayer(1);
 		poly.updateRepaint();
 
     	
