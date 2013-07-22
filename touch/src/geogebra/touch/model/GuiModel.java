@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
+import geogebra.touch.gui.elements.toolbar.SubToolBar;
 import geogebra.touch.gui.elements.toolbar.ToolBarButton;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -44,6 +45,14 @@ public class GuiModel
 	public GuiModel(TouchModel model)
 	{
 		this.touchModel = model;
+	}
+	
+	public void setOption(SubToolBar options) {
+		this.option = options;
+	}
+	
+	public void setStyleBarOptionShown(OptionType type) {
+		this.styleBarOptionShown = type;
 	}
 
 	public ToolBarCommand getCommand()
@@ -84,7 +93,7 @@ public class GuiModel
 			}
 		}
 	}
-
+	
 	public void setActive(ToolBarButton toolBarButton)
 	{
 		if (this.activeButton != null && this.activeButton != toolBarButton)

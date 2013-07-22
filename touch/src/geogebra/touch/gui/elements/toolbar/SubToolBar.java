@@ -55,4 +55,8 @@ public class SubToolBar extends PopupPanel
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
 	}
+	
+	public void setSubToolBarArrowPaddingLeft(int padding) {
+		this.arrowPanel.getElement().setAttribute("style", "padding-left: " + padding + "px;");
+	}
 }

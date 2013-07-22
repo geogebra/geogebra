@@ -9,6 +9,7 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 
 /**
  * 
@@ -22,6 +23,9 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 	protected ToolBarCommand[] menuEntries;
 	protected GuiModel model;
+	
+	private static int BUTTON_WIDTH = 56;
+	private static int BUTTONPANEL_BORDER = 7;
 
 	/**
 	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
@@ -77,7 +81,32 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 		if (this.menuEntries.length != 0)
 		{
 			SubToolBar options = new SubToolBar(this.menuEntries, this);
-			this.model.showOption(options, OptionType.ToolBar, this);
+			
+			int optionsWidth = this.menuEntries.length * ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
+			
+			// if the width of the subtoolbar ist too big, the position should be different
+			// leftpos of button + width of subtoolbar must not be bigger than Window-width!!
+			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()) {
+				this.model.closeOptions();
+				this.model.setOption(options);
+				
+				// special case for cirlces (is still too long)
+				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth < 0) {
+					int buttonsLeft = this.menuEntries.length / 2;
+					options.setPopupPosition(this.getAbsoluteLeft() - buttonsLeft * ToolBarButton.BUTTON_WIDTH,  this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
+					options.setSubToolBarArrowPaddingLeft(buttonsLeft * ToolBarButton.BUTTON_WIDTH + 23);
+				} else {
+					options.setPopupPosition(this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth + ToolBarButton.BUTTONPANEL_BORDER, this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
+					options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
+				}
+				
+				options.show();
+				this.model.setStyleBarOptionShown(OptionType.ToolBar);
+				
+			} else {
+				this.model.showOption(options, OptionType.ToolBar, this);
+			}
+			
 		}
 		this.model.setActive(this);
 	}
