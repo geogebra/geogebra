@@ -2217,13 +2217,13 @@ public class GeoFunction extends GeoElement implements VarString,
 			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
 			ExpressionValue lt = e.getLeft().unwrap();
 			ExpressionValue rt = e.getRight().unwrap();
-			App.debug(e);
+
 			boolean simple = e.getOperation() == Operation.GREATER
 					|| e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.LESS
 					|| e.getOperation() == Operation.LESS_EQUAL
 					|| e.getOperation() == Operation.EQUAL_BOOLEAN;
-			App.debug(simple);
+
 			if (simple && lt instanceof FunctionVariable
 					&& rt instanceof NumberValue && !(rt instanceof FunctionVariable)) {
 				double d = ((NumberValue) rt).getDouble();
