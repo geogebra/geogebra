@@ -252,10 +252,12 @@ input.worksheetTitle {
 	z-index: 5;
 }
 
-.optionsBox .button,.optionsBox .button.button-up-hovering {
-	width: 40px;
-	height: 40px;
+.optionsBox .button,
+.optionsBox .button.button-up-hovering {
+	width: 30px;
+	height: 30px;
 	float: left;
+	padding: 5px;
 	margin-right: 5px;
 	margin-bottom: 5px;
 }

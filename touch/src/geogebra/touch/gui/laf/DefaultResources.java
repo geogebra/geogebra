@@ -108,6 +108,26 @@ public interface DefaultResources extends ClientBundle
 	@Source("icons/svg/properties_defaults_2.svg")
 	@Validated(validated = false)
 	SVGResource properties_default();
+	
+	@Source("icons/svg/stylingbar_line-solid.svg")
+	@Validated(validated = false)
+	SVGResource line_solid();
+	
+	@Source("icons/svg/stylingbar_line-dashed-long.svg")
+	@Validated(validated = false)
+	SVGResource line_dashed_long();
+	
+	@Source("icons/svg/stylingbar_line-dashed-short.svg")
+	@Validated(validated = false)
+	SVGResource line_dashed_short();
+	
+	@Source("icons/svg/stylingbar_line-dotted.svg")
+	@Validated(validated = false)
+	SVGResource line_dotted();
+	
+	@Source("icons/svg/stylingbar_line-dash-dot.svg")
+	@Validated(validated = false)
+	SVGResource line_dash_dot();
 
 	// ToolBar
 

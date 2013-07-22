@@ -1,6 +1,9 @@
 package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.html5.gui.util.Slider;
+import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarCommand;
 
@@ -8,7 +11,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class LineStyleBar extends OptionsContent
@@ -17,18 +19,26 @@ public class LineStyleBar extends OptionsContent
 	public static final int SLIDER_MAX = 12; 
 	
 	private FlowPanel contentPanel;
+	
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+	private static StandardImageButton[] lineStyle = {new StandardImageButton(LafIcons.line_solid()),
+											   new StandardImageButton(LafIcons.line_dashed_long()),
+											   new StandardImageButton(LafIcons.line_dashed_short()),
+											   new StandardImageButton(LafIcons.line_dotted()),
+											   new StandardImageButton(LafIcons.line_dash_dot())
+	};
 
 	public LineStyleBar(final TouchModel touchModel, final StylingBar stylingBar)
 	{
 		this.addStyleName("lineStyleBar");
 		this.contentPanel = new FlowPanel();
 
-		Button[] lineStyle = new Button[5];
+		//Button[] lineStyle = new Button[5];
 
 		for (int i = 0; i < lineStyle.length; i++)
 		{
 			final int index = i;
-			lineStyle[i] = new Button("style " + (i + 1));
+			//lineStyle[i] = new Button("style " + (i + 1));
 			lineStyle[i].addDomHandler(new ClickHandler()
 			{
 				@Override
