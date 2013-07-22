@@ -160,7 +160,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		data.updateAll();
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
-	    table.setVisibleRange(0, data.getrowList().size());
+	    table.setVisibleRange(0, data.getrowList().size()+1);
 	}
 	
 	class ConstructionTableDataW extends ConstructionTableData{
