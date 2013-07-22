@@ -1,5 +1,0 @@
-WebContent
-README
-.git
-.project
-.gitignore

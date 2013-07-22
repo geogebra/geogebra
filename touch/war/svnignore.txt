@@ -1,5 +1,0 @@
-touch
-_*.ggb
-ggbloadworker
-mpreducejs
-mpreduceworker
