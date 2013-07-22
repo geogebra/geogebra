@@ -556,8 +556,8 @@ public class TouchModel {
 
 		// commands that need one circle and any other object
 		case ReflectObjectAboutCircle:
-			if(!select(hits, Test.GEOCONIC, 2)){
-				selectOutOf(hits, new Test[]{Test.GEOPOINT,
+			if(!select(hits, Test.GEOCONIC, 2)){ 
+				selectOutOf(hits, new Test[]{Test.GEOPOINT, Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY,
 					Test.GEOPOLYGON, Test.GEOPOLYLINE, Test.GEOCURVECARTESIAN,
 					Test.GEOIMPLICITPOLY }, 1);
 			}
