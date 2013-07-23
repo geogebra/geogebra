@@ -48,8 +48,6 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 				TabletHeaderPanelRight.this.app.getKernel().undo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
-
-				TabletHeaderPanelRight.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 		this.add(this.undo);
@@ -68,8 +66,6 @@ public class TabletHeaderPanelRight extends HorizontalPanel
 				TabletHeaderPanelRight.this.app.getKernel().redo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
-
-				TabletHeaderPanelRight.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 		this.add(this.redo);

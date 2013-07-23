@@ -185,7 +185,7 @@ public class InfoDialog extends PopupPanel
 				{
 					App.debug("no callback");
 				}
-				TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
+				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 			}
 		}, ClickEvent.getType());
 	}

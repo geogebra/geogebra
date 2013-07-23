@@ -1,5 +1,6 @@
 package geogebra.touch.gui.laf;
 
+import geogebra.common.main.SavedStateListener;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
@@ -12,7 +13,7 @@ import geogebra.touch.utils.OptionType;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
-public interface LookAndFeel
+public interface LookAndFeel extends SavedStateListener
 {
 	public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel, FileManagerM fm);
 
@@ -33,4 +34,8 @@ public interface LookAndFeel
 	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
 
 	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
+
+	public void updateUndoSaveButtons();
+
+	public void setApp(TouchApp app);
 }

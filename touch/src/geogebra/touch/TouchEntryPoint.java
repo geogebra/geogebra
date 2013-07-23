@@ -73,9 +73,11 @@ public class TouchEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{
-				ResourcesInjector.injectResources();
+				ResourcesInjector.injectResources();				
 				setLookAndFeel();
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+				getLookAndFeel().setApp(app);
+				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
 				worksheetGUI = new WorksheetGUI(app, fm, tabletGUI);
@@ -156,10 +158,7 @@ public class TouchEntryPoint implements EntryPoint
 			}
 		}
 
-		if (laf.getTabletHeaderPanel() != null)
-		{
-			laf.getTabletHeaderPanel().enableDisableButtons();
-		}
+		laf.updateUndoSaveButtons();
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand()
 		{
@@ -184,10 +183,7 @@ public class TouchEntryPoint implements EntryPoint
 				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
 			}
 		});
-		if (laf.getTabletHeaderPanel() != null)
-		{
-			laf.getTabletHeaderPanel().enableDisableButtons();
-		}
+		laf.updateUndoSaveButtons();
 	}
 
 	public static void showBrowseGUI()

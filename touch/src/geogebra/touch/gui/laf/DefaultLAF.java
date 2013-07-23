@@ -17,6 +17,7 @@ import com.google.gwt.event.shared.EventHandler;
 public class DefaultLAF implements LookAndFeel
 {
 	private TabletHeaderPanel hp;
+	private TouchApp app;
 
 	@Override
 	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel, FileManagerM fm)
@@ -92,5 +93,29 @@ public class DefaultLAF implements LookAndFeel
 	public boolean isMouseDownIgnored()
 	{
 		return false;
+	}
+	
+	@Override
+	public void updateUndoSaveButtons() {
+		if(this.getTabletHeaderPanel() != null){
+			this.getTabletHeaderPanel().enableDisableButtons();
+		}
+		
+	}
+
+	@Override
+	public void stateChanged(boolean b) {
+		if(this.getTabletHeaderPanel() != null){
+			this.getTabletHeaderPanel().enableDisableButtons();
+		}
+	}
+
+	public TouchApp getApp() {
+		return app;
+	}
+
+	@Override
+	public void setApp(TouchApp app) {
+		this.app = app;
 	}
 }

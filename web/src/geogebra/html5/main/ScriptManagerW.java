@@ -121,6 +121,10 @@ public class ScriptManagerW extends ScriptManager {
 		$wnd[ggbApplet].setUndoPoint = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setUndoPoint()();
 		};
+		
+		$wnd[ggbApplet].setSaved = function() {
+			ggbAPI.@geogebra.html5.main.GgbAPI::setSaved()();
+		};
 
 		$wnd[ggbApplet].initCAS = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPI::initCAS()();

@@ -191,11 +191,6 @@ public class TouchApp extends AppWeb
 			this.kernel.storeUndoInfo();
 		}
 		this.setUnsaved();
-
-		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
-		{
-			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
-		}
 	}
 
 	@Override
@@ -767,5 +762,10 @@ public class TouchApp extends AppWeb
 	// this.touchGUI.updateStylingBar(this.getSelectionManager());
 	// }
 	// }
+	
+	@Override
+	public void updateActions(){
+		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+	}
 
 }

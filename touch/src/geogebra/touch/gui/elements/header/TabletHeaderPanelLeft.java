@@ -75,7 +75,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 				TabletHeaderPanelLeft.this.app.setSaved();
-				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		};
 
@@ -87,7 +86,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				TabletHeaderPanelLeft.this.infoDialog.setCallback(newConstruction);
 				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
-				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 	}
@@ -102,7 +100,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TouchEntryPoint.showBrowseGUI();
-				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		};
 		
@@ -113,8 +110,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 			{
 				event.preventDefault();
 				TabletHeaderPanelLeft.this.infoDialog.setCallback(showOpenDialog);
-				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);
-				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
+				TabletHeaderPanelLeft.this.infoDialog.showIfNeeded(TabletHeaderPanelLeft.this.app);				
 			}
 		}, ClickEvent.getType());
 	}
@@ -138,7 +134,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				{
 					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
 				}
-				TabletHeaderPanelLeft.this.headerPanel.enableDisableButtons();
 			}
 		}, ClickEvent.getType());
 		enableDisableSave();

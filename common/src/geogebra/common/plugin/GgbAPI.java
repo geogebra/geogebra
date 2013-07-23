@@ -1092,6 +1092,13 @@ public abstract class GgbAPI implements JavaScriptAPI{
     }
     
     /**
+     * Cast redo
+     */
+    public void setSaved(){
+    	app.setSaved();
+    }
+    
+    /**
      * Deletes all construction elements
      */
     public void newConstruction(){

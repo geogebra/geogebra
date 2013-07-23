@@ -68,6 +68,7 @@ import geogebra.common.util.debug.GeoGebraLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
@@ -1491,13 +1492,23 @@ public abstract class App implements UpdateSelection{
 	 */
 	public final void setSaved() {
 		isSaved = true;
+		for(SavedStateListener sl:savedListeners){
+			sl.stateChanged(true);
+		}
 	}
-
+	private List<SavedStateListener> savedListeners = new ArrayList<SavedStateListener>();
+	
+	public void registerSavedStateListener(SavedStateListener l){
+		savedListeners.add(l);
+	}
 	/**
 	 * Sets application state to "unsaved" so that user is reminded on close.
 	 */
 	public final void setUnsaved() {
 		isSaved = false;
+		for(SavedStateListener sl:savedListeners){
+			sl.stateChanged(false);
+		}
 	}
 
 	public final boolean isSaved() {
@@ -3378,5 +3389,11 @@ public abstract class App implements UpdateSelection{
 	 * @return millisecond time
 	 */
 	public abstract double getMillisecondTime();
+
+	public void updateActions() {
+		if (isUsingFullGui() && getGuiManager() != null){
+			getGuiManager().updateActions();
+		}		
+	}
 	
 }

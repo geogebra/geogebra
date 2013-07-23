@@ -7,7 +7,7 @@ import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.model.TouchModel;
 
 public class WindowsStoreLAF extends DefaultLAF
-{
+{	
 	@Override
 	public void setTitle(String title)
 	{
@@ -40,7 +40,7 @@ public class WindowsStoreLAF extends DefaultLAF
 	}
 	
 	@Override
-	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel,
+	public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel,
 			FileManagerM fm) {
 
 	}
@@ -50,4 +50,26 @@ public class WindowsStoreLAF extends DefaultLAF
 	{
 	  return true;
 	}
+
+	@Override
+	public native void stateChanged(boolean saved) /*-{
+		if($wnd[appbar]){
+			$wnd[appbar].saveChanged(saved);
+		}		
+	}-*/;
+	
+	@Override
+	public void updateUndoSaveButtons(){
+		if(this.getApp() != null){
+			updateUndoSaveButtons(this.getApp().getKernel().undoPossible(), this.getApp().getKernel().undoPossible());
+		}
+	}
+	
+	
+	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
+		if($wnd[appbar]){
+			$wnd[appbar].appbar.updateUndoRedo();
+		}		
+	}-*/;
+	
 }
