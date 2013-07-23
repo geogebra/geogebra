@@ -155,7 +155,6 @@ public class ToolBar extends HorizontalPanel
 	
 	this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 	this.setVerticalAlignment(ALIGN_MIDDLE);
-	//this.inputButtonPanel.add(inputBarButton);
 	this.inputButtonPanel.add(this.inputPanel);
 	
 	//Input Underline for Android

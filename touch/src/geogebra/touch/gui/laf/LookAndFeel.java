@@ -35,6 +35,8 @@ public interface LookAndFeel extends SavedStateListener
 
 	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
 
+	public int getPaddingLeftOfDialog();
+	
 	public void updateUndoSaveButtons();
 
 	public void setApp(TouchApp app);

@@ -11,7 +11,7 @@ import geogebra.touch.gui.laf.AndroidLAF;
 import geogebra.touch.gui.laf.AppleLAF;
 import geogebra.touch.gui.laf.DefaultLAF;
 import geogebra.touch.gui.laf.LookAndFeel;
-import geogebra.touch.gui.laf.WindowsStoreLAF;
+import geogebra.touch.gui.laf.WinLAF;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -217,7 +217,7 @@ public class TouchEntryPoint implements EntryPoint
 		}
 		else if ("win".equals(param))
 		{
-			laf = new WindowsStoreLAF();
+			laf = new WinLAF();
 		}
 		else
 		{

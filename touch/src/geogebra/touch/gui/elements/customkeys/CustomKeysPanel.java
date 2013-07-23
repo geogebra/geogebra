@@ -1,5 +1,8 @@
 package geogebra.touch.gui.elements.customkeys;
 
+import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.laf.LookAndFeel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +49,19 @@ public class CustomKeysPanel extends PopupPanel
 	private HorizontalPanel buttonContainer = new HorizontalPanel();
 
 	private List<CustomKeyListener> listeners;
+	
+	private LookAndFeel laf;
 
 	public CustomKeysPanel()
 	{
 		super(false, false);
+		
+		this.laf = TouchEntryPoint.getLookAndFeel();
 
 		this.listeners = new ArrayList<CustomKeyListener>();
 		this.setStyleName("customKeyPanel");
+		
+		this.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 
 		for (final CustomKey k : CustomKey.values())
 		{

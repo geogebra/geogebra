@@ -6,7 +6,9 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.model.TouchModel;
 
-public class WindowsStoreLAF extends DefaultLAF
+import com.google.gwt.user.client.Window;
+
+public class WinLAF extends DefaultLAF
 {	
 	@Override
 	public void setTitle(String title)
@@ -29,8 +31,7 @@ public class WindowsStoreLAF extends DefaultLAF
 	@Override
 	public DefaultResources getIcons()
 	{
-		// FIXME return windows specific icons
-		return DefaultResources.INSTANCE;
+		return WinResources.INSTANCE;
 	}
 
 	@Override
@@ -50,13 +51,17 @@ public class WindowsStoreLAF extends DefaultLAF
 	{
 	  return true;
 	}
-
+	
+	@Override
+	public int getPaddingLeftOfDialog() {
+		return (Window.getClientWidth() - 740) / 2;
+	}
+	
 	@Override
 	public native void stateChanged(boolean saved) /*-{
-		if (!$wnd.appbar) {
-			return;
+		if($wnd[appbar]){
+			$wnd[appbar].saveChanged(saved);
 		}		
-		$wnd.appbar.saveChanged(saved);				
 	}-*/;
 	
 	@Override
@@ -68,10 +73,8 @@ public class WindowsStoreLAF extends DefaultLAF
 	
 	
 	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-		if (!$wnd.appbar) {
-			return;
+		if($wnd[appbar]){
+			$wnd[appbar].appbar.updateUndoRedo();
 		}		
-		$wnd.appbar.updateUndoRedo(undo, redo);			
 	}-*/;
-	
 }

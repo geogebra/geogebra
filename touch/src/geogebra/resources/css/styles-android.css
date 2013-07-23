@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-body div,
+body,
 body input {
 	font-family: "Roboto", sans-serif;
 	font-size: 14px;
@@ -77,11 +77,6 @@ body .headerbar div.button.button-up-hovering {
 ###            INPUT BAR                 ###
 ######################################### */
 
-body .inputbarPanel {
-	margin: 0px;
-	padding: 0px 15px;
-}
-
 body .inputbarPanel input {
 	border: none;
 	background: none;
@@ -117,11 +112,10 @@ body .infoDialog {
 .inputDialog .title,
 .infoDialog .title {
 	border-bottom: 2px solid #9999FF;
-	padding: 15px;
-	margin-bottom: 15px;
-	text-align: left;
 	font-size: 18px;
 	color: #FFFFFF;
+	padding: 15px;
+	margin-bottom: 15px;
 }
 
 .inputDialog .gwt-Label,
@@ -157,7 +151,6 @@ body .infoDialog .gwt-PopupPanel {
 
 .customKeyPanel {
 	margin-right: 0px;
-	margin-top: 10px;
 }
 
 body .inputDialog button,

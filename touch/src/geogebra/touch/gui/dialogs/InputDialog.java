@@ -53,6 +53,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
+	private HorizontalPanel titlePanel = new HorizontalPanel();
 	private Label title = new Label();
 	private HorizontalPanel errorBox = new HorizontalPanel();
 	private SVGResource iconWarning;
@@ -80,7 +81,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.app = app;
 		this.type = type;
 
-		// this.setPopupPosition(Window.WINDOW_WIDTH/2, 62);
 		this.laf = TouchEntryPoint.getLookAndFeel();
 		
 		this.iconWarning = this.laf.getIcons().icon_warning();
@@ -114,8 +114,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.customKeys.addCustomKeyListener(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.dialogPanel.add(this.title);
+		this.dialogPanel.add(this.titlePanel);
+		this.dialogPanel.setStyleName("panelContainer");
+		
+		this.titlePanel.add(this.title);
+		this.titlePanel.setStyleName("titlePanel");
 		this.title.setStyleName("title");
+		
+		this.titlePanel.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 		
 		addTextBox();
 		
@@ -132,6 +138,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		this.textBox.getElement().setAttribute("autocorrect", "off");
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
+		
+		this.textBox.addStyleName("inactive");
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
@@ -158,8 +166,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			public void onBlur(BlurEvent event)
 			{
 				InputDialog.this.textBox.setFocus(true);
-				InputDialog.this.underline.removeStyleName("inactive");
-				InputDialog.this.underline.addStyleName("active");
+				InputDialog.this.underline.removeStyleName("active");
+				InputDialog.this.underline.addStyleName("inactive");
+				InputDialog.this.textBox.removeStyleName("active");
+				InputDialog.this.textBox.addStyleName("inactive");
 			}
 		});
 
@@ -172,6 +182,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 				InputDialog.this.textBox.setFocus(true);
 				InputDialog.this.underline.removeStyleName("inactive");
 				InputDialog.this.underline.addStyleName("active");
+				InputDialog.this.textBox.removeStyleName("inactive");
+				InputDialog.this.textBox.addStyleName("active");
 			}
 		});
 
@@ -197,6 +209,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.underline.setStyleName("inputUnderline");
 		this.underline.addStyleName("inactive");
 		this.textPanel.add(this.underline);
+		this.textPanel.setStyleName("textPanel");
+		this.textPanel.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 
 		this.dialogPanel.add(this.textPanel);
 		this.textBox.setFocus(true);

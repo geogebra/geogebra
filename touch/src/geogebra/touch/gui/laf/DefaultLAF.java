@@ -96,6 +96,11 @@ public class DefaultLAF implements LookAndFeel
 	}
 	
 	@Override
+	public int getPaddingLeftOfDialog() {
+		return 0;
+	}
+	
+	@Override
 	public void updateUndoSaveButtons() {
 		if(this.getTabletHeaderPanel() != null){
 			this.getTabletHeaderPanel().enableDisableButtons();

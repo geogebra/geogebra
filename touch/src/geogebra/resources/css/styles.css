@@ -428,8 +428,10 @@ div.elemHeadingName {
 /* #####################################################################
 ####                    INPUT	AND   DIALOGS						####
 ##################################################################### */
+
 .inputbarPanel {
-	padding: 10px 5px;
+	margin: 0px;
+	padding: 0px 15px;
 }
 
 .inputPanel {
@@ -457,6 +459,11 @@ div.elemHeadingName {
 	-moz-box-shadow: 3px 3px 5px #999999;
 	box-shadow: 3px 3px 5px #999999;
 	background-color: #FFFFFF;
+}
+
+table.titlePanel {
+	width: 100%;
+	text-align: left;
 }
 
 .inputDialog .errorBox {
