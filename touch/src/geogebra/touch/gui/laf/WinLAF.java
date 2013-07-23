@@ -59,9 +59,10 @@ public class WinLAF extends DefaultLAF
 	
 	@Override
 	public native void stateChanged(boolean saved) /*-{
-		if($wnd[appbar]){
-			$wnd[appbar].saveChanged(saved);
-		}		
+		if(!$wnd.appbar){
+			return;
+			
+		}		$wnd.appbar.saveChanged(saved);
 	}-*/;
 	
 	@Override
@@ -73,8 +74,8 @@ public class WinLAF extends DefaultLAF
 	
 	
 	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-		if($wnd[appbar]){
-			$wnd[appbar].appbar.updateUndoRedo();
-		}		
+		if(!$wnd.appbar){
+			return;
+		}	$wnd.appbar.updateUndoRedo();	
 	}-*/;
 }
