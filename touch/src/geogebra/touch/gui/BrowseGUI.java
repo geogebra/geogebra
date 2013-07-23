@@ -7,13 +7,11 @@ import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.ggt.FileContainer;
 import geogebra.touch.gui.elements.ggt.MaterialListElement;
 import geogebra.touch.gui.elements.ggt.SearchBar;
 import geogebra.touch.gui.elements.ggt.SearchBar.SearchListener;
 import geogebra.touch.gui.elements.ggt.VerticalMaterialPanel;
-import geogebra.touch.gui.laf.DefaultResources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +45,6 @@ public class BrowseGUI extends VerticalPanel
 	
 	private Label headingMyProfile;
 	private Label headingGeoGebraTube;
-	
-	
-	
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-	
-	private StandardImageButton prevTubeButton = new StandardImageButton(LafIcons.arrow_go_previous());
-	private StandardImageButton nextTubeButton = new StandardImageButton(LafIcons.arrow_go_next());
 	
 	private final static int HEADING_HEIGHT = 50;
 	public final static int CONTROLS_HEIGHT = 50;

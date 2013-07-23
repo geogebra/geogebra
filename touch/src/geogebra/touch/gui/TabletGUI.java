@@ -61,7 +61,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	private LayoutPanel algebraViewButtonPanel;
 	private Panel algebraViewArrowPanel;
 	StandardImageButton algebraViewButton;
-	private FileManagerM fm;
 	private TouchApp app;
 
 	private boolean editing = true;
@@ -89,7 +88,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void initComponents(final Kernel kernel, FileManagerM fm1)
 	{
 		this.touchModel = new TouchModel(kernel, this);
-		this.fm = fm1;
 		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
 		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel, fm1);
