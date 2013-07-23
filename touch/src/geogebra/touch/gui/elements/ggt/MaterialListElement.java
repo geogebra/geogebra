@@ -134,6 +134,7 @@ public class MaterialListElement extends FlowPanel
 			{
 				event.stopPropagation();
 				MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
+				TouchEntryPoint.allowEditing(true);
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
@@ -148,18 +149,8 @@ public class MaterialListElement extends FlowPanel
 			@Override
 			public void onClick(ClickEvent event)
 			{
-
 				event.stopPropagation();
-				if (MaterialListElement.this.material.getId() > 0)
-				{
-					TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
-				}
-				else
-				{
-					MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
-					TouchEntryPoint.allowEditing(false, MaterialListElement.this.material);
-					TouchEntryPoint.showTabletGUI();
-				}
+				TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
 				TouchEntryPoint.progressIndicator.hide();
 			}
 		}, ClickEvent.getType());

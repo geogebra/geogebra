@@ -18,6 +18,8 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -76,7 +78,7 @@ public class TouchEntryPoint implements EntryPoint
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				FileManagerM fm = new FileManagerM();
 				browseGUI = new BrowseGUI(app, fm);
-				worksheetGUI = new WorksheetGUI(app, fm);
+				worksheetGUI = new WorksheetGUI(app, fm, tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
@@ -116,26 +118,6 @@ public class TouchEntryPoint implements EntryPoint
 
 			private void initPhoneGap()
 			{
-				// phoneGap.addHandler(new PhoneGapAvailableHandler()
-				// {
-				// @Override
-				// public void onPhoneGapAvailable(PhoneGapAvailableEvent event)
-				// {
-				// // TODO Auto-generated method stub
-				// System.out.println("test onPhoneGapAvailable");
-				// }
-				// });
-				//
-				// phoneGap.addHandler(new PhoneGapTimeoutHandler()
-				// {
-				//
-				// @Override
-				// public void onPhoneGapTimeout(PhoneGapTimeoutEvent event)
-				// {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				// });
 				phoneGap.initializePhoneGap();
 				phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(new BackButtonPressedHandler()
 				{
@@ -173,18 +155,35 @@ public class TouchEntryPoint implements EntryPoint
 				phoneGap.exitApp();
 			}
 		}
-		tabletGUI.getTouchModel().getKernel().notifyRepaint();
-		// tabletGUI.getTouchModel().getKernel().getApplication().setSaved();
+
 		if (laf.getTabletHeaderPanel() != null)
 		{
 			laf.getTabletHeaderPanel().enableDisableButtons();
 		}
+		
+		Scheduler.get().scheduleDeferred(new ScheduledCommand()
+		{
+			
+			@Override
+			public void execute()
+			{
+				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
+			}
+		});
 	}
 
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
-		tabletGUI.getTouchModel().getKernel().notifyRepaint();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand()
+		{
+			
+			@Override
+			public void execute()
+			{
+				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
+			}
+		});
 		if (laf.getTabletHeaderPanel() != null)
 		{
 			laf.getTabletHeaderPanel().enableDisableButtons();
@@ -194,7 +193,7 @@ public class TouchEntryPoint implements EntryPoint
 	public static void showBrowseGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
-		TouchEntryPoint.browseGUI.onResize();
+//		TouchEntryPoint.browseGUI.onResize();
 	}
 
 	public static void showWorksheetGUI(Material material)
@@ -235,8 +234,8 @@ public class TouchEntryPoint implements EntryPoint
 		return TouchEntryPoint.laf;
 	}
 
-	public static void allowEditing(boolean b, Material material)
+	public static void allowEditing(boolean b) 
 	{
-		tabletGUI.allowEditing(b, material);
+		tabletGUI.allowEditing(b);
 	}
 }

@@ -4,8 +4,6 @@ import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -16,7 +14,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel
 {
 
 	private StandardImageButton backButton;
-	private HorizontalPanel backPanel;
+	protected HorizontalPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
 	protected Label headerText;
@@ -36,15 +34,6 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel
 
 		this.backLabel = new Label(loc.getMenu("Back"));
 		this.backPanel.add(this.backLabel);
-
-		this.backPanel.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				TouchEntryPoint.goBack();
-			}
-		}, ClickEvent.getType());
 
 		this.rightPanel = new VerticalPanel();
 		this.rightPanel.setStyleName("headerRight");

@@ -41,6 +41,14 @@ public class SearchBar extends AuxiliaryHeaderPanel
 	public SearchBar(Localization loc, BrowseGUI browseGUI)
 	{
 		super(loc.getMenu("Worksheets"), loc);
+		super.backPanel.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TouchEntryPoint.goBack();
+			}
+		}, ClickEvent.getType());
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
 		this.listeners = new ArrayList<SearchListener>();

@@ -2,7 +2,6 @@ package geogebra.touch;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -44,6 +43,8 @@ import java.util.List;
 import java.util.Stack;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -375,7 +376,7 @@ public class TouchApp extends AppWeb
 	protected void getLayoutXML(StringBuilder sb, boolean asPreference)
 	{
 		sb.append("\t<perspectives>\n");
-		
+
 		Perspective tmp = new Perspective("tmp");
 		tmp.setShowAxes(this.getEuclidianView1().getShowAxis(1));
 		tmp.setShowGrid(this.getEuclidianView1().getShowGrid());
@@ -383,20 +384,19 @@ public class TouchApp extends AppWeb
 		int width = Window.getClientWidth();
 		int algebraWidth = TabletGUI.computeAlgebraWidth();
 		int height = Window.getClientHeight();
-		
-		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0,0), 
-				AwtFactory.prototype.newDimension(width - algebraWidth, height), "", width - algebraWidth);
-		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", this.touchGUI.isAlgebraShowing()  , false, true, new GPoint(width - algebraWidth,0), 
-				AwtFactory.prototype.newDimension(algebraWidth, height), "", algebraWidth);
+
+		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0, 0), AwtFactory.prototype.newDimension(width - algebraWidth,
+		    height), "", width - algebraWidth);
+		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", this.touchGUI.isAlgebraShowing(), false, true, new GPoint(width - algebraWidth, 0),
+		    AwtFactory.prototype.newDimension(algebraWidth, height), "", algebraWidth);
 		tmp.setSplitPaneData(new DockSplitPaneData[0]);
 		tmp.setDockPanelData(dock);
 		// save the current perspective
-		
+
 		sb.append(tmp.getXml());
-		
+
 		// save all custom perspectives as well
-		
-		
+
 		sb.append("\t</perspectives>\n");
 	}
 
@@ -635,23 +635,43 @@ public class TouchApp extends AppWeb
 			setConstructionTitle(TouchEntryPoint.browseGUI.getChosenMaterial().getMaterialTitle());
 		}
 		
-		for (Perspective perspective : this.tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				toggleAVvisibility(perspective.getDockPanelData());
+		Scheduler.get().scheduleDeferred(new ScheduledCommand()
+		{
+
+			@Override
+			public void execute()
+			{
+				TouchEntryPoint.tabletGUI.onResize();
+//				System.out.println("after load or not");
+//				TouchEntryPoint.tabletGUI.getTouchModel().getKernel().notifyRepaint();
+//				TouchEntryPoint.tabletGUI.updateViewSizes(TouchEntryPoint.tabletGUI.isEditable());
+//				for (int i = 0; i < TouchEntryPoint.tabletGUI.contentPanel.getWidgetCount(); i++)
+//				{
+//					System.out.println("contentPanel count " + TouchEntryPoint.tabletGUI.contentPanel.getWidget(i).getClass().getName());
+//				}
+//				System.out.println("contentPanel count " + TouchEntryPoint.tabletGUI.contentPanel.getWidgetCount());
 			}
-		}
-		this.setMode(EuclidianConstants.MODE_MOVE);
-		this.touchGUI.resetMode();
-		this.kernel.notifyRepaint();
+		});
+		// for (Perspective perspective : this.tmpPerspectives) {
+		// if (perspective.getId().equals("tmp")) {
+		// toggleAVvisibility(perspective.getDockPanelData());
+		// }
+		// }
+		// this.setMode(EuclidianConstants.MODE_MOVE);
+		// this.touchGUI.resetMode();
+		// this.kernel.notifyRepaint();
+
 	}
 
-	private void toggleAVvisibility(DockPanelData[] dockPanelData) {
-		for(DockPanelData dp:dockPanelData){
-			if(dp.getViewId()== App.VIEW_ALGEBRA){
+	private void toggleAVvisibility(DockPanelData[] dockPanelData)
+	{
+		for (DockPanelData dp : dockPanelData)
+		{
+			if (dp.getViewId() == App.VIEW_ALGEBRA)
+			{
 				this.touchGUI.setAlgebraVisible(dp.isVisible());
 			}
 		}
-		
 	}
 
 	@Override
@@ -702,12 +722,14 @@ public class TouchApp extends AppWeb
 	}
 
 	@Override
-	protected int getWindowWidth() {
+	protected int getWindowWidth()
+	{
 		return Window.getClientWidth();
 	}
 
 	@Override
-	protected int getWindowHeight() {
+	protected int getWindowHeight()
+	{
 		return Window.getClientHeight();
 	}
 
