@@ -759,7 +759,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		isCircularDefinition = false;
 		if (inGeos != null) {
 			for (GeoElement inGeo : inGeos) {
-				if (inGeo.isChildOf(this)) {
+				if (inGeo.isChildOf(this) || this.equals(inGeo)) {
 					isCircularDefinition = true;
 					setError("CircularDefinition");
 				}
