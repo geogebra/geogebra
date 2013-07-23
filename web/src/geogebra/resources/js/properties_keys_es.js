@@ -703,7 +703,6 @@ __GGB__keysVar.es.command = {
     "RunUpdateScript_Syntax": "[ <Objeto> ]",
     "SD": "DE",
     "SD_Syntax": "[ <Lista de Datos en Bruto> ]\n[ <Lista de N\xfameros>, <Lista de Frecuencias> ]",
-    "SD_SyntaxCAS": "[ <Lista de N\xfameros> ]",
     "SDX": "DEx",
     "SDX_Syntax": "[ <Lista de Puntos> ]",
     "SDY": "DEy",

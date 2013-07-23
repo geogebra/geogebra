@@ -703,7 +703,6 @@ __GGB__keysVar.pt.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "DesvioPadr\xe3o",
     "SD_Syntax": "[ <Lista dos Dados Brutos> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
-    "SD_SyntaxCAS": "[ <Lista de N\xfameros> ]",
     "SDX": "DesvioPadr\xe3oX",
     "SDX_Syntax": "[ <Lista de Pontos> ]",
     "SDY": "DesvioPadr\xe3oY",

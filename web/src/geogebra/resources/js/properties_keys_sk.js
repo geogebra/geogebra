@@ -703,7 +703,6 @@ __GGB__keysVar.sk.command = {
     "RunUpdateScript_Syntax": "[ <Objekt> ]",
     "SD": "SD",
     "SD_Syntax": "[ <Zoznam p\u1ed1vodn\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
-    "SD_SyntaxCAS": "[ <Zoznam \u010d\xedsel> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <Zoznam \u010d\xedsel> ]",
     "SDY": "SDY",

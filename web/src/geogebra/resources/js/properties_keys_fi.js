@@ -703,7 +703,6 @@ __GGB__keysVar.fi.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Keskihajonta",
     "SD_Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
-    "SD_SyntaxCAS": "[ <Lukulista> ]",
     "SDX": "KeskihajontaX",
     "SDX_Syntax": "[ <Pistelista> ]",
     "SDY": "KeskihajontaY",

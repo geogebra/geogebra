@@ -703,7 +703,6 @@ __GGB__keysVar.bs.command = {
     "RunUpdateScript_Syntax": "[ <Figura> ]",
     "SD": "StandardnaDev",
     "SD_Syntax": "[ <Lista ulaznih podataka> ]\n[ <Lista brojeva>, <Lista frekvencija> ]",
-    "SD_SyntaxCAS": "[ <Lista brojeva> ]",
     "SDX": "StandardnaDevX",
     "SDX_Syntax": "[ <Lista ta\u010daka> ]",
     "SDY": "StandardnaDevY",

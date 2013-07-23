@@ -703,7 +703,6 @@ __GGB__keysVar.in.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SimpanganBaku",
     "SD_Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
-    "SD_SyntaxCAS": "[ <Daftar Angka> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <DaftarTitik> ]",
     "SDY": "SDY",

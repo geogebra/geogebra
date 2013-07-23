@@ -703,7 +703,6 @@ __GGB__keysVar.tr.command = {
     "RunUpdateScript_Syntax": "[ <Nesne> ]",
     "SD": "SS",
     "SD_Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
-    "SD_SyntaxCAS": "[ <Say\u0131 Listesi> ]",
     "SDX": "SSX",
     "SDX_Syntax": "[ <Say\u0131 Listesi> ]",
     "SDY": "SSY",

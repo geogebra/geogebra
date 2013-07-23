@@ -703,7 +703,6 @@ __GGB__keysVar.ms.command = {
     "RunUpdateScript_Syntax": "[ <Objek> ]",
     "SD": "SisihanPiawai",
     "SD_Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
-    "SD_SyntaxCAS": "[ <Senarai Nombor> ]",
     "SDX": "SisihanPiawaiX",
     "SDX_Syntax": "[ <Senarai Titik> ]",
     "SDY": "SisihanPiawaiY",

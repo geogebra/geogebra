@@ -703,7 +703,6 @@ __GGB__keysVar.cs.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SO",
     "SD_Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
-    "SD_SyntaxCAS": "[ <Seznam \u010d\xedsel> ]",
     "SDX": "SOX",
     "SDX_Syntax": "[ <Seznam bod\u016f> ]",
     "SDY": "SOY",

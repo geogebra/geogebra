@@ -703,7 +703,6 @@ __GGB__keysVar.et.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Standardh\xe4lve",
     "SD_Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
-    "SD_SyntaxCAS": "[ <Arvude loend> ]",
     "SDX": "Standardh\xe4lveX",
     "SDX_Syntax": "[ <Punktide loend> ]",
     "SDY": "Standardh\xe4lveY",

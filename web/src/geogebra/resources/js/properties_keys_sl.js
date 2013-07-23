@@ -703,7 +703,6 @@ __GGB__keysVar.sl.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "StandardniOdklon",
     "SD_Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
-    "SD_SyntaxCAS": "[ <seznam \u0161tevil> ]",
     "SDX": "StandardniOdklonX",
     "SDX_Syntax": "[ <seznam to\u010dk> ]",
     "SDY": "StandardniOdklonY",

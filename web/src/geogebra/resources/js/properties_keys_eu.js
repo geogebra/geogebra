@@ -703,7 +703,6 @@ __GGB__keysVar.eu.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "DesbiderapenEstandarra",
     "SD_Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
-    "SD_SyntaxCAS": "[ <Zenbakien Zerrenda> ]",
     "SDX": "DesbiderapenEstandarraX",
     "SDX_Syntax": "[ <Puntuen Zerrenda> ]",
     "SDY": "DesbiderapenEstandarraY",

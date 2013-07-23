@@ -703,7 +703,6 @@ __GGB__keysVar.fr.command = {
     "RunUpdateScript_Syntax": "[ <Objet> ]",
     "SD": "EcartType",
     "SD_Syntax": "[ <Liste de donn\xe9es brute> ]\n[ <Liste des valeurs>, <Liste des effectifs> ]",
-    "SD_SyntaxCAS": "[ <Liste de donn\xe9es brute> ]",
     "SDX": "EcartTypeX",
     "SDX_Syntax": "[ <Liste Points> ]",
     "SDY": "EcartTypeY",

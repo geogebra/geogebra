@@ -703,7 +703,6 @@ __GGB__keysVar.sv.command = {
     "RunUpdateScript_Syntax": "[ <Objekt> ]",
     "SD": "StandardAvvikelse",
     "SD_Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
-    "SD_SyntaxCAS": "[ <Lista med tal> ]",
     "SDX": "StandardAvvikelseX",
     "SDX_Syntax": "[ <Lista med Punkter> ]",
     "SDY": "StandardAvvikelseY",

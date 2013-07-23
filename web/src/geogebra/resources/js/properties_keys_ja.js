@@ -703,7 +703,6 @@ __GGB__keysVar.ja.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
-    "SD_SyntaxCAS": "[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]",
     "SDY": "SDY",

@@ -703,7 +703,6 @@ __GGB__keysVar.ar_MA.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0628\u064a\u0627\u0646\u0627\u062a \u062e\u0627\u0645> ]\n[ <\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u062f\u0627\u062f>, <\u0642\u0627\u0626\u0645\u0629 \u062a\u0631\u062f\u062f\u0627\u062a> ]",
-    "SD_SyntaxCAS": "[ <\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u062f\u0627\u062f> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0646\u0642\u0627\u0637> ]",
     "SDY": "SDY",

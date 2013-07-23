@@ -703,7 +703,6 @@ __GGB__keysVar.da.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Stdafv",
     "SD_Syntax": "[ <Liste med R\xe5 Data> ]\n[ <Liste med tal>, <Liste med hyppigheder> ]",
-    "SD_SyntaxCAS": "[ <liste> ]",
     "SDX": "Standartafvigelse",
     "SDX_Syntax": "[ <Liste med Punkter> ]",
     "SDY": "StandartafvigelseY",

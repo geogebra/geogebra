@@ -703,7 +703,6 @@ __GGB__keysVar.zh_TW.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
-    "SD_SyntaxCAS": "[ <List of Numbers> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <List of Points> ]",
     "SDY": "SDY",

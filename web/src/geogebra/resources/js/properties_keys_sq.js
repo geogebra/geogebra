@@ -703,7 +703,6 @@ __GGB__keysVar.sq.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste e Numrave>, <Liste e Frekuencave> ]",
-    "SD_SyntaxCAS": "[ <Liste e Numrave> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <Liste e Pikave> ]",
     "SDY": "SDY",

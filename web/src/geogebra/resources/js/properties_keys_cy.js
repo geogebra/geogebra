@@ -703,7 +703,6 @@ __GGB__keysVar.cy.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "GwyriadSafonol",
     "SD_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
-    "SD_SyntaxCAS": "[ <List of Numbers> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <Rhestr Rhifau> ]",
     "SDY": "GSY",

@@ -703,7 +703,6 @@ __GGB__keysVar.hu.command = {
     "RunUpdateScript_Syntax": "[ <Alakzat> ]",
     "SD": "Sz\xf3r\xe1s",
     "SD_Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
-    "SD_SyntaxCAS": "[ <Sz\xe1mok list\xe1ja> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <Pontok list\xe1ja> ]",
     "SDY": "SDY",

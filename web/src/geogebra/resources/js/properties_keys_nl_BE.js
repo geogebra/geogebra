@@ -703,7 +703,6 @@ __GGB__keysVar.nl_BE.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
-    "SD_SyntaxCAS": "[ <Lijst met getallen> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <Lijst met punten> ]",
     "SDY": "SDY",

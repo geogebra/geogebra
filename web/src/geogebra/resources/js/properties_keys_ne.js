@@ -703,7 +703,6 @@ __GGB__keysVar.ne.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "\u092f\u0938\u0921\u093f",
     "SD_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
-    "SD_SyntaxCAS": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "SDY": "SDY",

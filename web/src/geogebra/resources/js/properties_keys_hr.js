@@ -703,7 +703,6 @@ __GGB__keysVar.hr.command = {
     "RunUpdateScript_Syntax": "[ <objekt> ]",
     "SD": "StandardnaDevijacija",
     "SD_Syntax": "[ <lista neobra\u0111enih podataka> ]\n[ <lista brojeva>, <lista frekvencija> ]",
-    "SD_SyntaxCAS": "[ <lista brojeva> ]",
     "SDX": "StandardnaDevijacijaX",
     "SDX_Syntax": "[ <lista to\u010daka> ]",
     "SDY": "StandardnaDevijacijaY",

@@ -703,7 +703,6 @@ __GGB__keysVar.gl.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "DT",
     "SD_Syntax": "[ <Lista de datos en bruto> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
-    "SD_SyntaxCAS": "[ <Lista de n\xfameros> ]",
     "SDX": "DTx",
     "SDX_Syntax": "[ <Lista de puntos> ]",
     "SDY": "DTy",

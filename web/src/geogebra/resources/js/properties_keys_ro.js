@@ -703,7 +703,6 @@ __GGB__keysVar.ro.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "SD",
     "SD_Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
-    "SD_SyntaxCAS": "[ <List\u0103 de numere> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <List\u0103 de Puncte> ]",
     "SDY": "SDY",

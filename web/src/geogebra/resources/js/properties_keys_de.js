@@ -703,7 +703,6 @@ __GGB__keysVar.de.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Standardabweichung",
     "SD_Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
-    "SD_SyntaxCAS": "[ <Liste von Zahlen> ]",
     "SDX": "StandardabweichungX",
     "SDX_Syntax": "[ <Liste von Punkten> ]",
     "SDY": "StandardabweichungY",

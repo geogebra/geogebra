@@ -703,7 +703,6 @@ __GGB__keysVar.pl.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "OdchylenieStandardowe",
     "SD_Syntax": "[ <Lista Liczb> ]\n[ <Lista Liczb>, <Lista Cz\u0119sto\u015bci> ]",
-    "SD_SyntaxCAS": "[ <ListaLiczb> ]",
     "SDX": "OdchylenieStandardoweX",
     "SDX_Syntax": "[ <Lista Punkt\xf3w> ]",
     "SDY": "OdchylenieStandardoweY",

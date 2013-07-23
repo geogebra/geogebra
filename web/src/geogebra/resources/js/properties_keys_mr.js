@@ -703,7 +703,6 @@ __GGB__keysVar.mr.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "\u092a\u094d\u0930\u092e\u093e\u0923\u093f\u0924\u0935\u093f\u091a\u0932\u0928",
     "SD_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
-    "SD_SyntaxCAS": "[ <List of Numbers> ]",
     "SDX": "SDX",
     "SDX_Syntax": "[ <List of Points> ]",
     "SDY": "SDY",

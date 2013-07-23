@@ -703,7 +703,6 @@ __GGB__keysVar.ca.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Desviaci\xf3Est\xe0ndard",
     "SD_Syntax": "[ <Llista de totes les dades> ]\n[ <Llista de dades>, <Llista de freq\xfc\xe8ncies> ]",
-    "SD_SyntaxCAS": "[ <Llista de nombres> ]",
     "SDX": "Desviaci\xf3Est\xe0ndardX",
     "SDX_Syntax": "[ <Llista de punts> ]",
     "SDY": "Desviaci\xf3Est\xe0ndardY",

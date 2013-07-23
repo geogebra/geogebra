@@ -703,7 +703,6 @@ __GGB__keysVar.no_NN.command = {
     "RunUpdateScript_Syntax": "[ <Objekt> ]",
     "SD": "Standardavvik",
     "SD_Syntax": "[ <Liste med r\xe5data> ]\n[ <Liste med tal>, <Liste med frekvensar> ]",
-    "SD_SyntaxCAS": "[ <Liste med tal> ]",
     "SDX": "StandardavvikX",
     "SDX_Syntax": "[ <Liste med punkt> ]",
     "SDY": "StandardavvikY",

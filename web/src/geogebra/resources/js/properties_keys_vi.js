@@ -703,7 +703,6 @@ __GGB__keysVar.vi.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "DoLechChuan",
     "SD_Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch t\u1ea7n s\u1ed1> ]",
-    "SD_SyntaxCAS": "[ <Danh s\xe1ch c\xe1c s\u1ed1> ]",
     "SDX": "DoLechChuanX",
     "SDX_Syntax": "[ <Danh s\xe1ch c\xe1c \u0111i\u1ec3m> ]",
     "SDY": "DoLechChuanY",

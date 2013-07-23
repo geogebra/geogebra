@@ -703,7 +703,6 @@ __GGB__keysVar.ko.command = {
     "RunUpdateScript_Syntax": "[ <\ub300\uc0c1> ]",
     "SD": "\ud45c\uc900\ud3b8\ucc28",
     "SD_Syntax": "[ <\uc6d0\uc790\ub8cc\uc758 \ub9ac\uc2a4\ud2b8> ]\n[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8>, <\ub3c4\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
-    "SD_SyntaxCAS": "[ <\uc218\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "SDX": "X\ud45c\uc900\ud3b8\ucc28",
     "SDX_Syntax": "[ <\uc810\uc758 \ub9ac\uc2a4\ud2b8> ]",
     "SDY": "Y\ud45c\uc900\ud3b8\ucc28",

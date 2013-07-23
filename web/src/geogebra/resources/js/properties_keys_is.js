@@ -703,7 +703,6 @@ __GGB__keysVar.is.command = {
     "RunUpdateScript_Syntax": "[ <Object> ]",
     "SD": "Sta\xf0alfr\xe1vik",
     "SD_Syntax": "[ <Listi \xf3flokka\xf0ra gagna> ]\n[ <Listi af t\xf6lum>, <Listi af t\xed\xf0nit\xf6lum> ]",
-    "SD_SyntaxCAS": "[ <Listi af t\xf6lum> ]",
     "SDX": "Sta\xf0alfr\xe1vikX",
     "SDX_Syntax": "[ <Listi af punktum> ]",
     "SDY": "Sta\xf0alfr\xe1vikY",
