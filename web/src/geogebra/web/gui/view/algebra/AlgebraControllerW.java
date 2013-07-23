@@ -170,6 +170,9 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 
 			// LEFT CLICK	
 		} else {
+			
+			//hide dialogs if they are open
+			((GuiManagerW)app.getGuiManager()).removePopup();
 
 			// When a single, new selection is made with no key modifiers
 			// we need to handle selection in mousePressed, not mouseClicked.
