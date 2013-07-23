@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class TouchEventController implements TouchStartHandler, TouchMoveHandler, TouchEndHandler, MouseDownHandler, MouseUpHandler,
     MouseMoveHandler, MouseWheelHandler
 {
-	private TouchController mc;
+	TouchController mc;
 	private double oldDistance;
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private Widget offsetWidget;
@@ -35,9 +35,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 		this.offsetWidget = w;
 	}
 
-	private boolean ignoreMouseDown = false;
-	private boolean ignoreMouseMove = false;
-	private boolean ignoreMouseUp = false;
+	private boolean ignoreMouseEvents = false;
 
 	@Override
 	public void onTouchStart(TouchStartEvent event)
@@ -50,7 +48,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 				event.preventDefault();
 			}
 			App.debug("Touch down" + getX(event.getTouches().get(0)) + "," + getY(event.getTouches().get(0)));
-			this.ignoreMouseDown = true;
+			this.ignoreMouseEvents = true;
 			this.mc.onTouchStart(getX(event.getTouches().get(0)), getY(event.getTouches().get(0)));
 		}
 		else if (event.getTouches().length() == 2)
@@ -79,8 +77,6 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onTouchMove(TouchMoveEvent event)
 	{
 		event.preventDefault();
-
-		this.ignoreMouseMove = true;
 
 		if (event.getTouches().length() == 1)
 		{
@@ -117,9 +113,7 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onTouchEnd(TouchEndEvent event)
 	{
 		event.preventDefault();
-		this.ignoreMouseUp = true;
 		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)), getY(event.getChangedTouches().get(0)));
-
 	}
 
 	// Listeners for Desktop
@@ -127,45 +121,33 @@ public class TouchEventController implements TouchStartHandler, TouchMoveHandler
 	public void onMouseDown(MouseDownEvent event)
 	{
 		// ensure textfields lose focus
-		if (!this.mc.isTextfieldHasFocus())
+		if (!TouchEventController.this.mc.isTextfieldHasFocus())
 		{
 			event.preventDefault();
 		}
-		if (!this.ignoreMouseDown)
+
+		if (!TouchEventController.this.ignoreMouseEvents)
 		{
 			App.debug("Mouse down" + event.getX() + "," + event.getY());
-			this.mc.onTouchStart(event.getX(), event.getY());
-		}
-		else
-		{
-			this.ignoreMouseDown = false;
+			TouchEventController.this.mc.onTouchStart(event.getX(), event.getY());
 		}
 	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event)
 	{
-		if (!this.ignoreMouseMove)
+		if (!this.ignoreMouseEvents)
 		{
 			this.mc.onTouchMove(event.getX(), event.getY());
-		}
-		else
-		{
-			this.ignoreMouseMove = false;
 		}
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent event)
 	{
-		event.preventDefault();
-		if (!this.ignoreMouseUp)
+		if (!TouchEventController.this.ignoreMouseEvents)
 		{
-			this.mc.onTouchEnd(event.getX(), event.getY());
-		}
-		else
-		{
-			this.ignoreMouseUp = false;
+			TouchEventController.this.mc.onTouchEnd(event.getX(), event.getY());
 		}
 	}
 
