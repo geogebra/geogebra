@@ -68,7 +68,8 @@ public class WinLAF extends DefaultLAF
 	@Override
 	public void updateUndoSaveButtons(){
 		if(this.getApp() != null){
-			updateUndoSaveButtons(this.getApp().getKernel().undoPossible(), this.getApp().getKernel().undoPossible());
+			updateUndoSaveButtons(this.getApp().getKernel().undoPossible(), 
+					this.getApp().getKernel().redoPossible());
 		}
 	}
 	
