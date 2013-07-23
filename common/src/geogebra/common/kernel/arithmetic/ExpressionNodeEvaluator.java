@@ -2,7 +2,9 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -987,6 +989,19 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							((GeoFunction) lt).evaluateBoolean(arg.getDouble()));
 				}
 				return arg.getNumber().apply((Evaluatable) lt);
+			} else if (lt instanceof GeoCasCell && ((GeoCasCell)lt).getOutputValidExpression() instanceof Function) {
+				// first we give the expression to the cas 
+				// and then the result of that to the geogebra
+				// so that the cas result will be converted
+				ExpressionNode node = new ExpressionNode(kernel, lt, Operation.FUNCTION, rt);
+				FunctionExpander fex = FunctionExpander.getCollector();
+				node = (ExpressionNode) node.wrap().getCopy(kernel).traverse(fex);
+				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(node, null, StringTemplate.numericNoLocal);
+				boolean mode = kernel.isSilentMode();
+				kernel.setSilentMode(true);
+				GeoElement geo = kernel.getAlgebraProcessor().processAlgebraCommand(result, false)[0];
+				kernel.setSilentMode(mode);
+				return geo;
 			}
 		} else if (rt instanceof GeoPoint) {
 			if (lt instanceof Evaluatable) {
