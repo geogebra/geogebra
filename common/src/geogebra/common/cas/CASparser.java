@@ -113,7 +113,7 @@ public class CASparser implements CASParserInterface{
 		// add local variables to kernel, 
 		// e.g. f(a,b) := 3*a+c*b has local variables a, b
 		boolean isFunction = ev instanceof Function;
-		FunctionVariable [] funVars;
+		FunctionVariable [] funVars = null;
 		if (isFunction) {
 			Construction cmdCons = ev.getKernel().getConstruction();  
 			funVars = ((Function) ev).getFunctionVariables();
@@ -132,7 +132,13 @@ public class CASparser implements CASParserInterface{
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
 		ev.traverse(c);
 		ev.traverse(r);
-		//TODO: remove local variables from kernel ?
+		// remove local variables
+		if (isFunction) {
+			Construction cmdCons = ev.getKernel().getConstruction();
+			for (FunctionVariable funVar : funVars) {
+				cmdCons.removeLocalVariable(funVar.toString(StringTemplate.defaultTemplate));
+			}
+		}
 	}
 	
 	
