@@ -25,8 +25,9 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -64,7 +65,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	TextBox textBox = new TextBox(), min = new TextBox(), max = new TextBox(), increment = new TextBox();
 	Panel underline;
 	private TouchApp app;
-	private DialogType type;
+	DialogType type;
 	private String prevText, mode;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
@@ -84,9 +85,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.guiModel = guiModel;
 
 		this.laf = TouchEntryPoint.getLookAndFeel();
-		
+
 		this.buildErrorBox();
-		
+
 		this.setStyleName("inputDialog");
 		// mark it as not visible to prevent problems with onResize()
 		this.setVisible(false);
@@ -97,14 +98,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		setAutoHideEnabled(true);
 	}
 
-	private void buildErrorBox() {
+	private void buildErrorBox()
+	{
 		this.iconWarning = this.laf.getIcons().icon_warning();
 		Panel iconPanel = new LayoutPanel();
 		String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
 		this.errorBox.add(iconPanel);
-		this.errorBox.add(this.errorText);		
+		this.errorBox.add(this.errorText);
 	}
 
 	public void redefine(DialogType dialogType)
@@ -158,15 +160,31 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		this.sliderPanel = new VerticalPanel();
 		this.sliderPanel.add(this.min);
-		this.min.setText("-5");
 
 		this.sliderPanel.add(this.max);
-		this.max.setText("5");
-
 		this.sliderPanel.add(this.increment);
-		this.increment.setText("0.1");
-
 		this.dialogPanel.add(this.sliderPanel);
+	}
+
+	void setSliderPreview()
+	{
+		if (this.type != DialogType.Slider)
+		{
+			return;
+		}
+
+		if (this.isNumber())
+		{
+			this.min.setText("-5");
+			this.max.setText("5");
+			this.increment.setText("0.1");
+		}
+		else
+		{
+			this.min.setText("0\u00B0"); // 0°
+			this.max.setText("360\u00B0");
+			this.increment.setText("1\u00B0");
+		}
 	}
 
 	private void addTextBox()
@@ -198,21 +216,26 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.textBox.addBlurHandler(new BlurHandler()
 		{
-
 			@Override
 			public void onBlur(BlurEvent event)
 			{
-				InputDialog.this.textBox.setFocus(true);
-				InputDialog.this.underline.removeStyleName("active");
-				InputDialog.this.underline.addStyleName("inactive");
-				InputDialog.this.textBox.removeStyleName("active");
-				InputDialog.this.textBox.addStyleName("inactive");
+				if (InputDialog.this.type != DialogType.Slider)
+				{
+					InputDialog.this.textBox.setFocus(true);
+					InputDialog.this.underline.removeStyleName("active");
+					InputDialog.this.underline.addStyleName("inactive");
+					InputDialog.this.textBox.removeStyleName("active");
+					InputDialog.this.textBox.addStyleName("inactive");
+				} 
+				else 
+				{
+					InputDialog.this.textBox.setFocus(false);
+				}
 			}
 		});
 
 		this.textBox.addFocusHandler(new FocusHandler()
 		{
-
 			@Override
 			public void onFocus(FocusEvent event)
 			{
@@ -229,9 +252,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.errorBox.setVisible(false);
 		this.errorBox.setStyleName("errorBox");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
-		
-		
 
 		this.textPanel.add(this.errorBox);
 
@@ -256,24 +276,40 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		if (this.type == DialogType.Angle)
 		{
 
-			s[0] = "counterClockwise";
-			s[1] = "clockwise";
+			s[0] = this.app.getLocalization().getPlain("counterClockwise");
+			s[1] = this.app.getLocalization().getPlain("clockwise");
 		}
 		else
 		{
-			s[0] = "Number";
-			s[1] = "Angle";
+			s[0] = this.app.getLocalization().getMenu("Number");
+			s[1] = this.app.getLocalization().getMenu("Angle");
 		}
 
 		// "A" is just a label to group the two radioButtons (could be any String -
 		// as long as the same is used twice)
-		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain(s[0]), Direction.DEFAULT);
-		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain(s[1]), Direction.DEFAULT);
+		this.radioButton[0] = new RadioButton("A", s[0], Direction.DEFAULT);
+		this.radioButton[1] = new RadioButton("A", s[1], Direction.DEFAULT);
+
+		if (this.type == DialogType.Slider)
+		{
+			ValueChangeHandler<Boolean> handler = new ValueChangeHandler<Boolean>()
+			{
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event)
+				{
+					setSliderPreview();
+				}
+			};
+
+			this.radioButton[0].addValueChangeHandler(handler);
+			this.radioButton[1].addValueChangeHandler(handler);
+		}
 
 		this.dialogPanel.add(this.radioButton[0]);
 		this.dialogPanel.add(this.radioButton[1]);
 
 		this.radioButton[0].setValue(new Boolean(true));
+		this.setSliderPreview();
 	}
 
 	protected void onOK()
@@ -337,14 +373,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public void hide()
 	{
 		this.app.unregisterErrorHandler(this);
-		// super.hide(); -> leads to crash in some Android versions!
+		super.hide(); 
 		this.prevText = "";
-		setVisible(false);
-		this.textBox.setVisible(false);
-		this.customKeys.hide();
-		CloseEvent.fire(this, this, false);
-		this.guiModel.setActiveDialog(null);
+
 		// prevent that the function is drawn twice
+		this.guiModel.setActiveDialog(null);
 	}
 
 	public boolean isClockwise()
@@ -380,6 +413,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			break;
 		case NumberValue:
 		case Angle:
+		case Slider:
 			if (this.mode != null && this.mode.length() > 0)
 			{
 				this.title.setText(this.app.getLocalization().getMenu(this.mode));
@@ -422,7 +456,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void onResize(ResizeEvent e)
 	{
-		if (isVisible())
+		if (this.isVisible() && this.isShowing())
 		{
 			super.center();
 		}
