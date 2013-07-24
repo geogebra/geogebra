@@ -443,6 +443,7 @@ public class TouchApp extends AppWeb
 		this.kernel.clearConstruction(true);
 		this.touchGUI.allowEditing(true);
 		this.kernel.initUndoInfo();
+		setDefaultConstructionTitle();
 		setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		this.settings.beginBatch();
 		this.settings.getEuclidian(1).reset();
