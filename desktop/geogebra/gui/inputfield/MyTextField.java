@@ -391,6 +391,9 @@ public class MyTextField extends JTextField implements ActionListener,
 		g2.setColor(Color.WHITE);
 		g2.fillRect(insets.left, insets.top, width, height);
 
+		// set the text for checking labels
+		ip.setText(text);
+		
 		// redraw the text using color
 		boolean textMode = false;
 		for (int i = 0; i < text.length(); i++) {
@@ -416,7 +419,7 @@ public class MyTextField extends JTextField implements ActionListener,
 				g2.setColor(Color.BLACK);
 			}
 			
-			if (ip.isInInterval(i, text)) {
+			if (ip.isInInterval(i) && !textMode) {
 				bg = Color.ORANGE;
 			}
 
