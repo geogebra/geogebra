@@ -3648,7 +3648,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (appletImpl != null) {
 				// applet codebase
-				codebase = null;//appletImpl.getJApplet().getCodeBase();
+				codebase = appletImpl.getJApplet().getCodeBase();
 			}
 		}
 
