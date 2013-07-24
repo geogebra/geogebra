@@ -929,20 +929,16 @@ public class TouchModel {
 			}
 			break;
 		case Dilate:
-			if(this.inputDialog.getType() != DialogType.NumberValue)
-			{
-				this.inputDialog.redefine(DialogType.NumberValue);
-			}
+			this.inputDialog.redefine(DialogType.NumberValue);
+			
 			this.inputDialog.setMode("DilateFromPoint");
 			this.inputDialog.show();
 			// return instead of break, as everthing that follows is done by
 			// the dialog!
 			return;
 		case RotateObjectByAngle: 
-			if(this.inputDialog.getType() != DialogType.Angle)
-			{
-				this.inputDialog.redefine(DialogType.Angle);
-			}
+			this.inputDialog.redefine(DialogType.Angle);
+			
 			this.inputDialog.setMode("RotateByAngle");
 			this.inputDialog.setText("45\u00B0"); // 45°
 			this.inputDialog.show();
@@ -1514,15 +1510,13 @@ public class TouchModel {
 	}
 
 	public void redefine(final GeoElement geo) {
-		if(this.inputDialog.getType() != DialogType.Redefine)
-		{
+		if(geo.isGeoNumeric() && geo.isEuclidianVisible()){
+			this.inputDialog.setFromSlider((GeoNumeric)geo);
+		}else{
 			this.inputDialog.redefine(DialogType.Redefine);
+			this.inputDialog.setText(geo.getDefinitionForInputBar());
 		}
-		
 		this.redefineGeo = geo;
-		
-		this.inputDialog.setText(geo.getDefinitionForInputBar());
-		
 		this.inputDialog.show();
 		
 	}

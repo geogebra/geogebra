@@ -1,6 +1,8 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -107,6 +109,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	public void redefine(DialogType dialogType)
 	{
+		if(this.getType() == dialogType){
+			return;
+		}		
 		this.clear();
 		if (this.dialogPanel != null)
 		{
@@ -467,5 +472,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	public String getIncrement()
 	{
 		return this.increment.getText();
+	}
+
+	public void setFromSlider(GeoNumeric geo) {
+		redefine(DialogType.Slider);
+		this.radioButton[0].setValue(Boolean.valueOf(!geo.isAngle()));
+		this.radioButton[1].setValue(Boolean.valueOf(geo.isAngle()));
+		this.increment.setText(geo.getAnimationStepObject().getLabel(StringTemplate.editTemplate));
+		this.max.setText(geo.getIntervalMaxObject().getLabel(StringTemplate.editTemplate));
+		this.min.setText(geo.getIntervalMaxObject().getLabel(StringTemplate.editTemplate));
 	}
 }
