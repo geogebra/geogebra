@@ -47,7 +47,7 @@ public class WinLAF extends DefaultLAF
 	@Override
 	public boolean isMouseDownIgnored()
 	{
-	  return true;
+	  return false;
 	}
 	
 	@Override
