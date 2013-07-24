@@ -6,8 +6,9 @@ import geogebra.common.main.App;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * @author bencze
@@ -18,7 +19,7 @@ public class IntervalProvider {
 	private Kernel kernel; 
 	private String[] labels;
 	private List<Integer[]> intervals;	
-	private List<Pattern> patterns;
+	private List<RegExp> patterns;
 	
 	/**
 	 * @param kernel1 kernel providing us labels from the construction
@@ -26,7 +27,7 @@ public class IntervalProvider {
 	public IntervalProvider(Kernel kernel1) {
 		kernel = kernel1;
 		labels = null;
-		patterns = new ArrayList<Pattern>();
+		patterns = new ArrayList<RegExp>();
 		intervals = new ArrayList<Integer[]>();
 	}
 	
@@ -41,10 +42,12 @@ public class IntervalProvider {
 			compilePatterns();
 		}
 		intervals.clear();
-		for (Pattern pattern : patterns) {
-			Matcher m = pattern.matcher(text);
-			if (m.find()) {
-				intervals.add(new Integer[] {m.start(2), m.end(2)});
+		for (RegExp pattern : patterns) {
+			MatchResult res = pattern.exec(text);
+			if (res != null) {
+				int len = res.getGroup(2).length();
+				int i = text.indexOf(res.getGroup(2));
+				intervals.add(new Integer[] {i, i + len});
 			}
 		}
 		return intervals;
@@ -54,7 +57,7 @@ public class IntervalProvider {
 		App.debug("compiling patterns");
 		patterns.clear();
 		for (String label : labels) {
-			patterns.add(Pattern.compile("(^|\\W)(" + label + ")($|\\W)"));
+			patterns.add(RegExp.compile("(^|\\W)(" + label + ")($|\\W)"));
 		}
 	}
 	
