@@ -4853,6 +4853,8 @@ namespace giac {
     pivots.clear();
     pivots.reserve(cmax-c);
     for (;(l<lmax) && (c<cmax);){
+      if (ctrl_c || interrupted)
+	return 0;
       if ( (!fullreduction) && (l==lmax-1) )
 	break;
       if (debug_infolevel>1)
@@ -6942,7 +6944,7 @@ namespace giac {
 	return ;
       }
       double lambda=f._DOUBLE_val;
-      int Nv=2*lambda+53; // insure that poisson_cdf(lambda,Nv)==1 up to double precision
+      int Nv=int(2*lambda+53); // insure that poisson_cdf(lambda,Nv)==1 up to double precision
       if (Nv*n>5*lambda+n*std::ceil(std::log(double(Nv))/std::log(2.0))){
 	vector<double> tableau(Nv+1);
 	long_double cumul=0;
@@ -7073,7 +7075,7 @@ namespace giac {
       double p=f._DOUBLE_val;
       int Nv=N.val;
       if (Nv==1){
-	int seuil=rand_max2*p;
+	int seuil=int(rand_max2*p);
 	for (int i=0;i<n;++i){
 	  res.push_back(giac_rand(contextptr)<=seuil);
 	}
@@ -7181,9 +7183,9 @@ namespace giac {
 	    // random integer vector in interval
 	    int a=loi.val,b=e._VECTptr->back().val;
 	    matrice M(n);
-	    for (unsigned j=0;j<n;++j){
+	    for (int j=0;j<n;++j){
 	      gen res=vecteur(m);
-	      for (unsigned k=0;k<m;++k){
+	      for (int k=0;k<m;++k){
 		(*res._VECTptr)[k]=(a+int((b-a+1)*(giac_rand(contextptr)/(rand_max2+1.0))));
 	      }
 	      M[j]=res;
@@ -7242,7 +7244,7 @@ namespace giac {
 	    // random integer vector in interval
 	    int a=loi.val,b=e._VECTptr->back().val;
 	    res._VECTptr->reserve(n);
-	    for (unsigned j=0;j<n;++j){
+	    for (int j=0;j<n;++j){
 	      res._VECTptr->push_back(a+int((b-a+1)*(giac_rand(contextptr)/(rand_max2+1.0))));
 	    }
 	    return res;

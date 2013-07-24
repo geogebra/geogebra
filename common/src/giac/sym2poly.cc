@@ -2324,6 +2324,12 @@ namespace giac {
   }
 
   gen recursive_normal(const gen & e,bool distribute_div,GIAC_CONTEXT){
+    if (ctrl_c || interrupted) { 
+      gen res;
+      interrupted = true; ctrl_c=false;
+      gensizeerr(gettext("Stopped by user interruption."),res);
+      return res;
+    }
     if (e.type==_VECT)
       return apply(e,contextptr,(const gen_op_context) recursive_normal);
     gen e_copy(e); // was eval(e,1,contextptr)); 

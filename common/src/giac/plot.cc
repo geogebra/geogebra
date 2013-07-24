@@ -4489,7 +4489,15 @@ namespace giac {
       // find all orthogonalities tangeant/rayon 
       vecteur v(*sur._VECTptr);
       identificateur tt=*v[1]._IDNTptr;
-      gen tangeant(derive(v[0],tt,contextptr));
+      gen vparameq(v[0]);
+#if 0
+      if (v.size()>6){
+	v[0]=vparameq=v[6];
+	v[1]=t__IDNT_e;
+	tt=*v[1]._IDNTptr;
+      }
+#endif
+      gen tangeant(derive(vparameq,tt,contextptr));
       if (is_undef(tangeant))
 	return tangeant;
       gen t_found=v[2];
@@ -4515,7 +4523,7 @@ namespace giac {
 	    }
 	  }
 	  if (sol.empty()){
-	    vecteur eqv(makevecteur(eq,v[1],re(p,contextptr)));
+	    vecteur eqv(makevecteur(eq,symb_equal(v[1],symb_interval(v[2],v[3])),symb_equal(change_subtype(_NSTEP,_INT_PLOT),30),1e-4));
 	    sol=gen2vecteur(in_fsolve(eqv,contextptr));
 	  }
 	}

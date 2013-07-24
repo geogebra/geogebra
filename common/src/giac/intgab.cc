@@ -220,8 +220,25 @@ namespace giac {
   gen residue(const gen & g_,const gen & x,const gen & a,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return gensizeerr(contextptr);
+    gen g1=fxnd(g_);
+    if (g1.type==_VECT && g1._VECTptr->size()==2){
+      gen n=g1._VECTptr->front(),d=derive(g1._VECTptr->back(),x,contextptr);
+      gen da=subst(d,*x._IDNTptr,a,false,contextptr);
+      if (!is_zero(da)){
+	gen na=subst(n,*x._IDNTptr,a,false,contextptr);
+	n=recursive_normal(na/da,contextptr);
+	if (!is_zero(n) && !is_undef(n) && !is_inf(n))
+	  return n;
+      }
+    }
     gen g=_pow2exp(tan2sincos(g_,contextptr),contextptr);
     for (int ordre=2;ordre<max_series_expansion_order;ordre=2*ordre){
+      if (ctrl_c || interrupted) { 
+	interrupted = true; ctrl_c=false;
+	gen res;
+	gensizeerr(gettext("Stopped by user interruption."),res);
+	return res;
+      }
       sparse_poly1 s=series__SPOL1(g,*x._IDNTptr,a,ordre,0,contextptr);
       int n=s.size();
       if (n && (is_undef(s[0].coeff) || is_undef(s[0].exponent)))
@@ -1011,10 +1028,9 @@ namespace giac {
 	      int s=w.size();
 	      gen somme_residues=0;
 	      for (int i=0;i<s;++i){
-		gen wabs=normal(w[i]*conj(w[i],contextptr),contextptr);
-		gen tmpresidue=residue(gof,x,w[i],contextptr);
-		if (is_undef(tmpresidue))
+		if (ctrl_c || interrupted)
 		  return false;
+		gen wabs=normal(w[i]*conj(w[i],contextptr),contextptr);
 		if ((wabs==radius) 
 		    // && !is_zero(tmpresidue) // commented otherwise int(1/cos(x)^2,x,0,pi) returns 0
 		    ){
@@ -1022,6 +1038,9 @@ namespace giac {
 		  return true;
 		}
 		if (is_strictly_greater(radius,wabs,contextptr)){
+		  gen tmpresidue=residue(gof,x,w[i],contextptr);
+		  if (is_undef(tmpresidue))
+		    return false;
 		  somme_residues = somme_residues + tmpresidue; // was residue(gof,x,w[i],contextptr) but no reason to compute it twice...
 		  if (is_undef(somme_residues))
 		    return false;

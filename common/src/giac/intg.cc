@@ -1294,7 +1294,15 @@ namespace giac {
 	  lnpart=lnpart+rdiv(r2e(atannum,lprime,contextptr),(r2e(alpha,lprime,contextptr))*sqrtdelta,contextptr)*lnabs2(rdiv(deuxaxplusb-sqrtdelta,deuxaxplusb+sqrtdelta,contextptr),xvar,contextptr);
 	}
 	else {
-	  sqrtdelta=normalize_sqrt(sqrt(-Delta,contextptr),contextptr);
+	  vecteur v=solve(x*x+Delta,x,0,contextptr);
+	  if (v.size()==2 && !is_undef(v[0]) && !is_undef(v[1])){
+	    if (is_positive(-v[0],contextptr))
+	      sqrtdelta=v[1];
+	    else
+	      sqrtdelta=v[0];
+	  }
+	  else
+	    sqrtdelta=normalize_sqrt(sqrt(-Delta,contextptr),contextptr);
 	  atannum=atannum*gen(2);
 	  simplify(atannum,alpha);
 	  gen tmpatan=ratnormal(rdiv(deuxaxplusb,sqrtdelta,contextptr));

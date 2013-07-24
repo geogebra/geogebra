@@ -350,7 +350,7 @@
 
          #define YYPARSE_PARAM scanner
          #define YYLEX_PARAM   scanner
-	 #line 34 "input_parser.yy"
+	 #line 34 "/Users/parisse/newgiac/src/input_parser.yy"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -455,7 +455,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 459 "y.tab.c"
+#line 459 "input_parser.cc"
 
 #ifdef short
 # undef short
@@ -4814,7 +4814,7 @@ yyreduce:
 
   case 41:
 #line 250 "input_parser.yy"
-    {if ((yyvsp[(1) - (3)])==symbolic(at_exp,1)) (yyval)=symbolic(at_exp,(yyvsp[(3) - (3)])); else (yyval) =symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])),_SEQ__VECT));}
+    {if ((yyvsp[(1) - (3)])==symbolic(at_exp,1) && (yyvsp[(2) - (3)])==at_pow) (yyval)=symbolic(at_exp,(yyvsp[(3) - (3)])); else (yyval) =symbolic(*(yyvsp[(2) - (3)])._FUNCptr,gen(makevecteur((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])),_SEQ__VECT));}
     break;
 
   case 42:
@@ -6077,7 +6077,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 6081 "y.tab.c"
+#line 6081 "input_parser.cc"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

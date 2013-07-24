@@ -1077,7 +1077,7 @@ namespace giac {
     localvalue->push_back(e);
   }
 
-  const char * identificateur::print (GIAC_CONTEXT) const{
+  const char * identificateur::print(GIAC_CONTEXT) const{
     if (!strcmp(id_name,string_pi)){
       if (abs_calc_mode(contextptr)==38)
 	return "π";

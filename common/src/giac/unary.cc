@@ -557,7 +557,7 @@ namespace giac {
     if (feuille.type!=_VECT)
       return feuille.print(contextptr);
     string sommetstr(sommetstr_orig);
-    if ( (sommetstr[0]>32 && isalpha(sommetstr[0])) || sommetstr[0]=='%')
+    if ( (sommetstr[0]>32 && isalpha(sommetstr[0])) || sommetstr[0]=='%' || sommetstr[0]=='.')
       sommetstr=' '+sommetstr+' ';
     vecteur::const_iterator itb=feuille._VECTptr->begin(),itend=feuille._VECTptr->end();
     if (itb==itend)

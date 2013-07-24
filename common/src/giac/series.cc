@@ -382,6 +382,8 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
+	if (ctrl_c || interrupted)
+	  return false;
 	gen cur_pow=normal(itacur->exponent+itbcur->exponent,contextptr);
 	if ((n_truncate && ck_is_strictly_greater(n_valuation,cur_pow,contextptr)) || ck_is_greater(c_max,cur_pow,contextptr)){
 	  if (cur_pow!=old_pow){
@@ -406,6 +408,8 @@ namespace giac {
       sparse_poly1::const_iterator itacur=ita;
       sparse_poly1::const_iterator itbcur=itb;
       for (;;) {
+	if (ctrl_c || interrupted)
+	  return false;
 	gen cur_pow=normal(itacur->exponent + itbcur->exponent,contextptr);
 	if ((n_truncate && ck_is_strictly_greater(n_valuation,cur_pow,contextptr)) || ck_is_greater(c_max,cur_pow,contextptr)){
 	  if (cur_pow!=old_pow){
@@ -443,6 +447,8 @@ namespace giac {
       }
       ++it;
       while ( (it!=itend) && (it->exponent==pow)){
+	if (ctrl_c || interrupted)
+	  return false;
 	if (is_undef(res)){
 	  final_seq.push_back(*it);
 	  return true;

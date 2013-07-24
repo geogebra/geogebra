@@ -293,7 +293,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       if (curu>u)
 	current.insert(current.end(),(curu-u)/var2,T(0));
-      if (!gcdsmallmodpoly(pcontxn,current,pminptr,modulo,tmp))
+      if (ctrl_c || interrupted || !gcdsmallmodpoly(pcontxn,current,pminptr,modulo,tmp))
 	return false;
       pcontxn=tmp;
       if (tmp.size()==1)
@@ -320,7 +320,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       if (curu>u)
 	current.insert(current.end(),(curu-u)/var2,T(0));
-      if (!DivRem(current,pcontxn,pminptr,modulo,tmp,reste))
+      if (ctrl_c || interrupted || !DivRem(current,pcontxn,pminptr,modulo,tmp,reste))
 	return false;
       typename vector<T>::const_iterator jt=tmp.begin(),jtend=tmp.end();
       for (int s=jtend-jt-1;jt!=jtend;++jt,--s){
@@ -548,7 +548,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     for (++i;i<=degxn;++i){
       if (pcont.size()==1 && pcont.front().u==0)
 	return true;
-      if (!mod_gcd(pcont,vp[i],pminptr,modulo,varsn,pcont,pcof,qcof,false,nthreads))
+      if (ctrl_c || interrupted || !mod_gcd(pcont,vp[i],pminptr,modulo,varsn,pcont,pcof,qcof,false,nthreads))
 	return false;
     }
     if (pcont.size()==1 && pcont.front().u==0)
@@ -2612,7 +2612,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      ++alpha;
 	      alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	    }
-	    if (alpha>=modulo)
+	    if (ctrl_c || interrupted || alpha>=modulo)
 	      return false;
 	    int maxtotaldeg=ptotaldeg+1-e;
 	    horner_back(pv,alpha1,dim2palpha,modulo,maxtotaldeg,true);
@@ -2638,7 +2638,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	      ++alpha;
 	      alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	    }
-	    if (alpha>=modulo)
+	    if (ctrl_c || interrupted || alpha>=modulo)
 	      return false;
 	    int maxtotaldeg=ptotaldeg+1-e;
 	    if (!horner(p,alpha1,vars,palpha,modulo,maxtotaldeg))
@@ -2705,7 +2705,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	// find a good alpha with respect to leading coeff
 	for (;;){
 	  ++alpha;
-	  if (alpha==modulo){
+	  if (ctrl_c || interrupted || alpha==modulo){
 	    cerr << "Modgcd: no suitable evaluation point" << endl;
 	    return false;
 	  }
@@ -3120,6 +3120,8 @@ mpz_class smod(const mpz_class & a,int reduce){
 	for (;it!=itend;++it){
 	  if (it->type==_FRAC)
 	    res=lcm(res,it->_FRACptr->den);
+	  if (is_undef(res))
+	    return res;
 	  if (it->type==_POLY){
 	    vector< monomial<gen> >::const_iterator kt=it->_POLYptr->coord.begin(),ktend=it->_POLYptr->coord.end();
 	    for (;kt!=ktend;++kt){
@@ -3289,7 +3291,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       vector< T_unsigned<int,hashgcd_U> > p1,q1,g1,pcof1,qcof1,p2,q2,g2,pcof2,qcof2;
       for (;;){
 	m=nextprime(m+1);
-	if (m.type!=_INT_)
+	if (ctrl_c || interrupted || m.type!=_INT_)
 	  return false;
 	int modulo=m.val;
 	// computing gcd in Z[i]: use a modulo =1[4], find gcd for both roots of -1 mod modulo
@@ -3404,7 +3406,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<int,hashgcd_U> > p,q,g,pcof,qcof;
     for (;;){
       m=nextprime(m+1);
-      if (m.type!=_INT_)
+      if (ctrl_c || interrupted || m.type!=_INT_)
 	return false;
       int modulo=m.val;
       int lg=smod(gcdlcoeff,modulo).val,lp=smod(lcoeffp,modulo).val,lq=smod(lcoeffq,modulo).val;
@@ -5101,7 +5103,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	    ++alpha;
 	    alpha1=alpha%2?-(alpha+1)/2:alpha/2;
 	  }
-	  if (alpha>=modulo)
+	  if (ctrl_c || interrupted || alpha>=modulo)
 	    return false;
 	  int maxtotaldeg=ptotaldeg+1-e;
 	  if (!horner(p,alpha1,vars,palpha,modulo,maxtotaldeg))
@@ -5174,7 +5176,7 @@ mpz_class smod(const mpz_class & a,int reduce){
 	// find a good alpha with respect to leading coeff
 	for (;;){
 	  ++alpha;
-	  if (alpha==modulo){
+	  if (ctrl_c || interrupted || alpha==modulo){
 	    cerr << "Modgcd: no suitable evaluation point" << endl;
 	    return false;
 	  }
@@ -5485,7 +5487,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       // sqrts of -1 modulo the primes, ichinrem 
       for (int n=0;;n++){
 	m=nextprime(m+1);
-	if (m.type!=_INT_)
+	if (ctrl_c || interrupted || m.type!=_INT_)
 	  return false;
 	int modulo=m.val;
 	// computing gcd in Z[i]: use a modulo =1[4], find gcd for both roots of -1 mod modulo
@@ -5530,12 +5532,12 @@ mpz_class smod(const mpz_class & a,int reduce){
 	  continue;
 	int res=gcd_ext(p1,q1,vars,pmin,modulo,g1,pcof1,qcof1,compute_cofactors,compute_cofactors,nthreads);
 	// ?FIXME? check that g1, pcof1, qcof1 are normalized
-	if (res==-1)
+	if (res==-1 || ctrl_c || interrupted)
 	  return false;
 	if (!res)
 	  continue;
 	res=gcd_ext(p2,q2,vars,pmin,modulo,g2,pcof2,qcof2,compute_cofactors,compute_cofactors,nthreads);
-	if (res==-1)
+	if (res==-1 || ctrl_c || interrupted)
 	  return false;
 	if (!res)
 	  continue;
@@ -5627,7 +5629,7 @@ mpz_class smod(const mpz_class & a,int reduce){
     vector< T_unsigned<gen,hashgcd_U> > dtestold;
     for (int n=0;;n++){
       m=nextprime(m+1);
-      if (m.type!=_INT_)
+      if (ctrl_c || interrupted || m.type!=_INT_)
 	return false;
       int modulo=m.val;
       if (debug_infolevel>(int)shift_vars.size())
@@ -5655,7 +5657,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       // then it won't be when variables of p or q are evaluated
       // hence checking in dim 1 is sufficient
       int res=gcd_ext(p,q,vars,pmin,modulo,g,pcof,qcof,compute_cofactors,compute_cofactors,nthreads);
-      if (res==-1)
+      if (ctrl_c || interrupted || res==-1)
 	return false;
       if (!res)
 	continue;

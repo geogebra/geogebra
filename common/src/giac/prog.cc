@@ -4932,6 +4932,8 @@ namespace giac {
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);
+    if (is_inf(g))
+      return g;
     return liste2symbolique(symbolique2liste(g,contextptr));
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){
@@ -6405,7 +6407,7 @@ namespace giac {
       return a;
     return matrix_apply(a,b,contextptr,operator_times);
   }
-  static const char _pointprod_s []=" .* ";
+  static const char _pointprod_s []=".*";
   static define_unary_function_eval4_index (92,__pointprod,&_pointprod,_pointprod_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_pointprod ,alias_at_pointprod ,&__pointprod);
 
@@ -6416,7 +6418,7 @@ namespace giac {
       return a;
     return matrix_apply(a,b,contextptr,rdiv);
   }
-  static const char _pointdivision_s []=" ./ ";
+  static const char _pointdivision_s []="./";
   static define_unary_function_eval4_index (94,__pointdivision,&_pointdivision,_pointdivision_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr( at_pointdivision ,alias_at_pointdivision ,&__pointdivision);
 

@@ -3596,7 +3596,7 @@ namespace giac {
       return apply2nd(a,b,contextptr,operator_plus);
     return operator_plus(a,b,contextptr);
   }
-  static const char _pointplus_s []=" .+ ";
+  static const char _pointplus_s []=".+";
   static define_unary_function_eval2_index (2,__pointplus,&_pointplus,_pointplus_s,&printsommetasoperator);
   define_unary_function_ptr( at_pointplus ,alias_at_pointplus ,&__pointplus);
 
@@ -3610,7 +3610,7 @@ namespace giac {
       return apply2nd(a,b,contextptr,operator_minus);
     return operator_minus(a,b,contextptr);
   }
-  static const char _pointminus_s []=" .- ";
+  static const char _pointminus_s []=".-";
   static define_unary_function_eval2_index (2,__pointminus,&_pointminus,_pointminus_s,&printsommetasoperator);
   define_unary_function_ptr( at_pointminus ,alias_at_pointminus ,&__pointminus);
 

@@ -247,7 +247,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp T_MOINS38 exp	{$$ = symb_plus($1,$3.type<_IDNT?-$3:symbolic(at_neg,$3));}
 	| exp T_FOIS exp	{$$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_DIV exp		{$$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
-	| exp T_POW exp		{if ($1==symbolic(at_exp,1)) $$=symbolic(at_exp,$3); else $$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
+	| exp T_POW exp		{if ($1==symbolic(at_exp,1) && $2==at_pow) $$=symbolic(at_exp,$3); else $$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_MOD exp		{if ($2.type==_FUNC) $$=symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT)); else $$ = symbolic(at_normalmod,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_INTERVAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	/* | exp T_PLUS T_PLUS		{$$ = symb_sto($1+1,$1);} */
