@@ -1,9 +1,0 @@
-Make sure that QEPCAD is working for you from the shell and that the
-executable "qepcad" is in the search path of your shell. Note that you
-have to setup an environment variable qe for QEPCAD to work.
-
-This Reduce package includes also an interface to the simplifier SLFQ
-for large quantifier-free formulas. SLFQ is based on QEPCAD and
-distributed on the QEPCAD website. For using this option, make sure that
-also the executable "slfq" works from the shell and is in the path of
-your shell.
