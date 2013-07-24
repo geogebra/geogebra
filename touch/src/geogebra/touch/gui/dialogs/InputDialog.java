@@ -28,7 +28,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -80,18 +79,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.setGlassEnabled(true);
 		this.app = app;
 		this.type = type;
+		this.guiModel = guiModel;
 
 		this.laf = TouchEntryPoint.getLookAndFeel();
-		
 		this.iconWarning = this.laf.getIcons().icon_warning();
-		
-		onResize(null);
 
 		this.setStyleName("inputDialog");
+		// mark it as not visible to prevent problems with onResize()
+		this.setVisible(false);
 
 		init();
 		gui.addResizeListener(this);
-		this.guiModel = guiModel;
 
 		setAutoHideEnabled(true);
 	}
@@ -116,49 +114,52 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.dialogPanel.add(this.titlePanel);
 		this.dialogPanel.setStyleName("panelContainer");
-		
+
 		this.titlePanel.add(this.title);
 		this.titlePanel.setStyleName("titlePanel");
 		this.title.setStyleName("title");
-		
+
 		this.titlePanel.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-		
+
 		addTextBox();
-		
-		if(this.type == DialogType.Slider){
+
+		if (this.type == DialogType.Slider)
+		{
 			createSliderDesign();
 		}
-		
+
 		if (this.type == DialogType.Angle || this.type == DialogType.Slider)
 		{
 			addRadioButton();
 		}
-		
+
 		// addButtonContainer();
 		this.add(this.dialogPanel);
 		setLabels();
 	}
 
 	private void createSliderDesign()
-  {
-	  this.sliderPanel = new VerticalPanel();
-	  this.sliderPanel.add(this.min); 
-	  this.min.setText("-5");
-	  
-	  this.sliderPanel.add(this.max); 
-	  this.max.setText("5");
-	  
-	  this.sliderPanel.add(this.increment); 
-	  this.increment.setText("0.1");
-	  
-	  this.dialogPanel.add(this.sliderPanel);
-  }
+	{
+		this.sliderPanel = new VerticalPanel();
+		this.sliderPanel.add(this.min);
+		this.min.setText("-5");
+
+		this.sliderPanel.add(this.max);
+		this.max.setText("5");
+
+		this.sliderPanel.add(this.increment);
+		this.increment.setText("0.1");
+
+		this.dialogPanel.add(this.sliderPanel);
+	}
 
 	private void addTextBox()
 	{
+		this.textBox = new TextBox();
+
 		this.textBox.getElement().setAttribute("autocorrect", "off");
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
-		
+
 		this.textBox.addStyleName("inactive");
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
@@ -208,20 +209,20 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		});
 
 		this.textPanel = new VerticalPanel();
-		
+
 		this.errorBox.setVisible(false);
 		this.errorBox.setStyleName("errorBox");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		
+
 		Panel iconPanel = new LayoutPanel();
 		String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
 		this.errorBox.add(iconPanel);
 		this.errorBox.add(this.errorText);
-		
+
 		this.textPanel.add(this.errorBox);
-		
+
 		this.textPanel.add(this.textBox);
 
 		// Input Underline for Android
@@ -238,22 +239,25 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void addRadioButton()
 	{
-		String[] s = {"", ""};
-		
-		if(this.type == DialogType.Angle){
-		
+		String[] s = { "", "" };
+
+		if (this.type == DialogType.Angle)
+		{
+
 			s[0] = "counterClockwise";
 			s[1] = "clockwise";
-		} else {
+		}
+		else
+		{
 			s[0] = "Number";
 			s[1] = "Angle";
 		}
-		
-	// "A" is just a label to group the two radioButtons (could be any String -
-			// as long as the same is used twice)
+
+		// "A" is just a label to group the two radioButtons (could be any String -
+		// as long as the same is used twice)
 		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain(s[0]), Direction.DEFAULT);
 		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain(s[1]), Direction.DEFAULT);
-		
+
 		this.dialogPanel.add(this.radioButton[0]);
 		this.dialogPanel.add(this.radioButton[1]);
 
@@ -313,7 +317,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 				InputDialog.this.textBox.setFocus(true);
 			}
 		});
-		
+
 		this.app.registerErrorHandler(this);
 	}
 
@@ -335,8 +339,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	{
 		return this.type == DialogType.Angle && this.radioButton[1].getValue().booleanValue();
 	}
-	
-	public boolean isNumber(){
+
+	public boolean isNumber()
+	{
 		return this.type == DialogType.Slider && this.radioButton[0].getValue().booleanValue();
 	}
 
@@ -358,7 +363,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		case InputField:
 			this.title.setText(this.app.getLocalization().getMenu("InputField"));
 			break;
-		case Redefine:	
+		case Redefine:
 			this.title.setText(this.app.getLocalization().getPlain("Redefine"));
 			break;
 		case NumberValue:
@@ -405,7 +410,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void onResize(ResizeEvent e)
 	{
-		this.setPopupPosition((Window.getClientWidth() / 2 - 353), this.laf.getAppBarHeight());
+		if (isVisible())
+		{
+			super.center();
+		}
 	}
 
 	@Override
@@ -423,10 +431,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	protected void onPreviewNativeEvent(NativePreviewEvent event)
 	{
-		if(!this.isVisible()){
+		if (!this.isVisible())
+		{
 			return;
 		}
-		
+
 		super.onPreviewNativeEvent(event);
 
 		Event nativeEvent = Event.as(event.getNativeEvent());
@@ -439,17 +448,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	}
 
 	public String getMin()
-  {
-	  return this.min.getText();
-  }
-	
+	{
+		return this.min.getText();
+	}
+
 	public String getMax()
-  {
-	  return this.max.getText();
-  }
-	
+	{
+		return this.max.getText();
+	}
+
 	public String getIncrement()
-  {
-	  return this.increment.getText();
-  }
+	{
+		return this.increment.getText();
+	}
 }
