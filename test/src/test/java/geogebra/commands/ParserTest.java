@@ -2,7 +2,6 @@ package geogebra.commands;
 
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
