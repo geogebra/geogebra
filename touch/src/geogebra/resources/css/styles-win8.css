@@ -4,6 +4,7 @@ body {
 	font-family: "Segoe UI Semilight", sans-serif;
 	font-size: 15px;
 	-ms-font-feature-settings: 'kern' 1, 'dlig' 1, 'ss20' 1, 'lig' 1;
+	background: none;
 }
 
 /*##########################################

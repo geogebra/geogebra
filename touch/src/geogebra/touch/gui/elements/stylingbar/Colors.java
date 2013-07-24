@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * A {@link VerticalPanel} which contains the different color-choices.
@@ -42,7 +42,8 @@ public class Colors extends FlowPanel
 		
 		button.getElement().getStyle().setBackgroundImage("initial");
 
-		button.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
+		// windows explorer didn't like .getStyle().setBackgroundColor(...), so I replaced it:
+		button.getElement().setAttribute("style", "background: " + GColor.getColorString(color));
 
 		button.addDomHandler(new ClickHandler()
 		{

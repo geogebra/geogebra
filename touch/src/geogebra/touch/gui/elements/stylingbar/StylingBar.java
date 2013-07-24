@@ -196,7 +196,8 @@ public class StylingBar extends DecoratorPanel
 			{
 				b[i] = new StandardImageButton(LafIcons.color());
 				b[i].getElement().getStyle().setBackgroundImage("initial");
-				b[i].getElement().getStyle().setBackgroundColor(color);
+				//b[i].getElement().getStyle().setBackgroundColor(color);
+				b[i].getElement().setAttribute("style", "background: " + color);
 
 				b[i].addHandler(TouchEntryPoint.getLookAndFeel().getOptionalButtonHandler(this, b[i], OptionType.Color), TouchEntryPoint.getLookAndFeel()
 				    .getStylBarEventType());
