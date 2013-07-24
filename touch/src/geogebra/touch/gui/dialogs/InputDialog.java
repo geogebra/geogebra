@@ -49,7 +49,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	public enum DialogType
 	{
-		InputField, Redefine, NumberValue, Angle;
+		InputField, Redefine, NumberValue, Angle, Slider;
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
@@ -59,8 +59,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private SVGResource iconWarning;
 	private Label errorText = new Label();
 	private RadioButton[] radioButton = new RadioButton[2];
-	VerticalPanel textPanel;
-	TextBox textBox = new TextBox();
+	VerticalPanel textPanel, sliderPanel;
+	TextBox textBox = new TextBox(), min = new TextBox(), max = new TextBox(), increment = new TextBox();
 	Panel underline;
 	private TouchApp app;
 	private DialogType type;
@@ -125,14 +125,34 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		
 		addTextBox();
 		
-		if (this.type == DialogType.Angle)
+		if(this.type == DialogType.Slider){
+			createSliderDesign();
+		}
+		
+		if (this.type == DialogType.Angle || this.type == DialogType.Slider)
 		{
 			addRadioButton();
 		}
+		
 		// addButtonContainer();
 		this.add(this.dialogPanel);
 		setLabels();
 	}
+
+	private void createSliderDesign()
+  {
+	  this.sliderPanel = new VerticalPanel();
+	  this.sliderPanel.add(this.min); 
+	  this.min.setText("-5");
+	  
+	  this.sliderPanel.add(this.max); 
+	  this.max.setText("5");
+	  
+	  this.sliderPanel.add(this.increment); 
+	  this.increment.setText("0.1");
+	  
+	  this.dialogPanel.add(this.sliderPanel);
+  }
 
 	private void addTextBox()
 	{
@@ -218,12 +238,23 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void addRadioButton()
 	{
-		// "A" is just a label to group the two radioButtons (could be any String -
-		// as long as the same is used twice)
-		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain("counterClockwise"), Direction.DEFAULT);
+		String[] s = {"", ""};
+		
+		if(this.type == DialogType.Angle){
+		
+			s[0] = "counterClockwise";
+			s[1] = "clockwise";
+		} else {
+			s[0] = "Number";
+			s[1] = "Angle";
+		}
+		
+	// "A" is just a label to group the two radioButtons (could be any String -
+			// as long as the same is used twice)
+		this.radioButton[0] = new RadioButton("A", this.app.getLocalization().getPlain(s[0]), Direction.DEFAULT);
+		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain(s[1]), Direction.DEFAULT);
+		
 		this.dialogPanel.add(this.radioButton[0]);
-
-		this.radioButton[1] = new RadioButton("A", this.app.getLocalization().getPlain("clockwise"), Direction.DEFAULT);
 		this.dialogPanel.add(this.radioButton[1]);
 
 		this.radioButton[0].setValue(new Boolean(true));
@@ -300,9 +331,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		// prevent that the function is drawn twice
 	}
 
-	public boolean clockwise()
+	public boolean isClockwise()
 	{
 		return this.type == DialogType.Angle && this.radioButton[1].getValue().booleanValue();
+	}
+	
+	public boolean isNumber(){
+		return this.type == DialogType.Slider && this.radioButton[0].getValue().booleanValue();
 	}
 
 	public void setText(String text)
@@ -402,4 +437,19 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			nativeEvent.stopPropagation();
 		}
 	}
+
+	public String getMin()
+  {
+	  return this.min.getText();
+  }
+	
+	public String getMax()
+  {
+	  return this.max.getText();
+  }
+	
+	public String getIncrement()
+  {
+	  return this.increment.getText();
+  }
 }

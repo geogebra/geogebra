@@ -22,20 +22,17 @@ public enum ToolBarMenu
 
 	SpecialLine(ToolBarCommand.PerpendicularLine, new ToolBarCommand[] { ToolBarCommand.PerpendicularLine, ToolBarCommand.ParallelLine,
 	    ToolBarCommand.PerpendicularBisector, ToolBarCommand.AngleBisector, ToolBarCommand.Tangents,
-	// TODO: ToolBarCommand.PolarOrDiameterLine,
-	// TODO: ToolBarCommand.BestFitLine,
-	    ToolBarCommand.Locus
-	    }),
+	    // TODO: ToolBarCommand.PolarOrDiameterLine,
+	    // TODO: ToolBarCommand.BestFitLine,
+	    ToolBarCommand.Locus }),
 
 	Polygon(ToolBarCommand.Polygon, new ToolBarCommand[] { ToolBarCommand.Polygon, ToolBarCommand.RegularPolygon, ToolBarCommand.RigidPolygon,
 	    ToolBarCommand.VectorPolygon }),
 
-	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint, new ToolBarCommand[] {
-	    ToolBarCommand.CircleWithCenterThroughPoint,
-	    ToolBarCommand.Compasses,
-	    ToolBarCommand.CircleThroughThreePoints, ToolBarCommand.Semicircle, ToolBarCommand.CircularArcWithCenterBetweenTwoPoints,
-	    ToolBarCommand.CircumCirculuarArcThroughThreePoints, ToolBarCommand.CircularSectorWithCenterBetweenTwoPoints,
-	    ToolBarCommand.CircumCircularSectorThroughThreePoints }),
+	CircleAndArc(ToolBarCommand.CircleWithCenterThroughPoint, new ToolBarCommand[] { ToolBarCommand.CircleWithCenterThroughPoint,
+	    ToolBarCommand.Compasses, ToolBarCommand.CircleThroughThreePoints, ToolBarCommand.Semicircle,
+	    ToolBarCommand.CircularArcWithCenterBetweenTwoPoints, ToolBarCommand.CircumCirculuarArcThroughThreePoints,
+	    ToolBarCommand.CircularSectorWithCenterBetweenTwoPoints, ToolBarCommand.CircumCircularSectorThroughThreePoints }),
 
 	ConicSection(ToolBarCommand.Ellipse, new ToolBarCommand[] { ToolBarCommand.Parabola, ToolBarCommand.Ellipse, ToolBarCommand.Hyperbola,
 	    ToolBarCommand.ConicThroughFivePoints }),
@@ -48,28 +45,27 @@ public enum ToolBarMenu
 	    }),
 
 	Transformation(ToolBarCommand.ReflectObjectAboutLine, new ToolBarCommand[] { ToolBarCommand.ReflectObjectAboutLine,
-	    ToolBarCommand.ReflectObjectAboutPoint, ToolBarCommand.ReflectObjectAboutCircle, 
-	    ToolBarCommand.RotateObjectByAngle, ToolBarCommand.TranslateObjectByVector, ToolBarCommand.Dilate }),
+	    ToolBarCommand.ReflectObjectAboutPoint, ToolBarCommand.ReflectObjectAboutCircle, ToolBarCommand.RotateObjectByAngle,
+	    ToolBarCommand.TranslateObjectByVector, ToolBarCommand.Dilate }),
 
 	// TODO:
-	 SpecialObject(ToolBarCommand.Pen /*TODO: ToolBarCommand.InsertText*/, new ToolBarCommand[] {
-	// ToolBarCommand.InsertText,
-	// ToolBarCommand.InsertImage,
-	 ToolBarCommand.Pen,
-	 ToolBarCommand.FreehandShape
-	//, ToolBarCommand.RelationBetweenTwoObjects 
-			 }),
+	SpecialObject(ToolBarCommand.Pen /* TODO: ToolBarCommand.InsertText */, new ToolBarCommand[] {
+	    // ToolBarCommand.InsertText,
+	    // ToolBarCommand.InsertImage,
+	    ToolBarCommand.Pen, ToolBarCommand.FreehandShape
+	// , ToolBarCommand.RelationBetweenTwoObjects
+	    }),
 
 	// TODO:
-	// ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] {
-	// ToolBarCommand.Slider,
+	ActionObject(ToolBarCommand.Slider, new ToolBarCommand[] { ToolBarCommand.Slider,
 	// ToolBarCommand.CheckBoxToShowHideObjects,
 	// ToolBarCommand.InsertButton,
-	// ToolBarCommand.InsertInputBox }),
+	// ToolBarCommand.InsertInputBox
+	    }),
 
 	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] { ToolBarCommand.Move_Mobile,
 	    // TODO: ToolBarCommand.Select,
-		ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject });
+	    ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject });
 
 	ToolBarCommand[] entry;
 	ToolBarCommand command;

@@ -92,8 +92,7 @@ public class ToolBar extends HorizontalPanel
 		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, model.getGuiModel()));
-		// TODO: this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject,
-		// touchModel.getGuiModel());
+		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, model.getGuiModel()));
 
 		// new Inputbar (Stefanie Bogner)
 		//this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");

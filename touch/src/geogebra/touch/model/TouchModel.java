@@ -17,12 +17,14 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdIntersect;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -64,6 +66,7 @@ public class TouchModel {
 	private ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
 	private CmdIntersect cmdIntersect;
 	private GeoElement redefineGeo;
+	private Point eventCoordinates = new Point(0,0);
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
@@ -465,6 +468,7 @@ public class TouchModel {
 	public void handleEvent(Hits hits, Point point, Point2D pointRW) {
 		this.kernel.setNotifyRepaintActive(false);
 
+		this.eventCoordinates = point;
 		boolean draw = false;
 		if (this.commandFinished) {
 			resetSelection();
@@ -488,6 +492,17 @@ public class TouchModel {
 
 			break;
 
+		//special command: slider
+		case Slider:
+			//TODO
+			if(this.inputDialog.getType() != DialogType.Slider)
+			{
+				this.inputDialog.redefine(DialogType.Slider);
+			}
+			this.inputDialog.setMode("Slider");
+			this.inputDialog.show();			
+			break;
+			
 		// special command: attach/detach: needs a point (detach) or a point and
 		// a region/path (attach)
 		case AttachDetachPoint:
@@ -1406,58 +1421,78 @@ public class TouchModel {
 		boolean oldVal = TouchModel.this.kernel.getConstruction()
 				.isSuppressLabelsActive();
 		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
-		String signedInput =this.inputDialog.clockwise() ?
+		String signedInput =this.inputDialog.isClockwise() ?
 			"-(" + input + ")" : input;
-		
-		GeoElement[] result = TouchModel.this.kernel.getAlgebraProcessor()
-				.processAlgebraCommand(signedInput, false);
 
-		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
-				oldVal);
-
-		if (result == null || result.length == 0
-				|| !(result[0] instanceof NumberValue)) {
-			// invalid input; nothing to do anymore.
-			return false;
-		}
-		
 		ArrayList<GeoElement> newGeoElements = new ArrayList<GeoElement>();
 
-		switch (this.command) {
-		case RegularPolygon:
-			addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher()
-					.RegularPolygon(null, (GeoPoint) getElement(Test.GEOPOINT),
-							(GeoPoint) getElement(Test.GEOPOINT, 1),
-							(NumberValue) result[0]));
-			resetSelection();
-			break;
-			
-		case Dilate:
-			GeoPoint start = (GeoPoint) getElement(Test.GEOPOINT);
-			deselect(start);
-			for(GeoElement source: this.selectedElements){
-				addAll(newGeoElements, TouchModel.this.kernel.getAlgoDispatcher().Dilate(
-					null, source, (NumberValue) result[0], start));
-			}
-			resetSelection();
-			break;
-			
-		case RotateObjectByAngle:
-			GeoPoint center = lastSelected() instanceof GeoPoint ? (GeoPoint) lastSelected() : (GeoPoint) getElement(Test.GEOPOINT);
-			deselect(center);
-			for(GeoElement source: this.selectedElements){
-			 addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher().Rotate(
-					null, source, (GeoNumberValue) result[0], center));
-			}
-			resetSelection();
-			break;
-			
-		default:
-			// should not happen. Therefore there is no repaint or anything
-			// else.
-			return false;
-		}
+		if(this.command == ToolBarCommand.Slider){
+			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
+					oldVal);
 
+			GeoElement slider = this.inputDialog.isNumber() ? new GeoNumeric(this.kernel.getConstruction()) : new GeoAngle(this.kernel.getConstruction());
+			slider.setLabel(input.equals("") ? null : input);
+			((GeoNumeric) slider).setSliderLocation(this.eventCoordinates.x, this.eventCoordinates.y, true);
+
+			((GeoNumeric) slider).setIntervalMin(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getMin(),false));
+			((GeoNumeric) slider).setIntervalMax(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getMax(),false));
+			((GeoNumeric) slider).setAnimationStep(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getIncrement(),false));
+
+			slider.setEuclidianVisible(true);
+			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			slider.setLabelVisible(true);
+			slider.update();
+		
+		} else { // every command except for Slider and Redefine
+			
+			GeoElement[] result = TouchModel.this.kernel.getAlgebraProcessor()
+					.processAlgebraCommand(signedInput, false);
+	
+			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
+					oldVal);
+	
+			if (result == null || result.length == 0
+					|| !(result[0] instanceof NumberValue)) {
+				// invalid input; nothing to do anymore.
+				return false;
+			}		
+			
+			switch (this.command) {
+			case RegularPolygon:
+				addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher()
+						.RegularPolygon(null, (GeoPoint) getElement(Test.GEOPOINT),
+								(GeoPoint) getElement(Test.GEOPOINT, 1),
+								(NumberValue) result[0]));
+				break;
+				
+			case Dilate:
+				GeoPoint start = (GeoPoint) getElement(Test.GEOPOINT);
+				deselect(start);
+				for(GeoElement source: this.selectedElements){
+					addAll(newGeoElements, TouchModel.this.kernel.getAlgoDispatcher().Dilate(
+						null, source, (NumberValue) result[0], start));
+				}
+				break;
+				
+			case RotateObjectByAngle:
+				GeoPoint center = lastSelected() instanceof GeoPoint ? (GeoPoint) lastSelected() : (GeoPoint) getElement(Test.GEOPOINT);
+				deselect(center);
+				for(GeoElement source: this.selectedElements){
+				 addAll(newGeoElements,TouchModel.this.kernel.getAlgoDispatcher().Rotate(
+						null, source, (GeoNumberValue) result[0], center));
+				}
+				break;
+				
+			default:
+				// should not happen. Therefore there is no repaint or anything
+				// else.
+				return false;
+			}
+		}
+		
+		// includes Slider again
+		
+		resetSelection();
 		for (GeoElement g : newGeoElements) {
 			select(g);
 		}
