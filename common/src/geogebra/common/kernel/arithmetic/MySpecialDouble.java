@@ -134,9 +134,7 @@ public class MySpecialDouble extends MyDouble {
 		}
 		if (!isLetterConstant) {
 			//serializing to CAS -- simply print input
-			if (tpl.hasType(StringType.MPREDUCE)) {
-				return originalString.replace("E", "e");
-			}
+
 			
 			if (tpl.hasType(StringType.GIAC)) {
 				
@@ -173,22 +171,6 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.eulerChar:
 				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
 					return "euler\\_gamma";
-				}
-				return "e";
-			}
-			break;
-
-		case MPREDUCE:
-			ch = strToString.charAt(0);
-			switch (ch) {
-			case Unicode.piChar:
-				return "pi";
-			case Unicode.degreeChar:
-				return "\\'\u00b0";
-			case Unicode.eulerChar:
-				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
-					// approx value
-					return "0.57721566490153286060651209008240243104215933593992";
 				}
 				return "e";
 			}

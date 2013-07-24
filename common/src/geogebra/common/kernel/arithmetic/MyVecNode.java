@@ -162,27 +162,6 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append(")");
 			}
 			break;
-
-		case MPREDUCE:
-			/*
-			 * coords = getCoords(); sb.append("list("); sb.append(coords[0]);
-			 * sb.append(", "); sb.append(coords[1]); sb.append(")"); break;
-			 */
-			
-			if (mode == Kernel.COORD_POLAR) {
-				sb.append("polartopoint!\u00a7(");
-				sb.append(x.toString(tpl));
-				sb.append(", ");
-				sb.append(y.toString(tpl));
-				sb.append(')');
-			} else {
-				sb.append("myvect(");
-				sb.append(x.toString(tpl));
-				sb.append(", ");
-				sb.append(y.toString(tpl));
-				sb.append(')');
-			}
-			break;
 			
 		default: // continue below
 			sb.append(tpl.getStringType().equals(StringType.LATEX) ? " \\left( " : "(");

@@ -19,7 +19,6 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
@@ -186,13 +185,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	private void init() {
-		
-		// see #2604
-		try {
-			geogebra.cas.mpreduce.CASmpreduceD.mpreduce_static = null;
-		} catch (java.lang.NoClassDefFoundError e) {
-			App.warn("CAS jar missing");
-		} 
 
 		// codeBase=this.getCodeBase();
 		// documentBase=this.getDocumentBase();
@@ -224,8 +216,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		}
 		App.debug("loading " + fileStr);
 		
-		AppD.setCasType("true".equals(applet.getParameter("giac")) ? CasType.GIAC : CasType.MPREDUCE);
-
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
 

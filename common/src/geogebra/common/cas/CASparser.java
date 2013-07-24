@@ -13,7 +13,6 @@
 package geogebra.common.cas;
 
 import geogebra.common.cas.giac.Ggb2giac;
-import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.CASParserInterface;
@@ -175,20 +174,6 @@ public class CASparser implements CASParserInterface{
 			expr = (ExpressionNode) ev;
 		GeoGebraString = expr.getCASstring(tpl, true);		
 		return GeoGebraString;
-	}
-	
-	/**
-	 * Tries to convert the given MPReduce string to GeoGebra syntax.
-	 * @param exp MPReduce output
-	 * @return parsed expression
-	 * @throws CASException if parsing goes wrong
-	 */
-	public ValidExpression parseMPReduce(String exp) throws CASException {
-		try {
-			return parser.parseMPReduce(exp);
-		} catch (Throwable t) {
-			throw new CASException(t);
-		}		
 	}
 	
 	/**
@@ -412,21 +397,10 @@ public class CASparser implements CASParserInterface{
 	synchronized Map<String,String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null) {
 
-			switch (parser.getKernel().getCASType()) {
-
-			case GIAC:
-				rbCasTranslations = Ggb2giac.getMap();
-				break;
-
-			case MPREDUCE:
-			default:
-				rbCasTranslations = Ggb2MPReduce.getMap();
-				break;
-
-			}
+			rbCasTranslations = Ggb2giac.getMap();
 		}
 		return rbCasTranslations;
 	}
-	
+
 
 }

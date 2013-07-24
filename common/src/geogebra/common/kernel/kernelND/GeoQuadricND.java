@@ -460,7 +460,6 @@ Traceable{
 				break;
 				
 			case GIAC:
-			case MPREDUCE:
 				squared = "^2";
 				break;
 				

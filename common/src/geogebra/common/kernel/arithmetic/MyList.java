@@ -672,9 +672,7 @@ public class MyList extends ValidExpression implements ListValue,
 	private String toString(StringTemplate tpl, boolean valueMode) {
 
 		StringBuilder sb = new StringBuilder();
-		if (tpl.hasType(StringType.MPREDUCE)) {
-				sb.append("listofliststomat(list(");
-		} else if (tpl.hasType(StringType.LATEX)) {
+		if (tpl.hasType(StringType.LATEX)) {
 			sb.append("\\{");
 		} else
 			sb.append("{");
@@ -693,10 +691,7 @@ public class MyList extends ValidExpression implements ListValue,
 			sb.append(valueMode? exp.toOutputValueString(tpl) : exp.toString(tpl));
 		}
 
-		if (tpl.hasType(StringType.MPREDUCE)) {
-			sb.append(')');
-			sb.append(')');
-		} else if (tpl.hasType(StringType.LATEX)) {
+		if (tpl.hasType(StringType.LATEX)) {
 			sb.append("\\}");
 		} else
 			sb.append("}");

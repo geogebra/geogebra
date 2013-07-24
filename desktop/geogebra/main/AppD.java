@@ -44,7 +44,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
@@ -1098,10 +1097,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	private void handleOptionArgsEarly(CommandLineArguments args) {
 		if (args == null) {
 			return;
-		}
-		
-		if (args.containsArg("giac")) {
-			casType = CasType.GIAC;
 		}
 
 		String language = args.getStringValue("language");
@@ -3653,7 +3648,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (appletImpl != null) {
 				// applet codebase
-				codebase = appletImpl.getJApplet().getCodeBase();
+				codebase = null;//appletImpl.getJApplet().getCodeBase();
 			}
 		}
 
@@ -4969,45 +4964,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public LocalizationD getLocalization() {
 		return loc;
-	}
-	
-	static CasType casType = null;//CasType.MPREDUCE;
-
-	@Override
-	public CasType getCASType() {
-		
-		//if(true) return CasType.MPREDUCE;
-
-		// uses giac.js, so OK in unsigned applets
-		if (isApplet()) {
-			return CasType.GIAC;
-		}
-		
-		// TODO: remove
-		// check for --giac (commandline / webstart) or param giac="true" (applet)
-		if (casType != null) {
-
-			//return CasType.GIAC;
-			//return CasType.MPREDUCE;
-			return casType;
-		}
-		
-		// TODO: remove (temporary hack)
-		//if (MAC_OS) {
-		//	return CasType.MPREDUCE;
-		//} else {
-			// ie windows / linux portable or windows installer or Eclipse
-			return CasType.GIAC;
-		//}
-	}
-	
-	/**
-	 * must be called before CAS is used
-	 * TODO: remove
-	 * @param type cas type (Giac / Reduce)
-	 */
-	public static void setCasType(CasType type) {
-		casType = type;
 	}
 
 	@Override

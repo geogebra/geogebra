@@ -65,7 +65,6 @@ import geogebra.common.main.BracketsError;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
@@ -82,7 +81,6 @@ public class Parser implements ParserInterface{
     private Localization loc;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
-	private boolean MPReduceParsing = false;
 	private boolean GiacParsing = false;
 	private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
     
@@ -105,7 +103,6 @@ public class Parser implements ParserInterface{
     	ReInit(new java.io.StringReader(parseString));    	
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;
-    	MPReduceParsing = false;
     	GiacParsing = false;
     	undecided.clear();
     }
@@ -129,16 +126,6 @@ public class Parser implements ParserInterface{
         GeoGebraCASParsing = true;                        
         ValidExpression ret = buildCASExpression();
         return ret;     
-    }
-
-    /**
-     * Parses a MPReduce String and returns a ValidExpression Object     
-     */
-    public ValidExpression parseMPReduce(String parseString) throws ParseException {           
-        myReInit( parseString ); 
-        ExternalCASParsing = true;
-        MPReduceParsing = true;                     
-        return buildMPReduceExpression();     
     }
     
     /**
@@ -408,7 +395,6 @@ TOKEN: {
 |	< Y_FUNC:  ("y" | "ycoord")  + ("("|"[")> 
 |	< Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
 |	< RANDOM_FUNC:  "random()"  >
-|   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |   < POLAR_SEPARATOR: ( "\u2221" | ";" ) > // separator used by Giac instead of ;
 |  	< SQRT_SHORT: "\u221a" > 
 | 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) ("("|"[") >
@@ -615,27 +601,6 @@ ValidExpression buildMathPiperExpression() :
 }
 
 /**
- * convert MPReduce String to GeoGebra string
- */
-private ValidExpression buildMPReduceExpression() : 
-{
-    ValidExpression ve;
-    ExpressionNode lhs, rhs;
-    Token l = new Token();
-    Vector labels = new Vector();
-} 
-{         
-    (     
-		// try to parse MPReduce string as standard GeoGebra expression 
-    	ve = buildCASExpression()     	     	   
-	)                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {       	                         
-        return ve;
-    }    
-}
-
-/**
  * convert Giac String to GeoGebra string
  */
 private ValidExpression buildGiacExpression() : 
@@ -721,12 +686,7 @@ ValidExpression command():
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
 	    (")"|"]") )
-	    { if(MPReduceParsing)
-	    {
-	      ExpressionNode res = CommandDispatcherMPReduce.processCommand(cmdName,c);
-	      if (res != null)
-	      	return res;
-	    } else if (GiacParsing)
+	    { if (GiacParsing)
 	    {
 	      ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c);
 	      if (res != null)
@@ -1475,28 +1435,16 @@ ExpressionValue enpower():
 		if (exponentList == null)
 			return ret;
       
-      	if (MPReduceParsing)
-      	{      	 
-	        // MPReduce: left associative: a^b^c = (a^b)^c
-	        // (Giac doesn't need this)
-			for (int i=0; i< exponentList.size(); i++)
-			{
-				ExpressionValue exponent = exponentList.get(i);
-				ret = makePower(ret, exponent);
-			}
-		}
-		else
+      	
+  		// GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
+  		int size = exponentList.size();
+  		ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
+  		for (int i=size-2; i >= 0; i--)
 		{
-      		// GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
-      		int size = exponentList.size();
-      		ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
-      		for (int i=size-2; i >= 0; i--)
-			{
-				ExpressionValue prevExponent = exponentList.get(i);
-				tempEV = makePower(prevExponent,tempEV);
-			}
-			ret = makePower(ret, tempEV);
+			ExpressionValue prevExponent = exponentList.get(i);
+			tempEV = makePower(prevExponent,tempEV);
 		}
+		ret = makePower(ret, tempEV);
   
       	return ret;
 
@@ -1735,7 +1683,7 @@ ExpressionValue numVecVariable():
 		}
 		else if (ExternalCASParsing)
 		{	// MPReduce uses e and i for Euler and imaginary constants
-		  	lookforEulerImaginary = MPReduceParsing;
+		  	lookforEulerImaginary = false;
 		}
 		else
 		{ 	// GeoGebraCAS or GeoGebra parsing
@@ -1980,13 +1928,7 @@ ExpressionNode numberFunction():
       		// remove the opening parenthesis
       		String funcName = c.image.substring(0, c.image.length()-1);			
 			
-			if (MPReduceParsing)  {
-			  	// check for special MPReduce functions, e.g. df, arbconst, etc.
-				en = CommandDispatcherMPReduce.processCommand(funcName, myList);
-				if (en != null)				{  
-					return en;
-				}
-		    } else if (GiacParsing)  {
+			if (GiacParsing)  {
 			  	// check for special Giac functions, e.g. diff, Psi etc.
 				en = CommandDispatcherGiac.processCommand(funcName, myList);
 				if (en != null)
@@ -2169,8 +2111,6 @@ VectorValue polarvector():
 {   
     (  
      ( "(" r = expression() <POLAR_SEPARATOR> phi = expression() ")" )
-    |
-      ( <MP_POLARTOPOINT> r = expression() <COMMA> phi = expression() ")" )
     )   
         {                            
              v = new MyVecNode(kernel);                         

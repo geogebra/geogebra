@@ -44,7 +44,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1634,16 +1633,16 @@ public class GeoFunction extends GeoElement implements VarString,
 			sb.setLength(0);
 
 		sb.append("Solve(");
-		if (kernel.getCASType() == CasType.GIAC) {
+		//if (kernel.getCASType() == CasType.GIAC) {
 			//Solve(1/(1/x)) "works" in Reduce but not in Giac
 			sb.append("Simplify(");
-		}
+		//}
 		sb.append("1/(");
 		sb.append(funVarStr[0]); // function expression with "ggbtmpvarx" as
 									// function variable
-		if (kernel.getCASType() == CasType.GIAC) {
+		//if (kernel.getCASType() == CasType.GIAC) {
 			sb.append(')');
-		}
+		//}
 		sb.append(")=0");
 		sb.append(",");
 		sb.append(funVarStr[1]); // function variable "ggbtmpvarx"

@@ -1607,11 +1607,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case IMPLICATION:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<implies/>", leftStr, rightStr);
-			}else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"simplies", leftStr, rightStr);
 			} else {
-				if (stringType != StringType.MPREDUCE)
-					tpl.append(sb, leftStr, left, operation);
+
+				tpl.append(sb, leftStr, left, operation);
 
 				sb.append(' ');
 				switch (stringType) {
@@ -1631,8 +1629,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				sb.append(' ');
 
-				if (stringType != StringType.MPREDUCE)
-					tpl.append(sb, rightStr, right, operation);
+				tpl.append(sb, rightStr, right, operation);
 			}
 			break;
 
@@ -1641,8 +1638,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				MathmlTemplate.mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"sequal", leftStr, rightStr);
 			} else {
 				
 				if (tpl.getStringType().equals(StringType.GIAC)) {
@@ -1661,8 +1656,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case NOT_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<neq/>", leftStr, rightStr);
-			}else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"sunequal", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.notEqualSign());
 			}
@@ -1779,9 +1772,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LESS:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<lt/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"sless", leftStr, rightStr);
-			}else {
+			} else {
 				
 				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.lessSign());				
 			}
@@ -1790,8 +1781,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case GREATER:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<gt/>", leftStr, rightStr);
-			}else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"sgreater", leftStr, rightStr);
 			} else {
 				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.greaterSign());				
 			}
@@ -1800,9 +1789,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LESS_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<leq/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"slessequal", leftStr, rightStr);
-			}else {
+			} else {
 				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.leqSign());				
 			}
 			break;
@@ -1810,8 +1797,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case GREATER_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<qeq/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				StringTemplate.appendOp(sb,"sgreaterequal", leftStr, rightStr);
 			} else  {
 				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.geqSign());				
 			}
@@ -1836,13 +1821,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case VECTORPRODUCT:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
-			} else if (stringType.equals(StringType.MPREDUCE)) {
-				sb.append("mycross(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(')');
-
 			} else if (stringType.equals(StringType.GIAC)) {
 				sb.append("cross(");
 				sb.append(leftStr);
@@ -1900,11 +1878,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(')');
 				}
 				sb.append(" }");
-				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "factorial");
-				sb.append(leftStr);
-				sb.append(")");
 				break;
 
 			default:
@@ -1999,11 +1972,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("ATAN2(");
 					break;
 
-				case MPREDUCE:
-					sb.append(degFix("myatan2",left));
-					sb.append("(");
-					break;
-
 				case GIAC:
 					sb.append(degFix("atan2",left));
 					sb.append("(");
@@ -2073,9 +2041,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case GIAC:
 				sb.append("Zeta(");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "zeta");
-				break;	
 			default:
 				sb.append("zeta(");
 			}
@@ -2096,9 +2061,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case GIAC:
 				appendReduceFunction(sb, left,  "Ci");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "ci");
-				break;
 			default:
 				sb.append("cosIntegral(");
 			}
@@ -2118,9 +2080,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case GIAC:
 				appendReduceFunction(sb, left,  "Si");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "si");
-				break;
 
 			default:
 				sb.append("sinIntegral(");
@@ -2139,9 +2098,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case GIAC:
 				appendReduceFunction(sb, left,  "Ei");
-				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "ei");
 				break;
 
 			default:
@@ -2191,12 +2147,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append('}');
 				break;
 
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "exp");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			case GEOGEBRA_XML:
 			case GIAC:
 				sb.append("exp(");
@@ -2234,9 +2184,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 				case LIBRE_OFFICE:
 					sb.append("ln left ( ");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, left,  "log");
 					break;
 				case GIAC:
 				case GEOGEBRA_XML:
@@ -2276,14 +2223,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(tpl.rightBracket());
 				break;
-			case MPREDUCE:
-				sb.append("logb(");
-				sb.append(rightStr);
-				sb.append(',');
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			case GIAC:
 			case PSTRICKS:
 			case PGF:
@@ -2329,7 +2268,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-			case MPREDUCE:
 			default:
 				sb.append("polygamma(");
 				sb.append(leftStr);
@@ -2352,12 +2290,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(tpl.rightBracket());
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "erf");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			case GIAC:
@@ -2378,12 +2310,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(tpl.rightBracket());
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "psi");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
-
+				
 			case GIAC:
 				appendReduceFunction(sb, left,  "Psi");
 				sb.append(leftStr);
@@ -2429,16 +2356,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 
-			case MPREDUCE:
-				if (left instanceof ListValue) {
-					sb.append("applyfunction2(logb,");
-				} else {
-					sb.append("logb(");
-				}
-				sb.append(leftStr);
-				sb.append(",10)");
-				break;
-
 			default:
 				sb.append("lg(");
 				sb.append(leftStr);
@@ -2463,16 +2380,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("log("); 
 				sb.append(leftStr);
 				sb.append(")/log(2)");
-				break;
-
-			case MPREDUCE:
-				if (left instanceof ListValue) {
-					sb.append("applyfunction2(logb,");
-				} else {
-					sb.append("logb(");
-				}
-				sb.append(leftStr);
-				sb.append(",2)");
 				break;
 
 			default:
@@ -2550,11 +2457,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "sqrt");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
+
 			default:
 				sb.append("sqrt(");
 				sb.append(leftStr);
@@ -2577,17 +2480,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("nroot{3}{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-			case MPREDUCE:
-				if (left instanceof ListValue) {
-					sb.append("applyfunction2(**,");
-					sb.append(leftStr);
-					sb.append(",1/3)");
-				} else {
-					sb.append("(");
-					sb.append(leftStr);
-					sb.append(")^(1/3)");
-				}
 				break;
 
 			case GIAC:
@@ -2618,11 +2510,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "myabs");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
 
 			default:
 				sb.append("abs(");
@@ -2637,9 +2524,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\sgn(");
 				break;
 
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "sign");
-				break;
 			case GIAC:
 				sb.append("sign(");
 				break;
@@ -2668,11 +2552,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append("}");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "conjugate");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
+
 			case GIAC:
 				sb.append("conj(");
 				sb.append(leftStr);
@@ -2700,11 +2580,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "myarg");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
+
 			case LIBRE_OFFICE:
 				sb.append("func ");
 			default:
@@ -2737,11 +2613,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(" right rfloor");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "myfloor");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
+
 			default:
 				sb.append("floor(");
 				sb.append(leftStr);
@@ -2772,11 +2644,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(" right rceil");
 				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "myceil");
-				sb.append(leftStr);
-				sb.append(')');
-				break;
+
 			case GIAC:
 			case PSTRICKS:
 				sb.append("ceiling(");
@@ -2800,10 +2668,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("func round left (");
 
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "myround");
-				break;
-
 			default:
 				sb.append("round(");
 			}
@@ -2821,9 +2685,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case GIAC:
 				sb.append("Gamma(");
-				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "gamma");
 				break;
 
 			default:
@@ -2844,11 +2705,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case GIAC:
 				sb.append("igamma(");
 				break;
-
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  "gamma2");
-				break;
-
 
 			default:
 				sb.append("gamma(");
@@ -2955,10 +2811,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("Beta(");
 				break;
 
-			case MPREDUCE:
-				sb.append("ibeta(");
-				break;
-
 			default:
 				sb.append("betaRegularized(");
 			}
@@ -2981,9 +2833,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 			} else {
 				switch (stringType) {
-				case MPREDUCE:
-					sb.append("myrandom()");
-					break;
+
 				case GIAC:
 					sb.append("rand(0,1)");
 					break;
@@ -3021,11 +2871,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append("[0]");
 					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, left,  "xcoord");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
+
 				default:
 					sb.append("x(");
 					sb.append(leftStr);
@@ -3061,11 +2907,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append("[1]");
 					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, left,  "ycoord");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
+
 				default:
 					sb.append("y(");
 					sb.append(leftStr);
@@ -3096,11 +2938,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append("[2]");
 					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, left,  "zcoord");
-					sb.append(leftStr);
-					sb.append(')');
-					break;
+
 				default:
 					sb.append("z(");
 					sb.append(leftStr);
@@ -3110,19 +2948,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case FUNCTION:
-			if (stringType == StringType.MPREDUCE
-			&& right instanceof ListValue) {
-				sb.append("applyfunction(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(')');
-				break;
-			}
 
 			if (stringType == StringType.GIAC
 					&& right instanceof ListValue) {
-
+				//TODO: does this ever get called?
 
 				ListValue list = (ListValue)right;
 
@@ -3241,14 +3070,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
 				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
 					sb.append(tpl.leftBracket());
+					
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
-					if (stringType.equals(StringType.MPREDUCE)) {
-						sb.append(rightStr.substring(22, rightStr.length() - 2));
-					} else {
-						sb.append(rightStr.substring(1, rightStr.length() - 1));
-					}
+					sb.append(rightStr.substring(1, rightStr.length() - 1));
+					
 					sb.append(tpl.rightBracket());
 				}
 			}
@@ -3269,11 +3096,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
-			if (tpl.hasType(StringType.MPREDUCE)){
-				sb.append("df(");
-				sb.append(leftStr);
-				break;
-			} else if (tpl.hasType(StringType.GIAC)){
+			if (tpl.hasType(StringType.GIAC)){
 				sb.append("diff(");
 				sb.append(leftStr);
 				break;
@@ -3365,7 +3188,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" d");
 				sb.append(rightStr);
 			} else {
-				if (stringType == StringType.MPREDUCE || stringType == StringType.GIAC) {
+				if (stringType == StringType.GIAC) {
 					sb.append("int(");
 				} else {
 					sb.append("gGbInTeGrAl(");
@@ -3397,7 +3220,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("}");
 				sb.append(((MyNumberPair)left).x.toString(tpl));
 			} else {
-				if (stringType == StringType.MPREDUCE || stringType == StringType.GIAC) {
+				if (stringType == StringType.GIAC) {
 					sb.append("sum(");
 				} else {
 					sb.append("gGbSuM(");
@@ -3423,9 +3246,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append("}");	
 			} else {
-				if (stringType == StringType.MPREDUCE) {
-					sb.append("sub(");
-				} else if (stringType == StringType.GIAC) {
+				if (stringType == StringType.GIAC) {
 					sb.append("subst(");
 				} else {
 					sb.append("gGbSuBsTiTuTiOn(");
@@ -3437,10 +3258,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;
 		case IF:
-			if (stringType == StringType.MPREDUCE) {
-				sb.append("iffun(");
-			}
-			else if (stringType == StringType.GIAC) {
+			if (stringType == StringType.GIAC) {
 				sb.append("when(");
 				sb.append(leftStr);
 				sb.append(',');
@@ -3460,10 +3278,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;	
 		case IF_ELSE:
-			App.debug(leftStr);
-			if (stringType == StringType.MPREDUCE) {
-				sb.append("ifelsefun(");
-			} else if (stringType == StringType.GIAC) {
+			if (stringType == StringType.GIAC) {
 				sb.append("when(");
 				sb.append(leftStr);
 				sb.append(",");
@@ -3571,9 +3386,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			case PSTRICKS:
 				sb.append(psTricks);
-				break;
-			case MPREDUCE:
-				appendReduceFunction(sb, left,  mpReduce);
 				break;
 			default:
 				if(tpl.isPrintLocalizedCommandNames()){

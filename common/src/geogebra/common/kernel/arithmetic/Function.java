@@ -640,7 +640,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		
 		
 		String function, var;
-		StringTemplate tpl = StringTemplate.casTemplate;
+		StringTemplate tpl = StringTemplate.giacTemplate;
 		// See #1322
 		try {
 			function = node.getCASstring(tpl, symbolic);

@@ -15,7 +15,6 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
-	private CasType casType;
 
 	/**
 	 * Creates new CAS interface
@@ -71,34 +69,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public synchronized void initCurrentCAS() {
 		if (cas == null) {
-			setCurrentCAS(app.getCASType());
+			setCurrentCAS();
 		}
 	}
 
 	
-	public synchronized void setCurrentCAS(final CasType CAS) {
+	public synchronized void setCurrentCAS() {
 		try {
-			switch (CAS) {
-			case GIAC:
-				casType = CasType.GIAC;
-				cas = getGiac();
-				app.getSettings().getCasSettings().addListener(cas);				
-				break;
+			cas = getGiac();
+			app.getSettings().getCasSettings().addListener(cas);				
 
-			default:
-				casType = CasType.MPREDUCE;
-				cas = getReduce();
-				app.getSettings().getCasSettings().addListener(cas);
-				break;
-			/*
-			 * case MATHPIPER: cas = getMathPiper(); currentCAS = CAS; break;
-			 */
-			}
-			/*
-			 * }catch (MaximaVersionUnsupportedExecption e){
-			 * app.showError("CAS.MaximaVersionUnsupported");
-			 * setCurrentCAS(CasType.MPREDUCE);
-			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,18 +89,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public void reset() {
 		getCurrentCAS().reset();
-	}
-
-	/**
-	 * @return MPReduce/Giac etc
-	 */
-	private synchronized CASGenericInterface getReduce() {
-		if (cas == null) {
-			cas = app.getCASFactory()
-					.newMPReduce(casParser, new CasParserToolsImpl('e'),
-							app.getKernel());
-		}
-		return cas;
 	}
 
 	/**
@@ -337,7 +305,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
 					if (args.get(0).evaluatesToList()) {
-						if (casType == CasType.GIAC) {
+						
 
 							sbCASCommand.append(toString(args.get(0), symbolic, tpl));
 							sbCASCommand.append('[');
@@ -359,27 +327,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 							return sbCASCommand.toString();
 						
-						}
 						
-						// else MPReduce
-						sbCASCommand.append("applyfunction(");
-						sbCASCommand.append(ch);
-						sbCASCommand.append("coord,");
 						
 					} else if (args.get(0).hasCoords()) {
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord(");
 					} else {
-						if (casType == CasType.GIAC) {
 							sbCASCommand.append('(');
 							sbCASCommand.append(tpl.printVariableName(ch+""));
 							sbCASCommand.append(")*(");							
-						} else {
-							// Reduce
-							sbCASCommand.append("multiplication(");
-							sbCASCommand.append(tpl.printVariableName(ch+""));
-							sbCASCommand.append(",");
-						}	
 					}
 					handled = true;
 				}

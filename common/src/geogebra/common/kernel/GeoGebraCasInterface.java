@@ -4,7 +4,6 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.main.CasType;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -46,10 +45,8 @@ public interface GeoGebraCasInterface {
 	/**
 	 * Sets the currently used CAS for evaluateGeoGebraCAS().
 	 * 
-	 * @param c
-	 *            use CAS_MPREDUCE or CAS_GIAC
 	 */
-	public void setCurrentCAS(final CasType c);
+	public void setCurrentCAS();
 	/**
 	 * Returns whether the given command is available in the underlying CAS.
 	 * 

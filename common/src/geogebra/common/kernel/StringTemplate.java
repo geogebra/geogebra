@@ -96,19 +96,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 	}
 	
 	/**
-	 * MPReduce string type, do not internationalize digits
-	 */
-	public static final StringTemplate casTemplate = new StringTemplate("casTemplate");
-	static {
-		casTemplate.internationalizeDigits = false;
-		casTemplate.usePrefix = false;
-		casTemplate.forceNF = true;
-		casTemplate.localizeCmds = false;
-		casTemplate.setType(StringType.MPREDUCE);
-		casTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(15);
-	}
-	
-	/**
 	 * giac string type, do not internationalize digits
 	 */
 	public static final StringTemplate giacTemplate = new StringTemplate("giacTemplate");
@@ -295,10 +282,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			break;
 
 		case GEOGEBRA_XML:
-			casPrintFormPI = "pi";
-			break;
-
-		case MPREDUCE:
 			casPrintFormPI = "pi";
 			break;
 
@@ -536,7 +519,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 	final private String printVariableName(final StringType printForm, final String label) {
 		switch (printForm) {
-		case MPREDUCE:
 		case GIAC:
 			// make sure we don't interfer with reserved names
 			// or command names in the underlying CAS
@@ -606,8 +588,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 	 * @return whether stringType is for a CAS (Giac, MPReduce, MathPiper)
 	 */
 	public boolean hasCASType() {
-		return stringType.equals(StringType.MPREDUCE)
-				|| stringType.equals(StringType.GIAC);
+		return stringType.equals(StringType.GIAC);
 	}
 	
 	/**
@@ -734,14 +715,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(')');
 			}
-			break;
-
-		case MPREDUCE:
-			sb.append("addition(");
-			sb.append(leftStr);
-			sb.append(',');
-			sb.append(rightStr);
-			sb.append(')');
 			break;
 
 		default:
@@ -954,14 +927,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(')');
 			}
-			break;
-
-		case MPREDUCE:
-			sb.append("subtraction(");
-			sb.append(leftStr);
-			sb.append(',');
-			sb.append(rightStr);
-			sb.append(')');
 			break;
 
 		default:
@@ -1261,22 +1226,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 			break;
 
-		case MPREDUCE:
-
-			if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(')');
-			} else {
-				sb.append("multiplication(");
-				sb.append(leftStr);
-				sb.append(",");
-				sb.append(rightStr);
-				sb.append(")");
-				break;
-			}
-			break;
-
 		case GIAC:
 			
 			//App.debug(left.getClass()+" "+right.getClass());
@@ -1416,14 +1365,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			sb.append(" }");
 			break;
 
-		case MPREDUCE:
-			sb.append("mydivision(");
-			sb.append(leftStr);
-			sb.append(",");
-			sb.append(rightStr);
-			sb.append(')');
-			break;
-
 		case GIAC:
 			sb.append("(");
 			sb.append(leftStr);
@@ -1458,10 +1399,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 		if (stringType.equals(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, "<not/>", leftStr, null);
-		}else if (stringType.equals(StringType.MPREDUCE)) {
-			sb.append("snot(");
-			sb.append(leftStr);
-			sb.append(')');
 		} else {
 
 			switch (stringType) {
@@ -1507,9 +1444,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 		if (stringType.equals(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, "<or/>", leftStr, rightStr);
-		} else if (stringType.equals(StringType.MPREDUCE)) {
-			appendOp(sb,"sor", leftStr, rightStr);
-		}else {
+		} else {
 			append(sb, leftStr, left, Operation.OR);
 			sb.append(' ');
 
@@ -1522,10 +1457,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				break;				
 			case LIBRE_OFFICE:
 				sb.append("or");
-				break;
-
-			case MPREDUCE:
-				sb.append("or ");
 				break;
 
 			case GIAC:
@@ -1551,7 +1482,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			}
 			return "\\geq";
 		case LIBRE_OFFICE:
-		case MPREDUCE:
 		case GIAC:
 			return ">=";
 		default:
@@ -1567,7 +1497,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			}
 			return "\\leq";
 		case LIBRE_OFFICE:
-		case MPREDUCE:
 		case GIAC:
 			return "<=";
 		default:
@@ -1646,7 +1575,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			}
 			return "\\stackrel{\\small ?}{=}";
 		case LIBRE_OFFICE:
-		case MPREDUCE:
 		case GIAC:
 			return "=";
 		default:
@@ -1701,8 +1629,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 	public String andIntervalString(ExpressionValue left,
 			ExpressionValue right, String leftStr, String rightStr,boolean valueForm) {
 		StringBuilder sb = new StringBuilder();
-		if (stringType.equals(StringType.MATHML) || stringType.equals(StringType.MPREDUCE) || 
-				stringType.equals(StringType.GIAC)) {
+		if (stringType.equals(StringType.MATHML) ||	stringType.equals(StringType.GIAC)) {
 			return andString(left,right,leftStr,rightStr);
 		}
 		if(right.isExpressionNode()){
@@ -1732,9 +1659,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 		StringBuilder sb = new StringBuilder();
 		if (stringType.equals(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, "<and/>", leftStr, rightStr);
-		}else if (stringType.equals(StringType.MPREDUCE)) {
-			StringTemplate.appendOp(sb,"sand", leftStr, rightStr);
-		}else if (stringType.equals(StringType.GIAC)) {
+		} else if (stringType.equals(StringType.GIAC)) {
 			sb.append('(');
 			sb.append(leftStr);
 			sb.append(" && ");
@@ -1754,10 +1679,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 			case LIBRE_OFFICE:
 				sb.append("and");
-				break;
-
-			case MPREDUCE:
-				sb.append("and ");
 				break;
 				
 			case GIAC:
@@ -1854,19 +1775,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			}
 
 			switch (stringType) {
-			case MPREDUCE:
-				if("e".equals(leftStr)){
-					sb.append("exp(");
-					sb.append(rightStr);
-					sb.append(')');
-					break;
-				}
-				sb.append("mypower(");
-				sb.append(leftStr);
-				sb.append(",");
-				sb.append(rightStr);
-				sb.append(')');
-				break;
 
 			case GIAC:
 
@@ -1962,8 +1870,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				}
 				sb.append('}');
 				break;
-			// rightStr already done in Giac and Reduce
-			case MPREDUCE:
+			// rightStr already done in Giac
 			case GIAC:
 				break;	
 			case GEOGEBRA_XML:

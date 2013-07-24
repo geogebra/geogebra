@@ -1915,7 +1915,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
 		// send output to underlying CAS
-		case MPREDUCE:
 		case GIAC:
 			sb.append(" (");
 			sb.append(outputVE == null ? "?" : outputVE.toString(tpl));

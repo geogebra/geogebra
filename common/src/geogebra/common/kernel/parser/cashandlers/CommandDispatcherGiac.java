@@ -152,7 +152,7 @@ public class CommandDispatcherGiac {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
 			//TODO -- template is not important for arb*, but is this correct for diff?
-			StringTemplate tpl = StringTemplate.casTemplate;
+			StringTemplate tpl = StringTemplate.giacTemplate;
 
 			switch (commands.valueOf(cmdName)) {
 

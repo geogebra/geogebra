@@ -448,14 +448,6 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			sbBuildValueString.append(")");
 			return sbBuildValueString;
 
-		case MPREDUCE:
-			sbBuildValueString.append("myvect(");
-			sbBuildValueString.append(getInhomVec().getX());
-			sbBuildValueString.append(",");
-			sbBuildValueString.append(getInhomVec().getY());
-			sbBuildValueString.append(")");
-			return sbBuildValueString;
-
 		default: // continue below
 		}
 		switch (toStringMode) {

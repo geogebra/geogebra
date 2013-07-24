@@ -764,11 +764,8 @@ AngleProperties {
 		if (tpl.getStringType().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\left\\");
 		}
-		if (tpl.getStringType().equals(StringType.MPREDUCE)) {
-			sbBuildValueString.append("list(");
-		} else {
-			sbBuildValueString.append(STR_OPEN);
-		}
+		sbBuildValueString.append(STR_OPEN);
+
 		// first (n-1) elements
 		final int lastIndex = geoList.size() - 1;
 		if (lastIndex > -1) {
@@ -783,14 +780,12 @@ AngleProperties {
 			final GeoElement geo = geoList.get(lastIndex);
 			sbBuildValueString.append(geo.toOutputValueString(tpl));
 		}
+		
 		if (tpl.getStringType().equals(StringType.LATEX)) {
 			sbBuildValueString.append("\\right\\");
 		}
-		if (tpl.getStringType().equals(StringType.MPREDUCE)) {
-			sbBuildValueString.append(")");
-		} else {
-			sbBuildValueString.append(STR_CLOSE);
-		}
+		sbBuildValueString.append(STR_CLOSE);
+
 		return sbBuildValueString;
 	}
 
@@ -1945,8 +1940,7 @@ AngleProperties {
 		// isMatrix() is rather expensive, and we only need it
 		// if we're using Maxima, so test for that first
 		final StringType casPrinttype = tpl.getStringType();
-		if ((!casPrinttype.equals(StringType.GIAC) && !casPrinttype
-				.equals(StringType.MPREDUCE)) || !isMatrix()) {
+		if ((!casPrinttype.equals(StringType.GIAC)) || !isMatrix()) {
 			return super.getCASString(tpl, symbolic);
 		}
 

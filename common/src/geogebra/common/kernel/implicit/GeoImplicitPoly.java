@@ -339,12 +339,11 @@ Dilateable, Transformable, EuclidianViewCE {
 				sb.append('{');
 				sb.append(exp);
 				sb.append('}');
-			}else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML))||
-						(tpl.getStringType().equals(StringType.GIAC))||
-						(tpl.getStringType().equals(StringType.MPREDUCE))){
+			} else if ((tpl.getStringType().equals(StringType.GEOGEBRA_XML)) ||
+						(tpl.getStringType().equals(StringType.GIAC))){
 				sb.append('^');
 				sb.append(exp);
-			}else{
+			} else {
 				String p="";
 				int i = exp;
 				while(i>0){
@@ -399,15 +398,12 @@ Dilateable, Transformable, EuclidianViewCE {
 						if (!number.equals("1")){
 							sb.append(number);
 						}
-						if (i>0){
+						if (i > 0){
 							sb.append(tpl.printVariableName("x"));
 						}
 						addPow(sb,i,tpl);
-						if (j>0){
-							if(tpl.hasType(StringType.MPREDUCE)){
-								sb.append('*');
-							}
-							else if (i>0){ //insert blank after x^i
+						if (j > 0) {
+							if (i > 0) { //insert blank after x^i
 								sb.append(' ');
 							}
 							sb.append(tpl.printVariableName("y"));

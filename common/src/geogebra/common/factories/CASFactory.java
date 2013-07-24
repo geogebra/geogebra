@@ -17,7 +17,6 @@ public abstract class CASFactory {
 	public static void setPrototype(CASFactory factory) {
 		prototype = factory;
 	}
-	public abstract CASGenericInterface newMPReduce(CASparser p,CasParserTools t,Kernel kernel);
 
 	public abstract CASGenericInterface newGiac(CASparser p, CasParserTools t, Kernel k);
 }

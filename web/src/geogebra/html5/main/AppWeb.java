@@ -14,7 +14,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.ScriptManager;
@@ -177,11 +176,6 @@ public abstract class AppWeb extends App implements SetLabels{
 			scriptManager = new ScriptManagerW(this);
 		}
 		return scriptManager;
-	}
-
-	@Override
-	public CasType getCASType() {
-		return CasType.GIAC;
 	}
 	
 	// ================================================

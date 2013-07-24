@@ -3252,13 +3252,6 @@ public abstract class App implements UpdateSelection{
 		}
 		return selection;
 	}
-	/** 
-	 * CAS type
-	 * @return type eg GIAC, MPREDUCE
-	 */
-	public abstract CasType getCASType();
-	
-	
 	
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML

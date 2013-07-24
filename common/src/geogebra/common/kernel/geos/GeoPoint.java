@@ -1145,22 +1145,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 			}
 			return sbBuildValueString;
 
-		case MPREDUCE:
-			if (toStringMode == Kernel.COORD_COMPLEX) {
-				sbBuildValueString.append("(");
-				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
-				sbBuildValueString.append("+i*");
-				sbBuildValueString.append(kernel.format(getInhomY(),tpl));
-				sbBuildValueString.append(")");
-			} else {
-				sbBuildValueString.append("myvect(");
-				sbBuildValueString.append(kernel.format(getInhomX(),tpl));
-				sbBuildValueString.append(",");
-				sbBuildValueString.append(kernel.format(getInhomY(),tpl));
-				sbBuildValueString.append(")");
-			}
-			return sbBuildValueString;
-
 		default: // continue below
 		}
 

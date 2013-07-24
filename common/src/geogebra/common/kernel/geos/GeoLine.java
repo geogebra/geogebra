@@ -808,7 +808,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
-		if(tpl.hasType(StringType.MPREDUCE)){
+		if(tpl.hasType(StringType.GIAC)){
 			StringBuilder sb = getSbBuildValueString();
 			sb.setLength(0);
 			sb.append("(");

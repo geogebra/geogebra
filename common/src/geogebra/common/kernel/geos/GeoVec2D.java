@@ -1113,7 +1113,6 @@ final public class GeoVec2D extends ValidExpression implements
 	final public String toString(StringTemplate tpl) {
 		if (isImaginaryUnit()) {
 			switch (tpl.getStringType()) {
-			case MPREDUCE:
 			case GIAC:
 				return "i";
 

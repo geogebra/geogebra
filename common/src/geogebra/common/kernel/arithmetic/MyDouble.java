@@ -167,8 +167,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		String ret = kernel.format((val), tpl);
 
 		switch (tpl.getStringType()) {
-		case MPREDUCE:
-			return ret.replace("E", "e");
 		case GIAC:
 			// convert eg 0.125 to exact(0.125) so that Giac does an exact calculation with it
 			// numbers entered in the CAS View are handled by MySpecialDoule

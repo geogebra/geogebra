@@ -8,7 +8,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.Dilateable;
@@ -276,9 +275,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		 * sbBuildValueString.append(kernel.format(y));
 		 * sbBuildValueString.append(")"); break; }
 		 */
-		if(tpl.hasType(StringType.MPREDUCE)){
-				sbBuildValueString.append("myvect");				
-		}
+
 		sbBuildValueString.append("(");
 		sbBuildValueString.append(kernel.format(getX(),tpl));
 		setCoordSep(tpl);

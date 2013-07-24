@@ -68,7 +68,6 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
-import geogebra.common.main.CasType;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -757,14 +756,6 @@ public class Kernel {
 		return loadingMode;
 	}
 
-	/** 
-	 * CAS type
-	 * @return type eg GIAC, MPREDUCE
-	 */
-	public CasType getCASType() {
-		return app.getCASType();
-	}
-
 	final private static char sign(double x) { 
 		if (x > 0) {
 			return '+';
@@ -932,13 +923,10 @@ public class Kernel {
 
 			// number formatting for CAS
 		case GIAC:
-		case MPREDUCE:
 			if (Double.isNaN(x)) {
 				return "?";
 			} else if (Double.isInfinite(x)) {
-				if (casPrintForm.equals(StringType.MPREDUCE)) {
-					return (x < 0) ? "-infinity" : "infinity";
-				} else if (casPrintForm.equals(StringType.GIAC)) {
+				if (casPrintForm.equals(StringType.GIAC)) {
 					return (x < 0) ? "-inf" : "inf";
 				} else {
 					return Double.toString(x); // "Infinity" or "-Infinity"
@@ -1481,7 +1469,6 @@ public class Kernel {
 		String numberStr = format(x, tpl);
 		switch (tpl.getStringType()) {
 		case GIAC:
-		case MPREDUCE:
 			return numberStr + "*";
 
 		default:
@@ -1723,21 +1710,6 @@ public class Kernel {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
-		case MPREDUCE:
-			if (getAngleUnit() == ANGLE_DEGREE) {
-				sbFormatAngle.append("(");
-				// STANDARD_PRECISION * 10 as we need a little leeway as we've
-				// converted from radians
-				sbFormatAngle.append(format(
-						checkDecimalFraction(Math.toDegrees(phi), precision),
-						tpl));
-				sbFormatAngle.append("*");
-				sbFormatAngle.append("\u00b0");
-				sbFormatAngle.append(")");
-			} else {
-				sbFormatAngle.append(format(phi, tpl));
-			}
-			return sbFormatAngle;
 
 		default:
 			// STRING_TYPE_GEOGEBRA_XML
