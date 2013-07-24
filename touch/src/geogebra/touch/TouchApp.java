@@ -131,11 +131,10 @@ public class TouchApp extends AppWeb
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
 	 * initializes the components of the {@link GeoGebraTouchGUI}.
 	 */
-	public void start(FileManagerM fileManager)
+	public void start()
 	{
 		initKernel();
 
-		this.fm = fileManager;
 		this.touchGUI.initComponents(this.kernel);
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 

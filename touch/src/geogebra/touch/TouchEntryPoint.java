@@ -88,7 +88,7 @@ public class TouchEntryPoint implements EntryPoint
 
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
-				app.start(fm);
+				app.start();
 
 				TouchEntryPoint.showTabletGUI();
 
