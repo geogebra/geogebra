@@ -466,19 +466,33 @@ table.titlePanel {
 	text-align: left;
 }
 
+.contentPanel {
+	width: 100%;
+}
+
 .inputDialog .errorBox {
 	margin-top: 10px;
 	margin-bottom: 15px;
 }
 
-.inputDialog .gwt-TextBox,.infoDialog .gwt-TextBox {
+.inputDialog .sliderPanel {
+	margin-top: 20px;
+}
+
+.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
+	width: 117px;
+}
+
+.inputDialog .gwt-TextBox,
+.infoDialog .gwt-TextBox {
 	margin-top: 5px;
 	border: 1px solid #DCDCDC;
 	padding: 3px;
 	font-size: 15px;
 }
 
-.inputDialog .gwt-PopupPanel,.infoDialog .gwt-PopupPanel {
+.inputDialog .gwt-PopupPanel,
+.infoDialog .gwt-PopupPanel {
 	border: none;
 	padding: 10px 2px 0px 2px;
 }

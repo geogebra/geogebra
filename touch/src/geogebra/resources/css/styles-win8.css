@@ -59,9 +59,21 @@ body .inputDialog .gwt-TextBox,
 body .infoDialog .gwt-TextBox {
 	margin-top: 5px;
 	padding: 3px;
+	border: #999999 2px solid;
+	font-family: "Segoe UI Semilight", sans-serif;
+}
+
+body .inputDialog .textBox,
+body .infoDialog .textBox {
+	margin-top: 5px;
+	padding: 3px;
 	width: 730px;
 	border: #999999 2px solid;
 	font-family: "Segoe UI Semilight", sans-serif;
+}
+
+body .inputDialog.sliderDialog .textBox {
+	width: 393px;
 }
 
 body .inputDialog .gwt-TextBox.active,
