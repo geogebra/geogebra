@@ -37,8 +37,10 @@ import geogebra.common.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -2938,6 +2940,13 @@ public class Construction {
 	 */
 	public void setUpdateConstructionRunning(boolean b) {
 		updateConstructionRunning = b;		
+	}
+	
+	/**
+	 * @return a copy of the set of all labels that are currently being used
+	 */
+	public Set<String> getAllLabels() {
+		return new HashSet<String>(geoTable.keySet());
 	}
 
 }

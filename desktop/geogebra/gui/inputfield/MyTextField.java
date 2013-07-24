@@ -2,6 +2,7 @@ package geogebra.gui.inputfield;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.inputfield.IntervalProvider;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
@@ -71,6 +72,8 @@ public class MyTextField extends JTextField implements ActionListener,
 	// unmatched brackets color = red
 	private static Color COLOR_UNMATCHED = Color.red;
 	
+	// class for distinguishing graphically existing object
+	private IntervalProvider ip;
 
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
@@ -118,6 +121,8 @@ public class MyTextField extends JTextField implements ActionListener,
 		setDefaultBorder();
 		
 		app.setComponentOrientation(this);
+		
+		ip = new IntervalProvider(app.getKernel());
 	}
 
 	/**
@@ -409,6 +414,10 @@ public class MyTextField extends JTextField implements ActionListener,
 				g2.setColor(Color.GRAY);
 			} else {
 				g2.setColor(Color.BLACK);
+			}
+			
+			if (ip.isInInterval(i, text)) {
+				bg = Color.ORANGE;
 			}
 
 			// now draw the text
