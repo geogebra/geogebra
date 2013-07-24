@@ -82,8 +82,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.guiModel = guiModel;
 
 		this.laf = TouchEntryPoint.getLookAndFeel();
-		this.iconWarning = this.laf.getIcons().icon_warning();
-
+		
+		this.buildErrorBox();
+		
 		this.setStyleName("inputDialog");
 		// mark it as not visible to prevent problems with onResize()
 		this.setVisible(false);
@@ -92,6 +93,16 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		gui.addResizeListener(this);
 
 		setAutoHideEnabled(true);
+	}
+
+	private void buildErrorBox() {
+		this.iconWarning = this.laf.getIcons().icon_warning();
+		Panel iconPanel = new LayoutPanel();
+		String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
+		iconPanel.getElement().setInnerHTML(html);
+		iconPanel.setStyleName("iconPanel");
+		this.errorBox.add(iconPanel);
+		this.errorBox.add(this.errorText);		
 	}
 
 	public void redefine(DialogType dialogType)
@@ -214,12 +225,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.errorBox.setStyleName("errorBox");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		Panel iconPanel = new LayoutPanel();
-		String html = "<img src=\"" + this.iconWarning.getSafeUri().asString() + "\" />";
-		iconPanel.getElement().setInnerHTML(html);
-		iconPanel.setStyleName("iconPanel");
-		this.errorBox.add(iconPanel);
-		this.errorBox.add(this.errorText);
+		
+		
 
 		this.textPanel.add(this.errorBox);
 
