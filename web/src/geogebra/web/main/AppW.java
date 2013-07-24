@@ -213,7 +213,13 @@ public class AppW extends AppWeb {
 		this.objectPool = new ObjectPool();
 		setDataParamHeight(frame.getDataParamHeight());
 		setDataParamWidth(frame.getDataParamWidth());
-		this.useFullGui = ae.getDataParamGui();
+
+		this.useFullGui = !isApplet() ||
+				ae.getDataParamShowAlgebraInput() ||
+				ae.getDataParamShowToolBar() ||
+				ae.getDataParamShowMenuBar() ||
+				ae.getDataParamEnableRightClick();
+
 		if (ae.getDataParamShowLogging()) {
 			startLogger();
 		} else {
