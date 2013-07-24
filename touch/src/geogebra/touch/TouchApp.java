@@ -441,6 +441,7 @@ public class TouchApp extends AppWeb
 	public void fileNew()
 	{
 		this.kernel.clearConstruction(true);
+		this.touchGUI.allowEditing(true);
 		this.kernel.initUndoInfo();
 		setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		this.settings.beginBatch();
@@ -629,7 +630,7 @@ public class TouchApp extends AppWeb
 		{
 			setConstructionTitle(TouchEntryPoint.browseGUI.getChosenMaterial().getMaterialTitle());
 		}
-		
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand()
 		{
 
@@ -637,25 +638,9 @@ public class TouchApp extends AppWeb
 			public void execute()
 			{
 				TouchEntryPoint.tabletGUI.onResize();
-//				System.out.println("after load or not");
-//				TouchEntryPoint.tabletGUI.getTouchModel().getKernel().notifyRepaint();
-//				TouchEntryPoint.tabletGUI.updateViewSizes(TouchEntryPoint.tabletGUI.isEditable());
-//				for (int i = 0; i < TouchEntryPoint.tabletGUI.contentPanel.getWidgetCount(); i++)
-//				{
-//					System.out.println("contentPanel count " + TouchEntryPoint.tabletGUI.contentPanel.getWidget(i).getClass().getName());
-//				}
-//				System.out.println("contentPanel count " + TouchEntryPoint.tabletGUI.contentPanel.getWidgetCount());
 			}
 		});
-		// for (Perspective perspective : this.tmpPerspectives) {
-		// if (perspective.getId().equals("tmp")) {
-		// toggleAVvisibility(perspective.getDockPanelData());
-		// }
-		// }
-		// this.setMode(EuclidianConstants.MODE_MOVE);
-		// this.touchGUI.resetMode();
-		// this.kernel.notifyRepaint();
-
+		this.touchGUI.resetMode();
 	}
 
 	private void toggleAVvisibility(DockPanelData[] dockPanelData)

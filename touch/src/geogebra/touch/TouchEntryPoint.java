@@ -73,7 +73,7 @@ public class TouchEntryPoint implements EntryPoint
 			@Override
 			public void onSuccess()
 			{
-				ResourcesInjector.injectResources();				
+				ResourcesInjector.injectResources();
 				setLookAndFeel();
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				getLookAndFeel().setApp(app);
@@ -159,14 +159,14 @@ public class TouchEntryPoint implements EntryPoint
 		}
 
 		laf.updateUndoSaveButtons();
-		
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand()
 		{
-			
 			@Override
 			public void execute()
 			{
 				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
+				tabletGUI.onResize();
 			}
 		});
 	}
@@ -174,13 +174,15 @@ public class TouchEntryPoint implements EntryPoint
 	public static void showTabletGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand()
 		{
-			
+
 			@Override
 			public void execute()
 			{
 				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
+				tabletGUI.onResize();
 			}
 		});
 		laf.updateUndoSaveButtons();
@@ -189,7 +191,7 @@ public class TouchEntryPoint implements EntryPoint
 	public static void showBrowseGUI()
 	{
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
-//		TouchEntryPoint.browseGUI.onResize();
+		TouchEntryPoint.browseGUI.onResize();
 	}
 
 	public static void showWorksheetGUI(Material material)
@@ -230,7 +232,7 @@ public class TouchEntryPoint implements EntryPoint
 		return TouchEntryPoint.laf;
 	}
 
-	public static void allowEditing(boolean b) 
+	public static void allowEditing(boolean b)
 	{
 		tabletGUI.allowEditing(b);
 	}

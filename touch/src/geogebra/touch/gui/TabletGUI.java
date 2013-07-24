@@ -85,12 +85,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	 *          Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel, FileManagerM fm1)
+	public void initComponents(final Kernel kernel, FileManagerM fm)
 	{
 		this.touchModel = new TouchModel(kernel, this);
 		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
-		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel, fm1);
+		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel, fm);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 
@@ -156,6 +156,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			{
 				event.stopPropagation();
 				TabletGUI.this.toggleAlgebraView();
+				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
+				{
+					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
+				}
 			}
 		}, MouseDownEvent.getType());
 
@@ -223,12 +227,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		return this.euclidianViewPanel;
 	}
 
-	
 	public Widget getEuWidget()
 	{
 		return this.getContentWidget();
 	}
-	
+
 	@Override
 	public AlgebraViewPanel getAlgebraViewPanel()
 	{
@@ -238,10 +241,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	void toggleAlgebraView()
 	{
 		this.setAlgebraVisible(!this.algebraViewPanel.isVisible());
+		this.app.setUnsaved();
 	}
-	
+
 	public void updateViewSizes(boolean algebraVisible)
 	{
+
 		int panelHeight = this.editing ? TouchEntryPoint.getLookAndFeel().getPanelsHeight() : TouchEntryPoint.getLookAndFeel().getAppBarHeight();
 		if (!algebraVisible)
 		{
@@ -269,8 +274,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - panelHeight);
 
 			// for Win8 position it on top, for others under appbar
-			this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel, Window.getClientWidth() - TabletGUI.computeAlgebraWidth() - ALGEBRA_BUTTON_WIDTH, 0);
-			
+			this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel, Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
+			    - ALGEBRA_BUTTON_WIDTH, 0);
+
 			// this.algebraViewButtonPanel.setPopupPosition(euclidianWidth -
 			// ALGEBRA_BUTTON_WIDTH,
 			// TouchEntryPoint.getLookAndFeel().getAppBarHeight());
@@ -291,7 +297,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		{
 			this.algebraViewPanel.setLabels();
 		}
-		if (TouchEntryPoint.getLookAndFeel() != null)
+		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
 		{
 			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().setLabels();
 		}
@@ -352,6 +358,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.algebraViewPanel.setVisible(visible);
 	}
 
+	@Override
 	public void allowEditing(boolean b)
 	{
 		if (this.editing == b)
@@ -359,11 +366,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			return;
 		}
 		this.editing = b;
-		
+
 		this.toolBar.setVisible(b);
 		this.algebraViewButtonPanel.setVisible(b);
-		this.setAlgebraVisible(b);
+		this.setAlgebraVisible(this.isAlgebraShowing());
 		this.stylingBar.setVisible(b);
+		resetMode();
 
 		if (b)
 		{
@@ -391,20 +399,23 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	{
 		return this.algebraViewPanel.isVisible();
 	}
-	
-	public void addEuclidian(EuclidianViewPanel panel)
-	{
-		if (this.contentPanel.getWidgetIndex(this.euclidianViewPanel) == -1)
-		{
-			this.euclidianViewPanel = panel;
-			this.contentPanel.add(this.euclidianViewPanel);
-			//try
-			//this.setContentWidget(this.contentPanel);
-		}
 
+	public void restoreEuclidian(DockLayoutPanel panel)
+	{
+		this.contentPanel = panel;
+		this.setContentWidget(this.contentPanel);
+		this.contentPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - getLaf().getPanelsHeight());
 	}
 
-	
+	public DockLayoutPanel getContentPanel()
+	{
+		return this.contentPanel;
+	}
+
+	public TouchApp getApp()
+	{
+		return this.app;
+	}
 	// TODO: use with SelelctionManager
 	// @Override
 	// public void updateStylingBar(SelectionManager selectionManager) {

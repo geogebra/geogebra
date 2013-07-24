@@ -21,21 +21,27 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel
 		super.showWidget(widget);
 		this.history.push(widget);
 	}
-	
+
 	public boolean goBack()
 	{
 		try
 		{
 			// remove the current shown view
-			this.history.pop();
-			
+			Widget current = this.history.pop();
+			if (current.equals(TouchEntryPoint.worksheetGUI))
+			{
+				TouchEntryPoint.tabletGUI.getApp().fileNew();
+			}
+
 			// go back to the last view
-			this.showWidget(this.history.pop());
+			Widget next = this.history.pop();
+			this.showWidget(next);
+
 			return true;
 		}
-		catch(EmptyStackException e)
+		catch (EmptyStackException e)
 		{
 			return false;
-		}	
+		}
 	}
 }

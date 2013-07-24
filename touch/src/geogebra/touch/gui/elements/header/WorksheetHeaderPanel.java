@@ -29,7 +29,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 			@Override
 			public void onClick(ClickEvent event)
 			{
-				tabletGUI.addEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentLocal());
+				tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());		
@@ -43,7 +43,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 				event.stopPropagation();
 				if (WorksheetHeaderPanel.this.material != null)
 				{
-					tabletGUI.addEuclidian(worksheetGUI.getContentLocal());
+					tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
 					TouchEntryPoint.allowEditing(true);
 					fm.getMaterial(WorksheetHeaderPanel.this.material, app);
 					TouchEntryPoint.showTabletGUI();

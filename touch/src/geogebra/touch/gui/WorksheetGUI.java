@@ -6,10 +6,11 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
-import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -23,19 +24,19 @@ public class WorksheetGUI extends HeaderPanel
 	private AppWeb app;
 	private FileManagerM fm;
 	private FlowPanel content;
-	private EuclidianViewPanel contentLocal;
 	TabletGUI tabletGUI;
-	
+	private DockLayoutPanel contentPanel;
+
 	public WorksheetGUI(AppWeb app, FileManagerM fm, TabletGUI tabletGUI)
 	{
-		this.setStyleName("worksheetgui");
+		 this.setStyleName("worksheetgui");
 		this.header = new WorksheetHeaderPanel(app, fm, this, tabletGUI);
 		this.setHeaderWidget(this.header);
 		this.content = new FlowPanel();
 		this.app = app;
 		this.fm = fm;
 		this.tabletGUI = tabletGUI;
-		
+
 		this.instructionsPost = new Label();
 		this.instructionsPre = new Label();
 		this.instructionsPre.setStyleName("instructionsPre");
@@ -45,18 +46,18 @@ public class WorksheetGUI extends HeaderPanel
 	public void loadWorksheet(Material m)
 	{
 		this.header.setMaterial(m);
-		this.contentLocal = this.tabletGUI.getEuclidianViewPanel();
-		
+		this.contentPanel = this.tabletGUI.getContentPanel();
+
 		if (m.getId() > 0)
 		{
 			this.content.add(this.instructionsPre);
 			this.content.add(this.frame);
 			this.content.add(this.instructionsPost);
 			this.setContentWidget(this.content);
-			
+
 			TouchEntryPoint.allowEditing(false);
-			this.frame.setUrl("http://www.geogebratube.org/student/e" + 
-					m.getId() + "?mobile=true&touch=true&width="+m.getWidth()+"&height="+m.getHeight());
+			this.frame.setUrl("http://www.geogebratube.org/student/e" + m.getId() + "?mobile=true&touch=true&width=" + m.getWidth() + "&height="
+			    + m.getHeight());
 			this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
 			this.instructionsPre.setText(m.getInstructionsPre());
 			this.instructionsPost.setText(m.getInstructionsPost());
@@ -65,11 +66,12 @@ public class WorksheetGUI extends HeaderPanel
 		{
 			TouchEntryPoint.allowEditing(false);
 			this.fm.getMaterial(m, this.app);
-			this.setContentWidget(this.contentLocal);
+			this.setContentWidget(this.contentPanel);
+			updateViewSize();
 		}
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand()
 		{
-			
 			@Override
 			public void execute()
 			{
@@ -80,12 +82,17 @@ public class WorksheetGUI extends HeaderPanel
 	}
 
 	public void setLabels()
-  {
-	  this.header.setLabels();
-  }
-	
-	public EuclidianViewPanel getContentLocal()
 	{
-		return this.contentLocal;
+		this.header.setLabels();
+	}
+
+	public DockLayoutPanel getContentPanel()
+	{
+		return this.contentPanel;
+	}
+
+	private void updateViewSize()
+	{
+		this.contentPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 	}
 }

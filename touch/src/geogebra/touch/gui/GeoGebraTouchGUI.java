@@ -31,6 +31,8 @@ public interface GeoGebraTouchGUI
 
 	public boolean isAlgebraShowing();
 
+	public void allowEditing(boolean b);
+
 	// TODO: use with SelectionManager
 	// public void updateStylingBar(SelectionManager selectionManager);
 }

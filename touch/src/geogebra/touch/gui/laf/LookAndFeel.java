@@ -23,6 +23,8 @@ public interface LookAndFeel extends SavedStateListener
 
 	public int getAppBarHeight();
 
+	public int getToolBarHeight();
+
 	public DefaultResources getIcons();
 
 	public TabletHeaderPanel getTabletHeaderPanel();

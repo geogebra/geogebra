@@ -94,7 +94,12 @@ public class DefaultLAF implements LookAndFeel
 	{
 		return false;
 	}
-	
+
+	@Override
+	public int getToolBarHeight()
+	{
+		return 75;
+	}
 	@Override
 	public int getPaddingLeftOfDialog() {
 		return 0;
