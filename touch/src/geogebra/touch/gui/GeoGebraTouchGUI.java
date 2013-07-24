@@ -1,7 +1,6 @@
 package geogebra.touch.gui;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 
@@ -16,7 +15,7 @@ public interface GeoGebraTouchGUI
 
 	public AlgebraViewPanel getAlgebraViewPanel();
 
-	public void initComponents(Kernel kernel, FileManagerM fm);
+	public void initComponents(Kernel kernel);
 
 	public Element getElement();
 

@@ -2,7 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
@@ -14,12 +14,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 	Material material;
-	
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
 	WorksheetGUI worksheetGUI;
 
-	public WorksheetHeaderPanel(final AppWeb app, final FileManagerM fm, final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI)
+	public WorksheetHeaderPanel(final AppWeb app, final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI)
 	{
 		super("", app.getLocalization());
 		this.worksheetGUI = worksheetGUI;
@@ -45,7 +44,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
 				{
 					tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
 					TouchEntryPoint.allowEditing(true);
-					fm.getMaterial(WorksheetHeaderPanel.this.material, app);
+					((TouchApp)app).getFileManager().getMaterial(WorksheetHeaderPanel.this.material, app);
 					TouchEntryPoint.showTabletGUI();
 				}
 			}

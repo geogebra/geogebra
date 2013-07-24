@@ -45,16 +45,16 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	FileManagerM fm;
 	protected String newTitle;
 
-	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel, FileManagerM fm)
+	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel)
 	{
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
-		this.fm = fm;
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, fm, this);
+		this.fm = this.app.getFileManager();
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, this);
 		this.leftHeader.setStyleName("headerLeft");
-		this.infoOverrideDialog = new InfoDialog(this.app, this.fm, touchModel.getGuiModel(), InfoType.Override, tabletGUI);
+		this.infoOverrideDialog = new InfoDialog(this.app, touchModel.getGuiModel(), InfoType.Override, tabletGUI);
 
 		this.titlePanel = new VerticalPanel();
 

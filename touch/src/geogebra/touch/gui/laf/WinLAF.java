@@ -1,6 +1,5 @@
 package geogebra.touch.gui.laf;
 
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -41,8 +40,7 @@ public class WinLAF extends DefaultLAF
 	}
 	
 	@Override
-	public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel,
-			FileManagerM fm) {
+	public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel) {
 
 	}
 	

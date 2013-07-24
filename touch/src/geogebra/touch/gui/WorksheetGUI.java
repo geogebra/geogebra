@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
 
@@ -27,14 +28,14 @@ public class WorksheetGUI extends HeaderPanel
 	TabletGUI tabletGUI;
 	private DockLayoutPanel contentPanel;
 
-	public WorksheetGUI(AppWeb app, FileManagerM fm, TabletGUI tabletGUI)
+	public WorksheetGUI(AppWeb app, TabletGUI tabletGUI)
 	{
-		 this.setStyleName("worksheetgui");
-		this.header = new WorksheetHeaderPanel(app, fm, this, tabletGUI);
+		this.setStyleName("worksheetgui");
+		this.fm = ((TouchApp) app).getFileManager();
+		this.header = new WorksheetHeaderPanel(app, this, tabletGUI);
 		this.setHeaderWidget(this.header);
 		this.content = new FlowPanel();
 		this.app = app;
-		this.fm = fm;
 		this.tabletGUI = tabletGUI;
 
 		this.instructionsPost = new Label();

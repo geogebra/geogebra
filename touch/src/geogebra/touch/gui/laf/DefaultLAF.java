@@ -1,6 +1,5 @@
 package geogebra.touch.gui.laf;
 
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -20,9 +19,9 @@ public class DefaultLAF implements LookAndFeel
 	private TouchApp app;
 
 	@Override
-	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel, FileManagerM fm)
+	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel)
 	{
-		this.hp = new TabletHeaderPanel(gui, app, touchModel, fm);
+		this.hp = new TabletHeaderPanel(gui, app, touchModel);
 		gui.setHeaderWidget(this.hp);
 		gui.addResizeListener(this.hp);
 	}

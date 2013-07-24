@@ -78,6 +78,8 @@ public class TouchApp extends AppWeb
 
 	private final Stack<ErrorHandler> errorHandlers;
 
+	private FileManagerM fm;
+
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
 	 * 
@@ -129,11 +131,12 @@ public class TouchApp extends AppWeb
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
 	 * initializes the components of the {@link GeoGebraTouchGUI}.
 	 */
-	public void start(FileManagerM fm)
+	public void start(FileManagerM fileManager)
 	{
 		initKernel();
 
-		this.touchGUI.initComponents(this.kernel, fm);
+		this.fm = fileManager;
+		this.touchGUI.initComponents(this.kernel);
 		super.euclidianView = this.touchGUI.getEuclidianViewPanel().getEuclidianView();
 
 		hasFullPermissions = true;
@@ -156,7 +159,7 @@ public class TouchApp extends AppWeb
 
 	public void setDefaultConstructionTitle()
 	{
-		setConstructionTitle(new FileManagerM().getDefaultConstructionTitle(this.getLocalization()));
+		setConstructionTitle(this.fm.getDefaultConstructionTitle(this.getLocalization()));
 		this.isDefaultFileName = true;
 	}
 
@@ -754,4 +757,14 @@ public class TouchApp extends AppWeb
 		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 	}
 
+	public FileManagerM getFileManager()
+	{
+		return this.fm;
+	}
+
+	public void setFileManager(FileManagerM fm)
+  {
+	  this.fm = fm;
+  }
+	
 }

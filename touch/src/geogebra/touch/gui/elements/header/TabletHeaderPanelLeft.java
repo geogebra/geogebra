@@ -1,7 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
@@ -27,7 +26,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	TouchApp app;
 	TouchModel touchModel;
 	TabletGUI tabletGUI;
-	FileManagerM fm;
 	TabletHeaderPanel headerPanel;
 
 	InfoDialog infoDialog;
@@ -40,17 +38,16 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, TouchModel touchModel, FileManagerM fm, TabletHeaderPanel headerPanel)
+	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app, TouchModel touchModel, TabletHeaderPanel headerPanel)
 	{
 		this.app = app;
 		this.kernel = app.getKernel();
 
 		this.tabletGUI = tabletGUI;
 		this.touchModel = touchModel;
-		this.fm = fm;
 		this.headerPanel = headerPanel;
 
-		this.infoDialog = new InfoDialog(this.app, fm, touchModel.getGuiModel(), InfoType.SaveChanges, tabletGUI);
+		this.infoDialog = new InfoDialog(this.app, touchModel.getGuiModel(), InfoType.SaveChanges, tabletGUI);
 
 		initNewButton();
 		initOpenButton();
@@ -132,7 +129,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				}
 				else
 				{
-					TabletHeaderPanelLeft.this.fm.saveFile(TabletHeaderPanelLeft.this.app);
+					TabletHeaderPanelLeft.this.app.getFileManager().saveFile(TabletHeaderPanelLeft.this.app);
 				}
 			}
 		}, ClickEvent.getType());

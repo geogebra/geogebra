@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 
@@ -22,7 +21,6 @@ public class VerticalMaterialPanel extends FlowPanel
 	private FlexTable contentPanel;
 	private AppWeb app;
 	private int materialHeight = 140;
-	private FileManagerM fm;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
@@ -34,13 +32,11 @@ public class VerticalMaterialPanel extends FlowPanel
 		return Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - BrowseGUI.CONTROLS_HEIGHT;
 	}
 
-	public VerticalMaterialPanel(AppWeb app, FileManagerM fm)
+	public VerticalMaterialPanel(AppWeb app)
 	{
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
 		this.app = app;
-		this.fm = fm;
-
 		//this.setWidget(this.contentPanel);
 		this.add(this.contentPanel);
 		this.contentPanel.setWidth("100%");
@@ -68,7 +64,7 @@ public class VerticalMaterialPanel extends FlowPanel
 		for (int i = 0; i < materials.size() - this.start && i < maxHeight() / this.materialHeight; i++)
 		{
 			Material m = materials.get(i+this.start);
-			MaterialListElement preview = new MaterialListElement(m, this.app, this.fm, this);
+			MaterialListElement preview = new MaterialListElement(m, this.app, this);
 			preview.initButtons();
 			this.titlesToPreviews.put(m.getURL(), preview);
 			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);			

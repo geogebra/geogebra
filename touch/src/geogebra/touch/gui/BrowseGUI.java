@@ -6,6 +6,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.ggt.FileContainer;
 import geogebra.touch.gui.elements.ggt.MaterialListElement;
@@ -56,10 +57,10 @@ public class BrowseGUI extends VerticalPanel
 	/**
 	 * 
 	 */
-	public BrowseGUI(AppWeb app, FileManagerM fm)
+	public BrowseGUI(AppWeb app)
 	{
 		this.setStyleName("tubesearchgui");
-		this.fm = fm;
+		this.fm = ((TouchApp)app).getFileManager();
 		this.app = app;
 		this.searchBar = new SearchBar(this.app.getLocalization(), this);
 		this.searchBar.addSearchListener(new SearchListener()
@@ -74,8 +75,8 @@ public class BrowseGUI extends VerticalPanel
 		// this.featuredMaterials = new HorizontalMaterialPanel();
 		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
 
-		this.localFilePanel = new VerticalMaterialPanel(this.app, this.fm);
-		this.tubeFilePanel = new VerticalMaterialPanel(this.app, this.fm);
+		this.localFilePanel = new VerticalMaterialPanel(this.app);
+		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
 		this.localFilePanel.setStyleName("filePanel");
 		this.tubeFilePanel.setStyleName("filePanel");
 

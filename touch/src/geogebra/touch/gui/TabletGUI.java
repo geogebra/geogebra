@@ -2,7 +2,6 @@ package geogebra.touch.gui;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
@@ -85,12 +84,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	 *          Kernel
 	 */
 	@Override
-	public void initComponents(final Kernel kernel, FileManagerM fm)
+	public void initComponents(final Kernel kernel)
 	{
 		this.touchModel = new TouchModel(kernel, this);
 		this.app = (TouchApp) kernel.getApplication();
 		// Initialize GUI Elements
-		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel, fm);
+		TouchEntryPoint.getLookAndFeel().buildHeader(this, this.app, this.touchModel);
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 

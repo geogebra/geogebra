@@ -3,6 +3,7 @@ package geogebra.touch.gui.elements.ggt;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
@@ -43,7 +44,7 @@ public class MaterialListElement extends FlowPanel
 	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
 	private StandardImageButton deleteButton = new StandardImageButton(LafIcons.dialog_trash());
 
-	public MaterialListElement(final Material m, final AppWeb app, final FileManagerM fm, VerticalMaterialPanel vmp)
+	public MaterialListElement(final Material m, final AppWeb app, VerticalMaterialPanel vmp)
 	{
 		// TODO set infos alignment
 		this.image = new SimplePanel();
@@ -55,7 +56,7 @@ public class MaterialListElement extends FlowPanel
 
 		this.vmp = vmp;
 		this.app = app;
-		this.fm = fm;
+		this.fm = ((TouchApp)app).getFileManager();
 		this.material = m;
 
 		this.setStyleName("browserFile");
@@ -69,7 +70,7 @@ public class MaterialListElement extends FlowPanel
 		}
 		else
 		{
-			this.image.getElement().getStyle().setBackgroundImage("url(" + fm.getThumbnailDataUrl(m.getURL()) + ")");
+			this.image.getElement().getStyle().setBackgroundImage("url(" + this.fm.getThumbnailDataUrl(m.getURL()) + ")");
 		}
 
 		this.title = new Label(m.getTitle());

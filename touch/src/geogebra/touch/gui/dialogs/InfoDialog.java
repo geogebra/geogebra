@@ -2,7 +2,6 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
-import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
@@ -43,19 +42,17 @@ public class InfoDialog extends PopupPanel
 	private Label infoText;
 	String consTitle;
 	private Localization loc;
-	App app;
-	FileManagerM fm;
+	TouchApp app;
 	Runnable callback = null;
 	private GuiModel guiModel;
 	TabletGUI tabletGUI;
 
-	public InfoDialog(App app, FileManagerM fm, GuiModel guiModel, InfoType type, TabletGUI tabletGUI)
+	public InfoDialog(App app, GuiModel guiModel, InfoType type, TabletGUI tabletGUI)
 	{
 		super(true, true);
 		this.tabletGUI = tabletGUI;
-		this.app = app;
+		this.app = (TouchApp) app;
 		this.loc = app.getLocalization();
-		this.fm = fm;
 		this.setGlassEnabled(true);
 		this.type = type;
 		this.dialogPanel = new VerticalPanel();
@@ -171,10 +168,9 @@ public class InfoDialog extends PopupPanel
 			{
 				if (InfoDialog.this.consTitle != null)
 					{
-					
-						((TouchApp) InfoDialog.this.app).setConstructionTitle(InfoDialog.this.consTitle);
+						InfoDialog.this.app.setConstructionTitle(InfoDialog.this.consTitle);
 					}
-				InfoDialog.this.fm.saveFile(InfoDialog.this.app);
+				InfoDialog.this.app.getFileManager().saveFile(InfoDialog.this.app);
 				InfoDialog.this.app.setSaved();
 				InfoDialog.this.hide();
 				if (InfoDialog.this.callback != null)

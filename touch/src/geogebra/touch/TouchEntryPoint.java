@@ -77,10 +77,11 @@ public class TouchEntryPoint implements EntryPoint
 				setLookAndFeel();
 				TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 				getLookAndFeel().setApp(app);
-				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
 				FileManagerM fm = new FileManagerM();
-				browseGUI = new BrowseGUI(app, fm);
-				worksheetGUI = new WorksheetGUI(app, fm, tabletGUI);
+				app.setFileManager(fm);
+				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
+				browseGUI = new BrowseGUI(app);
+				worksheetGUI = new WorksheetGUI(app, tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
