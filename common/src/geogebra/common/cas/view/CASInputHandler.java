@@ -3,6 +3,7 @@ package geogebra.common.cas.view;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
@@ -201,13 +202,22 @@ public class CASInputHandler {
 				// it
 				// using the current command
 				if (success && needInsertRow) {
-					String assignmentLabel = cellValue.getEvalVE()
-							.getLabelForAssignment();
+					String ggbcmd1 = ggbcmd;
+					ValidExpression outputVE = cellValue.getOutputValidExpression();
+					String assignmentLabel = outputVE.getLabelForAssignment();
+					String label = cellValue.getEvalVE().getLabelForAssignment();
 					GeoCasCell newRowValue = new GeoCasCell(
 							kernel.getConstruction());
-					newRowValue.setInput(assignmentLabel);
+					StringBuilder sb = new StringBuilder(label);
+					if (ggbcmd.equals("Derivative") && outputVE.unwrap() instanceof FunctionNVar) {
+						sb.append('\'').append('(').append(((FunctionNVar)outputVE.unwrap()).getVarString(StringTemplate.defaultTemplate)).append(')');
+						sb.append(outputVE.getAssignmentOperator());
+						sb.append(ggbcmd).append('[').append(assignmentLabel).append(']');
+						ggbcmd1 = "Evaluate";
+					}
+					newRowValue.setInput(sb.toString());
 					casView.insertRow(newRowValue, true);
-					processCurrentRow(ggbcmd, params);
+					processCurrentRow(ggbcmd1, params);
 				}
 
 				return;
