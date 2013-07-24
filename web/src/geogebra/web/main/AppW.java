@@ -528,6 +528,14 @@ public class AppW extends AppWeb {
 		return !GuiToLoad.APP.equals(Web.currentGUI);
 	}
 
+	public boolean onlyGraphicsViewShowing() {
+		if (!isUsingFullGui()) {
+			return true;
+		}
+
+		return getGuiManager().getLayout().isOnlyVisible(App.VIEW_EUCLIDIAN);
+	}
+
 	@Override
 	public boolean isUsingFullGui() {
 		// return useFullGui;
@@ -2001,6 +2009,9 @@ public class AppW extends AppWeb {
 	@Override
     public void afterLoadFileAppOrNot() {
 
+		// TODO: if there is only one euclidian View,
+		// attach that instead of setting perspectives here
+		
 		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown

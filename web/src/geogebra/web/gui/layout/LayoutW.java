@@ -340,13 +340,39 @@ public class LayoutW extends Layout implements SettingListener {
 
 	}
 
+	/**
+	 * @param viewId
+	 * @return If just the view associated to viewId is visible
+	 */
 	@Override
-    public boolean isOnlyVisible(int viewEuclidian) {
-		App.debug("unimplemented");
-	    return false;
+    public boolean isOnlyVisible(int viewId) {
+
+		DockPanelW[] panels = dockManager.getPanels();
+		boolean foundView = false;
+
+		for(int i = 0; i < panels.length; ++i) {
+			// check if the view is visible at all
+			if(panels[i].getViewId() == viewId) {
+				foundView = true;
+
+				if(!panels[i].isVisible()) {
+					return false;
+				}
+			}
+			
+			// abort if any other view is visible
+			else {
+				if(panels[i].isVisible()) {
+					return false;
+				}
+			}
+		}
+		
+		// if we reach this point each other view is invisible, but
+		// if the view wasn't found at all we return false as well
+		return foundView;
     }
 
-	
 
 	public AppW getApplication() {
 	    return app;
