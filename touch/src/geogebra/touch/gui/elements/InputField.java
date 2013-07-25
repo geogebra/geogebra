@@ -50,6 +50,7 @@ public class InputField extends VerticalPanel
 		this.textBox.getElement().setAttribute("autocorrect", "off");
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
 		this.textBox.addStyleName("inactive");
+		this.add(this.textBox);
 
 		this.underline = new LayoutPanel();
 		this.underline.setStyleName("inputUnderline");

@@ -169,6 +169,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.contentPanel.getElement().setAttribute("style", "margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 		this.contentPanel.getCellFormatter().setStyleName(0, 0, "left");
 		this.contentPanel.getCellFormatter().setStyleName(0, 1, "right");
+		
+		this.contentPanel.getCellFormatter().addStyleName(1, 0, "bottom");
+		
+		this.contentPanel.getCellFormatter().setStyleName(1, 1, "right");
+		this.contentPanel.getCellFormatter().addStyleName(1, 1, "bottom");
 
 		this.dialogPanel.add(this.contentPanel);
 
@@ -213,7 +218,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.contentPanel.setWidget(1, 0, this.sliderPanel);
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
+		buttonPanel.setStyleName("buttonPanel");
 		Button ok = new Button();
+		ok.addStyleName("ok");
+		ok.setText(this.app.getLocalization().getPlain("Apply"));
 		ok.addClickHandler(new ClickHandler()
 		{
 			@Override
@@ -223,6 +231,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			}
 		});
 		Button cancel = new Button();
+		cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 		cancel.addClickHandler(new ClickHandler()
 		{
 			@Override

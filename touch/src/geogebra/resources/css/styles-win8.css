@@ -33,6 +33,10 @@ body .infoDialog {
 	background-color: #FFFFFF;
 }
 
+body .inputDialog table {
+	border-spacing: 0px;
+}
+
 .inputDialog table.panelContainer {
 	width: 100%;
 }
@@ -63,6 +67,11 @@ body .infoDialog .titlePanel {
 	padding-left: 60px;
 }
 
+.inputDialog .contentPanel td.bottom {
+	vertical-align: bottom;
+	padding-bottom: 5px;
+}
+
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
 	text-align: left;
@@ -72,7 +81,7 @@ body .inputDialog .gwt-TextBox,
 body .infoDialog .gwt-TextBox {
 	margin-top: 5px;
 	padding: 3px;
-	border: #999999 2px solid;
+	border: #CCCCCC 2px solid;
 	font-family: "Segoe UI Semilight", sans-serif;
 }
 
@@ -81,7 +90,7 @@ body .infoDialog .textBox {
 	margin-top: 5px;
 	padding: 3px;
 	width: 730px;
-	border: #999999 2px solid;
+	border: #CCCCCC 2px solid;
 	font-family: "Segoe UI Semilight", sans-serif;
 }
 
@@ -113,13 +122,18 @@ body .infoDialog .textPanel {
 }
 
 .inputDialog .radioButtonPanel span.gwt-RadioButton {
-	width: 100px;
+	width: 70px;
+	height: 30px;
 	display: inline-block;
+	background-position: left top;
+	background-repeat: no-repeat;
+	padding-top: 4px;
+	padding-left: 30px;
 }
 
 .inputDialog .radioButtonPanel input[type="radio"] {
-	width: 20px;
-	height: 20px;
+	width: 0px;
+	height: 0px;
 }
 
 body .inputDialog .gwt-PopupPanel,
@@ -137,7 +151,7 @@ body .infoDialog button {
 	font-family: "Segoe UI Semibold", sans-serif;
 	margin-right: 10px;
 	
-	background: #999999;
+	background: #CCCCCC;
 	width: 40px;
 	height: 40px;
 	
@@ -147,6 +161,18 @@ body .infoDialog button {
 	border-radius: 0px;
 	
 	border: none;
+}
+
+body .inputDialog .buttonPanel button {
+	width: 120px;
+	height: 30px;
+	margin-right: 20px;
+	font-size: 15px;
+}
+
+body .inputDialog button.ok {
+	background-color: #7676C4;
+	color: #FFFFFF;
 }
 
 body .infoDialog .buttonPanel button {
