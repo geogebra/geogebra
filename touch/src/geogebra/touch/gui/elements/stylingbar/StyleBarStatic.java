@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.stylingbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoText;
@@ -12,25 +11,6 @@ import java.util.List;
 
 public class StyleBarStatic
 {
-	/**
-	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList,
-	 *      EuclidianViewInterfaceCommon)
-	 */
-	public static void showAxes(EuclidianViewInterfaceCommon view)
-	{
-		view.setShowAxes(!(view.getShowXaxis() || view.getShowYaxis()), false);
-		view.repaint();
-	}
-
-	/**
-	 * @see EuclidianStyleBarStatic#processSourceCommon(String, ArrayList,
-	 *      EuclidianViewInterfaceCommon)
-	 */
-	public static void showGrid(EuclidianViewInterfaceCommon view)
-	{
-		view.showGrid(!view.getShowGrid());
-		view.repaint();
-	}
 
 	/**
 	 * only repaint once (not once per geo); does not change LineSize
