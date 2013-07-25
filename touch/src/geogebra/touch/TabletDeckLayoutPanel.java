@@ -28,7 +28,9 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel
 		{
 			// remove the current shown view
 			Widget current = this.history.pop();
-			if (current.equals(TouchEntryPoint.worksheetGUI))
+			
+			if (current.equals(TouchEntryPoint.worksheetGUI) || 
+					!TouchEntryPoint.tabletGUI.getApp().getFileManager().hasFile(TouchEntryPoint.tabletGUI.getApp().getConstructionTitle()))
 			{
 				TouchEntryPoint.tabletGUI.getApp().fileNew();
 			}
