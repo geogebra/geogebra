@@ -391,6 +391,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	public void resetMode()
 	{
 		this.touchModel.setCommand(ToolBarCommand.Move_Mobile);
+		this.touchModel.getGuiModel().updateStylingBar();
 	}
 
 	@Override

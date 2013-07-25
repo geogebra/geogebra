@@ -70,6 +70,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.touchModel.getGuiModel().closeOptions();
 				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi().newConstruction();
 				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
+				TabletHeaderPanelLeft.this.tabletGUI.resetMode();
 				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
 				TabletHeaderPanelLeft.this.app.setSaved();
 			}
