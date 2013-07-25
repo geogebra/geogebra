@@ -1,6 +1,7 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -71,6 +72,8 @@ public class DefaultLAF implements LookAndFeel
 			public void onClick(final ClickEvent event)
 			{
 				stylingBar.onTouchStartStyleBarButton(event, newButton, process);
+				getApp().setUnsaved();
+				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 			}
 		};
 	}
@@ -120,7 +123,7 @@ public class DefaultLAF implements LookAndFeel
 	}
 
 	public TouchApp getApp() {
-		return app;
+		return this.app;
 	}
 
 	@Override
