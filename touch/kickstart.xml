@@ -19,65 +19,44 @@ your workstation.
 -->
 
 <project default="touch-developer">
+ 
+	<property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
+	<property name="phonegap.zip" value="phonegap-2.7.0.zip" />
+	<property name="lib-gwt-svg.jar" value="lib-gwt-svg-0.5.6.jar" />
+	<property name="gwt-sdk.zip" value="gwt-2.5.1.zip" />
 
-	<property name="gwt-sdk" value="gwt-2.5.1" />
-	<property name="cordova" value="cordova-3.0.0" />
-	<property name="gwtphonegap" value="gwtphonegap-2.4.0.0" />
-	<property name="lib-gwt-svg" value="lib-gwt-svg-0.5.7" />
-
-
-	<target name="touch-developer" depends="gwt-sdk, gwtphonegap, cordova, lib-gwt-svg" description="For Eclipse developers: to create touch builds">
+	<target name="touch-developer" depends="gwt-sdk, gwtphonegap, phonegap, lib-gwt-svg" description="For Eclipse developers: to create touch builds">
 	</target>
 
 	<target name="gwt-sdk">
 		<mkdir dir="lib" />
 		<mkdir dir="lib/download" />
-		<get src="http://dev.geogebra.org/download/lib/web/${gwt-sdk}.zip" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
-		<unzip src="lib/download/gwt-sdk.zip" dest="lib" overwrite="no" />
+		<get src="http://dev.geogebra.org/download/lib/web/${gwt-sdk.zip}" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
+		<unzip src="lib/download/gwt-sdk.zip" dest="lib">
+		</unzip>
 	</target>
-
-
-	<target name="cordova">
-		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/touch/${cordova}-src.zip" dest="lib/download/cordova.zip" usetimestamp="true" />
-		<unzip src="lib/download/cordova.zip" dest="lib/download" overwrite="no" />
-
-		<echo>Copy Android specific cordova.js</echo>
-		<unzip src="lib/download/${cordova}/cordova-android.zip" dest="lib/download/${cordova}/cordova-android" />
-		<mkdir dir="src/geogebra/resources/js/android/" />
-		<copy file="lib/download/${cordova}/cordova-android/framework/assets/www/cordova.js" tofile="src/geogebra/resources/js/android/cordova.js" />
-
-		<echo>Copy iOS specific cordova.js</echo>
-		<unzip src="lib/download/${cordova}/cordova-ios.zip" dest="lib/download/${cordova}/cordova-ios" />
-		<mkdir dir="src/geogebra/resources/js/ios/" />
-		<copy file="lib/download/${cordova}/cordova-ios/CordovaLib/cordova.js" tofile="src/geogebra/resources/js/ios/cordova.js" />
-
-
-		<echo>Copy Windows specific cordova.js</echo>
-		<unzip src="lib/download/${cordova}/cordova-wp8.zip" dest="lib/download/${cordova}/cordova-wp8" />
-		<mkdir dir="src/geogebra/resources/js/win/" />
-		<copy file="lib/download/${cordova}/cordova-wp8/common/www/cordova.js" tofile="src/geogebra/resources/js/win/cordova.js" />		
-	</target>
-
 
 	<target name="gwtphonegap">
 		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/touch/${gwtphonegap}.jar" dest="lib/${gwtphonegap}.jar" />
+		<get src="http://dev.geogebra.org/download/lib/touch/${gwtphonegap.jar}" dest="lib/${gwtphonegap.jar}" />
 		<copy todir="war/WEB-INF/lib">
-			<fileset dir="lib" includes="${gwtphonegap}.jar" />
+			<fileset dir="lib" includes="${gwtphonegap.jar}" />
 		</copy>
-		<get src="http://dev.geogebra.org/download/lib/touch/${gwtphonegap}-sources.jar" dest="lib/${gwtphonegap}-sources.jar" />
-		<get src="http://dev.geogebra.org/download/lib/touch/${gwtphonegap}-javadoc.jar" dest="lib/${gwtphonegap}-javadoc.jar" />
+	</target>
 
+	<target name="phonegap">
+		<mkdir dir="lib" />
+		<get src="http://dev.geogebra.org/download/lib/touch/${phonegap.zip}" dest="lib/${phonegap.zip}" />
+		<copy todir="war/WEB-INF/lib">
+			<fileset dir="lib" includes="${phonegap.zip}" />
+		</copy>
 	</target>
 
 	<target name="lib-gwt-svg">
 		<mkdir dir="lib" />
-		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg}.jar" dest="lib/${lib-gwt-svg}.jar" />
+		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg.jar}" dest="lib/${lib-gwt-svg.jar}" />
 		<copy todir="war/WEB-INF/lib">
 			<fileset dir="lib" includes="${lib-gwt-svg.jar}" />
 		</copy>
-		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg}-sources.jar" dest="lib/${lib-gwt-svg}-sources.jar" />
-		<get src="http://dev.geogebra.org/download/lib/web/${lib-gwt-svg}-javadoc.jar" dest="lib/${lib-gwt-svg}-javadoc.jar" />
 	</target>
 </project>
