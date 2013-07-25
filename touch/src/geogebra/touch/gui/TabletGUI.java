@@ -5,9 +5,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.algebra.AlgebraViewArrowPanel;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
-import geogebra.touch.gui.elements.ArrowImageButton;
-import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.ToolBar;
@@ -20,20 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -58,8 +49,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	StylingBar stylingBar;
 
 	private LayoutPanel algebraViewButtonPanel;
-	private Panel algebraViewArrowPanel;
-	StandardImageButton algebraViewButton;
+	private AlgebraViewArrowPanel algebraViewArrowPanel;
+	
 	private TouchApp app;
 
 	private boolean editing = true;
@@ -104,7 +95,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.stylingBar = new StylingBar(this.touchModel, this.euclidianViewPanel.getEuclidianView(), this.euclidianViewPanel);
 		this.touchModel.getGuiModel().setStylingBar(this.stylingBar);
 
-		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
+		this.algebraViewPanel = new AlgebraViewPanel(ec, this, kernel);
 
 		this.contentPanel.addEast(this.algebraViewPanel, computeAlgebraWidth());
 		this.contentPanel.add(this.euclidianViewPanel);
@@ -120,11 +111,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		// show/hide AlgebraView Button
 		this.algebraViewButtonPanel = new LayoutPanel();
-		this.algebraViewArrowPanel = new FlowPanel();
-		this.algebraViewButton = new ArrowImageButton(getLaf().getIcons().triangle_left());
-
-		this.algebraViewArrowPanel.setStyleName("algebraViewArrowPanel");
-		this.algebraViewButton.setStyleName("arrowRight");
+		this.algebraViewArrowPanel = new AlgebraViewArrowPanel(this);
 
 		// this.algebraViewButtonPanel.setAutoHideEnabled(false);
 		// this.algebraViewButtonPanel.show();
@@ -139,40 +126,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 
-		this.algebraViewButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-			}
-		}, ClickEvent.getType());
-
-		this.algebraViewButton.addDomHandler(new MouseDownHandler()
-		{
-			@Override
-			public void onMouseDown(MouseDownEvent event)
-			{
-				event.stopPropagation();
-				TabletGUI.this.toggleAlgebraView();
-				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null)
-				{
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
-				}
-			}
-		}, MouseDownEvent.getType());
-
-		this.algebraViewButton.addDomHandler(new TouchStartHandler()
-		{
-			@Override
-			public void onTouchStart(TouchStartEvent event)
-			{
-				event.stopPropagation();
-			}
-		}, TouchStartEvent.getType());
+		
 
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);
-		this.algebraViewArrowPanel.add(this.algebraViewButton);
+		
 
 		Window.addResizeHandler(new ResizeHandler()
 		{
@@ -186,6 +143,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	public static int computeAlgebraWidth()
 	{
+		if(Window.getClientWidth()<320){
+			return Window.getClientWidth();
+		}
 		return Math.max(250, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
 	}
 
@@ -237,7 +197,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		return this.algebraViewPanel;
 	}
 
-	void toggleAlgebraView()
+	public void toggleAlgebraView()
 	{
 		this.setAlgebraVisible(!this.algebraViewPanel.isVisible());
 		this.app.setUnsaved();
@@ -247,6 +207,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	{
 
 		int panelHeight = this.editing ? TouchEntryPoint.getLookAndFeel().getPanelsHeight() : TouchEntryPoint.getLookAndFeel().getAppBarHeight();
+		this.algebraViewArrowPanel.setAlgebraVisible(algebraVisible);
 		if (!algebraVisible)
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
@@ -259,7 +220,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 			this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel, Window.getClientWidth() - ALGEBRA_BUTTON_WIDTH, 0);
 
-			this.algebraViewButton.setStyleName("arrowLeft");
+			
 
 			// Set algebraviewbutton transparent, when algebra view is closed
 			this.algebraViewButtonPanel.addStyleName("transparent");
@@ -267,9 +228,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		else
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, computeAlgebraWidth());
-
+			
 			int euclidianWidth = Window.getClientWidth() - computeAlgebraWidth();
-
+			if(euclidianWidth <= 0){
+				this.algebraViewPanel.addInsideArrow();
+			}else{
+				this.algebraViewPanel.removeInsideArrow();
+			}
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - panelHeight);
 
 			// for Win8 position it on top, for others under appbar
@@ -281,8 +246,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 			this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel, Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
 			    - ALGEBRA_BUTTON_WIDTH, 0);
-
-			this.algebraViewButton.setStyleName("arrowRight");
 
 			// Set algebraviewbutton nontransparent, when algebra view is open
 			this.algebraViewButtonPanel.removeStyleName("transparent");

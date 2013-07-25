@@ -280,8 +280,7 @@ input.worksheetTitle {
 /* #####################################################################
 ####                    ALGEBRA VIEW 								####
 ##################################################################### */
-.algebraView {
-	padding: 0px 20px 0px 5px;
+.algebraViewAndStylebar {
 	overflow-y: hidden;
 	/* Border */
 	border-left: #CCCCCC solid 1px;
@@ -298,6 +297,12 @@ input.worksheetTitle {
 		rgb(220, 220, 220) 100% );
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, rgb(237,
 		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
+}
+
+.algebraView {
+	padding: 0px 20px 0px 5px;
+	overflow-y: hidden;
+	
 }
 
 .algebraViewButtonPanel { /* Border */

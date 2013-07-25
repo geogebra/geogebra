@@ -3,7 +3,9 @@ package geogebra.touch.gui.algebra;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.TabletGUI;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -12,9 +14,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends ScrollPanel {
+public class AlgebraViewPanel extends FlowPanel {
 	private AlgebraViewM algebraView;
-
+	private AlgebraViewArrowPanel arrow;
+	private FlowPanel stylebar;
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
@@ -28,12 +31,19 @@ public class AlgebraViewPanel extends ScrollPanel {
 	 * @param kernel
 	 *            Kernel
 	 */
-	public AlgebraViewPanel(TouchController controller, Kernel kernel) {
+	public AlgebraViewPanel(TouchController controller, TabletGUI gui, Kernel kernel) {
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
-
-		this.setStyleName("algebraView");
-		this.setWidget(this.algebraView);
+		this.stylebar = new FlowPanel();
+		this.arrow = new AlgebraViewArrowPanel(gui);
+		this.stylebar.add(this.arrow);
+		this.add(this.stylebar);
+		this.stylebar.setVisible(false);
+		this.setStyleName("algebraViewAndStylebar");
+		ScrollPanel content = new ScrollPanel(this.algebraView);
+		content.setStyleName("algebraView");
+		content.setWidth("100%");
+		this.add(content);
 	}
 
 	public AlgebraView getAlgebraView() {
@@ -50,5 +60,15 @@ public class AlgebraViewPanel extends ScrollPanel {
 		if (this.algebraView != null) {
 			this.algebraView.setLabels();
 		}
+	}
+
+	public void addInsideArrow() {
+		this.stylebar.setVisible(true);
+		
+	}
+
+	public void removeInsideArrow() {
+		this.stylebar.setVisible(false);
+		
 	}
 }
