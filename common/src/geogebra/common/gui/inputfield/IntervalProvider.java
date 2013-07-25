@@ -3,8 +3,8 @@ package geogebra.common.gui.inputfield;
 import geogebra.common.kernel.Kernel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -17,17 +17,21 @@ import com.google.gwt.regexp.shared.RegExp;
 public class IntervalProvider {
 
 	private Kernel kernel;
-	private String[] labels;
+	private Set<String> labels;
 	private List<Integer[]> intervals;
 	private List<RegExp> patterns;
 	private String text;
+	private boolean isCasInput;
 
 	/**
 	 * @param kernel1
 	 *            kernel providing us labels from the construction
+	 * @param isCasInput1
+	 *            whether we are providing labels for cas input
 	 */
-	public IntervalProvider(Kernel kernel1) {
+	public IntervalProvider(Kernel kernel1, boolean isCasInput1) {
 		kernel = kernel1;
+		isCasInput = isCasInput1;
 		labels = null;
 		patterns = new ArrayList<RegExp>();
 		intervals = new ArrayList<Integer[]>();
@@ -58,16 +62,25 @@ public class IntervalProvider {
 		}
 		return false;
 	}
+	
+	/**
+	 * Sets the flags for algebra or cas input
+	 * 
+	 * @param isCasInput1 false means it is algebra input
+	 */
+	public void setIsCasInput(boolean isCasInput1) {
+		isCasInput = isCasInput1;
+	}
 
 	private void getIntervals() {
-		String[] labels1 = kernel.getConstruction().getAllLabels()
-				.toArray(new String[0]);
-		if (labels != null) {
-			Arrays.sort(labels);
+		Set<String> labels1 = null;
+		if (isCasInput) {
+			labels1 = kernel.getConstruction().getAllLabels();
+		} else {
+			labels1 = kernel.getConstruction().getAllGeoLabels();
 		}
-		Arrays.sort(labels1);
 		// recompile patterns only, if the labels have changed
-		if (!Arrays.equals(labels, labels1)) {
+		if (!labels1.equals(labels)) {
 			labels = labels1;
 			compilePatterns();
 		}

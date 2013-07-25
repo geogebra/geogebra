@@ -122,6 +122,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 		completionsPopup = new CompletionsPopup(this, cellRenderer, 6);
 		// addKeyListener(this); now in MathTextField
 		setDictionary(dict);
+		enableLabelColoring(isCASInput);
 	}
 
 	public AutoCompleteTextFieldD(int columns, AppD app, boolean handleEscapeKey) {
@@ -178,6 +179,7 @@ AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 	 */
 	public void setCASInput(boolean val) {
 		isCASInput = val;
+		enableLabelColoring(isCASInput);
 	}
 
 	/**

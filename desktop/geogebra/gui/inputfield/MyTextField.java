@@ -121,8 +121,6 @@ public class MyTextField extends JTextField implements ActionListener,
 		setDefaultBorder();
 		
 		app.setComponentOrientation(this);
-		
-		ip = new IntervalProvider(app.getKernel());
 	}
 
 	/**
@@ -141,6 +139,19 @@ public class MyTextField extends JTextField implements ActionListener,
 	 */
 	public void enableColoring(boolean enableColoring) {
 		this.enableColoring = enableColoring;
+	}
+	
+	/**
+	 * enables coloring of labels
+	 * 
+	 * @param isCasInput 
+	 */
+	public void enableLabelColoring(boolean isCasInput) {
+		if (ip == null) {
+			ip = new IntervalProvider(app.getKernel(), isCasInput);
+			return;
+		}
+		ip.setIsCasInput(isCasInput);
 	}
 
 	// ====================================================
@@ -392,7 +403,9 @@ public class MyTextField extends JTextField implements ActionListener,
 		g2.fillRect(insets.left, insets.top, width, height);
 
 		// set the text for checking labels
-		ip.setText(text);
+		if (ip != null) {
+			ip.setText(text);
+		}
 		
 		// redraw the text using color
 		boolean textMode = false;
@@ -419,7 +432,7 @@ public class MyTextField extends JTextField implements ActionListener,
 				g2.setColor(Color.BLACK);
 			}
 			
-			if (ip.isInInterval(i) && !textMode) {
+			if (ip != null && ip.isInInterval(i) && !textMode) {
 				bg = Color.ORANGE;
 			}
 

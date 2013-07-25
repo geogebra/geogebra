@@ -209,8 +209,14 @@ public class CASInputHandler {
 					GeoCasCell newRowValue = new GeoCasCell(
 							kernel.getConstruction());
 					StringBuilder sb = new StringBuilder(label);
-					if (ggbcmd.equals("Derivative") && outputVE.unwrap() instanceof FunctionNVar) {
-						sb.append('\'').append('(').append(((FunctionNVar)outputVE.unwrap()).getVarString(StringTemplate.defaultTemplate)).append(')');
+					boolean isDerivative = ggbcmd.equals("Derivative");
+					boolean isIntegral = !isDerivative && ggbcmd.equals("Integral");
+					if ((isDerivative || isIntegral)
+							&& outputVE.unwrap() instanceof FunctionNVar) {
+						if (isDerivative) {
+							sb.append('\'');
+						}
+						sb.append('(').append(((FunctionNVar)outputVE.unwrap()).getVarString(StringTemplate.defaultTemplate)).append(')');
 						sb.append(outputVE.getAssignmentOperator());
 						sb.append(ggbcmd).append('[').append(assignmentLabel).append(']');
 						ggbcmd1 = "Evaluate";

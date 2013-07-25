@@ -2943,10 +2943,21 @@ public class Construction {
 	}
 	
 	/**
+	 * @return a copy of the set of all geo labels that are currently being used
+	 */
+	public Set<String> getAllGeoLabels() {
+		return new HashSet<String>(geoTable.keySet());
+	}
+	
+	/**
 	 * @return a copy of the set of all labels that are currently being used
 	 */
 	public Set<String> getAllLabels() {
-		return new HashSet<String>(geoTable.keySet());
+		Set<String> ret = getAllGeoLabels();
+		if (geoCasCellTable != null) {
+			ret.addAll(geoCasCellTable.keySet());
+		}
+		return ret;
 	}
 
 }
