@@ -8,6 +8,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.elements.InputField;
 import geogebra.touch.gui.elements.StandardRadioButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
@@ -19,12 +20,8 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -43,7 +40,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -67,14 +63,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private Label errorText = new Label();
 	private FlowPanel radioButtonPanel = new FlowPanel();
 	private StandardRadioButton[] radioButton = new StandardRadioButton[2];
-	VerticalPanel textPanel;
 	HorizontalPanel sliderPanel;
-	TextBox textBox = new TextBox(), min, max, increment;
-	VerticalPanel minPanel, maxPanel, incrementPanel;
-	Panel underline;
-	Panel minUnderline;
-	Panel maxUnderline;
-	Panel incrementUnderline;
+	InputField textBox = new InputField(), min, max, increment;
 	private TouchApp app;
 	DialogType type;
 	private String prevText, mode;
@@ -203,68 +193,23 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void createSliderDesign()
 	{
-		this.min = new TextBox();
-		this.max = new TextBox();
-		this.increment = new TextBox();
+		this.min = new InputField(this.app.getLocalization().getPlain("min"));
+		this.max = new InputField(this.app.getLocalization().getPlain("max"));
+		this.increment = new InputField(this.app.getLocalization().getPlain("Step"));
 
-		final TextBox[] box = new TextBox[] { this.min, this.max, this.increment, this.textBox };
+		final InputField[] box = new InputField[] { this.min, this.max, this.increment, this.textBox };
 
-		ClickHandler clickHandler = new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				for (TextBox t : box)
-				{
-					t.setFocus(event.getSource().equals(t));
-				}
-			}
-		};
-
-		this.min.addClickHandler(clickHandler);
-		this.max.addClickHandler(clickHandler);
-		this.increment.addClickHandler(clickHandler);
-		this.textBox.addClickHandler(clickHandler);
+		this.min.setTextBoxToLoseFocus(box);
+		this.max.setTextBoxToLoseFocus(box);
+		this.increment.setTextBoxToLoseFocus(box);
 
 		this.sliderPanel = new HorizontalPanel();
 		this.sliderPanel.setStyleName("sliderPanel");
 
-		this.minPanel = new VerticalPanel();
-		this.maxPanel = new VerticalPanel();
-		this.incrementPanel = new VerticalPanel();
+		this.sliderPanel.add(this.min);
+		this.sliderPanel.add(this.max);
+		this.sliderPanel.add(this.increment);
 
-		this.minUnderline = new LayoutPanel();
-		this.minUnderline.setStyleName("inputUnderline");
-		this.minUnderline.addStyleName("inactive");
-
-		this.maxUnderline = new LayoutPanel();
-		this.maxUnderline.setStyleName("inputUnderline");
-		this.maxUnderline.addStyleName("inactive");
-
-		this.incrementUnderline = new LayoutPanel();
-		this.incrementUnderline.setStyleName("inputUnderline");
-		this.incrementUnderline.addStyleName("inactive");
-
-		Label minLabel = new Label(this.app.getLocalization().getPlain("min"));
-		this.minPanel.add(minLabel);
-		this.minPanel.add(this.min);
-		this.minPanel.add(this.minUnderline);
-
-		Label maxLabel = new Label(this.app.getLocalization().getPlain("max"));
-		this.maxPanel.add(maxLabel);
-		this.maxPanel.add(this.max);
-		this.maxPanel.add(this.maxUnderline);
-
-		Label incrementLabel = new Label(this.app.getLocalization().getMenu("Step"));
-		this.incrementPanel.add(incrementLabel);
-		this.incrementPanel.add(this.increment);
-		this.incrementPanel.add(this.incrementUnderline);
-
-		this.sliderPanel.add(this.minPanel);
-		this.sliderPanel.add(this.maxPanel);
-		this.sliderPanel.add(this.incrementPanel);
-
-		// this.contentPanel.add(this.sliderPanel);
 		this.contentPanel.setWidget(1, 0, this.sliderPanel);
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
@@ -314,12 +259,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void addTextBox()
 	{
-		this.textBox = new TextBox();
-		this.textBox.addStyleName("textBox");
-
-		this.textBox.getElement().setAttribute("autocorrect", "off");
-		this.textBox.getElement().setAttribute("autocapitalize", "off");
-		this.textBox.addStyleName("inactive");
+		this.textBox = new InputField(this.type == DialogType.Slider ? this.app.getLocalization().getCommand("Name") : null);
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler()
 		{
@@ -337,60 +277,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			}
 		});
 
-		this.textBox.addBlurHandler(new BlurHandler()
-		{
-			@Override
-			public void onBlur(BlurEvent event)
-			{
-				if (InputDialog.this.type != DialogType.Slider)
-				{
-					InputDialog.this.textBox.setFocus(true);
-				}
-				InputDialog.this.underline.removeStyleName("active");
-				InputDialog.this.underline.addStyleName("inactive");
-				InputDialog.this.textBox.removeStyleName("active");
-				InputDialog.this.textBox.addStyleName("inactive");
-			}
-		});
-
-		this.textBox.addFocusHandler(new FocusHandler()
-		{
-			@Override
-			public void onFocus(FocusEvent event)
-			{
-				InputDialog.this.underline.removeStyleName("inactive");
-				InputDialog.this.underline.addStyleName("active");
-				InputDialog.this.textBox.removeStyleName("inactive");
-				InputDialog.this.textBox.addStyleName("active");
-			}
-		});
-
-		this.textPanel = new VerticalPanel();
-
-		Label textBoxLabel = new Label(this.app.getLocalization().getCommand("Name"));
-
 		this.errorBox.setVisible(false);
 		this.errorBox.setStyleName("errorBox");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		this.textPanel.add(this.errorBox);
+		this.textBox.addErrorBox(this.errorBox);
 
-		if (this.getType() == DialogType.Slider)
-		{
-			this.textPanel.add(textBoxLabel);
-		}
-
-		this.textPanel.add(this.textBox);
-
-		// Input Underline for Android
-		this.underline = new LayoutPanel();
-		this.underline.setStyleName("inputUnderline");
-		this.underline.addStyleName("inactive");
-		this.textPanel.add(this.underline);
-		this.textPanel.setStyleName("textPanel");
-
-		// this.contentPanel.add(this.textPanel);
-		this.contentPanel.setWidget(0, 0, this.textPanel);
+		this.contentPanel.setWidget(0, 0, this.textBox);
 		this.textBox.setFocus(true);
 	}
 
@@ -400,7 +293,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		if (this.type == DialogType.Angle)
 		{
-
 			s[0] = this.app.getLocalization().getPlain("counterClockwise");
 			s[1] = this.app.getLocalization().getPlain("clockwise");
 		}
@@ -435,8 +327,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.radioButtonPanel.add(this.radioButton[0]);
 		this.radioButtonPanel.add(this.radioButton[1]);
 
-		// this.contentPanel.add(this.radioButton[0]);
-		// this.contentPanel.add(this.radioButton[1]);
 		this.contentPanel.setWidget(0, 1, this.radioButtonPanel);
 
 		this.radioButton[0].setValue(new Boolean(true));
@@ -481,13 +371,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			this.radioButton[0].setValue(new Boolean(true));
 		}
 
-		// this.customKeys.showRelativeTo(this);
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.errorBox.setVisible(false);
 
 		if (this.type != DialogType.Slider)
 		{
-			// this.contentPanel.add(this.customKeys);
 			this.dialogPanel.add(this.customKeys);
 		}
 
