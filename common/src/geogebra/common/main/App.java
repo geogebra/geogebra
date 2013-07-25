@@ -1422,7 +1422,7 @@ public abstract class App implements UpdateSelection{
 					return getAlgebraView().isVisible() ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
 							: ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 				}
-				return ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
+				return ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF;
 			}
 			return ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS;
 		}
