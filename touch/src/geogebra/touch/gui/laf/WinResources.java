@@ -100,5 +100,15 @@ interface WinResources extends DefaultResources
 //	@Source("icons/svg/android/arrow_go_next.svg")
 //	@Validated(validated = false)
 //	SVGResource arrow_go_next();
+	
+	@Override
+	@Source("icons/svg/win/elem_radioButtonActive.svg")
+	@Validated(validated = false)
+	SVGResource radioButtonActive();
+	
+	@Override
+	@Source("icons/svg/win/elem_radioButtonInactive.svg")
+	@Validated(validated = false)
+	SVGResource radioButtonInactive();
 
 }

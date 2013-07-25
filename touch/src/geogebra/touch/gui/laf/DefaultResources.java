@@ -511,4 +511,12 @@ public interface DefaultResources extends ClientBundle
 	
 	@Source("gif/progress_indicator.gif")
 	ImageResource progressIndicator();
+	
+	@Source("icons/svg/win/elem_radioButtonActive.svg")
+	@Validated(validated = false)
+	SVGResource radioButtonActive();
+	
+	@Source("icons/svg/win/elem_radioButtonInactive.svg")
+	@Validated(validated = false)
+	SVGResource radioButtonInactive();
 }

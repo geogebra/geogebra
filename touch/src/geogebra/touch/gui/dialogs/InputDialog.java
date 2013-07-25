@@ -8,6 +8,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.elements.StandardRadioButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
@@ -30,7 +31,6 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -67,7 +66,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private SVGResource iconWarning;
 	private Label errorText = new Label();
 	private FlowPanel radioButtonPanel = new FlowPanel();
-	private RadioButton[] radioButton = new RadioButton[2];
+	private StandardRadioButton[] radioButton = new StandardRadioButton[2];
 	VerticalPanel textPanel;
 	HorizontalPanel sliderPanel;
 	TextBox textBox = new TextBox(), min, max, increment;
@@ -289,7 +288,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		});
 		buttonPanel.add(ok);
 		buttonPanel.add(cancel);
-		this.contentPanel.add(buttonPanel);
+		this.contentPanel.setWidget(1, 1, buttonPanel);
 	}
 
 	void setSliderPreview()
@@ -413,8 +412,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		// "A" is just a label to group the two radioButtons (could be any String -
 		// as long as the same is used twice)
-		this.radioButton[0] = new RadioButton("A", s[0], Direction.DEFAULT);
-		this.radioButton[1] = new RadioButton("A", s[1], Direction.DEFAULT);
+		this.radioButton[0] = new StandardRadioButton("A", s[0]);
+		this.radioButton[1] = new StandardRadioButton("A", s[1]);
 
 		if (this.type == DialogType.Slider)
 		{

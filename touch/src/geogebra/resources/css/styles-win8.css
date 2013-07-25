@@ -109,10 +109,17 @@ body .infoDialog .textPanel {
 
 .inputDialog .radioButtonPanel {
 	width: 200px;
+	padding-top: 10px;
 }
 
 .inputDialog .radioButtonPanel span.gwt-RadioButton {
 	width: 100px;
+	display: inline-block;
+}
+
+.inputDialog .radioButtonPanel input[type="radio"] {
+	width: 20px;
+	height: 20px;
 }
 
 body .inputDialog .gwt-PopupPanel,
