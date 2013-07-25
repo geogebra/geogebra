@@ -1361,6 +1361,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
+			if (newTwinGeo instanceof GeoNumeric) {
+				newTwinGeo.setLabelVisible(true);
+			}
 		}
 	}
 
