@@ -15,6 +15,10 @@ body {
 	z-index: -1;
 }
 
+body table {
+	border-spacing: 0px;
+}
+
 /* TOOLS AND STYLEBAR BUTTONS */
 div.button { /* Border */
 	-webkit-border-radius: 5px;

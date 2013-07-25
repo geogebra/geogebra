@@ -68,6 +68,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	private TouchApp app;
 	DialogType type;
 	private String prevText, mode;
+	private HorizontalPanel buttonPanel;
 
 	private CustomKeysPanel customKeys = new CustomKeysPanel();
 	private LookAndFeel laf;
@@ -100,6 +101,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private void setAdditionalStyleName()
 	{
+		this.setStyleName("inputDialog");
 		switch (this.getType())
 		{
 		case InputField:
@@ -217,8 +219,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.contentPanel.setWidget(1, 0, this.sliderPanel);
 
-		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.setStyleName("buttonPanel");
+		this.buttonPanel = new HorizontalPanel();
+		this.buttonPanel.setStyleName("buttonPanel");
 		Button ok = new Button();
 		ok.addStyleName("ok");
 		ok.setText(this.app.getLocalization().getPlain("Apply"));
@@ -231,6 +233,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			}
 		});
 		Button cancel = new Button();
+		cancel.setStyleName("last");
 		cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 		cancel.addClickHandler(new ClickHandler()
 		{
@@ -240,9 +243,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 				onCancel();
 			}
 		});
-		buttonPanel.add(ok);
-		buttonPanel.add(cancel);
-		this.contentPanel.setWidget(1, 1, buttonPanel);
+		this.buttonPanel.add(ok);
+		this.buttonPanel.add(cancel);
+		
+		// TODO win8 buttonpanel
+		this.contentPanel.setWidget(1, 1, this.buttonPanel);
+		
+		
+		// TODO android buttonpanel
+		this.dialogPanel.add(this.buttonPanel);
 	}
 
 	void setSliderPreview()

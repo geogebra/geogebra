@@ -33,10 +33,6 @@ body .infoDialog {
 	background-color: #FFFFFF;
 }
 
-body .inputDialog table {
-	border-spacing: 0px;
-}
-
 .inputDialog table.panelContainer {
 	width: 100%;
 }

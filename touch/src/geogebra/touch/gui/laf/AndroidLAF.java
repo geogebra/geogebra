@@ -1,5 +1,6 @@
 package geogebra.touch.gui.laf;
 
+
 public class AndroidLAF extends DefaultLAF
 {
 	@Override
@@ -18,5 +19,10 @@ public class AndroidLAF extends DefaultLAF
 	public boolean isMouseDownIgnored()
 	{
 	  return true;
+	}
+	
+	@Override
+	public int getPaddingLeftOfDialog() {
+		return 15;
 	}
 }
