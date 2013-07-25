@@ -447,7 +447,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
 			String assignmentStr = twinGeo
-					.toCasAssignment(StringTemplate.maxPrecision);
+					.toCasAssignment(StringTemplate.defaultTemplate);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
