@@ -41,8 +41,22 @@ your workstation.
 		<mkdir dir="lib" />
 		<get src="http://dev.geogebra.org/download/lib/touch/${cordova}-src.zip" dest="lib/download/cordova.zip" usetimestamp="true" />
 		<unzip src="lib/download/cordova.zip" dest="lib/download" overwrite="no" />
-		<unzip src="lib/download/${cordova}/cordova-js.zip" dest="lib/download/${cordova}/cordova-js" overwrite="no" />
-		<copy file="lib/download/${cordova}/cordova-js/lib/cordova.js" tofile="src/geogebra/resources/js/cordova.js" />
+
+		<echo>Copy Android specific cordova.js</echo>
+		<unzip src="lib/download/${cordova}/cordova-android.zip" dest="lib/download/${cordova}/cordova-android" />
+		<mkdir dir="src/geogebra/resources/js/android/" />
+		<copy file="lib/download/${cordova}/cordova-android/framework/assets/www/cordova.js" tofile="src/geogebra/resources/js/android/cordova.js" />
+
+		<echo>Copy iOS specific cordova.js</echo>
+		<unzip src="lib/download/${cordova}/cordova-ios.zip" dest="lib/download/${cordova}/cordova-ios" />
+		<mkdir dir="src/geogebra/resources/js/ios/" />
+		<copy file="lib/download/${cordova}/cordova-ios/CordovaLib/cordova.js" tofile="src/geogebra/resources/js/ios/cordova.js" />
+
+
+		<echo>Copy Windows specific cordova.js</echo>
+		<unzip src="lib/download/${cordova}/cordova-wp8.zip" dest="lib/download/${cordova}/cordova-wp8" />
+		<mkdir dir="src/geogebra/resources/js/win/" />
+		<copy file="lib/download/${cordova}/cordova-wp8/common/www/cordova.js" tofile="src/geogebra/resources/js/win/cordova.js" />		
 	</target>
 
 
