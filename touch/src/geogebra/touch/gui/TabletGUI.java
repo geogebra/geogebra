@@ -365,12 +365,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			return;
 		}
 		this.editing = b;
-
+		resetMode();
 		this.toolBar.setVisible(b);
 		this.algebraViewButtonPanel.setVisible(b);
 		this.setAlgebraVisible(this.isAlgebraShowing());
 		this.stylingBar.setVisible(b);
-		resetMode();
 
 		if (b)
 		{
@@ -380,11 +379,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		{
 			this.touchModel.getGuiModel().setStylingBar(null);
 		}
-	}
-
-	public boolean isEditable()
-	{
-		return this.editing;
 	}
 
 	@Override
