@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AlgebraViewPanel extends FlowPanel {
 	private AlgebraViewM algebraView;
-	private AlgebraViewArrowPanel arrow;
+	private AlgebraButton arrow;
 	private FlowPanel stylebar;
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
@@ -35,7 +35,7 @@ public class AlgebraViewPanel extends FlowPanel {
 		this.algebraView = new AlgebraViewM(controller);
 		kernel.attach(this.algebraView);
 		this.stylebar = new FlowPanel();
-		this.arrow = new AlgebraViewArrowPanel(gui);
+		this.arrow = new AlgebraButton(gui);
 		this.stylebar.add(this.arrow);
 		this.add(this.stylebar);
 		this.stylebar.setVisible(false);

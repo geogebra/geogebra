@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
-import geogebra.touch.gui.algebra.AlgebraViewArrowPanel;
+import geogebra.touch.gui.algebra.AlgebraButton;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
@@ -23,6 +23,7 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -49,11 +50,12 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	StylingBar stylingBar;
 
 	private LayoutPanel algebraViewButtonPanel;
-	private AlgebraViewArrowPanel algebraViewArrowPanel;
+	private FlowPanel algebraViewArrowPanel;
 	
 	private TouchApp app;
 
 	private boolean editing = true;
+	private AlgebraButton algebraButton;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end of
@@ -111,8 +113,10 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		// show/hide AlgebraView Button
 		this.algebraViewButtonPanel = new LayoutPanel();
-		this.algebraViewArrowPanel = new AlgebraViewArrowPanel(this);
-
+		this.algebraViewArrowPanel = new FlowPanel();
+		this.algebraViewArrowPanel.setStyleName("algebraViewArrowPanel");
+		this.algebraButton = new AlgebraButton(this);
+		this.algebraViewArrowPanel.add(this.algebraButton);
 		// this.algebraViewButtonPanel.setAutoHideEnabled(false);
 		// this.algebraViewButtonPanel.show();
 
@@ -207,7 +211,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 	{
 
 		int panelHeight = this.editing ? TouchEntryPoint.getLookAndFeel().getPanelsHeight() : TouchEntryPoint.getLookAndFeel().getAppBarHeight();
-		this.algebraViewArrowPanel.setAlgebraVisible(algebraVisible);
+		this.algebraButton.setAlgebraVisible(algebraVisible);
 		if (!algebraVisible)
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, 0);
