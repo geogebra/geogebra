@@ -6,6 +6,11 @@ body input {
 	font-size: 14px;
 }
 
+body {
+	min-height: 600px;
+	background: url(../img/geogebraLogo.png) center center no-repeat #FFFFFF;
+}
+
 /* ########################################
 ###              HEADER                 ###
 ####################################### */

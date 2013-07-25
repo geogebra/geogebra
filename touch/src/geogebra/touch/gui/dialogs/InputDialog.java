@@ -31,6 +31,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -55,12 +57,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	}
 
 	private VerticalPanel dialogPanel = new VerticalPanel();
-	private VerticalPanel contentPanel = new VerticalPanel();
+	private FlexTable contentPanel = new FlexTable();
 	private HorizontalPanel titlePanel = new HorizontalPanel();
 	private Label title = new Label();
 	private HorizontalPanel errorBox = new HorizontalPanel();
 	private SVGResource iconWarning;
 	private Label errorText = new Label();
+	private FlowPanel radioButtonPanel = new FlowPanel();
 	private RadioButton[] radioButton = new RadioButton[2];
 	VerticalPanel textPanel;
 	HorizontalPanel sliderPanel;
@@ -158,7 +161,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		setAdditionalStyleName();
 
 		this.customKeys.addCustomKeyListener(this);
-		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.dialogPanel.setStyleName("panelContainer");
 		
 		this.dialogPanel.add(this.titlePanel);
@@ -168,10 +171,12 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.title.setStyleName("title");
 
 		// Padding-left needed for Win8 Dialog
-		this.titlePanel.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.title.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 
 		this.contentPanel.setStyleName("contentPanel");
-		this.contentPanel.getElement().setAttribute("style", "padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.contentPanel.getElement().setAttribute("style", "margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.contentPanel.getCellFormatter().setStyleName(0, 0, "left");
+		this.contentPanel.getCellFormatter().setStyleName(0, 1, "right");
 		
 		this.dialogPanel.add(this.contentPanel);
 		
@@ -215,17 +220,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.incrementUnderline.setStyleName("inputUnderline");
 		this.incrementUnderline.addStyleName("inactive");
 		
-		Label minLabel = new Label(this.app.getLocalization().getCommand("Min"));
+		Label minLabel = new Label(this.app.getLocalization().getPlain("min"));
 		this.minPanel.add(minLabel);
 		this.minPanel.add(this.min);
 		this.minPanel.add(this.minUnderline);
 		
-		Label maxLabel = new Label(this.app.getLocalization().getCommand("Max"));
+		Label maxLabel = new Label(this.app.getLocalization().getPlain("max"));
 		this.maxPanel.add(maxLabel);
 		this.maxPanel.add(this.max);
 		this.maxPanel.add(this.maxUnderline);
 		
-		Label incrementLabel = new Label(this.app.getLocalization().getPlain("Increment"));
+		Label incrementLabel = new Label(this.app.getLocalization().getMenu("Step"));
 		this.incrementPanel.add(incrementLabel);
 		this.incrementPanel.add(this.increment);
 		this.incrementPanel.add(this.incrementUnderline);
@@ -234,7 +239,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.sliderPanel.add(this.maxPanel);
 		this.sliderPanel.add(this.incrementPanel);
 
-		this.contentPanel.add(this.sliderPanel);
+		//this.contentPanel.add(this.sliderPanel);
+		this.contentPanel.setWidget(1, 0, this.sliderPanel);
 	}
 	
 	void setSliderPreview() {
@@ -340,7 +346,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.textPanel.add(this.underline);
 		this.textPanel.setStyleName("textPanel");
 
-		this.contentPanel.add(this.textPanel);
+		//this.contentPanel.add(this.textPanel);
+		this.contentPanel.setWidget(0, 0, this.textPanel);
 		this.textBox.setFocus(true);
 	}
 
@@ -379,9 +386,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 			this.radioButton[0].addValueChangeHandler(handler);
 			this.radioButton[1].addValueChangeHandler(handler);
 		}
+		
+		this.radioButtonPanel.setStyleName("radioButtonPanel");
+		
+		this.radioButtonPanel.add(this.radioButton[0]);
+		this.radioButtonPanel.add(this.radioButton[1]);
 
-		this.contentPanel.add(this.radioButton[0]);
-		this.contentPanel.add(this.radioButton[1]);
+		//this.contentPanel.add(this.radioButton[0]);
+		//this.contentPanel.add(this.radioButton[1]);
+		this.contentPanel.setWidget(0, 1, this.radioButtonPanel);
 
 		this.radioButton[0].setValue(new Boolean(true));
 		this.setSliderPreview();
@@ -430,7 +443,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.dialogPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.errorBox.setVisible(false);
 		
-		this.contentPanel.add(this.customKeys);
+		//this.contentPanel.add(this.customKeys);
+		this.dialogPanel.add(this.customKeys);
 		
 		setLabels();
 

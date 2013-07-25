@@ -33,8 +33,7 @@ body .infoDialog {
 	background-color: #FFFFFF;
 }
 
-.inputDialog table.panelContainer,
-.inputDialog table.textPanel {
+.inputDialog table.panelContainer {
 	width: 100%;
 }
 
@@ -48,6 +47,20 @@ body .infoDialog .titlePanel {
 	font-family: "Segoe UI Light", sans-serif;
 	font-size: 26px;
 	color: #FFFFFF;
+}
+
+.inputDialog .contentPanel {
+	width: 740px;
+	border-spacing: 0px;
+}
+
+.inputDialog .contentPanel td.left {
+	width: 420px;
+}
+
+.inputDialog .contentPanel td.right {
+	width: 200px;
+	padding-left: 60px;
 }
 
 .inputDialog .gwt-Label,
@@ -76,6 +89,11 @@ body .inputDialog.sliderDialog .textBox {
 	width: 393px;
 }
 
+.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
+	width: 111px;
+	margin-right: 20px;
+}
+
 body .inputDialog .gwt-TextBox.active,
 body .infoDialog .gwt-TextBox.active {
 	border-color: #9999FF;
@@ -87,6 +105,14 @@ body .infoDialog .gwt-TextBox.active {
 
 body .infoDialog .textPanel {
 	padding: 0px 15px 15px 15px;
+}
+
+.inputDialog .radioButtonPanel {
+	width: 200px;
+}
+
+.inputDialog .radioButtonPanel span.gwt-RadioButton {
+	width: 100px;
 }
 
 body .inputDialog .gwt-PopupPanel,
