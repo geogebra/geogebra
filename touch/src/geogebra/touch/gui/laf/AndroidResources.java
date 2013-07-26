@@ -48,6 +48,11 @@ interface AndroidResources extends DefaultResources
 	@Source("icons/svg/android/document-save.svg")
 	@Validated(validated = false)
 	SVGResource document_save();
+	
+	@Override
+	@Source("icons/svg/android/document_share.svg")
+	@Validated(validated = false)
+	SVGResource document_share();
 
 	@Override
 	@Source("icons/svg/android/menu_edit_undo.svg")
