@@ -38,7 +38,7 @@ public class SubToolBar extends PopupPanel
 
 		this.contentPanel = new VerticalPanel();
 		
-		if (openVertical) {
+		if (this.openVertical) {
 			this.subToolBarPanel = new VerticalPanel();
 		} else {
 			this.subToolBarPanel = new HorizontalPanel();

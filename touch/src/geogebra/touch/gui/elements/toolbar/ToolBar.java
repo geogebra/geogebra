@@ -178,7 +178,7 @@ public class ToolBar extends FlowPanel
 			if (this.openNeeded) {
 				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 			} else {
-				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * tools.size() + "px");
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * this.tools.size() + "px");
 			}
 		}
 		this.add(this.toolPanel);
@@ -234,7 +234,7 @@ public class ToolBar extends FlowPanel
 			if (this.openNeeded) {
 				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 			} else {
-				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * tools.size() + "px");
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * this.tools.size() + "px");
 			}
 		} else {
 			this.toolPanel.setWidth("100%");
