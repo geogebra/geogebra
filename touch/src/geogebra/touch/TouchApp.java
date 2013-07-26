@@ -9,6 +9,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
@@ -381,7 +382,7 @@ public class TouchApp extends AppWeb
 		int width = Window.getClientWidth();
 		int algebraWidth = TabletGUI.computeAlgebraWidth();
 		int height = Window.getClientHeight();
-
+		tmp.setToolbarDefinition(ToolBar.getAllToolsNoMacros(false, true));
 		dock[0] = new DockPanelData(App.VIEW_EUCLIDIAN, "", true, false, true, new GPoint(0, 0), AwtFactory.prototype.newDimension(width - algebraWidth,
 		    height), "", width - algebraWidth);
 		dock[1] = new DockPanelData(App.VIEW_ALGEBRA, "", this.touchGUI.isAlgebraShowing(), false, true, new GPoint(width - algebraWidth, 0),
