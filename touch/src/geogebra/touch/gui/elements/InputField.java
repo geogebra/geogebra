@@ -22,6 +22,7 @@ public class InputField extends VerticalPanel
 	TextBox textBox;
 	Panel underline;
 	ArrayList<InputField> box = new ArrayList<InputField>();
+	private Label nameLabel;
 
 	/**
 	 * equal to AndroidTextBox(null)
@@ -41,8 +42,8 @@ public class InputField extends VerticalPanel
 	{
 		if (caption != null)
 		{
-			Label minLabel = new Label(caption);
-			this.add(minLabel);
+			this.nameLabel = new Label(caption);
+			this.add(this.nameLabel);
 		}
 
 		this.textBox = new TextBox();
@@ -106,7 +107,7 @@ public class InputField extends VerticalPanel
 	public void setTextBoxToLoseFocus(InputField[] text)
 	{
 		this.box = new ArrayList<InputField>();
-		
+
 		for (InputField t : text)
 		{
 			if (!this.box.contains(t) && !t.equals(this))
@@ -128,7 +129,14 @@ public class InputField extends VerticalPanel
 
 	public void addErrorBox(HorizontalPanel errorBox)
 	{
+		this.clear();
 		this.add(errorBox);
+		if (this.nameLabel != null)
+		{
+			this.add(this.nameLabel);
+		}
+		this.add(this.textBox);
+		this.add(this.underline);
 	}
 
 	public String getText()

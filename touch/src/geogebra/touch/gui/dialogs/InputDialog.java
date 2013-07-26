@@ -143,6 +143,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		{
 			this.dialogPanel.clear();
 			this.contentPanel.clear();
+			this.radioButtonPanel.clear();
 		}
 		this.type = dialogType;
 		init();
@@ -390,7 +391,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		if (this.type != DialogType.Slider)
 		{
 			this.textBox.setText(this.prevText);
-		} else {
+		}
+		else
+		{
 			setSliderPreview();
 		}
 
