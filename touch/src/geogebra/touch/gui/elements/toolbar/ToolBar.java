@@ -196,7 +196,7 @@ public class ToolBar extends FlowPanel
 				ToolBar.this.showHideClosed.setVisible(false);
 				ToolBar.this.toolPanel.setWidth("100%");
 				ToolBar.this.toolBarOpen = true;
-				//ToolBar.this.touchModel.getGuiModel().closeOptions();
+				ToolBar.this.touchModel.getGuiModel().closeOnlyOptions();
 			}
 		});
 		

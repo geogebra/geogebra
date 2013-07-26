@@ -44,7 +44,6 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 
 		this.addDomHandler(new ClickHandler()
 		{
-
 			@Override
 			public void onClick(ClickEvent event)
 			{
@@ -52,7 +51,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd()
 				    && ToolBarButton.this.model.getOptionTypeShown() == OptionType.ToolBar)
 				{
-					ToolBarButton.this.model.closeOnlyOptions();
+					ToolBarButton.this.model.closeOptions();
 				}
 				else
 				{
@@ -87,7 +86,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 			// if the width of the subtoolbar ist too big, the position should be different
 			// leftpos of button + width of subtoolbar must not be bigger than Window-width!!
 			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()) {
-				this.model.closeOptions();
+				this.model.closeOnlyOptions();
 				this.model.setOption(options);
 				
 				// special case for cirlces (is still too long)
