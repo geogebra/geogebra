@@ -149,7 +149,7 @@ body .infoDialog .gwt-TextBox {
 	padding: 3px;
 	background: none;
 	color: #FFFFFF;
-	width: 573px;
+	width: 556px;
 }
 
 .inputDialog.sliderDialog .sliderPanel .inputField {
@@ -165,7 +165,7 @@ body .infoDialog .gwt-TextBox {
 }
 
 body .inputDialog .textPanel {
-	width: 560px;
+	/*width: 560px;*/
 }
 
 body .infoDialog .textPanel {
@@ -203,6 +203,7 @@ body .inputDialog .buttonPanel button {
 
 .customKeyPanel {
 	margin-right: 0px;
+	margin-left: -15px;
 }
 
 body .inputDialog button,

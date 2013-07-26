@@ -327,6 +327,11 @@ input.worksheetTitle {
 	border-bottom: #CCCCCC solid 1px;
 }
 
+.algebraStylebar {
+	padding: 6px;
+	border-bottom: 1px solid #CCCCCC;
+}
+
 .algebraViewContent {
 	padding: 0px 0px;
 }

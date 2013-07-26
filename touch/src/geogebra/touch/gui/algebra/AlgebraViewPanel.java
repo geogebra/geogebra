@@ -37,12 +37,13 @@ public class AlgebraViewPanel extends FlowPanel {
 		this.stylebar = new FlowPanel();
 		this.arrow = new AlgebraButton(gui);
 		this.stylebar.add(this.arrow);
+		this.stylebar.setStyleName("algebraStylebar");
 		this.add(this.stylebar);
 		this.stylebar.setVisible(false);
 		this.setStyleName("algebraViewAndStylebar");
 		ScrollPanel content = new ScrollPanel(this.algebraView);
 		content.setStyleName("algebraView");
-		content.setWidth("100%");
+		//content.setWidth("100%");
 		this.add(content);
 	}
 

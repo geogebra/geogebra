@@ -117,6 +117,8 @@ body .infoDialog .textPanel {
 	padding-top: 10px;
 }
 
+@url radioBackgroundActive radioButtonActive;
+
 .inputDialog .radioButtonPanel span.gwt-RadioButton {
 	width: 70px;
 	height: 30px;
@@ -125,6 +127,7 @@ body .infoDialog .textPanel {
 	background-repeat: no-repeat;
 	padding-top: 4px;
 	padding-left: 30px;
+	background-image: radioBackgroundActive;
 }
 
 .inputDialog .radioButtonPanel input[type="radio"] {

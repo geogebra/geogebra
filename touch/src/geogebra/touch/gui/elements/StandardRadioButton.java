@@ -19,12 +19,12 @@ public class StandardRadioButton extends RadioButton {
 		super.setValue(value);
 
 		if (value.booleanValue()) {
-			StandardRadioButton.this.getElement().setAttribute("style",
-					"background-image: url(" + StandardRadioButton.this.laf.getIcons().radioButtonActive().getSafeUri().asString() + ")");
+			//StandardRadioButton.this.getElement().setAttribute("style",
+			//		"background-image: url(" + StandardRadioButton.this.laf.getIcons().radioButtonActive().getSafeUri().asString() + ")");
 
 		} else {
-			StandardRadioButton.this.getElement().setAttribute("style",
-					"background-image: url(" + StandardRadioButton.this.laf.getIcons().radioButtonInactive().getSafeUri().asString() + ")");
+			//StandardRadioButton.this.getElement().setAttribute("style",
+			//		"background-image: url(" + StandardRadioButton.this.laf.getIcons().radioButtonInactive().getSafeUri().asString() + ")");
 
 		}
 	}
