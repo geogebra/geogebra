@@ -198,12 +198,7 @@ public class ToolBar extends FlowPanel
 		this.showHideOpened.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// toolbar is going to be hidden
-				ToolBar.this.removeStyleName("visible");
-				ToolBar.this.showHideOpened.setVisible(false);
-				ToolBar.this.showHideClosed.setVisible(true);
-				ToolBar.this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
-				ToolBar.this.toolBarOpen = false;
+				ToolBar.this.closeToolBar();
 			}
 		});
 		
@@ -227,6 +222,15 @@ public class ToolBar extends FlowPanel
 	public void setLabels()
 	{
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
+	}
+	
+	public void closeToolBar() {
+		this.touchModel.getGuiModel().closeOptions();
+		this.removeStyleName("visible");
+		this.showHideOpened.setVisible(false);
+		this.showHideClosed.setVisible(true);
+		this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
+		this.toolBarOpen = false;
 	}
 
 	public void onResize() {
