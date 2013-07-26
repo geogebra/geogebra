@@ -5,6 +5,7 @@ import geogebra.web.gui.layout.DockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Panel;
 
 /**
  * Abstract class for all "euclidian" panels. 
@@ -50,7 +51,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 		return true;
 	}
 
-	public abstract AbsolutePanel getEuclidianPanel();
+	public abstract AbsolutePanel getAbsolutePanel();
+	public abstract Panel getEuclidianPanel();
 	public abstract Canvas getCanvas();
 	public abstract EuclidianView getEuclidianView();
 }

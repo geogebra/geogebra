@@ -1336,9 +1336,9 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	private void clearAbsolutePanel(int viewid){
 		AbsolutePanel ep;
 		if (viewid==App.VIEW_EUCLIDIAN){
-			ep = ((EuclidianDockPanelW) getLayout().getDockManager().getPanel(viewid)).getEuclidianPanel();
+			ep = ((EuclidianDockPanelW) getLayout().getDockManager().getPanel(viewid)).getAbsolutePanel();
 		} else if (viewid==App.VIEW_EUCLIDIAN2){
-			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(viewid)).getEuclidianPanel();
+			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(viewid)).getAbsolutePanel();
 		} else return;
 		
 		if (ep == null) return;

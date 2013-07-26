@@ -544,9 +544,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public boolean isUsingFullGui() {
-		// return useFullGui;
-		// TODO
-		return guiManager != null;
+		return useFullGui;
 	}
 
 	@Override
@@ -1477,9 +1475,26 @@ public class AppW extends AppWeb {
 		}
 	}
 
+	public void buildSingleApplicationPanel() {
+		if (frame != null) {
+			frame.clear();
+			frame.add(getEuclidianViewpanel());
+			getEuclidianViewpanel().setPixelSize(
+					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
+					getSettings().getEuclidian(1).getPreferredSize().getHeight());
+			//getEuclidianViewpanel().getElement().getStyle().
+			oldSplitLayoutPanel = null;
+		}
+	}
+
 	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
 	
 	public void buildApplicationPanel() {
+
+		if (onlyGraphicsViewShowing()) {
+			buildSingleApplicationPanel();
+			return;
+		}
 
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
@@ -1570,7 +1585,12 @@ public class AppW extends AppWeb {
 	@Override
     public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		if (!isFullAppGui()) {
-			if (evno == 1 && getEuclidianView1().isShowing()) {
+			if (evno == 1 && onlyGraphicsViewShowing()) {
+				if (widthDiff != 0 || heightDiff != 0)
+					getEuclidianViewpanel().setPixelSize(
+							getEuclidianViewpanel().getOffsetWidth() + widthDiff,
+							getEuclidianViewpanel().getOffsetHeight() + heightDiff);
+			} else if (evno == 1 && getEuclidianView1().isShowing()) {
 				// this should follow the resizing of the EuclidianView
 				if (getSplitLayoutPanel() != null)
 					getSplitLayoutPanel().setPixelSize(
@@ -2015,10 +2035,11 @@ public class AppW extends AppWeb {
 	@Override
     public void afterLoadFileAppOrNot() {
 
-		// TODO: if there is only one euclidian View,
-		// attach that instead of setting perspectives here
-		
-		getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
+		if (onlyGraphicsViewShowing()) {
+			buildSingleApplicationPanel();
+		} else {
+			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
+		}
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
@@ -2033,10 +2054,12 @@ public class AppW extends AppWeb {
 			frame.splash.canNowHide();
 			getEuclidianView1().requestFocusInWindow();
 
-			if (needsSpreadsheetTableModel())
-				getSpreadsheetTableModel();
+			if (!onlyGraphicsViewShowing()) {
+				if (needsSpreadsheetTableModel())
+					getSpreadsheetTableModel();
 
-			refreshSplitLayoutPanel();
+				refreshSplitLayoutPanel();
+			}
 		} else {
 			splashDialog.canNowHide();
 			updateCenterPanel(true);

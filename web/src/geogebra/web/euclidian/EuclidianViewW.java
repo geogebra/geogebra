@@ -107,22 +107,22 @@ public class EuclidianViewW extends EuclidianViewWeb {
 		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
 
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, DoubleClickEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOutEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseDownEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseUpEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseWheelEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, DoubleClickEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOutEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseDownEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseUpEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, MouseWheelEvent.getType());
 		
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchStartEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchEndEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchMoveEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchCancelEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureStartEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
-		euclidianViewPanel.getEuclidianPanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchStartEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchEndEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchMoveEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, TouchCancelEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureStartEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureChangeEvent.getType());
+		euclidianViewPanel.getAbsolutePanel().addDomHandler((EuclidianControllerW)euclidiancontroller, GestureEndEvent.getType());
 		
 		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
 //		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
@@ -392,7 +392,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void add(GBox box) {
-	    EVPanel.getEuclidianPanel().add(
+	    EVPanel.getAbsolutePanel().add(
 	    		GBoxW.getImpl(box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
@@ -400,7 +400,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void remove(GBox box) {
-	    EVPanel.getEuclidianPanel().remove(
+	    EVPanel.getAbsolutePanel().remove(
 	    		GBoxW.getImpl(box));
 	    
     }

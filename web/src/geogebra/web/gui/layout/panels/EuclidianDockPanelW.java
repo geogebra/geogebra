@@ -12,6 +12,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,7 +60,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		app = application;
-		addNavigationBar();
+		if (!app.onlyGraphicsViewShowing())
+			addNavigationBar();
 	}
 
 	
@@ -109,6 +111,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		int oldWidth = 0;
 		
 		public EuclidianPanel(EuclidianDockPanelW dockPanel) {
+			super();
 			this.dockPanel = dockPanel;
 			add(absoluteEuclidianPanel = new AbsolutePanel());
 		}
@@ -150,10 +153,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		public AbsolutePanel getAbsolutePanel() {
 			return absoluteEuclidianPanel;
         }
-		
-		
 	}
-	
+
 	@Override
 	protected Widget loadStyleBar() {
 
@@ -168,9 +169,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	    return eview1;
     }
 
-//	public AbsolutePanel getAbsolutePanel() {
-//	    return euclidianpanel;
-//    }
+	public Panel getEuclidianPanel() {
+	    return euclidianpanel;
+    }
 
 	public void onResize() {
 		super.onResize();
@@ -213,7 +214,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		return this;
 	}
 
-	public AbsolutePanel getEuclidianPanel() {
+	public AbsolutePanel getAbsolutePanel() {
 		return euclidianpanel.getAbsolutePanel();
 	}
 
