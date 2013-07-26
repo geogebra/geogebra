@@ -2046,23 +2046,17 @@ public class AppW extends AppWeb {
 	@Override
     public void afterLoadFileAppOrNot() {
 
-		App.debug("egy");
-		
 		if (onlyGraphicsViewShowing()) {
 			buildSingleApplicationPanel();
 		} else {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
 		}
 		
-		App.debug("ketto");
-
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
 		kernel.initUndoInfo();
 
 		getEuclidianView1().synCanvasSize();
-		
-		App.debug("harom");
 		
 		if (!useFullAppGui) {
 
@@ -2090,12 +2084,10 @@ public class AppW extends AppWeb {
 			this.getEuclidianViewpanel().onResize();
 			getEuclidianView1().doRepaint2();
 		}
-		App.debug("negy");
 
 		if (!onlyGraphicsViewShowing())
 			this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
-		App.debug("ot");
     }
 
 	/**
