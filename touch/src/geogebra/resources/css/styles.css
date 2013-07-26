@@ -19,6 +19,10 @@ body table {
 	border-spacing: 0px;
 }
 
+.clear {
+	clear: both;
+}
+
 /* TOOLS AND STYLEBAR BUTTONS */
 div.button { /* Border */
 	-webkit-border-radius: 5px;
@@ -395,7 +399,13 @@ div.elemHeadingName {
 /* #####################################################################
 ####                    TOOL BAR									####
 ##################################################################### */
-.toolbar { /* Border */
+.toolbar {
+	padding: 10px;
+	padding-bottom: 0px;
+	height: 60px;
+	overflow: hidden;
+	
+	/* Border */
 	border-top: #CCCCCC solid 1px;
 	/* Background */
 	background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
@@ -412,9 +422,43 @@ div.elemHeadingName {
 		237, 237) ), color-stop(1, rgb(220, 220, 220) ) ) );
 }
 
-.toolbarButtonPanel {
-	padding: 10px;
+.toolbar.visible {
+	height: auto;
+}
+
+/*.toolbarButtonPanel {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	display: inline-block;
+}*/
+
+.toolbar.visible .toolbarButtonPanel {
+	width: 100%;
+}
+
+.toolbar .toolbarButtonPanel .button {
 	float: left;
+	display: inline-block;
+	margin-bottom: 10px;
+}
+
+.toolbar .arrowLeft {
+	margin-top: 6px;
+	float: right;
+	display: inline-block;
+}
+
+.toolbar.visible .arrowLeft {
+	margin-left: 30px;
+}
+
+.toolbar.visible .arrowLeft img {
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1 );
 }
 
 .subToolBar {
@@ -433,7 +477,7 @@ div.elemHeadingName {
 }
 
 .subToolBarArrow {
-	margin-top: -7px;
+	margin-top: -10px;
 	padding-left: 23px;
 }
 
@@ -442,18 +486,27 @@ div.elemHeadingName {
 ##################################################################### */
 
 .inputbarPanel {
-	margin: 0px;
-	padding: 0px 15px;
+	margin-top: 10px;
+	float: right;
+	width: 240px;
 }
 
-.inputPanel {
+.toolbar.visible .inputbarPanel {
 	width: 100%;
+}
+
+.toolbar.visible .inputPanel {
+	margin: 0px 10px 5px 0px;
 }
 
 .inputbarPanel input {
 	border: #CCCCCC solid 1px;
 	color: #BABABA;
 	padding: 4px;
+	width: 232px;
+}
+
+.toolbar.visible .inputbarPanel input {
 	width: 100%;
 }
 

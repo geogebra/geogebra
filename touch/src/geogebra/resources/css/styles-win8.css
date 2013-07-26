@@ -15,6 +15,10 @@ body .inputbarPanel input {
 	border-width: 2px;
 }
 
+body .inputbarPanel .iconPanel {
+	height: 0px;
+}
+
 /* POPUP Dialog INPUT */
 
 body .inputDialog,
@@ -128,11 +132,6 @@ body .infoDialog .textPanel {
 	padding-top: 4px;
 	padding-left: 30px;
 	background-image: radioBackgroundActive;
-}
-
-.inputDialog .radioButtonPanel input[type="radio"] {
-	width: 0px;
-	height: 0px;
 }
 
 body .inputDialog .gwt-PopupPanel,

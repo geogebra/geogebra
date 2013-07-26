@@ -3,6 +3,7 @@ package geogebra.touch.gui.elements.toolbar;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.utils.ToolBarCommand;
 
+import com.google.gwt.user.client.ui.CellPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -17,8 +18,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SubToolBar extends PopupPanel
 {
 	private VerticalPanel contentPanel;
-	private HorizontalPanel subToolBarPanel;
+	private CellPanel subToolBarPanel;
 	private LayoutPanel arrowPanel;
+	
+	private boolean openVertical = false;
 
 	/**
 	 * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
@@ -34,8 +37,13 @@ public class SubToolBar extends PopupPanel
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();
-
-		this.subToolBarPanel = new HorizontalPanel();
+		
+		if (openVertical) {
+			this.subToolBarPanel = new VerticalPanel();
+		} else {
+			this.subToolBarPanel = new HorizontalPanel();
+		}
+		
 		this.subToolBarPanel.setStyleName("subToolBarButtonPanel");
 
 		SubToolBarButton[] options = new SubToolBarButton[menuEntries.length];
@@ -54,6 +62,10 @@ public class SubToolBar extends PopupPanel
 		this.arrowPanel.getElement().setInnerHTML(html);
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
+	}
+	
+	public void setOpenVertical(boolean setVertical) {
+		this.openVertical = setVertical;
 	}
 	
 	public void setSubToolBarArrowPaddingLeft(int padding) {

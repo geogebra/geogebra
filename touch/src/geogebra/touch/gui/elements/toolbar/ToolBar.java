@@ -6,6 +6,8 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
+import geogebra.touch.gui.elements.ArrowImageButton;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarMenu;
@@ -20,13 +22,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @see ButtonBar
@@ -34,15 +34,21 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class ToolBar extends HorizontalPanel
+public class ToolBar extends FlowPanel
 {
 
 	protected List<ToolBarButton> tools;
-	private HorizontalPanel toolPanel;
-	private VerticalPanel inputButtonPanel;
-	private HorizontalPanel inputPanel;
+	FlowPanel toolPanel;
+	private FlowPanel inputButtonPanel;
+	private FlowPanel inputPanel;
+	StandardImageButton showHideClosed;
+	StandardImageButton showHideOpened;
 	private SVGResource iconFx = TouchEntryPoint.getLookAndFeel().getIcons().icon_fx();
 	Panel underline;
+	
+	boolean toolBarOpen = false;
+	boolean openNeeded = false;
+	static final int toolBarButtonWidth = 56;
 
 	protected InputDialog input;
 	TextBox inputBox = new TextBox();
@@ -54,16 +60,29 @@ public class ToolBar extends HorizontalPanel
 		this.setStyleName("toolbar");
 
 		this.input = new InputDialog(app, DialogType.InputField, gui, touchModel.getGuiModel());
-		this.setWidth(Window.getClientWidth() + "px");
+		//this.setWidth(Window.getClientWidth() - 20 + "px");
 
-		this.toolPanel = new HorizontalPanel();
-		this.inputButtonPanel = new VerticalPanel();
-		this.inputPanel = new HorizontalPanel();
+		this.toolPanel = new FlowPanel();
+		this.inputButtonPanel = new FlowPanel();
+		this.inputPanel = new FlowPanel();
 
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
-
+		
+		this.showHideClosed = new ArrowImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideOpened = new ArrowImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideClosed.setVisible(this.openNeeded);
+		this.showHideOpened.setVisible(false);
+		
 		makeTabletToolBar(touchModel);
+	}
+	
+	public boolean isOpen() {
+		return this.toolBarOpen;
+	}
+	
+	public boolean openNeeded() {
+		return this.openNeeded;
 	}
 
 	/**
@@ -93,9 +112,11 @@ public class ToolBar extends HorizontalPanel
 		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, model.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, model.getGuiModel()));
+		
+		this.openNeeded = (Window.getClientWidth() < ToolBar.toolBarButtonWidth * this.tools.size() + 270);
+		this.showHideClosed.setVisible(this.openNeeded);
 
 		// new Inputbar (Stefanie Bogner)
-		//this.inputButtonPanel.setWidth(Window.getClientWidth() * 0.2 + "px");
 		
 		this.inputPanel.setStyleName("inputPanel");
 		this.inputPanel.add(this.inputBox);
@@ -111,65 +132,116 @@ public class ToolBar extends HorizontalPanel
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
 		
-	this.inputButtonPanel.addDomHandler(new ClickHandler()
-	{
-		
-		@Override
-		public void onClick(ClickEvent event)
+		this.inputButtonPanel.addDomHandler(new ClickHandler()
 		{
-			ToolBar.this.underline.removeStyleName("inactive");
-			ToolBar.this.underline.addStyleName("active");
-			ToolBar.this.input.show();
-		}
-	}, ClickEvent.getType());
-	
-	this.input.addCloseHandler(new CloseHandler<PopupPanel>()
+			
+			@Override
+			public void onClick(ClickEvent event)
 			{
-				@Override
-				public void onClose(CloseEvent<PopupPanel> event)
-				{
-					ToolBar.this.underline.removeStyleName("active");
-					ToolBar.this.underline.addStyleName("inactive");
-					
-				}
-			});
-	this.input.setInputHandler(new InputHandler()
-			{
-
-				@Override
-				public boolean processInput(String inputString) {
-					return ToolBar.this.touchModel.newInput(inputString);
-				}
+				ToolBar.this.underline.removeStyleName("inactive");
+				ToolBar.this.underline.addStyleName("active");
+				ToolBar.this.input.show();
+			}
+		}, ClickEvent.getType());
 		
-			});
+		this.input.addCloseHandler(new CloseHandler<PopupPanel>()
+				{
+					@Override
+					public void onClose(CloseEvent<PopupPanel> event)
+					{
+						ToolBar.this.underline.removeStyleName("active");
+						ToolBar.this.underline.addStyleName("inactive");
+						
+					}
+				});
+		this.input.setInputHandler(new InputHandler()
+				{
 	
+					@Override
+					public boolean processInput(String inputString) {
+						return ToolBar.this.touchModel.newInput(inputString);
+					}
+			
+				});
+		
+		
 	
-
-	for (ToolBarButton b : this.tools)
-	{
-		this.toolPanel.add(b);
-	}
+		for (ToolBarButton b : this.tools)
+		{
+			this.toolPanel.add(b);
+		}
+		
+		this.add(this.showHideClosed);
+		this.toolPanel.add(this.showHideOpened);
+		
+		if(!this.toolBarOpen) {
+			if (this.openNeeded) {
+				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
+			} else {
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * tools.size() + "px");
+			}
+		}
+		this.add(this.toolPanel);
+		
+		this.showHideClosed.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				// toolbar is going to be shown
+				ToolBar.this.addStyleName("visible");
+				ToolBar.this.showHideOpened.setVisible(true);
+				ToolBar.this.showHideClosed.setVisible(false);
+				ToolBar.this.toolPanel.setWidth("100%");
+				ToolBar.this.toolBarOpen = true;
+			}
+		});
+		
+		this.showHideOpened.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				// toolbar is going to be hidden
+				ToolBar.this.removeStyleName("visible");
+				ToolBar.this.showHideOpened.setVisible(false);
+				ToolBar.this.showHideClosed.setVisible(true);
+				ToolBar.this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
+				ToolBar.this.toolBarOpen = false;
+			}
+		});
+		
+		this.inputButtonPanel.add(this.inputPanel);
+		
+		//Input Underline for Android
+		this.underline = new LayoutPanel();
+		this.underline.setStyleName("inputUnderline");
+		this.underline.addStyleName("inactive");
+		this.inputButtonPanel.add(this.underline);
+		
+		this.add(this.inputButtonPanel);
 	
-	this.add(this.toolPanel);
-	
-	this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-	this.setVerticalAlignment(ALIGN_MIDDLE);
-	this.inputButtonPanel.add(this.inputPanel);
-	
-	//Input Underline for Android
-	this.underline = new LayoutPanel();
-	this.underline.setStyleName("inputUnderline");
-	this.underline.addStyleName("inactive");
-	this.inputButtonPanel.add(this.underline);
-	
-	this.add(this.inputButtonPanel);
-
-	model.getGuiModel().setActive(this.tools.get(0));
+		model.getGuiModel().setActive(this.tools.get(0));
+		
+		LayoutPanel clearPanel = new LayoutPanel();
+		clearPanel.setStyleName("clear");
+		this.add(clearPanel);
 	}
 
 	public void setLabels()
 	{
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
+	}
+
+	public void onResize() {
+		if(!this.toolBarOpen) {
+			if (this.openNeeded) {
+				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
+			} else {
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * tools.size() + "px");
+			}
+		} else {
+			this.toolPanel.setWidth("100%");
+		}
+			
+		this.openNeeded = (Window.getClientWidth() < ToolBar.toolBarButtonWidth * this.tools.size() + 270);
+		this.showHideClosed.setVisible(this.openNeeded);
 	}
 
 }

@@ -181,11 +181,6 @@ body .infoDialog .textPanel {
 	padding-left: 30px;
 }
 
-.inputDialog .radioButtonPanel input[type="radio"] {
-	width: 0px;
-	height: 0px;
-}
-
 body .inputDialog .gwt-PopupPanel,
 body .infoDialog .gwt-PopupPanel {
 	border: none;
