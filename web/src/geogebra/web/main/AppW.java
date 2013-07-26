@@ -99,6 +99,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.UrlBuilder;
@@ -493,7 +494,11 @@ public class AppW extends AppWeb {
 
 			// Code to run before buildApplicationPanel
 			initGuiManager();
-			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+			//if (!onlyGraphicsViewShowing()) {
+				// temporary change,
+				// this should be entirely removed later
+				getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+			//}
 			// Code to have run before buildApplicationPanel
 
 			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
@@ -1482,7 +1487,13 @@ public class AppW extends AppWeb {
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize().getHeight());
-			//getEuclidianViewpanel().getElement().getStyle().
+
+			// FIXME: temporary hack until it is found what causes
+			// the 1px difference
+			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setLeft(1, Style.Unit.PX);
+			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1, Style.Unit.PX);
+			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setBottom(-1, Style.Unit.PX);
+			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
 		}
 	}
@@ -2072,8 +2083,9 @@ public class AppW extends AppWeb {
 			this.getEuclidianViewpanel().onResize();
 			getEuclidianView1().doRepaint2();
 		}
-		
-		this.getEuclidianViewpanel().updateNavigationBar();
+
+		if (!onlyGraphicsViewShowing())
+			this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
 
