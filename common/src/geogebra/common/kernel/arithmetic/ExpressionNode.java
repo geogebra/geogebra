@@ -1555,7 +1555,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// of rightStr in operationToString, but more
 				// is necessary in case of LaTeX, we do that here
 				// " \\{ " is put by MyList 5 - 1(escape) -1(operationToString)
-				rightStr = rightStr.substring(3, rightStr.length() - 3);
+				rightStr = rightStr.substring(7, rightStr.length() - 9);
+				rightStr = rightStr.concat("}");
 			}
 		}
 
@@ -3055,6 +3056,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (!stringType.equals(StringType.LATEX)) {
 						sb.append(tpl.rightBracket());
 					}
+				} else if (left instanceof GeoDummyVariable) {
+					sb.append(tpl.leftBracket());
+					sb.append(leftStr);
+					sb.append(tpl.leftBracket());
+					sb.append(rightStr.substring(1, rightStr.length() - 1));
+					sb.append(tpl.rightBracket());
+					sb.append(tpl.rightBracket());
 				} else {
 					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
@@ -3068,7 +3076,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 				}
 				//no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
-				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
+				//if(!left.isGeoElement() || ((GeoElement)left).isLabelSet()){
 					sb.append(tpl.leftBracket());
 					
 					// rightStr is a list of arguments, e.g. {2, 3}
@@ -3077,7 +3085,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr.substring(1, rightStr.length() - 1));
 					
 					sb.append(tpl.rightBracket());
-				}
+				//}
 			}
 			break;
 
