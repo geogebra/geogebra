@@ -917,9 +917,16 @@ public abstract class Localization {
 		 * @return CAS syntax
 		 */
 		public String getCommandSyntaxCAS(String key) {
+			
+			String keyCAS = key + syntaxCAS;
 
 			String command = getCommand(key);
-			String syntax = getCommand(key + syntaxCAS);
+			String syntax = getCommand(keyCAS);
+			
+			// make sure "PointList.SyntaxCAS" not displayed in dialog
+			if (syntax.equals(keyCAS)) {
+				syntax = getCommand(key + syntaxStr);
+			}
 
 			syntax = syntax.replace("[", command + '[');
 
