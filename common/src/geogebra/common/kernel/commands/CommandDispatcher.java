@@ -285,7 +285,6 @@ public class CommandDispatcher {
 		try {
 			
 			Commands command = Commands.valueOf(cmdName);
-			App.debug(command.name());
 			switch (command) {
 
 			
