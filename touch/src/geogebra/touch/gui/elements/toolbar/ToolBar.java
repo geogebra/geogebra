@@ -196,6 +196,7 @@ public class ToolBar extends FlowPanel
 				ToolBar.this.showHideClosed.setVisible(false);
 				ToolBar.this.toolPanel.setWidth("100%");
 				ToolBar.this.toolBarOpen = true;
+				//ToolBar.this.touchModel.getGuiModel().closeOptions();
 			}
 		});
 		
@@ -232,7 +233,7 @@ public class ToolBar extends FlowPanel
 	public void closeToolBar() {
 		this.removeStyleName("visible");
 		this.showHideOpened.setVisible(false);
-		this.showHideClosed.setVisible(true);
+		this.showHideClosed.setVisible(this.openNeeded);
 		this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 		this.toolBarOpen = false;
 	}

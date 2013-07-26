@@ -447,7 +447,7 @@ div.elemHeadingName {
 	margin-top: 6px;
 	float: right;
 	display: inline-block;
-	margin-bottom: 2px;
+	margin-bottom: 11px;
 }
 
 .toolbar.visible .arrowLeft {
@@ -469,12 +469,16 @@ div.elemHeadingName {
 .subToolBarButtonPanel {
 	background-color: #FFFFFF;
 	border: #EFEFEF solid 1px;
-	padding: 5px;
+	padding: 5px 5px 0px 5px;
 	padding-right: 0px;
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
 	box-shadow: 3px 3px 5px #DCDCDC;
+}
+
+.subToolBar .subToolBarButtonPanel div.button {
+	margin: 0px 6px 5px 0px;
 }
 
 .subToolBarArrow {
