@@ -2122,6 +2122,8 @@ __GGB__keysVar.sq.plain = {
     "CopyOfA": "Kopje e %0",
     "CopyToClipboard": "Kopjo ne Kllipbord(Mbajtese)",
     "CornerPoint": "Qoshe",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Krijuar me",
     "CreatedWithGeoGebra": "Krijuar me GjeoGjebra",
     "CrossAt": "Kryqezo tek",

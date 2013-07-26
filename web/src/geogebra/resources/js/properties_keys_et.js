@@ -2122,6 +2122,8 @@ __GGB__keysVar.et.plain = {
     "CopyOfA": "%0 koopia",
     "CopyToClipboard": "Kopeeri l\xf5ikepuhvrisse",
     "CornerPoint": "Pildi nurk",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Loodud programmiga",
     "CreatedWithGeoGebra": "Loodud programmiga GeoGebra",
     "CrossAt": "L\xf5ika kohal",

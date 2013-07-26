@@ -2122,6 +2122,8 @@ __GGB__keysVar.gl.plain = {
     "CopyOfA": "Copia de %0",
     "CopyToClipboard": "Copiar ao portapapeis",
     "CornerPoint": "Esquina",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Creado con",
     "CreatedWithGeoGebra": "Creado con GeoGebra",
     "CrossAt": "Cruzamento en",

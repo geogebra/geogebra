@@ -2122,6 +2122,8 @@ __GGB__keysVar.nl_BE.plain = {
     "CopyOfA": "Kopie van %0",
     "CopyToClipboard": "Kopi\xebren naar klembord",
     "CornerPoint": "Hoekpunt",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Gemaakt met",
     "CreatedWithGeoGebra": "Gemaakt met GeoGebra",
     "CrossAt": "Assenstelsel bij",

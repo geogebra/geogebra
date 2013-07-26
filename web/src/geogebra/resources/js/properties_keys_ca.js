@@ -2122,6 +2122,8 @@ __GGB__keysVar.ca.plain = {
     "CopyOfA": "C\xf2pia de %0",
     "CopyToClipboard": "Copia al Porta-retalls",
     "CornerPoint": "Cantonada",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Creat amb",
     "CreatedWithGeoGebra": "Creat amb GeoGebra",
     "CrossAt": "Creuament a",

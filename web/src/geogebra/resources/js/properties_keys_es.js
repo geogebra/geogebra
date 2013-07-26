@@ -2122,6 +2122,8 @@ __GGB__keysVar.es.plain = {
     "CopyOfA": "Copia de %0",
     "CopyToClipboard": "Copia al Portapapeles",
     "CornerPoint": "Esquina",
+    "CreateSliders": "Crea Deslizadores",
+    "CreateSlidersForA": "Crea alg\xfan deslizador para: %0",
     "CreatedWith": "Creaci\xf3n realizada con",
     "CreatedWithGeoGebra": "Creado con GeoGebra",
     "CrossAt": "Cruce en",

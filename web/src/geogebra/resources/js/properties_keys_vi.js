@@ -2122,6 +2122,8 @@ __GGB__keysVar.vi.plain = {
     "CopyOfA": "Sao ch\xe9p c\u1ee7a %0",
     "CopyToClipboard": "Sao ch\xe9p v\xe0o b\u1ed9 nh\u1edb t\u1ea1m th\u1eddi",
     "CornerPoint": "G\xf3c \u0111\u1ec9nh",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "T\u1ea1o v\u1edbi",
     "CreatedWithGeoGebra": "T\u1ea1o m\u1edbi v\u1edbi GeoGebra",
     "CrossAt": "T\xedch v\xf4 h\u01b0\u1edbng t\u1ea1i",

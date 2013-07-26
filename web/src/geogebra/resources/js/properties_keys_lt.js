@@ -2122,6 +2122,8 @@ __GGB__keysVar.lt.plain = {
     "CopyOfA": "%0 kopija",
     "CopyToClipboard": "Kopijuoti",
     "CornerPoint": "Kampas",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Sukurta su",
     "CreatedWithGeoGebra": "Sukurta su GeoGebra",
     "CrossAt": "Sukirsti",

@@ -2122,6 +2122,8 @@ __GGB__keysVar.ta.plain = {
     "CopyOfA": "Copy of %0",
     "CopyToClipboard": "\u0baa\u0bbf\u0b9f\u0bbf\u0baa\u0bcd\u0baa\u0bc1\u0baa\u0bcd\u0baa\u0bb2\u0b95\u0bc8\u0b95\u0bcd\u0b95\u0bc1 \u0ba8\u0b95\u0bb2\u0bc6\u0b9f\u0bc1\u0b95\u0bcd\u0b95",
     "CornerPoint": "\u0bae\u0bc2\u0bb2\u0bc8",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u0b89\u0b9f\u0ba9\u0bcd \u0b89\u0bb0\u0bc1\u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0ba4\u0bc1",
     "CreatedWithGeoGebra": "Created with GeoGebra",
     "CrossAt": "Cross at",

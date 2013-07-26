@@ -2122,6 +2122,8 @@ __GGB__keysVar.de.plain = {
     "CopyOfA": "Kopie von %0",
     "CopyToClipboard": "Kopiere in die Zwischenablage",
     "CornerPoint": "Eckpunkt",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "erstellt mit",
     "CreatedWithGeoGebra": "erstellt mit GeoGebra",
     "CrossAt": "Schneidet bei",

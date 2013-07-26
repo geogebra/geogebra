@@ -2122,6 +2122,8 @@ __GGB__keysVar.sl.plain = {
     "CopyOfA": "Kopija %0",
     "CopyToClipboard": "Kopiraj na odlo\u017ei\u0161\u010de",
     "CornerPoint": "Vogal",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Sestavljeno z",
     "CreatedWithGeoGebra": "Narejeno z GeoGebro",
     "CrossAt": "Izhodi\u0161\u010de",

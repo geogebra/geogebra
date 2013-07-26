@@ -2122,6 +2122,8 @@ __GGB__keysVar.ru.plain = {
     "CopyOfA": "\u041a\u043e\u043f\u0438\u044f %0",
     "CopyToClipboard": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440",
     "CornerPoint": "\u0423\u0433\u043e\u043b",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u0421\u043e\u0437\u0434\u0430\u043d\u043e \u0441 \u043f\u043e\u043c\u043e\u0449\u044c\u044e",
     "CreatedWithGeoGebra": "\u0421\u043e\u0437\u0434\u0430\u043d\u043e \u0441 \u043f\u043e\u043c\u043e\u0449\u044c\u044e GeoGebra",
     "CrossAt": "\u041f\u0435\u0440\u0435\u0441\u0435\u0447\u0435\u043d\u0438\u0435 \u0432",

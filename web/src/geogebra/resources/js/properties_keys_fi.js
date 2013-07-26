@@ -2122,6 +2122,8 @@ __GGB__keysVar.fi.plain = {
     "CopyOfA": "%0:n Kopio",
     "CopyToClipboard": "Kopioi leikep\xf6yd\xe4lle",
     "CornerPoint": "Nurkka",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Luotu",
     "CreatedWithGeoGebra": "Luotu GeoGebralla",
     "CrossAt": "Leikkauskohta",

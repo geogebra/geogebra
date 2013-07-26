@@ -2122,6 +2122,8 @@ __GGB__keysVar.ar_TN.plain = {
     "CopyOfA": "\u0646\u0633\u062e\u0629 \u0645\u0646 %0",
     "CopyToClipboard": "\u0646\u0633\u062e \u0639\u0644\u0649 \u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0634\u0647\u062f",
     "CornerPoint": "\u0631\u0643\u0646",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u0625\u0646\u062a\u0627\u062c",
     "CreatedWithGeoGebra": "GeoGebra \u0627\u0646\u0634\u0627\u0621 \u0628\u0640",
     "CrossAt": "\u064a\u0642\u0637\u0639 \u0641\u064a",

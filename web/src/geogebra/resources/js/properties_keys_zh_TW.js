@@ -2122,6 +2122,8 @@ __GGB__keysVar.zh_TW.plain = {
     "CopyOfA": "%0 \u5ea7\u6a19",
     "CopyToClipboard": "\u8907\u88fd\u5230\u526a\u8cbc\u7c3f",
     "CornerPoint": "\u9802\u9ede",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u88fd\u4f5c\u8edf\u9ad4\uff1a",
     "CreatedWithGeoGebra": "GeoGebra \u88fd\u4f5c",
     "CrossAt": "\u4ea4\u6703\u9ede",

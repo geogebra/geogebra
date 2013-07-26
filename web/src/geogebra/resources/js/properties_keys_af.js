@@ -2122,6 +2122,8 @@ __GGB__keysVar.af.plain = {
     "CopyOfA": "Copy of %0",
     "CopyToClipboard": "Copy to Clipboard",
     "CornerPoint": "Corner",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Created with",
     "CreatedWithGeoGebra": "Created with GeoGebra",
     "CrossAt": "Cross at",

@@ -2122,6 +2122,8 @@ __GGB__keysVar.ro.plain = {
     "CopyOfA": "Copia lui %0",
     "CopyToClipboard": "Copiere pe Clipboard",
     "CornerPoint": "Col\u0163",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Creat cu",
     "CreatedWithGeoGebra": "Creat cu GeoGebra",
     "CrossAt": "Intersectat la",

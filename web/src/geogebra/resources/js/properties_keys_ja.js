@@ -2122,6 +2122,8 @@ __GGB__keysVar.ja.plain = {
     "CopyOfA": "%0 \u306e\u30b3\u30d4\u30fc",
     "CopyToClipboard": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u306b\u30b3\u30d4\u30fc",
     "CornerPoint": "\u9685",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u4f5c\u6210",
     "CreatedWithGeoGebra": "Created with GeoGebra",
     "CrossAt": "\u3082\u3046\uff11\u3064\u306e\u8ef8\u3068\u306e\u5207\u7247",

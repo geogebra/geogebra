@@ -2122,6 +2122,8 @@ __GGB__keysVar.eu.plain = {
     "CopyOfA": "%0-ren kopia",
     "CopyToClipboard": "Kopiatu Arbelean",
     "CornerPoint": "Izkina",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Honekin egina:",
     "CreatedWithGeoGebra": "GeoGebrarekin eginda",
     "CrossAt": "Gurutzea hemen:",

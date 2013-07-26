@@ -2122,6 +2122,8 @@ __GGB__keysVar.fr.plain = {
     "CopyOfA": "Copie de %0",
     "CopyToClipboard": "Copier dans Presse-papiers",
     "CornerPoint": "Coin",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Cr\xe9\xe9 avec",
     "CreatedWithGeoGebra": "Cr\xe9\xe9 avec GeoGebra",
     "CrossAt": "coupant en",

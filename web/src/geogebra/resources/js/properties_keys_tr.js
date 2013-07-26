@@ -2122,6 +2122,8 @@ __GGB__keysVar.tr.plain = {
     "CopyOfA": "%0 kopyas\u0131",
     "CopyToClipboard": "Panoya kopyala",
     "CornerPoint": "K\xf6\u015fe",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Olu\u015fturuldu",
     "CreatedWithGeoGebra": "GeoGebra ile olu\u015fturuldu",
     "CrossAt": "Kesi\u015ftir",

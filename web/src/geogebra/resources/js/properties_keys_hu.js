@@ -2122,6 +2122,8 @@ __GGB__keysVar.hu.plain = {
     "CopyOfA": "%0 m\xe1solata",
     "CopyToClipboard": "V\xe1g\xf3lapra m\xe1sol\xe1s",
     "CornerPoint": "Sarokpont",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "K\xe9sz\xedtette a",
     "CreatedWithGeoGebra": "Ez a dokumentum a GeoGebra programmal k\xe9sz\xfclt.",
     "CrossAt": "Kereszt\xfcl",

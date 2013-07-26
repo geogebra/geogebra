@@ -2122,6 +2122,8 @@ __GGB__keysVar.in.plain = {
     "CopyOfA": "Salinan dari %0",
     "CopyToClipboard": "Salin ke Clipboard",
     "CornerPoint": "Pojok",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Dibuat dengan",
     "CreatedWithGeoGebra": "Dibuat dengan GeoGebra",
     "CrossAt": "Menyilang pada",

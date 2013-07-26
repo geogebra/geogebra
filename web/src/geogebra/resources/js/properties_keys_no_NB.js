@@ -2122,6 +2122,8 @@ __GGB__keysVar.no_NB.plain = {
     "CopyOfA": "Kopi av %0",
     "CopyToClipboard": "Kopier til utklippstavla",
     "CornerPoint": "Hj\xf8rne",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Laget med",
     "CreatedWithGeoGebra": "Laget med GeoGebra",
     "CrossAt": "Kryss ved",

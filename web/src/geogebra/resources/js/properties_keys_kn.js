@@ -2122,6 +2122,8 @@ __GGB__keysVar.kn.plain = {
     "CopyOfA": "Copy of %0",
     "CopyToClipboard": "Copy to Clipboard",
     "CornerPoint": "\u0cae\u0cc2\u0cb2\u0cc6",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Created with",
     "CreatedWithGeoGebra": "Created with GeoGebra",
     "CrossAt": "Cross at",

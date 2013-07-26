@@ -2122,6 +2122,8 @@ __GGB__keysVar.da.plain = {
     "CopyOfA": "Kopi af %0",
     "CopyToClipboard": "Kopier til udklipsholder",
     "CornerPoint": "Hj\xf8rne",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Lavet med",
     "CreatedWithGeoGebra": "Lavet med GeoGebra",
     "CrossAt": "Kryds p\xe5",

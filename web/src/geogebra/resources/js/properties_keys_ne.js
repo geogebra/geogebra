@@ -2122,6 +2122,8 @@ __GGB__keysVar.ne.plain = {
     "CopyOfA": "Copy of %0",
     "CopyToClipboard": "\u0915\u094d\u0932\u093f\u092a\u092c\u094b",
     "CornerPoint": "\u0915\u0941\u0928\u093e",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "\u0930\u091a\u0928\u093e\u0938\u0939\u093f\u0924",
     "CreatedWithGeoGebra": "\u091c\u093f\u092f\u094b\u091c\u0947\u092c\u094d\u0930\u093e\u0938\u0917\u0902 \u0930\u091a\u093f\u0924",
     "CrossAt": "\u0915\u094d\u0930\u0938\u092e\u093e",

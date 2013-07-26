@@ -2122,6 +2122,8 @@ __GGB__keysVar.cs.plain = {
     "CopyOfA": "Kopie %0",
     "CopyToClipboard": "Kop\xedrovat do schr\xe1nky",
     "CornerPoint": "Roh",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Vytvo\u0159eno programem",
     "CreatedWithGeoGebra": "Vytvo\u0159en\xe9 GeoGebrou",
     "CrossAt": "Pr\u016fse\u010d\xedk s",

@@ -2122,6 +2122,8 @@ __GGB__keysVar.sk.plain = {
     "CopyOfA": "K\xf3pia toho: %0",
     "CopyToClipboard": "Kop\xedrova\u0165 do schr\xe1nky",
     "CornerPoint": "Roh",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Vytvoren\xe9 pomocou programu",
     "CreatedWithGeoGebra": "Vytvoren\xe9 s GeoGebrou",
     "CrossAt": "Prekr\xed\u017eenie pri",

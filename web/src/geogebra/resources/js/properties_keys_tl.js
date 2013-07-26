@@ -2122,6 +2122,8 @@ __GGB__keysVar.tl.plain = {
     "CopyOfA": "Ang kopya ng %0",
     "CopyToClipboard": "Kopyahin sa Klipbord",
     "CornerPoint": "Sulok",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Ginawa sa pamamagitan ng",
     "CreatedWithGeoGebra": "Ginawa sa pamamagitan ng GeoGebra",
     "CrossAt": "Magsalubong sa",

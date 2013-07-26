@@ -2122,6 +2122,8 @@ __GGB__keysVar.is.plain = {
     "CopyOfA": "Afrit af %0",
     "CopyToClipboard": "Afrita \xe1 klemmuspjald",
     "CornerPoint": "Hornpunktur",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "B\xfai\xf0 til me\xf0",
     "CreatedWithGeoGebra": "B\xfai\xf0 til me\xf0 GeoGebra",
     "CrossAt": "Skur\xf0punktur \xe1sa \xed",

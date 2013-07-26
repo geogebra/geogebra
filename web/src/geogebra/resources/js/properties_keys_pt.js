@@ -2122,6 +2122,8 @@ __GGB__keysVar.pt.plain = {
     "CopyOfA": "C\xf3pia de %0",
     "CopyToClipboard": "Copiar para \xc1rea de Transfer\xeancia",
     "CornerPoint": "Canto",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Criado com",
     "CreatedWithGeoGebra": "criado com o GeoGebra",
     "CrossAt": "Origem em",

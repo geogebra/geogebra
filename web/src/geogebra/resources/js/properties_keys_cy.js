@@ -2122,6 +2122,8 @@ __GGB__keysVar.cy.plain = {
     "CopyOfA": "Copy of %0",
     "CopyToClipboard": "Cop\xefo i'r clipfwrdd",
     "CornerPoint": "Congl",
+    "CreateSliders": "Create Sliders",
+    "CreateSlidersForA": "Create slider(s) for: %0",
     "CreatedWith": "Crewyd gyda",
     "CreatedWithGeoGebra": "Cr\xebwyd gyda GeoGebra",
     "CrossAt": "Croesi yn",
