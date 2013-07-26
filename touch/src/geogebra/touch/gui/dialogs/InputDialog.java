@@ -2,6 +2,7 @@ package geogebra.touch.gui.dialogs;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
@@ -171,9 +172,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.contentPanel.getElement().setAttribute("style", "margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 		this.contentPanel.getCellFormatter().setStyleName(0, 0, "left");
 		this.contentPanel.getCellFormatter().setStyleName(0, 1, "right");
-		
+
 		this.contentPanel.getCellFormatter().addStyleName(1, 0, "bottom");
-		
+
 		this.contentPanel.getCellFormatter().setStyleName(1, 1, "right");
 		this.contentPanel.getCellFormatter().addStyleName(1, 1, "bottom");
 
@@ -245,11 +246,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		});
 		this.buttonPanel.add(ok);
 		this.buttonPanel.add(cancel);
-		
+
 		// TODO win8 buttonpanel
 		this.contentPanel.setWidget(1, 1, this.buttonPanel);
-		
-		
+
 		// TODO android buttonpanel
 		this.dialogPanel.add(this.buttonPanel);
 	}
@@ -263,12 +263,18 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		if (this.isNumber())
 		{
+			GeoNumeric num = new GeoNumeric(this.app.getKernel().getConstruction());
+			this.textBox.setText(num.getFreeLabel(null));
+
 			this.min.setText("-5");
 			this.max.setText("5");
 			this.increment.setText("0.1");
 		}
 		else
 		{
+			GeoAngle angle = new GeoAngle(this.app.getKernel().getConstruction());
+			this.textBox.setText(angle.getFreeLabel(null));
+
 			this.min.setText("0\u00B0"); // 0°
 			this.max.setText("360\u00B0");
 			this.increment.setText("1\u00B0");
@@ -348,7 +354,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.contentPanel.setWidget(0, 1, this.radioButtonPanel);
 
 		this.radioButton[0].setValue(new Boolean(true));
-		this.setSliderPreview();
 	}
 
 	protected void onOK()
@@ -381,7 +386,14 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.guiModel.setActiveDialog(this);
 
 		super.center();
-		this.textBox.setText(this.prevText);
+
+		if (this.type != DialogType.Slider)
+		{
+			this.textBox.setText(this.prevText);
+		} else {
+			setSliderPreview();
+		}
+
 		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null)

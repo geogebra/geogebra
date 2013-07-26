@@ -103,13 +103,15 @@ public class InputField extends VerticalPanel
 		this.textBox.setFocus(b);
 	}
 
-	public void setTextBoxToLoseFocus(InputField[] t)
+	public void setTextBoxToLoseFocus(InputField[] text)
 	{
-		for (InputField text : t)
+		this.box = new ArrayList<InputField>();
+		
+		for (InputField t : text)
 		{
 			if (!this.box.contains(t) && !t.equals(this))
 			{
-				this.box.add(text);
+				this.box.add(t);
 			}
 		}
 	}
