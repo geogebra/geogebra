@@ -2987,7 +2987,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (stringType.equals(StringType.LIBRE_OFFICE))
 						sb.append("func ");
 					//do not recompute the expression string if we are plugging in the same variable; #3481
-					String rhString = oldVarStr.equals(rightStr) ? rightStr : geo.getLabel(tpl);
+					String rhString = oldVarStr.equals(rightStr) ? leftStr : geo.getLabel(tpl);
 					sb.append(rhString);
 					var.setVarString(oldVarStr);
 				}
