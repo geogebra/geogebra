@@ -7,6 +7,7 @@ import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StyleBarStatic;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.gui.elements.toolbar.SubToolBar;
+import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.elements.toolbar.ToolBarButton;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -37,6 +38,7 @@ public class GuiModel
 	private int lineSize = -1;
 	private int captionMode = -1;
 	private PopupPanel activeDialog;
+	private ToolBar toolBar;
 
 	/**
 	 * @param model
@@ -46,12 +48,14 @@ public class GuiModel
 	{
 		this.touchModel = model;
 	}
-	
-	public void setOption(SubToolBar options) {
+
+	public void setOption(SubToolBar options)
+	{
 		this.option = options;
 	}
-	
-	public void setStyleBarOptionShown(OptionType type) {
+
+	public void setStyleBarOptionShown(OptionType type)
+	{
 		this.styleBarOptionShown = type;
 	}
 
@@ -80,8 +84,19 @@ public class GuiModel
 		}
 	}
 
+	/**
+	 * closes options and ToolBar
+	 */
 	public void closeOptions()
 	{
+		closeOnlyOptions();
+		if (this.toolBar != null)
+		{
+			this.toolBar.closeToolBar();
+		}
+	}
+
+	private void closeOnlyOptions(){
 		if (this.option != null)
 		{
 			this.option.hide();
@@ -126,7 +141,7 @@ public class GuiModel
 	 */
 	public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent)
 	{
-		closeOptions();
+		closeOnlyOptions();
 		this.option = newOption;
 		newOption.showRelativeTo(parent);
 		this.styleBarOptionShown = type;
@@ -218,5 +233,10 @@ public class GuiModel
 	public void setActiveDialog(PopupPanel dialog)
 	{
 		this.activeDialog = dialog;
+	}
+
+	public void setToolBar(ToolBar toolBar)
+	{
+		this.toolBar = toolBar;
 	}
 }

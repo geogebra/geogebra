@@ -101,6 +101,7 @@ public class ToolBar extends FlowPanel
 	private void makeTabletToolBar(final TouchModel model)
 	{
 		this.touchModel = model;
+		this.touchModel.getGuiModel().setToolBar(this);
 		this.tools = new ArrayList<ToolBarButton>();
 
 		this.tools.add(new ToolBarButton(ToolBarMenu.ManipulateObjects, model.getGuiModel()));
@@ -201,6 +202,7 @@ public class ToolBar extends FlowPanel
 		this.showHideOpened.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				ToolBar.this.touchModel.getGuiModel().closeOptions();
 				ToolBar.this.closeToolBar();
 			}
 		});
@@ -228,7 +230,6 @@ public class ToolBar extends FlowPanel
 	}
 	
 	public void closeToolBar() {
-		this.touchModel.getGuiModel().closeOptions();
 		this.removeStyleName("visible");
 		this.showHideOpened.setVisible(false);
 		this.showHideClosed.setVisible(true);

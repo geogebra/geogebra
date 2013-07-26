@@ -40,7 +40,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 
-	private TouchModel touchModel;
+	TouchModel touchModel;
 
 	DockLayoutPanel contentPanel;
 	private ToolBar toolBar;
@@ -51,7 +51,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 	private LayoutPanel algebraViewButtonPanel;
 	private FlowPanel algebraViewArrowPanel;
-	
+
 	private TouchApp app;
 
 	private boolean editing = true;
@@ -130,10 +130,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
 
-		
-
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);
-		
 
 		Window.addResizeHandler(new ResizeHandler()
 		{
@@ -141,13 +138,19 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			public void onResize(ResizeEvent event)
 			{
 				TabletGUI.this.onResize(event);
+
+				if (TabletGUI.this.touchModel != null)
+				{
+					TabletGUI.this.touchModel.getGuiModel().closeOptions();
+				}
 			}
 		});
 	}
 
 	public static int computeAlgebraWidth()
 	{
-		if(Window.getClientWidth()<320){
+		if (Window.getClientWidth() < 320)
+		{
 			return Window.getClientWidth();
 		}
 		return Math.max(250, (int) (Window.getClientWidth() * ALGEBRA_VIEW_WIDTH_FRACTION));
@@ -179,8 +182,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 		this.contentPanel.onResize();
 		updateViewSizes(this.algebraViewPanel.isVisible());
 
-		//this.toolBar.setWidth(event.getWidth() + "px");
-		
+		// this.toolBar.setWidth(event.getWidth() + "px");
+
 		// ToolBar
 		this.toolBar.onResize();
 
@@ -227,19 +230,20 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI
 			// TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 			this.euclidianViewPanel.setWidgetPosition(this.algebraViewButtonPanel, Window.getClientWidth() - ALGEBRA_BUTTON_WIDTH, 0);
 
-			
-
 			// Set algebraviewbutton transparent, when algebra view is closed
 			this.algebraViewButtonPanel.addStyleName("transparent");
 		}
 		else
 		{
 			this.contentPanel.setWidgetSize(this.algebraViewPanel, computeAlgebraWidth());
-			
+
 			int euclidianWidth = Window.getClientWidth() - computeAlgebraWidth();
-			if(euclidianWidth <= 0){
+			if (euclidianWidth <= 0)
+			{
 				this.algebraViewPanel.addInsideArrow();
-			}else{
+			}
+			else
+			{
 				this.algebraViewPanel.removeInsideArrow();
 			}
 			this.euclidianViewPanel.setPixelSize(euclidianWidth, Window.getClientHeight() - panelHeight);
