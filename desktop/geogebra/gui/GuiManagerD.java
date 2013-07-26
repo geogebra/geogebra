@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.export.pstricks.GeoGebraToPstricks;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.SetLabels;
@@ -29,6 +30,7 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.export.pstricks.PstricksFrame;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -2994,7 +2996,8 @@ public class GuiManagerD extends GuiManager {
 
 	@Override
 	public void showPSTricksExport() {
-		new geogebra.common.export.pstricks.GeoGebraToPstricks(app);
+		GeoGebraToPstricks export = new GeoGebraToPstricks(app);
+		new PstricksFrame(export);
 		
 	}
 
