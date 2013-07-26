@@ -95,9 +95,12 @@ public class BrowseGUI extends VerticalPanel
 		
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
-
-		this.localFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
-		this.tubeFilePanel.setHeight((Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
+		int panelHeight = (Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight()) 
+				- HEADING_HEIGHT - CONTROLS_HEIGHT;
+		if(panelHeight > 0){
+			this.localFilePanel.setHeight(panelHeight + "px");
+			this.tubeFilePanel.setHeight(panelHeight + "px");
+		}
 		HorizontalPanel fileList = new HorizontalPanel();
 		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
