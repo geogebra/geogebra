@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.html5.main.StringHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
@@ -34,6 +35,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 	private StandardImageButton newButton = new StandardImageButton(LafIcons.document_new());
 	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_open());
 	private StandardImageButton saveButton = new StandardImageButton(LafIcons.document_save());
+	private StandardImageButton shareButton = new StandardImageButton(LafIcons.document_share());
 
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
@@ -56,6 +58,31 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 		this.add(this.newButton);
 		this.add(this.openButton);
 		this.add(this.saveButton);
+		
+		if(TouchEntryPoint.getLookAndFeel().supportsShare()){
+			initShareButton();
+			this.add(this.shareButton);
+		}
+	}
+
+	private void initShareButton() {
+		this.shareButton.addDomHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				TabletHeaderPanelLeft.this.app.getGgbApi().getBase64(new StringHandler(){
+
+					@Override
+					public native void handle(String s) /*-{
+						if(!$wnd.android){
+							return;
+						}
+						$wnd.android.share(s);
+					}-*/;});
+			}
+		}, ClickEvent.getType());
+		
 	}
 
 	private void initNewButton()

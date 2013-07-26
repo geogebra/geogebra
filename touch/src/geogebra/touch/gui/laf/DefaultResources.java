@@ -42,6 +42,10 @@ public interface DefaultResources extends ClientBundle
 	@Source("icons/svg/document-save.svg")
 	@Validated(validated = false)
 	SVGResource document_save();
+	
+	@Source("icons/svg/document-save.svg")
+	@Validated(validated = false)
+	SVGResource document_share();
 
 	@Source("icons/svg/menu_edit_undo.svg")
 	@Validated(validated = false)

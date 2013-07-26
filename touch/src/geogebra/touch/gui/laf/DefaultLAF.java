@@ -130,4 +130,9 @@ public class DefaultLAF implements LookAndFeel
 	public void setApp(TouchApp app) {
 		this.app = app;
 	}
+
+	@Override
+	public boolean supportsShare() {
+		return false;
+	}
 }

@@ -41,4 +41,6 @@ public interface LookAndFeel extends SavedStateListener
 	public void updateUndoSaveButtons();
 
 	public void setApp(TouchApp app);
+
+	public boolean supportsShare();
 }

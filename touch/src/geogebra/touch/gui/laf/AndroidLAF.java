@@ -25,4 +25,9 @@ public class AndroidLAF extends DefaultLAF
 	public int getPaddingLeftOfDialog() {
 		return 15;
 	}
+	
+	@Override
+	public boolean supportsShare() {
+		return true;
+	}
 }
