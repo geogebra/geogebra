@@ -2294,7 +2294,8 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public String getToolbarDefinition() {
-		if (strCustomToolbarDefinition == null && toolbarPanel != null)
+		//"null" may appear in files created using some buggy versions of Touch
+		if (("null".equals(strCustomToolbarDefinition) || strCustomToolbarDefinition == null) && toolbarPanel != null)
 			return getGeneralToolbar().getDefaultToolbarString();
 		return strCustomToolbarDefinition;
 	}
