@@ -447,6 +447,7 @@ div.elemHeadingName {
 	margin-top: 6px;
 	float: right;
 	display: inline-block;
+	margin-bottom: 2px;
 }
 
 .toolbar.visible .arrowLeft {

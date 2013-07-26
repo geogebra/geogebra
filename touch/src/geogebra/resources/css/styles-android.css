@@ -89,6 +89,11 @@ body .inputbarPanel input {
 	color: #999999;
 	height: 28px;
 	font-size: 14px;
+	width: 210px;
+}
+
+body .toolbar.visible .inputPanel {
+	width: 100%;
 }
 
 /* POPUP Dialog INPUT */

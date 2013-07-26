@@ -23,6 +23,8 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -40,7 +42,7 @@ public class ToolBar extends FlowPanel
 	protected List<ToolBarButton> tools;
 	FlowPanel toolPanel;
 	private FlowPanel inputButtonPanel;
-	private FlowPanel inputPanel;
+	private HorizontalPanel inputPanel;
 	StandardImageButton showHideClosed;
 	StandardImageButton showHideOpened;
 	private SVGResource iconFx = TouchEntryPoint.getLookAndFeel().getIcons().icon_fx();
@@ -64,7 +66,7 @@ public class ToolBar extends FlowPanel
 
 		this.toolPanel = new FlowPanel();
 		this.inputButtonPanel = new FlowPanel();
-		this.inputPanel = new FlowPanel();
+		this.inputPanel = new HorizontalPanel();
 
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
@@ -127,6 +129,7 @@ public class ToolBar extends FlowPanel
 		String html = "<img src=\"" + this.iconFx.getSafeUri().asString() + "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
+		this.inputPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.inputPanel.add(iconPanel);
 		
 		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
