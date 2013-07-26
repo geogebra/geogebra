@@ -7869,7 +7869,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
 		labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		cbUseFixedSize = new JCheckBox(loc.getPlain("Fixed size"));
+		cbUseFixedSize = new JCheckBox(loc.getPlain("Fixed"));
 		tfButtonWidth = new MyTextField(app, 3);
 		tfButtonHeight = new MyTextField(app, 3);
 		tfButtonHeight.setInputVerifier(new SizeVerify());
@@ -7893,7 +7893,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 	}
 
 	public void setLabels() {
-		setBorder(BorderFactory.createTitledBorder(loc.getPlain("Button size")));
+		setBorder(BorderFactory.createTitledBorder(loc.getPlain("ButtonSize")));
 	}
 
 	public JPanel update(Object[] geos) {
