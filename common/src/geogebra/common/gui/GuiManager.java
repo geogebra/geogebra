@@ -603,4 +603,13 @@ public abstract class GuiManager {
 	 * When we remove all drawable, we must to clear this AbsolutePanel too.
 	 */
 	public abstract void clearAbsolutePanels();
+
+	/**
+	 * #3490  "Create sliders for a, b?" Create Sliders / Cancel
+ 	 * Yes: create sliders and draw line
+ 	 * No: go back into input bar and allow user to change input
+	 * @param string eg "a, b"
+	 * @return true/false
+	 */
+	public abstract boolean checkAutoCreateSliders(String string);
 }

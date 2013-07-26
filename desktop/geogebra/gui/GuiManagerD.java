@@ -70,6 +70,7 @@ import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.main.LocalizationD;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -3043,6 +3044,30 @@ public class GuiManagerD extends GuiManager {
 	@Override
 	public void clearAbsolutePanels() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean checkAutoCreateSliders(String s) {
+		Component comp = (app).getMainComponent();
+		if ((app).getFrame() instanceof GeoGebraFrame) {
+			GeoGebraFrame frame = (GeoGebraFrame) (app).getFrame();
+			comp = frame != null && !frame.isIconified() ? frame : null;
+		}
+		
+		LocalizationD loc = app.getLocalization();
+
+		// Michael Borcherds 2008-05-04
+		Object[] options = { app.getPlain("CreateSliders"),
+				app.getMenu("Cancel") };
+		int returnVal = JOptionPane.showOptionDialog(comp,
+				loc.getPlain("CreateSlidersForA", s),
+				loc.getPlain("CreateSliders"), JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+
+				null, options, options[0]);
+		
+		return returnVal == 0;
 		
 	}
 }

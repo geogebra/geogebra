@@ -1348,4 +1348,10 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	    	if (!(nextItem instanceof Canvas)) it.remove();
 	    }
 	}
+
+	@Override
+    public boolean checkAutoCreateSliders(String string) {
+	    // TODO #3490
+	    return false;
+    }
 }

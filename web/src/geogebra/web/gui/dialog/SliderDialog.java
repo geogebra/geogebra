@@ -88,8 +88,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
-		DialogManagerW.setSliderFromDefault(number,false);
-		DialogManagerW.setSliderFromDefault(angle,true);
+		GeoNumeric.setSliderFromDefault(number,false);
+		GeoNumeric.setSliderFromDefault(angle,true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			

@@ -9,10 +9,13 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.TreeSet;
 /**
  *  Traversing objects are allowed to traverse through Equation,
  *  MyList, ExpressionNode and MyVecNode(3D) structure to perform some action,
@@ -312,6 +315,120 @@ public interface Traversing {
 		}
 
 	}
+	
+	/**
+	 * Replaces undefined variables by sliders
+	 * @author michael
+	 *
+	 */
+	public class ReplaceUndefinedVariables implements Traversing {
+		/**
+		 * Replaces undefined variables by sliders
+		 * 
+		 */
+		public ReplaceUndefinedVariables() {
+		}
+		public ExpressionValue process(ExpressionValue ev) {
+			
+			if (ev instanceof Variable) {
+				Variable v = (Variable)ev;
+				
+				String name = v.getName(StringTemplate.defaultTemplate);
+				
+				// check if a geo exists with this name
+				GeoElement geo = ev.getKernel().lookupLabel(name);
+				
+				if (geo == null) {
+					App.debug("autocreating slider "+name);
+					GeoNumeric slider = new GeoNumeric(ev.getKernel().getConstruction(), name, 1);
+					
+					GeoNumeric.setSliderFromDefault(slider, false);
+					
+				}
+			}
+			
+			return ev;
+		}
+
+	}	
+	
+	/**
+	 * Collect undefined variables
+	 * @author michael
+	 *
+	 */
+	public class CollectUndefinedVariables implements Traversing {
+		
+		private TreeSet<String> tree = new TreeSet<String>();
+		
+		/**
+		 *  
+		 * @return list of undefined variables (repeats removed)
+		 */
+		public TreeSet<String> getResult() {
+			return tree;
+		}
+		
+		/**
+		 * Collect undefined variables by sliders
+		 * 
+		 */
+		public CollectUndefinedVariables() {
+		}
+		public ExpressionValue process(ExpressionValue ev) {
+			
+			if (ev instanceof Variable) {
+				Variable v = (Variable)ev;
+				
+				String name = v.getName(StringTemplate.defaultTemplate);
+				
+				GeoElement geo = ev.getKernel().lookupLabel(name);
+				
+				if (geo == null) {
+					App.debug("found undefined variable: "+name);
+					tree.add(name);					
+				}
+			}
+			
+			return ev;
+		}
+
+	}
+
+	/**
+	 * Collect FunctionVariables
+	 * @author michael
+	 *
+	 */
+	public class CollectFunctionVariables implements Traversing {
+		
+		private ArrayList<FunctionVariable> al = new ArrayList<FunctionVariable>();
+		
+		/**
+		 *  
+		 * @return list of undefined variables (repeats removed)
+		 */
+		public ArrayList<FunctionVariable> getResult() {
+			return al;
+		}
+		
+		/**
+		 * Collect undefined variables by sliders
+		 * 
+		 */
+		public CollectFunctionVariables() {
+		}
+		public ExpressionValue process(ExpressionValue ev) {
+			
+			if (ev instanceof FunctionVariable) {
+				al.add((FunctionVariable) ev);
+			}
+			
+			return ev;
+		}
+
+	}
+
 	/**
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */

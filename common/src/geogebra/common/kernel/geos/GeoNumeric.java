@@ -1331,6 +1331,29 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public ExpressionValue integral(FunctionVariable fv) {
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
+	
+	/**
+	 * turn a number into a slider
+	 * 
+	 * @param num value
+	 * @param isAngle angle?
+	 * @return GeoNumeric with slider defaults set
+	 */
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
+		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);		
+		num.setSliderFixed(defaultNum.isSliderFixed());		
+		num.setEuclidianVisible(true);
+		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
+		num.setIntervalMax((GeoNumeric)defaultNum.getIntervalMaxObject());
+		num.setAbsoluteScreenLocActive(true);
+		num.setAnimationType(defaultNum.getAnimationType());
+		num.setSliderWidth(defaultNum.getSliderWidth());
+		num.setRandom(defaultNum.isRandom());
+		num.update();
+		return num;
+	}
+
+
 
 
 }

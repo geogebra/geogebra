@@ -1,7 +1,5 @@
 package geogebra.touch;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -16,6 +14,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+
+import java.util.ArrayList;
 
 public class GuiManagerT extends GuiManager
 {
@@ -676,6 +676,12 @@ public class GuiManagerT extends GuiManager
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean checkAutoCreateSliders(String string) {
+		// TODO #3490
+		return true;
 	}
 
 }

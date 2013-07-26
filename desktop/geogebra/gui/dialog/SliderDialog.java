@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.DialogManager;
 import geogebra.gui.properties.SliderPanel;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
@@ -78,8 +77,8 @@ public class SliderDialog extends JDialog
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
-		DialogManager.setSliderFromDefault(number,false);
-		DialogManager.setSliderFromDefault(angle,true);
+		GeoNumeric.setSliderFromDefault(number,false);
+		GeoNumeric.setSliderFromDefault(angle,true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			

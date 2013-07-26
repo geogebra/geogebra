@@ -129,7 +129,7 @@ public abstract class DialogManager {
     public boolean showSliderCreationDialog(int x, int y) {
 		Kernel kernel = app.getKernel();
 		boolean isAngle = !confirm("OK for number, Cancel for angle");
-		GeoNumeric slider = setSliderFromDefault(isAngle ? new GeoAngle(kernel.getConstruction()) :  new GeoNumeric(kernel.getConstruction()), isAngle);
+		GeoNumeric slider = GeoNumeric.setSliderFromDefault(isAngle ? new GeoAngle(kernel.getConstruction()) :  new GeoNumeric(kernel.getConstruction()), isAngle);
 
 		StringTemplate tmpl = StringTemplate.defaultTemplate;
 		
@@ -345,19 +345,6 @@ public abstract class DialogManager {
     }
 
 	protected abstract String prompt(String message, String def);
-
-	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
-		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);		
-		num.setSliderFixed(defaultNum.isSliderFixed());		
-		num.setEuclidianVisible(true);
-		num.setIntervalMin((GeoNumeric)defaultNum.getIntervalMinObject());
-		num.setIntervalMax((GeoNumeric)defaultNum.getIntervalMaxObject());
-		num.setAbsoluteScreenLocActive(true);
-		num.setAnimationType(defaultNum.getAnimationType());
-		num.setSliderWidth(defaultNum.getSliderWidth());
-		num.setRandom(defaultNum.isRandom());
-		return num;
-	}
 
 	public abstract void closeAll();
 
