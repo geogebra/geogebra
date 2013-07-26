@@ -1,6 +1,7 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.util.NormalizerMinimal;
 import geogebra.html5.main.StringHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -74,11 +75,22 @@ public class TabletHeaderPanelLeft extends HorizontalPanel
 				TabletHeaderPanelLeft.this.app.getGgbApi().getBase64(new StringHandler(){
 
 					@Override
-					public native void handle(String s) /*-{
+					public void handle(String s){
+						String name = TabletHeaderPanelLeft.this.app.getConstructionTitle();
+						if(name != null){
+							name = NormalizerMinimal.transformStatic(name, false).replaceAll("[^\\w.-_]", "");
+						}
+						if("".equals(name)){
+							name = "construction";
+						}
+						share(s,name);
+					}
+					
+					public native void share(String ggbBase64, String name) /*-{
 						if(!$wnd.android){
 							return;
 						}
-						$wnd.android.share(s);
+						$wnd.android.share(ggbBase64, name);
 					}-*/;});
 			}
 		}, ClickEvent.getType());

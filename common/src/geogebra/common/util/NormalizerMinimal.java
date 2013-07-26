@@ -19,20 +19,21 @@ public class NormalizerMinimal {
 	 * @return the string to lower case and without accents
 	 */
 	public String transform(String s) {
-		return transformStatic(s);
+		return transformStatic(s, true);
 	}
 
 	/**
 	 * transform the string to lower case and without accents. Better solution (non-GWT) for Java 6 in Normalizer6 class
 	 * @param s the string
+	 * @param lowerCase whether to turn to lowercase or not
 	 * @return the string to lower case and without accents
 	 */
-	public static String transformStatic(String s) {
-		String sLower = StringUtil.toLowerCase(s);	 
+	public static String transformStatic(String s, boolean lowerCase) {
+		String sCorrectCase = lowerCase ? StringUtil.toLowerCase(s) : s;	 
 		StringBuilder sb = new StringBuilder(s.length());
 		
-		for (int i = 0 ; i < sLower.length() ; i++) {
-			char ch = sLower.charAt(i);
+		for (int i = 0 ; i < sCorrectCase.length() ; i++) {
+			char ch = sCorrectCase.charAt(i);
 			
 			// replace eg Unicode.eAcute with e
 			String replacement = hm.get(ch);
