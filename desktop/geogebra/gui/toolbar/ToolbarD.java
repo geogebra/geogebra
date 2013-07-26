@@ -20,7 +20,6 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
@@ -173,7 +172,7 @@ public class ToolbarD extends JToolBar {
 			if (dockPanel != null) {
 				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = ToolBar.parseToolbarString(((GuiManagerD)app.getGuiManager())
+				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
 						.getToolbarDefinition());
 			}
 		} catch (Exception e) {
@@ -182,7 +181,7 @@ public class ToolbarD extends JToolBar {
 						+ dockPanel.getToolbarString());
 			} else {
 				App.debug("invalid toolbar string: "
-						+ ((GuiManagerD)app.getGuiManager()).getToolbarDefinition());
+						+ app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
@@ -307,6 +306,9 @@ public class ToolbarD extends JToolBar {
 	}
 	
 	
+	/**
+	 * @return true when tooltips are suppressed
+	 */
 	protected boolean preventToolTipDelay(){
 		return !app.showToolBarHelp();
 	}
