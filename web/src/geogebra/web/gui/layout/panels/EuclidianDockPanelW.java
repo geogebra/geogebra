@@ -47,7 +47,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 		if(stylebar){
 			component = loadComponent();
 		}else{
-			loadComponent();
+			component = loadComponent();
 			buildGUI();
 		}
 	}
@@ -60,8 +60,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		app = application;
-		if (!app.onlyGraphicsViewShowing())
-			addNavigationBar();
+		addNavigationBar();
 	}
 
 	
