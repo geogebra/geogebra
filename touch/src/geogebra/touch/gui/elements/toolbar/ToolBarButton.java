@@ -52,7 +52,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener
 				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd()
 				    && ToolBarButton.this.model.getOptionTypeShown() == OptionType.ToolBar)
 				{
-					ToolBarButton.this.model.closeOptions();
+					ToolBarButton.this.model.closeOnlyOptions();
 				}
 				else
 				{

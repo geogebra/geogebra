@@ -96,7 +96,7 @@ public class GuiModel
 		}
 	}
 
-	private void closeOnlyOptions(){
+	public void closeOnlyOptions(){
 		if (this.option != null)
 		{
 			this.option.hide();
