@@ -47,6 +47,7 @@ import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
@@ -353,30 +354,30 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 		// translate x and y coordinates by changing the parent coords
 		// accordingly
-		ArrayList<GeoNumeric> freeCoordNumbers = getCoordParentNumbers();
-		GeoNumeric xvar = freeCoordNumbers.get(0);
-		GeoNumeric yvar = freeCoordNumbers.get(1);
+		ArrayList<NumberValue> freeCoordNumbers = getCoordParentNumbers();
+		NumberValue xvar = freeCoordNumbers.get(0);
+		NumberValue yvar = freeCoordNumbers.get(1);
 
 		// polar coords (r; phi)
-		if (hasPolarParentNumbers()) {
+		if (hasPolarParentNumbers() && xvar instanceof GeoNumeric && yvar instanceof GeoNumeric) {
 			// radius
 			double radius = MyMath.length(endPosition.getX(),
 					endPosition.getY());
-			xvar.setValue(radius);
+			((GeoNumeric) xvar).setValue(radius);
 
 			// angle
 			double angle = Kernel.convertToAngleValue(Math.atan2(
 					endPosition.getY(), endPosition.getX()));
 			// angle outsid of slider range
-			if (yvar.isIntervalMinActive()
-					&& yvar.isIntervalMaxActive()
-					&& (angle < yvar.getIntervalMin() || angle > yvar
+			if (((GeoNumeric) yvar).isIntervalMinActive()
+					&& ((GeoNumeric) yvar).isIntervalMaxActive()
+					&& (angle < ((GeoNumeric) yvar).getIntervalMin() || angle > ((GeoNumeric) yvar)
 							.getIntervalMax())) {
 				// use angle value closest to closest border
-				double minDiff = Math.abs((angle - yvar.getIntervalMin()));
+				double minDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMin()));
 				if (minDiff > Math.PI)
 					minDiff = Kernel.PI_2 - minDiff;
-				double maxDiff = Math.abs((angle - yvar.getIntervalMax()));
+				double maxDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMax()));
 				if (maxDiff > Math.PI)
 					maxDiff = Kernel.PI_2 - maxDiff;
 
@@ -385,20 +386,35 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 				else
 					angle = angle + Kernel.PI_2;
 			}
-			yvar.setValue(angle);
+			((GeoNumeric) yvar).setValue(angle);
 		}
 
 		// cartesian coords (xvar + constant, yvar + constant)
 		else {
 
-			xvar.setValue(xvar.getValue() - inhomX + endPosition.getX());
-			yvar.setValue(yvar.getValue() - inhomY + endPosition.getY());
+			double newXval = xvar.getDouble() - inhomX + endPosition.getX();
+			double newYval = yvar.getDouble() - inhomY + endPosition.getY();
+			if (xvar instanceof GeoNumeric) {
+				((GeoNumeric) xvar).setValue(newXval);
+			} else {
+				((MyDouble)xvar).set(newXval);
+			}
+
+			if (yvar instanceof GeoNumeric) {
+				((GeoNumeric) yvar).setValue(newYval);
+			} else {
+				((MyDouble)yvar).set(newYval);
+			}
 		}
 
-		addChangeableCoordParentNumberToUpdateList(xvar, updateGeos,
-				tempMoveObjectList);
-		addChangeableCoordParentNumberToUpdateList(yvar, updateGeos,
-				tempMoveObjectList);
+		if (xvar instanceof GeoNumeric) {
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric)xvar, updateGeos,
+					tempMoveObjectList);
+		}
+		if (yvar instanceof GeoNumeric) {
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric)yvar, updateGeos,
+					tempMoveObjectList);
+		}
 
 		return true;
 	}
@@ -410,49 +426,56 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	@Override
 	final public boolean hasChangeableCoordParentNumbers() {
 
-		if (isFixed())
+		if (isFixed()) {
 			return false;
+		}
 
-		ArrayList<GeoNumeric> coords = getCoordParentNumbers();
-		if (coords.size() == 0)
+		ArrayList<NumberValue> coords = getCoordParentNumbers();
+		if (coords.size() == 0) {
 			return false;
+		}
 
-		GeoNumeric num1 = coords.get(0);
-		GeoNumeric num2 = coords.get(1);
+		NumberValue num1 = coords.get(0);
+		NumberValue num2 = coords.get(1);
 
 		if (num1 == null || num2 == null)
 			return false;
 
-		GeoElement maxObj1 = num1.getIntervalMaxObject();
-		GeoElement maxObj2 = num2.getIntervalMaxObject();
-		GeoElement minObj1 = num1.getIntervalMinObject();
-		GeoElement minObj2 = num2.getIntervalMinObject();
-		if (maxObj1 != null && maxObj1.isChildOrEqual(num2))
-			return false;
-		if (minObj1 != null && minObj1.isChildOrEqual(num2))
-			return false;
-		if (maxObj2 != null && maxObj2.isChildOrEqual(num1))
-			return false;
-		if (minObj2 != null && minObj2.isChildOrEqual(num1))
-			return false;
+		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
+			GeoElement maxObj1 = ((GeoNumeric) num1).getIntervalMaxObject();
+			GeoElement maxObj2 = ((GeoNumeric) num2).getIntervalMaxObject();
+			GeoElement minObj1 = ((GeoNumeric) num1).getIntervalMinObject();
+			GeoElement minObj2 = ((GeoNumeric) num2).getIntervalMinObject();
+			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2))
+				return false;
+			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2))
+				return false;
+			if (maxObj2 != null && maxObj2.isChildOrEqual((GeoElement) num1))
+				return false;
+			if (minObj2 != null && minObj2.isChildOrEqual((GeoElement) num1))
+				return false;
+		}
 
-		boolean ret = num1.isChangeable() && num2.isChangeable();
+		boolean ret = (num1 instanceof MyDouble || ((GeoNumeric)num1).isChangeable()) &&
+				      (num2 instanceof MyDouble || ((GeoNumeric)num2).isChangeable());
 
 		return ret;
 	}
 
 	/**
-	 * Returns an array of GeoNumeric objects that directly control this point's
+	 * Returns an array of GeoNumeric/MyDouble objects that directly control this point's
 	 * coordinates. For point P = (a, b) the array [a, b] is returned, for P =
 	 * (x(A) + c, d + y(A)) the array [c, d] is returned, for P = (x(A) + c,
 	 * y(A)) the array [c, null] is returned.
 	 * 
+	 * for (a,1), [GeoNumeric, MyDouble] is returned
+	 * 
 	 * @return null if this point is not defined using two GeoNumeric objects
 	 */
-	final public ArrayList<GeoNumeric> getCoordParentNumbers() {
+	final public ArrayList<NumberValue> getCoordParentNumbers() {
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
-			changeableCoordNumbers = new ArrayList<GeoNumeric>(2);
+			changeableCoordNumbers = new ArrayList<NumberValue>(2);
 			AlgoElement parentAlgo = getParentAlgorithm();
 
 			// dependent point of form P = (a, b)
@@ -473,15 +496,27 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 						// coords (r; phi)
 						ExpressionValue xcoord = vn.getX();
 						ExpressionValue ycoord = vn.getY();
-						GeoNumeric xvar = getCoordNumber(xcoord,
+						
+						NumberValue xNum = getCoordNumber(xcoord,
 								!hasPolarParentNumbers);
-						GeoNumeric yvar = getCoordNumber(ycoord,
+						NumberValue yNum = getCoordNumber(ycoord,
 								!hasPolarParentNumbers);
-						if (!xcoord.contains(yvar) && !ycoord.contains(xvar)) { // avoid
-																				// (a,a)
-							changeableCoordNumbers.add(xvar);
-							changeableCoordNumbers.add(yvar);
+						
+						if (xNum instanceof GeoNumeric && yNum instanceof GeoNumeric) {
+							GeoNumeric xvar = (GeoNumeric) xNum;
+							GeoNumeric yvar = (GeoNumeric) yNum;
+							if (!xcoord.contains(yvar) && !ycoord.contains(xvar)) { // avoid
+																					// (a,a)
+								changeableCoordNumbers.add(xvar);
+								changeableCoordNumbers.add(yvar);
+							}
+							
+						} else if ((xNum instanceof GeoNumeric && yNum instanceof MyDouble) || (yNum instanceof GeoNumeric && xNum instanceof MyDouble)) {
+							// eg (a,3)
+							changeableCoordNumbers.add(xNum);
+							changeableCoordNumbers.add(yNum);
 						}
+						
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
 						e.printStackTrace();
@@ -493,7 +528,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		return changeableCoordNumbers;
 	}
 
-	private ArrayList<GeoNumeric> changeableCoordNumbers = null;
+	private ArrayList<NumberValue> changeableCoordNumbers = null;
 	private boolean hasPolarParentNumbers = false;
 
 	/**
@@ -504,15 +539,24 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	/**
-	 * Returns the single free GeoNumeric expression wrapped in this
+	 * Returns the single free GeoNumeric/MyDouble expression wrapped in this
 	 * ExpressionValue. For "a + x(A)" this returns a, for "x(A)" this returns
 	 * null where A is a free point. If A is a dependent point, "a + x(A)"
 	 * throws an Exception.
 	 */
-	private GeoNumeric getCoordNumber(ExpressionValue ev, boolean allowPlusNode)
+	private NumberValue getCoordNumber(ExpressionValue ev, boolean allowPlusNode)
 			throws Throwable {
 		// simple variable "a"
 		if (ev.isLeaf()) {
+			
+			// handle (a,1) and (1,a) case
+			// 1 is MyDouble
+			if (ev.isExpressionNode()) {
+				if (((ExpressionNode) ev).getLeft() instanceof MyDouble) {
+					return (NumberValue) ((ExpressionNode) ev).getLeft();
+				}
+			}
+			
 			GeoElement geo = kernel.lookupLabel(
 					ev.isGeoElement() ? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate) : ev
 							.toString(StringTemplate.defaultTemplate), false);
@@ -523,8 +567,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		}
 
 		// are expressions like "a + x(A)" allowed?
-		if (!allowPlusNode)
+		if (!allowPlusNode) {
 			return null;
+		}
 
 		// return value
 		GeoNumeric coordNumeric = null;
