@@ -1,6 +1,8 @@
 package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.main.Localization;
+import geogebra.common.util.Unicode;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 
@@ -13,10 +15,12 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Vector;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 /**
  * Panel for print scale of EuclidianView. Notifies attached ActionListeners about scale changes.
@@ -29,60 +33,122 @@ public class PrintScalePanel extends JPanel {
 
 	private static final int maxFracDigits = 5; 
 	
-	private JTextField tfScale1, tfScale2;
+	private JTextField tfScale1, tfScale2, tfSize1, tfSize2;
 	private Vector<ActionListener> listeners = new Vector<ActionListener>();
 	private EuclidianView ev;	
 	private NumberFormat nf;
-	private ActionListener al; 
-
+	private JComboBox exportMode;
+	private JPanel pxModePanel, cmModePanel;
+	private boolean pxMode = false;
+	
 	public PrintScalePanel(AppD app, EuclidianView ev) {		
 		this.ev = ev;		
-		
+		Localization loc = app.getLocalization();
 		nf = NumberFormat.getInstance(Locale.ENGLISH);
 		nf.setMaximumFractionDigits(maxFracDigits);
 		nf.setGroupingUsed(false);
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));			
 		
-		tfScale1 = new MyTextField(app);
-		tfScale2 = new MyTextField(app);
-		tfScale1.setColumns(maxFracDigits);	
-		tfScale2.setColumns(maxFracDigits);
-		tfScale1.setHorizontalAlignment(SwingConstants.RIGHT);
-		tfScale2.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		add(new JLabel(app.getPlain("ScaleInCentimeter") + ":"));
-		add(tfScale1);
-		add(new JLabel(" : "));
-		add(tfScale2);				
-
-		al = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		Runnable updateCm = new Runnable(){
+			public void run(){
 				fireTextFieldUpdate();
 			}
 		};
-		tfScale1.addActionListener(al);
-		tfScale2.addActionListener(al);
 		
+		Runnable updatePx = new Runnable(){
+			public void run(){
+				fireTextFieldUpdate();
+			}
+		};
+		
+		tfScale1 = getNumberField(app, updateCm);
+		tfScale2 = getNumberField(app, updateCm);
+		tfSize1 = getNumberField(app, updatePx);
+		tfSize2 = getNumberField(app, updatePx);
+		
+		exportMode = new JComboBox();
+		exportMode.addItem(loc.getPlain("ScaleInCentimeter") + ":");
+		exportMode.addItem(loc.getPlain("SizeInPixels") + ":");
+		add(exportMode);
+		
+		exportMode.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(pxMode){
+					PrintScalePanel.this.remove(pxModePanel);
+					PrintScalePanel.this.add(cmModePanel);
+					updateScaleTextFields();
+				}else{
+					PrintScalePanel.this.remove(cmModePanel);
+					PrintScalePanel.this.add(pxModePanel);
+					updateSizeTextFields();
+				}
+				SwingUtilities.updateComponentTreeUI(PrintScalePanel.this);
+				notifyListeners();
+				pxMode = !pxMode;
+				
+			}});
+		
+		cmModePanel=new JPanel();
+		cmModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));	
+		cmModePanel.add(tfScale1);
+		cmModePanel.add(new JLabel(" unit = "));
+		cmModePanel.add(tfScale2);
+		cmModePanel.add(new JLabel(" cm"));
+		
+		
+		pxModePanel=new JPanel();
+		pxModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));	
+		pxModePanel.add(tfSize1);
+		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short")+" "+Unicode.multiply+ " "));
+		pxModePanel.add(tfSize2);
+		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short")));
+
+		add(cmModePanel);
+		
+		updateScaleTextFields();
+	}
+	
+	
+	
+	private JTextField getNumberField(AppD app, final Runnable run) {
+		JTextField ret = new MyTextField(app);
+		ret.setColumns(maxFracDigits);
+		ret.setHorizontalAlignment(SwingConstants.RIGHT);
 		FocusListener flst = new FocusListener() {
 			public void focusLost(FocusEvent e) {
-				fireTextFieldUpdate();
+				run.run();
 			}
 			public void focusGained(FocusEvent e) {
 				//
 			}
 		};
-		tfScale1.addFocusListener(flst);
-		tfScale2.addFocusListener(flst);
-		
-		updateTextFields();
+		ActionListener al = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				run.run();
+			}
+		};
+		ret.addActionListener(al);
+		ret.addFocusListener(flst);
+		return ret;
 	}
-	
-	
-	
-	private void updateTextFields() {
-		tfScale1.removeActionListener(al);
-		tfScale2.removeActionListener(al);
+
+	void updateSizeTextFields() {
+		ActionListener a1 = removeListener(tfSize1);
+		ActionListener a2 = removeListener(tfSize2);
+		
+		tfSize1.setText(nf.format(ev.getWidth()));
+		tfSize2.setText(nf.format(ev.getHeight()));
+		
+		
+		tfSize1.addActionListener(a1);
+		tfSize2.addActionListener(a2);
+	}
+
+	private void updateScaleTextFields() {
+		ActionListener a1 = removeListener(tfScale1);
+		ActionListener a2 = removeListener(tfScale2);
 		
 		double scale = ev.getPrintingScale();
 		if (scale <= 1) {
@@ -93,11 +159,19 @@ public class PrintScalePanel extends JPanel {
 			tfScale2.setText("1");
 		}
 		
-		tfScale1.addActionListener(al);
-		tfScale2.addActionListener(al);
+		tfScale1.addActionListener(a1);
+		tfScale2.addActionListener(a2);
 	}
 
-	private void fireTextFieldUpdate() {
+	private ActionListener removeListener(JTextField field) {
+		ActionListener ret = field.getActionListeners()[0];
+		field.removeActionListener(ret);
+		return ret;
+	}
+
+
+
+	void fireTextFieldUpdate() {
 		boolean viewChanged = false;
 		
 		try {
@@ -110,7 +184,7 @@ public class PrintScalePanel extends JPanel {
 			}			
 		} catch (Exception e) {}
 		
-		updateTextFields();
+		updateScaleTextFields();
 
 		if (viewChanged) {
 			notifyListeners();
