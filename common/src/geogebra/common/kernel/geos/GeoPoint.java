@@ -359,34 +359,37 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 		NumberValue yvar = freeCoordNumbers.get(1);
 
 		// polar coords (r; phi)
-		if (hasPolarParentNumbers() && xvar instanceof GeoNumeric && yvar instanceof GeoNumeric) {
+		if (hasPolarParentNumbers()) {
 			// radius
 			double radius = MyMath.length(endPosition.getX(),
 					endPosition.getY());
-			((GeoNumeric) xvar).setValue(radius);
-
-			// angle
-			double angle = Kernel.convertToAngleValue(Math.atan2(
-					endPosition.getY(), endPosition.getX()));
-			// angle outsid of slider range
-			if (((GeoNumeric) yvar).isIntervalMinActive()
-					&& ((GeoNumeric) yvar).isIntervalMaxActive()
-					&& (angle < ((GeoNumeric) yvar).getIntervalMin() || angle > ((GeoNumeric) yvar)
-							.getIntervalMax())) {
-				// use angle value closest to closest border
-				double minDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMin()));
-				if (minDiff > Math.PI)
-					minDiff = Kernel.PI_2 - minDiff;
-				double maxDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMax()));
-				if (maxDiff > Math.PI)
-					maxDiff = Kernel.PI_2 - maxDiff;
-
-				if (minDiff < maxDiff)
-					angle = angle - Kernel.PI_2;
-				else
-					angle = angle + Kernel.PI_2;
+			if(xvar instanceof GeoNumeric){
+				((GeoNumeric) xvar).setValue(radius);
 			}
-			((GeoNumeric) yvar).setValue(angle);
+			if(yvar instanceof GeoNumeric){
+				// angle
+				double angle = Kernel.convertToAngleValue(Math.atan2(
+						endPosition.getY(), endPosition.getX()));
+				// angle outsid of slider range
+				if (((GeoNumeric) yvar).isIntervalMinActive()
+						&& ((GeoNumeric) yvar).isIntervalMaxActive()
+						&& (angle < ((GeoNumeric) yvar).getIntervalMin() || angle > ((GeoNumeric) yvar)
+								.getIntervalMax())) {
+					// use angle value closest to closest border
+					double minDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMin()));
+					if (minDiff > Math.PI)
+						minDiff = Kernel.PI_2 - minDiff;
+					double maxDiff = Math.abs((angle - ((GeoNumeric) yvar).getIntervalMax()));
+					if (maxDiff > Math.PI)
+						maxDiff = Kernel.PI_2 - maxDiff;
+	
+					if (minDiff < maxDiff)
+						angle = angle - Kernel.PI_2;
+					else
+						angle = angle + Kernel.PI_2;
+				}
+				((GeoNumeric) yvar).setValue(angle);
+			}
 		}
 
 		// cartesian coords (xvar + constant, yvar + constant)
@@ -394,16 +397,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 
 			double newXval = xvar.getDouble() - inhomX + endPosition.getX();
 			double newYval = yvar.getDouble() - inhomY + endPosition.getY();
+			//only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
 				((GeoNumeric) xvar).setValue(newXval);
-			} else {
-				((MyDouble)xvar).set(newXval);
 			}
 
 			if (yvar instanceof GeoNumeric) {
 				((GeoNumeric) yvar).setValue(newYval);
-			} else {
-				((MyDouble)yvar).set(newYval);
 			}
 		}
 
