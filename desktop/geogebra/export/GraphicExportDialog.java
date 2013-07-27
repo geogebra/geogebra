@@ -18,9 +18,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.epsgraphics.ColorMode;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FileTransferable;
-import geogebra.gui.util.ImageSelection;
 import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
@@ -30,7 +28,6 @@ import geogebra.util.Util;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -71,7 +68,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	private final AppD app;
-	private JComboBox cbFormat, cbDPI;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cbFormat;
+
+	/**
+	 * Combobox for DPI
+	 */
+	@SuppressWarnings("rawtypes")
+	JComboBox cbDPI;
 	private JLabel sizeLabel;
 	private JButton cancelButton;
 
@@ -79,22 +83,21 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private int pixelWidth, pixelHeight;
 	private final NumberFormat sizeLabelFormat;
 
+	/** convert text to shapes (eps, pdf, svg) */
 	boolean textAsShapes = true;
+	/** true for transparent images (png)*/
 	boolean transparent = true;
+	/** whether EMF+ is used or EMF */
 	boolean EMFPlus = true;
 
-	private final int FORMAT_PNG = 0;
-	private final int FORMAT_PDF = 1;
-	private final int FORMAT_EPS = 2;
-	private final int FORMAT_SVG = 3;
-	private final int FORMAT_EMF = 4;
+	private enum Format {PNG, PDF, EPS, SVG, EMF}
 
 	private EuclidianViewD specifiedEuclidianView;
 	
 	
 	/**
 	 * Creates a dialog for exporting an image of the active EuclidianView 
-	 * @param app
+	 * @param app application
 	 */
 	public GraphicExportDialog(AppD app) {
 		this(app, null);
@@ -105,8 +108,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * Creates a dialog for exporting an image of the EuclidianView given as a
 	 * parameter.
 	 * 
-	 * @param app
-	 * @param specifiedEuclidianView
+	 * @param app application
+	 * @param specifiedEuclidianView EV
 	 */
 	public GraphicExportDialog(AppD app, EuclidianViewD specifiedEuclidianView) {
 		super(app.getFrame(), false);
@@ -141,6 +144,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initGUI() {
 		setResizable(false);
 		setTitle(app.getPlain("ExportAsPicture"));
@@ -197,11 +201,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				app.getPlain("ExportTextAsShapes"), textAsShapes);
 
 		// make sure panel is wide enough
-		if (cbFormat.getSelectedIndex() == FORMAT_PNG) {
+		if (selectedFormat() == Format.PNG) {
 			dpiPanel.add(resolutionInDPILabel);
 			dpiPanel.add(cbDPI);
 			dpiPanel.add(cbTransparent);
-		} else if (cbFormat.getSelectedIndex() == FORMAT_EMF) {
+		} else if (selectedFormat() == Format.EMF) {
 			dpiPanel.add(cbEMFPlus);
 		} else {
 			dpiPanel.add(textAsShapesCB);
@@ -214,8 +218,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 		});
 
-		// if (cbFormat.getSelectedIndex()==FORMAT_SVG ||
-		// cbFormat.getSelectedIndex()==FORMAT_PDF)
+		// if (selectedFormat()==Format.SVG ||
+		// selectedFormat()==Format.PDF)
 		// dpiPanel.add(textAsShapesCB);
 
 		cbTransparent.addActionListener(new ActionListener() {
@@ -239,16 +243,16 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		cbFormat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapesCB.setEnabled(true);
-				switch (cbFormat.getSelectedIndex()) {
-				case FORMAT_SVG:
+				switch (selectedFormat()) {
+				case SVG:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.add(textAsShapesCB);
 					break;
-				case FORMAT_PDF:
-				case FORMAT_EPS:
+				case PDF:
+				case EPS:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
@@ -257,7 +261,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					textAsShapesCB.setEnabled(false);
 					textAsShapesCB.setSelected(true);
 					break;
-				case FORMAT_EMF:
+				case EMF:
 					dpiPanel.add(cbEMFPlus);
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
@@ -302,29 +306,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					public void run() {
 						setVisible(false);
 
-						int index = cbFormat.getSelectedIndex();
-						switch (index) {
-						case FORMAT_PNG: // PNG
-							exportPNG(false);
-							break;
-
-						case FORMAT_EPS: // EPS
-							exportEPS(false);
-							break;
-
-						case FORMAT_EMF: // EMF
-							exportEMF(false, EMFPlus);
-							break;
-
-						case FORMAT_PDF: // PDF
-							exportPDF(false);
-							break;
-
-						case FORMAT_SVG: // SVG
-							exportSVG(false);
-							break;
-
-						}
+						doExport(false);
 					}
 				};
 				runner.start();
@@ -338,29 +320,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					public void run() {
 						setVisible(false);
 
-						int index = cbFormat.getSelectedIndex();
-						switch (index) {
-						case FORMAT_PNG: // PNG
-							exportPNG(true);
-							break;
-
-						case FORMAT_EPS: // EPS
-							exportEPS(true);
-							break;
-
-						case FORMAT_EMF: // EMF
-							exportEMF(true, EMFPlus);
-							break;
-
-						case FORMAT_PDF: // PDF
-							exportPDF(true);
-							break;
-
-						case FORMAT_SVG: // SVG
-							exportSVG(true);
-							break;
-
-						}
+						doExport(true);
 					}
 				};
 				runner.start();
@@ -378,13 +338,42 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		updateSizeLabel();
 		centerOnScreen();
 	}
+	/**
+	 * Creates the picture of the correct format
+	 * @param toClipboard whether output is a file or clipboard
+	 */
+	void doExport(boolean toClipboard){
+		Format index = selectedFormat();
+		switch (index) {
+		case PNG: // PNG
+			exportPNG(toClipboard);
+			break;
 
+		case EPS: // EPS
+			exportEPS(toClipboard);
+			break;
+
+		case EMF: // EMF
+			exportEMF(toClipboard, EMFPlus);
+			break;
+
+		case PDF: // PDF
+			exportPDF(toClipboard);
+			break;
+
+		case SVG: // SVG
+			exportSVG(toClipboard);
+			break;
+
+		}
+	}
 	private int getDPI() {
 		return Integer.parseInt((String) cbDPI.getSelectedItem());
 	}
 
-	/*
-	 * dpi must be one of 72,96,150,300,600
+	/**
+	 * Select a dpi item in the
+	 * @param dpi must be one of 72,96,150,300,600
 	 */
 	public void setDPI(String dpi) {
 		cbDPI.setSelectedItem(dpi);
@@ -393,15 +382,15 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private void loadPreferences() {
 		try {
 			// format
-			int formatID = FORMAT_PNG;
+			Format formatID = Format.PNG;
 			String format = GeoGebraPreferencesD.getPref().loadPreference(
 					GeoGebraPreferencesD.EXPORT_PIC_FORMAT, "png");
 			if (format.equals("eps")) {
-				formatID = FORMAT_EPS;
+				formatID = Format.EPS;
 			} else if (format.equals("svg")) {
-				formatID = FORMAT_SVG;
+				formatID = Format.SVG;
 			}
-			cbFormat.setSelectedIndex(formatID);
+			cbFormat.setSelectedIndex(formatID.ordinal());
 
 			// dpi
 			if (cbDPI.isEnabled()) {
@@ -436,11 +425,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// format
 		String format;
-		switch (cbFormat.getSelectedIndex()) {
-		case FORMAT_EPS:
+		switch (selectedFormat()) {
+		case EPS:
 			format = "eps";
 			break;
-		case FORMAT_SVG:
+		case SVG:
 			format = "svg";
 			break;
 		default:
@@ -457,7 +446,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		 */
 	}
 
-	private void updateSizeLabel() {
+	/**
+	 * Update the pixel size
+	 */
+	void updateSizeLabel() {
 		EuclidianViewD ev = getEuclidianView();
 		double printingScale = ev.getPrintingScale();
 		// takes dpi into account (note: eps has 72dpi)
@@ -475,8 +467,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		sb.append(sizeLabelFormat.format(cmHeight));
 		sb.append(" cm");
 
-		int index = cbFormat.getSelectedIndex();
-		if (index == FORMAT_PNG) {
+		Format index = selectedFormat();
+		if (index == Format.PNG) {
 			// pixel size
 			pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
 			pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
@@ -491,6 +483,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 
 		sizeLabel.setText(sb.toString());
+	}
+
+	/**
+	 * @return curently selected format
+	 */
+	Format selectedFormat() {		
+		return Format.values()[cbFormat.getSelectedIndex()];
 	}
 
 	private void centerOnScreen() {
@@ -521,7 +520,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// NB pasting into WordPad *won't* work with this method
 			file = new File(tempDir + "geogebra.eps");
 		} else {
-			file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(AppD.FILE_EXT_EPS,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EPS,
 					null, app.getPlain("eps") + " " + app.getMenu("Files"),
 					true, false);
 			
@@ -558,7 +557,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
-			file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(AppD.FILE_EXT_EMF,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EMF,
 					null, app.getPlain("emf") + " " + app.getMenu("Files"),
 					true, false);
 			// Michael Borcherds 2008-03-02 END
@@ -597,7 +596,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(AppD.FILE_EXT_PDF,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PDF,
 					null, app.getPlain("pdf") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -649,7 +648,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(AppD.FILE_EXT_SVG,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_SVG,
 					null, app.getPlain("svg") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -680,21 +679,18 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}
 
-	final public boolean exportPNG(boolean exportToClipboard) {
-		return exportPNG(exportToClipboard, true);
-	}
-
 	/**
 	 * Exports drawing as png with given resolution in dpi
+	 * @param exportToClipboard whether to use clipboard or not
+	 * @return whether succesful
 	 */
-	final public boolean exportPNG(boolean exportToClipboard, boolean showError) {
-		// Michael Borcherds 2008-03-02 BEGIN
+	final public boolean exportPNG(boolean exportToClipboard) {
 		File file;
 		String tempDir = DownloadManager.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.png");
 		} else {
-			file = ((GuiManagerD)app.getGuiManager()).showSaveDialog(AppD.FILE_EXT_PNG,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PNG,
 					null, app.getPlain("png") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -715,31 +711,15 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
-			if (showError) {
-				app.showError("SaveFileFailed");
-			}
+			app.showError("SaveFileFailed");			
 			App.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
-			if (showError) {
-				app.showError("SaveFileFailed");
-			}
+			app.showError("SaveFileFailed");
 			App.debug(ex.toString());
 			return false;
 		}
 	}
-
-	/**
-	 * Exports drawing as jpg.
-	 * 
-	 * final private boolean exportJPG() { File file = app.showSaveDialog(
-	 * Application.FILE_EXT_JPG, app.getPlain("jpg") + " " +
-	 * app.getMenu("Files")); if (file == null) return false; try {
-	 * BufferedImage img = app.getEuclidianView().getExportImage(
-	 * sizePanel.getSelectedWidth()); ImageIO.write(img, "jpg", file); return
-	 * true; } catch (IOException ex) { app.showError("SaveFileFailed");
-	 * Application.debug(ex.toString()); return false; } }
-	 */
 
 	/*
 	 * Keylistener implementation of PropertiesDialog
@@ -759,29 +739,20 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		//
 	}
-
-	// Michael Borcherds 2008-03-02 BEGIN
 	private static void sendToClipboard(File file) {
 		FileTransferable ft = new FileTransferable(file);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ft, null);
 	}
 
-	private static void sendToClipboard(Image img) {
-		ImageSelection imgSel = new ImageSelection(img);
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(imgSel, null);
-	}
-	// Michael Borcherds 2008-03-02 END
-
 	/**
 	 * 
-	 * @param app
-	 * @param ev
-	 * @param file
-	 * @param textAsShapes
-	 * @param pixelWidth
-	 * @param pixelHeight
-	 * @param exportScale
+	 * @param app application
+	 * @param ev view 
+	 * @param file target file
+	 * @param textAsShapes whether to convert text to curves
+	 * @param pixelWidth width in pixels
+	 * @param pixelHeight height in pixels
+	 * @param exportScale scale units / cm
 	 */
 	public static void exportSVG(AppD app, EuclidianViewD ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
 		UserProperties props = (UserProperties) SVGGraphics2D
@@ -828,13 +799,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	
 	/**
 	 * 
-	 * @param app
-	 * @param ev
-	 * @param file
-	 * @param useEMFplus
-	 * @param pixelWidth
-	 * @param pixelHeight
-	 * @param exportScale
+	 * @param app application
+	 * @param ev view 
+	 * @param file target file
+	 * @param useEMFplus whether to use EMF+
+	 * @param pixelWidth width in pixels
+	 * @param pixelHeight height in pixels
+	 * @param exportScale scale units / cm
 	 */
 	public static void exportEMF(AppD app, EuclidianViewD ev, File file,
 			boolean useEMFplus, int pixelWidth, int pixelHeight,
@@ -864,13 +835,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	
 	/**
 	 * 
-	 * @param app
-	 * @param ev
-	 * @param file
-	 * @param textAsShapes
-	 * @param pixelWidth
-	 * @param pixelHeight
-	 * @param exportScale
+	 * @param app application
+	 * @param ev view 
+	 * @param file target file
+	 * @param textAsShapes whether to convert text to curves
+	 * @param pixelWidth width in pixels
+	 * @param pixelHeight height in pixels
+	 * @param exportScale scale units / cm
 	 */
 	public static void exportPDF(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
@@ -922,14 +893,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	/**
 	 * 
-	 * @param app
-	 * @param ev
-	 * @param file
-	 * @param textAsShapes
-	 * @param pixelWidth
-	 * @param pixelHeight
-	 * @param exportScale
-	 */
+	 * @param app application
+	 * @param ev view 
+	 * @param file target file
+	 * @param textAsShapes whether to convert text to curves
+	 * @param pixelWidth width in pixels
+	 * @param pixelHeight height in pixels
+	 * @param exportScale scale units / cm
+	 */ 
 	public static void exportEPS(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
@@ -953,11 +924,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 	/**
 	 * 
-	 * @param ev
-	 * @param file
-	 * @param transparent
-	 * @param dpi
-	 * @param exportScale
+	 * @param ev view 
+	 * @param file target file
+	 * @param transparent whether result should be transparent 
+	 * @param dpi dpi
+	 * @param exportScale scale units / cm
 	 */
 	public static void exportPNG(EuclidianViewD ev, File file,
 			boolean transparent, int dpi,
