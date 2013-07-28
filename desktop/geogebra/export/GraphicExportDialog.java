@@ -93,6 +93,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private enum Format {PNG, PDF, EPS, SVG, EMF}
 
 	private EuclidianViewD specifiedEuclidianView;
+
+	private PrintScalePanel psp;
 	
 	
 	/**
@@ -176,7 +178,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// scale
 		EuclidianView ev = getEuclidianView();
 
-		final PrintScalePanel psp = new PrintScalePanel(app, ev);
+		psp = new PrintScalePanel(app, ev);
 		psp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateSizeLabel();
@@ -368,6 +370,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 	}
 	private int getDPI() {
+		if(selectedFormat() == Format.EPS || selectedFormat() == Format.SVG){
+			return 72;
+		}
 		return Integer.parseInt((String) cbDPI.getSelectedItem());
 	}
 
@@ -453,13 +458,27 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		EuclidianViewD ev = getEuclidianView();
 		double printingScale = ev.getPrintingScale();
 		// takes dpi into account (note: eps has 72dpi)
-		exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
+		
 
 		StringBuilder sb = new StringBuilder();
-		// cm size
-		double cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
-		double cmHeight = printingScale
-				* (ev.getExportHeight() / ev.getXscale());  // getXscale is not a typo. see #2894
+		double cmWidth, cmHeight;
+		if(psp.isPxMode()){
+			pixelWidth = psp.getPixelWidth();
+			pixelHeight = psp.getPixelHeight();
+			cmWidth = (pixelWidth * 2.54) / getDPI();
+			cmHeight = (pixelWidth * 2.54) / getDPI(); 
+			exportScale = pixelWidth / (0.0 + ev.getExportWidth());
+		
+		}else{
+			exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
+			// cm size
+			cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
+			cmHeight = printingScale
+					* (ev.getExportHeight() / ev.getXscale());  // getXscale is not a typo. see #2894
+			pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
+			pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+			
+		}
 		sb.append(sizeLabelFormat.format(cmWidth));
 		sb.append(" cm ");
 		sb.append(Unicode.multiply);
@@ -468,10 +487,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		sb.append(" cm");
 
 		Format index = selectedFormat();
-		if (index == Format.PNG) {
-			// pixel size
-			pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
-			pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+		if (index == Format.PNG || index == Format.SVG) {
+			// pixel size			
 			sb.append(", ");
 			sb.append(pixelWidth);
 			sb.append(' ');
@@ -504,13 +521,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	final private boolean exportEPS(final boolean exportToClipboard) {
 
 		final EuclidianViewD ev = getEuclidianView();
-		final double printingScale = ev.getPrintingScale();
-
-		// set dpi to 72
-		exportScale = (printingScale * 72) / 2.54 / ev.getXscale();
-		// ... and update bounding box accordingly
-		pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
-		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+		
 
 		File file;
 		if (exportToClipboard) {
@@ -632,14 +643,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	final private boolean exportSVG(boolean exportToClipboard) {
 
 		EuclidianViewD ev = getEuclidianView();
-		double printingScale = ev.getPrintingScale();
-
-		// set dpi to 72
-		exportScale = (printingScale * 72) / 2.54 / ev.getXscale();
-
-		// ... and update bounding box accordingly
-		pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
-		pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
 
 		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
