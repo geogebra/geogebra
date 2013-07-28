@@ -1224,7 +1224,10 @@ public abstract class EuclidianController {
 		Iterator<GeoElement> it = highlightedGeos.iterator();
 		while (it.hasNext()) {
 			geo = it.next();
-			geo.setHighlighted(highlight);
+			
+			if (!geo.isFixed()) {
+				geo.setHighlighted(highlight);
+			}
 		}
 	}
 
