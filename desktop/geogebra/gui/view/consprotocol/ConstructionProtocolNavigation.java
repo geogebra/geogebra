@@ -49,10 +49,6 @@ import javax.swing.event.ChangeListener;
  */
 public class ConstructionProtocolNavigation extends geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation implements ActionListener, SettingListener, SetLabels {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
 	/** Button for starting/stopping animation*/
 	JButton btPlay;
@@ -71,7 +67,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
-	 * @param prot construction protocol view
+	 * @param app application
 	 */
 	public ConstructionProtocolNavigation(AppD app) {
 		implPanel = new JPanel();
@@ -100,6 +96,9 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 		*/
 	}
 	
+	/**
+	 * @return underlying JPanel implementation
+	 */
 	public JPanel getImpl(){
 		return implPanel;
 	}
@@ -226,7 +225,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	/**
 	 * Registers this navigation bar at its protocol
 	 * to be informed about updates.
-	 * @param constructionProtocolView 
+	 * @param constructionProtocolView CP view
 	 */
 	public void register(ConstructionProtocolView constructionProtocolView) { 
 		if (prot == null) { 

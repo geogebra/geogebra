@@ -62,6 +62,7 @@ public class PrintPreview extends JDialog {
 	protected int m_orientation;
 	protected int m_scale;
 	protected Printable m_target;
+	@SuppressWarnings("rawtypes")
 	protected JComboBox m_cbScale, m_cbOrientation, m_cbView;
 	// protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
@@ -101,6 +102,7 @@ public class PrintPreview extends JDialog {
 		this(app, new PrintGridable(target), portrait);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initPrintPreview(Printable target, int orientation) {
 		m_target = target;
 		m_orientation = orientation;
@@ -193,10 +195,10 @@ public class PrintPreview extends JDialog {
 					public void run() {
 						setCursor(Cursor
 								.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						int orientation = (m_cbOrientation.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
+						int pageOrientation = (m_cbOrientation.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
 								: PageFormat.LANDSCAPE;
 
-						setOrientation(orientation);
+						setOrientation(pageOrientation);
 
 						PrintPreview prev = PrintPreview.this;
 						int width = prev.getPreferredSize().width;
@@ -262,8 +264,6 @@ public class PrintPreview extends JDialog {
 								|| (selItem == app.getPlain("DrawingPad2"))) {
 							tempPanel.add(createPanelForScaling());
 						}
-						if ((selItem == app.getPlain("CAS")))
-							tempPanel.add(createPanelForScaling2());
 						panelForTitleAndScaling.revalidate();
 
 						initPages();
@@ -330,8 +330,6 @@ public class PrintPreview extends JDialog {
 			tempPanel.add(createPanelForScaling());
 		}
 		// HACK: m_target gives no information about the current view
-		else if (m_target instanceof ScalingPrintGridable)
-			tempPanel.add(createPanelForScaling2());
 		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
 		panelForTitleAndScaling.add(titlePanel, BorderLayout.CENTER);
 		centerPanel.add(panelForTitleAndScaling, BorderLayout.NORTH);
@@ -383,19 +381,6 @@ public class PrintPreview extends JDialog {
 		list.toArray(s);
 
 		return s;
-	}
-
-	public JPanel createPanelForScaling2() {
-		// scale panel to set scale of x-axis in cm
-		PrintScalePanel2 scalePanel = new PrintScalePanel2(app,
-				(ScalingPrintGridable) m_target);
-
-		JPanel retPanel = new JPanel();
-		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
-		retPanel.setBorder(BorderFactory.createEtchedBorder());
-		retPanel.add(Box.createHorizontalStrut(10));
-		retPanel.add(scalePanel);
-		return retPanel;
 	}
 
 	public JPanel createPanelForScaling() {
@@ -494,7 +479,7 @@ public class PrintPreview extends JDialog {
 	/**
 	 * Sets the orientation of preview and applies current scale.
 	 */
-	private void initPages() {
+	void initPages() {
 		PageFormat pageFormat = getDefaultPageFormat();
 		pageFormat.setOrientation(m_orientation);
 
@@ -535,7 +520,7 @@ public class PrintPreview extends JDialog {
 	}
 
 	// update Pages, add or remove last page if necessary
-	private void updatePages() {
+	void updatePages() {
 		// update existing pages
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
@@ -579,7 +564,7 @@ public class PrintPreview extends JDialog {
 		}
 	}
 
-	private void setOrientation(int orientation) {
+	void setOrientation(int orientation) {
 		m_orientation = orientation;
 
 		m_preview.removeAll();
@@ -599,7 +584,7 @@ public class PrintPreview extends JDialog {
 		m_preview.getParent().getParent().validate();
 	}
 
-	private void setScale(int scale) {
+	void setScale(int scale) {
 		m_scale = scale;
 
 		Component[] comps = m_preview.getComponents();
@@ -782,6 +767,7 @@ public class PrintPreview extends JDialog {
 			try {
 				target.print(g2, format, pageIndex);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 

@@ -12,7 +12,6 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.kernel.Construction;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
 import geogebra.main.AppD;
 
@@ -50,7 +49,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	public ConstructionProtocolContextMenu(AppD app){
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
-		constprotView = (ConstructionProtocolView) ((GuiManagerD)app.getGuiManager()).getConstructionProtocolView();
+		constprotView = (ConstructionProtocolView) app.getGuiManager().getConstructionProtocolView();
 		initItems();
 	}
 

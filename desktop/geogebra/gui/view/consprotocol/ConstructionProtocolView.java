@@ -84,11 +84,7 @@ import javax.swing.table.TableColumnModel;
 
 public class ConstructionProtocolView extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView implements Printable, ActionListener, SettingListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1152223555575098008L;
-	private static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
+	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
 	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
 	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
@@ -103,7 +99,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 	// for drag & drop
 	private boolean dragging = false;
-	private int dragIndex = -1; // dragged construction index
+	int dragIndex = -1; // dragged construction index
 	private int dropIndex = -1;
 
 	public ConstructionProtocolNavigation protNavBar; // navigation bar of
@@ -509,7 +505,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 
 						//if (colName.equals("Breakpoint")) {
 						if (colName.equals("H")) {
-							RowData rd = (RowData) data.getRow(row);
+							RowData rd = data.getRow(row);
 							GeoElement geo = rd.getGeo();
 							boolean newVal = !geo.isConsProtocolBreakpoint();
 							geo.setConsProtocolBreakpoint(newVal);
@@ -688,7 +684,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			return inputPanel.getText();
 		}
 
-		public Component getTableCellEditorComponent(JTable table, Object value,
+		public Component getTableCellEditorComponent(JTable table1, Object value,
 				boolean isSelected, int rowIndex, int columnIndex) {
 			
 			geo = ((ConstructionTableData) data).getGeoElement(rowIndex);
@@ -718,7 +714,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
+		public Component getTableCellRendererComponent(JTable table1,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
 
@@ -737,7 +733,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				comp = this;
 			
 			int step = kernel.getConstructionStep();
-			RowData rd = (RowData) data.getRow(row);
+			RowData rd = data.getRow(row);
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
 				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.getGeo().getObjectColor()));
@@ -762,7 +758,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 				}
 			}
 
-			comp.setFont(table.getFont());
+			comp.setFont(table1.getFont());
 
 			if (isBoolean) {
 				cbTemp.setSelected(((Boolean) value).booleanValue());
@@ -842,11 +838,6 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			extends
 			geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData {
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -6933858200673625046L;
-
 		protected MyGAbstractTableModel ctDataImpl;
 		
 		public ConstructionTableData() {
@@ -856,6 +847,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 //			geoMap = new HashMap<GeoElement, RowData>();
 		}
 		
+		@Override
 		public GAbstractTableModel getImpl(){
 			return ctDataImpl;
 		}
@@ -898,8 +890,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			try {
 				if (useColors)
 					return geogebra.awt.GColorD.getAwtColor(rowList.get(nRow).getGeo().getObjectColor());
-				else
-					return Color.black;
+				return Color.black;
 			} catch (Exception e) {
 				return Color.black;
 			}
@@ -1095,6 +1086,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			table.repaint();
 		}
 
+		@Override
 		public void updateAll() {
 			if(notifyUpdateCalled)
 				return;
@@ -1116,7 +1108,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			 */
 
 			for (int i = 0; i < size; ++i) {
-				RowData row = (RowData) rowList.get(i);
+				RowData row = rowList.get(i);
 				row.updateAll();
 
 				// it seems there isn't fit to content (automatic) row height in JTable,
@@ -1133,8 +1125,9 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			ctDataImpl.fireTableRowsUpdated(0, size - 1);
 		}
 
+		@Override
 		final public void update(GeoElement geo) {
-			RowData row = (RowData) geoMap.get(geo);
+			RowData row = geoMap.get(geo);
 			if (row != null) {
 				// remove row if only breakpoints
 				// are shown and this is no longer a breakpoint (while loading a
@@ -1158,10 +1151,12 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		}
 		
 
+		@Override
 		final public void updateVisualStyle(GeoElement geo) {
 			update(geo);
 		}
 
+		@Override
 		final public void updateAuxiliaryObject(GeoElement geo) {
 			// update(geo);
 		}
@@ -1187,6 +1182,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 			}
 		}
 
+		@Override
 		public void reset() {
 			repaint();
 		}
@@ -1201,15 +1197,18 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
         	}
         }
 
+		@Override
 		public int getViewID() {
 			return App.VIEW_CONSTRUCTION_PROTOCOL;
 		}
 
+		@Override
 		public boolean hasFocus() {
 		    App.debug("unimplemented");
 			return false;
 		}
 
+		@Override
 		public boolean isShowing() {
 		    App.debug("unimplemented");
 			return false;
