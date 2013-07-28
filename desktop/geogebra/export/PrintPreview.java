@@ -14,7 +14,6 @@ package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
@@ -216,7 +215,7 @@ public class PrintPreview extends JDialog {
 		// VIEW combo box
 		m_cbView = new JComboBox(getAvailableViews());
 
-		DockPanel focusedPanel = ((GuiManagerD)app.getGuiManager()).getLayout().getDockManager().getFocusedPanel();
+		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
 			m_cbView.setSelectedItem(app.getPlain("AllViews"));
 		else
@@ -235,23 +234,23 @@ public class PrintPreview extends JDialog {
 
 						// change view
 						if (selItem.equals(app.getPlain("AlgebraWindow"))) {
-							m_target = new PrintGridable(((GuiManagerD)app.getGuiManager())
+							m_target = new PrintGridable(app.getGuiManager()
 									.getAlgebraView());
 						} else if (selItem.equals(app.getPlain("CAS"))) {
-							m_target = new ScalingPrintGridable(((GuiManagerD)app.getGuiManager()).getCasView());
+							m_target = new ScalingPrintGridable(app.getGuiManager().getCasView());
 						} else if (selItem.equals(app.getPlain("Spreadsheet"))) {
-							m_target = new PrintGridable(((GuiManagerD)app.getGuiManager())
+							m_target = new PrintGridable(app.getGuiManager()
 									.getSpreadsheetView());
 						} else if (selItem.equals(app.getPlain("DrawingPad"))) {
 							m_target = app.getEuclidianView1();
 						} else if (selItem.equals(app.getPlain("DrawingPad2"))) {
-							m_target = ((GuiManagerD)app.getGuiManager()).getEuclidianView2();
+							m_target = app.getGuiManager().getEuclidianView2();
 						} else if (selItem.equals(app
 								.getPlain("ConstructionProtocol"))) {
-							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolView)(((GuiManagerD)app.getGuiManager())
+							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolView)(app.getGuiManager()
 									.getConstructionProtocolView());
 						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
-							m_target = ((GuiManagerD)app.getGuiManager())
+							m_target = app.getGuiManager()
 									.getDataAnalysisView();
 						} else if (selItem.equals(app.getPlain("AllViews"))) {
 							m_target = (Printable) app.getMainComponent();
@@ -356,25 +355,25 @@ public class PrintPreview extends JDialog {
 	private String[] getAvailableViews() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
+		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			list.add(app.getPlain("AlgebraWindow"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_CAS)) {
+		if (app.getGuiManager().showView(App.VIEW_CAS)) {
 			list.add(app.getPlain("CAS"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_SPREADSHEET)) {
+		if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 			list.add(app.getPlain("Spreadsheet"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_EUCLIDIAN)) {
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
 			list.add(app.getPlain("DrawingPad"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_EUCLIDIAN2)) {
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
 			list.add(app.getPlain("DrawingPad2"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 			list.add(app.getPlain("ConstructionProtocol"));
 		}
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_DATA_ANALYSIS)) {
+		if (app.getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
 			list.add(app.getPlain("DataAnalysis"));
 		}
 
