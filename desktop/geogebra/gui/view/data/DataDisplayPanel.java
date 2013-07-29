@@ -75,10 +75,11 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private int mode;
 
 	@SuppressWarnings("javadoc")
+	// keys for these need to be in "menu" category of ggbtrans
 	public enum PlotType {
 		HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT("DotPlot"), NORMALQUANTILE(
 				"NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART(
-				"BarChart"), SCATTERPLOT("ScatterPlot"), RESIDUAL(
+				"BarChart"), SCATTERPLOT("Scatterplot"), RESIDUAL(
 				"ResidualPlot"), MULTIBOXPLOT("StackedBoxPlots");
 
 		/**
