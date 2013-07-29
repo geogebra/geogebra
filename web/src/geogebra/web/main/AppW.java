@@ -270,6 +270,7 @@ public class AppW extends AppWeb {
 		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
 		createAppSplash();
 		App.useFullAppGui = true;
+		this.useFullGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
