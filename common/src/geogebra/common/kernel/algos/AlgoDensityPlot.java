@@ -9,6 +9,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCanvasImage;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -95,6 +96,10 @@ public class AlgoDensityPlot extends AlgoElement {
 		f = function.getFunction();
 		view = kernel.getApplication().getActiveEuclidianView();
 		this.fixed = fixed;
+		minX=-2;
+		minY=-2;
+		maxX=2;
+		maxY=2;
 		if (fixed) {
 			minX = lowX;
 			minY = lowY;
@@ -133,8 +138,7 @@ public class AlgoDensityPlot extends AlgoElement {
 		input[2] = new GeoNumeric(cons, maxX);
 		input[3] = new GeoNumeric(cons, minY);
 		input[4] = new GeoNumeric(cons, maxY);
-		input[5] = new GeoNumeric(cons, grade);
-
+		input[5] = new GeoBoolean(cons, fixed);
 		super.setOutputLength(1);
 		super.setOutput(0, outputImage);
 		setDependencies(); // done by AlgoElement
@@ -210,6 +214,7 @@ public class AlgoDensityPlot extends AlgoElement {
 				scaleX = maxX - minX;
 				scaleY = maxY - minY;
 				compute();
+				setInputOutput();
 			}
 		}
 		deleteAxes();

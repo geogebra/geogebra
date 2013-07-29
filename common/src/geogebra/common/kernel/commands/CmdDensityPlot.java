@@ -4,6 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDensityPlot;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.MyError;
@@ -52,11 +53,17 @@ public class CmdDensityPlot extends CommandProcessor {
 			AlgoDensityPlot algo = new AlgoDensityPlot(cons,(GeoFunctionNVar) args[0]);
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
-		
 		case 5:
 			control(c);
 			algo = new AlgoDensityPlot(cons, (GeoFunctionNVar) args[0], lowX,
-					highX, lowY, highY,true);
+					highX, lowY, highY, true);
+			ret = new GeoElement[1];
+			ret[0] = algo.getResult();
+			return ret;
+		case 6:
+			control(c);
+			algo = new AlgoDensityPlot(cons, (GeoFunctionNVar) args[0], lowX,
+					highX, lowY, highY, ((GeoBoolean)args[5]).getBoolean());
 			ret = new GeoElement[1];
 			ret[0] = algo.getResult();
 			return ret;
@@ -80,6 +87,9 @@ public class CmdDensityPlot extends CommandProcessor {
 		}
 		if (Double.isNaN(lowY) || Double.isNaN(highY) || lowY >= highY) {
 			throw argErr(app, c.getName(), c.getArgument(3));
+		}
+		if (args.length==6 && !args[5].isGeoBoolean()){
+			throw argErr(app, c.getName(), args[5]);
 		}
 	}
 
