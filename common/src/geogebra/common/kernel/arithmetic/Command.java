@@ -407,7 +407,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
 			if (ev != null )
-				return ev.unwrap() instanceof MyList;
+				return ev.unwrap() instanceof ListValue;
 			throw ex;
 		}
 
