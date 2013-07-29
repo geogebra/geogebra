@@ -73,6 +73,7 @@ public class MyArbitraryConstant  {
 		Construction c = ce.getConstruction();
 		if(position >= consts2.size() || consts2.get(position)==null){
 			GeoNumeric add = new GeoNumeric(c);
+			add.setSendValueToCas(false);
 			add.setAuxiliaryObject(true);
 			boolean oldLabeling = c.isSuppressLabelsActive();
 			c.setSuppressLabelCreation(false);

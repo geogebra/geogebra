@@ -477,8 +477,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		
 		// see MyDouble.toString()
 		if (tpl.getStringType() == StringType.GIAC) {
+			if (!sendValueToCas) {
+				return "(" + label + ")";
+			}
 			return "exact(" + kernel.format(value, tpl) + ")";
-			
 		}
 		
 		return kernel.format(value, tpl);

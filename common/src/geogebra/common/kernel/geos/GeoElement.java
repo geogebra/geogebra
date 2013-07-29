@@ -375,6 +375,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/** condition to show object*/
 	protected GeoBoolean condShowObject;
+	
+	protected boolean sendValueToCas = true;
 
 	// function to determine color
 	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
@@ -6966,6 +6968,23 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	public EquationElementInterface buildEquationElement(EquationScope scope) {
 		return null;
+	}
+	
+	/**
+	 * Sets the flag wheter this objects value or label should be sent to CAS
+	 * 
+	 * @param var
+	 *            true if the value should be sent to cas false otherwise
+	 */
+	public void setSendValueToCas(boolean var) {
+		sendValueToCas = var;
+	}
+	
+	/**
+	 * @return flag wheter this objects value or label should be sent to CAS
+	 */
+	public boolean getSendValueToCas() {
+		return sendValueToCas;
 	}
 	
 }
