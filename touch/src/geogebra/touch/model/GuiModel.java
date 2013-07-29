@@ -23,220 +23,185 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * @author Thomas Krismayer
  * 
  */
-public class GuiModel
-{
-	private TouchModel touchModel;
-	private ToolBarButton activeButton;
-	private StylingBar stylingBar;
-	private PopupPanel option;
+public class GuiModel {
+  private final TouchModel touchModel;
+  private ToolBarButton activeButton;
+  private StylingBar stylingBar;
+  private PopupPanel option;
 
-	private OptionType styleBarOptionShown = OptionType.Non;
+  private OptionType styleBarOptionShown = OptionType.Non;
 
-	private GColor color;
-	private float alpha = -1f;
-	private int lineStyle = -1;
-	private int lineSize = -1;
-	private int captionMode = -1;
-	private PopupPanel activeDialog;
-	private ToolBar toolBar;
+  private GColor color;
+  private float alpha = -1f;
+  private int lineStyle = -1;
+  private int lineSize = -1;
+  private int captionMode = -1;
+  private PopupPanel activeDialog;
+  private ToolBar toolBar;
 
-	/**
-	 * @param model
-	 *          if it is not intended to use a TouchModel, model can be null
-	 */
-	public GuiModel(TouchModel model)
-	{
-		this.touchModel = model;
-	}
+  /**
+   * @param model
+   *          if it is not intended to use a TouchModel, model can be null
+   */
+  public GuiModel(TouchModel model) {
+    this.touchModel = model;
+  }
 
-	public void setOption(SubToolBar options)
-	{
-		this.option = options;
-	}
+  public void appendStyle(ArrayList<GeoElement> elements) {
+    if (this.color != null) {
+      StyleBarStatic.applyColor(elements, this.color);
+    }
+    if (this.alpha >= 0) // != -1f
+    {
+      StyleBarStatic.applyAlpha(elements, this.alpha);
+    }
+    if (this.lineStyle != -1) {
+      StyleBarStatic.applyLineStyle(elements, this.lineStyle);
+    }
+    if (this.lineSize != -1) {
+      StyleBarStatic.applyLineSize(elements, this.lineSize);
+    }
+    if (this.captionMode != -1) {
+      EuclidianStyleBarStatic.applyCaptionStyle(elements, -1, this.captionMode);
+      // second argument (-1): anything other than 0
+    }
+  }
 
-	public void setStyleBarOptionShown(OptionType type)
-	{
-		this.styleBarOptionShown = type;
-	}
+  public void buttonClicked(ToolBarButton tbb) {
+    this.closeOptions();
+    this.setActive(tbb);
 
-	public ToolBarCommand getCommand()
-	{
-		return this.activeButton == null ? null : this.activeButton.getCmd();
-	}
+    if (this.touchModel != null) {
+      this.touchModel.resetSelection();
+      this.touchModel.repaint();
+    }
+  }
 
-	public void buttonClicked(ToolBarButton tbb)
-	{
-		closeOptions();
-		setActive(tbb);
+  public void closeActiveDialog() {
+    if (this.activeDialog != null) {
+      this.activeDialog.hide();
+    }
+    this.setActiveDialog(null);
+  }
 
-		if (this.touchModel != null)
-		{
-			this.touchModel.resetSelection();
-			this.touchModel.repaint();
-		}
-	}
+  public void closeOnlyOptions() {
+    if (this.option != null) {
+      this.option.hide();
+      this.styleBarOptionShown = OptionType.Non;
 
-	public void updateStylingBar()
-	{
-		if (this.stylingBar != null)
-		{
-			this.stylingBar.rebuild();
-		}
-	}
+      if (this.touchModel != null) {
+	this.touchModel.optionsClosed();
+      }
+    }
+  }
 
-	/**
-	 * closes options and ToolBar
-	 */
-	public void closeOptions()
-	{
-		closeOnlyOptions();
-		if (this.toolBar != null)
-		{
-			this.toolBar.closeToolBar();
-		}
-	}
+  /**
+   * closes options and ToolBar
+   */
+  public void closeOptions() {
+    this.closeOnlyOptions();
+    if (this.toolBar != null) {
+      this.toolBar.closeToolBar();
+    }
+  }
 
-	public void closeOnlyOptions(){
-		if (this.option != null)
-		{
-			this.option.hide();
-			this.styleBarOptionShown = OptionType.Non;
+  public ToolBarCommand getCommand() {
+    return this.activeButton == null ? null : this.activeButton.getCmd();
+  }
 
-			if (this.touchModel != null)
-			{
-				this.touchModel.optionsClosed();
-			}
-		}
-	}
-	
-	public void setActive(ToolBarButton toolBarButton)
-	{
-		if (this.activeButton != null && this.activeButton != toolBarButton)
-		{
-			// transparent
-			this.activeButton.setActive(false);
-			this.activeButton.removeStyleName("active");
-		}
-		this.activeButton = toolBarButton;
-		this.activeButton.setActive(true);
-		this.activeButton.addStyleName("active");
+  public OptionType getOptionTypeShown() {
+    return this.styleBarOptionShown;
+  }
 
-		if (this.touchModel != null)
-		{
-			this.touchModel.setCommand(toolBarButton.getCmd());
-		}
+  public boolean isDialogShown() {
+    return this.activeDialog != null;
+  }
 
-		this.stylingBar.rebuild();
-	}
+  public void resetStyle() {
+    this.color = null;
+    this.alpha = -1f;
+    this.lineStyle = -1;
+    this.lineSize = -1;
+    this.captionMode = -1;
+  }
 
-	/**
-	 * 
-	 * @param newOption
-	 *          the PopupPanel to be shown
-	 * @param type
-	 *          the OptionsType of the PopupPanel
-	 * @param parent
-	 *          the button that was clicked, null in case of a Dialog
-	 *          (OptionsType.Dialog)
-	 */
-	public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent)
-	{
-		closeOnlyOptions();
-		this.option = newOption;
-		newOption.showRelativeTo(parent);
-		this.styleBarOptionShown = type;
-	}
+  public void setActive(ToolBarButton toolBarButton) {
+    if (this.activeButton != null && this.activeButton != toolBarButton) {
+      // transparent
+      this.activeButton.setActive(false);
+      this.activeButton.removeStyleName("active");
+    }
+    this.activeButton = toolBarButton;
+    this.activeButton.setActive(true);
+    this.activeButton.addStyleName("active");
 
-	public OptionType getOptionTypeShown()
-	{
-		return this.styleBarOptionShown;
-	}
+    if (this.touchModel != null) {
+      this.touchModel.setCommand(toolBarButton.getCmd());
+    }
 
-	public void setStylingBar(StylingBar bar)
-	{
-		this.stylingBar = bar;
-	}
+    this.stylingBar.rebuild();
+  }
 
-	public void resetStyle()
-	{
-		this.color = null;
-		this.alpha = -1f;
-		this.lineStyle = -1;
-		this.lineSize = -1;
-		this.captionMode = -1;
-	}
+  public void setActiveDialog(PopupPanel dialog) {
+    this.activeDialog = dialog;
+  }
 
-	public void appendStyle(ArrayList<GeoElement> elements)
-	{
-		if (this.color != null)
-		{
-			StyleBarStatic.applyColor(elements, this.color);
-		}
-		if (this.alpha >= 0) // != -1f
-		{
-			StyleBarStatic.applyAlpha(elements, this.alpha);
-		}
-		if (this.lineStyle != -1)
-		{
-			StyleBarStatic.applyLineStyle(elements, this.lineStyle);
-		}
-		if (this.lineSize != -1)
-		{
-			StyleBarStatic.applyLineSize(elements, this.lineSize);
-		}
-		if (this.captionMode != -1)
-		{
-			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1, this.captionMode);
-			// second argument (-1): anything other than 0
-		}
-	}
+  public void setAlpha(float a) {
+    this.alpha = a;
+  }
 
-	public void setColor(GColor c)
-	{
-		this.color = c;
-	}
+  public void setCaptionMode(int i) {
+    this.captionMode = i;
+  }
 
-	public void setAlpha(float a)
-	{
-		this.alpha = a;
-	}
+  public void setColor(GColor c) {
+    this.color = c;
+  }
 
-	public void setLineStyle(int i)
-	{
-		this.lineStyle = i;
-	}
+  public void setLineSize(int i) {
+    this.lineSize = i;
+  }
 
-	public void setLineSize(int i)
-	{
-		this.lineSize = i;
-	}
+  public void setLineStyle(int i) {
+    this.lineStyle = i;
+  }
 
-	public void setCaptionMode(int i)
-	{
-		this.captionMode = i;
-	}
+  public void setOption(SubToolBar options) {
+    this.option = options;
+  }
 
-	public boolean isDialogShown()
-	{
-		return this.activeDialog != null;
-	}
+  public void setStyleBarOptionShown(OptionType type) {
+    this.styleBarOptionShown = type;
+  }
 
-	public void closeActiveDialog()
-	{
-		if (this.activeDialog != null)
-		{
-			this.activeDialog.hide();
-		}
-		this.setActiveDialog(null);
-	}
+  public void setStylingBar(StylingBar bar) {
+    this.stylingBar = bar;
+  }
 
-	public void setActiveDialog(PopupPanel dialog)
-	{
-		this.activeDialog = dialog;
-	}
+  public void setToolBar(ToolBar toolBar) {
+    this.toolBar = toolBar;
+  }
 
-	public void setToolBar(ToolBar toolBar)
-	{
-		this.toolBar = toolBar;
-	}
+  /**
+   * 
+   * @param newOption
+   *          the PopupPanel to be shown
+   * @param type
+   *          the OptionsType of the PopupPanel
+   * @param parent
+   *          the button that was clicked, null in case of a Dialog
+   *          (OptionsType.Dialog)
+   */
+  public void showOption(PopupPanel newOption, OptionType type, StandardImageButton parent) {
+    this.closeOnlyOptions();
+    this.option = newOption;
+    newOption.showRelativeTo(parent);
+    this.styleBarOptionShown = type;
+  }
+
+  public void updateStylingBar() {
+    if (this.stylingBar != null) {
+      this.stylingBar.rebuild();
+    }
+  }
 }

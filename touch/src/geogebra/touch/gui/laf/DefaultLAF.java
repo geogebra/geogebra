@@ -14,125 +14,110 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
-public class DefaultLAF implements LookAndFeel
-{
-	private TabletHeaderPanel hp;
-	private TouchApp app;
+public class DefaultLAF implements LookAndFeel {
+  private TabletHeaderPanel hp;
+  private TouchApp app;
 
-	@Override
-	public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel)
-	{
-		this.hp = new TabletHeaderPanel(gui, app, touchModel);
-		gui.setHeaderWidget(this.hp);
-		gui.addResizeListener(this.hp);
-	}
+  @Override
+  public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel) {
+    this.hp = new TabletHeaderPanel(gui, app, touchModel);
+    gui.setHeaderWidget(this.hp);
+    gui.addResizeListener(this.hp);
+  }
 
-	@Override
-	public void setTitle(String title)
-	{
-		this.hp.setTitle(title);
-	}
+  public TouchApp getApp() {
+    return this.app;
+  }
 
-	@Override
-	public int getPanelsHeight()
-	{
-		return 122;
-	}
+  @Override
+  public int getAppBarHeight() {
+    return 62;
+  }
 
-	@Override
-	public TabletHeaderPanel getTabletHeaderPanel()
-	{
-		return this.hp;
-	}
+  @Override
+  public DefaultResources getIcons() {
+    return DefaultResources.INSTANCE;
+  }
 
-	@Override
-	public int getAppBarHeight()
-	{
-		return 62;
-	}
+  @Override
+  public EventHandler getOptionalButtonHandler(final StylingBar stylingBar, final StandardImageButton standardImageButton, final OptionType type) {
+    return new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+	stylingBar.onTouchStartOptionalButton(event, standardImageButton, type);
+      }
+    };
+  }
 
-	@Override
-	public DefaultResources getIcons()
-	{
-		return DefaultResources.INSTANCE;
-	}
+  @Override
+  public int getPaddingLeftOfDialog() {
+    return 0;
+  }
 
-	@Override
-	public Type getStylBarEventType()
-	{
-		return ClickEvent.getType();
-	}
+  @Override
+  public int getPanelsHeight() {
+    return 122;
+  }
 
-	@Override
-	public EventHandler getStyleBarButtonHandler(final StylingBar stylingBar, final StandardImageButton newButton, final String process)
-	{
-		return new ClickHandler()
-		{
-			@Override
-			public void onClick(final ClickEvent event)
-			{
-				stylingBar.onTouchStartStyleBarButton(event, newButton, process);
-				getApp().setUnsaved();
-				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
-			}
-		};
-	}
+  @Override
+  public Type getStylBarEventType() {
+    return ClickEvent.getType();
+  }
 
-	@Override
-	public EventHandler getOptionalButtonHandler(final StylingBar stylingBar, final StandardImageButton standardImageButton, final OptionType type)
-	{
-		return new ClickHandler()
-		{
-			@Override
-			public void onClick(final ClickEvent event)
-			{
-				stylingBar.onTouchStartOptionalButton(event, standardImageButton, type);
-			}
-		};
-	}
+  @Override
+  public EventHandler getStyleBarButtonHandler(final StylingBar stylingBar, final StandardImageButton newButton, final String process) {
+    return new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+	stylingBar.onTouchStartStyleBarButton(event, newButton, process);
+	DefaultLAF.this.getApp().setUnsaved();
+	TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+      }
+    };
+  }
 
-	@Override
-	public boolean isMouseDownIgnored()
-	{
-		return false;
-	}
+  @Override
+  public TabletHeaderPanel getTabletHeaderPanel() {
+    return this.hp;
+  }
 
-	@Override
-	public int getToolBarHeight()
-	{
-		return 75;
-	}
-	@Override
-	public int getPaddingLeftOfDialog() {
-		return 0;
-	}
-	
-	@Override
-	public void updateUndoSaveButtons() {
-		if(this.getTabletHeaderPanel() != null){
-			this.getTabletHeaderPanel().enableDisableButtons();
-		}
-		
-	}
+  @Override
+  public int getToolBarHeight() {
+    return 75;
+  }
 
-	@Override
-	public void stateChanged(boolean b) {
-		if(this.getTabletHeaderPanel() != null){
-			this.getTabletHeaderPanel().enableDisableButtons();
-		}
-	}
+  @Override
+  public boolean isMouseDownIgnored() {
+    return false;
+  }
 
-	public TouchApp getApp() {
-		return this.app;
-	}
+  @Override
+  public void setApp(TouchApp app) {
+    this.app = app;
+  }
 
-	@Override
-	public void setApp(TouchApp app) {
-		this.app = app;
-	}
+  @Override
+  public void setTitle(String title) {
+    this.hp.setTitle(title);
+  }
 
-	@Override
-	public boolean supportsShare() {
-		return false;
-	}
+  @Override
+  public void stateChanged(boolean b) {
+    if (this.getTabletHeaderPanel() != null) {
+      this.getTabletHeaderPanel().enableDisableButtons();
+    }
+  }
+
+  @Override
+  public boolean supportsShare() {
+    return false;
+  }
+
+  @Override
+  public void updateUndoSaveButtons() {
+    if (this.getTabletHeaderPanel() != null) {
+      this.getTabletHeaderPanel().enableDisableButtons();
+    }
+
+  }
 }

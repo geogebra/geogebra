@@ -11,34 +11,30 @@ import com.google.gwt.event.dom.client.ClickHandler;
  * @author Thomas Krismayer
  * @see geogebra.touch.gui.elements.toolbar.ToolButton ToolButton
  */
-public class SubToolBarButton extends ToolButton
-{
+public class SubToolBarButton extends ToolButton {
 
-	OptionsClickedListener ancestor;
+  OptionsClickedListener ancestor;
 
-	/**
-	 * Initializes the button of the options-menu and adds a {@link TapHandler}.
-	 * 
-	 * @param cmd
-	 *          ToolBarCommand
-	 * @param ancestor
-	 *          OptionsClickedListener
-	 */
-	public SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
-	{
-		super(cmd);
+  /**
+   * Initializes the button of the options-menu and adds a {@link TapHandler}.
+   * 
+   * @param cmd
+   *          ToolBarCommand
+   * @param ancestor
+   *          OptionsClickedListener
+   */
+  public SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor) {
+    super(cmd);
 
-		this.ancestor = ancestor;
+    this.ancestor = ancestor;
 
-		this.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.preventDefault();
-				SubToolBarButton.this.ancestor.optionClicked(SubToolBarButton.this.getCmd());
-			}
-		}, ClickEvent.getType());
-	}
+    this.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	event.preventDefault();
+	SubToolBarButton.this.ancestor.optionClicked(SubToolBarButton.this.getCmd());
+      }
+    }, ClickEvent.getType());
+  }
 
 }

@@ -12,35 +12,34 @@ import geogebra.touch.utils.OptionType;
 import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
-public interface LookAndFeel extends SavedStateListener
-{
-	public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel);
+public interface LookAndFeel extends SavedStateListener {
+  public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel);
 
-	public void setTitle(String title);
+  public int getAppBarHeight();
 
-	public int getPanelsHeight();
+  public DefaultResources getIcons();
 
-	public int getAppBarHeight();
+  public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
 
-	public int getToolBarHeight();
+  public int getPaddingLeftOfDialog();
 
-	public DefaultResources getIcons();
+  public int getPanelsHeight();
 
-	public TabletHeaderPanel getTabletHeaderPanel();
+  public Type<EventHandler> getStylBarEventType();
 
-	public boolean isMouseDownIgnored();
+  public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
 
-	public Type<EventHandler> getStylBarEventType();
+  public TabletHeaderPanel getTabletHeaderPanel();
 
-	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
+  public int getToolBarHeight();
 
-	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
+  public boolean isMouseDownIgnored();
 
-	public int getPaddingLeftOfDialog();
-	
-	public void updateUndoSaveButtons();
+  public void setApp(TouchApp app);
 
-	public void setApp(TouchApp app);
+  public void setTitle(String title);
 
-	public boolean supportsShare();
+  public boolean supportsShare();
+
+  public void updateUndoSaveButtons();
 }

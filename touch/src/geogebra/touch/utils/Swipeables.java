@@ -6,25 +6,20 @@ package geogebra.touch.utils;
  * @author Thomas Krismayer
  * 
  */
-public class Swipeables
-{
-	private static ToolBarCommand[] allowedCommands = new ToolBarCommand[] { ToolBarCommand.LineThroughTwoPoints,
-	    ToolBarCommand.SegmentBetweenTwoPoints, ToolBarCommand.VectorBetweenTwoPoints, ToolBarCommand.RayThroughTwoPoints,
-	    ToolBarCommand.CircleWithCenterThroughPoint };
+public class Swipeables {
+  private static ToolBarCommand[] allowedCommands = new ToolBarCommand[] { ToolBarCommand.LineThroughTwoPoints,
+      ToolBarCommand.SegmentBetweenTwoPoints, ToolBarCommand.VectorBetweenTwoPoints, ToolBarCommand.RayThroughTwoPoints,
+      ToolBarCommand.CircleWithCenterThroughPoint };
 
-	private Swipeables()
-	{
-	}
+  public static boolean isSwipeable(ToolBarCommand command) {
+    for (final ToolBarCommand cmd : allowedCommands) {
+      if (command != null && cmd == command) {
+	return true;
+      }
+    }
+    return false;
+  }
 
-	public static boolean isSwipeable(ToolBarCommand command)
-	{
-		for (ToolBarCommand cmd : allowedCommands)
-		{
-			if (command != null && cmd == command)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+  private Swipeables() {
+  }
 }

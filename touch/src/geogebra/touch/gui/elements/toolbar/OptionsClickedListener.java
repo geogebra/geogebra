@@ -8,7 +8,6 @@ import geogebra.touch.utils.ToolBarCommand;
  * @author Thomas Krismayer
  * 
  */
-public interface OptionsClickedListener
-{
-	public void optionClicked(ToolBarCommand cmd);
+public interface OptionsClickedListener {
+  public void optionClicked(ToolBarCommand cmd);
 }

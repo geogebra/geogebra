@@ -23,178 +23,157 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends FlowPanel
-{
-	public static final int PANEL_HEIGHT = 100;
+public class MaterialListElement extends FlowPanel {
+  public static final int PANEL_HEIGHT = 100;
 
-	private SimplePanel image;
-	private VerticalPanel infos;
+  private final SimplePanel image;
+  private final VerticalPanel infos;
 
-	protected VerticalPanel links;
-	private Label title, date, sharedBy;
+  protected VerticalPanel links;
+  private final Label title, date;
 
-	private VerticalMaterialPanel vmp;
+  private Label sharedBy;
 
-	Material material;
-	AppWeb app;
-	FileManagerM fm;
+  private final VerticalMaterialPanel vmp;
 
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-	private StandardImageButton openButton = new StandardImageButton(LafIcons.document_viewer());
-	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
-	private StandardImageButton deleteButton = new StandardImageButton(LafIcons.dialog_trash());
+  Material material;
+  AppWeb app;
+  FileManagerM fm;
 
-	public MaterialListElement(final Material m, final AppWeb app, VerticalMaterialPanel vmp)
-	{
-		// TODO set infos alignment
-		this.image = new SimplePanel();
-		this.image.addStyleName("fileImage");
-		this.infos = new VerticalPanel();
-		// this.infos.setSpacing(5);
-		this.infos.setStyleName("fileDescription");
-		this.links = new VerticalPanel();
+  private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+  private final StandardImageButton openButton = new StandardImageButton(LafIcons.document_viewer());
+  private final StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
+  private final StandardImageButton deleteButton = new StandardImageButton(LafIcons.dialog_trash());
 
-		this.vmp = vmp;
-		this.app = app;
-		this.fm = ((TouchApp)app).getFileManager();
-		this.material = m;
+  public MaterialListElement(final Material m, final AppWeb app, VerticalMaterialPanel vmp) {
+    // TODO set infos alignment
+    this.image = new SimplePanel();
+    this.image.addStyleName("fileImage");
+    this.infos = new VerticalPanel();
+    // this.infos.setSpacing(5);
+    this.infos.setStyleName("fileDescription");
+    this.links = new VerticalPanel();
 
-		this.setStyleName("browserFile");
+    this.vmp = vmp;
+    this.app = app;
+    this.fm = ((TouchApp) app).getFileManager();
+    this.material = m;
 
-		this.markUnSelected();
+    this.setStyleName("browserFile");
 
-		this.add(this.image);
-		if (m.getId() > 0)
-		{
-			this.image.getElement().getStyle().setBackgroundImage("url(http:" + m.getThumbnail() + ")");
-		}
-		else
-		{
-			this.image.getElement().getStyle().setBackgroundImage("url(" + this.fm.getThumbnailDataUrl(m.getURL()) + ")");
-		}
+    this.markUnSelected();
 
-		this.title = new Label(m.getTitle());
-		this.title.setStyleName("fileTitle");
-		this.infos.add(this.title);
+    this.add(this.image);
+    if (m.getId() > 0) {
+      this.image.getElement().getStyle().setBackgroundImage("url(http:" + m.getThumbnail() + ")");
+    } else {
+      this.image.getElement().getStyle().setBackgroundImage("url(" + this.fm.getThumbnailDataUrl(m.getURL()) + ")");
+    }
 
-		this.date = new Label(m.getDate());
-		this.infos.add(this.date);
+    this.title = new Label(m.getTitle());
+    this.title.setStyleName("fileTitle");
+    this.infos.add(this.title);
 
-		// no shared Panel for local files
-		if (MaterialListElement.this.material.getId() > 0)
-		{
-			this.sharedBy = new Label(app.getLocalization().getPlain("SharedByA", m.getAuthor()));
-			this.sharedBy.setStyleName("sharedPanel");
-			this.infos.add(this.sharedBy);
-		}
+    this.date = new Label(m.getDate());
+    this.infos.add(this.date);
 
-		// this.add(this.infos);
+    // no shared Panel for local files
+    if (MaterialListElement.this.material.getId() > 0) {
+      this.sharedBy = new Label(app.getLocalization().getPlain("SharedByA", m.getAuthor()));
+      this.sharedBy.setStyleName("sharedPanel");
+      this.infos.add(this.sharedBy);
+    }
 
-		this.links.setStyleName("fileLinks");
+    // this.add(this.infos);
 
-		this.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.preventDefault();
-				MaterialListElement.this.markSelected();
-			}
-		}, ClickEvent.getType());
+    this.links.setStyleName("fileLinks");
 
-		this.add(this.links);
+    this.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	event.preventDefault();
+	MaterialListElement.this.markSelected();
+      }
+    }, ClickEvent.getType());
 
-		this.add(this.infos);
+    this.add(this.links);
 
-		// clearPanel clears flow layout (needed for styling)
-		LayoutPanel clearPanel = new LayoutPanel();
-		clearPanel.setStyleName("fileClear");
-		this.add(clearPanel);
-	}
+    this.add(this.infos);
 
-	protected void initButtons()
-	{
-		this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+    // clearPanel clears flow layout (needed for styling)
+    final LayoutPanel clearPanel = new LayoutPanel();
+    clearPanel.setStyleName("fileClear");
+    this.add(clearPanel);
+  }
 
-		initOpenButton();
-		initEditButton();
-		// remote material should not have this visible
-		if (MaterialListElement.this.material.getId() <= 0)
-		{
-			initDeleteButton();
-		}
-	}
+  public String getMaterialTitle() {
+    return this.material.getTitle();
+  }
 
-	private void initEditButton()
-	{
-		this.links.add(this.editButton);
-		this.editButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
-				TouchEntryPoint.allowEditing(true);
-				TouchEntryPoint.goBack();
-			}
-		}, ClickEvent.getType());
-	}
+  protected void initButtons() {
+    this.links.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-	private void initOpenButton()
-	{
+    this.initOpenButton();
+    this.initEditButton();
+    // remote material should not have this visible
+    if (MaterialListElement.this.material.getId() <= 0) {
+      this.initDeleteButton();
+    }
+  }
 
-		this.links.add(this.openButton);
-		this.openButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
-			}
-		}, ClickEvent.getType());
+  protected void initDeleteButton() {
 
-	}
+    this.links.add(this.deleteButton);
+    this.deleteButton.addStyleName("delete");
+    this.deleteButton.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	event.stopPropagation();
+	MaterialListElement.this.fm.delete(MaterialListElement.this.material.getURL());
+      }
+    }, ClickEvent.getType());
 
-	protected void initDeleteButton()
-	{
+  }
 
-		this.links.add(this.deleteButton);
-		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				MaterialListElement.this.fm.delete(MaterialListElement.this.material.getURL());
-			}
-		}, ClickEvent.getType());
+  private void initEditButton() {
+    this.links.add(this.editButton);
+    this.editButton.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	event.stopPropagation();
+	MaterialListElement.this.fm.getMaterial(MaterialListElement.this.material, MaterialListElement.this.app);
+	TouchEntryPoint.allowEditing(true);
+	TouchEntryPoint.goBack();
+      }
+    }, ClickEvent.getType());
+  }
 
-	}
+  private void initOpenButton() {
 
-	protected void markSelected()
-	{
-		this.vmp.unselectMaterials();
-		addStyleName("selected");
-		this.links.setVisible(true);
-		this.vmp.rememberSelected(this);
-	}
+    this.links.add(this.openButton);
+    this.openButton.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	event.stopPropagation();
+	TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
+      }
+    }, ClickEvent.getType());
 
-	protected void markUnSelected()
-	{
-		removeStyleName("selected");
-		this.links.setVisible(false);
-	}
+  }
 
-	public String getMaterialTitle()
-	{
-		return this.material.getTitle();
-	}
+  protected void markSelected() {
+    this.vmp.unselectMaterials();
+    this.addStyleName("selected");
+    this.links.setVisible(true);
+    this.vmp.rememberSelected(this);
+  }
 
-	public void setLabels()
-	{
-		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA", this.material.getAuthor()));
-	}
+  protected void markUnSelected() {
+    this.removeStyleName("selected");
+    this.links.setVisible(false);
+  }
+
+  public void setLabels() {
+    this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA", this.material.getAuthor()));
+  }
 }

@@ -16,54 +16,51 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Thomas Krismayer
  * @see ButtonBar
  */
-public class SubToolBar extends PopupPanel
-{
-	private VerticalPanel contentPanel;
-	private CellPanel subToolBarPanel;
-	private LayoutPanel arrowPanel;
+public class SubToolBar extends PopupPanel {
+  private final VerticalPanel contentPanel;
+  private CellPanel subToolBarPanel;
+  private final LayoutPanel arrowPanel;
 
-	/**
-	 * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
-	 * and add an {@link AnimationHelper}.
-	 * 
-	 * @param menuEntries
-	 *          the ToolBarCommands that will be shown
-	 * @param ancestor
-	 *          the OptionsClickedListener (f.e. a ToolBarButton) that was clicked
-	 */
-	public SubToolBar(ToolBarCommand[] menuEntries, OptionsClickedListener ancestor)
-	{
-		this.setStyleName("subToolBar");
+  /**
+   * Initialize the {@link OptionsBar optionsBar} with the specific menu entries
+   * and add an {@link AnimationHelper}.
+   * 
+   * @param menuEntries
+   *          the ToolBarCommands that will be shown
+   * @param ancestor
+   *          the OptionsClickedListener (f.e. a ToolBarButton) that was clicked
+   */
+  public SubToolBar(ToolBarCommand[] menuEntries, OptionsClickedListener ancestor) {
+    this.setStyleName("subToolBar");
 
-		this.contentPanel = new VerticalPanel();
-		
-		if (Window.getClientWidth() < 600) {
-			this.subToolBarPanel = new VerticalPanel();
-		} else {
-			this.subToolBarPanel = new HorizontalPanel();
-		}
-		
-		this.subToolBarPanel.setStyleName("subToolBarButtonPanel");
+    this.contentPanel = new VerticalPanel();
 
-		SubToolBarButton[] options = new SubToolBarButton[menuEntries.length];
+    if (Window.getClientWidth() < 600) {
+      this.subToolBarPanel = new VerticalPanel();
+    } else {
+      this.subToolBarPanel = new HorizontalPanel();
+    }
 
-		for (int i = 0; i < options.length; i++)
-		{
-			options[i] = new SubToolBarButton(menuEntries[i], ancestor);
-			this.subToolBarPanel.add(options[i]);
-		}
+    this.subToolBarPanel.setStyleName("subToolBarButtonPanel");
 
-		this.contentPanel.add(this.subToolBarPanel);
-		this.setWidget(this.contentPanel);
+    final SubToolBarButton[] options = new SubToolBarButton[menuEntries.length];
 
-		this.arrowPanel = new LayoutPanel();
-		String html = "<img src=\"" + TouchEntryPoint.getLookAndFeel().getIcons().subToolBarArrow().getSafeUri().asString() + "\" />";
-		this.arrowPanel.getElement().setInnerHTML(html);
-		this.contentPanel.add(this.arrowPanel);
-		this.arrowPanel.setStyleName("subToolBarArrow");
-	}
-	
-	public void setSubToolBarArrowPaddingLeft(int padding) {
-		this.arrowPanel.getElement().setAttribute("style", "padding-left: " + padding + "px;");
-	}
+    for (int i = 0; i < options.length; i++) {
+      options[i] = new SubToolBarButton(menuEntries[i], ancestor);
+      this.subToolBarPanel.add(options[i]);
+    }
+
+    this.contentPanel.add(this.subToolBarPanel);
+    this.setWidget(this.contentPanel);
+
+    this.arrowPanel = new LayoutPanel();
+    final String html = "<img src=\"" + TouchEntryPoint.getLookAndFeel().getIcons().subToolBarArrow().getSafeUri().asString() + "\" />";
+    this.arrowPanel.getElement().setInnerHTML(html);
+    this.contentPanel.add(this.arrowPanel);
+    this.arrowPanel.setStyleName("subToolBarArrow");
+  }
+
+  public void setSubToolBarArrowPaddingLeft(int padding) {
+    this.arrowPanel.getElement().setAttribute("style", "padding-left: " + padding + "px;");
+  }
 }

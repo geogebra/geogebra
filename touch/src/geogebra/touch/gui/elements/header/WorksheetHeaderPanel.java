@@ -13,53 +13,46 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel {
-	Material material;
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-	private StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
-	WorksheetGUI worksheetGUI;
+  Material material;
+  private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
+  private final StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
+  WorksheetGUI worksheetGUI;
 
-	public WorksheetHeaderPanel(final AppWeb app, final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI)
-	{
-		super("", app.getLocalization());
-		this.worksheetGUI = worksheetGUI;
-		
-		super.backPanel.addDomHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
-				TouchEntryPoint.goBack();
-			}
-		}, ClickEvent.getType());		
-		
-		this.rightPanel.add(this.editButton);
-		this.editButton.addClickHandler(new ClickHandler() {
+  public WorksheetHeaderPanel(final AppWeb app, final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI) {
+    super("", app.getLocalization());
+    this.worksheetGUI = worksheetGUI;
 
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				event.stopPropagation();
-				if (WorksheetHeaderPanel.this.material != null)
-				{
-					tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
-					TouchEntryPoint.allowEditing(true);
-					((TouchApp)app).getFileManager().getMaterial(WorksheetHeaderPanel.this.material, app);
-					TouchEntryPoint.showTabletGUI();
-				}
-			}
-		});
+    super.backPanel.addDomHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+	tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
+	TouchEntryPoint.goBack();
+      }
+    }, ClickEvent.getType());
+
+    this.rightPanel.add(this.editButton);
+    this.editButton.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+	event.stopPropagation();
+	if (WorksheetHeaderPanel.this.material != null) {
+	  tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
+	  TouchEntryPoint.allowEditing(true);
+	  ((TouchApp) app).getFileManager().getMaterial(WorksheetHeaderPanel.this.material, app);
+	  TouchEntryPoint.showTabletGUI();
 	}
+      }
+    });
+  }
 
-	public void setMaterial(Material m)
-	{
-		setText(m.getTitle());
-		this.material = m;
-	}
+  @Override
+  public void setLabels() {
+    super.setLabels();
+  }
 
-	@Override
-  public void setLabels()
-	{
-		super.setLabels();
-	}
+  public void setMaterial(Material m) {
+    this.setText(m.getTitle());
+    this.material = m;
+  }
 }
