@@ -407,7 +407,9 @@ public abstract class AppWeb extends App implements SetLabels{
 				// Process Construction
 				// construction =
 				// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
+				App.debug("start processing"+System.currentTimeMillis());
 				getXMLio().processXMLString(construction, true, false);
+				App.debug("end processing"+System.currentTimeMillis());
 				setCurrentFile(archiveContent);
 				afterLoadFileAppOrNot();
 			} else {

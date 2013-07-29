@@ -325,6 +325,13 @@ public class MyXMLHandler implements DocHandler {
 		startPointList.clear();
 		showObjectConditionList.clear();
 		dynamicColorList.clear();
+		
+		linkedGeoList.clear();
+		animatingList.clear();
+		minMaxList.clear();
+		animationStepList.clear();
+		animationSpeedList.clear();
+		
 		if (start)
 			consStep = -2;
 
@@ -682,6 +689,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_MACRO;
 			initMacro(attrs);
 		} else if ("construction".equals(eName)) {
+			App.debug("parsing start"+System.currentTimeMillis());
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {
@@ -2963,6 +2971,7 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
+				App.debug("cons tag end"+System.currentTimeMillis());
 				processStartPointList();
 				processLinkedGeoList();
 				processShowObjectConditionList();

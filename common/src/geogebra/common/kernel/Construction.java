@@ -2585,6 +2585,7 @@ public class Construction {
 		worksheetText[1] = null;
 
 		usedMacros = null;
+		spreadsheetTraces = false;
 	}
 
 	/**
@@ -2772,6 +2773,7 @@ public class Construction {
 
 	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
+	private boolean spreadsheetTraces;
 	
 	/** set the algo set currently updated by GeoElement.updateDependentObjects() 
 	 * @param algoSetCurrentlyUpdated algo set
@@ -2811,6 +2813,14 @@ public class Construction {
 			ret.addAll(geoCasCellTable.keySet());
 		}
 		return ret;
+	}
+
+	public boolean hasSpreadsheetTracingGeos() {
+		return spreadsheetTraces;
+	}
+
+	public void addTracingGeo() {
+		spreadsheetTraces = true;
 	}
 
 }

@@ -3,6 +3,7 @@ package geogebra.html5.io;
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 
 public class MyXMLioW extends geogebra.common.io.MyXMLio {
 
@@ -48,7 +49,9 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 			kernel.setLoadingMode(true);
 			if(settingsBatch && !isGGTFile){
 				app.getSettings().beginBatch();
+				App.debug("parsing start"+System.currentTimeMillis());
 				xmlParser.parse(handler, xml);
+				App.debug("parsing end"+System.currentTimeMillis());
 				app.getSettings().endBatch();
 			}
 			else
@@ -63,13 +66,16 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTFile && mayZoom) {
+				App.debug("cons up"+System.currentTimeMillis());
 				kernel.updateConstruction();
+				App.debug("cons upped"+System.currentTimeMillis());
 				kernel.setNotifyViewsActive(oldVal);				
 			}
-			if (!isGGTFile) {
+			if (cons.hasSpreadsheetTracingGeos() && !isGGTFile) {
 				// needs to be done after call to updateConstruction() to avoid spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
 			}
+			App.debug("traces"+System.currentTimeMillis());
 
 		}
 		
@@ -79,6 +85,7 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 		if (!isGGTFile && oldVal &&
 				app.showConsProtNavigation()) 
 		{
+			App.debug("navigation"+System.currentTimeMillis());
 				//((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
 			if (app.getGuiManager() != null){
@@ -91,7 +98,7 @@ public class MyXMLioW extends geogebra.common.io.MyXMLio {
 			}
 
 		}
-		
+		App.debug("navigation done"+System.currentTimeMillis());
 	}
 
 }

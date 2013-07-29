@@ -101,6 +101,7 @@ public class View {
 
 		try {
 			app.loadGgbFile(archiveContent);
+			App.debug("loadggb finished"+System.currentTimeMillis());
 		} catch (Exception ex) {
 			App.debug(ex.getMessage());
 			return;
@@ -119,7 +120,7 @@ public class View {
 			((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
 			this.getApplication().getConstructionProtocolNavigation().update();
 		}
-		
+		App.debug("end unzipping"+System.currentTimeMillis());
 	}
 
 	public void maybeLoadFile(HashMap<String, String> archiveCont) {
@@ -134,6 +135,7 @@ public class View {
 	public void processBase64String(String dataParamBase64String) {
 		archiveContent = new HashMap<String, String>();
 		String workerUrls = (!Browser.webWorkerSupported ? "false" : GWT.getModuleBaseURL()+"js/zipjs/");
+		App.debug("start unzipping"+System.currentTimeMillis());
 		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
 	
