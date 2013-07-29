@@ -1676,7 +1676,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// Bugfix for ticket: 2468
 			// if outputVE is only a constant -> insert branch otherwise
 			// traverse did not work correct
-			outputVE = (ValidExpression) outputVE.traverse(repl);
+			outputVE = outputVE.traverse(repl).wrap();
 		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
