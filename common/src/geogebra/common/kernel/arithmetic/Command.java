@@ -309,19 +309,57 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		// return evaluate().isLeaf();
 		return true;
 	}
+	
+	/*
+	 * Type checking with evaluate
+	 * Try to evaluate using GeoGebra
+	 * if fails, try with CAS
+	 * else throw Exception
+	 * 
+	 */
 
 	public boolean isNumberValue() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).isNumberValue();
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate).isNumberValue();
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null )
+				return ev.unwrap().isNumberValue();
+			throw ex;
+		}
 	}
 
 	@Override
 	public boolean isVectorValue() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null )
+				return ev.unwrap() instanceof VectorValue;
+			throw ex;
+		}
 	}
 
 	@Override
 	public boolean evaluatesToText() {
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate).evaluatesToText();
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate).evaluatesToText();
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null)
+				return ev.unwrap().evaluatesToText();
+			throw ex;
+		}
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
@@ -361,7 +399,18 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if("x".equals(getName()) || "y".equals(getName()) || "z".equals(getName())){
 			return this.getArgument(0).evaluatesToList();
 		}
-		return allowEvaluationForTypeCheck && evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null )
+				return ev.unwrap() instanceof MyList;
+			throw ex;
+		}
+
 	}
 
 	/**
