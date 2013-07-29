@@ -1,5 +1,6 @@
 package geogebra.html5.util;
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
@@ -117,8 +118,8 @@ public class View {
 		
 		//reiniting of navigation bar, to show the correct numbers on the label
 		if(app.getGuiManager() != null && app.getUseFullGui()){
-			((this.getApplication().getGuiManager().getConstructionProtocolView())).getData().initView();
-			this.getApplication().getConstructionProtocolNavigation().update();
+			ConstructionProtocolNavigation cpNav = this.getApplication().getConstructionProtocolNavigationIfExists();
+			if (cpNav != null) cpNav.update();
 		}
 		App.debug("end unzipping"+System.currentTimeMillis());
 	}

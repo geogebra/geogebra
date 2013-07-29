@@ -3286,6 +3286,13 @@ public abstract class App implements UpdateSelection{
 	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
 	/**
+	 * Returns the construction protocol navigation bar instance or null, if it not exists.
+	 */
+	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists(){
+		return constProtocolNavigation;
+	}
+
+	/**
 	 * @param show
 	 *            whether navigation bar should be visible
 	 * @param playButton
