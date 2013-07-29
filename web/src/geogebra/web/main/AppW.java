@@ -2066,7 +2066,7 @@ public class AppW extends AppWeb {
 			frame.splash.canNowHide();
 			getEuclidianView1().requestFocusInWindow();
 
-			if (!isUsingFullGui()) {
+			if (isUsingFullGui()) {
 				if (needsSpreadsheetTableModel())
 					getSpreadsheetTableModel();
 
