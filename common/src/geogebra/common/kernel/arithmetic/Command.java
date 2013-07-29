@@ -218,7 +218,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				sbToString.append(name);
 			}
 			if (LaTeX) {
-				sbToString.append("\\left");
+				sbToString.append(" \\left");
 			}
 			sbToString.append('[');
 			int size = args.size();
@@ -229,7 +229,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			if (size > 0) 
 				sbToString.deleteCharAt(sbToString.length() - 1);
 			if (LaTeX) {
-				sbToString.append("\\right");
+				sbToString.append(" \\right");
 			}
 			sbToString.append(']');
 			return sbToString.toString();
