@@ -152,7 +152,6 @@ public class MaterialListElement extends FlowPanel
 			{
 				event.stopPropagation();
 				TouchEntryPoint.showWorksheetGUI(MaterialListElement.this.material);
-				TouchEntryPoint.progressIndicator.hide();
 			}
 		}, ClickEvent.getType());
 
