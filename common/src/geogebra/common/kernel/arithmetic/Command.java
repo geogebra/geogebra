@@ -196,7 +196,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return toString(false, false,tpl);
 	}
 
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(symbolic, true,tpl);
 	}
 
@@ -217,16 +217,21 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			} else {
 				sbToString.append(name);
 			}
+			if (LaTeX) {
+				sbToString.append("\\left");
+			}
 			sbToString.append('[');
 			int size = args.size();
 			for (int i = 0; i < size; i++) {
 				sbToString.append(toString(args.get(i), symbolic, LaTeX,tpl));
 				sbToString.append(',');
 			}
-			if(size>0)
-				sbToString.setCharAt(sbToString.length() - 1, ']');
-			else
-				sbToString.append(']');
+			if (size > 0) 
+				sbToString.deleteCharAt(sbToString.length() - 1);
+			if (LaTeX) {
+				sbToString.append("\\right");
+			}
+			sbToString.append(']');
 			return sbToString.toString();
 		}
 
@@ -456,6 +461,24 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 	public int getLength() {
 		return getArgumentNumber();
+	}
+	
+	/**
+	 * Replaces all Variable objects with the given varName in the arguments by the
+	 * given FunctionVariable object.
+	 * 
+	 * @param varName variable name
+	 * @param fVar replacement variable
+	 * @return number of replacements done
+	 */
+	public int replaceVariables(String varName, FunctionVariable fVar) {
+		int replacements = 0;
+
+		for (ExpressionNode arg : args) {
+			replacements += arg.replaceVariables(varName, fVar);
+		}
+
+		return replacements;
 	}
 
 }

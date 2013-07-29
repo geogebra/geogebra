@@ -52,13 +52,10 @@ public interface Inspecting {
 			switch (type) {
 			case 0: // first define the top type of our expression
 				break;
+			// Command
 			case 1:
-			case 4:
-			case 5:
-			case 10:
-				return true;
-			case 6:
 				return false;
+			// Equation
 			case 2:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
@@ -70,11 +67,23 @@ public interface Inspecting {
 					}
 				}
 				return false;
+			// Function
 			case 3:
 				if (v instanceof GeoDummyVariable) {
 					return true;
 				}
-				return false;	
+				return false;
+			// MyBoolean
+			case 4:
+			// MyDouble
+			case 5:
+			// MyList
+			case 6:
+				return false;
+			// FunctionNVar
+			case 10:
+				return true;
+			// ExpressionNode
 			case 11:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
@@ -100,7 +109,7 @@ public interface Inspecting {
 		private static boolean setType(ExpressionValue v) {
 			if (v instanceof Command) {
 				type = 1;
-				return true;
+				return false;
 			} else if (v instanceof Equation) {
 				type = 2;
 				return false;

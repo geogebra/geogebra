@@ -728,6 +728,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				left = fVar;
 				replacements++;
 			}
+		} else if (left instanceof Command) {
+			replacements += ((Command)left).replaceVariables(varName, fVar);
 		}
 		if (left instanceof GeoDummyVariable) {
 			if (varName.equals(((GeoDummyVariable) left)
