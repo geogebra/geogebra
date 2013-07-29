@@ -494,7 +494,7 @@ public class AppW extends AppWeb {
 
 			// Code to run before buildApplicationPanel
 			initGuiManager();
-			if (!onlyGraphicsViewShowing()) {
+			if (isUsingFullGui()) {
 				// temporary change,
 				// this should be entirely removed later
 				getGuiManager().getLayout().setPerspectives(tmpPerspectives);
@@ -1502,7 +1502,7 @@ public class AppW extends AppWeb {
 	
 	public void buildApplicationPanel() {
 
-		if (onlyGraphicsViewShowing()) {
+		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			return;
 		}
@@ -1596,7 +1596,7 @@ public class AppW extends AppWeb {
 	@Override
     public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		if (!isFullAppGui()) {
-			if (evno == 1 && onlyGraphicsViewShowing()) {
+			if (evno == 1 && !isUsingFullGui()) {
 				if (widthDiff != 0 || heightDiff != 0)
 					getEuclidianViewpanel().setPixelSize(
 							getEuclidianViewpanel().getOffsetWidth() + widthDiff,
@@ -2046,7 +2046,7 @@ public class AppW extends AppWeb {
 	@Override
     public void afterLoadFileAppOrNot() {
 
-		if (onlyGraphicsViewShowing()) {
+		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 		} else {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
@@ -2066,7 +2066,7 @@ public class AppW extends AppWeb {
 			frame.splash.canNowHide();
 			getEuclidianView1().requestFocusInWindow();
 
-			if (!onlyGraphicsViewShowing()) {
+			if (!isUsingFullGui()) {
 				if (needsSpreadsheetTableModel())
 					getSpreadsheetTableModel();
 
@@ -2085,7 +2085,7 @@ public class AppW extends AppWeb {
 			getEuclidianView1().doRepaint2();
 		}
 
-		if (!onlyGraphicsViewShowing())
+		if (isUsingFullGui())
 			this.getEuclidianViewpanel().updateNavigationBar();
 		GeoGebraProfiler.getInstance().profileEnd();
     }
