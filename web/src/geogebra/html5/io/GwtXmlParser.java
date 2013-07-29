@@ -8,6 +8,7 @@ import geogebra.common.main.App;
 import java.io.StringReader;
 import java.util.LinkedHashMap;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.xml.client.Attr;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -19,6 +20,10 @@ import com.google.gwt.xml.client.XMLParser;
 public class GwtXmlParser implements XmlParser {
 	
 	public void parse(DocHandler docHandler, String xml) throws Exception {
+		if(!GWT.isProdMode()){
+			parseDirty(docHandler, xml);
+			return;
+		}
 		Document doc = null;
 		try{
 			doc = XMLParser.parse(xml);
@@ -28,14 +33,18 @@ public class GwtXmlParser implements XmlParser {
 		}catch(Exception e){
 			//In Win8 app the parser may fail
 			App.debug("Native parser failed"+e.getCause());
-			try{
-				new QDParser().parse(docHandler, new StringReader(xml));
-			}catch(Exception e2){
-				throw new ConstructionException(e);	
-			}
+			parseDirty(docHandler, xml);
 		}
 		
 	}
+
+	private static void parseDirty(DocHandler docHandler, String xml) throws ConstructionException {
+		try{
+			new QDParser().parse(docHandler, new StringReader(xml));
+		}catch(Exception e2){
+			throw new ConstructionException(e2);	
+		}
+    }
 
 	private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
 		docHandler.startElement(element.getTagName(), getAttributesFor(element));
