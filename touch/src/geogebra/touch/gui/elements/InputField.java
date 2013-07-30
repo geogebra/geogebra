@@ -2,6 +2,8 @@ package geogebra.touch.gui.elements;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,117 +20,125 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputField extends VerticalPanel {
 
-  TextBox textBox;
-  Panel underline;
-  ArrayList<InputField> box = new ArrayList<InputField>();
-  private Label nameLabel;
+	TextBox textBox;
+	Panel underline;
+	ArrayList<InputField> box = new ArrayList<InputField>();
+	private Label nameLabel;
 
-  /**
-   * equal to AndroidTextBox(null)
-   */
-  public InputField() {
-    this(null);
-  }
-
-  /**
-   * AndroidTextBox(null) is equal to AndroidTextBox()
-   * 
-   * @param caption
-   *          caption of the TextField (will NOT(!) be translated)
-   */
-  public InputField(String caption) {
-    if (caption != null) {
-      this.nameLabel = new Label(caption);
-      this.add(this.nameLabel);
-    }
-
-    this.textBox = new TextBox();
-    this.textBox.addStyleName("textBox");
-    this.textBox.getElement().setAttribute("autocorrect", "off");
-    this.textBox.getElement().setAttribute("autocapitalize", "off");
-    this.textBox.addStyleName("inactive");
-    this.add(this.textBox);
-
-    this.underline = new LayoutPanel();
-    this.underline.setStyleName("inputUnderline");
-    this.underline.addStyleName("inactive");
-    this.add(this.underline);
-
-    this.setStyleName("inputField");
-
-    this.textBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-	InputField.this.underline.removeStyleName("inactive");
-	InputField.this.underline.addStyleName("active");
-	InputField.this.textBox.removeStyleName("inactive");
-	InputField.this.textBox.addStyleName("active");
-      }
-    });
-
-    this.textBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-	InputField.this.underline.removeStyleName("active");
-	InputField.this.underline.addStyleName("inactive");
-	InputField.this.textBox.removeStyleName("active");
-	InputField.this.textBox.addStyleName("inactive");
-      }
-    });
-
-    this.textBox.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-	InputField.this.textBox.setFocus(true);
-
-	for (final InputField t : InputField.this.box) {
-	  t.setFocus(false);
+	/**
+	 * equal to AndroidTextBox(null)
+	 */
+	public InputField() {
+		this(null);
 	}
-      }
-    });
-  }
 
-  public void addErrorBox(HorizontalPanel errorBox) {
-    this.clear();
-    this.add(errorBox);
-    if (this.nameLabel != null) {
-      this.add(this.nameLabel);
-    }
-    this.add(this.textBox);
-    this.add(this.underline);
-  }
+	/**
+	 * AndroidTextBox(null) is equal to AndroidTextBox()
+	 * 
+	 * @param caption
+	 *            caption of the TextField (will NOT(!) be translated)
+	 */
+	public InputField(String caption) {
+		if (caption != null) {
+			this.nameLabel = new Label(caption);
+			this.add(this.nameLabel);
+		}
 
-  public void addKeyDownHandler(KeyDownHandler keyDownHandler) {
-    this.textBox.addKeyDownHandler(keyDownHandler);
-  }
+		this.textBox = new TextBox();
+		this.textBox.addStyleName("textBox");
+		this.textBox.getElement().setAttribute("autocorrect", "off");
+		this.textBox.getElement().setAttribute("autocapitalize", "off");
+		this.textBox.addStyleName("inactive");
+		this.add(this.textBox);
 
-  public int getCursorPos() {
-    return this.textBox.getCursorPos();
-  }
+		this.underline = new LayoutPanel();
+		this.underline.setStyleName("inputUnderline");
+		this.underline.addStyleName("inactive");
+		this.add(this.underline);
 
-  public String getText() {
-    return this.textBox.getText();
-  }
+		this.setStyleName("inputField");
 
-  public void setCursorPos(int i) {
-    this.textBox.setCursorPos(i);
-  }
+		this.textBox.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-  public void setFocus(boolean b) {
-    this.textBox.setFocus(b);
-  }
+					@Override
+					public void execute() {
+						InputField.this.textBox.setFocus(true);
+						InputField.this.underline.removeStyleName("inactive");
+						InputField.this.underline.addStyleName("active");
+						InputField.this.textBox.removeStyleName("inactive");
+						InputField.this.textBox.addStyleName("active");
+					}
+				});
+			}
+		});
 
-  public void setText(String string) {
-    this.textBox.setText(string);
-  }
+		this.textBox.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				InputField.this.textBox.setFocus(false);
+				InputField.this.underline.removeStyleName("active");
+				InputField.this.underline.addStyleName("inactive");
+				InputField.this.textBox.removeStyleName("active");
+				InputField.this.textBox.addStyleName("inactive");
+			}
+		});
 
-  public void setTextBoxToLoseFocus(InputField[] text) {
-    this.box = new ArrayList<InputField>();
+		this.textBox.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				InputField.this.textBox.setFocus(true);
 
-    for (final InputField t : text) {
-      if (!this.box.contains(t) && !t.equals(this)) {
-	this.box.add(t);
-      }
-    }
-  }
+				for (final InputField t : InputField.this.box) {
+					t.setFocus(false);
+				}
+			}
+		});
+	}
+
+	public void addErrorBox(HorizontalPanel errorBox) {
+		this.clear();
+		this.add(errorBox);
+		if (this.nameLabel != null) {
+			this.add(this.nameLabel);
+		}
+		this.add(this.textBox);
+		this.add(this.underline);
+	}
+
+	public void addKeyDownHandler(KeyDownHandler keyDownHandler) {
+		this.textBox.addKeyDownHandler(keyDownHandler);
+	}
+
+	public int getCursorPos() {
+		return this.textBox.getCursorPos();
+	}
+
+	public String getText() {
+		return this.textBox.getText();
+	}
+
+	public void setCursorPos(int i) {
+		this.textBox.setCursorPos(i);
+	}
+
+	public void setFocus(boolean b) {
+		this.textBox.setFocus(b);
+	}
+
+	public void setText(String string) {
+		this.textBox.setText(string);
+	}
+
+	public void setTextBoxToLoseFocus(InputField[] text) {
+		this.box = new ArrayList<InputField>();
+
+		for (final InputField t : text) {
+			if (!this.box.contains(t) && !t.equals(this)) {
+				this.box.add(t);
+			}
+		}
+	}
 }

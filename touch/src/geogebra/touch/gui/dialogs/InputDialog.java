@@ -19,8 +19,6 @@ import geogebra.touch.model.GuiModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -157,7 +155,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
     this.textBox.addErrorBox(this.errorBox);
 
     this.contentPanel.setWidget(0, 0, this.textBox);
-    this.textBox.setFocus(true);
   }
 
   private void buildErrorBox() {
@@ -488,13 +485,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
     }
 
     this.setLabels();
-
-    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-      @Override
-      public void execute() {
-	InputDialog.this.textBox.setFocus(true);
-      }
-    });
+    this.textBox.setFocus(true);
 
     this.app.registerErrorHandler(this);
   }
