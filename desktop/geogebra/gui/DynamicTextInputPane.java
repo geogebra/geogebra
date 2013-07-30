@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.util.Unicode;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -50,7 +51,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	AppD app;
 	protected DynamicTextInputPane thisPane;
 	public DefaultStyledDocument doc;
 	private JTextComponent focusedTextComponent;
@@ -58,7 +59,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	/**************************************
 	 * Constructs a DynamicTextInputPane
 	 * 
-	 * @param app
+	 * @param app app
 	 */
 	public DynamicTextInputPane(AppD app) {
 		super();
@@ -81,6 +82,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		}
 	}
 
+	/**
+	 * @return focusedTextComponent
+	 */
 	public JTextComponent getFocusedTextComponent() {
 		return focusedTextComponent;
 	}
@@ -126,9 +130,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	public DynamicTextField insertDynamicText(String text, int pos,
 			TextInputDialog inputDialog) {
 
-		if (pos == -1)
+		if (pos == -1) {
 			pos = getDocument().getLength(); // insert at end
-
+		}
+		
 		int mode = DynamicTextField.MODE_VALUE;
 		String s;
 
@@ -174,15 +179,19 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return tf;
 	}
 
-	StringBuilder sb = new StringBuilder();
+	// alternate between open and closed
+	private char currentQuote;
 
 	/**
 	 * Converts the current editor content into a GeoText string.
+	 * @param latex boolean
+	 * @return String to convert to GeoText eg "value is "+a
 	 */
 	public String buildGeoGebraString(boolean latex) {
+		
+		currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 
-		sb.setLength(0);
-		boolean containsQuotes = false;
+		StringBuilder sb = new StringBuilder();
 		Element elem;
 		for (int i = 0; i < doc.getLength(); i++) {
 			try {
@@ -217,10 +226,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				} else if (elem.getName().equals("content")) {
 
 					String content = doc.getText(i, 1);
-					sb.append(content);
+					processQuotes(sb, content);
 
-					if (content.indexOf("\"") > -1)
-						containsQuotes = true;
 				}
 
 			} catch (BadLocationException e) {
@@ -228,29 +235,41 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			}
 		}
 
-		// removed - if just text is typed, we want to make a string, not
-		// dynamic text
-		/*
-		 * if (app.getKernel().lookupLabel(sb.toString()) != null) {
-		 * sb.append("+\"\""); // add +"" to end } else
-		 */
-		if (!containsQuotes) {
-			// add quotes at start and end unless it's an "old-style" dynamic
-			// text
-			// eg "length = "+length
-			sb.insert(0, '"');
-			sb.append('"');
-		}
+		// add quotes at start and end so it parses to a text
+		sb.insert(0, '"');
+		sb.append('"');
 
 		return sb.toString();
 
+	}
+
+	private void processQuotes(StringBuilder sb, String content) {
+		if (content.indexOf("\"") == -1) {
+			sb.append(content);
+			return;
+		}
+		
+		for (int i = 0 ; i < content.length() ; i++ ) {
+			char c = content.charAt(i);
+			if (c == '\"') {
+				sb.append(currentQuote);
+				
+				// flip open <-> closed
+				if (currentQuote == Unicode.OPEN_DOUBLE_QUOTE) {
+					currentQuote = Unicode.CLOSE_DOUBLE_QUOTE;
+				} else {
+					currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
+				}
+			}
+		}
 	}
 
 	/**
 	 * Builds and sets editor content to correspond with the text string of a
 	 * GeoText
 	 * 
-	 * @param geo
+	 * @param geo GeoText
+	 * @param id id
 	 */
 	public void setText(GeoText geo, TextInputDialog id) {
 
@@ -273,6 +292,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	}
 
+	/**
+	 * @param en en
+	 * @param id id
+	 */
 	public void splitString(ExpressionNode en, TextInputDialog id) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
@@ -337,11 +360,15 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	/**
 	 * Overrides insertString to allow option offs = -1 for inserting at end.
+	 * @param offs 
+	 * @param str 
+	 * @param a 
 	 */
 	public void insertString(int offs, String str, AttributeSet a) {
 		try {
-			if (offs == -1)
+			if (offs == -1) {
 				offs = doc.getLength(); // insert at end
+			}
 			doc.insertString(offs, str, a);
 
 		} catch (BadLocationException e) {
@@ -359,6 +386,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * 
+		 */
 		public MyCaret() {
 			super();
 			this.setBlinkRate(500);
@@ -381,6 +411,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * Class for the dynamic text container.
 	 * 
 	 */
+	@SuppressWarnings("javadoc")
 	public class DynamicTextField extends MyTextField {
 
 		private static final long serialVersionUID = 1L;
@@ -388,10 +419,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		public static final int MODE_VALUE = 0;
 		public static final int MODE_DEFINITION = 1;
 		public static final int MODE_FORMULATEXT = 2;
-		private int mode = MODE_VALUE;
-		private TextInputDialog id;
+		int mode = MODE_VALUE;
+		TextInputDialog id;
 
-		private JPopupMenu contextMenu;
+		JPopupMenu contextMenu;
 
 		/**
 		 * @param app
@@ -503,7 +534,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			}
 		}
 
-		private void createContextMenu() {
+		void createContextMenu() {
 			contextMenu = new JPopupMenu();
 
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(app.getMenu("Value"));
