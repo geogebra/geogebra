@@ -598,10 +598,16 @@ public class StringTemplate implements ExpressionNodeConstants{
 		return StringTemplate.latexIsMathQuill;
 	}
 	
-	public String plusString(ExpressionValue left, ExpressionValue right,
+	public String plusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm){
 		StringBuilder sb = new StringBuilder();
-		Operation operation = Operation.PLUS;
+		
+		// make sure A:=(1,2) B:=(3,4) A+B works
+		// MyVecNode wrapped in ExpressionNode
+		ExpressionValue left = l.unwrap();
+		ExpressionValue right = r.unwrap();
+
+		final Operation operation = Operation.PLUS;
 		switch (stringType) {
 		case MATHML:
 			MathmlTemplate.mathml(sb, "<plus/>", leftStr, rightStr);
@@ -813,8 +819,14 @@ public class StringTemplate implements ExpressionNodeConstants{
 		else 
 			return ")";
 	}
-	public String minusString(ExpressionValue left, ExpressionValue right,
+	public String minusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm) {
+		
+		// make sure A:=(1,2) B:=(3,4) A-B works
+		// MyVecNode wrapped in ExpressionNode
+		ExpressionValue left = l.unwrap();
+		ExpressionValue right = r.unwrap();
+
 		StringBuilder sb = new StringBuilder(); 
 		switch (stringType) {
 		case MATHML:
