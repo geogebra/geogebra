@@ -533,6 +533,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 //    }
 
 	public void removeFromDOM() {
+		getWrappedPopup().removeSubPopup();
 	    getWrappedPopup().removeFromParent();
     }
 	

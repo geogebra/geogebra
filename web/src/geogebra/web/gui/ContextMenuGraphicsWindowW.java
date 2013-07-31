@@ -57,8 +57,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW implement
         // zoom for both axes
         MenuBar zoomMenu = new MenuBar(true);
         MenuItem zoomMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
-        wrappedPopup.addItem(zoomMenuItem);
         zoomMenuItem.addStyleName("mi_with_image");
+        wrappedPopup.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
         
         RadioButtonMenuBar yaxisMenu = app.getFactory().newRadioButtonMenuBar(app);

@@ -7,6 +7,12 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -19,14 +25,37 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 
 
 	protected PopupPanel popupPanel;
-	protected MenuBar popupMenu;
+	protected PopupMenuBar popupMenu;
 	private int popupMenuSize = 0;
+	/* popup panel for submenu
+	 * this field used to avoid having more submenu at the same time 
+	 */
+	GPopupMenuW subPopup;
 
 	public GPopupMenuW(){
 		popupPanel = new PopupPanel();		
-		popupMenu = new MenuBar(true);
+		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
+		
+		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>(){
+
+			public void onClose(CloseEvent<PopupPanel> event) {
+				if (subPopup != null){
+					subPopup.removeFromParent();
+					subPopup = null;
+				}
+            }
+			
+		});
+	}
+	
+	/*
+	 * Constructor for submenu-popups
+	 */
+	public GPopupMenuW(MenuBar mb){
+		popupPanel = new PopupPanel();
+		popupPanel.add(mb);
 	}
 	
 //	public void add(MenuItem mi) {
@@ -103,53 +132,110 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 			
 			submenu.addHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
-	                App.debug("onclick happened");
 	                popupPanel.hide();
                 }
 			}, ClickEvent.getType());
 		}		
 	}
 	
+//	public void addItem(final MenuItem item) {
+//		addHideCommandFor(item);
+//	    popupMenu.addItem(item);
+//	    popupMenuSize++;
+//    }
+	
 	public void addItem(final MenuItem item) {
+		final MenuBar subMenu = item.getSubMenu();
 		addHideCommandFor(item);
-	    popupMenu.addItem(item);
+		if (subMenu == null){
+			popupMenu.addItem(item);
+		}
+		else {
+			// The submenu is not added for the menu as submenu,
+			// but this will be placed on a different popup panel. 
+			// In this way we can set this popup panel's position easily.
+			String itemHTML = item.getHTML();
+			ScheduledCommand itemCommand = null;
+			final MenuItem newItem = new MenuItem(itemHTML, true, itemCommand);
+			newItem.setStyleName(item.getStyleName());
+			newItem.getElement().setAttribute("hasPopup", "true");
+			popupMenu.addItem(newItem);
+			itemCommand = new ScheduledCommand(){
+				public void execute() {
+					int xCord, yCord;
+					if (subPopup != null) subPopup.removeFromParent();
+	                subPopup = new GPopupMenuW(subMenu);
+	                subPopup.setVisible(true);
+	                
+	                //Calculate the position of the "submenu", and show it
+	                if (LocaleInfo.getCurrentLocale().isRTL()){
+	                	subPopup.popupPanel.show();
+		                xCord = popupPanel.getAbsoluteLeft() - subPopup.popupPanel.getOffsetWidth();
+		                subPopup.popupPanel.hide();
+	                } else {
+	                	xCord = popupPanel.getAbsoluteLeft() + popupPanel.getOffsetWidth();
+	                }
+	                yCord = newItem.getAbsoluteTop();
+	                subPopup.show(new GPoint(xCord,yCord));
+                }	
+			};
+			newItem.setScheduledCommand(itemCommand);
+						
+		}
 	    popupMenuSize++;
     }
-	
-	public MenuBar getPopupMenu(){
-		return popupMenu;
-	}
-	
-//	public MenuItem add(final Command action, String html, String text) {
-//		MenuItem mi;
-//		Command cmd = new Command(){
-//			public void execute() {
-//				action.execute();
-//				popupPanel.hide();
-//			}		
-//		};
-//		
-//	    if (html != null) {
-//	    	mi = new MenuItem(html, true, cmd);
-//	    } else {
-//	    	mi = new MenuItem(text, cmd);
-//	    }
-//	    popupMenu.addItem(mi); 
-//	    popupMenuSize++;
-//	    return mi;
-//    }
 
 	public void addItem(GCheckBoxMenuItem item) {
 	    addItem(item.getMenuItem());
 	    
     }
-
-//	public void addItem(String string, boolean asHtml, MenuBar submenu) {
-//		popupMenu.addItem(string, asHtml, submenu);
-//	    
-//    }
-
+	
 	public void hide(){
 		popupPanel.hide();
 	}
+
+	public MenuBar getPopupMenu(){
+		return popupMenu;
+	}
+
+	public void removeSubPopup(){
+		if (subPopup != null){
+			subPopup.removeFromParent();
+			subPopup = null;
+		}
+	}
+	
+	private class PopupMenuBar extends MenuBar{
+		
+		public PopupMenuBar(boolean vertical){
+			super(vertical);
+		}
+
+		private MenuItem findItem(Element hItem) {
+			for (MenuItem item : getItems()) {
+				if (DOM.isOrHasChild(item.getElement(), hItem)) {
+					return item;
+				}
+			}
+			return null;
+		}
+		
+		@Override
+        public void onBrowserEvent(Event event) {
+			switch (DOM.eventGetType(event)) {
+				case Event.ONMOUSEOVER: {
+					MenuItem item = findItem(DOM.eventGetTarget(event));
+					if (item != null){
+						if (item.getElement().getAttribute("hasPopup") == "true"){
+							item.getScheduledCommand().execute();
+						} else removeSubPopup();
+					}
+					break;
+				}
+			}			
+			super.onBrowserEvent(event);
+		}		
+	}
+	
+
 }
