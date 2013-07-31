@@ -446,8 +446,21 @@ public class AlgoTableText extends AlgoElement {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
 			
 			// make sure latex isn't wrapped in \text{}
-			if ((geo1 instanceof TextProperties && !((TextProperties)geo1).isLaTeXTextCommand()) &&
-					(!(geo1 instanceof GeoText) || !((GeoText)geo1).isLaTeX())) {
+			if (((geo1 instanceof TextProperties && !((TextProperties)geo1).isLaTeXTextCommand()) &&
+					(!(geo1 instanceof GeoText) || !((GeoText)geo1).isLaTeX()))
+					
+					// check for "raw" LaTeX
+					// eg TableText[{"\frac{2}{3}","2","3"},{"4","5","6"}]
+					&& text1.indexOf(" ") > -1
+					&& text1.indexOf("^") == -1
+					&& text1.indexOf("{") == -1
+					&& text1.indexOf("}") == -1
+					&& text1.indexOf("+") == -1
+					&& text1.indexOf("-") == -1
+					&& text1.indexOf("\\") == -1
+					
+					
+					) {
 				sb.append("\\text{"); // preserve spaces
 				sb.append(text1);
 				sb.append("}");
