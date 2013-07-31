@@ -38,16 +38,16 @@ public enum Commands implements CommandsConstants, GetCommand{
   	//=================================================================
   	// Geometry
 	//=============================================================
-   	Line(TABLE_GEOMETRY), Ray(TABLE_GEOMETRY), AngularBisector(TABLE_GEOMETRY), AngleBisector(TABLE_GEOMETRY), OrthogonalLine(TABLE_GEOMETRY),
+   	Line(TABLE_GEOMETRY), Ray(TABLE_GEOMETRY), AngularBisector(TABLE_GEOMETRY), OrthogonalLine(TABLE_GEOMETRY),
    	Tangent(TABLE_GEOMETRY), Segment(TABLE_GEOMETRY), Slope(TABLE_GEOMETRY), Angle(TABLE_GEOMETRY),
    	Direction(TABLE_GEOMETRY), Point(TABLE_GEOMETRY), Midpoint(TABLE_GEOMETRY), LineBisector(TABLE_GEOMETRY),
    	Intersect(TABLE_GEOMETRY), IntersectPath(TABLE_GEOMETRY), IntersectRegion(TABLE_GEOMETRY), Distance(TABLE_GEOMETRY), Length(TABLE_GEOMETRY),
-   	Radius(TABLE_GEOMETRY), CircleArc(TABLE_GEOMETRY), CircularArc(TABLE_GEOMETRY), Arc(TABLE_GEOMETRY), Sector(TABLE_GEOMETRY),
-   	CircleSector(TABLE_GEOMETRY), CircularSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), CircumcircularSector(TABLE_GEOMETRY),
-   	CircumcircleArc(TABLE_GEOMETRY), CircumcircularArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
+   	Radius(TABLE_GEOMETRY), CircleArc(TABLE_GEOMETRY), Arc(TABLE_GEOMETRY), Sector(TABLE_GEOMETRY),
+   	CircleSector(TABLE_GEOMETRY), CircumcircleSector(TABLE_GEOMETRY), 
+   	CircumcircleArc(TABLE_GEOMETRY), Polygon(TABLE_GEOMETRY),
    	RigidPolygon(TABLE_GEOMETRY), Area(TABLE_GEOMETRY), Circumference(TABLE_GEOMETRY),
    	Perimeter(TABLE_GEOMETRY), Locus(TABLE_GEOMETRY), Centroid(TABLE_GEOMETRY), TriangleCenter(TABLE_GEOMETRY), Barycenter(TABLE_GEOMETRY), Trilinear(TABLE_GEOMETRY), Cubic(TABLE_GEOMETRY), 
-   	TriangleCurve(TABLE_GEOMETRY),Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
+   	TriangleCurve(TABLE_GEOMETRY), Vertex(TABLE_GEOMETRY), PolyLine(TABLE_GEOMETRY), PointIn(TABLE_GEOMETRY), AffineRatio(TABLE_GEOMETRY),
    	CrossRatio(TABLE_GEOMETRY), ClosestPoint(TABLE_GEOMETRY),
    	Prove(TABLE_GEOMETRY), ProveDetails(TABLE_GEOMETRY), AreCollinear(TABLE_GEOMETRY), AreParallel(TABLE_GEOMETRY),
    	AreConcyclic(TABLE_GEOMETRY), ArePerpendicular(TABLE_GEOMETRY),	AreEqual(TABLE_GEOMETRY), AreConcurrent(TABLE_GEOMETRY),
@@ -211,6 +211,8 @@ public enum Commands implements CommandsConstants, GetCommand{
    	PerpendicularLine(TABLE_ENGLISH), PerpendicularVector(TABLE_ENGLISH), MinorAxis(TABLE_ENGLISH), SemiMinorAxisLength(TABLE_ENGLISH),
    	UnitPerpendicularVector(TABLE_ENGLISH), CorrelationCoefficient(TABLE_ENGLISH), FitLine(TABLE_ENGLISH), BinomialCoefficient(TABLE_ENGLISH),
    	RandomBetween(TABLE_ENGLISH),TaylorPolynomial(TABLE_ENGLISH),
+   	AngleBisector(TABLE_ENGLISH), CircumcircularSector(TABLE_ENGLISH), CircumcircularArc(TABLE_ENGLISH), CircularSector(TABLE_ENGLISH), CircularArc(TABLE_ENGLISH), 
+
    	
    	//=================================================================
   	// 3D
