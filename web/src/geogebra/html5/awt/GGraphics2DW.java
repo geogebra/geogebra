@@ -774,9 +774,15 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public void setPreferredSize(GDimension preferredSize) {
 	    setWidth(preferredSize.getWidth());
 	    setHeight(preferredSize.getHeight());
-	    setCoordinateSpaceSize(getOffsetWidth(),getOffsetHeight());
+
+	    // do not use getOffsetWidth here,
+	    // as it is prepared by the browser and not yet ready...
+	    // if preferredSize can be negative, have a check for it instead
+	    setCoordinateSpaceSize(
+	    		(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
+   				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight() : 0);
     }
-	
+
 	public Canvas getCanvas() {
 		return this.canvas;
 	}

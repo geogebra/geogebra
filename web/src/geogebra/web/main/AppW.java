@@ -495,12 +495,6 @@ public class AppW extends AppWeb {
 
 			// Code to run before buildApplicationPanel
 			initGuiManager();
-			if (isUsingFullGui()) {
-				// temporary change,
-				// this should be entirely removed later
-				getGuiManager().getLayout().setPerspectives(tmpPerspectives);
-			}
-			// Code to have run before buildApplicationPanel
 
 			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
 			initing = false;
