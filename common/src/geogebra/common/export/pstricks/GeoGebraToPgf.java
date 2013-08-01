@@ -2,11 +2,7 @@ package geogebra.common.export.pstricks;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.GGraphics2D;
-import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawableND;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
@@ -26,8 +22,6 @@ import geogebra.common.kernel.algos.AlgoSlope;
 import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
@@ -50,7 +44,6 @@ import geogebra.common.kernel.geos.GeoTransferFunction;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -68,7 +61,7 @@ import java.util.Iterator;
  * 
  * 
  */
-public class GeoGebraToPgf extends GeoGebraExport {
+public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private static final int FORMAT_LATEX = 0;
 	private static final int FORMAT_PLAIN_TEX = 1;
 	private static final int FORMAT_CONTEXT = 2;
@@ -2571,7 +2564,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(")");
 	}
 
-	private String LineOptionCode(GeoElement geo, boolean transparency) {
+	public String LineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
@@ -2839,80 +2832,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}	
 		
-	class MyGraphicsPgf extends TextGraphicsForIneq{
-
-		
-		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq, EuclidianView euclidianView) {
-			super(geo,ineq,euclidianView);
-		}
-
-		@Override
-		public void fill(GShape s) {
-			((GeoElement) geo).setLineType(ineq.getBorder().lineType);
-			switch (ineq.getType()) {
-			case INEQUALITY_CONIC:
-				GeoConicND conic = ineq.getConicBorder();				
-				if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
-						|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
-					((GeoElement) conic).setObjColor(((GeoElement) geo)
-							.getObjectColor());
-					conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
-					((GeoElement) conic).setAlphaValue(((GeoElement) geo)
-							.getAlphaValue());
-					((GeoElement) conic).setHatchingAngle((int)((GeoElement) geo)
-							.getHatchingAngle());
-					((GeoElement) conic).setHatchingDistance(((GeoElement) geo)
-							.getHatchingDistance());
-					((GeoElement) conic).setFillType(((GeoElement) geo)
-							.getFillType());
-					drawGeoConic((GeoConic) conic);	
-					break;
-				}
-			case INEQUALITY_PARAMETRIC_Y:
-			case INEQUALITY_PARAMETRIC_X:
-			case INEQUALITY_1VAR_X:
-			case INEQUALITY_1VAR_Y:
-			case INEQUALITY_LINEAR:
-				double[] coords = new double[2];
-				double zeroY = ds[5] * ds[3];
-				double zeroX = ds[4] * (-ds[0]);
-				GPathIterator path = s.getPathIterator(null);
-				GColor c=((GeoElement)geo).getObjectColor();
-				code.append("\\draw[");;
-				code.append(LineOptionCode((GeoElement)geo,true));
-				code.append("]");
-				double precX = Integer.MAX_VALUE;
-				double precY = Integer.MAX_VALUE;		
-				while (!path.isDone()) {
-					path.currentSegment(coords);
-					if (coords[0] == precX && coords[1] == precY) {
-						code.delete(code.length()-2, code.length());
-						code.append(";\n\\draw[");
-						code.append(LineOptionCode((GeoElement)geo,true));
-						code.append("]");
-					} else {
-						double x1=(coords[0] - zeroX) / ds[4];
-						double y1=-(coords[1] - zeroY) / ds[5];
-						if (y1>ymax) y1=ymax;
-						if (y1<ymin) y1=ymin;
-						code.append("(");
-						code.append(format(x1));
-						code.append(",");
-						code.append(format(y1));
-						code.append(")--");
-					}
-					precX = coords[0];
-					precY = coords[1];
-					path.next();
-				}
-				int i=code.lastIndexOf(")");
-				code.delete(i+1, code.length());
-				code.append(";\n");
-				break;
-			}
-
-		}
-	}
+	
 
 	@Override
 	protected StringTemplate getStringTemplate() {
@@ -2932,13 +2852,13 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		}
 		return styleAx;
 	}
-
+/*
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2){
 			return new MyGraphicsPgf(ef, inequality, euclidianView2);
 	}
-
+*/
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y,
 			double[] x, int length, double width, GeoNumeric g) {

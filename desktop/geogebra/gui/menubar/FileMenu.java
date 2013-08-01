@@ -1,6 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.main.App;
+import geogebra.export.pstricks.GeoGebraToPgfD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.main.AppD;
 
@@ -405,7 +406,7 @@ class FileMenu extends BaseMenu {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					geogebra.common.export.pstricks.GeoGebraToPgf export = new geogebra.common.export.pstricks.GeoGebraToPgf(app);
+					GeoGebraToPgfD export = new GeoGebraToPgfD(app);
 					new geogebra.export.pstricks.PgfFrame(export);
 				} catch (Exception ex) {
 					App.debug("GeoGebraToPGF not available");
