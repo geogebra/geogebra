@@ -2,9 +2,12 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.laf.LookAndFeel;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -18,6 +21,7 @@ public class AlgebraViewPanel extends FlowPanel {
   private final AlgebraViewM algebraView;
   private final AlgebraButton arrow;
   private final FlowPanel stylebar;
+  private ScrollPanel content;
 
   /**
    * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
@@ -42,10 +46,12 @@ public class AlgebraViewPanel extends FlowPanel {
     this.add(this.stylebar);
     this.stylebar.setVisible(false);
     this.setStyleName("algebraViewAndStylebar");
-    final ScrollPanel content = new ScrollPanel(this.algebraView);
-    content.setStyleName("algebraView");
-    content.setWidth("100%");
-    this.add(content);
+
+    this.content = new ScrollPanel(this.algebraView);
+    this.content.setStyleName("algebraView");
+
+    onResize();
+    this.add(this.content);
   }
 
   public void addInsideArrow() {
@@ -72,5 +78,14 @@ public class AlgebraViewPanel extends FlowPanel {
   public void setVisible(boolean flag) {
     super.setVisible(flag);
     this.algebraView.setShowing(flag);
+  }
+
+  public void onResize() {
+    // Important: Set ViewPort size in Pixels for the ScrollPanel!
+    this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+
+    LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+
+    this.content.setHeight((Window.getClientHeight() - laf.getAppBarHeight() - laf.getToolBarHeight() - this.stylebar.getOffsetHeight()) + "px");
   }
 }

@@ -347,6 +347,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
       // Set algebraviewbutton nontransparent, when algebra view is open
       this.algebraViewButtonPanel.removeStyleName("transparent");
+      this.algebraViewPanel.onResize();
     }
   }
 }
