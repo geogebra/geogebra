@@ -497,4 +497,12 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("geogebra/web/gui/images/social-twitter.png")
 	ImageResource social_twitter();
 	
+	@Source("geogebra/web/gui/images/menuBarSubMenuIconLTR.gif")
+	ImageResource menuBarSubMenuIconLTR();
+
+	@Source("geogebra/web/gui/images/menuBarSubMenuIconRTL.gif")
+	ImageResource menuBarSubMenuIconRTL();
+
+	
+	
 }

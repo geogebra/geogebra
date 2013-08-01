@@ -2,6 +2,7 @@ package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
+import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -10,9 +11,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -138,6 +141,10 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 		}		
 	}
 	
+	private ImageResource getSubMenuIcon(boolean isRTL){
+		return isRTL ? AppResources.INSTANCE.menuBarSubMenuIconRTL() : AppResources.INSTANCE.menuBarSubMenuIconLTR();
+	}
+	
 //	public void addItem(final MenuItem item) {
 //		addHideCommandFor(item);
 //	    popupMenu.addItem(item);
@@ -159,7 +166,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 			final MenuItem newItem = new MenuItem(itemHTML, true, itemCommand);
 			newItem.setStyleName(item.getStyleName());
 			newItem.getElement().setAttribute("hasPopup", "true");
-			popupMenu.addItem(newItem);
+			popupMenu.addItem(newItem);			
 			itemCommand = new ScheduledCommand(){
 				public void execute() {
 					int xCord, yCord;
@@ -180,7 +187,16 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
                 }	
 			};
 			newItem.setScheduledCommand(itemCommand);
-						
+			
+			//adding arrow for the menuitem
+			Element td = DOM.createTD();
+			DOM.setElementProperty(td, "vAlign", "middle");
+			td.addClassName("subMenuIcon");
+//			AbstractImagePrototype.create(getSubMenuIcon(LocaleInfo.getCurrentLocale().isRTL()));
+			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale().isRTL());
+			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes).getSafeHtml());
+			newItem.getElement().setAttribute("colspan", "1");
+			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);								
 		}
 	    popupMenuSize++;
     }
