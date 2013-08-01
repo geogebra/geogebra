@@ -28,4 +28,20 @@ public class ZeroOffset implements HasOffsets {
 	public LinkedList<TouchEvent> getTouchEventPool() {
 	    return touchPool;
     }
+
+	public float getWidthScale() {
+	    return 1;
+    }
+
+	public float getHeightScale() {
+		return 1;
+    }
+
+	public float getScaleX() {
+	    return 1;
+    }
+
+	public float getScaleY() {
+	    return 1;
+    }
 }

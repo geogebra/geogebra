@@ -63,5 +63,10 @@ public class GPoint {
 	public double distance(double dx, double dy) {
 		return (int) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy));
 	}
+	
+	@Override
+	public String toString() {
+		return x + " : " + y;
+	}
 
 }

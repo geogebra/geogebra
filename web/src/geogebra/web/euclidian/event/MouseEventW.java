@@ -2,7 +2,6 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.main.App;
 
 import java.util.LinkedList;
 
@@ -47,7 +46,8 @@ public class MouseEventW extends AbstractEvent {
 
 	@Override
 	public GPoint getPoint() {
-		return new GPoint(event.getClientX() - off.getXoffset(), event.getClientY() - off.getYoffset());
+		return new GPoint(Math.round((event.getClientX() - off.getXoffset()) * (1 / off.getScaleX()) * (1 / off.getWidthScale())),
+				Math.round((event.getClientY() - off.getYoffset())  * (1 / off.getScaleY()) * (1 / off.getHeightScale())));
 	}
 
 	public native int getOffsetX() /*-{
@@ -94,12 +94,12 @@ public class MouseEventW extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		return event.getClientX() - off.getXoffset();
+		return Math.round((event.getClientX() - off.getXoffset()) * (1 / off.getScaleX()) * (1 / off.getWidthScale()));
 	}
 
 	@Override
 	public int getY() {
-		return event.getClientY() - off.getYoffset();
+		return Math.round((event.getClientY() - off.getYoffset())  * (1 / off.getScaleY()) * (1 / off.getHeightScale()));
 	}
 
 	@Override

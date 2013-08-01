@@ -65,12 +65,25 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	/**
 	 * @return offset to get correct getX() in mouseEvents
 	 */
+	
+	public float getWidthScale() {
+		EuclidianViewW v  = (EuclidianViewW) view;
+		return v.g2p.getCoordinateSpaceWidth() / v.g2p.getOffsetWidth();
+	}
+	
+	public float getHeightScale() {
+		EuclidianViewW v = (EuclidianViewW) view;
+		return v.g2p.getCoordinateSpaceHeight() / v.g2p.getOffsetHeight();
+	}
+	
 	public int getXoffset(){
 		//return EuclidianViewXOffset;
 		//the former solution doesn't update on scrolling
-
-		return ((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft();
+		return Math.round((((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft()));
+				
 	}
+	
+	
 	//private int EuclidianViewXOffset;
 	
 	//private int EuclidianViewYOffset;
@@ -80,9 +93,30 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public int getYoffset(){
 		//return EuclidianViewYOffset;
 		//the former solution doesn't update on scrolling
-
 		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
+	
+	
+	public native float getScaleX() /*-{		
+		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
+		   	matches = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")).webkitTransform.match(matrixRegex); 
+		   	if (matches && matches.length) {
+				return $wnd.parseFloat(matches[1]); 
+		   	} else {
+		   		 return 1;
+		   	}	
+	}-*/;
+
+	public native float getScaleY() /*-{
+		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
+		matches = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")).webkitTransform.match(matrixRegex); 
+		if (matches && matches.length) {
+				return $wnd.parseFloat(matches[2]); 
+		   	} else {
+		   		 return 1;
+		   	}		
+		}-*/;
+	
 
 	private boolean EuclidianOffsetsInited = false;
 	
