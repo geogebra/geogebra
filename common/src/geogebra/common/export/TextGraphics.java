@@ -19,6 +19,7 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.awt.GShape;
+import geogebra.common.factories.AwtFactory;
 
 import java.util.Map;
 
@@ -270,17 +271,15 @@ public class TextGraphics extends geogebra.common.awt.GGraphics2D{
 		//intentionaly left blank
 		return null;
 	}
-
+	private GFont font = AwtFactory.prototype.newFont("sans-serif", GFont.PLAIN, 12);
 	@Override
 	public GFont getFont() {
-		//intentionaly left blank
-		return null;
+		return font;
 	}
 
 	@Override
 	public void setFont(GFont font) {
-		//intentionaly left blank
-		
+		this.font = font;		
 	}
 
 	@Override
