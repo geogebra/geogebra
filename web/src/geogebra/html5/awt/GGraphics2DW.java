@@ -544,16 +544,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     public GFontW getFont() {
 		return currentFont;
 	}
-
 	
-	
-	public void setCoordinateSpaceHeight(int height) {
+	public void setCoordinateSpaceSize(int width, int height) {
+		canvas.setCoordinateSpaceWidth(width);
 		canvas.setCoordinateSpaceHeight(height);
+		this.updateCanvasColor();
     }
 
-	public void setCoordinateSpaceWidth(int width) {
-	    canvas.setCoordinateSpaceWidth(width);
-    }
+	
 
 	public int getOffsetWidth() {
 		return canvas.getOffsetWidth();
@@ -601,13 +599,22 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     	//checking for the same color here speeds up axis drawing by 25%
     	if(fillColor != null && fillColor.equals(color)){
     		return;
-    	}
-    	String colorStr = "rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")";
-    	context.setStrokeStyle(colorStr);
-    	context.setFillStyle(colorStr);
+    	}    	
     	this.color = fillColor;
+    	updateCanvasColor();
     	this.currentPaint = new geogebra.html5.awt.GColorW((geogebra.html5.awt.GColorW)fillColor);
     }
+
+	private void updateCanvasColor() {
+	    if(color == null){
+	    	return;
+	    }
+	    String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
+    	context.setStrokeStyle(colorStr);
+    	context.setFillStyle(colorStr);
+	    
+    }
+
 
 	@Override
     public void clip(geogebra.common.awt.GShape shape) {
@@ -765,10 +772,9 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	public void setPreferredSize(GDimension preferredSize) {
-	    setWidth((int) preferredSize.getWidth());
-	    setHeight((int) preferredSize.getHeight());
-	    setCoordinateSpaceHeight(getOffsetHeight());
-	    setCoordinateSpaceWidth(getOffsetWidth());
+	    setWidth(preferredSize.getWidth());
+	    setHeight(preferredSize.getHeight());
+	    setCoordinateSpaceSize(getOffsetWidth(),getOffsetHeight());
     }
 	
 	public Canvas getCanvas() {

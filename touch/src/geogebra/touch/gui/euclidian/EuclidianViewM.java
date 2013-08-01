@@ -211,8 +211,7 @@ public class EuclidianViewM extends EuclidianViewWeb {
   }
 
   public void setPixelSize(int width, int height) {
-    this.g2p.setCoordinateSpaceWidth(width);
-    this.g2p.setCoordinateSpaceHeight(height);
+    this.g2p.setCoordinateSpaceSize(width, height);
 
     this.canvas.setPixelSize(width, height);
     this.updateSize();

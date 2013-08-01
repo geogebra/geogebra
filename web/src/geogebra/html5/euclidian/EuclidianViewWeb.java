@@ -271,8 +271,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
     public void setCoordinateSpaceSize(int width, int height) {
     	int oldWidth = g2p.getCoordinateSpaceWidth();
     	int oldHeight = g2p.getCoordinateSpaceHeight();
-		g2p.setCoordinateSpaceWidth(width);
-		g2p.setCoordinateSpaceHeight(height);
+		g2p.setCoordinateSpaceSize(width, height);
 		try {
 			((AppWeb)app).syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
 
