@@ -113,6 +113,16 @@ public class GColorW extends GColor {
     public int getAlpha() {
 		return alpha;
 	}
+	
+	@Override
+    public boolean equals(Object object){
+		if(!(object instanceof GColorW)){
+			return false;
+		}
+		GColorW other = (GColorW)object;
+		return other.r == this.r && other.g == this.g 
+				&& other.b == this.b && other.alpha == this.alpha;
+	}
 
 	@Override
     public void getRGBColorComponents(float[] rgb) {
@@ -126,7 +136,8 @@ public class GColorW extends GColor {
 		return (((getRed()*256)+ getGreen())* 256)+getBlue();
 	}
 	
-	public GColorW darker() {
+	@Override
+    public GColorW darker() {
     	return new GColorW(Math.max((int)(getRed()  *FACTOR), 0), 
 			 Math.max((int)(getGreen()*FACTOR), 0),
 			 Math.max((int)(getBlue() *FACTOR), 0));
