@@ -20,6 +20,7 @@ import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
 import geogebra.html5.gawt.BufferedImage;
 import geogebra.html5.openjdk.awt.geom.PathIterator;
 import geogebra.html5.openjdk.awt.geom.Polygon;
@@ -912,5 +913,30 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	    this.setColor(color);
 	    this.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
     }
-
+	private boolean lastDebugOk = false;
+	private boolean lastDebugException = false;
+	public void debug() {
+		// TODO Auto-generated method stub
+		String physical = context.getFillStyle().toString().toUpperCase();
+		String logical = "null";
+		if(color != null){
+			logical = color.getAlpha()< 255 ?"RGBA("+color.getRed()+", "+color.getGreen()+", "+color.getBlue()+", 0."+(int)(1000000 * color.getAlpha()/255d)+")"  : "#" + StringUtil.toHexString(color).toUpperCase();
+		}
+		if(color == null && physical.contains("OBJ")){
+			System.out.println(hashCode()+": not colors");
+			lastDebugOk = false;
+			lastDebugException = false;
+		}
+		else if(!logical.equals(physical)){
+			if(!lastDebugException){
+				App.printStacktrace(hashCode()+": "+logical + " / " + physical) ;
+			}
+			lastDebugOk = false;
+			lastDebugException = true;
+		}else if(!lastDebugOk){
+			System.out.println(hashCode()+": ok");
+			lastDebugOk = true;
+			lastDebugException = false;
+		}
+	}
 }
