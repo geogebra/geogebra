@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -71,9 +72,16 @@ public class Parametric extends ValidExpression {
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(getLabel() + " : ");
-		sb.append("X = " + P.evaluate(tpl) + " + " + parameter + " "
-				+ v.evaluate(tpl));
+		if (tpl.getStringType().equals(StringType.GIAC)) {
+			MyVecNode a = (MyVecNode) P.unwrap();
+			MyVecNode b = (MyVecNode) v.unwrap();
+			sb.append("{x=");
+			sb.append(a.x + "+" + parameter + "*" + b.x + ",y=");
+			sb.append(a.y + "+" + parameter + "*" + b.y + "}");
+			return sb.toString();
+		}
+		sb.append("X = " + P.toString(tpl) + " + " + parameter + " "
+				+ v.toString(tpl));
 		return sb.toString();
 	}
 
@@ -130,5 +138,15 @@ public class Parametric extends ValidExpression {
 
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	@Override
+	public String getAssignmentOperator() {
+		 return ": ";
+	}
+
+	@Override
+	public String getAssignmentOperatorLaTeX() {
+		 return ": \\, ";
 	}
 }

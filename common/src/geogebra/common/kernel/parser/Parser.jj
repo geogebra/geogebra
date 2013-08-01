@@ -320,6 +320,7 @@ TOKEN : {
   		< VARX: "x" >
   |		< VARY: "y" >
   |		< VARZ: "z" >
+  |     < PARAMETRICVAR: (("\u0058") | ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))) > // X 
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
   |     < PERCENTAGE: <FLOAT> "%" >
@@ -447,7 +448,10 @@ ValidExpression buildValidExpression() :
         // CAS assignment "a := 5" should be supported too
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
 	  	LOOKAHEAD(2147483647)  
-	    l = label() (":" | <ASSIGNMENT> )  ve = cmdexpression()   
+	    l = label() (":" | <ASSIGNMENT> )  ve = cmdexpression()
+	 |
+	    LOOKAHEAD(2147483647)
+	    ve = parametric()
 	 |     
         // distingiush <LABEL> = expressionnode()               and  
         //             expressionnode() = expressionnode()      (Equation)
@@ -537,6 +541,10 @@ ValidExpression buildCASExpression() :
        // f(a) := a^2 + 3a
      (        LOOKAHEAD(2147483647)   
         ve = casFunction()
+    |     
+        // h: X = (3,2) + t (5,1)
+      	LOOKAHEAD(2147483647) 
+      	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
     |	   
        	// labeled equation, e.g. g: 3x + y = 7
        	LOOKAHEAD(2147483647)   
@@ -546,7 +554,10 @@ ValidExpression buildCASExpression() :
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)		
 		l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
- 	|	   
+ 	|
+ 		LOOKAHEAD(2147483647)   
+       	ve = parametric()
+ 	| 	   
        	// equation, e.g. 3x + y = 7
        	LOOKAHEAD(2147483647)   
        	ve = equation()
@@ -736,7 +747,7 @@ Parametric parametric():
     Token s, par;    
 }
 {    
-    <LABEL> <EQUAL> P = multterm()
+    < PARAMETRICVAR > <EQUAL> P = multterm()
     ( 
      (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
          {                                    

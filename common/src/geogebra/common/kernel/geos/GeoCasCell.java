@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
@@ -1644,7 +1645,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
 				// no prefix, no postfix: just evaluation
-				setOutput(result, true);
+				if (inputVE.unwrap() instanceof Parametric) {
+					setOutput(inputVE.toString(StringTemplate.defaultTemplate), true);
+				} else {
+					setOutput(result, true);
+				}
 			} else {
 				// make sure that evaluation is put into parentheses
 				StringBuilder sb = new StringBuilder();

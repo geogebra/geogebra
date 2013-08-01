@@ -1739,6 +1739,10 @@ public class AlgebraProcessor {
 				FunctionNVar fun = (FunctionNVar) leaf;
 				fun.setLabels(n.getLabels());
 				return processFunctionNVar(fun);
+			} else if (leaf instanceof Parametric) {
+				Parametric par = (Parametric) leaf;
+				par.setLabels(n.getLabels());
+				return processParametric(par);
 			}
 
 		}
