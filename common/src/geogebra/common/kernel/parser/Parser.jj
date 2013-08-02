@@ -542,7 +542,7 @@ ValidExpression buildCASExpression() :
      (        LOOKAHEAD(2147483647)   
         ve = casFunction()
     |     
-        // h: X = (3,2) + t (5,1)
+        // h: X = (3,2) + t (5,a)
       	LOOKAHEAD(2147483647) 
       	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
     |	   
@@ -744,16 +744,19 @@ Parametric parametric():
 {         
     ExpressionValue P, v;
     ExpressionValue temp;
-    Token s, par;    
+    Token s, par;
+    Token lhs = null;    
 }
 {    
-    < PARAMETRICVAR > <EQUAL> P = multterm()
+    (      lhs = < PARAMETRICVAR >
+      < EQUAL >
+    )? P = multterm()
     ( 
      (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
          {                                    
             if (s.kind == MINUS) 
-                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                    
-            return new Parametric(kernel, P, v, par.image );                
+                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
+            return new Parametric(kernel, P, v, par.image, lhs == null ? null : lhs.image);                
          }
     ) 
 }

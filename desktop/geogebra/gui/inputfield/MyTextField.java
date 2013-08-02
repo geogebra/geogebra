@@ -2,7 +2,7 @@ package geogebra.gui.inputfield;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
-import geogebra.common.gui.inputfield.IntervalProvider;
+import geogebra.common.gui.inputfield.ColorProvider;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
@@ -73,7 +73,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	private static Color COLOR_UNMATCHED = Color.red;
 	
 	// class for distinguishing graphically existing object
-	private IntervalProvider ip;
+	private ColorProvider ip;
 
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
@@ -148,7 +148,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	 */
 	public void enableLabelColoring(boolean isCasInput) {
 		if (ip == null) {
-			ip = new IntervalProvider(app.getKernel(), isCasInput);
+			ip = new ColorProvider(app, isCasInput);
 			return;
 		}
 		ip.setIsCasInput(isCasInput);
@@ -428,12 +428,10 @@ public class MyTextField extends JTextField implements ActionListener,
 
 			if (textMode || text.charAt(i) == '\"') {
 				g2.setColor(Color.GRAY);
+			} else if (ip != null){
+				g2.setColor(ip.getColor(i));
 			} else {
 				g2.setColor(Color.BLACK);
-			}
-			
-			if (ip != null && ip.isInInterval(i) && !textMode) {
-				bg = Color.ORANGE;
 			}
 
 			// now draw the text

@@ -27,16 +27,24 @@ public class Parametric extends ValidExpression {
 	private ExpressionNode P, v;
 	private String parameter;
 	private Kernel kernel;
+	private String lhs;
 
 	/**
 	 * Creates new Parametric P + parameter * v. (X = P + parameter * v)
-	 * @param kernel kernel
-	 * @param P start point
-	 * @param v direction vector
-	 * @param parameter parameter name
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param P
+	 *            start point
+	 * @param v
+	 *            direction vector
+	 * @param parameter
+	 *            parameter name
+	 * @param lhs
+	 *            the left hand side of the parametric equation (i.e. X | (x,y))
 	 */
-	public Parametric(Kernel kernel, ExpressionValue P,
-			ExpressionValue v, String parameter) {
+	public Parametric(Kernel kernel, ExpressionValue P, ExpressionValue v,
+			String parameter, String lhs) {
 		if (P.isExpressionNode())
 			this.P = (ExpressionNode) P;
 		else
@@ -48,20 +56,24 @@ public class Parametric extends ValidExpression {
 			this.v = new ExpressionNode(kernel, v);
 
 		this.parameter = parameter;
+		this.lhs = lhs;
 		this.kernel = kernel;
 	}
+
 	/**
 	 * @return start point
 	 */
 	public ExpressionNode getP() {
 		return P;
 	}
+
 	/**
 	 * @return direction vector
 	 */
 	public ExpressionNode getv() {
 		return v;
 	}
+
 	/**
 	 * @return parameter name
 	 */
@@ -76,11 +88,12 @@ public class Parametric extends ValidExpression {
 			MyVecNode a = (MyVecNode) P.unwrap();
 			MyVecNode b = (MyVecNode) v.unwrap();
 			sb.append("{x=");
-			sb.append(a.x + "+" + parameter + "*" + b.x + ",y=");
-			sb.append(a.y + "+" + parameter + "*" + b.y + "}");
+			sb.append(a.x.toString(tpl) + "+" + parameter + "*" + b.x.toString(tpl) + ",");
+			sb.append("y=");
+			sb.append(a.y.toString(tpl) + "+" + parameter + "*" + b.y.toString(tpl) + "}");
 			return sb.toString();
 		}
-		sb.append("X = " + P.toString(tpl) + " + " + parameter + " "
+		sb.append((lhs == null) ? "" : lhs + " = " + P.toString(tpl) + " + " + parameter + " "
 				+ v.toString(tpl));
 		return sb.toString();
 	}
@@ -90,8 +103,8 @@ public class Parametric extends ValidExpression {
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		return new Parametric(kernel1, P.deepCopy(kernel1), v.deepCopy(kernel1),
-				parameter);
+		return new Parametric(kernel1, P.deepCopy(kernel1),
+				v.deepCopy(kernel1), parameter, lhs);
 	}
 
 	public HashSet<GeoElement> getVariables() {
@@ -118,7 +131,7 @@ public class Parametric extends ValidExpression {
 		v.resolveVariables(forEquation);
 	}
 
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -128,7 +141,6 @@ public class Parametric extends ValidExpression {
 	}
 
 	public boolean isVector3DValue() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -142,11 +154,25 @@ public class Parametric extends ValidExpression {
 
 	@Override
 	public String getAssignmentOperator() {
-		 return ": ";
+		return ": ";
 	}
 
 	@Override
 	public String getAssignmentOperatorLaTeX() {
-		 return ": \\, ";
+		return ": \\, ";
 	}
+
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue ev = t.process(this);
+		P = P.traverse(t).wrap();
+		v = v.traverse(t).wrap();
+		return ev;
+	}
+
+	@Override
+	public boolean inspect(Inspecting t) {
+		return t.check(this) || P.inspect(t) || v.inspect(t);
+	}
+
 }
