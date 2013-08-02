@@ -1137,6 +1137,7 @@ public class TouchModel {
 		// redefine
 		if (this.inputDialog.getType() == DialogType.RedefineSlider) {
 			setSliderProperties(this.redefineSlider);
+			this.redefineSlider.rename(input);
 			this.redefineSlider.update();
 			return true;
 		}

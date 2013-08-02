@@ -138,7 +138,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 	private void addTextBox() {
 		this.textBox = new InputField(this.type == DialogType.Slider ? this.app
-				.getLocalization().getCommand("Name") : null);
+				.getLocalization().getCommand("Name") : null, true);
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
@@ -174,10 +174,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	private void createSliderDesign() {
-		this.min = new InputField(this.app.getLocalization().getPlain("min"));
-		this.max = new InputField(this.app.getLocalization().getPlain("max"));
+		this.min = new InputField(this.app.getLocalization().getPlain("min"), false);
+		this.max = new InputField(this.app.getLocalization().getPlain("max"), false);
 		this.increment = new InputField(this.app.getLocalization().getPlain(
-				"Step"));
+				"Step"), false);
 
 		final InputField[] box = new InputField[] { this.min, this.max,
 				this.increment, this.textBox };
@@ -400,6 +400,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		case NumberValue:
 		case Angle:
 			break;
+		case RedefineSlider:
 		case Slider:
 			this.addStyleName("sliderDialog");
 			break;
@@ -486,8 +487,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.guiModel.setActiveDialog(this);
 
 		super.center();
-
-		if (this.type != DialogType.Slider) {
+		
+		if(this.type == DialogType.RedefineSlider){
+			//do not overwrite label
+		}
+		else if (this.type != DialogType.Slider) {
 			this.textBox.setText(this.prevText);
 		} else {
 			this.setSliderPreview();
