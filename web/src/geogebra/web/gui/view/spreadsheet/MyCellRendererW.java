@@ -305,8 +305,29 @@ public class MyCellRendererW {
 
 			}
 		}
-		
+
 		table.setText(row, column, text);
+
+		// it is also important to format the text!
+
+		// 1. bold/italic
+		/*cellPoint.setLocation(column, row);
+		fontStyle = (Integer) formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_FONTSTYLE);
+		if (fontStyle == null) {
+			fontStyle = GFont.PLAIN;
+		}
+		GFont gf = app.getFontCanDisplay(text, fontStyle);
+		table.getCellFormatter().getElement(row, column).getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
+		table.getCellFormatter().getElement(row, column).getStyle().setFontStyle(
+			gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
+		table.getCellFormatter().getElement(row, column).getStyle().setFontWeight(
+			gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
+
+		// 2. foreground color
+		if (geo.getLabelColor() != null)
+			table.getCellFormatter().getElement(row, column).getStyle().setColor(
+					geo.getLabelColor().toString());
 	}
 	
 	

@@ -2139,9 +2139,11 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					setText(j, i, text);
 
 				} else {
+					// GeoElement or nothing
+					// gva = tableModel.getValueAt(j - 1, i - 1);
+
 					// format table cells
-					// defaultTableCellRenderer.updateTableCell(this, gva, j -
-					// 1, i - 1);
+					// defaultTableCellRenderer.updateTableCell(this, gva, j - 1, i - 1);
 				}
 			}
 		}
