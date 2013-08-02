@@ -188,7 +188,7 @@ public abstract class Drawable extends DrawableND {
 		GFont oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
-		if ((label.charAt(0)=='$') && label.endsWith("$")) {
+		if ((label.charAt(0)=='$') && label.endsWith("$") && label.length() > 1) {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText())
 				serif = ((GeoText) geo).isSerifFont();
