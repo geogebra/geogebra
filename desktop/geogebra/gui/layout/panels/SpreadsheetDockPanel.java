@@ -2,7 +2,7 @@ package geogebra.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -14,7 +14,6 @@ import javax.swing.JComponent;
  */
 public class SpreadsheetDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private AppD app;
 	
 	/**
 	 * @param app
@@ -34,12 +33,12 @@ public class SpreadsheetDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD)app.getGuiManager()).getSpreadsheetView().getSpreadsheetStyleBar();
+		return app.getGuiManager().getSpreadsheetView().getSpreadsheetStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return (JComponent) ((GuiManagerD)app.getGuiManager()).getSpreadsheetView();
+		return app.getGuiManager().getSpreadsheetView();
 	}
 	
 	@Override
@@ -94,6 +93,22 @@ public class SpreadsheetDockPanel extends DockPanel {
 	@Override
 	public ImageIcon getIcon() { 
 			return app.getImageIcon("view-spreadsheet24.png");
+	}
+	
+	
+	@Override
+	public boolean isStyleBarVisible() {
+		
+		if (!app.isApplet()) {
+			return true;
+		}
+		
+		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
+		
+		// currently no GUI / XML for hiding the style-bar
+		// hide in applets if the row/column headers are missing
+		return settings.showRowHeader() && settings.showColumnHeader();
+		
 	}
 	
 	
