@@ -1361,6 +1361,9 @@ public class Construction {
 			oldGeo.remove();
 			isRemovingGeoToReplaceIt=false;
 			
+			//set properties first, set label later. See #933
+			newGeo.setAllVisualProperties(oldGeo, false);
+			
 			if (newGeo.isIndependent())
 				addToConstructionList(newGeo, true);
 			else {
@@ -1369,9 +1372,6 @@ public class Construction {
 				// make sure all output objects get labels, see #218
 				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput());
 			}
-
-			// copy formatting of oldGeo to newGeo
-			newGeo.setAllVisualProperties(oldGeo, false);
 
 			// copy label of oldGeo to newGeo
 			// use setLoadedLabel() instead of setLabel() to make sure that
