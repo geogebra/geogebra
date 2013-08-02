@@ -9,5 +9,5 @@ import geogebra.touch.utils.ToolBarCommand;
  * 
  */
 public interface OptionsClickedListener {
-  public void optionClicked(ToolBarCommand cmd);
+	public void optionClicked(ToolBarCommand cmd);
 }

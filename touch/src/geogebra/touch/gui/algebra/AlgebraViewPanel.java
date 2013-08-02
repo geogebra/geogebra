@@ -18,74 +18,78 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 
 public class AlgebraViewPanel extends FlowPanel {
-  private final AlgebraViewM algebraView;
-  private final AlgebraButton arrow;
-  private final FlowPanel stylebar;
-  private ScrollPanel content;
+	private final AlgebraViewM algebraView;
+	private final AlgebraButton arrow;
+	private final FlowPanel stylebar;
+	private ScrollPanel content;
 
-  /**
-   * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
-   * {@link SwipeEndHandler}.
-   * 
-   * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM algebraView}
-   * to it. Attaches the {@link AlgebraViewM algebraView} to the {@link Kernel
-   * kernel}.
-   * 
-   * @param controller
-   *          MobileAlgebraController
-   * @param kernel
-   *          Kernel
-   */
-  public AlgebraViewPanel(TouchController controller, TabletGUI gui, Kernel kernel) {
-    this.algebraView = new AlgebraViewM(controller);
-    kernel.attach(this.algebraView);
-    this.stylebar = new FlowPanel();
-    this.arrow = new AlgebraButton(gui);
-    this.stylebar.add(this.arrow);
-    this.stylebar.setStyleName("algebraStylebar");
-    this.add(this.stylebar);
-    this.stylebar.setVisible(false);
-    this.setStyleName("algebraViewAndStylebar");
+	/**
+	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
+	 * {@link SwipeEndHandler}.
+	 * 
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
+	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
+	 * {@link Kernel kernel}.
+	 * 
+	 * @param controller
+	 *            MobileAlgebraController
+	 * @param kernel
+	 *            Kernel
+	 */
+	public AlgebraViewPanel(TouchController controller, TabletGUI gui,
+			Kernel kernel) {
+		this.algebraView = new AlgebraViewM(controller);
+		kernel.attach(this.algebraView);
+		this.stylebar = new FlowPanel();
+		this.arrow = new AlgebraButton(gui);
+		this.stylebar.add(this.arrow);
+		this.stylebar.setStyleName("algebraStylebar");
+		this.add(this.stylebar);
+		this.stylebar.setVisible(false);
+		this.setStyleName("algebraViewAndStylebar");
 
-    this.content = new ScrollPanel(this.algebraView);
-    this.content.setStyleName("algebraView");
+		this.content = new ScrollPanel(this.algebraView);
+		this.content.setStyleName("algebraView");
 
-    onResize();
-    this.add(this.content);
-  }
+		onResize();
+		this.add(this.content);
+	}
 
-  public void addInsideArrow() {
-    this.stylebar.setVisible(true);
+	public void addInsideArrow() {
+		this.stylebar.setVisible(true);
 
-  }
+	}
 
-  public AlgebraView getAlgebraView() {
-    return this.algebraView;
-  }
+	public AlgebraView getAlgebraView() {
+		return this.algebraView;
+	}
 
-  public void removeInsideArrow() {
-    this.stylebar.setVisible(false);
+	public void removeInsideArrow() {
+		this.stylebar.setVisible(false);
 
-  }
+	}
 
-  public void setLabels() {
-    if (this.algebraView != null) {
-      this.algebraView.setLabels();
-    }
-  }
+	public void setLabels() {
+		if (this.algebraView != null) {
+			this.algebraView.setLabels();
+		}
+	}
 
-  @Override
-  public void setVisible(boolean flag) {
-    super.setVisible(flag);
-    this.algebraView.setShowing(flag);
-  }
+	@Override
+	public void setVisible(boolean flag) {
+		super.setVisible(flag);
+		this.algebraView.setShowing(flag);
+	}
 
-  public void onResize() {
-    // Important: Set ViewPort size in Pixels for the ScrollPanel!
-    this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+	public void onResize() {
+		// Important: Set ViewPort size in Pixels for the ScrollPanel!
+		this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
 
-    LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+		LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
 
-    this.content.setHeight((Window.getClientHeight() - laf.getAppBarHeight() - laf.getToolBarHeight() - this.stylebar.getOffsetHeight()) + "px");
-  }
+		this.content
+				.setHeight((Window.getClientHeight() - laf.getAppBarHeight()
+						- laf.getToolBarHeight() - this.stylebar
+							.getOffsetHeight()) + "px");
+	}
 }

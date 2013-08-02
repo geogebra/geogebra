@@ -13,33 +13,36 @@ import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
 public interface LookAndFeel extends SavedStateListener {
-  public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel);
+	public void buildHeader(TabletGUI gui, TouchApp application,
+			TouchModel touchModel);
 
-  public int getAppBarHeight();
+	public int getAppBarHeight();
 
-  public DefaultResources getIcons();
+	public DefaultResources getIcons();
 
-  public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
+	public EventHandler getOptionalButtonHandler(StylingBar stylingBar,
+			StandardImageButton standardImageButton, OptionType captionstyle);
 
-  public int getPaddingLeftOfDialog();
+	public int getPaddingLeftOfDialog();
 
-  public int getPanelsHeight();
+	public int getPanelsHeight();
 
-  public Type<EventHandler> getStylBarEventType();
+	public Type<EventHandler> getStylBarEventType();
 
-  public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
+	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar,
+			StandardImageButton newButton, String process);
 
-  public TabletHeaderPanel getTabletHeaderPanel();
+	public TabletHeaderPanel getTabletHeaderPanel();
 
-  public int getToolBarHeight();
+	public int getToolBarHeight();
 
-  public boolean isMouseDownIgnored();
+	public boolean isMouseDownIgnored();
 
-  public void setApp(TouchApp app);
+	public void setApp(TouchApp app);
 
-  public void setTitle(String title);
+	public void setTitle(String title);
 
-  public boolean supportsShare();
+	public boolean supportsShare();
 
-  public void updateUndoSaveButtons();
+	public void updateUndoSaveButtons();
 }
