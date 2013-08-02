@@ -29,7 +29,7 @@ public class InputField extends VerticalPanel {
 	 * equal to AndroidTextBox(null)
 	 */
 	public InputField() {
-		this(null);
+		this(null,true);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class InputField extends VerticalPanel {
 	 * @param caption
 	 *            caption of the TextField (will NOT(!) be translated)
 	 */
-	public InputField(String caption) {
+	public InputField(String caption, boolean useUnderline) {
 		if (caption != null) {
 			this.nameLabel = new Label(caption);
 			this.add(this.nameLabel);
@@ -50,12 +50,12 @@ public class InputField extends VerticalPanel {
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
 		this.textBox.addStyleName("inactive");
 		this.add(this.textBox);
-
-		this.underline = new LayoutPanel();
-		this.underline.setStyleName("inputUnderline");
-		this.underline.addStyleName("inactive");
-		this.add(this.underline);
-
+		if(useUnderline){
+			this.underline = new LayoutPanel();
+			this.underline.setStyleName("inputUnderline");
+			this.underline.addStyleName("inactive");
+			this.add(this.underline);
+		}
 		this.setStyleName("inputField");
 
 		this.textBox.addFocusHandler(new FocusHandler() {
@@ -66,8 +66,10 @@ public class InputField extends VerticalPanel {
 					@Override
 					public void execute() {
 						InputField.this.textBox.setFocus(true);
-						InputField.this.underline.removeStyleName("inactive");
-						InputField.this.underline.addStyleName("active");
+						if(InputField.this.underline != null){
+							InputField.this.underline.removeStyleName("inactive");
+							InputField.this.underline.addStyleName("active");
+						}
 						InputField.this.textBox.removeStyleName("inactive");
 						InputField.this.textBox.addStyleName("active");
 					}
@@ -79,8 +81,10 @@ public class InputField extends VerticalPanel {
 			@Override
 			public void onBlur(BlurEvent event) {
 				InputField.this.textBox.setFocus(false);
-				InputField.this.underline.removeStyleName("active");
-				InputField.this.underline.addStyleName("inactive");
+				if(InputField.this.underline != null){
+					InputField.this.underline.removeStyleName("active");
+					InputField.this.underline.addStyleName("inactive");
+				}
 				InputField.this.textBox.removeStyleName("active");
 				InputField.this.textBox.addStyleName("inactive");
 			}
@@ -105,7 +109,9 @@ public class InputField extends VerticalPanel {
 			this.add(this.nameLabel);
 		}
 		this.add(this.textBox);
-		this.add(this.underline);
+		if(this.underline != null){
+			this.add(this.underline);
+		}
 	}
 
 	public void addKeyDownHandler(KeyDownHandler keyDownHandler) {
