@@ -1,5 +1,6 @@
 package geogebra.gui.inputfield;
 
+import geogebra.awt.GColorD;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.ColorProvider;
@@ -429,7 +430,7 @@ public class MyTextField extends JTextField implements ActionListener,
 			if (textMode || text.charAt(i) == '\"') {
 				g2.setColor(Color.GRAY);
 			} else if (ip != null){
-				g2.setColor(ip.getColor(i));
+				g2.setColor(GColorD.getAwtColor(ip.getColor(i)));
 			} else {
 				g2.setColor(Color.BLACK);
 			}

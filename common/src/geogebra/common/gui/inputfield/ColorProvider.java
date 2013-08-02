@@ -1,9 +1,9 @@
 package geogebra.common.gui.inputfield;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,13 +30,13 @@ public class ColorProvider {
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>", "g");
 	
 	// defined object color = blue
-	private static Color COLOR_DEFINED = Color.BLUE;
+	private static GColor COLOR_DEFINED = GColor.BLUE;
 		
 	// undefined object color = orange
-	private static Color COLOR_UNDEFINED = Color.GRAY;
+	private static GColor COLOR_UNDEFINED = GColor.GRAY;
 	
 	// default color
-	private static Color COLOR_DEFAULT = Color.BLACK;
+	private static GColor COLOR_DEFAULT = GColor.BLACK;
 
 	/**
 	 * @param app
@@ -70,7 +70,7 @@ public class ColorProvider {
 	 *            the cursor in the text
 	 * @return Color
 	 */
-	public Color getColor(int i) {
+	public GColor getColor(int i) {
 		for (Integer[] in : ignoreIntervals) {
 			if (in[0] <= i && in[1] > i) {
 				return COLOR_DEFAULT;
