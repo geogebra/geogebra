@@ -76,7 +76,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
       // different
       // leftpos of button + width of subtoolbar must not be bigger than
       // Window-width!!
-      if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()) {
+      if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth() && options.isHorizontal()) {
 	this.model.closeOnlyOptions();
 	this.model.setOption(options);
 
