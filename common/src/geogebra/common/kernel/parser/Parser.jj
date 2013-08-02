@@ -750,7 +750,7 @@ Parametric parametric():
 {    
     (      lhs = < PARAMETRICVAR >
       < EQUAL >
-    )? P = multterm()
+    ) P = multterm()
     ( 
      (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
          {                                    

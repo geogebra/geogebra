@@ -635,6 +635,18 @@ public interface Traversing {
 			}			
 			return geo;	
 		}
+		
+		private static boolean contains(GeoDummyVariable gdv) {
+			if (variables == null) {
+				return false;
+			}
+			for (FunctionVariable funvar : variables) {
+				if (funvar.toString(StringTemplate.defaultTemplate).equals(gdv.toString(StringTemplate.defaultTemplate))) {
+					return true;
+				}
+			}
+			return false;
+		}
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){ 
 				final ExpressionNode en = (ExpressionNode) ev;
@@ -689,36 +701,43 @@ public interface Traversing {
 				}
 				else {
 					GeoElement geo = null;
-					if(en.getLeft() instanceof GeoDummyVariable){
+					if(en.getLeft() instanceof GeoDummyVariable && !contains((GeoDummyVariable)en.getLeft())){
 						geo = ((GeoDummyVariable)en.getLeft()).getElementWithSameName();
-						if(geo!=null)
-						en.setLeft(expand(geo));
+						if (geo != null) { 
+							en.setLeft(expand(geo));
+						}
 					}
 										
 				}
 				if(en.getRight()!=null){
 					GeoElement geo = null;
-					if(en.getRight() instanceof GeoDummyVariable){
+					if(en.getRight() instanceof GeoDummyVariable && !contains((GeoDummyVariable)en.getRight())){
 						geo = ((GeoDummyVariable)en.getRight()).getElementWithSameName();
-						if(geo!=null)
-						en.setRight(expand(geo));
+						if (geo != null) {
+							en.setRight(expand(geo));
+						}
 					}
 				}
-			}else if(ev instanceof GeoDummyVariable){
+			}else if(ev instanceof GeoDummyVariable && !contains((GeoDummyVariable)ev)){
 				GeoElement geo = ((GeoDummyVariable)ev).getElementWithSameName();
 				if(geo!=null)
 					return expand(geo);
 			}else if(ev instanceof GeoCasCell){
 				return ((GeoCasCell)ev).getOutputValidExpression().wrap().getCopy(ev.getKernel());
+			}else if(ev instanceof FunctionNVar) {
+				variables =  ((FunctionNVar)ev).fVars;
 			}
 			return ev;
 		}
 		private static FunctionExpander collector = new FunctionExpander();
+		// store function variables if needed
+		private static FunctionVariable[] variables = null;
 		/**
 		 * Resets and returns the collector
 		 * @return function expander
 		 */
 		public static FunctionExpander getCollector(){		
+			variables = null;
 			return collector;
 		}
 	}
