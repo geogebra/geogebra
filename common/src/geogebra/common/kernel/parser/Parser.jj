@@ -320,7 +320,7 @@ TOKEN : {
   		< VARX: "x" >
   |		< VARY: "y" >
   |		< VARZ: "z" >
-  |     < PARAMETRICVAR: (("\u0058") | ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))) > // X 
+  |     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X 
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
   |     < PERCENTAGE: <FLOAT> "%" >
