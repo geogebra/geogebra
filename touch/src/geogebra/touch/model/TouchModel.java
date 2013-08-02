@@ -76,6 +76,7 @@ public class TouchModel {
 	private GeoElement redefineGeo;
 
 	private Point eventCoordinates = new Point(0, 0);
+	private GeoNumeric redefineSlider;
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
@@ -1134,7 +1135,12 @@ public class TouchModel {
 		}
 
 		// redefine
-		if (this.inputDialog.getType() == DialogType.Redefine) {
+		if (this.inputDialog.getType() == DialogType.RedefineSlider) {
+			setSliderProperties(this.redefineSlider);
+			this.redefineSlider.update();
+			return true;
+		}
+		else if (this.inputDialog.getType() == DialogType.Redefine) {
 			if (this.redefineGeo == null) {
 				return false;
 			}
@@ -1160,22 +1166,14 @@ public class TouchModel {
 			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
 					oldVal);
 
-			final GeoElement slider = this.inputDialog.isNumber() ? new GeoNumeric(
+			final GeoNumeric slider = this.inputDialog.isNumber() ? new GeoNumeric(
 					this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
 			slider.setLabel(input.equals("") ? null : input);
-			((GeoNumeric) slider).setSliderLocation(this.eventCoordinates.x,
+			slider.setSliderLocation(this.eventCoordinates.x,
 					this.eventCoordinates.y, true);
-
-			((GeoNumeric) slider).setIntervalMin(this.kernel
-					.getAlgebraProcessor().evaluateToNumeric(
-							this.inputDialog.getMin(), false));
-			((GeoNumeric) slider).setIntervalMax(this.kernel
-					.getAlgebraProcessor().evaluateToNumeric(
-							this.inputDialog.getMax(), false));
-			((GeoNumeric) slider).setAnimationStep(this.kernel
-					.getAlgebraProcessor().evaluateToNumeric(
-							this.inputDialog.getIncrement(), false));
+			setSliderProperties(slider);
+			
 
 			slider.setEuclidianVisible(true);
 			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
@@ -1255,6 +1253,19 @@ public class TouchModel {
 		this.commandFinished = true;
 		this.kernel.getApplication().storeUndoInfo();
 		return true;
+	}
+
+	private void setSliderProperties(GeoNumeric slider) {
+		slider.setIntervalMin(this.kernel
+				.getAlgebraProcessor().evaluateToNumeric(
+						this.inputDialog.getMin(), false));
+		slider.setIntervalMax(this.kernel
+				.getAlgebraProcessor().evaluateToNumeric(
+						this.inputDialog.getMax(), false));
+		slider.setAnimationStep(this.kernel
+				.getAlgebraProcessor().evaluateToNumeric(
+						this.inputDialog.getIncrement(), false));
+		
 	}
 
 	public boolean isColorChangeAllowed() {
@@ -1365,14 +1376,18 @@ public class TouchModel {
 		}
 	}
 
-	public void redefine(final GeoElement geo) {
+	public void redefine(final GeoElement geo) {		
 		if (geo.isGeoNumeric() && geo.isEuclidianVisible()) {
-			this.inputDialog.setFromSlider((GeoNumeric) geo);
+			this.redefineSlider = (GeoNumeric) geo;
+			this.redefineGeo = null;
+			this.inputDialog.setFromSlider(this.redefineSlider);
 		} else {
 			this.inputDialog.redefine(DialogType.Redefine);
 			this.inputDialog.setText(geo.getDefinitionForInputBar());
+			this.redefineGeo = geo;
+			this.redefineSlider = null;
 		}
-		this.redefineGeo = geo;
+		
 		this.inputDialog.show();
 
 	}

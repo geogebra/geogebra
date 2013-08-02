@@ -49,7 +49,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		ResizeListener, ErrorHandler {
 
 	public enum DialogType {
-		InputField, Redefine, NumberValue, Angle, Slider;
+		InputField, Redefine, NumberValue, Angle, Slider, RedefineSlider;
 	}
 
 	private final VerticalPanel dialogPanel = new VerticalPanel();
@@ -287,7 +287,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.addTextBox();
 
-		if (this.type == DialogType.Slider) {
+		if (this.type == DialogType.Slider || this.type == DialogType.RedefineSlider) {
 			this.createSliderDesign();
 		}
 
@@ -409,14 +409,15 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	public void setFromSlider(GeoNumeric geo) {
-		this.redefine(DialogType.Slider);
+		this.redefine(DialogType.RedefineSlider);
 		this.radioButton[0].setValue(Boolean.valueOf(!geo.isAngle()));
 		this.radioButton[1].setValue(Boolean.valueOf(geo.isAngle()));
+		this.textBox.setText(geo.getLabel(StringTemplate.defaultTemplate));		
 		this.increment.setText(geo.getAnimationStepObject().getLabel(
 				StringTemplate.editTemplate));
 		this.max.setText(geo.getIntervalMaxObject().getLabel(
 				StringTemplate.editTemplate));
-		this.min.setText(geo.getIntervalMaxObject().getLabel(
+		this.min.setText(geo.getIntervalMinObject().getLabel(
 				StringTemplate.editTemplate));
 	}
 
