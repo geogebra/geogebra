@@ -18,13 +18,19 @@ public interface GeoGebraConstants {
 	 * */
 	public static final String PREFERENCES_ROOT_GLOBAL = "/geogebra";
 	
-	//********* start hacks TODO remove it when branched  *************
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
 	/** root preferences node */
 	public static final String PREFERENCES_ROOT = "/geogebra50";
 	/** File format version */
 	public static final String XML_FILE_FORMAT = "5.0";
-	/* end hacks */
+
+	/** true for beta versions/release candidates*/
+	public static final boolean IS_PRE_RELEASE = VERSION_STRING.startsWith(XML_FILE_FORMAT);
+
+	public static final String VERSION_URL = "http://www.geogebra.org/download/version50.txt";
+	public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://code.google.com/p/geogebra/downloads/list?can=2&q=4.9"
+			: "http://www.geogebra.org/installers";
+
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
@@ -32,8 +38,6 @@ public interface GeoGebraConstants {
 	public static final String SHORT_VERSION_STRING = "5.0";
 	/** true if CAS is enabled*/
 	public static final boolean CAS_VIEW_ENABLED = true;
-	/** true for beta versions/release candidates*/
-	public static final boolean IS_PRE_RELEASE = true; // !VERSION_STRING.endsWith(".0");
 	// File format versions
 	/** XSD for ggb files*/
 	public static final String GGB_XSD_FILENAME = "ggb.xsd"; 
