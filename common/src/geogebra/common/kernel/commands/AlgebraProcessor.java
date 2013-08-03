@@ -474,6 +474,24 @@ public class AlgebraProcessor {
 
 			if (undefinedVariables.size() > 0) {
 
+				// ==========================
+				// step0: check if there's an error on processing
+				// eg we don't want to create slider 't' for Curve[t^3,t^2,t,0,2]  
+				// ==========================
+				GeoElement[] geoElements = null;
+				try {		
+					geoElements = processValidExpression(ve);
+					if (storeUndo && geoElements != null)
+						app.storeUndoInfo();
+				} catch (Throwable ex) {
+					// do nothing
+				}
+				
+				if (geoElements != null) {
+					kernel.getConstruction().registerFunctionVariable(null);
+					return geoElements;
+				}
+
 				StringBuilder sb = new StringBuilder();
 
 				ArrayList<String> toRemove = new ArrayList<String>();
