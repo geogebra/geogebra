@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
-import geogebra.common.kernel.cas.AlgoSimplify;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.ParserInterface;
@@ -37,11 +36,8 @@ public class GeoTransferFunction extends GeoElement {
 	private int omegaStart = 50;
 	private List<Coords> coordsList = new ArrayList<Coords>();
 	private GeoVec2D v;
-	private boolean nyquist;
-	private int startBode = -3;
-	private int endBode = 3;
 	private GeoFunction geoFunction;
-	private double step = 1.01;
+	private double step = 1.001;
 
 	/**
 	 * Copy costructor
@@ -70,104 +66,86 @@ public class GeoTransferFunction extends GeoElement {
 	 *            step for calculus of function
 	 */
 	public GeoTransferFunction(Construction c, String label, GeoList num,
-			GeoList den, int omega, double step) {
+			GeoList den, int omega) {
 		super(c);
-		AlgebraProcessor ap = kernel.getAlgebraProcessor();
-		String strFunc = createFunction(num, den);
-		AlgoSimplify algo = new AlgoSimplify(cons, label,
-				ap.evaluateToFunction(strFunc, true));
-		cons.removeFromConstructionList(algo);
-		GeoFunction f = (GeoFunction) algo.getResult();
-		f.remove();
-		geoFunction = new GeoFunction(f);
-		originalFunction = geoFunction.getFunction();
-		omegaStart = omega;
-		parser = kernel.getParser();
-		this.nyquist = true;
-		this.setEuclidianVisible(true);
-		this.step = step;
+		if (num.getElementType().equals(GeoClass.NUMERIC) && den.getElementType().equals(GeoClass.NUMERIC)){
+			omegaStart = omega;
+			AlgebraProcessor ap = kernel.getAlgebraProcessor();
+			String strFunc = createFunction(num, den);
+			GeoFunction f = ap.evaluateToFunction(strFunc, true);
+			geoFunction = new GeoFunction(f);
+			originalFunction = geoFunction.getFunction();
+			parser = kernel.getParser();
+			this.setEuclidianVisible(true);
+		} else {
+			isDefined=false;
+		}
 	}
 
 	/**
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param num
-	 *            list of coefficients of numerator
-	 * @param den
-	 *            list of coefficients of denominator
-	 * @param startBode
-	 *            start value of the exponent of omega
-	 * @param endBode
-	 *            end value of the exponent of omega
+	 *  for defalut value of omega
 	 */
 	public GeoTransferFunction(Construction c, String label, GeoList num,
-			GeoList den, int startBode, int endBode) {
-		super(c);
-		AlgebraProcessor ap = kernel.getAlgebraProcessor();
-		String strFunc = createFunction(num, den);
-		AlgoSimplify algo = new AlgoSimplify(cons, label,
-				ap.evaluateToFunction(strFunc, true));
-		cons.removeFromConstructionList(algo);
-		GeoFunction f = (GeoFunction) algo.getResult();
-		f.remove();
-		geoFunction = new GeoFunction(f);
-		originalFunction = geoFunction.getFunction();
-		parser = kernel.getParser();
-		this.endBode = endBode;
-		this.startBode = startBode;
-		this.nyquist = false;
-		this.setEuclidianVisible(true);
+			GeoList den) {
+		this(c,label,num,den,10);
 	}
 
+	
 	private static String createFunction(GeoList num, GeoList den) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("G(s)=(");
-		int size = num.size();
-		int i = 0;
-		if (size == 1) {
-			sb.append(((GeoNumberValue) num.get(0)).getDouble());
-		} else {
-			for (; i < size - 2; i++) {
-				sb.append("+(" + ((GeoNumberValue) num.get(i)).getDouble()
-						+ ")s^" + (size - i - 1));
-			}
-			sb.append("+(" + ((GeoNumberValue) num.get(size - 2)).getDouble()
-					+ ")s");
-			sb.append("+(" + ((GeoNumberValue) num.get(size - 1)).getDouble()
-					+ ")");
-		}
-		sb.append(")/(");
-		size = den.size();
-		if (size == 1) {
-			sb.append(((GeoNumberValue) den.get(0)).getDouble());
-		} else {
-			for (i = 0; i < size - 2; i++) {
-				sb.append("+(" + ((GeoNumberValue) den.get(i)).getDouble()
-						+ ")s^" + (size - i - 1));
-			}
-			sb.append("+(" + ((GeoNumberValue) den.get(size - 2)).getDouble()
-					+ ")s");
-			sb.append("+(" + ((GeoNumberValue) den.get(size - 1)).getDouble()
-					+ ")");
-		}
-		sb.append(")");
+		sb.append("G(s)=");
+		sb.append(createPolynom(num));
+		sb.append("/");
+		sb.append(createPolynom(den));
 		return sb.toString();
 	}
 
-	private void evaluateForBode() {
-		for (double i = startBode; i <= endBode; i += 0.01) {
-			coordsList.add(evaluate(Math.pow(10, i)));
+	private static String createPolynom(GeoList values) {
+		double value;
+		ArrayList<Integer> exp=new ArrayList<Integer>();
+		String s="";
+		int size = values.size();		
+		for (int i = 0; i < size; i++) {
+			value=((GeoNumberValue) values.get(i)).getDouble();
+			if (value>0){
+				exp.add(size - i - 1);
+				if (value==1){
+					s+="+§s^°";
+				} else {
+					s+="+"+value+"s^°";
+				}
+			} else {
+				if (value<0){
+					exp.add(size - i - 1);
+					if (value==-1){
+						s+="-§s^°";
+					} else {
+						s+=value+"s^°";
+					}
+				} 
+			}
 		}
+		int j=0;
+		for (int i = 0; i < size; i++) {
+			if (s.indexOf('°')!=-1){
+				s=s.replaceFirst("°", ""+exp.get(j).intValue());
+				j++;
+			}			
+		}
+		s=s.replaceFirst("s\\^1", "s");	
+		s=s.replaceFirst("s\\^0", "§");
+		s=s.replaceAll("§§", "1");
+		s=s.replaceAll("§", "");
+		if (s.charAt(s.length()-1)=='+' || s.charAt(s.length()-1)=='-'){
+			s=s.substring(0,s.length()-1);
+		}
+		if (s.charAt(0)=='+'){
+			s=s.substring(1);
+		}
+		s="("+s+")";
+		return s;
 	}
 
-	/**
-	 * @return min exponent
-	 */
-	public int getStartBode() {
-		return startBode;
-	}
 
 	/**
 	 * @return GeoFunction
@@ -177,33 +155,19 @@ public class GeoTransferFunction extends GeoElement {
 	}
 
 	/**
-	 * @return max exponent
+	 * Calc values of function
 	 */
-	public int getEndBode() {
-		return endBode;
-	}
-
-	private void evaluateForNyquist() {
+	public void evaluate() {
 		coordsList.clear();
 		Coords po = evaluate(omegaStart);
 		coordsList.add(po);
 		double p = omegaStart / step;
 		for (; !Kernel.isEqual(p, 0, 0.01); p /= step) {
 			po = evaluate(p);
-			coordsList.add(po);
+			if (!coordsList.contains(po)){
+				coordsList.add(po);
+			}
 		}
-	}
-
-	/**
-	 * Calc values of function
-	 */
-	public void evaluate() {
-		if (nyquist) {
-			evaluateForNyquist();
-		} else {
-			evaluateForBode();
-		}
-
 	}
 
 	/**
@@ -247,9 +211,8 @@ public class GeoTransferFunction extends GeoElement {
 		originalFunction = gcf.getFunction();
 		omegaStart = gcf.getOmega();
 		coordsList = gcf.getCoordsList();
-		startBode = gcf.getStartBode();
-		endBode = gcf.getEndBode();
 	}
+	
 
 	@Override
 	public boolean isDefined() {
@@ -263,7 +226,7 @@ public class GeoTransferFunction extends GeoElement {
 
 	@Override
 	public boolean showInAlgebraView() {
-		return nyquist;
+		return true;
 	}
 
 	@Override
@@ -327,7 +290,7 @@ public class GeoTransferFunction extends GeoElement {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String getLaTeXAlgebraDescription(final boolean substituteNumbers,
 			StringTemplate tpl) {
@@ -336,7 +299,11 @@ public class GeoTransferFunction extends GeoElement {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return originalFunction.toValueString(tpl);
+		if (isDefined){
+			return originalFunction.toValueString(tpl);
+		} else {
+			return loc.getPlain("Undefined");
+		}
 	}
 
 	@Override

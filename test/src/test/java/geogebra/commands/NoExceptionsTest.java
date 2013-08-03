@@ -289,12 +289,6 @@ public class NoExceptionsTest {
 	public void cmdBinomial() {
 		t("BinomialCoefficient[ n1, n1 ]");
 	}
-	
-	@Test
-	public void cmdBode() {
-		t("Bode[{1,1},{1,1,1}]");
-		t("Bode[{-1,3},{3,4,1},-2,2]");
-	}
 
 	@Test
 	public void cmdBoxPlot() {
@@ -1306,10 +1300,6 @@ public class NoExceptionsTest {
 	public void cmdNyquist() {
 		t("Nyquist[ {1,1},{1,1,1} ]");
 		t("Nyquist[ {-1,3},{3,4,1},6 ]");
-		t("Nyquist[ {1,1},{1,1,1},true ]");
-		t("Nyquist[ {-1,3},{3,4,1},6,true ]");
-		t("Nyquist[ {1,1},{1,1,1},false ]");
-		t("Nyquist[ {-1,3},{3,4,1},6,false ]");
 	}
 	
 	@Test

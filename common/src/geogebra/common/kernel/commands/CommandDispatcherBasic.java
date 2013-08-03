@@ -248,7 +248,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdKeepIf(kernel);
 		case IsInteger:
 			return new CmdIsInteger(kernel);
-
 		case Defined:
 		case IsDefined:
 			return new CmdDefined(kernel);
@@ -256,8 +255,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdSpline(kernel);
 		case Nyquist:
 			return new CmdNyquist(kernel);
-		case Bode:
-			return new CmdBode(kernel);
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);

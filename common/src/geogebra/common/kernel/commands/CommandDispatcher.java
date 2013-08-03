@@ -527,7 +527,6 @@ public class CommandDispatcher {
 			case Polynomial:
 			case Spline:
 			case Nyquist:
-			case Bode:
 			case Function:
 			case Curve:
 			case CurveCartesian:
