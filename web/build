@@ -147,6 +147,8 @@ GWT_UC_CLEANUP=0
 PROJECT=web
 HEAPSIZE=2048m
 NOCACHE=1
+# See #3511 to fine tune this:
+OPTIMIZATION="-XenableClosureCompiler -XdisableClassMetadata -XdisableCastChecking -XfragmentMerge 20"
 
 # To detect compilation problems it is important
 # to know which signal was sent by the compiler.
@@ -345,7 +347,7 @@ if [ $GWT_UC_CLEANUP = 1 -a -d $WEBDIR/gwt-unitCache ]; then
 # 8/2. Running the GWT compiler
 cd $WEBDIR/../$PROJECT/src/geogebra
 java -Xmx$HEAPSIZE com.google.gwt.dev.Compiler\
- -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS geogebra.$PROJECT_UPCASE || exit 8
+ -style $STYLE -war $GGDIR/$PROJECT/war -strict $OTHEROPTS $OPTIMIZATION geogebra.$PROJECT_UPCASE || exit 8
 
 # 8/3. Add a version number
 cd $WEBDIR

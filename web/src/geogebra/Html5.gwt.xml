@@ -74,4 +74,8 @@
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
  
   
+  <!-- #3511 -->
+  <set-property name="compiler.stackMode" value="strip"/>
+  <set-configuration-property name="compiler.enum.name.obfuscate" value="true"/>
+
 </module>
