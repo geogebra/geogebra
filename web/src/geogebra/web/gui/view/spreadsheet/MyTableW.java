@@ -1364,16 +1364,19 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			// do this now, and do it later in renderCells - memorized row and col
 			AutoCompleteTextFieldW w = (AutoCompleteTextFieldW)
 				((MyCellEditorW)mce).getTableCellEditorWidget(this, ob, false, row, col);
-			w.getTextField().setHeight((minimumRowHeight-minusRowHeight - 2)+"px");
-			w.getTextField().setWidth((preferredColumnWidth-minusColumnWidth)+"px");
-			
-			int width = getCellFormatter().getElement(editRow, editColumn).getOffsetWidth();
-			//w.getTextField().setWidth(width-4 + "px");
-			//w.setWidth(width-4+"px");
-			//	setWidget(row, col, w);	
-			
-			//int width = preferredColumnWidth-minusColumnWidth;
-			//w.getTextField().getElement().setPropertyString("minWidth", width + "px");
+
+			int cew = getCellFormatter().getElement(row, col).getOffsetWidth();
+			cew -= minusColumnWidth;
+			if (cew <= 0)
+				cew = preferredColumnWidth-minusColumnWidth;
+
+			int ceh = getCellFormatter().getElement(row, col).getOffsetHeight();
+			ceh -= minusRowHeight + 2;
+			if (ceh <= 0)
+				ceh = minimumRowHeight - minusRowHeight - 2;
+
+			w.getTextField().setPixelSize(cew, ceh);
+
 			view.positionEditorPanel(true, row, col);
 			
 			w.requestFocus();
@@ -2369,14 +2372,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			if (!showRowHeader) {
 				showRowHeader = true;
 				getRowFormatter().setVisible(0, true);
-
-				//getRowFormatter().getElement(0).getStyle().setHeight(minimumRowHeight, Style.Unit.PX);
 			}
 		} else {
 			showRowHeader = false;
 			getRowFormatter().setVisible(0, false);
-
-			//getRowFormatter().getElement(0).getStyle().setHeight(0, Style.Unit.PX);
 		}
 	}
 
