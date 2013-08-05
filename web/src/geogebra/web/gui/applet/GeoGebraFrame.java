@@ -56,14 +56,8 @@ public class GeoGebraFrame extends VerticalPanel {
 				| Event.ONMOUSEUP | Event.ONMOUSEOVER);
 	}
 
-	/**
-	 * Main entry points called by geogebra.web.Web.startGeoGebra()
-	 * @param geoGebraMobileTags
-	 *          list of &lt;article&gt; elements of the web page
-	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-		init(geoGebraMobileTags);
-	}
+	
+	
 	
 	/* 
 	 * In the splashDialog onLoad handler will the application loading continue
@@ -202,8 +196,12 @@ public class GeoGebraFrame extends VerticalPanel {
 			}
 		});
 	}
-
-	private static void init(ArrayList<ArticleElement> geoGebraMobileTags) {
+	/**
+	 * Main entry points called by geogebra.web.Web.startGeoGebra()
+	 * @param geoGebraMobileTags
+	 *          list of &lt;article&gt; elements of the web page
+	 */
+	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrame();

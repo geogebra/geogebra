@@ -35,8 +35,12 @@ public class LoadFilePresenter{
 		String fileId;
 		
 		AppWeb app = view.getApplication();
-		
-		if (isReloadDataInStorage()){
+		if(Web.urlToOpen != null ){
+			getView().showLoadAnimation();
+			getView().processFileName(Web.urlToOpen);
+			Web.urlToOpen = null;
+		}
+		else if (isReloadDataInStorage()){
 			//do nothing here - everything done in isReloadDataInStorage() function 
 		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
 			process(base64String);

@@ -92,6 +92,7 @@ public class Web implements EntryPoint {
 	 */
 	public static GuiToLoad currentGUI = null;
 	public static Panel panelForApplets;
+	public static String urlToOpen;
 	/**
 	 * set true if Google Api Js loaded
 	 */
