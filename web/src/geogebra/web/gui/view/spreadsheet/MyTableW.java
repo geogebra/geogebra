@@ -1095,10 +1095,19 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	public GPoint getIndexFromPixel(int x, int y) {
 		if (x < 0 || y < 0)
 			return null;
+
+		int columnFrom = 0;
+		if (!showColumnHeader)
+			columnFrom = 1;
+
+		int rowFrom = 0;
+		if (!showRowHeader)
+			rowFrom = 1;
+
 		int indexX = -1;
 		int indexY = -1;
-		for (int i = 0; i < getColumnCount(); ++i) {
-			GPoint point = getPixel(i, 0, false);
+		for (int i = columnFrom; i < getColumnCount(); ++i) {
+			GPoint point = getPixel(i, rowFrom, false);
 			if (x < point.getX()) {
 				indexX = i;
 				break;
@@ -1107,8 +1116,8 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (indexX == -1) {
 			return null;
 		}
-		for (int i = 0; i < getRowCount(); ++i) {
-			GPoint point = getPixel(0, i, false);
+		for (int i = rowFrom; i < getRowCount(); ++i) {
+			GPoint point = getPixel(columnFrom, i, false);
 			if (y < point.getY()) {
 				indexY = i;
 				break;
@@ -2359,11 +2368,15 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (showRow) {
 			if (!showRowHeader) {
 				showRowHeader = true;
-				getRowFormatter().getElement(0).getStyle().setHeight(minimumRowHeight, Style.Unit.PX);
+				getRowFormatter().setVisible(0, true);
+
+				//getRowFormatter().getElement(0).getStyle().setHeight(minimumRowHeight, Style.Unit.PX);
 			}
 		} else {
 			showRowHeader = false;
-			getRowFormatter().getElement(0).getStyle().setHeight(0, Style.Unit.PX);
+			getRowFormatter().setVisible(0, false);
+
+			//getRowFormatter().getElement(0).getStyle().setHeight(0, Style.Unit.PX);
 		}
 	}
 
