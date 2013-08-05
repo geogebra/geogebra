@@ -907,6 +907,7 @@ namespace giac {
   gen invmod(const gen & A,const gen & modulo);
   gen fracmod(const gen & a_orig,const gen & modulo); // -> p/q=a mod modulo
   bool fracmod(const gen & a_orig,const gen & modulo,gen & res);
+  bool in_fracmod(const gen &m,const gen & a,mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp,gen & num,gen & den);
   gen powmod(const gen &base,const gen & expo,const gen & modulo);
   gen isqrt(const gen & A);
   gen re(const gen & a,GIAC_CONTEXT);

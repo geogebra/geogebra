@@ -8850,6 +8850,49 @@ namespace giac {
     return 0;
   }
 
+  bool in_fracmod(const gen &m,const gen & a,mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp,gen & num,gen & den){
+    mpz_set(d,*m._ZINTptr);
+    mpz_set(d1,*a._ZINTptr);
+    mpz_set_si(u,0);
+    mpz_set_si(u1,1);
+    mpz_tdiv_q_2exp(q,*m._ZINTptr,1);
+    mpz_sqrt(sqrtm,q);
+    // int signe;
+    for (;;){
+      mpz_abs(absd1,d1);
+      if (mpz_cmp(absd1,sqrtm)<=0)
+	break;
+      mpz_fdiv_qr(q,r,d,d1);
+      // u-q*u1->ur, v-q*v1->vr
+      mpz_mul(tmp,q,u1);
+      mpz_sub(ur,u,tmp);
+      // u1 -> u, ur -> u1 ; v1 -> v, vr -> v1, d1 -> d, r -> d1
+#ifdef USE_GMP_REPLACEMENTS
+      mpz_set(u,u1);
+      mpz_set(u1,ur);
+      mpz_set(d,d1);
+      mpz_set(d1,r);
+#else
+      mpz_swap(u,u1);
+      mpz_swap(u1,ur);
+      mpz_swap(d,d1);
+      mpz_swap(d1,r);
+#endif
+    }
+    // u1*a+v1*m=d1 -> a=d1/u1 modulo m
+    num=d1;
+    den=u1;
+    mpz_set(q,*m._ZINTptr);
+    my_mpz_gcd(r,q,u1);
+    bool ok=mpz_cmp_ui(r,1)==0;
+    if (!ok){
+      cerr << "Bad reconstruction " << a << " " << m << " " << gen(r) << endl;
+      simplify3(num,den);
+      return false;
+    }
+    return true;
+  }
+
   bool fracmod(const gen & a_orig,const gen & modulo,gen & res){
     // write a as p/q with |p| and |q|<sqrt(modulo/2)
     if (a_orig.type==_VECT){
@@ -8883,7 +8926,7 @@ namespace giac {
       res=reres+cst_i*imres;
       return true;
     }
-    gen a(a_orig),m(modulo);
+    gen a(a_orig),m(modulo),num,den;
     if (a.type==_INT_)
       a.uncoerce();
     if (m.type==_INT_)
@@ -8893,51 +8936,16 @@ namespace giac {
     unsigned prealloc=mpz_sizeinbase(*m._ZINTptr,2);
     mpz_t u,d,u1,d1,absd1,sqrtm,q,ur,r,tmp;
     mpz_init2(u,prealloc);
-    mpz_set_si(u,0);
-    mpz_init_set(d,*m._ZINTptr);
+    mpz_init2(d,prealloc);
     mpz_init2(u1,prealloc);
-    mpz_set_si(u1,1);
-    mpz_init_set(d1,*a._ZINTptr);
+    mpz_init(d1);
     mpz_init(absd1);
     mpz_init(sqrtm);
     mpz_init(q);
     mpz_init2(ur,prealloc);
     mpz_init2(r,prealloc);
     mpz_init2(tmp,prealloc);
-    mpz_tdiv_q_2exp(q,*m._ZINTptr,1);
-    mpz_sqrt(sqrtm,q);
-    // int signe;
-    for (;;){
-      mpz_abs(absd1,d1);
-      if (mpz_cmp(absd1,sqrtm)<=0)
-	break;
-      mpz_fdiv_qr(q,r,d,d1);
-      // u-q*u1->ur, v-q*v1->vr
-      mpz_mul(tmp,q,u1);
-      mpz_sub(ur,u,tmp);
-      // u1 -> u, ur -> u1 ; v1 -> v, vr -> v1, d1 -> d, r -> d1
-#ifdef USE_GMP_REPLACEMENTS
-      mpz_set(u,u1);
-      mpz_set(u1,ur);
-      mpz_set(d,d1);
-      mpz_set(d1,r);
-#else
-      mpz_swap(u,u1);
-      mpz_swap(u1,ur);
-      mpz_swap(d,d1);
-      mpz_swap(d1,r);
-#endif
-    }
-    // u1*a+v1*m=d1 -> a=d1/u1 modulo m
-    gen num(d1);
-    gen den(u1);
-    mpz_set(q,*m._ZINTptr);
-    my_mpz_gcd(r,q,u1);
-    bool ok=mpz_cmp_ui(r,1)==0;
-    if (!ok){
-      cerr << "Bad reconstruction " << a_orig << " " << modulo << " " << gen(r) << endl;
-      simplify3(num,den);
-    }
+    bool ok=in_fracmod(m,a,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,num,den);
     mpz_clear(d);
     mpz_clear(u);
     mpz_clear(u1);

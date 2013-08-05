@@ -3535,28 +3535,52 @@ namespace giac {
     return 1;
   }
 
-  bool fracmod(const poly8 &P,const gen & p,poly8 & Q){
+  static bool fracmod(const poly8 &P,const gen & p,
+	       mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp,
+	       poly8 & Q){
     Q.coord.clear();
     Q.coord.reserve(P.coord.size());
     Q.dim=P.dim;
     Q.order=P.order;
     Q.sugar=P.sugar;
     for (unsigned i=0;i<P.coord.size();++i){
-      gen g;
-      if (!fracmod(P.coord[i].g,p,g))
+      gen g=P.coord[i].g,num,den;
+      if (g.type==_INT_)
+	g.uncoerce();
+      if ( (g.type!=_ZINT) || (p.type!=_ZINT) ){
+	cerr << "bad type"<<endl;
 	return false;
+      }
+      if (!in_fracmod(p,g,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,num,den))
+	return false;
+      if (num.type==_ZINT && mpz_sizeinbase(*num._ZINTptr,2)<=30)
+	num=int(mpz_get_si(*num._ZINTptr));
+      if (den.type==_ZINT && mpz_sizeinbase(*den._ZINTptr,2)<=30)
+	den=int(mpz_get_si(*den._ZINTptr));
+      if (is_positive(den,context0)) // ok
+	g=fraction(num,den);
+      else
+	g=fraction(-num,-den);
       Q.coord.push_back(T_unsigned<gen,tdeg_t>(g,P.coord[i].u));
     }
     return true;
   }
 
-  bool fracmod(const vectpoly8 & P,const gen & p,vectpoly8 & Q){
+  static bool fracmod(const vectpoly8 & P,const gen & p_,
+		      mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp,
+		      vectpoly8 & Q){
     Q.resize(P.size());
+    gen p=p_;
+    if (p.type==_INT_)
+      p.uncoerce();
+    bool ok=true;
     for (unsigned i=0;i<P.size();++i){
-      if (!fracmod(P[i],p,Q[i]))
-	return false;
+      if (!fracmod(P[i],p,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,Q[i])){
+	ok=false;
+	break;
+      }
     }
-    return true;
+    return ok;
   }
 
   void cleardeno(poly8 &P){
@@ -3591,7 +3615,11 @@ namespace giac {
     vectpoly8 current,gb,vtmp;
     vectpolymod resmod;
     poly8 poly8tmp,afewpolys;
+#if 0 // def PSEUDO_MOD
+    gen p=1<<29;
+#else
     gen p=1<<30;
+#endif
     vector< vectpoly8> V; // list of (chinrem reconstructed) modular groebner basis
     vector< vectpoly8> W; // list of rational reconstructed groebner basis
     vectpoly8 Wlast;
@@ -3601,9 +3629,25 @@ namespace giac {
     vector< pair<unsigned,unsigned> > reduceto0;
     vector< info_t > f4_info;
     env.moduloon=true;
+    mpz_t zu,zd,zu1,zd1,zabsd1,zsqrtm,zq,zur,zr,ztmp;
+    mpz_init(zu);
+    mpz_init(zd);
+    mpz_init(zu1);
+    mpz_init(zd1);
+    mpz_init(zabsd1);
+    mpz_init(zsqrtm);
+    mpz_init(zq);
+    mpz_init(zur);
+    mpz_init(zr);
+    mpz_init(ztmp);
+    bool ok=true;
     // unless we are unlucky these lists should contain only 1 element
-    for (int count=0;;++count){
+    for (int count=0;ok;++count){
+#if 0 // def PSEUDO_MOD
+      p=prevprime(p-1); 
+#else
       p=nextprime(p+1);
+#endif
       // compute gbasis mod p (this could be parallelized)
       env.modulo=p;
       current=res;
@@ -3617,11 +3661,15 @@ namespace giac {
       if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,
 			  //		  0,0
 			  &reduceto0,&f4_info
-			  ))
-	return false;
+			  )){
+	ok=false;
+	break;
+      }
 #else
-      if (!in_gbasismod(current,resmod,G,p.val,true,&reduceto0))
-	return false;
+      if (!in_gbasismod(current,resmod,G,p.val,true,&reduceto0)){
+	ok=false;
+	break;
+      }
       // cerr << "reduceto0 " << reduceto0.size() << endl;
       //if (!in_gbasis(current,G,&env)) return false;
 #endif
@@ -3641,8 +3689,10 @@ namespace giac {
 	int r=chinrem(V[i],P[i],gb,p,poly8tmp);
 	if (debug_infolevel)
 	  cerr << clock() << " end chinese remaindering with " << p << endl;
-	if (r==-1)
-	  return false;
+	if (r==-1){
+	  ok=false;
+	  break;
+	}
 	if (r==0)
 	  continue;
 	// found one! V is already updated, update W
@@ -3658,7 +3708,9 @@ namespace giac {
 	  afewpolys.dim=poly8tmp.dim;
 	  afewpolys.order=poly8tmp.order;
 	  for (int j=V[i].size()-1;j>=0;j-=20){
-	    if (!fracmod(V[i][j],P[i],poly8tmp))
+	    if (!fracmod(V[i][j],P[i],
+			 zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
+			 poly8tmp))
 	      break;
 	    for (unsigned k=0;k<poly8tmp.coord.size();++k){
 	      afewpolys.coord.push_back(poly8tmp.coord[k]);
@@ -3677,7 +3729,9 @@ namespace giac {
 	}
 	if (debug_infolevel)
 	  cerr << clock() << " begin rational reconstruction mod " << P[i] << endl;
-	if (!fracmod(V[i],P[i],vtmp))
+	if (!fracmod(V[i],P[i],
+		     zd,zd1,zabsd1,zu,zu1,zur,zq,zr,zsqrtm,ztmp,
+		     vtmp))
 	  break; // no luck reconstructing
 	if (debug_infolevel)
 	  cerr << clock() << " clearing denominators " << endl;
@@ -3717,6 +3771,16 @@ namespace giac {
 	  cerr << clock() << " end final check " << P[i] << endl;
 	if (vtmp==W[i]){
 	  swap(res,vtmp);
+	  mpz_clear(zd);
+	  mpz_clear(zu);
+	  mpz_clear(zu1);
+	  mpz_clear(zd1);
+	  mpz_clear(zabsd1);
+	  mpz_clear(zsqrtm);
+	  mpz_clear(zq);
+	  mpz_clear(zur);
+	  mpz_clear(zr);
+	  mpz_clear(ztmp);
 	  return true;
 	}
 	break;
@@ -3729,6 +3793,16 @@ namespace giac {
 	P.push_back(p);
       }
     }
+    mpz_clear(zd);
+    mpz_clear(zu);
+    mpz_clear(zu1);
+    mpz_clear(zd1);
+    mpz_clear(zabsd1);
+    mpz_clear(zsqrtm);
+    mpz_clear(zq);
+    mpz_clear(zur);
+    mpz_clear(zr);
+    mpz_clear(ztmp);
     return false;
   }
 

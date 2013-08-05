@@ -3465,11 +3465,11 @@ namespace giac {
   }
 
 #ifdef PSEUDO_MOD
-  // find x mod p or smod p, assuming invp=2^(2*nbits)/p has been precomputed
+  // find x mod p or smod p, assuming invp=2^(2*nbits)/p+1 has been precomputed
   // and abs(x)<2^(31+nbits)
   inline int pseudo_mod(longlong x,int p,unsigned invp,unsigned nbits){
 #if 1 // def INT128
-    // if ( x - (((x>>nbits)*invp)>>(nbits))*p != int(x - (((x>>nbits)*invp)>>(nbits))*p)){ cerr << "erreur " << x << " " << p << endl; exit(1); }
+    //if ( x - (((x>>nbits)*invp)>>(nbits))*p != int(x - (((x>>nbits)*invp)>>(nbits))*p)){ cerr << "erreur " << x << " " << p << endl; exit(1); }
     return x - (((x>>nbits)*invp)>>(nbits))*p;
 #else
     // longlong X=x;
@@ -3499,7 +3499,7 @@ namespace giac {
       it1end=v1.begin()+cend;
     std::vector<int>::const_iterator jt=w.begin()+cstart;
 #ifdef PSEUDO_MOD
-    if (p<(1<<30) 
+    if (p<(1<<29) 
 	// && p>=(1<<16)
 	){
       int nbits=sizeinbase2(p);

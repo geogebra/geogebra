@@ -8452,6 +8452,26 @@ namespace giac {
     int s=argv.size()-1;
     vecteur result,parameqs;
     gen t=argv.back();
+    if (s==1 && !argv[0].is_symb_of_sommet(at_curve)){
+      t=remove_at_pnt(t);
+      gen argv0=remove_equal(argv[0]);
+      if (t.type!=_VECT){
+	// tangent to a 2-d curve given by an equation
+	gen tr,ti;
+	reim(t,tr,ti,contextptr);
+	gen tri(makevecteur(tr,ti));
+	gen xy(makevecteur(x__IDNT_e,y__IDNT_e));
+	if (is_zero(recursive_normal(subst(argv0,xy,tri,false,contextptr),contextptr))){
+	  gen der(derive(argv0,xy,contextptr));
+	  der=subst(der,xy,tri,false,contextptr);
+	  if (der.type==_VECT && der._VECTptr->size()==2){
+	    return _droite((xy[0]-tri[0])*der[0]+(xy[1]-tri[1])*der[1],contextptr);
+	  }
+	}
+	return gensizeerr(gettext("Point is not on curve"));
+      }
+      return gensizeerr(gettext("2-d point expected"));
+    }
     for (int i=0;i<s;++i){
       gen curve=remove_at_pnt(argv[i]);
       if (curve.type==_VECT && !curve._VECTptr->empty() && curve._VECTptr->back().is_symb_of_sommet(at_pnt))

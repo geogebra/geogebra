@@ -3597,7 +3597,7 @@ namespace giac {
     return operator_plus(a,b,contextptr);
   }
   static const char _pointplus_s []=".+";
-  static define_unary_function_eval2_index (2,__pointplus,&_pointplus,_pointplus_s,&printsommetasoperator);
+  static define_unary_function_eval2_index (170,__pointplus,&_pointplus,_pointplus_s,&printsommetasoperator);
   define_unary_function_ptr( at_pointplus ,alias_at_pointplus ,&__pointplus);
 
   gen _pointminus(const gen & args,GIAC_CONTEXT){
@@ -3611,7 +3611,7 @@ namespace giac {
     return operator_minus(a,b,contextptr);
   }
   static const char _pointminus_s []=".-";
-  static define_unary_function_eval2_index (2,__pointminus,&_pointminus,_pointminus_s,&printsommetasoperator);
+  static define_unary_function_eval2_index (172,__pointminus,&_pointminus,_pointminus_s,&printsommetasoperator);
   define_unary_function_ptr( at_pointminus ,alias_at_pointminus ,&__pointminus);
 
   inline bool prod_idnt_symb(const gen & a){
