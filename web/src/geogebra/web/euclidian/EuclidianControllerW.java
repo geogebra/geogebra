@@ -20,6 +20,7 @@ import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,6 +53,8 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
@@ -62,21 +65,163 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
+	
+	private class EnvironmentStyle {
+		
+		private float widthScale;
+		private float heightScale;
+		private float scaleX;
+		private float scaleY;
+		private int xOffset;
+		private int yOffset;
+		private int scrollLeft;
+		private int scrollTop;
+		
+		
+		public EnvironmentStyle() {
+	    }
+		/**
+		 * @return the widthScale
+		 */
+        public float getWidthScale() {
+	        return widthScale;
+        }
+		/**
+		 * @param widthScale the widthScale to set
+		 */
+        public void setWidthScale(float widthScale) {
+	        this.widthScale = widthScale;
+        }
+		/**
+		 * @return the heightScale
+		 */
+        public float getHeightScale() {
+	        return heightScale;
+        }
+		/**
+		 * @param heightScale the heightScale to set
+		 */
+        public void setHeightScale(float heightScale) {
+	        this.heightScale = heightScale;
+        }
+		/**
+		 * @return the scaleX
+		 */
+        public float getScaleX() {
+	        return scaleX;
+        }
+		/**
+		 * @param scaleX the scaleX to set
+		 */
+        public void setScaleX(float scaleX) {
+	        this.scaleX = scaleX;
+        }
+		/**
+		 * @return the scaleY
+		 */
+        public float getScaleY() {
+	        return scaleY;
+        }
+		/**
+		 * @param scaleY the scaleY to set
+		 */
+        public void setScaleY(float scaleY) {
+	        this.scaleY = scaleY;
+        }
+		/**
+		 * @return the xOffset
+		 */
+        public int getxOffset() {
+	        return xOffset;
+        }
+		/**
+		 * @param xOffset the xOffset to set
+		 */
+        public void setxOffset(int xOffset) {
+	        this.xOffset = xOffset;
+        }
+		/**
+		 * @return the yOffset
+		 */
+        public int getyOffset() {
+	        return yOffset;
+        }
+		/**
+		 * @param yOffset the yOffset to set
+		 */
+        public void setyOffset(int yOffset) {
+	        this.yOffset = yOffset;
+        }
+		/**
+		 * @return the scrollLeft
+		 */
+        public int getScrollLeft() {
+	        return scrollLeft;
+        }
+		/**
+		 * @param scrollLeft the scrollLeft to set
+		 */
+        public void setScrollLeft(int scrollLeft) {
+	        this.scrollLeft = scrollLeft;
+        }
+		/**
+		 * @return the scrollTop
+		 */
+        public int getScrollTop() {
+	        return scrollTop;
+        }
+		/**
+		 * @param scrollTop the scrollTop to set
+		 */
+        public void setScrollTop(int scrollTop) {
+	        this.scrollTop = scrollTop;
+        }
+		
+	}
+	
+	private EnvironmentStyle style; 
+	
+	
+	public EnvironmentStyle getEnvironmentStyle () {
+		return style;
+	}
+	
+	
+
 	/**
-	 * @return offset to get correct getX() in mouseEvents
+	 * recalculates cached styles concerning browser environment
 	 */
-	
-	public float getWidthScale() {
+	public void calculateEnvironment() {
+	    style = new EnvironmentStyle();
+	    style.setWidthScale(getEnvWidthScale());
+	    style.setHeightScale(getEnvHeightScale());
+	    style.setxOffset(getEnvXoffset());
+	    style.setyOffset(getEnvYoffset());
+	    style.setScaleX(getEnvScaleX());
+	    style.setScaleY(getEnvScaleY());
+	    style.setScrollLeft(Window.getScrollLeft());
+	    style.setScrollTop(Window.getScrollTop());
+    }
+
+
+
+	private float getEnvWidthScale() {
 		EuclidianViewW v  = (EuclidianViewW) view;
-		return v.g2p.getCoordinateSpaceWidth() / v.g2p.getOffsetWidth();
+		if (v.g2p.getOffsetWidth() != 0) {
+			return v.g2p.getCoordinateSpaceWidth() / v.g2p.getOffsetWidth();
+		}
+		return 0;
 	}
 	
-	public float getHeightScale() {
+	private float getEnvHeightScale() {
 		EuclidianViewW v = (EuclidianViewW) view;
-		return v.g2p.getCoordinateSpaceHeight() / v.g2p.getOffsetHeight();
+		if (v.g2p.getOffsetHeight() != 0) {
+			return v.g2p.getCoordinateSpaceHeight() / v.g2p.getOffsetHeight();
+		}
+		return 0;
 	}
 	
-	public int getXoffset(){
+	private int getEnvXoffset(){
 		//return EuclidianViewXOffset;
 		//the former solution doesn't update on scrolling
 		return Math.round((((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft()));
@@ -90,32 +235,47 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	/**
 	 * @return offset to get correct getY() in mouseEvents
 	 */
-	public int getYoffset(){
+	private int getEnvYoffset(){
 		//return EuclidianViewYOffset;
 		//the former solution doesn't update on scrolling
 		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
 	
+	private static native String getTransform(JavaScriptObject style) /*-{
+		return 	style.transform ||
+				style.webkitTransform ||
+				style.MozTransform ||
+				style.msTransform ||
+				style.oTransform;
+	}-*/;
 	
-	public native float getScaleX() /*-{		
+	
+	private float getEnvScaleX() {		
+		return envScale("x");
+	};
+	
+	private native float envScale(String type) /*-{
 		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
-		   	matches = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")).webkitTransform.match(matrixRegex); 
-		   	if (matches && matches.length) {
-				return $wnd.parseFloat(matches[1]); 
-		   	} else {
-		   		 return 1;
-		   	}	
+			style = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")),
+			transform,
+			matches;
+		if (style) {
+			transform = @geogebra.web.euclidian.EuclidianControllerW::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
+			matches = transform.match(matrixRegex); 
+			if (matches && matches.length) {
+				if (type === "x") {
+					return $wnd.parseFloat(matches[1]);
+				} else {
+					return $wnd.parseFloat(matches[2]);
+				}
+		   	}
+		}
+		return 1;		
 	}-*/;
 
-	public native float getScaleY() /*-{
-		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
-		matches = $wnd.getComputedStyle($doc.querySelector(".geogebraweb")).webkitTransform.match(matrixRegex); 
-		if (matches && matches.length) {
-				return $wnd.parseFloat(matches[2]); 
-		   	} else {
-		   		 return 1;
-		   	}		
-		}-*/;
+	private float getEnvScaleY() {
+		return envScale("y");
+	}
 	
 
 	private boolean EuclidianOffsetsInited = false;
@@ -153,8 +313,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
-		
-		
+		Window.addResizeHandler(new ResizeHandler() {
+			
+			public void onResize(ResizeEvent event) {
+				style.setScrollLeft(Window.getScrollLeft());
+				style.setScrollTop(Window.getScrollTop());
+				
+			}
+		});
 		tempNum = new MyDouble(kernel);
 	}
 	
@@ -410,5 +576,29 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	protected boolean textfieldJustFocusedW(GPoint p) {
 		return view.textfieldClicked(p);
 	}
+
+	public int getXoffset() {
+	   return style.getxOffset();
+    }
+
+	public int getYoffset() {
+	    return style.getyOffset();
+    }
+
+	public float getWidthScale() {
+	   return style.getWidthScale();
+    }
+
+	public float getHeightScale() {
+	  return style.getHeightScale();
+    }
+
+	public float getScaleX() {
+	  return style.getScaleX();
+    }
+
+	public float getScaleY() {
+	   return style.getScaleY();
+    }
 
 }

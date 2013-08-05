@@ -17,6 +17,7 @@ import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.euclidian.EuclidianControllerW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -335,8 +336,10 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 
 		updateBackgroundImage();
 
-		if (!firstPaint) // if is here to avoid infinite loop
+		if (!firstPaint) {// if is here to avoid infinite loop
 			updateAllDrawables(true);
+		}
+		((EuclidianControllerW) euclidianController).calculateEnvironment();
     }
 	
 	private void createImage() {
