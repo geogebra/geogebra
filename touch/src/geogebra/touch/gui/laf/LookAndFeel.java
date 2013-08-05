@@ -6,40 +6,50 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
+import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.DomEvent.Type;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.shared.EventHandler;
 
 public interface LookAndFeel extends SavedStateListener {
-    public void buildHeader(TabletGUI gui, TouchModel touchModel);
 
-    public int getAppBarHeight();
+	public void buildHeader(TabletGUI gui, TouchModel touchModel);
 
-    public DefaultResources getIcons();
+	public int getAppBarHeight();
 
-    public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
+	public DefaultResources getIcons();
 
-    public int getPaddingLeftOfDialog();
+	public EventHandler getOptionalButtonHandler(StylingBar stylingBar, StandardImageButton standardImageButton, OptionType captionstyle);
 
-    public int getPanelsHeight();
+	public int getPaddingLeftOfDialog();
 
-    public Type<EventHandler> getStylBarEventType();
+	public int getPanelsHeight();
 
-    public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
+	public Type<EventHandler> getStylBarEventType();
 
-    public TabletHeaderPanel getTabletHeaderPanel();
+	public EventHandler getStyleBarButtonHandler(StylingBar stylingBar, StandardImageButton newButton, String process);
 
-    public int getToolBarHeight();
+	public TabletHeaderPanel getTabletHeaderPanel();
 
-    public boolean isMouseDownIgnored();
+	public int getToolBarHeight();
 
-    public void setApp(TouchApp app);
+	public boolean isMouseDownIgnored();
 
-    public void setTitle(String title);
+	public void setApp(TouchApp app);
 
-    public boolean supportsShare();
+	public void setTitle(String title);
 
-    public void updateUndoSaveButtons();
+	public boolean supportsShare();
+
+	public void updateUndoSaveButtons();
+
+	public EventHandler getStyleBarHandlerShowHide(StylingBar stylingBar, EuclidianViewPanel euclidianViewPanel);
+
+	public MouseDownHandler getAlgebraButtonClickHandler(TabletGUI gui);
+
+	public TouchStartHandler getAlgebraButtonTouchStartHandler(final TabletGUI gui);
 }

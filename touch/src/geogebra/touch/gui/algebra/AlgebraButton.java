@@ -8,52 +8,33 @@ import geogebra.touch.gui.laf.LookAndFeel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 
 public class AlgebraButton extends StandardImageButton {
-    private static LookAndFeel getLaf() {
-	return TouchEntryPoint.getLookAndFeel();
-    }
+	private static LookAndFeel getLaf() {
+		return TouchEntryPoint.getLookAndFeel();
+	}
 
-    public AlgebraButton(final TabletGUI gui) {
-	super(getLaf().getIcons().triangle_left());
+	public AlgebraButton(final TabletGUI gui) {
+		super(getLaf().getIcons().triangle_left());
 
-	this.setStyleName("arrowRight");
+		this.setStyleName("arrowRight");
 
-	this.addDomHandler(new ClickHandler() {
-	    @Override
-	    public void onClick(ClickEvent event) {
-		event.stopPropagation();
-	    }
-	}, ClickEvent.getType());
+		this.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				event.stopPropagation();
+			}
+		}, ClickEvent.getType());
 
-	this.addDomHandler(new MouseDownHandler() {
-	    @Override
-	    public void onMouseDown(MouseDownEvent event) {
-		event.stopPropagation();
-		gui.toggleAlgebraView();
-		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-		    TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
-		}
-	    }
-	}, MouseDownEvent.getType());
+		this.addDomHandler(TouchEntryPoint.getLookAndFeel().getAlgebraButtonClickHandler(gui), MouseDownEvent.getType());
 
-	this.addDomHandler(new TouchStartHandler() {
-	    @Override
-	    public void onTouchStart(TouchStartEvent event) {
-		event.stopPropagation();
+		this.addDomHandler(TouchEntryPoint.getLookAndFeel().getAlgebraButtonTouchStartHandler(gui), TouchStartEvent.getType());
+	}
 
-		// FIXME Handle Event for iOS
-	    }
-	}, TouchStartEvent.getType());
+	public void setAlgebraVisible(boolean algebraVisible) {
+		this.setStyleName(algebraVisible ? "arrowRight" : "arrowLeft");
 
-    }
-
-    public void setAlgebraVisible(boolean algebraVisible) {
-	this.setStyleName(algebraVisible ? "arrowRight" : "arrowLeft");
-
-    }
+	}
 
 }
