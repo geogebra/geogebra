@@ -3710,7 +3710,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * implementation of interface ExpressionValue
 	 */
 	public boolean isConstant() {
-		return !isLabelSet() && isIndependent();
+		return false;
 	}
 
 	public final boolean isLeaf() {
