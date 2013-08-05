@@ -31,6 +31,7 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.PathRegionHandling;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -2808,6 +2809,12 @@ public class MyXMLHandler implements DocHandler {
 			boolean independentCell = !geoCasCell.hasVariablesOrCommands();
 			if (independentCell) {
 				// free cell, e.g. m := 7 creates twinGeo m = 7
+				
+				// if this is the first cell, and there is no input, we return
+				// sometimes saved files contain one empty cell pair, see #2469 attachment
+				if (cons.getCasCell(0) == null && geoCasCell.getInput(StringTemplate.defaultTemplate).equals("")) {
+					return;
+				}
 				cons.addToConstructionList(geoCasCell, true);
 				if (geoCasCell.isAssignmentVariableDefined()) {
 					// make sure assignment is sent to underlying CAS, e.g. f(x)

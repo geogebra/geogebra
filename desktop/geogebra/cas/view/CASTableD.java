@@ -407,10 +407,19 @@ public class CASTableD extends JTable implements CASTable {
 		GeoCasCell toInsert = newValue;
 		if (toInsert == null) {
 			toInsert = new GeoCasCell(kernel.getConstruction());
-			if (selectedRow != tableModel.getRowCount())
+			if (selectedRow != tableModel.getRowCount()) {
 				// tell construction about new GeoCasCell if it is not at the
 				// end
 				kernel.getConstruction().setCasCellRow(toInsert, selectedRow);
+			} else  {
+				// we insert below last cell
+				// if last cell is empty, add it to construction list
+				// so its row number will be updated
+				GeoCasCell last = (GeoCasCell) tableModel.getValueAt(selectedRow - 1, COL_CAS_CELLS);
+				if (last != null && last.isEmpty()) {
+					kernel.getConstruction().addToConstructionList(last, true);
+				}
+			}
 		}
 
 		tableModel.insertRow(selectedRow, new Object[] { toInsert });
