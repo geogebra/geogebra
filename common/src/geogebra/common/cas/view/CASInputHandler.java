@@ -492,6 +492,9 @@ public class CASInputHandler {
 		if (!cellValue.isError()) {
 			// evaluate output and update twin geo
 			kernel.getAlgebraProcessor().processCasCell(cellValue,isLastRow);
+		} else {
+			// make sure the cell is in construction list, so CAS cells have the right index, see #3241
+			kernel.getConstruction().addToConstructionList(cellValue, true);
 		}
 
 		kernel.notifyRepaint();
