@@ -24,6 +24,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -90,11 +91,17 @@ public class Web implements EntryPoint {
 	 * GUI currently Loaded
 	 */
 	public static GuiToLoad currentGUI = null;
+	public static Panel panelForApplets;
 	/**
 	 * set true if Google Api Js loaded
 	 */
 
 	public void onModuleLoad() {
+		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null){
+			//loading touch, ignore.
+			return;			
+		}
+		
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());
