@@ -97,7 +97,8 @@ public class Web implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null){
+		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
+				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
 			//loading touch, ignore.
 			return;			
 		}
