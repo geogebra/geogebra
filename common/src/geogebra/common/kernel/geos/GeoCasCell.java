@@ -1054,7 +1054,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// handle GeoGebra Fallback
 		if (useGeoGebraFallback) {
-			if (!includesOnlyDefinedVariables()) {
+			if (!includesOnlyDefinedVariables(true)) {
 				useGeoGebraFallback = false;
 			}
 		}
