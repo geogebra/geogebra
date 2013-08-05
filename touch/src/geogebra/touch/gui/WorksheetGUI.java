@@ -59,16 +59,15 @@ public class WorksheetGUI extends HeaderPanel {
 
 	    TouchEntryPoint.allowEditing(false);
 	    this.frame.getElement().setInnerHTML(TRIANGLE_ARTICLE);
-
-	    /*
-	     * .setUrl("http://www.geogebratube.org/student/e" + m.getId() +
-	     * "?mobile=true&touch=true&width=" + m.getWidth() + "&height=" +
-	     * m.getHeight());
-	     */
-	    Web.loadAppletAsync();
-	    this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
-	    this.instructionsPre.setText(m.getInstructionsPre());
-	    this.instructionsPost.setText(m.getInstructionsPost());
+		this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
+		Web.panelForApplets = this.frame;
+		/*.setUrl("http://www.geogebratube.org/student/e"
+				+ m.getId() + "?mobile=true&touch=true&width="
+				+ m.getWidth() + "&height=" + m.getHeight());*/
+		Web.loadAppletAsync();			
+		
+		this.instructionsPre.setText(m.getInstructionsPre());
+		this.instructionsPost.setText(m.getInstructionsPost());
 	} else {
 	    TouchEntryPoint.allowEditing(false);
 	    this.fm.getMaterial(m, this.app);
