@@ -5,6 +5,9 @@
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/gwtgl-0.9.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/gwtgl-0.9.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-1.9.0-beta.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-android2-1.9.0-beta.jar"/>
@@ -29,6 +32,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xpp3-1.1.4c.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-services-drive-v1-1.5.0-beta.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"/>
+	
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

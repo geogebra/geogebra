@@ -29,7 +29,7 @@ your workstation.
 	</target>
 
 	<target name="geogebraweb-developer"
-	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac"
+	    depends="gwt-oauth2, google-api-java-client, gae-sdk, google-api-services, giac, gwtgl"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -57,6 +57,18 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get src="http://dev.geogebra.org/download/lib/web/gwt-oauth2-0.2-alpha.jar" dest="lib/gwt-oauth2-0.2-alpha.jar"
+	    usetimestamp="true"/>
+	</target>
+	
+	<!-- download gwtgl from Google Code -->
+	<target name="gwtgl">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get src="http://dev.geogebra.org/download/lib/web/gwtgl-0.9.1-javadoc.jar" dest="lib/gwtgl-0.9.1-javadoc.jar"
+	    usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/web/gwtgl-0.9.1-sources.jar" dest="lib/gwtgl-0.9.1-sources.jar"
+	    usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/web/gwtgl-0.9.1.jar" dest="lib/gwtgl-0.9.1.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -90,6 +102,8 @@ your workstation.
 	<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 	</unzip>
 	</target>
+	
+	
 
 	<target name="gae-sdk">
 	<mkdir dir="lib"/>
