@@ -923,15 +923,15 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 	}*/
 
 	public void setColumnWidthsFromSettings() {
-
 		table.setPreferredColumnWidth(settings().preferredColumnWidth());
 		HashMap<Integer, Integer> widthMap = settings().getWidthMap();
-		for (int i = 0; i < table.getColumnCount(); ++i) {
-			if (widthMap.containsKey(i)) {
-				table.getColumnFormatter().setWidth(i, ""+widthMap.get(i));
+
+		// column 0 is the header
+		for (int i = 1; i < table.getColumnCount(); ++i) {
+			if (widthMap.containsKey(i-1)) {
+				table.getColumnFormatter().getElement(i).getStyle().setWidth(widthMap.get(i-1), Style.Unit.PX);
 			} else {
-				table.getColumnFormatter().setWidth(i,
-					""+table.preferredColumnWidth());
+				table.getColumnFormatter().getElement(i).getStyle().setWidth(table.preferredColumnWidth(), Style.Unit.PX);
 			}
 		}
 	}
