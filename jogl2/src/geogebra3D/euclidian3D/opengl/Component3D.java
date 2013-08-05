@@ -24,7 +24,8 @@ public class Component3D extends GLCanvas{
 	
 	static {
 		
-		caps = new GLCapabilities(GLProfile.getDefault());
+		//caps = new GLCapabilities(GLProfile.getDefault());
+		caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
 		caps.setAlphaBits(8);
 
 		
