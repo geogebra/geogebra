@@ -4187,7 +4187,9 @@ namespace giac {
     // convert p -> pp
     polynome pp(unsplitmultivarpoly(p,inner_dim)),pp_content(p.dim+inner_dim);
     // factorize pp
-    if (!factor(pp,pp_content,f,false,with_sqrt,complexmode,1,extra_div))
+    // setting with_sqrt to false otherwise problems with mixed num/exact
+    // e.g. EIGENVAL([[4,x],[r,p]])
+    if (!factor(pp,pp_content,f,false,false,complexmode,1,extra_div)) 
       return false;
     // convert back pp_content -> p_content and each term of f
     p_content=splitmultivarpoly(pp_content,inner_dim);
@@ -4777,7 +4779,7 @@ namespace giac {
   
   bool cfactor(const polynome & p, gen & an,factorization & f,bool with_sqrt,gen &extra_div){
     an=p.coord.front().value;
-    if (has_num_coeff(p)){
+    if (has_num_coeff(p) && p.dim==1){
       vectpoly w;
       if (!sqfffactor(p,w,false,false,true))
 	return false;

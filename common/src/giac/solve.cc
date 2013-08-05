@@ -4232,6 +4232,7 @@ namespace giac {
     return res;
   }
 
+  // Does not work if env->moduloon
   bool fglm_lex(const vectpoly & G,vectpoly & Glex,unsigned maxpow,environment * env,GIAC_CONTEXT){
     Glex.clear();
     if (G.empty())
@@ -4705,14 +4706,14 @@ namespace giac {
     return count==dim;
   }
 
-  bool giac_gbasis(vectpoly & res,const gen & order,environment * env){
+  bool giac_gbasis(vectpoly & res,const gen & order,environment * env,GIAC_CONTEXT){
     if (res.empty()) return true;
     if (order.val==_PLEX_ORDER){
       // try first a 0-dim ideal with REVLEX and conversion
       vectpoly resrev(res),reslex;
       for (unsigned k=0;k<resrev.size();++k)
 	change_monomial_order(resrev[k],_REVLEX_ORDER);
-      if (!giac_gbasis(resrev,_REVLEX_ORDER,env))
+      if (!giac_gbasis(resrev,_REVLEX_ORDER,env,contextptr))
 	return false;
       if (is_zero_dim(resrev) && fglm_lex(resrev,reslex,1024,env,context0)){
 	reslex.swap(res);
@@ -4726,7 +4727,7 @@ namespace giac {
       res.dbgprint();
 #ifndef CAS38_DISABLED
     if (res.front().dim<12-(order==_REVLEX_ORDER || order==_TDEG_ORDER)){
-      res=gbasis8(res,env);
+      res=gbasis8(res,env,contextptr);
       // reduce(res,env);
       sort(res.begin(),res.end(),tensor_is_strictly_greater<gen>);
       reverse(res.begin(),res.end());
@@ -4820,7 +4821,7 @@ namespace giac {
     return true;
   }
 
-  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env){
+  vectpoly gbasis(const vectpoly & v,const gen & order,bool with_cocoa,bool with_f5,environment * env,GIAC_CONTEXT){
     if (v.size()<=1){
       return v;
     }
@@ -4842,7 +4843,7 @@ namespace giac {
 	cerr << "Unable to compute gbasis with CoCoA" << endl;
     }
 #endif
-    if (!giac_gbasis(res,order,env))
+    if (!giac_gbasis(res,order,env,contextptr))
       gensizeerr(gettext("Unable to compute gbasis with giac, perhaps dimension is too large"));
     return res;
   }
@@ -4993,7 +4994,7 @@ namespace giac {
       if (!is_zero(n))
 	return vecteur(0); // no solution since cst equation
     }
-    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */true,/* f5 */ false,/*environment * */0));
+    vectpoly eqpr(gbasis(eqp,_PLEX_ORDER,/* cocoa */false,/* f5 */ false,/*environment * */0,contextptr));
     // should reorder eqpr with lex order here
     // solve from right to left
     sort(eqpr.begin(),eqpr.end(),tensor_is_strictly_greater<gen>);
@@ -5072,13 +5073,16 @@ namespace giac {
 
   static void read_gbargs(const vecteur & v,int start,int s,gen & order,bool & with_cocoa,bool & with_f5,bool & modular){
     for (int i=start;i<s;++i){
-      if (v[i]==at_irem){
+      if (v[i]==at_irem || v[i]==at_chinrem){
 	modular=true;
 	with_f5=false;
 	with_cocoa=false;
       }
       if (is_equal(v[i])){
 	gen & tmp=v[i]._SYMBptr->feuille;
+	if (tmp.type==_VECT && (tmp._VECTptr->front()==at_irem || tmp._VECTptr->front()==at_chinrem) && tmp._VECTptr->back().type==_INT_){
+	  modular=tmp._VECTptr->back().val!=0;
+	}
 	if (tmp.type==_VECT && tmp._VECTptr->front().type==_INT_ && tmp._VECTptr->back().type==_INT_){
 	  switch (tmp._VECTptr->front().val){
 	  case _WITH_COCOA:
@@ -5156,7 +5160,7 @@ namespace giac {
     alg_lvar(v[0],l);
     // v[2] will serve for ordering
     gen order=0; // _REVLEX_ORDER; // 0 assumes plex and 0-dimension ideal so that FGLM applies
-    bool with_f5=false,with_cocoa=true,modular=false;
+    bool with_f5=false,with_cocoa=false,modular=true;
     read_gbargs(v,2,s,order,with_cocoa,with_f5,modular);
     // convert eq to polynomial
     vecteur eq_in(*e2r(v[0],l,contextptr)._VECTptr);
@@ -5184,7 +5188,7 @@ namespace giac {
     }
     if (!with_cocoa)
       change_monomial_order(eqp,order);
-    vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env));
+    vectpoly eqpr(gbasis(eqp,order,with_cocoa,with_f5,&env,contextptr));
     vecteur res;
     vectpoly::const_iterator it=eqpr.begin(),itend=eqpr.end();
     res.reserve(itend-it);
@@ -5217,7 +5221,7 @@ namespace giac {
     alg_lvar(v[1],l);
     // v[3] will serve for ordering
     gen order=_PLEX_ORDER; // _REVLEX_ORDER;
-    bool with_f5=false,with_cocoa=true,modular=false;
+    bool with_f5=false,with_cocoa=false,modular=true;
     read_gbargs(v,3,s,order,with_cocoa,with_f5,modular);
     gen eq(e2r(v[0],l,contextptr));
     if (eq.type!=_POLY)
@@ -5336,7 +5340,7 @@ namespace giac {
     alg_lvar(v[1],l);
     alg_lvar(v[0],l);
     gen order=_PLEX_ORDER; // _REVLEX_ORDER;
-    bool with_f5=false,with_cocoa=true,modular=false;
+    bool with_f5=false,with_cocoa=false,modular=true;
     read_gbargs(v,3,s,order,with_cocoa,with_f5,modular);
     // convert eq to polynomial
     vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);

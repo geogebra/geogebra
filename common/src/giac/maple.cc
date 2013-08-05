@@ -606,8 +606,10 @@ namespace giac {
   gen _count(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
-      return symbolic(at_count,args);
-    if (args.subtype!=_SEQ__VECT && is_integer_vecteur(*args._VECTptr)){
+      return gensizeerr(contextptr);
+    if (args.subtype!=_SEQ__VECT) {
+      if (!is_integer_vecteur(*args._VECTptr))
+	return gensizeerr(contextptr);
       // count elements in list of integers
       vector<int> x=vecteur_2_vector_int(*args._VECTptr);
       int m=giacmin(x),M=giacmax(x),s=x.size();
@@ -688,8 +690,8 @@ namespace giac {
 
   gen _count_eq(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
-      return symbolic(at_count,args);
+    if ( args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()<2)
+      return gensizeerr(contextptr);
     gen v((*args._VECTptr)[1]);
     gen f(args._VECTptr->front());
     gen param;
@@ -703,8 +705,8 @@ namespace giac {
 
   gen _count_sup(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
-      return symbolic(at_count,args);
+    if ( args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()<2)
+      return gensizeerr(contextptr);
     gen v((*args._VECTptr)[1]);
     gen f(args._VECTptr->front());
     gen param;
@@ -718,8 +720,8 @@ namespace giac {
 
   gen _count_inf(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ( (args.type!=_VECT) || (args._VECTptr->size()<2))
-      return symbolic(at_count,args);
+    if ( args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()<2)
+      return gensizeerr(contextptr);
     gen v((*args._VECTptr)[1]);
     gen f(args._VECTptr->front());
     gen param;

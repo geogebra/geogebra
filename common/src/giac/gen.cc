@@ -5537,8 +5537,11 @@ namespace giac {
 	}
 	if (!q)
 	  return res;
-	if (q==1)
+	if (q==1){
+	  if (is_one(subexponent_num))
+	    return res*base;
 	  return res*new_ref_symbolic(symbolic(at_pow,gen(makenewvecteur(base,subexponent_num),_SEQ__VECT)));
+	}
 	if (q==-1)
 	  return res*inv(pow(base,subexponent_num,contextptr),contextptr);
 	return res*new_ref_symbolic(symbolic(at_pow,gen(makenewvecteur(pow(base,subexponent_num,contextptr),q),_SEQ__VECT)));
@@ -7264,8 +7267,11 @@ namespace giac {
 	return symb_compose(g);
       }
     }
-    if (this->type!=_VECT)
+    if (this->type!=_VECT){
+      if (calc_mode(contextptr)==1)
+	return *this;
       return gentypeerr(gettext("Gen [int]"));
+    }
     if (unsigned(i)>=_VECTptr->size()){
       if (xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
 	++i;

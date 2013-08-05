@@ -3839,9 +3839,17 @@ namespace giac {
     vecteur l1(1);
     gen d,e;
     int s=l3.size();
+    gen taille=1;
+    for (unsigned k=0;k<s;k+=2){
+      taille=taille*(l3[k+1]+1);
+    }
+    if (taille.type!=_INT_ || taille.val>LIST_SIZE_LIMIT)
+      return vecteur(1,gendimerr(contextptr));
+    l1.reserve(taille.val);
     l1[0]=1;//l3.push_back(..);
     for (int k=0;k<s;k=k+2) {
       vecteur l2;
+      l2.reserve(taille.val);
       int s1;
       s1=l1.size();
       vecteur l4(s1);
@@ -3854,12 +3862,19 @@ namespace giac {
       else
 	return vecteur(1,gensizeerr(gettext("Integer too large")));
       for (int j=1;j<=ei;j++){
+	gen dj=pow(d,j);
 	for (int l=0;l<s1;l++){ 
-	  l4[l]=l1[l]*pow(d,j);
+	  l4[l]=l1[l]*dj;
 	}
-	l2=mergevecteur(l2,l4);
+	// l2=mergevecteur(l2,l4);
+	iterateur it=l4.begin(),itend=l4.end();
+	for (;it!=itend;++it)
+	  l2.push_back(*it);
       }
-      l1=mergevecteur(l1,l2);
+      // l1=mergevecteur(l1,l2);
+      iterateur it=l2.begin(),itend=l2.end();
+      for (;it!=itend;++it)
+	l1.push_back(*it);
     }
     return(l1); 
   }

@@ -1690,7 +1690,7 @@ namespace giac {
     identificateur idx("taylorx"+print_INT_(taylorxn));
     ++taylorxn;
     newx=idx;
-    v[0]=eval(subst(v[0],x,newx,false,contextptr),eval_level(contextptr),contextptr);
+    v[0]=subst(eval(subst(v[0],x,newx,false,contextptr),eval_level(contextptr),contextptr),x,newx,false,contextptr);
     v[1]=newx;
     int s=v.size();
     for (int i=2;i<s;++i)

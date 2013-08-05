@@ -5455,7 +5455,7 @@ namespace giac {
 	// make the reduction
 	if (fullreduction) {
 	  for (int ltemp=linit;ltemp<lmax;++ltemp){
-	    if (ltemp==l)
+	    if (ltemp==l || !N[ltemp][pivotcol])
 	      continue;
 #ifndef GIAC_HAS_STO_38
 	    if (ltemp<=l-4 || (ltemp>l && ltemp<=lmax-4)){
@@ -5469,6 +5469,8 @@ namespace giac {
 	}
 	else {
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
+	    if (!N[ltemp][pivotcol])
+	      continue;
 #ifndef GIAC_HAS_STO_38
 	    if (ltemp<=lmax-4){
 	      if (rref_or_det_or_lu>=2){ // LU decomp

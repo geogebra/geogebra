@@ -8811,7 +8811,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #else
-    return _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(t__IDNT_e,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
 #endif
   }
   static const char _ellipse_s []="ellipse";

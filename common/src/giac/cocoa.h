@@ -34,7 +34,7 @@ namespace giac {
 
 #ifndef CAS38_DISABLED
   // giac code for poly up to 7 (revlex/tdeg) or 8 variables (plex)
-  vectpoly gbasis8(const vectpoly & v,environment * env);
+  vectpoly gbasis8(const vectpoly & v,environment * env,GIAC_CONTEXT);
 #endif
 
 #ifndef NO_NAMESPACE_GIAC

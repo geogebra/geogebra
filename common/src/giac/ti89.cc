@@ -351,7 +351,7 @@ namespace giac {
     return solve(v.front(),v.back(),complexmode,contextptr);
   }
   gen _zeros(const gen & g,GIAC_CONTEXT){
-    return zeros(g,false,contextptr);
+    return zeros(g,complex_mode(contextptr),contextptr);
   }
   static const char _zeros_s[]="zeros";
   static define_unary_function_eval_quoted (__zeros,&_zeros,_zeros_s);
@@ -2112,13 +2112,18 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur & v=*g._VECTptr;
     gen m1(v[0]),m2(v[1]);
-    if (!is_squarematrix(m1)|| !ckmatrix(m2) )
+    if (!is_squarematrix(m1)|| !ckmatrix(m2) || m1._VECTptr->size()!=m2._VECTptr->size())
       return gensizeerr(contextptr);
     matrice m=mtran(mergevecteur(mtran(*m1._VECTptr),mtran(*m2._VECTptr)));
     m=mrref(m,contextptr);
     mdividebypivot(m);
     int n,c;
     mdims(m,n,c);
+    // check for identity
+    for (int i=0;i<n;++i){
+      if (m[i][i]!=1)
+	return gensizeerr(contextptr);
+    }
     return matrice_extract(m,0,n,n,c-n);
   }
   static const char _simult_s[]="simult";

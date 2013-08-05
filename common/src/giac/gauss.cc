@@ -667,12 +667,13 @@ namespace giac {
 	    tmp=vp0*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+cst_i*vp1*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
 	    tmp=z0+zV0*tmp;
 	  }
-	  if (is_undef(ratparam)){
+	  bool noratparam=is_undef(ratparam);
+	  if (noratparam){
 	    ratparam=vp0*((sprodcoeff<0)?(t+1/t)/2:(t-1/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-1/t)/2:(t+1/t)/2);
 	    ratparam=z0+zV0*ratparam;
 	  }
 	  param_curves.push_back(makevecteur(tmp,t,-3.14,3.14,0.0314,q,ratparam));
-	  if (is_undef(ratparam)){
+	  if (noratparam){
 	    if (numeric){
 	      tmp=(sprodcoeff<0?-1:1)*evalf(vp0,1,contextptr)*symbolic(sprodcoeff<0?at_cosh:at_sinh,t)+(sprodcoeff<0?1:-1)*cst_i*evalf(vp1,1,contextptr)*symbolic(sprodcoeff<0?at_sinh:at_cosh,t);
 	      tmp=evalf(z0,1,contextptr)+evalf(zV0,1,contextptr)*tmp;

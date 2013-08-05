@@ -1253,8 +1253,10 @@ namespace giac {
       return true;
     default: 
 #ifndef NO_STDEXCEPT
-      settypeerr(gettext("sym2r type sym2poly.cc l.948"));
+      settypeerr(gettext("Unable to handle type [sym2poly.cc]")+e.print(contextptr));
 #endif
+      num=gensizeerr(gettext("Unable to handle ")+e.print(contextptr));
+      den=plus_one;
       return 0;
     }
     return 0;
