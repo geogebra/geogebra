@@ -54,7 +54,7 @@ public class Web implements EntryPoint {
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);
 	}
 	
-	private ArrayList<ArticleElement> getGeoGebraMobileTags() {
+	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -139,7 +139,7 @@ public class Web implements EntryPoint {
 	   
     }
 
-	private void loadAppletAsync() {
+	public static void loadAppletAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
@@ -233,7 +233,7 @@ public class Web implements EntryPoint {
 	}-*/;
 	
 	
-	void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
 		geogebra.web.gui.applet.GeoGebraFrame.main(geoGebraMobileTags);
 	    
