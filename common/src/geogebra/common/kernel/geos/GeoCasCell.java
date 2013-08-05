@@ -281,7 +281,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 							break;
 						}
 					}
-					sb.append(geo.toValueString(StringTemplate.latexTemplate));
+					if (!(geo instanceof GeoLocus)) {
+						sb.append(geo.toValueString(StringTemplate.latexTemplate));
+					} else {
+						// as GeoLocuses can not be converted to value strings
+						sb.append(geo.algoParent.getCommandDescription(StringTemplate.latexTemplate));
+					}
 				}
 				sb.append("}");
 				latex = sb.toString();
