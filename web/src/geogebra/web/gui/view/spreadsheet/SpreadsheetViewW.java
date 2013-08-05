@@ -1424,6 +1424,12 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		// settings.selectedCell().y);
 
 		allowSettingUpate = true;
+
+		if (table != null) {
+			table.setRepaintAll();
+			table.setRenderFirstTime();
+			table.repaint();
+		}
 	}
 
 	public void setPreferredSize(int width, int height) {

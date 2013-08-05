@@ -2062,8 +2062,21 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * cursor; }
 	 */
 
+	/**
+	 * Set to call renderCells in repaint()
+	 */
 	public void setRepaintAll() {
 		repaintAll = true;
+	}
+
+	/**
+	 * Set to call extra things in renderCells()
+	 * This hack is needed because something is
+	 * not yet initialized when it is first used,
+	 * so call it again after initialization happened.  
+	 */
+	public void setRenderFirstTime() {
+		renderCellsFirstTime = true;
 	}
 
 	public void repaint() {
@@ -2138,13 +2151,16 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 					String text = (gva == null) ? "" : gva.toString();
 					setText(j, i, text);
 
-				} else {
+				} else if (renderCellsFirstTime) {
 					// GeoElement or nothing
-					// gva = tableModel.getValueAt(j - 1, i - 1);
+					gva = tableModel.getValueAt(j - 1, i - 1);
 
 					// format table cells
-					// defaultTableCellRenderer.updateTableCell(this, gva, j - 1, i - 1);
+					defaultTableCellRenderer.updateTableCell(this, gva, j, i);
 				}
+				// otherwise updateTableCell will be called
+				// at the time of value change anyway,
+				// so it is not needed to call it here
 			}
 		}
 	}
