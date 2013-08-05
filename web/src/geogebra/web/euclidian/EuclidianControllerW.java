@@ -246,7 +246,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				style.webkitTransform ||
 				style.MozTransform ||
 				style.msTransform ||
-				style.oTransform;
+				style.oTransform ||
+				"";
 	}-*/;
 	
 	
