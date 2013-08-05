@@ -3706,11 +3706,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		return toString(StringTemplate.defaultTemplate);
 	}
 
-	/*
+	/**
 	 * implementation of interface ExpressionValue
 	 */
 	public boolean isConstant() {
-		return false;
+		return !isLabelSet() && isIndependent();
 	}
 
 	public final boolean isLeaf() {

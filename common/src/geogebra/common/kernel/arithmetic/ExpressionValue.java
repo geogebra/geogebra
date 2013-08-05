@@ -32,7 +32,7 @@ import java.util.HashSet;
 
 public interface ExpressionValue {      
     /**
-     * @return true if this is constant
+     * @return true if this is does not depend on any labeled or dependent geos
      */
     public boolean isConstant();    
     /**
