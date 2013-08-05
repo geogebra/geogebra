@@ -1179,23 +1179,13 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 	// Spreadsheet Settings
 	// ================================================
 
-	/*public void setShowRowHeader(boolean showRowHeader) {
-		if (showRowHeader) {
-			spreadsheet.setRowHeaderView(rowHeader);
-		} else {
-			spreadsheet.setRowHeaderView(null);
-		}
-	}*/
+	public void setShowRowHeader(boolean showRowHeader) {
+		table.setShowRowHeader(showRowHeader);
+	}
 
-	/*public void setShowColumnHeader(boolean showColumnHeader) {
-		if (showColumnHeader) {
-			table.setTableHeader(tableHeader);
-			spreadsheet.setColumnHeaderView(tableHeader);
-		} else {
-			table.setTableHeader(null);
-			spreadsheet.setColumnHeaderView(null);
-		}
-	}*/
+	public void setShowColumnHeader(boolean showColumnHeader) {
+		table.setShowColumnHeader(showColumnHeader);
+	}
 
 	/*public void setShowVScrollBar(boolean showVScrollBar) {
 		if (showVScrollBar) {
@@ -1376,8 +1366,8 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		allowSettingUpate = false;
 
 		// layout
-		//?//setShowColumnHeader(settings().showColumnHeader());
-		//?//setShowRowHeader(settings().showRowHeader());
+		setShowColumnHeader(settings().showColumnHeader());
+		setShowRowHeader(settings().showRowHeader());
 		//?//setShowVScrollBar(settings().showVScrollBar());
 		//?//setShowHScrollBar(settings().showHScrollBar());
 		//TODO//setShowGrid(settings().showGrid());

@@ -143,6 +143,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	protected int minRow2 = -1;
 	protected int maxRow2 = -1;
 
+	protected boolean showRowHeader = true;
+	protected boolean showColumnHeader = true;
+
 	protected boolean renderCellsFirstTime = true;
 
 	protected boolean isOverDnDRegion = false;
@@ -1512,8 +1515,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (rowHeight2 < minimumRowHeight)
 			rowHeight2 = minimumRowHeight;
 
-		getRowFormatter().getElement(row).getStyle()
-		        .setHeight(rowHeight2, Style.Unit.PX);
+		if (row > 0 || showRowHeader)
+			getRowFormatter().getElement(row).getStyle()
+		        	.setHeight(rowHeight2, Style.Unit.PX);
 		try {
 			if (view != null) {
 				// TODO//view.updateRowHeader();
@@ -1531,9 +1535,14 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (rowHeight2 < minimumRowHeight)
 			rowHeight2 = minimumRowHeight;
 
-		for (int i = 0; i < getRowCount(); i++)
+		if (showRowHeader)
+			getRowFormatter().getElement(0).getStyle()
+        		.setHeight(rowHeight2, Style.Unit.PX);
+
+		for (int i = 1; i < getRowCount(); i++)
 			getRowFormatter().getElement(i).getStyle()
-			        .setHeight(rowHeight2, Style.Unit.PX);
+		        	.setHeight(rowHeight2, Style.Unit.PX);
+
 		try {
 			if (view != null) {
 				// TODO//view.updateRowHeader();
@@ -1602,16 +1611,18 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		if (adjustWidth) {
 
-			Element tableColumn = getColumnFormatter().getElement(col);
+			if (col > 0 || showColumnHeader) {
+				Element tableColumn = getColumnFormatter().getElement(col);
 
-			int resultWidth = Math.max(tableColumn.getOffsetWidth(),
-			        (int) prefWidget.getOffsetWidth());
-			tableColumn.getStyle().setWidth(resultWidth + 1 /*
+				int resultWidth = Math.max(tableColumn.getOffsetWidth(),
+						(int) prefWidget.getOffsetWidth());
+				tableColumn.getStyle().setWidth(resultWidth + 1 /*
 															 * TODO this.
 															 * getIntercellSpacing
 															 * ().width
 															 */
-			, Style.Unit.PX);
+				, Style.Unit.PX);
+			}
 		}
 
 		if (adjustHeight) {
@@ -1631,6 +1642,9 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	 * cell contents.
 	 */
 	public void fitColumn(int column) {
+
+		if (column == 0 && !showColumnHeader)
+			return;
 
 		// in grid coordinates
 
@@ -2335,5 +2349,37 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 	public Widget getEditorWidget() {
 		return editor.getTextfield();
+	}
+
+	/**
+	 * Make the row header invisible to the user
+	 * @param showRow true: show it; false: hide it
+	 */
+	public void setShowRowHeader(boolean showRow) {
+		if (showRow) {
+			if (!showRowHeader) {
+				showRowHeader = true;
+				getRowFormatter().getElement(0).getStyle().setHeight(minimumRowHeight, Style.Unit.PX);
+			}
+		} else {
+			showRowHeader = false;
+			getRowFormatter().getElement(0).getStyle().setHeight(0, Style.Unit.PX);
+		}
+	}
+
+	/**
+	 * Make the column header invisible to the user
+	 * @param showCol true: show it; false: hide it
+	 */
+	public void setShowColumnHeader(boolean showCol) {
+		if (showCol) {
+			if (!showColumnHeader) {
+				showColumnHeader = true;
+				getColumnFormatter().getElement(0).getStyle().setWidth(SpreadsheetSettings.TABLE_CELL_WIDTH, Style.Unit.PX);
+			}
+		} else {
+			showColumnHeader = false;
+			getColumnFormatter().getElement(0).getStyle().setWidth(0, Style.Unit.PX);
+		}
 	}
 }

@@ -230,6 +230,9 @@ public class SpreadsheetColumnControllerW implements
 			}
 			for (int i = 0; i < selected.length; ++i) {
 				table.getColumnFormatter().setWidth(selected[i], width+"px");
+				// FIXME: don't forget to write it as:
+				// table.getColumnFormatter().getElement(selected[i]).getStyle().setWidth(width, Style.Unit.PX);
+				// the other syntax doesn't work probably
 			}
 		}
 	}
