@@ -1097,7 +1097,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		int length = input.length;
 
-		sbAE.append("[");
+		sbAE.append(tpl.leftSquareBracket());
 		// input legth is 0 for ConstructionStep[]
 		if (length > 0) {
 			sbAE.append(input[0].getLabel(tpl)); 
@@ -1106,7 +1106,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sbAE.append(", ");
 			appendCheckVector(sbAE, input[i], tpl);
 		}
-		sbAE.append("]");
+		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
 
 	}

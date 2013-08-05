@@ -799,26 +799,51 @@ public class StringTemplate implements ExpressionNodeConstants{
 	}
 	
 	public String leftBracket() {
-		//return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
-
-		if (stringType.equals(StringType.LATEX))
+		/*if (stringType.equals(StringType.LATEX))
 			return " \\left( ";
 		else if (stringType.equals(StringType.LIBRE_OFFICE))
 			return " left ( ";
 		else 
-			return "(";
+			return "(";*/
+		return left() + "(";
 	}
 
 	public String rightBracket() {
-		//return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
-
-		if (stringType.equals(StringType.LATEX))
+		/*if (stringType.equals(StringType.LATEX))
 			return " \\right)";
 		else if (stringType.equals(StringType.LIBRE_OFFICE))
 			return " right )";
 		else 
-			return ")";
+			return ")";*/
+		return right() + ")";
 	}
+	
+	public String leftSquareBracket() {
+		return left() + "[";
+	}
+
+	public String rightSquareBracket() {
+		return right() + "]";
+	}
+	
+	private String right() {
+		if (stringType.equals(StringType.LATEX))
+			return " \\right";
+		else if (stringType.equals(StringType.LIBRE_OFFICE))
+			return " right ";
+		else 
+			return "";
+	}
+	
+	private String left() {
+		if (stringType.equals(StringType.LATEX))
+			return " \\left";
+		else if (stringType.equals(StringType.LIBRE_OFFICE))
+			return " left ";
+		else 
+			return "";
+	}
+	
 	public String minusString(ExpressionValue l, ExpressionValue r,
 			String leftStr, String rightStr, boolean valueForm) {
 		
