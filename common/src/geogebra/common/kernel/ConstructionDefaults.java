@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -97,6 +98,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_FUNCTION_NVAR = 65;
 	/** default polygon */
 	public static final int DEFAULT_POLYGON = 70;
+	/** default polyline */
+	public static final int DEFAULT_POLYLINE = 71;
 	/** default locus */
 	public static final int DEFAULT_LOCUS = 80;
 	/** default text */
@@ -363,6 +366,14 @@ public class ConstructionDefaults {
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
 		defaultGeoElements.put(DEFAULT_POLYGON, polygon);
 
+		// polyline
+		GeoPolyLine polyline = new GeoPolyLine(cons);
+		polyline.setLocalVariableLabel("Polyline");
+		polyline.setObjColor(colLine);
+		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
+		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
+		
+
 		// conic
 		GeoConic conic = new GeoConic(cons);
 		// conic.setLocalVariableLabel(app.getPlain("Conic"));
@@ -622,6 +633,10 @@ public class ConstructionDefaults {
 			type = DEFAULT_POLYGON;
 			break;
 
+		case POLYLINE:
+			type = DEFAULT_POLYLINE;
+			break;
+
 		case TEXT:
 			type = DEFAULT_TEXT;
 			break;
@@ -668,7 +683,11 @@ public class ConstructionDefaults {
 		App app = cons.getApplication();
 
 		if (defaultGeo != null) {
-			geo.setAllVisualProperties(defaultGeo, isReset);
+			if (geo.isGeoNumeric()){ // don't affect euclidianVisible for slider/angle
+				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo, isReset);
+			}else{
+				geo.setAllVisualProperties(defaultGeo, isReset);
+			}
 			if (geo instanceof GeoFunction)
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
 

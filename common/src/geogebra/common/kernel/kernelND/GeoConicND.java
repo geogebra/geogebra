@@ -1991,10 +1991,11 @@ Region3D, GeoDirectionND
 	 * @param phiVal angle
 	 * @param Q rotation center
 	 */
-	public void rotate(NumberValue phiVal, GeoPoint Q) {
+	public void rotate(NumberValue phiVal, GeoPointND point) {
+		Coords Q = point.getInhomCoords();
 		double phi = phiVal.getDouble();
-		double qx = Q.getInhomX();
-		double qy = Q.getInhomY();
+		double qx = Q.getX();
+		double qy = Q.getY();
 
 		// first translate to new origin Q
 		doTranslate(-qx, -qy);

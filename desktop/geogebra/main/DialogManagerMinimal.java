@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -75,8 +76,8 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogDilate(String menu,
-			GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
-			GeoElement[] selGeos) {
+			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
+			GeoElement[] selGeos, EuclidianController ec) {
 		// TODO Auto-generated method stub
 		
 	}

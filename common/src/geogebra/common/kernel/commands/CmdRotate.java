@@ -6,7 +6,7 @@ import geogebra.common.kernel.TransformRotate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -86,7 +86,7 @@ public class CmdRotate extends CommandProcessor {
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
-			GeoPoint Q = (GeoPoint) arg[2];
+			GeoPointND Q = (GeoPointND) arg[2];
 
 			return getAlgoDispatcher().Rotate(c.getLabel(), arg[0], phi, Q);
 		}

@@ -666,12 +666,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/**
 	 * rotate this line by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+	final public void rotate(NumberValue phiVal,  GeoPointND point) {
+		Coords Q = point.getInhomCoords();
 		double phi = phiVal.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		double qx = Q.getInhomX();
-		double qy = Q.getInhomY();
+		double qx = Q.getX();
+		double qy = Q.getY();
 
 		double x0 = x * cos - y * sin;
 		double y0 = x * sin + y * cos;

@@ -6,6 +6,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -108,4 +109,15 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 		return super.getSingleIntersectionPoint(a, b, false);
 	}	
 	
+	@Override
+	public boolean viewOrientationForClockwise(boolean clockwise){
+		return ((EuclidianViewForPlane) view).viewOrientationForClockwise(clockwise);
+	}
+	
+	@Override
+	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi, GeoPointND Q) {
+
+		return kernel.getManager3D().Rotate3D(null, geoRot, phi, Q, view.getDirection());
+
+	}
 }

@@ -74,6 +74,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
+		
+		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
 
 		updatePreview();
 	}
@@ -311,12 +313,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			g2.setPaint(ConstructionDefaults.colPreviewFill);
-			g2.fill(gp);
+			
+			fill(g2,  (geo.isInverseFill() ? getShape() : gp), false);
 
-			g2.setPaint(ConstructionDefaults.colPreview);
+			g2.setPaint(geo.getObjectColor());
+			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
+			
 		}
 	}
 

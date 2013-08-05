@@ -846,6 +846,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Set visual style from defaults
 	 */
 	public void setConstructionDefaults() {
+		
 		if (useVisualDefaults) {
 			final ConstructionDefaults consDef = cons.getConstructionDefaults();
 			if (consDef != null) {
@@ -1313,7 +1314,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isGeoList() {
 		return false;
 	}
-
+	
 	/**
 	 * Sets all visual values from given GeoElement. This will also affect
 	 * tracing, label location and the location of texts for example.
@@ -1322,7 +1323,27 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param keepAdvanced
 	 *            true to skip copying color function and visibility condition
 	 */
-	public void setAllVisualProperties(final GeoElement geo,
+	final public void setAllVisualProperties(final GeoElement geo,
+			final boolean keepAdvanced) {
+	
+		euclidianVisible = geo.euclidianVisible;
+		
+		setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+	}
+	
+
+	/**
+	 * Sets all visual values from given GeoElement,
+	 * EXCEPT euclidianVisible : needed for apply defaults on slider/angle.
+	 * 
+	 * This will also affect
+	 * tracing, label location and the location of texts for example.
+	 * 
+	 * @param geo source geo
+	 * @param keepAdvanced
+	 *            true to skip copying color function and visibility condition
+	 */
+	public void setAllVisualPropertiesExceptEuclidianVisible(final GeoElement geo,
 			final boolean keepAdvanced) {
 		if (keepAdvanced) {
 			setVisualStyle(geo);
@@ -1330,7 +1351,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			setAdvancedVisualStyle(geo);
 		}
 
-		euclidianVisible = geo.euclidianVisible;
 		algebraVisible = geo.algebraVisible;
 		labelOffsetX = geo.labelOffsetX;
 		labelOffsetY = geo.labelOffsetY;

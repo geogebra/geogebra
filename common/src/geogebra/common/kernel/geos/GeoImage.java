@@ -773,7 +773,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * rotate this image by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+	final public void rotate(NumberValue phiValue, GeoPointND Q) {
 		if (!initTransformPoints())
 			return;
 

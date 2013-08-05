@@ -439,7 +439,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		}
 	}
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).rotate(r, S);
 		}

@@ -1211,12 +1211,13 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{0,-sin},{cos,0}},new double[][]{{0,cos},{sin,0}});	
 	}
 
-	public void rotate(NumberValue phiValue, GeoPoint S) {
+	public void rotate(NumberValue phiValue, GeoPointND point) {
+		Coords S = point.getInhomCoords();
 		double phi=phiValue.getDouble();
 		double cos=Math.cos(phi);
 		double sin=Math.sin(-phi);
-		double x=S.getInhomX();
-		double y=S.getInhomY();
+		double x=S.getX();
+		double y=S.getY();
 		plugInPoly(new double[][]{{x*(1-cos)+y*sin,-sin},{cos,0}},new double[][]{{-x*sin+y*(1-cos),cos},{sin,0}});
 	}
 

@@ -2,11 +2,11 @@ package geogebra3D.euclidianFor3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -46,8 +46,45 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 			return kernel.getManager3D().Translate3D(null, geo, vec);
 		}
 			
-		return kernel.getAlgoDispatcher().Translate(null, geo, (GeoVector) vec);
+		return super.translate(geo, vec);
 		
+	}
+	
+	
+	@Override
+	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point){
+		if (geo.isGeoElement3D() || ((GeoElement) point).isGeoElement3D()) {
+			return kernel.getManager3D().Mirror3D(null, geo, point);
+		}
+			
+		return super.mirrorAtPoint(geo, point);
+		
+	}
+	
+	@Override
+	protected GeoElement[] mirrorAtLine(GeoElement geo, GeoLineND line){
+		if (geo.isGeoElement3D() || ((GeoElement) line).isGeoElement3D()) {
+			return kernel.getManager3D().Mirror3D(null, geo, line);
+		}
+			
+		return super.mirrorAtLine(geo, line);
+		
+	}
+	
+	
+	
+
+	
+	
+
+	@Override
+	public GeoElement[] dilateFromPoint(GeoElement geo, NumberValue num, GeoPointND point) {
+		
+		if (geo.isGeoElement3D() || ((GeoElement) point).isGeoElement3D()) {
+			return kernel.getManager3D().Dilate3D(null, geo, num, point);
+		}
+		
+		return super.dilateFromPoint(geo, num, point);	
 	}
 	
 	/*

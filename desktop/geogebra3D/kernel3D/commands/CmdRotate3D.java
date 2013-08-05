@@ -41,19 +41,8 @@ public class CmdRotate3D extends CmdRotate{
 			return super.process2(c,arg,ok);
 
 		case 3:
-			// ROTATION AROUND POINT (AND XOY PLANE)
+
 			arg = resArgs(c);
-
-			//first check if rotated geo is 3D element
-			if ((arg[2].isGeoElement3D())
-					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2].isGeoPoint()))) {
-
-				return kernelA.getManager3D().Rotate3D(c.getLabel(), 
-						arg[0], (GeoNumberValue) arg[1], (GeoPointND) arg[2], (GeoDirectionND) kernelA.getXOYPlane());
-
-
-			}
 
 			// ROTATION AROUND LINE
 			if ((ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -65,8 +54,7 @@ public class CmdRotate3D extends CmdRotate{
 
 			}
 			
-
-			
+			// ROTATION AROUND POINT (AND XOY PLANE)
 			
 			return super.process3(c, arg, ok);
 

@@ -690,7 +690,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 	
 	@Override
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 		getCoordSys().rotate(r.getDouble(), S.getInhomCoordsInD(3));
 	}
 

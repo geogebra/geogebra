@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -124,7 +125,11 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
     }
 
     
-    
+    @Override
+ 	public int getRelatedModeID() {
+     	return EuclidianConstants.MODE_ROTATE_AROUND_AXIS;
+     }   
+     
 
     
 }

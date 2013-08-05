@@ -732,7 +732,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			matrixTransform(cosPhi,-sinPhi,sinPhi,cosPhi);			
 		}
 
-		public void rotate(NumberValue phi, GeoPoint P) {
+		public void rotate(NumberValue phi,  GeoPointND point) {
+			Coords P = point.getInhomCoords();
 			fun.translate(-P.getX(),-P.getY());
 			rotate(phi);
 			fun.translate(P.getX(),P.getY());

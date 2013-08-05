@@ -9,7 +9,6 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
@@ -1236,7 +1235,7 @@ RotateableND, Translateable, Mirrorable, Transformable, Dilateable
 	//////////////////////////////////
 
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 		for (GeoSegment3D seg: segments.values()){
 			seg.rotate(r, S);
 		}

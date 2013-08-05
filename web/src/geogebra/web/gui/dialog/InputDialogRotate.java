@@ -1,9 +1,9 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.StringUtil;
@@ -22,13 +22,15 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 	GeoPolygon[] polys;
 	GeoPointND[] points;
 	GeoElement[] selGeos;
+	
+	private EuclidianController ec;
 
 	private Kernel kernel;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
 	public InputDialogRotate(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, GeoPointND[] points,
-			GeoElement[] selGeos, Kernel kernel) {
+			GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);
 
@@ -36,6 +38,8 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
+		
+		this.ec = ec;
 
 		this.inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
 	}
@@ -77,7 +81,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 	private boolean processInput() {
 		
-		defaultRotateAngle = DialogManagerW.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos);
+		defaultRotateAngle = DialogManagerW.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos, ec);
 		
 		return true;
 		/*

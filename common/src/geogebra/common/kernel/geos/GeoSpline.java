@@ -712,7 +712,7 @@ public class GeoSpline extends GeoElement implements Transformable, VarString,
 		recalculate();
 	}
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 		for (int i = 0; i < points.size(); i++) {
 			((GeoPoint) points.get(i)).rotate(r, S);
 		}

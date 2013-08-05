@@ -192,7 +192,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			GeoAngle ang = (GeoAngle) geo;
 			arcSize = ang.arcSize;
 			// allowReflexAngle = ang.allowReflexAngle;
-			angleStyle = ang.angleStyle;
+			setAngleStyle(ang.angleStyle); // to update the value
+			//angleStyle = ang.angleStyle;
 			emphasizeRightAngle = ang.emphasizeRightAngle;
 		}
 	}
@@ -321,27 +322,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
 	public void setAngleStyle(int angleStyle) {
-		int newAngleStyle = angleStyle;
-		if (newAngleStyle == this.angleStyle)
+		if (angleStyle == this.angleStyle)
 			return;
 
-		this.angleStyle = newAngleStyle;
-		switch (newAngleStyle) {
-		case ANGLE_ISCLOCKWISE:
-			newAngleStyle = ANGLE_ISCLOCKWISE;
-			break;
+		this.angleStyle = angleStyle;
 
-		case ANGLE_ISNOTREFLEX:
-			newAngleStyle = ANGLE_ISNOTREFLEX;
-			break;
-
-		case ANGLE_ISREFLEX:
-			newAngleStyle = ANGLE_ISREFLEX;
-			break;
-
-		default:
-			newAngleStyle = ANGLE_ISANTICLOCKWISE;
-		}
 		// we have to reset the value of this angle
 		if (algoParent == null) {
 			// setValue(value);

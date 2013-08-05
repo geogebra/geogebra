@@ -1550,7 +1550,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 			getPoint(i).rotate(r);
 	}
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 		for (int i = 0; i < points.length; i++)
 			getPoint(i).rotate(r, S);
 	}

@@ -13,7 +13,6 @@ import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -598,7 +597,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		coordsys.makeEquationVector();
 	}
 
-	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+	final public void rotate(NumberValue phiVal, GeoPointND Q) {
 		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
 		coordsys.makeEquationVector();
 	}

@@ -352,7 +352,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		funY.translateY(vy);
 	}
 
-	final public void rotate(NumberValue phi, GeoPoint P) {
+	final public void rotate(NumberValue phi, GeoPointND point) {
+		Coords P = point.getInhomCoords();
 		translate(-P.getX(), -P.getY());
 		rotate(phi);
 		translate(P.getX(), P.getY());

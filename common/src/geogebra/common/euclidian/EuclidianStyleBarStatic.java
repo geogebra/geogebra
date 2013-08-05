@@ -519,7 +519,7 @@ public class EuclidianStyleBarStatic {
 		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_POLYGON,
 				ConstructionDefaults.DEFAULT_POLYGON);
 		defaultGeoMap.put(EuclidianConstants.MODE_POLYLINE,
-				ConstructionDefaults.DEFAULT_POLYGON);
+				ConstructionDefaults.DEFAULT_POLYLINE);
 
 		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_TWO_POINTS,
 				ConstructionDefaults.DEFAULT_CONIC);

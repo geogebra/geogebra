@@ -1,12 +1,13 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.DialogManager;
 import geogebra.main.AppD;
 
@@ -19,13 +20,15 @@ import javax.swing.JPanel;
 
 public class InputDialogDilate extends InputDialogD {
 
-	GeoPoint[] points;
+	GeoPointND[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
+	
+	private EuclidianController ec;
 
 	public InputDialogDilate(AppD app, String title, InputHandler handler,
-			GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app.getFrame(), false,app.getLocalization());
 
 		this.app = app;
@@ -34,6 +37,8 @@ public class InputDialogDilate extends InputDialogD {
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
+		
+		this.ec = ec;
 
 		createGUI(title, loc.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
 				1, true, false, false, false, DialogType.GeoGebraEditor);
@@ -78,7 +83,7 @@ public class InputDialogDilate extends InputDialogD {
 		if (success) {
 			return DialogManager.doDilate(kernel,
 					((NumberInputHandler) inputHandler).getNum(), points,
-					selGeos);
+					selGeos, ec);
 		}
 
 		return false;

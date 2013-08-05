@@ -60,6 +60,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.points = points;
+		
+		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POLYLINE);
 
 		updatePreview();
 	}
@@ -234,8 +236,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-
-			g2.setPaint(ConstructionDefaults.colPreview);
+            g2.setPaint(geo.getObjectColor());
+            updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}

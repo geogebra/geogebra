@@ -623,8 +623,8 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
-		super.setAllVisualProperties(geo, keepAdvanced);
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		// start point of text
 		if (geo instanceof GeoText) {

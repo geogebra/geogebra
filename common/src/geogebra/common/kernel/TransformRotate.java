@@ -5,7 +5,6 @@ import geogebra.common.kernel.algos.AlgoRotatePoint;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -46,7 +45,7 @@ public class TransformRotate extends Transform {
 		if (center == null) {
 			algo = new AlgoRotate(cons,geo,angle);
 		}
-		else algo = new AlgoRotatePoint(cons,geo,angle,(GeoPoint) center);
+		else algo = new AlgoRotatePoint(cons,geo,angle,center);
 		return algo;
 	}
 

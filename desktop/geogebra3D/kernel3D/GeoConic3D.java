@@ -466,7 +466,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 	}	
 	
 	@Override
-	final public void rotate(NumberValue phiVal, GeoPoint Q) {
+	final public void rotate(NumberValue phiVal, GeoPointND Q) {
 		coordSys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD(3));
 	}
 

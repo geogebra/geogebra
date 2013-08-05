@@ -1035,12 +1035,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue,
 	/**
 	 * rotate this point by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+	final public void rotate(NumberValue phiValue,  GeoPointND point) {
+		Coords Q = point.getInhomCoords();
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		double qx = z * Q.getInhomX();
-		double qy = z * Q.getInhomY();
+		double qx = z * Q.getX();
+		double qy = z * Q.getY();
 
 		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
 				+ (y - qy) * cos + qy, z);

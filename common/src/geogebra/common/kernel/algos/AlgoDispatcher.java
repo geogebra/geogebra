@@ -428,8 +428,8 @@ public class AlgoDispatcher {
 	/**
 	 * rotate geoRot by angle phi around Q
 	 */
-	final public GeoElement[] Rotate(String label, GeoElement geoRot,
-			GeoNumberValue phi, GeoPoint Q) {
+	public GeoElement[] Rotate(String label, GeoElement geoRot,
+			GeoNumberValue phi, GeoPointND Q) {
 		Transform t = new TransformRotate(cons, phi, Q);
 		return t.transform(geoRot, label);
 	}

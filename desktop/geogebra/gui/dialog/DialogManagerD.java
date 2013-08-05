@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
@@ -351,12 +352,13 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPointND[] points, GeoElement[] selGeos) {
+			GeoPointND[] points, GeoElement[] selGeos,
+            EuclidianController ec) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogRotate(((AppD) app), title, handler,
-				polys, points, selGeos);
+				polys, points, selGeos, ec);
 		id.setVisible(true);
 
 	}
@@ -375,12 +377,12 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 	@Override
 	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-			GeoPoint[] points, GeoElement[] selGeos) {
+			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogDilate(((AppD) app), title, handler,
-				points, selGeos, app.getKernel());
+				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 
 	}

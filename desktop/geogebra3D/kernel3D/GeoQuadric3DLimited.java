@@ -9,7 +9,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -611,7 +610,7 @@ RotateableND, Translateable, Mirrorable, Transformable, Dilateable {
 
 	
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 
 		bottom.rotate(r, S);
 		top.rotate(r, S);

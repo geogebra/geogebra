@@ -498,8 +498,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void setAllVisualProperties(GeoElement geo, boolean keepAdvanced) {
-		super.setAllVisualProperties(geo, keepAdvanced);
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		if (geo.isGeoNumeric()) {
 			isDrawable = ((GeoNumeric) geo).isDrawable;

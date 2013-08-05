@@ -13,7 +13,6 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Traceable;
@@ -604,7 +603,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
-	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+	final public void rotate(NumberValue phiValue, GeoPointND Q) {
 
 		rotate(phiValue);
 		

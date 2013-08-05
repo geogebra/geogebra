@@ -279,6 +279,10 @@ public final class EuclidianConstants {
 	
 	/** volume */
 	public static final int MODE_VOLUME = 560;
+	
+	/** Rotate Object around Axis by Angle */
+	public static final int MODE_ROTATE_AROUND_AXIS = 570;
+
 
 	// CAS view modes
 	/** Evaluate */

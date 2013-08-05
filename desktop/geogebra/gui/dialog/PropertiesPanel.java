@@ -273,10 +273,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			colorFunctionPanel = new ColorFunctionPanel(app, this);
 
 			graphicsViewLocationPanel = new GraphicsViewLocationPanel(app, this);
-			allowReflexAnglePanel = new AllowReflexAnglePanel();
-
-			// coordinateFunctionPanel = new CoordinateFunctionPanel(app, this);
 		}
+			
+		allowReflexAnglePanel = new AllowReflexAnglePanel();
+
+		
 
 		sliderPanel = new SliderPanel(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
@@ -388,7 +389,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			basicTabList.add(bgImagePanel);
 
 		basicTabList.add(comboBoxPanel);
-		if (!isDefaults)
+		//if (!isDefaults)
 			basicTabList.add(allowReflexAnglePanel);
 		basicTabList.add(rightAnglePanel);
 		basicTabList.add(allowOutlyingIntersectionsPanel);
@@ -578,7 +579,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		sliderPanel.setLabels();
 		buttonSizePanel.setLabels();
 		if (!isDefaults) {
-			allowReflexAnglePanel.setLabels();
 			namePanel.setLabels();
 			labelPanel.setLabels();
 			tooltipPanel.setLabels();
@@ -593,6 +593,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			colorFunctionPanel.setLabels();
 			graphicsViewLocationPanel.setLabels();
 		}
+		
+
+		allowReflexAnglePanel.setLabels();
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
@@ -657,7 +660,6 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 		sliderPanel.updateFonts();
 		buttonSizePanel.updateFonts();
 		if (!isDefaults) {
-			allowReflexAnglePanel.updateFonts();
 			namePanel.updateFonts();
 			labelPanel.updateFonts();
 			tooltipPanel.updateFonts();
@@ -672,6 +674,9 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 			colorFunctionPanel.updateFonts();
 			graphicsViewLocationPanel.updateFonts();
 		}
+		
+		allowReflexAnglePanel.updateFonts();
+
 
 	}
 
@@ -882,9 +887,11 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 
 		// show everything but numbers (note: drawable angles are shown)
 		private boolean checkGeos(Object[] geos) {
+			
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
+				
 				if (!geo.isDrawable()
 				// can't allow a free fixed number to become visible (as a
 				// slider)
@@ -892,6 +899,7 @@ public class PropertiesPanel extends JPanel implements SetLabels, UpdateFonts {
 					geosOK = false;
 					break;
 				}
+				
 			}
 			return geosOK;
 		}

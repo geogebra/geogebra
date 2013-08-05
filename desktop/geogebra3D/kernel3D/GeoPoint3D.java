@@ -1250,7 +1250,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
-	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+	final public void rotate(NumberValue phiValue, GeoPointND point) {
 
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
@@ -1261,8 +1261,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double z = getZ();
 		double w = getW();
 
-		double qx = w * Q.getInhomX();
-		double qy = w * Q.getInhomY();
+		Coords Q = point.getInhomCoords();
+		double qx = w * Q.getX();
+		double qy = w * Q.getY();
 
 		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
 				+ (y - qy) * cos + qy, z, w);

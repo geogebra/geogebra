@@ -388,6 +388,18 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return plane;
 	}
 	
+	/**
+	 * 
+	 * @param clockwise
+	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it in the view
+	 */
+	public boolean viewOrientationForClockwise(boolean clockwise){
+		if (transformMirror == 1)
+			return clockwise;
+		
+		return !clockwise;
+	}
+	
 	@Override
 	public boolean hasForParent(GeoElement geo){
 		return geo.isParentOf((GeoElement) plane);

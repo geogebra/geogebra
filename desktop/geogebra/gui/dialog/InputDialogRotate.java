@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -21,17 +22,22 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 	GeoPolygon[] polys;
 	GeoPointND[] points;
 	GeoElement[] selGeos;
+	
+	private EuclidianController ec; // we need to know which controller called for rotate
 
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
 	public InputDialogRotate(AppD app, String title, InputHandler handler,
-			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos) {
+			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos, 
+			EuclidianController ec) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);
 
 		this.polys = polys;
 		this.points = points;
 		this.selGeos = selGeos;
+		
+		this.ec = ec;
 		
 		this.inputPanel.getTextComponent().addKeyListener(this);
 
@@ -62,7 +68,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 
 		defaultRotateAngle = DialogManager.rotateObject(app,
 				inputPanel.getText(), rbClockWise.isSelected(), polys, points,
-				selGeos);
+				selGeos, ec);
 
 		return true;
 		/*

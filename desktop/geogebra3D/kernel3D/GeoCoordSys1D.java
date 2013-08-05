@@ -13,7 +13,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -667,7 +666,7 @@ Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
 				
 	}
 	
-	final public void rotate(NumberValue phiValue, GeoPoint Q) {
+	final public void rotate(NumberValue phiValue, GeoPointND point) {
 
 		Coords o = getCoordSys().getOrigin();
 
@@ -697,8 +696,9 @@ Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
 		double y = o.getY();
 		double w = o.getW();
 
-		double qx = w * Q.getInhomX();
-		double qy = w * Q.getInhomY();
+		Coords Q = point.getInhomCoords();
+		double qx = w * Q.getX();
+		double qy = w * Q.getY();
 
 		Coords oRot = new Coords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
 				+ (y - qy) * cos + qy, z, w);

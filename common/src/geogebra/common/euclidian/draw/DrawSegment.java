@@ -83,6 +83,8 @@ public class DrawSegment extends Drawable implements Previewable {
 	public DrawSegment(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
+		
+		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT);
 
 		updatePreview();
 	}
@@ -463,10 +465,11 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
-		if (isVisible) {
-			g2.setPaint(ConstructionDefaults.colPreview);
-			g2.setStroke(objStroke);
-			g2.draw(line);
+		if (isVisible) {    
+            g2.setPaint(geo.getObjectColor());
+            updateStrokes(geo);
+            g2.setStroke(objStroke);            
+			g2.draw(line); 
 		}
 	}
 

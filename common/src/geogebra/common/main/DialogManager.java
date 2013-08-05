@@ -13,6 +13,7 @@ package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.InputHandler;
@@ -46,7 +47,7 @@ import java.util.Arrays;
 
 public abstract class DialogManager {
 
-	private String defaultAngle = "45" + Unicode.degree;
+	protected String defaultAngle = "45" + Unicode.degree;
 
 	protected App app;
 
@@ -170,17 +171,18 @@ public abstract class DialogManager {
 
 	public void showNumberInputDialogRotate(String menu,
             GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
-            GeoElement[] selGeos) {
+            GeoElement[] selGeos,
+            EuclidianController ec) {
 		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
 		
-		defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedPoints, selGeos);
+		defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedPoints, selGeos, ec);
 	    
     }
 
 	public  void showNumberInputDialogDilate(String menu,
-			GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
-			GeoElement[] selGeos) {
-		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos);
+			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
+			GeoElement[] selGeos, EuclidianController ec) {
+		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos, ec);
 	}
 
 	public void showNumberInputDialogRegularPolygon(String menu,
@@ -221,7 +223,8 @@ public abstract class DialogManager {
 
 	public static String rotateObject(App app, String inputText,
 			boolean clockwise, GeoPolygon[] polys, GeoPointND[] points,
-			GeoElement[] selGeos) {	
+			GeoElement[] selGeos,
+			EuclidianController ec) {	
 		String defaultRotateAngle = "45" + "\u00b0";		String angleText = inputText;
 		Kernel kernel = app.getKernel();
 		
@@ -233,7 +236,7 @@ public abstract class DialogManager {
 
 
 		// negative orientation ?
-		if (clockwise) {
+		if (ec.viewOrientationForClockwise(clockwise)) {
 			inputText = "-(" + inputText + ")";
 		}
 
@@ -258,13 +261,10 @@ public abstract class DialogManager {
 
 			if (polys.length == 1) {
 
-				GeoElement[] geos = kernel.getAlgoDispatcher().Rotate(null, polys[0], num,
-						(GeoPoint) points[0]);
+				GeoElement[] geos = ec.rotateByAngle(polys[0], num, points[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
-					kernel.getApplication().getActiveEuclidianView()
-					.getEuclidianController()
-					.memorizeJustCreatedGeos(geos);
+					ec.memorizeJustCreatedGeos(geos);
 				}
 				return defaultRotateAngle;
 			}
@@ -274,18 +274,15 @@ public abstract class DialogManager {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != points[0]) {
 					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
-								selGeos[i], num, (GeoPoint) points[0])));
+						ret.addAll(Arrays.asList(ec.rotateByAngle(selGeos[i], num, points[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Rotate(null,
-								selGeos[i], num, (GeoPoint) points[0])));
+						ret.addAll(Arrays.asList(ec.rotateByAngle(selGeos[i], num, points[0])));
 					}
 				}
 			}
 			if (!ret.isEmpty()) {
 				app.storeUndoInfo();
-				kernel.getApplication().getActiveEuclidianView()
-				.getEuclidianController().memorizeJustCreatedGeos(ret);
+				ec.memorizeJustCreatedGeos(ret);
 			}
 			
 		}
@@ -360,21 +357,21 @@ public abstract class DialogManager {
 	
 	public abstract void showToolbarConfigDialog();
 
-	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint[] points, GeoElement[] selGeos) {
+	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
 		if (selGeos.length > 0) {					
 			// mirror all selected geos
 			//GeoElement [] selGeos = getSelectedGeos();
-			GeoPoint point = points[0];
+			GeoPointND point = points[0];
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			for (int i=0; i < selGeos.length; i++) {				
 				if (selGeos[i] != point) {
 					if ((selGeos[i] instanceof Transformable) || selGeos[i].isGeoList())
-						ret.addAll(Arrays.asList(kernel.getAlgoDispatcher().Dilate(null,  selGeos[i], num, point)));
+						ret.addAll(Arrays.asList(ec.dilateFromPoint(selGeos[i], num, point)));
 				}
 			}
 			if (!ret.isEmpty()) {
-				kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(ret);
+				ec.memorizeJustCreatedGeos(ret);
 				kernel.getApplication().storeUndoInfo();
 				return true;
 			}

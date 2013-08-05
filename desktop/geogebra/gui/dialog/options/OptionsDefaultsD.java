@@ -77,7 +77,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 
 	private DefaultMutableTreeNode numberNode, angleNode;
 
-	private DefaultMutableTreeNode functionNode, polygonNode, locusNode;
+	private DefaultMutableTreeNode functionNode, polygonNode, polylineNode, locusNode;
 
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
@@ -206,6 +206,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		conicSectorNode = new DefaultMutableTreeNode();
 		functionNode = new DefaultMutableTreeNode();
 		polygonNode = new DefaultMutableTreeNode();
+		polylineNode = new DefaultMutableTreeNode();
 		locusNode = new DefaultMutableTreeNode();
 		textNode = new DefaultMutableTreeNode();
 		imageNode = new DefaultMutableTreeNode();
@@ -226,6 +227,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		rootNode.add(lineNode);
 		rootNode.add(segmentNode);
 		rootNode.add(rayNode);
+		rootNode.add(polylineNode);
 		rootNode.add(vectorNode);
 		rootNode.add(conicNode);
 		rootNode.add(conicSectorNode);
@@ -274,6 +276,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		typeToNode.put(functionNVarNode,
 				ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
+		typeToNode.put(polylineNode, ConstructionDefaults.DEFAULT_POLYLINE);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
 		typeToNode.put(textNode, ConstructionDefaults.DEFAULT_TEXT);
 		typeToNode.put(imageNode, ConstructionDefaults.DEFAULT_IMAGE);
@@ -332,6 +335,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		functionNode.setUserObject(app.getPlain("Function"));
 		functionNVarNode.setUserObject(app.getPlain("MultivariableFunction"));
 		polygonNode.setUserObject(app.getPlain("Polygon"));
+		polylineNode.setUserObject(app.getPlain("PolyLine"));
 		locusNode.setUserObject(app.getPlain("Locus"));
 		textNode.setUserObject(app.getPlain("Text"));
 		imageNode.setUserObject(app.getPlain("Image"));
@@ -404,7 +408,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 * TODO Does not work with lists (F.S.)
 	 */
 	private void applyDefaults() {
-
+		
 		for (GeoElement geo : app.getSelectionManager().getSelectedGeos()) {
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();

@@ -17,7 +17,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -265,7 +264,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	
 	
 
-	public void rotate(NumberValue r, GeoPoint S) {
+	public void rotate(NumberValue r, GeoPointND S) {
 
 		transform(CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD(3)));
 		

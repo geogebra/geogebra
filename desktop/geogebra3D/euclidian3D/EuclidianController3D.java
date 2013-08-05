@@ -1739,6 +1739,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 		boolean changedKernel = false;
 		
+		GeoElement[] ret = null;
+		
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			changedKernel = intersectionCurve(hits); 
@@ -1790,6 +1792,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
 			changedKernel = circlePointRadiusDirection(hits);
 			break;
+			
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			ret = rotateAroundAxis(hits.getTopHits());
+			break;
 
 			
 		case EuclidianConstants.MODE_VOLUME:
@@ -1798,9 +1804,15 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		default:
 			changedKernel = super.switchModeForProcessMode(hits, isControlDown);
+			break;
 		}
 		
+		memorizeJustCreatedGeosAfterProcessMode(ret);
 		
+		if (!changedKernel) {
+			return ret != null;
+		}
+	
 		return changedKernel;
 		
 	}
@@ -1985,6 +1997,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PRISM:
 			return true;
 			
+		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
+			return createNewPoint(hits, false, false, true);
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			//Application.debug("hop");
@@ -3181,6 +3195,47 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return null;
 	}
 
+	
+	private final GeoElement[] rotateAroundAxis(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// Transformable
+		int count = 0;
+		if (selGeos() == 0) {
+			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			count = addSelectedGeo(rotAbles, 1, false);
+		}
+	
+		// polygon
+		if (count == 0) {
+			count = addSelectedPolygon(hits, 1, false);
+		}
+	
+		// rotation axis
+		if (count == 0) {
+			addSelectedDirection(hits, 1, false);
+		}
+	
+		// we got the rotation center point
+		if ((selDirections() == 1) && (selGeos() > 0)) {
+	
+			GeoElement[] selGeos = getSelectedGeos();
+			
+	
+			((DialogManager3D) getDialogManager())
+					.showNumberInputDialogRotate(
+							l10n.getMenu(getKernel().getModeText(mode)),
+							getSelectedPolygons(), getSelectedDirections(), selGeos,
+							this);
+	
+			return null;
+	
+		}
+	
+		return null;
+	}
 
 	
 

@@ -3513,25 +3513,23 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
-				GeoPoint[] points = getSelectedPoints();
+				GeoPointND[] points = getSelectedPointsND();
 				checkZooming(); 
 				
-				return getAlgoDispatcher().Mirror(null, polys[0], points[0]);
+				return mirrorAtPoint(polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoPoint point = getSelectedPoints()[0];
+				GeoPointND point = getSelectedPointsND()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				checkZooming(); 
 				
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
-									geos[i], point)));
+							ret.addAll(Arrays.asList(mirrorAtPoint(geos[i], point)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
-									geos[i], point)));
+							ret.addAll(Arrays.asList(mirrorAtPoint(geos[i], point)));
 						}
 					}
 				}
@@ -3540,6 +3538,10 @@ public abstract class EuclidianController {
 			}
 		}
 		return null;
+	}
+	
+	protected GeoElement[] mirrorAtPoint(GeoElement geo, GeoPointND point){
+		return getAlgoDispatcher().Mirror(null, geo, (GeoPoint) point);		
 	}
 
 	protected final GeoElement[] mirrorAtLine(Hits hits) {
@@ -3575,18 +3577,16 @@ public abstract class EuclidianController {
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoLine line = getSelectedLines()[0];
+				GeoLineND line = getSelectedLinesND()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				checkZooming(); 
 				
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
-									geos[i], line)));
+							ret.addAll(Arrays.asList(mirrorAtLine(geos[i], line)));
 						} else if (geos[i].isGeoPolygon()) {
-							ret.addAll(Arrays.asList(getAlgoDispatcher().Mirror(null,
-									geos[i], line)));
+							ret.addAll(Arrays.asList(mirrorAtLine(geos[i], line)));
 						}
 					}
 				}
@@ -3595,6 +3595,10 @@ public abstract class EuclidianController {
 			}
 		}
 		return null;
+	}
+	
+	protected GeoElement[] mirrorAtLine(GeoElement geo, GeoLineND line){
+		return getAlgoDispatcher().Mirror(null, geo, (GeoLine) line);		
 	}
 
 	protected final GeoElement[] mirrorAtCircle(Hits hits) {
@@ -3970,7 +3974,8 @@ public abstract class EuclidianController {
 			getDialogManager()
 					.showNumberInputDialogRotate(
 							l10n.getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedPointsND(), selGeos);
+							getSelectedPolygons(), getSelectedPointsND(), selGeos,
+							this);
 	
 			return null;
 	
@@ -3978,6 +3983,23 @@ public abstract class EuclidianController {
 	
 		return null;
 	}
+	
+	
+	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi, GeoPointND Q) {
+		
+		return kernel.getAlgoDispatcher().Rotate(null, geoRot, phi, Q);
+	}
+	
+	/**
+	 * 
+	 * @param clockwise
+	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it in the view
+	 * (used for EuclidianViewForPlane)
+	 */
+	public boolean viewOrientationForClockwise(boolean clockwise){
+		return clockwise;
+	}
+
 
 	protected final GeoElement[] dilateFromPoint(Hits hits) {
 		if (hits.isEmpty()) {
@@ -4009,7 +4031,7 @@ public abstract class EuclidianController {
 			getDialogManager()
 					.showNumberInputDialogDilate(
 							l10n.getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedPoints(), selGeos);
+							getSelectedPolygons(), getSelectedPointsND(), selGeos, this);
 	
 			return null;
 	
@@ -4035,6 +4057,10 @@ public abstract class EuclidianController {
 		return null;
 	}
 
+	public GeoElement[] dilateFromPoint(GeoElement geo, NumberValue num, GeoPointND point) {
+		return kernel.getAlgoDispatcher().Dilate(null,  geo, num, (GeoPoint) point);	
+	}
+	
 	protected final GeoElement[] fitLine(Hits hits) {
 	
 		GeoList list;
@@ -5808,17 +5834,21 @@ public abstract class EuclidianController {
 			// do nothing
 		}
 	
-		if (ret != null) {
-			memorizeJustCreatedGeos(ret);
-		} else if (!selectionPreview) {
-			clearJustCreatedGeos();
-		}
+		memorizeJustCreatedGeosAfterProcessMode(ret);
 	
 		if (!changedKernel) {
 			return ret != null;
 		}
 	
 		return changedKernel;
+	}
+	
+	protected void memorizeJustCreatedGeosAfterProcessMode(GeoElement[] ret){
+		if (ret != null) {
+			memorizeJustCreatedGeos(ret);
+		} else if (!selectionPreview) {
+			clearJustCreatedGeos();
+		}
 	}
 
 	protected void processModeLock(Path path) {

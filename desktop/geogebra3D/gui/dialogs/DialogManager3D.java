@@ -1,8 +1,10 @@
 package geogebra3D.gui.dialogs;
 
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.dialog.DialogManagerD;
@@ -60,6 +62,17 @@ public class DialogManager3D extends DialogManagerD {
 		id.setVisible(true);
 	}
 	
+	
+	public void showNumberInputDialogRotate(String menu,
+            GeoPolygon[] selectedPolygons, GeoDirectionND[] selectedDirections,
+            GeoElement[] selGeos,
+            EuclidianController ec) {
+		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
+		
+		//defaultAngle = rotateObject(app, inputString, false, selectedPolygons, selectedDirections, selGeos, ec);
+	    
+    }
+	
 	public static class Factory extends DialogManagerD.Factory {
 		@Override
 		public DialogManagerD create(AppD app) {
@@ -71,4 +84,7 @@ public class DialogManager3D extends DialogManagerD {
 			return dialogManager;
 		}
 	}
+	
+	
+	
 }
