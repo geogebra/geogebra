@@ -13,7 +13,7 @@ import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.shared.EventHandler;
 
 public interface LookAndFeel extends SavedStateListener {
-    public void buildHeader(TabletGUI gui, TouchApp application, TouchModel touchModel);
+    public void buildHeader(TabletGUI gui, TouchModel touchModel);
 
     public int getAppBarHeight();
 

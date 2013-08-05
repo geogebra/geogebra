@@ -1,5 +1,6 @@
 package geogebra.touch.gui.laf;
 
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.stylingbar.StylingBar;
 import geogebra.touch.utils.OptionType;
@@ -10,6 +11,10 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.shared.EventHandler;
 
 public class AppleLAF extends DefaultLAF {
+
+    public AppleLAF(TouchApp app) {
+	super(app);
+    }
 
     @Override
     public int getAppBarHeight() {

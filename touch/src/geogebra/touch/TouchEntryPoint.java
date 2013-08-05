@@ -45,6 +45,8 @@ public class TouchEntryPoint implements EntryPoint {
     static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
     private static LookAndFeel laf;
 
+    final static TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+
     public static void allowEditing(boolean b) {
 	tabletGUI.allowEditing(b);
     }
@@ -99,7 +101,7 @@ public class TouchEntryPoint implements EntryPoint {
 	    public void onSuccess() {
 		ResourcesInjector.injectResources();
 		setLookAndFeel();
-		final TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
+
 		getLookAndFeel().setApp(app);
 		final FileManagerM fm = new FileManagerM();
 		app.setFileManager(fm);
@@ -150,13 +152,13 @@ public class TouchEntryPoint implements EntryPoint {
 	final String param = RootPanel.getBodyElement().getAttribute("data-param-laf");
 
 	if ("android".equals(param)) {
-	    laf = new AndroidLAF();
+	    laf = new AndroidLAF(TouchEntryPoint.app);
 	} else if ("apple".equals(param)) {
-	    laf = new AppleLAF();
+	    laf = new AppleLAF(TouchEntryPoint.app);
 	} else if ("win".equals(param)) {
-	    laf = new WinLAF();
+	    laf = new WinLAF(TouchEntryPoint.app);
 	} else {
-	    laf = new DefaultLAF();
+	    laf = new DefaultLAF(TouchEntryPoint.app);
 	}
     }
 

@@ -8,8 +8,13 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.user.client.Window;
 
 public class WinLAF extends DefaultLAF {
+
+    public WinLAF(TouchApp app) {
+	super(app);
+    }
+
     @Override
-    public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel) {
+    public void buildHeader(TabletGUI gui, TouchModel touchModel) {
 
     }
 
@@ -50,11 +55,11 @@ public class WinLAF extends DefaultLAF {
 
     @Override
     public native void stateChanged(boolean saved) /*-{
-						   						if(!$wnd.appbar){
-						   						return;	
-						   						}		
-						   						$wnd.appbar.saveChanged(saved);
-						   						}-*/;
+		if (!$wnd.appbar) {
+			return;
+		}
+		$wnd.appbar.saveChanged(saved);
+    }-*/;
 
     @Override
     public void updateUndoSaveButtons() {
@@ -64,9 +69,9 @@ public class WinLAF extends DefaultLAF {
     }
 
     public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-									 									if(!$wnd.appbar){
-									 									return;
-									 									}	
-									 									$wnd.appbar.updateUndoRedo(undo, redo);	
-									 									}-*/;
+		if (!$wnd.appbar) {
+			return;
+		}
+		$wnd.appbar.updateUndoRedo(undo, redo);
+    }-*/;
 }

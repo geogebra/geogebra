@@ -16,11 +16,15 @@ import com.google.gwt.event.shared.EventHandler;
 
 public class DefaultLAF implements LookAndFeel {
     private TabletHeaderPanel hp;
-    private TouchApp app;
+    protected TouchApp app;
 
+    public DefaultLAF(TouchApp app){
+	this.app = app;
+    }
+    
     @Override
-    public void buildHeader(TabletGUI gui, TouchApp app, TouchModel touchModel) {
-	this.hp = new TabletHeaderPanel(gui, app, touchModel);
+    public void buildHeader(TabletGUI gui, TouchModel touchModel) {
+	this.hp = new TabletHeaderPanel(gui, this.app, touchModel);
 	gui.setHeaderWidget(this.hp);
 	gui.addResizeListener(this.hp);
     }
