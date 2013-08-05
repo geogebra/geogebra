@@ -36,355 +36,331 @@ import com.google.gwt.user.client.Timer;
  * 
  */
 public class TouchController extends EuclidianController {
-	/**
-	 * Maximum time in ms between touch move was stopped (finger not moving, but
-	 * still down) and event is handled
-	 */
-	private static final int DELAY_UNTIL_MOVE_FINISH = 150;
-	private final TouchModel model;
-	private GPoint origin;
-	private boolean clicked = false, ignoreNextMove = false;
-	int waitingX;
-	int waitingY;
-	private long lastMoveEvent;
+    /**
+     * Maximum time in ms between touch move was stopped (finger not moving, but
+     * still down) and event is handled
+     */
+    private static final int DELAY_UNTIL_MOVE_FINISH = 150;
+    private final TouchModel model;
+    private GPoint origin;
+    private boolean clicked = false, ignoreNextMove = false;
+    int waitingX;
+    int waitingY;
+    private long lastMoveEvent;
 
-	private final Timer repaintTimer = new Timer() {
-		@Override
-		public void run() {
-			TouchController.this.touchMoveIfWaiting();
-		}
-	};
-
-	public TouchController(TouchModel touchModel, App app) {
-		super(app);
-		this.model = touchModel;
-		this.mode = -1;
-	}
-
+    private final Timer repaintTimer = new Timer() {
 	@Override
-	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-		return null;
+	public void run() {
+	    TouchController.this.touchMoveIfWaiting();
+	}
+    };
+
+    public TouchController(TouchModel touchModel, App app) {
+	super(app);
+	this.model = touchModel;
+	this.mode = -1;
+    }
+
+    @Override
+    protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
+	return null;
+    }
+
+    /**
+     * prevent redraw
+     */
+    @Override
+    protected boolean createNewPoint(Hits hits, boolean onPathPossible, boolean inRegionPossible, boolean intersectPossible,
+	    boolean doSingleHighlighting, boolean complex) {
+	return super.createNewPoint(hits, onPathPossible, inRegionPossible, intersectPossible, false, complex);
+    }
+
+    /**
+     * used to get events from the AlgebraView
+     * 
+     * @param hits
+     */
+    public void handleEvent(Hits hits) {
+	this.model.getGuiModel().closeOptions();
+	this.model.handleEvent(hits, null, null);
+    }
+
+    private void handleEvent(int x, int y) {
+	this.model.getGuiModel().closeOptions(); // make sure undo-information
+	// is
+	// stored first
+
+	final ToolBarCommand cmd = this.model.getCommand();
+
+	super.mouseLoc = new GPoint(x, y);
+	this.mode = this.model.getCommand().getMode();
+
+	this.calcRWcoords();
+
+	if (cmd == ToolBarCommand.Move_Mobile) {
+	    this.view.setHits(this.mouseLoc);
+	    if (this.view.getHits().size() == 0) {
+		this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
+		this.model.resetSelection();
+	    }
 	}
 
-	/**
-	 * prevent redraw
-	 */
-	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
-		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
-				intersectPossible, false, complex);
+	// draw the new point
+	this.switchModeForMousePressed(new MobileMouseEvent(x, y));
+
+	this.view.setHits(this.mouseLoc);
+	final Hits hits = this.view.getHits();
+
+	this.model.handleEvent(hits, new Point(x, y), new Point2D.Double(this.xRW, this.yRW));
+    }
+
+    /**
+     * save the selected elements in TouchModel instead of App; no repaint
+     * anymore!
+     * 
+     * @see EuclidianController#handleMovedElement(GeoElement, boolean)
+     */
+    @Override
+    protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
+
+	// move label?
+	GeoElement geo = this.view.getLabelHit(this.mouseLoc);
+	// Application.debug("label("+(System.currentTimeMillis()-t0)+")");
+	if (geo != null) {
+	    this.moveMode = MOVE_LABEL;
+	    this.movedLabelGeoElement = geo;
+	    this.oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
+	    this.startLoc = this.mouseLoc;
+	    this.view.setDragCursor();
+	    return;
 	}
 
-	/**
-	 * used to get events from the AlgebraView
-	 * 
-	 * @param hits
-	 */
-	public void handleEvent(Hits hits) {
-		this.model.getGuiModel().closeOptions();
-		this.model.handleEvent(hits, null, null);
+	// find and set movedGeoElement
+	this.view.setHits(this.mouseLoc);
+	final Hits viewHits = this.view.getHits();
+
+	// make sure that eg slider takes precedence over a polygon (in the same
+	// layer)
+	viewHits.removePolygons();
+
+	Hits moveableList;
+
+	// if we just click (no drag) on eg an intersection, we want it selected
+	// not a popup with just the lines in
+
+	// now we want this behaviour always as
+	// * there is no popup
+	// * user might do eg click then arrow keys
+	// * want drag with left button to work (eg tessellation)
+
+	// consider intersection of 2 circles.
+	// On drag, we want to be able to drag a circle
+	// on click, we want to be able to select the intersection point
+	if (drag) {
+	    moveableList = viewHits.getMoveableHits(this.view);
+	} else {
+	    moveableList = viewHits;
 	}
 
-	private void handleEvent(int x, int y) {
-		this.model.getGuiModel().closeOptions(); // make sure undo-information
-		// is
-		// stored first
+	final Hits hits = moveableList.getTopHits();
 
-		final ToolBarCommand cmd = this.model.getCommand();
+	final ArrayList<GeoElement> selGeos = this.model.getSelectedGeos();
 
-		super.mouseLoc = new GPoint(x, y);
-		this.mode = this.model.getCommand().getMode();
+	// if object was chosen before, take it now!
+	if (selGeos.size() == 1 && !hits.isEmpty() && hits.contains(selGeos.get(0))) {
+	    // object was chosen before: take it
+	    geo = selGeos.get(0);
+	} else {
+	    // choose out of hits
+	    geo = this.chooseGeo(hits, false);
 
-		this.calcRWcoords();
-
-		if (cmd == ToolBarCommand.Move_Mobile) {
-			this.view.setHits(this.mouseLoc);
-			if (this.view.getHits().size() == 0) {
-				this.mode = EuclidianConstants.MODE_TRANSLATEVIEW;
-				this.model.resetSelection();
-			}
-		}
-
-		// draw the new point
-		this.switchModeForMousePressed(new MobileMouseEvent(x, y));
-
-		this.view.setHits(this.mouseLoc);
-		final Hits hits = this.view.getHits();
-
-		this.model.handleEvent(hits, new Point(x, y), new Point2D.Double(
-				this.xRW, this.yRW));
+	    if (!selGeos.contains(geo)) {
+		this.model.resetSelection();
+		this.model.select(geo);
+	    }
 	}
 
-	/**
-	 * save the selected elements in TouchModel instead of App; no repaint
-	 * anymore!
-	 * 
-	 * @see EuclidianController#handleMovedElement(GeoElement, boolean)
-	 */
-	@Override
-	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
-
-		// move label?
-		GeoElement geo = this.view.getLabelHit(this.mouseLoc);
-		// Application.debug("label("+(System.currentTimeMillis()-t0)+")");
-		if (geo != null) {
-			this.moveMode = MOVE_LABEL;
-			this.movedLabelGeoElement = geo;
-			this.oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
-			this.startLoc = this.mouseLoc;
-			this.view.setDragCursor();
-			return;
-		}
-
-		// find and set movedGeoElement
-		this.view.setHits(this.mouseLoc);
-		final Hits viewHits = this.view.getHits();
-
-		// make sure that eg slider takes precedence over a polygon (in the same
-		// layer)
-		viewHits.removePolygons();
-
-		Hits moveableList;
-
-		// if we just click (no drag) on eg an intersection, we want it selected
-		// not a popup with just the lines in
-
-		// now we want this behaviour always as
-		// * there is no popup
-		// * user might do eg click then arrow keys
-		// * want drag with left button to work (eg tessellation)
-
-		// consider intersection of 2 circles.
-		// On drag, we want to be able to drag a circle
-		// on click, we want to be able to select the intersection point
-		if (drag) {
-			moveableList = viewHits.getMoveableHits(this.view);
-		} else {
-			moveableList = viewHits;
-		}
-
-		final Hits hits = moveableList.getTopHits();
-
-		final ArrayList<GeoElement> selGeos = this.model.getSelectedGeos();
-
-		// if object was chosen before, take it now!
-		if (selGeos.size() == 1 && !hits.isEmpty()
-				&& hits.contains(selGeos.get(0))) {
-			// object was chosen before: take it
-			geo = selGeos.get(0);
-		} else {
-			// choose out of hits
-			geo = this.chooseGeo(hits, false);
-
-			if (!selGeos.contains(geo)) {
-				this.model.resetSelection();
-				this.model.select(geo);
-			}
-		}
-
-		if (geo != null && !geo.isFixed()) {
-			this.moveModeSelectionHandled = true;
-		} else {
-			// no geo clicked at
-			this.moveMode = MOVE_NONE;
-			this.resetMovedGeoPoint();
-			return;
-		}
-
-		this.handleMovedElement(geo, selGeos.size() > 1);
+	if (geo != null && !geo.isFixed()) {
+	    this.moveModeSelectionHandled = true;
+	} else {
+	    // no geo clicked at
+	    this.moveMode = MOVE_NONE;
+	    this.resetMovedGeoPoint();
+	    return;
 	}
 
-	@Override
-	protected void initToolTipManager() {
+	this.handleMovedElement(geo, selGeos.size() > 1);
+    }
+
+    @Override
+    protected void initToolTipManager() {
+    }
+
+    /**
+     * use the selected Elements from TouchModel instead of the ones from App
+     * removes Polygons from the list
+     * 
+     * @see EuclidianController#moveMultipleObjects
+     */
+    @Override
+    protected void moveMultipleObjects(boolean repaint) {
+	this.translationVec.setX(this.xRW - this.getStartPointX());
+	this.translationVec.setY(this.yRW - this.getStartPointY());
+	this.setStartPointLocation(this.xRW, this.yRW);
+	this.startLoc = this.mouseLoc;
+
+	// remove Polygons, add their points instead
+	final ArrayList<GeoElement> polygons = this.model.getAll(Test.GEOPOLYGON);
+	for (final GeoElement geo : polygons) {
+	    for (final GeoPointND p : ((GeoPolygon) geo).getPoints()) {
+		if (p instanceof GeoElement) {
+		    this.model.select((GeoElement) p);
+		}
+	    }
+	    this.model.deselect(geo);
 	}
 
-	/**
-	 * use the selected Elements from TouchModel instead of the ones from App
-	 * removes Polygons from the list
-	 * 
-	 * @see EuclidianController#moveMultipleObjects
-	 */
-	@Override
-	protected void moveMultipleObjects(boolean repaint) {
-		this.translationVec.setX(this.xRW - this.getStartPointX());
-		this.translationVec.setY(this.yRW - this.getStartPointY());
-		this.setStartPointLocation(this.xRW, this.yRW);
-		this.startLoc = this.mouseLoc;
+	// move all selected geos
+	GeoElement.moveObjects(this.removeParentsOfView(this.model.getSelectedGeos()), this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
-		// remove Polygons, add their points instead
-		final ArrayList<GeoElement> polygons = this.model
-				.getAll(Test.GEOPOLYGON);
-		for (final GeoElement geo : polygons) {
-			for (final GeoPointND p : ((GeoPolygon) geo).getPoints()) {
-				if (p instanceof GeoElement) {
-					this.model.select((GeoElement) p);
-				}
-			}
-			this.model.deselect(geo);
-		}
+	if (repaint) {
+	    this.kernel.notifyRepaint();
+	}
+    }
 
-		// move all selected geos
-		GeoElement.moveObjects(
-				this.removeParentsOfView(this.model.getSelectedGeos()),
-				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
+    public void onPinch(int x, int y, double scaleFactor) {
+	super.mouseLoc = new GPoint(x, y);
+	super.zoomInOut(scaleFactor, scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
+    }
 
-		if (repaint) {
-			this.kernel.notifyRepaint();
-		}
+    public void onTouchEnd(int x, int y) {
+	this.touchMoveIfWaiting();
+
+	this.clicked = false;
+	if (Swipeables.isSwipeable(this.model.getCommand()) && this.model.getNumberOf(Test.GEOPOINT) == 1
+		&& (Math.abs(this.origin.getX() - x) > 10 || Math.abs(this.origin.getY() - y) > 10)) {
+	    this.handleEvent(x, y);
+	    this.selectedPoints.clear();
+
+	    if (this.view.getPreviewDrawable() != null) {
+		this.view.getPreviewDrawable().updatePreview();
+	    }
 	}
 
-	public void onPinch(int x, int y, double scaleFactor) {
-		super.mouseLoc = new GPoint(x, y);
-		super.zoomInOut(scaleFactor,
-				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
+	if (this.model.getCommand() == ToolBarCommand.Move_Mobile && this.view.getHits().size() > 0) {
+	    this.app.storeUndoInfo();
 	}
 
-	public void onTouchEnd(int x, int y) {
-		this.touchMoveIfWaiting();
-
-		this.clicked = false;
-		if (Swipeables.isSwipeable(this.model.getCommand())
-				&& this.model.getNumberOf(Test.GEOPOINT) == 1
-				&& (Math.abs(this.origin.getX() - x) > 10 || Math
-						.abs(this.origin.getY() - y) > 10)) {
-			this.handleEvent(x, y);
-			this.selectedPoints.clear();
-
-			if (this.view.getPreviewDrawable() != null) {
-				this.view.getPreviewDrawable().updatePreview();
-			}
-		}
-
-		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
-				&& this.view.getHits().size() > 0) {
-			this.app.storeUndoInfo();
-		}
-
-		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
-				&& Math.abs(this.rotationLastAngle) > 0.001) {
-			this.app.storeUndoInfo();
-			// deselect the point that was rotated
-			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
-			this.kernel.notifyRepaint();
-		}
-
-		if (this.model.getCommand() == ToolBarCommand.Pen
-				|| this.model.getCommand() == ToolBarCommand.FreehandShape
-				|| this.model.getCommand() == ToolBarCommand.DeleteObject) {
-			this.wrapMouseReleased(new MobileMouseEvent(x, y));
-		}
+	if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint && Math.abs(this.rotationLastAngle) > 0.001) {
+	    this.app.storeUndoInfo();
+	    // deselect the point that was rotated
+	    this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
+	    this.kernel.notifyRepaint();
 	}
 
-	public void onTouchMove(int x, int y) {
-		if (this.ignoreNextMove) {
-			this.ignoreNextMove = false;
-			return;
+	if (this.model.getCommand() == ToolBarCommand.Pen || this.model.getCommand() == ToolBarCommand.FreehandShape
+		|| this.model.getCommand() == ToolBarCommand.DeleteObject) {
+	    this.wrapMouseReleased(new MobileMouseEvent(x, y));
+	}
+    }
+
+    public void onTouchMove(int x, int y) {
+	if (this.ignoreNextMove) {
+	    this.ignoreNextMove = false;
+	    return;
+	}
+
+	if (this.clicked
+		&& (this.clicked = this.model.controlClicked())
+		&& (this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model.getCommand() == ToolBarCommand.RotateAroundPoint
+			|| this.model.getCommand() == ToolBarCommand.Pen || this.model.getCommand() == ToolBarCommand.FreehandShape
+			|| this.model.getCommand() == ToolBarCommand.DeleteObject || Swipeables.isSwipeable(this.model.getCommand()))) {
+	    GeoGebraProfiler.drags++;
+	    final long time = System.currentTimeMillis();
+	    if (time < this.lastMoveEvent + EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS) {
+		final boolean wasWaiting = this.waitingX >= 0;
+		this.waitingX = x;
+		this.waitingY = y;
+		GeoGebraProfiler.moveEventsIgnored++;
+		if (!wasWaiting) {
+		    this.repaintTimer.schedule(TouchController.DELAY_UNTIL_MOVE_FINISH);
 		}
+		return;
+	    }
 
-		if (this.clicked
-				&& (this.clicked = this.model.controlClicked())
-				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile
-						|| this.model.getCommand() == ToolBarCommand.RotateAroundPoint
-						|| this.model.getCommand() == ToolBarCommand.Pen
-						|| this.model.getCommand() == ToolBarCommand.FreehandShape
-						|| this.model.getCommand() == ToolBarCommand.DeleteObject || Swipeables
-							.isSwipeable(this.model.getCommand()))) {
-			GeoGebraProfiler.drags++;
-			final long time = System.currentTimeMillis();
-			if (time < this.lastMoveEvent
-					+ EuclidianViewWeb.DELAY_BETWEEN_MOVE_EVENTS) {
-				final boolean wasWaiting = this.waitingX >= 0;
-				this.waitingX = x;
-				this.waitingY = y;
-				GeoGebraProfiler.moveEventsIgnored++;
-				if (!wasWaiting) {
-					this.repaintTimer
-							.schedule(TouchController.DELAY_UNTIL_MOVE_FINISH);
-				}
-				return;
-			}
+	    this.touchMoveNow(x, y, time);
+	}
+    }
 
-			this.touchMoveNow(x, y, time);
-		}
+    public void onTouchStart(int x, int y) {
+	if (this.mode != this.model.getCommand().getMode()) {
+	    this.setMode(this.model.getCommand().getMode());
+	    this.switchPreviewableForInitNewMode(this.model.getCommand().getMode());
 	}
 
-	public void onTouchStart(int x, int y) {
-		if (this.mode != this.model.getCommand().getMode()) {
-			this.setMode(this.model.getCommand().getMode());
-			this.switchPreviewableForInitNewMode(this.model.getCommand()
-					.getMode());
-		}
-
-		if (this.mode == ToolBarCommand.Move_Mobile.getMode()) {
-			this.model.resetSelection();
-		}
-
-		this.origin = new GPoint(x, y);
-		this.clicked = true;
-		this.handleEvent(x, y);
-
-		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
-				&& this.model.getTotalNumber() >= 2) {
-			this.rotationCenter = (GeoPoint) this.model
-					.getElement(Test.GEOPOINT);
-			this.rotGeoElement = this.model.lastSelected();
-			this.moveMode = EuclidianController.MOVE_ROTATE;
-			this.rotationLastAngle = Math.atan2(this.yRW
-					- this.rotationCenter.inhomY, this.xRW
-					- this.rotationCenter.inhomX);
-		}
-
-		this.ignoreNextMove = true;
+	if (this.mode == ToolBarCommand.Move_Mobile.getMode()) {
+	    this.model.resetSelection();
 	}
 
-	public void redefine(GeoElement geo) {
-		this.model.redefine(geo);
+	this.origin = new GPoint(x, y);
+	this.clicked = true;
+	this.handleEvent(x, y);
 
+	if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint && this.model.getTotalNumber() >= 2) {
+	    this.rotationCenter = (GeoPoint) this.model.getElement(Test.GEOPOINT);
+	    this.rotGeoElement = this.model.lastSelected();
+	    this.moveMode = EuclidianController.MOVE_ROTATE;
+	    this.rotationLastAngle = Math.atan2(this.yRW - this.rotationCenter.inhomY, this.xRW - this.rotationCenter.inhomX);
 	}
 
-	@Override
-	protected void resetToolTipManager() {
+	this.ignoreNextMove = true;
+    }
+
+    public void redefine(GeoElement geo) {
+	this.model.redefine(geo);
+
+    }
+
+    @Override
+    protected void resetToolTipManager() {
+    }
+
+    @Override
+    public void setKernel(Kernel k) {
+	this.kernel = k;
+	this.tempNum = new MyDouble(this.kernel);
+    }
+
+    public void setView(EuclidianView euclidianView) {
+	this.view = euclidianView;
+    }
+
+    void touchMoveIfWaiting() {
+	if (this.waitingX > 0) {
+	    GeoGebraProfiler.moveEventsIgnored--;
+	    this.touchMoveNow(this.waitingX, this.waitingY, System.currentTimeMillis());
+	}
+    }
+
+    private void touchMoveNow(int x, int y, long time) {
+	this.waitingX = -1;
+	this.waitingY = -1;
+	this.lastMoveEvent = time;
+	this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
+	final MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
+	if (Swipeables.isSwipeable(this.model.getCommand())) {
+	    final GeoElement geo = this.model.getElement(Test.GEOPOINT);
+	    // FIXME selectedPoints should not be probably accessed from here
+	    if (this.selectedPoints.isEmpty() && geo instanceof GeoPoint) {
+		this.selectedPoints.add((GeoPoint) geo);
+	    }
+	    this.wrapMouseMoved(mEvent);
+	} else {
+	    this.wrapMouseDragged(mEvent);
+	    this.origin = new GPoint(x, y);
 	}
 
-	@Override
-	public void setKernel(Kernel k) {
-		this.kernel = k;
-		this.tempNum = new MyDouble(this.kernel);
-	}
-
-	public void setView(EuclidianView euclidianView) {
-		this.view = euclidianView;
-	}
-
-	void touchMoveIfWaiting() {
-		if (this.waitingX > 0) {
-			GeoGebraProfiler.moveEventsIgnored--;
-			this.touchMoveNow(this.waitingX, this.waitingY,
-					System.currentTimeMillis());
-		}
-	}
-
-	private void touchMoveNow(int x, int y, long time) {
-		this.waitingX = -1;
-		this.waitingY = -1;
-		this.lastMoveEvent = time;
-		this.mouseLoc = new GPoint(this.origin.getX(), this.origin.getY());
-		final MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
-		if (Swipeables.isSwipeable(this.model.getCommand())) {
-			final GeoElement geo = this.model.getElement(Test.GEOPOINT);
-			// FIXME selectedPoints should not be probably accessed from here
-			if (this.selectedPoints.isEmpty() && geo instanceof GeoPoint) {
-				this.selectedPoints.add((GeoPoint) geo);
-			}
-			this.wrapMouseMoved(mEvent);
-		} else {
-			this.wrapMouseDragged(mEvent);
-			this.origin = new GPoint(x, y);
-		}
-
-		GeoGebraProfiler.dragTime += System.currentTimeMillis() - time;
-	}
+	GeoGebraProfiler.dragTime += System.currentTimeMillis() - time;
+    }
 
 }

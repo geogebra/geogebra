@@ -8,36 +8,31 @@ import geogebra.touch.gui.laf.DefaultResources;
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 public enum StylingBarEntries {
-	Point(GColor.blue, new SVGResource[] { getLafIcons().color(),
-			getLafIcons().label() }), DependentPoints(GColor.darkGray,
-			new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), Line(
-			GColor.black, new SVGResource[] { getLafIcons().color(),
-					getLafIcons().properties_default() }), Polygon(
-			GeoGebraColorConstants.BROWN, new SVGResource[] {
-					getLafIcons().color(), getLafIcons().properties_default() }), Move(
-			null, new SVGResource[] { getLafIcons().show_or_hide_the_axes(),
-					getLafIcons().show_or_hide_the_grid() }), Angle(
-			GeoGebraColorConstants.DARKGREEN, new SVGResource[] {
-					getLafIcons().color(), getLafIcons().properties_default() });
+    Point(GColor.blue, new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), DependentPoints(GColor.darkGray, new SVGResource[] {
+	    getLafIcons().color(), getLafIcons().label() }), Line(GColor.black, new SVGResource[] { getLafIcons().color(),
+	    getLafIcons().properties_default() }), Polygon(GeoGebraColorConstants.BROWN, new SVGResource[] { getLafIcons().color(),
+	    getLafIcons().properties_default() }), Move(null, new SVGResource[] { getLafIcons().show_or_hide_the_axes(),
+	    getLafIcons().show_or_hide_the_grid() }), Angle(GeoGebraColorConstants.DARKGREEN, new SVGResource[] { getLafIcons().color(),
+	    getLafIcons().properties_default() });
 
-	private static DefaultResources getLafIcons() {
-		return TouchEntryPoint.getLookAndFeel().getIcons();
-	}
+    private static DefaultResources getLafIcons() {
+	return TouchEntryPoint.getLookAndFeel().getIcons();
+    }
 
-	GColor defaultColor;
+    GColor defaultColor;
 
-	SVGResource[] entry;
+    SVGResource[] entry;
 
-	StylingBarEntries(GColor color, SVGResource[] entries) {
-		this.defaultColor = color;
-		this.entry = entries;
-	}
+    StylingBarEntries(GColor color, SVGResource[] entries) {
+	this.defaultColor = color;
+	this.entry = entries;
+    }
 
-	public GColor getColor() {
-		return this.defaultColor;
-	}
+    public GColor getColor() {
+	return this.defaultColor;
+    }
 
-	public SVGResource[] getResources() {
-		return this.entry;
-	}
+    public SVGResource[] getResources() {
+	return this.entry;
+    }
 }

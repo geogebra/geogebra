@@ -22,208 +22,202 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends PopupPanel {
-	public enum InfoType {
-		SaveChanges, Override;
+    public enum InfoType {
+	SaveChanges, Override;
+    }
+
+    private static DefaultResources getLafIcons() {
+	return TouchEntryPoint.getLookAndFeel().getIcons();
+    }
+
+    InfoType type;
+    private final Button cancelButton = new Button();
+    private final Button saveButton = new Button();
+
+    private final Button dontSaveButton = new Button();
+    private final SVGResource iconQuestion = getLafIcons().icon_question();
+    private final VerticalPanel dialogPanel;
+    private HorizontalPanel buttonContainer;
+    private final HorizontalPanel textPanel;
+    private final Label title;
+    private final Label infoText;
+    String consTitle;
+    private final Localization loc;
+    TouchApp app;
+    Runnable callback = null;
+    private final GuiModel guiModel;
+
+    TabletGUI tabletGUI;
+
+    public InfoDialog(App app, GuiModel guiModel, InfoType type, TabletGUI tabletGUI) {
+	super(true, true);
+	this.tabletGUI = tabletGUI;
+	this.app = (TouchApp) app;
+	this.loc = app.getLocalization();
+	this.setGlassEnabled(true);
+	this.type = type;
+	this.dialogPanel = new VerticalPanel();
+	this.title = new Label();
+	this.infoText = new Label();
+	this.guiModel = guiModel;
+	this.textPanel = new HorizontalPanel();
+
+	this.addLabel();
+	this.addText();
+	this.addButtons();
+
+	this.add(this.dialogPanel);
+	// FIXME the glass pane has z-index 20, we must go higher
+	// this.getElement().getStyle().setZIndex(42);
+
+	this.setStyleName("infoDialog");
+    }
+
+    private void addButtons() {
+	this.initCancelButton();
+	this.initSaveButton();
+	this.initDontSaveButton();
+
+	this.buttonContainer = new HorizontalPanel();
+	this.buttonContainer.setStyleName("buttonPanel");
+	this.buttonContainer.add(this.cancelButton);
+	this.buttonContainer.add(this.dontSaveButton);
+	this.buttonContainer.add(this.saveButton);
+
+	// Last Button has no border-right
+	this.saveButton.addStyleName("last");
+
+	this.dialogPanel.add(this.buttonContainer);
+    }
+
+    private void addLabel() {
+	if (this.type == InfoType.SaveChanges) {
+	    this.title.setText(this.loc.getMenu("CloseFile"));
+	} else {
+	    this.title.setText(this.loc.getMenu("Rename"));
 	}
+	this.dialogPanel.add(this.title);
+	this.title.setStyleName("title");
+    }
 
-	private static DefaultResources getLafIcons() {
-		return TouchEntryPoint.getLookAndFeel().getIcons();
+    private void addText() {
+	final Panel iconPanel = new LayoutPanel();
+	final String html = "<img src=\"" + this.iconQuestion.getSafeUri().asString() + "\" />";
+	iconPanel.getElement().setInnerHTML(html);
+	iconPanel.setStyleName("iconPanel");
+	this.textPanel.add(iconPanel);
+
+	if (this.type == InfoType.SaveChanges) {
+	    this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+	} else {
+	    this.infoText.setText(this.loc.getPlain("OverwriteFile"));
 	}
+	this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+	this.textPanel.add(this.infoText);
 
-	InfoType type;
-	private final Button cancelButton = new Button();
-	private final Button saveButton = new Button();
+	this.textPanel.setStyleName("textPanel");
 
-	private final Button dontSaveButton = new Button();
-	private final SVGResource iconQuestion = getLafIcons().icon_question();
-	private final VerticalPanel dialogPanel;
-	private HorizontalPanel buttonContainer;
-	private final HorizontalPanel textPanel;
-	private final Label title;
-	private final Label infoText;
-	String consTitle;
-	private final Localization loc;
-	TouchApp app;
-	Runnable callback = null;
-	private final GuiModel guiModel;
+	this.dialogPanel.add(this.textPanel);
+    }
 
-	TabletGUI tabletGUI;
+    @Override
+    public void hide() {
+	super.hide();
+	this.guiModel.setActiveDialog(null);
+    }
 
-	public InfoDialog(App app, GuiModel guiModel, InfoType type,
-			TabletGUI tabletGUI) {
-		super(true, true);
-		this.tabletGUI = tabletGUI;
-		this.app = (TouchApp) app;
-		this.loc = app.getLocalization();
-		this.setGlassEnabled(true);
-		this.type = type;
-		this.dialogPanel = new VerticalPanel();
-		this.title = new Label();
-		this.infoText = new Label();
-		this.guiModel = guiModel;
-		this.textPanel = new HorizontalPanel();
+    private void initCancelButton() {
+	this.cancelButton.addDomHandler(new ClickHandler() {
 
-		this.addLabel();
-		this.addText();
-		this.addButtons();
+	    @Override
+	    public void onClick(ClickEvent event) {
+		InfoDialog.this.hide();
+	    }
+	}, ClickEvent.getType());
+    }
 
-		this.add(this.dialogPanel);
-		// FIXME the glass pane has z-index 20, we must go higher
-		// this.getElement().getStyle().setZIndex(42);
-
-		this.setStyleName("infoDialog");
-	}
-
-	private void addButtons() {
-		this.initCancelButton();
-		this.initSaveButton();
-		this.initDontSaveButton();
-
-		this.buttonContainer = new HorizontalPanel();
-		this.buttonContainer.setStyleName("buttonPanel");
-		this.buttonContainer.add(this.cancelButton);
-		this.buttonContainer.add(this.dontSaveButton);
-		this.buttonContainer.add(this.saveButton);
-
-		// Last Button has no border-right
-		this.saveButton.addStyleName("last");
-
-		this.dialogPanel.add(this.buttonContainer);
-	}
-
-	private void addLabel() {
-		if (this.type == InfoType.SaveChanges) {
-			this.title.setText(this.loc.getMenu("CloseFile"));
-		} else {
-			this.title.setText(this.loc.getMenu("Rename"));
+    private void initDontSaveButton() {
+	this.dontSaveButton.addDomHandler(new ClickHandler() {
+	    @Override
+	    public void onClick(ClickEvent event) {
+		if (InfoDialog.this.type == InfoType.Override) {
+		    InfoDialog.this.tabletGUI.editTitle();
 		}
-		this.dialogPanel.add(this.title);
-		this.title.setStyleName("title");
-	}
+		InfoDialog.this.app.setSaved();
+		InfoDialog.this.hide();
 
-	private void addText() {
-		final Panel iconPanel = new LayoutPanel();
-		final String html = "<img src=\""
-				+ this.iconQuestion.getSafeUri().asString() + "\" />";
-		iconPanel.getElement().setInnerHTML(html);
-		iconPanel.setStyleName("iconPanel");
-		this.textPanel.add(iconPanel);
-
-		if (this.type == InfoType.SaveChanges) {
-			this.infoText.setText(this.loc
-					.getMenu("DoYouWantToSaveYourChanges"));
+		if (InfoDialog.this.callback != null) {
+		    InfoDialog.this.callback.run();
 		} else {
-			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
+		    App.debug("no callback");
 		}
-		this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		this.textPanel.add(this.infoText);
+	    }
+	}, ClickEvent.getType());
+    }
 
-		this.textPanel.setStyleName("textPanel");
+    private void initSaveButton() {
+	this.saveButton.addDomHandler(new ClickHandler() {
 
-		this.dialogPanel.add(this.textPanel);
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
-		this.guiModel.setActiveDialog(null);
-	}
-
-	private void initCancelButton() {
-		this.cancelButton.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				InfoDialog.this.hide();
-			}
-		}, ClickEvent.getType());
-	}
-
-	private void initDontSaveButton() {
-		this.dontSaveButton.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (InfoDialog.this.type == InfoType.Override) {
-					InfoDialog.this.tabletGUI.editTitle();
-				}
-				InfoDialog.this.app.setSaved();
-				InfoDialog.this.hide();
-
-				if (InfoDialog.this.callback != null) {
-					InfoDialog.this.callback.run();
-				} else {
-					App.debug("no callback");
-				}
-			}
-		}, ClickEvent.getType());
-	}
-
-	private void initSaveButton() {
-		this.saveButton.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (InfoDialog.this.consTitle != null) {
-					InfoDialog.this.app
-							.setConstructionTitle(InfoDialog.this.consTitle);
-				}
-				InfoDialog.this.app.getFileManager().saveFile(
-						InfoDialog.this.app);
-				InfoDialog.this.app.setSaved();
-				InfoDialog.this.hide();
-				if (InfoDialog.this.callback != null) {
-					InfoDialog.this.callback.run();
-				} else {
-					App.debug("no callback");
-				}
-				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
-			}
-		}, ClickEvent.getType());
-	}
-
-	public void setCallback(Runnable callback) {
-		this.callback = callback;
-	}
-
-	public void setConsTitle(String title) {
-		this.consTitle = title;
-	}
-
-	public void setLabels() {
-		if (this.type == InfoType.SaveChanges) {
-			this.title.setText(this.loc.getMenu("CloseFile"));
-			this.infoText.setText(this.loc
-					.getMenu("DoYouWantToSaveYourChanges"));
-			this.cancelButton.setText(this.loc.getMenu("Cancel"));
-			this.saveButton.setText(this.loc.getMenu("Save"));
-			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
+	    @Override
+	    public void onClick(ClickEvent event) {
+		if (InfoDialog.this.consTitle != null) {
+		    InfoDialog.this.app.setConstructionTitle(InfoDialog.this.consTitle);
+		}
+		InfoDialog.this.app.getFileManager().saveFile(InfoDialog.this.app);
+		InfoDialog.this.app.setSaved();
+		InfoDialog.this.hide();
+		if (InfoDialog.this.callback != null) {
+		    InfoDialog.this.callback.run();
 		} else {
-			this.title.setText(this.loc.getMenu("Rename"));
-			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
-			this.cancelButton.setText(this.loc.getMenu("Cancel"));
-			this.saveButton.setText(this.loc.getMenu("Overwrite"));
-			this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
+		    App.debug("no callback");
 		}
-	}
+		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+	    }
+	}, ClickEvent.getType());
+    }
 
-	@Override
-	public void show() {
-		super.show();
+    public void setCallback(Runnable callback) {
+	this.callback = callback;
+    }
+
+    public void setConsTitle(String title) {
+	this.consTitle = title;
+    }
+
+    public void setLabels() {
+	if (this.type == InfoType.SaveChanges) {
+	    this.title.setText(this.loc.getMenu("CloseFile"));
+	    this.infoText.setText(this.loc.getMenu("DoYouWantToSaveYourChanges"));
+	    this.cancelButton.setText(this.loc.getMenu("Cancel"));
+	    this.saveButton.setText(this.loc.getMenu("Save"));
+	    this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
+	} else {
+	    this.title.setText(this.loc.getMenu("Rename"));
+	    this.infoText.setText(this.loc.getPlain("OverwriteFile"));
+	    this.cancelButton.setText(this.loc.getMenu("Cancel"));
+	    this.saveButton.setText(this.loc.getMenu("Overwrite"));
+	    this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
+	}
+    }
+
+    @Override
+    public void show() {
+	super.show();
+	super.center();
+	this.guiModel.setActiveDialog(this);
+    }
+
+    public void showIfNeeded(TouchApp touchApp) {
+	if (this.type == InfoType.SaveChanges) {
+	    if (!touchApp.isSaved()) {
+		this.consTitle = touchApp.getConstructionTitle();
+		this.show();
 		super.center();
-		this.guiModel.setActiveDialog(this);
-	}
-
-	public void showIfNeeded(TouchApp touchApp) {
-		if (this.type == InfoType.SaveChanges) {
-			if (!touchApp.isSaved()) {
-				this.consTitle = touchApp.getConstructionTitle();
-				this.show();
-				super.center();
-			} else {
-				if (this.callback != null) {
-					this.callback.run();
-				}
-			}
+	    } else {
+		if (this.callback != null) {
+		    this.callback.run();
 		}
+	    }
 	}
+    }
 }

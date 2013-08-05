@@ -8,67 +8,65 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.user.client.Window;
 
 public class WinLAF extends DefaultLAF {
-	@Override
-	public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel) {
+    @Override
+    public void buildHeader(TabletGUI gui, TouchApp app1, TouchModel touchModel) {
 
+    }
+
+    @Override
+    public int getAppBarHeight() {
+	return 0;
+    }
+
+    @Override
+    public DefaultResources getIcons() {
+	return WinResources.INSTANCE;
+    }
+
+    @Override
+    public int getPaddingLeftOfDialog() {
+	return (Window.getClientWidth() - 740) / 2;
+    }
+
+    @Override
+    public int getPanelsHeight() {
+	return 60;
+    }
+
+    @Override
+    public TabletHeaderPanel getTabletHeaderPanel() {
+	return null;
+    }
+
+    @Override
+    public boolean isMouseDownIgnored() {
+	return false;
+    }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
+
+    @Override
+    public native void stateChanged(boolean saved) /*-{
+						   						if(!$wnd.appbar){
+						   						return;	
+						   						}		
+						   						$wnd.appbar.saveChanged(saved);
+						   						}-*/;
+
+    @Override
+    public void updateUndoSaveButtons() {
+	if (this.getApp() != null) {
+	    this.updateUndoSaveButtons(this.getApp().getKernel().undoPossible(), this.getApp().getKernel().redoPossible());
 	}
+    }
 
-	@Override
-	public int getAppBarHeight() {
-		return 0;
-	}
-
-	@Override
-	public DefaultResources getIcons() {
-		return WinResources.INSTANCE;
-	}
-
-	@Override
-	public int getPaddingLeftOfDialog() {
-		return (Window.getClientWidth() - 740) / 2;
-	}
-
-	@Override
-	public int getPanelsHeight() {
-		return 60;
-	}
-
-	@Override
-	public TabletHeaderPanel getTabletHeaderPanel() {
-		return null;
-	}
-
-	@Override
-	public boolean isMouseDownIgnored() {
-		return false;
-	}
-
-	@Override
-	public void setTitle(String title) {
-
-	}
-
-	@Override
-	public native void stateChanged(boolean saved) /*-{
-													if(!$wnd.appbar){
-													return;	
-													}		
-													$wnd.appbar.saveChanged(saved);
-													}-*/;
-
-	@Override
-	public void updateUndoSaveButtons() {
-		if (this.getApp() != null) {
-			this.updateUndoSaveButtons(
-					this.getApp().getKernel().undoPossible(), this.getApp()
-							.getKernel().redoPossible());
-		}
-	}
-
-	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-																			if(!$wnd.appbar){
-																			return;
-																			}	
-																			$wnd.appbar.updateUndoRedo(undo, redo);	
-																			}-*/;
+    public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
+									 									if(!$wnd.appbar){
+									 									return;
+									 									}	
+									 									$wnd.appbar.updateUndoRedo(undo, redo);	
+									 									}-*/;
 }

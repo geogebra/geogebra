@@ -7,17 +7,16 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public class ProgressIndicator extends PopupPanel {
 
-	private static Image progressIndicator = new Image(
-			DefaultResources.INSTANCE.progressIndicator());
+    private static Image progressIndicator = new Image(DefaultResources.INSTANCE.progressIndicator());
 
-	public ProgressIndicator() {
-		super(false);
-		this.setWidget(ProgressIndicator.progressIndicator);
-	}
+    public ProgressIndicator() {
+	super(false);
+	this.setWidget(ProgressIndicator.progressIndicator);
+    }
 
-	@Override
-	public void show() {
-		super.show();
-		this.center();
-	}
+    @Override
+    public void show() {
+	super.show();
+	this.center();
+    }
 }

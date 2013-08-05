@@ -12,23 +12,23 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GeoGebraLoggerM extends GeoGebraLogger {
-	private final Element el;
+    private final Element el;
 
-	public GeoGebraLoggerM(GeoGebraTouchGUI gui) {
-		this.el = new AbsolutePanel().getElement();
-		final Style st = this.el.getStyle();
-		st.setZIndex(1000000);
-		st.setPosition(Position.ABSOLUTE);
-		this.el.setInnerHTML("");
-		st.setHeight(300, Unit.PX);
-		st.setOverflow(Overflow.SCROLL);
-		DOM.appendChild(gui.getElement(), this.el);
-	}
+    public GeoGebraLoggerM(GeoGebraTouchGUI gui) {
+	this.el = new AbsolutePanel().getElement();
+	final Style st = this.el.getStyle();
+	st.setZIndex(1000000);
+	st.setPosition(Position.ABSOLUTE);
+	this.el.setInnerHTML("");
+	st.setHeight(300, Unit.PX);
+	st.setOverflow(Overflow.SCROLL);
+	DOM.appendChild(gui.getElement(), this.el);
+    }
 
-	@Override
-	protected void print(String logEntry, Level level) {
+    @Override
+    protected void print(String logEntry, Level level) {
 
-		this.el.setInnerHTML(this.el.getInnerHTML() + "<br/>" + logEntry);
-	}
+	this.el.setInnerHTML(this.el.getInnerHTML() + "<br/>" + logEntry);
+    }
 
 }
