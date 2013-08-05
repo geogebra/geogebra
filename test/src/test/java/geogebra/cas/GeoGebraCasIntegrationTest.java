@@ -2963,36 +2963,160 @@ public class GeoGebraCasIntegrationTest {
     }
   }
   
-  // TODO What is this? -> Deal with it.
+  
+  /* 
+   * Examples from the article "GeoGebraCAS - Vom symbolischen Notizblock zur dynamischen CAS Ansicht"
+   * published in "CAS Rundbrief".
+   */
+  
+  /* Figure 2: "Gleichungsumformungen" (Manipulation of Equations) */
 
   @Test
-  public void Rubrik1 () {
-    t("KeepInput[x-1/2=2x+3]", "x - 1 / 2 = 2 * x + 3");
-    t("KeepInput[(x-1/2=2x+3)+1/2]", "(x - 1 / 2 = 2 * x + 3)+1/2");
-    t("(x-1/2=2x+3)+1/2", "x = (4 * x + 7) / 2", "x = 2 * x + 7 / 2");
-    t("(x-1/2=2x+3)+1/2", "x = (4 * x + 7) / 2", "x = 2 * x + 7 / 2");
-    t("Numeric[(x-1/2=2x+3)+1/2]", "x = 2 * x + 3.5");
+  public void CASRundbrief_Figure2_0 () {
+    t("KeepInput[x - 1/2 = 2 x + 3]", "x - 1 / 2 = 2 * x + 3");
   }
 
   @Test
-  public void Rubrik2 () {
-    t("f(t):=100*1.5^t", "100 * (3 / 2) ^ (t)");
+  public void CASRundbrief_Figure2_1 () {
+    t("KeepInput[(x - 1 / 2 = 2x + 3) + 1/2]", "(x - 1 / 2 = 2 * x + 3) + 1/2");
+  }
+
+  @Test
+  public void CASRundbrief_Figure2_2 () {
+    t("(x - 1 / 2 = 2x + 3) + 1 / 2", "x = (4 * x + 7) / 2", "x = 2 * x + 7 / 2");
+  }
+
+  @Test
+  public void CASRundbrief_Figure2_3 () {
+    t("Numeric[(x - 1 / 2 = 2x + 3) + 1/2]", "x = 2 * x + 3.5");
+  }
+
+  /* Figure 3: "Einfache Exponentialgleichungen" (Simple Exponential Equations)*/
+  
+  @Test
+  public void CASRundbrief_Figure3_0 () {
+    t("f(t) := 100 * 1.5^t", "100 * (3 / 2) ^ (t)");
+  }
+
+  @Test
+  public void CASRundbrief_Figure3_1 () {
+    // Depends on CASRundbrief_Figure3_0.
+    t("f(t) := 100 * 1.5^t", "100 * (3 / 2) ^ (t)");
+    
     t("f(2)", "225");
-    t("Solve[f(t)=225,t]", "{t = 2}", "{t = log(9 / 4)/log(3 / 2)}");
-    t("Numeric[Solve[f(t)=225,t]]", "{t = 2}");
-    t("Solve[225=c*1.5^2,c]", "{c = 100}");
-    t("Solve[225=100*a^2,a]", "{a = (-3) / 2 , a = 3 / 2}");
-    t("Delete[f]", "true");
+  }
+  
+  @Test
+  public void CASRundbrief_Figure3_2 () {
+    // Depends on CASRundbrief_Figure3_0.
+    t("f(t) := 100 * 1.5^t", "100 * (3 / 2) ^ (t)");
+    
+    t("Numeric[Solve[f(t) = 225, t]]", "{t = 2}");
+  }
+  
+  @Test
+  public void CASRundbrief_Figure3_3 () {
+    // Depends on CASRundbrief_Figure3_0.
+    t("f(t) := 100 * 1.5^t", "100 * (3 / 2) ^ (t)");
+
+    // Do the same using symbolic evaluation.
+    t("Solve[f(t) = 225, t]", "{t = 2}");
+    
+    // TODO Remove lines below.
+    // Old test:
+    // t("Solve[f(t) = 225, t]", "{t = 2}", "{t = log(9 / 4) / log(3 / 2)}");
+  }
+  
+  @Test
+  public void CASRundbrief_Figure3_4 () {
+    t("Solve[225 = c * 1.5^2, c]", "{c = 100}");
+  }
+  
+  @Test
+  public void CASRundbrief_Figure3_5 () {
+    t("Solve[225 = 100 * a^2, a]", "{a = (-3) / 2 , a = 3 / 2}");
+  }
+  
+  /* Figure 4: "Lösung mit unbelegten Variablen" (Solution with undefined variables) */
+  
+  @Test
+  public void CASRundbrief_Figure4_0 () {
+    t("f(t) := c * a^t", "c * a^(t)");
+  }
+  
+  @Test
+  public void CASRundbrief_Figure4_1 () {
+    // Depends on CASRundbrief_Figure4_0.
+    t("f(t) := c * a^t", "c * a^(t)");
+    
+    t("Solve[f(2) = 225, a]", "{a = 15 * sqrt(c) / c, a = -15 * sqrt(c) / c}");
+  }
+  
+  /* Figure 5: "Computeralgebra und Geometrie" (Computer Algebra and Geometrics) */
+
+  @Test
+  public void CASRundbrief_Figure5_0 () {
+    t("f(x) := (2x^2 - 3x + 4) / 2", "x^(2) - 3 / 2 * x + 2");
   }
 
   @Test
-  public void Rubrik3 () {
-    t("f(t):=c*a^t", "c * a^(t)");
-    // t("Solve(f(2)=225,a)","{a = 15 * sqrt(1 / c), a = -15 * sqrt(1 / c)}");
-    // Giac
-    t("Solve(f(2)=225,a)", "{a = 15 * sqrt(c) / c, a = -15 * sqrt(c) / c}");
-    t("Delete[f]", "true");
+  public void CASRundbrief_Figure5_1 () {
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
   }
+
+  @Test
+  public void CASRundbrief_Figure5_2 () {
+    t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
+  }
+
+  @Test
+  public void CASRundbrief_Figure5_3 () {
+    // Depends on CASRundbrief_Figure5_1.
+    t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_2.
+    t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
+    
+    t("h(x) := f(x) - g(x)", "x^(2) - 2 * x");
+  }
+
+  @Test
+  public void CASRundbrief_Figure5_4 () {
+    // Depends on CASRundbrief_Figure5_1.
+    t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_2.
+    t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_3.
+    t("h(x) := f(x) - g(x)", "x^(2) - 2 * x");
+    
+    t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
+  }
+
+  @Test
+  public void CASRundbrief_Figure5_5 () {
+    // Depends on CASRundbrief_Figure5_1.
+    t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_2.
+    t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_3.
+    t("h(x) := f(x) - g(x)", "x^(2) - 2 * x");
+    
+    t("Solve[h(x) = 0, x]", "{x = 0, x = 2}");
+  }
+
+  @Test
+  public void CASRundbrief_Figure5_6 () {
+    // Depends on CASRundbrief_Figure5_1.
+    t("f(x) := (2x^2 - 3x + 4) / 2;", "x^(2) - 3 / 2 * x + 2");
+    // Depends on CASRundbrief_Figure5_2.
+    t("g(x) := (x + 4) / 2", "1 / 2 * x + 2");
+    
+    t("Intersect[f(x), g(x)]", "{(0, 2), (2, 3)}");
+  }
+  
 
   @Test
   public void Rubrik4 () {
