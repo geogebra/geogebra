@@ -377,10 +377,12 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	waitForUpdateClearColor=false;
         }
         
+        //clear color buffer
+        gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT);
+        
         if (view3D.getProjection()==EuclidianView3D.PROJECTION_ANAGLYPH) {
-        	//clear all
-        	gl.glColorMask(true,true,true,true);
-        	gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
+         	//gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
+        	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
         	//left eye
         	eye=EYE_LEFT;
         	setColorMask();
@@ -391,13 +393,16 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	setColorMask();
         	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT); //clear depth buffer
         	setView();
-        	draw();      	
+        	draw(); 
+        	
         } else {  
-        	setColorMask();
-        	gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT);
+        	gl.glClear(GLlocal.GL_DEPTH_BUFFER_BIT);
         	setView();
         	draw(); 
         }
+        
+        // prepare correct color mask for next clear
+    	gl.glColorMask(true,true,true,true);
         
         gLDrawable.swapBuffers(); //TODO ?
             
