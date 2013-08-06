@@ -18,6 +18,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
@@ -215,6 +216,10 @@ public class TouchModel {
 	 * @return
 	 */
 	public boolean deselect(GeoElement geo) {
+		if (geo == null) {
+			return false;
+		}
+
 		final boolean ret = geo.isSelected();
 		geo.setSelected(false);
 		this.selectedElements.remove(geo);
@@ -604,7 +609,7 @@ public class TouchModel {
 				compassCircle2.update();
 				newElements.add(compassCircle2);
 			} else
-				// segment
+			// segment
 			{
 				newElements.add(this.kernel.getAlgoDispatcher().Circle(null, (GeoPoint) this.getElement(Test.GEOPOINT),
 						(GeoSegment) this.getElement(Test.GEOSEGMENT)));
@@ -726,7 +731,7 @@ public class TouchModel {
 
 			break;
 
-			// special command: slider
+		// special command: slider
 		case Slider:
 			// TODO
 			if (this.inputDialog.getType() != DialogType.Slider) {
@@ -736,30 +741,39 @@ public class TouchModel {
 			this.inputDialog.show();
 			break;
 
-			// special command: attach/detach: needs a point (detach) or a point and
-			// a region/path (attach)
+		// special command: attach/detach: needs a point (detach) or a point and
+		// a region/path (attach)
 		case AttachDetachPoint:
 			this.attachDetach(hits, point);
 			break;
 
-			// special command: rotate around point: needs one point as center of
-			// the roation and a second point to rotate
+		// special command: rotate around point: needs one point as center of
+		// the roation and an other element to rotate
 		case RotateAroundPoint:
-			if (this.getTotalNumber() > 0 && hits.contains(this.selectedElements.get(0))) {
-				this.deselect(this.selectedElements.get(0));
-			} else {
-				this.select(hits, Test.GEOPOINT, 2);
-			}
-
 			// deselect all elements except for the center point (index 0)
 			// needed if there is another rotation
-			while (this.selectedElements.size() > 2) {
+			while (this.selectedElements.size() > 1) {
 				this.deselect(this.selectedElements.get(1));
+			}
+
+			if (this.getTotalNumber() > 0 && hits.contains(this.selectedElements.get(0))) {
+				this.deselect(this.selectedElements.get(0));
+			} else if (this.getNumberOf(Test.GEOPOINT) > 0) {
+				// one Point is already selected!
+				this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOCONIC, Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY, Test.GEOVECTOR,
+						Test.GEOPOLYGON, Test.GEOPOLYLINE }, 2);
+			} else {
+				this.select(hits, Test.GEOPOINT, 1);
+			}
+
+			// it should not be allowed to rotate the axes
+			if (this.selectedElements.size() >= 2 && this.selectedElements.get(1) instanceof GeoAxis) {
+				deselect(this.selectedElements.get(1));
 			}
 
 			break;
 
-			// commands that need two points
+		// commands that need two points
 		case LineThroughTwoPoints:
 		case SegmentBetweenTwoPoints:
 		case RayThroughTwoPoints:
@@ -771,7 +785,7 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOPOINT) >= 2;
 			break;
 
-			// commands that need one point and one line
+		// commands that need one point and one line
 		case PerpendicularLine:
 		case ParallelLine:
 		case Parabola:
@@ -779,24 +793,23 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOPOINT) >= 1 && this.getNumberOf(Test.GEOLINE) >= 1;
 			break;
 
-			// commands that need two points or one point and one line or two lines
-			// or one segment or a circle
+		// commands that need two points or one point and one line or two lines
+		// or one segment or a circle
 		case DistanceOrLength: // TODO
 			this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 2, 2, 1, 1 });
 			draw = this.getNumberOf(Test.GEOPOINT) >= 2 || this.getNumberOf(Test.GEOPOINT) >= 1 && this.getNumberOf(Test.GEOLINE) >= 1
 					|| this.getNumberOf(Test.GEOLINE) >= 2 || this.getNumberOf(Test.GEOSEGMENT) >= 1 || this.getNumberOf(Test.GEOCONIC) >= 1;
-					break;
+			break;
 
-					// commands that need one line and any other object
+		// commands that need one line and any other object
 		case ReflectObjectAboutLine:
 			if (!this.changeSelectionState(hits, Test.GEOLINE, 1)) {
 				this.changeSelectionState(hits.get(0));
-				// select(hits, 1 + getNumberOf(Test.GEOLINE));
 			}
 			draw = this.getNumberOf(Test.GEOLINE) >= 1 && this.getTotalNumber() >= 2;
 			break;
 
-			// commands that need one circle and any other object
+		// commands that need one circle and any other object
 		case ReflectObjectAboutCircle:
 			if (!this.select(hits, Test.GEOCONIC, 2)) {
 				this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOSEGMENTND, Test.GEORAY, Test.GEOPOLYGON, Test.GEOPOLYLINE,
@@ -805,7 +818,7 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOCONIC) >= 1 && this.getTotalNumber() >= 2;
 			break;
 
-			// commands that need one point and any other object
+		// commands that need one point and any other object
 		case ReflectObjectAboutPoint:
 		case Dilate:
 		case RotateObjectByAngle:
@@ -815,7 +828,7 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOPOINT) >= 1 && this.getTotalNumber() >= 2;
 			break;
 
-			// commands that need one vector and any other object
+		// commands that need one vector and any other object
 		case TranslateObjectByVector:
 			if (!this.changeSelectionState(hits, Test.GEOVECTOR, 1) && hits.size() > 0) {
 				this.changeSelectionState(hits.get(0));
@@ -823,22 +836,22 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOVECTOR) >= 1 && this.getTotalNumber() >= 2;
 			break;
 
-			// commands that need one point or line and one circle or conic
+		// commands that need one point or line and one circle or conic
 		case Tangents:
 			if (!this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE }, 1)) {
 				this.selectOutOf(hits, new Test[] { Test.GEOCONIC, Test.GEOFUNCTION }, 1);
 			}
 			draw = this.getNumberOf(Test.GEOPOINT) + this.getNumberOf(Test.GEOLINE) >= 1
 					&& this.getNumberOf(Test.GEOCONIC) + this.getNumberOf(Test.GEOFUNCTION) >= 1;
-					break;
+			break;
 
-					// commands that need one point and one vector
+		// commands that need one point and one vector
 		case VectorFromPoint:
 			this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOVECTOR }, new int[] { 1, 1 });
 			draw = this.getNumberOf(Test.GEOPOINT) >= 1 && this.getNumberOf(Test.GEOVECTOR) >= 1;
 			break;
 
-			// commands that need two points or one segment
+		// commands that need two points or one segment
 		case MidpointOrCenter:
 			if (!this.changeSelectionState(hits, Test.GEOPOINT, 1) && !this.changeSelectionState(hits, Test.GEOCONIC, 1)) {
 				this.changeSelectionState(hits, Test.GEOSEGMENT, 1);
@@ -852,7 +865,7 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOSEGMENT) >= 1 || this.getNumberOf(Test.GEOPOINT) >= 2;
 			break;
 
-			// commands that need any two objects
+		// commands that need any two objects
 		case IntersectTwoObjects:
 			// polygon needs to be the last element of the array
 			final Test[] classes = new Test[] { Test.GEOLINE, Test.GEOCURVECARTESIAN, Test.GEOPOLYLINE, Test.GEOCONIC, Test.GEOFUNCTION,
@@ -875,7 +888,7 @@ public class TouchModel {
 
 			break;
 
-			// commands that need tree points
+		// commands that need tree points
 		case CircleThroughThreePoints:
 		case CircularArcWithCenterBetweenTwoPoints:
 		case CircularSectorWithCenterBetweenTwoPoints:
@@ -887,9 +900,9 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOPOINT) >= 3;
 			break;
 
-			// commands that need one point and two additional points or one circle
-			// or
-			// one segment
+		// commands that need one point and two additional points or one circle
+		// or
+		// one segment
 		case Compasses:
 			this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 3, 1, 1 });
 			if (this.lastSelected() instanceof GeoConic && !((GeoConic) this.lastSelected()).isCircle()) {
@@ -899,7 +912,7 @@ public class TouchModel {
 					&& (this.getNumberOf(Test.GEOCONIC) >= 1 || this.getNumberOf(Test.GEOSEGMENT) >= 1);
 			break;
 
-			// commands that need three points or two lines
+		// commands that need three points or two lines
 		case Angle:
 			this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE, Test.GEOPOLYGON }, new int[] { 3, 2, 1 });
 			draw = this.getNumberOf(Test.GEOPOINT) >= 3 || this.getNumberOf(Test.GEOLINE) >= 2 || this.getNumberOf(Test.GEOPOLYGON) >= 1;
@@ -909,19 +922,19 @@ public class TouchModel {
 			draw = this.getNumberOf(Test.GEOPOINT) >= 3 || this.getNumberOf(Test.GEOLINE) >= 2;
 			break;
 
-			// commands that need five points
+		// commands that need five points
 		case ConicThroughFivePoints:
 			this.changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = this.getNumberOf(Test.GEOPOINT) >= 5;
 			break;
 
-			// commands that need two points and special input
+		// commands that need two points and special input
 		case RegularPolygon:
 			this.changeSelectionState(hits, Test.GEOPOINT, 1);
 			draw = this.getNumberOf(Test.GEOPOINT) >= 2;
 			break;
 
-			// commands that need an unknown number of points
+		// commands that need an unknown number of points
 		case PolylineBetweenPoints:
 		case Polygon:
 		case RigidPolygon:
@@ -935,7 +948,7 @@ public class TouchModel {
 			this.createPreviewObject(!draw);
 			break;
 
-			// special commands
+		// special commands
 		case Move_Mobile:
 			for (final GeoElement geo : hits) {
 				this.select(geo);
@@ -1004,6 +1017,7 @@ public class TouchModel {
 			setSliderProperties(this.redefineSlider);
 			this.redefineSlider.rename(input);
 			this.redefineSlider.update();
+			this.kernel.notifyRepaint();
 			return true;
 		} else if (this.inputDialog.getType() == DialogType.Redefine) {
 			if (this.redefineGeo == null) {
