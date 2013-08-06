@@ -53,7 +53,8 @@ public abstract class GeoGebraProfiler {
 	 */
 	public static GeoGebraProfiler getInstance() {
 		if (instance == null) {
-			throw new Error("Profiler instance must be created first from Web or Desktop");
+			instance = new SilentProfiler();
+			App.error("trying to profile without profiler");
 		}
 		return instance;
 	}
