@@ -21,99 +21,98 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class WorksheetGUI extends HeaderPanel {
-   
-    private final Label instructionsPost, instructionsPre;
-    private final FlowPanel frame = new FlowPanel();
-    private final WorksheetHeaderPanel header;
-    private final AppWeb app;
-    private final FileManagerM fm;
-    private final FlowPanel content;
-    TabletGUI tabletGUI;
-    private DockLayoutPanel contentPanel;
 
-    public WorksheetGUI(AppWeb app, TabletGUI tabletGUI) {
-	this.setStyleName("worksheetgui");
-	this.fm = ((TouchApp) app).getFileManager();
-	this.header = new WorksheetHeaderPanel(app, this, tabletGUI);
-	this.setHeaderWidget(this.header);
-	this.content = new FlowPanel();
-	this.app = app;
-	this.tabletGUI = tabletGUI;
+	private final Label instructionsPost, instructionsPre;
+	private final FlowPanel frame = new FlowPanel();
+	private final WorksheetHeaderPanel header;
+	private final AppWeb app;
+	private final FileManagerM fm;
+	private final FlowPanel content;
+	TabletGUI tabletGUI;
+	private DockLayoutPanel contentPanel;
 
-	this.instructionsPost = new Label();
-	this.instructionsPre = new Label();
-	this.instructionsPre.setStyleName("instructionsPre");
-	this.instructionsPost.setStyleName("instructionsPost");
-    }
+	public WorksheetGUI(AppWeb app, TabletGUI tabletGUI) {
+		this.setStyleName("worksheetgui");
+		this.fm = ((TouchApp) app).getFileManager();
+		this.header = new WorksheetHeaderPanel(app, this, tabletGUI);
+		this.setHeaderWidget(this.header);
+		this.content = new FlowPanel();
+		this.app = app;
+		this.tabletGUI = tabletGUI;
 
-    public DockLayoutPanel getContentPanel() {
-	return this.contentPanel;
-    }
-
-    public void loadWorksheet(Material m) {
-	this.header.setMaterial(m);
-	this.contentPanel = this.tabletGUI.getContentPanel();
-
-	if (m.getId() > 0) {
-	    this.content.add(this.instructionsPre);
-	    this.content.add(this.frame);
-	    this.content.add(this.instructionsPost);
-	    this.setContentWidget(this.content);
-
-	    TouchEntryPoint.allowEditing(false);
-	    Element article = DOM.createElement("article");
-	    article.setClassName("geogebraweb");
-	    article.setAttribute("data-param-ggbBase64","");
-	    article.setAttribute("data-param-width",m.getWidth()+"");
-	    article.setAttribute("data-param-height",m.getHeight()+"");
-	    //right click makes no sense with Touch
-	    article.setAttribute("data-param-enableRightClick","false");
-	    //label drags too hardd with Touch
-	    article.setAttribute("data-param-enableLabelDrags","false");
-	    //TODO
-	    article.setAttribute("data-param-enableShiftDragZoom","false");
-	    //???
-	    article.setAttribute("data-param-showMenuBar","false");
-	    //TODO
-	    article.setAttribute("data-param-showToolBar","false");
-	    //TODO
-	    article.setAttribute("data-param-showAlgebraInput","false");
-	    //TODO
-	    article.setAttribute("data-param-showResetIcon","true");
-	    //no security issues here
-	    article.setAttribute("data-param-useBrowserForJS","true");
-	    
-	    this.frame.getElement().appendChild(article);
-		this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
-		Web.currentGUI = GuiToLoad.VIEWER; 
-		Web.panelForApplets = this.frame;
-		Web.urlToOpen = "http://www.geogebratube.org/files/material-"
-				+ m.getId() + ".ggb";
-		Web.loadAppletAsync();			
-		
-		this.instructionsPre.setText(m.getInstructionsPre());
-		this.instructionsPost.setText(m.getInstructionsPost());
-	} else {
-	    TouchEntryPoint.allowEditing(false);
-	    this.fm.getMaterial(m, this.app);
-	    this.setContentWidget(this.contentPanel);
-	    this.updateViewSize();
+		this.instructionsPost = new Label();
+		this.instructionsPre = new Label();
+		this.instructionsPre.setStyleName("instructionsPre");
+		this.instructionsPost.setStyleName("instructionsPost");
 	}
 
-	Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-	    @Override
-	    public void execute() {
-		WorksheetGUI.this.tabletGUI.updateViewSizes(WorksheetGUI.this.tabletGUI.isAlgebraShowing());
-	    }
-	});
-	App.debug("loading" + m.getTitle());
-    }
+	public DockLayoutPanel getContentPanel() {
+		return this.contentPanel;
+	}
 
-    public void setLabels() {
-	this.header.setLabels();
-    }
+	public void loadWorksheet(Material m) {
+		this.header.setMaterial(m);
+		this.contentPanel = this.tabletGUI.getContentPanel();
 
-    private void updateViewSize() {
-	this.contentPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight());
-    }
+		if (m.getId() > 0) {
+			this.content.add(this.instructionsPre);
+			this.content.add(this.frame);
+			this.content.add(this.instructionsPost);
+			this.setContentWidget(this.content);
+
+			TouchEntryPoint.allowEditing(false);
+			Element article = DOM.createElement("article");
+			article.setClassName("geogebraweb");
+			article.setAttribute("data-param-ggbBase64", "");
+			article.setAttribute("data-param-width", m.getWidth() + "");
+			article.setAttribute("data-param-height", m.getHeight() + "");
+			// right click makes no sense with Touch
+			article.setAttribute("data-param-enableRightClick", "false");
+			// label drags too hardd with Touch
+			article.setAttribute("data-param-enableLabelDrags", "false");
+			// TODO
+			article.setAttribute("data-param-enableShiftDragZoom", "false");
+			// ???
+			article.setAttribute("data-param-showMenuBar", "false");
+			// TODO
+			article.setAttribute("data-param-showToolBar", "false");
+			// TODO
+			article.setAttribute("data-param-showAlgebraInput", "false");
+			// TODO
+			article.setAttribute("data-param-showResetIcon", "true");
+			// no security issues here
+			article.setAttribute("data-param-useBrowserForJS", "true");
+
+			this.frame.getElement().appendChild(article);
+			this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
+			Web.currentGUI = GuiToLoad.VIEWER;
+			Web.panelForApplets = this.frame;
+			Web.urlToOpen = "http://www.geogebratube.org/files/material-" + m.getId() + ".ggb";
+			Web.loadAppletAsync();
+
+			this.instructionsPre.setText(m.getInstructionsPre());
+			this.instructionsPost.setText(m.getInstructionsPost());
+		} else {
+			TouchEntryPoint.allowEditing(false);
+			this.fm.getMaterial(m, this.app);
+			this.setContentWidget(this.contentPanel);
+			this.updateViewSize();
+		}
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				WorksheetGUI.this.tabletGUI.updateViewSizes(WorksheetGUI.this.tabletGUI.isAlgebraShowing());
+			}
+		});
+		App.debug("loading" + m.getTitle());
+	}
+
+	public void setLabels() {
+		this.header.setLabels();
+	}
+
+	private void updateViewSize() {
+		this.contentPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight());
+	}
 }
