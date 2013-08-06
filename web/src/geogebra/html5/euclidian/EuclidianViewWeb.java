@@ -339,7 +339,10 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		if (!firstPaint) {// if is here to avoid infinite loop
 			updateAllDrawables(true);
 		}
-		((EuclidianControllerW) euclidianController).calculateEnvironment();
+
+		if(euclidianController instanceof EuclidianControllerW) {
+			((EuclidianControllerW) euclidianController).calculateEnvironment();
+		}
     }
 	
 	private void createImage() {
