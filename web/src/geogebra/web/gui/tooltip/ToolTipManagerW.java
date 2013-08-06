@@ -15,6 +15,7 @@ import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Class to manage tool tips. Maintains a gwt panel to display tooltips and
@@ -186,6 +187,10 @@ public class ToolTipManagerW {
 
 	protected void setToolTipLocation() {
 		int left, top;
+		Widget rootPane = AppW.getRootComponent(app);
+		if(rootPane == null){
+			return;
+		}
 
 		if (tipElement == null) {
 			left = scrollLeft + mouseX;
@@ -198,14 +203,14 @@ public class ToolTipManagerW {
 
 		// handle tooltip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();
-		int windowLeft = AppW.getRootComponent(app).getAbsoluteLeft()
-		        + AppW.getRootComponent(app).getOffsetWidth();
+		int windowLeft = rootPane.getAbsoluteLeft()
+		        + rootPane.getOffsetWidth();
 		if (left + w > windowLeft) {
 			left = left - w;
 		}
 		int h = tipPanel.getOffsetHeight();
-		int windowBottom = AppW.getRootComponent(app).getAbsoluteTop()
-		        + AppW.getRootComponent(app).getOffsetHeight();
+		int windowBottom = rootPane.getAbsoluteTop()
+		        + rootPane.getOffsetHeight();
 		if (top + h > windowBottom) {
 			top = windowBottom - h;
 		}
