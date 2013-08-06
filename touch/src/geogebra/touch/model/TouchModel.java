@@ -53,14 +53,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
  * 
  */
 public class TouchModel {
-
-	private static void addAll(ArrayList<GeoElement> newGeoElements, GeoElement[] regularPolygon) {
-		for (final GeoElement geo : regularPolygon) {
-			newGeoElements.add(geo);
-		}
-
-	}
-
+	
 	Kernel kernel;
 	GuiModel guiModel;
 	private EuclidianView euclidianView;
@@ -89,6 +82,13 @@ public class TouchModel {
 			}
 		});
 		this.cmdIntersect = new CmdIntersect(this.kernel);
+	}
+
+	private static void addAll(ArrayList<GeoElement> newGeoElements, GeoElement[] regularPolygon) {
+		for (final GeoElement geo : regularPolygon) {
+			newGeoElements.add(geo);
+		}
+
 	}
 
 	private void attachDetach(Hits hits, Point c) {
