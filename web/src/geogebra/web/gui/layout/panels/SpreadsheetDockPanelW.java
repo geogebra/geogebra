@@ -11,6 +11,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -25,6 +26,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	SpreadsheetStyleBarPanel sstylebar;
 	SpreadsheetViewW sview;
+	AbsolutePanel wrapview;
 
 	public SpreadsheetDockPanelW(App app) {
 		super(
@@ -41,16 +43,11 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	protected Widget loadComponent() {
 
-		// PLAN:
-		// wrap it into an absolute panel whose width/height
-		// is the same as the original spreadsheet view,
-		// and if scrollbars should not show, let the width/height
-		// of the original spreadsheet view be larger by 10-20px
-
-
+		wrapview = new AbsolutePanel();
 		sview = ((AppW)application).getGuiManager().getSpreadsheetView();
+		wrapview.add(sview);
 					
-		return sview;
+		return wrapview;
 	}
 
 	protected Widget loadStyleBar() {
@@ -85,8 +82,17 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 							return;
 						}
 
-						sview.getScrollPanel().setWidth(width + "px");
-						sview.getScrollPanel().setHeight(height + "px");
+						wrapview.setPixelSize(width, height);
+
+						if (application.getSettings().getSpreadsheet().showHScrollBar())
+							sview.getScrollPanel().setHeight(height + "px");
+						else // scrollbar's height usually doesn't exceed 20px
+							sview.getScrollPanel().setHeight((height + 20) + "px");
+
+						if (application.getSettings().getSpreadsheet().showVScrollBar())
+							sview.getScrollPanel().setWidth(width + "px");
+						else // scrollbar's width usually doesn't exceed 20px
+							sview.getScrollPanel().setWidth((width + 20) + "px");
 					}
 				}
 
