@@ -1070,10 +1070,10 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 
 		int y = this.getAbsoluteTop();
 		int x = this.getAbsoluteLeft();
-			
+
 		Element wt = this.getCellFormatter().getElement(row, column);
 		//Widget wt = getWidget(row, column);
-		if (min) {		
+		if (min) {
 			return new GPoint(wt.getAbsoluteLeft(), wt.getAbsoluteTop());
 		}
 		return new GPoint(wt.getAbsoluteLeft() + wt.getOffsetWidth(),

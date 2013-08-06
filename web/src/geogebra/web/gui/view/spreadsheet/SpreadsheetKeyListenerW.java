@@ -127,8 +127,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 					int pixelx = view.getAbsoluteLeft();
 					GPoint gip = table.getIndexFromPixel(pixelx, 1);
 					if (gip != null && gip.getX() - 1 >= column - 1) {
-						np = table.getPixel(column - 1, row, false).getX();
-						op = table.getPixel(column, row, false).getX();
+						np = table.getPixel(column - 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
+						op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
 						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
 							+ np - op);
 					}
@@ -254,8 +254,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 				// these two lines are a workaround for Java 6
 				// (Java bug?)
 				table.changeSelection(row, column + 1, false, false);
-				np = table.getPixel(column + 1, row, false).getX();
-				op = table.getPixel(column, row, false).getX();
+				np = table.getPixel(column + 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
+				op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
 				view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
 					+ np - op);
 				//e.consume();
@@ -281,8 +281,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler
 					int pixelx = view.getAbsoluteLeft() + view.getOffsetWidth();
 					GPoint gip = table.getIndexFromPixel(pixelx, 1);
 					if (gip != null && gip.getX() - 1 <= column + 1) {
-						np = table.getPixel(column + 1, row, false).getX();
-						op = table.getPixel(column, row, false).getX();
+						np = table.getPixel(column + 1, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
+						op = table.getPixel(column, (row == 0 && !view.settings().showRowHeader()) ? 1 : row, false).getX();
 						view.setHorizontalScrollPosition(view.getHorizontalScrollPosition()
 							+ np - op);
 					}
