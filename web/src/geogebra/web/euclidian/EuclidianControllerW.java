@@ -191,6 +191,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	/**
 	 * recalculates cached styles concerning browser environment
 	 */
+	@Override
 	public void calculateEnvironment() {
 	    style = new EnvironmentStyle();
 	    style.setWidthScale(getEnvWidthScale());

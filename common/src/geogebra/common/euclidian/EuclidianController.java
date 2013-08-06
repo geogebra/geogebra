@@ -10046,4 +10046,9 @@ public abstract class EuclidianController {
 		return textfieldHasFocus;
 	}
 	
+	public void calculateEnvironment() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
