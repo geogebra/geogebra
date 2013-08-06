@@ -20,7 +20,7 @@ import com.google.gwt.user.client.Window;
  */
 public class ToolBarButton extends ToolButton implements OptionsClickedListener {
 
-	protected ToolBarCommand[] menuEntries;
+	protected SubToolBarButton[] menuEntry;
 	protected GuiModel model;
 
 	private static int BUTTON_WIDTH = 56;
@@ -43,7 +43,11 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	public ToolBarButton(ToolBarMenu menu, GuiModel guiModel) {
 		super(menu.getCommand());
 
-		this.menuEntries = menu.getEntries();
+		this.menuEntry = new SubToolBarButton[menu.getEntries().length];
+		for (int i = 0; i < menu.getEntries().length; i++) {
+			this.menuEntry[i] = new SubToolBarButton(menu.getEntries()[i], this);
+		}
+
 		this.model = guiModel;
 
 		this.addDomHandler(new ClickHandler() {
@@ -67,10 +71,10 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	}
 
 	protected void showOptions() {
-		if (this.menuEntries.length != 0) {
-			final SubToolBar options = new SubToolBar(this.menuEntries, this);
+		if (this.menuEntry.length != 0) {
+			final SubToolBar options = new SubToolBar(this.menuEntry, this);
 
-			final int optionsWidth = this.menuEntries.length * ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
+			final int optionsWidth = this.menuEntry.length * ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
 
 			// if the width of the subtoolbar ist too big, the position should
 			// be
@@ -83,7 +87,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 
 				// special case for cirlces (is still too long)
 				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth < 0) {
-					final int buttonsLeft = this.menuEntries.length / 2;
+					final int buttonsLeft = this.menuEntry.length / 2;
 					options.setPopupPosition(this.getAbsoluteLeft() - buttonsLeft * ToolBarButton.BUTTON_WIDTH, this.getAbsoluteTop()
 							- ToolBarButton.BUTTON_WIDTH - 16);
 					options.setSubToolBarArrowPaddingLeft(buttonsLeft * ToolBarButton.BUTTON_WIDTH + 23);
