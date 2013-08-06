@@ -341,7 +341,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 		}
 
 		if(euclidianController instanceof EuclidianControllerW) {
-			((EuclidianControllerW) euclidianController).calculateEnvironment();
+			euclidianController.calculateEnvironment();
 		}
     }
 	
