@@ -93,7 +93,7 @@ public class WinLAF extends DefaultLAF {
 
 			@Override
 			public void setMaterial(Material m) {
-				consTitle.setTitle(m.getTitle());
+				consTitle.setText(m.getTitle());
 			}};
 		return header;
 	}
