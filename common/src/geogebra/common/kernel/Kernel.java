@@ -2236,8 +2236,9 @@ public class Kernel {
 			// updating of the Python Script
 			resetLibraryPythonScript();
 		}
-		this.getGeoGebraCAS().getCurrentCAS().clearResult();
-		
+		if(this.ggbCAS != null){
+			this.ggbCAS.getCurrentCAS().clearResult();
+		}
 		if (macroManager != null)
 			macroManager.setAllMacrosUnused();
 
