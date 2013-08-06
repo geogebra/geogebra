@@ -182,7 +182,7 @@ while [ $# -gt 0 ]; do
    echo "  -T                  Compile the touch version"
    echo "  --heap [size]       Use size of heap memory for GWT compilation ($HEAPSIZE)"
    echo "  -nn                 Do not rewrite nocache filenames -- yet unused"
-   echo "  -nb                 Do not remove /tmp/gwt*byte-cache files before building"
+   echo "  -nb                 Do not remove /tmp/gwt*byte-cache and similar files before building"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
@@ -327,6 +327,8 @@ for i in $THIRDPARTYJARS; do
 # 6/4. Deleting /tmp/gwt*byte-cache
 if [ $DELETE_BYTECACHE = 1 ]; then
  find /tmp -name 'gwt*byte-cache' | xargs rm
+ find /tmp -name 'ImageResourceGenerator*.png' | xargs rm
+ find /tmp -name 'uiBinder_geogebra*.css' | xargs rm
  fi
 
 # 6/5. Running javac for the web
