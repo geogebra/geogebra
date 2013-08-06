@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -7,23 +7,23 @@ import geogebra.touch.model.TouchModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * A {@link LyoutPanel} with a {@link ScrollPanel}.
  */
-public class ColorBar extends OptionsContent {
+public class ColorBar extends FlowPanel {
     HorizontalPanel contentPanel;
     protected Colors colors;
     List<GColor> listOfColors;
 
     /**
      * Initializes the {@link ScrollPanel} and adds the different
-     * {@link geogebra.touch.gui.elements.stylingbar.Colors color-choices} to
-     * it.
+     * {@link geogebra.touch.gui.elements.stylebar.Colors color-choices} to it.
      */
-    public ColorBar(StylingBar stylingBar, TouchModel touchModel) {
+    public ColorBar(StyleBar stylingBar, TouchModel touchModel) {
 	this.addStyleName("colorBar");
 	this.contentPanel = new HorizontalPanel();
 

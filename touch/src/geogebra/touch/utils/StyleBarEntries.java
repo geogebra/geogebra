@@ -7,7 +7,7 @@ import geogebra.touch.gui.laf.DefaultResources;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-public enum StylingBarEntries {
+public enum StyleBarEntries {
     Point(GColor.blue, new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), DependentPoints(GColor.darkGray, new SVGResource[] {
 	    getLafIcons().color(), getLafIcons().label() }), Line(GColor.black, new SVGResource[] { getLafIcons().color(),
 	    getLafIcons().properties_default() }), Polygon(GeoGebraColorConstants.BROWN, new SVGResource[] { getLafIcons().color(),
@@ -23,7 +23,7 @@ public enum StylingBarEntries {
 
     SVGResource[] entry;
 
-    StylingBarEntries(GColor color, SVGResource[] entries) {
+    StyleBarEntries(GColor color, SVGResource[] entries) {
 	this.defaultColor = color;
 	this.entry = entries;
     }

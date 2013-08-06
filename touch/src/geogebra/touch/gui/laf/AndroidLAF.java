@@ -30,7 +30,7 @@ public class AndroidLAF extends DefaultLAF {
     }
 
     @Override
-    public boolean supportsShare() {
+    public boolean isShareSupported() {
 	return true;
     }
 }

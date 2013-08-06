@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.TouchEntryPoint;
@@ -13,7 +13,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class LineStyleBar extends OptionsContent {
+public class LineStyleBar extends FlowPanel {
     public static final int SLIDER_MIN = 1;
     public static final int SLIDER_MAX = 12;
 
@@ -24,7 +24,7 @@ public class LineStyleBar extends OptionsContent {
 	    new StandardImageButton(LafIcons.line_dashed_long()), new StandardImageButton(LafIcons.line_dashed_short()),
 	    new StandardImageButton(LafIcons.line_dotted()), new StandardImageButton(LafIcons.line_dash_dot()) };
 
-    public LineStyleBar(final TouchModel touchModel, final StylingBar stylingBar) {
+    public LineStyleBar(final TouchModel touchModel, final StyleBar stylingBar) {
 	this.addStyleName("lineStyleBar");
 	this.contentPanel = new FlowPanel();
 

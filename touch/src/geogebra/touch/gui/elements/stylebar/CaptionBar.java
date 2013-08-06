@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.touch.model.TouchModel;
@@ -6,9 +6,10 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class CaptionBar extends OptionsContent {
+public class CaptionBar extends FlowPanel {
 
     private final HorizontalPanel contentPanel;
 

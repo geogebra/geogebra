@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.user.client.Window;
@@ -19,7 +20,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AlgebraViewPanel extends FlowPanel {
     private final AlgebraViewM algebraView;
-    private final AlgebraButton arrow;
+    private StandardImageButton arrow;
     private final FlowPanel stylebar;
     private ScrollPanel content;
 
@@ -40,7 +41,11 @@ public class AlgebraViewPanel extends FlowPanel {
 	this.algebraView = new AlgebraViewM(controller);
 	kernel.attach(this.algebraView);
 	this.stylebar = new FlowPanel();
-	this.arrow = new AlgebraButton(gui);
+	
+	this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+	this.arrow.setStyleName("arrowRight");
+	this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(this.arrow, gui);
+	
 	this.stylebar.add(this.arrow);
 	this.stylebar.setStyleName("algebraStylebar");
 	this.add(this.stylebar);

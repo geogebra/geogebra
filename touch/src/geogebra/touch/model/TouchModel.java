@@ -998,7 +998,7 @@ public class TouchModel {
 		}
 
 		if (this.commandFinished || this.command == ToolBarCommand.Select || this.command == ToolBarCommand.Move_Mobile) {
-			this.guiModel.updateStylingBar();
+			this.guiModel.updateStyleBar();
 		}
 	}
 
@@ -1102,7 +1102,7 @@ public class TouchModel {
 
 		// still false! includes a repaint
 		this.kernel.setNotifyRepaintActive(true);
-		this.guiModel.updateStylingBar();
+		this.guiModel.updateStyleBar();
 		this.commandFinished = true;
 		this.kernel.getApplication().storeUndoInfo();
 		return true;

@@ -1,18 +1,19 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.touch.TouchEntryPoint;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class OptionsBox extends PopupPanel {
+public class OptionsPanel extends PopupPanel {
     VerticalPanel optionsWrapper;
     Panel optionsBoxArrowPanel;
     Panel contentPanel;
 
-    OptionsBox(OptionsContent content) {
+    OptionsPanel(FlowPanel content) {
 	this.optionsWrapper = new VerticalPanel();
 	this.optionsWrapper.setStyleName("optionsBoxWrapper");
 

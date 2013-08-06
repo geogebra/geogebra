@@ -1,21 +1,22 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.StylingBarEntries;
+import geogebra.touch.utils.StyleBarEntries;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Contains the {@link ColorBar}.
  */
-public class ColorBarBackground extends OptionsContent {
+public class ColorBarPanel extends FlowPanel {
     // private final AnimationHelper animationHelper;
     private final VerticalPanel contentPanel;
     private final ColorBar colorBar;
@@ -23,10 +24,10 @@ public class ColorBarBackground extends OptionsContent {
 
     // FIXME create the popup beforehand, hide or show the slider depending on
     // criteria
-    public ColorBarBackground(StylingBar stylingBar, final TouchModel touchModel) {
+    public ColorBarPanel(StyleBar styleBar, final TouchModel touchModel) {
 	this.contentPanel = new VerticalPanel();
 
-	this.colorBar = new ColorBar(stylingBar, touchModel);
+	this.colorBar = new ColorBar(styleBar, touchModel);
 	this.contentPanel.add(this.colorBar);
 
 	this.slider = new Slider();
@@ -56,7 +57,7 @@ public class ColorBarBackground extends OptionsContent {
 	});
 
 	// add slider only if there is at least one fillable element
-	if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStylingBarEntries() == StylingBarEntries.Polygon) {
+	if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStyleBarEntries() == StyleBarEntries.Polygon) {
 	    this.contentPanel.add(this.slider);
 	}
 

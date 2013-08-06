@@ -58,7 +58,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	this.add(this.openButton);
 	this.add(this.saveButton);
 
-	if (TouchEntryPoint.getLookAndFeel().supportsShare()) {
+	if (TouchEntryPoint.getLookAndFeel().isShareSupported()) {
 	    this.initShareButton();
 	    this.add(this.shareButton);
 	}

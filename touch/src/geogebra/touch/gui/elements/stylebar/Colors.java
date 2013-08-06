@@ -1,4 +1,4 @@
-package geogebra.touch.gui.elements.stylingbar;
+package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.awt.GColor;
 import geogebra.touch.model.TouchModel;
@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * A {@link VerticalPanel} which contains the different color-choices.
  */
 public class Colors extends FlowPanel {
-    StylingBar stylingBar;
+    StyleBar styleBar;
     TouchModel touchModel;
 
-    public Colors(StylingBar stylingBar, TouchModel touchModel) {
-	this.stylingBar = stylingBar;
+    public Colors(StyleBar stylingBar, TouchModel touchModel) {
+	this.styleBar = stylingBar;
 	this.touchModel = touchModel;
     }
 
@@ -39,7 +39,7 @@ public class Colors extends FlowPanel {
 
 	    @Override
 	    public void onClick(ClickEvent event) {
-		Colors.this.stylingBar.updateColor(GColor.getColorString(color));
+		Colors.this.styleBar.updateColor(GColor.getColorString(color));
 		Colors.this.touchModel.getGuiModel().setColor(color);
 		if (Colors.this.touchModel.lastSelected() != null && Colors.this.touchModel.isColorChangeAllowed()
 			&& StyleBarStatic.applyColor(Colors.this.touchModel.getSelectedGeos(), color)) {
@@ -48,7 +48,7 @@ public class Colors extends FlowPanel {
 
 		if (Colors.this.touchModel.getCommand().equals(ToolBarCommand.Pen)
 			|| Colors.this.touchModel.getCommand().equals(ToolBarCommand.FreehandShape)) {
-		    Colors.this.stylingBar.euclidianView.getEuclidianController().getPen().setPenColor(color);
+		    Colors.this.styleBar.euclidianView.getEuclidianController().getPen().setPenColor(color);
 		}
 
 		Colors.this.touchModel.storeOnClose();

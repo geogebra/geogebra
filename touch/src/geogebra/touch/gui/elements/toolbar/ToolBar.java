@@ -6,7 +6,6 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
-import geogebra.touch.gui.elements.ArrowImageButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
@@ -69,8 +68,12 @@ public class ToolBar extends FlowPanel {
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
 
-		this.showHideClosed = new ArrowImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
-		this.showHideOpened = new ArrowImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideClosed = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideClosed.setStyleName("arrowLeft");
+		
+		this.showHideOpened = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideOpened.setStyleName("arrowLeft");
+		
 		this.showHideClosed.setVisible(this.openNeeded);
 		this.showHideOpened.setVisible(false);
 
