@@ -610,9 +610,9 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		
 		dockPanel.clear();
 
-		if (hasStyleBar) {
+		if (hasStyleBar()) {
 			dockPanel.addNorth(titleBarPanel, 16);
-			if (showStyleBar) {
+			if (isStyleBarVisible()) {
 				dockPanel.addNorth(styleBarPanel, 25);
 				if (toglStyleBtn2.isAttached()) {
 					titleBarPanel.remove(toglStyleBtn2);
@@ -655,7 +655,7 @@ public abstract    class DockPanelW extends ResizeComposite implements
 		if (component == null) {
 			component = loadComponent();
 		}
-		if (hasStyleBar) {
+		if (hasStyleBar()) {
 			styleBarPanel.add(loadStyleBar(), 2, 0);
 		}
 		setLayout();
@@ -1384,13 +1384,21 @@ public abstract    class DockPanelW extends ResizeComposite implements
 	/**
 	 * @return If the style bar should be visible.
 	 */
-	private boolean isStyleBarVisible() {
+	protected boolean isStyleBarVisible() {
 		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2 || id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
 				return false;
 			}
 		}
 		return (showStyleBar /*|| !titlePanel.isVisible()*/);
+	}
+
+	/**
+	 * just return hasStyleBar - overridden for spreadsheet
+	 * @return hasStyleBar
+	 */
+	protected boolean hasStyleBar() {
+		return hasStyleBar;
 	}
 
 	public void setFrameBounds(GRectangleW frameBounds) {

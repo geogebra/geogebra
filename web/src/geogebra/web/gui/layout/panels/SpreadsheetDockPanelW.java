@@ -2,6 +2,7 @@ package geogebra.web.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
+import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
@@ -170,5 +171,29 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		
 
 		return sb.toString();
+	}
+
+	@Override 
+	public boolean isStyleBarVisible() {
+
+		if (!app.isApplet()) {
+			return super.isStyleBarVisible();
+		}
+
+		SpreadsheetSettings settings = app.getSettings().getSpreadsheet(); 
+
+		// currently no GUI / XML for hiding the style-bar
+		// hide in applets if the row/column headers are missing
+		return settings.showRowHeader() && settings.showColumnHeader();
+	}
+
+	@Override
+	public boolean hasStyleBar() {
+		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
+
+		if (settings == null)
+			return super.hasStyleBar();
+
+		return super.hasStyleBar() && settings.showRowHeader() && settings.showColumnHeader();
 	}
 }
