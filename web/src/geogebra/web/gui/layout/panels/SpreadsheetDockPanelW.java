@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.web.gui.app.SpreadsheetStyleBarPanel;
-import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -12,7 +11,6 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -25,13 +23,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	App application = null;
 
-	SimpleLayoutPanel toplevel;
-
-	VerticalPanelSmart ancestor;
 	SpreadsheetStyleBarPanel sstylebar;
 	SpreadsheetViewW sview;
-	
-	protected SpreadsheetDockPanelW dockPanel;
 
 	public SpreadsheetDockPanelW(App app) {
 		super(
@@ -43,17 +36,18 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 				'S'									// menu shortcut
 			);
 		
-		//initWidget(toplevel = new SimpleLayoutPanel());
-		//ancestor = new VerticalPanelSmart();
-		//ancestor.add(sstylebar = new SpreadsheetStyleBarPanel());
-		//toplevel.add(ancestor);
-		
 		application = app;
-		this.dockPanel = this;
 	}
 
 	protected Widget loadComponent() {
-		
+
+		// PLAN:
+		// wrap it into an absolute panel whose width/height
+		// is the same as the original spreadsheet view,
+		// and if scrollbars should not show, let the width/height
+		// of the original spreadsheet view be larger by 10-20px
+
+
 		sview = ((AppW)application).getGuiManager().getSpreadsheetView();
 					
 		return sview;
@@ -84,8 +78,8 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 						sview.getFocusPanel().setHeight(height2 + "px");
 
 
-						int width = dockPanel.getComponentInteriorWidth();
-						int height = dockPanel.getComponentInteriorHeight();
+						int width = getComponentInteriorWidth();
+						int height = getComponentInteriorHeight();
 
 						if (width < 0 || height < 0) {
 							return;
@@ -111,21 +105,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	public void showView(boolean show) {
-
-		if (application == null) return;
-
-		// imperfect yet
-		if (show && sview == null) {
-			sview = ((AppW)application).getGuiManager().getSpreadsheetView();
-			((MyTableW)sview.getSpreadsheetTable()).setRepaintAll();
-			ancestor.add(sview);
-			((MyTableW)sview.getSpreadsheetTable()).repaint();
-			onResize();
-		} else if (!show && sview != null) {
-			ancestor.remove(sview);
-			sview = null;
-			onResize();
-		}
+		App.debug("unimplemented method");
 	}
 
 	public App getApp() {
