@@ -184,7 +184,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 		// currently no GUI / XML for hiding the style-bar
 		// hide in applets if the row/column headers are missing
-		return settings.showRowHeader() && settings.showColumnHeader();
+		return super.isStyleBarVisible() && settings.showRowHeader() && settings.showColumnHeader();
 	}
 
 	@Override
