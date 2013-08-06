@@ -1955,7 +1955,7 @@ __GGB__keysVar.ko.menu = {
     "XLessThanOrEqual": "X \u2264",
     "Y_X": "Y \u2190 X",
     "ZEstimateDifferenceOfMeans": "Z \ucd94\uc815, \ud3c9\uade0\uc758 \ucc28",
-    "ZEstimateDifferenceOfProportions": "Z \ucd94\uc815, \ube44\uc758 \ucc28",
+    "ZEstimateDifferenceOfProportions": "Z \ucd94\uc815, \ube44\uc728\uc758 \ucc28",
     "ZMeanInterval": "\ud3c9\uade0\uc758 Z \ucd94\uc815",
     "ZMeanTest": "\ud3c9\uade0\uc758 Z \uac80\uc815",
     "ZProportionInterval": "\ube44\uc728\uc758 Z \ucd94\uc815",
