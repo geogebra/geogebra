@@ -144,4 +144,6 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas);
 
+	void clearResult();
+
 }

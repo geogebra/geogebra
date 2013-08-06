@@ -114,6 +114,11 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
     public String evaluate(String exp, long timeoutMilliseconds) {
 	    return evaluate(exp);
     }
+
+	public void clearResult() {
+	    // not needed
+	    
+    }
 	
 
 }

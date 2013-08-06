@@ -299,4 +299,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	}
 
+	public void clearResult() {
+		this.threadResult = null;
+	}
+
 }
