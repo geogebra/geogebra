@@ -384,7 +384,7 @@ public interface Traversing {
 				
 				GeoElement geo = ev.getKernel().lookupLabel(name);
 				
-				if (geo == null) {
+				if (geo == null && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
 					App.debug("found undefined variable: "+name);
 					tree.add(name);					
 				}
