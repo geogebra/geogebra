@@ -1,11 +1,15 @@
 package geogebra.touch.gui.laf;
 
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
 
 public class WinLAF extends DefaultLAF {
 
@@ -74,4 +78,23 @@ public class WinLAF extends DefaultLAF {
 		}
 		$wnd.appbar.updateUndoRedo(undo, redo);
     }-*/;
+    
+    @Override
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,TabletGUI tabletGUI) {
+    	final Label consTitle = new Label();
+    	worksheetGUI.getContent().add(consTitle);
+		WorksheetHeader header = new WorksheetHeader(){
+
+			@Override
+			public void setLabels() {
+				//no native buttons
+				
+			}
+
+			@Override
+			public void setMaterial(Material m) {
+				consTitle.setTitle(m.getTitle());
+			}};
+		return header;
+	}
 }

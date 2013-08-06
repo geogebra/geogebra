@@ -3,6 +3,8 @@ package geogebra.touch.gui.laf;
 import geogebra.common.main.SavedStateListener;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
@@ -42,4 +44,6 @@ public interface LookAndFeel extends SavedStateListener {
     public StandardImageButton setStyleBarShowHideHandler(StandardImageButton button, StyleBar styleBar);
 
     public StandardImageButton setAlgebraButtonHandler(StandardImageButton arrow, TabletGUI gui);
+
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI, TabletGUI tabletGUI);
 }

@@ -691,5 +691,10 @@ public abstract class AppWeb extends App implements SetLabels{
 		public void copyBase64ToClipboard() {
 			// unimplemented
 		}
+
+		public void openMaterial(String s) {
+	        // TODO Auto-generated method stub
+	        
+        }
 	
 }

@@ -554,6 +554,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	public synchronized boolean evalCommand(final String cmdString, boolean waitForResult) {
 			return evalCommand(cmdString);
 	}
+	
+	public void openMaterial(String material){
+		((AppWeb)app).openMaterial(material);
+	}
 
 
 }

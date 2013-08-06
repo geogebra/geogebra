@@ -32,6 +32,7 @@ import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.TabletGUI;
@@ -666,6 +667,11 @@ public class TouchApp extends AppWeb {
 
     @Override
     public void uploadToGeoGebraTube() {
+    }
+    
+    @Override
+    public void openMaterial(String s){
+    	TouchEntryPoint.showWorksheetGUI(JSONparserGGT.parseMaterial(s));
     }
 
 }

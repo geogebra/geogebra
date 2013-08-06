@@ -3,8 +3,11 @@ package geogebra.touch.gui.laf;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
+import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
@@ -161,4 +164,10 @@ public class DefaultLAF implements LookAndFeel {
 	return button;
     }
 
+	@Override
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,TabletGUI tabletGUI) {
+		WorksheetHeaderPanel header = new WorksheetHeaderPanel(app, worksheetGUI, tabletGUI);
+		worksheetGUI.setHeaderWidget(header);
+		return header;
+	}
 }

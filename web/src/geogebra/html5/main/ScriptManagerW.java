@@ -340,6 +340,10 @@ public class ScriptManagerW extends ScriptManager {
 		$wnd[ggbApplet].setMode = function(mode) {
 			ggbAPI.@geogebra.html5.main.GgbAPI::setMode(I)(mode);
 		};
+		
+		$wnd[ggbApplet].openMaterial = function(material) {
+			ggbAPI.@geogebra.html5.main.GgbAPI::openMaterial(Ljava/lang/String;)(material);
+		};
 
 		// not supported by GgbAPI Desktop,Web
 		//$wnd[ggbApplet].callJavaScript = function(jsFunction, args) {

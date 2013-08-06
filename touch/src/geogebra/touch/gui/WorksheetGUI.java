@@ -6,7 +6,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 
@@ -24,19 +23,19 @@ public class WorksheetGUI extends HeaderPanel {
 
 	private final Label instructionsPost, instructionsPre;
 	private final FlowPanel frame = new FlowPanel();
-	private final WorksheetHeaderPanel header;
+	//private final WorksheetHeaderPanel header;
 	private final AppWeb app;
 	private final FileManagerM fm;
 	private final FlowPanel content;
 	TabletGUI tabletGUI;
 	private DockLayoutPanel contentPanel;
+	private WorksheetHeader header;
 
 	public WorksheetGUI(AppWeb app, TabletGUI tabletGUI) {
 		this.setStyleName("worksheetgui");
 		this.fm = ((TouchApp) app).getFileManager();
-		this.header = new WorksheetHeaderPanel(app, this, tabletGUI);
-		this.setHeaderWidget(this.header);
 		this.content = new FlowPanel();
+		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(this, tabletGUI);
 		this.app = app;
 		this.tabletGUI = tabletGUI;
 
@@ -44,6 +43,10 @@ public class WorksheetGUI extends HeaderPanel {
 		this.instructionsPre = new Label();
 		this.instructionsPre.setStyleName("instructionsPre");
 		this.instructionsPost.setStyleName("instructionsPost");
+	}
+	
+	public FlowPanel getContent() {
+		return this.content;
 	}
 
 	public DockLayoutPanel getContentPanel() {
@@ -82,7 +85,11 @@ public class WorksheetGUI extends HeaderPanel {
 			article.setAttribute("data-param-showResetIcon", "true");
 			// no security issues here
 			article.setAttribute("data-param-useBrowserForJS", "true");
-
+			Element div = this.frame.getElement();
+			int cc = div.getChildCount();
+			for(int i=cc-1; i >= 0; i--){
+				div.removeChild(div.getChild(i));
+			}
 			this.frame.getElement().appendChild(article);
 			this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
 			Web.currentGUI = GuiToLoad.VIEWER;
