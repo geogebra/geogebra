@@ -276,7 +276,8 @@ public class TouchController extends EuclidianController {
 
 		if (this.model.getCommand() == ToolBarCommand.Pen
 				|| this.model.getCommand() == ToolBarCommand.FreehandShape
-				|| this.model.getCommand() == ToolBarCommand.DeleteObject) {
+				|| this.model.getCommand() == ToolBarCommand.DeleteObject
+				|| this.model.getCommand() == ToolBarCommand.TranslateObjectByVector) {
 			this.wrapMouseReleased(new MobileMouseEvent(x, y));
 		}
 	}
@@ -291,6 +292,7 @@ public class TouchController extends EuclidianController {
 				&& (this.clicked = this.model.controlClicked())
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile
 						|| this.model.getCommand() == ToolBarCommand.RotateAroundPoint
+						|| this.model.getCommand() == ToolBarCommand.TranslateObjectByVector
 						|| this.model.getCommand() == ToolBarCommand.Pen
 						|| this.model.getCommand() == ToolBarCommand.FreehandShape
 						|| this.model.getCommand() == ToolBarCommand.DeleteObject || Swipeables
