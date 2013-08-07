@@ -3,6 +3,7 @@ package geogebra.cas.giac;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
+import geogebra.common.cas.error.TimeoutException;
 import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
@@ -231,6 +232,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	public String evaluateCAS(String exp) {
 		try {
 			return evaluate(exp);
+		} catch (TimeoutException te) {
+			throw te;
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
