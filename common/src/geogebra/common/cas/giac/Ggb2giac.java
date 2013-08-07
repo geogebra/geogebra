@@ -711,9 +711,12 @@ public class Ggb2giac {
 		//p("PolyLine.N", "open_polygon(%)");
 
 		p("Tangent.2","when((%0)[0]=='pnt',"+
+				"when((%1)[0]=='=',"+
+				// Tangent[conic/implicit, point on curve]
+				"equation(tangent(%1,%0)),"+
 				// Tangent[point, function]
 				// just use x-coordinate real(%0[1])
-				"y=subst(diff(%1,x),x=real(%0[1]))*(x-real(%0[1]))+subst(%1,x=real(%0[1]))"+
+				"y=subst(diff(%1,x),x=real(%0[1]))*(x-real(%0[1]))+subst(%1,x=real(%0[1])))"+
 				","+
 				// Tangent[x-value, function]
 				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
