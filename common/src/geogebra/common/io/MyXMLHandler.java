@@ -1213,11 +1213,10 @@ public class MyXMLHandler implements DocHandler {
 				docPointStyle = -1;
 			}
 
-			// Michael Borcherds 2008-05-12
-			// size of checkbox
 			String strBooleanSize = attrs.get("checkboxSize");
-			if (strBooleanSize != null)
-				app.booleanSize = Integer.parseInt(strBooleanSize);
+			if (strBooleanSize != null) {
+				app.setCheckboxSize(Integer.parseInt(strBooleanSize));
+			}
 			// ev.setBooleanSize(Integer.parseInt(strBooleanSize));
 
 			boolean asm = parseBoolean(attrs.get("allowShowMouseCoords"));

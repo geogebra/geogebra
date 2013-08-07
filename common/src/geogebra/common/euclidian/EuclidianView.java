@@ -1836,16 +1836,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void setBooleanSize(int size) {
 
 		// only 13 and 26 currently allowed
-		getApplication().booleanSize = (size == 13) ? 13 : 26;
+		app.setCheckboxSize(size);
 
 		updateAllDrawables(true);
 	}
 
 	/**
-	 * @return size of booleans
+	 * @return size of booleans (13 or 26)
 	 */
 	final public int getBooleanSize() {
-		return getApplication().booleanSize;
+		return app.getCheckboxSize();
 	}
 
 	/**
@@ -4328,7 +4328,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 
 		sbxml.append("\" checkboxSize=\"");
-		sbxml.append(getApplication().booleanSize); // Michael Borcherds
+		sbxml.append(app.getCheckboxSize()); // Michael Borcherds
 													// 2008-05-12
 
 		sbxml.append("\" gridType=\"");

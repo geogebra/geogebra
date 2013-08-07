@@ -242,8 +242,29 @@ public abstract class App implements UpdateSelection{
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
-	/** size of checkboxes */
-	public int booleanSize = 13;
+
+	/** size of checkboxes, default in default-preferences.xml checkboxSize="26" */
+	private int booleanSize = 26;
+	
+	/**
+	 * 
+	 * set global checkbox size (all checkboxes, both views)
+	 * 
+	 * @param b new size for checkboxes (either 13 or 26)
+	 */
+	public void setCheckboxSize(int b) {
+		booleanSize = (b == 13) ? 13 : 26;
+	}
+	
+	/**
+	 * @return global checkbox size 13 or 26 (all checkboxes, both views)
+	 */
+	public int getCheckboxSize() {
+		return booleanSize;
+	}
+	
+	
+	
 	/**
 	 * right angle style
 	 * 
