@@ -2475,13 +2475,13 @@ namespace giac {
     if (ss!=2)
       return false;
     char s0=s[0],s1=s[1];
-    if (s1>'9')
-      return true;
-    switch (s0){
-    case 'F': case 'R': case 'U': case 'X': case 'Y':
+    if (s1<'0' || s1>'9')
       return false;
+    switch (s0){
+    case 'M': case 'L': case 'D': case 'C':
+      return true;
     }
-    return true;
+    return false;
   }
   // check value type for storing value in s using 38 compatibility mode
   bool check_sto_38(gen & value,const char * s){

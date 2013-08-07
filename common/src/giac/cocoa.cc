@@ -1462,7 +1462,7 @@ namespace giac {
   static void linear_combination(const gen & a,const poly8 &p,tdeg_t * ashift,const gen &b,const poly8 & q,tdeg_t * bshift,poly8 & r,environment * env){
     r.coord.clear();
     std::vector< T_unsigned<gen,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=q.coord.begin(),jtend=q.coord.end();
-    r.coord.reserve(itend-it+jtend-jt);
+    r.coord.reserve((itend-it)+(jtend-jt));
     mpz_t tmpz;
     mpz_init(tmpz);
     if (jt!=jtend){
@@ -2624,8 +2624,10 @@ namespace giac {
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>1){
-      cerr << clock() << " end, pairs: " << B << endl;
-      cerr << " mod begin Groebner interreduce " << endl;
+      cerr << clock() << " end, pairs:"<< endl;
+      if (debug_infolevel>2)
+	cerr << B << endl;
+      cerr << "mod begin Groebner interreduce " << endl;
     }
     C.clear();
     C.reserve(G.size()+1);

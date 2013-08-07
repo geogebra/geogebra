@@ -1755,11 +1755,27 @@ namespace giac {
     // now check if the input is exact if there are multiple roots
     if (ck_exact && is_exact(v)){
 #if 1
+      gen g=symb_horner(v,vx_var);
+      vecteur vv=factors(g,vx_var,context0);
+      vecteur res;
+      for (unsigned i=0;i<vv.size()-1;i+=2){
+	gen vi=vv[i];
+	vi=_e2r(makevecteur(vi,vx_var),context0);
+	if (vi.type==_VECT && vv[i+1].type==_INT_){
+	  int mult=vv[i+1].val;
+	  vecteur current=proot(*vi._VECTptr,eps,rprec,false);
+	  for (unsigned j=0;j<current.size();++j){
+	    for (int k=0;k<mult;++k){
+	      res.push_back(current[j]);
+	    }
+	  }
+	}
+      }
+      return res;
       polynome V;
       poly12polynome(v,1,V);
       factorization f=sqff(V);
       factorization::const_iterator it=f.begin(),itend=f.end();
-      vecteur res;
       for (;it!=itend;++it){
 	polynome pcur=it->fact;
 	int n=it->mult;
