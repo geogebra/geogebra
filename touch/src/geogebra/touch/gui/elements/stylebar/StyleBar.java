@@ -58,16 +58,11 @@ public class StyleBar extends FlowPanel {
 	private TouchModel touchModel;
 	private GuiModel guiModel;
 
+	private OptionsPanel optionsPanel;
+
 	/**
 	 * Initializes the StyleBar
 	 * 
-	 * @param TouchModel
-	 *            touchModel
-	 * 
-	 * @param EuclidianViewM
-	 *            view
-	 * @param EuclidianViewPanel
-	 *            euclidianViewPanel
 	 */
 	public StyleBar(TouchModel touchModel, EuclidianViewM view) {
 		this.setStyleName("stylebar");
@@ -81,15 +76,8 @@ public class StyleBar extends FlowPanel {
 		this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
 		this.showHideButton.setStyleName("arrowLeft");
 
-		this.showHideButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-				StyleBar.this.showHide();
-			}
-		});
+		this.showHideButton = TouchEntryPoint.getLookAndFeel()
+				.setStyleBarShowHideHandler(this.showHideButton, this);
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
@@ -205,11 +193,8 @@ public class StyleBar extends FlowPanel {
 
 		this.styleButtonsPanel.clear();
 
-		if (!this.buttons.isEmpty()) {
-
-			for (final StandardImageButton imageButton : this.buttons.values()) {
-				this.styleButtonsPanel.add(imageButton);
-			}
+		for (final StandardImageButton imageButton : this.buttons.values()) {
+			this.styleButtonsPanel.add(imageButton);
 		}
 	}
 
@@ -268,19 +253,18 @@ public class StyleBar extends FlowPanel {
 	public void onOptionalButtonEvent(StandardImageButton eventSource,
 			OptionType type) {
 
-		if (StyleBar.this.guiModel.getOptionTypeShown().equals(type)) {
-			StyleBar.this.guiModel.closeOptions();
-		} else if (type.equals(OptionType.Color)) {
-			StyleBar.this.guiModel.showOption(new OptionsPanel(
-					new ColorBarPanel(this, this.touchModel)),
-					OptionType.Color, this.buttons.get(OptionType.Color));
-		} else if (type.equals(OptionType.LineStyle)) {
-			StyleBar.this.guiModel.showOption(new OptionsPanel(
-					new LineStyleBar(this.touchModel, this)),
-					OptionType.LineStyle, eventSource);
-		} else if (type.equals(OptionType.CaptionStyle)) {
-			StyleBar.this.guiModel.showOption(new OptionsPanel(new CaptionBar(
-					this.touchModel)), OptionType.CaptionStyle, eventSource);
+		if (this.guiModel.getOptionTypeShown().equals(type)) {
+
+			this.guiModel.closeOptions();
+
+		} else {
+
+			if (this.optionsPanel == null) {
+				this.optionsPanel = new OptionsPanel(this);
+			}
+
+			this.guiModel.showOption(this.optionsPanel.getOptionsPanel(type),
+					eventSource);
 		}
 	}
 
@@ -301,5 +285,9 @@ public class StyleBar extends FlowPanel {
 		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
 				.setBackgroundColor(color);
 
+	}
+
+	public TouchModel getTouchModel() {
+		return this.touchModel;
 	}
 }

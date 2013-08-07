@@ -28,7 +28,7 @@ public class LineStyleBar extends FlowPanel {
 			new StandardImageButton(LafIcons.line_dotted()),
 			new StandardImageButton(LafIcons.line_dash_dot()) };
 
-	public LineStyleBar(final TouchModel touchModel, final StyleBar stylingBar) {
+	public LineStyleBar(final StyleBar stylingBar, final TouchModel touchModel) {
 		this.addStyleName("lineStyleBar");
 		this.contentPanel = new FlowPanel();
 

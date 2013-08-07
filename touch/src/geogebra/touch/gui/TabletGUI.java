@@ -125,12 +125,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		return this.app;
 	}
 
-	// TODO: use with SelelctionManager
-	// @Override
-	// public void updateStylingBar(SelectionManager selectionManager) {
-	// this.stylingBar.updateGeos(selectionManager);
-	// }
-
 	public String getConstructionTitle() {
 		if (this.getHeaderWidget() instanceof TabletHeaderPanel) {
 			return ((TabletHeaderPanel) this.getHeaderWidget())

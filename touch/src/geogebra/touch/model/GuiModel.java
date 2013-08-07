@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.stylebar.OptionsPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.gui.elements.stylebar.StyleBarStatic;
 import geogebra.touch.gui.elements.toolbar.SubToolBar;
@@ -28,7 +29,7 @@ public class GuiModel {
 	private ToolBarButton activeButton;
 	private ToolBarButton defaultButton;
 	private StyleBar styleBar;
-	private PopupPanel option;
+	private PopupPanel optionsPanel;
 
 	private OptionType styleBarOptionShown = OptionType.None;
 
@@ -87,8 +88,8 @@ public class GuiModel {
 	}
 
 	public void closeOnlyOptions() {
-		if (this.option != null) {
-			this.option.hide();
+		if (this.optionsPanel != null) {
+			this.optionsPanel.hide();
 			this.styleBarOptionShown = OptionType.None;
 
 			if (this.touchModel != null) {
@@ -178,7 +179,7 @@ public class GuiModel {
 	}
 
 	public void setOption(SubToolBar options) {
-		this.option = options;
+		this.optionsPanel = options;
 	}
 
 	public void setStyleBarOptionShown(OptionType type) {
@@ -203,25 +204,30 @@ public class GuiModel {
 
 	/**
 	 * 
-	 * @param newOption
-	 *            the PopupPanel to be shown
-	 * @param type
-	 *            the OptionsType of the PopupPanel
+	 * @param panel
+	 *            the OptionsPanel to be shown
 	 * @param parent
 	 *            the button that was clicked, null in case of a Dialog
 	 *            (OptionsType.Dialog)
 	 */
-	public void showOption(PopupPanel newOption, OptionType type,
-			StandardImageButton parent) {
+	public void showOption(OptionsPanel panel, StandardImageButton parent) {
 		this.closeOnlyOptions();
-		this.option = newOption;
-		newOption.showRelativeTo(parent);
-		this.styleBarOptionShown = type;
+		this.optionsPanel = panel;
+		this.optionsPanel.showRelativeTo(parent);
+		this.styleBarOptionShown = panel.getType();
 	}
 
 	public void updateStyleBar() {
 		if (this.styleBar != null) {
 			this.styleBar.rebuild();
 		}
+	}
+
+	public void showOption(SubToolBar panel, ToolBarButton parent) {
+		this.closeOnlyOptions();
+		this.optionsPanel = panel;
+		this.optionsPanel.showRelativeTo(parent);
+		this.styleBarOptionShown = OptionType.ToolBar;
+
 	}
 }

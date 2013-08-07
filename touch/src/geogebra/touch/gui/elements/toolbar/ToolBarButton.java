@@ -112,7 +112,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 				this.model.setStyleBarOptionShown(OptionType.ToolBar);
 
 			} else {
-				this.model.showOption(options, OptionType.ToolBar, this);
+				this.model.showOption(options, this);
 			}
 
 		}
