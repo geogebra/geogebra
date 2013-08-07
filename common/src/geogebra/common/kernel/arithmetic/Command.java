@@ -212,26 +212,64 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			sbToString.setLength(0);
 
 			// GeoGebra command syntax
-			if (tpl.isPrintLocalizedCommandNames()) {
-				sbToString.append(app.getLocalization().getCommand(name));
+			if (!name.equals("Integral") || !LaTeX) {
+				if (tpl.isPrintLocalizedCommandNames()) {
+					sbToString.append(app.getLocalization().getCommand(name));
+				} else {
+					sbToString.append(name);
+				}
+				if (LaTeX) {
+					sbToString.append(" \\left");
+				}
+				sbToString.append('[');
+				int size = args.size();
+				for (int i = 0; i < size; i++) {
+					sbToString.append(toString(args.get(i), symbolic, LaTeX,
+							tpl));
+					sbToString.append(',');
+				}
+				if (size > 0)
+					sbToString.deleteCharAt(sbToString.length() - 1);
+				if (LaTeX) {
+					sbToString.append(" \\right");
+				}
+				sbToString.append(']');
 			} else {
-				sbToString.append(name);
+				sbToString.append("\\int");
+				String var = "x";
+				switch (getArgumentNumber()) {
+				case 1:
+					sbToString.append(" ");
+					sbToString.append(getArgument(0).toString(tpl));
+					break;
+				case 2:
+					sbToString.append(" ");
+					sbToString.append(getArgument(0).toString(tpl));
+					var = getArgument(1).toString(tpl);
+					break;
+				case 3:
+					sbToString.append("_");
+					sbToString.append(getArgument(1).toString(tpl));
+					sbToString.append("^");
+					sbToString.append(getArgument(2).toString(tpl));
+					sbToString.append(" ");
+					sbToString.append(getArgument(0).toString(tpl));
+					break;
+				case 4:
+					sbToString.append("_");
+					sbToString.append(getArgument(2).toString(tpl));
+					sbToString.append("^");
+					sbToString.append(getArgument(3).toString(tpl));
+					sbToString.append(" ");
+					sbToString.append(getArgument(0).toString(tpl));
+					var = getArgument(1).toString(tpl);
+					break;
+				default:
+					break;
+				}
+				sbToString.append("\\, \\mathrm{d}");
+				sbToString.append(var);
 			}
-			if (LaTeX) {
-				sbToString.append(" \\left");
-			}
-			sbToString.append('[');
-			int size = args.size();
-			for (int i = 0; i < size; i++) {
-				sbToString.append(toString(args.get(i), symbolic, LaTeX,tpl));
-				sbToString.append(',');
-			}
-			if (size > 0) 
-				sbToString.deleteCharAt(sbToString.length() - 1);
-			if (LaTeX) {
-				sbToString.append(" \\right");
-			}
-			sbToString.append(']');
 			return sbToString.toString();
 		}
 
