@@ -30,7 +30,7 @@ public class GuiModel {
     private StyleBar styleBar;
     private PopupPanel option;
 
-    private OptionType styleBarOptionShown = OptionType.Non;
+    private OptionType styleBarOptionShown = OptionType.None;
 
     private GColor color;
     private float alpha = -1f;
@@ -88,7 +88,7 @@ public class GuiModel {
     public void closeOnlyOptions() {
 	if (this.option != null) {
 	    this.option.hide();
-	    this.styleBarOptionShown = OptionType.Non;
+	    this.styleBarOptionShown = OptionType.None;
 
 	    if (this.touchModel != null) {
 		this.touchModel.optionsClosed();
@@ -157,6 +157,12 @@ public class GuiModel {
 
     public void setColor(GColor c) {
 	this.color = c;
+
+	// Update Pen color if necessary
+	if (this.touchModel.getCommand().equals(ToolBarCommand.Pen) || this.touchModel.getCommand().equals(ToolBarCommand.FreehandShape)) {
+	    this.touchModel.getKernel().getApplication().getEuclidianView1().getEuclidianController().getPen().setPenColor(this.color);
+	}
+
     }
 
     public void setLineSize(int i) {

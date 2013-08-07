@@ -3,7 +3,7 @@ package geogebra.touch.gui.elements.stylebar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.StyleBarEntries;
+import geogebra.touch.utils.StyleBarDefaultSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class ColorBarPanel extends FlowPanel {
 	});
 
 	// add slider only if there is at least one fillable element
-	if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStyleBarEntries() == StyleBarEntries.Polygon) {
+	if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
 	    this.contentPanel.add(this.slider);
 	}
 

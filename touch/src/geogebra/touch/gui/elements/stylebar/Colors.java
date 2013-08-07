@@ -2,7 +2,6 @@ package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.awt.GColor;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class Colors extends FlowPanel {
     StyleBar styleBar;
     TouchModel touchModel;
 
-    public Colors(StyleBar stylingBar, TouchModel touchModel) {
-	this.styleBar = stylingBar;
+    public Colors(StyleBar styleBar, TouchModel touchModel) {
+	this.styleBar = styleBar;
 	this.touchModel = touchModel;
     }
 
@@ -44,11 +43,6 @@ public class Colors extends FlowPanel {
 		if (Colors.this.touchModel.lastSelected() != null && Colors.this.touchModel.isColorChangeAllowed()
 			&& StyleBarStatic.applyColor(Colors.this.touchModel.getSelectedGeos(), color)) {
 		    Colors.this.touchModel.lastSelected().updateRepaint();
-		}
-
-		if (Colors.this.touchModel.getCommand().equals(ToolBarCommand.Pen)
-			|| Colors.this.touchModel.getCommand().equals(ToolBarCommand.FreehandShape)) {
-		    Colors.this.styleBar.euclidianView.getEuclidianController().getPen().setPenColor(color);
 		}
 
 		Colors.this.touchModel.storeOnClose();

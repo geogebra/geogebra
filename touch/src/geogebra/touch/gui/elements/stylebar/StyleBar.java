@@ -13,13 +13,19 @@ import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
-import geogebra.touch.utils.StyleBarEntries;
-import geogebra.touch.utils.ToolBarCommand;
+import geogebra.touch.utils.StyleBarDefaultSettings;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -29,18 +35,27 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * 
  */
 public class StyleBar extends PopupPanel {
+
+    /**
+     * Enum of allowed Entries to the StyleBar
+     * 
+     * @author Matthias Meisinger
+     * 
+     */
+    enum StyleBarEntry {
+	Axes, Grid, Color, LineStyle, CaptionStyle;
+    }
+
     private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
 
     private HorizontalPanel contentPanel, styleButtonsPanel;
 
-    private StandardImageButton[] buttons = new StandardImageButton[0];
-    private StandardImageButton showHideButton, colorButton;
+    private Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
+    private StandardImageButton showHideButton;
 
     EuclidianViewM euclidianView;
     private TouchModel touchModel;
     private GuiModel guiModel;
-
-    private ToolBarCommand lastCommand;
 
     /**
      * Initializes the StyleBar
@@ -81,81 +96,119 @@ public class StyleBar extends PopupPanel {
 	    this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
 	}
 
-	this.lastCommand = this.guiModel.getCommand();
-
 	this.contentPanel.add(this.styleButtonsPanel);
 	this.contentPanel.add(this.showHideButton);
 	this.add(this.contentPanel);
+
+	// Prevent events from getting through to the canvas
+	this.addDomHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+	    }
+	}, ClickEvent.getType());
+
+	this.addDomHandler(new MouseDownHandler() {
+
+	    @Override
+	    public void onMouseDown(MouseDownEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+	    }
+
+	}, MouseDownEvent.getType());
+
+	this.addDomHandler(new TouchStartHandler() {
+
+	    @Override
+	    public void onTouchStart(TouchStartEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+	    }
+
+	}, TouchStartEvent.getType());
     }
 
-    private boolean rebuild(StyleBarEntries entry) {
+    private void rebuild(StyleBarDefaultSettings entry) {
 
 	SVGResource[] resource = entry.getResources();
 	String color = entry.getColor() != null ? entry.getColor().toString() : "";
 
-	if (entry == StyleBarEntries.Move && this.touchModel.getTotalNumber() > 0) {
+	if (entry == StyleBarDefaultSettings.Move && this.touchModel.getTotalNumber() > 0) {
 	    color = this.touchModel.getSelectedGeos().get(0).getObjectColor().toString();
 	    if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND) {
-		resource = StyleBarEntries.Point.getResources();
+		resource = StyleBarDefaultSettings.Point.getResources();
 	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties) {
-		resource = StyleBarEntries.Line.getResources();
+		resource = StyleBarDefaultSettings.Line.getResources();
 	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
-		resource = StyleBarEntries.Polygon.getResources();
+		resource = StyleBarDefaultSettings.Polygon.getResources();
 	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoAngle) {
-		resource = StyleBarEntries.Angle.getResources();
+		resource = StyleBarDefaultSettings.Angle.getResources();
 	    }
 	}
 
-	final StandardImageButton[] b = new StandardImageButton[resource.length];
+	this.buttons.clear();
+	StandardImageButton b;
 
-	for (int i = 0; i < resource.length; i++) {
-	    if (resource[i].equals(lafIcons.label())) {
+	for (SVGResource svg : resource) {
+	    if (svg.equals(lafIcons.label())) {
 
-		b[i] = new StandardImageButton(lafIcons.label());
-		b[i] = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b[i], this, OptionType.CaptionStyle);
+		b = new StandardImageButton(lafIcons.label());
+		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.CaptionStyle);
+		this.buttons.put(StyleBarEntry.CaptionStyle, b);
 
-	    } else if (resource[i].equals(lafIcons.properties_default())) {
+	    } else if (svg.equals(lafIcons.properties_default())) {
 
-		b[i] = new StandardImageButton(lafIcons.properties_default());
-		b[i] = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b[i], this, OptionType.LineStyle);
-	    } else if (resource[i].equals(lafIcons.color())) {
+		b = new StandardImageButton(lafIcons.properties_default());
+		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.LineStyle);
+		this.buttons.put(StyleBarEntry.LineStyle, b);
 
-		b[i] = new StandardImageButton(lafIcons.color());
-		b[i].getElement().getStyle().setBackgroundImage("initial");
-		b[i].getElement().setAttribute("style", "background: " + color);
-		b[i] = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b[i], this, OptionType.Color);
+	    } else if (svg.equals(lafIcons.color())) {
 
-	    } else if (resource[i].equals(lafIcons.show_or_hide_the_axes())) {
-		b[i] = this.createStyleBarButton("showAxes", lafIcons.show_or_hide_the_axes());
-	    } else if (resource[i].equals(lafIcons.show_or_hide_the_grid())) {
-		b[i] = this.createStyleBarButton("showGrid", lafIcons.show_or_hide_the_grid());
+		b = new StandardImageButton(lafIcons.color());
+		b.getElement().getStyle().setBackgroundImage("initial");
+		b.getElement().setAttribute("style", "background: " + color);
+		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.Color);
+		this.buttons.put(StyleBarEntry.Color, b);
+
+	    } else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
+
+		b = this.createStyleBarButton("showAxes", lafIcons.show_or_hide_the_axes());
+		this.buttons.put(StyleBarEntry.Axes, b);
+
+	    } else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
+
+		b = this.createStyleBarButton("showGrid", lafIcons.show_or_hide_the_grid());
+		this.buttons.put(StyleBarEntry.Grid, b);
 	    }
 
 	    else {
-		return false;
+
 	    }
 	}
 
 	this.styleButtonsPanel.clear();
-	this.buttons = b;
 
-	for (final StandardImageButton imageButton : this.buttons) {
-	    this.styleButtonsPanel.add(imageButton);
+	if (!this.buttons.isEmpty()) {
+
+	    for (final StandardImageButton imageButton : this.buttons.values()) {
+		this.styleButtonsPanel.add(imageButton);
+	    }
 	}
-
-	return true;
     }
 
     /**
      * 
      * @param String
      *            process
-     * @param SVGResourcce
+     * @param SVGResource
      *            svg
      * @return a new StandardImageButton for the StyleBar with OS specific
      *         EventHandler
      */
-    private StandardImageButton createStyleBarButton(final String process, SVGResource svg) {
+    private StandardImageButton createStyleBarButton(String process, SVGResource svg) {
 	StandardImageButton newButton = new StandardImageButton(svg);
 
 	newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(newButton, this, process);
@@ -196,7 +249,8 @@ public class StyleBar extends PopupPanel {
 	if (StyleBar.this.guiModel.getOptionTypeShown().equals(type)) {
 	    StyleBar.this.guiModel.closeOptions();
 	} else if (type.equals(OptionType.Color)) {
-	    StyleBar.this.guiModel.showOption(new OptionsPanel(new ColorBarPanel(this, this.touchModel)), OptionType.Color, this.colorButton);
+	    StyleBar.this.guiModel.showOption(new OptionsPanel(new ColorBarPanel(this, this.touchModel)), OptionType.Color,
+		    this.buttons.get(OptionType.Color));
 	} else if (type.equals(OptionType.LineStyle)) {
 	    StyleBar.this.guiModel.showOption(new OptionsPanel(new LineStyleBar(this.touchModel, this)), OptionType.LineStyle, eventSource);
 	} else if (type.equals(OptionType.CaptionStyle)) {
@@ -214,8 +268,8 @@ public class StyleBar extends PopupPanel {
 
     public void updateColor(String color) {
 
-	this.colorButton.getElement().getStyle().setBackgroundImage("initial");
-	this.colorButton.getElement().getStyle().setBackgroundColor(color);
+	this.buttons.get(StyleBarEntry.Color).getElement().getStyle().setBackgroundImage("initial");
+	this.buttons.get(StyleBarEntry.Color).getElement().getStyle().setBackgroundColor(color);
 
     }
 }
