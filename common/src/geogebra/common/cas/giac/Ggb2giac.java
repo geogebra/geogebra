@@ -544,13 +544,20 @@ public class Ggb2giac {
 		// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
 		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
-				"%0[1]");
+				"[[ggbans:=?],[ggbans:=%0],[ggbtype:=type(evalf(ggbans))],"+
+		// ToComplex[3.1]
+				"when(ggbtype==DOM_INT || ggbtype==DOM_FLOAT,ggbans,"+
+		// ToComplex[(3,4)]
+				"when(ggbans[0]=='pnt',xcoord(%0)+i*ycoord(%0),"+
+		// ToComplex[ln(i)], ToComplex[a]
+				"real(ggbans)+i*im(ggbans)"+
+				"))][3]");
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
 				"([[ggbans:=%0],[ggbans:=polar_coordinates(ggbans)],[ggbans:=convert([ggb_ang(ggbans[0],ggbans[1])],25)],ggbans])[3]");
 		p("ToPoint.1",
-				"convert(coordinates(%0),25)");
+				"point(convert(coordinates(%0),25))");
 		p("Transpose.1", "transpose(%0)");
 		// http://reduce-algebra.com/docs/trigsimp.pdf
 		p("TrigExpand.1",
