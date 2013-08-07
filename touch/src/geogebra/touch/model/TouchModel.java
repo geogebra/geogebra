@@ -807,7 +807,7 @@ public class TouchModel {
 
 	// commands that need one line and any other object
 	case ReflectObjectAboutLine:
-	    if (!this.changeSelectionState(hits, Test.GEOLINE, 1)) {
+	    if (!this.changeSelectionState(hits, Test.GEOLINE, 1) && getTotalNumber() > 0) {
 		this.changeSelectionState(hits.get(0));
 	    }
 	    draw = this.getNumberOf(Test.GEOLINE) >= 1 && this.getTotalNumber() >= 2;
