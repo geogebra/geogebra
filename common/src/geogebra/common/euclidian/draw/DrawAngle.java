@@ -117,7 +117,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	private void init() {
-		firstVec = new double[]{0,1};
+		firstVec = new double[]{1,0};
 		m = new double[]{0,0};
 		if(angle.getDrawAlgorithm() instanceof AngleAlgo){
 			algo = ((AngleAlgo)angle.getDrawAlgorithm());
