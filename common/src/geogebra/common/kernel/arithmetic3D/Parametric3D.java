@@ -10,11 +10,16 @@ the Free Software Foundation.
 
  */
 
-package geogebra.common.kernel.arithmetic;
+package geogebra.common.kernel.arithmetic3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Inspecting;
+import geogebra.common.kernel.arithmetic.Traversing;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashSet;
@@ -23,7 +28,7 @@ import java.util.HashSet;
  * A Parametric is a ValidExpression that represents a Line in parametric form
  * (px, py) + t (vx, vy)
  */
-public class Parametric extends ValidExpression {
+public class Parametric3D extends ValidExpression {
 	private ExpressionNode P, v;
 	private String parameter;
 	private Kernel kernel;
@@ -43,7 +48,7 @@ public class Parametric extends ValidExpression {
 	 * @param lhs
 	 *            the left hand side of the parametric equation
 	 */
-	public Parametric(Kernel kernel, ExpressionValue P, ExpressionValue v,
+	public Parametric3D(Kernel kernel, ExpressionValue P, ExpressionValue v,
 			String parameter, String lhs) {
 		if (P.isExpressionNode())
 			this.P = (ExpressionNode) P;
@@ -85,12 +90,14 @@ public class Parametric extends ValidExpression {
 	public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		if (tpl.getStringType().equals(StringType.GIAC)) {
-			MyVecNode a = (MyVecNode) P.unwrap();
-			MyVecNode b = (MyVecNode) v.unwrap();
+			MyVec3DNode a = (MyVec3DNode) P.unwrap();
+			MyVec3DNode b = (MyVec3DNode) v.unwrap();
 			sb.append("{x=");
-			sb.append(a.x.toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.x.toString(tpl) + ",");
+			sb.append(a.getX().toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.getX().toString(tpl) + ",");
 			sb.append("y=");
-			sb.append(a.y.toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.y.toString(tpl) + "}");
+			sb.append(a.getY().toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.getY().toString(tpl) + ",");
+			sb.append("z=");
+			sb.append(a.getZ().toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.getZ().toString(tpl) + "}");
 			return sb.toString();
 		}
 		sb.append((lhs == null) ? "" : lhs + " = " + P.toString(tpl) + " + " + parameter + " "
@@ -103,7 +110,7 @@ public class Parametric extends ValidExpression {
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		return new Parametric(kernel1, P.deepCopy(kernel1),
+		return new Parametric3D(kernel1, P.deepCopy(kernel1),
 				v.deepCopy(kernel1), parameter, lhs);
 	}
 

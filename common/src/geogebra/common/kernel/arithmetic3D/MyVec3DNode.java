@@ -133,7 +133,15 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	final public String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
-		
+		case GIAC:
+			sb.append("point(");
+			sb.append(x.toString(tpl));
+			sb.append(',');
+			sb.append(y.toString(tpl));
+			sb.append(", ");
+			sb.append(z.toString(tpl));
+			sb.append(")");
+			break;
 		default:
 			sb.append('(');
 			sb.append(x.toString(tpl));

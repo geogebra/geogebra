@@ -49,6 +49,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.*;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.arithmetic3D.Parametric3D;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
@@ -545,6 +546,10 @@ ValidExpression buildCASExpression() :
         // h: X = (3,2) + t (5,a)
       	LOOKAHEAD(2147483647) 
       	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
+    |
+        // h: X = (3,2,a) + t (5,b,c)
+      	LOOKAHEAD(2147483647) 
+      	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
     |	   
        	// labeled equation, e.g. g: 3x + y = 7
        	LOOKAHEAD(2147483647)   
@@ -557,6 +562,9 @@ ValidExpression buildCASExpression() :
  	|
  		LOOKAHEAD(2147483647)   
        	ve = parametric()
+ 	|
+ 	 	LOOKAHEAD(2147483647)   
+       	ve = parametric3D()
  	| 	   
        	// equation, e.g. 3x + y = 7
        	LOOKAHEAD(2147483647)   
@@ -743,20 +751,44 @@ Vector labellist():
 Parametric parametric():
 {         
     ExpressionValue P, v;
-    ExpressionValue temp;
     Token s, par;
     Token lhs = null;    
 }
 {    
     (      lhs = < LABEL >
       < EQUAL >
-    ) P = multterm()
+    ) P = cartesianvector()
     ( 
-     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = expression()
+     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = cartesianvector()
          {                                    
             if (s.kind == MINUS) 
                 v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
             return new Parametric(kernel, P, v, par.image, lhs == null ? null : lhs.image);                
+         }
+    ) 
+}
+
+/**
+ * parametric3D =   < LABEL > = vector3D + <LABEL> * vector3D  |
+ *                  < LABEL > = vector3D - <LABEL> * vector3D |
+ */
+Parametric3D parametric3D():
+{         
+    ExpressionValue P, v;
+    Token s, par;
+    Token lhs = null;    
+}
+{    
+    (
+      lhs = < LABEL >
+      < EQUAL >
+    ) P = cartesianvector3D()
+    ( 
+     (s = <PLUS> | s = <MINUS>) par = <LABEL> (<MULTIPLY>)? v = cartesianvector3D()
+         {                                    
+            if (s.kind == MINUS) 
+                v = new ExpressionNode(kernel, new MyDouble(kernel, -1.0d), Operation.MULTIPLY, v);                  
+            return new Parametric3D(kernel, P, v, par.image, lhs == null ? null : lhs.image);                
          }
     ) 
 }
