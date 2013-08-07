@@ -26,15 +26,15 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * 
  * @author Thomas Krismayer
  * 
  */
-public class StyleBar extends PopupPanel {
+public class StyleBar extends FlowPanel {
 
     /**
      * Enum of allowed Entries to the StyleBar
@@ -153,11 +153,13 @@ public class StyleBar extends PopupPanel {
 	StandardImageButton b;
 
 	for (SVGResource svg : resource) {
-	    if (svg.equals(lafIcons.label())) {
+	    if (svg.equals(lafIcons.color())) {
 
-		b = new StandardImageButton(lafIcons.label());
-		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.CaptionStyle);
-		this.buttons.put(StyleBarEntry.CaptionStyle, b);
+		b = new StandardImageButton(lafIcons.color());
+		b.getElement().getStyle().setBackgroundImage("initial");
+		b.getElement().setAttribute("style", "background: " + color);
+		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.Color);
+		this.buttons.put(StyleBarEntry.Color, b);
 
 	    } else if (svg.equals(lafIcons.properties_default())) {
 
@@ -165,13 +167,11 @@ public class StyleBar extends PopupPanel {
 		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.LineStyle);
 		this.buttons.put(StyleBarEntry.LineStyle, b);
 
-	    } else if (svg.equals(lafIcons.color())) {
+	    } else if (svg.equals(lafIcons.label())) {
 
-		b = new StandardImageButton(lafIcons.color());
-		b.getElement().getStyle().setBackgroundImage("initial");
-		b.getElement().setAttribute("style", "background: " + color);
-		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.Color);
-		this.buttons.put(StyleBarEntry.Color, b);
+		b = new StandardImageButton(lafIcons.label());
+		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.CaptionStyle);
+		this.buttons.put(StyleBarEntry.CaptionStyle, b);
 
 	    } else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 
@@ -217,8 +217,13 @@ public class StyleBar extends PopupPanel {
     }
 
     public void rebuild() {
+
 	if (this.guiModel.getCommand().getStyleBarEntries() != null) {
 	    this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+	    this.setVisible(true);
+	} else {
+	    // hide the whole StyleBar if no StyleBar is needed
+	    this.setVisible(false);
 	}
     }
 

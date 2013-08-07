@@ -181,7 +181,7 @@ public class GuiModel {
 	this.styleBarOptionShown = type;
     }
 
-    public void setStylingBar(StyleBar bar) {
+    public void setStyleBar(StyleBar bar) {
 	this.styleBar = bar;
     }
 
