@@ -17,54 +17,59 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Contains the {@link ColorBar}.
  */
 public class ColorBarPanel extends FlowPanel {
-    // private final AnimationHelper animationHelper;
-    private final VerticalPanel contentPanel;
-    private final ColorBar colorBar;
-    private final Slider slider;
+	// private final AnimationHelper animationHelper;
+	private final VerticalPanel contentPanel;
+	private final ColorBar colorBar;
+	private final Slider slider;
 
-    // FIXME create the popup beforehand, hide or show the slider depending on
-    // criteria
-    public ColorBarPanel(StyleBar styleBar, final TouchModel touchModel) {
-	this.contentPanel = new VerticalPanel();
+	// FIXME create the popup beforehand, hide or show the slider depending on
+	// criteria
+	public ColorBarPanel(StyleBar styleBar, final TouchModel touchModel) {
+		this.contentPanel = new VerticalPanel();
 
-	this.colorBar = new ColorBar(styleBar, touchModel);
-	this.contentPanel.add(this.colorBar);
+		this.colorBar = new ColorBar(styleBar, touchModel);
+		this.contentPanel.add(this.colorBar);
 
-	this.slider = new Slider();
-	this.slider.setMinimum(0);
-	this.slider.setMaximum(10);
-	this.slider.setValue(Integer.valueOf((int) (touchModel.getLastAlpha() * 10)));
-	// this.slider.setWidth("100%");
-	this.slider.setWidth("181px");
+		this.slider = new Slider();
+		this.slider.setMinimum(0);
+		this.slider.setMaximum(10);
+		this.slider
+				.setValue(Integer.valueOf((int) (touchModel.getLastAlpha() * 10)));
+		// this.slider.setWidth("100%");
+		this.slider.setWidth("181px");
 
-	this.slider.addValueChangeHandler(new ValueChangeHandler<Integer>() {
-	    @Override
-	    public void onValueChange(ValueChangeEvent<Integer> event) {
-		touchModel.getGuiModel().setAlpha(event.getValue().intValue() / 10f);
+		this.slider.addValueChangeHandler(new ValueChangeHandler<Integer>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Integer> event) {
+				touchModel.getGuiModel().setAlpha(
+						event.getValue().intValue() / 10f);
 
-		final List<GeoElement> fillable = new ArrayList<GeoElement>();
-		for (final GeoElement geo : touchModel.getSelectedGeos()) {
-		    if (geo.isFillable()) {
-			fillable.add(geo);
-		    }
+				final List<GeoElement> fillable = new ArrayList<GeoElement>();
+				for (final GeoElement geo : touchModel.getSelectedGeos()) {
+					if (geo.isFillable()) {
+						fillable.add(geo);
+					}
+				}
+
+				if (fillable.size() > 0
+						&& StyleBarStatic.applyAlpha(fillable, event.getValue()
+								.intValue() / 10f)) {
+					fillable.get(0).updateRepaint();
+					touchModel.storeOnClose();
+				}
+			}
+		});
+
+		// add slider only if there is at least one fillable element
+		if (touchModel.getLastAlpha() != -1
+				|| touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
+			this.contentPanel.add(this.slider);
 		}
 
-		if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, event.getValue().intValue() / 10f)) {
-		    fillable.get(0).updateRepaint();
-		    touchModel.storeOnClose();
-		}
-	    }
-	});
-
-	// add slider only if there is at least one fillable element
-	if (touchModel.getLastAlpha() != -1 || touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
-	    this.contentPanel.add(this.slider);
+		// TODO implement animationHelper
+		// this.animationHelper = new AnimationHelper();
+		// add(this.animationHelper);
+		// this.setWidget(this.contentPanel);
+		this.add(this.contentPanel);
 	}
-
-	// TODO implement animationHelper
-	// this.animationHelper = new AnimationHelper();
-	// add(this.animationHelper);
-	// this.setWidget(this.contentPanel);
-	this.add(this.contentPanel);
-    }
 }

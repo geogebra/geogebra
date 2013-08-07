@@ -5,5 +5,5 @@ package geogebra.touch.utils;
  */
 
 public enum OptionType {
-    None, ToolBar, Color, LineStyle, CaptionStyle;
+	None, ToolBar, Color, LineStyle, CaptionStyle;
 }

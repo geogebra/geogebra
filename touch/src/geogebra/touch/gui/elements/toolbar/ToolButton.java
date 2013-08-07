@@ -11,19 +11,19 @@ import geogebra.touch.utils.ToolBarCommand;
  * 
  */
 public class ToolButton extends StandardImageButton {
-    private ToolBarCommand cmd;
+	private ToolBarCommand cmd;
 
-    public ToolButton(ToolBarCommand cmd) {
-	super(cmd.getIcon());
-	this.cmd = cmd;
-    }
+	public ToolButton(ToolBarCommand cmd) {
+		super(cmd.getIcon());
+		this.cmd = cmd;
+	}
 
-    public ToolBarCommand getCmd() {
-	return this.cmd;
-    }
+	public ToolBarCommand getCmd() {
+		return this.cmd;
+	}
 
-    public void setCmd(ToolBarCommand cmd) {
-	super.setIcon(cmd.getIcon());
-	this.cmd = cmd;
-    }
+	public void setCmd(ToolBarCommand cmd) {
+		super.setIcon(cmd.getIcon());
+		this.cmd = cmd;
+	}
 }

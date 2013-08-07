@@ -19,78 +19,84 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 
 public class AlgebraViewPanel extends FlowPanel {
-    private final AlgebraViewM algebraView;
-    private StandardImageButton arrow;
-    private final FlowPanel stylebar;
-    private ScrollPanel content;
+	private final AlgebraViewM algebraView;
+	private StandardImageButton arrow;
+	private final FlowPanel stylebar;
+	private ScrollPanel content;
 
-    /**
-     * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
-     * {@link SwipeEndHandler}.
-     * 
-     * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
-     * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
-     * {@link Kernel kernel}.
-     * 
-     * @param controller
-     *            MobileAlgebraController
-     * @param kernel
-     *            Kernel
-     */
-    public AlgebraViewPanel(TouchController controller, TabletGUI gui, Kernel kernel) {
-	this.algebraView = new AlgebraViewM(controller);
-	kernel.attach(this.algebraView);
-	this.stylebar = new FlowPanel();
-	
-	this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
-	this.arrow.setStyleName("arrowRight");
-	this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(this.arrow, gui);
-	
-	this.stylebar.add(this.arrow);
-	this.stylebar.setStyleName("algebraStylebar");
-	this.add(this.stylebar);
-	this.stylebar.setVisible(false);
-	this.setStyleName("algebraViewAndStylebar");
+	/**
+	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
+	 * {@link SwipeEndHandler}.
+	 * 
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
+	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
+	 * {@link Kernel kernel}.
+	 * 
+	 * @param controller
+	 *            MobileAlgebraController
+	 * @param kernel
+	 *            Kernel
+	 */
+	public AlgebraViewPanel(TouchController controller, TabletGUI gui,
+			Kernel kernel) {
+		this.algebraView = new AlgebraViewM(controller);
+		kernel.attach(this.algebraView);
+		this.stylebar = new FlowPanel();
 
-	this.content = new ScrollPanel(this.algebraView);
-	this.content.setStyleName("algebraView");
+		this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel()
+				.getIcons().triangle_left());
+		this.arrow.setStyleName("arrowRight");
+		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(
+				this.arrow, gui);
 
-	onResize();
-	this.add(this.content);
-    }
+		this.stylebar.add(this.arrow);
+		this.stylebar.setStyleName("algebraStylebar");
+		this.add(this.stylebar);
+		this.stylebar.setVisible(false);
+		this.setStyleName("algebraViewAndStylebar");
 
-    public void addInsideArrow() {
-	this.stylebar.setVisible(true);
+		this.content = new ScrollPanel(this.algebraView);
+		this.content.setStyleName("algebraView");
 
-    }
-
-    public AlgebraView getAlgebraView() {
-	return this.algebraView;
-    }
-
-    public void removeInsideArrow() {
-	this.stylebar.setVisible(false);
-
-    }
-
-    public void setLabels() {
-	if (this.algebraView != null) {
-	    this.algebraView.setLabels();
+		onResize();
+		this.add(this.content);
 	}
-    }
 
-    @Override
-    public void setVisible(boolean flag) {
-	super.setVisible(flag);
-	this.algebraView.setShowing(flag);
-    }
+	public void addInsideArrow() {
+		this.stylebar.setVisible(true);
 
-    public void onResize() {
-	// Important: Set ViewPort size in Pixels for the ScrollPanel!
-	this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+	}
 
-	LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+	public AlgebraView getAlgebraView() {
+		return this.algebraView;
+	}
 
-	this.content.setHeight((Window.getClientHeight() - laf.getAppBarHeight() - laf.getToolBarHeight() - this.stylebar.getOffsetHeight()) + "px");
-    }
+	public void removeInsideArrow() {
+		this.stylebar.setVisible(false);
+
+	}
+
+	public void setLabels() {
+		if (this.algebraView != null) {
+			this.algebraView.setLabels();
+		}
+	}
+
+	@Override
+	public void setVisible(boolean flag) {
+		super.setVisible(flag);
+		this.algebraView.setShowing(flag);
+	}
+
+	public void onResize() {
+		// Important: Set ViewPort size in Pixels for the ScrollPanel!
+		this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+
+		LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
+
+		this.content
+				.setHeight((Window.getClientHeight() - laf.getAppBarHeight()
+						- laf.getToolBarHeight() - this.stylebar
+							.getOffsetHeight()) + "px");
+	}
 }

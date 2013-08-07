@@ -32,7 +32,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Extends from {@link HeaderPanel}.
  */
-public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener {
+public class TabletHeaderPanel extends HorizontalPanel implements
+		ResizeListener {
 	private final TabletHeaderPanelLeft leftHeader;
 	private final VerticalPanel titlePanel;
 	Panel underline;
@@ -44,15 +45,18 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 	FileManagerM fm;
 	protected String newTitle;
 
-	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app, TouchModel touchModel) {
+	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app,
+			TouchModel touchModel) {
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
 		this.fm = this.app.getFileManager();
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel, this);
+		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel,
+				this);
 		this.leftHeader.setStyleName("headerLeft");
-		this.infoOverrideDialog = new InfoDialog(this.app, touchModel.getGuiModel(), InfoType.Override, tabletGUI);
+		this.infoOverrideDialog = new InfoDialog(this.app,
+				touchModel.getGuiModel(), InfoType.Override, tabletGUI);
 
 		this.titlePanel = new VerticalPanel();
 
@@ -74,19 +78,31 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					if (TabletHeaderPanel.this.fm.hasFile(TabletHeaderPanel.this.worksheetTitle.getText())) {
-						TabletHeaderPanel.this.infoOverrideDialog.setConsTitle(TabletHeaderPanel.this.worksheetTitle.getText());
+					if (TabletHeaderPanel.this.fm
+							.hasFile(TabletHeaderPanel.this.worksheetTitle
+									.getText())) {
+						TabletHeaderPanel.this.infoOverrideDialog
+								.setConsTitle(TabletHeaderPanel.this.worksheetTitle
+										.getText());
 						TabletHeaderPanel.this.infoOverrideDialog.show();
-					} else if (TabletHeaderPanel.this.worksheetTitle.getText().equals("")) {
-						TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
+					} else if (TabletHeaderPanel.this.worksheetTitle.getText()
+							.equals("")) {
+						TabletHeaderPanel.this.worksheetTitle
+								.setText(TabletHeaderPanel.this.app
+										.getConstructionTitle());
 						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 					} else {
-						TabletHeaderPanel.this.app.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle.getText());
-						TabletHeaderPanel.this.fm.saveFile(TabletHeaderPanel.this.app);
+						TabletHeaderPanel.this.app
+								.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle
+										.getText());
+						TabletHeaderPanel.this.fm
+								.saveFile(TabletHeaderPanel.this.app);
 						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 					}
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-					TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
+					TabletHeaderPanel.this.worksheetTitle
+							.setText(TabletHeaderPanel.this.app
+									.getConstructionTitle());
 					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
 					event.preventDefault();
@@ -98,7 +114,9 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.worksheetTitle.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				TabletHeaderPanel.this.worksheetTitle.setText(TabletHeaderPanel.this.app.getConstructionTitle());
+				TabletHeaderPanel.this.worksheetTitle
+						.setText(TabletHeaderPanel.this.app
+								.getConstructionTitle());
 				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
 			}
 		});
@@ -106,15 +124,20 @@ public class TabletHeaderPanel extends HorizontalPanel implements ResizeListener
 		this.worksheetTitle.addFocusHandler(new FocusHandler() {
 			@Override
 			public void onFocus(FocusEvent event) {
-				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						TabletHeaderPanel.this.worksheetTitle.setFocus(true);
-						TabletHeaderPanel.this.worksheetTitle.selectAll();
-						TabletHeaderPanel.this.underline.removeStyleName("inactive");
-						TabletHeaderPanel.this.underline.addStyleName("active");
-					}
-				});
+				Scheduler.get().scheduleDeferred(
+						new Scheduler.ScheduledCommand() {
+							@Override
+							public void execute() {
+								TabletHeaderPanel.this.worksheetTitle
+										.setFocus(true);
+								TabletHeaderPanel.this.worksheetTitle
+										.selectAll();
+								TabletHeaderPanel.this.underline
+										.removeStyleName("inactive");
+								TabletHeaderPanel.this.underline
+										.addStyleName("active");
+							}
+						});
 			}
 		});
 

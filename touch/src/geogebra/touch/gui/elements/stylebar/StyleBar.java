@@ -36,245 +36,270 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class StyleBar extends FlowPanel {
 
-    /**
-     * Enum of allowed Entries to the StyleBar
-     * 
-     * @author Matthias Meisinger
-     * 
-     */
-    enum StyleBarEntry {
-	Axes, Grid, Color, LineStyle, CaptionStyle;
-    }
-
-    private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-
-    private HorizontalPanel contentPanel, styleButtonsPanel;
-
-    private Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
-    private StandardImageButton showHideButton;
-
-    EuclidianViewM euclidianView;
-    private TouchModel touchModel;
-    private GuiModel guiModel;
-
-    /**
-     * Initializes the StyleBar
-     * 
-     * @param TouchModel
-     *            touchModel
-     * 
-     * @param EuclidianViewM
-     *            view
-     * @param EuclidianViewPanel
-     *            euclidianViewPanel
-     */
-    public StyleBar(TouchModel touchModel, EuclidianViewM view) {
-	this.setStyleName("stylebar");
-	this.euclidianView = view;
-	this.touchModel = touchModel;
-	this.guiModel = touchModel.getGuiModel();
-
-	this.contentPanel = new HorizontalPanel();
-	this.styleButtonsPanel = new HorizontalPanel();
-
-	this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
-	this.showHideButton.setStyleName("arrowLeft");
-
-	this.showHideButton.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-		StyleBar.this.showHide();
-	    }
-	});
-
-	EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
-
-	if (this.guiModel.getCommand() != null && this.guiModel.getCommand().getStyleBarEntries() != null) {
-	    this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+	/**
+	 * Enum of allowed Entries to the StyleBar
+	 * 
+	 * @author Matthias Meisinger
+	 * 
+	 */
+	enum StyleBarEntry {
+		Axes, Grid, Color, LineStyle, CaptionStyle;
 	}
 
-	this.contentPanel.add(this.styleButtonsPanel);
-	this.contentPanel.add(this.showHideButton);
-	this.add(this.contentPanel);
+	private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel()
+			.getIcons();
 
-	// Prevent events from getting through to the canvas
-	this.addDomHandler(new ClickHandler() {
+	private HorizontalPanel contentPanel, styleButtonsPanel;
 
-	    @Override
-	    public void onClick(ClickEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-	    }
-	}, ClickEvent.getType());
+	private Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
+	private StandardImageButton showHideButton;
 
-	this.addDomHandler(new MouseDownHandler() {
+	EuclidianViewM euclidianView;
+	private TouchModel touchModel;
+	private GuiModel guiModel;
 
-	    @Override
-	    public void onMouseDown(MouseDownEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-	    }
+	/**
+	 * Initializes the StyleBar
+	 * 
+	 * @param TouchModel
+	 *            touchModel
+	 * 
+	 * @param EuclidianViewM
+	 *            view
+	 * @param EuclidianViewPanel
+	 *            euclidianViewPanel
+	 */
+	public StyleBar(TouchModel touchModel, EuclidianViewM view) {
+		this.setStyleName("stylebar");
+		this.euclidianView = view;
+		this.touchModel = touchModel;
+		this.guiModel = touchModel.getGuiModel();
 
-	}, MouseDownEvent.getType());
+		this.contentPanel = new HorizontalPanel();
+		this.styleButtonsPanel = new HorizontalPanel();
 
-	this.addDomHandler(new TouchStartHandler() {
+		this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
+		this.showHideButton.setStyleName("arrowLeft");
 
-	    @Override
-	    public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-	    }
+		this.showHideButton.addClickHandler(new ClickHandler() {
 
-	}, TouchStartEvent.getType());
-    }
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+				StyleBar.this.showHide();
+			}
+		});
 
-    private void rebuild(StyleBarDefaultSettings entry) {
+		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
-	SVGResource[] resource = entry.getResources();
-	String color = entry.getColor() != null ? entry.getColor().toString() : "";
+		if (this.guiModel.getCommand() != null
+				&& this.guiModel.getCommand().getStyleBarEntries() != null) {
+			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+		}
 
-	if (entry == StyleBarDefaultSettings.Move && this.touchModel.getTotalNumber() > 0) {
-	    color = this.touchModel.getSelectedGeos().get(0).getObjectColor().toString();
-	    if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPointND) {
-		resource = StyleBarDefaultSettings.Point.getResources();
-	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof LineProperties) {
-		resource = StyleBarDefaultSettings.Line.getResources();
-	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
-		resource = StyleBarDefaultSettings.Polygon.getResources();
-	    } else if (this.touchModel.getSelectedGeos().get(0).getGeoElementForPropertiesDialog() instanceof GeoAngle) {
-		resource = StyleBarDefaultSettings.Angle.getResources();
-	    }
+		this.contentPanel.add(this.styleButtonsPanel);
+		this.contentPanel.add(this.showHideButton);
+		this.add(this.contentPanel);
+
+		// Prevent events from getting through to the canvas
+		this.addDomHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}, ClickEvent.getType());
+
+		this.addDomHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+
+		}, MouseDownEvent.getType());
+
+		this.addDomHandler(new TouchStartHandler() {
+
+			@Override
+			public void onTouchStart(TouchStartEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+
+		}, TouchStartEvent.getType());
 	}
 
-	this.buttons.clear();
-	StandardImageButton b;
+	private void rebuild(StyleBarDefaultSettings entry) {
 
-	for (SVGResource svg : resource) {
-	    if (svg.equals(lafIcons.color())) {
+		SVGResource[] resource = entry.getResources();
+		String color = entry.getColor() != null ? entry.getColor().toString()
+				: "";
 
-		b = new StandardImageButton(lafIcons.color());
-		b.getElement().getStyle().setBackgroundImage("initial");
-		b.getElement().setAttribute("style", "background: " + color);
-		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.Color);
-		this.buttons.put(StyleBarEntry.Color, b);
+		if (entry == StyleBarDefaultSettings.Move
+				&& this.touchModel.getTotalNumber() > 0) {
+			color = this.touchModel.getSelectedGeos().get(0).getObjectColor()
+					.toString();
+			if (this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog() instanceof GeoPointND) {
+				resource = StyleBarDefaultSettings.Point.getResources();
+			} else if (this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog() instanceof LineProperties) {
+				resource = StyleBarDefaultSettings.Line.getResources();
+			} else if (this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
+				resource = StyleBarDefaultSettings.Polygon.getResources();
+			} else if (this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog() instanceof GeoAngle) {
+				resource = StyleBarDefaultSettings.Angle.getResources();
+			}
+		}
 
-	    } else if (svg.equals(lafIcons.properties_default())) {
+		this.buttons.clear();
+		StandardImageButton b;
 
-		b = new StandardImageButton(lafIcons.properties_default());
-		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.LineStyle);
-		this.buttons.put(StyleBarEntry.LineStyle, b);
+		for (SVGResource svg : resource) {
+			if (svg.equals(lafIcons.color())) {
 
-	    } else if (svg.equals(lafIcons.label())) {
+				b = new StandardImageButton(lafIcons.color());
+				b.getElement().getStyle().setBackgroundImage("initial");
+				b.getElement().setAttribute("style", "background: " + color);
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.Color);
+				this.buttons.put(StyleBarEntry.Color, b);
 
-		b = new StandardImageButton(lafIcons.label());
-		b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(b, this, OptionType.CaptionStyle);
-		this.buttons.put(StyleBarEntry.CaptionStyle, b);
+			} else if (svg.equals(lafIcons.properties_default())) {
 
-	    } else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
+				b = new StandardImageButton(lafIcons.properties_default());
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.LineStyle);
+				this.buttons.put(StyleBarEntry.LineStyle, b);
 
-		b = this.createStyleBarButton("showAxes", lafIcons.show_or_hide_the_axes());
-		this.buttons.put(StyleBarEntry.Axes, b);
+			} else if (svg.equals(lafIcons.label())) {
 
-	    } else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
+				b = new StandardImageButton(lafIcons.label());
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.CaptionStyle);
+				this.buttons.put(StyleBarEntry.CaptionStyle, b);
 
-		b = this.createStyleBarButton("showGrid", lafIcons.show_or_hide_the_grid());
-		this.buttons.put(StyleBarEntry.Grid, b);
-	    }
+			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 
-	    else {
+				b = this.createStyleBarButton("showAxes",
+						lafIcons.show_or_hide_the_axes());
+				this.buttons.put(StyleBarEntry.Axes, b);
 
-	    }
+			} else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
+
+				b = this.createStyleBarButton("showGrid",
+						lafIcons.show_or_hide_the_grid());
+				this.buttons.put(StyleBarEntry.Grid, b);
+			}
+
+			else {
+
+			}
+		}
+
+		this.styleButtonsPanel.clear();
+
+		if (!this.buttons.isEmpty()) {
+
+			for (final StandardImageButton imageButton : this.buttons.values()) {
+				this.styleButtonsPanel.add(imageButton);
+			}
+		}
 	}
 
-	this.styleButtonsPanel.clear();
+	/**
+	 * 
+	 * @param String
+	 *            process
+	 * @param SVGResource
+	 *            svg
+	 * @return a new StandardImageButton for the StyleBar with OS specific
+	 *         EventHandler
+	 */
+	private StandardImageButton createStyleBarButton(String process,
+			SVGResource svg) {
+		StandardImageButton newButton = new StandardImageButton(svg);
 
-	if (!this.buttons.isEmpty()) {
+		newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(
+				newButton, this, process);
 
-	    for (final StandardImageButton imageButton : this.buttons.values()) {
-		this.styleButtonsPanel.add(imageButton);
-	    }
+		return newButton;
 	}
-    }
 
-    /**
-     * 
-     * @param String
-     *            process
-     * @param SVGResource
-     *            svg
-     * @return a new StandardImageButton for the StyleBar with OS specific
-     *         EventHandler
-     */
-    private StandardImageButton createStyleBarButton(String process, SVGResource svg) {
-	StandardImageButton newButton = new StandardImageButton(svg);
+	public void rebuild() {
 
-	newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(newButton, this, process);
-
-	return newButton;
-    }
-
-    public void rebuild() {
-
-	if (this.guiModel.getCommand().getStyleBarEntries() != null) {
-	    this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
-	    this.setVisible(true);
-	} else {
-	    // hide the whole StyleBar if no StyleBar is needed
-	    this.setVisible(false);
+		if (this.guiModel.getCommand().getStyleBarEntries() != null) {
+			this.rebuild(this.guiModel.getCommand().getStyleBarEntries());
+			this.setVisible(true);
+		} else {
+			// hide the whole StyleBar if no StyleBar is needed
+			this.setVisible(false);
+		}
 	}
-    }
 
-    public void showHide() {
+	public void showHide() {
 
-	if (this.styleButtonsPanel.isVisible()) {
-	    // close all opened options before hiding the stylingbar
-	    this.guiModel.closeOptions();
+		if (this.styleButtonsPanel.isVisible()) {
+			// close all opened options before hiding the stylingbar
+			this.guiModel.closeOptions();
 
-	    this.showHideButton.setStyleName("arrowRight");
-	    // Set stylebar transparent, when closed
-	    this.showHideButton.addStyleName("transparent");
+			this.showHideButton.setStyleName("arrowRight");
+			// Set stylebar transparent, when closed
+			this.showHideButton.addStyleName("transparent");
 
-	    this.styleButtonsPanel.setVisible(false);
+			this.styleButtonsPanel.setVisible(false);
 
-	} else {
+		} else {
 
-	    this.showHideButton.setStyleName("arrowLeft");
-	    // Set stylebar nontransparent, when open
-	    this.showHideButton.removeStyleName("transparent");
+			this.showHideButton.setStyleName("arrowLeft");
+			// Set stylebar nontransparent, when open
+			this.showHideButton.removeStyleName("transparent");
 
-	    this.styleButtonsPanel.setVisible(true);
+			this.styleButtonsPanel.setVisible(true);
+		}
 	}
-    }
 
-    public void onOptionalButtonEvent(StandardImageButton eventSource, OptionType type) {
+	public void onOptionalButtonEvent(StandardImageButton eventSource,
+			OptionType type) {
 
-	if (StyleBar.this.guiModel.getOptionTypeShown().equals(type)) {
-	    StyleBar.this.guiModel.closeOptions();
-	} else if (type.equals(OptionType.Color)) {
-	    StyleBar.this.guiModel.showOption(new OptionsPanel(new ColorBarPanel(this, this.touchModel)), OptionType.Color,
-		    this.buttons.get(OptionType.Color));
-	} else if (type.equals(OptionType.LineStyle)) {
-	    StyleBar.this.guiModel.showOption(new OptionsPanel(new LineStyleBar(this.touchModel, this)), OptionType.LineStyle, eventSource);
-	} else if (type.equals(OptionType.CaptionStyle)) {
-	    StyleBar.this.guiModel.showOption(new OptionsPanel(new CaptionBar(this.touchModel)), OptionType.CaptionStyle, eventSource);
+		if (StyleBar.this.guiModel.getOptionTypeShown().equals(type)) {
+			StyleBar.this.guiModel.closeOptions();
+		} else if (type.equals(OptionType.Color)) {
+			StyleBar.this.guiModel.showOption(new OptionsPanel(
+					new ColorBarPanel(this, this.touchModel)),
+					OptionType.Color, this.buttons.get(OptionType.Color));
+		} else if (type.equals(OptionType.LineStyle)) {
+			StyleBar.this.guiModel.showOption(new OptionsPanel(
+					new LineStyleBar(this.touchModel, this)),
+					OptionType.LineStyle, eventSource);
+		} else if (type.equals(OptionType.CaptionStyle)) {
+			StyleBar.this.guiModel.showOption(new OptionsPanel(new CaptionBar(
+					this.touchModel)), OptionType.CaptionStyle, eventSource);
+		}
 	}
-    }
 
-    public void onStyleBarButtonEvent(StandardImageButton newButton, String process) {
+	public void onStyleBarButtonEvent(StandardImageButton newButton,
+			String process) {
 
-	StyleBar.this.guiModel.closeOptions();
-	EuclidianStyleBarStatic.processSourceCommon(process, null, StyleBar.this.euclidianView);
+		StyleBar.this.guiModel.closeOptions();
+		EuclidianStyleBarStatic.processSourceCommon(process, null,
+				StyleBar.this.euclidianView);
 
-	newButton.setActive(!newButton.isActive());
-    }
+		newButton.setActive(!newButton.isActive());
+	}
 
-    public void updateColor(String color) {
+	public void updateColor(String color) {
 
-	this.buttons.get(StyleBarEntry.Color).getElement().getStyle().setBackgroundImage("initial");
-	this.buttons.get(StyleBarEntry.Color).getElement().getStyle().setBackgroundColor(color);
+		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
+				.setBackgroundImage("initial");
+		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
+				.setBackgroundColor(color);
 
-    }
+	}
 }

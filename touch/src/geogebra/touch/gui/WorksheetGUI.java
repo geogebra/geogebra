@@ -23,7 +23,7 @@ public class WorksheetGUI extends HeaderPanel {
 
 	private final Label instructionsPost, instructionsPre;
 	private final FlowPanel frame = new FlowPanel();
-	//private final WorksheetHeaderPanel header;
+	// private final WorksheetHeaderPanel header;
 	private final AppWeb app;
 	private final FileManagerM fm;
 	private final FlowPanel content;
@@ -35,7 +35,8 @@ public class WorksheetGUI extends HeaderPanel {
 		this.setStyleName("worksheetgui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.content = new FlowPanel();
-		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(this, tabletGUI);
+		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(
+				this, tabletGUI);
 		this.app = app;
 		this.tabletGUI = tabletGUI;
 
@@ -44,7 +45,7 @@ public class WorksheetGUI extends HeaderPanel {
 		this.instructionsPre.setStyleName("instructionsPre");
 		this.instructionsPost.setStyleName("instructionsPost");
 	}
-	
+
 	public FlowPanel getContent() {
 		return this.content;
 	}
@@ -63,7 +64,8 @@ public class WorksheetGUI extends HeaderPanel {
 			this.content.add(this.instructionsPost);
 			this.setContentWidget(this.content);
 
-			//do not change allowEditing here -- we do not show any part of TabletGUI
+			// do not change allowEditing here -- we do not show any part of
+			// TabletGUI
 			Element article = DOM.createElement("article");
 			article.setClassName("geogebraweb");
 			article.setAttribute("data-param-ggbBase64", "");
@@ -87,14 +89,15 @@ public class WorksheetGUI extends HeaderPanel {
 			article.setAttribute("data-param-useBrowserForJS", "true");
 			Element div = this.frame.getElement();
 			int cc = div.getChildCount();
-			for(int i=cc-1; i >= 0; i--){
+			for (int i = cc - 1; i >= 0; i--) {
 				div.removeChild(div.getChild(i));
 			}
 			this.frame.getElement().appendChild(article);
 			this.frame.setPixelSize(m.getWidth() + 2, m.getHeight() + 2);
 			Web.currentGUI = GuiToLoad.VIEWER;
 			Web.panelForApplets = this.frame;
-			Web.urlToOpen = "http://www.geogebratube.org/files/material-" + m.getId() + ".ggb";
+			Web.urlToOpen = "http://www.geogebratube.org/files/material-"
+					+ m.getId() + ".ggb";
 			Web.loadAppletAsync();
 
 			this.instructionsPre.setText(m.getInstructionsPre());
@@ -109,7 +112,9 @@ public class WorksheetGUI extends HeaderPanel {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
-				WorksheetGUI.this.tabletGUI.updateViewSizes(WorksheetGUI.this.tabletGUI.isAlgebraShowing());
+				WorksheetGUI.this.tabletGUI
+						.updateViewSizes(WorksheetGUI.this.tabletGUI
+								.isAlgebraShowing());
 			}
 		});
 		App.debug("loading" + m.getTitle());
@@ -120,6 +125,8 @@ public class WorksheetGUI extends HeaderPanel {
 	}
 
 	private void updateViewSize() {
-		this.contentPanel.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight());
+		this.contentPanel.setPixelSize(Window.getClientWidth(),
+				Window.getClientHeight()
+						- TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 	}
 }

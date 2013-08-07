@@ -13,20 +13,26 @@ import geogebra.touch.gui.laf.DefaultResources;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
-public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements WorksheetHeader {
+public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
+		WorksheetHeader {
 	Material material;
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-	private final StandardImageButton editButton = new StandardImageButton(LafIcons.document_edit());
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
+			.getIcons();
+	private final StandardImageButton editButton = new StandardImageButton(
+			LafIcons.document_edit());
 	WorksheetGUI worksheetGUI;
 
-	public WorksheetHeaderPanel(final AppWeb app, final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI) {
+	public WorksheetHeaderPanel(final AppWeb app,
+			final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI) {
 		super("", app.getLocalization());
 		this.worksheetGUI = worksheetGUI;
 
 		super.backPanel.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
+				tabletGUI
+						.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI
+								.getContentPanel());
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
@@ -38,9 +44,12 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements Worksh
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
 				if (WorksheetHeaderPanel.this.material != null) {
-					tabletGUI.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI.getContentPanel());
+					tabletGUI
+							.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI
+									.getContentPanel());
 					TouchEntryPoint.allowEditing(true);
-					((TouchApp) app).getFileManager().getMaterial(WorksheetHeaderPanel.this.material, app);
+					((TouchApp) app).getFileManager().getMaterial(
+							WorksheetHeaderPanel.this.material, app);
 					TouchEntryPoint.showTabletGUI();
 				}
 			}

@@ -10,27 +10,27 @@ import com.google.gwt.user.client.Element;
  * An Interface for geogebra.touch.gui.GeoGebraTouchGUI.
  */
 public interface GeoGebraTouchGUI {
-    public void allowEditing(boolean b);
+	public void allowEditing(boolean b);
 
-    public AlgebraViewPanel getAlgebraViewPanel();
+	public AlgebraViewPanel getAlgebraViewPanel();
 
-    public Element getElement();
+	public Element getElement();
 
-    public EuclidianViewPanel getEuclidianViewPanel();
+	public EuclidianViewPanel getEuclidianViewPanel();
 
-    public void initComponents(Kernel kernel);
+	public void initComponents(Kernel kernel);
 
-    public boolean isAlgebraShowing();
+	public boolean isAlgebraShowing();
 
-    public void resetMode();
+	public void resetMode();
 
-    public void setAlgebraVisible(boolean visible);
+	public void setAlgebraVisible(boolean visible);
 
-    /**
-     * Set labels of all components that were already initialized and need i18n
-     */
-    public void setLabels();
+	/**
+	 * Set labels of all components that were already initialized and need i18n
+	 */
+	public void setLabels();
 
-    // TODO: use with SelectionManager
-    // public void updateStylingBar(SelectionManager selectionManager);
+	// TODO: use with SelectionManager
+	// public void updateStylingBar(SelectionManager selectionManager);
 }

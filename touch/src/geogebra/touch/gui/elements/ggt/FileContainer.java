@@ -15,11 +15,15 @@ public class FileContainer extends VerticalPanel {
 	private final FlowPanel localFileControlPanel;
 	private final VerticalMaterialPanel localFilePanel;
 	private final HorizontalPanel localFilePages;
-	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel().getIcons();
-	private final StandardImageButton prevLocalButton = new StandardImageButton(LafIcons.arrow_go_previous());
-	private final StandardImageButton nextLocalButton = new StandardImageButton(LafIcons.arrow_go_next());
+	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
+			.getIcons();
+	private final StandardImageButton prevLocalButton = new StandardImageButton(
+			LafIcons.arrow_go_previous());
+	private final StandardImageButton nextLocalButton = new StandardImageButton(
+			LafIcons.arrow_go_next());
 
-	public FileContainer(String string, Label headingMyProfile, final VerticalMaterialPanel localFilePanel) {
+	public FileContainer(String string, Label headingMyProfile,
+			final VerticalMaterialPanel localFilePanel) {
 		this.localFilePanel = localFilePanel;
 		this.addStyleName(string);
 		this.add(headingMyProfile);
@@ -62,21 +66,19 @@ public class FileContainer extends VerticalPanel {
 	public void updateNextPrevButtons() {
 		if (this.localFilePanel.hasNextPage()) {
 			this.nextLocalButton.removeStyleName("nextPrevDisabled");
-		    this.nextLocalButton.setEnabled(true);
-		}
-		else {
+			this.nextLocalButton.setEnabled(true);
+		} else {
 			this.nextLocalButton.addStyleName("nextPrevDisabled");
-		    this.nextLocalButton.setEnabled(false);
+			this.nextLocalButton.setEnabled(false);
 		}
 		if (this.localFilePanel.hasPrevPage()) {
 			this.prevLocalButton.removeStyleName("nextPrevDisabled");
-		    this.prevLocalButton.setEnabled(true);
+			this.prevLocalButton.setEnabled(true);
 
-		}
-		else {
+		} else {
 			this.prevLocalButton.addStyleName("nextPrevDisabled");
-		    this.prevLocalButton.setEnabled(false);
+			this.prevLocalButton.setEnabled(false);
 		}
 	}
-	
+
 }

@@ -83,13 +83,17 @@ public class BrowseGUI extends VerticalPanel {
 
 		this.headingGeoGebraTube.setText("GeoGebraTube");
 
-		this.localFileContainer = new FileContainer("localFilePanel", this.headingMyProfile, this.localFilePanel);
+		this.localFileContainer = new FileContainer("localFilePanel",
+				this.headingMyProfile, this.localFilePanel);
 
-		this.tubeFileContainer = new FileContainer("tubeFilePanel", this.headingGeoGebraTube, this.tubeFilePanel);
+		this.tubeFileContainer = new FileContainer("tubeFilePanel",
+				this.headingGeoGebraTube, this.tubeFilePanel);
 
 		this.add(this.searchBar);
 		// this.add(this.featuredMaterials);
-		final int panelHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - HEADING_HEIGHT - CONTROLS_HEIGHT;
+		final int panelHeight = Window.getClientHeight()
+				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
+				- HEADING_HEIGHT - CONTROLS_HEIGHT;
 		if (panelHeight > 0) {
 			this.localFilePanel.setHeight(panelHeight + "px");
 			this.tubeFilePanel.setHeight(panelHeight + "px");
@@ -111,21 +115,28 @@ public class BrowseGUI extends VerticalPanel {
 
 	public void displaySearchResults(String query) {
 		this.localList = this.fm.search(query);
-		GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(query, new RequestCallback() {
-			@Override
-			public void onError(com.google.gwt.http.client.Request request, Throwable exception) {
-				// TODO Handle error!
-				BrowseGUI.this.updateGUI();
-				exception.printStackTrace();
-			}
+		GeoGebraTubeAPI.getInstance(
+				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
+				query, new RequestCallback() {
+					@Override
+					public void onError(
+							com.google.gwt.http.client.Request request,
+							Throwable exception) {
+						// TODO Handle error!
+						BrowseGUI.this.updateGUI();
+						exception.printStackTrace();
+					}
 
-			@Override
-			public void onResponseReceived(com.google.gwt.http.client.Request request, Response response) {
-				App.debug(response.getText());
-				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
-				BrowseGUI.this.updateGUI();
-			}
-		});
+					@Override
+					public void onResponseReceived(
+							com.google.gwt.http.client.Request request,
+							Response response) {
+						App.debug(response.getText());
+						BrowseGUI.this.tubeList = JSONparserGGT
+								.parseResponse(response.getText());
+						BrowseGUI.this.updateGUI();
+					}
+				});
 
 	}
 
@@ -135,18 +146,22 @@ public class BrowseGUI extends VerticalPanel {
 
 	public void loadFeatured() {
 		this.localList = this.fm.getAllFiles();
-		GeoGebraTubeAPI.getInstance(geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).getFeaturedMaterials(new RequestCallback() {
-			@Override
-			public void onError(Request request, Throwable exception) {
-				BrowseGUI.this.updateGUI();
-			}
+		GeoGebraTubeAPI.getInstance(
+				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
+				.getFeaturedMaterials(new RequestCallback() {
+					@Override
+					public void onError(Request request, Throwable exception) {
+						BrowseGUI.this.updateGUI();
+					}
 
-			@Override
-			public void onResponseReceived(Request request, Response response) {
-				BrowseGUI.this.tubeList = JSONparserGGT.parseResponse(response.getText());
-				BrowseGUI.this.updateGUI();
-			}
-		});
+					@Override
+					public void onResponseReceived(Request request,
+							Response response) {
+						BrowseGUI.this.tubeList = JSONparserGGT
+								.parseResponse(response.getText());
+						BrowseGUI.this.updateGUI();
+					}
+				});
 	}
 
 	public void onResize() {
@@ -156,7 +171,9 @@ public class BrowseGUI extends VerticalPanel {
 
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		final int newHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - HEADING_HEIGHT - CONTROLS_HEIGHT;
+		final int newHeight = Window.getClientHeight()
+				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
+				- HEADING_HEIGHT - CONTROLS_HEIGHT;
 		if (newHeight > 0) {
 			this.localFilePanel.setHeight(newHeight + "px");
 			this.tubeFilePanel.setHeight(newHeight + "px");
@@ -196,7 +213,7 @@ public class BrowseGUI extends VerticalPanel {
 			this.localFileContainer.setVisible(true);
 		}
 	}
-	
+
 	public void updateNextPrevButtons() {
 		if (!this.localList.isEmpty()) {
 			((FileContainer) this.localFileContainer).updateNextPrevButtons();

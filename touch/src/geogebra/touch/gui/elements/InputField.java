@@ -68,7 +68,8 @@ public class InputField extends VerticalPanel {
 						InputField.this.textBox.setFocus(true);
 						InputField.this.textBox.setCursorPos(InputField.this.textBox.getText().length());
 						if (InputField.this.underline != null) {
-							InputField.this.underline.removeStyleName("inactive");
+							InputField.this.underline
+									.removeStyleName("inactive");
 							InputField.this.underline.addStyleName("active");
 						}
 						InputField.this.textBox.removeStyleName("inactive");

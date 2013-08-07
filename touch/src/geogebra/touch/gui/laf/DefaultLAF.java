@@ -95,7 +95,8 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setStyleBarShowHideHandler(StandardImageButton button, final StyleBar styleBar) {
+	public StandardImageButton setStyleBarShowHideHandler(
+			StandardImageButton button, final StyleBar styleBar) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -109,7 +110,9 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setStyleBarButtonHandler(final StandardImageButton button, final StyleBar styleBar, final String process) {
+	public StandardImageButton setStyleBarButtonHandler(
+			final StandardImageButton button, final StyleBar styleBar,
+			final String process) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -126,7 +129,9 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setOptionalButtonHandler(final StandardImageButton button, final StyleBar styleBar, final OptionType type) {
+	public StandardImageButton setOptionalButtonHandler(
+			final StandardImageButton button, final StyleBar styleBar,
+			final OptionType type) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -141,7 +146,8 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setAlgebraButtonHandler(StandardImageButton button, final TabletGUI gui) {
+	public StandardImageButton setAlgebraButtonHandler(
+			StandardImageButton button, final TabletGUI gui) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -151,7 +157,8 @@ public class DefaultLAF implements LookAndFeel {
 				gui.toggleAlgebraView();
 
 				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel().enableDisableButtons();
+					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
+							.enableDisableButtons();
 				}
 			}
 		});
@@ -160,8 +167,10 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI, TabletGUI tabletGUI) {
-		WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app, worksheetGUI, tabletGUI);
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
+			TabletGUI tabletGUI) {
+		WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app,
+				worksheetGUI, tabletGUI);
 		worksheetGUI.setHeaderWidget(header);
 		return header;
 	}

@@ -19,7 +19,9 @@ public class VerticalMaterialPanel extends FlowPanel {
 	public static final int SPACE = 20;
 
 	private static int maxHeight() {
-		return Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getAppBarHeight() - BrowseGUI.CONTROLS_HEIGHT;
+		return Window.getClientHeight()
+				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
+				- BrowseGUI.CONTROLS_HEIGHT;
 	}
 
 	private final FlexTable contentPanel;
@@ -63,14 +65,17 @@ public class VerticalMaterialPanel extends FlowPanel {
 	}
 
 	public void nextPage() {
-		if (this.start + maxHeight() / this.materialHeight >= this.materials.size()) {
+		if (this.start + maxHeight() / this.materialHeight >= this.materials
+				.size()) {
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, this.start + maxHeight() / this.materialHeight);
+		this.setMaterials(this.columns, this.materials, this.start
+				+ maxHeight() / this.materialHeight);
 	}
-	
+
 	public boolean hasNextPage() {
-		if (this.start + maxHeight() / this.materialHeight >= this.materials.size()) {
+		if (this.start + maxHeight() / this.materialHeight >= this.materials
+				.size()) {
 			return false;
 		}
 		return true;
@@ -80,9 +85,10 @@ public class VerticalMaterialPanel extends FlowPanel {
 		if (this.start <= 0) {
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, this.start - maxHeight() / this.materialHeight);
+		this.setMaterials(this.columns, this.materials, this.start
+				- maxHeight() / this.materialHeight);
 	}
-	
+
 	public boolean hasPrevPage() {
 		if (this.start <= 0) {
 			return false;
@@ -118,12 +124,15 @@ public class VerticalMaterialPanel extends FlowPanel {
 			this.contentPanel.getCellFormatter().setWidth(0, 0, "100%");
 		}
 
-		for (int i = 0; i < materials.size() - this.start && i < maxHeight() / this.materialHeight; i++) {
+		for (int i = 0; i < materials.size() - this.start
+				&& i < maxHeight() / this.materialHeight; i++) {
 			final Material m = materials.get(i + this.start);
-			final MaterialListElement preview = new MaterialListElement(m, this.app, this);
+			final MaterialListElement preview = new MaterialListElement(m,
+					this.app, this);
 			preview.initButtons();
 			this.titlesToPreviews.put(m.getURL(), preview);
-			this.contentPanel.setWidget(i / this.columns, i % this.columns, preview);
+			this.contentPanel.setWidget(i / this.columns, i % this.columns,
+					preview);
 		}
 	}
 
@@ -134,7 +143,8 @@ public class VerticalMaterialPanel extends FlowPanel {
 	}
 
 	public void updateHeight() {
-		final Iterator<MaterialListElement> material = this.titlesToPreviews.values().iterator();
+		final Iterator<MaterialListElement> material = this.titlesToPreviews
+				.values().iterator();
 		if (material.hasNext()) {
 			if (material.next().getOffsetHeight() > 0) {
 				this.materialHeight = material.next().getOffsetHeight();

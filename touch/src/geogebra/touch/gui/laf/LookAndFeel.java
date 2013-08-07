@@ -12,35 +12,41 @@ import geogebra.touch.utils.OptionType;
 
 public interface LookAndFeel extends SavedStateListener {
 
-    public void buildHeader(TabletGUI gui, TouchModel touchModel);
+	public void buildHeader(TabletGUI gui, TouchModel touchModel);
 
-    public int getAppBarHeight();
+	public int getAppBarHeight();
 
-    public int getToolBarHeight();
+	public int getToolBarHeight();
 
-    public DefaultResources getIcons();
+	public DefaultResources getIcons();
 
-    public int getPaddingLeftOfDialog();
+	public int getPaddingLeftOfDialog();
 
-    public int getPanelsHeight();
+	public int getPanelsHeight();
 
-    public TabletHeaderPanel getTabletHeaderPanel();
+	public TabletHeaderPanel getTabletHeaderPanel();
 
-    public boolean isMouseDownIgnored();
+	public boolean isMouseDownIgnored();
 
-    public void setTitle(String title);
+	public void setTitle(String title);
 
-    public boolean isShareSupported();
+	public boolean isShareSupported();
 
-    public void updateUndoSaveButtons();
-    
-    public StandardImageButton setStyleBarButtonHandler(StandardImageButton button, StyleBar styleBar, String process);
+	public void updateUndoSaveButtons();
 
-    public StandardImageButton setOptionalButtonHandler(StandardImageButton button, StyleBar styleBar, OptionType captionstyle);
+	public StandardImageButton setStyleBarButtonHandler(
+			StandardImageButton button, StyleBar styleBar, String process);
 
-    public StandardImageButton setStyleBarShowHideHandler(StandardImageButton button, StyleBar styleBar);
+	public StandardImageButton setOptionalButtonHandler(
+			StandardImageButton button, StyleBar styleBar,
+			OptionType captionstyle);
 
-    public StandardImageButton setAlgebraButtonHandler(StandardImageButton arrow, TabletGUI gui);
+	public StandardImageButton setStyleBarShowHideHandler(
+			StandardImageButton button, StyleBar styleBar);
 
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI, TabletGUI tabletGUI);
+	public StandardImageButton setAlgebraButtonHandler(
+			StandardImageButton arrow, TabletGUI gui);
+
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
+			TabletGUI tabletGUI);
 }

@@ -191,7 +191,7 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static void showWorksheetGUI(Material material) {
-		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);	
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
 		TouchEntryPoint.worksheetGUI.loadWorksheet(material);
 	}
 

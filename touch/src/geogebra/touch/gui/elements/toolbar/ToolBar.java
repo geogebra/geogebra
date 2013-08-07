@@ -43,7 +43,8 @@ public class ToolBar extends FlowPanel {
 	private final HorizontalPanel inputPanel;
 	StandardImageButton showHideClosed;
 	StandardImageButton showHideOpened;
-	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel().getIcons().icon_fx();
+	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel()
+			.getIcons().icon_fx();
 	Panel underline;
 
 	boolean toolBarOpen = false;
@@ -58,7 +59,8 @@ public class ToolBar extends FlowPanel {
 	public ToolBar(final TouchModel touchModel, TouchApp app, TabletGUI gui) {
 		this.setStyleName("toolbar");
 
-		this.input = new InputDialog(app, DialogType.InputField, gui, touchModel);
+		this.input = new InputDialog(app, DialogType.InputField, gui,
+				touchModel);
 		// this.setWidth(Window.getClientWidth() - 20 + "px");
 
 		this.toolPanel = new FlowPanel();
@@ -68,12 +70,14 @@ public class ToolBar extends FlowPanel {
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.inputButtonPanel.setStyleName("inputbarPanel");
 
-		this.showHideClosed = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+		this.showHideClosed = new StandardImageButton(TouchEntryPoint
+				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideClosed.setStyleName("arrowLeft");
-		
-		this.showHideOpened = new StandardImageButton(TouchEntryPoint.getLookAndFeel().getIcons().triangle_left());
+
+		this.showHideOpened = new StandardImageButton(TouchEntryPoint
+				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
-		
+
 		this.showHideClosed.setVisible(this.openNeeded);
 		this.showHideOpened.setVisible(false);
 
@@ -108,21 +112,33 @@ public class ToolBar extends FlowPanel {
 		this.touchModel.getGuiModel().setToolBar(this);
 		this.tools = new ArrayList<ToolBarButton>();
 
-		ToolBarButton manipulateObjects = new ToolBarButton(ToolBarMenu.ManipulateObjects, model.getGuiModel());
+		ToolBarButton manipulateObjects = new ToolBarButton(
+				ToolBarMenu.ManipulateObjects, model.getGuiModel());
 		this.touchModel.getGuiModel().setDefaultButton(manipulateObjects);
 		this.tools.add(manipulateObjects);
-		this.tools.add(new ToolBarButton(ToolBarMenu.Point, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Line, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, model.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, model.getGuiModel()));
+		this.tools
+				.add(new ToolBarButton(ToolBarMenu.Point, model.getGuiModel()));
+		this.tools
+				.add(new ToolBarButton(ToolBarMenu.Line, model.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, model
+				.getGuiModel()));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, model
+				.getGuiModel()));
 
-		this.openNeeded = Window.getClientWidth() < ToolBar.toolBarButtonWidth * this.tools.size() + 270;
+		this.openNeeded = Window.getClientWidth() < ToolBar.toolBarButtonWidth
+				* this.tools.size() + 270;
 		this.showHideClosed.setVisible(this.openNeeded);
 
 		// new Inputbar (Stefanie Bogner)
@@ -138,13 +154,16 @@ public class ToolBar extends FlowPanel {
 		// +
 		// "); background-position: top right; background-repeat: no-repeat;");
 		final Panel iconPanel = new LayoutPanel();
-		final String html = "<img src=\"" + this.iconFx.getSafeUri().asString() + "\" />";
+		final String html = "<img src=\"" + this.iconFx.getSafeUri().asString()
+				+ "\" />";
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
-		this.inputPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		this.inputPanel
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		this.inputPanel.add(iconPanel);
 
-		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
+		this.inputBox.setText(this.touchModel.getKernel().getApplication()
+				.getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
 
 		this.inputButtonPanel.addDomHandler(new ClickHandler() {
@@ -185,7 +204,8 @@ public class ToolBar extends FlowPanel {
 			if (this.openNeeded) {
 				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 			} else {
-				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * this.tools.size() + "px");
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth
+						* this.tools.size() + "px");
 			}
 		}
 		this.add(this.toolPanel);
@@ -233,13 +253,15 @@ public class ToolBar extends FlowPanel {
 			if (this.openNeeded) {
 				this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 			} else {
-				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth * this.tools.size() + "px");
+				this.toolPanel.setWidth(ToolBar.toolBarButtonWidth
+						* this.tools.size() + "px");
 			}
 		} else {
 			this.toolPanel.setWidth("100%");
 		}
 
-		this.openNeeded = Window.getClientWidth() < ToolBar.toolBarButtonWidth * this.tools.size() + 270;
+		this.openNeeded = Window.getClientWidth() < ToolBar.toolBarButtonWidth
+				* this.tools.size() + 270;
 		this.showHideClosed.setVisible(this.openNeeded);
 	}
 
@@ -248,7 +270,8 @@ public class ToolBar extends FlowPanel {
 	}
 
 	public void setLabels() {
-		this.inputBox.setText(this.touchModel.getKernel().getApplication().getLocalization().getMenu("InputField"));
+		this.inputBox.setText(this.touchModel.getKernel().getApplication()
+				.getLocalization().getMenu("InputField"));
 	}
 
 }

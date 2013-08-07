@@ -13,88 +13,92 @@ import com.google.gwt.user.client.ui.Label;
 
 public class WinLAF extends DefaultLAF {
 
-    public WinLAF(TouchApp app) {
-	super(app);
-    }
-
-    @Override
-    public void buildHeader(TabletGUI gui, TouchModel touchModel) {
-
-    }
-
-    @Override
-    public int getAppBarHeight() {
-	return 0;
-    }
-
-    @Override
-    public DefaultResources getIcons() {
-	return WinResources.INSTANCE;
-    }
-
-    @Override
-    public int getPaddingLeftOfDialog() {
-	return (Window.getClientWidth() - 740) / 2;
-    }
-
-    @Override
-    public int getPanelsHeight() {
-	return 60;
-    }
-
-    @Override
-    public TabletHeaderPanel getTabletHeaderPanel() {
-	return null;
-    }
-
-    @Override
-    public boolean isMouseDownIgnored() {
-	return false;
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public native void stateChanged(boolean saved) /*-{
-		if (!$wnd.appbar) {
-			return;
-		}
-		$wnd.appbar.saveChanged(saved);
-    }-*/;
-
-    @Override
-    public void updateUndoSaveButtons() {
-	if (this.getApp() != null) {
-	    this.updateUndoSaveButtons(this.getApp().getKernel().undoPossible(), this.getApp().getKernel().redoPossible());
+	public WinLAF(TouchApp app) {
+		super(app);
 	}
-    }
 
-    public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-		if (!$wnd.appbar) {
-			return;
+	@Override
+	public void buildHeader(TabletGUI gui, TouchModel touchModel) {
+
+	}
+
+	@Override
+	public int getAppBarHeight() {
+		return 0;
+	}
+
+	@Override
+	public DefaultResources getIcons() {
+		return WinResources.INSTANCE;
+	}
+
+	@Override
+	public int getPaddingLeftOfDialog() {
+		return (Window.getClientWidth() - 740) / 2;
+	}
+
+	@Override
+	public int getPanelsHeight() {
+		return 60;
+	}
+
+	@Override
+	public TabletHeaderPanel getTabletHeaderPanel() {
+		return null;
+	}
+
+	@Override
+	public boolean isMouseDownIgnored() {
+		return false;
+	}
+
+	@Override
+	public void setTitle(String title) {
+
+	}
+
+	@Override
+	public native void stateChanged(boolean saved) /*-{
+													if (!$wnd.appbar) {
+													return;
+													}
+													$wnd.appbar.saveChanged(saved);
+													}-*/;
+
+	@Override
+	public void updateUndoSaveButtons() {
+		if (this.getApp() != null) {
+			this.updateUndoSaveButtons(
+					this.getApp().getKernel().undoPossible(), this.getApp()
+							.getKernel().redoPossible());
 		}
-		$wnd.appbar.updateUndoRedo(undo, redo);
-    }-*/;
-    
-    @Override
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,TabletGUI tabletGUI) {
-    	final Label consTitle = new Label();
-    	worksheetGUI.getContent().add(consTitle);
-		WorksheetHeader header = new WorksheetHeader(){
+	}
+
+	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
+																			if (!$wnd.appbar) {
+																			return;
+																			}
+																			$wnd.appbar.updateUndoRedo(undo, redo);
+																			}-*/;
+
+	@Override
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
+			TabletGUI tabletGUI) {
+		final Label consTitle = new Label();
+		worksheetGUI.getContent().add(consTitle);
+		WorksheetHeader header = new WorksheetHeader() {
 
 			@Override
 			public void setLabels() {
-				//no native buttons
-				
+				// no native buttons
+
 			}
 
 			@Override
 			public void setMaterial(Material m) {
 				consTitle.setText(m.getTitle());
-			}};
+			}
+		};
 		return header;
 	}
 }

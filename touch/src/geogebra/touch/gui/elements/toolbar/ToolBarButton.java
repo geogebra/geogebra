@@ -54,7 +54,8 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this.getCmd()
+				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
+						.getCmd()
 						&& ToolBarButton.this.model.getOptionTypeShown() == OptionType.ToolBar) {
 					ToolBarButton.this.model.closeOptions();
 				} else {
@@ -74,26 +75,36 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 		if (this.menuEntry.length != 0) {
 			final SubToolBar options = new SubToolBar(this.menuEntry, this);
 
-			final int optionsWidth = this.menuEntry.length * ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
+			final int optionsWidth = this.menuEntry.length
+					* ToolBarButton.BUTTON_WIDTH
+					+ ToolBarButton.BUTTONPANEL_BORDER;
 
 			// if the width of the subtoolbar ist too big, the position should
 			// be
 			// different
 			// leftpos of button + width of subtoolbar must not be bigger than
 			// Window-width!!
-			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth() && options.isHorizontal()) {
+			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()
+					&& options.isHorizontal()) {
 				this.model.closeOnlyOptions();
 				this.model.setOption(options);
 
 				// special case for cirlces (is still too long)
-				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth < 0) {
+				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH
+						- optionsWidth < 0) {
 					final int buttonsLeft = this.menuEntry.length / 2;
-					options.setPopupPosition(this.getAbsoluteLeft() - buttonsLeft * ToolBarButton.BUTTON_WIDTH, this.getAbsoluteTop()
-							- ToolBarButton.BUTTON_WIDTH - 16);
-					options.setSubToolBarArrowPaddingLeft(buttonsLeft * ToolBarButton.BUTTON_WIDTH + 23);
+					options.setPopupPosition(this.getAbsoluteLeft()
+							- buttonsLeft * ToolBarButton.BUTTON_WIDTH,
+							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
+									- 16);
+					options.setSubToolBarArrowPaddingLeft(buttonsLeft
+							* ToolBarButton.BUTTON_WIDTH + 23);
 				} else {
-					options.setPopupPosition(this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth + ToolBarButton.BUTTONPANEL_BORDER,
-							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
+					options.setPopupPosition(this.getAbsoluteLeft()
+							+ ToolBarButton.BUTTON_WIDTH - optionsWidth
+							+ ToolBarButton.BUTTONPANEL_BORDER,
+							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
+									- 16);
 					options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
 				}
 

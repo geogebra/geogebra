@@ -5,11 +5,11 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
 
 public interface GuiResources extends ClientBundle {
-    GuiResources INSTANCE = GWT.create(GuiResources.class);
+	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
-    @Source("geogebra/resources/js/giac.js")
-    TextResource giacJs();
+	@Source("geogebra/resources/js/giac.js")
+	TextResource giacJs();
 
-    @Source("geogebra/resources/css/mathquill.css")
-    TextResource mathquillCss();
+	@Source("geogebra/resources/css/mathquill.css")
+	TextResource mathquillCss();
 }

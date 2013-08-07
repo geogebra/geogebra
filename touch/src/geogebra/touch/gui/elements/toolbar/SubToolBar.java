@@ -31,7 +31,8 @@ public class SubToolBar extends PopupPanel {
 	 *            the OptionsClickedListener (f.e. a ToolBarButton) that was
 	 *            clicked
 	 */
-	public SubToolBar(SubToolBarButton[] menuEntry, OptionsClickedListener ancestor) {
+	public SubToolBar(SubToolBarButton[] menuEntry,
+			OptionsClickedListener ancestor) {
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();
@@ -54,14 +55,17 @@ public class SubToolBar extends PopupPanel {
 		this.setWidget(this.contentPanel);
 
 		this.arrowPanel = new LayoutPanel();
-		final String html = "<img src=\"" + TouchEntryPoint.getLookAndFeel().getIcons().subToolBarArrow().getSafeUri().asString() + "\" />";
+		final String html = "<img src=\""
+				+ TouchEntryPoint.getLookAndFeel().getIcons().subToolBarArrow()
+						.getSafeUri().asString() + "\" />";
 		this.arrowPanel.getElement().setInnerHTML(html);
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
 	}
 
 	public void setSubToolBarArrowPaddingLeft(int padding) {
-		this.arrowPanel.getElement().setAttribute("style", "padding-left: " + padding + "px;");
+		this.arrowPanel.getElement().setAttribute("style",
+				"padding-left: " + padding + "px;");
 	}
 
 	public boolean isHorizontal() {
