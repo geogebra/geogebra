@@ -27,7 +27,7 @@ public class DownloadManager {
 	private static final int BYTE_BUFFER_SIZE = 65536;
 	
 	/**
-	 * Copies or downloads url to destintation file.
+	 * Copies or downloads url to destination file.
 	 */
 	public static void copyURLToFile(URL src, File dest, App app) throws Exception {		
 		BufferedInputStream in = null;

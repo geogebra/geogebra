@@ -30,6 +30,7 @@ import geogebra.gui.FileDropTargetListener;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.util.DownloadManager;
 import geogebra.util.Util;
 
 import java.awt.Component;
@@ -48,10 +49,16 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -470,9 +477,61 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		/**
+		 * Downloads newest GeoGebra .jar files and puts them
+		 * into the user's AppData directory. Also downloads license.txt.
+		 */
+		private void downloadGeoGebraJars() {
+			try {
+				// Creating working directory:
+				String updateDir = System.getenv("APPDATA")
+						+ GeoGebraConstants.GEOGEBRA_JARS_UPDATE_DIR;
+				App.debug("Creating " + updateDir);
+				new File(updateDir).mkdirs();
+				
+				// Downloading newest .jar files in a .zip:
+				String filename = updateDir + File.separator + "geogebra-jars.zip";
+				File dest = new File(filename);
+				URL url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
+				App.debug("Downloading " + GeoGebraConstants.GEOGEBRA_ONLINE_JARS_ZIP);
+				DownloadManager.copyURLToFile(url, dest, app);
+				
+				// Unzipping:
+				// Borrowed from http://www.concretepage.com/java/read_zip_file_java.php:
+				InputStream is = new FileInputStream(filename);
+				ZipInputStream zis =  new ZipInputStream(is);
+				ZipEntry ze;
+				byte[] buff = new byte[1024];
+		        while ((ze=zis.getNextEntry())!=null) {
+		            // get file name
+		        	String name = ze.getName();
+		            FileOutputStream fos = new FileOutputStream(updateDir + 
+		            		File.separator + name);
+		            App.debug("Extracting " + name);
+		            int l = 0;
+		            // write buffer to file
+		            while ((l = zis.read(buff)) > 0) {
+		                fos.write(buff, 0, l);
+		            }
+		            fos.close();
+		        }
+		        zis.close();
+		        dest.delete();
+		        
+		        // Downloading license.txt:
+		        filename = updateDir + File.separator + "license.txt";
+				dest = new File(filename);
+		        url = new URL(GeoGebraConstants.GEOGEBRA_ONLINE_LICENSE);
+				DownloadManager.copyURLToFile(url, dest, app);
+			} catch (Exception e) {
+				App.error("Unsuccessful update");
+			}
+		}
+		
+		/**
 		 * Checks if a newer version is available. It runs every month (30
 		 * days).
 		 */
+		
 		private void checkVersion() {
 			App.debug("Checking version");
 			if (!app.getVersionCheckAllowed()) {
@@ -512,30 +571,31 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 				try {
 					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-					String myVersion = GeoGebraConstants.VERSION_STRING; 
+					String myVersion = GeoGebraConstants.VERSION_STRING;
 					String codebase = AppD.getCodeBase().toString();
-					
+
 					StringBuilder sb = new StringBuilder();
-					
+
 					sb.append(GeoGebraConstants.VERSION_URL);
 					sb.append("?ver=");
 					sb.append(myVersion);
 					sb.append("&cb=");
-					
+
 					// don't send this (for privacy reasons)
 					sb.append(codebase.startsWith("file:") ? "file" : codebase);
-					
+
 					sb.append("&java=");
 					AppD.appendJavaVersion(sb);
-					
-					//App.debug(sb.toString());
-					
-					newestVersion = httpr.sendRequestGetResponseSync(sb.toString()); 
+
+					// App.debug(sb.toString());
+
+					newestVersion = httpr.sendRequestGetResponseSync(sb
+							.toString());
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(myVersion);
-					App.debug("current=" + currentVersionL
-							+ " newest=" + newestVersionL);
+					App.debug("current=" + currentVersionL + " newest="
+							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						String q = app.getPlain("NewerVersionA").replaceAll(
 								"%0", newestVersion);
@@ -551,9 +611,37 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						GeoGebraPreferencesD.getPref().savePreference(
 								GeoGebraPreferencesD.VERSION_LAST_CHECK, nowLS);
 						if (returnVal == 1) {
-							app.getGuiManager()
-									.showURLinBrowser(GeoGebraConstants.INSTALLERS_URL);
+							app.getGuiManager().showURLinBrowser(
+									GeoGebraConstants.INSTALLERS_URL);
 						}
+					}
+
+					// Checking minor version update (on Windows):
+					if (AppD.WINDOWS) {
+						sb = new StringBuilder();
+
+						sb.append(GeoGebraConstants.VERSION_URL_MINOR);
+						sb.append("?ver=");
+						sb.append(myVersion);
+						sb.append("&cb=");
+
+						// don't send this (for privacy reasons)
+						sb.append(codebase.startsWith("file:") ? "file"
+								: codebase);
+
+						sb.append("&java=");
+						AppD.appendJavaVersion(sb);
+
+						newestVersion = httpr.sendRequestGetResponseSync(sb
+								.toString());
+						newestVersion = newestVersion.replaceAll("-", ".");
+						newestVersionL = versionToLong(newestVersion);
+
+						App.debug("newest_minor=" + newestVersionL);
+						if (currentVersionL < newestVersionL) {
+						downloadGeoGebraJars();
+						}
+
 					}
 				} catch (Exception ex) {
 					App.error(ex.toString());

@@ -1,4 +1,6 @@
 package geogebra.common;
+
+
 /**
  * Application-wide constants (version strings, URLs)
  */
@@ -27,7 +29,10 @@ public interface GeoGebraConstants {
 	/** true for beta versions/release candidates*/
 	public static final boolean IS_PRE_RELEASE = VERSION_STRING.startsWith(XML_FILE_FORMAT);
 
-	public static final String VERSION_URL = "http://www.geogebra.org/download/version50.txt";
+	// This is used for checking if a minor update exists (on each run):
+	public static final String VERSION_URL_MINOR = "http://www.geogebra.org/download/version50.txt";
+	// This is used for checking whether a major update exists (monthly):
+	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 	public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://code.google.com/p/geogebra/downloads/list?can=2&q=4.9"
 			: "http://www.geogebra.org/installers";
 
@@ -56,6 +61,12 @@ public interface GeoGebraConstants {
 	/** URL of GeoGebra jars */
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "http://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
+	/** URL of GeoGebra jars, zipped */
+	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE + "geogebra-jars.zip";
+	/** update directory, typically on Windows */
+	public static final String GEOGEBRA_JARS_UPDATE_DIR ="\\GeoGebra\\jars\\update";
+	/** online license file, generated from trunk --- FIXME: create a per version file */
+	public final static String GEOGEBRA_ONLINE_LICENSE = "http://www.geogebra.org/info/gui-_license.txt";
 	/** URL of GeoGebra Webstart (to check whether we are running webstart)*/
 	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE = "http://www.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
