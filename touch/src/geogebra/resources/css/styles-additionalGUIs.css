@@ -8,6 +8,11 @@ body .worksheetgui .button {
 	filter: alpha(opacity = 80);
 }
 
+body .tubesearchgui .button.nextPrevDisabled {
+	opacity: 0.2;
+	filter: alpha(opacity = 20);
+}
+
 .tubesearchgui .button.button-up-hovering,
 .worksheetgui .button.button-up-hovering  {
 	border: none;
@@ -137,10 +142,10 @@ body .tubesearchgui input.gwt-TextBox {
 	color: #666666;
 }
 
-.tubesearchgui .fileControlPanel .button:hover {
+/*.tubesearchgui .fileControlPanel .button:hover {
 	opacity: 0.8;
 	filter: alpha(opacity = 80);
-}
+}*/
 
 .tubesearchgui .filePageControls {
 	float: left;

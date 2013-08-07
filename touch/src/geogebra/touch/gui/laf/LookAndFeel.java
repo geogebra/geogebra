@@ -1,7 +1,6 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.common.main.SavedStateListener;
-import geogebra.touch.TouchApp;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
 import geogebra.touch.gui.WorksheetHeader;
@@ -29,14 +28,12 @@ public interface LookAndFeel extends SavedStateListener {
 
     public boolean isMouseDownIgnored();
 
-    public void setApp(TouchApp app);
-
     public void setTitle(String title);
 
     public boolean isShareSupported();
 
     public void updateUndoSaveButtons();
-
+    
     public StandardImageButton setStyleBarButtonHandler(StandardImageButton button, StyleBar styleBar, String process);
 
     public StandardImageButton setOptionalButtonHandler(StandardImageButton button, StyleBar styleBar, OptionType captionstyle);
