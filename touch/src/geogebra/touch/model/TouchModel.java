@@ -70,6 +70,7 @@ public class TouchModel {
 
 	private Point eventCoordinates = new Point(0, 0);
 	private GeoNumeric redefineSlider, actualSlider;
+	private String oldRedefineText;
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
@@ -1167,6 +1168,9 @@ public class TouchModel {
 			if (this.redefineGeo == null) {
 				return false;
 			}
+			if(input.trim().equals(this.oldRedefineText)){
+				return true;
+			}
 
 			final boolean redefine = !this.redefineGeo.isPointOnPath();
 
@@ -1413,7 +1417,8 @@ public class TouchModel {
 			this.inputDialog.setFromSlider(this.redefineSlider);
 		} else {
 			this.inputDialog.redefine(DialogType.Redefine);
-			this.inputDialog.setText(geo.getDefinitionForInputBar());
+			this.oldRedefineText = geo.getDefinitionForInputBar();
+			this.inputDialog.setText(this.oldRedefineText);
 			this.redefineGeo = geo;
 			this.redefineSlider = null;
 		}
