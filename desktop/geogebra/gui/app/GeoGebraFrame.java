@@ -528,27 +528,27 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 		
 		/**
-		 * Checks if a newer version is available. It runs every month (30
-		 * days).
+		 * Checks if a newer version is available. It runs every month (30 days)
+		 * for major updates, but always for minor updates.
 		 */
-		
 		private void checkVersion() {
 			App.debug("Checking version");
 			if (!app.getVersionCheckAllowed()) {
 				App.debug("Version check is not allowed");
 				return;
 			}
-			
-			String lastVersionCheck = GeoGebraPreferencesD.getPref()
+
+			String lastVersionCheck = GeoGebraPreferencesD
+					.getPref()
 					.loadPreference(GeoGebraPreferencesD.VERSION_LAST_CHECK, "");
 			Long nowL = new Date().getTime();
 			String nowLS = nowL.toString();
 
 			boolean checkNeeded = false;
-						
+
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				App.debug("version check needed: no check was done yet");
+				App.debug("major version check needed: no check was done yet");
 			}
 
 			else {
@@ -556,25 +556,25 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				if (lastVersionCheckL + 1000L * 60 * 60 * 24
 						* VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
-					App
-							.debug("version check needed: lastVersionCheckL="
-									+ lastVersionCheckL + " nowL=" + nowL);
+					App.debug("major version check needed: lastVersionCheckL="
+							+ lastVersionCheckL + " nowL=" + nowL);
 				} else {
-					App
-							.debug("no version check needed: lastVersionCheck="
-									+ lastVersionCheckL + " nowL=" + nowL);
+					App.debug("no major version check needed: lastVersionCheck="
+							+ lastVersionCheckL + " nowL=" + nowL);
 				}
 			}
 
-			if (checkNeeded) {
-				String newestVersion = null;
+			String myVersion = GeoGebraConstants.VERSION_STRING;
+			HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+			String codebase = AppD.getCodeBase().toString();
+			String newestVersion = null;
+			StringBuilder sb = new StringBuilder();
+			Long newestVersionL;
+			Long currentVersionL = versionToLong(myVersion);
 
-				try {
-					HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-					String myVersion = GeoGebraConstants.VERSION_STRING;
-					String codebase = AppD.getCodeBase().toString();
+			try {
 
-					StringBuilder sb = new StringBuilder();
+				if (checkNeeded) {
 
 					sb.append(GeoGebraConstants.VERSION_URL);
 					sb.append("?ver=");
@@ -592,8 +592,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					newestVersion = httpr.sendRequestGetResponseSync(sb
 							.toString());
 					newestVersion = newestVersion.replaceAll("-", ".");
-					Long newestVersionL = versionToLong(newestVersion);
-					Long currentVersionL = versionToLong(myVersion);
+					newestVersionL = versionToLong(newestVersion);
+
 					App.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
@@ -615,38 +615,38 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 									GeoGebraConstants.INSTALLERS_URL);
 						}
 					}
+				} // checkneeded
 
-					// Checking minor version update (on Windows):
-					if (AppD.WINDOWS) {
-						sb = new StringBuilder();
+				// Always checking minor version update on Windows:
+				if (AppD.WINDOWS) {
+					sb = new StringBuilder();
 
-						sb.append(GeoGebraConstants.VERSION_URL_MINOR);
-						sb.append("?ver=");
-						sb.append(myVersion);
-						sb.append("&cb=");
+					sb.append(GeoGebraConstants.VERSION_URL_MINOR);
+					sb.append("?ver=");
+					sb.append(myVersion);
+					sb.append("&cb=");
 
-						// don't send this (for privacy reasons)
-						sb.append(codebase.startsWith("file:") ? "file"
-								: codebase);
+					// don't send this (for privacy reasons)
+					sb.append(codebase.startsWith("file:") ? "file" : codebase);
 
-						sb.append("&java=");
-						AppD.appendJavaVersion(sb);
+					sb.append("&java=");
+					AppD.appendJavaVersion(sb);
 
-						newestVersion = httpr.sendRequestGetResponseSync(sb
-								.toString());
-						newestVersion = newestVersion.replaceAll("-", ".");
-						newestVersionL = versionToLong(newestVersion);
+					newestVersion = httpr.sendRequestGetResponseSync(sb
+							.toString());
+					newestVersion = newestVersion.replaceAll("-", ".");
+					newestVersionL = versionToLong(newestVersion);
 
-						App.debug("newest_minor=" + newestVersionL);
-						if (currentVersionL < newestVersionL) {
+					App.debug("newest_minor=" + newestVersionL);
+					if (currentVersionL < newestVersionL) {
 						downloadGeoGebraJars();
-						}
-
 					}
-				} catch (Exception ex) {
-					App.error(ex.toString());
 				}
+
+			} catch (Exception ex) {
+				App.error(ex.toString());
 			}
+
 		}
 	}
 
