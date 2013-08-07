@@ -73,11 +73,11 @@ public class GeoGebraCasIntegrationTest {
   }
 
   /**
-   * Before every test clear the construction list. This also undefines all previously defined variables.
+   * Before every test: Clear the construction list to make sure there is nothing already defined.
    */
   @Before
   public void beforeTest () {
-    kernel.getConstruction().clearConstruction();
+    kernel.clearConstruction(true);
   }
 
   /**
@@ -327,8 +327,18 @@ public class GeoGebraCasIntegrationTest {
   /* Ordering of Powers */
 
   @Test
-  public void SimplificationOfTerms_OrderingOfPowers () {
+  public void SimplificationOfTerms_OrderingOfPowers_0 () {
     t("(a^2 - 3 b) * (-3 a + 5 b^2)", "-3 * a^(3) + 5 * a^(2)* b^(2) + 9 * a * b - 15 * b^(3)");
+  }
+  
+  @Test
+  public void SimplificationOfTerms_OrderingOfPowers_1 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
+    f.computeOutput();
+
+    Assert.assertEquals("a x³ + b x² + c x + d", f.getOutput(StringTemplate.defaultTemplate));
   }
 
   /* Polynomial Division */
@@ -1075,7 +1085,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Factor_Variables_5 () {
-    t("Factor[9x^2 - 25 y^2] ", "(3 * x + 5 * y) * (3 * x - 5 * y)", "(3 * x - 5 * y) * (3 * x + 5 * y)");
+    t("Factor[9x^2 - 25 y^2]", "(3 * x + 5 * y) * (3 * x - 5 * y)", "(3 * x - 5 * y) * (3 * x + 5 * y)");
   }
 
   @Test
@@ -3117,44 +3127,137 @@ public class GeoGebraCasIntegrationTest {
     t("Intersect[f(x), g(x)]", "{(0, 2), (2, 3)}");
   }
   
+  /* Figure 6: "Umgekehrte Kurvendiskussion" (Backward Curve Sketching) */
 
   @Test
-  public void Rubrik4 () {
-    // t("f(x):=a * x^3 + b * x^2 + c * x + d","a * x^(3) + b * x^(2) + c * x + d");
-    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-    kernel.getConstruction().addToConstructionList(f, false);
-    f.setInput("f(x):=a * x^3 + b * x^2 + c * x + d");
-    f.computeOutput();
-
-    Assert.assertEquals(f.getOutput(StringTemplate.defaultTemplate), "f(x):=a x³ + b x² + c x + d");
-    t("g1:=f(1)=1", "a + b + c + d = 1");
-    t("g2:=f(2) = 2", "8 * a + 4 * b + 2 * c + d = 2");
-    t("g3:=f'(1) = 0", "3 * a + 2 * b + c = 0");
-    t("g4:=f''(1) = 0", "6 * a + 2 * b = 0");
-    t("Solve({g1,g2,g3,g4},{a,b,c,d})", "{{a = 1, b = -3, c = 3, d = 0}}");
-    t("Delete[f]", "true");
+  public void CASRundbrief_Figure6_0 () {
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
   }
 
   @Test
-  public void Rubrik56 () {
-    t("A:={{2,3,2},{1,1,1},{0,-1,3}}", "{{2,3,2},{1,1,1},{0,-1,3}}");
-    t("B:={{3},{2},{7}}", "{{3},{2},{7}}");
-    t("X:={{x},{y},{z}}", "{{x},{y},{z}}");
-    t("A*X=B", "{{2 * x + 3*y + 2 * z},{x + y +z},{ - y + 3 * z}}={{3},{2},{7}}");
-    t("Delete[A]", "true");
-    t("Delete[B]", "true");
-    t("Delete[X]", "true");
-
+  public void CASRundbrief_Figure6_1 () {
+    // Depends on CASRundbrief_Figure6_0.
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
+    
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("g_1: f(1) = 1;", "a + b + c + d = 1");
   }
 
   @Test
-  public void Rubrik7 () {
-    t("A:={{2,3,2},{1,1,1},{0,-1,3}}", "{{2,3,2},{1,1,1},{0,-1,3}}");
-    t("B:={{3},{2},{7}}", "{{3},{2},{7}}");
-    t("Invert[A] * B", "{{1},{-1},{2}}");
-    t("Delete[A]", "true");
-    t("Delete[B]", "true");
+  public void CASRundbrief_Figure6_2 () {
+    // Depends on CASRundbrief_Figure6_0.
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
+    
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("g_2: f(2) = 2;", "8 * a + 4 * b + 2 * c + d = 2");
   }
+
+  @Test
+  public void CASRundbrief_Figure6_3 () {
+    // Depends on CASRundbrief_Figure6_0.
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
+    
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("g_3: f'(1) = 0;", "3 * a + 2 * b + c = 0");
+  }
+
+  @Test
+  public void CASRundbrief_Figure6_4 () {
+    // Depends on CASRundbrief_Figure6_0.
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
+    
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("g_4: f''(1) = 0;", "6 * a + 2 * b = 0");
+  }
+
+  @Test
+  public void CASRundbrief_Figure6_5 () {
+    // Depends on CASRundbrief_Figure6_0.
+    t("f(x) := a x^3 + b x^2 + c x + d", "a * x^(3) + b * x^(2) + c * x + d");
+    // Depends on CASRundbrief_Figure6_1.
+    t("g_1: f(1) = 1;", "a + b + c + d = 1");
+    // Depends on CASRundbrief_Figure6_2.
+    t("g_2: f(2) = 2;", "8 * a + 4 * b + 2 * c + d = 2");
+    // Depends on CASRundbrief_Figure6_3.
+    t("g_3: f'(1) = 0;", "3 * a + 2 * b + c = 0");
+    // Depends on CASRundbrief_Figure6_4.
+    t("g_4: f''(1) = 0;", "6 * a + 2 * b = 0");
+    
+    t("Solve[{g_1, g_2, g_3, g_4}, {a, b, c, d}]", "{{a = 1, b = -3, c = 3, d = 0}}");
+  }
+  
+  /* Figure 7: "Matrix in der CAS Ansicht" (Matrix in the CAS View) */
+
+  @Test
+  public void CASRundbrief_Figure7_0 () {
+    t("A := {{2, 3, 2}, {1, 1, 1}, {0, -1, 3}}", "{{2, 3, 2}, {1, 1, 1}, {0, -1, 3}}");
+  }
+  
+  /* Figure 8: "Gleichungssystem mittels Matrizen" (System of Equations via Matrices) */
+
+  @Test
+  public void CASRundbrief_Figure8_0 () {
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("A := {{2, 3, 2}, {1, 1, 1}, {0, -1, 3}};", "{{2, 3, 2}, {1, 1, 1}, {0, -1, 3}}");
+  }
+
+  @Test
+  public void CASRundbrief_Figure8_1 () {
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("B := {{3}, {2}, {7}};", "{{3}, {2}, {7}}");
+  }
+
+  @Test
+  public void CASRundbrief_Figure8_2 () {
+    // Suppress output using semicolon.
+    // Warning: This does not affect the output here!
+    // Therefore this test does not test suppression of the output,
+    // but just semicolon at the end of the input not breaking anything here.
+    t("X := {{x}, {y}, {z}};", "{{x}, {y}, {z}}");
+  }
+
+  @Test
+  public void CASRundbrief_Figure8_3 () {
+    // Depends on CASRundbrief_Figure8_0.
+    t("A := {{2, 3, 2}, {1, 1, 1}, {0, -1, 3}};", "{{2, 3, 2}, {1, 1, 1}, {0, -1, 3}}");
+    // Depends on CASRundbrief_Figure8_1.
+    t("B := {{3}, {2}, {7}};", "{{3}, {2}, {7}}");
+    // Depends on CASRundbrief_Figure8_2.
+    t("X := {{x}, {y}, {z}};", "{{x}, {y}, {z}}");
+
+    t("A * X = B", "{{2 * x + 3 * y + 2 * z}, {x + y + z}, {-y + 3 * z}} = {{3}, {2}, {7}}");
+  }
+  
+  /* Figure 9: "Lösung des Gleichungssystemes" (Solution of the System of Equations) */
+
+  @Test
+  public void CASRundbrief_Figure9_0 () {
+    // Depends on CASRundbrief_Figure8_0.
+    t("A := {{2, 3, 2}, {1, 1, 1}, {0, -1, 3}};", "{{2, 3, 2}, {1, 1, 1}, {0, -1, 3}}");
+    // Depends on CASRundbrief_Figure8_1.
+    t("B := {{3}, {2}, {7}};", "{{3}, {2}, {7}}");
+
+    t("Invert[A] * B", "{{1}, {-1}, {2}}");
+  }
+  
 
   @Test
   public void QuickStart () {
