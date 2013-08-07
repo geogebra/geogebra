@@ -135,13 +135,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		switch (tpl.getStringType()) {
 
 		default:
-			sb.append('(');
+			sb.append(tpl.leftBracket());
 			sb.append(x.toString(tpl));
 			sb.append(", ");
 			sb.append(y.toString(tpl));
 			sb.append(", ");
 			sb.append(z.toString(tpl));
-			sb.append(')');
+			sb.append(tpl.rightBracket());
 		}
 		return sb.toString();
 	}
