@@ -53,7 +53,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
  * 
  */
 public class TouchModel {
-	
+
 	Kernel kernel;
 	GuiModel guiModel;
 	private EuclidianView euclidianView;
@@ -69,12 +69,12 @@ public class TouchModel {
 	private GeoElement redefineGeo;
 
 	private Point eventCoordinates = new Point(0, 0);
-	private GeoNumeric redefineSlider;
+	private GeoNumeric redefineSlider, actualSlider;
 
 	public TouchModel(Kernel k, TabletGUI tabletGUI) {
 		this.kernel = k;
 		this.guiModel = new GuiModel(this);
-		this.inputDialog = new InputDialog((TouchApp) this.kernel.getApplication(), DialogType.NumberValue, tabletGUI, this.guiModel);
+		this.inputDialog = new InputDialog((TouchApp) this.kernel.getApplication(), DialogType.NumberValue, tabletGUI, this);
 		this.inputDialog.setInputHandler(new InputHandler() {
 			@Override
 			public boolean processInput(String inputString) {
@@ -378,6 +378,10 @@ public class TouchModel {
 	 */
 	public int getTotalNumber() {
 		return this.selectedElements.size();
+	}
+
+	public GeoNumeric getActualSlider() {
+		return this.actualSlider;
 	}
 
 	private void handleDraw(Point2D pointRW, boolean singlePointForIntersection) {
@@ -1015,7 +1019,8 @@ public class TouchModel {
 		// redefine
 		if (this.inputDialog.getType() == DialogType.RedefineSlider) {
 			setSliderProperties(this.redefineSlider);
-			this.redefineSlider.rename(input);
+			String newName = calcSliderName(input);
+			this.redefineSlider.rename(newName);
 			this.redefineSlider.update();
 			this.kernel.notifyRepaint();
 			return true;
@@ -1040,16 +1045,20 @@ public class TouchModel {
 		if (this.command == ToolBarCommand.Slider) {
 			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(oldVal);
 
-			final GeoNumeric slider = this.inputDialog.isNumber() ? new GeoNumeric(this.kernel.getConstruction()) : new GeoAngle(
+			this.actualSlider = this.inputDialog.isNumber() ? new GeoNumeric(this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
-			slider.setLabel(input.equals("") ? null : input);
-			slider.setSliderLocation(this.eventCoordinates.x, this.eventCoordinates.y, true);
-			setSliderProperties(slider);
 
-			slider.setEuclidianVisible(true);
-			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			slider.setLabelVisible(true);
-			slider.update();
+			String name = calcSliderName(input);
+			this.actualSlider.setLabel(name);
+			
+			this.actualSlider.setSliderLocation(this.eventCoordinates.x, this.eventCoordinates.y, true);
+			setSliderProperties(this.actualSlider);
+
+			this.actualSlider.setEuclidianVisible(true);
+			this.actualSlider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+			this.actualSlider.setLabelVisible(true);
+			this.actualSlider.update();
+			this.actualSlider = null;
 
 		} else { // every command except for Slider and Redefine
 
@@ -1108,11 +1117,20 @@ public class TouchModel {
 		return true;
 	}
 
+	private String calcSliderName(String name){
+		String str;
+		try {
+			str = name.equals("") ? null : this.kernel.getAlgebraProcessor().parseLabel(name);
+		} catch (Exception e) {
+			str = null;
+		}
+		return str;
+	}
+	
 	private void setSliderProperties(GeoNumeric slider) {
 		slider.setIntervalMin(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getMin(), false));
 		slider.setIntervalMax(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getMax(), false));
 		slider.setAnimationStep(this.kernel.getAlgebraProcessor().evaluateToNumeric(this.inputDialog.getIncrement(), false));
-
 	}
 
 	public boolean isColorChangeAllowed() {

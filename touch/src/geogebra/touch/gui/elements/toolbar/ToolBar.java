@@ -58,7 +58,7 @@ public class ToolBar extends FlowPanel {
 	public ToolBar(final TouchModel touchModel, TouchApp app, TabletGUI gui) {
 		this.setStyleName("toolbar");
 
-		this.input = new InputDialog(app, DialogType.InputField, gui, touchModel.getGuiModel());
+		this.input = new InputDialog(app, DialogType.InputField, gui, touchModel);
 		// this.setWidth(Window.getClientWidth() - 20 + "px");
 
 		this.toolPanel = new FlowPanel();

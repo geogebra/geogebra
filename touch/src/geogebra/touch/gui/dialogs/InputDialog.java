@@ -15,7 +15,7 @@ import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
 import geogebra.touch.gui.laf.LookAndFeel;
-import geogebra.touch.model.GuiModel;
+import geogebra.touch.model.TouchModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -69,18 +69,18 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	private final CustomKeysPanel customKeys = new CustomKeysPanel();
 	private final LookAndFeel laf;
-	private final GuiModel guiModel;
+	private final TouchModel model;
 	boolean handlingExpected = false;
 	private InputHandler inputHandler;
 
-	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, GuiModel guiModel) {
+	public InputDialog(TouchApp app, DialogType type, TabletGUI gui, TouchModel touchModel) {
 		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
 		super(true, false);
 		this.setGlassEnabled(true);
 		this.app = app;
 		this.type = type;
-		this.guiModel = guiModel;
+		this.model = touchModel;
 
 		this.laf = TouchEntryPoint.getLookAndFeel();
 
@@ -242,7 +242,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.prevText = "";
 
 		// prevent that the function is drawn twice
-		this.guiModel.setActiveDialog(null);
+		this.model.getGuiModel().setActiveDialog(null);
 	}
 
 	private void init() {
@@ -464,7 +464,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 	@Override
 	public void show() {
 		super.show();
-		this.guiModel.setActiveDialog(this);
+		this.model.getGuiModel().setActiveDialog(this);
 
 		super.center();
 
@@ -497,6 +497,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 	@Override
 	public void showError(String error) {
+		if(this.model.getActualSlider() != null){
+			this.model.getActualSlider().remove();
+		}
+		
 		this.errorText.setText(error);
 		this.errorBox.setVisible(true);
 	}
