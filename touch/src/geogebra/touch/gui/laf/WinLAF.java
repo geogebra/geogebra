@@ -59,11 +59,11 @@ public class WinLAF extends DefaultLAF {
 
 	@Override
 	public native void stateChanged(boolean saved) /*-{
-													if (!$wnd.appbar) {
-													return;
-													}
-													$wnd.appbar.saveChanged(saved);
-													}-*/;
+		if (!$wnd.appbar) {
+			return;
+		}
+		$wnd.appbar.saveChanged(saved);
+	}-*/;
 
 	@Override
 	public void updateUndoSaveButtons() {
@@ -75,16 +75,17 @@ public class WinLAF extends DefaultLAF {
 	}
 
 	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
-																			if (!$wnd.appbar) {
-																			return;
-																			}
-																			$wnd.appbar.updateUndoRedo(undo, redo);
-																			}-*/;
+		if (!$wnd.appbar) {
+			return;
+		}
+		$wnd.appbar.updateUndoRedo(undo, redo);
+	}-*/;
 
 	@Override
 	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
 			TabletGUI tabletGUI) {
 		final Label consTitle = new Label();
+		consTitle.getElement().addClassName("worksheetNameWindows");
 		worksheetGUI.getContent().add(consTitle);
 		WorksheetHeader header = new WorksheetHeader() {
 
