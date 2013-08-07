@@ -1128,7 +1128,7 @@ __GGB__keysVar.da.menu = {
     "Boxplot": "Boksplot",
     "Brackets": "Firkantparanteser",
     "Browser": "Browser",
-    "Button_Caption": "Caption",
+    "Button_Caption": "Tekst",
     "ButtonAction": "Inds\xe6t knap",
     "ButtonAction_Help": "Klik i det grafiske felt for at inds\xe6tte en knap",
     "ByLayering": "I forhold til lag",
