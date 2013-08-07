@@ -29,6 +29,7 @@ public class FileContainer extends VerticalPanel {
 		this.localFileControlPanel.setStyleName("fileControlPanel");
 
 		this.prevLocalButton.addStyleName("prevButton");
+		this.prevLocalButton.addStyleName("nextPrevDisabled");
 		this.localFileControlPanel.add(this.prevLocalButton);
 
 		this.localFilePages = new HorizontalPanel();
@@ -37,6 +38,7 @@ public class FileContainer extends VerticalPanel {
 
 		this.localFileControlPanel.add(this.localFilePages);
 		this.nextLocalButton.addStyleName("nextButton");
+		this.nextLocalButton.addStyleName("nextPrevDisabled");
 		this.localFileControlPanel.add(this.nextLocalButton);
 		this.nextLocalButton.addClickHandler(new ClickHandler() {
 
