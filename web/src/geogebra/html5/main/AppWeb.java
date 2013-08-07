@@ -696,5 +696,10 @@ public abstract class AppWeb extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        
         }
+
+		public void ensureEditing() {
+	        // TODO Auto-generated method stub
+	        
+        }
 	
 }

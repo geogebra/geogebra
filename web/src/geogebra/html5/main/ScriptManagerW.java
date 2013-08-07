@@ -9,7 +9,7 @@ import geogebra.common.plugin.ScriptManager;
  */
 public class ScriptManagerW extends ScriptManager {
 
-	public String ggbApplet = AppWeb.DEFAULT_APPLET_ID;
+	private String ggbApplet = AppWeb.DEFAULT_APPLET_ID;
 
 	/**
 	 * @param app application
