@@ -95,7 +95,7 @@ public class AlgoAngleVector extends AlgoElement implements AngleAlgo{
 			return vertex!=null && vertex.isDefined() && !vertex.isInfinite();
 		}
 		m[0]=0;
-		m[1]=0;
+		m[1]=0;	
 		return vec.isDefined();		
 	}
 

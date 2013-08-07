@@ -46,6 +46,7 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
     
     AlgoAnglePolygon(Construction cons, GeoPolygon p) {
 		super(cons);
+		algoAngle = new AlgoAnglePoints(cons);
 		this.poly = p;
 		outputAngles=createOutputPoints();
 		setInputOutput(); // for AlgoElement
@@ -101,8 +102,9 @@ public class AlgoAnglePolygon extends AlgoElement implements AngleAlgo {
 		
 		
 		for (int i =0; i<length; i++){
-			algoAngle = new AlgoAnglePoints(cons,poly.getPoint((i+1)%length), poly.getPoint(i),
+			algoAngle.setABC(poly.getPoint((i+1)%length), poly.getPoint(i),
 					poly.getPoint((i+length-1)%length));
+			algoAngle.compute();
 			
     		GeoAngle angle = (GeoAngle) outputAngles.getElement(i);
     		angle.set(algoAngle.getAngle());
@@ -133,7 +135,7 @@ final public String toString(StringTemplate tpl) {
     protected OutputHandler<GeoElement> createOutputPoints(){
     	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoAngle newElement() {
-				GeoAngle p=new GeoAngle(cons);
+				GeoAngle p = algoAngle.newGeoAngle(cons);
 				p.setValue(0);
 				p.setParentAlgorithm(AlgoAnglePolygon.this);
 				return p;

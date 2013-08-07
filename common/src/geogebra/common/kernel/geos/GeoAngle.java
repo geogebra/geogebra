@@ -191,9 +191,10 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		if (geo.isGeoAngle()) {
 			GeoAngle ang = (GeoAngle) geo;
 			arcSize = ang.arcSize;
-			// allowReflexAngle = ang.allowReflexAngle;
-			setAngleStyle(ang.angleStyle); // to update the value
-			//angleStyle = ang.angleStyle;
+			if (!ang.isIndependent()){ // avoids also default angle to apply its style (angle interval)
+									   // to all new angles (e.g. independent angles)
+				setAngleStyle(ang.angleStyle); // to update the value
+			}
 			emphasizeRightAngle = ang.emphasizeRightAngle;
 		}
 	}
@@ -336,6 +337,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		}
 	}
 	
+	
 	/**
 	 * Returns angle style. See GeoAngle.ANGLE_*
 	 * 
@@ -442,7 +444,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
     }
 	
 	private void getXMLAllowReflexAngleTag(StringBuilder sb) {
-		if (isIndependent())
+		if (angleStyle == ANGLE_ISANTICLOCKWISE)
 			return;
 
 		sb.append("\t<allowReflexAngle val=\"");
