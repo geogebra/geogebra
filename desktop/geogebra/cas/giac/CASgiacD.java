@@ -143,18 +143,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 
 				thread.start();
-				long startTime = System.currentTimeMillis();
 
-				int wait = 1;
-
-				// wait for result from thread
-				while (threadResult == null && System.currentTimeMillis() < startTime + timeoutMillis) {
-					Thread.sleep(wait);
-					wait = wait * 2;
-					//App.debug(System.currentTimeMillis() + " "+ (startTime + timeoutMillis));
-				}
-
-				//App.debug("took: "+(System.currentTimeMillis() - startTime)+"ms");
+				thread.join(timeoutMillis);
 
 				thread.interrupt();
 				// thread.interrupt() doesn't seem to stop it, so add this for good measure:
