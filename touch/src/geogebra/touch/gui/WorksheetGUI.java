@@ -63,7 +63,7 @@ public class WorksheetGUI extends HeaderPanel {
 			this.content.add(this.instructionsPost);
 			this.setContentWidget(this.content);
 
-			TouchEntryPoint.allowEditing(false);
+			//do not change allowEditing here -- we do not show any part of TabletGUI
 			Element article = DOM.createElement("article");
 			article.setClassName("geogebraweb");
 			article.setAttribute("data-param-ggbBase64", "");
