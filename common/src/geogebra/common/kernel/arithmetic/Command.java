@@ -236,7 +236,10 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				sbToString.append(']');
 			} else {
 				sbToString.append("\\int");
+				Set<GeoElement> vars = getArgument(0).getVariables();
 				String var = "x";
+				if (!vars.isEmpty())
+					var = vars.iterator().next().toString(tpl);
 				switch (getArgumentNumber()) {
 				case 1:
 					sbToString.append(" ");
