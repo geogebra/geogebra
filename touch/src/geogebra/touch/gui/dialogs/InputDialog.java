@@ -81,7 +81,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.app = app;
 		this.type = type;
 		this.model = touchModel;
-
 		this.laf = TouchEntryPoint.getLookAndFeel();
 
 		this.buildErrorBox();
@@ -133,7 +132,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 
 		this.radioButton[0].setValue(new Boolean(true));
 	}
-
+	
 	private void addTextBox() {
 		this.textBox = new InputField(this.type == DialogType.Slider ? this.app.getLocalization().getCommand("Name") : null, true);
 
@@ -291,6 +290,17 @@ public class InputDialog extends PopupPanel implements CustomKeyListener, Resize
 		this.add(this.dialogPanel);
 
 		this.setLabels();
+		
+		this.addDomHandler(new KeyDownHandler() {
+			
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				 if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
+					 event.preventDefault();
+					 return;
+				 }
+			}
+		}, KeyDownEvent.getType());
 	}
 
 	public boolean isClockwise() {
