@@ -2,6 +2,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVector;
 
@@ -156,5 +157,12 @@ public interface Inspecting {
 		}
 	}
 	
+	public static Inspecting dynamicGeosFinder = new Inspecting(){
+
+		public boolean check(ExpressionValue v) {
+			return v instanceof GeoElement && (!((GeoElement)v).isIndependent() 
+					|| ((GeoElement)v).isLabelSet()) ;
+		}
+	};
 	
 }

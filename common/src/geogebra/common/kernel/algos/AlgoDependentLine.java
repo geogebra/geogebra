@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoLine;
@@ -57,7 +58,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
    		
    		// check coefficients
         for (int i=0; i<3; i++) {
-            if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
+            if (!ev[i].inspect(Inspecting.dynamicGeosFinder)){
+            	ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
+            }
                        
             // check that coefficient is a number: this may throw an exception
             ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);

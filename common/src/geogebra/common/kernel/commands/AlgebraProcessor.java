@@ -36,6 +36,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -1869,7 +1870,7 @@ public class AlgebraProcessor {
 			ExpressionValue evaluate) {
 		GeoElement[] ret = new GeoElement[1];
 		String label = n.getLabel();
-		boolean isIndependent = n.isConstant();
+		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle();
 		double value = val.getDouble();
@@ -2003,7 +2004,7 @@ public class AlgebraProcessor {
 		GeoElement[] ret = new GeoElement[1];
 		String label = n.getLabel();
 
-		boolean isIndependent = n.isConstant();
+		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		if (isIndependent) {
 
@@ -2029,7 +2030,7 @@ public class AlgebraProcessor {
 		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
 
 		GeoVec3D[] ret = new GeoVec3D[1];
-		boolean isIndependent = n.isConstant();
+		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
 		if (complex) {

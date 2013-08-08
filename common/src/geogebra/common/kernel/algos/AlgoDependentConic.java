@@ -22,11 +22,11 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 
 /**
  *
@@ -55,8 +55,9 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint, 
         // check coefficients
         for (int i=0; i<6; i++) {
         	// find constant parts of input and evaluate them right now
-            if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
-            App.debug(ev[i].toString(StringTemplate.defaultTemplate));     
+            if ( !ev[i].inspect(Inspecting.dynamicGeosFinder)){
+            	ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
+            }
             // check that coefficient is a number: this may throw an exception
             ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
             ((NumberValue) eval).getDouble();  

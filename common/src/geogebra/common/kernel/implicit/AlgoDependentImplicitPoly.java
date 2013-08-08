@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
@@ -46,7 +47,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			for (int j=0;j<coeff[i].length;j++){
 				if (coeff[i][j]!=null){
 					// find constant parts of input and evaluate them right now
-	    			if (coeff[i][j].isConstant()){
+	    			if (!coeff[i][j].inspect(Inspecting.dynamicGeosFinder)){
 	    				coeff[i][j]=coeff[i][j].evaluate(StringTemplate.defaultTemplate);
 	    			}
 	    			
