@@ -631,7 +631,7 @@ public interface Traversing {
 				return ((FunctionalNVar)geo).getFunctionExpression().deepCopy(geo.getKernel()).traverse(this);
 			if(geo instanceof GeoCasCell){
 				App.debug(geo+":"+((GeoCasCell)geo).getOutputValidExpression());
-				return ((GeoCasCell)geo).getOutputValidExpression().deepCopy(geo.getKernel());
+				return ((GeoCasCell)geo).getOutputValidExpression().deepCopy(geo.getKernel()).traverse(this);
 			}			
 			return geo;	
 		}
@@ -671,6 +671,7 @@ public interface Traversing {
 					if(geo instanceof GeoCasCell){
 						ValidExpression ve = ((GeoCasCell)geo).getOutputValidExpression();
 						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar)ve.unwrap()).getExpression():ve.wrap();
+						en2 = en2.traverse(this).wrap();
 						en2 = en2.getCopy(geo.getKernel());
 						fv = ((GeoCasCell)geo).getFunctionVariables();
 					}

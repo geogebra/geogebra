@@ -3,6 +3,7 @@ package geogebra.common.cas.view;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.Inspecting;
@@ -738,7 +739,7 @@ public class CASInputHandler {
 				isPlottable = false;
 			}
 		}
-		if (ve != null) {
+		if (ve != null && !ve.getAssignmentType().equals(AssignmentType.DELAYED)) {
 			if (cell.showOutput() && !cell.isError() &&
 					(isPlottable || !ve.unwrap().inspect(Inspecting.UnplottableChecker.getChecker()))) {
 				renderer.setMarbleValue(marbleShown);

@@ -1521,8 +1521,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean success = false;
 		CASException ce = null;
 		nativeOutput = true;
-		//do not create a twin geo if the assigment type is delayed since this exists only in cas
-		if (!useGeoGebraFallback || getInputVE().getAssignmentType()==AssignmentType.DELAYED) {
+		if (getInputVE().getAssignmentType()==AssignmentType.DELAYED) {
+			result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
+			success = result != null;
+		} else
+		if (!useGeoGebraFallback) {
 			// CAS EVALUATION
 			try {
 				if (evalVE == null) {
@@ -1680,7 +1683,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			updateTwinGeo(allowFunction);
 		}
 
-		if (outputVE != null && (!doTwinGeoUpdate || twinGeo == null)) {
+		if (outputVE != null && (!doTwinGeoUpdate || twinGeo == null) 
+				&& !outputVE.getAssignmentType().equals(AssignmentType.DELAYED)) {
 			ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 			arbconst.reset();
 
