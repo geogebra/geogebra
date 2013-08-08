@@ -1200,18 +1200,32 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		GPoint pixel1 = getMaxSelectionPixel();
 		if (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
 
-			// Highlight the dragging dot if mouseover
-			if (isOverDot) {
-				graphics.setColor(Color.gray);
-			} else
-			// {graphics.setColor(Color.BLUE);}
-			{
-				graphics.setColor(selectionRectangleColor);
-			}
+			boolean showBlueDot =
+					(minSelectionRow != -1) &&
+					(maxSelectionRow != -1) &&
+					(minSelectionColumn != -1) &&
+					(maxSelectionColumn != -1);
 
-			int x = pixel1.getX() - (DOT_SIZE + 1) / 2;
-			int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
-			graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE);
+			if (showBlueDot)
+				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
+					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
+						if (tableModel.getValueAt(i, j) instanceof GeoElement)
+							showBlueDot &= !((GeoElement)tableModel.getValueAt(i, j)).isFixed();
+
+			if (showBlueDot) {
+				// Highlight the dragging dot if mouseover
+				if (isOverDot) {
+					graphics.setColor(Color.gray);
+				} else
+				// {graphics.setColor(Color.BLUE);}
+				{
+					graphics.setColor(selectionRectangleColor);
+				}
+
+				int x = pixel1.getX() - (DOT_SIZE + 1) / 2;
+				int y = pixel1.getY() - (DOT_SIZE + 1) / 2;
+				graphics.fillRect(x, y, DOT_SIZE, DOT_SIZE);
+			}
 		}
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
@@ -1232,9 +1246,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS2);
 				graphics.fillRect(x1, y1, LINE_THICKNESS2, y2 - y1);
 				graphics.fillRect(x2 - LINE_THICKNESS2, y1, LINE_THICKNESS2, y2
-						- y1 - DOT_SIZE / 2 - 1);
-				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1 - DOT_SIZE
-						/ 2 - 1, LINE_THICKNESS2);
+						- y1);
+				graphics.fillRect(x1, y2 - LINE_THICKNESS2, x2 - x1, LINE_THICKNESS2);
 			}
 			// draw small frame around current editing cell
 			else {

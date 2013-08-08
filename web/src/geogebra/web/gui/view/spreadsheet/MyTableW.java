@@ -2248,7 +2248,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		GPoint min = this.getMinSelectionPixel();
 		GPoint max = this.getMaxSelectionPixel();
 
-		if (view != null){
+		if (view != null) {
 			if (minSelectionRow != -1 && maxSelectionRow != -1
 					&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
 				boolean showBlueDot = !isEditing();
@@ -2258,8 +2258,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 							if (tableModel.getValueAt(i - 1, j - 1) instanceof GeoElement)
 								showBlueDot &= !((GeoElement)tableModel.getValueAt(i - 1, j - 1)).isFixed();
 				view.updateSelectionFrame(true, showBlueDot, min, max);
-			}
-			else {	
+			} else {	
 				view.updateSelectionFrame(false, false, min, max);
 			}
 		}
