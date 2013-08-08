@@ -131,7 +131,7 @@ TRANSLATORS
   * Malay: Daniel Leong Chee Kin (Malaysia)
   * Marathi: Smita Patil, Aparna Lalingkar (India)
   * Mongolian: Navchaa Tserendorj, Amarzaya Amartuvshin,
-    Gerelchimeg Batdelger, O Otgonnaran, Batnasan Davaa (Mongolia)
+    Gerelchimeg Batdelger, Otgonnaran Ochirbat, Batnasan Davaa (Mongolia)
   * Nepali: Bhesh Raj Mainali, Keshab Prasad (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
   * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi,
