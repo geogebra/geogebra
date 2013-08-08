@@ -44,9 +44,12 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	
     public void setBase64(String base64) {
-    	((AppWeb) app).ensureEditing();
     	View view = new View(RootPanel.getBodyElement(), (AppWeb) app);
     	view.processBase64String(base64);	    
+    }
+    
+    public void ensureEditing() {
+    	((AppWeb) app).ensureEditing();	    
     }
 
 	
