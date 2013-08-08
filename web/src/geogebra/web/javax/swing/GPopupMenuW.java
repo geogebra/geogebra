@@ -177,14 +177,10 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	                
 	                //Calculate the position of the "submenu", and show it
 	                if (LocaleInfo.getCurrentLocale().isRTL()){
-	                	App.debug("locale: rtl");
 	                	xCord = getLeftPopupXCord();
 	                	if (xCord < 0) xCord = getRightPopupXCord();
 	                } else {
 	                	xCord = getRightPopupXCord();
-	                	App.debug("xCord: " + xCord);
-	                	App.debug("clientwidth: " + Window.getClientWidth());
-	                	App.debug("getSubPopupWidth(): " + getSubPopupWidth());
 	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftPopupXCord();
 	                }
 	                yCord = newItem.getAbsoluteTop();
@@ -208,7 +204,6 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	public int getSubPopupWidth(){
 		int width;
 		boolean shown = subPopup.popupPanel.isShowing();
-		App.debug("shown: " +shown);
     	if (!shown) subPopup.popupPanel.show();
         width = subPopup.popupPanel.getOffsetWidth();
         if (!shown) subPopup.popupPanel.hide();
