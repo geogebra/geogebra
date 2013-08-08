@@ -49,7 +49,7 @@ public class AlgoAngleLines extends AlgoElement  implements DrawInformationAlgo,
         super(cons);
         this.g = g;
         this.h = h;
-        angle = new GeoAngle(cons);
+        angle = GeoAngle.newAngleWithDefaultInterval(cons);
         setInputOutput(); // for AlgoElement
 
         // compute angle

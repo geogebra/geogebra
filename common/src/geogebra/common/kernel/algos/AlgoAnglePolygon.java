@@ -135,7 +135,7 @@ final public String toString(StringTemplate tpl) {
     protected OutputHandler<GeoElement> createOutputPoints(){
     	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoAngle newElement() {
-				GeoAngle p = algoAngle.newGeoAngle(cons);
+				GeoAngle p = GeoAngle.newAngleWithDefaultInterval(cons);
 				p.setValue(0);
 				p.setParentAlgorithm(AlgoAnglePolygon.this);
 				return p;

@@ -320,7 +320,7 @@ public class AlgebraProcessor {
 				newLabel = oldLabel;
 				newValue.setLabel(newLabel);
 			}
-
+			
 			// make sure that points stay points and vectors stay vectors
 			if (newValue instanceof ExpressionNode) {
 				ExpressionNode n = (ExpressionNode) newValue;

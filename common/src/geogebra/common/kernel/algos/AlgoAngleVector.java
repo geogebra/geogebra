@@ -36,7 +36,7 @@ public class AlgoAngleVector extends AlgoElement implements AngleAlgo{
         super(cons);
         this.vec = vec;
         
-        angle = new GeoAngle(cons);
+        angle = GeoAngle.newAngleWithDefaultInterval(cons);
         setInputOutput(); // for AlgoElement                
         compute();
         angle.setLabel(label);

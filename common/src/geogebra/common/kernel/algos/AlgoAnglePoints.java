@@ -21,7 +21,6 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -105,11 +104,13 @@ public class AlgoAnglePoints extends AlgoElement implements
 		this.Cn = C;
 	}
 
+	/**
+	 * create a new GeoAngle with interval as default angle
+	 * @param cons construction
+	 * @return new GeoAngle
+	 */
 	protected GeoAngle newGeoAngle(Construction cons) {
-		GeoAngle ret = new GeoAngle(cons);
-		//set the angle interval
-		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE)).getAngleStyle());
-		return ret;
+		return GeoAngle.newAngleWithDefaultInterval(cons);
 	}
 
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C,
