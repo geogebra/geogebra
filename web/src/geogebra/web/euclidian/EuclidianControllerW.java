@@ -400,12 +400,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			 }
 			 //should be substracted the event just ended, and call mouseevent for that.
 			 //later :-)
-		}
-		if(targets.length()>0){
-			AbstractEvent e = TouchEvent.wrapEvent(targets.get(targets.length()-1),this);
-			wrapMouseReleased(e);
-			e.release();
-		}
+		}		
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
