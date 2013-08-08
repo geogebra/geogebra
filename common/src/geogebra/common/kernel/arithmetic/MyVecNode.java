@@ -140,6 +140,10 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		return toString(tpl,false);
+	}
+
+	private String toString(StringTemplate tpl, boolean values) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
 		case GIAC:
@@ -164,14 +168,12 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 			
 		default: // continue below
 			sb.append(tpl.leftBracket());
-			sb.append(x.isGeoElement() ? ((GeoElement) x).getLabel(tpl) : x
-					.toString(tpl));
+			sb.append(print(x,values,tpl));
 			if (mode == Kernel.COORD_CARTESIAN)
 				sb.append(", ");
 			else
 				sb.append("; ");
-			sb.append(y.isGeoElement() ? ((GeoElement) y).getLabel(tpl) : y
-					.toString(tpl));
+			sb.append(print(y,values,tpl));
 			sb.append(tpl.rightBracket());
 			break;
 		}
@@ -179,13 +181,21 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return sb.toString();
 	}
 
+	private static String print(ExpressionValue x2, boolean values, StringTemplate tpl) {
+		if(values){
+			return x2.toValueString(tpl);
+		}
+		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
+				.toString(tpl);
+	}
+
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl);
+		return toString(tpl, true);
 	}
 
 	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
-		return toString(tpl);
+		return toString(tpl, !symbolic);
 	}
 
 	/**

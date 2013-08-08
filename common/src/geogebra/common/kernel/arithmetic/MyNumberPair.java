@@ -50,7 +50,17 @@ public class MyNumberPair extends MyVecNode {
 				sb.append(y.toString(tpl));
 		        
 		 return sb.toString();      
-    }    
+    }
+    
+    @Override
+	final public String toValueString(StringTemplate tpl) {         
+        StringBuilder sb = new StringBuilder();  
+				sb.append(x.toValueString(tpl));
+				sb.append(", ");
+				sb.append(y.toValueString(tpl));
+		        
+		 return sb.toString();      
+    }
     
     @Override
 	final public ExpressionValue traverse(Traversing t){
