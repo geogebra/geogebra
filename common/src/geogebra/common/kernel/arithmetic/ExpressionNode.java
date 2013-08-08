@@ -5024,7 +5024,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case DIVIDE: return left.evaluateDouble() / right.evaluateDouble();
 			//case POWER: return Math.pow(left.evaluateDouble(), right.evaluateDouble());
 			case SIN: return Math.sin(left.evaluateDouble());
-			case COS: return Math.sin(left.evaluateDouble());
+			case COS: return Math.cos(left.evaluateDouble());
 		}
 		return super.evaluateDouble();
 	}
