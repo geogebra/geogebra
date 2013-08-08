@@ -5011,4 +5011,22 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public ExpressionNode ifElse(ExpressionValue ifBranch, ExpressionValue elseBranch) {
 		return new ExpressionNode(kernel,new MyNumberPair(kernel,this,ifBranch),Operation.IF_ELSE,elseBranch);
 	}
+	
+	@Override
+	public double evaluateDouble(){
+		if(isLeaf()){
+			return left.evaluateDouble();
+		}
+		switch(operation){
+			case PLUS: return left.evaluateDouble() + right.evaluateDouble();
+			case MINUS: return left.evaluateDouble() - right.evaluateDouble();
+			//case MULTIPLY: return left.evaluateDouble() * right.evaluateDouble();
+			case DIVIDE: return left.evaluateDouble() / right.evaluateDouble();
+			//case POWER: return Math.pow(left.evaluateDouble(), right.evaluateDouble());
+			case SIN: return Math.sin(left.evaluateDouble());
+			case COS: return Math.sin(left.evaluateDouble());
+		}
+		return super.evaluateDouble();
+	}
+	
 }
