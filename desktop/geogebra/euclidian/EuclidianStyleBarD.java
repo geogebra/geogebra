@@ -1519,10 +1519,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnTableTextBracket.setToolTipText(app
 				.getPlainTooltip("stylebar.Bracket"));
 		btnTableTextLinesV.setToolTipText(app
-				.getPlainTooltip("stylebar.HorizontalLine"));
-		btnTableTextLinesH.setToolTipText(app
 				.getPlainTooltip("stylebar.VerticalLine"));
-
+		btnTableTextLinesH.setToolTipText(app
+				.getPlainTooltip("stylebar.HorizontalLine"));
+		
 		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
 		btnFixPosition.setToolTipText(app.getPlain("AbsoluteScreenLocation"));
 		
