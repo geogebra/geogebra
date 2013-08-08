@@ -471,7 +471,6 @@ public class AlgebraProcessor {
 				fvX = new FunctionVariable(ve.getKernel(), "x");
 			}
 			
-			App.debug("alive"+undefinedVariables.size());
 			if (undefinedVariables.size() > 0) {
 
 				// ==========================
@@ -484,9 +483,8 @@ public class AlgebraProcessor {
 					if (storeUndo && geoElements != null)
 						app.storeUndoInfo();
 				} catch (Throwable ex) {
-					ex.printStackTrace();// do nothing
+					// do nothing
 				}
-				App.debug(""+geoElements.length);
 				
 				if (geoElements != null) {
 					kernel.getConstruction().registerFunctionVariable(null);
