@@ -25,13 +25,15 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.loc = loc;
 		this.backButton = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().back());
-
+		this.backButton.addStyleName("backButton");
+		
 		this.backPanel = new HorizontalPanel();
 		this.backPanel.setStyleName("headerLeft");
 		this.backPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.backPanel.add(this.backButton);
 
 		this.backLabel = new Label(loc.getMenu("Back"));
+		this.backLabel.addStyleName("backLabel");
 		this.backPanel.add(this.backLabel);
 
 		this.rightPanel = new VerticalPanel();

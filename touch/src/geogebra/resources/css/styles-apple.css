@@ -21,8 +21,12 @@ body .worksheetTitle {
 		color-stop(1, rgb(68, 68, 68) ) ) );
 }
 
-.worksheetTitle {
+.worksheetTitle,
+body .tubesearchgui .headerbar .gwt-Label {
 	font-size: 15px;
+	font-weight: bold;
+	opacity: 1;
+	filter: alpha(opacity=1);
 }
 
 body .headerbar div.button {
@@ -34,10 +38,17 @@ body .headerbar div.button {
 	margin: 0px 10px 0px 6px;
 }
 
+/* ALGEBRA VIEW */
+
+body .elemHeadingName {
+	position: static;
+}
+
 /* TOOLBAR -> INPUT */
 
-body .inputbarPanel {
-	padding: 10px 30px 10px 10px;
+body .inputPanel {
+	width: 100%;
+	padding-right: 20px;
 }
 
 body .inputbarPanel input {
@@ -117,7 +128,7 @@ body .infoDialog .gwt-TextBox {
 }
 
 body .infoDialog .textPanel {
-	padding: 0px 15px 15px 15px;
+	padding: 0px 15px 25px 15px;
 }
 
 body .infoDialog .textPanel img {
@@ -125,19 +136,30 @@ body .infoDialog .textPanel img {
 	height: 0px;
 }
 
+body .inputDialog .errorBox {
+	margin-left: 15px;
+}
+
+body .inputDialog .iconPanel img {
+	margin-right: 15px;
+	text-shadow: 0px -2px 2px #111111;
+}
+
 body .inputDialog button,
 body .infoDialog .button,
+body .infoDialog button,
 body .inputDialog button:hover,
-body .infoDialog .button:hover {
+body .infoDialog .button:hover,
+body .infoDialog button:hover {
 	border: none;
 	
 	/* Background */
-	background-image: linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
-	background-image: -o-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
-	background-image: -moz-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
-	background-image: -ms-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
-	background-image: -webkit-gradient(linear, left top, left bottom,
+	background: linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background: -o-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background: -moz-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background: -webkit-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background: -ms-linear-gradient(top, rgb(175, 180, 196) 0%, rgb(123, 132, 156) 50%, rgb(82, 94, 125) 51%, rgb(99, 110, 138) 100% );
+	background: -webkit-gradient(linear, left top, left bottom,
 	color-stop(0, rgb(175, 180, 196) ),
 	color-stop(0.5, rgb(68, 71, 104) ),
 	color-stop(0.51, rgb(82, 94, 125) ),
@@ -158,7 +180,108 @@ body .infoDialog .button:hover {
 	text-shadow: 0px -2px 2px #111111;
 }
 
+body .infoDialog .buttonPanel button {
+	margin-right: 6px;
+	padding: 5px 20px;
+}
+
 body .infoDialog .button.last,
 body .infoDialog button.last {
 	margin: 0px;
+}
+
+/* ADDITIONAL GUIs */
+
+.tubesearchgui .button.delete {
+	margin-top: 10px;
+}
+
+body .tubesearchgui table.headerLeft,
+body .worksheetgui table.headerLeft {
+	border-spacing: 0px;
+	margin-left: 5px;
+	font-weight: normal;
+}
+
+.headerbar .headerLeft .backButton img,
+body .tubesearchgui .headerbar .headerLeft div.button.backButton,
+body .worksheetgui .headerbar .headerLeft div.button.backButton  {
+	height: 37px;
+	width: 14px;
+	opacity: 1;
+	filter: alpha(opacity=1);
+	margin: 0px;
+	padding: 0px;
+}
+
+.tubesearchgui .headerbar .headerLeft .backLabel,
+.worksheetgui .headerbar .headerLeft .backLabel {
+	font-weight: normal;
+}
+
+.backLabel {
+	/* Background */
+	background: linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
+	background: -o-linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
+	background: -moz-linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
+	background: -webkit-linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 90%, rgb(83, 83, 83) 95%, rgb(102, 102, 102) 100% );
+	background: -ms-linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
+	background: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(125, 125, 125) ),
+	color-stop(0.90, rgb(68, 68, 68) ),
+	color-stop(0.95, rgb(83, 83, 83) )
+	color-stop(1, rgb(102, 102, 102) ) );
+	
+	height: 29px;
+	padding: 8px 20px 0px 20px;
+	
+	/* Border */
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	
+	border-top: 1px solid #444444;
+	border-right: 1px solid #444444;
+	border-bottom: 1px solid #444444;
+}
+
+.tubesearchgui .headerRight input.gwt-TextBox {
+	/* Border */
+	-webkit-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	
+	border: 1px solid #3E3E3E;
+	
+	/* Background */
+	background: linear-gradient(top, rgb(79, 79, 79) 0%, rgb(113, 113, 113) 100% );
+	background: -o-linear-gradient(top, rgb(79, 79, 79) 0%, rgb(113, 113, 113) 100% );
+	background: -moz-linear-gradient(top, rgb(79, 79, 79) 0%, rgb(113, 113, 113) 100% );
+	background: -webkit-linear-gradient(top, rgb(79, 79, 79) 0%, rgb(113, 113, 113) 100% );
+	background: -ms-linear-gradient(top, rgb(79, 79, 79) 0%, rgb(113, 113, 113) 100% );
+	background: -webkit-gradient(linear, left top, left bottom,
+	color-stop(0, rgb(79, 79, 79) ),
+	color-stop(1, rgb(113, 113, 113) ) );
+	
+	position: relative;
+	z-index: 2;
+	
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.tubesearchgui .headerRight .searchButton {
+	position: relative;
+	z-index: 5;
+	left: 30px;
+	top: 5px;
+}
+
+.tubesearchgui .headerRight .cancelButton {
+	position: absolute;
+	right: 18px;
+	top: 13px;
+	z-index: 5;
 }

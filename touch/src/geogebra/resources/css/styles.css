@@ -137,7 +137,7 @@ div.button.button-up-hovering {
 
 .disabled {
 	opacity: 0.3;
-	filter: alpha(opacity =     30);
+	filter: alpha(opacity = 30);
 }
 
 .transparent {
@@ -391,6 +391,10 @@ div.elemHeadingName {
 
 .treeItemWrapper {
 	margin: 0px;
+}
+
+body .gwt-Tree .gwt-TreeItem-selected {
+	background: none;
 }
 
 /*.elem.hidden {

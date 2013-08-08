@@ -98,6 +98,7 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 
 		this.searchButton = new StandardImageButton(getLaf().getIcons()
 				.search());
+		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -113,6 +114,7 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 
 		this.cancelButton = new StandardImageButton(getLaf().getIcons()
 				.dialog_cancel());
+		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addClickHandler(new ClickHandler() {
 			@Override

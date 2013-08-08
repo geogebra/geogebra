@@ -21,6 +21,12 @@ public class AppleLAF extends DefaultLAF {
 	public AppleLAF(TouchApp app) {
 		super(app);
 	}
+	
+	@Override
+	public DefaultResources getIcons() {
+		// TODO Auto-generated method stub
+		return AppleResources.INSTANCE;
+	}
 
 	@Override
 	public int getAppBarHeight() {
