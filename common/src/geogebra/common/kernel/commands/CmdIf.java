@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
+import geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -116,17 +117,27 @@ public class CmdIf extends CommandProcessor {
 			GeoFunction ifFun, GeoFunction elseFun) {
 		FunctionVariable fv = ifFun.getFunctionVariables()[0];
 		ExpressionNode expr;
+		
+		boolean mayIndependent = boolFun.isIndependent() && ifFun.isIndependent() && (elseFun == null || elseFun.isIndependent());
+		
 		if(elseFun==null){
-			expr = new ExpressionNode(kernelA,wrap(boolFun,fv),Operation.IF,wrap(ifFun,fv));
+			expr = new ExpressionNode(kernelA,wrap(boolFun,fv, mayIndependent),Operation.IF,wrap(ifFun,fv,mayIndependent));
 		}else{
-			expr = new ExpressionNode(kernelA,new MyNumberPair(kernelA,wrap(boolFun,fv),wrap(ifFun,fv)),Operation.IF_ELSE,wrap(elseFun,fv));
+			expr = new ExpressionNode(kernelA,new MyNumberPair(kernelA,wrap(boolFun,fv,mayIndependent),
+					wrap(ifFun,fv, mayIndependent)),Operation.IF_ELSE,wrap(elseFun,fv, mayIndependent));
 		}
 		Function fun = new Function(expr,fv);
+		if(mayIndependent){
+			return new GeoFunction(cons,fun);
+		}
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons,label,fun);
 		return algo.getFunction();
 	}
 
-	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv) {
-		return new ExpressionNode(kernelA,boolFun,Operation.FUNCTION,fv);
+	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv, boolean b) {
+		if(!b){
+			return new ExpressionNode(kernelA,boolFun,Operation.FUNCTION,fv);
+		}
+		return boolFun.getFunctionExpression().deepCopy(kernelA).traverse(VariablePolyReplacer.getReplacer(fv)).wrap();
 	}
 }

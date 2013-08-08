@@ -264,6 +264,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			}
 		} else if (left instanceof ExpressionNode) {
 			translateX((ExpressionNode) left, vx);
+		}else if (left instanceof MyNumberPair) {
+			translateX(((MyNumberPair) left).getX().wrap(), vx);
+			translateX(((MyNumberPair) left).getY().wrap(), vx);
 		}
 
 		// right tree
@@ -272,6 +275,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		} else if (right instanceof ExpressionNode) {
 			translateX((ExpressionNode) right, vx);
 		}
+		
 	}
 
 	// node for (x - vx)

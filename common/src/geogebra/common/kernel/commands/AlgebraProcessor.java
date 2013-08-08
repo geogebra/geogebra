@@ -448,12 +448,10 @@ public class AlgebraProcessor {
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);	
 
-
 			// collect undefined variables
 			CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 			ve.traverse(collecter);
 			TreeSet<String> undefinedVariables = collecter.getResult();
-
 
 			// check if there's already an "x" in expression. Create one if not.
 			// eg sinx + x -> sin(x) + x
@@ -472,7 +470,8 @@ public class AlgebraProcessor {
 			if (fvX == null) {
 				fvX = new FunctionVariable(ve.getKernel(), "x");
 			}
-
+			
+			App.debug("alive"+undefinedVariables.size());
 			if (undefinedVariables.size() > 0) {
 
 				// ==========================
@@ -485,8 +484,9 @@ public class AlgebraProcessor {
 					if (storeUndo && geoElements != null)
 						app.storeUndoInfo();
 				} catch (Throwable ex) {
-					// do nothing
+					ex.printStackTrace();// do nothing
 				}
+				App.debug(""+geoElements.length);
 				
 				if (geoElements != null) {
 					kernel.getConstruction().registerFunctionVariable(null);
