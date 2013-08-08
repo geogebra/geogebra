@@ -1158,10 +1158,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * returns true, if no variable is a point (GeoPoint)
 	 */
 	@Override
-	final public boolean isVectorValue() {
+	final public boolean evaluatesToNonComplex2DVector() {
+		if(operation == Operation.RANDOM){
+			return false;
+		}
+		if(isLeaf()){
+			return left.evaluatesToNonComplex2DVector();
+		}
+		//sin(vector), conjugate(vector), ... are complex numbers
+		if(Operation.isSimpleFunction(operation) || operation == Operation.CONJUGATE){
+			return false;
+		}
+		boolean leftVector = left.evaluatesToNonComplex2DVector();
+		boolean rightVector = right.evaluatesToNonComplex2DVector();
+		boolean ret = leftVector || rightVector;
 		
+		if(leftVector && rightVector && (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)){
+			ret = false;
+		}
 
-		return shouldEvaluateToGeoVector();
+		return ret;
 	}
 
 	/**

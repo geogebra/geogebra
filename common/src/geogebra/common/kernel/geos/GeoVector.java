@@ -532,8 +532,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	@Override
-	public boolean isVectorValue() {
-		return true;
+	public boolean evaluatesToNonComplex2DVector() {
+		return this.getMode() != Kernel.COORD_COMPLEX;
 	}
 
 	/* 

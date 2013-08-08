@@ -46,7 +46,7 @@ public interface ExpressionValue {
 	/**
 	 * @return whether this is instance of VectorValue
 	 */
-	public boolean isVectorValue();	
+	public boolean evaluatesToNonComplex2DVector();	
 	/**
 	 * @return whether this is instance of Vector3DValue
 	 */

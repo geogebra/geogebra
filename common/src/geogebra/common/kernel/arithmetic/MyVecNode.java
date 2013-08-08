@@ -229,8 +229,8 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 
 	// could be vector or point
 	@Override
-	public boolean isVectorValue() {
-		return true;
+	public boolean evaluatesToNonComplex2DVector() {
+		return this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	public boolean isNumberValue() {

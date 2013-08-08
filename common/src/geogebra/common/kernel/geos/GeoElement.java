@@ -5530,7 +5530,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
-	public boolean isVectorValue() {
+	public boolean evaluatesToNonComplex2DVector() {
 		return false;
 	}
 

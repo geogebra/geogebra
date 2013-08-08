@@ -417,7 +417,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 	
-	public boolean isVectorValue() {
+	public boolean evaluatesToNonComplex2DVector() {
 		return false;
 	}
 

@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
@@ -634,7 +633,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+			} else if (left instanceof NumberValue && right.evaluatesToNonComplex2DVector()) {
 				
 				//App.debug(leftStr+" "+left.getClass());
 				//App.debug(rightStr+" "+right.getClass());
@@ -650,7 +649,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(')');
 
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-			} else if (left instanceof VectorValue && (right instanceof NumberValue) && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+			} else if ((right instanceof NumberValue) && left.evaluatesToNonComplex2DVector()) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2) + 10
 				sb.append("point(real(");
@@ -699,7 +698,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(')');
 
-			} else if (left.isVectorValue() && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
 				sb.append("point(real(");
@@ -879,7 +878,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 			
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left instanceof NumberValue && right instanceof VectorValue && ((VectorValue)right).getMode() != Kernel.COORD_COMPLEX) {
+			} else if (left instanceof NumberValue && right.evaluatesToNonComplex2DVector()) {
 				// eg 10 - (1,2)
 				sb.append("point(");
 				sb.append(leftStr);
@@ -894,7 +893,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 
 			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
 				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left instanceof VectorValue && right instanceof NumberValue && ((VectorValue)left).getMode() != Kernel.COORD_COMPLEX) {
+			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
 				// eg (1,2) - 10
 				sb.append("point(real(");
 				sb.append(leftStr);
@@ -943,7 +942,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append("))");
 
 
-			} else if (left.isVectorValue() && right instanceof VectorValue) {
+			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
 				App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				sb.append("point(real(");
@@ -1103,7 +1102,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 			boolean nounary = true;
 
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.evaluatesToNonComplex2DVector())) {
 				sb.append(leftBracket());
 			}
 
@@ -1257,7 +1256,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 			}
 			
 			// vector * (matrix * vector) needs brackets; always use brackets for internal templates
-			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.isVectorValue())) {
+			if (!isPrintLocalizedCommandNames() || (left.evaluatesToList() && right.evaluatesToNonComplex2DVector())) {
 				sb.append(rightBracket());
 			}
 

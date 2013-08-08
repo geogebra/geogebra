@@ -374,7 +374,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	@Override
-	public boolean isVectorValue() {
+	public boolean evaluatesToNonComplex2DVector() {
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
@@ -383,7 +383,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
 			if (ev != null )
-				return ev.unwrap() instanceof VectorValue;
+				return ev.unwrap().evaluatesToNonComplex2DVector();
 			throw ex;
 		}
 	}
