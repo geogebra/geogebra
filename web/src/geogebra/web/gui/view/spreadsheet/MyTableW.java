@@ -2190,13 +2190,29 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 			}
 		}
 	}
-	
+
 	public void updateTableCell(Object value,int row, int column) {
 		if (defaultTableCellRenderer != null)
 			defaultTableCellRenderer.updateTableCell(this, value, row, column);
 	}
 
-		
+	public boolean showCanDragBlueDot() {
+		boolean showBlueDot = !isEditing();
+
+		if (minSelectionRow != -1 && maxSelectionRow != -1
+				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+
+			if (showBlueDot)
+				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
+					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
+						if (tableModel.getValueAt(i - 1, j - 1) instanceof GeoElement)
+							showBlueDot &= !((GeoElement)tableModel.getValueAt(i - 1, j - 1)).isFixed();
+
+			return showBlueDot;
+		}
+		return false;
+	}
+
 	public void renderSelection() {
 
 		// TODO implement other features from the old paint method
@@ -2251,13 +2267,7 @@ public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 		if (view != null) {
 			if (minSelectionRow != -1 && maxSelectionRow != -1
 					&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
-				boolean showBlueDot = !isEditing();
-				if (showBlueDot)
-					for (int i = minSelectionRow; i <= maxSelectionRow; i++)
-						for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
-							if (tableModel.getValueAt(i - 1, j - 1) instanceof GeoElement)
-								showBlueDot &= !((GeoElement)tableModel.getValueAt(i - 1, j - 1)).isFixed();
-				view.updateSelectionFrame(true, showBlueDot, min, max);
+				view.updateSelectionFrame(true, showCanDragBlueDot(), min, max);
 			} else {	
 				view.updateSelectionFrame(false, false, min, max);
 			}

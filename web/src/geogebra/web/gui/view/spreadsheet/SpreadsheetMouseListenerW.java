@@ -292,7 +292,7 @@ public class SpreadsheetMouseListenerW implements
 					table.finishEditing();
 					// almost like MyCellEditorW.stopCellEditing(int,int)
 				}
-			} else if (table.isOverDot) {
+			} else if (table.isOverDot && table.showCanDragBlueDot()) {
 				table.isDragingDot = true;
 				eConsumed = true;
 			}
@@ -719,7 +719,8 @@ public class SpreadsheetMouseListenerW implements
 				int s = MyTableW.DOT_SIZE + 2;
 				GRectangle2DW dotRect = new GRectangle2DW(dotX - s / 2, dotY - s / 2, s, s);
 				boolean overDot = dotRect.contains(e.getClientX(), e.getClientY());
-				if (table.isOverDot != overDot) {
+				if (table.isOverDot != overDot && table.showCanDragBlueDot()) {
+					// double-check: if there is no dot, there is no over
 					table.isOverDot = overDot;
 					//TODO//setTableCursor();
 					table.repaint();
