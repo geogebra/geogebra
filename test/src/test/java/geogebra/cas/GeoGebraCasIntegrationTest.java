@@ -2672,7 +2672,37 @@ public class GeoGebraCasIntegrationTest {
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("Tangent[P, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x");
   }
+  
+  // TODO Add tests for other conics.
+  
+  /* Point not on the Conic */
+  
+  // TODO Ensure the result is correct.
+  @Test
+  public void Tangent_PointOffConic_0 () {
+    t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
+        "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
+        "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+    t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
+        "(0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+    t("Tangent[P, c]", "y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+  }
+  
+  // TODO Add tests for other conics.
+  
+  // TODO Add tests for the other syntax variants:
+  //
+  // Tangent[Line, Conic],
+  // Tangent[Segment, Conic],
+  // Tangent[Number a, Function],
+  // Tangent[Point A, Function],
+  // Tangent[Point, Curve] and
+  // Tangent[Circle, Circle].
 
+  // TODO Add tests for TangentThroughPoint.
+  
+  // TODO Put these in the right place.
+  
   @Test
   public void Mike_1254 () {
     t("Tangent[(0.2, 10), sqrt(1 - x^2)]", "y = (-1) / 5 * sqrt(24 / 25)^(-1) * (x - 1 / 5) + sqrt(24 / 25)");
@@ -3066,6 +3096,18 @@ public class GeoGebraCasIntegrationTest {
     } catch (Throwable t) {
       Throwables.propagate(t);
     }
+  }
+  
+  /* Ticket 3525: Simplification improvements in Giac */
+  
+  @Test
+  public void Ticket_Ticket3525 () {
+    t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
+        "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+    t("f(x) := Element[Solve[c, y], 1]",
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+    t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
+        "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
   }
 
 
