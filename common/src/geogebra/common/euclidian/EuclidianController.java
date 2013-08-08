@@ -9320,7 +9320,7 @@ public abstract class EuclidianController {
 				return;
 			}
 			if (!temporaryMode) {
-				processRightReleased(hits, event);
+				processRightReleased(event);
 				return;
 			}
 		}
@@ -9460,7 +9460,7 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	private void processRightReleased(Hits hits, AbstractEvent event) {
+	private void processRightReleased(AbstractEvent event) {
 
 		if (!app.isRightClickEnabled()) {
 			return;
@@ -9480,7 +9480,7 @@ public abstract class EuclidianController {
 		// get selected GeoElements
 		// show popup menu after right click
 		view.setHits(mouseLoc);
-		hits = view.getHits().getTopHits();
+		Hits hits = view.getHits().getTopHits();
 		if (hits.isEmpty()) {
 			// no hits
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
