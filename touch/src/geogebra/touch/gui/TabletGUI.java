@@ -13,7 +13,6 @@ import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.euclidian.EuclidianViewPanel;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -286,8 +285,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 	@Override
 	public void resetMode() {
-		this.touchModel.setCommand(ToolBarCommand.Move_Mobile);
-		this.touchModel.getGuiModel().updateStyleBar();
+		this.touchModel.getGuiModel().setActive(this.touchModel.getGuiModel().getDefaultButton());
 	}
 
 	public void restoreEuclidian(DockLayoutPanel panel) {
