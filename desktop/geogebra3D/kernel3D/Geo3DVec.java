@@ -320,11 +320,11 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     		return;
     	}
     	
-    	NumberValue enX = list.getListElement(0).evaluateNum();
-    	NumberValue enY = list.getListElement(1).evaluateNum();
+    	double enX = list.getListElement(0).evaluateDouble();
+    	double enY = list.getListElement(1).evaluateDouble();
     	
-    	c.setX(a.getX() + enX.getDouble());
-    	c.setY(a.getY() + enY.getDouble());
+    	c.setX(a.getX() + enX);
+    	c.setY(a.getY() + enY);
     }
     
     /* vector - 2D list (to give another vector) 
@@ -338,17 +338,17 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     		return;
     	}
     	
-    	NumberValue enX = list.getListElement(0).evaluateNum();
-    	NumberValue enY = list.getListElement(1).evaluateNum();
+    	double enX = list.getListElement(0).evaluateDouble();
+    	double enY = list.getListElement(1).evaluateDouble();
     	
 
     	
     	if (reverse) {
-	    	c.setX(a.getX() - enX.getDouble());
-	    	c.setY(a.getY() - enY.getDouble());
+	    	c.setX(a.getX() - enX);
+	    	c.setY(a.getY() - enY);
     	} else {
-	    	c.setX(enX.getDouble() - a.getX());
-	    	c.setY(enY.getDouble() - a.getY());
+	    	c.setX(enX - a.getX());
+	    	c.setY(enY - a.getY());
     	}
     }
     
@@ -522,10 +522,10 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		 
 			double a,b,c,d,x1,y1;
 			
-			a = (MyList.getCell(list,0,0).evaluateNum()).getDouble();
-			b = (MyList.getCell(list,1,0).evaluateNum()).getDouble();
-			c = (MyList.getCell(list,0,1).evaluateNum()).getDouble();
-			d = (MyList.getCell(list,1,1).evaluateNum()).getDouble();
+			a = MyList.getCell(list,0,0).evaluateDouble();
+			b = MyList.getCell(list,1,0).evaluateDouble();
+			c = MyList.getCell(list,0,1).evaluateDouble();
+			d = MyList.getCell(list,1,1).evaluateDouble();
 	 
 			x1 = a*x + b*y;
 			y1 = c*x + d*y;
@@ -554,15 +554,15 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 				zz = p.getZ();
 			} 
 			
-			a = (MyList.getCell(list,0,0).evaluateNum()).getDouble();
-			b = (MyList.getCell(list,1,0).evaluateNum()).getDouble();
-			c = (MyList.getCell(list,2,0).evaluateNum()).getDouble();
-			d = (MyList.getCell(list,0,1).evaluateNum()).getDouble();
-			e = (MyList.getCell(list,1,1).evaluateNum()).getDouble();
-			f = (MyList.getCell(list,2,1).evaluateNum()).getDouble();
-			g = (MyList.getCell(list,0,2).evaluateNum()).getDouble();
-			h = (MyList.getCell(list,1,2).evaluateNum()).getDouble();
-			i = (MyList.getCell(list,2,2).evaluateNum()).getDouble();
+			a = MyList.getCell(list,0,0).evaluateDouble();
+			b = MyList.getCell(list,1,0).evaluateDouble();
+			c = MyList.getCell(list,2,0).evaluateDouble();
+			d = MyList.getCell(list,0,1).evaluateDouble();
+			e = MyList.getCell(list,1,1).evaluateDouble();
+			f = MyList.getCell(list,2,1).evaluateDouble();
+			g = MyList.getCell(list,0,2).evaluateDouble();
+			h = MyList.getCell(list,1,2).evaluateDouble();
+			i = MyList.getCell(list,2,2).evaluateDouble();
 	 
 			x = a * xx + b * yy + c * zz;
 			y = d * xx + e * yy + f * zz;
@@ -634,15 +634,15 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 				App.debug("error in Geo3DVec");
 			}
 
-			a = (MyList.getCell(list, 0, 0).evaluateNum()).getDouble();
-			b = (MyList.getCell(list, 1, 0).evaluateNum()).getDouble();
-			c = (MyList.getCell(list, 2, 0).evaluateNum()).getDouble();
-			d = (MyList.getCell(list, 0, 1).evaluateNum()).getDouble();
-			e = (MyList.getCell(list, 1, 1).evaluateNum()).getDouble();
-			f = (MyList.getCell(list, 2, 1).evaluateNum()).getDouble();
-			g = (MyList.getCell(list, 0, 2).evaluateNum()).getDouble();
-			h = (MyList.getCell(list, 1, 2).evaluateNum()).getDouble();
-			i = (MyList.getCell(list, 2, 2).evaluateNum()).getDouble();
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 2, 0).evaluateDouble();
+			d = MyList.getCell(list, 0, 1).evaluateDouble();
+			e = MyList.getCell(list, 1, 1).evaluateDouble();
+			f = MyList.getCell(list, 2, 1).evaluateDouble();
+			g = MyList.getCell(list, 0, 2).evaluateDouble();
+			h = MyList.getCell(list, 1, 2).evaluateDouble();
+			i = MyList.getCell(list, 2, 2).evaluateDouble();
 
 			x = a * xx + b * yy + c * zz;
 			y = d * xx + e * yy + f * zz;

@@ -265,7 +265,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			
 			
 			for (int i = 0 ; i < list1.size() ; i++) {
-				double x = list1.get(i).evaluateNum().getDouble();
+				double x = list1.get(i).evaluateDouble();
 				
 				if(type == TYPE_FREQUENCY && ((GeoNumeric)freqList.get(i)).getDouble() <= 0){
 					continue;
@@ -320,11 +320,11 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		else {// TYPE_QUARTILES:
 
-			tempList.add(minGeo.evaluateNum().getDouble());
-			tempList.add(Q1geo.evaluateNum().getDouble());
-			tempList.add(medianGeo.evaluateNum().getDouble());
-			tempList.add(Q3geo.evaluateNum().getDouble());
-			tempList.add(maxGeo.evaluateNum().getDouble());
+			tempList.add(minGeo.evaluateDouble());
+			tempList.add(Q1geo.evaluateDouble());
+			tempList.add(medianGeo.evaluateDouble());
+			tempList.add(Q3geo.evaluateDouble());
+			tempList.add(maxGeo.evaluateDouble());
 
 			N = 5;
 

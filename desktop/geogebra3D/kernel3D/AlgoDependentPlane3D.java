@@ -103,10 +103,10 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
     	try {
     		p.setEquation(
-    				ev[0].evaluateNum().getDouble(),
-    				ev[1].evaluateNum().getDouble(),
-    				ev[2].evaluateNum().getDouble(),
-    				ev[3].evaluateNum().getDouble()
+    				ev[0].evaluateDouble(),
+    				ev[1].evaluateDouble(),
+    				ev[2].evaluateDouble(),
+    				ev[3].evaluateDouble()
     		);
     	} catch (Throwable e) {
     		p.setUndefined();

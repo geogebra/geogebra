@@ -230,7 +230,7 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 
 					// substitute parameter back into curve to get cartesian coords
 					fv.set(paramVal);
-					point.setCoords(xFun.evaluateNum().getDouble(), yFun.evaluateNum().getDouble(), 1.0);
+					point.setCoords(xFun.evaluateDouble(), yFun.evaluateDouble(), 1.0);
 					
 					// test the intersection point
 					// this is needed for the intersection of Segments, Rays
@@ -239,7 +239,7 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 					}
 				}
 
-				//AbstractApplication.debug(xFun.evaluateNum().getDouble()+","+ yFun.evaluateNum().getDouble());
+				//AbstractApplication.debug(xFun.evaluateDouble()+","+ yFun.evaluateDouble());
 			}	
 		}
 

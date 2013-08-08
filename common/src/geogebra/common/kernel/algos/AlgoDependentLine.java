@@ -98,9 +98,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
 	public final void compute() {  
     	
 	    	try {
-		        g.x = ev[0].evaluateNum().getDouble();
-		        g.y = ev[1].evaluateNum().getDouble();
-		        g.z = ev[2].evaluateNum().getDouble();
+		        g.x = ev[0].evaluateDouble();
+		        g.y = ev[1].evaluateDouble();
+		        g.z = ev[2].evaluateDouble();
 		        
 		        // other algos might use the startPoint so we have to update it
 		        if (g.getStartPoint() != null)
@@ -116,9 +116,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint, D
     }
     
     final public double evaluate(GeoPoint P) {
-    	double mat0 = ev[0].evaluateNum().getDouble(); // x\u00b2
-		double mat1 = ev[1].evaluateNum().getDouble(); // y\u00b2
-		double mat2 = ev[2].evaluateNum().getDouble(); // constant
+    	double mat0 = ev[0].evaluateDouble(); // x\u00b2
+		double mat1 = ev[1].evaluateDouble(); // y\u00b2
+		double mat2 = ev[2].evaluateDouble(); // constant
 		return P.x *mat0 + P.y * mat1 + P.z * mat2;
 	}
 

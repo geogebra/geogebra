@@ -205,9 +205,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	}
 
 	public Geo3DVec get3DVec() {
-		return kernel.getManager3D().newGeo3DVec( (x.evaluateNum()).getDouble(),
-				(y.evaluateNum()).getDouble(),
-				(z.evaluateNum()).getDouble());
+		return kernel.getManager3D().newGeo3DVec( x.evaluateDouble(),
+				y.evaluateDouble(),
+				z.evaluateDouble());
 	}
 
 	public String toOutputValueString(StringTemplate tpl) {

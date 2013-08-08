@@ -249,7 +249,7 @@ public class CommandDispatcherGiac {
 				if (args.getLength() == 2) {
 					
 					ExpressionValue arg1 = args.getItem(1);
-					double arg1Num = arg1.evaluateNum().getDouble();
+					double arg1Num = arg1.evaluateDouble();
 					
 					if (arg1Num == 3) {
 						ret = new ExpressionNode(kernel,

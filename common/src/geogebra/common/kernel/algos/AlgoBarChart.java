@@ -860,8 +860,8 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		if (barWidth < 0) {
 			if (list1.size() > 1) {
-				double x1 = list1.get(0).evaluateNum().getDouble();
-				double x2 = list1.get(1).evaluateNum().getDouble();
+				double x1 = list1.get(0).evaluateDouble();
+				double x2 = list1.get(1).evaluateDouble();
 				if (!Double.isNaN(x1) && !Double.isNaN(x2)) {
 					barWidth = x2 - x1;
 				} else {
@@ -894,7 +894,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 
 		for (int i = 0; i < N; i++) {
 			if (list1.get(i).isGeoNumeric()) {
-				x = list1.get(i).evaluateNum().getDouble();
+				x = list1.get(i).evaluateDouble();
 			} else {
 				// use integers 1,2,3 ...  to position non-numeric data 
 				x = i+1;
@@ -908,7 +908,7 @@ public class AlgoBarChart extends AlgoElement implements DrawInformationAlgo {
 			}
 
 			// frequencies
-			double y = list2.get(i).evaluateNum().getDouble();
+			double y = list2.get(i).evaluateDouble();
 			if (!Double.isNaN(y) && y >= 0) {
 				yval[i] = y;
 				ySum += y;

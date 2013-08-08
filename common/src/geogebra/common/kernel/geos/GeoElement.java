@@ -7007,4 +7007,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return sendValueToCas;
 	}
 	
+	public double evaluateDouble() {
+		return evaluateNum().getDouble();
+	}
 }

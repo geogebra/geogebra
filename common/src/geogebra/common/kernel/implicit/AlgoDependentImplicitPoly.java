@@ -205,7 +205,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		double[] dCoeff=new double[expr.length];
 		for (int i=0;i<expr.length;i++){
 			if (expr[i]!=null){
-				dCoeff[i]=expr[i].evaluateNum().getDouble();
+				dCoeff[i]=expr[i].evaluateDouble();
 			}else{
 				dCoeff[i]=0;
 			}
@@ -245,7 +245,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		double[] dCoeff=new double[expr.length];
 		for (int i=0;i<expr.length;i++){
 			if (expr[i]!=null){
-				dCoeff[i]=expr[i].evaluateNum().getDouble();
+				dCoeff[i]=expr[i].evaluateDouble();
 			}else{
 				dCoeff[i]=0;
 			}

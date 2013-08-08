@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -101,8 +100,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
     private double evaluateToDouble(String str) {
 		try {
 			ExpressionNode en = parser.parseExpression(str);			
-			NumberValue nv = en.evaluateNum();
-			return nv.getDouble();
+			return en.evaluateDouble();
 		} catch (Exception e) {
 			return Double.NaN;
 		} catch (Error e) {

@@ -153,7 +153,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoNumeric copy() {
 		return new GeoNumeric(cons, value);
 	}
 

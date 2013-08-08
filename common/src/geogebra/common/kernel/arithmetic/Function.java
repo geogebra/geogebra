@@ -156,7 +156,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 		// NumberValue
 		fVars[0].set(x);
-		return expression.evaluateNum().getDouble();
+		return expression.evaluateDouble();
 
 	}
 
@@ -553,8 +553,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				if (!symbolic || node.getRight().isConstant()) {
 					double rightVal;
 					try {
-						rightVal = node.getRight().evaluateNum()
-								.getDouble();
+						rightVal = node.getRight().evaluateDouble();
 					} catch (Exception e) {
 						e.printStackTrace();
 						return false;
@@ -677,8 +676,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		try {
 			PolyFunction polyFun = new PolyFunction(degree);
 			for (int i = 0; i < strCoeffs.length; i++) {
-				polyFun.coeffs[i] = (evaluateToExpressionNode(
-						strCoeffs[i]).evaluateNum()).getDouble();
+				polyFun.coeffs[i] = evaluateToExpressionNode(
+						strCoeffs[i]).evaluateDouble();
 			}
 			return polyFun;
 		} catch (Exception e) {
@@ -718,7 +717,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			double [] coeffValues = new double[terms];
 			for(int i=0;i<coeff.length;i++){
 				if (coeff[i][0] instanceof ExpressionNode) {
-					coeffValues[i]=coeff[i][0].evaluateNum().getDouble(); //for ticket #2276 ---Tam
+					coeffValues[i]=coeff[i][0].evaluateDouble(); //for ticket #2276 ---Tam
 				} else {
 					coeffValues[i]=coeff[i][0] instanceof NumberValue ?
 						((NumberValue)coeff[i][0]).getDouble() : 0;

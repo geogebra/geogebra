@@ -52,8 +52,7 @@ public class CmdSpline extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && ((GeoList) arg[0]).size() > 2
 					&& arePoint((GeoList) arg[0])) {
-				int degree = (int) c.getArgument(1).evaluateNum().getNumber()
-						.getDouble();
+				int degree = (int) c.getArgument(1).evaluateDouble();
 				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size() || degree < 3) {
 					throw argErr(app, c.getName(), c.getArgument(1));
 				}

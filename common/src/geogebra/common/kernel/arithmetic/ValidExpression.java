@@ -305,6 +305,10 @@ public abstract class ValidExpression implements ExpressionValue {
 			return (NumberValue) ev;
 		return new MyDouble(getKernel(), Double.NaN);
 	}
+	
+	public double evaluateDouble() {
+		return evaluateNum().getDouble();
+	}
 
 	/**
 	 * Evaluates like function, a complex expression

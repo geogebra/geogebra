@@ -78,10 +78,10 @@ public class CmdDensityPlot extends CommandProcessor {
 				|| ((GeoFunctionNVar) args[0]).getVarNumber() != 2) {
 			throw argErr(app, c.getName(), args[0]);
 		}
-		lowX = c.getArgument(1).evaluateNum().getNumber().getDouble();
-		highX = c.getArgument(2).evaluateNum().getNumber().getDouble();
-		lowY = c.getArgument(3).evaluateNum().getNumber().getDouble();
-		highY = c.getArgument(4).evaluateNum().getNumber().getDouble();
+		lowX = c.getArgument(1).evaluateDouble();
+		highX = c.getArgument(2).evaluateDouble();
+		lowY = c.getArgument(3).evaluateDouble();
+		highY = c.getArgument(4).evaluateDouble();
 		if (Double.isNaN(lowX) || Double.isNaN(highX) || lowX >= highX) {
 			throw argErr(app, c.getName(), c.getArgument(1));
 		}

@@ -125,8 +125,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @return true if coeff is integer
 	 */
 	boolean hasIntegerCoeff() {
-		return Kernel.isInteger(coefficient.evaluateNum()
-				.getDouble());
+		return Kernel.isInteger(coefficient.evaluateDouble());
 	}
 
 	/**
@@ -168,11 +167,11 @@ public class Term implements Comparable<Object>, Serializable {
 
 		// add constant?
 		if (aconst && bconst) {
-			aval = a.evaluateNum().getDouble();
-			bval = b.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
+			bval = b.evaluateDouble();
 			return new MyDouble(kernel, aval + bval);
 		} else if (aconst) {
-			aval = a.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
 			if (aval == 0.0d) {
 				return b;
 			}
@@ -240,12 +239,12 @@ public class Term implements Comparable<Object>, Serializable {
 		double aval, bval;
 
 		if (aconst && bconst) {
-			aval = a.evaluateNum().getDouble();
-			bval = b.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
+			bval = b.evaluateDouble();
 
 			return new MyDouble(kernel, aval * bval);
 		} else if (aconst) {
-			aval = a.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
 			if (aval == 0.0d)
 				return new MyDouble(kernel, 0.0d);
 			else if (aval == 1.0d)
@@ -292,11 +291,11 @@ public class Term implements Comparable<Object>, Serializable {
 		double aval, bval;
 
 		if (aconst && bconst) {
-			aval = a.evaluateNum().getDouble();
-			bval = b.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
+			bval = b.evaluateDouble();
 			return new MyDouble(kernel, aval / bval);
 		} else if (aconst) {
-			aval = a.evaluateNum().getDouble();
+			aval = a.evaluateDouble();
 			if (aval == 0.0d) {
 				return new MyDouble(kernel, 0.0d);
 			}
@@ -311,7 +310,7 @@ public class Term implements Comparable<Object>, Serializable {
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
 
 		} else if (bconst) {
-			bval = b.evaluateNum().getDouble();
+			bval = b.evaluateDouble();
 			if (bval == 1.0d) {
 				return a;
 			}

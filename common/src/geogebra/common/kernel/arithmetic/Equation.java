@@ -338,12 +338,12 @@ public class Equation extends ValidExpression {
         
         // var = ... || ... = var
         return (    lhsp.length() == 1 && 
-                    lhsp.getCoefficient(var).evaluateNum().getDouble() 
+                    lhsp.getCoefficient(var).evaluateDouble() 
                         == 1 && 
                     !rhsp.contains(var)                  ) 
                 || 
                (    rhsp.length() == 1 && 
-                    rhsp.getCoefficient(var).evaluateNum().getDouble() 
+                    rhsp.getCoefficient(var).evaluateDouble() 
                         == 1 && 
                     !lhsp.contains(var)                  ) ;
     }

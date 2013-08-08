@@ -54,7 +54,7 @@ public class CmdNyquist extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 			if (arg[2].isGeoNumeric()) {
-				int omega = (int) arg[2].evaluateNum().getNumber().getDouble();
+				int omega = (int) arg[2].evaluateDouble();
 				if (Double.isNaN(omega)) {
 					throw argErr(app, c.getVariableName(2), arg[2]);
 				}

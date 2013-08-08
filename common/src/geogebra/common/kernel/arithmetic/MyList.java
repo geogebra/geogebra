@@ -105,8 +105,7 @@ public class MyList extends ValidExpression implements ListValue,
 		try {
 			double[] valueArray = new double[listElements.size()];
 			for (int i = 0; i < valueArray.length; i++) {
-				valueArray[i] = listElements.get(i).evaluateNum()
-						.getDouble();
+				valueArray[i] = listElements.get(i).evaluateDouble();
 			}
 			return valueArray;
 		} catch (Exception e) {

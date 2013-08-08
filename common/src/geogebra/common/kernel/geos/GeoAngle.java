@@ -268,7 +268,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}*/
 
 	@Override
-	public GeoElement copy() {
+	public GeoNumeric copy() {
 		GeoAngle angle = new GeoAngle(cons);
 		angle.setValue(rawValue);
 		angle.setAngleStyle(angleStyle);

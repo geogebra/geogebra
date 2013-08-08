@@ -3646,15 +3646,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case MULTIPLY:
 			if (!getRightTree().containsFunctionVariable()) {
-				return lc * getRightTree().evaluateNum().getDouble();
+				return lc * getRightTree().evaluateDouble();
 			} else if (!getLeftTree().containsFunctionVariable()) {
-				return rc * getLeftTree().evaluateNum().getDouble();
+				return rc * getLeftTree().evaluateDouble();
 			}
 			break;
 
 		case DIVIDE:
 			if (!getRightTree().containsFunctionVariable()) {
-				return lc / getRightTree().evaluateNum().getDouble();
+				return lc / getRightTree().evaluateDouble();
 			}
 			break;
 		}
@@ -4238,7 +4238,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					} else { // to parse x^(c/2) to sqrt(x^c)
 						double c = 1;
 						if(rightLeaf.getLeft().isConstant())
-							c = rightLeaf.getLeft().evaluateNum().getDouble();
+							c = rightLeaf.getLeft().evaluateDouble();
 						if(c<0){
 
 							setRight(new ExpressionNode(kernel,getLeft().wrap().power(-c),
@@ -4348,7 +4348,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case POWER:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				if (Kernel.isZero(right.evaluateNum().getDouble())) {
+				if (Kernel.isZero(right.evaluateDouble())) {
 					return wrap(new MyDouble(kernel, 0d));
 				}
 
@@ -4518,7 +4518,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case POWER:
 			// eg x^2
 			if (left == fv && !right.contains(fv)) {
-				double index = right.evaluateNum().getDouble();
+				double index = right.evaluateDouble();
 				if (!Double.isNaN(index) && !Double.isInfinite(index)) {
 
 					if (Kernel.isZero(index + 1)) {
@@ -4530,7 +4530,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 				// eg 2^x
 				if (right == fv) {
-					double base = left.evaluateNum().getDouble();
+					double base = left.evaluateDouble();
 					if (!Double.isNaN(base) && !Double.isInfinite(base)) {
 
 						// 1^x
@@ -4546,7 +4546,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			} else if (right.isNumberValue() && !right.contains(fv)) {
 
-				double index = right.evaluateNum().getDouble();
+				double index = right.evaluateDouble();
 				if (!Double.isNaN(index) && !Double.isInfinite(index)) {
 
 					double coeff = getLinearCoefficient(fv, left);
@@ -4810,13 +4810,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				coeff = getLinearCoefficient(fv, left);
 
 				if (!Double.isNaN(coeff)) {
-					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateNum().getDouble() + 1) * coeff);
+					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateDouble() + 1) * coeff);
 				}
 
 				coeff = getLinearCoefficientDiv(fv, left);
 
 				if (!Double.isNaN(coeff)) {
-					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateNum().getDouble() + 1) / coeff);
+					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateDouble() + 1) / coeff);
 				}
 			}
 

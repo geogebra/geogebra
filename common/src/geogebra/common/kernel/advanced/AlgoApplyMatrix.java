@@ -138,34 +138,21 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 		double a, b, c, d, e, f, g, h, i;
 		if (list.getMatrixRows() < 3) {
-			a = (MyList.getCell(list, 0, 0).evaluateNum())
-					.getDouble();
-			b = (MyList.getCell(list, 1, 0).evaluateNum())
-					.getDouble();
-			c = (MyList.getCell(list, 0, 1).evaluateNum())
-					.getDouble();
-			d = (MyList.getCell(list, 1, 1).evaluateNum())
-					.getDouble();
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 0, 1).evaluateDouble();
+			d = MyList.getCell(list, 1, 1).evaluateDouble();
 			out.matrixTransform(a, b, c, d);
 		} else {
-			a = (MyList.getCell(list, 0, 0).evaluateNum())
-					.getDouble();
-			b = (MyList.getCell(list, 1, 0).evaluateNum())
-					.getDouble();
-			c = (MyList.getCell(list, 2, 0).evaluateNum())
-					.getDouble();
-			d = (MyList.getCell(list, 0, 1).evaluateNum())
-					.getDouble();
-			e = (MyList.getCell(list, 1, 1).evaluateNum())
-					.getDouble();
-			f = (MyList.getCell(list, 2, 1).evaluateNum())
-					.getDouble();
-			g = (MyList.getCell(list, 0, 2).evaluateNum())
-					.getDouble();
-			h = (MyList.getCell(list, 1, 2).evaluateNum())
-					.getDouble();
-			i = (MyList.getCell(list, 2, 2).evaluateNum())
-					.getDouble();
+			a = MyList.getCell(list, 0, 0).evaluateDouble();
+			b = MyList.getCell(list, 1, 0).evaluateDouble();
+			c = MyList.getCell(list, 2, 0).evaluateDouble();
+			d = MyList.getCell(list, 0, 1).evaluateDouble();
+			e = MyList.getCell(list, 1, 1).evaluateDouble();
+			f = MyList.getCell(list, 2, 1).evaluateDouble();
+			g = MyList.getCell(list, 0, 2).evaluateDouble();
+			h = MyList.getCell(list, 1, 2).evaluateDouble();
+			i = MyList.getCell(list, 2, 2).evaluateDouble();
 			out.matrixTransform(a, b, c, d, e, f, g, h, i);
 		}
 		if (inGeo.isLimitedPath()) {

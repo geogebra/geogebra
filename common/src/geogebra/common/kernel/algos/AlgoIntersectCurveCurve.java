@@ -204,15 +204,15 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements U
 				fVary1.set(x0);
 				fVary2.set(y0);
 
-				double j00Eval = j00.evaluateNum().getDouble();
-				double j01Eval = j01.evaluateNum().getDouble();
-				double j10Eval = - minusj10.evaluateNum().getDouble();
-				double j11Eval = - minusj11.evaluateNum().getDouble();
+				double j00Eval = j00.evaluateDouble();
+				double j01Eval = j01.evaluateDouble();
+				double j10Eval = - minusj10.evaluateDouble();
+				double j11Eval = - minusj11.evaluateDouble();
 
 				//App.debug(j00Eval+" "+j10Eval+" "+j01Eval+" "+j11Eval);
 
-				double f1Eval = enx1.evaluateNum().getDouble() - enx2.evaluateNum().getDouble();
-				double f2Eval = eny1.evaluateNum().getDouble() - eny2.evaluateNum().getDouble();
+				double f1Eval = enx1.evaluateDouble() - enx2.evaluateDouble();
+				double f2Eval = eny1.evaluateDouble() - eny2.evaluateDouble();
 
 				//App.debug(f1Eval + " " + f2Eval);
 

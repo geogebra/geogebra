@@ -113,7 +113,7 @@ public interface Traversing {
 				
 				ExpressionNode ret = null;
 				
-				if (!Kernel.isEqual(coeff.evaluateNum().getDouble(), 1d)) {
+				if (!Kernel.isEqual(coeff.evaluateDouble(), 1d)) {
 					ret = new ExpressionNode(kernel, coeff);
 				}
 				

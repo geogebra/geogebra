@@ -292,7 +292,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		ValidExpression ve = sbToCAS(fitter.formalSolution);
 		
-		if (fitter.formalSolution.length()>0 && Kernel.isEqual(ve.evaluateNum().getDouble(),num)) {
+		if (fitter.formalSolution.length()>0 && Kernel.isEqual(ve.evaluateDouble(),num)) {
 			sb.append(
 			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,tpl)
 			);
@@ -309,7 +309,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			ArrayList<String> names = new ArrayList<String>();
 			
 			for (int i = 0 ; i < list.size() ; i++) {
-				double x = list.get(i).evaluateNum().getDouble();
+				double x = list.get(i).evaluateDouble();
 				
 				if (Kernel.isEqual(x, Math.PI)) {
 					values.add(Math.PI);
@@ -405,7 +405,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		//System.out.println("time of sb to ve: " + (t2-t1));
 		//t1 = t2;
 		
-		if (fitter0.formalSolution.length()>0 && Kernel.isEqual(ve0.evaluateNum().getDouble(),y)) {
+		if (fitter0.formalSolution.length()>0 && Kernel.isEqual(ve0.evaluateDouble(),y)) {
 			sb1.append(
 			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,tpl)
 			);

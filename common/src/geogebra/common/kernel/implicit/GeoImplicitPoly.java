@@ -483,7 +483,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				if (ev[i][j]==null)
 					coeff[i][j]=0;
 				else
-					coeff[i][j] = ev[i][j].evaluateNum().getDouble();
+					coeff[i][j] = ev[i][j].evaluateDouble();
 				if (Double.isInfinite(coeff[i][j])){
 					setUndefined();
 				}

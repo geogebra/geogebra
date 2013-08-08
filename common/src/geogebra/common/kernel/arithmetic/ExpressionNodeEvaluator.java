@@ -765,10 +765,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				ExpressionNode node = (ExpressionNode) right;
 				if (node.getOperation().equals(Operation.DIVIDE)) {
 					// check if we have a/b with a and b integers
-					double a = node.getLeft().evaluateNum().getDouble();
+					double a = node.getLeft().evaluateDouble();
 					long al = Math.round(a);
 					if (Kernel.isEqual(a, al)) { // a is integer
-						double b = node.getRight().evaluateNum().getDouble();
+						double b = node.getRight().evaluateDouble();
 						long bl = Math.round(b);
 						if (b == 0) {
 							// (x^a)^(1/0)
@@ -1071,8 +1071,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						&& (ev instanceof MyVecNode)) {
 					MyVecNode pt = (MyVecNode) ev;
 					double[] vals = new double[] {
-							pt.getX().evaluateNum().getDouble(),
-							pt.getY().evaluateNum().getDouble() };
+							pt.getX().evaluateDouble(),
+							pt.getY().evaluateDouble() };
 					if (funN.isBooleanFunction()) {
 						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
 					}

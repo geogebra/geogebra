@@ -85,7 +85,7 @@ public class AlgoProductMatrices extends AlgoElement {
     	// fill initial matrix
     	for (int r = 0 ; r < matrix.size() ; r++) {
     	   	for (int c = 0 ; c < matrix.size() ; c++) {
-        		working2[r][c] = matrix.get(r, c).evaluateNum().getDouble();
+        		working2[r][c] = matrix.get(r, c).evaluateDouble();
         		//App.debug(working2[r][c]);
         	}
     		
@@ -125,8 +125,8 @@ public class AlgoProductMatrices extends AlgoElement {
         	   		//App.debug(" ");
         	   		
         	   		for (int n = 0 ; n < matrix.size() ; n++) {
-        	   			count += working[r][n] * matrix.get(n, c).evaluateNum().getDouble();
-            	   		//App.debug(working[r][n] +" * "+ matrix.get(n, c).evaluateNum().getDouble());
+        	   			count += working[r][n] * matrix.get(n, c).evaluateDouble();
+            	   		//App.debug(working[r][n] +" * "+ matrix.get(n, c).evaluateDouble());
         	   		}
         	   		
         	   		

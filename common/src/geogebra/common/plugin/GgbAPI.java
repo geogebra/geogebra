@@ -1066,7 +1066,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		GeoElement ret = list.get(index - 1);
 
 		// GeoBoolean implements NumberValue, so no need to check for that
-		return ret.evaluateNum().getDouble();
+		return ret.evaluateDouble();
 	}
 	
 	public void addUserAwarenessListener( UserAwarenessListener listener ){

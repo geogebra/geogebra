@@ -552,7 +552,7 @@ public class GeoConic extends GeoConicND implements
 	 */
 	public static double evalCoeff(ExpressionValue[][] ev, int i, int j) {
 		if (ev.length > i && ev[i].length > j && ev[i][j] != null) {
-			return ev[i][j].evaluateNum().getDouble();
+			return ev[i][j].evaluateDouble();
 		}
 		return 0;
 	}

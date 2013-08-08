@@ -272,7 +272,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	private void setLeftBound(ExpressionValue nv) {
-		leftBound = nv.evaluateNum().getDouble();
+		leftBound = nv.evaluateDouble();
 		if (nv.isGeoElement())
 			leftStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else
@@ -280,7 +280,7 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	private void setRightBound(ExpressionValue nv) {
-		rightBound = nv.evaluateNum().getDouble();
+		rightBound = nv.evaluateDouble();
 		if (nv.isGeoElement())
 			rightStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
 		else

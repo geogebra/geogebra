@@ -1181,7 +1181,7 @@ public class GeoText extends GeoElement implements Locateable,
 
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateNum().getDouble());
+		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateDouble());
 		spreadsheetTraceList.add(numeric);
 
 	}

@@ -109,7 +109,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		try {
 			Term t = terms.get(0);
 			return (t.getVars().equals(var) && t.getCoefficient().isConstant() && t
-					.getCoefficient().evaluateNum().getDouble() == 1.0);
+					.getCoefficient().evaluateDouble() == 1.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -281,7 +281,7 @@ public class Polynomial extends ValidExpression implements Serializable
 			isInt = isInt
 					&& t.hasNoVars()
 					&& Kernel.isInteger(t.getCoefficient()
-							.evaluateNum().getDouble());
+							.evaluateDouble());
 		}
 		return isInt;
 	}
@@ -321,7 +321,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	 * @return coefficient value
 	 */
 	public double getCoeffValue(String variables) {
-		return getCoefficient(variables).evaluateNum().getDouble();
+		return getCoefficient(variables).evaluateDouble();
 	}
 
 	/**
@@ -369,8 +369,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 				// add simplified term to list
 				if (!ti.coefficient.isConstant()
-						|| ti.coefficient.evaluateNum()
-								.getDouble() != 0.0) {
+						|| ti.coefficient.evaluateDouble() != 0.0) {
 					list.add(ti);
 				}
 			}
