@@ -35,13 +35,13 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 	 */
 	public AlgoBernoulliBarChart(Construction cons, String label, 
 			NumberValue p, GeoBoolean isCumulative) {
-        super(cons,label, p, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BERNOULLI);
+        super(cons,label, p, null, null, isCumulative, SumType.BARCHART_BERNOULLI);
     }
 	
 	private AlgoBernoulliBarChart( 
 			NumberValue p, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
 			double[]borders,int N) {
-        super(p, null, null, isCumulative, AlgoFunctionAreaSums.TYPE_BARCHART_BERNOULLI,a,b,vals,borders,N);
+        super(p, null, null, isCumulative, SumType.BARCHART_BERNOULLI,a,b,vals,borders,N);
     }
 	
     @Override

@@ -36,13 +36,13 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 	 */
 	public AlgoSumLeft(Construction cons, String label, GeoFunction f, 
 								   NumberValue a, NumberValue b, NumberValue n) {
-		super(cons, label, f, a, b, n, AlgoFunctionAreaSums.TYPE_LEFTSUM);		
+		super(cons, label, f, a, b, n, SumType.LEFTSUM);		
 		cons.registerEuclidianViewCE(this);
 	}
 	
 	private AlgoSumLeft(  
 			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super(a, b, n, AlgoFunctionAreaSums.TYPE_LEFTSUM,vals,borders);				
+		super(a, b, n, SumType.LEFTSUM,vals,borders);				
 	}
 	
 	public AlgoSumLeft copy() {		

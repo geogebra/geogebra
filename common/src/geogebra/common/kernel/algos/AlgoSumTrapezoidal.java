@@ -36,12 +36,12 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	 */
 	public AlgoSumTrapezoidal(Construction cons, String label, GeoFunction f, 
 								   NumberValue a, NumberValue b, NumberValue n) {
-		super(cons, label, f, a, b, n, AlgoFunctionAreaSums.TYPE_TRAPEZOIDALSUM);		
+		super(cons, label, f, a, b, n, SumType.TRAPEZOIDALSUM);		
 	}
 	
 	private AlgoSumTrapezoidal( 
 			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super( a, b, n, AlgoFunctionAreaSums.TYPE_TRAPEZOIDALSUM,vals,borders);		
+		super( a, b, n, SumType.TRAPEZOIDALSUM,vals,borders);		
 	}
 	
 	@Override

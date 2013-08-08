@@ -36,13 +36,13 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	 */
 	public AlgoSumUpper(Construction cons, String label, GeoFunction f, 
 								   NumberValue a, NumberValue b, NumberValue n) {
-		super(cons, label, f, a, b, n, AlgoFunctionAreaSums.TYPE_UPPERSUM);	
+		super(cons, label, f, a, b, n, SumType.UPPERSUM);	
 		cons.registerEuclidianViewCE(this);
 	}
 	
 	private AlgoSumUpper( 
 			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super( a, b, n, AlgoFunctionAreaSums.TYPE_UPPERSUM,vals,borders);			
+		super( a, b, n, SumType.UPPERSUM,vals,borders);			
 	}
 	
 	@Override

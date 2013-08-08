@@ -121,7 +121,7 @@ public class AlgoHistogram extends AlgoFunctionAreaSums {
 	
 	public AlgoHistogram copy() {
 		int N = getIntervals();
-		if(getType()==TYPE_HISTOGRAM_DENSITY)
+		if(getType()==SumType.HISTOGRAM_DENSITY)
 			return new AlgoHistogram((GeoBoolean)getIsCumulative().copy(), 
 				(GeoBoolean)getUseDensityGeo().copy(),(GeoNumeric)getDensityGeo().copy(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),N);

@@ -36,7 +36,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	 */
 	public AlgoSumRectangle(Construction cons, String label, GeoFunction f, 
 								   NumberValue a, NumberValue b, NumberValue n,NumberValue d) {
-		super(cons, label, f, a, b, n, d, AlgoFunctionAreaSums.TYPE_RECTANGLESUM);		
+		super(cons, label, f, a, b, n, d, SumType.RECTANGLESUM);		
 	}
 	
 	private AlgoSumRectangle( GeoFunction f, 

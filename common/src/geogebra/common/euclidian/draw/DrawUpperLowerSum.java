@@ -17,6 +17,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
+import geogebra.common.kernel.algos.AlgoFunctionAreaSums.SumType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -63,8 +64,8 @@ public class DrawUpperLowerSum extends Drawable {
 		algo = (AlgoFunctionAreaSums) geo.getDrawAlgorithm();
 		this.trapeziums = algo.useTrapeziums();
 		this.histogram = algo.isHistogram();
-		this.barchartFreqs = algo.getType() == AlgoFunctionAreaSums.TYPE_BARCHART_FREQUENCY_TABLE;
-		this.barchartFreqsWidth = algo.getType() == AlgoFunctionAreaSums.TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;
+		this.barchartFreqs = algo.getType() == SumType.BARCHART_FREQUENCY_TABLE;
+		this.barchartFreqsWidth = algo.getType() == SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
 		a = algo.getA();
 		b = algo.getB();
 	}
