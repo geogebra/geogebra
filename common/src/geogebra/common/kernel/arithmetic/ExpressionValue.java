@@ -97,8 +97,6 @@ public interface ExpressionValue {
     /**
      * @return evaluated value
      */
-    public NumberValue evaluateNum();
-    
     public double evaluateDouble();
     /**
      * @param tpl string template (in case concatenation of strings is involved)

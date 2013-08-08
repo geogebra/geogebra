@@ -3741,10 +3741,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Evaluates to number (if not numeric, returns undefined MyDouble)
 	 * @return number or undefined double
 	 */
-	public NumberValue evaluateNum() {
+	public double evaluateDouble() {
 		if(this instanceof NumberValue)
-			return (NumberValue)this;
-		return new MyDouble(getKernel(),Double.NaN);
+			return ((NumberValue)this).getDouble();
+		return Double.NaN;
 	}
 	
 	final public ExpressionValue evaluate(StringTemplate tpl) {
@@ -7005,9 +7005,5 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean getSendValueToCas() {
 		return sendValueToCas;
-	}
-	
-	public double evaluateDouble() {
-		return evaluateNum().getDouble();
 	}
 }

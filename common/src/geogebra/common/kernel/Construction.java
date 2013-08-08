@@ -2353,8 +2353,8 @@ public class Construction {
 				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
 				if (geo2 != null && geo2 instanceof NumberValue) {
 					ExpressionNode node = new ExpressionNode(kernel,
-							((NumberValue) geo1).evaluateNum(),
-							Operation.MULTIPLY, ((NumberValue) geo2).evaluateNum());
+							geo1,
+							Operation.MULTIPLY, geo2);
 					AlgoDependentNumber algo = new AlgoDependentNumber(this,
 							null, node, false);
 					createdGeo = algo.getNumber();

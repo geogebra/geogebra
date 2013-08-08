@@ -652,9 +652,10 @@ public interface Traversing {
 				final ExpressionNode en = (ExpressionNode) ev;
 				if(en.getOperation()==Operation.FUNCTION || en.getOperation()==Operation.FUNCTION_NVAR){
 					ExpressionValue geo = en.getLeft().unwrap();
-					NumberValue deriv = null;
+					ExpressionValue deriv = null;
 					if(geo instanceof ExpressionNode && ((ExpressionNode)geo).getOperation()==Operation.DERIVATIVE){
-						deriv = ((ExpressionNode)geo).getRight().evaluateNum();
+						//template not important, right it is a constant MyDouble anyway
+						deriv = ((ExpressionNode)geo).getRight().evaluate(StringTemplate.defaultTemplate);
 						geo = ((ExpressionNode)geo).getLeft().unwrap();
 					}
 					if(geo instanceof GeoDummyVariable){

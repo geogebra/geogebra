@@ -882,7 +882,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// polynomial ^ number
 		else if (lt.isPolynomialInstance() && rt instanceof NumberValue) {
 
-			double exponent = rt.evaluateNum().getDouble();
+			double exponent = rt.evaluateDouble();
 
 			// the exponent must be a number
 			if (!Kernel.isInteger(exponent)) {

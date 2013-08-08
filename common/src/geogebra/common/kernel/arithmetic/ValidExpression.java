@@ -299,15 +299,11 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @return number or undefined double
 	 */
-	public NumberValue evaluateNum() {
+	public double evaluateDouble() {
 		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
 		if (ev instanceof NumberValue)
-			return (NumberValue) ev;
-		return new MyDouble(getKernel(), Double.NaN);
-	}
-	
-	public double evaluateDouble() {
-		return evaluateNum().getDouble();
+			return ((NumberValue) ev).getDouble();
+		return Double.NaN;
 	}
 
 	/**
