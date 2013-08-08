@@ -1207,16 +1207,15 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		}
 	}*/
 
-	/*public void setShowGrid(boolean showGrid) {
+	public void setShowGrid(boolean showGrid) {
 		//table.setShowGrid(showGrid);
 		if (showGrid) {
-			table.setBorderWidth(1);
-			//table.setIntercellSpacing(new Dimension(1, 1));
+			table.getElement().removeClassName("off");
 		} else {
-			//table.setIntercellSpacing(new Dimension(0, 0));
+			table.getElement().addClassName("off");
 		}
-		getSpreadsheetStyleBar().updateStyleBar();
-	}*/
+		//getSpreadsheetStyleBar().updateStyleBar();
+	}
 
 	public boolean getAllowToolTips() {
 		return settings().allowToolTips();
@@ -1370,7 +1369,7 @@ public class SpreadsheetViewW extends ScrollPanel implements SpreadsheetViewWeb,
 		setShowRowHeader(settings().showRowHeader());
 		//?//setShowVScrollBar(settings().showVScrollBar());
 		//?//setShowHScrollBar(settings().showHScrollBar());
-		//TODO//setShowGrid(settings().showGrid());
+		setShowGrid(settings().showGrid());
 		setAllowToolTips(settings().allowToolTips());
 		//?//setShowFormulaBar(settings().showFormulaBar());
 		setColumnSelect(settings().isColumnSelect());

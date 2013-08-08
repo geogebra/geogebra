@@ -1465,6 +1465,11 @@ Paddings for menuitems.
 	white-space: nowrap;
 }
 
+.geogebraweb-table-spreadsheet.off td{
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
 .SpreadsheetEditorCell {
 	
 }
