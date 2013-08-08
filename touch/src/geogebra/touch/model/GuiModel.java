@@ -141,8 +141,9 @@ public class GuiModel {
 		if (this.touchModel != null) {
 			this.touchModel.setCommand(toolBarButton.getCmd());
 		}
-
-		this.styleBar.rebuild();
+		if (this.styleBar != null) {
+			this.styleBar.rebuild();
+		}
 	}
 
 	public void setActiveDialog(PopupPanel dialog) {
