@@ -303,6 +303,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				kernel.setNotifyViewsActive(oldVal);				
 			}
 			
+			// #2153
 			if (!isGGTFile && cons.hasSpreadsheetTracingGeos()) {
 				// needs to be done after call to updateConstruction() to avoid spurious traces
 				app.getTraceManager().loadTraceGeoCollection();

@@ -6097,6 +6097,11 @@ public abstract class GeoElement extends ConstructionElement implements
 			traceSettings = null;
 		}
 		spreadsheetTrace = traceFlag;
+		
+		// #2153
+		if (spreadsheetTrace) {
+			cons.addTracingGeo();
+		}
 	}
 
 	/**
