@@ -357,7 +357,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogD id = new InputDialogRotate(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogRotatePoint(((AppD) app), title, handler,
 				polys, points, selGeos, ec);
 		id.setVisible(true);
 

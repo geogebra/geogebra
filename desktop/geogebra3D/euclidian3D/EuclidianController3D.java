@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -1793,7 +1794,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = circlePointRadiusDirection(hits);
 			break;
 			
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
 			ret = rotateAroundAxis(hits.getTopHits());
 			break;
 
@@ -1998,7 +1999,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return true;
 			
 		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
-			return createNewPoint(hits, false, false, true);
+			return true;//createNewPoint(hits, false, false, true);
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			//Application.debug("hop");
@@ -3215,11 +3216,11 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 		// rotation axis
 		if (count == 0) {
-			addSelectedDirection(hits, 1, false);
+			addSelectedLine(hits, 1, false);
 		}
 	
 		// we got the rotation center point
-		if ((selDirections() == 1) && (selGeos() > 0)) {
+		if ((selLines() == 1) && (selGeos() > 0)) {
 	
 			GeoElement[] selGeos = getSelectedGeos();
 			
@@ -3227,7 +3228,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			((DialogManager3D) getDialogManager())
 					.showNumberInputDialogRotate(
 							l10n.getMenu(getKernel().getModeText(mode)),
-							getSelectedPolygons(), getSelectedDirections(), selGeos,
+							getSelectedPolygons(), getSelectedLinesND(), selGeos,
 							this);
 	
 			return null;
@@ -3238,6 +3239,24 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 
 	
+	public GeoElement[] rotateAroundAxis(GeoElement geoRot, GeoNumberValue phi, GeoLineND line) {
+		
+		return kernel.getManager3D().Rotate3D(null, geoRot, phi, line);
+	}
+	
+	/**
+	 * 
+	 * @param clockwise user's choice
+	 * @param line rotation axis
+	 * @return correct clockwise orientation resp. view/line
+	 */
+	public boolean viewOrientationForClockwise(boolean clockwise, GeoLineND line){
+		
+		if(line.getDirectionInD3().dotproduct(view3D.getViewDirection()) > 0)
+			return !clockwise;
+
+		return clockwise;
+	}
 
 	@Override
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
