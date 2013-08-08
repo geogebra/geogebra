@@ -278,7 +278,8 @@ public class SpreadsheetMouseListener implements MouseListener,
 					editor.stopCellEditing();
 					editor.setAllowProcessGeo(false);
 				}
-			} else if (table.isOverDot) {
+			} else if (table.isOverDot && table.showCanDragBlueDot()) {
+				// double-check
 				table.isDragingDot = true;
 				e.consume();
 			}
@@ -610,7 +611,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 			int s = MyTableD.DOT_SIZE + 2;
 			Rectangle dotRect = new Rectangle(dotX - s / 2, dotY - s / 2, s, s);
 			boolean overDot = dotRect.contains(e.getPoint());
-			if (table.isOverDot != overDot) {
+			if (table.isOverDot != overDot && table.showCanDragBlueDot()) {
 				table.isOverDot = overDot;
 				setTableCursor();
 				table.repaint();

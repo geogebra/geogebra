@@ -1076,6 +1076,24 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	final static BasicStroke dashed = new BasicStroke(3.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
+
+	public boolean showCanDragBlueDot() {
+		boolean showBlueDot = !editor.isEditing();
+
+		if (minSelectionRow != -1 && maxSelectionRow != -1
+				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
+
+			if (showBlueDot)
+				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
+					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
+						if (tableModel.getValueAt(i, j) instanceof GeoElement)
+							showBlueDot &= !((GeoElement)tableModel.getValueAt(i, j)).isFixed();
+
+			return showBlueDot;
+		}
+		return false;
+	}
+
 	// ===============================================================
 	// Paint
 	// ===============================================================
@@ -1200,19 +1218,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		GPoint pixel1 = getMaxSelectionPixel();
 		if (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
 
-			boolean showBlueDot =
-					(minSelectionRow != -1) &&
-					(maxSelectionRow != -1) &&
-					(minSelectionColumn != -1) &&
-					(maxSelectionColumn != -1);
-
-			if (showBlueDot)
-				for (int i = minSelectionRow; i <= maxSelectionRow; i++)
-					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++)
-						if (tableModel.getValueAt(i, j) instanceof GeoElement)
-							showBlueDot &= !((GeoElement)tableModel.getValueAt(i, j)).isFixed();
-
-			if (showBlueDot) {
+			if (showCanDragBlueDot()) {
 				// Highlight the dragging dot if mouseover
 				if (isOverDot) {
 					graphics.setColor(Color.gray);
