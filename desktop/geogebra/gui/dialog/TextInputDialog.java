@@ -1125,6 +1125,9 @@ public class TextInputDialog extends InputDialogD implements DocumentListener, g
 				GeoText newText = (GeoText) kernel.getAlgebraProcessor()
 						.changeGeoElement(editGeo, inputValue, true, true);
 
+				//update editGeo
+				editGeo = newText;
+
 				// make sure newText is using correct LaTeX setting
 				newText.setLaTeX(isLaTeX, true);
 
