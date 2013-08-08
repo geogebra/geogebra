@@ -328,9 +328,20 @@ public class MyCellRendererW {
 		if (geo.getLabelColor() != null)
 			table.getCellFormatter().getElement(row, column).getStyle().setColor(
 					geo.getLabelColor().toString());
+
+		// 3. alignment
+		alignment = (Integer) formatHandler.getCellFormat(cellPoint,
+				CellFormat.FORMAT_ALIGN);
+		if (alignment != null) {
+			table.getCellFormatter().getElement(row, column).getStyle().setProperty("textAlign",
+				alignment == 2 ? "left" : (alignment == 4 ? "right" : "center"));
+		} else if (geo.isGeoText()) {
+			table.getCellFormatter().getElement(row, column).getStyle().setProperty("textAlign", "left");
+		} else {
+			table.getCellFormatter().getElement(row, column).getStyle().setProperty("textAlign", "right");
+		}
 	}
-	
-	
+
 	public Widget getTableCellRendererWidget(Grid table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
