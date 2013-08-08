@@ -285,7 +285,7 @@ public class Ggb2giac {
 				ellipseHyperbola1 +
 				"-" +
 				ellipseHyperbola2);
-				
+		p("Intersection.2", "%0 intersect %1");
 		p("Iteration.3",
 				"(unapply(%0,x)@@%2)(%1)");
 		p("IterationList.3",
@@ -574,6 +574,7 @@ public class Ggb2giac {
 				"tcollect(%0)");
 		p("TrigCombine.2",
 				"tcollect(%0)");
+		p("Union.2", "%0 union %1");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("Variance.1",
 				"normal(variance(%0))");
