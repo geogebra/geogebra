@@ -1090,8 +1090,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			}
 
 			totalArea = 0;
-
-			for (int i = 0; i < N + 1; i++) { // N+1 for trapezoids
+			int upperBound = type == SumType.TRAPEZOIDALSUM ? N + 1: N;
+			for (int i = 0; i < upperBound; i++) { // N+1 for trapezoids
 				leftBorder[i] = ad + i * STEP;
 
 				/* Extra treatment for RectangleSum */
@@ -1113,9 +1113,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			}
 
 			// calc area of rectangles or trapezoids
-			if ((type == SumType.RECTANGLESUM) || (type == SumType.LEFTSUM)) {
-				totalArea -= yval[N]; // Last right value not needed
-			} else {
+			if (type == SumType.TRAPEZOIDALSUM) {
 				totalArea -= (yval[0] + yval[N]) / 2;
 			}// if rectangles or trapezoids
 
