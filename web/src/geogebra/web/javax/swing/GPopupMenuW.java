@@ -15,6 +15,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -176,11 +177,15 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	                
 	                //Calculate the position of the "submenu", and show it
 	                if (LocaleInfo.getCurrentLocale().isRTL()){
-	                	subPopup.popupPanel.show();
-		                xCord = popupPanel.getAbsoluteLeft() - subPopup.popupPanel.getOffsetWidth();
-		                subPopup.popupPanel.hide();
+	                	App.debug("locale: rtl");
+	                	xCord = getLeftPopupXCord();
+	                	if (xCord < 0) xCord = getRightPopupXCord();
 	                } else {
-	                	xCord = popupPanel.getAbsoluteLeft() + popupPanel.getOffsetWidth();
+	                	xCord = getRightPopupXCord();
+	                	App.debug("xCord: " + xCord);
+	                	App.debug("clientwidth: " + Window.getClientWidth());
+	                	App.debug("getSubPopupWidth(): " + getSubPopupWidth());
+	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftPopupXCord();
 	                }
 	                yCord = newItem.getAbsoluteTop();
 	                subPopup.show(new GPoint(xCord,yCord));
@@ -192,7 +197,6 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 			Element td = DOM.createTD();
 			DOM.setElementProperty(td, "vAlign", "middle");
 			td.addClassName("subMenuIcon");
-//			AbstractImagePrototype.create(getSubMenuIcon(LocaleInfo.getCurrentLocale().isRTL()));
 			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale().isRTL());
 			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes).getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");
@@ -200,6 +204,26 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 		}
 	    popupMenuSize++;
     }
+	
+	public int getSubPopupWidth(){
+		int width;
+		boolean shown = subPopup.popupPanel.isShowing();
+		App.debug("shown: " +shown);
+    	if (!shown) subPopup.popupPanel.show();
+        width = subPopup.popupPanel.getOffsetWidth();
+        if (!shown) subPopup.popupPanel.hide();
+        return width;
+	}
+	
+	public int getLeftPopupXCord(){
+		int xCord;
+        xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth();
+        return xCord;	
+	}
+	
+	public int getRightPopupXCord(){
+		return popupPanel.getAbsoluteLeft() + popupPanel.getOffsetWidth();
+	}
 
 	public void addItem(GCheckBoxMenuItem item) {
 	    addItem(item.getMenuItem());
