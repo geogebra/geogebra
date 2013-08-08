@@ -857,7 +857,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 			MathmlTemplate.mathml(sb, "<minus/>", leftStr, rightStr);
 			break;
 		case GIAC:
-			// don't use isNumberValue(), isListValue as those lead to an evaluate(); {1,2}-3
 			if (left.evaluatesToList() && right instanceof NumberValue) {
 				App.debug(left+" "+left.evaluatesToList());
 				// eg {1,2,3} + 10
@@ -867,7 +866,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append(")");
 
-			// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if ((left instanceof NumberValue) && right.evaluatesToList()) {
 				// eg 10 + {1,2,3}
 				sb.append("map(");
@@ -876,8 +874,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(leftStr);
 				sb.append("-ggx)");
 			
-			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if (left instanceof NumberValue && right.evaluatesToNonComplex2DVector()) {
 				// eg 10 - (1,2)
 				sb.append("point(");
@@ -891,9 +887,7 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append("[1]))");
 
-			// instanceof VectorValue rather than isVectorValue() as ExpressionNode can return true
-				// don't use isNumberValue(), isListValue as those lead to an evaluate()
-			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
+			} else if (left instanceof NumberValue && right.evaluatesToNonComplex2DVector()) {
 				// eg (1,2) - 10
 				sb.append("point(real(");
 				sb.append(leftStr);
@@ -905,7 +899,6 @@ public class StringTemplate implements ExpressionNodeConstants{
 				sb.append(rightStr);
 				sb.append("))");
 
-				// don't use isNumberValue(), isListValue as those lead to an evaluate()
 			} else if (left instanceof NumberValue && right.isVector3DValue()) {
 				// eg 10 - (1,2,3)
 				sb.append("(");
