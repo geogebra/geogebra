@@ -61,6 +61,7 @@ import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
@@ -141,7 +142,7 @@ public class AppW extends AppWeb {
 
 	private GeoGebraFrame  frame = null;
 	private GeoGebraAppFrame appFrame = null;
-	private EuclidianDockPanelW euclidianViewPanel;
+	private EuclidianPanelWAbstract euclidianViewPanel;
 	private Canvas canvas;
 
 	private boolean[] showAxes = { true, true };
@@ -652,7 +653,7 @@ public class AppW extends AppWeb {
 	// ===================================================
 
 	public EuclidianDockPanelW getEuclidianViewpanel() {
-		return euclidianViewPanel;
+		return (EuclidianDockPanelW)euclidianViewPanel;
 	}
 
 	@Override

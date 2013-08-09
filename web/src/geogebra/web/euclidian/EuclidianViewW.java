@@ -16,7 +16,6 @@ import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -56,9 +55,9 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 	
-	protected EuclidianDockPanelWAbstract EVPanel;
+	protected EuclidianPanelWAbstract EVPanel;
 
-	public EuclidianViewW(EuclidianDockPanelWAbstract euclidianViewPanel,
+	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
 		super(euclidiancontroller, settings);
