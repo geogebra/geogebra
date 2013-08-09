@@ -94,6 +94,13 @@ public class RelativeCopy {
 								continue;
 							}
 							for (int y = dy2; y >= dy1; --y) {
+
+								// quick solution: stop on fixed cell
+								// this may be improved later
+								GeoElement vOld = getValue(app, x, y);
+								if (vOld != null && vOld.isFixed())
+									break;
+
 								GeoElement v3 = getValue(app, x, y + 2);
 								GeoElement v4 = getValue(app, x, y + 1);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
@@ -125,6 +132,13 @@ public class RelativeCopy {
 								continue;
 							}
 							for (int y = dy1; y <= dy2; ++y) {
+								
+								// quick solution: stop on fixed cell
+								// this may be improved later
+								GeoElement vOld = getValue(app, x, y);
+								if (vOld != null && vOld.isFixed())
+									break;
+								
 								GeoElement v3 = getValue(app, x, y - 2);
 								GeoElement v4 = getValue(app, x, y - 1);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
@@ -162,6 +176,13 @@ public class RelativeCopy {
 								continue;
 							}
 							for (int x = dx2; x >= dx1; --x) {
+								
+								// quick solution: stop on fixed cell
+								// this may be improved later
+								GeoElement vOld = getValue(app, x, y);
+								if (vOld != null && vOld.isFixed())
+									break;
+								
 								GeoElement v3 = getValue(app, x + 2, y);
 								GeoElement v4 = getValue(app, x + 1, y);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
@@ -192,6 +213,13 @@ public class RelativeCopy {
 								continue;
 							}
 							for (int x = dx1; x <= dx2; ++x) {
+								
+								// quick solution: stop on fixed cell
+								// this may be improved later
+								GeoElement vOld = getValue(app, x, y);
+								if (vOld != null && vOld.isFixed())
+									break;
+								
 								GeoElement v3 = getValue(app, x - 2, y);
 								GeoElement v4 = getValue(app, x - 1, y);
 								String vs1 = v3.isGeoFunction() ? "(x)" : "";
@@ -299,6 +327,13 @@ public class RelativeCopy {
 				GeoElement geo = (iterator.next());
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
+
+					// quick solution: stop on fixed cell
+					// this may be improved later
+					GeoElement vOld = getValue(app,p.x,dy1 + iy);
+					if (vOld != null && vOld.isFixed())
+						break;
+
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
 					// Application.debug(p.x+"");
@@ -348,6 +383,13 @@ public class RelativeCopy {
 
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
+
+					// quick solution: stop on fixed cell
+					// this may be improved later
+					GeoElement vOld = getValue(app,dx1 + ix,p.y);
+					if (vOld != null && vOld.isFixed())
+						break;
+
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
 					// Application.debug(p.y+"");
