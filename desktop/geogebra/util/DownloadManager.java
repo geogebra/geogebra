@@ -54,11 +54,13 @@ public class DownloadManager {
 			// Creating a user readable filename (trimming the directory name):
 			boolean done = false;
 			int i;
-			for (i = src.getFile().length() - 1; i > 0 && !done; i--)
-			{
+			for (i = src.getFile().length() - 1; i > 0 && !done; i--) {
 				char c = src.getFile().charAt(i);
-				if (c == '/' || c=='\\') // maybe DIRECTORY_SEPARATOR would be better
+				
+				// maybe DIRECTORY_SEPARATOR would be better	
+				if (c == '/' || c=='\\') { 			
 					done = true;
+				}
 			}
 
 			in = new BufferedInputStream(srcConnection.getInputStream());
@@ -100,8 +102,9 @@ public class DownloadManager {
 			tempDir = System.getProperty("java.io.tmpdir");
 			
 			// Mac OS doesn't add "/" at the end of directory path name
-			if (!tempDir.endsWith(File.separator)) 
+			if (!tempDir.endsWith(File.separator)) {
 				tempDir += File.separator;			
+			}
 		}
 		
 		return tempDir;
