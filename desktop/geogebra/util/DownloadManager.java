@@ -60,8 +60,6 @@ public class DownloadManager {
 				if (c == '/' || c=='\\') // maybe DIRECTORY_SEPARATOR would be better
 					done = true;
 			}
-			String shortname = src.getFile().substring(i + 2);
-			App.showAnnouncement(app.getLocalization().getPlain("DownloadingA", shortname));
 
 			in = new BufferedInputStream(srcConnection.getInputStream());
 			//if (in == null)
