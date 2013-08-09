@@ -128,7 +128,7 @@ public class CmdIf extends CommandProcessor {
 		}
 		Function fun = new Function(expr,fv);
 		if(mayIndependent){
-			return new GeoFunction(cons,fun);
+			return new GeoFunction(cons,label,fun);
 		}
 		AlgoDependentFunction algo = new AlgoDependentFunction(cons,label,fun);
 		return algo.getFunction();

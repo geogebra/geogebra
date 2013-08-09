@@ -1300,8 +1300,12 @@ public class AlgebraProcessor {
 		GeoElement[] ret = new GeoElement[1];
 
 		GeoElement[] vars = fun.getGeoElementVariables();
-		boolean isIndependent = (vars == null || vars.length == 0);
-
+		boolean isIndependent = true;
+		for(int i = 0; vars!= null && i < vars.length; i++){
+			if(vars[i].isLabelSet() || !vars[i].isIndependent()){
+				isIndependent = false;
+			}
+		}
 		// check for interval
 
 		ExpressionNode en = fun.getExpression();
