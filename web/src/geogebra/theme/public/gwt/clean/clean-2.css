@@ -1360,6 +1360,8 @@ body[dir=rtl] .signIn {
 }
 
 
+/*=============== Context menu ===============*/
+
 /*
 Paddings for menuitems.
 */
@@ -1368,6 +1370,10 @@ Paddings for menuitems.
 }
 .gwt-MenuBar-vertical .mi_with_image {
 	padding-left: 21px;
+}
+
+.gPopupMenu_item {
+	white-space:nowrap;
 }
 
 

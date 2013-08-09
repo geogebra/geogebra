@@ -72,6 +72,23 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	}
 	
 	public void show(GPoint p){
+		int top = p.getY();
+		int left = p.getX();
+		boolean newPoz = false;
+		showAtPoint(p);
+		if (left + popupPanel.getOffsetWidth() > Window.getClientWidth()){
+			left = Window.getClientWidth() - popupPanel.getOffsetWidth();
+			newPoz = true;
+		}
+		if (top + popupPanel.getOffsetHeight() > Window.getClientHeight()){
+			top = Window.getClientHeight() - popupPanel.getOffsetHeight();
+			newPoz = true;
+		}
+		App.debug("top-left: " +top + " " + left);
+		if (newPoz) popupPanel.setPopupPosition(left, top);
+	}
+	
+	public void showAtPoint(GPoint p){
 		popupPanel.setPopupPosition(p.getX(), p.getY());
 		popupPanel.show();
 	}
@@ -177,14 +194,14 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 	                
 	                //Calculate the position of the "submenu", and show it
 	                if (LocaleInfo.getCurrentLocale().isRTL()){
-	                	xCord = getLeftPopupXCord();
-	                	if (xCord < 0) xCord = getRightPopupXCord();
+	                	xCord = getLeftSubPopupXCord();
+	                	if (xCord < 0) xCord = getRightSubPopupXCord();
 	                } else {
-	                	xCord = getRightPopupXCord();
-	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftPopupXCord();
+	                	xCord = getRightSubPopupXCord();
+	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftSubPopupXCord();
 	                }
 	                yCord = newItem.getAbsoluteTop();
-	                subPopup.show(new GPoint(xCord,yCord));
+	                subPopup.showAtPoint(new GPoint(xCord,yCord));
                 }	
 			};
 			newItem.setScheduledCommand(itemCommand);
@@ -199,8 +216,13 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);								
 		}
 	    popupMenuSize++;
+	    
+	    item.addStyleName("gPopupMenu_item");
     }
 	
+	/**
+	 * @return the width of the submenu.
+	 */
 	public int getSubPopupWidth(){
 		int width;
 		boolean shown = subPopup.popupPanel.isShowing();
@@ -210,13 +232,27 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
         return width;
 	}
 	
-	public int getLeftPopupXCord(){
+	/**
+	 * Gets the submenu's suggested absolute left position in pixels, as
+	 * measured from the browser window's client area, in case of the submenu is
+	 * on the left side of its parent menu.
+	 * 
+	 * @return submenu's left position in pixels
+	 */
+	public int getLeftSubPopupXCord(){
 		int xCord;
         xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth();
         return xCord;	
 	}
 	
-	public int getRightPopupXCord(){
+	/**
+	 * Gets the submenu's suggested absolute left position in pixels, as
+	 * measured from the browser window's client area, in case of the submenu is
+	 * on the right side of its parent menu.
+	 * 
+	 * @return submenu's left position in pixels
+	 */
+	public int getRightSubPopupXCord(){
 		return popupPanel.getAbsoluteLeft() + popupPanel.getOffsetWidth();
 	}
 
