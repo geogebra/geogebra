@@ -328,11 +328,9 @@ public class RelativeCopy {
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
 
-					// quick solution: stop on fixed cell
-					// this may be improved later
 					GeoElement vOld = getValue(app,p.x,dy1 + iy);
 					if (vOld != null && vOld.isFixed())
-						break;
+						continue;
 
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
@@ -384,11 +382,9 @@ public class RelativeCopy {
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
 
-					// quick solution: stop on fixed cell
-					// this may be improved later
 					GeoElement vOld = getValue(app,dx1 + ix,p.y);
 					if (vOld != null && vOld.isFixed())
-						break;
+						continue;
 
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
