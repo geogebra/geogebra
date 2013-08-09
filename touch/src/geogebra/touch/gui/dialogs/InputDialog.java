@@ -219,10 +219,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.buttonPanel.add(ok);
 		this.buttonPanel.add(cancel);
 
-		// TODO win8 buttonpanel
 		this.contentPanel.setWidget(1, 1, this.buttonPanel);
 
-		// TODO android buttonpanel
 		this.dialogPanel.add(this.buttonPanel);
 	}
 

@@ -51,7 +51,7 @@ public class MaterialListElement extends FlowPanel {
 
 	public MaterialListElement(final Material m, final AppWeb app,
 			VerticalMaterialPanel vmp) {
-		// TODO set infos alignment
+
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");
 		this.infos = new VerticalPanel();

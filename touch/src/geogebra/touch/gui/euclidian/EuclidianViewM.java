@@ -88,8 +88,8 @@ public class EuclidianViewM extends EuclidianViewWeb {
 
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
-		// TODO Auto-generated method stub
-
+		// FIXME implement!
+		throw new UnsupportedOperationException();
 	}
 
 	public Canvas getCanvas() {
@@ -98,7 +98,6 @@ public class EuclidianViewM extends EuclidianViewWeb {
 
 	@Override
 	public EuclidianController getEuclidianController() {
-		// TODO
 		return this.euclidianController;
 	}
 

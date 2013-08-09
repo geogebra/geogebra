@@ -122,7 +122,7 @@ public class BrowseGUI extends VerticalPanel {
 					public void onError(
 							com.google.gwt.http.client.Request request,
 							Throwable exception) {
-						// TODO Handle error!
+						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
 						exception.printStackTrace();
 					}

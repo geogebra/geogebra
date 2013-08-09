@@ -138,7 +138,7 @@ public class TouchApp extends AppWeb {
 	@Override
 	public void afterLoadFileAppOrNot() {
 		App.debug("After file load ...");
-		// TODO: check what else we need to reset
+		// FIXME: check what else we need to reset
 		this.kernel.initUndoInfo();
 		this.getEuclidianView1().synCanvasSize();
 		this.getEuclidianView1().getEuclidianController()
@@ -253,8 +253,8 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-		// TODO Auto-generated method stub
-		return null;
+		// FIXME implement!
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public GuiManager getGuiManager() {
-		// TODO
+
 		if (this.guiManager == null) {
 			this.guiManager = new GuiManagerT();
 		}
@@ -344,10 +344,10 @@ public class TouchApp extends AppWeb {
 	 * @return language of client
 	 */
 	public native String getLocale() /*-{
-										var language = window.navigator.systemLanguage
-										|| window.navigator.language;
-										return language;
-										}-*/;
+		var language = window.navigator.systemLanguage
+				|| window.navigator.language;
+		return language;
+	}-*/;
 
 	@Override
 	public String getLocaleStr() {

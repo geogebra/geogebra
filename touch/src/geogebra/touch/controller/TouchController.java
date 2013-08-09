@@ -380,7 +380,7 @@ public class TouchController extends EuclidianController {
 		final MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		if (Swipeables.isSwipeable(this.model.getCommand())) {
 			final GeoElement geo = this.model.getElement(Test.GEOPOINT);
-			// FIXME selectedPoints should not be probably accessed from here
+	
 			if (this.selectedPoints.isEmpty() && geo instanceof GeoPoint) {
 				this.selectedPoints.add((GeoPoint) geo);
 			}

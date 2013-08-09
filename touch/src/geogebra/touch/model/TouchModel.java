@@ -516,8 +516,9 @@ public class TouchModel {
 					(GeoLine) this.getElement(Test.GEOLINE)));
 			break;
 		case DistanceOrLength:
-			// TODO: EuclidianController.distance
-			break;
+			// FIXME: EuclidianController.distance
+			throw new UnsupportedOperationException();
+			//$FALL-THROUGH$
 		case ReflectObjectAboutLine:
 			// get the line that was selected last
 			final GeoLine line = this.getNumberOf(Test.GEOLINE) > 1 ? (GeoLine) this
@@ -834,7 +835,6 @@ public class TouchModel {
 
 		// special command: slider
 		case Slider:
-			// TODO
 			if (this.inputDialog.getType() != DialogType.Slider) {
 				this.inputDialog.redefine(DialogType.Slider);
 			}
@@ -902,7 +902,7 @@ public class TouchModel {
 
 		// commands that need two points or one point and one line or two lines
 		// or one segment or a circle
-		case DistanceOrLength: // TODO
+		case DistanceOrLength:
 			this.selectOutOf(hits, new Test[] { Test.GEOPOINT, Test.GEOLINE,
 					Test.GEOSEGMENT, Test.GEOCONIC }, new int[] { 2, 2, 1, 1 });
 			draw = this.getNumberOf(Test.GEOPOINT) >= 2
@@ -1168,7 +1168,7 @@ public class TouchModel {
 			if (this.redefineGeo == null) {
 				return false;
 			}
-			if(input.trim().equals(this.oldRedefineText)){
+			if (input.trim().equals(this.oldRedefineText)) {
 				return true;
 			}
 
@@ -1372,7 +1372,6 @@ public class TouchModel {
 
 					final Construction cons = text.getConstruction();
 
-					// TODO
 					final EuclidianViewInterfaceCommon ev = this.kernel
 							.getApplication().getActiveEuclidianView();
 

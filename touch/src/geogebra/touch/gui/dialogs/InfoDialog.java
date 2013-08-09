@@ -68,8 +68,6 @@ public class InfoDialog extends PopupPanel {
 		this.addButtons();
 
 		this.add(this.dialogPanel);
-		// FIXME the glass pane has z-index 20, we must go higher
-		// this.getElement().getStyle().setZIndex(42);
 
 		this.setStyleName("infoDialog");
 	}

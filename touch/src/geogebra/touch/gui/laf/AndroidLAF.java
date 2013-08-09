@@ -15,7 +15,6 @@ public class AndroidLAF extends DefaultLAF {
 
 	@Override
 	public DefaultResources getIcons() {
-		// TODO Auto-generated method stub
 		return AndroidResources.INSTANCE;
 	}
 

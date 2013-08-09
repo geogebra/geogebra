@@ -114,7 +114,7 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	}
 
 	/**
-	 * TODO: should return false if the panel is not extended!
+	 * FIXME: should return false if the panel is not extended!
 	 */
 	@Override
 	public boolean isShowing() {

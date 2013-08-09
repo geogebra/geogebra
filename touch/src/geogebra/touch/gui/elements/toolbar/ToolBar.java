@@ -128,7 +128,7 @@ public class ToolBar extends FlowPanel {
 				.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, model
 				.getGuiModel()));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Mesurement, model
+		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, model
 				.getGuiModel()));
 		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, model
 				.getGuiModel()));

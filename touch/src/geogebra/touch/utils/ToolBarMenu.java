@@ -10,7 +10,7 @@ package geogebra.touch.utils;
  */
 public enum ToolBarMenu {
 
-	// TODO: add menu items when implemented
+	// FIXME: add menu items when implemented
 
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, ToolBarCommand.PointOnObject,
@@ -52,8 +52,9 @@ public enum ToolBarMenu {
 			ToolBarCommand.Parabola, ToolBarCommand.Ellipse,
 			ToolBarCommand.Hyperbola, ToolBarCommand.ConicThroughFivePoints }),
 
-	Mesurement(ToolBarCommand.Angle,
+	Measurement(ToolBarCommand.Angle,
 			new ToolBarCommand[] { ToolBarCommand.Angle,
+			// FIXME Implement Measurements
 			// TODO: ToolBarCommand.DistanceOrLength,
 			// TODO: ToolBarCommand.Area,
 			// TODO: ToolBarCommand.Slope,
