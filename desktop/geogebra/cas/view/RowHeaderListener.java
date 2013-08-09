@@ -41,6 +41,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		rightClick = AppD.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
+		table.editCellAt(mousePressedRow, CASTableD.COL_CAS_CELLS);
 		rowHeader.requestFocus();
 	}
 
