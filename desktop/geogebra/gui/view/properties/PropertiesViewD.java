@@ -943,7 +943,7 @@ public class PropertiesViewD extends
 	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getImageIcon("options-defaults224.png");
+			return app.getImageIcon("properties_defaults_3.png");
 		case SPREADSHEET:
 			return app.getImageIcon("view-spreadsheet24.png");
 		case EUCLIDIAN:
