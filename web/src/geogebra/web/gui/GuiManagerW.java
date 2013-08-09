@@ -246,6 +246,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	}
 
 	public void setFocusedPanel(NativeEvent e, boolean updatePropertiesView) {
+
+		if (!(app.getEuclidianViewpanel() instanceof DockPanel)) {
+			App.debug("This part of the code should not have run!");
+			return;
+		}
+
 		// determine parent panel to change focus
 		Element et = Element.as(e.getEventTarget());
 		Element DOMancestor1 = app.getEuclidianViewpanel().getElement();
@@ -257,7 +263,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			et = et.getParentElement();
 
 		if (et == DOMancestor1)
-			setFocusedPanel(app.getEuclidianViewpanel(), updatePropertiesView);
+			setFocusedPanel((DockPanel)app.getEuclidianViewpanel(), updatePropertiesView);
 		else if (DOMancestor2 != null && et == DOMancestor2)
 			setFocusedPanel(getEuclidianView2DockPanel(), updatePropertiesView);
 	}
@@ -517,7 +523,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 		// register euclidian view
 		// this is done earlier
-		layout.registerPanel(app.getEuclidianViewpanel());
+		if (app.getEuclidianViewpanel() instanceof DockPanelW) {
+			layout.registerPanel((DockPanelW)app.getEuclidianViewpanel());
+		} else {
+			App.debug("This part of the code should not have been called!");
+			return;
+		}
 
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(app));

@@ -652,8 +652,8 @@ public class AppW extends AppWeb {
 	// Views
 	// ===================================================
 
-	public EuclidianDockPanelW getEuclidianViewpanel() {
-		return (EuclidianDockPanelW)euclidianViewPanel;
+	public EuclidianPanelWAbstract getEuclidianViewpanel() {
+		return euclidianViewPanel;
 	}
 
 	@Override
@@ -1473,7 +1473,7 @@ public class AppW extends AppWeb {
 	public void buildSingleApplicationPanel() {
 		if (frame != null) {
 			frame.clear();
-			frame.add(getEuclidianViewpanel());
+			frame.add((Widget)getEuclidianViewpanel());
 			getEuclidianViewpanel().setPixelSize(
 					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
 					getSettings().getEuclidian(1).getPreferredSize().getHeight());

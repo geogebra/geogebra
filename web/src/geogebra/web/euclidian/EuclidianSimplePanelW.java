@@ -181,4 +181,8 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 			return app.getEuclidianView1();
 		return null;
 	}
+
+	public void onResize() { }
+
+	public void updateNavigationBar() { }
 }
