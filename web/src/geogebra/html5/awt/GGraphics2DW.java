@@ -57,31 +57,31 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	 * @param canvas
 	 */
 	public GGraphics2DW(Canvas canvas) {
-	    this.canvas = canvas;
-	    this.context = canvas.getContext2d();
-	    savedTransform = new GAffineTransformW();
-	    preventContextMenu (canvas.getElement());
-    }
+		this.canvas = canvas;
+		this.context = canvas.getContext2d();
+		savedTransform = new GAffineTransformW();
+		preventContextMenu (canvas.getElement());
+	}
 
 	
 	private native void preventContextMenu (Element canvas) /*-{
-	    canvas.addEventListener("contextmenu",function(e) {
-	    	e.preventDefault();
-	    	e.stopPropagation();
-	    	return false;
-	    });
-    }-*/;
+		canvas.addEventListener("contextmenu",function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			return false;
+		});
+	}-*/;
 
 
 	@Override
-    public void draw3DRect(int x, int y, int width, int height, boolean raised) {
+	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
 		App.debug("draw3DRect: implementation needed"); 
 
 	}
 
 	
 	@Override
-    public void fill3DRect(int x, int y, int width, int height, boolean raised) {
+	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
 		App.debug("fill3DRect: implementation needed"); 
 	}
 
@@ -150,75 +150,75 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	private double pathLastY;
 	
 	private void setLastCoords(double x, double y) {
-	    pathLastX = x;
-	    pathLastY = y;  
-    }
+		pathLastX = x;
+		pathLastY = y;
+	}
 
 
 	@Override
-    public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
+	public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
 		App.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 
 	//
 	@Override
-    public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
-	        int y) {
-    	BufferedImage bi = GBufferedImageW.getGawtImage(img);
-    	if(bi==null)
-    		return;
-    	try{
-    		context.drawImage(bi.getImageElement(), x, y);
-    	} catch (Exception e){
-    		App.error("error in context.drawImage method");
-    	}
+	public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
+			int y) {
+		BufferedImage bi = GBufferedImageW.getGawtImage(img);
+		if(bi==null)
+			return;
+		try{
+			context.drawImage(bi.getImageElement(), x, y);
+		} catch (Exception e){
+			App.error("error in context.drawImage method");
+		}
 	}
 
 	
 	@Override
-    public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
+	public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
 		App.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
+	public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
 		App.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawString(String str, int x, int y) {
+	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
 	}
 
 	
 	@Override
-    public void drawString(String str, float x, float y) {
+	public void drawString(String str, float x, float y) {
 		context.fillText(str, x, y);
 	}
 
 	
 	@Override
-    public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
+	public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
 		App.debug("drawString: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawString(GAttributedCharacterIterator iterator, float x,
-	        float y) {
+	public void drawString(GAttributedCharacterIterator iterator, float x,
+			float y) {
 		App.debug("drawString: implementation needed 2"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawGlyphVector(GGlyphVector g, float x, float y) {
+	public void drawGlyphVector(GGlyphVector g, float x, float y) {
 		App.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
 
 	}
@@ -238,18 +238,18 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public GGraphicsConfiguration getDeviceConfiguration() {
+	public GGraphicsConfiguration getDeviceConfiguration() {
 		App.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	
 	@Override
-    public void setComposite(GComposite comp) {
+	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW)comp).getAlpha());
 		
 //		if (comp != null) {
-//			float alpha  = ((AlphaComposite) comp).getAlpha();
+//			float alpha= ((AlphaComposite) comp).getAlpha();
 //			if (alpha >= 0f && alpha < 1f) {
 //				context.setGlobalAlpha(alpha);
 //			}
@@ -259,7 +259,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	@Override
-    public void setPaint(final GPaint paint) {
+	public void setPaint(final GPaint paint) {
 		if (paint instanceof GColor) {
 			setColor((GColor)paint);
 		} else if (paint instanceof GGradientPaintW) {
@@ -298,7 +298,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	@Override
-    public void setStroke(GBasicStroke stroke) {
+	public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
 			context.setLineWidth(((GBasicStrokeW)stroke).getLineWidth());
 			context.setLineCap(((GBasicStrokeW)stroke).getEndCapString());
@@ -341,49 +341,49 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void setRenderingHint(GKey hintKey, Object hintValue) {
+	public void setRenderingHint(GKey hintKey, Object hintValue) {
 		//
 
 	}
 
 	
 	@Override
-    public Object getRenderingHint(GKey hintKey) {
-		//
-		return null;
-	}
-
-	
-	@Override
-    public void setRenderingHints(Map<?, ?> hints) {
-		//
-
-	}
-
-	
-	@Override
-    public void addRenderingHints(Map<?, ?> hints) {
-		//
-
-	}
-
-	
-	@Override
-    public GRenderingHints getRenderingHints() {
+	public Object getRenderingHint(GKey hintKey) {
 		//
 		return null;
 	}
 
 	
 	@Override
-    public void translate(int x, int y) {
+	public void setRenderingHints(Map<?, ?> hints) {
+		//
+
+	}
+
+	
+	@Override
+	public void addRenderingHints(Map<?, ?> hints) {
+		//
+
+	}
+
+	
+	@Override
+	public GRenderingHints getRenderingHints() {
+		//
+		return null;
+	}
+
+	
+	@Override
+	public void translate(int x, int y) {
 		context.translate(x, y);
 		savedTransform.translate(x, y);
 	}
 
 	
 	@Override
-    public void translate(double tx, double ty) {
+	public void translate(double tx, double ty) {
 		context.translate(tx, ty);
 		savedTransform.translate(tx, ty);
 
@@ -391,7 +391,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public void rotate(double theta) {
+	public void rotate(double theta) {
 		context.rotate(theta);
 		savedTransform.concatenate(
 				new GAffineTransformW(
@@ -401,7 +401,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public void rotate(double theta, double x, double y) {
+	public void rotate(double theta, double x, double y) {
 		context.translate(x, y);
 		context.rotate(theta);
 		context.translate(-x, -y);
@@ -412,14 +412,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public void scale(double sx, double sy) {
+	public void scale(double sx, double sy) {
 		context.scale(sx, sy);
 		savedTransform.scale(sx, sy);
 	}
 
 	
 	@Override
-    public void shear(double shx, double shy) {
+	public void shear(double shx, double shy) {
 		transform(new GAffineTransformW(
 			1, shy, shx, 1, 0, 0
 		));
@@ -427,7 +427,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void transform(GAffineTransform Tx) {
+	public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
 				Tx.getShearX(), Tx.getScaleY(),
 				((GAffineTransformW)Tx).getTranslateX(),
@@ -437,7 +437,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public void setTransform(GAffineTransform Tx) {
+	public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
 		Tx.getShearX(), Tx.getScaleY(),
 		((GAffineTransformW)Tx).getTranslateX(),
@@ -448,7 +448,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public GAffineTransform getTransform() {
+	public GAffineTransform getTransform() {
 		GAffineTransform ret = new GAffineTransformW();
 		ret.setTransform(savedTransform);
 		return ret;
@@ -456,7 +456,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 
 	@Override
-    public GPaint getPaint() {
+	public GPaint getPaint() {
 		return currentPaint;
 		/* The other possible solution would be:
 
@@ -476,7 +476,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public GComposite getComposite() {
+	public GComposite getComposite() {
 		return new GAlphaCompositeW(3, (float) context.getGlobalAlpha());
 	
 //		context.save();
@@ -487,7 +487,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void setBackground(GColor color) {
+	public void setBackground(GColor color) {
 		// This method only affects Graphics2D.clearRect (if there will be present)
 		// and getBackground calls - currently Drawable.drawLabel
 		this.bgColor = new GColorW((GColorW)color);
@@ -495,13 +495,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public GColor getBackground() {
+	public GColor getBackground() {
 		return bgColor;
 	}
 
 
 	@Override
-    public GBasicStroke getStroke() {
+	public GBasicStroke getStroke() {
 
 		return new GBasicStrokeW(
 			(float) context.getLineWidth(), 
@@ -529,19 +529,19 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	
 	@Override
-    public GFontRenderContext getFontRenderContext() {
+	public GFontRenderContext getFontRenderContext() {
 		return new GFontRenderContextW(context);
 	}
 
 	
 	@Override
-    public GColor getColor() {
+	public GColor getColor() {
 		return color;
 	}
 
 	
 	@Override
-    public GFontW getFont() {
+	public GFontW getFont() {
 		return currentFont;
 	}
 	
@@ -549,33 +549,33 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		canvas.setCoordinateSpaceWidth(width);
 		canvas.setCoordinateSpaceHeight(height);
 		this.updateCanvasColor();
-    }
+	}
 
 	
 
 	public int getOffsetWidth() {
 		return canvas.getOffsetWidth();
-    }
+	}
 
 	public int getOffsetHeight() {
-	   return canvas.getOffsetHeight();
-    }
+	 return canvas.getOffsetHeight();
+	}
 
 	public int getCoordinateSpaceWidth() {
-	   return canvas.getCoordinateSpaceWidth();
-    }
+	 return canvas.getCoordinateSpaceWidth();
+	}
 
 	public int getCoordinateSpaceHeight() {
-	    return canvas.getCoordinateSpaceHeight();
-    }
+		return canvas.getCoordinateSpaceHeight();
+	}
 
 	public int getAbsoluteTop() {
-	    return canvas.getAbsoluteTop();
-    }
+		return canvas.getAbsoluteTop();
+	}
 
 	public int getAbsoluteLeft() {
-	    return canvas.getAbsoluteLeft(); 
-    }
+		return canvas.getAbsoluteLeft(); 
+	}
 
 	
 	@Override
@@ -594,30 +594,30 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	
-    @Override
-    public void setColor(GColor fillColor) {
-    	//checking for the same color here speeds up axis drawing by 25%
-    	if(fillColor != null && fillColor.equals(color)){
-    		return;
-    	}    	
-    	this.color = fillColor;
-    	updateCanvasColor();
-    	this.currentPaint = new GColorW((GColorW)fillColor);
-    }
+	@Override
+	public void setColor(GColor fillColor) {
+		//checking for the same color here speeds up axis drawing by 25%
+		if(fillColor != null && fillColor.equals(color)){
+			return;
+		}		
+		this.color = fillColor;
+		updateCanvasColor();
+		this.currentPaint = new GColorW((GColorW)fillColor);
+	}
 
 	private void updateCanvasColor() {
-	    if(color == null){
-	    	return;
-	    }
-	    String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
-    	context.setStrokeStyle(colorStr);
-    	context.setFillStyle(colorStr);
-	    
-    }
+		if(color == null){
+			return;
+		}
+		String colorStr = "rgba("+color.getRed()+","+color.getGreen()+","+color.getBlue()+","+(color.getAlpha()/255d)+")";
+		context.setStrokeStyle(colorStr);
+		context.setFillStyle(colorStr);
+		
+	}
 
 
 	@Override
-    public void clip(geogebra.common.awt.GShape shape) {
+	public void clip(geogebra.common.awt.GShape shape) {
 		if (shape == null) {
 			App.error("Error in Graphics2D.clip");
 			return;
@@ -631,67 +631,67 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		doDrawShape(shape2);
 		context.save();
 		context.clip();
-    }
+	}
 
-    public void drawGraphics(GGraphics2DW gother, int x, int y,
-            GBufferedImageOp op) {
+	public void drawGraphics(GGraphics2DW gother, int x, int y,
+			GBufferedImageOp op) {
 
-    	if (gother==null)
-    		return;
+		if (gother==null)
+			return;
 
-    	context.drawImage(gother.getCanvas().getCanvasElement(), x, y);
-    }
+		context.drawImage(gother.getCanvas().getCanvasElement(), x, y);
+	}
 
-    @Override
-    public void fillRect(int x, int y, int w, int h) {
-    	context.fillRect(x, y, w, h);
-    }
+	@Override
+	public void fillRect(int x, int y, int w, int h) {
+		context.fillRect(x, y, w, h);
+	}
 
-    @Override
-    public void clearRect(int x, int y, int w, int h) {
-    	context.save();
-    	context.setTransform(1,0,0,1,0,0);
-    	context.clearRect(x, y, w, h);
-    	context.restore();
-    }
+	@Override
+	public void clearRect(int x, int y, int w, int h) {
+		context.save();
+		context.setTransform(1,0,0,1,0,0);
+		context.clearRect(x, y, w, h);
+		context.restore();
+	}
 
-    @Override
-    public void drawLine(int x1, int y1, int x2, int y2) {
+	@Override
+	public void drawLine(int x1, int y1, int x2, int y2) {
 
-    	/* TODO: there is some differences between the result of
-    	 * geogebra.awt.Graphics.drawLine(...) function.
-    	 * Here is an attempt to make longer the vertical and horizontal lines:  
-    	 
-    	int x_1 = Math.min(x1,x2);
-    	int y_1 = Math.min(y1,y2);
-    	int x_2 = Math.max(x1,x2);
-    	int y_2 = Math.max(y1,y2);
-    	
-    	if(x1==x2){
-    		y_1--;
-    		y_2++;
-    	} else if(y1==y2){
-    		x_1--;
-    		x_2++;
-    	}
-    	 	
-    	context.beginPath();
-    	context.moveTo(x_1, y_1);
-    	context.lineTo(x_2, y_2);
-    	context.closePath();
-    	context.stroke();
+		/* TODO: there is some differences between the result of
+		 * geogebra.awt.Graphics.drawLine(...) function.
+		 * Here is an attempt to make longer the vertical and horizontal lines:
+		 
+		int x_1 = Math.min(x1,x2);
+		int y_1 = Math.min(y1,y2);
+		int x_2 = Math.max(x1,x2);
+		int y_2 = Math.max(y1,y2);
+		
+		if(x1==x2){
+			y_1--;
+			y_2++;
+		} else if(y1==y2){
+			x_1--;
+			x_2++;
+		}
+		 	
+		context.beginPath();
+		context.moveTo(x_1, y_1);
+		context.lineTo(x_2, y_2);
+		context.closePath();
+		context.stroke();
 */
-    	context.beginPath();
-    	context.moveTo(x1, y1);
-    	context.lineTo(x2, y2);
-    	context.closePath();
-    	context.stroke();
-    	
-    }
+		context.beginPath();
+		context.moveTo(x1, y1);
+		context.lineTo(x2, y2);
+		context.closePath();
+		context.stroke();
+		
+	}
 
 
 	@Override
-    public void setClip(geogebra.common.awt.GShape shape) {
+	public void setClip(geogebra.common.awt.GShape shape) {
 		clipShape = shape;
 		if (shape == null) {
 			// this may be an intentional call to restore the context
@@ -711,30 +711,30 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		}
 		context.save();
 		context.clip();
-    }
+	}
 
 
 	@Override
-    public void draw(geogebra.common.awt.GShape s) {
+	public void draw(geogebra.common.awt.GShape s) {
 		draw(GenericShape.getGawtShape(s));
-    }
+	}
 
 
 	@Override
-    public void fill(geogebra.common.awt.GShape s) {
+	public void fill(geogebra.common.awt.GShape s) {
 		fill(GenericShape.getGawtShape(s));
-    }
+	}
 
 	@Override
-    public geogebra.common.awt.GShape getClip() {
+	public geogebra.common.awt.GShape getClip() {
 		return clipShape;
-    }
+	}
 
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-	   context.rect(x, y, width, height);
-	   context.stroke();
-	   
+	 context.rect(x, y, width, height);
+	 context.stroke();
+	 
 	}
 
 	@Override
@@ -748,7 +748,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 		/* 
 		 * alternative: makes clipping bad, see #3212
-		 *  
+		 *
 		//context.save();
 		context.beginPath();
 		context.moveTo(x, y);
@@ -762,26 +762,26 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	}
 
 	public void setWidth(int w) {
-	    canvas.setWidth(w+"px");
-    }
+		canvas.setWidth(w+"px");
+	}
 
 
 	public void setHeight(int h) {
-	    canvas.setHeight(h+"px");
-    }
+		canvas.setHeight(h+"px");
+	}
 
 
 	public void setPreferredSize(GDimension preferredSize) {
-	    setWidth(preferredSize.getWidth());
-	    setHeight(preferredSize.getHeight());
+		setWidth(preferredSize.getWidth());
+		setHeight(preferredSize.getHeight());
 
-	    // do not use getOffsetWidth here,
-	    // as it is prepared by the browser and not yet ready...
-	    // if preferredSize can be negative, have a check for it instead
-	    setCoordinateSpaceSize(
-	    		(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
-   				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight() : 0);
-    }
+		// do not use getOffsetWidth here,
+		// as it is prepared by the browser and not yet ready...
+		// if preferredSize can be negative, have a check for it instead
+		setCoordinateSpaceSize(
+				(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
+ 				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight() : 0);
+	}
 
 	public Canvas getCanvas() {
 		return this.canvas;
@@ -789,13 +789,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void drawRoundRect(int x, int y, int width, int height,
-            int arcWidth, int arcHeight) {
-	    roundRect(x,y,width,height,arcHeight);
-	    context.stroke();
-	    
-	    
-    }
+	public void drawRoundRect(int x, int y, int width, int height,
+			int arcWidth, int arcHeight) {
+		roundRect(x,y,width,height,arcHeight);
+		context.stroke();
+		
+		
+	}
 	
 	/**
 	 * Using arc, because arc to has buggy implementation in some browsers 
@@ -810,77 +810,77 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		int ey = y+h;
 		int ex = x+w;
 		float r2d = (float)Math.PI/180;
-	    context.moveTo(x+r,y);
-	    context.lineTo(ex-r,y);
-	    context.arc(ex-r,y+r,r,r2d*270,r2d*360,false);
-	    context.lineTo(ex,ey-r);
-	    context.arc(ex-r,ey-r,r,r2d*0,r2d*90,false);
-	    context.lineTo(x+r,ey);
-	    context.arc(x+r,ey-r,r,r2d*90,r2d*180,false);
-	    context.lineTo(x,y+r);
-	    context.arc(x+r,y+r,r,r2d*180,r2d*270,false);
-	    
+		context.moveTo(x+r,y);
+		context.lineTo(ex-r,y);
+		context.arc(ex-r,y+r,r,r2d*270,r2d*360,false);
+		context.lineTo(ex,ey-r);
+		context.arc(ex-r,ey-r,r,r2d*0,r2d*90,false);
+		context.lineTo(x+r,ey);
+		context.arc(x+r,ey-r,r,r2d*90,r2d*180,false);
+		context.lineTo(x,y+r);
+		context.arc(x+r,y+r,r,r2d*180,r2d*270,false);
+		
 		context.closePath();
 	}
 
 	@Override
-    public void fillRoundRect(int x, int y, int width, int height,
-            int arcWidth, int arcHeight) {
+	public void fillRoundRect(int x, int y, int width, int height,
+			int arcWidth, int arcHeight) {
 		roundRect(x,y,width,height,arcHeight);
-	    context.fill();
-	    
-    }
+		context.fill();
+		
+	}
 
 
 	public void fillPolygon(Polygon p) {
-	   fill(p);
-    }
+	 fill(p);
+	}
 	
 	private native void drawDashedLine(double fromX, double fromY, double toX, double toY, JsArrayNumber pattern,Context2d ctx) /*-{
-		  // Our growth rate for our line can be one of the following:
-		  //   (+,+), (+,-), (-,+), (-,-)
-		  // Because of this, our algorithm needs to understand if the x-coord and
-		  // y-coord should be getting smaller or larger and properly cap the values
-		  // based on (x,y).
-		  
-		  // make sure we don't get an infinite loop drawing eg
-		  //  y = -7.85046229341888E-17x
-		  var EPSILON = 0.00000001;
-		  
-		  var lt = function (a, b) { return a <= b + EPSILON; };
-		  var gt = function (a, b) { return a >= b - EPSILON; };
-		  var capmin = function (a, b) { return $wnd.Math.min(a, b); };
-		  var capmax = function (a, b) { return $wnd.Math.max(a, b); };
+		// Our growth rate for our line can be one of the following:
+		// (+,+), (+,-), (-,+), (-,-)
+		// Because of this, our algorithm needs to understand if the x-coord and
+		// y-coord should be getting smaller or larger and properly cap the values
+		// based on (x,y).
 		
-		  var checkX = { thereYet: gt, cap: capmin };
-		  var checkY = { thereYet: gt, cap: capmin };
+		// make sure we don't get an infinite loop drawing eg
+		//y = -7.85046229341888E-17x
+		var EPSILON = 0.00000001;
 		
-		  if (fromY - toY > 0) {
-		    checkY.thereYet = lt;
-		    checkY.cap = capmax;
-		  }
-		  if (fromX - toX > 0) {
-		    checkX.thereYet = lt;
-		    checkX.cap = capmax;
-		  }
+		var lt = function (a, b) { return a <= b + EPSILON; };
+		var gt = function (a, b) { return a >= b - EPSILON; };
+		var capmin = function (a, b) { return $wnd.Math.min(a, b); };
+		var capmax = function (a, b) { return $wnd.Math.max(a, b); };
 		
-		  //ctx.moveTo(fromX, fromY);
-		  var offsetX = fromX;
-		  var offsetY = fromY;
-		  var idx = 0, dash = true;
-		  while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
-		    var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
-		    var len = pattern[idx];
+		var checkX = { thereYet: gt, cap: capmin };
+		var checkY = { thereYet: gt, cap: capmin };
 		
-		    offsetX = checkX.cap(toX, offsetX + ($wnd.Math.cos(ang) * len));
-		    offsetY = checkY.cap(toY, offsetY + ($wnd.Math.sin(ang) * len));
+		if (fromY - toY > 0) {
+			checkY.thereYet = lt;
+			checkY.cap = capmax;
+		}
+		if (fromX - toX > 0) {
+			checkX.thereYet = lt;
+			checkX.cap = capmax;
+		}
 		
-		    if (dash) ctx.lineTo(offsetX, offsetY);
-		    else ctx.moveTo(offsetX, offsetY);
+		//ctx.moveTo(fromX, fromY);
+		var offsetX = fromX;
+		var offsetY = fromY;
+		var idx = 0, dash = true;
+		while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
+			var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
+			var len = pattern[idx];
 		
-		    idx = (idx + 1) % pattern.length;
-		    dash = !dash;
-		  }
+			offsetX = checkX.cap(toX, offsetX + ($wnd.Math.cos(ang) * len));
+			offsetY = checkY.cap(toY, offsetY + ($wnd.Math.sin(ang) * len));
+		
+			if (dash) ctx.lineTo(offsetX, offsetY);
+			else ctx.moveTo(offsetX, offsetY);
+		
+			idx = (idx + 1) % pattern.length;
+			dash = !dash;
+		}
 		
 		
 	}-*/;
@@ -898,33 +898,33 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 
 	@Override
-    public void drawImage(GImage img, int x, int y) {
+	public void drawImage(GImage img, int x, int y) {
 		App.debug("drawImage: implementation needed");
-    }
+	}
 
 
 	@Override
-    public void drawImage(GBufferedImage img, int x, int y) {
+	public void drawImage(GBufferedImage img, int x, int y) {
 		drawImage(img, null, x, y);
-    }
+	}
 
 
 	@Override
-    public void setAntialiasing() {
-	    // not needed
-    }
+	public void setAntialiasing() {
+		// not needed
+	}
 
 
 	@Override
-    public void setTransparent() {
-		setComposite(GAlphaCompositeW.Src);	    
-    }
+	public void setTransparent() {
+		setComposite(GAlphaCompositeW.Src);		
+	}
 
 
 	public void fillWith(GColor color) {
-	    this.setColor(color);
-	    this.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
-    }
+		this.setColor(color);
+		this.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
+	}
 	private boolean lastDebugOk = false;
 	private boolean lastDebugException = false;
 	public void debug() {
@@ -932,7 +932,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		String physical = context.getFillStyle().toString().toUpperCase();
 		String logical = "null";
 		if(color != null){
-			logical = color.getAlpha()< 255 ?"RGBA("+color.getRed()+", "+color.getGreen()+", "+color.getBlue()+", 0."+(int)(1000000 * color.getAlpha()/255d)+")"  : "#" + StringUtil.toHexString(color).toUpperCase();
+			logical = color.getAlpha()< 255 ?"RGBA("+color.getRed()+", "+color.getGreen()+", "+color.getBlue()+", 0."+(int)(1000000 * color.getAlpha()/255d)+")": "#" + StringUtil.toHexString(color).toUpperCase();
 		}
 		if(color == null && physical.contains("OBJ")){
 			System.out.println(hashCode()+": not colors");
