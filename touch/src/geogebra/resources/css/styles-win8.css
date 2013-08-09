@@ -179,14 +179,6 @@ body .infoDialog .buttonPanel button {
 	padding: 5px 40px;*/
 }
 
-body .inputDialog button:hover,
-body .infoDialog button:hover {
-	border: none;
-	background-image: none;
-	background: #000000;
-	color: #FFFFFF;
-}
-
 body .inputDialog .iconPanel,
 body .infoDialog .iconPanel {
 	margin-right: 10px;

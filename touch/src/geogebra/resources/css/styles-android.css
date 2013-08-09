@@ -234,20 +234,8 @@ body .infoDialog .buttonPanel button {
 }
 
 body .inputDialog button.last,
-body .inputDialog button.last:hover,
-body .infoDialog button.last,
-body .infoDialog button.last:hover {
+body .infoDialog button.last {
 	border-right: none;
-}
-
-body .inputDialog button:hover,
-body .infoDialog button:hover {
-	border: none;
-	border-right: 1px solid #999999;
-	border-top: 1px solid #999999;
-	background-image: none;
-	background: none;
-	color: #9999FF;
 }
 
 body .inputDialog .iconPanel,
