@@ -81,7 +81,6 @@ public class LanguageMenuW extends MenuBar {
 						text = sb.toString();
 					}	
 					
-					App.debug("Language Menu includes language: " + l.localeGWT);										
 
 					String menuBarHTML = GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text);
 					LanguageCommand lc = new LanguageCommand(l, (AppW) app);

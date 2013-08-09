@@ -379,7 +379,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	private void onTouchMoveNow(AbstractEvent event,long time) {
-		App.debug("touch move now"+event.getX()+","+event.getY()+" offset "+this.getXoffset()+","+this.getYoffset());
 		this.lastMoveEvent = time;
 		wrapMouseDragged(event);
 		
