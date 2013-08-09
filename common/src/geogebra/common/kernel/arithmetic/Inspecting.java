@@ -161,7 +161,7 @@ public interface Inspecting {
 
 		public boolean check(ExpressionValue v) {
 			return v instanceof GeoElement && (!((GeoElement)v).isIndependent() 
-					|| ((GeoElement)v).isLabelSet()) ;
+					|| ((GeoElement)v).isLabelSet() || v instanceof GeoDummyVariable) ;
 		}
 	};
 	

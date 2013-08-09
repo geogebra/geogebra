@@ -1302,7 +1302,7 @@ public class AlgebraProcessor {
 		GeoElement[] vars = fun.getGeoElementVariables();
 		boolean isIndependent = true;
 		for(int i = 0; vars!= null && i < vars.length; i++){
-			if(vars[i].isLabelSet() || !vars[i].isIndependent()){
+			if(Inspecting.dynamicGeosFinder.check(vars[i])){
 				isIndependent = false;
 			}
 		}
