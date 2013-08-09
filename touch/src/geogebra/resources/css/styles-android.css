@@ -100,7 +100,6 @@ body .toolbar.visible .inputPanel {
 body .inputDialog,
 body .infoDialog {
 	padding: 0px;
-	z-index: 50;
 	
 	color: #FFFFFF;
 	
@@ -118,8 +117,8 @@ body .infoDialog {
 	background-color: #222222;
 }
 
-.inputDialog .title,
-.infoDialog .title {
+.inputDialog .titlePanel,
+.infoDialog .titlePanel {
 	border-bottom: 2px solid #9999FF;
 	font-size: 18px;
 	color: #FFFFFF;
@@ -127,16 +126,9 @@ body .infoDialog {
 	margin-bottom: 15px;
 }
 
-.inputDialog .contentPanel {
+.inputField.name,
+.sliderDialog .sliderPanel {
 	margin-left: 15px;
-}
-
-.inputDialog.sliderDialog .contentPanel td.left {
-	width: 340px;
-}
-
-.inputDialog .contentPanel td.right {
-	padding-right: 20px;
 }
 
 .inputDialog .gwt-Label,
@@ -153,42 +145,23 @@ body .infoDialog .gwt-TextBox {
 	padding: 3px;
 	background: none;
 	color: #FFFFFF;
-	width: 556px;
+	width: 560px;
 }
 
-.inputDialog.sliderDialog .sliderPanel .inputField {
-	margin-right: 30px;
+.sliderDialog .name .gwt-TextBox {
+	width: 325px;
 }
 
-.inputDialog.sliderDialog .gwt-TextBox {
-	width: 340px;
+.angleDialog .name .gwt-TextBox {
+	width: 445px;
 }
 
-.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
-	width: 90px;
-}
-
-body .inputDialog .textPanel {
-	/*width: 560px;*/
+body .radioButtonPanel .gwt-RadioButton label {
+	color: #FFFFFF;
 }
 
 body .infoDialog .textPanel {
-	padding: 0px 15px 15px 15px;
-}
-
-.inputDialog .radioButtonPanel span.gwt-RadioButton {
-	height: 23px;
-	display: block;
-	background-position: left top;
-	background-repeat: no-repeat;
-	padding-top: 7px;
-	padding-left: 30px;
-}
-
-body .inputDialog .gwt-PopupPanel,
-body .infoDialog .gwt-PopupPanel {
-	border: none;
-	padding: 0px;
+	padding: 0px 15px;
 }
 
 body .inputDialog .buttonPanel {
@@ -202,7 +175,6 @@ body .inputDialog .buttonPanel button {
 
 .customKeyPanel {
 	margin-right: 0px;
-	margin-left: -15px;
 }
 
 body .inputDialog button,

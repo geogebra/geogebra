@@ -30,7 +30,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -39,7 +38,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
@@ -52,21 +50,29 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		InputField, Redefine, NumberValue, Angle, Slider, RedefineSlider;
 	}
 
-	private final VerticalPanel dialogPanel = new VerticalPanel();
-	private final FlexTable contentPanel = new FlexTable();
-	private final HorizontalPanel titlePanel = new HorizontalPanel();
+	// panelContainer contains all elements
+	private final FlowPanel dialogPanel = new FlowPanel();
+	
+	private final FlowPanel titlePanel = new FlowPanel();
+	private final FlowPanel contentPanel = new FlowPanel();
+	private HorizontalPanel buttonPanel;
+	
 	private final Label title = new Label();
+	
 	private final HorizontalPanel errorBox = new HorizontalPanel();
 	private SVGResource iconWarning;
 	private final Label errorText = new Label();
+	
 	private final FlowPanel radioButtonPanel = new FlowPanel();
 	private final StandardRadioButton[] radioButton = new StandardRadioButton[2];
+	private final FlowPanel inputFieldPanel = new FlowPanel();
 	HorizontalPanel sliderPanel;
-	InputField textBox = new InputField(), min, max, increment;
+	InputField textBox = new InputField();
+	InputField min, max, increment;
+	
 	private final TouchApp app;
 	DialogType type;
 	private String prevText, mode;
-	private HorizontalPanel buttonPanel;
 
 	private final CustomKeysPanel customKeys = new CustomKeysPanel();
 	private final LookAndFeel laf;
@@ -130,7 +136,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.radioButtonPanel.add(this.radioButton[0]);
 		this.radioButtonPanel.add(this.radioButton[1]);
 
-		this.contentPanel.setWidget(0, 1, this.radioButtonPanel);
+		this.contentPanel.add(this.radioButtonPanel);
 
 		this.radioButton[0].setValue(new Boolean(true));
 	}
@@ -150,6 +156,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 				}
 			}
 		});
+		this.textBox.addStyleName("name");
 
 		this.errorBox.setVisible(false);
 		this.errorBox.setStyleName("errorBox");
@@ -157,7 +164,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.textBox.addErrorBox(this.errorBox);
 
-		this.contentPanel.setWidget(0, 0, this.textBox);
+		this.inputFieldPanel.add(this.textBox);
 	}
 
 	private void buildErrorBox() {
@@ -179,7 +186,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 				false);
 		this.increment = new InputField(this.app.getLocalization().getMenu(
 				"Step"), false);
-
+		this.increment.addStyleName("last");
+		
 		final InputField[] box = new InputField[] { this.min, this.max,
 				this.increment, this.textBox };
 
@@ -188,15 +196,18 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.increment.setTextBoxToLoseFocus(box);
 
 		this.sliderPanel = new HorizontalPanel();
+		
 		this.sliderPanel.setStyleName("sliderPanel");
-
 		this.sliderPanel.add(this.min);
 		this.sliderPanel.add(this.max);
 		this.sliderPanel.add(this.increment);
 
-		this.contentPanel.setWidget(1, 0, this.sliderPanel);
+		this.inputFieldPanel.add(this.sliderPanel);
+		
+		this.addRadioButton();
 
 		this.buttonPanel = new HorizontalPanel();
+		this.buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.buttonPanel.setStyleName("buttonPanel");
 		final Button ok = new Button();
 		ok.addStyleName("ok");
@@ -218,10 +229,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		});
 		this.buttonPanel.add(ok);
 		this.buttonPanel.add(cancel);
-
-		this.contentPanel.setWidget(1, 1, this.buttonPanel);
-
-		this.dialogPanel.add(this.buttonPanel);
+		
+		this.contentPanel.add(this.buttonPanel);
 	}
 
 	public String getIncrement() {
@@ -257,8 +266,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.setAdditionalStyleName();
 
 		this.customKeys.addCustomKeyListener(this);
-		this.dialogPanel
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.dialogPanel.setStyleName("panelContainer");
 
 		this.dialogPanel.add(this.titlePanel);
@@ -274,28 +281,21 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.contentPanel.setStyleName("contentPanel");
 		this.contentPanel.getElement().setAttribute("style",
 				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-		this.contentPanel.getCellFormatter().setStyleName(0, 0, "left");
-		this.contentPanel.getCellFormatter().setStyleName(0, 1, "right");
-
-		this.contentPanel.getCellFormatter().addStyleName(1, 0, "bottom");
-
-		this.contentPanel.getCellFormatter().setStyleName(1, 1, "right");
-		this.contentPanel.getCellFormatter().addStyleName(1, 1, "bottom");
 
 		this.dialogPanel.add(this.contentPanel);
 
 		this.addTextBox();
+		this.contentPanel.add(this.inputFieldPanel);
+		this.inputFieldPanel.setStyleName("inputFieldPanel");
 
 		if (this.type == DialogType.Slider
 				|| this.type == DialogType.RedefineSlider) {
 			this.createSliderDesign();
 		}
 
-		if (this.type == DialogType.Angle || this.type == DialogType.Slider) {
+		if (this.type == DialogType.Angle) {
 			this.addRadioButton();
 		}
-
-		// addButtonContainer();
 
 		this.add(this.dialogPanel);
 
@@ -395,6 +395,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		if (this.contentPanel != null && this.dialogPanel != null) {
 			this.dialogPanel.clear();
 			this.contentPanel.clear();
+			this.inputFieldPanel.clear();
 			this.radioButtonPanel.clear();
 		}
 		this.type = dialogType;
@@ -410,8 +411,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 			break;
 		case NumberValue:
 		case Angle:
+			this.addStyleName("angleDialog");
 			break;
 		case RedefineSlider:
+			this.addStyleName("redefine");
+			//$FALL-THROUGH$
 		case Slider:
 			this.addStyleName("sliderDialog");
 			break;
@@ -513,11 +517,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 			this.radioButton[0].setValue(new Boolean(true));
 		}
 
-		this.dialogPanel
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		this.errorBox.setVisible(false);
 
-		if (this.type != DialogType.Slider) {
+		//if (this.type != DialogType.Slider) {
+		if (this.type != DialogType.Slider && this.type != DialogType.RedefineSlider && this.type != DialogType.Angle) {
 			this.dialogPanel.add(this.customKeys);
 		}
 

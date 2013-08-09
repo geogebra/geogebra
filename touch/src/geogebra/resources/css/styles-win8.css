@@ -24,7 +24,6 @@ body .inputbarPanel .iconPanel {
 body .inputDialog,
 body .infoDialog {
 	padding: 0px 0px 20px 0px;
-	z-index: 50;
 	
 	width: 100%;
 	
@@ -33,7 +32,9 @@ body .infoDialog {
 	-khtml-border-radius: 0px;
 	-moz-border-radius: 0px;
 	border-radius: 0px;
+	
 	box-shadow: none;
+	
 	background-color: #FFFFFF;
 }
 
@@ -58,19 +59,19 @@ body .infoDialog .titlePanel {
 	border-spacing: 0px;
 }
 
-.inputDialog .contentPanel td.left {
+/*.inputDialog .contentPanel td.left {
 	width: 420px;
 }
 
 .inputDialog .contentPanel td.right {
 	width: 200px;
 	padding-left: 60px;
-}
+}*/
 
-.inputDialog .contentPanel td.bottom {
+/*.inputDialog .contentPanel td.bottom {
 	vertical-align: bottom;
 	padding-bottom: 5px;
-}
+}*/
 
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
@@ -95,12 +96,15 @@ body .infoDialog .textBox {
 }
 
 body .inputDialog.sliderDialog .textBox {
-	width: 393px;
+	width: 380px;
+}
+
+.sliderDialog .inputFieldPanel {
+	float: left;
 }
 
 .inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
-	width: 111px;
-	margin-right: 20px;
+	width: 100px;
 }
 
 body .inputDialog .gwt-TextBox.active,
@@ -112,32 +116,17 @@ body .infoDialog .gwt-TextBox.active {
 	color: #FF3300;
 }
 
-body .infoDialog .textPanel {
-	padding: 0px 15px 15px 15px;
+.sliderDialog .radioButtonPanel {
+	float: right;
+	margin-top: 30px;
 }
 
-.inputDialog .radioButtonPanel {
-	width: 200px;
-	padding-top: 10px;
+.sliderDialog.redefine .radioButtonPanel {
+	margin-top: 10px;
 }
 
-@url radioBackgroundActive radioButtonActive;
-
-.inputDialog .radioButtonPanel span.gwt-RadioButton {
-	width: 70px;
-	height: 30px;
-	display: inline-block;
-	background-position: left top;
-	background-repeat: no-repeat;
-	padding-top: 4px;
-	padding-left: 30px;
-	background-image: radioBackgroundActive;
-}
-
-body .inputDialog .gwt-PopupPanel,
-body .infoDialog .gwt-PopupPanel {
-	border: none;
-	padding: 0px;
+.sliderDialog .radioButtonPanel .gwt-RadioButton {
+	display: inline;
 }
 
 body .inputDialog .customKeyPanel {
@@ -159,6 +148,12 @@ body .infoDialog button {
 	border-radius: 0px;
 	
 	border: none;
+}
+
+body .sliderDialog .buttonPanel {
+	width: auto;
+	padding-left: 70px;
+	padding-top: 32px;
 }
 
 body .inputDialog .buttonPanel button {

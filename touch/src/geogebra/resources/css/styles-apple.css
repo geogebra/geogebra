@@ -70,7 +70,6 @@ body .inputbarPanel input {
 body .inputDialog,
 body .infoDialog {
 	padding: 6px;
-	z-index: 50;
 	
 	color: #FFFFFF;
 	
@@ -190,31 +189,25 @@ body .infoDialog button.last {
 	margin: 0px;
 }
 
-.inputDialog .sliderPanel {
-	margin-bottom: 25px;
-}
-
-.inputDialog.sliderDialog .sliderPanel .inputField {
+/*.inputDialog.sliderDialog .sliderPanel .inputField {
 	margin-right: 30px;
-}
+}*/
 
-.inputDialog.sliderDialog .gwt-TextBox {
+ body .sliderDialog .name .gwt-TextBox {
 	width: 374px;
 	text-align: center;
 }
 
-.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
+/*.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
 	width: 90px;
-}
+}*/
 
-.sliderDialog .radioButtonPanel .gwt-RadioButton {
-	display: block;
+/*.sliderDialog .radioButtonPanel .gwt-RadioButton {
 	padding: 5px 20px 5px 0px;
-}
+}*/
 
 .radioButtonPanel .gwt-RadioButton label {
 	color: #FFFFFF;
-	margin-left: 10px;
 }
 
 /* ADDITIONAL GUIs */

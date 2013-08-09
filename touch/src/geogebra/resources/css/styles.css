@@ -513,25 +513,23 @@ body .gwt-Tree .gwt-TreeItem-selected {
 	width: 100%;
 }
 
-.inputDialog,.infoDialog {
+.inputDialog,
+.infoDialog {
 	padding: 10px;
 	z-index: 50;
+	
 	/* Border */
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	border: #DCDCDC solid 1px;
+	
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #999999;
 	-moz-box-shadow: 3px 3px 5px #999999;
 	box-shadow: 3px 3px 5px #999999;
 	background-color: #FFFFFF;
-}
-
-table.titlePanel {
-	width: 100%;
-	text-align: left;
 }
 
 .inputDialog .errorBox {
@@ -551,18 +549,19 @@ table.titlePanel {
 	font-size: 15px;
 }
 
-.inputDialog .gwt-PopupPanel,
+/*.inputDialog .gwt-PopupPanel,
 .infoDialog .gwt-PopupPanel {
 	border: none;
 	padding: 10px 2px 0px 2px;
-}
+}*/
 
 .customKeyPanel {
 	margin-right: -6px;
 	margin-top: 10px;
 }
 
-.infoDialog .buttonPanel {
+body .buttonPanel {
+	margin-top: 10px;
 	width: 100%;
 }
 
@@ -578,5 +577,31 @@ table.titlePanel {
 	background-color: #000;
 	opacity: 0.3;
 	z-index: 20;
-	filter: alpha(opacity =     30);
+	filter: alpha(opacity = 30);
+}
+
+.sliderDialog .sliderPanel .gwt-TextBox {
+	width: 90px;
+}
+
+.sliderDialog .sliderPanel .inputField {
+	margin-right: 30px;
+}
+
+.sliderDialog .sliderPanel .inputField.last {
+	margin-right: 0px;
+}
+
+.radioButtonPanel {
+	text-align: center;
+	margin: 10px 0px;
+}
+
+.radioButtonPanel .gwt-RadioButton {
+	display: inline-block;
+	padding: 5px 40px;
+}
+
+.radioButtonPanel .gwt-RadioButton label {
+	margin-left: 10px;
 }

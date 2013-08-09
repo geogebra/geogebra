@@ -13,6 +13,7 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -39,6 +40,7 @@ public class InfoDialog extends PopupPanel {
 	private final VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
 	private final HorizontalPanel textPanel;
+	private final FlowPanel titlePanel = new FlowPanel();
 	private final Label title;
 	private final Label infoText;
 	String consTitle;
@@ -95,8 +97,11 @@ public class InfoDialog extends PopupPanel {
 		} else {
 			this.title.setText(this.loc.getMenu("Rename"));
 		}
-		this.dialogPanel.add(this.title);
 		this.title.setStyleName("title");
+		this.titlePanel.add(this.title);
+		this.titlePanel.setStyleName("titlePanel");
+		
+		this.dialogPanel.add(this.titlePanel);
 	}
 
 	private void addText() {
