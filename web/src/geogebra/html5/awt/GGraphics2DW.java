@@ -46,11 +46,11 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	protected geogebra.common.awt.GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = new geogebra.html5.awt.GColorW(255,255,255,255), bgColor;
+	private GColor color = new GColorW(255,255,255,255), bgColor;
 	private GAffineTransform savedTransform;
 	private float [] dash_array = null;
 
-	GPaint currentPaint = new geogebra.html5.awt.GColorW(255,255,255,255);
+	GPaint currentPaint = new GColorW(255,255,255,255);
 	private JsArrayNumber jsarrn;
 
 	/**
@@ -59,7 +59,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	public GGraphics2DW(Canvas canvas) {
 	    this.canvas = canvas;
 	    this.context = canvas.getContext2d();
-	    savedTransform = new geogebra.html5.awt.GAffineTransformW();
+	    savedTransform = new GAffineTransformW();
 	    preventContextMenu (canvas.getElement());
     }
 
@@ -165,7 +165,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
 	        int y) {
-    	BufferedImage bi = geogebra.html5.awt.GBufferedImageW.getGawtImage(img);
+    	BufferedImage bi = GBufferedImageW.getGawtImage(img);
     	if(bi==null)
     		return;
     	try{
@@ -246,10 +246,10 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public void setComposite(GComposite comp) {
-		context.setGlobalAlpha(((geogebra.html5.awt.GAlphaCompositeW)comp).getAlpha());
+		context.setGlobalAlpha(((GAlphaCompositeW)comp).getAlpha());
 		
 //		if (comp != null) {
-//			float alpha  = ((geogebra.html5.awt.AlphaComposite) comp).getAlpha();
+//			float alpha  = ((AlphaComposite) comp).getAlpha();
 //			if (alpha >= 0f && alpha < 1f) {
 //				context.setGlobalAlpha(alpha);
 //			}
@@ -300,11 +300,11 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
-			context.setLineWidth(((geogebra.html5.awt.GBasicStrokeW)stroke).getLineWidth());
-			context.setLineCap(((geogebra.html5.awt.GBasicStrokeW)stroke).getEndCapString());
-			context.setLineJoin(((geogebra.html5.awt.GBasicStrokeW)stroke).getLineJoinString());
+			context.setLineWidth(((GBasicStrokeW)stroke).getLineWidth());
+			context.setLineCap(((GBasicStrokeW)stroke).getEndCapString());
+			context.setLineJoin(((GBasicStrokeW)stroke).getLineJoinString());
 
-			float [] dasharr = ((geogebra.html5.awt.GBasicStrokeW)stroke).getDashArray();
+			float [] dasharr = ((GBasicStrokeW)stroke).getDashArray();
 			if (dasharr != null) {
 				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
@@ -394,7 +394,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     public void rotate(double theta) {
 		context.rotate(theta);
 		savedTransform.concatenate(
-				new geogebra.html5.awt.GAffineTransformW(
+				new GAffineTransformW(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
 
 	}
@@ -406,7 +406,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.rotate(theta);
 		context.translate(-x, -y);
 		savedTransform.concatenate(
-				new geogebra.html5.awt.GAffineTransformW(
+				new GAffineTransformW(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), x, y));
 	}
 
@@ -420,7 +420,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public void shear(double shx, double shy) {
-		transform(new geogebra.html5.awt.GAffineTransformW(
+		transform(new GAffineTransformW(
 			1, shy, shx, 1, 0, 0
 		));
 	}
@@ -430,8 +430,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
 				Tx.getShearX(), Tx.getScaleY(),
-				((geogebra.html5.awt.GAffineTransformW)Tx).getTranslateX(),
-				((geogebra.html5.awt.GAffineTransformW)Tx).getTranslateY());
+				((GAffineTransformW)Tx).getTranslateX(),
+				((GAffineTransformW)Tx).getTranslateY());
 		savedTransform.concatenate(Tx);
 	}
 
@@ -440,8 +440,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
 		Tx.getShearX(), Tx.getScaleY(),
-		((geogebra.html5.awt.GAffineTransformW)Tx).getTranslateX(),
-		((geogebra.html5.awt.GAffineTransformW)Tx).getTranslateY());
+		((GAffineTransformW)Tx).getTranslateX(),
+		((GAffineTransformW)Tx).getTranslateY());
 		savedTransform = Tx;
 
 	}
@@ -449,7 +449,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public GAffineTransform getTransform() {
-		GAffineTransform ret = new geogebra.html5.awt.GAffineTransformW();
+		GAffineTransform ret = new GAffineTransformW();
 		ret.setTransform(savedTransform);
 		return ret;
 	}
@@ -465,7 +465,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		Paint ret;
 		if (fs.getType() == FillStrokeStyle.TYPE_CSSCOLOR) {
 			// it is difficult to make a color out of csscolor
-			ret = new geogebra.html5.awt.Color((CssColor)fs);
+			ret = new Color((CssColor)fs);
 		} else if (fs.getType() == FillStrokeStyle.TYPE_GRADIENT) {
 			
 		} else if (fs.getType() == FillStrokeStyle.TYPE_PATTERN) {
@@ -477,11 +477,11 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public GComposite getComposite() {
-		return new geogebra.html5.awt.GAlphaCompositeW(3, (float) context.getGlobalAlpha());
+		return new GAlphaCompositeW(3, (float) context.getGlobalAlpha());
 	
 //		context.save();
 //		//just to not return null;
-//		return new geogebra.html5.awt.AlphaComposite(0, 0) {
+//		return new AlphaComposite(0, 0) {
 //		};
 	}
 
@@ -490,7 +490,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     public void setBackground(GColor color) {
 		// This method only affects Graphics2D.clearRect (if there will be present)
 		// and getBackground calls - currently Drawable.drawLabel
-		this.bgColor = new geogebra.html5.awt.GColorW((geogebra.html5.awt.GColorW)color);
+		this.bgColor = new GColorW((GColorW)color);
 	}
 
 
@@ -503,10 +503,10 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public GBasicStroke getStroke() {
 
-		return new geogebra.html5.awt.GBasicStrokeW(
+		return new GBasicStrokeW(
 			(float) context.getLineWidth(), 
-			geogebra.html5.awt.GBasicStrokeW.getCap(context.getLineCap()),
-			geogebra.html5.awt.GBasicStrokeW.getJoin(context.getLineJoin()),
+			GBasicStrokeW.getCap(context.getLineCap()),
+			GBasicStrokeW.getJoin(context.getLineJoin()),
 			0,
 			dash_array,
 			0
@@ -521,7 +521,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			App.error("Error in Graphics2D.setClip");
 			return;
 		}
-		clipShape = new geogebra.html5.awt.GenericShape(shape2);
+		clipShape = new GenericShape(shape2);
 		doDrawShape(shape2);
 		context.save();
 		context.clip();
@@ -530,7 +530,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public GFontRenderContext getFontRenderContext() {
-		return new geogebra.html5.awt.GFontRenderContextW(context);
+		return new GFontRenderContextW(context);
 	}
 
 	
@@ -580,8 +580,8 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
 	public void setFont(geogebra.common.awt.GFont font) {
-		if(font instanceof geogebra.html5.awt.GFontW){
-			currentFont=(geogebra.html5.awt.GFontW)font;
+		if(font instanceof GFontW){
+			currentFont=(GFontW)font;
 			//TODO: pass other parameters here as well
 			try {
 				context.setFont(currentFont.getFullFontString());
@@ -602,7 +602,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     	}    	
     	this.color = fillColor;
     	updateCanvasColor();
-    	this.currentPaint = new geogebra.html5.awt.GColorW((geogebra.html5.awt.GColorW)fillColor);
+    	this.currentPaint = new GColorW((GColorW)fillColor);
     }
 
 	private void updateCanvasColor() {
@@ -623,7 +623,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			return;
 		}
 		clipShape = shape;
-		Shape shape2 = geogebra.html5.awt.GenericShape.getGawtShape(shape);
+		Shape shape2 = GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
 			App.error("Error in Graphics2D.clip");
 			return;
@@ -633,7 +633,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		context.clip();
     }
 
-    public void drawGraphics(geogebra.html5.awt.GGraphics2DW gother, int x, int y,
+    public void drawGraphics(GGraphics2DW gother, int x, int y,
             GBufferedImageOp op) {
 
     	if (gother==null)
@@ -698,7 +698,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 			context.restore();
 			return;
 		}
-		Shape shape2 = geogebra.html5.awt.GenericShape.getGawtShape(shape);
+		Shape shape2 = GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
 			App.error("Error in Graphics2D.setClip");
 			return;
@@ -716,13 +716,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public void draw(geogebra.common.awt.GShape s) {
-		draw(geogebra.html5.awt.GenericShape.getGawtShape(s));
+		draw(GenericShape.getGawtShape(s));
     }
 
 
 	@Override
     public void fill(geogebra.common.awt.GShape s) {
-		fill(geogebra.html5.awt.GenericShape.getGawtShape(s));
+		fill(GenericShape.getGawtShape(s));
     }
 
 	@Override
