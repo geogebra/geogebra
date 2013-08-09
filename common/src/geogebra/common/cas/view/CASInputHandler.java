@@ -507,7 +507,7 @@ public class CASInputHandler {
 			
 			boolean goDown = success &&
 			// we are in last row or next row is empty
-					(isLastRow || casView.isRowEmpty(selRow + 1));
+					(isLastRow || casView.isRowOutputEmpty(selRow + 1));
 			consoleTable.startEditingRow(goDown ? selRow + 1 : selRow);
 		}
 
