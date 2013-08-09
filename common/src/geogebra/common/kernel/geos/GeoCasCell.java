@@ -1438,6 +1438,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 			algoUpdateSet.updateAll();
 		}
 	}
+	
+	@Override
+	public void update() {
+		clearStrings();
+		super.update();
+	}
 
 	/**
 	 * Evaluates ValidExpression in GeoGebra and returns one GeoElement or null.
