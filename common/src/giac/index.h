@@ -23,7 +23,16 @@
 #include <iostream>
 #include <string>
 
+//////////////////////////////////////////
+/// this commented and the old put back due to build issues... temporary change to get build going
+//#if defined(VISUALC) && !defined(ConnectivityKit)
+//#pragma anon_unions
+//#endif
+//========================================
+#ifndef ConnectivityKit
 #pragma anon_unions
+#endif
+///////////////////////////////////////////
 
 #if defined UNORDERED_MAP && !defined(__APPLE__) && !defined(VISUALC)
 #include <tr1/unordered_map>

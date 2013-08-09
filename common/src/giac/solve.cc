@@ -1397,10 +1397,10 @@ namespace giac {
     iterateur it=res.begin(),itend=res.end();
     for (;it!=itend;++it)
       *it=(*it)[0];
-      _purge(vecteur(listvars.begin()+1,listvars.end()),contextptr);
-      if (listvars[0].type==_IDNT){
-	fullres=mergevecteur(res,fullres);
-	return;
+    _purge(vecteur(listvars.begin()+1,listvars.end()),contextptr);
+    if (listvars[0].type==_IDNT){
+      fullres=mergevecteur(res,fullres);
+      return;
     }
     // recursive call to solve composevar=*it with respect to x
     for (it=res.begin();it!=itend;++it){
@@ -1629,7 +1629,11 @@ namespace giac {
 	  if (!algv.empty() && algv.front().type==_VECT && !algv.front()._VECTptr->empty())
 	    res.push_back(*it);
 	  else {
+#ifdef HAVE_LIBMPFR
+	    gen tmp=abs(_evalf(makesequence(subst(expr,x,*it,false,contextptr),100),contextptr),contextptr);
+#else
 	    gen tmp=evalf(subst(expr,x,*it,false,contextptr),1,contextptr);
+#endif
 	    if ( (tmp.type==_DOUBLE_ || tmp.type==_REAL || tmp.type==_FLOAT_) && is_greater(1e-8,abs(tmp,contextptr),contextptr)){
 	      if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && has_op(*it,at_rootof))
 		res.push_back(evalf(*it,1,contextptr));
@@ -5031,7 +5035,7 @@ namespace giac {
 	      break;
 	  }
 	  if (s==foundvars){
-	    if (is_zero(curg))
+	    if (is_zero(simplify(curg,contextptr)))
 	      newsols.push_back(current);
 	    continue;
 	  }

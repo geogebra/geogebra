@@ -404,7 +404,8 @@ namespace giac {
   // #define GBASIS_XOR
 #define GBASIS_SWAP 
   // minimal numbers of pair to reduce simultaneously with f4
-  #define GBASIS_F4 5
+#define GBASIS_F4 5
+#define GBASIS_POSTF4
 
   void swap_indices(short * tab){
     swap(tab[1],tab[3]);
@@ -2283,7 +2284,7 @@ namespace giac {
 	++k;
       }
       else {
-	m=H.front().u;
+	m=H[0].u;
 	C=0;
       }
       if (R)
@@ -2426,6 +2427,31 @@ namespace giac {
     }
   }
 
+  // p + q  -> r
+  void smallmerge(polymod & p,polymod & q,polymod & r){
+    if (p.coord.empty()){
+      swap(q.coord,r.coord);
+      return;
+    }
+    if (q.coord.empty()){
+      swap(p.coord,r.coord);
+      return;
+    }
+    r.coord.clear();
+    r.coord.reserve(p.coord.size()+q.coord.size());
+    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=q.coord.begin(),jtend=q.coord.end();
+    for (;jt!=jtend;++jt){
+      const tdeg_t & v=jt->u;
+      for (;it!=itend && tdeg_t_strictly_greater(it->u,v,p.order);++it){
+	r.coord.push_back(*it);
+      }
+      r.coord.push_back(*jt);
+    }
+    for (;it!=itend;++it){
+      r.coord.push_back(*it);
+    }
+  }
+
   void reducemod(const polymod & p,const vectpolymod & res,const vector<unsigned> & G,unsigned excluded,polymod & rem,modint env){
     if (&p!=&rem)
       rem=p;
@@ -2555,10 +2581,10 @@ namespace giac {
     }
   }
 
-  static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env){
-    if (debug_infolevel>1)
-      cerr << clock() << " mod begin gbasis update " << G.size() << endl;
+  static void gbasis_updatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned pos,polymod & TMP2,modint env,bool reduce){
     if (debug_infolevel>2)
+      cerr << clock() << " mod begin gbasis update " << G.size() << endl;
+    if (debug_infolevel>3)
       cerr << G << endl;
     const polymod & h = res[pos];
     short order=h.order;
@@ -2623,9 +2649,9 @@ namespace giac {
       B1.push_back(pair<unsigned,unsigned>(pos,C[i]));
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
-    if (debug_infolevel>1){
+    if (debug_infolevel>2){
       cerr << clock() << " end, pairs:"<< endl;
-      if (debug_infolevel>2)
+      if (debug_infolevel>3)
 	cerr << B << endl;
       cerr << "mod begin Groebner interreduce " << endl;
     }
@@ -2636,13 +2662,15 @@ namespace giac {
       if (interrupted || ctrl_c)
 	return;
       if (!res[G[i]].coord.empty() && !tdeg_t_all_greater(res[G[i]].coord.front().u,h0,order)){
-	// reduce res[G[i]] with respect to h
-	reduce1smallmod(res[G[i]],h,TMP2,env);
+	if (reduce){
+	  // reduce res[G[i]] with respect to h
+	  reduce1smallmod(res[G[i]],h,TMP2,env);
+	}
 	C.push_back(G[i]);
       }
       // NB: removing all pairs containing i in it does not work
     }
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       cerr << clock() << " mod end Groebner interreduce " << endl;
     C.push_back(pos);
     swap(C,G);
@@ -2661,7 +2689,7 @@ namespace giac {
     if (order==_PLEX_ORDER)
       sugar=false;
     for (unsigned l=0;l<ressize;++l){
-      gbasis_updatemod(G,B,res,l,TMP2,env);
+      gbasis_updatemod(G,B,res,l,TMP2,env,true);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
@@ -2725,7 +2753,7 @@ namespace giac {
 	  res.push_back(polymod(TMP1.order,TMP1.dim));
 	swap(res[ressize],TMP1);
 	++ressize;
-	gbasis_updatemod(G,B,res,ressize-1,TMP2,env);
+	gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
 	if (debug_infolevel>2)
 	  cerr << clock() << " mod basis indexes " << G << " pairs indexes " << B << endl;
       }
@@ -2791,6 +2819,31 @@ namespace giac {
     }
   }
 
+  void collect(const vectpolymod & f4v,const vector<unsigned> & G,polymod & allf4){
+    vector<heap_tt> H;
+    unsigned Gsize=G.size();
+    H.reserve(Gsize);
+    for (unsigned i=0;i<Gsize;++i){
+      if (!f4v[G[i]].coord.empty())
+	H.push_back(heap_tt(i,0,f4v[G[i]].coord.front().u));
+    }
+    make_heap(H.begin(),H.end());
+    while (!H.empty()){
+      std::pop_heap(H.begin(),H.end());
+      // push root node of the heap in allf4
+      heap_tt & current =H.back();
+      if (allf4.coord.empty() || allf4.coord.back().u!=current.u)
+	allf4.coord.push_back(T_unsigned<modint,tdeg_t>(1,current.u));
+      ++current.polymodpos;
+      if (current.polymodpos>=f4v[G[current.f4vpos]].coord.size()){
+	H.pop_back();
+	continue;
+      }
+      current.u=f4v[G[current.f4vpos]].coord[current.polymodpos].u;
+      std::push_heap(H.begin(),H.end());
+    }
+  }
+
   struct sparse_element {
     modint val;
     unsigned pos;
@@ -2803,12 +2856,19 @@ namespace giac {
   }
 
 #ifdef GBASIS_F4
-  void reducef4(vector<modint> &v,const vector< vector<modint> > & M,modint env){
+  bool reducef4pos(vector<modint> &v,const vector< vector<modint> > & M,vector<int> pivotpos,modint env){
     unsigned pos=0;
+    bool res=false;
     for (unsigned i=0;i<M.size();++i){
       const vector<modint> & m=M[i];
-      pos=m.back();
-      modint c=(modint2(invmod(m[pos],env))*v[pos])%env;
+      pos=pivotpos[i];
+      if (pos==-1)
+	return res;
+      modint c=v[pos];
+      if (!c)
+	continue;
+      res=true;
+      c=(modint2(invmod(m[pos],env))*c)%env;
       vector<modint>::const_iterator jt=m.begin()+pos+1;
       vector<modint>::iterator it=v.begin()+pos,it1,itend=v.end();
       *it=0; ++it;
@@ -2817,6 +2877,7 @@ namespace giac {
 	  *it=(*it-modint2(c)*(*jt))%env;
       }
     }
+    return res;
   }
 
   unsigned reducef4(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env){
@@ -2912,6 +2973,32 @@ namespace giac {
     }
   }
 
+  // put in v coeffs of polymod corresponding to R, and in rem those who do not match
+  // returns false if v is null
+  bool makelinerem(const polymod & p,polymod & rem,const polymod & R,vector<modint> & v){
+    rem.coord.clear();
+    v.clear();
+    v.resize(R.coord.size()); 
+    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
+    bool res=false;
+    for (;it!=itend;++it){
+      const tdeg_t & u=it->u;
+      for (;jt!=jtend;++jt){
+	if (u>=jt->u){
+	  if (u==jt->u){
+	    res=true;
+	    v[jt-R.coord.begin()]=it->g;
+	    ++jt;
+	  }
+	  else
+	    rem.coord.push_back(*it);
+	  break;
+	}
+      }
+    }
+    return res;
+  }
+
   void makeline(const polymod & p,const tdeg_t * shiftptr,const polymod & R,vector<sparse_element> & v){
     std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
     if (shiftptr){
@@ -2940,7 +3027,7 @@ namespace giac {
     }
   }
 
-  void rref_f4mod(vectpolymod & f4v,const vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
+  void rref_f4mod(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation,bool interreduce){
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
@@ -2965,47 +3052,58 @@ namespace giac {
     // cerr << "after sort " << M << endl;
     // step3 reduce
     // perhaps better to do simultaneous reduction?
-    vector< vector<modint> > K(f4v.size());
+    vector< vector<modint> > K(f4vG.size());
     unsigned c=N;
-    for (i=0;i<f4v.size();++i){
+    for (i=0;i<f4vG.size();++i){
       vector<modint> &v=K[i];
       v.resize(N);
-      if (!f4v[i].coord.empty()){
-	makeline(f4v[i],0,R,v);
+      if (!f4v[f4vG[i]].coord.empty()){
+	makeline(f4v[f4vG[i]],0,R,v);
 	// cerr << v << endl;
 	c=giacmin(c,reducef4(v,M,env));
       }
     }
     if (debug_infolevel>1)
-      cerr << clock() << " f4v reduced" << f4v.size() << endl;
-    vecteur pivots; vector<int> permu,maxrankcols; longlong idet;
-    // cerr << K << endl;
-    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),c,N,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);    
+      cerr << clock() << " f4v reduced" << f4vG.size() << endl;
+    if (interreduce){
+      vecteur pivots; vector<int> maxrankcols; longlong idet;
+      // cerr << K << endl;
+      smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),c,N,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    }
     // cerr << K << "," << permutation << endl;
-    permu=perminv(permutation);
+    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
+    vector<int> permu;
+    if (interreduce)
+      permu=perminv(permutation);
     if (debug_infolevel>1)
       cerr << clock() << " f4v interreduced" << endl;
-    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
-    for (i=0;i<f4v.size();++i){
+    for (i=0;i<f4vG.size();++i){
       // cerr << v << endl;
-      vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[i].coord;
+      vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
       Pcoord.clear();
-      vector<modint> & v =K[permu[i]];
+      vector<modint> & v =K[interreduce?permu[i]:i];
       for (j=0,it=R.coord.begin();it!=itend;++it,++j){
 	modint coeff=v[j];
 	if (coeff!=0)
 	  Pcoord.push_back(T_unsigned<modint,tdeg_t>(coeff,it->u));
       }
       if (!Pcoord.empty() && Pcoord.front().g!=1){
-	smallmultmod(invmod(Pcoord.front().g,env),f4v[i],env);	
+	smallmultmod(invmod(Pcoord.front().g,env),f4v[f4vG[i]],env);	
 	Pcoord.front().g=1;
       }
     }
   }
 
+  void rref_f4mod(vectpolymod & f4v,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
+    vector<unsigned> f4vG(f4v.size());
+    for (unsigned i=0;i<f4v.size();++i)
+      f4vG[i]=i;
+    rref_f4mod(f4v,f4vG,res,G,excluded,quo,R,env,permutation,true);
+  }
+
   struct info_t {
-    vectpolymod quo;
-    polymod R;
+    vectpolymod quo,quo2;
+    polymod R,R2;
     vector<int> permu;
   };
 
@@ -3253,21 +3351,24 @@ namespace giac {
     if (debug_infolevel>1000)
       res.dbgprint(); // instantiate dbgprint()
     polymod TMP1(res.front().order,res.front().dim),TMP2(res.front().order,res.front().dim);
-    vector< pair<unsigned,unsigned> > B;
+    vector< pair<unsigned,unsigned> > B,BB;
+    B.reserve(256); BB.reserve(256);
+    vector<unsigned> smallposv;
+    smallposv.reserve(256);
     info_t information;
     short order=res.front().order;
     if (order==_PLEX_ORDER)
       totdeg=false;
     for (unsigned l=0;l<ressize;++l){
-      gbasis_updatemod(G,B,res,l,TMP2,env);
+      gbasis_updatemod(G,B,res,l,TMP2,env,true);
     }
     for (;!B.empty() && !interrupted && !ctrl_c;){
       if (debug_infolevel>1)
-	cerr << clock() << " mod number of pairs: " << B.size() << ", base size: " << G.size() << endl;
+	cerr << clock() << " begin new iteration mod, number of pairs: " << B.size() << ", base size: " << G.size() << endl;
       // find smallest lcm pair in B
       tdeg_t small,cur;
       unsigned smallpos,smalltotdeg=0,curtotdeg=0,smallsugar=0,cursugar=0;
-      vector<unsigned> smallposv;
+      smallposv.clear();
       for (smallpos=0;smallpos<B.size();++smallpos){
 	if (!res[B[smallpos].first].coord.empty() && !res[B[smallpos].second].coord.empty())
 	  break;
@@ -3318,14 +3419,14 @@ namespace giac {
 	pair<unsigned,unsigned> bk=B[i];
 	B.erase(B.begin()+i);
 	if (!learning && pairs_reducing_to_zero && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    cerr << bk << " learned " << learned_position << endl;
 	  ++learned_position;
 	  continue;
 	}
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  cerr << bk << " not learned " << learned_position << endl;
-	if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
+	if (debug_infolevel>2 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
 	  cerr << clock() << " mod reducing pair with 1 element not in basis " << bk << endl;
 	// polymod h(res.front().order,res.front().dim);
 	spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
@@ -3339,48 +3440,53 @@ namespace giac {
 	reducemod(TMP1,res,G,-1,TMP1,env);
 #endif
 	if (debug_infolevel>1){
-	  if (debug_infolevel>2){ cerr << TMP1 << endl; }
-	  cerr << clock() << " mod reduce end, remainder size " << TMP1.coord.size() << endl;
+	  if (debug_infolevel>3){ cerr << TMP1 << endl; }
+	  cerr << clock() << " mod reduce end, remainder size " << TMP1.coord.size() << " begin gbasis update" << endl;
 	}
 	if (!TMP1.coord.empty()){
 	  if (ressize==res.size())
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
 	  swap(res[ressize],TMP1);
 	  ++ressize;
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env);
-	  if (debug_infolevel>2)
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
+	  if (debug_infolevel>3)
 	    cerr << clock() << " mod basis indexes " << G << " pairs indexes " << B << endl;
 	}
 	else {
 	  if (learning && pairs_reducing_to_zero){
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      cerr << "learning " << bk << endl;
 	    pairs_reducing_to_zero->push_back(bk);
 	  }
 	}
 	continue;
       }
-      vector< pair<unsigned,unsigned> > smallposp(smallposv.size());
-      for (unsigned i=0;i<smallposv.size();++i)
-	smallposp[i]=B[smallposv[i]];
-      // remove pairs
-      for (int i=smallposv.size()-1;i>=0;--i){
-	B.erase(B.begin()+smallposv[i]);
+      vector< pair<unsigned,unsigned> > smallposp;
+      if (smallposv.size()==B.size()){
+	swap(smallposp,B);
+	B.clear();
+      }
+      else {
+	for (unsigned i=0;i<smallposv.size();++i)
+	  smallposp.push_back(B[smallposv[i]]);
+	// remove pairs
+	for (int i=smallposv.size()-1;i>=0;--i)
+	  B.erase(B.begin()+smallposv[i]);
       }
       vectpolymod f4v; // collect all spolys 
       for (unsigned i=0;i<smallposp.size();++i){
 	pair<unsigned,unsigned> bk=smallposp[i];
 	if (!learning && pairs_reducing_to_zero && f4_info && learned_position<pairs_reducing_to_zero->size() && bk==(*pairs_reducing_to_zero)[learned_position]){
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    cerr << bk << " f4 learned " << learned_position << endl;
 	  ++learned_position;
 	  TMP1.coord.clear();
 	  f4v.push_back(TMP1);
 	  continue;
 	}
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  cerr << bk << " f4 not learned " << learned_position << endl;
-	if (debug_infolevel>1 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
+	if (debug_infolevel>2 && (equalposcomp(G,bk.first)==0 || equalposcomp(G,bk.second)==0))
 	  cerr << clock() << " mod reducing pair with 1 element not in basis " << bk << endl;
 	// polymod h(res.front().order,res.front().dim);
 	spolymod(res[bk.first],res[bk.second],TMP1,TMP2,env);
@@ -3418,17 +3524,22 @@ namespace giac {
 	}
       }
       if (debug_infolevel>1)
-	cerr << clock() << " reduce f4 end on " << f4v.size() << " pairs" << endl;
+	cerr << clock() << " reduce f4 end on " << f4v.size() << " pairs, gbasis update begin" << endl;
       // update gbasis and learning
       // requires that Gauss pivoting does the same permutation for other primes
       if (learning && pairs_reducing_to_zero){
 	for (unsigned i=0;i<f4v.size();++i){
 	  if (f4v[i].coord.empty()){
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      cerr << "learning f4 " << smallposp[i] << endl;
 	    pairs_reducing_to_zero->push_back(smallposp[i]);
 	  }
 	}
+      }
+      unsigned added=0;
+      for (unsigned i=0;i<f4v.size();++i){
+	if (!f4v[i].coord.empty())
+	  ++added;
       }
       for (unsigned i=0;i<f4v.size();++i){
 	if (!f4v[i].coord.empty()){
@@ -3436,12 +3547,47 @@ namespace giac {
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
 	  swap(res[ressize],f4v[i]);
 	  ++ressize;
-	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env);
+#ifdef GBASIS_POSTF4
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,added<=GBASIS_F4);
+#else
+	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
+#endif
 	}
 	else {
 	  // if (!learning && pairs_reducing_to_zero)  cerr << " error learning "<< endl;
 	}
       }
+      unsigned debut=G.size()-added;
+#ifdef GBASIS_POSTF4
+      if (added>GBASIS_F4){
+	// final interreduce 
+	vector<unsigned> G1(G.begin(),G.begin()+debut);
+	vector<unsigned> G2(G.begin()+debut,G.end());
+	vector<int> permu2;
+	if (!learning && f4_info){
+	  const info_t & info=(*f4_info)[f4_info_position-1];
+	  rref_f4mod(res,G1,res,G2,-1,info.quo2,info.R2,env,permu2,false);
+	}
+	else {
+	  information.R2.order=TMP1.order;
+	  information.R2.dim=TMP1.dim;
+	  TMP1.coord.clear();
+	  collect(res,G1,TMP1); // collect all monomials in res[G[0..debut-1]]
+	  // in_heap_reducemod(TMP1,res,G2,-1,info_tmp.quo2,TMP2,&info_tmp.R2,env);
+	  in_heap_reducemod(TMP1,res,G2,-1,information.quo2,TMP2,&information.R2,env);
+	  rref_f4mod(res,G1,res,G2,-1,information.quo2,information.R2,env,permu2,false);
+	  if (f4_info){
+	    info_t & i=f4_info->back();
+	    swap(i.quo2,information.quo2);
+	    swap(i.R2.coord,information.R2.coord);
+	    i.R2.order=TMP1.order;
+	    i.R2.dim=TMP1.dim;
+	  }
+	}
+      }
+#endif
+      // cerr << "finish loop G.size "<<G.size() << endl;
+      // cerr << added << endl;
     }
     if (ressize<res.size())
       res.resize(ressize);
@@ -3762,6 +3908,11 @@ namespace giac {
 	}
 	if (j!=initial)
 	  continue;
+	// at this point we know that the initial ideal belongs to the new ideal on Q
+	// we know that the new ideals belong to the initial ideals mod all the primes
+	// because the new ideal is made from linear combination of initial generators
+	// therefore the ideals coincid mod all primes
+	// and modulo the first prime we have a Groebner basis
 	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(std::log10(double(vtmp.size()))));
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();

@@ -59,7 +59,7 @@ namespace giac {
     for (;it!=itend;++it){
       pos=equalposcomp(w,*(it+1));
       if (pos){
-	v[2*(pos-1)] = normal(v[2*(pos-1)] + *it,false,contextptr);
+	v[2*(pos-1)] = recursive_normal(v[2*(pos-1)] + *it,false,contextptr);
 	++it;
       }
       else {
@@ -93,7 +93,7 @@ namespace giac {
     for (;it!=itend;++it){
       res.push_back(coeff*(*it));
       ++it;
-      res.push_back(normal(arg+(*it),false,contextptr));
+      res.push_back(recursive_normal(arg+(*it),false,contextptr));
     }
     compress(res,contextptr);
   }
@@ -314,18 +314,18 @@ namespace giac {
 	newcoeff=coeff*(*it);
 	++it;
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_cos) ){
-	  newcoeff=normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
+	  newcoeff=recursive_normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
 	  tadd(res,newcoeff,cos(normal(arg._SYMBptr->feuille-it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  tadd(res,newcoeff,cos(normal(arg._SYMBptr->feuille+it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  continue;
 	}
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_sin) ){
-	  newcoeff=normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
+	  newcoeff=recursive_normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
 	  tadd(res,newcoeff,sin(normal(it->_SYMBptr->feuille+arg._SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  tadd(res,newcoeff,sin(normal(it->_SYMBptr->feuille-arg._SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  continue;
 	}
-	res.push_back(normal(newcoeff*(*it),false,contextptr));
+	res.push_back(recursive_normal(newcoeff*(*it),false,contextptr));
 	res.push_back(arg);
       }
       compress(res,contextptr);
@@ -337,18 +337,18 @@ namespace giac {
 	newcoeff=coeff*(*it);
 	++it;
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_cos) ){
-	  newcoeff=normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
+	  newcoeff=recursive_normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
 	  tadd(res,newcoeff,sin(normal(arg._SYMBptr->feuille+it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  tadd(res,newcoeff,sin(normal(arg._SYMBptr->feuille-it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  continue;
 	}
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_sin)){
-	  newcoeff=normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
+	  newcoeff=recursive_normal(rdiv(newcoeff,plus_two,contextptr),false,contextptr);
 	  tadd(res,newcoeff,cos(normal(arg._SYMBptr->feuille-it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  tadd(res,-newcoeff,cos(normal(arg._SYMBptr->feuille+it->_SYMBptr->feuille,false,contextptr),contextptr),contextptr);
 	  continue;
 	}
-	res.push_back(normal(newcoeff*(*it),false,contextptr));
+	res.push_back(recursive_normal(newcoeff*(*it),false,contextptr));
 	res.push_back(arg);
       }
       compress(res,contextptr);
@@ -867,8 +867,8 @@ namespace giac {
       g=subst(g,v,w,false,contextptr);
       v[0]=at_pow;
       w[0]=(&even_pow_cos2tan);
-      g=subst(normal(g,false,contextptr),v,w,false,contextptr);      
-      return normal(g,false,contextptr);
+      g=subst(recursive_normal(g,false,contextptr),v,w,false,contextptr);      
+      return recursive_normal(g,false,contextptr);
     }
     else
       return tan(e,contextptr);

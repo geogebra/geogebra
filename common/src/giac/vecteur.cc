@@ -12598,8 +12598,12 @@ namespace giac {
 	x=l1d; y=c;
       }
     }
-    else 
+    else {
       x=H[n1][n1]-l1,y=H[n1+1][n1];
+      if (std::abs(x)<eps && std::abs(y-1.0)<eps){
+	x = double(giac_rand(context0))/rand_max2;
+      }
+    }
     // make x real
     double xr=real(x),xi=imag(x),yr=real(y),yi=imag(y),X;
     X = std::sqrt(xr*xr+xi*xi);
