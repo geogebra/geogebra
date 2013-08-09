@@ -91,6 +91,10 @@ body .inputbarPanel input {
 	width: 210px;
 }
 
+body .toolbar.visible .inputbarPanel {
+	margin-bottom: 10px;
+}
+
 body .toolbar.visible .inputPanel {
 	width: 100%;
 }
@@ -149,11 +153,15 @@ body .infoDialog .gwt-TextBox {
 }
 
 .sliderDialog .name .gwt-TextBox {
-	width: 325px;
+	width: 340px;
 }
 
 .angleDialog .name .gwt-TextBox {
 	width: 445px;
+}
+
+body .sliderDialog .sliderPanel .inputField.last {
+	margin-right: 20px;
 }
 
 body .radioButtonPanel .gwt-RadioButton label {

@@ -79,6 +79,9 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 					* ToolBarButton.BUTTON_WIDTH
 					+ ToolBarButton.BUTTONPANEL_BORDER;
 
+			this.model.closeOnlyOptions();
+			this.model.setOption(options);
+			
 			// if the width of the subtoolbar ist too big, the position should
 			// be
 			// different
@@ -86,8 +89,6 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 			// Window-width!!
 			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()
 					&& options.isHorizontal()) {
-				this.model.closeOnlyOptions();
-				this.model.setOption(options);
 
 				// special case for cirlces (is still too long)
 				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH
@@ -108,13 +109,15 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 					options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
 				}
 
-				options.show();
-				this.model.setStyleBarOptionShown(OptionType.ToolBar);
-
 			} else {
-				this.model.showOption(options, this);
+				//this.model.showOption(options, this);
+				//(showRelativeToParent doesn't work correctly)
+				options.setPopupPosition(this.getAbsoluteLeft(), this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
 			}
-
+			
+			options.show();
+			this.model.setStyleBarOptionShown(OptionType.ToolBar);
+			
 		}
 		this.model.setActive(this);
 	}

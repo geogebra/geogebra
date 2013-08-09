@@ -135,7 +135,8 @@ div.button.button-up-hovering {
 		254, 254) ), color-stop(1, rgb(237, 237, 237) ) );
 }
 
-.disabled {
+.disabled,
+body .tubesearchgui .fileControlPanel .button.disabled {
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
 }
@@ -240,9 +241,9 @@ input.worksheetTitle {
 
 .optionsBoxArrow {
 	padding-left: 13px;
-	margin-bottom: -5px;
-	margin-top: -5px;
+	top: -13px;
 	z-index: 10;
+	position: absolute;
 }
 
 .optionsBox {
@@ -256,6 +257,10 @@ input.worksheetTitle {
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
 	box-shadow: 3px 3px 5px #DCDCDC;
 	z-index: 5;
+	
+	position: absolute;
+	top: 6px;
+	left: -6px;
 }
 
 .optionsBox .button,
@@ -354,6 +359,7 @@ input.worksheetTitle {
 
 div.elemHeadingName {
 	float: left;
+	position: inherit;
 }
 
 .elemList {
@@ -480,7 +486,7 @@ body .gwt-Tree .gwt-TreeItem-selected {
 }
 
 .subToolBarArrow {
-	margin-top: -10px;
+	margin-top: -7px;
 	padding-left: 23px;
 }
 
@@ -549,11 +555,12 @@ body .gwt-Tree .gwt-TreeItem-selected {
 	font-size: 15px;
 }
 
-/*.inputDialog .gwt-PopupPanel,
-.infoDialog .gwt-PopupPanel {
-	border: none;
-	padding: 10px 2px 0px 2px;
-}*/
+.gwt-PopupPanel {
+	border: none !important;
+	background: none !important;
+	padding: 0px !important;
+	/*padding: 10px 2px 0px 2px;*/
+}
 
 .customKeyPanel {
 	margin-right: -6px;

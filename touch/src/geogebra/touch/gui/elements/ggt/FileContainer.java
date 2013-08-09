@@ -33,7 +33,7 @@ public class FileContainer extends VerticalPanel {
 		this.localFileControlPanel.setStyleName("fileControlPanel");
 
 		this.prevLocalButton.addStyleName("prevButton");
-		this.prevLocalButton.addStyleName("nextPrevDisabled");
+		this.prevLocalButton.addStyleName("disabled");
 		this.localFileControlPanel.add(this.prevLocalButton);
 
 		this.localFilePages = new HorizontalPanel();
@@ -42,7 +42,7 @@ public class FileContainer extends VerticalPanel {
 
 		this.localFileControlPanel.add(this.localFilePages);
 		this.nextLocalButton.addStyleName("nextButton");
-		this.nextLocalButton.addStyleName("nextPrevDisabled");
+		this.nextLocalButton.addStyleName("disabled");
 		this.localFileControlPanel.add(this.nextLocalButton);
 		this.nextLocalButton.addClickHandler(new ClickHandler() {
 
@@ -65,18 +65,18 @@ public class FileContainer extends VerticalPanel {
 
 	public void updateNextPrevButtons() {
 		if (this.localFilePanel.hasNextPage()) {
-			this.nextLocalButton.removeStyleName("nextPrevDisabled");
+			this.nextLocalButton.removeStyleName("disabled");
 			this.nextLocalButton.setEnabled(true);
 		} else {
-			this.nextLocalButton.addStyleName("nextPrevDisabled");
+			this.nextLocalButton.addStyleName("disabled");
 			this.nextLocalButton.setEnabled(false);
 		}
 		if (this.localFilePanel.hasPrevPage()) {
-			this.prevLocalButton.removeStyleName("nextPrevDisabled");
+			this.prevLocalButton.removeStyleName("disabled");
 			this.prevLocalButton.setEnabled(true);
 
 		} else {
-			this.prevLocalButton.addStyleName("nextPrevDisabled");
+			this.prevLocalButton.addStyleName("disabled");
 			this.prevLocalButton.setEnabled(false);
 		}
 	}

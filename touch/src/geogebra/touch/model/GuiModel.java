@@ -224,11 +224,11 @@ public class GuiModel {
 		}
 	}
 
-	public void showOption(SubToolBar panel, ToolBarButton parent) {
+	/*public void showOption(SubToolBar panel, ToolBarButton parent) {
 		this.closeOnlyOptions();
 		this.optionsPanel = panel;
 		this.optionsPanel.showRelativeTo(parent);
 		this.styleBarOptionShown = OptionType.ToolBar;
 
-	}
+	}*/
 }

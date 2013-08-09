@@ -181,11 +181,11 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 	private void createSliderDesign() {
 		this.min = new InputField(this.app.getLocalization().getPlain("min"),
-				false);
+				true);
 		this.max = new InputField(this.app.getLocalization().getPlain("max"),
-				false);
+				true);
 		this.increment = new InputField(this.app.getLocalization().getMenu(
-				"Step"), false);
+				"Step"), true);
 		this.increment.addStyleName("last");
 		
 		final InputField[] box = new InputField[] { this.min, this.max,

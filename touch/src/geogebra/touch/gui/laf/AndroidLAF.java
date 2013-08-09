@@ -20,7 +20,7 @@ public class AndroidLAF extends DefaultLAF {
 
 	@Override
 	public int getPaddingLeftOfDialog() {
-		return 15;
+		return 0;
 	}
 
 	@Override
