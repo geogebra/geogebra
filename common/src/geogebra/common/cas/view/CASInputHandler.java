@@ -188,11 +188,16 @@ public class CASInputHandler {
 				if (isKeepInput) {
 					cellValue.setEvalCommand("KeepInput");
 				}
-				if(isNumeric && cellValue.getInputVE()!=null){
-					cellValue.setInput(cellValue.getInputVE().getLabelForAssignment()+
-							cellValue.getInputVE().getAssignmentOperator()+
-							ggbcmd+"["+ cellValue.getInputVE().toString(StringTemplate.numericDefault)+"]"						
-							);
+				ValidExpression inVE = cellValue.getInputVE();
+				if(isNumeric && inVE!=null) {
+					if (inVE.getTopLevelCommand() == null || !inVE.getTopLevelCommand().getName().equals("Numeric")) {
+						cellValue.setInput(inVE.getLabelForAssignment()
+								+ inVE.getAssignmentOperator()
+								+ ggbcmd
+								+ "["
+								+ inVE.toString(StringTemplate.numericDefault) 
+								+ "]");
+					}
 					processRowThenEdit(selRow, true);
 					return;
 				}
