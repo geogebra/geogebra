@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianSimplePanelW extends AbsolutePanel {
+public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract {
 
 	AppW app;
 	//EuclidianStyleBar espanel;

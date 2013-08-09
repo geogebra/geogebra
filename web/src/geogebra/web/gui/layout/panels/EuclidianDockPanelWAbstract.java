@@ -1,11 +1,7 @@
 package geogebra.web.gui.layout.panels;
 
-import geogebra.common.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.gui.layout.DockPanelW;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
 
 /**
  * Abstract class for all "euclidian" panels. 
@@ -14,7 +10,7 @@ import com.google.gwt.user.client.ui.Panel;
  * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
  * 			does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements geogebra.common.euclidian.GetViewId {
+public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements geogebra.common.euclidian.GetViewId, EuclidianPanelWAbstract {
 	/** */
 	private static final long serialVersionUID = 1L;
 	
@@ -50,9 +46,4 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW implements 
 	public boolean updateResizeWeight(){
 		return true;
 	}
-
-	public abstract AbsolutePanel getAbsolutePanel();
-	public abstract Panel getEuclidianPanel();
-	public abstract Canvas getCanvas();
-	public abstract EuclidianView getEuclidianView();
 }
