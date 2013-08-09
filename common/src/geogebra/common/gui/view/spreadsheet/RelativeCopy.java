@@ -98,8 +98,9 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isFixed())
+								if (vOld != null && vOld.isFixed()) {
 									break;
+								}
 
 								GeoElement v3 = getValue(app, x, y + 2);
 								GeoElement v4 = getValue(app, x, y + 1);
@@ -136,8 +137,9 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isFixed())
+								if (vOld != null && vOld.isFixed()) {
 									break;
+								}
 								
 								GeoElement v3 = getValue(app, x, y - 2);
 								GeoElement v4 = getValue(app, x, y - 1);
@@ -180,8 +182,9 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isFixed())
+								if (vOld != null && vOld.isFixed()) {
 									break;
+								}
 								
 								GeoElement v3 = getValue(app, x + 2, y);
 								GeoElement v4 = getValue(app, x + 1, y);
@@ -217,8 +220,9 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isFixed())
+								if (vOld != null && vOld.isFixed()) {
 									break;
+								}
 								
 								GeoElement v3 = getValue(app, x - 2, y);
 								GeoElement v4 = getValue(app, x - 1, y);
@@ -329,8 +333,9 @@ public class RelativeCopy {
 					GPoint p = geo.getSpreadsheetCoords();
 
 					GeoElement vOld = getValue(app,p.x,dy1 + iy);
-					if (vOld != null && vOld.isFixed())
+					if (vOld != null && vOld.isFixed()) {
 						continue;
+					}
 
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
@@ -383,8 +388,9 @@ public class RelativeCopy {
 					GPoint p = geo.getSpreadsheetCoords();
 
 					GeoElement vOld = getValue(app,dx1 + ix,p.y);
-					if (vOld != null && vOld.isFixed())
+					if (vOld != null && vOld.isFixed()) {
 						continue;
+					}
 
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
