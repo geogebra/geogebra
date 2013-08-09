@@ -1568,7 +1568,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// avoid redefinition)
 				GeoElement[] geos = kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
-								evalVE.toString(StringTemplate.maxPrecision),
+								// we remove Numeric commands, since we are using GeoGebra here
+								evalVE.deepCopy(kernel).traverse(Traversing.CommandRemover.getRemover("Numeric")).toString(StringTemplate.maxPrecision),
 								false, false, false);
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
