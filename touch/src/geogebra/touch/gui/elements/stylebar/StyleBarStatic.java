@@ -11,16 +11,6 @@ import java.util.List;
 
 public class StyleBarStatic {
 
-	/**
-	 * does not change color
-	 * 
-	 * @see EuclidianStyleBarStatic#applyColor
-	 * 
-	 * @param fillable
-	 * @param color
-	 * @param alpha
-	 * @return
-	 */
 	public static boolean applyAlpha(List<GeoElement> fillable, float alpha) {
 		boolean needUndo = false;
 		for (int i = 0; i < fillable.size(); i++) {
@@ -42,16 +32,6 @@ public class StyleBarStatic {
 		return needUndo;
 	}
 
-	/**
-	 * does not change alpha-value
-	 * 
-	 * @see EuclidianStyleBarStatic#applyColor
-	 * 
-	 * @param geos
-	 * @param color
-	 * @param alpha
-	 * @return
-	 */
 	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
@@ -76,7 +56,6 @@ public class StyleBarStatic {
 	 * @see EuclidianStyleBarStatic#applyLineStyle
 	 * 
 	 * @param geos
-	 * @param lineStyleIndex
 	 * @param lineSize
 	 * @return
 	 */
@@ -105,7 +84,6 @@ public class StyleBarStatic {
 	 * 
 	 * @param geos
 	 * @param lineStyleIndex
-	 * @param lineSize
 	 * @return
 	 */
 	public static boolean applyLineStyle(ArrayList<GeoElement> geos,

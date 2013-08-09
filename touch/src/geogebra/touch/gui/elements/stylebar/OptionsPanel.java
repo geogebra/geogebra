@@ -15,7 +15,7 @@ public class OptionsPanel extends PopupPanel {
 
 	private CaptionBar captionBar;
 	private LineStyleBar lineStyleBar;
-	private ColorBarPanel colorBar;
+	private ColorBar colorBar;
 	private OptionType type;
 
 	public OptionsPanel(StyleBar styleBar) {
@@ -42,7 +42,7 @@ public class OptionsPanel extends PopupPanel {
 		this.setWidget(this.contentPanel);
 
 		this.captionBar = new CaptionBar(this.styleBar.getTouchModel());
-		this.colorBar = new ColorBarPanel(this.styleBar,
+		this.colorBar = new ColorBar(this.styleBar,
 				this.styleBar.getTouchModel());
 		this.lineStyleBar = new LineStyleBar(this.styleBar,
 				this.styleBar.getTouchModel());
@@ -79,4 +79,5 @@ public class OptionsPanel extends PopupPanel {
 
 		return this.type;
 	}
+
 }
