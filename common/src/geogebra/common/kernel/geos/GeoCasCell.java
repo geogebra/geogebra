@@ -505,6 +505,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (!isEmpty()) {
 			// make sure we put this casCell into the construction set
 			cons.addToGeoSetWithCasCells(this);
+			// also in the construction list, for the right indexing
+			// if it has input or output it is considered as a complete CAS cell
+			cons.addToConstructionList(this, true);
 		}
 		return true;
 	}
