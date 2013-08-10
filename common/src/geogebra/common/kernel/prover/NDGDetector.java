@@ -222,7 +222,47 @@ public class NDGDetector {
 				}
 			}
 		}
+
+		// CHECKING ISOSCELES TRIANGLES
 		
+		pairs = new Combinations(freePointsSet,2);
+
+		while (pairs.hasNext()) {
+			HashSet<Object> pair = (HashSet<Object>) pairs.next();
+			Iterator<Object> it1 = pair.iterator();
+			// GeoElement[] points = (GeoElement[]) pair.toArray();
+			// This is not working directly, so we have to do it manually:
+			int i = 0;
+			GeoElement[] points = new GeoElement[4];
+			while (it1.hasNext()) {
+				points[i] = (GeoElement) it1.next();
+				i += 2;
+			}
+			it = freePointsSet.iterator();
+			while (it.hasNext()) {
+				points[1] = points[3] = it.next();		
+				Variable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+						.getBotanaVars(points[0]);
+				Variable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+						.getBotanaVars(points[1]);
+				Variable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
+						.getBotanaVars(points[2]);
+				// Creating the polynomial for being isosceles:
+				Polynomial eq = Polynomial.equidistant(fv1[0], fv1[1],
+						fv2[0], fv2[1], fv3[0], fv3[1])
+						.substitute(substitutions);
+				if (Polynomial.areAssociates1(p, eq)) {
+					App.debug(p + " means being isosceles triangle for base " + pair
+							+ " and opposite vertex " + points[1]);
+					NDGCondition ndgc = new NDGCondition();
+					ndgc.setGeos(points);			
+					ndgc.setCondition("AreEqual");
+					return ndgc;
+				}
+			}
+		}
+
+		// Unsuccessful run:
 		App.debug("No human readable geometrical meaning found for " + p);
 		
 		return null;
