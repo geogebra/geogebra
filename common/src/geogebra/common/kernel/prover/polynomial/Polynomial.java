@@ -504,7 +504,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				.subtract((a2.subtract(b2)).multiply(c1.subtract(d1)));
 		return ret;
 	}
-	
+		
 	/**
 	 * Calculates the determinant of a 4 times 4 matrix
 	 * @param matrix matrix

@@ -213,7 +213,8 @@ public abstract class Prover {
 		 */
 		public void rewrite(Construction cons) {
 			if ((this.getCondition().equals("AreEqual") ||
-					this.getCondition().equals("ArePerpendicular")) &&
+					this.getCondition().equals("ArePerpendicular") ||
+					this.getCondition().equals("AreParallel")) &&
 					this.geos.length == 4) {
 				// This is an AreEqual[P1,P2,P3,P4]-like condition.
 				// We should try to rewrite it to
