@@ -3,6 +3,8 @@ package geogebra.common.util;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.main.App;
 
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Prover package for GeoGebra.
@@ -185,6 +188,48 @@ public abstract class Prover {
 	            return false;
 
 	        return this.hashCode() == obj.hashCode();			
+		}
+		
+		private static GeoLine line(GeoPoint P1, GeoPoint P2, Construction cons) {
+			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
+			Iterator<GeoElement> it = ges.iterator();
+			while (it.hasNext()) {
+				GeoElement ge = it.next();
+					if (ge instanceof GeoLine) {
+						GeoPoint Q1 = ((GeoLine) ge).getStartPoint();
+						GeoPoint Q2 = ((GeoLine) ge).getEndPoint();
+						if ((Q1.equals(P1) && Q2.equals(P2))
+								|| (Q1.equals(P2) && Q2.equals(P1))) {
+							return (GeoLine) ge;
+						}
+				}
+			}		
+			return null;
+		}
+		
+		/**
+		 * Rewrites the NDG to a simpler form.
+		 * @param cons the current construction
+		 */
+		public void rewrite(Construction cons) {
+			if ((this.getCondition().equals("AreEqual") ||
+					this.getCondition().equals("ArePerpendicular")) &&
+					this.geos.length == 4) {
+				// This is an AreEqual[P1,P2,P3,P4]-like condition.
+				// We should try to rewrite it to
+				// AreEqual[Line[P1,P2],Line[P3,P4]].
+				GeoPoint P1 = (GeoPoint) this.geos[0];
+				GeoPoint P2 = (GeoPoint) this.geos[1];
+				GeoLine l1 = line(P1, P2, cons);
+				GeoPoint P3 = (GeoPoint) this.geos[2];
+				GeoPoint P4 = (GeoPoint) this.geos[3];
+				GeoLine l2 = line(P3, P4, cons);
+				if (l1 != null && l2 != null) {
+					geos = new GeoElement[2];
+					geos[0] = l1;
+					geos[1] = l2;
+				}
+			}
 		}
 	}
 	

@@ -161,6 +161,7 @@ public class AlgoProveDetails extends AlgoElement {
 				while (it.hasNext()) {
 					GeoText ndgConditionText = new GeoText(cons);
 					NDGCondition ndgc = it.next();
+					ndgc.rewrite(cons);
 					String s = loc.getCommand(ndgc.getCondition());
 					s += "[";
 					for (int i = 0; i < ndgc.getGeos().length; ++i) {
