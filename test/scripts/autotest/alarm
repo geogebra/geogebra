@@ -63,9 +63,6 @@ if [ $RESULT = 0 ]; then
 
   if [ $WRESULT = 0 ]; then
    MESSAGE="Everything is OK at revision $REVISION"
-   # Creating javadoc:
-   cd $SVNDIR/tools/javadoc
-   ./create
    exit 0 # Not sending an email
 
   else # WRESULT != 0, so error reporting needed:
