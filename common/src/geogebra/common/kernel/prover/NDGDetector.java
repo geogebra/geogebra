@@ -189,7 +189,7 @@ public class NDGDetector {
 
 			Combinations pairs2 = new Combinations(freePointsSet,2);
 			while (pairs2.hasNext()) {
-				HashSet<Object> pair2 = (HashSet<Object>) pairs1.next();
+				HashSet<Object> pair2 = (HashSet<Object>) pairs2.next();
 				Iterator<Object> it2 = pair2.iterator();
 				// GeoElement[] points = (GeoElement[]) pair.toArray();
 				// This is not working directly, so we have to do it manually:
