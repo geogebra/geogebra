@@ -132,6 +132,12 @@ public class Prover extends geogebra.common.util.Prover {
         		for (String param : paramsArray) {
         			// TODO: This is not really fast, improve this somehow:
         			geos[j] = getGeoByLabel(param.trim());
+        			if (geos[j] == null) {
+        				// We don't want to show such objects which cannot be detected by GeoGebra,
+        				// so it's better to not accept this answer from OGP and say the result
+        				// is unknown:
+        				return ProofResult.UNKNOWN;
+        			}
         			j++;
         		}
         		ndg.setGeos(geos);

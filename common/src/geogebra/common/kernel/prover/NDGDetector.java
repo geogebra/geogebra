@@ -67,8 +67,7 @@ public class NDGDetector {
 
 		// CHECKING STRONG EQUALITY
 
-		Combinations freePointsPairs = new Combinations(freePointsSet,2);
-		Combinations pairs = freePointsPairs;
+		Combinations pairs = new Combinations(freePointsSet,2);
 		
 		while (pairs.hasNext()) {
 			HashSet<Object> pair = (HashSet<Object>) pairs.next();
@@ -174,7 +173,7 @@ public class NDGDetector {
 
 		// CHECKING PERPENDICULARITY
 
-		Combinations pairs1 = freePointsPairs;
+		Combinations pairs1 = new Combinations(freePointsSet,2);
 		
 		while (pairs1.hasNext()) {
 			HashSet<Object> pair1 = (HashSet<Object>) pairs1.next();
@@ -188,7 +187,7 @@ public class NDGDetector {
 				i++;
 			}
 
-			Combinations pairs2 = freePointsPairs;
+			Combinations pairs2 = new Combinations(freePointsSet,2);
 			while (pairs2.hasNext()) {
 				HashSet<Object> pair2 = (HashSet<Object>) pairs1.next();
 				Iterator<Object> it2 = pair2.iterator();
@@ -208,12 +207,13 @@ public class NDGDetector {
 						.getBotanaVars(points[0]);
 				Variable[] fv4 = ((SymbolicParametersBotanaAlgo) points[3])
 						.getBotanaVars(points[1]);
-				// Creating the polynomial for equality:
+				// Creating the polynomial for perpendicularity:
 				Polynomial eq = Polynomial.perpendicular(fv1[0], fv1[1],
 						fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
 						.substitute(substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
-					App.debug(p + " means perpendicularity for " + pair2);
+					App.debug(p + " means perpendicularity for " + pair1 +
+							" and " + pair2);
 					NDGCondition ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					Arrays.sort(ndgc.getGeos());
