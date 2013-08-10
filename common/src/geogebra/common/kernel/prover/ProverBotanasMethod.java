@@ -360,6 +360,8 @@ public class ProverBotanasMethod {
 							}
 						}
 						// Now we take the set if the conditions are readable and the set is the current best.
+						// TODO: Here we should simplify the NDGs, i.e. if one of them is a logical
+						// consequence of others, then it should be eliminated.
 						if (readable && score < bestScore) {
 							bestScore = score;
 							bestNdgSet = ndgcl;
@@ -369,6 +371,8 @@ public class ProverBotanasMethod {
 					// No readable proof was found, search for another prover to make a better job:
 					if (!found)
 						return ProofResult.UNKNOWN;
+					// FIXME: If no readable proof was found at all, but the statement is true,
+					// ProveDetails should return {true,?} or {true,{...}} --- TODO: discuss this.
 					
 					Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
 					while (ndgc.hasNext()) {

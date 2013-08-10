@@ -66,8 +66,9 @@ public class NDGDetector {
 		}
 
 		// CHECKING STRONG EQUALITY
-		
-		Combinations pairs = new Combinations(freePointsSet,2);
+
+		Combinations freePointsPairs = new Combinations(freePointsSet,2);
+		Combinations pairs = freePointsPairs;
 		
 		while (pairs.hasNext()) {
 			HashSet<Object> pair = (HashSet<Object>) pairs.next();
@@ -168,6 +169,57 @@ public class NDGDetector {
 				ndgc.setCondition("AreEqual"); // in fact this is y(A)=y(B), so we use a sufficient condition instead
 				ndgc.setReadability(5); // we don't really want this condition
 				return ndgc;
+			}
+		}
+
+		// CHECKING PERPENDICULARITY
+
+		Combinations pairs1 = freePointsPairs;
+		
+		while (pairs1.hasNext()) {
+			HashSet<Object> pair1 = (HashSet<Object>) pairs1.next();
+			Iterator<Object> it1 = pair1.iterator();
+			// GeoElement[] points = (GeoElement[]) pair.toArray();
+			// This is not working directly, so we have to do it manually:
+			int i = 0;
+			GeoElement[] points = new GeoElement[4];
+			while (it1.hasNext()) {
+				points[i] = (GeoElement) it1.next();
+				i++;
+			}
+
+			Combinations pairs2 = freePointsPairs;
+			while (pairs2.hasNext()) {
+				HashSet<Object> pair2 = (HashSet<Object>) pairs1.next();
+				Iterator<Object> it2 = pair2.iterator();
+				// GeoElement[] points = (GeoElement[]) pair.toArray();
+				// This is not working directly, so we have to do it manually:
+				i = 2;
+				while (it2.hasNext()) {
+					points[i] = (GeoElement) it2.next();
+					i++;
+				}
+
+				Variable[] fv1 = ((SymbolicParametersBotanaAlgo) points[0])
+						.getBotanaVars(points[0]);
+				Variable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
+						.getBotanaVars(points[1]);
+				Variable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
+						.getBotanaVars(points[0]);
+				Variable[] fv4 = ((SymbolicParametersBotanaAlgo) points[3])
+						.getBotanaVars(points[1]);
+				// Creating the polynomial for equality:
+				Polynomial eq = Polynomial.perpendicular(fv1[0], fv1[1],
+						fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
+						.substitute(substitutions);
+				if (Polynomial.areAssociates1(p, eq)) {
+					App.debug(p + " means perpendicularity for " + pair2);
+					NDGCondition ndgc = new NDGCondition();
+					ndgc.setGeos(points);
+					Arrays.sort(ndgc.getGeos());
+					ndgc.setCondition("ArePerpendicular");
+					return ndgc;
+				}
 			}
 		}
 		

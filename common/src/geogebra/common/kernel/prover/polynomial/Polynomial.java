@@ -958,6 +958,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		
 		String elimResult, elimProgram;
+		App.debug(variables.size() + " variables, " + dependentVariables.size() + " dependent variables");
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			elimProgram = createEliminateFactorizedScript(
