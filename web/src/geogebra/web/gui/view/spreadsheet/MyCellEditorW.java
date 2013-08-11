@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.spreadsheet;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -31,7 +32,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	
 	protected GeoElement value;
 	protected MyTableW table;
-	private AutoCompleteTextFieldW textField;
+	AutoCompleteTextFieldW textField;
 
 	protected int column = -1;
 	protected int row = -1;
@@ -433,7 +434,18 @@ public class MyCellEditorW implements BaseCellEditor {
 						int colOffset = tabReturnCol - column;
 						stopCellEditing(colOffset, 1);
 					} else {
-						stopCellEditing(0, 1);
+						boolean moveDown = true;
+
+						if (value != null) {
+							GPoint pos = GeoElementSpreadsheet.spreadsheetIndices(value.getLabelSimple());
+							String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(pos.x, pos.y + 1);
+							GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
+
+							moveDown = cellBelow == null || !cellBelow.isFixed();
+						}
+
+						// don't move down to cell below if it's fixed
+						stopCellEditing(0, moveDown ? 1 : 0);
 					}
 				} else {
 					textField.setCaretPosition(bracketsIndex + 1);
