@@ -2943,9 +2943,14 @@ namespace giac {
     return v1.front().pos<v2.front().pos;
   }
 
+  bool tri1(const sparse_element & v1,const sparse_element & v2){
+    return v1.val<v2.val;
+  }
+
 #ifdef GBASIS_HEAP
   void makeline(const polymod & p,const tdeg_t * shiftptr,const polymod & R,vector<modint> & v){
     v.resize(R.coord.size()); 
+    v.assign(R.coord.size(),0);
     std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
     if (shiftptr){
       for (;it!=itend;++it){
@@ -3027,6 +3032,228 @@ namespace giac {
     }
   }
 
+  void convert(const vector<modint> & v,vector<sparse_element> & w,vector<char> & used){
+    unsigned count=0;
+    vector<modint>::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (*it){
+	used[it-v.begin()]=1;
+	++count;
+      }
+    }
+    w.clear();
+    w.reserve(count);
+    for (it=v.begin();it!=itend;++it){
+      if (*it)
+	w.push_back(sparse_element(*it,it-v.begin()));
+    }
+  }
+
+  void rref_f4mod_interreduce(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
+    // step2: for each monomials of quo[i], shift res[G[i]] by monomial
+    // set coefficient in a line of a matrix M, columns are R monomials indices
+    if (debug_infolevel>1)
+      cerr << clock() << " begin build M" << endl;
+    vector< vector<sparse_element> > M;
+    unsigned N=R.coord.size(),i,j=0;
+    M.reserve(N);
+    vector<sparse_element> atrier;
+    atrier.reserve(N);
+    for (i=0;i<G.size();++i){
+      std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
+      for (;jt!=jtend;++j,++jt){
+	M.push_back(vector<sparse_element>(0));
+	M[j].reserve(res[G[i]].coord.size());
+	makeline(res[G[i]],&jt->u,R,M[j]);
+	atrier.push_back(sparse_element(M[j].front().pos,j));
+      }
+    }
+    if (debug_infolevel>1)
+      cerr << clock() << " end build M" << endl;
+    // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
+    // cerr << "before sort " << M << endl;
+    sort(atrier.begin(),atrier.end(),tri1);
+    vector< vector<sparse_element> > M1(atrier.size());
+    for (i=0;i<atrier.size();++i){
+      swap(M1[i],M[atrier[i].pos]);
+    }
+    swap(M,M1);
+    // sort(M.begin(),M.end(),tri);
+    if (debug_infolevel>1)
+      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << endl;
+    // cerr << "after sort " << M << endl;
+    // step3 reduce
+    unsigned c=N;
+    vector<modint> v(N);
+    vector< vector<sparse_element> > SK(f4v.size());
+    vector<char> used(N,0);
+    for (i=0;i<f4vG.size();++i){
+      if (!f4v[f4vG[i]].coord.empty()){
+	makeline(f4v[f4vG[i]],0,R,v);
+	c=giacmin(c,reducef4(v,M,env));
+	// convert v to a sparse vector in SK and update used
+	convert(v,SK[i],used);
+	// cerr << v << endl << SK[i] << endl;
+      }
+    }
+    M.clear();
+    if (debug_infolevel>1)
+      cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+    unsigned usedcount=0;
+    for (i=0;i<N;++i)
+      usedcount += used[i];
+    if (debug_infolevel>1)
+      cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+    // create dense matrix K 
+    vector< vector<modint> > K(f4vG.size());
+    for (i=0; i<K.size(); ++i){
+      vector<modint> & v =K[i];
+      v.resize(usedcount);
+      vector<modint>::iterator vt=v.begin();
+      vector<char>::const_iterator ut=used.begin(),ut0=ut;
+      vector<sparse_element>::const_iterator st=SK[i].begin(),stend=SK[i].end();
+      for (j=0;st!=stend;++j,++ut){
+	if (!*ut) 
+	  continue;
+	if (j==st->pos){
+	  *vt=st->val;
+	  ++st;
+	}
+	++vt;
+      }
+      vector<sparse_element> clearer;
+      swap(SK[i],clearer); // clear SK[i] memory
+      // cerr << used << endl << SK[i] << endl << K[i] << endl;
+    }
+    vecteur pivots; vector<int> maxrankcols; longlong idet;
+    // cerr << K << endl;
+    smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    // cerr << K << "," << permutation << endl;
+    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
+    vector<int> permu=perminv(permutation);
+    if (debug_infolevel>1)
+      cerr << clock() << " f4v interreduced" << endl;
+    for (i=0;i<f4vG.size();++i){
+#if 1 // spare memory, keep exactly the right number of monomials in f4v[]
+      polymod tmpP(f4v[f4vG[i]].order,f4v[f4vG[i]].dim);
+      vector<modint> & v =K[permu[i]];
+      unsigned vcount=0;
+      vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
+      for (;vt!=vtend;++vt){
+	if (*vt)
+	  ++vcount;
+      }
+      vector< T_unsigned<modint,tdeg_t> > & Pcoord=tmpP.coord;
+      Pcoord.reserve(vcount);
+      vector<char>::const_iterator ut=used.begin();
+      for (vt=v.begin(),it=R.coord.begin();it!=itend;++ut,++it){
+	if (!*ut)
+	  continue;
+	modint coeff=*vt;
+	++vt;
+	if (coeff!=0)
+	  Pcoord.push_back(T_unsigned<modint,tdeg_t>(coeff,it->u));
+      }
+      if (!Pcoord.empty() && Pcoord.front().g!=1){
+	smallmultmod(invmod(Pcoord.front().g,env),tmpP,env);	
+	Pcoord.front().g=1;
+      }
+      swap(tmpP.coord,f4v[f4vG[i]].coord);
+#else
+      // cerr << v << endl;
+      vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
+      Pcoord.clear();
+      vector<modint> & v =K[permu[i]];
+      unsigned vcount=0;
+      vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
+      for (;vt!=vtend;++vt){
+	if (*vt)
+	  ++vcount;
+      }
+      Pcoord.reserve(vcount);
+      vector<char>::const_iterator ut=used.begin();
+      for (vt=v.begin(),it=R.coord.begin();it!=itend;++ut,++it){
+	if (!*ut)
+	  continue;
+	modint coeff=*vt;
+	++vt;
+	if (coeff!=0)
+	  Pcoord.push_back(T_unsigned<modint,tdeg_t>(coeff,it->u));
+      }
+      if (!Pcoord.empty() && Pcoord.front().g!=1){
+	smallmultmod(invmod(Pcoord.front().g,env),f4v[f4vG[i]],env);	
+	Pcoord.front().g=1;
+      }
+#endif
+    }
+  }
+
+  void rref_f4mod_nointerreduce(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
+    // step2: for each monomials of quo[i], shift res[G[i]] by monomial
+    // set coefficient in a line of a matrix M, columns are R monomials indices
+    if (debug_infolevel>1)
+      cerr << clock() << " begin build M" << endl;
+    vector< vector<sparse_element> > M;
+    unsigned N=R.coord.size(),i,j=0;
+    M.reserve(N);
+    vector<sparse_element> atrier;
+    atrier.reserve(N);
+    for (i=0;i<G.size();++i){
+      std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
+      for (;jt!=jtend;++j,++jt){
+	M.push_back(vector<sparse_element>(0));
+	M[j].reserve(res[G[i]].coord.size());
+	makeline(res[G[i]],&jt->u,R,M[j]);
+	atrier.push_back(sparse_element(M[j].front().pos,j));
+      }
+    }
+    if (debug_infolevel>1)
+      cerr << clock() << " end build M" << endl;
+    // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
+    // cerr << "before sort " << M << endl;
+    sort(atrier.begin(),atrier.end(),tri1);
+    vector< vector<sparse_element> > M1(atrier.size());
+    for (i=0;i<atrier.size();++i){
+      swap(M1[i],M[atrier[i].pos]);
+    }
+    swap(M,M1);
+    // sort(M.begin(),M.end(),tri);
+    if (debug_infolevel>1)
+      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << endl;
+    // cerr << "after sort " << M << endl;
+    // step3 reduce
+    unsigned c=N;
+    vector<modint> v(N);
+    vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
+    for (i=0;i<f4vG.size();++i){
+      if (!f4v[f4vG[i]].coord.empty()){
+	makeline(f4v[f4vG[i]],0,R,v);
+	// cerr << v << endl;
+	c=giacmin(c,reducef4(v,M,env));
+	vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
+	Pcoord.clear();
+	unsigned vcount=0;
+	vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
+	for (;vt!=vtend;++vt){
+	  if (*vt)
+	    ++vcount;
+	}
+	Pcoord.reserve(vcount);
+	for (vt=v.begin(),it=R.coord.begin();it!=itend;++it){
+	  modint coeff=*vt;
+	  ++vt;
+	  if (coeff!=0)
+	    Pcoord.push_back(T_unsigned<modint,tdeg_t>(coeff,it->u));
+	}
+	if (!Pcoord.empty() && Pcoord.front().g!=1){
+	  smallmultmod(invmod(Pcoord.front().g,env),f4v[f4vG[i]],env);	
+	  Pcoord.front().g=1;
+	}
+      }
+    }
+  }
+
+#if 0
   void rref_f4mod(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation,bool interreduce){
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
@@ -3048,7 +3275,7 @@ namespace giac {
     // cerr << "before sort " << M << endl;
     sort(M.begin(),M.end(),tri);
     if (debug_infolevel>1)
-      cerr << clock() << " M sorted" << endl;
+      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << endl;
     // cerr << "after sort " << M << endl;
     // step3 reduce
     // perhaps better to do simultaneous reduction?
@@ -3064,11 +3291,42 @@ namespace giac {
       }
     }
     if (debug_infolevel>1)
-      cerr << clock() << " f4v reduced" << f4vG.size() << endl;
+      cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+    vector<char> used;
     if (interreduce){
+      used=vector<char>(N);
+      for (i=0; i<K.size(); ++i){
+	vector<modint>::const_iterator vt=K[i].begin(),vtend=K[i].end();
+	vector<char>::iterator ut=used.begin();
+	for (;vt!=vtend;++ut,++vt){
+	  if (*vt)
+	    *ut=1;
+	}
+      }
+      unsigned usedcount=0;
+      for (i=0;i<N;++i)
+	usedcount += used[i];
+      if (debug_infolevel>1)
+	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+      // compress matrix K by removing 0 columns
+      for (i=0; i<K.size(); ++i){
+	vector <modint> tmpused(usedcount);
+	vector<modint>::iterator vt=K[i].begin(),vtend=K[i].end(),tmpt=tmpused.begin();
+	vector<char>::const_iterator ut=used.begin();
+	for (;vt!=vtend;++ut,++vt){
+	  if (!*ut)
+	    continue;
+	  *tmpt=*vt;
+	  ++tmpt;
+	}
+	swap(K[i],tmpused); // this will destroy K[i] allocated mem area
+      }
       vecteur pivots; vector<int> maxrankcols; longlong idet;
       // cerr << K << endl;
-      smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),c,N,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+      smallmodrref(K,pivots,permutation,maxrankcols,idet,0,K.size(),0,usedcount,1/* fullreduction*/,0/*dontswapbelow*/,env,0/* rrefordetorlu*/);
+    }
+    else { // else interreduce
+      used=vector<char>(N,1);
     }
     // cerr << K << "," << permutation << endl;
     vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
@@ -3082,8 +3340,19 @@ namespace giac {
       vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
       Pcoord.clear();
       vector<modint> & v =K[interreduce?permu[i]:i];
-      for (j=0,it=R.coord.begin();it!=itend;++it,++j){
-	modint coeff=v[j];
+      unsigned vcount=0;
+      vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
+      for (;vt!=vtend;++vt){
+	if (*vt)
+	  ++vcount;
+      }
+      Pcoord.reserve(vcount);
+      vector<char>::const_iterator ut=used.begin();
+      for (vt=v.begin(),it=R.coord.begin();it!=itend;++ut,++it){
+	if (!*ut)
+	  continue;
+	modint coeff=*vt;
+	++vt;
 	if (coeff!=0)
 	  Pcoord.push_back(T_unsigned<modint,tdeg_t>(coeff,it->u));
       }
@@ -3093,12 +3362,17 @@ namespace giac {
       }
     }
   }
+#endif
 
   void rref_f4mod(vectpolymod & f4v,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
     vector<unsigned> f4vG(f4v.size());
     for (unsigned i=0;i<f4v.size();++i)
       f4vG[i]=i;
+#if 0
     rref_f4mod(f4v,f4vG,res,G,excluded,quo,R,env,permutation,true);
+#else
+    rref_f4mod_interreduce(f4v,f4vG,res,G,excluded,quo,R,env,permutation);
+#endif
   }
 
   struct info_t {
@@ -3566,7 +3840,7 @@ namespace giac {
 	vector<int> permu2;
 	if (!learning && f4_info){
 	  const info_t & info=(*f4_info)[f4_info_position-1];
-	  rref_f4mod(res,G1,res,G2,-1,info.quo2,info.R2,env,permu2,false);
+	  rref_f4mod_nointerreduce(res,G1,res,G2,-1,info.quo2,info.R2,env,permu2);
 	}
 	else {
 	  information.R2.order=TMP1.order;
@@ -3575,7 +3849,7 @@ namespace giac {
 	  collect(res,G1,TMP1); // collect all monomials in res[G[0..debut-1]]
 	  // in_heap_reducemod(TMP1,res,G2,-1,info_tmp.quo2,TMP2,&info_tmp.R2,env);
 	  in_heap_reducemod(TMP1,res,G2,-1,information.quo2,TMP2,&information.R2,env);
-	  rref_f4mod(res,G1,res,G2,-1,information.quo2,information.R2,env,permu2,false);
+	  rref_f4mod_nointerreduce(res,G1,res,G2,-1,information.quo2,information.R2,env,permu2);
 	  if (f4_info){
 	    info_t & i=f4_info->back();
 	    swap(i.quo2,information.quo2);
@@ -3801,17 +4075,19 @@ namespace giac {
       current=res;
       G.clear();
       if (debug_infolevel)
-	cerr << clock() << " begin computing basis modulo " << p << endl;
-      // reduceto0.clear();
+	cerr << clock() << " begin computing basis modulo " << p << " prime number " << count+1 << endl;
 #ifdef GBASIS_F4 
-      // learning is less efficient with F4
-      // and also reconstruction start later without F4
       if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,
 			  //		  0,0
 			  &reduceto0,&f4_info
 			  )){
-	ok=false;
-	break;
+	// retry 
+	reduceto0.clear();
+	f4_info.clear();
+	if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,&f4_info)){
+	  ok=false;
+	  break;
+	}
       }
 #else
       if (!in_gbasismod(current,resmod,G,p.val,true,&reduceto0)){
@@ -3908,18 +4184,47 @@ namespace giac {
 	}
 	if (j!=initial)
 	  continue;
-	// at this point we know that the initial ideal belongs to the new ideal on Q
-	// we know that the new ideals belong to the initial ideals mod all the primes
-	// because the new ideal is made from linear combination of initial generators
-	// therefore the ideals coincid mod all primes
-	// and modulo the first prime we have a Groebner basis
-	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(std::log10(double(vtmp.size()))));
+	/* Let I=<f1,...fn> be the original ideal.
+	   Let I'=<g1,...,gk> be the new ideal generated by the reconstructed res
+	   We checked that the initial ideal I is included in the new ideal I' on Q 
+	   We know that the new ideal I' mod any primes used is included 
+	   in the initial ideals I  mod this prime because the generators of I'
+	   were constructed from linear combination of the initial generators.
+	   Therefore the ideals I and I' coincid modulo all primes.
+	   In addition we have a Groebner basis modulo the first prime p, and
+	   the leading coefficients of g are not divisible by p.
+	   Assume that an element h of I' does not reduce to 0.
+	   Multiply h by lcm of denominators, divide by content to have coeffs in Z
+	   Multiply h by as many of the leading coeffs of g1,...,gk as necessary
+	   to proceed to the reduction with coeffs in Z.
+	   The remainder r is 0 modulo p because g1,..,gk is a Groebner basis mod p, 
+	   hence r is a multiple of p in Z.
+	   Divide r by the largest possible power of p,
+	   we get an element r' of I' with integer coefficients, different
+	   from 0 modulo p, with no monomial divisible by a leading monomial 
+	   of the gk, therefore no reduction can happen modulo the Groebner basis
+	   modulo p, contradiction.
+	   Therefore <g1,...,gk> is a Groebner basis of I' on Q.
+	   Since I=I' mod p, I is included in I' and 
+	   we have a Groebner basis on Q and mod p, we conclude that I=I' on Q
+	   (see for example 
+	   Modular algorithms for computing Groebner bases Elizabeth A. Arnold
+	   Journal of Symbolic Computation 35 (2003) 403–419)
+	*/
+#if 0
+	double terms=0;
+	for (unsigned k=0;k<vtmp.size();++k)
+	  terms += vtmp[k].coord.size();
+	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();
 	  in_gbasis(vtmp,G,0,true);
+	  // FIXME replace by a quicker check with f4 on all spolys
+	  // and rewrite as a linear system 
 	}
 	else
 	  *logptr(contextptr) << gettext("Result is not certified to be a Groebner basis. Error probability is less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify.") << endl;
+#endif
 	if (debug_infolevel)
 	  cerr << clock() << " end final check " << P[i] << endl;
 	if (vtmp==W[i]){

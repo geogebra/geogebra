@@ -4226,7 +4226,8 @@ static define_unary_function_eval (__simplex_reduce,&_simplex_reduce,_simplex_re
 	bfs=vecteur(nc-1);
 	// Push back 0 or m[i][nc-1] if column is an identity column
 	matrice mt=mtran(m);
-	for (int i=0;i<nc-1;++i){
+	int counter=nr-1;
+	for (int i=0;i<nc-1 && counter>0;++i){
 	  int cur_col=-1;
 	  if (is_zero(mt[i][nr-1])){
 	    for (int j=0;j<nr-1;++j){
@@ -4239,8 +4240,10 @@ static define_unary_function_eval (__simplex_reduce,&_simplex_reduce,_simplex_re
 	      cur_col=j;	    
 	    }
 	  }
-	  if (cur_col>=0)
+	  if (cur_col>=0){
+	    --counter;
 	    bfs[i]=mt[nc-1][cur_col];
+	  }
 	}
 	return m;
       }
