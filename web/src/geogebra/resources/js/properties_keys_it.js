@@ -1273,7 +1273,7 @@ __GGB__keysVar.it.menu = {
     "DilateFromPoint_Help": "Selezionare l'oggetto da dilatare, quindi il centro e digitare il rapporto di omotetia",
     "Discrete": "Discreto",
     "Distance": "Distanza o lunghezza",
-    "Distance_Help": "Selezionare due punti, segmenti, poligoni o circonferenze",
+    "Distance_Help": "Selezionare due punti, un segmento, un poligono o una circonferenza",
     "Distribution": "Distribuzione",
     "Distribution_Binomial": "Binomiale",
     "Distribution_Cauchy": "Cauchy",
