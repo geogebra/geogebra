@@ -57,11 +57,11 @@ public class TransformMirror extends Transform {
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoMirror algo = null;
 		if (mirror.isGeoLine()) {
-			algo = new AlgoMirror(cons, geo, (GeoLine) mirror, null, null);
+			algo = new AlgoMirror(cons, geo, (GeoLine) mirror);
 		} else if (mirror.isGeoPoint()) {
-			algo = new AlgoMirror(cons, geo, null, (GeoPoint) mirror, null);
+			algo = new AlgoMirror(cons, geo, (GeoPoint) mirror);
 		} else {
-			algo = new AlgoMirror(cons, geo, null, null, (GeoConic) mirror);
+			algo = new AlgoMirror(cons, geo, (GeoConic) mirror);
 		}
 		return algo;
 	}

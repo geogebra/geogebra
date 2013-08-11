@@ -15,6 +15,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  *
  */
 public class AlgoMirror3D extends AlgoMirror {
+	
+	private GeoPlane3D mirrorPlane;
 
 	/**
 	 * mirror at point
@@ -23,7 +25,7 @@ public class AlgoMirror3D extends AlgoMirror {
 	 * @param point mirror point
 	 */
 	public AlgoMirror3D(Construction cons, GeoElement in, GeoPointND point) {
-		super(cons, in, null, point, null);
+		super(cons, in, point);
 	}
 	
 	/**
@@ -33,9 +35,31 @@ public class AlgoMirror3D extends AlgoMirror {
 	 * @param line mirror line
 	 */
 	public AlgoMirror3D(Construction cons, GeoElement in, GeoLineND line) {
-		super(cons, in, line, null, null);
+		super(cons, in, line);
 	}
 	
+	/**
+	 * mirror at line
+	 * @param cons construction
+	 * @param in input
+	 * @param line mirror line
+	 */
+	public AlgoMirror3D(Construction cons, GeoElement in, GeoPlane3D plane) {
+    	super(cons);     
+        mirrorPlane = plane;
+    	endOfConstruction(cons, in, plane);
+	}
+	
+	
+    @Override
+	protected void computeRegardingMirror(){
+    	if (mirror == mirrorPlane) {
+        	//((MirrorableAtPlane) out).mirror(mirrorPlane);
+        } else  {
+        	super.computeRegardingMirror();
+        }
+        
+    }
     
     @Override
 	protected GeoElement copy(GeoElement geo){

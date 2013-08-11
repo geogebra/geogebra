@@ -6,6 +6,7 @@ import geogebra.common.kernel.commands.CmdMirror;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -53,6 +54,10 @@ public class CmdMirror3D extends CmdMirror {
 					}
 					if(arg[1].isGeoLine()) {				
 						ret = kernelA.getManager3D().Mirror3D(label, arg[0], (GeoLineND) arg[1]);
+						return ret;
+					}					
+					if(arg[1].isGeoPlane()) {				
+						ret = kernelA.getManager3D().Mirror3D(label, arg[0], (GeoPlaneND) arg[1]);
 						return ret;
 					}					
 					ok[1] = false;

@@ -663,6 +663,9 @@ public interface Manager3DInterface {
 	public GeoElement[] Mirror3D(String label, GeoElement geo,
 			GeoLineND line);
 	
+	 public GeoElement[] Mirror3D(String label, GeoElement geo,
+				GeoPlaneND plane);
+	
 	public GeoElement[] Dilate3D(String label, GeoElement geoDil,
 			NumberValue r, GeoPointND S);
 	

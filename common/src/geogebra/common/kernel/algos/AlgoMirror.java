@@ -50,7 +50,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoMirror extends AlgoTransformation {
 
-    private Mirrorable out;   
+    protected Mirrorable out;   
     protected GeoElement inGeo;
 	protected GeoElement outGeo; 
     private GeoLineND mirrorLine;   
@@ -68,8 +68,22 @@ public class AlgoMirror extends AlgoTransformation {
      * @param p
      */
     protected AlgoMirror(Construction cons, String label,GeoElement in,GeoPointND p) {
-    	this(cons, in, null, p, null);  
-    	 outGeo.setLabel(label);
+
+    	this(cons, in, p);
+    	outGeo.setLabel(label);
+    }    
+    
+    /**
+     * Creates new "mirror at point" algo
+     * @param cons
+     * @param in
+     * @param p
+     */
+    public AlgoMirror(Construction cons, GeoElement in,GeoPointND p) {
+
+    	this(cons);   
+        mirrorPoint = p;
+    	endOfConstruction(cons, in, (GeoElement) p);
     }
     
     /**
@@ -80,8 +94,22 @@ public class AlgoMirror extends AlgoTransformation {
      * @param c
      */
     AlgoMirror(Construction cons, String label,GeoElement in,GeoConic c) {
-    	this(cons,in,null,null,c);  
+    	
+    	this(cons, in, c);
     	outGeo.setLabel(label);
+    }
+    
+    /**
+     * Creates new "mirror at conic" algo
+     * @param cons
+     * @param in
+     * @param c
+     */
+    public AlgoMirror(Construction cons, GeoElement in,GeoConic c) {
+    	
+    	this(cons); 
+        mirrorConic = c; 
+    	endOfConstruction(cons, in, c);
     }
     
     /**
@@ -91,33 +119,45 @@ public class AlgoMirror extends AlgoTransformation {
      * @param in
      * @param g
      */
-    AlgoMirror(Construction cons, String label,GeoElement in,GeoLine g) {
+    AlgoMirror(Construction cons, String label,GeoElement in,GeoLineND g) {
     	
-    	this(cons, in, g, null, null);
-    	 outGeo.setLabel(label);
+     	this(cons, in, g);
+    	outGeo.setLabel(label);
     }    
     
     /**
-     * Creates new "mirror at *" algo
+     * Creates new "mirror at line" algo 
      * @param cons
+     * @param label
      * @param in
      * @param g
-     * @param p
-     * @param c
      */
-    public AlgoMirror(Construction cons, GeoElement in, GeoLineND g, GeoPointND p, GeoConic c) {
-        super(cons);
-        //this.in = in;      
+    public AlgoMirror(Construction cons, GeoElement in,GeoLineND g) {
+    	
+    	this(cons);     
         mirrorLine = g;
-        mirrorPoint = p;
-        mirrorConic = c; // Michael Borcherds 2008-02-10
-        
-        if (g != null)
-        	mirror = (GeoElement) g;
-		else if (p != null)
-			mirror = (GeoElement) p;
-		else
-			mirror = c; // Michael Borcherds 2008-02-10
+    	endOfConstruction(cons, in, (GeoElement) g);
+    }    
+    
+ 
+
+    /**
+     * used for 3D
+     * @param cons cons
+     */
+    protected AlgoMirror(Construction cons) {
+		super(cons);
+	}
+
+	/**
+     * end of construction
+     * @param cons cons
+     * @param in transformed geo
+     * @param mirror mirror
+     */
+    public void endOfConstruction(Construction cons, GeoElement in, GeoElement mirror) {
+
+        this.mirror = mirror;
               
         inGeo = in;
         outGeo = getResultTemplate(inGeo);
@@ -185,7 +225,17 @@ public class AlgoMirror extends AlgoTransformation {
 			outGeo.setInverseFill(((Region)inGeo).isInRegion(v.getX(),v.getY()) ^ inGeo.isInverseFill());
 		}    	
         
-        if (mirror == mirrorLine) {
+    	computeRegardingMirror();
+    	
+    	if(inGeo.isLimitedPath())
+        	this.transformLimitedPath(inGeo, outGeo);
+    } 
+    
+    /**
+     * compute regarding which mirror type is used
+     */
+    protected void computeRegardingMirror(){
+    	if (mirror == mirrorLine) {
         	out.mirror(mirrorLine);
         } else if (mirror == mirrorPoint) {
         	if(outGeo.isGeoFunction()) {
@@ -194,10 +244,10 @@ public class AlgoMirror extends AlgoTransformation {
         		out.mirror(getMirrorCoords());
         	}
         }
-        else ((ConicMirrorable)out).mirror(mirrorConic);
-        if(inGeo.isLimitedPath())
-        	this.transformLimitedPath(inGeo, outGeo);
-    } 
+        else 
+        	((ConicMirrorable)out).mirror(mirrorConic);
+
+    }
     
 	/**
 	 * set inGeo to outGeo

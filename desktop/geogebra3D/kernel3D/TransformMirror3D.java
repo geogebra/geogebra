@@ -38,6 +38,17 @@ public class TransformMirror3D extends TransformMirror{
 
 	}
 	
+	/**
+	 * constructor
+	 * @param cons construction
+	 * @param plane mirror plane
+	 * 
+	 */
+	public TransformMirror3D(Construction cons, GeoPlane3D plane) {
+		super(cons, plane);
+
+	}
+	
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo = null;
@@ -45,6 +56,8 @@ public class TransformMirror3D extends TransformMirror{
 			algo = new AlgoMirror3D(cons, geo, (GeoPointND) mirror);
 		else if(mirror.isGeoLine())
 			algo = new AlgoMirror3D(cons, geo, (GeoLineND) mirror);
+		else if(mirror.isGeoPlane())
+			algo = new AlgoMirror3D(cons, geo, (GeoPlane3D) mirror);
 		return algo;
 	}
 

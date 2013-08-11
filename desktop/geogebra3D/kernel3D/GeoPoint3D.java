@@ -44,7 +44,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -71,7 +70,7 @@ import java.util.TreeSet;
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle,
 		RotateableND, Transformable,
-		Traceable, Mirrorable, Dilateable{
+		Traceable, MirrorableAtPlane, Dilateable{
 
 	private boolean isInfinite, isDefined;
 	public int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
@@ -1436,6 +1435,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 	}
 	
+
+	public void mirror(GeoPlane3D plane) {
+		
+		Coords p = getInhomCoordsInD(3).projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		mirror(p);
+		
+	}
+	
 	////////////////////////
 	// DILATE
 	////////////////////////
@@ -1455,5 +1462,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		
 		
 	}
+
 
 }
