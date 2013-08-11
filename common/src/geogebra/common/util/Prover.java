@@ -2,6 +2,7 @@ package geogebra.common.util;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoJoinPoints;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -193,18 +194,28 @@ public abstract class Prover {
 		private static GeoLine line(GeoPoint P1, GeoPoint P2, Construction cons) {
 			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
 			Iterator<GeoElement> it = ges.iterator();
+			// TODO: Maybe there is a better way here to lookup the appropriate line
+			// if it already exists (by using kernel).
 			while (it.hasNext()) {
 				GeoElement ge = it.next();
 					if (ge instanceof GeoLine) {
 						GeoPoint Q1 = ((GeoLine) ge).getStartPoint();
 						GeoPoint Q2 = ((GeoLine) ge).getEndPoint();
-						if ((Q1.equals(P1) && Q2.equals(P2))
-								|| (Q1.equals(P2) && Q2.equals(P1))) {
+						if ((Q1 != null && Q2 != null) && 
+								((Q1.equals(P1) && Q2.equals(P2))
+								|| (Q1.equals(P2) && Q2.equals(P1)))) {
 							return (GeoLine) ge;
 						}
 				}
-			}		
-			return null;
+			}
+			// If there is no such line, we simply create one.
+			// Unsure why is this required, how to read the original value
+			// of suppressLabelCreation (and to set it back after changing it to false):
+			cons.setSuppressLabelCreation(false);
+			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, P1, P2);
+			GeoLine line = ajp.getLine();
+			line.setEuclidianVisible(false);
+			return line;
 		}
 		
 		/**
@@ -218,7 +229,7 @@ public abstract class Prover {
 					this.geos.length == 4) {
 				// This is an AreEqual[P1,P2,P3,P4]-like condition.
 				// We should try to rewrite it to
-				// AreEqual[Line[P1,P2],Line[P3,P4]].
+				// AreEqual[Line[P1,P2],Line[P3,P4]].	
 				GeoPoint P1 = (GeoPoint) this.geos[0];
 				GeoPoint P2 = (GeoPoint) this.geos[1];
 				GeoLine l1 = line(P1, P2, cons);
