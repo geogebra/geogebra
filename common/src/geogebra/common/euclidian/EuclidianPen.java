@@ -276,6 +276,7 @@ public class EuclidianPen {
 		circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize/2-1,
 				e.getY() - penSize/2-1, penSize+2, penSize+2);
 		g2D.fill(circle);
+		g2D.draw(circle);
 
 		if (minX > e.getX())
 			minX = e.getX();

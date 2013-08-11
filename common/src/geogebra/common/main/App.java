@@ -533,6 +533,9 @@ public abstract class App implements UpdateSelection{
 				translateCommandTable.put(StringUtil.toLowerCase(internal),
 						Commands.englishToInternal(comm).name());
 			}
+			if(comm.getTable() == CommandsConstants.TABLE_ENGLISH){
+				return;
+			}
 			String s = getLocalization().getCommand(internal);
 			if(s!=null){
 				translateCommandTable.put(StringUtil.toLowerCase(s),
@@ -551,7 +554,8 @@ public abstract class App implements UpdateSelection{
 	 * @return true for visible tables
 	 */
 	protected boolean tableVisible(int table) {
-		return !(table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_SCRIPTING_3D || table == CommandsConstants.TABLE_ENGLISH);
+		return !(table == CommandsConstants.TABLE_CAS ||
+				table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_SCRIPTING_3D || table == CommandsConstants.TABLE_ENGLISH);
 	}
 
 	/**
