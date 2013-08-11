@@ -1,6 +1,5 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -409,17 +408,12 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 						editing = false;
 					} else {
 						
-						boolean moveDown = true;
-						
-						if (value != null) {
-							GPoint pos = GeoElementSpreadsheet.spreadsheetIndices(value.getLabelSimple());
-							String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(pos.x, pos.y + 1);
-							GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
-							
-							moveDown = cellBelow == null || !cellBelow.isFixed();
-						}
+						String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(column, row + 1);
+						GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
 
-						// don't move down to cell below if it's fixed
+						boolean moveDown = cellBelow == null || !cellBelow.isFixed();
+
+						// don't move down to cell below after <Enter> if it's fixed
 						stopCellEditing(0, moveDown ? 1 : 0);
 						
 					}

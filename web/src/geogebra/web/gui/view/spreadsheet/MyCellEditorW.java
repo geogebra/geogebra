@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.spreadsheet;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -434,18 +433,16 @@ public class MyCellEditorW implements BaseCellEditor {
 						int colOffset = tabReturnCol - column;
 						stopCellEditing(colOffset, 1);
 					} else {
-						boolean moveDown = true;
+						
+						// TODO: in desktop this works with column, row + 1
+						String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(column - 1, (row -1) + 1);
+						GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
 
-						if (value != null) {
-							GPoint pos = GeoElementSpreadsheet.spreadsheetIndices(value.getLabelSimple());
-							String cellBelowStr = GeoElementSpreadsheet.getSpreadsheetCellName(pos.x, pos.y + 1);
-							GeoElement cellBelow = kernel.getConstruction().lookupLabel(cellBelowStr);
+						boolean moveDown = cellBelow == null || !cellBelow.isFixed();
 
-							moveDown = cellBelow == null || !cellBelow.isFixed();
-						}
-
-						// don't move down to cell below if it's fixed
+						// don't move down to cell below after <Enter> if it's fixed
 						stopCellEditing(0, moveDown ? 1 : 0);
+
 					}
 				} else {
 					textField.setCaretPosition(bracketsIndex + 1);
