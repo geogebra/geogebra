@@ -180,7 +180,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		app.getObjectPool().setGgwMenubar(ggwMenuBar);
 		
 		//Debugging purposes
-		AppW.displaySupportedLocales();
 		AppW.displayLocaleCookie();
     }
 	
