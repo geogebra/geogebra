@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -18,7 +19,7 @@ import javax.swing.event.ListSelectionListener;
  * Handles mouse and key events in row headers of the CAS table
  *
  */
-public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
 
 	private final CASTableD table;
 	private final JList rowHeader;
