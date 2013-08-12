@@ -209,12 +209,12 @@ public abstract class Prover {
 				}
 			}
 			// If there is no such line, we simply create one.
-			// Unsure why is this required, how to read the original value
-			// of suppressLabelCreation (and to set it back after changing it to false):
+			boolean oldMacroMode = cons.isSuppressLabelsActive(); 
 			cons.setSuppressLabelCreation(false);
 			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, null, P1, P2);
 			GeoLine line = ajp.getLine();
 			line.setEuclidianVisible(false);
+			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
 		}
 		
