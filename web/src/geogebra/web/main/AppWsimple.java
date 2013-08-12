@@ -85,7 +85,7 @@ public class AppWsimple extends AppW {
 		initing = false;
 	}
 
-	public void buildSingleApplicationPanel() {
+	public void buildApplicationPanel() {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget)getEuclidianViewpanel());
@@ -105,7 +105,7 @@ public class AppWsimple extends AppW {
 	@Override
     public void afterLoadFileAppOrNot() {
 
-		buildSingleApplicationPanel();
+		buildApplicationPanel();
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 
