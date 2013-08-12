@@ -2630,7 +2630,8 @@ public class Construction {
 				undoManager = kernel.getApplication().getUndoManager(this);
 			undoManager.processXML(consXML.toString());
 			kernel.notifyReset();
-			kernel.updateConstruction();
+			// Update construction is done during parsing XML
+			//kernel.updateConstruction();
 		} catch (Exception e) {
 			restoreCurrentUndoInfo();
 			throw e;
