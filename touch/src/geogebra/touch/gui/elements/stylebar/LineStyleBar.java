@@ -17,8 +17,6 @@ public class LineStyleBar extends FlowPanel {
 	public static final int SLIDER_MIN = 1;
 	public static final int SLIDER_MAX = 12;
 
-	private final FlowPanel contentPanel;
-
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 	private static StandardImageButton[] lineStyle = {
@@ -28,15 +26,17 @@ public class LineStyleBar extends FlowPanel {
 			new StandardImageButton(LafIcons.line_dotted()),
 			new StandardImageButton(LafIcons.line_dash_dot()) };
 
+	private FlowPanel buttonPanel;
+
 	public LineStyleBar(final StyleBar stylingBar, final TouchModel touchModel) {
 		this.addStyleName("lineStyleBar");
-		this.contentPanel = new FlowPanel();
 
-		// Button[] lineStyle = new Button[5];
+		this.buttonPanel = new FlowPanel();
+		this.buttonPanel.setStyleName("styleBarButtonPanel");
 
 		for (int i = 0; i < lineStyle.length; i++) {
 			final int index = i;
-			// lineStyle[i] = new Button("style " + (i + 1));
+
 			lineStyle[i].addDomHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -53,11 +53,10 @@ public class LineStyleBar extends FlowPanel {
 					}
 				}
 			}, ClickEvent.getType());
-			this.contentPanel.add(lineStyle[i]);
+			this.add(lineStyle[i]);
 		}
 
 		final Slider slider = new Slider();
-		slider.setWidth("181px");
 
 		slider.setMinimum(SLIDER_MIN);
 		slider.setMaximum(SLIDER_MAX);
@@ -88,9 +87,7 @@ public class LineStyleBar extends FlowPanel {
 				}
 			}
 		});
-		this.contentPanel.add(slider);
-
-		this.add(this.contentPanel);
+		this.add(slider);
 	}
 
 }

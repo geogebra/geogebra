@@ -15,7 +15,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ColorBar extends FlowPanel {
 
@@ -29,7 +28,6 @@ public class ColorBar extends FlowPanel {
 			GeoGebraColorConstants.LIGHTVIOLET, GColor.MAGENTA, GColor.RED,
 			GColor.DARK_GRAY, GColor.GRAY, GColor.LIGHT_GRAY, GColor.WHITE };
 
-	private VerticalPanel contentPanel;
 	private FlowPanel colorButtonPanel;
 
 	/**
@@ -43,22 +41,20 @@ public class ColorBar extends FlowPanel {
 
 		this.addStyleName("colorBar");
 
-		this.contentPanel = new VerticalPanel();
-
 		this.colorButtonPanel = new FlowPanel();
+		this.colorButtonPanel.setStyleName("styleBarButtonPanel");
+
 		for (GColor c : this.colors) {
 			this.colorButtonPanel.add(new ColorButton(c));
 		}
 
-		this.contentPanel.add(this.colorButtonPanel);
+		this.add(this.colorButtonPanel);
 
 		// add slider only if there is at least one fillable element
 		if (touchModel.getLastAlpha() != -1
 				|| touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
-			this.contentPanel.add(new ColorBarSlider());
+			this.add(new ColorBarSlider());
 		}
-
-		this.add(this.contentPanel);
 	}
 
 	class ColorButton extends PushButton {
@@ -106,9 +102,6 @@ public class ColorBar extends FlowPanel {
 			this.setMaximum(10);
 			this.setValue(Integer.valueOf((int) (ColorBar.this.touchModel
 					.getLastAlpha() * 10)));
-
-			// FIXME move this to css
-			this.setWidth("181px");
 
 			this.addValueChangeHandler(new ValueChangeHandler<Integer>() {
 				@Override
