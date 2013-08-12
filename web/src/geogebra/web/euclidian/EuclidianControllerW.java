@@ -318,9 +318,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		Window.addResizeHandler(new ResizeHandler() {
 			
 			public void onResize(ResizeEvent event) {
-				style.setScrollLeft(Window.getScrollLeft());
-				style.setScrollTop(Window.getScrollTop());
-				
+				calculateEnvironment();
 			}
 		});
 		tempNum = new MyDouble(kernel);

@@ -99,10 +99,14 @@ public class GeoGebraFrame extends VerticalPanel {
 			setHeight(height + "px");
 			splash.addStyleName("splash");
 			splash.getElement().getStyle()
-			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			splash.getElement().getStyle()
-			        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
-
+	        	.setTop((height / 2) - (splashHeight / 2), Unit.PX);
+			if (!ae.isRTL()) {
+				splash.getElement().getStyle()
+				        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
+			} else {
+				splash.getElement().getStyle()
+		        		.setRight((width / 2) - (splashWidth / 2), Unit.PX);
+			}
 		}
 		addStyleName("jsloaded");
 		add(splash);
