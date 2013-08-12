@@ -61,7 +61,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @param vars variables StringBuilder
 	 */
 	public Term(ExpressionValue coeff, StringBuilder vars) {
-		coefficient = coeff;
+		setCoefficient(coeff);
 		variables = vars;
 	}
 
@@ -72,7 +72,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 */
 	public Term(Term t,Kernel kernel) {
 		variables = new StringBuilder(t.variables.toString());
-		coefficient = ExpressionNode.copy(t.coefficient,kernel);
+		setCoefficient(ExpressionNode.copy(t.coefficient,kernel));
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @param number number to add
 	 */
 	void addToCoefficient(ExpressionValue number) {
-		coefficient = add(coefficient, number);
+		setCoefficient(add(coefficient, number));
 	}
 
 	// return a + b
@@ -206,7 +206,7 @@ public class Term implements Comparable<Object>, Serializable {
 	@SuppressWarnings("cast")
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	void multiply(Term t) {
-		coefficient = multiply(coefficient, t.coefficient);
+		setCoefficient(multiply(coefficient, t.coefficient));
 		variables.append((CharSequence)t.variables);
 		sort(variables);
 	}
@@ -227,7 +227,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @param number multiplier
 	 */
 	void multiply(ExpressionValue number) {
-		coefficient = multiply(coefficient, number);
+		setCoefficient(multiply(coefficient, number));
 	}
 
 	// c = a * b
@@ -279,7 +279,7 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @param number divisor
 	 */
 	void divide(ExpressionValue number) {
-		coefficient = divide(coefficient, number);
+		setCoefficient(divide(coefficient, number));
 	}
 
 	// c = a / b
