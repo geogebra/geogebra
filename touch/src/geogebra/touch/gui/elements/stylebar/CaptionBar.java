@@ -7,22 +7,23 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class CaptionBar extends FlowPanel {
 
-	private final HorizontalPanel contentPanel;
+	private Button[] buttons = { new Button("_"), new Button("A"),
+			new Button("A = (1,1)"), new Button("(1,1)") };
+	private FlowPanel buttonPanel;
 
 	public CaptionBar(final TouchModel touchModel) {
 		this.addStyleName("captionBar");
 
-		this.contentPanel = new HorizontalPanel();
+		this.buttonPanel = new FlowPanel();
+		this.buttonPanel.setStyleName("styleBarButtonPanel");
 
-		final Button[] button = new Button[4];
-		for (int i = 0; i < button.length; i++) {
+		for (int i = 0; i < this.buttons.length; i++) {
 			final int index = i;
-			button[i] = new Button();
-			button[i].addDomHandler(new ClickHandler() {
+
+			this.buttons[i].addDomHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					if (touchModel.getTotalNumber() > 0) {
@@ -33,15 +34,10 @@ public class CaptionBar extends FlowPanel {
 					touchModel.setCaptionMode(index);
 				}
 			}, ClickEvent.getType());
-			this.contentPanel.add(button[i]);
-
-			this.add(this.contentPanel);
+			this.buttonPanel.add(this.buttons[i]);
 		}
 
-		button[0].setText("_");
-		button[1].setText("A");
-		button[2].setText("A = (1,1)");
-		button[3].setText("(1,1)");
+		this.add(this.buttonPanel);
 	}
 
 }
