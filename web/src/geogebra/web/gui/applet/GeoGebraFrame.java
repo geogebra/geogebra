@@ -41,7 +41,6 @@ public class GeoGebraFrame extends VerticalPanel {
 
 	private boolean resize = false;
 	private boolean move = false;
-	private String customToolbar;
 
 	/**
 	 * Splash Dialog to get it work quickly
@@ -182,7 +181,7 @@ public class GeoGebraFrame extends VerticalPanel {
 			public void onSuccess() {
 				ResourcesInjector.injectResources();
 				inst.app = inst.createApplication(articleElement, inst);
-				inst.setCustomToolBar();
+				inst.app.setCustomToolBar();
 				//useDataParamBorder(articleElement, inst);
 			    //inst.add(inst.app.buildApplicationPanel());
 				inst.app.buildApplicationPanel();
@@ -213,18 +212,6 @@ public class GeoGebraFrame extends VerticalPanel {
 			}else{
 				Web.panelForApplets.add(inst);
 			}
-		}
-	}
-
-	public void setCustomToolBar() {
-		customToolbar = ae.getDataParamCustomToolBar();
-		if ((customToolbar != null) &&
-			(customToolbar.length() > 0) &&
-			(ae.getDataParamShowToolBar()) &&
-			(app != null) &&
-			(app.getGuiManager() != null)) {
-
-			app.getGuiManager().setToolBarDefinition(customToolbar);
 		}
 	}
 

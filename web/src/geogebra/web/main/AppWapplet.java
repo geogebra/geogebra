@@ -243,6 +243,12 @@ public class AppWapplet extends AppW {
 
 	@Override
 	public void setCustomToolBar() {
-		getGeoGebraFrame().setCustomToolBar();
+		String customToolbar = articleElement.getDataParamCustomToolBar();
+		if ((customToolbar != null) &&
+			(customToolbar.length() > 0) &&
+			(articleElement.getDataParamShowToolBar()) &&
+			(getGuiManager() != null)) {
+			getGuiManager().setToolBarDefinition(customToolbar);
+		}
 	}
 }
