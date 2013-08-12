@@ -1835,8 +1835,32 @@ public class AppW extends AppWeb {
 		}
 	}
 
+	/**
+	 * Called from GuiManager, implementation depends on subclass
+	 * @return toolbar object
+	 */
+	public Object getToolbar() {
+		return null;
+	}
+
 	// methods used just from AppWapplet
 	public void focusLost() { }
 	public void focusGained() { }
 	public void setCustomToolBar() { }
+
+	// methods used just from AppWapplication
+	public int getOWidth() {
+		return 0;
+	}
+
+	public int getOHeight() {
+		return 0;
+	}
+
+	public Object getGlassPane() {
+		return null;
+	}
+
+	public void doOnResize() { }
+	public void loadURL_GGB(String ggb) { }
 }

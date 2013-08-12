@@ -187,7 +187,7 @@ public class AppWapplet extends AppW {
 		frame.add(ggwToolBar);
 	}
 
-	public GGWToolBar getAppletGGWToolbar() {
+	public GGWToolBar getToolbar() {
 		return ggwToolBar;
 	}
 

@@ -188,4 +188,34 @@ public class AppWapplication extends AppW {
 			//SwingUtilities.updateComponentTreeUI(centerPanel);
 		}
 	}
+
+	@Override
+	public Object getGlassPane() {
+		return getAppFrame().getGlassPane();
+	}
+
+	@Override
+	public int getOWidth() {
+		return getAppFrame().getOffsetWidth();
+	}
+
+	@Override
+	public int getOHeight() {
+		return getAppFrame().getOffsetHeight();
+	}
+
+	@Override
+	public void doOnResize() {
+		getAppFrame().onResize();
+	}
+
+	@Override
+	public Object getToolbar() {
+		return getAppFrame().getGGWToolbar();
+	}
+
+	@Override
+	public void loadURL_GGB(String ggburl) {
+		getAppFrame().fileLoader.getView().processFileName(ggburl);
+	}
 }

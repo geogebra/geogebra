@@ -23,8 +23,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
 import geogebra.html5.main.ViewManager;
-import geogebra.web.Web;
-import geogebra.web.Web.GuiToLoad;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.euclidian.EuclidianControllerW;
@@ -59,8 +57,6 @@ import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
-import geogebra.web.main.AppWapplet;
-import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -596,11 +592,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			if (!Web.currentGUI.equals(GuiToLoad.APP)) {
-				toolbarPanel = ((AppWapplet)app).getAppletGGWToolbar();	// note: this may return null
-			} else {
-				toolbarPanel = ((AppWapplication)app).getAppFrame().getGGWToolbar();
-			}
+			toolbarPanel = (GGWToolBar)app.getToolbar();
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
 				toolbarPanel.init(app);
 			}
@@ -791,8 +783,7 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	protected boolean loadURL_GGB(String url) {
-		if (app instanceof AppWapplication)
-			((AppWapplication)app).getAppFrame().fileLoader.getView().processFileName(url);
+		app.loadURL_GGB(url);
 		return true;
 	}
 
