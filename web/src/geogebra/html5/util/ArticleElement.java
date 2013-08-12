@@ -58,12 +58,17 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * Determines if the "data-param-gui" article attribute is set to true
+	 * Determines if the "data-param-guiOff" article attribute is set to true
+	 * If it is set to true, the GuiManager should never be created,
+	 * and only a single Graphics View should show in web applets,
+	 * regardless of what is there in the ggb file's construction.
+	 * This is for speedup, but its drawback is that it should be
+	 * decided before the AppW is created.
 	 * 
-	 * @return the data-param-gui (default: false)
+	 * @return the data-param-guiOff (default: false)
 	 */
-	public boolean getDataParamGui() {
-		return ("true".equals(this.getAttribute("data-param-gui")));
+	public boolean getDataParamGuiOff() {
+		return ("true".equals(this.getAttribute("data-param-guiOff")));
 	}
 
 	/**
