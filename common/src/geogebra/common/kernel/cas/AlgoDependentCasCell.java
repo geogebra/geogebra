@@ -3,6 +3,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -137,6 +138,20 @@ public class AlgoDependentCasCell extends AlgoElement {
 	protected String getExpXML(StringTemplate tpl) {   
     	return casCell.getXML();
     }
+    
+    @Override
+	public String getCommandDescription(StringTemplate tpl) {
+		if(input == null)
+			return null;
+		if (getCasCell() != null && getCasCell().getInputVE() != null) {
+			if (getCasCell().getInputVE().unwrap() instanceof Command) {
+				Command cmd = (Command) getCasCell().getInputVE().unwrap();
+				return cmd.toString(tpl);
+			}
+		}
+		return super.getCommandDescription(tpl);
+
+	}
     
 
 //	/**
