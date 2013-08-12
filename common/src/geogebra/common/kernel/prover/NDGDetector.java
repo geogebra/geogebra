@@ -90,6 +90,7 @@ public class NDGDetector {
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("AreEqual");
+				ndgc.setReadability(0.5);
 				return ndgc;
 			}
 		}
@@ -138,7 +139,7 @@ public class NDGDetector {
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
-				ndgc.setCondition("AreEqual"); // in fact this is x(A)=x(B), so we use a sufficient condition instead
+				ndgc.setCondition("xAreEqual");
 				ndgc.setReadability(5); // we don't really want this condition
 				return ndgc;
 			}
@@ -165,7 +166,7 @@ public class NDGDetector {
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
-				ndgc.setCondition("AreEqual"); // in fact this is y(A)=y(B), so we use a sufficient condition instead
+				ndgc.setCondition("yAreEqual");
 				ndgc.setReadability(5); // we don't really want this condition
 				return ndgc;
 			}
@@ -218,6 +219,7 @@ public class NDGDetector {
 					ndgc.setGeos(points);
 					Arrays.sort(ndgc.getGeos());
 					ndgc.setCondition("ArePerpendicular");
+					ndgc.setReadability(0.75);
 					return ndgc;
 				}
 			}
@@ -256,7 +258,8 @@ public class NDGDetector {
 							+ " and opposite vertex " + points[1]);
 					NDGCondition ndgc = new NDGCondition();
 					ndgc.setGeos(points);			
-					ndgc.setCondition("AreEqual");
+					ndgc.setCondition("IsIsoscelesTriangle");
+					ndgc.setReadability(1.25);
 					return ndgc;
 				}
 			}
