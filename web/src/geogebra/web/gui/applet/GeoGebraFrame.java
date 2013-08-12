@@ -265,6 +265,10 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @return the newly created instance of Application
 	 */
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
+		//TODO
+		//if (ae.getDataParamGuiOff())
+		//	return new AppWsimple(ae, gf);
+
 		return new AppWapplet(ae, gf);
 	}
 
