@@ -13,7 +13,6 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
@@ -37,7 +36,7 @@ import java.util.ArrayList;
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		Vector3DValue, SpreadsheetTraceable, 
-		RotateableND, Traceable, Mirrorable, Transformable, Dilateable {
+		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable {
 
 	private GeoPointND startPoint;
 
@@ -660,6 +659,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 		Coords vn = line.getDirectionInD3().normalized();
 		setCoords(vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
+		
+	}
+	
+	public void mirror(GeoPlane3D plane) {
+
+		Coords vn = plane.getDirectionInD3().normalized();
+		setCoords(v.add(vn.mul(-2*v.dotproduct(vn))));
 		
 	}
 	

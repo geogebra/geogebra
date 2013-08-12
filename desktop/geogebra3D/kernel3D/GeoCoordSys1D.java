@@ -13,7 +13,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
 Translateable, MatrixTransformable, 
-Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
+Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	protected CoordSys coordsys;
 	
@@ -800,6 +799,22 @@ Traceable, RotateableND, Mirrorable, Transformable, Dilateable {
 		vn.normalize();
 		Coords v = getCoordSys().getVx();
 		setCoord(point, vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
+
+		
+	}
+	
+	public void mirror(GeoPlane3D plane) {
+		
+		Coords point = getCoordSys().getOrigin();
+		//point projected on the plane
+		Coords o = point.projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		point = point.mul(-1);
+		point.addInside(o.mul(2));
+		
+		
+		Coords vn = plane.getDirectionInD3().normalized();
+		Coords v = getCoordSys().getVx();
+		setCoord(point, v.add(vn.mul(-2*v.dotproduct(vn))));
 
 		
 	}
