@@ -53,8 +53,10 @@ public class LineStyleBar extends FlowPanel {
 					}
 				}
 			}, ClickEvent.getType());
-			this.add(lineStyle[i]);
+			this.buttonPanel.add(lineStyle[i]);
 		}
+		
+		this.add(this.buttonPanel);
 
 		final Slider slider = new Slider();
 

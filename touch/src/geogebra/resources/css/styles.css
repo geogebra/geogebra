@@ -234,13 +234,13 @@ input.worksheetTitle {
 		254, 254) ), color-stop(1, rgb(220, 220, 220) ) );
 }
 
-.optionsBoxWrapper {
+/*.optionsBoxWrapper {
 	width: 195px;
 	margin-top: -3px;
-}
+}*/
 
 .optionsBoxArrow {
-	padding-left: 13px;
+	left: 17px;
 	top: -13px;
 	z-index: 10;
 	position: absolute;
@@ -250,8 +250,8 @@ input.worksheetTitle {
 	background-color: #FFFFFF;
 	border: #EFEFEF solid 1px;
 	padding: 5px;
-	padding-right: 0px;
 	padding-bottom: 0px;
+	
 	/* Shadow */
 	-webkit-box-shadow: 3px 3px 5px #DCDCDC;
 	-moz-box-shadow: 3px 3px 5px #DCDCDC;
@@ -278,6 +278,41 @@ input.worksheetTitle {
 	margin-bottom: 5px;
 	width: 42px;
 	height: 42px;
+}
+
+.optionsBox input[type="range"] {
+	width: 100%;
+}
+
+.colorBar {
+	width: 180px;
+	padding-right: 3px;
+}
+
+.colorBar .styleBarButtonPanel {
+	width: 188px;
+}
+
+.lineStyleBar {
+	width: 228px;
+	padding-right: 3px;
+}
+
+.lineStyleBar .styleBarButtonPanel {
+	width: 236px;
+}
+
+.captionBar {
+	width: 292px;
+	padding-right: 3px;
+}
+
+.captionBar button {
+	width: 70px;
+}
+
+.captionBar .styleBarButtonPanel {
+	width: 300px;
 }
 
 /* #####################################################################
