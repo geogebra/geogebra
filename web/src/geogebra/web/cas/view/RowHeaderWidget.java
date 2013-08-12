@@ -4,9 +4,11 @@ import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.MarbleRenderer;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -15,7 +17,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 	private Image marble;
 	private boolean oldValue;
 
-	public RowHeaderWidget(int n, GeoCasCell cell) {
+	public RowHeaderWidget(int n, GeoCasCell cell, AppW app) {
 		Label label = new Label();
 		label.setText(n + "");
 		marble = new Image(AppResources.INSTANCE.hidden());
@@ -25,6 +27,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		if (cell != null)
 			CASInputHandler.handleMarble(cell,this);
 		marble.addClickHandler(new MarbleClickHandler(cell,this));
+		addDomHandler(new RowHeaderHandler(app), MouseUpEvent.getType());
 	}
 
 	public void setMarbleValue(boolean value) {

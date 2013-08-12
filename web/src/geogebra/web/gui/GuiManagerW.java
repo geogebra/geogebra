@@ -26,6 +26,7 @@ import geogebra.html5.main.ViewManager;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.cas.view.CASViewW;
+import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
@@ -194,6 +195,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		removePopup();
 		currentPopup = new AlgebraContextMenuW(app);
 		return (AlgebraContextMenuW)currentPopup;
+	}
+	
+	public RowHeaderPopupMenuW getCASContextMenu(){
+		removePopup();
+		currentPopup = new RowHeaderPopupMenuW();
+		return (RowHeaderPopupMenuW)currentPopup;
 	}
 	
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,

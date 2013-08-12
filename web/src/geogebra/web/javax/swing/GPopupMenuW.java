@@ -3,6 +3,7 @@ package geogebra.web.javax.swing;
 import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * Popup menu for web.
  * @author Judit Elias
  */
-public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
+public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implements AttachedToDOM{
 
 
 	protected PopupPanel popupPanel;
@@ -46,7 +47,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 
 			public void onClose(CloseEvent<PopupPanel> event) {
 				if (subPopup != null){
-					subPopup.removeFromParent();
+					subPopup.removeFromDOM();
 					subPopup = null;
 				}
             }
@@ -115,7 +116,8 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 
 	}
 	
-	public void removeFromParent(){
+	public void removeFromDOM(){
+		removeSubPopup();
 		popupPanel.removeFromParent();
 	}
 	
@@ -188,7 +190,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 			itemCommand = new ScheduledCommand(){
 				public void execute() {
 					int xCord, yCord;
-					if (subPopup != null) subPopup.removeFromParent();
+					if (subPopup != null) subPopup.removeFromDOM();
 	                subPopup = new GPopupMenuW(subMenu);
 	                subPopup.setVisible(true);
 	                
@@ -271,7 +273,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu{
 
 	public void removeSubPopup(){
 		if (subPopup != null){
-			subPopup.removeFromParent();
+			subPopup.removeFromDOM();
 			subPopup = null;
 		}
 	}

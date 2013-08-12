@@ -68,7 +68,7 @@ public class CASTableW extends Grid implements CASTable {
 		else
 			this.insertRow(n);
 		Widget cellWidget = new CASTableCellW(casCell);
-		Widget rowHeader = new RowHeaderWidget(n + 1,casCell);
+		Widget rowHeader = new RowHeaderWidget(n + 1,casCell, (AppW)getApplication());
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
 		getCellFormatter()
@@ -129,7 +129,7 @@ public class CASTableW extends Grid implements CASTable {
 			resize(rowNumber + 1, 2);
 		}
 		Widget cellWidget = new CASTableCellW(casCell);
-		Widget rowHeader = new RowHeaderWidget(rowNumber + 1,casCell);
+		Widget rowHeader = new RowHeaderWidget(rowNumber + 1,casCell, (AppW) getApplication());
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter()
 		        .getElement(rowNumber, COL_CAS_HEADER)

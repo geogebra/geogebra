@@ -61,7 +61,7 @@ public class AlgebraContextMenuW implements AttachedToDOM{
     }
 
 	public void removeFromDOM() {
-	    wrappedPopup.removeFromParent();
+	    wrappedPopup.removeFromDOM();
     }
 	
 	
