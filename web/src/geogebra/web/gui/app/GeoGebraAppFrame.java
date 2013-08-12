@@ -12,6 +12,7 @@ import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplication;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.Date;
@@ -206,7 +207,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	private AppW createApplication(ArticleElement article,
             GeoGebraAppFrame geoGebraAppFrame) {
-		return new AppW(article, geoGebraAppFrame);
+		return new AppWapplication(article, geoGebraAppFrame);
     }
 
 

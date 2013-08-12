@@ -58,6 +58,8 @@ import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplet;
+import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -588,9 +590,9 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
 			if (!Web.currentGUI.equals(GuiToLoad.APP)) {
-				toolbarPanel = app.getAppletGGWToolbar();	// note: this may return null
+				toolbarPanel = ((AppWapplet)app).getAppletGGWToolbar();	// note: this may return null
 			} else {
-				toolbarPanel = app.getAppFrame().getGGWToolbar();
+				toolbarPanel = ((AppWapplication)app).getAppFrame().getGGWToolbar();
 			}
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
 				toolbarPanel.init(app);
@@ -782,7 +784,8 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	@Override
 	protected boolean loadURL_GGB(String url) {
-		app.getAppFrame().fileLoader.getView().processFileName(url);
+		if (app instanceof AppWapplication)
+			((AppWapplication)app).getAppFrame().fileLoader.getView().processFileName(url);
 		return true;
 	}
 

@@ -8,6 +8,7 @@ import geogebra.html5.util.View;
 import geogebra.web.Web;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplet;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
@@ -277,7 +278,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @return the newly created instance of Application
 	 */
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		return new AppW(ae, gf);
+		return new AppWapplet(ae, gf);
 	}
 
 	/**

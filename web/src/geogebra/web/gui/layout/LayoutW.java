@@ -93,8 +93,8 @@ public class LayoutW extends Layout implements SettingListener {
 
 				app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
 				// override the previous command with the data-param-customToolbar setting
-				if (app.getGeoGebraFrame() != null && app.isApplet()) {
-					app.getGeoGebraFrame().setCustomToolBar();
+				if (!App.isFullAppGui() && app.isApplet()) {
+					app.setCustomToolBar();
 
 					app.setShowToolBarNoUpdate(
 							/*perspective.getShowToolBar() &&

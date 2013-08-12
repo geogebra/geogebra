@@ -15,7 +15,6 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
 
 import java.util.List;
@@ -241,18 +240,14 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
-			GeoGebraFrame.useDataParamBorder(
-				this.app.getArticleElement(),
-				this.app.getGeoGebraFrame());
+			this.app.focusLost();
 		}
 	}
 
 	public void focusGained() {
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
-			GeoGebraFrame.useFocusedBorder(
-				this.app.getArticleElement(),
-				this.app.getGeoGebraFrame());
+			this.app.focusGained();
 		}
 	}
 

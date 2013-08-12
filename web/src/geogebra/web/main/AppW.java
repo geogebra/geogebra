@@ -13,9 +13,6 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -44,7 +41,6 @@ import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
-import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.io.MyXMLioW;
@@ -64,23 +60,14 @@ import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.app.GGWCommandLine;
-import geogebra.web.gui.app.GGWMenuBar;
-import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
-import geogebra.web.helper.MyGoogleApis;
-import geogebra.web.helper.MySkyDriveApis;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.javax.swing.GOptionPaneW;
@@ -100,7 +87,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.UrlBuilder;
@@ -112,7 +98,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -137,13 +122,11 @@ public class AppW extends AppWeb {
 	
 	
 
-	private ArticleElement articleElement;
+	protected ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
 
-	private GeoGebraFrame  frame = null;
-	private GeoGebraAppFrame appFrame = null;
-	private EuclidianPanelWAbstract euclidianViewPanel;
-	private Canvas canvas;
+	protected EuclidianPanelWAbstract euclidianViewPanel;
+	protected Canvas canvas;
 
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
@@ -154,7 +137,7 @@ public class AppW extends AppWeb {
 	private GDimension preferredSize = new GDimensionW(0,0);
 
 	boolean menuKeysLoaded = false;
-	private ObjectPool objectPool;
+	protected ObjectPool objectPool;
 	
 	//Event flow operations
 	private OfflineOperation offlineOperation;
@@ -193,129 +176,12 @@ public class AppW extends AppWeb {
 		return logoutOperation;
 	}
 
-	/******************************************************
-	 * Constructs AppW for applets with undo enabled
-	 * 
-	 * @param ae
-	 * @param gf
+	/**
+	 * Constructors will be called from subclasses
+	 * AppWapplication, AppWapplet, and AppWsimple
 	 */
-	public AppW(ArticleElement ae, GeoGebraFrame gf) {
-		this(ae, gf, true);
-	}
-
-	/******************************************************
-	 * Constructs AppW for applets
-	 * 
-	 * @param undoActive
-	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
-	 */
-	public AppW(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
-		this.articleElement = ae;
-		this.frame = gf;
-		this.objectPool = new ObjectPool();
-		setDataParamHeight(frame.getDataParamHeight());
-		setDataParamWidth(frame.getDataParamWidth());
-
-		this.useFullGui = !isApplet() ||
-				ae.getDataParamShowAlgebraInput() ||
-				ae.getDataParamShowToolBar() ||
-				ae.getDataParamShowMenuBar() ||
-				ae.getDataParamEnableRightClick();
-
-		if (ae.getDataParamShowLogging()) {
-			startLogger();
-		} else {
-			// make sure $wnd.console works in IE9
-			GeoGebraLogger.initConsole();
-		}
-		infobar = new InfoBarW(this);
-
-		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-		        + GeoGebraConstants.BUILD_DATE + " "
-		        + Window.Navigator.getUserAgent());
-		initCommonObjects();
-		initing = true;
-
-		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
-		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-		this.canvas = this.euclidianViewPanel.getCanvas();
-		canvas.setWidth("1px");
-		canvas.setHeight("1px");
-		canvas.setCoordinateSpaceHeight(1);
-		canvas.setCoordinateSpaceWidth(1);
-		initCoreObjects(undoActive, this);
-		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuill = true;
-		removeDefaultContextMenu(this.getArticleElement());
-	}
-
-	/********************************************************
-	 * Constructs AppW for full GUI based GeoGebraWeb
-	 * 
-	 * @param article
-	 * @param geoGebraAppFrame
-	 * @param undoActive
-	 */
-	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-	        boolean undoActive) {
-		this.articleElement = article;
-		this.appFrame = geoGebraAppFrame;
-		this.objectPool = new ObjectPool();
-		this.objectPool.setMyGoogleApis(new MyGoogleApis(this));
-		this.objectPool.setMySkyDriveApis(new MySkyDriveApis(this));
-		createAppSplash();
-		App.useFullAppGui = true;
-		this.useFullGui = true;
-		appCanvasHeight = appFrame.getCanvasCountedHeight();
-		appCanvasWidth = appFrame.getCanvasCountedWidth();
-
-		setCurrentFileId();
-		if (article.getDataParamShowLogging()) {
-			startLogger();
-		} else {
-			// make sure $wnd.console works in IE9
-			GeoGebraLogger.initConsole();
-		}
-		infobar = new InfoBarW(this);
-
-		initCommonObjects();
-
-		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
-		this.canvas = euclidianViewPanel.getCanvas();
-
-		initCoreObjects(undoActive, this);
-
-		// initing = true;
-		//this may only be called after factories are initialized
-		StringTemplate.latexIsMathQuill = true;
-		removeDefaultContextMenu();
-		//TODO delete following profiling
-				StringBuilder sb = new StringBuilder(1000);
-				long l = System.currentTimeMillis();
-				FunctionVariable fv = new FunctionVariable(this.getKernel());
-				ExpressionNode n = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv);
-				for(int i = 0;i<100000;i++){
-					sb.append(n.toValueString(StringTemplate.defaultTemplate));
-				}
-				App.debug("Plus node serialized in"+(System.currentTimeMillis() - l));
-				
-				l = System.currentTimeMillis();
-				StringBuilder sbm = new StringBuilder(1000);
-				ExpressionNode nm = fv.wrap().subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv).subtract(fv);
-				for(int i = 0;i<100000;i++){
-					sbm.append(nm.toValueString(StringTemplate.defaultTemplate));
-				}
-				App.debug("Minus node serialized in"+(System.currentTimeMillis() - l));
-	}
-
-	/*************************************************
-	 * Constructs AppW for full GUI based GeoGebraWeb with undo enabled
-	 * 
-	 * @param article
-	 * @param geoGebraAppFrame
-	 */
-	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
-		this(article, geoGebraAppFrame, true);
+	protected AppW() {
+		super();
 	}
 
 	// ========================================================
@@ -332,7 +198,7 @@ public class AppW extends AppWeb {
 		initCommonObjects();
 	}
 
-	private void initCommonObjects() {
+	protected void initCommonObjects() {
 		initFactories();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactoryW();
 		geogebra.common.factories.Factory
@@ -474,29 +340,9 @@ public class AppW extends AppWeb {
 
 	}
 
-	private void afterCoreObjectsInited() {
-		if (appFrame != null) {
-			initGuiManager();
-			getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
-			getSettings().getEuclidian(1).setPreferredSize(
-			        geogebra.common.factories.AwtFactory.prototype
-			                .newDimension(appCanvasWidth, appCanvasHeight));
-			getEuclidianView1().synCanvasSize();
-			getEuclidianView1().doRepaint2();
-			stopCollectingRepaints();
-			appFrame.finishAsyncLoading(articleElement, appFrame, this);
-		} else if (frame != null) {
-
-			// Code to run before buildApplicationPanel
-			initGuiManager();
-
-			GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
-			initing = false;
-		}
-	}
-
-	private static void startLogger() {
+	protected static void startLogger() {
 		logger = new GeoGebraLogger();
 		logger.setLogDestination(LogDestination.CONSOLES);
 		logger.setLogLevel(Window.Location.getParameter("logLevel"));
@@ -518,10 +364,6 @@ public class AppW extends AppWeb {
 
 	public ArticleElement getArticleElement() {
 		return articleElement;
-	}
-
-	public GeoGebraFrame getGeoGebraFrame() {
-		return frame;
 	}
 
 	@Override
@@ -705,7 +547,7 @@ public class AppW extends AppWeb {
 		return getGuiManager().showView(view);
 	}
 
-	private void attachViews() {
+	protected void attachViews() {
 		if (!getGuiManager().getAlgebraView().isAttached())
 			getGuiManager().attachView(VIEW_ALGEBRA);
 
@@ -940,7 +782,7 @@ public class AppW extends AppWeb {
 		return driveBase64description;
 	}
 
-	private native void setCurrentFileId() /*-{
+	protected native void setCurrentFileId() /*-{
 		if ($wnd.GGW_appengine) {
 			this.@geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
 		}
@@ -1183,34 +1025,6 @@ public class AppW extends AppWeb {
 		setDefaultCursor();
 	}
 
-	@Override
-    public void appSplashCanNowHide() {
-		if (splashDialog != null) {
-			splashDialog.canNowHide();
-			attachViews();
-		}
-
-		// Well, it may cause freeze if we attach this too early
-
-		// allow eg ?command=A=(1,1);B=(2,2) in URL
-		String cmd = com.google.gwt.user.client.Window.Location
-		        .getParameter("command");
-
-		if (cmd != null) {
-
-			App.debug("exectuing commands: " + cmd);
-
-			String[] cmds = cmd.split(";");
-			for (int i = 0; i < cmds.length; i++) {
-				getKernel().getAlgebraProcessor()
-				        .processAlgebraCommandNoExceptionsOrErrors(cmds[i],
-				                false);
-			}
-		}
-
-	}
-
-	
 
 	// ================================================
 	// ERROR HANDLING
@@ -1451,129 +1265,9 @@ public class AppW extends AppWeb {
 	public static Widget getRootComponent(AppW app) {
 		return app.getGuiManager().getLayout().getRootComponent();
 	}
-	
+
 	@Override
-    public void updateCenterPanel(boolean updateUI) {
-		LayoutPanel centerPanel = null;
-		
-		if (isUsingFullGui()) {
-			appFrame.setFrameLayout();
-		} else {
-			//TODO: handle applets?
-			//centerPanel.add(this.getEuclidianViewpanel());
-		}
-
-		appFrame.onResize();
-		
-		if (updateUI) {
-			//SwingUtilities.updateComponentTreeUI(centerPanel);
-		}
-	}
-
-	public void buildSingleApplicationPanel() {
-		if (frame != null) {
-			frame.clear();
-			frame.add((Widget)getEuclidianViewpanel());
-			getEuclidianViewpanel().setPixelSize(
-					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
-					getSettings().getEuclidian(1).getPreferredSize().getHeight());
-
-			// FIXME: temporary hack until it is found what causes
-			// the 1px difference
-			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setLeft(1, Style.Unit.PX);
-			//getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setBottom(-1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setRight(-1, Style.Unit.PX);
-			oldSplitLayoutPanel = null;
-		}
-	}
-
-	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
-	
-	public void buildApplicationPanel() {
-
-		if (!isUsingFullGui()) {
-			buildSingleApplicationPanel();
-			return;
-		}
-
-		// showMenuBar should come from data-param,
-		// this is just a 'second line of defense'
-		// otherwise it can be used for taking ggb settings into account too
-		if (showMenuBar && articleElement.getDataParamShowMenuBarDefaultTrue() ||
-			articleElement.getDataParamShowMenuBar()) {
-			attachMenubar();
-		}
-
-		// showToolBar should come from data-param,
-		// this is just a 'second line of defense'
-		// otherwise it can be used for taking ggb settings into account too
-		if (showToolBar && articleElement.getDataParamShowToolBarDefaultTrue() ||
-			articleElement.getDataParamShowToolBar()) {
-			attachToolbar();
-		}
-
-		attachSplitLayoutPanel();
-
-		// showAlgebraInput should come from data-param,
-		// this is just a 'second line of defense'
-		// otherwise it can be used for taking ggb settings into account too
-		if (showAlgebraInput && articleElement.getDataParamShowAlgebraInputDefaultTrue() ||
-			articleElement.getDataParamShowAlgebraInput()) {
-			attachAlgebraInput();
-		}
-	}
-
-	public void refreshSplitLayoutPanel() {
-		if (frame != null && frame.getWidgetCount() != 0 &&
-			frame.getWidgetIndex(getSplitLayoutPanel()) == -1 &&
-			frame.getWidgetIndex(oldSplitLayoutPanel) != -1) {
-			int wi = frame.getWidgetIndex(oldSplitLayoutPanel);
-			frame.remove(oldSplitLayoutPanel);
-			frame.insert(getSplitLayoutPanel(), wi);
-			oldSplitLayoutPanel = getSplitLayoutPanel();
-			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
-		}
-	}
-
-	public void attachAlgebraInput() {
-		// inputbar's width varies,
-		// so it's probably good to regenerate every time
-		GGWCommandLine inputbar = new GGWCommandLine();
-		inputbar.attachApp(this);
-		frame.add(inputbar);
-	}
-
-	public void attachMenubar() {
-		// reusing old menubar is probably a good decision
-		GGWMenuBar menubar = objectPool.getGgwMenubar();
-		if (menubar == null) {
-			menubar = new GGWMenuBar();
-			menubar.init(this);
-			objectPool.setGgwMenubar(menubar);
-		}
-		frame.add(menubar);
-	}
-
-	private GGWToolBar ggwToolBar = null;
-
-	public void attachToolbar() {
-		// reusing old toolbar is probably a good decision
-		if (ggwToolBar == null) {
-			ggwToolBar = new GGWToolBar();
-			ggwToolBar.init(this);
-		}
-		frame.add(ggwToolBar);
-	}
-
-	public GGWToolBar getAppletGGWToolbar() {
-		return ggwToolBar;
-	}
-
-	public void attachSplitLayoutPanel() {
-		frame.add(oldSplitLayoutPanel = getSplitLayoutPanel());
-		removeDefaultContextMenu(getSplitLayoutPanel().getElement());
-	}
+    public void updateCenterPanel(boolean updateUI) { }
 
 	public Widget getSplitLayoutPanel() {
 		if (getGuiManager() == null)
@@ -1927,21 +1621,11 @@ public class AppW extends AppWeb {
 		return new GuiManagerW(AppW.this);
 	}
 
-	private geogebra.web.gui.app.SplashDialog splashDialog = null;
-
-	private void createAppSplash() {
-		splashDialog = new geogebra.web.gui.app.SplashDialog();
-	}
-
 	public static native void console(String string) /*-{
 		if ($wnd && $wnd.console) {
 			@geogebra.common.main.App::debug(Ljava/lang/String;)(string);
 		}
 	}-*/;
-
-	public GeoGebraAppFrame getAppFrame() {
-		return appFrame;
-	}
 
 	@Override
 	public void exitAll() {
@@ -2016,11 +1700,11 @@ public class AppW extends AppWeb {
 	public static native void debug(JavaScriptObject j) /*-{
 		$wnd.console.log(j);
 	}-*/;
-	
+
 	public boolean menubarRestricted() {
-		return frame != null;
+		return true;
 	}
-	
+
 	@Override
     public String getDataParamId(){
 		return getArticleElement().getDataParamId();
@@ -2034,51 +1718,7 @@ public class AppW extends AppWeb {
     }
 
 	@Override
-    public void afterLoadFileAppOrNot() {
-
-		if (!isUsingFullGui()) {
-			buildSingleApplicationPanel();
-		} else {
-			getGuiManager().getLayout().setPerspectives(getTmpPerspectives());
-		}
-		
-		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-
-		kernel.initUndoInfo();
-
-		getEuclidianView1().synCanvasSize();
-		
-		if (!useFullAppGui) {
-
-			getEuclidianView1().doRepaint2();
-			stopCollectingRepaints();
-
-			frame.splash.canNowHide();
-			getEuclidianView1().requestFocusInWindow();
-
-			if (isUsingFullGui()) {
-				if (needsSpreadsheetTableModel())
-					getSpreadsheetTableModel();
-
-				refreshSplitLayoutPanel();
-			}
-		} else {
-			splashDialog.canNowHide();
-			updateCenterPanel(true);
-			getEuclidianView1().doRepaint2();
-			stopCollectingRepaints();
-			// Well, it may cause freeze if we attach this too early
-			attachViews();
-			((SplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
-			((SplitLayoutPanel)getSplitLayoutPanel()).onResize();
-			this.getEuclidianViewpanel().onResize();
-			getEuclidianView1().doRepaint2();
-		}
-
-		if (isUsingFullGui())
-			this.getEuclidianViewpanel().updateNavigationBar();
-		GeoGebraProfiler.getInstance().profileEnd();
-    }
+    public void afterLoadFileAppOrNot() { } // TODO: abstract?
 
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
@@ -2135,6 +1775,8 @@ public class AppW extends AppWeb {
 		preferredSize = size;
 	}
 
+	public void buildApplicationPanel() { }
+
 	/**
 	 * Updates the GUI of the main component.
 	 */
@@ -2149,14 +1791,8 @@ public class AppW extends AppWeb {
 
 		addMacroCommands();
 
-		if (!isFullAppGui() && frame != null) {
-			// simple but dumb solution, this may be improved
-			frame.clear();
-			buildApplicationPanel();
-		} else {
-			// application mode should have menubar, toolbar, algebra input on
-			// so don't change anything here
-		}
+		// used in AppWapplet
+		buildApplicationPanel();
 
 		fontManager.setFontSize(getGUIFontSize());
 
@@ -2175,6 +1811,32 @@ public class AppW extends AppWeb {
 		if (euclidianView.isShowing()) {
 			euclidianView.requestFocusInWindow();
 		}
-
 	}
+
+	@Override
+    public void appSplashCanNowHide() {
+		// not sure we need this in web applets
+		// (not application mode)
+
+		// allow eg ?command=A=(1,1);B=(2,2) in URL
+		String cmd = com.google.gwt.user.client.Window.Location
+		        .getParameter("command");
+
+		if (cmd != null) {
+
+			App.debug("exectuing commands: " + cmd);
+
+			String[] cmds = cmd.split(";");
+			for (int i = 0; i < cmds.length; i++) {
+				getKernel().getAlgebraProcessor()
+				        .processAlgebraCommandNoExceptionsOrErrors(cmds[i],
+				                false);
+			}
+		}
+	}
+
+	// methods used just from AppWapplet
+	public void focusLost() { }
+	public void focusGained() { }
+	public void setCustomToolBar() { }
 }

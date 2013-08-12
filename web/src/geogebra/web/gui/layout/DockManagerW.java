@@ -13,6 +13,7 @@ import geogebra.web.gui.app.GGWFrameLayoutPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import geogebra.web.main.AppW;
+import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +85,7 @@ public class DockManagerW implements  SetLabels {
 		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
 		
 		if (App.isFullAppGui()) {
-			glassPane = app.getAppFrame().getGlassPane();
+			glassPane = ((AppWapplication)app).getAppFrame().getGlassPane();
 			glassPane.attach(this);
 		}
 		
@@ -430,8 +431,8 @@ public class DockManagerW implements  SetLabels {
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 			} else {
-				windowWidth = app.getAppFrame().getOffsetWidth();
-				windowHeight = app.getAppFrame().getOffsetHeight();
+				windowWidth = ((AppWapplication)app).getAppFrame().getOffsetWidth();
+				windowHeight = ((AppWapplication)app).getAppFrame().getOffsetHeight();
 				windowHeight -= GGWFrameLayoutPanel.MINUS_FROM_HEIGHT;
 
 				rootPane.clear();
@@ -661,7 +662,8 @@ public class DockManagerW implements  SetLabels {
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			public void execute() {
-				app.getAppFrame().onResize();
+				if (app instanceof AppWapplication)
+					((AppWapplication)app).getAppFrame().onResize();
 			}
 		});
 	}
