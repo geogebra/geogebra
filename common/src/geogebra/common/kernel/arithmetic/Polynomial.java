@@ -362,9 +362,7 @@ public class Polynomial extends ValidExpression implements Serializable
 						t[j] = null;
 					}
 				}
-
-				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)
-						|| Double.isNaN(ti.coefficient.evaluateDouble()))
+				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue))
 					throw new MyError(kernel.getApplication().getLocalization(), ti.coefficient
 							.evaluate(StringTemplate.defaultTemplate).toString(StringTemplate.defaultTemplate));
 

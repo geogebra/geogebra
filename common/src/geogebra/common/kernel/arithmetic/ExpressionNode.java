@@ -3358,6 +3358,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
+	/**
+	 * @param left left expression (might need context-aware serialization for GIAC) 
+	 */
 	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
 			String libreOffice, String giac,
 			StringTemplate tpl,Localization loc,boolean needDegrees) {
@@ -5017,15 +5020,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if(isLeaf()){
 			return left.evaluateDouble();
 		}
-		switch(operation){
-			case PLUS: return left.evaluateDouble() + right.evaluateDouble();
-			case MINUS: return left.evaluateDouble() - right.evaluateDouble();
-			//case MULTIPLY: return left.evaluateDouble() * right.evaluateDouble();
-			case DIVIDE: return left.evaluateDouble() / right.evaluateDouble();
-			//case POWER: return Math.pow(left.evaluateDouble(), right.evaluateDouble());
-			case SIN: return Math.sin(left.evaluateDouble());
-			case COS: return Math.cos(left.evaluateDouble());
-		}
+		//TODO: evaluate basic operations here, but make sure errors a thwown wehen necessary
 		return super.evaluateDouble();
 	}
 	
