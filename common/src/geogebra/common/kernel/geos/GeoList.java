@@ -873,9 +873,11 @@ AngleProperties {
 		}
 				
 		// AngleProperties
-		sb.append("\t<allowReflexAngle val=\"");
-		sb.append(angleStyle != GeoAngle.ANGLE_ISNOTREFLEX);
-		sb.append("\"/>\n");
+		if (angleStyle != GeoAngle.ANGLE_ISANTICLOCKWISE) {
+			sb.append("\t<allowReflexAngle val=\"");
+			sb.append(angleStyle != GeoAngle.ANGLE_ISNOTREFLEX);
+			sb.append("\"/>\n");
+		}
 		if (angleStyle == GeoAngle.ANGLE_ISREFLEX) {
 			sb.append("\t<forceReflexAngle val=\"");
 			sb.append(true);
