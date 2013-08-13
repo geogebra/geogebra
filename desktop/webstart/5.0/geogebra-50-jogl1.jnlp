@@ -68,35 +68,35 @@
 
     <!-- USB native components (architecture dependent) -->
  <resources os="Windows" arch="x86">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/vernier_ccsd-win.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/5.0/jd2xx.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/5.0/javagiac-win32.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-win32.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/vernier_ccsd-win.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/5.0/jd2xx64.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/5.0/javagiac-win64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/jd2xx64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-win64.jar" />
     </resources>
     <resources os="Mac OS X" arch="i386">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/vernier_ccsd-macintel-static.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/4.4/javagiac-mac.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-mac.jar" />
     </resources>
    <resources os="Mac OS X" arch="x86">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/vernier_ccsd-macintel-static.jar" />
-      <nativelib href="http://www.geogebra.org/webstart/4.4/javagiac-mac.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-mac.jar" />
     </resources>
     <resources os="Mac OS X" arch="x86_64">
-      <nativelib href="http://www.geogebra.org/webstart/5.0/vernier_ccsd-macintel-static.jar" />
-       <nativelib href="http://www.geogebra.org/webstart/4.4/javagiac-mac.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/vernier_ccsd-macintel-static.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-mac.jar" />
    </resources>
     <resources os="Linux"  arch="i386" >
-      <nativelib href="http://www.geogebra.org/webstart/5.0/javagiac-linux32.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-linux32.jar" />
     </resources>
     <resources os="Linux"  arch="x86" >
-      <nativelib href="http://www.geogebra.org/webstart/5.0/javagiac-linux32.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-linux32.jar" />
     </resources>
     <resources os="Linux" arch="amd64">
-       <nativelib href="http://www.geogebra.org/webstart/5.0/javagiac-linux64.jar" />
+      <nativelib href="http://www.geogebra.org/webstart/5.0/jnlp/javagiac-linux64.jar" />
    </resources>
        
     <!-- JOGL1 native components (architecture dependent) -->
