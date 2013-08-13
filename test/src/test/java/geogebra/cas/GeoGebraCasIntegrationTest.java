@@ -2524,6 +2524,16 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = (10 * log(2)) / 3}", "{t = 10 * log(cbrt(2))}", "{t = 10 / 3 * log(2)}");
   }
 
+  @Test
+  public void Solve_OneVariableVC_11 () {
+    t("Solve[x^2 = a]", "{x = -sqrt(a), x = sqrt(a)}", "{x = sqrt(a), x = -sqrt(a)}");
+  }
+
+  @Test
+  public void Solve_OneVariableVC_12 () {
+    t("Solve[x^2 - 2 a x + (a^2 - 1)]", "{x = a - 1, x = a + 1}", "{x = a + 1, x = a - 1}");
+  }
+
   /* Trigonometric Problems */
 
   @Test
@@ -3098,13 +3108,36 @@ public class GeoGebraCasIntegrationTest {
     }
   }
   
+  /* Ticket 3524: Solve fails for large numbers and definition as function */
+  
+  // TODO What is the correct result for f'(x) = 0 and g(x) = 0 (should be identical)?
+  
+  @Test
+  public void Ticket_Ticket3524 () {
+    t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
+        "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
+        "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+    t("f(x) := Element[Solve[c, y], 1]",
+        "((-4  * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+    t("Solve[f'(x) = 0, x]",
+        "{x = (-2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) + 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
+    t("g(x) := f'(x)",
+        "(-(30 * sqrt(10) + 358) *x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
+        "((-30 * sqrt(10) - 358) *x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
+    t("Solve[g(x) = 0, x]",
+        "{x = (-2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) + 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
+  }
+  
   /* Ticket 3525: Simplification improvements in Giac */
   
   @Test
   public void Ticket_Ticket3525 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
+        "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
+        "((-4  * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
         "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
