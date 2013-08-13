@@ -4844,7 +4844,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
 			if (!(ToolCreationDialog.isMyCellRenderer(renderer))){
-				App.debug("not mycellrenderer");
 				renderer = new DefaultListCellRenderer();
 				cb.setRenderer(renderer);
 			}
