@@ -49,6 +49,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -591,8 +592,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		// renderer to show long description of geos in list and combobox
 		MyCellRenderer rend = new MyCellRenderer();
 		list.setCellRenderer(rend);
-		//cbAdd.setRenderer(rend);	//- needless currently - 
-									//in AppD.setComponentOrientation the renderer will be rewritten
+		cbAdd.setRenderer(rend);
 
 		return panel;
 	}
@@ -744,8 +744,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	}
 
 
-	public static MyCellRenderer newMyCellRenderer(){
-		return new MyCellRenderer();
+	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
+		return (renderer instanceof MyCellRenderer);
 	}
 }
 

@@ -155,6 +155,7 @@ import java.util.logging.SimpleFormatter;
 import javax.imageio.ImageIO;
 import javax.naming.OperationNotSupportedException;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JCheckBoxMenuItem;
@@ -4822,9 +4823,6 @@ public class AppD extends App implements KeyEventDispatcher {
 				: ComponentOrientation.LEFT_TO_RIGHT;
 	}
 
-	// renderer for JComboBox (align left/right)
-	private ListCellRenderer renderer = ToolCreationDialog.newMyCellRenderer();
-
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
 		ComponentOrientation orientation = rtl ? ComponentOrientation.RIGHT_TO_LEFT
@@ -4844,10 +4842,15 @@ public class AppD extends App implements KeyEventDispatcher {
 							: SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
+			ListCellRenderer renderer = cb.getRenderer();
+			if (!(ToolCreationDialog.isMyCellRenderer(renderer))){
+				App.debug("not mycellrenderer");
+				renderer = new DefaultListCellRenderer();
+				cb.setRenderer(renderer);
+			}
 			((JLabel) renderer)
 					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
 							: SwingConstants.LEFT);
-			cb.setRenderer(renderer);
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
 			int ncomponents = container.getComponentCount();
