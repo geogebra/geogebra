@@ -273,7 +273,7 @@ public class TouchController extends EuclidianController {
 			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
 			this.kernel.notifyRepaint();
 		}
-
+		this.temporaryMode = false;
 		if (this.model.getCommand() == ToolBarCommand.Pen
 				|| this.model.getCommand() == ToolBarCommand.FreehandShape
 				|| this.model.getCommand() == ToolBarCommand.DeleteObject
