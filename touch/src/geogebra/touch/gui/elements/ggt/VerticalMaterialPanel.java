@@ -63,18 +63,21 @@ public class VerticalMaterialPanel extends FlowPanel {
 			mle.markSelected();
 		}
 	}
+	
+	private int pageCapacity(){
+		return this.columns * (maxHeight() / this.materialHeight);
+	}
 
 	public void nextPage() {
-		if (this.start + maxHeight() / this.materialHeight >= this.materials
-				.size()) {
+		if (!hasNextPage()) {
 			return;
 		}
 		this.setMaterials(this.columns, this.materials, this.start
-				+ maxHeight() / this.materialHeight);
+				+ pageCapacity());
 	}
 
 	public boolean hasNextPage() {
-		if (this.start + maxHeight() / this.materialHeight >= this.materials
+		if (this.start + pageCapacity() >= this.materials
 				.size()) {
 			return false;
 		}
@@ -85,8 +88,8 @@ public class VerticalMaterialPanel extends FlowPanel {
 		if (this.start <= 0) {
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, this.start
-				- maxHeight() / this.materialHeight);
+		this.setMaterials(this.columns, this.materials, Math.max(0,this.start
+				- pageCapacity()));
 	}
 
 	public boolean hasPrevPage() {
@@ -125,7 +128,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 		}
 
 		for (int i = 0; i < materials.size() - this.start
-				&& i < maxHeight() / this.materialHeight; i++) {
+				&& i < pageCapacity(); i++) {
 			final Material m = materials.get(i + this.start);
 			final MaterialListElement preview = new MaterialListElement(m,
 					this.app, this);
