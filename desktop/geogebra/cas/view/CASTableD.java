@@ -242,7 +242,7 @@ public class CASTableD extends JTable implements CASTable {
 					getEditor().insertText("$" + (getClickedRow() + 1));
 				}
 				// output panel click
-				else if (isOutputPanelClicked(e.getPoint())) {
+				else if (isOutputPanelClicked(e.getPoint()) && !clickedCell.isOutputEmpty()) {
 					if (!clickedCell.isError())
 						getEditor().insertText(
 								view.getRowOutputValue(getClickedRow()));

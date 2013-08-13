@@ -42,6 +42,11 @@ public class CASInputHandler {
 	 *            optional command parameters like "x"
 	 */
 	public void processCurrentRow(String ggbcmd, String[] params) {
+		// check if text cell
+		int selRow = consoleTable.getSelectedRow();
+		if (consoleTable.getGeoCasCell(selRow).isUseAsText()) {
+			processRowThenEdit(selRow, true);
+		}
 		// get editor
 		CASTableCellEditor cellEditor = consoleTable.getEditor();
 
@@ -84,7 +89,6 @@ public class CASInputHandler {
 		consoleTable.stopEditing();
 
 		// get current row and input text
-		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0)
 			selRow = consoleTable.getRowCount() - 1;
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
@@ -495,7 +499,7 @@ public class CASInputHandler {
 		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		boolean success;
 		boolean isLastRow = consoleTable.getRowCount() <= selRow + 1;
-		if (!cellValue.isError()) {
+		if (!cellValue.isError() && !cellValue.isUseAsText()) {
 			// evaluate output and update twin geo
 			kernel.getAlgebraProcessor().processCasCell(cellValue,isLastRow);
 		} else {
