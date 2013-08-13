@@ -40,7 +40,11 @@ public class TabletHeaderPanelRight extends HorizontalPanel {
 		if ("apple".equals(param)) {
 
 			this.undo = new StandardTextButton("undo");
+			this.undo.addStyleName("textButton");
+			this.undo.addStyleName("first");
 			this.redo = new StandardTextButton("redo");
+			this.redo.addStyleName("textButton");
+			this.redo.addStyleName("last");
 		} else {
 			this.undo = new StandardImageButton(TouchEntryPoint
 					.getLookAndFeel().getIcons().undo());

@@ -121,7 +121,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 				TouchEntryPoint.showBrowseGUI();
 			}
 		};
-
+		
 		this.openButton.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
