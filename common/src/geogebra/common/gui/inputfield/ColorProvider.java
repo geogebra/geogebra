@@ -90,11 +90,6 @@ public class ColorProvider {
 	 * @return Color
 	 */
 	public GColor getColor(int i) {
-		for (Integer[] in : ignoreIntervals) {
-			if (in[0] <= i && in[1] > i) {
-				return COLOR_DEFAULT;
-			}
-		}
 		for (Integer[] in : definedObjectsIntervals) {
 			if (in[0] <= i && in[1] > i) {
 				return COLOR_DEFINED;
@@ -102,6 +97,11 @@ public class ColorProvider {
 		}
 		if (isCasInput) {
 			return COLOR_DEFAULT;
+		}
+		for (Integer[] in : ignoreIntervals) {
+			if (in[0] <= i && in[1] > i) {
+				return COLOR_DEFAULT;
+			}
 		}
 		for (Integer[] in : undefinedObjectsIntervals) {
 			if (in[0] <= i && in[1] > i) {
@@ -133,13 +133,18 @@ public class ColorProvider {
 		localVariables = null;
 		
 		MatchResult res;
-		while ((res = commandReg.exec(text)) != null) {
-			int i = res.getIndex();
-			ignoreIntervals.add(new Integer[] {i, i + res.getGroup(1).length()} );
-		}
-		while ((res = commandParamReg.exec(text)) != null) {
-			int i = res.getIndex();
-			ignoreIntervals.add(new Integer[] {i, i + res.getGroup(0).length()} );
+		/* only for algebra input */
+		if (!isCasInput) {
+			while ((res = commandReg.exec(text)) != null) {
+				int i = res.getIndex();
+				ignoreIntervals.add(new Integer[] { i,
+						i + res.getGroup(1).length() });
+			}
+			while ((res = commandParamReg.exec(text)) != null) {
+				int i = res.getIndex();
+				ignoreIntervals.add(new Integer[] { i,
+						i + res.getGroup(0).length() });
+			}
 		}
 		boolean isAssignment = (text.contains(":=") || (!isCasInput && text.contains("=")));
 		
@@ -159,7 +164,8 @@ public class ColorProvider {
 			int len = labelvar.length();
 			if (labels.contains(label)) {
 				definedObjectsIntervals.add(new Integer[] {i, i + len} );
-			} else {
+			} else if (!isCasInput){
+				/* we only color undefined objects in algebra input */
 				undefinedObjectsIntervals.add(new Integer[] {i, i + len});				
 			}
 		}
