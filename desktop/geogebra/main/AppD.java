@@ -71,6 +71,7 @@ import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
+import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.AnimatedGifEncoder;
@@ -154,7 +155,6 @@ import java.util.logging.SimpleFormatter;
 import javax.imageio.ImageIO;
 import javax.naming.OperationNotSupportedException;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JCheckBoxMenuItem;
@@ -4824,7 +4824,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	// renderer for JComboBox (align left/right)
-	private ListCellRenderer renderer = new DefaultListCellRenderer();
+	private ListCellRenderer renderer = ToolCreationDialog.newMyCellRenderer();
 
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();

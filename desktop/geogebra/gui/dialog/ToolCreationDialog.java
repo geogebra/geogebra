@@ -742,7 +742,13 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 	}
 
+
+	public static MyCellRenderer newMyCellRenderer(){
+		return new MyCellRenderer();
+	}
 }
+
+
 
 class MyCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
