@@ -306,11 +306,15 @@ public class Material implements Comparable<Material>
 	}
 
 	public void setHeight(int height) {
-		this.height = height;
+		if(height > 0){
+			this.height = height;
+		}
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		if(width > 0){
+			this.width = width;
+		}
 	}
 
 	public void setInstructionsPre(String instructionsPre) {
