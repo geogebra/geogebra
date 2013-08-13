@@ -53,7 +53,6 @@ download libs for other architectures than the current one.
 	</target>
 
 	<!-- these targets should come from the GeoGebra repository (currently) -->
-	<target name="mpreduce" depends="mpreduce-geogebra"/>
 	<target name="ogp" depends="ogp-geogebra"/>
 	<target name="jython" depends="jython-geogebra"/>
 	<target name="jlatexmath" depends="jlatexmath-geogebra"/>
@@ -72,7 +71,7 @@ download libs for other architectures than the current one.
 	    description="Internal target, please do not use manually. Downloads all packages for the current OS and architecture">
 	</target>
 
-	<target name="_lib-build-geogebra4" depends="mpreduce, javacc, jsobject, mac_extensions, jlatexmath, ogp"
+	<target name="_lib-build-geogebra4" depends="javacc, jsobject, mac_extensions, jlatexmath, ogp"
 	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 4)">
 	</target>
 
@@ -236,14 +235,6 @@ download libs for other architectures than the current one.
 	<get 
 	    src="http://dev.geogebra.org/download/lib/build/java150-rt.jar"
 	    dest="../java150-rt.jar" usetimestamp="true"/>
-	</target>
-	
-	<!-- download mpreduce default.img from GeoGebra repository -->
-	<!-- Please change the date in ../web/kickstart.xml when the default.img file is changing! -->
-	<target name="mpreduce-geogebra">
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-20130312"
-	    dest="default.img" usetimestamp="true"/> <!-- Please set this back to false if you revert to an older version! -->
 	</target>
 	
 	<!-- download ogp from GeoGebra repository -->

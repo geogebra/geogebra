@@ -430,11 +430,9 @@ office@geogebra.org
 			basedir="${src.dir}"
 			includes="geogebra/cas/**,
 					org/apache/log4j/**,
-					org/mathpiper/mpreduce/**/*.class,
 			geogebra/kernel/cas/**,
 			geogebra/common/kernel/cas/**,
-			geogebra/common/kernel/locusequ/**,
-					default.img"
+			geogebra/common/kernel/locusequ/**"
 			excludes="**/*.java,
 			geogebra/cas/maxima/**,
 			geogebra/cas/jacomax/**,
