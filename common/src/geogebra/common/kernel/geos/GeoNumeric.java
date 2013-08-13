@@ -1306,7 +1306,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric xx = (GeoNumeric) this.copy(); // should handle GeoAngle
+		GeoNumeric xx = this.copy(); // should handle GeoAngle
 		// too
 		spreadsheetTraceList.add(xx);
 

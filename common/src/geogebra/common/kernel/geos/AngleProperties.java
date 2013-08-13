@@ -1,5 +1,7 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * @author michael
  * 
@@ -7,7 +9,7 @@ package geogebra.common.kernel.geos;
  * eg can change angles in a list to be all reflex
  *
  */
-public interface AngleProperties {
+public interface AngleProperties extends GeoElementND{
 
 	
 	/**
@@ -50,11 +52,7 @@ public interface AngleProperties {
 
 	public int getArcSize();
 
-	public boolean isIndependent();
-
 	public boolean isDrawable();
-
-	public void updateRepaint();
 
 	public int getDecorationType();
 

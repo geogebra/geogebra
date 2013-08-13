@@ -1203,6 +1203,7 @@ final public class GeoVec2D extends ValidExpression implements
 		return false;
 	}
 
+	@Override
 	final public boolean evaluatesToNonComplex2DVector() {
 		return this.mode != Kernel.COORD_COMPLEX;
 	}

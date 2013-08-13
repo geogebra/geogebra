@@ -1586,6 +1586,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return ret;
 	}
 	
+	@Override
 	public EquationElementInterface buildEquationElement(EquationScope scope) {
 		return LocusEquation.eqnLine(this, scope);
 	}

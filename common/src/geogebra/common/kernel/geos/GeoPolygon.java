@@ -76,6 +76,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 	/** directed area */
 	protected double area;
 	private boolean defined = false;
+	/** @see #wasInitLabelsCalled()  */
 	protected boolean initLabelsCalled = false;
 
 	/** says if the polygon had created its segments itself (used for 3D) */

@@ -104,20 +104,29 @@ public class GeoCanvasImage extends GeoImage {
 		return bufferedImage;
 	}
 
+	/**
+	 * @return graphics
+	 */
 	public GGraphics2D getGraphics() {
 		return g;
 	}
 
+	/**
+	 * @return width
+	 */
 	public int getWidth() {
 		return pixelWidth;
 	}
 
+	/**
+	 * @return height
+	 */
 	public int getHeight() {
 		return pixelHeight;
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
-			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
+			GColor bgColor1, float backgroundTransparency, int xInt, int yInt) {
 
 		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt, yInt,
 				GBufferedImage.TYPE_INT_ARGB);
@@ -131,11 +140,11 @@ public class GeoCanvasImage extends GeoImage {
 		g.setTransparent();
 
 		// paint background transparent
-		if (bgColor == null) {
+		if (bgColor1 == null) {
 			g.setColor(AwtFactory.prototype.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
-			g.setColor(bgColor);
+			g.setColor(bgColor1);
 		}
 
 		g.fillRect(0, 0, xInt, yInt);
@@ -155,24 +164,20 @@ public class GeoCanvasImage extends GeoImage {
 	public boolean isGeoImage() {
 		return true;
 	}
-
-	public void setDefined(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@Override
 	public boolean isIndependent(){
 		return true;
 	}
 	
-	/*
-	 * Since objects of this class are always created by commands 
-	 * you must override the method to prevent the XML result 
-	 * duplicates the object definition.
-	 */
+	
 	@Override
 	public void getXML(StringBuilder sb) {
+		/*
+		 * Since objects of this class are always created by commands 
+		 * you must override the method to prevent the XML result 
+		 * duplicates the object definition.
+		 */
 	}
 
 	/**

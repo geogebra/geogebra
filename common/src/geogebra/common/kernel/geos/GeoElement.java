@@ -375,7 +375,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/** condition to show object*/
 	protected GeoBoolean condShowObject;
-	
+	/** whether we should send value to CAS (for false we send the name)*/
 	protected boolean sendValueToCas = true;
 
 	// function to determine color
@@ -6991,6 +6991,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		return decorationType;
 	}
 
+	/**
+	 * @param scope equation scope
+	 * @return equation for LocusEquation
+	 */
 	public EquationElementInterface buildEquationElement(EquationScope scope) {
 		return null;
 	}
