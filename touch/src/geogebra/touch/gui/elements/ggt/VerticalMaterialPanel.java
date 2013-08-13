@@ -5,6 +5,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	private int start;
 
-	private List<Material> materials;
+	private List<Material> materials = new ArrayList<Material>();
 
 	public VerticalMaterialPanel(AppWeb app) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
