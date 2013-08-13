@@ -3,6 +3,7 @@ package geogebra.common.gui.inputfield;
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.main.GeoGebraColorConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.regexp.shared.SplitResult;
 
 /**
  * Class for coloring the labels in the input bar
@@ -23,20 +25,36 @@ public class ColorProvider {
 	private List<Integer[]> definedObjectsIntervals;
 	private List<Integer[]> undefinedObjectsIntervals;
 	private List<Integer[]> ignoreIntervals;
+	private SplitResult localVariables; 
 	private String text;
 	private boolean isCasInput;
-	private RegExp labelReg = RegExp.compile("(\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\'|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\'|\\p{Nd})*", "g");
-	private RegExp commandReg = RegExp.compile("((\\p{L}\\p{M}*)*)\\[(\\P{M}\\p{M}*)*\\]", "g");
+	
+	/* Regular expression object matching any label and function */
+	private RegExp labelReg = RegExp.compile(LABEL_REGEX_STRING + "(\\((" + WS + LABEL_REGEX_STRING + WS + ",)*" + WS + "(" + LABEL_REGEX_STRING + WS + ")?\\))?", "g");
+	
+	/* Regular expression object matching commands */
+	private RegExp commandReg = RegExp.compile(LABEL_REGEX_STRING + "\\[(\\P{M}\\p{M}*)*\\]", "g");
+	
+	/* Regular expression object matching command parameters */
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>", "g");
 	
-	// defined object color = blue
-	private static GColor COLOR_DEFINED = GColor.BLUE;
-		
-	// undefined object color = orange
-	private static GColor COLOR_UNDEFINED = GColor.GRAY;
+	/* Regular expression object for splitting variable names */
+	private RegExp splitter = RegExp.compile("(\\(" + WS + ")|(" + WS + "," + WS + ")|(" + WS + "\\))");
 	
-	// default color
-	private static GColor COLOR_DEFAULT = GColor.BLACK;
+	/* Regular expression string matching a full label */
+	private static String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\'|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\'|\\p{Nd})*)";
+	
+	/* Regular expression string matching any number of whitespace */
+	private static String WS = "((\\p{Z})*)";
+	
+	/* Defined object color */
+	private static GColor COLOR_DEFINED = GeoGebraColorConstants.DEFINED_OBJECT_COLOR;
+	
+	/* Undefined object color */
+	private static GColor COLOR_UNDEFINED = GeoGebraColorConstants.UNDEFINED_OBJECT_COLOR;
+	
+	/* Default color */
+	private static GColor COLOR_DEFAULT = GeoGebraColorConstants.BLACK;
 
 	/**
 	 * @param app
@@ -51,6 +69,7 @@ public class ColorProvider {
 		definedObjectsIntervals = new ArrayList<Integer[]>();
 		undefinedObjectsIntervals = new ArrayList<Integer[]>();
 		ignoreIntervals = new ArrayList<Integer[]>();
+		localVariables = null;
 		text = "";
 	}
 
@@ -111,6 +130,7 @@ public class ColorProvider {
 		definedObjectsIntervals.clear();
 		undefinedObjectsIntervals.clear();
 		ignoreIntervals.clear();
+		localVariables = null;
 		
 		MatchResult res;
 		while ((res = commandReg.exec(text)) != null) {
@@ -121,17 +141,31 @@ public class ColorProvider {
 			int i = res.getIndex();
 			ignoreIntervals.add(new Integer[] {i, i + res.getGroup(0).length()} );
 		}
+		boolean isAssignment = (text.contains(":=") || (!isCasInput && text.contains("=")));
 		
 		while ((res = labelReg.exec(text)) != null) {
-			String match = res.getGroup(0);
-			
+			String label = res.getGroup(1);
+			String labelvar = res.getGroup(0);
+			String vars = res.getGroup(8);
+			if (isAssignment && localVariables == null && vars != null) {
+				localVariables = getVariables(vars);
+				/* set isAssignment to false so we don't fall in if again */
+				isAssignment = false;
+				for (int i = 0; i < localVariables.length(); i++) {
+					labels.add(localVariables.get(i));
+				}
+			}
 			int i = res.getIndex();
-			int len = match.length();
-			if (labels.contains(match)) {
+			int len = labelvar.length();
+			if (labels.contains(label)) {
 				definedObjectsIntervals.add(new Integer[] {i, i + len} );
 			} else {
 				undefinedObjectsIntervals.add(new Integer[] {i, i + len});				
 			}
 		}
+	}
+	
+	private SplitResult getVariables(String vars) {
+		return vars == null ? null : splitter.split(vars);
 	}
 }

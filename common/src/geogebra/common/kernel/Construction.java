@@ -2809,7 +2809,7 @@ public class Construction {
 	 * @return a copy of the set of all labels that are currently being used
 	 */
 	public Set<String> getAllLabels() {
-		Set<String> ret = getAllGeoLabels();
+		Set<String> ret = new HashSet<String>(getAllGeoLabels());
 		if (geoCasCellTable != null) {
 			ret.addAll(geoCasCellTable.keySet());
 		}

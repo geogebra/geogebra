@@ -127,6 +127,14 @@ public class GeoGebraColorConstants {
 	/** 75% gray */
 	public static final GColor SILVER = GRAY6;
 
+	// input coloring
+	/** defined objects */
+	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype.newColor(153, 153,
+			255);
+	/** undefined objects */
+	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY4;
+
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
