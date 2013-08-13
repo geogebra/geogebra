@@ -28,7 +28,10 @@ public interface UserAwarenessListener {
 	public void setMacroCommandName(Macro macro, String cmdName);
 
 	// File Loading Methods
-	public void fileLoading();
+	public void fileLoading( String fileName );
 	
-	public void fileLoadComplete();
+	public void fileLoadComplete( boolean success );
+	
+	// Perspective Methods
+	public void perspectiveChanged( String perspectiveId );
 }

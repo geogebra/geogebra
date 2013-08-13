@@ -141,6 +141,7 @@ public class LayoutD extends Layout implements SettingListener {
 			app.updateContentPane();
 		}
 		
+		app.getKernel().notifyPerspectiveChanged(perspective.getId());
 	}
 	
 	/**

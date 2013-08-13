@@ -738,15 +738,17 @@ public class Kernel {
 	 */
 	public void setLoadingMode(boolean b) {
 		loadingMode = b;
-		
-		if( loadingMode ){
-			for( UserAwarenessListener listener: this.userAwarenessListeners ){
-				listener.fileLoading();
-			}
-		}else {
-			for( UserAwarenessListener listener: this.userAwarenessListeners ){
-				listener.fileLoadComplete();
-			}
+	}
+	
+	public void notifyOpeningFile( String fileName ){
+		for( UserAwarenessListener listener: this.userAwarenessListeners ){
+			listener.fileLoading(fileName);
+		}
+	}
+	
+	public void notifyFileOpenComplete( boolean success ){
+		for( UserAwarenessListener listener: this.userAwarenessListeners ){
+			listener.fileLoadComplete(success);
 		}
 	}
 	/**
@@ -3229,6 +3231,12 @@ public class Kernel {
 		}
 
 		notifyRenameListenerAlgos();
+	}
+	
+	public void notifyPerspectiveChanged( String perspectiveId ){
+		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+			listener.perspectiveChanged(perspectiveId);
+		}
 	}
 
 	public boolean isNotifyViewsActive() {

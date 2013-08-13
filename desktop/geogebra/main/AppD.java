@@ -3269,6 +3269,8 @@ public class AppD extends App implements KeyEventDispatcher {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
+		
+		kernel.notifyOpeningFile(file.getName());
 
 		setWaitCursor();
 
@@ -3286,6 +3288,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			e.printStackTrace();
 		}
 
+		kernel.notifyFileOpenComplete(success);
 		return success;
 	}
 
