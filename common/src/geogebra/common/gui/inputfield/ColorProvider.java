@@ -81,6 +81,9 @@ public class ColorProvider {
 				return COLOR_DEFINED;
 			}
 		}
+		if (isCasInput) {
+			return COLOR_DEFAULT;
+		}
 		for (Integer[] in : undefinedObjectsIntervals) {
 			if (in[0] <= i && in[1] > i) {
 				return COLOR_UNDEFINED;
