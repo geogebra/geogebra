@@ -72,6 +72,7 @@ public class Material implements Comparable<Material>
 	private int height;
 	private String instructionsPre;
 	private String instructionsPost;
+	private boolean showMenu, showToolbar, showInputbar, showResetIcon, shiftDragZoom;
 
 	public Material(int id, MaterialType type)
 	{
@@ -93,6 +94,31 @@ public class Material implements Comparable<Material>
 		this.width = 800;
 		this.height = 600;
 		this.thumbnail = "";
+		showMenu = false;
+		showToolbar= false;
+		showInputbar= false;
+		showResetIcon = false; 
+		shiftDragZoom = true;
+	}
+
+	public void setShowMenu(boolean showMenu) {
+		this.showMenu = showMenu;
+	}
+
+	public void setShowToolbar(boolean showToolbar) {
+		this.showToolbar = showToolbar;
+	}
+
+	public void setShowInputbar(boolean showInputbar) {
+		this.showInputbar = showInputbar;
+	}
+
+	public void setShowResetIcon(boolean showResetIcon) {
+		this.showResetIcon = showResetIcon;
+	}
+
+	public void setShiftDragZoom(boolean shiftDragZoom) {
+		this.shiftDragZoom = shiftDragZoom;
 	}
 
 	public int getId()
@@ -323,5 +349,25 @@ public class Material implements Comparable<Material>
 
 	public void setInstructionsPost(String instructionsPost) {
 		this.instructionsPost = instructionsPost;
+	}
+
+	public String getShiftDragZoom() {
+		return this.shiftDragZoom+"";
+	}
+
+	public String getShowMenu() {
+		return this.showMenu+"";
+	}
+
+	public String getShowToolbar() {
+		return this.showToolbar+"";
+	}
+	
+	public String getShowInputbar() {
+		return this.showInputbar+"";
+	}
+
+	public String getShowResetIcon() {
+		return this.showResetIcon+"";
 	}
 }
