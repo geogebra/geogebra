@@ -1999,7 +1999,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement oldTwinGeo = twinGeo;
 			twinGeo = null;
 			oldTwinGeo.setCorrespondingCasCell(null);
-			oldTwinGeo.remove();
+			oldTwinGeo.doRemove();
 		}
 
 		twinGeo = newTwinGeo;
