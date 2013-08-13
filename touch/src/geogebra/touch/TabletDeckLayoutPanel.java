@@ -20,12 +20,12 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel {
 			// remove the current shown view
 			final Widget current = this.history.pop();
 
-			if (current.equals(TouchEntryPoint.worksheetGUI)) {
+			if (TouchEntryPoint.hasWorksheetGUI() && current.equals(TouchEntryPoint.getWorksheetGUI())) {
 				TouchEntryPoint.tabletGUI
 						.restoreEuclidian(((WorksheetGUI) current)
 								.getContentPanel());
 				TouchEntryPoint.tabletGUI.getApp().fileNew();
-			} else if (current.equals(TouchEntryPoint.browseGUI)
+			} else if (TouchEntryPoint.hasBrowseGUI() && current.equals(TouchEntryPoint.getBrowseGUI())
 					&& !TouchEntryPoint.tabletGUI
 							.getApp()
 							.getFileManager()

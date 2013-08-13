@@ -147,8 +147,10 @@ public class TouchApp extends AppWeb {
 		if (!this.getConstructionTitle().equals("")) {
 			this.setConstructionTitle(this.getConstructionTitle());
 		} else {
-			this.setConstructionTitle(TouchEntryPoint.browseGUI
+			if(TouchEntryPoint.hasBrowseGUI()){
+				this.setConstructionTitle(TouchEntryPoint.getBrowseGUI()
 					.getChosenMaterial().getMaterialTitle());
+			}
 		}
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -492,8 +494,12 @@ public class TouchApp extends AppWeb {
 	@Override
 	public void setLabels() {
 		this.touchGUI.setLabels();
-		TouchEntryPoint.worksheetGUI.setLabels();
-		TouchEntryPoint.browseGUI.setLabels();
+		if(TouchEntryPoint.hasWorksheetGUI()){
+			TouchEntryPoint.getWorksheetGUI().setLabels();
+		}
+		if(TouchEntryPoint.hasBrowseGUI()){
+			TouchEntryPoint.getBrowseGUI().setLabels();
+		}
 	}
 
 	public void setLanguage() {

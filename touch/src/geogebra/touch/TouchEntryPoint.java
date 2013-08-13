@@ -39,8 +39,8 @@ public class TouchEntryPoint implements EntryPoint {
 
 	static TabletDeckLayoutPanel appWidget = new TabletDeckLayoutPanel();
 	static TabletGUI tabletGUI = new TabletGUI();
-	static BrowseGUI browseGUI;
-	static WorksheetGUI worksheetGUI;
+	private static BrowseGUI browseGUI;
+	private static WorksheetGUI worksheetGUI;
 
 	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
 	private static LookAndFeel laf;
@@ -109,11 +109,9 @@ public class TouchEntryPoint implements EntryPoint {
 				final FileManagerM fm = new FileManagerM();
 				app.setFileManager(fm);
 				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
-				browseGUI = new BrowseGUI(app);
-				worksheetGUI = new WorksheetGUI(app, tabletGUI);
+				
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
-				TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
-				TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
+				
 
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
@@ -152,7 +150,7 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static void reloadLocalFiles() {
-		TouchEntryPoint.browseGUI.reloadLocalFiles();
+		TouchEntryPoint.getBrowseGUI().reloadLocalFiles();
 	}
 
 	protected static void setLookAndFeel() {
@@ -171,9 +169,9 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static void showBrowseGUI() {
-		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.browseGUI);
-		TouchEntryPoint.browseGUI.onResize();
-		TouchEntryPoint.browseGUI.updateNextPrevButtons();
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.getBrowseGUI());
+		TouchEntryPoint.getBrowseGUI().onResize();
+		TouchEntryPoint.getBrowseGUI().updateNextPrevButtons();
 	}
 
 	public static void showTabletGUI() {
@@ -191,8 +189,8 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static void showWorksheetGUI(Material material) {
-		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.worksheetGUI);
-		TouchEntryPoint.worksheetGUI.loadWorksheet(material);
+		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.getWorksheetGUI());
+		TouchEntryPoint.getWorksheetGUI().loadWorksheet(material);
 	}
 
 	@Override
@@ -211,5 +209,27 @@ public class TouchEntryPoint implements EntryPoint {
 			}
 		});
 
+	}
+
+	public static WorksheetGUI getWorksheetGUI() {
+		if(worksheetGUI == null){
+			worksheetGUI = new WorksheetGUI(app, tabletGUI);
+			TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
+		}
+		return worksheetGUI;
+	}
+	
+	public static BrowseGUI getBrowseGUI() {
+		if(browseGUI == null){
+			browseGUI = new BrowseGUI(app);
+			TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
+		}
+		return browseGUI;
+	}
+	public static boolean hasWorksheetGUI() {		
+		return TouchEntryPoint.worksheetGUI != null;
+	}
+	public static boolean hasBrowseGUI() {
+		return TouchEntryPoint.browseGUI != null;
 	}
 }
