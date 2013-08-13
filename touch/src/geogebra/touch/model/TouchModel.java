@@ -835,11 +835,13 @@ public class TouchModel {
 
 		// special command: slider
 		case Slider:
-			if (this.inputDialog.getType() != DialogType.Slider) {
-				this.inputDialog.redefine(DialogType.Slider);
+			if(hits.size() == 0 || !hits.get(0).isGeoNumeric()){
+				if (this.inputDialog.getType() != DialogType.Slider) {
+					this.inputDialog.redefine(DialogType.Slider);
+				}
+				this.inputDialog.setMode("Slider");
+				this.inputDialog.show();
 			}
-			this.inputDialog.setMode("Slider");
-			this.inputDialog.show();
 			break;
 
 		// special command: attach/detach: needs a point (detach) or a point and
@@ -1200,7 +1202,7 @@ public class TouchModel {
 			slider.setSliderLocation(this.eventCoordinates.x,
 					this.eventCoordinates.y, true);
 			setSliderProperties(slider);
-
+			slider.setSliderFixed(true);
 			slider.setEuclidianVisible(true);
 			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			slider.setLabelVisible(true);
