@@ -587,7 +587,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CFactor_0 () {
-    t("CFactor[x^2 + 4]", "(x + 2 * \u03af) * (x - 2 * \u03af)");
+    t("CFactor[x^2 + 4]", "(x - 2 * \u03af) * (x + 2 * \u03af)", "(x + 2 * \u03af) * (x - 2 * \u03af)");
   }
 
   @Test
@@ -711,25 +711,25 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CSolutions_OneVariable_0 () {
-    t("CSolutions[x^2 = -1]", "{ \u03af, - \u03af}", "{ - \u03af, \u03af}");
+    t("CSolutions[x^2 = -1]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
   }
 
   @Test
   public void CSolutions_OneVariable_1 () {
-    t("CSolutions[x^2 + 1 = 0]", "{ \u03af, - \u03af}", "{ - \u03af, \u03af}");
+    t("CSolutions[x^2 + 1 = 0]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
   }
 
   @Test
   public void CSolutions_OneVariable_2 () {
-    t("CSolutions[a^2 = -1, a]", "{ \u03af, - \u03af}", "{ - \u03af, \u03af}");
+    t("CSolutions[a^2 = -1, a]", "{-\u03af, \u03af}", "{\u03af, -\u03af}");
   }
 
   /* Several Equations and Variables */
 
   @Test
   public void CSolutions_Several_0 () {
-    t("CSolutions[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]", "{{1 + 2 *  \u03af, 1 +  \u03af}, {1 - 2 *  \u03af, 1 -  \u03af}}",
-        "{{1 - 2 *  \u03af, 1 -  \u03af}, {1 + 2 *  \u03af, 1 +  \u03af}}");
+    t("CSolutions[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]", "{{1 - 2 * \u03af, 1 - \u03af}, {1 + 2 * \u03af, 1 + \u03af}}",
+        "{{1 + 2 * \u03af, 1 + \u03af}, {1 - 2 *  \u03af, 1 - \u03af}}");
   }
 
 
@@ -739,25 +739,25 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CSolve_OneVariable_0 () {
-    t("CSolve[x^2 = -1]", "{x =  \u03af, x = - \u03af}", "{x =  - \u03af, x = \u03af}");
+    t("CSolve[x^2 = -1]", "{x = -\u03af, x = \u03af}", "{x = \u03af, x = -\u03af}");
   }
 
   @Test
   public void CSolve_OneVariable_1 () {
-    t("CSolve[x^2 + 1 = 0, x]", "{x =  \u03af, x = - \u03af}", "{x =  - \u03af, x = \u03af}");
+    t("CSolve[x^2 + 1 = 0, x]", "{x = -\u03af, x = \u03af}", "{x = \u03af, x = -\u03af}");
   }
 
   @Test
   public void CSolve_OneVariable_2 () {
-    t("CSolve[a^2 = -1, a]", "{a =  \u03af, a = - \u03af}", "{a =  - \u03af, a = \u03af}");
+    t("CSolve[a^2 = -1, a]", "{a = -\u03af, a = \u03af}", "{a = \u03af, a = -\u03af}");
   }
 
   /* Several Equations and Variables */
 
   @Test
   public void CSolve_Several_0 () {
-    t("CSolve[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]", "{{x = 1 + 2 *  \u03af, y = 1 +  \u03af}, {x = 1 - 2 *  \u03af, y = 1 -  \u03af}}",
-        "{{x = 1 - 2 *  \u03af, y = 1 -  \u03af}, {x = 1 + 2 *  \u03af, y = 1 +  \u03af}}");
+    t("CSolve[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]", "{{x = 1 - 2 * \u03af, y = 1 - \u03af}, {x = 1 + 2 * \u03af, y = 1 + \u03af}}",
+        "{{x = 1 + 2 * \u03af, y = 1 + \u03af}, {x = 1 - 2 *- \u03af, y = 1 - \u03af}}");
   }
 
 
@@ -3401,7 +3401,7 @@ public class GeoGebraCasIntegrationTest {
     t("g(x) := 1/2 * x + 2", "(x + 4) / 2", "1 / 2 * x + 2");
     t("h(x):=f(x)-g(x)", "x^(2) - 2 * x");
     t("Factor[h(x)]", "(x - 2) * x", "x * (x - 2)");
-    t("Solve[h(x)=0,x]", "{x = 2, x = 0}", "{x = 0, x = 2}");
+    t("Solve[h(x) = 0, x]", "{x = 0, x = 2}", "{x = 2, x = 0}");
     t("S:=Intersect[f(x),g(x)]", "{(0, 2), (2, 3)}");
     t("Delete[f]", "true");
     t("Delete[g]", "true");
