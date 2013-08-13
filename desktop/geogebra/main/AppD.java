@@ -2465,7 +2465,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		Container cp;
 		if (isApplet) {
 			cp = appletImpl.getJApplet().getContentPane();
-		} else if (frame != null) {
+		} else if ( (frame != null) && (frame == mainComp) ) {
 			cp = frame.getContentPane();
 		} else {
 			cp = (Container) mainComp;
@@ -2489,7 +2489,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (mainComp.isShowing()) {
 			euclidianView.requestFocusInWindow();
 		}
-
 	}
 
 	@Override
@@ -2524,7 +2523,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected void updateComponentTreeUI() {
 		if (isApplet()) {
 			SwingUtilities.updateComponentTreeUI(appletImpl.getJApplet());
-		} else if (frame != null) {
+		} else if ( (frame != null) && (frame == mainComp) ) {
 			SwingUtilities.updateComponentTreeUI(frame);
 		} else if (mainComp != null) {
 			SwingUtilities.updateComponentTreeUI(mainComp);
