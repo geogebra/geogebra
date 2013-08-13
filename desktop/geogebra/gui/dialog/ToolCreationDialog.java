@@ -591,7 +591,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		// renderer to show long description of geos in list and combobox
 		MyCellRenderer rend = new MyCellRenderer();
 		list.setCellRenderer(rend);
-		cbAdd.setRenderer(rend);
+		//cbAdd.setRenderer(rend);	//- needless currently - 
+									//in AppD.setComponentOrientation the renderer will be rewritten
 
 		return panel;
 	}
