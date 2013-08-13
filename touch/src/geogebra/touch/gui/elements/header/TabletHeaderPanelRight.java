@@ -2,12 +2,15 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardTextButton;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * ButtonBar for the buttons (undo/redo) on the right side of the HeaderPanel.
@@ -16,10 +19,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * 
  */
 public class TabletHeaderPanelRight extends HorizontalPanel {
-	private final StandardImageButton undo = new StandardImageButton(
-			TouchEntryPoint.getLookAndFeel().getIcons().undo());
-	private final StandardImageButton redo = new StandardImageButton(
-			TouchEntryPoint.getLookAndFeel().getIcons().redo());
+	private FastButton undo;
+	private FastButton redo;
 	TabletHeaderPanel headerPanel;
 	TouchApp app;
 	TouchModel model;
@@ -32,6 +33,20 @@ public class TabletHeaderPanelRight extends HorizontalPanel {
 		this.headerPanel = headerPanel;
 		this.app = app;
 		this.model = model;
+
+		// FIXME temporary hack for apple, move this to LAF
+		final String param = RootPanel.getBodyElement().getAttribute(
+				"data-param-laf");
+		if ("apple".equals(param)) {
+
+			this.undo = new StandardTextButton("undo");
+			this.redo = new StandardTextButton("redo");
+		} else {
+			this.undo = new StandardImageButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().undo());
+			this.redo = new StandardImageButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().redo());
+		}
 
 		this.addUndoButton();
 		this.addRedoButton();

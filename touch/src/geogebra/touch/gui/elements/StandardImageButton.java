@@ -2,28 +2,12 @@ package geogebra.touch.gui.elements;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.user.client.ui.PushButton;
-
-public class StandardImageButton extends PushButton {
+public class StandardImageButton extends FastButton {
 	private SVGResource icon;
-	private boolean active;
 
 	public StandardImageButton(SVGResource icon) {
-		this.setStyleName("button");
 
 		this.setIcon(icon);
-	}
-
-	public SVGResource getIcon() {
-		return this.icon;
-	}
-
-	public boolean isActive() {
-		return this.active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public void setIcon(SVGResource icon) {
@@ -33,4 +17,9 @@ public class StandardImageButton extends PushButton {
 		this.getElement().setInnerHTML(html);
 
 	}
+
+	public SVGResource getIcon() {
+		return this.icon;
+	}
+
 }
