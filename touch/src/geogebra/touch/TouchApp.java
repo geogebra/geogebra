@@ -27,6 +27,8 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
+import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
@@ -705,6 +707,16 @@ public class TouchApp extends AppWeb {
 	@Override
 	public String getDataParamId() {
 		return "ggbTouch";
+	}
+	
+	@Override
+	public void doRepaintViews(){
+		if(this.euclidianView != null){
+			((EuclidianViewWeb) this.euclidianView).doRepaint2();
+		}
+		if(this.getAlgebraView()!= null){
+			((AlgebraViewWeb) this.getAlgebraView()).doRepaint2();
+		}
 	}
 
 }

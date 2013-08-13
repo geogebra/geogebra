@@ -3420,5 +3420,10 @@ public abstract class App implements UpdateSelection{
 			getGuiManager().updateActions();
 		}		
 	}
+
+	public void doRepaintViews() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

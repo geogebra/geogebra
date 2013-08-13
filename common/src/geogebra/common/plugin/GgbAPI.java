@@ -1082,6 +1082,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
      */
     public void undo(){
     	app.getKernel().undo();
+    	app.doRepaintViews();
     }
     
     /**
@@ -1089,6 +1090,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
      */
     public void redo(){
     	app.getKernel().redo();
+    	app.doRepaintViews();
     }
     
     /**
