@@ -68,15 +68,15 @@ public class Ggb2giac {
 		p("Cross.2", "cross(%0,%1)");
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
 		p("CSolutions.1",
-				"[[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
-				"normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1]");
+				"sort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 		p("CSolutions.2",
-				"normal(cZeros(%0,%1))");
+				"sort(normal(cZeros(%0,%1)))");
 		p("CSolve.1",
-				"[[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
-				"normal(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1]");
+				"sort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"normal(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 		
-		p("CSolve.2", "normal(csolve(%0,%1))");
+		p("CSolve.2", "sort(normal(csolve(%0,%1)))");
 		p("Degree.1",
 				"degree(%0)");
 		p("Degree.2", "degree(%0,%1)");
@@ -360,36 +360,36 @@ public class Ggb2giac {
 		p("nPr.2", "perm(%0,%1)");
 
 		p("NSolve.1",
-				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"sort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
 						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
 						// eg NSolve[a^4 + 34a^3 = 34]
 						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-				"ggbans][2]");
+				"ggbans][2])");
 
 		p("NSolve.2",
-				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"sort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
 						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
 						// eg NSolve[a^4 + 34a^3 = 34, a=3]
 						// eg NSolve[a^4 + 34a^3 = 34, a]
 						"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-				"ggbans][2]");
+				"ggbans][2])");
 
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 
 		p("NSolutions.1",
-				"[[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"sort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 						// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
 						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
 						// eg NSolutions[a^4 + 34a^3 = 34]
 						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(%0,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
-				"ggbans][2]");
+				"ggbans][2])");
 
 		p("NSolutions.2",
-				"[[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1]");
+				"sort([[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1])");
 
 		p("Numerator.1", "numer(%0)");
 
@@ -477,17 +477,17 @@ public class Ggb2giac {
 		p("Simplify.1", "tlin(simplify(regroup(%0)))");
 
 		p("Solutions.1",
-				"normal(zeros(%0,x))");
+				"sort(normal(zeros(%0,x)))");
 		p("Solutions.2",
-				"normal(zeros(%0,%1))");
+				"sort(normal(zeros(%0,%1)))");
 
 		// Root.1 and Solve.1 should be the same		
-		String root1 = "normal([op(solve(%0))])";
+		String root1 = "sort(normal([op(solve(%0))]))";
 		p("Root.1", root1);
 		p("Solve.1", root1);
 
 		p("Solve.2",
-				"normal([op(solve(%0,%1))])");
+				"sort(normal([op(solve(%0,%1))]))");
 		p("SolveODE.1",
 				"when((%0)[0]=='=',"
 						+"normal(map(desolve(%0),x->y=x)[0])"
