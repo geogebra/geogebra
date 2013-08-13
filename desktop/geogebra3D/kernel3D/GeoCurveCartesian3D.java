@@ -619,6 +619,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		
 	}
 	
+
 	
 	////////////////////////
 	// DILATE

@@ -35,7 +35,7 @@ import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-		GeoPolygon3DInterface, ViewCreator, RotateableND {
+		GeoPolygon3DInterface, ViewCreator, RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -738,6 +738,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		Coords direction = line.getDirectionInD3().normalized();
 
 		getCoordSys().mirror(point, direction);
+	}
+
+
+	public void mirror(GeoPlane3D plane) {
+
+		getCoordSys().mirror(plane.getCoordSys());
 	}
 
 	////////////////////////

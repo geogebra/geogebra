@@ -54,7 +54,7 @@ public class AlgoMirror3D extends AlgoMirror {
     @Override
 	protected void computeRegardingMirror(){
     	if (mirror == mirrorPlane) {
-        	//((MirrorableAtPlane) out).mirror(mirrorPlane);
+        	((MirrorableAtPlane) out).mirror(mirrorPlane);
         } else  {
         	super.computeRegardingMirror();
         }

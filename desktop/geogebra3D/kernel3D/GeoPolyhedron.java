@@ -10,7 +10,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -38,7 +37,7 @@ import java.util.TreeSet;
  */
 public class GeoPolyhedron extends GeoElement3D 
 implements HasSegments, HasVolume, Traceable, 
-RotateableND, Translateable, Mirrorable, Transformable, Dilateable
+RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable
 {// implements Path {
 
 	public static final int TYPE_NONE = 0;
@@ -1320,6 +1319,16 @@ RotateableND, Translateable, Mirrorable, Transformable, Dilateable
 		
 		for (GeoPolygon3D p : polygons.values()){
 			p.mirror(g);
+		}	
+	}
+	
+	public void mirror(GeoPlane3D plane) {
+		for (GeoSegment3D seg: segments.values()){
+			seg.mirror(plane);
+		}
+		
+		for (GeoPolygon3D p : polygons.values()){
+			p.mirror(plane);
 		}	
 	}
 	

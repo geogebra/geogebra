@@ -727,5 +727,33 @@ public class CoordSys {
 		
 		setFromMatrixOrthonormal();
 	}
+	
+	
+	/**
+	 * mirror the coord sys at plane
+	 * @param cs coord sys representing the plane
+	 */
+	public void mirror(CoordSys cs){
+		
+		Coords vn = cs.getNormal();
+		
+		//origin projected on the line
+		Coords o = matrixOrthonormal.getOrigin();
+		Coords o1 = o.projectPlane(cs.getMatrixOrthonormal())[0];
+
+		//get projection values
+		double x = -2*matrixOrthonormal.getVx().dotproduct(vn);
+		double y = -2*matrixOrthonormal.getVy().dotproduct(vn);
+		double z = -2*matrixOrthonormal.getVz().dotproduct(vn);
+		//translate vectors
+		matrixOrthonormal.addToVx(vn.mul(x));
+		matrixOrthonormal.addToVy(vn.mul(y));
+		matrixOrthonormal.addToVz(vn.mul(z));
+		//translate origin matrix
+		matrixOrthonormal.setOrigin(o1.mul(2).sub(o));
+		
+		setFromMatrixOrthonormal();
+	}
+
 
 }

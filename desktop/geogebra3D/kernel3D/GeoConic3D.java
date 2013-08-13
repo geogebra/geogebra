@@ -24,8 +24,8 @@ import geogebra3D.euclidian3D.Drawable3D;
  * @author ggb3D
  * 
  */
-public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, RotateableND {// ,
-																				// GeoCoordSys2D{
+public class GeoConic3D extends GeoConicND 
+implements GeoElement3DInterface, RotateableND, MirrorableAtPlane {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys;
@@ -524,6 +524,13 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface, Rot
 
 		getCoordSys().mirror(point, direction);
 		
+	}
+	
+
+
+	public void mirror(GeoPlane3D plane) {
+
+		getCoordSys().mirror(plane.getCoordSys());
 	}
 	
 	

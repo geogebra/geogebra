@@ -11,7 +11,6 @@ import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -39,7 +38,7 @@ import geogebra.main.AppD;
  */
 public class GeoQuadric3D extends GeoQuadricND implements
 		GeoElement3DInterface, Functional2Var, Region3D, 
-		Translateable, RotateableND, Mirrorable, Transformable, Dilateable,
+		Translateable, RotateableND, MirrorableAtPlane, Transformable, Dilateable,
 		HasVolume,
 		GeoQuadric3DInterface{
 
@@ -807,6 +806,35 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			double a = 2*v.dotproduct(direction);
 			v.mulInside(-1);
 			v.addInside(direction.mul(a));
+		}
+
+		// symetric matrix
+		setMatrixFromEigen();
+		
+		// set eigen matrix
+		setEigenMatrix(getHalfAxis(0), getHalfAxis(1), getHalfAxis(2));
+		
+		
+	}
+	
+	public void mirror(GeoPlane3D plane) {
+		
+		Coords vn = plane.getDirectionInD3().normalized();
+		
+		// midpoint
+		Coords mp = getMidpoint3D();
+		Coords o1 = mp.projectPlane(plane.getCoordSys().getMatrixOrthonormal())[0];
+		mp.mulInside(-1);
+		mp.addInside(o1.mul(2));
+		setMidpoint(mp.get());
+
+		
+
+		// eigen vectors		
+		for (int i = 0; i<3; i++){
+			Coords v = eigenvecND[i];
+			double a = -2*v.dotproduct(vn);
+			v.addInside(vn.mul(a));
 		}
 
 		// symetric matrix
