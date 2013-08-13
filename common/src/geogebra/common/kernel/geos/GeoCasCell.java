@@ -1556,10 +1556,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 				success = result != null;
 			} catch (CASException e) {
-				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
+				App.error("GeoCasCell.computeOutput(), CAS eval: "
 						+ evalVE + "\n\terror: " + e.getMessage());
 				success = false;
 				ce = e;
+			} catch (Exception e) {
+				App.error("GeoCasCell.computeOutput(), CAS eval: " + evalVE
+						+ "\n\t " + e);
+				success = false;
+				ce = new CASException(e);
 			}
 		}
 
