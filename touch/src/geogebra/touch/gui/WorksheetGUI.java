@@ -76,16 +76,11 @@ public class WorksheetGUI extends HeaderPanel {
 			article.setAttribute("data-param-enableRightClick", "false");
 			// label drags too hardd with Touch
 			article.setAttribute("data-param-enableLabelDrags", "false");
-			// TODO
-			article.setAttribute("data-param-enableShiftDragZoom", "false");
-			// ???
-			article.setAttribute("data-param-showMenuBar", "false");
-			// TODO
-			article.setAttribute("data-param-showToolBar", "false");
-			// TODO
-			article.setAttribute("data-param-showAlgebraInput", "false");
-			// TODO
-			article.setAttribute("data-param-showResetIcon", "true");
+			article.setAttribute("data-param-enableShiftDragZoom",m.getShiftDragZoom());
+			article.setAttribute("data-param-showMenuBar", m.getShowMenu());
+			article.setAttribute("data-param-showToolBar", m.getShowToolbar());
+			article.setAttribute("data-param-showAlgebraInput", m.getShowInputbar());
+			article.setAttribute("data-param-showResetIcon", m.getShowResetIcon());
 			// no security issues here
 			article.setAttribute("data-param-useBrowserForJS", "true");
 			Element div = this.frame.getElement();

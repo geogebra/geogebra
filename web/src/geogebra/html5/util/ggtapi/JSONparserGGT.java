@@ -97,6 +97,11 @@ public class JSONparserGGT {
 		material.setWidth(getInt(obj, "width", 800));
 		material.setInstructionsPost(getString(obj, "instructions_post"));
 		material.setInstructionsPre(getString(obj, "instructions_pre"));
+		material.setShowToolbar(getBoolean(obj, "toolbar", false));
+		material.setShowMenu(getBoolean(obj, "menubar", false));
+		material.setShowInputbar(getBoolean(obj, "inputbar", false));
+		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
+		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
 		return material;
 	}
 
@@ -113,6 +118,14 @@ public class JSONparserGGT {
 			return def;
 		}
 		return Integer.parseInt(obj.get(string).isString().stringValue());
+	}
+	
+	private static boolean getBoolean(JSONObject obj, String string, boolean def) {
+		if (obj.get(string) == null
+		        || "".equals(obj.get(string).isString().stringValue())) {
+			return def;
+		}
+		return Boolean.parseBoolean(obj.get(string).isString().stringValue());
 	}
 
 	public static Material parseMaterial(String item) {
