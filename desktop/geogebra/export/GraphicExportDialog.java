@@ -94,7 +94,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	private EuclidianViewD specifiedEuclidianView;
 
-	private PrintScalePanel psp;
+	/** print scale or pixel size settings*/
+	PrintScalePanel psp;
 	
 	
 	/**
@@ -252,6 +253,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.add(textAsShapesCB);
+					psp.enableAbsoluteSize(true);
 					break;
 				case PDF:
 				case EPS:
@@ -262,6 +264,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.add(textAsShapesCB);
 					textAsShapesCB.setEnabled(false);
 					textAsShapesCB.setSelected(true);
+					psp.enableAbsoluteSize(false);
 					break;
 				case EMF:
 					dpiPanel.add(cbEMFPlus);
@@ -269,6 +272,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbTransparent);
 					dpiPanel.remove(textAsShapesCB);
+					psp.enableAbsoluteSize(false);
 					break;
 				default: // PNG
 					dpiPanel.add(resolutionInDPILabel);
@@ -278,6 +282,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(textAsShapesCB);
 					cbDPI.setSelectedItem("300");
 					cbDPI.setEnabled(true);
+					psp.enableAbsoluteSize(true);
 					break;
 				}
 				updateSizeLabel();

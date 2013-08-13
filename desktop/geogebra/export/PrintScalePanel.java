@@ -42,6 +42,8 @@ public class PrintScalePanel extends JPanel {
 	private JComboBox exportMode;
 	private JPanel pxModePanel, cmModePanel;
 	private boolean pxMode = false;
+	private JLabel scaleLabel;
+	private boolean pixelSizeEnabled = true;
 	
 	/**
 	 * @param app application
@@ -80,6 +82,8 @@ public class PrintScalePanel extends JPanel {
 		tfSize1 = getNumberField(app, updateWidth);
 		tfSize2 = getNumberField(app, updateHeight);
 		
+		scaleLabel = new JLabel(loc.getPlain("ScaleInCentimeter") + ":");
+		
 		exportMode = new JComboBox();
 		exportMode.addItem(loc.getPlain("ScaleInCentimeter") + ":");
 		exportMode.addItem(loc.getPlain("SizeInPixels") + ":");
@@ -95,9 +99,9 @@ public class PrintScalePanel extends JPanel {
 		cmModePanel=new JPanel();
 		cmModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));	
 		cmModePanel.add(tfScale1);
-		cmModePanel.add(new JLabel(" unit = "));
+		cmModePanel.add(new JLabel(" "+loc.getPlain("units")+" = "));
 		cmModePanel.add(tfScale2);
-		cmModePanel.add(new JLabel(" cm"));
+		cmModePanel.add(new JLabel(" "+loc.getPlain("cm.short")));
 		
 		
 		pxModePanel=new JPanel();
@@ -110,6 +114,21 @@ public class PrintScalePanel extends JPanel {
 		add(cmModePanel);
 		
 		updateScaleTextFields();
+	}
+	
+	public void enableAbsoluteSize(boolean b){
+		if(b == pixelSizeEnabled){
+			return;
+		}
+		pixelSizeEnabled = b;
+		this.removeAll();
+		if(b){
+			this.add(exportMode);			
+		}else{
+			this.add(scaleLabel);
+		}
+		
+		this.add(cmModePanel);
 	}
 	
 	/**
@@ -169,11 +188,11 @@ public class PrintScalePanel extends JPanel {
 		
 		double scale = ev.getPrintingScale();
 		if (scale <= 1) {
-			setTextNoListener(tfScale1,"1");
-			setTextNoListener(tfScale2,nf.format(1/scale));
-		} else {			
-			setTextNoListener(tfScale1,nf.format(scale));
 			setTextNoListener(tfScale2,"1");
+			setTextNoListener(tfScale1,nf.format(1/scale));
+		} else {			
+			setTextNoListener(tfScale2,nf.format(scale));
+			setTextNoListener(tfScale1,"1");
 		}
 	}
 

@@ -397,6 +397,7 @@ public class PrintPreview extends JDialog {
 		// scale panel to set scale of x-axis in cm
 		PrintScalePanel scalePanel = new PrintScalePanel(app,
 				(EuclidianView) m_target);
+		scalePanel.enableAbsoluteSize(false);
 		scalePanel.addActionListener(lst);
 
 		JPanel retPanel = new JPanel();
