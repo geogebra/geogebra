@@ -1,9 +1,11 @@
 package geogebra.gui.inputfield;
 
 import geogebra.awt.GColorD;
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.ColorProvider;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
@@ -68,10 +70,10 @@ public class MyTextField extends JTextField implements ActionListener,
 	private boolean enableColoring = true;
 	
 	// matched brackets color = cyan (better contrast than "Light sea green")
-	private static Color COLOR_MATCHED = Color.cyan;
+	private static GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
 	
 	// unmatched brackets color = red
-	private static Color COLOR_UNMATCHED = Color.red;
+	private static GColor COLOR_UNMATCHED = GeoGebraColorConstants.UNBALANCED_BRACKET_COLOR;
 	
 	// class for distinguishing graphically existing object
 	private ColorProvider ip;
@@ -412,31 +414,36 @@ public class MyTextField extends JTextField implements ActionListener,
 		boolean textMode = false;
 		for (int i = 0; i < text.length(); i++) {
 
-			Color bg = null;
+			GColor fg = null;
 
 			// determine the color
 			if (text.charAt(i) == '\"')
 				textMode = !textMode;
 			if (i == wrong)
-				bg = COLOR_UNMATCHED; // unmatched bracket
+				fg = COLOR_UNMATCHED; // unmatched bracket
 			if (i == bracket1pos || i == bracket2pos) {
 				if (bracket2pos > -1) {
-					bg = COLOR_MATCHED; // matched bracket
+					fg = COLOR_MATCHED; // matched bracket
 				} else {
-					bg = COLOR_UNMATCHED; // unmatched bracket
+					fg = COLOR_UNMATCHED; // unmatched bracket
 				}
 			}
-
-			if (textMode || text.charAt(i) == '\"') {
-				g2.setColor(Color.GRAY);
-			} else if (ip != null){
-				g2.setColor(GColorD.getAwtColor(ip.getColor(i)));
-			} else {
-				g2.setColor(Color.BLACK);
+			
+			if (fg == null) {
+				if (textMode || text.charAt(i) == '\"') {
+					fg = GeoGebraColorConstants.INPUT_TEXT_COLOR;
+				} else if (ip != null) {
+					fg = ip.getColor(i);
+					// g2.setColor(GColorD.getAwtColor(ip.getColor(i)));
+				} else {
+					fg = GeoGebraColorConstants.INPUT_DEFAULT_COLOR;
+				}
 			}
-
+			if (fg != null) {
+				g2.setColor(GColorD.getAwtColor(fg));
+			}
 			// now draw the text
-			drawText(text.charAt(i) + "", i >= selStart && i < selEnd, bg);
+			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
 
 			if (i + 1 == caret)
 				caretPos = pos;
@@ -465,7 +472,7 @@ public class MyTextField extends JTextField implements ActionListener,
 		return layout.getAdvance();
 	}
 
-	private void drawText(String str, boolean selected, Color bg) {
+	private void drawText(String str, boolean selected/*, Color bg*/) {
 		if ("".equals(str))
 			return;
 		TextLayout layout = new TextLayout(str, font, frc);
@@ -478,13 +485,15 @@ public class MyTextField extends JTextField implements ActionListener,
 					- fontHeight + 4, (int) advance, fontHeight);
 			g2.setColor(getSelectedTextColor());
 		}
+		// there is no background coloring now
+		/*
 		if (bg != null) {
 			Color col = g2.getColor();
 			g2.setColor(bg);
 			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
 					- fontHeight + 4, (int) advance, fontHeight);
 			g2.setColor(col);
-		}
+		}*/
 
 		// g2.setClip(0, 0, width, height);
 

@@ -128,11 +128,21 @@ public class GeoGebraColorConstants {
 	public static final GColor SILVER = GRAY6;
 
 	// input coloring
-	/** defined objects */
-	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype.newColor(153, 153,
-			255);
+	/** defined objects (violet) */
+	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype.newColor(102, 102, 255);
 	/** undefined objects */
-	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY4;
+	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
+	/** unbalanced brackets */
+	public static final GColor UNBALANCED_BRACKET_COLOR = RED;
+	/** balanced bracket (green) */
+	public static final GColor BALANCED_BRACKET_COLOR = AwtFactory.prototype.newColor(0, 127, 0);
+    /** text mode */
+	public static final GColor INPUT_TEXT_COLOR = GRAY4;
+	/** default color */
+	public static final GColor INPUT_DEFAULT_COLOR = BLACK;
+
+
+	
 
 
 	/**
