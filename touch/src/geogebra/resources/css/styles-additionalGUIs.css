@@ -238,6 +238,10 @@ body .tubesearchgui .fileLinks .button {
 
 /* WORKSHEET GUI CONTENT */
 
+.worksheetgui {
+	background-color: #FFFFFF;
+}
+
 .worksheetgui .worksheet {
 	padding: 30px 20px 40px 20px;
 	

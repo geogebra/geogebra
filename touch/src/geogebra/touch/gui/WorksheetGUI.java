@@ -35,6 +35,7 @@ public class WorksheetGUI extends HeaderPanel {
 		this.setStyleName("worksheetgui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.content = new FlowPanel();
+		this.content.setStyleName("worksheet");
 		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(
 				this, tabletGUI);
 		this.app = app;
