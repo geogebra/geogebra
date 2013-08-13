@@ -71,7 +71,6 @@ import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.AnimatedGifEncoder;
@@ -169,7 +168,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
@@ -4823,9 +4821,6 @@ public class AppD extends App implements KeyEventDispatcher {
 				: ComponentOrientation.LEFT_TO_RIGHT;
 	}
 
-	// renderer for JComboBox (align left/right)
-	private ListCellRenderer renderer = ToolCreationDialog.newMyCellRenderer();
-
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
 		ComponentOrientation orientation = rtl ? ComponentOrientation.RIGHT_TO_LEFT
@@ -4845,10 +4840,9 @@ public class AppD extends App implements KeyEventDispatcher {
 							: SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
-			((JLabel) renderer)
+			((JLabel)cb.getRenderer())
 					.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
 							: SwingConstants.LEFT);
-			cb.setRenderer(renderer);
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
 			int ncomponents = container.getComponentCount();
