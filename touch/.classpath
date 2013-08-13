@@ -7,15 +7,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/geogebra/Documents/GeoGebraTouch/workspace/touch/lib/gwtphonegap-1.8.1.0.jar" sourcepath="lib/gwtphonegap-2.4.0.0-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/touch/lib/gwtphonegap-2.4.0.0-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Users/geogebra/Documents/GeoGebraTouch/workspace/touch/lib/lib-gwt-svg-0.5.6.jar" sourcepath="lib/lib-gwt-svg-0.5.7-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/touch/lib/lib-gwt-svg-0.5.7-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/lib-gwt-svg-0.5.6.jar"/>
+	<classpathentry kind="lib" path="lib/gwtphonegap-1.8.1.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

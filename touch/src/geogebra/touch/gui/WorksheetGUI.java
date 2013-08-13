@@ -100,8 +100,8 @@ public class WorksheetGUI extends HeaderPanel {
 					+ m.getId() + ".ggb";
 			Web.loadAppletAsync();
 
-			this.instructionsPre.setText(m.getInstructionsPre());
-			this.instructionsPost.setText(m.getInstructionsPost());
+			this.instructionsPre.getElement().setInnerHTML(m.getInstructionsPre());
+			this.instructionsPost.getElement().setInnerHTML(m.getInstructionsPost());
 		} else {
 			TouchEntryPoint.allowEditing(false);
 			this.fm.getMaterial(m, this.app);
