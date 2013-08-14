@@ -327,6 +327,7 @@ public class CommandDispatcher {
 			case Delete:
 			case Slider:
 			case Checkbox:
+			case InputBox:
 			case Textfield:
 			case Button:
 			case Execute:

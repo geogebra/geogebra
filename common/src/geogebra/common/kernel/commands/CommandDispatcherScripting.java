@@ -139,6 +139,7 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 						return new CmdSlider(kernel);
 					case Checkbox:
 						return new CmdCheckbox(kernel);
+					case InputBox:	
 					case Textfield:
 						return new CmdTextfield(kernel);
 					case Button:

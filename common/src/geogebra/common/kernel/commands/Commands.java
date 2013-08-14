@@ -260,7 +260,8 @@ public enum Commands implements CommandsConstants, GetCommand{
    	SolveQuartic(TABLE_ENGLISH),
    	Substitute(TABLE_ENGLISH),
    	ToComplex(TABLE_GEOGEBRA),
-   	ToExponential(TABLE_ENGLISH),
+   	ToExponential(TABLE_CAS),
+   	InputBox(TABLE_ENGLISH),
    	ToPolar(TABLE_GEOGEBRA),
    	ToPoint(TABLE_GEOGEBRA),
    	TrigExpand(TABLE_FUNCTION),
@@ -306,6 +307,7 @@ public enum Commands implements CommandsConstants, GetCommand{
 			case ConeInfinite: return InfiniteCone;
 			case OrthogonalPlane: return PerpendicularPlane;
 			case SurfaceCartesian: return Surface;
+			case InputBox: return Textfield;
 		}
 		return comm;
 	}
