@@ -66,13 +66,12 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		e.consume();
-		
 
 		// handle marble click
 		int releasedRow = table.rowAtPoint(e.getPoint());
 		boolean marbleVisible = ((JPanel)rowHeader.getCellRenderer().getListCellRendererComponent(rowHeader, (releasedRow+1)+"", releasedRow, false, false)).
 				getComponent(1).isVisible();
-		if(releasedRow == mousePressedRow && marbleVisible){
+		if(releasedRow == mousePressedRow && marbleVisible && !rightClick){
 			int totalHeight = 0;
 			for(int i=0;i<releasedRow;i++)
 				totalHeight += table.getRowHeight(i);
