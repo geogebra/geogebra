@@ -245,7 +245,7 @@ body .tubesearchgui .fileLinks .button {
 .worksheetgui .worksheet {
 	padding: 30px 20px 40px 20px;
 	
-	/* Background */
+	/* Background
 	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
 	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
 	background-image: -moz-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
@@ -253,7 +253,7 @@ body .tubesearchgui .fileLinks .button {
 	background-image: -ms-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
 	background-image: -webkit-gradient(linear, left top, left bottom,
 		color-stop(0, rgb(239, 239, 239) ),
-		color-stop(0.1, rgb(255, 255, 255) ) );
+		color-stop(0.1, rgb(255, 255, 255) ) );*/
 }
 
 .worksheet .instructionsPre {
