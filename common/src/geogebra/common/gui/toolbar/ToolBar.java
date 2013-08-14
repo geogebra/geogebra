@@ -467,6 +467,8 @@ public class ToolBar {
 		sb.append( " | ");		
 		
 		// transformations
+		sb.append(EuclidianConstants.MODE_MIRROR_AT_PLANE);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_MIRROR_AT_LINE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);

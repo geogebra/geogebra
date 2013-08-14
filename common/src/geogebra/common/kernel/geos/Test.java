@@ -20,6 +20,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
@@ -368,6 +369,15 @@ Test {
 			return ob instanceof GeoCoordSys2D;
 		}
 	},
+	
+	/** Test for GEOPLANEND */
+	GEOPLANEND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPlaneND;
+		}
+	},
+
 
 	/** Test for GEOCOORDSYS1D */
 	GEOCOORDSYS1D {

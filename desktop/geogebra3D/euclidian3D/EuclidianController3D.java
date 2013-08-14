@@ -23,6 +23,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
+import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -55,6 +56,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -164,6 +166,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	private ArrayList<GeoPolygon3D> selectedPolygons3D = new ArrayList<GeoPolygon3D>();
 	
+	private ArrayList<GeoPlane3D> selectedPlane = new ArrayList<GeoPlane3D>();
 	
 	/**
 	 * common constructor
@@ -1794,6 +1797,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			changedKernel = circlePointRadiusDirection(hits);
 			break;
 			
+		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
+			ret = mirrorAtPlane(hits.getTopHits());
+			break;
+
 		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
 			ret = rotateAroundAxis(hits.getTopHits());
 			break;
@@ -1998,8 +2005,9 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		case EuclidianConstants.MODE_PRISM:
 			return true;
 			
+		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
 		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
-			return true;//createNewPoint(hits, false, false, true);
+			return true;
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 			//Application.debug("hop");
@@ -2787,6 +2795,49 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return planes;
 	}	
 	
+	
+	
+	/** add hits to selectedPlane
+	 * @param hits hits
+	 * @param max max number of hits to add
+	 * @param addMoreThanOneAllowed if adding more than one is allowed
+	 * @return TODO
+	 */
+	final protected int addSelectedPlane(Hits hits, int max,
+			boolean addMoreThanOneAllowed) {
+		return handleAddSelected(hits, max, addMoreThanOneAllowed, selectedPlane, Test.GEOPLANEND);
+	}
+	
+	
+	/**
+	 * return number of selected planes
+	 * @return number of selected planes
+	 */
+	final int selPlanes() {
+		return selectedPlane.size();
+	}	
+	
+	
+	/** return selected planes
+	 * also clear all selected planes. 
+	 * @return selected planes
+	 */
+	@SuppressWarnings("unchecked")
+	final protected GeoPlane3D[] getSelectedPlanes() {
+		GeoPlane3D[] planes = new GeoPlane3D[selectedPlane.size()];
+		int i = 0;
+		Iterator<GeoPlane3D> it = selectedPlane.iterator();
+		while (it.hasNext()) {
+			planes[i] = it.next();
+			i++;
+		}
+		clearSelection(selectedPlane);
+		return planes;
+	}	
+
+	
+	
+	
 	///for quadric
 	protected ArrayList<GeoQuadric3D> selectedQuadric = new ArrayList<GeoQuadric3D>();	
 	
@@ -3258,6 +3309,84 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		return clockwise;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private final GeoElement[] mirrorAtPlane(Hits hits) {
+		if (hits.isEmpty()) {
+			return null;
+		}
+	
+		// Transformable
+		int count = 0;
+		if (selGeos() == 0) {
+			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+			count = addSelectedGeo(mirAbles, 1, false);
+		}
+	
+		// polygon
+		if (count == 0) {
+			count = addSelectedPolygon(hits, 1, false);
+		}
+	
+		// plane = mirror
+		if (count == 0) {
+			addSelectedPlane(hits, 1, false);
+		}
+	
+		// we got the mirror plane
+		if (selPlanes() == 1) {
+			if (selPolygons() == 1) {
+				GeoPolygon[] polys = getSelectedPolygons();
+				GeoPlane3D[] planes = getSelectedPlanes();
+				checkZooming(); 
+
+				return kernel.getManager3D().Mirror3D(null, polys[0], planes[0]);
+			} else if (selGeos() > 0) {
+				// mirror all selected geos
+				GeoElement[] geos = getSelectedGeos();
+				GeoPlane3D plane = getSelectedPlanes()[0];
+				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				checkZooming(); 
+				
+				for (int i = 0; i < geos.length; i++) {
+					if (geos[i] != plane) {
+						if (geos[i] instanceof Transformable) {
+							ret.addAll(Arrays.asList(
+									kernel.getManager3D().Mirror3D(null, geos[i], plane)));
+						} else if (geos[i].isGeoPolygon()) {
+							ret.addAll(Arrays.asList(
+									kernel.getManager3D().Mirror3D(null, geos[i], plane)));
+						}
+					}
+				}
+				GeoElement[] retex = {};
+				return ret.toArray(retex);
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
 		if (AppD.getShiftDown())
