@@ -1,6 +1,5 @@
 package geogebra.touch.gui.algebra;
 
-import geogebra.common.awt.GFont;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
@@ -10,7 +9,6 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.laf.DefaultResources;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -28,8 +26,8 @@ public class AlgebraViewT extends AlgebraViewWeb {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
-	TouchController controller;
-	public boolean editing = false;
+	private TouchController controller;
+	private boolean editing = false;
 	private boolean showing = true;
 
 	/**
@@ -159,22 +157,7 @@ public class AlgebraViewT extends AlgebraViewWeb {
 
 	@Override
 	public void startEditing(GeoElement geo, boolean shiftDown) {
+		// TODO Auto-generated method stub
+		
 	}
-
-	public void updateFonts() {
-		final GFont font = this.app.getPlainFontCommon();
-		this.getStyleElement()
-				.getStyle()
-				.setFontStyle(
-						Style.FontStyle.valueOf(font.isItalic() ? "ITALIC"
-								: "NORMAL"));
-		this.getStyleElement().getStyle()
-				.setFontSize(font.getSize(), Style.Unit.PX);
-		this.getStyleElement()
-				.getStyle()
-				.setFontWeight(
-						Style.FontWeight.valueOf(font.isBold() ? "BOLD"
-								: "NORMAL"));
-	}
-
 }
