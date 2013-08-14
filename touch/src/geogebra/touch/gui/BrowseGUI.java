@@ -179,26 +179,6 @@ public class BrowseGUI extends VerticalPanel {
 		this.tubeFilePanel.setHeight(Window.getClientHeight()
 				- this.searchBar.getOffsetHeight() - HEADING_HEIGHT
 				- CONTROLS_HEIGHT + "px");
-
-		// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-		//
-		// @Override
-		// public void execute() {
-		// BrowseGUI.this.localFileContainer.setHeight(Window
-		// .getClientHeight()
-		// - BrowseGUI.this.searchBar.getOffsetHeight() + "px");
-		// BrowseGUI.this.tubeFileContainer.setHeight(Window
-		// .getClientHeight()
-		// - BrowseGUI.this.searchBar.getOffsetHeight() + "px");
-		// BrowseGUI.this.localFilePanel.setHeight(Window
-		// .getClientHeight()
-		// - BrowseGUI.this.searchBar.getOffsetHeight()
-		// - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
-		// BrowseGUI.this.tubeFilePanel.setHeight(Window.getClientHeight()
-		// - BrowseGUI.this.searchBar.getOffsetHeight()
-		// - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
-		// }
-		// });
 	}
 
 	/**
