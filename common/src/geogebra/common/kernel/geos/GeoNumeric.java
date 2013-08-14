@@ -180,9 +180,21 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @param flag
 	 *            true iff this number should be drawable
 	 */
-	public void setDrawable(boolean flag) {
+	public final void setDrawable(boolean flag) {
+		setDrawable(flag, true);
+	}
+	/**
+	 * Sets whether the number should be drawable (as slider or angle in case of
+	 * GeoAngle) and visible.
+	 * 
+	 * @param flag
+	 *            true iff this number should be drawable
+	 * @param visible
+	 *            true iff this number should be visible
+	 */
+	public final void setDrawable(boolean flag, boolean visible) {
 		isDrawable = flag;
-		if (isDrawable && kernel.isNotifyViewsActive()
+		if (visible && isDrawable && kernel.isNotifyViewsActive()
 				&& kernel.isAllowVisibilitySideEffects()) {
 			setEuclidianVisible(true);
 		}

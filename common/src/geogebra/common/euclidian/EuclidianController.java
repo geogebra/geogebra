@@ -8203,6 +8203,7 @@ public abstract class EuclidianController {
 				}
 	
 				if (viewHasHitsForMouseDragged()) {
+					App.printStacktrace("");
 					temporaryMode = true;
 					oldMode = mode; // remember current mode
 					view.setMode(EuclidianConstants.MODE_MOVE);
@@ -8938,6 +8939,7 @@ public abstract class EuclidianController {
 				dontClearSelection = true;
 			}
 			// Michael Borcherds 2007-12-08 END
+			App.printStacktrace("");
 			temporaryMode = true;
 			oldMode = mode; // remember current mode
 			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);

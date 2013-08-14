@@ -19,6 +19,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -96,7 +97,14 @@ implements AlgoMacroInterface {
         //we want to do this only with 4.0 macros
         if(macro.isCopyCaptionsAndVisibility()){
 			for(int i=0;i<macroOutput.length;i++)
-				if(!macroOutput[i].isEuclidianVisible()){
+				if(!macroOutput[i].isSetEuclidianVisible()){
+					getOutput(i).setEuclidianVisible(false);
+					getOutput(i).update();
+				}
+		}else{
+			//for <=3.2 macros hide all angles
+			for(int i=0;i<macroOutput.length;i++)
+				if(macroOutput[i] instanceof GeoAngle){
 					getOutput(i).setEuclidianVisible(false);
 					getOutput(i).update();
 				}
@@ -195,8 +203,9 @@ implements AlgoMacroInterface {
 			if(macroGeo.isDefined()){
 				algoGeo.set(macroGeo);	
 				AlgoElement drawAlgo = macroGeo.getParentAlgorithm();
+				boolean oldVisible = algoGeo.isSetEuclidianVisible();
 				if(drawAlgo instanceof DrawInformationAlgo){
-					((GeoNumeric) algoGeo).setDrawable(true);
+					((GeoNumeric) algoGeo).setDrawable(true, oldVisible);
 					algoGeo.setDrawAlgorithm(((DrawInformationAlgo)drawAlgo).copy());
 				}
 
