@@ -49,7 +49,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * must be run (with restart) before each command (as assumptions can be set by previous commands)
 	 */
 	protected final static String specialFunctions =
-			"restart;"+
+					"restart;"+
+					// used for sorting output of Solve/Solutions/NSolve/NSolutions
+					// sort() doesn't work for list of lists
+					"ggbsort(x):=when(type(x[0])==DOM_LIST,x,sort(x));"+
 					"atan2(y,x):=arg(x+i*y);"+
 					"sech(x):=1/cosh(x);"+
 					"csch(x):=1/sinh(x);"+
