@@ -207,6 +207,42 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	}
 
+	/**
+	 * Plane symetry matrix 
+	 * @param n direction of line
+	 * @param center point on plane
+	 * @return matrix
+	 */
+	public static final CoordMatrix4x4 PlaneSymetry(Coords n, Coords center) {
+		
+		double nx = n.getX();
+		double ny = n.getY();
+		double nz = n.getZ();
+		
+		
+		double[] vals = new double[16];
+		vals[0] = 1 - 2*nx*nx;
+		vals[1] = - 2*nx*ny;
+		vals[2] = - 2*nx*nz;
+		
+		vals[4] = - 2*nx*ny;
+		vals[5] = 1 - 2*ny*ny;
+		vals[6] = - 2*ny*nz;
+		
+		vals[8] = - 2*nx*nz;
+		vals[9] = - 2*ny*nz;
+		vals[10] = 1 - 2*nz*nz;
+
+		CoordMatrix4x4 m = new CoordMatrix4x4(vals);
+		
+		//use center for translation
+		m.setOrigin(n.mul(2*center.dotproduct(n)));
+		m.set(4,4, 1);
+		
+		return m;
+
+	}
+
 
 	/**
 	 * complete a 4 x n matrix to a 4 x 4 matrix, orthogonal method

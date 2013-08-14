@@ -17,7 +17,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.geos.Translateable;
@@ -42,7 +41,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		CurveEvaluable, GeoElement3DInterface, Traceable, Path,
-		RotateableND, Translateable, Mirrorable, Transformable, Dilateable{
+		RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable{
 
 	/** link with drawable3D */
 	private Drawable3D drawable3D = null;
@@ -619,6 +618,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		
 	}
 	
+	
+	public void mirror(GeoPlane3D plane) {
+
+		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
+		transform(CoordMatrix4x4.PlaneSymetry(m.getVz(), m.getOrigin()));
+		
+	}
 
 	
 	////////////////////////
