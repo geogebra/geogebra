@@ -101,7 +101,7 @@ public class PrintScalePanel extends JPanel {
 		cmModePanel.add(tfScale1);
 		cmModePanel.add(new JLabel(" "+loc.getPlain("units")+" = "));
 		cmModePanel.add(tfScale2);
-		cmModePanel.add(new JLabel(" "+loc.getPlain("cm.short")));
+		cmModePanel.add(new JLabel(" cm"));
 		
 		
 		pxModePanel=new JPanel();
