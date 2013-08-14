@@ -2812,11 +2812,82 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[{2a^2 + 5a + 3 = b, a + b = 3, a = b}, {a, b}]", "{}");
   }
 
-  /* Parametric Equations */
+  /* Parametric Equations One Parameter */
   
   @Test
-  public void Solve_Parametric_0 () {
-    
+  public void Solve_ParametricOP_0 () {
+    t("Solve[(3, 2) = (3, 2) + t * (5, 1), t]", "{t = 0}");
+  }
+  
+  @Test
+  public void Solve_ParametricOP_1 () {
+    t("Solve[(3, 2) = (3, 2) + t * (5, 1)]", "{t = 0}");
+  }
+  
+  @Test
+  public void Solve_ParametricOP_2 () {
+    t("Solve[(3, 2) + t * (5, 1) = (3, 2)]", "{t = 0}");
+  }
+  
+  @Test
+  public void Solve_ParametricOP_3 () {
+    t("Solve[(-2, 1) = (3, 2) + t * (5, 1)]", "{t = -1}");
+  }
+  
+  @Test
+  public void Solve_ParametricOP_4 () {
+    t("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", "{t = 1 / 2}");
+  }
+  
+  /* Parametric Function One Parameter */
+  
+  @Test
+  public void Solve_ParametricFOP_0 () {
+    t("f(t) := (3, 2) + t * (5, 1)", "(3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("Solve[f(t) = (8, 3)]", "{t = 1}");
+  }
+  
+  @Test
+  public void Solve_ParametricFOP_1 () {
+    t("f(t) := (3, 2) + t * (5, 1)", "(3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("Solve[(8, 3) = f(t)]", "{t = 1}");
+  }
+  
+  /* Parametric Equation Multiple Parameters */
+  
+  @Test
+  public void Solve_ParametricMP_0 () {
+    t("Solve[(3, 2) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 0, t = 0}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_1 () {
+    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 1, t = -1}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_2 () {
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{s = (-1) / 2 * t + 1, t = t}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_3 () {
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{t = 2 - 2 * s, s = s}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_4 () {
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), s]", "{s = (-1) / 2 * t + 1}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_5 () {
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), t]", "{t = 2 - 2 * s}");
+  }
+  
+  @Test
+  public void Solve_ParametricMP_6 () {
+    t("Solve[(13, 5) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{}");
   }
 
 
