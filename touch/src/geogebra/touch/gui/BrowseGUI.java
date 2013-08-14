@@ -121,8 +121,7 @@ public class BrowseGUI extends VerticalPanel {
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
 				query, new RequestCallback() {
 					@Override
-					public void onError(
-							final com.google.gwt.http.client.Request request,
+					public void onError(final Request request,
 							final Throwable exception) {
 						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
@@ -130,16 +129,12 @@ public class BrowseGUI extends VerticalPanel {
 					}
 
 					@Override
-					public void onResponseReceived(
-							final com.google.gwt.http.client.Request request,
+					public void onResponseReceived(final Request request,
 							final Response response) {
 						App.debug(response.getText());
-						BrowseGUI.this.tubeList = JSONparserGGT
-								.parseResponse(response.getText());
-						BrowseGUI.this.updateGUI();
+						onSearchResults(response);
 					}
 				});
-
 	}
 
 	public MaterialListElement getChosenMaterial() {
@@ -160,11 +155,14 @@ public class BrowseGUI extends VerticalPanel {
 					@Override
 					public void onResponseReceived(final Request request,
 							final Response response) {
-						BrowseGUI.this.tubeList = JSONparserGGT
-								.parseResponse(response.getText());
-						BrowseGUI.this.updateGUI();
+						onSearchResults(response);
 					}
 				});
+	}
+
+	protected void onSearchResults(Response response) {
+		this.tubeList = JSONparserGGT.parseResponse(response.getText());
+		this.updateGUI();
 	}
 
 	public void onResize() {
