@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -1630,14 +1631,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * wrap eg x+x as Evaluate[x+x] so that it's simplified
 	 */
 	private ValidExpression wrapEvaluate(ValidExpression arg) {
-		
 		// don't want to wrap eg Integral[(x+1)^100] otherwise it will be expanded
-		if (arg instanceof Command || arg.unwrap() instanceof Command) {
+		if (arg.inspect(Inspecting.CommandFinder.INSTANCE)) {
 			return arg;
 		}
-		
-		ExpressionValue argUnwrapped = arg.unwrap();
 
+		ExpressionValue argUnwrapped = arg.unwrap();
 		// wrap in ExpressionNode if necessary
 		ExpressionNode en;
 		if (arg.isExpressionNode()) {
