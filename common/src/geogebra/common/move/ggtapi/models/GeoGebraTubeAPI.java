@@ -9,7 +9,7 @@ public class GeoGebraTubeAPI {
 	/**
 	 * The Standard Result Quantity
 	 */
-	public static final int STANDARD_RESULT_QUANTITY = 10;
+	public static final int STANDARD_RESULT_QUANTITY = 30;
 
 	/**
 	 * Secure test url
