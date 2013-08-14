@@ -44,6 +44,7 @@ public class CASInputHandler {
 	public void processCurrentRow(String ggbcmd, String[] params) {
 		// check if text cell
 		int selRow = consoleTable.getSelectedRow();
+		if (selRow < 0) return;
 		if (consoleTable.getGeoCasCell(selRow).isUseAsText()) {
 			processRowThenEdit(selRow, true);
 		}
