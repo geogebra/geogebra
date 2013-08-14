@@ -20,38 +20,38 @@ import com.google.gwt.user.client.Event;
 public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 		HasFastClickHandlers {
 
-	public static final int TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK = 500;
-	final TouchController controller;
-	long lastClick = -1;
+	private static final int TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK = 500;
+	private final TouchController controller;
+	private long lastClick = -1;
 	private boolean touchEventHandled = false;
 
 	public RadioButtonTreeItemT(GeoElement ge, SafeUri showUrl,
 			SafeUri hiddenUrl, MouseDownHandler mdh, TouchController controller) {
-		
+
 		super(ge, showUrl, hiddenUrl, mdh);
 		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS);
 		this.controller = controller;
 
-		// use fastClickHandler to handle double-clicks (also on android 4.2.2.)
 		this.addFastClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onFastClick(FastClickEvent event) {
-				if (System.currentTimeMillis()
-						- RadioButtonTreeItemT.this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
-					// doubleClick
-					RadioButtonTreeItemT.this.controller
-							.redefine(RadioButtonTreeItemT.this.getGeo());
-				} else {
-					// first click or single click
-					final Hits hits = new Hits();
-					hits.add(RadioButtonTreeItemT.this.getGeo());
-					RadioButtonTreeItemT.this.controller.handleEvent(hits);
-				}
-				RadioButtonTreeItemT.this.lastClick = System
-						.currentTimeMillis();
+				onClick();
 			}
 		});
+	}
+
+	protected void onClick() {
+		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
+			// doubleClick
+			this.controller.redefine(this.getGeo());
+		} else {
+			// first click or single click
+			final Hits hits = new Hits();
+			hits.add(this.getGeo());
+			this.controller.handleEvent(hits);
+		}
+		this.lastClick = System.currentTimeMillis();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 	public void onBrowserEvent(Event event) {
 
 		switch (DOM.eventGetType(event)) {
-		
+
 		case Event.ONCLICK: {
 			event.stopPropagation();
 			if (this.touchEventHandled) {
@@ -76,19 +76,19 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 			}
 			break;
 		}
-		
+
 		case Event.ONTOUCHEND: {
 			event.stopPropagation();
 			this.touchEventHandled = true;
 			fireFastClickEvent();
 			break;
 		}
-		
+
 		case Event.ONTOUCHSTART: {
 			event.stopPropagation();
 			break;
 		}
-		
+
 		case Event.ONTOUCHMOVE: {
 			break;
 		}
@@ -97,11 +97,11 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 		}
 		}
 	}
-	
+
 	private void fireFastClickEvent() {
 		fireEvent(new FastClickEvent());
 	}
-	
+
 	@Override
 	public void onClick(ClickEvent evt) {
 		// done with FastClickHandler
