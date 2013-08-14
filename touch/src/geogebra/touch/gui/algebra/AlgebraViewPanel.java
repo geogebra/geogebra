@@ -2,34 +2,35 @@ package geogebra.touch.gui.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.laf.LookAndFeel;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
- * Extends from {@link LayoutPanel}. Holds the instances of the
+ * Extends from {@link FlowPanel}. Holds the instances of the
  * {@link AlgebraView algebraView} and {@link ScrollPanel scrollPanel}.
  */
 
-public class AlgebraViewPanel extends FlowPanel {
-	private final AlgebraViewM algebraView;
+public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
+	private final AlgebraViewT algebraView;
 	private StandardImageButton arrow;
 	private final FlowPanel stylebar;
-	private ScrollPanel content;
+	private final ScrollPanel content;
+	private final TabletGUI gui;
 
 	/**
 	 * Initializes the {@link TouchDelegate} and adds a {@link TapHandler} and a
 	 * {@link SwipeEndHandler}.
 	 * 
-	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewM
-	 * algebraView} to it. Attaches the {@link AlgebraViewM algebraView} to the
+	 * Creates a {@link ScrollPanel} and adds the {@link AlgebraViewT
+	 * algebraView} to it. Attaches the {@link AlgebraViewT algebraView} to the
 	 * {@link Kernel kernel}.
 	 * 
 	 * @param controller
@@ -37,9 +38,11 @@ public class AlgebraViewPanel extends FlowPanel {
 	 * @param kernel
 	 *            Kernel
 	 */
-	public AlgebraViewPanel(TouchController controller, TabletGUI gui,
-			Kernel kernel) {
-		this.algebraView = new AlgebraViewM(controller);
+	public AlgebraViewPanel(final TouchController controller,
+			final Kernel kernel) {
+		this.gui = (TabletGUI) ((TouchApp) kernel.getApplication())
+				.getTouchGui();
+		this.algebraView = new AlgebraViewT(controller);
 		kernel.attach(this.algebraView);
 		this.stylebar = new FlowPanel();
 
@@ -47,7 +50,7 @@ public class AlgebraViewPanel extends FlowPanel {
 				.getIcons().triangle_left());
 		this.arrow.setStyleName("arrowRight");
 		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(
-				this.arrow, gui);
+				this.arrow, this.gui);
 
 		this.stylebar.add(this.arrow);
 		this.stylebar.setStyleName("algebraStylebar");
@@ -57,23 +60,21 @@ public class AlgebraViewPanel extends FlowPanel {
 
 		this.content = new ScrollPanel(this.algebraView);
 		this.content.setStyleName("algebraView");
-
-		onResize();
 		this.add(this.content);
+
+		this.gui.addResizeListener(this);
 	}
 
-	public void addInsideArrow() {
+	private void addInsideArrow() {
 		this.stylebar.setVisible(true);
+	}
 
+	private void removeInsideArrow() {
+		this.stylebar.setVisible(false);
 	}
 
 	public AlgebraView getAlgebraView() {
 		return this.algebraView;
-	}
-
-	public void removeInsideArrow() {
-		this.stylebar.setVisible(false);
-
 	}
 
 	public void setLabels() {
@@ -83,20 +84,26 @@ public class AlgebraViewPanel extends FlowPanel {
 	}
 
 	@Override
-	public void setVisible(boolean flag) {
+	public void setVisible(final boolean flag) {
 		super.setVisible(flag);
 		this.algebraView.setShowing(flag);
 	}
 
+	@Override
 	public void onResize() {
-		// Important: Set ViewPort size in Pixels for the ScrollPanel!
-		this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+		if (this.gui.isAlgebraShowing()) {
+			this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
+			this.content
+					.setHeight((TouchEntryPoint.getLookAndFeel()
+							.getContentWidgetHeight() - this.stylebar
+							.getOffsetHeight())
+							+ "px");
 
-		LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
-
-		this.content
-				.setHeight((Window.getClientHeight() - laf.getAppBarHeight()
-						- laf.getToolBarHeight() - this.stylebar
-							.getOffsetHeight()) + "px");
+			if (Window.getClientWidth() - TabletGUI.computeAlgebraWidth() <= 0) {
+				this.addInsideArrow();
+			} else {
+				this.removeInsideArrow();
+			}
+		}
 	}
 }

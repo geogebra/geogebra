@@ -7,7 +7,6 @@ import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.ggt.FileContainer;
 import geogebra.touch.gui.elements.ggt.MaterialListElement;
 import geogebra.touch.gui.elements.ggt.SearchBar;
@@ -32,19 +31,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class BrowseGUI extends VerticalPanel {
-	private final SearchBar searchBar;
+	private SearchBar searchBar;
 	private final FileManagerM fm;
 	private final AppWeb app;
 
 	// HorizontalMaterialPanel featuredMaterials;
-	VerticalMaterialPanel localFilePanel, tubeFilePanel;
-	VerticalPanel localFileContainer, tubeFileContainer;
+	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
+	private VerticalPanel localFileContainer, tubeFileContainer;
 
 	private List<Material> localList = new ArrayList<Material>();
-	List<Material> tubeList = new ArrayList<Material>();
+	private List<Material> tubeList = new ArrayList<Material>();
 
-	private final Label headingMyProfile;
-	private final Label headingGeoGebraTube;
+	private Label headingMyProfile;
+	private Label headingGeoGebraTube;
 
 	private final static int HEADING_HEIGHT = 50;
 	public final static int CONTROLS_HEIGHT = 50;
@@ -56,72 +55,75 @@ public class BrowseGUI extends VerticalPanel {
 	/**
 	 * 
 	 */
-	public BrowseGUI(AppWeb app) {
+	public BrowseGUI(final AppWeb app) {
 		this.setStyleName("tubesearchgui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
+
+		addSearchBar();
+		addContent();
+
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(final ResizeEvent event) {
+				BrowseGUI.this.onResize();
+			}
+		});
+	}
+
+	private void addSearchBar() {
 		this.searchBar = new SearchBar(this.app.getLocalization(), this);
 		this.searchBar.addSearchListener(new SearchListener() {
 			@Override
-			public void onSearch(String query) {
+			public void onSearch(final String query) {
 				BrowseGUI.this.displaySearchResults(query);
 			}
 		});
-
-		// this.featuredMaterials = new HorizontalMaterialPanel();
-		// this.featuredMaterials.setMaterials(new ArrayList<Material>());
-
-		this.localFilePanel = new VerticalMaterialPanel(this.app);
-		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
-		this.localFilePanel.setStyleName("filePanel");
-		this.tubeFilePanel.setStyleName("filePanel");
-
-		this.headingMyProfile = new Label();
-		this.headingGeoGebraTube = new Label();
-		this.headingMyProfile.setStyleName("filePanelTitle");
-		this.headingGeoGebraTube.setStyleName("filePanelTitle");
-
-		this.headingGeoGebraTube.setText("GeoGebraTube");
-
-		this.localFileContainer = new FileContainer("localFilePanel",
-				this.headingMyProfile, this.localFilePanel);
-
-		this.tubeFileContainer = new FileContainer("tubeFilePanel",
-				this.headingGeoGebraTube, this.tubeFilePanel);
-
 		this.add(this.searchBar);
-		// this.add(this.featuredMaterials);
-		final int panelHeight = Window.getClientHeight()
-				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
-				- HEADING_HEIGHT - CONTROLS_HEIGHT;
-		if (panelHeight > 0) {
-			this.localFilePanel.setHeight(panelHeight + "px");
-			this.tubeFilePanel.setHeight(panelHeight + "px");
-		}
+	}
+
+	private void addContent() {
+		initLocalFilePanel();
+		initTubeFilePanel();
+
 		final HorizontalPanel fileList = new HorizontalPanel();
 		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
 		this.add(fileList);
 
 		this.loadFeatured();
-
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				BrowseGUI.this.onResize();
-			}
-		});
 	}
 
-	public void displaySearchResults(String query) {
+	private void initTubeFilePanel() {
+		this.headingGeoGebraTube = new Label();
+		this.headingGeoGebraTube.setStyleName("filePanelTitle");
+		this.headingGeoGebraTube.setText("GeoGebraTube");
+
+		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
+		this.tubeFilePanel.setStyleName("filePanel");
+		this.tubeFileContainer = new FileContainer("tubeFilePanel",
+				this.headingGeoGebraTube, this.tubeFilePanel);
+	}
+
+	private void initLocalFilePanel() {
+		this.headingMyProfile = new Label();
+		this.headingMyProfile.setStyleName("filePanelTitle");
+
+		this.localFilePanel = new VerticalMaterialPanel(this.app);
+		this.localFilePanel.setStyleName("filePanel");
+		this.localFileContainer = new FileContainer("localFilePanel",
+				this.headingMyProfile, this.localFilePanel);
+	}
+
+	protected void displaySearchResults(final String query) {
 		this.localList = this.fm.search(query);
 		GeoGebraTubeAPI.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
 				query, new RequestCallback() {
 					@Override
 					public void onError(
-							com.google.gwt.http.client.Request request,
-							Throwable exception) {
+							final com.google.gwt.http.client.Request request,
+							final Throwable exception) {
 						// FIXME implement Error Handling!
 						BrowseGUI.this.updateGUI();
 						exception.printStackTrace();
@@ -129,8 +131,8 @@ public class BrowseGUI extends VerticalPanel {
 
 					@Override
 					public void onResponseReceived(
-							com.google.gwt.http.client.Request request,
-							Response response) {
+							final com.google.gwt.http.client.Request request,
+							final Response response) {
 						App.debug(response.getText());
 						BrowseGUI.this.tubeList = JSONparserGGT
 								.parseResponse(response.getText());
@@ -150,13 +152,14 @@ public class BrowseGUI extends VerticalPanel {
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
 				.getFeaturedMaterials(new RequestCallback() {
 					@Override
-					public void onError(Request request, Throwable exception) {
+					public void onError(final Request request,
+							final Throwable exception) {
 						BrowseGUI.this.updateGUI();
 					}
 
 					@Override
-					public void onResponseReceived(Request request,
-							Response response) {
+					public void onResponseReceived(final Request request,
+							final Response response) {
 						BrowseGUI.this.tubeList = JSONparserGGT
 								.parseResponse(response.getText());
 						BrowseGUI.this.updateGUI();
@@ -165,21 +168,39 @@ public class BrowseGUI extends VerticalPanel {
 	}
 
 	public void onResize() {
-		this.searchBar.onResize();
-
-		// this.featuredMaterials.setWidth(Window.getClientWidth() + "px");
-
 		this.localFilePanel.updateWidth();
 		this.tubeFilePanel.updateWidth();
-		final int newHeight = Window.getClientHeight()
-				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
-				- HEADING_HEIGHT - CONTROLS_HEIGHT;
-		if (newHeight > 0) {
-			this.localFilePanel.setHeight(newHeight + "px");
-			this.tubeFilePanel.setHeight(newHeight + "px");
-			this.localFilePanel.updateHeight();
-			this.tubeFilePanel.updateHeight();
-		}
+
+		this.localFileContainer.setHeight(Window.getClientHeight()
+				- this.searchBar.getOffsetHeight() + "px");
+		this.tubeFileContainer.setHeight(Window.getClientHeight()
+				- BrowseGUI.this.searchBar.getOffsetHeight() + "px");
+		this.localFilePanel.setHeight(Window.getClientHeight()
+				- this.searchBar.getOffsetHeight() - HEADING_HEIGHT
+				- CONTROLS_HEIGHT + "px");
+		this.tubeFilePanel.setHeight(Window.getClientHeight()
+				- this.searchBar.getOffsetHeight() - HEADING_HEIGHT
+				- CONTROLS_HEIGHT + "px");
+
+		// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+		//
+		// @Override
+		// public void execute() {
+		// BrowseGUI.this.localFileContainer.setHeight(Window
+		// .getClientHeight()
+		// - BrowseGUI.this.searchBar.getOffsetHeight() + "px");
+		// BrowseGUI.this.tubeFileContainer.setHeight(Window
+		// .getClientHeight()
+		// - BrowseGUI.this.searchBar.getOffsetHeight() + "px");
+		// BrowseGUI.this.localFilePanel.setHeight(Window
+		// .getClientHeight()
+		// - BrowseGUI.this.searchBar.getOffsetHeight()
+		// - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
+		// BrowseGUI.this.tubeFilePanel.setHeight(Window.getClientHeight()
+		// - BrowseGUI.this.searchBar.getOffsetHeight()
+		// - HEADING_HEIGHT - CONTROLS_HEIGHT + "px");
+		// }
+		// });
 	}
 
 	/**

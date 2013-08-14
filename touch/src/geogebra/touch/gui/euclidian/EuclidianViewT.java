@@ -28,7 +28,6 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Thomas Krismayer
  * 
  */
-public class EuclidianViewM extends EuclidianViewWeb {
+public class EuclidianViewT extends EuclidianViewWeb {
 	private Canvas canvas;
 
 	protected Hits hits;
@@ -49,7 +48,7 @@ public class EuclidianViewM extends EuclidianViewWeb {
 	// (for anything other see App)
 	private final int selectionFactor = 3;
 
-	public EuclidianViewM(EuclidianViewPanel euclidianViewPanel,
+	public EuclidianViewT(EuclidianViewPanel euclidianViewPanel,
 			TouchController ec, Widget widget, int width, int height) {
 		super(ec, new Settings().getEuclidian(1));
 
@@ -70,10 +69,8 @@ public class EuclidianViewM extends EuclidianViewWeb {
 
 	@Override
 	public void add(GBox box) {
-
 		this.panel.add(GBoxW.getImpl(box), (int) box.getBounds().getX(),
 				(int) box.getBounds().getY());
-
 	}
 
 	@Override
@@ -165,11 +162,7 @@ public class EuclidianViewM extends EuclidianViewWeb {
 	@Override
 	protected void initCursor() {
 	}
-
-	public void onResize(ResizeEvent event) {
-		this.setPixelSize(event.getWidth(), event.getHeight());
-	}
-
+	
 	@Override
 	public void remove(GBox box) {
 		this.panel.remove(GBoxW.getImpl(box));
@@ -224,7 +217,6 @@ public class EuclidianViewM extends EuclidianViewWeb {
 
 	public void setPixelSize(int width, int height) {
 		this.g2p.setCoordinateSpaceSize(width, height);
-
 		this.canvas.setPixelSize(width, height);
 		this.updateSize();
 		this.doRepaint2();

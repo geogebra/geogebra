@@ -12,17 +12,19 @@ import geogebra.touch.utils.OptionType;
 
 public interface LookAndFeel extends SavedStateListener {
 
-	public void buildHeader(TabletGUI gui, TouchModel touchModel);
+	public void buildHeader(TouchModel touchModel);
 
-	public int getAppBarHeight();
+	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI);
+
+	public int getTabletHeaderHeight();
 
 	public int getToolBarHeight();
+
+	public int getContentWidgetHeight();
 
 	public DefaultResources getIcons();
 
 	public int getPaddingLeftOfDialog();
-
-	public int getPanelsHeight();
 
 	public TabletHeaderPanel getTabletHeaderPanel();
 
@@ -46,7 +48,4 @@ public interface LookAndFeel extends SavedStateListener {
 
 	public StandardImageButton setAlgebraButtonHandler(
 			StandardImageButton arrow, TabletGUI gui);
-
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
-			TabletGUI tabletGUI);
 }

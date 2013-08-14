@@ -28,7 +28,7 @@ public class LineStyleBar extends FlowPanel {
 
 	private FlowPanel buttonPanel;
 
-	public LineStyleBar(final StyleBar stylingBar, final TouchModel touchModel) {
+	public LineStyleBar(final TouchModel touchModel) {
 		this.addStyleName("lineStyleBar");
 
 		this.buttonPanel = new FlowPanel();
@@ -48,8 +48,8 @@ public class LineStyleBar extends FlowPanel {
 					if (touchModel.getCommand().equals(ToolBarCommand.Pen)
 							|| touchModel.getCommand().equals(
 									ToolBarCommand.FreehandShape)) {
-						stylingBar.euclidianView.getEuclidianController()
-								.getPen().setPenLineStyle(index);
+						touchModel.getKernel().getApplication().getEuclidianView1()
+						.getEuclidianController().getPen().setPenLineStyle(index);
 					}
 				}
 			}, ClickEvent.getType());
@@ -68,7 +68,7 @@ public class LineStyleBar extends FlowPanel {
 					.getLineThickness()));
 		} else if (touchModel.getCommand().equals(ToolBarCommand.Pen)
 				|| touchModel.getCommand().equals(ToolBarCommand.FreehandShape)) {
-			slider.setValue(new Integer(stylingBar.euclidianView
+			slider.setValue(new Integer(touchModel.getKernel().getApplication().getEuclidianView1()
 					.getEuclidianController().getPen().getPenSize()));
 		}
 
@@ -84,7 +84,8 @@ public class LineStyleBar extends FlowPanel {
 				if (touchModel.getCommand().equals(ToolBarCommand.Pen)
 						|| touchModel.getCommand().equals(
 								ToolBarCommand.FreehandShape)) {
-					stylingBar.euclidianView.getEuclidianController().getPen()
+					touchModel.getKernel().getApplication().getEuclidianView1()
+					.getEuclidianController().getPen()
 							.setPenSize(event.getValue().intValue());
 				}
 			}

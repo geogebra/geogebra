@@ -7,7 +7,6 @@ import geogebra.touch.gui.BrowseGUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +19,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 	public static final int SPACE = 20;
 
 	private static int maxHeight() {
-		return Window.getClientHeight()
-				- TouchEntryPoint.getLookAndFeel().getAppBarHeight()
+		return TouchEntryPoint.getLookAndFeel().getContentWidgetHeight()
 				- BrowseGUI.CONTROLS_HEIGHT;
 	}
 
@@ -30,13 +28,11 @@ public class VerticalMaterialPanel extends FlowPanel {
 	private int materialHeight = 140;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
-
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	private int start;
-
 	private List<Material> materials = new ArrayList<Material>();
 
-	public VerticalMaterialPanel(AppWeb app) {
+	public VerticalMaterialPanel(final AppWeb app) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
 		this.contentPanel = new FlexTable();
 		this.app = app;
@@ -49,23 +45,13 @@ public class VerticalMaterialPanel extends FlowPanel {
 		return this.lastSelected;
 	}
 
-	public int getColumns() {
-		return this.columns;
-	}
 
 	@Override
 	public int getOffsetHeight() {
 		return MaterialListElement.PANEL_HEIGHT;
 	}
 
-	public void markByURL(String url) {
-		final MaterialListElement mle = this.titlesToPreviews.get(url);
-		if (mle != null) {
-			mle.markSelected();
-		}
-	}
-	
-	private int pageCapacity(){
+	private int pageCapacity() {
 		return this.columns * (maxHeight() / this.materialHeight);
 	}
 
@@ -78,19 +64,18 @@ public class VerticalMaterialPanel extends FlowPanel {
 	}
 
 	public boolean hasNextPage() {
-		if (this.start + pageCapacity() >= this.materials
-				.size()) {
+		if (this.start + pageCapacity() >= this.materials.size()) {
 			return false;
 		}
 		return true;
 	}
 
 	public void prevPage() {
-		if (this.start <= 0) {
+		if (!hasPrevPage()) {
 			return;
 		}
-		this.setMaterials(this.columns, this.materials, Math.max(0,this.start
-				- pageCapacity()));
+		this.setMaterials(this.columns, this.materials,
+				Math.max(0, this.start - pageCapacity()));
 	}
 
 	public boolean hasPrevPage() {
@@ -100,7 +85,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 		return true;
 	}
 
-	public void rememberSelected(MaterialListElement materialElement) {
+	public void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
 	}
 
@@ -110,11 +95,12 @@ public class VerticalMaterialPanel extends FlowPanel {
 		}
 	}
 
-	public void setMaterials(int cols, List<Material> materials) {
+	public void setMaterials(final int cols, final List<Material> materials) {
 		this.setMaterials(cols, materials, 0);
 	}
 
-	private void setMaterials(int cols, List<Material> materials, int offset) {
+	private void setMaterials(final int cols, final List<Material> materials,
+			final int offset) {
 		this.columns = cols;
 		this.updateWidth();
 		this.contentPanel.clear();
@@ -128,8 +114,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 			this.contentPanel.getCellFormatter().setWidth(0, 0, "100%");
 		}
 
-		for (int i = 0; i < materials.size() - this.start
-				&& i < pageCapacity(); i++) {
+		for (int i = 0; i < materials.size() - this.start && i < pageCapacity(); i++) {
 			final Material m = materials.get(i + this.start);
 			final MaterialListElement preview = new MaterialListElement(m,
 					this.app, this);
@@ -144,22 +129,6 @@ public class VerticalMaterialPanel extends FlowPanel {
 		if (this.lastSelected != null) {
 			this.lastSelected.markUnSelected();
 		}
-	}
-
-	public void updateHeight() {
-		final Iterator<MaterialListElement> material = this.titlesToPreviews
-				.values().iterator();
-		if (material.hasNext()) {
-			if (material.next().getOffsetHeight() > 0) {
-				this.materialHeight = material.next().getOffsetHeight();
-			}
-		}
-		// if(this.materialHeight != oldMaterialHeight){
-		if (this.materials != null) {
-			this.setMaterials(this.columns, this.materials, this.start);
-		}
-		// }
-
 	}
 
 	public void updateWidth() {

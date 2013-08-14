@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Event;
@@ -52,36 +51,34 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 	// panelContainer contains all elements
 	private final FlowPanel dialogPanel = new FlowPanel();
-	
 	private final FlowPanel titlePanel = new FlowPanel();
 	private final FlowPanel contentPanel = new FlowPanel();
 	private HorizontalPanel buttonPanel;
-	
+
 	private final Label title = new Label();
-	
+
 	private final HorizontalPanel errorBox = new HorizontalPanel();
 	private SVGResource iconWarning;
 	private final Label errorText = new Label();
-	
+
 	private final FlowPanel radioButtonPanel = new FlowPanel();
 	private final StandardRadioButton[] radioButton = new StandardRadioButton[2];
 	private final FlowPanel inputFieldPanel = new FlowPanel();
-	HorizontalPanel sliderPanel;
-	InputField textBox = new InputField();
-	InputField min, max, increment;
-	
+	private HorizontalPanel sliderPanel;
+	private InputField textBox = new InputField();
+	private InputField min, max, increment;
+
 	private final TouchApp app;
-	DialogType type;
+	private DialogType type;
 	private String prevText, mode;
 
 	private final CustomKeysPanel customKeys = new CustomKeysPanel();
 	private final LookAndFeel laf;
 	private final TouchModel model;
-	boolean handlingExpected = false;
+	private boolean handlingExpected = false;
 	private InputHandler inputHandler;
 
-	public InputDialog(TouchApp app, DialogType type, TabletGUI gui,
-			TouchModel touchModel) {
+	public InputDialog(final TouchApp app, final DialogType type, final TouchModel touchModel) {
 		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
 		super(true, false);
@@ -97,7 +94,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.init();
 
-		gui.addResizeListener(this);
+		((TabletGUI) app.getTouchGui()).addResizeListener(this);
 
 		this.setAutoHideEnabled(true);
 	}
@@ -122,7 +119,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		if (this.type == DialogType.Slider) {
 			final ValueChangeHandler<Boolean> handler = new ValueChangeHandler<Boolean>() {
 				@Override
-				public void onValueChange(ValueChangeEvent<Boolean> event) {
+				public void onValueChange(final ValueChangeEvent<Boolean> event) {
 					InputDialog.this.setSliderPreview();
 				}
 			};
@@ -132,10 +129,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 
 		this.radioButtonPanel.setStyleName("radioButtonPanel");
-
 		this.radioButtonPanel.add(this.radioButton[0]);
 		this.radioButtonPanel.add(this.radioButton[1]);
-
 		this.contentPanel.add(this.radioButtonPanel);
 
 		this.radioButton[0].setValue(new Boolean(true));
@@ -147,7 +142,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.textBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
+			public void onKeyDown(final KeyDownEvent event) {
 				if (!InputDialog.this.textBox.isVisible()) {
 					return;
 				}
@@ -167,6 +162,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.inputFieldPanel.add(this.textBox);
 	}
 
+	
 	private void buildErrorBox() {
 		this.iconWarning = this.laf.getIcons().icon_warning();
 		final Panel iconPanel = new LayoutPanel();
@@ -187,7 +183,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.increment = new InputField(this.app.getLocalization().getMenu(
 				"Step"), true);
 		this.increment.addStyleName("last");
-		
+
 		final InputField[] box = new InputField[] { this.min, this.max,
 				this.increment, this.textBox };
 
@@ -196,25 +192,26 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.increment.setTextBoxToLoseFocus(box);
 
 		this.sliderPanel = new HorizontalPanel();
-		
+
 		this.sliderPanel.setStyleName("sliderPanel");
 		this.sliderPanel.add(this.min);
 		this.sliderPanel.add(this.max);
 		this.sliderPanel.add(this.increment);
 
 		this.inputFieldPanel.add(this.sliderPanel);
-		
+
 		this.addRadioButton();
 
 		this.buttonPanel = new HorizontalPanel();
-		this.buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		this.buttonPanel
+				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		this.buttonPanel.setStyleName("buttonPanel");
 		final Button ok = new Button();
 		ok.addStyleName("ok");
 		ok.setText(this.app.getLocalization().getPlain("Apply"));
 		ok.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				InputDialog.this.onOK();
 			}
 		});
@@ -223,13 +220,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		cancel.setText(this.app.getLocalization().getPlain("Cancel"));
 		cancel.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				InputDialog.this.onCancel();
 			}
 		});
 		this.buttonPanel.add(ok);
 		this.buttonPanel.add(cancel);
-		
+
 		this.contentPanel.add(this.buttonPanel);
 	}
 
@@ -304,7 +301,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.addDomHandler(new KeyDownHandler() {
 
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
+			public void onKeyDown(final KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
 					event.preventDefault();
 					return;
@@ -324,7 +321,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	 *            if true handlingExpected will be set to false
 	 * @return true if the input should be handled
 	 */
-	public boolean isHandlingExpected(boolean reset) {
+	public boolean isHandlingExpected(final boolean reset) {
 		final boolean ret = this.handlingExpected;
 		if (reset) {
 			this.handlingExpected = false;
@@ -342,7 +339,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	@Override
-	public void onCustomKeyPressed(CustomKey c) {
+	public void onCustomKeyPressed(final CustomKey c) {
 		final int pos = this.textBox.getCursorPos();
 		this.textBox.setText(this.textBox.getText().substring(0, pos)
 				+ c.toString() + this.textBox.getText().substring(pos));
@@ -364,7 +361,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	@Override
-	protected void onPreviewNativeEvent(NativePreviewEvent event) {
+	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
 		if (!this.isVisible()) {
 			return;
 		}
@@ -381,13 +378,13 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	@Override
-	public void onResize(ResizeEvent e) {
+	public void onResize() {
 		if (this.isVisible() && this.isShowing()) {
 			super.center();
 		}
 	}
 
-	public void redefine(DialogType dialogType) {
+	public void redefine(final DialogType dialogType) {
 		if (this.getType() == dialogType) {
 			return;
 		}
@@ -424,7 +421,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 	}
 
-	public void setFromSlider(GeoNumeric geo) {
+	public void setFromSlider(final GeoNumeric geo) {
 		this.redefine(DialogType.RedefineSlider);
 		this.radioButton[0].setValue(Boolean.valueOf(!geo.isAngle()));
 		this.radioButton[1].setValue(Boolean.valueOf(geo.isAngle()));
@@ -437,7 +434,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 				StringTemplate.editTemplate));
 	}
 
-	public void setInputHandler(InputHandler inputHandler) {
+	public void setInputHandler(final InputHandler inputHandler) {
 		this.inputHandler = inputHandler;
 	}
 
@@ -463,7 +460,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 	}
 
-	public void setMode(String mode) {
+	public void setMode(final String mode) {
 		this.mode = mode;
 		this.setLabels();
 	}
@@ -492,7 +489,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 	}
 
-	public void setText(String text) {
+	public void setText(final String text) {
 		this.prevText = text;
 	}
 
@@ -519,8 +516,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.errorBox.setVisible(false);
 
-		//if (this.type != DialogType.Slider) {
-		if (this.type != DialogType.Slider && this.type != DialogType.RedefineSlider && this.type != DialogType.Angle) {
+		// if (this.type != DialogType.Slider) {
+		if (this.type != DialogType.Slider
+				&& this.type != DialogType.RedefineSlider
+				&& this.type != DialogType.Angle) {
 			this.dialogPanel.add(this.customKeys);
 		}
 
@@ -531,7 +530,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	@Override
-	public void showError(String error) {
+	public void showError(final String error) {
 		if (this.model.getActualSlider() != null) {
 			this.model.getActualSlider().remove();
 		}

@@ -8,7 +8,6 @@ import geogebra.touch.gui.elements.stylebar.OptionsPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.gui.elements.stylebar.StyleBarStatic;
 import geogebra.touch.gui.elements.toolbar.SubToolBar;
-import geogebra.touch.gui.elements.toolbar.ToolBar;
 import geogebra.touch.gui.elements.toolbar.ToolBarButton;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -30,26 +29,23 @@ public class GuiModel {
 	private ToolBarButton defaultButton;
 	private StyleBar styleBar;
 	private PopupPanel optionsPanel;
-
 	private OptionType styleBarOptionShown = OptionType.None;
-
 	private GColor color;
 	private float alpha = -1f;
 	private int lineStyle = -1;
 	private int lineSize = -1;
 	private int captionMode = -1;
 	private PopupPanel activeDialog;
-	private ToolBar toolBar;
 
 	/**
 	 * @param model
 	 *            if it is not intended to use a TouchModel, model can be null
 	 */
-	public GuiModel(TouchModel model) {
+	public GuiModel(final TouchModel model) {
 		this.touchModel = model;
 	}
 
-	public void appendStyle(ArrayList<GeoElement> elements) {
+	public void appendStyle(final ArrayList<GeoElement> elements) {
 		if (this.color != null) {
 			StyleBarStatic.applyColor(elements, this.color);
 		}
@@ -70,7 +66,7 @@ public class GuiModel {
 		}
 	}
 
-	public void buttonClicked(ToolBarButton tbb) {
+	public void buttonClicked(final ToolBarButton tbb) {
 		this.closeOptions();
 		this.setActive(tbb);
 
@@ -103,9 +99,6 @@ public class GuiModel {
 	 */
 	public void closeOptions() {
 		this.closeOnlyOptions();
-		if (this.toolBar != null) {
-			this.toolBar.closeToolBar();
-		}
 	}
 
 	public ToolBarCommand getCommand() {
@@ -128,7 +121,7 @@ public class GuiModel {
 		this.captionMode = -1;
 	}
 
-	public void setActive(ToolBarButton toolBarButton) {
+	public void setActive(final ToolBarButton toolBarButton) {
 		if (this.activeButton != null && this.activeButton != toolBarButton) {
 			// transparent
 			this.activeButton.setActive(false);
@@ -146,19 +139,19 @@ public class GuiModel {
 		}
 	}
 
-	public void setActiveDialog(PopupPanel dialog) {
+	public void setActiveDialog(final PopupPanel dialog) {
 		this.activeDialog = dialog;
 	}
 
-	public void setAlpha(float a) {
+	public void setAlpha(final float a) {
 		this.alpha = a;
 	}
 
-	public void setCaptionMode(int i) {
+	public void setCaptionMode(final int i) {
 		this.captionMode = i;
 	}
 
-	public void setColor(GColor c) {
+	public void setColor(final GColor c) {
 		this.color = c;
 
 		// Update Pen color if necessary
@@ -171,36 +164,32 @@ public class GuiModel {
 
 	}
 
-	public void setLineSize(int i) {
+	public void setLineSize(final int i) {
 		this.lineSize = i;
 	}
 
-	public void setLineStyle(int i) {
+	public void setLineStyle(final int i) {
 		this.lineStyle = i;
 	}
 
-	public void setOption(SubToolBar options) {
+	public void setOption(final SubToolBar options) {
 		this.optionsPanel = options;
 	}
 
-	public void setStyleBarOptionShown(OptionType type) {
+	public void setStyleBarOptionShown(final OptionType type) {
 		this.styleBarOptionShown = type;
 	}
 
-	public void setStyleBar(StyleBar bar) {
+	public void setStyleBar(final StyleBar bar) {
 		this.styleBar = bar;
 	}
 
-	public void setDefaultButton(ToolBarButton manipulateObjects) {
+	public void setDefaultButton(final ToolBarButton manipulateObjects) {
 		this.defaultButton = manipulateObjects;
 	}
 
 	public ToolBarButton getDefaultButton() {
 		return this.defaultButton;
-	}
-
-	public void setToolBar(ToolBar toolBar) {
-		this.toolBar = toolBar;
 	}
 
 	/**
@@ -211,7 +200,8 @@ public class GuiModel {
 	 *            the button that was clicked, null in case of a Dialog
 	 *            (OptionsType.Dialog)
 	 */
-	public void showOption(OptionsPanel panel, StandardImageButton parent) {
+	public void showOption(final OptionsPanel panel,
+			final StandardImageButton parent) {
 		this.closeOnlyOptions();
 		this.optionsPanel = panel;
 		this.optionsPanel.showRelativeTo(parent);
@@ -223,12 +213,4 @@ public class GuiModel {
 			this.styleBar.rebuild();
 		}
 	}
-
-	/*public void showOption(SubToolBar panel, ToolBarButton parent) {
-		this.closeOnlyOptions();
-		this.optionsPanel = panel;
-		this.optionsPanel.showRelativeTo(parent);
-		this.styleBarOptionShown = OptionType.ToolBar;
-
-	}*/
 }

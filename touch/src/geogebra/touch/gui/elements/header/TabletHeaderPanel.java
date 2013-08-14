@@ -3,7 +3,6 @@ package geogebra.touch.gui.elements.header;
 import geogebra.touch.FileManagerM;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.model.TouchModel;
@@ -19,7 +18,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -36,27 +34,23 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		ResizeListener {
 	private final TabletHeaderPanelLeft leftHeader;
 	private final VerticalPanel titlePanel;
-	Panel underline;
-	TextBox worksheetTitle;
+	private Panel underline;
+	private TextBox worksheetTitle;
 	private final TabletHeaderPanelRight rightHeader;
-	InfoDialog infoOverrideDialog;
+	private InfoDialog infoOverrideDialog;
+	private TouchApp app;
+	private FileManagerM fm;
 
-	TouchApp app;
-	FileManagerM fm;
-	protected String newTitle;
-
-	public TabletHeaderPanel(TabletGUI tabletGUI, final TouchApp app,
-			TouchModel touchModel) {
+	public TabletHeaderPanel(final TouchApp app, final TouchModel touchModel) {
 		this.setStyleName("headerbar");
 		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
 		this.fm = this.app.getFileManager();
-		this.leftHeader = new TabletHeaderPanelLeft(tabletGUI, app, touchModel,
-				this);
+		this.leftHeader = new TabletHeaderPanelLeft(app, touchModel, this);
 		this.leftHeader.setStyleName("headerLeft");
 		this.infoOverrideDialog = new InfoDialog(this.app,
-				touchModel.getGuiModel(), InfoType.Override, tabletGUI);
+				touchModel.getGuiModel(), InfoType.Override);
 
 		this.titlePanel = new VerticalPanel();
 
@@ -65,8 +59,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.app.addTitleChangedListener(new TitleChangedListener() {
 			@Override
-			public void onTitleChange(String title) {
-				TabletHeaderPanel.this.worksheetTitle.setText(title);
+			public void onTitleChange(final String title) {
+				setConstructionTitle(title);
 			}
 		});
 
@@ -76,34 +70,12 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.worksheetTitle.addKeyDownHandler(new KeyDownHandler() {
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
+			public void onKeyDown(final KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					if (TabletHeaderPanel.this.fm
-							.hasFile(TabletHeaderPanel.this.worksheetTitle
-									.getText())) {
-						TabletHeaderPanel.this.infoOverrideDialog
-								.setConsTitle(TabletHeaderPanel.this.worksheetTitle
-										.getText());
-						TabletHeaderPanel.this.infoOverrideDialog.show();
-					} else if (TabletHeaderPanel.this.worksheetTitle.getText()
-							.equals("")) {
-						TabletHeaderPanel.this.worksheetTitle
-								.setText(TabletHeaderPanel.this.app
-										.getConstructionTitle());
-						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
-					} else {
-						TabletHeaderPanel.this.app
-								.setConstructionTitle(TabletHeaderPanel.this.worksheetTitle
-										.getText());
-						TabletHeaderPanel.this.fm
-								.saveFile(TabletHeaderPanel.this.app);
-						TabletHeaderPanel.this.worksheetTitle.setFocus(false);
-					}
+					onChangeTitle();
+
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
-					TabletHeaderPanel.this.worksheetTitle
-							.setText(TabletHeaderPanel.this.app
-									.getConstructionTitle());
-					TabletHeaderPanel.this.worksheetTitle.setFocus(false);
+					onCancel();
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
 					event.preventDefault();
 					return;
@@ -113,29 +85,19 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.worksheetTitle.addMouseOutHandler(new MouseOutHandler() {
 			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				TabletHeaderPanel.this.worksheetTitle
-						.setText(TabletHeaderPanel.this.app
-								.getConstructionTitle());
-				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
+			public void onMouseOut(final MouseOutEvent event) {
+				onCancel();
 			}
 		});
 
 		this.worksheetTitle.addFocusHandler(new FocusHandler() {
 			@Override
-			public void onFocus(FocusEvent event) {
+			public void onFocus(final FocusEvent event) {
 				Scheduler.get().scheduleDeferred(
 						new Scheduler.ScheduledCommand() {
 							@Override
 							public void execute() {
-								TabletHeaderPanel.this.worksheetTitle
-										.setFocus(true);
-								TabletHeaderPanel.this.worksheetTitle
-										.selectAll();
-								TabletHeaderPanel.this.underline
-										.removeStyleName("inactive");
-								TabletHeaderPanel.this.underline
-										.addStyleName("active");
+								onFocusTitle();
 							}
 						});
 			}
@@ -143,10 +105,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 		this.worksheetTitle.addBlurHandler(new BlurHandler() {
 			@Override
-			public void onBlur(BlurEvent event) {
-				TabletHeaderPanel.this.worksheetTitle.setFocus(false);
-				TabletHeaderPanel.this.underline.removeStyleName("active");
-				TabletHeaderPanel.this.underline.addStyleName("inactive");
+			public void onBlur(final BlurEvent event) {
+				onBlurTitle();
 			}
 		});
 
@@ -171,6 +131,38 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 
 	}
 
+	protected void onChangeTitle() {
+		if (this.fm.hasFile(this.worksheetTitle.getText())) {
+			this.infoOverrideDialog.setConsTitle(this.worksheetTitle.getText());
+			this.infoOverrideDialog.show();
+		} else if (this.worksheetTitle.getText().equals("")) {
+			this.worksheetTitle.setText(this.app.getConstructionTitle());
+			this.worksheetTitle.setFocus(false);
+		} else {
+			this.app.setConstructionTitle(this.worksheetTitle.getText());
+			this.fm.saveFile(this.app);
+			this.worksheetTitle.setFocus(false);
+		}
+	}
+
+	protected void onCancel() {
+		this.worksheetTitle.setText(this.app.getConstructionTitle());
+		this.worksheetTitle.setFocus(false);
+	}
+
+	protected void onFocusTitle() {
+		this.worksheetTitle.setFocus(true);
+		this.worksheetTitle.selectAll();
+		this.underline.removeStyleName("inactive");
+		this.underline.addStyleName("active");
+	}
+
+	protected void onBlurTitle() {
+		this.worksheetTitle.setFocus(false);
+		this.underline.removeStyleName("active");
+		this.underline.addStyleName("inactive");
+	}
+
 	public void editTitle() {
 		this.worksheetTitle.setFocus(true);
 		this.worksheetTitle.selectAll();
@@ -190,6 +182,10 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		return this.worksheetTitle.getText();
 	}
 
+	protected void setConstructionTitle(String title) {
+		this.worksheetTitle.setText(title);
+	}
+	
 	public TabletHeaderPanelLeft getLeftHeader() {
 		return this.leftHeader;
 	}
@@ -199,8 +195,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
-		this.setWidth(event.getWidth() + "px");
+	public void onResize() {
+		this.setWidth(Window.getClientWidth() + "px");
 	}
 
 	public void setLabels() {

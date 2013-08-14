@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.euclidian.EuclidianViewM;
+import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
@@ -48,23 +48,19 @@ public class StyleBar extends FlowPanel {
 
 	private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-
-	private HorizontalPanel contentPanel, styleButtonsPanel;
-
-	private Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
+	private final HorizontalPanel contentPanel, styleButtonsPanel;
+	private final Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
 	private StandardImageButton showHideButton;
-
-	EuclidianViewM euclidianView;
-	private TouchModel touchModel;
-	private GuiModel guiModel;
-
+	private EuclidianViewT euclidianView;
+	private final TouchModel touchModel;
+	private final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
 
 	/**
 	 * Initializes the StyleBar
 	 * 
 	 */
-	public StyleBar(TouchModel touchModel, EuclidianViewM view) {
+	public StyleBar(final TouchModel touchModel, final EuclidianViewT view) {
 		this.setStyleName("stylebar");
 		this.euclidianView = view;
 		this.touchModel = touchModel;
@@ -94,7 +90,7 @@ public class StyleBar extends FlowPanel {
 		this.addDomHandler(new ClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
@@ -103,7 +99,7 @@ public class StyleBar extends FlowPanel {
 		this.addDomHandler(new MouseDownHandler() {
 
 			@Override
-			public void onMouseDown(MouseDownEvent event) {
+			public void onMouseDown(final MouseDownEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
@@ -113,7 +109,7 @@ public class StyleBar extends FlowPanel {
 		this.addDomHandler(new TouchStartHandler() {
 
 			@Override
-			public void onTouchStart(TouchStartEvent event) {
+			public void onTouchStart(final TouchStartEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
@@ -121,7 +117,7 @@ public class StyleBar extends FlowPanel {
 		}, TouchStartEvent.getType());
 	}
 
-	private void rebuild(StyleBarDefaultSettings entry) {
+	private void rebuild(final StyleBarDefaultSettings entry) {
 
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString()
@@ -149,7 +145,7 @@ public class StyleBar extends FlowPanel {
 		this.buttons.clear();
 		StandardImageButton b;
 
-		for (SVGResource svg : resource) {
+		for (final SVGResource svg : resource) {
 			if (svg.equals(lafIcons.color())) {
 
 				b = new StandardImageButton(lafIcons.color());
@@ -207,8 +203,8 @@ public class StyleBar extends FlowPanel {
 	 * @return a new StandardImageButton for the StyleBar with OS specific
 	 *         EventHandler
 	 */
-	private StandardImageButton createStyleBarButton(String process,
-			SVGResource svg) {
+	private StandardImageButton createStyleBarButton(final String process,
+			final SVGResource svg) {
 		StandardImageButton newButton = new StandardImageButton(svg);
 
 		newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(
@@ -250,8 +246,8 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	public void onOptionalButtonEvent(StandardImageButton eventSource,
-			OptionType type) {
+	public void onOptionalButtonEvent(final StandardImageButton eventSource,
+			final OptionType type) {
 
 		if (this.guiModel.getOptionTypeShown().equals(type)) {
 
@@ -268,17 +264,17 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	public void onStyleBarButtonEvent(StandardImageButton newButton,
-			String process) {
+	public void onStyleBarButtonEvent(final StandardImageButton newButton,
+			final String process) {
 
-		StyleBar.this.guiModel.closeOptions();
+		this.guiModel.closeOptions();
 		EuclidianStyleBarStatic.processSourceCommon(process, null,
-				StyleBar.this.euclidianView);
+				this.euclidianView);
 
 		newButton.setActive(!newButton.isActive());
 	}
 
-	public void updateColor(String color) {
+	public void updateColor(final String color) {
 
 		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
 				.setBackgroundImage("initial");

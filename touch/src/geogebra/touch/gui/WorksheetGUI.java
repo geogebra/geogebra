@@ -9,11 +9,8 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -23,23 +20,22 @@ public class WorksheetGUI extends HeaderPanel {
 
 	private final Label instructionsPost, instructionsPre;
 	private final FlowPanel frame = new FlowPanel();
-	// private final WorksheetHeaderPanel header;
 	private final AppWeb app;
 	private final FileManagerM fm;
 	private final FlowPanel content;
-	TabletGUI tabletGUI;
+	private final TabletGUI tabletGUI;
 	private DockLayoutPanel contentPanel;
-	private WorksheetHeader header;
+	private final WorksheetHeader header;
 
-	public WorksheetGUI(AppWeb app, TabletGUI tabletGUI) {
+	public WorksheetGUI(final AppWeb app) {
 		this.setStyleName("worksheetgui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.content = new FlowPanel();
 		this.content.setStyleName("worksheet");
 		this.header = TouchEntryPoint.getLookAndFeel().buildWorksheetHeader(
-				this, tabletGUI);
+				this);
 		this.app = app;
-		this.tabletGUI = tabletGUI;
+		this.tabletGUI = (TabletGUI) ((TouchApp) app).getTouchGui();
 
 		this.instructionsPost = new Label();
 		this.instructionsPre = new Label();
@@ -55,7 +51,7 @@ public class WorksheetGUI extends HeaderPanel {
 		return this.contentPanel;
 	}
 
-	public void loadWorksheet(Material m) {
+	public void loadWorksheet(final Material m) {
 		this.header.setMaterial(m);
 		this.contentPanel = this.tabletGUI.getContentPanel();
 
@@ -65,9 +61,7 @@ public class WorksheetGUI extends HeaderPanel {
 			this.content.add(this.instructionsPost);
 			this.setContentWidget(this.content);
 
-			// do not change allowEditing here -- we do not show any part of
-			// TabletGUI
-			Element article = DOM.createElement("article");
+			final Element article = DOM.createElement("article");
 			article.setClassName("geogebraweb");
 			article.setAttribute("data-param-ggbBase64", "");
 			article.setAttribute("data-param-width", m.getWidth() + "");
@@ -76,15 +70,18 @@ public class WorksheetGUI extends HeaderPanel {
 			article.setAttribute("data-param-enableRightClick", "false");
 			// label drags too hardd with Touch
 			article.setAttribute("data-param-enableLabelDrags", "false");
-			article.setAttribute("data-param-enableShiftDragZoom",m.getShiftDragZoom());
+			article.setAttribute("data-param-enableShiftDragZoom",
+					m.getShiftDragZoom());
 			article.setAttribute("data-param-showMenuBar", m.getShowMenu());
 			article.setAttribute("data-param-showToolBar", m.getShowToolbar());
-			article.setAttribute("data-param-showAlgebraInput", m.getShowInputbar());
-			article.setAttribute("data-param-showResetIcon", m.getShowResetIcon());
+			article.setAttribute("data-param-showAlgebraInput",
+					m.getShowInputbar());
+			article.setAttribute("data-param-showResetIcon",
+					m.getShowResetIcon());
 			// no security issues here
 			article.setAttribute("data-param-useBrowserForJS", "true");
-			Element div = this.frame.getElement();
-			int cc = div.getChildCount();
+			final Element div = this.frame.getElement();
+			final int cc = div.getChildCount();
 			for (int i = cc - 1; i >= 0; i--) {
 				div.removeChild(div.getChild(i));
 			}
@@ -96,33 +93,19 @@ public class WorksheetGUI extends HeaderPanel {
 					+ m.getId() + ".ggb";
 			Web.loadAppletAsync();
 
-			this.instructionsPre.getElement().setInnerHTML(m.getInstructionsPre());
-			this.instructionsPost.getElement().setInnerHTML(m.getInstructionsPost());
+			this.instructionsPre.getElement().setInnerHTML(
+					m.getInstructionsPre());
+			this.instructionsPost.getElement().setInnerHTML(
+					m.getInstructionsPost());
 		} else {
 			TouchEntryPoint.allowEditing(false);
 			this.fm.getMaterial(m, this.app);
 			this.setContentWidget(this.contentPanel);
-			this.updateViewSize();
 		}
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				WorksheetGUI.this.tabletGUI
-						.updateViewSizes(WorksheetGUI.this.tabletGUI
-								.isAlgebraShowing());
-			}
-		});
 		App.debug("loading" + m.getTitle());
 	}
 
 	public void setLabels() {
 		this.header.setLabels();
-	}
-
-	private void updateViewSize() {
-		this.contentPanel.setPixelSize(Window.getClientWidth(),
-				Window.getClientHeight()
-						- TouchEntryPoint.getLookAndFeel().getAppBarHeight());
 	}
 }

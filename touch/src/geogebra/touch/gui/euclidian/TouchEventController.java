@@ -24,12 +24,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class TouchEventController implements TouchStartHandler,
 		TouchMoveHandler, TouchEndHandler, MouseDownHandler, MouseUpHandler,
 		MouseMoveHandler, MouseWheelHandler {
-	private static double distance(Touch t1, Touch t2) {
+	private static double distance(final Touch t1, final Touch t2) {
 		return Math.sqrt(Math.pow(t1.getClientX() - t2.getClientX(), 2)
 				+ Math.pow(t1.getClientY() - t2.getClientY(), 2));
 	}
 
-	private static int getX(Touch touch) {
+	private static int getX(final Touch touch) {
 		return touch.getClientX();
 	}
 
@@ -42,20 +42,20 @@ public class TouchEventController implements TouchStartHandler,
 
 	private boolean ignoreMouseEvents = false;
 
-	public TouchEventController(TouchController mc, Widget w) {
+	public TouchEventController(final TouchController mc, final Widget w) {
 		this.mc = mc;
 		this.offsetWidget = w;
 	}
 
-	private int getY(Touch touch) {
+	private int getY(final Touch touch) {
 		final int y = touch.getClientY();
 		return this.offsetWidget == null ? y : y
-				- TouchEntryPoint.getLookAndFeel().getAppBarHeight();
+				- TouchEntryPoint.getLookAndFeel().getTabletHeaderHeight();
 	}
 
 	// Listeners for Desktop
 	@Override
-	public void onMouseDown(MouseDownEvent event) {
+	public void onMouseDown(final MouseDownEvent event) {
 		// ensure textfields lose focus
 		if (!TouchEventController.this.mc.isTextfieldHasFocus()) {
 			event.preventDefault();
@@ -69,21 +69,21 @@ public class TouchEventController implements TouchStartHandler,
 	}
 
 	@Override
-	public void onMouseMove(MouseMoveEvent event) {
+	public void onMouseMove(final MouseMoveEvent event) {
 		if (!this.ignoreMouseEvents) {
 			this.mc.onTouchMove(event.getX(), event.getY());
 		}
 	}
 
 	@Override
-	public void onMouseUp(MouseUpEvent event) {
+	public void onMouseUp(final MouseUpEvent event) {
 		if (!TouchEventController.this.ignoreMouseEvents) {
 			TouchEventController.this.mc.onTouchEnd(event.getX(), event.getY());
 		}
 	}
 
 	@Override
-	public void onMouseWheel(MouseWheelEvent event) {
+	public void onMouseWheel(final MouseWheelEvent event) {
 		if (event.getDeltaY() > 0) {
 			this.mc.onPinch(event.getX(), event.getY(), 0.9);
 		} else {
@@ -92,14 +92,14 @@ public class TouchEventController implements TouchStartHandler,
 	}
 
 	@Override
-	public void onTouchEnd(TouchEndEvent event) {
+	public void onTouchEnd(final TouchEndEvent event) {
 		event.preventDefault();
 		this.mc.onTouchEnd(getX(event.getChangedTouches().get(0)),
 				this.getY(event.getChangedTouches().get(0)));
 	}
 
 	@Override
-	public void onTouchMove(TouchMoveEvent event) {
+	public void onTouchMove(final TouchMoveEvent event) {
 		event.preventDefault();
 
 		if (event.getTouches().length() == 1) {
@@ -131,7 +131,7 @@ public class TouchEventController implements TouchStartHandler,
 	}
 
 	@Override
-	public void onTouchStart(TouchStartEvent event) {
+	public void onTouchStart(final TouchStartEvent event) {
 		if (event.getTouches().length() == 1) {
 			// ensure textfiled loses focus
 			if (!this.mc.isTextfieldHasFocus()) {

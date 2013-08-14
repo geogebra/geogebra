@@ -14,30 +14,48 @@ import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
 
 	private TabletHeaderPanel hp;
+	private final TabletGUI gui;
 	protected TouchApp app;
 
-	public DefaultLAF(TouchApp app) {
+	public DefaultLAF(final TouchApp app) {
 		this.app = app;
+		this.gui = (TabletGUI) app.getTouchGui();
 	}
 
 	@Override
-	public void buildHeader(TabletGUI gui, TouchModel touchModel) {
-		this.hp = new TabletHeaderPanel(gui, this.app, touchModel);
-		gui.setHeaderWidget(this.hp);
-		gui.addResizeListener(this.hp);
-	}
-
-	public TouchApp getApp() {
-		return this.app;
+	public void buildHeader(final TouchModel touchModel) {
+		this.hp = new TabletHeaderPanel(this.app, touchModel);
+		this.gui.setHeaderWidget(this.hp);
+		this.gui.addResizeListener(this.hp);
 	}
 
 	@Override
-	public int getAppBarHeight() {
-		return 62;
+	public WorksheetHeader buildWorksheetHeader(final WorksheetGUI worksheetGUI) {
+		final WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app,
+				worksheetGUI, this.gui);
+		worksheetGUI.setHeaderWidget(header);
+		return header;
+	}
+
+	@Override
+	public int getTabletHeaderHeight() {
+		return this.hp.getOffsetHeight();
+	}
+
+	@Override
+	public int getToolBarHeight() {
+		return this.gui.getToolBar().getOffsetHeight();
+	}
+
+	@Override
+	public int getContentWidgetHeight() {
+		return Window.getClientHeight() - getToolBarHeight()
+				- getTabletHeaderHeight();
 	}
 
 	@Override
@@ -51,18 +69,8 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public int getPanelsHeight() {
-		return 122;
-	}
-
-	@Override
 	public TabletHeaderPanel getTabletHeaderPanel() {
 		return this.hp;
-	}
-
-	@Override
-	public int getToolBarHeight() {
-		return 75;
 	}
 
 	@Override
@@ -71,12 +79,12 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.hp.setTitle(title);
 	}
 
 	@Override
-	public void stateChanged(boolean b) {
+	public void stateChanged(final boolean b) {
 		if (this.getTabletHeaderPanel() != null) {
 			this.getTabletHeaderPanel().enableDisableButtons();
 		}
@@ -96,7 +104,7 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public StandardImageButton setStyleBarShowHideHandler(
-			StandardImageButton button, final StyleBar styleBar) {
+			final StandardImageButton button, final StyleBar styleBar) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -147,10 +155,10 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public StandardImageButton setAlgebraButtonHandler(
-			StandardImageButton button, final TabletGUI gui) {
+			final StandardImageButton button, final TabletGUI gui) {
 		button.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 
@@ -166,12 +174,7 @@ public class DefaultLAF implements LookAndFeel {
 		return button;
 	}
 
-	@Override
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
-			TabletGUI tabletGUI) {
-		WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app,
-				worksheetGUI, tabletGUI);
-		worksheetGUI.setHeaderWidget(header);
-		return header;
+	public TouchApp getApp() {
+		return this.app;
 	}
 }

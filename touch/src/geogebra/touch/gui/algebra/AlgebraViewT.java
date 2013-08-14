@@ -22,16 +22,14 @@ import com.google.gwt.user.client.ui.TreeItem;
  * Taken from the web-project.
  * 
  */
-public class AlgebraViewM extends AlgebraViewWeb {
+public class AlgebraViewT extends AlgebraViewWeb {
 
 	private static DefaultResources getLafIcons() {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
 	TouchController controller;
-
 	public boolean editing = false;
-
 	private boolean showing = true;
 
 	/**
@@ -41,7 +39,7 @@ public class AlgebraViewM extends AlgebraViewWeb {
 	 *            : AlgebraController
 	 * 
 	 */
-	public AlgebraViewM(TouchController ctr) {
+	public AlgebraViewT(TouchController ctr) {
 		super((AppWeb) ctr.getApplication());
 		// this is the default value
 		this.treeMode = SortMode.TYPE;

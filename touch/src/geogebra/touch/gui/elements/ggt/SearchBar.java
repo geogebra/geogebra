@@ -33,22 +33,23 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		return TouchEntryPoint.getLookAndFeel();
 	}
 
-	Panel underline;
-	TextBox query;
+	private Panel underline;
+	private TextBox query;
 	private final StandardImageButton searchButton;
-	StandardImageButton cancelButton;
+	private StandardImageButton cancelButton;
 	private final List<SearchListener> listeners;
+	private BrowseGUI browseGUI;
 
-	BrowseGUI browseGUI;
-
-	public SearchBar(Localization loc, BrowseGUI browseGUI) {
+	public SearchBar(final Localization loc, final BrowseGUI browseGUI) {
 		super(loc.getMenu("Worksheets"), loc);
+		
 		super.backPanel.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
+		
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
 		this.listeners = new ArrayList<SearchListener>();
@@ -57,42 +58,28 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		this.query.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
+			public void onKeyDown(final KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
 					event.preventDefault();
 					return;
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					SearchBar.this.fireSearchEvent();
-					SearchBar.this.query.setFocus(false);
-					if (SearchBar.this.query.getText().equals("")) {
-						SearchBar.this.cancelButton.setVisible(false);
-					}
-					SearchBar.this.underline.removeStyleName("active");
-					SearchBar.this.underline.addStyleName("inactive");
+					onSearch();
 				}
 			}
 		});
 
 		this.query.addFocusHandler(new FocusHandler() {
 			@Override
-			public void onFocus(FocusEvent event) {
-				SearchBar.this.query.setFocus(true);
-				SearchBar.this.cancelButton.setVisible(true);
-				SearchBar.this.underline.removeStyleName("inactive");
-				SearchBar.this.underline.addStyleName("active");
+			public void onFocus(final FocusEvent event) {
+				onFocusQuery();
 			}
 		});
 
 		this.query.addBlurHandler(new BlurHandler() {
 
 			@Override
-			public void onBlur(BlurEvent event) {
-				if (SearchBar.this.query.getText().equals("")) {
-					SearchBar.this.query.setFocus(false);
-					SearchBar.this.underline.removeStyleName("active");
-					SearchBar.this.underline.addStyleName("inactive");
-					SearchBar.this.cancelButton.setVisible(false);
-				}
+			public void onBlur(final BlurEvent event) {
+				onBlurQuery();
 			}
 		});
 
@@ -101,14 +88,8 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				SearchBar.this.fireSearchEvent();
-				SearchBar.this.query.setFocus(false);
-				if (SearchBar.this.query.getText().equals("")) {
-					SearchBar.this.cancelButton.setVisible(false);
-				}
-				SearchBar.this.underline.removeStyleName("active");
-				SearchBar.this.underline.addStyleName("inactive");
+			public void onClick(final ClickEvent event) {
+				onSearch();
 			}
 		}, ClickEvent.getType());
 
@@ -118,33 +99,8 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addClickHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				SearchBar.this.query.setFocus(false);
-				SearchBar.this.query.setText("");
-				SearchBar.this.underline.removeStyleName("active");
-				SearchBar.this.underline.addStyleName("inactive");
-				SearchBar.this.cancelButton.setVisible(false);
-				SearchBar.this.browseGUI.loadFeatured();
-
-				// gewünschtes verhalten für searchbar erst mit neuer version
-				// von gwt
-				// möglich - focus
-				// if (SearchBar.this.query.getText().equals(""))
-				// {
-				// SearchBar.this.query.setFocus(false);
-				// SearchBar.this.underline.removeStyleName("active");
-				// SearchBar.this.underline.addStyleName("inactive");
-				// SearchBar.this.cancelButton.setVisible(false);
-				// }
-				// else
-				// {
-				// SearchBar.this.query.setText("");
-				// SearchBar.this.query.setFocus(true);
-				// SearchBar.this.underline.removeStyleName("inactive");
-				// SearchBar.this.underline.addStyleName("active");
-				// SearchBar.this.browseGUI.loadFeatured();
-				// }
-
+			public void onClick(final ClickEvent event) {
+				onCancel();
 			}
 		});
 
@@ -161,21 +117,52 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		this.rightPanel.add(this.underline);
 	}
 
-	public boolean addSearchListener(SearchListener l) {
+	protected void onSearch() {
+		fireSearchEvent();
+		this.query.setFocus(false);
+		if (this.query.getText().equals("")) {
+			this.cancelButton.setVisible(false);
+		}
+		this.underline.removeStyleName("active");
+		this.underline.addStyleName("inactive");
+	}
+	
+	protected void onCancel() {
+		this.query.setFocus(false);
+		this.query.setText("");
+		this.underline.removeStyleName("active");
+		this.underline.addStyleName("inactive");
+		this.cancelButton.setVisible(false);
+		this.browseGUI.loadFeatured();
+	}
+	
+	protected void onFocusQuery() {
+		this.query.setFocus(true);
+		this.cancelButton.setVisible(true);
+		this.underline.removeStyleName("inactive");
+		this.underline.addStyleName("active");
+	}
+	
+	protected void onBlurQuery() {
+		if (this.query.getText().equals("")) {
+			this.query.setFocus(false);
+			this.underline.removeStyleName("active");
+			this.underline.addStyleName("inactive");
+			this.cancelButton.setVisible(false);
+		}
+	}
+	
+	public boolean addSearchListener(final SearchListener l) {
 		return this.listeners.add(l);
 	}
 
-	void fireSearchEvent() {
+	public boolean removeSearchListener(final SearchListener l) {
+		return this.listeners.remove(l);
+	}
+
+	private void fireSearchEvent() {
 		for (final SearchListener s : this.listeners) {
 			s.onSearch(this.query.getText());
 		}
-	}
-
-	public void onResize() {
-
-	}
-
-	public boolean removeSearchListener(SearchListener l) {
-		return this.listeners.remove(l);
 	}
 }

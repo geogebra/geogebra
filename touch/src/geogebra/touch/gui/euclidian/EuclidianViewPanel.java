@@ -1,8 +1,11 @@
 package geogebra.touch.gui.euclidian;
 
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
+import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.TabletGUI;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -11,36 +14,36 @@ import com.google.gwt.user.client.ui.Widget;
  * Extends from {@link LayoutPanel}. Holds the instances of the canvas and the
  * euclidianView.
  */
-public class EuclidianViewPanel extends AbsolutePanel {
-	private EuclidianViewM euclidianView;
+public class EuclidianViewPanel extends AbsolutePanel implements ResizeListener {
+	private EuclidianViewT euclidianView;
+	private TabletGUI gui;
 
-	/**
-	 * @return euclidianView
-	 */
-	public EuclidianViewM getEuclidianView() {
-		return this.euclidianView;
+	public EuclidianViewPanel(TabletGUI tabletGUI) {
+		this.gui = tabletGUI;
 	}
 
 	/**
-	 * Creates the {@link EuclidianViewM euclidianView} and initializes the
+	 * Creates the {@link EuclidianViewT euclidianView} and initializes the
 	 * canvas on it.
 	 * 
 	 * @param ec
 	 *            MobileEuclidianController
 	 * @param widget
+	 * @param width
+	 * @param height
 	 */
 	public void initEuclidianView(TouchController ec, Widget widget, int width,
 			int height) {
-		this.euclidianView = new EuclidianViewM(this, ec, widget, width, height);
+		this.gui.addResizeListener(this);
+		this.euclidianView = new EuclidianViewT(this, ec, widget, width, height);
 		this.add(this.euclidianView.getCanvas());
 	}
 
-	public void onResize(ResizeEvent event) {
-		this.euclidianView.onResize(event);
-	}
-
-	public void repaint() {
-		this.euclidianView.repaint();
+	/**
+	 * @return euclidianView
+	 */
+	public EuclidianViewT getEuclidianView() {
+		return this.euclidianView;
 	}
 
 	@Override
@@ -56,5 +59,24 @@ public class EuclidianViewPanel extends AbsolutePanel {
 		super.setSize(width, height);
 		this.euclidianView.setPixelSize(Integer.valueOf(width).intValue(),
 				Integer.valueOf(height).intValue());
+	}
+
+	@Override
+	public void onResize() {
+		if (!this.gui.isAlgebraShowing()) {
+			this.setPixelSize(Window.getClientWidth(),
+					TouchEntryPoint.getLookAndFeel().getContentWidgetHeight());
+			this.setWidgetPosition(
+					this.gui.getAlgebraViewButtonPanel(),
+					Window.getClientWidth() - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+		} else {
+			this.setPixelSize(Window.getClientWidth()
+					- TabletGUI.computeAlgebraWidth(), TouchEntryPoint
+					.getLookAndFeel().getContentWidgetHeight());
+			this.setWidgetPosition(
+					this.gui.getAlgebraViewButtonPanel(),
+					Window.getClientWidth() - TabletGUI.computeAlgebraWidth()
+							- TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
+		}
 	}
 }

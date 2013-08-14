@@ -18,12 +18,8 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -35,19 +31,16 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class TouchEntryPoint implements EntryPoint {
-	public static ProgressIndicator progressIndicator = new ProgressIndicator();
-
-	static TabletDeckLayoutPanel appWidget = new TabletDeckLayoutPanel();
+	static ProgressIndicator progressIndicator = new ProgressIndicator();
+	static TabletDeckLayoutPanel appWidget;
 	static TabletGUI tabletGUI = new TabletGUI();
 	private static BrowseGUI browseGUI;
 	private static WorksheetGUI worksheetGUI;
-
-	static final PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
+	static PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
+	static TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
 	private static LookAndFeel laf;
 
-	final static TouchApp app = new TouchApp(TouchEntryPoint.tabletGUI);
-
-	public static void allowEditing(boolean b) {
+	public static void allowEditing(final boolean b) {
 		tabletGUI.allowEditing(b);
 	}
 
@@ -68,14 +61,7 @@ public class TouchEntryPoint implements EntryPoint {
 		}
 
 		laf.updateUndoSaveButtons();
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
-				tabletGUI.onResize();
-			}
-		});
+		tabletGUI.updateViewSizes();
 	}
 
 	static void loadMobileAsync() {
@@ -89,14 +75,14 @@ public class TouchEntryPoint implements EntryPoint {
 
 									@Override
 									public void onBackButtonPressed(
-											BackButtonPressedEvent event) {
+											final BackButtonPressedEvent event) {
 										goBack();
 									}
 								});
 			}
 
 			@Override
-			public void onFailure(Throwable reason) {
+			public void onFailure(final Throwable reason) {
 				// App.debug(reason);
 				reason.printStackTrace();
 			}
@@ -107,26 +93,17 @@ public class TouchEntryPoint implements EntryPoint {
 				setLookAndFeel();
 
 				final FileManagerM fm = new FileManagerM();
+				appWidget = new TabletDeckLayoutPanel(app);
 				app.setFileManager(fm);
 				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
-				
+
 				TouchEntryPoint.appWidget.add(TouchEntryPoint.tabletGUI);
-				
 
 				RootLayoutPanel.get().add(TouchEntryPoint.appWidget);
 
 				app.start();
 
 				TouchEntryPoint.showTabletGUI();
-
-				Window.addResizeHandler(new ResizeHandler() {
-
-					@Override
-					public void onResize(ResizeEvent event) {
-						// TouchEntryPoint.appWidget.setPixelSize(event.getWidth(),
-						// event.getHeight());
-					}
-				});
 
 				tabletGUI.getContentWidget().getElement().getStyle()
 						.setOverflow(Overflow.VISIBLE);
@@ -144,7 +121,6 @@ public class TouchEntryPoint implements EntryPoint {
 				Window.enableScrolling(false);
 
 				progressIndicator.hide();
-
 			}
 		});
 	}
@@ -176,19 +152,11 @@ public class TouchEntryPoint implements EntryPoint {
 
 	public static void showTabletGUI() {
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				tabletGUI.updateViewSizes(tabletGUI.isAlgebraShowing());
-				tabletGUI.onResize();
-			}
-		});
+		tabletGUI.updateViewSizes();
 		laf.updateUndoSaveButtons();
 	}
 
-	public static void showWorksheetGUI(Material material) {
+	public static void showWorksheetGUI(final Material material) {
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.getWorksheetGUI());
 		TouchEntryPoint.getWorksheetGUI().loadWorksheet(material);
 	}
@@ -199,7 +167,7 @@ public class TouchEntryPoint implements EntryPoint {
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 
 			@Override
-			public void execute(double timestamp) {
+			public void execute(final double timestamp) {
 				loadMobileAsync();
 
 				// insert mathquill css
@@ -208,27 +176,28 @@ public class TouchEntryPoint implements EntryPoint {
 				StyleInjector.inject(mathquillcss);
 			}
 		});
-
 	}
 
 	public static WorksheetGUI getWorksheetGUI() {
-		if(worksheetGUI == null){
-			worksheetGUI = new WorksheetGUI(app, tabletGUI);
+		if (worksheetGUI == null) {
+			worksheetGUI = new WorksheetGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.worksheetGUI);
 		}
 		return worksheetGUI;
 	}
-	
+
 	public static BrowseGUI getBrowseGUI() {
-		if(browseGUI == null){
+		if (browseGUI == null) {
 			browseGUI = new BrowseGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
 		}
 		return browseGUI;
 	}
-	public static boolean hasWorksheetGUI() {		
+
+	public static boolean hasWorksheetGUI() {
 		return TouchEntryPoint.worksheetGUI != null;
 	}
+
 	public static boolean hasBrowseGUI() {
 		return TouchEntryPoint.browseGUI != null;
 	}

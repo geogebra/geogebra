@@ -10,9 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class OptionsPanel extends PopupPanel {
 	private VerticalPanel contentPanel;
 	private FlowPanel optionPanel, arrowPanel;
-
 	private StyleBar styleBar;
-
 	private CaptionBar captionBar;
 	private LineStyleBar lineStyleBar;
 	private ColorBar colorBar;
@@ -44,8 +42,7 @@ public class OptionsPanel extends PopupPanel {
 		this.captionBar = new CaptionBar(this.styleBar.getTouchModel());
 		this.colorBar = new ColorBar(this.styleBar,
 				this.styleBar.getTouchModel());
-		this.lineStyleBar = new LineStyleBar(this.styleBar,
-				this.styleBar.getTouchModel());
+		this.lineStyleBar = new LineStyleBar(this.styleBar.getTouchModel());
 	}
 
 	public OptionsPanel getOptionsPanel(OptionType optionType) {
@@ -76,7 +73,6 @@ public class OptionsPanel extends PopupPanel {
 	}
 
 	public OptionType getType() {
-
 		return this.type;
 	}
 

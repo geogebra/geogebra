@@ -10,8 +10,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TabletDeckLayoutPanel extends DeckLayoutPanel {
 	private final Stack<Widget> history;
+	private final TouchApp app;
 
-	public TabletDeckLayoutPanel() {
+	public TabletDeckLayoutPanel(final TouchApp app) {
+		this.app = app;
 		this.history = new Stack<Widget>();
 	}
 
@@ -20,33 +22,30 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel {
 			// remove the current shown view
 			final Widget current = this.history.pop();
 
-			if (TouchEntryPoint.hasWorksheetGUI() && current.equals(TouchEntryPoint.getWorksheetGUI())) {
+			if (TouchEntryPoint.hasWorksheetGUI()
+					&& current.equals(TouchEntryPoint.getWorksheetGUI())) {
 				TouchEntryPoint.tabletGUI
 						.restoreEuclidian(((WorksheetGUI) current)
 								.getContentPanel());
-				TouchEntryPoint.tabletGUI.getApp().fileNew();
-			} else if (TouchEntryPoint.hasBrowseGUI() && current.equals(TouchEntryPoint.getBrowseGUI())
-					&& !TouchEntryPoint.tabletGUI
-							.getApp()
-							.getFileManager()
-							.hasFile(
-									TouchEntryPoint.tabletGUI.getApp()
-											.getConstructionTitle())) {
-				TouchEntryPoint.tabletGUI.getApp().fileNew();
+				this.app.fileNew();
+			} else if (TouchEntryPoint.hasBrowseGUI()
+					&& current.equals(TouchEntryPoint.getBrowseGUI())
+					&& !this.app.getFileManager().hasFile(
+							this.app.getConstructionTitle())) {
+				this.app.fileNew();
 			}
 
 			// go back to the last view
-			final Widget next = this.history.pop();
-			this.showWidget(next);
-
+			this.showWidget(this.history.pop());
 			return true;
+
 		} catch (final EmptyStackException e) {
 			return false;
 		}
 	}
 
 	@Override
-	public void showWidget(Widget widget) {
+	public void showWidget(final Widget widget) {
 		super.showWidget(widget);
 		this.history.push(widget);
 	}

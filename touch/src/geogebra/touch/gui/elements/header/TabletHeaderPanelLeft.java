@@ -23,13 +23,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * 
  */
 public class TabletHeaderPanelLeft extends HorizontalPanel {
-	Kernel kernel;
-	TouchApp app;
-	TouchModel touchModel;
-	TabletGUI tabletGUI;
-	TabletHeaderPanel headerPanel;
+	private Kernel kernel;
+	private TouchApp app;
+	private TouchModel touchModel;
+	private TabletGUI tabletGUI;
+	private TabletHeaderPanel headerPanel;
+	private InfoDialog infoDialog;
 
-	InfoDialog infoDialog;
+	private Runnable newConstruction;
+	private Runnable showOpenDialog;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
@@ -45,17 +47,17 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(TabletGUI tabletGUI, TouchApp app,
-			TouchModel touchModel, TabletHeaderPanel headerPanel) {
+	public TabletHeaderPanelLeft(final TouchApp app,
+			final TouchModel touchModel, final TabletHeaderPanel headerPanel) {
 		this.app = app;
 		this.kernel = app.getKernel();
 
-		this.tabletGUI = tabletGUI;
+		this.tabletGUI = (TabletGUI) app.getTouchGui();
 		this.touchModel = touchModel;
 		this.headerPanel = headerPanel;
 
 		this.infoDialog = new InfoDialog(this.app, touchModel.getGuiModel(),
-				InfoType.SaveChanges, tabletGUI);
+				InfoType.SaveChanges);
 
 		this.initNewButton();
 		this.initOpenButton();
@@ -82,127 +84,127 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	private void initNewButton() {
-		final Runnable newConstruction = new Runnable() {
+		this.newConstruction = new Runnable() {
 			@Override
 			public void run() {
-				TabletHeaderPanelLeft.this.app.getEuclidianView1().setPreview(
-						null);
-				TabletHeaderPanelLeft.this.touchModel.resetSelection();
-				TabletHeaderPanelLeft.this.touchModel.getGuiModel()
-						.closeOptions();
-				TabletHeaderPanelLeft.this.kernel.getApplication().getGgbApi()
-						.newConstruction();
-				TabletHeaderPanelLeft.this.app.setDefaultConstructionTitle();
-				TabletHeaderPanelLeft.this.tabletGUI.resetMode();
-				TabletHeaderPanelLeft.this.kernel.notifyRepaint();
-				TabletHeaderPanelLeft.this.app.setSaved();
+				runNew();
 			}
 		};
 
 		this.newButton.addDomHandler(new ClickHandler() {
-
 			@Override
-			public void onClick(ClickEvent event) {
-				TabletHeaderPanelLeft.this.infoDialog
-						.setCallback(newConstruction);
-				TabletHeaderPanelLeft.this.infoDialog
-						.showIfNeeded(TabletHeaderPanelLeft.this.app);
+			public void onClick(final ClickEvent event) {
+				onNew();
 			}
 		}, ClickEvent.getType());
 	}
 
+	protected void onNew() {
+		this.infoDialog.setCallback(this.newConstruction);
+		this.infoDialog.showIfNeeded(this.app);
+	}
+
+	protected void runNew() {
+		this.app.getEuclidianView1().setPreview(null);
+		this.touchModel.resetSelection();
+		this.touchModel.getGuiModel().closeOptions();
+		this.kernel.getApplication().getGgbApi().newConstruction();
+		this.app.setDefaultConstructionTitle();
+		this.tabletGUI.resetMode();
+		this.app.setSaved();
+	}
+
 	private void initOpenButton() {
 
-		final Runnable showOpenDialog = new Runnable() {
+		this.showOpenDialog = new Runnable() {
 			@Override
 			public void run() {
-				TabletHeaderPanelLeft.this.touchModel.getGuiModel()
-						.closeOptions();
-				TouchEntryPoint.showBrowseGUI();
+				runOpen();
 			}
 		};
-		
+
 		this.openButton.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.infoDialog
-						.setCallback(showOpenDialog);
-				TabletHeaderPanelLeft.this.infoDialog
-						.showIfNeeded(TabletHeaderPanelLeft.this.app);
+				onOpen();
 			}
 		}, ClickEvent.getType());
+	}
+
+	protected void runOpen() {
+		this.touchModel.getGuiModel().closeOptions();
+		TouchEntryPoint.showBrowseGUI();
+	}
+
+	protected void onOpen() {
+		this.infoDialog.setCallback(this.showOpenDialog);
+		this.infoDialog.showIfNeeded(this.app);
 	}
 
 	private void initSaveButton() {
 		this.saveButton.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				TabletHeaderPanelLeft.this.touchModel.getGuiModel()
-						.closeOptions();
-
-				if (TabletHeaderPanelLeft.this.app.isDefaultFileName()
-						&& TabletHeaderPanelLeft.this.app
-								.getConstructionTitle().equals(
-										TabletHeaderPanelLeft.this.tabletGUI
-												.getConstructionTitle())) {
-					TabletHeaderPanelLeft.this.tabletGUI.editTitle();
-				} else {
-					TabletHeaderPanelLeft.this.app.getFileManager().saveFile(
-							TabletHeaderPanelLeft.this.app);
-				}
+				onSave();
 			}
 		}, ClickEvent.getType());
 		this.enableDisableSave();
 	}
 
+	protected void onSave() {
+		this.touchModel.getGuiModel().closeOptions();
+
+		if (this.app.isDefaultFileName()
+				&& this.app.getConstructionTitle().equals(
+						this.tabletGUI.getConstructionTitle())) {
+			this.tabletGUI.editTitle();
+		} else {
+			this.app.getFileManager().saveFile(this.app);
+		}
+	}
+
 	private void initShareButton() {
 		this.shareButton.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				TabletHeaderPanelLeft.this.app.getGgbApi().getBase64(
-						new StringHandler() {
-
-							@Override
-							public void handle(String s) {
-								String name = TabletHeaderPanelLeft.this.app
-										.getConstructionTitle();
-								if (name != null) {
-									name = NormalizerMinimal.transformStatic(
-											name, false).replaceAll(
-											"[^\\w.-_]", "");
-								}
-								if ("".equals(name)) {
-									name = "construction";
-								}
-								this.share(s, name);
-							}
-
-							public native void share(String ggbBase64,
-									String name) /*-{
-													if(!$wnd.android){
-													return;
-													}
-													$wnd.android.share(ggbBase64, name);
-													}-*/;
-						});
+			public void onClick(final ClickEvent event) {
+				onShare();
 			}
 		}, ClickEvent.getType());
 
 	}
 
-	public void setLabels() {
-		this.infoDialog.setLabels();
+	protected void onShare() {
+		this.app.getGgbApi().getBase64(new StringHandler() {
+
+			@Override
+			public void handle(final String s) {
+				handleString(s);
+			}
+		});
 	}
 
-	/**
-	 * Sets the title in the {@link TabletHeaderPanel tabletHeader}
-	 * 
-	 * @param title
-	 */
-	@Override
-	public void setTitle(String title) {
-		TouchEntryPoint.getLookAndFeel().setTitle(title);
+	protected void handleString(String s) {
+		String name = this.app.getConstructionTitle();
+		if (name != null) {
+			name = NormalizerMinimal.transformStatic(name, false).replaceAll(
+					"[^\\w.-_]", "");
+		}
+		if ("".equals(name)) {
+			name = "construction";
+		}
+		this.share(s, name);
+	}
+
+	public native void share(String ggbBase64, String name) /*-{
+		if (!$wnd.android) {
+			return;
+		}
+		$wnd.android.share(ggbBase64, name);
+	}-*/;
+
+	public void setLabels() {
+		this.infoDialog.setLabels();
 	}
 }

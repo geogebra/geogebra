@@ -38,7 +38,7 @@ import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.euclidian.EuclidianViewM;
+import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.utils.GeoGebraLoggerM;
 import geogebra.touch.utils.TitleChangedListener;
 
@@ -91,7 +91,7 @@ public class TouchApp extends AppWeb {
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
-	public TouchApp(GeoGebraTouchGUI touchGUI) {
+	public TouchApp(final GeoGebraTouchGUI touchGUI) {
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
 		super.initing = true;
@@ -129,11 +129,12 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename,
-			String name, boolean asHtml, MenuInterface subMenu) {
+	public void addMenuItem(final MenuInterface parentMenu,
+			final String filename, final String name, final boolean asHtml,
+			final MenuInterface subMenu) {
 	}
 
-	public void addTitleChangedListener(TitleChangedListener t) {
+	public void addTitleChangedListener(final TitleChangedListener t) {
 		this.titleListeners.add(t);
 	}
 
@@ -149,17 +150,18 @@ public class TouchApp extends AppWeb {
 		if (!this.getConstructionTitle().equals("")) {
 			this.setConstructionTitle(this.getConstructionTitle());
 		} else {
-			if(TouchEntryPoint.hasBrowseGUI()){
+			if (TouchEntryPoint.hasBrowseGUI()) {
 				this.setConstructionTitle(TouchEntryPoint.getBrowseGUI()
-					.getChosenMaterial().getMaterialTitle());
+						.getChosenMaterial().getMaterialTitle());
 			}
 		}
 
+		// FIXME - do we ned scheduler????
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
 			public void execute() {
-				TouchEntryPoint.tabletGUI.onResize();
+				TouchEntryPoint.tabletGUI.updateViewSizes();
 			}
 		});
 		this.touchGUI.resetMode();
@@ -191,12 +193,14 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg) {
+	public void evalJavaScript(final App app, final String script,
+			final String arg) {
 
 	}
 
 	@Override
-	public void evalPythonScript(App app, String string, String arg) {
+	public void evalPythonScript(final App app, final String string,
+			final String arg) {
 
 	}
 
@@ -220,7 +224,7 @@ public class TouchApp extends AppWeb {
 		this.kernel.notifyRepaint();
 	}
 
-	protected void fireTitleChangedEvent(String title) {
+	protected void fireTitleChangedEvent(final String title) {
 		for (final TitleChangedListener t : this.titleListeners) {
 			t.onTitleChange(title);
 		}
@@ -252,7 +256,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public Canvas getCanvas() {
-		return ((EuclidianViewM) this.getActiveEuclidianView()).getCanvas();
+		return ((EuclidianViewT) this.getActiveEuclidianView()).getCanvas();
 	}
 
 	@Override
@@ -313,7 +317,8 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	protected void getLayoutXML(StringBuilder sb, boolean asPreference) {
+	protected void getLayoutXML(final StringBuilder sb,
+			final boolean asPreference) {
 		sb.append("\t<perspectives>\n");
 
 		final Perspective tmp = new Perspective("tmp");
@@ -381,7 +386,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public String getToolTooltipHTML(int mode) {
+	public String getToolTooltipHTML(final int mode) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -445,13 +450,13 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	protected EuclidianController newEuclidianController(
-			geogebra.common.kernel.Kernel kernel1) {
+			final geogebra.common.kernel.Kernel kernel1) {
 		return null;
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1,
-			boolean showGrid1) {
+	protected EuclidianView newEuclidianView(final boolean[] showAxes1,
+			final boolean showGrid1) {
 		return null;
 	}
 
@@ -459,11 +464,11 @@ public class TouchApp extends AppWeb {
 	 * @param handler
 	 *            handler to be registered
 	 */
-	public void registerErrorHandler(ErrorHandler handler) {
+	public void registerErrorHandler(final ErrorHandler handler) {
 		this.errorHandlers.push(handler);
 	}
 
-	public void removeTitleChangedListener(TitleChangedListener t) {
+	public void removeTitleChangedListener(final TitleChangedListener t) {
 		this.titleListeners.remove(t);
 	}
 
@@ -477,7 +482,7 @@ public class TouchApp extends AppWeb {
 	 * @param title
 	 *            the new title of the current construction
 	 */
-	public void setConstructionTitle(String title) {
+	public void setConstructionTitle(final String title) {
 		this.kernel.getConstruction().setTitle(title);
 		this.isDefaultFileName = false;
 		this.fireTitleChangedEvent(title);
@@ -489,17 +494,17 @@ public class TouchApp extends AppWeb {
 		this.isDefaultFileName = true;
 	}
 
-	public void setFileManager(FileManagerM fm) {
+	public void setFileManager(final FileManagerM fm) {
 		this.fm = fm;
 	}
 
 	@Override
 	public void setLabels() {
 		this.touchGUI.setLabels();
-		if(TouchEntryPoint.hasWorksheetGUI()){
+		if (TouchEntryPoint.hasWorksheetGUI()) {
 			TouchEntryPoint.getWorksheetGUI().setLabels();
 		}
-		if(TouchEntryPoint.hasBrowseGUI()){
+		if (TouchEntryPoint.hasBrowseGUI()) {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
 	}
@@ -517,8 +522,9 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show,
-			boolean playButton, double playDelay, boolean showProtButton) {
+	public void setShowConstructionProtocolNavigation(final boolean show,
+			final boolean playButton, final double playDelay,
+			final boolean showProtButton) {
 
 	}
 
@@ -533,50 +539,51 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public void showCommandError(String command, String message) {
+	public void showCommandError(final String command, final String message) {
 
 	}
 
 	@Override
-	public void showError(String s) {
+	public void showError(final String s) {
 		if (this.errorHandlers.peek() != null) {
 			this.errorHandlers.peek().showError(s);
 		}
 	}
 
 	@Override
-	public void showError(String key, String error) {
+	public void showError(final String key, final String error) {
 		this.showErrorDialog(this.getLocalization().getError(key) + ": "
 				+ error);
 	}
 
 	@Override
-	public void showErrorDialog(String s) {
+	public void showErrorDialog(final String s) {
 		if (this.errorHandlers.peek() != null) {
 			this.errorHandlers.peek().showError(s);
 		}
 	}
 
 	@Override
-	public void showLoadingAnimation(boolean b) {
+	public void showLoadingAnimation(final boolean b) {
 	}
 
 	@Override
-	public void showMessage(String error) {
+	public void showMessage(final String error) {
 	}
 
 	@Override
-	public void showRelation(GeoElement geoElement, GeoElement geoElement2) {
-
-	}
-
-	@Override
-	public void showURLinBrowser(String string) {
+	public void showRelation(final GeoElement geoElement,
+			final GeoElement geoElement2) {
 
 	}
 
 	@Override
-	public boolean showView(int view) {
+	public void showURLinBrowser(final String string) {
+
+	}
+
+	@Override
+	public boolean showView(final int view) {
 		return false;
 	}
 
@@ -614,7 +621,7 @@ public class TouchApp extends AppWeb {
 		this.setUnsaved();
 	}
 
-	private void toggleAVvisibility(DockPanelData[] dockPanelData) {
+	private void toggleAVvisibility(final DockPanelData[] dockPanelData) {
 		for (final DockPanelData dp : dockPanelData) {
 			if (dp.getViewId() == App.VIEW_ALGEBRA) {
 				this.touchGUI.setAlgebraVisible(dp.isVisible());
@@ -626,7 +633,7 @@ public class TouchApp extends AppWeb {
 	 * @param handler
 	 *            handler to be unregistered
 	 */
-	public void unregisterErrorHandler(ErrorHandler handler) {
+	public void unregisterErrorHandler(final ErrorHandler handler) {
 		this.errorHandlers.remove(handler);
 	}
 
@@ -694,7 +701,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	@Override
-	public void openMaterial(String s) {
+	public void openMaterial(final String s) {
 		TouchEntryPoint.showWorksheetGUI(JSONparserGGT.parseMaterial(s));
 	}
 
@@ -708,13 +715,13 @@ public class TouchApp extends AppWeb {
 	public String getDataParamId() {
 		return "ggbTouch";
 	}
-	
+
 	@Override
-	public void doRepaintViews(){
-		if(this.euclidianView != null){
+	public void doRepaintViews() {
+		if (this.euclidianView != null) {
 			((EuclidianViewWeb) this.euclidianView).doRepaint2();
 		}
-		if(this.getAlgebraView()!= null){
+		if (this.getAlgebraView() != null) {
 			((AlgebraViewWeb) this.getAlgebraView()).doRepaint2();
 		}
 	}

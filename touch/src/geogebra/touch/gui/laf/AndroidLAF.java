@@ -4,13 +4,8 @@ import geogebra.touch.TouchApp;
 
 public class AndroidLAF extends DefaultLAF {
 
-	public AndroidLAF(TouchApp app) {
+	public AndroidLAF(final TouchApp app) {
 		super(app);
-	}
-
-	@Override
-	public int getAppBarHeight() {
-		return 50;
 	}
 
 	@Override

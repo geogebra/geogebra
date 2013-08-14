@@ -18,18 +18,13 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  */
 public class AppleLAF extends DefaultLAF {
 
-	public AppleLAF(TouchApp app) {
+	public AppleLAF(final TouchApp app) {
 		super(app);
 	}
 
 	@Override
 	public DefaultResources getIcons() {
 		return AppleResources.INSTANCE;
-	}
-
-	@Override
-	public int getAppBarHeight() {
-		return 53;
 	}
 
 	@Override
@@ -43,7 +38,7 @@ public class AppleLAF extends DefaultLAF {
 			final String process) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
-			public void onTouchStart(TouchStartEvent event) {
+			public void onTouchStart(final TouchStartEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 				styleBar.onStyleBarButtonEvent(button, process);
@@ -59,7 +54,7 @@ public class AppleLAF extends DefaultLAF {
 			final OptionType type) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
-			public void onTouchStart(TouchStartEvent event) {
+			public void onTouchStart(final TouchStartEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 				styleBar.onOptionalButtonEvent(button, type);
@@ -74,7 +69,7 @@ public class AppleLAF extends DefaultLAF {
 			final StandardImageButton button, final StyleBar styleBar) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
-			public void onTouchStart(TouchStartEvent event) {
+			public void onTouchStart(final TouchStartEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 				styleBar.showHide();
@@ -86,10 +81,10 @@ public class AppleLAF extends DefaultLAF {
 
 	@Override
 	public StandardImageButton setAlgebraButtonHandler(
-			StandardImageButton button, final TabletGUI gui) {
+			final StandardImageButton button, final TabletGUI gui) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
-			public void onTouchStart(TouchStartEvent event) {
+			public void onTouchStart(final TouchStartEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
 				gui.toggleAlgebraView();

@@ -2,7 +2,6 @@ package geogebra.touch.gui.laf;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
 import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -13,18 +12,13 @@ import com.google.gwt.user.client.ui.Label;
 
 public class WinLAF extends DefaultLAF {
 
-	public WinLAF(TouchApp app) {
+	public WinLAF(final TouchApp app) {
 		super(app);
 	}
 
 	@Override
-	public void buildHeader(TabletGUI gui, TouchModel touchModel) {
+	public void buildHeader(final TouchModel touchModel) {
 
-	}
-
-	@Override
-	public int getAppBarHeight() {
-		return 0;
 	}
 
 	@Override
@@ -38,11 +32,6 @@ public class WinLAF extends DefaultLAF {
 	}
 
 	@Override
-	public int getPanelsHeight() {
-		return 60;
-	}
-
-	@Override
 	public TabletHeaderPanel getTabletHeaderPanel() {
 		return null;
 	}
@@ -53,7 +42,7 @@ public class WinLAF extends DefaultLAF {
 	}
 
 	@Override
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 
 	}
 
@@ -82,12 +71,11 @@ public class WinLAF extends DefaultLAF {
 	}-*/;
 
 	@Override
-	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI,
-			TabletGUI tabletGUI) {
+	public WorksheetHeader buildWorksheetHeader(final WorksheetGUI worksheetGUI) {
 		final Label consTitle = new Label();
 		consTitle.getElement().addClassName("worksheetNameWindows");
 		worksheetGUI.getContent().add(consTitle);
-		WorksheetHeader header = new WorksheetHeader() {
+		final WorksheetHeader header = new WorksheetHeader() {
 
 			@Override
 			public void setLabels() {
@@ -96,7 +84,7 @@ public class WinLAF extends DefaultLAF {
 			}
 
 			@Override
-			public void setMaterial(Material m) {
+			public void setMaterial(final Material m) {
 				consTitle.setText(m.getTitle());
 			}
 		};

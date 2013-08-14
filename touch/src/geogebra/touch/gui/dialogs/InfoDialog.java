@@ -31,10 +31,9 @@ public class InfoDialog extends PopupPanel {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
-	InfoType type;
+	private InfoType type;
 	private final Button cancelButton = new Button();
 	private final Button saveButton = new Button();
-
 	private final Button dontSaveButton = new Button();
 	private final SVGResource iconQuestion = getLafIcons().icon_question();
 	private final VerticalPanel dialogPanel;
@@ -43,19 +42,18 @@ public class InfoDialog extends PopupPanel {
 	private final FlowPanel titlePanel = new FlowPanel();
 	private final Label title;
 	private final Label infoText;
-	String consTitle;
+	private String consTitle;
 	private final Localization loc;
-	TouchApp app;
-	Runnable callback = null;
+	private TouchApp app;
+	private Runnable callback = null;
 	private final GuiModel guiModel;
+	private TabletGUI tabletGUI;
 
-	TabletGUI tabletGUI;
-
-	public InfoDialog(App app, GuiModel guiModel, InfoType type,
-			TabletGUI tabletGUI) {
+	public InfoDialog(final App app, final GuiModel guiModel,
+			final InfoType type) {
 		super(true, true);
-		this.tabletGUI = tabletGUI;
 		this.app = (TouchApp) app;
+		this.tabletGUI = (TabletGUI) this.app.getTouchGui();
 		this.loc = app.getLocalization();
 		this.setGlassEnabled(true);
 		this.type = type;
@@ -100,7 +98,7 @@ public class InfoDialog extends PopupPanel {
 		this.title.setStyleName("title");
 		this.titlePanel.add(this.title);
 		this.titlePanel.setStyleName("titlePanel");
-		
+
 		this.dialogPanel.add(this.titlePanel);
 	}
 
@@ -136,7 +134,7 @@ public class InfoDialog extends PopupPanel {
 		this.cancelButton.addDomHandler(new ClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				InfoDialog.this.hide();
 			}
 		}, ClickEvent.getType());
@@ -145,50 +143,56 @@ public class InfoDialog extends PopupPanel {
 	private void initDontSaveButton() {
 		this.dontSaveButton.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				if (InfoDialog.this.type == InfoType.Override) {
-					InfoDialog.this.tabletGUI.editTitle();
-				}
-				InfoDialog.this.app.setSaved();
-				InfoDialog.this.hide();
-
-				if (InfoDialog.this.callback != null) {
-					InfoDialog.this.callback.run();
-				} else {
-					App.debug("no callback");
-				}
+			public void onClick(final ClickEvent event) {
+				onDontSave();
 			}
 		}, ClickEvent.getType());
+	}
+
+	protected void onDontSave() {
+		if (this.type == InfoType.Override) {
+			this.tabletGUI.editTitle();
+		}
+		this.app.setSaved();
+		this.hide();
+
+		if (this.callback != null) {
+			this.callback.run();
+		} else {
+			App.debug("no callback");
+		}
 	}
 
 	private void initSaveButton() {
 		this.saveButton.addDomHandler(new ClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				if (InfoDialog.this.consTitle != null) {
-					InfoDialog.this.app
-							.setConstructionTitle(InfoDialog.this.consTitle);
-				}
-				InfoDialog.this.app.getFileManager().saveFile(
-						InfoDialog.this.app);
-				InfoDialog.this.app.setSaved();
-				InfoDialog.this.hide();
-				if (InfoDialog.this.callback != null) {
-					InfoDialog.this.callback.run();
-				} else {
-					App.debug("no callback");
-				}
-				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+			public void onClick(final ClickEvent event) {
+				onSave();
 			}
 		}, ClickEvent.getType());
 	}
 
-	public void setCallback(Runnable callback) {
+	protected void onSave() {
+		if (this.consTitle != null) {
+			this.app.setConstructionTitle(this.consTitle);
+		}
+		this.app.getFileManager().saveFile(this.app);
+		this.app.setSaved();
+		this.hide();
+		if (this.callback != null) {
+			this.callback.run();
+		} else {
+			App.debug("no callback");
+		}
+		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+	}
+
+	public void setCallback(final Runnable callback) {
 		this.callback = callback;
 	}
 
-	public void setConsTitle(String title) {
+	public void setConsTitle(final String title) {
 		this.consTitle = title;
 	}
 
@@ -216,7 +220,7 @@ public class InfoDialog extends PopupPanel {
 		this.guiModel.setActiveDialog(this);
 	}
 
-	public void showIfNeeded(TouchApp touchApp) {
+	public void showIfNeeded(final TouchApp touchApp) {
 		if (this.type == InfoType.SaveChanges) {
 			if (!touchApp.isSaved()) {
 				this.consTitle = touchApp.getConstructionTitle();
