@@ -59,6 +59,7 @@ import geogebra.web.Web.GuiToLoad;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
@@ -115,7 +116,7 @@ public class AppW extends AppWeb {
 
 	private FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
-	private GuiManagerW guiManager;
+	protected GuiManagerInterfaceW guiManager = null;
 	private SoundManagerW soundManager;
 	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
 	private ToolTipManagerW toolTipManager;
@@ -385,18 +386,10 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-	public GuiManagerW getGuiManager() {
-		if (guiManager == null) {
-			// TODO: add getGuiManager(), see #1783
-			if (getUseFullGui() || showToolBar) {
-				guiManager = new GuiManagerW(this);
-			}
-		}
-
+	public GuiManagerInterfaceW getGuiManager() {
+		// to be overridden in subclasses
 		return guiManager;
 	}
-
-
 
 	@Override
     public Canvas getCanvas() {

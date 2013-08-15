@@ -22,7 +22,6 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
-import geogebra.html5.main.ViewManager;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.euclidian.EuclidianControllerW;
@@ -69,7 +68,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuiManagerW extends GuiManager implements ViewManager, GuiManagerInterfaceW {
+public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 	/**
 	 * container for the Popup that only one exist for a given type

@@ -15,7 +15,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
-import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
@@ -1105,7 +1105,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return gui manager (it's null in minimal applets)
 	 */
-	public abstract GuiManager getGuiManager();
+	public abstract GuiManagerInterface getGuiManager();
 
 	/**
 	 * @return dialog manager

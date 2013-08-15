@@ -7,6 +7,8 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.web.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.MyGoogleApis;
@@ -90,6 +92,18 @@ public class AppWapplication extends AppW {
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
 		this(article, geoGebraAppFrame, true);
+	}
+
+	@Override
+	public GuiManagerInterfaceW getGuiManager() {
+		if (guiManager == null) {
+			// TODO: add getGuiManager(), see #1783
+			if (getUseFullGui() || showToolBar) {
+				guiManager = new GuiManagerW(this);
+			}
+		}
+
+		return guiManager;
 	}
 
 	public GeoGebraAppFrame getAppFrame() {

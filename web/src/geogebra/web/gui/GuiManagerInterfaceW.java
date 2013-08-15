@@ -5,6 +5,7 @@ import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.html5.main.ViewManager;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Command;
 
-public interface GuiManagerInterfaceW extends GuiManagerInterface {
+public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public void showPopupMenu(ArrayList<GeoElement> geos, AlgebraView invoker,
 	        GPoint p);

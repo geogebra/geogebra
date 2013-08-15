@@ -1,7 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.draw.DrawTextField;
-import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -228,7 +228,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManager gui = app.getGuiManager();
+			GuiManagerInterface gui = app.getGuiManager();
 			((LayoutD)gui.getLayout()).getDockManager()
 			.moveFocus(!isShiftDown);
 
