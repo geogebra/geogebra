@@ -165,6 +165,9 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_VOLUME:
 			return "Volume";
 
+		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
+			return "MirrorAtPlane";
+
 		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
 			return "RotateAroundAxis";
 
