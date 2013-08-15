@@ -69,7 +69,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuiManagerW extends GuiManager implements ViewManager {
+public class GuiManagerW extends GuiManager implements ViewManager, GuiManagerInterfaceW {
 
 	/**
 	 * container for the Popup that only one exist for a given type
