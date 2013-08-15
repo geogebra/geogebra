@@ -161,28 +161,34 @@ public class AlgoProveDetails extends AlgoElement {
 				while (it.hasNext()) {
 					GeoText ndgConditionText = new GeoText(cons);
 					NDGCondition ndgc = it.next();
-					ndgc.rewrite(cons);
-					String s = loc.getCommand(ndgc.getCondition());
-					s += "[";
-					for (int i = 0; i < ndgc.getGeos().length; ++i) {
-						if (i > 0)
-							s += ',';
-						// There can be a case when the underlying prover sends such objects which cannot be
-						// understood by GeoGebra. In this case we use the "Objects" word.
-						// In this case we normally return ProveResult.UNKNOWN to not confuse the student,
-						// but for sure, we still do the check here as well.
-						GeoElement geo = ndgc.getGeos()[i]; 
-						if (geo != null)
-							s += ndgc.getGeos()[i].getLabelSimple();
-						else
-							s += loc.getPlain("Objects");
+					// Do not print unnecessary conditions:
+					if (ndgc.getReadability() > 0) {
+						ndgc.rewrite(cons);
+						String s = loc.getCommand(ndgc.getCondition());
+						s += "[";
+						for (int i = 0; i < ndgc.getGeos().length; ++i) {
+							if (i > 0)
+								s += ',';
+							// There can be a case when the underlying prover
+							// sends such objects which cannot be
+							// understood by GeoGebra. In this case we use the
+							// "Objects" word.
+							// In this case we normally return
+							// ProveResult.UNKNOWN to not confuse the student,
+							// but for sure, we still do the check here as well.
+							GeoElement geo = ndgc.getGeos()[i];
+							if (geo != null)
+								s += ndgc.getGeos()[i].getLabelSimple();
+							else
+								s += loc.getPlain("Objects");
+						}
+						s += "]";
+						ndgConditionText.setTextString(s);
+						ndgConditionText.setLabelVisible(false);
+						ndgConditionText.setEuclidianVisible(false);
+						sortedSet.add(ndgConditionText);
 					}
-					s += "]";
-					ndgConditionText.setTextString(s);
-					ndgConditionText.setLabelVisible(false);
-					ndgConditionText.setEuclidianVisible(false);
 					// For alphabetically ordering, we need a sorted set here:
-					sortedSet.add(ndgConditionText);
 				}
 				// Copy the sorted list into the output:
 				Iterator<GeoText> it2 = sortedSet.iterator();

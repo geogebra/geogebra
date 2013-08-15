@@ -140,7 +140,7 @@ public class NDGDetector {
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("xAreEqual");
-				ndgc.setReadability(5); // we don't really want this condition
+				ndgc.setReadability(0); // we can remove this condition
 				return ndgc;
 			}
 		}
@@ -167,7 +167,7 @@ public class NDGDetector {
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("yAreEqual");
-				ndgc.setReadability(5); // we don't really want this condition
+				ndgc.setReadability(0); // we can remove this condition
 				return ndgc;
 			}
 		}
