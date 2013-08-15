@@ -104,7 +104,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
-	@Override
 	public void redo() {
 		app.setWaitCursor();
 		kernel.redo();
@@ -113,7 +112,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		app.setDefaultCursor();
 	}
 
-	@Override
 	public void undo() {
 		app.setWaitCursor();
 		kernel.undo();
@@ -122,7 +120,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		app.setDefaultCursor();
 	}
 
-	@Override
 	public void updateMenubarSelection() {
 		if (app.getObjectPool().getGgwMenubar() != null) {
 			app.getObjectPool().getGgwMenubar().getMenubar().updateSelection();
@@ -150,7 +147,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		}
 	}
 
-	@Override
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
 			App.debug("unimplemented");
@@ -159,7 +155,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return dialogManager;
 	}
 
-	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 	        EuclidianViewInterfaceCommon view, GPoint mouseLoc) {
 		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(),
@@ -207,7 +202,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
-	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 	        ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 	        geogebra.common.awt.GPoint p) {
@@ -244,7 +238,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
-	@Override
 	public void setFocusedPanel(AbstractEvent event,
 	        boolean updatePropertiesView) {
 		setFocusedPanel(geogebra.web.euclidian.event.MouseEventW.getEvent(event), updatePropertiesView);
@@ -284,7 +277,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		}
 	}
 
-	@Override
 	public void loadImage(GeoPoint loc, Object object, boolean altDown) {
 		// TODO Auto-generated method stub
 		//App.debug("unimplemented method");
@@ -295,28 +287,24 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		dialog.setVisible(true);
 	}
 
-	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
 		//App.debug("unimplemented method");
 
 	}
 
-	@Override
 	public boolean isInputFieldSelectionListener() {
 		// TODO Auto-generated method stub
 		//App.debug("unimplemented method");
 		return false;
 	}
 
-	@Override
 	public GTextComponent getAlgebraInputTextField() {
 		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 	        GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
@@ -333,7 +321,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
-	@Override
 	public boolean hasSpreadsheetView() {
 		if (spreadsheetView == null)
 			return false;
@@ -342,19 +329,15 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return true;
 	}
 
-	@Override
 	public void attachSpreadsheetView() {
 		getSpreadsheetView();
 		spreadsheetView.attachView();
 	}
 
-	@Override
 	public void setShowView(boolean flag, int viewId) {
 		setShowView(flag, viewId, true);
 	}
 
-	
-	@Override
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
 			if (!showView(viewId))
@@ -376,7 +359,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		//toolbarPanel.updateHelpText();
 	}
 	
-	@Override
 	public boolean showView(int viewId) {
 		/*
 		Element e = Document.get().getElementById("View_" + viewId);
@@ -396,14 +378,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		
 	}
 
-	@Override
 	public View getConstructionProtocolData() {
 		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public View getCasView() {
 		if (casView == null)
 			casView = new CASViewW(app);
@@ -414,7 +394,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return casView != null;
 	}
 
-	@Override
 	public SpreadsheetViewW getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
@@ -424,21 +403,18 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return spreadsheetView;
 	}
 
-	@Override
 	public View getProbabilityCalculator() {
 		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public View getPlotPanelView(int id) {
 		//App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public void updateSpreadsheetColumnWidths() {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented");
@@ -513,7 +489,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	/**
 	 * Initializes GuiManager for web
 	 */
-	@Override
 	public void initialize() {
 		initAlgebraController(); // ? needed for keyboard input in EuclidianView
 								 // in Desktop
@@ -574,12 +549,10 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	}
 
-	@Override
 	public void setLayout(Layout layout) {
 		this.layout = (LayoutW) layout;
 	}
 
-	@Override
 	public LayoutW getLayout() {
 		return layout;
 	}
@@ -601,7 +574,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return toolbarPanel;
 	}
 
-	@Override
 	public void updateToolbar() {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
@@ -615,19 +587,16 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		}
 	}
 
-	@Override
 	public void updateAlgebraInput() {
 		App.debug("Implementation needed...");
 	}
 
-	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanelW(app);
 		return inputHelpPanel;
 	}
 
-	@Override
 	public void setShowAuxiliaryObjects(boolean flag) {
 		if (!hasAlgebraViewShowing())
 			return;
@@ -635,7 +604,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		algebraView.setShowAuxiliaryObjects(flag);
 	}
 
-	@Override
 	public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
@@ -668,19 +636,16 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return new AlgebraViewW(algc);
 	}
 
-	@Override
 	public void attachAlgebraView() {
 		getAlgebraView();
 		algebraView.attachView();
 	}
 
-	@Override
 	public void detachAlgebraView() {
 		if (algebraView != null)
 			algebraView.detachView();
 	}
 
-	@Override
 	public void setMode(int mode, ModeSetter m) {
 
 		// can't move this after otherwise Object Properties doesn't work
@@ -696,7 +661,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		// }
 	}
 
-	@Override
 	public void applyAlgebraViewSettings() {
 		if (algebraView != null)
 			algebraView.applySettings();
@@ -704,7 +668,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	private PropertiesView propertiesView;
 
-	@Override
 	public View getPropertiesView() {
 
 		if (propertiesView == null) {
@@ -715,14 +678,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return propertiesView;
 	}
 
-	@Override
 	public void updatePropertiesView() {
 		if (propertiesView != null) {
 			propertiesView.updatePropertiesView();
 		}
 	}
 
-	@Override
 	public void mousePressedForPropertiesView() {
 		if (propertiesView != null) {
 			propertiesView.mousePressedForPropertiesView();
@@ -734,7 +695,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		}
 	}
 
-	@Override
 	public void mouseReleasedForPropertiesView(boolean creatorMode) {
 		// TODO Auto-generated method stub
 
@@ -748,7 +708,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return algebraInput;
 	}
 
-	@Override
 	public boolean save() {
 		app.setWaitCursor();
 		// String fileName = Window.prompt("File name", "Bunny");
@@ -770,12 +729,10 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return true;
 	}
 
-	@Override
 	public void showPropertiesViewSliderTab() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void openURL() {
 		InputDialogOpenURL id = new InputDialogOpenURL(app);
 		id.setVisible(true);
@@ -799,7 +756,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return false;
 	}
 
-	@Override
 	public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
 		if (success && !isMacroFile
 			&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
@@ -823,81 +779,67 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			app.getScriptManager().ggbOnInit();
 	}
 
-	@Override
 	public void startEditing(GeoElement geoElement) {
 		App.debug("unimplemented");
 
 	}
 
-	@Override
 	public boolean noMenusOpen() {
 		App.debug("unimplemented");
 		return true;
 	}
 
-	@Override
 	public void openFile() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void showGraphicExport() {
 		App.debug("unimplemented");
 
 	}
 
-	@Override
 	public void showPSTricksExport() {
 		App.debug("unimplemented");
 
 	}
 
-	@Override
 	public void showWebpageExport() {
 		App.debug("unimplemented");
 
 	}
 
-	@Override
 	public void detachPropertiesView() {
 		if (propertiesView != null)
 			propertiesView.detachView();
 	}
 
-	@Override
 	public boolean hasPropertiesView() {
 		App.debug("unimplemented");
 		return false;
 	}
 
-	@Override
 	public void attachPropertiesView() {
 		getPropertiesView();
 		propertiesView.attachView();
 	}
 
-	@Override
 	public void attachCasView() {
 		getCasView();
 		casView.attachView();
 	}
 
-	@Override
 	public void attachConstructionProtocolView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void attachProbabilityCalculatorView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void attachAssignmentView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public EuclidianView getActiveEuclidianView() {
 
 		if (layout == null)
@@ -931,49 +873,40 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		};
 	}
 
-	@Override
 	public View getDataAnalysisView() {
 		App.debug("unimplemented");
 		return null;
 	}
 
-	@Override
 	public void attachDataAnalysisView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void detachDataAnalysisView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public boolean hasDataAnalysisView() {
 		App.debug("unimplemented");
 		return false;
 	}
 
-	@Override
 	public void detachAssignmentView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void detachProbabilityCalculatorView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void detachCasView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void detachConstructionProtocolView() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void detachSpreadsheetView() {
 		if (spreadsheetView != null)
 			spreadsheetView.detachView();
@@ -1064,62 +997,51 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return null;
 	}
 
-	@Override
 	public void resetSpreadsheet() {
 		if (spreadsheetView != null)
 			spreadsheetView.restart();
 	}
 
-	@Override
 	public void setScrollToShow(boolean b) {
 		if (spreadsheetView != null)
 			spreadsheetView.setScrollToShow(b);
 	}
 
-	@Override
 	public void showURLinBrowser(String strURL) {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public void updateMenuWindow() {
 	}
 
-	@Override
 	public void updateMenuFile() {
 	}
 
-	@Override
 	public void clearInputbar() {
 		App.debug("unimplemented");
 	}
 
-	@Override
 	public Object createFrame() {
 		return null;
 	}
 
-	@Override
 	public int getInputHelpPanelMinimumWidth() {
 		App.debug("unimplemented");
 		return 0;
 	}
 
-	@Override
 	public void exitAll() {
 		App.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public boolean saveCurrentFile() {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented");
 		return false;
 	}
 
-	@Override
 	public boolean hasEuclidianView2() {
 		if (euclidianView2 == null)
 			return false;
@@ -1128,21 +1050,18 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return true;
 	}
 
-	@Override
 	public void allowGUIToRefresh() {
 		App.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void updateFrameTitle() {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented");
 
 	}
 
-	@Override
 	public void setLabels() {
 		if (algebraInput != null)
 			algebraInput.setLabels();
@@ -1183,14 +1102,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		}
 	}
 
-	@Override
 	public void setShowToolBarHelp(boolean showToolBarHelp) {
 		App.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public View getEuclidianView2() {
 		if (euclidianView2 == null) {
 			boolean[] showAxis = { true, true };
@@ -1221,14 +1138,12 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
-	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot() {
 		if (euclidianView2 == null)
 			return false;
 		return true;
 	}
 
-	@Override
 	public void updateFrameSize() {
 		// TODO Auto-generated method stub
 		App.debug("unimplemented");
@@ -1241,7 +1156,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 			spreadsheetView.getXML(sb, asPreference);
 	}
 
-	@Override
 	public boolean hasAlgebraViewShowing() {
 		if (algebraView == null)
 			return false;
@@ -1257,7 +1171,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return true;
 	}
 
-	@Override
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference) {
 		if (algebraView != null)
 			algebraView.getXML(sb, asPreference);
@@ -1269,7 +1182,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 
 	private ConstructionProtocolViewW constructionProtocolView;
 
-	@Override
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
@@ -1330,7 +1242,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
-	@Override
     public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
 			constructionProtocolView = new ConstructionProtocolViewW(app);
@@ -1339,7 +1250,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 		return constructionProtocolView;
     }
 
-	@Override
     public void clearAbsolutePanels() {
 		clearAbsolutePanel(App.VIEW_EUCLIDIAN);
 		clearAbsolutePanel(App.VIEW_EUCLIDIAN2);   
@@ -1361,7 +1271,6 @@ public class GuiManagerW extends GuiManager implements ViewManager {
 	    }
 	}
 
-	@Override
     public boolean checkAutoCreateSliders(String string) {
 	    // TODO #3490
 	    return false;

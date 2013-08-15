@@ -11,21 +11,12 @@ the Free Software Foundation.
 */
 package geogebra.common.gui;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
-import geogebra.common.main.DialogManager;
 
-import java.util.ArrayList;
-
-public abstract class GuiManager {
+public abstract class GuiManager implements GuiManagerInterface {
 
 	public enum Help {
 		COMMAND, TOOL, GENERIC
@@ -38,36 +29,11 @@ public abstract class GuiManager {
 
 	public void updateMenubar() { } // temporarily nothing
 
-	public abstract void updateMenubarSelection();
-
-	public abstract DialogManager getDialogManager();
-
-	public abstract void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
-			GPoint mouseLoc);
-	
-	public abstract void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			GPoint p);
-
-	public abstract void setMode(int mode,ModeSetter m);
-
-	public abstract void redo();
-	public abstract void undo();
-
-	public abstract void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
-
-	public abstract void loadImage(GeoPoint loc, Object object, boolean altDown);
-
-	public abstract boolean hasAlgebraViewShowing();
-
 	public boolean hasAlgebraView() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
-	public abstract void updateFonts();
-
 	public boolean isUsingConstructionProtocol() {
 		// TODO Auto-generated method stub
 		return false;
@@ -77,37 +43,6 @@ public abstract class GuiManager {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public abstract boolean isInputFieldSelectionListener();
-
-	public abstract geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField();
-
-	public abstract void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			GPoint mouseLoc);
-
-	public abstract boolean hasSpreadsheetView();
-
-	public abstract void attachSpreadsheetView();
-
-	public abstract void setShowView(boolean b, int viewSpreadsheet);
-	
-	public abstract void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent);
-
-	public abstract boolean showView(int viewSpreadsheet);
-
-	public abstract View getConstructionProtocolData();
-	
-	public abstract View getCasView();
-	
-	public abstract View getSpreadsheetView();
-	
-	public abstract View getProbabilityCalculator();
-	
-	public abstract View getDataAnalysisView();
-	
-	public abstract View getPlotPanelView(int id);
-	
-	public abstract View getPropertiesView();
 
 	public boolean hasProbabilityCalculator() {
 		// TODO Auto-generated method stub
@@ -124,45 +59,15 @@ public abstract class GuiManager {
 		
 	}
 
-	public abstract void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
-
 	public void updateActions() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public abstract void updateSpreadsheetColumnWidths();
-
 	public void updateConstructionProtocol() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public abstract void updateAlgebraInput();
-
-	public abstract void setShowAuxiliaryObjects(boolean flag);
-
-	public abstract void updatePropertiesView();
-	
-	/**
-	 * tells the properties view that mouse has been pressed
-	 */
-	public abstract void mousePressedForPropertiesView();	
-	
-	/**
-	 * tells the properties view that mouse has been released
-	 * @param creatorMode tells if ev is in creator mode (ie not move mode)
-	 */
-	public abstract void mouseReleasedForPropertiesView(boolean creatorMode);
-	
-	public abstract boolean save();
-
-	/**
-	 * tells the properties view to show slider tab
-	 */
-	public abstract void showPropertiesViewSliderTab();
-	
-	public abstract void openURL();
 
 	public boolean loadURL(String urlString) {
 		return loadURL(urlString, true);
@@ -298,44 +203,6 @@ public abstract class GuiManager {
 	protected abstract boolean loadURL_GGB(String url) throws Exception;
 	protected abstract boolean loadURL_base64(String url) throws Exception;
 	protected abstract boolean loadFromApplet(String url) throws Exception;
-	public abstract void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
-
-	public abstract void startEditing(GeoElement geoElement);
-
-	public abstract boolean noMenusOpen();
-
-	public abstract void openFile();
-
-	public abstract Layout getLayout();
-
-	public abstract void showGraphicExport();
-
-	public abstract void showPSTricksExport();
-
-	public abstract void showWebpageExport();
-
-	public abstract void detachPropertiesView();
-
-	public abstract boolean hasPropertiesView();
-
-	public abstract void attachPropertiesView();
-
-	public abstract void attachAlgebraView();
-
-	public abstract void attachCasView();
-
-	public abstract void attachConstructionProtocolView();
-
-	public abstract void attachProbabilityCalculatorView();
-	
-	public abstract void attachAssignmentView();
-	
-	public abstract void attachDataAnalysisView();
-
-	public abstract void detachDataAnalysisView();
-	
-	public abstract boolean hasDataAnalysisView();
-	
 
 	/**
 	 * Attach a view which by using the view ID.
@@ -383,8 +250,6 @@ public abstract class GuiManager {
 		}
 	}
 	
-	public abstract EuclidianView getActiveEuclidianView();
-
 	public void showAxesCmd() {
 		// get ev with focus
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
@@ -486,18 +351,6 @@ public abstract class GuiManager {
 		}
 	}
 
-	public abstract void detachAssignmentView();
-
-	public abstract void detachProbabilityCalculatorView();
-
-	public abstract void detachCasView();
-
-	public abstract void detachConstructionProtocolView();
-
-	public abstract void detachSpreadsheetView();
-
-	public abstract void detachAlgebraView();
-
 	public void openCommandHelp(String command) {
 		String internalCmd = null;
 		if (command != null)
@@ -514,61 +367,6 @@ public abstract class GuiManager {
 	public void openHelp(String page) {
 		openHelp(page, Help.GENERIC);
 	}
-
-	public abstract void setLayout(Layout layout);
-
-	public abstract void initialize();
-
-	public abstract void resetSpreadsheet();
-
-	public abstract void setScrollToShow(boolean b);
-
-	public abstract void showURLinBrowser(String strURL);
-
-	public abstract void updateMenuWindow();
-
-	public abstract void updateMenuFile();
-
-	public abstract void exitAll();
-
-	public abstract boolean saveCurrentFile();
-
-	public abstract void updateToolbar();
-
-	public abstract boolean hasEuclidianView2();
-
-	public abstract void allowGUIToRefresh();
-
-	public abstract void updateFrameTitle();
-
-	public abstract void setLabels();
-
-	public abstract void setShowToolBarHelp(boolean showToolBarHelp);
-
-	public abstract View getEuclidianView2();
-
-	public abstract boolean hasEuclidianView2EitherShowingOrNot();
-
-	public abstract View getAlgebraView();
-	
-	public abstract void applyAlgebraViewSettings();
-
-	public abstract void updateFrameSize();
-
-	public abstract void clearInputbar();
-
-	public abstract Object createFrame();
-
-	public abstract Object getInputHelpPanel();
-
-	public abstract int getInputHelpPanelMinimumWidth();
-	/**
-	 * 
-	 * @return id of view which is setting the active toolbar
-	 */
-	public abstract int getActiveToolbarId();
-
-	public abstract ConstructionProtocolView getConstructionProtocolView();
 
 	public void setShowConstructionProtocolNavigation(boolean show) {
 		getApp().getConstructionProtocolNavigation().setVisible(show);
@@ -596,20 +394,4 @@ public abstract class GuiManager {
 	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
 		App.debug("GuiManager.updateCheckBoxesForShowConstructionProtocolNavigation - implementation needed");		
 	}
-	
-	/*
-	 * In web there are some drawable which not drawn on the canvas of euclidian view, but added for an AbsolutePanel which hides the canvas.
-	 * (e.g. inputbox)
-	 * When we remove all drawable, we must to clear this AbsolutePanel too.
-	 */
-	public abstract void clearAbsolutePanels();
-
-	/**
-	 * #3490  "Create sliders for a, b?" Create Sliders / Cancel
- 	 * Yes: create sliders and draw line
- 	 * No: go back into input bar and allow user to change input
-	 * @param string eg "a, b"
-	 * @return true/false
-	 */
-	public abstract boolean checkAutoCreateSliders(String string);
 }
