@@ -5,7 +5,7 @@ import geogebra.common.cas.view.CASTableCellController;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.main.App;
-import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,7 +38,7 @@ MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHan
     }
 
 	public void onClick(ClickEvent event) {
-		GuiManagerW gm = app.getGuiManager();
+		GuiManagerInterfaceW gm = app.getGuiManager();
 		gm.setActiveToolbarId(App.VIEW_CAS);		
 		
 		CASTableW table = view.getConsoleTable();
