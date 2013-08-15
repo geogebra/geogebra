@@ -278,6 +278,7 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
 			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
+			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			App.debug("Problem with the parent element of the canvas");
 		}
@@ -339,7 +340,6 @@ public abstract class EuclidianViewWeb extends EuclidianView {
 			updateAllDrawables(true);
 		}
 
-		euclidianController.calculateEnvironment();
     }
 	
 	private void createImage() {

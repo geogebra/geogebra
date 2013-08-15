@@ -176,6 +176,18 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
         public void setScrollTop(int scrollTop) {
 	        this.scrollTop = scrollTop;
         }
+        
+        @Override
+        public String toString() {
+        	return 	" ws: " + this.widthScale +
+        			", hs: " + this.heightScale +
+        			", xo: " + this.xOffset +
+        			", yo: " + this.yOffset +
+        			", sx: " + this.scaleX +
+        			", sy: " + this.scaleY +
+         			", scrollL: " + this.scrollLeft +
+        			", scrollt: " + this.scrollTop;
+        }
 		
 	}
 	
