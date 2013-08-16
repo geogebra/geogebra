@@ -217,7 +217,6 @@ public class NDGDetector {
 							" and " + pair2);
 					NDGCondition ndgc = new NDGCondition();
 					ndgc.setGeos(points);
-					Arrays.sort(ndgc.getGeos());
 					ndgc.setCondition("ArePerpendicular");
 					ndgc.setReadability(0.75);
 					return ndgc;

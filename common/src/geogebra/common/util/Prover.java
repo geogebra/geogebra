@@ -10,6 +10,7 @@ import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -240,6 +241,7 @@ public abstract class Prover {
 					geos = new GeoElement[2];
 					geos[0] = l1;
 					geos[1] = l2;
+					Arrays.sort(geos);
 				}
 			}
 		}
