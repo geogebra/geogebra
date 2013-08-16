@@ -20,13 +20,13 @@ import com.google.gwt.user.client.Window;
  */
 public class ToolBarButton extends ToolButton implements OptionsClickedListener {
 
-	protected SubToolBarButton[] menuEntry;
-	protected GuiModel model;
+	private SubToolBarButton[] menuEntry;
+	private final GuiModel model;
 
 	private static int BUTTON_WIDTH = 56;
 	private static int BUTTONPANEL_BORDER = 7;
 
-	public ToolBarButton(SVGResource svgResource, GuiModel guiModel) {
+	public ToolBarButton(final SVGResource svgResource, final GuiModel guiModel) {
 		super(guiModel.getCommand());
 		super.setIcon(svgResource);
 		this.model = guiModel;
@@ -40,38 +40,40 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	 * @param guiModel
 	 *            : the ToolBar it is placed on
 	 */
-	public ToolBarButton(ToolBarMenu menu, GuiModel guiModel) {
+	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel) {
 		super(menu.getCommand());
+		this.model = guiModel;
 
 		this.menuEntry = new SubToolBarButton[menu.getEntries().length];
 		for (int i = 0; i < menu.getEntries().length; i++) {
 			this.menuEntry[i] = new SubToolBarButton(menu.getEntries()[i], this);
 		}
 
-		this.model = guiModel;
-
 		this.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				if (ToolBarButton.this.model.getCommand() == ToolBarButton.this
-						.getCmd()
-						&& ToolBarButton.this.model.getOptionTypeShown() == OptionType.ToolBar) {
-					ToolBarButton.this.model.closeOptions();
-				} else {
-					ToolBarButton.this.showOptions();
-				}
+				onToolBarButton();
 			}
 		}, ClickEvent.getType());
 	}
 
+	protected void onToolBarButton() {
+		if (this.model.getCommand() == this.getCmd()
+				&& this.model.getOptionTypeShown() == OptionType.ToolBar) {
+			this.model.closeOptions();
+		} else {
+			this.showOptions();
+		}
+	}
+
 	@Override
-	public void optionClicked(ToolBarCommand cmd) {
+	public void optionClicked(final ToolBarCommand cmd) {
 		super.setCmd(cmd);
 		this.model.buttonClicked(this);
 	}
 
-	protected void showOptions() {
+	private void showOptions() {
 		if (this.menuEntry.length != 0) {
 			final SubToolBar options = new SubToolBar(this.menuEntry, this);
 
@@ -81,12 +83,10 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 
 			this.model.closeOnlyOptions();
 			this.model.setOption(options);
-			
+
 			// if the width of the subtoolbar ist too big, the position should
-			// be
-			// different
-			// leftpos of button + width of subtoolbar must not be bigger than
-			// Window-width!!
+			// be different leftpos of button + width of subtoolbar must not be
+			// bigger than Window-width!!
 			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()
 					&& options.isHorizontal()) {
 
@@ -110,14 +110,15 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 				}
 
 			} else {
-				//this.model.showOption(options, this);
-				//(showRelativeToParent doesn't work correctly)
-				options.setPopupPosition(this.getAbsoluteLeft(), this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
+				// this.model.showOption(options, this);
+				// (showRelativeToParent doesn't work correctly)
+				options.setPopupPosition(this.getAbsoluteLeft(),
+						this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
 			}
-			
+
 			options.show();
 			this.model.setStyleBarOptionShown(OptionType.ToolBar);
-			
+
 		}
 		this.model.setActive(this);
 	}
