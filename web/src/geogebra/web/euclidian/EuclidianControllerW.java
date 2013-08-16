@@ -283,6 +283,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 					return $wnd.parseFloat(matches[2]);
 				}
 		   	} else if (transform.indexOf("scale") === 0) {
+		   		$wnd.console.log($wnd.parseFloat(transform.substr(transform.indexOf("(") + 1)));
 		   		return $wnd.parseFloat(transform.substr(transform.indexOf("(") + 1));
 			}
 		   		
