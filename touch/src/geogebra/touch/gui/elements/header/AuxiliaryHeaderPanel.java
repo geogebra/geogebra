@@ -16,9 +16,9 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	protected HorizontalPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
-	protected Label headerText;
+	private Label headerText;
 	private final Label backLabel;
-	protected Localization loc;
+	private Localization loc;
 
 	public AuxiliaryHeaderPanel(String title, Localization loc) {
 		this.setStyleName("headerbar");
