@@ -20,9 +20,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputField extends VerticalPanel {
 
-	TextBox textBox;
-	Panel underline;
-	ArrayList<InputField> box = new ArrayList<InputField>();
+	private TextBox textBox;
+	private Panel underline;
+	private ArrayList<InputField> box = new ArrayList<InputField>();
 	private Label nameLabel;
 
 	/**
@@ -50,6 +50,7 @@ public class InputField extends VerticalPanel {
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
 		this.textBox.addStyleName("inactive");
 		this.add(this.textBox);
+		
 		if (useUnderline) {
 			this.underline = new LayoutPanel();
 			this.underline.setStyleName("inputUnderline");
@@ -65,15 +66,7 @@ public class InputField extends VerticalPanel {
 
 					@Override
 					public void execute() {
-						InputField.this.textBox.setFocus(true);
-						InputField.this.textBox.setCursorPos(InputField.this.textBox.getText().length());
-						if (InputField.this.underline != null) {
-							InputField.this.underline
-									.removeStyleName("inactive");
-							InputField.this.underline.addStyleName("active");
-						}
-						InputField.this.textBox.removeStyleName("inactive");
-						InputField.this.textBox.addStyleName("active");
+						onFocusTextBox();
 					}
 				});
 			}
@@ -82,26 +75,45 @@ public class InputField extends VerticalPanel {
 		this.textBox.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				InputField.this.textBox.setFocus(false);
-				if (InputField.this.underline != null) {
-					InputField.this.underline.removeStyleName("active");
-					InputField.this.underline.addStyleName("inactive");
-				}
-				InputField.this.textBox.removeStyleName("active");
-				InputField.this.textBox.addStyleName("inactive");
+				onBlurTextBox();
 			}
 		});
 
 		this.textBox.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				InputField.this.textBox.setFocus(true);
-
-				for (final InputField t : InputField.this.box) {
-					t.setFocus(false);
-				}
+				onClickTextBox();
 			}
 		});
+	}
+
+	protected void onFocusTextBox() {
+		this.textBox.setFocus(true);
+		this.textBox.setCursorPos(this.textBox.getText().length());
+		if (this.underline != null) {
+			this.underline.removeStyleName("inactive");
+			this.underline.addStyleName("active");
+		}
+		this.textBox.removeStyleName("inactive");
+		this.textBox.addStyleName("active");
+	}
+
+	protected void onBlurTextBox() {
+		this.textBox.setFocus(false);
+		if (this.underline != null) {
+			this.underline.removeStyleName("active");
+			this.underline.addStyleName("inactive");
+		}
+		this.textBox.removeStyleName("active");
+		this.textBox.addStyleName("inactive");
+	}
+	
+	protected void onClickTextBox() {
+		this.textBox.setFocus(true);
+
+		for (final InputField t : InputField.this.box) {
+			t.setFocus(false);
+		}
 	}
 
 	public void addErrorBox(HorizontalPanel errorBox) {
