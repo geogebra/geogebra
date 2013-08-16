@@ -3352,6 +3352,33 @@ public class GeoGebraCasIntegrationTest {
 
   /* Ticket */
 
+  /* Ticket 801: Numeric factorization */
+
+  @Test
+  public void Ticket_Ticket801_0 () {
+    t("Factor(x^2 - 2)", "x^(2) - 2");
+  }
+
+  @Test
+  public void Ticket_Ticket801_1 () {
+    t("IFactor(x^2 - 2)", "(x - sqrt(2)) * (x + sqrt(2))");
+  }
+
+  @Test
+  public void Ticket_Ticket801_2 () {
+    t("CIFactor(x^2 - 2)", "(x - sqrt(2)) * (x + sqrt(2))");
+  }
+
+  @Test
+  public void Ticket_Ticket801_3 () {
+    t("Numeric[IFactor(x^2 - 2)]", "(x - 1.414213562373) * (x + 1.414213562373)");
+  }
+
+  @Test
+  public void Ticket_Ticket801_4 () {
+    t("Numeric[CIFactor(x^2 - 2)]", "(x - 1.414213562373) * (x + 1.414213562373)");
+  }
+
   /* Ticket 1274: Derivative of exp(2x) wrong */
 
   @Test
