@@ -15,25 +15,28 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		WorksheetHeader {
-	Material material;
+
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 	private final StandardImageButton editButton = new StandardImageButton(
 			LafIcons.document_edit());
-	WorksheetGUI worksheetGUI;
+	private final WorksheetGUI worksheetGUI;
+	private Material material;
+	private final TabletGUI tabletGUI;
+	private final TouchApp app;
 
 	public WorksheetHeaderPanel(final AppWeb app,
 			final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI) {
+
 		super("", app.getLocalization());
 		this.worksheetGUI = worksheetGUI;
+		this.tabletGUI = tabletGUI;
+		this.app = (TouchApp) app;
 
 		super.backPanel.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				tabletGUI
-						.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI
-								.getContentPanel());
-				TouchEntryPoint.goBack();
+			public void onClick(final ClickEvent event) {
+				onGoBack();
 			}
 		}, ClickEvent.getType());
 
@@ -41,19 +44,26 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.editButton.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.stopPropagation();
-				if (WorksheetHeaderPanel.this.material != null) {
-					tabletGUI
-							.restoreEuclidian(WorksheetHeaderPanel.this.worksheetGUI
-									.getContentPanel());
-					TouchEntryPoint.allowEditing(true);
-					((TouchApp) app).getFileManager().getMaterial(
-							WorksheetHeaderPanel.this.material, app);
-					TouchEntryPoint.showTabletGUI();
-				}
+				onEdit();
 			}
 		});
+	}
+
+	protected void onGoBack() {
+		this.tabletGUI.restoreEuclidian(this.worksheetGUI.getContentPanel());
+		TouchEntryPoint.goBack();
+	}
+
+	protected void onEdit() {
+		if (this.material != null) {
+			this.tabletGUI
+					.restoreEuclidian(this.worksheetGUI.getContentPanel());
+			TouchEntryPoint.allowEditing(true);
+			this.app.getFileManager().getMaterial(this.material, this.app);
+			TouchEntryPoint.showTabletGUI();
+		}
 	}
 
 	@Override
@@ -62,7 +72,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 
 	@Override
-	public void setMaterial(Material m) {
+	public void setMaterial(final Material m) {
 		this.setText(m.getTitle());
 		this.material = m;
 	}
