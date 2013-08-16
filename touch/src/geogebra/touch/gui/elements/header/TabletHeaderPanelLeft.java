@@ -23,12 +23,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * 
  */
 public class TabletHeaderPanelLeft extends HorizontalPanel {
-	private Kernel kernel;
-	private TouchApp app;
-	private TouchModel touchModel;
-	private TabletGUI tabletGUI;
-	private TabletHeaderPanel headerPanel;
-	private InfoDialog infoDialog;
+	private final Kernel kernel;
+	private final TouchApp app;
+	private final TouchModel touchModel;
+	private final TabletGUI tabletGUI;
+	private final TabletHeaderPanel headerPanel;
+	private final InfoDialog infoDialog;
 
 	private Runnable newConstruction;
 	private Runnable showOpenDialog;
@@ -51,7 +51,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			final TouchModel touchModel, final TabletHeaderPanel headerPanel) {
 		this.app = app;
 		this.kernel = app.getKernel();
-
 		this.tabletGUI = (TabletGUI) app.getTouchGui();
 		this.touchModel = touchModel;
 		this.headerPanel = headerPanel;
@@ -186,7 +185,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 		});
 	}
 
-	protected void handleString(String s) {
+	protected void handleString(final String s) {
 		String name = this.app.getConstructionTitle();
 		if (name != null) {
 			name = NormalizerMinimal.transformStatic(name, false).replaceAll(

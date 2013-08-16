@@ -16,11 +16,11 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	protected HorizontalPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
-	private Label headerText;
+	private final Label headerText;
 	private final Label backLabel;
-	private Localization loc;
+	private final Localization loc;
 
-	public AuxiliaryHeaderPanel(String title, Localization loc) {
+	public AuxiliaryHeaderPanel(final String title, final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.backButton = new StandardImageButton(TouchEntryPoint
@@ -56,7 +56,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.backLabel.setText(this.loc.getMenu("Back"));
 	}
 
-	public void setText(String title) {
+	public void setText(final String title) {
 		this.headerText.setText(title);
 	}
 }

@@ -73,7 +73,6 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 			public void onKeyDown(final KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					onChangeTitle();
-
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE) {
 					onCancel();
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
@@ -182,7 +181,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		return this.worksheetTitle.getText();
 	}
 
-	protected void setConstructionTitle(String title) {
+	protected void setConstructionTitle(final String title) {
 		this.worksheetTitle.setText(title);
 	}
 	
