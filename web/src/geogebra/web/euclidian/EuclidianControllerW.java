@@ -276,6 +276,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if (style) {
 			transform = @geogebra.web.euclidian.EuclidianControllerW::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
 			matches = transform.match(matrixRegex); 
+			$wnd.console.log(transform);
+			$wnd.console.log(matches)
 			if (matches && matches.length) {
 				if (type === "x") {
 					return $wnd.parseFloat(matches[1]);
