@@ -112,6 +112,7 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 		this.app.setDefaultConstructionTitle();
 		this.tabletGUI.resetMode();
 		this.app.setSaved();
+		this.tabletGUI.updateViewSizes();
 	}
 
 	private void initOpenButton() {
