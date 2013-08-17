@@ -127,7 +127,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
     
     @Override
  	public int getRelatedModeID() {
-     	return EuclidianConstants.MODE_ROTATE_AROUND_AXIS;
+     	return EuclidianConstants.MODE_ROTATE_AROUND_LINE;
      }   
      
 

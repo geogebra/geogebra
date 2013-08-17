@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -100,6 +101,13 @@ public class GeoClippingCube3D extends GeoElement3D {
 	 */
 	public int getReduction(){
 		return reduction;
+	}
+	
+	
+	@Override
+	public void updateCascade(){
+		super.updateCascade();
+		App.debug("ici");
 	}
 	
 }

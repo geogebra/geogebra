@@ -281,7 +281,7 @@ public final class EuclidianConstants {
 	public static final int MODE_VOLUME = 560;
 	
 	/** Rotate Object around Axis by Angle */
-	public static final int MODE_ROTATE_AROUND_AXIS = 570;
+	public static final int MODE_ROTATE_AROUND_LINE = 570;
 	
 	/** Reflect Object about Plane */
 	public static final int MODE_MIRROR_AT_PLANE = 571;

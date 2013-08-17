@@ -1801,8 +1801,8 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			ret = mirrorAtPlane(hits.getTopHits());
 			break;
 
-		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
-			ret = rotateAroundAxis(hits.getTopHits());
+		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
+			ret = rotateAroundLine(hits.getTopHits());
 			break;
 
 			
@@ -2006,7 +2006,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			return true;
 			
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
-		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
+		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return true;
 			
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
@@ -3248,7 +3248,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 
 	
-	private final GeoElement[] rotateAroundAxis(Hits hits) {
+	private final GeoElement[] rotateAroundLine(Hits hits) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -3290,7 +3290,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	}
 
 	
-	public GeoElement[] rotateAroundAxis(GeoElement geoRot, GeoNumberValue phi, GeoLineND line) {
+	public GeoElement[] rotateAroundLine(GeoElement geoRot, GeoNumberValue phi, GeoLineND line) {
 		
 		return kernel.getManager3D().Rotate3D(null, geoRot, phi, line);
 	}

@@ -168,8 +168,8 @@ public class Kernel3D extends Kernel {
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
 			return "MirrorAtPlane";
 
-		case EuclidianConstants.MODE_ROTATE_AROUND_AXIS:
-			return "RotateAroundAxis";
+		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
+			return "RotateAroundLine";
 
 		default:
 			return super.getModeText(mode);

@@ -126,7 +126,7 @@ public class DialogManager3D extends DialogManagerD {
 
 			if (polys.length == 1) {
 
-				GeoElement[] geos = ec.rotateAroundAxis(polys[0], num, lines[0]);
+				GeoElement[] geos = ec.rotateAroundLine(polys[0], num, lines[0]);
 				if (geos != null) {
 					app.storeUndoInfo();
 					ec.memorizeJustCreatedGeos(geos);
@@ -139,9 +139,9 @@ public class DialogManager3D extends DialogManagerD {
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != lines[0]) {
 					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(ec.rotateAroundAxis(selGeos[i], num, lines[0])));
+						ret.addAll(Arrays.asList(ec.rotateAroundLine(selGeos[i], num, lines[0])));
 					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(ec.rotateAroundAxis(selGeos[i], num, lines[0])));
+						ret.addAll(Arrays.asList(ec.rotateAroundLine(selGeos[i], num, lines[0])));
 					}
 				}
 			}

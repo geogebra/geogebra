@@ -473,7 +473,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ROTATE_AROUND_AXIS);
+		sb.append(EuclidianConstants.MODE_ROTATE_AROUND_LINE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
 		sb.append(" ");
