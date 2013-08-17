@@ -2217,7 +2217,7 @@ public class Kernel {
 		return getViewBoundsForGeo(geo)[5];
 	}
 
-	protected void notifyEuclidianViewCE() {
+	public void notifyEuclidianViewCE() {
 		if (macroManager != null)
 			macroManager.notifyEuclidianViewCE();
 
