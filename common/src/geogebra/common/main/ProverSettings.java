@@ -39,5 +39,12 @@ public class ProverSettings {
      * Singular normally supports that by using a good enough (and fast) implementation.
      */
     public static boolean polysofractf = true;
+    
+    /**
+     * Show debug information in GeoElement captions.
+     * Useful for creating mathematically precise documentation of the
+     * applied algorithms. Used in Botana's method. 
+     */
+    public static boolean captionAlgebra = false;
 
 }

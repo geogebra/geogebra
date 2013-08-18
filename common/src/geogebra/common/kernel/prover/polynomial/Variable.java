@@ -123,7 +123,14 @@ public class Variable implements Comparable<Variable> {
 	public String getName() {
 		//return name;
         return "v".concat(Integer.toString(id));
-
+	}
+	
+	/**
+	 * Exports the variable into LaTeX
+	 * @return the LaTeX formatted variable
+	 */
+	public String toTeX() {
+		return "v_{".concat(Integer.toString(id)).concat("}");
 	}
 
 	@Override

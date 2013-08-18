@@ -7015,4 +7015,39 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean getSendValueToCas() {
 		return sendValueToCas;
 	}
+	
+	/**
+	 * Adds or modifies the caption to contain the label in P(v1,v2) form (LaTeX)
+	 * @param vars in LaTeX format
+	 */
+	public void setCaptionBotanaVars(String vars) {
+		labelMode = LABEL_CAPTION;
+		String labelWithVars = "{\\bf\\it " + label + vars + "}\\\\";
+		
+		if (caption == null) {
+			caption = "$" + labelWithVars + "$";
+			return;
+		}
+		
+		if (caption.startsWith(labelWithVars)) {
+			return;
+		}
+		
+		caption = "$" + labelWithVars + "\\\\" + caption.substring(1, caption.length());
+	}
+	
+	/**
+	 * Adds a new poly to the caption (LaTeX)
+	 * @param poly in LaTeX format
+	 */
+	public void addCaptionBotanaPolynomial(String poly) {
+		labelMode = LABEL_CAPTION;
+			
+		if (caption != null) {
+			caption = caption.substring(0,caption.length()-1) + poly + "\\\\$";
+		} else {
+			caption = "$" + poly + "\\\\$";
+		}
+		
+	}
 }

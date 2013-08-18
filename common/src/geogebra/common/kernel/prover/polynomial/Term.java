@@ -184,6 +184,24 @@ public class Term implements Comparable<Term> {
 	}
 
 	/**
+	 * Exports the term into LaTeX
+	 * @return LaTeX formatted polynomial
+	 */
+	public String toTeX() {
+		StringBuilder sb = new StringBuilder("");
+		Iterator<Variable> it = variables.keySet().iterator();
+		while (it.hasNext()) {
+			Variable fv = it.next();
+			sb.append(fv.toTeX());
+			int power = variables.get(fv);
+			if (power > 1)
+				sb.append("^{" + power + "}");
+		}
+		return sb.toString();
+	}
+
+	
+	/**
 	 * The set of variables in this term
 	 * @return the set of variables
 	 */

@@ -305,6 +305,46 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		return sb.substring(0, sb.length() - 1); // removing closing "+"
 	}
+
+	/**
+	 * Exports the polynomial into LaTeX
+	 * @return the LaTeX formatted polynomial
+	 */
+	public String toTeX() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Term> it = terms.keySet().iterator();
+		if (!it.hasNext()) {
+			return "0";
+		}
+		while (it.hasNext()) {
+			Term t = it.next();
+			int c = terms.get(t);
+			if (!t.getTerm().isEmpty()) {
+				if (c != 1) {
+					if (c != -1) {
+						if (c < -1) {
+							if (sb.length() > 0) {
+								sb.deleteCharAt(sb.length()-1); // removing last "+"
+							}
+						} 
+						sb.append(c);
+					} else {
+						// -1
+						if (sb.length() > 0) {
+							sb.deleteCharAt(sb.length()-1); // removing last "+"
+						}
+						sb.append('-');
+					}
+				}
+				sb.append(t.toTeX());
+			}
+			else
+				sb.append(c);
+			sb.append('+');
+		}
+		return sb.substring(0, sb.length() - 1); // removing closing "+"
+	}
+
 	
 	/**
 	 * The set of the variables in this polynomial

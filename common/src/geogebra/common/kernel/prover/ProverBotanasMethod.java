@@ -222,6 +222,9 @@ public class ProverBotanasMethod {
 			if (geo instanceof SymbolicParametersBotanaAlgo) {
 				try {
 					App.debug("/* PROCESSING OBJECT " + geo.getLabelSimple() + " */");
+					if (ProverSettings.captionAlgebra) {
+						geo.setCaption(null);
+					}
 					String command = geo.getCommandDescription(StringTemplate.noLocalDefault);
 					if (!("".equals(command))) {
 						App.debug("/* Command definition */");
@@ -230,8 +233,14 @@ public class ProverBotanasMethod {
 					 		geo.getDefinitionDescription(StringTemplate.noLocalDefault) + " */");
 					} else {
 						String description = geo.getAlgebraDescriptionDefault();
-						if (!description.startsWith("xOyPlane")) // handling GeoGebra3D's definition for xy-plane
+						if (!description.startsWith("xOyPlane")) { // handling GeoGebra3D's definition for xy-plane
 							App.debug(description + " /* free point */");
+							Variable[] v = new Variable[2];
+							v = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+							if (ProverSettings.captionAlgebra) {
+								geo.setCaptionBotanaVars("(" + v[0].toTeX() + "," + v[1].toTeX() + ")");
+							}
+						}
 					}
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
 
@@ -239,6 +248,9 @@ public class ProverBotanasMethod {
 						Variable[] v = new Variable[2];
 						v = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
 						App.debug("Constrained point " + geo.getLabelSimple() + "(" + v[0] + "," + v[1] + ")");
+						if (ProverSettings.captionAlgebra) {
+							geo.setCaptionBotanaVars("(" + v[0].toTeX() + "," + v[1].toTeX() + ")");
+						}
 						int nHypotheses = 0;
 						if (hypotheses != null)
 							nHypotheses = hypotheses.length;
@@ -251,6 +263,9 @@ public class ProverBotanasMethod {
 						for (int i=0; i<geoPolys.length; ++i) {
 							App.debug((nHypotheses + i + 1) + ". " + geoPolys[i]);
 							allPolys[nHypotheses + i] = geoPolys[i];
+							if (ProverSettings.captionAlgebra) {
+								geo.addCaptionBotanaPolynomial(geoPolys[i].toTeX());
+							}
 						}
 						hypotheses = allPolys;
 					

@@ -761,6 +761,9 @@ public class AppD extends App implements KeyEventDispatcher {
 							+ "      polysofractf:BOOLEAN\tuse polynomial ring over a fraction field for Prove ["
 							+ ProverSettings.polysofractf
 							+ "] (Botana only)\n"
+							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
+							+ ProverSettings.captionAlgebra
+							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
 			System.exit(0);
 		}
@@ -1050,6 +1053,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		if ("polysofractf".equalsIgnoreCase(str[0])) {
 			ProverSettings.polysofractf = Boolean.valueOf(str[1]).booleanValue();
+			return;
+		}
+		if ("captionalgebra".equalsIgnoreCase(str[0])) {
+			ProverSettings.captionAlgebra = Boolean.valueOf(str[1]).booleanValue();
 			return;
 		}
 		App.warn("Prover option not recognized: ".concat(option));
