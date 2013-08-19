@@ -12,6 +12,7 @@ import geogebra.web.Web.GuiToLoad;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -42,10 +43,17 @@ public class WorksheetGUI extends HeaderPanel {
 		this.instructionsPre = new Label();
 		this.instructionsPre.setStyleName("instructionsPre");
 		this.instructionsPost.setStyleName("instructionsPost");
+		onResize();
 	}
 
 	public FlowPanel getContent() {
 		return this.content;
+	}
+	
+	@Override
+	public void onResize(){
+		this.content.setHeight((Window.getClientHeight()-TouchEntryPoint.getLookAndFeel().getTabletHeaderHeight())+"px");
+		//this.content.getElement().getStyle().setOverflow(Overflow.AUTO);
 	}
 
 	public DockLayoutPanel getContentPanel() {

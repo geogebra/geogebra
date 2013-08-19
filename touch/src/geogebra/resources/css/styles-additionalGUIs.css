@@ -244,7 +244,7 @@ body .browsegui .fileLinks .button {
 
 .worksheetgui .worksheet {
 	padding: 30px 20px 40px 20px;
-	
+	overflow: auto;
 	/* Background
 	background-image: linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
 	background-image: -o-linear-gradient(top, rgb(239, 239, 239) 0%, rgb(255, 255, 255) 10% );
