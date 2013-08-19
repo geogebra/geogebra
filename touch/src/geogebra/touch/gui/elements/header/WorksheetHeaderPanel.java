@@ -5,6 +5,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -36,12 +37,17 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		}, ClickEvent.getType());
 
 		this.rightPanel.add(this.editButton);
-		this.editButton.addClickHandler(new ClickHandler() {
-
+		this.editButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.stopPropagation();
+			public void onSingleClick() {
 				onEdit();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
