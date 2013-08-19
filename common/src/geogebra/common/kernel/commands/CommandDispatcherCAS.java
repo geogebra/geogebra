@@ -43,11 +43,9 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case Derivative:
 			return new CmdDerivative(kernel);
 		case Integral:
-			return new CmdIntegral(kernel, Commands.Integral);
 		case IntegralBetween:
-			return new CmdIntegral(kernel, Commands.IntegralBetween);
 		case NIntegral:
-			return new CmdIntegral(kernel, Commands.NIntegral);
+			return new CmdIntegral(kernel, c);
 		case TrigExpand:
 			return new CmdTrigExpand(kernel);
 		case TrigSimplify:
