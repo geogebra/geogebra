@@ -7022,6 +7022,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setCaptionBotanaVars(String vars) {
 		labelMode = LABEL_CAPTION;
+		labelVisible = true;
+		
 		String labelWithVars = "{\\bf\\it " + label + vars + "}\\\\";
 		
 		if (caption == null) {
@@ -7042,6 +7044,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void addCaptionBotanaPolynomial(String poly) {
 		labelMode = LABEL_CAPTION;
+		labelVisible = true;
 			
 		if (caption != null) {
 			caption = caption.substring(0,caption.length()-1) + poly + "\\\\$";

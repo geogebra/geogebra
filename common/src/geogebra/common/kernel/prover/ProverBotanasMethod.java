@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
 import geogebra.common.main.App;
@@ -245,11 +246,13 @@ public class ProverBotanasMethod {
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
 
 					if (geoPolys != null) {
-						Variable[] v = new Variable[2];
-						v = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
-						App.debug("Constrained point " + geo.getLabelSimple() + "(" + v[0] + "," + v[1] + ")");
-						if (ProverSettings.captionAlgebra) {
-							geo.setCaptionBotanaVars("(" + v[0].toTeX() + "," + v[1].toTeX() + ")");
+						if (geo instanceof GeoPoint) {
+							Variable[] v = new Variable[2];
+							v = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+							App.debug("Constrained point " + geo.getLabelSimple() + "(" + v[0] + "," + v[1] + ")");
+							if (ProverSettings.captionAlgebra) {
+								geo.setCaptionBotanaVars("(" + v[0].toTeX() + "," + v[1].toTeX() + ")");
+							}
 						}
 						int nHypotheses = 0;
 						if (hypotheses != null)
