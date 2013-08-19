@@ -1176,6 +1176,11 @@ public class TouchModel {
 			final GeoNumeric slider = this.inputDialog.isNumber() ? new GeoNumeric(
 					this.kernel.getConstruction()) : new GeoAngle(
 					this.kernel.getConstruction());
+
+			// the slider will be removed in case of an Exception while parsing
+			// the texts from the textfields (min, max, increment)
+			this.actualSlider = slider;
+
 			slider.setLabel(input.equals("") ? null : input);
 			slider.setSliderLocation(this.eventCoordinates.x,
 					this.eventCoordinates.y, true);
@@ -1185,6 +1190,8 @@ public class TouchModel {
 			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			slider.setLabelVisible(true);
 			slider.update();
+
+			this.actualSlider = null;
 
 		} else { // every command except for Slider and Redefine
 
