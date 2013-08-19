@@ -6,7 +6,6 @@ public class StandardImageButton extends FastButton {
 	private SVGResource icon;
 
 	public StandardImageButton(SVGResource icon) {
-
 		this.setIcon(icon);
 	}
 
@@ -15,11 +14,9 @@ public class StandardImageButton extends FastButton {
 		final String html = "<img src=\"" + this.icon.getSafeUri().asString()
 				+ "\" />";
 		this.getElement().setInnerHTML(html);
-
 	}
 
 	public SVGResource getIcon() {
 		return this.icon;
 	}
-
 }

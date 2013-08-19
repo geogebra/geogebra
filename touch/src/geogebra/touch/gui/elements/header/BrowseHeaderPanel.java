@@ -1,10 +1,10 @@
-package geogebra.touch.gui.elements.ggt;
+package geogebra.touch.gui.elements.header;
 
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.elements.header.AuxiliaryHeaderPanel;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
@@ -19,12 +19,15 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class SearchBar extends AuxiliaryHeaderPanel {
+public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
+ResizeListener {
+	
 	public interface SearchListener {
 		void onSearch(String query);
 	}
@@ -40,7 +43,7 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 	private final List<SearchListener> listeners;
 	private BrowseGUI browseGUI;
 
-	public SearchBar(final Localization loc, final BrowseGUI browseGUI) {
+	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI) {
 		super(loc.getMenu("Worksheets"), loc);
 		
 		super.backPanel.addDomHandler(new ClickHandler() {
@@ -164,5 +167,10 @@ public class SearchBar extends AuxiliaryHeaderPanel {
 		for (final SearchListener s : this.listeners) {
 			s.onSearch(this.query.getText());
 		}
+	}
+
+	@Override
+	public void onResize() {
+		this.setWidth(Window.getClientWidth() + "px");
 	}
 }

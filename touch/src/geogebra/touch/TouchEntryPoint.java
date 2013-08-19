@@ -92,7 +92,7 @@ public class TouchEntryPoint implements EntryPoint {
 				ResourcesInjector.injectResources();
 				setLookAndFeel();
 
-				final FileManagerM fm = new FileManagerM();
+				final FileManagerT fm = new FileManagerT();
 				appWidget = new TabletDeckLayoutPanel(app);
 				app.setFileManager(fm);
 				app.registerSavedStateListener(TouchEntryPoint.getLookAndFeel());
@@ -147,7 +147,6 @@ public class TouchEntryPoint implements EntryPoint {
 	public static void showBrowseGUI() {
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.getBrowseGUI());
 		TouchEntryPoint.getBrowseGUI().onResize();
-		TouchEntryPoint.getBrowseGUI().updateNextPrevButtons();
 	}
 
 	public static void showTabletGUI() {

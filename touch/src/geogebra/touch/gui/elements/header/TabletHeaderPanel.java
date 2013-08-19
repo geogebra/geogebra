@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.header;
 
-import geogebra.touch.FileManagerM;
+import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.dialogs.InfoDialog;
@@ -39,11 +39,10 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	private final TabletHeaderPanelRight rightHeader;
 	private InfoDialog infoOverrideDialog;
 	private TouchApp app;
-	private FileManagerM fm;
+	private FileManagerT fm;
 
 	public TabletHeaderPanel(final TouchApp app, final TouchModel touchModel) {
 		this.setStyleName("headerbar");
-		this.setWidth(Window.getClientWidth() + "px");
 
 		this.app = app;
 		this.fm = this.app.getFileManager();

@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -53,20 +52,18 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
  */
 public class TouchModel {
 
-	Kernel kernel;
-	GuiModel guiModel;
+	private final Kernel kernel;
+	private final GuiModel guiModel;
 	private EuclidianView euclidianView;
-
-	InputDialog inputDialog;
+	private final InputDialog inputDialog;
 	private boolean commandFinished = false;
 	private boolean changeColorAllowed = false;
 	private boolean controlClicked = true;
 	private boolean storeOnClose = false;
 	private ToolBarCommand command;
 	private final ArrayList<GeoElement> selectedElements = new ArrayList<GeoElement>();
-	private CmdIntersect cmdIntersect;
+	private final CmdIntersect cmdIntersect;
 	private GeoElement redefineGeo;
-
 	private Point eventCoordinates = new Point(0, 0);
 	private GeoNumeric redefineSlider, actualSlider;
 	private String oldRedefineText;
@@ -77,12 +74,6 @@ public class TouchModel {
 		this.inputDialog = new InputDialog(
 				(TouchApp) this.kernel.getApplication(),
 				DialogType.NumberValue, this);
-		this.inputDialog.setInputHandler(new InputHandler() {
-			@Override
-			public boolean processInput(final String inputString) {
-				return TouchModel.this.inputPanelClosed(inputString);
-			}
-		});
 		this.cmdIntersect = new CmdIntersect(this.kernel);
 	}
 
@@ -143,7 +134,7 @@ public class TouchModel {
 	 * @param geo
 	 *            the element to be selected or deselected
 	 */
-	public void changeSelectionState(final GeoElement geo) {
+	private void changeSelectionState(final GeoElement geo) {
 		if (geo == null) {
 			return;
 		}
@@ -168,7 +159,7 @@ public class TouchModel {
 	 *            maximum number of elements to be selected
 	 * @return success
 	 */
-	public boolean changeSelectionState(final Hits hits, final Test geoclass,
+	private boolean changeSelectionState(final Hits hits, final Test geoclass,
 			final int max) {
 		boolean success = false;
 		final Hits h = new Hits();
@@ -235,20 +226,6 @@ public class TouchModel {
 		geo.setSelected(false);
 		this.selectedElements.remove(geo);
 		return ret;
-	}
-
-	/**
-	 * deselects all selected elements of the given type
-	 * 
-	 * @param geoclass
-	 *            type of elements to be deselected
-	 */
-	public void deselectAll(final Test geoclass) {
-		for (final GeoElement geo : this.selectedElements) {
-			if (geoclass.check(geo)) {
-				this.selectedElements.remove(geo);
-			}
-		}
 	}
 
 	private boolean finishedPolygon(final Hits hits) {
@@ -326,7 +303,7 @@ public class TouchModel {
 	 *         different types the element of the type with the lower index will
 	 *         be returned
 	 */
-	public GeoElement getElementFrom(final Test[] geoclass) {
+	private GeoElement getElementFrom(final Test[] geoclass) {
 		for (final Test geoclas : geoclass) {
 			for (final GeoElement geo : this.selectedElements) {
 				if (geoclas.check(geo)) {
@@ -1185,17 +1162,16 @@ public class TouchModel {
 		}
 
 		// avoid labeling of num
-		final boolean oldVal = TouchModel.this.kernel.getConstruction()
+		final boolean oldVal = this.kernel.getConstruction()
 				.isSuppressLabelsActive();
-		TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(true);
+		this.kernel.getConstruction().setSuppressLabelCreation(true);
 		final String signedInput = this.inputDialog.isClockwise() ? "-("
 				+ input + ")" : input;
 
 		final ArrayList<GeoElement> newGeoElements = new ArrayList<GeoElement>();
 
 		if (this.command == ToolBarCommand.Slider) {
-			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
-					oldVal);
+			this.kernel.getConstruction().setSuppressLabelCreation(oldVal);
 
 			final GeoNumeric slider = this.inputDialog.isNumber() ? new GeoNumeric(
 					this.kernel.getConstruction()) : new GeoAngle(
@@ -1212,12 +1188,10 @@ public class TouchModel {
 
 		} else { // every command except for Slider and Redefine
 
-			final GeoElement[] result = TouchModel.this.kernel
-					.getAlgebraProcessor().processAlgebraCommand(signedInput,
-							false);
+			final GeoElement[] result = this.kernel.getAlgebraProcessor()
+					.processAlgebraCommand(signedInput, false);
 
-			TouchModel.this.kernel.getConstruction().setSuppressLabelCreation(
-					oldVal);
+			this.kernel.getConstruction().setSuppressLabelCreation(oldVal);
 
 			if (result == null || result.length == 0
 					|| !(result[0] instanceof NumberValue)) {
@@ -1228,14 +1202,10 @@ public class TouchModel {
 			switch (this.command) {
 			case RegularPolygon:
 				addAll(newGeoElements,
-						TouchModel.this.kernel.getAlgoDispatcher()
-								.RegularPolygon(
-										null,
-										(GeoPoint) this
-												.getElement(Test.GEOPOINT),
-										(GeoPoint) this.getElement(
-												Test.GEOPOINT, 1),
-										(NumberValue) result[0]));
+						this.kernel.getAlgoDispatcher().RegularPolygon(null,
+								(GeoPoint) this.getElement(Test.GEOPOINT),
+								(GeoPoint) this.getElement(Test.GEOPOINT, 1),
+								(NumberValue) result[0]));
 				break;
 
 			case Dilate:
@@ -1244,9 +1214,8 @@ public class TouchModel {
 				this.deselect(start);
 				for (final GeoElement source : this.selectedElements) {
 					addAll(newGeoElements,
-							TouchModel.this.kernel.getAlgoDispatcher().Dilate(
-									null, source, (NumberValue) result[0],
-									start));
+							this.kernel.getAlgoDispatcher().Dilate(null,
+									source, (NumberValue) result[0], start));
 				}
 				break;
 
@@ -1257,9 +1226,8 @@ public class TouchModel {
 				this.deselect(center);
 				for (final GeoElement source : this.selectedElements) {
 					addAll(newGeoElements,
-							TouchModel.this.kernel.getAlgoDispatcher().Rotate(
-									null, source, (GeoNumberValue) result[0],
-									center));
+							this.kernel.getAlgoDispatcher().Rotate(null,
+									source, (GeoNumberValue) result[0], center));
 				}
 				break;
 
@@ -1427,9 +1395,9 @@ public class TouchModel {
 		}
 
 		this.inputDialog.show();
-
 	}
 
+	// try without this!!!!!
 	public void repaint() {
 		this.kernel.notifyRepaint();
 	}
@@ -1459,27 +1427,7 @@ public class TouchModel {
 		this.selectedElements.add(geo);
 	}
 
-	public boolean select(final Hits hits, final int max) {
-		boolean selectAllowed = true;
-		if (this.getTotalNumber() >= max) {
-			selectAllowed = false;
-		}
-
-		boolean success = false;
-		for (int i = 0; i < max; i++) {
-			if (i < hits.size()) {
-				if (selectAllowed) {
-					this.select(hits.get(i));
-					success = true;
-				} else if (this.deselect(hits.get(i))) {
-					return true;
-				}
-			}
-		}
-		return success;
-	}
-
-	public boolean select(final Hits hits, final Test geoclass, final int max) {
+	private boolean select(final Hits hits, final Test geoclass, final int max) {
 		boolean selectAllowed = true;
 		if (this.getNumberOf(geoclass) >= max) {
 			selectAllowed = false;
@@ -1515,7 +1463,7 @@ public class TouchModel {
 	 * @return success (false if there is no element of any of the given
 	 *         classes)
 	 */
-	public boolean selectOutOf(final Hits hits, final Test[] geoclass,
+	private boolean selectOutOf(final Hits hits, final Test[] geoclass,
 			final int max) {
 		boolean selectAllowed = true;
 		int sum = 0;
@@ -1556,7 +1504,7 @@ public class TouchModel {
 	 * @return success (false if there is no element of any of the given
 	 *         classes)
 	 */
-	public boolean selectOutOf(final Hits hits, final Test[] geoclass,
+	private boolean selectOutOf(final Hits hits, final Test[] geoclass,
 			final int[] max) {
 		if (geoclass.length != max.length) {
 			return false;
@@ -1616,9 +1564,5 @@ public class TouchModel {
 
 	public void storeOnClose() {
 		this.storeOnClose = true;
-	}
-
-	public boolean wasCantorolClicked() {
-		return this.controlClicked;
 	}
 }

@@ -33,13 +33,10 @@ public class TouchEventController implements TouchStartHandler,
 		return touch.getClientX();
 	}
 
-	TouchController mc;
+	private final TouchController mc;
 	private double oldDistance;
-
 	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
-
 	private final Widget offsetWidget;
-
 	private boolean ignoreMouseEvents = false;
 
 	public TouchEventController(final TouchController mc, final Widget w) {

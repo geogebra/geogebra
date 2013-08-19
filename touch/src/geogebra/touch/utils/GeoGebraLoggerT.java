@@ -11,10 +11,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-public class GeoGebraLoggerM extends GeoGebraLogger {
+public class GeoGebraLoggerT extends GeoGebraLogger {
 	private final Element el;
 
-	public GeoGebraLoggerM(GeoGebraTouchGUI gui) {
+	public GeoGebraLoggerT(GeoGebraTouchGUI gui) {
 		this.el = new AbsolutePanel().getElement();
 		final Style st = this.el.getStyle();
 		st.setZIndex(1000000);

@@ -5,6 +5,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -101,22 +102,37 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.showHideClosed = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideClosed.setStyleName("arrowLeft");
-		this.showHideClosed.addClickHandler(new ClickHandler() {
+		this.showHideClosed.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onSingleClick() {
 				onExpandToolBar();
 			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
+			}
 		});
+		
 		this.add(this.showHideClosed);
 
 		this.showHideOpened = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
 		this.showHideOpened.setVisible(false);
-		this.showHideOpened.addClickHandler(new ClickHandler() {
+		this.showHideOpened.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onSingleClick() {
 				onCollapseToolBar();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
@@ -170,7 +186,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.inputButtonPanel.add(this.underline);
 
 		this.add(this.inputButtonPanel);
-
+		
 		this.inputButtonPanel.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {

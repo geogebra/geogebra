@@ -33,25 +33,27 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 		this.controller = controller;
 
 		this.addFastClickHandler(new FastClickHandler() {
-
+			
 			@Override
-			public void onFastClick(FastClickEvent event) {
-				onClick();
+			public void onSingleClick() {
+				handleClick();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				openRedefine();
 			}
 		});
+
 	}
 
-	protected void onClick() {
-		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
-			// doubleClick
-			this.controller.redefine(this.getGeo());
-		} else {
-			// first click or single click
-			final Hits hits = new Hits();
-			hits.add(this.getGeo());
-			this.controller.handleEvent(hits);
-		}
-		this.lastClick = System.currentTimeMillis();
+	protected void openRedefine() {
+		this.controller.redefine(this.getGeo());
+	}
+	protected void handleClick() {
+		final Hits hits = new Hits();
+		hits.add(this.getGeo());
+		this.controller.handleEvent(hits);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 			if (this.touchEventHandled) {
 				this.touchEventHandled = false;
 			} else {
-				fireFastClickEvent();
+				handleFastClick();
 			}
 			break;
 		}
@@ -80,7 +82,7 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 		case Event.ONTOUCHEND: {
 			event.stopPropagation();
 			this.touchEventHandled = true;
-			fireFastClickEvent();
+			handleFastClick();
 			break;
 		}
 
@@ -98,8 +100,19 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem implements
 		}
 	}
 
-	private void fireFastClickEvent() {
-		fireEvent(new FastClickEvent());
+	private void handleFastClick() {
+		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
+			// doubleClick
+			this.fireFastClickEvent(true);
+		} else {
+			// first click or single click
+			this.fireFastClickEvent(false);
+		}
+		this.lastClick = System.currentTimeMillis();
+	}
+	
+	private void fireFastClickEvent(boolean isDoubleClick) {
+		fireEvent(new FastClickEvent(isDoubleClick));
 	}
 
 	@Override

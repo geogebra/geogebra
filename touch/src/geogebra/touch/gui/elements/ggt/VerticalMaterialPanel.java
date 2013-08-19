@@ -4,6 +4,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
+import geogebra.touch.gui.ResizeListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class VerticalMaterialPanel extends FlowPanel {
-	public static final int SPACE = 20;
+public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
+	private static final int PANEL_HEIGHT = 100;
 
 	private static int maxHeight() {
 		return TouchEntryPoint.getLookAndFeel().getContentWidgetHeight()
@@ -25,7 +26,7 @@ public class VerticalMaterialPanel extends FlowPanel {
 
 	private final FlexTable contentPanel;
 	private final AppWeb app;
-	private int materialHeight = 140;
+	private final int materialHeight = 140;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
@@ -34,9 +35,9 @@ public class VerticalMaterialPanel extends FlowPanel {
 
 	public VerticalMaterialPanel(final AppWeb app) {
 		this.getElement().getStyle().setFloat(Style.Float.LEFT);
+		this.setStyleName("filePanel");
 		this.contentPanel = new FlexTable();
 		this.app = app;
-		// this.setWidget(this.contentPanel);
 		this.add(this.contentPanel);
 		this.contentPanel.setWidth("100%");
 	}
@@ -45,10 +46,9 @@ public class VerticalMaterialPanel extends FlowPanel {
 		return this.lastSelected;
 	}
 
-
 	@Override
 	public int getOffsetHeight() {
-		return MaterialListElement.PANEL_HEIGHT;
+		return PANEL_HEIGHT;
 	}
 
 	private int pageCapacity() {
@@ -102,7 +102,6 @@ public class VerticalMaterialPanel extends FlowPanel {
 	private void setMaterials(final int cols, final List<Material> materials,
 			final int offset) {
 		this.columns = cols;
-		this.updateWidth();
 		this.contentPanel.clear();
 		this.start = offset;
 		this.materials = materials;
@@ -131,7 +130,8 @@ public class VerticalMaterialPanel extends FlowPanel {
 		}
 	}
 
-	public void updateWidth() {
+	@Override
+	public void onResize() {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
 	}
 }

@@ -1,84 +1,118 @@
 package geogebra.touch.gui.elements.ggt;
 
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.BrowseGUI;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class FileContainer extends VerticalPanel {
-	private final FlowPanel localFileControlPanel;
-	private final VerticalMaterialPanel localFilePanel;
-	private final HorizontalPanel localFilePages;
+public class FileContainer extends VerticalPanel implements ResizeListener {
+
+	private FlowPanel fileControlPanel;
+	private final VerticalMaterialPanel filePanel;
+	private HorizontalPanel filePages;
+	private Label heading = new Label();
+
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final StandardImageButton prevLocalButton = new StandardImageButton(
+	private final StandardImageButton prevButton = new StandardImageButton(
 			LafIcons.arrow_go_previous());
-	private final StandardImageButton nextLocalButton = new StandardImageButton(
+	private final StandardImageButton nextButton = new StandardImageButton(
 			LafIcons.arrow_go_next());
 
-	public FileContainer(String string, Label headingMyProfile,
-			final VerticalMaterialPanel localFilePanel) {
-		this.localFilePanel = localFilePanel;
-		this.addStyleName(string);
-		this.add(headingMyProfile);
-		this.add(localFilePanel);
-		// Panel for page controls local files
-		this.localFileControlPanel = new FlowPanel();
-		this.localFileControlPanel.setStyleName("fileControlPanel");
+	public FileContainer(String headingName, final VerticalMaterialPanel filePanel) {
+		this.filePanel = filePanel;
+		this.addHeading(headingName);
+		this.add(filePanel);
+		this.addPageControl();
+	}
 
-		this.prevLocalButton.addStyleName("prevButton");
-		this.prevLocalButton.addStyleName("disabled");
-		this.localFileControlPanel.add(this.prevLocalButton);
+	private void addHeading(String headingName) {
+		this.heading.setText(headingName);
+		this.heading.setStyleName("filePanelTitle");
+		this.add(this.heading);
+	}
+	
+	private void addPageControl() {
+		// Panel for page controls, with next/prev buttons
+		this.fileControlPanel = new FlowPanel();
+		this.fileControlPanel.setStyleName("fileControlPanel");
 
-		this.localFilePages = new HorizontalPanel();
-		this.localFilePages.setStyleName("filePageControls");
+		this.prevButton.addStyleName("prevButton");
+		this.prevButton.addStyleName("disabled");
+		this.fileControlPanel.add(this.prevButton);
+		this.prevButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onPrevPage();
+			}
+		});
+
+		this.filePages = new HorizontalPanel();
+		this.filePages.setStyleName("filePageControls");
 		// TODO: add number buttons here
+		this.fileControlPanel.add(this.filePages);
 
-		this.localFileControlPanel.add(this.localFilePages);
-		this.nextLocalButton.addStyleName("nextButton");
-		this.nextLocalButton.addStyleName("disabled");
-		this.localFileControlPanel.add(this.nextLocalButton);
-		this.nextLocalButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				localFilePanel.nextPage();
-				updateNextPrevButtons();
-			}
-		});
-		this.prevLocalButton.addClickHandler(new ClickHandler() {
+		this.nextButton.addStyleName("nextButton");
+		this.nextButton.addStyleName("disabled");
+		this.fileControlPanel.add(this.nextButton);
+		this.nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				localFilePanel.prevPage();
-				updateNextPrevButtons();
+				onNextPage();
 			}
 		});
-		this.add(this.localFileControlPanel);
+
+		this.add(this.fileControlPanel);
 	}
 
+	protected void onPrevPage() {
+		this.filePanel.prevPage();
+		updateNextPrevButtons();
+	}
+	
+	protected void onNextPage() {
+		this.filePanel.nextPage();
+		updateNextPrevButtons();
+	}
+	
 	public void updateNextPrevButtons() {
-		if (this.localFilePanel.hasNextPage()) {
-			this.nextLocalButton.removeStyleName("disabled");
-			this.nextLocalButton.setEnabled(true);
+		if (this.filePanel.hasNextPage()) {
+			this.nextButton.removeStyleName("disabled");
+			this.nextButton.setEnabled(true);
 		} else {
-			this.nextLocalButton.addStyleName("disabled");
-			this.nextLocalButton.setEnabled(false);
+			this.nextButton.addStyleName("disabled");
+			this.nextButton.setEnabled(false);
 		}
-		if (this.localFilePanel.hasPrevPage()) {
-			this.prevLocalButton.removeStyleName("disabled");
-			this.prevLocalButton.setEnabled(true);
-
+		if (this.filePanel.hasPrevPage()) {
+			this.prevButton.removeStyleName("disabled");
+			this.prevButton.setEnabled(true);
 		} else {
-			this.prevLocalButton.addStyleName("disabled");
-			this.prevLocalButton.setEnabled(false);
+			this.prevButton.addStyleName("disabled");
+			this.prevButton.setEnabled(false);
 		}
 	}
+	
+	public void setHeading(String headingName) {
+		this.heading.setText(headingName);
+	}
 
+	@Override
+	public void onResize() {
+		int contentHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
+		this.setHeight(contentHeight + "px");
+		this.filePanel.setHeight(contentHeight - BrowseGUI.HEADING_HEIGHT
+				- BrowseGUI.CONTROLS_HEIGHT + "px");
+		this.updateNextPrevButtons();
+	}  
 }

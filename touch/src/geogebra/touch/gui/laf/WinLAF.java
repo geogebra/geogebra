@@ -3,8 +3,8 @@ package geogebra.touch.gui.laf;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.touch.TouchApp;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
+import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.Window;
@@ -17,7 +17,7 @@ public class WinLAF extends DefaultLAF {
 	}
 
 	@Override
-	public void buildHeader(final TouchModel touchModel) {
+	public void buildTabletHeader(final TouchModel touchModel) {
 
 	}
 

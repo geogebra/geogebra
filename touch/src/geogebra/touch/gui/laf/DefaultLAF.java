@@ -1,24 +1,21 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.WorksheetHeader;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
+import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
-import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.OptionType;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
 
 	private TabletHeaderPanel hp;
+	private BrowseHeaderPanel bhp;
 	private final TabletGUI gui;
 	protected TouchApp app;
 
@@ -28,7 +25,7 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public void buildHeader(final TouchModel touchModel) {
+	public void buildTabletHeader(final TouchModel touchModel) {
 		this.hp = new TabletHeaderPanel(this.app, touchModel);
 		this.gui.setHeaderWidget(this.hp);
 		this.gui.addResizeListener(this.hp);
@@ -36,10 +33,17 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public WorksheetHeader buildWorksheetHeader(final WorksheetGUI worksheetGUI) {
-		final WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app,
-				worksheetGUI, this.gui);
+		final WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app, this.gui);
 		worksheetGUI.setHeaderWidget(header);
 		return header;
+	}
+	
+	@Override
+	public BrowseHeaderPanel buildBrowseHeader(BrowseGUI browseGUI) {
+		this.bhp = new BrowseHeaderPanel(this.app.getLocalization(), browseGUI);
+		browseGUI.setHeaderWidget(this.bhp);
+		browseGUI.addResizeListener(this.bhp);
+		return this.bhp;
 	}
 
 	@Override
@@ -47,6 +51,11 @@ public class DefaultLAF implements LookAndFeel {
 		return this.hp.getOffsetHeight();
 	}
 
+	@Override
+	public int getBrowseHeaderHeight() {
+		return this.bhp.getOffsetHeight();
+	}
+	
 	@Override
 	public int getToolBarHeight() {
 		return this.gui.getToolBar().getOffsetHeight();
@@ -100,78 +109,6 @@ public class DefaultLAF implements LookAndFeel {
 		if (this.getTabletHeaderPanel() != null) {
 			this.getTabletHeaderPanel().enableDisableButtons();
 		}
-	}
-
-	@Override
-	public StandardImageButton setStyleBarShowHideHandler(
-			final StandardImageButton button, final StyleBar styleBar) {
-		button.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-				styleBar.showHide();
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public StandardImageButton setStyleBarButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final String process) {
-		button.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-
-				styleBar.onStyleBarButtonEvent(button, process);
-				DefaultLAF.this.getApp().setUnsaved();
-				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public StandardImageButton setOptionalButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final OptionType type) {
-		button.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-
-				event.preventDefault();
-				event.stopPropagation();
-				styleBar.onOptionalButtonEvent(button, type);
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public StandardImageButton setAlgebraButtonHandler(
-			final StandardImageButton button, final TabletGUI gui) {
-		button.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-
-				gui.toggleAlgebraView();
-
-				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
-							.enableDisableButtons();
-				}
-			}
-		});
-
-		return button;
 	}
 
 	public TouchApp getApp() {

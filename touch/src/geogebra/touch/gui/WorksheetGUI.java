@@ -3,9 +3,10 @@ package geogebra.touch.gui;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.FileManagerM;
+import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 
@@ -21,7 +22,7 @@ public class WorksheetGUI extends HeaderPanel {
 	private final Label instructionsPost, instructionsPre;
 	private final FlowPanel frame = new FlowPanel();
 	private final AppWeb app;
-	private final FileManagerM fm;
+	private final FileManagerT fm;
 	private final FlowPanel content;
 	private final TabletGUI tabletGUI;
 	private DockLayoutPanel contentPanel;

@@ -2,12 +2,14 @@ package geogebra.touch.gui.elements;
 
 import geogebra.touch.gui.algebra.events.FastClickEvent;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.algebra.events.HasFastClickHandlers;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.PushButton;
 
-public class FastButton extends PushButton implements FastClickHandler {
+public abstract class FastButton extends PushButton implements HasFastClickHandlers {
 
 	public static final int TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK = 500;
 
@@ -35,7 +37,6 @@ public class FastButton extends PushButton implements FastClickHandler {
 	 */
 	@Override
 	public void onBrowserEvent(Event event) {
-
 		switch (DOM.eventGetType(event)) {
 
 		case Event.ONCLICK: {
@@ -43,7 +44,7 @@ public class FastButton extends PushButton implements FastClickHandler {
 			if (this.touchEventHandled) {
 				this.touchEventHandled = false;
 			} else {
-				fireFastClickEvent();
+				handleFastClick();
 			}
 			break;
 		}
@@ -51,7 +52,7 @@ public class FastButton extends PushButton implements FastClickHandler {
 		case Event.ONTOUCHEND: {
 			event.stopPropagation();
 			this.touchEventHandled = true;
-			fireFastClickEvent();
+			handleFastClick();
 			break;
 		}
 
@@ -69,32 +70,23 @@ public class FastButton extends PushButton implements FastClickHandler {
 		}
 	}
 
-	private void fireFastClickEvent() {
-		fireEvent(new FastClickEvent());
+	private void fireFastClickEvent(boolean isDoubleClick) {
+		fireEvent(new FastClickEvent(isDoubleClick));
 	}
-
-	@Override
-	public void onFastClick(FastClickEvent event) {
-
-		if (System.currentTimeMillis() - FastButton.this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
+	
+	private void handleFastClick() {
+		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
 			// doubleClick
-			FastButton.this.onDoubleClick();
+			this.fireFastClickEvent(true);
 		} else {
-			// first click or single click
-			FastButton.this.onClick();
+			this.fireFastClickEvent(false);
 		}
-		FastButton.this.lastClick = System.currentTimeMillis();
+		this.active = true;
+		this.lastClick = System.currentTimeMillis();
 	}
 
 	@Override
-	protected void onClick() {
-		this.active = true;
+	public HandlerRegistration addFastClickHandler(FastClickHandler handler) {
+		return addHandler(handler, FastClickEvent.getType());
 	}
-
-	protected void onDoubleClick() {
-		this.active = true;
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -7,8 +8,6 @@ import geogebra.touch.utils.ToolBarMenu;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -20,9 +19,9 @@ import com.google.gwt.user.client.Window;
  */
 public class ToolBarButton extends ToolButton implements OptionsClickedListener {
 
-	private SubToolBarButton[] menuEntry;
+	private SubToolBarButton[] menuEntries;
 	private final GuiModel model;
-
+	private SubToolBar options;
 	private static int BUTTON_WIDTH = 56;
 	private static int BUTTONPANEL_BORDER = 7;
 
@@ -43,19 +42,26 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel) {
 		super(menu.getCommand());
 		this.model = guiModel;
+		
 
-		this.menuEntry = new SubToolBarButton[menu.getEntries().length];
+		this.menuEntries = new SubToolBarButton[menu.getEntries().length];
 		for (int i = 0; i < menu.getEntries().length; i++) {
-			this.menuEntry[i] = new SubToolBarButton(menu.getEntries()[i], this);
+			this.menuEntries[i] = new SubToolBarButton(menu.getEntries()[i], this);
 		}
+		this.options = new SubToolBar(this.menuEntries);
 
-		this.addDomHandler(new ClickHandler() {
+		this.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
+			public void onSingleClick() {
 				onToolBarButton();
 			}
-		}, ClickEvent.getType());
+			
+			@Override
+			public void onDoubleClick() {
+				return;
+			}
+		});
 	}
 
 	protected void onToolBarButton() {
@@ -74,52 +80,50 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	}
 
 	private void showOptions() {
-		if (this.menuEntry.length != 0) {
-			final SubToolBar options = new SubToolBar(this.menuEntry, this);
+		this.model.setActive(this);
+		if (this.menuEntries.length != 0) {
 
-			final int optionsWidth = this.menuEntry.length
+			final int optionsWidth = this.menuEntries.length
 					* ToolBarButton.BUTTON_WIDTH
 					+ ToolBarButton.BUTTONPANEL_BORDER;
 
 			this.model.closeOnlyOptions();
-			this.model.setOption(options);
+			this.model.setOption(this.options);
 
-			// if the width of the subtoolbar ist too big, the position should
+			// if the width of the subtoolbar is too big, the position should
 			// be different leftpos of button + width of subtoolbar must not be
 			// bigger than Window-width!!
 			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()
-					&& options.isHorizontal()) {
+					&& this.options.isHorizontal()) {
 
 				// special case for cirlces (is still too long)
 				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH
 						- optionsWidth < 0) {
-					final int buttonsLeft = this.menuEntry.length / 2;
-					options.setPopupPosition(this.getAbsoluteLeft()
+					final int buttonsLeft = this.menuEntries.length / 2;
+					this.options.setPopupPosition(this.getAbsoluteLeft()
 							- buttonsLeft * ToolBarButton.BUTTON_WIDTH,
 							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
 									- 16);
-					options.setSubToolBarArrowPaddingLeft(buttonsLeft
+					this.options.setSubToolBarArrowPaddingLeft(buttonsLeft
 							* ToolBarButton.BUTTON_WIDTH + 23);
 				} else {
-					options.setPopupPosition(this.getAbsoluteLeft()
+					this.options.setPopupPosition(this.getAbsoluteLeft()
 							+ ToolBarButton.BUTTON_WIDTH - optionsWidth
 							+ ToolBarButton.BUTTONPANEL_BORDER,
 							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
 									- 16);
-					options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
+					this.options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
 				}
 
 			} else {
 				// this.model.showOption(options, this);
 				// (showRelativeToParent doesn't work correctly)
-				options.setPopupPosition(this.getAbsoluteLeft(),
+				this.options.setPopupPosition(this.getAbsoluteLeft(),
 						this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
 			}
 
-			options.show();
+			this.options.show();
 			this.model.setStyleBarOptionShown(OptionType.ToolBar);
-
 		}
-		this.model.setActive(this);
 	}
 }

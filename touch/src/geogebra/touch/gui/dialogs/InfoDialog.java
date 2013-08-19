@@ -164,6 +164,7 @@ public class InfoDialog extends PopupPanel {
 	}
 
 	private void initSaveButton() {
+		
 		this.saveButton.addDomHandler(new ClickHandler() {
 
 			@Override

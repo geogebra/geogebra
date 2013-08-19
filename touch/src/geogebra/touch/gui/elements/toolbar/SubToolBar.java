@@ -22,17 +22,10 @@ public class SubToolBar extends PopupPanel {
 	private boolean horizontal;
 
 	/**
-	 * Initialize the {@link OptionsBar optionsBar} with the specific menu
-	 * entries and add an {@link AnimationHelper}.
-	 * 
 	 * @param menuEntry
 	 *            the SubToolBarButtons that will be shown
-	 * @param ancestor
-	 *            the OptionsClickedListener (f.e. a ToolBarButton) that was
-	 *            clicked
 	 */
-	public SubToolBar(SubToolBarButton[] menuEntry,
-			OptionsClickedListener ancestor) {
+	public SubToolBar(SubToolBarButton[] menuEntry) {
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();

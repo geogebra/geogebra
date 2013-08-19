@@ -36,20 +36,21 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class EuclidianViewT extends EuclidianViewWeb {
+
 	private Canvas canvas;
-
-	protected Hits hits;
+	private Hits hits;
 	private EuclidianViewPanel panel;
-
+	private final int selectionFactor = 3;
 	private static int SELECTION_DIAMETER_MIN = 25; // taken from
+
 	// geogebra.common.euclidian.draw.DrawPoint
 
 	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
-	private final int selectionFactor = 3;
 
-	public EuclidianViewT(EuclidianViewPanel euclidianViewPanel,
-			TouchController ec, Widget widget, int width, int height) {
+	public EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
+			final TouchController ec, final Widget widget, final int width,
+			final int height) {
 		super(ec, new Settings().getEuclidian(1));
 
 		ec.setView(this);
@@ -68,14 +69,15 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	public void add(GBox box) {
+	public void add(final GBox box) {
 		this.panel.add(GBoxW.getImpl(box), (int) box.getBounds().getX(),
 				(int) box.getBounds().getY());
 	}
 
 	@Override
-	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle, int penSize) {
+	protected void doDrawPoints(final GeoImage gi,
+			final List<GPoint> penPoints2, final GColor penColor,
+			final int penLineStyle, final int penSize) {
 	}
 
 	@Override
@@ -84,7 +86,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	protected void drawResetIcon(GGraphics2D g) {
+	protected void drawResetIcon(final GGraphics2D g) {
 		// FIXME implement!
 		throw new UnsupportedOperationException();
 	}
@@ -119,7 +121,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	public boolean hitAnimationButton(AbstractEvent event) {
+	public boolean hitAnimationButton(final AbstractEvent event) {
 		return false;
 	}
 
@@ -127,8 +129,8 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	 * This method has to be called before using g2p.
 	 * 
 	 */
-	private void init(EuclidianViewPanel euclidianViewPanel, Widget widget,
-			int width, int height) {
+	private void init(final EuclidianViewPanel euclidianViewPanel,
+			final Widget widget, final int width, final int height) {
 		this.panel = euclidianViewPanel;
 		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
@@ -162,9 +164,9 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	@Override
 	protected void initCursor() {
 	}
-	
+
 	@Override
-	public void remove(GBox box) {
+	public void remove(final GBox box) {
 		this.panel.remove(GBoxW.getImpl(box));
 	}
 
@@ -198,7 +200,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	 * this version also adds points that are very close to the hit point
 	 */
 	@Override
-	public void setHits(GPoint p) {
+	public void setHits(final GPoint p) {
 		super.setHits(p);
 		this.hits = super.getHits();
 
@@ -215,7 +217,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	public void setMoveCursor() {
 	}
 
-	public void setPixelSize(int width, int height) {
+	public void setPixelSize(final int width, final int height) {
 		this.g2p.setCoordinateSpaceSize(width, height);
 		this.canvas.setPixelSize(width, height);
 		this.updateSize();
@@ -223,7 +225,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	public void setPreferredSize(GDimension preferredSize) {
+	public void setPreferredSize(final GDimension preferredSize) {
 	}
 
 	@Override
@@ -235,11 +237,11 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	}
 
 	@Override
-	protected void setStyleBarMode(int mode) {
+	protected void setStyleBarMode(final int mode) {
 	}
 
 	@Override
-	public void setToolTipText(String plainTooltip) {
+	public void setToolTipText(final String plainTooltip) {
 	}
 
 	@Override

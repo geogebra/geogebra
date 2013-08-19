@@ -31,7 +31,6 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.view.algebra.AlgebraViewWeb;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
-import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -39,7 +38,7 @@ import geogebra.touch.gui.GeoGebraTouchGUI;
 import geogebra.touch.gui.InfoBarT;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
-import geogebra.touch.utils.GeoGebraLoggerM;
+import geogebra.touch.utils.GeoGebraLoggerT;
 import geogebra.touch.utils.TitleChangedListener;
 
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ import java.util.Stack;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -62,26 +60,16 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class TouchApp extends AppWeb {
 	private final List<TitleChangedListener> titleListeners;
-
 	private final GeoGebraTouchGUI touchGUI;
 	private final FontManagerW fontManager;
-	/**
-	 * static because it gets from server side, either "" or the set filename
-	 */
-	public static String currentFileId = null;
-
-	// accepting range for hitting Geos (except for Points) is multiplied with
-	// this factor
-	// (for Points see EuclidianView)
-	private final int selectionFactor = 3;
-
+	private FileManagerT fm;
 	private GuiManager guiManager;
 
+	// accepting range for hitting Geos (except for Points) is multiplied with
+	// this factor (for Points see EuclidianView)
+	private final int selectionFactor = 3;
 	private boolean isDefaultFileName;
-
 	private final Stack<ErrorHandler> errorHandlers;
-
-	private FileManagerM fm;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -119,7 +107,7 @@ public class TouchApp extends AppWeb {
 			logger.setLogLevel("DEBUG");
 		} else if ("onscreen".equals(RootPanel.getBodyElement().getAttribute(
 				"data-param-showLogging"))) {
-			logger = new GeoGebraLoggerM(touchGUI);
+			logger = new GeoGebraLoggerT(touchGUI);
 			logger.setLogDestination(LogDestination.CONSOLES);
 			logger.setLogLevel("DEBUG");
 		}
@@ -156,7 +144,6 @@ public class TouchApp extends AppWeb {
 			}
 		}
 
-		// FIXME - do we ned scheduler????
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
@@ -288,7 +275,7 @@ public class TouchApp extends AppWeb {
 		return null;
 	}
 
-	public FileManagerM getFileManager() {
+	public FileManagerT getFileManager() {
 		return this.fm;
 	}
 
@@ -352,7 +339,7 @@ public class TouchApp extends AppWeb {
 	 * 
 	 * @return language of client
 	 */
-	public native String getLocale() /*-{
+	private native String getLocale() /*-{
 		var language = window.navigator.systemLanguage
 				|| window.navigator.language;
 		return language;
@@ -360,14 +347,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public String getLocaleStr() {
-		// never used? - getCurrentLocale always returns "default"
-		final String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		App.debug("Current Locale: " + localeName);
-
-		if (localeName.toLowerCase().equals(LocalizationW.DEFAULT_LOCALE)) {
-			return LocalizationW.DEFAULT_LANGUAGE;
-		}
-		return localeName.substring(0, 2);
+		return this.getLocale();
 	}
 
 	@Override
@@ -396,7 +376,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public ViewManager getViewManager() {
-		return new ViewManagerM();
+		return new ViewManagerT();
 	}
 
 	@Override
@@ -494,7 +474,7 @@ public class TouchApp extends AppWeb {
 		this.isDefaultFileName = true;
 	}
 
-	public void setFileManager(final FileManagerM fm) {
+	public void setFileManager(final FileManagerT fm) {
 		this.fm = fm;
 	}
 
@@ -510,7 +490,7 @@ public class TouchApp extends AppWeb {
 	}
 
 	public void setLanguage() {
-		final String locale = this.getLocale();
+		final String locale = this.getLocaleStr();
 		final String language = locale.substring(0, 2);
 
 		String country = "";
@@ -619,14 +599,6 @@ public class TouchApp extends AppWeb {
 			this.kernel.storeUndoInfo();
 		}
 		this.setUnsaved();
-	}
-
-	private void toggleAVvisibility(final DockPanelData[] dockPanelData) {
-		for (final DockPanelData dp : dockPanelData) {
-			if (dp.getViewId() == App.VIEW_ALGEBRA) {
-				this.touchGUI.setAlgebraVisible(dp.isVisible());
-			}
-		}
 	}
 
 	/**

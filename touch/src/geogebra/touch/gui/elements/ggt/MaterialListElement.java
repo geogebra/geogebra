@@ -2,9 +2,10 @@ package geogebra.touch.gui.elements.ggt;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppWeb;
-import geogebra.touch.FileManagerM;
+import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -24,21 +25,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  */
 public class MaterialListElement extends FlowPanel {
-	public static final int PANEL_HEIGHT = 100;
-
 	private final SimplePanel image;
 	private final VerticalPanel infos;
-
-	protected VerticalPanel links;
+	private final VerticalPanel links;
 	private final Label title, date;
-
 	private Label sharedBy;
-
 	private final VerticalMaterialPanel vmp;
-
-	Material material;
-	AppWeb app;
-	FileManagerM fm;
+	private final Material material;
+	private final AppWeb app;
+	private final FileManagerT fm;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
@@ -50,12 +45,11 @@ public class MaterialListElement extends FlowPanel {
 			LafIcons.dialog_trash());
 
 	public MaterialListElement(final Material m, final AppWeb app,
-			VerticalMaterialPanel vmp) {
+			final VerticalMaterialPanel vmp) {
 
 		this.image = new SimplePanel();
 		this.image.addStyleName("fileImage");
 		this.infos = new VerticalPanel();
-		// this.infos.setSpacing(5);
 		this.infos.setStyleName("fileDescription");
 		this.links = new VerticalPanel();
 
@@ -96,13 +90,11 @@ public class MaterialListElement extends FlowPanel {
 			this.infos.add(this.sharedBy);
 		}
 
-		// this.add(this.infos);
-
 		this.links.setStyleName("fileLinks");
 
 		this.addDomHandler(new ClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				event.preventDefault();
 				MaterialListElement.this.markSelected();
 			}
@@ -137,44 +129,64 @@ public class MaterialListElement extends FlowPanel {
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addDomHandler(new ClickHandler() {
+		this.deleteButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-				MaterialListElement.this.fm
-						.delete(MaterialListElement.this.material.getURL());
+			public void onSingleClick() {
+				onDelete();
 			}
-		}, ClickEvent.getType());
+			
+			@Override
+			public void onDoubleClick() {
+				return;
+			}
+		});
+	}
 
+	protected void onDelete() {
+		this.fm.delete(this.material.getURL());
 	}
 
 	private void initEditButton() {
 		this.links.add(this.editButton);
-		this.editButton.addDomHandler(new ClickHandler() {
+		this.editButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-				MaterialListElement.this.fm.getMaterial(
-						MaterialListElement.this.material,
-						MaterialListElement.this.app);
-				TouchEntryPoint.allowEditing(true);
-				TouchEntryPoint.goBack();
+			public void onSingleClick() {
+				onEdit();
 			}
-		}, ClickEvent.getType());
+			
+			@Override
+			public void onDoubleClick() {
+				return;
+			}
+		});
+	}
+
+	protected void onEdit() {
+		this.fm.getMaterial(this.material, this.app);
+		TouchEntryPoint.allowEditing(true);
+		TouchEntryPoint.goBack();
 	}
 
 	private void initOpenButton() {
-
 		this.links.add(this.openButton);
-		this.openButton.addDomHandler(new ClickHandler() {
+		this.openButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
-				TouchEntryPoint
-						.showWorksheetGUI(MaterialListElement.this.material);
+			public void onSingleClick() {
+				onOpen();
 			}
-		}, ClickEvent.getType());
+			
+			@Override
+			public void onDoubleClick() {
+				return;
+			}
+		});
+	}
 
+	protected void onOpen() {
+		TouchEntryPoint.showWorksheetGUI(this.material);
 	}
 
 	protected void markSelected() {

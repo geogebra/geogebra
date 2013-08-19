@@ -15,22 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class FileManagerM {
+public class FileManagerT {
 	private static final String FILE_PREFIX = "file#";
 	private static final String THUMB_PREFIX = "img#";
 	private static final String META_PREFIX = "meta#";
 	protected Storage stockStore = Storage.getLocalStorageIfSupported();
 
-	public FileManagerM() {
+	public FileManagerT() {
 		if (this.stockStore != null) {
 			this.ensureKeyPrefixes();
 		}
 	}
 
-	public void delete(String text) {
+	public void delete(final String text) {
 		this.stockStore.removeItem(FILE_PREFIX + text);
 		this.stockStore.removeItem(THUMB_PREFIX + text);
 		TouchEntryPoint.reloadLocalFiles();
@@ -51,7 +50,7 @@ public class FileManagerM {
 		return this.getFiles(MaterialFilter.getUniversalFilter());
 	}
 
-	public String getDefaultConstructionTitle(Localization loc) {
+	public String getDefaultConstructionTitle(final Localization loc) {
 		int i = 1;
 		String filename;
 		do {
@@ -61,7 +60,7 @@ public class FileManagerM {
 		return filename;
 	}
 
-	public boolean getFile(String title, App app) {
+	private boolean getFile(final String title, final App app) {
 		boolean success = true;
 		try {
 			final String base64 = this.stockStore.getItem(FILE_PREFIX + title);
@@ -76,7 +75,7 @@ public class FileManagerM {
 		return success;
 	}
 
-	public List<Material> getFiles(MaterialFilter filter) {
+	private List<Material> getFiles(final MaterialFilter filter) {
 		final List<Material> ret = new ArrayList<Material>();
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return ret;
@@ -102,7 +101,7 @@ public class FileManagerM {
 		return ret;
 	}
 
-	public void getMaterial(Material material, AppWeb app) {
+	public void getMaterial(final Material material, final AppWeb app) {
 		if (material.getId() > 0) {
 			// remote material
 			new View(RootPanel.getBodyElement(), app)
@@ -116,11 +115,11 @@ public class FileManagerM {
 
 	}
 
-	public String getThumbnailDataUrl(String title) {
+	public String getThumbnailDataUrl(final String title) {
 		return this.stockStore.getItem(THUMB_PREFIX + title);
 	}
 
-	public boolean hasFile(String filename) {
+	public boolean hasFile(final String filename) {
 		return this.stockStore != null
 				&& this.stockStore.getItem(FILE_PREFIX + filename) != null;
 	}
@@ -129,8 +128,8 @@ public class FileManagerM {
 		final String consTitle = app.getKernel().getConstruction().getTitle();
 		final StringHandler base64saver = new StringHandler() {
 			@Override
-			public void handle(String s) {
-				FileManagerM.this.stockStore
+			public void handle(final String s) {
+				FileManagerT.this.stockStore
 						.setItem(FILE_PREFIX + consTitle, s);
 				TouchEntryPoint.reloadLocalFiles();
 			}
@@ -154,25 +153,7 @@ public class FileManagerM {
 		((TouchApp) app).approveFileName();
 	}
 
-	public List<Material> search(String query) {
+	public List<Material> search(final String query) {
 		return this.getFiles(MaterialFilter.getSearchFilter(query));
-	}
-
-	public void toList(ListBox fileList) {
-		fileList.clear();
-
-		if (this.stockStore == null) {
-			return;
-		}
-
-		if (this.stockStore.getLength() > 0) {
-			for (int i = 0; i < this.stockStore.getLength(); i++) {
-				final String key = this.stockStore.key(i);
-				if (key.startsWith(FILE_PREFIX)) {
-					fileList.addItem(key.substring(FILE_PREFIX.length()));
-				}
-			}
-		}
-
 	}
 }

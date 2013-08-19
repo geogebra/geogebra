@@ -90,10 +90,10 @@ public enum ToolBarMenu {
 			// TODO: ToolBarCommand.Select,
 			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject });
 
-	ToolBarCommand[] entry;
-	ToolBarCommand command;
+	private ToolBarCommand[] entry;
+	private ToolBarCommand command;
 
-	ToolBarMenu(ToolBarCommand command, ToolBarCommand[] entries) {
+	ToolBarMenu(final ToolBarCommand command, final ToolBarCommand[] entries) {
 		this.command = command;
 		this.entry = entries;
 	}

@@ -22,7 +22,7 @@ body .worksheetTitle {
 }
 
 .worksheetTitle,
-body .tubesearchgui .headerbar .gwt-Label,
+body .browsegui .headerbar .gwt-Label,
 body .worksheetgui .headerbar .gwt-Label {
 	font-size: 18px;
 	opacity: 1;
@@ -212,11 +212,11 @@ body .infoDialog button.last {
 
 /* ADDITIONAL GUIs + TEXTBUTTONS! */
 
-.tubesearchgui .button.delete {
+.browsegui .button.delete {
 	margin-top: 5px;
 }
 
-body .tubesearchgui table.headerLeft,
+body .browsegui table.headerLeft,
 body .worksheetgui table.headerLeft {
 	border-spacing: 0px;
 	margin-left: 5px;
@@ -224,7 +224,7 @@ body .worksheetgui table.headerLeft {
 }
 
 .headerbar .headerLeft .backButton img,
-body .tubesearchgui .headerbar .headerLeft div.button.backButton,
+body .browsegui .headerbar .headerLeft div.button.backButton,
 body .worksheetgui .headerbar .headerLeft div.button.backButton  {
 	height: 37px;
 	width: 14px;
@@ -234,7 +234,7 @@ body .worksheetgui .headerbar .headerLeft div.button.backButton  {
 	padding: 0px;
 }
 
-.tubesearchgui .headerbar .headerLeft .backLabel,
+.browsegui .headerbar .headerLeft .backLabel,
 .worksheetgui .headerbar .headerLeft .backLabel {
 	font-weight: normal;
 	font-size: 12px;
@@ -312,7 +312,7 @@ body .headerbar .headerRight div.textButton {
 	border-right: 1px solid #444444;
 }
 
-.tubesearchgui .headerRight input.gwt-TextBox {
+.browsegui .headerRight input.gwt-TextBox {
 	/* Border */
 	-webkit-border-radius: 15px;
 	-khtml-border-radius: 15px;
@@ -338,14 +338,14 @@ body .headerbar .headerRight div.textButton {
 	padding-right: 30px;
 }
 
-.tubesearchgui .headerRight .searchButton {
+.browsegui .headerRight .searchButton {
 	position: relative;
 	z-index: 5;
 	left: 30px;
 	top: 5px;
 }
 
-.tubesearchgui .headerRight .cancelButton {
+.browsegui .headerRight .cancelButton {
 	position: absolute;
 	right: 18px;
 	top: 12px;

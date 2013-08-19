@@ -24,11 +24,11 @@ public enum StyleBarDefaultSettings {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
-	GColor defaultColor;
+	private GColor defaultColor;
 
-	SVGResource[] entry;
+	private SVGResource[] entry;
 
-	StyleBarDefaultSettings(GColor color, SVGResource[] entries) {
+	StyleBarDefaultSettings(final GColor color, final SVGResource[] entries) {
 		this.defaultColor = color;
 		this.entry = entries;
 	}

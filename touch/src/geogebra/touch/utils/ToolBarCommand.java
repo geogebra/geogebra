@@ -179,13 +179,13 @@ public enum ToolBarCommand {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
-	int mode;
-	SVGResource icon;
+	private int mode;
+	private SVGResource icon;
 
-	StyleBarDefaultSettings entries;
+	private StyleBarDefaultSettings entries;
 
-	ToolBarCommand(int mode, SVGResource icon,
-			StyleBarDefaultSettings stylingBarEntries) {
+	ToolBarCommand(final int mode, final SVGResource icon,
+			final StyleBarDefaultSettings stylingBarEntries) {
 		this.mode = mode;
 		this.icon = icon;
 		this.entries = stylingBarEntries;

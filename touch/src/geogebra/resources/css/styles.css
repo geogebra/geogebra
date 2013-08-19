@@ -136,7 +136,7 @@ div.button.button-up-hovering {
 }
 
 .disabled,
-body .tubesearchgui .fileControlPanel .button.disabled {
+body .browsegui .fileControlPanel .button.disabled {
 	opacity: 0.3;
 	filter: alpha(opacity = 30);
 }

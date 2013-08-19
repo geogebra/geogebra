@@ -78,7 +78,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	private boolean handlingExpected = false;
 	private InputHandler inputHandler;
 
-	public InputDialog(final TouchApp app, final DialogType type, final TouchModel touchModel) {
+	public InputDialog(final TouchApp app, final DialogType type,
+			final TouchModel touchModel) {
 		// hide when clicked outside and don't set modal due to the
 		// CustomKeyPanel
 		super(true, false);
@@ -96,7 +97,18 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		((TabletGUI) app.getTouchGui()).addResizeListener(this);
 
+		this.setInputHandler(new InputHandler() {
+			@Override
+			public boolean processInput(final String inputString) {
+				return handleInput(inputString);
+			}
+		});
+
 		this.setAutoHideEnabled(true);
+	}
+
+	protected boolean handleInput(final String inputString) {
+		return this.model.inputPanelClosed(inputString);
 	}
 
 	private void addRadioButton() {
@@ -143,9 +155,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.textBox.addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(final KeyDownEvent event) {
-				if (!InputDialog.this.textBox.isVisible()) {
-					return;
-				}
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					InputDialog.this.onOK();
 				}
@@ -162,7 +171,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.inputFieldPanel.add(this.textBox);
 	}
 
-	
 	private void buildErrorBox() {
 		this.iconWarning = this.laf.getIcons().icon_warning();
 		final Panel iconPanel = new LayoutPanel();

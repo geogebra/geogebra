@@ -5,8 +5,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.WorksheetHeader;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -20,16 +18,13 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 			.getIcons();
 	private final StandardImageButton editButton = new StandardImageButton(
 			LafIcons.document_edit());
-	private final WorksheetGUI worksheetGUI;
 	private Material material;
 	private final TabletGUI tabletGUI;
 	private final TouchApp app;
 
-	public WorksheetHeaderPanel(final AppWeb app,
-			final WorksheetGUI worksheetGUI, final TabletGUI tabletGUI) {
+	public WorksheetHeaderPanel(final AppWeb app, final TabletGUI tabletGUI) {
 
 		super("", app.getLocalization());
-		this.worksheetGUI = worksheetGUI;
 		this.tabletGUI = tabletGUI;
 		this.app = (TouchApp) app;
 
@@ -52,14 +47,14 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 	}
 
 	protected void onGoBack() {
-		this.tabletGUI.restoreEuclidian(this.worksheetGUI.getContentPanel());
+		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI().getContentPanel());
 		TouchEntryPoint.goBack();
 	}
 
 	protected void onEdit() {
 		if (this.material != null) {
 			this.tabletGUI
-					.restoreEuclidian(this.worksheetGUI.getContentPanel());
+					.restoreEuclidian(TouchEntryPoint.getWorksheetGUI().getContentPanel());
 			TouchEntryPoint.allowEditing(true);
 			this.app.getFileManager().getMaterial(this.material, this.app);
 			TouchEntryPoint.showTabletGUI();

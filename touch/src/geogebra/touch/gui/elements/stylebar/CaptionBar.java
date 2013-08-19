@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class CaptionBar extends FlowPanel {
 
-	private Button[] buttons = { new Button("_"), new Button("A"),
+	private final Button[] buttons = { new Button("_"), new Button("A"),
 			new Button("A = (1,1)"), new Button("(1,1)") };
-	private FlowPanel buttonPanel;
+	private final FlowPanel buttonPanel;
 
 	public CaptionBar(final TouchModel touchModel) {
 		this.addStyleName("captionBar");
@@ -22,10 +22,10 @@ public class CaptionBar extends FlowPanel {
 
 		for (int i = 0; i < this.buttons.length; i++) {
 			final int index = i;
-
+			
 			this.buttons[i].addDomHandler(new ClickHandler() {
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClick(final ClickEvent event) {
 					if (touchModel.getTotalNumber() > 0) {
 						// -1: anything other than 0 (move-mode)
 						EuclidianStyleBarStatic.applyCaptionStyle(
