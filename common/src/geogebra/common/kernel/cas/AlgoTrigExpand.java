@@ -24,7 +24,7 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	 */
 	public AlgoTrigExpand(Construction cons, String label,
 			CasEvaluableFunction f,GeoFunction target) {
-		super(cons, f);
+		super(cons, f, Commands.TrigExpand);
 		this.target = target;
 		setInputOutput();
 		compute();    
@@ -41,11 +41,7 @@ public class AlgoTrigExpand extends AlgoCasBase {
 		setOnlyOutput(g);
 		setDependencies();
 	}
-
-	@Override
-	public Commands getClassName() {
-    	return Commands.TrigExpand;
-    } 
+	
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

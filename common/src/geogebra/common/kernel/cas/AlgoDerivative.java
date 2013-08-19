@@ -69,18 +69,13 @@ public class AlgoDerivative extends AlgoCasBase {
      * @param order derivative order (may be null)
 	 */
     public AlgoDerivative(Construction cons,  CasEvaluableFunction f, GeoNumeric var, NumberValue order) {
-            super(cons, f);
+            super(cons, f, Commands.Derivative);
             this.var = var;
             this.order = order;
  
             setInputOutput(); // for AlgoElement    
             compute();            
      }
-
-    @Override
-	public Commands getClassName() {
-        return Commands.Derivative;
-    }
 
     // for AlgoElement
     @Override

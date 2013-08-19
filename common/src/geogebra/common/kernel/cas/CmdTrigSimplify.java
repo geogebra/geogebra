@@ -4,6 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
@@ -30,8 +31,8 @@ public class CmdTrigSimplify extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
-				AlgoTrigSimplify algo= new AlgoTrigSimplify(kernelA.getConstruction(),c.getLabel(),
-						(CasEvaluableFunction) arg[0]); 
+				AlgoCasBaseSingleArgument algo= new AlgoCasBaseSingleArgument(kernelA.getConstruction(),c.getLabel(),
+						(CasEvaluableFunction) arg[0], Commands.TrigSimplify); 
 				return new GeoElement[]{algo.getResult()};
 			} 
 			throw argErr(app, c.getName(), arg[0]);

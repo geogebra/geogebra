@@ -31,13 +31,9 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	 */
 	public AlgoPartialFractions(Construction cons, String label,
 			CasEvaluableFunction f) {
-		super(cons, label, f);
+		super(cons, label, f, Commands.PartialFractions);
 	}
 
-	@Override
-	public Commands getClassName() {
-		return Commands.PartialFractions;
-	}
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
@@ -57,6 +53,5 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		g.setUsingCasCommand(sbAE.toString(), f, false,arbconst);
 	}
 
-	// TODO Consider locusequability
 
 }

@@ -4,8 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LocusEquation;
 import geogebra.common.kernel.cas.CmdCoefficients;
 import geogebra.common.kernel.cas.CmdDegree;
-import geogebra.common.kernel.cas.CmdExpand;
-import geogebra.common.kernel.cas.CmdFactor;
+import geogebra.common.kernel.cas.CmdFactorExpand;
 import geogebra.common.kernel.cas.CmdImplicitDerivative;
 import geogebra.common.kernel.cas.CmdIntegral;
 import geogebra.common.kernel.cas.CmdLimit;
@@ -32,9 +31,11 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case LocusEquation:
 			return LocusEquation.newCmdLocusEquation(kernel);
 		case Expand:
-			return new CmdExpand(kernel);
+			return new CmdFactorExpand(kernel, Commands.Expand);
 		case Factor:
-			return new CmdFactor(kernel);
+			return new CmdFactorExpand(kernel, Commands.Factor);
+		case IFactor:
+			return new CmdFactorExpand(kernel, Commands.IFactor);
 		case Simplify:
 			return new CmdSimplify(kernel);
 		case SurdText:

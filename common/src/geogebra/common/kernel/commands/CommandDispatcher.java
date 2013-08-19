@@ -606,6 +606,7 @@ public class CommandDispatcher {
 				return getBasicDispatcher().dispatch(command,kernel);
 
 			case CFactor:
+			case CIFactor:
 			case CSolutions:
 			case CSolve:
 			case Groebner:
@@ -769,6 +770,7 @@ public class CommandDispatcher {
 			case LocusEquation:
 			case Expand:
 			case Factor:
+			case IFactor:
 			case Simplify:
 			case SurdText:
 			case ParametricDerivative:
@@ -810,7 +812,7 @@ public class CommandDispatcher {
 		return statsDispatcher;
 	}
 	/** dispatcher for discrete math*/
-	protected CommandDispatcherDiscrete discreteDispatcher = null;
+	protected CommandDispatcherInterface discreteDispatcher = null;
 	/** @return dispatcher for discrete math*/
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
@@ -819,9 +821,9 @@ public class CommandDispatcher {
 		return discreteDispatcher;
 	}
 	/** dispatcher for CAS commands*/
-	protected CommandDispatcherCAS casDispatcher = null;
+	protected CommandDispatcherInterface casDispatcher = null;
 	/** @return dispatcher for CAS commands*/
-	protected CommandDispatcherCAS getCASDispatcher() {
+	protected CommandDispatcherInterface getCASDispatcher() {
 		if(casDispatcher == null) {
 			casDispatcher = new CommandDispatcherCAS();
 		}
@@ -829,7 +831,7 @@ public class CommandDispatcher {
 	}
 
 	/** dispatcher for scripting commands*/
-	protected CommandDispatcherScripting scriptingDispatcher = null;
+	protected CommandDispatcherInterface scriptingDispatcher = null;
 	/** @return dispatcher for scripting commands*/
 	protected CommandDispatcherInterface getScriptingDispatcher() {
 		if(scriptingDispatcher == null) {
@@ -838,7 +840,7 @@ public class CommandDispatcher {
 		return scriptingDispatcher;
 	}
 	/** dispatcher for advanced commands*/
-	protected CommandDispatcherAdvanced advancedDispatcher = null;
+	protected CommandDispatcherInterface advancedDispatcher = null;
 	/** @return dispatcher for advanced commands*/
 	protected CommandDispatcherInterface getAdvancedDispatcher() {
 		if(advancedDispatcher == null) {

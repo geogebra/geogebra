@@ -3,6 +3,7 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -33,8 +34,8 @@ public class CmdSimplify extends CommandProcessor {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
 				
-				AlgoSimplify algo = new AlgoSimplify(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0]);
+				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
+						(CasEvaluableFunction) arg[0], Commands.Simplify);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

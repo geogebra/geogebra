@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -27,7 +28,7 @@ public abstract class AlgoCasBase extends AlgoElement {
 	protected CasEvaluableFunction f;
 	/** Output function */
 	protected CasEvaluableFunction g;
-
+	private Commands cmd;
 	/**
 	 * Creates CAS algo and sets input, output and label.
 	 * Do not use if compute() or setInputOutput() are overriden.
@@ -36,8 +37,8 @@ public abstract class AlgoCasBase extends AlgoElement {
 	 * @param f input function
 	 */
 	protected AlgoCasBase(Construction cons, String label,
-			CasEvaluableFunction f) {
-		this(cons, f);
+			CasEvaluableFunction f, Commands cmd) {
+		this(cons, f, cmd);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -49,11 +50,17 @@ public abstract class AlgoCasBase extends AlgoElement {
 	 * @param cons construction
 	 * @param f input function
 	 */
-	protected AlgoCasBase(Construction cons, CasEvaluableFunction f) {
+	protected AlgoCasBase(Construction cons, CasEvaluableFunction f, Commands cmd) {
 		super(cons);
 		this.f = f;
+		this.cmd = cmd;
 		System.out.println(f);
 		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
+	}
+	
+	@Override
+	public final Commands getClassName() {
+		return cmd;
 	}
 
 	// for AlgoElement

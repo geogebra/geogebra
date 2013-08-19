@@ -51,17 +51,12 @@ public class AlgoIntegral extends AlgoCasBase {
      */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var) {
-		super(cons, f);
+		super(cons, f, Commands.Integral);
 		this.var = var;
 
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
-
-	@Override
-	public Commands getClassName() {
-        return Commands.Integral;
-    }
 
 	@Override
 	protected void setInputOutput() {

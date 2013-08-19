@@ -20,29 +20,27 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 
 /**
- * Factor a function
+ * Process a function using single argument command
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoFactor extends AlgoCasBase {
+public class AlgoCasBaseSingleArgument extends AlgoCasBase {
+	
 	/**
      * @param cons construction
      * @param label label for output
      * @param f function
      */
-	public AlgoFactor(Construction cons,  String label, CasEvaluableFunction f) {
-		super(cons, label, f);
+	public AlgoCasBaseSingleArgument(Construction cons,  String label, CasEvaluableFunction f,Commands cmd) {
+		super(cons, label, f, cmd);
 	}
 
-	@Override
-	public Commands getClassName() {
-		return Commands.Factor;
-	}
+	
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
-		g.setUsingCasCommand("Factor(%)", f, false,arbconst);		
+		g.setUsingCasCommand(this.getClassName().name()+"(%)", f, false,arbconst);		
 	}
 
 	// TODO Consider locusequability

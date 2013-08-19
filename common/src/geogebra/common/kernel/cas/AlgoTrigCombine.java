@@ -21,7 +21,7 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	 */
 	public AlgoTrigCombine(Construction cons, String label,
 			CasEvaluableFunction f,GeoFunction target) {
-		super(cons, f);
+		super(cons, f, Commands.TrigCombine);
 		this.target = target;
 		setInputOutput();
 		compute();    
@@ -38,11 +38,7 @@ public class AlgoTrigCombine extends AlgoCasBase {
 		setOnlyOutput(g);
 		setDependencies();
 	}
-
-	@Override
-	public Commands getClassName() {
-    	return Commands.TrigCombine;
-    } 
+	
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
