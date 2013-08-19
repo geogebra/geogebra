@@ -289,7 +289,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.dialogPanel.add(this.contentPanel);
 
-		this.addTextBox();
+		addTextBox();
 		this.contentPanel.add(this.inputFieldPanel);
 		this.inputFieldPanel.setStyleName("inputFieldPanel");
 
