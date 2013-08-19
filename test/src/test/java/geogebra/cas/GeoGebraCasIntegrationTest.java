@@ -3417,21 +3417,21 @@ public class GeoGebraCasIntegrationTest {
   /* Ticket 1477: e becomes E in CAS */
 
   @Test
-  public void Ticket_Ticket1477 () {
+  public void Ticket_Ticket1477_0 () {
     t("e", "e");
   }
 
   /* Ticket 1899: Solve[2^x = 8] yields unwanted result */
 
   @Test
-  public void Ticket_Ticket1899 () {
+  public void Ticket_Ticket1899_0 () {
     t("Solve[2^x = 8]", "{x = 3}", "{x = log(8) / log(2)}");
   }
 
   /* Ticket 2481: NSolves gives wrong solution */
 
   @Test
-  public void Ticket_Ticket2481 () {
+  public void Ticket_Ticket2481_0 () {
     t("Numeric[NSolve[13^(x+1)-2*13^x=1/5*5^x,x], 11]", "{x = -4.1939143755}");
 
     /*
@@ -3448,7 +3448,7 @@ public class GeoGebraCasIntegrationTest {
   /* Ticket 2651: Function not Evaluated */
 
   @Test
-  public void Ticket_Ticket2651 () {
+  public void Ticket_Ticket2651_0 () {
     t("f(x) := FitPoly[{(-1, -1), (0, 1), (1, 1), (2, 5)}, 3]", "x^(3) - x^(2) + 1");
     t("f(-1)", "-1");
 
@@ -3465,7 +3465,7 @@ public class GeoGebraCasIntegrationTest {
   // TODO What is the correct result for f'(x) = 0 and g(x) = 0 (should be identical)?
   
   @Test
-  public void Ticket_Ticket3524 () {
+  public void Ticket_Ticket3524_0 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
         "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
@@ -3484,7 +3484,7 @@ public class GeoGebraCasIntegrationTest {
   /* Ticket 3525: Simplification improvements in Giac */
   
   @Test
-  public void Ticket_Ticket3525 () {
+  public void Ticket_Ticket3525_0 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
         "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
@@ -3493,6 +3493,15 @@ public class GeoGebraCasIntegrationTest {
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
         "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+  }
+  
+  /* Ticket 3558: Curve always on X - Axis */
+  
+  // TODO This actually is a bug in its own right. But a different one.
+  
+  @Test
+  public void Ticket_Ticket3558_0 () {
+    t("Curve[t, 5 t, t, 0, 10]", "y - 5  * x = 0");
   }
 
 
@@ -3580,7 +3589,7 @@ public class GeoGebraCasIntegrationTest {
     // Depends on CASRundbrief_Figure4_0.
     t("f(t) := c * a^t", "c * a^(t)");
 
-    t("Solve[f(2) = 225, a]", "{a = 15 * sqrt(c) / c, a = -15 * sqrt(c) / c}");
+    t("Solve[f(2) = 225, a]", "{a = -15 * sqrt(c) / c, a = 15 * sqrt(c) / c}");
   }
 
   /* Figure 5: "Computeralgebra und Geometrie" (Computer Algebra and Geometrics) */
