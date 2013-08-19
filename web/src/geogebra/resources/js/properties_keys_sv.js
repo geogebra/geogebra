@@ -2127,7 +2127,7 @@ __GGB__keysVar.sv.plain = {
     "CopyOfA": "Kopia av %0",
     "CopyToClipboard": "Kopiera till Urklipp",
     "CornerPoint": "H\xf6rn",
-    "CreateSliders": "Skapa glidare?",
+    "CreateSliders": "Skapa glidare",
     "CreateSlidersForA": "Skapa glidare f\xf6r %0?",
     "CreatedWith": "Skapat med",
     "CreatedWithGeoGebra": "Skapat med GeoGebra",
