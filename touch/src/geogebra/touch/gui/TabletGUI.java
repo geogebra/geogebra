@@ -150,8 +150,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 				this.app);
 		ec.setKernel(kernel);
 
-		this.touchModel.getGuiModel().setStyleBar(this.styleBar);
-
 		// init toolBar before setting the size of algebraView and euclidianView
 		this.toolBar = new ToolBar(this.touchModel, this.app);
 		this.setFooterWidget(this.toolBar);
@@ -167,6 +165,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 		this.styleBar = new StyleBar(this.touchModel,
 				this.euclidianViewPanel.getEuclidianView());
+		this.touchModel.getGuiModel().setStyleBar(this.styleBar);
 		this.euclidianViewPanel.add(this.styleBar);
 		this.euclidianViewPanel.setWidgetPosition(this.styleBar, 0, 0);
 
@@ -215,19 +214,19 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 				.getLookAndFeel().getIcons().triangle_left());
 		this.algebraButton.setStyleName("arrowRight");
 		this.algebraButton.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onSingleClick() {
 				toggleAlgebraView();
 			}
-			
+
 			@Override
 			public void onDoubleClick() {
 				return;
 			}
 		});
-//		this.algebraButton = TouchEntryPoint.getLookAndFeel()
-//				.setAlgebraButtonHandler(this.algebraButton, this);
+		// this.algebraButton = TouchEntryPoint.getLookAndFeel()
+		// .setAlgebraButtonHandler(this.algebraButton, this);
 
 		this.algebraViewArrowPanel.add(this.algebraButton);
 
