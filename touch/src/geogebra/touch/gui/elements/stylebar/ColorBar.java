@@ -20,6 +20,7 @@ public class ColorBar extends FlowPanel {
 
 	protected StyleBar styleBar;
 	protected TouchModel touchModel;
+	private ColorBarSlider colorBarSlider = new ColorBarSlider();
 
 	private GColor[] colors = { GColor.BLACK, GeoGebraColorConstants.BROWN,
 			GeoGebraColorConstants.ORANGE, GColor.YELLOW, GColor.BLUE,
@@ -50,11 +51,7 @@ public class ColorBar extends FlowPanel {
 
 		this.add(this.colorButtonPanel);
 
-		// add slider only if there is at least one fillable element
-		if (touchModel.getLastAlpha() != -1
-				|| touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
-			this.add(new ColorBarSlider());
-		}
+		update();
 	}
 
 	class ColorButton extends PushButton {
@@ -100,8 +97,6 @@ public class ColorBar extends FlowPanel {
 		public ColorBarSlider() {
 			this.setMinimum(0);
 			this.setMaximum(10);
-			this.setValue(Integer.valueOf((int) (ColorBar.this.touchModel
-					.getLastAlpha() * 10)));
 
 			this.addValueChangeHandler(new ValueChangeHandler<Integer>() {
 				@Override
@@ -125,6 +120,19 @@ public class ColorBar extends FlowPanel {
 					}
 				}
 			});
+		}
+	}
+
+	public void update() {
+		remove(this.colorBarSlider);
+
+		// add slider only if there is at least one fillable element
+		if (this.touchModel.getLastAlpha() != -1
+				|| this.touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
+			this.colorBarSlider
+					.setValue(Integer.valueOf((int) (ColorBar.this.touchModel
+							.getLastAlpha() * 10)));
+			this.add(this.colorBarSlider);
 		}
 	}
 }

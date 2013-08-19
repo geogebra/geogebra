@@ -55,6 +55,7 @@ public class OptionsPanel extends PopupPanel {
 			this.optionPanel = this.captionBar;
 			break;
 		case Color:
+			this.colorBar.update();
 			this.optionPanel = this.colorBar;
 			break;
 		case LineStyle:
