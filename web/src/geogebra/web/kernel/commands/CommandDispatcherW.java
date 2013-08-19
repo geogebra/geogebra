@@ -1,10 +1,5 @@
 package geogebra.web.kernel.commands;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.AsyncProxy;
-import com.google.gwt.user.client.AsyncProxy.ConcreteType;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandDispatcherAdvanced;
@@ -13,6 +8,9 @@ import geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import geogebra.common.kernel.commands.CommandDispatcherInterface;
 import geogebra.common.kernel.commands.CommandDispatcherScripting;
 import geogebra.common.main.App;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 
 public class CommandDispatcherW extends CommandDispatcher {
 
@@ -80,7 +78,7 @@ public class CommandDispatcherW extends CommandDispatcher {
 	}
 	
 	@Override
-    protected CommandDispatcherCAS getCASDispatcher() {
+    protected CommandDispatcherInterface getCASDispatcher() {
 		if(casDispatcher == null) {
 			GWT.runAsync(new RunAsyncCallback() {
 				
