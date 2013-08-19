@@ -2,13 +2,12 @@ package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarCommand;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -37,9 +36,10 @@ public class LineStyleBar extends FlowPanel {
 		for (int i = 0; i < lineStyle.length; i++) {
 			final int index = i;
 
-			lineStyle[i].addDomHandler(new ClickHandler() {
+			lineStyle[i].addFastClickHandler(new FastClickHandler() {
+				
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onSingleClick() {
 					StyleBarStatic.applyLineStyle(touchModel.getSelectedGeos(),
 							index);
 					touchModel.getGuiModel().setLineStyle(index);
@@ -52,7 +52,12 @@ public class LineStyleBar extends FlowPanel {
 						.getEuclidianController().getPen().setPenLineStyle(index);
 					}
 				}
-			}, ClickEvent.getType());
+
+				@Override
+				public void onDoubleClick() {
+					//nothing to do here
+				}
+			});
 			this.buttonPanel.add(lineStyle[i]);
 		}
 		
