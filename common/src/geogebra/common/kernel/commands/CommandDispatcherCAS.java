@@ -31,11 +31,9 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case LocusEquation:
 			return LocusEquation.newCmdLocusEquation(kernel);
 		case Expand:
-			return new CmdFactorExpand(kernel, Commands.Expand);
 		case Factor:
-			return new CmdFactorExpand(kernel, Commands.Factor);
 		case IFactor:
-			return new CmdFactorExpand(kernel, Commands.IFactor);
+			return new CmdFactorExpand(kernel, c);
 		case Simplify:
 			return new CmdSimplify(kernel);
 		case SurdText:
