@@ -59,7 +59,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 		this.setStyleName("browsegui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
-		//this.app.getOfflineOperation().getView().add(this);
+		this.app.getOfflineOperation().getView().add(this);
 		addHeader();
 		addContent();
 		
@@ -195,6 +195,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 	}
 
 	protected void updateGUI() {
+		App.printStacktrace("");
 		if (this.tubeList.isEmpty()) {
 			this.localFilePanel.setMaterials(2, this.localList);
 			this.tubeFileContainer.setVisible(false);

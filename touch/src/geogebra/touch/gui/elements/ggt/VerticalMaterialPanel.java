@@ -102,6 +102,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private void setMaterials(final int cols, final List<Material> materials,
 			final int offset) {
+		boolean widthChanged = this.columns!=0 && cols!=this.columns;
 		this.columns = cols;
 		this.contentPanel.clear();
 		this.start = offset;
@@ -125,6 +126,9 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 			}
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
 					preview);
+		}
+		if(widthChanged){
+			updateWidth();
 		}
 	}
 
@@ -154,6 +158,10 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	@Override
 	public void onResize() {
 		this.updateHeight();
+		this.updateWidth();
+	}
+
+	private void updateWidth() {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
 	}
 }
