@@ -6,8 +6,7 @@ import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.CellPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -20,8 +19,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class SubToolBar extends PopupPanel implements ResizeListener {
 	private final VerticalPanel contentPanel;
-	private CellPanel subToolBarPanel;
+	private FlowPanel subToolBarPanel;
 	private final LayoutPanel arrowPanel;
+	private final LayoutPanel clearPanel;
 	private boolean horizontal;
 
 	/**
@@ -32,12 +32,13 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();
+		this.subToolBarPanel = new FlowPanel();
 
 		if (Window.getClientWidth() < 600) {
-			this.subToolBarPanel = new VerticalPanel();
+			this.addStyleName("verticalOrder");
 			this.horizontal = false;
 		} else {
-			this.subToolBarPanel = new HorizontalPanel();
+			this.addStyleName("horizontalOrder");
 			this.horizontal = true;
 		}
 
@@ -46,6 +47,10 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 		for (SubToolBarButton b : menuEntry) {
 			this.subToolBarPanel.add(b);
 		}
+		
+		this.clearPanel = new LayoutPanel();
+		this.clearPanel.setStyleName("clear");
+		this.subToolBarPanel.add(this.clearPanel);
 
 		this.contentPanel.add(this.subToolBarPanel);
 		this.setWidget(this.contentPanel);
@@ -72,7 +77,14 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		// TODO Auto-generated method stub
-		
+		if (Window.getClientWidth() < 600) {
+			this.removeStyleName("horizontalOrder");
+			this.addStyleName("verticalOrder");
+			this.horizontal = false;
+		} else {
+			this.removeStyleName("verticalOrder");
+			this.addStyleName("horizontalOrder");
+			this.horizontal = true;
+		}		
 	}
 }

@@ -73,9 +73,22 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 		this.model.setActive(this);
 		if (this.menuEntries.length != 0) {
 
-			final int optionsWidth = this.menuEntries.length
-					* ToolBarButton.BUTTON_WIDTH
-					+ ToolBarButton.BUTTONPANEL_BORDER;
+			final int optionsWidth;
+			if (this.options.isHorizontal()) {
+				optionsWidth = this.menuEntries.length * ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
+			} else {
+				optionsWidth = ToolBarButton.BUTTON_WIDTH + ToolBarButton.BUTTONPANEL_BORDER;
+			}
+			
+			final int optionsHeight;
+			if (this.options.isHorizontal()) {
+				optionsHeight = ToolBarButton.BUTTON_WIDTH + 16;
+			} else {
+				optionsHeight = this.menuEntries.length * ToolBarButton.BUTTON_WIDTH + 16;
+			}
+			
+			System.out.println("absoluteTop: " + this.getAbsoluteTop() + "optionsHeight: " + optionsHeight);
+			System.out.println("optionsheight: " + this.menuEntries.length + " * " + ToolBarButton.BUTTON_WIDTH + " + 16");
 
 			this.model.closeOnlyOptions();
 			this.model.setOption(this.options);
@@ -83,36 +96,35 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 			// if the width of the subtoolbar is too big, the position should
 			// be different leftpos of button + width of subtoolbar must not be
 			// bigger than Window-width!!
-			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth()
-					&& this.options.isHorizontal()) {
+			if (this.getAbsoluteLeft() + optionsWidth > Window.getClientWidth() && this.options.isHorizontal()) {
 
 				// special case for cirlces (is still too long)
-				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH
-						- optionsWidth < 0) {
+				if (this.getAbsoluteLeft() + ToolBarButton.BUTTON_WIDTH - optionsWidth < 0) {
+					
 					final int buttonsLeft = this.menuEntries.length / 2;
-					this.options.setPopupPosition(this.getAbsoluteLeft()
-							- buttonsLeft * ToolBarButton.BUTTON_WIDTH,
-							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
-									- 16);
-					this.options.setSubToolBarArrowPaddingLeft(buttonsLeft
-							* ToolBarButton.BUTTON_WIDTH + 23);
+					
+					this.options.setPopupPosition(
+							this.getAbsoluteLeft() - buttonsLeft * ToolBarButton.BUTTON_WIDTH,
+							this.getAbsoluteTop() - optionsHeight);
+					
+					this.options.setSubToolBarArrowPaddingLeft(buttonsLeft * ToolBarButton.BUTTON_WIDTH + 23);
+					
 				} else {
+					
 					this.options.setPopupPosition(this.getAbsoluteLeft()
 							+ ToolBarButton.BUTTON_WIDTH - optionsWidth
 							+ ToolBarButton.BUTTONPANEL_BORDER,
-							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
-									- 16);
-					this.options
-							.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
+							this.getAbsoluteTop() - optionsHeight);
+					
+					this.options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
 				}
 
 			} else {
 				// this.model.showOption(options, this);
 				// (showRelativeToParent doesn't work correctly)
-				this.options
-						.setPopupPosition(this.getAbsoluteLeft(),
-								this.getAbsoluteTop()
-										- ToolBarButton.BUTTON_WIDTH - 16);
+				this.options.setPopupPosition(this.getAbsoluteLeft(), this.getAbsoluteTop() - optionsHeight);
+				
+				this.options.setSubToolBarArrowPaddingLeft(23);
 			}
 
 			this.options.show();
