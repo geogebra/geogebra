@@ -1,8 +1,6 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.common.move.views.OfflineView;
-import geogebra.common.move.views.OnlineView;
 import geogebra.common.move.views.Renderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
@@ -68,14 +66,14 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-	    ((OfflineView) ((AppW) app).getOfflineOperation().getView()).add(new Renderable() {
+	    ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
 			
 			public void render() {
 				renderNetworkOperation(false);
 			}
 		});
 	    
-	    ((OnlineView) ((AppW) app).getOnlineOperation().getView()).add(new Renderable() {
+	    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
 			
 			public void render() {
 				renderNetworkOperation(true);
