@@ -136,11 +136,12 @@ ResizeListener {
 	}
 
 	protected void onSearch() {
-		fireSearchEvent();
-		this.query.setFocus(false);
-		if (this.query.getText().equals("")) {
+		if (!this.query.getText().equals("")) {
+			fireSearchEvent();
+		} else {
 			this.cancelButton.setVisible(false);
 		}
+		this.query.setFocus(false);
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
 	}
