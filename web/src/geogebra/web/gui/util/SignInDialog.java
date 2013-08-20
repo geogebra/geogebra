@@ -183,7 +183,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 						}
 						
 						
-						((AppW) app).getLoginOperation().getEvent().trigger(resp);
+						((AppW) app).getLoginOperation().loginResult(resp);
 					}
 					
 					public void onError(Request request, Throwable exception) {

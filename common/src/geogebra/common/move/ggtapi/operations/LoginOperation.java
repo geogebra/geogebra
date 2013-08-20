@@ -1,6 +1,5 @@
 package geogebra.common.move.ggtapi.operations;
 
-import geogebra.common.move.ggtapi.events.LoginEventPool;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
@@ -43,6 +42,18 @@ public class LoginOperation extends BaseOperation<SuccessErrorRenderable> {
 		getModel().loginError(response);
 		getView().loginError(response);
 	}
+	/**
+	 * @param response from GGT
+	 * 
+	 * Error happened during login
+	 */
+	public void loginResult(JSONObject response){
+		if (response.get("error") == null) {
+			loginSuccess(response);
+		} else {
+			loginError(response);
+		}
+	}
 	
 	@Override
 	public AuthenticationModel getModel() {
@@ -53,12 +64,6 @@ public class LoginOperation extends BaseOperation<SuccessErrorRenderable> {
 	public LoginView getView() {
 		return (LoginView) super.getView();
 	}
-	
-	@Override
-	public LoginEventPool getEvent() {
-		return (LoginEventPool) super.getEvent();
-	}
-
 
 	/**
 	 * @return JSONObject containing the stored login data
