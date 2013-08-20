@@ -5,6 +5,7 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -14,8 +15,6 @@ import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
@@ -124,12 +123,16 @@ public class DefaultLAF implements LookAndFeel {
 	@Override
 	public StandardImageButton setStyleBarShowHideHandler(
 			final StandardImageButton button, final StyleBar styleBar) {
-		button.addClickHandler(new ClickHandler() {
+		button.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
+			public void onSingleClick() {				
 				styleBar.showHide();
+			}
+
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -140,15 +143,18 @@ public class DefaultLAF implements LookAndFeel {
 	public StandardImageButton setStyleBarButtonHandler(
 			final StandardImageButton button, final StyleBar styleBar,
 			final String process) {
-		button.addClickHandler(new ClickHandler() {
+		button.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-
+			public void onSingleClick() {
 				styleBar.onStyleBarButtonEvent(button, process);
 				DefaultLAF.this.getApp().setUnsaved();
 				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+			}
+
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -159,13 +165,16 @@ public class DefaultLAF implements LookAndFeel {
 	public StandardImageButton setOptionalButtonHandler(
 			final StandardImageButton button, final StyleBar styleBar,
 			final OptionType type) {
-		button.addClickHandler(new ClickHandler() {
+		button.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(final ClickEvent event) {
-
-				event.preventDefault();
-				event.stopPropagation();
+			public void onSingleClick() {
 				styleBar.onOptionalButtonEvent(button, type);
+			}
+
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -175,18 +184,22 @@ public class DefaultLAF implements LookAndFeel {
 	@Override
 	public StandardImageButton setAlgebraButtonHandler(
 			final StandardImageButton button, final TabletGUI gui) {
-		button.addClickHandler(new ClickHandler() {
+		button.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-
+			public void onSingleClick() {
+				
 				gui.toggleAlgebraView();
 
 				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
 					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
 							.enableDisableButtons();
 				}
+			}
+
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
