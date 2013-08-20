@@ -127,6 +127,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		
 		this.op = op;
 		op.getView().add(this);
+		setLabels();
 	}
 
 	protected void onSearch() {
@@ -186,7 +187,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	@Override
 	public void render(boolean b) {
-		// TODO Auto-generated method stub
+		this.setText(this.loc.getMenu("Worksheets")+(b?"":" (Offline)"));
 		
 	}
 	
