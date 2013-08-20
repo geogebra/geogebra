@@ -5,7 +5,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -129,16 +128,11 @@ public class MaterialListElement extends FlowPanel {
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.deleteButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onDelete();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 	}
@@ -149,16 +143,11 @@ public class MaterialListElement extends FlowPanel {
 
 	private void initEditButton() {
 		this.links.add(this.editButton);
-		this.editButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.editButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onEdit();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 	}
@@ -171,16 +160,11 @@ public class MaterialListElement extends FlowPanel {
 
 	private void initOpenButton() {
 		this.links.add(this.openButton);
-		this.openButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.openButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onOpen();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 	}

@@ -1,99 +1,128 @@
 package geogebra.touch.gui.elements;
 
-import geogebra.touch.gui.algebra.events.FastClickEvent;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.algebra.events.HasFastClickHandlers;
-
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.PushButton;
 
-public abstract class FastButton extends PushButton implements HasFastClickHandlers {
+public class FastButton extends PushButton {
+	private boolean touchHandled = false;
+	private boolean clickHandled = false;
+	private boolean touchMoved = false;
+	private int startY;
+	private int startX;
 
-	public static final int TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK = 500;
-
-	private boolean active;
-	private boolean touchEventHandled = false;
-
-	private long lastClick = -1;
+	private boolean isActive;
 
 	public FastButton() {
 		this.setStyleName("button");
+		sinkEvents(Event.TOUCHEVENTS | Event.ONCLICK);
 	}
 
-	public boolean isActive() {
-		return this.active;
-	}
+	@Override
+	public void onBrowserEvent(Event event) {
 
-	public void setActive(boolean active) {
-		this.active = active;
+		switch (DOM.eventGetType(event)) {
+		case Event.ONTOUCHSTART: {
+			onTouchStart(event);
+			break;
+		}
+		case Event.ONTOUCHEND: {
+			onTouchEnd(event);
+			break;
+		}
+		case Event.ONTOUCHMOVE: {
+			onTouchMove(event);
+			break;
+		}
+		case Event.ONCLICK: {
+			onClick(event);
+			return;
+		}
+		}
+
+		super.onBrowserEvent(event);
 	}
 
 	/**
-	 * @see <a href =
-	 *      https://developers.google.com/mobile/articles/fast_buttons>Fast
-	 *      Buttons </a>
+	 * 
+	 * @param event
 	 */
-	@Override
-	public void onBrowserEvent(Event event) {
-		switch (DOM.eventGetType(event)) {
+	private void onClick(Event event) {
+		event.stopPropagation();
 
-		case Event.ONCLICK: {
-			event.stopPropagation();
-			if (this.touchEventHandled) {
-				this.touchEventHandled = false;
-			} else {
-				handleFastClick();
-			}
-			break;
-		}
-
-		case Event.ONTOUCHEND: {
-			event.stopPropagation();
-			this.touchEventHandled = true;
-			handleFastClick();
-			break;
-		}
-
-		case Event.ONTOUCHSTART: {
-			event.stopPropagation();
-			break;
-		}
-
-		case Event.ONTOUCHMOVE: {
-			break;
-		}
-		default: {
+		if (this.touchHandled) {
+			this.touchHandled = false;
+			this.clickHandled = true;
 			super.onBrowserEvent(event);
-		}
-		}
-	}
-
-	private void fireFastClickEvent(boolean isDoubleClick) {
-		fireEvent(new FastClickEvent(isDoubleClick));
-	}
-	
-	private void handleFastClick() {
-		if (System.currentTimeMillis() - this.lastClick < TIME_BETWEEN_CLICKS_FOR_DOUBLECLICK) {
-			// doubleClick
-			this.fireFastClickEvent(true);
 		} else {
-			this.fireFastClickEvent(false);
+			if (this.clickHandled) {
+
+				event.preventDefault();
+			} else {
+				this.clickHandled = false;
+				super.onBrowserEvent(event);
+			}
 		}
-		this.active = true;
-		this.lastClick = System.currentTimeMillis();
-	}
-	
-	@Override
-	@Deprecated
-	public HandlerRegistration addClickHandler(ClickHandler c){
-		return super.addClickHandler(c);
 	}
 
-	@Override
-	public HandlerRegistration addFastClickHandler(FastClickHandler handler) {
-		return addHandler(handler, FastClickEvent.getType());
+	/**
+	 * 
+	 * @param event
+	 */
+	private void onTouchEnd(Event event) {
+		if (!this.touchMoved) {
+			this.touchHandled = true;
+			fireClick();
+		}
 	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	private void onTouchMove(Event event) {
+		if (!this.touchMoved) {
+			Touch touch = event.getTouches().get(0);
+			int deltaX = Math.abs(this.startX - touch.getClientX());
+			int deltaY = Math.abs(this.startY - touch.getClientY());
+
+			if (deltaX > 5 || deltaY > 5) {
+				this.touchMoved = true;
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	private void onTouchStart(Event event) {
+		Touch touch = event.getTouches().get(0);
+		this.startX = touch.getClientX();
+		this.startY = touch.getClientY();
+		this.touchMoved = false;
+	}
+
+	/**
+	 * @param executor
+	 * @return
+	 */
+	private void fireClick() {
+		setActive(true);
+		NativeEvent evt = Document.get().createClickEvent(1, 0, 0, 0, 0, false,
+				false, false, false);
+		getElement().dispatchEvent(evt);
+	}
+
+	public boolean isActive() {
+		return this.isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 }

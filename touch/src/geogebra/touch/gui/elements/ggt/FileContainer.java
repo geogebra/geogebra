@@ -3,10 +3,11 @@ package geogebra.touch.gui.elements.ggt;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -27,7 +28,8 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 	private final StandardImageButton nextButton = new StandardImageButton(
 			LafIcons.arrow_go_next());
 
-	public FileContainer(String headingName, final VerticalMaterialPanel filePanel) {
+	public FileContainer(String headingName,
+			final VerticalMaterialPanel filePanel) {
 		this.filePanel = filePanel;
 		this.addHeading(headingName);
 		this.add(filePanel);
@@ -39,7 +41,7 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.heading.setStyleName("filePanelTitle");
 		this.add(this.heading);
 	}
-	
+
 	private void addPageControl() {
 		// Panel for page controls, with next/prev buttons
 		this.fileControlPanel = new FlowPanel();
@@ -48,17 +50,11 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.prevButton.addStyleName("prevButton");
 		this.prevButton.addStyleName("disabled");
 		this.fileControlPanel.add(this.prevButton);
-		this.prevButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.prevButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onPrevPage();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
@@ -70,17 +66,11 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.nextButton.addStyleName("nextButton");
 		this.nextButton.addStyleName("disabled");
 		this.fileControlPanel.add(this.nextButton);
-		this.nextButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.nextButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onNextPage();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
@@ -91,12 +81,12 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.filePanel.prevPage();
 		updateNextPrevButtons();
 	}
-	
+
 	protected void onNextPage() {
 		this.filePanel.nextPage();
 		updateNextPrevButtons();
 	}
-	
+
 	public void updateNextPrevButtons() {
 		if (this.filePanel.hasNextPage()) {
 			this.nextButton.removeStyleName("disabled");
@@ -113,17 +103,18 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 			this.prevButton.setEnabled(false);
 		}
 	}
-	
+
 	public void setHeading(String headingName) {
 		this.heading.setText(headingName);
 	}
 
 	@Override
 	public void onResize() {
-		int contentHeight = Window.getClientHeight() - TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
+		int contentHeight = Window.getClientHeight()
+				- TouchEntryPoint.getLookAndFeel().getBrowseHeaderHeight();
 		this.setHeight(contentHeight + "px");
 		this.filePanel.setHeight(contentHeight - BrowseGUI.HEADING_HEIGHT
 				- BrowseGUI.CONTROLS_HEIGHT + "px");
 		this.updateNextPrevButtons();
-	}  
+	}
 }

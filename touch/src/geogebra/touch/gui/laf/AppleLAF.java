@@ -3,7 +3,7 @@ package geogebra.touch.gui.laf;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.utils.OptionType;
 
@@ -31,11 +31,10 @@ public class AppleLAF extends DefaultLAF {
 	public boolean isMouseDownIgnored() {
 		return false;
 	}
-	
+
 	@Override
-	public StandardImageButton setStyleBarButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final String process) {
+	public FastButton setStyleBarButtonHandler(final FastButton button,
+			final StyleBar styleBar, final String process) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
@@ -49,9 +48,8 @@ public class AppleLAF extends DefaultLAF {
 	}
 
 	@Override
-	public StandardImageButton setOptionalButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final OptionType type) {
+	public FastButton setOptionalButtonHandler(final FastButton button,
+			final StyleBar styleBar, final OptionType type) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
@@ -65,8 +63,8 @@ public class AppleLAF extends DefaultLAF {
 	}
 
 	@Override
-	public StandardImageButton setStyleBarShowHideHandler(
-			final StandardImageButton button, final StyleBar styleBar) {
+	public FastButton setStyleBarShowHideHandler(final FastButton button,
+			final StyleBar styleBar) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
@@ -80,8 +78,8 @@ public class AppleLAF extends DefaultLAF {
 	}
 
 	@Override
-	public StandardImageButton setAlgebraButtonHandler(
-			final StandardImageButton button, final TabletGUI gui) {
+	public FastButton setAlgebraButtonHandler(final FastButton button,
+			final TabletGUI gui) {
 		button.addDomHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {

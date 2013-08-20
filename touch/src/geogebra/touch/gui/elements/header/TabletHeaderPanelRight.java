@@ -2,12 +2,13 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.StandardTextButton;
 import geogebra.touch.model.TouchModel;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class TabletHeaderPanelRight extends HorizontalPanel {
 	private FastButton undo;
 	private FastButton redo;
-	
+
 	TabletHeaderPanel headerPanel;
 	TouchApp app;
 	TouchModel model;
@@ -57,43 +58,33 @@ public class TabletHeaderPanelRight extends HorizontalPanel {
 	}
 
 	private void addRedoButton() {
-		
-		this.redo.addFastClickHandler(new FastClickHandler() {
-			
+
+		this.redo.addDomHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				TabletHeaderPanelRight.this.model.resetSelection();
 				TabletHeaderPanelRight.this.app.getKernel().redo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
 			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
+		}, ClickEvent.getType());
 
 		this.add(this.redo);
 		this.enableDisableRedo();
 	}
 
 	private void addUndoButton() {
-		this.undo.addFastClickHandler(new FastClickHandler() {
-			
+		this.undo.addDomHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				TabletHeaderPanelRight.this.model.resetSelection();
 				TabletHeaderPanelRight.this.app.getKernel().undo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
 			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
+		}, ClickEvent.getType());
 
 		this.add(this.undo);
 		this.enableDisableUndo();

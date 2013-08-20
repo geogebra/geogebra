@@ -3,7 +3,7 @@ package geogebra.touch.model;
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.stylebar.OptionsPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.gui.elements.stylebar.StyleBarStatic;
@@ -196,15 +196,14 @@ public class GuiModel {
 	 * 
 	 * @param panel
 	 *            the OptionsPanel to be shown
-	 * @param parent
+	 * @param button
 	 *            the button that was clicked, null in case of a Dialog
 	 *            (OptionsType.Dialog)
 	 */
-	public void showOption(final OptionsPanel panel,
-			final StandardImageButton parent) {
+	public void showOption(final OptionsPanel panel, final FastButton button) {
 		this.closeOnlyOptions();
 		this.optionsPanel = panel;
-		this.optionsPanel.showRelativeTo(parent);
+		this.optionsPanel.showRelativeTo(button);
 		this.styleBarOptionShown = panel.getType();
 	}
 

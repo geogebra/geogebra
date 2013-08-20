@@ -5,7 +5,6 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -79,16 +78,25 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 				ToolBarMenu.ManipulateObjects, guiModel, this.app);
 		guiModel.setDefaultButton(manipulateObjects);
 		this.tools.add(manipulateObjects);
-		this.tools.add(new ToolBarButton(ToolBarMenu.Point, guiModel, this.app));
+		this.tools
+				.add(new ToolBarButton(ToolBarMenu.Point, guiModel, this.app));
 		this.tools.add(new ToolBarButton(ToolBarMenu.Line, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, guiModel,
+				this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, guiModel,
+				this.app));
 
 		guiModel.setActive(this.tools.get(0));
 
@@ -104,37 +112,26 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.showHideClosed = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideClosed.setStyleName("arrowLeft");
-		this.showHideClosed.addFastClickHandler(new FastClickHandler() {
-			
+		this.showHideClosed.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onExpandToolBar();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		this.add(this.showHideClosed);
 
 		this.showHideOpened = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
 		this.showHideOpened.setVisible(false);
-		this.showHideOpened.addFastClickHandler(new FastClickHandler() {
-			
+		this.showHideOpened.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onCollapseToolBar();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
@@ -184,7 +181,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.inputButtonPanel.add(this.underline);
 
 		this.add(this.inputButtonPanel);
-		
+
 		this.inputButtonPanel.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -212,16 +209,16 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.underline.addStyleName("active");
 		this.input.show();
 	}
-	
+
 	protected void onInputFieldClosed() {
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
 	}
-	
+
 	protected boolean onProcessInput(String inputString) {
 		return this.touchModel.newInput(inputString);
 	}
-	
+
 	private void addClearPanel() {
 		final LayoutPanel clearPanel = new LayoutPanel();
 		clearPanel.setStyleName("clear");

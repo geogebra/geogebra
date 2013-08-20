@@ -7,6 +7,7 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.user.client.Window;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	private final AlgebraViewT algebraView;
-	private StandardImageButton arrow;
+	private FastButton arrow;
 	private final FlowPanel stylebar;
 	private final ScrollPanel content;
 	private final TabletGUI gui;
@@ -49,8 +50,8 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 		this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel()
 				.getIcons().triangle_left());
 		this.arrow.setStyleName("arrowRight");
-		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(this.arrow,
-				this.gui);
+		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(
+				this.arrow, this.gui);
 
 		this.stylebar.add(this.arrow);
 		this.stylebar.setStyleName("algebraStylebar");
@@ -64,7 +65,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 
 		this.gui.addResizeListener(this);
 	}
-	
+
 	private void addInsideArrow() {
 		this.stylebar.setVisible(true);
 	}

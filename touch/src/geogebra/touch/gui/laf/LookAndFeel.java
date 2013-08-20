@@ -4,7 +4,7 @@ import geogebra.common.main.SavedStateListener;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
@@ -17,11 +17,11 @@ public interface LookAndFeel extends SavedStateListener {
 	public void buildTabletHeader(TouchModel touchModel);
 
 	public WorksheetHeader buildWorksheetHeader(WorksheetGUI worksheetGUI);
-	
+
 	public BrowseHeaderPanel buildBrowseHeader(BrowseGUI browseGUI);
 
 	public int getTabletHeaderHeight();
-	
+
 	public int getBrowseHeaderHeight();
 
 	public int getToolBarHeight();
@@ -42,16 +42,14 @@ public interface LookAndFeel extends SavedStateListener {
 
 	public void updateUndoSaveButtons();
 
-	public StandardImageButton setStyleBarButtonHandler(
-			StandardImageButton button, StyleBar styleBar, String process);
+	public FastButton setStyleBarButtonHandler(FastButton button,
+			StyleBar styleBar, String process);
 
-	public StandardImageButton setOptionalButtonHandler(
-			StandardImageButton button, StyleBar styleBar,
-			OptionType captionstyle);
+	public FastButton setOptionalButtonHandler(FastButton button,
+			StyleBar styleBar, OptionType captionstyle);
 
-	public StandardImageButton setStyleBarShowHideHandler(
-			StandardImageButton button, StyleBar styleBar);
+	public FastButton setStyleBarShowHideHandler(FastButton showHideButton,
+			StyleBar styleBar);
 
-	public StandardImageButton setAlgebraButtonHandler(
-			StandardImageButton arrow, TabletGUI gui);
+	public FastButton setAlgebraButtonHandler(FastButton arrow, TabletGUI gui);
 }

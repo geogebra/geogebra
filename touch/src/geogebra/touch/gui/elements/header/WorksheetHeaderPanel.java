@@ -5,7 +5,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -37,30 +36,25 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		}, ClickEvent.getType());
 
 		this.rightPanel.add(this.editButton);
-		this.editButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.editButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onEdit();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
 
 	protected void onGoBack() {
-		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI().getContentPanel());
+		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
+				.getContentPanel());
 		TouchEntryPoint.goBack();
 	}
 
 	protected void onEdit() {
 		if (this.material != null) {
-			this.tabletGUI
-					.restoreEuclidian(TouchEntryPoint.getWorksheetGUI().getContentPanel());
+			this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
+					.getContentPanel());
 			TouchEntryPoint.allowEditing(true);
 			this.app.getFileManager().getMaterial(this.material, this.app);
 			TouchEntryPoint.showTabletGUI();

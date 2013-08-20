@@ -6,6 +6,7 @@ public class StandardImageButton extends FastButton {
 	private SVGResource icon;
 
 	public StandardImageButton(SVGResource icon) {
+		super();
 		this.setIcon(icon);
 	}
 

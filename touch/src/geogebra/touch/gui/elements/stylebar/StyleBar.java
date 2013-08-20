@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.gui.laf.DefaultResources;
@@ -50,8 +51,8 @@ public class StyleBar extends FlowPanel {
 	private static DefaultResources lafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
 	private final HorizontalPanel contentPanel, styleButtonsPanel;
-	private final Map<StyleBarEntry, StandardImageButton> buttons = new HashMap<StyleBarEntry, StandardImageButton>();
-	private StandardImageButton showHideButton;
+	private final Map<StyleBarEntry, FastButton> buttons = new HashMap<StyleBarEntry, FastButton>();
+	private FastButton showHideButton;
 	private EuclidianViewT euclidianView;
 	private final TouchModel touchModel;
 	private final GuiModel guiModel;
@@ -146,7 +147,7 @@ public class StyleBar extends FlowPanel {
 		}
 
 		this.buttons.clear();
-		StandardImageButton b;
+		FastButton b;
 
 		for (SVGResource svg : resource) {
 			if (svg.equals(lafIcons.color())) {
@@ -192,7 +193,7 @@ public class StyleBar extends FlowPanel {
 
 		this.styleButtonsPanel.clear();
 
-		for (final StandardImageButton imageButton : this.buttons.values()) {
+		for (final FastButton imageButton : this.buttons.values()) {
 			this.styleButtonsPanel.add(imageButton);
 		}
 	}
@@ -206,9 +207,9 @@ public class StyleBar extends FlowPanel {
 	 * @return a new StandardImageButton for the StyleBar with OS specific
 	 *         EventHandler
 	 */
-	private StandardImageButton createStyleBarButton(final String process,
+	private FastButton createStyleBarButton(final String process,
 			final SVGResource svg) {
-		StandardImageButton newButton = new StandardImageButton(svg);
+		FastButton newButton = new StandardImageButton(svg);
 
 		newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(
 				newButton, this, process);
@@ -249,7 +250,7 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	public void onOptionalButtonEvent(final StandardImageButton eventSource,
+	public void onOptionalButtonEvent(final FastButton button,
 			final OptionType type) {
 
 		if (this.guiModel.getOptionTypeShown().equals(type)) {
@@ -263,11 +264,11 @@ public class StyleBar extends FlowPanel {
 			}
 
 			this.guiModel.showOption(this.optionsPanel.getOptionsPanel(type),
-					eventSource);
+					button);
 		}
 	}
 
-	public void onStyleBarButtonEvent(final StandardImageButton newButton,
+	public void onStyleBarButtonEvent(final FastButton newButton,
 			final String process) {
 
 		this.guiModel.closeOptions();

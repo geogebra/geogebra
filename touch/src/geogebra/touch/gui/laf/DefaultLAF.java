@@ -5,8 +5,7 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
@@ -15,6 +14,8 @@ import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.OptionType;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
@@ -38,11 +39,12 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public WorksheetHeader buildWorksheetHeader(final WorksheetGUI worksheetGUI) {
-		final WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app, this.gui);
+		final WorksheetHeaderPanel header = new WorksheetHeaderPanel(this.app,
+				this.gui);
 		worksheetGUI.setHeaderWidget(header);
 		return header;
 	}
-	
+
 	@Override
 	public BrowseHeaderPanel buildBrowseHeader(BrowseGUI browseGUI) {
 		this.bhp = new BrowseHeaderPanel(this.app.getLocalization(), browseGUI);
@@ -60,7 +62,7 @@ public class DefaultLAF implements LookAndFeel {
 	public int getBrowseHeaderHeight() {
 		return this.bhp.getOffsetHeight();
 	}
-	
+
 	@Override
 	public int getToolBarHeight() {
 		return this.gui.getToolBar().getOffsetHeight();
@@ -121,18 +123,12 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setStyleBarShowHideHandler(
-			final StandardImageButton button, final StyleBar styleBar) {
-		button.addFastClickHandler(new FastClickHandler() {
+	public FastButton setStyleBarShowHideHandler(final FastButton button,
+			final StyleBar styleBar) {
+		button.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSingleClick() {				
+			public void onClick(ClickEvent event) {
 				styleBar.showHide();
-			}
-
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
@@ -140,66 +136,46 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public StandardImageButton setStyleBarButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final String process) {
-		button.addFastClickHandler(new FastClickHandler() {
+	public FastButton setStyleBarButtonHandler(final FastButton button,
+			final StyleBar styleBar, final String process) {
+		button.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				styleBar.onStyleBarButtonEvent(button, process);
 				DefaultLAF.this.getApp().setUnsaved();
 				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 			}
-
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
-			}
 		});
 
 		return button;
 	}
 
 	@Override
-	public StandardImageButton setOptionalButtonHandler(
-			final StandardImageButton button, final StyleBar styleBar,
-			final OptionType type) {
-		button.addFastClickHandler(new FastClickHandler() {
+	public FastButton setOptionalButtonHandler(final FastButton button,
+			final StyleBar styleBar, final OptionType type) {
+		button.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				styleBar.onOptionalButtonEvent(button, type);
 			}
-
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
-			}
 		});
 
 		return button;
 	}
 
 	@Override
-	public StandardImageButton setAlgebraButtonHandler(
-			final StandardImageButton button, final TabletGUI gui) {
-		button.addFastClickHandler(new FastClickHandler() {
+	public FastButton setAlgebraButtonHandler(final FastButton button,
+			final TabletGUI gui) {
+		button.addClickHandler(new ClickHandler() {
 			@Override
-			public void onSingleClick() {
-				
+			public void onClick(ClickEvent event) {
+
 				gui.toggleAlgebraView();
 
 				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
 					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
 							.enableDisableButtons();
 				}
-			}
-
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 

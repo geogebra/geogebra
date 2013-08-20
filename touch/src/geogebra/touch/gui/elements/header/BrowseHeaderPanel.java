@@ -4,7 +4,6 @@ import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.LookAndFeel;
 
@@ -27,8 +26,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
-ResizeListener {
-	
+		ResizeListener {
+
 	public interface SearchListener {
 		void onSearch(String query);
 	}
@@ -46,14 +45,14 @@ ResizeListener {
 
 	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI) {
 		super(loc.getMenu("Worksheets"), loc);
-		
+
 		super.backPanel.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
 				TouchEntryPoint.goBack();
 			}
 		}, ClickEvent.getType());
-		
+
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
 		this.listeners = new ArrayList<SearchListener>();
@@ -90,17 +89,11 @@ ResizeListener {
 		this.searchButton = new StandardImageButton(getLaf().getIcons()
 				.search());
 		this.searchButton.addStyleName("searchButton");
-		this.searchButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.searchButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onSearch();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 
@@ -108,18 +101,13 @@ ResizeListener {
 				.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
-		this.cancelButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.cancelButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onCancel();
 			}
-			
-			@Override
-			public void onDoubleClick() {
-				// TODO Auto-generated method stub
-				
-			}
+
 		});
 
 		// Input Underline for Android
@@ -145,7 +133,7 @@ ResizeListener {
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
 	}
-	
+
 	protected void onCancel() {
 		this.query.setFocus(false);
 		this.query.setText("");
@@ -154,14 +142,14 @@ ResizeListener {
 		this.cancelButton.setVisible(false);
 		this.browseGUI.loadFeatured();
 	}
-	
+
 	protected void onFocusQuery() {
 		this.query.setFocus(true);
 		this.cancelButton.setVisible(true);
 		this.underline.removeStyleName("inactive");
 		this.underline.addStyleName("active");
 	}
-	
+
 	protected void onBlurQuery() {
 		if (this.query.getText().equals("")) {
 			this.query.setFocus(false);
@@ -170,7 +158,7 @@ ResizeListener {
 			this.cancelButton.setVisible(false);
 		}
 	}
-	
+
 	public boolean addSearchListener(final SearchListener l) {
 		return this.listeners.add(l);
 	}

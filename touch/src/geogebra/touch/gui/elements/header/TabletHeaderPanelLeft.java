@@ -6,7 +6,6 @@ import geogebra.html5.main.StringHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.gui.elements.StandardImageButton;
@@ -71,16 +70,16 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			this.initShareButton();
 			this.add(this.shareButton);
 		}
-		
+
 		this.addDomHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		}, ClickEvent.getType());
-		
+
 	}
 
 	protected void enableDisableSave() {
@@ -101,16 +100,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			}
 		};
 
-		this.newButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.newButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onNew();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 	}
@@ -140,26 +134,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			}
 		};
 
-		this.openButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.openButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onOpen();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
-				
-		this.openButton.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				event.preventDefault();
-				onOpen();
-			}
-		}, ClickEvent.getType());
 	}
 
 	protected void runOpen() {
@@ -173,16 +154,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	private void initSaveButton() {
-		this.saveButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.saveButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onSave();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 		this.enableDisableSave();
@@ -201,16 +177,11 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	private void initShareButton() {
-		this.shareButton.addFastClickHandler(new FastClickHandler() {
-			
+		this.shareButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onSingleClick() {
+			public void onClick(ClickEvent event) {
 				onShare();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
 			}
 		});
 	}

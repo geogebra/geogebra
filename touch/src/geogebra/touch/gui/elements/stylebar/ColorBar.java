@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.gui.util.Slider;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.StyleBarDefaultSettings;
 
@@ -13,7 +14,6 @@ import java.util.List;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class ColorBar extends FlowPanel {
@@ -54,7 +54,7 @@ public class ColorBar extends FlowPanel {
 		update();
 	}
 
-	class ColorButton extends PushButton {
+	class ColorButton extends FastButton {
 
 		private GColor color;
 

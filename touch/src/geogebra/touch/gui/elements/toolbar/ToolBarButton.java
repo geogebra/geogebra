@@ -1,7 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
@@ -39,32 +38,20 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	 *            : the button to be placed
 	 * @param guiModel
 	 *            : the ToolBar it is placed on
-	 * @param app 
-	 * @param toolBar 
+	 * @param app
+	 * @param toolBar
 	 */
-	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel, TouchApp app) {
+	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel,
+			TouchApp app) {
 		super(menu.getCommand());
 		this.model = guiModel;
-		
 
 		this.menuEntries = new SubToolBarButton[menu.getEntries().length];
 		for (int i = 0; i < menu.getEntries().length; i++) {
-			this.menuEntries[i] = new SubToolBarButton(menu.getEntries()[i], this);
+			this.menuEntries[i] = new SubToolBarButton(menu.getEntries()[i],
+					this);
 		}
 		this.options = new SubToolBar(this.menuEntries, app);
-
-		this.addFastClickHandler(new FastClickHandler() {
-			
-			@Override
-			public void onSingleClick() {
-				onToolBarButton();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
 	}
 
 	protected void onToolBarButton() {
@@ -115,18 +102,27 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 							+ ToolBarButton.BUTTONPANEL_BORDER,
 							this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH
 									- 16);
-					this.options.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
+					this.options
+							.setSubToolBarArrowPaddingLeft(optionsWidth - 37);
 				}
 
 			} else {
 				// this.model.showOption(options, this);
 				// (showRelativeToParent doesn't work correctly)
-				this.options.setPopupPosition(this.getAbsoluteLeft(),
-						this.getAbsoluteTop() - ToolBarButton.BUTTON_WIDTH - 16);
+				this.options
+						.setPopupPosition(this.getAbsoluteLeft(),
+								this.getAbsoluteTop()
+										- ToolBarButton.BUTTON_WIDTH - 16);
 			}
 
 			this.options.show();
 			this.model.setStyleBarOptionShown(OptionType.ToolBar);
 		}
+	}
+
+	@Override
+	protected void onClick() {
+		super.onClick();
+		onToolBarButton();
 	}
 }
