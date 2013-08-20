@@ -164,8 +164,13 @@ public interface Inspecting {
 	public static Inspecting dynamicGeosFinder = new Inspecting(){
 
 		public boolean check(ExpressionValue v) {
-			return v instanceof GeoElement && (!((GeoElement)v).isIndependent() 
-					|| ((GeoElement)v).isLabelSet() || ((GeoElement)v).isLocalVariable() || v instanceof GeoDummyVariable) ;
+			if(!v.isGeoElement()){
+				return false;
+			}
+			GeoElement geo = (GeoElement) v;
+			return (!geo.isIndependent() 
+					|| geo.isLabelSet() || geo.isLocalVariable() || v instanceof GeoDummyVariable
+					|| geo.isRandomGeo()) ;
 		}
 	};
 	
