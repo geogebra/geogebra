@@ -100,7 +100,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 	private void initTubeFilePanel() {
 		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
 		this.tubeFileContainer = new FileContainer("GeoGebraTube", this.tubeFilePanel);
-		this.tubeFileContainer.setStyleName("tubeFilePanel");
+		this.tubeFileContainer.setVisible(false);
+		this.tubeFileContainer.setStyleName("tubeFilePanel");		
 		this.addResizeListener(this.tubeFileContainer);
 		this.addResizeListener(this.tubeFilePanel);
 	}
@@ -108,7 +109,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 	private void initLocalFilePanel() {
 		this.localFilePanel = new VerticalMaterialPanel(this.app);
 		this.localFileContainer = new FileContainer(this.app.getMenu("MyProfile"), this.localFilePanel);
-		this.localFileContainer.addStyleName("localFilePanel");
+		this.localFileContainer.setVisible(false);
+		this.localFileContainer.addStyleName("localFilePanel");		
 		this.addResizeListener(this.localFileContainer);
 		this.addResizeListener(this.localFilePanel);
 	}
