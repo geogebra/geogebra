@@ -1917,62 +1917,62 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COS:
-			trig(left, leftStr,sb,"<cos/>","\\cos","COS(","cos","cos","cos",
+			trig(left, leftStr,sb,"<cos/>","\\cos","COS(","cos","cos",
 					tpl, loc, true);
 			break;
 
 		case SIN:
-			trig(left, leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin","sin",
+			trig(left, leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin",
 					tpl, loc, true);
 			break;
 
 		case TAN:
-			trig(left, leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan","tan",
+			trig(left, leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan",
 					tpl, loc, true);
 			break;
 
 		case CSC:
-			trig(left, leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc","csc",
+			trig(left, leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc",
 					tpl, loc, true);
 			break;
 
 		case SEC:
-			trig(left, leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec","sec",
+			trig(left, leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec",
 					tpl, loc, true);
 			break;
 
 		case COT:
-			trig(left, leftStr,sb,"<cot/>","\\cot","COT(","cot","cot","cot",
+			trig(left, leftStr,sb,"<cot/>","\\cot","COT(","cot","cot",
 					tpl, loc, true);
 			break;
 
 		case CSCH:
-			trig(left, leftStr,sb,"<csch/>","\\csch","CSCH(","csch","csch","func csch",
+			trig(left, leftStr,sb,"<csch/>","\\csch","CSCH(","csch","func csch",
 					tpl, loc, false);
 			break;
 
 		case SECH:
-			trig(left, leftStr,sb,"<sech/>","\\sech","SECH(","sech","sech","func sech",
+			trig(left, leftStr,sb,"<sech/>","\\sech","SECH(","sech","func sech",
 					tpl, loc, false);
 			break;
 
 		case COTH:
-			trig(left, leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth","coth",
+			trig(left, leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth",
 					tpl, loc, false);
 			break;
 
 		case ARCCOS:
-			trig(left, leftStr,sb,"<arccos/>","\\arccos","ACOS(",degFix("acos",left),"acos","arccos",degFix("acos",left),
+			trig(left, leftStr,sb,"<arccos/>","\\arccos","ACOS(","acos","arccos",degFix("acos",left),
 					tpl,loc,false);
 			break;
 
 		case ARCSIN:
-			trig(left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(",degFix("asin",left),"asin","arcsin",degFix("asin",left),
+			trig(left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(","asin","arcsin",degFix("asin",left),
 					tpl,loc,false);
 			break;
 
 		case ARCTAN:
-			trig(left, leftStr,sb,"<arctan/>","\\arctan","ATAN(",degFix("atan",left),"atan","arctan",degFix("atan",left),
+			trig(left, leftStr,sb,"<arctan/>","\\arctan","ATAN(","atan","arctan",degFix("atan",left),
 					tpl,loc,false);
 			break;
 
@@ -2007,45 +2007,45 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COSH:
-			trig(left, leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh","cosh",
+			trig(left, leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh",
 					tpl, loc, false);
 			break;
 
 		case SINH:
-			trig(left, leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh","sinh",
+			trig(left, leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh",
 					tpl, loc, false);
 			break;
 
 		case TANH:
-			trig(left, leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh","tanh",
+			trig(left, leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh",
 					tpl, loc, false);
 			break;
 
 		case ACOSH:
-			trig(left, leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","acosh","arcosh",
+			trig(left, leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","arcosh",
 					tpl, loc, false);
 			break;
 		case ASINH:
-			trig(left, leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","asinh","arsinh",
+			trig(left, leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","arsinh",
 					tpl, loc, false);			
 			break;
 
 		case ATANH:
-			trig(left, leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","atanh","artanh",
+			trig(left, leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","artanh",
 					tpl, loc, false);
 			break;
 		case REAL:
-			trig(left, leftStr,sb,"<real/>","\\real","","myreal","real","real","re",
+			trig(left, leftStr,sb,"<real/>","\\real","","real","real","re",
 					tpl,loc,false);
 			break;
 		case IMAGINARY:
-			trig(left, leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","imaginary","im",
+			trig(left, leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","im",
 					tpl,loc,false);
 			break;
 		case FRACTIONAL_PART:
 			//trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
 			// Giac: problem with fPart, use custom definition instead, see CASgiacW
-			trig(left, leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart","fractionalPart",
+			trig(left, leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart",
 					tpl,loc,false);
 			break;
 		case ZETA:
@@ -3346,12 +3346,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	
 	
-	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
+	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
 			String libreOffice,
 			StringTemplate tpl, Localization loc, boolean needDegrees) {
 
 		// send "key" for Giac
-		trig(left, leftStr, sb, mathml, latex,  psTricks,  mpReduce, key,
+		trig(left, leftStr, sb, mathml, latex,  psTricks, key,
 				libreOffice, key,
 				tpl,loc, needDegrees);
 
@@ -3361,7 +3361,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	/**
 	 * @param left left expression (might need context-aware serialization for GIAC) 
 	 */
-	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String mpReduce, String key,
+	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
 			String libreOffice, String giac,
 			StringTemplate tpl,Localization loc,boolean needDegrees) {
 		if (tpl.hasType(StringType.MATHML)) {
