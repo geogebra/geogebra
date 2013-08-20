@@ -116,10 +116,13 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 		for (int i = 0; i < materials.size() - this.start && i < pageCapacity(); i++) {
 			final Material m = materials.get(i + this.start);
-			final MaterialListElement preview = new MaterialListElement(m,
+			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
+			if(preview == null){
+				preview = new MaterialListElement(m,
 					this.app, this);
-			preview.initButtons();
-			this.titlesToPreviews.put(m.getURL(), preview);
+				preview.initButtons();
+				this.titlesToPreviews.put(m.getURL(), preview);
+			}
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
 					preview);
 		}

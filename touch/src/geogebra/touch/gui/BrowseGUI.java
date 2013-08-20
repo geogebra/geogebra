@@ -18,8 +18,6 @@ import geogebra.touch.gui.elements.header.BrowseHeaderPanel.SearchListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;
@@ -76,14 +74,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 
 	protected void updateViewSizes() {
 		this.header.onResize();
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
-			@Override
-			public void execute() {
-				resizeElements();
-			}
-		});
+		resizeElements();
 	}
 
 	private void addHeader() {
