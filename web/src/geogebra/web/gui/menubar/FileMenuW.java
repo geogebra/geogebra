@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.common.move.views.Renderable;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -66,17 +66,10 @@ public class FileMenuW extends MenuBar {
 	    	}
 	    });
 	    
-	    ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
+	    ((AppW) app).getOfflineOperation().getView().add(new BooleanRenderable() {
 			
-			public void render() {
-				renderNetworkOperation(false);
-			}
-		});
-	    
-	    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
-			
-			public void render() {
-				renderNetworkOperation(true);
+			public void render(boolean b) {
+				renderNetworkOperation(b);
 			}
 		});
 	    

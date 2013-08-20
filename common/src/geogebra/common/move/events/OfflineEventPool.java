@@ -55,7 +55,7 @@ public class OfflineEventPool extends BaseEventPool {
 	
 	@Override
 	public void trigger() {
-		((OfflineView) operation.getView()).render();
+		((OfflineView) operation.getView()).render(false);
 		((NetworkOperation) operation).setOnline(false);
 	}
 }

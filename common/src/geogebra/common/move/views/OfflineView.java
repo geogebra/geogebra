@@ -11,7 +11,7 @@ import java.util.Iterator;
  * renders the view concerning application is offline
  *
  */
-public class OfflineView extends BaseView {
+public class OfflineView extends BaseView<BooleanRenderable> {
 	
 	/**
 	 * Contstructs an offline view pool
@@ -23,19 +23,19 @@ public class OfflineView extends BaseView {
 	/**
 	 * renders the given View
 	 */
-	public void render() {
-		Iterator<Renderable> views = this.viewComponents.iterator();
+	public void render(boolean b) {
+		Iterator<BooleanRenderable> views = this.viewComponents.iterator();
 		while (views.hasNext()) {
-			views.next().render();
+			views.next().render(b);
 		}		
 	}
 	
 	/**
 	 * @param view adds a new view
 	 */
-	public void add(Renderable view) {
+	public void add(BooleanRenderable view) {
 		if (this.viewComponents == null) {
-			this.viewComponents = new ArrayList<Renderable>();
+			this.viewComponents = new ArrayList<BooleanRenderable>();
 		}
 		this.viewComponents.add(view);
 	}

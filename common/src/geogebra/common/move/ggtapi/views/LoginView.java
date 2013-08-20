@@ -11,7 +11,7 @@ import java.util.Iterator;
  * @author gabor
  *  View class for Login functionality
  */
-public class LoginView extends BaseView {
+public class LoginView extends BaseView<SuccessErrorRenderable> {
 	
 	/**
 	 * Creates a new Login view

@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.common.move.views.Renderable;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.GgbFileInputDialog;
 import geogebra.web.gui.images.AppResources;
@@ -52,19 +52,13 @@ public class OpenMenuW extends MenuBar {
 		openFromGoogleDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromGoogleDrive")),true, getLoginToGoogleCommand());
 		openFromSkyDrive = addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("OpenFromSkyDrive")),true, getLoginToSkyDriveCommand());
 		
-		 ((AppW) app).getOfflineOperation().getView().add(new Renderable() {
+		 ((AppW) app).getOfflineOperation().getView().add(new BooleanRenderable() {
 				
-				public void render() {
-					renderNetworkOperation(false);
+				public void render(boolean b) {
+					renderNetworkOperation(b);
 				}
 			});
 		    
-		    ((AppW) app).getOnlineOperation().getView().add(new Renderable() {
-				
-				public void render() {
-					renderNetworkOperation(true);
-				}
-			});
 		
 		
 		

@@ -7,13 +7,13 @@ import java.util.ArrayList;
  * 	Base of all views
  *
  */
-public abstract class BaseView {
+public abstract class BaseView<T> {
 	
 	
 	/**
 	 * 
 	 */
-	protected ArrayList viewComponents = null;
+	protected ArrayList<T> viewComponents = null;
 	
 	/**
 	 * @param view to render
@@ -29,7 +29,7 @@ public abstract class BaseView {
 	 * 
 	 * Removes a view from the views list
 	 */
-	public void remove(Renderable view) {
+	public void remove(T view) {
 		if (viewComponents != null) {
 			if (viewComponents.contains(view)) {
 				viewComponents.remove(view);

@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.Renderable;
 import geogebra.common.move.views.SuccessErrorRenderable;
 import geogebra.web.gui.images.AppResources;
@@ -82,17 +83,10 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 	   signIn = addItem(app.getMenu("signIn"), getSignInCommand());
 	   signIn.addStyleName("signIn");
 	   
-	   app.getOfflineOperation().getView().add(new Renderable() {
+	   app.getOfflineOperation().getView().add(new BooleanRenderable() {
 			
-			public void render() {
-				renderNetworkOperation(false);
-			}
-		});
-	    
-	    app.getOnlineOperation().getView().add(new Renderable() {
-			
-			public void render() {
-				renderNetworkOperation(true);
+			public void render(boolean b) {
+				renderNetworkOperation(b);
 			}
 		});
 	    

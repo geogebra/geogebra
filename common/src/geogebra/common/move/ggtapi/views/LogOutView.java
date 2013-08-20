@@ -10,7 +10,7 @@ import java.util.Iterator;
  * @author gabor
  * View for LogOut changes
  */
-public class LogOutView extends BaseView {
+public class LogOutView extends BaseView<Renderable> {
 	
 	/**
 	 * Creates a new LoginOut view

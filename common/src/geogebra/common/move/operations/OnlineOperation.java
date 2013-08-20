@@ -1,6 +1,6 @@
 package geogebra.common.move.operations;
 
-import geogebra.common.move.views.OnlineView;
+import geogebra.common.move.views.OfflineView;
 
 /**
  * @author gabor
@@ -19,8 +19,8 @@ public class OnlineOperation extends NetworkOperation {
 	}
 	
 	@Override
-	public OnlineView getView() {
-		return (OnlineView) view;
+	public OfflineView getView() {
+		return (OfflineView) view;
 	}
 	
 }
