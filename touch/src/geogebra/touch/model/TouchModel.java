@@ -819,7 +819,9 @@ public class TouchModel {
 			resetSelection();
 			selectOutOf(hits, new Test[] { Test.GEONUMERIC }, 1);
 
-			if (hits.size() == 0) {
+			if (this.selectedElements.size() == 0) {
+				// create a new slider in case there is no slider that was
+				// selected
 				if (this.inputDialog.getType() != DialogType.Slider) {
 					this.inputDialog.redefine(DialogType.Slider);
 				}
@@ -1079,7 +1081,7 @@ public class TouchModel {
 
 		// special commands
 		case Move_Mobile:
-			for (final GeoElement geo : hits) {
+			for (GeoElement geo : hits) {
 				this.select(geo);
 			}
 			this.changeColorAllowed = true;
@@ -1090,7 +1092,7 @@ public class TouchModel {
 				this.resetSelection();
 			}
 
-			for (final GeoElement geo : hits) {
+			for (GeoElement geo : hits) {
 				if (geo.isSelected()) {
 					if (!hits.containsGeoPoint()) {
 						this.deselect(geo);

@@ -3,6 +3,7 @@ package geogebra.touch.gui.elements.stylebar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -130,7 +131,10 @@ public class StyleBar extends FlowPanel {
 					.getGeoElementForPropertiesDialog() instanceof GeoPointND) {
 				resource = StyleBarDefaultSettings.Point.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof LineProperties) {
+					.getGeoElementForPropertiesDialog() instanceof LineProperties
+					|| this.touchModel.getSelectedGeos().get(0)
+							.getGeoElementForPropertiesDialog() instanceof GeoNumeric) {
+				// GeoNumeric in case of Slider) {
 				resource = StyleBarDefaultSettings.Line.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
