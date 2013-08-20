@@ -86,9 +86,6 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 			} else {
 				optionsHeight = this.menuEntries.length * ToolBarButton.BUTTON_WIDTH + 16;
 			}
-			
-			System.out.println("absoluteTop: " + this.getAbsoluteTop() + "optionsHeight: " + optionsHeight);
-			System.out.println("optionsheight: " + this.menuEntries.length + " * " + ToolBarButton.BUTTON_WIDTH + " + 16");
 
 			this.model.closeOnlyOptions();
 			this.model.setOption(this.options);
