@@ -30,8 +30,7 @@ import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.ggtapi.views.LogOutView;
 import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.move.operations.Network;
-import geogebra.common.move.operations.OfflineOperation;
-import geogebra.common.move.operations.OnlineOperation;
+import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
@@ -138,8 +137,7 @@ public class AppW extends AppWeb {
 	protected ObjectPool objectPool;
 	
 	//Event flow operations
-	private OfflineOperation offlineOperation;
-	private OnlineOperation onlineOperation;
+	private NetworkOperation networkOperation;
 	private LoginOperation loginOperation;
 	private LogOutOperation logoutOperation;
 
@@ -147,18 +145,13 @@ public class AppW extends AppWeb {
 	/**
 	 * @return OfflineOperation event flow
 	 */
-	public OfflineOperation getOfflineOperation() {
-		return offlineOperation;
+	public NetworkOperation getOfflineOperation() {
+		return networkOperation;
 	}
 	
 
 
-	/**
-	 * @return OnlineOperation event flow
-	 */
-	public OnlineOperation getOnlineOperation() {
-		return onlineOperation;
-	}
+	
 
 	/**
 	 * @return LogInOperation eventFlow
@@ -258,16 +251,13 @@ public class AppW extends AppWeb {
 			}
 		};
 		
-		offlineOperation = new OfflineOperation(network);
-		OfflineEventPool offlineEventPool = new OfflineEventPool(offlineOperation);	
+		networkOperation = new NetworkOperation(network);
+		OfflineEventPool offlineEventPool = new OfflineEventPool(networkOperation);	
 		attacher.attach("offline", offlineEventPool);
-		OfflineView ov = new OfflineView();
-		offlineOperation.setView(ov);
-		
-		onlineOperation = new OnlineOperation(network);
-		OnlineEventPool onlineEventPool = new OnlineEventPool(onlineOperation);
+		OnlineEventPool onlineEventPool = new OnlineEventPool(networkOperation);	
 		attacher.attach("online", onlineEventPool);
-		onlineOperation.setView(ov);
+		OfflineView ov = new OfflineView();
+		networkOperation.setView(ov);
     }
 
 	private void showSplashImageOnCanvas() {

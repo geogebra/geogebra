@@ -1,14 +1,27 @@
 package geogebra.common.move.operations;
 
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.common.move.views.OfflineView;
 
 /**
  * @author gabor
  * Base for offline and online operations
  *
  */
-public abstract class NetworkOperation extends BaseOperation<BooleanRenderable> {
+public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	
+	/**
+	 * Creates a new offlineOperation class for Offline functionality
+	 * @param network The implementation of the Network interface
+	 */
+	public NetworkOperation(Network network) {
+		this.online = network.onLine();
+	}
+	
+	@Override
+	public OfflineView getView() {
+		return (OfflineView) view;
+	}
 	/**
 	 * The Application is online, or not
 	 */
