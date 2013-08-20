@@ -261,8 +261,10 @@ public class TouchController extends EuclidianController {
 			}
 		}
 
-		if (this.model.getCommand() == ToolBarCommand.Move_Mobile
-				&& this.view.getHits().size() > 0) {
+		if ((this.model.getCommand() == ToolBarCommand.Move_Mobile || this.model
+				.getCommand() == ToolBarCommand.Slider)
+				&& this.view.getHits().size() > 0 && this.draggingOccured) {
+			// just call storeUndoInfo() if an object was moved
 			this.app.storeUndoInfo();
 		}
 
@@ -273,7 +275,10 @@ public class TouchController extends EuclidianController {
 			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
 			this.kernel.notifyRepaint();
 		}
+
+		this.draggingOccured = false;
 		this.temporaryMode = false;
+
 		if (this.model.getCommand() == ToolBarCommand.Pen
 				|| this.model.getCommand() == ToolBarCommand.FreehandShape
 				|| this.model.getCommand() == ToolBarCommand.DeleteObject
@@ -288,6 +293,12 @@ public class TouchController extends EuclidianController {
 			return;
 		}
 
+		if (this.mouseLoc != null && this.mouseLoc.getX() == x
+				&& this.mouseLoc.getY() == y) {
+			// no change of position
+			return;
+		}
+
 		if (this.clicked
 				&& (this.clicked = this.model.controlClicked())
 				&& (this.model.getCommand() == ToolBarCommand.Move_Mobile
@@ -295,8 +306,10 @@ public class TouchController extends EuclidianController {
 						|| this.model.getCommand() == ToolBarCommand.TranslateObjectByVector
 						|| this.model.getCommand() == ToolBarCommand.Pen
 						|| this.model.getCommand() == ToolBarCommand.FreehandShape
-						|| this.model.getCommand() == ToolBarCommand.DeleteObject || Swipeables
-							.isSwipeable(this.model.getCommand()))) {
+						|| this.model.getCommand() == ToolBarCommand.DeleteObject
+						|| Swipeables.isSwipeable(this.model.getCommand()) || (this.model
+						.getCommand() == ToolBarCommand.Slider && this.model
+						.getTotalNumber() > 0))) {
 			GeoGebraProfiler.drags++;
 			final long time = System.currentTimeMillis();
 			if (time < this.lastMoveEvent
@@ -380,7 +393,7 @@ public class TouchController extends EuclidianController {
 		final MobileMouseEvent mEvent = new MobileMouseEvent(x, y);
 		if (Swipeables.isSwipeable(this.model.getCommand())) {
 			final GeoElement geo = this.model.getElement(Test.GEOPOINT);
-	
+
 			if (this.selectedPoints.isEmpty() && geo instanceof GeoPoint) {
 				this.selectedPoints.add((GeoPoint) geo);
 			}

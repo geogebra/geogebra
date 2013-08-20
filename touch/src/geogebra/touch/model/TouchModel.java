@@ -814,7 +814,10 @@ public class TouchModel {
 
 		// special command: slider
 		case Slider:
-			if (hits.size() == 0 || !hits.get(0).isGeoNumeric()) {
+			resetSelection();
+			selectOutOf(hits, new Test[] { Test.GEONUMERIC }, 1);
+
+			if (hits.size() == 0) {
 				if (this.inputDialog.getType() != DialogType.Slider) {
 					this.inputDialog.redefine(DialogType.Slider);
 				}
