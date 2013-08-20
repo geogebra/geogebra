@@ -195,7 +195,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 	}
 
 	protected void updateGUI() {
-		App.printStacktrace("");
 		if (this.tubeList.isEmpty()) {
 			this.localFilePanel.setMaterials(2, this.localList);
 			this.tubeFileContainer.setVisible(false);
