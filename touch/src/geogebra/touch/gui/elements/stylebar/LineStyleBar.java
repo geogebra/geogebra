@@ -26,9 +26,13 @@ public class LineStyleBar extends FlowPanel {
 			new StandardImageButton(LafIcons.line_dash_dot()) };
 
 	private FlowPanel buttonPanel;
+	private Slider slider = new Slider();
+	TouchModel touchModel;
 
-	public LineStyleBar(final TouchModel touchModel) {
+	public LineStyleBar(final TouchModel model) {
 		this.addStyleName("lineStyleBar");
+
+		this.touchModel = model;
 
 		this.buttonPanel = new FlowPanel();
 		this.buttonPanel.setStyleName("styleBarButtonPanel");
@@ -37,65 +41,74 @@ public class LineStyleBar extends FlowPanel {
 			final int index = i;
 
 			lineStyle[i].addFastClickHandler(new FastClickHandler() {
-				
+
 				@Override
 				public void onSingleClick() {
-					StyleBarStatic.applyLineStyle(touchModel.getSelectedGeos(),
+					StyleBarStatic.applyLineStyle(
+							LineStyleBar.this.touchModel.getSelectedGeos(),
 							index);
-					touchModel.getGuiModel().setLineStyle(index);
-					touchModel.storeOnClose();
+					LineStyleBar.this.touchModel.getGuiModel().setLineStyle(
+							index);
+					LineStyleBar.this.touchModel.storeOnClose();
 
-					if (touchModel.getCommand().equals(ToolBarCommand.Pen)
-							|| touchModel.getCommand().equals(
-									ToolBarCommand.FreehandShape)) {
-						touchModel.getKernel().getApplication().getEuclidianView1()
-						.getEuclidianController().getPen().setPenLineStyle(index);
+					if (LineStyleBar.this.touchModel.getCommand().equals(
+							ToolBarCommand.Pen)
+							|| LineStyleBar.this.touchModel.getCommand()
+									.equals(ToolBarCommand.FreehandShape)) {
+						LineStyleBar.this.touchModel.getKernel()
+								.getApplication().getEuclidianView1()
+								.getEuclidianController().getPen()
+								.setPenLineStyle(index);
 					}
 				}
 
 				@Override
 				public void onDoubleClick() {
-					//nothing to do here
+					// nothing to do here
 				}
 			});
 			this.buttonPanel.add(lineStyle[i]);
 		}
-		
+
 		this.add(this.buttonPanel);
 
-		final Slider slider = new Slider();
+		this.slider.setMinimum(SLIDER_MIN);
+		this.slider.setMaximum(SLIDER_MAX);
 
-		slider.setMinimum(SLIDER_MIN);
-		slider.setMaximum(SLIDER_MAX);
+		update();
 
-		if (touchModel.lastSelected() != null) {
-			slider.setValue(Integer.valueOf(touchModel.lastSelected()
-					.getLineThickness()));
-		} else if (touchModel.getCommand().equals(ToolBarCommand.Pen)
-				|| touchModel.getCommand().equals(ToolBarCommand.FreehandShape)) {
-			slider.setValue(new Integer(touchModel.getKernel().getApplication().getEuclidianView1()
-					.getEuclidianController().getPen().getPenSize()));
-		}
-
-		slider.addValueChangeHandler(new ValueChangeHandler<Integer>() {
+		this.slider.addValueChangeHandler(new ValueChangeHandler<Integer>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Integer> event) {
-				StyleBarStatic.applyLineSize(touchModel.getSelectedGeos(),
+				StyleBarStatic.applyLineSize(LineStyleBar.this.touchModel
+						.getSelectedGeos(), event.getValue().intValue());
+				LineStyleBar.this.touchModel.getGuiModel().setLineSize(
 						event.getValue().intValue());
-				touchModel.getGuiModel().setLineSize(
-						event.getValue().intValue());
-				touchModel.storeOnClose();
+				LineStyleBar.this.touchModel.storeOnClose();
 
-				if (touchModel.getCommand().equals(ToolBarCommand.Pen)
-						|| touchModel.getCommand().equals(
+				if (LineStyleBar.this.touchModel.getCommand().equals(
+						ToolBarCommand.Pen)
+						|| LineStyleBar.this.touchModel.getCommand().equals(
 								ToolBarCommand.FreehandShape)) {
-					touchModel.getKernel().getApplication().getEuclidianView1()
-					.getEuclidianController().getPen()
-							.setPenSize(event.getValue().intValue());
+					LineStyleBar.this.touchModel.getKernel().getApplication()
+							.getEuclidianView1().getEuclidianController()
+							.getPen().setPenSize(event.getValue().intValue());
 				}
 			}
 		});
-		this.add(slider);
+		this.add(this.slider);
 	}
 
+	public void update() {
+		if (this.touchModel.lastSelected() != null) {
+			this.slider.setValue(Integer.valueOf(this.touchModel.lastSelected()
+					.getLineThickness()));
+		} else if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)
+				|| this.touchModel.getCommand().equals(
+						ToolBarCommand.FreehandShape)) {
+			this.slider.setValue(new Integer(this.touchModel.getKernel()
+					.getApplication().getEuclidianView1()
+					.getEuclidianController().getPen().getPenSize()));
+		}
+	}
 }
