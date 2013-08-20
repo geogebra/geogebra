@@ -4,6 +4,7 @@ import geogebra.touch.gui.algebra.events.FastClickEvent;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.algebra.events.HasFastClickHandlers;
 
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -83,6 +84,12 @@ public abstract class FastButton extends PushButton implements HasFastClickHandl
 		}
 		this.active = true;
 		this.lastClick = System.currentTimeMillis();
+	}
+	
+	@Override
+	@Deprecated
+	public HandlerRegistration addClickHandler(ClickHandler c){
+		return super.addClickHandler(c);
 	}
 
 	@Override
