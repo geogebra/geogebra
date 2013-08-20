@@ -8,15 +8,15 @@ import geogebra.common.move.views.BaseView;
  * @author gabor
  * 
  * Base class for all operations in Common
- *
+ * @param <T> Type of handlers this operation notifies
  */
-public abstract class BaseOperation {
+public abstract class BaseOperation<T> {
 	
 	/**
 	 * The Common view component to operate on (if exists)
 	 * (eg. common.move.views.OfflineView)
 	 */
-	protected BaseView view = null;
+	protected BaseView<T> view = null;
 	/**
 	 * The Common model component to operate on (if exists)
 	 * (eg. common.move.models.LoginModel)
@@ -31,7 +31,7 @@ public abstract class BaseOperation {
 	/**
 	 * @return the Common View to operate on
 	 */
-	public BaseView getView() {
+	public BaseView<T> getView() {
 		return view;
 	}
 	/**
@@ -39,7 +39,7 @@ public abstract class BaseOperation {
 	 * 
 	 * Sets the Common view to operate on
 	 */
-	public void setView(BaseView view) {
+	public void setView(BaseView<T> view) {
 		this.view = view;
 	}
 	/**

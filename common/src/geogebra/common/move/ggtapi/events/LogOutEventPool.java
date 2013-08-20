@@ -2,7 +2,7 @@ package geogebra.common.move.ggtapi.events;
 
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.events.BaseEventPool;
-import geogebra.common.move.operations.BaseOperation;
+import geogebra.common.move.ggtapi.operations.LogOutOperation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ public class LogOutEventPool extends BaseEventPool {
 	 * @param op
 	 * Creates a new eventPool for logOut events
 	 */
-	public LogOutEventPool(BaseOperation op) {
+	public LogOutEventPool(LogOutOperation op) {
 		super(op);
 	}
 	

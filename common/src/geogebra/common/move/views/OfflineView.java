@@ -1,6 +1,5 @@
 package geogebra.common.move.views;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 
@@ -22,6 +21,7 @@ public class OfflineView extends BaseView<BooleanRenderable> {
 	
 	/**
 	 * renders the given View
+	 * @param b true for online, false for offline
 	 */
 	public void render(boolean b) {
 		Iterator<BooleanRenderable> views = this.viewComponents.iterator();
@@ -29,17 +29,5 @@ public class OfflineView extends BaseView<BooleanRenderable> {
 			views.next().render(b);
 		}		
 	}
-	
-	/**
-	 * @param view adds a new view
-	 */
-	public void add(BooleanRenderable view) {
-		if (this.viewComponents == null) {
-			this.viewComponents = new ArrayList<BooleanRenderable>();
-		}
-		this.viewComponents.add(view);
-	}
-	
-	
 
 }

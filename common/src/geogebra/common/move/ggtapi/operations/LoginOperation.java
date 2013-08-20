@@ -6,6 +6,7 @@ import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.move.operations.BaseOperation;
+import geogebra.common.move.views.SuccessErrorRenderable;
 
 /**
  * @author gabor
@@ -13,7 +14,7 @@ import geogebra.common.move.operations.BaseOperation;
  * Operational class for login functionality
  *
  */
-public class LoginOperation extends BaseOperation {
+public class LoginOperation extends BaseOperation<SuccessErrorRenderable> {
 	
 	/**
 	 * Creates a new Login operation

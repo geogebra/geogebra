@@ -4,7 +4,6 @@ import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.operations.LoginOperation;
-import geogebra.common.move.operations.BaseOperation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +19,7 @@ public class LoginEventPool extends BaseEventPool {
 	 * @param op
 	 * Creates a new loginEventPool for login Events
 	 */
-	public LoginEventPool(BaseOperation op) {
+	public LoginEventPool(LoginOperation op) {
 		super(op);
 	}
 	

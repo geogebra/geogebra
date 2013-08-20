@@ -1,11 +1,13 @@
 package geogebra.common.move.operations;
 
+import geogebra.common.move.views.BooleanRenderable;
+
 /**
  * @author gabor
  * Base for offline and online operations
  *
  */
-public abstract class NetworkOperation extends BaseOperation {
+public abstract class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	
 	/**
 	 * The Application is online, or not

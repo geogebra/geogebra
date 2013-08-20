@@ -3,7 +3,6 @@ package geogebra.common.move.ggtapi.views;
 import geogebra.common.move.views.BaseView;
 import geogebra.common.move.views.Renderable;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -17,16 +16,6 @@ public class LogOutView extends BaseView<Renderable> {
 	 */
 	public LogOutView() {
 		super();
-	}
-	
-	/**
-	 * @param view adds a new View to viewcomponents
-	 */
-	public void add(Renderable view) {
-		if (this.viewComponents == null) {
-			this.viewComponents = new ArrayList<Renderable>();
-		}
-		this.viewComponents.add(view);
 	}
 	
 	/**
