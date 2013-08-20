@@ -8,6 +8,7 @@ import geogebra.touch.gui.ResizeListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private final FlexTable contentPanel;
 	private final AppWeb app;
-	private final int materialHeight = 140;
+	private int materialHeight = 140;
 	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
@@ -130,8 +131,26 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		}
 	}
 
+	private void updateHeight() {
+		final Iterator<MaterialListElement> material = this.titlesToPreviews
+				.values().iterator();
+		if (material.hasNext()) {
+			MaterialListElement next = material.next();
+			if (next.getOffsetHeight() > 0) {
+				this.materialHeight = next.getOffsetHeight();
+			}
+		}
+		// if(this.materialHeight != oldMaterialHeight){
+		if (this.materials != null) {
+			this.setMaterials(this.columns, this.materials, this.start);
+		}
+		// }
+
+	}
+	
 	@Override
 	public void onResize() {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
+		this.updateHeight();
 	}
 }
