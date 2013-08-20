@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.touch.TouchApp;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.utils.OptionType;
@@ -38,8 +39,10 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	 *            : the button to be placed
 	 * @param guiModel
 	 *            : the ToolBar it is placed on
+	 * @param app 
+	 * @param toolBar 
 	 */
-	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel) {
+	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel, TouchApp app) {
 		super(menu.getCommand());
 		this.model = guiModel;
 		
@@ -48,7 +51,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 		for (int i = 0; i < menu.getEntries().length; i++) {
 			this.menuEntries[i] = new SubToolBarButton(menu.getEntries()[i], this);
 		}
-		this.options = new SubToolBar(this.menuEntries);
+		this.options = new SubToolBar(this.menuEntries, app);
 
 		this.addFastClickHandler(new FastClickHandler() {
 			

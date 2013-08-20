@@ -1,6 +1,9 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.TabletGUI;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CellPanel;
@@ -15,7 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Thomas Krismayer
  * @see ButtonBar
  */
-public class SubToolBar extends PopupPanel {
+public class SubToolBar extends PopupPanel implements ResizeListener {
 	private final VerticalPanel contentPanel;
 	private CellPanel subToolBarPanel;
 	private final LayoutPanel arrowPanel;
@@ -25,7 +28,7 @@ public class SubToolBar extends PopupPanel {
 	 * @param menuEntry
 	 *            the SubToolBarButtons that will be shown
 	 */
-	public SubToolBar(SubToolBarButton[] menuEntry) {
+	public SubToolBar(SubToolBarButton[] menuEntry, TouchApp app) {
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();
@@ -54,6 +57,8 @@ public class SubToolBar extends PopupPanel {
 		this.arrowPanel.getElement().setInnerHTML(html);
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
+		
+		((TabletGUI) app.getTouchGui()).addResizeListener(this);
 	}
 
 	public void setSubToolBarArrowPaddingLeft(int padding) {
@@ -63,5 +68,11 @@ public class SubToolBar extends PopupPanel {
 
 	public boolean isHorizontal() {
 		return this.horizontal;
+	}
+
+	@Override
+	public void onResize() {
+		// TODO Auto-generated method stub
+		
 	}
 }

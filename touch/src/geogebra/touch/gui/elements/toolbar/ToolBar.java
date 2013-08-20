@@ -54,10 +54,12 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private final TextBox inputBox = new TextBox();
 	private TouchModel touchModel;
 	private boolean openClicked = false;
+	private TouchApp app;
 
 	public ToolBar(final TouchModel touchModel, final TouchApp app) {
 		this.touchModel = touchModel;
 		this.setStyleName("toolbar");
+		this.app = app;
 		this.input = new InputDialog(app, DialogType.InputField, touchModel);
 		initShowHideButtons();
 		addToolPanel();
@@ -74,19 +76,19 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.tools = new ArrayList<ToolBarButton>();
 
 		final ToolBarButton manipulateObjects = new ToolBarButton(
-				ToolBarMenu.ManipulateObjects, guiModel);
+				ToolBarMenu.ManipulateObjects, guiModel, this.app);
 		guiModel.setDefaultButton(manipulateObjects);
 		this.tools.add(manipulateObjects);
-		this.tools.add(new ToolBarButton(ToolBarMenu.Point, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Line, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, guiModel));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, guiModel));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Point, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Line, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, guiModel, this.app));
+		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, guiModel, this.app));
 
 		guiModel.setActive(this.tools.get(0));
 
@@ -144,18 +146,14 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.showHideClosed.setVisible(false);
 		this.toolPanel.setWidth("100%");
 		this.touchModel.getGuiModel().closeOnlyOptions();
-		final TouchApp app = (TouchApp) this.touchModel.getKernel()
-				.getApplication();
-		((TabletGUI) app.getTouchGui()).updateViewSizes();
+		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
 		this.openClicked = false;
 	}
 
 	protected void onCollapseToolBar() {
 		this.touchModel.getGuiModel().closeOptions();
 		this.closeToolBar();
-		final TouchApp app = (TouchApp) this.touchModel.getKernel()
-				.getApplication();
-		((TabletGUI) app.getTouchGui()).updateViewSizes();
+		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
 	}
 
 	private void addInputPanel() {
