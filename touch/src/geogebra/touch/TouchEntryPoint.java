@@ -146,7 +146,7 @@ public class TouchEntryPoint implements EntryPoint {
 
 	public static void showBrowseGUI() {
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.getBrowseGUI());
-		TouchEntryPoint.getBrowseGUI().onResize();
+		TouchEntryPoint.getBrowseGUI().loadFeatured();
 	}
 
 	public static void showTabletGUI() {

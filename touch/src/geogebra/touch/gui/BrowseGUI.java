@@ -19,12 +19,9 @@ import java.util.List;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -62,13 +59,6 @@ public class BrowseGUI extends HeaderPanel {
 
 		addHeader();
 		addContent();
-
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(final ResizeEvent event) {
-				BrowseGUI.this.onResize();
-			}
-		});
 	}
 
 	private void addHeader() {
@@ -89,8 +79,6 @@ public class BrowseGUI extends HeaderPanel {
 		fileList.add(this.localFileContainer);
 		fileList.add(this.tubeFileContainer);
 		this.setContentWidget(fileList);
-
-		this.loadFeatured();
 	}
 
 	private void initTubeFilePanel() {
@@ -127,6 +115,7 @@ public class BrowseGUI extends HeaderPanel {
 							final Response response) {
 						App.debug(response.getText());
 						onSearchResults(response);
+						onResize();
 					}
 				});
 	}
@@ -150,6 +139,7 @@ public class BrowseGUI extends HeaderPanel {
 					public void onResponseReceived(final Request request,
 							final Response response) {
 						onSearchResults(response);
+						onResize();
 					}
 				});
 	}
@@ -174,6 +164,7 @@ public class BrowseGUI extends HeaderPanel {
 				resizeElements();
 			}
 		});
+
 	}
 
 	protected void resizeElements() {
