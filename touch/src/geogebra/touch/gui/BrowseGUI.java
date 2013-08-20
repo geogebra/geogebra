@@ -19,9 +19,12 @@ import java.util.List;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -59,6 +62,26 @@ public class BrowseGUI extends HeaderPanel {
 
 		addHeader();
 		addContent();
+		
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(final ResizeEvent event) {
+				BrowseGUI.this.updateViewSizes();
+			}
+		});
+		
+	}
+
+	protected void updateViewSizes() {
+		this.header.onResize();
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				resizeElements();
+			}
+		});
 	}
 
 	private void addHeader() {
@@ -115,7 +138,7 @@ public class BrowseGUI extends HeaderPanel {
 							final Response response) {
 						App.debug(response.getText());
 						onSearchResults(response);
-						onResize();
+						updateViewSizes();
 					}
 				});
 	}
@@ -139,7 +162,7 @@ public class BrowseGUI extends HeaderPanel {
 					public void onResponseReceived(final Request request,
 							final Response response) {
 						onSearchResults(response);
-						onResize();
+						updateViewSizes();
 					}
 				});
 	}
@@ -151,20 +174,6 @@ public class BrowseGUI extends HeaderPanel {
 
 	public void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
-	}
-	
-	@Override
-	public void onResize() {
-		this.header.onResize();
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
-			@Override
-			public void execute() {
-				resizeElements();
-			}
-		});
-
 	}
 
 	protected void resizeElements() {
