@@ -3,11 +3,10 @@ package geogebra.touch.gui.elements.ggt;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -49,11 +48,17 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.prevButton.addStyleName("prevButton");
 		this.prevButton.addStyleName("disabled");
 		this.fileControlPanel.add(this.prevButton);
-		this.prevButton.addClickHandler(new ClickHandler() {
-
+		this.prevButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onSingleClick() {
 				onPrevPage();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -65,11 +70,17 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.nextButton.addStyleName("nextButton");
 		this.nextButton.addStyleName("disabled");
 		this.fileControlPanel.add(this.nextButton);
-		this.nextButton.addClickHandler(new ClickHandler() {
-
+		this.nextButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onSingleClick() {
 				onNextPage();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 

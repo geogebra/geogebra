@@ -166,7 +166,6 @@ public class BrowseGUI extends HeaderPanel {
 	@Override
 	public void onResize() {
 		this.header.onResize();
-		super.onResize();
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			

@@ -4,6 +4,7 @@ import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.LookAndFeel;
 
@@ -89,21 +90,35 @@ ResizeListener {
 		this.searchButton = new StandardImageButton(getLaf().getIcons()
 				.search());
 		this.searchButton.addStyleName("searchButton");
-		this.searchButton.addDomHandler(new ClickHandler() {
+		this.searchButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onSingleClick() {
 				onSearch();
 			}
-		}, ClickEvent.getType());
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		this.cancelButton = new StandardImageButton(getLaf().getIcons()
 				.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
-		this.cancelButton.addClickHandler(new ClickHandler() {
+		this.cancelButton.addFastClickHandler(new FastClickHandler() {
+			
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onSingleClick() {
 				onCancel();
+			}
+			
+			@Override
+			public void onDoubleClick() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
