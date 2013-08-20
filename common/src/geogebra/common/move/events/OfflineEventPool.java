@@ -1,6 +1,5 @@
 package geogebra.common.move.events;
 
-import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
 
@@ -18,7 +17,7 @@ public class OfflineEventPool extends BaseEventPool {
 	/**
 	 * @param op OfflineOperation
 	 */
-	public OfflineEventPool(BaseOperation op) {
+	public OfflineEventPool(NetworkOperation op) {
 		super(op);
 	}
 

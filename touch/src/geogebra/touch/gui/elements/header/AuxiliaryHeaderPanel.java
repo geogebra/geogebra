@@ -9,7 +9,11 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
+/**
+ * Common superclass for worksheet and browse GUIs
+ * @author Zbynek
+ *
+ */
 public class AuxiliaryHeaderPanel extends HorizontalPanel {
 
 	private final StandardImageButton backButton;
@@ -18,9 +22,9 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	protected VerticalPanel rightPanel;
 	private final Label headerText;
 	private final Label backLabel;
-	private final Localization loc;
+	protected final Localization loc;
 
-	public AuxiliaryHeaderPanel(final String title, final Localization loc) {
+	public AuxiliaryHeaderPanel(final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.backButton = new StandardImageButton(TouchEntryPoint
@@ -45,7 +49,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.add(this.backPanel);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.headerText = new Label(title);
+		this.headerText = new Label("");
 		this.add(this.headerText);
 
 		this.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);

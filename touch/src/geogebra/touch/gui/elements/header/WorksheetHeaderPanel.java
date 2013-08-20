@@ -24,7 +24,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	public WorksheetHeaderPanel(final AppWeb app, final TabletGUI tabletGUI) {
 
-		super("", app.getLocalization());
+		super(app.getLocalization());
 		this.tabletGUI = tabletGUI;
 		this.app = (TouchApp) app;
 

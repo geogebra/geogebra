@@ -47,7 +47,7 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public BrowseHeaderPanel buildBrowseHeader(BrowseGUI browseGUI) {
-		this.bhp = new BrowseHeaderPanel(this.app.getLocalization(), browseGUI);
+		this.bhp = new BrowseHeaderPanel(this.app.getLocalization(), browseGUI, this.app.getOfflineOperation());
 		browseGUI.setHeaderWidget(this.bhp);
 		browseGUI.addResizeListener(this.bhp);
 		return this.bhp;

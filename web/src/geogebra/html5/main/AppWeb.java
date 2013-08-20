@@ -16,6 +16,13 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
+import geogebra.common.move.events.BaseEventPool;
+import geogebra.common.move.events.NativeEventAttacher;
+import geogebra.common.move.events.OfflineEventPool;
+import geogebra.common.move.events.OnlineEventPool;
+import geogebra.common.move.operations.Network;
+import geogebra.common.move.operations.NetworkOperation;
+import geogebra.common.move.views.OfflineView;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.Language;
@@ -701,5 +708,49 @@ public abstract class AppWeb extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        
         }
+		
+		private NetworkOperation networkOperation;
+		
+		/**
+		 * @return OfflineOperation event flow
+		 */
+		public NetworkOperation getOfflineOperation() {
+			return networkOperation;
+		}
+		
+		protected void initNetworkEventFlow() {
+			
+			Network network = new Network() {
+				
+				private native boolean checkOnlineState() /*-{
+					return $wnd.navigator.onLine;
+				}-*/;
+				
+				public boolean onLine() {
+					return checkOnlineState();
+				}
+			};
+			
+			NativeEventAttacher attacher = new NativeEventAttacher() {
+				
+				private native void nativeAttach(String t, BaseEventPool ep) /*-{
+							$wnd.addEventListener(t, function() {
+								ep.@geogebra.common.move.events.BaseEventPool::trigger()();
+							});
+				}-*/;
+				
+				public void attach(String type, BaseEventPool eventPool) {
+					nativeAttach(type, eventPool);
+				}
+			};
+			
+			networkOperation = new NetworkOperation(network);
+			OfflineEventPool offlineEventPool = new OfflineEventPool(networkOperation);	
+			attacher.attach("offline", offlineEventPool);
+			OnlineEventPool onlineEventPool = new OnlineEventPool(networkOperation);	
+			attacher.attach("online", onlineEventPool);
+			OfflineView ov = new OfflineView();
+			networkOperation.setView(ov);
+	    }
 	
 }

@@ -21,17 +21,10 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.move.events.BaseEventPool;
-import geogebra.common.move.events.NativeEventAttacher;
-import geogebra.common.move.events.OfflineEventPool;
-import geogebra.common.move.events.OnlineEventPool;
 import geogebra.common.move.ggtapi.operations.LogOutOperation;
 import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.ggtapi.views.LogOutView;
 import geogebra.common.move.ggtapi.views.LoginView;
-import geogebra.common.move.operations.Network;
-import geogebra.common.move.operations.NetworkOperation;
-import geogebra.common.move.views.OfflineView;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -137,21 +130,9 @@ public class AppW extends AppWeb {
 	protected ObjectPool objectPool;
 	
 	//Event flow operations
-	private NetworkOperation networkOperation;
+	
 	private LoginOperation loginOperation;
 	private LogOutOperation logoutOperation;
-
-	
-	/**
-	 * @return OfflineOperation event flow
-	 */
-	public NetworkOperation getOfflineOperation() {
-		return networkOperation;
-	}
-	
-
-
-	
 
 	/**
 	 * @return LogInOperation eventFlow
@@ -225,40 +206,7 @@ public class AppW extends AppWeb {
 	
 	
 
-	private void initNetworkEventFlow() {
-		
-		Network network = new Network() {
-			
-			private native boolean checkOnlineState() /*-{
-				return $wnd.navigator.onLine;
-			}-*/;
-			
-			public boolean onLine() {
-				return checkOnlineState();
-			}
-		};
-		
-		NativeEventAttacher attacher = new NativeEventAttacher() {
-			
-			private native void nativeAttach(String t, BaseEventPool ep) /*-{
-						$wnd.addEventListener(t, function() {
-							ep.@geogebra.common.move.events.BaseEventPool::trigger()();
-						});
-			}-*/;
-			
-			public void attach(String type, BaseEventPool eventPool) {
-				nativeAttach(type, eventPool);
-			}
-		};
-		
-		networkOperation = new NetworkOperation(network);
-		OfflineEventPool offlineEventPool = new OfflineEventPool(networkOperation);	
-		attacher.attach("offline", offlineEventPool);
-		OnlineEventPool onlineEventPool = new OnlineEventPool(networkOperation);	
-		attacher.attach("online", onlineEventPool);
-		OfflineView ov = new OfflineView();
-		networkOperation.setView(ov);
-    }
+	
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {

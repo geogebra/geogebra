@@ -591,6 +591,7 @@ public class TouchApp extends AppWeb {
 		}
 
 		this.setDefaultConstructionTitle();
+		this.initNetworkEventFlow();
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package geogebra.touch.gui.elements.header;
 
 import geogebra.common.main.Localization;
+import geogebra.common.move.operations.NetworkOperation;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
@@ -26,7 +28,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
-		ResizeListener {
+		ResizeListener, BooleanRenderable {
 
 	public interface SearchListener {
 		void onSearch(String query);
@@ -42,9 +44,10 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	private StandardImageButton cancelButton;
 	private final List<SearchListener> listeners;
 	private BrowseGUI browseGUI;
+	private NetworkOperation op;
 
-	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI) {
-		super(loc.getMenu("Worksheets"), loc);
+	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI, NetworkOperation op) {
+		super(loc);
 
 		super.backPanel.addDomHandler(new ClickHandler() {
 			@Override
@@ -121,6 +124,9 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 		this.rightPanel.add(this.searchPanel);
 		this.rightPanel.add(this.underline);
+		
+		this.op = op;
+		op.getView().add(this);
 	}
 
 	protected void onSearch() {
@@ -176,5 +182,17 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	@Override
 	public void onResize() {
 		this.setWidth(Window.getClientWidth() + "px");
+	}
+
+	@Override
+	public void render(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void setLabels(){
+		super.setLabels();
+		render(this.op.getOnline());
 	}
 }

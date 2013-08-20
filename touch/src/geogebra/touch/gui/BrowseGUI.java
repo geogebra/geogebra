@@ -2,6 +2,7 @@ package geogebra.touch.gui;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.ggtapi.GeoGebraTubeAPI;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -32,12 +33,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends HeaderPanel {
+public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 	
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
 	private final FileManagerT fm;
 	private final AppWeb app;
+	private String lastQuery;
 
 	// HorizontalMaterialPanel featuredMaterials;
 	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
@@ -59,7 +61,7 @@ public class BrowseGUI extends HeaderPanel {
 		this.setStyleName("browsegui");
 		this.fm = ((TouchApp) app).getFileManager();
 		this.app = app;
-
+		//this.app.getOfflineOperation().getView().add(this);
 		addHeader();
 		addContent();
 		
@@ -121,6 +123,7 @@ public class BrowseGUI extends HeaderPanel {
 	}
 
 	protected void displaySearchResults(final String query) {
+		this.lastQuery = query;
 		this.localList = this.fm.search(query);
 		GeoGebraTubeAPI.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url).search(
@@ -148,6 +151,7 @@ public class BrowseGUI extends HeaderPanel {
 	}
 
 	public void loadFeatured() {
+		this.lastQuery = null;
 		this.localList = this.fm.getAllFiles();
 		GeoGebraTubeAPI.getInstance(
 				geogebra.common.move.ggtapi.models.GeoGebraTubeAPI.url)
@@ -212,5 +216,18 @@ public class BrowseGUI extends HeaderPanel {
 			this.tubeFileContainer.setVisible(true);
 			this.localFileContainer.setVisible(true);
 		}
+	}
+
+	@Override
+	public void render(boolean b) {
+		if(!b){
+			this.tubeList.clear();
+			updateGUI();
+		}else if(this.lastQuery!=null){
+			this.displaySearchResults(this.lastQuery);
+		}else{
+			this.loadFeatured();
+		}
+		
 	}
 }
