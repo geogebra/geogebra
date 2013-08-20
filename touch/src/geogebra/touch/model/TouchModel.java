@@ -537,6 +537,7 @@ public class TouchModel {
 			this.inputDialog.redefine(DialogType.NumberValue);
 
 			this.inputDialog.setMode("DilateFromPoint");
+			this.inputDialog.setText("");
 			this.inputDialog.show();
 			// return instead of break, as everthing that follows is done by
 			// the dialog!
@@ -736,6 +737,7 @@ public class TouchModel {
 				this.inputDialog.redefine(DialogType.NumberValue);
 			}
 			this.inputDialog.setMode("RegularPolygon");
+			this.inputDialog.setText("");
 			this.inputDialog.show();
 
 			this.controlClicked = false;

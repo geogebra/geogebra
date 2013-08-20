@@ -533,6 +533,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.setLabels();
 		this.textBox.setFocus(true);
+		this.textBox.setCursorPos(this.textBox.getText().length());
 
 		this.app.registerErrorHandler(this);
 	}
