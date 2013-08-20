@@ -3451,13 +3451,68 @@ public class GeoGebraCasIntegrationTest {
   public void Ticket_Ticket2651_0 () {
     t("f(x) := FitPoly[{(-1, -1), (0, 1), (1, 1), (2, 5)}, 3]", "x^(3) - x^(2) + 1");
     t("f(-1)", "-1");
+  }
 
-    // Tidy up
-    try {
-      t("Delete[f]", "true");
-    } catch (Throwable t) {
-      Throwables.propagate(t);
-    }
+  /* Ticket 3385: Intersection and Union in CAS */
+
+  @Test
+  public void Ticket_Ticket3385_0 () {
+    t("Union[{a, b, c}, {a, b}]", "{a, b, c}");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_1 () {
+    t("Intersection[{a, b, c}, {c, d}]", "{c}");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_2 () {
+    t("Union[{a, b, c}, {b, c, d}]", "{a, b, c, d}");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_3 () {
+    t("a ∈ {a, b, c}", "true");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_4 () {
+    t("d ∈ {a, b, c}", "false");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_5 () {
+    t("{} ⊆ {}", "true");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_6 () {
+    t("{a, b} ⊆ {a, b, c}", "true");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_7 () {
+    t("{a, b, c} ⊆ {a, b, c}", "true");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_8 () {
+    t("{a, b, c} ⊆ {a, b}", "false");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_9 () {
+    t("{} ⊂ {}", "false");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_10 () {
+    t("{a, b} ⊂ {a, b, c}", "true");
+  }
+
+  @Test
+  public void Ticket_Ticket3385_11 () {
+    t("{a, b, c} ⊂ {a, b, c}", "false");
   }
   
   /* Ticket 3524: Solve fails for large numbers and definition as function */
@@ -3470,15 +3525,15 @@ public class GeoGebraCasIntegrationTest {
         "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
-        "{x = (-2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) + 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
+        "{x = (2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) - 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
     t("g(x) := f'(x)",
-        "(-(30 * sqrt(10) + 358) *x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
-        "((-30 * sqrt(10) - 358) *x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
+        "(-(30 * sqrt(10) + 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + (-(39 * sqrt(10) + 81) * x + 78 * sqrt(10) + 162) * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-(448 * sqrt(10) + 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)",
+        "((-30 * sqrt(10) - 358) * x^(2) + (120 * sqrt(10) + 1432) * x + 104 * sqrt(10) - 745 + ((-39 * sqrt(10) - 81) * x + 78 * sqrt(10) + 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((-448 * sqrt(10) - 1374) * x^(2) + (1792 * sqrt(10) + 5496) * x - 433 * sqrt(10) - 1195)");
     t("Solve[g(x) = 0, x]",
-        "{x = (-2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) + 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
+        "{x = (2 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 806 * sqrt(10) - 3 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 1674) / (403 * sqrt(10) + 837)}");
   }
   
   /* Ticket 3525: Simplification improvements in Giac */
@@ -3489,8 +3544,8 @@ public class GeoGebraCasIntegrationTest {
         "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("f(x) := Element[Solve[c, y], 1]",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
-        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 + 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
+        "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38* sqrt(10) - 5)) / (-6 * sqrt(10) - 22)");
     t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])",
         "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
   }
