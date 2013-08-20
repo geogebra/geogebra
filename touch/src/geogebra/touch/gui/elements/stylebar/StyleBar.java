@@ -3,12 +3,10 @@ package geogebra.touch.gui.elements.stylebar;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.gui.laf.DefaultResources;
@@ -73,19 +71,8 @@ public class StyleBar extends FlowPanel {
 
 		this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
 		this.showHideButton.setStyleName("arrowLeft");
-
-		this.showHideButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onSingleClick() {
-				showHide();
-			}
-
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
+		this.showHideButton = TouchEntryPoint.getLookAndFeel()
+				.setStyleBarShowHideHandler(this.showHideButton, this);
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
@@ -129,7 +116,7 @@ public class StyleBar extends FlowPanel {
 		}, TouchStartEvent.getType());
 	}
 
-	private void rebuild(final StyleBarDefaultSettings entry) {
+	private void rebuild(StyleBarDefaultSettings entry) {
 
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString()
@@ -143,10 +130,7 @@ public class StyleBar extends FlowPanel {
 					.getGeoElementForPropertiesDialog() instanceof GeoPointND) {
 				resource = StyleBarDefaultSettings.Point.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof LineProperties
-					|| this.touchModel.getSelectedGeos().get(0)
-							.getGeoElementForPropertiesDialog() instanceof GeoNumeric) {
-				// GeoNumeric in case of Slider
+					.getGeoElementForPropertiesDialog() instanceof LineProperties) {
 				resource = StyleBarDefaultSettings.Line.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
@@ -158,98 +142,42 @@ public class StyleBar extends FlowPanel {
 		}
 
 		this.buttons.clear();
+		StandardImageButton b;
 
-		for (final SVGResource svg : resource) {
+		for (SVGResource svg : resource) {
 			if (svg.equals(lafIcons.color())) {
-				final StandardImageButton b = new StandardImageButton(
-						lafIcons.color());
+
+				b = new StandardImageButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
-				b.addFastClickHandler(new FastClickHandler() {
-
-					@Override
-					public void onSingleClick() {
-						onOptionalButtonEvent(b, OptionType.Color);
-					}
-
-					@Override
-					public void onDoubleClick() {
-						return;
-					}
-				});
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.Color);
 				this.buttons.put(StyleBarEntry.Color, b);
 
 			} else if (svg.equals(lafIcons.properties_default())) {
 
-				final StandardImageButton b = new StandardImageButton(
-						lafIcons.properties_default());
-				b.addFastClickHandler(new FastClickHandler() {
-
-					@Override
-					public void onSingleClick() {
-						onOptionalButtonEvent(b, OptionType.LineStyle);
-					}
-
-					@Override
-					public void onDoubleClick() {
-						return;
-					}
-				});
+				b = new StandardImageButton(lafIcons.properties_default());
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.LineStyle);
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 
 			} else if (svg.equals(lafIcons.label())) {
 
-				final StandardImageButton b = new StandardImageButton(
-						lafIcons.label());
-				b.addFastClickHandler(new FastClickHandler() {
-
-					@Override
-					public void onSingleClick() {
-						onOptionalButtonEvent(b, OptionType.CaptionStyle);
-					}
-
-					@Override
-					public void onDoubleClick() {
-						return;
-					}
-				});
+				b = new StandardImageButton(lafIcons.label());
+				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
+						b, this, OptionType.CaptionStyle);
 				this.buttons.put(StyleBarEntry.CaptionStyle, b);
 
 			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 
-				final StandardImageButton b = new StandardImageButton(
+				b = this.createStyleBarButton("showAxes",
 						lafIcons.show_or_hide_the_axes());
-
-				b.addFastClickHandler(new FastClickHandler() {
-
-					@Override
-					public void onSingleClick() {
-						onStyleBarButtonEvent(b, "showAxes");
-					}
-
-					@Override
-					public void onDoubleClick() {
-						return;
-					}
-				});
 				this.buttons.put(StyleBarEntry.Axes, b);
 
 			} else if (svg.equals(lafIcons.show_or_hide_the_grid())) {
 
-				final StandardImageButton b = new StandardImageButton(
+				b = this.createStyleBarButton("showGrid",
 						lafIcons.show_or_hide_the_grid());
-				b.addFastClickHandler(new FastClickHandler() {
-
-					@Override
-					public void onSingleClick() {
-						onStyleBarButtonEvent(b, "showGrid");
-					}
-
-					@Override
-					public void onDoubleClick() {
-						return;
-					}
-				});
 				this.buttons.put(StyleBarEntry.Grid, b);
 			}
 
@@ -263,6 +191,25 @@ public class StyleBar extends FlowPanel {
 		for (final StandardImageButton imageButton : this.buttons.values()) {
 			this.styleButtonsPanel.add(imageButton);
 		}
+	}
+
+	/**
+	 * 
+	 * @param String
+	 *            process
+	 * @param SVGResource
+	 *            svg
+	 * @return a new StandardImageButton for the StyleBar with OS specific
+	 *         EventHandler
+	 */
+	private StandardImageButton createStyleBarButton(final String process,
+			final SVGResource svg) {
+		StandardImageButton newButton = new StandardImageButton(svg);
+
+		newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(
+				newButton, this, process);
+
+		return newButton;
 	}
 
 	public void rebuild() {
@@ -298,7 +245,7 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	protected void onOptionalButtonEvent(final StandardImageButton eventSource,
+	public void onOptionalButtonEvent(final StandardImageButton eventSource,
 			final OptionType type) {
 
 		if (this.guiModel.getOptionTypeShown().equals(type)) {
@@ -316,7 +263,7 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	protected void onStyleBarButtonEvent(final StandardImageButton newButton,
+	public void onStyleBarButtonEvent(final StandardImageButton newButton,
 			final String process) {
 
 		this.guiModel.closeOptions();

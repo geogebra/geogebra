@@ -5,7 +5,6 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.stylebar.StyleBar;
@@ -213,20 +212,8 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		this.algebraButton = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.algebraButton.setStyleName("arrowRight");
-		this.algebraButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onSingleClick() {
-				toggleAlgebraView();
-			}
-
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
-		// this.algebraButton = TouchEntryPoint.getLookAndFeel()
-		// .setAlgebraButtonHandler(this.algebraButton, this);
+		this.algebraButton = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(
+				this.algebraButton, this);
 
 		this.algebraViewArrowPanel.add(this.algebraButton);
 
@@ -235,7 +222,6 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 				width - TabletGUI.ALGEBRA_BUTTON_WIDTH, 0);
 
 		this.algebraViewButtonPanel.setStyleName("algebraViewButtonPanel");
-
 		this.algebraViewButtonPanel.add(this.algebraViewArrowPanel);
 
 		Window.addResizeHandler(new ResizeHandler() {

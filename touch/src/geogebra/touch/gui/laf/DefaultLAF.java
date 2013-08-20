@@ -1,15 +1,21 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
+import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
+import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.utils.OptionType;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
@@ -113,5 +119,77 @@ public class DefaultLAF implements LookAndFeel {
 
 	public TouchApp getApp() {
 		return this.app;
+	}
+
+	@Override
+	public StandardImageButton setStyleBarShowHideHandler(
+			final StandardImageButton button, final StyleBar styleBar) {
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+				styleBar.showHide();
+			}
+		});
+
+		return button;
+	}
+
+	@Override
+	public StandardImageButton setStyleBarButtonHandler(
+			final StandardImageButton button, final StyleBar styleBar,
+			final String process) {
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+
+				styleBar.onStyleBarButtonEvent(button, process);
+				DefaultLAF.this.getApp().setUnsaved();
+				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+			}
+		});
+
+		return button;
+	}
+
+	@Override
+	public StandardImageButton setOptionalButtonHandler(
+			final StandardImageButton button, final StyleBar styleBar,
+			final OptionType type) {
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+
+				event.preventDefault();
+				event.stopPropagation();
+				styleBar.onOptionalButtonEvent(button, type);
+			}
+		});
+
+		return button;
+	}
+
+	@Override
+	public StandardImageButton setAlgebraButtonHandler(
+			final StandardImageButton button, final TabletGUI gui) {
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(final ClickEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+
+				gui.toggleAlgebraView();
+
+				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
+					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
+							.enableDisableButtons();
+				}
+			}
+		});
+
+		return button;
 	}
 }

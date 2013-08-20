@@ -7,7 +7,6 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.user.client.Window;
@@ -50,21 +49,8 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 		this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel()
 				.getIcons().triangle_left());
 		this.arrow.setStyleName("arrowRight");
-//		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(
-//				this.arrow, this.gui);
-		
-		this.arrow.addFastClickHandler(new FastClickHandler() {
-			
-			@Override
-			public void onSingleClick() {
-				onAlgebraArrow();
-			}
-			
-			@Override
-			public void onDoubleClick() {
-				return;
-			}
-		});
+		this.arrow = TouchEntryPoint.getLookAndFeel().setAlgebraButtonHandler(this.arrow,
+				this.gui);
 
 		this.stylebar.add(this.arrow);
 		this.stylebar.setStyleName("algebraStylebar");
@@ -77,15 +63,6 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 		this.add(this.content);
 
 		this.gui.addResizeListener(this);
-	}
-
-	protected void onAlgebraArrow() {
-		this.gui.toggleAlgebraView();
-
-		if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-			TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
-					.enableDisableButtons();
-		}
 	}
 	
 	private void addInsideArrow() {
