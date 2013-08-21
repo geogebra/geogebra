@@ -71,6 +71,7 @@ public class TouchApp extends AppWeb {
 	private final int selectionFactor = 3;
 	private boolean isDefaultFileName;
 	private final Stack<ErrorHandler> errorHandlers;
+	private DefaultErrorHandler defaultErrorHandler;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -81,12 +82,14 @@ public class TouchApp extends AppWeb {
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
 	public TouchApp(final GeoGebraTouchGUI touchGUI) {
+		super();
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
 		super.initing = true;
 		this.touchGUI = touchGUI;
 		this.errorHandlers = new Stack<ErrorHandler>();
-
+		this.defaultErrorHandler = new DefaultErrorHandler(this.getLocalization());
+		this.errorHandlers.add(this.defaultErrorHandler);
 		this.setLabelDragsEnabled(false);
 
 		initFactories();
@@ -488,6 +491,8 @@ public class TouchApp extends AppWeb {
 		if (TouchEntryPoint.hasBrowseGUI()) {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
+		//TODO remove
+		this.showError("Labels set");
 	}
 
 	public void setLanguage() {
