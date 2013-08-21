@@ -115,22 +115,6 @@ public class GeoGebraCasIntegrationTest {
   }
 
   private static void t (String input, String expectedResult, String ... validResults) {
-    tc(input, "", expectedResult, validResults);
-  }
-
-  /**
-   * Copied from {@link #t}, but calling {@link geogebra.common.kernel.geos.GeoCasCell#setEvalCommand GeoCasCell.setEvalCommand} ahead of evaluation.
-   * 
-   * @param input
-   *          The input of the CASCell.
-   * @param EvalCommand
-   *          The evaluation command of the CASCell.
-   * @param expectedResult
-   *          The expected result.
-   * @param validResults
-   *          Other valid results, resulting in a warning, though.
-   */
-  public static void tc (String input, String evalCommand, String expectedResult, String ... validResults) {
     String result;
 
     try {
@@ -138,7 +122,6 @@ public class GeoGebraCasIntegrationTest {
       kernel.getConstruction().addToConstructionList(f, false);
 
       f.setInput(input);
-      f.setEvalCommand(evalCommand);
       f.computeOutput();
 
       boolean includesNumericCommand = false;
@@ -259,7 +242,8 @@ public class GeoGebraCasIntegrationTest {
 
 
   // Self Test Section
-
+  
+  
   /* Forgetting before tests */
 
   @Test
