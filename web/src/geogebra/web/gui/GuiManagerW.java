@@ -22,8 +22,10 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.main.MyError;
+import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.CASViewW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
+import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
@@ -187,9 +189,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 		return (AlgebraContextMenuW)currentPopup;
 	}
 	
-	public RowHeaderPopupMenuW getCASContextMenu(){
+	public RowHeaderPopupMenuW getCASContextMenu(RowHeaderWidget rowHeader, CASTableW table){
 		removePopup();
-		currentPopup = new RowHeaderPopupMenuW();
+		currentPopup = new RowHeaderPopupMenuW(rowHeader, table, app);
 		return (RowHeaderPopupMenuW)currentPopup;
 	}
 	

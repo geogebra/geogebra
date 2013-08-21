@@ -6,7 +6,9 @@ import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.main.ViewManager;
+import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;
+import geogebra.web.cas.view.RowHeaderWidget;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.inputbar.InputBarHelpPanelW;
@@ -29,7 +31,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 
 	public AlgebraContextMenuW getAlgebraContextMenu();
 
-	public RowHeaderPopupMenuW getCASContextMenu();
+	public RowHeaderPopupMenuW getCASContextMenu(RowHeaderWidget rowHeader, CASTableW table);
 
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos,
 	        GPoint location);

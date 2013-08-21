@@ -17,7 +17,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 	private Image marble;
 	private boolean oldValue;
 
-	public RowHeaderWidget(int n, GeoCasCell cell, AppW app) {
+	public RowHeaderWidget(CASTableW casTableW, int n, GeoCasCell cell, AppW app) {
 		Label label = new Label();
 		label.setText(n + "");
 		marble = new Image(AppResources.INSTANCE.hidden());
@@ -27,7 +27,11 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		if (cell != null)
 			CASInputHandler.handleMarble(cell,this);
 		marble.addClickHandler(new MarbleClickHandler(cell,this));
-		addDomHandler(new RowHeaderHandler(app), MouseUpEvent.getType());
+		addDomHandler(new RowHeaderHandler(app, casTableW, this), MouseUpEvent.getType());
+	}
+	
+	public void setLabel(String text){
+		((Label)(getWidget(0))).setText(text);
 	}
 
 	public void setMarbleValue(boolean value) {

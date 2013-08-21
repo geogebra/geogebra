@@ -20,10 +20,14 @@ public class RowHeaderHandler implements MouseUpHandler{
 //    }
 	
 	private AppW app;
+	private RowHeaderWidget rowHeader;
+	private CASTableW table;
 
-	public RowHeaderHandler(AppW appl){
+	public RowHeaderHandler(AppW appl, CASTableW casTableW, RowHeaderWidget rowHeaderWidget){
 		super();
 		app = appl;
+		rowHeader = rowHeaderWidget;
+		table = casTableW;
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
@@ -39,7 +43,7 @@ public class RowHeaderHandler implements MouseUpHandler{
 	    	// Don't istantiate RowHeaderPopupMenuW() directly. Use guimanager for this,
 	    	// because it must store in GuiManagerW.currentPopup - in this way the popup will hide
 	    	// when a newer popup will be shown.
-	    	RowHeaderPopupMenuW popupMenu = app.getGuiManager().getCASContextMenu();
+	    	RowHeaderPopupMenuW popupMenu = app.getGuiManager().getCASContextMenu(rowHeader, table);
 	    	popupMenu.show(new GPoint(event.getClientX(), event.getClientY()));
 	    }    
 	    

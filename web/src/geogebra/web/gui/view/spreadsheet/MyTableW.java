@@ -39,7 +39,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
-//import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 
 public class MyTableW extends Grid implements /* FocusListener, */MyTable {
 	private static final long serialVersionUID = 1L;
