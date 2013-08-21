@@ -30,6 +30,7 @@ import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.base.Throwables;
@@ -1317,6 +1318,11 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Expand_5 () {
     t("Expand[(2 x - 1)^2 + 2 x + 3]", "4 * x^(2) - 2 * x + 4");
+  }
+
+  @Test
+  public void Expand_6 () {
+    t("Expand[(a + b)^2] / (a + b)", "(a^(2) + 2 * a * b + b^(2)) / (a + b)");
   }
 
 
@@ -3747,7 +3753,15 @@ public class GeoGebraCasIntegrationTest {
 
   /* Ticket 3579: KeepInput Being Kept */
 
+  /**
+   * Test is ignored. KeepInput is no user command anymore,
+   * internal use seems to meet our expectations.
+   * 
+   * Therefore we don't want to mess with this anytime soon,
+   * except somebody should complain.
+   */
   @Test
+  @Ignore
   public void Ticket_Ticket3579_0 () {
     t("f(x) := KeepInput[x * x]", "x * x");
   }
