@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class CaptionBar extends FlowPanel {
 
-	private final Button[] buttons = { new Button("_"), new Button("A"),
-			new Button("A = (1,1)"), new Button("(1,1)") };
+	private Button[] buttons = { new Button("stylebar_Hidden"), new Button("Name"),
+			new Button("NameAndValue"), new Button("Value") };
 	private final FlowPanel buttonPanel;
 
 	public CaptionBar(final TouchModel touchModel) {
@@ -22,7 +22,7 @@ public class CaptionBar extends FlowPanel {
 
 		for (int i = 0; i < this.buttons.length; i++) {
 			final int index = i;
-			
+			this.buttons[i].setText(touchModel.getKernel().getApplication().getLocalization().getPlain(this.buttons[i].getText()));
 			this.buttons[i].addDomHandler(new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
@@ -39,5 +39,4 @@ public class CaptionBar extends FlowPanel {
 
 		this.add(this.buttonPanel);
 	}
-
 }
