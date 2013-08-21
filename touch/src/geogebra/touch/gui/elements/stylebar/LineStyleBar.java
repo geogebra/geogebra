@@ -120,7 +120,10 @@ public class LineStyleBar extends FlowPanel {
 	}
 
 	public void update() {
-		if (this.touchModel.lastSelected() != null) {
+		if (this.touchModel.getGuiModel().getLineSize() > 0) {
+			this.slider.setValue(Integer.valueOf(this.touchModel.getGuiModel()
+					.getLineSize()));
+		} else if (this.touchModel.lastSelected() != null) {
 			this.slider.setValue(Integer.valueOf(this.touchModel.lastSelected()
 					.getLineThickness()));
 		} else if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)

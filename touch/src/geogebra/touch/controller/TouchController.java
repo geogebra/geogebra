@@ -269,10 +269,13 @@ public class TouchController extends EuclidianController {
 		}
 
 		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
-				&& Math.abs(this.rotationLastAngle) > 0.001) {
+				&& Math.abs(this.rotationLastAngle) > 0.001
+				&& this.model.getTotalNumber() > 1) {
 			this.app.storeUndoInfo();
-			// deselect the point that was rotated
-			this.model.deselect(this.model.getElement(Test.GEOPOINT, 1));
+			// deselect all elements except for the rotation-center
+			while (this.model.getTotalNumber() > 1) {
+				this.model.deselect(this.model.getSelectedGeos().get(1));
+			}
 			this.kernel.notifyRepaint();
 		}
 

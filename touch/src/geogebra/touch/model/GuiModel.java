@@ -45,6 +45,18 @@ public class GuiModel {
 		this.touchModel = model;
 	}
 
+	public GColor getColor() {
+		return this.color;
+	}
+
+	public float getAlpha() {
+		return this.alpha;
+	}
+
+	public int getLineSize() {
+		return this.lineSize;
+	}
+
 	public void appendStyle(final ArrayList<GeoElement> elements) {
 		if (this.color != null) {
 			StyleBarStatic.applyColor(elements, this.color);

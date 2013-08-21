@@ -127,11 +127,14 @@ public class ColorBar extends FlowPanel {
 		remove(this.colorBarSlider);
 
 		// add slider only if there is at least one fillable element
+		int alpha = (int) (this.touchModel.getGuiModel().getAlpha() * 10);
 		if (this.touchModel.getLastAlpha() != -1
+				|| alpha > 0
 				|| this.touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
-			this.colorBarSlider
-					.setValue(Integer.valueOf((int) (ColorBar.this.touchModel
-							.getLastAlpha() * 10)));
+
+			int value = alpha >= 0 ? alpha : (int) (ColorBar.this.touchModel
+					.getLastAlpha() * 10);
+			this.colorBarSlider.setValue(Integer.valueOf(value));
 			this.add(this.colorBarSlider);
 		}
 	}

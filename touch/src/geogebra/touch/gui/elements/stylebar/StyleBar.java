@@ -124,6 +124,9 @@ public class StyleBar extends FlowPanel {
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString()
 				: "";
+		if (this.guiModel.getColor() != null) {
+			color = this.guiModel.getColor().toString();
+		}
 
 		if (entry == StyleBarDefaultSettings.Move
 				&& this.touchModel.getTotalNumber() > 0) {
