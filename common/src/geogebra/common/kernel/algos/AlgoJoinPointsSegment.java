@@ -101,7 +101,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 
 	@Override
 	public int getRelatedModeID() {
-		return EuclidianConstants.MODE_SEGMENT_FIXED;
+		return EuclidianConstants.MODE_SEGMENT;
 	}
     
     // for AlgoElement
