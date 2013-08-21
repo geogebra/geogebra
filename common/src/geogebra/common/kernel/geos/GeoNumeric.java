@@ -492,6 +492,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (!sendValueToCas) {
 				return "(" + label + ")";
 			}
+			//make sure random() works inside Sequence, see #3558
+			if(this.isRandomGeo() && !this.isLabelSet()){
+				return "exact(rand(0,1))";
+			}
 			return "exact(" + kernel.format(value, tpl) + ")";
 		}
 		
