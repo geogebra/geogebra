@@ -64,9 +64,10 @@ public class LocalizationW extends Localization {
 		if ($wnd["__GGB__keysVar"][language]) {
 			// translated
 			return $wnd["__GGB__keysVar"][language][section][key];
-		} else {
-			// English (always available)
+		} else if ($wnd["__GGB__keysVar"]["en"]){ // English (probably available)
 			return $wnd["__GGB__keysVar"]["en"][section][key];
+		} else {
+			return "";
 		}
 		
 	}-*/;
