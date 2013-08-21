@@ -39,6 +39,8 @@ public class GeoGebraCasIntegrationTest {
 
   static GeoGebraCasInterface cas;
   static Kernel kernel;
+  static AppD app;
+  
   /**
    * Logs all tests which don't give the expected but a valid result.
    */
@@ -48,15 +50,15 @@ public class GeoGebraCasIntegrationTest {
 
   @BeforeClass
   public static void setupCas () {
-    AppD app = new AppD(new CommandLineArguments(silent ? new String[] { "--silent", "--giac" } : new String[] { "--giac" }), new JFrame(), false);
+    app = new AppD(new CommandLineArguments(silent ? new String[] { "--silent", "--giac" } : new String[] { "--giac" }), new JFrame(), false);
 
     if (silent) {
       Log.logger = null;
     }
 
+    // Set language to something else than English to test automatic translation.
     app.setLanguage(Locale.GERMANY);
     // app.fillCasCommandDict();
-    // app.getKernel()
 
     kernel = app.getKernel();
     arbconst = new MyArbitraryConstant(new GeoCasCell(kernel.getConstruction()));
@@ -2881,79 +2883,189 @@ public class GeoGebraCasIntegrationTest {
   /* Parametric Equations One Parameter */
 
   @Test
-  public void Solve_ParametricOP_0 () {
+  public void Solve_ParametricEOP_0 () {
     t("Solve[(3, 2) = (3, 2) + t * (5, 1), t]", "{t = 0}");
   }
 
   @Test
-  public void Solve_ParametricOP_1 () {
+  public void Solve_ParametricEOP_1 () {
     t("Solve[(3, 2) = (3, 2) + t * (5, 1)]", "{t = 0}");
   }
 
   @Test
-  public void Solve_ParametricOP_2 () {
+  public void Solve_ParametricEOP_2 () {
     t("Solve[(3, 2) + t * (5, 1) = (3, 2)]", "{t = 0}");
   }
 
   @Test
-  public void Solve_ParametricOP_3 () {
+  public void Solve_ParametricEOP_3 () {
     t("Solve[(-2, 1) = (3, 2) + t * (5, 1)]", "{t = -1}");
   }
 
   @Test
-  public void Solve_ParametricOP_4 () {
+  public void Solve_ParametricEOP_4 () {
     t("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", "{t = 1 / 2}");
+  }
+
+  @Test
+  public void Solve_ParametricEOP_5 () {
+    t("Numeric[Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]]", "{t = 0.5}");
+  }
+
+  @Test
+  public void Solve_ParametricEOP_6 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    t("KeepInput[Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]]", "Löse[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
   }
 
   /* Parametric Function One Parameter */
 
   @Test
   public void Solve_ParametricFOP_0 () {
-    t("f(t) := (3, 2) + t * (5, 1)", "(3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     t("Solve[f(t) = (8, 3)]", "{t = 1}");
   }
 
   @Test
   public void Solve_ParametricFOP_1 () {
-    t("f(t) := (3, 2) + t * (5, 1)", "(3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     t("Solve[(8, 3) = f(t)]", "{t = 1}");
+  }
+  
+  @Test
+  public void Solve_ParametricFOP_2 () {
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("Solve[f(t) = (5.5, 2.5)]", "{t = 1 / 2}");
+  }
+  
+  @Test
+  public void Solve_ParametricFOP_3 () {
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("Numeric[Solve[f(t) = (5.5, 2.5)]]", "{t = 0.5}");
+  }
+  
+  @Test
+  public void Solve_ParametricFOP_4 () {
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    t("KeepInput[Solve[f(t) = (5.5, 2.5)]]", "Löse[f(t) = (5.5, 2.5)]");
   }
 
   /* Parametric Equation Multiple Parameters */
 
   @Test
-  public void Solve_ParametricMP_0 () {
+  public void Solve_ParametricEMP_0 () {
     t("Solve[(3, 2) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 0, t = 0}");
   }
 
   @Test
-  public void Solve_ParametricMP_1 () {
+  public void Solve_ParametricEMP_1 () {
     t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 1, t = -1}");
   }
 
   @Test
-  public void Solve_ParametricMP_2 () {
+  public void Solve_ParametricEMP_2 () {
+    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {t, s}]", "{t = -1, s = 1}");
+  }
+
+  @Test
+  public void Solve_ParametricEMP_3 () {
     t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{s = (-1) / 2 * t + 1, t = t}");
   }
 
   @Test
-  public void Solve_ParametricMP_3 () {
+  public void Solve_ParametricEMP_4 () {
     t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{t = 2 - 2 * s, s = s}");
   }
 
   @Test
-  public void Solve_ParametricMP_4 () {
+  public void Solve_ParametricEMP_5 () {
     t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), s]", "{s = (-1) / 2 * t + 1}");
   }
 
   @Test
-  public void Solve_ParametricMP_5 () {
+  public void Solve_ParametricEMP_6 () {
     t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), t]", "{t = 2 - 2 * s}");
   }
 
   @Test
-  public void Solve_ParametricMP_6 () {
+  public void Solve_ParametricEMP_7 () {
     t("Solve[(13, 5) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{}");
+  }
+
+  /* Parametric Function Multiple Parameters */
+
+  @Test
+  public void Solve_ParametricFMP_0 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Solve[f(t, s) = (3, 2), {s, t}]", "{s = 0, t = 0}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_1 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Solve[f(t, s) = (-3, 8), {s, t}]", "{s = 1, t = -1}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_2 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Solve[f(t, s) = (-3, 8), {t, s}]", "{t = -1, s = 1}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_3 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Solve[f(s, t) = (-3, 8), {s, t}]", "{s = -1, t = 1}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_4 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
+    t("Solve[f(t, s) = (13, 4), {s, t}]", "{s = (-1) / 2 * t + 1, t = t}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_5 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
+    t("Solve[f(t, s) = (13, 4), {t, s}]", "{t = 2 - 2 * s, s = s}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_6 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
+    t("Solve[f(t, s) = (13, 4), s]", "{s = (-1) / 2 * t + 1}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_7 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
+    t("Solve[f(t, s) = (13, 4), t]", "{t = 2 - 2 * s}");
+  }
+
+  @Test
+  public void Solve_ParametricFMP_8 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
+    t("Solve[f(t, s) = (13, 5), {s, t}]", "{}");
+  }
+  
+  @Test
+  public void Solve_ParametricFMP_9 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Solve[f(t, s) = (7, -8), {t, s}]", "{t = 1 / 2, s = (-3) / 2}");
+  }
+  
+  @Test
+  public void Solve_ParametricFMP_10 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("Numeric[Solve[f(t, s) = (7, -8), {t, s}]]", "{t = 0.5, s = -1.5}");
+  }
+  
+  @Test
+  public void Solve_ParametricFMP_11 () {
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    t("KeepInput[Solve[f(t, s) = (7, -8), {t, s}]]", "Löse[f(t, s) = (7, -8), {t, s}]");
   }
 
 
