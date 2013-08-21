@@ -492,7 +492,7 @@ public class TouchApp extends AppWeb {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
 		//TODO remove
-		this.showError("Labels set");
+		//this.showError("Labels set");
 	}
 
 	public void setLanguage() {
