@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.stylebar;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -170,8 +171,11 @@ public class StyleBar extends FlowPanel {
 				b = new StandardImageButton(lafIcons.label());
 				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
 						b, this, OptionType.CaptionStyle);
-				this.buttons.put(StyleBarEntry.CaptionStyle, b);
-
+				//only show "label" if mode move or point is active
+				if (this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MOVE ||
+					this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT) {
+					this.buttons.put(StyleBarEntry.CaptionStyle, b);
+				}
 			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {
 
 				b = this.createStyleBarButton("showAxes",
