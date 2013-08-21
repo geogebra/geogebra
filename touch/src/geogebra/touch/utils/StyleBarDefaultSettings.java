@@ -18,7 +18,8 @@ public enum StyleBarDefaultSettings {
 			null, new SVGResource[] { getLafIcons().show_or_hide_the_axes(),
 					getLafIcons().show_or_hide_the_grid() }), Angle(
 			GeoGebraColorConstants.DARKGREEN, new SVGResource[] {
-					getLafIcons().color(), getLafIcons().properties_default() });
+					getLafIcons().color(), getLafIcons().properties_default(),
+					getLafIcons().label() });
 
 	private static DefaultResources getLafIcons() {
 		return TouchEntryPoint.getLookAndFeel().getIcons();

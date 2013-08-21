@@ -86,7 +86,7 @@ public interface DefaultResources extends ClientBundle {
 	@Validated(validated = false)
 	SVGResource circle_through_three_points();
 
-	// StylingBar
+	// StyleBar
 
 	@Source("icons/svg/tools_circleandarc_circle_with_center_radius.svg")
 	@Validated(validated = false)

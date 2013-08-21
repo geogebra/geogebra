@@ -132,6 +132,9 @@ public class StyleBar extends FlowPanel {
 					.getGeoElementForPropertiesDialog() instanceof GeoPointND) {
 				resource = StyleBarDefaultSettings.Point.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog() instanceof GeoAngle) {
+				resource = StyleBarDefaultSettings.Angle.getResources();
+			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof LineProperties
 					|| this.touchModel.getSelectedGeos().get(0)
 							.getGeoElementForPropertiesDialog() instanceof GeoNumeric) {
@@ -140,9 +143,6 @@ public class StyleBar extends FlowPanel {
 			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {
 				resource = StyleBarDefaultSettings.Polygon.getResources();
-			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof GeoAngle) {
-				resource = StyleBarDefaultSettings.Angle.getResources();
 			}
 		}
 
@@ -167,7 +167,6 @@ public class StyleBar extends FlowPanel {
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 
 			} else if (svg.equals(lafIcons.label())) {
-
 				b = new StandardImageButton(lafIcons.label());
 				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
 						b, this, OptionType.CaptionStyle);

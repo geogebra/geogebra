@@ -67,8 +67,8 @@ public class GuiModel {
 	}
 
 	public void buttonClicked(final ToolBarButton tbb) {
-		this.closeOptions();
-		this.setActive(tbb);
+		closeOptions();
+		setActive(tbb);
 
 		if (this.touchModel != null) {
 			this.touchModel.resetSelection();
@@ -80,7 +80,7 @@ public class GuiModel {
 		if (this.activeDialog != null) {
 			this.activeDialog.hide();
 		}
-		this.setActiveDialog(null);
+		setActiveDialog(null);
 	}
 
 	public void closeOnlyOptions() {
@@ -98,7 +98,7 @@ public class GuiModel {
 	 * closes options and ToolBar
 	 */
 	public void closeOptions() {
-		this.closeOnlyOptions();
+		closeOnlyOptions();
 	}
 
 	public ToolBarCommand getCommand() {
@@ -201,7 +201,7 @@ public class GuiModel {
 	 *            (OptionsType.Dialog)
 	 */
 	public void showOption(final OptionsPanel panel, final FastButton button) {
-		this.closeOnlyOptions();
+		closeOnlyOptions();
 		this.optionsPanel = panel;
 		this.optionsPanel.showRelativeTo(button);
 		this.styleBarOptionShown = panel.getType();
