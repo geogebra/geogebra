@@ -6,14 +6,14 @@ import geogebra.html5.main.StringHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
@@ -35,13 +35,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final StandardImageButton newButton = new StandardImageButton(
+	private final FastButton newButton = new StandardImageButton(
 			LafIcons.document_new());
-	private final StandardImageButton openButton = new StandardImageButton(
+	private final FastButton openButton = new StandardImageButton(
 			LafIcons.document_open());
-	private final StandardImageButton saveButton = new StandardImageButton(
+	private final FastButton saveButton = new StandardImageButton(
 			LafIcons.document_save());
-	private final StandardImageButton shareButton = new StandardImageButton(
+	private final FastButton shareButton = new StandardImageButton(
 			LafIcons.document_share());
 
 	/**
@@ -70,16 +70,6 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			this.initShareButton();
 			this.add(this.shareButton);
 		}
-
-		this.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-
-			}
-		}, ClickEvent.getType());
-
 	}
 
 	protected void enableDisableSave() {
@@ -100,10 +90,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			}
 		};
 
-		this.newButton.addClickHandler(new ClickHandler() {
+		this.newButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onNew();
 			}
 		});
@@ -134,10 +124,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 			}
 		};
 
-		this.openButton.addClickHandler(new ClickHandler() {
-
+		this.openButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onOpen();
 			}
 		});
@@ -154,10 +143,9 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	private void initSaveButton() {
-		this.saveButton.addClickHandler(new ClickHandler() {
-
+		this.saveButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onSave();
 			}
 		});
@@ -177,10 +165,10 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	private void initShareButton() {
-		this.shareButton.addClickHandler(new ClickHandler() {
+		this.shareButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onShare();
 			}
 		});

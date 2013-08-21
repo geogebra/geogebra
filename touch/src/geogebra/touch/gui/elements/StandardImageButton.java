@@ -20,4 +20,28 @@ public class StandardImageButton extends FastButton {
 	public SVGResource getIcon() {
 		return this.icon;
 	}
+
+	@Override
+	public void onHoldPressDownStyle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onHoldPressOffStyle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDisablePressStyle() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onEnablePressStyle() {
+		// TODO Auto-generated method stub
+		
+	}
 }

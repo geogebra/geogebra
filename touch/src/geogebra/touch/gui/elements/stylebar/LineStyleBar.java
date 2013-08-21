@@ -2,13 +2,12 @@ package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarCommand;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,10 +40,10 @@ public class LineStyleBar extends FlowPanel {
 		for (int i = 0; i < lineStyle.length; i++) {
 			final int index = i;
 
-			lineStyle[i].addClickHandler(new ClickHandler() {
+			lineStyle[i].addFastClickHandler(new FastClickHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClick() {
 					StyleBarStatic.applyLineStyle(
 							LineStyleBar.this.touchModel.getSelectedGeos(),
 							index);

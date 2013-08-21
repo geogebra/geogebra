@@ -5,18 +5,17 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		WorksheetHeader {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final StandardImageButton editButton = new StandardImageButton(
+	private final FastButton editButton = new StandardImageButton(
 			LafIcons.document_edit());
 	private Material material;
 	private final TabletGUI tabletGUI;
@@ -28,18 +27,18 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.tabletGUI = tabletGUI;
 		this.app = (TouchApp) app;
 
-		super.backPanel.addDomHandler(new ClickHandler() {
+		super.backButton.addFastClickHandler(new FastClickHandler() {
+
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onClick() {
 				onGoBack();
 			}
-		}, ClickEvent.getType());
+		});
 
 		this.rightPanel.add(this.editButton);
-		this.editButton.addClickHandler(new ClickHandler() {
-
+		this.editButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onEdit();
 			}
 		});

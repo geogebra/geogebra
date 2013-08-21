@@ -1,5 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.utils.ToolBarCommand;
 
 /**
@@ -23,12 +24,14 @@ public class SubToolBarButton extends ToolButton {
 	public SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor) {
 		super(cmd);
 
-		this.ancestor = ancestor;		
-	}
+		this.ancestor = ancestor;
 
-	@Override
-	protected void onClick() {
-		super.onClick();
-		this.ancestor.optionClicked(SubToolBarButton.this.getCmd());
+		this.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick() {
+				SubToolBarButton.this.ancestor
+						.optionClicked(SubToolBarButton.this.getCmd());
+			}
+		});
 	}
 }

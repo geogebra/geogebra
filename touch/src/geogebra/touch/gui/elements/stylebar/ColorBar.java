@@ -4,6 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.gui.util.Slider;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.StyleBarDefaultSettings;
@@ -73,10 +74,16 @@ public class ColorBar extends FlowPanel {
 			this.getElement().setAttribute("style",
 					"background: " + GColor.getColorString(this.color));
 
+			this.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick() {
+					onSingleClick();
+				}
+			});
+
 		}
 
-		@Override
-		public void onClick() {
+		protected void onSingleClick() {
 
 			ColorBar.this.styleBar.updateColor(GColor
 					.getColorString(this.color));
@@ -90,6 +97,29 @@ public class ColorBar extends FlowPanel {
 			}
 
 			ColorBar.this.touchModel.storeOnClose();
+		}
+
+		@Override
+		public void onHoldPressDownStyle() {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onHoldPressOffStyle() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDisablePressStyle() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onEnablePressStyle() {
+			// TODO Auto-generated method stub
+
 		}
 	}
 

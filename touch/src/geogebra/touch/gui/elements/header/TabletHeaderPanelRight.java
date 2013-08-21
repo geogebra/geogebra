@@ -2,13 +2,12 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.StandardTextButton;
 import geogebra.touch.model.TouchModel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -59,32 +58,30 @@ public class TabletHeaderPanelRight extends HorizontalPanel {
 
 	private void addRedoButton() {
 
-		this.redo.addDomHandler(new ClickHandler() {
-
+		this.redo.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				TabletHeaderPanelRight.this.model.resetSelection();
 				TabletHeaderPanelRight.this.app.getKernel().redo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
 			}
-		}, ClickEvent.getType());
+		});
 
 		this.add(this.redo);
 		this.enableDisableRedo();
 	}
 
 	private void addUndoButton() {
-		this.undo.addDomHandler(new ClickHandler() {
-
+		this.undo.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				TabletHeaderPanelRight.this.model.resetSelection();
 				TabletHeaderPanelRight.this.app.getKernel().undo();
 				TabletHeaderPanelRight.this.app.resetPen();
 				TabletHeaderPanelRight.this.app.setUnsaved();
 			}
-		}, ClickEvent.getType());
+		});
 
 		this.add(this.undo);
 		this.enableDisableUndo();

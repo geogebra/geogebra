@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -9,14 +10,16 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 /**
  * Common superclass for worksheet and browse GUIs
+ * 
  * @author Zbynek
- *
+ * 
  */
 public class AuxiliaryHeaderPanel extends HorizontalPanel {
 
-	private final StandardImageButton backButton;
+	protected final FastButton backButton;
 	protected HorizontalPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
@@ -30,7 +33,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 		this.backButton = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().back());
 		this.backButton.addStyleName("backButton");
-		
+
 		this.backPanel = new HorizontalPanel();
 		this.backPanel.setStyleName("headerLeft");
 		this.backPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);

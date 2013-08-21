@@ -6,6 +6,8 @@ import geogebra.common.move.views.BooleanRenderable;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.LookAndFeel;
 
@@ -14,8 +16,6 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -40,21 +40,23 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	private Panel underline;
 	private TextBox query;
-	private final StandardImageButton searchButton;
-	private StandardImageButton cancelButton;
+	private final FastButton searchButton;
+	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
 	private BrowseGUI browseGUI;
 	private NetworkOperation op;
 
-	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI, NetworkOperation op) {
+	public BrowseHeaderPanel(final Localization loc, final BrowseGUI browseGUI,
+			NetworkOperation op) {
 		super(loc);
 
-		super.backPanel.addDomHandler(new ClickHandler() {
+		this.backButton.addFastClickHandler(new FastClickHandler() {
+
 			@Override
-			public void onClick(final ClickEvent event) {
+			public void onClick() {
 				TouchEntryPoint.goBack();
 			}
-		}, ClickEvent.getType());
+		});
 
 		this.browseGUI = browseGUI;
 		this.searchPanel = new HorizontalPanel();
@@ -69,7 +71,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 					event.preventDefault();
 					return;
 				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					onSearch();
+					doSearch();
 				}
 			}
 		});
@@ -92,11 +94,10 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.searchButton = new StandardImageButton(getLaf().getIcons()
 				.search());
 		this.searchButton.addStyleName("searchButton");
-		this.searchButton.addClickHandler(new ClickHandler() {
-
+		this.searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				onSearch();
+			public void onClick() {
+				doSearch();
 			}
 		});
 
@@ -104,13 +105,11 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 				.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
-		this.cancelButton.addClickHandler(new ClickHandler() {
-
+		this.cancelButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onCancel();
 			}
-
 		});
 
 		// Input Underline for Android
@@ -124,13 +123,13 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 		this.rightPanel.add(this.searchPanel);
 		this.rightPanel.add(this.underline);
-		
+
 		this.op = op;
 		op.getView().add(this);
 		setLabels();
 	}
 
-	protected void onSearch() {
+	protected void doSearch() {
 		if (!this.query.getText().equals("")) {
 			fireSearchEvent();
 		} else {
@@ -187,12 +186,12 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	@Override
 	public void render(boolean b) {
-		this.setText(this.loc.getMenu("Worksheets")+(b?"":" (Offline)"));
-		
+		this.setText(this.loc.getMenu("Worksheets") + (b ? "" : " (Offline)"));
+
 	}
-	
+
 	@Override
-	public void setLabels(){
+	public void setLabels() {
 		super.setLabels();
 		render(this.op.getOnline());
 	}

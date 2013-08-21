@@ -5,6 +5,7 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -128,10 +129,10 @@ public class MaterialListElement extends FlowPanel {
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
-		this.deleteButton.addClickHandler(new ClickHandler() {
+		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onDelete();
 			}
 		});
@@ -143,10 +144,10 @@ public class MaterialListElement extends FlowPanel {
 
 	private void initEditButton() {
 		this.links.add(this.editButton);
-		this.editButton.addClickHandler(new ClickHandler() {
+		this.editButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onEdit();
 			}
 		});
@@ -160,10 +161,10 @@ public class MaterialListElement extends FlowPanel {
 
 	private void initOpenButton() {
 		this.links.add(this.openButton);
-		this.openButton.addClickHandler(new ClickHandler() {
+		this.openButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				onOpen();
 			}
 		});

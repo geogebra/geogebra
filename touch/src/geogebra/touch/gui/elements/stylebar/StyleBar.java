@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
@@ -74,8 +75,12 @@ public class StyleBar extends FlowPanel {
 
 		this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
 		this.showHideButton.setStyleName("arrowLeft");
-		this.showHideButton = TouchEntryPoint.getLookAndFeel()
-				.setStyleBarShowHideHandler(this.showHideButton, this);
+		this.showHideButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick() {
+				showHide();
+			}
+		});
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 
