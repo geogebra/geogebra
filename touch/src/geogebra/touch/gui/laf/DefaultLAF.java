@@ -55,6 +55,10 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public int getTabletHeaderHeight() {
+		if (this.hp == null) {
+			//otherwise nullPointerException for win8
+			return 0;
+		}
 		return this.hp.getOffsetHeight();
 	}
 
@@ -70,8 +74,7 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public int getContentWidgetHeight() {
-		return Window.getClientHeight() - getToolBarHeight()
-				- getTabletHeaderHeight();
+		return Window.getClientHeight() - getToolBarHeight() - getTabletHeaderHeight();
 	}
 
 	@Override

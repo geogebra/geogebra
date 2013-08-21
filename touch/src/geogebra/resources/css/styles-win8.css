@@ -118,7 +118,7 @@ body .infoDialog .gwt-TextBox.active {
 
 .sliderDialog .radioButtonPanel {
 	float: right;
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 .sliderDialog.redefine .radioButtonPanel {
@@ -153,7 +153,11 @@ body .infoDialog button {
 body .sliderDialog .buttonPanel {
 	width: auto;
 	padding-left: 70px;
-	padding-top: 32px;
+	padding-top: 23px;
+}
+
+body .sliderDialog.redefine .buttonPanel {
+	padding-top: 72px;
 }
 
 body .inputDialog .buttonPanel button {

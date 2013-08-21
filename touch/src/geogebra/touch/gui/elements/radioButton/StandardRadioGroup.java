@@ -28,13 +28,6 @@ public class StandardRadioGroup extends FlowPanel {
 			rB.setValue(false);
 		}
 	}
-	
-//	@Override
-//	public void onValueChange(ValueChangeEvent event) {
-//		for(ValueChangeHandler vch: valueChangeHandlerList) {
-//			vch.onValueChange(event);
-//		}
-//	}
 
 	public void addRadioChangeHandler(RadioChangeHandler handler) {
 		this.radioChangeHandlerList.add(handler);
