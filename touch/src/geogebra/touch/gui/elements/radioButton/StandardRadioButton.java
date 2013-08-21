@@ -28,12 +28,6 @@ public class StandardRadioButton extends FlowPanel {
 
 		this.icon = new StandardImage(this.laf.getIcons().radioButtonInactive());
 		this.label.setText(label);
-		System.out.println(label);
-
-		// final String html = "<img src=\""
-		// + this.iconInactive.getSafeUri().asString() + "\" />";
-		// this.iconPanel.getElement().setInnerHTML(html);
-		// this.iconPanel.setStyleName("iconPanel");
 
 		this.add(this.icon);
 		this.add(this.label);
@@ -53,7 +47,6 @@ public class StandardRadioButton extends FlowPanel {
 		if (this.value) {
 			return;
 		}
-		System.out.println("click");
 		this.group.deselectAll();
 		this.setValue(true);
 		this.group.fireRadioChanged(this);
@@ -64,7 +57,6 @@ public class StandardRadioButton extends FlowPanel {
 			this.group.deselectAll();
 		}
 		this.value = value;
-		System.out.println(value);
 		if (value) {
 			this.icon.setIcon(this.laf.getIcons().radioButtonActive());
 		} else {
