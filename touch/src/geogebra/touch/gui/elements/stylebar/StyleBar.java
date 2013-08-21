@@ -171,9 +171,9 @@ public class StyleBar extends FlowPanel {
 				b = new StandardImageButton(lafIcons.label());
 				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
 						b, this, OptionType.CaptionStyle);
-				//only show "label" if mode move or point is active
-				if (this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MOVE ||
-					this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT) {
+				// only show "label" if mode move or point is active
+				if (this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MOVE
+						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT) {
 					this.buttons.put(StyleBarEntry.CaptionStyle, b);
 				}
 			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {

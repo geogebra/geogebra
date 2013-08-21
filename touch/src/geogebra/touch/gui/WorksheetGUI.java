@@ -49,11 +49,12 @@ public class WorksheetGUI extends HeaderPanel {
 	public FlowPanel getContent() {
 		return this.content;
 	}
-	
+
 	@Override
-	public void onResize(){
-		this.content.setHeight((Window.getClientHeight()-TouchEntryPoint.getLookAndFeel().getTabletHeaderHeight())+"px");
-		//this.content.getElement().getStyle().setOverflow(Overflow.AUTO);
+	public void onResize() {
+		this.content.setHeight((Window.getClientHeight() - TouchEntryPoint
+				.getLookAndFeel().getTabletHeaderHeight()) + "px");
+		// this.content.getElement().getStyle().setOverflow(Overflow.AUTO);
 	}
 
 	public DockLayoutPanel getContentPanel() {

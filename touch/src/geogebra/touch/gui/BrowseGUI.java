@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * GeoGebraTube Search and Browse GUI
  * 
  */
-public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
-	
+public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
+
 	private final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
 	private final FileManagerT fm;
@@ -62,14 +62,14 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 		this.app.getOfflineOperation().getView().add(this);
 		addHeader();
 		addContent();
-		
+
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(final ResizeEvent event) {
 				BrowseGUI.this.updateViewSizes();
 			}
 		});
-		
+
 	}
 
 	protected void updateViewSizes() {
@@ -99,18 +99,20 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 
 	private void initTubeFilePanel() {
 		this.tubeFilePanel = new VerticalMaterialPanel(this.app);
-		this.tubeFileContainer = new FileContainer("GeoGebraTube", this.tubeFilePanel);
+		this.tubeFileContainer = new FileContainer("GeoGebraTube",
+				this.tubeFilePanel);
 		this.tubeFileContainer.setVisible(false);
-		this.tubeFileContainer.setStyleName("tubeFilePanel");		
+		this.tubeFileContainer.setStyleName("tubeFilePanel");
 		this.addResizeListener(this.tubeFileContainer);
 		this.addResizeListener(this.tubeFilePanel);
 	}
 
 	private void initLocalFilePanel() {
 		this.localFilePanel = new VerticalMaterialPanel(this.app);
-		this.localFileContainer = new FileContainer(this.app.getMenu("MyProfile"), this.localFilePanel);
+		this.localFileContainer = new FileContainer(
+				this.app.getMenu("MyProfile"), this.localFilePanel);
 		this.localFileContainer.setVisible(false);
-		this.localFileContainer.addStyleName("localFilePanel");		
+		this.localFileContainer.addStyleName("localFilePanel");
 		this.addResizeListener(this.localFileContainer);
 		this.addResizeListener(this.localFilePanel);
 	}
@@ -178,7 +180,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 			res.onResize();
 		}
 	}
-	
+
 	/**
 	 * Loads the featured materials
 	 */
@@ -213,14 +215,14 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable{
 
 	@Override
 	public void render(boolean b) {
-		if(!b){
+		if (!b) {
 			this.tubeList.clear();
 			updateGUI();
-		}else if(this.lastQuery!=null){
+		} else if (this.lastQuery != null) {
 			this.displaySearchResults(this.lastQuery);
-		}else{
+		} else {
 			this.loadFeatured();
 		}
-		
+
 	}
 }
