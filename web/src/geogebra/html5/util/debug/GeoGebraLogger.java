@@ -1,11 +1,14 @@
 package geogebra.html5.util.debug;
 
+import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
+import geogebra.html5.util.ArticleElement;
 
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 
 /**
  * GeoGebraLogger implementation for the web platform
@@ -91,5 +94,15 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 			super.log(level, message, depth);
 	}
 	
-	
+	public static void startLogger(ArticleElement article) {
+		if (article.getDataParamShowLogging()) {
+			Log.logger = new GeoGebraLogger();
+			Log.logger.setLogDestination(LogDestination.CONSOLES);
+			Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
+		} else {
+			// make sure $wnd.console works in IE9
+			GeoGebraLogger.initConsole();
+		}
+		
 	}
+}

@@ -30,7 +30,6 @@ import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
-import geogebra.common.util.debug.Log.LogDestination;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.io.MyXMLioW;
@@ -43,7 +42,6 @@ import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
-import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.Web;
 import geogebra.web.Web.GuiToLoad;
 import geogebra.web.euclidian.EuclidianControllerW;
@@ -273,11 +271,7 @@ public class AppW extends AppWeb {
 
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
-	protected static void startLogger() {
-		Log.logger = new GeoGebraLogger();
-		Log.logger.setLogDestination(LogDestination.CONSOLES);
-		Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
-	}
+	
 
 	// ========================================================
 	// Getters/Setters

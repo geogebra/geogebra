@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.View;
+import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.Web;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
@@ -210,6 +211,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrame inst = new GeoGebraFrame();
 			inst.ae = articleElement;
+			GeoGebraLogger.startLogger(inst.ae);
 			inst.createSplash(articleElement);	
 			if(Web.panelForApplets == null){
 				RootPanel.get(articleElement.getId()).add(inst);

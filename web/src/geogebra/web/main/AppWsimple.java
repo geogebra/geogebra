@@ -5,7 +5,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
-import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
@@ -44,12 +43,6 @@ public class AppWsimple extends AppW {
 
 		this.useFullGui = false;
 
-		if (ae.getDataParamShowLogging()) {
-			startLogger();
-		} else {
-			// make sure $wnd.console works in IE9
-			GeoGebraLogger.initConsole();
-		}
 		infobar = new InfoBarW(this);
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "

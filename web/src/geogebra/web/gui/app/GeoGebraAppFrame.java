@@ -8,6 +8,7 @@ import geogebra.common.main.App;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.View;
+import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.html5.Dom;
@@ -159,6 +160,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	protected void init() {
 		setVisible(true);
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
+		GeoGebraLogger.startLogger(article);
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		//cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
