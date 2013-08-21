@@ -1148,11 +1148,11 @@ public abstract class App implements UpdateSelection{
 	
 	
 	public static void debug(String s){
-		Log.debug(s);
+		Log.debug(s,5);
 	}
 	
 	public static void error(String s){
-		Log.error(s);
+		Log.error(s,5);
 	}
 	
 	/**

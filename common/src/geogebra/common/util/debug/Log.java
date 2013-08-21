@@ -331,6 +331,25 @@ public abstract class Log {
 			logger.log(logger.DEBUG, message);
 		}
 	}
+	
+	/**
+	 * @param message debug message
+	 * @param depth stacktace depth in which to look (4 if you want to see direct caller, 5 for one above) 
+	 */
+	public static void debug(String message, int depth) {
+		if (logger != null) {
+			logger.log(logger.DEBUG, message, depth);
+		}
+	}
+	/**
+	 * @param message error message
+	 * @param depth stacktace depth in which to look (4 if you want to see direct caller, 5 for one above) 
+	 */
+	public static void error(String message, int depth) {
+		if (logger != null) {
+			logger.log(logger.ERROR, message, depth);
+		}
+	}
 
 	/**
 	 * Prints debugging message, level NOTICE
@@ -353,18 +372,18 @@ public abstract class Log {
 	 */
 	public static void debug(Object s) {
 		if (s instanceof ExpressionValue) {
-			debug(ValidExpression.debugString((ExpressionValue) s));
+			debug(ValidExpression.debugString((ExpressionValue) s),5);
 			return;
 		}
 		if (s == null) {
-			debug("<null>");
+			debug("<null>",5);
 		} else {
-			debug(s.toString());
+			debug(s.toString(),5);
 		}
 	}
 
 	private void log(Level level, String message) {
-		log(level, message, 3);
+		log(level, message, 4);
 	}
 
 	/**
