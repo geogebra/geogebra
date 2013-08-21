@@ -10,10 +10,13 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.elements.InputField;
-import geogebra.touch.gui.elements.StandardRadioButton;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
+import geogebra.touch.gui.elements.radioButton.RadioChangeEvent;
+import geogebra.touch.gui.elements.radioButton.RadioChangeHandler;
+import geogebra.touch.gui.elements.radioButton.StandardRadioButton;
+import geogebra.touch.gui.elements.radioButton.StandardRadioGroup;
 import geogebra.touch.gui.laf.LookAndFeel;
 import geogebra.touch.model.TouchModel;
 
@@ -24,8 +27,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
@@ -62,6 +63,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	private final Label errorText = new Label();
 
 	private final FlowPanel radioButtonPanel = new FlowPanel();
+	private final StandardRadioGroup radioGroup = new StandardRadioGroup();
 	private final StandardRadioButton[] radioButton = new StandardRadioButton[2];
 	private final FlowPanel inputFieldPanel = new FlowPanel();
 	private HorizontalPanel sliderPanel;
@@ -125,19 +127,18 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		// "A" is just a label to group the two radioButtons (could be any
 		// String -
 		// as long as the same is used twice)
-		this.radioButton[0] = new StandardRadioButton("A", s[0]);
-		this.radioButton[1] = new StandardRadioButton("A", s[1]);
+		this.radioButton[0] = new StandardRadioButton(s[0], this.radioGroup);
+		this.radioButton[1] = new StandardRadioButton(s[1], this.radioGroup);
 
 		if (this.type == DialogType.Slider) {
-			final ValueChangeHandler<Boolean> handler = new ValueChangeHandler<Boolean>() {
+			final RadioChangeHandler handler = new RadioChangeHandler() {
 				@Override
-				public void onValueChange(final ValueChangeEvent<Boolean> event) {
+				public void onRadioChange(final RadioChangeEvent event) {
 					InputDialog.this.setSliderPreview();
 				}
 			};
 
-			this.radioButton[0].addValueChangeHandler(handler);
-			this.radioButton[1].addValueChangeHandler(handler);
+			this.radioGroup.addRadioChangeHandler(handler);
 		}
 
 		this.radioButtonPanel.setStyleName("radioButtonPanel");
@@ -145,7 +146,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.radioButtonPanel.add(this.radioButton[1]);
 		this.contentPanel.add(this.radioButtonPanel);
 
-		this.radioButton[0].setValue(new Boolean(true));
+		this.radioButton[0].setValue(true);
 	}
 
 	private void addTextBox() {
@@ -208,7 +209,9 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		this.inputFieldPanel.add(this.sliderPanel);
 
-		this.addRadioButton();
+		if (this.type == DialogType.Slider) {
+			this.addRadioButton();
+		}
 
 		this.buttonPanel = new HorizontalPanel();
 		this.buttonPanel
@@ -319,8 +322,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	public boolean isClockwise() {
-		return this.type == DialogType.Angle
-				&& this.radioButton[1].getValue().booleanValue();
+		return this.type == DialogType.Angle && this.radioButton[1].getValue();
 	}
 
 	/**
@@ -338,8 +340,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	public boolean isNumber() {
-		return this.type == DialogType.Slider
-				&& this.radioButton[0].getValue().booleanValue();
+		return this.type == DialogType.Slider && this.radioButton[0].getValue();
 	}
 
 	protected void onCancel() {
@@ -431,8 +432,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 	public void setFromSlider(final GeoNumeric geo) {
 		this.redefine(DialogType.RedefineSlider);
-		this.radioButton[0].setValue(Boolean.valueOf(!geo.isAngle()));
-		this.radioButton[1].setValue(Boolean.valueOf(geo.isAngle()));
+		this.radioButton[0].setValue(!geo.isAngle());
+		this.radioButton[1].setValue(geo.isAngle());
 		this.textBox.setText(geo.getLabel(StringTemplate.defaultTemplate));
 		this.increment.setText(geo.getAnimationStepObject().getLabel(
 				StringTemplate.editTemplate));
@@ -519,7 +520,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null) {
-			this.radioButton[0].setValue(new Boolean(true));
+			this.radioButton[0].setValue(true);
 		}
 
 		this.errorBox.setVisible(false);

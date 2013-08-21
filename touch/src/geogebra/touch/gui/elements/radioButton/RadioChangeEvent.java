@@ -1,0 +1,13 @@
+package geogebra.touch.gui.elements.radioButton;
+
+public class RadioChangeEvent {
+	private final int index;
+
+	public RadioChangeEvent(int index) {
+		this.index = index;
+	}
+
+	public int getIndex() {
+		return this.index;
+	}
+}

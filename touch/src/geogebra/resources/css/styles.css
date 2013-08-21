@@ -47,10 +47,6 @@ div.button { /* Border */
 		255, 255) ), color-stop(1, rgb(254, 254, 254) ) );
 }
 
-div.button.button-up-hovering {
-	border: #9999FF 1px solid;
-}
-
 .arrowLeft img {
 	margin: 4px;
 }
@@ -645,11 +641,17 @@ body .buttonPanel {
 	margin: 10px 0px;
 }
 
-.radioButtonPanel .gwt-RadioButton {
+.radioButtonPanel .radioButton {
 	display: inline-block;
-	padding: 5px 40px;
+	margin-right: 30px;
+	padding-top: 5px;
 }
 
-.radioButtonPanel .gwt-RadioButton label {
+.radioButton .image {
+	float: left;
+}
+
+.radioButtonPanel .radioButton .gwt-Label {
 	margin-left: 10px;
+	padding: 7px 10px 5px 40px;
 }

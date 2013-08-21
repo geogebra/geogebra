@@ -365,11 +365,11 @@ public interface DefaultResources extends ClientBundle {
 	@Validated(validated = false)
 	SVGResource properties_default();
 
-	@Source("icons/svg/win/elem_radioButtonActive.svg")
+	@Source("icons/svg/android/elem_radioButtonActive.svg")
 	@Validated(validated = false)
 	SVGResource radioButtonActive();
 
-	@Source("icons/svg/win/elem_radioButtonInactive.svg")
+	@Source("icons/svg/android/elem_radioButtonInactive.svg")
 	@Validated(validated = false)
 	SVGResource radioButtonInactive();
 
