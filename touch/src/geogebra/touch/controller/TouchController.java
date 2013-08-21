@@ -406,4 +406,8 @@ public class TouchController extends EuclidianController {
 		GeoGebraProfiler.dragTime += System.currentTimeMillis() - time;
 	}
 
+	@Override
+	protected boolean isMoveSliderExpected() {
+		return this.model.getCommand() == ToolBarCommand.Slider;
+	}
 }
