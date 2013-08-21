@@ -21,6 +21,8 @@ body table {
 
 .clear {
 	clear: both;
+	width: 0px;
+	height: 0px;
 }
 
 /* TOOLS AND STYLEBAR BUTTONS */
@@ -518,6 +520,10 @@ body .gwt-Tree .gwt-TreeItem-selected {
 
 .subToolBar .subToolBarButtonPanel div.button {
 	margin: 0px 6px 5px 0px;
+}
+
+.subToolBar.horizontalOrder .subToolBarButtonPanel div.button {
+	float: left;
 }
 
 .subToolBarArrow {
