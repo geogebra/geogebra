@@ -8176,6 +8176,74 @@ namespace giac {
   static define_unary_function_eval_quoted (__sum,&_sum,_sum_s);
   define_unary_function_ptr5( at_sum ,alias_at_sum,&__sum,_QUOTE_ARGUMENTS,true);
 
+  gen fast_icontent(const gen & g){
+    if (g.type==_VECT){
+      gen G(0);
+      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      for (;it!=itend;++it){
+	G=gcd(G,fast_icontent(*it));
+      }
+      return G;
+    }
+    if (g.type!=_SYMB)
+      return (g.type==_FRAC || is_integer(g))?abs(g,context0):1;
+    if (g._SYMBptr->sommet==at_plus || g._SYMBptr->sommet==at_neg)
+      return fast_icontent(g._SYMBptr->feuille);
+    if (g._SYMBptr->sommet==at_inv)
+      return inv(fast_icontent(g._SYMBptr->feuille),context0);
+    if (g._SYMBptr->sommet==at_prod){
+      gen G(1);
+      const_iterateur it=g._SYMBptr->feuille._VECTptr->begin(),itend=g._SYMBptr->feuille._VECTptr->end();
+      for (;it!=itend;++it){
+	G=lcm(G,fast_icontent(*it));
+      }
+      return G;
+    }
+    if (g._SYMBptr->sommet==at_pow){
+      if (is_integer(g._SYMBptr->feuille[1]))
+	return pow(fast_icontent(g._SYMBptr->feuille[0]),g._SYMBptr->feuille[1],context0);
+    }
+    return 1;
+  }
+
+  gen fast_divide_by_icontent(const gen & g,const gen & z){
+    if (g.is_symb_of_sommet(at_inv) && is_integer(g._SYMBptr->feuille))
+      return inv(g._SYMBptr->feuille*z,context0);
+    if (z==1)
+      return g;
+    if (g.type==_VECT){
+      vecteur v(*g._VECTptr);
+      iterateur it=v.begin(),itend=v.end();
+      for (;it!=itend;++it){
+	*it=fast_divide_by_icontent(*it,z);
+      }
+      return gen(v,g.subtype);
+    }
+    if (g.type!=_SYMB)
+      return g/z;
+    if (g._SYMBptr->sommet==at_plus || g._SYMBptr->sommet==at_neg)
+      return symbolic(g._SYMBptr->sommet,fast_divide_by_icontent(g._SYMBptr->feuille,z));
+    if (g._SYMBptr->sommet==at_inv)
+      return symbolic(g._SYMBptr->sommet,fast_divide_by_icontent(g._SYMBptr->feuille,inv(z,context0)));
+    if (g._SYMBptr->sommet==at_pow && is_integer(g._SYMBptr->feuille[1])){
+      gen z1=fast_icontent(g._SYMBptr->feuille[0]);
+      gen g1=fast_divide_by_icontent(g._SYMBptr->feuille[0],z1);
+      return pow(z1,g._SYMBptr->feuille[1],context0)/z*pow(g1,g._SYMBptr->feuille[1],context0);
+    }
+    if (g._SYMBptr->sommet==at_prod && g._SYMBptr->feuille.type==_VECT){
+      vecteur v(*g._SYMBptr->feuille._VECTptr);
+      iterateur it=v.begin(),itend=v.end();
+      gen zz(z),z2;
+      for (;it!=itend;++it){
+	z2=gcd(fast_icontent(*it),zz);
+	*it=fast_divide_by_icontent(*it,z2);
+	zz=zz/z2;
+      }
+      return _product(v,context0)/zz;
+    }
+    return g/z;
+  }
+
   // vector<unary_function_ptr > solve_fcns_v(solve_fcns,solve_fcns+sizeof(solve_fcns)/sizeof(unary_function_ptr));
 
   // #ifndef GNUWINCE

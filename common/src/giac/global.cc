@@ -864,7 +864,11 @@ extern "C" void Sleep(unsigned int miliSecond);
 
   thread_param::thread_param(): _kill_thread(false), thread_eval_status(-1), v(6)
 #ifdef HAVE_LIBPTHREAD
+#ifdef __MINGW_H
+			      ,eval_thread(),stackaddr(0)
+#else
 			      ,eval_thread(0),stackaddr(0)
+#endif
 #endif
   { 
   }

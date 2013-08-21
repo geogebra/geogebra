@@ -871,6 +871,8 @@ namespace giac {
   std::string printasmaple_subs(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
   void fonction_bidon();
   std::string printassto(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
+  gen fast_icontent(const gen & g); // fast compute integer content of g
+  gen fast_divide_by_icontent(const gen & g,const gen & z);
   
 #ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
   extern const alias_unary_function_eval __sto;

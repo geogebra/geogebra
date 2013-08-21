@@ -7020,11 +7020,17 @@ namespace giac {
     }
     else {
       gen d(c-centre);
-      r=rdiv(r,abs_norm(d,contextptr),contextptr)*d;
-      gen d1(inversion(centre,rapport,c+r,contextptr));
-      gen d2(inversion(centre,rapport,c-r,contextptr));
-      if (is_undef(d2)) return d2;
-      return remove_at_pnt(_cercle(makevecteur(d1,d2),contextptr));
+      if (is_zero(d)){
+	return _cercle(makesequence(centre,rapport/r),contextptr);
+      }
+      else {
+	r=rdiv(r,abs_norm(d,contextptr),contextptr)*d;
+	gen d1(inversion(centre,rapport,c+r,contextptr));
+	gen d2(inversion(centre,rapport,c-r,contextptr));
+	if (is_undef(d2)) return d2;
+	gen d3(inversion(centre,rapport,c+r*cst_i,contextptr));
+	return remove_at_pnt(_circonscrit(makesequence(d1,d2,d3),contextptr));
+      }
     }
   }
 
@@ -8452,7 +8458,7 @@ namespace giac {
     int s=argv.size()-1;
     vecteur result,parameqs;
     gen t=argv.back();
-    if (s==1 && !argv[0].is_symb_of_sommet(at_curve)){
+    if (s==1 && argv[0].type==_SYMB && !argv[0].is_symb_of_sommet(at_pnt)){
       t=remove_at_pnt(t);
       gen argv0=remove_equal(argv[0]);
       if (t.type!=_VECT){
@@ -8461,7 +8467,7 @@ namespace giac {
 	reim(t,tr,ti,contextptr);
 	gen tri(makevecteur(tr,ti));
 	gen xy(makevecteur(x__IDNT_e,y__IDNT_e));
-	if (is_zero(recursive_normal(subst(argv0,xy,tri,false,contextptr),contextptr))){
+	if (is_zero(simplify(subst(argv0,xy,tri,false,contextptr),contextptr))){
 	  gen der(derive(argv0,xy,contextptr));
 	  der=subst(der,xy,tri,false,contextptr);
 	  if (der.type==_VECT && der._VECTptr->size()==2){
@@ -10655,15 +10661,18 @@ namespace giac {
 	      visited[ii][jj]=true;
 	  }
 	}
+	// FIXME series does not work correctly
+	// example eq:=25*x^6*y^2-80*x^6*y+64*x^6-10*x^5*y^2+136*x^5*y-192*x^5+59*x^4*y^2+56*x^4*y+192*x^4-20*x^3*y^2-240*x^3*y-64*x^3+43*x^2*y^2+104*x^2*y-10*x*y^2+9*y^2; implicitplot(eq,x=0..2,y=-1..1,ystep=0.01);
+	if (has_op(sp,at_rootof)) sp=spd; 
 	// find all tangents starting from sp
 	for (int order=2;order<10;++order){
-	  gen tays=series(subst(f_orig,xy,xy-sp,false,contextptr),xy,makevecteur(0,0),order,0,contextptr);
+	  gen tays=series(subst(f_orig,xy,xy+sp,false,contextptr),xy,makevecteur(0,0),order,0,contextptr);
 	  if (!is_zero(tays)){
 	    singular_points_tangents.clear();
 	    // non-zero homogeneous expansion
 	    // find roots of taylor expansion
 	    gen t(identificateur(" implicitplot"));
-	    tays=subst(tays,xy,subvecteur(makevecteur(1,t),*sp._VECTptr),false,contextptr);
+	    tays=subst(tays,xy,makevecteur(1,t),false,contextptr);
 	    // search for a multiple root, if last_direction is near a multiple root
 	    // of even multiplicity change last_direction sign
 	    gen sqfftays=_quo(gen(makevecteur(tays,_gcd(gen(makevecteur(tays,derive(tays,t,contextptr)),_SEQ__VECT),contextptr),t),_SEQ__VECT),contextptr);

@@ -3508,11 +3508,13 @@ namespace giac {
 #endif // PSEUDO_MOD
 
   // v1 += c1*w % p, v2 += c2*w %p, v3 += c3*w % p, v4 += c4*w % p; 
+  // v1 += c1*w % p, v2 += c2*w %p, v3 += c3*w % p, v4 += c4*w % p; 
   void int_multilinear_combination(std::vector<int> & v1,int c1,std::vector<int> & v2,int c2,std::vector<int> & v3,int c3,std::vector<int> & v4,int c4,const std::vector<int> & w,int p,int cstart,int cend){
     c1 %=p; c2 %=p; c3 %=p; c4 %=p;
-    std::vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it2=v2.begin()+cstart,it3=v3.begin()+cstart,it4=v4.begin()+cstart;
+    std::vector<int>::iterator it1=v1.begin()+cstart,it1end=v1.end(),it2=v2.begin()+cstart,it3=v3.begin()+cstart,it4=v4.begin()+cstart,it1_;
     if (cend && cend>=cstart && cend<it1end-v1.begin())
       it1end=v1.begin()+cend;
+    it1_=it1-4;
     std::vector<int>::const_iterator jt=w.begin()+cstart;
 #ifdef PSEUDO_MOD
     if (p<(1<<29) 
@@ -3520,6 +3522,32 @@ namespace giac {
 	){
       int nbits=sizeinbase2(p);
       unsigned invp=((1ULL<<(2*nbits)))/p+1;
+      for (;it1<=it1_;){
+	int tmp=*jt;
+	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
+	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
+	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
+	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
+	++jt;++it4;++it3;++it2;++it1;
+	tmp=*jt;
+	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
+	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
+	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
+	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
+	++jt;++it4;++it3;++it2;++it1;
+	tmp=*jt;
+	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
+	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
+	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
+	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
+	++jt;++it4;++it3;++it2;++it1;
+	tmp=*jt;
+	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
+	pseudo_mod(*it2,c2,tmp,p,invp,nbits);
+	pseudo_mod(*it3,c3,tmp,p,invp,nbits);
+	pseudo_mod(*it4,c4,tmp,p,invp,nbits);
+	++jt;++it4;++it3;++it2;++it1;
+      }
       for (;it1!=it1end;++jt,++it4,++it3,++it2,++it1){
 	int tmp=*jt;
 	pseudo_mod(*it1,c1,tmp,p,invp,nbits);
@@ -3531,6 +3559,32 @@ namespace giac {
     else
 #endif // PSEUDO_MOD
       {
+	for (;it1<=it1_;){
+	  int tmp=*jt;
+	  *it1 = (*it1+longlong(c1)*tmp)%p;
+	  *it2 = (*it2+longlong(c2)*tmp)%p;
+	  *it3 = (*it3+longlong(c3)*tmp)%p;
+	  *it4 = (*it4+longlong(c4)*tmp)%p;
+	  ++jt;++it4;++it3;++it2;++it1;
+	  tmp=*jt;
+	  *it1 = (*it1+longlong(c1)*tmp)%p;
+	  *it2 = (*it2+longlong(c2)*tmp)%p;
+	  *it3 = (*it3+longlong(c3)*tmp)%p;
+	  *it4 = (*it4+longlong(c4)*tmp)%p;
+	  ++jt;++it4;++it3;++it2;++it1;
+	  tmp=*jt;
+	  *it1 = (*it1+longlong(c1)*tmp)%p;
+	  *it2 = (*it2+longlong(c2)*tmp)%p;
+	  *it3 = (*it3+longlong(c3)*tmp)%p;
+	  *it4 = (*it4+longlong(c4)*tmp)%p;
+	  ++jt;++it4;++it3;++it2;++it1;
+	  tmp=*jt;
+	  *it1 = (*it1+longlong(c1)*tmp)%p;
+	  *it2 = (*it2+longlong(c2)*tmp)%p;
+	  *it3 = (*it3+longlong(c3)*tmp)%p;
+	  *it4 = (*it4+longlong(c4)*tmp)%p;
+	  ++jt;++it4;++it3;++it2;++it1;
+	}
 	for (;it1!=it1end;++jt,++it4,++it3,++it2,++it1){
 	  int tmp=*jt;
 	  *it1 = (*it1+longlong(c1)*tmp)%p;
@@ -3538,7 +3592,7 @@ namespace giac {
 	  *it3 = (*it3+longlong(c3)*tmp)%p;
 	  *it4 = (*it4+longlong(c4)*tmp)%p;
 	}
-      }      
+      }
   }
 
 #if 0 // not as fast than double_lu2inv
@@ -5401,7 +5455,7 @@ namespace giac {
 	}
       } // end tryblock
 #endif // GIAC_DETBLOCK
-      pivot = (N[l][c] %= modulo);
+      pivot = N[l].empty()?0:(N[l][c] %= modulo);
       if (rref_or_det_or_lu==3 && !pivot){
 	idet=0;
 	if (!workptr && tmpptr)
@@ -5418,7 +5472,7 @@ namespace giac {
 	noswap=false;
 	if (l<dont_swap_below){ 
 	  for (int ctemp=c+1;ctemp<cmax;++ctemp){
-	    temp = (N[l][ctemp] %= modulo);
+	    temp = N[l].empty()?0:(N[l][ctemp] %= modulo);
 	    if (temp){
 	      pivot=smod(temp,modulo);
 	      pivotcol=ctemp;
@@ -5428,7 +5482,7 @@ namespace giac {
 	}
 	else {      // scan N current column for the best pivot available
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
-	    temp = (N[ltemp][c] %= modulo);
+	    temp = N[ltemp].empty()?0:(N[ltemp][c] %= modulo);
 	    if (debug_infolevel>2)
 	      print_debug_info(temp);
 	    if (temp){
@@ -5471,10 +5525,10 @@ namespace giac {
 	// make the reduction
 	if (fullreduction) {
 	  for (int ltemp=linit;ltemp<lmax;++ltemp){
-	    if (ltemp==l || !N[ltemp][pivotcol])
+	    if (ltemp==l || N[ltemp].empty() || !N[ltemp][pivotcol])
 	      continue;
 #ifndef GIAC_HAS_STO_38
-	    if (ltemp<=l-4 || (ltemp>l && ltemp<=lmax-4)){
+	    if (ltemp<=l-4 || (ltemp>l && ltemp<=lmax-4 && !N[ltemp+1].empty() && N[ltemp+1][pivotcol] && !N[ltemp+2].empty() && N[ltemp+2][pivotcol] && !N[ltemp+3].empty() && N[ltemp+3][pivotcol])){
 	      int_multilinear_combination(N[ltemp],-N[ltemp][pivotcol],N[ltemp+1],-N[ltemp+1][pivotcol],N[ltemp+2],-N[ltemp+2][pivotcol],N[ltemp+3],-N[ltemp+3][pivotcol],N[l],modulo,c,(inverting && noswap)?(c+1+lmax):cmax);
 	      ltemp+= (4-1);
 	    }
@@ -5485,10 +5539,10 @@ namespace giac {
 	}
 	else {
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
-	    if (!N[ltemp][pivotcol])
+	    if (N[ltemp].empty() || !N[ltemp][pivotcol])
 	      continue;
 #ifndef GIAC_HAS_STO_38
-	    if (ltemp<=lmax-4){
+	    if (ltemp<=lmax-4 && !N[ltemp+1].empty() && N[ltemp+1][pivotcol] && !N[ltemp+2].empty() && N[ltemp+2][pivotcol] && !N[ltemp+3].empty() && N[ltemp+3][pivotcol]){
 	      if (rref_or_det_or_lu>=2){ // LU decomp
 		N[ltemp][pivotcol]= (N[ltemp][pivotcol]*longlong(temp)) % modulo;
 		N[ltemp+1][pivotcol]= (N[ltemp+1][pivotcol]*longlong(temp)) % modulo;
@@ -5528,6 +5582,8 @@ namespace giac {
     } // end for reduction loop
     if (rref_or_det_or_lu!=1){
       for (int i=0;i<lmax;i++){
+	if (N[i].empty())
+	  continue;
 	int * Ni=&N[i][0], * Niend= Ni+cmax; // vector<int> & Ni=N[i];
 	if (rref_or_det_or_lu==2)
 	  Ni += i;

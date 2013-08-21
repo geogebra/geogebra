@@ -752,6 +752,49 @@ namespace giac {
   
 #else
   void index_lcm(const tdeg_t & x,const tdeg_t & y,tdeg_t & z,short order){
+#if 1
+    int t=0;
+    const short * xtab=&x.tab[1],*ytab=&y.tab[1];
+    short *ztab=&z.tab[1];
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    ++xtab; ++ytab; ++ztab;
+    t += (*ztab=(*xtab>*ytab)?*xtab:*ytab);
+    /*
+    t += (z.tab[1]=(x.tab[1]>y.tab[1])?x.tab[1]:y.tab[1]);
+    t += (z.tab[2]=(x.tab[2]>y.tab[2])?x.tab[2]:y.tab[2]);
+    t += (z.tab[3]=(x.tab[3]>y.tab[3])?x.tab[3]:y.tab[3]);
+    t += (z.tab[4]=(x.tab[4]>y.tab[4])?x.tab[4]:y.tab[4]);
+    t += (z.tab[5]=(x.tab[5]>y.tab[5])?x.tab[5]:y.tab[5]);
+    t += (z.tab[6]=(x.tab[6]>y.tab[6])?x.tab[6]:y.tab[6]);
+    t += (z.tab[7]=(x.tab[7]>y.tab[7])?x.tab[7]:y.tab[7]);
+    t += (z.tab[8]=(x.tab[8]>y.tab[8])?x.tab[8]:y.tab[8]);
+    t += (z.tab[9]=(x.tab[9]>y.tab[9])?x.tab[9]:y.tab[9]);
+    t += (z.tab[10]=(x.tab[10]>y.tab[10])?x.tab[10]:y.tab[10]);
+    t += (z.tab[11]=(x.tab[11]>y.tab[11])?x.tab[11]:y.tab[11]);
+    */
+    if (order==_REVLEX_ORDER || order==_TDEG_ORDER)
+      z.tab[0]=t;
+    else
+      t += (z.tab[0]=(x.tab[0]>y.tab[0])?x.tab[0]:y.tab[0]);
+#else
     // short order=x.tab[GROEBNER_VARS];
     int t=0;
     for (unsigned i=0;i<=GROEBNER_VARS;++i){
@@ -760,6 +803,7 @@ namespace giac {
     if (order==_REVLEX_ORDER || order==_TDEG_ORDER){
       z.tab[0] = t-z.tab[0];
     }
+#endif
   }
 
   void get_index(const tdeg_t & x_,index_t & idx,int order,int dim){
@@ -2597,28 +2641,34 @@ namespace giac {
     // -> if g leading monomial is prime with h, remove the pair
     // -> if g leading monomial is not disjoint from h leading monomial
     //    keep it only if lcm of leading monomial is not divisible by another one
+    vector<tdeg_t> tmp(G.size());
+    for (unsigned i=0;i<G.size();++i){
+      if (res[G[i]].coord.empty()){
+	cerr << "empty " << i << endl;
+	tmp[i].tab[0]=-1;
+      }
+      else
+	index_lcm(h0,res[G[i]].coord.front().u,tmp[i],order); 
+    }
     for (unsigned i=0;i<G.size();++i){
       if (interrupted || ctrl_c)
 	return;
       if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
 	continue;
-      index_lcm(h0,res[G[i]].coord.front().u,tmp1,order); // h0 and G[i] leading monomial not prime together
-      unsigned j;
-      for (j=0;j<G.size();++j){
-	if (interrupted || ctrl_c)
-	  return;
-	if (i==j || res[G[j]].coord.empty())
-	  continue;
-	index_lcm(h0,res[G[j]].coord.front().u,tmp2,order);
-	if (tdeg_t_all_greater(tmp1,tmp2,order)){
-	  // found another pair, keep the smallest, or the first if equal
-	  if (tmp1!=tmp2)
-	    break; 
-	  if (i>j)
-	    break;
+      tdeg_t * tmp1=&tmp[i]; // h0 and G[i] leading monomial not prime together
+      tdeg_t * tmp2=&tmp[0],*tmpend=tmp2+G.size();
+      for (;tmp2!=tmp1;++tmp2){
+	if (tdeg_t_all_greater(*tmp1,*tmp2,order))
+	  break; // found another pair, keep the smallest, or the first if equal
+      }
+      if (tmp2!=tmp1)
+	continue;
+      for (++tmp2;tmp2!=tmpend;++tmp2){
+	if (tdeg_t_all_greater(*tmp1,*tmp2,order) && *tmp1!=*tmp2){
+	  break; 
 	}
-      } // end for j
-      if (j==G.size())
+      }
+      if (tmp2==tmpend)
 	C.push_back(G[i]);
     }
     vector< pair<unsigned,unsigned> > B1;
@@ -2645,8 +2695,9 @@ namespace giac {
       }
     }
     // B <- B union pairs(h,g) with g in C
-    for (unsigned i=0;i<C.size();++i)
+    for (unsigned i=0;i<C.size();++i){
       B1.push_back(pair<unsigned,unsigned>(pos,C[i]));
+    }
     swap(B1,B);
     // Update G by removing elements with leading monomial >= leading monomial of h
     if (debug_infolevel>2){
@@ -2674,7 +2725,125 @@ namespace giac {
       cerr << clock() << " mod end Groebner interreduce " << endl;
     C.push_back(pos);
     swap(C,G);
+#if 0
+    // clear in res polymod that are no more referenced
+    vector<bool> used(res.size(),false);
+    for (unsigned i=0;i<G.size();++i){
+      used[G[i]]=true;
+    }
+    for (unsigned i=0;i<B.size();++i){
+      used[B[i].first]=true;
+      used[B[i].first]=false;
+    }
+    for (unsigned i=0;i<res.size();++i){
+      if (!used[i] && !res[i].coord.capacity()){
+	polymod clearer;
+	swap(res[i].coord,clearer.coord);
+      }
+    }
+#endif
   }
+
+#if 0
+  // update G, G is a list of index of the previous gbasis + new spolys
+  // new spolys index are starting at debut
+  static void gbasis_multiupdatemod(vector<unsigned> & G,vector< pair<unsigned,unsigned> > & B,vectpolymod & res,unsigned debut,polymod & TMP2,modint env){
+    if (debug_infolevel>2)
+      cerr << clock() << " mod begin gbasis update " << G.size() << "+" << add.size() << endl;
+    if (debug_infolevel>3)
+      cerr << G << endl;
+    vector<unsigned> C;
+    // C is used to construct new pairs
+    tdeg_t tmp1,tmp2;
+    short order;
+    for (unsigned pos=debut;pos<G.size();++pos){
+      const polymod & h = res[pos];
+      const tdeg_t & h0=h.coord.front().u;
+      // create pairs with h and elements g of G, then remove
+      // -> if g leading monomial is prime with h, remove the pair
+      // -> if g leading monomial is not disjoint from h leading monomial
+      //    keep it only if lcm of leading monomial is not divisible by another one
+      for (unsigned i=0;i<pos;++i){
+	if (interrupted || ctrl_c)
+	  return;
+	if (res[G[i]].coord.empty() || disjoint(h0,res[G[i]].coord.front().u,res.front().order,res.front().dim))
+	  continue;
+	index_lcm(h0,res[G[i]].coord.front().u,tmp1,order); // h0 and G[i] leading monomial not prime together
+	unsigned j;
+	for (j=0;j<G.size();++j){
+	  if (i==j || res[G[j]].coord.empty())
+	    continue;
+	  index_lcm(h0,res[G[j]].coord.front().u,tmp2,order);
+	  if (tdeg_t_all_greater(tmp1,tmp2,order)){
+	    // found another pair, keep the smallest, or the first if equal
+	    if (tmp1!=tmp2)
+	      break; 
+	    if (i>j)
+	      break;
+	  }
+	} // end for j
+	if (j==G.size())
+	  C.push_back(G[i]);
+      }
+    }
+    vector< pair<unsigned,unsigned> > B1;
+    B1.reserve(B.size()+C.size());
+    for (unsigned i=0;i<B.size();++i){
+      if (interrupted || ctrl_c)
+	return;
+      if (res[B[i].first].coord.empty() || res[B[i].second].coord.empty())
+	continue;
+      index_lcm(res[B[i].first].coord.front().u,res[B[i].second].coord.front().u,tmp1,order);
+      for (unsigned pos=debut;pos<G.size();++pos){
+	const tdeg_t & h0=res[G[pos]].front().u;
+	if (!tdeg_t_all_greater(tmp1,h0,order)){
+	  B1.push_back(B[i]);
+	  break;
+	}
+	index_lcm(res[B[i].first].coord.front().u,h0,tmp2,order);
+	if (tmp2==tmp1){
+	  B1.push_back(B[i]);
+	  break;
+	}
+	index_lcm(res[B[i].second].coord.front().u,h0,tmp2,order);
+	if (tmp2==tmp1){
+	  B1.push_back(B[i]);
+	  break;
+	}
+      }
+    }
+    // B <- B union B2
+    for (unsigned i=0;i<B2.size();++i)
+      B1.push_back(B2[i]);
+    swap(B1,B);
+    // Update G by removing elements with leading monomial >= leading monomial of h
+    if (debug_infolevel>2){
+      cerr << clock() << " end, pairs:"<< endl;
+      if (debug_infolevel>3)
+	cerr << B << endl;
+      cerr << "mod begin Groebner interreduce " << endl;
+    }
+    vector<unsigned> C;
+    C.reserve(G.size());
+    for (unsigned i=0;i<G.size();++i){
+      if (interrupted || ctrl_c)
+	return;
+      if (res[G[i]].coord.empty())
+	continue;
+      const tdeg_t & Gi=res[G[i]].coord.front().u;
+      unsigned j;
+      for (j=i+1;j<G.size();++j){
+	if (tdeg_t_all_greater(Gi,res[G[j]].coord.front().u,order))
+	  break;
+      }
+      if (i==G.size()-1 || j==G.size())
+	C.push_back(G[i]);
+    }
+    if (debug_infolevel>2)
+      cerr << clock() << " mod end Groebner interreduce " << endl;
+    swap(C,G);
+  }
+#endif
 
   bool in_gbasismod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool sugar,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero){
     convert(res8,res,env);
@@ -2880,9 +3049,9 @@ namespace giac {
     return res;
   }
 
-  unsigned reducef4(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env){
 #ifdef __x86_64__
-    vector<int128_t> w(v.size());
+  unsigned reducef4_64(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env,vector<int128_t> & w){
+    w.resize(v.size());
     vector<modint>::iterator vt=v.begin(),vtend=v.end();
     vector<int128_t>::iterator wt=w.begin();
     for (;vt!=vtend;++wt,++vt){
@@ -2890,17 +3059,50 @@ namespace giac {
     }
     for (unsigned i=0;i<M.size();++i){
       const vector<sparse_element> & m=M[i];
-      vector<sparse_element>::const_iterator it=m.begin(),itend=m.end();
+      const sparse_element * it=&m.front(),*itend=it+m.size(),*it2;
       if (it==itend)
 	continue;
       int128_t & ww=w[it->pos];
       if (ww==0)
 	continue;
       modint c=(modint2(invmod(it->val,env))*ww)%env;
+      // cerr << "multiplier ok line " << i << " value " << c << " " << w << endl;
       if (!c)
 	continue;
       ww=0;
-      for (++it;it!=itend;++it){
+      ++it;
+      it2=itend-8;
+      for (;it<=it2;){
+#if 0
+	w[it[0].pos] -= modint2(c)*(it[0].val);
+	w[it[1].pos] -= modint2(c)*(it[1].val);
+	w[it[2].pos] -= modint2(c)*(it[2].val);
+	w[it[3].pos] -= modint2(c)*(it[3].val);
+	w[it[4].pos] -= modint2(c)*(it[4].val);
+	w[it[5].pos] -= modint2(c)*(it[5].val);
+	w[it[6].pos] -= modint2(c)*(it[6].val);
+	w[it[7].pos] -= modint2(c)*(it[7].val);
+	it+=8;
+#else
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+#endif
+      }
+      for (;it!=itend;++it){
 	w[it->pos] -= modint2(c)*(it->val);
       }
     }
@@ -2915,7 +3117,275 @@ namespace giac {
 	return vt-v.begin();
     }
     return v.size();
-#else
+  }
+
+  ostream & operator << (ostream & os,const int128_t & i){
+    return os << longlong(i) ;
+    // return os << "(" << longlong(i>>64) <<","<< longlong(i) <<")" ;
+  }
+
+  // not as fast as reducef4_64
+  unsigned reducef4slice(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env,vector<int128_t> & w,vector<modint> & multiplier,vector<unsigned> & pos){
+    unsigned nslices = 1+((w.size()*16) >> 16);
+    unsigned slicesize=(w.size()+nslices-1)/nslices;
+    if (nslices==1) 
+      return reducef4_64(v,M,env,w);
+    w.resize(v.size());
+    multiplier.resize(M.size());
+    pos.resize(M.size());
+    vector<modint>::iterator vt=v.begin(),vtend=v.end();
+    vector<int128_t>::iterator wt=w.begin();
+    for (;vt!=vtend;++wt,++vt){
+      *wt=*vt;
+    }
+    for (unsigned i=0;i<M.size();++i){
+      pos[i]=0;
+      multiplier[i]=0;
+    }
+    unsigned i2=0; // lines that should be reduced before new linear comb are done
+    for (unsigned s=0;s<nslices;++s){
+      // cerr << "slice " << s << " nslices " << nslices <<  " i2 " << i2 << " nrows " << M.size() << endl;
+      unsigned pos1=s*slicesize;
+      unsigned pos2=pos1+slicesize;
+      if (s==nslices-1)
+	pos2=w.size();
+      for (unsigned i=0;i<i2;++i){
+	const vector<sparse_element> & m=M[i];
+	vector<sparse_element>::const_iterator it=m.begin()+pos[i],itend=m.end();
+	if (it==itend || it->pos>=pos2)
+	  continue;
+	modint c=multiplier[i];
+	for (;it!=itend;++it){
+	  unsigned p=it->pos;
+	  if (p>=pos2)
+	    break;
+	  w[p] -= modint2(c)*(it->val);
+	}
+	pos[i]=it-m.begin();
+      }
+      for (unsigned i=i2;i<M.size();++i,++i2){
+	const vector<sparse_element> & m=M[i];
+	vector<sparse_element>::const_iterator it=m.begin(),itend=m.end();
+	if (it==itend) 
+	  continue;
+	if (it->pos>=pos2){
+	  // cerr << "i2=" << i2 << w << endl;
+	  break;
+	}
+	modint c=multiplier[i];
+	int128_t & ww=w[it->pos];
+	if (ww==0){
+	  pos[i]=itend-it;
+	  continue;
+	}
+	c=multiplier[i]=(invmod(it->val,env)*ww)%env;
+	// cerr << "multiplier line " << i << "(i2,pos,pos2=" << i2 << "," << it->pos << "," << pos2 << ") value " << c << " " << w << endl;
+	ww=0;
+	for (++it;it!=itend;++it){
+	  unsigned p=it->pos;
+	  if (p>=pos2)
+	    break;
+	  w[p] -= modint2(c)*(it->val);
+	}
+	pos[i]=it-m.begin();
+      }
+      // cerr << "positions "<< pos << endl;
+    }
+    for (unsigned i=0;i<M.size();++i){
+      const vector<sparse_element> & m=M[i];
+      vector<sparse_element>::const_iterator it=m.begin()+pos[i],itend=m.end();
+      if (it==itend)
+	continue;
+      modint c=multiplier[i];
+      cerr << c << endl;
+      for (;it!=itend;++it){
+	w[it->pos] -= modint2(c)*(it->val);
+      }
+    }
+    for (vt=v.begin(),wt=w.begin();vt!=vtend;++wt,++vt){
+      if (*wt)
+	*vt=*wt % env;
+      else
+	*vt=0;
+    }
+    for (vt=v.begin();vt!=vtend;++vt){
+      if (*vt)
+	return vt-v.begin();
+    }
+    return v.size();
+  }
+
+#endif
+  // sparse element if prime is < 2^24
+  // if shift == 0 the position is absolute in the next sparse32 of the vector
+  struct sparse32 {
+    modint val:25;
+    unsigned shift:7;
+    sparse32(modint v,unsigned s):val(v),shift(s){};
+    sparse32():val(0),shift(0){};
+  };
+
+  ostream & operator << (ostream & os,const sparse32 & s){
+    return os << "(" << s.val << "," << s.shift << ")" ;
+  }
+
+  unsigned reducef4_32(vector<modint> &v,const vector< vector<sparse32> > & M,modint env,vector<modint2> & w){
+    w.resize(v.size());
+    vector<modint>::iterator vt=v.begin(),vtend=v.end();
+    vector<modint2>::iterator wt=w.begin();
+    for (;vt!=vtend;++wt,++vt){
+      *wt=*vt;
+    }
+    for (unsigned i=0;i<M.size();++i){
+      const vector<sparse32> & m=M[i];
+      vector<sparse32>::const_iterator it=m.begin(),itend=m.end(),it2=itend-16;
+      if (it==itend)
+	continue;
+      unsigned p=0;
+      modint val;
+      if (it->shift){
+	p += it->shift;
+	val=it->val;
+      }
+      else {
+	val=it->val;
+	++it;
+	p=*(unsigned *)&(*it);
+      }
+      modint2 & ww=w[p];
+      if (ww==0)
+	continue;
+      modint c=(modint2(invmod(val,env))*ww)%env;
+      if (!c)
+	continue;
+      ww=0;
+      ++it;
+      for (;it<=it2;){
+	sparse32 se = *it;
+	unsigned seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+	se = *it;
+	seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+	++it;
+      }
+      for (;it!=itend;++it){
+	const sparse32 & se = *it;
+	unsigned seshift=se.shift;
+	if (seshift){
+	  p += seshift;
+	  w[p] -= modint2(c)*se.val;
+	}
+	else {
+	  ++it;
+	  p = *(unsigned *) &*it;
+	  w[p] -= modint2(c)*se.val;
+	}
+      }
+    }
+    for (vt=v.begin(),wt=w.begin();vt!=vtend;++wt,++vt){
+      if (*wt)
+	*vt = *wt % env;
+      else
+	*vt =0;
+    }
+    for (vt=v.begin();vt!=vtend;++vt){
+      if (*vt)
+	return vt-v.begin();
+    }
+    return v.size();
+  }
+
+  unsigned reducef4(vector<modint> &v,const vector< vector<sparse_element> > & M,modint env){
     for (unsigned i=0;i<M.size();++i){
       const vector<sparse_element> & m=M[i];
       vector<sparse_element>::const_iterator it=m.begin(),itend=m.end();
@@ -2936,7 +3406,6 @@ namespace giac {
 	return vt-v.begin();
     }
     return v.size();
-#endif
   }
 
   bool tri(const vector<sparse_element> & v1,const vector<sparse_element> & v2){
@@ -2951,13 +3420,13 @@ namespace giac {
   void makeline(const polymod & p,const tdeg_t * shiftptr,const polymod & R,vector<modint> & v){
     v.resize(R.coord.size()); 
     v.assign(R.coord.size(),0);
-    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
+    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtbeg=jt,jtend=R.coord.end();
     if (shiftptr){
       for (;it!=itend;++it){
 	tdeg_t u=it->u+*shiftptr;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    v[jt-R.coord.begin()]=it->g;
+	    v[jt-jtbeg]=it->g;
 	    ++jt;
 	    break;
 	  }
@@ -2969,7 +3438,7 @@ namespace giac {
 	const tdeg_t & u=it->u;
 	for (;jt!=jtend;++jt){
 	  if (jt->u==u){
-	    v[jt-R.coord.begin()]=it->g;
+	    v[jt-jtbeg]=it->g;
 	    ++jt;
 	    break;
 	  }
@@ -3049,81 +3518,268 @@ namespace giac {
     }
   }
 
+  inline void push32(vector<sparse32> & v,modint val,unsigned & pos,unsigned newpos){
+    unsigned shift=newpos-pos;
+    if (newpos && (shift <(1<<7)))
+      v.push_back(sparse32(val,shift));
+    else {
+      v.push_back(sparse32(val,0));
+      v.push_back(sparse32());
+      * (unsigned *) & v.back() =newpos;
+    }
+    pos=newpos;
+  }
+
+  void makeline32(const polymod & p,const tdeg_t * shiftptr,const polymod & R,vector<sparse32> & v){
+    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end(),jt=R.coord.begin(),jtend=R.coord.end();
+    unsigned pos=0;
+    if (shiftptr){
+      for (;it!=itend;++it){
+	tdeg_t u=it->u+*shiftptr;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    push32(v,it->g,pos,jt-R.coord.begin());
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+    else {
+      for (;it!=itend;++it){
+	const tdeg_t & u=it->u;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    push32(v,it->g,pos,jt-R.coord.begin());
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+  }
+
+  void convert32(const vector<modint> & v,vector<sparse32> & w,vector<char> & used){
+    unsigned count=0;
+    vector<modint>::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (*it){
+	used[it-v.begin()]=1;
+	++count;
+      }
+    }
+    w.clear();
+    w.reserve(1+int(count*1.1));
+    unsigned pos=0;
+    for (it=v.begin();it!=itend;++it){
+      if (*it)
+	push32(w,*it,pos,it-v.begin());
+    }
+  }
+
   void rref_f4mod_interreduce(vectpolymod & f4v,const vector<unsigned> & f4vG,vectpolymod & res,const vector<unsigned> & G,unsigned excluded,const vectpolymod & quo,const polymod & R,modint env,vector<int> & permutation){
     // step2: for each monomials of quo[i], shift res[G[i]] by monomial
     // set coefficient in a line of a matrix M, columns are R monomials indices
     if (debug_infolevel>1)
       cerr << clock() << " begin build M" << endl;
-    vector< vector<sparse_element> > M;
     unsigned N=R.coord.size(),i,j=0;
-    M.reserve(N);
-    vector<sparse_element> atrier;
-    atrier.reserve(N);
-    for (i=0;i<G.size();++i){
-      std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
-      for (;jt!=jtend;++j,++jt){
-	M.push_back(vector<sparse_element>(0));
-	M[j].reserve(res[G[i]].coord.size());
-	makeline(res[G[i]],&jt->u,R,M[j]);
-	atrier.push_back(sparse_element(M[j].front().pos,j));
-      }
-    }
-    if (debug_infolevel>1)
-      cerr << clock() << " end build M" << endl;
-    // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
-    // cerr << "before sort " << M << endl;
-    sort(atrier.begin(),atrier.end(),tri1);
-    vector< vector<sparse_element> > M1(atrier.size());
-    for (i=0;i<atrier.size();++i){
-      swap(M1[i],M[atrier[i].pos]);
-    }
-    swap(M,M1);
-    // sort(M.begin(),M.end(),tri);
-    if (debug_infolevel>1)
-      cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << endl;
-    // cerr << "after sort " << M << endl;
-    // step3 reduce
     unsigned c=N;
-    vector<modint> v(N);
-    vector< vector<sparse_element> > SK(f4v.size());
     vector<char> used(N,0);
-    for (i=0;i<f4vG.size();++i){
-      if (!f4v[f4vG[i]].coord.empty()){
-	makeline(f4v[f4vG[i]],0,R,v);
-	c=giacmin(c,reducef4(v,M,env));
-	// convert v to a sparse vector in SK and update used
-	convert(v,SK[i],used);
-	// cerr << v << endl << SK[i] << endl;
+    unsigned usedcount=0;
+    vector< vector<modint> > K(f4vG.size());
+    if (env<(1<<24)){
+      vector< vector<sparse32> > M;
+      M.reserve(N);
+      vector<sparse_element> atrier;
+      atrier.reserve(N);
+      for (i=0;i<G.size();++i){
+	std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
+	for (;jt!=jtend;++j,++jt){
+	  M.push_back(vector<sparse32>(0));
+	  M[j].reserve(1+int(1.1*res[G[i]].coord.size()));
+	  makeline32(res[G[i]],&jt->u,R,M[j]);
+	  // cerr << M[j] << endl;
+	  if (M[j].front().shift)
+	    atrier.push_back(sparse_element(M[j].front().shift,j));
+	  else
+	    atrier.push_back(sparse_element(*(unsigned *) &M[j][1],j));
+	}
+      }
+      if (debug_infolevel>1)
+	cerr << clock() << " end build M32" << endl;
+      // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
+      // cerr << "before sort " << M << endl;
+      sort(atrier.begin(),atrier.end(),tri1);
+      vector< vector<sparse32> > M1(atrier.size());
+      double mem=0; // mem*4=number of bytes allocated for M1
+      for (i=0;i<atrier.size();++i){
+	swap(M1[i],M[atrier[i].pos]);
+	mem += M1[i].size();
+      }
+      swap(M,M1);
+      bool freemem=mem>4e7; // should depend on real memory available
+      if (debug_infolevel>1)
+	cerr << clock() << " M32 sorted, rows " << M.size() << " columns " << N << " terms " << mem << endl;
+      // cerr << "after sort " << M << endl;
+      // step3 reduce
+      vector<modint> v(N); vector<modint2> w(N);
+      vector< vector<sparse32> > SK(f4v.size());
+      for (i=0;i<f4vG.size();++i){
+	if (!f4v[f4vG[i]].coord.empty()){
+	  makeline(f4v[f4vG[i]],0,R,v);
+	  if (freemem){ 
+	    polymod clearer; swap(f4v[f4vG[i]].coord,clearer.coord); 
+	  }
+	  c=giacmin(c,reducef4_32(v,M,env,w));
+	  // convert v to a sparse vector in SK and update used
+	  convert32(v,SK[i],used);
+	  //cerr << v << endl << SK[i] << endl;
+	}
+      }
+      M.clear();
+      if (debug_infolevel>1)
+	cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      for (i=0;i<N;++i)
+	usedcount += used[i];
+      if (debug_infolevel>1)
+	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+      // create dense matrix K 
+      for (i=0; i<K.size(); ++i){
+	vector<modint> & v =K[i];
+	if (SK[i].empty())
+	  continue;
+	v.resize(usedcount);
+	vector<modint>::iterator vt=v.begin();
+	vector<char>::const_iterator ut=used.begin(),ut0=ut;
+	vector<sparse32>::const_iterator st=SK[i].begin(),stend=SK[i].end();
+	unsigned p=0;
+	for (j=0;st!=stend;++j,++ut){
+	  if (!*ut) 
+	    continue;
+	  if (st->shift){
+	    if (j==p + st->shift){
+	      p += st->shift;
+	      *vt=st->val;
+	      ++st;
+	    }
+	  }
+	  else {
+	    if (j==* (unsigned *) &(*(st+1))){
+	      *vt=st->val;
+	      ++st;
+	      p = * (unsigned *) &(*st);
+	      ++st;
+	    }
+	  }
+	  ++vt;
+	}
+#if 0
+	vector<sparse32> clearer;
+	swap(SK[i],clearer); // clear SK[i] memory
+#endif
       }
     }
-    M.clear();
-    if (debug_infolevel>1)
-      cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
-    unsigned usedcount=0;
-    for (i=0;i<N;++i)
-      usedcount += used[i];
-    if (debug_infolevel>1)
-      cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
-    // create dense matrix K 
-    vector< vector<modint> > K(f4vG.size());
-    for (i=0; i<K.size(); ++i){
-      vector<modint> & v =K[i];
-      v.resize(usedcount);
-      vector<modint>::iterator vt=v.begin();
-      vector<char>::const_iterator ut=used.begin(),ut0=ut;
-      vector<sparse_element>::const_iterator st=SK[i].begin(),stend=SK[i].end();
-      for (j=0;st!=stend;++j,++ut){
-	if (!*ut) 
-	  continue;
-	if (j==st->pos){
-	  *vt=st->val;
-	  ++st;
+    else {
+      vector< vector<sparse_element> > M;
+      M.reserve(N);
+      vector<sparse_element> atrier;
+      atrier.reserve(N);
+      for (i=0;i<G.size();++i){
+	std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
+	for (;jt!=jtend;++j,++jt){
+	  M.push_back(vector<sparse_element>(0));
+	  M[j].reserve(res[G[i]].coord.size());
+	  makeline(res[G[i]],&jt->u,R,M[j]);
+	  atrier.push_back(sparse_element(M[j].front().pos,j));
 	}
-	++vt;
       }
-      vector<sparse_element> clearer;
-      swap(SK[i],clearer); // clear SK[i] memory
-      // cerr << used << endl << SK[i] << endl << K[i] << endl;
+      if (debug_infolevel>1)
+	cerr << clock() << " end build M" << endl;
+      // should not sort but compare res[G[i]]*quo[i] monomials to build M already sorted
+      // cerr << "before sort " << M << endl;
+      sort(atrier.begin(),atrier.end(),tri1);
+      vector< vector<sparse_element> > M1(atrier.size());
+      double mem=0; // mem*8=number of bytes allocated for M1
+      unsigned firstpart=0;
+      for (i=0;i<atrier.size();++i){
+	swap(M1[i],M[atrier[i].pos]);
+	mem += M1[i].size();
+	if (!M1[i].empty())
+	  firstpart=giacmax(firstpart,M1[i].front().pos);
+      }
+      swap(M,M1);
+      bool freemem=mem>4e7; // should depend on real memory available
+      // sort(M.begin(),M.end(),tri);
+      if (debug_infolevel>1)
+	cerr << clock() << " M sorted, rows " << M.size() << " columns " << N << "[" << firstpart << "] terms " << mem << endl;
+      // cerr << "after sort " << M << endl;
+      // step3 reduce
+      vector<modint> v(N);
+      vector< vector<sparse_element> > SK(f4v.size());
+#ifdef __x86_64__
+      vector<int128_t> v128(N); 
+      vector<modint> multiplier(M.size()); vector<unsigned> pos(M.size());
+#endif
+      for (i=0;i<f4vG.size();++i){
+	if (!f4v[f4vG[i]].coord.empty()){
+	  makeline(f4v[f4vG[i]],0,R,v);
+	  if (freemem){ 
+	    polymod clearer; swap(f4v[f4vG[i]].coord,clearer.coord); 
+	  }
+#ifdef __x86_64__
+	  /* vector<modint> w(v);
+	  // cerr << "reduce " << v << endl << M << endl;
+	  c=giacmin(c,reducef4slice(w,M,env,v128,multiplier,pos));
+	  c=giacmin(c,reducef4_64(v,M,env,v128));
+	  if (w!=v) cerr << w << endl << v << endl; else cerr << "ok" << endl;
+	  */
+#if 0
+	  c=giacmin(c,reducef4slice(v,M,env,v128,multiplier,pos));
+#else
+	  /* if (N>=4096)
+	     c=giacmin(c,reducef4(v,M,env));
+	     else */
+	  c=giacmin(c,reducef4_64(v,M,env,v128));
+#endif
+#else
+	  c=giacmin(c,reducef4(v,M,env));
+#endif
+	  // convert v to a sparse vector in SK and update used
+	  convert(v,SK[i],used);
+	  // cerr << v << endl << SK[i] << endl;
+	}
+      }
+      M.clear();
+      if (debug_infolevel>1)
+	cerr << clock() << " f4v reduced " << f4vG.size() << " polynoms over " << N << " monomials, start at " << c << endl;
+      for (i=0;i<N;++i)
+	usedcount += used[i];
+      if (debug_infolevel>1)
+	cerr << clock() << " number of non-zero columns " << usedcount << " over " << N << endl;
+      // create dense matrix K 
+      for (i=0; i<K.size(); ++i){
+	vector<modint> & v =K[i];
+	if (SK[i].empty())
+	  continue;
+	v.resize(usedcount);
+	vector<modint>::iterator vt=v.begin();
+	vector<char>::const_iterator ut=used.begin(),ut0=ut;
+	vector<sparse_element>::const_iterator st=SK[i].begin(),stend=SK[i].end();
+	for (j=0;st!=stend;++j,++ut){
+	  if (!*ut) 
+	    continue;
+	  if (j==st->pos){
+	    *vt=st->val;
+	    ++st;
+	  }
+	  ++vt;
+	}
+#if 1
+	vector<sparse_element> clearer;
+	swap(SK[i],clearer); // clear SK[i] memory
+#endif
+	// cerr << used << endl << SK[i] << endl << K[i] << endl;
+      }
     }
     vecteur pivots; vector<int> maxrankcols; longlong idet;
     // cerr << K << endl;
@@ -3134,9 +3790,11 @@ namespace giac {
     if (debug_infolevel>1)
       cerr << clock() << " f4v interreduced" << endl;
     for (i=0;i<f4vG.size();++i){
-#if 1 // spare memory, keep exactly the right number of monomials in f4v[]
+#if 0 // spare memory, keep exactly the right number of monomials in f4v[]
       polymod tmpP(f4v[f4vG[i]].order,f4v[f4vG[i]].dim);
       vector<modint> & v =K[permu[i]];
+      if (v.empty())
+	continue;
       unsigned vcount=0;
       vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
       for (;vt!=vtend;++vt){
@@ -3164,6 +3822,8 @@ namespace giac {
       vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
       Pcoord.clear();
       vector<modint> & v =K[permu[i]];
+      if (v.empty())
+	continue;
       unsigned vcount=0;
       vector<modint>::const_iterator vt=v.begin(),vtend=v.end();
       for (;vt!=vtend;++vt){
@@ -3225,11 +3885,21 @@ namespace giac {
     unsigned c=N;
     vector<modint> v(N);
     vector< T_unsigned<modint,tdeg_t> >::const_iterator it=R.coord.begin(),itend=R.coord.end();
+#ifdef __x86_64__
+    vector<int128_t> v128(N);
+#endif
     for (i=0;i<f4vG.size();++i){
       if (!f4v[f4vG[i]].coord.empty()){
 	makeline(f4v[f4vG[i]],0,R,v);
 	// cerr << v << endl;
+#ifdef __x86_64__
+	/* if (N>=4096)
+	  c=giacmin(c,reducef4(v,M,env));
+	  else */
+	  c=giacmin(c,reducef4_64(v,M,env,v128));
+#else
 	c=giacmin(c,reducef4(v,M,env));
+#endif
 	vector< T_unsigned<modint,tdeg_t> > & Pcoord=f4v[f4vG[i]].coord;
 	Pcoord.clear();
 	unsigned vcount=0;
@@ -3617,7 +4287,7 @@ namespace giac {
     swap(tmp,res);
   }
 
-  bool in_gbasisf4mod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< info_t > * f4_info){
+  bool in_gbasisf4mod(vectpoly8 & res8,vectpolymod &res,vector<unsigned> & G,modint env,bool totdeg,vector< pair<unsigned,unsigned> > * pairs_reducing_to_zero,vector< info_t > * f4_info,bool recomputeR){
     convert(res8,res,env);
     unsigned ressize=res8.size();
     unsigned learned_position=0,f4_info_position=0;
@@ -3720,7 +4390,7 @@ namespace giac {
 	if (!TMP1.coord.empty()){
 	  if (ressize==res.size())
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
-	  swap(res[ressize],TMP1);
+	  swap(res[ressize].coord,TMP1.coord);
 	  ++ressize;
 	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,true);
 	  if (debug_infolevel>3)
@@ -3747,6 +4417,8 @@ namespace giac {
 	for (int i=smallposv.size()-1;i>=0;--i)
 	  B.erase(B.begin()+smallposv[i]);
       }
+      if (debug_infolevel>1)
+	cerr << clock() << "Computing s-polys " << smallposv.size() << endl;
       vectpolymod f4v; // collect all spolys 
       for (unsigned i=0;i<smallposp.size();++i){
 	pair<unsigned,unsigned> bk=smallposp[i];
@@ -3772,9 +4444,15 @@ namespace giac {
       if (debug_infolevel>1)
 	cerr << clock() << " base size " << G.size() << " reduce f4 begin on " << f4v.size() << " pairs" << endl;
       if (!learning && f4_info && f4_info_position<f4_info->size()){
-	const info_t & info=(*f4_info)[f4_info_position];
+	info_t & info=(*f4_info)[f4_info_position];
 	// apply(perminv(info.permu),f4v);
-	rref_f4mod(f4v,res,G,-1,info.quo,info.R,env,information.permu);
+	if (recomputeR){
+	  swap(information.permu,info.permu);
+	  reducemodf4(f4v,res,G,-1,env,info);
+	  swap(information.permu,info.permu);
+	}
+	else
+	  rref_f4mod(f4v,res,G,-1,info.quo,info.R,env,information.permu);
 	// apply(info.permu,f4v);
 	// information.permu should be identity, otherwise the whole learning process failed
 	for (unsigned j=0;j<information.permu.size();++j){
@@ -3786,7 +4464,9 @@ namespace giac {
       else {
 	reducemodf4(f4v,res,G,-1,env,information);
 	if (learning && f4_info){
-	  // f4_info->push_back(information);
+#if 0
+	  f4_info->push_back(information);
+#else
 	  info_t tmp;
 	  f4_info->push_back(tmp);
 	  info_t & i=f4_info->back();
@@ -3795,6 +4475,7 @@ namespace giac {
 	  swap(i.R.coord,information.R.coord);
 	  i.R.order=information.R.order;
 	  i.R.dim=information.R.dim;
+#endif
 	}
       }
       if (debug_infolevel>1)
@@ -3819,7 +4500,7 @@ namespace giac {
 	if (!f4v[i].coord.empty()){
 	  if (ressize==res.size())
 	    res.push_back(polymod(TMP1.order,TMP1.dim));
-	  swap(res[ressize],f4v[i]);
+	  swap(res[ressize].coord,f4v[i].coord);
 	  ++ressize;
 #ifdef GBASIS_POSTF4
 	  gbasis_updatemod(G,B,res,ressize-1,TMP2,env,added<=GBASIS_F4);
@@ -4037,10 +4718,12 @@ namespace giac {
     vectpoly8 current,gb,vtmp;
     vectpolymod resmod;
     poly8 poly8tmp,afewpolys;
-#if 0 // def PSEUDO_MOD
-    gen p=1<<29;
+#if 1 
+    // make first iteration with a smaller prime to spare memory
+    // next iterations will use larger primes
+    gen p=1<<24;
 #else
-    gen p=1<<30;
+    gen p=(1<<30)+((1<<30)-1);
 #endif
     vector< vectpoly8> V; // list of (chinrem reconstructed) modular groebner basis
     vector< vectpoly8> W; // list of rational reconstructed groebner basis
@@ -4050,6 +4733,7 @@ namespace giac {
     vector<unsigned> G;
     vector< pair<unsigned,unsigned> > reduceto0;
     vector< info_t > f4_info;
+    f4_info.reserve(100);
     env.moduloon=true;
     mpz_t zu,zd,zu1,zd1,zabsd1,zsqrtm,zq,zur,zr,ztmp;
     mpz_init(zu);
@@ -4065,7 +4749,9 @@ namespace giac {
     bool ok=true;
     // unless we are unlucky these lists should contain only 1 element
     for (int count=0;ok;++count){
-#if 0 // def PSEUDO_MOD
+#if 1 
+      if (count==1 && p.val<(1<<24))
+	p=(1<<30)+((1<<30)-1);
       p=prevprime(p-1); 
 #else
       p=nextprime(p+1);
@@ -4079,12 +4765,17 @@ namespace giac {
 #ifdef GBASIS_F4 
       if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,
 			  //		  0,0
-			  &reduceto0,&f4_info
+			  &reduceto0,&f4_info,
+#if 1
+			  false /* not useful */
+#else
+			  (count==1) /* recompute R and quo at 2nd iteration*/
+#endif
 			  )){
 	// retry 
 	reduceto0.clear();
 	f4_info.clear();
-	if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,&f4_info)){
+	if (!in_gbasisf4mod(current,resmod,G,p.val,true/*totaldeg*/,&reduceto0,&f4_info,false)){
 	  ok=false;
 	  break;
 	}
@@ -4278,7 +4969,7 @@ namespace giac {
     }
     if (env && env->moduloon && env->modulo.type==_INT_){
 #ifdef GBASIS_F4
-      in_gbasisf4mod(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,0);
+      in_gbasisf4mod(res,resmod,G,env->modulo.val,true/*totaldeg*/,0,0,false);
 #else
       in_gbasismod(res,resmod,G,env->modulo.val,true,0);
 #endif

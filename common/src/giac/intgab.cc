@@ -626,7 +626,7 @@ namespace giac {
 	  }
 	}
 	somme_residus=normal(2*cur_mult*cst_pi*cst_i*somme_residus,contextptr);
-	res= somme_residus+resB;
+	res += somme_residus+resB;
       }
       return true;
     }

@@ -1573,6 +1573,10 @@ namespace giac {
       vecteur v=*e._SYMBptr->feuille._VECTptr;
       if (e._SYMBptr->sommet==at_NTHROOT)
 	swapgen(v[0],v[1]);
+      /*
+      if (v[0].type==_VECT)
+	return gensizeerr(gettext("Conversion of ^ of list/matrices to exp/ln not allowed. For symbolic power of square matrices, try matpow instead of ^"));
+      */
       if (v[1].type!=_INT_ && v[1].type!=_FRAC){
 	gen tmp=-v[0];
 	gen tmp1=(e._SYMBptr->sommet==at_surd || e._SYMBptr->sommet==at_NTHROOT)?inv(v[1],contextptr):v[1];

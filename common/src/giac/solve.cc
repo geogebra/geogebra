@@ -1181,6 +1181,12 @@ namespace giac {
   static void clean(gen & e,const identificateur & x,GIAC_CONTEXT){
     if (e.type!=_SYMB)
       return;
+#if 1
+    gen z=fast_icontent(e);
+    e=fast_divide_by_icontent(e,z);
+    if (e.type!=_SYMB)
+      return;
+#endif
     if ( complex_mode(contextptr)==0 && (lvarx(e,x).size()>1) ){
       gen es=simplify(e,contextptr);
       if (lvarx(es,x).size()==1){
@@ -1622,7 +1628,7 @@ namespace giac {
       int pospi;
       if ((pospi=equalposcomp(othervar,cst_pi))) 
 	othervar.erase(othervar.begin()+pospi-1);
-      if (othervar.size()==listvars.size()){
+      if (othervar.size()<=listvars.size()){
 	const_iterateur it=fullres.begin(),itend=fullres.end();
 	for (;it!=itend;++it){
 	  vecteur algv=alg_lvar(*it);
@@ -1680,6 +1686,57 @@ namespace giac {
     bool setcplx=complexmode && complex_mode(contextptr)==false;
     if (setcplx)
       complex_mode(true,contextptr);
+#if 1
+    if (lvarx(expr,x).size()==1){
+      // quick check for expr=alpha*x^n+beta
+      vecteur ll(1,x);
+      lvar(expr,ll);
+      fraction f=sym2r(expr,ll,contextptr);
+      if (f.num.type==_POLY){
+	polynome & p = *f.num._POLYptr;
+	int n=p.lexsorted_degree();
+	if (n>3){
+	  std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+	  polynome p1=Tnextcoeff<gen>(it,itend);
+	  p1.dim=p.dim-1;
+	  if (it!=itend){
+	    polynome p2=Tnextcoeff<gen>(it,itend);
+	    p2.dim=p.dim-1;
+	    if (it==itend){
+	      ll.erase(ll.begin());
+	      gen g1=r2sym(p1,ll,contextptr);
+	      gen g2=r2sym(p2,ll,contextptr);
+	      if (isolate_mode & 1){
+		vecteur res;
+		if (is_positive(g2/g1,contextptr)){
+		  gen g=pow(g2/g1,inv(n,contextptr),contextptr);
+		  for (int i=n-1;i>=0;--i){
+		    res.push_back(g*exp(cst_i*cst_pi*gen(2*i+1)/n,contextptr));
+		  }
+		}
+		else {
+		  gen g=pow(-g2/g1,inv(n,contextptr),contextptr);
+		  for (int i=n-1;i>=0;--i){
+		    if (n%2)
+		      res.push_back(g*exp(cst_i*cst_two_pi*gen(i)/n,contextptr));
+		    else
+		      res.push_back(g*exp(cst_i*cst_pi*gen(i)/(n/2),contextptr));
+		  }
+		}
+		return res;
+	      }
+	      if (n%2)
+		return vecteur(1,pow(-g2/g1,inv(n,contextptr),contextptr));
+	      if (is_positive(g2/g1,contextptr))
+		return vecteur(0);
+	      gen g=pow(-g2/g1,inv(n,contextptr),contextptr);
+	      return makevecteur(-g,g);
+	    }
+	  }
+	}
+      }
+    }
+#endif
     expr=factor(expr,false,contextptr); // factor in complex or real mode
     if (expr.is_symb_of_sommet(at_neg))
       expr=expr._SYMBptr->feuille;
@@ -1788,8 +1845,8 @@ namespace giac {
 	  *it=vecteur(1,*it);	
 	return res;
       }
-      if ( (x.type==_VECT) && (e.type==_VECT) )
-	return gsolve(*e._VECTptr,*x._VECTptr,complexmode,contextptr);
+      if (x.type==_VECT )
+	return gsolve(gen2vecteur(e),*x._VECTptr,complexmode,contextptr);
       identificateur xx("x");
       res=solve(subst(e,x,xx,false,contextptr),xx,isolate_mode,contextptr);
       return res;
@@ -1977,6 +2034,17 @@ namespace giac {
     }
     if (arg1.type!=_VECT && !is_equal(arg1) && !is_inequation(arg1))
       *logptr(contextptr) << gettext("Warning, argument is not an equation, solving ") << arg1 << "=0" << endl;
+    else {
+#if 1 // ATESTER
+      if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
+	gen a1=arg1._SYMBptr->feuille[0];
+	gen a2=arg1._SYMBptr->feuille[1];
+	vecteur v=lop(makevecteur(a1,a2),at_pow);
+	if (v.size()>1)
+	  arg1=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
+      }
+#endif
+    }
     arg1=apply(arg1,equal2diff);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
     if (_res.front().type==_STRNG || is_undef(_res))
@@ -4935,6 +5003,39 @@ namespace giac {
 #endif
     }
     if (var.size()>1){
+#if 1 // ATESTER
+      // first check for linear dependencies -> substitutions
+      for (unsigned i=0;i<eq.size();++i){
+	for (unsigned j=0;j<var.size();++j){
+	  gen a,b;
+	  if (is_linear_wrt(eq[i],var[j],a,b,contextptr) && !is_zero(simplify(a,contextptr))){
+	    // eq[i]=a*var[j]+b
+	    // replace var[j] by -b/a
+	    gen elimj=-b/a;
+	    vecteur eqs(eq);
+	    vecteur elim(var);
+	    eqs.erase(eqs.begin()+i);
+	    for (unsigned k=0;k<eqs.size();++k){
+	      eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
+	    }
+	    elim.erase(elim.begin()+j);
+	    vecteur res=gsolve(eqs,elim,complexmode,contextptr);
+	    for (unsigned k=0;k<res.size();++k){
+	      gen & resk=res[k];
+	      if (resk.type==_VECT && resk._VECTptr->size()==elim.size()){
+		vecteur resmodif(*resk._VECTptr);
+		gen resval=subst(elimj,elim,resk,false,contextptr);
+		resmodif.insert(resmodif.begin()+j,resval);
+		resk=gen(resmodif,resk.subtype);
+	      }
+	      else
+		resk=gensizeerr(contextptr);
+	    }
+	    return res;
+	  }
+	}
+      }
+#endif
       // check if one equation depends only on one unknown
       for (unsigned i=0;i<eq.size();++i){
 	vecteur curv=lidnt(eq[i]);
@@ -5276,7 +5377,28 @@ namespace giac {
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     vecteur eqs=gen2vecteur(remove_equal(args._VECTptr->front()));
-    vecteur elim=gen2vecteur(args._VECTptr->back()),l(elim);
+    vecteur elim=gen2vecteur(args._VECTptr->back());
+    if (elim.empty())
+      return eqs;
+    // eliminate variables with linear dependency 
+    // (in order to lower the number of vars, since <= 11 vars is handled faster)
+    for (unsigned i=0;i<eqs.size();++i){
+      for (unsigned j=0;j<elim.size();++j){
+	gen a,b;
+	if (is_linear_wrt(eqs[i],elim[j],a,b,contextptr) && !is_zero(simplify(a,contextptr))){
+	  // eqs[i]=a*elim[j]+b
+	  // replace elim[j] by -b/a
+	  gen elimj=-b/a;
+	  eqs.erase(eqs.begin()+i);
+	  for (unsigned k=0;k<eqs.size();++k){
+	    eqs[k]=_numer(subst(eqs[k],elim[j],elimj,false,contextptr),contextptr);
+	  }
+	  elim.erase(elim.begin()+j);
+	  return _eliminate(makesequence(eqs,elim),contextptr);
+	}
+      }
+    }
+    vecteur l(elim);
     lvar(eqs,l); // add other vars after vars to eliminate
     vecteur gb=gen2vecteur(_gbasis(gen(makevecteur(eqs,l),_SEQ__VECT),contextptr)),res;
     // keep in gb values that do not depend on elim

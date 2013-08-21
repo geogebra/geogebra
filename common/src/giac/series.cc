@@ -1918,6 +1918,8 @@ namespace giac {
 	// first_try = quotesubst(ratnormal(e),x,lim_point,contextptr);
       }
       first_try = recursive_normal(eval(first_try,eval_level(contextptr),contextptr),contextptr);
+      if (is_undef(first_try) && first_try.type==_STRNG)
+	return first_try;
       if (!is_undef(first_try)){
 	if (!direction) 
 	  return first_try;

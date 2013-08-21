@@ -5278,6 +5278,7 @@ namespace giac {
     if (is_undef(exponent))
       return exponent;
     if (base.type==_VECT && base.subtype!=_POLY1__VECT && !is_squarematrix(base)){
+      *logptr(contextptr) << gettext("Warning, ^ is ambiguous on non square matrices. Use .^ to apply ^ element by element.") << endl;
       if (exponent.type==_VECT)
 	return apply(base,exponent,contextptr,giac::giac_pow);
       if (base.subtype!=_LIST__VECT && (exponent.type==_INT_ && exponent.val %2==0) )
@@ -5497,8 +5498,11 @@ namespace giac {
 #endif
 	return minus1pow(exponent,contextptr)*pow(-base,exponent,contextptr);
       }
-      if (is_inf(exponent))
+      if (is_inf(exponent)){
+	if (base.type==_VECT)
+	  return gensizeerr(contextptr);
 	return exp(exponent*ln(base,contextptr),contextptr);
+      }
       // extract integral powers in a product exponent
       if ((exponent.type==_SYMB) && (exponent._SYMBptr->sommet==at_prod)){
 	gen subexponent_num(1),subexponent_deno(1);
@@ -6374,7 +6378,9 @@ namespace giac {
       if (b.type==_FRAC){
 	if ( (a.type!=_SYMB) && (a.type!=_IDNT) )
 	  return a/(*b._FRACptr);
-	return rdiv(a,_FRAC2_SYMB(b),contextptr);
+	//return rdiv(a,_FRAC2_SYMB(b),contextptr);
+	// return symbolic(at_prod,makesequence(a,b._FRACptr->den,symbolic(at_inv,b._FRACptr->num)));
+	return (b._FRACptr->den*a)/b._FRACptr->num;
       }
       if (is_equal(a)){
 	vecteur & va=*a._SYMBptr->feuille._VECTptr;
@@ -11075,7 +11081,8 @@ namespace giac {
 	return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+print_FLOAT_(atan2f(_CPLXptr->_FLOAT_val,(_CPLXptr+1)->_FLOAT_val,angle_radian(contextptr)),contextptr);
 #endif
 #endif
-	return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+(angle_radian(contextptr)?arg(*this,contextptr):arg(*this,contextptr)*rad2deg_g).print(contextptr);
+	// return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+(angle_radian(contextptr)?arg(*this,contextptr):arg(*this,contextptr)*rad2deg_g).print(contextptr);
+	return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+arg(*this,contextptr).print(contextptr);
       }
       if (is_exactly_zero(*_CPLXptr)){
 	if (is_one(*(_CPLXptr+1)))

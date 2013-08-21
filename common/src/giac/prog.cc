@@ -4952,7 +4952,9 @@ namespace giac {
     vecteur v=*args._VECTptr;
     int subtype;
     gen f;
-    if ( v.size()==2 && v[0].type==_VECT ){
+    if ( v.size()==2 && v[0].type==_VECT 
+	 // && args.subtype==_SEQ__VECT
+	 ){
       f=v[1];
       subtype=v[0].subtype;
       v=*v[0]._VECTptr;
