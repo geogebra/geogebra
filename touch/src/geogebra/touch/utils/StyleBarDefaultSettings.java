@@ -12,9 +12,11 @@ public enum StyleBarDefaultSettings {
 			getLafIcons().label() }), DependentPoints(GColor.darkGray,
 			new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), Line(
 			GColor.black, new SVGResource[] { getLafIcons().color(),
+					getLafIcons().properties_default(), getLafIcons().label(),
 					getLafIcons().properties_default() }), Polygon(
 			GeoGebraColorConstants.BROWN, new SVGResource[] {
-					getLafIcons().color(), getLafIcons().properties_default() }), Move(
+					getLafIcons().color(), getLafIcons().properties_default(),
+					getLafIcons().label(), getLafIcons().properties_default() }), Move(
 			null, new SVGResource[] { getLafIcons().show_or_hide_the_axes(),
 					getLafIcons().show_or_hide_the_grid() }), Angle(
 			GeoGebraColorConstants.DARKGREEN, new SVGResource[] {
