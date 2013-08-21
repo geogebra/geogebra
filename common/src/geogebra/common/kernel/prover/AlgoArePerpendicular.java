@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -130,7 +130,7 @@ public class AlgoArePerpendicular extends AlgoElement implements
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-		App.debug(polynomials);
+		Log.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
 		}

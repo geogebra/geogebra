@@ -35,6 +35,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
@@ -542,7 +543,7 @@ public abstract class CommandProcessor {
 		if (arg[i].isChildOrEqual(arg[j])) {
 			if (kernelA.getConstruction().isFileLoading()) {
 				// make sure old files can be loaded (and fixed)
-				App.warn("wrong dependency in "+name);
+				Log.warn("wrong dependency in "+name);
 			} else {
 				throw argErr(app, name, arg[i]);	
 			}

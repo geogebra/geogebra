@@ -2,6 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
@@ -471,10 +472,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(App.getCASVersionString());
 		sb.append("\n\n");
 
-		if (App.logger != null) {
+		if (Log.logger != null) {
 			// copy the entire log to systemInfo (maybe not required at all)
 			sb.append("GeoGebraLogger log:\n");
-			sb.append(App.logger.getEntireLog());
+			sb.append(Log.logger.getEntireLog());
 			sb.append("\n");
 		}
 		

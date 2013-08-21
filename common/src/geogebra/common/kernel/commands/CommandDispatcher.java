@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.util.debug.Log;
 
 import java.util.HashMap;
 
@@ -794,11 +795,11 @@ public class CommandDispatcher {
 				return getCASDispatcher().dispatch(command,kernel);
 
 			default:
-				App.error("missing case in CommandDispatcher "+cmdName);
+				Log.error("missing case in CommandDispatcher "+cmdName);
 				return null;
 			}
 		} catch (Exception e) {
-			App.warn("command not found / CAS command called:"
+			Log.warn("command not found / CAS command called:"
 					+ cmdName);
 		}
 		return null;

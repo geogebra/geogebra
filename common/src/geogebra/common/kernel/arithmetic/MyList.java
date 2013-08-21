@@ -297,7 +297,6 @@ public class MyList extends ValidExpression implements ListValue,
 			}
 			if (power < 0) {
 				listElements = this.invert().listElements;
-				App.debug(this);
 				power *= -1;
 				if (power == 1) {
 					MyList RHlist = (MyList) this.deepCopy(kernel);

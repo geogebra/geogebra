@@ -3,8 +3,8 @@ package geogebra.cas.view;
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.MarbleRenderer;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -66,8 +66,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer, Marbl
 		numLabel.setText ((value == null) ? ""  : value.toString());
 		numLabel.setFont(casTable.getFont());
 		GeoCasCell ctr = casTable.getGeoCasCell(index);
-		if(ctr==null){
-			App.warn("No cas cell"+index);
+		if(ctr == null){
+			Log.warn("No cas cell"+index);
 			return this;
 		}
 		CASInputHandler.handleMarble(ctr,this);

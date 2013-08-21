@@ -9,7 +9,6 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -61,7 +60,6 @@ public class AlgoDivisorsList extends AlgoElement {
 			long power = Math.round(prime);
 			for(int k=1;k<=exp;k++){
 				for(int j=0;j<oldLength;j++){
-					App.debug(factList.get(j)*power);
 					factList.add(factList.get(j)*power);
 				}
 				power *= Math.round(prime);

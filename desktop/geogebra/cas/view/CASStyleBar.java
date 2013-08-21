@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
@@ -220,7 +221,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		App.printStacktrace(geos.size()+"");
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			App.debug(((GeoCasCell) geo).getGeoText());
+			Log.debug(((GeoCasCell) geo).getGeoText());
 			if (geo instanceof GeoCasCell
 					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);

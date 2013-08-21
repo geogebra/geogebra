@@ -1,6 +1,7 @@
 package geogebra.web.util;
 
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -55,7 +56,7 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 
 	@Override
     public String sendRequestGetResponseSync(String url) {
-		App.warn("not available");
+		Log.warn("not available");
 	    return null;
     }
 

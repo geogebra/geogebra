@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
@@ -246,7 +246,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 
 		if (!(geom instanceof Polygon)) {
-			App.warn("result not a polygon: "+geom.getGeometryType());
+			Log.warn("result not a polygon: "+geom.getGeometryType());
 			int dim = geom.getDimension();
 			int ng = geom.getNumGeometries();
 			
@@ -268,7 +268,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 					poly.setPoints(points);
 					setOutput();
 					poly.setUndefined();
-					App.warn("There are "+ ng2 + " polygons");
+					Log.warn("There are "+ ng2 + " polygons");
 					return;
 				}
 			} else {
@@ -277,7 +277,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 				poly.setPoints(points);
 				setOutput();
 				poly.setUndefined();
-				App.warn("Dimension less than 2");
+				Log.warn("Dimension less than 2");
 				return;
 			}
 		}

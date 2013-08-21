@@ -12,9 +12,9 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 import java.util.Iterator;
 
@@ -97,7 +97,7 @@ public class CmdSetValue extends CmdScripting {
 						geo.set(arg[2]);						
 					}
 				}
-				else App.debug(geo.getParentAlgorithm());
+				else Log.debug(geo.getParentAlgorithm());
 
 				geo.updateRepaint();
 

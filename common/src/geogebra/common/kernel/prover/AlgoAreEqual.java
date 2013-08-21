@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.prover.polynomial.Polynomial;
 import geogebra.common.kernel.prover.polynomial.Variable;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -162,7 +162,7 @@ public class AlgoAreEqual extends AlgoElement implements
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-		App.debug(polynomials);
+		Log.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
 		}

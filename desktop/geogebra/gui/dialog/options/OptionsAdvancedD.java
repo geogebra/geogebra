@@ -10,6 +10,7 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Language;
+import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
@@ -641,7 +642,7 @@ public class OptionsAdvancedD extends
 				delay = 1000 * Integer.parseInt(tooltipTimeouts[index]);
 			}
 			ToolTipManager.sharedInstance().setDismissDelay(delay);
-			App.debug(delay);
+			Log.debug(delay);
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;

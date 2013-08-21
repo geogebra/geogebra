@@ -1,6 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 /**
  * Collection of which languages are official in which countries
@@ -230,7 +231,7 @@ public enum Language {
 				}
 			}	
 		} catch (Exception e) {
-			App.warn("Getting country code from geoip failed: "+e.getMessage());
+			Log.warn("Getting country code from geoip failed: "+e.getMessage());
 		}
        		
        		

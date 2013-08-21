@@ -1,6 +1,5 @@
 package geogebra.common.io.layout;
 
-import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import javax.swing.SwingConstants;
@@ -241,7 +240,6 @@ public class Perspective {
 	 *            true to show toolbar
 	 */
 	public void setShowToolBar(boolean showToolBar) {
-		App.debug(showToolBar);
 		this.showToolBar = showToolBar;
 	}
 

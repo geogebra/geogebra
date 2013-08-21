@@ -3,8 +3,8 @@ package geogebra.web;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
@@ -171,7 +171,7 @@ public class Web implements EntryPoint {
 			}
 
 			public void onFailure(Throwable reason) {
-				App.debug(reason);
+				Log.debug(reason);
 			}
 		});
 	    

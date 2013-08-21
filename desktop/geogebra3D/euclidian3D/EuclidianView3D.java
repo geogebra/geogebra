@@ -44,6 +44,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
@@ -3706,7 +3707,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	public void setEraserCursor() {
-		App.warn("unimplemented");
+		Log.warn("unimplemented");
 		
 	}
 

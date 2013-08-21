@@ -3,6 +3,7 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.GuiManagerInterfaceW;
@@ -60,7 +61,7 @@ public class AppWapplet extends AppW {
 		}
 		infobar = new InfoBarW(this);
 
-		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
 		        + Window.Navigator.getUserAgent());
 		initCommonObjects();

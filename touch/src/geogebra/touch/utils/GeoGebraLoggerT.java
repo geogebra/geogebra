@@ -1,6 +1,6 @@
 package geogebra.touch.utils;
 
-import geogebra.common.util.debug.GeoGebraLogger;
+import geogebra.common.util.debug.Log;
 import geogebra.touch.gui.GeoGebraTouchGUI;
 
 import com.google.gwt.dom.client.Style;
@@ -11,7 +11,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-public class GeoGebraLoggerT extends GeoGebraLogger {
+public class GeoGebraLoggerT extends Log {
 	private final Element el;
 
 	public GeoGebraLoggerT(GeoGebraTouchGUI gui) {

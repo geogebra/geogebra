@@ -1,6 +1,7 @@
 package geogebra.gui.infobar;
 
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
 import javax.swing.JFrame;
@@ -33,7 +34,7 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 	
     @Override
 	public void show(String message) {
-		App.info("ANNOUNCEMENT: " + message);
+		Log.info("ANNOUNCEMENT: " + message);
 		
 		if (myApp.isApplet()) // Avoid getting an exception below this point.
 			return; // TODO: Find a way to inform the applet user.
@@ -52,7 +53,7 @@ public class InfoBarD extends geogebra.common.gui.infobar.InfoBar {
 	public void hide() {
     	if (origInfo != null) {
     		getFrame().setTitle(origInfo);
-    		App.info("ANNOUNCEMENT - off");
+    		Log.info("ANNOUNCEMENT - off");
     	}
     		
 	}

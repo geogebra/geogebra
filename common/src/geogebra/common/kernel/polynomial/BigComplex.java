@@ -1,6 +1,6 @@
 package geogebra.common.kernel.polynomial;
 
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -210,7 +210,7 @@ public class BigComplex {
 			// Application.debug()
 			// AbstractApplication.debug(String.format("s^2=%s,1/s=%s,s=%s",d,x,d.multiply(x,mc)));//GWT
 			// limitation
-			App.debug("s^2=" + d + ",1/s=" + x + ",s="
+			Log.debug("s^2=" + d + ",1/s=" + x + ",s="
 					+ d.multiply(x, mc));
 		}
 		return d.multiply(x, mc);
@@ -227,28 +227,28 @@ public class BigComplex {
 	public static void main(String[] args) {
 		MathContext mc = new MathContext(30, RoundingMode.HALF_EVEN);
 		BigDecimal a = new BigDecimal(4);
-		App.debug(sqrt(a, mc));
+		Log.debug(sqrt(a, mc));
 		a = new BigDecimal(2);
-		App.debug(sqrt(a, mc));
+		Log.debug(sqrt(a, mc));
 		a = new BigDecimal(Double.MAX_VALUE);
 		a = a.multiply(a);
-		App.debug(sqrt(a, mc));
+		Log.debug(sqrt(a, mc));
 		BigComplex c = new BigComplex(BigDecimal.valueOf(3),
 				BigDecimal.valueOf(4));
-		App.debug(c.abs(mc));
-		App.debug(c.sqrt(mc));
+		Log.debug(c.abs(mc));
+		Log.debug(c.sqrt(mc));
 		c = new BigComplex(BigDecimal.valueOf(4));
-		App.debug(c.sqrt(mc));
+		Log.debug(c.sqrt(mc));
 		c = new BigComplex(BigDecimal.ONE);
-		App.debug(c.sqrt(mc));
+		Log.debug(c.sqrt(mc));
 		c = new BigComplex(BigDecimal.ZERO, BigDecimal.valueOf(4));
-		App.debug(c.sqrt(mc));
+		Log.debug(c.sqrt(mc));
 
 		BigPolynomial b = new BigPolynomial(new double[] { 1, 0, 1 }, mc);
-		App.debug(Arrays.deepToString(b.getRootsLaguerre(mc)));
+		Log.debug(Arrays.deepToString(b.getRootsLaguerre(mc)));
 
 		b = new BigPolynomial(new double[] { 1, 1, 0, -1, -1 }, mc);
-		App.debug(Arrays.deepToString(b.getRootsLaguerre(mc)));
+		Log.debug(Arrays.deepToString(b.getRootsLaguerre(mc)));
 
 		b = new BigPolynomial(new double[] { 1, 1, 0, -1, -1 }, mc);
 		double[] dr = b.getRealRootsDouble(20);
@@ -257,7 +257,7 @@ public class BigComplex {
 			sb.append(",");
 			sb.append(dr[i]);
 		}
-		App.debug(sb.toString());
+		Log.debug(sb.toString());
 
 		b = new BigPolynomial(new double[] { -148.413, -469.075, -1062.1,
 				-1287.92, -1145.84, -268.747, 223.29, 520.898, 111.839,
@@ -268,7 +268,7 @@ public class BigComplex {
 			sb.append(",");
 			sb.append(dr[i]);
 		}
-		App.debug(sb.toString());
+		Log.debug(sb.toString());
 	}
 
 }

@@ -4,6 +4,7 @@ import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.LayoutD;
@@ -174,7 +175,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		//ToDo: make it dynamic (after ticket 2449 is finished)
 		DataFlavor[] df =t.getTransferDataFlavors();
 		for(DataFlavor d:df){
-			App.debug(d);
+			Log.debug(d);
 		}
 		if(t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)){
 			try{

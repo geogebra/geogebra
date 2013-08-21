@@ -14,7 +14,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 
@@ -86,7 +85,6 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		eq.setForceImplicitPoly();
 		eq.initEquation();
 		boolean flag = cons.isSuppressLabelsActive();
-		App.debug(flag);
 		dd = new AlgoDependentImplicitPoly(cons, label, eq);
 		cons.removeFromConstructionList(dd);
 		poly = dd.getOutput()[0];		

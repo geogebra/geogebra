@@ -3,7 +3,7 @@ package geogebra.common.factories;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.Prover;
 import geogebra.common.util.URLEncoder;
-import geogebra.common.util.debug.GeoGebraLogger;
+import geogebra.common.util.debug.Log;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -29,7 +29,7 @@ public abstract class UtilFactory {
 	 * @return GeoGebraLogger
 	 * Creates a GeoGebraLogger object
 	 */
-	public abstract GeoGebraLogger newGeoGebraLogger();
+	public abstract Log newGeoGebraLogger();
 	/**
 	 * @return Prover
 	 * Creates a Prover object

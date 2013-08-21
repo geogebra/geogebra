@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * Web implementation for the GeoGebraLogger 
  */
-public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
+public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 
 	private File logFile = null; // default
 	private FileWriter logFileWriter = null;
@@ -52,14 +52,14 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 			try {
 				logFileWriter.close();
 			} catch (IOException e) {
-				log(WARN, "Previous log file cannot be closed");
+				log(WARN, "Previous log file cannot be closed",1);
 			}
 		}
 		logFile = new File(logFileName);
 		try {
 			logFileWriter = new FileWriter(logFile);
 		} catch (IOException e) {
-			log(WARN, "Log file " + logFileName + "cannot be opened");
+			log(WARN, "Log file " + logFileName + "cannot be opened",1);
 		}		
 	}
 	
@@ -70,7 +70,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 			// This is not supported in desktop.
 			// Falling back to use CONSOLE instead:
 			setLogDestination(LogDestination.CONSOLE);
-			log(WARN, "WEB_CONSOLE logging is not supported in desktop, falling back to use CONSOLE instead");
+			log(WARN, "WEB_CONSOLE logging is not supported in desktop, falling back to use CONSOLE instead",1);
 		}
 		if (getLogDestination() == LogDestination.FILE) {
 			if (logFileWriter != null) {
@@ -81,7 +81,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 				} catch (IOException e) {
 					// Falling back to use CONSOLE instead:
 					setLogDestination(LogDestination.CONSOLE);
-					log(WARN, "Error writing log file");
+					log(WARN, "Error writing log file",1);
 					// Trying again (recursive call):
 					print(logEntry, level);
 					return;

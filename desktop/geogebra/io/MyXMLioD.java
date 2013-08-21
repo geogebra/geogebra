@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 import geogebra.util.Util;
@@ -162,13 +163,12 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 				try {
 					BufferedImage img = ImageIO.read(zip);
 					if ("".equals(name)) { 
-						App.warn("image in zip file with empty name"); 
+						Log.warn("image in zip file with empty name"); 
 					} else { 
 						((AppD)app).addExternalImage(name, img); 
 					} 
 				} catch (IOException e) {
-					App
-							.debug("readZipFromURL: image could not be loaded: "
+					Log.debug("readZipFromURL: image could not be loaded: "
 									+ name);
 					e.printStackTrace();
 				}

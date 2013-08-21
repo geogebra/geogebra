@@ -28,6 +28,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.MyMathExact.MyDecimal;
 import geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -809,7 +810,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				r2.setEntry(i, rCols, result2.getEntry(i, j));
 			}
 			if (rCols == n-1)
-				App.warn("There should not be that many solutions.");
+				Log.warn("There should not be that many solutions.");
 			rCols++;
 		}
 		
@@ -862,7 +863,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
     				r2.setEntry(i, rCols, result2.getEntry(i, j));
     			}
     			if (rCols == n-1) {
-    				App.warn("There should not be that many solutions.");
+    				Log.warn("There should not be that many solutions.");
     			}
     			rCols++;
     		}
@@ -1509,7 +1510,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				for (int j=0; j<n-1; j++) {
 					if (H.getEntry(j, j).abs().doubleValue() < Math.pow(10, -Math.min(H.getScale(),5))) {
 						relationExhausted = true;
-						App.warn("relation pre-Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
+						Log.warn("relation pre-Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
 					}
 				}
 				
@@ -1524,7 +1525,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				for (int j=0; j<n-1; j++) {
 					if (H.getEntry(j, j).abs().doubleValue() < Math.pow(10, -Math.min(H.getScale(),5))) {
 						relationExhausted = true;
-						App.warn("relation Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
+						Log.warn("relation Exhausted at iteration " + iterCount + "with r = " + j + "where n-1 = " + (n-1));
 					}
 				}
 						

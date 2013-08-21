@@ -12,6 +12,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 /**
  * Handles special Giac commands to distinguish them from user defined
@@ -306,7 +307,7 @@ public class CommandDispatcherGiac {
 				break;
 			case rootof:
 				// GeoGebra can't handle this
-				App.warn("'rootof()' returned from giac");
+				Log.warn("'rootof()' returned from giac");
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case diff:

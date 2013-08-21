@@ -2,10 +2,9 @@ package geogebra.gui;
 
 import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.main.App;
-import geogebra.common.main.JavaKeyCodes;
-import geogebra.common.main.KeyCodes;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
@@ -90,7 +89,7 @@ public class GeoGebraKeys implements KeyListener {
 		
 		// when decimal comma typed on numeric keypad on eg German keyboard, replace with .
 		if (e.getKeyCode() == KeyEvent.VK_SEPARATOR && e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
-			App.warn("replacing decimal , with decimal .");
+			Log.warn("replacing decimal , with decimal .");
 			JTextComponent comp = (JTextComponent) e.getComponent();
 			int pos = comp.getCaretPosition();
 			String oldText = comp.getText();

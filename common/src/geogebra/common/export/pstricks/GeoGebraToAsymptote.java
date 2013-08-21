@@ -65,6 +65,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GStringTokenizer;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2136,7 +2137,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // For GeoElement that don't have a Label
         // For example (created with geoList)
         catch(NullPointerException e){
-        	App.debug(e);
+        	Log.debug(e);
         }
     }   
     

@@ -16,6 +16,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.util.MaxSizeHashMap;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -361,7 +362,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				}
 			}catch(Exception e){
 				kern.setSilentMode(silent);
-				App.info(name+" not known command or function");
+				Log.info(name+" not known command or function");
 			}
 
 			// standard case: add ggbcasvar prefix to name for CAS

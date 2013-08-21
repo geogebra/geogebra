@@ -2,7 +2,7 @@ package geogebra.common.util;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.util.Locale;
 import java.util.Stack;
@@ -196,7 +196,7 @@ public class StringUtil {
 				sb.append(';');
 
 				if (c != '\n') {
-					App.warn("Control character being written to XML: "+((int)c));
+					Log.warn("Control character being written to XML: "+((int)c));
 				}
 
 			} else {

@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ public class EuclidianStyleBarStatic {
 
 			// problem with ghost geos
 			if (!geo.isLabelSet()) {
-				App.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
+				Log.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
 				continue;
 				
 			}

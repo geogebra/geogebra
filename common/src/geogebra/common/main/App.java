@@ -37,8 +37,6 @@ import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
@@ -64,7 +62,7 @@ import geogebra.common.util.CommandInputField;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.debug.GeoGebraLogger;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1042,7 +1040,7 @@ public abstract class App implements UpdateSelection{
 	 * @return EV1
 	 */
 	public EuclidianView getEuclidianView1() {
-		notice("AbstrEuclView");
+		Log.notice("AbstrEuclView");
 		return euclidianView;
 	}
 
@@ -1139,31 +1137,22 @@ public abstract class App implements UpdateSelection{
 		singularWS = new SingularWebService();
 		singularWS.enable();
 		if (singularWS.isAvailable()) {
-			info("SingularWS is available at " + singularWS.getConnectionSite());
+			Log.info("SingularWS is available at " + singularWS.getConnectionSite());
 			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
 		} else {
-			info("No SingularWS is available at "
+			Log.info("No SingularWS is available at "
 					+ singularWS.getConnectionSite() + " (yet)");
 		}
 	}
 	
-	/**
-	 * Prints debugging message, level DEBUG Special debugging format is used
-	 * for expression values
-	 * 
-	 * @param s
-	 *            object to be printed
-	 */
-	public static void debug(Object s) {
-		if (s instanceof ExpressionValue) {
-			debug(ValidExpression.debugString((ExpressionValue) s));
-			return;
-		}
-		if (s == null) {
-			debug("<null>");
-		} else {
-			debug(s.toString());
-		}
+	
+	
+	public static void debug(String s){
+		Log.debug(s);
+	}
+	
+	public static void error(String s){
+		Log.error(s);
 	}
 	
 	/**
@@ -1181,116 +1170,8 @@ public abstract class App implements UpdateSelection{
 		infobar.hide();
 	}
 
-	/**
-	 * Prints debugging message, level DEBUG
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void debug(String message) {
-		if (logger != null) {
-			logger.log(logger.DEBUG, message);
-		}
-	}
+	
 
-	/**
-	 * Prints debugging message, level NOTICE
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void notice(String message) {
-		if (logger != null) {
-			logger.log(logger.NOTICE, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level INFO
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void info(String message) {
-		if (logger != null) {
-			logger.log(logger.INFO, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level ERROR
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void error(String message) {
-		if (logger != null) {
-			logger.log(logger.ERROR, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level WARN
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void warn(String message) {
-		if (logger != null) {
-			logger.log(logger.WARN, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level EMERGENCY
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void emergency(String message) {
-		if (logger != null) {
-			logger.log(logger.EMERGENCY, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level ALERT
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void alert(String message) {
-		if (logger != null) {
-			logger.log(logger.ALERT, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level TRACE
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void trace(String message) {
-		if (logger != null) {
-			logger.log(logger.TRACE, message);
-		}
-	}
-
-	/**
-	 * Prints debugging message, level CRITICAL
-	 * 
-	 * @param message
-	 *            message to be printed
-	 */
-	public static void critical(String message) {
-		if (logger != null) {
-			logger.log(logger.CRITICAL, message);
-		}
-	}
-
-	/** logger */
-	public static GeoGebraLogger logger;
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
 	public static InfoBar infobar;

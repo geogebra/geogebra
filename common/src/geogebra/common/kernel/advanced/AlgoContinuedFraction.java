@@ -256,7 +256,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 		int steps = 0;
 		dotsNeeded = true;
 		do {
-			App.debug(Z);
 			denominators[steps] = (long) Math.floor(Z);
 			Z = 1.0 / (Z - Math.floor(Z));
 			ScratchValue = FractionDenominator;

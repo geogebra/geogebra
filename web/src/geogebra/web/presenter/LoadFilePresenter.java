@@ -1,6 +1,7 @@
 package geogebra.web.presenter;
 
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
 import geogebra.html5.util.View;
 import geogebra.web.Web;
@@ -48,7 +49,7 @@ public class LoadFilePresenter{
 			((AppW) app).getObjectPool().getMyGoogleApis().getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
-			AppW.console("no base64content, possibly App loaded?");
+			Log.debug("no base64content, possibly App loaded?");
 			app.appSplashCanNowHide();
 			
 			Storage stockStore = null;

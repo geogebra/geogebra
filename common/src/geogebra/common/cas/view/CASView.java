@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 /**
  * Platform independent abstract CAS view
  */
@@ -282,7 +283,7 @@ public abstract class CASView implements View{
 	 */
 	public boolean deleteCasCells(int[] selRows) {
 		boolean undoNeeded = false;
-		App.debug(selRows.length);
+		Log.debug(selRows.length);
 		//reverse order makes sure we don't move cells that are waiting for deletion
 		for (int i=selRows.length-1; i >= 0; i--) {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);

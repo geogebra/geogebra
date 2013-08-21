@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.euclidian.event.HasOffsets;
@@ -366,7 +367,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 AppW.console(event.getAssociatedType().getName());
+		 Log.debug(event.getAssociatedType().getName());
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {

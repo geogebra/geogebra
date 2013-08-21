@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.Log;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.EvalCommandQueue;
 import geogebra.main.AppD;
@@ -257,7 +258,7 @@ public class GgbAPID extends geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized void reset() {
 		
-		App.warn("unimplemented");
+		Log.warn("unimplemented");
 	}
 	
 	/**

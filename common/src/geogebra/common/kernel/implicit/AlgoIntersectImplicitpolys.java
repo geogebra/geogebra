@@ -27,7 +27,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.polynomial.BigPolynomial;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -343,7 +343,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		double roots[]=det.getRealRootsDouble(precision);
 		int nrRealRoots=roots.length;
 		if (nrRealRoots==0){
-			App.debug(det);
+			Log.debug(det);
 		}
 //		double roots[]=det.getCoefficientsDouble();
 

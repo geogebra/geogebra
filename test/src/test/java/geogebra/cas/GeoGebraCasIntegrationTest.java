@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
 import java.util.HashSet;
@@ -50,7 +51,7 @@ public class GeoGebraCasIntegrationTest {
     AppD app = new AppD(new CommandLineArguments(silent ? new String[] { "--silent", "--giac" } : new String[] { "--giac" }), new JFrame(), false);
 
     if (silent) {
-      App.logger = null;
+      Log.logger = null;
     }
 
     app.setLanguage(Locale.GERMANY);

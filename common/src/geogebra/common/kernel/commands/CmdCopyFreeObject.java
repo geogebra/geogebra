@@ -5,7 +5,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -50,10 +49,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				command.append(arg[0].toOutputValueString(highPrecision)); 
 
 				try { 
-					App.debug(command.toString());
 					GeoElement[] ret = kernelA.getAlgebraProcessor() 
 							.processAlgebraCommandNoExceptions(command.toString(), true); 
-					App.debug(ret.length);
 					ret[0].setVisualStyle(arg[0]); 
 					if(!arg[0].isLabelSet())
 						arg[0].remove();

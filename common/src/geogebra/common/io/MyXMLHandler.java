@@ -80,6 +80,7 @@ import geogebra.common.plugin.ScriptType;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1996,7 +1997,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 		} catch (Exception e) {
-			App.debug(e);
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -4834,7 +4835,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitPoly())) {
-			App.warn("wrong element type for <coefficients>: "
+			Log.warn("wrong element type for <coefficients>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4888,7 +4889,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo instanceof GeoUserInputElement)) {
-			App.warn("wrong element type for <userinput>: "
+			Log.warn("wrong element type for <userinput>: "
 					+ geo.getClass());
 			return false;
 		}

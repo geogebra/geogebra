@@ -9,6 +9,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -211,14 +212,14 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		// If SingularWS is available and quick enough, let's use it:
 		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
 			script = this.createSingularScript(translatedRestrictions);
-			App.info("[LocusEqu] input to singular: "+script);
+			Log.info("[LocusEqu] input to singular: "+script);
 			result = App.singularWS.directCommand(script);
-			App.info("[LocusEqu] output from singular: "+result);
+			Log.info("[LocusEqu] output from singular: "+result);
 			// Comment this to disable computation via SingularWS:
 			return getBivarPolyCoefficientsSingular(result);
 		}
 		
-		App.debug("TEST: " + this.createSingularScript(translatedRestrictions));
+		Log.debug("TEST: " + this.createSingularScript(translatedRestrictions));
 
 		// Falling back to use Reduce/Cali or Giac:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
@@ -226,9 +227,9 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
 				this.getVars(), this.getVarsToEliminate());
 
-		App.info("[LocusEqu] input to cas: "+script);
+		Log.info("[LocusEqu] input to cas: "+script);
 		result = cas.evaluate(script);
-		App.info("[LocusEqu] output from cas: "+result);
+		Log.info("[LocusEqu] output from cas: "+result);
 		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
 	}
 
@@ -263,9 +264,9 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 					append("),dp;").
 					append("short=0;ideal I=" + convertFloatsToRationals(CASTranslator.constructRestrictions(restrictions))).
 					append(";def Gp=grobcov(I);locus2d(Gp);");
-			App.debug(script);
+			Log.debug(script);
 			String result = App.singularWS.directCommand(script.toString());
-			App.debug(result);
+			Log.debug(result);
 			script = new StringBuilder();
 		}
 		

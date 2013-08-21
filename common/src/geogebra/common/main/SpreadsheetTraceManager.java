@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -627,7 +628,7 @@ public class SpreadsheetTraceManager {
 				}
 
 			} else {
-				App.warn("not SpreadsheetTraceable "
+				Log.warn("not SpreadsheetTraceable "
 						+ geos[i].getGeoClassType());
 
 			}

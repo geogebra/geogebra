@@ -4,6 +4,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
+import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.gui.util.HelpAction;
@@ -474,9 +475,9 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		// GraphicsDevice[] gs = ge.getScreenDevices();
 		// Determine if full-screen mode is supported directly
 		if (gs.isFullScreenSupported()) {
-			App.info("full screen mode supported");
+			Log.info("full screen mode supported");
 		} else {
-			App.info("full screen mode not supported");
+			Log.info("full screen mode not supported");
 		}
 
 		fullScreen = !fullScreen;

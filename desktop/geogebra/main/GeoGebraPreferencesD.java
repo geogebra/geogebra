@@ -15,6 +15,7 @@ package geogebra.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
+import geogebra.common.util.debug.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -171,7 +172,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences{
 		boolean systemAllows;
 		if (ggbPrefsSystem==null){
 			systemAllows = true;
-			App.info("No system preferences");
+			Log.info("No system preferences");
 		}else{
 			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,defaultValue));
 		}

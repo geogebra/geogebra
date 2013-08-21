@@ -1,5 +1,7 @@
 package geogebra.common.main;
 
+import geogebra.common.util.debug.Log;
+
 @SuppressWarnings("javadoc")
 public enum KeyCodes {
 	
@@ -122,7 +124,7 @@ public enum KeyCodes {
 			//App.debug(gwtKeyCode);
 		}
 		
-		App.warn("GWT keycode not found:"+gwtKeyCode);
+		Log.warn("GWT keycode not found:"+gwtKeyCode);
 		return UNKNOWN;
 
 	}
@@ -134,7 +136,7 @@ public enum KeyCodes {
 			}
 		}
 		
-		App.warn("Java keycode not found:"+javaKeyCode);
+		Log.warn("Java keycode not found:"+javaKeyCode);
 		return UNKNOWN;
 
 	}

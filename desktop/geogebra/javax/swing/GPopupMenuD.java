@@ -1,6 +1,7 @@
 package geogebra.javax.swing;
 
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
+
 
 /**
  * Wrapper for javax.swing.JPopupMenu
@@ -22,7 +23,7 @@ public class GPopupMenuD extends geogebra.common.javax.swing.GPopupMenu{
 	public static javax.swing.JPopupMenu getImpl(geogebra.common.javax.swing.GPopupMenu menu){
 		if (menu==null) return null;
 		if (menu instanceof GPopupMenuD) return ((GPopupMenuD) menu).impl;
-		App.warn("The function was called not with the right type.");
+		Log.warn("The function was called not with the right type.");
 		return null;
 	}
 }

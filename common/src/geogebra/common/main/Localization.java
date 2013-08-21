@@ -3,6 +3,7 @@ package geogebra.common.main;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 public abstract class Localization {
 	
@@ -427,7 +428,7 @@ public abstract class Localization {
 		for (int i = ret.length() - 1; i >= 0; i--) {
 			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
 
-				App.warn("Bad character in key: " + key + "=" + ret);
+				Log.warn("Bad character in key: " + key + "=" + ret);
 
 				// remove bad character
 				ret = ret.substring(0, i) + ret.substring(i + 1);

@@ -1,6 +1,7 @@
 package geogebra.common.kernel.discrete.delaunay;
 
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
+
 
 /**
  * This class represents a 3D triangle in a Triangulation! 
@@ -31,7 +32,7 @@ public class Triangle_dt {
 			c=C;
 		}
 		else {  // RIGHT
-			App.warn("Warning, ajTriangle(A,B,C) "+
+			Log.warn("Warning, ajTriangle(A,B,C) "+
 					"expects points in counterclockwise order."+A+B+C);
 			b=C;
 			c=B;

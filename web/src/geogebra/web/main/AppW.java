@@ -29,7 +29,8 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.Log;
+import geogebra.common.util.debug.Log.LogDestination;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.css.GuiResources;
 import geogebra.html5.io.MyXMLioW;
@@ -273,9 +274,9 @@ public class AppW extends AppWeb {
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
 	protected static void startLogger() {
-		logger = new GeoGebraLogger();
-		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel(Window.Location.getParameter("logLevel"));
+		Log.logger = new GeoGebraLogger();
+		Log.logger.setLogDestination(LogDestination.CONSOLES);
+		Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
 	}
 
 	// ========================================================
@@ -585,7 +586,7 @@ public class AppW extends AppWeb {
 	@Override
 	public String getLocaleStr() {
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		App.trace("Current Locale: " + localeName);
+		Log.trace("Current Locale: " + localeName);
 
 		if (localeName.toLowerCase().equals(LocalizationW.DEFAULT_LOCALE)) {
 			return LocalizationW.DEFAULT_LANGUAGE;
@@ -653,7 +654,7 @@ public class AppW extends AppWeb {
 				// commandDictionary =
 				// Dictionary.getDictionary("__GGB__dictionary_en");
 				commandDictionary = MyDictionary.getDictionary("command", "en");
-				App.error("Missing Dictionary " + getLocalization().getLanguage());
+				Log.error("Missing Dictionary " + getLocalization().getLanguage());
 			}
 		}
 
@@ -1541,13 +1542,7 @@ public class AppW extends AppWeb {
 	 */
 	protected GuiManagerW newGuiManager() {
 		return new GuiManagerW(AppW.this);
-	}
-
-	public static native void console(String string) /*-{
-		if ($wnd && $wnd.console) {
-			@geogebra.common.main.App::debug(Ljava/lang/String;)(string);
-		}
-	}-*/;
+	}	
 
 	@Override
 	public void exitAll() {

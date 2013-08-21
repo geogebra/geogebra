@@ -4,6 +4,7 @@ package geogebra.util;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.ProverSettings;
+import geogebra.common.util.debug.Log;
 import geogebra.kernel.prover.ProverReciosMethod;
 
 import java.util.Iterator;
@@ -82,9 +83,9 @@ public class Prover extends geogebra.common.util.Prover {
 	
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
-		App.debug("OGP is about to run...");
+		Log.debug("OGP is about to run...");
 		String c = simplifiedXML(construction, statement);
-		App.trace("Construction: " + c);
+		Log.trace("Construction: " + c);
 		// String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
 		// App.debug("Statement in the XML should be: " + cd);
 

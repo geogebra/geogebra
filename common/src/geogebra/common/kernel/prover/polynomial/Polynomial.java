@@ -3,6 +3,7 @@ package geogebra.common.kernel.prover.polynomial;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -914,12 +915,12 @@ public class Polynomial implements Comparable<Polynomial> {
 		solvableProgram = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
 				freeVars, dependantVars, polysofractf);
 		if (solvableProgram == null) {
-			App.info("Not implemented (yet)");
+			Log.info("Not implemented (yet)");
 			return null; // cannot decide
 		}
-		App.info("[groebnerSolvable] input to cas: "+solvableProgram);
+		Log.info("[groebnerSolvable] input to cas: "+solvableProgram);
 		solvableResult = cas.evaluate(solvableProgram);
-		App.info("[groebnerSolvable] output from cas: "+solvableResult);	
+		Log.info("[groebnerSolvable] output from cas: "+solvableResult);	
 		if ("0".equals(solvableResult))
 			return false; // no solution
 		if ("1".equals(solvableResult))
@@ -1027,12 +1028,12 @@ public class Polynomial implements Comparable<Polynomial> {
 			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
 			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
 			if (elimProgram == null) {
-				App.info("Not implemented (yet)");
+				Log.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
-			App.info("[eliminateFactorized] input to cas: "+elimProgram);
+			Log.info("[eliminateFactorized] input to cas: "+elimProgram);
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
-			App.info("[eliminateFactorized] output from cas: "+elimResult);	
+			Log.info("[eliminateFactorized] output from cas: "+elimResult);	
 		}
 
 		// Singular returns "empty list", giac returns an empty string when the statement is false:

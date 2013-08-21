@@ -4,7 +4,7 @@ import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoPolygonRegular;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -78,14 +78,14 @@ public class EquationPointMap {
         EquationPoint point;
         
         if(mustTakeNumericCoordinates(geoPoint)) {
-        	App.debug("creating free point for"+geoPoint);
+        	Log.debug("creating free point for"+geoPoint);
             point = new EquationFreePoint(geoPoint);
         } else if(geoPoint == this.locusPoint) {
             // there should be only one of this type
             point = new EquationSpecialSymbolicPoint(1, geoPoint);
         } else {
             point = new EquationDependentPoint(this.curInd, geoPoint);
-            App.info("[LocusEquation] Point "+geoPoint.getLabelSimple() + " index " + this.curInd);
+            Log.info("[LocusEquation] Point "+geoPoint.getLabelSimple() + " index " + this.curInd);
             curInd +=  GEOGEBRA_DIMENSION;
         }
         

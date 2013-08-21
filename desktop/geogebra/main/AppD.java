@@ -56,7 +56,8 @@ import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.debug.GeoGebraLogger.LogDestination;
+import geogebra.common.util.debug.Log;
+import geogebra.common.util.debug.Log.LogDestination;
 import geogebra.euclidian.DrawEquationD;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
@@ -411,14 +412,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		this.args = args;
 
 		if (args != null && !args.containsArg("silent")) {
-			App.logger = new GeoGebraLogger();
-			logger.setLogDestination(LogDestination.CONSOLE);
+			Log.logger = new GeoGebraLogger();
+			Log.logger.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
-				logger.setLogLevel(args.getStringValue("logLevel"));
+				Log.logger.setLogLevel(args.getStringValue("logLevel"));
 			}
 			if (args.containsArg("logFile")) {
-				logger.setLogDestination(LogDestination.FILE);
-				logger.setLogFile(args.getStringValue("logFile"));
+				Log.logger.setLogDestination(LogDestination.FILE);
+				Log.logger.setLogFile(args.getStringValue("logFile"));
 			}
 		}
 
@@ -784,7 +785,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			System.exit(0);
 		}
 		// help debug applets
-		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " Java " + getJavaVersion());
 		if (args.containsArg("v")) {
 			System.exit(0);
@@ -988,7 +989,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				versionCheckAllowed = true;
 				return;
 			}
-			App.warn("Option versionCheckAllow not recognized : "
+			Log.warn("Option versionCheckAllow not recognized : "
 					.concat(versionCheckAllow));
 		}
 
@@ -1009,7 +1010,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				ProverSettings.proverEngine = str[1].toLowerCase();
 				return;
 			}
-			App.warn("Option not recognized: ".concat(option));
+			Log.warn("Option not recognized: ".concat(option));
 			return;
 		}
 		if ("timeout".equalsIgnoreCase(str[0])) {
@@ -1027,7 +1028,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				ProverSettings.proverMethod = str[1].toLowerCase();
 				return;
 			}
-			App.warn("Method parameter not recognized: ".concat(option));
+			Log.warn("Method parameter not recognized: ".concat(option));
 			return;
 		}
 		if ("fpnevercoll".equalsIgnoreCase(str[0])) {
@@ -1040,12 +1041,12 @@ public class AppD extends App implements KeyEventDispatcher {
 			int fixcoordsPD = Integer.valueOf(str[1].substring(1,2));
 
 			if (fixcoordsP < 0 || fixcoordsP > 4)
-				App.error("Improper value for usefixcoords for Prove, using default instead");
+				Log.error("Improper value for usefixcoords for Prove, using default instead");
 			else
 				ProverSettings.useFixCoordinatesProve = fixcoordsP;
 
 			if (fixcoordsPD < 0 || fixcoordsPD > 4)
-				App.error("Improper value for usefixcoords for ProveDetails, using default instead");
+				Log.error("Improper value for usefixcoords for ProveDetails, using default instead");
 			else
 				ProverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
 				
@@ -1059,7 +1060,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			ProverSettings.captionAlgebra = Boolean.valueOf(str[1]).booleanValue();
 			return;
 		}
-		App.warn("Prover option not recognized: ".concat(option));
+		Log.warn("Prover option not recognized: ".concat(option));
 	}
 
 	private static void setSingularWSOption(String option) {
@@ -1079,7 +1080,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					.parseInt(str[1]);
 			return;
 		}
-		App.warn("Prover option not recognized: ".concat(option));
+		Log.warn("Prover option not recognized: ".concat(option));
 	}
 
 	/**
@@ -3649,7 +3650,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			codebase = new URL(path);
 			hasFullPermissions = true;
 		} catch (Exception e) {
-			App.info("GeoGebra is running with restricted permissions.");
+			Log.info("GeoGebra is running with restricted permissions.");
 			hasFullPermissions = false;
 
 			// make sure temporary files not used
@@ -4216,7 +4217,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	private void setUpLogging() {
 		App.debug("Setting up logging");
-		if (logger.getLogDestination() == LogDestination.FILE) {
+		if (Log.logger.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
 			App.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
 			return;
@@ -4237,13 +4238,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		logFile.append(".txt");
 
 		App.debug("Logging is redirected to " + logFile.toString());
-		App.logger.setTimeShown(false); // do not print the time twice
+		Log.logger.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
 		try {
 			fileHandler = new FileHandler(logFile.toString(),
-					logger.LOGFILE_MAXLENGTH, 1, false);
+					Log.logger.LOGFILE_MAXLENGTH, 1, false);
 		} catch (Exception e) {
 			logFile = null;
 			return;
@@ -4298,8 +4299,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		logFile.append(".txt");
 
-		logger.setLogDestination(LogDestination.FILE);
-		logger.setLogFile(logFile.toString());
+		Log.logger.setLogDestination(LogDestination.FILE);
+		Log.logger.setLogFile(logFile.toString());
 		App.debug(logFile.toString());
 	}
 
@@ -4337,7 +4338,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		} catch (UnsupportedFlavorException e) {
 			if (contents.getTransferDataFlavors() != null
 					&& contents.getTransferDataFlavors().length > 0)
-				debug(contents.getTransferDataFlavors()[0]);
+				Log.debug(contents.getTransferDataFlavors()[0]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -4954,7 +4955,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			Image img = ((EuclidianViewD) getActiveEuclidianView()).getExportImage(1);
 			if (img == null) {
-				App.error("image null");
+				Log.error("image null");
 			} else {
 				gifEncoder.addFrame((BufferedImage)img);
 			}

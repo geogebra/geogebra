@@ -37,6 +37,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1019,7 +1020,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// make sure we have an expression node
 		ExpressionNode node;
 		if (ve.isTopLevelCommand() && getFunctionVars().iterator().hasNext()) {
-			App.warn("wrong function syntax");
+			Log.warn("wrong function syntax");
 			String[] labels = ve.getLabels();
 			if (ve instanceof ExpressionNode) {
 				node = (ExpressionNode) ve;
@@ -1427,7 +1428,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	@Override
 	public void updateCascade() {
 		update();
-		App.debug("updating"+getLabel(StringTemplate.defaultTemplate));
+		Log.debug("updating"+getLabel(StringTemplate.defaultTemplate));
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			ignoreTwinGeoUpdate = true;
 			twinGeo.update();
@@ -1435,7 +1436,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			updateAlgoUpdateSetWith(twinGeo);
 		} else if (algoUpdateSet != null) {
 			// update all algorithms in the algorithm set of this GeoElement
-			App.debug(algoUpdateSet.getSize());
 			algoUpdateSet.updateAll();
 		}
 	}
@@ -2293,7 +2293,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 					int currLine = 0;
 					for(int i=listStart+1;i<tooltip.length();i++){
 						if(tooltip.charAt(i)==','){
-							App.debug(i);
 							int nextComma = tooltip.indexOf(',', i+1);
 							if(nextComma ==-1)
 								nextComma = tooltip.length()-1;

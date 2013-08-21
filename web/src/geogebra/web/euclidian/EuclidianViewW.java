@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
@@ -375,7 +376,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 
 	@Override
     public void setEraserCursor() {
-	    App.warn("setEraserCursor() unimplemented");	    
+		Log.warn("setEraserCursor() unimplemented");	    
     }
 
 	public boolean hasFocus() {

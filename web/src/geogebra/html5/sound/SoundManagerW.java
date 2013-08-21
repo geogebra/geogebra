@@ -3,6 +3,7 @@ package geogebra.html5.sound;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
 import geogebra.common.sound.SoundManager;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppWeb;
 
 /**
@@ -46,7 +47,7 @@ public class SoundManagerW implements SoundManager {
 		// TODO use MADJSto play MP3 in Firefox
 		
 		if (!url.endsWith(".mp3")) {
-			App.warn("assuming MP3 file: "+url);
+			Log.warn("assuming MP3 file: "+url);
 		}
 		playMP3(url);
 	    

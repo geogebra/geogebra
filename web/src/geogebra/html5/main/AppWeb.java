@@ -27,6 +27,7 @@ import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.Language;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
@@ -304,7 +305,7 @@ public abstract class AppWeb extends App implements SetLabels{
 		public void setLanguage(String language, String country) {
 
 			if (language == null || "".equals(language)) {
-				App.warn("error calling setLanguage(), setting to English (US): "
+				Log.warn("error calling setLanguage(), setting to English (US): "
 				        + language + "_" + country);
 				setLanguage("en");
 				return;

@@ -10,6 +10,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.util.debug.Log;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
@@ -500,7 +501,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable {
 			}
 		}
 
-		App.warn("no mode set in setRegressionMode()");
+		Log.warn("no mode set in setRegressionMode()");
 		this.regressionMode = Regression.NONE;
 
 	}

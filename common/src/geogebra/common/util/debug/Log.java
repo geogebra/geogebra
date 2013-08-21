@@ -1,5 +1,8 @@
 package geogebra.common.util.debug;
 
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,7 +11,10 @@ import java.util.TreeSet;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 
-public abstract class GeoGebraLogger {
+public abstract class Log {
+	
+	/** logger */
+	public static Log logger;
 	
 	/**
 	 * Logging level
@@ -191,7 +197,7 @@ public abstract class GeoGebraLogger {
 	 * @param level logging level
 	 * @param message the log message
 	 */
-	public void log(Level level, String message) {
+	public void log(Level level, String message, int depth) {
 		
 		if (message == null) {
 			message = "*null*";
@@ -200,7 +206,7 @@ public abstract class GeoGebraLogger {
 		if (logLevel.getPriority() >= level.getPriority()) {
 			String caller = "";
 			if (callerShown) {
-				caller = getCaller();
+				caller = getCaller(depth);
 				if (message.length() >= 21) {
 					if (message.toLowerCase().substring(0, 21)
 						.equals("implementation needed")) {
@@ -266,7 +272,7 @@ public abstract class GeoGebraLogger {
 	 * Returns the caller class and method names 
 	 * @return the full Java class and method name
 	 */
-	public String getCaller() {
+	public String getCaller(int depth) {
 		String callerMethodName = null;
 		String callerClassName = null;
 		int callerLineNumber;
@@ -275,16 +281,9 @@ public abstract class GeoGebraLogger {
 			Throwable t = new Throwable();
 			StackTraceElement[] elements = t.getStackTrace();
 			// String calleeMethod = elements[0].getMethodName();
-			int ce = 3;
-			callerMethodName = elements[ce].getMethodName();
-			if ("debug".equals(callerMethodName)) {
-				// This means AbstractApplication.debug(Object) was called,
-				// so it is better to search for its caller instead
-				++ ce;
-				callerMethodName = elements[ce].getMethodName();
-			}
-			callerClassName = elements[ce].getClassName();
-			callerLineNumber = elements[ce].getLineNumber();
+			callerMethodName = elements[depth].getMethodName();
+			callerClassName = elements[depth].getClassName();
+			callerLineNumber = elements[depth].getLineNumber();
 			
 			if (callerClassName.equals("Unknown")) {
 				/* In web production mode the GWT compile rewrites the
@@ -319,5 +318,136 @@ public abstract class GeoGebraLogger {
 				return "?";
 		}
 		return callerClassName + "." + callerMethodName + "[" + callerLineNumber + "]";
+	}
+	
+	/**
+	 * Prints debugging message, level DEBUG
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void debug(String message) {
+		if (logger != null) {
+			logger.log(logger.DEBUG, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level NOTICE
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void notice(String message) {
+		if (logger != null) {
+			logger.log(logger.NOTICE, message);
+		}
+	}
+	
+	/**
+	 * Prints debugging message, level DEBUG Special debugging format is used
+	 * for expression values
+	 * 
+	 * @param s
+	 *            object to be printed
+	 */
+	public static void debug(Object s) {
+		if (s instanceof ExpressionValue) {
+			debug(ValidExpression.debugString((ExpressionValue) s));
+			return;
+		}
+		if (s == null) {
+			debug("<null>");
+		} else {
+			debug(s.toString());
+		}
+	}
+
+	private void log(Level level, String message) {
+		log(level, message, 3);
+	}
+
+	/**
+	 * Prints debugging message, level INFO
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void info(String message) {
+		if (logger != null) {
+			logger.log(logger.INFO, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level ERROR
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void error(String message) {
+		if (logger != null) {
+			logger.log(logger.ERROR, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level WARN
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void warn(String message) {
+		if (logger != null) {
+			logger.log(logger.WARN, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level EMERGENCY
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void emergency(String message) {
+		if (logger != null) {
+			logger.log(logger.EMERGENCY, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level ALERT
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void alert(String message) {
+		if (logger != null) {
+			logger.log(logger.ALERT, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level TRACE
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void trace(String message) {
+		if (logger != null) {
+			logger.log(logger.TRACE, message);
+		}
+	}
+
+	/**
+	 * Prints debugging message, level CRITICAL
+	 * 
+	 * @param message
+	 *            message to be printed
+	 */
+	public static void critical(String message) {
+		if (logger != null) {
+			logger.log(logger.CRITICAL, message);
+		}
 	}
 }

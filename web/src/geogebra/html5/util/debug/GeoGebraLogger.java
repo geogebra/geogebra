@@ -12,7 +12,7 @@ import com.google.gwt.i18n.client.DateTimeFormat;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
 
  */
-public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
+public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 
 	/**
 	 * Constructor
@@ -47,7 +47,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 
 	@Override
 	public void setLogFile(String logFileName) {
-		log(WARN, "FILE logging is not supported in web, falling back to use CONSOLES instead");
+		log(WARN, "FILE logging is not supported in web, falling back to use CONSOLES instead",1);
 		setLogDestination(LogDestination.CONSOLES);
 	}
 
@@ -59,7 +59,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 		}
 		if (getLogDestination() == LogDestination.FILE) {
 			setLogDestination(LogDestination.CONSOLES);
-			log(WARN, "FILE logging is not supported in desktop, falling back to use CONSOLES instead");
+			log(WARN, "FILE logging is not supported in desktop, falling back to use CONSOLES instead",1);
 			print (logEntry, level);
 			return;
 		}
@@ -84,11 +84,11 @@ public class GeoGebraLogger extends geogebra.common.util.debug.GeoGebraLogger {
 	 * @param message the log message
 	 */
 	@Override
-	public void log(Level level, String message) {
+	public void log(Level level, String message, int depth) {
 		if (Browser.isFirefox())
-			super.log(level, "\n"+message);
+			super.log(level, "\n"+message, depth);
 		else
-			super.log(level, message);
+			super.log(level, message, depth);
 	}
 	
 	
