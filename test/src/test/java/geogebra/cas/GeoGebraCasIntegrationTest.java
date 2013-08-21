@@ -449,14 +449,29 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Term_2 () {
-    t("(0, 0) + t * (5, 1)", "t * (5, 1)", "(5 * t, t)");
+    t("(0, 0) + t * (5, 1)", "(5 * t, t)");
+  }
+
+  @Test
+  public void Parametric_Term_3 () {
+    t("(3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_Term_4 () {
+    t("Numeric[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_Term_5 () {
+    t("KeepInput[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Function */
 
   @Test
   public void Parametric_Function_0 () {
-    t("f(t) := (3, 2) + t * (5, 1)", "(3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
+    t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
   }
 
   @Test
@@ -466,56 +481,128 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_2 () {
-    t("f(t) := (0, 0) + t * (5, 1)", "t * (5, 1)", "(5 * t, t)");
+    t("f(t) := (0, 0) + t * (5, 1)", "(5 * t, t)");
+  }
+
+  @Test
+  public void Parametric_Function_3 () {
+    t("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_Function_4 () {
+    t("f(t) := Numeric[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_Function_5 () {
+    t("f(t) := KeepInput[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Equation Elaborate */
 
   @Test
   public void Parametric_EquationE_0 () {
-    t("(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)", "X = (3, 2) + t * (5, 1))",
-        "X = (5 * t + 3, t + 2)");
+    t("(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
   }
 
   @Test
   public void Parametric_EquationE_1 () {
-    t("(x, y) = (3, 2) + t * (0, 0)", "(x, y) = (3, 2)", "X = (3, 2)");
+    t("(x, y) = (3, 2) + t * (0, 0)", "(x, y) = (3, 2)");
   }
 
   @Test
   public void Parametric_EquationE_2 () {
-    t("(x, y) = (0, 0) + t * (5, 1)", "(x, y) = t * (5, 1)", "(x, y) = (5 * t, t)", "X = t * (5, 1))", "X = (5 * t, t)");
+    t("(x, y) = (0, 0) + t * (5, 1)", "(x, y) = (5 * t, t)");
+  }
+
+  @Test
+  public void Parametric_EquationE_3 () {
+    t("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationE_4 () {
+    t("Numeric[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationE_5 () {
+    t("KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Equation Abbreviation */
 
   @Test
   public void Parametric_EquationA_0 () {
-    t("X = (3, 2) + t * (5, 1)", "X = (3, 2) + t * (5, 1))", "X = (5 * t + 3, t + 2)", "(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
+    t("X = (3, 2) + t * (5, 1)", "X = (5 * t + 3, t + 2)");
   }
 
   @Test
   public void Parametric_EquationA_1 () {
-    t("(x, y) = (3, 2) + t * (0, 0)", "X = (3, 2)", "(x, y) = (3, 2)");
+    t("X = (3, 2) + t * (0, 0)", "X = (3, 2)");
   }
 
   @Test
   public void Parametric_EquationA_2 () {
-    t("X = (0, 0) + t * (5, 1)", "X = t * (5, 1)", "X = (5 * t, t)", "(x, y) = t * (5, 1))", "(x, y) = (5 * t, t)");
+    t("X = (0, 0) + t * (5, 1)", "X = (5 * t, t)");
+  }
+
+  @Test
+  public void Parametric_EquationA_3 () {
+    t("X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationA_4 () {
+    t("Numeric[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationA_5 () {
+    t("KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Labeled Parametric Equation */
 
   @Test
   public void Parametric_EquationL_0 () {
-    t("f: (x, y) = (3, 2) + t * (5, 1)", "(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)", "X = (3, 2) + t * (5, 1))",
-        "X = (5 * t + 3, t + 2)");
+    t("f: (x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
   }
 
   @Test
   public void Parametric_EquationL_1 () {
-    t("f: X = (3, 2) + t * (5, 1)", "X = (3, 2) + t * (5, 1))", "X = (5 * t + 3, t + 2)", "(x, y) = (3, 2) + t * (5, 1)",
-        "(x, y) = (5 * t + 3, t + 2)");
+    t("f: X = (3, 2) + t * (5, 1)", "X = (5 * t + 3, t + 2)");
+  }
+
+  @Test
+  public void Parametric_EquationL_2 () {
+    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationL_3 () {
+    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationL_4 () {
+    t("f: Numeric[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationL_5 () {
+    t("f: Numeric[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (2.2360679775 * t + 3, t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationL_6 () {
+    t("f: KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
+  }
+
+  @Test
+  public void Parametric_EquationL_7 () {
+    t("f: KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Term Multiple Parameters */
@@ -544,86 +631,108 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_FunctionM_0 () {
-    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(3, 2) + s * (-1, 7) + t * (5, 1)", "(-s + 5 * t + 3, 7 * s + t + 2)");
+    t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
   }
 
   @Test
   public void Parametric_FunctionM_1 () {
-    t("f(t, s) := (3, 2) + t * (0, 0) + s * (-1, 7)", "(3, 2) + s * (-1, 7)", "(-s + 3, 7 * s + 2)");
+    t("f(t, s) := (3, 2) + t * (0, 0) + s * (-1, 7)", "(-s + 3, 7 * s + 2)");
   }
 
   @Test
   public void Parametric_FunctionM_2 () {
-    t("f(t) := (3, 2) + t * (0, 0) + s * (0, 0)", "(3, 2)");
+    t("f(t, s) := (3, 2) + t * (0, 0) + s * (0, 0)", "(3, 2)");
   }
 
   @Test
   public void Parametric_FunctionM_3 () {
-    t("f(t) := (0, 0) + t * (5, 1) + s * (-1, 7)", "s * (-1, 7) + t * (5, 1)", "(-s + 5 * t, 7 * s + t)");
+    t("f(t, s) := (0, 0) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t, 7 * s + t)");
   }
 
   /* Parametric Equation Elaborate Multiple Parameters */
 
   @Test
   public void Parametric_EquationEM_0 () {
-    t("(x, y) = (3, 2) + t * (5, 1) + s * (-1, 7)", "(x, y) = (3, 2) + s * (-1, 7) + t * (5, 1)", "(x, y) = (-s + 5 * t + 3, 7 * s + t + 2)",
-        "X = (3, 2) + s * (-1, 7) + t * (5, 1)", "X = (-s + 5 * t + 3, 7 * s + t + 2)");
+    t("(x, y) = (3, 2) + t * (5, 1) + s * (-1, 7)", "(x, y) = (-s + 5 * t + 3, 7 * s + t + 2)");
   }
 
   @Test
   public void Parametric_EquationEM_1 () {
-    t("(x, y) = (3, 2) + t * (0, 0) + s * (-1, 7)", "(x, y) = (3, 2) + s * (-1, 7)", "(x, y) = (-s + 3, 7 * s + 2)", "X = (3, 2) + s * (-1, 7)",
-        "X = (-s + 3, 7 * s + 2)");
+    t("(x, y) = (3, 2) + t * (0, 0) + s * (-1, 7)", "(x, y) = (-s + 3, 7 * s + 2)");
   }
 
   @Test
   public void Parametric_EquationEM_2 () {
-    t("(x, y) = (3, 2) + t * (0, 0) + s * (0, 0)", "(x, y) = (3, 2)", "X = (3, 2)");
+    t("(x, y) = (3, 2) + t * (0, 0) + s * (0, 0)", "(x, y) = (3, 2)");
   }
 
   @Test
   public void Parametric_EquationEM_3 () {
-    t("(x, y) = (0, 0) + t * (5, 1) + s * (-1, 7)", "(x, y) = s * (-1, 7) + t * (5, 1)", "(x, y) = (-s + 5 * t, 7 * s + t)",
-        "X = s * (-1, 7) + t * (5, 1)", "X = (-s + 5 * t, 7 * s + t)");
+    t("(x, y) = (0, 0) + t * (5, 1) + s * (-1, 7)", "(x, y) = (-s + 5 * t, 7 * s + t)");
   }
 
-  /* Parametric Equation Abbreviation */
+  /* Parametric Equation Abbreviation Multiple Parameters */
 
   @Test
   public void Parametric_EquationAM_0 () {
-    t("X = (3, 2) + t * (5, 1) + s * (-1, 7)", "X = (3, 2) + s * (-1, 7) + t * (5, 1)", "X = (-s + 5 * t + 3, 7 * s + t + 2)",
-        "(x, y) = (3, 2) + s * (-1, 7) + t * (5, 1)", "(x, y) = (-s + 5 * t + 3, 7 * s + t + 2)");
+    t("X = (3, 2) + t * (5, 1) + s * (-1, 7)", "X = (-s + 5 * t + 3, 7 * s + t + 2)");
   }
 
   @Test
   public void Parametric_EquationAM_1 () {
-    t("X = (3, 2) + t * (0, 0) + s * (-1, 7)", "X = (3, 2) + s * (-1, 7)", "X = (-s + 3, 7 * s + 2)", "(x, y) = (3, 2) + s * (-1, 7)",
-        "(x, y) = (-s + 3, 7 * s + 2)");
+    t("X = (3, 2) + t * (0, 0) + s * (-1, 7)", "X = (-s + 3, 7 * s + 2)");
   }
 
   @Test
   public void Parametric_EquationAM_2 () {
-    t("X = (3, 2) + t * (0, 0) + s * (0, 0)", "X = (3, 2)", "(x, y) = (3, 2)");
+    t("X = (3, 2) + t * (0, 0) + s * (0, 0)", "X = (3, 2)");
   }
 
   @Test
   public void Parametric_EquationAM_3 () {
-    t("X = (0, 0) + t * (5, 1) + s * (-1, 7)", "X = s * (-1, 7) + t * (5, 1)", "X = (-s + 5 * t, 7 * s + t)", "(x, y) = s * (-1, 7) + t * (5, 1)",
-        "(x, y) = (-s + 5 * t, 7 * s + t)");
+    t("X = (0, 0) + t * (5, 1) + s * (-1, 7)", "X = (-s + 5 * t, 7 * s + t)");
   }
 
-  /* Labeled Parametric Equation */
+  /* Labeled Parametric Equation Multiple Parameters */
 
   @Test
   public void Parametric_EquationLM_0 () {
-    t("f: (x, y) = (3, 2) + t * (5, 1)", "(x, y) = (3, 2) + t * (5, 1)", "(x, y) = (5 * t + 3, t + 2)", "X = (3, 2) + t * (5, 1))",
-        "X = (5 * t + 3, t + 2)");
+    t("f: (x, y) = (3, 2) + t * (5, 1) + s * (-1, 7)", "(x, y) = (-s + 5 * t + 3, 7 * s + t + 2)");
   }
 
   @Test
   public void Parametric_EquationLM_1 () {
-    t("f: X = (3, 2) + t * (5, 1)", "X = (3, 2) + t * (5, 1))", "X = (5 * t + 3, t + 2)", "(x, y) = (3, 2) + t * (5, 1)",
-        "(x, y) = (5 * t + 3, t + 2)");
+    t("f: X = (3, 2) + t * (5, 1) + s * (-1, 7)", "X = (-s + 5 * t + 3, 7 * s + t + 2)");
+  }
+
+  @Test
+  public void Parametric_EquationLM_2 () {
+    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationLM_3 () {
+    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
+  }
+
+  @Test
+  public void Parametric_EquationLM_4 () {
+    t("f: Numeric[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "(x, y) = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationLM_5 () {
+    t("f: Numeric[X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "X = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
+  }
+
+  @Test
+  public void Parametric_EquationLM_6 () {
+    t("f: KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
+  }
+
+  @Test
+  public void Parametric_EquationLM_7 () {
+    t("f: KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
   }
 
 
@@ -3522,6 +3631,13 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Ticket_Ticket3558_0 () {
     t("Curve[t, 5 t, t, 0, 10]", "y - 5  * x = 0");
+  }
+
+  /* Ticket 3579: KeepInput Being Kept */
+
+  @Test
+  public void Ticket_Ticket3579_0 () {
+    t("f(x) := KeepInput[x * x]", "x * x");
   }
 
 
