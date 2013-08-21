@@ -150,6 +150,7 @@ public class TouchEntryPoint implements EntryPoint {
 	}
 
 	public static void showTabletGUI() {
+		TouchEntryPoint.appWidget.clearHistory();
 		TouchEntryPoint.appWidget.showWidget(TouchEntryPoint.tabletGUI);
 		tabletGUI.updateViewSizes();
 		laf.updateUndoSaveButtons();

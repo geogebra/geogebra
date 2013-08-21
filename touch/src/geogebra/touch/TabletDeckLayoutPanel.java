@@ -49,4 +49,8 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel {
 		super.showWidget(widget);
 		this.history.push(widget);
 	}
+
+	public void clearHistory() {
+		this.history.clear();
+	}
 }
