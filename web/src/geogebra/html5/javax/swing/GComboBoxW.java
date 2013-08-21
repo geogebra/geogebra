@@ -39,14 +39,12 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 
 	@Override
 	public void setForeground(GColor objectColor) {
-		impl.getElement().getStyle().setProperty("color", GColor.getColorString(objectColor));
-
+		impl.getElement().getStyle().setColor(GColor.getColorString(objectColor));
 	}
 
 	@Override
 	public void setBackground(GColor color) {
-		impl.getElement().getStyle().setProperty("background-color", GColor.getColorString(color));
-
+		impl.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 	}
 
 	@Override
