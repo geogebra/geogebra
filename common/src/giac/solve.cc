@@ -4982,6 +4982,11 @@ namespace giac {
   vecteur gsolve(const vecteur & eq_orig,const vecteur & var_orig,bool complexmode,GIAC_CONTEXT){
     // replace variables in var_orig by true identificators
     vecteur var(var_orig);
+    // check if the whole system is linear
+    if (is_zero(derive(derive(eq_orig,var,contextptr),var,contextptr))){
+      gen sol=_linsolve(makesequence(eq_orig,var),contextptr);
+      return vecteur(1,sol);
+    }
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
     if (s>int(eq_orig.size())){
