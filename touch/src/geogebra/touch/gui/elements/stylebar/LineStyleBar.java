@@ -3,6 +3,7 @@ package geogebra.touch.gui.elements.stylebar;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
@@ -18,7 +19,7 @@ public class LineStyleBar extends FlowPanel {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private static StandardButton[] lineStyle = {
+	private static FastButton[] lineStyle = {
 			new StandardButton(LafIcons.line_solid()),
 			new StandardButton(LafIcons.line_dashed_long()),
 			new StandardButton(LafIcons.line_dashed_short()),
