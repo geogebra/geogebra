@@ -62,7 +62,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		savedTransform = new GAffineTransformW();
 		preventContextMenu (canvas.getElement());
 	}
-
+	
+	public GGraphics2DW(Canvas canvas, boolean resetColor) {
+		this(canvas);
+		if(resetColor){
+			updateCanvasColor();
+		}
+	}
 	
 	private native void preventContextMenu (Element canvas) /*-{
 		canvas.addEventListener("contextmenu",function(e) {
@@ -940,7 +946,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		}
 		else if(!logical.equals(physical)){
 			if(!lastDebugException){
-				App.printStacktrace(hashCode()+": "+logical + " / " + physical) ;
+				App.printStacktrace(hashCode()+": "+logical.replace(".0", "") + " / " + physical.replace(".0", "")) ;
 			}
 			lastDebugOk = false;
 			lastDebugException = true;
