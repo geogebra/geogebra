@@ -8195,7 +8195,7 @@ namespace giac {
       gen G(1);
       const_iterateur it=g._SYMBptr->feuille._VECTptr->begin(),itend=g._SYMBptr->feuille._VECTptr->end();
       for (;it!=itend;++it){
-	G=lcm(G,fast_icontent(*it));
+	G=G*fast_icontent(*it);
       }
       return G;
     }

@@ -866,7 +866,7 @@ namespace giac {
     return  s=="index.htm";
   }
 #else
-#if ( defined(__APPLE__) && __APPLE_CC__<5658 ) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501)
+#if defined(__APPLE__) || ( defined(__FreeBSD_version) && __FreeBSD_version<800501) 
   static int dir_select (struct dirent *d){
 #else
   static int dir_select (const struct dirent *d){

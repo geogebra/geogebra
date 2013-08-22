@@ -4934,7 +4934,36 @@ namespace giac {
       return apply_to_equal(g,simplifier,contextptr);
     if (is_inf(g))
       return g;
-    return liste2symbolique(symbolique2liste(g,contextptr));
+    vecteur v(lvar(g)),w(v);
+    for (unsigned i=0;i<w.size();++i){
+      gen & wi=w[i];
+      if (wi.type==_SYMB){
+	gen f =wi._SYMBptr->feuille;
+	if (wi.is_symb_of_sommet(at_pow) && f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->back().type==_FRAC){
+	  gen d= f._VECTptr->back()._FRACptr->den;
+	  if (d.type==_INT_){
+	    gen f0=simplifier(f._VECTptr->front(),contextptr);
+	    gen z=fast_icontent(f0);
+	    gen n= f._VECTptr->back()._FRACptr->num;
+	    gen zn=pow(z,n,contextptr),a,b;
+	    bool pos; // pos should be true after next call since zn is > 0
+	    zint2simpldoublpos(zn,a,b,pos,d.val,contextptr);
+	    if (pos){
+	      if (n==1)
+		wi=b*pow(fast_divide_by_icontent(f0,z/a),f._VECTptr->back(),contextptr);
+	      else
+		wi=b*pow(a,inv(d,contextptr),contextptr)*pow(fast_divide_by_icontent(f0,z),f._VECTptr->back(),contextptr);
+	      continue;
+	    }
+	  }
+	}
+	wi=wi._SYMBptr->sommet(simplifier(f,contextptr),contextptr);
+      }
+    }
+    gen g_(g);
+    if (v!=w)
+      g_=subst(g,v,w,false,contextptr);
+    return liste2symbolique(symbolique2liste(g_,contextptr));
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
