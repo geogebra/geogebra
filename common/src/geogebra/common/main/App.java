@@ -1132,9 +1132,9 @@ public abstract class App implements UpdateSelection{
 	 * @param message
 	 *            message to appear on top of the stacktrace
 	 */
-	public static void printStacktrace(String message) {
+	public static void printStacktrace(Object message) {
 		try {
-			throw new Exception(message);
+			throw new Exception(message.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

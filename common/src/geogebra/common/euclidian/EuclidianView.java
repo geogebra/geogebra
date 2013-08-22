@@ -1417,6 +1417,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public void update(GeoElement geo) {
 		Object d = DrawableMap.get(geo);
 		if (d != null) {
+			((Drawable) d).resetHatch();
 			((Drawable) d).update();
 		}
 	}

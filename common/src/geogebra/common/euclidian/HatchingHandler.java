@@ -42,7 +42,7 @@ public class HatchingHandler {
 	 * @param symbol for symbol filling
 	 * @param app needed to determine right font 
 	 */
-	final protected void setHatching(geogebra.common.awt.GGraphics2D g3,
+	final protected GPaint setHatching(geogebra.common.awt.GGraphics2D g3,
 			GBasicStroke objStroke,
 			GColor color,
 			GColor bgColor, float backgroundTransparency,
@@ -142,9 +142,11 @@ public class HatchingHandler {
 		// paint with the texturing brush
 		GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, width, height);
 
-		// use the middle square of our 3 x 3 grid to fill with			
-		g3.setPaint(AwtFactory.prototype.newTexturePaint(subImage = bufferedImage.getSubimage(startX,
-				startY, width, height), rect));
+		// use the middle square of our 3 x 3 grid to fill with
+		GPaint ret = AwtFactory.prototype.newTexturePaint(subImage = bufferedImage.getSubimage(startX,
+				startY, width, height), rect);
+		g3.setPaint(ret);
+		return ret;
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,

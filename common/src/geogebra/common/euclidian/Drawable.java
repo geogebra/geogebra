@@ -24,6 +24,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
@@ -103,6 +104,8 @@ public abstract class Drawable extends DrawableND {
 
 	/** tracing */
 	protected boolean isTracing = false;
+	
+	private GPaint hatchPaint = null;
 
 	// boolean createdByDrawList = false;
 
@@ -489,10 +492,6 @@ public abstract class Drawable extends DrawableND {
 		} 
 	}
 
-
-	
-
-
 	/**
 	 * Fills given shape
 	 * @param g2 graphics
@@ -504,7 +503,8 @@ public abstract class Drawable extends DrawableND {
 			return;
 		if (geo.isHatchingEnabled()) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
-			getHatchingHandler().setHatching(g2, decoStroke,
+			if(hatchPaint == null){
+			hatchPaint = getHatchingHandler().setHatching(g2, decoStroke,
 					geo.getObjectColor(),
 					geo.getBackgroundColor(),
 					geo.getAlphaValue(), geo.getHatchingDistance(),
@@ -512,6 +512,10 @@ public abstract class Drawable extends DrawableND {
 					geo.getFillType(),
 					geo.getFillSymbol(),
 					geo.getKernel().getApplication());
+			}else{
+				g2.setPaint(hatchPaint);
+			}
+			
 			
 			if (!geo.getKernel().getApplication().isHTML5Applet()) {
 				if (usePureStroke)
@@ -610,5 +614,9 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public EuclidianView getView(){
 		return view;
+	}
+
+	public void resetHatch() {
+		this.hatchPaint = null;
 	}
 }
