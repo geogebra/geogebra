@@ -11,7 +11,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.GuiModel;
@@ -73,7 +73,7 @@ public class StyleBar extends FlowPanel {
 		this.contentPanel = new HorizontalPanel();
 		this.styleButtonsPanel = new HorizontalPanel();
 
-		this.showHideButton = new StandardImageButton(lafIcons.triangle_left());
+		this.showHideButton = new StandardButton(lafIcons.triangle_left());
 		this.showHideButton.setStyleName("arrowLeft");
 		this.showHideButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -161,7 +161,7 @@ public class StyleBar extends FlowPanel {
 			final FastButton b;
 			if (svg.equals(lafIcons.color())) {
 
-				b = new StandardImageButton(lafIcons.color());
+				b = new StandardButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
 				b.addFastClickHandler(new FastClickHandler() {
@@ -177,7 +177,7 @@ public class StyleBar extends FlowPanel {
 
 			} else if (svg.equals(lafIcons.properties_default())) {
 
-				b = new StandardImageButton(lafIcons.properties_default());
+				b = new StandardButton(lafIcons.properties_default());
 				b.addFastClickHandler(new FastClickHandler() {
 
 					@Override
@@ -190,7 +190,7 @@ public class StyleBar extends FlowPanel {
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 
 			} else if (svg.equals(lafIcons.label())) {
-				b = new StandardImageButton(lafIcons.label());
+				b = new StandardButton(lafIcons.label());
 				b.addFastClickHandler(new FastClickHandler() {
 
 					@Override
@@ -245,7 +245,7 @@ public class StyleBar extends FlowPanel {
 	 */
 	private FastButton createStyleBarButton(final String process,
 			final SVGResource svg) {
-		final FastButton newButton = new StandardImageButton(svg);
+		final FastButton newButton = new StandardButton(svg);
 
 		newButton.addFastClickHandler(new FastClickHandler() {
 

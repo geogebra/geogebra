@@ -146,7 +146,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.radioButtonPanel.add(this.radioButton[1]);
 		this.contentPanel.add(this.radioButtonPanel);
 
-		this.radioButton[0].setValue(true);
+		this.radioButton[0].setActive(true);
 	}
 
 	private void addTextBox() {
@@ -322,7 +322,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	public boolean isClockwise() {
-		return this.type == DialogType.Angle && this.radioButton[1].getValue();
+		return this.type == DialogType.Angle
+				&& this.radioButton[1].isActivated();
 	}
 
 	/**
@@ -340,7 +341,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 	}
 
 	public boolean isNumber() {
-		return this.type == DialogType.Slider && this.radioButton[0].getValue();
+		return this.type == DialogType.Slider
+				&& this.radioButton[0].isActivated();
 	}
 
 	protected void onCancel() {
@@ -432,8 +434,8 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 	public void setFromSlider(final GeoNumeric geo) {
 		this.redefine(DialogType.RedefineSlider);
-		this.radioButton[0].setValue(!geo.isAngle());
-		this.radioButton[1].setValue(geo.isAngle());
+		this.radioButton[0].setActive(!geo.isAngle());
+		this.radioButton[1].setActive(geo.isAngle());
 		this.textBox.setText(geo.getLabel(StringTemplate.defaultTemplate));
 		this.increment.setText(geo.getAnimationStepObject().getLabel(
 				StringTemplate.editTemplate));
@@ -520,7 +522,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.handlingExpected = false;
 
 		if (this.radioButton[0] != null) {
-			this.radioButton[0].setValue(true);
+			this.radioButton[0].setActive(true);
 		}
 
 		this.errorBox.setVisible(false);

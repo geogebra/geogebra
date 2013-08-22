@@ -10,7 +10,7 @@ import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 import geogebra.touch.model.TouchModel;
 
@@ -35,13 +35,13 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final FastButton newButton = new StandardImageButton(
+	private final FastButton newButton = new StandardButton(
 			LafIcons.document_new());
-	private final FastButton openButton = new StandardImageButton(
+	private final FastButton openButton = new StandardButton(
 			LafIcons.document_open());
-	private final FastButton saveButton = new StandardImageButton(
+	private final FastButton saveButton = new StandardButton(
 			LafIcons.document_save());
-	private final FastButton shareButton = new StandardImageButton(
+	private final FastButton shareButton = new StandardButton(
 			LafIcons.document_share());
 
 	/**

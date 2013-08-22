@@ -7,7 +7,7 @@ import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
@@ -15,7 +15,7 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final FastButton editButton = new StandardImageButton(
+	private final FastButton editButton = new StandardButton(
 			LafIcons.document_edit());
 	private Material material;
 	private final TabletGUI tabletGUI;

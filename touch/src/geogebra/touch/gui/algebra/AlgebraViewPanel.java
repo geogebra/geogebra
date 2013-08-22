@@ -9,7 +9,7 @@ import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,7 +48,7 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 		kernel.attach(this.algebraView);
 		this.stylebar = new FlowPanel();
 
-		this.arrow = new StandardImageButton(TouchEntryPoint.getLookAndFeel()
+		this.arrow = new StandardButton(TouchEntryPoint.getLookAndFeel()
 				.getIcons().triangle_left());
 		this.arrow.setStyleName("arrowRight");
 		this.arrow.addFastClickHandler(new FastClickHandler() {

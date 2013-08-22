@@ -3,7 +3,7 @@ package geogebra.touch.gui.elements.header;
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -30,7 +30,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	public AuxiliaryHeaderPanel(final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
-		this.backButton = new StandardImageButton(TouchEntryPoint
+		this.backButton = new StandardButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().back());
 		this.backButton.addStyleName("backButton");
 

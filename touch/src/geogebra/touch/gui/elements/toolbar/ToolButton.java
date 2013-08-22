@@ -1,6 +1,6 @@
 package geogebra.touch.gui.elements.toolbar;
 
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.utils.ToolBarCommand;
 
 /**
@@ -10,7 +10,7 @@ import geogebra.touch.utils.ToolBarCommand;
  * @author Matthias Meisinger
  * 
  */
-public class ToolButton extends StandardImageButton {
+public class ToolButton extends StandardButton {
 	private ToolBarCommand cmd;
 
 	public ToolButton(ToolBarCommand cmd) {

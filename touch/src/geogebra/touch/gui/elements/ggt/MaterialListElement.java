@@ -6,7 +6,7 @@ import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,11 +37,11 @@ public class MaterialListElement extends FlowPanel {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final StandardImageButton openButton = new StandardImageButton(
+	private final StandardButton openButton = new StandardButton(
 			LafIcons.document_viewer());
-	private final StandardImageButton editButton = new StandardImageButton(
+	private final StandardButton editButton = new StandardButton(
 			LafIcons.document_edit());
-	private final StandardImageButton deleteButton = new StandardImageButton(
+	private final StandardButton deleteButton = new StandardButton(
 			LafIcons.dialog_trash());
 
 	public MaterialListElement(final Material m, final AppWeb app,

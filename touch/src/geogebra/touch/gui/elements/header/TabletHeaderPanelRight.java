@@ -4,8 +4,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
-import geogebra.touch.gui.elements.StandardTextButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -39,17 +38,17 @@ public class TabletHeaderPanelRight extends HorizontalPanel {
 				"data-param-laf");
 		if ("apple".equals(param)) {
 
-			this.undo = new StandardTextButton("undo");
+			this.undo = new StandardButton("undo");
 			this.undo.addStyleName("textButton");
 			this.undo.addStyleName("first");
-			this.redo = new StandardTextButton("redo");
+			this.redo = new StandardButton("redo");
 			this.redo.addStyleName("textButton");
 			this.redo.addStyleName("last");
 		} else {
-			this.undo = new StandardImageButton(TouchEntryPoint
-					.getLookAndFeel().getIcons().undo());
-			this.redo = new StandardImageButton(TouchEntryPoint
-					.getLookAndFeel().getIcons().redo());
+			this.undo = new StandardButton(TouchEntryPoint.getLookAndFeel()
+					.getIcons().undo());
+			this.redo = new StandardButton(TouchEntryPoint.getLookAndFeel()
+					.getIcons().redo());
 		}
 
 		this.addUndoButton();

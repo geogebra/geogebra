@@ -8,7 +8,7 @@ import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarMenu;
@@ -43,8 +43,8 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private FlowPanel toolPanel;
 	private FlowPanel inputButtonPanel;
 	private HorizontalPanel inputPanel;
-	private StandardImageButton showHideClosed;
-	private StandardImageButton showHideOpened;
+	private StandardButton showHideClosed;
+	private StandardButton showHideOpened;
 	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel()
 			.getIcons().icon_fx();
 	private Panel underline;
@@ -96,7 +96,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	private void initShowHideButtons() {
-		this.showHideClosed = new StandardImageButton(TouchEntryPoint
+		this.showHideClosed = new StandardButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideClosed.setStyleName("arrowLeft");
 		this.showHideClosed.addFastClickHandler(new FastClickHandler() {
@@ -109,7 +109,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 
 		this.add(this.showHideClosed);
 
-		this.showHideOpened = new StandardImageButton(TouchEntryPoint
+		this.showHideOpened = new StandardButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
 		this.showHideOpened.setVisible(false);

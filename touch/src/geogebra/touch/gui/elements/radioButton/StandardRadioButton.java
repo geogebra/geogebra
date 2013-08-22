@@ -1,71 +1,76 @@
 package geogebra.touch.gui.elements.radioButton;
 
-import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.StandardImage;
-import geogebra.touch.gui.laf.LookAndFeel;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.elements.StandardButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+public class StandardRadioButton extends StandardButton {
 
-public class StandardRadioButton extends FlowPanel {
-	LookAndFeel laf = TouchEntryPoint.getLookAndFeel();
-
-	private Label label;
-	private StandardImage icon;
-	private boolean value = false;
-
+	private boolean activated = false;
 	private final StandardRadioGroup group;
 
 	public StandardRadioButton(String label, StandardRadioGroup group) {
+		super(laf.getIcons().radioButtonInactive(), label);
 		this.setStyleName("radioButton");
-
-		this.label = new Label(label);
 
 		this.group = group;
 		this.group.addRadioButton(this);
 
-		this.icon = new StandardImage(this.laf.getIcons().radioButtonInactive());
-		this.label.setText(label);
-
-		this.add(this.icon);
-		this.add(this.label);
-
-		this.addDomHandler(new ClickHandler() {
+		this.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				StandardRadioButton.this.onClick();
+			public void onClick() {
+				handleClick();
 			}
-
-		}, ClickEvent.getType());
-
+		});
 	}
 
-	void onClick() {
-		if (this.value) {
+	protected void handleClick() {
+		if (this.activated) {
 			return;
 		}
 		this.group.deselectAll();
-		this.setValue(true);
+		this.setActive(true);
 		this.group.fireRadioChanged(this);
 	}
 
-	public void setValue(boolean value) {
+	@Override
+	public void setActive(boolean value) {
 		if (value) {
 			this.group.deselectAll();
 		}
-		this.value = value;
+		this.activated = value;
 		if (value) {
-			this.icon.setIcon(this.laf.getIcons().radioButtonActive());
+			this.setIcon(laf.getIcons().radioButtonActive());
 		} else {
-			this.icon.setIcon(this.laf.getIcons().radioButtonInactive());
+			this.setIcon(laf.getIcons().radioButtonInactive());
 		}
 	}
 
-	public boolean getValue() {
-		return this.value;
+	public boolean isActivated() {
+		return this.activated;
 	}
 
+	@Override
+	public void onHoldPressDownStyle() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onHoldPressOffStyle() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDisablePressStyle() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onEnablePressStyle() {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -8,7 +8,7 @@ import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.searchButton = new StandardImageButton(getLaf().getIcons()
+		this.searchButton = new StandardButton(getLaf().getIcons()
 				.search());
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addFastClickHandler(new FastClickHandler() {
@@ -101,7 +101,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.cancelButton = new StandardImageButton(getLaf().getIcons()
+		this.cancelButton = new StandardButton(getLaf().getIcons()
 				.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);

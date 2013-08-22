@@ -5,7 +5,7 @@ import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
-import geogebra.touch.gui.elements.StandardImageButton;
+import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.user.client.Window;
@@ -23,9 +23,9 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
-	private final FastButton prevButton = new StandardImageButton(
+	private final FastButton prevButton = new StandardButton(
 			LafIcons.arrow_go_previous());
-	private final FastButton nextButton = new StandardImageButton(
+	private final FastButton nextButton = new StandardButton(
 			LafIcons.arrow_go_next());
 
 	public FileContainer(String headingName,
