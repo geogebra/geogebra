@@ -57,9 +57,9 @@ public class LocalizationW extends Localization {
 	 */
 	public native String getPropertyNative(String language, String key, String section) /*-{
 		
-		//if (!$wnd["__GGB__keysVar"]) {
-		//	return "languagenotloaded";
-		//}
+		if (!$wnd["__GGB__keysVar"]) {
+			return "";
+		}
 		
 		if ($wnd["__GGB__keysVar"][language]) {
 			// translated
