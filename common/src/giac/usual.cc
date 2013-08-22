@@ -6225,7 +6225,7 @@ namespace giac {
 	) {
 #if 1
       if (is_strictly_positive(.5-re(x,contextptr),contextptr))
-	return cst_pi / (sin(M_PI*x,contextptr)*Gamma(1-x,contextptr));
+	return cst_pi / (sin(M_PI*x,context0)*Gamma(1-x,contextptr));
       return exp(lngamma(x,contextptr),contextptr);
 #else
       static const double p[] = {

@@ -4985,6 +4985,8 @@ namespace giac {
     // check if the whole system is linear
     if (is_zero(derive(derive(eq_orig,var,contextptr),var,contextptr))){
       gen sol=_linsolve(makesequence(eq_orig,var),contextptr);
+      if (sol.type==_VECT && sol._VECTptr->empty())
+	return *sol._VECTptr;
       return vecteur(1,sol);
     }
     iterateur it=var.begin(),itend=var.end();
