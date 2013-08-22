@@ -2,9 +2,9 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.common.main.Localization;
 import geogebra.touch.TouchEntryPoint;
-import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardButton;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -19,29 +19,24 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class AuxiliaryHeaderPanel extends HorizontalPanel {
 
-	protected final FastButton backButton;
-	protected HorizontalPanel backPanel;
+	protected final StandardButton backButton;
+	protected FlowPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
 	private final Label headerText;
-	private final Label backLabel;
+
 	protected final Localization loc;
 
 	public AuxiliaryHeaderPanel(final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
-		this.backButton = new StandardButton(TouchEntryPoint
-				.getLookAndFeel().getIcons().back());
+		this.backButton = new StandardButton(TouchEntryPoint.getLookAndFeel()
+				.getIcons().back(), loc.getMenu("Back"));
 		this.backButton.addStyleName("backButton");
 
-		this.backPanel = new HorizontalPanel();
+		this.backPanel = new FlowPanel();
 		this.backPanel.setStyleName("headerLeft");
-		this.backPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.backPanel.add(this.backButton);
-
-		this.backLabel = new Label(loc.getMenu("Back"));
-		this.backLabel.addStyleName("backLabel");
-		this.backPanel.add(this.backLabel);
 
 		this.rightPanel = new VerticalPanel();
 		this.rightPanel.setStyleName("headerRight");
@@ -60,7 +55,7 @@ public class AuxiliaryHeaderPanel extends HorizontalPanel {
 	}
 
 	public void setLabels() {
-		this.backLabel.setText(this.loc.getMenu("Back"));
+		this.backButton.setLabel(this.loc.getMenu("Back"));
 	}
 
 	public void setText(final String title) {
