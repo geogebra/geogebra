@@ -322,7 +322,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
 		if (dasharray === undefined || dasharray === null) {
-			dashArray = [];
+			dasharray = [];
 		}
 		
 		if (typeof ctx.setLineDash === 'function') {
