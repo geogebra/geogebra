@@ -6050,6 +6050,9 @@ public abstract class GeoElement extends ConstructionElement implements
 				&& isLabelSet()) {
 			ret = tpl.printVariableName(label);
 		}
+		if ("".equals(ret) && isGeoCasCell() && ((GeoCasCell)this).getAssignmentVariable() != null) {
+			ret = getLabel(tpl);
+		}
 		if ("".equals(ret) && !isGeoText()) {
 			// eg Text[ (1,2), false]
 			ret = toOutputValueString(tpl);
