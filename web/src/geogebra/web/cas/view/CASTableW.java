@@ -3,7 +3,6 @@ package geogebra.web.cas.view;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTable;
-import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
@@ -28,20 +27,21 @@ public class CASTableW extends Grid implements CASTable {
 	private CASTableCellW editing;
 	private AppW app;
 	private int[] selectedRows = new int[0];
+	private CASTableControllerW ml;
 
 	public CASTableW(AppW app, CASTableControllerW ml) {
 		super(0, 2);
 		this.app = app;
+		this.ml = ml;
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(
 		        MyTableW.TABLE_GRID_COLOR.toString());
-		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		editor = new CASTableCellEditorW(this, app, ml);
+		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);		
 		insertRow(0, null, false);
 	}
 
 	public void setLabels() {
-		editor.setLabels();
+		getEditor().setLabels();
 
 	}
 
@@ -120,12 +120,15 @@ public class CASTableW extends Grid implements CASTable {
 		cancelEditing();
 		if (w instanceof CASTableCellW) {
 			editing = (CASTableCellW) w;
-			editing.startEditing(editor.getWidget());
+			editing.startEditing(getEditor().getWidget());
 		}
 
 	}
 
-	public CASTableCellEditor getEditor() {
+	public CASTableCellEditorW getEditor() {
+		if(editor == null){
+			editor = new CASTableCellEditorW(this, app, ml);
+		}
 		return editor;
 	}
 
