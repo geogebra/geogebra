@@ -55,6 +55,10 @@ body .headerbar div.button {
 	margin: 0px 10px 0px 6px;
 }
 
+body .backButton .gwt-Label {
+	padding: 4px 10px;
+}
+
 body .headerbar div.button.button-up-hovering {
 	opacity: 1;
 	filter: alpha(opacity = 100);

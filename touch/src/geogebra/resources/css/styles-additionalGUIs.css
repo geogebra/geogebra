@@ -45,6 +45,7 @@ body .worksheetgui .headerbar img {
 body .browsegui .headerLeft,
 body .worksheetgui .headerLeft {
 	margin-left: 0px;
+	padding-left: 10px;
 }
 
 body .browsegui .headerLeft td,
@@ -71,6 +72,18 @@ body .worksheetgui .headerLeft img {
 	height: 20px;
 	width: 11px;
 	margin-top: 5px;
+}
+
+body .backButton {
+	display: table-cell;
+}
+
+body .backButton .image {
+	float: left;
+}
+
+body .backButton .gwt-Label {
+	margin-left: 14px;
 }
 
 body .browsegui .headerRight div.button {

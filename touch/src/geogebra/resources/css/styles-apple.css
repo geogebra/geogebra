@@ -189,25 +189,9 @@ body .infoDialog button.last {
 	margin: 0px;
 }
 
-/*.inputDialog.sliderDialog .sliderPanel .inputField {
-	margin-right: 30px;
-}*/
-
  body .sliderDialog .name .gwt-TextBox {
 	width: 374px;
 	text-align: center;
-}
-
-/*.inputDialog.sliderDialog .sliderPanel .gwt-TextBox {
-	width: 90px;
-}*/
-
-/*.sliderDialog .radioButtonPanel .gwt-RadioButton {
-	padding: 5px 20px 5px 0px;
-}*/
-
-.radioButtonPanel .gwt-RadioButton label {
-	color: #FFFFFF;
 }
 
 /* ADDITIONAL GUIs + TEXTBUTTONS! */
@@ -223,9 +207,7 @@ body .worksheetgui table.headerLeft {
 	font-weight: normal;
 }
 
-.headerbar .headerLeft .backButton img,
-body .browsegui .headerbar .headerLeft div.button.backButton,
-body .worksheetgui .headerbar .headerLeft div.button.backButton  {
+.headerbar .headerLeft .backButton img {
 	height: 37px;
 	width: 14px;
 	opacity: 1;
@@ -234,13 +216,22 @@ body .worksheetgui .headerbar .headerLeft div.button.backButton  {
 	padding: 0px;
 }
 
-.browsegui .headerbar .headerLeft .backLabel,
-.worksheetgui .headerbar .headerLeft .backLabel {
+body .browsegui .headerbar .headerLeft div.button.backButton,
+body .worksheetgui .headerbar .headerLeft div.button.backButton  {
+	height: 37px;
+	opacity: 1;
+	filter: alpha(opacity=1);
+	margin: 0px;
+	padding: 0px;
+}
+
+.browsegui .headerbar .headerLeft .backButton .gwt-Label,
+.worksheetgui .headerbar .headerLeft .backButton .gwt-Label {
 	font-weight: normal;
 	font-size: 12px;
 }
 
-.backLabel,
+.backButton .gwt-Label,
 body .headerbar .headerRight .textButton {
 	/* Background */
 	background: linear-gradient(top, rgb(125, 125, 125) 0%, rgb(68, 68, 68) 98%, rgb(83, 83, 83) 99%, rgb(102, 102, 102) 100% );
