@@ -46,10 +46,12 @@ public class GeoElementGraphicsAdapterDesktop extends
 	}
 
 	public void setImageFileName(String fileName) {
-		if (fileName.equals(this.imageFileName))
+		
+		if (fileName.equals(this.imageFileName)) {
 			return;
+		}
 
-		this.imageFileName = fileName;
+		setImageFileNameOnly(fileName);
 
 		if (fileName.startsWith("/geogebra")) { // internal image
 			Image im = ((ImageManager) ((App) app)

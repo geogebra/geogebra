@@ -30,7 +30,9 @@ public abstract class GeoElementGraphicsAdapter {
 	 * @param fn new filename
 	 */
 	public void setImageFileNameOnly(String fn) {
-		imageFileName = fn;
+		// replace \ by /
+		// https://www.geogebra.org/forum/viewtopic.php?f=56&t=32612
+		imageFileName = fn.replaceAll("\\\\", "/");
 	}
 
 	/**
@@ -54,7 +56,7 @@ public abstract class GeoElementGraphicsAdapter {
 	 * @param filename filename
 	 */
 	public void setFillImage(String filename) {
-		imageFileName = filename;
+		setImageFileNameOnly(filename);
 		image = null;
 	}
 

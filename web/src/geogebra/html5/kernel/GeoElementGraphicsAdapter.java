@@ -35,10 +35,11 @@ public class GeoElementGraphicsAdapter extends
 		if (fileName != null && fileName.length() != 0 && fileName.charAt(0) == '/')
 			fileName = fileName.substring(1);
 
-		if (fileName.equals(this.imageFileName))
+		if (fileName.equals(this.imageFileName)) {
 			return;
+		}
 
-		this.imageFileName = fileName;
+		setImageFileNameOnly(fileName);
 
 		// such file names are saved in the ggb file too, so this if is not needed (and does not work)
 		//if (fileName.startsWith("/geogebra")) { // internal image
