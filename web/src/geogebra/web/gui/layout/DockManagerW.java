@@ -268,7 +268,7 @@ public class DockManagerW implements  SetLabels {
 				}
 				if(currentParent==null){
 					App.error("Invalid perspective");
-					
+					currentParent = rootPane;
 				}
 				else if(directions[directions.length - 1].equals("0") || directions[directions.length - 1].equals("3")) {
 					currentParent.setLeftComponentCheckEmpty((Widget) panel);
