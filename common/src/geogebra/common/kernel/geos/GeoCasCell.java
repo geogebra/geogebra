@@ -2227,8 +2227,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 			
 			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
-			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));		
+			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
+			boolean wasKeepInputUsed = inputVE.isKeepInputUsed();
 			setInput(ex.toAssignmentString(StringTemplate.numericDefault));
+			inputVE.setKeepInputUsed(wasKeepInputUsed);
 			
 			computeOutput(false,false);
 			this.update();
