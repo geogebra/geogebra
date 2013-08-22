@@ -2696,7 +2696,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solutions_3 () {
-    t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]", "{{-3, 6}, {0, 3}}");
+    t("Solutions[{2 * a^2 + 5 * a + 3 = b, a + b = 3}, {a, b}]", "{{0, 3}, {-3, 6}}");
   }
 
 
@@ -2878,7 +2878,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_Several_1 () {
-    t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]", "{{a = -3, b = 6}, {a = 0, b = 3}}");
+    t("Solve[{2a^2 + 5a + 3 = b, a + b = 3}, {a, b}]", "{{a = 0, b = 3}, {a = -3, b = 6}}");
   }
 
   @Test
