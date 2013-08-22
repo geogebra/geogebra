@@ -64,7 +64,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 	public void showError(String error) {
 		if(this.errorPopup == null){
 			this.errorPopup = new ErrorPopup();
-			this.errorPopup.setLabels(loc);
+			this.errorPopup.setLabels(this.loc);
 		}
 		this.errorPopup.setText(error);
 		this.errorPopup.show();

@@ -5,6 +5,7 @@ import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 import geogebra.touch.gui.algebra.AlgebraViewPanel;
+import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.StandardImageButton;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
@@ -213,8 +214,13 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		this.algebraButton = new StandardImageButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.algebraButton.setStyleName("arrowRight");
-		this.algebraButton = TouchEntryPoint.getLookAndFeel()
-				.setAlgebraButtonHandler(this.algebraButton, this);
+		this.algebraButton.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				TabletGUI.this.toggleAlgebraView();
+			}
+		});
 
 		this.algebraViewArrowPanel.add(this.algebraButton);
 

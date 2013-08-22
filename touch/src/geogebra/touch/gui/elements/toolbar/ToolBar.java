@@ -75,33 +75,8 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.tools = new ArrayList<ToolBarButton>();
 
-		final ToolBarButton manipulateObjects = new ToolBarButton(
-				ToolBarMenu.ManipulateObjects, guiModel, this.app);
-		guiModel.setDefaultButton(manipulateObjects);
-		this.tools.add(manipulateObjects);
-		this.tools
-				.add(new ToolBarButton(ToolBarMenu.Point, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Line, guiModel, this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialLine, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Polygon, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.CircleAndArc, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ConicSection, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Measurement, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.Transformation, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.SpecialObject, guiModel,
-				this.app));
-		this.tools.add(new ToolBarButton(ToolBarMenu.ActionObject, guiModel,
-				this.app));
-
-		guiModel.setActive(this.tools.get(0));
-
-		for (final ToolBarButton b : this.tools) {
+		for (ToolBarMenu t : ToolBarMenu.values()) {
+			final ToolBarButton b = new ToolBarButton(t, guiModel, this.app);
 
 			b.addFastClickHandler(new FastClickHandler() {
 				@Override
@@ -109,8 +84,12 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 					b.onToolBarButton();
 				}
 			});
+			this.tools.add(b);
 			this.toolPanel.add(b);
 		}
+
+		guiModel.setDefaultButton(this.tools.get(0));
+		guiModel.setActive(this.tools.get(0));
 
 		this.toolPanel.add(this.showHideOpened);
 		this.add(this.toolPanel);

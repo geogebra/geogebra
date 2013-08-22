@@ -1,19 +1,14 @@
 package geogebra.touch.gui.laf;
 
 import geogebra.touch.TouchApp;
-import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.algebra.events.FastClickHandler;
-import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
-import geogebra.touch.gui.elements.stylebar.StyleBar;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.OptionType;
 
 import com.google.gwt.user.client.Window;
 
@@ -56,7 +51,7 @@ public class DefaultLAF implements LookAndFeel {
 	@Override
 	public int getTabletHeaderHeight() {
 		if (this.hp == null) {
-			//otherwise nullPointerException for win8
+			// otherwise nullPointerException for win8
 			return 0;
 		}
 		return this.hp.getOffsetHeight();
@@ -74,7 +69,8 @@ public class DefaultLAF implements LookAndFeel {
 
 	@Override
 	public int getContentWidgetHeight() {
-		return Window.getClientHeight() - getToolBarHeight() - getTabletHeaderHeight();
+		return Window.getClientHeight() - getToolBarHeight()
+				- getTabletHeaderHeight();
 	}
 
 	@Override
@@ -123,65 +119,5 @@ public class DefaultLAF implements LookAndFeel {
 
 	public TouchApp getApp() {
 		return this.app;
-	}
-
-	@Override
-	public FastButton setStyleBarShowHideHandler(final FastButton button,
-			final StyleBar styleBar) {
-		button.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				styleBar.showHide();
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public FastButton setStyleBarButtonHandler(final FastButton button,
-			final StyleBar styleBar, final String process) {
-		button.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				styleBar.onStyleBarButtonEvent(button, process);
-				DefaultLAF.this.getApp().setUnsaved();
-				TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public FastButton setOptionalButtonHandler(final FastButton button,
-			final StyleBar styleBar, final OptionType type) {
-		button.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				styleBar.onOptionalButtonEvent(button, type);
-			}
-		});
-
-		return button;
-	}
-
-	@Override
-	public FastButton setAlgebraButtonHandler(final FastButton button,
-			final TabletGUI gui) {
-		button.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-
-				gui.toggleAlgebraView();
-
-				if (TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel() != null) {
-					TouchEntryPoint.getLookAndFeel().getTabletHeaderPanel()
-							.enableDisableButtons();
-				}
-			}
-		});
-
-		return button;
 	}
 }

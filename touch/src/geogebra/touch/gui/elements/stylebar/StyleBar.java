@@ -156,29 +156,50 @@ public class StyleBar extends FlowPanel {
 		}
 
 		this.buttons.clear();
-		FastButton b;
 
 		for (SVGResource svg : resource) {
+			final FastButton b;
 			if (svg.equals(lafIcons.color())) {
 
 				b = new StandardImageButton(lafIcons.color());
 				b.getElement().getStyle().setBackgroundImage("initial");
 				b.getElement().setAttribute("style", "background: " + color);
-				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
-						b, this, OptionType.Color);
+				b.addFastClickHandler(new FastClickHandler() {
+
+					@Override
+					public void onClick() {
+						StyleBar.this
+								.onOptionalButtonEvent(b, OptionType.Color);
+					}
+				});
+
 				this.buttons.put(StyleBarEntry.Color, b);
 
 			} else if (svg.equals(lafIcons.properties_default())) {
 
 				b = new StandardImageButton(lafIcons.properties_default());
-				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
-						b, this, OptionType.LineStyle);
+				b.addFastClickHandler(new FastClickHandler() {
+
+					@Override
+					public void onClick() {
+						StyleBar.this.onOptionalButtonEvent(b,
+								OptionType.LineStyle);
+
+					}
+				});
 				this.buttons.put(StyleBarEntry.LineStyle, b);
 
 			} else if (svg.equals(lafIcons.label())) {
 				b = new StandardImageButton(lafIcons.label());
-				b = TouchEntryPoint.getLookAndFeel().setOptionalButtonHandler(
-						b, this, OptionType.CaptionStyle);
+				b.addFastClickHandler(new FastClickHandler() {
+
+					@Override
+					public void onClick() {
+						StyleBar.this.onOptionalButtonEvent(b,
+								OptionType.CaptionStyle);
+
+					}
+				});
 				// only show "label" in special cases
 				if (this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MOVE
 						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT
@@ -224,10 +245,15 @@ public class StyleBar extends FlowPanel {
 	 */
 	private FastButton createStyleBarButton(final String process,
 			final SVGResource svg) {
-		FastButton newButton = new StandardImageButton(svg);
+		final FastButton newButton = new StandardImageButton(svg);
 
-		newButton = TouchEntryPoint.getLookAndFeel().setStyleBarButtonHandler(
-				newButton, this, process);
+		newButton.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick() {
+				StyleBar.this.onStyleBarButtonEvent(newButton, process);
+			}
+		});
 
 		return newButton;
 	}

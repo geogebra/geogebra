@@ -12,6 +12,11 @@ public enum ToolBarMenu {
 
 	// FIXME: add menu items when implemented
 
+	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
+			ToolBarCommand.Move_Mobile,
+			// TODO: ToolBarCommand.Select,
+			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject }),
+
 	Point(ToolBarCommand.NewPoint, new ToolBarCommand[] {
 			ToolBarCommand.NewPoint, ToolBarCommand.PointOnObject,
 			ToolBarCommand.AttachDetachPoint,
@@ -83,12 +88,7 @@ public enum ToolBarMenu {
 			// ToolBarCommand.CheckBoxToShowHideObjects,
 			// ToolBarCommand.InsertButton,
 			// ToolBarCommand.InsertInputBox
-			}),
-
-	ManipulateObjects(ToolBarCommand.Move_Mobile, new ToolBarCommand[] {
-			ToolBarCommand.Move_Mobile,
-			// TODO: ToolBarCommand.Select,
-			ToolBarCommand.RotateAroundPoint, ToolBarCommand.DeleteObject });
+			});
 
 	private ToolBarCommand[] entry;
 	private ToolBarCommand command;

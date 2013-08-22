@@ -132,7 +132,8 @@ public abstract class FastButton extends CustomButton {
 			}
 			break;
 		}
-		case Event.ONCLICK: {
+		case Event.ONMOUSEUP: {
+			// because Event.ONCLICK always came twice on desktop browsers oO
 			if (this.isEnabled) {
 				onClick(event);
 			}
@@ -143,32 +144,24 @@ public abstract class FastButton extends CustomButton {
 			super.onBrowserEvent(event);
 		}
 		}
-
 	}
 
 	private void onClick(Event event) {
 		event.stopPropagation();
+		event.preventDefault();
 
 		if (this.touchHandled) {
-			// if the touch is already handled, we are on a device
-			// that supports touch (so you aren't in the desktop browser)
+			// if the touch is already handled, we are on a device that supports
+			// touch (so you aren't in the desktop browser)
 
-			this.touchHandled = false;// reset for next press
-			this.clickHandled = true;//
-
-			super.onBrowserEvent(event);
-
-		} else {
-			if (this.clickHandled) {
-				// Not sure how this situation would occur
-				// onClick being called twice..
-				event.preventDefault();
-			} else {
-				// Press not handled yet
-				this.clickHandled = false;
-				fireFastClickEvent();
-			}
+			this.touchHandled = false; // reset for next press
+			this.clickHandled = true; // ignore future ClickEvents
+		} else if (!this.clickHandled) {
+			// Press not handled yet
+			fireFastClickEvent();
 		}
+
+		super.onBrowserEvent(event);
 	}
 
 	private void onTouchStart(Event event) {
