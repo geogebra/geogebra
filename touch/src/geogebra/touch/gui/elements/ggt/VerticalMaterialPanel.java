@@ -156,9 +156,9 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	}
 	
 	@Override
-	public void onResize() {
-		this.updateHeight();
+	public void onResize() {		
 		this.updateWidth();
+		this.updateHeight();
 	}
 
 	private void updateWidth() {
