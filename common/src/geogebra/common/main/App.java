@@ -565,8 +565,18 @@ public abstract class App implements UpdateSelection{
 	 * @return internal name
 	 */
 	public String getReverseCommand(String command) {
+		//don't init command table on file loading
+		if(kernel.isUsingInternalCommandNames()){
+			try{
+				Commands.valueOf(command);
+				return command;
+			}
+			catch(Exception e){
+				//not a valid command, fall through
+			}
+		}
 		initTranslatedCommands();
-
+		
 		String key = StringUtil.toLowerCase(command);
 		
 		String ret = translateCommandTable==null? key : translateCommandTable.get(key);
