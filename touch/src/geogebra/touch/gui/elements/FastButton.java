@@ -46,7 +46,6 @@ public abstract class FastButton extends CustomButton {
 	private boolean touchHandled = false;
 	private boolean clickHandled = false;
 	private boolean touchMoved = false;
-	private boolean isEnabled = true;
 	private int touchId;
 	private boolean isActive;
 	private List<FastClickHandler> handlers;
@@ -65,13 +64,13 @@ public abstract class FastButton extends CustomButton {
 
 	}
 
-	public void setActive(boolean enabled) {
-		if (enabled) {
+	public void setActive(boolean active) {
+		if (active) {
 			onEnablePressStyle();
 		} else {
 			onDisablePressStyle();
 		}
-		this.isEnabled = enabled;
+		this.isActive = active;
 	}
 
 	/**
@@ -115,29 +114,21 @@ public abstract class FastButton extends CustomButton {
 	public void onBrowserEvent(Event event) {
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
-			if (this.isEnabled) {
-				onTouchStart(event);
-			}
+			onTouchStart(event);
 			break;
 		}
 		case Event.ONTOUCHEND: {
-			if (this.isEnabled) {
-				onTouchEnd(event);
-			}
+			onTouchEnd(event);
 			break;
 		}
 		case Event.ONTOUCHMOVE: {
-			if (this.isEnabled) {
-				onTouchMove(event);
-			}
+			onTouchMove(event);
 			break;
 		}
 		case Event.ONMOUSEUP: {
 			// because Event.ONCLICK always came twice on desktop browsers oO
-			if (this.isEnabled) {
-				onClick(event);
-			}
-			return;
+			onClick(event);
+			break;
 		}
 		default: {
 			// Let parent handle event if not one of the above (?)
