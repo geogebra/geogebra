@@ -277,7 +277,7 @@ public class StyleBar extends FlowPanel {
 
 			this.showHideButton.setStyleName("arrowRight");
 			// Set stylebar transparent, when closed
-			this.showHideButton.addStyleName("transparent");
+			this.addStyleName("transparent");
 
 			this.styleButtonsPanel.setVisible(false);
 
@@ -285,7 +285,7 @@ public class StyleBar extends FlowPanel {
 
 			this.showHideButton.setStyleName("arrowLeft");
 			// Set stylebar nontransparent, when open
-			this.showHideButton.removeStyleName("transparent");
+			this.removeStyleName("transparent");
 
 			this.styleButtonsPanel.setVisible(true);
 		}

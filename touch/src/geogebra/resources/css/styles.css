@@ -300,17 +300,22 @@ input.worksheetTitle {
 	width: 236px;
 }
 
-.captionBar {
-	width: 292px;
-	padding-right: 3px;
+.captionBar,
+.captionBar .styleBarButtonPanel {
+	width: 183px;
 }
 
 .captionBar button {
-	width: 70px;
+	width: 183px;
+	background: none;
+	border: none;
+	text-align: left;
 }
 
-.captionBar .styleBarButtonPanel {
-	width: 300px;
+.captionBar button:hover,
+.captionBar button:active {
+	border: none;
+
 }
 
 /* #####################################################################

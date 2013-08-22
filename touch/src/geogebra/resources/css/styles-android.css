@@ -156,8 +156,12 @@ body .infoDialog .gwt-TextBox {
 	width: 340px;
 }
 
+.inputDialog.angleDialog {
+	width: 600px;
+}
+
 .angleDialog .name .gwt-TextBox {
-	width: 445px;
+	width: 560px;
 }
 
 body .sliderDialog .sliderPanel .inputField.last {
