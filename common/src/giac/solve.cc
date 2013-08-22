@@ -2039,8 +2039,8 @@ namespace giac {
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
 	gen a2=arg1._SYMBptr->feuille[1];
-	vecteur v=lop(lvar(makevecteur(a1,a2)),at_pow);
-	if (v.size()>1)
+	vecteur w=lop(lvarx(makevecteur(a1,a2),v.back()),at_pow);
+	if (a2.type!=_VECT && a2!=0 && w.size()>1)
 	  arg1=lnexpand(ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr),contextptr);
       }
 #endif
