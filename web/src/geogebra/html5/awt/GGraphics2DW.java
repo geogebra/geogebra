@@ -321,18 +321,21 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	private boolean nativeDashUsed = false;
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
-		if (dasharray !== undefined && dasharray !== null) {
-			if (typeof ctx.setLineDash === 'function') {
-				ctx.setLineDash(dasharray);
-				this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;
-			} else if (ctx.mozDash !== 'undefined') {
-				ctx.mozDash = dasharray;
-				this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;			
-			} else if (typeof ctx.webkitLineDash !== 'undefined') {
-				ctx.webkitLineDash = dasharray;
-				this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;
-			}
+		if (dasharray === undefined || dasharray === null) {
+			dashArray = [];
 		}
+		
+		if (typeof ctx.setLineDash === 'function') {
+			ctx.setLineDash(dasharray);
+			this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;
+		} else if (ctx.mozDash !== 'undefined') {
+			ctx.mozDash = dasharray;
+			this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;			
+		} else if (typeof ctx.webkitLineDash !== 'undefined') {
+			ctx.webkitLineDash = dasharray;
+			this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;
+		}
+		
 	}-*/;
 
 
