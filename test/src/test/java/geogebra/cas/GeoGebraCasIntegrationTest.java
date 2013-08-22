@@ -2791,7 +2791,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_OneVariableVC_0 () {
     t("Solve[a x^2 + b x + c, x]", "{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}",
-        "{x = (-b+sqrt(-4 * a * c + b^(2))) / (2 * a), x = (-b-sqrt(-4 * a * c + b^(2))) / (2 * a)}");
+        "{x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
   }
 
   @Test
@@ -2801,7 +2801,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_2 () {
-    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]", "{k = sqrt(a), k = -sqrt(a)}");
+    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]", "{k = -sqrt(a), k = sqrt(a)}");
   }
 
   @Test
@@ -2866,7 +2866,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_Trig_1 () {
     // s("Solve[2*cos(x)^2+sqrt(2)*cos(x)-2,x]","{x = (8 * k_INDEX * π + π) / 4, x = (8 * k_INDEX * π - π) / 4}");
-    s("Solve[2 * cos(x)^2 + sqrt(2) * cos(x) - 2, x]", "{x = 2 * k_INDEX * π + 1 / 4 * π, x = 2 * k_INDEX * π - 1 / 4 * π}");
+    s("Solve[2 * cos(x)^2 + sqrt(2) * cos(x) - 2, x]", "{x = 2 * k_INDEX * π - 1 / 4 * π, x = 2 * k_INDEX * π + 1 / 4 * π}");
   }
 
   /* Several Equations and Variables */
@@ -3437,7 +3437,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void UnitVector_1 () {
     t("UnitVector[(a, b)]", "(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))",
-        "((sqrt(a^(2) + b^(2)) * a) / (a^(2) + b^(2)), (sqrt(a^(2) + b^(2)) *b) / (a^(2) + b^(2)))");
+        "(a / sqrt(a * a + b * b), b / sqrt(a * a + b * b))");
   }
 
   @Test
@@ -4068,7 +4068,7 @@ public class GeoGebraCasIntegrationTest {
   public void ExponentialEqs () {
     kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(60000);
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
-    t("Solve[7^(2x-5) 5^x = 9^(x+1),x]", "{x = (-log(151263)) / (log(9) - 2 * log(7) - log(5))}", "{x = log(151263) / log(245 / 9)}");
+    t("Solve[7^(2x-5) 5^x = 9^(x+1),x]", "{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}", "{x = log(151263) / log(245 / 9)}");
     t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]", "{x = (-log(55)) / (log(13) - log(5))}", "{x = log(55) / log(5 / 13)}");
     t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", "{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
     t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{a, c}]", "{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
