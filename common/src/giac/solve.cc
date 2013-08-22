@@ -1695,6 +1695,8 @@ namespace giac {
       if (f.num.type==_POLY){
 	polynome & p = *f.num._POLYptr;
 	int n=p.lexsorted_degree();
+	int n0=p.valuation(0);
+	n -= n0;
 	if (n>3){
 	  std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
 	  polynome p1=Tnextcoeff<gen>(it,itend);
@@ -1723,14 +1725,22 @@ namespace giac {
 		      res.push_back(g*exp(cst_i*cst_pi*gen(i)/(n/2),contextptr));
 		  }
 		}
+		if (n0)
+		  res.push_back(0);
 		return res;
 	      }
-	      if (n%2)
-		return vecteur(1,pow(-g2/g1,inv(n,contextptr),contextptr));
+	      vecteur res;
+	      if (n0)
+		res.push_back(0);
+	      if (n%2){
+		res.push_back(pow(-g2/g1,inv(n,contextptr),contextptr));
+		return res;
+	      }
 	      if (is_positive(g2/g1,contextptr))
-		return vecteur(0);
+		return res;
 	      gen g=pow(-g2/g1,inv(n,contextptr),contextptr);
-	      return makevecteur(-g,g);
+	      res.push_back(-g); res.push_back(g);
+	      return res;
 	    }
 	  }
 	}
