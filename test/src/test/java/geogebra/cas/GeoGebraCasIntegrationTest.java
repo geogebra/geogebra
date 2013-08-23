@@ -117,8 +117,32 @@ public class GeoGebraCasIntegrationTest {
     }
     return outputVe.toString(includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate);
   }
+  
+  private static void tk (String input, String expectedResult, String ... validResults) {
+    ta(true, input, expectedResult, validResults);
+  }
 
   private static void t (String input, String expectedResult, String ... validResults) {
+    ta(false, input, expectedResult, validResults);
+  }
+  
+  /**
+   * ta contains the code shared by {@link #t} and {@link #tk}. In explicit:
+   * If tkiontki is false, it behaves exactly like t used to.
+   * If tkiontki is true, it switches to KeepInput mode,
+   * simulating evaluation with KeepInput.
+   * 
+   * <p>
+   * Note:
+   * Direct calls to ta are "Not Recommended". Use t or tk instead.
+   * </p>
+   * 
+   * @param tkiontki To KeepInput or not to KeepInput.
+   * @param input The input.
+   * @param expectedResult  The expected result.
+   * @param validResults  Valid, but undesired results.
+   */
+  private static void ta (boolean tkiontki, String input, String expectedResult, String ... validResults) {
     String result;
 
     try {
@@ -126,6 +150,11 @@ public class GeoGebraCasIntegrationTest {
       kernel.getConstruction().addToConstructionList(f, false);
 
       f.setInput(input);
+      
+      if (tkiontki) {
+        f.setEvalCommand("KeepInput");
+      }
+      
       f.computeOutput();
 
       boolean includesNumericCommand = false;
@@ -467,7 +496,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Term_5 () {
-    t("KeepInput[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("(3, sqrt(2)) + t * (sqrt(5), 1)", "(3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Function */
@@ -499,7 +528,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_5 () {
-    t("f(t) := KeepInput[(3, sqrt(2)) + t * (sqrt(5), 1)]", "(3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)", "(3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Equation Elaborate */
@@ -531,7 +560,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationE_5 () {
-    t("KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Equation Abbreviation */
@@ -563,7 +592,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationA_5 () {
-    t("KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Labeled Parametric Equation */
@@ -600,12 +629,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationL_6 () {
-    t("f: KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   @Test
   public void Parametric_EquationL_7 () {
-    t("f: KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1)]", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
+    tk("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (3, sqrt(2)) + t * (sqrt(5), 1)");
   }
 
   /* Parametric Term Multiple Parameters */
@@ -730,12 +759,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationLM_6 () {
-    t("f: KeepInput[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
+    tk("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
   }
 
   @Test
   public void Parametric_EquationLM_7 () {
-    t("f: KeepInput[X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
+    tk("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))");
   }
 
 
@@ -2758,7 +2787,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariable_4 () {
-    t("Solve[(x + 7)/ 3 - (4 - x) / 4 - 3 = 3 x / 8, x]", "{x = 8}");
+    t("Solve[(x + 7) / 3 - (4 - x) / 4 - 3 = 3 x / 8, x]", "{x = 8}");
   }
 
   @Test
@@ -2790,8 +2819,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_0 () {
-    t("Solve[a x^2 + b x + c, x]", "{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}",
-        "{x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
+    t("Solve[a x^2 + b x + c, x]", "{x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
   }
 
   @Test
@@ -2842,7 +2870,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_OneVariableVC_10 () {
-    t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = (10 * log(2)) / 3}", "{t = 10 * log(cbrt(2))}", "{t = 10 / 3 * log(2)}");
+    t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * log(2)}", "{t = (10 * log(2)) / 3}");
   }
 
   @Test
@@ -2886,6 +2914,102 @@ public class GeoGebraCasIntegrationTest {
     t("Solve[{2a^2 + 5a + 3 = b, a + b = 3, a = b}, {a, b}]", "{}");
   }
 
+  @Test
+  public void Solve_Several_3 () {
+    t("Solve[13 = 3 + 5 t + 10 s, {t, s}]", "{{t = - 2 * s + 2, s = s}}");
+  }
+
+  @Test
+  public void Solve_Several_4 () {
+    t("Solve[{13 = 3 + 5 t + 10 s}, {t, s}]", "{{t = - 2 * s + 2, s = s}}");
+  }
+
+  @Test
+  public void Solve_Several_5 () {
+    t("Solve[{a + b = 0, c = 0}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Solve_Several_6 () {
+    t("Solve[{a + b = 0, c = 0}, {a, b}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Solve_Several_7 () {
+    t("Solve[{a + b = 0, c = 0}, {a, c}]", "{{a = -b, c = 0}}");
+  }
+
+  @Test
+  public void Solve_Several_8 () {
+    t("Solve[{a + b = 0, c = 0}, {c, b}]", "{{c = 0, b = -a}}");
+  }
+
+  @Test
+  public void Solve_Several_9 () {
+    t("Solve[{a + b = 0, c = 0}, {a, b, c}]", "{{a = -b, b = b, c = 0}}");
+  }
+
+  @Test
+  public void Solve_Several_10 () {
+    t("Solve[{a + b = 0, b = b, c = 0}]", "{{a = -b, b = b, c = 0}}");
+  }
+
+  @Test
+  public void Solve_Several_11 () {
+    t("Solve[{a + b = 0, b = b, c = 0}, {a, b, c}]", "{{a = -b, b = b, c = 0}}");
+  }
+
+  @Test
+  public void Solve_Several_12 () {
+    t("Solve[{c = 0, a + b = 0, b = b}]", "{{a = -b, b = b, c = 0}}");
+  }
+
+  @Test
+  public void Solve_Several_13 () {
+    t("Solve[a + b = 0]", "{a = -b}");
+  }
+
+  @Test
+  public void Solve_Several_14 () {
+    t("Solve[{a + b = 0}]", "{a = -b}");
+  }
+
+  @Test
+  public void Solve_Several_15 () {
+    t("Solve[{a + b = 0}, {a, b}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Solve_Several_16 () {
+    t("Solve[{c = 0, a + b = 0}]", "{{c = 0, a = -b}}");
+  }
+
+  @Test
+  public void Solve_Several_17 () {
+    t("Solve[{a + b = 0, c^2 - 1 = 0}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Solve_Several_18 () {
+    t("Solve[{c^2 - 1 = 0, a + b = 0}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Solve_Several_19 () {
+    t("Solve[{c^2 - 1 = 0, a + b = 0}, c]", "{c = -1, c = 1}");
+  }
+
+  @Test
+  public void Solve_Several_20 () {
+    t("Solve[{c^2 - 1 = 0, a + b = 0}, {c}]", "{c = -1, c = 1}");
+  }
+
+  @Test
+  public void Solve_Several_21 () {
+    t("Solve[{c^2 - 1 = 0, a + b = 0}, {c, b}]", "{{c = -1, b = -a}, {c = 1, b = -a}}");
+  }
+  
+
   /* Parametric Equations One Parameter */
 
   @Test
@@ -2921,7 +3045,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricEOP_6 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    t("KeepInput[Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]]", "Löse[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
+    tk("Solve[(5.5, 2.5) = (3, 2) + t * (5, 1)]", "Löse[(5.5, 2.5) = (3, 2) + t * (5, 1)]");
   }
 
   /* Parametric Function One Parameter */
@@ -2954,34 +3078,34 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricFOP_4 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    t("KeepInput[Solve[f(t) = (5.5, 2.5)]]", "Löse[f(t) = (5.5, 2.5)]");
+    tk("Solve[f(t) = (5.5, 2.5)]", "Löse[f(t) = (5.5, 2.5)]");
   }
 
   /* Parametric Equation Multiple Parameters */
 
   @Test
   public void Solve_ParametricEMP_0 () {
-    t("Solve[(3, 2) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 0, t = 0}");
+    t("Solve[(3, 2) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{{s = 0, t = 0}}");
   }
 
   @Test
   public void Solve_ParametricEMP_1 () {
-    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{s = 1, t = -1}");
+    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {s, t}]", "{{s = 1, t = -1}}");
   }
 
   @Test
   public void Solve_ParametricEMP_2 () {
-    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {t, s}]", "{t = -1, s = 1}");
+    t("Solve[(-3, 8) = (3, 2) + t * (5, 1) + s * (-1, 7), {t, s}]", "{{t = -1, s = 1}}");
   }
 
   @Test
   public void Solve_ParametricEMP_3 () {
-    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{s = (-1) / 2 * t + 1, t = t}");
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {s, t}]", "{{s = (-1) / 2 * t + 1, t = t}}");
   }
 
   @Test
   public void Solve_ParametricEMP_4 () {
-    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{t = 2 - 2 * s, s = s}");
+    t("Solve[(13, 4) = (3, 2) + t * (5, 1) + s * (10, 2), {t, s}]", "{{t = 2 - 2 * s, s = s}}");
   }
 
   @Test
@@ -3004,37 +3128,37 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_0 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Solve[f(t, s) = (3, 2), {s, t}]", "{s = 0, t = 0}");
+    t("Solve[f(t, s) = (3, 2), {s, t}]", "{{s = 0, t = 0}}");
   }
 
   @Test
   public void Solve_ParametricFMP_1 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Solve[f(t, s) = (-3, 8), {s, t}]", "{s = 1, t = -1}");
+    t("Solve[f(t, s) = (-3, 8), {s, t}]", "{{s = 1, t = -1}}");
   }
 
   @Test
   public void Solve_ParametricFMP_2 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Solve[f(t, s) = (-3, 8), {t, s}]", "{t = -1, s = 1}");
+    t("Solve[f(t, s) = (-3, 8), {t, s}]", "{{t = -1, s = 1}}");
   }
 
   @Test
   public void Solve_ParametricFMP_3 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Solve[f(s, t) = (-3, 8), {s, t}]", "{s = -1, t = 1}");
+    t("Solve[f(s, t) = (-3, 8), {s, t}]", "{{s = -1, t = 1}}");
   }
 
   @Test
   public void Solve_ParametricFMP_4 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), {s, t}]", "{s = (-1) / 2 * t + 1, t = t}");
+    t("Solve[f(t, s) = (13, 4), {s, t}]", "{{s = (-1) / 2 * t + 1, t = t}}");
   }
 
   @Test
   public void Solve_ParametricFMP_5 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
-    t("Solve[f(t, s) = (13, 4), {t, s}]", "{t = 2 - 2 * s, s = s}");
+    t("Solve[f(t, s) = (13, 4), {t, s}]", "{{t = 2 - 2 * s, s = s}}");
   }
 
   @Test
@@ -3058,20 +3182,20 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricFMP_9 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Solve[f(t, s) = (7, -8), {t, s}]", "{t = 1 / 2, s = (-3) / 2}");
+    t("Solve[f(t, s) = (7, -8), {t, s}]", "{{t = 1 / 2, s = (-3) / 2}}");
   }
   
   @Test
   public void Solve_ParametricFMP_10 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
-    t("Numeric[Solve[f(t, s) = (7, -8), {t, s}]]", "{t = 0.5, s = -1.5}");
+    t("Numeric[Solve[f(t, s) = (7, -8), {t, s}]]", "{{t = 0.5, s = -1.5}}");
   }
   
   @Test
   public void Solve_ParametricFMP_11 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
-    t("KeepInput[Solve[f(t, s) = (7, -8), {t, s}]]", "Löse[f(t, s) = (7, -8), {t, s}]");
+    tk("Solve[f(t, s) = (7, -8), {t, s}]", "Löse[f(t, s) = (7, -8), {t, s}]");
   }
 
 
@@ -3763,7 +3887,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   @Ignore
   public void Ticket_Ticket3579_0 () {
-    t("f(x) := KeepInput[x * x]", "x * x");
+    tk("f(x) := x * x", "x * x");
   }
 
 
@@ -3775,12 +3899,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void CASRundbrief_Figure2_0 () {
-    t("KeepInput[x - 1/2 = 2 x + 3]", "x - 1 / 2 = 2 * x + 3");
+    tk("x - 1/2 = 2 x + 3", "x - 1 / 2 = 2 * x + 3");
   }
 
   @Test
   public void CASRundbrief_Figure2_1 () {
-    t("KeepInput[(x - 1 / 2 = 2x + 3) + 1/2]", "(x - 1 / 2 = 2 * x + 3) + 1/2");
+    tk("(x - 1 / 2 = 2x + 3) + 1/2", "(x - 1 / 2 = 2 * x + 3) + 1/2");
   }
 
   @Test
