@@ -275,8 +275,7 @@ public class GeoGebraFrame extends VerticalPanel {
 		// these should run in runAsync later,
 		// so it will speed things up hopefully
 
-		// commented out from the Trunk version yet,
-		// because it may still make things slower
+		// not working yet
 		//if (ae.getDataParamGuiOff())
 		//	return new AppWsimple(ae, gf);
 

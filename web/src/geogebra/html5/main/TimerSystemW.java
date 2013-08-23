@@ -42,10 +42,12 @@ public class TimerSystemW {
 		euclidianView1 = application.getEuclidianView1();
 		if (application.hasEuclidianView2EitherShowingOrNot())
 			euclidianView2 = (EuclidianViewWeb)application.getEuclidianView2();
-		if (application.getViewManager().hasAlgebraView())
-			algebraView = (AlgebraViewWeb) application.getAlgebraView();
-		if (application.getViewManager().hasSpreadsheetView())
-			spreadsheetView = application.getViewManager().getSpreadsheetView();
+		if (application.getViewManager() != null) {
+			if (application.getViewManager().hasAlgebraView())
+				algebraView = (AlgebraViewWeb) application.getAlgebraView();
+			if (application.getViewManager().hasSpreadsheetView())
+				spreadsheetView = application.getViewManager().getSpreadsheetView();
+		}
 	}
 
 	// one timer for more views, use the minimum FPS of the views for timing

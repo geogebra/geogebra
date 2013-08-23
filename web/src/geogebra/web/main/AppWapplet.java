@@ -259,4 +259,20 @@ public class AppWapplet extends AppW {
 			getGuiManager().setToolBarDefinition(customToolbar);
 		}
 	}
+
+	@Override
+    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+		if (evno == 1 && getEuclidianView1().isShowing()) {
+			// this should follow the resizing of the EuclidianView
+			if (getSplitLayoutPanel() != null)
+				getSplitLayoutPanel().setPixelSize(
+					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+		} else if (evno == 2 && getEuclidianView2().isShowing()) {// or the EuclidianView 2
+			if (getSplitLayoutPanel() != null)
+				getSplitLayoutPanel().setPixelSize(
+					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+		}
+	}
 }

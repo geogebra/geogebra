@@ -312,7 +312,8 @@ public class AppW extends AppWeb {
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
 		// to be overridden in subclasses
-		return guiManager;
+		App.printStacktrace("Wrong call to getGuiManager!");
+		return null;
 	}
 
 	@Override
@@ -1192,29 +1193,6 @@ public class AppW extends AppWeb {
 		if (getGuiManager().getLayout() == null)
 			return null;
 		return getGuiManager().getLayout().getRootComponent();
-	}
-
-	@Override
-    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
-		if (!isFullAppGui()) {
-			if (evno == 1 && !isUsingFullGui()) {
-				if (widthDiff != 0 || heightDiff != 0)
-					getEuclidianViewpanel().setPixelSize(
-							getEuclidianViewpanel().getOffsetWidth() + widthDiff,
-							getEuclidianViewpanel().getOffsetHeight() + heightDiff);
-			} else if (evno == 1 && getEuclidianView1().isShowing()) {
-				// this should follow the resizing of the EuclidianView
-				if (getSplitLayoutPanel() != null)
-					getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-			} else if (evno == 2 && getEuclidianView2().isShowing()) {// or the EuclidianView 2
-				if (getSplitLayoutPanel() != null)
-					getSplitLayoutPanel().setPixelSize(
-						getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-						getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-			}
-		}
 	}
 
 	/**

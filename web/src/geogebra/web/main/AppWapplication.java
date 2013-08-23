@@ -226,4 +226,10 @@ public class AppWapplication extends AppW {
 	public void loadURL_GGB(String ggburl) {
 		getAppFrame().fileLoader.getView().processFileName(ggburl);
 	}
+
+	@Override
+    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+		// this method is overridden in each subclass of AppW,
+		// in order to override the behaviour in AppWeb
+	}
 }

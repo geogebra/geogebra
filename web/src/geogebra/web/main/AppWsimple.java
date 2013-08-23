@@ -2,12 +2,14 @@ package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.euclidian.EuclidianSimplePanelW;
+import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.infobar.InfoBarW;
-import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
 
 import com.google.gwt.dom.client.Style;
@@ -52,7 +54,7 @@ public class AppWsimple extends AppW {
 		initing = true;
 
 		// TODO: EuclidianSimplePanelW
-		this.euclidianViewPanel = new EuclidianDockPanelW(this, false);
+		this.euclidianViewPanel = new EuclidianSimplePanelW(this, false);
 		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -73,7 +75,7 @@ public class AppWsimple extends AppW {
 	protected void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 
-		initGuiManager();// TODO: comment it out
+		//initGuiManager();// TODO: comment it out
 
 		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
 		initing = false;
@@ -127,5 +129,23 @@ public class AppWsimple extends AppW {
 		GeoGebraFrame.useFocusedBorder(
 				getArticleElement(),
 				getGeoGebraFrame());
+	}
+
+	@Override
+	public GuiManagerInterfaceW getGuiManager() {
+		App.printStacktrace("Wrong call to guiManager!");
+		return null;
+	}
+
+	@Override
+    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+
+		// not sure this is needed here
+
+		/*if (widthDiff != 0 || heightDiff != 0)
+			getEuclidianViewpanel().setPixelSize(
+				getEuclidianViewpanel().getOffsetWidth() + widthDiff,
+				getEuclidianViewpanel().getOffsetHeight() + heightDiff);
+		*/
 	}
 }
