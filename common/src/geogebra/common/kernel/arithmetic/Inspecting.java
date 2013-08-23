@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.plugin.Operation;
 
 /**
  * Allows checking whether at least one part of structured expression value has certain property.
@@ -36,6 +37,23 @@ public interface Inspecting {
 		INSTANCE;
 		public boolean check(ExpressionValue v) {
 			return v instanceof Command;
+		}
+	}
+	
+	public enum ExtendedCommandFinder implements Inspecting{
+		/** singleton instance */
+		INSTANCE;
+		public boolean check(ExpressionValue v) {
+			if (v instanceof Command) {
+				return true;
+			}
+			if (v instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) v;
+				if (en.getOperation().equals(Operation.DERIVATIVE)) {
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 	
