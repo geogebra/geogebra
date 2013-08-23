@@ -10058,5 +10058,9 @@ public abstract class EuclidianController {
 		// TODO Auto-generated method stub
 		
 	}
+	public void setZoomCenter(double x, double y) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
