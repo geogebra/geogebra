@@ -3859,6 +3859,26 @@ public class GeoGebraCasIntegrationTest {
         "(-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
   }
 
+  /* Ticket 3554: f '(x) doesn't work in Keep Input mode */
+
+  @Test
+  public void Ticket_Ticket3554_0 () {
+    tk("f(x) := x^2", "x^(2)");
+    t("f'(x)", "2 * x");
+  }
+
+  @Test
+  public void Ticket_Ticket3554_1 () {
+    tk("f(x) := x^2", "x^(2)");
+    t("Numeric[f'(x)]", "2 * x");
+  }
+
+  @Test
+  public void Ticket_Ticket3554_2 () {
+    tk("f(x) := x^2", "x^(2)");
+    tk("f'(x)", "f'(x)");
+  }
+
   /* Ticket 3557: Substitute and Simplification */
 
   @Test
