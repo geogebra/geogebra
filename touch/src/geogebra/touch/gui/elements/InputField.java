@@ -50,7 +50,7 @@ public class InputField extends VerticalPanel {
 		this.textBox.getElement().setAttribute("autocapitalize", "off");
 		this.textBox.addStyleName("inactive");
 		this.add(this.textBox);
-		
+
 		if (useUnderline) {
 			this.underline = new LayoutPanel();
 			this.underline.setStyleName("inputUnderline");
@@ -97,7 +97,7 @@ public class InputField extends VerticalPanel {
 		this.textBox.addStyleName("active");
 	}
 
-	protected void onBlurTextBox() {
+	void onBlurTextBox() {
 		this.textBox.setFocus(false);
 		if (this.underline != null) {
 			this.underline.removeStyleName("active");
@@ -106,8 +106,8 @@ public class InputField extends VerticalPanel {
 		this.textBox.removeStyleName("active");
 		this.textBox.addStyleName("inactive");
 	}
-	
-	protected void onClickTextBox() {
+
+	void onClickTextBox() {
 		this.textBox.setFocus(true);
 
 		for (final InputField t : InputField.this.box) {

@@ -16,20 +16,17 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @author Thomas Krismayer
  * 
  */
-public class TabletHeaderPanelRight extends HorizontalPanel {
+class TabletHeaderPanelRight extends HorizontalPanel {
 	private FastButton undo;
 	private FastButton redo;
 
-	TabletHeaderPanel headerPanel;
 	TouchApp app;
 	TouchModel model;
 
 	/**
 	 * Generates the {@link HeaderButton buttons} for the right HeaderPanel.
 	 */
-	public TabletHeaderPanelRight(final TouchApp app,
-			TabletHeaderPanel headerPanel, TouchModel model) {
-		this.headerPanel = headerPanel;
+	public TabletHeaderPanelRight(final TouchApp app, TouchModel model) {
 		this.app = app;
 		this.model = model;
 

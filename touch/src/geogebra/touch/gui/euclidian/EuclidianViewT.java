@@ -49,7 +49,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	// accepting range for hitting a point is multiplied with this factor
 	// (for anything other see App)
 
-	public EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
+	EuclidianViewT(final EuclidianViewPanel euclidianViewPanel,
 			final TouchController ec, final Widget widget, final int width,
 			final int height) {
 		super(ec, new Settings().getEuclidian(1));
@@ -221,7 +221,7 @@ public class EuclidianViewT extends EuclidianViewWeb {
 	public void setMoveCursor() {
 	}
 
-	public void setPixelSize(final int width, final int height) {
+	void setPixelSize(final int width, final int height) {
 		this.g2p.setCoordinateSpaceSize(width, height);
 		this.canvas.setPixelSize(width, height);
 		this.updateSize();

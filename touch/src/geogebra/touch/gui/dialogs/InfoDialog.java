@@ -149,7 +149,7 @@ public class InfoDialog extends PopupPanel {
 		}, ClickEvent.getType());
 	}
 
-	protected void onDontSave() {
+	void onDontSave() {
 		if (this.type == InfoType.Override) {
 			this.tabletGUI.editTitle();
 		}
@@ -164,7 +164,7 @@ public class InfoDialog extends PopupPanel {
 	}
 
 	private void initSaveButton() {
-		
+
 		this.saveButton.addDomHandler(new ClickHandler() {
 
 			@Override

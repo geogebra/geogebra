@@ -240,10 +240,6 @@ public abstract class FastButton extends CustomButton {
 		this.handlers.add(handler);
 	}
 
-	public void removeFastClickHandler(FastClickHandler handler) {
-		this.handlers.remove(handler);
-	}
-
 	/**
 	 * 
 	 * @param event

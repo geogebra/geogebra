@@ -46,7 +46,7 @@ public class StyleBar extends FlowPanel {
 	 * @author Matthias Meisinger
 	 * 
 	 */
-	enum StyleBarEntry {
+	private enum StyleBarEntry {
 		Axes, Grid, Color, LineStyle, CaptionStyle;
 	}
 
@@ -291,8 +291,7 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	public void onOptionalButtonEvent(final FastButton button,
-			final OptionType type) {
+	void onOptionalButtonEvent(final FastButton button, final OptionType type) {
 
 		if (this.guiModel.getOptionTypeShown().equals(type)) {
 
@@ -309,8 +308,7 @@ public class StyleBar extends FlowPanel {
 		}
 	}
 
-	public void onStyleBarButtonEvent(final FastButton newButton,
-			final String process) {
+	void onStyleBarButtonEvent(final FastButton newButton, final String process) {
 
 		this.guiModel.closeOptions();
 		EuclidianStyleBarStatic.processSourceCommon(process, null,
@@ -321,7 +319,7 @@ public class StyleBar extends FlowPanel {
 		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 	}
 
-	public void updateColor(final String color) {
+	void updateColor(final String color) {
 
 		this.buttons.get(StyleBarEntry.Color).getElement().getStyle()
 				.setBackgroundImage("initial");

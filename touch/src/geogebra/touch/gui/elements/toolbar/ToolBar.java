@@ -121,7 +121,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		});
 	}
 
-	protected void onExpandToolBar() {
+	void onExpandToolBar() {
 		this.openClicked = true;
 		this.addStyleName("visible");
 		this.showHideOpened.setVisible(true);
@@ -132,7 +132,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.openClicked = false;
 	}
 
-	protected void onCollapseToolBar() {
+	void onCollapseToolBar() {
 		this.touchModel.getGuiModel().closeOptions();
 		this.closeToolBar();
 		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
@@ -189,18 +189,18 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		});
 	}
 
-	protected void onInputFieldClicked() {
+	void onInputFieldClicked() {
 		this.underline.removeStyleName("inactive");
 		this.underline.addStyleName("active");
 		this.input.show();
 	}
 
-	protected void onInputFieldClosed() {
+	void onInputFieldClosed() {
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
 	}
 
-	protected boolean onProcessInput(String inputString) {
+	boolean onProcessInput(String inputString) {
 		return this.touchModel.newInput(inputString);
 	}
 
@@ -210,7 +210,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.add(clearPanel);
 	}
 
-	protected void closeToolBar() {
+	private void closeToolBar() {
 		this.removeStyleName("visible");
 		this.showHideOpened.setVisible(false);
 		this.showHideClosed.setVisible(this.openNeeded);

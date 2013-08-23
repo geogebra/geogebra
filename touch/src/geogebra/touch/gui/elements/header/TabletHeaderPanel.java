@@ -63,7 +63,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 			}
 		});
 
-		this.rightHeader = new TabletHeaderPanelRight(app, this, touchModel);
+		this.rightHeader = new TabletHeaderPanelRight(app, touchModel);
 		this.rightHeader.setStyleName("headerRight");
 		this.worksheetTitle.setStyleName("worksheetTitle");
 
@@ -183,7 +183,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	protected void setConstructionTitle(final String title) {
 		this.worksheetTitle.setText(title);
 	}
-	
+
 	public TabletHeaderPanelLeft getLeftHeader() {
 		return this.leftHeader;
 	}

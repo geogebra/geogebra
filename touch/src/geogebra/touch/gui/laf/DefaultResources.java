@@ -12,17 +12,9 @@ public interface DefaultResources extends ClientBundle {
 
 	// Dialogs
 
-	@Source("icons/svg/algebra_tree_close.svg")
-	@Validated(validated = false)
-	SVGResource algebra_close();
-
 	@Source("icons/svg/algebra_hidden.svg")
 	@Validated(validated = false)
 	SVGResource algebra_hidden();
-
-	@Source("icons/svg/algebra_tree_open.svg")
-	@Validated(validated = false)
-	SVGResource algebra_open();
 
 	@Source("icons/svg/algebra_shown.svg")
 	@Validated(validated = false)
@@ -37,10 +29,6 @@ public interface DefaultResources extends ClientBundle {
 	@Source("icons/svg/tools_specialline_angle_bisector.svg")
 	@Validated(validated = false)
 	SVGResource angle_bisector();
-
-	@Source("icons/svg/tools_measurement_angle_with_given_size.svg")
-	@Validated(validated = false)
-	SVGResource angle_with_given_size();
 
 	@Source("icons/svg/tools_measurement_area.svg")
 	@Validated(validated = false)
@@ -142,17 +130,9 @@ public interface DefaultResources extends ClientBundle {
 	@Validated(validated = false)
 	SVGResource delete_object();
 
-	@Source("icons/svg/tools_cas_derivative.svg")
-	@Validated(validated = false)
-	SVGResource derivative();
-
 	@Source("icons/svg/button_cancel.svg")
 	@Validated(validated = false)
 	SVGResource dialog_cancel();
-
-	@Source("icons/svg/button_ok.svg")
-	@Validated(validated = false)
-	SVGResource dialog_ok();
 
 	@Source("icons/svg/button_trashcan.svg")
 	@Validated(validated = false)

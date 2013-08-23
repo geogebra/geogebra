@@ -282,7 +282,7 @@ public class TouchModel {
 	 * @return the first element of the given class with an index larger or
 	 *         equal than i; null in case there is no such element
 	 */
-	public GeoElement getElement(final Test geoclass, final int i) {
+	private GeoElement getElement(final Test geoclass, final int i) {
 		int count = 0;
 		for (final GeoElement geo : this.selectedElements) {
 			if (geoclass.check(geo)) {
@@ -1388,7 +1388,7 @@ public class TouchModel {
 		return true;
 	}
 
-	public void optionsClosed() {
+	void optionsClosed() {
 		if (this.storeOnClose) {
 			this.storeOnClose = false;
 			this.kernel.getApplication().storeUndoInfo();
@@ -1412,7 +1412,7 @@ public class TouchModel {
 	}
 
 	// try without this!!!!!
-	public void repaint() {
+	void repaint() {
 		this.kernel.notifyRepaint();
 	}
 

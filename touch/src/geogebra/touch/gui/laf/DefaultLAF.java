@@ -19,7 +19,7 @@ public class DefaultLAF implements LookAndFeel {
 	private TabletHeaderPanel hp;
 	private BrowseHeaderPanel bhp;
 	private final TabletGUI gui;
-	protected TouchApp app;
+	private TouchApp app;
 
 	public DefaultLAF(final TouchApp app) {
 		this.app = app;

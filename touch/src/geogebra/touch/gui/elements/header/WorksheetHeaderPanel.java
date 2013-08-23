@@ -44,13 +44,13 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 		});
 	}
 
-	protected void onGoBack() {
+	void onGoBack() {
 		this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
 				.getContentPanel());
 		TouchEntryPoint.goBack();
 	}
 
-	protected void onEdit() {
+	void onEdit() {
 		if (this.material != null) {
 			this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
 					.getContentPanel());

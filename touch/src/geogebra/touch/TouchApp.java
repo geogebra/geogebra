@@ -81,14 +81,15 @@ public class TouchApp extends AppWeb {
 	 * @see geogebra.common.factories.FormatFactory FormatFactory
 	 * @see geogebra.common.factories.AwtFactory AwtFactory
 	 */
-	public TouchApp(final GeoGebraTouchGUI touchGUI) {
+	TouchApp(final GeoGebraTouchGUI touchGUI) {
 		super();
 		this.titleListeners = new ArrayList<TitleChangedListener>();
 
 		super.initing = true;
 		this.touchGUI = touchGUI;
 		this.errorHandlers = new Stack<ErrorHandler>();
-		this.defaultErrorHandler = new DefaultErrorHandler(this.getLocalization());
+		this.defaultErrorHandler = new DefaultErrorHandler(
+				this.getLocalization());
 		this.errorHandlers.add(this.defaultErrorHandler);
 		this.setLabelDragsEnabled(false);
 
@@ -158,7 +159,7 @@ public class TouchApp extends AppWeb {
 		this.touchGUI.resetMode();
 	}
 
-	public void approveFileName() {
+	void approveFileName() {
 		this.isDefaultFileName = false;
 	}
 
@@ -452,10 +453,6 @@ public class TouchApp extends AppWeb {
 		this.errorHandlers.push(handler);
 	}
 
-	public void removeTitleChangedListener(final TitleChangedListener t) {
-		this.titleListeners.remove(t);
-	}
-
 	@Override
 	protected void resetCommandDictionary() {
 	}
@@ -491,8 +488,8 @@ public class TouchApp extends AppWeb {
 		if (TouchEntryPoint.hasBrowseGUI()) {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
-		//TODO remove
-		//this.showError("Labels set");
+		// TODO remove
+		// this.showError("Labels set");
 	}
 
 	public void setLanguage() {
@@ -577,7 +574,7 @@ public class TouchApp extends AppWeb {
 	 * Creates a new {@link Kernel}, a new instance of {@link MyXMLio} and
 	 * initializes the components of the {@link GeoGebraTouchGUI}.
 	 */
-	public void start() {
+	void start() {
 		this.initKernel();
 
 		this.touchGUI.initComponents(this.kernel);

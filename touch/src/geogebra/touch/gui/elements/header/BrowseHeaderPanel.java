@@ -91,8 +91,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			}
 		});
 
-		this.searchButton = new StandardButton(getLaf().getIcons()
-				.search());
+		this.searchButton = new StandardButton(getLaf().getIcons().search());
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -129,7 +128,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		setLabels();
 	}
 
-	protected void doSearch() {
+	void doSearch() {
 		if (!this.query.getText().equals("")) {
 			fireSearchEvent();
 		} else {
@@ -140,7 +139,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.underline.addStyleName("inactive");
 	}
 
-	protected void onCancel() {
+	void onCancel() {
 		this.query.setFocus(false);
 		this.query.setText("");
 		this.underline.removeStyleName("active");
@@ -149,14 +148,14 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		this.browseGUI.loadFeatured();
 	}
 
-	protected void onFocusQuery() {
+	void onFocusQuery() {
 		this.query.setFocus(true);
 		this.cancelButton.setVisible(true);
 		this.underline.removeStyleName("inactive");
 		this.underline.addStyleName("active");
 	}
 
-	protected void onBlurQuery() {
+	void onBlurQuery() {
 		if (this.query.getText().equals("")) {
 			this.query.setFocus(false);
 			this.underline.removeStyleName("active");
@@ -167,10 +166,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 
 	public boolean addSearchListener(final SearchListener l) {
 		return this.listeners.add(l);
-	}
-
-	public boolean removeSearchListener(final SearchListener l) {
-		return this.listeners.remove(l);
 	}
 
 	private void fireSearchEvent() {

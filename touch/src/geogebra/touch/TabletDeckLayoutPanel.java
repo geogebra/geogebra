@@ -8,16 +8,16 @@ import java.util.Stack;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TabletDeckLayoutPanel extends DeckLayoutPanel {
+class TabletDeckLayoutPanel extends DeckLayoutPanel {
 	private final Stack<Widget> history;
 	private final TouchApp app;
 
-	public TabletDeckLayoutPanel(final TouchApp app) {
+	TabletDeckLayoutPanel(final TouchApp app) {
 		this.app = app;
 		this.history = new Stack<Widget>();
 	}
 
-	public boolean goBack() {
+	boolean goBack() {
 		try {
 			// remove the current shown view
 			final Widget current = this.history.pop();
@@ -50,7 +50,7 @@ public class TabletDeckLayoutPanel extends DeckLayoutPanel {
 		this.history.push(widget);
 	}
 
-	public void clearHistory() {
+	void clearHistory() {
 		this.history.clear();
 	}
 }

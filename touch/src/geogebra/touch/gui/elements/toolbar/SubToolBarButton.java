@@ -9,7 +9,7 @@ import geogebra.touch.utils.ToolBarCommand;
  * @author Thomas Krismayer
  * @see geogebra.touch.gui.elements.toolbar.ToolButton ToolButton
  */
-public class SubToolBarButton extends ToolButton {
+class SubToolBarButton extends ToolButton {
 
 	OptionsClickedListener ancestor;
 
@@ -21,7 +21,7 @@ public class SubToolBarButton extends ToolButton {
 	 * @param ancestor
 	 *            OptionsClickedListener
 	 */
-	public SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor) {
+	SubToolBarButton(ToolBarCommand cmd, OptionsClickedListener ancestor) {
 		super(cmd);
 
 		this.ancestor = ancestor;

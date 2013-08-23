@@ -8,13 +8,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class CaptionBar extends FlowPanel {
+class CaptionBar extends FlowPanel {
 
 	private Button[] buttons = { new Button("stylebar_Hidden"),
 			new Button("Name"), new Button("NameAndValue"), new Button("Value") };
 	private final FlowPanel buttonPanel;
 
-	public CaptionBar(final TouchModel touchModel) {
+	CaptionBar(final TouchModel touchModel) {
 		this.addStyleName("captionBar");
 
 		this.buttonPanel = new FlowPanel();

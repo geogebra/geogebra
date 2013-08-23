@@ -7,9 +7,6 @@ import com.google.gwt.resources.client.TextResource;
 public interface GuiResources extends ClientBundle {
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
-	@Source("geogebra/resources/js/giac.js")
-	TextResource giacJs();
-
 	@Source("geogebra/resources/css/mathquill.css")
 	TextResource mathquillCss();
 }

@@ -75,17 +75,17 @@ public class FileContainer extends VerticalPanel implements ResizeListener {
 		this.add(this.fileControlPanel);
 	}
 
-	protected void onPrevPage() {
+	void onPrevPage() {
 		this.filePanel.prevPage();
 		updateNextPrevButtons();
 	}
 
-	protected void onNextPage() {
+	void onNextPage() {
 		this.filePanel.nextPage();
 		updateNextPrevButtons();
 	}
 
-	public void updateNextPrevButtons() {
+	private void updateNextPrevButtons() {
 		if (this.filePanel.hasNextPage()) {
 			this.nextButton.removeStyleName("disabled");
 			this.nextButton.setEnabled(true);

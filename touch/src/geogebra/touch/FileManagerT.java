@@ -21,7 +21,7 @@ public class FileManagerT {
 	private static final String FILE_PREFIX = "file#";
 	private static final String THUMB_PREFIX = "img#";
 	private static final String META_PREFIX = "meta#";
-	protected Storage stockStore = Storage.getLocalStorageIfSupported();
+	Storage stockStore = Storage.getLocalStorageIfSupported();
 
 	public FileManagerT() {
 		if (this.stockStore != null) {
@@ -50,7 +50,7 @@ public class FileManagerT {
 		return this.getFiles(MaterialFilter.getUniversalFilter());
 	}
 
-	public String getDefaultConstructionTitle(final Localization loc) {
+	String getDefaultConstructionTitle(final Localization loc) {
 		int i = 1;
 		String filename;
 		do {

@@ -6,8 +6,6 @@ import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
 import geogebra.touch.utils.ToolBarMenu;
 
-import org.vectomatic.dom.svg.ui.SVGResource;
-
 import com.google.gwt.user.client.Window;
 
 /**
@@ -25,12 +23,6 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	private static int BUTTON_WIDTH = 56;
 	private static int BUTTONPANEL_BORDER = 7;
 
-	public ToolBarButton(final SVGResource svgResource, final GuiModel guiModel) {
-		super(guiModel.getCommand());
-		super.setIcon(svgResource);
-		this.model = guiModel;
-	}
-
 	/**
 	 * Each ToolBarButton belongs to a {@link ToolBarMenu}.
 	 * 
@@ -41,8 +33,7 @@ public class ToolBarButton extends ToolButton implements OptionsClickedListener 
 	 * @param app
 	 * @param toolBar
 	 */
-	public ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel,
-			TouchApp app) {
+	ToolBarButton(final ToolBarMenu menu, final GuiModel guiModel, TouchApp app) {
 		super(menu.getCommand());
 		this.model = guiModel;
 

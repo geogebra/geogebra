@@ -109,7 +109,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.setAutoHideEnabled(true);
 	}
 
-	protected boolean handleInput(final String inputString) {
+	boolean handleInput(final String inputString) {
 		return this.model.inputPanelClosed(inputString);
 	}
 
@@ -342,7 +342,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 				&& this.radioButton[0].isActivated();
 	}
 
-	protected void onCancel() {
+	void onCancel() {
 		this.hide();
 	}
 
@@ -354,7 +354,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.textBox.setCursorPos(pos + 1);
 	}
 
-	protected void onOK() {
+	void onOK() {
 		InputDialog.this.handlingExpected = true;
 
 		String input = this.textBox.getText();
@@ -446,7 +446,7 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		this.inputHandler = inputHandler;
 	}
 
-	public void setLabels() {
+	private void setLabels() {
 		switch (this.type) {
 		case InputField:
 			this.title

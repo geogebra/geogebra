@@ -17,17 +17,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Zbynek
  * 
  */
-public class AuxiliaryHeaderPanel extends HorizontalPanel {
+class AuxiliaryHeaderPanel extends HorizontalPanel {
 
 	protected final StandardButton backButton;
-	protected FlowPanel backPanel;
+	private FlowPanel backPanel;
 	protected HorizontalPanel searchPanel;
 	protected VerticalPanel rightPanel;
 	private final Label headerText;
 
 	protected final Localization loc;
 
-	public AuxiliaryHeaderPanel(final Localization loc) {
+	AuxiliaryHeaderPanel(final Localization loc) {
 		this.setStyleName("headerbar");
 		this.loc = loc;
 		this.backButton = new StandardButton(TouchEntryPoint.getLookAndFeel()

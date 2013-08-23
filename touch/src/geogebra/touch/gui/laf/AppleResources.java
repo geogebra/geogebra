@@ -34,11 +34,6 @@ interface AppleResources extends DefaultResources {
 	// Header
 
 	@Override
-	@Source("icons/svg/android/button_ok.svg")
-	@Validated(validated = false)
-	SVGResource dialog_ok();
-
-	@Override
 	@Source("icons/svg/apple/button_trashcan.svg")
 	@Validated(validated = false)
 	SVGResource dialog_trash();
@@ -90,21 +85,21 @@ interface AppleResources extends DefaultResources {
 	@Validated(validated = false)
 	SVGResource icon_warning();
 
-//	@Override
-//	@Source("icons/svg/android/menu_edit_redo.svg")
-//	@Validated(validated = false)
-//	SVGResource redo();
+	// @Override
+	// @Source("icons/svg/android/menu_edit_redo.svg")
+	// @Validated(validated = false)
+	// SVGResource redo();
 
 	@Override
 	@Source("icons/svg/apple/search.svg")
 	@Validated(validated = false)
 	SVGResource search();
 
-//	@Override
-//	@Source("icons/svg/android/menu_edit_undo.svg")
-//	@Validated(validated = false)
-//	SVGResource undo();
-	
+	// @Override
+	// @Source("icons/svg/android/menu_edit_undo.svg")
+	// @Validated(validated = false)
+	// SVGResource undo();
+
 	@Override
 	@Source("icons/svg/apple/elem_radioButtonActive.svg")
 	@Validated(validated = false)

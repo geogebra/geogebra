@@ -6,7 +6,6 @@ import geogebra.touch.gui.BrowseGUI;
 import geogebra.touch.gui.GuiResources;
 import geogebra.touch.gui.TabletGUI;
 import geogebra.touch.gui.WorksheetGUI;
-import geogebra.touch.gui.elements.ProgressIndicator;
 import geogebra.touch.gui.laf.AndroidLAF;
 import geogebra.touch.gui.laf.AppleLAF;
 import geogebra.touch.gui.laf.DefaultLAF;
@@ -31,7 +30,6 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class TouchEntryPoint implements EntryPoint {
-	static ProgressIndicator progressIndicator = new ProgressIndicator();
 	static TabletDeckLayoutPanel appWidget;
 	static TabletGUI tabletGUI = new TabletGUI();
 	private static BrowseGUI browseGUI;
@@ -119,17 +117,15 @@ public class TouchEntryPoint implements EntryPoint {
 				this.initPhoneGap();
 
 				Window.enableScrolling(false);
-
-				progressIndicator.hide();
 			}
 		});
 	}
 
-	public static void reloadLocalFiles() {
+	static void reloadLocalFiles() {
 		TouchEntryPoint.getBrowseGUI().reloadLocalFiles();
 	}
 
-	protected static void setLookAndFeel() {
+	static void setLookAndFeel() {
 		final String param = RootPanel.getBodyElement().getAttribute(
 				"data-param-laf");
 
@@ -186,7 +182,7 @@ public class TouchEntryPoint implements EntryPoint {
 		return worksheetGUI;
 	}
 
-	public static BrowseGUI getBrowseGUI() {
+	static BrowseGUI getBrowseGUI() {
 		if (browseGUI == null) {
 			browseGUI = new BrowseGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);
@@ -194,11 +190,11 @@ public class TouchEntryPoint implements EntryPoint {
 		return browseGUI;
 	}
 
-	public static boolean hasWorksheetGUI() {
+	static boolean hasWorksheetGUI() {
 		return TouchEntryPoint.worksheetGUI != null;
 	}
 
-	public static boolean hasBrowseGUI() {
+	static boolean hasBrowseGUI() {
 		return TouchEntryPoint.browseGUI != null;
 	}
 }

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * @author Thomas Krismayer
  * 
  */
-public class TabletHeaderPanelLeft extends HorizontalPanel {
+class TabletHeaderPanelLeft extends HorizontalPanel {
 	private final Kernel kernel;
 	private final TouchApp app;
 	private final TouchModel touchModel;
@@ -47,8 +47,8 @@ public class TabletHeaderPanelLeft extends HorizontalPanel {
 	/**
 	 * Generates the Buttons for the left HeaderPanel.
 	 */
-	public TabletHeaderPanelLeft(final TouchApp app,
-			final TouchModel touchModel, final TabletHeaderPanel headerPanel) {
+	TabletHeaderPanelLeft(final TouchApp app, final TouchModel touchModel,
+			final TabletHeaderPanel headerPanel) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.tabletGUI = (TabletGUI) app.getTouchGui();

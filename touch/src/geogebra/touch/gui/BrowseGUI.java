@@ -72,7 +72,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	}
 
-	protected void updateViewSizes() {
+	void updateViewSizes() {
 		this.header.onResize();
 		resizeElements();
 	}
@@ -117,7 +117,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.addResizeListener(this.localFilePanel);
 	}
 
-	protected void displaySearchResults(final String query) {
+	void displaySearchResults(final String query) {
 		this.lastQuery = query;
 		this.localList = this.fm.search(query);
 		GeoGebraTubeAPI.getInstance(
@@ -166,7 +166,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 				});
 	}
 
-	protected void onSearchResults(final Response response) {
+	void onSearchResults(final Response response) {
 		this.tubeList = JSONparserGGT.parseResponse(response.getText());
 		this.updateGUI();
 	}
@@ -175,7 +175,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.resizeListeners.add(rl);
 	}
 
-	protected void resizeElements() {
+	private void resizeElements() {
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
@@ -196,7 +196,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		this.localFileContainer.setHeading(this.app.getMenu("MyProfile"));
 	}
 
-	protected void updateGUI() {
+	void updateGUI() {
 		if (this.tubeList.isEmpty()) {
 			this.localFilePanel.setMaterials(2, this.localList);
 			this.tubeFileContainer.setVisible(false);

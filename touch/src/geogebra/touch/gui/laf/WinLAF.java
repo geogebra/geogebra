@@ -65,7 +65,7 @@ public class WinLAF extends DefaultLAF {
 		}
 	}
 
-	public native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
+	private native void updateUndoSaveButtons(boolean undo, boolean redo) /*-{
 		if (!$wnd.appbar) {
 			return;
 		}

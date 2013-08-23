@@ -13,9 +13,9 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class LineStyleBar extends FlowPanel {
-	public static final int SLIDER_MIN = 1;
-	public static final int SLIDER_MAX = 12;
+class LineStyleBar extends FlowPanel {
+	private static final int SLIDER_MIN = 1;
+	private static final int SLIDER_MAX = 12;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
@@ -30,7 +30,7 @@ public class LineStyleBar extends FlowPanel {
 	private Slider slider = new Slider();
 	TouchModel touchModel;
 
-	public LineStyleBar(final TouchModel model) {
+	LineStyleBar(final TouchModel model) {
 		this.addStyleName("lineStyleBar");
 
 		this.touchModel = model;
@@ -119,7 +119,7 @@ public class LineStyleBar extends FlowPanel {
 		this.add(this.slider);
 	}
 
-	public void update() {
+	void update() {
 		if (this.touchModel.getGuiModel().getLineSize() > 0) {
 			this.slider.setValue(Integer.valueOf(this.touchModel.getGuiModel()
 					.getLineSize()));

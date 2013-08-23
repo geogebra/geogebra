@@ -17,7 +17,7 @@ import geogebra.common.main.DialogManager;
 
 import java.util.ArrayList;
 
-public class GuiManagerT extends GuiManager {
+class GuiManagerT extends GuiManager {
 
 	@Override
 	public void allowGUIToRefresh() {

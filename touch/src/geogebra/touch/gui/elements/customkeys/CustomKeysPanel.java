@@ -89,13 +89,9 @@ public class CustomKeysPanel extends PopupPanel {
 		}
 	}
 
-	protected void fireClickEvent(CustomKey key) {
+	void fireClickEvent(CustomKey key) {
 		for (final CustomKeyListener c : this.listeners) {
 			c.onCustomKeyPressed(key);
 		}
-	}
-
-	public void removeCustomKeyListener(CustomKeyListener l) {
-		this.listeners.remove(l);
 	}
 }

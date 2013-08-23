@@ -17,10 +17,10 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class ColorBar extends FlowPanel {
+class ColorBar extends FlowPanel {
 
-	protected StyleBar styleBar;
-	protected TouchModel touchModel;
+	StyleBar styleBar;
+	TouchModel touchModel;
 	private ColorBarSlider colorBarSlider = new ColorBarSlider();
 
 	private GColor[] colors = { GColor.BLACK, GeoGebraColorConstants.BROWN,
@@ -36,7 +36,7 @@ public class ColorBar extends FlowPanel {
 	 * Initializes the {@link ScrollPanel} and adds the different
 	 * {@link geogebra.touch.gui.elements.stylebar.Colors color-choices} to it.
 	 */
-	public ColorBar(StyleBar styleBar, TouchModel touchModel) {
+	ColorBar(StyleBar styleBar, TouchModel touchModel) {
 
 		this.styleBar = styleBar;
 		this.touchModel = touchModel;
@@ -55,11 +55,11 @@ public class ColorBar extends FlowPanel {
 		update();
 	}
 
-	class ColorButton extends FastButton {
+	private class ColorButton extends FastButton {
 
 		private GColor color;
 
-		public ColorButton(GColor c) {
+		ColorButton(GColor c) {
 
 			this.color = c;
 
@@ -83,7 +83,7 @@ public class ColorBar extends FlowPanel {
 
 		}
 
-		protected void onSingleClick() {
+		void onSingleClick() {
 
 			ColorBar.this.styleBar.updateColor(GColor
 					.getColorString(this.color));
@@ -123,7 +123,7 @@ public class ColorBar extends FlowPanel {
 		}
 	}
 
-	class ColorBarSlider extends Slider {
+	private class ColorBarSlider extends Slider {
 		public ColorBarSlider() {
 			this.setMinimum(0);
 			this.setMaximum(10);
@@ -153,7 +153,7 @@ public class ColorBar extends FlowPanel {
 		}
 	}
 
-	public void update() {
+	void update() {
 		remove(this.colorBarSlider);
 
 		// add slider only if there is at least one fillable element

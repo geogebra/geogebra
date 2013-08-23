@@ -18,7 +18,7 @@ import com.google.gwt.user.client.Event;
 /**
  * @see FastButton (uses the same kind of eventHandling)
  */
-public class RadioButtonTreeItemT extends RadioButtonTreeItem {
+class RadioButtonTreeItemT extends RadioButtonTreeItem {
 
 	/**
 	 * time (in ms) between two clickEvents to create a doubleClick
@@ -29,8 +29,8 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem {
 	private int touchId;
 	private long lastEvent = -1;
 
-	public RadioButtonTreeItemT(GeoElement ge, SafeUri showUrl,
-			SafeUri hiddenUrl, MouseDownHandler mdh, TouchController controller) {
+	RadioButtonTreeItemT(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl,
+			MouseDownHandler mdh, TouchController controller) {
 
 		super(ge, showUrl, hiddenUrl, mdh);
 		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS);
@@ -164,11 +164,11 @@ public class RadioButtonTreeItemT extends RadioButtonTreeItem {
 		// don't do anything
 	}
 
-	protected void openRedefine() {
+	private void openRedefine() {
 		this.controller.redefine(this.getGeo());
 	}
 
-	protected void handleClick() {
+	private void handleClick() {
 		long currentTime = System.currentTimeMillis();
 
 		if (currentTime - this.lastEvent < TIME_BETWEEN_CLICKS) {

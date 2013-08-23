@@ -10,10 +10,10 @@ import geogebra.touch.utils.ToolBarCommand;
  * @author Matthias Meisinger
  * 
  */
-public class ToolButton extends StandardButton {
+class ToolButton extends StandardButton {
 	private ToolBarCommand cmd;
 
-	public ToolButton(ToolBarCommand cmd) {
+	ToolButton(ToolBarCommand cmd) {
 		super(cmd.getIcon());
 		this.cmd = cmd;
 	}

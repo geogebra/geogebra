@@ -24,7 +24,7 @@ public class StandardRadioButton extends StandardButton {
 		});
 	}
 
-	protected void handleClick() {
+	void handleClick() {
 		if (this.activated) {
 			return;
 		}

@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class DefaultErrorHandler implements ErrorHandler {
+class DefaultErrorHandler implements ErrorHandler {
 
 	private ErrorPopup errorPopup;
 	private final Localization loc;
 	
-	public DefaultErrorHandler(Localization loc){
+	DefaultErrorHandler(Localization loc){
 		this.loc = loc;
 	}
 	private class ErrorPopup extends PopupPanel{

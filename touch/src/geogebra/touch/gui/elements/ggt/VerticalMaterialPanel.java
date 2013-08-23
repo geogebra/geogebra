@@ -56,37 +56,30 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		return this.columns * (maxHeight() / this.materialHeight);
 	}
 
-	public void nextPage() {
-		if (!hasNextPage()) {
-			return;
+	void nextPage() {
+		if (hasNextPage()) {
+			this.setMaterials(this.columns, this.materials, this.start
+					+ pageCapacity());
 		}
-		this.setMaterials(this.columns, this.materials, this.start
-				+ pageCapacity());
 	}
 
-	public boolean hasNextPage() {
-		if (this.start + pageCapacity() >= this.materials.size()) {
-			return false;
-		}
-		return true;
+	boolean hasNextPage() {
+		return (this.start + pageCapacity()) < this.materials.size();
 	}
 
-	public void prevPage() {
-		if (!hasPrevPage()) {
-			return;
+	void prevPage() {
+		if (hasPrevPage()) {
+			this.setMaterials(this.columns, this.materials,
+					Math.max(0, this.start - pageCapacity()));
 		}
-		this.setMaterials(this.columns, this.materials,
-				Math.max(0, this.start - pageCapacity()));
+
 	}
 
-	public boolean hasPrevPage() {
-		if (this.start <= 0) {
-			return false;
-		}
-		return true;
+	boolean hasPrevPage() {
+		return this.start > 0;
 	}
 
-	public void rememberSelected(final MaterialListElement materialElement) {
+	void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
 	}
 
@@ -102,7 +95,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private void setMaterials(final int cols, final List<Material> materials,
 			final int offset) {
-		boolean widthChanged = this.columns!=0 && cols!=this.columns;
+		boolean widthChanged = this.columns != 0 && cols != this.columns;
 		this.columns = cols;
 		this.contentPanel.clear();
 		this.start = offset;
@@ -118,21 +111,20 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		for (int i = 0; i < materials.size() - this.start && i < pageCapacity(); i++) {
 			final Material m = materials.get(i + this.start);
 			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
-			if(preview == null){
-				preview = new MaterialListElement(m,
-					this.app, this);
+			if (preview == null) {
+				preview = new MaterialListElement(m, this.app, this);
 				preview.initButtons();
 				this.titlesToPreviews.put(m.getURL(), preview);
 			}
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
 					preview);
 		}
-		if(widthChanged){
+		if (widthChanged) {
 			updateWidth();
 		}
 	}
 
-	public void unselectMaterials() {
+	void unselectMaterials() {
 		if (this.lastSelected != null) {
 			this.lastSelected.markUnSelected();
 		}
@@ -154,9 +146,9 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		// }
 
 	}
-	
+
 	@Override
-	public void onResize() {		
+	public void onResize() {
 		this.updateWidth();
 		this.updateHeight();
 	}

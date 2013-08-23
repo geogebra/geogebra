@@ -41,7 +41,7 @@ public class GuiModel {
 	 * @param model
 	 *            if it is not intended to use a TouchModel, model can be null
 	 */
-	public GuiModel(final TouchModel model) {
+	GuiModel(final TouchModel model) {
 		this.touchModel = model;
 	}
 
@@ -57,7 +57,7 @@ public class GuiModel {
 		return this.lineSize;
 	}
 
-	public void appendStyle(final ArrayList<GeoElement> elements) {
+	void appendStyle(final ArrayList<GeoElement> elements) {
 		if (this.color != null) {
 			StyleBarStatic.applyColor(elements, this.color);
 		}
@@ -125,7 +125,7 @@ public class GuiModel {
 		return this.activeDialog != null;
 	}
 
-	public void resetStyle() {
+	void resetStyle() {
 		this.color = null;
 		this.alpha = -1f;
 		this.lineStyle = -1;
@@ -219,7 +219,7 @@ public class GuiModel {
 		this.styleBarOptionShown = panel.getType();
 	}
 
-	public void updateStyleBar() {
+	void updateStyleBar() {
 		resetStyle();
 		if (this.styleBar != null) {
 			this.styleBar.rebuild();

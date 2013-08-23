@@ -44,8 +44,8 @@ public class TouchController extends EuclidianController {
 	private final TouchModel model;
 	private GPoint origin;
 	private boolean clicked = false, ignoreNextMove = false;
-	int waitingX;
-	int waitingY;
+	private int waitingX;
+	private int waitingY;
 	private long lastMoveEvent;
 	private boolean externalHandling;
 

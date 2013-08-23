@@ -36,10 +36,10 @@ import com.google.gwt.user.client.ui.HeaderPanel;
  * 
  */
 public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
-	public static final float ALGEBRA_VIEW_WIDTH_FRACTION = 0.2f;
-	public static final int FOOTER_BORDER_WIDTH = 1;
+	private static final float ALGEBRA_VIEW_WIDTH_FRACTION = 0.2f;
+
 	public static final int ALGEBRA_BUTTON_WIDTH = 50;
-	public static final int MINIMAL_WIDTH_FOR_TWO_VIEWS = 400;
+	private static final int MINIMAL_WIDTH_FOR_TWO_VIEWS = 400;
 
 	public static int computeAlgebraWidth() {
 		if (Window.getClientWidth() < MINIMAL_WIDTH_FOR_TWO_VIEWS) {

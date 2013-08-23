@@ -34,11 +34,6 @@ interface AndroidResources extends DefaultResources {
 	// Header
 
 	@Override
-	@Source("icons/svg/android/button_ok.svg")
-	@Validated(validated = false)
-	SVGResource dialog_ok();
-
-	@Override
 	@Source("icons/svg/android/button_trashcan.svg")
 	@Validated(validated = false)
 	SVGResource dialog_trash();

@@ -28,7 +28,7 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 	 * @param menuEntry
 	 *            the SubToolBarButtons that will be shown
 	 */
-	public SubToolBar(SubToolBarButton[] menuEntry, TouchApp app) {
+	SubToolBar(SubToolBarButton[] menuEntry, TouchApp app) {
 		this.setStyleName("subToolBar");
 
 		this.contentPanel = new VerticalPanel();
@@ -47,7 +47,7 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 		for (SubToolBarButton b : menuEntry) {
 			this.subToolBarPanel.add(b);
 		}
-		
+
 		this.clearPanel = new LayoutPanel();
 		this.clearPanel.setStyleName("clear");
 		this.subToolBarPanel.add(this.clearPanel);
@@ -62,7 +62,7 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 		this.arrowPanel.getElement().setInnerHTML(html);
 		this.contentPanel.add(this.arrowPanel);
 		this.arrowPanel.setStyleName("subToolBarArrow");
-		
+
 		((TabletGUI) app.getTouchGui()).addResizeListener(this);
 	}
 
@@ -85,6 +85,6 @@ public class SubToolBar extends PopupPanel implements ResizeListener {
 			this.removeStyleName("verticalOrder");
 			this.addStyleName("horizontalOrder");
 			this.horizontal = true;
-		}		
+		}
 	}
 }

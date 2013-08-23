@@ -16,7 +16,7 @@ public class OptionsPanel extends PopupPanel {
 	private ColorBar colorBar;
 	private OptionType type;
 
-	public OptionsPanel(StyleBar styleBar) {
+	OptionsPanel(StyleBar styleBar) {
 		this.styleBar = styleBar;
 		this.contentPanel = new VerticalPanel();
 		this.contentPanel.setStyleName("optionsBox");
@@ -45,7 +45,7 @@ public class OptionsPanel extends PopupPanel {
 		this.lineStyleBar = new LineStyleBar(this.styleBar.getTouchModel());
 	}
 
-	public OptionsPanel getOptionsPanel(OptionType optionType) {
+	OptionsPanel getOptionsPanel(OptionType optionType) {
 
 		this.type = optionType;
 		this.contentPanel.remove(this.optionPanel);

@@ -14,15 +14,11 @@ public class StandardRadioGroup extends FlowPanel {
 		this.radioChangeHandlerList = new ArrayList<RadioChangeHandler>();
 	}
 
-	public void addRadioButton(StandardRadioButton button) {
+	void addRadioButton(StandardRadioButton button) {
 		this.radioButtons.add(button);
 	}
 
-	public void removeRadioButton(StandardRadioButton button) {
-		this.radioButtons.remove(button);
-	}
-
-	public void deselectAll() {
+	void deselectAll() {
 		for (StandardRadioButton rB : this.radioButtons) {
 			rB.setActive(false);
 		}
@@ -32,7 +28,7 @@ public class StandardRadioGroup extends FlowPanel {
 		this.radioChangeHandlerList.add(handler);
 	}
 
-	public void fireRadioChanged(StandardRadioButton standardRadioButton) {
+	void fireRadioChanged(StandardRadioButton standardRadioButton) {
 		int index = this.radioButtons.indexOf(standardRadioButton);
 		if (index == -1) {
 			return;

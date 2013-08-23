@@ -44,7 +44,7 @@ public class MaterialListElement extends FlowPanel {
 	private final StandardButton deleteButton = new StandardButton(
 			LafIcons.dialog_trash());
 
-	public MaterialListElement(final Material m, final AppWeb app,
+	MaterialListElement(final Material m, final AppWeb app,
 			final VerticalMaterialPanel vmp) {
 
 		this.image = new SimplePanel();
@@ -125,7 +125,7 @@ public class MaterialListElement extends FlowPanel {
 		}
 	}
 
-	protected void initDeleteButton() {
+	private void initDeleteButton() {
 
 		this.links.add(this.deleteButton);
 		this.deleteButton.addStyleName("delete");
@@ -138,7 +138,7 @@ public class MaterialListElement extends FlowPanel {
 		});
 	}
 
-	protected void onDelete() {
+	void onDelete() {
 		this.fm.delete(this.material.getURL());
 	}
 
@@ -153,7 +153,7 @@ public class MaterialListElement extends FlowPanel {
 		});
 	}
 
-	protected void onEdit() {
+	void onEdit() {
 		this.fm.getMaterial(this.material, this.app);
 		TouchEntryPoint.allowEditing(true);
 		TouchEntryPoint.goBack();
@@ -170,11 +170,11 @@ public class MaterialListElement extends FlowPanel {
 		});
 	}
 
-	protected void onOpen() {
+	void onOpen() {
 		TouchEntryPoint.showWorksheetGUI(this.material);
 	}
 
-	protected void markSelected() {
+	void markSelected() {
 		this.vmp.unselectMaterials();
 		this.addStyleName("selected");
 		this.links.setVisible(true);
@@ -186,7 +186,7 @@ public class MaterialListElement extends FlowPanel {
 		this.links.setVisible(false);
 	}
 
-	public void setLabels() {
+	void setLabels() {
 		this.sharedBy.setText(this.app.getLocalization().getPlain("SharedByA",
 				this.material.getAuthor()));
 	}

@@ -21,9 +21,9 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TouchEventController implements TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, MouseDownHandler, MouseUpHandler,
-		MouseMoveHandler, MouseWheelHandler {
+class TouchEventController implements TouchStartHandler, TouchMoveHandler,
+		TouchEndHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
+		MouseWheelHandler {
 	private static double distance(final Touch t1, final Touch t2) {
 		return Math.sqrt(Math.pow(t1.getClientX() - t2.getClientX(), 2)
 				+ Math.pow(t1.getClientY() - t2.getClientY(), 2));
@@ -39,7 +39,7 @@ public class TouchEventController implements TouchStartHandler,
 	private final Widget offsetWidget;
 	private boolean ignoreMouseEvents = false;
 
-	public TouchEventController(final TouchController mc, final Widget w) {
+	TouchEventController(final TouchController mc, final Widget w) {
 		this.mc = mc;
 		this.offsetWidget = w;
 	}
