@@ -108,8 +108,11 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
     	
     	// try Brent method with borders close to start value
     	try {	
-     		double step = (kernel.getXmax() - kernel.getXmin()) / 10;
-    		root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(fun), 
+    		
+    		// arbitrary (used to depend on screen width)
+     		double step = 1;
+    		
+     		root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(fun), 
     				start - step, start + step, start);
     		if (checkRoot(fun, root)) {
     			//System.out.println("1. Brent worked: " + root);
@@ -173,8 +176,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
      * Tries to find a valid domain for the given function around it's starting value.
      */
     private double [] getDomain(Function fun, double start) {
-    	double screenWidth = kernel.getXmax() - kernel.getXmin();
-    	return RealRootUtil.getDefinedInterval(fun, start - screenWidth, start + screenWidth);
+    	// arbitrary interval (used to depend on screen width)
+    	return RealRootUtil.getDefinedInterval(fun, start - 0.5, start + 0.5);
     }
 
     @Override
