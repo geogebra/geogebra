@@ -132,6 +132,8 @@ public class WinLAF extends DefaultLAF {
 				$wnd.second.id = e.pointerId;
 				$wnd.second.x = e.x;	
 				$wnd.second.y = e.y;
+				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(($wnd.first.x+$wnd.second.x)/2.0,
+				($wnd.first.y+$wnd.second.y)/2.0);
 			}else{
 				$wnd.first.id = e.pointerId;
 				$wnd.first.x = e.x;	
@@ -146,7 +148,9 @@ public class WinLAF extends DefaultLAF {
 		element.addEventListener("MSPointerUp",function(e) {
 			if($wnd.first.id == e.pointerId){
 				$wnd.first.id = -1;
+				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(-1,-1);
 			}else{
+				zoomer.@geogebra.touch.gui.laf.MsZoomer::setZoomCenter(DD)(-1,-1);
 				$wnd.second.id = -1;
 			}
 		});
