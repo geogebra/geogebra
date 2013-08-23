@@ -66,11 +66,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		}
 
 		public double getCenterWidth() {
-			return getCenterWidth();
+			return super.getCenterWidth();
 		}
 
 		public double getCenterHeight() {
-			return getCenterHeight();
+			return super.getCenterHeight();
 		}
 	}
 
