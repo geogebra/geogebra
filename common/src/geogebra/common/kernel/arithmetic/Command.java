@@ -217,11 +217,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					var = vars.iterator().next().toString(tpl);
 				switch (getArgumentNumber()) {
 				case 1:
-					sbToString.append("");
+					sbToString.append(" ");
 					sbToString.append(getArgument(0).toString(tpl));
 					break;
 				case 2:
-					sbToString.append("");
+					sbToString.append(" ");
 					sbToString.append(getArgument(0).toString(tpl));
 					var = getArgument(1).toString(tpl);
 					break;
