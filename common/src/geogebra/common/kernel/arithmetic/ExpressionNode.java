@@ -3100,8 +3100,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
-					sb.append(rightStr.substring(1, rightStr.length() - 1));
-					
+					if (tpl.getStringType().equals(StringType.LATEX)) {
+						sb.append(rightStr.substring(2, rightStr.length() - 2));
+					} else {
+						sb.append(rightStr.substring(1, rightStr.length() - 1));
+					}
 					sb.append(tpl.rightBracket());
 				//}
 			}
