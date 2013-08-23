@@ -1529,7 +1529,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean success = false;
 		CASException ce = null;
 		nativeOutput = true;
-		if (getInputVE().getAssignmentType()==AssignmentType.DELAYED) {
+		if (inputVE != null && getInputVE().getAssignmentType()==AssignmentType.DELAYED) {
 			result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
 			success = result != null;
 		} else
@@ -1553,7 +1553,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 						null, StringTemplate.numericNoLocal);
 				if(result!=null && evalVE.unwrap() instanceof Command && ((Command)evalVE.unwrap()).getName().equals("KeepInput")){
 					result = ((Command)evalVE.unwrap()).getArgument(0).toString(StringTemplate.numericNoLocal);					
-				}else if(inputVE.isKeepInputUsed()){
+				}else if(inputVE != null && inputVE.isKeepInputUsed()){
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);
 				}
 				success = result != null;
