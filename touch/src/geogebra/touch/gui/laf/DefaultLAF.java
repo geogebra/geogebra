@@ -8,8 +8,10 @@ import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
 import geogebra.touch.gui.elements.header.WorksheetHeaderPanel;
+import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.model.TouchModel;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 
 public class DefaultLAF implements LookAndFeel {
@@ -119,5 +121,12 @@ public class DefaultLAF implements LookAndFeel {
 
 	public TouchApp getApp() {
 		return this.app;
+	}
+
+	@Override
+	public void attachExternalEvents(EuclidianViewT euclidianViewT,
+			Element element) {
+		// TODO Auto-generated method stub
+		
 	}
 }

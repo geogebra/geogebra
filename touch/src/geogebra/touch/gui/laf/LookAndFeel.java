@@ -6,7 +6,10 @@ import geogebra.touch.gui.WorksheetGUI;
 import geogebra.touch.gui.elements.header.BrowseHeaderPanel;
 import geogebra.touch.gui.elements.header.TabletHeaderPanel;
 import geogebra.touch.gui.elements.header.WorksheetHeader;
+import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.model.TouchModel;
+
+import com.google.gwt.user.client.Element;
 
 public interface LookAndFeel extends SavedStateListener {
 
@@ -37,4 +40,7 @@ public interface LookAndFeel extends SavedStateListener {
 	public boolean isShareSupported();
 
 	public void updateUndoSaveButtons();
+
+	public void attachExternalEvents(EuclidianViewT euclidianViewT,
+			Element element);
 }

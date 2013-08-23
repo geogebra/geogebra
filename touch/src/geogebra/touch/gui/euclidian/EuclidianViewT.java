@@ -16,6 +16,7 @@ import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.awt.GRectangleW;
 import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.html5.javax.swing.GBoxW;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.controller.TouchController;
 
 import java.util.List;
@@ -135,9 +136,12 @@ public class EuclidianViewT extends EuclidianViewWeb {
 		this.canvas = Canvas.createIfSupported();
 		this.g2p = new GGraphics2DW(this.canvas);
 		this.setCoordinateSpaceSize(width, height);
+		
+		
+		
 		final TouchEventController touchController = new TouchEventController(
 				(TouchController) this.getEuclidianController(), widget);
-
+		TouchEntryPoint.getLookAndFeel().attachExternalEvents(this,euclidianViewPanel.getElement());
 		euclidianViewPanel.addDomHandler(touchController,
 				TouchStartEvent.getType());
 		euclidianViewPanel.addDomHandler(touchController,
