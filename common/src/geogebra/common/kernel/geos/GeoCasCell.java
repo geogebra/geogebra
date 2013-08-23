@@ -22,7 +22,6 @@ import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
-import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
@@ -30,7 +29,6 @@ import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.arithmetic3D.Parametric3D;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1665,12 +1663,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			final boolean doTwinGeoUpdate,boolean allowFunction) {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
-				// no prefix, no postfix: just evaluation
-				if (inputVE.unwrap() instanceof Parametric || inputVE.unwrap() instanceof Parametric3D) {
-					setOutput(inputVE.toString(StringTemplate.defaultTemplate), true);
-				} else {
-					setOutput(result, true);
-				}
+				setOutput(result, true);
 			} else {
 				// make sure that evaluation is put into parentheses
 				StringBuilder sb = new StringBuilder();

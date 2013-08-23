@@ -87,10 +87,17 @@ public class Parametric extends ValidExpression {
 		if (tpl.getStringType().equals(StringType.GIAC)) {
 			MyVecNode a = (MyVecNode) P.unwrap();
 			MyVecNode b = (MyVecNode) v.unwrap();
-			sb.append("{x=");
+			/*sb.append("(x=");
 			sb.append(a.x.toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.x.toString(tpl) + ",");
 			sb.append("y=");
-			sb.append(a.y.toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.y.toString(tpl) + "}");
+			sb.append(a.y.toString(tpl) + "+" + tpl.printVariableName(parameter) + "*" + b.y.toString(tpl) + ")");*/
+			sb.append("point(");
+			sb.append(a.toString(tpl));
+			sb.append("+");
+			sb.append(parameter);
+			sb.append("*");
+			sb.append(b.toString(tpl));
+			sb.append(")");
 			return sb.toString();
 		}
 		sb.append((lhs == null) ? "" : lhs + " = " + P.toString(tpl) + " + " + parameter + " "
