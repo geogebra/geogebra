@@ -217,20 +217,20 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					var = vars.iterator().next().toString(tpl);
 				switch (getArgumentNumber()) {
 				case 1:
-					sbToString.append(" ");
+					sbToString.append("");
 					sbToString.append(getArgument(0).toString(tpl));
 					break;
 				case 2:
-					sbToString.append(" ");
+					sbToString.append("");
 					sbToString.append(getArgument(0).toString(tpl));
 					var = getArgument(1).toString(tpl);
 					break;
 				case 3:
-					sbToString.append("\\limits_");
+					sbToString.append("\\limits_{");
 					sbToString.append(getArgument(1).toString(tpl));
-					sbToString.append("^");
+					sbToString.append("}^{");
 					sbToString.append(getArgument(2).toString(tpl));
-					sbToString.append(" ");
+					sbToString.append("}");
 					sbToString.append(getArgument(0).toString(tpl));
 					break;
 				case 4:
@@ -238,14 +238,14 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					sbToString.append(getArgument(2).toString(tpl));
 					sbToString.append("}^{");
 					sbToString.append(getArgument(3).toString(tpl));
-					sbToString.append("} ");
+					sbToString.append("}");
 					sbToString.append(getArgument(0).toString(tpl));
 					var = getArgument(1).toString(tpl);
 					break;
 				default:
 					break;
 				}
-				sbToString.append("\\, \\mathrm{d}");
+				sbToString.append("\\,\\mathrm{d}");
 				sbToString.append(var);
 				return sbToString.toString();
 			} else if (name.equals("Sum") && getArgumentNumber() == 4) {
@@ -255,7 +255,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				sbToString.append(args.get(2).toString(tpl));
 				sbToString.append("}^{");
 				sbToString.append(args.get(3).toString(tpl));
-				sbToString.append("} ");
+				sbToString.append("}");
 				sbToString.append(args.get(0).toString(tpl));
 				return sbToString.toString();
 			} else if (name.equals("Product") && getArgumentNumber() == 4) {
@@ -265,7 +265,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				sbToString.append(args.get(2).toString(tpl));
 				sbToString.append("}^{");
 				sbToString.append(args.get(3).toString(tpl));
-				sbToString.append("} ");
+				sbToString.append("}");
 				sbToString.append(args.get(0).toString(tpl));
 				return sbToString.toString();
 			}
