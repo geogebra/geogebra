@@ -186,28 +186,24 @@ public class CASInputHandler {
 				return;
 			}
 			
-			// assignments are processed immediately, the ggbcmd creates a new
-			// row below
+			/* Assignments are processed immediately, the ggbcmd creates a new row below */
 			if (isAssignment) {
-				// tell row that KeepInput was used
-				if (isKeepInput || isEvaluate) {
+				ValidExpression inVE = cellValue.getInputVE();
+				/* If evaluation mode is Numeric, only the evaluation text is wrapped, input is left unchanged */
+				if(isNumeric && inVE != null) {
+					/* Evaluation text is wrapped only if the input is not already wrapped */
+					if (inVE.getTopLevelCommand() == null || !inVE.getTopLevelCommand().getName().equals("Numeric")) {
+						cellValue.setProcessingInformation(prefix, ggbcmd + "[" + inVE.toString(StringTemplate.numericDefault) + "]", postfix);
+					}
+				/* Otherwise set the evaluation text to input */ 
+				} else {
+					cellValue.setProcessingInformation(prefix, inVE.toString(StringTemplate.numericDefault), postfix);
+				}
+				if (isKeepInput || isEvaluate || isNumeric) {
 					cellValue.setEvalCommand(ggbcmd);
 				}
-				ValidExpression inVE = cellValue.getInputVE();
-				if(isNumeric && inVE!=null) {
-					if (inVE.getTopLevelCommand() == null || !inVE.getTopLevelCommand().getName().equals("Numeric")) {
-						cellValue.setInput(inVE.getLabelForAssignment()
-								+ inVE.getAssignmentOperator()
-								+ ggbcmd
-								+ "["
-								+ inVE.toString(StringTemplate.numericDefault) 
-								+ "]");
-					}
-					processRowThenEdit(selRow, true);
-					return;
-				}
 				// evaluate assignment row
-				boolean needInsertRow = !isEvaluate && !isKeepInput;
+				boolean needInsertRow = !isEvaluate && !isKeepInput && !isNumeric;
 				boolean success = processRowThenEdit(selRow, !needInsertRow);
 
 				// insert a new row below with the assignment label and process
@@ -240,8 +236,6 @@ public class CASInputHandler {
 
 				return;
 			}
-
-
 
 			// standard case: build eval command
 			String paramString = null;
