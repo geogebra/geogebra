@@ -190,8 +190,8 @@ public class CASInputHandler {
 			// row below
 			if (isAssignment) {
 				// tell row that KeepInput was used
-				if (isKeepInput) {
-					cellValue.setEvalCommand("KeepInput");
+				if (isKeepInput || isEvaluate) {
+					cellValue.setEvalCommand(ggbcmd);
 				}
 				ValidExpression inVE = cellValue.getInputVE();
 				if(isNumeric && inVE!=null) {
