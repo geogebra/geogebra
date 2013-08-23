@@ -3661,6 +3661,16 @@ public class GeoGebraCasIntegrationTest {
 
   /* Ticket */
 
+  /* Ticket 697: Solve[ {x -1 = 1, y+x = 3}, {x, y}] puts answer in () not {} */
+
+  // TODO Add test! Forget about the existing one.
+  
+  @Test
+  public void Ticket_Ticket697_0 () {
+    tk("f(x) := x^2", "x^(2)");
+    t("f'(x)", "2 * x");
+  }
+
   /* Ticket 801: Numeric factorization */
 
   @Test
@@ -3760,6 +3770,52 @@ public class GeoGebraCasIntegrationTest {
   public void Ticket_Ticket2651_0 () {
     t("f(x) := FitPoly[{(-1, -1), (0, 1), (1, 1), (2, 5)}, 3]", "x^(3) - x^(2) + 1");
     t("f(-1)", "-1");
+  }
+
+  /* Ticket 3370: Integral symbol for integrals in CAS */
+
+  @Test
+  public void Ticket_Ticket3370_0 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("Integral[x^2, x, 1, 2]");
+    f.setEvalCommand("KeepInput");
+    f.computeOutput();
+
+    Assert.assertEquals("\\mathbf{\\int\\limits_{1}^{2}x^{2}\\,\\mathrm{d}x}", f.getLaTeXOutput());
+  }
+
+  @Test
+  public void Ticket_Ticket3370_1 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("Integral[f(y), y, somevar, g(h)]");
+    f.setEvalCommand("KeepInput");
+    f.computeOutput();
+
+    Assert.assertEquals("\\mathbf{\\int\\limits_{somevar}^{g\\left(h\\right)}f\\left(y\\right)\\,\\mathrm{d}y}", f.getLaTeXOutput());
+  }
+
+  @Test
+  public void Ticket_Ticket3370_2 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("Sum[x^2, x, 1, 2]");
+    f.setEvalCommand("KeepInput");
+    f.computeOutput();
+
+    Assert.assertEquals("\\mathbf{\\sum_{x=1}^{2}x^{2}}", f.getLaTeXOutput());
+  }
+
+  @Test
+  public void Ticket_Ticket3370_3 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("Sum[f(y), y, somevar, g(h)]");
+    f.setEvalCommand("KeepInput");
+    f.computeOutput();
+
+    Assert.assertEquals("\\mathbf{\\sum_{y=somevar}^{g\\left(h\\right)}f\\left(y\\right)}", f.getLaTeXOutput());
   }
 
   /* Ticket 3385: Intersection and Union in CAS */
