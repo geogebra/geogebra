@@ -234,11 +234,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					sbToString.append(getArgument(0).toString(tpl));
 					break;
 				case 4:
-					sbToString.append("\\limits_");
+					sbToString.append("\\limits_{");
 					sbToString.append(getArgument(2).toString(tpl));
-					sbToString.append("^");
+					sbToString.append("}^{");
 					sbToString.append(getArgument(3).toString(tpl));
-					sbToString.append(" ");
+					sbToString.append("} ");
 					sbToString.append(getArgument(0).toString(tpl));
 					var = getArgument(1).toString(tpl);
 					break;
