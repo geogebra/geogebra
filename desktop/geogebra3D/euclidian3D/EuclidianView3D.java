@@ -2874,6 +2874,10 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return clippingCubeDrawable.getVertex(i);
 	}
 	
+	public void notifyEuclidianViewCE() {
+		kernel.notifyEuclidianViewCE();
+	}
+	
 	private void viewChangedOwnDrawables(){
 
 		//if (useClippingCube()){

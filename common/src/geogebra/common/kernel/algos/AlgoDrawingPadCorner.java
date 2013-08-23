@@ -21,12 +21,14 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
 
-	private GeoPoint corner; // output
-	private NumberValue number, evNum;
+	protected GeoPointND corner; // output
+	protected NumberValue number;
+	protected NumberValue evNum;
 
 	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
 			NumberValue evNum) {
@@ -34,7 +36,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		this.number = number;
 		this.evNum = evNum; // can be null
 
-		corner = new GeoPoint(cons);
+		corner = newGeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 		corner.setEuclidianVisible(false); // hidden by default
@@ -42,6 +44,15 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 		cons.registerEuclidianViewCE(this);
 
+	}
+	
+	/**
+	 * 
+	 * @param cons construction
+	 * @return new point
+	 */
+	protected GeoPointND newGeoPoint(Construction cons){
+		return new GeoPoint(cons);
 	}
 
 	@Override
@@ -63,16 +74,16 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		}
 
 		super.setOutputLength(1);
-		super.setOutput(0, corner);
+		super.setOutput(0, (GeoElement) corner);
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getCorner() {
+	public GeoPointND getCorner() {
 		return corner;
 	}
 
 	@Override
-	public final void compute() {
+	public void compute() {
 
 		// x1 = x1 / invXscale + xZero;
 		// x2 = x2 / invXscale + xZero;

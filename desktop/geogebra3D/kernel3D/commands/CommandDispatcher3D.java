@@ -50,6 +50,12 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				
 			case Corner:
 				return new CmdCorner3D(kernel);
+				
+			case CornerThreeD:
+				return new CmdVertexForce3D(kernel);
+				
+			case Vertex:
+				return new CmdVertex3D(kernel);
 
 				
 			case OrthogonalLine:

@@ -2,7 +2,6 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.commands.CmdCorner;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra3D.kernel3D.GeoConicSection;
@@ -14,7 +13,7 @@ import geogebra3D.kernel3D.GeoConicSection;
  * @author mathieu
  *
  */
-public class CmdCorner3D extends CmdCorner {
+public class CmdCorner3D extends CmdVertex3D {
 	
 	
 	
