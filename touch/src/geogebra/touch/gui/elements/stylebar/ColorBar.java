@@ -159,7 +159,6 @@ public class ColorBar extends FlowPanel {
 		// add slider only if there is at least one fillable element
 		int alpha = (int) (this.touchModel.getGuiModel().getAlpha() * 10);
 		if (this.touchModel.getLastAlpha() != -1
-				|| alpha > 0
 				|| this.touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
 
 			int value = alpha >= 0 ? alpha : (int) (ColorBar.this.touchModel

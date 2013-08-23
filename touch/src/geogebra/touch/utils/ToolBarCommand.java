@@ -35,7 +35,7 @@ public enum ToolBarCommand {
 			EuclidianConstants.MODE_POINT, getLafIcons().new_point(),
 			StyleBarDefaultSettings.Point), PointOnObject(
 			EuclidianConstants.MODE_POINT_ON_OBJECT, getLafIcons()
-					.point_on_object(), StyleBarDefaultSettings.Point),
+					.point_on_object(), StyleBarDefaultSettings.PointOnObject),
 
 	// Line
 	LineThroughTwoPoints(EuclidianConstants.MODE_JOIN, getLafIcons()

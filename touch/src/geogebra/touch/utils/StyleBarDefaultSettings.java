@@ -9,9 +9,12 @@ import org.vectomatic.dom.svg.ui.SVGResource;
 
 public enum StyleBarDefaultSettings {
 	Point(GColor.blue, new SVGResource[] { getLafIcons().color(),
-			getLafIcons().label() }), DependentPoints(GColor.darkGray,
-			new SVGResource[] { getLafIcons().color(), getLafIcons().label() }), Line(
-			GColor.black, new SVGResource[] { getLafIcons().color(),
+			getLafIcons().label() }), PointOnObject(
+			GeoGebraColorConstants.LIGHTBLUE, new SVGResource[] {
+					getLafIcons().color(), getLafIcons().label() }), DependentPoints(
+			GColor.darkGray, new SVGResource[] { getLafIcons().color(),
+					getLafIcons().label() }), Line(GColor.black,
+			new SVGResource[] { getLafIcons().color(),
 					getLafIcons().properties_default(), getLafIcons().label(),
 					getLafIcons().properties_default() }), Polygon(
 			GeoGebraColorConstants.BROWN, new SVGResource[] {

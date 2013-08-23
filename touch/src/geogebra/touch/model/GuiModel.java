@@ -220,6 +220,7 @@ public class GuiModel {
 	}
 
 	public void updateStyleBar() {
+		resetStyle();
 		if (this.styleBar != null) {
 			this.styleBar.rebuild();
 		}
