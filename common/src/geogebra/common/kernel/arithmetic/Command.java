@@ -205,36 +205,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		case GIAC:
 			return (kernel.getGeoGebraCAS())
 					.getCASCommand(name, args, symbolic,tpl);
-
-		default:
+		case LATEX:
 			if (sbToString == null)
 				sbToString = new StringBuilder();
 			sbToString.setLength(0);
-
-			// GeoGebra command syntax
-			if (!name.equals("Integral") || !LaTeX) {
-				if (tpl.isPrintLocalizedCommandNames()) {
-					sbToString.append(app.getLocalization().getCommand(name));
-				} else {
-					sbToString.append(name);
-				}
-				if (LaTeX) {
-					sbToString.append(" \\left");
-				}
-				sbToString.append('[');
-				int size = args.size();
-				for (int i = 0; i < size; i++) {
-					sbToString.append(toString(args.get(i), symbolic, LaTeX,
-							tpl));
-					sbToString.append(',');
-				}
-				if (size > 0)
-					sbToString.deleteCharAt(sbToString.length() - 1);
-				if (LaTeX) {
-					sbToString.append(" \\right");
-				}
-				sbToString.append(']');
-			} else {
+			if (name.equals("Integral")) {
 				sbToString.append("\\int");
 				Set<GeoElement> vars = getArgument(0).getVariables();
 				String var = "x";
@@ -251,7 +226,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					var = getArgument(1).toString(tpl);
 					break;
 				case 3:
-					sbToString.append("_");
+					sbToString.append("\\limits_");
 					sbToString.append(getArgument(1).toString(tpl));
 					sbToString.append("^");
 					sbToString.append(getArgument(2).toString(tpl));
@@ -259,7 +234,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 					sbToString.append(getArgument(0).toString(tpl));
 					break;
 				case 4:
-					sbToString.append("_");
+					sbToString.append("\\limits_");
 					sbToString.append(getArgument(2).toString(tpl));
 					sbToString.append("^");
 					sbToString.append(getArgument(3).toString(tpl));
@@ -272,10 +247,57 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				}
 				sbToString.append("\\, \\mathrm{d}");
 				sbToString.append(var);
+				return sbToString.toString();
+			} else if (name.equals("Sum") && getArgumentNumber() == 4) {
+				sbToString.append("\\sum_{");
+				sbToString.append(args.get(1).toString(tpl));
+				sbToString.append("=");
+				sbToString.append(args.get(2).toString(tpl));
+				sbToString.append("}^{");
+				sbToString.append(args.get(3).toString(tpl));
+				sbToString.append("} ");
+				sbToString.append(args.get(0).toString(tpl));
+				return sbToString.toString();
+			} else if (name.equals("Product") && getArgumentNumber() == 4) {
+				sbToString.append("\\prod_{");
+				sbToString.append(args.get(1).toString(tpl));
+				sbToString.append("=");
+				sbToString.append(args.get(2).toString(tpl));
+				sbToString.append("}^{");
+				sbToString.append(args.get(3).toString(tpl));
+				sbToString.append("} ");
+				sbToString.append(args.get(0).toString(tpl));
+				return sbToString.toString();
 			}
+		default:
+			if (sbToString == null)
+				sbToString = new StringBuilder();
+			sbToString.setLength(0);
+
+			// GeoGebra command syntax
+			if (tpl.isPrintLocalizedCommandNames()) {
+				sbToString.append(app.getLocalization().getCommand(name));
+			} else {
+				sbToString.append(name);
+			}
+			if (LaTeX) {
+				sbToString.append(" \\left");
+			}
+			sbToString.append('[');
+			int size = args.size();
+			for (int i = 0; i < size; i++) {
+				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
+				sbToString.append(',');
+			}
+			if (size > 0)
+				sbToString.deleteCharAt(sbToString.length() - 1);
+			if (LaTeX) {
+				sbToString.append(" \\right");
+			}
+			sbToString.append(']');
+
 			return sbToString.toString();
 		}
-
 	}
 
 	private StringBuilder sbToString;
