@@ -133,7 +133,7 @@ public class AppWsimple extends AppW {
 
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
-		App.printStacktrace("Wrong call to guiManager!");
+		App.debug("Wrong call to AppWsimple.getGuiManager!");
 		return null;
 	}
 
