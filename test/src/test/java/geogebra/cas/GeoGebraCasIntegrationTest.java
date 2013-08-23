@@ -3008,6 +3008,11 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_Several_21 () {
     t("Solve[{c^2 - 1 = 0, a + b = 0}, {c, b}]", "{{c = -1, b = -a}, {c = 1, b = -a}}");
   }
+
+  @Test
+  public void Solve_Several_22 () {
+    t("Solve[8 = 3 + 5 t^2 + 10 s, {t, s}]", "{{t = -sqrt(-2 * s + 1), s = s}, {t = sqrt(-2 * s + 1), s = s}}");
+  }
   
 
   /* Parametric Equations One Parameter */
@@ -3949,6 +3954,38 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Ticket_Ticket3558_0 () {
     t("Curve[t, 5 t, t, 0, 10]", "y - 5  * x = 0");
+  }
+
+  /* Ticket 3563: Solve Yields Empty Set for Underdefined Systems */
+
+  @Test
+  public void Ticket_Ticket3563_0 () {
+    t("Solve[13 = 3 + 5 t + 10 s, {t, s}]", "{{t = -2 * s + 2, s = s}}");
+  }
+
+  @Test
+  public void Ticket_Ticket3563_1 () {
+    t("Solve[{b + a = 0, c^2 - 1 = 0}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Ticket_Ticket3563_2 () {
+    t("Solve[{c^2 - 1 = 0, b + a = 0}]", "{{a = -b, b = b}}");
+  }
+
+  @Test
+  public void Ticket_Ticket3563_3 () {
+    t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}]", "{{x = 0, a = -b, b = b}}");
+  }
+
+  @Test
+  public void Ticket_Ticket3563_4 () {
+    t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, b]", "{b = -a}");
+  }
+
+  @Test
+  public void Ticket_Ticket3563_5 () {
+    t("Solve[{c^2 - 1 = 0, b + a = 0, x = 0}, c]", "{c = -1, c = 1}");
   }
 
   /* Ticket 3579: KeepInput Being Kept */
