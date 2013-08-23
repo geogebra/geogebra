@@ -334,7 +334,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		if (typeof ctx.setLineDash === 'function') {
 			ctx.setLineDash(dasharray);
 			this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;
-		} else if (ctx.mozDash !== 'undefined') {
+		} else if (typeof ctx.mozDash !== 'undefined') {
 			ctx.mozDash = dasharray;
 			this.@geogebra.html5.awt.GGraphics2DW::nativeDashUsed = true;			
 		} else if (typeof ctx.webkitLineDash !== 'undefined') {
