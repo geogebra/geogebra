@@ -457,7 +457,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 					.toCasAssignment(StringTemplate.defaultTemplate);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
+			String evalCmd1 = evalCmd;
 			if (setInput(assignmentStr)) {
+				setEvalCommand(evalCmd1);
 				computeOutput(false,false);
 				update();
 			}
