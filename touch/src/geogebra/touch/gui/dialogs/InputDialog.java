@@ -124,9 +124,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 			s[1] = this.app.getLocalization().getMenu("Angle");
 		}
 
-		// "A" is just a label to group the two radioButtons (could be any
-		// String -
-		// as long as the same is used twice)
 		this.radioButton[0] = new StandardRadioButton(s[0], this.radioGroup);
 		this.radioButton[1] = new StandardRadioButton(s[1], this.radioGroup);
 
@@ -511,6 +508,10 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 
 		super.center();
 
+		if (this.radioButton[0] != null) {
+			this.radioButton[0].setActive(true);
+		}
+
 		if (this.type == DialogType.RedefineSlider) {
 			// do not overwrite label
 		} else if (this.type != DialogType.Slider) {
@@ -520,11 +521,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 
 		this.handlingExpected = false;
-
-		if (this.radioButton[0] != null) {
-			this.radioButton[0].setActive(true);
-		}
-
 		this.errorBox.setVisible(false);
 
 		// if (this.type != DialogType.Slider) {
