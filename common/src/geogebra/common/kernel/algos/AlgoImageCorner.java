@@ -34,7 +34,10 @@ public class AlgoImageCorner extends AlgoElement {
         corner = new GeoPoint(cons);                
         setInputOutput(); // for AlgoElement                
         compute();              
-        corner.setLabel(label);           
+        corner.setLabel(label);   
+        
+        cons.registerEuclidianViewCE(this);
+
     }   
     
     @Override
@@ -66,6 +69,21 @@ public class AlgoImageCorner extends AlgoElement {
         return getCommandDescription(tpl);
     }
 
+    
+    @Override
+	public boolean euclidianViewUpdate() {
+    	
+    	// update image to update it's bounding box
+    	kernel.notifyUpdate(img);
+    	
+    	// now compute()
+    	compute();
+    	
+    	// update corner
+    	corner.update();  
+    	
+    	return true; //update cascade of dependent objects done in Construction
+    }
 	// TODO Consider locusequability
 	
 }
