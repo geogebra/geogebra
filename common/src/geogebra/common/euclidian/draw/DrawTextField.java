@@ -126,6 +126,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 */
 	public class InputFieldListener extends geogebra.common.euclidian.event.FocusListener{
 
+		private String initialText;
+		
 		/**
 		 * Creates new listener
 		 */
@@ -139,6 +141,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		public void focusGained(FocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(true);
 			//geoTextField.updateText(textField);
+			
+			initialText = textField.getText();
 		}
 	
 		/**
@@ -146,8 +150,13 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 */
 		public void focusLost(FocusEvent e) {
 			getView().getEuclidianController().textfieldHasFocus(false);	
-			geoTextField.textObjectUpdated(textField);
-			geoTextField.textSubmitted();
+			
+			// make sure (expensive) update doesn't happen unless needed
+			// also caused problems when Object Properties opened
+			if (!textField.getText().equals(initialText)) {
+				geoTextField.textObjectUpdated(textField);
+				geoTextField.textSubmitted();
+			}
 		}
 	}
 	
