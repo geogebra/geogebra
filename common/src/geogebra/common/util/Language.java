@@ -68,6 +68,8 @@ public enum Language {
 			Country.Vanuatu, Country.Zambia, Country.Zimbabwe),
 	English_UK(null, true, true, "enGB", "en_GB", "English (UK)", Country.UnitedKingdom),
 	English_Australia(null, true, false, "enAU", "en_AU", "English (Australia)", Country.Australia),
+	// could have esperanto.png for flag (but we don't)
+	Esperanto(null, true, false, "eo","eo", "Esperanto", "esperanto"),
 	Estonian(null, true, false, "et","et", "Estonian / Eesti keel", Country.Estonia),
 	Filipino(null, true, false, "tl","tl", "Filipino", Country.Philippines),
 	Finnish(null, true, false, "fi","fi", "Finnish / Suomi", Country.Finland),
