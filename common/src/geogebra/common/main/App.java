@@ -15,7 +15,6 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.factories.Factory;
 import geogebra.common.factories.SwingFactory;
-import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
@@ -70,6 +69,7 @@ import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
+//import geogebra.common.gui.menubar.OptionsMenu;
 
 /**
  * Represents an application window, gives access to views and system stuff

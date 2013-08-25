@@ -15,6 +15,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.main.GuiManagerInterface;
 
 public abstract class GuiManager implements GuiManagerInterface {
 

@@ -9,18 +9,18 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.common.gui;
+package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.Layout;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.DialogManager;
 
 import java.util.ArrayList;
 
