@@ -6,6 +6,7 @@ import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -190,7 +191,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 								geoRecordToSpreadSheet.setAuxiliaryObject(true);
 							}
 
-							app.getGuiManager()
+							((GuiManagerD)app.getGuiManager())
 									.getSpreadsheetView()
 									.showTraceDialog(geoRecordToSpreadSheet,
 											null);

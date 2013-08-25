@@ -22,12 +22,16 @@ import javax.swing.SwingConstants;
  */
 public class AppD2 {
 
+	private static GuiManagerD getGuiManager(AppD app){
+		return (GuiManagerD) app.getGuiManager();
+	}
+	
 	public static void initToolbar(AppD app, int toolbarPosition, boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel, JPanel southPanel, JPanel westPanel) {
 		
-		GuiManagerD guiManager = app.getGuiManager();
+		GuiManagerD guiManager = getGuiManager(app);
 		
 		// initialize toolbar panel even if it's not used (hack)
-		app.getGuiManager().getToolbarPanelContainer();
+		guiManager.getToolbarPanelContainer();
 
 		ToolbarContainer toolBarContainer = (ToolbarContainer) guiManager.getToolbarPanelContainer();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
@@ -64,14 +68,13 @@ public class AppD2 {
 	}
 
 	public static void initInputBar(AppD app, boolean showInputTop, JPanel northPanel, JPanel southPanel) {
+		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 		if (showInputTop) {
-			northPanel.add(app.getGuiManager().getAlgebraInput(),
-					BorderLayout.SOUTH);
+			northPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
 		} else {
-			southPanel.add(app.getGuiManager().getAlgebraInput(),
-					BorderLayout.SOUTH);
+			southPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
 		}
-		((AlgebraInput)app.getGuiManager().getAlgebraInput()).updateOrientation(showInputTop);
+		((AlgebraInput)gui.getAlgebraInput()).updateOrientation(showInputTop);
 	}
 
 	public static JPanel getMenuBarPanel(AppD appD, JPanel applicationPanel) {
@@ -91,15 +94,15 @@ public class AppD2 {
 	}
 
 	public static void setActiveView(AppD app, int view) {
-		app.getGuiManager().getLayout().getDockManager().setFocusedPanel(view);
+		getGuiManager(app).getLayout().getDockManager().setFocusedPanel(view);
 	}
 
 	public static boolean inExternalWindow(AppD app, Component eventPane) {
-		return app.getGuiManager().getLayout().inExternalWindow(eventPane);
+		return getGuiManager(app).getLayout().inExternalWindow(eventPane);
 	}
 
 	public static Component getRootComponent(AppD app) {
-		return app.getGuiManager().getLayout().getRootComponent();
+		return getGuiManager(app).getLayout().getRootComponent();
 	}
 
 	public static void newLayout(AppD app) {

@@ -73,6 +73,7 @@ import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.main.GuiManagerInterfaceD;
 import geogebra.main.LocalizationD;
 import geogebra.util.Util;
 
@@ -123,7 +124,7 @@ import javax.swing.SwingUtilities;
  * This is done to be able to put class files of geogebra.gui.* packages into a
  * separate gui jar file.
  */
-public class GuiManagerD extends GuiManager {
+public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	
 	private final static boolean USE_COMPRESSED_VIEW = true;
 	private final static int CV_UPDATES_PER_SECOND = 3;

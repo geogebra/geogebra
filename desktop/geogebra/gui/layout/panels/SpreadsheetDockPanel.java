@@ -3,6 +3,7 @@ package geogebra.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -31,14 +32,18 @@ public class SpreadsheetDockPanel extends DockPanel {
 		this.app = app;
 	}
 
+	private GuiManagerD getGuiManager(){
+		return (GuiManagerD) app.getGuiManager();
+	}
+	
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getSpreadsheetView().getSpreadsheetStyleBar();
+		return getGuiManager().getSpreadsheetView().getSpreadsheetStyleBar();
 	}
 	
 	@Override
 	protected JComponent loadComponent() {
-		return app.getGuiManager().getSpreadsheetView();
+		return getGuiManager().getSpreadsheetView();
 	}
 	
 	@Override

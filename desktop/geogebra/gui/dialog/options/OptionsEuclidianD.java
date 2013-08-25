@@ -31,6 +31,7 @@ import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.LayoutUtil;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
+import geogebra.main.GuiManagerInterfaceD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -746,7 +747,7 @@ public class OptionsEuclidianD extends
 				app.getSettings()
 						.getEuclidian(1)
 						.setBackground(
-								new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerD)app.getGuiManager()))
+								new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerInterfaceD)app.getGuiManager()))
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(1)
@@ -757,7 +758,7 @@ public class OptionsEuclidianD extends
 				app.getSettings()
 						.getEuclidian(2)
 						.setBackground(
-								new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerD)app.getGuiManager()))
+								new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerInterfaceD)app.getGuiManager()))
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(2)
@@ -777,7 +778,7 @@ public class OptionsEuclidianD extends
 				view.setAxesColor(col);
 			}
 		} else if (source == btGridColor) {
-			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerD)app.getGuiManager())).showColorChooser(view.getGridColor()));
+			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(((GuiManagerD)((GuiManagerInterfaceD)app.getGuiManager())).showColorChooser(view.getGridColor()));
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setGridColor(col);
 			} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
@@ -1037,7 +1038,7 @@ public class OptionsEuclidianD extends
 		if (index == 0)
 			setView(app.getEuclidianView1());
 		else
-			setView(((GuiManagerD)((GuiManagerD)app.getGuiManager())).getEuclidianView2());
+			setView(((GuiManagerD)((GuiManagerInterfaceD)app.getGuiManager())).getEuclidianView2());
 
 	}
 

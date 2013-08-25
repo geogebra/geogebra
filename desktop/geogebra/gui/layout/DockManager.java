@@ -9,6 +9,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.main.AppD;
@@ -114,6 +115,10 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 */
 	public void unRegisterPanel(DockPanel dockPanel) {
 		dockPanels.remove(dockPanel);
+	}
+	
+	private ToolbarContainer getToolbarPanel(){
+		return ((GuiManagerD)app.getGuiManager()).getToolbarPanel();
 	}
 	
 	/**
@@ -245,7 +250,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 				
 				// move toolbar to main container
 				if(panel.hasToolbar()) {
-					ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+					ToolbarContainer mainContainer = getToolbarPanel();
 					mainContainer.addToolbar(getPanel(dpData[i].getViewId()).getToolbar());
 				}
 			}
@@ -435,7 +440,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+			ToolbarContainer mainContainer = getToolbarPanel();
 			mainContainer.addToolbar(source.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -660,7 +665,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
 		if(!panel.isOpenInFrame() && panel.hasToolbar()) {
-			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+			ToolbarContainer mainContainer = getToolbarPanel();
 			mainContainer.addToolbar(panel.getToolbar());
 			mainContainer.updateToolbarPanel();
 		}
@@ -811,7 +816,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			markAlonePanel();
 
 			if(panel.hasToolbar()) {
-				ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
+				ToolbarContainer mainContainer = getToolbarPanel();
 				mainContainer.removeToolbar(panel.getToolbar());
 				mainContainer.updateToolbarPanel();
 			}

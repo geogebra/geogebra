@@ -16,6 +16,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.javax.swing.GPanelD;
 import geogebra.main.AppD;
@@ -183,7 +184,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 					app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 				
 				// Checkbox of Construction protocol view will be checked in view menu
-				((GeoGebraMenuBar)(app.getGuiManager().getMenuBar())).updateCPView(true);
+				((GeoGebraMenuBar)(((GuiManagerD) app.getGuiManager()).getMenuBar())).updateCPView(true);
 			}				
 		});
 		

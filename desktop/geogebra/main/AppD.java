@@ -70,7 +70,6 @@ import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.infobar.InfoBarD;
@@ -177,6 +176,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+//import geogebra.gui.GuiManagerD;
 
 public class AppD extends App implements KeyEventDispatcher {
 
@@ -336,7 +336,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	private final FontManagerD fontManager;
 
 	/** GUI manager */
-	protected GuiManagerD guiManager;
+	protected GuiManagerInterfaceD guiManager;
 
 	private GlobalKeyDispatcherD globalKeyDispatcher;
 
@@ -2810,7 +2810,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// GUI Getters/Setters
 	// **************************************************************************
 
-	protected GuiManagerD newGuiManager() {
+	protected GuiManagerInterfaceD newGuiManager() {
 		return AppD2.newGuiManager(this);
 	}
 
@@ -2818,7 +2818,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @return this application's GUI manager.
 	 */
 	@Override
-	final public synchronized GuiManagerD getGuiManager() {
+	final public synchronized GuiManagerInterfaceD getGuiManager() {
 		return guiManager;
 	}
 

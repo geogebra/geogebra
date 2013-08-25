@@ -31,6 +31,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppD;
+import geogebra.main.GuiManagerInterfaceD;
 import geogebra.util.Util;
 
 import java.awt.image.BufferedImage;
@@ -281,6 +282,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		}
 
 		try {
+			App.debug("MACRO"+kernel.isMacroKernel());
 			kernel.setLoadingMode(true);
 			if(settingsBatch && !isGGTFile){
 				app.getSettings().beginBatch();
@@ -317,7 +319,7 @@ public class MyXMLioD extends geogebra.common.io.MyXMLio{
 		{
 				//((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
-			if (((GuiManagerD)app.getGuiManager()) != null)
+			if (((GuiManagerInterfaceD)app.getGuiManager()) != null)
 				// if there is a ConstructionProtocolView, then update its navigation bars
 				((GuiManagerD)app.getGuiManager()).getConstructionProtocolView().setConstructionStep(handler.getConsStep());
 			else

@@ -14,6 +14,7 @@ package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
@@ -217,7 +218,7 @@ public class PrintPreview extends JDialog {
 		// VIEW combo box
 		m_cbView = new JComboBox(getAvailableViews());
 
-		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();
+		DockPanel focusedPanel = ((GuiManagerD)app.getGuiManager()).getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
 			m_cbView.setSelectedItem(app.getPlain("AllViews"));
 		else
@@ -233,27 +234,25 @@ public class PrintPreview extends JDialog {
 						m_preview.removeAll();
 
 						String selItem = m_cbView.getSelectedItem().toString();
-
+						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						// change view
 						if (selItem.equals(app.getPlain("AlgebraWindow"))) {
-							m_target = new PrintGridable(app.getGuiManager()
-									.getAlgebraView());
+							m_target = new PrintGridable(gui.getAlgebraView());
 						} else if (selItem.equals(app.getPlain("CAS"))) {
-							m_target = new ScalingPrintGridable(app.getGuiManager().getCasView());
+							m_target = new ScalingPrintGridable(gui.getCasView());
 						} else if (selItem.equals(app.getPlain("Spreadsheet"))) {
-							m_target = new PrintGridable(app.getGuiManager()
+							m_target = new PrintGridable(gui
 									.getSpreadsheetView());
 						} else if (selItem.equals(app.getPlain("DrawingPad"))) {
 							m_target = app.getEuclidianView1();
 						} else if (selItem.equals(app.getPlain("DrawingPad2"))) {
-							m_target = app.getGuiManager().getEuclidianView2();
+							m_target = gui.getEuclidianView2();
 						} else if (selItem.equals(app
 								.getPlain("ConstructionProtocol"))) {
-							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolView)(app.getGuiManager()
+							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolView)(gui
 									.getConstructionProtocolView());
 						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
-							m_target = app.getGuiManager()
-									.getDataAnalysisView();
+							m_target = gui.getDataAnalysisView();
 						} else if (selItem.equals(app.getPlain("AllViews"))) {
 							m_target = (Printable) app.getMainComponent();
 						}

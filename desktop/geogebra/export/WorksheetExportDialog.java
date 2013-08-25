@@ -15,13 +15,13 @@ import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
+import geogebra.main.GuiManagerInterfaceD;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -60,7 +60,7 @@ public class WorksheetExportDialog extends JDialog {
 	private GraphicSizePanel sizePanel;
 	boolean kernelChanged = false;
 	private GeoGebraPreferencesD ggbPref;
-	private GuiManagerD guiManager;
+	private GuiManagerInterfaceD guiManager;
 	MyTextField titleField;
 	private TitlePanel titlePanel;
 

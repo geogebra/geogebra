@@ -27,6 +27,7 @@ import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.gui.FileDropTargetListener;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
@@ -363,7 +364,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		wnd.app = app;
 		wnd.getContentPane().add(app.buildApplicationPanel());
 		dropTargetListener = new geogebra.gui.FileDropTargetListener(app);
-		wnd.setGlassPane(app.getGuiManager().getLayout().getDockManager()
+		wnd.setGlassPane(((GuiManagerD)app.getGuiManager()).getLayout().getDockManager()
 				.getGlassPane());
 		wnd.setDropTarget(new DropTarget(wnd, dropTargetListener));
 		wnd.addWindowFocusListener(wnd);

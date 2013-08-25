@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.GeoClass;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
@@ -146,7 +147,7 @@ public class DataSource {
 	}
 
 	private MyTableD spreadsheetTable() {
-		return (MyTableD) app.getGuiManager()
+		return (MyTableD) ((GuiManagerD)app.getGuiManager())
 				.getSpreadsheetView().getSpreadsheetTable();
 	}
 

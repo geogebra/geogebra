@@ -12,6 +12,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
+import geogebra.main.GuiManagerInterfaceD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -138,7 +139,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			casView.getConsoleTable().startEditingRow(i);
 			((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTableD.COL_CAS_CELLS)).setCaretPosition(pos);
 		}else if (source == btnShowKeyboard) {
-			if(((GuiManagerD)app.getGuiManager())!=null){
+			if(((GuiManagerInterfaceD)app.getGuiManager())!=null){
 				if (AppD.isVirtualKeyboardActive()
 						&& !((GuiManagerD)app.getGuiManager()).showVirtualKeyboard()) {
 
