@@ -1260,7 +1260,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			return getPanel(dpData.getViewId());
 		
 		//euclidian view for plane case	
-		DockPanel panel = app.createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
+		DockPanel panel = ((GuiManagerD)app.getGuiManager()).createEuclidianDockPanelForPlane(dpData.getViewId(), dpData.getPlane());
 		if (panel==null){
 			App.error("panel==null");
 			return null;

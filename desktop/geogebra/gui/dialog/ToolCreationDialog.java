@@ -753,6 +753,10 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 class MyCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
+	
+	public MyCellRenderer(){
+		
+	}
 	/*
 	 * This is the only method defined by ListCellRenderer. We just reconfigure
 	 * the Jlabel each time we're called.

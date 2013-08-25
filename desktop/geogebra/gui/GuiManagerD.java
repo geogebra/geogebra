@@ -38,6 +38,7 @@ import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.dialog.InputDialogOpenURL;
+import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.DockPanel;
@@ -117,6 +118,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 
 /**
@@ -2985,5 +2987,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		
 		return returnVal == 0;
 		
+	}
+	
+	/**
+	 * @return new EuclidianDockPanelForPlane
+	 */
+	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
+		return null;
+	}
+
+	public boolean belongsToToolCreator(ListCellRenderer renderer) {
+		return ToolCreationDialog.isMyCellRenderer(renderer);
 	}
 }

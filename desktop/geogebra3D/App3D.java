@@ -240,6 +240,9 @@ public class App3D extends AppD {
 		return euclidianViewForPlane;
 	}
 	
+	public DockPanel getPanelForPlane(){
+		return panel;
+	}
 
 
 	// ///////////////////////////////
@@ -387,23 +390,7 @@ public class App3D extends AppD {
 	public String getVersionString() {
 		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
 	}
-	
-	
-	@Override
-	public DockPanel createEuclidianDockPanelForPlane(int id, String plane){
-		
-		GeoElement geo = kernel.lookupLabel(plane);
-		if (geo==null)
-			return null;
-		if (!(geo instanceof ViewCreator))
-			return null;
-		
-		ViewCreator vc = (ViewCreator) geo;//getViewCreator(id);
-		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc,false));
-		return panel;
-	}
-	
-	
+
 	@Override
 	public void resetEuclidianViewForPlaneIds() {
 		EuclidianDockPanelForPlane.resetIds();

@@ -2,12 +2,14 @@ package geogebra3D.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeoD;
 import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.properties.PropertiesViewD;
@@ -254,4 +256,17 @@ public class GuiManager3D extends GuiManagerD {
 		return new PropertiesView3D(appD);
 	}
 	
+	@Override
+	public DockPanel createEuclidianDockPanelForPlane(int id, String plane){
+		
+		GeoElement geo = kernel.lookupLabel(plane);
+		if (geo==null)
+			return null;
+		if (!(geo instanceof ViewCreator))
+			return null;
+		
+		ViewCreator vc = (ViewCreator) geo;//getViewCreator(id);
+		vc.setEuclidianViewForPlane(((App3D)getApp()).createEuclidianViewForPlane(vc,false));
+		return ((App3D)getApp()).getPanelForPlane();
+	}
 }

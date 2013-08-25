@@ -5,6 +5,8 @@ import geogebra.common.gui.GuiManagerInterface;
 import java.awt.Component;
 import java.io.File;
 
+import javax.swing.ListCellRenderer;
+
 public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	void setToolBarDefinition(String allTools);
@@ -29,5 +31,7 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void setFocusedPanel(int viewSpreadsheet, boolean updatePropertiesView);
 
 	File getDataFile();
+
+	boolean belongsToToolCreator(ListCellRenderer renderer);
 
 }

@@ -71,8 +71,6 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.dialog.ToolCreationDialog;
-import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
@@ -4852,7 +4850,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
-			if (!(ToolCreationDialog.isMyCellRenderer(renderer))){
+			//if we didn't load GUI yet, assume there is no tool creation dialog
+			if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)){
 				renderer = new DefaultListCellRenderer();
 				cb.setRenderer(renderer);
 			}
@@ -4879,13 +4878,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		else
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-	}
-
-	/**
-	 * @return new EuclidianDockPanelForPlane
-	 */
-	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
-		return null;
 	}
 
 	// **************************************************************************
