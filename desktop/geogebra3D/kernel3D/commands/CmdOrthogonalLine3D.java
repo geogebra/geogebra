@@ -5,6 +5,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdOrthogonalLine;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -47,6 +49,32 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 	    		return ret;
 	    	}else if (((ok[0] = (arg[0] .isGeoPoint() ) )
 	    			&& (ok[1] = (arg[1] instanceof GeoLineND )))){
+	    		
+	    		
+	    		// first check if we're in macro
+	    		if (kernelA.isMacroKernel()){
+		    		//check if there is a 3D geo: then use 3D algo
+		    		if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
+		    			GeoElement[] ret =
+		    				{
+		    					(GeoElement) kernelA.getManager3D().OrthogonalLine3D(
+		    							c.getLabel(),
+		    							(GeoPointND) arg[0],
+		    							(GeoLineND) arg[1])};
+		    			return ret;
+		    		}
+
+		    		//only 2D objects : use 2D algo
+		    		GeoElement[] ret =
+		    			{
+		    				getAlgoDispatcher().OrthogonalLine(
+		    						c.getLabel(),
+		    						(GeoPoint) arg[0],
+		    						(GeoLine) arg[1])};
+		    		return ret;
+		    		
+
+	    		}
 	    		
 	    		//first check if it's an input line call, with 2D/3D view active
 	    		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
