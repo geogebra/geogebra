@@ -182,7 +182,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * Update the menubar.
 	 */
 	public void updateMenubar() {
-		App.printStacktrace("update menu");
+		App.debug("update menu");
 		fileMenu.update();
 		editMenu.update();
 		viewMenu.update();

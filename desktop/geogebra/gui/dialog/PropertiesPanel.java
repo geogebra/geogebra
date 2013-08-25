@@ -8167,9 +8167,6 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				.isTextCommand() : !(((currentGeo.isGeoImage() || currentGeo
 				.isGeoButton()) && currentGeo.isIndependent()));
 				
-		App.debug("YYYYYYYYYYYYY");
-		App.debug(showDefinition+"");
-				
 		if (showDefinition) {
 			/*
 			 * tfDefinition.removeActionListener(this);
@@ -8184,7 +8181,6 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			} else {
 				defLabel.setText(app.getPlain("Definition") + ":");
 			}
-			App.printStacktrace("XXXXXXXXXX");
 		}
 		// defLabel.setVisible(showDefinition);
 		// inputPanelDef.setVisible(showDefinition);
