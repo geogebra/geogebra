@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.kernel.AlgoCasCellInterface;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -17,7 +18,7 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentCasCell extends AlgoElement {
+public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInterface {
 	
 	// output CAS cell of this algorithm
 	private GeoCasCell casCell;

@@ -12,7 +12,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.cas.AlgoDependentCasCell;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
@@ -483,9 +482,9 @@ public class Construction {
 					return (GeoCasCell) ce;
 				}
 				++counter;
-			} else if (ce instanceof AlgoDependentCasCell) {
+			} else if (ce instanceof AlgoCasCellInterface) {
 				if (counter == row) {
-					return ((AlgoDependentCasCell) ce).getCasCell();
+					return ((AlgoCasCellInterface) ce).getCasCell();
 				}
 				++counter;
 			}
@@ -506,8 +505,8 @@ public class Construction {
 		for (ConstructionElement ce : ceList) {
 			if (ce instanceof GeoCasCell) {
 				lastCell = (GeoCasCell) ce;
-			} else if (ce instanceof AlgoDependentCasCell) {
-				lastCell = ((AlgoDependentCasCell) ce).getCasCell();
+			} else if (ce instanceof AlgoCasCellInterface) {
+				lastCell = ((AlgoCasCellInterface) ce).getCasCell();
 			}
 		}
 		return lastCell;
@@ -680,8 +679,8 @@ public class Construction {
 			if (ce instanceof GeoCasCell) {
 				((GeoCasCell) ce).setRowNumber(counter);
 				counter++;
-			} else if (ce instanceof AlgoDependentCasCell) {
-				((AlgoDependentCasCell) ce).getCasCell().setRowNumber(counter);
+			} else if (ce instanceof AlgoCasCellInterface) {
+				((AlgoCasCellInterface) ce).getCasCell().setRowNumber(counter);
 				counter++;
 			}
 		}
@@ -690,8 +689,8 @@ public class Construction {
 		for (ConstructionElement ce : ceList) {
 			if (ce instanceof GeoCasCell) {
 				((GeoCasCell) ce).updateInputStringWithRowReferences();
-			} else if (ce instanceof AlgoDependentCasCell) {
-				((AlgoDependentCasCell) ce).getCasCell()
+			} else if (ce instanceof AlgoCasCellInterface) {
+				((AlgoCasCellInterface) ce).getCasCell()
 						.updateInputStringWithRowReferences();
 			}
 		}
@@ -738,7 +737,7 @@ public class Construction {
 			}
 
 			// update cas row references
-			if (ce instanceof GeoCasCell || ce instanceof AlgoDependentCasCell)
+			if (ce instanceof GeoCasCell || ce instanceof AlgoCasCellInterface)
 				updateCasCellRows();
 
 			updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -796,7 +795,7 @@ public class Construction {
 
 		// update cas row references
 		if (ce instanceof GeoCasCell
-				|| (ce instanceof AlgoDependentCasCell))
+				|| (ce instanceof AlgoCasCellInterface))
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -1065,7 +1064,7 @@ public class Construction {
 			for (int i = 0; i < ceList.size(); ++i) {
 				ConstructionElement ce = ceList.get(i);
 				if ((ce.isGeoElement() && ((GeoElement)ce).isGeoCasCell())
-						|| ((ce instanceof AlgoElement)&& ce instanceof AlgoDependentCasCell)) {
+						|| ((ce instanceof AlgoElement)&& ce instanceof AlgoCasCellInterface)) {
 					ce.update();
 				}
 			}
