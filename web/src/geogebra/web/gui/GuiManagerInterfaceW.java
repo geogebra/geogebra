@@ -1,10 +1,10 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.GuiManagerInterface;
 import geogebra.html5.main.ViewManager;
 import geogebra.web.cas.view.CASTableW;
 import geogebra.web.cas.view.RowHeaderPopupMenuW;

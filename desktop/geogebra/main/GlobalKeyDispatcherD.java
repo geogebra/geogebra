@@ -1,12 +1,12 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.draw.DrawTextField;
-import geogebra.common.gui.GuiManagerInterface;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
+import geogebra.common.main.GuiManagerInterface;
 import geogebra.common.main.KeyCodes;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
