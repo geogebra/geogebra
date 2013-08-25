@@ -1170,14 +1170,18 @@ public abstract class App implements UpdateSelection{
 	 * @param message the information (preferably one line)
 	 */
 	public static void showAnnouncement(String message) {
-		infobar.show(message);
+		if(infobar != null){
+			infobar.show(message);
+		}
 	}
 
 	/**
 	 * Hides the announcement in the infobar.
 	 */
 	public static void hideAnnouncement() {
-		infobar.hide();
+		if(infobar != null){
+			infobar.hide();
+		}
 	}
 
 	
