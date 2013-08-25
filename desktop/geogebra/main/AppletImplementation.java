@@ -356,7 +356,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * @return If the applet parameters indicate that the GUI is necessary.
 	 */
 	public boolean needsGui() {
-		return false; //showAlgebraInput || showToolBar || showMenuBar || enableRightClick;
+		return showAlgebraInput || showToolBar || showMenuBar || enableRightClick;
 	}
 
 	public void initGUI() {

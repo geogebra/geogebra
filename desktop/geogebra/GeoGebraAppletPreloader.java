@@ -40,7 +40,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 					System.out.println("failed");
 				}
 				System.out.flush();
-				/*
+				
 				// load main jar
 				System.out.print("loading geogebra_algos.jar... ");
 				System.out.flush();
@@ -187,7 +187,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 					}
 					System.out.flush();
 				}
-				*/
+
 			}
 		};
 		jarLoader.start();
