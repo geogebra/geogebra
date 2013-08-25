@@ -74,7 +74,6 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
@@ -87,6 +86,7 @@ import geogebra.plugin.ScriptManagerD;
 import geogebra.plugin.jython.PythonBridgeD;
 import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
+import geogebra.util.FrameCollector;
 import geogebra.util.GeoGebraLogger;
 import geogebra.util.ImageManager;
 import geogebra.util.Normalizer;
@@ -4944,7 +4944,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return constProtocolNavigation;
 	}
 
-	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
+	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
 		for (int i = 0 ; i < n ; i++) {
 			
 			// avoid values like 14.399999999999968

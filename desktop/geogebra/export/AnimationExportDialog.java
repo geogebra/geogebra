@@ -3,15 +3,14 @@ package geogebra.export;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
+import geogebra.util.FrameCollector;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -229,12 +228,23 @@ public class AnimationExportDialog extends JDialog {
 		
 
 
-		AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+		final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
 		gifEncoder.start(file);
 		
 		gifEncoder.setDelay(timeBetweenFrames);   // miliseconds
 		gifEncoder.setRepeat(cbLoop.isSelected() ? 0 : 1);
+		
+		FrameCollector collector = new FrameCollector(){
 
+			public void addFrame(BufferedImage img) {
+				gifEncoder.addFrame(img);
+				
+			}
+
+			public void finish() {
+				gifEncoder.finish();
+				
+			}};
 		// hide dialog
 		setVisible(false);
 
@@ -242,7 +252,7 @@ public class AnimationExportDialog extends JDialog {
 		
 		try
 		{				
-			app.exportAnimatedGIF(gifEncoder, num, n, val, min, max, step);
+			app.exportAnimatedGIF(collector, num, n, val, min, max, step);
 			
 		} catch (Exception ex)
 		{

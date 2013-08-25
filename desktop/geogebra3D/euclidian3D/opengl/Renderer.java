@@ -5,8 +5,8 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
-import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
+import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
@@ -1954,7 +1954,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 	private double export_min;
 	private double export_max;
 	private double export_step;
-	private AnimatedGifEncoder gifEncoder;
+	private FrameCollector gifEncoder;
 	private int export_i;
 	private GeoNumeric export_num;
     
@@ -2026,7 +2026,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
 
 
 
-	public void startAnimatedGIFExport(AnimatedGifEncoder gifEncoder,
+	public void startAnimatedGIFExport(FrameCollector gifEncoder,
 			GeoNumeric num, int n, double val, double min, double max,
 			double step) {
 		exportType  = ExportType.ANIMATEDGIF;

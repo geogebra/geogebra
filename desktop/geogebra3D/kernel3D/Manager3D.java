@@ -281,7 +281,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoDirectionND line, GeoDirectionND direction) {
 		
 		//when have space as direction, just to say it's not as in 2D
-		if (line instanceof GeoLineND && direction==((Construction3D) cons).getSpace())
+		if (line instanceof GeoLineND && direction instanceof GeoSpace)
 			return OrthogonalLine3D(label, point, (GeoLineND) line);	
 		
 		//when xOy plane as direction, check if it's only 2D objects, then return 2D line

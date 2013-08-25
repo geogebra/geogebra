@@ -30,10 +30,10 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
+import geogebra.util.FrameCollector;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
@@ -470,7 +470,7 @@ public class App3D extends AppD {
 	}
 	
 	@Override
-	public void exportAnimatedGIF(AnimatedGifEncoder gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
+	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
 		
 		if (!(getActiveEuclidianView() instanceof EuclidianView3D)) {
 			// regular 2D export
