@@ -19,7 +19,6 @@ import geogebra.common.gui.infobar.InfoBar;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
@@ -3113,7 +3112,6 @@ public abstract class App implements UpdateSelection{
 	protected boolean needsSpreadsheetTableModel = false;
 	protected boolean showConstProtNavigationNeedsUpdate = false;
 	protected boolean showConsProtNavigation = false;
-	protected ConstructionProtocolNavigation constProtocolNavigation;
 
 	public void setNeedsSpreadsheetTableModel(){
 		needsSpreadsheetTableModel = true;
@@ -3199,19 +3197,6 @@ public abstract class App implements UpdateSelection{
 	public boolean showConsProtNavigation() {
 		return showConsProtNavigation;
 	}
-
-	/**
-	 * Returns the construction protocol navigation bar instance.
-	 */
-	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
-
-	/**
-	 * Returns the construction protocol navigation bar instance or null, if it not exists.
-	 */
-	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists(){
-		return constProtocolNavigation;
-	}
-
 	/**
 	 * @param show
 	 *            whether navigation bar should be visible
@@ -3231,10 +3216,9 @@ public abstract class App implements UpdateSelection{
 				cpSettings.setPlayDelay(playDelay);
 				cpSettings.setShowConsProtButton(showProtButton);
 			
-				if (constProtocolNavigation != null) {
-					constProtocolNavigation.setConsProtButtonVisible(showProtButton);
-					constProtocolNavigation.setPlayDelay(playDelay);
-					constProtocolNavigation.setPlayButtonVisible(playButton);
+				
+				if (getGuiManager() != null) {
+					getGuiManager().applyCPsettings(cpSettings);
 				}
 			
 				setShowConstructionProtocolNavigation(show);

@@ -173,7 +173,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView implemen
 		table.addKeyListener(keyListener);
 
 		// navigation bar
-		protNavBar = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
+		protNavBar = (ConstructionProtocolNavigationD) app.getGuiManager().getConstructionProtocolNavigation();
 		protNavBar.register(this);
 		//protNavBar.setPlayButtonVisible(false);
 		//protNavBar.setConsProtButtonVisible(false);

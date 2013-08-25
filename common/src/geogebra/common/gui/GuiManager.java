@@ -13,9 +13,11 @@ package geogebra.common.gui;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GuiManagerInterface;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
 
 public abstract class GuiManager implements GuiManagerInterface {
 
@@ -370,7 +372,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	public void setShowConstructionProtocolNavigation(boolean show) {
-		getApp().getConstructionProtocolNavigation().setVisible(show);
+		getConstructionProtocolNavigation().setVisible(show);
 		
 		if (show) {
 			if (getApp().getActiveEuclidianView() != null)
@@ -383,16 +385,38 @@ public abstract class GuiManager implements GuiManagerInterface {
 			boolean playButton, double playDelay, boolean showProtButton) {
 				setShowConstructionProtocolNavigation(show);
 				
-				getApp().getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
-				getApp().getConstructionProtocolNavigation().setPlayDelay(playDelay);
+				getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
+				getConstructionProtocolNavigation().setPlayDelay(playDelay);
 				if (getApp().isFullAppGui()){
-					getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
+					getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
 				} else {
-					getApp().getConstructionProtocolNavigation().setConsProtButtonVisible(false);
+					getConstructionProtocolNavigation().setConsProtButtonVisible(false);
 				}
 			}
+	protected ConstructionProtocolNavigation constProtocolNavigation;
+	
+	/**
+	 * Returns the construction protocol navigation bar instance.
+	 */
+	public abstract ConstructionProtocolNavigation getConstructionProtocolNavigation();
 
+	/**
+	 * Returns the construction protocol navigation bar instance or null, if it not exists.
+	 */
+	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists(){
+		return constProtocolNavigation;
+	}
+	
 	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
 		App.debug("GuiManager.updateCheckBoxesForShowConstructionProtocolNavigation - implementation needed");		
+	}
+	
+	public void applyCPsettings(ConstructionProtocolSettings cps){
+		if(constProtocolNavigation == null){
+			return;
+		}
+		constProtocolNavigation.setConsProtButtonVisible(cps.showConsProtButton());
+		constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
+		constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
 	}
 }

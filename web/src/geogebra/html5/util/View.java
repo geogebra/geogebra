@@ -118,7 +118,7 @@ public class View {
 		
 		//reiniting of navigation bar, to show the correct numbers on the label
 		if(app.getGuiManager() != null && app.getUseFullGui()){
-			ConstructionProtocolNavigation cpNav = this.getApplication().getConstructionProtocolNavigationIfExists();
+			ConstructionProtocolNavigation cpNav = this.getApplication().getGuiManager().getConstructionProtocolNavigationIfExists();
 			if (cpNav != null) cpNav.update();
 		}
 		App.debug("end unzipping"+System.currentTimeMillis());

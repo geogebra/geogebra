@@ -16,11 +16,13 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.Layout;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.settings.ConstructionProtocolSettings;
 
 import java.util.ArrayList;
 
@@ -327,4 +329,10 @@ public interface GuiManagerInterface {
 	 * @return true/false
 	 */
 	public boolean checkAutoCreateSliders(String string);
+
+	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
+
+	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists();
+	
+	ConstructionProtocolNavigation getConstructionProtocolNavigation();
 }

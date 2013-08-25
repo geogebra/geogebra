@@ -11,6 +11,7 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
@@ -54,6 +55,7 @@ import geogebra.web.gui.util.SkyDriveFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.html5.AttachedToDOM;
@@ -1092,7 +1094,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		(app).getConstructionProtocolNavigation().setLabels();
+		
+		getConstructionProtocolNavigation().setLabels();
 
 		// set the labelling of the panels
 		// titles on the top of their style bars
@@ -1276,4 +1279,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW {
 	    // TODO #3490
 	    return false;
     }
+    
+    @Override
+    public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+
+		if (constProtocolNavigation == null) {
+			constProtocolNavigation = new ConstructionProtocolNavigationW(this.getApp());
+		}
+
+		return constProtocolNavigation;
+	
+    }
+    
 }

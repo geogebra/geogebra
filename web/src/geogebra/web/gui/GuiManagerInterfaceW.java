@@ -3,6 +3,7 @@ package geogebra.web.gui;
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GuiManagerInterface;
 import geogebra.html5.main.ViewManager;
@@ -87,4 +88,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface, ViewManager {
 	public void signIn();
 
 	public void setToolBarDefinition(String toolBarDefinition);
+
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation();
 }

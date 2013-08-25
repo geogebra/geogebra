@@ -78,7 +78,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	}
 	
 	public void addNavigationBar(){
-		consProtNav = (ConstructionProtocolNavigationW)(app
+		consProtNav = (ConstructionProtocolNavigationW)(app.getGuiManager()
 		        .getConstructionProtocolNavigation());
 		consProtNav.getImpl().addStyleName("consProtNav");
 		euclidianpanel.add(consProtNav.getImpl()); // may be invisible, but made visible later		

@@ -63,6 +63,7 @@ import geogebra.gui.view.CompressedAlgebraView;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.assignment.AssignmentView;
+import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
@@ -542,13 +543,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			sb.append((app).showConsProtNavigation());
 			sb.append('\"');
 			sb.append(" playButton=\"");
-			sb.append((app).getConstructionProtocolNavigation().isPlayButtonVisible());
+			sb.append(getConstructionProtocolNavigation().isPlayButtonVisible());
 			sb.append('\"');
 			sb.append(" playDelay=\"");
-			sb.append((app).getConstructionProtocolNavigation().getPlayDelay());
+			sb.append(getConstructionProtocolNavigation().getPlayDelay());
 			sb.append('\"');
 			sb.append(" protButton=\"");
-			sb.append((app).getConstructionProtocolNavigation().isConsProtButtonVisible());
+			sb.append(getConstructionProtocolNavigation().isConsProtButtonVisible());
 			sb.append('\"');
 			sb.append(" consStep=\"");
 			sb.append(kernel.getConstructionStep());
@@ -837,11 +838,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public boolean isConsProtNavigationPlayButtonVisible() {
-		return (app).getConstructionProtocolNavigation().isPlayButtonVisible();		
+		return getConstructionProtocolNavigation().isPlayButtonVisible();		
 	}
 
 	public boolean isConsProtNavigationProtButtonVisible() {
-		return (app).getConstructionProtocolNavigation().isConsProtButtonVisible();		
+		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
 	}
 
 	/**
@@ -923,7 +924,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD) (app.getConstructionProtocolNavigation())).initGUI();
+		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD) getConstructionProtocolNavigation()).initGUI();
 
 		if (casView != null)
 			casView.updateFonts();
@@ -992,7 +993,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		(app).getConstructionProtocolNavigation().setLabels();
+		
+		getConstructionProtocolNavigation().setLabels();
 
 		if (virtualKeyboard != null)
 			virtualKeyboard.setLabels();
@@ -2999,4 +3001,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
 		return ToolCreationDialog.isMyCellRenderer(renderer);
 	}
+	
+	@Override
+	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+		if (constProtocolNavigation == null) {
+			constProtocolNavigation = new ConstructionProtocolNavigationD(this.getApp());
+		}
+
+		return constProtocolNavigation;
+	}
+	
 }

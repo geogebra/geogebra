@@ -11,7 +11,6 @@ import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
@@ -249,12 +248,6 @@ public class TouchApp extends AppWeb {
 	@Override
 	public Canvas getCanvas() {
 		return ((EuclidianViewT) this.getActiveEuclidianView()).getCanvas();
-	}
-
-	@Override
-	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-		// FIXME implement!
-		throw new UnsupportedOperationException();
 	}
 
 	/**

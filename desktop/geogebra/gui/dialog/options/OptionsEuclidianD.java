@@ -1282,7 +1282,7 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
@@ -1295,7 +1295,7 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());

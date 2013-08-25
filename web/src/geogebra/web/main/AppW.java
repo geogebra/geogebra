@@ -9,7 +9,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.Factory;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -55,7 +54,6 @@ import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.tooltip.ToolTipManagerW;
-import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetTableModelW;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -1636,17 +1634,6 @@ public class AppW extends AppWeb {
 		return sbTooltip.toString();
 
 	}
-
-	@Override
-    public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-
-		if (constProtocolNavigation == null) {
-			constProtocolNavigation = new ConstructionProtocolNavigationW(this);
-		}
-
-		return constProtocolNavigation;
-	
-    }
 	
 	@Override
     public void notifyFileLoaded(){

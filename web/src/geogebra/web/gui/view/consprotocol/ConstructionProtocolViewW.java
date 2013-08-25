@@ -27,7 +27,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView{
 		this.app = app;
 		kernel = app.getKernel();
 		data = new ConstructionTableDataW();
-		protNavBar = (ConstructionProtocolNavigationW) (app.getConstructionProtocolNavigation());
+		protNavBar = (ConstructionProtocolNavigationW) (app.getGuiManager().getConstructionProtocolNavigation());
 		protNavBar.register(this);
 		table = new CellTable<RowData>();
 		table.addStyleName("cpTable");

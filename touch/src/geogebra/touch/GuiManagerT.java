@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.Layout;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.ModeSetter;
@@ -593,6 +594,12 @@ class GuiManagerT extends GuiManager {
 	public void updateToolbar() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

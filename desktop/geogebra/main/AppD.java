@@ -71,7 +71,6 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -3377,7 +3376,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			updateCommandDictionary();
 
 			hideDockBarPopup();
-
 			return true;
 		} catch (Exception err) {
 			setCurrentFile(null);
@@ -4924,15 +4922,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 	// ConstructionProtocol
 	// **************************************************************************
-
-	@Override
-	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
-		if (constProtocolNavigation == null) {
-			constProtocolNavigation = new ConstructionProtocolNavigationD(this);
-		}
-
-		return constProtocolNavigation;
-	}
 
 	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num, int n, double val, double min, double max, double step) {
 		for (int i = 0 ; i < n ; i++) {
