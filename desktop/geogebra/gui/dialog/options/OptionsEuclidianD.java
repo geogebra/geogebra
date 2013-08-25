@@ -29,7 +29,7 @@ import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.LayoutUtil;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
+import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.main.AppD;
 import geogebra.main.GuiManagerInterfaceD;
 
@@ -1282,7 +1282,7 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app.getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());
@@ -1295,7 +1295,7 @@ public class OptionsEuclidianD extends
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
-			ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app.getConstructionProtocolNavigation();
+			ConstructionProtocolNavigationD cpn = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 			// cpn.initGUI();
 			SwingUtilities.updateComponentTreeUI(cpn.getImpl());

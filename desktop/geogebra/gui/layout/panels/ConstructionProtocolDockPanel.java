@@ -2,7 +2,7 @@ package geogebra.gui.layout.panels;
 
 import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
@@ -31,12 +31,12 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((ConstructionProtocolView)(app.getGuiManager().getConstructionProtocolView())).getCpPanel();
+		return ((ConstructionProtocolViewD)(app.getGuiManager().getConstructionProtocolView())).getCpPanel();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((ConstructionProtocolView)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+		return ((ConstructionProtocolViewD)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
 	}
 	
 	@Override

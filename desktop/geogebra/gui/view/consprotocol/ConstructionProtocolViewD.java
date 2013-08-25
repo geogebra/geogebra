@@ -11,6 +11,7 @@ the Free Software Foundation.
 
  */
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -82,7 +83,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class ConstructionProtocolView extends geogebra.common.gui.view.consprotocol.ConstructionProtocolView implements Printable, ActionListener, SettingListener {
+public class ConstructionProtocolViewD extends ConstructionProtocolView implements Printable, ActionListener, SettingListener {
 
 	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
 	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
@@ -102,14 +103,14 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 	int dragIndex = -1; // dragged construction index
 	private int dropIndex = -1;
 
-	public ConstructionProtocolNavigation protNavBar; // navigation bar of
+	public ConstructionProtocolNavigationD protNavBar; // navigation bar of
 														// protocol window
-	private ConstructionProtocolView view=this;
+	private ConstructionProtocolViewD view=this;
 	public JScrollPane scrollPane;
 	private ConstructionProtocolStyleBar helperBar;
 	private AbstractAction exportHtmlAction, printPreviewAction;
 	
-	public ConstructionProtocolView(final AppD app) {
+	public ConstructionProtocolViewD(final AppD app) {
 		cpPanel = new JPanel(new BorderLayout());
 		
 		this.app = app;
@@ -172,7 +173,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		table.addKeyListener(keyListener);
 
 		// navigation bar
-		protNavBar = (ConstructionProtocolNavigation) app.getConstructionProtocolNavigation();
+		protNavBar = (ConstructionProtocolNavigationD) app.getConstructionProtocolNavigation();
 		protNavBar.register(this);
 		//protNavBar.setPlayButtonVisible(false);
 		//protNavBar.setConsProtButtonVisible(false);
@@ -205,7 +206,7 @@ public class ConstructionProtocolView extends geogebra.common.gui.view.consproto
 		return (AppD)app;
 	}
 
-	public void unregisterNavigationBar(ConstructionProtocolNavigation nb) {
+	public void unregisterNavigationBar(ConstructionProtocolNavigationD nb) {
 		navigationBars.remove(nb);
 		((ConstructionTableData)data).detachView(); // only done if there are no more navigation bars
 	}

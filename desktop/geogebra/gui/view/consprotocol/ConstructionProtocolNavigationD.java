@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -48,7 +49,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Navigation buttons for the construction protocol
  */
-public class ConstructionProtocolNavigation extends geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation implements ActionListener, SettingListener, SetLabels {
+public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigation implements ActionListener, SettingListener, SetLabels {
 
 	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
 	/** Button for starting/stopping animation*/
@@ -59,7 +60,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	/** Application */
 	AppD app;
 	/** Construction protocol view */
-	ConstructionProtocolView prot;
+	ConstructionProtocolViewD prot;
 	private AutomaticPlayer player;
 	/**
 	 * ConstructionProtocolNavigation panel
@@ -70,7 +71,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	 * Creates a new navigation bar to step through the construction protocol.
 	 * @param app application
 	 */
-	public ConstructionProtocolNavigation(AppD app) {
+	public ConstructionProtocolNavigationD(AppD app) {
 		implPanel = new JPanel();
 		this.app = app;			
 				
@@ -228,7 +229,7 @@ public class ConstructionProtocolNavigation extends geogebra.common.gui.view.con
 	 * to be informed about updates.
 	 * @param constructionProtocolView CP view
 	 */
-	public void register(ConstructionProtocolView constructionProtocolView) { 
+	public void register(ConstructionProtocolViewD constructionProtocolView) { 
 		if (prot == null) { 
 			initGUI(); 
 		}

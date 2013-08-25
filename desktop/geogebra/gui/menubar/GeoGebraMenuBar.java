@@ -7,7 +7,7 @@ import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 
@@ -182,7 +182,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * Update the menubar.
 	 */
 	public void updateMenubar() {
-		App.debug("update menu");
+		App.printStacktrace("update menu");
 		fileMenu.update();
 		editMenu.update();
 		viewMenu.update();
@@ -339,7 +339,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 							// TODO I think "new ScalingPrintGridable" here is not so nice. Maybe the constructor of PrintPreview should be changed
 							pre = new geogebra.export.PrintPreview(app, new ScalingPrintGridable(gui.getCasView()), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_CONSTRUCTION_PROTOCOL))
-							pre = new geogebra.export.PrintPreview(app, (ConstructionProtocolView) app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
+							pre = new geogebra.export.PrintPreview(app, (ConstructionProtocolViewD) app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_SPREADSHEET))
 							pre = new geogebra.export.PrintPreview(app, gui.getSpreadsheetView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_EUCLIDIAN2))

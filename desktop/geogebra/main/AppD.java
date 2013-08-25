@@ -71,7 +71,7 @@ import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
+import geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -4928,7 +4928,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		if (constProtocolNavigation == null) {
-			constProtocolNavigation = new ConstructionProtocolNavigation(this);
+			constProtocolNavigation = new ConstructionProtocolNavigationD(this);
 		}
 
 		return constProtocolNavigation;

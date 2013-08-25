@@ -63,8 +63,8 @@ import geogebra.gui.view.CompressedAlgebraView;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.assignment.AssignmentView;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView.ConstructionTableData;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableData;
 import geogebra.gui.view.data.DataAnalysisViewD;
 import geogebra.gui.view.data.PlotPanelEuclidianView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
@@ -142,7 +142,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private CASViewD casView;
 	private SpreadsheetView spreadsheetView;
 	private EuclidianViewD euclidianView2;
-	private ConstructionProtocolView constructionProtocolView;
+	private ConstructionProtocolViewD constructionProtocolView;
 	private AssignmentView assignmentView;
 	private GeoGebraMenuBar menuBar;
 	private JMenuBar menuBar2;
@@ -409,7 +409,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public geogebra.common.gui.view.consprotocol.ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
-			constructionProtocolView = new ConstructionProtocolView(app);
+			constructionProtocolView = new ConstructionProtocolViewD(app);
 		}
 
 		return constructionProtocolView;
@@ -417,7 +417,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	
 	public View getConstructionProtocolData() {
 
-		return ((ConstructionProtocolView) getConstructionProtocolView()).getData();
+		return ((ConstructionProtocolViewD) getConstructionProtocolView()).getData();
 	}
 
 	public AssignmentView getAssignmentView() {
@@ -923,7 +923,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		if (constructionProtocolView != null)
 			constructionProtocolView.initGUI();
-		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigation) (app.getConstructionProtocolNavigation())).initGUI();
+		((geogebra.gui.view.consprotocol.ConstructionProtocolNavigationD) (app.getConstructionProtocolNavigation())).initGUI();
 
 		if (casView != null)
 			casView.updateFonts();

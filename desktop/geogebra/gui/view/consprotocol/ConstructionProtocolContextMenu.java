@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.kernel.Construction;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -40,7 +40,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	AppD app;
 	private Construction cons;
 	/** Construction protocol view associated with this menu */
-	ConstructionProtocolView constprotView;
+	ConstructionProtocolViewD constprotView;
 	
 	/**
 	 * Creates new context menu
@@ -49,7 +49,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	public ConstructionProtocolContextMenu(AppD app){
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
-		constprotView = (ConstructionProtocolView) app.getGuiManager().getConstructionProtocolView();
+		constprotView = (ConstructionProtocolViewD) app.getGuiManager().getConstructionProtocolView();
 		initItems();
 	}
 

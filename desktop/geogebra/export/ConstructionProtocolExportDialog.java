@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
-import geogebra.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
 import geogebra.main.AppD;
 import geogebra.util.Util;
 
@@ -52,10 +52,10 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	private JCheckBox cbIcons;
 	private GraphicSizePanel sizePanel;
 	boolean kernelChanged = false;
-	private ConstructionProtocolView prot;
+	private ConstructionProtocolViewD prot;
 	private AppD app;
 
-	public ConstructionProtocolExportDialog(ConstructionProtocolView prot) {
+	public ConstructionProtocolExportDialog(ConstructionProtocolViewD prot) {
 		super(prot.getApplication().getFrame(), true);
 		this.prot = prot;
 		app = prot.getApplication();

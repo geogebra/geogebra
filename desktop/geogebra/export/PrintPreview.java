@@ -249,7 +249,7 @@ public class PrintPreview extends JDialog {
 							m_target = gui.getEuclidianView2();
 						} else if (selItem.equals(app
 								.getPlain("ConstructionProtocol"))) {
-							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolView)(gui
+							m_target = (geogebra.gui.view.consprotocol.ConstructionProtocolViewD)(gui
 									.getConstructionProtocolView());
 						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
 							m_target = gui.getDataAnalysisView();
