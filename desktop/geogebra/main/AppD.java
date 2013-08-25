@@ -72,7 +72,6 @@ import geogebra.factories.SwingFactoryD;
 import geogebra.factories.UtilFactoryD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.ToolCreationDialog;
-import geogebra.gui.infobar.InfoBarD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.io.MyXMLioD;
@@ -176,7 +175,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-//import geogebra.gui.GuiManagerD;
 
 public class AppD extends App implements KeyEventDispatcher {
 
@@ -423,8 +421,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 
-		infobar = new InfoBarD(this);
-
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
 		OS = System.getProperty("os.name").toLowerCase(Locale.US);
@@ -586,6 +582,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (!isApplet()) {
 			getScriptManager().ggbOnInit();
+			getFactory();
+			infobar = Factory.getPrototype().newInfoBar(this);
 		}
 
 		setSaved();
