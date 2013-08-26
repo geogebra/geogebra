@@ -701,15 +701,11 @@ public class StringTemplate implements ExpressionNodeConstants{
 			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
-				sb.append("point(real(");
+				sb.append("point(");
 				sb.append(leftStr);
-				sb.append("[1])+real(");
+				sb.append("+");
 				sb.append(rightStr);
-				sb.append("[1]),im(");
-				sb.append(leftStr);
-				sb.append("[1])+im(");
-				sb.append(rightStr);
-				sb.append("[1]))");
+				sb.append(")");
 
 			} else {
 				//App.debug("default method" + left.getClass()+" "+right.getClass());
@@ -938,15 +934,11 @@ public class StringTemplate implements ExpressionNodeConstants{
 			} else if (left.evaluatesToNonComplex2DVector() && right.evaluatesToNonComplex2DVector()) {
 				App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
-				sb.append("point(real(");
+				sb.append("point(");
 				sb.append(leftStr);
-				sb.append("[1])-real(");
+				sb.append("-");
 				sb.append(rightStr);
-				sb.append("[1]),im(");
-				sb.append(leftStr);
-				sb.append("[1])-im(");
-				sb.append(rightStr);
-				sb.append("[1]))");
+				sb.append(")");
 
 			} else {
 
