@@ -543,14 +543,14 @@ ValidExpression buildCASExpression() :
      (        LOOKAHEAD(2147483647)   
         ve = casFunction()
     |     
-        // h: X = (3,2) + t (5,a)
-      	LOOKAHEAD(2147483647) 
-      	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
-    |
-        // h: X = (3,2,a) + t (5,b,c)
-      	LOOKAHEAD(2147483647) 
-      	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
-    |	   
+/*       // h: X = (3,2) + t (5,a)
+ *    	LOOKAHEAD(2147483647) 
+ *    	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
+ *  |
+ *       // h: X = (3,2,a) + t (5,b,c)
+ *     	LOOKAHEAD(2147483647) 
+ *     	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
+    |	   */
        	// labeled equation, e.g. g: 3x + y = 7
        	LOOKAHEAD(2147483647)   
        	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = equation()  
@@ -559,12 +559,12 @@ ValidExpression buildCASExpression() :
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)		
 		l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
- 	|
- 		LOOKAHEAD(2147483647)   
-       	ve = parametric()
- 	|
- 	 	LOOKAHEAD(2147483647)   
-       	ve = parametric3D()
+/* 	|
+ *		LOOKAHEAD(2147483647)   
+ *     	ve = parametric()
+ *	|
+ *	 	LOOKAHEAD(2147483647)   
+ *     	ve = parametric3D()*/
  	| 	   
        	// equation, e.g. 3x + y = 7
        	LOOKAHEAD(2147483647)   

@@ -3917,6 +3917,8 @@ public class MyXMLHandler implements DocHandler {
 			String evalCommandComment = attrs.get("evalCommand");
 			if (evalCommandComment != null) {
 				geoCasCell.setEvalCommand(evalCommandComment);
+			} else {
+				geoCasCell.setEvalCommand("");
 			}
 
 			String evalComment = attrs.get("evalComment");
