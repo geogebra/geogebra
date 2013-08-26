@@ -1719,7 +1719,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		int i = 0;
 		Iterator<String> ite = set.iterator();
 		if (n == 1) {
-			cmd.addArgument(new GeoDummyVariable(cons, ite.next()).wrap());
+			if (ite.hasNext()) {
+				cmd.addArgument(new GeoDummyVariable(cons, ite.next()).wrap());
+			}
 		} else {
 			while (i < n && ite.hasNext()) {
 				variables.addListElement(new GeoDummyVariable(cons, ite.next()));
