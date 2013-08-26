@@ -309,9 +309,7 @@ public class AppW extends AppWeb {
 
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
-		// to be overridden in subclasses
-		App.debug("Wrong call to AppW.getGuiManager!");
-		return null;
+		return guiManager;
 	}
 
 	@Override

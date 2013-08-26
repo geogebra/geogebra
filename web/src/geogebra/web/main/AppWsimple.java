@@ -2,12 +2,10 @@ package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.euclidian.EuclidianSimplePanelW;
-import geogebra.web.gui.GuiManagerInterfaceW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.ObjectPool;
@@ -129,12 +127,6 @@ public class AppWsimple extends AppW {
 		GeoGebraFrame.useFocusedBorder(
 				getArticleElement(),
 				getGeoGebraFrame());
-	}
-
-	@Override
-	public GuiManagerInterfaceW getGuiManager() {
-		App.debug("Wrong call to AppWsimple.getGuiManager!");
-		return null;
 	}
 
 	@Override

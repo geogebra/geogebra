@@ -60,7 +60,13 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract {
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		app = application;
-		addNavigationBar();
+
+		// GuiManager can be null at the startup of the application,
+		// but then the addNavigationBar method will be called explicitly.
+		// By the way, this method is only called from AppWapplet,
+		// so this will be actually null here.
+		if (app.getGuiManager() != null)
+			addNavigationBar();
 	}
 
 	

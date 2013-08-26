@@ -5,8 +5,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
-import geogebra.web.gui.GuiManagerInterfaceW;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -73,18 +71,6 @@ public class AppWapplet extends AppW {
 		removeDefaultContextMenu(this.getArticleElement());
 	}
 
-	@Override
-	public GuiManagerInterfaceW getGuiManager() {
-		if (guiManager == null) {
-			// TODO: add getGuiManager(), see #1783
-			if (getUseFullGui() || showToolBar) {
-				guiManager = new GuiManagerW(this);
-			}
-		}
-
-		return guiManager;
-	}
-
 	public GeoGebraFrame getGeoGebraFrame() {
 		return frame;
 	}
@@ -93,6 +79,7 @@ public class AppWapplet extends AppW {
 	protected void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 		initGuiManager();
+		((EuclidianDockPanelW)euclidianViewPanel).addNavigationBar();
 		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
 		initing = false;
 	}
