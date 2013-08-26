@@ -99,13 +99,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.showHideClosed = new StandardButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideClosed.setStyleName("arrowLeft");
-		this.showHideClosed.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				onExpandToolBar();
-
-			}
-		});
 
 		this.add(this.showHideClosed);
 
@@ -113,12 +106,37 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
 		this.showHideOpened.setVisible(false);
-		this.showHideOpened.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				onCollapseToolBar();
-			}
-		});
+
+		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForOpenClose()) {
+			this.showHideClosed.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					onExpandToolBar();
+				}
+			});
+
+			this.showHideOpened.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					onCollapseToolBar();
+				}
+			});
+		} else {
+			this.showHideClosed.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick() {
+					onExpandToolBar();
+				}
+			});
+
+			this.showHideOpened.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick() {
+					onCollapseToolBar();
+				}
+			});
+		}
+
 	}
 
 	void onExpandToolBar() {

@@ -44,5 +44,5 @@ public interface LookAndFeel extends SavedStateListener {
 	public void attachExternalEvents(EuclidianViewT euclidianViewT,
 			Element element);
 
-	public boolean useClickHandlerForAlgebraButton();
+	public boolean useClickHandlerForOpenClose();
 }

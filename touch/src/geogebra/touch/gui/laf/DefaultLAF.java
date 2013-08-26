@@ -130,7 +130,7 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public boolean useClickHandlerForAlgebraButton() {
+	public boolean useClickHandlerForOpenClose() {
 		return false;
 	}
 }

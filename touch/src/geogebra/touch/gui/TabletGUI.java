@@ -215,7 +215,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 				.getLookAndFeel().getIcons().triangle_left());
 		this.algebraButton.setStyleName("arrowRight");
 
-		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForAlgebraButton()) {
+		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForOpenClose()) {
 			this.algebraButton.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {

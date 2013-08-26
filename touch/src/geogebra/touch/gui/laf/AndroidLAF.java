@@ -29,7 +29,7 @@ public class AndroidLAF extends DefaultLAF {
 	}
 
 	@Override
-	public boolean useClickHandlerForAlgebraButton() {
+	public boolean useClickHandlerForOpenClose() {
 		return true;
 	}
 }
