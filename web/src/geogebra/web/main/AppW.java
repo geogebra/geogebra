@@ -425,6 +425,10 @@ public class AppW extends AppWeb {
 
 	@Override
 	public EuclidianViewW getEuclidianView2() {
+
+		if (getGuiManager() == null)
+			return null;
+
 		return (EuclidianViewW)getGuiManager().getEuclidianView2();
 	}
 
@@ -449,15 +453,17 @@ public class AppW extends AppWeb {
 
 	@Override
 	public AlgebraView getAlgebraView() {
+		if (getGuiManager() == null) {
+			return null;
+		}
 		return getGuiManager().getAlgebraView();
-		// if (guiManager == null) {
-		// return null;
-		// }
-		// return guiManager.getAlgebraView();
 	}
 
 	@Override
 	public boolean showView(int view) {
+		if (getGuiManager() == null) {
+			return (view == App.VIEW_EUCLIDIAN);
+		}
 		return getGuiManager().showView(view);
 	}
 
@@ -1112,7 +1118,7 @@ public class AppW extends AppWeb {
 	}-*/;
 
 	public void attachNativeLoadHandler(ImageElement img) {
-		addNativeLoadHandler(img, getGuiManager().getActiveEuclidianView());
+		addNativeLoadHandler(img, (EuclidianView)getActiveEuclidianView());
 	}
 
 	private native void addNativeLoadHandler(ImageElement img,
@@ -1266,14 +1272,14 @@ public class AppW extends AppWeb {
 		// GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
 		// .getActiveEuclidianView().getShowXaxis()
 		// && (getGuiManager().getActiveEuclidianView().getShowYaxis()));
-		mi.setSelected(getGuiManager().getActiveEuclidianView().getShowXaxis()
-		        && (getGuiManager().getActiveEuclidianView().getShowYaxis()));
+		mi.setSelected(getActiveEuclidianView().getShowXaxis()
+		        && (getActiveEuclidianView().getShowYaxis()));
 	}
 
 	public void setShowGridSelected(GCheckBoxMenuItem mi) {
 		// GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
 		// .getActiveEuclidianView().getShowGrid());
-		mi.setSelected(getGuiManager().getActiveEuclidianView().getShowGrid());
+		mi.setSelected(getActiveEuclidianView().getShowGrid());
 	}
 
 	// ============================================
