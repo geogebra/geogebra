@@ -1323,8 +1323,8 @@ public class TouchModel {
 				if (input.startsWith("/")) {
 					final String cmd = input.substring(1);
 
-					// TODO
-					this.kernel.getApplication().getPythonBridge().eval(cmd);
+					// TODO remove hack once screenshots are ready
+					((TouchApp)this.kernel.getApplication()).setLanguage(cmd);
 					geos = new GeoElement[0];
 				} else {
 					geos = this.kernel.getAlgebraProcessor()
