@@ -595,6 +595,44 @@ public interface Traversing {
 	}
 	
 	/**
+	 * Collects all dummy variables
+	 * @author bencze
+	 */
+	public class DummyVariableCollector implements Traversing {
+		private Set<String> commands;
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof ExpressionNode){
+				ExpressionNode en = (ExpressionNode) ev;
+				if(en.getRight() instanceof GeoDummyVariable){	
+					add(((GeoDummyVariable)en.getRight()));
+				}
+				if(en.getOperation()==Operation.FUNCTION || en.getOperation() ==Operation.FUNCTION_NVAR
+						|| en.getOperation()==Operation.DERIVATIVE)
+				return en;	
+				if(en.getLeft() instanceof GeoDummyVariable){	
+					add(((GeoDummyVariable)en.getLeft()));
+				}
+			}
+			return ev;
+		}
+		private void add(GeoDummyVariable dummy) {
+			String str = dummy.toString(StringTemplate.defaultTemplate);
+			commands.add(str);
+			
+		}
+		private static DummyVariableCollector collector = new DummyVariableCollector();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static DummyVariableCollector getCollector(Set<String> commands){		
+			collector.commands = commands;
+			return collector;
+		}
+	}
+	
+	/**
 	 * Replaces function calls by multiplications in cases where left argument is clearly not a function
 	 * (see NonFunctionCollector)
 	 * @author zbynek

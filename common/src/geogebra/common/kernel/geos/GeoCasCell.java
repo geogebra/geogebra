@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandRemover;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -38,8 +39,10 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.util.debug.Log;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -1544,22 +1547,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				
+				evalVE = processSolveCommand(evalVE);
+				
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE);
-				
-				// modify solve such as
-				// Solve[expr, {var}] -> Solve[expr, var]
-				// Ticket #697
-				if (evalVE.unwrap() instanceof Command) {
-					Command c = (Command) evalVE.unwrap();
-					if (c.getName().equals("Solve") && c.getArgumentNumber() == 2 && c.getArgument(1).unwrap() instanceof MyList) {
-						MyList argList = (MyList) c.getArgument(1).unwrap();
-						if (argList.size() == 1) {
-							c.setArgument(1, argList.getItem(0).wrap());
-						}
-					}
-				}
 				
 				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
 				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
@@ -1675,6 +1667,63 @@ public class GeoCasCell extends GeoElement implements VarString {
 		expr.setLabel(arg.getLabel());
 		return expr;			
 
+	}
+	
+	private ValidExpression processSolveCommand(ValidExpression ve) {
+		if ((!(ve.unwrap() instanceof Command)) || !((Command)ve.unwrap()).getName().equals("Solve")) {
+			return ve;
+		}
+		Command cmd = (Command) ve.unwrap();
+		if (cmd.getArgumentNumber() >= 2) {
+			if (cmd.getArgument(1).unwrap() instanceof MyList) {
+				/* Modify solve in the following way: */
+				/* Solve[expr, {var}] -> Solve[expr, var] */
+				/* Ticket #697 */
+				MyList argList = (MyList) cmd.getArgument(1).unwrap();
+				if (argList.size() == 1) {
+					cmd.setArgument(1, argList.getItem(0).wrap());
+				}
+			}
+			return cmd.wrap();
+		}
+		if (cmd.getArgumentNumber() == 0) {
+			return cmd.wrap();
+		}
+		ExpressionNode en = cmd.getArgument(0);
+		/* Solve command has one argument which is an expression | equation | list */
+		/* We extract all the variables, order them, giving x y and z a priority */
+		/* Return the first n of them, where n is the number of equation/expression in the first parameter */
+		/* Ticket #3563 */
+		Set<String> set = new TreeSet<String>(new Comparator<String>() {
+			public int compare(String o1, String o2) {
+				if (o1.equals(o2))
+					return 0;
+				if (o1.equals("x"))
+					return -1;
+				if (o2.equals("x"))
+					return 1;
+				if (o1.equals("y"))
+					return -1;
+				if (o2.equals("y"))
+					return 1;
+				if (o1.equals("z"))
+					return -1;
+				if (o2.equals("z"))
+					return 1;
+				return o1.compareTo(o2);
+			}
+		});
+		cmd.getArgument(0).traverse(DummyVariableCollector.getCollector(set));
+		int n = en.unwrap() instanceof MyList ? ((MyList) en.unwrap()).getLength() : 1;
+		MyList variables = new MyList(kernel, n);
+		int i = 0;
+		Iterator<String> ite = set.iterator();
+		while (i < n && ite.hasNext()) {
+			variables.addListElement(new GeoDummyVariable(cons, ite.next()));
+			i++;
+		}
+		cmd.addArgument(variables.wrap());
+		return cmd.wrap();
 	}
 
 	private void finalizeComputation(final boolean success,
