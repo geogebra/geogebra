@@ -159,6 +159,9 @@ public enum Language {
 	 */
 	public String testChar;
 	
+	/**
+	 * @param enableInGWT currently not used
+	 */
 	Language(String testChar, boolean fullyTranslated, boolean enableInGWT, String locale,String localeGWT, String name, Country ... countries) {
 		this.locale = locale;
 		this.localeGWT = localeGWT;
@@ -312,15 +315,27 @@ public enum Language {
 	
 	public static String getClosestGWTSupportedLanguage(String browserLangCode) {
 		
+		String normalizedLanguage = StringUtil.toLowerCase(browserLangCode.replace("-", "_"));
+		
+		if("he".equals(normalizedLanguage)){
+			normalizedLanguage = "iw";
+		}
+		if("nb".equals(normalizedLanguage)){
+			normalizedLanguage = "no_NB";
+		}
+		if("nn".equals(normalizedLanguage)){
+			normalizedLanguage = "no_NN";
+		}
+		
 		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
 		for(Language lang: Language.values()) {
-			if(lang.localeGWT.toLowerCase().equals(browserLangCode.replace("-", "_").toLowerCase())) {
-				return browserLangCode;
+			if(lang.localeGWT.toLowerCase().equals(normalizedLanguage)) {
+				return lang.localeGWT;
 			}			
 		}
 		//look for mother language in the hierarchy ie. the first two characters
 		for(Language lang: Language.values()) {
-			if(lang.localeGWT.toLowerCase().equals(browserLangCode.substring(0, 2).toLowerCase())) {
+			if(lang.localeGWT.toLowerCase().equals(normalizedLanguage.substring(0,2))) {
 				return lang.localeGWT;
 			}
 
