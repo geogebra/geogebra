@@ -433,14 +433,20 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 
 	public void onDoubleClick(DoubleClickEvent event) {
-		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
+		if (app.getGuiManager() != null)
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
 
 	public void onClick(ClickEvent event) {
-		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
+		if (app.getGuiManager() != null)
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
 		 AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
@@ -468,10 +474,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		int eHeight = ((EuclidianViewW)view).getHeight();
 		if ((x < ex || x > ex + eWidth) ||
 				(y < ey ||y > ey + eHeight)){
+
+			if (app.getGuiManager() != null)
 				((GuiManagerW)app.getGuiManager()).removePopup();
-				((AppW)app).getToolTipManager().hideToolTip();
+
+			((AppW)app).getToolTipManager().hideToolTip();
 		}
-		
+
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
@@ -511,9 +520,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.moveIfWaiting();
 		DRAGMODE_MUST_BE_SELECTED = false;
 		event.preventDefault();	
-		
+
 		//hide dialogs if they are open
-		((GuiManagerW)app.getGuiManager()).removePopup();
+		if (app.getGuiManager() != null)
+			((GuiManagerW)app.getGuiManager()).removePopup();
 
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEventW.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
@@ -521,7 +531,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
+		if (app.getGuiManager() != null)
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}

@@ -10,6 +10,7 @@ import geogebra.web.Web;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.main.AppW;
 import geogebra.web.main.AppWapplet;
+import geogebra.web.main.AppWsimple;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
@@ -275,9 +276,8 @@ public class GeoGebraFrame extends VerticalPanel {
 		// these should run in runAsync later,
 		// so it will speed things up hopefully
 
-		// not working yet
-		//if (ae.getDataParamGuiOff())
-		//	return new AppWsimple(ae, gf);
+		if (ae.getDataParamGuiOff())
+			return new AppWsimple(ae, gf);
 
 		return new AppWapplet(ae, gf);
 	}
