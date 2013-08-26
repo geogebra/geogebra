@@ -523,6 +523,8 @@ public class MyList extends ValidExpression implements ListValue,
 
 			if (singleValue instanceof ListValue) {
 				LHcols = ((ListValue) singleValue).getMyList().size();
+				if (LHcols > 0 && isEquation(((ListValue) singleValue).getListElement(0)))
+					return false;
 				// Application.debug("LHrows"+LHrows);
 				if (LHrows > 1)
 					for (int i = 1; i < LHrows; i++) // check all rows same
