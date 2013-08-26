@@ -277,12 +277,11 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		this.title.setStyleName("title");
 
 		// Padding-left needed for Win8 Dialog
-		this.title.getElement().setAttribute("style",
-				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		
 
 		this.contentPanel.setStyleName("contentPanel");
-		this.contentPanel.getElement().setAttribute("style",
-				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		
+		makeCentralPosition();
 
 		this.dialogPanel.add(this.contentPanel);
 
@@ -313,6 +312,16 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 				}
 			}
 		}, KeyDownEvent.getType());
+	}
+
+	private void makeCentralPosition() {
+		this.title.getElement().setAttribute("style",
+				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.contentPanel.getElement().setAttribute("style",
+				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.customKeys.getElement().setAttribute("style",
+				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		
 	}
 
 	public boolean isClockwise() {
@@ -369,6 +378,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	public void onResize() {
 		if (this.isVisible() && this.isShowing()) {
 			super.center();
+			makeCentralPosition();
 		}
 	}
 
