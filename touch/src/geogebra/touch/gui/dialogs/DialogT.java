@@ -22,7 +22,7 @@ public abstract class DialogT extends PopupPanel {
 
 		final Event nativeEvent = Event.as(event.getNativeEvent());
 		if (nativeEvent.getTypeInt() == Event.ONMOUSEDOWN
-				&& TouchEntryPoint.getLookAndFeel().isMouseDownIgnored()) {
+				&& TouchEntryPoint.getLookAndFeel().receivesDoubledEvents()) {
 			event.cancel();
 			nativeEvent.preventDefault();
 			nativeEvent.stopPropagation();

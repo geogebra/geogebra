@@ -52,7 +52,8 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		this.leftHeader.setStyleName("headerLeft");
 		this.infoOverrideDialog = new InfoDialog(this.app,
 				touchModel.getGuiModel(), InfoType.Override);
-		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel().isMouseDownIgnored();
+		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel()
+				.receivesDoubledEvents();
 
 		this.titlePanel = new VerticalPanel();
 
@@ -159,13 +160,14 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	}
 
 	protected void onBlurTitle() {
-		if(this.ignoreNextMouseUp){
+		if (this.ignoreNextMouseUp) {
 			this.ignoreNextMouseUp = false;
 			this.worksheetTitle.setFocus(true);
 			return;
 		}
-		
-		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel().isMouseDownIgnored();
+
+		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel()
+				.receivesDoubledEvents();
 		this.worksheetTitle.setFocus(false);
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");

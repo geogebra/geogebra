@@ -214,13 +214,22 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		this.algebraButton = new StandardButton(TouchEntryPoint
 				.getLookAndFeel().getIcons().triangle_left());
 		this.algebraButton.setStyleName("arrowRight");
-		this.algebraButton.addFastClickHandler(new FastClickHandler() {
 
-			@Override
-			public void onClick() {
-				TabletGUI.this.toggleAlgebraView();
-			}
-		});
+		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForAlgebraButton()) {
+			this.algebraButton.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					TabletGUI.this.toggleAlgebraView();
+				}
+			});
+		} else {
+			this.algebraButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick() {
+					TabletGUI.this.toggleAlgebraView();
+				}
+			});
+		}
 
 		this.algebraViewArrowPanel.add(this.algebraButton);
 

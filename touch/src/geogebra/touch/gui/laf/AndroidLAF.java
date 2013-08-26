@@ -19,12 +19,17 @@ public class AndroidLAF extends DefaultLAF {
 	}
 
 	@Override
-	public boolean isMouseDownIgnored() {
+	public boolean receivesDoubledEvents() {
 		return true;
 	}
 
 	@Override
 	public boolean isShareSupported() {
+		return true;
+	}
+
+	@Override
+	public boolean useClickHandlerForAlgebraButton() {
 		return true;
 	}
 }

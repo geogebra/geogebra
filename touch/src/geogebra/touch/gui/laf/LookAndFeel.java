@@ -33,7 +33,7 @@ public interface LookAndFeel extends SavedStateListener {
 
 	public TabletHeaderPanel getTabletHeaderPanel();
 
-	public boolean isMouseDownIgnored();
+	public boolean receivesDoubledEvents();
 
 	public void setTitle(String title);
 
@@ -43,4 +43,6 @@ public interface LookAndFeel extends SavedStateListener {
 
 	public void attachExternalEvents(EuclidianViewT euclidianViewT,
 			Element element);
+
+	public boolean useClickHandlerForAlgebraButton();
 }

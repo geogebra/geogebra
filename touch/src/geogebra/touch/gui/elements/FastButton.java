@@ -77,6 +77,19 @@ public abstract class FastButton extends CustomButton {
 		this.isActive = active;
 	}
 
+	public boolean isActive() {
+		return this.isActive;
+	}
+
+	/**
+	 * Use this method in the same way you would use addClickHandler or
+	 * addDomHandler
+	 * 
+	 */
+	public void addFastClickHandler(FastClickHandler handler) {
+		this.handlers.add(handler);
+	}
+
 	/**
 	 * Implement the handler for pressing but NOT releasing the button. Normally
 	 * you just want to show some CSS style change to alert the user the element
@@ -229,19 +242,6 @@ public abstract class FastButton extends CustomButton {
 			event.preventDefault();
 			onHoldPressOffStyle();// Change back the style
 		}
-	}
-
-	public boolean isActive() {
-		return this.isActive;
-	}
-
-	/**
-	 * Use this method in the same way you would use addClickHandler or
-	 * addDomHandler
-	 * 
-	 */
-	public void addFastClickHandler(FastClickHandler handler) {
-		this.handlers.add(handler);
 	}
 
 	/**

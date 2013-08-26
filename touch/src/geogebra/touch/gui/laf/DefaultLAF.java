@@ -91,7 +91,7 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public boolean isMouseDownIgnored() {
+	public boolean receivesDoubledEvents() {
 		return false;
 	}
 
@@ -127,6 +127,10 @@ public class DefaultLAF implements LookAndFeel {
 	public void attachExternalEvents(EuclidianViewT euclidianViewT,
 			Element element) {
 		// TODO Auto-generated method stub
-		
+	}
+
+	@Override
+	public boolean useClickHandlerForAlgebraButton() {
+		return false;
 	}
 }
