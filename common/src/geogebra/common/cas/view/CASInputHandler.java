@@ -504,6 +504,11 @@ public class CASInputHandler {
 
 		kernel.notifyRepaint();
 
+		// if redefinition occurred, the row number could have changed
+		// we need to update the variables
+		int rowNum = cellValue.getRowNumber();
+		isLastRow = consoleTable.getRowCount() <= rowNum + 1;
+
 		// check success
 		success = !cellValue.isError();
 		if (startEditing || !success) {
@@ -511,8 +516,8 @@ public class CASInputHandler {
 			
 			boolean goDown = success &&
 			// we are in last row or next row is empty
-					(isLastRow || casView.isRowOutputEmpty(selRow + 1));
-			consoleTable.startEditingRow(goDown ? selRow + 1 : selRow);
+					(isLastRow || casView.isRowOutputEmpty(rowNum + 1));
+			consoleTable.startEditingRow(goDown ? rowNum + 1 : rowNum);
 		}
 
 		return success;
