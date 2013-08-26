@@ -136,6 +136,7 @@ public class TouchApp extends AppWeb {
 		// FIXME: check what else we need to reset
 		this.kernel.initUndoInfo();
 		this.getEuclidianView1().synCanvasSize();
+		TouchEntryPoint.getLookAndFeel().resetNativeHandlers();
 		this.getEuclidianView1().getEuclidianController()
 				.stopCollectingMinorRepaints();
 		// notify all construction title listeners

@@ -98,6 +98,12 @@ public class WinLAF extends DefaultLAF {
 			Element element) {
 			addNativeHandlers(element, new MsZoomer(view.getEuclidianController()));
 	}
+	
+	@Override
+	public native void resetNativeHandlers()/*-{
+		$wnd.first = {id:-1};
+		$wnd.second = {id:-1};
+	}-*/;
 
 	private native void addNativeHandlers(Element element, MsZoomer zoomer) /*-{
 		$wnd.first = {id:-1};

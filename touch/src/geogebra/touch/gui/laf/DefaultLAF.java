@@ -133,4 +133,9 @@ public class DefaultLAF implements LookAndFeel {
 	public boolean useClickHandlerForOpenClose() {
 		return false;
 	}
+	
+	public void resetNativeHandlers() {
+		// TODO Auto-generated method stub
+		
+	}
 }

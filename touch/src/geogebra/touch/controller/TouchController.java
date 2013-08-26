@@ -17,6 +17,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewWeb;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.Swipeables;
@@ -429,5 +430,10 @@ public class TouchController extends EuclidianController {
 			this.externalHandling = false;
 		}
 
+	}
+
+	public void onMouseExited() {
+		this.clicked = false;
+		TouchEntryPoint.getLookAndFeel().resetNativeHandlers();
 	}
 }

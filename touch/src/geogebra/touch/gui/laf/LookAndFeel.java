@@ -45,4 +45,6 @@ public interface LookAndFeel extends SavedStateListener {
 			Element element);
 
 	public boolean useClickHandlerForOpenClose();
+	
+	public void resetNativeHandlers();
 }

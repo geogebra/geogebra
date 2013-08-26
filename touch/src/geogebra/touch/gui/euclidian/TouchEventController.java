@@ -9,6 +9,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
@@ -23,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 		TouchEndHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		MouseWheelHandler {
+		MouseWheelHandler, MouseOutHandler {
 	private static double distance(final Touch t1, final Touch t2) {
 		return Math.sqrt(Math.pow(t1.getClientX() - t2.getClientX(), 2)
 				+ Math.pow(t1.getClientY() - t2.getClientY(), 2));
@@ -143,6 +145,12 @@ class TouchEventController implements TouchStartHandler, TouchMoveHandler,
 			this.oldDistance = distance(event.getTouches().get(0), event
 					.getTouches().get(1));
 		}
+	}
+
+	@Override
+	public void onMouseOut(MouseOutEvent event) {
+		this.mc.onMouseExited();
+		
 	}
 
 }

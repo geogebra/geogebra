@@ -24,6 +24,7 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -156,6 +157,8 @@ public class EuclidianViewT extends EuclidianViewWeb {
 				MouseMoveEvent.getType());
 		euclidianViewPanel.addDomHandler(touchController,
 				MouseUpEvent.getType());
+		euclidianViewPanel.addDomHandler(touchController,
+				MouseOutEvent.getType());
 		euclidianViewPanel.addDomHandler(touchController,
 				MouseWheelEvent.getType());
 
