@@ -1633,7 +1633,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	private ValidExpression wrapEvaluate(ValidExpression arg) {
 		// don't want to wrap eg Integral[(x+1)^100] otherwise it will be expanded
-		if (arg.inspect(Inspecting.CommandFinder.INSTANCE)) {
+		if (arg.inspect(Inspecting.ExtendedCommandFinder.INSTANCE)) {
 			return arg;
 		}
 
