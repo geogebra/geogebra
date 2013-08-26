@@ -1,6 +1,7 @@
 package geogebra.touch;
 
 import geogebra.common.main.Localization;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.laf.LookAndFeel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
@@ -25,7 +26,7 @@ class DefaultErrorHandler implements ErrorHandler {
 	DefaultErrorHandler(Localization loc){
 		this.loc = loc;
 	}
-	private class ErrorPopup extends PopupPanel {
+	private class ErrorPopup extends PopupPanel implements ResizeListener{
 		private final FlowPanel dialogPanel;
 		private final FlowPanel contentPanel = new FlowPanel();
 		
@@ -50,13 +51,9 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.title = new Label();
 			this.addLabel();
 			
-			// Padding-left needed for Win8 Dialog
-			this.title.getElement().setAttribute("style",
-					"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 
 			this.contentPanel.setStyleName("contentPanel");
-			this.contentPanel.getElement().setAttribute("style",
-					"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+			makeCentralPosition();
 
 			this.dialogPanel.add(this.contentPanel);
 			
@@ -70,8 +67,24 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.add(this.dialogPanel);
 			this.setStyleName("inputDialog");
 			this.addStyleName("errorDialog");
+			TouchEntryPoint.tabletGUI.addResizeListener(this);
 		}
 		
+		private void makeCentralPosition() {
+			// Padding-left needed for Win8 Dialog
+			this.title.getElement().setAttribute("style",
+					"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+			this.contentPanel.getElement().setAttribute("style",
+					"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+			
+		}
+		
+		@Override
+		public void onResize(){
+			this.makeCentralPosition();
+			this.center();
+		}
+
 		private void addLabel() {
 			this.title.setStyleName("title");
 			this.titlePanel.add(this.title);
@@ -124,6 +137,8 @@ class DefaultErrorHandler implements ErrorHandler {
 	public void showError(String error) {
 		if(this.errorPopup == null){
 			this.errorPopup = new ErrorPopup();
+			this.errorPopup.setGlassEnabled(true);
+			this.errorPopup.center();
 			this.errorPopup.setLabels(this.loc);
 		}
 		this.errorPopup.setText(error);
