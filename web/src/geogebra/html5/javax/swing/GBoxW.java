@@ -7,6 +7,7 @@ import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
+import geogebra.web.euclidian.EuclidianControllerW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -71,6 +72,11 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 		if (impl.getParent() != null){
 			left -= impl.getParent().getAbsoluteLeft();
 			top -= impl.getParent().getAbsoluteTop();			
+		}
+		
+		if (EuclidianControllerW.style != null) {
+			left = (int) (left * (1 / EuclidianControllerW.style.getScaleX()));
+			top = (int) (top * (1 / EuclidianControllerW.style.getScaleY()));
 		}
 		
 		return new geogebra.html5.awt.GRectangleW(

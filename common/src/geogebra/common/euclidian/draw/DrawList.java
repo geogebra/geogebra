@@ -283,8 +283,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public boolean hit(int x, int y) {
 
 		if (geoList.drawAsComboBox()) {
+			//App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " + box.getBounds().getY());
 			return box.getBounds().contains(x, y);
-
 		} 
 
 

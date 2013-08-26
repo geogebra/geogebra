@@ -67,7 +67,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
 	
-	private class EnvironmentStyle {
+	public class EnvironmentStyle {
 		
 		private float widthScale;
 		private float heightScale;
@@ -192,7 +192,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 	}
 	
-	private EnvironmentStyle style; 
+	public static EnvironmentStyle style; 
 	
 	
 	public EnvironmentStyle getEnvironmentStyle () {
@@ -318,7 +318,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		long time = System.currentTimeMillis();
 		if(this.waitingMouseMove != null){
 			GeoGebraProfiler.moveEventsIgnored--;
-			this.onMouseMoveNow(waitingMouseMove, time);
+			this.onMouseMoveNow(waitingMouseMove, time);	
 			return;
 		}
 		if(this.waitingTouchMove != null){
