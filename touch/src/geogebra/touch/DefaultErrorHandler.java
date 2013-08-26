@@ -1,6 +1,7 @@
 package geogebra.touch;
 
 import geogebra.common.main.Localization;
+import geogebra.touch.gui.laf.LookAndFeel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
@@ -8,13 +9,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 class DefaultErrorHandler implements ErrorHandler {
 
@@ -25,24 +26,39 @@ class DefaultErrorHandler implements ErrorHandler {
 		this.loc = loc;
 	}
 	private class ErrorPopup extends PopupPanel {
-		private final VerticalPanel dialogPanel;
+		private final FlowPanel dialogPanel;
+		private final FlowPanel contentPanel = new FlowPanel();
 		
 		private final FlowPanel titlePanel = new FlowPanel();
 		private final Label title;
 		
 		private final HorizontalPanel textPanel;
-		private final SVGResource iconWarning = TouchEntryPoint.getLookAndFeel().getIcons().icon_warning();
+		private final SVGResource iconWarning;
 		private final Label infoText;
 		
 		private HorizontalPanel buttonContainer;
 		private final Button okButton;
 		
+		private final LookAndFeel laf;
+		
 		public ErrorPopup(){
 			super(true, true);
-			this.dialogPanel = new VerticalPanel();
+			this.dialogPanel = new FlowPanel();
+			this.laf = TouchEntryPoint.getLookAndFeel();
+			this.iconWarning = this.laf.getIcons().icon_warning();
 			
 			this.title = new Label();
 			this.addLabel();
+			
+			// Padding-left needed for Win8 Dialog
+			this.title.getElement().setAttribute("style",
+					"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+
+			this.contentPanel.setStyleName("contentPanel");
+			this.contentPanel.getElement().setAttribute("style",
+					"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+
+			this.dialogPanel.add(this.contentPanel);
 			
 			this.textPanel = new HorizontalPanel();
 			this.infoText  = new Label();
@@ -52,7 +68,8 @@ class DefaultErrorHandler implements ErrorHandler {
 			initOKButton();
 			
 			this.add(this.dialogPanel);
-			this.setStyleName("infoDialog");
+			this.setStyleName("inputDialog");
+			this.addStyleName("errorDialog");
 		}
 		
 		private void addLabel() {
@@ -74,11 +91,12 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.textPanel.add(this.infoText);
 
 			this.textPanel.setStyleName("textPanel");
-			this.dialogPanel.add(this.textPanel);
+			this.contentPanel.add(this.textPanel);
 		}
 		
 		private void initOKButton() {
 			this.buttonContainer = new HorizontalPanel();
+			this.buttonContainer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			this.buttonContainer.setStyleName("buttonPanel");
 			
 			this.okButton.addDomHandler(new ClickHandler() {
@@ -90,7 +108,7 @@ class DefaultErrorHandler implements ErrorHandler {
 			}, ClickEvent.getType());
 			this.okButton.addStyleName("last");
 			this.buttonContainer.add(this.okButton);
-			this.dialogPanel.add(this.buttonContainer);
+			this.contentPanel.add(this.buttonContainer);
 		}
 		
 		public void setLabels(Localization loc){

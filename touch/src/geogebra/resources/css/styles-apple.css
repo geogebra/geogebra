@@ -131,6 +131,10 @@ body .infoDialog .textPanel {
 	padding: 0px 15px 25px 15px;
 }
 
+body .errorDialog .textPanel {
+	margin: 0px 15px;
+}
+
 body .infoDialog .textPanel img {
 	width: 0px;
 	height: 0px;
@@ -178,6 +182,7 @@ body .infoDialog button {
 }
 
 body .infoDialog .buttonPanel button,
+body .errorDialog .buttonPanel button,
 body .sliderDialog .buttonPanel button {
 	margin-right: 6px;
 	padding: 10px 20px;

@@ -59,20 +59,6 @@ body .infoDialog .titlePanel {
 	border-spacing: 0px;
 }
 
-/*.inputDialog .contentPanel td.left {
-	width: 420px;
-}
-
-.inputDialog .contentPanel td.right {
-	width: 200px;
-	padding-left: 60px;
-}*/
-
-/*.inputDialog .contentPanel td.bottom {
-	vertical-align: bottom;
-	padding-bottom: 5px;
-}*/
-
 .inputDialog .gwt-Label,
 .infoDialog .gwt-Label {
 	text-align: left;

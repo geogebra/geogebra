@@ -125,6 +125,10 @@ body .infoDialog {
 	background-color: #222222;
 }
 
+body .errorDialog .textPanel {
+	margin: 0px 30px 0px 15px;
+}
+
 .inputDialog .titlePanel,
 .infoDialog .titlePanel {
 	border-bottom: 2px solid #9999FF;
