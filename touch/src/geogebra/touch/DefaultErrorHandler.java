@@ -81,8 +81,10 @@ class DefaultErrorHandler implements ErrorHandler {
 		
 		@Override
 		public void onResize(){
-			this.makeCentralPosition();
-			this.center();
+			if (this.isVisible() && this.isShowing()) {
+				this.makeCentralPosition();
+				this.setPopupPosition(this.laf.getPopupLeft(this), this.laf.getPopupTop(this));
+			}
 		}
 
 		private void addLabel() {
@@ -143,6 +145,7 @@ class DefaultErrorHandler implements ErrorHandler {
 		}
 		this.errorPopup.setText(error);
 		this.errorPopup.show();
+		this.errorPopup.onResize();
 		
 	}
 

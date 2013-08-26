@@ -13,6 +13,7 @@ import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public class DefaultLAF implements LookAndFeel {
 
@@ -134,8 +135,19 @@ public class DefaultLAF implements LookAndFeel {
 		return false;
 	}
 	
+	@Override
 	public void resetNativeHandlers() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getPopupLeft(PopupPanel inputDialog) {
+		return (Window.getClientWidth() - inputDialog.getWidget().getOffsetWidth()) /2;
+	}
+
+	@Override
+	public int getPopupTop(PopupPanel inputDialog) {
+		return 50;
 	}
 }

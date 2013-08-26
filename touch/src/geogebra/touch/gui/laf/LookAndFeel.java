@@ -10,6 +10,7 @@ import geogebra.touch.gui.euclidian.EuclidianViewT;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public interface LookAndFeel extends SavedStateListener {
 
@@ -47,4 +48,8 @@ public interface LookAndFeel extends SavedStateListener {
 	public boolean useClickHandlerForOpenClose();
 	
 	public void resetNativeHandlers();
+
+	public int getPopupLeft(PopupPanel inputDialog);
+
+	public int getPopupTop(PopupPanel inputDialog);
 }

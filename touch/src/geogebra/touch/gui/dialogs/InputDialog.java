@@ -280,8 +280,6 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		
 
 		this.contentPanel.setStyleName("contentPanel");
-		
-		makeCentralPosition();
 
 		this.dialogPanel.add(this.contentPanel);
 
@@ -377,7 +375,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	@Override
 	public void onResize() {
 		if (this.isVisible() && this.isShowing()) {
-			super.center();
+			this.setPopupPosition(this.laf.getPopupLeft(this), this.laf.getPopupTop(this));
 			makeCentralPosition();
 		}
 	}
@@ -496,7 +494,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		super.show();
 		this.model.getGuiModel().setActiveDialog(this);
 
-		super.center();
+		this.onResize();
 
 		if (this.radioButton[0] != null) {
 			this.radioButton[0].setActive(true);
