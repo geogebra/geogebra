@@ -10,10 +10,10 @@ public class MsZoomer {
 	}
 	
 	public void zoom(double d){
-		tc.zoomInOut(d, 1);
+		this.tc.zoomInOut(d, 1);
 	}
 	
 	public void setZoomCenter(double x,double y){
-		tc.setZoomCenter(x,y);
+		this.tc.setZoomCenter(x,y);
 	}
 }

@@ -292,7 +292,7 @@ public class TouchController extends EuclidianController {
 	}
 
 	public void onTouchMove(int x, int y) {
-		if(externalHandling){
+		if(this.externalHandling){
 			return;
 		}
 		if (this.ignoreNextMove) {
