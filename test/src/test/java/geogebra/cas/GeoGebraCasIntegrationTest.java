@@ -375,12 +375,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void SimplificationOfTerms_OrderingOfPowers_1 () {
-    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-    kernel.getConstruction().addToConstructionList(f, false);
-    f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
-    f.computeOutput();
-
-    Assert.assertEquals("a x³ + b x² + c x + d", f.getOutput(StringTemplate.defaultTemplate));
+    t("f(x) := a * x^3 + b * x^2 + c * x + d", "a * x^(3) + b * x^(2) + c * x + d");
   }
 
   /* Polynomial Division */
@@ -3013,6 +3008,11 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_Several_22 () {
     t("Solve[8 = 3 + 5 t^2 + 10 s, {t, s}]", "{{t = -sqrt(-2 * s + 1), s = s}, {t = sqrt(-2 * s + 1), s = s}}");
   }
+
+  @Test
+  public void Solve_Several_23 () {
+    t("Solve[{x = 3 + 5 t, y = 2 + t, x = 8 + 10 s, y = 3 + 2 s}, {x, y, t, s}]", "{{x = 10 * s + 8, y = 2 * s + 3, t = 2 * s + 1, s = s}}");
+  }
   
 
   /* Parametric Equations One Parameter */
@@ -3201,6 +3201,118 @@ public class GeoGebraCasIntegrationTest {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[f(t, s) = (7, -8), {t, s}]", "Löse[f(t, s) = (7, -8), {t, s}]");
+  }
+  
+  /* Parametric Equations Twosided*/
+
+  @Test
+  public void Solve_ParametricET_0 () {
+    t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (1, -1), {t, s}]", "{{t = 0, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricET_1 () {
+    t("Solve[(3, 2) + t (5, 1) = (8, 3) + s (10, 2), {t, s}]", "{{t = 2 * s + 1, s = s}}");
+  }
+
+  @Test
+  public void Solve_ParametricET_2 () {
+    t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (10, 2), {t, s}]", "{}");
+  }
+
+  @Test
+  public void Solve_ParametricET_3 () {
+    t("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "{{t = 0, s = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricET_4 () {
+    t("Numeric[Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]]", "{{t = 0, s = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricET_5 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "Löse[(3, 2) + t * (5, 1) = (4, 1) + s * (2, -2), {t, s}]");
+  }
+  
+  /* Multiple Parametric Equations Eloquent*/
+
+  @Test
+  public void Solve_ParametricMEE_0 () {
+    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (1, -1)}, {x, y, t, s}]", "{{x = 3, y = 2, t = 0, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEE_1 () {
+    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (8, 3) + s (10, 2)}, {x, y, t, s}]", "{{x = 10 * s + 8, y = 2 * s + 3, t = 2 * s + 1, s = s}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEE_2 () {
+    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (10, 2)}, {x, y, t, s}]", "{}");
+  }
+
+  @Test
+  public void Solve_ParametricMEE_3 () {
+    t("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]", "{{x = 3, y = 2, t = 0, s = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEE_4 () {
+    t("Numeric[Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]]", "{{x = 3, y = 2, t = 0, s = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEE_5 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
+        "Löse[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
+  }
+  
+  /* Multiple Parametric Functions */
+
+  @Test
+  public void Solve_ParametricMF_0 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (4, 1) + s (1, -1)", "(s + 4, -s + 1)");
+    t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricMF_1 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (4, 1) + s (10, 2)", "(10 * s + 4, 2 * s + 1)");
+    t("Solve[f(u) = g(v), {t, s}]", "{{u = 2 * v + 1, v = v}}");
+  }
+
+  @Test
+  public void Solve_ParametricMF_2 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (8, 3) + s (10, 2)", "(10 * s + 8, 2 * s + 3)");
+    t("Solve[f(u) = g(v), {t, s}]", "{}");
+  }
+
+  @Test
+  public void Solve_ParametricMF_3 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
+    t("Solve[f(u) = g(v), {u, v}]", "{{u = 0, v = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricMF_4 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
+    t("Numeric[Solve[f(u) = g(v), {u, v}]]", "{{u = 0, v = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricMF_5 () {
+    t("f(t) := (3, 2) + t (5, 1)", "(5 * t + 3, t + 2)");
+    t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[f(u) = g(v), {u, v}]", "Löse[f(u) = g(v), {u, v}]");
   }
 
 
@@ -3995,12 +4107,27 @@ public class GeoGebraCasIntegrationTest {
    * internal use seems to meet our expectations.
    * 
    * Therefore we don't want to mess with this anytime soon,
-   * except somebody should complain.
+   * except somebody complains.
    */
   @Test
   @Ignore
   public void Ticket_Ticket3579_0 () {
     tk("f(x) := x * x", "x * x");
+  }
+  
+  
+  /* Test cases for tickets that never were created */
+
+  /* "f(x):=" not being shown in the output when changing a cell into a definition via the marble */
+  
+  @Test
+  public void Ticket_NoTicket_0 () {
+    GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+    kernel.getConstruction().addToConstructionList(f, false);
+    f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
+    f.computeOutput();
+
+    Assert.assertEquals("f(x):=a x³ + b x² + c x + d", f.getOutput(StringTemplate.defaultTemplate));
   }
 
 
