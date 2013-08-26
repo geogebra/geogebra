@@ -271,6 +271,7 @@ public class CASInputHandler {
 			// remember evalText and selection for future calls of processRow()
 			cellValue.setProcessingInformation(prefix, evalText, postfix);
 			cellValue.setEvalComment(paramString);
+			cellValue.setEvalCommand(ggbcmd);
 
 		} catch (CASException ex) {
 			cellValue.setError(ex.getKey());

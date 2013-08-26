@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import geogebra.common.kernel.arithmetic.Traversing.CommandRemover;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
@@ -2231,7 +2232,13 @@ public class GeoCasCell extends GeoElement implements VarString {
 			 */
 			
 			ValidExpression ex = (ValidExpression) getEvalVE().deepCopy(kernel);
-			ex.traverse(Traversing.CommandRemover.getRemover("KeepInput", "Evaluate"));
+			CommandRemover remover;
+			if (input.startsWith("Numeric[")) {
+				remover = CommandRemover.getRemover("KeepInput", "Evaluate");
+			} else {
+				remover = CommandRemover.getRemover("KeepInput", "Evaluate", "Numeric");
+			}
+			ex.traverse(remover);
 			ex.setAssignmentType(AssignmentType.DEFAULT);
 			ex.setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
 			if (twinGeo instanceof GeoFunction) {
@@ -2241,10 +2248,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 			getEvalVE().setAssignmentType(AssignmentType.DEFAULT);
 			getEvalVE().setLabel(twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
 			boolean wasKeepInputUsed = inputVE.isKeepInputUsed();
+			boolean wasNumericUsed = evalCmd.equals("Numeric");
 			setInput(ex.toAssignmentString(StringTemplate.numericDefault));
 			if (wasKeepInputUsed) {
 				inputVE.setKeepInputUsed(true);
 				setEvalCommand("KeepInput");
+			} else if (wasNumericUsed) {
+				setProcessingInformation("", "Numeric[" + inputVE.toString(StringTemplate.defaultTemplate) + "]","");
+				setEvalCommand("Numeric");
 			}
 			computeOutput(false,false);
 			this.update();
