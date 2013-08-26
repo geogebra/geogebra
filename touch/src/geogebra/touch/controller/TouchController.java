@@ -56,14 +56,15 @@ public class TouchController extends EuclidianController {
 		}
 	};
 
-	public TouchController(TouchModel touchModel, App app) {
+	public TouchController(final TouchModel touchModel, final App app) {
 		super(app);
 		this.model = touchModel;
 		this.mode = -1;
 	}
 
 	@Override
-	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
+	protected GeoElement[] createCircle2ForPoints3D(final GeoPointND p0,
+			final GeoPointND p1) {
 		return null;
 	}
 
@@ -71,9 +72,10 @@ public class TouchController extends EuclidianController {
 	 * prevent redraw
 	 */
 	@Override
-	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
+	protected boolean createNewPoint(final Hits hits,
+			final boolean onPathPossible, final boolean inRegionPossible,
+			final boolean intersectPossible,
+			final boolean doSingleHighlighting, final boolean complex) {
 		return super.createNewPoint(hits, onPathPossible, inRegionPossible,
 				intersectPossible, false, complex);
 	}
@@ -83,7 +85,7 @@ public class TouchController extends EuclidianController {
 	 * 
 	 * @param hits
 	 */
-	public void handleEvent(Hits hits) {
+	public void handleEvent(final Hits hits) {
 		if (this.model.getCommand().equals(ToolBarCommand.Slider)) {
 			return;
 		}
@@ -92,7 +94,7 @@ public class TouchController extends EuclidianController {
 		this.model.handleEvent(hits, null, null);
 	}
 
-	private void handleEvent(int x, int y) {
+	private void handleEvent(final int x, final int y) {
 		this.model.getGuiModel().closeOptions(); // make sure undo-information
 		// is
 		// stored first
@@ -102,7 +104,7 @@ public class TouchController extends EuclidianController {
 		super.mouseLoc = new GPoint(x, y);
 		this.mode = this.model.getCommand().getMode();
 
-		this.calcRWcoords();
+		calcRWcoords();
 
 		if (cmd == ToolBarCommand.Move_Mobile) {
 			this.view.setHits(this.mouseLoc);
@@ -113,7 +115,7 @@ public class TouchController extends EuclidianController {
 		}
 
 		// draw the new point
-		this.switchModeForMousePressed(new MobileMouseEvent(x, y));
+		switchModeForMousePressed(new MobileMouseEvent(x, y));
 
 		this.view.setHits(this.mouseLoc);
 		final Hits hits = this.view.getHits();
@@ -129,7 +131,8 @@ public class TouchController extends EuclidianController {
 	 * @see EuclidianController#handleMovedElement(GeoElement, boolean)
 	 */
 	@Override
-	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
+	protected void handleMousePressedForMoveMode(final AbstractEvent e,
+			final boolean drag) {
 
 		// move label?
 		GeoElement geo = this.view.getLabelHit(this.mouseLoc);
@@ -181,7 +184,7 @@ public class TouchController extends EuclidianController {
 			geo = selGeos.get(0);
 		} else {
 			// choose out of hits
-			geo = this.chooseGeo(hits, false);
+			geo = chooseGeo(hits, false);
 
 			if (!selGeos.contains(geo)) {
 				this.model.resetSelection();
@@ -194,11 +197,11 @@ public class TouchController extends EuclidianController {
 		} else {
 			// no geo clicked at
 			this.moveMode = MOVE_NONE;
-			this.resetMovedGeoPoint();
+			resetMovedGeoPoint();
 			return;
 		}
 
-		this.handleMovedElement(geo, selGeos.size() > 1);
+		handleMovedElement(geo, selGeos.size() > 1);
 	}
 
 	@Override
@@ -212,10 +215,10 @@ public class TouchController extends EuclidianController {
 	 * @see EuclidianController#moveMultipleObjects
 	 */
 	@Override
-	protected void moveMultipleObjects(boolean repaint) {
-		this.translationVec.setX(this.xRW - this.getStartPointX());
-		this.translationVec.setY(this.yRW - this.getStartPointY());
-		this.setStartPointLocation(this.xRW, this.yRW);
+	protected void moveMultipleObjects(final boolean repaint) {
+		this.translationVec.setX(this.xRW - getStartPointX());
+		this.translationVec.setY(this.yRW - getStartPointY());
+		setStartPointLocation(this.xRW, this.yRW);
 		this.startLoc = this.mouseLoc;
 
 		// remove Polygons, add their points instead
@@ -232,7 +235,7 @@ public class TouchController extends EuclidianController {
 
 		// move all selected geos
 		GeoElement.moveObjects(
-				this.removeParentsOfView(this.model.getSelectedGeos()),
+				removeParentsOfView(this.model.getSelectedGeos()),
 				this.translationVec, new Coords(this.xRW, this.yRW, 0), null);
 
 		if (repaint) {
@@ -240,21 +243,21 @@ public class TouchController extends EuclidianController {
 		}
 	}
 
-	public void onPinch(int x, int y, double scaleFactor) {
+	public void onPinch(final int x, final int y, final double scaleFactor) {
 		super.mouseLoc = new GPoint(x, y);
-		super.zoomInOut(scaleFactor,
+		zoomInOut(scaleFactor,
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
 	}
 
-	public void onTouchEnd(int x, int y) {
-		this.touchMoveIfWaiting();
+	public void onTouchEnd(final int x, final int y) {
+		touchMoveIfWaiting();
 
 		this.clicked = false;
 		if (Swipeables.isSwipeable(this.model.getCommand())
 				&& this.model.getNumberOf(Test.GEOPOINT) == 1
 				&& (Math.abs(this.origin.getX() - x) > 10 || Math
 						.abs(this.origin.getY() - y) > 10)) {
-			this.handleEvent(x, y);
+			handleEvent(x, y);
 			this.selectedPoints.clear();
 
 			if (this.view.getPreviewDrawable() != null) {
@@ -287,12 +290,12 @@ public class TouchController extends EuclidianController {
 				|| this.model.getCommand() == ToolBarCommand.FreehandShape
 				|| this.model.getCommand() == ToolBarCommand.DeleteObject
 				|| this.model.getCommand() == ToolBarCommand.TranslateObjectByVector) {
-			this.wrapMouseReleased(new MobileMouseEvent(x, y));
+			wrapMouseReleased(new MobileMouseEvent(x, y));
 		}
 	}
 
-	public void onTouchMove(int x, int y) {
-		if(this.externalHandling){
+	public void onTouchMove(final int x, final int y) {
+		if (this.externalHandling) {
 			return;
 		}
 		if (this.ignoreNextMove) {
@@ -332,15 +335,14 @@ public class TouchController extends EuclidianController {
 				return;
 			}
 
-			this.touchMoveNow(x, y, time);
+			touchMoveNow(x, y, time);
 		}
 	}
 
-	public void onTouchStart(int x, int y) {
+	public void onTouchStart(final int x, final int y) {
 		if (this.mode != this.model.getCommand().getMode()) {
-			this.setMode(this.model.getCommand().getMode());
-			this.switchPreviewableForInitNewMode(this.model.getCommand()
-					.getMode());
+			setMode(this.model.getCommand().getMode());
+			switchPreviewableForInitNewMode(this.model.getCommand().getMode());
 		}
 
 		if (this.mode == ToolBarCommand.Move_Mobile.getMode()) {
@@ -349,7 +351,7 @@ public class TouchController extends EuclidianController {
 
 		this.origin = new GPoint(x, y);
 		this.clicked = true;
-		this.handleEvent(x, y);
+		handleEvent(x, y);
 
 		if (this.model.getCommand() == ToolBarCommand.RotateAroundPoint
 				&& this.model.getTotalNumber() >= 2) {
@@ -365,7 +367,7 @@ public class TouchController extends EuclidianController {
 		this.ignoreNextMove = true;
 	}
 
-	public void redefine(GeoElement geo) {
+	public void redefine(final GeoElement geo) {
 		this.model.redefine(geo);
 
 	}
@@ -375,24 +377,24 @@ public class TouchController extends EuclidianController {
 	}
 
 	@Override
-	public void setKernel(Kernel k) {
+	public void setKernel(final Kernel k) {
 		this.kernel = k;
 		this.tempNum = new MyDouble(this.kernel);
 	}
 
-	public void setView(EuclidianView euclidianView) {
+	public void setView(final EuclidianView euclidianView) {
 		this.view = euclidianView;
 	}
 
 	void touchMoveIfWaiting() {
 		if (this.waitingX > 0) {
 			GeoGebraProfiler.moveEventsIgnored--;
-			this.touchMoveNow(this.waitingX, this.waitingY,
+			touchMoveNow(this.waitingX, this.waitingY,
 					System.currentTimeMillis());
 		}
 	}
 
-	private void touchMoveNow(int x, int y, long time) {
+	private void touchMoveNow(final int x, final int y, final long time) {
 		this.waitingX = -1;
 		this.waitingY = -1;
 		this.lastMoveEvent = time;
@@ -404,9 +406,9 @@ public class TouchController extends EuclidianController {
 			if (this.selectedPoints.isEmpty() && geo instanceof GeoPoint) {
 				this.selectedPoints.add((GeoPoint) geo);
 			}
-			this.wrapMouseMoved(mEvent);
+			wrapMouseMoved(mEvent);
 		} else {
-			this.wrapMouseDragged(mEvent);
+			wrapMouseDragged(mEvent);
 			this.origin = new GPoint(x, y);
 		}
 
@@ -417,15 +419,15 @@ public class TouchController extends EuclidianController {
 	protected boolean isMoveSliderExpected() {
 		return this.model.getCommand() == ToolBarCommand.Slider;
 	}
-	
+
 	@Override
-	public void setZoomCenter(double x, double y) {
-		if(x >= 0){
-			this.mouseLoc = new GPoint((int)x,(int)y);
+	public void setZoomCenter(final double x, final double y) {
+		if (x >= 0) {
+			this.mouseLoc = new GPoint((int) x, (int) y);
 			this.externalHandling = true;
-		}else{
+		} else {
 			this.externalHandling = false;
 		}
-		
+
 	}
 }
