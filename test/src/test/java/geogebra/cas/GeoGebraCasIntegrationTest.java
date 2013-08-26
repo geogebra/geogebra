@@ -3270,6 +3270,86 @@ public class GeoGebraCasIntegrationTest {
         "Löse[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
   }
   
+  /* Multiple Parametric Equations Abbreviation */
+
+  @Test
+  public void Solve_ParametricMEA_0 () {
+    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (1, -1)}, {t, s}]", "{{t = 0, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEA_1 () {
+    t("Solve[{X = (3, 2) + t (5, 1), X = (8, 3) + s (10, 2)}, {t, s}]", "{{t = 2 * s + 1, s = s}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEA_2 () {
+    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (10, 2)}, {t, s}]", "{}");
+  }
+
+  @Test
+  public void Solve_ParametricMEA_3 () {
+    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEA_4 () {
+    t("Numeric[Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]]", "{{t = 0, s = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEA_5 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]",
+        "Löse[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
+  }
+  
+  /* Multiple Parametric Equations Labeled */ 
+
+  @Test
+  public void Solve_ParametricMEL_0 () {
+    t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
+    t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
+    t("Solve[{f, g}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEL_1 () {
+    t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
+    t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
+    t("Solve[{f, g}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEL_2 () {
+    t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
+    t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
+    t("Numeric[Solve[{f, g}, {t, s}]]", "{{t = 0, s = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEL_3 () {
+    t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
+    t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
+    t("Numeric[Solve[{f, g}, {t, s}]]", "{{t = 0, s = -0.5}}");
+  }
+
+  @Test
+  public void Solve_ParametricMEL_4 () {
+    t("f: (x, y) = (3, 2) + t (5, 1)", "(x, y) = (5 * t + 3, t + 2)");
+    t("g: (x, y) = (4, 1) + s (2, -2)", "(x, y) = (2 * s + 4, -2 * s + 1)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{f, g}, {t, s}]", "Löse[{f, g}, {t, s}]");
+  }
+
+  @Test
+  public void Solve_ParametricMEL_5 () {
+    t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
+    t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{f, g}, {t, s}]", "Löse[{f, g}, {t, s}]");
+  }
+  
   /* Multiple Parametric Functions */
 
   @Test
@@ -3313,6 +3393,133 @@ public class GeoGebraCasIntegrationTest {
     t("g(s) := (4, 1) + s (2, -2)", "(2 * s + 4, -2 * s + 1)");
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[f(u) = g(v), {u, v}]", "Löse[f(u) = g(v), {u, v}]");
+  }
+
+  @Test
+  public void Solve_ParametricMF_6 () {
+    t("f(t) := (1, 2) + t * (2, 8)", "(2 * t + 1, 8 * t + 2)");
+    t("g(t) := (1, 1) + t * (2, 1)", "(2 * t + 1, t + 1)");
+    t("Solve[f(t) = g(s), {t, s}]", "{{t = -1 / 7, s = -1 / 7}}");
+  }
+  
+  /* Parametrics Three Dimensions */
+
+  @Test
+  public void Solve_ParametricTD_0 () {
+    t("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]", "{t = 1 / 2}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_1 () {
+    t("Numeric[Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]]", "{t = 0.5}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_2 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]",
+        "Löse[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
+  }
+
+  @Test
+  public void Solve_ParametricTD_3 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("Solve[f(t) = (2, 3, -1), t]", "{t = 1 / 2}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_4 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("Numeric[Solve[f(t) = (2, 3, -1), t]]", "{t = 0.5}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_5 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[f(t) = (2, 3, -1), t]", "Löse[f(t) = (2, 3, -1), t]");
+  }
+
+  @Test
+  public void Solve_ParametricTD_6 () {
+    t("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
+        "{{x = 2, y = 3, z = -1, t = 1 / 2, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_7 () {
+    t("Numeric[Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]]",
+        "{{x = 2, y = 3, z = -1, t = 0.5, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_8 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
+        "Löse[{(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), (x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s}]");
+  }
+
+  @Test
+  public void Solve_ParametricTD_9 () {
+    t("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
+        "{{t = 1 / 2, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_10 () {
+    t("Numeric[Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]]",
+        "{{t = 0.5, s = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_11 () {
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
+        "Löse[{X = (3, 1, 2) + t * (-2, 4, -6), X = (3, 7, -4) + s * (1, 4, -3)}, {t, s}]");
+  }
+
+  @Test
+  public void Solve_ParametricTD_12 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
+    t("Solve[f(u) = g(v), {u, v}]", "{{u = 1 / 2, v = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_13 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
+    t("Numeric[Solve[f(u) = g(v), {u, v}]]", "{{u = 0.5, v = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_14 () {
+    t("f(t) := (3, 1, 2) + t (-2, 4, -6)", "(-2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (3, 7, -4) + t (1, 4, -3)", "(t + 3, 4 * t + 7, -3 * t - 4)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[f(u) = g(v), {u, v}]", "Löse[f(u) = g(v), {u, v}]");
+  }
+
+  @Test
+  public void Solve_ParametricTD_15 () {
+    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
+    t("Solve[f(u, v) = g(w), {u, v, w}]", "{{u = 1 / 2, v = 1, w = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_16 () {
+    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
+    t("Numeric[Solve[f(u, v) = g(w), {u, v, w}]]", "{{u = 0.5, v = 1, w = -1}}");
+  }
+
+  @Test
+  public void Solve_ParametricTD_17 () {
+    t("f(t, s) := (3, 1, 2) + t (-2, 4, -6) + s *(1, 0, 0)", "(s - 2 * t + 3, 4 * t + 1, -6 * t + 2)");
+    t("g(t) := (4, 7, -4) + t (1, 4, -3)", "(t + 4, 4 * t + 7, -3 * t - 4)");
+    // Please note that the language is German. "Löse" is "Solve" in German.
+    tk("Solve[f(u, v) = g(w), {u, v, w}]", "Löse[f(u, v) = g(w), {u, v, w}]");
   }
 
 
