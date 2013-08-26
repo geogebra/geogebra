@@ -283,19 +283,8 @@ public enum Language {
 	
 	public static boolean isEnabledInGWT(String ggbLangCode) {
 		
-		// eg change en_GB to enGB
-		ggbLangCode = ggbLangCode.replaceAll("_", "");
 		
-		App.debug("looking for: "+ggbLangCode);
-		for (Language l : Language.values()) {
-			if (l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
-				return l.enableInGWT;
-			}
-		}
-		
-		App.error("language not found: "+ggbLangCode);
-		
-		return false;
+		return true;
 	}
 	/**
 	 * 
@@ -320,11 +309,16 @@ public enum Language {
 		if("he".equals(normalizedLanguage)){
 			normalizedLanguage = "iw";
 		}
-		if("nb".equals(normalizedLanguage)){
-			normalizedLanguage = "no_NB";
+		
+		else if("zh_hans_cn".equals(normalizedLanguage)){
+			normalizedLanguage = "zh_cn";
 		}
-		if("nn".equals(normalizedLanguage)){
-			normalizedLanguage = "no_NN";
+		
+		else if("nb".equals(normalizedLanguage)){
+			normalizedLanguage = "no_nn";
+		}
+		else if("nn".equals(normalizedLanguage)){
+			normalizedLanguage = "no_nn";
 		}
 		
 		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
