@@ -1544,6 +1544,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE);
 				
+				// modify solve such as
+				// Solve[expr, {var}] -> Solve[expr, var]
+				// Ticket #697
+				if (evalVE.unwrap() instanceof Command) {
+					Command c = (Command) evalVE.unwrap();
+					if (c.getName().equals("Solve") && c.getArgumentNumber() == 2 && c.getArgument(1).unwrap() instanceof MyList) {
+						MyList argList = (MyList) c.getArgument(1).unwrap();
+						if (argList.size() == 1) {
+							c.setArgument(1, argList.getItem(0).wrap());
+						}
+					}
+				}
+				
 				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
 				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
