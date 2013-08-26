@@ -43,8 +43,12 @@ import com.google.gwt.user.client.ui.CustomButton;
  */
 public abstract class FastButton extends CustomButton {
 
-	private boolean touchHandled = false;
-	private boolean clickHandled = false;
+	// in case the same touch reaches different Buttons (f.e. TouchStart +
+	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the
+	// StyleBar
+	private static boolean touchHandled = false;
+	private static boolean clickHandled = false;
+
 	private boolean touchMoved = false;
 	private int touchId;
 	private boolean isActive;
@@ -141,13 +145,13 @@ public abstract class FastButton extends CustomButton {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if (this.touchHandled) {
+		if (FastButton.touchHandled) {
 			// if the touch is already handled, we are on a device that supports
 			// touch (so you aren't in the desktop browser)
 
-			this.touchHandled = false; // reset for next press
-			this.clickHandled = true; // ignore future ClickEvents
-		} else if (!this.clickHandled) {
+			FastButton.touchHandled = false; // reset for next press
+			FastButton.clickHandled = true; // ignore future ClickEvents
+		} else if (!FastButton.clickHandled) {
 			// Press not handled yet
 			fireFastClickEvent();
 		}
@@ -220,7 +224,7 @@ public abstract class FastButton extends CustomButton {
 
 	private void onTouchEnd(Event event) {
 		if (!this.touchMoved) {
-			this.touchHandled = true;
+			FastButton.touchHandled = true;
 			fireFastClickEvent();
 			event.preventDefault();
 			onHoldPressOffStyle();// Change back the style

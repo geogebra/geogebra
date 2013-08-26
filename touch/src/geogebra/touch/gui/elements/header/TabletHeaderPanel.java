@@ -2,6 +2,7 @@ package geogebra.touch.gui.elements.header;
 
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
+import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.dialogs.InfoDialog;
 import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
@@ -40,6 +41,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	private InfoDialog infoOverrideDialog;
 	private TouchApp app;
 	private FileManagerT fm;
+	private boolean ignoreNextMouseUp;
 
 	public TabletHeaderPanel(final TouchApp app, final TouchModel touchModel) {
 		this.setStyleName("headerbar");
@@ -50,6 +52,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		this.leftHeader.setStyleName("headerLeft");
 		this.infoOverrideDialog = new InfoDialog(this.app,
 				touchModel.getGuiModel(), InfoType.Override);
+		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel().isMouseDownIgnored();
 
 		this.titlePanel = new VerticalPanel();
 
@@ -156,6 +159,13 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 	}
 
 	protected void onBlurTitle() {
+		if(this.ignoreNextMouseUp){
+			this.ignoreNextMouseUp = false;
+			this.worksheetTitle.setFocus(true);
+			return;
+		}
+		
+		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel().isMouseDownIgnored();
 		this.worksheetTitle.setFocus(false);
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");

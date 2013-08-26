@@ -19,10 +19,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class InfoDialog extends PopupPanel {
+public class InfoDialog extends DialogT {
 	public enum InfoType {
 		SaveChanges, Override;
 	}

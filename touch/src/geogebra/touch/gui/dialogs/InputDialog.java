@@ -27,8 +27,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -37,13 +35,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * A dialog with an InputBar, OK-Button and CANCEL-Button.
  * 
  */
-public class InputDialog extends PopupPanel implements CustomKeyListener,
+public class InputDialog extends DialogT implements CustomKeyListener,
 		ResizeListener, ErrorHandler {
 
 	public enum DialogType {
@@ -365,23 +362,6 @@ public class InputDialog extends PopupPanel implements CustomKeyListener,
 		}
 		if (this.inputHandler == null || this.inputHandler.processInput(input)) {
 			this.hide();
-		}
-	}
-
-	@Override
-	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
-		if (!this.isVisible()) {
-			return;
-		}
-
-		super.onPreviewNativeEvent(event);
-
-		final Event nativeEvent = Event.as(event.getNativeEvent());
-		if (nativeEvent.getTypeInt() == Event.ONMOUSEDOWN
-				&& TouchEntryPoint.getLookAndFeel().isMouseDownIgnored()) {
-			event.cancel();
-			nativeEvent.preventDefault();
-			nativeEvent.stopPropagation();
 		}
 	}
 
