@@ -945,7 +945,7 @@ public class Kernel {
 					// convert 0.125 to 1/8 so Giac treats it as an exact number
 					// Note: exact(0.3333333333333) gives 1/3
 					if (casPrintForm.equals(StringType.GIAC) && ret.indexOf('.') > -1) {
-						return "exact(" + ret + ")";
+						return StringUtil.wrapInExact(ret);
 					}
 
 					return ret;

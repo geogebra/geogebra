@@ -1063,4 +1063,22 @@ public class StringUtil {
 		return sub.replaceAll("%0", x0+"").replaceAll("%1", x1+"").replaceAll("%2", x2+"")
 				.replace("%3", x3+"");
 	}
+
+	/**
+	 * @param s String to wrap
+	 * @return "exact(" + s + ")" if necessary (for Giac)
+	 */
+	public static String wrapInExact(String s) {
+		if (s.startsWith("exact(")) {
+			// nothing to do
+			return s;
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("exact(");
+		sb.append(s);
+		sb.append(')');
+		
+		return sb.toString();
+	}
 }

@@ -183,7 +183,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			
 			// Note: exact(0.3333333333333) gives 1/3
 			if (ret.indexOf('.') > -1) {
-				return "exact(" + ret + ")";
+				return StringUtil.wrapInExact(ret);
 			}
 			
 			return ret;

@@ -496,7 +496,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if(this.isRandomGeo() && !this.isLabelSet()){
 				return "exact(rand(0,1))";
 			}
-			return "exact(" + kernel.format(value, tpl) + ")";
+			return StringUtil.wrapInExact(kernel.format(value, tpl));
 		}
 		
 		return kernel.format(value, tpl);
