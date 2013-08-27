@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
@@ -104,7 +105,7 @@ public class AppW extends AppWeb {
 	private SpreadsheetTableModelW tableModel;
 	protected GuiManagerInterfaceW guiManager = null;
 	private SoundManagerW soundManager;
-	private geogebra.web.gui.dialog.DialogManagerW dialogManager;
+	protected DialogManager dialogManager = null;
 	private ToolTipManagerW toolTipManager;
 	
 	
@@ -341,10 +342,7 @@ public class AppW extends AppWeb {
 	}
 
 	@Override
-	public geogebra.common.main.DialogManager getDialogManager() {
-		if (dialogManager == null) {
-			dialogManager = new DialogManagerW(this);
-		}
+	public DialogManager getDialogManager() {
 		return dialogManager;
 	}
 

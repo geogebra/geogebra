@@ -4,9 +4,11 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.main.App;
+import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.helper.MySkyDriveApis;
@@ -217,5 +219,13 @@ public class AppWapplication extends AppW {
     public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		// this method is overridden in each subclass of AppW,
 		// in order to override the behaviour in AppWeb
+	}
+
+	@Override
+	public DialogManager getDialogManager() {
+		if (dialogManager == null) {
+			dialogManager = new DialogManagerW(this);
+		}
+		return dialogManager;
 	}
 }

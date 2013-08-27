@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.util.ArticleElement;
@@ -9,6 +10,7 @@ import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.infobar.InfoBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.helper.ObjectPool;
@@ -261,5 +263,13 @@ public class AppWapplet extends AppW {
 					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 		}
+	}
+
+	@Override
+	public DialogManager getDialogManager() {
+		if (dialogManager == null) {
+			dialogManager = new DialogManagerW(this);
+		}
+		return dialogManager;
 	}
 }
