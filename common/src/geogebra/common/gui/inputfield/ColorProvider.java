@@ -2,6 +2,7 @@ package geogebra.common.gui.inputfield;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 
@@ -22,10 +23,10 @@ public class ColorProvider {
 	
 	private Kernel kernel;
 	private Set<String> labels;
+	private ParserFunctions pf;
 	private List<Integer[]> definedObjectsIntervals;
 	private List<Integer[]> undefinedObjectsIntervals;
 	private List<Integer[]> ignoreIntervals;
-	private SplitResult localVariables; 
 	private String text;
 	private boolean isCasInput;
 	
@@ -39,8 +40,9 @@ public class ColorProvider {
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>", "g");
 	
 	/* Regular expression object for splitting variable names */
-	private RegExp splitter = RegExp.compile("(\\(" + WS + ")|(" + WS + "," + WS + ")|(" + WS + "\\))");
-	
+	private RegExp splitter = RegExp.compile(WS + "," + WS);
+	//private RegExp splitter = RegExp.compile("(\\(" + WS + ")|(" + WS + "," + WS + ")|(" + WS + "\\))");
+
 	/* Regular expression string matching a full label */
 	private static String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\'|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\'|\\p{Nd})*)";
 	
@@ -69,7 +71,7 @@ public class ColorProvider {
 		definedObjectsIntervals = new ArrayList<Integer[]>();
 		undefinedObjectsIntervals = new ArrayList<Integer[]>();
 		ignoreIntervals = new ArrayList<Integer[]>();
-		localVariables = null;
+		pf = app.getParserFunctions();
 		text = "";
 	}
 
@@ -130,10 +132,10 @@ public class ColorProvider {
 		definedObjectsIntervals.clear();
 		undefinedObjectsIntervals.clear();
 		ignoreIntervals.clear();
-		localVariables = null;
+		SplitResult localVariables = null;
 		
 		MatchResult res;
-		/* only for algebra input */
+		/* Only for algebra input */
 		if (!isCasInput) {
 			while ((res = commandReg.exec(text)) != null) {
 				int i = res.getIndex();
@@ -152,20 +154,23 @@ public class ColorProvider {
 			String label = res.getGroup(1);
 			String labelvar = res.getGroup(0);
 			String vars = res.getGroup(8);
-			if (isAssignment && localVariables == null && vars != null) {
-				localVariables = getVariables(vars);
-				/* set isAssignment to false so we don't fall in if again */
-				isAssignment = false;
-				for (int i = 0; i < localVariables.length(); i++) {
-					labels.add(localVariables.get(i));
+			if (isAssignment && vars != null) {
+				String trimmedVars = vars.substring(1, vars.length() - 1).trim();
+				if (localVariables == null) {
+					localVariables = getVariables(trimmedVars);
+					for (int i = 0; i < localVariables.length(); i++) {
+						labels.add(localVariables.get(i));
+					}
 				}
 			}
 			int i = res.getIndex();
 			int len = labelvar.length();
 			if (labels.contains(label)) {
 				definedObjectsIntervals.add(new Integer[] {i, i + len} );
-			} else if (!isCasInput){
-				/* we only color undefined objects in algebra input */
+			} else if (pf.isReserved(label)) {
+				ignoreIntervals.add(new Integer[] {i, i + len});
+			} else if (!isCasInput) {
+				/* We only color undefined objects in algebra input */
 				undefinedObjectsIntervals.add(new Integer[] {i, i + len});				
 			}
 		}
