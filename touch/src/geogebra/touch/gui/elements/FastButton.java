@@ -248,7 +248,7 @@ public abstract class FastButton extends CustomButton {
 	 * 
 	 * @param event
 	 */
-	private void fireFastClickEvent() {
+	protected void fireFastClickEvent() {
 
 		for (FastClickHandler h : this.handlers) {
 			h.onClick();

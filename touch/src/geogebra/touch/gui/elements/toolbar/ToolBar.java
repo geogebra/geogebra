@@ -9,6 +9,7 @@ import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.dialogs.InputDialog;
 import geogebra.touch.gui.dialogs.InputDialog.DialogType;
 import geogebra.touch.gui.elements.StandardButton;
+import geogebra.touch.gui.elements.StandardClickButton;
 import geogebra.touch.model.GuiModel;
 import geogebra.touch.model.TouchModel;
 import geogebra.touch.utils.ToolBarMenu;
@@ -96,46 +97,40 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	private void initShowHideButtons() {
-		this.showHideClosed = new StandardButton(TouchEntryPoint
-				.getLookAndFeel().getIcons().triangle_left());
+		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForOpenClose()) {
+			this.showHideClosed = new StandardClickButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().triangle_left());
+
+			this.showHideOpened = new StandardClickButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().triangle_left());
+		} else {
+			this.showHideClosed = new StandardButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().triangle_left());
+
+			this.showHideOpened = new StandardButton(TouchEntryPoint
+					.getLookAndFeel().getIcons().triangle_left());
+		}
+
 		this.showHideClosed.setStyleName("arrowLeft");
 
 		this.add(this.showHideClosed);
 
-		this.showHideOpened = new StandardButton(TouchEntryPoint
-				.getLookAndFeel().getIcons().triangle_left());
 		this.showHideOpened.setStyleName("arrowLeft");
 		this.showHideOpened.setVisible(false);
 
-		if (TouchEntryPoint.getLookAndFeel().useClickHandlerForOpenClose()) {
-			this.showHideClosed.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					onExpandToolBar();
-				}
-			});
+		this.showHideClosed.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick() {
+				onExpandToolBar();
+			}
+		});
 
-			this.showHideOpened.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					onCollapseToolBar();
-				}
-			});
-		} else {
-			this.showHideClosed.addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick() {
-					onExpandToolBar();
-				}
-			});
-
-			this.showHideOpened.addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick() {
-					onCollapseToolBar();
-				}
-			});
-		}
+		this.showHideOpened.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick() {
+				onCollapseToolBar();
+			}
+		});
 
 	}
 
