@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.AlgoUnique;
 import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
+import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoDependentListExpression;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
@@ -50,6 +51,7 @@ import geogebra.gui.view.data.DataVariable.GroupType;
 import geogebra.main.AppD;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * 
@@ -809,15 +811,13 @@ public class StatGeo {
 	public GeoElement createScatterPlot(GeoList dataList) {
 
 		// copy the dataList geo
-		// ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-		// for (int i = 0; i < dataList.size(); ++i){
-		// list.add(dataList.get(i));
-		// }
-		// AlgoDependentList dl = new AlgoDependentList(cons, list, false);
-		// removeFromConstructionList(dl);
-		// GeoList geo = dl.getGeoList();
-
-		GeoList geo = dataList;
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		for (int i = 0; i < dataList.size(); ++i) {
+			list.add(dataList.get(i));
+		}
+		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
+		removeFromConstructionList(dl);
+		GeoList geo = dl.getGeoList();
 
 		// set visibility
 		geo.setEuclidianVisible(true);

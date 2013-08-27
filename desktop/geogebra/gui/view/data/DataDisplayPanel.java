@@ -1198,8 +1198,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			daView.getController().loadDataLists(true);
 			statGeo.setRemoveFromConstruction(true);
+			daView.getController().setRegressionGeo();
 			updatePlot(true);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			app.setDefaultCursor();
