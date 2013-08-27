@@ -110,7 +110,7 @@ public class AppWsimple extends AppW {
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
-		getEuclidianView1().requestFocusInWindow();
+		requestFocusInWindow();
 
 		GeoGebraProfiler.getInstance().profileEnd();
     }

@@ -1687,6 +1687,12 @@ public class AppW extends AppWeb {
 		setMoveMode();
 
 		if (euclidianView.isShowing()) {
+			requestFocusInWindow();
+		}
+	}
+	
+	protected void requestFocusInWindow(){
+		if(Web.panelForApplets == null){
 			euclidianView.requestFocusInWindow();
 		}
 	}
