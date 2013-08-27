@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class WorksheetGUI extends HeaderPanel {
 
+	private static final int VERTICAL_PADDING = 100;
 	private final Label instructionsPost, instructionsPre;
 	private final FlowPanel frame = new FlowPanel();
 	private final AppWeb app;
@@ -43,17 +44,25 @@ public class WorksheetGUI extends HeaderPanel {
 		this.instructionsPre = new Label();
 		this.instructionsPre.setStyleName("instructionsPre");
 		this.instructionsPost.setStyleName("instructionsPost");
-		onResize();
+		resizeContent();
 	}
 
 	public FlowPanel getContent() {
 		return this.content;
 	}
+	
+	private void resizeContent(){
+		App.debug("resize content");
+		this.content.setHeight((Window.getClientHeight() - TouchEntryPoint
+				.getLookAndFeel().getTabletHeaderHeight() - VERTICAL_PADDING) + "px");
+	}
 
 	@Override
 	public void onResize() {
-		this.content.setHeight((Window.getClientHeight() - TouchEntryPoint
-				.getLookAndFeel().getTabletHeaderHeight()) + "px");
+		super.onResize();
+		if(this.getContentWidget() == this.content){
+			resizeContent();
+		}
 		// this.content.getElement().getStyle().setOverflow(Overflow.AUTO);
 	}
 
@@ -69,6 +78,7 @@ public class WorksheetGUI extends HeaderPanel {
 			this.content.add(this.instructionsPre);
 			this.content.add(this.frame);
 			this.content.add(this.instructionsPost);
+			
 			this.setContentWidget(this.content);
 
 			final Element article = DOM.createElement("article");
