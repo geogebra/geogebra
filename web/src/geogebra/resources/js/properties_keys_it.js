@@ -1021,7 +1021,7 @@ __GGB__keysVar.it.error = {
     "CAS_SelectionStructureError": "Verificare la struttura della selezione.",
     "CAS_TimeoutError": "Il calcolo richiede troppo tempo di elaborazione ed \xe8 stato interrotto.",
     "CAS_VariableIsDynamicReference": "Impossibile assegnare questo riferimento dinamico",
-    "CannotUnsnap": "Cannot unsnap the application.",
+    "CannotUnsnap": "Impossibile visualizzare l'applicazione a schermo intero.",
     "ChangeDependent": "Impossibile modificare gli oggetti dipendenti.",
     "CircularDefinition": "Definizione circolare",
     "CoordinatesMustBeConstant": "Le coordinate devono essere costanti.",
