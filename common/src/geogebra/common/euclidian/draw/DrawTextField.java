@@ -66,7 +66,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
-		box = geo.getKernel().getApplication().getSwingFactory().createHorizontalBox();
+		box = geo.getKernel().getApplication().getSwingFactory().createHorizontalBox(
+				view.getEuclidianController().getEnvironmentStyle());
 		// action listener for checkBox
 		//bl = new ButtonListener();
 		ifListener = new InputFieldListener();

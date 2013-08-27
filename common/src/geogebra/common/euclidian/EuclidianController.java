@@ -10063,4 +10063,9 @@ public abstract class EuclidianController {
 		
 	}
 	
+	public EnvironmentStyle getEnvironmentStyle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

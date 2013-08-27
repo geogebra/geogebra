@@ -1,6 +1,7 @@
 package geogebra.common.factories;
 
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.euclidian.EnvironmentStyle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
@@ -19,7 +20,7 @@ public abstract class SwingFactory {
 	
 	public abstract AbstractJComboBox newJComboBox();
 
-	public abstract GBox createHorizontalBox();
+	public abstract GBox createHorizontalBox(EnvironmentStyle style);
 	
 	public abstract GPanel newGPanel();
 

@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EnvironmentStyle;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
@@ -67,7 +68,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private AbstractEvent waitingTouchMove = null;
 	private AbstractEvent waitingMouseMove = null;
 	
-	public class EnvironmentStyle {
+	public class EnvironmentStyleW extends EnvironmentStyle{
 		
 		private float widthScale;
 		private float heightScale;
@@ -79,7 +80,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		private int scrollTop;
 		
 		
-		public EnvironmentStyle() {
+		public EnvironmentStyleW() {
 	    }
 		/**
 		 * @return the widthScale
@@ -192,10 +193,10 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		
 	}
 	
-	public static EnvironmentStyle style; 
+	public EnvironmentStyleW style; 
 	
 	
-	public EnvironmentStyle getEnvironmentStyle () {
+	public EnvironmentStyleW getEnvironmentStyle () {
 		return style;
 	}
 	
@@ -206,7 +207,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	 */
 	@Override
 	public void calculateEnvironment() {
-	    style = new EnvironmentStyle();
+	    style = new EnvironmentStyleW();
 	    style.setWidthScale(getEnvWidthScale());
 	    style.setHeightScale(getEnvHeightScale());
 	    style.setxOffset(getEnvXoffset());
