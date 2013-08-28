@@ -1547,8 +1547,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				
-				evalVE = processSolveCommand(evalVE);
-				
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE);
@@ -1557,6 +1555,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
+					expandedEvalVE = processSolveCommand(expandedEvalVE);
+
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE,
 						null, StringTemplate.numericNoLocal);
