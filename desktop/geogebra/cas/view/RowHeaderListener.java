@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -69,19 +68,21 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 		// handle marble click
 		int releasedRow = table.rowAtPoint(e.getPoint());
-		boolean marbleVisible = ((JPanel)rowHeader.getCellRenderer().getListCellRendererComponent(rowHeader, (releasedRow+1)+"", releasedRow, false, false)).
-				getComponent(1).isVisible();
-		if(releasedRow == mousePressedRow && marbleVisible && !rightClick){
+		RowHeaderRenderer rhr = (RowHeaderRenderer) rowHeader.getCellRenderer()
+				.getListCellRendererComponent(rowHeader, (releasedRow + 1) + "", releasedRow, false, false);
+		boolean marbleVisible = rhr.getComponent(1).isVisible();
+		if(releasedRow == mousePressedRow && marbleVisible && !rightClick) {
 			int totalHeight = 0;
-			for(int i=0;i<releasedRow;i++)
+			for(int i = 0; i < releasedRow; i++) {
 				totalHeight += table.getRowHeight(i);
-			
-			int marbleTop = ((JPanel)rowHeader.getCellRenderer().getListCellRendererComponent(rowHeader, (releasedRow+1)+"", releasedRow, false, false)).
-					getComponent(1).getY();
-			if(e.getY()>marbleTop+totalHeight-4 && e.getY()<marbleTop+totalHeight+16){
-				
+			}
+			// not using the renderer to get the marble top because
+			// sometimes it gives wrong? values
+			// see Ticket #3439, comments 8, 12
+			int marbleTop = table.getRowHeight(releasedRow) / 2 + 4;
+			if(e.getY() > marbleTop + totalHeight - 4 && e.getY() < marbleTop + totalHeight + 16) {
 				GeoCasCell clickedCell =  table.getGeoCasCell(table.rowAtPoint(e.getPoint()));		
-				if(table.isEditing()){
+				if(table.isEditing()) {
 					table.stopEditing();
 				}
 				clickedCell.toggleTwinGeoEuclidianVisible();	
