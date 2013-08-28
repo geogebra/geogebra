@@ -46,10 +46,11 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private HorizontalPanel inputPanel;
 	private StandardButton showHideClosed;
 	private StandardButton showHideOpened;
+	
 	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel()
 			.getIcons().icon_fx();
 	private Panel underline;
-	private boolean openNeeded = false;
+	private boolean isOpen = false;
 	private static final int toolBarButtonWidth = 56;
 	private final InputDialog input;
 	private final TextBox inputBox = new TextBox();
@@ -94,6 +95,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		guiModel.setActive(this.tools.get(0));
 
 		this.toolPanel.add(this.showHideOpened);
+		
 		this.add(this.toolPanel);
 	}
 
@@ -113,7 +115,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		}
 
 		this.showHideClosed.setStyleName("arrowLeft");
-
 		this.add(this.showHideClosed);
 
 		this.showHideOpened.setStyleName("arrowLeft");
@@ -132,10 +133,10 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 				onCollapseToolBar();
 			}
 		});
-
 	}
 
 	void onExpandToolBar() {
+		this.isOpen = true;
 		this.openClicked = true;
 		this.addStyleName("visible");
 		this.showHideOpened.setVisible(true);
@@ -147,6 +148,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	void onCollapseToolBar() {
+		this.isOpen = false;
 		this.touchModel.getGuiModel().closeOptions();
 		this.closeToolBar();
 		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
@@ -169,8 +171,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.inputPanel.add(iconPanel);
 		this.inputButtonPanel.add(this.inputPanel);
 
-		this.inputBox.setText(this.touchModel.getKernel().getApplication()
-				.getLocalization().getMenu("InputField"));
+		this.inputBox.setText(this.app.getLocalization().getMenu("InputField"));
 		this.inputBox.setReadOnly(true);
 
 		// Input Underline for Android
@@ -206,12 +207,16 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	void onInputFieldClicked() {
 		this.underline.removeStyleName("inactive");
 		this.underline.addStyleName("active");
+		this.input.setInputText("");
 		this.input.show();
 	}
 
 	void onInputFieldClosed() {
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
+		if (this.isOpen) {
+			onCollapseToolBar();
+		}
 	}
 
 	boolean onProcessInput(final String inputString) {
@@ -227,21 +232,25 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private void closeToolBar() {
 		this.removeStyleName("visible");
 		this.showHideOpened.setVisible(false);
-		this.showHideClosed.setVisible(this.openNeeded);
+		this.showHideClosed.setVisible(isOpenNeeded());
 		this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 	}
 
 	public void setLabels() {
-		this.inputBox.setText(this.touchModel.getKernel().getApplication()
-				.getLocalization().getMenu("InputField"));
+		this.inputBox.setText(this.app.getLocalization().getMenu("InputField"));
 	}
 
 	@Override
 	public void onResize() {
-		this.openNeeded = Window.getClientWidth() < ToolBar.toolBarButtonWidth
-				* this.tools.size() + 270;
+		//if resize happens due to opening the toolbar,
+		//don't close it again!
 		if (!this.openClicked) {
 			this.closeToolBar();
 		}
+	}
+	
+	private boolean isOpenNeeded() {
+		return Window.getClientWidth() < ToolBar.toolBarButtonWidth
+				* this.tools.size() + 270;
 	}
 }
