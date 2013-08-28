@@ -6,6 +6,7 @@ import geogebra.touch.gui.laf.LookAndFeel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -53,7 +54,6 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.addLabel();
 
 			this.contentPanel.setStyleName("contentPanel");
-			makeCentralPosition();
 
 			this.dialogPanel.add(this.contentPanel);
 
@@ -70,24 +70,32 @@ class DefaultErrorHandler implements ErrorHandler {
 			TouchEntryPoint.tabletGUI.addResizeListener(this);
 		}
 
-		private void makeCentralPosition() {
-			// Padding-left needed for Win8 Dialog
-			this.title.getElement().setAttribute(
-					"style",
-					"padding-left: " + this.laf.getPaddingLeftOfDialog()
-							+ "px;");
-			this.contentPanel.getElement()
-					.setAttribute(
-							"style",
-							"margin-left: " + this.laf.getPaddingLeftOfDialog()
-									+ "px;");
+		// only used for Win
+		@Override
+		public void setPopupPosition(final int left, final int top) {
+			super.setPopupPosition(left, top);
+			centerContent();
+		}
 
+		// only used for Win
+		private void centerContent() {
+			if (this.title != null && this.contentPanel != null) {
+				this.title
+						.getElement()
+						.getStyle()
+						.setPaddingLeft(this.laf.getPaddingLeftOfDialog(),
+								Unit.PX);
+				this.contentPanel
+						.getElement()
+						.getStyle()
+						.setMarginLeft(this.laf.getPaddingLeftOfDialog(),
+								Unit.PX);
+			}
 		}
 
 		@Override
 		public void onResize() {
 			if (this.isVisible() && this.isShowing()) {
-				this.makeCentralPosition();
 				this.laf.setPopupCenter(this);
 			}
 		}

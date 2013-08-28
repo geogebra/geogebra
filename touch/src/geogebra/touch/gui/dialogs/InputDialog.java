@@ -17,6 +17,7 @@ import geogebra.touch.model.TouchModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -114,7 +115,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	private void addCustomKeys() {
 		this.customKeys.addCustomKeyListener(this);
 		this.customKeys.setVisible(false);
-		this.dialogPanel.add(this.customKeys);
+		this.contentPanel.add(this.customKeys);
 	}
 
 	private void addContentPanel() {
@@ -189,16 +190,6 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	public DialogType getType() {
 		return this.type;
-	}
-
-	private void makeCentralPosition() {
-		this.title.getElement().setAttribute("style",
-				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-		this.contentPanel.getElement().setAttribute("style",
-				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-		this.customKeys.getElement().setAttribute("style",
-				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-
 	}
 
 	public boolean isClockwise() {
@@ -347,7 +338,24 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	public void onResize() {
 		if (this.isVisible() && this.isShowing()) {
 			this.laf.setPopupCenter(this);
-			makeCentralPosition();
+		}
+	}
+
+	// only used for win
+	@Override
+	public void setPopupPosition(final int left, final int top) {
+		super.setPopupPosition(left, top);
+		centerContent();
+
+	}
+
+	// only used for win
+	private void centerContent() {
+		if (this.title != null && this.contentPanel != null) {
+			this.title.getElement().getStyle()
+					.setPaddingLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
+			this.contentPanel.getElement().getStyle()
+					.setMarginLeft(this.laf.getPaddingLeftOfDialog(), Unit.PX);
 		}
 	}
 
