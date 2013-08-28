@@ -1494,6 +1494,25 @@ public abstract class GeoElement extends ConstructionElement implements
 			//CircularException, we ignore it
 		}
 	}
+	
+	public void setAdvancedVisualStyleCopy(final GeoElement geo) {
+		setVisualStyle(geo);
+
+		// set layer
+		setLayer(geo.getLayer());
+
+		// copy color function
+		setColorFunction(geo.getColorFunction().deepCopyGeo());
+		setColorSpace(geo.getColorSpace());
+
+		// copy ShowObjectCondition, unless it generates a
+		// CirclularDefinitionException
+		try {
+			setShowObjectCondition(geo.getShowObjectCondition().copy());
+		} catch (final Exception e) {
+			//CircularException, we ignore it
+		}
+	}
 
 	/**
 	 * @return graphics adapter (wrapper for fill image) of this element

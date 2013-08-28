@@ -85,7 +85,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoBoolean copy() {
 		GeoBoolean ret = new GeoBoolean(cons);
 		ret.setValue(value);
 		return ret;

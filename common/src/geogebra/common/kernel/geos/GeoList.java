@@ -134,12 +134,12 @@ AngleProperties {
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoList copy() {
 		return new GeoList(this);
 	}
 
 	@Override
-	public GeoElement deepCopyGeo() {
+	public GeoList deepCopyGeo() {
 		GeoList ret = new GeoList(cons);
 		
 		for (int i = 0 ; i < geoList.size() ; i++) {

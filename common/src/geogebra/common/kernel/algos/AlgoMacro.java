@@ -203,6 +203,9 @@ implements AlgoMacroInterface {
 			if(macroGeo.isDefined()){
 				algoGeo.set(macroGeo);	
 				AlgoElement drawAlgo = macroGeo.getParentAlgorithm();
+				if(macro.isCopyCaptionsAndVisibility()){
+					algoGeo.setAdvancedVisualStyleCopy(macroGeo);
+				}
 				boolean oldVisible = algoGeo.isSetEuclidianVisible();
 				if(drawAlgo instanceof DrawInformationAlgo){
 					((GeoNumeric) algoGeo).setDrawable(true, oldVisible);
@@ -227,7 +230,7 @@ implements AlgoMacroInterface {
 			setOutput(i,macroOutput[i].copyInternal(cons));
 			GeoElement out = getOutput(i); 
 			out.setUseVisualDefaults(false);
-			out.setAdvancedVisualStyle(macroOutput[i]);	
+			out.setAdvancedVisualStyleCopy(macroOutput[i]);	
 			if(macro.isCopyCaptionsAndVisibility()){
 				out.setCaption(macroOutput[i].getRawCaption());								
 			}
