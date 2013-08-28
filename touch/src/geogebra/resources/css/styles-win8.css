@@ -107,10 +107,6 @@ body .infoDialog .gwt-TextBox.active {
 	margin-top: 20px;
 }
 
-.sliderDialog.redefine .radioButtonPanel {
-	margin-top: 10px;
-}
-
 .sliderDialog .radioButtonPanel .gwt-RadioButton {
 	display: inline;
 }

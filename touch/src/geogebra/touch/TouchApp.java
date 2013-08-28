@@ -70,7 +70,7 @@ public class TouchApp extends AppWeb {
 	private final int selectionFactor = 3;
 	private boolean isDefaultFileName;
 	private final Stack<ErrorHandler> errorHandlers;
-	private DefaultErrorHandler defaultErrorHandler;
+	private final DefaultErrorHandler defaultErrorHandler;
 
 	/**
 	 * Initializes the factories, {@link FontManagerW} and {@link Settings}.
@@ -483,7 +483,7 @@ public class TouchApp extends AppWeb {
 			TouchEntryPoint.getBrowseGUI().setLabels();
 		}
 		// TODO remove
-		//this.showError("Labels set");
+		// this.showError("Labels set");
 	}
 
 	public void setLanguage() {
@@ -529,8 +529,7 @@ public class TouchApp extends AppWeb {
 
 	@Override
 	public void showError(final String key, final String error) {
-		this.showErrorDialog(this.getLocalization().getError(key) + ": "
-				+ error);
+		showErrorDialog(this.getLocalization().getError(key) + ": " + error);
 	}
 
 	@Override

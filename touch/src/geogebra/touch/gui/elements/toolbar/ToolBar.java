@@ -51,17 +51,18 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private Panel underline;
 	private boolean openNeeded = false;
 	private static final int toolBarButtonWidth = 56;
-	private InputDialog input;
+	private final InputDialog input;
 	private final TextBox inputBox = new TextBox();
-	private TouchModel touchModel;
+	private final TouchModel touchModel;
 	private boolean openClicked = false;
-	private TouchApp app;
+	private final TouchApp app;
 
 	public ToolBar(final TouchModel touchModel, final TouchApp app) {
 		this.touchModel = touchModel;
 		this.setStyleName("toolbar");
 		this.app = app;
 		this.input = new InputDialog(app, DialogType.InputField, touchModel);
+		this.input.setMode("InputField");
 		initShowHideButtons();
 		addToolPanel();
 		addInputPanel();
@@ -76,7 +77,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.toolPanel.setStyleName("toolbarButtonPanel");
 		this.tools = new ArrayList<ToolBarButton>();
 
-		for (ToolBarMenu t : ToolBarMenu.values()) {
+		for (final ToolBarMenu t : ToolBarMenu.values()) {
 			final ToolBarButton b = new ToolBarButton(t, guiModel, this.app);
 
 			b.addFastClickHandler(new FastClickHandler() {
@@ -196,7 +197,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 
 		this.input.setInputHandler(new InputHandler() {
 			@Override
-			public boolean processInput(String inputString) {
+			public boolean processInput(final String inputString) {
 				return onProcessInput(inputString);
 			}
 		});
@@ -213,7 +214,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 		this.underline.addStyleName("inactive");
 	}
 
-	boolean onProcessInput(String inputString) {
+	boolean onProcessInput(final String inputString) {
 		return this.touchModel.newInput(inputString);
 	}
 

@@ -12,19 +12,19 @@ public class StandardButton extends FastButton {
 	private SVGResource icon;
 	private String label;
 
-	public StandardButton(SVGResource icon) {
-		this.setIconAndLabel(icon, null);
+	public StandardButton(final SVGResource icon) {
+		setIconAndLabel(icon, null);
 	}
 
-	public StandardButton(String label) {
-		this.setIconAndLabel(null, label);
+	public StandardButton(final String label) {
+		setIconAndLabel(null, label);
 	}
 
-	public StandardButton(SVGResource icon, String label) {
-		this.setIconAndLabel(icon, label);
+	public StandardButton(final SVGResource icon, final String label) {
+		setIconAndLabel(icon, label);
 	}
 
-	private void setIconAndLabel(SVGResource icon, String label) {
+	private void setIconAndLabel(final SVGResource icon, final String label) {
 
 		this.icon = icon;
 		this.label = label;
@@ -71,7 +71,7 @@ public class StandardButton extends FastButton {
 		return this.label;
 	}
 
-	public void setLabel(String label) {
+	public void setLabel(final String label) {
 		setIconAndLabel(this.icon, label);
 	}
 
@@ -79,7 +79,7 @@ public class StandardButton extends FastButton {
 		return this.icon;
 	}
 
-	public void setIcon(SVGResource icon) {
+	public void setIcon(final SVGResource icon) {
 		setIconAndLabel(icon, this.label);
 
 	}

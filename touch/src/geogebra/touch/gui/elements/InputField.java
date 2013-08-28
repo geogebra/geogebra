@@ -1,7 +1,5 @@
 package geogebra.touch.gui.elements;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -20,9 +18,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputField extends VerticalPanel {
 
-	private TextBox textBox;
+	private final TextBox textBox;
 	private Panel underline;
-	private ArrayList<InputField> box = new ArrayList<InputField>();
 	private Label nameLabel;
 
 	/**
@@ -38,7 +35,7 @@ public class InputField extends VerticalPanel {
 	 * @param caption
 	 *            caption of the TextField (will NOT(!) be translated)
 	 */
-	public InputField(String caption, boolean useUnderline) {
+	public InputField(final String caption, final boolean useUnderline) {
 		if (caption != null) {
 			this.nameLabel = new Label(caption);
 			this.add(this.nameLabel);
@@ -61,7 +58,7 @@ public class InputField extends VerticalPanel {
 
 		this.textBox.addFocusHandler(new FocusHandler() {
 			@Override
-			public void onFocus(FocusEvent event) {
+			public void onFocus(final FocusEvent event) {
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 					@Override
@@ -74,17 +71,18 @@ public class InputField extends VerticalPanel {
 
 		this.textBox.addBlurHandler(new BlurHandler() {
 			@Override
-			public void onBlur(BlurEvent event) {
+			public void onBlur(final BlurEvent event) {
 				onBlurTextBox();
 			}
 		});
 
-		this.textBox.addClickHandler(new ClickHandler() {
+		this.addDomHandler(new ClickHandler() {
+
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(final ClickEvent event) {
 				onClickTextBox();
 			}
-		});
+		}, ClickEvent.getType());
 	}
 
 	protected void onFocusTextBox() {
@@ -97,7 +95,7 @@ public class InputField extends VerticalPanel {
 		this.textBox.addStyleName("active");
 	}
 
-	void onBlurTextBox() {
+	protected void onBlurTextBox() {
 		this.textBox.setFocus(false);
 		if (this.underline != null) {
 			this.underline.removeStyleName("active");
@@ -107,15 +105,11 @@ public class InputField extends VerticalPanel {
 		this.textBox.addStyleName("inactive");
 	}
 
-	void onClickTextBox() {
+	protected void onClickTextBox() {
 		this.textBox.setFocus(true);
-
-		for (final InputField t : InputField.this.box) {
-			t.setFocus(false);
-		}
 	}
 
-	public void addErrorBox(HorizontalPanel errorBox) {
+	public void addErrorBox(final HorizontalPanel errorBox) {
 		this.clear();
 		this.add(errorBox);
 		if (this.nameLabel != null) {
@@ -127,7 +121,7 @@ public class InputField extends VerticalPanel {
 		}
 	}
 
-	public void addKeyDownHandler(KeyDownHandler keyDownHandler) {
+	public void addKeyDownHandler(final KeyDownHandler keyDownHandler) {
 		this.textBox.addKeyDownHandler(keyDownHandler);
 	}
 
@@ -139,25 +133,23 @@ public class InputField extends VerticalPanel {
 		return this.textBox.getText();
 	}
 
-	public void setCursorPos(int i) {
+	public void setCursorPos(final int i) {
 		this.textBox.setCursorPos(i);
 	}
 
-	public void setFocus(boolean b) {
+	public void setFocus(final boolean b) {
 		this.textBox.setFocus(b);
 	}
 
-	public void setText(String string) {
+	public void setText(final String string) {
 		this.textBox.setText(string);
 	}
 
-	public void setTextBoxToLoseFocus(InputField[] text) {
-		this.box = new ArrayList<InputField>();
+	public void setLabelText(final String name) {
+		this.nameLabel.setText(name);
+	}
 
-		for (final InputField t : text) {
-			if (!this.box.contains(t) && !t.equals(this)) {
-				this.box.add(t);
-			}
-		}
+	public void setInactive() {
+		onBlurTextBox();
 	}
 }

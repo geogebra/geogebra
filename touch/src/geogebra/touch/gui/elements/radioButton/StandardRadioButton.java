@@ -8,8 +8,8 @@ public class StandardRadioButton extends StandardButton {
 	private boolean activated = false;
 	private final StandardRadioGroup group;
 
-	public StandardRadioButton(String label, StandardRadioGroup group) {
-		super(laf.getIcons().radioButtonInactive(), label);
+	public StandardRadioButton(final StandardRadioGroup group) {
+		super(laf.getIcons().radioButtonInactive(), "");
 		this.setStyleName("radioButton");
 
 		this.group = group;
@@ -24,7 +24,7 @@ public class StandardRadioButton extends StandardButton {
 		});
 	}
 
-	void handleClick() {
+	protected void handleClick() {
 		if (this.activated) {
 			return;
 		}
@@ -34,7 +34,7 @@ public class StandardRadioButton extends StandardButton {
 	}
 
 	@Override
-	public void setActive(boolean value) {
+	public void setActive(final boolean value) {
 		if (value) {
 			this.group.deselectAll();
 		}
@@ -48,6 +48,10 @@ public class StandardRadioButton extends StandardButton {
 
 	public boolean isActivated() {
 		return this.activated;
+	}
+
+	public void setLabel() {
+
 	}
 
 	@Override

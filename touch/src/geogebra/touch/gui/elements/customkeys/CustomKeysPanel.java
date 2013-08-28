@@ -6,10 +6,10 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 
-public class CustomKeysPanel extends PopupPanel {
+public class CustomKeysPanel extends FlowPanel {
 	public enum CustomKey {
 		plus("+"), minus("\u2212"), times("\u2217", "*"), divide("/"), squared(
 				"\u00B2"), power("^"), degree("\u00B0"), pi("\u03C0"), leftpar(
@@ -19,12 +19,12 @@ public class CustomKeysPanel extends PopupPanel {
 		String s;
 		private String replace;
 
-		CustomKey(String s) {
+		CustomKey(final String s) {
 			this.s = s;
 			this.replace = "";
 		}
 
-		CustomKey(String s, String replace) {
+		CustomKey(final String s, final String replace) {
 			this.s = s;
 			this.replace = replace;
 		}
@@ -43,9 +43,8 @@ public class CustomKeysPanel extends PopupPanel {
 
 	private final List<CustomKeyListener> listeners;
 
-
 	public CustomKeysPanel() {
-		super(false, false);
+		super();
 
 		this.listeners = new ArrayList<CustomKeyListener>();
 		this.setStyleName("customKeyPanel");
@@ -57,7 +56,7 @@ public class CustomKeysPanel extends PopupPanel {
 			b.addDomHandler(new ClickHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClick(final ClickEvent event) {
 					CustomKeysPanel.this.fireClickEvent(k);
 				}
 			}, ClickEvent.getType());
@@ -74,13 +73,13 @@ public class CustomKeysPanel extends PopupPanel {
 		this.add(this.buttonContainer);
 	}
 
-	public void addCustomKeyListener(CustomKeyListener l) {
+	public void addCustomKeyListener(final CustomKeyListener l) {
 		if (!this.listeners.contains(l)) {
 			this.listeners.add(l);
 		}
 	}
 
-	void fireClickEvent(CustomKey key) {
+	void fireClickEvent(final CustomKey key) {
 		for (final CustomKeyListener c : this.listeners) {
 			c.onCustomKeyPressed(key);
 		}

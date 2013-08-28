@@ -84,7 +84,6 @@ public class GuiModel {
 
 		if (this.touchModel != null) {
 			this.touchModel.resetSelection();
-			this.touchModel.repaint();
 		}
 	}
 

@@ -54,8 +54,8 @@ public class StyleBar extends FlowPanel {
 			.getIcons();
 	private final HorizontalPanel contentPanel, styleButtonsPanel;
 	private final Map<StyleBarEntry, FastButton> buttons = new HashMap<StyleBarEntry, FastButton>();
-	private FastButton showHideButton;
-	private EuclidianViewT euclidianView;
+	private final FastButton showHideButton;
+	private final EuclidianViewT euclidianView;
 	private final TouchModel touchModel;
 	private final GuiModel guiModel;
 	private OptionsPanel optionsPanel;
@@ -124,7 +124,7 @@ public class StyleBar extends FlowPanel {
 		}, TouchStartEvent.getType());
 	}
 
-	private void rebuild(StyleBarDefaultSettings entry) {
+	private void rebuild(final StyleBarDefaultSettings entry) {
 
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString()
@@ -157,7 +157,7 @@ public class StyleBar extends FlowPanel {
 
 		this.buttons.clear();
 
-		for (SVGResource svg : resource) {
+		for (final SVGResource svg : resource) {
 			final FastButton b;
 			if (svg.equals(lafIcons.color())) {
 
@@ -201,12 +201,14 @@ public class StyleBar extends FlowPanel {
 					}
 				});
 				// only show "label" in special cases
-				if (this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MOVE
-						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT
-						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_INTERSECT
-						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_MIDPOINT
-						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_POINT_ON_OBJECT
-						|| this.touchModel.getCommand().getMode() == EuclidianConstants.MODE_COMPLEX_NUMBER) {
+				final int cmd = this.touchModel.getCommand().getMode();
+				if (cmd == EuclidianConstants.MODE_MOVE
+						|| cmd == EuclidianConstants.MODE_POINT
+						|| cmd == EuclidianConstants.MODE_INTERSECT
+						|| cmd == EuclidianConstants.MODE_MIDPOINT
+						|| cmd == EuclidianConstants.MODE_POINT_ON_OBJECT
+						|| cmd == EuclidianConstants.MODE_COMPLEX_NUMBER
+						|| cmd == EuclidianConstants.MODE_SLIDER) {
 					this.buttons.put(StyleBarEntry.CaptionStyle, b);
 				}
 			} else if (svg.equals(lafIcons.show_or_hide_the_axes())) {

@@ -1,9 +1,6 @@
 package geogebra.touch.gui.dialogs;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.touch.ErrorHandler;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
@@ -13,8 +10,6 @@ import geogebra.touch.gui.elements.InputField;
 import geogebra.touch.gui.elements.customkeys.CustomKeyListener;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel;
 import geogebra.touch.gui.elements.customkeys.CustomKeysPanel.CustomKey;
-import geogebra.touch.gui.elements.radioButton.RadioChangeEvent;
-import geogebra.touch.gui.elements.radioButton.RadioChangeHandler;
 import geogebra.touch.gui.elements.radioButton.StandardRadioButton;
 import geogebra.touch.gui.elements.radioButton.StandardRadioGroup;
 import geogebra.touch.gui.laf.LookAndFeel;
@@ -22,24 +17,16 @@ import geogebra.touch.model.TouchModel;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-/**
- * A dialog with an InputBar, OK-Button and CANCEL-Button.
- * 
- */
 public class InputDialog extends DialogT implements CustomKeyListener,
 		ResizeListener, ErrorHandler {
 
@@ -50,28 +37,24 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	// panelContainer contains all elements
 	private final FlowPanel dialogPanel = new FlowPanel();
 	private final FlowPanel titlePanel = new FlowPanel();
-	private final FlowPanel contentPanel = new FlowPanel();
-	private HorizontalPanel buttonPanel;
+	protected FlowPanel contentPanel = new FlowPanel();
+	private final CustomKeysPanel customKeys = new CustomKeysPanel();
 
 	private final Label title = new Label();
-
 	private final HorizontalPanel errorBox = new HorizontalPanel();
 	private SVGResource iconWarning;
 	private final Label errorText = new Label();
 
 	private final FlowPanel radioButtonPanel = new FlowPanel();
-	private final StandardRadioGroup radioGroup = new StandardRadioGroup();
-	private final StandardRadioButton[] radioButton = new StandardRadioButton[2];
-	private final FlowPanel inputFieldPanel = new FlowPanel();
-	private HorizontalPanel sliderPanel;
+	protected StandardRadioGroup radioGroup = new StandardRadioGroup();
+	protected StandardRadioButton[] radioButton = new StandardRadioButton[2];
+	protected FlowPanel inputFieldPanel = new FlowPanel();
 	private InputField textBox = new InputField();
-	private InputField min, max, increment;
 
-	private final TouchApp app;
+	protected TouchApp app;
 	private DialogType type;
-	private String prevText, mode;
+	private String mode;
 
-	private final CustomKeysPanel customKeys = new CustomKeysPanel();
 	private final LookAndFeel laf;
 	private final TouchModel model;
 	private boolean handlingExpected = false;
@@ -79,22 +62,46 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	public InputDialog(final TouchApp app, final DialogType type,
 			final TouchModel touchModel) {
-		// hide when clicked outside and don't set modal due to the
-		// CustomKeyPanel
+		// hide when clicked outside
 		super(true, false);
-		this.setGlassEnabled(true);
+
 		this.app = app;
 		this.type = type;
 		this.model = touchModel;
 		this.laf = TouchEntryPoint.getLookAndFeel();
 
-		this.buildErrorBox();
+		init();
+	}
 
+	private void init() {
+		this.mode = "";
 		this.setStyleName("inputDialog");
+		this.setGlassEnabled(true);
 
-		this.init();
+		this.dialogPanel.setStyleName("panelContainer");
+		this.setAutoHideEnabled(true);
 
-		((TabletGUI) app.getTouchGui()).addResizeListener(this);
+		buildErrorBox();
+		addTitlePanel();
+		addContentPanel();
+		addTextBox();
+		addRadioButton();
+		addCustomKeys();
+
+		this.add(this.dialogPanel);
+
+		((TabletGUI) this.app.getTouchGui()).addResizeListener(this);
+
+		this.addDomHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(final KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
+					event.preventDefault();
+					return;
+				}
+			}
+		}, KeyDownEvent.getType());
 
 		this.setInputHandler(new InputHandler() {
 			@Override
@@ -102,45 +109,44 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 				return handleInput(inputString);
 			}
 		});
-
-		this.setAutoHideEnabled(true);
 	}
 
-	boolean handleInput(final String inputString) {
-		return this.model.inputPanelClosed(inputString);
+	private void addCustomKeys() {
+		this.customKeys.addCustomKeyListener(this);
+		this.customKeys.setVisible(false);
+		this.dialogPanel.add(this.customKeys);
 	}
 
-	private void addRadioButton() {
-		final String[] s = { "", "" };
+	private void addContentPanel() {
+		this.contentPanel.setStyleName("contentPanel");
+		this.contentPanel.getElement().setAttribute("style",
+				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.inputFieldPanel.setStyleName("inputFieldPanel");
+		this.contentPanel.add(this.inputFieldPanel);
+		this.dialogPanel.add(this.contentPanel);
+	}
 
-		if (this.type == DialogType.Angle) {
-			s[0] = this.app.getLocalization().getPlain("counterClockwise");
-			s[1] = this.app.getLocalization().getPlain("clockwise");
-		} else {
-			s[0] = this.app.getLocalization().getMenu("Number");
-			s[1] = this.app.getLocalization().getMenu("Angle");
-		}
+	private void addTitlePanel() {
+		this.titlePanel.setStyleName("titlePanel");
+		this.title.setStyleName("title");
 
-		this.radioButton[0] = new StandardRadioButton(s[0], this.radioGroup);
-		this.radioButton[1] = new StandardRadioButton(s[1], this.radioGroup);
+		// Padding-left needed for Win8 Dialog
+		this.title.getElement().setAttribute("style",
+				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
+		this.titlePanel.add(this.title);
+		this.dialogPanel.add(this.titlePanel);
+	}
 
-		if (this.type == DialogType.Slider) {
-			final RadioChangeHandler handler = new RadioChangeHandler() {
-				@Override
-				public void onRadioChange(final RadioChangeEvent event) {
-					InputDialog.this.setSliderPreview();
-				}
-			};
-
-			this.radioGroup.addRadioChangeHandler(handler);
-		}
+	protected void addRadioButton() {
+		this.radioButton[0] = new StandardRadioButton(this.radioGroup);
+		this.radioButton[1] = new StandardRadioButton(this.radioGroup);
 
 		this.radioButtonPanel.setStyleName("radioButtonPanel");
 		this.radioButtonPanel.add(this.radioButton[0]);
 		this.radioButtonPanel.add(this.radioButton[1]);
 		this.contentPanel.add(this.radioButtonPanel);
 
-		this.radioButton[0].setActive(true);
+		this.radioButtonPanel.setVisible(false);
 	}
 
 	private void addTextBox() {
@@ -160,7 +166,6 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		this.errorBox.setVisible(false);
 		this.errorBox.setStyleName("errorBox");
 		this.errorBox.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-
 		this.textBox.addErrorBox(this.errorBox);
 
 		this.inputFieldPanel.add(this.textBox);
@@ -178,138 +183,12 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		this.errorBox.add(this.errorText);
 	}
 
-	private void createSliderDesign() {
-		this.min = new InputField(this.app.getLocalization().getPlain("min"),
-				true);
-		this.max = new InputField(this.app.getLocalization().getPlain("max"),
-				true);
-		this.increment = new InputField(this.app.getLocalization().getMenu(
-				"Step"), true);
-		this.increment.addStyleName("last");
-
-		final InputField[] box = new InputField[] { this.min, this.max,
-				this.increment, this.textBox };
-
-		this.min.setTextBoxToLoseFocus(box);
-		this.max.setTextBoxToLoseFocus(box);
-		this.increment.setTextBoxToLoseFocus(box);
-
-		this.sliderPanel = new HorizontalPanel();
-
-		this.sliderPanel.setStyleName("sliderPanel");
-		this.sliderPanel.add(this.min);
-		this.sliderPanel.add(this.max);
-		this.sliderPanel.add(this.increment);
-
-		this.inputFieldPanel.add(this.sliderPanel);
-
-		if (this.type == DialogType.Slider) {
-			this.addRadioButton();
-		}
-
-		this.buttonPanel = new HorizontalPanel();
-		this.buttonPanel
-				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		this.buttonPanel.setStyleName("buttonPanel");
-		final Button ok = new Button();
-		ok.addStyleName("ok");
-		ok.setText(this.app.getLocalization().getPlain("Apply"));
-		ok.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				InputDialog.this.onOK();
-			}
-		});
-		final Button cancel = new Button();
-		cancel.setStyleName("last");
-		cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-		cancel.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				InputDialog.this.onCancel();
-			}
-		});
-		this.buttonPanel.add(ok);
-		this.buttonPanel.add(cancel);
-
-		this.contentPanel.add(this.buttonPanel);
-	}
-
-	public String getIncrement() {
-		return this.increment.getText();
-	}
-
-	public String getMax() {
-		return this.max.getText();
-	}
-
-	public String getMin() {
-		return this.min.getText();
+	protected boolean handleInput(final String inputString) {
+		return this.model.inputPanelClosed(inputString, this.type);
 	}
 
 	public DialogType getType() {
 		return this.type;
-	}
-
-	@Override
-	public void hide() {
-		this.app.unregisterErrorHandler(this);
-		super.hide();
-		this.prevText = "";
-
-		// prevent that the function is drawn twice
-		this.model.getGuiModel().setActiveDialog(null);
-	}
-
-	private void init() {
-		// needs to be reset
-		this.mode = "";
-
-		this.setAdditionalStyleName();
-
-		this.customKeys.addCustomKeyListener(this);
-		this.dialogPanel.setStyleName("panelContainer");
-
-		this.dialogPanel.add(this.titlePanel);
-
-		this.titlePanel.add(this.title);
-		this.titlePanel.setStyleName("titlePanel");
-		this.title.setStyleName("title");
-
-		// Padding-left needed for Win8 Dialog
-		
-
-		this.contentPanel.setStyleName("contentPanel");
-
-		this.dialogPanel.add(this.contentPanel);
-
-		addTextBox();
-		this.contentPanel.add(this.inputFieldPanel);
-		this.inputFieldPanel.setStyleName("inputFieldPanel");
-
-		if (this.type == DialogType.Slider
-				|| this.type == DialogType.RedefineSlider) {
-			this.createSliderDesign();
-		}
-
-		if (this.type == DialogType.Angle) {
-			this.addRadioButton();
-		}
-
-		this.add(this.dialogPanel);
-
-		this.setLabels();
-
-		this.addDomHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(final KeyDownEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
-					event.preventDefault();
-					return;
-				}
-			}
-		}, KeyDownEvent.getType());
 	}
 
 	private void makeCentralPosition() {
@@ -319,7 +198,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 				"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
 		this.customKeys.getElement().setAttribute("style",
 				"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-		
+
 	}
 
 	public boolean isClockwise() {
@@ -341,114 +220,51 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		return ret;
 	}
 
-	public boolean isNumber() {
-		return this.type == DialogType.Slider
-				&& this.radioButton[0].isActivated();
-	}
-
-	void onCancel() {
+	protected void onCancel() {
 		this.hide();
 	}
 
-	@Override
-	public void onCustomKeyPressed(final CustomKey c) {
-		final int pos = this.textBox.getCursorPos();
-		this.textBox.setText(this.textBox.getText().substring(0, pos)
-				+ c.toString() + this.textBox.getText().substring(pos));
-		this.textBox.setCursorPos(pos + 1);
-	}
-
-	void onOK() {
-		InputDialog.this.handlingExpected = true;
-
+	protected void onOK() {
+		this.handlingExpected = true;
 		String input = this.textBox.getText();
 		for (final CustomKey c : CustomKey.values()) {
 			if (!c.getReplace().equals("")) {
 				input = input.replace(c.toString(), c.getReplace());
 			}
 		}
+
 		if (this.inputHandler == null || this.inputHandler.processInput(input)) {
 			this.hide();
 		}
 	}
 
 	@Override
-	public void onResize() {
-		if (this.isVisible() && this.isShowing()) {
-			this.setPopupPosition(this.laf.getPopupLeft(this), this.laf.getPopupTop(this));
-			makeCentralPosition();
-		}
+	public void onCustomKeyPressed(final CustomKey c) {
+		final int pos = this.textBox.getCursorPos();
+		setInputText(this.textBox.getText().substring(0, pos) + c.toString()
+				+ this.textBox.getText().substring(pos));
+		this.textBox.setCursorPos(pos + 1);
 	}
 
-	public void redefine(final DialogType dialogType) {
-		if (this.getType() == dialogType) {
-			return;
-		}
-		this.clear();
-		if (this.contentPanel != null && this.dialogPanel != null) {
-			this.dialogPanel.clear();
-			this.contentPanel.clear();
-			this.inputFieldPanel.clear();
-			this.radioButtonPanel.clear();
-		}
+	public void redefine(final DialogType dialogType, final String oldValue) {
 		this.type = dialogType;
-		this.init();
-	}
-
-	private void setAdditionalStyleName() {
-		this.setStyleName("inputDialog");
-		switch (this.getType()) {
-		case InputField:
-			break;
-		case Redefine:
-			break;
-		case NumberValue:
-		case Angle:
-			this.addStyleName("angleDialog");
-			break;
-		case RedefineSlider:
-			this.addStyleName("redefine");
-			//$FALL-THROUGH$
-		case Slider:
-			this.addStyleName("sliderDialog");
-			break;
-		default:
-			break;
-		}
-	}
-
-	public void setFromSlider(final GeoNumeric geo) {
-		this.redefine(DialogType.RedefineSlider);
-		this.radioButton[0].setActive(!geo.isAngle());
-		this.radioButton[1].setActive(geo.isAngle());
-		this.textBox.setText(geo.getLabel(StringTemplate.defaultTemplate));
-		this.increment.setText(geo.getAnimationStepObject().getLabel(
-				StringTemplate.editTemplate));
-		this.max.setText(geo.getIntervalMaxObject().getLabel(
-				StringTemplate.editTemplate));
-		this.min.setText(geo.getIntervalMinObject().getLabel(
-				StringTemplate.editTemplate));
+		setInputText(oldValue);
 	}
 
 	public void setInputHandler(final InputHandler inputHandler) {
 		this.inputHandler = inputHandler;
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		switch (this.type) {
-		case InputField:
-			this.title
-					.setText(this.app.getLocalization().getMenu("InputField"));
-			break;
 		case Redefine:
-			this.title.setText(this.app.getLocalization().getPlain("Redefine"));
+			setTitle(this.app.getLocalization().getPlain("Redefine"));
 			break;
 		case NumberValue:
+		case InputField:
 		case Angle:
-		case Slider:
 			if (this.mode != null && this.mode.length() > 0) {
-				this.title.setText(this.app.getLocalization()
-						.getMenu(this.mode));
+				setTitle(this.app.getLocalization().getMenu(this.mode));
 			}
 			break;
 		default:
@@ -458,71 +274,63 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 	public void setMode(final String mode) {
 		this.mode = mode;
-		this.setLabels();
+		setLabels();
 	}
 
-	void setSliderPreview() {
-		if (this.type != DialogType.Slider) {
-			return;
-		}
-
-		if (this.isNumber()) {
-			final GeoNumeric num = new GeoNumeric(this.app.getKernel()
-					.getConstruction());
-			this.textBox.setText(num.getFreeLabel(null));
-
-			this.min.setText("-5");
-			this.max.setText("5");
-			this.increment.setText("0.1");
+	public void setType(final DialogType type) {
+		this.type = type;
+		if (this.type == DialogType.Angle) {
+			this.addStyleName("angleDialog");
 		} else {
-			final GeoAngle angle = new GeoAngle(this.app.getKernel()
-					.getConstruction());
-			this.textBox.setText(angle.getFreeLabel(null));
-
-			this.min.setText("0\u00B0"); // 0°
-			this.max.setText("360\u00B0");
-			this.increment.setText("1\u00B0");
+			this.removeStyleName("angleDialog");
 		}
 	}
 
-	public void setText(final String text) {
-		this.prevText = text;
+	public void setInputText(final String text) {
+		this.textBox.setText(text);
+	}
+
+	protected void showRadioButtons(final String firstVal, final String secVal) {
+		this.radioButton[0].setLabel(firstVal);
+		this.radioButton[1].setLabel(secVal);
+		this.radioButton[0].setActive(true);
+		this.radioButtonPanel.setVisible(true);
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		this.model.getGuiModel().setActiveDialog(this);
-
 		this.onResize();
 
-		if (this.radioButton[0] != null) {
-			this.radioButton[0].setActive(true);
-		}
-
-		if (this.type == DialogType.RedefineSlider) {
-			// do not overwrite label
-		} else if (this.type != DialogType.Slider) {
-			this.textBox.setText(this.prevText);
-		} else {
-			this.setSliderPreview();
-		}
+		this.model.getGuiModel().setActiveDialog(this);
 
 		this.handlingExpected = false;
 		this.errorBox.setVisible(false);
 
-		// if (this.type != DialogType.Slider) {
+		if (this.type == DialogType.Angle) {
+			showRadioButtons(
+					this.app.getLocalization().getPlain("counterClockwise"),
+					this.app.getLocalization().getPlain("clockwise"));
+		}
 		if (this.type != DialogType.Slider
 				&& this.type != DialogType.RedefineSlider
 				&& this.type != DialogType.Angle) {
-			this.dialogPanel.add(this.customKeys);
+			this.customKeys.setVisible(true);
 		}
 
-		this.setLabels();
+		setLabels();
 		this.textBox.setFocus(true);
-		this.textBox.setCursorPos(this.textBox.getText().length());
-
 		this.app.registerErrorHandler(this);
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		this.app.unregisterErrorHandler(this);
+		this.customKeys.setVisible(false);
+		this.radioButtonPanel.setVisible(false);
+		// prevent that the function is drawn twice
+		this.model.getGuiModel().setActiveDialog(null);
 	}
 
 	@Override
@@ -533,5 +341,19 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 
 		this.errorText.setText(error);
 		this.errorBox.setVisible(true);
+	}
+
+	@Override
+	public void onResize() {
+		if (this.isVisible() && this.isShowing()) {
+			this.setPopupPosition(this.laf.getPopupLeft(this),
+					this.laf.getPopupTop(this));
+			makeCentralPosition();
+		}
+	}
+
+	@Override
+	public void setTitle(final String title) {
+		this.title.setText(title);
 	}
 }

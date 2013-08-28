@@ -370,7 +370,6 @@ public class TouchController extends EuclidianController {
 
 	public void redefine(final GeoElement geo) {
 		this.model.redefine(geo);
-
 	}
 
 	@Override
