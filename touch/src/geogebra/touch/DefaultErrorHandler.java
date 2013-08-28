@@ -22,68 +22,73 @@ class DefaultErrorHandler implements ErrorHandler {
 
 	private ErrorPopup errorPopup;
 	private final Localization loc;
-	
-	DefaultErrorHandler(Localization loc){
+
+	DefaultErrorHandler(final Localization loc) {
 		this.loc = loc;
 	}
-	private class ErrorPopup extends PopupPanel implements ResizeListener{
+
+	private class ErrorPopup extends PopupPanel implements ResizeListener {
 		private final FlowPanel dialogPanel;
 		private final FlowPanel contentPanel = new FlowPanel();
-		
+
 		private final FlowPanel titlePanel = new FlowPanel();
 		private final Label title;
-		
+
 		private final HorizontalPanel textPanel;
 		private final SVGResource iconWarning;
 		private final Label infoText;
-		
+
 		private HorizontalPanel buttonContainer;
 		private final Button okButton;
-		
+
 		private final LookAndFeel laf;
-		
-		public ErrorPopup(){
+
+		public ErrorPopup() {
 			super(true, true);
 			this.dialogPanel = new FlowPanel();
 			this.laf = TouchEntryPoint.getLookAndFeel();
 			this.iconWarning = this.laf.getIcons().icon_warning();
-			
+
 			this.title = new Label();
 			this.addLabel();
-			
 
 			this.contentPanel.setStyleName("contentPanel");
 			makeCentralPosition();
 
 			this.dialogPanel.add(this.contentPanel);
-			
+
 			this.textPanel = new HorizontalPanel();
-			this.infoText  = new Label();
+			this.infoText = new Label();
 			this.addText();
-			
+
 			this.okButton = new Button();
 			initOKButton();
-			
+
 			this.add(this.dialogPanel);
 			this.setStyleName("inputDialog");
 			this.addStyleName("errorDialog");
 			TouchEntryPoint.tabletGUI.addResizeListener(this);
 		}
-		
+
 		private void makeCentralPosition() {
 			// Padding-left needed for Win8 Dialog
-			this.title.getElement().setAttribute("style",
-					"padding-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-			this.contentPanel.getElement().setAttribute("style",
-					"margin-left: " + this.laf.getPaddingLeftOfDialog() + "px;");
-			
+			this.title.getElement().setAttribute(
+					"style",
+					"padding-left: " + this.laf.getPaddingLeftOfDialog()
+							+ "px;");
+			this.contentPanel.getElement()
+					.setAttribute(
+							"style",
+							"margin-left: " + this.laf.getPaddingLeftOfDialog()
+									+ "px;");
+
 		}
-		
+
 		@Override
-		public void onResize(){
+		public void onResize() {
 			if (this.isVisible() && this.isShowing()) {
 				this.makeCentralPosition();
-				this.setPopupPosition(this.laf.getPopupLeft(this), this.laf.getPopupTop(this));
+				this.laf.setPopupCenter(this);
 			}
 		}
 
@@ -93,7 +98,7 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.titlePanel.setStyleName("titlePanel");
 			this.dialogPanel.add(this.titlePanel);
 		}
-		
+
 		private void addText() {
 			final Panel iconPanel = new LayoutPanel();
 			final String html = "<img src=\""
@@ -102,18 +107,20 @@ class DefaultErrorHandler implements ErrorHandler {
 			iconPanel.setStyleName("iconPanel");
 			this.textPanel.add(iconPanel);
 
-			this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+			this.textPanel
+					.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 			this.textPanel.add(this.infoText);
 
 			this.textPanel.setStyleName("textPanel");
 			this.contentPanel.add(this.textPanel);
 		}
-		
+
 		private void initOKButton() {
 			this.buttonContainer = new HorizontalPanel();
-			this.buttonContainer.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			this.buttonContainer
+					.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 			this.buttonContainer.setStyleName("buttonPanel");
-			
+
 			this.okButton.addDomHandler(new ClickHandler() {
 
 				@Override
@@ -125,19 +132,20 @@ class DefaultErrorHandler implements ErrorHandler {
 			this.buttonContainer.add(this.okButton);
 			this.contentPanel.add(this.buttonContainer);
 		}
-		
-		public void setLabels(Localization loc){
+
+		public void setLabels(final Localization loc) {
 			this.title.setText(loc.getError("Error"));
 			this.okButton.setText(loc.getPlain("OK"));
 		}
-		public void setText(String text){
+
+		public void setText(final String text) {
 			this.infoText.setText(text);
 		}
 	}
-	
+
 	@Override
-	public void showError(String error) {
-		if(this.errorPopup == null){
+	public void showError(final String error) {
+		if (this.errorPopup == null) {
 			this.errorPopup = new ErrorPopup();
 			this.errorPopup.setGlassEnabled(true);
 			this.errorPopup.center();
@@ -146,7 +154,7 @@ class DefaultErrorHandler implements ErrorHandler {
 		this.errorPopup.setText(error);
 		this.errorPopup.show();
 		this.errorPopup.onResize();
-		
+
 	}
 
 }

@@ -46,10 +46,8 @@ public interface LookAndFeel extends SavedStateListener {
 			Element element);
 
 	public boolean useClickHandlerForOpenClose();
-	
+
 	public void resetNativeHandlers();
 
-	public int getPopupLeft(PopupPanel inputDialog);
-
-	public int getPopupTop(PopupPanel inputDialog);
+	public void setPopupCenter(PopupPanel panel);
 }

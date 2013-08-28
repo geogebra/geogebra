@@ -11,6 +11,7 @@ import geogebra.touch.model.TouchModel;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 public class WinLAF extends DefaultLAF {
 
@@ -92,26 +93,26 @@ public class WinLAF extends DefaultLAF {
 		};
 		return header;
 	}
-	
+
 	@Override
-	public void attachExternalEvents(EuclidianViewT view,
-			Element element) {
-			addNativeHandlers(element, new MsZoomer(view.getEuclidianController()));
+	public void attachExternalEvents(final EuclidianViewT view,
+			final Element element) {
+		addNativeHandlers(element, new MsZoomer(view.getEuclidianController()));
 	}
-	
+
 	@Override
 	public native void resetNativeHandlers()/*-{
 		$wnd.first = {id:-1};
 		$wnd.second = {id:-1};
 	}-*/;
-
+	
 	private native void addNativeHandlers(Element element, MsZoomer zoomer) /*-{
 		$wnd.first = {id:-1};
 		$wnd.second = {id:-1};
 		$wnd.oldDistance = 0;
 		$wnd.distance = function(){
- 			return Math.sqrt(($wnd.first.x-$wnd.second.x)*($wnd.first.x-$wnd.second.x)+
- 			($wnd.first.y-$wnd.second.y)*($wnd.first.y-$wnd.second.y));
+				return Math.sqrt(($wnd.first.x-$wnd.second.x)*($wnd.first.x-$wnd.second.x)+
+				($wnd.first.y-$wnd.second.y)*($wnd.first.y-$wnd.second.y));
 		}
 		
 		
@@ -120,7 +121,7 @@ public class WinLAF extends DefaultLAF {
 				if($wnd.first.id === e.pointerId){    	
 					$wnd.second.x = e.x;	
 					$wnd.second.y = e.y;
- 				}else{
+				}else{
 					$wnd.first.x = e.x;	
 					$wnd.first.y = e.y;
 				}
@@ -148,7 +149,7 @@ public class WinLAF extends DefaultLAF {
 			if($wnd.first.id >=0 && $wnd.second.id>=0){
 				$wnd.oldDistance = $wnd.distance();
 			}
-
+	
 		});
 		
 		element.addEventListener("MSPointerUp",function(e) {
@@ -161,4 +162,10 @@ public class WinLAF extends DefaultLAF {
 			}
 		});
 	}-*/;
+	
+	@Override
+	public void setPopupCenter(final PopupPanel panel) {
+		panel.setPopupPosition((Window.getClientWidth() - panel.getWidget()
+				.getOffsetWidth()) / 2, 50);
+	}
 }

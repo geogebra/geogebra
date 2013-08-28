@@ -20,7 +20,7 @@ public class DefaultLAF implements LookAndFeel {
 	private TabletHeaderPanel hp;
 	private BrowseHeaderPanel bhp;
 	private final TabletGUI gui;
-	private TouchApp app;
+	private final TouchApp app;
 
 	public DefaultLAF(final TouchApp app) {
 		this.app = app;
@@ -43,7 +43,7 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public BrowseHeaderPanel buildBrowseHeader(BrowseGUI browseGUI) {
+	public BrowseHeaderPanel buildBrowseHeader(final BrowseGUI browseGUI) {
 		this.bhp = new BrowseHeaderPanel(this.app.getLocalization(), browseGUI,
 				this.app.getOfflineOperation());
 		browseGUI.setHeaderWidget(this.bhp);
@@ -125,8 +125,8 @@ public class DefaultLAF implements LookAndFeel {
 	}
 
 	@Override
-	public void attachExternalEvents(EuclidianViewT euclidianViewT,
-			Element element) {
+	public void attachExternalEvents(final EuclidianViewT euclidianViewT,
+			final Element element) {
 		// TODO Auto-generated method stub
 	}
 
@@ -134,20 +134,15 @@ public class DefaultLAF implements LookAndFeel {
 	public boolean useClickHandlerForOpenClose() {
 		return false;
 	}
-	
+
 	@Override
 	public void resetNativeHandlers() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public int getPopupLeft(PopupPanel inputDialog) {
-		return (Window.getClientWidth() - inputDialog.getWidget().getOffsetWidth()) /2;
-	}
-
-	@Override
-	public int getPopupTop(PopupPanel inputDialog) {
-		return 50;
+	public void setPopupCenter(final PopupPanel panel) {
+		panel.center();
 	}
 }

@@ -346,8 +346,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	@Override
 	public void onResize() {
 		if (this.isVisible() && this.isShowing()) {
-			this.setPopupPosition(this.laf.getPopupLeft(this),
-					this.laf.getPopupTop(this));
+			this.laf.setPopupCenter(this);
 			makeCentralPosition();
 		}
 	}
