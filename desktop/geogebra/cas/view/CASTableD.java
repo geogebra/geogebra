@@ -413,7 +413,7 @@ public class CASTableD extends JTable implements CASTable {
 				// tell construction about new GeoCasCell if it is not at the
 				// end
 				kernel.getConstruction().setCasCellRow(toInsert, selectedRow);
-			} else  {
+			} else if (selectedRow != 0) {
 				// we insert below last cell
 				// if last cell is empty, add it to construction list
 				// so its row number will be updated

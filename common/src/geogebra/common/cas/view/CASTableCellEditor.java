@@ -33,5 +33,10 @@ public interface CASTableCellEditor extends SetLabels {
 	 * @param selEnd end position of selected substring
 	 */
 	void setInputSelectionEnd(int selEnd);
+	
+	/**
+	 * Clears input area
+	 */
+	void clearInputText();
 
 }

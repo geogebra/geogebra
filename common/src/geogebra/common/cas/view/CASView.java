@@ -159,6 +159,7 @@ public abstract class CASView implements View{
 		// delete all rows
 		getConsoleTable().deleteAllRows();
 		ensureOneEmptyRow();
+		getConsoleTable().getEditor().clearInputText();
 	}
 	
 	/**

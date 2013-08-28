@@ -264,4 +264,8 @@ public class CASTableCellEditorD extends CASTableCell implements TableCellEditor
 				break;
 		}
 	}
+
+	public void clearInputText() {
+		clearInputSelectionText();
+	}
 }
