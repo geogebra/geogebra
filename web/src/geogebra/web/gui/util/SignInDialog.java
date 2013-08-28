@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
+import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.views.SuccessErrorRenderable;
 import geogebra.html5.util.JSON;
 import geogebra.html5.util.JavaScriptObjectWrapper;
@@ -183,7 +184,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 						}
 						
 						
-						((AppW) app).getLoginOperation().loginResult(resp);
+						((LoginOperation)((AppW) app).getLoginOperation()).loginResult(resp);
 					}
 					
 					public void onError(Request request, Throwable exception) {
@@ -218,7 +219,7 @@ public class SignInDialog extends DialogBox implements SuccessErrorRenderable {
 		ggtLoginPanel.add(logins);
 		container.add(ggtLoginPanel);
 		
-		((AppW) app).getLoginOperation().getView().add(this);		
+		((LoginOperation)((AppW) app).getLoginOperation()).getView().add(this);		
 		
 		add(container);
 	}

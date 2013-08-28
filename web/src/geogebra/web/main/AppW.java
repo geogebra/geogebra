@@ -21,10 +21,6 @@ import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.move.ggtapi.operations.LogOutOperation;
-import geogebra.common.move.ggtapi.operations.LoginOperation;
-import geogebra.common.move.ggtapi.views.LogOutView;
-import geogebra.common.move.ggtapi.views.LoginView;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
@@ -38,7 +34,6 @@ import geogebra.html5.main.AppWeb;
 import geogebra.html5.main.FontManagerW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.ViewManager;
-import geogebra.html5.move.ggtapi.models.AuthenticationModelWeb;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.MyDictionary;
@@ -126,24 +121,21 @@ public class AppW extends AppWeb {
 
 	boolean menuKeysLoaded = false;
 	protected ObjectPool objectPool;
-	
-	//Event flow operations
-	
-	private LoginOperation loginOperation;
-	private LogOutOperation logoutOperation;
 
 	/**
-	 * @return LogInOperation eventFlow
+	 * Method to be overridden in AppWapplication and AppWapplet
+	 * In simple web applets, this should be null
 	 */
-	public LoginOperation getLoginOperation() {
-		return loginOperation;
+	public Object getLoginOperation() {
+		return null;
 	}
-	
+
 	/**
-	 * @return LogoutOperation logOutOperation
+	 * Method to be overridden in AppWapplication and AppWapplet
+	 * In simple web applets, this should be null
 	 */
-	public LogOutOperation getLogOutOperation() {
-		return logoutOperation;
+	public Object getLogOutOperation() {
+		return null;
 	}
 
 	/**
@@ -180,31 +172,7 @@ public class AppW extends AppWeb {
 		
 		//Online - Offline event handling begins here
 		initNetworkEventFlow();
-		//Login - Logout operation event handling begins here
-		initAuthenticationEventFlow();
-		
-		
 	}
-	
-	private void initAuthenticationEventFlow() {
-		loginOperation = new LoginOperation();
-		AuthenticationModelWeb authenticationModel = new AuthenticationModelWeb();
-		LoginView loginView = new LoginView();
-		
-		loginOperation.setModel(authenticationModel);
-		loginOperation.setView(loginView);
-		
-		logoutOperation = new LogOutOperation();		
-		LogOutView logOutView = new LogOutView();		
-		
-		logoutOperation.setModel(authenticationModel);
-		logoutOperation.setView(logOutView);
-		
-	}
-	
-	
-
-	
 
 	private void showSplashImageOnCanvas() {
 		if (this.canvas != null) {

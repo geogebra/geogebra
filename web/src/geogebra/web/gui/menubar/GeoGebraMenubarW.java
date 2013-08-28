@@ -2,6 +2,8 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.operations.LogOutOperation;
+import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.Renderable;
 import geogebra.common.move.views.SuccessErrorRenderable;
@@ -90,15 +92,16 @@ public class GeoGebraMenubarW extends MenuBar implements SuccessErrorRenderable,
 			}
 		});
 	    
-	    app.getLoginOperation().getView().add(this);
-	    app.getLogOutOperation().getView().add(this);
+	    // this methods should be called only from AppWapplication or AppWapplet
+	    ((LoginOperation)app.getLoginOperation()).getView().add(this);
+	    ((LogOutOperation)app.getLogOutOperation()).getView().add(this);
 	   
 	   if (!app.getOfflineOperation().getOnline()) {
 		   renderNetworkOperation(false);
 	   }
 	   
-	   if (app.getLoginOperation().isLoggedIn()) {
-		   this.success(app.getLoginOperation().getStoredLoginData());
+	   if (((LoginOperation)app.getLoginOperation()).isLoggedIn()) {
+		   this.success(((LoginOperation)app.getLoginOperation()).getStoredLoginData());
 	   }
 	   
 	   

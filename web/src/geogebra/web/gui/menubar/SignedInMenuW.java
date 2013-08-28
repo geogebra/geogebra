@@ -1,5 +1,7 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.move.ggtapi.operations.LogOutOperation;
+import geogebra.common.move.ggtapi.operations.LoginOperation;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -32,7 +34,9 @@ public class SignedInMenuW extends MenuBar {
 	}
 
 	private void initActions() {
-		String userName = app.getLoginOperation().getUserName();
+		// this method should only be called from
+		// AppWapplication or AppWapplet
+		String userName = ((LoginOperation)app.getLoginOperation()).getUserName();
 		logOut = new MenuItem(userName, getSignOutCommand());
 		logOut.setTitle(app.getMenu("ClickHereToSignOut"));
 		profile = new MenuItem(app.getMenu("userProfile"), getUserProfileCommand());
@@ -53,7 +57,9 @@ public class SignedInMenuW extends MenuBar {
 		return new ScheduledCommand() {
 			
 			public void execute() {
-			    app.getLogOutOperation().logOut();
+				// this method should only be called from
+				// AppWapplication or AppWapplet
+			    ((LogOutOperation)app.getLogOutOperation()).logOut();
 			}
 		};
     }
@@ -62,7 +68,7 @@ public class SignedInMenuW extends MenuBar {
 	 * refresh the state with the new stored credentials
 	 */
 	public void refreshstate() {
-	    logOut.setText(app.getLoginOperation().getUserName());
+	    logOut.setText(((LoginOperation)app.getLoginOperation()).getUserName());
     }
 
 }
