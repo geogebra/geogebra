@@ -1146,9 +1146,12 @@ public class AppW extends AppWeb {
 		}
 	}
 
-	
-	
 	public static Widget getRootComponent(AppW app) {
+
+		// This is just used from tooltipManager yet
+		if (app.getGuiManager() == null)
+			return null;
+
 		return app.getGuiManager().getLayout().getRootComponent();
 	}
 
