@@ -148,7 +148,7 @@ public class GeoGebraCasIntegrationTest {
     try {
       GeoCasCell f = new GeoCasCell(kernel.getConstruction());
       kernel.getConstruction().addToConstructionList(f, false);
-
+      
       f.setInput(input);
       
       if (tkiontki) {
@@ -4320,6 +4320,21 @@ public class GeoGebraCasIntegrationTest {
   @Ignore
   public void Ticket_Ticket3579_0 () {
     tk("f(x) := x * x", "x * x");
+  }
+  
+  /* Ticket 3594: Problem with Solve[{$1, $2}] and Solve tool */
+
+  @Test
+  public void Ticket_Ticket3594_0 () {
+    // Test case for dynamic row references.
+    
+    t("x + 2 y = 3", "x + 2 * y = 3");
+    t("4 x + 5 y = 6", "4 * x + 5 * y = 6");
+    t("Solve[{$1, $2}]", "{{x = -1, y = 2}}");
+    
+    // Please note that static row references cannot be tested here
+    // for we are bypassing the CASInputHandler,
+    // which is employed to resolve them.
   }
   
   
