@@ -47,7 +47,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	ContextMenuGeoElementW(AppW app) {
 		
 		this.app = app;
-		wrappedPopup = new GPopupMenuW();
+		wrappedPopup = new GPopupMenuW(app);
 		
 		
 		

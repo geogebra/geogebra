@@ -20,7 +20,7 @@ public class AlgebraContextMenuW implements AttachedToDOM{
 
 	public AlgebraContextMenuW(AppW application){
 		app = application;
-		wrappedPopup = new GPopupMenuW();
+		wrappedPopup = new GPopupMenuW(app);
 		initItems();
 	}
 

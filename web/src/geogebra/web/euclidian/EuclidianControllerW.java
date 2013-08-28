@@ -190,6 +190,20 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
          			", scrollL: " + this.scrollLeft +
         			", scrollt: " + this.scrollTop;
         }
+        
+		/**
+		 * @return the multiplier that must be used on native event coordinates
+		 */
+		public float getScaleXMultiplier() {
+	        return (1 / getScaleX());
+        }
+		
+		/**
+		 * @return the multiplier that must be used on native event coordinates
+		 */
+		public float getScaleYMultiplier() {
+	        return (1 / getScaleY());
+        }
 		
 	}
 	
@@ -624,5 +638,21 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	public float getScaleY() {
 	   return style.getScaleY();
     }
+
+
+
+	/**
+	 * @return the multiplier that must be used to multiply the native event coordinates
+	 */
+	public float getScaleXMultiplier() {
+	    return style.getScaleXMultiplier();
+    }
+	
+	/**
+	 * @return the multiplier that must be used to multiply the native event coordinates
+	 */
+	public float getScaleYMultiplier() {
+		return style.getScaleYMultiplier();
+	}
 
 }

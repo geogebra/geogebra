@@ -2,8 +2,10 @@ package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
+import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.html5.AttachedToDOM;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -36,8 +38,15 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * this field used to avoid having more submenu at the same time 
 	 */
 	GPopupMenuW subPopup;
+	private AppW application;
 
-	public GPopupMenuW(){
+	/**
+	 * @param app
+	 * 
+	 * Creates a popup menu. App needed for get environment style
+	 */
+	public GPopupMenuW(AppW app){
+		application = app;
 		popupPanel = new PopupPanel();		
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
@@ -86,6 +95,8 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 			newPoz = true;
 		}
 		App.debug("top-left: " +top + " " + left);
+		left = (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier();
+		top = (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier();
 		if (newPoz) popupPanel.setPopupPosition(left, top);
 	}
 	
@@ -95,9 +106,12 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	}
 	
 	public void show(Canvas c, int x, int y) {
+		
 			
-		int xr = c.getAbsoluteLeft() + x;
-		int yr = c.getAbsoluteTop() + y;
+		int xr = (int) (x * ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleX()) + c.getAbsoluteLeft();
+		int yr = (int) (y * ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleY()) + c.getAbsoluteTop();
+		
+		
 		
 		//c.getAbsoluteRight() - wrappedPopup.getOffsetWidth())
 		//wrappedPopup.setPopupPosition(xr, yr);
@@ -112,8 +126,9 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		App.debug("c.getOffsetWidth(): " + c.getOffsetWidth());
 		App.debug("c.getAbsoluteLeft(): " + c.getAbsoluteLeft());
 		
-		popupPanel.setPopupPosition(Math.min(xr, c.getAbsoluteLeft() + c.getOffsetWidth() - popupPanel.getOffsetWidth()), yr);
+		//Gabor: not sure why Math.min needed...popupPanel.setPopupPosition(Math.min(xr, c.getAbsoluteLeft() + c.getOffsetWidth() - popupPanel.getOffsetWidth()), yr);
 
+		popupPanel.setPopupPosition(xr, yr);
 	}
 	
 	public void removeFromDOM(){

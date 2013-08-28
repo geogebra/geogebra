@@ -15,7 +15,7 @@ public class RowHeaderPopupMenuW extends GPopupMenuW{
 	private AppW app;
 	
 	public RowHeaderPopupMenuW(RowHeaderWidget rowHeaderWidget, CASTableW casTableW, AppW appl){
-		super();
+		super(appl);
 		rowHeader = rowHeaderWidget;
 		table = casTableW;
 		app = appl;

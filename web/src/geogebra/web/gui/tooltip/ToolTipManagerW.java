@@ -1,6 +1,7 @@
 package geogebra.web.gui.tooltip;
 
 import geogebra.common.main.App;
+import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -214,6 +215,9 @@ public class ToolTipManagerW {
 		if (top + h > windowBottom) {
 			top = windowBottom - h;
 		}
+		
+		left = (int) (left * ((EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier());
+		top = (int) (top * ((EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier());
 		
 		// set the tooltip location
 		RootPanel.get().setWidgetPosition(tipPanel, left, top);
