@@ -2827,9 +2827,11 @@ public class MyXMLHandler implements DocHandler {
 						if(!geoCasCell.getTwinGeo().getParentAlgorithm().isInConstructionList())
 							geoCasCell.getTwinGeo().getParentAlgorithm().addToConstructionList();
 					}
+				} else if (geoCasCell.isOutputEmpty()) {
+					// output is computed if it is empty
+					geoCasCell.computeOutput();
 				}
-				// otherwise keep loaded output and avoid unnecessary
-				// computation
+				// otherwise keep loaded output and avoid unnecessary computation
 			} else {
 				// create algorithm for dependent cell
 				// this also creates twinGeo if necessary
