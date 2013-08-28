@@ -242,7 +242,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 
 	@Override
 	public void onResize() {
-		//if resize happens due to opening the toolbar,
+		//if resize happens due to expanding the toolbar,
 		//don't close it again!
 		if (!this.openClicked) {
 			this.closeToolBar();
