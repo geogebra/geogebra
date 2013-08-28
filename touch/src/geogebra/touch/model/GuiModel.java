@@ -15,6 +15,7 @@ import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -32,10 +33,6 @@ public class GuiModel {
 	private StyleBar styleBar;
 	private PopupPanel optionsPanel;
 	private OptionType styleBarOptionShown = OptionType.None;
-	private float alpha = -1f;
-	private int lineStyle = -1;
-	private int lineSize = -1;
-	private int captionMode = -1;
 	private PopupPanel activeDialog;
 	private HashMap<Integer, Integer> defaultGeoMap = EuclidianStyleBarStatic
 			.createDefaultMap();
@@ -49,18 +46,19 @@ public class GuiModel {
 	}
 
 	public int getDefaultType() {
-		if (!this.defaultGeoMap.containsKey(new Integer(this.touchModel
+		if (!this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Move, Pen, ...
 			return -1;
 		}
 
 		return this.defaultGeoMap.get(
-				new Integer(this.touchModel.getCommand().getMode())).intValue();
+				Integer.valueOf(this.touchModel.getCommand().getMode()))
+				.intValue();
 	}
 
 	public GeoElement getDefaultGeo(int mode) {
-		if (!this.defaultGeoMap.containsKey(new Integer(mode))) {
+		if (!this.defaultGeoMap.containsKey(Integer.valueOf(mode))) {
 			// Move, Pen, ...
 			return null;
 		}
@@ -70,37 +68,12 @@ public class GuiModel {
 				.getConstruction()
 				.getConstructionDefaults()
 				.getDefaultGeo(
-						this.defaultGeoMap.get(new Integer(mode)).intValue());
+						this.defaultGeoMap.get(Integer.valueOf(mode))
+								.intValue());
 	}
 
 	public GeoElement getDefaultGeo() {
 		return getDefaultGeo(this.touchModel.getCommand().getMode());
-	}
-
-	public float getAlpha() {
-		return this.alpha;
-	}
-
-	public int getLineSize() {
-		return this.lineSize;
-	}
-
-	void appendStyle(final ArrayList<GeoElement> elements) {
-		if (this.alpha >= 0) // != -1f
-		{
-			StyleBarStatic.applyAlpha(elements, this.alpha);
-		}
-		if (this.lineStyle != -1) {
-			StyleBarStatic.applyLineStyle(elements, this.lineStyle);
-		}
-		if (this.lineSize != -1) {
-			StyleBarStatic.applyLineSize(elements, this.lineSize);
-		}
-		if (this.captionMode != -1) {
-			EuclidianStyleBarStatic.applyCaptionStyle(elements, -1,
-					this.captionMode);
-			// second argument (-1): anything other than 0
-		}
 	}
 
 	public void buttonClicked(final ToolBarButton tbb) {
@@ -149,13 +122,6 @@ public class GuiModel {
 		return this.activeDialog != null;
 	}
 
-	void resetStyle() {
-		this.alpha = -1f;
-		this.lineStyle = -1;
-		this.lineSize = -1;
-		this.captionMode = -1;
-	}
-
 	public void setActive(final ToolBarButton toolBarButton) {
 		if (this.activeButton != null && this.activeButton != toolBarButton) {
 			// transparent
@@ -179,30 +145,67 @@ public class GuiModel {
 	}
 
 	public void setAlpha(final float a) {
-		this.alpha = a;
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			getDefaultGeo(this.touchModel.getCommand().getMode())
+					.setAlphaValue(a);
+		} else if (this.touchModel.getCommand().getMode() == 0) {
+			// Move
+			ConstructionDefaults cd = this.touchModel.getKernel()
+					.getConstruction().getConstructionDefaults();
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				cd.getDefaultGeo(cd.getDefaultType(geo)).setAlphaValue(a);
+			}
+		}
+
+		final List<GeoElement> fillable = new ArrayList<GeoElement>();
+		for (final GeoElement geo : this.touchModel.getSelectedGeos()) {
+			if (geo.isFillable()) {
+				fillable.add(geo);
+			}
+		}
+
+		if (fillable.size() > 0 && StyleBarStatic.applyAlpha(fillable, a)) {
+			fillable.get(0).updateRepaint();
+			this.touchModel.storeOnClose();
+		}
 	}
 
 	public void setCaptionMode(final int i) {
-		this.captionMode = i;
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			getDefaultGeo(this.touchModel.getCommand().getMode()).setLabelMode(
+					i - 1);
+		} else if (this.touchModel.getCommand().getMode() == 0) {
+			// Move
+			ConstructionDefaults cd = this.touchModel.getKernel()
+					.getConstruction().getConstructionDefaults();
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				cd.getDefaultGeo(cd.getDefaultType(geo)).setLabelMode(i - 1);
+			}
+		}
+
+		if (this.touchModel.getTotalNumber() > 0) {
+			EuclidianStyleBarStatic.applyCaptionStyle(this.touchModel
+					.getSelectedGeos(), this.touchModel.getCommand().getMode(),
+					i);
+		}
 	}
 
 	public void setColor(final GColor c) {
-		if (this.defaultGeoMap.containsKey(new Integer(this.touchModel
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
 				.getCommand().getMode()))) {
 			// Commands that have a default GeoElement
 			getDefaultGeo(this.touchModel.getCommand().getMode())
 					.setObjColor(c);
 		} else if (this.touchModel.getCommand().getMode() == 0) {
 			// Move
+			ConstructionDefaults cd = this.touchModel.getKernel()
+					.getConstruction().getConstructionDefaults();
 			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
-				ConstructionDefaults cd = this.touchModel.getKernel()
-						.getConstruction().getConstructionDefaults();
 				cd.getDefaultGeo(cd.getDefaultType(geo)).setObjColor(c);
-			}
-		} else {
-			// everything else
-			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
-				geo.setObjColor(c);
 			}
 		}
 
@@ -216,11 +219,62 @@ public class GuiModel {
 	}
 
 	public void setLineSize(final int i) {
-		this.lineSize = i;
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			getDefaultGeo(this.touchModel.getCommand().getMode())
+					.setLineThickness(i);
+		} else if (this.touchModel.getCommand().getMode() == 0) {
+			// Move
+			ConstructionDefaults cd = this.touchModel.getKernel()
+					.getConstruction().getConstructionDefaults();
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				cd.getDefaultGeo(cd.getDefaultType(geo)).setLineThickness(i);
+			}
+		}
+
+		if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)
+				|| this.touchModel.getCommand().equals(
+						ToolBarCommand.FreehandShape)) {
+			this.touchModel.getKernel().getApplication().getEuclidianView1()
+					.getEuclidianController().getPen().setPenSize(i);
+			this.touchModel.getKernel().getApplication().getEuclidianView1()
+					.getEuclidianController().getPen().setPenSize(i);
+		}
 	}
 
-	public void setLineStyle(final int i) {
-		this.lineStyle = i;
+	public void setLineStyle(final int index) {
+		final int lineStyle = EuclidianStyleBarStatic.lineStyleArray[index]
+				.intValue();
+
+		if (this.defaultGeoMap.containsKey(Integer.valueOf(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			getDefaultGeo(this.touchModel.getCommand().getMode()).setLineType(
+					lineStyle);
+		} else if (this.touchModel.getCommand().getMode() == 0) {
+			// Move
+			ConstructionDefaults cd = this.touchModel.getKernel()
+					.getConstruction().getConstructionDefaults();
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				cd.getDefaultGeo(cd.getDefaultType(geo)).setLineType(lineStyle);
+			}
+		}
+
+		if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)
+				|| this.touchModel.getCommand().equals(
+						ToolBarCommand.FreehandShape)) {
+			this.touchModel.getKernel().getApplication().getEuclidianView1()
+					.getEuclidianController().getPen()
+					.setPenLineStyle(lineStyle);
+			if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)
+					|| this.touchModel.getCommand().equals(
+							ToolBarCommand.FreehandShape)) {
+				this.touchModel.getKernel().getApplication()
+						.getEuclidianView1().getEuclidianController().getPen()
+						.setPenLineStyle(lineStyle);
+			}
+		}
 	}
 
 	public void setOption(final SubToolBar options) {

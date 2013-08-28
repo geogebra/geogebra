@@ -52,25 +52,6 @@ class LineStyleBar extends FlowPanel {
 					LineStyleBar.this.touchModel.getGuiModel().setLineStyle(
 							index);
 					LineStyleBar.this.touchModel.storeOnClose();
-
-					if (LineStyleBar.this.touchModel.getCommand().equals(
-							ToolBarCommand.Pen)
-							|| LineStyleBar.this.touchModel.getCommand()
-									.equals(ToolBarCommand.FreehandShape)) {
-						LineStyleBar.this.touchModel.getKernel()
-								.getApplication().getEuclidianView1()
-								.getEuclidianController().getPen()
-								.setPenLineStyle(index);
-						if (LineStyleBar.this.touchModel.getCommand().equals(
-								ToolBarCommand.Pen)
-								|| LineStyleBar.this.touchModel.getCommand()
-										.equals(ToolBarCommand.FreehandShape)) {
-							LineStyleBar.this.touchModel.getKernel()
-									.getApplication().getEuclidianView1()
-									.getEuclidianController().getPen()
-									.setPenLineStyle(index);
-						}
-					}
 				}
 			});
 			this.buttonPanel.add(lineStyle[i]);
@@ -103,26 +84,15 @@ class LineStyleBar extends FlowPanel {
 						event.getValue().intValue());
 				LineStyleBar.this.touchModel.storeOnClose();
 
-				if (LineStyleBar.this.touchModel.getCommand().equals(
-						ToolBarCommand.Pen)
-						|| LineStyleBar.this.touchModel.getCommand().equals(
-								ToolBarCommand.FreehandShape)) {
-					LineStyleBar.this.touchModel.getKernel().getApplication()
-							.getEuclidianView1().getEuclidianController()
-							.getPen().setPenSize(event.getValue().intValue());
-					LineStyleBar.this.touchModel.getKernel().getApplication()
-							.getEuclidianView1().getEuclidianController()
-							.getPen().setPenSize(event.getValue().intValue());
-				}
 			}
 		});
 		this.add(this.slider);
 	}
 
 	void update() {
-		if (this.touchModel.getGuiModel().getLineSize() > 0) {
+		if (this.touchModel.getGuiModel().getDefaultGeo() != null) {
 			this.slider.setValue(Integer.valueOf(this.touchModel.getGuiModel()
-					.getLineSize()));
+					.getDefaultGeo().getLineThickness()));
 		} else if (this.touchModel.lastSelected() != null) {
 			this.slider.setValue(Integer.valueOf(this.touchModel.lastSelected()
 					.getLineThickness()));

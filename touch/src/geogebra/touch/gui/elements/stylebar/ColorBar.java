@@ -2,15 +2,11 @@ package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.model.TouchModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -22,6 +18,7 @@ class ColorBar extends FlowPanel {
 	StyleBar styleBar;
 	TouchModel touchModel;
 	private ColorBarSlider colorBarSlider = new ColorBarSlider();
+	private static final int SLIDER_MAX = 10;
 
 	private GColor[] colors = { GColor.BLACK, GeoGebraColorConstants.BROWN,
 			GeoGebraColorConstants.ORANGE, GColor.YELLOW, GColor.BLUE,
@@ -127,28 +124,15 @@ class ColorBar extends FlowPanel {
 	private class ColorBarSlider extends Slider {
 		public ColorBarSlider() {
 			this.setMinimum(0);
-			this.setMaximum(10);
+			this.setMaximum(SLIDER_MAX);
 
 			this.addValueChangeHandler(new ValueChangeHandler<Integer>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Integer> event) {
+					// cast to float to prevent int-division (which would always
+					// result in 0 or 1)
 					ColorBar.this.touchModel.getGuiModel().setAlpha(
-							event.getValue().intValue() / 10f);
-
-					final List<GeoElement> fillable = new ArrayList<GeoElement>();
-					for (final GeoElement geo : ColorBar.this.touchModel
-							.getSelectedGeos()) {
-						if (geo.isFillable()) {
-							fillable.add(geo);
-						}
-					}
-
-					if (fillable.size() > 0
-							&& StyleBarStatic.applyAlpha(fillable, event
-									.getValue().intValue() / 10f)) {
-						fillable.get(0).updateRepaint();
-						ColorBar.this.touchModel.storeOnClose();
-					}
+							event.getValue().intValue() / (float) SLIDER_MAX);
 				}
 			});
 		}
@@ -158,16 +142,17 @@ class ColorBar extends FlowPanel {
 		remove(this.colorBarSlider);
 
 		// add slider only if there is at least one fillable element
-		int alpha = (int) (this.touchModel.getGuiModel().getAlpha() * 10);
 		if (this.touchModel.getLastAlpha() != -1
 				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_POLYGON
 				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_CONIC
 				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_CONIC_SECTOR
 				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_ANGLE) {
 
-			int value = alpha >= 0 ? alpha : (int) (ColorBar.this.touchModel
-					.getLastAlpha() * 10);
-			this.colorBarSlider.setValue(Integer.valueOf(value));
+			int alpha = (int) (this.touchModel.getGuiModel().getDefaultGeo() != null ? this.touchModel
+					.getGuiModel().getDefaultGeo().getAlphaValue()
+					* SLIDER_MAX
+					: ColorBar.this.touchModel.getLastAlpha() * SLIDER_MAX);
+			this.colorBarSlider.setValue(Integer.valueOf(alpha));
 			this.add(this.colorBarSlider);
 		}
 	}

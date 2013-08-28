@@ -785,8 +785,6 @@ public class TouchModel {
 				select(geo);
 			}
 
-			this.guiModel.appendStyle(newElements);
-
 			this.commandFinished = true;
 		}
 
@@ -813,7 +811,6 @@ public class TouchModel {
 		case PointOnObject:
 			resetSelection();
 			changeSelectionState(hits, Test.GEOPOINT, 1);
-			this.guiModel.appendStyle(this.selectedElements);
 			this.changeColorAllowed = true;
 
 			this.commandFinished = true;
@@ -1575,7 +1572,6 @@ public class TouchModel {
 		}
 
 		this.resetSelection();
-		this.guiModel.resetStyle();
 		this.command = cmd;
 		this.createPreviewObject(false);
 	}

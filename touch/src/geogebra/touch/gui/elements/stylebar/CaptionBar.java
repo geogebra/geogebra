@@ -1,6 +1,5 @@
 package geogebra.touch.gui.elements.stylebar;
 
-import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.touch.model.TouchModel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,11 +26,6 @@ class CaptionBar extends FlowPanel {
 			this.buttons[i].addDomHandler(new ClickHandler() {
 				@Override
 				public void onClick(final ClickEvent event) {
-					if (touchModel.getTotalNumber() > 0) {
-						EuclidianStyleBarStatic.applyCaptionStyle(touchModel
-								.getSelectedGeos(), touchModel.getCommand()
-								.getMode(), index);
-					}
 					touchModel.setCaptionMode(index);
 				}
 			}, ClickEvent.getType());

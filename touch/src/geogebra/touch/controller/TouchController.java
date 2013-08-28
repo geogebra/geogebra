@@ -87,11 +87,12 @@ public class TouchController extends EuclidianController {
 	 * @param hits
 	 */
 	public void handleEvent(final Hits hits) {
+		this.model.getGuiModel().closeOptions();
+
 		if (this.model.getCommand().equals(ToolBarCommand.Slider)) {
 			return;
 		}
 
-		this.model.getGuiModel().closeOptions();
 		this.model.handleEvent(hits, null, null);
 	}
 
