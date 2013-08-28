@@ -1,13 +1,13 @@
 package geogebra.touch.gui.elements.stylebar;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.html5.gui.util.Slider;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.model.TouchModel;
-import geogebra.touch.utils.StyleBarDefaultSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +88,7 @@ class ColorBar extends FlowPanel {
 			ColorBar.this.styleBar.updateColor(GColor
 					.getColorString(this.color));
 			ColorBar.this.touchModel.getGuiModel().setColor(this.color);
+
 			if (ColorBar.this.touchModel.lastSelected() != null
 					&& ColorBar.this.touchModel.isColorChangeAllowed()
 					&& StyleBarStatic.applyColor(
@@ -159,7 +160,10 @@ class ColorBar extends FlowPanel {
 		// add slider only if there is at least one fillable element
 		int alpha = (int) (this.touchModel.getGuiModel().getAlpha() * 10);
 		if (this.touchModel.getLastAlpha() != -1
-				|| this.touchModel.getCommand().getStyleBarEntries() == StyleBarDefaultSettings.Polygon) {
+				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_POLYGON
+				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_CONIC
+				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_CONIC_SECTOR
+				|| this.touchModel.getGuiModel().getDefaultType() == ConstructionDefaults.DEFAULT_ANGLE) {
 
 			int value = alpha >= 0 ? alpha : (int) (ColorBar.this.touchModel
 					.getLastAlpha() * 10);

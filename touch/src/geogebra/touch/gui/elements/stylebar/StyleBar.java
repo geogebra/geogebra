@@ -129,8 +129,10 @@ public class StyleBar extends FlowPanel {
 		SVGResource[] resource = entry.getResources();
 		String color = entry.getColor() != null ? entry.getColor().toString()
 				: "";
-		if (this.guiModel.getColor() != null) {
-			color = this.guiModel.getColor().toString();
+
+		if (this.guiModel.getDefaultGeo() != null
+				&& this.guiModel.getDefaultGeo().getObjectColor() != null) {
+			color = this.guiModel.getDefaultGeo().getObjectColor().toString();
 		}
 
 		if (entry == StyleBarDefaultSettings.Move
@@ -147,7 +149,7 @@ public class StyleBar extends FlowPanel {
 					.getGeoElementForPropertiesDialog() instanceof LineProperties
 					|| this.touchModel.getSelectedGeos().get(0)
 							.getGeoElementForPropertiesDialog() instanceof GeoNumeric) {
-				// GeoNumeric in case of Slider) {
+				// GeoNumeric in case of Slider
 				resource = StyleBarDefaultSettings.Line.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
 					.getGeoElementForPropertiesDialog() instanceof GeoPolygon) {

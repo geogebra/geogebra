@@ -2,6 +2,7 @@ package geogebra.touch.model;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.touch.gui.elements.FastButton;
 import geogebra.touch.gui.elements.stylebar.OptionsPanel;
@@ -13,6 +14,7 @@ import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.ToolBarCommand;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -30,12 +32,13 @@ public class GuiModel {
 	private StyleBar styleBar;
 	private PopupPanel optionsPanel;
 	private OptionType styleBarOptionShown = OptionType.None;
-	private GColor color;
 	private float alpha = -1f;
 	private int lineStyle = -1;
 	private int lineSize = -1;
 	private int captionMode = -1;
 	private PopupPanel activeDialog;
+	private HashMap<Integer, Integer> defaultGeoMap = EuclidianStyleBarStatic
+			.createDefaultMap();
 
 	/**
 	 * @param model
@@ -45,8 +48,33 @@ public class GuiModel {
 		this.touchModel = model;
 	}
 
-	public GColor getColor() {
-		return this.color;
+	public int getDefaultType() {
+		if (!this.defaultGeoMap.containsKey(new Integer(this.touchModel
+				.getCommand().getMode()))) {
+			// Move, Pen, ...
+			return -1;
+		}
+
+		return this.defaultGeoMap.get(
+				new Integer(this.touchModel.getCommand().getMode())).intValue();
+	}
+
+	public GeoElement getDefaultGeo(int mode) {
+		if (!this.defaultGeoMap.containsKey(new Integer(mode))) {
+			// Move, Pen, ...
+			return null;
+		}
+
+		return this.touchModel
+				.getKernel()
+				.getConstruction()
+				.getConstructionDefaults()
+				.getDefaultGeo(
+						this.defaultGeoMap.get(new Integer(mode)).intValue());
+	}
+
+	public GeoElement getDefaultGeo() {
+		return getDefaultGeo(this.touchModel.getCommand().getMode());
 	}
 
 	public float getAlpha() {
@@ -58,9 +86,6 @@ public class GuiModel {
 	}
 
 	void appendStyle(final ArrayList<GeoElement> elements) {
-		if (this.color != null) {
-			StyleBarStatic.applyColor(elements, this.color);
-		}
 		if (this.alpha >= 0) // != -1f
 		{
 			StyleBarStatic.applyAlpha(elements, this.alpha);
@@ -125,7 +150,6 @@ public class GuiModel {
 	}
 
 	void resetStyle() {
-		this.color = null;
 		this.alpha = -1f;
 		this.lineStyle = -1;
 		this.lineSize = -1;
@@ -163,16 +187,32 @@ public class GuiModel {
 	}
 
 	public void setColor(final GColor c) {
-		this.color = c;
+		if (this.defaultGeoMap.containsKey(new Integer(this.touchModel
+				.getCommand().getMode()))) {
+			// Commands that have a default GeoElement
+			getDefaultGeo(this.touchModel.getCommand().getMode())
+					.setObjColor(c);
+		} else if (this.touchModel.getCommand().getMode() == 0) {
+			// Move
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				ConstructionDefaults cd = this.touchModel.getKernel()
+						.getConstruction().getConstructionDefaults();
+				cd.getDefaultGeo(cd.getDefaultType(geo)).setObjColor(c);
+			}
+		} else {
+			// everything else
+			for (GeoElement geo : this.touchModel.getSelectedGeos()) {
+				geo.setObjColor(c);
+			}
+		}
 
 		// Update Pen color if necessary
 		if (this.touchModel.getCommand().equals(ToolBarCommand.Pen)
 				|| this.touchModel.getCommand().equals(
 						ToolBarCommand.FreehandShape)) {
 			this.touchModel.getKernel().getApplication().getEuclidianView1()
-					.getEuclidianController().getPen().setPenColor(this.color);
+					.getEuclidianController().getPen().setPenColor(c);
 		}
-
 	}
 
 	public void setLineSize(final int i) {
@@ -219,9 +259,9 @@ public class GuiModel {
 	}
 
 	void updateStyleBar() {
-		resetStyle();
 		if (this.styleBar != null) {
 			this.styleBar.rebuild();
 		}
 	}
+
 }
