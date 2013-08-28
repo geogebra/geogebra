@@ -182,25 +182,49 @@ public class GeoGebraFrame extends VerticalPanel {
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrame inst = this;
 		final ArticleElement articleElement = ae;
-		GWT.runAsync(new RunAsyncCallback() {
-			
-			public void onSuccess() {
-				ResourcesInjector.injectResources();
-				inst.app = inst.createApplication(articleElement, inst);
-				inst.app.setCustomToolBar();
-				//useDataParamBorder(articleElement, inst);
-			    //inst.add(inst.app.buildApplicationPanel());
-				inst.app.buildApplicationPanel();
 
-			    // need to call setLabels here
-				// to print DockPanels' titles
-				inst.app.setLabels();
-			}
-			
-			public void onFailure(Throwable reason) {
-				App.debug("Async load failed");
-			}
-		});
+		if (ae.getDataParamGuiOff()) {
+
+			GWT.runAsync(new RunAsyncCallback() {
+
+				public void onSuccess() {
+					ResourcesInjector.injectResources();
+					inst.app = inst.createApplicationSimple(articleElement, inst);
+					inst.app.setCustomToolBar();
+					//useDataParamBorder(articleElement, inst);
+				    //inst.add(inst.app.buildApplicationPanel());
+					inst.app.buildApplicationPanel();
+
+				    // need to call setLabels here
+					// to print DockPanels' titles
+					inst.app.setLabels();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("Async load failed");
+				}
+			});
+		} else {
+			GWT.runAsync(new RunAsyncCallback() {
+				
+				public void onSuccess() {
+					ResourcesInjector.injectResources();
+					inst.app = inst.createApplication(articleElement, inst);
+					inst.app.setCustomToolBar();
+					//useDataParamBorder(articleElement, inst);
+				    //inst.add(inst.app.buildApplicationPanel());
+					inst.app.buildApplicationPanel();
+
+				    // need to call setLabels here
+					// to print DockPanels' titles
+					inst.app.setLabels();
+				}
+				
+				public void onFailure(Throwable reason) {
+					App.debug("Async load failed");
+				}
+			});
+		}
 	}
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
@@ -272,14 +296,17 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @return the newly created instance of Application
 	 */
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-
-		// these should run in runAsync later,
-		// so it will speed things up hopefully
-
-		if (ae.getDataParamGuiOff())
-			return new AppWsimple(ae, gf);
-
 		return new AppWapplet(ae, gf);
+	}
+
+	/**
+	 * @param useFullGui
+	 *          if false only one euclidianView will be available (without
+	 *          menus / ...)
+	 * @return the newly created instance of Application
+	 */
+	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
+		return new AppWsimple(ae, gf);
 	}
 
 	/**
