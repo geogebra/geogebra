@@ -158,13 +158,13 @@ public abstract class FastButton extends CustomButton {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if (FastButton.touchHandled) {
+		if (touchHandled) {
 			// if the touch is already handled, we are on a device that supports
 			// touch (so you aren't in the desktop browser)
 
-			FastButton.touchHandled = false; // reset for next press
-			FastButton.clickHandled = true; // ignore future ClickEvents
-		} else if (!FastButton.clickHandled) {
+			touchHandled = false; // reset for next press
+			clickHandled = true; // ignore future ClickEvents
+		} else if (!clickHandled) {
 			// Press not handled yet
 			fireFastClickEvent();
 		}
@@ -237,7 +237,7 @@ public abstract class FastButton extends CustomButton {
 
 	private void onTouchEnd(Event event) {
 		if (!this.touchMoved) {
-			FastButton.touchHandled = true;
+			touchHandled = true;
 			fireFastClickEvent();
 			event.preventDefault();
 			onHoldPressOffStyle();// Change back the style
