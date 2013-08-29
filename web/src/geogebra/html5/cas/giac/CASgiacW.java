@@ -7,6 +7,10 @@ import geogebra.common.cas.giac.CASgiac;
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.html5.js.JavaScriptInjector;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 
 /**
  * Web implementation of Giac CAS
@@ -30,9 +34,11 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		this.parserTools = parserTools;
 		this.kernel = kernel;
 
-	
 		App.setCASVersionString("Giac/JS");
-}
+
+		// they say it's no problem if this executes later...
+		initialize();
+	}
 	
 	@Override
 	public String evaluateCAS(String exp) {
@@ -102,7 +108,16 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}-*/;
 
 	public void initialize() {
-		// not called?
+	    GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
+				App.debug("giac.js loading success");
+				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs().getText());
+			}
+
+			public void onFailure(Throwable reason) {
+				App.debug("giac.js loading failure");
+			}
+		});
 	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {

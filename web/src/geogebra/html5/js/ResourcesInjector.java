@@ -27,7 +27,6 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
-		JavaScriptInjector.inject(GuiResources.INSTANCE.giacJs().getText());
 		Browser.webWorkerSupported = Browser.checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
