@@ -64,8 +64,11 @@ public class AlgoTableText extends AlgoElement {
 		return horizontalLines;
 	}
 
+	/**
+	 * @return justification l, r or c (just of first column if they have different alignment)
+	 */
 	public String getJustification() {
-		return justification;
+		return justification.charAt(0)+"";
 	}
 
 	public String getOpenSymbol() {
