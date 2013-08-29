@@ -25,7 +25,12 @@ class RadioButtonTreeItemT extends RadioButtonTreeItem {
 	 */
 	private static final long TIME_BETWEEN_CLICKS = 500;
 	private final TouchController controller;
-	private boolean touchHandled, clickHandled, touchMoved;
+
+	// need to be static to prevent that the second event on Android do not
+	// effect another RadioButtonTreeItem (f.e. with the delete-tool)
+	private static boolean touchHandled, clickHandled;
+	
+	private boolean touchMoved;
 	private int touchId;
 	private long lastEvent = -1;
 
@@ -68,13 +73,14 @@ class RadioButtonTreeItemT extends RadioButtonTreeItem {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if (this.touchHandled) {
+		if (RadioButtonTreeItemT.touchHandled) {
 			// if the touch is already handled, we are on a device that supports
 			// touch (so you aren't in the desktop browser)
 
-			this.touchHandled = false; // reset for next press
-			this.clickHandled = true; // ignore future ClickEvents
-		} else if (!this.clickHandled) {
+			RadioButtonTreeItemT.touchHandled = false; // reset for next press
+			RadioButtonTreeItemT.clickHandled = true; // ignore future
+														// ClickEvents
+		} else if (!RadioButtonTreeItemT.clickHandled) {
 			// Press not handled yet
 			handleClick();
 		}
@@ -144,7 +150,7 @@ class RadioButtonTreeItemT extends RadioButtonTreeItem {
 
 	private void onTouchEnd(Event event) {
 		if (!this.touchMoved) {
-			this.touchHandled = true;
+			RadioButtonTreeItemT.touchHandled = true;
 			handleClick();
 			event.preventDefault();
 		}
