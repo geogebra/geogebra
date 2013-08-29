@@ -1936,43 +1936,44 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			
 			/**************************************************************
 			 * Mac OS X related code to work around JFileChooser problem on
-			 * sandboxing. TODO: Check if we are running in sandboxed mode.
-			 * See also http://intransitione.com/blog/take-java-to-app-store/
+			 * sandboxing. TODO: Check if we are running in sandboxed mode. See
+			 * also http://intransitione.com/blog/take-java-to-app-store/
 			 **************************************************************/
 			if (app.macsandbox) {
 
-					FileDialog fd = new FileDialog(app.getFrame());
-					fd.setModal(true);
-					File currentPath = app.getCurrentPath();
-					fd.setMode(FileDialog.LOAD);
-					if (currentPath != null) {
-						fd.setDirectory(currentPath.toString());
+				FileDialog fd = new FileDialog(app.getFrame());
+				fd.setModal(true);
+				File currentPath = app.getCurrentPath();
+				fd.setMode(FileDialog.LOAD);
+				if (currentPath != null) {
+					fd.setDirectory(currentPath.toString());
+				}
+				fd.setFilenameFilter(new FilenameFilter() {
+					public boolean accept(File dir, String name) {
+						return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA)
+								|| name.endsWith("."
+										+ AppD.FILE_EXT_GEOGEBRA_TOOL)
+								|| name.endsWith("." + AppD.FILE_EXT_HTM) || name
+								.endsWith("." + AppD.FILE_EXT_HTML));
 					}
-					fd.setFilenameFilter(new FilenameFilter() {
-						public boolean accept(File dir, String name) {
-							return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA) ||
-									name.endsWith("." + AppD.FILE_EXT_GEOGEBRA_TOOL) ||
-									name.endsWith("." + AppD.FILE_EXT_HTM) ||
-									name.endsWith("." + AppD.FILE_EXT_HTML)); 
-						}
-					});
-					// fd.setTitle("saveDialogTitleText");
+				});
+				// fd.setTitle("saveDialogTitleText");
 
-					fd.toFront();
-					fd.setVisible(true);
-					File[] files = new File[1]; 
-					if (fd.getFile() != null) {
-						files[0] = new File(fd.getDirectory() + "/" + fd.getFile());
-					}
+				fd.toFront();
+				fd.setVisible(true);
+				File[] files = new File[1];
+				if (fd.getFile() != null) {
+					files[0] = new File(fd.getDirectory() + "/" + fd.getFile());
+				}
 
-					app.setCurrentPath(new File(fd.getDirectory()));
-					
-					app.setDefaultCursor();
-					doOpenFiles(files, true);
-					return;
-			}			
+				app.setCurrentPath(new File(fd.getDirectory()));
+
+				app.setDefaultCursor();
+				doOpenFiles(files, true);
+				return;
+			}
 			/**************************************************************
-			 * End of Mac OS X related code. 
+			 * End of Mac OS X related code.
 			 **************************************************************/
 
 			((DialogManagerD) getDialogManager()).initFileChooser();
