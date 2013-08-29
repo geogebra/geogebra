@@ -327,11 +327,11 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 	}
 	
 	public geogebra.common.awt.GRectangle getBounds() {
-		return bounds;
+		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
 	}
 
 	public geogebra.common.awt.GRectangle2D getBounds2D() {
-		return bounds;
+		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
 	}
 
 	/*
