@@ -83,6 +83,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -95,6 +96,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -1719,7 +1721,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				promptOverwrite, dirsOnly);
 	}
 
-	public File showSaveDialog(String[] fileExtensions, File selectedFile,
+	public File showSaveDialog(final String[] fileExtensions, File selectedFile,
 			String[] fileDescriptions, boolean promptOverwrite, boolean dirsOnly) {
 		boolean done = false;
 		File file = null;
@@ -1730,6 +1732,69 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 		String fileExtension = fileExtensions[0];
 
+		/**************************************************************
+		 * Mac OS X related code to work around JFileChooser problem on
+		 * sandboxing. TODO: Check if we are running in sandboxed mode.
+		 * See also http://intransitione.com/blog/take-java-to-app-store/
+		 **************************************************************/
+		if (app.macsandbox) {
+			while (!done) {
+
+				FileDialog fd = new FileDialog(app.getFrame());
+				fd.setModal(true);
+				File currentPath = app.getCurrentPath();
+				fd.setMode(FileDialog.SAVE);
+				if (currentPath != null) {
+					fd.setDirectory(currentPath.toString());
+				}
+				fd.setFilenameFilter(new FilenameFilter() {
+					public boolean accept(File dir, String name) {
+						for (String s : fileExtensions) {
+							if (name.endsWith("." + s)) {
+								return true;
+							}
+						}
+						return false;
+					}
+				});
+				// fd.setTitle("saveDialogTitleText");
+
+				fd.toFront();
+				fd.setVisible(true);
+				if (fd.getFile() == null) {
+					// cancel pressed
+					return null;
+				}
+
+				file = new File(fd.getDirectory() + "/" + fd.getFile());
+				app.setCurrentPath(new File(fd.getDirectory()));
+
+				// add file extension
+				file = addExtension(file, fileExtension);
+				lastFilenameOfSaveDialog = file.getName();
+
+				if (promptOverwrite && file.exists()) {
+					// ask overwrite question
+					Object[] options = { app.getMenu("Overwrite"),
+							app.getMenu("DontOverwrite") };
+					int n = JOptionPane.showOptionDialog(
+							(app).getMainComponent(),
+							app.getPlain("OverwriteFile") + "\n"
+									+ file.getName(), app.getPlain("Question"),
+							JOptionPane.DEFAULT_OPTION,
+							JOptionPane.WARNING_MESSAGE, null, options,
+							options[1]);
+					done = (n == 0);
+				} else {
+					done = true;
+				}
+			}
+			return file;
+		}			
+		/**************************************************************
+		 * End of Mac OS X related code. 
+		 **************************************************************/
+				
 		((DialogManagerD) getDialogManager()).initFileChooser();
 		GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager()).getFileChooser();
 
@@ -1868,6 +1933,47 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if ((app).isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
 			File oldCurrentFile = (app).getCurrentFile();
+			
+			/**************************************************************
+			 * Mac OS X related code to work around JFileChooser problem on
+			 * sandboxing. TODO: Check if we are running in sandboxed mode.
+			 * See also http://intransitione.com/blog/take-java-to-app-store/
+			 **************************************************************/
+			if (app.macsandbox) {
+
+					FileDialog fd = new FileDialog(app.getFrame());
+					fd.setModal(true);
+					File currentPath = app.getCurrentPath();
+					fd.setMode(FileDialog.LOAD);
+					if (currentPath != null) {
+						fd.setDirectory(currentPath.toString());
+					}
+					fd.setFilenameFilter(new FilenameFilter() {
+						public boolean accept(File dir, String name) {
+							return (name.endsWith("." + AppD.FILE_EXT_GEOGEBRA) ||
+									name.endsWith("." + AppD.FILE_EXT_GEOGEBRA_TOOL) ||
+									name.endsWith("." + AppD.FILE_EXT_HTM) ||
+									name.endsWith("." + AppD.FILE_EXT_HTML)); 
+						}
+					});
+					// fd.setTitle("saveDialogTitleText");
+
+					fd.toFront();
+					fd.setVisible(true);
+					File[] files = new File[1]; 
+					if (fd.getFile() != null) {
+						files[0] = new File(fd.getDirectory() + "/" + fd.getFile());
+					}
+
+					app.setCurrentPath(new File(fd.getDirectory()));
+					
+					app.setDefaultCursor();
+					doOpenFiles(files, true);
+					return;
+			}			
+			/**************************************************************
+			 * End of Mac OS X related code. 
+			 **************************************************************/
 
 			((DialogManagerD) getDialogManager()).initFileChooser();
 			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())

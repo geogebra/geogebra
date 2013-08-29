@@ -356,6 +356,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	private boolean isErrorDialogsActive = true;
 
 	protected boolean isErrorDialogShowing = false;
+
+	public boolean macsandbox = false;
 	
 	/*************************************************************
 	 * Construct application within JFrame
@@ -952,6 +954,11 @@ public class AppD extends App implements KeyEventDispatcher {
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
 
+		boolean macSandbox = args.getBooleanValue("macSandbox", false);
+		if (macSandbox) {
+			this.macsandbox  = true;
+		}
+		
 		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
 
 	}
