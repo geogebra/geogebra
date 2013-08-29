@@ -49,9 +49,7 @@ public class EuclidianViewW extends EuclidianViewWeb {
 	public boolean isInFocus = false;
 
 	private AppW app = (AppW) super.app;
-	
-	protected static final long serialVersionUID = 1L;
-	
+
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 	
