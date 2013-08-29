@@ -183,48 +183,31 @@ public class GeoGebraFrame extends VerticalPanel {
 		final GeoGebraFrame inst = this;
 		final ArticleElement articleElement = ae;
 
-		if (ae.getDataParamGuiOff()) {
+		GWT.runAsync(new RunAsyncCallback() {
 
-			GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
+				ResourcesInjector.injectResources();
 
-				public void onSuccess() {
-					ResourcesInjector.injectResources();
-					inst.app = inst.createApplicationSimple(articleElement, inst);
-					inst.app.setCustomToolBar();
-					//useDataParamBorder(articleElement, inst);
-				    //inst.add(inst.app.buildApplicationPanel());
-					inst.app.buildApplicationPanel();
+				// More testing is needed how can we use
+				// createApplicationSimple effectively
+				//if (ae.getDataParamGuiOff())
+				//	inst.app = inst.createApplicationSimple(articleElement, inst);
+				//else
+				inst.app = inst.createApplication(articleElement, inst);
 
+				inst.app.setCustomToolBar();
+				//useDataParamBorder(articleElement, inst);
+			    //inst.add(inst.app.buildApplicationPanel());
+				inst.app.buildApplicationPanel();
 				    // need to call setLabels here
-					// to print DockPanels' titles
-					inst.app.setLabels();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("Async load failed");
-				}
-			});
-		} else {
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					ResourcesInjector.injectResources();
-					inst.app = inst.createApplication(articleElement, inst);
-					inst.app.setCustomToolBar();
-					//useDataParamBorder(articleElement, inst);
-				    //inst.add(inst.app.buildApplicationPanel());
-					inst.app.buildApplicationPanel();
-
-				    // need to call setLabels here
-					// to print DockPanels' titles
-					inst.app.setLabels();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("Async load failed");
-				}
-			});
-		}
+				// to print DockPanels' titles
+				inst.app.setLabels();
+			}
+			
+			public void onFailure(Throwable reason) {
+				App.debug("Async load failed");
+			}
+		});
 	}
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
