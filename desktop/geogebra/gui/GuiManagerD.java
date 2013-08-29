@@ -1502,44 +1502,87 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// else
 			{
 				if (imageFile == null) {
-					((DialogManagerD) getDialogManager()).initFileChooser();
-					GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
-							.getFileChooser();
+					
+					/**************************************************************
+					 * Mac OS X related code to work around JFileChooser problem on
+					 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+					 **************************************************************/
+					if (app.macsandbox) {
 
-					fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
-					fileChooser.setCurrentDirectory((app).getCurrentImagePath());
+						FileDialog fd = new FileDialog(app.getFrame());
+						fd.setModal(true);
+						File currentPath = app.getCurrentPath();
+						fd.setMode(FileDialog.LOAD);
+						if (currentPath != null) {
+							fd.setDirectory(currentPath.toString());
+						}
+						fd.setFilenameFilter(new FilenameFilter() {
+							public boolean accept(File dir, String name) {
+								return (name.endsWith(".jpg")
+										|| name.endsWith(".jpeg")
+										|| name.endsWith(".png")
+										|| name.endsWith(".bmp")
+										|| name.endsWith(".gif"));
+							}
+						});
+						// fd.setTitle("saveDialogTitleText");
 
-					MyFileFilter fileFilter = new MyFileFilter();
-					fileFilter.addExtension("jpg");
-					fileFilter.addExtension("jpeg");
-					fileFilter.addExtension("png");
-					fileFilter.addExtension("gif");
-					if (Util.getJavaVersion() >= 1.5)
+						fd.toFront();
+						fd.setVisible(true);
+						if (fd.getFile() != null) {
+							imageFile = new File(fd.getDirectory() + "/" + fd.getFile());
+						}
+
+						app.setCurrentPath(new File(fd.getDirectory()));
+
+						app.setDefaultCursor();
+						
+					} else {
+					/**************************************************************
+					 * End of Mac OS X related code.
+					 **************************************************************/
+
+						((DialogManagerD) getDialogManager()).initFileChooser();
+						GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
+								.getFileChooser();
+
+						fileChooser.setMode(GeoGebraFileChooser.MODE_IMAGES);
+						fileChooser.setCurrentDirectory((app)
+								.getCurrentImagePath());
+
+						MyFileFilter fileFilter = new MyFileFilter();
+						fileFilter.addExtension("jpg");
+						fileFilter.addExtension("jpeg");
+						fileFilter.addExtension("png");
+						fileFilter.addExtension("gif");
 						fileFilter.addExtension("bmp");
-					fileFilter.setDescription(app.getPlain("Image"));
-					fileChooser.resetChoosableFileFilters();
-					fileChooser.setFileFilter(fileFilter);
+						fileFilter.setDescription(app.getPlain("Image"));
+						fileChooser.resetChoosableFileFilters();
+						fileChooser.setFileFilter(fileFilter);
 
-					int returnVal = fileChooser.showOpenDialog((app)
-							.getMainComponent());
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						imageFile = fileChooser.getSelectedFile();
-						if (imageFile != null) {
-							(app).setCurrentImagePath(imageFile.getParentFile());
-							if (!app.isApplet()) {
-								GeoGebraPreferencesD.getPref()
-										.saveDefaultImagePath(
-												(app).getCurrentImagePath());
+						int returnVal = fileChooser.showOpenDialog((app)
+								.getMainComponent());
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							imageFile = fileChooser.getSelectedFile();
+							if (imageFile != null) {
+								(app).setCurrentImagePath(imageFile
+										.getParentFile());
+								if (!app.isApplet()) {
+									GeoGebraPreferencesD
+											.getPref()
+											.saveDefaultImagePath(
+													(app).getCurrentImagePath());
+								}
 							}
 						}
-					}
 
-					if (imageFile == null) {
-						app.setDefaultCursor();
-						return null;
+						if (imageFile == null) {
+							app.setDefaultCursor();
+							return null;
+						}
 					}
 				}
-
+					
 				// get file name
 				fileName = imageFile.getCanonicalPath();
 
@@ -1572,6 +1615,43 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		try {
 			app.setWaitCursor();
 
+			/**************************************************************
+			 * Mac OS X related code to work around JFileChooser problem on
+			 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
+			 **************************************************************/
+			if (app.macsandbox) {
+
+				FileDialog fd = new FileDialog(app.getFrame());
+				fd.setModal(true);
+				File currentPath = app.getCurrentPath();
+				fd.setMode(FileDialog.LOAD);
+				if (currentPath != null) {
+					fd.setDirectory(currentPath.toString());
+				}
+				fd.setFilenameFilter(new FilenameFilter() {
+					public boolean accept(File dir, String name) {
+						return (name.endsWith(".txt")
+								|| name.endsWith(".csv")
+								|| name.endsWith(".dat"));
+					}
+				});
+				// fd.setTitle("saveDialogTitleText");
+
+				fd.toFront();
+				fd.setVisible(true);
+				if (fd.getFile() != null) {
+					dataFile = new File(fd.getDirectory() + "/" + fd.getFile());
+				}
+
+				app.setCurrentPath(new File(fd.getDirectory()));
+
+				app.setDefaultCursor();
+				return dataFile;
+			}
+			/**************************************************************
+			 * End of Mac OS X related code.
+			 **************************************************************/
+				
 			((DialogManagerD) getDialogManager()).initFileChooser();
 			GeoGebraFileChooser fileChooser = ((DialogManagerD) getDialogManager())
 					.getFileChooser();
@@ -1732,10 +1812,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 		String fileExtension = fileExtensions[0];
 
-		/**************************************************************
-		 * Mac OS X related code to work around JFileChooser problem on
-		 * sandboxing. TODO: Check if we are running in sandboxed mode.
-		 * See also http://intransitione.com/blog/take-java-to-app-store/
+		/**************************************************************	
+	     * Mac OS X related code to work around JFileChooser problem on
+		 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 		 **************************************************************/
 		if (app.macsandbox) {
 			while (!done) {
@@ -1936,8 +2015,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			
 			/**************************************************************
 			 * Mac OS X related code to work around JFileChooser problem on
-			 * sandboxing. TODO: Check if we are running in sandboxed mode. See
-			 * also http://intransitione.com/blog/take-java-to-app-store/
+			 * sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
 			 **************************************************************/
 			if (app.macsandbox) {
 
