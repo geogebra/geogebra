@@ -95,6 +95,10 @@ public class View {
 		return ((ArticleElement) container).getDataParamShowAnimationButton();
     }	
 	
+	public boolean getDataParamAllowSymbolTable() {
+		return ((ArticleElement) container).getDataParamAllowSymbolTable();
+    }	
+	
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;

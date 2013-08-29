@@ -1066,7 +1066,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		
 		//temp
 		//TODO: don't fix the popup button here, but it should appear if mouse clicked into the textfield.
-		String display = (showSymbolTableIcon) ? "block" : "none";
+		String display = (showSymbolTableIcon)&& app.isAllowedSymbolTables() ? "block" : "none";
 		showSymbolButton.getElement().setAttribute("display", display);
 	}
 

@@ -712,6 +712,13 @@ public abstract class AppWeb extends App implements SetLabels{
 		
 		private NetworkOperation networkOperation;
 		
+		/*
+		 * True if showing the "alpha" in Input Boxes is allowed.
+		 * (we can hide the symbol buttons with data-param-allowSymbolTable
+		 * parameter)
+		 */
+		private boolean allowSymbolTables;
+		
 		/**
 		 * @return OfflineOperation event flow
 		 */
@@ -753,5 +760,16 @@ public abstract class AppWeb extends App implements SetLabels{
 			OfflineView ov = new OfflineView();
 			networkOperation.setView(ov);
 	    }
+
+		public void setAllowSymbolTables(boolean allowST) {
+	       allowSymbolTables = allowST;
+        }
+		
+		/*
+		 * Return true, if alpha buttons may be visible in input boxes.
+		 */
+		public boolean isAllowedSymbolTables(){
+			return allowSymbolTables;
+		}
 	
 }

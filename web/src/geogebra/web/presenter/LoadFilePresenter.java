@@ -109,6 +109,7 @@ public class LoadFilePresenter{
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
+		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		
 	}
 	

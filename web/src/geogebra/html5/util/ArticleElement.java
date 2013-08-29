@@ -226,6 +226,12 @@ public final class ArticleElement extends Element {
 		return ("true".equals(this.getAttribute("data-param-showLogging")));
 	}
 	
+	/**
+	 * @return the data-param-allowSymbolTable (default: true)
+	 */
+	public boolean getDataParamAllowSymbolTable() {
+		return (!"false".equals(this.getAttribute("data-param-allowSymbolTable")));
+	}
 	
 	/**
 	 * 
