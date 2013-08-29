@@ -1719,7 +1719,7 @@ namespace giac {
     vecteur vpmin(min_pol(pmin));
     if (!vpmin.empty() && is_undef(vpmin))
       return 0;
-    if (vpmin.size()==3)
+    if (vpmin.size()==3) 
       return 2;
     v.clear();
     gen e_square(e*e);
@@ -1744,7 +1744,7 @@ namespace giac {
     v.push_back(a);
     v.push_back(b);
     v.push_back(-c);
-    return true;
+    return 1;
   }
 
   static gen randassume(const vecteur & boundaries,GIAC_CONTEXT){
@@ -1804,6 +1804,56 @@ namespace giac {
 	return r2sym(pp,lt,ltend,contextptr);
       }
       gen f=*(pp._EXTptr+1);
+#if 1
+      if (ltend-lt==1 && lt->type==_VECT && lt->_VECTptr->empty() && f.type==_VECT){
+	// univariate case
+	// find minimal poly of the whole _EXT if extension degree is > 2
+	int d=f._VECTptr->size();
+	if (d>3){
+	  gen r=evalf_double(pp,1,contextptr);
+	  matrice m(d);
+	  m[0]=vecteur(d-1);
+	  m[0]._VECTptr->back()=1;
+	  gen ppi(1);
+	  for (int i=1;i<d;++i){
+	    ppi=ppi*pp;
+	    if (ppi.type!=_EXT){
+	      m[i]=vecteur(d-1);
+	      m[i]._VECTptr->back()=ppi;
+	    }
+	    else {
+	      m[i]=*ppi._EXTptr;
+	      if (m[i].type!=_VECT)
+		return gensizeerr(contextptr);
+	      if (m[i]._VECTptr->size()<d-1)
+		*m[i]._VECTptr=mergevecteur(vecteur(d-1-m[i]._VECTptr->size()),*m[i]._VECTptr);
+	    }
+	  } // end for i
+	  if (!ckmatrix(m))
+	    return gensizeerr(contextptr);
+	  m=mtran(m); // d-1 rows, d columns
+	  vecteur mk=mker(m,contextptr);
+	  gen pm(mk.front()); // min poly= 1st kernel element
+	  if (pm.type==_VECT){
+	    mk=*pm._VECTptr;
+	    reverse(mk.begin(),mk.end());
+	    mk=trim(mk,0);
+	    if ((d=mk.size())<=5 && d!=4){
+	      identificateur x(" x");
+	      vecteur w;
+	      in_solve(symb_horner(mk,x),x,w,1,contextptr);
+	      for (unsigned k=0;k<w.size();++k){
+		if (lop(w[k],at_rootof).empty()){
+		  gen wkd=evalf_double(w[k],1,contextptr);
+		  if (wkd!=w[k] && is_greater(1e-6,abs(wkd-r,contextptr),contextptr))
+		    return w[k];
+		}
+	      }
+	    }
+	  }
+	} // end if d>3
+      }
+#endif
       if ((pp._EXTptr+1)->type!=_VECT) 
 	f=min_pol(*(pp._EXTptr+1)); // f is a _VECT
       if (is_undef(f))
@@ -1813,10 +1863,7 @@ namespace giac {
       }
       vecteur v;
       int t=is_root_of_deg2(pp,v);
-      if (t==2){
-	// return ckdeg2_rootof(r2sym(*(pp._EXTptr),lt,ltend,contextptr),r2sym(f,lt,ltend,contextptr),contextptr);
-	return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
-      }
+      // if (t==2) return solve_deg2(r2sym(*(pp._EXTptr),lt,ltend,contextptr),f,lt,ltend,contextptr);
       // if (t && f==v) t=0;
       if (t==1){
 	vecteur w;
@@ -2097,7 +2144,8 @@ namespace giac {
       gen nover2=rdiv(expnum,plus_two,contextptr);      
       if (nd.type==_EXT && nd._EXTptr->type==_VECT){ // extract content
 	gen tmp=lgcd(*nd._EXTptr->_VECTptr);
-	out=pow(r2e(nd/tmp,lv,contextptr),expnum/expden,contextptr);
+	out=r2e(nd/tmp,lv,contextptr); 
+	// removed the ^ to avoid larger extensions e.g. for normal(sin(pi/5))
 	nd=tmp;
       }
       if (nd.type==_INT_ || nd.type==_ZINT){
@@ -2106,7 +2154,7 @@ namespace giac {
 	zint2simpldoublpos(nd,simpl,doubl,pos,2,contextptr);
 	if (!pos) simpl=-simpl;
 	lin.push_back(*it);
-	lout.push_back(pow(doubl/abs(r2e(den,lv,contextptr),contextptr),expnum,contextptr)*pow(simpl,nover2,contextptr)*out);
+	lout.push_back(pow(doubl/abs(r2e(den,lv,contextptr),contextptr),expnum,contextptr)*pow(simpl*out,nover2,contextptr));
 	continue;
       }
       if (nd.type!=_POLY)
@@ -2127,7 +2175,7 @@ namespace giac {
       if (!pos) simpl=-simpl;
       simpl=r2e(polynome(simpl,nd._POLYptr->dim),lv,contextptr); // if simpl is not an integer
       doubl=r2e(polynome(doubl,nd._POLYptr->dim),lv,contextptr); // if doubl is not an integer
-      lout.push_back(pow(simpl,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr)*out);
+      lout.push_back(pow(simpl*out,nover2,contextptr)*pow(doubl,expnum,contextptr)*pow(recursive_normal(r2e(s,lv,contextptr),contextptr),nover2,contextptr)*pow(abs(r2e(d,lv,contextptr),contextptr),expnum,contextptr)*pow(abs(r2e(den,lv,contextptr),contextptr),-expnum,contextptr));
     }
     return subst(e,lin,lout,false,contextptr);
   }

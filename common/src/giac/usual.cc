@@ -602,26 +602,24 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,atan(b,contextptr)),_SEQ__VECT));
     gen tmp=evalf_double(e,0,contextptr);
     if (tmp.type==_DOUBLE_){
-      gen tmp2=normal(2*e/(1-e*e),contextptr);
-      if (is_one(tmp2)){
-	if (angle_radian(contextptr)) 
-	  return tmp._DOUBLE_val>0?rdiv(cst_pi,8,contextptr):rdiv(-3*cst_pi,8,contextptr);
-	return tmp._DOUBLE_val>0?fraction(45,2):fraction(-145,2);
+      double ed=tmp._DOUBLE_val;
+      // detect if atan is a multiples of pi/10
+      gen edh=horner(makevecteur(-5,60,-126,60,-5),tmp*tmp);
+      if (std::abs(edh._DOUBLE_val)<1e-7 &&
+	  normal(horner(makevecteur(-5,60,-126,60,-5),e*e),contextptr)==0){
+	int res=std::floor(std::atan(std::abs(ed))*10/M_PI+.5);
+	if (res%2)
+	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
+	else
+	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:gen(36));
       }
-      if (is_minus_one(tmp2)){
-	if (angle_radian(contextptr)) 
-	  return tmp._DOUBLE_val>0?rdiv(3*cst_pi,8,contextptr):rdiv(-cst_pi,8,contextptr);
-	return tmp._DOUBLE_val>0?fraction(145,2):fraction(-45,2);
-      }
-      if (tmp2==plus_sqrt3_3){
-	if (angle_radian(contextptr)) 
-	  return tmp._DOUBLE_val>0?rdiv(cst_pi,12,contextptr):rdiv(-5*cst_pi,12,contextptr);
-	return tmp._DOUBLE_val>0?15:-165;
-      }
-      if (tmp2==rdiv(minus_sqrt3,3,contextptr)){
-	if (angle_radian(contextptr)) 
-	  return tmp._DOUBLE_val>0?rdiv(5*cst_pi,12,contextptr):rdiv(-cst_pi,12,contextptr);
-	return tmp._DOUBLE_val>0?165:-15;
+      edh=horner(makevecteur(-3,55,-198,198,-55,3),tmp*tmp);
+      if (std::abs(edh._DOUBLE_val)<1e-7){      
+	int res=std::floor(std::atan(std::abs(ed))*12/M_PI+.5);
+	int den=12;
+	int g=gcd(res,den);
+	res /=g; den /=g;
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
       }
     }
     if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg))
@@ -1224,6 +1222,22 @@ namespace giac {
     bool doit=false,est_multiple;
     if (angle_radian(contextptr)){
       if (contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
+	  return sin(cst_pi/2-e,contextptr);
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
+	  int n=a._FRACptr->num.val % 10;
+	  if (n<0)
+	    n += 10;
+	  if (n>=5)
+	    n=10-n;
+	  gen sqrt5=sqrt(5,contextptr);
+	  gen cospi5=(sqrt5+1)/4;
+	  gen cos2pi5=(sqrt5-1)/4;
+	  if (n==1) return cospi5;
+	  if (n==2) return cos2pi5;
+	  if (n==3) return -cos2pi5;
+	  if (n==4) return -cospi5;
+	}
 	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
 	doit=true;
       }
@@ -1383,6 +1397,20 @@ namespace giac {
     bool doit=false,est_multiple;
     if (angle_radian(contextptr)){
       if (contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
+	  return cos(cst_pi/2-e,contextptr);
+	if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
+	  int n=a._FRACptr->num.val % 10;
+	  if (n<0)
+	    n+=10;
+	  gen sqrt5=sqrt(5,contextptr);
+	  gen sinpi5=sqrt(-2*sqrt5+10,contextptr)/4;
+	  gen sin2pi5=sqrt(2*sqrt5+10,contextptr)/4;
+	  if (n==1 || n==4) return sinpi5;
+	  if (n==2 || n==3) return sin2pi5;
+	  if (n==6 || n==9) return -sinpi5;
+	  if (n==7 || n==8) return -sin2pi5;
+	}
 	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
 	doit=true;
       }
@@ -1553,6 +1581,20 @@ namespace giac {
 	  return zero;
 	int n,d;
 	if (is_rational(kk,n,d)){
+	  if (d==10)
+	    return inv(tan(cst_pi/2-e,contextptr),contextptr);
+	  if (d==5){
+	    n %= 5;
+	    if (n<0)
+	      n+=5;
+	    gen sqrt5=sqrt(5,contextptr);
+	    if (n==1 || n==4)
+	      sqrt5=5-2*sqrt5;
+	    else
+	      sqrt5=5+2*sqrt5;
+	    sqrt5=sqrt(sqrt5,contextptr);
+	    return n<=2?sqrt5:-sqrt5;
+	  }
 	  if (angle_radian(contextptr)) 
 	    return symb_tan((n%d)*inv(d,contextptr)*cst_pi);
 	  else
@@ -1688,6 +1730,29 @@ namespace giac {
       if (angle_radian(contextptr)) 
 	return rdiv(cst_pi,6,contextptr);
       return 30;
+    }
+    gen edg=evalf_double(e,1,contextptr);
+    if (edg.type==_DOUBLE_){
+      double ed=edg._DOUBLE_val;
+      // detect if asin is a multiples of pi/10
+      gen edh=horner(makevecteur(256,-512,336,-80,5),edg*edg);
+      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+	  normal(horner(makevecteur(256,-512,336,-80,5),e*e),contextptr)==0){
+	int res=std::floor(std::asin(std::abs(ed))*10/M_PI+.5);
+	if (res%2)
+	  return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/10:gen(18));
+	else
+	  return (ed>0?res/2:-res/2)*(angle_radian(contextptr)?cst_pi/5:gen(36));
+      }
+      edh=horner(makevecteur(512,-1280,1152,-448,70,-3),edg*edg);
+      if (std::abs(edh._DOUBLE_val)<1e-9 &&
+	  normal(horner(makevecteur(512,-1280,1152,-448,70,-3),e*e),contextptr)==0){
+	int res=std::floor(std::asin(std::abs(ed))*12/M_PI+.5);
+	int den=12;
+	int g=gcd(res,den);
+	res /=g; den /=g;
+	return (ed>0?res:-res)*(angle_radian(contextptr)?cst_pi/den:gen(15*g));
+      }
     }
     if (is_undef(e))
       return e;
@@ -3586,29 +3651,35 @@ namespace giac {
   static define_unary_function_eval2_index (2,__plus,&_plus,_plus_s,&printsommetasoperator);
   define_unary_function_ptr( at_plus ,alias_at_plus ,&__plus);
 
+  gen pointplus(const gen &a,const gen &b,GIAC_CONTEXT){
+    if (a.type==_VECT && b.type!=_VECT)
+      return apply1st(a,b,contextptr,pointplus);
+    if (a.type!=_VECT && b.type==_VECT)
+      return apply2nd(a,b,contextptr,pointplus);
+    return operator_plus(a,b,contextptr);
+  }
   gen _pointplus(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT && args._VECTptr->size()!=2)
       return gensizeerr();
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
-    if (a.type==_VECT && b.type!=_VECT)
-      return apply1st(a,b,contextptr,operator_plus);
-    if (a.type!=_VECT && b.type==_VECT)
-      return apply2nd(a,b,contextptr,operator_plus);
-    return operator_plus(a,b,contextptr);
+    return pointplus(a,b,contextptr);
   }
   static const char _pointplus_s []=".+";
   static define_unary_function_eval2_index (170,__pointplus,&_pointplus,_pointplus_s,&printsommetasoperator);
   define_unary_function_ptr( at_pointplus ,alias_at_pointplus ,&__pointplus);
 
+  gen pointminus(const gen &a,const gen &b,GIAC_CONTEXT){
+    if (a.type==_VECT && b.type!=_VECT)
+      return apply1st(a,b,contextptr,pointminus);
+    if (a.type!=_VECT && b.type==_VECT)
+      return apply2nd(a,b,contextptr,pointminus);
+    return operator_minus(a,b,contextptr);
+  }
   gen _pointminus(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT && args._VECTptr->size()!=2)
       return gensizeerr();
     gen a=args._VECTptr->front(),b=args._VECTptr->back();
-    if (a.type==_VECT && b.type!=_VECT)
-      return apply1st(a,b,contextptr,operator_minus);
-    if (a.type!=_VECT && b.type==_VECT)
-      return apply2nd(a,b,contextptr,operator_minus);
-    return operator_minus(a,b,contextptr);
+    return pointminus(a,b,contextptr);
   }
   static const char _pointminus_s []=".-";
   static define_unary_function_eval2_index (172,__pointminus,&_pointminus,_pointminus_s,&printsommetasoperator);
@@ -4642,7 +4713,7 @@ namespace giac {
     gen res=undef;
     if (a._VECTptr->front().type==_SYMB || a._VECTptr->back().type==_SYMB){
       if (!is_inf(a._VECTptr->front()) && !is_undef(a._VECTptr->front()) && !is_inf(a._VECTptr->back()) && !is_undef(a._VECTptr->back()) && a._VECTptr->front().type!=_VECT &&a._VECTptr->back().type!=_VECT )
-	res=is_zero(a._VECTptr->front()-a._VECTptr->back(),contextptr);
+	res=is_zero(add_autosimplify(a._VECTptr->front()-a._VECTptr->back(),contextptr),contextptr);
     }
     if (is_undef(res))
       res=operator_equal(a._VECTptr->front(),a._VECTptr->back(),contextptr);
@@ -6224,8 +6295,13 @@ namespace giac {
 			      )
 	) {
 #if 1
-      if (is_strictly_positive(.5-re(x,contextptr),contextptr))
-	return cst_pi / (sin(M_PI*x,context0)*Gamma(1-x,contextptr));
+      if (is_strictly_positive(.5-re(x,contextptr),contextptr)){
+	bool b=angle_radian(contextptr);
+	angle_radian(true,contextptr);
+	gen res=cst_pi / (sin(M_PI*x,contextptr)*Gamma(1-x,contextptr));
+	angle_radian(b,contextptr);
+	return res;
+      }
       return exp(lngamma(x,contextptr),contextptr);
 #else
       static const double p[] = {

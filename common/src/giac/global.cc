@@ -1207,6 +1207,26 @@ extern "C" void Sleep(unsigned int miliSecond);
     return s;
   }
 
+  static std::string & _autosimplify_(){
+    static string * ans = new string("regroup");
+    return *ans;
+  }
+  std::string autosimplify(GIAC_CONTEXT){
+    std::string res;
+    if (contextptr && contextptr->globalptr )
+      res=contextptr->globalptr->_autosimplify_;
+    else
+      res=_autosimplify_();
+    return res;
+  }
+  std::string autosimplify(const std::string & s,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_autosimplify_=s;
+    else
+      _autosimplify_()=s;
+    return s;
+  }
+
   static std::string & _format_double_(){
     static string * ans = new string("");
     return * ans;
@@ -3560,6 +3580,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
     _autoname_="A";
 #endif
+    _autosimplify_="regroup";
     _format_double_="";
 #ifdef HAVE_LIBPTHREAD
     _mutexptr = new pthread_mutex_t;
@@ -4537,6 +4558,32 @@ unsigned int ConvertUTF8toUTF16 (
 	history_out(contextptr)[i]=protecteval(history_in(contextptr)[i],eval_level(contextptr),contextptr); 
     }
     return true;
+  }
+
+  const char * do_not_autosimplify[]={
+    "autosimplify",
+    "ifactor","partfrac","cpartfrac","factor","cfactor","expand","normal",
+    "regroup","simplify",
+    0
+  };
+  gen add_autosimplify(const gen & g,GIAC_CONTEXT){
+    if (g.type==_SYMB){
+      const char * c=g._SYMBptr->sommet.ptr()->s;
+      const char ** ptr=do_not_autosimplify;
+      for (;*ptr;++ptr){
+	if (!strcmp(*ptr,c))
+	  return g;
+      }
+    }
+    std::string s=autosimplify(contextptr);
+    if (s.size()<1)
+      return g;
+    gen a(s,contextptr);
+    if (a.type==_FUNC)
+      return symbolic(*a._FUNCptr,g);
+    if (a.type>=_IDNT)
+      return symb_of(a,g);
+    return g;
   }
 
 #ifndef NO_NAMESPACE_GIAC

@@ -7654,22 +7654,71 @@ namespace giac {
     return a.islesscomplexthan(b);
   }
 
-  static bool islesscomplexthanf2(const gen & a,const gen & b){
+  static gen monomial_degree(const gen & a){
+    if (a.type<_IDNT)
+      return 0;
+    if (a.type==_IDNT)
+      return 1;
+    if (a.type!=_SYMB)
+      return 0;
+    if (a._SYMBptr->sommet==at_pow && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
+      return (*a._SYMBptr->feuille._VECTptr)[1];
+    if (a._SYMBptr->sommet!=at_prod)
+      return 0;
+    gen af=a._SYMBptr->feuille;
+    if (af.type!=_VECT)
+      return monomial_degree(af);
+    gen res(0);
+    for (unsigned i=0;i<af._VECTptr->size();++i){
+      res += monomial_degree((*af._VECTptr)[i]);
+    }
+    return res;
+  }
+
+  static bool is_monomial(const gen & a){
+    if (a.type<=_IDNT)
+      return true;
+    if (a.type!=_SYMB)
+      return false;
+    if (a._SYMBptr->sommet==at_pow)
+      return true;
+    if (a._SYMBptr->sommet!=at_prod)
+      return false;
+    gen af=a._SYMBptr->feuille;
+    if (af.type!=_VECT)
+      return is_monomial(af);
+    for (unsigned i=0;i<af._VECTptr->size();++i){
+      if (!is_monomial((*af._VECTptr)[i]))
+	return false;
+    }
+    return true;
+  }
+
+  static bool islesscomplexthanf2(const gen & a,const gen & b,GIAC_CONTEXT){
     if (a==b)
       return false;
     if (a.type==_VECT && b.type==_VECT && a._VECTptr->size()==2 && b._VECTptr->size()==2){
       gen & a2=a._VECTptr->back();
       gen & b2=b._VECTptr->back();
-      if (a2!=b2){
-	if (a2.type==b2.type)
-	  return a2.islesscomplexthan(b2);
-	return !a2.islesscomplexthan(b2);
-      }
+      if (a2!=b2)
+	return islesscomplexthanf2(a2,b2,contextptr);
+    }
+    if (is_monomial(a) && is_monomial(b)){
+      gen da=monomial_degree(a);
+      gen db=monomial_degree(b);
+      if (da!=db)
+	return increasing_power(contextptr)?is_greater(db,da,contextptr):is_greater(da,db,contextptr);
     }
     if (a.type==b.type)
       return a.islesscomplexthan(b);
     return !a.islesscomplexthan(b);
   }
+
+  struct tri_context {
+    const giac::context * contextptr;
+    bool operator()(const gen & a,const gen &b){ return islesscomplexthanf2(a,b,contextptr); }
+    tri_context(const giac::context * ptr):contextptr(ptr){};
+  };
 
   int gen::symb_size () const {
     if (type==_SYMB)
@@ -7944,7 +7993,7 @@ namespace giac {
       vres.push_back(makenewvecteur(1,number));
     if (x._SYMBptr->feuille.subtype==_SORTED__VECT)
       return vres;
-    sort(vres.begin(),vres.end(),islesscomplexthanf2);
+    sort(vres.begin(),vres.end(),tri_context(contextptr));
     return fusionliste(vres);
   }
 

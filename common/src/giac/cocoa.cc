@@ -1520,6 +1520,7 @@ namespace giac {
 	  u=u+*ashift;
 	if (u==v){
 	  gen g;
+#ifndef USE_GMP_REPLACEMENTS
 	  if ( (it->g.type==_INT_ || it->g.type==_ZINT) &&
 	       (jt->g.type==_INT_ || jt->g.type==_ZINT) ){
 	    if (it->g.type==_INT_)
@@ -1536,10 +1537,14 @@ namespace giac {
 	      mpz_addmul(tmpz,*b._ZINTptr,*jt->g._ZINTptr);
 	    if (mpz_sizeinbase(tmpz,2)<31)
 	      g=int(mpz_get_si(tmpz));
-	    else
-	      g=tmpz;
+	    else {
+	      ref_mpz_t * ptr =new ref_mpz_t;
+	      mpz_swap(ptr->z,tmpz);
+	      g=ptr; // g=tmpz;
+	    }
 	  }
 	  else
+#endif
 	    g=a*it->g+b*jt->g;
 	  if (env && env->moduloon)
 	    g=smod(g,env->modulo);
@@ -2139,13 +2144,17 @@ namespace giac {
     q.order=p.order;
     q.sugar=0;
     for (unsigned i=0;i<p.coord.size();++i){
-      if (p.coord[i].g.type==_ZINT)
-	q.coord[i].g=modulo(*p.coord[i].g._ZINTptr,env);
-      else
-	q.coord[i].g=(p.coord[i].g.val)%env;
+      if (!env)
+	q.coord[i].g=1;
+      else {
+	if (p.coord[i].g.type==_ZINT)
+	  q.coord[i].g=modulo(*p.coord[i].g._ZINTptr,env);
+	else
+	  q.coord[i].g=(p.coord[i].g.val)%env;
+      }
       q.coord[i].u=p.coord[i].u;
     }
-    if (!q.coord.empty()){
+    if (env && !q.coord.empty()){
       q.sugar=q.coord.front().u.total_degree();
       if (q.coord.front().g!=1)
 	smallmultmod(invmod(q.coord.front().g,env),q,env);
@@ -4574,6 +4583,7 @@ namespace giac {
     for (;it!=itend && jt!=jtend;){
       if (it->u==jt->u){
 	gen g;
+#ifndef USE_GMP_REPLACEMENTS
 	if (qmodval && jt->g.type==_INT_){
 	  if (it->g.type==_ZINT){
 	    mpz_set_si(tmpz,jt->g.val);
@@ -4591,6 +4601,7 @@ namespace giac {
 	  g=tmpz;
 	}
 	else
+#endif
 	  g=it->g+u*(jt->g-it->g)*pmod;
 	tmp.coord.push_back(T_unsigned<gen,tdeg_t>(smod(g,pqmod),it->u));
 	++it; ++jt;
@@ -4703,6 +4714,274 @@ namespace giac {
     for (unsigned i=0;i<P.size();++i){
       cleardeno(P[i]);
     }
+  }
+
+
+  void collect(const vectpoly8 & f4v,polymod & allf4){
+    vectpoly8::const_iterator it=f4v.begin(),itend=f4v.end();
+    vector<heap_tt> H;
+    H.reserve(itend-it);
+    for (unsigned i=0;it!=itend;++i,++it){
+      if (!it->coord.empty())
+	H.push_back(heap_tt(i,0,it->coord.front().u));
+    }
+    make_heap(H.begin(),H.end());
+    while (!H.empty()){
+      std::pop_heap(H.begin(),H.end());
+      // push root node of the heap in allf4
+      heap_tt & current =H.back();
+      if (allf4.coord.empty() || allf4.coord.back().u!=current.u)
+	allf4.coord.push_back(T_unsigned<modint,tdeg_t>(1,current.u));
+      ++current.polymodpos;
+      if (current.polymodpos>=f4v[current.f4vpos].coord.size()){
+	H.pop_back();
+	continue;
+      }
+      current.u=f4v[current.f4vpos].coord[current.polymodpos].u;
+      std::push_heap(H.begin(),H.end());
+    }
+  }
+
+  void makeline(const poly8 & p,const tdeg_t * shiftptr,const polymod & R,vecteur & v){
+    v=vecteur(R.coord.size(),0);
+    std::vector< T_unsigned<gen,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=R.coord.begin(),jtbeg=jt,jtend=R.coord.end();
+    if (shiftptr){
+      for (;it!=itend;++it){
+	tdeg_t u=it->u+*shiftptr;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    v[jt-jtbeg]=it->g;
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+    else {
+      for (;it!=itend;++it){
+	const tdeg_t & u=it->u;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    v[jt-jtbeg]=it->g;
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+  }
+
+  unsigned firstnonzero(const vecteur & v){
+    for (unsigned i=0;i<v.size();++i){
+      if (v[i]!=0)
+	return i;
+    }
+    return v.size();
+  }
+
+  struct sparse_gen {
+    gen val;
+    unsigned pos;
+    sparse_gen(const gen & v,unsigned u):val(v),pos(u){};
+    sparse_gen():val(0),pos(-1){};
+  };
+
+  void makeline(const poly8 & p,const tdeg_t * shiftptr,const polymod & R,vector<sparse_gen> & v){
+    std::vector< T_unsigned<gen,tdeg_t> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=R.coord.begin(),jtend=R.coord.end();
+    if (shiftptr){
+      for (;it!=itend;++it){
+	tdeg_t u=it->u+*shiftptr;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    v.push_back(sparse_gen(it->g,jt-R.coord.begin()));
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+    else {
+      for (;it!=itend;++it){
+	const tdeg_t & u=it->u;
+	for (;jt!=jtend;++jt){
+	  if (jt->u==u){
+	    v.push_back(sparse_gen(it->g,jt-R.coord.begin()));
+	    ++jt;
+	    break;
+	  }
+	}
+      }
+    }
+  }
+
+  // return true if v reduces to 0
+  // in addition to reducef4, compute the coeffs
+  bool checkreducef4(vector<modint> &v,vector<modint> & coeff,const vector< vector<sparse_element> > & M,modint env){
+    for (unsigned i=0;i<M.size();++i){
+      const vector<sparse_element> & m=M[i];
+      vector<sparse_element>::const_iterator it=m.begin(),itend=m.end();
+      if (it==itend)
+	continue;
+      modint c=coeff[i]=(modint2(invmod(it->val,env))*v[it->pos])%env;
+      if (!c)
+	continue;
+      v[it->pos]=0;
+      for (++it;it!=itend;++it){
+	modint &x=v[it->pos];
+	x=(x-modint2(c)*(it->val))%env;
+      }
+    }
+    vector<modint>::iterator vt=v.begin(),vtend=v.end();
+    for (vt=v.begin();vt!=vtend;++vt){
+      if (*vt)
+	return false;
+    }
+    return true;
+  }
+
+  // excluded==-1 and G==identity in calls
+  bool checkf4(vectpoly8 & f4v,const vectpoly8 & res,vector<unsigned> & G,unsigned excluded){
+    polymod allf4(f4v.front().order,f4v.front().dim),rem(allf4);
+    vectpolymod resmod,quo;
+    convert(res,resmod,0);
+    if (debug_infolevel>1)
+      cerr << clock() << " checkf4 begin collect monomials" << f4v.size() << endl;
+    // collect all terms in f4v
+    collect(f4v,allf4);
+    if (debug_infolevel>1)
+      cerr << clock() << " checkf4 symbolic preprocess" << endl;
+    // find all monomials required to reduce allf4 with res[G[.]]
+    polymod R;
+    in_heap_reducemod(allf4,resmod,G,excluded,quo,rem,&R,0);
+    if (debug_infolevel>1)
+      cerr << clock() << " checkf4 end symbolic preprocess" << endl;
+    // build a matrix with rows res[G[.]]*quo[.] in terms of monomials in allf4
+    // sort the matrix
+    // checking reduction to 0 is equivalent to
+    // write a line from f4v[]
+    // as a linear combination of the lines of this matrix
+    // we will do that modulo a list of primes
+    // and keep track of the coefficients of the linear combination
+    // we reconstruct the quotients in Q by fracmod
+    // once they stabilize, we compute the lcm l of the denominators
+    // we multiply by l to have an equality on Z
+    // we compute bounds on the coefficients of the products res*quo
+    // and on l*f4v, and we check further the equality modulo additional
+    // primes
+    if (debug_infolevel>1)
+      cerr << clock() << " begin build M" << endl;
+    vector< vector<sparse_gen> > M;
+    vector<sparse_element> atrier;
+    unsigned N=R.coord.size(),i,j=0;
+    M.reserve(N); // actual size is at most N (difference is the remainder part size)
+    for (i=0;i<res.size();++i){
+      std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
+      for (;jt!=jtend;++j,++jt){
+	M.push_back(vector<sparse_gen>(0));
+	makeline(res[G[i]],&jt->u,R,M[j]);
+	atrier.push_back(sparse_element(M[j].front().pos,j));
+      }
+    }
+    sort(atrier.begin(),atrier.end(),tri1);
+    vector< vector<sparse_gen> > M1(atrier.size());
+    for (i=0;i<atrier.size();++i){
+      swap(M1[i],M[atrier[i].pos]);
+    }
+    swap(M,M1);
+    // cerr << M << endl;
+    cerr << "rows, columns: " << M.size() << "x" << N << endl; 
+    return true;
+  }
+
+
+  bool is_gbasis(const vectpoly8 & res){
+    if (res.empty())
+      return false;
+    if (debug_infolevel>0)
+      cerr << "basis size " << res.size() << endl;
+    // build possible pairs (i,j) with i<j
+    vector< vector<tdeg_t> > lcmpairs(res.size());
+    vector<unsigned> G(res.size());
+    for (unsigned i=0;i<res.size();++i)
+      G[i]=i;
+    vectpoly8 vtmp,tocheck;
+    tocheck.reserve(res.size()*10); // wild guess
+    int order=res.front().order,dim=res.front().dim;
+    poly8 TMP1(order,res.front().dim),TMP2(TMP1),
+      spol(TMP1),spolred(TMP1);
+    for (unsigned i=0;i<res.size();++i){
+      const poly8 & h = res[i];
+      const tdeg_t & h0=h.coord.front().u;
+      vector<tdeg_t> tmp(res.size());
+      for (unsigned j=i+1;j<res.size();++j){
+	index_lcm(h0,res[j].coord.front().u,tmp[j],h.order); 
+      }
+      swap(lcmpairs[i],tmp);
+    }
+    for (unsigned i=0;i<res.size();++i){    
+      if (debug_infolevel>1)
+	cerr << "checking pairs for i="<<i<<", j=";
+      const poly8 & resi = res[i];
+      const tdeg_t & resi0=resi.coord.front().u;
+      for (unsigned j=i+1;j<res.size();++j){
+	if (interrupted || ctrl_c){
+	  cerr << "Check interrupted, assuming Groebner basis. Press Ctrl-C again to interrupt computation" << endl;
+	  interrupted=ctrl_c=false;
+	  return true;
+	}
+	if (disjoint(resi0,res[j].coord.front().u,order,dim))
+	  continue;
+	// criterion M, F
+	unsigned J=0;
+	tdeg_t & lcmij=lcmpairs[i][j];
+	for (;J<i;++J){
+	  if (tdeg_t_all_greater(lcmij,lcmpairs[J][j],order))
+	    break;
+	}
+	if (J<i)
+	  continue; 
+	for (++J;J<j;++J){
+	  tdeg_t & lcmJj=lcmpairs[J][j];
+	  if (tdeg_t_all_greater(lcmij,lcmJj,order) && lcmij!=lcmJj)
+	    break;
+	}
+	if (J<j)
+	  continue; 
+	// last criterion
+	unsigned k;
+	for (k=j+1;k<res.size();++k){
+	  if (lcmpairs[i][k]!=lcmij && lcmpairs[j][k]!=lcmij
+	      && tdeg_t_all_greater(lcmij,res[k].coord.front().u,order))
+	    break;
+	}
+	if (k<res.size())
+	  continue;
+	// compute and reduce s-poly
+	if (debug_infolevel>1)
+	  cerr <<  j << ",";
+	spoly(resi,res[j],spol,TMP1,0);
+	tocheck.push_back(poly8(order,dim));
+	swap(tocheck.back(),spol);
+      } // end j loop
+      if (debug_infolevel>1)
+	cerr << endl;
+    }
+    if (debug_infolevel>0)
+      cerr << "Number of critical pairs to check " << tocheck.size() << endl;
+    // checkf4(tocheck,res,G,-1);
+    for (unsigned i=0;i<tocheck.size();++i){
+      reduce(tocheck[i],res,G,-1,vtmp,spolred,TMP1,TMP2,0);
+      // gen den; heap_reduce(spol,res,G,-1,vtmp,spolred,TMP1,den,0);
+      if (!spolred.coord.empty())
+	return false;
+      if (debug_infolevel>0)
+	cerr << "+";
+    }
+    if (debug_infolevel)
+      cerr << endl << "Successfull check of " << tocheck.size() << " critical pairs" << endl;
+    return true;
   }
 
   bool mod_gbasis(vectpoly8 & res,GIAC_CONTEXT){
@@ -4875,46 +5154,30 @@ namespace giac {
 	}
 	if (j!=initial)
 	  continue;
-	/* Let I=<f1,...fn> be the original ideal.
-	   Let I'=<g1,...,gk> be the new ideal generated by the reconstructed res
-	   We checked that the initial ideal I is included in the new ideal I' on Q 
-	   We know that the new ideal I' mod any primes used is included 
-	   in the initial ideals I  mod this prime because the generators of I'
-	   were constructed from linear combination of the initial generators.
-	   Therefore the ideals I and I' coincid modulo all primes.
-	   In addition we have a Groebner basis modulo the first prime p, and
-	   the leading coefficients of g are not divisible by p.
-	   Assume that an element h of I' does not reduce to 0.
-	   Multiply h by lcm of denominators, divide by content to have coeffs in Z
-	   Multiply h by as many of the leading coeffs of g1,...,gk as necessary
-	   to proceed to the reduction with coeffs in Z.
-	   The remainder r is 0 modulo p because g1,..,gk is a Groebner basis mod p, 
-	   hence r is a multiple of p in Z.
-	   Divide r by the largest possible power of p,
-	   we get an element r' of I' with integer coefficients, different
-	   from 0 modulo p, with no monomial divisible by a leading monomial 
-	   of the gk, therefore no reduction can happen modulo the Groebner basis
-	   modulo p, contradiction.
-	   Therefore <g1,...,gk> is a Groebner basis of I' on Q.
-	   Since I=I' mod p, I is included in I' and 
-	   we have a Groebner basis on Q and mod p, we conclude that I=I' on Q
-	   (see for example 
+	/* (final check requires that we have reconstructed a Groebner basis,
 	   Modular algorithms for computing Groebner bases Elizabeth A. Arnold
 	   Journal of Symbolic Computation 35 (2003) 403–419)
 	*/
-#if 0
+#if 1
 	double terms=0;
-	for (unsigned k=0;k<vtmp.size();++k)
+	int termsmin=RAND_MAX; // estimate of the number of terms of a reduced non-0 spoly
+	for (unsigned k=0;k<vtmp.size();++k){
 	  terms += vtmp[k].coord.size();
+	  termsmin = giacmin(termsmin,vtmp[k].coord.size());
+	}
+	termsmin = 7*(2*termsmin-1);
 	int epsp=int(std::floor(mpz_sizeinbase(*P[i]._ZINTptr,10)))-int(std::ceil(2*std::log10(terms)));
+	if (epsp>termsmin)
+	  epsp=termsmin;
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();
-	  in_gbasis(vtmp,G,0,true);
+	  if (!is_gbasis(vtmp))
+	    in_gbasis(vtmp,G,0,true);
 	  // FIXME replace by a quicker check with f4 on all spolys
 	  // and rewrite as a linear system 
 	}
 	else
-	  *logptr(contextptr) << gettext("Result is not certified to be a Groebner basis. Error probability is less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify.") << endl;
+	  *logptr(contextptr) << gettext("Result is not certified to be a Groebner basis. Error probability is estimated to be less than 10^-") << epsp << gettext(". Use proba_epsilon:=0 to certify (this takes more time).") << endl;
 #endif
 	if (debug_infolevel)
 	  cerr << clock() << " end final check " << P[i] << endl;

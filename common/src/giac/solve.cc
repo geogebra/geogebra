@@ -1997,6 +1997,16 @@ namespace giac {
     return gen(res,_SEQ__VECT);
   }
 
+  gen point2xy(const gen & g,GIAC_CONTEXT){
+    if (g.type==_VECT)
+      return apply(g,point2xy,contextptr);
+    if (is_equal(g))
+      return apply_to_equal(g,point2xy,contextptr);
+    if (g.is_symb_of_sommet(at_pnt))
+      return _coordonnees(g,contextptr);
+    return g;
+  }
+
   gen _solve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int isolate_mode=int(complex_mode(contextptr)) | int(int(all_trig_sol(contextptr)) << 1);
@@ -2016,7 +2026,7 @@ namespace giac {
       return _fsolve(gen(makevecteur(v[0],v[1]._SYMBptr->feuille[0],v[1]._SYMBptr->feuille[1]),_SEQ__VECT),contextptr);
     if (s>2)
       return _fsolve(args,contextptr);
-    gen arg1(v.front());
+    gen arg1(point2xy(v.front(),contextptr));
     if (arg1.type==_VECT){ // Flatten equations which are list of equations
       vecteur w,w1,w2;
       const_iterateur it=arg1._VECTptr->begin(),itend=arg1._VECTptr->end();
@@ -2057,7 +2067,7 @@ namespace giac {
     }
     arg1=apply(arg1,equal2diff);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
-    if (_res.front().type==_STRNG || is_undef(_res))
+    if (_res.empty() || _res.front().type==_STRNG || is_undef(_res))
       return _res;
     // quick check if back substitution returns undef
     const_iterateur it=_res.begin(),itend=_res.end();
@@ -2074,7 +2084,7 @@ namespace giac {
       }
     }
     // if (is_fully_numeric(res))
-    if (v.back().type!=_VECT && lidnt(res).empty() && is_zero(im(res,contextptr)))
+    if (!v.empty() && v.back().type!=_VECT && lidnt(res).empty() && is_zero(im(res,contextptr)))
       res=protect_sort(res,contextptr);
     if (!xcas_mode(contextptr) && calc_mode(contextptr)!=1)
       return gen(res,_LIST__VECT);

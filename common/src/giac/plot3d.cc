@@ -1451,8 +1451,10 @@ namespace giac {
     int s=v.size();
     for (int i=0;i<s;++i){
       gen g=remove_at_pnt(v[i]);
-      if (g.type!=_VECT || g._VECTptr->size()!=2)
+      if (g.type!=_VECT || g._VECTptr->size()!=2){
 	other.push_back(g);
+	continue;
+      }
       gen a=g._VECTptr->front(),b=g._VECTptr->back();
       int ps=polylines.size(),j=0;
       for (int j=0;j<ps;++j){

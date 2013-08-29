@@ -4928,7 +4928,7 @@ namespace giac {
   */
 
   gen simplifier(const gen & g,GIAC_CONTEXT){
-    if (g.type<_SYMB)
+    if (g.type<_SYMB || g._SYMBptr->sommet==at_pnt)
       return g;
     if (is_equal(g))
       return apply_to_equal(g,simplifier,contextptr);
@@ -8231,6 +8231,17 @@ namespace giac {
     gen mv=eval(m,1,contextptr);
     return mv.type==_VECT;
   }
+
+  gen _autosimplify(const gen & g,GIAC_CONTEXT){
+    if (g.type!=_IDNT && g.type!=_FUNC && g.type!=_SYMB)
+      return gen(autosimplify(contextptr),contextptr);
+    autosimplify(g.print(contextptr),contextptr);
+    return 1;
+  }
+  static const char _autosimplify_s []="autosimplify";
+  static define_unary_function_eval (__autosimplify,&_autosimplify,_autosimplify_s);
+  define_unary_function_ptr5( at_autosimplify ,alias_at_autosimplify,&__autosimplify,0,true);
+
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

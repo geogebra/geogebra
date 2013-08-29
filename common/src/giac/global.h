@@ -474,6 +474,7 @@ namespace giac {
     logo_turtle _turtle_;
     std::string _autoname_;
     std::string _format_double_;
+    std::string _autosimplify_;
     std::vector<logo_turtle> _turtle_stack_; 
     double _total_time_;
     void * _evaled_table_;
@@ -531,6 +532,9 @@ namespace giac {
 
   std::string autoname(GIAC_CONTEXT);
   std::string autoname(const std::string & s,GIAC_CONTEXT);
+
+  std::string autosimplify(GIAC_CONTEXT);
+  std::string autosimplify(const std::string & s,GIAC_CONTEXT);
 
   std::string & format_double(GIAC_CONTEXT);
 
@@ -839,6 +843,8 @@ namespace giac {
   void init_geogebra(bool on,GIAC_CONTEXT);
   vecteur giac_current_status(bool save_history,GIAC_CONTEXT);
   bool unarchive_session(const gen & g,int level,const gen & replace,GIAC_CONTEXT,bool with_history=true);
+
+  gen add_autosimplify(const gen & g,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
