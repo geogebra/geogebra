@@ -10,11 +10,13 @@
  * The file became part of the web version of the software GeoGebra.
  * Appropriate license terms apply.
  */
+
 @font-face {
   font-family: Symbola;
   src: url(web/font/Symbola.eot);
   src: local("Symbola Regular"), local("Symbola"), url(web/font/Symbola.ttf) format("truetype"), url(web/font/Symbola.otf) format("opentype"), url(web/font/Symbola.svg#Symbola) format("svg");
 }
+
 .mathquill-editable {
   display: -moz-inline-box;
   display: inline-block;
@@ -96,7 +98,7 @@
 .mathquill-rendered-math var,
 .mathquill-rendered-math .text,
 .mathquill-rendered-math .nonSymbola {
-  font-family: "Times New Roman", Symbola, serif;
+  font-family: geogebra-serif, "Times New Roman", Symbola, serif;
   /*line-height: .9;*/
 }
 .mathquill-rendered-math * {
@@ -126,6 +128,9 @@
   font-family: inherit;
   font-style: inherit;
 }
+.mathquill-rendered-math .font .text {
+  font-family: geogebra-serif, "Times New Roman", Symbola, serif;
+}
 .mathquill-rendered-math b,
 .mathquill-rendered-math b.font {
   font-weight: bolder;
@@ -149,6 +154,10 @@
 }
 .mathquill-rendered-math .monospace {
   font-family: monospace, Symbola, serif;
+}
+.mathquill-rendered-math .text.sans-serif,
+.mathquill-rendered-math .font .text.sans-serif {
+  font: geogebra-sans-serif, sans-serif, Symbola, serif;
 }
 .mathquill-rendered-math .overline {
   border-top: 1px solid black;
