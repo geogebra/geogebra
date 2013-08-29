@@ -61,7 +61,7 @@ public abstract class AppWeb extends App implements SetLabels{
 	private final LocalizationW loc;
 	private ImageManager imageManager;
 	private HashMap<String, String> currentFile = null;
-	private static LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
+	private LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: +
@@ -456,7 +456,7 @@ public abstract class AppWeb extends App implements SetLabels{
 			// }
 		}
 
-		public static void addToFileList(Map<String, String> file) {
+		public void addToFileList(Map<String, String> file) {
 			if (file == null) {
 				return;
 			}
@@ -465,14 +465,14 @@ public abstract class AppWeb extends App implements SetLabels{
 			fileList.addFirst(file);
 		}
 
-		public static Map<String, String> getFromFileList(int i) {
+		public Map<String, String> getFromFileList(int i) {
 			if (fileList.size() > i) {
 				return fileList.get(i);
 			}
 			return null;
 		}
 
-		public static int getFileListSize() {
+		public int getFileListSize() {
 			return fileList.size();
 		}
 		
