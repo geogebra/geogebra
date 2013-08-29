@@ -298,11 +298,14 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 		this.handlingExpected = false;
 		this.errorBox.setVisible(false);
 
+		this.radioButtonPanel.setVisible(false);
 		if (this.type == DialogType.Angle) {
 			showRadioButtons(
 					this.app.getLocalization().getPlain("counterClockwise"),
 					this.app.getLocalization().getPlain("clockwise"));
 		}
+
+		this.customKeys.setVisible(false);
 		if (this.type != DialogType.Slider
 				&& this.type != DialogType.RedefineSlider
 				&& this.type != DialogType.Angle) {
@@ -318,8 +321,7 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	public void hide() {
 		super.hide();
 		this.app.unregisterErrorHandler(this);
-		this.customKeys.setVisible(false);
-		this.radioButtonPanel.setVisible(false);
+
 		// prevent that the function is drawn twice
 		this.model.getGuiModel().setActiveDialog(null);
 	}
@@ -363,4 +365,5 @@ public class InputDialog extends DialogT implements CustomKeyListener,
 	public void setTitle(final String title) {
 		this.title.setText(title);
 	}
+
 }
