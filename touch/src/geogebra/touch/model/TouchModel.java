@@ -1408,7 +1408,8 @@ public class TouchModel {
 
 	public void redefine(final GeoElement geo) {
 
-		if (geo.isGeoNumeric() && geo.isEuclidianVisible()) {
+		if (geo.isGeoNumeric() && geo.isEuclidianVisible()
+				&& ((GeoNumeric) geo).getIntervalMaxObject() != null) {
 			this.sliderDialog.setType(DialogType.RedefineSlider);
 			this.redefineSlider = (GeoNumeric) geo;
 			this.redefineGeo = null;

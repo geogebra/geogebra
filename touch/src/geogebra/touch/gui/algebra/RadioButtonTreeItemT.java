@@ -35,6 +35,7 @@ class RadioButtonTreeItemT extends RadioButtonTreeItem {
 		super(ge, showUrl, hiddenUrl, mdh);
 		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS);
 		this.controller = controller;
+		updateOnNextRepaint();
 	}
 
 	@Override
