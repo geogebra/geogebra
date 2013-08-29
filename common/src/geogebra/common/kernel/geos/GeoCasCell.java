@@ -1551,6 +1551,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// needed for Giac (for simplifying x+x to 2x)
 				evalVE = wrapEvaluate(evalVE);
 				
+				// wrap in PointList if the top level command is Solutions
+				// and the assignment variable is defined
+				if (isAssignmentVariableDefined()) {
+					adjustPointList(true);
+				}
+				
 				expandedEvalVE = pointList ? wrapPointList(evalVE):evalVE;				
 				if(!(expandedEvalVE.unwrap() instanceof Command) || !((Command)expandedEvalVE.unwrap()).getName().equals("Delete")){
 					FunctionExpander fex = FunctionExpander.getCollector();
@@ -2272,7 +2278,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// definition of a point
 		// instead of a vector
 		assignmentVar = "GgbmpvarPlot";
-		setPointList();
+		adjustPointList(false);
 		this.firstComputeOutput = true;
 		this.computeOutput(true,true);
 		if (twinGeo != null  && !dependsOnDummy(twinGeo))
@@ -2439,19 +2445,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 	
 	/**
-	 * Wrap output of Solve and Solutions to make them plottable
+	 * Sets pointList variable to the right value
+	 * @param onlySolutions true if set point list only for Solutions NSolutions and CSolutions
 	 */
-	public void setPointList() {
+	public void adjustPointList(boolean onlySolutions) {
 		if (evalVE.isTopLevelCommand()) {
 			String cmd = evalVE.getTopLevelCommand().getName();
-			if (!inequalityInEvalVE() && cmd.equals("Solve") 
-					|| cmd.equals("Solutions")
-					|| cmd.equals("CSolve")
-					|| cmd.equals("CSolutions")
-					|| cmd.equals("NSolve")
-					|| cmd.equals("NSolutions")
-					|| cmd.equals("Root")
-					|| cmd.equals("ComplexRoot")) {
+			if (!inequalityInEvalVE()
+					&& ((cmd.equals("Solutions") || cmd.equals("CSolutions") || cmd
+							.equals("NSolutions")) || (!onlySolutions && (cmd
+							.equals("Solve")
+							|| cmd.equals("CSolve")
+							|| cmd.equals("NSolve") || cmd.equals("Root") || cmd
+								.equals("ComplexRoot"))))) {
 				//if we got evalVE by clicking Solve button, inputVE might just contain the equations
 				//we want the command in input as well
 				if(!pointList){
