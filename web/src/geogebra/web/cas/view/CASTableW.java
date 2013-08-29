@@ -36,7 +36,7 @@ public class CASTableW extends Grid implements CASTable {
 		setBorderWidth(1);
 		getElement().getStyle().setBorderColor(
 		        MyTableW.TABLE_GRID_COLOR.toString());
-		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);		
+		getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		insertRow(0, null, false);
 	}
 
@@ -84,6 +84,9 @@ public class CASTableW extends Grid implements CASTable {
 				nextHeader = (RowHeaderWidget) this.getWidget(i, COL_CAS_HEADER);
 				nextHeader.setLabel(i+1+"");
 			}
+			// tell construction about new GeoCasCell if it is not at the
+			// end
+			app.getKernel().getConstruction().setCasCellRow(casCell, rows);
 		}
 	}
 
