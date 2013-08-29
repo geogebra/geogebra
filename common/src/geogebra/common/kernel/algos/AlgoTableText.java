@@ -22,6 +22,9 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.util.StringUtil;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * Algo for TableText[matrix], TableText[matrix,args]
  *
@@ -134,6 +137,10 @@ public class AlgoTableText extends AlgoElement {
 	public GeoText getResult() {
 		return text;
 	}
+	
+	// get the lrc from middle of ABCDlrcEFGH
+	private final static RegExp matchLRC = RegExp.compile("([^lrc]*)([lrc]*)([^lrc]*)");
+
 
 	private void parseArgs() {
 
@@ -150,17 +157,24 @@ public class AlgoTableText extends AlgoElement {
 
 		if (args != null) {
 			String optionsStr = args.getTextString();
-			if (optionsStr.indexOf("v") > -1)
+			if (optionsStr.indexOf("v") > -1) {
 				alignment = Alignment.VERTICAL; // vertical table
-			if (optionsStr.indexOf("|") > -1 && optionsStr.indexOf("||") == -1)
+			}
+			
+			if (optionsStr.indexOf("|") > -1 && optionsStr.indexOf("||") == -1) {
 				verticalLines = true;
-			if (optionsStr.indexOf("_") > -1)
+			}
+			
+			if (optionsStr.indexOf("_") > -1) {
 				horizontalLines = true; // vertical table
-			if (optionsStr.indexOf("c") > -1)
-				justification = "c";
-			else if (optionsStr.indexOf("r") > -1)
-				justification = "r";
-
+			}
+		
+			MatchResult matcher = matchLRC.exec(optionsStr);
+			justification = matcher.getGroup(2);
+			if ("".equals(justification)) {
+				justification = "l";
+			}
+			
 			if (optionsStr.indexOf("||||") > -1) {
 				openBracket = "\\left| \\left|";
 				closeBracket = "\\right| \\right|";
@@ -199,12 +213,17 @@ public class AlgoTableText extends AlgoElement {
 			// support for older files before the fix
 			GeoText options = (GeoText) geoList.get(tableColumns - 1);
 			String optionsStr = options.getTextString();
-			if (optionsStr.indexOf("h") > -1)
+			
+			if (optionsStr.indexOf("h") > -1) {
 				alignment = Alignment.HORIZONTAL; // horizontal table
-			if (optionsStr.indexOf("c") > -1)
-				justification = "c";
-			else if (optionsStr.indexOf("r") > -1)
-				justification = "r";
+			}
+			
+			MatchResult matcher = matchLRC.exec(optionsStr);
+			justification = matcher.getGroup(2);
+			if ("".equals(justification)) {
+				justification = "l";
+			}
+
 		}
 		
     	if (openBracket.equals("\\left.") && closeBracket.equals("\\right.")) {
@@ -238,8 +257,9 @@ public class AlgoTableText extends AlgoElement {
 			// throw new MyError(app, app.getError("InvalidInput"));
 		}
 
-		if (geoLists == null || geoLists.length < columns)
+		if (geoLists == null || geoLists.length < columns) {
 			geoLists = new GeoList[columns];
+		}
 
 		rows = 0;
 
@@ -327,14 +347,17 @@ public class AlgoTableText extends AlgoElement {
 			for (int c = 0; c < columns; c++) {
 				if (verticalLines)
 					sb.append("|");
-				sb.append(justification); // "l", "r" or "c"
+				sb.append(getJustification(c)); // "l", "r" or "c"
 			}
-			if (verticalLines)
+			if (verticalLines) {
 				sb.append("|");
+			}
+			
 			sb.append("}");
 
-			if (horizontalLines)
+			if (horizontalLines) {
 				sb.append("\\hline ");
+			}
 
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
@@ -349,17 +372,22 @@ public class AlgoTableText extends AlgoElement {
 		} else { // alignment == HORIZONTAL
 
 			for (int c = 0; c < rows; c++) {
-				if (verticalLines)
+				if (verticalLines) {
 					sb.append("|");
-				sb.append(justification); // "l", "r" or "c"
+				}
+				
+				sb.append(getJustification(c)); // "l", "r" or "c"
 			}
-			if (verticalLines)
+			if (verticalLines) {
 				sb.append("|");
+			}
+			
 			sb.append("}");
 
-			if (horizontalLines)
+			if (horizontalLines) {
 				sb.append("\\hline ");
-
+			}
+			
 			// TableText[{11.1,322,3.11},{4,55,666,7777,88888},{6.11,7.99,8.01,9.81},{(1,2)},"c()"]
 
 			for (int c = 0; c < columns; c++) {
@@ -382,6 +410,22 @@ public class AlgoTableText extends AlgoElement {
 		sb.append('}');
 		}
 
+	/**
+	 * 
+	 * @param c column/row
+	 * @return 'l', 'r', 'c' for left/right/center
+	 */
+	private char getJustification(int c) {
+		
+		if (c < 0 || c >= justification.length()) {
+			// default, if user passes "c" then use for all columns
+			return justification.charAt(0);
+		}
+		
+		return justification.charAt(c);
+		
+	}
+
 	private void latexMQ(StringTemplate tpl) {
 		// surround in { } to make eg this work:
 		// FormulaText["\bgcolor{ff0000}"+TableText[matrix1]]
@@ -393,15 +437,18 @@ public class AlgoTableText extends AlgoElement {
 		if (alignment == Alignment.VERTICAL) {
 
 			for (int r = 0; r < rows; r++) {
-				if (horizontalLines)
+				if (horizontalLines) {
 					sb.append("\\ggbtrl{");
-				else
+				} else {
 					sb.append("\\ggbtr{");
+				}
+				
 				for (int c = 0; c < columns; c++) {
-					if (verticalLines)
+					if (verticalLines) {
 						sb.append("\\ggbtdl{");
-					else
+					} else {
 						sb.append("\\ggbtd{");
+					}
 					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");
 				}
@@ -411,15 +458,17 @@ public class AlgoTableText extends AlgoElement {
 		} else { // alignment == HORIZONTAL
 
 			for (int c = 0; c < columns; c++) {
-				if (horizontalLines)
+				if (horizontalLines) {
 					sb.append("\\ggbtrl{");
-				else
+				} else {
 					sb.append("\\ggbtr{");
+				}
 				for (int r = 0; r < rows; r++) {
-					if (verticalLines)
+					if (verticalLines) {
 						sb.append("\\ggbtdl{");
-					else
+					} else {
 						sb.append("\\ggbtd{");
+					}
 					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");
 				}
@@ -442,8 +491,10 @@ public class AlgoTableText extends AlgoElement {
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false,tpl);
-			if (" ".equals(text1) || "".equals(text1))
+			
+			if (" ".equals(text1) || "".equals(text1)) {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
+			}
 			
 			// make sure latex isn't wrapped in \text{}
 			if (((geo1 instanceof TextProperties && !((TextProperties)geo1).isLaTeXTextCommand()) &&
@@ -479,16 +530,16 @@ public class AlgoTableText extends AlgoElement {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
-			String text = geo1.toLaTeXString(false,tpl);
-			if (text.startsWith("<apply>")) {
-				sb.append(text);
-			} else if (StringUtil.isNumber(text)) {
+			String textGeo = geo1.toLaTeXString(false,tpl);
+			if (textGeo.startsWith("<apply>")) {
+				sb.append(textGeo);
+			} else if (StringUtil.isNumber(textGeo)) {
 				sb.append("<cn>");
-				sb.append(text);
+				sb.append(textGeo);
 				sb.append("</cn>");
 			} else {
 				sb.append("<ci>");
-				sb.append(text);
+				sb.append(textGeo);
 				sb.append("</ci>");
 			} 
 		}
