@@ -87,9 +87,14 @@ public class TouchController extends EuclidianController {
 	 * @param hits
 	 */
 	public void handleEvent(final Hits hits) {
-		this.model.getGuiModel().closeOptions();
+		if (this.model.getGuiModel().closeOptions()) {
+			// do not handle event, if any optionPanel was still open
+			return;
+		}
 
 		if (this.model.getCommand().equals(ToolBarCommand.Slider)) {
+			// a slider cannot be placed without coordinates in the
+			// EuclicianView
 			return;
 		}
 
@@ -97,9 +102,11 @@ public class TouchController extends EuclidianController {
 	}
 
 	private void handleEvent(final int x, final int y) {
-		this.model.getGuiModel().closeOptions(); // make sure undo-information
-		// is
-		// stored first
+		// make sure undo-information is stored first
+		if (this.model.getGuiModel().closeOptions()) {
+			// do not handle event, if any optionPanel was still open
+			return;
+		}
 
 		final ToolBarCommand cmd = this.model.getCommand();
 

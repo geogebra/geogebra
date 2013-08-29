@@ -72,6 +72,7 @@ class TabletHeaderPanelRight extends HorizontalPanel {
 		this.undo.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick() {
+				TabletHeaderPanelRight.this.model.removePreviewObject();
 				TabletHeaderPanelRight.this.model.resetSelection();
 				TabletHeaderPanelRight.this.app.getKernel().undo();
 				TabletHeaderPanelRight.this.app.resetPen();

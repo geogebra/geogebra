@@ -185,6 +185,10 @@ public class TouchModel {
 		return ret;
 	}
 
+	public void removePreviewObject() {
+		this.createPreviewObject(false);
+	}
+
 	private void createPreviewObject(final boolean show) {
 		if (this.euclidianView == null) {
 			return;

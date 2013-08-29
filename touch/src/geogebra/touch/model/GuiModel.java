@@ -92,22 +92,21 @@ public class GuiModel {
 		setActiveDialog(null);
 	}
 
-	public void closeOnlyOptions() {
+	public boolean closeOptions() {
 		if (this.optionsPanel != null) {
 			this.optionsPanel.hide();
+
+			boolean ret = this.styleBarOptionShown != OptionType.None;
+
 			this.styleBarOptionShown = OptionType.None;
 
 			if (this.touchModel != null) {
 				this.touchModel.optionsClosed();
 			}
-		}
-	}
 
-	/**
-	 * closes options and ToolBar
-	 */
-	public void closeOptions() {
-		closeOnlyOptions();
+			return ret;
+		}
+		return false;
 	}
 
 	public ToolBarCommand getCommand() {
@@ -306,7 +305,7 @@ public class GuiModel {
 	 *            (OptionsType.Dialog)
 	 */
 	public void showOption(final OptionsPanel panel, final FastButton button) {
-		closeOnlyOptions();
+		closeOptions();
 		this.optionsPanel = panel;
 		this.optionsPanel.showRelativeTo(button);
 		this.styleBarOptionShown = panel.getType();
