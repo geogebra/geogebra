@@ -20,7 +20,10 @@ import com.google.gwt.core.client.RunAsyncCallback;
 public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	
 	private static boolean asyncstarted = false;
-	private Kernel kernel;
+	/** kernel */
+	Kernel kernel;
+	/** flag indicating that JS file was loaded */
+	boolean jsLoaded = false;
 	private Evaluate giac;
 	
 	/**
@@ -36,12 +39,15 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 
 		App.setCASVersionString("Giac/JS");
 
-		// they say it's no problem if this executes later...
+		// asynchronous initialization, runs update as callback
 		initialize();
 	}
 	
 	@Override
 	public String evaluateCAS(String exp) {
+		if(!jsLoaded){
+			return "?";
+		}
 		try {
 			// replace Unicode when sending to JavaScript
 			// (encoding problem)
@@ -68,7 +74,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}
 	
 	public synchronized String evaluate(String s) {
-
+		if(!jsLoaded){
+			return "?";
+		}
 		if (!giacSetToGeoGebraMode) {
 			nativeEvaluateRaw(initString, true);
 			giacSetToGeoGebraMode = true;
@@ -112,6 +120,8 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			public void onSuccess() {
 				App.debug("giac.js loading success");
 				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs().getText());
+				CASgiacW.this.jsLoaded = true;
+				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			}
 
 			public void onFailure(Throwable reason) {
