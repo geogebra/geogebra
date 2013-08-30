@@ -12,6 +12,8 @@ import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -85,7 +87,7 @@ public class MaterialListElement extends FlowPanel {
 		this.title.setStyleName("fileTitle");
 		this.infos.add(this.title);
 
-		this.date = new Label(m.getDate());
+		this.date = new Label(DateTimeFormat.getFormat(PredefinedFormat.DATE_TIME_MEDIUM).format(m.getDate()));
 		this.infos.add(this.date);
 
 		// no shared Panel for local files
