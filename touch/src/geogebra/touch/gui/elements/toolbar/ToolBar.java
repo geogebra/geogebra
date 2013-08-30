@@ -50,7 +50,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private final SVGResource iconFx = TouchEntryPoint.getLookAndFeel()
 			.getIcons().icon_fx();
 	private Panel underline;
-	private boolean isOpen = false;
 	private static final int toolBarButtonWidth = 56;
 	private final InputDialog input;
 	private final TextBox inputBox = new TextBox();
@@ -136,7 +135,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	void onExpandToolBar() {
-		this.isOpen = true;
 		this.openClicked = true;
 		this.addStyleName("visible");
 		this.showHideOpened.setVisible(true);
@@ -148,7 +146,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	void onCollapseToolBar() {
-		this.isOpen = false;
 		this.touchModel.getGuiModel().closeOptions();
 		this.closeToolBar();
 		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
@@ -214,9 +211,6 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	void onInputFieldClosed() {
 		this.underline.removeStyleName("active");
 		this.underline.addStyleName("inactive");
-		if (this.isOpen) {
-			onCollapseToolBar();
-		}
 	}
 
 	boolean onProcessInput(final String inputString) {
