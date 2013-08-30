@@ -3130,6 +3130,8 @@ namespace giac {
   }
 
   vecteur linsolve(const vecteur & sl,const vecteur & x,GIAC_CONTEXT){
+    if (sl.empty())
+      return x;
     vecteur A; 
     if (ckmatrix(sl)){
       unsigned int n=sl.size();
@@ -5001,6 +5003,7 @@ namespace giac {
     }
     iterateur it=var.begin(),itend=var.end();
     int s=itend-it; // # of unknowns
+#if 0
     if (s>int(eq_orig.size())){
       *logptr(contextptr) << gettext("Warning: solving by reducing number of unknowns to number of equations: ") << var_orig << " -> " << vecteur(it,it+eq_orig.size()) << endl;
       vecteur remvars=vecteur(it+eq_orig.size(),itend);
@@ -5011,6 +5014,7 @@ namespace giac {
       }
       return res;
     }
+#endif
     bool need_subst=false;
     vector<identificateur> tab_idnt(s);
     for (int i=0;it!=itend;++it,++i){

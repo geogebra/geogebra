@@ -4863,13 +4863,13 @@ namespace giac {
     // write a line from f4v[]
     // as a linear combination of the lines of this matrix
     // we will do that modulo a list of primes
-    // and keep track of the coefficients of the linear combination
+    // and keep track of the coefficients of the linear combination (the quotients)
     // we reconstruct the quotients in Q by fracmod
     // once they stabilize, we compute the lcm l of the denominators
     // we multiply by l to have an equality on Z
     // we compute bounds on the coefficients of the products res*quo
     // and on l*f4v, and we check further the equality modulo additional
-    // primes
+    // primes until the equality is proved
     if (debug_infolevel>1)
       cerr << clock() << " begin build M" << endl;
     vector< vector<sparse_gen> > M;
@@ -4892,6 +4892,39 @@ namespace giac {
     swap(M,M1);
     // cerr << M << endl;
     cerr << "rows, columns: " << M.size() << "x" << N << endl; 
+    gen p(int(longlong(2<<31)-1));
+    gen pip(1);
+    vectpolymod f4vmod;
+    vector< vector<modint> > coeffmat(f4v.size(),vector<modint>(M.size()));
+    for (;;){
+      p=prevprime(p-1);
+      int env=p.val;
+      // compute M mod p
+      vector< vector<sparse_element> > Mp(M.size());
+      for (unsigned i=0;i<M.size();++i){
+	const vector<sparse_gen> & Mi=M[i];
+	vector<sparse_element> Ni;
+	Ni.reserve(Mi.size());
+	for (unsigned j=0;j<Mi.size();++j){
+	  modint tmp= smod(Mi[j].val,p).val;
+	  Ni.push_back(sparse_element(tmp,Mi[j].pos));
+	}
+	swap(Mp[i],Ni);
+      }
+      // reduce f4v and stores coefficients of quotients for f4v[i] in coeffmat[i]
+      convert(f4v,f4vmod,env);
+      vector<modint> v;
+      for (unsigned i=0;i<f4vmod.size();++i){
+	makeline(f4vmod[i],0,R,v);
+	if (!checkreducef4(v,coeffmat[i],Mp,env))
+	  return false;
+      }
+      // combine coeffmat with previous one by chinese remaindering
+      // check stabilization on a few quotients
+      // then check global stabilization
+      // if stable compute bounds and compare with product of primes
+      // if 2*bounds < product of primes recheck stabilization and return true
+    }
     return true;
   }
 

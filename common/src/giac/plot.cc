@@ -8608,8 +8608,11 @@ namespace giac {
 	      result.push_back(_droite(makevecteur(M,M+direction),contextptr));
 	      return result;
 	    }
-	    // not on the curve
-	    return result;
+	    // not on the curve, if not polynomial return undef
+	    if (lvarx(m,v[1]).size()>=2){
+	      *logptr(contextptr) << "Point is not on curve" << endl;
+	      return undef;
+	    }
 	  }
 	  vecteur mv=rlvarx(m,v[1]);
 	  if (mv.empty() || (mv.size()==1 && mv.front()==v[1])){
