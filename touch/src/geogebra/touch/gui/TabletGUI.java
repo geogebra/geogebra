@@ -253,6 +253,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		return this.algebraViewPanel.isVisible();
 	}
 
+	@Override
 	public void updateViewSizes() {
 		this.touchModel.getGuiModel().closeOptions();
 		super.onResize();

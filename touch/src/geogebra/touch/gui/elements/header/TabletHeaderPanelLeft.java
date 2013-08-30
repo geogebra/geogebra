@@ -105,14 +105,7 @@ class TabletHeaderPanelLeft extends HorizontalPanel {
 	}
 
 	protected void runNew() {
-		this.app.getEuclidianView1().setPreview(null);
-		this.touchModel.resetSelection();
-		this.touchModel.getGuiModel().closeOptions();
-		this.kernel.getApplication().getGgbApi().newConstruction();
-		this.app.setDefaultConstructionTitle();
-		this.tabletGUI.resetMode();
-		this.app.setSaved();
-		this.tabletGUI.updateViewSizes();
+		this.app.fileNew();
 	}
 
 	private void initOpenButton() {

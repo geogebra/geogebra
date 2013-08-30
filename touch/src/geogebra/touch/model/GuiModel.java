@@ -92,21 +92,16 @@ public class GuiModel {
 		setActiveDialog(null);
 	}
 
-	public boolean closeOptions() {
+	public void closeOptions() {
 		if (this.optionsPanel != null) {
 			this.optionsPanel.hide();
-
-			boolean ret = this.styleBarOptionShown != OptionType.None;
 
 			this.styleBarOptionShown = OptionType.None;
 
 			if (this.touchModel != null) {
 				this.touchModel.optionsClosed();
 			}
-
-			return ret;
 		}
-		return false;
 	}
 
 	public ToolBarCommand getCommand() {

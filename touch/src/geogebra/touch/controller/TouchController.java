@@ -20,6 +20,7 @@ import geogebra.html5.euclidian.EuclidianViewWeb;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.euclidian.MobileMouseEvent;
 import geogebra.touch.model.TouchModel;
+import geogebra.touch.utils.OptionType;
 import geogebra.touch.utils.Swipeables;
 import geogebra.touch.utils.ToolBarCommand;
 
@@ -87,11 +88,7 @@ public class TouchController extends EuclidianController {
 	 * @param hits
 	 */
 	public void handleEvent(final Hits hits) {
-		if (this.model.getGuiModel().closeOptions()) {
-			// do not handle event, if any optionPanel was still open
-			return;
-		}
-
+		this.model.getGuiModel().closeOptions();
 		if (this.model.getCommand().equals(ToolBarCommand.Slider)) {
 			// a slider cannot be placed without coordinates in the
 			// EuclicianView
@@ -103,10 +100,18 @@ public class TouchController extends EuclidianController {
 
 	private void handleEvent(final int x, final int y) {
 		// make sure undo-information is stored first
-		if (this.model.getGuiModel().closeOptions()) {
-			// do not handle event, if any optionPanel was still open
+
+		OptionType activeOption = this.model.getGuiModel().getOptionTypeShown();
+		this.model.getGuiModel().closeOptions();
+
+		// do not handle event, if an optionPanel of the styleBar was still open
+		if (activeOption != OptionType.None &&
+				activeOption != OptionType.ToolBar) {
+
 			return;
 		}
+
+		this.model.getGuiModel().closeOptions();
 
 		final ToolBarCommand cmd = this.model.getCommand();
 
