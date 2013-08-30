@@ -16,6 +16,7 @@ import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -23,6 +24,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.main.settings.Settings;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.util.debug.Log;
 import geogebra.common.util.debug.Log.LogDestination;
@@ -207,25 +209,20 @@ public class TouchApp extends AppWeb {
 		this.touchGUI.allowEditing(true);
 		this.kernel.initUndoInfo();
 		setDefaultConstructionTitle();
+
+		this.settings.beginBatch();
+		this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		getEuclidianView1().reset();
 		getEuclidianView1().setBackground(GColor.WHITE);
 		getEuclidianView1().setShowAxes(true, true);
+		this.settings.getEuclidian(1).setPointCapturing(
+				EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+		this.settings.endBatch();
+
 		this.touchGUI.resetMode();
 		setSaved();
 		this.touchGUI.updateViewSizes();
-
-		// this.kernel.clearConstruction(true);
-		// this.touchGUI.allowEditing(true);
-		// this.kernel.initUndoInfo();
-		// this.setDefaultConstructionTitle();
-		// this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
-		// this.settings.beginBatch();
-		// this.settings.getEuclidian(1).reset();
-		//
-		// this.settings.getEuclidian(1).setPointCapturing(
-		// EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
-		// this.settings.endBatch();
-		// this.kernel.notifyRepaint();
+		this.kernel.notifyRepaint();
 	}
 
 	protected void fireTitleChangedEvent(final String title) {
@@ -351,10 +348,10 @@ public class TouchApp extends AppWeb {
 	 * @return language of client
 	 */
 	private native String getLocale() /*-{
-										var language = window.navigator.systemLanguage
-										|| window.navigator.language;
-										return language;
-										}-*/;
+		var language = window.navigator.systemLanguage
+				|| window.navigator.language;
+		return language;
+	}-*/;
 
 	@Override
 	public String getLocaleStr() {
