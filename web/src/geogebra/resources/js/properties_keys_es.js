@@ -87,7 +87,7 @@ __GGB__keysVar.es.command = {
     "Asymptote": "As\xedntota",
     "Asymptote_Syntax": "[ <C\xf3nica> ]\n[ <Funci\xf3n> ]\n[ <Curva Impl\xedcita> ]",
     "AttachCopyToView": "AdosaCopiaAVista",
-    "AttachCopyToView_Syntax": "[ <Objeto>, <Vista 0|1|2> ]\n[ <Objeto>, <Vista 0|1|2>, <Esquina 1>, <Esquina 3>, <Punto de Offset> ]",
+    "AttachCopyToView_Syntax": "[ <Objeto>, <Vista 0|1|2> ]\n[ <Objeto>, <Vista 0|1|2>, <Esquina 1>, <Esquina 3>, <Punto 1 en Pantalla>, <Punto 2 en Pantalla> ]",
     "Axes": "Ejes",
     "Axes_Syntax": "[ <C\xf3nica> ]",
     "AxisStepX": "PasoEjeX",
