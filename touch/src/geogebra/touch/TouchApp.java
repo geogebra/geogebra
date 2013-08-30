@@ -222,6 +222,7 @@ public class TouchApp extends AppWeb {
 		this.touchGUI.resetMode();
 		setSaved();
 		this.touchGUI.updateViewSizes();
+		this.touchGUI.resetController();
 		this.kernel.notifyRepaint();
 	}
 

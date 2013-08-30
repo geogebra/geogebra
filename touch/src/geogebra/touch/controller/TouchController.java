@@ -64,6 +64,10 @@ public class TouchController extends EuclidianController {
 		this.mode = -1;
 	}
 
+	public void reset() {
+		this.collectingRepaints = 0;
+	}
+
 	@Override
 	protected GeoElement[] createCircle2ForPoints3D(final GeoPointND p0,
 			final GeoPointND p1) {
@@ -105,8 +109,8 @@ public class TouchController extends EuclidianController {
 		this.model.getGuiModel().closeOptions();
 
 		// do not handle event, if an optionPanel of the styleBar was still open
-		if (activeOption != OptionType.None &&
-				activeOption != OptionType.ToolBar) {
+		if (activeOption != OptionType.None
+				&& activeOption != OptionType.ToolBar) {
 
 			return;
 		}
@@ -354,6 +358,8 @@ public class TouchController extends EuclidianController {
 	}
 
 	public void onTouchStart(final int x, final int y) {
+		reset();
+
 		if (this.mode != this.model.getCommand().getMode()) {
 			setMode(this.model.getCommand().getMode());
 			switchPreviewableForInitNewMode(this.model.getCommand().getMode());

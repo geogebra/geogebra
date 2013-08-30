@@ -60,6 +60,7 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 	private TouchApp app;
 	private boolean editing = true;
 	private FastButton algebraButton;
+	private TouchController touchController;
 
 	/**
 	 * Sets the viewport and other settings, creates a link element at the end
@@ -147,21 +148,21 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 
 		this.contentPanel = new DockLayoutPanel(Unit.PX);
 
-		final TouchController ec = new TouchController(this.touchModel,
+		this.touchController = new TouchController(this.touchModel,
 				this.app);
-		ec.setKernel(kernel);
+		this.touchController.setKernel(kernel);
 
 		// init toolBar before setting the size of algebraView and euclidianView
 		this.toolBar = new ToolBar(this.touchModel, this.app);
 		this.setFooterWidget(this.toolBar);
 
-		this.algebraViewPanel = new AlgebraViewPanel(ec, kernel);
+		this.algebraViewPanel = new AlgebraViewPanel(this.touchController, kernel);
 
 		final int width = Window.getClientWidth() - computeAlgebraWidth();
 		final int height = TouchEntryPoint.getLookAndFeel()
 				.getContentWidgetHeight();
 		this.euclidianViewPanel.setPixelSize(width, height);
-		this.euclidianViewPanel.initEuclidianView(ec, super.getHeaderWidget(),
+		this.euclidianViewPanel.initEuclidianView(this.touchController, super.getHeaderWidget(),
 				width, height);
 
 		this.styleBar = new StyleBar(this.touchModel,
@@ -281,6 +282,11 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		this.setContentWidget(this.contentPanel);
 	}
 
+	@Override
+	public void resetController() {
+		this.touchController.reset();
+	}
+	
 	public void toggleAlgebraView() {
 		this.setAlgebraVisible(!this.algebraViewPanel.isVisible());
 		this.app.setUnsaved();
@@ -312,4 +318,5 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		}
 		this.toolBar.setLabels();
 	}
+
 }

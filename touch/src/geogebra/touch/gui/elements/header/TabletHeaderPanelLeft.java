@@ -127,6 +127,7 @@ class TabletHeaderPanelLeft extends HorizontalPanel {
 
 	protected void runOpen() {
 		this.touchModel.getGuiModel().closeOptions();
+		runNew();
 		TouchEntryPoint.showBrowseGUI();
 	}
 

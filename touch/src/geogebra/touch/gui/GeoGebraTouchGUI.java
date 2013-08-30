@@ -23,7 +23,9 @@ public interface GeoGebraTouchGUI {
 	public boolean isAlgebraShowing();
 
 	public void resetMode();
-	
+
+	public void resetController();
+
 	public void updateViewSizes();
 
 	public void setAlgebraVisible(boolean visible);
