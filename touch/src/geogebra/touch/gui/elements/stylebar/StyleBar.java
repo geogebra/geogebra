@@ -4,6 +4,8 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.geos.GeoAxis;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LineProperties;
@@ -137,18 +139,17 @@ public class StyleBar extends FlowPanel {
 
 		if (entry == StyleBarDefaultSettings.Move
 				&& this.touchModel.getTotalNumber() > 0) {
-			color = this.touchModel.getSelectedGeos().get(0).getObjectColor()
-					.toString();
-			if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof GeoPointND) {
+			GeoElement geo = this.touchModel.getSelectedGeos().get(0)
+					.getGeoElementForPropertiesDialog();
+			color = geo.getObjectColor().toString();
+			if (geo instanceof GeoAxis) {
+				resource = StyleBarDefaultSettings.Move.getResources();
+			} else if (geo instanceof GeoPointND) {
 				resource = StyleBarDefaultSettings.Point.getResources();
-			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof GeoAngle) {
+			} else if (geo instanceof GeoAngle) {
 				resource = StyleBarDefaultSettings.Angle.getResources();
-			} else if (this.touchModel.getSelectedGeos().get(0)
-					.getGeoElementForPropertiesDialog() instanceof LineProperties
-					|| this.touchModel.getSelectedGeos().get(0)
-							.getGeoElementForPropertiesDialog() instanceof GeoNumeric) {
+			} else if (geo instanceof LineProperties
+					|| geo instanceof GeoNumeric) {
 				// GeoNumeric in case of Slider
 				resource = StyleBarDefaultSettings.Line.getResources();
 			} else if (this.touchModel.getSelectedGeos().get(0)
