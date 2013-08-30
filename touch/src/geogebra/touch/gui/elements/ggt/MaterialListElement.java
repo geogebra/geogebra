@@ -187,7 +187,6 @@ public class MaterialListElement extends FlowPanel {
 		return this.material.getId() <= 0;
 	}
 
-	
 	// FIXME change FastClick
 	// used to handle double clicks
 	// code triplicated (FastButton, RadioButtonTreeItemT, MaterialListElement

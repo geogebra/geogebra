@@ -1,5 +1,6 @@
 package geogebra.touch;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
@@ -207,6 +208,8 @@ public class TouchApp extends AppWeb {
 		this.kernel.initUndoInfo();
 		setDefaultConstructionTitle();
 		getEuclidianView1().reset();
+		getEuclidianView1().setBackground(GColor.WHITE);
+		getEuclidianView1().setShowAxes(true, true);
 		this.touchGUI.resetMode();
 		setSaved();
 		this.touchGUI.updateViewSizes();
@@ -218,7 +221,7 @@ public class TouchApp extends AppWeb {
 		// this.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		// this.settings.beginBatch();
 		// this.settings.getEuclidian(1).reset();
-		// this.settings.getEuclidian(1).setShowAxes(true, true);
+		//
 		// this.settings.getEuclidian(1).setPointCapturing(
 		// EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 		// this.settings.endBatch();
