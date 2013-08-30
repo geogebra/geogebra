@@ -1,0 +1,2 @@
+syntax on
+set noai

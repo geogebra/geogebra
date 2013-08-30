@@ -1,0 +1,59 @@
+lernstick-usertemplate-wheezy-pu (1.9-1) unstable; urgency=low
+
+  * no screen locking after suspend/resume
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 26 Jun 2013 14:30:36 +0200
+
+lernstick-usertemplate-wheezy-pu (1.8-1) unstable; urgency=low
+
+  * use red background color (again) and fix kickoff height
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 26 Jun 2013 10:56:22 +0200
+
+lernstick-usertemplate-wheezy-pu (1.7-1) unstable; urgency=low
+
+  * added RStudio to kickoff favorites
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 20 Jun 2013 11:28:28 +0200
+
+lernstick-usertemplate-wheezy-pu (1.6-1) unstable; urgency=low
+
+  * updated KDE plasma config to support activities
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Thu, 20 Jun 2013 10:51:02 +0200
+
+lernstick-usertemplate-wheezy-pu (1.5-1) unstable; urgency=low
+
+  * no longer start shutter when pressing "Print Screen"
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 05 Jun 2013 20:14:08 +0200
+
+lernstick-usertemplate-wheezy-pu (1.4-1) unstable; urgency=low
+
+  * set LibreOffice autosave intervall to 1 minute
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 05 Jun 2013 20:04:57 +0200
+
+lernstick-usertemplate-wheezy-pu (1.3-1) unstable; urgency=low
+
+  * updated plasma desktop config for KDE 4.10
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Wed, 05 Jun 2013 18:32:24 +0200
+
+lernstick-usertemplate-wheezy-pu (1.2-1) unstable; urgency=low
+
+  * added config files to disable certain features of LibreOffice and set default directory
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Mon, 15 Apr 2013 13:51:09 +0200
+
+lernstick-usertemplate-wheezy-pu (1.1-1) unstable; urgency=low
+
+  * use red window border (needs plastik)
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 13 Apr 2013 18:21:47 +0200
+
+lernstick-usertemplate-wheezy-pu (1.0-1) unstable; urgency=low
+
+  * initial release
+
+ -- Ronny Standtke <ronny.standtke@fhnw.ch>  Sat, 13 Apr 2013 16:54:57 +0200

@@ -1,0 +1,95 @@
+# gretl config file
+# Main gretl directory
+gretldir = /usr/share/gretl/
+# User's gretl directory
+userdir = /home/user/gretl/
+# Tell me about gretl updates
+updater = false
+# Remember main window size
+winsize = false
+# Use locale setting for decimal point
+lcnumeric = true
+# Web browser
+browser = iceweasel
+# Allow shell commands
+shellok = false
+# Show icon view automatically
+autoicon = true
+# Prompt to save session
+session_prompt = true
+# Enable Ox support
+oxsupport = false
+# Set working directory from shell
+usecwd = false
+# File selector remembers folder
+keepfolder = true
+# Language preference
+langpref = Automatic
+# Command to launch gnuplot
+gnuplot = gnuplot
+# Command to launch GNU R
+Rcommand = xterm -e R
+# Command to compile TeX files
+latex = latex
+# Command to view DVI files
+viewdvi = xdvi
+# Command to view postscript files
+viewps = gv
+# Command to view PDF files
+viewpdf = okular
+# Calculator
+calculator = kcalc
+# Path to x12arima
+x12a = x12a
+# Path to tramo
+tramo = tramo
+# Path to R library
+Rlib = /usr/lib/R/lib/libR.so
+# Path to oxl executable
+ox = oxl
+# Path to octave executable
+octave = octave
+# RATS data directory
+ratsbase = /mnt/dosc/userdata/rats/oecd/
+# Database server name
+dbhost = ricardo.ecn.wfu.edu
+# HTTP proxy (ipnumber:port)
+dbproxy = 
+# Use HTTP proxy
+useproxy = false
+# Fixed font
+Fixed_font = Monospace 10
+# Menu font
+App_font = Sans 10
+# Default data page
+DataPage = Gretl
+# Default script page
+ScriptPage = Gretl
+# PNG graph font
+Png_font = Vera 9
+# Gnuplot colors
+Gp_colors = 
+# spaces per tab
+tabwidth = 4
+# "Smart" Tab and Enter
+smarttab = true
+# main window width
+main_width = 590
+# main window height
+main_height = 420
+# main window x position
+main_x = 0
+# main window y position
+main_y = 0
+# Use robust covariance matrix by default
+HC_by_default = false
+# For cross-sectional data
+HC_xsect = HC1
+# For time-series data
+HC_tseri = HAC
+# For panel data
+HC_panel = Arellano
+# For GARCH estimation
+HC_garch = QML
+# PDF manual preference
+manpref = 0

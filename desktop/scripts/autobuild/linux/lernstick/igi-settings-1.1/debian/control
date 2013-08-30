@@ -1,0 +1,11 @@
+Source: igi-settings
+Section: misc
+Priority: extra
+Maintainer: Zoltan Kovacs <zoltan@geogebra.org>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.7.3
+
+Package: igi-settings
+Architecture: all
+Description: Adds some custom changes by the GeoGebra Team.
+ The pcspkr kernel module is removed.

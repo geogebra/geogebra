@@ -1,0 +1,11 @@
+[Desktop Entry]
+Exec=iceweasel /usr/local/lernstick.html
+Exec[de]=iceweasel /usr/local/lernstick_de.html
+GenericName=Information about this lernstick
+GenericName[de]=Informationen über diesen lernstick
+Icon=dialog-information
+Name=lernstick Information
+Name[de]=lernstick-Information
+StartupNotify=true
+Terminal=false
+Type=Application

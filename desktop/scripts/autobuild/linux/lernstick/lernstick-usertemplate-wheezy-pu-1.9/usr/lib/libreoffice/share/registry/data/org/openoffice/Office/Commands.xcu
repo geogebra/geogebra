@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<oor:node oor:name="Commands" 
+ oor:package="org.openoffice.Office" 
+ xmlns:oor="http://openoffice.org/2001/registry" 
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <node oor:name="Execute">
+  <node oor:name="Disabled">
+    <node oor:name="AutoCorrectDlg" oor:op="replace">
+      <prop oor:name="Command">
+        <value>AutoCorrectDlg</value>
+      </prop>
+    </node>
+    <node oor:name="SpellOnline" oor:op="replace">
+      <prop oor:name="Command">
+        <value>SpellOnline</value>
+      </prop>
+    </node>
+    <node oor:name="SpellingAndGrammarDialog" oor:op="replace">
+      <prop oor:name="Command">
+        <value>SpellingAndGrammarDialog</value>
+      </prop>
+    </node>
+    <node oor:name="ThesaurusDialog" oor:op="replace">
+      <prop oor:name="Command">
+        <value>ThesaurusDialog</value>
+      </prop>
+    </node>
+    <node oor:name="Hyphenate" oor:op="replace">
+      <prop oor:name="Command">
+        <value>Hyphenate</value>
+      </prop>
+    </node>
+    <node oor:name="SetLanguageAllTextMenu" oor:op="replace">
+      <prop oor:name="Command">
+        <value>SetLanguageAllTextMenu</value>
+      </prop>
+    </node>
+    <node oor:name="SetLanguageParagraphMenu" oor:op="replace">
+      <prop oor:name="Command">
+        <value>SetLanguageParagraphMenu</value>
+      </prop>
+    </node>
+    <node oor:name="SetLanguageSelectionMenu" oor:op="replace">
+      <prop oor:name="Command">
+        <value>SetLanguageSelectionMenu</value>
+      </prop>
+    </node>
+    <node oor:name="MoreDictionaries" oor:op="replace">
+      <prop oor:name="Command">
+        <value>MoreDictionaries</value>
+      </prop>
+    </node>
+  </node>
+ </node>
+</oor:node>

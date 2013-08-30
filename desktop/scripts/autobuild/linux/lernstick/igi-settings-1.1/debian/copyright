@@ -1,0 +1,19 @@
+This package was debianized by Zoltan Kovacs <zoltan@geogebra.org> on
+Wed, 10 July 2013 14:54:03 +0200.
+
+Upstream Author:
+    Zoltan Kovacs <zoltan@geogebra.org>
+
+Copyright:
+
+    Copyright (C) 2013 Zoltan Kovacs <zoltan@geogebra.org>
+
+License:
+
+    GPL
+
+The Debian packaging is (C) 2013, Zoltan Kovacs <zoltan@geogebra.org> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

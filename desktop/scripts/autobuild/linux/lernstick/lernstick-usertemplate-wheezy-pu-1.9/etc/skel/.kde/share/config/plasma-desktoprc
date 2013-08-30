@@ -1,0 +1,30 @@
+[BackgroundConfigDialog]
+Height 1050=719
+Height 995=719
+Width 1119=720
+Width 1440=720
+
+[Colors]
+CurrentPalette=Forty Colors
+
+[PlasmaViews][1]
+panelVisibility=0
+
+[PlasmaViews][1][Horizontal1440]
+offset=0
+
+[PlasmaViews][1][Sizes]
+lastsize=1119
+
+[PlasmaViews][1][Sizes][Horizontal1440]
+max=-1,-1
+min=-1,-1
+offset=0
+size=746,663
+
+[Updates]
+performed=/usr/share/kde4/apps/plasma-desktop/updates/addShowActivitiesManagerPlasmoid.js,/usr/share/kde4/apps/plasma-desktop/updates/set-hidden-single-vd-pager.js,/usr/share/kde4/apps/plasma-desktop/updates/systray-to-notifications-widget.js
+
+[ViewIds]
+1=1
+16=2

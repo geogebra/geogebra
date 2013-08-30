@@ -1,0 +1,11 @@
+[Event/exitkde]
+Action=
+Execute=
+KTTS=
+Logfile=
+
+[Event/startkde]
+Action=
+Execute=
+KTTS=
+Logfile=

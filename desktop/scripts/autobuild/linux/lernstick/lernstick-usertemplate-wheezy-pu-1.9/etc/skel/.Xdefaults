@@ -1,0 +1,17 @@
+Netscape*background:                            #C4C4A8
+Netscape*XmLGrid.foreground:                    #000000
+Netscape*XmLGrid.background:                    #DEDEAA
+Netscape*XmLGrid.selectForeground:              #E5E5E5
+Netscape*XmLGrid.selectBackground:              #AAAA8F
+Netscape*XmPushButton*shadowThickness:          1
+Netscape*XmPushButtonGadget*shadowThickness:    1
+Netscape*XmCascadeButton.shadowThickness:       1
+Netscape*XmCascadeButtonGadget.shadowThickness: 1
+Netscape*confirmExit: True
+Netscape*useStdoutDialog: False
+Netscape*useStderrDialog: True
+Netscape*mailnewsGlobalTranslations: #override \
+        Meta ~Ctrl<Key>D:               xfeDoCommand(deleteFolder) \n\
+         Alt ~Ctrl<Key>D:               xfeDoCommand(deleteFolder) \n\
+         :<Key>osfDelete:               xfeDoCommand(deleteAny) \n\
+            :<Key>Delete:               xfeDoCommand(deleteAny)

@@ -1,0 +1,5 @@
+[Basic Settings]
+Start Nepomuk=false
+
+[Service-nepomukstrigiservice]
+autostart=false
