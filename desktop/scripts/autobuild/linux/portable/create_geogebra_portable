@@ -42,7 +42,7 @@ IMAGE_DIR=../../../../geogebra/gui/images/
 rm -fR unpacked
 cp -a ../../../../build/unpacked unpacked
 cd unpacked
-rm -f *windows* *macosx* vernier* javagiac-win*.jar javagiac-mac*.jar *.jnilib *.dylib
+rm -f *windows* *macosx* vernier* javagiac-win*.jar javagiac-mac*.jar *.jnilib *.dylib jd2xx*.jar
 unzip -o javagiac-linux32.jar libjavagiac.so
 unzip -o javagiac-linux64.jar libjavagiac64.so
 rm javagiac-linux*.jar # Preserving the .so files only
