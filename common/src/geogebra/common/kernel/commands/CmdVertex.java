@@ -1,5 +1,6 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import geogebra.common.kernel.algos.AlgoImageCorner;
@@ -52,7 +53,7 @@ public class CmdVertex extends CommandProcessor {
 			}
 			if (arg[0] instanceof GeoPoly) {
 				
-				AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
+				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
 
 				return algo.getVertex();
 			}
@@ -125,5 +126,16 @@ public class CmdVertex extends CommandProcessor {
 		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(cons, label,
 				number, ev);
 		return algo.getCorner();
+	}
+	
+	/**
+	 * 
+	 * @param cons
+	 * @param labels
+	 * @param p
+	 * @return algo for corners of a polygon/polyline
+	 */
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
+		return new AlgoVertexPolygon(cons, labels, p);
 	}
 }

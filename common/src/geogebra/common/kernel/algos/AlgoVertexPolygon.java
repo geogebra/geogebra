@@ -34,7 +34,7 @@ import geogebra.common.util.debug.Log;
  */
 public class AlgoVertexPolygon extends AlgoElement {
 
-	private GeoPoly p; // input		
+	protected GeoPoly p; // input		
 	private NumberValue index;
 	private GeoPoint oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
@@ -152,17 +152,25 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	@Override
-	public final void compute() {				
+	public final void compute() {	
 		if(index != null){
 			int  i = (int)Math.floor(index.getDouble())-1;
 			if(i >= p.getPoints().length||i < 0) {
 				oneVertex.setUndefined();
 			} else {
-				oneVertex.set((GeoElement)p.getPoint(i));
+				setPoint(oneVertex, i);
 			}
 			oneVertex.update();
 			return;
 		}
+		
+		if (!p.isDefined()){
+		  	for(int i = 0; i<outputPoints.size();i++) {
+	    		outputPoints.getElement(i).setUndefined();
+	    	}
+		  	return;
+		}
+		
 		int length = p.getPoints().length;
 		Log.debug(length);
 		outputPoints.adjustOutputSize(length >0?length : 1);
@@ -170,12 +178,22 @@ public class AlgoVertexPolygon extends AlgoElement {
 		
 		for (int i =0; i<length; i++){
     		GeoPointND point = (GeoPointND) outputPoints.getElement(i);
-    		point.set(p.getPoint(i));    		
+    		setPoint(point, i);   		
     	}
     	//other points are undefined
     	for(int i = length;i<outputPoints.size();i++) {
     		outputPoints.getElement(i).setUndefined();
     	}
+	}
+	
+	
+	/**
+	 * set the point to the i-th of the polygon
+	 * @param point
+	 * @param i
+	 */
+	protected void setPoint(GeoPointND point, int i){
+		point.set(p.getPoint(i));  
 	}
 
 	@Override
@@ -206,7 +224,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		return oneVertex;
 	}
 
-	private OutputHandler<GeoElement> createOutputPoints(){
+	protected OutputHandler<GeoElement> createOutputPoints(){
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoPoint newElement() {
 				GeoPoint pt=new GeoPoint(cons);

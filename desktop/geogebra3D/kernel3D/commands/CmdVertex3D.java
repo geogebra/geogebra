@@ -1,16 +1,22 @@
 package geogebra3D.kernel3D.commands;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdVertex;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.kernel3D.AlgoDrawingPadCorner3D;
+import geogebra3D.kernel3D.AlgoVertexPolygon3D;
 
 public class CmdVertex3D extends CmdVertex{
 
 	public CmdVertex3D(Kernel kernel) {
 		super(kernel);
 	}
+	
+	
 	
 	@Override
 	protected GeoPointND cornerOfDrawingPad(String label, NumberValue number,
@@ -30,5 +36,15 @@ public class CmdVertex3D extends CmdVertex{
 		AlgoDrawingPadCorner3D algo = new AlgoDrawingPadCorner3D(cons, label,
 				number, ev);
 		return algo.getCorner();
+	}
+	
+	@Override
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
+		
+		if (p.isGeoElement3D()){
+			return new AlgoVertexPolygon3D(cons, labels, p);
+		}
+		
+		return new AlgoVertexPolygon(cons, labels, p);
 	}
 }
