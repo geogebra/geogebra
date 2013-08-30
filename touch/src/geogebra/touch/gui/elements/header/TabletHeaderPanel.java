@@ -50,8 +50,7 @@ public class TabletHeaderPanel extends HorizontalPanel implements
 		this.fm = this.app.getFileManager();
 		this.leftHeader = new TabletHeaderPanelLeft(app, touchModel, this);
 		this.leftHeader.setStyleName("headerLeft");
-		this.infoOverrideDialog = new InfoDialog(this.app,
-				touchModel.getGuiModel(), InfoType.Override);
+		this.infoOverrideDialog = new InfoDialog(this.app, InfoType.Override);
 		this.ignoreNextMouseUp = TouchEntryPoint.getLookAndFeel()
 				.receivesDoubledEvents();
 

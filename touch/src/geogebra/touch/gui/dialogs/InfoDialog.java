@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends DialogT {
 	public enum InfoType {
-		SaveChanges, Override;
+		SaveChanges, Override, Delete;
 	}
 
 	private static DefaultResources getLafIcons() {
@@ -47,19 +47,19 @@ public class InfoDialog extends DialogT {
 	private Runnable callback = null;
 	private final GuiModel guiModel;
 	private TabletGUI tabletGUI;
+	private String materialUrl;
 
-	public InfoDialog(final App app, final GuiModel guiModel,
-			final InfoType type) {
+	public InfoDialog(final App app, final InfoType type) {
 		super(true, true);
 		this.app = (TouchApp) app;
 		this.tabletGUI = (TabletGUI) this.app.getTouchGui();
+		this.guiModel = this.tabletGUI.getTouchModel().getGuiModel();
 		this.loc = app.getLocalization();
 		this.setGlassEnabled(true);
 		this.type = type;
 		this.dialogPanel = new VerticalPanel();
 		this.title = new Label();
 		this.infoText = new Label();
-		this.guiModel = guiModel;
 		this.textPanel = new HorizontalPanel();
 
 		this.addLabel();
@@ -89,11 +89,6 @@ public class InfoDialog extends DialogT {
 	}
 
 	private void addLabel() {
-		if (this.type == InfoType.SaveChanges) {
-			this.title.setText(this.loc.getMenu("CloseFile"));
-		} else {
-			this.title.setText(this.loc.getMenu("Rename"));
-		}
 		this.title.setStyleName("title");
 		this.titlePanel.add(this.title);
 		this.titlePanel.setStyleName("titlePanel");
@@ -109,12 +104,6 @@ public class InfoDialog extends DialogT {
 		iconPanel.setStyleName("iconPanel");
 		this.textPanel.add(iconPanel);
 
-		if (this.type == InfoType.SaveChanges) {
-			this.infoText.setText(this.loc
-					.getMenu("DoYouWantToSaveYourChanges"));
-		} else {
-			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
-		}
 		this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.textPanel.add(this.infoText);
 
@@ -174,18 +163,23 @@ public class InfoDialog extends DialogT {
 	}
 
 	protected void onSave() {
-		if (this.consTitle != null) {
-			this.app.setConstructionTitle(this.consTitle);
-		}
-		this.app.getFileManager().saveFile(this.app);
-		this.app.setSaved();
-		this.hide();
-		if (this.callback != null) {
-			this.callback.run();
+		if (this.type == InfoType.Delete) {
+			this.app.getFileManager().delete(this.materialUrl);
+			this.hide();
 		} else {
-			App.debug("no callback");
+			if (this.consTitle != null) {
+				this.app.setConstructionTitle(this.consTitle);
+			}
+			this.app.getFileManager().saveFile(this.app);
+			this.app.setSaved();
+			this.hide();
+			if (this.callback != null) {
+				this.callback.run();
+			} else {
+				App.debug("no callback");
+			}
+			TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 		}
-		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 	}
 
 	public void setCallback(final Runnable callback) {
@@ -204,12 +198,18 @@ public class InfoDialog extends DialogT {
 			this.cancelButton.setText(this.loc.getMenu("Cancel"));
 			this.saveButton.setText(this.loc.getMenu("Save"));
 			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
-		} else {
+		} else if (this.type == InfoType.Override){
 			this.title.setText(this.loc.getMenu("Rename"));
 			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
 			this.cancelButton.setText(this.loc.getMenu("Cancel"));
 			this.saveButton.setText(this.loc.getMenu("Overwrite"));
 			this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
+		} else {
+			this.title.setText(this.loc.getMenu("File"));
+			this.infoText.setText(this.loc.getPlain("Delete"));
+			this.cancelButton.setText(this.loc.getMenu("Cancel"));
+			this.saveButton.setText(this.loc.getPlain("OK"));
+			this.dontSaveButton.setVisible(false);
 		}
 	}
 
@@ -217,6 +217,7 @@ public class InfoDialog extends DialogT {
 	public void show() {
 		super.show();
 		super.center();
+		this.setLabels();
 		this.guiModel.setActiveDialog(this);
 	}
 
@@ -232,5 +233,9 @@ public class InfoDialog extends DialogT {
 				}
 			}
 		}
+	}
+
+	public void setMaterialToDelete(String url) {
+		this.materialUrl = url;
 	}
 }

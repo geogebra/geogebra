@@ -1151,7 +1151,11 @@ public class TouchModel {
 			if (this.redefineGeo == null) {
 				return false;
 			}
+			System.out.println("oldRedefineText: " + this.oldRedefineText);
+			System.out.println("input: " + input.trim());
+			
 			if (input.trim().equals(this.oldRedefineText)) {
+				System.out.println("TRUE");
 				return true;
 			}
 

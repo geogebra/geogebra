@@ -6,6 +6,8 @@ import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
 import geogebra.touch.gui.algebra.events.FastClickHandler;
+import geogebra.touch.gui.dialogs.InfoDialog;
+import geogebra.touch.gui.dialogs.InfoDialog.InfoType;
 import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
@@ -35,6 +37,7 @@ public class MaterialListElement extends FlowPanel {
 	private final Material material;
 	private final AppWeb app;
 	private final FileManagerT fm;
+	private InfoDialog dialog;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
@@ -57,6 +60,7 @@ public class MaterialListElement extends FlowPanel {
 
 		this.vmp = vmp;
 		this.app = app;
+		this.dialog = new InfoDialog(this.app, InfoType.Delete);
 		this.fm = ((TouchApp) app).getFileManager();
 		this.material = m;
 
@@ -131,7 +135,8 @@ public class MaterialListElement extends FlowPanel {
 	}
 
 	void onDelete() {
-		this.fm.delete(this.material.getURL());
+		this.dialog.show();
+		this.dialog.setMaterialToDelete(this.material.getURL());
 	}
 
 	private void initEditButton() {

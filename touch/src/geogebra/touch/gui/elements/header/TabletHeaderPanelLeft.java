@@ -55,8 +55,7 @@ class TabletHeaderPanelLeft extends HorizontalPanel {
 		this.touchModel = touchModel;
 		this.headerPanel = headerPanel;
 
-		this.infoDialog = new InfoDialog(this.app, touchModel.getGuiModel(),
-				InfoType.SaveChanges);
+		this.infoDialog = new InfoDialog(this.app, InfoType.SaveChanges);
 
 		this.initNewButton();
 		this.initOpenButton();
