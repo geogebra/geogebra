@@ -54,7 +54,7 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	private final InputDialog input;
 	private final TextBox inputBox = new TextBox();
 	private final TouchModel touchModel;
-	private boolean openClicked = false;
+	private boolean isExpanded = false;
 	private final TouchApp app;
 
 	public ToolBar(final TouchModel touchModel, final TouchApp app) {
@@ -135,14 +135,13 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	void onExpandToolBar() {
-		this.openClicked = true;
+		this.isExpanded = true;
 		this.addStyleName("visible");
 		this.showHideOpened.setVisible(true);
 		this.showHideClosed.setVisible(false);
 		this.toolPanel.setWidth("100%");
 		this.touchModel.getGuiModel().closeOptions();
 		((TabletGUI) this.app.getTouchGui()).updateViewSizes();
-		this.openClicked = false;
 	}
 
 	void onCollapseToolBar() {
@@ -224,22 +223,29 @@ public class ToolBar extends FlowPanel implements ResizeListener {
 	}
 
 	private void closeToolBar() {
-		this.removeStyleName("visible");
-		this.showHideOpened.setVisible(false);
-		this.showHideClosed.setVisible(isOpenNeeded());
+		this.isExpanded = false;
+		setClosedStyle();
 		this.toolPanel.setWidth(Window.getClientWidth() - 60 + "px");
 	}
 
+	private void setClosedStyle() {
+		this.removeStyleName("visible");
+		this.showHideOpened.setVisible(false);
+		this.showHideClosed.setVisible(isOpenNeeded());
+	}
+	
 	public void setLabels() {
 		this.inputBox.setText(this.app.getLocalization().getMenu("InputField"));
 	}
 
 	@Override
-	public void onResize() {
-		// if resize happens due to expanding the toolbar,
-		// don't close it again!
-		if (!this.openClicked) {
+	public void onResize() {		
+		if (!isOpenNeeded()) {
 			this.closeToolBar();
+		} else {
+			if (!this.isExpanded) {
+				this.setClosedStyle();
+			}
 		}
 	}
 
