@@ -465,6 +465,8 @@ public class Renderer extends RendererJogl implements GLEventListener {
         	break;
 
         }
+        
+        canvas.repaint();
     }
 
 
