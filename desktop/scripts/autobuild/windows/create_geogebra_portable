@@ -66,7 +66,7 @@ unzip -o jogl1-windows-i586.jar
 
 # 2/3. Cleanup (removing all unnecessary .jar files):
 rm -fR META-INF
-rm -f jogl1-*.jar *-linux*.jar *mac*.jar *64*.jar javagiac-win32.jar geogebra-map.txt *.dylib
+rm -f jogl1-*.jar *-linux*.jar *mac*.jar *64*.jar javagiac-win32.jar geogebra-map.txt *.dylib *.jnilib
 
 # 2/4. Adding javagiac.dll:
 cp $SVNDIR/geogebra/desktop/lib/javagiac.dll .
