@@ -121,8 +121,8 @@ public class TouchEntryPoint implements EntryPoint {
 		});
 	}
 
-	static void reloadLocalFiles() {
-		TouchEntryPoint.getBrowseGUI().reloadLocalFiles();
+	static void reloadLocalFiles(String changedName) {
+		TouchEntryPoint.getBrowseGUI().reloadLocalFiles(changedName);
 	}
 
 	static void setLookAndFeel() {

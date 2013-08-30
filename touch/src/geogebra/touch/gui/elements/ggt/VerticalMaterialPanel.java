@@ -156,4 +156,11 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	private void updateWidth() {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
 	}
+
+	public void invalidate(String changedName) {
+		if(titlesToPreviews.get(changedName)!=null){
+			titlesToPreviews.remove(changedName);
+		}
+		
+	}
 }

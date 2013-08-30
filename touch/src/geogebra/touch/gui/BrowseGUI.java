@@ -184,7 +184,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	/**
 	 * Loads the featured materials
 	 */
-	public void reloadLocalFiles() {
+	public void reloadLocalFiles(String changedName) {
+		this.localFilePanel.invalidate(changedName);
 		this.localList = this.fm.getAllFiles();
 		this.updateGUI();
 	}

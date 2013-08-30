@@ -32,7 +32,7 @@ public class FileManagerT {
 	public void delete(final String text) {
 		this.stockStore.removeItem(FILE_PREFIX + text);
 		this.stockStore.removeItem(THUMB_PREFIX + text);
-		TouchEntryPoint.reloadLocalFiles();
+		TouchEntryPoint.reloadLocalFiles(text);
 	}
 
 	private void ensureKeyPrefixes() {
@@ -131,7 +131,7 @@ public class FileManagerT {
 			public void handle(final String s) {
 				FileManagerT.this.stockStore
 						.setItem(FILE_PREFIX + consTitle, s);
-				TouchEntryPoint.reloadLocalFiles();
+				TouchEntryPoint.reloadLocalFiles(consTitle);
 			}
 		};
 
