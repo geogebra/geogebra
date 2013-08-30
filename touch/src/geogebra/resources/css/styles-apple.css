@@ -4,6 +4,10 @@ body div {
 	font-family: "Helvetica", sans-serif;
 }
 
+body {
+	background: url(../img/geogebraLogo.png) center center no-repeat #FFFFFF;
+}
+
 /* HEADER */
 
 body .headerbar,

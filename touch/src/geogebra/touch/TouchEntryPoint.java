@@ -159,7 +159,7 @@ public class TouchEntryPoint implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-
+		RootPanel.getBodyElement().getStyle().setBackgroundImage("url("+GWT.getModuleBaseURL()+"img/apple-splashscreen.png)");
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 
 			@Override
