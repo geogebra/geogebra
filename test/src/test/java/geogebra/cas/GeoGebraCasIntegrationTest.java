@@ -41,7 +41,7 @@ public class GeoGebraCasIntegrationTest {
   static GeoGebraCasInterface cas;
   static Kernel kernel;
   static AppD app;
-  
+
   /**
    * Logs all tests which don't give the expected but a valid result.
    */
@@ -117,7 +117,7 @@ public class GeoGebraCasIntegrationTest {
     }
     return outputVe.toString(includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate);
   }
-  
+
   private static void tk (String input, String expectedResult, String ... validResults) {
     ta(true, input, expectedResult, validResults);
   }
@@ -125,22 +125,23 @@ public class GeoGebraCasIntegrationTest {
   private static void t (String input, String expectedResult, String ... validResults) {
     ta(false, input, expectedResult, validResults);
   }
-  
+
   /**
-   * ta contains the code shared by {@link #t} and {@link #tk}. In explicit:
-   * If tkiontki is false, it behaves exactly like t used to.
-   * If tkiontki is true, it switches to KeepInput mode,
-   * simulating evaluation with KeepInput.
+   * ta contains the code shared by {@link #t} and {@link #tk}. In explicit: If tkiontki is false, it behaves exactly like t used to. If tkiontki is
+   * true, it switches to KeepInput mode, simulating evaluation with KeepInput.
    * 
    * <p>
-   * Note:
-   * Direct calls to ta are "Not Recommended". Use t or tk instead.
+   * Note: Direct calls to ta are "Not Recommended". Use t or tk instead.
    * </p>
    * 
-   * @param tkiontki To KeepInput or not to KeepInput.
-   * @param input The input.
-   * @param expectedResult  The expected result.
-   * @param validResults  Valid, but undesired results.
+   * @param tkiontki
+   *          To KeepInput or not to KeepInput.
+   * @param input
+   *          The input.
+   * @param expectedResult
+   *          The expected result.
+   * @param validResults
+   *          Valid, but undesired results.
    */
   private static void ta (boolean tkiontki, String input, String expectedResult, String ... validResults) {
     String result;
@@ -148,13 +149,13 @@ public class GeoGebraCasIntegrationTest {
     try {
       GeoCasCell f = new GeoCasCell(kernel.getConstruction());
       kernel.getConstruction().addToConstructionList(f, false);
-      
+
       f.setInput(input);
-      
+
       if (tkiontki) {
         f.setEvalCommand("KeepInput");
       }
-      
+
       f.computeOutput();
 
       boolean includesNumericCommand = false;
@@ -275,8 +276,8 @@ public class GeoGebraCasIntegrationTest {
 
 
   // Self Test Section
-  
-  
+
+
   /* Forgetting before tests */
 
   @Test
@@ -744,12 +745,14 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationLM_4 () {
-    t("f: Numeric[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "(x, y) = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
+    t("f: Numeric[(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]",
+        "(x, y) = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
   }
 
   @Test
   public void Parametric_EquationLM_5 () {
-    t("f: Numeric[X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]", "X = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
+    t("f: Numeric[X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))]",
+        "X = (-s + 2.2360679775 * t + 3, 2.645751311065 * s + t + 1.414213562373)");
   }
 
   @Test
@@ -3013,7 +3016,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_Several_23 () {
     t("Solve[{x = 3 + 5 t, y = 2 + t, x = 8 + 10 s, y = 3 + 2 s}, {x, y, t, s}]", "{{x = 10 * s + 8, y = 2 * s + 3, t = 2 * s + 1, s = s}}");
   }
-  
+
 
   /* Parametric Equations One Parameter */
 
@@ -3066,19 +3069,19 @@ public class GeoGebraCasIntegrationTest {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     t("Solve[(8, 3) = f(t)]", "{t = 1}");
   }
-  
+
   @Test
   public void Solve_ParametricFOP_2 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     t("Solve[f(t) = (5.5, 2.5)]", "{t = 1 / 2}");
   }
-  
+
   @Test
   public void Solve_ParametricFOP_3 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
     t("Numeric[Solve[f(t) = (5.5, 2.5)]]", "{t = 0.5}");
   }
-  
+
   @Test
   public void Solve_ParametricFOP_4 () {
     t("f(t) := (3, 2) + t * (5, 1)", "(5 * t + 3, t + 2)");
@@ -3183,27 +3186,27 @@ public class GeoGebraCasIntegrationTest {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (10, 2)", "(10 * s + 5 * t + 3, 2 * s + t + 2)");
     t("Solve[f(t, s) = (13, 5), {s, t}]", "{}");
   }
-  
+
   @Test
   public void Solve_ParametricFMP_9 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     t("Solve[f(t, s) = (7, -8), {t, s}]", "{{t = 1 / 2, s = (-3) / 2}}");
   }
-  
+
   @Test
   public void Solve_ParametricFMP_10 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     t("Numeric[Solve[f(t, s) = (7, -8), {t, s}]]", "{{t = 0.5, s = -1.5}}");
   }
-  
+
   @Test
   public void Solve_ParametricFMP_11 () {
     t("f(t, s) := (3, 2) + t * (5, 1) + s * (-1, 7)", "(-s + 5 * t + 3, 7 * s + t + 2)");
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[f(t, s) = (7, -8), {t, s}]", "Löse[f(t, s) = (7, -8), {t, s}]");
   }
-  
-  /* Parametric Equations Twosided*/
+
+  /* Parametric Equations Twosided */
 
   @Test
   public void Solve_ParametricET_0 () {
@@ -3235,8 +3238,8 @@ public class GeoGebraCasIntegrationTest {
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[(3, 2) + t (5, 1) = (4, 1) + s (2, -2), {t, s}]", "Löse[(3, 2) + t * (5, 1) = (4, 1) + s * (2, -2), {t, s}]");
   }
-  
-  /* Multiple Parametric Equations Eloquent*/
+
+  /* Multiple Parametric Equations Eloquent */
 
   @Test
   public void Solve_ParametricMEE_0 () {
@@ -3269,7 +3272,7 @@ public class GeoGebraCasIntegrationTest {
     tk("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
         "Löse[{(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s}]");
   }
-  
+
   /* Multiple Parametric Equations Abbreviation */
 
   @Test
@@ -3300,11 +3303,10 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricMEA_5 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]",
-        "Löse[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
+    tk("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "Löse[{X = (3, 2) + t * (5, 1), X = (4, 1) + s * (2, -2)}, {t, s}]");
   }
-  
-  /* Multiple Parametric Equations Labeled */ 
+
+  /* Multiple Parametric Equations Labeled */
 
   @Test
   public void Solve_ParametricMEL_0 () {
@@ -3349,7 +3351,7 @@ public class GeoGebraCasIntegrationTest {
     // Please note that the language is German. "Löse" is "Solve" in German.
     tk("Solve[{f, g}, {t, s}]", "Löse[{f, g}, {t, s}]");
   }
-  
+
   /* Multiple Parametric Functions */
 
   @Test
@@ -3401,7 +3403,7 @@ public class GeoGebraCasIntegrationTest {
     t("g(t) := (1, 1) + t * (2, 1)", "(2 * t + 1, t + 1)");
     t("Solve[f(t) = g(s), {t, s}]", "{{t = -1 / 7, s = -1 / 7}}");
   }
-  
+
   /* Parametrics Three Dimensions */
 
   @Test
@@ -3417,8 +3419,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_ParametricTD_2 () {
     // Please note that the language is German. "Löse" is "Solve" in German.
-    tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]",
-        "Löse[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
+    tk("Solve[(2, 3, -1) = (3, 1, 2) + t (-2, 4, -6), t]", "Löse[(2, 3, -1) = (3, 1, 2) + t * (-2, 4, -6), t]");
   }
 
   @Test
@@ -3461,14 +3462,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricTD_9 () {
-    t("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
-        "{{t = 1 / 2, s = -1}}");
+    t("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]", "{{t = 1 / 2, s = -1}}");
   }
 
   @Test
   public void Solve_ParametricTD_10 () {
-    t("Numeric[Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]]",
-        "{{t = 0.5, s = -1}}");
+    t("Numeric[Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]]", "{{t = 0.5, s = -1}}");
   }
 
   @Test
@@ -3884,8 +3883,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void UnitVector_1 () {
-    t("UnitVector[(a, b)]", "(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))",
-        "(a / sqrt(a * a + b * b), b / sqrt(a * a + b * b))");
+    t("UnitVector[(a, b)]", "(a / sqrt(a^(2) + b^(2)), b / sqrt(a^(2) + b^(2)))", "(a / sqrt(a * a + b * b), b / sqrt(a * a + b * b))");
   }
 
   @Test
@@ -3988,7 +3986,7 @@ public class GeoGebraCasIntegrationTest {
   /* Ticket 697: Solve[ {x -1 = 1, y+x = 3}, {x, y}] puts answer in () not {} */
 
   // TODO Add test! Forget about the existing one.
-  
+
   @Test
   public void Ticket_Ticket697_0 () {
     tk("f(x) := x^2", "x^(2)");
@@ -4310,38 +4308,36 @@ public class GeoGebraCasIntegrationTest {
   /* Ticket 3579: KeepInput Being Kept */
 
   /**
-   * Test is ignored. KeepInput is no user command anymore,
-   * internal use seems to meet our expectations.
+   * Test is ignored. KeepInput is no user command anymore, internal use seems to meet our expectations.
    * 
-   * Therefore we don't want to mess with this anytime soon,
-   * except somebody complains.
+   * Therefore we don't want to mess with this anytime soon, except somebody complains.
    */
   @Test
   @Ignore
   public void Ticket_Ticket3579_0 () {
     tk("f(x) := x * x", "x * x");
   }
-  
+
   /* Ticket 3594: Problem with Solve[{$1, $2}] and Solve tool */
 
   @Test
   public void Ticket_Ticket3594_0 () {
     // Test case for dynamic row references.
-    
+
     t("x + 2 y = 3", "x + 2 * y = 3");
     t("4 x + 5 y = 6", "4 * x + 5 * y = 6");
     t("Solve[{$1, $2}]", "{{x = -1, y = 2}}");
-    
+
     // Please note that static row references cannot be tested here
     // for we are bypassing the CASInputHandler,
     // which is employed to resolve them.
   }
-  
-  
+
+
   /* Test cases for tickets that never were created */
 
   /* "f(x):=" not being shown in the output when changing a cell into a definition via the marble */
-  
+
   @Test
   public void Ticket_NoTicket_0 () {
     GeoCasCell f = new GeoCasCell(kernel.getConstruction());
@@ -4654,10 +4650,12 @@ public class GeoGebraCasIntegrationTest {
   public void ExponentialEqs () {
     kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(60000);
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
-    t("Solve[7^(2x-5) 5^x = 9^(x+1),x]", "{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}", "{x = log(151263) / log(245 / 9)}");
-    t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]", "{x = (-log(55)) / (log(13) - log(5))}", "{x = log(55) / log(5 / 13)}");
-    t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", "{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
-    t("Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{a, c}]", "{{c = (300000000 * 3^(950 / 1057)) / 67^(950 / 1057), a = 67^(1 / 1057) / 3^(1 / 1057)}}");
+    t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]", "{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}", "{x = log(151263) / log(245 / 9)}");
+    t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]", "{x = (-log(11) - log(5)) / (log(13) - log(5))}", "{x = log(55) / log(5 / 13)}");
+    t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]", "{{c = (300000000 * (3 / 67)^(950 / 1057), a = (67 / 3)^(1 / 1057)}}",
+        "{{c = 300000000 / ((67 / 3)^(1 / 1057))^(950), a = (67 / 3)^(1 / 1057)}}");
+    t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {a, c}]", "{{a = (67 / 3)^(1 / 1057), c = (300000000 * (3 / 67)^(950 / 1057)}}",
+        "{{a = (67 / 3)^(1 / 1057), c = 300000000 / ((67 / 3)^(1 / 1057))^(950)}}");
     kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(5000);
     cas.getCurrentCAS().settingsChanged(kernel.getApplication().getSettings().getCasSettings());
   }
