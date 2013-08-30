@@ -157,7 +157,7 @@
 }
 .mathquill-rendered-math .text.sans-serif,
 .mathquill-rendered-math .font .text.sans-serif {
-  font: geogebra-sans-serif, sans-serif, Symbola, serif;
+  font-family: geogebra-sans-serif, sans-serif, Symbola, serif;
 }
 .mathquill-rendered-math .overline {
   border-top: 1px solid black;

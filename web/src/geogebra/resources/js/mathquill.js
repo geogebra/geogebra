@@ -3475,8 +3475,24 @@ var TextBlock = P(Node, function(_, _super) {
     });
   };
   _.text = function() { return '"' + this.textContents() + '"'; };
-  _.latex = function() { return '\\text{' + this.textContents() + '}'; };
+  _.latex = function() {
+	  if (this.ctrlSeq == '\\textsf') {
+		  // not clear what other things should be allowed here
+		  return this.ctrlSeq + '{' + this.textContents() + '}';
+	  }
+	  return '\\text{' + this.textContents() + '}';
+  };
   _.html = function() {
+	// FIXME: it's unclear why htmlTemplate is not used here
+	// from makeTextBlock, so are all makeTextBlock commands void?
+	if (this.ctrlSeq == '\\textsf') {
+		// manual hack
+		return (
+				'<span class="sans-serif text" mathquill-command-id='+this.id+'>'
+				+   this.textContents()
+				+ '</span>'
+		);
+	}
     return (
         '<span class="text" mathquill-command-id='+this.id+'>'
       +   this.textContents()
