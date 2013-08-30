@@ -1436,7 +1436,7 @@ namespace giac {
     return res;
   }
 
-  static vecteur solve_cleaned(const gen & e,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
+  static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     gen expr(e),a,b;
     if (is_linear_wrt(e,x,a,b,contextptr)){
       if (is_zero(a)){
@@ -1454,14 +1454,14 @@ namespace giac {
     if (expr.is_symb_of_sommet(at_prod)){
       vecteur v=gen2vecteur(expr._SYMBptr->feuille),res;
       for (unsigned i=0;i<v.size();++i){
-	res=mergevecteur(res,solve_cleaned(v[i],x,isolate_mode,contextptr));
+	res=mergevecteur(res,solve_cleaned(v[i],v[i],x,isolate_mode,contextptr));
       }
       return res;
     }
     if (expr.is_symb_of_sommet(at_pow)){
       gen & f =expr._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2 && is_strictly_positive(f._VECTptr->back(),contextptr))
-	return solve_cleaned(f._VECTptr->front(),x,isolate_mode,contextptr);
+	return solve_cleaned(f._VECTptr->front(),f._VECTptr->front(),x,isolate_mode,contextptr);
     }
     // Check for re/im/conj in complexmode
     bool complexmode=isolate_mode & 1;
@@ -1778,7 +1778,7 @@ namespace giac {
       return v;
     }
     solve(expr,x,v,isolate_mode,contextptr);
-    v=solve_numeric_check(e,x,v,contextptr);
+    v=solve_numeric_check(e_check,x,v,contextptr);
     if (0 && !(isolate_mode & 2)){
       // check solutions if there is a tan inside, commented now that we have the test above
       for (int i=0;i<s;++i){
@@ -1821,7 +1821,7 @@ namespace giac {
 	expr = e._SYMBptr->feuille._VECTptr->front()-e._SYMBptr->feuille._VECTptr->back();
     }
     clean(expr,x,contextptr);
-    return solve_cleaned(expr,x,isolate_mode,contextptr);
+    return solve_cleaned(expr,e,x,isolate_mode,contextptr);
   }
 
   gen remove_and(const gen & g,const unary_function_ptr * u){
@@ -3350,6 +3350,10 @@ namespace giac {
   }
 
   gen newton(const gen & f0, const gen & x,const gen & guess_,int niter,double eps1, double eps2,bool real,double xmin,double xmax,double rand_xmin,double rand_xmax,double init_prefactor,GIAC_CONTEXT){
+    if (x.type!=_IDNT){
+      if (x.type!=_SYMB || (x._SYMBptr->sommet!=at_at && x._SYMBptr->sommet!=at_of))
+	return gensizeerr(contextptr);
+    }
     bool out=niter!=NEWTON_DEFAULT_ITERATION;
     gen guess(guess_);
     // ofstream of("log"); of << f0 << endl << x << endl << guess << endl << niter ; 
