@@ -1495,6 +1495,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 	
+	/**
+	 * Copy advanced properties -- cond. visibility, dynamic colors, TODO corners
+	 * Used in macros where we can't reference the objects directly
+	 * @param geo style source
+	 */
 	public void setAdvancedVisualStyleCopy(final GeoElement geo) {
 		setVisualStyle(geo);
 
@@ -1502,15 +1507,19 @@ public abstract class GeoElement extends ConstructionElement implements
 		setLayer(geo.getLayer());
 
 		// copy color function
-		setColorFunction(geo.getColorFunction().deepCopyGeo());
+		if(geo.getColorFunction() != null){
+			setColorFunction(geo.getColorFunction().deepCopyGeo());
+		}
 		setColorSpace(geo.getColorSpace());
 
 		// copy ShowObjectCondition, unless it generates a
 		// CirclularDefinitionException
-		try {
-			setShowObjectCondition(geo.getShowObjectCondition().copy());
-		} catch (final Exception e) {
+		if(geo.getShowObjectCondition()!=null){
+			try {
+				setShowObjectCondition(geo.getShowObjectCondition().copy());
+			} catch (final Exception e) {
 			//CircularException, we ignore it
+			}
 		}
 	}
 
