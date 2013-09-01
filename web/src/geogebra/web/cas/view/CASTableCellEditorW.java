@@ -18,6 +18,8 @@ public class CASTableCellEditorW implements CASTableCellEditor{
 		textField.setAutoComplete(true);
 		textField.showPopupSymbolButton(true);
 		textField.addKeyHandler(ml);
+		//FIXME experimental fix for CAS in other languages, broken in r27612
+		app.fillCasCommandDict();
 	}
 	public int getInputSelectionEnd() {
 	    // TODO Auto-generated method stub
