@@ -13,6 +13,31 @@ import geogebra.common.util.Cloner;
  */
 public class CurvePlotter {
 	
+
+
+	// low quality settings
+	// // maximum and minimum distance between two plot points in pixels
+	// private static final int MAX_PIXEL_DISTANCE = 16; // pixels
+	// private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
+	//
+	// // maximum angle between two line segments
+	// private static final double MAX_ANGLE = 32; // degrees
+	// private static final double MAX_ANGLE_OFF_SCREEN = 70; // degrees
+	// private static final double MAX_BEND = Math.tan(MAX_ANGLE *
+	// Kernel.PI_180);
+	// private static final double MAX_BEND_OFF_SCREEN =
+	// Math.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
+	//
+	// // maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
+	// private static final int MAX_DEFINED_BISECTIONS = 8;
+	// private static final int MAX_PROBLEM_BISECTIONS = 4;
+	//
+	// // the curve is sampled at least at this many positions to plot it
+	// private static final int MIN_SAMPLE_POINTS = 5;
+	
+	
+	
+	
 	
 
 	private static int countPoints = 0;

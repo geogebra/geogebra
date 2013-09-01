@@ -16,8 +16,9 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.euclidian.draw.DrawParametricCurve.Gap;
+import geogebra.common.euclidian.plot.CurvePlotter;
+import geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -35,7 +36,7 @@ public class DrawIntegral extends Drawable {
 	private GeoNumeric n;
 	private GeoFunction f;
 	private NumberValue a, b;
-	private GeneralPathClipped gp;
+	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible;
 
 	/**
@@ -73,7 +74,7 @@ public class DrawIntegral extends Drawable {
 			init();
 
 		if (gp == null)
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		else
 			gp.reset();
 
@@ -106,7 +107,7 @@ public class DrawIntegral extends Drawable {
 		}
 
 		gp.moveTo(ax, y0);
-		DrawParametricCurve.plotCurve(f, aRW, bRW, view, gp, false,
+		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false,
 				Gap.LINE_TO);
 		gp.lineTo(bx, y0);
 		gp.lineTo(ax, y0);

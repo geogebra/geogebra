@@ -4,8 +4,9 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.euclidian.draw.DrawParametricCurve.Gap;
+import geogebra.common.euclidian.plot.CurvePlotter;
+import geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
@@ -19,7 +20,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 class DrawParametricInequality extends Drawable {
 
 	private Inequality paramIneq;
-	private GeneralPathClipped gp;
+	private GeneralPathClippedForCurvePlotter gp;
 
 	/**
 	 * @param ineq parametric inequality
@@ -92,7 +93,7 @@ class DrawParametricInequality extends Drawable {
 	@Override
 	public void update() {
 		if (gp == null)
-			gp = new GeneralPathClipped(view);
+			gp = new GeneralPathClippedForCurvePlotter(view);
 		else
 			gp.reset();
 		GeoFunction border = paramIneq.getFunBorder();
@@ -105,14 +106,14 @@ class DrawParametricInequality extends Drawable {
 			double axEv = view.toScreenCoordYd(ax);				
 			if (paramIneq.isAboveBorder()) {					
 				gp.moveTo(view.getWidth() + 10, axEv);
-				labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
+				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_XMAX);
 				gp.lineTo(view.getWidth() + 10, gp.getCurrentPoint().getY());
 				gp.lineTo(view.getWidth() + 10, axEv);
 				gp.closePath();
 			} else {					
 				gp.moveTo(-10, axEv);
-				labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
+				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_XMIN);
 				gp.lineTo(-10, gp.getCurrentPoint().getY());
 				gp.lineTo(-10, axEv);
@@ -124,14 +125,14 @@ class DrawParametricInequality extends Drawable {
 			double axEv = view.toScreenCoordXd(ax);				
 			if (paramIneq.isAboveBorder()) {
 				gp.moveTo(axEv, -10);
-				labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
+				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_YMIN);
 				gp.lineTo(gp.getCurrentPoint().getX(), -10);
 				gp.lineTo(axEv, -10);
 				gp.closePath();
 			} else {
 				gp.moveTo(axEv, view.getHeight() + 10);
-				labelPos = DrawParametricCurve.plotCurve(border, ax, bx, view, gp,
+				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_YMAX);					
 				gp.lineTo(gp.getCurrentPoint().getX(), view.getHeight() + 10);
 				gp.lineTo(axEv, view.getHeight() + 10);
