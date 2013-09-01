@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class Test implements GLEventListener {
 	
 	static {
-		//RendererJogl.initSingleton();
+		RendererJogl.initSingleton();
 	}
 
 

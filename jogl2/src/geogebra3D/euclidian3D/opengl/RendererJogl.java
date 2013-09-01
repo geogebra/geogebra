@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
 
@@ -35,9 +36,24 @@ public class RendererJogl {
 	public interface GLlocal extends GL2{}
 
 	
+	public static GLCapabilities caps;
+	
 
 	final static public void initSingleton(){
-		GLProfile.initSingleton(); 
+		
+		//GLProfile.initSingleton(); 
+		
+		caps = new GLCapabilities(GLProfile.getDefault());
+		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+		caps.setAlphaBits(8);
+
+		
+		//anti-aliasing
+		caps.setSampleBuffers(true);
+		caps.setNumSamples(4);    	
+		//avoid flickering
+		caps.setDoubleBuffered(true);
+
 	}
 	
 	final public static String JOGL_VERSION="JOGL2";
