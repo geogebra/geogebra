@@ -14,7 +14,6 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.Path;
@@ -113,7 +112,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue, Path,
 		this.createSegments = createSegments;
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
-		setAlphaValue(ConstructionDefaults.DEFAULT_POLYGON_ALPHA);
 	}
 
 	/**
