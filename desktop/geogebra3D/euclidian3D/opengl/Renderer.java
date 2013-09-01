@@ -575,8 +575,6 @@ public class Renderer extends RendererJogl implements GLEventListener {
     
     private void draw(){
     	
-    	App.debug("draw");
-	
         //labels
         drawFaceToScreen();
         
