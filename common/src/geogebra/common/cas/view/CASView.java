@@ -165,7 +165,7 @@ public abstract class CASView implements View{
 	/**
 	 * Makes sure we have an empty row at the end.
 	 */
-	private void ensureOneEmptyRow() {
+	public void ensureOneEmptyRow() {
 		int rows = getRowCount();
 		// add an empty one when we have no rows or last one is not empty or the last is in construction list
 		 if (rows == 0 || !isRowOutputEmpty(rows-1) || getConsoleTable().getGeoCasCell(rows - 1).isInConstructionList()) {
@@ -313,6 +313,19 @@ public abstract class CASView implements View{
 
 		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
 		return value.isEmpty();
+	}
+	
+	/**
+	 * @param row
+	 *            row index (starting from 0)
+	 * @return true if given cell's input is empty
+	 */
+	public boolean isRowInputEmpty(int row) {
+		if (row < 0) 
+			return false;
+		
+		GeoCasCell value = getConsoleTable().getGeoCasCell(row);
+		return value.isInputEmpty();
 	}
 	
 	/**
