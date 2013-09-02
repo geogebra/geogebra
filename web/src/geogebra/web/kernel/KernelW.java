@@ -2,8 +2,8 @@ package geogebra.web.kernel;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.main.App;
-import geogebra.web.kernel.commands.CommandDispatcherW;
 
 /**
  * @author gabor
@@ -42,7 +42,7 @@ public class KernelW extends Kernel implements KernelWInterface {
     		//});
     	//}
     	//return kernel.getAlgPForAsync();
-    	return new AlgebraProcessor(kernel, new CommandDispatcherW(kernel));
+    	return new AlgebraProcessor(kernel, new CommandDispatcher(kernel));
 		
 	}
 

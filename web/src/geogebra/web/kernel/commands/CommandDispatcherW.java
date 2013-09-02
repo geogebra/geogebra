@@ -7,32 +7,18 @@ import geogebra.common.kernel.commands.CommandDispatcherCAS;
 import geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import geogebra.common.kernel.commands.CommandDispatcherInterface;
 import geogebra.common.kernel.commands.CommandDispatcherScripting;
-import geogebra.common.main.App;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 
 public class CommandDispatcherW extends CommandDispatcher {
 
 	public CommandDispatcherW(Kernel kernel) {
 	    super(kernel);
     }
-	
-	
+
     protected CommandDispatcherInterface getDiscreteDispatcher() {
 		if(discreteDispatcher == null) {
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					discreteDispatcher = new CommandDispatcherDiscrete();		
-					initCmdTable();
-					kernel.getApplication().getActiveEuclidianView().repaintView();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("CommandDispatcherDiscrete loading failed");
-				}
-			});	
+			discreteDispatcher = new CommandDispatcherDiscrete();
+			initCmdTable();
+			//kernel.getApplication().getActiveEuclidianView().repaintView();
 		}
 		return discreteDispatcher;
 	}
@@ -40,19 +26,9 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
     protected CommandDispatcherInterface getScriptingDispatcher() {
 		if(scriptingDispatcher == null) {
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					scriptingDispatcher = new CommandDispatcherScripting();
-					initCmdTable();
-					kernel.getApplication().getActiveEuclidianView().repaintView();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("CommandDispatcherScripting loading failed");
-				}
-			});
-			
+			scriptingDispatcher = new CommandDispatcherScripting();
+			initCmdTable();
+			//kernel.getApplication().getActiveEuclidianView().repaintView();
 		}
 		return scriptingDispatcher;
 	}
@@ -60,19 +36,9 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
     protected CommandDispatcherInterface getAdvancedDispatcher() {
 		if(advancedDispatcher == null) {
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					advancedDispatcher = new CommandDispatcherAdvanced();
-					initCmdTable();
-					kernel.getApplication().getActiveEuclidianView().repaintView();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("CommandDispatcherAdvanced loading failed");
-				}
-			});
-			
+			advancedDispatcher = new CommandDispatcherAdvanced();
+			initCmdTable();
+			//kernel.getApplication().getActiveEuclidianView().repaintView();
 		}
 		return advancedDispatcher;
 	}
@@ -80,21 +46,10 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
     protected CommandDispatcherInterface getCASDispatcher() {
 		if(casDispatcher == null) {
-			GWT.runAsync(new RunAsyncCallback() {
-				
-				public void onSuccess() {
-					casDispatcher = new CommandDispatcherCAS();
-					initCmdTable();
-					kernel.getApplication().getActiveEuclidianView().repaintView();
-				}
-				
-				public void onFailure(Throwable reason) {
-					App.debug("CommandDispatcherCAS loading failed");
-				}
-			});
-			
+			casDispatcher = new CommandDispatcherCAS();
+			initCmdTable();
+			//kernel.getApplication().getActiveEuclidianView().repaintView();
 		}
 		return casDispatcher;
 	}
-
 }
