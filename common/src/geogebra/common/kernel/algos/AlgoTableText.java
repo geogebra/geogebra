@@ -426,7 +426,6 @@ public class AlgoTableText extends AlgoElement {
 		}
 		
 		return justification.charAt(c);
-		
 	}
 
 	private void latexMQ(StringTemplate tpl) {
@@ -447,10 +446,11 @@ public class AlgoTableText extends AlgoElement {
 				}
 				
 				for (int c = 0; c < columns; c++) {
+					String jc = String.valueOf(getJustification(c)).toUpperCase();
 					if (verticalLines) {
-						sb.append("\\ggbtdl{");
+						sb.append("\\ggbtdl"+jc+"{");
 					} else {
-						sb.append("\\ggbtd{");
+						sb.append("\\ggbtd"+jc+"{");
 					}
 					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");
@@ -467,10 +467,11 @@ public class AlgoTableText extends AlgoElement {
 					sb.append("\\ggbtr{");
 				}
 				for (int r = 0; r < rows; r++) {
+					String jc = String.valueOf(getJustification(r)).toUpperCase();
 					if (verticalLines) {
-						sb.append("\\ggbtdl{");
+						sb.append("\\ggbtdl"+jc+"{");
 					} else {
-						sb.append("\\ggbtd{");
+						sb.append("\\ggbtd"+jc+"{");
 					}
 					addCellLaTeX(c, r, true, tpl);
 					sb.append("}");

@@ -2040,14 +2040,22 @@ LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
 LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
 var ggbtableHTML = '<table style="display:inline-table;vertical-align:middle;" cellpadding="0" cellspacing="0">&0</table>';
 var ggbtrHTML = '<tr>&0</tr>';
-var ggbtdHTML = '<td style="min-width: 1em; text-align: center; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 var ggbtrlHTML = '<tr style="border-top: black solid 1px; border-bottom: black solid 1px;">&0</tr>';
-var ggbtdlHTML = '<td style="border-left: black solid 1px; border-right: black solid 1px; min-width: 1em; text-align: center; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdRHTML = '<td style="min-width: 1em; text-align: right; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdlRHTML = '<td style="border-left: black solid 1px; border-right: black solid 1px; min-width: 1em; text-align: right; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdCHTML = '<td style="min-width: 1em; text-align: center; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdlCHTML = '<td style="border-left: black solid 1px; border-right: black solid 1px; min-width: 1em; text-align: center; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdLHTML = '<td style="min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
+var ggbtdlLHTML = '<td style="border-left: black solid 1px; border-right: black solid 1px; min-width: 1em; text-align: left; vertical-align: middle; padding-left: 4px; padding-right: 4px;">&0</td>';
 LatexCmds.ggbtable = bind(SomethingHTML, '\\ggbtable', ggbtableHTML);
 LatexCmds.ggbtr = bind(SomethingHTML, '\\ggbtr', ggbtrHTML);
-LatexCmds.ggbtd = bind(SomethingHTML, '\\ggbtd', ggbtdHTML);
 LatexCmds.ggbtrl = bind(SomethingHTML, '\\ggbtrl', ggbtrlHTML);
-LatexCmds.ggbtdl = bind(SomethingHTML, '\\ggbtdl', ggbtdlHTML);
+LatexCmds.ggbtdR = bind(SomethingHTML, '\\ggbtdR', ggbtdRHTML);
+LatexCmds.ggbtdlR = bind(SomethingHTML, '\\ggbtdlR', ggbtdlRHTML);
+LatexCmds.ggbtdC = bind(SomethingHTML, '\\ggbtdC', ggbtdCHTML);
+LatexCmds.ggbtdlC = bind(SomethingHTML, '\\ggbtdlC', ggbtdlCHTML);
+LatexCmds.ggbtdL = bind(SomethingHTML, '\\ggbtdL', ggbtdLHTML);
+LatexCmds.ggbtdlL = bind(SomethingHTML, '\\ggbtdlL', ggbtdlLHTML);
 
 // `\textcolor{color}{math}` will apply a color to the given math content, where
 // `color` is any valid CSS Color Value (see [SitePoint docs][] (recommended),
