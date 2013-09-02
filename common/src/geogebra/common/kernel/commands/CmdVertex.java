@@ -77,10 +77,10 @@ public class CmdVertex extends CommandProcessor {
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				
-				AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, c.getLabel(),
+				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons, c.getLabel(),
 						(GeoPoly) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getOneVertex() };
+				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -137,5 +137,16 @@ public class CmdVertex extends CommandProcessor {
 	 */
 	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p){
 		return new AlgoVertexPolygon(cons, labels, p);
+	}
+	
+	/**
+	 * @param cons
+	 * @param label
+	 * @param p
+	 * @param v
+	 * @return algo for one of the corners of a polygon/polyline
+	 */
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String label, GeoPoly p, GeoNumberValue v){	
+		return new AlgoVertexPolygon(cons, label, p, v);
 	}
 }

@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdVertex;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.kernel3D.AlgoDrawingPadCorner3D;
@@ -46,5 +47,15 @@ public class CmdVertex3D extends CmdVertex{
 		}
 		
 		return new AlgoVertexPolygon(cons, labels, p);
+	}
+	
+	@Override
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String label, GeoPoly p, GeoNumberValue v){	
+
+		if (p.isGeoElement3D()){
+			return new AlgoVertexPolygon3D(cons, label, p, v);
+		}
+
+		return new AlgoVertexPolygon(cons, label, p, v);
 	}
 }

@@ -2,6 +2,7 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoVertexPolygon;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -16,6 +17,17 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 
 	public AlgoVertexPolygon3D(Construction cons, String[] labels, GeoPoly p) {
 		super(cons, labels, p);
+	}
+	
+	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
+			NumberValue v) {
+		super(cons,label,p,v);
+	}
+	
+	
+	@Override
+	public GeoPointND newGeoPoint(Construction cons){
+		return new GeoPoint3D(cons);
 	}
 	
 	@Override

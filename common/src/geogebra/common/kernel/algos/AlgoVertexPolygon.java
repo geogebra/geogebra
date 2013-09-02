@@ -36,7 +36,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	protected GeoPoly p; // input		
 	private NumberValue index;
-	private GeoPoint oneVertex;
+	private GeoPointND oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
 	/**
 	 * Creates new vertex algo
@@ -109,11 +109,20 @@ public class AlgoVertexPolygon extends AlgoElement {
 		super(cons);
 		this.p = p;
 		this.index = v;
-		oneVertex = new GeoPoint(cons);
+		oneVertex = newGeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
 
+	
+	/**
+	 * @param cons
+	 * @return new GeoPointND
+	 */
+	public GeoPointND newGeoPoint(Construction cons){
+		return new GeoPoint(cons);
+	}
+	
 	@Override
 	public Commands getClassName() {
 		return Commands.Vertex;
@@ -126,7 +135,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 			input = new GeoElement[2];
 			input[1] = index.toGeoElement();			
 			setOutputLength(1);
-			setOutput(0,oneVertex);
+			setOutput(0,(GeoElement) oneVertex);
 		}else{
 			input = new GeoElement[1];			
 		}
@@ -154,11 +163,15 @@ public class AlgoVertexPolygon extends AlgoElement {
 	@Override
 	public final void compute() {	
 		if(index != null){
-			int  i = (int)Math.floor(index.getDouble())-1;
-			if(i >= p.getPoints().length||i < 0) {
+			if (!p.isDefined()){
 				oneVertex.setUndefined();
-			} else {
-				setPoint(oneVertex, i);
+			}else{
+				int  i = (int)Math.floor(index.getDouble())-1;
+				if(i >= p.getPoints().length||i < 0) {
+					oneVertex.setUndefined();
+				} else {
+					setPoint(oneVertex, i);
+				}
 			}
 			oneVertex.update();
 			return;
@@ -213,14 +226,14 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public GeoElement getOutput(int i) {
-		if(index!=null)return oneVertex;
+		if(index!=null)return (GeoElement) oneVertex;
 		return outputPoints.getElement(i);
 	}
 	
 	/**
 	 * @return the vertex when called as Vertex[poly,number]
 	 */
-	public GeoPoint getOneVertex(){
+	public GeoPointND getOneVertex(){
 		return oneVertex;
 	}
 
