@@ -124,8 +124,12 @@ public class CASDropTargetListener implements DropTargetListener {
 				cell.getConstruction().addToConstructionList(newcell, false);
 				view.insertRow(newcell,false);
 				
-				String subCmd = "Substitute[$" + (cell.getRowNumber()+1) + ", Flatten[{" + tableRef  + "}]]";	
-				newcell.setInput(cell.getInput(StringTemplate.defaultTemplate));
+				String subCmd = "Substitute[$" + (cell.getRowNumber()+1) + ", Flatten[{" + tableRef  + "}]]";
+				// the code commented below makes the substitution static
+				// newcell.setInput(cell.getInput(StringTemplate.defaultTemplate));
+				// the code below makes substitution dynamic
+				newcell.setInput("$" + (cell.getRowNumber() + 1));
+
 				newcell.setProcessingInformation(cell.getPrefix(), subCmd, cell.getPostfix());				
 				newcell.setEvalCommand("Substitute");
 				
