@@ -42,10 +42,10 @@ public class RendererJogl {
 	final static public void initCaps(){
 		
 		
-		//GLProfile.initSingleton(); 
+		GLProfile.initSingleton(); 
 		
-		//caps = new GLCapabilities(GLProfile.getDefault());
-		caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+		caps = new GLCapabilities(GLProfile.getDefault());
+		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
 		caps.setAlphaBits(8);
 
 		
