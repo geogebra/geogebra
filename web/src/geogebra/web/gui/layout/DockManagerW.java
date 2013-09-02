@@ -23,6 +23,7 @@ import java.util.ListIterator;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1580,7 +1581,17 @@ public class DockManagerW implements  SetLabels {
 	public DockSplitPaneW getRoot() {
 		return rootPane;
 	}
-	
+
+	/**
+	 * A small hack to fix a rare bug
+	 */
+	public void kickstartRoot(Panel panel) {
+		if (rootPane == null)
+			rootPane = new DockSplitPaneW();
+		if (rootPane.getParent() == null)
+			panel.add(rootPane);
+	}
+
 	/**
 	 * @return True if all focus may change between all views, false if just
 	 * the euclidian views are affected by this. 

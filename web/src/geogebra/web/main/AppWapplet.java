@@ -206,6 +206,9 @@ public class AppWapplet extends AppW {
 	@Override
     public void afterLoadFileAppOrNot() {
 
+		// a small thing to fix a rare bug
+		getGuiManager().getLayout().getDockManager().kickstartRoot(frame);
+
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 		} else {
