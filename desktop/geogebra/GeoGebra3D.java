@@ -25,7 +25,7 @@ public class GeoGebra3D extends GeoGebra {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	static {
-		RendererJogl.initSingleton();
+		RendererJogl.initCaps();
 	}
 
 	public static void main(String[] cmdArgs) {

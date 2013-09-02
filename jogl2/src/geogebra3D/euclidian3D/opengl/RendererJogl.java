@@ -39,7 +39,7 @@ public class RendererJogl {
 	public static GLCapabilities caps;
 	
 
-	final static public void initSingleton(){
+	final static public void initCaps(){
 		
 		//GLProfile.initSingleton(); 
 		

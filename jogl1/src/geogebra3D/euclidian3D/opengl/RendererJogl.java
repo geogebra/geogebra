@@ -36,7 +36,7 @@ public class RendererJogl {
 	
 	
 
-	final static public void initSingleton(){}
+	final static public void initCaps(){}
 	
 	final public static String JOGL_VERSION="JOGL1";
 	
