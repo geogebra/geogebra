@@ -625,7 +625,7 @@ __GGB__keysVar.ca_XV.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Pol\xedgon>, <Punt> ]\n[ <Pol\xedgon>, <Valor de l'altura> ]\n[ <Punt>, <Punt>, ... ]",
     "Product": "Producte",
-    "Product_Syntax": "[ <Llista num\xe8rica> ]\n[ <Llista num\xe8rica>, <Llista de freq\xfc\xe8ncies> ]",
+    "Product_Syntax": "[ <Llista num\xe8rica> ]\n[ <Llista num\xe8rica>, <Nombre d'elements> ]\n[ <Llista num\xe8rica>, <Llista de freq\xfc\xe8ncies> ]",
     "Product_SyntaxCAS": "[ <Llista d\u2019expressions> ]\n[ <Expressi\xf3>, <variable>, <\xedndex inicial>, <\xedndex final> ]",
     "Prove": "Prova",
     "Prove_Syntax": "[ <Expressi\xf3 booleana> ]",

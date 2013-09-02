@@ -625,7 +625,7 @@ __GGB__keysVar.fr.command = {
     "Prism": "Prisme",
     "Prism_Syntax": "[ <Polygone>, <Point> ]\n[ <Polygone>, <Hauteur> ]\n[ <Point>, <Point>, ... ]",
     "Product": "Produit",
-    "Product_Syntax": "[ <Liste de donn\xe9es brute> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
+    "Product_Syntax": "[ <Liste de donn\xe9es brute> ]\n[ <Liste de nombres>, <Nombre \xc9l\xe9ments> ]\n[ <Liste de nombres>, <Liste d'effectifs> ]",
     "Product_SyntaxCAS": "[ <Liste d'expressions> ]\n[ <Expression>, <variable>, <de>, <\xe0> ]",
     "Prove": "Prouver",
     "Prove_Syntax": "[ <Expression bool\xe9enne> ]",

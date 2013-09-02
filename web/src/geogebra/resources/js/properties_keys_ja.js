@@ -625,7 +625,7 @@ __GGB__keysVar.ja.command = {
     "Prism": "Prism",
     "Prism_Syntax": "[ <\u591a\u89d2\u5f62>, <\u70b9> ]\n[ <\u591a\u89d2\u5f62>, <\u9ad8\u3055> ]\n[ <\u70b9>, <\u70b9>, ... ]",
     "Product": "Product",
-    "Product_Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
+    "Product_Syntax": "[ <\u751f\u30c7\u30fc\u30bf\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u8981\u7d20\u6570> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u5ea6\u6570\u306e\u30ea\u30b9\u30c8> ]",
     "Product_SyntaxCAS": "[ <List of Expressions> ]\n[ <\u5f0f>, <\u5909\u6570>, <Start Index>, <End Index> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <\u8ad6\u7406\u5f0f> ]",

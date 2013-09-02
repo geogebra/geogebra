@@ -625,7 +625,7 @@ __GGB__keysVar.da.command = {
     "Prism": "Prisme",
     "Prism_Syntax": "[ <Polygon>, <Punkt> ]\n[ <Polygon>, <H\xf8jde> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Product": "Produkt",
-    "Product_Syntax": "[ <Liste med R\xe5 Data> ]\n[ <Liste med tal>, <Liste med hyppigheder> ]",
+    "Product_Syntax": "[ <Liste med R\xe5 Data> ]\n[ <Liste af tal>, <Antal elementer> ]\n[ <Liste med tal>, <Liste med hyppigheder> ]",
     "Product_SyntaxCAS": "[ <Liste af udtryk> ]\n[ <udtryk>, <variable>, <fra>, <til> ]",
     "Prove": "Bevis",
     "Prove_Syntax": "[ <Boolean Expression> ]",

@@ -625,7 +625,7 @@ __GGB__keysVar.et.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Hulknurk>, <Punkt> ]\n[ <Hulknurk>, <K\xf5rguse v\xe4\xe4rtus> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Product": "Korrutis",
-    "Product_Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Sageduste loend> ]",
+    "Product_Syntax": "[ <Algandmete loend> ]\n[ <Arvude loend>, <Elementide arv> ]\n[ <Arvude loend>, <Sageduste loend> ]",
     "Product_SyntaxCAS": "[ <Avaldiste loend> ]\n[ <Avaldis>, <Muutuja>, <Algusindeks>, <L\xf5ppindeks> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

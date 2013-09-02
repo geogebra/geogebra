@@ -625,7 +625,7 @@ __GGB__keysVar.it.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Poligono>, <Punto> ]\n[ <Poligono>, <Altezza> ]\n[ <Punto>, <Punto>, ... ]",
     "Product": "Prodotto",
-    "Product_Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
+    "Product_Syntax": "[ <Lista dati grezzi> ]\n[ <Lista di numeri>, <Numero di elementi> ]\n[ <Lista di numeri>, <Lista di frequenze> ]",
     "Product_SyntaxCAS": "[ <Lista di espressioni> ]\n[ <Espressione>, <Variabile>, <Indice iniziale>, <Indice finale> ]",
     "Prove": "Verifica",
     "Prove_Syntax": "[ <Espressione booleana> ]",

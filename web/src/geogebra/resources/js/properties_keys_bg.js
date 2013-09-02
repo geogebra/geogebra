@@ -625,7 +625,7 @@ __GGB__keysVar.bg.command = {
     "Prism": "\u041f\u0440\u0438\u0437\u043c\u0430",
     "Prism_Syntax": "[ <\u041c\u043d\u043e\u0433\u043e\u044a\u0433\u044a\u043b\u043d\u0438\u043a>, <\u0422\u043e\u0447\u043a\u0430> ]\n[ <\u041c\u043d\u043e\u0433\u043e\u044a\u0433\u044a\u043b\u043d\u0438\u043a>, <\u0412\u0438\u0441\u043e\u0447\u0438\u043d\u0430> ]\n[ <\u0422\u043e\u0447\u043a\u0430>, <\u0422\u043e\u0447\u043a\u0430>, .... ]",
     "Product": "\u041f\u0440\u043e\u0438\u0437\u0432\u0435\u0434\u0435\u043d\u0438\u0435",
-    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <Number of Elements> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "Product_SyntaxCAS": "[ <List of Expressions> ]\n[ <Expression>, <Variable>, <Start Index>, <End Index> ]",
     "Prove": "\u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u0441\u0442\u0432\u043e",
     "Prove_Syntax": "[ <\u0411\u0443\u043b\u0435\u0432 \u0418\u0437\u0440\u0430\u0437> ]",

@@ -625,7 +625,7 @@ __GGB__keysVar.sv.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Polygon>, <Punkt> ]\n[ <Polygon>, <H\xf6jd> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Product": "Produkt",
-    "Product_Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
+    "Product_Syntax": "[ <Lista med tal (r\xe5data)> ]\n[ <Lista med tal>, <Antal element> ]\n[ <Lista med tal>, <Lista med Frekvenser> ]",
     "Product_SyntaxCAS": "[ <Lista med uttryck> ]\n[ <Uttryck>, <Variabel>, <Fr\xe5n>, <Till> ]",
     "Prove": "Bevisa",
     "Prove_Syntax": "[ <Booleskt uttryck> ]",

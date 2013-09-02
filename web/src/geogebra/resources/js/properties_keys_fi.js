@@ -625,7 +625,7 @@ __GGB__keysVar.fi.command = {
     "Prism": "S\xe4rmi\xf6",
     "Prism_Syntax": "[ <Monikulmio>, <Piste> ]\n[ <Monikulmio>, <Korkeus> ]\n[ <Piste>, <Piste>, ... ]",
     "Product": "Tulo",
-    "Product_Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
+    "Product_Syntax": "[ <Datalista> ]\n[ <Lukulista>, <Alkioiden lukum\xe4\xe4r\xe4> ]\n[ <Lukulista>, <Lukum\xe4\xe4rien lista> ]",
     "Product_SyntaxCAS": "[ <Lausekelista> ]\n[ <Lauseke>, <Muuttuja>, <Muuttujan alkuarvo>, <Muuttujan loppuarvo> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

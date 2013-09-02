@@ -625,7 +625,7 @@ __GGB__keysVar.sr.command = {
     "Prism": "Prizma",
     "Prism_Syntax": "[ <mnogougao>, <ta\u010dka> ]\n[ <mnogougao>, <vrednost visine> ]\n[ <ta\u010dka>, <ta\u010dka>, ... ]",
     "Product": "Proizvod",
-    "Product_Syntax": "[ <lista neobra\u0111enih podataka> ]\n[ <lista brojeva>, <lista frekvencija> ]",
+    "Product_Syntax": "[ <lista neobra\u0111enih podataka> ]\n[ <lista brojeva>, <broj elemenata> ]\n[ <lista brojeva>, <lista frekvencija> ]",
     "Product_SyntaxCAS": "[ <lista izraza> ]\n[ <izraz>, <promenljiva>, <po\u010detna vrednost>, <krajnja vrednost> ]",
     "Prove": "Proveri",
     "Prove_Syntax": "[ <logi\u010dki izraz> ]",

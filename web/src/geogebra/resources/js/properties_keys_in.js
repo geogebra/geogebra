@@ -625,7 +625,7 @@ __GGB__keysVar.in.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Poligon>, <Titik> ]\n[ <Poligon>, <Nilai Tinggi> ]\n[ <Titik>, <Titik>, ... ]",
     "Product": "Perkalian",
-    "Product_Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
+    "Product_Syntax": "[ <Daftar Data Mentah> ]\n[ <Daftar Angka>, <Banyaknya Elemen> ]\n[ <Daftar Angka>, <Daftar Frekuensi> ]",
     "Product_SyntaxCAS": "[ <Daftar Frekuensi> ]\n[ <Ekspresi>, <Variabel>, <Indeks Awal>, <Indeks Akhir> ]",
     "Prove": "Buktikan",
     "Prove_Syntax": "[ <Ekspresi Boolean> ]",

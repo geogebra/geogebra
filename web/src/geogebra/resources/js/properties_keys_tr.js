@@ -625,7 +625,7 @@ __GGB__keysVar.tr.command = {
     "Prism": "Prizma",
     "Prism_Syntax": "[ <\xc7okgen>, <Nokta> ]\n[ <\xc7okgen>, <Y\xfckseklik de\u011feri> ]\n[ <Nokta>, <Nokta>, ... ]",
     "Product": "\xc7arp\u0131m",
-    "Product_Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
+    "Product_Syntax": "[ <Ham Veri Listesi> ]\n[ <Say\u0131 Listesi>, <\xd6\u011fe Listesi> ]\n[ <Say\u0131 Listesi>, <Frekans Listesi> ]",
     "Product_SyntaxCAS": "[ <\u0130fade Listesi> ]\n[ <\u0130fade>, <De\u011fi\u015fken>, <Ba\u015flang\u0131\xe7 indisi>, <Biti\u015f indisi> ]",
     "Prove": "\u0130spatla",
     "Prove_Syntax": "[ <Mant\u0131ksal \u0130fade> ]",

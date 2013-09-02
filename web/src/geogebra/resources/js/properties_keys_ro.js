@@ -625,7 +625,7 @@ __GGB__keysVar.ro.command = {
     "Prism": "Prism",
     "Prism_Syntax": "[ <Polygon>, <Point> ]\n[ <Polygon>, <Height value> ]\n[ <Point>, <Point>, ... ]",
     "Product": "Produs",
-    "Product_Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
+    "Product_Syntax": "[ <List\u0103 Date Brute> ]\n[ <List\u0103 de numere>, <Numb\u0103rul elementelor> ]\n[ <List\u0103 Numere>, <List\u0103 Frecven\u021be> ]",
     "Product_SyntaxCAS": "[ <List\u0103 Expresii> ]\n[ <Expresie>, <Variabil\u0103>, <Index Ini\u021bial>, <Index Final> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

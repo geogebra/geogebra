@@ -625,7 +625,7 @@ __GGB__keysVar.es.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Pol\xedgono>, <Punto> ]\n[ <Pol\xedgono>, <Altura (valor)> ]\n[ <Punto>, <Punto>, ... ]",
     "Product": "Producto",
-    "Product_Syntax": "[ <Lista de Datos en Bruto> ]\n[ <Lista de N\xfameros>, <Lista de Frecuencias> ]",
+    "Product_Syntax": "[ <Lista de Datos en Bruto> ]\n[ <Lista de N\xfameros>, <N\xfamero de Elementos> ]\n[ <Lista de N\xfameros>, <Lista de Frecuencias> ]",
     "Product_SyntaxCAS": "[ <Lista de Expresiones> ]\n[ <Expresi\xf3n>, <Variable>, <Indice Inicial>, <Indice Final> ]",
     "Prove": "Prueba",
     "Prove_Syntax": "[ <Expresi\xf3n Booleana> ]",

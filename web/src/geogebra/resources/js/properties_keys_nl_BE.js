@@ -625,7 +625,7 @@ __GGB__keysVar.nl_BE.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Veelhoek>, <Punt> ]\n[ <Veelhoek>, <Hoogte> ]\n[ <Punt>, <Punt>, ... ]",
     "Product": "Product",
-    "Product_Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
+    "Product_Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met getallen>, <Aantal elementen> ]\n[ <Lijst met getallen>, <Lijst met Frequencies> ]",
     "Product_SyntaxCAS": "[ <Lijst van getallen> ]\n[ <Uitdrukking>, <Variabele>, <Start Index>, <Eind Index> ]",
     "Prove": "Bewijs",
     "Prove_Syntax": "[ <Boolean Expressie> ]",

@@ -625,7 +625,7 @@ __GGB__keysVar.eo.command = {
     "Prism": "Prismo",
     "Prism_Syntax": "[ <Plurlatero>, <Punkto> ]\n[ <Plurlatero>, <Alto> ]\n[ <Punkto>, <Punkto>, ... ]",
     "Product": "Produto",
-    "Product_Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]",
+    "Product_Syntax": "[ <Listo de Krudaj Datumoj> ]\n[ <Listo de Nombroj>, <Listo de Oftoj> ]\n[ <Listo de Nombroj>, <Nombro de Elementoj> ]",
     "Product_SyntaxCAS": "[ <Listo de Esprimo> ]\n[ <Esprimo>, <Variablo>, <Komenca Indico>, <Fina Indico> ]",
     "Prove": "Pruvi",
     "Prove_Syntax": "[ <Bulea Esprimo> ]",

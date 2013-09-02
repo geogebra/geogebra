@@ -625,7 +625,7 @@ __GGB__keysVar.de.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Vieleck>, <Punkt> ]\n[ <Vieleck>, <H\xf6he> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Product": "Produkt",
-    "Product_Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
+    "Product_Syntax": "[ <Liste von Rohdaten> ]\n[ <Liste von Zahlen>, <Anzahl von Elementen> ]\n[ <Liste von Zahlen>, <Liste von H\xe4ufigkeiten> ]",
     "Product_SyntaxCAS": "[ <Liste von Ausdr\xfccken> ]\n[ <Ausdruck>, <Variable>, <Startwert>, <Endwert> ]",
     "Prove": "Pr\xfcfe",
     "Prove_Syntax": "[ <Wahrheitswert> ]",

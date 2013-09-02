@@ -625,7 +625,7 @@ __GGB__keysVar.cs.command = {
     "Prism": "Hranol",
     "Prism_Syntax": "[ <Mnoho\xfaheln\xedk>, <Bod> ]\n[ <Mnoho\xfaheln\xedk>, <Hodnota v\xfd\u0161ky> ]\n[ <Bod>, <Bod>, ... ]",
     "Product": "Soucin",
-    "Product_Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
+    "Product_Syntax": "[ <Seznam zdrojov\xfdch dat> ]\n[ <Seznam \u010d\xedsel>, <Po\u010det prvk\u016f> ]\n[ <Seznam \u010d\xedsel>, <Seznam frekvenc\xed> ]",
     "Product_SyntaxCAS": "[ <Seznam v\xfdraz\u016f> ]\n[ <V\xfdraz>, <Prom\u011bnn\xe1>, <Po\u010d\xe1te\u010dn\xed index>, <Koncov\xfd index> ]",
     "Prove": "Dokazat",
     "Prove_Syntax": "[ <Pravdivostn\xed hodnota> ]",

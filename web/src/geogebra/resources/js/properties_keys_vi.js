@@ -625,7 +625,7 @@ __GGB__keysVar.vi.command = {
     "Prism": "HinhTru",
     "Prism_Syntax": "[ <\u0110a gi\xe1c>, <\u0110i\u1ec3m> ]\n[ <\u0110a gi\xe1c>, <\u0110\u01b0\u1eddng cao> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, ... ]",
     "Product": "Tich",
-    "Product_Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch c\xe1c t\u1ea7n s\u1ed1> ]",
+    "Product_Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]\n[ <Danh s\xe1ch s\u1ed1>, <S\u1ed1 ph\u1ea7n t\u1eed> ]\n[ <Danh s\xe1ch c\xe1c s\u1ed1>, <Danh s\xe1ch c\xe1c t\u1ea7n s\u1ed1> ]",
     "Product_SyntaxCAS": "[ <Danh s\xe1ch bi\u1ec3u th\u1ee9c> ]\n[ <Bi\u1ec3u th\u1ee9c>, <Bi\u1ebfn s\u1ed1>, <Ch\u1ec9 s\u1ed1 \u0111\u1ea7u>, <Ch\u1ec9 s\u1ed1 cu\u1ed1i> ]",
     "Prove": "ChungMinh",
     "Prove_Syntax": "[ <Bi\u1ec3u th\u1ee9c Boolean> ]",

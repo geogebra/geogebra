@@ -625,7 +625,7 @@ __GGB__keysVar.ne.command = {
     "Prism": "Prism",
     "Prism_Syntax": "[ <Polygon>, <Point> ]\n[ <Polygon>, <Height value> ]\n[ <Point>, <Point>, ... ]",
     "Product": "\u0917\u0942\u0923\u0928",
-    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <Number of Elements> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "Product_SyntaxCAS": "[ <\u0915\u0925\u0928\u0915\u094b \u0938\u0941\u091a\u0940> ]\n[ <\u0938\u0941\u091a\u0940>, <\u091a\u0932>, <\u0938\u0941\u091a\u0940 \u0936\u0941\u0930\u0941>, <\u0938\u0941\u091a\u0940 \u0905\u0928\u094d\u0924\u094d\u092f> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

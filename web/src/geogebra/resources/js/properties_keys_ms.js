@@ -625,7 +625,7 @@ __GGB__keysVar.ms.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Poligon>, <Titik> ]\n[ <Poligon>, <Nilai Ketinggian> ]\n[ <Titik>, <Titik>, ... ]",
     "Product": "HasilDarab",
-    "Product_Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
+    "Product_Syntax": "[ <Senarai Data Mentah> ]\n[ <Senarai Nombor>, <Bilangan Elemen> ]\n[ <Senarai Nombor>, <Senarai Kekerapan> ]",
     "Product_SyntaxCAS": "[ <Senarai Ungkapan> ]\n[ <Ungkapan>, <Pembolehubah>, <Indeks Mula>, <Indeks Tamat> ]",
     "Prove": "Buktikan",
     "Prove_Syntax": "[ <Ungkapan Boolean> ]",

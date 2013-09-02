@@ -625,7 +625,7 @@ __GGB__keysVar.ty.command = {
     "Prism": "Prism",
     "Prism_Syntax": "[ <Polygon>, <Point> ]\n[ <Polygon>, <Height value> ]\n[ <Point>, <Point>, ... ]",
     "Product": "Product",
-    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <List of Frequencies> ]",
+    "Product_Syntax": "[ <List of Raw Data> ]\n[ <List of Numbers>, <Number of Elements> ]\n[ <List of Numbers>, <List of Frequencies> ]",
     "Product_SyntaxCAS": "[ <List of Expressions> ]\n[ <Expression>, <Variable>, <Start Index>, <End Index> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

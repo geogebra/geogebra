@@ -625,7 +625,7 @@ __GGB__keysVar.eu.command = {
     "Prism": "Prisma",
     "Prism_Syntax": "[ <Poligonoa>, <Puntua> ]\n[ <Poligonoa>, <Altueraren Balioa> ]\n[ <Puntua>, <Puntua>, ... ]",
     "Product": "Biderkadura",
-    "Product_Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
+    "Product_Syntax": "[ <Datu Gordinen Zerrenda> ]\n[ <Zenbakien Zerrenda>, <Zenbat Elementu> ]\n[ <Zenbakien Zerrenda>, <Maiztasunen Zerrenda> ]",
     "Product_SyntaxCAS": "[ <Adierazpenen Zerrenda> ]\n[ <Adierazpena>, <Aldagaia>, <Hasierako Balioa>, <Bukaerako Balioa> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

@@ -625,7 +625,7 @@ __GGB__keysVar.pl.command = {
     "Prism": "Graniastos\u0142up",
     "Prism_Syntax": "[ <Wielok\u0105t>, <Punkt> ]\n[ <Wielok\u0105t>, <Wysoko\u015b\u0107> ]\n[ <Punkt>, <Punkt>, ... ]",
     "Product": "IloczynElement\xf3w",
-    "Product_Syntax": "[ <Lista Liczb> ]\n[ <Lista Liczb>, <Lista Cz\u0119sto\u015bci> ]",
+    "Product_Syntax": "[ <Lista Liczb> ]\n[ <Lista>, <Liczba Element\xf3w> ]\n[ <Lista Liczb>, <Lista Cz\u0119sto\u015bci> ]",
     "Product_SyntaxCAS": "[ <Lista Wyra\u017ce\u0144> ]\n[ <Wyra\u017cenie>, <Zmienna>, <Pocz\u0105tek>, <Koniec> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

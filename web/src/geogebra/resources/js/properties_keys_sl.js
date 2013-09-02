@@ -625,7 +625,7 @@ __GGB__keysVar.sl.command = {
     "Prism": "Prizma",
     "Prism_Syntax": "[ <mnogokotnik>, <to\u010dka> ]\n[ <mnogokotnik>, <vi\u0161ina> ]\n[ <to\u010dka>, <to\u010dka>, ... ]",
     "Product": "Produkt",
-    "Product_Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
+    "Product_Syntax": "[ <seznam vrstic s podatki> ]\n[ <seznam \u0161tevil>, <\u0161tevilo elementov> ]\n[ <seznam \u0161tevil>, <seznam frekvenc> ]",
     "Product_SyntaxCAS": "[ <seznam izrazov> ]\n[ <izraz>, <spremenljivka>, <za\u010detni indeks>, <kon\u010dni indeks> ]",
     "Prove": "Preveri",
     "Prove_Syntax": "[ <logi\u010dni izraz> ]",

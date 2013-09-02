@@ -625,7 +625,7 @@ __GGB__keysVar.hu.command = {
     "Prism": "Has\xe1b",
     "Prism_Syntax": "[ <Soksz\xf6g>, <Pont> ]\n[ <Soksz\xf6g>, <Magass\xe1g> ]\n[ <Pont>, <Pont>, ... ]",
     "Product": "Szorzat",
-    "Product_Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
+    "Product_Syntax": "[ <Nyers adatok list\xe1ja> ]\n[ <Sz\xe1mok list\xe1ja>, <Elemek sz\xe1ma> ]\n[ <Sz\xe1mok list\xe1ja>, <Gyakoris\xe1gok list\xe1ja> ]",
     "Product_SyntaxCAS": "[ <Kifejez\xe9sek list\xe1ja> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3>, <Kezd\u0151 sorsz\xe1m>, <Z\xe1r\xf3 sorsz\xe1m> ]",
     "Prove": "Bizony\xedt",
     "Prove_Syntax": "[ <Logikai kifejez\xe9s> ]",

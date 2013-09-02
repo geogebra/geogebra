@@ -625,7 +625,7 @@ __GGB__keysVar.is.command = {
     "Prism": "Strendingur",
     "Prism_Syntax": "[ <Marghyrningur>, <Punktur> ]\n[ <Marghyrningur>, <H\xe6\xf0> ]\n[ <Punktur>, <Punktur>, ... ]",
     "Product": "Margfeldi",
-    "Product_Syntax": "[ <Listi \xf3flokka\xf0ra gagna> ]\n[ <Listi af t\xf6lum>, <Listi af t\xed\xf0nit\xf6lum> ]",
+    "Product_Syntax": "[ <Listi \xf3flokka\xf0ra gagna> ]\n[ <Listi af t\xf6lum>, <Fj\xf6ldi staka> ]\n[ <Listi af t\xf6lum>, <Listi af t\xed\xf0nit\xf6lum> ]",
     "Product_SyntaxCAS": "[ <Listi af st\xe6\xf0um> ]\n[ <St\xe6\xf0a>, <breyta>, <upphafsn\xfamer>, <lokan\xfamer> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Boolean Expression> ]",

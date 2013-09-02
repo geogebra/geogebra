@@ -625,7 +625,7 @@ __GGB__keysVar.sq.command = {
     "Prism": "Prizem",
     "Prism_Syntax": "[ <Poligon>, <Pike> ]\n[ <Poligon>, <Vlere lartesie> ]\n[ <Pike>, <Pike>, ... ]",
     "Product": "Produkt",
-    "Product_Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste me Numra>, <Liste me Frekuenca> ]",
+    "Product_Syntax": "[ <Liste te Dhenash te Paperpunuara> ]\n[ <Liste me Numra>, <Numer e Elementeve> ]\n[ <Liste me Numra>, <Liste me Frekuenca> ]",
     "Product_SyntaxCAS": "[ <Liste e Shprehjeve> ]\n[ <Shprehje>, <Variabel>, <Indeksi Fillimit>, <Indeksi Mbarimit> ]",
     "Prove": "Prove",
     "Prove_Syntax": "[ <Shprehje Buleane> ]",

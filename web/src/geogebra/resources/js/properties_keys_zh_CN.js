@@ -625,7 +625,7 @@ __GGB__keysVar.zh_CN.command = {
     "Prism": "\u68f1\u67f1",
     "Prism_Syntax": "[ <\u591a\u8fb9\u5f62>, <\u70b9> ]\n[ <\u591a\u8fb9\u5f62>, <\u9ad8\u5ea6\u503c> ]\n[ <\u70b91>, <\u70b92>, ... ]",
     "Product": "\u4e58\u79ef",
-    "Product_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408> ]\n[ <\u6570\u96c6>, <\u9891\u6570\u96c6\u5408> ]",
+    "Product_Syntax": "[ <\u539f\u59cb\u6570\u636e\u96c6\u5408> ]\n[ <\u6570\u96c6>, <\u5143\u7d20\u6570\u91cf> ]\n[ <\u6570\u96c6>, <\u9891\u6570\u96c6\u5408> ]",
     "Product_SyntaxCAS": "[ <\u8868\u8fbe\u5f0f\u96c6\u5408> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf>, <\u521d\u59cb\u6307\u9488>, <\u7ec8\u6b62\u6307\u9488> ]",
     "Prove": "\u8bc1\u660e",
     "Prove_Syntax": "[ <\u5e03\u5c14\u8868\u8fbe\u5f0f> ]",

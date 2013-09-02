@@ -625,7 +625,7 @@ __GGB__keysVar.sk.command = {
     "Prism": "Hranol",
     "Prism_Syntax": "[ <Mnohouholn\xedk>, <Bod> ]\n[ <Mnohouholn\xedk>, <Hodnota v\xfd\u0161ky> ]\n[ <Bod>, <Bod>, ... ]",
     "Product": "Produktum",
-    "Product_Syntax": "[ <Zoznam p\u1ed1vodn\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
+    "Product_Syntax": "[ <Zoznam p\u1ed1vodn\xfdch \xfadajov> ]\n[ <Zoznam \u010d\xedsel>, <Zoznam prvkov> ]\n[ <Zoznam \u010d\xedse\u013e>, <Zoznam po\u010detnost\xed> ]",
     "Product_SyntaxCAS": "[ <Zoznam v\xfdrazov> ]\n[ <Zoznam v\xfdrazov>, <Premenn\xe1>, <index od>, <index do> ]",
     "Prove": "Verifikova\u0165",
     "Prove_Syntax": "[ <Logick\xfd v\xfdraz> ]",
