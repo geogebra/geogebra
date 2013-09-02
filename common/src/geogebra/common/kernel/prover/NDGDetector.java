@@ -17,6 +17,8 @@ import java.util.List;
 /**
  * Detects polynomial NDG conditions and turns into human readable form
  * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * 
+ * TODO: This code could be highly improved by creating a lookup table.
  */
 public class NDGDetector {
 
@@ -136,12 +138,15 @@ public class NDGDetector {
 			Polynomial xeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, xeq)) {
 				App.debug(p + " means x-equality for " + pair);
+				return null;  // we don't want this condition
+				/*
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("xAreEqual");
 				ndgc.setReadability(5); // we don't want this condition
 				return ndgc;
+				*/
 			}
 		}
 
@@ -163,12 +168,15 @@ public class NDGDetector {
 			Polynomial yeq = (new Polynomial(coords[0]).subtract(new Polynomial(coords[1]))).substitute(substitutions);
 			if (Polynomial.areAssociates1(p, yeq)) {
 				App.debug(p + " means y-equality for " + pair);
+				return null; // we don't want this condition
+				/*
 				NDGCondition ndgc = new NDGCondition();
 				ndgc.setGeos(points);
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("yAreEqual");
 				ndgc.setReadability(5); // we don't want this condition
 				return ndgc;
+				*/
 			}
 		}
 

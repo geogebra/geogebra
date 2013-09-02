@@ -25,6 +25,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.ProverSettings;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.util.Prover.ProverEngine;
 
 import java.util.Date;
@@ -40,7 +41,7 @@ public class AlgoProveDetails extends AlgoElement {
 
     private GeoElement root;  // input
     private GeoList list;     // output
-    private Boolean result;
+    private Boolean result, unreadable;
     private HashSet<NDGCondition> ndgresult;
         
     /**
@@ -121,6 +122,12 @@ public class AlgoProveDetails extends AlgoElement {
     	
     	result = p.getYesNoAnswer();
     	ndgresult = p.getNDGConditions();
+    	if (p.getProofResult() == ProofResult.TRUE_NDG_UNREADABLE) {
+    		unreadable = true;
+    	}
+    	if (p.getProofResult() == ProofResult.TRUE) {
+    		unreadable = false;
+    	}
     	
     	App.debug("Statement is " + result);
     	
@@ -196,6 +203,15 @@ public class AlgoProveDetails extends AlgoElement {
 					ndgConditionsList.add(it2.next());
 				}
 
+				if (unreadable) {
+					GeoText ndgConditionText = new GeoText(cons);
+					sortedSet.add(ndgConditionText);
+					ndgConditionText.setTextString("...");
+					ndgConditionText.setLabelVisible(false);
+					ndgConditionText.setEuclidianVisible(false);
+					ndgConditionsList.add(ndgConditionText);
+				}
+				
 				// Put this list to the final output (if non-empty):
 				if (ndgConditionsList.size() > 0)
 					list.add(ndgConditionsList);

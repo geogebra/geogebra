@@ -348,55 +348,72 @@ public class ProverBotanasMethod {
 				if (prover.isReturnExtraNDGs()) {
 					eqSystem[nHypotheses + nPolysStatement - 1] = spoly;				
 					
-					Set<Set<Polynomial>> eliminationIdeal = Polynomial.eliminate(eqSystem, substitutions, statement.getKernel());
-					if (eliminationIdeal == null){
-						return ProofResult.UNKNOWN;
-					}
+					Set<Set<Polynomial>> eliminationIdeal;
 					
-					Iterator<Set<Polynomial>> ndgSet = eliminationIdeal.iterator();
 					boolean found = false;
-					List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
-					double bestScore = Double.POSITIVE_INFINITY;
-					while (ndgSet.hasNext()) {
-						List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
-						double score = 0.0;
-						// All NDGs must be translatable into human readable form.
-						boolean readable = true;
-						Iterator<Polynomial> ndg = ndgSet.next().iterator();
-						while (ndg.hasNext() && readable) {
-							Polynomial poly = ndg.next();
-							if (poly.isZero())
-								return ProofResult.FALSE;
-							if (!Polynomial.areAssociates1(poly, new Polynomial(1))) { // poly is not 1 or -1
-								NDGCondition ndgc = NDGDetector.detect(poly, prover, substitutions);
-								if (ndgc == null)
-									readable = false;
-								else {
-									ndgcl.add(ndgc);
-									score += ndgc.getReadability();
+					int permutation = 0;
+					int MAX_PERMUTATIONS = 1; // Giac cannot permute the variables at the moment.
+					if (App.singularWS != null && App.singularWS.isAvailable())
+						MAX_PERMUTATIONS = 20; // intuitively set, see Polynomial.java for more on info
+					while (!found && permutation < MAX_PERMUTATIONS) {
+
+						eliminationIdeal = Polynomial.eliminate(eqSystem,
+								substitutions, statement.getKernel(), permutation++);
+						if (eliminationIdeal == null) {
+							return ProofResult.UNKNOWN;
+						}
+
+						Iterator<Set<Polynomial>> ndgSet = eliminationIdeal
+								.iterator();
+						List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
+						double bestScore = Double.POSITIVE_INFINITY;
+						while (ndgSet.hasNext()) {
+							List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
+							double score = 0.0;
+							// All NDGs must be translatable into human readable
+							// form.
+							boolean readable = true;
+							Iterator<Polynomial> ndg = ndgSet.next().iterator();
+							while (ndg.hasNext() && readable) {
+								Polynomial poly = ndg.next();
+								if (poly.isZero())
+									return ProofResult.FALSE;
+								if (!Polynomial.areAssociates1(poly,
+										new Polynomial(1))) { // poly is not 1
+																// or -1
+									NDGCondition ndgc = NDGDetector.detect(
+											poly, prover, substitutions);
+									if (ndgc == null)
+										readable = false;
+									else {
+										ndgcl.add(ndgc);
+										score += ndgc.getReadability();
+									}
 								}
 							}
+							// Now we take the set if the conditions are
+							// readable and the set is the current best.
+							// TODO: Here we should simplify the NDGs, i.e. if
+							// one of them is a logical
+							// consequence of others, then it should be
+							// eliminated.
+							if (readable && score < bestScore) {
+								bestScore = score;
+								bestNdgSet = ndgcl;
+								found = true;
+							}
 						}
-						// Now we take the set if the conditions are readable and the set is the current best.
-						// TODO: Here we should simplify the NDGs, i.e. if one of them is a logical
-						// consequence of others, then it should be eliminated.
-						if (readable && score < bestScore) {
-							bestScore = score;
-							bestNdgSet = ndgcl;
-							found = true;
+						if (found) {
+							Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
+							while (ndgc.hasNext()) {
+								prover.addNDGcondition(ndgc.next());
+							}
 						}
 					}
-					// No readable proof was found, search for another prover to make a better job:
+					// No readable proof was found, search for another
+					// prover to make a better job:
 					if (!found)
-						return ProofResult.UNKNOWN;
-					// FIXME: If no readable proof was found at all, but the statement is true,
-					// ProveDetails should return {true,?} or {true,{...}} --- TODO: discuss this.
-					
-					Iterator<NDGCondition> ndgc = bestNdgSet.iterator();
-					while (ndgc.hasNext()) {
-						prover.addNDGcondition(ndgc.next());
-					}
-					
+						return ProofResult.TRUE_NDG_UNREADABLE;
 				} else {
 					Boolean solvable = Polynomial.solvable(eqSystem, substitutions, statement.getKernel(),
 						ProverSettings.polysofractf);

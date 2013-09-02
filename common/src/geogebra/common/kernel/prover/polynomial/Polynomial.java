@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * This is a simple polynomial class for polynomials with arbitrary many
@@ -804,7 +805,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	
 	public static String createEliminateFactorizedScript( 
-			Polynomial[] polys, Set<Variable> variables, Set<Variable> dependentVariables) {
+			Polynomial[] polys, Variable[] pVariables, Set<Variable> dependentVariables) {
 
 		String ringVariable = "r";
 		String idealVariable = "i";
@@ -818,12 +819,10 @@ public class Polynomial implements Comparable<Polynomial> {
 		ret.append(ringVariable);
 		ret.append("=0,(");
 		String vars = "";
-		Iterator<Variable> variablesIterator = variables.iterator();
-		while (variablesIterator.hasNext()) {
-			vars += variablesIterator.next();
-			if (variablesIterator.hasNext())
-				vars += ",";
+		for (Variable v : pVariables) {
+			vars += v + ",";
 		}
+		vars = vars.substring(0, vars.length() - 1);
 		
 		if (vars != "")
 			ret.append(vars);
@@ -975,10 +974,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return elements of the elimination ideal
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
-			HashMap<Variable, Integer> substitutions, Kernel kernel) {
+			HashMap<Variable, Integer> substitutions, Kernel kernel, int permutation) {
 
-		HashSet<Variable> dependentVariables = new HashSet<Variable>();
-		Set<Variable> variables = getVars(eqSystem);
+		TreeSet<Variable> dependentVariables = new TreeSet<Variable>();
+		TreeSet<Variable> variables = new TreeSet<Variable>(getVars(eqSystem));
 		Iterator<Variable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
 			Variable variable = variablesIterator.next();
@@ -1002,8 +1001,65 @@ public class Polynomial implements Comparable<Polynomial> {
 		App.debug(variables.size() + " variables, " + dependentVariables.size() + " dependent variables");
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()) {
+
+			/* Permuting the variables. For the detailed method see
+			 * Zoltan's master thesis on a card permutation machine at
+			 * http://www.math.u-szeged.hu/~kovzol/mat/fraktal/SZAKDOLGOZAT.ps.gz
+			 * (in Hungarian), page 28. Assuming there are N variables, the possible
+			 * permutations are not greater than 2*N. We simply limit the number of
+			 * steps to 20, in some cases this is not enough, sometimes it is too much.
+			 * 
+			 * We need a simple permutation mini-engine since we cannot check all permutations
+			 * for so many variables. It is not proven and even not thoroughly checked
+			 * if such a mini-engine is good enough for the problem. Basically, we search
+			 * for such an engine which is deterministic, shuffles the cards good enough
+			 * to get different ideals after the elimination, and gives readable results.
+			 * 
+			 * This code is quite experimental. Maybe completely useless, since
+			 * there is no guarantee that in 20 steps we get a set of readable
+			 * conditions. Also the code itself is quite inefficiently programmed.
+			 * If you decide to remove this code, you may want to remove MAX_PERMUTATIONS
+			 * from ProverBotanasMethod.java.
+			 * 
+			 * We change the permutations only with Singular. Maybe there is a way to
+			 * change the order of the variables much more efficiently inside Singular
+			 * instead.  
+			 */
+			int vSize = variables.size();
+			Variable[] aVariables = new Variable[vSize];
+			Iterator<Variable> it = variables.iterator();
+			int ai = 0;
+			while (it.hasNext()) {
+				aVariables[ai++] = it.next();
+			}
+			int[] indices = new int[vSize];
+			int[] newIndices = new int[vSize];
+			for (int i = 0; i < vSize; ++i) {
+				indices[i] = i;
+			}
+			for (int i = 0; i < permutation; ++i) {
+				for (int j = 0; j < vSize; ++j) {
+					int k = 2 * indices[j];
+					if (k >= vSize) {
+						k = 2 * vSize - k - 1;
+					}
+					newIndices[k] = j;
+				}
+				for (int j = 0; j < vSize; ++j) {
+					indices[j] = newIndices[j];
+				}	
+			}
+			Variable[] pVariables = new Variable[vSize];
+			String debug = "";
+			for (int j = 0; j < vSize; ++j) {
+				pVariables[j] = aVariables[indices[j]];
+				debug += aVariables[indices[j]] + ",";
+			}
+			App.debug("Checking variable permutation #" + permutation + ": " + debug.substring(0, debug.length()-1));
+			/* End of permutation. */
+			
 			elimProgram = createEliminateFactorizedScript(
-					eqSystemSubstituted, variables, dependentVariables);
+					eqSystemSubstituted, pVariables, dependentVariables);
 			
 			if (elimProgram.length() > 500)
 				App.debug(elimProgram.length()

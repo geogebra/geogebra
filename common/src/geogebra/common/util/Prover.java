@@ -54,13 +54,20 @@ public abstract class Prover {
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 *
 	 */
-	public enum ProofResult {/**
+	public enum ProofResult {
+	/**
 	 * The proof is completed, the statement is generally true (with some NDG conditions)
 	 */
-	TRUE, /**
+	TRUE, 
+	/**
+	 * The statement is generally true (with some NDG conditions) but no readable NDGs were found 
+	 */
+	TRUE_NDG_UNREADABLE, 
+	/**
 	 * The proof is completed, the statement is generally false
 	 */
-	FALSE, /**
+	FALSE, 
+	/**
 	 * The statement cannot be proved by using the current backed within the given timeout 
 	 */
 	UNKNOWN}
@@ -360,7 +367,8 @@ public abstract class Prover {
 		else
 			it = proveAutoOrder.iterator();
 		result = ProofResult.UNKNOWN;
-		while (result == ProofResult.UNKNOWN && it.hasNext()) {
+		while ((result == ProofResult.UNKNOWN || result == ProofResult.TRUE_NDG_UNREADABLE)
+				&& it.hasNext()) {
 			ProverEngine pe = it.next();
 			callEngine(pe);
 		}
@@ -410,7 +418,7 @@ public abstract class Prover {
 	public Boolean getYesNoAnswer() {
 		if (result != null)
 		{
-			if (result == Prover.ProofResult.TRUE)
+			if (result == Prover.ProofResult.TRUE || result == Prover.ProofResult.TRUE_NDG_UNREADABLE)
 				return true;
 			if (result == Prover.ProofResult.FALSE)
 				return false;
