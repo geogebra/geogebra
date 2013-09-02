@@ -1,6 +1,7 @@
 package test;
 
 
+
 import geogebra3D.euclidian3D.opengl.Animator;
 import geogebra3D.euclidian3D.opengl.Component3D;
 import geogebra3D.euclidian3D.opengl.RendererJogl;
@@ -82,9 +83,16 @@ public class Test implements GLEventListener {
 	}
 
 	@Override
-	public void init(GLAutoDrawable arg0) {
-		// TODO Auto-generated method stub
+	public void init(GLAutoDrawable drawable) {
 		
+		GL gl = drawable.getGL(); 
+		
+		System.out.println("Init on "+Thread.currentThread()
+				+"\nChosen GLCapabilities: " + drawable.getChosenGLCapabilities()
+				+"\nINIT GL IS: " + gl.getClass().getName()
+				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
+				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
+				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION)); 
 	}
 
 	@Override

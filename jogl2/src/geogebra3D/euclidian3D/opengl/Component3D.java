@@ -26,7 +26,7 @@ public class Component3D extends GLCanvas{
 
 		//super(new GLCapabilities( GLProfile.getDefault() )); //GLJPanel
 		//super(RendererJogl.caps); //GLJPanel or GLCanvas	
-		super(null);
+		super();
 	}
 
 	
