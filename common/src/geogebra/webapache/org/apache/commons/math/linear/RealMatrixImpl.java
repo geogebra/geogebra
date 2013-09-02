@@ -19,8 +19,6 @@ package org.apache.commons.math.linear;
 
 import java.io.Serializable;
 
-import com.google.gwt.core.client.GWT;
-
 import org.apache.commons.math.MathRuntimeException;
 //EJimport org.apache.commons.math.linear.MatrixVisitorException;
 //import org.apache.commons.math.exception.util.LocalizedFormats;

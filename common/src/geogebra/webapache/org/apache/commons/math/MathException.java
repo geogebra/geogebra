@@ -18,7 +18,6 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math;
 
-import com.google.gwt.core.client.GWT;
 import geogebra.common.main.App;
 
 
