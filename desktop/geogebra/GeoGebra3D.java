@@ -17,7 +17,7 @@
  */
 package geogebra;
 
-import geogebra3D.euclidian3D.opengl.RendererJogl;
+
 
 public class GeoGebra3D extends GeoGebra {
 
@@ -25,7 +25,7 @@ public class GeoGebra3D extends GeoGebra {
 	public static final String XML_FILE_FORMAT = "5.0";
 
 	static {
-		RendererJogl.initCaps();
+		//RendererJogl.initCaps();
 	}
 
 	public static void main(String[] cmdArgs) {

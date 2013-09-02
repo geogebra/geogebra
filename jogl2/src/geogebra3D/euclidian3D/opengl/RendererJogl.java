@@ -41,6 +41,7 @@ public class RendererJogl {
 
 	final static public void initCaps(){
 		
+		/*
 		//GLProfile.initSingleton(); 
 		
 		caps = new GLCapabilities(GLProfile.getDefault());
@@ -53,6 +54,7 @@ public class RendererJogl {
 		caps.setNumSamples(4);    	
 		//avoid flickering
 		caps.setDoubleBuffered(true);
+		*/
 
 	}
 	
