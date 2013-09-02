@@ -17,7 +17,6 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -1648,8 +1647,21 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	private ValidExpression wrapEvaluate(ValidExpression arg) {
 		// don't want to wrap eg Integral[(x+1)^100] otherwise it will be expanded
-		if (arg.inspect(Inspecting.ExtendedCommandFinder.INSTANCE)) {
+		if (arg.unwrap() instanceof Command) {
 			return arg;
+		}
+		// don't wrap if f'(x) is on top level (it is the same as Derivative[f(x)])
+		if (arg.unwrap() instanceof ExpressionNode) {
+			ExpressionNode en = (ExpressionNode) arg.unwrap();
+			if ((en.getOperation().equals(Operation.FUNCTION) ||
+					en.getOperation().equals(Operation.FUNCTION_NVAR))
+					&& en.getLeft() instanceof ExpressionNode) {
+				ExpressionNode en2 = (ExpressionNode) en.getLeft();
+				if (en2.getOperation().equals(Operation.DERIVATIVE)) {
+					return arg;
+				}
+				
+			}
 		}
 
 		ExpressionValue argUnwrapped = arg.unwrap();
