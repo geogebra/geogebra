@@ -2816,6 +2816,7 @@ public class MyXMLHandler implements DocHandler {
 					return;
 				}
 				cons.addToConstructionList(geoCasCell, true);
+				cons.addToGeoSetWithCasCells(geoCasCell);
 				if (geoCasCell.isAssignmentVariableDefined()) {
 					// make sure assignment is sent to underlying CAS, e.g. f(x)
 					// := x^2

@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.util.debug.Log;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
@@ -68,25 +69,34 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 		// handle marble click
 		int releasedRow = table.rowAtPoint(e.getPoint());
-		RowHeaderRenderer rhr = (RowHeaderRenderer) rowHeader.getCellRenderer()
-				.getListCellRendererComponent(rowHeader, (releasedRow + 1) + "", releasedRow, false, false);
-		boolean marbleVisible = rhr.getComponent(1).isVisible();
-		if(releasedRow == mousePressedRow && marbleVisible && !rightClick) {
-			int totalHeight = 0;
-			for(int i = 0; i < releasedRow; i++) {
-				totalHeight += table.getRowHeight(i);
-			}
-			// not using the renderer to get the marble top because
-			// sometimes it gives wrong? values
-			// see Ticket #3439, comments 8, 12
-			int marbleTop = table.getRowHeight(releasedRow) / 2 + 4;
-			if(e.getY() > marbleTop + totalHeight - 4 && e.getY() < marbleTop + totalHeight + 16) {
-				GeoCasCell clickedCell =  table.getGeoCasCell(table.rowAtPoint(e.getPoint()));		
-				if(table.isEditing()) {
-					table.stopEditing();
+		
+		try {
+			RowHeaderRenderer rhr = (RowHeaderRenderer) rowHeader
+					.getCellRenderer().getListCellRendererComponent(rowHeader,
+							(releasedRow + 1) + "", releasedRow, false, false);
+			boolean marbleVisible = rhr.getComponent(1).isVisible();
+			if (releasedRow == mousePressedRow && marbleVisible && !rightClick) {
+				int totalHeight = 0;
+				for (int i = 0; i < releasedRow; i++) {
+					totalHeight += table.getRowHeight(i);
 				}
-				clickedCell.toggleTwinGeoEuclidianVisible();	
+				// not using the renderer to get the marble top because
+				// sometimes it gives wrong? values
+				// see Ticket #3439, comments 8, 12
+				int marbleTop = table.getRowHeight(releasedRow) / 2 + 4;
+				if (e.getY() > marbleTop + totalHeight - 4
+						&& e.getY() < marbleTop + totalHeight + 16) {
+					GeoCasCell clickedCell = table.getGeoCasCell(table
+							.rowAtPoint(e.getPoint()));
+					if (table.isEditing()) {
+						table.stopEditing();
+					}
+					clickedCell.toggleTwinGeoEuclidianVisible();
+				}
 			}
+		} catch (IndexOutOfBoundsException ex) {
+			// this can come, if one clicked on an empty header
+			Log.warn("No cas cell " + releasedRow);
 		}
 		
 		mousePressedRow = -1;

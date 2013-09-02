@@ -67,7 +67,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer, Marbl
 		numLabel.setFont(casTable.getFont());
 		GeoCasCell ctr = casTable.getGeoCasCell(index);
 		if(ctr == null){
-			Log.warn("No cas cell"+index);
+			Log.warn("No cas cell " + index);
 			return this;
 		}
 		CASInputHandler.handleMarble(ctr,this);

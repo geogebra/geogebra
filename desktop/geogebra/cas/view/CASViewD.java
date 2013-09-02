@@ -175,7 +175,7 @@ public class CASViewD  extends CASView implements Gridable {
 					} else {
 						GeoCasCell cellValue = getConsoleTable()
 								.getGeoCasCell(rows - 1);
-						if (cellValue.isOutputEmpty()) {
+						if (cellValue.isOutputEmpty() || cellValue.isUseAsText()) {
 							getConsoleTable().startEditingRow(rows - 1);
 						} else {
 							insertRow(null, true);
