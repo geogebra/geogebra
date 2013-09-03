@@ -77,6 +77,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Point:
 			return new CmdPoint(kernel);
 		case Midpoint:
+		case Center:
 			return new CmdMidpoint(kernel);
 		case Intersect:
 			return new CmdIntersect(kernel);
@@ -158,8 +159,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdParabola(kernel);
 		case Focus:
 			return new CmdFocus(kernel);
-		case Center:
-			return new CmdCenter(kernel);
 		case Element:
 			return new CmdElement(kernel);
 		case Sequence:
