@@ -2,13 +2,16 @@ package geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoVertexConic;
 import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdVertex;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoly;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.kernel3D.AlgoDrawingPadCorner3D;
+import geogebra3D.kernel3D.AlgoVertexConic3D;
 import geogebra3D.kernel3D.AlgoVertexPolygon3D;
 
 public class CmdVertex3D extends CmdVertex{
@@ -57,5 +60,17 @@ public class CmdVertex3D extends CmdVertex{
 		}
 
 		return new AlgoVertexPolygon(cons, label, p, v);
+	}
+	
+	
+	@Override
+	protected AlgoVertexConic newAlgoVertexConic(Construction cons, String[] labels, GeoConicND conic){		
+		
+		if (conic.isGeoElement3D()){
+			return new AlgoVertexConic3D(cons, labels, conic);
+		}
+
+		
+		return new AlgoVertexConic(cons, labels, conic);
 	}
 }

@@ -5,18 +5,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import geogebra.common.kernel.algos.AlgoImageCorner;
 import geogebra.common.kernel.algos.AlgoTextCorner;
-import geogebra.common.kernel.algos.AlgoVertex;
+import geogebra.common.kernel.algos.AlgoVertexConic;
 import geogebra.common.kernel.algos.AlgoVertexIneq;
 import geogebra.common.kernel.algos.AlgoVertexPolygon;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -47,9 +47,9 @@ public class CmdVertex extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
 				
-				AlgoVertex algo = new AlgoVertex(cons, c.getLabels(), (GeoConic) arg[0]);
+				AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(), (GeoConicND) arg[0]);
 
-				return algo.getVertex();
+				return (GeoElement[]) algo.getVertex();
 			}
 			if (arg[0] instanceof GeoPoly) {
 				
@@ -149,4 +149,15 @@ public class CmdVertex extends CommandProcessor {
 	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String label, GeoPoly p, GeoNumberValue v){	
 		return new AlgoVertexPolygon(cons, label, p, v);
 	}
+	
+	/**
+	 * @param cons
+	 * @param labels
+	 * @param conic
+	 * @return algo for "corners" of a conic
+	 */
+	protected AlgoVertexConic newAlgoVertexConic(Construction cons, String[] labels, GeoConicND conic){		
+		return new AlgoVertexConic(cons, labels, conic);
+	}
+
 }

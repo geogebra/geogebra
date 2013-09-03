@@ -21,21 +21,22 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
  * Algorithm for conic vertices
  * @author  Markus
  */
-public class AlgoVertex extends AlgoElement {
+public class AlgoVertexConic extends AlgoElement {
 
-    private GeoConic c;  // input
-    private GeoPoint [] vertex;  // output        
+    protected GeoConicND c;  // input
+    protected GeoPointND [] vertex;  // output        
                                   
     transient private double temp1, temp2;
     private GeoVec2D b;
@@ -46,34 +47,35 @@ public class AlgoVertex extends AlgoElement {
      * @param label label for ouputs (for A outputs A_1,A_2,... will be created)
      * @param c conic
      */
-    AlgoVertex(Construction cons, String label, GeoConic c) {
+    AlgoVertexConic(Construction cons, String label, GeoConicND c) {
         this(cons, c);
-        GeoElement.setLabels(label, vertex);            
+        GeoElement.setLabels(label, (GeoElement[]) vertex);            
     }
     /**
      * @param cons construction
      * @param labels labels for ouputs
      * @param c conic
      */
-    public AlgoVertex(Construction cons, String [] labels, GeoConic c) {
+    public AlgoVertexConic(Construction cons, String [] labels, GeoConicND c) {
         this(cons, c);
-        GeoElement.setLabels(labels, vertex);            
+        GeoElement.setLabels(labels, (GeoElement[]) vertex);            
     }
     /**
      * 
      * @param cons construction
      * @param c conic
      */
-    public AlgoVertex(Construction cons, GeoConic c) {
+    public AlgoVertexConic(Construction cons, GeoConicND c) {
         super(cons);
         this.c = c;        
-        vertex = new GeoPoint[4];       
-        for (int i=0; i < vertex.length; i++) {
-        	vertex[i] = new GeoPoint(cons);
-        	// only first undefined point should be shown in algebra window 
-        	vertex[i].showUndefinedInAlgebraView(i == 0);
-      	}
         
+        createVertex(cons);
+        
+        for (int i=1; i < vertex.length; i++) {
+        	// only first undefined point should be shown in algebra window 
+        	vertex[i].showUndefinedInAlgebraView(false);
+        }
+
         setInputOutput(); // for AlgoElement
         
         b = c.b;
@@ -81,6 +83,17 @@ public class AlgoVertex extends AlgoElement {
                 
         compute();                      
     }   
+    
+    /**
+     * create the vertices
+     * @param cons
+     */
+    protected void createVertex(Construction cons){
+    	vertex = new GeoPoint[4];       
+    	for (int i=0; i < vertex.length; i++) {
+    		vertex[i] = new GeoPoint(cons);
+    	}
+    }
     
     @Override
 	public Commands getClassName() {
@@ -93,19 +106,29 @@ public class AlgoVertex extends AlgoElement {
         input = new GeoElement[1];
         input[0] = c;        
          
-        super.setOutput(vertex);
+        super.setOutput((GeoElement[]) vertex);
         setDependencies(); // done by AlgoElement
     }    
     
     /**
      * @return input conic
      */
-    GeoConic getConic() { return c; }
+    GeoConicND getConic() { return c; }
     /**
      * 
      * @return array of conic vertices
      */
-    public GeoPoint [] getVertex() { return vertex; }    
+    public GeoPointND [] getVertex() { return vertex; }  
+    
+    /**
+     * set the coords of the i-th vertex
+     * @param i
+     * @param x
+     * @param y
+     */
+    protected void setCoords(int i, double x, double y){
+    	vertex[i].setCoords(x,y, 1.0);
+    }
         
     @Override
 	public final void compute() {  
@@ -114,20 +137,20 @@ public class AlgoVertex extends AlgoElement {
             case GeoConicNDConstants.CONIC_ELLIPSE:
                 temp1 = c.halfAxes[0] * eigenvec[0].getX();
                 temp2 = c.halfAxes[0] * eigenvec[0].getY();
-                vertex[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0);
-                vertex[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0);
+                setCoords(0, b.getX() - temp1, b.getY() - temp2);
+                setCoords(1, b.getX() + temp1, b.getY() + temp2);
                 
                 temp1 = c.halfAxes[1] * eigenvec[1].getX();
                 temp2 = c.halfAxes[1] * eigenvec[1].getY();
-                vertex[2].setCoords( b.getX() - temp1, b.getY() - temp2, 1.0);
-                vertex[3].setCoords( b.getX() + temp1, b.getY() + temp2, 1.0);   
+                setCoords(2, b.getX() - temp1, b.getY() - temp2);
+                setCoords(3, b.getX() + temp1, b.getY() + temp2);   
                 break;
                 
             case GeoConicNDConstants.CONIC_HYPERBOLA:
                 temp1 = c.halfAxes[0] * eigenvec[0].getX();
                 temp2 = c.halfAxes[0] * eigenvec[0].getY();
-                vertex[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0d);
-                vertex[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0d);
+                setCoords(0, b.getX() - temp1, b.getY() - temp2);
+                setCoords(1, b.getX() + temp1, b.getY() + temp2);
                 // third and fourth vertex undefined
                 vertex[2].setUndefined();
                 vertex[3].setUndefined();                
@@ -136,7 +159,7 @@ public class AlgoVertex extends AlgoElement {
             case GeoConicNDConstants.CONIC_PARABOLA:
             case GeoConicNDConstants.CONIC_PARALLEL_LINES:
             case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-                vertex[0].setCoords(b.getX(), b.getY(), 1.0);
+                setCoords(0, b.getX(), b.getY());
 
                 // other vertex undefined
                 vertex[1].setUndefined();
