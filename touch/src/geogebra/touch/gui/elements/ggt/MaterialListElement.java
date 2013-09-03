@@ -7,11 +7,13 @@ import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
 import geogebra.touch.TouchEntryPoint;
+import geogebra.touch.gui.ResizeListener;
 import geogebra.touch.gui.elements.StandardButton;
 import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -25,7 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends HorizontalPanel {
+public class MaterialListElement extends HorizontalPanel implements ResizeListener {
 	private SimplePanel image;
 	private VerticalPanel infos;
 	private VerticalPanel links;
@@ -54,6 +56,7 @@ public class MaterialListElement extends HorizontalPanel {
 		this.material = m;
 		this.fm = ((TouchApp) app).getFileManager();
 		this.setStyleName("browserFile");
+		TouchEntryPoint.getBrowseGUI().addResizeListener(this);
 
 		this.initButtons();
 		this.initConfirmDeletePanel();
@@ -271,5 +274,15 @@ public class MaterialListElement extends HorizontalPanel {
 
 	private boolean isLocalFile() {
 		return this.material.getId() <= 0;
+	}
+
+	@Override
+	public void onResize() {
+		if (Window.getClientWidth() < 780) {
+			this.image.addStyleName("scaleImage");
+		}
+		else {
+			this.image.removeStyleName("scaleImage");
+		}
 	}
 }

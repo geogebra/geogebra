@@ -186,6 +186,12 @@ body .browsegui input.gwt-TextBox {
 	background-color: #FFFFFF;
 }
 
+.browsegui .fileImage.scaleImage {
+	background-size: 100%;
+	width: 91px;
+	height: 49px;
+}
+
 .browsegui .fileDescription {
 	float: left;
 	margin-top: 10px;
