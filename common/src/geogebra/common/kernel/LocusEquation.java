@@ -570,7 +570,12 @@ public class LocusEquation {
 	public static CommandProcessor newCmdLocusEquation(Kernel kernel) {
 		return new CmdLocusEquation(kernel);
 	}
-
+	/**
+	 * Creates equation for free line
+	 * @param line line
+	 * @param scope scope
+	 * @return line equation
+	 */
 	public static EquationElementInterface eqnLine(GeoLine line, EquationScopeInterface scope) {
 		return new EquationFreeLine(line, (EquationScope) scope);
 	}

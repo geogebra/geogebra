@@ -145,7 +145,7 @@ public class MacroConstruction extends Construction {
 			}
 		}
 
-        if (geo == null && globalVariableLookup && !isReservedLabel(label1)) {
+        if (globalVariableLookup && !isReservedLabel(label1)) {
         	// try parent construction        	
         	 geo =  parentCons.lookupLabel(label1, autoCreate); 
         }
