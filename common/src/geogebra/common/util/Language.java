@@ -303,19 +303,17 @@ public enum Language {
 	}
 	
 	public static String getClosestGWTSupportedLanguage(String browserLangCode) {
-		
 		String normalizedLanguage = StringUtil.toLowerCase(browserLangCode.replace("-", "_"));
 		
 		if("he".equals(normalizedLanguage)){
 			normalizedLanguage = "iw";
 		}
-		
 		else if("zh_hans_cn".equals(normalizedLanguage)){
 			normalizedLanguage = "zh_cn";
 		}
-		
-		else if("nb".equals(normalizedLanguage)){
-			normalizedLanguage = "no_nn";
+		//on iOS it's nb_no
+		else if(normalizedLanguage.startsWith("nb")){
+			normalizedLanguage = "no_nb";
 		}
 		else if("nn".equals(normalizedLanguage)){
 			normalizedLanguage = "no_nn";
