@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 
 import java.util.Date;
@@ -36,29 +36,25 @@ public class CmdGetTime extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		GeoText monthStr1 = new GeoText(cons);
-		GeoText dayStr1 = new GeoText(cons);
-		Date cal = new Date();
-		GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
-		int d = cal.getDay() + 1;
-		GeoNumeric day = new GeoNumeric(cons, d);
-		int m = cal.getMonth() + 1;
-		GeoNumeric month1 = new GeoNumeric(cons, m);
-		GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
-		GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
-		GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
-		GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
-		GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
-
-		monthStr1.setTextString(app.getPlain("Month."+m));
-		
-		dayStr1.setTextString(app.getPlain("Day."+d));
-		
-		
-		
 		switch (n) {
 			case 0:
+				GeoText monthStr1 = new GeoText(cons);
+				GeoText dayStr1 = new GeoText(cons);
+				Date cal = new Date();
+				GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
+				int d = cal.getDay() + 1;
+				GeoNumeric day = new GeoNumeric(cons, d);
+				int m = cal.getMonth() + 1;
+				GeoNumeric month1 = new GeoNumeric(cons, m);
+				GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
+				GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
+				GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
+				GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
+				GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
 
+				monthStr1.setTextString(app.getPlain("Month."+m));
+				
+				dayStr1.setTextString(app.getPlain("Day."+d));
 			GeoList list = new GeoList(cons);
 			list.setLabel(c.getLabel());
 			
@@ -80,11 +76,10 @@ public class CmdGetTime extends CommandProcessor {
 
 			case 1:
 			
-			StringBuilder sb = new StringBuilder(20);
-			
-			buildLocalizedDate(sb, c.getArgument(0).toValueString(StringTemplate.defaultTemplate), app);
+			String date = buildLocalizedDate(c.getArgument(0).toValueString(StringTemplate.defaultTemplate),
+					new Date(), loc);
 
-			GeoText rettext = new GeoText(cons, c.getLabel(), sb.toString());
+			GeoText rettext = new GeoText(cons, c.getLabel(), date);
 
 			GeoElement[] ret1 = { rettext };
 			return ret1;
@@ -94,29 +89,31 @@ public class CmdGetTime extends CommandProcessor {
 	}
 		
 		/**
-		 * @param sb string builder to which the date is appended
+		 * @return formated date
 		 * @param format date format
-		 * @param app application
+		 * @param cal date
+		 * @param loc application
 		 */
-		public static void buildLocalizedDate(StringBuilder sb, String format, App app) {
+		public static String buildLocalizedDate(String format, Date cal, Localization loc) {
+			StringBuilder sb = new StringBuilder(20);
 			char[] cArray = format.toCharArray();
 			for (int i = 0; i < cArray.length; i++) {
 				
 				if (cArray[i] == '\\' && i < cArray.length - 1) {
-					decode(cArray[i+1], sb, app);
+					decode(cal, cArray[i+1], sb, loc);
 					i++;
 				} else {
 					sb.append(cArray[i]);
 				}
 			}
+			return sb.toString();
 		
 	}
 
 		@SuppressWarnings("deprecation")
-		private static void decode(char c, StringBuilder sb, App app) {
+		private static void decode(Date cal, char c, StringBuilder sb, Localization loc) {
 
-			
-			Date cal = new Date();
+
 			//GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
 			int d = cal.getDay() + 1;
 			//GeoNumeric day = new GeoNumeric(cons, d);
@@ -134,8 +131,8 @@ public class CmdGetTime extends CommandProcessor {
 			int mins =cal.getMinutes();
 			int secs= cal.getSeconds();
 			int yearday=0;
-			String dayStr=app.getPlain("Day."+d);
-			String monthStr = app.getPlain("Month."+m);
+			String dayStr=loc.getPlain("Day."+d);
+			String monthStr = loc.getPlain("Month."+m);
 	
 			switch(c){
 			
@@ -165,7 +162,7 @@ public class CmdGetTime extends CommandProcessor {
 				}
 				break;
 			case 'S':
-				String ordinal=new String(app.getLocalization().getOrdinalNumber(date));
+				String ordinal=new String(loc.getOrdinalNumber(date));
 				ordinal=ordinal.replaceFirst(String.valueOf(date),"");
 				sb.append(ordinal);
 				break;

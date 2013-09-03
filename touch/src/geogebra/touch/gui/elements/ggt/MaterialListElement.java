@@ -1,6 +1,8 @@
 package geogebra.touch.gui.elements.ggt;
 
+import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppWeb;
 import geogebra.touch.FileManagerT;
 import geogebra.touch.TouchApp;
@@ -10,8 +12,6 @@ import geogebra.touch.gui.laf.DefaultResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -130,10 +130,10 @@ public class MaterialListElement extends HorizontalPanel {
 									+ this.fm.getThumbnailDataUrl(this.material
 											.getURL()) + ")");
 		}
-
-		this.date = new Label(DateTimeFormat.getFormat(
-				PredefinedFormat.DATE_MEDIUM)
-				.format(this.material.getDate()));
+		String format = this.app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
+		
+		this.date = new Label(CmdGetTime.buildLocalizedDate(format, this.material.getDate(),
+				this.app.getLocalization()));
 		this.infos.add(this.date);
 	}
 

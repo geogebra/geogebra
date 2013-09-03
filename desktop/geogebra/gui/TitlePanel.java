@@ -28,6 +28,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -128,14 +129,11 @@ public class TitlePanel extends JPanel {
 		if (src.equals("")) {
 			
 			App app = cons.getApplication();
-			StringBuilder sb = new StringBuilder();
 			
 			// in form 23 September 2012 (some languages don't want eg 25e, 25ª so omit "th" for all)
 			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
-			
-			CmdGetTime.buildLocalizedDate(sb, format, app);
-			
-			return sb.toString();
+
+			return CmdGetTime.buildLocalizedDate(format, new Date(), app.getLocalization());
 		}
 		
 		return src;
