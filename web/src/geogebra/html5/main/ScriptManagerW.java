@@ -418,6 +418,10 @@ public class ScriptManagerW extends ScriptManager {
 				ggbAPI.@geogebra.html5.main.GgbAPI::debug(Ljava/lang/String;)(str);
 		};
 		
+		$wnd[ggbApplet].startEditing = function(str){ 
+				ggbAPI.@geogebra.html5.main.GgbAPI::startEditing()();
+		};
+		
 		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)

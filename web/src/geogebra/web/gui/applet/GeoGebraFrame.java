@@ -279,7 +279,9 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @return the newly created instance of Application
 	 */
 	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		return new AppWapplet(ae, gf);
+		AppW app = new AppWapplet(ae, gf);
+		Web.lastApp = app;
+		return app;
 	}
 
 	/**
@@ -289,7 +291,9 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @return the newly created instance of Application
 	 */
 	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrame gf) {
-		return new AppWsimple(ae, gf);
+		AppW app = new AppWsimple(ae, gf);
+		Web.lastApp = app;
+		return app;
 	}
 
 	/**

@@ -14,6 +14,7 @@ import geogebra.web.asyncservices.HandleOAuth2Service;
 import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.html5.Dom;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,6 +94,7 @@ public class Web implements EntryPoint {
 	public static GuiToLoad currentGUI = null;
 	public static Panel panelForApplets;
 	public static String urlToOpen;
+	public static AppW lastApp;
 	/**
 	 * set true if Google Api Js loaded
 	 */

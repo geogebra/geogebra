@@ -55,7 +55,8 @@ public class WorksheetHeaderPanel extends AuxiliaryHeaderPanel implements
 			this.tabletGUI.restoreEuclidian(TouchEntryPoint.getWorksheetGUI()
 					.getContentPanel());
 			TouchEntryPoint.allowEditing(true);
-			this.app.getFileManager().getMaterial(this.material, this.app);
+			this.app.getGgbApi().startEditing();
+			//this.app.getFileManager().getMaterial(this.material, this.app);
 			TouchEntryPoint.showTabletGUI();
 		}
 	}

@@ -4,6 +4,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.main.AppWeb;
+import geogebra.web.Web;
 
 import java.util.HashMap;
 
@@ -143,6 +144,16 @@ public class View {
 		App.debug("start unzipping"+System.currentTimeMillis());
 		populateArchiveContent(dataParamBase64String, workerUrls,this);
     }
+	
+	public void openFromLastApp(){
+		try{
+			archiveContent = Web.lastApp.getGgbApi().createArchiveContent(false);
+			maybeLoadFile();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 	
 	private int zippedLength = 0;
 	

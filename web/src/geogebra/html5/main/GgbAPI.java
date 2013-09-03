@@ -184,8 +184,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
     }
 
-	private Map<String,String> createArchiveContent(boolean includeThumbnail) {
-	    Map<String, String> archiveContent = new HashMap<String, String>();
+	public HashMap<String,String> createArchiveContent(boolean includeThumbnail) {
+		HashMap<String, String> archiveContent = new HashMap<String, String>();
     	boolean issaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
@@ -561,6 +561,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	public void openMaterial(String material){
 		((AppWeb)app).openMaterial(material);
 	}
-
-
+	
+	public void startEditing(){
+		new View(RootPanel.getBodyElement(),(AppWeb)app).openFromLastApp();
+	}
 }
