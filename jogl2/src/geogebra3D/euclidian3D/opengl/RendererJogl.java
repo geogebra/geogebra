@@ -44,19 +44,20 @@ public class RendererJogl {
 		
 		GLProfile.initSingleton(); 
 		
-		//caps = new GLCapabilities(GLProfile.getDefault());
+		caps = new GLCapabilities(GLProfile.getDefault());
 		
-		caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-		/*
-		caps.setAlphaBits(8);
+		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
+		
+		//caps.setAlphaBits(8);
 
 		
 		//anti-aliasing
-		caps.setSampleBuffers(true);
-		caps.setNumSamples(4);    	
+		//caps.setSampleBuffers(true);
+		//caps.setNumSamples(4);    	
+		
 		//avoid flickering
-		caps.setDoubleBuffered(true);
-		*/
+		//caps.setDoubleBuffered(true);
+		caps.setDoubleBuffered(false);
 
 	}
 	
