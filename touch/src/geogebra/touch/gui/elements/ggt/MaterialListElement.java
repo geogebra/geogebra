@@ -117,8 +117,7 @@ public class MaterialListElement extends HorizontalPanel {
 							"url(http:" + this.material.getThumbnail() + ")");
 
 			// no shared Panel for local files
-			this.sharedBy = new Label(this.app.getLocalization().getPlain(
-					"SharedByA", this.material.getAuthor()));
+			this.sharedBy = new Label(this.material.getAuthor());
 			this.sharedBy.setStyleName("sharedPanel");
 			this.infos.add(this.sharedBy);
 
@@ -133,8 +132,8 @@ public class MaterialListElement extends HorizontalPanel {
 		}
 
 		this.date = new Label(DateTimeFormat.getFormat(
-				PredefinedFormat.DATE_TIME_MEDIUM).format(
-				this.material.getDate()));
+				PredefinedFormat.DATE_MEDIUM)
+				.format(this.material.getDate()));
 		this.infos.add(this.date);
 	}
 
