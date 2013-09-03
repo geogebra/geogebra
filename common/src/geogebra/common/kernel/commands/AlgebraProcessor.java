@@ -28,6 +28,7 @@ import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -1194,8 +1195,16 @@ public class AlgebraProcessor {
 					// STANDARD CASE: REDFINED
 					else {
 						GeoElement newGeo = ret[0];
-						cons.replace(replaceable, newGeo);
-
+						GeoCasCell cell = replaceable.getCorrespondingCasCell();
+						if (cell != null) {
+							// this is a ValidExpression since we don't get GeoElements from parsing
+							ValidExpression vexp = (ValidExpression) ve.unwrap();
+							vexp.setAssignmentType(AssignmentType.DEFAULT);
+							cell.setInput(vexp.toAssignmentString(StringTemplate.defaultTemplate));
+							processCasCell(cell, false);
+						} else {
+							cons.replace(replaceable, newGeo);
+						}
 						// now all objects have changed
 						// get the new object with same label as our result
 						String newLabel = newGeo.isLabelSet() ? newGeo
