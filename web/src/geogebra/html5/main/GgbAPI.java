@@ -14,6 +14,7 @@ import geogebra.html5.util.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -120,10 +121,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		}
 		((GeoImage)ge).clearFillImage();
     }
-    
-    
-    HashMap<String, String> archiveContent = null;
-    
+
     private native JavaScriptObject getDownloadGGBCallback(Element downloadButton) /*-{
 		return function(ggbZip){
 			var URL = $wnd.URL || $wnd.webkitURL;
@@ -144,7 +142,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	}-*/;
     
     public void getGGB(boolean includeThumbnail, Element downloadButton) {
-    	createArchiveContent(includeThumbnail);
+    	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	
     	JavaScriptObject callback = getDownloadGGBCallback(downloadButton); 	
     	getGGBZipJs(prepareToEntrySet(archiveContent), callback, GWT.getModuleName());
@@ -153,13 +151,13 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     
     
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
-		createArchiveContent(includeThumbnail);
+    	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
 		
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
     }
     
     public String getBase64(boolean includeThumbnail) {
-    	createArchiveContent(false);
+    	Map<String,String>archiveContent = createArchiveContent(false);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
 		getNativeBase64ZipJs(jso, getDefaultBase64Callback(), Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
 		return null;
@@ -167,7 +165,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }
     
     public void getBase64(StringHandler callback) {
-    	createArchiveContent(true);
+    	Map<String,String>archiveContent = createArchiveContent(true);
     	JavaScriptObject jsCallback = nativeCallback(callback);
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), jsCallback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
 
@@ -180,14 +178,14 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }-*/;
 
 	public void getBase64(JavaScriptObject callback) {
-    	createArchiveContent(false);
+		Map<String,String>archiveContent = createArchiveContent(false);
 
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback, Browser.webWorkerSupported ? GWT.getModuleName() + "/js/zipjs/" : "false");
 
     }
 
-	private void createArchiveContent(boolean includeThumbnail) {
-	    archiveContent = new HashMap<String, String>();
+	private Map<String,String> createArchiveContent(boolean includeThumbnail) {
+	    Map<String, String> archiveContent = new HashMap<String, String>();
     	boolean issaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
     	getKernel().setSaving(true);
@@ -197,17 +195,17 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
     	String geogebra_python = getKernel().getLibraryPythonScript();
 
-    	writeConstructionImages(getConstruction(),"");
+    	writeConstructionImages(getConstruction(),"",archiveContent);
 
 
 		// write construction thumbnails
     	if (includeThumbnail)
     		addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-    			((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString());
+    			((EuclidianViewWeb)app.getEuclidianView1()).getCanvasBase64WithTypeString(),archiveContent);
 
 
     	if (!macroXml.equals("")) {
-    		writeMacroImages();
+    		writeMacroImages(archiveContent);
     		archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
     	}
 
@@ -218,9 +216,10 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	}
 
     	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
+    	return archiveContent;
     }
 
-	private JavaScriptObject prepareToEntrySet(HashMap<String, String> archive) {
+	private JavaScriptObject prepareToEntrySet(Map<String, String> archive) {
     	JavaScriptObject nativeEntry = JavaScriptObject.createObject();
     	
     	if (archive.entrySet() != null) {
@@ -459,21 +458,21 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		});
     }-*/;
 
-	private void writeMacroImages() {
+	private void writeMacroImages(Map<String,String> archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
-			writeMacroImages(macros, "");
+			writeMacroImages(macros, "", archive);
 		}
 	}
 
-	private void writeMacroImages(ArrayList<Macro> macros, String filePath) {
+	private void writeMacroImages(ArrayList<Macro> macros, String filePath, Map<String,String> archive) {
 		if (macros == null)
 			return;
 
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			writeConstructionImages(macro.getMacroConstruction(), filePath);
+			writeConstructionImages(macro.getMacroConstruction(), filePath, archive);
 
 			/*
 			// save macro icon
@@ -509,7 +508,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 	}
 	
 	
-    private void writeConstructionImages(Construction cons, String filePath) {
+    private void writeConstructionImages(Construction cons, String filePath, Map<String,String> archive) {
 		// save all GeoImage images
 		//TreeSet images = cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
@@ -537,17 +536,17 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 					//	addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
 					//else
 					if (ext.equals("png"))
-						addImageToZip(filePath + fileName, cv.toDataUrl("image/png"));
+						addImageToZip(filePath + fileName, cv.toDataUrl("image/png"), archive);
 					else
-						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", cv.toDataUrl("image/png"));
+						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", cv.toDataUrl("image/png"), archive);
 
 				}
 			}
 		}
     }
 
-    private void addImageToZip(String filename, String base64img) {
-    	archiveContent.put(filename, base64img);
+    private void addImageToZip(String filename, String base64img, Map<String,String> archive) {
+    	archive.put(filename, base64img);
     }
     
     /*
