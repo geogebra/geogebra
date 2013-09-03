@@ -181,7 +181,7 @@ public class TouchEntryPoint implements EntryPoint {
 		return worksheetGUI;
 	}
 
-	static BrowseGUI getBrowseGUI() {
+	public static BrowseGUI getBrowseGUI() {
 		if (browseGUI == null) {
 			browseGUI = new BrowseGUI(app);
 			TouchEntryPoint.appWidget.add(TouchEntryPoint.browseGUI);

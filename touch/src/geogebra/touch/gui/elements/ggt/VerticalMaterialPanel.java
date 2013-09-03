@@ -28,7 +28,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 	private final FlexTable contentPanel;
 	private final AppWeb app;
 	private int materialHeight = 140;
-	private MaterialListElement lastSelected;
 	private int columns = 2;
 	private final Map<String, MaterialListElement> titlesToPreviews = new HashMap<String, MaterialListElement>();
 	private int start;
@@ -43,9 +42,9 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		this.contentPanel.setWidth("100%");
 	}
 
-	public MaterialListElement getChosenMaterial() {
-		return this.lastSelected;
-	}
+//	public MaterialListElement getChosenMaterial() {
+//		return this.lastSelected;
+//	}
 
 	@Override
 	public int getOffsetHeight() {
@@ -79,10 +78,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		return this.start > 0;
 	}
 
-	void rememberSelected(final MaterialListElement materialElement) {
-		this.lastSelected = materialElement;
-	}
-
 	public void setLabels() {
 		for (final MaterialListElement e : this.titlesToPreviews.values()) {
 			e.setLabels();
@@ -112,7 +107,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 			final Material m = materials.get(i + this.start);
 			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
 			if (preview == null) {
-				preview = new MaterialListElement(m, this.app, this);
+				preview = new MaterialListElement(m, this.app);
 				this.titlesToPreviews.put(m.getURL(), preview);
 			}
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
@@ -123,11 +118,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		}
 	}
 
-	void unselectMaterials() {
-		if (this.lastSelected != null) {
-			this.lastSelected.markUnSelected();
-		}
-	}
+
 
 	private void updateHeight() {
 		final Iterator<MaterialListElement> material = this.titlesToPreviews

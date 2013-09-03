@@ -31,13 +31,13 @@ public class MaterialListElement extends HorizontalPanel {
 	private VerticalPanel links;
 	private Label title, date;
 	private Label sharedBy;
-	private final VerticalMaterialPanel vmp;
 	private final Material material;
 	private final AppWeb app;
 	private final FileManagerT fm;
 	private HorizontalPanel confirmDeletePanel;
 	private StandardButton confirm;
 	private StandardButton cancel;
+	private boolean isSelected = false;
 
 	private static DefaultResources LafIcons = TouchEntryPoint.getLookAndFeel()
 			.getIcons();
@@ -48,10 +48,8 @@ public class MaterialListElement extends HorizontalPanel {
 	private final StandardButton deleteButton = new StandardButton(
 			LafIcons.dialog_trash());
 
-	MaterialListElement(final Material m, final AppWeb app,
-			final VerticalMaterialPanel vmp) {
+	MaterialListElement(final Material m, final AppWeb app) {
 
-		this.vmp = vmp;
 		this.app = app;
 		this.material = m;
 		this.fm = ((TouchApp) app).getFileManager();
@@ -82,9 +80,22 @@ public class MaterialListElement extends HorizontalPanel {
 			@Override
 			public void onClick(final ClickEvent event) {
 				event.preventDefault();
-				MaterialListElement.this.markSelected();
+				materialSelected();
+
 			}
 		}, ClickEvent.getType());
+	}
+
+	void materialSelected() {
+		if (this.isSelected) {
+			if (this.isLocalFile()) {
+				onEdit();
+			} else {
+				onOpen();
+			}
+		} else {
+			this.markSelected();
+		}
 	}
 
 	private void initMaterialInfos() {
@@ -135,6 +146,7 @@ public class MaterialListElement extends HorizontalPanel {
 
 			@Override
 			public void onClick(final ClickEvent event) {
+				event.stopPropagation();
 				onConfirmDelete();
 			}
 		}, ClickEvent.getType());
@@ -146,15 +158,16 @@ public class MaterialListElement extends HorizontalPanel {
 
 			@Override
 			public void onClick(final ClickEvent event) {
+				event.stopPropagation();
 				onCancel();
 			}
 		}, ClickEvent.getType());
+
 		this.confirmDeletePanel = new HorizontalPanel();
 		this.confirmDeletePanel.add(this.confirm);
 		this.confirmDeletePanel.add(this.cancel);
 		this.confirmDeletePanel.setStyleName("confirmDelete");
 		this.confirmDeletePanel.setVisible(false);
-
 	}
 
 	public String getMaterialTitle() {
@@ -199,6 +212,7 @@ public class MaterialListElement extends HorizontalPanel {
 
 			@Override
 			public void onClick(final ClickEvent event) {
+				event.stopPropagation();
 				onEdit();
 			}
 		}, ClickEvent.getType());
@@ -216,6 +230,7 @@ public class MaterialListElement extends HorizontalPanel {
 
 			@Override
 			public void onClick(final ClickEvent event) {
+				event.stopPropagation();
 				onOpen();
 			}
 		}, ClickEvent.getType());
@@ -225,12 +240,13 @@ public class MaterialListElement extends HorizontalPanel {
 		TouchEntryPoint.showWorksheetGUI(this.material);
 	}
 
-	void markSelected() {
-		this.vmp.unselectMaterials();
+	private void markSelected() {
+		this.isSelected = true;
+		TouchEntryPoint.getBrowseGUI().unselectMaterials();
 		this.addStyleName("selected");
 		this.links.setVisible(true);
 		this.confirmDeletePanel.setVisible(false);
-		this.vmp.rememberSelected(this);
+		TouchEntryPoint.getBrowseGUI().rememberSelected(this);
 	}
 
 	void onConfirmDelete() {
@@ -242,7 +258,8 @@ public class MaterialListElement extends HorizontalPanel {
 		this.confirmDeletePanel.setVisible(false);
 	}
 
-	protected void markUnSelected() {
+	public void markUnSelected() {
+		this.isSelected = false;
 		this.removeStyleName("selected");
 		this.links.setVisible(false);
 		this.confirmDeletePanel.setVisible(false);

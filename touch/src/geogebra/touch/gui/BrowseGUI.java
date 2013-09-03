@@ -38,6 +38,8 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private final FileManagerT fm;
 	private final AppWeb app;
 	private String lastQuery;
+	private MaterialListElement lastSelected;
+
 
 	// HorizontalMaterialPanel featuredMaterials;
 	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
@@ -141,9 +143,7 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 				});
 	}
 
-	public MaterialListElement getChosenMaterial() {
-		return this.tubeFilePanel.getChosenMaterial();
-	}
+
 
 	public void loadFeatured() {
 		this.lastQuery = null;
@@ -226,4 +226,19 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 		}
 
 	}
+
+	public MaterialListElement getChosenMaterial() {
+		return this.lastSelected;
+	}
+	
+	public void unselectMaterials() {
+		if (this.lastSelected != null) {
+			this.lastSelected.markUnSelected();
+		}
+	}
+	
+	public void rememberSelected(final MaterialListElement materialElement) {
+		this.lastSelected = materialElement;
+	}
+
 }
