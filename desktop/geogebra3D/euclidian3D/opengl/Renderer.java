@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCapabilitiesImmutable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
@@ -1534,9 +1535,14 @@ public class Renderer extends RendererJogl implements GLEventListener {
     	
     	
     	GL gl2 = drawable.getGL(); 
-        App.debug("Init on "+Thread.currentThread()); 
-        App.debug("Chosen GLCapabilities: " + drawable.getChosenGLCapabilities()); 
-        App.debug("INIT GL IS: " + gl2.getClass().getName()); 
+    	App.debug("Init on "+Thread.currentThread());
+
+    	GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
+    	App.debug("Chosen GLCapabilities: " + c); 
+    	App.debug("double buffered: " + c.getDoubleBuffered());
+    	App.debug("stereo: " + c.getStereo());
+
+    	App.debug("INIT GL IS: " + gl2.getClass().getName()); 
         App.debug("GL_VENDOR: " + gl2.glGetString(GL.GL_VENDOR)); 
         App.debug("GL_RENDERER: " + gl2.glGetString(GL.GL_RENDERER)); 
         App.debug("GL_VERSION: " + gl2.glGetString(GL.GL_VERSION)); 

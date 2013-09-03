@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCapabilitiesImmutable;
 import javax.media.opengl.GLEventListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -86,13 +87,18 @@ public class Test implements GLEventListener {
 	public void init(GLAutoDrawable drawable) {
 		
 		GL gl = drawable.getGL(); 
+
+		GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
 		
 		System.out.println("Init on "+Thread.currentThread()
-				+"\nChosen GLCapabilities: " + drawable.getChosenGLCapabilities()
+				+"\nChosen GLCapabilities: " + c
+				+"\ndouble buffered: " + c.getDoubleBuffered()
+				+"\nstereo: " + c.getStereo()
 				+"\nINIT GL IS: " + gl.getClass().getName()
 				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
 				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
 				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION)); 
+		
 	}
 
 	@Override
