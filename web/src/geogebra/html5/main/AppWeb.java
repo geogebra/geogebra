@@ -270,7 +270,7 @@ public abstract class AppWeb extends App implements SetLabels{
 				return;
 			}
 			final String lang = Language.getClosestGWTSupportedLanguage(browserLang);
-			App.debug("setting language to:" + lang);
+			App.debug("setting language to:" + lang + ", browser lang" + browserLang);
 
 			// load keys (into a JavaScript <script> tag)
 			DynamicScriptElement script = (DynamicScriptElement) Document.get()
