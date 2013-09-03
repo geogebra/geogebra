@@ -21,11 +21,12 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 
@@ -34,32 +35,31 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoFocus extends AlgoElement {
 
-	private GeoConic c; // input
-	private GeoPoint[] focus; // output
+	protected GeoConicND c; // input
+	protected GeoPointND[] focus; // output
 
 	transient private double temp1, temp2;
 	GeoVec2D b;
 	GeoVec2D[] eigenvec;
 
-	AlgoFocus(Construction cons, String label, GeoConic c) {
+	AlgoFocus(Construction cons, String label, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(label, focus);
+		GeoElement.setLabels(label, (GeoElement[]) focus);
 	}
 
-	public AlgoFocus(Construction cons, String[] labels, GeoConic c) {
+	public AlgoFocus(Construction cons, String[] labels, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(labels, focus);
+		GeoElement.setLabels(labels, (GeoElement[]) focus);
 	}
 
-	AlgoFocus(Construction cons, GeoConic c) {
+	AlgoFocus(Construction cons, GeoConicND c) {
 		super(cons);
 		this.c = c;
-		focus = new GeoPoint[2];
-		for (int i = 0; i < focus.length; i++) {
-			focus[i] = new GeoPoint(cons);
-			// only first undefined point should be shown in algebra window
-			focus[i].showUndefinedInAlgebraView(i == 0);
-		}
+
+		createFocus(cons);
+		
+		// only first undefined point should be shown in algebra window
+		focus[1].showUndefinedInAlgebraView(false);
 
 		setInputOutput(); // for AlgoElement
 
@@ -67,6 +67,18 @@ public class AlgoFocus extends AlgoElement {
 		eigenvec = c.eigenvec;
 
 		compute();
+	}
+	
+	/**
+	 * creates the focus
+	 * @param cons
+	 */
+	protected void createFocus(Construction cons){
+		focus = new GeoPoint[2];
+		for (int i = 0; i < focus.length; i++) {
+			focus[i] = new GeoPoint(cons);
+		}
+
 	}
 
 	@Override
@@ -80,15 +92,15 @@ public class AlgoFocus extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = c;
 
-		super.setOutput(focus);
+		super.setOutput((GeoElement[]) focus);
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoConic getConic() {
+	GeoConicND getConic() {
 		return c;
 	}
 
-	public GeoPoint[] getFocus() {
+	public GeoPointND[] getFocus() {
 		return focus;
 	}
 
@@ -96,22 +108,22 @@ public class AlgoFocus extends AlgoElement {
 	public final void compute() {
 		switch (c.type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
-			focus[0].setCoords(b.getX(), b.getY(), 1.0);
-			focus[1].setCoords(b.getX(), b.getY(), 1.0);
+			setCoords(0, b.getX(), b.getY());
+			setCoords(1, b.getX(), b.getY());
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			temp1 = c.linearEccentricity * eigenvec[0].getX();
 			temp2 = c.linearEccentricity * eigenvec[0].getY();
-			focus[0].setCoords(b.getX() - temp1, b.getY() - temp2, 1.0d);
-			focus[1].setCoords(b.getX() + temp1, b.getY() + temp2, 1.0d);
+			setCoords(0, b.getX() - temp1, b.getY() - temp2);
+			setCoords(1, b.getX() + temp1, b.getY() + temp2);
 			break;
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			temp1 = c.p / 2;
-			focus[0].setCoords(b.getX() + temp1 * eigenvec[0].getX(), b.getY() + temp1
-					* eigenvec[0].getY(), 1.0);
+			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(), b.getY() + temp1
+					* eigenvec[0].getY());
 			// second focus undefined
 			focus[1].setUndefined();
 			break;
@@ -122,6 +134,16 @@ public class AlgoFocus extends AlgoElement {
 			focus[1].setUndefined();
 		}
 	}
+	
+    /**
+     * set the coords of the i-th focus
+     * @param i
+     * @param x
+     * @param y
+     */
+    protected void setCoords(int i, double x, double y){
+    	focus[i].setCoords(x,y, 1.0);
+    }
 
 	@Override
 	public final String toString(StringTemplate tpl) {

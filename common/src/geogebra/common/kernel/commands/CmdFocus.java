@@ -1,10 +1,11 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoFocus;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,8 +33,8 @@ public class CmdFocus extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
 				
-				AlgoFocus algo = new AlgoFocus(cons, c.getLabels(), (GeoConic) arg[0]);
-				return algo.getFocus();
+				AlgoFocus algo = newAlgoFocus(cons, c.getLabels(), (GeoConicND) arg[0]);
+				return (GeoElement[]) algo.getFocus();
 
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -41,5 +42,16 @@ public class CmdFocus extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	/**
+	 * 
+	 * @param cons
+	 * @param labels
+	 * @param c
+	 * @return new AlgoFocus
+	 */
+	protected AlgoFocus newAlgoFocus(Construction cons, String[] labels, GeoConicND c){
+		return new AlgoFocus(cons, labels, c);
 	}
 }
