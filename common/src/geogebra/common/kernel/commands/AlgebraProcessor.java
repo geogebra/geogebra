@@ -621,10 +621,10 @@ public class AlgebraProcessor {
 			}
 
 
-
-
-
-
+			// Step 7:
+			// reparse (shouldn't be necessary but bug with autocreation for y=m x + c)
+			// #3605
+			ve = parser.parseGeoGebraExpression(cmd);	
 
 		} catch (Exception e) {
 
@@ -653,7 +653,8 @@ public class AlgebraProcessor {
 
 		// process ValidExpression (built by parser)
 		GeoElement[] geoElements = null;
-		try {		
+		try {	
+					
 			geoElements = processValidExpression(ve);
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
