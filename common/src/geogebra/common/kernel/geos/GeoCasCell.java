@@ -1417,17 +1417,26 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// silent evaluation of output in GeoGebra
-		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE,allowFunction);
-		if (lastOutputEvaluationGeo != null
-				&& !dependsOnDummy(lastOutputEvaluationGeo)) {
-			try{
-			twinGeo.set(lastOutputEvaluationGeo);
-			}
-			catch(Exception e){
+		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
+		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
+			try {
+				if (lastOutputEvaluationGeo.getGeoClassType() == twinGeo.getGeoClassType()) {
+					// if both geos are the same type we can use set safely
+					twinGeo.set(lastOutputEvaluationGeo);
+				} else {
+					// we replace old geo object with the new one
+					cons.replace(twinGeo, lastOutputEvaluationGeo);
+					twinGeo = lastOutputEvaluationGeo;
+				}
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			twinGeo.setUndefined();
+			// if the evaluation of outputVE returns null we have no twin geo
+			// we remove the old one and return
+			twinGeo.doRemove();
+			twinGeo = null;
+			return;
 		}
 		twinGeo.update();
 	}
