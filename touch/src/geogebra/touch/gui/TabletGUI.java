@@ -174,7 +174,9 @@ public class TabletGUI extends HeaderPanel implements GeoGebraTouchGUI {
 		this.contentPanel.addEast(this.algebraViewPanel, computeAlgebraWidth());
 		this.contentPanel.add(this.euclidianViewPanel);
 		this.contentPanel.setHeight("100%");
-		this.setContentWidget(this.contentPanel);
+		
+		this.algebraViewPanel.onResize();
+		this.setContentWidget(this.contentPanel);		
 
 		// show/hide AlgebraView Button
 		this.algebraViewButtonPanel = new FlowPanel();
