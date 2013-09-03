@@ -523,7 +523,7 @@ __GGB__keysVar.sl.command = {
     "MinimumSpanningTree_Syntax": "[ <seznam to\u010dk> ]",
     "Mirror": "Zrcaljenje",
     "Mirror_Syntax": "[ <objekt>, <to\u010dka> ]\n[ <objekt>, <premica> ]\n[ <to\u010dka>, <kro\u017enica> ]",
-    "Mirror_Syntax3D": "[ <Object>, <Point> ]\n[ <Object>, <Line> ]\n[ <Object>, <Plane> ]\n[ <Object>, <Circle> ]",
+    "Mirror_Syntax3D": "[ <objekt>, <to\u010dka> ]\n[ <objekt>, <premica> ]\n[ <objekt>, <ravnina> ]\n[ <objekt>, <kro\u017enica> ]",
     "MixedNumber": "PraviUlomek",
     "MixedNumber_SyntaxCAS": "[ <izraz> ]",
     "Mod": "Ostanek",

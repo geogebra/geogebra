@@ -1021,7 +1021,7 @@ __GGB__keysVar.bs.error = {
     "CAS_SelectionStructureError": "Molimo provjerite strukturu va\u0161eg odabira.",
     "CAS_TimeoutError": "Izra\u010dunavanje je predugo i zato je prekinutu",
     "CAS_VariableIsDynamicReference": "Poku\u0161ajte pridru\u017eiti dinami\u010dku referencu",
-    "CannotUnsnap": "Cannot unsnap the application.",
+    "CannotUnsnap": "Nije mogu\u0107e primjeniti u aplikaciji",
     "ChangeDependent": "Zavisne figure nije mogu\u0107e mijenjati.",
     "CircularDefinition": "Definicija \"u krug\"",
     "CoordinatesMustBeConstant": "Vrijednosti koordinata moraju biti konstante.",
