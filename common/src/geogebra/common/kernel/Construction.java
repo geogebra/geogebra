@@ -32,6 +32,7 @@ import geogebra.common.main.SelectionManager;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -1875,7 +1876,7 @@ public class Construction {
 		try {
 			rowRef = Integer.parseInt(label.substring(1));
 		} catch (NumberFormatException e) {
-			System.err.println("Malformed CAS row reference: " + label);
+			Log.error("Malformed CAS row reference: " + label);
 			CASException ex = new CASException("CAS.InvalidReferenceError");
 			ex.setKey("CAS.InvalidReferenceError");
 			throw ex;
@@ -1884,7 +1885,7 @@ public class Construction {
 		// we start to count at 0 internally but at 1 in the user interface
 		GeoCasCell ret = getCasCell(rowRef - 1);
 		if (ret == null) {
-			System.err.println("invalid CAS row reference: " + label);
+			Log.error("invalid CAS row reference: " + label);
 			CASException ex = new CASException("CAS.InvalidReferenceError");
 			ex.setKey("CAS.InvalidReferenceError");
 			throw ex;
@@ -2815,10 +2816,16 @@ public class Construction {
 		return ret;
 	}
 
+	/**
+	 * @return whether some geos have activated spreadsheet trace
+	 */
 	public boolean hasSpreadsheetTracingGeos() {
 		return spreadsheetTraces;
 	}
 
+	/**
+	 * Notify the construction about a geo with spreadsheet tracing
+	 */
 	public void addTracingGeo() {
 		spreadsheetTraces = true;
 	}
