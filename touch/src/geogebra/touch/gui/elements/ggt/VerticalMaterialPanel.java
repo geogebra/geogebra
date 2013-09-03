@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
-	private static final int PANEL_HEIGHT = 100;
 
 	private static int maxHeight() {
 		return TouchEntryPoint.getLookAndFeel().getContentWidgetHeight()
@@ -40,15 +39,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		this.app = app;
 		this.add(this.contentPanel);
 		this.contentPanel.setWidth("100%");
-	}
-
-//	public MaterialListElement getChosenMaterial() {
-//		return this.lastSelected;
-//	}
-
-	@Override
-	public int getOffsetHeight() {
-		return PANEL_HEIGHT;
 	}
 
 	private int pageCapacity() {
