@@ -40,7 +40,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	private String lastQuery;
 	private MaterialListElement lastSelected;
 
-
 	// HorizontalMaterialPanel featuredMaterials;
 	private VerticalMaterialPanel localFilePanel, tubeFilePanel;
 	private FileContainer localFileContainer, tubeFileContainer;
@@ -75,8 +74,9 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	}
 
 	void updateViewSizes() {
-		this.header.onResize();
-		resizeElements();
+		for (final ResizeListener res : this.resizeListeners) {
+			res.onResize();
+		}
 	}
 
 	private void addHeader() {
@@ -143,8 +143,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 				});
 	}
 
-
-
 	public void loadFeatured() {
 		this.lastQuery = null;
 		this.localList = this.fm.getAllFiles();
@@ -173,12 +171,6 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 
 	public void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
-	}
-
-	private void resizeElements() {
-		for (final ResizeListener res : this.resizeListeners) {
-			res.onResize();
-		}
 	}
 
 	/**
@@ -230,13 +222,13 @@ public class BrowseGUI extends HeaderPanel implements BooleanRenderable {
 	public MaterialListElement getChosenMaterial() {
 		return this.lastSelected;
 	}
-	
+
 	public void unselectMaterials() {
 		if (this.lastSelected != null) {
 			this.lastSelected.markUnSelected();
 		}
 	}
-	
+
 	public void rememberSelected(final MaterialListElement materialElement) {
 		this.lastSelected = materialElement;
 	}
