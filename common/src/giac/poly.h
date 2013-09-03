@@ -1429,6 +1429,8 @@ namespace giac {
   tensor<T> Tfirstcoeff(const tensor<T> & p){
     typename std::vector< monomial<T> >::const_iterator it=p.coord.begin();
     typename std::vector< monomial<T> >::const_iterator itend=p.coord.end();
+    if (it==itend)
+      return p;
     int n=it->index.front();
     tensor<T> res(p.dim);
     for (;(it!=itend) && (n==it->index.front());++it)

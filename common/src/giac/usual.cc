@@ -313,7 +313,7 @@ namespace giac {
   }
   gen _inv(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ((args.type!=_VECT) || is_squarematrix(args))
+    if ((args.type!=_VECT) || ckmatrix(args))
       return inv(args,contextptr);
     iterateur it=args._VECTptr->begin(), itend=args._VECTptr->end();
     gen prod(1);

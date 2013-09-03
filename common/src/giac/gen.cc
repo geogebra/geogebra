@@ -8948,14 +8948,14 @@ namespace giac {
     return true;
   }
 
-  bool fracmod(const gen & a_orig,const gen & modulo,gen & res){
+  static bool alloc_fracmod(const gen & a_orig,const gen & modulo,gen & res,mpz_t & d,mpz_t & d1,mpz_t & absd1,mpz_t &u,mpz_t & u1,mpz_t & ur,mpz_t & q,mpz_t & r,mpz_t &sqrtm,mpz_t & tmp){  
     // write a as p/q with |p| and |q|<sqrt(modulo/2)
     if (a_orig.type==_VECT){
       const_iterateur it=a_orig._VECTptr->begin(),itend=a_orig._VECTptr->end();
       vecteur v;
       v.reserve(itend-it);
       for (;it!=itend;++it){
-	if (!fracmod(*it,modulo,res))
+	if (!alloc_fracmod(*it,modulo,res,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp))
 	  return false;
 	v.push_back(res);
       }
@@ -8967,7 +8967,7 @@ namespace giac {
       polynome v(a_orig._POLYptr->dim);
       v.coord.reserve(itend-it);
       for (;it!=itend;++it){
-	if (!fracmod(it->value,modulo,res))
+	if (!alloc_fracmod(it->value,modulo,res,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp))
 	  return false;
 	v.coord.push_back(monomial<gen>(res,it->index));
       }
@@ -8976,7 +8976,7 @@ namespace giac {
     }
     if (a_orig.type==_CPLX){
       gen reres,imres;
-      if ( !fracmod(*a_orig._CPLXptr,modulo,reres) || !fracmod(*(a_orig._CPLXptr+1),modulo,imres) )
+      if ( !alloc_fracmod(*a_orig._CPLXptr,modulo,reres,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp) || !alloc_fracmod(*(a_orig._CPLXptr+1),modulo,imres,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp) )
 	return false;
       res=reres+cst_i*imres;
       return true;
@@ -8988,29 +8988,7 @@ namespace giac {
       m.uncoerce();
     if ( (a.type!=_ZINT) || (m.type!=_ZINT) )
       return false;
-    unsigned prealloc=mpz_sizeinbase(*m._ZINTptr,2);
-    mpz_t u,d,u1,d1,absd1,sqrtm,q,ur,r,tmp;
-    mpz_init2(u,prealloc);
-    mpz_init2(d,prealloc);
-    mpz_init2(u1,prealloc);
-    mpz_init(d1);
-    mpz_init(absd1);
-    mpz_init(sqrtm);
-    mpz_init(q);
-    mpz_init2(ur,prealloc);
-    mpz_init2(r,prealloc);
-    mpz_init2(tmp,prealloc);
     bool ok=in_fracmod(m,a,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,num,den);
-    mpz_clear(d);
-    mpz_clear(u);
-    mpz_clear(u1);
-    mpz_clear(d1);
-    mpz_clear(absd1);
-    mpz_clear(sqrtm);
-    mpz_clear(q);
-    mpz_clear(ur);
-    mpz_clear(r);
-    mpz_clear(tmp);
     if (num.type==_ZINT && mpz_sizeinbase(*num._ZINTptr,2)<=30)
       num=int(mpz_get_si(*num._ZINTptr));
     if (den.type==_ZINT && mpz_sizeinbase(*den._ZINTptr,2)<=30)
@@ -9022,7 +9000,36 @@ namespace giac {
     return ok;
   }
 
+  bool fracmod(const gen & a_orig,const gen & modulo,gen & res){
+    unsigned prealloc=a_orig.type==_ZINT?mpz_sizeinbase(*a_orig._ZINTptr,2):0;
+    mpz_t u,d,u1,d1,absd1,sqrtm,q,ur,r,tmp;
+    mpz_init2(u,prealloc);
+    mpz_init2(d,prealloc);
+    mpz_init2(u1,prealloc);
+    mpz_init(d1);
+    mpz_init(absd1);
+    mpz_init(sqrtm);
+    mpz_init(q);
+    mpz_init2(ur,prealloc);
+    mpz_init2(r,prealloc);
+    mpz_init2(tmp,prealloc);
+    bool b=alloc_fracmod(a_orig,modulo,res,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp);
+    mpz_clear(d);
+    mpz_clear(u);
+    mpz_clear(u1);
+    mpz_clear(d1);
+    mpz_clear(absd1);
+    mpz_clear(sqrtm);
+    mpz_clear(q);
+    mpz_clear(ur);
+    mpz_clear(r);
+    mpz_clear(tmp);
+    return b;
+  }
+
   gen fracmod(const gen & a_orig,const gen & modulo){
+    if (a_orig==0)
+      return a_orig;
     gen res;
     if (!fracmod(a_orig,modulo,res))
       return gensizeerr(gettext("Reconstructed denominator is not prime with modulo"));

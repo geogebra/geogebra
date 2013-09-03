@@ -2314,7 +2314,8 @@ namespace giac {
     if (ckmatrix(a)){
       if (ckmatrix(b)){
 	matrice res;
-	mmultck(a,b,res);
+	if (!mmultck(a,b,res))
+	  return gendimerr("");
 	return _simplifier(res,context0);
       }
       // matrice * vecteur

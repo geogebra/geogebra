@@ -4816,19 +4816,101 @@ namespace giac {
     }
   }
 
+#ifdef __x86_64__
+  bool checkreducef4_64(vector<modint> &v,vector<modint> & coeff,const vector< vector<sparse_element> > & M,modint env,vector<int128_t> & w){
+    w.resize(v.size());
+    vector<modint>::iterator vt=v.begin(),vtend=v.end();
+    vector<int128_t>::iterator wt=w.begin();
+    for (;vt!=vtend;++wt,++vt){
+      *wt=*vt;
+    }
+    for (unsigned i=0;i<M.size();++i){
+      const vector<sparse_element> & m=M[i];
+      const sparse_element * it=&m.front(),*itend=it+m.size(),*it2;
+      if (it==itend)
+	continue;
+      int128_t & ww=w[it->pos];
+      if (ww==0){
+	coeff[i]=0;
+	continue;
+      }
+      modint c=coeff[i]=(modint2(invmod(it->val,env))*ww)%env;
+      // cerr << "multiplier ok line " << i << " value " << c << " " << w << endl;
+      if (!c)
+	continue;
+      ww=0;
+      ++it;
+      it2=itend-8;
+      for (;it<=it2;){
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+	w[it->pos] -= modint2(c)*(it->val);
+	++it;
+      }
+      for (;it!=itend;++it){
+	w[it->pos] -= modint2(c)*(it->val);
+      }
+    }
+    for (vt=v.begin(),wt=w.begin();vt!=vtend;++wt,++vt){
+      if (*wt && (*wt % env))
+	return false;
+    }
+    return true;
+  }
+#endif
+
   // return true if v reduces to 0
   // in addition to reducef4, compute the coeffs
   bool checkreducef4(vector<modint> &v,vector<modint> & coeff,const vector< vector<sparse_element> > & M,modint env){
     for (unsigned i=0;i<M.size();++i){
       const vector<sparse_element> & m=M[i];
-      vector<sparse_element>::const_iterator it=m.begin(),itend=m.end();
+      vector<sparse_element>::const_iterator it=m.begin(),itend=m.end(),it1=itend-8;
       if (it==itend)
 	continue;
-      modint c=coeff[i]=(modint2(invmod(it->val,env))*v[it->pos])%env;
+      modint c=coeff[i]=v[it->pos];
       if (!c)
 	continue;
+      c=coeff[i]=(modint2(invmod(it->val,env))*c)%env;
       v[it->pos]=0;
-      for (++it;it!=itend;++it){
+      for (++it;it<it1;){
+	modint *x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+	x=&v[it->pos];
+	*x=(*x-modint2(c)*(it->val))%env;
+	++it;
+      }
+      for (;it!=itend;++it){
 	modint &x=v[it->pos];
 	x=(x-modint2(c)*(it->val))%env;
       }
@@ -4836,6 +4918,97 @@ namespace giac {
     vector<modint>::iterator vt=v.begin(),vtend=v.end();
     for (vt=v.begin();vt!=vtend;++vt){
       if (*vt)
+	return false;
+    }
+    return true;
+  }
+
+  // Find x=a mod amod and =b mod bmod
+  // We have x=a+A*amod=b+B*Bmod
+  // hence A*amod-B*bmod=b-a
+  // let u*amod+v*bmod=1
+  // then A=(b-a)*u is a solution
+  // hence x=a+(b-a)*u*amod mod (amod*bmod) is the solution
+  // hence x=a+((b-a)*u mod bmod)*amod
+  static bool ichinrem_inplace(matrice & a,const vector< vector<modint> > &b,const gen & amod, int bmod){
+    gen U,v,d;
+    egcd(amod,bmod,U,v,d);
+    if (!is_one(d) || U.type!=_ZINT)
+      return false;
+    int u=mpz_get_si(*U._ZINTptr);
+    longlong q;
+    for (unsigned i=0;i<a.size();++i){
+      gen * ai = &a[i]._VECTptr->front(), * aiend=ai+a[i]._VECTptr->size();
+      const modint * bi = &b[i].front();
+      for (;ai!=aiend;++bi,++ai){
+	if (*bi==0 && ai->type==_INT_ && ai->val==0)
+	  continue;
+	q=longlong(*bi)-(ai->type==_INT_?ai->val:modulo(*ai->_ZINTptr,bmod));
+	q=(q*u) % bmod;
+	if (amod.type==_ZINT && ai->type==_ZINT){
+	  if (q>=0)
+	    mpz_addmul_ui(*ai->_ZINTptr,*amod._ZINTptr,int(q));
+	  else
+	    mpz_submul_ui(*ai->_ZINTptr,*amod._ZINTptr,-int(q));
+	}
+	else
+	  *ai += int(q)*amod;
+      }
+    }
+    return true;
+  }
+
+  gen linfnorm(const poly8 & p,GIAC_CONTEXT){
+    gen B=0;
+    for (unsigned i=0;i<p.coord.size();++i){
+      gen b=abs(p.coord[i].g,contextptr);
+      if (is_strictly_greater(b,B,contextptr))
+	B=b;
+    }
+    return B;
+  }
+
+  gen linfnorm(const vectpoly8 & v,GIAC_CONTEXT){
+    gen B=0;
+    for (unsigned i=0;i<v.size();++i){
+      gen b=linfnorm(v[i],contextptr);
+      if (is_strictly_greater(b,B,contextptr))
+	B=b;
+    }
+    return B;
+  }
+
+  bool chk_equal_mod(const gen & a,int p,int m){
+    if (a.type==_FRAC){
+      int n=a._FRACptr->num.type==_ZINT?modulo(*a._FRACptr->num._ZINTptr,m):a._FRACptr->num.val;
+      int d=a._FRACptr->den.type==_ZINT?modulo(*a._FRACptr->den._ZINTptr,m):a._FRACptr->den.val;
+      return (n-longlong(p)*d)%m==0;
+    }
+    if (a.type==_ZINT)
+      return (modulo(*a._ZINTptr,m)-p)%m==0;
+    if (a.type==_INT_)
+      return (a.val-p)%m==0;
+    return false;
+  }
+
+  bool chk_equal_mod(const gen & a,const vector<int> & p,int m){
+    if (a.type!=_VECT || a._VECTptr->size()!=p.size())
+      return false;
+    const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end();
+    vector<int>::const_iterator jt=p.begin();
+    for (;it!=itend;++jt,++it){
+      if (it->type==_INT_ && it->val==*jt) continue;
+      if (!chk_equal_mod(*it,*jt,m))
+	return false;
+    }
+    return true;
+  }
+
+  bool chk_equal_mod(const vecteur & v,const vector< vector<int> >& p,int m){
+    if (v.size()!=p.size())
+      return false;
+    for (unsigned i=0;i<p.size();++i){
+      if (!chk_equal_mod(v[i],p[i],m))
 	return false;
     }
     return true;
@@ -4874,13 +5047,14 @@ namespace giac {
       cerr << clock() << " begin build M" << endl;
     vector< vector<sparse_gen> > M;
     vector<sparse_element> atrier;
-    unsigned N=R.coord.size(),i,j=0;
+    unsigned N=R.coord.size(),i,j=0,nterms=0;
     M.reserve(N); // actual size is at most N (difference is the remainder part size)
     for (i=0;i<res.size();++i){
       std::vector< T_unsigned<modint,tdeg_t> >::const_iterator jt=quo[i].coord.begin(),jtend=quo[i].coord.end();
       for (;jt!=jtend;++j,++jt){
 	M.push_back(vector<sparse_gen>(0));
 	makeline(res[G[i]],&jt->u,R,M[j]);
+	nterms += M[j].size();
 	atrier.push_back(sparse_element(M[j].front().pos,j));
       }
     }
@@ -4891,14 +5065,28 @@ namespace giac {
     }
     swap(M,M1);
     // cerr << M << endl;
-    cerr << "rows, columns: " << M.size() << "x" << N << endl; 
-    gen p(int(longlong(2<<31)-1));
+    cerr << "rows, columns, terms: " << M.size() << "x" << N << "=" << nterms << endl; 
+    gen p(int(longlong(1<<31)-1));
     gen pip(1);
     vectpolymod f4vmod;
-    vector< vector<modint> > coeffmat(f4v.size(),vector<modint>(M.size()));
-    for (;;){
+    matrice coeffmat;
+    vector< vector<modint> > coeffmatmodp(f4v.size(),vector<modint>(M.size()));
+    gen bres=linfnorm(res,context0);
+    gen bf4=linfnorm(f4v,context0);
+    vecteur prevquo; matrice prevmatq;
+    bool stable=false;
+    gen bound=0;
+    for (int iter=0;;++iter){
       p=prevprime(p-1);
       int env=p.val;
+      // check that p does not divide a leading monomial in M
+      unsigned j;
+      for (j=0;j<M.size();++j){
+	if (smod(M[j].front().val,p)==0)
+	  break;
+      }
+      if (j<M.size())
+	continue;
       // compute M mod p
       vector< vector<sparse_element> > Mp(M.size());
       for (unsigned i=0;i<M.size();++i){
@@ -4906,24 +5094,132 @@ namespace giac {
 	vector<sparse_element> Ni;
 	Ni.reserve(Mi.size());
 	for (unsigned j=0;j<Mi.size();++j){
-	  modint tmp= smod(Mi[j].val,p).val;
-	  Ni.push_back(sparse_element(tmp,Mi[j].pos));
+	  const sparse_gen & Mij=Mi[j];
+	  modint tmp= Mij.val.type==_ZINT?modulo(*Mij.val._ZINTptr,env):Mij.val.val%env;
+	  Ni.push_back(sparse_element(tmp,Mij.pos));
 	}
 	swap(Mp[i],Ni);
       }
       // reduce f4v and stores coefficients of quotients for f4v[i] in coeffmat[i]
       convert(f4v,f4vmod,env);
+      if (debug_infolevel>0)
+	cerr << clock() << " checking mod " << p << endl;
       vector<modint> v;
+      unsigned countres=0;
+#ifdef __x86__64__
+      vector<int128_t> v128;
+#endif
       for (unsigned i=0;i<f4vmod.size();++i){
 	makeline(f4vmod[i],0,R,v);
-	if (!checkreducef4(v,coeffmat[i],Mp,env))
+#ifdef __x86__64__
+	if (!checkreducef4_64(v,coeffmatmodp[i],Mp,env,v128))
 	  return false;
+#else
+	if (!checkreducef4(v,coeffmatmodp[i],Mp,env))
+	  return false;
+#endif
+	if (iter==0){
+	  unsigned countrescur=0;
+	  vector<modint> & coeffi=coeffmatmodp[i];
+	  for (unsigned j=0;j<coeffi.size();++j){
+	    if (coeffi[j])
+	      ++countrescur;
+	  }
+	  if (countrescur>countres)
+	    countres=countrescur;
+	}
+      }
+      // if (iter==0) bound=pow(bres,int(countres),context0);
+      if (stable){
+	if (!chk_equal_mod(prevmatq,coeffmatmodp,env))
+	  stable=false;
+	// if stable compute bounds and compare with product of primes
+	// if 2*bounds < product of primes recheck stabilization and return true
+	if (is_strictly_greater(pip,bound,context0)){
+	  if (debug_infolevel>0)
+	    cerr << clock() << " modular check finished " << endl;
+	  return true;
+	}
       }
       // combine coeffmat with previous one by chinese remaindering
-      // check stabilization on a few quotients
-      // then check global stabilization
-      // if stable compute bounds and compare with product of primes
-      // if 2*bounds < product of primes recheck stabilization and return true
+      if (debug_infolevel>0)
+	cerr << clock() << " chinrem mod " << p << endl;
+      if (iter)
+	ichinrem_inplace(coeffmat,coeffmatmodp,pip,p.val);
+      else
+	vectvector_int2vecteur(coeffmatmodp,coeffmat);
+      pip=pip*p;
+      if (is_greater(bound,pip,context0))
+	continue;
+      if (!stable){
+	// check stabilization on a few quotients
+	vecteur checkquo;
+	for (unsigned k=0;k*10<coeffmat.size();++k){
+	  checkquo.push_back(fracmod(coeffmat[k*10],pip));
+	  if (prevquo.size()>k && checkquo[k]!=prevquo[k]){
+	    break;
+	  }
+	  if (k>prevquo.size()*2)
+	    break;
+	}
+	if (checkquo!=prevquo){
+	  prevquo=checkquo;
+	  if (debug_infolevel>0)
+	    cerr << clock() << " unstable mod " << p << " reconstructed " << checkquo.size() << endl;
+	  continue;
+	}
+	if (debug_infolevel>0)
+	  cerr << clock() << " almost stable " << endl;
+	// estimate lcm of deno
+	gen lest1,lest=0,best1,best=0;
+	for (unsigned k=0;k<checkquo.size();++k){
+	  lcmdeno(*checkquo[k]._VECTptr,lest1,context0);
+	  gen best1=linfnorm(checkquo[k],context0);
+	  lest=max(lest1,lest,context0);
+	  best=max(best1,lest,context0);
+	}
+	gen boundest=bres*best,boundest2=lest*bf4;
+	if (is_strictly_greater(boundest,pip,context0) || is_strictly_greater(boundest2,pip,context0))
+	  continue;
+	// then check global stabilization
+	matrice coeffmatq;
+	if (chk_equal_mod(prevmatq,coeffmatmodp,env)){
+	  coeffmatq=*_copy(prevmatq,context0)._VECTptr;
+	}
+	if (coeffmatq.empty())
+	  coeffmatq=fracmod(coeffmat,pip);
+	if (coeffmatq!=prevmatq){
+	  swap(prevmatq,coeffmatq);
+	  if (debug_infolevel>0)
+	    cerr << clock() << " not full stable mod " << p << endl;
+	  continue;
+	}
+	else {
+	  if (debug_infolevel>0)
+	    cerr << clock() << " full stable mod " << p << endl;
+	  stable=true;
+	  gen lall=1; vecteur l(coeffmatq.size());
+	  for (unsigned i=0;i<coeffmatq.size();++i){
+	    lcmdeno(*coeffmatq[i]._VECTptr,l[i],context0);
+	    if (is_strictly_greater(l[i],lall,context0))
+	      lall=l[i];
+	  }
+	  if (debug_infolevel>0)
+	    cerr << clock() << " lcmdeno ok/start bound " << p << endl;
+	  gen ball=1,bi; // ball is the max bound of all coeff in coeffmatq
+	  for (unsigned i=0;i<coeffmatq.size();++i){
+	    bi=linfnorm(coeffmatq[i],context0);
+	    if (is_strictly_greater(bi,ball,context0))
+	      ball=bi;
+	  }
+	  // bound for res and f4v
+	  bound=bres*ball;
+	  gen bound2=lall*bf4;
+	  // lcm of deno and max of coeff
+	  if (is_strictly_greater(bound2,bound,context0))
+	    bound=bound2;
+	}
+      }
     }
     return true;
   }
@@ -5003,7 +5299,10 @@ namespace giac {
     }
     if (debug_infolevel>0)
       cerr << "Number of critical pairs to check " << tocheck.size() << endl;
-    // checkf4(tocheck,res,G,-1);
+#if 1 // modular check is slow
+    return checkf4(tocheck,res,G,-1); 
+#endif
+    // integer check
     for (unsigned i=0;i<tocheck.size();++i){
       reduce(tocheck[i],res,G,-1,vtmp,spolred,TMP1,TMP2,0);
       // gen den; heap_reduce(spol,res,G,-1,vtmp,spolred,TMP1,den,0);
@@ -5204,7 +5503,7 @@ namespace giac {
 	  epsp=termsmin;
 	if (eps<=0 || std::log10(eps)<=-epsp){
 	  G.clear();
-	  if (!is_gbasis(vtmp))
+	  //if (!is_gbasis(vtmp))
 	    in_gbasis(vtmp,G,0,true);
 	  // FIXME replace by a quicker check with f4 on all spolys
 	  // and rewrite as a linear system 
