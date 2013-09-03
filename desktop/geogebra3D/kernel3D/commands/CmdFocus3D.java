@@ -19,7 +19,7 @@ public class CmdFocus3D extends CmdFocus{
 			return new AlgoFocus3D(cons, labels, c);
 		}
 		
-		return new AlgoFocus(cons, labels, c);
+		return super.newAlgoFocus(cons, labels, c);
 	}
 
 }

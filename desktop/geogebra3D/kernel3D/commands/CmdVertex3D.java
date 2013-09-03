@@ -49,7 +49,7 @@ public class CmdVertex3D extends CmdVertex{
 			return new AlgoVertexPolygon3D(cons, labels, p);
 		}
 		
-		return new AlgoVertexPolygon(cons, labels, p);
+		return super.newAlgoVertexPolygon(cons, labels, p);
 	}
 	
 	@Override
@@ -59,7 +59,7 @@ public class CmdVertex3D extends CmdVertex{
 			return new AlgoVertexPolygon3D(cons, label, p, v);
 		}
 
-		return new AlgoVertexPolygon(cons, label, p, v);
+		return super.newAlgoVertexPolygon(cons, label, p, v);
 	}
 	
 	
@@ -71,6 +71,6 @@ public class CmdVertex3D extends CmdVertex{
 		}
 
 		
-		return new AlgoVertexConic(cons, labels, conic);
+		return super.newAlgoVertexConic(cons, labels, conic);
 	}
 }
