@@ -1153,7 +1153,7 @@ public class TouchModel {
 			}
 			System.out.println("oldRedefineText: " + this.oldRedefineText);
 			System.out.println("input: " + input.trim());
-			
+
 			if (input.trim().equals(this.oldRedefineText)) {
 				System.out.println("TRUE");
 				return true;
@@ -1240,10 +1240,52 @@ public class TouchModel {
 			return true;
 		}
 
+		String strLabel = null;
+
+		try {
+			// turns f.e. "a=2" into "a"
+			strLabel = this.app.getKernel().getAlgebraProcessor()
+					.parseLabel(input);
+		} catch (Exception e) {
+		}
+
+		boolean degree = false, validNuber = false;
+		double val = 0;
+
+		// handle names like "a=2"
+		if (strLabel != null && input.indexOf('=') > -1
+				&& input.indexOf('=') == input.lastIndexOf('=')
+				&& input.indexOf('=') < input.length() - 1) {
+
+			try {
+				String value = input.substring(input.indexOf('=') + 1);
+
+				NumberValue numeric = this.kernel.getAlgebraProcessor()
+						.evaluateToNumeric(value, false);
+
+				if (value.endsWith("\u00B0")) { // ° -> angle
+					degree = true;
+					value = value.substring(0, value.length() - 1);
+				}
+
+				val = degree ? ((GeoNumeric) numeric).getValue() : Double
+						.parseDouble(value);
+
+				// if there was no Exception till now, the number is valid
+				validNuber = !degree || !this.sliderDialog.isNumber();
+			} catch (Exception e) {
+			}
+		}
+
 		if (this.sliderDialog.getType() == DialogType.RedefineSlider) {
 			setSliderProperties(this.redefineSlider);
-			final String newName = calcSliderName(input);
+			final String newName = calcSliderName(strLabel);
 			this.redefineSlider.rename(newName);
+
+			if (validNuber) {
+				setValue(this.redefineSlider, val);
+			}
+
 			this.redefineSlider.update();
 			this.kernel.notifyRepaint();
 			return true;
@@ -1261,7 +1303,8 @@ public class TouchModel {
 			// the texts from the textfields (min, max, increment)
 			this.actualSlider = slider;
 
-			slider.setLabel(input.equals("") ? null : input);
+			slider.setLabel(strLabel == null || strLabel.equals("") ? null
+					: strLabel);
 			slider.setSliderLocation(this.eventCoordinates.x,
 					this.eventCoordinates.y, true);
 			setSliderProperties(slider);
@@ -1269,6 +1312,11 @@ public class TouchModel {
 			slider.setEuclidianVisible(true);
 			slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			slider.setLabelVisible(true);
+
+			if (validNuber) {
+				setValue(slider, val);
+			}
+
 			slider.update();
 			select(slider);
 			this.actualSlider = null;
@@ -1276,6 +1324,16 @@ public class TouchModel {
 
 		updateAfterInputDialog();
 		return true;
+	}
+
+	private static void setValue(GeoNumeric slider, double value) {
+		if (slider.getIntervalMax() < value) {
+			slider.setValue(slider.getIntervalMax());
+		} else if (slider.getIntervalMin() > value) {
+			slider.setValue(slider.getIntervalMin());
+		} else {
+			slider.setValue(value);
+		}
 	}
 
 	private void updateAfterInputDialog() {

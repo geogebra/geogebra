@@ -93,7 +93,8 @@ public class SliderDialog extends InputDialog {
 	}
 
 	public void redefineSlider(final GeoNumeric geo) {
-		setInputText(geo.getLabel(StringTemplate.defaultTemplate));
+		setInputText(geo.getLabel(StringTemplate.defaultTemplate) + "="
+				+ geo.getValueForInputBar());
 		this.increment.setText(geo.getAnimationStepObject().getLabel(
 				StringTemplate.editTemplate));
 		this.max.setText(geo.getIntervalMaxObject().getLabel(
@@ -106,7 +107,7 @@ public class SliderDialog extends InputDialog {
 		if (this.isNumber()) {
 			final GeoNumeric num = new GeoNumeric(this.app.getKernel()
 					.getConstruction());
-			setInputText(num.getFreeLabel(null));
+			setInputText(num.getFreeLabel(null) + "=1");
 
 			this.min.setText("-5");
 			this.max.setText("5");
@@ -114,7 +115,7 @@ public class SliderDialog extends InputDialog {
 		} else {
 			final GeoAngle angle = new GeoAngle(this.app.getKernel()
 					.getConstruction());
-			setInputText(angle.getFreeLabel(null));
+			setInputText(angle.getFreeLabel(null) + "=45\u00B0"); // =45°
 
 			this.min.setText("0\u00B0"); // 0°
 			this.max.setText("360\u00B0");
