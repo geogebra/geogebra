@@ -822,7 +822,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		for (Variable v : pVariables) {
 			vars += v + ",";
 		}
-		vars = vars.substring(0, vars.length() - 1);
+		if (vars != "") {
+			vars = vars.substring(0, vars.length() - 1);
+		}
 		
 		if (vars != "")
 			ret.append(vars);
@@ -1055,7 +1057,10 @@ public class Polynomial implements Comparable<Polynomial> {
 				pVariables[j] = aVariables[indices[j]];
 				debug += aVariables[indices[j]] + ",";
 			}
-			App.debug("Checking variable permutation #" + permutation + ": " + debug.substring(0, debug.length()-1));
+			if (debug != "") {
+				debug = debug.substring(0, debug.length()-1);
+			}
+			App.debug("Checking variable permutation #" + permutation + ": " + debug);
 			/* End of permutation. */
 			
 			elimProgram = createEliminateFactorizedScript(
