@@ -86,18 +86,7 @@ public class Test implements GLEventListener {
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		
-		GL gl = drawable.getGL(); 
-
-		GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
-		
-		System.out.println("Init on "+Thread.currentThread()
-				+"\nChosen GLCapabilities: " + c
-				+"\ndouble buffered: " + c.getDoubleBuffered()
-				+"\nstereo: " + c.getStereo()
-				+"\nINIT GL IS: " + gl.getClass().getName()
-				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
-				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
-				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION)); 
+		System.out.println(RendererJogl.getGLInfos(drawable)); 
 		
 	}
 

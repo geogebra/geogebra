@@ -5,8 +5,10 @@ package geogebra3D.euclidian3D.opengl;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLCapabilitiesImmutable;
 import javax.media.opengl.GLProfile;
 
 
@@ -42,7 +44,7 @@ public class RendererJogl {
 	final static public void initCaps(){
 		
 		
-		GLProfile.initSingleton(); 
+		//GLProfile.initSingleton(); 
 		
 		caps = new GLCapabilities(GLProfile.getDefault());
 		
@@ -52,13 +54,30 @@ public class RendererJogl {
 
 		
 		//anti-aliasing
-		//caps.setSampleBuffers(true);
-		//caps.setNumSamples(4);    	
+		caps.setSampleBuffers(true);
+		caps.setNumSamples(4);    	
 		
 		//avoid flickering
 		//caps.setDoubleBuffered(true);
 		caps.setDoubleBuffered(false);
 
+	}
+	
+	final public static String getGLInfos(GLAutoDrawable drawable){
+		
+		GL gl = drawable.getGL(); 
+
+		GLCapabilitiesImmutable c = drawable.getChosenGLCapabilities();
+		
+		return "Init on "+Thread.currentThread()
+				+"\nChosen GLCapabilities: " + c
+				+"\ndouble buffered: " + c.getDoubleBuffered()
+				+"\nstereo: " + c.getStereo()
+				+"\nINIT GL IS: " + gl.getClass().getName()
+				+"\nGL_VENDOR: " + gl.glGetString(GL.GL_VENDOR)
+				+"\nGL_RENDERER: " + gl.glGetString(GL.GL_RENDERER)
+				+"\nGL_VERSION: " + gl.glGetString(GL.GL_VERSION);
+		
 	}
 	
 	final public static String JOGL_VERSION="JOGL2";
