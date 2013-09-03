@@ -104,17 +104,20 @@ public class AlgebraViewPanel extends FlowPanel implements ResizeListener {
 	public void onResize() {
 		if (this.gui.isAlgebraShowing()) {
 			this.content.setWidth(TabletGUI.computeAlgebraWidth() + "px");
-			this.content
-					.setHeight((TouchEntryPoint.getLookAndFeel()
-							.getContentWidgetHeight() - this.stylebar
-							.getOffsetHeight())
-							+ "px");
-
-			if (Window.getClientWidth() - TabletGUI.computeAlgebraWidth() <= 0) {
+			
+			boolean showStylebar = Window.getClientWidth() - TabletGUI.computeAlgebraWidth() <= 0;
+			
+			if (showStylebar) {
 				this.addInsideArrow();
 			} else {
 				this.removeInsideArrow();
 			}
+			this.content
+			.setHeight((TouchEntryPoint.getLookAndFeel()
+					.getContentWidgetHeight() - (showStylebar ? TouchEntryPoint.getLookAndFeel().getToolBarHeight()
+							: 0))
+					+ "px");
+
 		}
 	}
 }
