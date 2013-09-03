@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.kernel3D.AlgoMidpoint3D;
@@ -199,14 +200,14 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	}
 
 	@Override
-	protected GeoPointND Midpoint(GeoPointND P, GeoPointND Q) {
+	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 
 		if (P.isGeoElement3D() || Q.isGeoElement3D()){
 			AlgoMidpoint3D algo = new AlgoMidpoint3D(kernel.getConstruction(), P, Q);
 			return algo.getPoint();
 		}
 
-		return super.Midpoint(P, Q);
+		return super.MidpointForDistance(P, Q);
 	}
 	
 	
@@ -230,4 +231,26 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 	}
 
 	
+	@Override
+	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
+
+		if (((GeoElement) p1).isGeoElement3D()
+				|| ((GeoElement) p2).isGeoElement3D()) {
+			return (GeoElement) kernel.getManager3D().Midpoint(null,
+					p1, p2);
+		}
+
+		return super.midpoint(p1, p2);
+	}
+
+	@Override
+	protected GeoElement midpoint(GeoSegmentND segment){
+
+		if (((GeoElement) segment).isGeoElement3D()) {
+			return (GeoElement) kernel.getManager3D().Midpoint(null, segment);
+		} 
+		
+		return super.midpoint(segment);
+
+	}
 }

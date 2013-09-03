@@ -4,11 +4,13 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoIntervalMidpoint;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 
 
@@ -36,13 +38,9 @@ public class CmdMidpoint extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
-				GeoElement[] ret = { getAlgoDispatcher().Center(c.getLabel(),
-						(GeoConic) arg[0]) };
-				return ret;
+				return conic(c.getLabel(), (GeoConicND) arg[0]);
 			} else if (arg[0].isGeoSegment()) {
-				GeoElement[] ret = { getAlgoDispatcher().Midpoint(c.getLabel(),
-						(GeoSegment) arg[0]) };
-				return ret;
+				return segment(c.getLabel(), (GeoSegmentND) arg[0]);
 			} else if (arg[0].isGeoInterval()) {
 				AlgoIntervalMidpoint algo = new AlgoIntervalMidpoint(cons, c.getLabel(),
 						(GeoInterval) arg[0]);
@@ -56,14 +54,41 @@ public class CmdMidpoint extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Midpoint(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
-				return ret;
+				return twoPoints(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1]) ;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));
 			
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param label
+	 * @param segment
+	 * @return midpoint for segment
+	 */
+	protected GeoElement[] segment(String label, GeoSegmentND segment){
+		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label, (GeoSegment) segment) };
+		return ret;
+	}
+	
+	protected GeoElement[] conic(String label, GeoConicND conic){
+		GeoElement[] ret = { getAlgoDispatcher().Center(label, conic) };
+		return ret;
+	}
+	
+	/**
+	 * 
+	 * @param label
+	 * @param p1
+	 * @param p2
+	 * @return midpoint for two points
+	 */
+	protected GeoElement[] twoPoints(String label, GeoPointND p1, GeoPointND p2){
+		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label, (GeoPoint) p1, (GeoPoint) p2) };
+		return ret;
 	}
 }

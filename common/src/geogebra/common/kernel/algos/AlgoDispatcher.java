@@ -537,7 +537,7 @@ public class AlgoDispatcher {
 	/**
 	 * Center of conic
 	 */
-	final public GeoPoint Center(String label, GeoConic c) {
+	final public GeoPoint Center(String label, GeoConicND c) {
 		AlgoCenterConic algo = new AlgoCenterConic(cons, label, c);
 		GeoPoint midpoint = algo.getPoint();
 		return midpoint;

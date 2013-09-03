@@ -2621,28 +2621,14 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
-			checkZooming(); 
-			
-			if (((GeoElement) points[0]).isGeoElement3D()
-					|| ((GeoElement) points[1]).isGeoElement3D()) {
-				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
-						points[0], points[1]);
-			} else {
-				ret[0] = getAlgoDispatcher().Midpoint(null, (GeoPoint) points[0],
-						(GeoPoint) points[1]);
-			}
+			checkZooming(); 			
+			ret[0] = midpoint(points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegmentND[] segments = getSelectedSegmentsND();
 			checkZooming(); 
-			
-			if (((GeoElement) segments[0]).isGeoElement3D()) {
-				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
-						segments[0]);
-			} else {
-				ret[0] = getAlgoDispatcher().Midpoint(null, (GeoSegment) segments[0]);
-			}
+			ret[0] = midpoint(segments[0]);
 			return ret;
 		} else if (selConics() == 1) {
 			// fetch the selected segment
@@ -2654,6 +2640,31 @@ public abstract class EuclidianController {
 		}
 		return null;
 	}
+
+	/**
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return midpoint for two points
+	 */
+	protected GeoElement midpoint(GeoPointND p1, GeoPointND p2){
+
+		return getAlgoDispatcher().Midpoint(null, (GeoPoint) p1,
+				(GeoPoint) p2);
+
+	}
+
+	/**
+	 * 
+	 * @param segment
+	 * @return midpoint for segment
+	 */
+	protected GeoElement midpoint(GeoSegmentND segment){	
+
+		return getAlgoDispatcher().Midpoint(null, (GeoSegment) segment);
+
+	}
+
 
 	protected final boolean functionInspector(Hits hits) {
 		if (hits.isEmpty()) {
@@ -4797,7 +4808,7 @@ public abstract class EuclidianController {
 					points[1]);
 	
 			// set startpoint of text to midpoint of two points
-			GeoPointND midPoint = Midpoint(points[0], points[1]);
+			GeoPointND midPoint = MidpointForDistance(points[0], points[1]);
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) points[1], midPoint, length);
 			return ret;
@@ -4812,7 +4823,7 @@ public abstract class EuclidianController {
 			checkZooming(); 
 			
 			// set startpoint of text to midpoint between point and line
-			GeoPointND midPoint = Midpoint(points[0],
+			GeoPointND midPoint = MidpointForDistance(points[0],
 					ClosestPoint(points[0], (Path) lines[0]));
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText((GeoElement) points[0], (GeoElement) lines[0], midPoint, length);
@@ -4920,7 +4931,7 @@ public abstract class EuclidianController {
 	 * Creates Midpoint M = (P + Q)/2 without label (for use as e.g. start
 	 * point)
 	 */
-	protected GeoPointND Midpoint(GeoPointND P, GeoPointND Q) {
+	protected GeoPointND MidpointForDistance(GeoPointND P, GeoPointND Q) {
 		
 		AlgoMidpoint algo = new AlgoMidpoint(kernel.getConstruction(), (GeoPoint) P, (GeoPoint) Q);
 
