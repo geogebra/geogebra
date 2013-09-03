@@ -23,14 +23,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfoDialog extends DialogT {
 	public enum InfoType {
-		SaveChanges, Override, Delete;
+		SaveChanges, Override;
 	}
 
 	private static DefaultResources getLafIcons() {
 		return TouchEntryPoint.getLookAndFeel().getIcons();
 	}
 
-	private InfoType type;
+	private final InfoType type;
 	private final Button cancelButton = new Button();
 	private final Button saveButton = new Button();
 	private final Button dontSaveButton = new Button();
@@ -43,11 +43,10 @@ public class InfoDialog extends DialogT {
 	private final Label infoText;
 	private String consTitle;
 	private final Localization loc;
-	private TouchApp app;
+	private final TouchApp app;
 	private Runnable callback = null;
 	private final GuiModel guiModel;
-	private TabletGUI tabletGUI;
-	private String materialUrl;
+	private final TabletGUI tabletGUI;
 
 	public InfoDialog(final App app, final InfoType type) {
 		super(true, true);
@@ -92,7 +91,6 @@ public class InfoDialog extends DialogT {
 		this.title.setStyleName("title");
 		this.titlePanel.add(this.title);
 		this.titlePanel.setStyleName("titlePanel");
-
 		this.dialogPanel.add(this.titlePanel);
 	}
 
@@ -103,12 +101,9 @@ public class InfoDialog extends DialogT {
 		iconPanel.getElement().setInnerHTML(html);
 		iconPanel.setStyleName("iconPanel");
 		this.textPanel.add(iconPanel);
-
 		this.textPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.textPanel.add(this.infoText);
-
 		this.textPanel.setStyleName("textPanel");
-
 		this.dialogPanel.add(this.textPanel);
 	}
 
@@ -163,23 +158,18 @@ public class InfoDialog extends DialogT {
 	}
 
 	protected void onSave() {
-		if (this.type == InfoType.Delete) {
-			this.app.getFileManager().delete(this.materialUrl);
-			this.hide();
-		} else {
-			if (this.consTitle != null) {
-				this.app.setConstructionTitle(this.consTitle);
-			}
-			this.app.getFileManager().saveFile(this.app);
-			this.app.setSaved();
-			this.hide();
-			if (this.callback != null) {
-				this.callback.run();
-			} else {
-				App.debug("no callback");
-			}
-			TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
+		if (this.consTitle != null) {
+			this.app.setConstructionTitle(this.consTitle);
 		}
+		this.app.getFileManager().saveFile(this.app);
+		this.app.setSaved();
+		this.hide();
+		if (this.callback != null) {
+			this.callback.run();
+		} else {
+			App.debug("no callback");
+		}
+		TouchEntryPoint.getLookAndFeel().updateUndoSaveButtons();
 	}
 
 	public void setCallback(final Runnable callback) {
@@ -198,18 +188,12 @@ public class InfoDialog extends DialogT {
 			this.cancelButton.setText(this.loc.getMenu("Cancel"));
 			this.saveButton.setText(this.loc.getMenu("Save"));
 			this.dontSaveButton.setText(this.loc.getMenu("DontSave"));
-		} else if (this.type == InfoType.Override){
+		} else {
 			this.title.setText(this.loc.getMenu("Rename"));
 			this.infoText.setText(this.loc.getPlain("OverwriteFile"));
 			this.cancelButton.setText(this.loc.getMenu("Cancel"));
 			this.saveButton.setText(this.loc.getMenu("Overwrite"));
 			this.dontSaveButton.setText(this.loc.getMenu("DontOverwrite"));
-		} else {
-			this.title.setText(this.loc.getMenu("File"));
-			this.infoText.setText(this.loc.getPlain("Delete"));
-			this.cancelButton.setText(this.loc.getMenu("Cancel"));
-			this.saveButton.setText(this.loc.getPlain("OK"));
-			this.dontSaveButton.setVisible(false);
 		}
 	}
 
@@ -233,9 +217,5 @@ public class InfoDialog extends DialogT {
 				}
 			}
 		}
-	}
-
-	public void setMaterialToDelete(String url) {
-		this.materialUrl = url;
 	}
 }

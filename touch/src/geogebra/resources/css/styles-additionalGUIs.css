@@ -117,10 +117,6 @@ body .browsegui input.gwt-TextBox {
 	background-color: #FFFFFF;
 }
 
-.browsegui .filePanel {
-	overflow-y: hidden;
-}
-
 .browsegui .tubeFilePanel {
 	padding: 0px;
 	
@@ -155,6 +151,9 @@ body .browsegui input.gwt-TextBox {
 	color: #666666;
 }
 
+.browsegui .browserFile {
+	width: 100%;
+}
 .browsegui .filePageControls {
 	float: left;
 }
@@ -207,6 +206,32 @@ body .browsegui input.gwt-TextBox {
 
 .browsegui .fileLinks td {
 	text-align: center;
+}
+
+.browsegui .confirmDelete {
+	height: 41px;
+	margin-top: 17px;
+	width: 100%	
+}
+
+.browsegui .centeredContent {
+	width: 100%;
+}
+
+.browsegui .browserFile td:nth-child(2) {
+	width: 100%;
+}
+
+.browsegui .confirmDelete td {
+	border: 3px solid #C2C2FF;
+	border-radius: 11px;
+	background-color: #ffffff;
+	color: #505050;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle !important;
+	width: 50%;
 }
 
 body .browsegui .fileLinks .button {

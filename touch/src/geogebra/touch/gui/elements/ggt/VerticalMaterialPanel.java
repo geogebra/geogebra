@@ -95,7 +95,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 
 	private void setMaterials(final int cols, final List<Material> materials,
 			final int offset) {
-		boolean widthChanged = this.columns != 0 && cols != this.columns;
+		final boolean widthChanged = this.columns != 0 && cols != this.columns;
 		this.columns = cols;
 		this.contentPanel.clear();
 		this.start = offset;
@@ -113,7 +113,6 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 			MaterialListElement preview = this.titlesToPreviews.get(m.getURL());
 			if (preview == null) {
 				preview = new MaterialListElement(m, this.app, this);
-				preview.initButtons();
 				this.titlesToPreviews.put(m.getURL(), preview);
 			}
 			this.contentPanel.setWidget(i / this.columns, i % this.columns,
@@ -134,7 +133,7 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		final Iterator<MaterialListElement> material = this.titlesToPreviews
 				.values().iterator();
 		if (material.hasNext()) {
-			MaterialListElement next = material.next();
+			final MaterialListElement next = material.next();
 			if (next.getOffsetHeight() > 0) {
 				this.materialHeight = next.getOffsetHeight();
 			}
@@ -157,10 +156,10 @@ public class VerticalMaterialPanel extends FlowPanel implements ResizeListener {
 		this.setWidth(Window.getClientWidth() / 2 * this.columns + "px");
 	}
 
-	public void invalidate(String changedName) {
-		if(this.titlesToPreviews.get(changedName)!=null){
+	public void invalidate(final String changedName) {
+		if (this.titlesToPreviews.get(changedName) != null) {
 			this.titlesToPreviews.remove(changedName);
 		}
-		
+
 	}
 }
