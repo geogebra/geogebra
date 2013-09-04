@@ -81,6 +81,9 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		popupPanel.setVisible(v);
 	}
 	
+	/**
+	 * Shows the popup menu, ensures that the popup menu must be on the client area.
+	 */
 	public void show(GPoint p){
 		int top = p.getY();
 		int left = p.getX();
@@ -95,11 +98,16 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 			newPoz = true;
 		}
 		App.debug("top-left: " +top + " " + left);
-		left = (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier();
-		top = (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier();
+		left *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier();
+		top *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier();
 		if (newPoz) popupPanel.setPopupPosition(left, top);
 	}
 	
+	/**
+	 * Shows the popup menu at the p point, independently of there is enough
+	 * place for the popup menu. (Maybe some details of the popup menu won't be
+	 * visible.)
+	 */
 	public void showAtPoint(GPoint p){
 		popupPanel.setPopupPosition(p.getX(), p.getY());
 		popupPanel.show();
