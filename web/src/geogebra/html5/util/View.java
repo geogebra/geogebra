@@ -235,7 +235,8 @@ public class View {
 		            	var filename = entry.filename;
 		                if (entry.filename.match(imageRegex)) {
 		                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
-		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
+		                        var filenameParts = filename.split(".");
+		                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]), function (data) {
 		                            view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 		                        });
 		                    } else {
@@ -339,7 +340,8 @@ public class View {
 				            	var filename = entry.filename;
 				                if (entry.filename.match(imageRegex)) {
 				                        @geogebra.common.main.App::debug(Ljava/lang/String;)(filename+" : image");
-				                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filename.split(".")[1]), function (data) {
+				                        var filenameParts = filename.split(".");
+				                        entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length -1]), function (data) {
 				                            view.@geogebra.html5.util.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				                        });
 				                    } else {
