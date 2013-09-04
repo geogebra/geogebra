@@ -41,7 +41,7 @@ public class ColorProvider {
 	private RegExp assignmentReg = createAssignmentRegExp(isCasInput);
 
 	/** Regular expression strings */
-	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\'|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\'|\\p{Nd})*)";
+	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
 	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
 	private static String STRING = "((\\P{M}\\p{M}*)*)";
 
